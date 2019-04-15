@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-import * as Long from "long";
+import Long from "long";
 import * as log from "./log";
 import { StreamingReceiver, MessageHandlerOptions } from "./core/streamingReceiver";
 import { BatchingReceiver } from "./core/batchingReceiver";
@@ -16,7 +16,10 @@ import {
   getAlreadyReceivingErrorMsg,
   getOpenReceiverErrorMsg,
   getReceiverClosedErrorMsg,
-  throwErrorIfConnectionClosed
+  throwErrorIfConnectionClosed,
+  throwTypeErrorIfParameterMissing,
+  throwTypeErrorIfParameterNotLong,
+  throwTypeErrorIfParameterNotLongArray
 } from "./util/errors";
 
 /**
@@ -166,7 +169,28 @@ export class Receiver {
    */
   async renewMessageLock(lockTokenOrMessage: string | ServiceBusMessage): Promise<Date> {
     this._throwIfReceiverOrConnectionClosed();
-    return this._context.managementClient!.renewLock(lockTokenOrMessage);
+    if (this._receiveMode !== ReceiveMode.peekLock) {
+      throw new Error(
+        "The 'renewMessageLock' operation is only supported in 'PeekLock' receive mode."
+      );
+    }
+    throwTypeErrorIfParameterMissing(
+      this._context.namespace.connectionId,
+      "lockTokenOrMessage",
+      lockTokenOrMessage
+    );
+
+    const lockToken =
+      lockTokenOrMessage instanceof ServiceBusMessage
+        ? String(lockTokenOrMessage.lockToken)
+        : String(lockTokenOrMessage);
+
+    const lockedUntilUtc = await this._context.managementClient!.renewLock(lockToken);
+    if (lockTokenOrMessage instanceof ServiceBusMessage) {
+      lockTokenOrMessage.lockedUntilUtc = lockedUntilUtc;
+    }
+
+    return lockedUntilUtc;
   }
 
   /**
@@ -179,10 +203,22 @@ export class Receiver {
    */
   async receiveDeferredMessage(sequenceNumber: Long): Promise<ServiceBusMessage | undefined> {
     this._throwIfReceiverOrConnectionClosed();
-    return this._context.managementClient!.receiveDeferredMessage(
-      sequenceNumber,
+    throwTypeErrorIfParameterMissing(
+      this._context.namespace.connectionId,
+      "sequenceNumber",
+      sequenceNumber
+    );
+    throwTypeErrorIfParameterNotLong(
+      this._context.namespace.connectionId,
+      "sequenceNumber",
+      sequenceNumber
+    );
+
+    const messages = await this._context.managementClient!.receiveDeferredMessages(
+      [sequenceNumber],
       this._receiveMode
     );
+    return messages[0];
   }
 
   /**
@@ -195,6 +231,20 @@ export class Receiver {
    */
   async receiveDeferredMessages(sequenceNumbers: Long[]): Promise<ServiceBusMessage[]> {
     this._throwIfReceiverOrConnectionClosed();
+    throwTypeErrorIfParameterMissing(
+      this._context.namespace.connectionId,
+      "sequenceNumbers",
+      sequenceNumbers
+    );
+    if (!Array.isArray(sequenceNumbers)) {
+      sequenceNumbers = [sequenceNumbers];
+    }
+    throwTypeErrorIfParameterNotLongArray(
+      this._context.namespace.connectionId,
+      "sequenceNumbers",
+      sequenceNumbers
+    );
+
     return this._context.managementClient!.receiveDeferredMessages(
       sequenceNumbers,
       this._receiveMode
@@ -295,6 +345,7 @@ export class SessionReceiver {
   private _messageSession: MessageSession | undefined;
   private _sessionOptions: SessionReceiverOptions;
   private _isClosed: boolean = false;
+  private _sessionId: string | undefined;
 
   /**
    * @property {boolean} [isClosed] Denotes if close() was called on this receiver.
@@ -308,16 +359,20 @@ export class SessionReceiver {
 
   /**
    * @property {string} [sessionId] The sessionId for the message session.
+   * Will return undefined until a AMQP receiver link has been successfully set up for the session.
    * @readonly
    */
   public get sessionId(): string | undefined {
-    return (
-      (this._messageSession && this._messageSession.sessionId) || this._sessionOptions.sessionId
-    );
+    return this._sessionId;
   }
 
   /**
    * @property {Date} [sessionLockedUntilUtc] The time in UTC until which the session is locked.
+   * Everytime `renewSessionLock()` is called, this time gets updated to current time plus the lock
+   * duration as specified during the Queue/Subscription creation.
+   *
+   * Will return undefined until a AMQP receiver link has been successfully set up for the session.
+   *
    * @readonly
    */
   public get sessionLockedUntilUtc(): Date | undefined {
@@ -338,7 +393,7 @@ export class SessionReceiver {
     this._sessionOptions = sessionOptions;
 
     if (sessionOptions.sessionId) {
-      sessionOptions.sessionId = sessionOptions.sessionId.toString();
+      sessionOptions.sessionId = String(sessionOptions.sessionId);
 
       // Check if receiver for given session already exists
       if (
@@ -358,13 +413,14 @@ export class SessionReceiver {
   }
 
   /**
-   * Renews the lock on the session.
-   * Check the `sessionLockedUntilUtc` property on the reciever for the time when the lock expires.
+   * Renews the lock on the session for the duration as specified during the Queue/Subscription
+   * creation. Check the `sessionLockedUntilUtc` property on the SessionReceiver for the time when the lock expires.
    *
    * When the lock on the session expires
-   * - no more messages can be received using this receiver
-   * - messages already received but not settled will land back in the Queue/Subscription for the
-   * next receiver to receive
+   * - No more messages can be received using this receiver
+   * - If a message is not settled (using either `complete()`, `defer()` or `deadletter()`,
+   *   before the session lock expires, then the message lands back in the Queue/Subscription for the next
+   *   receive operation.
    *
    * @returns Promise<Date> - New lock token expiry date and time in UTC format.
    */
@@ -410,10 +466,7 @@ export class SessionReceiver {
    */
   async peek(maxMessageCount?: number): Promise<ReceivedMessageInfo[]> {
     this._throwIfReceiverOrConnectionClosed();
-    // Peek doesnt need an AMQP receiver link unless no sessionId was given
-    if (!this.sessionId) {
-      await this._createMessageSessionIfDoesntExist();
-    }
+    await this._createMessageSessionIfDoesntExist();
     return this._context.managementClient!.peekMessagesBySession(this.sessionId!, maxMessageCount);
   }
 
@@ -433,14 +486,12 @@ export class SessionReceiver {
     maxMessageCount?: number
   ): Promise<ReceivedMessageInfo[]> {
     this._throwIfReceiverOrConnectionClosed();
-    // Peek doesnt need an AMQP receiver link unless no sessionId was given
-    if (!this.sessionId) {
-      await this._createMessageSessionIfDoesntExist();
-    }
-    return this._context.managementClient!.peekBySequenceNumber(fromSequenceNumber, {
-      sessionId: this.sessionId!,
-      messageCount: maxMessageCount
-    });
+    await this._createMessageSessionIfDoesntExist();
+    return this._context.managementClient!.peekBySequenceNumber(
+      fromSequenceNumber,
+      maxMessageCount,
+      this.sessionId
+    );
   }
 
   /**
@@ -453,15 +504,24 @@ export class SessionReceiver {
    */
   async receiveDeferredMessage(sequenceNumber: Long): Promise<ServiceBusMessage | undefined> {
     this._throwIfReceiverOrConnectionClosed();
-    // receiveDeferredMessage doesnt need an AMQP receiver link unless no sessionId was given
-    if (!this.sessionId) {
-      await this._createMessageSessionIfDoesntExist();
-    }
-    return this._context.managementClient!.receiveDeferredMessage(
-      sequenceNumber,
+    throwTypeErrorIfParameterMissing(
+      this._context.namespace.connectionId,
+      "sequenceNumber",
+      sequenceNumber
+    );
+    throwTypeErrorIfParameterNotLong(
+      this._context.namespace.connectionId,
+      "sequenceNumber",
+      sequenceNumber
+    );
+
+    await this._createMessageSessionIfDoesntExist();
+    const messages = await this._context.managementClient!.receiveDeferredMessages(
+      [sequenceNumber],
       this._receiveMode,
       this.sessionId
     );
+    return messages[0];
   }
 
   /**
@@ -474,10 +534,21 @@ export class SessionReceiver {
    */
   async receiveDeferredMessages(sequenceNumbers: Long[]): Promise<ServiceBusMessage[]> {
     this._throwIfReceiverOrConnectionClosed();
-    // receiveDeferredMessage doesnt need an AMQP receiver link unless no sessionId was given
-    if (!this.sessionId) {
-      await this._createMessageSessionIfDoesntExist();
+    throwTypeErrorIfParameterMissing(
+      this._context.namespace.connectionId,
+      "sequenceNumbers",
+      sequenceNumbers
+    );
+    if (!Array.isArray(sequenceNumbers)) {
+      sequenceNumbers = [sequenceNumbers];
     }
+    throwTypeErrorIfParameterNotLongArray(
+      this._context.namespace.connectionId,
+      "sequenceNumbers",
+      sequenceNumbers
+    );
+
+    await this._createMessageSessionIfDoesntExist();
     return this._context.managementClient!.receiveDeferredMessages(
       sequenceNumbers,
       this._receiveMode,
@@ -643,6 +714,7 @@ export class SessionReceiver {
       log.error(`[${this._context.namespace.connectionId}] %O`, error);
       throw error;
     }
+    this._sessionId = this._messageSession.sessionId;
     delete this._context.expiredMessageSessions[this._messageSession.sessionId];
   }
 

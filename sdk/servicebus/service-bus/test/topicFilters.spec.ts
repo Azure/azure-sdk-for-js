@@ -55,7 +55,11 @@ async function beforeEachTest(receiverType: TestClientType): Promise<void> {
 
   ns = ServiceBusClient.createFromConnectionString(process.env.SERVICEBUS_CONNECTION_STRING);
 
-  const clients = await getSenderReceiverClients(ns, TestClientType.TopicFilterTestTopic, receiverType);
+  const clients = await getSenderReceiverClients(
+    ns,
+    TestClientType.TopicFilterTestTopic,
+    receiverType
+  );
   topicClient = clients.senderClient as TopicClient;
   subscriptionClient = clients.receiverClient as SubscriptionClient;
 
@@ -241,74 +245,6 @@ describe("addRule()", function(): void {
         error.name,
         "MessagingEntityAlreadyExistsError",
         "ErrorName is different than expected"
-      );
-    }
-    should.equal(errorWasThrown, true, "Error thrown flag must be true");
-  });
-
-  it("Add rule with no name", async function(): Promise<void> {
-    let errorWasThrown = false;
-    try {
-      await subscriptionClient.addRule("", "priority = 2");
-    } catch (error) {
-      errorWasThrown = true;
-      should.equal(
-        !error.message.search("Rule name is missing"),
-        false,
-        "ErrorMessage is different than expected"
-      );
-      should.equal(error.name, "Error", "ErrorName is different than expected");
-    }
-    should.equal(errorWasThrown, true, "Error thrown flag must be true");
-  });
-
-  it("Add rule with no filter", async function(): Promise<void> {
-    let errorWasThrown = false;
-    try {
-      await subscriptionClient.addRule("Priority_1", "");
-    } catch (error) {
-      errorWasThrown = true;
-      should.equal(
-        !error.message.search("Filter is missing"),
-        false,
-        "ErrorMessage is different than expected"
-      );
-      should.equal(error.name, "Error", "ErrorName is different than expected");
-    }
-    should.equal(errorWasThrown, true, "Error thrown flag must be true");
-  });
-
-  it("Add rule with a Boolean filter whose input is not a Boolean, SQL expression or a Correlation filter", async function(): Promise<
-    void
-  > {
-    let errorWasThrown = false;
-    try {
-      await subscriptionClient.addRule("Priority_2", {});
-    } catch (error) {
-      errorWasThrown = true;
-      should.equal(
-        error.message,
-        "Cannot add rule. Filter should be either a boolean, string or should have one of the Correlation filter properties."
-      );
-    }
-    should.equal(errorWasThrown, true, "Error thrown flag must be true");
-  });
-
-  it("Adding a rule with a Correlation filter, error for irrelevant properties", async function(): Promise<
-    void
-  > {
-    let errorWasThrown = false;
-    const filter: any = {
-      correlationId: 1,
-      invalidProperty: 2
-    };
-    try {
-      await subscriptionClient.addRule("Priority_2", filter);
-    } catch (error) {
-      errorWasThrown = true;
-      should.equal(
-        error.message,
-        'Cannot add rule. Given filter object has unexpected property "invalidProperty".'
       );
     }
     should.equal(errorWasThrown, true, "Error thrown flag must be true");

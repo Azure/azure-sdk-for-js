@@ -45,12 +45,12 @@ export class TopicClient implements Client {
    *
    * @constructor
    * @internal
-   * @param name - The topic name.
+   * @param topicName - The topic name.
    * @param context - The connection context to create the TopicClient.
    */
-  constructor(name: string, context: ConnectionContext) {
+  constructor(topicName: string, context: ConnectionContext) {
     throwErrorIfConnectionClosed(context);
-    this.entityPath = name;
+    this.entityPath = String(topicName);
     this.id = `${this.entityPath}/${generate_uuid()}`;
     this._context = ClientEntityContext.create(this.entityPath, ClientType.TopicClient, context);
   }

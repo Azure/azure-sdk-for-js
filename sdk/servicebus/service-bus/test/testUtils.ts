@@ -175,8 +175,41 @@ async function recreateSubscription(
     });
 }
 
-// TODO: Currently, this utility only supports working with a single pair of sender receiver at a time.
-// For working with multiple entities such as with multiple subscriptions on a single topic, refactor the tests setup.
+export async function getTopicClientWithTwoSubscriptionClients (
+  namespace: ServiceBusClient
+): Promise<{
+  topicClient: TopicClient;
+  subscriptionClients: SubscriptionClient[];
+}> {
+  const subscriptionClients: SubscriptionClient[] = [];
+  const topicName = process.env.TOPIC_FILTER_NAME || "topic-filter";
+  const subscription1Name =
+    process.env.TOPIC_FILTER_SUBSCRIPTION_NAME || "topic-filter-subscription";
+  const subscription2Name =
+    process.env.TOPIC_FILTER_DEFAULT_SUBSCRIPTION_NAME || "topic-filter-default-subscription";
+  if (process.env.CLEAN_NAMESPACE) {
+    await recreateTopic(topicName, {
+      enableBatchedOperations: true
+    });
+    await recreateSubscription(topicName, subscription1Name, {
+      lockDuration: defaultLockDuration,
+      enableBatchedOperations: true
+    });
+    await recreateSubscription(topicName, subscription2Name, {
+      lockDuration: defaultLockDuration,
+      enableBatchedOperations: true
+    });
+  }
+
+  subscriptionClients.push(namespace.createSubscriptionClient(topicName, subscription1Name));
+  subscriptionClients.push(namespace.createSubscriptionClient(topicName, subscription2Name));
+
+  return {
+    topicClient: namespace.createTopicClient(topicName),
+    subscriptionClients
+  };
+}
+
 export async function getSenderReceiverClients(
   namespace: ServiceBusClient,
   senderClientType: TestClientType,

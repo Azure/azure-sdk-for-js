@@ -25,9 +25,6 @@ export const isNode = typeof navigator === "undefined" && typeof process !== "un
  * @param name The nme of the entity
  */
 export function getUniqueName(name: string): string {
-  if (typeof name !== "string") {
-    throw new Error("name is a required parameter of type 'string'.");
-  }
   return `${name}-${generate_uuid()}`;
 }
 

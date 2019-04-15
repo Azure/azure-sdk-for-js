@@ -70,6 +70,9 @@ export class SubscriptionClient implements Client {
   constructor(topicName: string, subscriptionName: string, context: ConnectionContext) {
     throwErrorIfConnectionClosed(context);
 
+    this.topicName = String(topicName);
+    this.subscriptionName = String(subscriptionName);
+
     this.entityPath = `${topicName}/Subscriptions/${subscriptionName}`;
     this.id = `${this.entityPath}/${generate_uuid()}`;
     this._context = ClientEntityContext.create(
@@ -77,9 +80,6 @@ export class SubscriptionClient implements Client {
       ClientType.SubscriptionClient,
       context
     );
-
-    this.topicName = topicName;
-    this.subscriptionName = subscriptionName;
   }
 
   /**
@@ -244,9 +244,10 @@ export class SubscriptionClient implements Client {
     maxMessageCount?: number
   ): Promise<ReceivedMessageInfo[]> {
     throwErrorIfClientOrConnectionClosed(this._context.namespace, this.entityPath, this._isClosed);
-    return this._context.managementClient!.peekBySequenceNumber(fromSequenceNumber, {
-      messageCount: maxMessageCount
-    });
+    return this._context.managementClient!.peekBySequenceNumber(
+      fromSequenceNumber,
+      maxMessageCount
+    );
   }
 
   //#region topic-filters
