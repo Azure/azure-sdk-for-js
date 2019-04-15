@@ -108,7 +108,7 @@ export interface CorrelationFilter {
   userProperties?: any;
 }
 
-const validCorrelationProperties = [
+const correlationProperties = [
   "correlationId",
   "messageId",
   "to",
@@ -363,34 +363,22 @@ export class ManagementClient extends LinkEntity {
    * lock needs to be renewed. For each renewal, it resets the time the message is locked by the
    * LockDuration set on the Entity.
    *
-   * @param {string | ServiceBusMessage} lockTokenOrMessage Lock token of the message or
-   * the message itself.
+   * @param {string} lockToken Lock token of the message
    * @param {SendRequestOptions} [options] Options that can be set while sending the request.
    * @returns {Promise<Date>} Promise<Date> New lock token expiry date and time in UTC format.
    */
-  async renewLock(
-    lockTokenOrMessage: string | ServiceBusMessage,
-    options?: SendRequestOptions
-  ): Promise<Date> {
+  async renewLock(lockToken: string, options?: SendRequestOptions): Promise<Date> {
     throwErrorIfConnectionClosed(this._context.namespace);
-    if (!lockTokenOrMessage) {
-      throw new Error("'lockTokenOrMessage' is a required parameter.");
-    }
-    if (typeof lockTokenOrMessage !== "object" && typeof lockTokenOrMessage !== "string") {
-      throw new Error("'lockTokenOrMessage must be of type 'string' or of type 'object'.");
-    }
     if (!options) options = {};
     if (options.delayInSeconds == undefined) options.delayInSeconds = 1;
     if (options.timeoutInSeconds == undefined) options.timeoutInSeconds = 5;
     if (options.times == undefined) options.times = 5;
-    const lockToken: string = (lockTokenOrMessage as ServiceBusMessage).lockToken
-      ? ((lockTokenOrMessage as ServiceBusMessage).lockToken as string)
-      : (lockTokenOrMessage as string);
+
     try {
       const messageBody: any = {};
 
       messageBody[Constants.lockTokens] = types.wrap_array(
-        [string_to_uuid(lockToken)],
+        Buffer.from(lockToken, "hex"),
         0x98,
         undefined
       );
@@ -416,9 +404,6 @@ export class ManagementClient extends LinkEntity {
       });
       const result = await this._mgmtReqResLink!.sendRequest(request, options);
       const lockedUntilUtc = new Date(result.body.expirations[0]);
-      if (typeof lockTokenOrMessage === "object") {
-        (lockTokenOrMessage as ServiceBusMessage).lockedUntilUtc = lockedUntilUtc;
-      }
       return lockedUntilUtc;
     } catch (err) {
       const error = translate(err);
@@ -1090,9 +1075,9 @@ export class ManagementClient extends LinkEntity {
    */
   async removeRule(ruleName: string): Promise<void> {
     throwErrorIfConnectionClosed(this._context.namespace);
-    if (!ruleName || typeof ruleName !== "string") {
-      throw new Error("Cannot remove rule. Rule name is missing or is not a string.");
-    }
+    throwTypeErrorIfParameterMissing(this._context.namespace.connectionId, "ruleName", ruleName);
+    ruleName = String(ruleName);
+
     try {
       const request: AmqpMessage = {
         body: {
@@ -1141,31 +1126,21 @@ export class ManagementClient extends LinkEntity {
     sqlRuleActionExpression?: string
   ): Promise<void> {
     throwErrorIfConnectionClosed(this._context.namespace);
-    if (!ruleName || typeof ruleName !== "string") {
-      throw new Error("Cannot add rule. Rule name is missing or is not a string.");
+
+    throwTypeErrorIfParameterMissing(this._context.namespace.connectionId, "ruleName", ruleName);
+    ruleName = String(ruleName);
+
+    throwTypeErrorIfParameterMissing(this._context.namespace.connectionId, "filter", filter);
+    if (
+      typeof filter !== "boolean" &&
+      typeof filter !== "string" &&
+      !correlationProperties.some((validProperty) => filter.hasOwnProperty(validProperty))
+    ) {
+      throw new TypeError(
+        `The parameter "filter" should be either a boolean, string or implement the CorrelationFilter interface.`
+      );
     }
-    if (!filter && filter !== false) {
-      throw new Error("Cannot add rule. Filter is missing.");
-    }
-    if (typeof filter !== "boolean" && typeof filter !== "string") {
-      const filterProperties = Object.keys(filter);
-      if (!filterProperties.length) {
-        throw new Error(
-          "Cannot add rule. Filter should be either a boolean, string or should have one of the Correlation filter properties."
-        );
-      }
-      for (let i = 0; i < filterProperties.length; i++) {
-        const filterProperty = filterProperties[i];
-        if (validCorrelationProperties.indexOf(filterProperty) === -1) {
-          throw new Error(
-            `Cannot add rule. Given filter object has unexpected property "${filterProperty}".`
-          );
-        }
-      }
-    }
-    if (sqlRuleActionExpression && typeof sqlRuleActionExpression !== "string") {
-      throw new Error("Cannot add rule. Given action expression is not a string.");
-    }
+
     try {
       const ruleDescription: any = {};
       switch (typeof filter) {
@@ -1194,9 +1169,9 @@ export class ManagementClient extends LinkEntity {
           break;
       }
 
-      if (sqlRuleActionExpression && typeof sqlRuleActionExpression === "string") {
+      if (sqlRuleActionExpression !== undefined) {
         ruleDescription["sql-rule-action"] = {
-          expression: sqlRuleActionExpression
+          expression: String(sqlRuleActionExpression)
         };
       }
       const request: AmqpMessage = {

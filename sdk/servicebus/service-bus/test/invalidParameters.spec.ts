@@ -8,13 +8,7 @@ import chaiAsPromised from "chai-as-promised";
 import dotenv from "dotenv";
 dotenv.config();
 chai.use(chaiAsPromised);
-import {
-  ServiceBusClient,
-  QueueClient,
-  TopicClient,
-  SubscriptionClient,
-  ReceiveMode
-} from "../src";
+import { ServiceBusClient, QueueClient, SubscriptionClient, ReceiveMode } from "../src";
 
 import { TestMessage, getSenderReceiverClients, TestClientType } from "./testUtils";
 
@@ -23,16 +17,7 @@ import { Sender } from "../src/sender";
 
 let ns: ServiceBusClient;
 
-let senderClient: QueueClient | TopicClient;
-let receiverClient: QueueClient | SubscriptionClient;
-let sender: Sender;
-let receiver: Receiver | SessionReceiver;
-
-async function beforeEachTest(
-  senderType: TestClientType,
-  receiverType: TestClientType,
-  useSessions?: boolean
-): Promise<void> {
+function createServiceBusClient(): void {
   // The tests in this file expect the env variables to contain the connection string and
   // the names of empty queue/topic/subscription that are to be tested
 
@@ -43,28 +28,21 @@ async function beforeEachTest(
   }
 
   ns = ServiceBusClient.createFromConnectionString(process.env.SERVICEBUS_CONNECTION_STRING);
-
-  const clients = await getSenderReceiverClients(ns, senderType, receiverType);
-  senderClient = clients.senderClient;
-  receiverClient = clients.receiverClient;
-  sender = senderClient.createSender();
-
-  if (useSessions) {
-    // Sending a message in case of sessions to ensure we are able to get a session receiver
-    await sender.send(TestMessage.getSessionSample());
-    receiver = receiverClient.createReceiver(ReceiveMode.receiveAndDelete, {
-      sessionId: TestMessage.sessionId
-    });
-  } else {
-    receiver = receiverClient.createReceiver(ReceiveMode.receiveAndDelete);
-  }
 }
 
 describe("Invalid parameters in QueueClient", function(): void {
+  let queueClient: QueueClient;
+
   // Since, the below tests never actually make use of any AMQP links, there is no need to create
   // new sender/receiver clients before each test. Doing it once for each describe block.
   before(async () => {
-    await beforeEachTest(TestClientType.PartitionedQueue, TestClientType.PartitionedQueue);
+    createServiceBusClient();
+    const clients = await getSenderReceiverClients(
+      ns,
+      TestClientType.PartitionedQueue,
+      TestClientType.PartitionedQueue
+    );
+    queueClient = <QueueClient>clients.receiverClient;
   });
 
   after(async () => {
@@ -72,14 +50,14 @@ describe("Invalid parameters in QueueClient", function(): void {
   });
 
   it("Peek: Invalid maxMessageCount in QueueClient", async function(): Promise<void> {
-    const peekedResults = await receiverClient.peek(-100);
+    const peekedResults = await queueClient.peek(-100);
     should.equal(peekedResults.length, 0);
   });
 
   it("Peek: Wrong type maxMessageCount in QueueClient", async function(): Promise<void> {
     let caughtError: Error | undefined;
     try {
-      await receiverClient.peek("somestring" as any);
+      await queueClient.peek("somestring" as any);
     } catch (error) {
       caughtError = error;
     }
@@ -93,7 +71,7 @@ describe("Invalid parameters in QueueClient", function(): void {
   it("PeekBySequenceNumber: Invalid maxMessageCount in QueueClient", async function(): Promise<
     void
   > {
-    const peekedResults = await receiverClient.peekBySequenceNumber(Long.ZERO, -100);
+    const peekedResults = await queueClient.peekBySequenceNumber(Long.ZERO, -100);
     should.equal(peekedResults.length, 0);
   });
 
@@ -102,7 +80,7 @@ describe("Invalid parameters in QueueClient", function(): void {
   > {
     let caughtError: Error | undefined;
     try {
-      await receiverClient.peekBySequenceNumber(Long.ZERO, "somestring" as any);
+      await queueClient.peekBySequenceNumber(Long.ZERO, "somestring" as any);
     } catch (error) {
       caughtError = error;
     }
@@ -118,7 +96,7 @@ describe("Invalid parameters in QueueClient", function(): void {
   > {
     let caughtError: Error | undefined;
     try {
-      await receiverClient.peekBySequenceNumber("somestring" as any);
+      await queueClient.peekBySequenceNumber("somestring" as any);
     } catch (error) {
       caughtError = error;
     }
@@ -134,7 +112,7 @@ describe("Invalid parameters in QueueClient", function(): void {
   > {
     let caughtError: Error | undefined;
     try {
-      await receiverClient.peekBySequenceNumber(undefined as any);
+      await queueClient.peekBySequenceNumber(undefined as any);
     } catch (error) {
       caughtError = error;
     }
@@ -144,10 +122,18 @@ describe("Invalid parameters in QueueClient", function(): void {
 });
 
 describe("Invalid parameters in SubscriptionClient", function(): void {
+  let subscriptionClient: SubscriptionClient;
+
   // Since, the below tests never actually make use of any AMQP links, there is no need to create
   // new sender/receiver clients before each test. Doing it once for each describe block.
   before(async () => {
-    await beforeEachTest(TestClientType.PartitionedTopic, TestClientType.PartitionedSubscription);
+    createServiceBusClient();
+    const clients = await getSenderReceiverClients(
+      ns,
+      TestClientType.PartitionedTopic,
+      TestClientType.PartitionedSubscription
+    );
+    subscriptionClient = <SubscriptionClient>clients.receiverClient;
   });
 
   after(async () => {
@@ -155,14 +141,14 @@ describe("Invalid parameters in SubscriptionClient", function(): void {
   });
 
   it("Peek: Invalid maxMessageCount in SubscriptionClient", async function(): Promise<void> {
-    const peekedResults = await receiverClient.peek(-100);
+    const peekedResults = await subscriptionClient.peek(-100);
     should.equal(peekedResults.length, 0);
   });
 
   it("Peek: Wrong type maxMessageCount in SubscriptionClient", async function(): Promise<void> {
     let caughtError: Error | undefined;
     try {
-      await receiverClient.peek("somestring" as any);
+      await subscriptionClient.peek("somestring" as any);
     } catch (error) {
       caughtError = error;
     }
@@ -176,7 +162,7 @@ describe("Invalid parameters in SubscriptionClient", function(): void {
   it("PeekBySequenceNumber: Invalid maxMessageCount in SubscriptionClient", async function(): Promise<
     void
   > {
-    const peekedResults = await receiverClient.peekBySequenceNumber(Long.ZERO, -100);
+    const peekedResults = await subscriptionClient.peekBySequenceNumber(Long.ZERO, -100);
     should.equal(peekedResults.length, 0);
   });
 
@@ -185,7 +171,7 @@ describe("Invalid parameters in SubscriptionClient", function(): void {
   > {
     let caughtError: Error | undefined;
     try {
-      await receiverClient.peekBySequenceNumber(Long.ZERO, "somestring" as any);
+      await subscriptionClient.peekBySequenceNumber(Long.ZERO, "somestring" as any);
     } catch (error) {
       caughtError = error;
     }
@@ -201,7 +187,7 @@ describe("Invalid parameters in SubscriptionClient", function(): void {
   > {
     let caughtError: Error | undefined;
     try {
-      await receiverClient.peekBySequenceNumber("somestring" as any);
+      await subscriptionClient.peekBySequenceNumber("somestring" as any);
     } catch (error) {
       caughtError = error;
     }
@@ -217,12 +203,59 @@ describe("Invalid parameters in SubscriptionClient", function(): void {
   > {
     let caughtError: Error | undefined;
     try {
-      await receiverClient.peekBySequenceNumber(undefined as any);
+      await subscriptionClient.peekBySequenceNumber(undefined as any);
     } catch (error) {
       caughtError = error;
     }
     should.equal(caughtError && caughtError.name, "TypeError");
     should.equal(caughtError && caughtError.message, `Missing parameter "fromSequenceNumber"`);
+  });
+
+  it("AddRule: Missing ruleName", async function(): Promise<void> {
+    let caughtError: Error | undefined;
+    try {
+      await subscriptionClient.addRule(undefined as any, undefined as any);
+    } catch (error) {
+      caughtError = error;
+    }
+    should.equal(caughtError && caughtError.name, "TypeError");
+    should.equal(caughtError && caughtError.message, `Missing parameter "ruleName"`);
+  });
+
+  it("AddRule: Missing filter", async function(): Promise<void> {
+    let caughtError: Error | undefined;
+    try {
+      await subscriptionClient.addRule("myrule", undefined as any);
+    } catch (error) {
+      caughtError = error;
+    }
+    should.equal(caughtError && caughtError.name, "TypeError");
+    should.equal(caughtError && caughtError.message, `Missing parameter "filter"`);
+  });
+
+  it("AddRule: Invalid filter", async function(): Promise<void> {
+    let caughtError: Error | undefined;
+    try {
+      await subscriptionClient.addRule("myrule", { random: "value" } as any);
+    } catch (error) {
+      caughtError = error;
+    }
+    should.equal(caughtError && caughtError.name, "TypeError");
+    should.equal(
+      caughtError && caughtError.message,
+      `The parameter "filter" should be either a boolean, string or implement the CorrelationFilter interface.`
+    );
+  });
+
+  it("RemoveRule: Missing ruleName", async function(): Promise<void> {
+    let caughtError: Error | undefined;
+    try {
+      await subscriptionClient.removeRule(undefined as any);
+    } catch (error) {
+      caughtError = error;
+    }
+    should.equal(caughtError && caughtError.name, "TypeError");
+    should.equal(caughtError && caughtError.message, `Missing parameter "ruleName"`);
   });
 });
 
@@ -232,12 +265,20 @@ describe("Invalid parameters in SessionReceiver", function(): void {
   // Since, the below tests never actually make use of any AMQP links, there is no need to create
   // new sender/receiver clients before each test. Doing it once for each describe block.
   before(async () => {
-    await beforeEachTest(
+    createServiceBusClient();
+    const clients = await getSenderReceiverClients(
+      ns,
       TestClientType.PartitionedQueueWithSessions,
-      TestClientType.PartitionedQueueWithSessions,
-      true
+      TestClientType.PartitionedQueueWithSessions
     );
-    sessionReceiver = <SessionReceiver>receiver;
+
+    const sender = clients.senderClient.createSender();
+    await sender.send(TestMessage.getSessionSample());
+
+    const receiverClient = <QueueClient>clients.receiverClient;
+    sessionReceiver = receiverClient.createReceiver(ReceiveMode.peekLock, {
+      sessionId: TestMessage.sessionId
+    });
   });
 
   after(async () => {
@@ -375,10 +416,23 @@ describe("Invalid parameters in SessionReceiver", function(): void {
 });
 
 describe("Invalid parameters in Receiver", function(): void {
+  let receiver: Receiver;
+
   // Since, the below tests never actually make use of any AMQP links, there is no need to create
   // new sender/receiver clients before each test. Doing it once for each describe block.
   before(async () => {
-    await beforeEachTest(TestClientType.PartitionedQueue, TestClientType.PartitionedQueue);
+    createServiceBusClient();
+    const clients = await getSenderReceiverClients(
+      ns,
+      TestClientType.PartitionedQueue,
+      TestClientType.PartitionedQueue
+    );
+
+    const sender = clients.senderClient.createSender();
+    await sender.send(TestMessage.getSample());
+
+    const receiverClient = <QueueClient>clients.receiverClient;
+    receiver = receiverClient.createReceiver(ReceiveMode.peekLock);
   });
 
   after(async () => {
@@ -440,13 +494,64 @@ describe("Invalid parameters in Receiver", function(): void {
     should.equal(caughtError && caughtError.name, "TypeError");
     should.equal(caughtError && caughtError.message, `Missing parameter "sequenceNumbers"`);
   });
+
+  it("RenewMessageLock: Missing lockTokenOrMessage in Receiver", async function(): Promise<void> {
+    let caughtError: Error | undefined;
+    try {
+      await (<Receiver>receiver).renewMessageLock(undefined as any);
+    } catch (error) {
+      caughtError = error;
+    }
+    should.equal(caughtError && caughtError.name, "TypeError");
+    should.equal(caughtError && caughtError.message, `Missing parameter "lockTokenOrMessage"`);
+  });
+
+  it("RenewMessageLock: Invalid string lockToken in Receiver", async function(): Promise<void> {
+    let caughtError: Error | undefined;
+    try {
+      await (<Receiver>receiver).renewMessageLock("string-which-is-not-uuid");
+    } catch (error) {
+      caughtError = error;
+    }
+    should.equal(
+      caughtError && caughtError.message,
+      "The 'rewnewMessageLock' operation is only supported for messages with valid lockToken."
+    );
+  });
+
+  it("RenewMessageLock: Invalid message lockToken in Receiver", async function(): Promise<void> {
+    let caughtError: Error | undefined;
+    try {
+      const [receivedMsg] = await receiver.receiveMessages(1);
+      if (!receivedMsg) {
+        throw new Error("Message not received to renew lock on.");
+      }
+      (<any>receivedMsg).lockToken = "string-which-is-not-uuid";
+      await (<Receiver>receiver).renewMessageLock(receivedMsg);
+    } catch (error) {
+      caughtError = error;
+    }
+    should.equal(
+      caughtError && caughtError.message,
+      "The 'rewnewMessageLock' operation is only supported for messages with valid lockToken."
+    );
+  });
 });
 
 describe("Invalid parameters in Sender", function(): void {
+  let sender: Sender;
+
   // Since, the below tests never actually make use of any AMQP links, there is no need to create
   // new sender/receiver clients before each test. Doing it once for each describe block.
   before(async () => {
-    await beforeEachTest(TestClientType.PartitionedQueue, TestClientType.PartitionedQueue);
+    createServiceBusClient();
+    const clients = await getSenderReceiverClients(
+      ns,
+      TestClientType.PartitionedQueue,
+      TestClientType.PartitionedQueue
+    );
+
+    sender = clients.senderClient.createSender();
   });
 
   after(async () => {

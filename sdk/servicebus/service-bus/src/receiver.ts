@@ -35,6 +35,7 @@ export class Receiver {
   private _context: ClientEntityContext;
   private _receiveMode: ReceiveMode;
   private _isClosed: boolean = false;
+  private _uuidRegex = /^([0-9a-f]{8})-([0-9a-f]{4})-([0-9a-f]{4})-([0-9a-f]{4})-([0-9a-f]{12})$/;
 
   /**
    * @property {boolean} [isClosed] Denotes if close() was called on this receiver.
@@ -170,9 +171,33 @@ export class Receiver {
   async renewMessageLock(lockTokenOrMessage: string | ServiceBusMessage): Promise<Date> {
     this._throwIfReceiverOrConnectionClosed();
     if (this._receiveMode !== ReceiveMode.peekLock) {
-      throw new Error("The operation is only supported in 'PeekLock' receive mode.");
+      throw new Error(
+        "The 'rewnewMessageLock' operation is only supported in 'PeekLock' receive mode."
+      );
     }
-    return this._context.managementClient!.renewLock(lockTokenOrMessage);
+    throwTypeErrorIfParameterMissing(
+      this._context.namespace.connectionId,
+      "lockTokenOrMessage",
+      lockTokenOrMessage
+    );
+
+    const lockToken =
+      lockTokenOrMessage instanceof ServiceBusMessage
+        ? String(lockTokenOrMessage.lockToken)
+        : String(lockTokenOrMessage);
+
+    if (!this._uuidRegex.test(lockToken)) {
+      throw new Error(
+        "The 'rewnewMessageLock' operation is only supported for messages with valid lockToken."
+      );
+    }
+
+    const lockedUntilUtc = await this._context.managementClient!.renewLock(lockToken);
+    if (lockTokenOrMessage instanceof ServiceBusMessage) {
+      lockTokenOrMessage.lockedUntilUtc = lockedUntilUtc;
+    }
+
+    return lockedUntilUtc;
   }
 
   /**
