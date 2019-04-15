@@ -1,8 +1,7 @@
 /*
 Test Scenario summary:
 - Creates a single sender and a single receiver on a queue.
-- Runs following sequence of steps in a long running loop.
-Sends a message -> receives a message -> performs random message disposition option
+- Receives a message and holds onto it for the duration of test. AutoLockRenewal is enabled and set to the test duration.
 
 The test assumes no other process is working with the queues defined in here,
 but the queues must be empty and use default configurations before running the test.
