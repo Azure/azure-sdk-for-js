@@ -399,7 +399,7 @@ export class SessionReceiver {
     this._sessionOptions = sessionOptions;
 
     if (sessionOptions.sessionId) {
-      sessionOptions.sessionId = sessionOptions.sessionId.toString();
+      sessionOptions.sessionId = String(sessionOptions.sessionId);
 
       // Check if receiver for given session already exists
       if (
