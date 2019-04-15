@@ -487,6 +487,131 @@ export const ReservationOrderResponse: msRest.CompositeMapper = {
   }
 };
 
+export const CalculatePriceResponsePropertiesBillingCurrencyTotal: msRest.CompositeMapper = {
+  serializedName: "CalculatePriceResponseProperties_billingCurrencyTotal",
+  type: {
+    name: "Composite",
+    className: "CalculatePriceResponsePropertiesBillingCurrencyTotal",
+    modelProperties: {
+      currencyCode: {
+        serializedName: "currencyCode",
+        type: {
+          name: "String"
+        }
+      },
+      amount: {
+        serializedName: "amount",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const CalculatePriceResponsePropertiesPricingCurrencyTotal: msRest.CompositeMapper = {
+  serializedName: "CalculatePriceResponseProperties_pricingCurrencyTotal",
+  type: {
+    name: "Composite",
+    className: "CalculatePriceResponsePropertiesPricingCurrencyTotal",
+    modelProperties: {
+      currencyCode: {
+        serializedName: "currencyCode",
+        type: {
+          name: "String"
+        }
+      },
+      amount: {
+        serializedName: "amount",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const CalculatePriceResponseProperties: msRest.CompositeMapper = {
+  serializedName: "CalculatePriceResponseProperties",
+  type: {
+    name: "Composite",
+    className: "CalculatePriceResponseProperties",
+    modelProperties: {
+      billingCurrencyTotal: {
+        serializedName: "billingCurrencyTotal",
+        type: {
+          name: "Composite",
+          className: "CalculatePriceResponsePropertiesBillingCurrencyTotal"
+        }
+      },
+      isBillingPartnerManaged: {
+        serializedName: "isBillingPartnerManaged",
+        type: {
+          name: "Boolean"
+        }
+      },
+      reservationOrderId: {
+        serializedName: "reservationOrderId",
+        type: {
+          name: "String"
+        }
+      },
+      skuTitle: {
+        serializedName: "skuTitle",
+        type: {
+          name: "String"
+        }
+      },
+      skuDescription: {
+        serializedName: "skuDescription",
+        type: {
+          name: "String"
+        }
+      },
+      pricingCurrencyTotal: {
+        serializedName: "pricingCurrencyTotal",
+        type: {
+          name: "Composite",
+          className: "CalculatePriceResponsePropertiesPricingCurrencyTotal"
+        }
+      }
+    }
+  }
+};
+
+export const CalculatePriceResponse: msRest.CompositeMapper = {
+  serializedName: "CalculatePriceResponse",
+  type: {
+    name: "Composite",
+    className: "CalculatePriceResponse",
+    modelProperties: {
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "CalculatePriceResponseProperties"
+        }
+      }
+    }
+  }
+};
+
+export const PurchaseRequestPropertiesReservedResourceProperties: msRest.CompositeMapper = {
+  serializedName: "PurchaseRequestProperties_reservedResourceProperties",
+  type: {
+    name: "Composite",
+    className: "PurchaseRequestPropertiesReservedResourceProperties",
+    modelProperties: {
+      instanceFlexibility: {
+        serializedName: "instanceFlexibility",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const MergeRequest: msRest.CompositeMapper = {
   serializedName: "MergeRequest",
   type: {
@@ -502,6 +627,83 @@ export const MergeRequest: msRest.CompositeMapper = {
               name: "String"
             }
           }
+        }
+      }
+    }
+  }
+};
+
+export const PurchaseRequest: msRest.CompositeMapper = {
+  serializedName: "PurchaseRequest",
+  type: {
+    name: "Composite",
+    className: "PurchaseRequest",
+    modelProperties: {
+      sku: {
+        serializedName: "sku",
+        type: {
+          name: "Composite",
+          className: "SkuName"
+        }
+      },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      reservedResourceType: {
+        serializedName: "properties.reservedResourceType",
+        type: {
+          name: "String"
+        }
+      },
+      billingScopeId: {
+        serializedName: "properties.billingScopeId",
+        type: {
+          name: "String"
+        }
+      },
+      term: {
+        serializedName: "properties.term",
+        type: {
+          name: "String"
+        }
+      },
+      quantity: {
+        serializedName: "properties.quantity",
+        type: {
+          name: "Number"
+        }
+      },
+      displayName: {
+        serializedName: "properties.displayName",
+        type: {
+          name: "String"
+        }
+      },
+      appliedScopeType: {
+        serializedName: "properties.appliedScopeType",
+        type: {
+          name: "String"
+        }
+      },
+      appliedScopes: {
+        serializedName: "properties.appliedScopes",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      reservedResourceProperties: {
+        serializedName: "properties.reservedResourceProperties",
+        type: {
+          name: "Composite",
+          className: "PurchaseRequestPropertiesReservedResourceProperties"
         }
       }
     }
