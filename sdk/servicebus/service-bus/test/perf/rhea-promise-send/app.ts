@@ -1,13 +1,13 @@
 const { Connection } = require("rhea-promise");
-const moment = require('moment');
-const delay = require('delay');
+const moment = require("moment");
+const delay = require("delay");
 
 const _payload = Buffer.alloc(1024);
 const _start = moment();
 
 let _messages = 0;
 
-async function main() {
+async function main(): Promise<void> {
   // Endpoint=sb://<your-namespace>.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=<shared-access-key>
   const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING as string;
   const entityPath = process.env.SERVICE_BUS_QUEUE_NAME as string;
@@ -26,38 +26,45 @@ async function main() {
   log(`Maximum inflight messages: ${maxInflight}`);
   log(`Total messages: ${messages}`);
 
-  let writeResultsPromise = WriteResults(messages);
-  
+  const writeResultsPromise = WriteResults(messages);
+
   await RunTest(host, username, password, entityPath, maxInflight, messages);
 
   await writeResultsPromise;
-};
+}
 
-async function RunTest(host: string, username: string, password: string, entityPath: string, maxInflight: number, messages: number) {
+async function RunTest(
+  host: string,
+  username: string,
+  password: string,
+  entityPath: string,
+  maxInflight: number,
+  messages: number
+): Promise<void> {
   const port = 5671;
 
   const connection = new Connection({
-      transport: "tls",
-      host: host,
-      hostname: host,
-      username: username,
-      password: password,
-      port: port,
-      reconnect: false
+    transport: "tls",
+    host: host,
+    hostname: host,
+    username: username,
+    password: password,
+    port: port,
+    reconnect: false
   });
   await connection.open();
 
   const sender = await connection.createSender({
     name: "sender-1",
     target: {
-        address: entityPath
-      }
+      address: entityPath
+    }
   });
 
-  let promises: Promise<void>[] = [];
+  const promises: Promise<void>[] = [];
 
-  for (let i = 0; i < maxInflight; i++ ) {
-    let promise = ExecuteSendsAsync(sender, messages);
+  for (let i = 0; i < maxInflight; i++) {
+    const promise = ExecuteSendsAsync(sender, messages);
     promises[i] = promise;
   }
 
@@ -66,7 +73,7 @@ async function RunTest(host: string, username: string, password: string, entityP
   await connection.close();
 }
 
-async function ExecuteSendsAsync(sender: any, messages: number) {
+async function ExecuteSendsAsync(sender: any, messages: number): Promise<void> {
   while (++_messages <= messages) {
     while (!sender.sendable()) {
       await delay(0.01);
@@ -75,12 +82,12 @@ async function ExecuteSendsAsync(sender: any, messages: number) {
       await sender.send({ body: _payload });
     }
   }
-  
+
   // Undo last increment, since a message was never sent on the final loop iteration
   _messages--;
 }
 
-async function WriteResults(messages: number) {
+async function WriteResults(messages: number): Promise<void> {
   let lastMessages = 0;
   let lastElapsed = 0;
   let maxMessages = 0;
@@ -89,38 +96,43 @@ async function WriteResults(messages: number) {
   do {
     await delay(1000);
 
-    let sentMessages = _messages;
-    let currentMessages = sentMessages - lastMessages;
+    const sentMessages = _messages;
+    const currentMessages = sentMessages - lastMessages;
     lastMessages = sentMessages;
 
-    let elapsed = moment().diff(_start);
-    let currentElapsed = elapsed - lastElapsed;
+    const elapsed = moment().diff(_start);
+    const currentElapsed = elapsed - lastElapsed;
     lastElapsed = elapsed;
 
-    if ((currentMessages / currentElapsed) > (maxMessages / maxElapsed)) {
+    if (currentMessages / currentElapsed > maxMessages / maxElapsed) {
       maxMessages = currentMessages;
       maxElapsed = currentElapsed;
     }
 
     WriteResult(sentMessages, elapsed, currentMessages, currentElapsed, maxMessages, maxElapsed);
-  }
-  while (_messages < messages);
+  } while (_messages < messages);
 }
 
-function WriteResult(totalMessages: number, totalElapsed: number,
-  currentMessages: number, currentElapsed: number,
-  maxMessages: number, maxElapsed: number) {
-  log(`\tTot Msg\t${totalMessages}` +
+function WriteResult(
+  totalMessages: number,
+  totalElapsed: number,
+  currentMessages: number,
+  currentElapsed: number,
+  maxMessages: number,
+  maxElapsed: number
+): void {
+  log(
+    `\tTot Msg\t${totalMessages}` +
       `\tCur MPS\t${Math.round((currentMessages * 1000) / currentElapsed)}` +
       `\tAvg MPS\t${Math.round((totalMessages * 1000) / totalElapsed)}` +
       `\tMax MPS\t${Math.round((maxMessages * 1000) / maxElapsed)}`
-      );
+  );
 }
 
-function log(message: string) {
-  console.log(`[${moment().format('hh:mm:ss.SSS')}] ${message}`);
+function log(message: string): void {
+  console.log(`[${moment().format("hh:mm:ss.SSS")}] ${message}`);
 }
 
-main().catch(err => {
+main().catch((err) => {
   log(`Error occurred: ${err}`);
 });
