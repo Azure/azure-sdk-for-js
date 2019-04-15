@@ -12,7 +12,9 @@ npm install @azure/storage-blob
 
 - In the [Azure Portal](https://portal.azure.com), go to **Dashboard > Storage > _your-storage-account_**.
 - Note down the "AccountName", "AccountKey" obtained at **Access keys** and "AccountSAS" from **Shared access signature** under **Settings** tab.
-  Before running any of the samples, update with the credentials you have noted down above.
+  Before running any of the samples,
+  - Update with the credentials you have noted down above
+  - Change `"../.."` to `"@azure/storage-blob"` in the samples in order to import the published package instead of using source code
 
 ## Running a Javascript sample
 
