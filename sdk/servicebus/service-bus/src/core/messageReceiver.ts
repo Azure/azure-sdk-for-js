@@ -397,7 +397,9 @@ export class MessageReceiver extends LinkEntity {
                       connectionId,
                       bMessage.messageId
                     );
-                    await this._context.managementClient!.renewLock(lockToken);
+                    bMessage.lockedUntilUtc = await this._context.managementClient!.renewLock(
+                      lockToken
+                    );
                     log.receiver(
                       "[%s] Successfully renewed the lock for message with id '%s'.",
                       connectionId,
