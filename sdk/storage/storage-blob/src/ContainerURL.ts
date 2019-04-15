@@ -571,6 +571,28 @@ export class ContainerURL extends StorageURL {
   /**
    * Iterates over blobs under the specified container.  The returned iterator is resumable.
    *
+   * @example
+   * for await (const blob of containerURL.listBlobs()) {
+   *   console.log(`Container: ${blob.name}`);
+   * }
+   *
+   * @example
+   * let iter1 = containerURL.listBlobs();
+   * let i = 1;
+   * for await (const blob of iter1) {
+   *   console.log(`${i}: ${blob.name}`);
+   *   i++;
+   *   if (i > 5) {
+   *     break;
+   *   }
+   * }
+   *
+   * const iter2 = containerURL.listBlobs({ resumePoint: iter1.resumePoint });
+   * for await (const blob of iter2) {
+   *   console.log(`${i}: ${blob.name}`);
+   *   i++;
+   * }
+   *
    * @param {IContainerListBlobsSegmentOptions} [options]
    * @returns {ResumableAsyncIterableIterator<Models.BlobItem>}
    * @memberof ContainerURL
