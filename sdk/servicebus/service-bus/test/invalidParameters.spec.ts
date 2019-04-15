@@ -308,6 +308,7 @@ describe("Invalid parameters in SubscriptionClient", function(): void {
 
 describe("Invalid parameters in SessionReceiver", function(): void {
   let sessionReceiver: SessionReceiver;
+  let receiverClient: QueueClient;
 
   // Since, the below tests never actually make use of any AMQP links, there is no need to create
   // new sender/receiver clients before each test. Doing it once for each describe block.
@@ -322,7 +323,7 @@ describe("Invalid parameters in SessionReceiver", function(): void {
     const sender = clients.senderClient.createSender();
     await sender.send(TestMessage.getSessionSample());
 
-    const receiverClient = <QueueClient>clients.receiverClient;
+    receiverClient = <QueueClient>clients.receiverClient;
     sessionReceiver = receiverClient.createReceiver(ReceiveMode.peekLock, {
       sessionId: TestMessage.sessionId
     });
@@ -330,6 +331,30 @@ describe("Invalid parameters in SessionReceiver", function(): void {
 
   after(async () => {
     await ns.close();
+  });
+
+  it("SessionReceiver: Missing ReceiveMode", async function(): Promise<void> {
+    await sessionReceiver.close();
+    sessionReceiver = receiverClient.createReceiver(undefined as any, {
+      sessionId: TestMessage.sessionId
+    });
+    should.equal(
+      sessionReceiver.receiveMode,
+      ReceiveMode.peekLock,
+      "Default receiveMode not set when receiveMode not provided to constructor."
+    );
+  });
+
+  it("SessionReceiver: Invalid ReceiveMode", async function(): Promise<void> {
+    await sessionReceiver.close();
+    sessionReceiver = receiverClient.createReceiver(123 as any, {
+      sessionId: TestMessage.sessionId
+    });
+    should.equal(
+      sessionReceiver.receiveMode,
+      ReceiveMode.peekLock,
+      "Default receiveMode not set when receiveMode not provided to constructor."
+    );
   });
 
   it("Peek: Invalid maxMessageCount in SessionReceiver", async function(): Promise<void> {
@@ -403,6 +428,68 @@ describe("Invalid parameters in SessionReceiver", function(): void {
     should.equal(caughtError && caughtError.message, `Missing parameter "fromSequenceNumber"`);
   });
 
+  it("RegisterMessageHandler: Missing onMessage in Receiver", async function(): Promise<void> {
+    let caughtError: Error | undefined;
+    try {
+      await sessionReceiver.registerMessageHandler(undefined as any, undefined as any);
+    } catch (error) {
+      caughtError = error;
+    }
+    should.equal(caughtError && caughtError.name, "TypeError");
+    should.equal(caughtError && caughtError.message, `Missing parameter "onMessage"`);
+  });
+
+  it("RegisterMessageHandler: Wrong type for onMessage in Receiver", async function(): Promise<
+    void
+  > {
+    let caughtError: Error | undefined;
+    try {
+      await sessionReceiver.registerMessageHandler("somestring" as any, "somethingelse" as any);
+    } catch (error) {
+      caughtError = error;
+    }
+    should.equal(caughtError && caughtError.name, "TypeError");
+    should.equal(
+      caughtError && caughtError.message,
+      `The parameter 'onMessage' must be of type 'function'.`
+    );
+  });
+
+  it("RegisterMessageHandler: Missing onError in Receiver", async function(): Promise<void> {
+    let caughtError: Error | undefined;
+    try {
+      await sessionReceiver.registerMessageHandler(
+        async () => {
+          /** */
+        },
+        undefined as any
+      );
+    } catch (error) {
+      caughtError = error;
+    }
+    should.equal(caughtError && caughtError.name, "TypeError");
+    should.equal(caughtError && caughtError.message, `Missing parameter "onError"`);
+  });
+
+  it("RegisterMessageHandler: Wrong type for onError in Receiver", async function(): Promise<void> {
+    let caughtError: Error | undefined;
+    try {
+      await sessionReceiver.registerMessageHandler(
+        async () => {
+          /** */
+        },
+        "somethingelse" as any
+      );
+    } catch (error) {
+      caughtError = error;
+    }
+    should.equal(caughtError && caughtError.name, "TypeError");
+    should.equal(
+      caughtError && caughtError.message,
+      `The parameter 'onError' must be of type 'function'.`
+    );
+  });
+
   it("ReceiveDeferredMessage: Wrong type sequenceNumber in SessionReceiver", async function(): Promise<
     void
   > {
@@ -464,6 +551,7 @@ describe("Invalid parameters in SessionReceiver", function(): void {
 
 describe("Invalid parameters in Receiver", function(): void {
   let receiver: Receiver;
+  let receiverClient: QueueClient;
 
   // Since, the below tests never actually make use of any AMQP links, there is no need to create
   // new sender/receiver clients before each test. Doing it once for each describe block.
@@ -478,12 +566,94 @@ describe("Invalid parameters in Receiver", function(): void {
     const sender = clients.senderClient.createSender();
     await sender.send(TestMessage.getSample());
 
-    const receiverClient = <QueueClient>clients.receiverClient;
+    receiverClient = <QueueClient>clients.receiverClient;
     receiver = receiverClient.createReceiver(ReceiveMode.peekLock);
   });
 
   after(async () => {
     await ns.close();
+  });
+
+  it("Receiver: Missing ReceiveMode", async function(): Promise<void> {
+    await receiver.close();
+    receiver = receiverClient.createReceiver(undefined as any);
+    should.equal(
+      receiver.receiveMode,
+      ReceiveMode.peekLock,
+      "Default receiveMode not set when receiveMode not provided to constructor."
+    );
+  });
+
+  it("Receiver: Invalid ReceiveMode", async function(): Promise<void> {
+    await receiver.close();
+    receiver = receiverClient.createReceiver(123 as any);
+    should.equal(
+      receiver.receiveMode,
+      ReceiveMode.peekLock,
+      "Default receiveMode not set when receiveMode not provided to constructor."
+    );
+  });
+
+  it("RegisterMessageHandler: Missing onMessage in Receiver", async function(): Promise<void> {
+    let caughtError: Error | undefined;
+    try {
+      await receiver.registerMessageHandler(undefined as any, undefined as any);
+    } catch (error) {
+      caughtError = error;
+    }
+    should.equal(caughtError && caughtError.name, "TypeError");
+    should.equal(caughtError && caughtError.message, `Missing parameter "onMessage"`);
+  });
+
+  it("RegisterMessageHandler: Wrong type for onMessage in Receiver", async function(): Promise<
+    void
+  > {
+    let caughtError: Error | undefined;
+    try {
+      await receiver.registerMessageHandler("somestring" as any, "somethingelse" as any);
+    } catch (error) {
+      caughtError = error;
+    }
+    should.equal(caughtError && caughtError.name, "TypeError");
+    should.equal(
+      caughtError && caughtError.message,
+      `The parameter 'onMessage' must be of type 'function'.`
+    );
+  });
+
+  it("RegisterMessageHandler: Missing onError in Receiver", async function(): Promise<void> {
+    let caughtError: Error | undefined;
+    try {
+      await receiver.registerMessageHandler(
+        async () => {
+          /** */
+        },
+        undefined as any
+      );
+    } catch (error) {
+      caughtError = error;
+    }
+    should.equal(caughtError && caughtError.name, "TypeError");
+    should.equal(caughtError && caughtError.message, `Missing parameter "onError"`);
+  });
+
+  it("RegisterMessageHandler: Wrong type for onError in Receiver", async function(): Promise<void> {
+    let caughtError: Error | undefined;
+    try {
+      await receiver.registerMessageHandler(
+        async () => {
+          /** */
+        },
+        "somethingelse" as any
+      );
+    } catch (error) {
+      caughtError = error;
+    }
+    should.equal(caughtError && caughtError.name, "TypeError");
+    should.equal(
+      caughtError && caughtError.message,
+      `The parameter 'onError' must be of type 'function'.`
+    );
   });
 
   it("ReceiveDeferredMessage: Wrong type sequenceNumber in Receiver", async function(): Promise<

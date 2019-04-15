@@ -180,7 +180,14 @@ export class BatchingReceiver extends MessageReceiver {
             brokeredMessages.push(data);
           }
         } catch (err) {
-          reject(`Error while converting AmqpMessage to ReceivedSBMessage: ${err}`);
+          err = err instanceof Error ? err : new Error(JSON.stringify(err));
+          log.error(
+            "[%s] Receiver '%s' received an error while converting AmqpMessage to ServiceBusMessage:\n%O",
+            this._context.namespace.connectionId,
+            this.name,
+            err
+          );
+          reject(err);
         }
         if (brokeredMessages.length === maxMessageCount) {
           finalAction();
