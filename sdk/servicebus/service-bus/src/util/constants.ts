@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { version } from "../../package.json";
+import { name, version } from "../../package.json";
 
 export const packageJsonInfo = {
-  name: "@azure/service-bus",
+  name: name,
   version: version
 };
 
