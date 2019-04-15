@@ -51,12 +51,12 @@ export class QueueClient implements Client {
    *
    * @constructor
    * @internal
-   * @param name The Queue name.
+   * @param queueName The Queue name.
    * @param context The connection context to create the QueueClient.
    */
-  constructor(name: string, context: ConnectionContext) {
+  constructor(queueName: string, context: ConnectionContext) {
     throwErrorIfConnectionClosed(context);
-    this.entityPath = name;
+    this.entityPath = String(queueName);
     this.id = `${this.entityPath}/${generate_uuid()}`;
     this._context = ClientEntityContext.create(this.entityPath, ClientType.QueueClient, context);
   }
