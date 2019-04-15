@@ -37,7 +37,7 @@ npm install -g typescript
 One way to run Typescript samples is to use `ts-node`. To install `ts-node`, run the below in your sample folder
 
 ```bash
-npm install ts-node
+npm install -g ts-node
 ```
 
 Copy the sample to your samples folder and use `ts-node` to run it.
