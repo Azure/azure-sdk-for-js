@@ -1,6 +1,6 @@
-// Steps to run this sample
-// 1. npm install
-// 2. Enter your storage account name and shared key in main()
+/* 
+ Setup: Enter your storage account name and shared key in main()
+*/
 
 import {
   Aborter,
@@ -57,15 +57,25 @@ async function main() {
   const containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
 
   const createContainerResponse = await containerURL.create(Aborter.none);
-  console.log(`Create container ${containerName} successfully`, createContainerResponse.requestId);
+  console.log(
+    `Create container ${containerName} successfully`,
+    createContainerResponse.requestId
+  );
 
   // Create a blob
   const content = "hello";
   const blobName = "newblob" + new Date().getTime();
   const blobURL = BlobURL.fromContainerURL(containerURL, blobName);
   const blockBlobURL = BlockBlobURL.fromBlobURL(blobURL);
-  const uploadBlobResponse = await blockBlobURL.upload(Aborter.none, content, content.length);
-  console.log(`Upload block blob ${blobName} successfully`, uploadBlobResponse.requestId);
+  const uploadBlobResponse = await blockBlobURL.upload(
+    Aborter.none,
+    content,
+    content.length
+  );
+  console.log(
+    `Upload block blob ${blobName} successfully`,
+    uploadBlobResponse.requestId
+  );
 
   // List blobs
   marker = undefined;
@@ -84,8 +94,14 @@ async function main() {
   // Get blob content from position 0 to the end
   // In Node.js, get downloaded data by accessing downloadBlockBlobResponse.readableStreamBody
   // In browsers, get downloaded data by accessing downloadBlockBlobResponse.blobBody
-  const downloadBlockBlobResponse: Models.BlobDownloadResponse = await blobURL.download(Aborter.none, 0);
-  console.log("Downloaded blob content", await streamToString(downloadBlockBlobResponse.readableStreamBody!));
+  const downloadBlockBlobResponse: Models.BlobDownloadResponse = await blobURL.download(
+    Aborter.none,
+    0
+  );
+  console.log(
+    "Downloaded blob content",
+    await streamToString(downloadBlockBlobResponse.readableStreamBody!)
+  );
 
   // Delete container
   await containerURL.delete(Aborter.none);

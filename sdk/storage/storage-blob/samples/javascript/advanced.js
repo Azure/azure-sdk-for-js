@@ -1,6 +1,6 @@
-// Steps to run this sample
-// 1. npm install
-// 2. Enter your storage account name, SAS and a path pointing to local file in main()
+/*
+ Setup: Enter your storage account name, SAS and a path pointing to local file in main()
+*/
 
 const fs = require("fs");
 const {

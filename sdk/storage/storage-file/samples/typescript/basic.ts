@@ -1,8 +1,17 @@
-// Steps to run this sample
-// 1. npm install
-// 2. Enter your storage account name and shared key in main()
+/*
+ Setup: Enter your storage account name and shared key in main()
+*/
 
-import { Aborter, StorageURL, ServiceURL, ShareURL, DirectoryURL, FileURL, SharedKeyCredential, Models } from "../.."; // Change to "@azure/storage-file" in your package
+import {
+  Aborter,
+  StorageURL,
+  ServiceURL,
+  ShareURL,
+  DirectoryURL,
+  FileURL,
+  SharedKeyCredential,
+  Models
+} from "../.."; // Change to "@azure/storage-file" in your package
 
 async function main() {
   // Enter your storage account name and shared key
@@ -75,7 +84,8 @@ async function main() {
     for (const file of listFilesAndDirectoriesResponse.segment.fileItems) {
       console.log(`\tFile: ${file.name}`);
     }
-    for (const directory of listFilesAndDirectoriesResponse.segment.directoryItems) {
+    for (const directory of listFilesAndDirectoriesResponse.segment
+      .directoryItems) {
       console.log(`\tDirectory: ${directory.name}`);
     }
   } while (marker);
@@ -84,7 +94,11 @@ async function main() {
   // In Node.js, get downloaded data by accessing downloadFileResponse.readableStreamBody
   // In browsers, get downloaded data by accessing downloadFileResponse.blobBody
   const downloadFileResponse = await fileURL.download(Aborter.none, 0);
-  console.log(`Downloaded file content${await streamToString(downloadFileResponse.readableStreamBody!)}`);
+  console.log(
+    `Downloaded file content${await streamToString(
+      downloadFileResponse.readableStreamBody!
+    )}`
+  );
 
   // Delete share
   await shareURL.delete(Aborter.none);

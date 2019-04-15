@@ -1,6 +1,6 @@
-// Steps to run this sample
-// 1. npm install
-// 2. Enter your storage account name, SAS and a path pointing to local file in main()
+/*
+ Setup: Enter your storage account name, SAS and a path pointing to local file in main()
+*/
 
 import fs from "fs";
 import {
@@ -29,7 +29,10 @@ async function main() {
     telemetry: { value: "HighLevelSample V1.0.0" } // Customized telemetry string
   });
 
-  const serviceURL = new ServiceURL(`https://${account}.blob.core.windows.net${accountSas}`, pipeline);
+  const serviceURL = new ServiceURL(
+    `https://${account}.blob.core.windows.net${accountSas}`,
+    pipeline
+  );
 
   // Create a container
   const containerName = `newcontainer${new Date().getTime()}`;
@@ -79,11 +82,18 @@ async function main() {
   // downloadBlobToBuffer is only available in Node.js
   const fileSize = fs.statSync(localFilePath).size;
   const buffer = Buffer.alloc(fileSize);
-  await downloadBlobToBuffer(Aborter.timeout(30 * 60 * 60 * 1000), buffer, blockBlobURL, 0, undefined, {
-    blockSize: 4 * 1024 * 1024, // 4MB block size
-    parallelism: 20, // 20 concurrency
-    progress: ev => console.log(ev)
-  });
+  await downloadBlobToBuffer(
+    Aborter.timeout(30 * 60 * 60 * 1000),
+    buffer,
+    blockBlobURL,
+    0,
+    undefined,
+    {
+      blockSize: 4 * 1024 * 1024, // 4MB block size
+      parallelism: 20, // 20 concurrency
+      progress: ev => console.log(ev)
+    }
+  );
   console.log("downloadBlobToBuffer success");
 
   // Delete container

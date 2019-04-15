@@ -1,6 +1,6 @@
-// Steps to run this sample
-// 1. npm install
-// 2. Enter your storage account name and shared key in main()
+/*
+ Setup: Enter your storage account name and shared key in main()
+*/
 
 const {
   Aborter,
@@ -86,7 +86,7 @@ async function main() {
       console.log(`\tFile: ${file.name}`);
     }
     for (const directory of listFilesAndDirectoriesResponse.segment
-      .directoryItems) {
+        .directoryItems) {
       console.log(`\tDirectory: ${directory.name}`);
     }
   } while (marker);

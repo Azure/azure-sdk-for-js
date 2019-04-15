@@ -1,6 +1,6 @@
-// Steps to run this sample
-// 1. npm install
-// 2. Enter your storage account name, SAS and a path pointing to local file in main()
+/*
+ Setup: Enter your storage account name, SAS and a path pointing to local file in main()
+*/
 
 import fs from "fs";
 import {
@@ -29,7 +29,10 @@ async function main() {
     telemetry: { value: "HighLevelSample V1.0.0" } // Customized telemetry string
   });
 
-  const serviceURL = new ServiceURL(`https://${account}.file.core.windows.net${accountSas}`, pipeline);
+  const serviceURL = new ServiceURL(
+    `https://${account}.file.core.windows.net${accountSas}`,
+    pipeline
+  );
 
   // Create a share
   const shareName = `newshare${new Date().getTime()}`;
@@ -86,11 +89,18 @@ async function main() {
   // Parallel downloading an Azure file into Node.js buffer
   // downloadAzureFileToBuffer is only available in Node.js
   const buffer = Buffer.alloc(fileSize);
-  await downloadAzureFileToBuffer(Aborter.timeout(30 * 60 * 60 * 1000), buffer, fileURL, 0, undefined, {
-    rangeSize: 4 * 1024 * 1024, // 4MB range size
-    parallelism: 20, // 20 concurrency
-    progress: ev => console.log(ev)
-  });
+  await downloadAzureFileToBuffer(
+    Aborter.timeout(30 * 60 * 60 * 1000),
+    buffer,
+    fileURL,
+    0,
+    undefined,
+    {
+      rangeSize: 4 * 1024 * 1024, // 4MB range size
+      parallelism: 20, // 20 concurrency
+      progress: ev => console.log(ev)
+    }
+  );
   console.log("downloadAzureFileToBuffer success");
 
   // Delete share

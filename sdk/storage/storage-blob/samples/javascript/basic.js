@@ -1,6 +1,6 @@
-// Steps to run this sample
-// 1. npm install
-// 2. Enter your storage account name and shared key in main()
+/* 
+ Setup: Enter your storage account name and shared key in main()
+*/
 
 const {
   Aborter,
