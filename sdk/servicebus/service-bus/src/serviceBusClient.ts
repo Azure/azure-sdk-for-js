@@ -77,9 +77,6 @@ export class ServiceBusClient {
    * @returns QueueClient.
    */
   createQueueClient(queueName: string): QueueClient {
-    if (!queueName || typeof queueName !== "string") {
-      throw new Error("'queueName' is a required parameter and must be of type 'string'.");
-    }
     const client = new QueueClient(queueName, this._context);
     this._context.clients[client.id] = client;
     log.ns("Created the QueueClient for Queue: %s", queueName);
@@ -92,9 +89,6 @@ export class ServiceBusClient {
    * @returns TopicClient.
    */
   createTopicClient(topicName: string): TopicClient {
-    if (!topicName || typeof topicName !== "string") {
-      throw new Error("'topicName' is a required parameter and must be of type 'string'.");
-    }
     const client = new TopicClient(topicName, this._context);
     this._context.clients[client.id] = client;
     log.ns("Created the TopicClient for Topic: %s", topicName);
@@ -108,12 +102,6 @@ export class ServiceBusClient {
    * @returns SubscriptionClient.
    */
   createSubscriptionClient(topicName: string, subscriptionName: string): SubscriptionClient {
-    if (!topicName || typeof topicName !== "string") {
-      throw new Error("'topicName' is a required parameter and must be of type 'string'.");
-    }
-    if (!subscriptionName || typeof subscriptionName !== "string") {
-      throw new Error("'subscriptionName' is a required parameter and must be of type 'string'.");
-    }
     const client = new SubscriptionClient(topicName, subscriptionName, this._context);
     this._context.clients[client.id] = client;
     log.ns(
@@ -177,9 +165,6 @@ export class ServiceBusClient {
     connectionString: string,
     options?: ServiceBusClientOptions
   ): ServiceBusClient {
-    if (!connectionString || typeof connectionString !== "string") {
-      throw new Error("'connectionString' is a required parameter and must be of type: 'string'.");
-    }
     const config = ConnectionConfig.create(connectionString);
     ConnectionConfig.validate(config);
     const tokenProvider = new SasTokenProvider(
