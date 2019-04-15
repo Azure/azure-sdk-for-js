@@ -257,6 +257,25 @@ describe("Invalid parameters in SubscriptionClient", function(): void {
     should.equal(caughtError && caughtError.name, "TypeError");
     should.equal(caughtError && caughtError.message, `Missing parameter "ruleName"`);
   });
+
+  it("Add and Remove Rule: Coerce RuleName into string", async function(): Promise<void> {
+    // Clean up existing rules
+    let rules = await subscriptionClient.getRules();
+    await Promise.all(rules.map((rule) => subscriptionClient.removeRule(rule.name)));
+
+    // Add rule with number as name
+    await subscriptionClient.addRule(123 as any, true);
+    rules = await subscriptionClient.getRules();
+    should.equal(rules.some((rule) => rule.name === "123"), true, "Added rule not found");
+
+    // Remove rule with number as name
+    await subscriptionClient.removeRule(123 as any);
+    rules = await subscriptionClient.getRules();
+    should.equal(rules.some((rule) => rule.name === "123"), false, "Removed rule still found");
+
+    // Add default rule so that other tests are not affected
+    await subscriptionClient.addRule(subscriptionClient.defaultRuleName, true);
+  });
 });
 
 describe("Invalid parameters in SessionReceiver", function(): void {
