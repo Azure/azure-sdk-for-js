@@ -762,7 +762,7 @@ describe("Receive Deferred messages in ReceiveAndDelete mode", function(): void 
     await testPeekMsgsLength(receiverClient, 0);
   }
 
-  /* it("Partitioned Queue: No settlement of the message removes message", async function(): Promise<
+  it("Partitioned Queue: No settlement of the message removes message", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -792,7 +792,7 @@ describe("Receive Deferred messages in ReceiveAndDelete mode", function(): void 
     await beforeEachTest(TestClientType.PartitionedTopic, TestClientType.PartitionedSubscription);
     await receiveDeferredMessage();
     await afterEachTest();
-  }); */
+  });
 
   it("Unpartitioned Queue: No settlement of the message removes message", async function(): Promise<
     void
