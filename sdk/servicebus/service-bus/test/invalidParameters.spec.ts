@@ -534,7 +534,7 @@ describe("Invalid parameters in Receiver", function(): void {
     }
     should.equal(
       caughtError && caughtError.message,
-      "The 'rewnewMessageLock' operation is only supported for messages with valid lockToken."
+      `Not a valid UUID string: string-which-is-not-uuid`
     );
   });
 
@@ -552,7 +552,7 @@ describe("Invalid parameters in Receiver", function(): void {
     }
     should.equal(
       caughtError && caughtError.message,
-      "The 'rewnewMessageLock' operation is only supported for messages with valid lockToken."
+      `Not a valid UUID string: string-which-is-not-uuid`
     );
   });
 });
