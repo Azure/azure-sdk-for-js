@@ -99,7 +99,7 @@
     "audit-client": "npm-run-all -p -l audit-client-*",
     "lint-client-template": "cd sdk/template/template && npm run eslint",
     "lint-client": "npm-run-all -p -l lint-client-*",
-    "analyze-client": "npm run audit-client && npm run lint-client && npm run check-format-client"
+    "analyze-client": "npm run audit-client && npm run lint-client"
   },
   "devDependencies": {
     "@octokit/rest": "15.17.0",
