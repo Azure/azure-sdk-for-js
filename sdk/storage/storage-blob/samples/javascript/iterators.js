@@ -1,13 +1,12 @@
 // Steps to run this sample
-// 1. npm install
-// 2. Enter your storage account name and shared key in main()
+// 1. Enter your storage account name and shared key in main() or set them as environtment variables.
 
 const {
   ContainerURL,
   ServiceURL,
   StorageURL,
   SharedKeyCredential,
-  AnonymousCredential} = require("../dist"); // Change to "@azure/storage-blob" in your package
+  AnonymousCredential} = require(".."); // Change to "@azure/storage-blob" in your package
 
 async function main() {
   // Enter your storage account name and shared key
