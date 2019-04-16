@@ -106,8 +106,12 @@ export class QueueClient implements Client {
         log.qClient("Closed the Queue client '%s'.", this.id);
       }
     } catch (err) {
-      err = err instanceof Error ? err : new Error(JSON.stringify(err));
-      log.error(`An error occurred while closing the queue client "${this.id}":\n${err}`);
+      log.error(
+        "[%s] An error occurred while closing the QueueClient for %s: %O",
+        this._context.namespace.connectionId,
+        this.id,
+        err
+      );
       throw err;
     }
   }
@@ -261,6 +265,7 @@ export class QueueClient implements Client {
   //   maxNumberOfSessions: number,
   //   lastUpdatedTime?: Date
   // ): Promise<string[]> {
+  // TODO: Parameter validation if required
   // this.throwErrorIfClientOrConnectionClosed();
   //   return this._context.managementClient!.listMessageSessions(
   //     0,
