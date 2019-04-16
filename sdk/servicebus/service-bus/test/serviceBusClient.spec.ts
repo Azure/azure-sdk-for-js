@@ -18,7 +18,8 @@ import {
   ServiceBusClient,
   SessionReceiver,
   SubscriptionClient,
-  TopicClient
+  TopicClient,
+  ServiceBusMessage
 } from "../src";
 import {
   getClientClosedErrorMsg,
@@ -388,6 +389,7 @@ describe("Errors after close()", function(): void {
   let receiverClient: QueueClient | SubscriptionClient;
   let sender: Sender;
   let receiver: Receiver | SessionReceiver;
+  let receivedMessage: ServiceBusMessage;
 
   afterEach(() => {
     return namespace.close();
@@ -434,7 +436,7 @@ describe("Errors after close()", function(): void {
     await sender.send(testMessage);
     const receivedMsgs = await receiver.receiveMessages(1, 3);
     should.equal(receivedMsgs.length, 1, "Unexpected number of messages received");
-    await receivedMsgs[0].complete();
+    receivedMessage = receivedMsgs[0];
 
     // close(), so that we can then test the resulting error.
     switch (entityToClose) {
@@ -456,6 +458,52 @@ describe("Errors after close()", function(): void {
       default:
         break;
     }
+  }
+
+  /**
+   * Tests the error from settling a message after the receiver is closed
+   */
+  async function testDisposition(): Promise<void> {
+    let caughtError: Error | undefined;
+    try {
+      await receivedMessage.complete();
+    } catch (error) {
+      caughtError = error;
+    }
+    should.equal(
+      caughtError && caughtError.message,
+      "Failed to complete the message as it's receiver has been closed."
+    );
+
+    try {
+      await receivedMessage.abandon();
+    } catch (error) {
+      caughtError = error;
+    }
+    should.equal(
+      caughtError && caughtError.message,
+      "Failed to abandon the message as it's receiver has been closed."
+    );
+
+    try {
+      await receivedMessage.defer();
+    } catch (error) {
+      caughtError = error;
+    }
+    should.equal(
+      caughtError && caughtError.message,
+      "Failed to defer the message as it's receiver has been closed."
+    );
+
+    try {
+      await receivedMessage.deadLetter();
+    } catch (error) {
+      caughtError = error;
+    }
+    should.equal(
+      caughtError && caughtError.message,
+      "Failed to deadLetter the message as it's receiver has been closed."
+    );
   }
 
   /**
@@ -1247,6 +1295,7 @@ describe("Errors after close()", function(): void {
       await testReceiver(
         getReceiverClosedErrorMsg(receiverClient.entityPath, ClientType.QueueClient)
       );
+      await testDisposition();
     });
 
     it("Partitioned Queue with sessions: errors after close() on receiver", async function(): Promise<
@@ -1266,6 +1315,7 @@ describe("Errors after close()", function(): void {
           TestMessage.sessionId
         )
       );
+      await testDisposition();
     });
 
     it("Partitioned Topic/Subscription: errors after close() on receiver", async function(): Promise<
@@ -1280,6 +1330,7 @@ describe("Errors after close()", function(): void {
       await testReceiver(
         getReceiverClosedErrorMsg(receiverClient.entityPath, ClientType.SubscriptionClient)
       );
+      await testDisposition();
     });
 
     it("Partitioned Topic/Subscription with sessions: errors after close() on receiver", async function(): Promise<
@@ -1299,6 +1350,7 @@ describe("Errors after close()", function(): void {
           TestMessage.sessionId
         )
       );
+      await testDisposition();
     });
 
     it("Unpartitioned Queue: errors after close() on receiver", async function(): Promise<void> {
@@ -1311,6 +1363,7 @@ describe("Errors after close()", function(): void {
       await testReceiver(
         getReceiverClosedErrorMsg(receiverClient.entityPath, ClientType.QueueClient)
       );
+      await testDisposition();
     });
 
     it("Unpartitioned Queue with sessions: errors after close() on receiver", async function(): Promise<
@@ -1330,6 +1383,7 @@ describe("Errors after close()", function(): void {
           TestMessage.sessionId
         )
       );
+      await testDisposition();
     });
 
     it("Unpartitioned Topic/Subscription: errors after close() on receiver", async function(): Promise<
@@ -1344,6 +1398,7 @@ describe("Errors after close()", function(): void {
       await testReceiver(
         getReceiverClosedErrorMsg(receiverClient.entityPath, ClientType.SubscriptionClient)
       );
+      await testDisposition();
     });
 
     it("Unpartitioned Topic/Subscription with sessions: errors after close() on receiver", async function(): Promise<
@@ -1363,6 +1418,7 @@ describe("Errors after close()", function(): void {
           TestMessage.sessionId
         )
       );
+      await testDisposition();
     });
   });
 

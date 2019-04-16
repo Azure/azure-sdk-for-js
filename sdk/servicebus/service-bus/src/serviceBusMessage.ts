@@ -924,7 +924,7 @@ export class ServiceBusMessage implements ReceivedMessage {
     );
     if (this._context.requestResponseLockedMessages.has(this.lockToken!)) {
       await this._context.managementClient!.updateDispositionStatus(
-        [this.lockToken!],
+        this.lockToken!,
         DispositionStatus.completed,
         {
           sessionId: this.sessionId
@@ -936,7 +936,9 @@ export class ServiceBusMessage implements ReceivedMessage {
       return;
     }
     const receiver = this._context.getReceiver(this.delivery.link.name, this.sessionId);
-
+    if (!receiver) {
+      throw new Error("Failed to complete the message as it's receiver has been closed.");
+    }
     if (receiver.receiveMode !== ReceiveMode.peekLock) {
       throw new Error("The operation is only supported in 'PeekLock' receive mode.");
     }
@@ -961,7 +963,7 @@ export class ServiceBusMessage implements ReceivedMessage {
     );
     if (this._context.requestResponseLockedMessages.has(this.lockToken!)) {
       await this._context.managementClient!.updateDispositionStatus(
-        [this.lockToken!],
+        this.lockToken!,
         DispositionStatus.abandoned,
         { propertiesToModify: propertiesToModify, sessionId: this.sessionId }
       );
@@ -971,7 +973,9 @@ export class ServiceBusMessage implements ReceivedMessage {
       return;
     }
     const receiver = this._context.getReceiver(this.delivery.link.name, this.sessionId);
-
+    if (!receiver) {
+      throw new Error("Failed to abandon the message as it's receiver has been closed.");
+    }
     if (receiver.receiveMode !== ReceiveMode.peekLock) {
       throw new Error("The operation is only supported in 'PeekLock' receive mode.");
     }
@@ -1000,7 +1004,7 @@ export class ServiceBusMessage implements ReceivedMessage {
     );
     if (this._context.requestResponseLockedMessages.has(this.lockToken!)) {
       await this._context.managementClient!.updateDispositionStatus(
-        [this.lockToken!],
+        this.lockToken!,
         DispositionStatus.defered,
         { propertiesToModify: propertiesToModify, sessionId: this.sessionId }
       );
@@ -1010,7 +1014,9 @@ export class ServiceBusMessage implements ReceivedMessage {
       return;
     }
     const receiver = this._context.getReceiver(this.delivery.link.name, this.sessionId);
-
+    if (!receiver) {
+      throw new Error("Failed to defer the message as it's receiver has been closed.");
+    }
     if (receiver.receiveMode !== ReceiveMode.peekLock) {
       throw new Error("The operation is only supported in 'PeekLock' receive mode.");
     }
@@ -1045,7 +1051,7 @@ export class ServiceBusMessage implements ReceivedMessage {
     );
     if (this._context.requestResponseLockedMessages.has(this.lockToken!)) {
       await this._context.managementClient!.updateDispositionStatus(
-        [this.lockToken!],
+        this.lockToken!,
         DispositionStatus.suspended,
         {
           deadLetterReason: error.condition,
@@ -1059,7 +1065,9 @@ export class ServiceBusMessage implements ReceivedMessage {
       return;
     }
     const receiver = this._context.getReceiver(this.delivery.link.name, this.sessionId);
-
+    if (!receiver) {
+      throw new Error("Failed to deadletter the message as it's receiver has been closed.");
+    }
     if (receiver.receiveMode !== ReceiveMode.peekLock) {
       throw new Error("The operation is only supported in 'PeekLock' receive mode.");
     }

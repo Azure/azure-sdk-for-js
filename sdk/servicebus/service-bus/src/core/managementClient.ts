@@ -647,10 +647,12 @@ export class ManagementClient extends LinkEntity {
           { tag: msg["lock-token"] } as any,
           false
         );
-        this._context.requestResponseLockedMessages.set(
-          message.lockToken!,
-          message.lockedUntilUtc!
-        );
+        if (message.lockToken && message.lockedUntilUtc) {
+          this._context.requestResponseLockedMessages.set(
+            message.lockToken,
+            message.lockedUntilUtc
+          );
+        }
         messageList.push(message);
       }
       return messageList;
@@ -675,24 +677,17 @@ export class ManagementClient extends LinkEntity {
    * @returns Promise<void>
    */
   async updateDispositionStatus(
-    lockTokens: string[],
+    lockToken: string,
     dispositionStatus: DispositionStatus,
     options?: DispositionStatusOptions
   ): Promise<void> {
     throwErrorIfConnectionClosed(this._context.namespace);
-    if (!Array.isArray(lockTokens)) {
-      throw new Error("'lockTokens' is a required parameter and must be of type 'Array'.");
-    }
-    if (!dispositionStatus || typeof dispositionStatus !== "string") {
-      throw new Error("'dispositionStatus' is a required parameter and must be of type 'string'.");
-    }
+
     if (!options) options = {};
     try {
       const messageBody: any = {};
       const lockTokenBuffer: Buffer[] = [];
-      for (const lockToken of lockTokens) {
-        lockTokenBuffer.push(string_to_uuid(lockToken));
-      }
+      lockTokenBuffer.push(string_to_uuid(lockToken));
       messageBody[Constants.lockTokens] = types.wrap_array(lockTokenBuffer, 0x98, undefined);
       messageBody[Constants.dispositionStatus] = dispositionStatus;
       if (options.deadLetterDescription != undefined) {
@@ -892,15 +887,6 @@ export class ManagementClient extends LinkEntity {
   async listMessageSessions(skip: number, top: number, lastUpdatedTime?: Date): Promise<string[]> {
     throwErrorIfConnectionClosed(this._context.namespace);
     const defaultLastUpdatedTimeForListingSessions: number = 259200000; // 3 * 24 * 3600 * 1000
-    if (typeof skip !== "number") {
-      throw new Error("'skip' is a required parameter and must be of type 'number'.");
-    }
-    if (typeof top !== "number") {
-      throw new Error("'top' is a required parameter and must be of type 'number'.");
-    }
-    if (lastUpdatedTime && !(lastUpdatedTime instanceof Date)) {
-      throw new Error("'lastUpdatedTime' must be of type 'Date'.");
-    }
     if (!lastUpdatedTime) {
       lastUpdatedTime = new Date(Date.now() - defaultLastUpdatedTimeForListingSessions);
     }
