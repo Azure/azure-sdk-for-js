@@ -257,9 +257,6 @@ export class ManagementClient extends LinkEntity {
     messageCount?: number
   ): Promise<ReceivedMessageInfo[]> {
     throwErrorIfConnectionClosed(this._context.namespace);
-    if (sessionId == undefined) {
-      throw new Error("'sessionId' is a required parameter and must be of type 'string'.");
-    }
     return this.peekBySequenceNumber(
       this._lastPeekedSequenceNumber.add(1),
       messageCount,
@@ -751,9 +748,6 @@ export class ManagementClient extends LinkEntity {
    */
   async renewSessionLock(sessionId: string, options?: SendRequestOptions): Promise<Date> {
     throwErrorIfConnectionClosed(this._context.namespace);
-    if (typeof sessionId !== "string") {
-      throw new Error("'sessionId' is a required parameter and must be of type 'string'.");
-    }
     if (!options) options = {};
     if (options.delayInSeconds == undefined) options.delayInSeconds = 1;
     if (options.timeoutInSeconds == undefined) options.timeoutInSeconds = 5;
@@ -808,9 +802,6 @@ export class ManagementClient extends LinkEntity {
    */
   async setSessionState(sessionId: string, state: any): Promise<void> {
     throwErrorIfConnectionClosed(this._context.namespace);
-    if (typeof sessionId !== "string") {
-      throw new Error("'sessionId' is a required parameter and must be of type 'string'.");
-    }
 
     try {
       const messageBody: any = {};
@@ -854,9 +845,6 @@ export class ManagementClient extends LinkEntity {
    */
   async getSessionState(sessionId: string): Promise<any> {
     throwErrorIfConnectionClosed(this._context.namespace);
-    if (typeof sessionId !== "string") {
-      throw new Error("'sessionId' is a required parameter and must be of type 'string'.");
-    }
     try {
       const messageBody: any = {};
       messageBody[Constants.sessionIdMapKey] = sessionId;
