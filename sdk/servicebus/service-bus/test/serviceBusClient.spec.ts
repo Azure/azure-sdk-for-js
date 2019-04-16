@@ -43,21 +43,25 @@ const aadServiceBusAudience = "https://servicebus.azure.net/";
 
 describe("Create ServiceBusClient and Queue/Topic/Subscription Clients", function(): void {
   let namespace: ServiceBusClient;
-  beforeEach(() => {
-    namespace = ServiceBusClient.createFromConnectionString(
-      "Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c;EntityPath=d"
-    );
-  });
-  afterEach(() => {
-    return namespace.close();
+
+  afterEach(async () => {
+    if (namespace) {
+      await namespace.close();
+    }
   });
 
   it("Creates an Namespace from a connection string", function(): void {
+    namespace = ServiceBusClient.createFromConnectionString(
+      "Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c;EntityPath=d"
+    );
     namespace.should.be.an.instanceof(ServiceBusClient);
     should.equal(namespace.name, "sb://a/", "Name of the namespace is different than expected");
   });
 
   it("Creates clients after coercing name to string", function(): void {
+    namespace = ServiceBusClient.createFromConnectionString(
+      "Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c;EntityPath=d"
+    );
     const queueClient = namespace.createQueueClient(1 as any);
     should.equal(queueClient.entityPath, "1");
 
@@ -66,6 +70,22 @@ describe("Create ServiceBusClient and Queue/Topic/Subscription Clients", functio
 
     const subscriptionClient = namespace.createSubscriptionClient(1 as any, 2 as any);
     should.equal(subscriptionClient.entityPath, "1/Subscriptions/2");
+  });
+
+  it("Missing tokenProvider in createFromTokenProvider", function(): void {
+    let caughtError: Error | undefined;
+    try {
+      namespace = ServiceBusClient.createFromTokenProvider("somestring", undefined as any);
+    } catch (error) {
+      caughtError = error;
+    }
+    should.equal(caughtError && caughtError.name, "TypeError");
+    should.equal(caughtError && caughtError.message, `Missing parameter "tokenProvider"`);
+  });
+
+  it("Coerces input to string for host in createFromTokenProvider", function(): void {
+    namespace = ServiceBusClient.createFromTokenProvider(123 as any, {} as any);
+    should.equal(namespace.name, "sb://123/", "Name of the namespace is different than expected");
   });
 });
 
@@ -366,6 +386,22 @@ describe("Test createFromAadTokenCredentials", function(): void {
       );
     });
     should.equal(errorWasThrown, true, "Error thrown flag must be true");
+  });
+
+  it("Coerces input to string for host in createFromAadTokenCredentials", async function(): Promise<
+    void
+  > {
+    const env = getEnvVars();
+    tokenCreds = await loginWithServicePrincipalSecret(
+      env.clientId,
+      env.clientSecret,
+      env.tenantId,
+      {
+        tokenAudience: aadServiceBusAudience
+      }
+    );
+    namespace = ServiceBusClient.createFromAadTokenCredentials(123 as any, tokenCreds);
+    should.equal(namespace.name, "sb://123/", "Name of the namespace is different than expected");
   });
 
   it("sends a message to the ServiceBus entity", async function(): Promise<void> {

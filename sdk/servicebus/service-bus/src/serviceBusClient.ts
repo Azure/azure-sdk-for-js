@@ -190,11 +190,9 @@ export class ServiceBusClient {
     tokenProvider: TokenProvider,
     options?: ServiceBusClientOptions
   ): ServiceBusClient {
-    if (!host || (host && typeof host !== "string")) {
-      throw new Error("'host' is a required parameter and must be of type: 'string'.");
-    }
-    if (!tokenProvider || (tokenProvider && typeof tokenProvider !== "object")) {
-      throw new Error("'tokenProvider' is a required parameter and must be of type: 'object'.");
+    host = String(host);
+    if (!tokenProvider) {
+      throw new TypeError('Missing parameter "tokenProvider"');
     }
     if (!host.endsWith("/")) host += "/";
     const connectionString =
@@ -229,17 +227,7 @@ export class ServiceBusClient {
       | MSITokenCredentials,
     options?: ServiceBusClientOptions
   ): ServiceBusClient {
-    if (!host || typeof host !== "string") {
-      throw new Error("'host' is a required parameter and must be of type: 'string'.");
-    }
-
-    if (typeof credentials !== "object") {
-      throw new Error(
-        "'credentials' is a required parameter and must be an instance of " +
-          "ApplicationTokenCredentials | UserTokenCredentials | DeviceTokenCredentials | " +
-          "MSITokenCredentials."
-      );
-    }
+    host = String(host);
     const tokenProvider = new AadTokenProvider(credentials);
     return ServiceBusClient.createFromTokenProvider(host, tokenProvider, options);
   }

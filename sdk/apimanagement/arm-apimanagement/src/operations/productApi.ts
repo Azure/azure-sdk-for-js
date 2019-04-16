@@ -74,9 +74,9 @@ export class ProductApi {
    * @param apiId API revision identifier. Must be unique in the current API Management service
    * instance. Non-current revision has ;rev=n as a suffix where n is the revision number.
    * @param [options] The optional parameters
-   * @returns Promise<Models.ProductApiCheckEntityExistsResponse>
+   * @returns Promise<msRest.RestResponse>
    */
-  checkEntityExists(resourceGroupName: string, serviceName: string, productId: string, apiId: string, options?: msRest.RequestOptionsBase): Promise<Models.ProductApiCheckEntityExistsResponse>;
+  checkEntityExists(resourceGroupName: string, serviceName: string, productId: string, apiId: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -86,7 +86,7 @@ export class ProductApi {
    * instance. Non-current revision has ;rev=n as a suffix where n is the revision number.
    * @param callback The callback
    */
-  checkEntityExists(resourceGroupName: string, serviceName: string, productId: string, apiId: string, callback: msRest.ServiceCallback<boolean>): void;
+  checkEntityExists(resourceGroupName: string, serviceName: string, productId: string, apiId: string, callback: msRest.ServiceCallback<void>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -97,8 +97,8 @@ export class ProductApi {
    * @param options The optional parameters
    * @param callback The callback
    */
-  checkEntityExists(resourceGroupName: string, serviceName: string, productId: string, apiId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<boolean>): void;
-  checkEntityExists(resourceGroupName: string, serviceName: string, productId: string, apiId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<boolean>, callback?: msRest.ServiceCallback<boolean>): Promise<Models.ProductApiCheckEntityExistsResponse> {
+  checkEntityExists(resourceGroupName: string, serviceName: string, productId: string, apiId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  checkEntityExists(resourceGroupName: string, serviceName: string, productId: string, apiId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -108,7 +108,7 @@ export class ProductApi {
         options
       },
       checkEntityExistsOperationSpec,
-      callback) as Promise<Models.ProductApiCheckEntityExistsResponse>;
+      callback);
   }
 
   /**
@@ -281,7 +281,6 @@ const checkEntityExistsOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     204: {},
-    404: {},
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
