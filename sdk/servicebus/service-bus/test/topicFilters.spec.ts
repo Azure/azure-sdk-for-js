@@ -16,7 +16,7 @@ import {
   CorrelationFilter,
   ReceiveMode
 } from "../src";
-import { getSenderReceiverClients, ClientType, purge, checkWithTimeout } from "./testUtils";
+import { getSenderReceiverClients, TestClientType, purge, checkWithTimeout } from "./testUtils";
 
 // We need to remove rules before adding one because otherwise the existing default rule will let in all messages.
 async function removeAllRules(client: SubscriptionClient): Promise<void> {
@@ -43,7 +43,7 @@ let ns: ServiceBusClient;
 let subscriptionClient: SubscriptionClient;
 let topicClient: TopicClient;
 
-async function beforeEachTest(receiverType: ClientType): Promise<void> {
+async function beforeEachTest(receiverType: TestClientType): Promise<void> {
   // The tests in this file expect the env variables to contain the connection string and
   // the names of empty queue/topic/subscription that are to be tested
 
@@ -55,7 +55,11 @@ async function beforeEachTest(receiverType: ClientType): Promise<void> {
 
   ns = ServiceBusClient.createFromConnectionString(process.env.SERVICEBUS_CONNECTION_STRING);
 
-  const clients = await getSenderReceiverClients(ns, ClientType.TopicFilterTestTopic, receiverType);
+  const clients = await getSenderReceiverClients(
+    ns,
+    TestClientType.TopicFilterTestTopic,
+    receiverType
+  );
   topicClient = clients.senderClient as TopicClient;
   subscriptionClient = clients.receiverClient as SubscriptionClient;
 
@@ -64,7 +68,7 @@ async function beforeEachTest(receiverType: ClientType): Promise<void> {
   if (peekedSubscriptionMsg.length) {
     chai.assert.fail("Please use an empty Subscription for integration testing");
   }
-  if (receiverType === ClientType.TopicFilterTestSubscription) {
+  if (receiverType === TestClientType.TopicFilterTestSubscription) {
     await removeAllRules(subscriptionClient);
   }
 }
@@ -172,7 +176,7 @@ async function addRules(
 
 describe("addRule()", function(): void {
   beforeEach(async () => {
-    await beforeEachTest(ClientType.TopicFilterTestSubscription);
+    await beforeEachTest(TestClientType.TopicFilterTestSubscription);
   });
 
   afterEach(async () => {
@@ -245,79 +249,11 @@ describe("addRule()", function(): void {
     }
     should.equal(errorWasThrown, true, "Error thrown flag must be true");
   });
-
-  it("Add rule with no name", async function(): Promise<void> {
-    let errorWasThrown = false;
-    try {
-      await subscriptionClient.addRule("", "priority = 2");
-    } catch (error) {
-      errorWasThrown = true;
-      should.equal(
-        !error.message.search("Rule name is missing"),
-        false,
-        "ErrorMessage is different than expected"
-      );
-      should.equal(error.name, "Error", "ErrorName is different than expected");
-    }
-    should.equal(errorWasThrown, true, "Error thrown flag must be true");
-  });
-
-  it("Add rule with no filter", async function(): Promise<void> {
-    let errorWasThrown = false;
-    try {
-      await subscriptionClient.addRule("Priority_1", "");
-    } catch (error) {
-      errorWasThrown = true;
-      should.equal(
-        !error.message.search("Filter is missing"),
-        false,
-        "ErrorMessage is different than expected"
-      );
-      should.equal(error.name, "Error", "ErrorName is different than expected");
-    }
-    should.equal(errorWasThrown, true, "Error thrown flag must be true");
-  });
-
-  it("Add rule with a Boolean filter whose input is not a Boolean, SQL expression or a Correlation filter", async function(): Promise<
-    void
-  > {
-    let errorWasThrown = false;
-    try {
-      await subscriptionClient.addRule("Priority_2", {});
-    } catch (error) {
-      errorWasThrown = true;
-      should.equal(
-        error.message,
-        "Cannot add rule. Filter should be either a boolean, string or should have one of the Correlation filter properties."
-      );
-    }
-    should.equal(errorWasThrown, true, "Error thrown flag must be true");
-  });
-
-  it("Adding a rule with a Correlation filter, error for irrelevant properties", async function(): Promise<
-    void
-  > {
-    let errorWasThrown = false;
-    const filter: any = {
-      correlationId: 1,
-      invalidProperty: 2
-    };
-    try {
-      await subscriptionClient.addRule("Priority_2", filter);
-    } catch (error) {
-      errorWasThrown = true;
-      should.equal(
-        error.message,
-        'Cannot add rule. Given filter object has unexpected property "invalidProperty".'
-      );
-    }
-    should.equal(errorWasThrown, true, "Error thrown flag must be true");
-  });
 });
 
 describe("removeRule()", function(): void {
   beforeEach(async () => {
-    await beforeEachTest(ClientType.TopicFilterTestSubscription);
+    await beforeEachTest(TestClientType.TopicFilterTestSubscription);
   });
 
   afterEach(async () => {
@@ -362,7 +298,7 @@ describe("removeRule()", function(): void {
 
 describe("getRules()", function(): void {
   beforeEach(async () => {
-    await beforeEachTest(ClientType.TopicFilterTestSubscription);
+    await beforeEachTest(TestClientType.TopicFilterTestSubscription);
   });
 
   afterEach(async () => {
@@ -437,7 +373,7 @@ describe("getRules()", function(): void {
 
 describe("Default Rule - Send/Receive", function(): void {
   beforeEach(async () => {
-    await beforeEachTest(ClientType.TopicFilterTestDefaultSubscription);
+    await beforeEachTest(TestClientType.TopicFilterTestDefaultSubscription);
   });
 
   afterEach(async () => {
@@ -462,7 +398,7 @@ describe("Default Rule - Send/Receive", function(): void {
 
 describe("Boolean Filter - Send/Receive", function(): void {
   beforeEach(async () => {
-    await beforeEachTest(ClientType.TopicFilterTestSubscription);
+    await beforeEachTest(TestClientType.TopicFilterTestSubscription);
   });
 
   afterEach(async () => {
@@ -495,7 +431,7 @@ describe("Boolean Filter - Send/Receive", function(): void {
 
 describe("Sql Filter - Send/Receive", function(): void {
   beforeEach(async () => {
-    await beforeEachTest(ClientType.TopicFilterTestSubscription);
+    await beforeEachTest(TestClientType.TopicFilterTestSubscription);
   });
 
   afterEach(async () => {
@@ -583,7 +519,7 @@ describe("Sql Filter - Send/Receive", function(): void {
 
 describe("Correlation Filter - Send/Receive", function(): void {
   beforeEach(async () => {
-    await beforeEachTest(ClientType.TopicFilterTestSubscription);
+    await beforeEachTest(TestClientType.TopicFilterTestSubscription);
   });
 
   afterEach(async () => {

@@ -25,3 +25,12 @@ export interface Client {
    */
   detached(error?: AmqpError | Error): Promise<void>;
 }
+
+/**
+ * @internal
+ */
+export enum ClientType {
+  QueueClient = "QueueClient",
+  TopicClient = "TopicClient",
+  SubscriptionClient = "SubscriptionClient"
+}

@@ -19,13 +19,13 @@ import {
   ReceiveMode
 } from "../src";
 import { delay } from "rhea-promise";
-import { purge, getSenderReceiverClients, ClientType, TestMessage } from "./testUtils";
+import { purge, getSenderReceiverClients, TestClientType, TestMessage } from "./testUtils";
 
 let ns: ServiceBusClient;
 let senderClient: QueueClient | TopicClient;
 let receiverClient: QueueClient | SubscriptionClient;
 
-async function beforeEachTest(senderType: ClientType, receiverType: ClientType): Promise<void> {
+async function beforeEachTest(senderType: TestClientType, receiverType: TestClientType): Promise<void> {
   if (!process.env.SERVICEBUS_CONNECTION_STRING) {
     throw new Error(
       "Define SERVICEBUS_CONNECTION_STRING in your environment before running integration tests."
@@ -51,7 +51,7 @@ async function afterEachTest(): Promise<void> {
 
 describe("Unpartitioned Queue - Lock Renewal", function(): void {
   beforeEach(async () => {
-    await beforeEachTest(ClientType.UnpartitionedQueue, ClientType.UnpartitionedQueue);
+    await beforeEachTest(TestClientType.UnpartitionedQueue, TestClientType.UnpartitionedQueue);
   });
 
   afterEach(async () => {
@@ -119,7 +119,7 @@ describe("Unpartitioned Queue - Lock Renewal", function(): void {
 
 describe("Partitioned Queue - Lock Renewal", function(): void {
   beforeEach(async () => {
-    await beforeEachTest(ClientType.PartitionedQueue, ClientType.PartitionedQueue);
+    await beforeEachTest(TestClientType.PartitionedQueue, TestClientType.PartitionedQueue);
   });
 
   afterEach(async () => {
@@ -188,7 +188,7 @@ describe("Partitioned Queue - Lock Renewal", function(): void {
 
 describe("Unpartitioned Subscription - Lock Renewal", function(): void {
   beforeEach(async () => {
-    await beforeEachTest(ClientType.UnpartitionedTopic, ClientType.UnpartitionedSubscription);
+    await beforeEachTest(TestClientType.UnpartitionedTopic, TestClientType.UnpartitionedSubscription);
   });
 
   afterEach(async () => {
@@ -257,7 +257,7 @@ describe("Unpartitioned Subscription - Lock Renewal", function(): void {
 
 describe("Partitioned Subscription - Lock Renewal", function(): void {
   beforeEach(async () => {
-    await beforeEachTest(ClientType.PartitionedTopic, ClientType.PartitionedSubscription);
+    await beforeEachTest(TestClientType.PartitionedTopic, TestClientType.PartitionedSubscription);
   });
 
   afterEach(async () => {
