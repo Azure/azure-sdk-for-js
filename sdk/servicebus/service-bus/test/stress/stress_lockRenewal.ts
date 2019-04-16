@@ -73,6 +73,8 @@ async function receiveMessage(): Promise<void> {
     };
 
     const onErrorHandler: OnError = (err) => {
+      // Since implementation of onError handler in SDK is such that it is supposed to be the
+      // terminal executing code, any error while processing message will surface by crashing the process
       throw err;
     };
 
