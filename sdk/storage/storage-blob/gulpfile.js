@@ -6,11 +6,7 @@ const zipFileName = `azurestoragejs.blob-${version}.zip`;
 
 gulp.task("zip", function(callback) {
   gulp
-    .src([
-      "browser/azure-storage.blob.js",
-      "browser/azure-storage.blob.min.js",
-      "browser/*.txt"
-    ])
+    .src(["browser/index.js", "browser/*.txt"])
     .pipe(zip(zipFileName))
     .pipe(gulp.dest("browser"))
     .on("end", callback);

@@ -60,7 +60,10 @@ export function nodeConfig(test = false) {
 
   if (test) {
     // entry point is every test file
-    baseConfig.input = "dist-esm/test/**/*.spec.js";
+    baseConfig.input = [
+      "dist-esm/test/node/*.spec.js",
+      "dist-esm/test/*.spec.js"
+    ];
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
 
     // different output file
@@ -150,9 +153,30 @@ export function browserConfig(test = false) {
   };
 
   if (test) {
-    baseConfig.input = "dist-esm/test/**/*.spec.js";
+    baseConfig.input = [
+      "dist-esm/test/browser/*.spec.js",
+      "dist-esm/test/*.spec.js"
+    ];
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
-    baseConfig.output.file = "test-browser/index.js";
+    baseConfig.output.file = "dist-test/index.browser.js";
+    baseConfig.onwarn = warning => {
+      if (warning.code === "THIS_IS_UNDEFINED") {
+        // This error happens frequently due to TypeScript emitting `this` at the
+        // top-level of a module. In this case its fine if it gets rewritten to
+        // undefined, so ignore this error.
+        return;
+      }
+
+      if (
+        warning.code === "CIRCULAR_DEPENDENCY" &&
+        warning.importer.indexOf(path.normalize("node_modules/chai/lib") === 0)
+      ) {
+        // Chai contains circular references, but they are not fatal and can be ignored.
+        return;
+      }
+
+      console.error(`(!) ${warning.message}`);
+    };
   } else if (production) {
     baseConfig.plugins.push(uglify());
   }
