@@ -1,6 +1,11 @@
+<<<<<<< HEAD:sdk/storage/storage-blob/samples/javascript/basic.js
 /* 
  Setup: Enter your storage account name and shared key in main()
 */
+=======
+// Steps to run this sample
+// 1. Enter your storage account name and shared key in main() or set them as environtment variables.
+>>>>>>> Update comments:sdk/storage/storage-blob/samples/basic.sample.js
 
 const {
   Aborter,
@@ -16,8 +21,13 @@ const {
 
 async function main() {
   // Enter your storage account name and shared key
+<<<<<<< HEAD:sdk/storage/storage-blob/samples/javascript/basic.js
   const account = "";
   const accountKey = "";
+=======
+  const account = process.env["ACCOUNT_NAME"] || "accountName";
+  const accountKey = process.env["ACCOUNT_KEY"] || "accountkey";
+>>>>>>> Update comments:sdk/storage/storage-blob/samples/basic.sample.js
 
   // Use SharedKeyCredential with storage account and account key
   const sharedKeyCredential = new SharedKeyCredential(account, accountKey);
