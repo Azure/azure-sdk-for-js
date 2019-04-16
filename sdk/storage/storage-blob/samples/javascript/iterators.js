@@ -1,12 +1,13 @@
-// Steps to run this sample
-// 1. Enter your storage account name and shared key in main() or set them as environtment variables.
+/*
+ Setup: Enter your storage account name and shared key in main() or set them as environtment variables.
+*/
 
 const {
   ContainerURL,
   ServiceURL,
   StorageURL,
   SharedKeyCredential,
-  AnonymousCredential} = require(".."); // Change to "@azure/storage-blob" in your package
+  AnonymousCredential} = require("../.."); // Change to "@azure/storage-blob" in your package
 
 async function main() {
   // Enter your storage account name and shared key
