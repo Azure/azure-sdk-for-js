@@ -709,12 +709,6 @@ export class MessageSession extends LinkEntity {
     maxMessageCount: number,
     idleTimeoutInSeconds?: number
   ): Promise<ServiceBusMessage[]> {
-    if (!maxMessageCount || (maxMessageCount && typeof maxMessageCount !== "number")) {
-      throw new Error(
-        "'maxMessageCount' is a required parameter of type number with a value " + "greater than 0."
-      );
-    }
-
     if (idleTimeoutInSeconds == undefined) {
       idleTimeoutInSeconds = Constants.defaultOperationTimeoutInSeconds;
     }
@@ -869,7 +863,14 @@ export class MessageSession extends LinkEntity {
             this._receiver.removeListener(ReceiverEvents.message, onReceiveMessage);
             this._receiver.removeListener(ReceiverEvents.receiverDrained, onReceiveDrain);
           }
-          reject(`Error while converting AmqpMessage to ReceivedSBMessage: ${err}`);
+          err = err instanceof Error ? err : new Error(JSON.stringify(err));
+          log.error(
+            "[%s] Receiver '%s' received an error while converting AmqpMessage to ServiceBusMessage:\n%O",
+            this._context.namespace.connectionId,
+            this.name,
+            err
+          );
+          reject(err);
         }
         if (brokeredMessages.length === maxMessageCount) {
           finalAction();
