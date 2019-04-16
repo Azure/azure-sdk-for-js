@@ -1,8 +1,7 @@
 omitted_paths:
   - documentation/ServicePrincipal/*
-  - "packages/@azure/arm-*"
   - "sdk/*/arm-*"
-  - "packages/@azure/cognitiveservices-*"
+  - "sdk/cognitiveservices/*"
 language: js
 root_check_enabled: True
 required_readme_sections:
@@ -16,7 +15,7 @@ required_readme_sections:
 known_content_issues:
   - ['README.md', '#1583']
   - ['sdk/template/template/README.md', '#1583']
-  - ['packages/@azure/applicationinsights-query/README.md', '#1583']
+  - ['sdk/applicationinsights/applicationinsights-query/README.md', '#1583']
   - ['sdk/batch/batch/README.md', '#1583']
   - ['sdk/cognitiveservices/cognitiveservices-anomalydetector/README.md', '#1583']
   - ['sdk/cognitiveservices/cognitiveservices-autosuggest/README.md', '#1583']

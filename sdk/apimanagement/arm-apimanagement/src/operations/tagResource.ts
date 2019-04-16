@@ -111,7 +111,7 @@ const listByServiceOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.TagResourceCollection
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -132,7 +132,7 @@ const listByServiceNextOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.TagResourceCollection
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer

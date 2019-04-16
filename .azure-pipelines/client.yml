@@ -47,15 +47,6 @@ jobs:
           customCommand: 'run pack-client$(packageSuffix)'
         displayName: 'npm run pack-client$(packageSuffix)'
 
-      #Eventually, after moving all packages from old repo structure, we can remove this task completely
-      - task: CopyFiles@2
-        inputs:
-          contents: 'packages/**/*.tgz'
-          targetFolder: $(Build.ArtifactStagingDirectory)
-          flattenFolders: true
-        displayName: 'Copy Packages'
-
-      # for copying packages that have move to the new repo structure
       - task: CopyFiles@2
         inputs:
           contents: 'sdk/**/**/*.tgz'
