@@ -5704,6 +5704,13 @@ export const SensitivityLabel: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      isDisabled: {
+        readOnly: true,
+        serializedName: "properties.isDisabled",
+        type: {
+          name: "Boolean"
+        }
       }
     }
   }
