@@ -71,6 +71,13 @@
     "typescript": "^3.3.3",
     "ws": "^6.2.0"
   },
+  "files": [
+    "browser/",
+    "dist/",
+    "dist-esm/lib/",
+    "lib/",
+    "typings/lib/"
+  ],
   "scripts": {
     "tslint": "tslint -p . -c tslint.json --exclude examples/**/*.ts --exclude tests/**/*.ts",
     "tsc": "tsc",
