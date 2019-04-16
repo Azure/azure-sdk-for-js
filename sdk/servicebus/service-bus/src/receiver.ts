@@ -37,6 +37,14 @@ export class Receiver {
   private _isClosed: boolean = false;
 
   /**
+   * @property {ReceiveMode} [receiveMode] Denotes receiveMode of this receiver.
+   * @readonly
+   */
+  public get receiveMode(): ReceiveMode {
+    return this._receiveMode;
+  }
+
+  /**
    * @property {boolean} [isClosed] Denotes if close() was called on this receiver.
    * @readonly
    */
@@ -51,7 +59,8 @@ export class Receiver {
     throwErrorIfConnectionClosed(context.namespace);
     this._context = context;
 
-    this._receiveMode = receiveMode;
+    this._receiveMode =
+      receiveMode === ReceiveMode.receiveAndDelete ? receiveMode : ReceiveMode.peekLock;
   }
 
   /**
@@ -76,12 +85,16 @@ export class Receiver {
   ): void {
     this._throwIfReceiverOrConnectionClosed();
     this._throwIfAlreadyReceiving();
-    if (!onMessage || typeof onMessage !== "function") {
-      throw new Error("'onMessage' is a required parameter and must be of type 'function'.");
+    const connId = this._context.namespace.connectionId;
+    throwTypeErrorIfParameterMissing(connId, "onMessage", onMessage);
+    throwTypeErrorIfParameterMissing(connId, "onError", onError);
+    if (typeof onMessage !== "function") {
+      throw new TypeError("The parameter 'onMessage' must be of type 'function'.");
     }
-    if (!onError || typeof onError !== "function") {
-      throw new Error("'onError' is a required parameter and must be of type 'function'.");
+    if (typeof onError !== "function") {
+      throw new TypeError("The parameter 'onError' must be of type 'function'.");
     }
+
     StreamingReceiver.create(this._context, {
       ...options,
       receiveMode: this._receiveMode
@@ -128,20 +141,7 @@ export class Receiver {
       this._context.batchingReceiver = BatchingReceiver.create(this._context, options);
     }
 
-    try {
-      return await this._context.batchingReceiver.receive(maxMessageCount, idleTimeoutInSeconds);
-    } catch (err) {
-      log.error(
-        "[%s] Receiver '%s', an error occurred while receiving %d messages for %d " +
-          "max time:\n %O",
-        this._context.namespace.connectionId,
-        this._context.batchingReceiver.name,
-        maxMessageCount,
-        idleTimeoutInSeconds,
-        err
-      );
-      throw err;
-    }
+    return this._context.batchingReceiver.receive(maxMessageCount, idleTimeoutInSeconds);
   }
 
   /**
@@ -348,6 +348,14 @@ export class SessionReceiver {
   private _sessionId: string | undefined;
 
   /**
+   * @property {ReceiveMode} [receiveMode] Denotes receiveMode of this receiver.
+   * @readonly
+   */
+  public get receiveMode(): ReceiveMode {
+    return this._receiveMode;
+  }
+
+  /**
    * @property {boolean} [isClosed] Denotes if close() was called on this receiver.
    * @readonly
    */
@@ -389,7 +397,8 @@ export class SessionReceiver {
   ) {
     throwErrorIfConnectionClosed(context.namespace);
     this._context = context;
-    this._receiveMode = receiveMode;
+    this._receiveMode =
+      receiveMode === ReceiveMode.receiveAndDelete ? receiveMode : ReceiveMode.peekLock;
     this._sessionOptions = sessionOptions;
 
     if (sessionOptions.sessionId) {
@@ -573,21 +582,8 @@ export class SessionReceiver {
   ): Promise<ServiceBusMessage[]> {
     this._throwIfReceiverOrConnectionClosed();
     this._throwIfAlreadyReceiving();
-    try {
-      await this._createMessageSessionIfDoesntExist();
-      return this._messageSession!.receiveMessages(maxMessageCount, maxWaitTimeInSeconds);
-    } catch (err) {
-      log.error(
-        "[%s] Receiver '%s', an error occurred while receiving %d messages for %d " +
-          "max time:\n %O",
-        this._context.namespace.connectionId,
-        this._messageSession!.name,
-        maxMessageCount,
-        maxWaitTimeInSeconds,
-        err
-      );
-      throw err;
-    }
+    await this._createMessageSessionIfDoesntExist();
+    return this._messageSession!.receiveMessages(maxMessageCount, maxWaitTimeInSeconds);
   }
 
   /**
@@ -613,12 +609,16 @@ export class SessionReceiver {
   ): void {
     this._throwIfReceiverOrConnectionClosed();
     this._throwIfAlreadyReceiving();
+    const connId = this._context.namespace.connectionId;
+    throwTypeErrorIfParameterMissing(connId, "onMessage", onMessage);
+    throwTypeErrorIfParameterMissing(connId, "onError", onError);
     if (typeof onMessage !== "function") {
-      throw new Error("'onMessage' is a required parameter and must be of type 'function'.");
+      throw new TypeError("The parameter 'onMessage' must be of type 'function'.");
     }
     if (typeof onError !== "function") {
-      throw new Error("'onError' is a required parameter and must be of type 'function'.");
+      throw new TypeError("The parameter 'onError' must be of type 'function'.");
     }
+
     this._createMessageSessionIfDoesntExist()
       .then(async () => {
         if (!this._messageSession) {
