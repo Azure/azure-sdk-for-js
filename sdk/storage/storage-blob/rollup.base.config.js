@@ -61,13 +61,13 @@ export function nodeConfig(test = false) {
   if (test) {
     // entry point is every test file
     baseConfig.input = [
-      "dist-esm/test/node/*.spec.js",
-      "dist-esm/test/*.spec.js"
+      "dist-esm/test/*.spec.js",
+      "dist-esm/test/node/*.spec.js"
     ];
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
 
     // different output file
-    baseConfig.output.file = "test-dist/index.js";
+    baseConfig.output.file = "dist-test/index.node.js";
 
     // mark assert as external
     baseConfig.external.push("assert", "fs", "path");
@@ -154,8 +154,8 @@ export function browserConfig(test = false) {
 
   if (test) {
     baseConfig.input = [
-      "dist-esm/test/browser/*.spec.js",
-      "dist-esm/test/*.spec.js"
+      "dist-esm/test/*.spec.js",
+      "dist-esm/test/browser/*.spec.js"
     ];
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
     baseConfig.output.file = "dist-test/index.browser.js";
