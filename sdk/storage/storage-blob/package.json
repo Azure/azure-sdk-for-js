@@ -72,7 +72,7 @@
     "build:test": "rollup -c rollup.test.config.js",
     "build:autorest": "autorest ./swagger/README.md --typescript --use=@microsoft.azure/autorest.typescript@2.1.3",
     "test": "npm run test:node && npm run test:browser",
-    "test:node": "mocha -t 120000 dist-test/index.node.js",
+    "test:node": "mocha --reporter mocha-multi-reporters --reporter-options configFile=mocha.reporter.config.json -t 120000 dist-test/index.node.js",
     "test:browser": "karma start --single-run",
     "coverage:node": "npm run build-test && nyc --reporter=lcov mocha -t 120000 dist-test/index.node.js",
     "unit-node": "npm run build && npm run test:node",
