@@ -13,6 +13,8 @@ import { Constants, AmqpMessage } from "@azure/amqp-common";
 import * as log from "./log";
 import { ClientEntityContext } from "./clientEntityContext";
 import { reorderLockToken } from "../src/util/utils";
+import { MessageReceiver } from "./core/messageReceiver";
+import { MessageSession } from "./session/messageSession";
 
 /**
  * The mode in which messages should be received
@@ -936,16 +938,9 @@ export class ServiceBusMessage implements ReceivedMessage {
       return;
     }
     const receiver = this._context.getReceiver(this.delivery.link.name, this.sessionId);
-    if (!receiver) {
-      throw new Error("Failed to complete the message as it's receiver has been closed.");
-    }
-    if (receiver.receiveMode !== ReceiveMode.peekLock) {
-      throw new Error("The operation is only supported in 'PeekLock' receive mode.");
-    }
-    if (this.delivery.remote_settled) {
-      throw new Error("This message has been already settled.");
-    }
-    return receiver.settleMessage(this, DispositionType.complete);
+    this._throwIfMessageCannotBeSettled(receiver, "complete");
+
+    return receiver!.settleMessage(this, DispositionType.complete);
   }
   /**
    * Abandons a message using it's lock token. This will make the message available again in
@@ -973,16 +968,9 @@ export class ServiceBusMessage implements ReceivedMessage {
       return;
     }
     const receiver = this._context.getReceiver(this.delivery.link.name, this.sessionId);
-    if (!receiver) {
-      throw new Error("Failed to abandon the message as it's receiver has been closed.");
-    }
-    if (receiver.receiveMode !== ReceiveMode.peekLock) {
-      throw new Error("The operation is only supported in 'PeekLock' receive mode.");
-    }
-    if (this.delivery.remote_settled) {
-      throw new Error("This message has been already settled.");
-    }
-    return receiver.settleMessage(this, DispositionType.abandon, {
+    this._throwIfMessageCannotBeSettled(receiver, "abandon");
+
+    return receiver!.settleMessage(this, DispositionType.abandon, {
       propertiesToModify: propertiesToModify
     });
   }
@@ -1014,16 +1002,9 @@ export class ServiceBusMessage implements ReceivedMessage {
       return;
     }
     const receiver = this._context.getReceiver(this.delivery.link.name, this.sessionId);
-    if (!receiver) {
-      throw new Error("Failed to defer the message as it's receiver has been closed.");
-    }
-    if (receiver.receiveMode !== ReceiveMode.peekLock) {
-      throw new Error("The operation is only supported in 'PeekLock' receive mode.");
-    }
-    if (this.delivery.remote_settled) {
-      throw new Error("This message has been already settled.");
-    }
-    return receiver.settleMessage(this, DispositionType.defer, {
+    this._throwIfMessageCannotBeSettled(receiver, "defer");
+
+    return receiver!.settleMessage(this, DispositionType.defer, {
       propertiesToModify: propertiesToModify
     });
   }
@@ -1065,16 +1046,9 @@ export class ServiceBusMessage implements ReceivedMessage {
       return;
     }
     const receiver = this._context.getReceiver(this.delivery.link.name, this.sessionId);
-    if (!receiver) {
-      throw new Error("Failed to deadletter the message as it's receiver has been closed.");
-    }
-    if (receiver.receiveMode !== ReceiveMode.peekLock) {
-      throw new Error("The operation is only supported in 'PeekLock' receive mode.");
-    }
-    if (this.delivery.remote_settled) {
-      throw new Error("This message has been already settled.");
-    }
-    return receiver.settleMessage(this, DispositionType.deadletter, {
+    this._throwIfMessageCannotBeSettled(receiver, "deadLetter");
+
+    return receiver!.settleMessage(this, DispositionType.deadletter, {
       error: error
     });
   }
@@ -1103,5 +1077,30 @@ export class ServiceBusMessage implements ReceivedMessage {
     };
 
     return clone;
+  }
+
+  /**
+   * Logs and Throws an error if the given message cannot be settled.
+   * @param receiver Receiver to be used to settle this message
+   * @param operation Settle operation: complete, abandon, defer or deadLetter
+   */
+  private _throwIfMessageCannotBeSettled(
+    receiver: MessageReceiver | MessageSession | undefined,
+    operation: string
+  ): void {
+    let errorMessage;
+    if (!receiver) {
+      errorMessage = `Failed to ${operation} the message as it's receiver has been closed.`;
+    } else if (receiver.receiveMode !== ReceiveMode.peekLock) {
+      errorMessage = `Failed to ${operation} the message as the operation is only supported in 'PeekLock' receive mode.`;
+    } else if (this.delivery.remote_settled) {
+      errorMessage = `Failed to ${operation} the message as this message has been already settled.`;
+    }
+    if (!errorMessage) {
+      return;
+    }
+    const error = new Error(errorMessage);
+    log.error("%O", error);
+    throw error;
   }
 }
