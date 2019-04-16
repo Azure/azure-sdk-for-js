@@ -607,7 +607,7 @@ export class ContainerURL extends StorageURL {
      (async function* items(): AsyncIterableIterator<Models.BlobItem> {
       do {
         const listBlobsResponse = await serviceURL.listBlobFlatSegment(
-          resumePoint.nextMarker,
+          resumePoint.lastNextMarker,
           {
             ... options,
             abortSignal: aborter
@@ -619,28 +619,13 @@ export class ContainerURL extends StorageURL {
           yield blobs[i];
         }
 
-        iter.resumePoint.nextMarker = listBlobsResponse.nextMarker;
+        iter.resumePoint.lastNextMarker = listBlobsResponse.nextMarker;
         iter.resumePoint.lastIndex = 0;
-      } while (iter.resumePoint.nextMarker);
+      } while (iter.resumePoint.lastNextMarker);
     } as any)() as any;
 
     iter.resumePoint = { ... resumePoint };
     return iter;
-  }
-
-  public listAllBlobs(options?: IContainerListBlobsSegmentOptions) {
-    return {
-      [Symbol.asyncIterator]: () => this.listBlobs(options),
-      then(res: any, rej: any) {
-        let all: Models.BlobItem[] = [];
-        return new Promise(async (resolve) => {
-          for await (const blob of this) {
-            all = all.concat(blob);
-          }
-          resolve(all);
-        }).then(res, rej);
-      }
-    };
   }
 
   /**

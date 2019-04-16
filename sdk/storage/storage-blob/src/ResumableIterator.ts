@@ -1,5 +1,3 @@
-/// <reference lib="esnext.asynciterable" />
-
 /**
  * The resuming point of {@link ResumableAsyncIterableIterator<T>}
  *
@@ -9,7 +7,7 @@ export interface ResumePoint {
   /**
    * @member {string} [nextMarker] Marker to retrieve next listing segment.
    */
-  nextMarker?: string;
+  lastNextMarker?: string;
   /**
    * @member {number} [lastIndex] last index of the item within the current segment.
    */

@@ -203,7 +203,7 @@ export class ServiceURL extends StorageURL {
      (async function* items(): AsyncIterableIterator<Models.ContainerItem> {
       do {
         const listContainersResponse = await serviceURL.listContainersSegment(
-          resumePoint.nextMarker,
+          resumePoint.lastNextMarker,
           {
             ... options,
             abortSignal: aborter
@@ -215,28 +215,13 @@ export class ServiceURL extends StorageURL {
           yield containers[i];
         }
 
-        iter.resumePoint.nextMarker = listContainersResponse.nextMarker;
+        iter.resumePoint.lastNextMarker = listContainersResponse.nextMarker;
         iter.resumePoint.lastIndex = 0;
-      } while (iter.resumePoint.nextMarker);
+      } while (iter.resumePoint.lastNextMarker);
     } as any)() as any;
 
     iter.resumePoint = { ... resumePoint };
     return iter;
-  }
-
-  public listAllContainers(options?: IServiceListContainersSegmentOptions) {
-    return {
-      [Symbol.asyncIterator]: () => this.listContainers(options),
-      then(res: any, rej: any) {
-        let all: Models.ContainerItem[] = [];
-        return new Promise(async (resolve) => {
-          for await (const container of this) {
-            all = all.concat(container);
-          }
-          resolve(all);
-        }).then(res, rej);
-      }
-    };
   }
 
   /**

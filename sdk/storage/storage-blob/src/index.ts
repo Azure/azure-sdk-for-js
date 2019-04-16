@@ -1,3 +1,5 @@
+/// <reference lib="esnext.asynciterable" />
+
 import { RestError } from "@azure/ms-rest-js";
 
 import * as Models from "../src/generated/lib/models";
@@ -29,6 +31,7 @@ export * from "./Pipeline";
 export * from "./policies/AnonymousCredentialPolicy";
 export * from "./policies/CredentialPolicy";
 export * from "./RetryPolicyFactory";
+export * from "./ResumableIterator";
 export * from "./LoggingPolicyFactory";
 export * from "./policies/SharedKeyCredentialPolicy";
 export * from "./TelemetryPolicyFactory";
