@@ -361,6 +361,7 @@ const listByApiOperationSpec: msRest.OperationSpec = {
     Parameters.filter0,
     Parameters.top,
     Parameters.skip,
+    Parameters.tags,
     Parameters.apiVersion
   ],
   headerParameters: [
@@ -446,7 +447,7 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.apiVersion
   ],
   headerParameters: [
-    Parameters.ifMatch1,
+    Parameters.ifMatch0,
     Parameters.acceptLanguage
   ],
   requestBody: {
@@ -458,10 +459,12 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
   },
   responses: {
     200: {
-      bodyMapper: Mappers.OperationContract
+      bodyMapper: Mappers.OperationContract,
+      headersMapper: Mappers.ApiOperationCreateOrUpdateHeaders
     },
     201: {
-      bodyMapper: Mappers.OperationContract
+      bodyMapper: Mappers.OperationContract,
+      headersMapper: Mappers.ApiOperationCreateOrUpdateHeaders
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -484,7 +487,7 @@ const updateOperationSpec: msRest.OperationSpec = {
     Parameters.apiVersion
   ],
   headerParameters: [
-    Parameters.ifMatch0,
+    Parameters.ifMatch1,
     Parameters.acceptLanguage
   ],
   requestBody: {
@@ -517,7 +520,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.apiVersion
   ],
   headerParameters: [
-    Parameters.ifMatch0,
+    Parameters.ifMatch1,
     Parameters.acceptLanguage
   ],
   responses: {
