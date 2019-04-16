@@ -886,6 +886,15 @@ export class ManagementClient extends LinkEntity {
    */
   async listMessageSessions(skip: number, top: number, lastUpdatedTime?: Date): Promise<string[]> {
     throwErrorIfConnectionClosed(this._context.namespace);
+    if (typeof skip !== "number") {
+      throw new Error("'skip' is a required parameter and must be of type 'number'.");
+    }
+    if (typeof top !== "number") {
+      throw new Error("'top' is a required parameter and must be of type 'number'.");
+    }
+    if (lastUpdatedTime && !(lastUpdatedTime instanceof Date)) {
+      throw new Error("'lastUpdatedTime' must be of type 'Date'.");
+    }
     const defaultLastUpdatedTimeForListingSessions: number = 259200000; // 3 * 24 * 3600 * 1000
     if (!lastUpdatedTime) {
       lastUpdatedTime = new Date(Date.now() - defaultLastUpdatedTimeForListingSessions);
