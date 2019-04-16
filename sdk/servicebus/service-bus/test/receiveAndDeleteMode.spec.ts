@@ -733,6 +733,9 @@ describe("Unsupported features in ReceiveAndDelete mode", function(): void {
 describe("Receive Deferred messages in ReceiveAndDelete mode", function(): void {
   let sequenceNumber: Long;
 
+  afterEach(async () => {
+    await afterEachTest();
+  });
   async function deferMessage(useSessions?: boolean): Promise<void> {
     const testMessages = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
     const sender = senderClient.createSender();
@@ -762,7 +765,7 @@ describe("Receive Deferred messages in ReceiveAndDelete mode", function(): void 
     await testPeekMsgsLength(receiverClient, 0);
   }
 
-  it("Partitioned Queue: No settlement of the message removes message", async function(): Promise<
+  /* it("Partitioned Queue: No settlement of the message removes message", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -772,10 +775,9 @@ describe("Receive Deferred messages in ReceiveAndDelete mode", function(): void 
       ReceiveMode.peekLock
     );
     await deferMessage();
-    await afterEachTest();
-    await beforeEachTest(TestClientType.PartitionedQueue, TestClientType.PartitionedQueue);
+    await receiver.close();
+    receiver = receiverClient.createReceiver(ReceiveMode.receiveAndDelete);
     await receiveDeferredMessage();
-    await afterEachTest();
   });
 
   it("Partitioned Subscription: No settlement of the message removes message", async function(): Promise<
@@ -788,11 +790,10 @@ describe("Receive Deferred messages in ReceiveAndDelete mode", function(): void 
       ReceiveMode.peekLock
     );
     await deferMessage();
-    await afterEachTest();
-    await beforeEachTest(TestClientType.PartitionedTopic, TestClientType.PartitionedSubscription);
+    await receiver.close();
+    receiver = receiverClient.createReceiver(ReceiveMode.receiveAndDelete);
     await receiveDeferredMessage();
-    await afterEachTest();
-  });
+  }); */
 
   it("Unpartitioned Queue: No settlement of the message removes message", async function(): Promise<
     void
@@ -804,10 +805,9 @@ describe("Receive Deferred messages in ReceiveAndDelete mode", function(): void 
       ReceiveMode.peekLock
     );
     await deferMessage();
-    await afterEachTest();
-    await beforeEachTest(TestClientType.UnpartitionedQueue, TestClientType.UnpartitionedQueue);
+    await receiver.close();
+    receiver = receiverClient.createReceiver(ReceiveMode.receiveAndDelete);
     await receiveDeferredMessage();
-    await afterEachTest();
   });
 
   it("Unpartitioned Subscription: No settlement of the message removes message", async function(): Promise<
@@ -820,13 +820,9 @@ describe("Receive Deferred messages in ReceiveAndDelete mode", function(): void 
       ReceiveMode.peekLock
     );
     await deferMessage();
-    await afterEachTest();
-    await beforeEachTest(
-      TestClientType.UnpartitionedTopic,
-      TestClientType.UnpartitionedSubscription
-    );
+    await receiver.close();
+    receiver = receiverClient.createReceiver(ReceiveMode.receiveAndDelete);
     await receiveDeferredMessage();
-    await afterEachTest();
   });
 
   it("Partitioned Queue with Sessions: No settlement of the message removes message", async function(): Promise<
@@ -839,14 +835,11 @@ describe("Receive Deferred messages in ReceiveAndDelete mode", function(): void 
       ReceiveMode.peekLock
     );
     await deferMessage(true);
-    await afterEachTest();
-    await beforeEachTest(
-      TestClientType.PartitionedQueueWithSessions,
-      TestClientType.PartitionedQueueWithSessions,
-      true
-    );
+    await receiver.close();
+    receiver = receiverClient.createReceiver(ReceiveMode.receiveAndDelete, {
+      sessionId: TestMessage.sessionId
+    });
     await receiveDeferredMessage();
-    await afterEachTest();
   });
 
   it("Partitioned Subscription with Sessions: No settlement of the message removes message", async function(): Promise<
@@ -859,14 +852,11 @@ describe("Receive Deferred messages in ReceiveAndDelete mode", function(): void 
       ReceiveMode.peekLock
     );
     await deferMessage(true);
-    await afterEachTest();
-    await beforeEachTest(
-      TestClientType.PartitionedTopicWithSessions,
-      TestClientType.PartitionedSubscriptionWithSessions,
-      true
-    );
+    await receiver.close();
+    receiver = receiverClient.createReceiver(ReceiveMode.receiveAndDelete, {
+      sessionId: TestMessage.sessionId
+    });
     await receiveDeferredMessage();
-    await afterEachTest();
   });
 
   it("Unpartitioned Queue with Sessions: No settlement of the message removes message", async function(): Promise<
@@ -879,14 +869,11 @@ describe("Receive Deferred messages in ReceiveAndDelete mode", function(): void 
       ReceiveMode.peekLock
     );
     await deferMessage(true);
-    await afterEachTest();
-    await beforeEachTest(
-      TestClientType.UnpartitionedQueueWithSessions,
-      TestClientType.UnpartitionedQueueWithSessions,
-      true
-    );
+    await receiver.close();
+    receiver = receiverClient.createReceiver(ReceiveMode.receiveAndDelete, {
+      sessionId: TestMessage.sessionId
+    });
     await receiveDeferredMessage();
-    await afterEachTest();
   });
 
   it("Unpartitioned Subscription with Sessions: No settlement of the message removes message", async function(): Promise<
@@ -899,13 +886,10 @@ describe("Receive Deferred messages in ReceiveAndDelete mode", function(): void 
       ReceiveMode.peekLock
     );
     await deferMessage(true);
-    await afterEachTest();
-    await beforeEachTest(
-      TestClientType.UnpartitionedTopicWithSessions,
-      TestClientType.UnpartitionedSubscriptionWithSessions,
-      true
-    );
+    await receiver.close();
+    receiver = receiverClient.createReceiver(ReceiveMode.receiveAndDelete, {
+      sessionId: TestMessage.sessionId
+    });
     await receiveDeferredMessage();
-    await afterEachTest();
   });
 });
