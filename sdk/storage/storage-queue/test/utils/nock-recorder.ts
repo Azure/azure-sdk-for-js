@@ -30,6 +30,7 @@ export function record(folderpath: string, filename: string): { [key: string]: a
             return console.log(err);
           }
         });
+        nock.recorder.clear();
         nock.restore();
       }
     }
