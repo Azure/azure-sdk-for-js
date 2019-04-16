@@ -1,6 +1,6 @@
-// Steps to run this sample
-// 1. npm install
-// 2. Enter your storage account name, SAS and a path pointing to local file in main()
+/*
+ Setup: Enter your storage account name, SAS and a path pointing to local file in main()
+*/
 
 const fs = require("fs");
 const {
@@ -26,8 +26,12 @@ async function main() {
   const pipeline = StorageURL.newPipeline(new AnonymousCredential(), {
     // httpClient: MyHTTPClient, // A customized HTTP client implementing IHttpClient interface
     // logger: MyLogger, // A customized logger implementing IHttpPipelineLogger interface
-    retryOptions: { maxTries: 4 }, // Retry options
-    telemetry: { value: "HighLevelSample V1.0.0" } // Customized telemetry string
+    retryOptions: {
+      maxTries: 4
+    }, // Retry options
+    telemetry: {
+      value: "HighLevelSample V1.0.0"
+    } // Customized telemetry string
   });
 
   const serviceURL = new ServiceURL(
@@ -69,8 +73,7 @@ async function main() {
     fileSize,
     fileURL,
     4 * 1024 * 1024,
-    20,
-    {
+    20, {
       progress: ev => console.log(ev)
     }
   );
@@ -95,8 +98,7 @@ async function main() {
     buffer,
     fileURL,
     0,
-    undefined,
-    {
+    undefined, {
       rangeSize: 4 * 1024 * 1024, // 4MB range size
       parallelism: 20, // 20 concurrency
       progress: ev => console.log(ev)

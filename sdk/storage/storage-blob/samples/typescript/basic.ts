@@ -1,8 +1,8 @@
-// Steps to run this sample
-// 1. npm install
-// 2. Enter your storage account name and shared key in main()
+/* 
+ Setup: Enter your storage account name and shared key in main()
+*/
 
-const {
+import {
   Aborter,
   BlobURL,
   BlockBlobURL,
@@ -10,14 +10,14 @@ const {
   ServiceURL,
   StorageURL,
   SharedKeyCredential,
-  AnonymousCredential,
-  TokenCredential
-} = require(".."); // Change to "@azure/storage-blob" in your package
+  TokenCredential,
+  Models
+} from "../.."; // Change to "@azure/storage-blob" in your package
 
 async function main() {
   // Enter your storage account name and shared key
-  const account = "account";
-  const accountKey = "accountkey";
+  const account = "";
+  const accountKey = "";
 
   // Use SharedKeyCredential with storage account and account key
   const sharedKeyCredential = new SharedKeyCredential(account, accountKey);
@@ -27,7 +27,7 @@ async function main() {
   tokenCredential.token = "renewedToken"; // Renew the token by updating token field of token credential
 
   // Use AnonymousCredential when url already includes a SAS signature
-  const anonymousCredential = new AnonymousCredential();
+  // const anonymousCredential = new AnonymousCredential();
 
   // Use sharedKeyCredential, tokenCredential or anonymousCredential to create a pipeline
   const pipeline = StorageURL.newPipeline(sharedKeyCredential);
@@ -41,7 +41,7 @@ async function main() {
 
   let marker;
   do {
-    const listContainersResponse = await serviceURL.listContainersSegment(
+    const listContainersResponse: Models.ServiceListContainersSegmentResponse = await serviceURL.listContainersSegment(
       Aborter.none,
       marker
     );
@@ -80,7 +80,7 @@ async function main() {
   // List blobs
   marker = undefined;
   do {
-    const listBlobsResponse = await containerURL.listBlobFlatSegment(
+    const listBlobsResponse: Models.ContainerListBlobFlatSegmentResponse = await containerURL.listBlobFlatSegment(
       Aborter.none,
       marker
     );
@@ -94,10 +94,13 @@ async function main() {
   // Get blob content from position 0 to the end
   // In Node.js, get downloaded data by accessing downloadBlockBlobResponse.readableStreamBody
   // In browsers, get downloaded data by accessing downloadBlockBlobResponse.blobBody
-  const downloadBlockBlobResponse = await blobURL.download(Aborter.none, 0);
+  const downloadBlockBlobResponse: Models.BlobDownloadResponse = await blobURL.download(
+    Aborter.none,
+    0
+  );
   console.log(
     "Downloaded blob content",
-    await streamToString(downloadBlockBlobResponse.readableStreamBody)
+    await streamToString(downloadBlockBlobResponse.readableStreamBody!)
   );
 
   // Delete container
@@ -107,9 +110,9 @@ async function main() {
 }
 
 // A helper method used to read a Node.js readable stream into string
-async function streamToString(readableStream) {
+async function streamToString(readableStream: NodeJS.ReadableStream) {
   return new Promise((resolve, reject) => {
-    const chunks = [];
+    const chunks: string[] = [];
     readableStream.on("data", data => {
       chunks.push(data.toString());
     });

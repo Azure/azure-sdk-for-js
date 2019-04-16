@@ -1,6 +1,6 @@
-// Steps to run this sample
-// 1. npm install
-// 2. Enter your storage account name, SAS and a path pointing to local file in main()
+/*
+ Setup: Enter your storage account name, SAS and a path pointing to local file in main()
+*/
 
 const fs = require("fs");
 const {
@@ -15,19 +15,23 @@ const {
   ContainerURL,
   ServiceURL,
   StorageURL
-} = require(".."); // Change to "@azure/storage-blob" in your package
+} = require("../.."); // Change to "@azure/storage-blob" in your package
 
 async function main() {
   // Fill in following settings before running this sample
-  const account = "account";
-  const accountSas = "accountSas";
-  const localFilePath = "localFilePath";
+  const account = "";
+  const accountSas = "";
+  const localFilePath = "";
 
   const pipeline = StorageURL.newPipeline(new AnonymousCredential(), {
     // httpClient: MyHTTPClient, // A customized HTTP client implementing IHttpClient interface
     // logger: MyLogger, // A customized logger implementing IHttpPipelineLogger interface
-    retryOptions: { maxTries: 4 }, // Retry options
-    telemetry: { value: "HighLevelSample V1.0.0" } // Customized telemetry string
+    retryOptions: {
+      maxTries: 4
+    }, // Retry options
+    telemetry: {
+      value: "HighLevelSample V1.0.0"
+    } // Customized telemetry string
   });
 
   const serviceURL = new ServiceURL(
@@ -61,8 +65,7 @@ async function main() {
     fs.createReadStream(localFilePath),
     blockBlobURL,
     4 * 1024 * 1024,
-    20,
-    {
+    20, {
       progress: ev => console.log(ev)
     }
   );
@@ -88,8 +91,7 @@ async function main() {
     buffer,
     blockBlobURL,
     0,
-    undefined,
-    {
+    undefined, {
       blockSize: 4 * 1024 * 1024, // 4MB block size
       parallelism: 20, // 20 concurrency
       progress: ev => console.log(ev)
