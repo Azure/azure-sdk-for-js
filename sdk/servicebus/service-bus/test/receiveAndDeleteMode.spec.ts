@@ -14,7 +14,8 @@ import {
   SubscriptionClient,
   ServiceBusMessage,
   SendableMessageInfo,
-  ReceiveMode
+  ReceiveMode,
+  Sender
 } from "../src";
 
 import { DispositionType } from "../src/serviceBusMessage";
@@ -48,6 +49,7 @@ let errorWasThrown: boolean;
 let senderClient: QueueClient | TopicClient;
 let receiverClient: QueueClient | SubscriptionClient;
 let receiver: Receiver | SessionReceiver;
+let sender: Sender;
 
 async function beforeEachTest(
   senderType: TestClientType,
@@ -77,6 +79,8 @@ async function beforeEachTest(
     chai.assert.fail(`Please use an empty ${receiverEntityType} for integration testing`);
   }
 
+  sender = senderClient.createSender();
+
   if (!receiveMode) {
     receiveMode = ReceiveMode.receiveAndDelete;
   }
@@ -93,6 +97,7 @@ async function beforeEachTest(
 
 async function afterEachTest(): Promise<void> {
   await receiver.close();
+  await sender.close();
   await ns.close();
 }
 
@@ -102,9 +107,7 @@ describe("Batch Receiver in ReceiveAndDelete mode", function(): void {
   });
 
   async function sendReceiveMsg(testMessages: SendableMessageInfo): Promise<void> {
-    const sender = senderClient.createSender();
     await sender.send(testMessages);
-    await sender.close();
     const msgs = await receiver.receiveMessages(1);
 
     should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
@@ -205,9 +208,7 @@ describe("Streaming Receiver in ReceiveAndDelete mode", function(): void {
     testMessages: SendableMessageInfo,
     autoCompleteFlag: boolean
   ): Promise<void> {
-    const sender = senderClient.createSender();
     await sender.send(testMessages);
-    await sender.close();
     const receivedMsgs: ServiceBusMessage[] = [];
 
     receiver.registerMessageHandler(
@@ -400,9 +401,7 @@ describe("Unsupported features in ReceiveAndDelete mode", function(): void {
     await afterEachTest();
   });
   async function sendReceiveMsg(testMessages: SendableMessageInfo): Promise<ServiceBusMessage> {
-    const sender = senderClient.createSender();
     await sender.send(testMessages);
-    await sender.close();
     const msgs = await receiver.receiveMessages(1);
 
     should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
@@ -738,9 +737,7 @@ describe("Receive Deferred messages in ReceiveAndDelete mode", function(): void 
   });
   async function deferMessage(useSessions?: boolean): Promise<void> {
     const testMessages = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
-    const sender = senderClient.createSender();
     await sender.send(testMessages);
-    await sender.close();
     const msgs = await receiver.receiveMessages(1);
 
     should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
