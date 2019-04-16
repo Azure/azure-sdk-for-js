@@ -39,7 +39,7 @@ async function main() {
     pipeline
   );
 
-  let markerd;
+  let marker;
   do {
     const listContainersResponse = await serviceURL.listContainersSegment(
       marker,

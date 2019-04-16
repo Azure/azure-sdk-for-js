@@ -197,7 +197,7 @@ export class ServiceURL extends StorageURL {
     options?: IServiceListContainersSegmentOptions
   ): ResumableAsyncIterableIterator<Models.ContainerItem> {
     const serviceURL = this;
-    const resumePoint = !options || !options.resumePoint ? { nextMarker: undefined, lastIndex: 0 } : options.resumePoint;
+    const resumePoint = !options || !options.resumePoint ? { } : options.resumePoint;
     const aborter = !options || !options.abortSignal ? Aborter.none : options.abortSignal;
     const iter: ResumableAsyncIterableIterator<Models.ContainerItem> =
      (async function* items(): AsyncIterableIterator<Models.ContainerItem> {
@@ -210,7 +210,7 @@ export class ServiceURL extends StorageURL {
           });
 
         const containers = listContainersResponse.containerItems;
-        for (let i = iter.resumePoint.lastIndex; i < containers.length; i++) {
+        for (let i = iter.resumePoint.lastIndex || 0; i < containers.length; i++) {
           iter.resumePoint.lastIndex = i;
           yield containers[i];
         }

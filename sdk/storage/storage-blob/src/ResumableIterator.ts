@@ -13,7 +13,7 @@ export interface ResumePoint {
   /**
    * @member {number} [lastIndex] last index of the item within the current segment.
    */
-  lastIndex: number;
+  lastIndex?: number;
 }
 
 /**
