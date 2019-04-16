@@ -27,7 +27,7 @@ export class ApiIssue {
   }
 
   /**
-   * Lists all issues assosiated with the specified API.
+   * Lists all issues associated with the specified API.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param apiId API identifier. Must be unique in the current API Management service instance.
@@ -111,7 +111,7 @@ export class ApiIssue {
    * @param [options] The optional parameters
    * @returns Promise<Models.ApiIssueGetResponse>
    */
-  get(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, options?: msRest.RequestOptionsBase): Promise<Models.ApiIssueGetResponse>;
+  get(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, options?: Models.ApiIssueGetOptionalParams): Promise<Models.ApiIssueGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -128,8 +128,8 @@ export class ApiIssue {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IssueContract>): void;
-  get(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IssueContract>, callback?: msRest.ServiceCallback<Models.IssueContract>): Promise<Models.ApiIssueGetResponse> {
+  get(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, options: Models.ApiIssueGetOptionalParams, callback: msRest.ServiceCallback<Models.IssueContract>): void;
+  get(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, options?: Models.ApiIssueGetOptionalParams | msRest.ServiceCallback<Models.IssueContract>, callback?: msRest.ServiceCallback<Models.IssueContract>): Promise<Models.ApiIssueGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -193,30 +193,36 @@ export class ApiIssue {
    * @param apiId API identifier. Must be unique in the current API Management service instance.
    * @param issueId Issue identifier. Must be unique in the current API Management service instance.
    * @param parameters Update parameters.
+   * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
+   * response of the GET request or it should be * for unconditional update.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  update(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, parameters: Models.IssueUpdateContract, options?: Models.ApiIssueUpdateOptionalParams): Promise<msRest.RestResponse>;
+  update(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, parameters: Models.IssueUpdateContract, ifMatch: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param apiId API identifier. Must be unique in the current API Management service instance.
    * @param issueId Issue identifier. Must be unique in the current API Management service instance.
    * @param parameters Update parameters.
+   * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
+   * response of the GET request or it should be * for unconditional update.
    * @param callback The callback
    */
-  update(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, parameters: Models.IssueUpdateContract, callback: msRest.ServiceCallback<void>): void;
+  update(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, parameters: Models.IssueUpdateContract, ifMatch: string, callback: msRest.ServiceCallback<void>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param apiId API identifier. Must be unique in the current API Management service instance.
    * @param issueId Issue identifier. Must be unique in the current API Management service instance.
    * @param parameters Update parameters.
+   * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
+   * response of the GET request or it should be * for unconditional update.
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, parameters: Models.IssueUpdateContract, options: Models.ApiIssueUpdateOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  update(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, parameters: Models.IssueUpdateContract, options?: Models.ApiIssueUpdateOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  update(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, parameters: Models.IssueUpdateContract, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  update(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, parameters: Models.IssueUpdateContract, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -224,6 +230,7 @@ export class ApiIssue {
         apiId,
         issueId,
         parameters,
+        ifMatch,
         options
       },
       updateOperationSpec,
@@ -236,8 +243,8 @@ export class ApiIssue {
    * @param serviceName The name of the API Management service.
    * @param apiId API identifier. Must be unique in the current API Management service instance.
    * @param issueId Issue identifier. Must be unique in the current API Management service instance.
-   * @param ifMatch ETag of the Issue Entity. ETag should match the current entity state from the
-   * header response of the GET request or it should be * for unconditional update.
+   * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
+   * response of the GET request or it should be * for unconditional update.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
@@ -247,8 +254,8 @@ export class ApiIssue {
    * @param serviceName The name of the API Management service.
    * @param apiId API identifier. Must be unique in the current API Management service instance.
    * @param issueId Issue identifier. Must be unique in the current API Management service instance.
-   * @param ifMatch ETag of the Issue Entity. ETag should match the current entity state from the
-   * header response of the GET request or it should be * for unconditional update.
+   * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
+   * response of the GET request or it should be * for unconditional update.
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, ifMatch: string, callback: msRest.ServiceCallback<void>): void;
@@ -257,8 +264,8 @@ export class ApiIssue {
    * @param serviceName The name of the API Management service.
    * @param apiId API identifier. Must be unique in the current API Management service instance.
    * @param issueId Issue identifier. Must be unique in the current API Management service instance.
-   * @param ifMatch ETag of the Issue Entity. ETag should match the current entity state from the
-   * header response of the GET request or it should be * for unconditional update.
+   * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
+   * response of the GET request or it should be * for unconditional update.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -278,7 +285,7 @@ export class ApiIssue {
   }
 
   /**
-   * Lists all issues assosiated with the specified API.
+   * Lists all issues associated with the specified API.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.ApiIssueListByServiceNextResponse>
@@ -318,10 +325,11 @@ const listByServiceOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion,
     Parameters.filter0,
+    Parameters.expandCommentsAttachments,
     Parameters.top,
-    Parameters.skip
+    Parameters.skip,
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -375,6 +383,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
+    Parameters.expandCommentsAttachments,
     Parameters.apiVersion
   ],
   headerParameters: [
@@ -406,7 +415,7 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.apiVersion
   ],
   headerParameters: [
-    Parameters.ifMatch1,
+    Parameters.ifMatch0,
     Parameters.acceptLanguage
   ],
   requestBody: {
@@ -418,10 +427,12 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
   },
   responses: {
     200: {
-      bodyMapper: Mappers.IssueContract
+      bodyMapper: Mappers.IssueContract,
+      headersMapper: Mappers.ApiIssueCreateOrUpdateHeaders
     },
     201: {
-      bodyMapper: Mappers.IssueContract
+      bodyMapper: Mappers.IssueContract,
+      headersMapper: Mappers.ApiIssueCreateOrUpdateHeaders
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -477,7 +488,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.apiVersion
   ],
   headerParameters: [
-    Parameters.ifMatch0,
+    Parameters.ifMatch1,
     Parameters.acceptLanguage
   ],
   responses: {
