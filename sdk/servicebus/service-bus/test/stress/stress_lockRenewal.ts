@@ -23,7 +23,7 @@ import {
 const connectionString = "";
 const queueName = "";
 
-const testDurationInMilliseconds = 60000 * 10;
+const testDurationInMilliseconds = 60000 * 5 * 12 * 24; // 24 hours
 
 let snapshotIntervalID: any;
 
