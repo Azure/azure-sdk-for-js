@@ -86,11 +86,6 @@ describe("Create ServiceBusClient and Queue/Topic/Subscription Clients", functio
     namespace = ServiceBusClient.createFromTokenProvider(123 as any, {} as any);
     should.equal(namespace.name, "sb://123/", "Name of the namespace is different than expected");
   });
-
-  it("Coerces input to string for host in createFromAadTokenCredentials", function(): void {
-    namespace = ServiceBusClient.createFromAadTokenCredentials(123 as any, {} as any);
-    should.equal(namespace.name, "sb://123/", "Name of the namespace is different than expected");
-  });
 });
 
 describe("Errors with non existing Namespace", function(): void {
@@ -390,6 +385,22 @@ describe("Test createFromAadTokenCredentials", function(): void {
       );
     });
     should.equal(errorWasThrown, true, "Error thrown flag must be true");
+  });
+
+  it("Coerces input to string for host in createFromAadTokenCredentials", async function(): Promise<
+    void
+  > {
+    const env = getEnvVars();
+    tokenCreds = await loginWithServicePrincipalSecret(
+      env.clientId,
+      env.clientSecret,
+      env.tenantId,
+      {
+        tokenAudience: aadServiceBusAudience
+      }
+    );
+    namespace = ServiceBusClient.createFromAadTokenCredentials(123 as any, tokenCreds);
+    should.equal(namespace.name, "sb://123/", "Name of the namespace is different than expected");
   });
 
   it("sends a message to the ServiceBus entity", async function(): Promise<void> {
