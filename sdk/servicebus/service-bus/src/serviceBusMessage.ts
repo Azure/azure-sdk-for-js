@@ -938,7 +938,7 @@ export class ServiceBusMessage implements ReceivedMessage {
       return;
     }
     const receiver = this._context.getReceiver(this.delivery.link.name, this.sessionId);
-    this._throwIfMessageCannotBeSettled(receiver, "complete");
+    this._throwIfMessageCannotBeSettled(receiver, DispositionType.complete);
 
     return receiver!.settleMessage(this, DispositionType.complete);
   }
@@ -968,7 +968,7 @@ export class ServiceBusMessage implements ReceivedMessage {
       return;
     }
     const receiver = this._context.getReceiver(this.delivery.link.name, this.sessionId);
-    this._throwIfMessageCannotBeSettled(receiver, "abandon");
+    this._throwIfMessageCannotBeSettled(receiver, DispositionType.abandon);
 
     return receiver!.settleMessage(this, DispositionType.abandon, {
       propertiesToModify: propertiesToModify
@@ -1002,7 +1002,7 @@ export class ServiceBusMessage implements ReceivedMessage {
       return;
     }
     const receiver = this._context.getReceiver(this.delivery.link.name, this.sessionId);
-    this._throwIfMessageCannotBeSettled(receiver, "defer");
+    this._throwIfMessageCannotBeSettled(receiver, DispositionType.defer);
 
     return receiver!.settleMessage(this, DispositionType.defer, {
       propertiesToModify: propertiesToModify
@@ -1046,7 +1046,7 @@ export class ServiceBusMessage implements ReceivedMessage {
       return;
     }
     const receiver = this._context.getReceiver(this.delivery.link.name, this.sessionId);
-    this._throwIfMessageCannotBeSettled(receiver, "deadLetter");
+    this._throwIfMessageCannotBeSettled(receiver, DispositionType.deadletter);
 
     return receiver!.settleMessage(this, DispositionType.deadletter, {
       error: error
@@ -1086,7 +1086,7 @@ export class ServiceBusMessage implements ReceivedMessage {
    */
   private _throwIfMessageCannotBeSettled(
     receiver: MessageReceiver | MessageSession | undefined,
-    operation: string
+    operation: DispositionType
   ): void {
     let errorMessage;
     if (!receiver) {
