@@ -9,6 +9,7 @@
 export {
   discriminators,
   BaseResource,
+  CheckNameAvailabilityParameters,
   CheckNameAvailabilityResult,
   CheckNameAvailabilityResultResource,
   CloudError,
