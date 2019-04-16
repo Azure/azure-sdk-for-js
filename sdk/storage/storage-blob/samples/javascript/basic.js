@@ -42,8 +42,7 @@ async function main() {
   let marker;
   do {
     const listContainersResponse = await serviceURL.listContainersSegment(
-      marker,
-      { abortSignal: Aborter.none }
+      marker
     );
 
     marker = listContainersResponse.nextMarker;
@@ -82,7 +81,7 @@ async function main() {
   do {
     const listBlobsResponse = await containerURL.listBlobFlatSegment(
       marker,
-      { abortSignal: Aborter.none }
+      { abortSignal: Aborter.timeout(30 * 1000) } // abortSignal optional
     );
 
     marker = listBlobsResponse.nextMarker;
