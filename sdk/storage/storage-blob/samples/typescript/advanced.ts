@@ -37,7 +37,7 @@ async function main() {
   // Create a container
   const containerName = `newcontainer${new Date().getTime()}`;
   const containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
-  await containerURL.create(Aborter.none);
+  await containerURL.create();
 
   // Create a blob
   const blobName = "newblob" + new Date().getTime();
@@ -46,7 +46,7 @@ async function main() {
 
   // Parallel uploading with uploadFileToBlockBlob in Node.js runtime
   // uploadFileToBlockBlob is only available in Node.js
-  await uploadFileToBlockBlob(Aborter.none, localFilePath, blockBlobURL, {
+  await uploadFileToBlockBlob(localFilePath, blockBlobURL, {
     blockSize: 4 * 1024 * 1024, // 4MB block size
     parallelism: 20, // 20 concurrency
     progress: ev => console.log(ev)
@@ -56,12 +56,12 @@ async function main() {
   // Parallel uploading a Readable stream with uploadStreamToBlockBlob in Node.js runtime
   // uploadStreamToBlockBlob is only available in Node.js
   await uploadStreamToBlockBlob(
-    Aborter.timeout(30 * 60 * 60 * 1000), // Abort uploading with timeout in 30mins
     fs.createReadStream(localFilePath),
     blockBlobURL,
     4 * 1024 * 1024,
     20,
     {
+      abortSignal: Aborter.timeout(30 * 60 * 1000), // Abort uploading with timeout in 30mins
       progress: ev => console.log(ev)
     }
   );
@@ -71,7 +71,7 @@ async function main() {
   // Uncomment following code in browsers because uploadBrowserDataToBlockBlob is only available in browsers
   /*
   const browserFile = document.getElementById("fileinput").files[0];
-  await uploadBrowserDataToBlockBlob(Aborter.none, browserFile, blockBlobURL, {
+  await uploadBrowserDataToBlockBlob(browserFile, blockBlobURL, {
     blockSize: 4 * 1024 * 1024, // 4MB block size
     parallelism: 20, // 20 concurrency
     progress: ev => console.log(ev)
@@ -83,12 +83,12 @@ async function main() {
   const fileSize = fs.statSync(localFilePath).size;
   const buffer = Buffer.alloc(fileSize);
   await downloadBlobToBuffer(
-    Aborter.timeout(30 * 60 * 60 * 1000),
     buffer,
     blockBlobURL,
     0,
     undefined,
     {
+      abortSignal: Aborter.timeout(30 * 60 * 1000), // Abort uploading with timeout in 30mins
       blockSize: 4 * 1024 * 1024, // 4MB block size
       parallelism: 20, // 20 concurrency
       progress: ev => console.log(ev)
@@ -97,7 +97,7 @@ async function main() {
   console.log("downloadBlobToBuffer success");
 
   // Delete container
-  await containerURL.delete(Aborter.none);
+  await containerURL.delete();
   console.log("deleted container");
 }
 

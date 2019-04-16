@@ -85,10 +85,10 @@ export class ServiceURL extends StorageURL {
    * @memberof ServiceURL
    */
   public async getProperties(
-    aborter: Aborter
+    aborter?: Aborter
   ): Promise<Models.ServiceGetPropertiesResponse> {
     return this.serviceContext.getProperties({
-      abortSignal: aborter
+      abortSignal: aborter || Aborter.none
     });
   }
 
@@ -97,18 +97,18 @@ export class ServiceURL extends StorageURL {
    * for Storage Analytics, CORS (Cross-Origin Resource Sharing) rules and soft delete settings.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-blob-service-properties}
    *
+   * @param {Models.StorageServiceProperties} properties
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
-   * @param {Models.StorageServiceProperties} properties
    * @returns {Promise<Models.ServiceSetPropertiesResponse>}
    * @memberof ServiceURL
    */
   public async setProperties(
-    aborter: Aborter,
-    properties: Models.StorageServiceProperties
+    properties: Models.StorageServiceProperties,
+    aborter?: Aborter
   ): Promise<Models.ServiceSetPropertiesResponse> {
     return this.serviceContext.setProperties(properties, {
-      abortSignal: aborter
+      abortSignal: aborter || Aborter.none
     });
   }
 
@@ -124,10 +124,10 @@ export class ServiceURL extends StorageURL {
    * @memberof ServiceURL
    */
   public async getStatistics(
-    aborter: Aborter
+    aborter?: Aborter
   ): Promise<Models.ServiceGetStatisticsResponse> {
     return this.serviceContext.getStatistics({
-      abortSignal: aborter
+      abortSignal: aborter || Aborter.none
     });
   }
 
@@ -144,10 +144,10 @@ export class ServiceURL extends StorageURL {
    * @memberof ServiceURL
    */
   public async getAccountInfo(
-    aborter: Aborter
+    aborter?: Aborter
   ): Promise<Models.ServiceGetAccountInfoResponse> {
     return this.serviceContext.getAccountInfo({
-      abortSignal: aborter
+      abortSignal: aborter || Aborter.none
     });
   }
 

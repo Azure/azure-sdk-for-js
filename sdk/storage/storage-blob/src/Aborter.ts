@@ -14,7 +14,7 @@ import { AbortSignalLike, isNode } from "@azure/ms-rest-js";
  *
  * @example
  * // Abort without timeout
- * await blockBlobURL.upload(Aborter.none, buf, buf.length);
+ * await blockBlobURL.upload(buf, buf.length);
  *
  * @example
  * // Abort container create in 1000ms

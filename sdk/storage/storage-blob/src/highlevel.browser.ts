@@ -1,6 +1,5 @@
 import { generateUuid } from "@azure/ms-rest-js";
 
-import { Aborter } from "./Aborter";
 import { BlockBlobURL } from "./BlockBlobURL";
 import {
   BlobUploadCommonResponse,
@@ -25,22 +24,18 @@ import { generateBlockID } from "./utils/utils.common";
  * to commit the block list.
  *
  * @export
- * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
- *                          goto documents of Aborter for more examples about request cancellation
  * @param {Blob | ArrayBuffer | ArrayBufferView} browserData Blob, File, ArrayBuffer or ArrayBufferView
  * @param {BlockBlobURL} blockBlobURL
  * @param {IUploadToBlockBlobOptions} [options]
  * @returns {Promise<BlobUploadCommonResponse>}
  */
 export async function uploadBrowserDataToBlockBlob(
-  aborter: Aborter,
   browserData: Blob | ArrayBuffer | ArrayBufferView,
   blockBlobURL: BlockBlobURL,
-  options?: IUploadToBlockBlobOptions
+  options: IUploadToBlockBlobOptions = {}
 ): Promise<BlobUploadCommonResponse> {
   const browserBlob = new Blob([browserData]);
   return UploadSeekableBlobToBlockBlob(
-    aborter,
     (offset: number, size: number): Blob => {
       return browserBlob.slice(offset, offset + size);
     },
@@ -60,8 +55,6 @@ export async function uploadBrowserDataToBlockBlob(
  * Otherwise, this method will call stageBlock to upload blocks, and finally call commitBlockList
  * to commit the block list.
  *
- * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
- *                          goto documents of Aborter for more examples about request cancellation
  * @param {(offset: number, size: number) => Blob} blobFactory
  * @param {number} size
  * @param {BlockBlobURL} blockBlobURL
@@ -69,7 +62,6 @@ export async function uploadBrowserDataToBlockBlob(
  * @returns {Promise<BlobUploadCommonResponse>}
  */
 async function UploadSeekableBlobToBlockBlob(
-  aborter: Aborter,
   blobFactory: (offset: number, size: number) => Blob,
   size: number,
   blockBlobURL: BlockBlobURL,
@@ -118,7 +110,7 @@ async function UploadSeekableBlobToBlockBlob(
   }
 
   if (size <= options.maxSingleShotSize) {
-    return blockBlobURL.upload(aborter, blobFactory(0, size), size, options);
+    return blockBlobURL.upload(blobFactory(0, size), size, options);
   }
 
   const numBlocks: number = Math.floor((size - 1) / options.blockSize) + 1;
@@ -143,7 +135,6 @@ async function UploadSeekableBlobToBlockBlob(
         const contentLength = end - start;
         blockList.push(blockID);
         await blockBlobURL.stageBlock(
-          aborter,
           blockID,
           blobFactory(start, contentLength),
           contentLength,
@@ -165,5 +156,5 @@ async function UploadSeekableBlobToBlockBlob(
   }
   await batch.do();
 
-  return blockBlobURL.commitBlockList(aborter, blockList, options);
+  return blockBlobURL.commitBlockList(blockList, options);
 }
