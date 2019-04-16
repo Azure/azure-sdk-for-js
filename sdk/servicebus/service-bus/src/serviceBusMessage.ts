@@ -1100,7 +1100,16 @@ export class ServiceBusMessage implements ReceivedMessage {
       return;
     }
     const error = new Error(errorMessage);
-    log.error("%O", error);
+    if (receiver) {
+      log.error(
+        "An error occured when settling a message using the reciever %s: %O",
+        receiver.name,
+        error
+      );
+    } else {
+      log.error("An error occured when settling a message: %O", error);
+    }
+
     throw error;
   }
 }
