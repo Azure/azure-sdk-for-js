@@ -5040,6 +5040,14 @@ export interface SensitivityLabel extends ProxyResource {
    * @member {string} [informationTypeId] The information type ID.
    */
   informationTypeId?: string;
+  /**
+   * @member {boolean} [isDisabled] Is sensitivity recommendation disabled.
+   * Applicable for recommended sensitivity label only. Specifies whether the
+   * sensitivity recommendation on this column is disabled (dismissed) or not.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly isDisabled?: boolean;
 }
 
 /**
@@ -7241,6 +7249,11 @@ export interface SensitivityLabelsListCurrentByDatabaseOptionalParams extends ms
  */
 export interface SensitivityLabelsListRecommendedByDatabaseOptionalParams extends msRest.RequestOptionsBase {
   /**
+   * @member {boolean} [includeDisabledRecommendations] Specifies whether to
+   * include disabled recommendations or not.
+   */
+  includeDisabledRecommendations?: boolean;
+  /**
    * @member {string} [skipToken]
    */
   skipToken?: string;
@@ -7306,6 +7319,11 @@ export interface ManagedDatabaseSensitivityLabelsListCurrentByDatabaseOptionalPa
  * @extends RequestOptionsBase
  */
 export interface ManagedDatabaseSensitivityLabelsListRecommendedByDatabaseOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {boolean} [includeDisabledRecommendations] Specifies whether to
+   * include disabled recommendations or not.
+   */
+  includeDisabledRecommendations?: boolean;
   /**
    * @member {string} [skipToken]
    */
