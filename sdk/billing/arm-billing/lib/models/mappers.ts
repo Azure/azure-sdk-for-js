@@ -890,7 +890,15 @@ export const BillingAccount: msRest.CompositeMapper = {
         }
       },
       company: {
+        readOnly: true,
         serializedName: "properties.company",
+        type: {
+          name: "String"
+        }
+      },
+      country: {
+        readOnly: true,
+        serializedName: "properties.country",
         type: {
           name: "String"
         }
@@ -999,13 +1007,6 @@ export const BillingProperty: msRest.CompositeMapper = {
     className: "BillingProperty",
     modelProperties: {
       ...Resource.type.modelProperties,
-      productId: {
-        readOnly: true,
-        serializedName: "properties.productId",
-        type: {
-          name: "String"
-        }
-      },
       billingTenantId: {
         readOnly: true,
         serializedName: "properties.billingTenantId",
@@ -1041,6 +1042,13 @@ export const BillingProperty: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      costCenter: {
+        readOnly: true,
+        serializedName: "properties.costCenter",
+        type: {
+          name: "String"
+        }
+      },
       invoiceSectionId: {
         readOnly: true,
         serializedName: "properties.invoiceSectionId",
@@ -1051,6 +1059,20 @@ export const BillingProperty: msRest.CompositeMapper = {
       invoiceSectionName: {
         readOnly: true,
         serializedName: "properties.invoiceSectionName",
+        type: {
+          name: "String"
+        }
+      },
+      productId: {
+        readOnly: true,
+        serializedName: "properties.productId",
+        type: {
+          name: "String"
+        }
+      },
+      productName: {
+        readOnly: true,
+        serializedName: "properties.productName",
         type: {
           name: "String"
         }

@@ -710,8 +710,16 @@ export interface BillingAccount extends Resource {
   address?: Address;
   /**
    * @member {string} [company] Company Name.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  company?: string;
+  readonly company?: string;
+  /**
+   * @member {string} [country] Country Name.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly country?: string;
   /**
    * @member {InvoiceSection[]} [invoiceSections] The invoice sections
    * associated to the billing account. By default this is not populated,
@@ -781,12 +789,6 @@ export interface BillingAccountListResult {
  */
 export interface BillingProperty extends Resource {
   /**
-   * @member {string} [productId] Product Id.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly productId?: string;
-  /**
    * @member {string} [billingTenantId] Billing tenant Id.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
@@ -817,6 +819,12 @@ export interface BillingProperty extends Resource {
    */
   readonly billingProfileName?: string;
   /**
+   * @member {string} [costCenter] Cost center name.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly costCenter?: string;
+  /**
    * @member {string} [invoiceSectionId] Invoice Section Id.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
@@ -828,6 +836,18 @@ export interface BillingProperty extends Resource {
    * the server.**
    */
   readonly invoiceSectionName?: string;
+  /**
+   * @member {string} [productId] Product Id.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly productId?: string;
+  /**
+   * @member {string} [productName] Product name.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly productName?: string;
   /**
    * @member {string} [skuId] SKU Id.
    * **NOTE: This property will not be serialized. It can only be populated by
