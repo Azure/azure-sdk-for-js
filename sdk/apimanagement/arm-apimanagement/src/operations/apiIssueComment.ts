@@ -27,7 +27,7 @@ export class ApiIssueComment {
   }
 
   /**
-   * Lists all comments for the Issue assosiated with the specified API.
+   * Lists all comments for the Issue associated with the specified API.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param apiId API identifier. Must be unique in the current API Management service instance.
@@ -210,8 +210,8 @@ export class ApiIssueComment {
    * @param apiId API identifier. Must be unique in the current API Management service instance.
    * @param issueId Issue identifier. Must be unique in the current API Management service instance.
    * @param commentId Comment identifier within an Issue. Must be unique in the current Issue.
-   * @param ifMatch ETag of the Issue Entity. ETag should match the current entity state from the
-   * header response of the GET request or it should be * for unconditional update.
+   * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
+   * response of the GET request or it should be * for unconditional update.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
@@ -222,8 +222,8 @@ export class ApiIssueComment {
    * @param apiId API identifier. Must be unique in the current API Management service instance.
    * @param issueId Issue identifier. Must be unique in the current API Management service instance.
    * @param commentId Comment identifier within an Issue. Must be unique in the current Issue.
-   * @param ifMatch ETag of the Issue Entity. ETag should match the current entity state from the
-   * header response of the GET request or it should be * for unconditional update.
+   * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
+   * response of the GET request or it should be * for unconditional update.
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, commentId: string, ifMatch: string, callback: msRest.ServiceCallback<void>): void;
@@ -233,8 +233,8 @@ export class ApiIssueComment {
    * @param apiId API identifier. Must be unique in the current API Management service instance.
    * @param issueId Issue identifier. Must be unique in the current API Management service instance.
    * @param commentId Comment identifier within an Issue. Must be unique in the current Issue.
-   * @param ifMatch ETag of the Issue Entity. ETag should match the current entity state from the
-   * header response of the GET request or it should be * for unconditional update.
+   * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
+   * response of the GET request or it should be * for unconditional update.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -255,7 +255,7 @@ export class ApiIssueComment {
   }
 
   /**
-   * Lists all comments for the Issue assosiated with the specified API.
+   * Lists all comments for the Issue associated with the specified API.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.ApiIssueCommentListByServiceNextResponse>
@@ -296,10 +296,10 @@ const listByServiceOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion,
     Parameters.filter0,
     Parameters.top,
-    Parameters.skip
+    Parameters.skip,
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -387,7 +387,7 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.apiVersion
   ],
   headerParameters: [
-    Parameters.ifMatch1,
+    Parameters.ifMatch0,
     Parameters.acceptLanguage
   ],
   requestBody: {
@@ -399,10 +399,12 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
   },
   responses: {
     200: {
-      bodyMapper: Mappers.IssueCommentContract
+      bodyMapper: Mappers.IssueCommentContract,
+      headersMapper: Mappers.ApiIssueCommentCreateOrUpdateHeaders
     },
     201: {
-      bodyMapper: Mappers.IssueCommentContract
+      bodyMapper: Mappers.IssueCommentContract,
+      headersMapper: Mappers.ApiIssueCommentCreateOrUpdateHeaders
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -426,7 +428,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.apiVersion
   ],
   headerParameters: [
-    Parameters.ifMatch0,
+    Parameters.ifMatch1,
     Parameters.acceptLanguage
   ],
   responses: {

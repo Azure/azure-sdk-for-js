@@ -218,9 +218,12 @@ export class ManagementClient extends LinkEntity {
         log.mgmt("Successfully closed the management session.");
       }
     } catch (err) {
-      const msg = `An error occurred while closing the management session: ${err}`;
-      log.error(msg);
-      throw new Error(msg);
+      log.error(
+        "[%s] An error occurred while closing the management session: %O.",
+        this._context.namespace.connectionId,
+        err
+      );
+      throw err;
     }
   }
 
@@ -622,7 +625,7 @@ export class ManagementClient extends LinkEntity {
       };
       request.application_properties![Constants.trackingId] = generate_uuid();
       log.mgmt(
-        "[%s] Receive deferred messages request bosy: %O.",
+        "[%s] Receive deferred messages request body: %O.",
         this._context.namespace.connectionId,
         request.body
       );

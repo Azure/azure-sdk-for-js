@@ -122,8 +122,12 @@ export class SubscriptionClient implements Client {
         log.subscriptionClient("Closed the subscription client '%s'.", this.id);
       }
     } catch (err) {
-      err = err instanceof Error ? err : new Error(JSON.stringify(err));
-      log.error(`An error occurred while closing the subscription client "${this.id}":\n${err}`);
+      log.error(
+        "[%s] An error occurred while closing the SubscriptionClient for %s: %O",
+        this._context.namespace.connectionId,
+        this.id,
+        err
+      );
       throw err;
     }
   }
@@ -303,6 +307,7 @@ export class SubscriptionClient implements Client {
   //   maxNumberOfSessions: number,
   //   lastUpdatedTime?: Date
   // ): Promise<string[]> {
+  // TODO: Parameter validation if required
   // this.throwErrorIfClientOrConnectionClosed();
   //   return this._context.managementClient!.listMessageSessions(
   //     0,

@@ -12,6 +12,8 @@
   "types": "dist-esm/index.d.ts",
   "scripts": {
     "clean": "rimraf dist dist-*",
+    "check-format": "prettier --list-different --config .prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "format": "prettier --write --config .prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "build": "tsc -p . && rollup -c && rollup -c rollup.test.config.js",
     "build-test": "tsc -p . && rollup -c rollup.test.config.js",
     "build-browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c",
@@ -35,7 +37,7 @@
   "engine": {
     "node": ">=6.0.0"
   },
-  "homepage": "https://github.com/azure/azure-sdk-for-js/tree/master/packages/@azure/template",
+  "homepage": "https://github.com/azure/azure-sdk-for-js/tree/master/sdk/template/template",
   "devDependencies": {
     "@types/mocha": "^5.2.5",
     "@types/node": "^10.7.1",
@@ -45,6 +47,7 @@
     "eslint": "^5.14.1",
     "mocha": "^5.2.0",
     "mocha-junit-reporter": "^1.18.0",
+    "prettier": "^1.16.4",
     "rimraf": "^2.6.2",
     "rollup": "^0.66.6",
     "rollup-plugin-commonjs": "^9.2.0",

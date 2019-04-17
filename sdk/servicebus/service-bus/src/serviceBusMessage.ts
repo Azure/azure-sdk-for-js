@@ -673,7 +673,7 @@ export module ReceivedMessageInfo {
       _delivery: delivery,
       deliveryCount: msg.delivery_count,
       lockToken:
-        delivery && delivery.tag.length !== 0
+        delivery && delivery.tag && delivery.tag.length !== 0
           ? uuid_to_string(
               shouldReorderLockToken === true
                 ? reorderLockToken(

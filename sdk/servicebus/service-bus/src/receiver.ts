@@ -214,9 +214,6 @@ export class Receiver {
       sequenceNumber
     );
 
-    if (this._receiveMode !== ReceiveMode.peekLock) {
-      throw new Error("The operation is only supported in 'PeekLock' receive mode.");
-    }
     const messages = await this._context.managementClient!.receiveDeferredMessages(
       [sequenceNumber],
       this._receiveMode
@@ -248,9 +245,6 @@ export class Receiver {
       sequenceNumbers
     );
 
-    if (this._receiveMode !== ReceiveMode.peekLock) {
-      throw new Error("The operation is only supported in 'PeekLock' receive mode.");
-    }
     return this._context.managementClient!.receiveDeferredMessages(
       sequenceNumbers,
       this._receiveMode
@@ -282,9 +276,11 @@ export class Receiver {
         this._context.requestResponseLockedMessages.clear();
       }
     } catch (err) {
-      err = err instanceof Error ? err : new Error(JSON.stringify(err));
       log.error(
-        `An error occurred while closing the receiver for "${this._context.entityPath}":\n${err}`
+        "[%s] An error occurred while closing the Receiver for %s: %O",
+        this._context.namespace.connectionId,
+        this._context.entityPath,
+        err
       );
       throw err;
     } finally {
@@ -530,10 +526,6 @@ export class SessionReceiver {
       sequenceNumber
     );
 
-    if (this._receiveMode !== ReceiveMode.peekLock) {
-      throw new Error("The operation is only supported in 'PeekLock' receive mode.");
-    }
-
     await this._createMessageSessionIfDoesntExist();
     const messages = await this._context.managementClient!.receiveDeferredMessages(
       [sequenceNumber],
@@ -567,9 +559,6 @@ export class SessionReceiver {
       sequenceNumbers
     );
 
-    if (this._receiveMode !== ReceiveMode.peekLock) {
-      throw new Error("The operation is only supported in 'PeekLock' receive mode.");
-    }
     await this._createMessageSessionIfDoesntExist();
     return this._context.managementClient!.receiveDeferredMessages(
       sequenceNumbers,
@@ -675,11 +664,12 @@ export class SessionReceiver {
         this._messageSession = undefined;
       }
     } catch (err) {
-      err = err instanceof Error ? err : new Error(JSON.stringify(err));
       log.error(
-        `An error occurred while closing the receiver for session "${this.sessionId}" in "${
-          this._context.entityPath
-        }":\n${err}`
+        "[%s] An error occurred while closing the SessionReceiver for session %s in %s: %O",
+        this._context.namespace.connectionId,
+        this.sessionId,
+        this._context.entityPath,
+        err
       );
       throw err;
     } finally {

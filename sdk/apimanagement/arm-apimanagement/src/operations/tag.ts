@@ -27,458 +27,6 @@ export class Tag {
   }
 
   /**
-   * Lists a collection of tags defined within a service instance.
-   * @param resourceGroupName The name of the resource group.
-   * @param serviceName The name of the API Management service.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.TagListByServiceResponse>
-   */
-  listByService(resourceGroupName: string, serviceName: string, options?: Models.TagListByServiceOptionalParams): Promise<Models.TagListByServiceResponse>;
-  /**
-   * @param resourceGroupName The name of the resource group.
-   * @param serviceName The name of the API Management service.
-   * @param callback The callback
-   */
-  listByService(resourceGroupName: string, serviceName: string, callback: msRest.ServiceCallback<Models.TagCollection>): void;
-  /**
-   * @param resourceGroupName The name of the resource group.
-   * @param serviceName The name of the API Management service.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  listByService(resourceGroupName: string, serviceName: string, options: Models.TagListByServiceOptionalParams, callback: msRest.ServiceCallback<Models.TagCollection>): void;
-  listByService(resourceGroupName: string, serviceName: string, options?: Models.TagListByServiceOptionalParams | msRest.ServiceCallback<Models.TagCollection>, callback?: msRest.ServiceCallback<Models.TagCollection>): Promise<Models.TagListByServiceResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        serviceName,
-        options
-      },
-      listByServiceOperationSpec,
-      callback) as Promise<Models.TagListByServiceResponse>;
-  }
-
-  /**
-   * Gets the entity state version of the tag specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
-   * @param serviceName The name of the API Management service.
-   * @param tagId Tag identifier. Must be unique in the current API Management service instance.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.TagGetEntityStateResponse>
-   */
-  getEntityState(resourceGroupName: string, serviceName: string, tagId: string, options?: msRest.RequestOptionsBase): Promise<Models.TagGetEntityStateResponse>;
-  /**
-   * @param resourceGroupName The name of the resource group.
-   * @param serviceName The name of the API Management service.
-   * @param tagId Tag identifier. Must be unique in the current API Management service instance.
-   * @param callback The callback
-   */
-  getEntityState(resourceGroupName: string, serviceName: string, tagId: string, callback: msRest.ServiceCallback<void>): void;
-  /**
-   * @param resourceGroupName The name of the resource group.
-   * @param serviceName The name of the API Management service.
-   * @param tagId Tag identifier. Must be unique in the current API Management service instance.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  getEntityState(resourceGroupName: string, serviceName: string, tagId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  getEntityState(resourceGroupName: string, serviceName: string, tagId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.TagGetEntityStateResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        serviceName,
-        tagId,
-        options
-      },
-      getEntityStateOperationSpec,
-      callback) as Promise<Models.TagGetEntityStateResponse>;
-  }
-
-  /**
-   * Gets the details of the tag specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
-   * @param serviceName The name of the API Management service.
-   * @param tagId Tag identifier. Must be unique in the current API Management service instance.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.TagGetResponse>
-   */
-  get(resourceGroupName: string, serviceName: string, tagId: string, options?: msRest.RequestOptionsBase): Promise<Models.TagGetResponse>;
-  /**
-   * @param resourceGroupName The name of the resource group.
-   * @param serviceName The name of the API Management service.
-   * @param tagId Tag identifier. Must be unique in the current API Management service instance.
-   * @param callback The callback
-   */
-  get(resourceGroupName: string, serviceName: string, tagId: string, callback: msRest.ServiceCallback<Models.TagContract>): void;
-  /**
-   * @param resourceGroupName The name of the resource group.
-   * @param serviceName The name of the API Management service.
-   * @param tagId Tag identifier. Must be unique in the current API Management service instance.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  get(resourceGroupName: string, serviceName: string, tagId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TagContract>): void;
-  get(resourceGroupName: string, serviceName: string, tagId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TagContract>, callback?: msRest.ServiceCallback<Models.TagContract>): Promise<Models.TagGetResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        serviceName,
-        tagId,
-        options
-      },
-      getOperationSpec,
-      callback) as Promise<Models.TagGetResponse>;
-  }
-
-  /**
-   * Creates a tag.
-   * @param resourceGroupName The name of the resource group.
-   * @param serviceName The name of the API Management service.
-   * @param tagId Tag identifier. Must be unique in the current API Management service instance.
-   * @param parameters Create parameters.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.TagCreateOrUpdateResponse>
-   */
-  createOrUpdate(resourceGroupName: string, serviceName: string, tagId: string, parameters: Models.TagCreateUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.TagCreateOrUpdateResponse>;
-  /**
-   * @param resourceGroupName The name of the resource group.
-   * @param serviceName The name of the API Management service.
-   * @param tagId Tag identifier. Must be unique in the current API Management service instance.
-   * @param parameters Create parameters.
-   * @param callback The callback
-   */
-  createOrUpdate(resourceGroupName: string, serviceName: string, tagId: string, parameters: Models.TagCreateUpdateParameters, callback: msRest.ServiceCallback<Models.TagContract>): void;
-  /**
-   * @param resourceGroupName The name of the resource group.
-   * @param serviceName The name of the API Management service.
-   * @param tagId Tag identifier. Must be unique in the current API Management service instance.
-   * @param parameters Create parameters.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  createOrUpdate(resourceGroupName: string, serviceName: string, tagId: string, parameters: Models.TagCreateUpdateParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TagContract>): void;
-  createOrUpdate(resourceGroupName: string, serviceName: string, tagId: string, parameters: Models.TagCreateUpdateParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TagContract>, callback?: msRest.ServiceCallback<Models.TagContract>): Promise<Models.TagCreateOrUpdateResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        serviceName,
-        tagId,
-        parameters,
-        options
-      },
-      createOrUpdateOperationSpec,
-      callback) as Promise<Models.TagCreateOrUpdateResponse>;
-  }
-
-  /**
-   * Updates the details of the tag specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
-   * @param serviceName The name of the API Management service.
-   * @param tagId Tag identifier. Must be unique in the current API Management service instance.
-   * @param parameters Update parameters.
-   * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
-   * response of the GET request or it should be * for unconditional update.
-   * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
-   */
-  update(resourceGroupName: string, serviceName: string, tagId: string, parameters: Models.TagCreateUpdateParameters, ifMatch: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
-  /**
-   * @param resourceGroupName The name of the resource group.
-   * @param serviceName The name of the API Management service.
-   * @param tagId Tag identifier. Must be unique in the current API Management service instance.
-   * @param parameters Update parameters.
-   * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
-   * response of the GET request or it should be * for unconditional update.
-   * @param callback The callback
-   */
-  update(resourceGroupName: string, serviceName: string, tagId: string, parameters: Models.TagCreateUpdateParameters, ifMatch: string, callback: msRest.ServiceCallback<void>): void;
-  /**
-   * @param resourceGroupName The name of the resource group.
-   * @param serviceName The name of the API Management service.
-   * @param tagId Tag identifier. Must be unique in the current API Management service instance.
-   * @param parameters Update parameters.
-   * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
-   * response of the GET request or it should be * for unconditional update.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  update(resourceGroupName: string, serviceName: string, tagId: string, parameters: Models.TagCreateUpdateParameters, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  update(resourceGroupName: string, serviceName: string, tagId: string, parameters: Models.TagCreateUpdateParameters, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        serviceName,
-        tagId,
-        parameters,
-        ifMatch,
-        options
-      },
-      updateOperationSpec,
-      callback);
-  }
-
-  /**
-   * Deletes specific tag of the API Management service instance.
-   * @param resourceGroupName The name of the resource group.
-   * @param serviceName The name of the API Management service.
-   * @param tagId Tag identifier. Must be unique in the current API Management service instance.
-   * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
-   * response of the GET request or it should be * for unconditional update.
-   * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
-   */
-  deleteMethod(resourceGroupName: string, serviceName: string, tagId: string, ifMatch: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
-  /**
-   * @param resourceGroupName The name of the resource group.
-   * @param serviceName The name of the API Management service.
-   * @param tagId Tag identifier. Must be unique in the current API Management service instance.
-   * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
-   * response of the GET request or it should be * for unconditional update.
-   * @param callback The callback
-   */
-  deleteMethod(resourceGroupName: string, serviceName: string, tagId: string, ifMatch: string, callback: msRest.ServiceCallback<void>): void;
-  /**
-   * @param resourceGroupName The name of the resource group.
-   * @param serviceName The name of the API Management service.
-   * @param tagId Tag identifier. Must be unique in the current API Management service instance.
-   * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
-   * response of the GET request or it should be * for unconditional update.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  deleteMethod(resourceGroupName: string, serviceName: string, tagId: string, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, serviceName: string, tagId: string, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        serviceName,
-        tagId,
-        ifMatch,
-        options
-      },
-      deleteMethodOperationSpec,
-      callback);
-  }
-
-  /**
-   * Lists all Tags associated with the API.
-   * @param resourceGroupName The name of the resource group.
-   * @param serviceName The name of the API Management service.
-   * @param apiId API revision identifier. Must be unique in the current API Management service
-   * instance. Non-current revision has ;rev=n as a suffix where n is the revision number.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.TagListByApiResponse>
-   */
-  listByApi(resourceGroupName: string, serviceName: string, apiId: string, options?: Models.TagListByApiOptionalParams): Promise<Models.TagListByApiResponse>;
-  /**
-   * @param resourceGroupName The name of the resource group.
-   * @param serviceName The name of the API Management service.
-   * @param apiId API revision identifier. Must be unique in the current API Management service
-   * instance. Non-current revision has ;rev=n as a suffix where n is the revision number.
-   * @param callback The callback
-   */
-  listByApi(resourceGroupName: string, serviceName: string, apiId: string, callback: msRest.ServiceCallback<Models.TagCollection>): void;
-  /**
-   * @param resourceGroupName The name of the resource group.
-   * @param serviceName The name of the API Management service.
-   * @param apiId API revision identifier. Must be unique in the current API Management service
-   * instance. Non-current revision has ;rev=n as a suffix where n is the revision number.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  listByApi(resourceGroupName: string, serviceName: string, apiId: string, options: Models.TagListByApiOptionalParams, callback: msRest.ServiceCallback<Models.TagCollection>): void;
-  listByApi(resourceGroupName: string, serviceName: string, apiId: string, options?: Models.TagListByApiOptionalParams | msRest.ServiceCallback<Models.TagCollection>, callback?: msRest.ServiceCallback<Models.TagCollection>): Promise<Models.TagListByApiResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        serviceName,
-        apiId,
-        options
-      },
-      listByApiOperationSpec,
-      callback) as Promise<Models.TagListByApiResponse>;
-  }
-
-  /**
-   * Gets the entity state version of the tag specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
-   * @param serviceName The name of the API Management service.
-   * @param apiId API revision identifier. Must be unique in the current API Management service
-   * instance. Non-current revision has ;rev=n as a suffix where n is the revision number.
-   * @param tagId Tag identifier. Must be unique in the current API Management service instance.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.TagGetEntityStateByApiResponse>
-   */
-  getEntityStateByApi(resourceGroupName: string, serviceName: string, apiId: string, tagId: string, options?: msRest.RequestOptionsBase): Promise<Models.TagGetEntityStateByApiResponse>;
-  /**
-   * @param resourceGroupName The name of the resource group.
-   * @param serviceName The name of the API Management service.
-   * @param apiId API revision identifier. Must be unique in the current API Management service
-   * instance. Non-current revision has ;rev=n as a suffix where n is the revision number.
-   * @param tagId Tag identifier. Must be unique in the current API Management service instance.
-   * @param callback The callback
-   */
-  getEntityStateByApi(resourceGroupName: string, serviceName: string, apiId: string, tagId: string, callback: msRest.ServiceCallback<void>): void;
-  /**
-   * @param resourceGroupName The name of the resource group.
-   * @param serviceName The name of the API Management service.
-   * @param apiId API revision identifier. Must be unique in the current API Management service
-   * instance. Non-current revision has ;rev=n as a suffix where n is the revision number.
-   * @param tagId Tag identifier. Must be unique in the current API Management service instance.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  getEntityStateByApi(resourceGroupName: string, serviceName: string, apiId: string, tagId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  getEntityStateByApi(resourceGroupName: string, serviceName: string, apiId: string, tagId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.TagGetEntityStateByApiResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        serviceName,
-        apiId,
-        tagId,
-        options
-      },
-      getEntityStateByApiOperationSpec,
-      callback) as Promise<Models.TagGetEntityStateByApiResponse>;
-  }
-
-  /**
-   * Get tag associated with the API.
-   * @param resourceGroupName The name of the resource group.
-   * @param serviceName The name of the API Management service.
-   * @param apiId API revision identifier. Must be unique in the current API Management service
-   * instance. Non-current revision has ;rev=n as a suffix where n is the revision number.
-   * @param tagId Tag identifier. Must be unique in the current API Management service instance.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.TagGetByApiResponse>
-   */
-  getByApi(resourceGroupName: string, serviceName: string, apiId: string, tagId: string, options?: msRest.RequestOptionsBase): Promise<Models.TagGetByApiResponse>;
-  /**
-   * @param resourceGroupName The name of the resource group.
-   * @param serviceName The name of the API Management service.
-   * @param apiId API revision identifier. Must be unique in the current API Management service
-   * instance. Non-current revision has ;rev=n as a suffix where n is the revision number.
-   * @param tagId Tag identifier. Must be unique in the current API Management service instance.
-   * @param callback The callback
-   */
-  getByApi(resourceGroupName: string, serviceName: string, apiId: string, tagId: string, callback: msRest.ServiceCallback<Models.TagContract>): void;
-  /**
-   * @param resourceGroupName The name of the resource group.
-   * @param serviceName The name of the API Management service.
-   * @param apiId API revision identifier. Must be unique in the current API Management service
-   * instance. Non-current revision has ;rev=n as a suffix where n is the revision number.
-   * @param tagId Tag identifier. Must be unique in the current API Management service instance.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  getByApi(resourceGroupName: string, serviceName: string, apiId: string, tagId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TagContract>): void;
-  getByApi(resourceGroupName: string, serviceName: string, apiId: string, tagId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TagContract>, callback?: msRest.ServiceCallback<Models.TagContract>): Promise<Models.TagGetByApiResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        serviceName,
-        apiId,
-        tagId,
-        options
-      },
-      getByApiOperationSpec,
-      callback) as Promise<Models.TagGetByApiResponse>;
-  }
-
-  /**
-   * Assign tag to the Api.
-   * @param resourceGroupName The name of the resource group.
-   * @param serviceName The name of the API Management service.
-   * @param apiId API revision identifier. Must be unique in the current API Management service
-   * instance. Non-current revision has ;rev=n as a suffix where n is the revision number.
-   * @param tagId Tag identifier. Must be unique in the current API Management service instance.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.TagAssignToApiResponse>
-   */
-  assignToApi(resourceGroupName: string, serviceName: string, apiId: string, tagId: string, options?: Models.TagAssignToApiOptionalParams): Promise<Models.TagAssignToApiResponse>;
-  /**
-   * @param resourceGroupName The name of the resource group.
-   * @param serviceName The name of the API Management service.
-   * @param apiId API revision identifier. Must be unique in the current API Management service
-   * instance. Non-current revision has ;rev=n as a suffix where n is the revision number.
-   * @param tagId Tag identifier. Must be unique in the current API Management service instance.
-   * @param callback The callback
-   */
-  assignToApi(resourceGroupName: string, serviceName: string, apiId: string, tagId: string, callback: msRest.ServiceCallback<Models.TagContract>): void;
-  /**
-   * @param resourceGroupName The name of the resource group.
-   * @param serviceName The name of the API Management service.
-   * @param apiId API revision identifier. Must be unique in the current API Management service
-   * instance. Non-current revision has ;rev=n as a suffix where n is the revision number.
-   * @param tagId Tag identifier. Must be unique in the current API Management service instance.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  assignToApi(resourceGroupName: string, serviceName: string, apiId: string, tagId: string, options: Models.TagAssignToApiOptionalParams, callback: msRest.ServiceCallback<Models.TagContract>): void;
-  assignToApi(resourceGroupName: string, serviceName: string, apiId: string, tagId: string, options?: Models.TagAssignToApiOptionalParams | msRest.ServiceCallback<Models.TagContract>, callback?: msRest.ServiceCallback<Models.TagContract>): Promise<Models.TagAssignToApiResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        serviceName,
-        apiId,
-        tagId,
-        options
-      },
-      assignToApiOperationSpec,
-      callback) as Promise<Models.TagAssignToApiResponse>;
-  }
-
-  /**
-   * Detach the tag from the Api.
-   * @param resourceGroupName The name of the resource group.
-   * @param serviceName The name of the API Management service.
-   * @param apiId API revision identifier. Must be unique in the current API Management service
-   * instance. Non-current revision has ;rev=n as a suffix where n is the revision number.
-   * @param tagId Tag identifier. Must be unique in the current API Management service instance.
-   * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
-   * response of the GET request or it should be * for unconditional update.
-   * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
-   */
-  detachFromApi(resourceGroupName: string, serviceName: string, apiId: string, tagId: string, ifMatch: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
-  /**
-   * @param resourceGroupName The name of the resource group.
-   * @param serviceName The name of the API Management service.
-   * @param apiId API revision identifier. Must be unique in the current API Management service
-   * instance. Non-current revision has ;rev=n as a suffix where n is the revision number.
-   * @param tagId Tag identifier. Must be unique in the current API Management service instance.
-   * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
-   * response of the GET request or it should be * for unconditional update.
-   * @param callback The callback
-   */
-  detachFromApi(resourceGroupName: string, serviceName: string, apiId: string, tagId: string, ifMatch: string, callback: msRest.ServiceCallback<void>): void;
-  /**
-   * @param resourceGroupName The name of the resource group.
-   * @param serviceName The name of the API Management service.
-   * @param apiId API revision identifier. Must be unique in the current API Management service
-   * instance. Non-current revision has ;rev=n as a suffix where n is the revision number.
-   * @param tagId Tag identifier. Must be unique in the current API Management service instance.
-   * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
-   * response of the GET request or it should be * for unconditional update.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  detachFromApi(resourceGroupName: string, serviceName: string, apiId: string, tagId: string, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  detachFromApi(resourceGroupName: string, serviceName: string, apiId: string, tagId: string, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        serviceName,
-        apiId,
-        tagId,
-        ifMatch,
-        options
-      },
-      detachFromApiOperationSpec,
-      callback);
-  }
-
-  /**
    * Lists all Tags associated with the Operation.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -636,7 +184,7 @@ export class Tag {
    * @param [options] The optional parameters
    * @returns Promise<Models.TagAssignToOperationResponse>
    */
-  assignToOperation(resourceGroupName: string, serviceName: string, apiId: string, operationId: string, tagId: string, options?: Models.TagAssignToOperationOptionalParams): Promise<Models.TagAssignToOperationResponse>;
+  assignToOperation(resourceGroupName: string, serviceName: string, apiId: string, operationId: string, tagId: string, options?: msRest.RequestOptionsBase): Promise<Models.TagAssignToOperationResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -659,8 +207,8 @@ export class Tag {
    * @param options The optional parameters
    * @param callback The callback
    */
-  assignToOperation(resourceGroupName: string, serviceName: string, apiId: string, operationId: string, tagId: string, options: Models.TagAssignToOperationOptionalParams, callback: msRest.ServiceCallback<Models.TagContract>): void;
-  assignToOperation(resourceGroupName: string, serviceName: string, apiId: string, operationId: string, tagId: string, options?: Models.TagAssignToOperationOptionalParams | msRest.ServiceCallback<Models.TagContract>, callback?: msRest.ServiceCallback<Models.TagContract>): Promise<Models.TagAssignToOperationResponse> {
+  assignToOperation(resourceGroupName: string, serviceName: string, apiId: string, operationId: string, tagId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TagContract>): void;
+  assignToOperation(resourceGroupName: string, serviceName: string, apiId: string, operationId: string, tagId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TagContract>, callback?: msRest.ServiceCallback<Models.TagContract>): Promise<Models.TagAssignToOperationResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -683,12 +231,10 @@ export class Tag {
    * @param operationId Operation identifier within an API. Must be unique in the current API
    * Management service instance.
    * @param tagId Tag identifier. Must be unique in the current API Management service instance.
-   * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
-   * response of the GET request or it should be * for unconditional update.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  detachFromOperation(resourceGroupName: string, serviceName: string, apiId: string, operationId: string, tagId: string, ifMatch: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  detachFromOperation(resourceGroupName: string, serviceName: string, apiId: string, operationId: string, tagId: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -697,11 +243,9 @@ export class Tag {
    * @param operationId Operation identifier within an API. Must be unique in the current API
    * Management service instance.
    * @param tagId Tag identifier. Must be unique in the current API Management service instance.
-   * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
-   * response of the GET request or it should be * for unconditional update.
    * @param callback The callback
    */
-  detachFromOperation(resourceGroupName: string, serviceName: string, apiId: string, operationId: string, tagId: string, ifMatch: string, callback: msRest.ServiceCallback<void>): void;
+  detachFromOperation(resourceGroupName: string, serviceName: string, apiId: string, operationId: string, tagId: string, callback: msRest.ServiceCallback<void>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -710,13 +254,11 @@ export class Tag {
    * @param operationId Operation identifier within an API. Must be unique in the current API
    * Management service instance.
    * @param tagId Tag identifier. Must be unique in the current API Management service instance.
-   * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
-   * response of the GET request or it should be * for unconditional update.
    * @param options The optional parameters
    * @param callback The callback
    */
-  detachFromOperation(resourceGroupName: string, serviceName: string, apiId: string, operationId: string, tagId: string, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  detachFromOperation(resourceGroupName: string, serviceName: string, apiId: string, operationId: string, tagId: string, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  detachFromOperation(resourceGroupName: string, serviceName: string, apiId: string, operationId: string, tagId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  detachFromOperation(resourceGroupName: string, serviceName: string, apiId: string, operationId: string, tagId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -724,10 +266,220 @@ export class Tag {
         apiId,
         operationId,
         tagId,
-        ifMatch,
         options
       },
       detachFromOperationOperationSpec,
+      callback);
+  }
+
+  /**
+   * Lists all Tags associated with the API.
+   * @param resourceGroupName The name of the resource group.
+   * @param serviceName The name of the API Management service.
+   * @param apiId API revision identifier. Must be unique in the current API Management service
+   * instance. Non-current revision has ;rev=n as a suffix where n is the revision number.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.TagListByApiResponse>
+   */
+  listByApi(resourceGroupName: string, serviceName: string, apiId: string, options?: Models.TagListByApiOptionalParams): Promise<Models.TagListByApiResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param serviceName The name of the API Management service.
+   * @param apiId API revision identifier. Must be unique in the current API Management service
+   * instance. Non-current revision has ;rev=n as a suffix where n is the revision number.
+   * @param callback The callback
+   */
+  listByApi(resourceGroupName: string, serviceName: string, apiId: string, callback: msRest.ServiceCallback<Models.TagCollection>): void;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param serviceName The name of the API Management service.
+   * @param apiId API revision identifier. Must be unique in the current API Management service
+   * instance. Non-current revision has ;rev=n as a suffix where n is the revision number.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listByApi(resourceGroupName: string, serviceName: string, apiId: string, options: Models.TagListByApiOptionalParams, callback: msRest.ServiceCallback<Models.TagCollection>): void;
+  listByApi(resourceGroupName: string, serviceName: string, apiId: string, options?: Models.TagListByApiOptionalParams | msRest.ServiceCallback<Models.TagCollection>, callback?: msRest.ServiceCallback<Models.TagCollection>): Promise<Models.TagListByApiResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        serviceName,
+        apiId,
+        options
+      },
+      listByApiOperationSpec,
+      callback) as Promise<Models.TagListByApiResponse>;
+  }
+
+  /**
+   * Gets the entity state version of the tag specified by its identifier.
+   * @param resourceGroupName The name of the resource group.
+   * @param serviceName The name of the API Management service.
+   * @param apiId API revision identifier. Must be unique in the current API Management service
+   * instance. Non-current revision has ;rev=n as a suffix where n is the revision number.
+   * @param tagId Tag identifier. Must be unique in the current API Management service instance.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.TagGetEntityStateByApiResponse>
+   */
+  getEntityStateByApi(resourceGroupName: string, serviceName: string, apiId: string, tagId: string, options?: msRest.RequestOptionsBase): Promise<Models.TagGetEntityStateByApiResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param serviceName The name of the API Management service.
+   * @param apiId API revision identifier. Must be unique in the current API Management service
+   * instance. Non-current revision has ;rev=n as a suffix where n is the revision number.
+   * @param tagId Tag identifier. Must be unique in the current API Management service instance.
+   * @param callback The callback
+   */
+  getEntityStateByApi(resourceGroupName: string, serviceName: string, apiId: string, tagId: string, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param serviceName The name of the API Management service.
+   * @param apiId API revision identifier. Must be unique in the current API Management service
+   * instance. Non-current revision has ;rev=n as a suffix where n is the revision number.
+   * @param tagId Tag identifier. Must be unique in the current API Management service instance.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getEntityStateByApi(resourceGroupName: string, serviceName: string, apiId: string, tagId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  getEntityStateByApi(resourceGroupName: string, serviceName: string, apiId: string, tagId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.TagGetEntityStateByApiResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        serviceName,
+        apiId,
+        tagId,
+        options
+      },
+      getEntityStateByApiOperationSpec,
+      callback) as Promise<Models.TagGetEntityStateByApiResponse>;
+  }
+
+  /**
+   * Get tag associated with the API.
+   * @param resourceGroupName The name of the resource group.
+   * @param serviceName The name of the API Management service.
+   * @param apiId API revision identifier. Must be unique in the current API Management service
+   * instance. Non-current revision has ;rev=n as a suffix where n is the revision number.
+   * @param tagId Tag identifier. Must be unique in the current API Management service instance.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.TagGetByApiResponse>
+   */
+  getByApi(resourceGroupName: string, serviceName: string, apiId: string, tagId: string, options?: msRest.RequestOptionsBase): Promise<Models.TagGetByApiResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param serviceName The name of the API Management service.
+   * @param apiId API revision identifier. Must be unique in the current API Management service
+   * instance. Non-current revision has ;rev=n as a suffix where n is the revision number.
+   * @param tagId Tag identifier. Must be unique in the current API Management service instance.
+   * @param callback The callback
+   */
+  getByApi(resourceGroupName: string, serviceName: string, apiId: string, tagId: string, callback: msRest.ServiceCallback<Models.TagContract>): void;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param serviceName The name of the API Management service.
+   * @param apiId API revision identifier. Must be unique in the current API Management service
+   * instance. Non-current revision has ;rev=n as a suffix where n is the revision number.
+   * @param tagId Tag identifier. Must be unique in the current API Management service instance.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getByApi(resourceGroupName: string, serviceName: string, apiId: string, tagId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TagContract>): void;
+  getByApi(resourceGroupName: string, serviceName: string, apiId: string, tagId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TagContract>, callback?: msRest.ServiceCallback<Models.TagContract>): Promise<Models.TagGetByApiResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        serviceName,
+        apiId,
+        tagId,
+        options
+      },
+      getByApiOperationSpec,
+      callback) as Promise<Models.TagGetByApiResponse>;
+  }
+
+  /**
+   * Assign tag to the Api.
+   * @param resourceGroupName The name of the resource group.
+   * @param serviceName The name of the API Management service.
+   * @param apiId API revision identifier. Must be unique in the current API Management service
+   * instance. Non-current revision has ;rev=n as a suffix where n is the revision number.
+   * @param tagId Tag identifier. Must be unique in the current API Management service instance.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.TagAssignToApiResponse>
+   */
+  assignToApi(resourceGroupName: string, serviceName: string, apiId: string, tagId: string, options?: msRest.RequestOptionsBase): Promise<Models.TagAssignToApiResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param serviceName The name of the API Management service.
+   * @param apiId API revision identifier. Must be unique in the current API Management service
+   * instance. Non-current revision has ;rev=n as a suffix where n is the revision number.
+   * @param tagId Tag identifier. Must be unique in the current API Management service instance.
+   * @param callback The callback
+   */
+  assignToApi(resourceGroupName: string, serviceName: string, apiId: string, tagId: string, callback: msRest.ServiceCallback<Models.TagContract>): void;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param serviceName The name of the API Management service.
+   * @param apiId API revision identifier. Must be unique in the current API Management service
+   * instance. Non-current revision has ;rev=n as a suffix where n is the revision number.
+   * @param tagId Tag identifier. Must be unique in the current API Management service instance.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  assignToApi(resourceGroupName: string, serviceName: string, apiId: string, tagId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TagContract>): void;
+  assignToApi(resourceGroupName: string, serviceName: string, apiId: string, tagId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TagContract>, callback?: msRest.ServiceCallback<Models.TagContract>): Promise<Models.TagAssignToApiResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        serviceName,
+        apiId,
+        tagId,
+        options
+      },
+      assignToApiOperationSpec,
+      callback) as Promise<Models.TagAssignToApiResponse>;
+  }
+
+  /**
+   * Detach the tag from the Api.
+   * @param resourceGroupName The name of the resource group.
+   * @param serviceName The name of the API Management service.
+   * @param apiId API revision identifier. Must be unique in the current API Management service
+   * instance. Non-current revision has ;rev=n as a suffix where n is the revision number.
+   * @param tagId Tag identifier. Must be unique in the current API Management service instance.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  detachFromApi(resourceGroupName: string, serviceName: string, apiId: string, tagId: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param serviceName The name of the API Management service.
+   * @param apiId API revision identifier. Must be unique in the current API Management service
+   * instance. Non-current revision has ;rev=n as a suffix where n is the revision number.
+   * @param tagId Tag identifier. Must be unique in the current API Management service instance.
+   * @param callback The callback
+   */
+  detachFromApi(resourceGroupName: string, serviceName: string, apiId: string, tagId: string, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param serviceName The name of the API Management service.
+   * @param apiId API revision identifier. Must be unique in the current API Management service
+   * instance. Non-current revision has ;rev=n as a suffix where n is the revision number.
+   * @param tagId Tag identifier. Must be unique in the current API Management service instance.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  detachFromApi(resourceGroupName: string, serviceName: string, apiId: string, tagId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  detachFromApi(resourceGroupName: string, serviceName: string, apiId: string, tagId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        serviceName,
+        apiId,
+        tagId,
+        options
+      },
+      detachFromApiOperationSpec,
       callback);
   }
 
@@ -866,7 +618,7 @@ export class Tag {
    * @param [options] The optional parameters
    * @returns Promise<Models.TagAssignToProductResponse>
    */
-  assignToProduct(resourceGroupName: string, serviceName: string, productId: string, tagId: string, options?: Models.TagAssignToProductOptionalParams): Promise<Models.TagAssignToProductResponse>;
+  assignToProduct(resourceGroupName: string, serviceName: string, productId: string, tagId: string, options?: msRest.RequestOptionsBase): Promise<Models.TagAssignToProductResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -885,8 +637,8 @@ export class Tag {
    * @param options The optional parameters
    * @param callback The callback
    */
-  assignToProduct(resourceGroupName: string, serviceName: string, productId: string, tagId: string, options: Models.TagAssignToProductOptionalParams, callback: msRest.ServiceCallback<Models.TagContract>): void;
-  assignToProduct(resourceGroupName: string, serviceName: string, productId: string, tagId: string, options?: Models.TagAssignToProductOptionalParams | msRest.ServiceCallback<Models.TagContract>, callback?: msRest.ServiceCallback<Models.TagContract>): Promise<Models.TagAssignToProductResponse> {
+  assignToProduct(resourceGroupName: string, serviceName: string, productId: string, tagId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TagContract>): void;
+  assignToProduct(resourceGroupName: string, serviceName: string, productId: string, tagId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TagContract>, callback?: msRest.ServiceCallback<Models.TagContract>): Promise<Models.TagAssignToProductResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -906,43 +658,36 @@ export class Tag {
    * @param productId Product identifier. Must be unique in the current API Management service
    * instance.
    * @param tagId Tag identifier. Must be unique in the current API Management service instance.
-   * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
-   * response of the GET request or it should be * for unconditional update.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  detachFromProduct(resourceGroupName: string, serviceName: string, productId: string, tagId: string, ifMatch: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  detachFromProduct(resourceGroupName: string, serviceName: string, productId: string, tagId: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param productId Product identifier. Must be unique in the current API Management service
    * instance.
    * @param tagId Tag identifier. Must be unique in the current API Management service instance.
-   * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
-   * response of the GET request or it should be * for unconditional update.
    * @param callback The callback
    */
-  detachFromProduct(resourceGroupName: string, serviceName: string, productId: string, tagId: string, ifMatch: string, callback: msRest.ServiceCallback<void>): void;
+  detachFromProduct(resourceGroupName: string, serviceName: string, productId: string, tagId: string, callback: msRest.ServiceCallback<void>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param productId Product identifier. Must be unique in the current API Management service
    * instance.
    * @param tagId Tag identifier. Must be unique in the current API Management service instance.
-   * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
-   * response of the GET request or it should be * for unconditional update.
    * @param options The optional parameters
    * @param callback The callback
    */
-  detachFromProduct(resourceGroupName: string, serviceName: string, productId: string, tagId: string, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  detachFromProduct(resourceGroupName: string, serviceName: string, productId: string, tagId: string, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  detachFromProduct(resourceGroupName: string, serviceName: string, productId: string, tagId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  detachFromProduct(resourceGroupName: string, serviceName: string, productId: string, tagId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         serviceName,
         productId,
         tagId,
-        ifMatch,
         options
       },
       detachFromProductOperationSpec,
@@ -951,58 +696,236 @@ export class Tag {
 
   /**
    * Lists a collection of tags defined within a service instance.
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param resourceGroupName The name of the resource group.
+   * @param serviceName The name of the API Management service.
    * @param [options] The optional parameters
-   * @returns Promise<Models.TagListByServiceNextResponse>
+   * @returns Promise<Models.TagListByServiceResponse>
    */
-  listByServiceNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.TagListByServiceNextResponse>;
+  listByService(resourceGroupName: string, serviceName: string, options?: Models.TagListByServiceOptionalParams): Promise<Models.TagListByServiceResponse>;
   /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param resourceGroupName The name of the resource group.
+   * @param serviceName The name of the API Management service.
    * @param callback The callback
    */
-  listByServiceNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.TagCollection>): void;
+  listByService(resourceGroupName: string, serviceName: string, callback: msRest.ServiceCallback<Models.TagCollection>): void;
   /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param resourceGroupName The name of the resource group.
+   * @param serviceName The name of the API Management service.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByServiceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TagCollection>): void;
-  listByServiceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TagCollection>, callback?: msRest.ServiceCallback<Models.TagCollection>): Promise<Models.TagListByServiceNextResponse> {
+  listByService(resourceGroupName: string, serviceName: string, options: Models.TagListByServiceOptionalParams, callback: msRest.ServiceCallback<Models.TagCollection>): void;
+  listByService(resourceGroupName: string, serviceName: string, options?: Models.TagListByServiceOptionalParams | msRest.ServiceCallback<Models.TagCollection>, callback?: msRest.ServiceCallback<Models.TagCollection>): Promise<Models.TagListByServiceResponse> {
     return this.client.sendOperationRequest(
       {
-        nextPageLink,
+        resourceGroupName,
+        serviceName,
         options
       },
-      listByServiceNextOperationSpec,
-      callback) as Promise<Models.TagListByServiceNextResponse>;
+      listByServiceOperationSpec,
+      callback) as Promise<Models.TagListByServiceResponse>;
   }
 
   /**
-   * Lists all Tags associated with the API.
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * Gets the entity state version of the tag specified by its identifier.
+   * @param resourceGroupName The name of the resource group.
+   * @param serviceName The name of the API Management service.
+   * @param tagId Tag identifier. Must be unique in the current API Management service instance.
    * @param [options] The optional parameters
-   * @returns Promise<Models.TagListByApiNextResponse>
+   * @returns Promise<Models.TagGetEntityStateResponse>
    */
-  listByApiNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.TagListByApiNextResponse>;
+  getEntityState(resourceGroupName: string, serviceName: string, tagId: string, options?: msRest.RequestOptionsBase): Promise<Models.TagGetEntityStateResponse>;
   /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param resourceGroupName The name of the resource group.
+   * @param serviceName The name of the API Management service.
+   * @param tagId Tag identifier. Must be unique in the current API Management service instance.
    * @param callback The callback
    */
-  listByApiNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.TagCollection>): void;
+  getEntityState(resourceGroupName: string, serviceName: string, tagId: string, callback: msRest.ServiceCallback<void>): void;
   /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param resourceGroupName The name of the resource group.
+   * @param serviceName The name of the API Management service.
+   * @param tagId Tag identifier. Must be unique in the current API Management service instance.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByApiNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TagCollection>): void;
-  listByApiNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TagCollection>, callback?: msRest.ServiceCallback<Models.TagCollection>): Promise<Models.TagListByApiNextResponse> {
+  getEntityState(resourceGroupName: string, serviceName: string, tagId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  getEntityState(resourceGroupName: string, serviceName: string, tagId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.TagGetEntityStateResponse> {
     return this.client.sendOperationRequest(
       {
-        nextPageLink,
+        resourceGroupName,
+        serviceName,
+        tagId,
         options
       },
-      listByApiNextOperationSpec,
-      callback) as Promise<Models.TagListByApiNextResponse>;
+      getEntityStateOperationSpec,
+      callback) as Promise<Models.TagGetEntityStateResponse>;
+  }
+
+  /**
+   * Gets the details of the tag specified by its identifier.
+   * @param resourceGroupName The name of the resource group.
+   * @param serviceName The name of the API Management service.
+   * @param tagId Tag identifier. Must be unique in the current API Management service instance.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.TagGetResponse>
+   */
+  get(resourceGroupName: string, serviceName: string, tagId: string, options?: msRest.RequestOptionsBase): Promise<Models.TagGetResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param serviceName The name of the API Management service.
+   * @param tagId Tag identifier. Must be unique in the current API Management service instance.
+   * @param callback The callback
+   */
+  get(resourceGroupName: string, serviceName: string, tagId: string, callback: msRest.ServiceCallback<Models.TagContract>): void;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param serviceName The name of the API Management service.
+   * @param tagId Tag identifier. Must be unique in the current API Management service instance.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  get(resourceGroupName: string, serviceName: string, tagId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TagContract>): void;
+  get(resourceGroupName: string, serviceName: string, tagId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TagContract>, callback?: msRest.ServiceCallback<Models.TagContract>): Promise<Models.TagGetResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        serviceName,
+        tagId,
+        options
+      },
+      getOperationSpec,
+      callback) as Promise<Models.TagGetResponse>;
+  }
+
+  /**
+   * Creates a tag.
+   * @param resourceGroupName The name of the resource group.
+   * @param serviceName The name of the API Management service.
+   * @param tagId Tag identifier. Must be unique in the current API Management service instance.
+   * @param parameters Create parameters.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.TagCreateOrUpdateResponse>
+   */
+  createOrUpdate(resourceGroupName: string, serviceName: string, tagId: string, parameters: Models.TagCreateUpdateParameters, options?: Models.TagCreateOrUpdateOptionalParams): Promise<Models.TagCreateOrUpdateResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param serviceName The name of the API Management service.
+   * @param tagId Tag identifier. Must be unique in the current API Management service instance.
+   * @param parameters Create parameters.
+   * @param callback The callback
+   */
+  createOrUpdate(resourceGroupName: string, serviceName: string, tagId: string, parameters: Models.TagCreateUpdateParameters, callback: msRest.ServiceCallback<Models.TagContract>): void;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param serviceName The name of the API Management service.
+   * @param tagId Tag identifier. Must be unique in the current API Management service instance.
+   * @param parameters Create parameters.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  createOrUpdate(resourceGroupName: string, serviceName: string, tagId: string, parameters: Models.TagCreateUpdateParameters, options: Models.TagCreateOrUpdateOptionalParams, callback: msRest.ServiceCallback<Models.TagContract>): void;
+  createOrUpdate(resourceGroupName: string, serviceName: string, tagId: string, parameters: Models.TagCreateUpdateParameters, options?: Models.TagCreateOrUpdateOptionalParams | msRest.ServiceCallback<Models.TagContract>, callback?: msRest.ServiceCallback<Models.TagContract>): Promise<Models.TagCreateOrUpdateResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        serviceName,
+        tagId,
+        parameters,
+        options
+      },
+      createOrUpdateOperationSpec,
+      callback) as Promise<Models.TagCreateOrUpdateResponse>;
+  }
+
+  /**
+   * Updates the details of the tag specified by its identifier.
+   * @param resourceGroupName The name of the resource group.
+   * @param serviceName The name of the API Management service.
+   * @param tagId Tag identifier. Must be unique in the current API Management service instance.
+   * @param parameters Update parameters.
+   * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
+   * response of the GET request or it should be * for unconditional update.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  update(resourceGroupName: string, serviceName: string, tagId: string, parameters: Models.TagCreateUpdateParameters, ifMatch: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param serviceName The name of the API Management service.
+   * @param tagId Tag identifier. Must be unique in the current API Management service instance.
+   * @param parameters Update parameters.
+   * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
+   * response of the GET request or it should be * for unconditional update.
+   * @param callback The callback
+   */
+  update(resourceGroupName: string, serviceName: string, tagId: string, parameters: Models.TagCreateUpdateParameters, ifMatch: string, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param serviceName The name of the API Management service.
+   * @param tagId Tag identifier. Must be unique in the current API Management service instance.
+   * @param parameters Update parameters.
+   * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
+   * response of the GET request or it should be * for unconditional update.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  update(resourceGroupName: string, serviceName: string, tagId: string, parameters: Models.TagCreateUpdateParameters, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  update(resourceGroupName: string, serviceName: string, tagId: string, parameters: Models.TagCreateUpdateParameters, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        serviceName,
+        tagId,
+        parameters,
+        ifMatch,
+        options
+      },
+      updateOperationSpec,
+      callback);
+  }
+
+  /**
+   * Deletes specific tag of the API Management service instance.
+   * @param resourceGroupName The name of the resource group.
+   * @param serviceName The name of the API Management service.
+   * @param tagId Tag identifier. Must be unique in the current API Management service instance.
+   * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
+   * response of the GET request or it should be * for unconditional update.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  deleteMethod(resourceGroupName: string, serviceName: string, tagId: string, ifMatch: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param serviceName The name of the API Management service.
+   * @param tagId Tag identifier. Must be unique in the current API Management service instance.
+   * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
+   * response of the GET request or it should be * for unconditional update.
+   * @param callback The callback
+   */
+  deleteMethod(resourceGroupName: string, serviceName: string, tagId: string, ifMatch: string, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param serviceName The name of the API Management service.
+   * @param tagId Tag identifier. Must be unique in the current API Management service instance.
+   * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
+   * response of the GET request or it should be * for unconditional update.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  deleteMethod(resourceGroupName: string, serviceName: string, tagId: string, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(resourceGroupName: string, serviceName: string, tagId: string, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        serviceName,
+        tagId,
+        ifMatch,
+        options
+      },
+      deleteMethodOperationSpec,
+      callback);
   }
 
   /**
@@ -1034,6 +957,34 @@ export class Tag {
   }
 
   /**
+   * Lists all Tags associated with the API.
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.TagListByApiNextResponse>
+   */
+  listByApiNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.TagListByApiNextResponse>;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param callback The callback
+   */
+  listByApiNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.TagCollection>): void;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listByApiNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TagCollection>): void;
+  listByApiNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TagCollection>, callback?: msRest.ServiceCallback<Models.TagCollection>): Promise<Models.TagListByApiNextResponse> {
+    return this.client.sendOperationRequest(
+      {
+        nextPageLink,
+        options
+      },
+      listByApiNextOperationSpec,
+      callback) as Promise<Models.TagListByApiNextResponse>;
+  }
+
+  /**
    * Lists all Tags associated with the Product.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -1060,16 +1011,46 @@ export class Tag {
       listByProductNextOperationSpec,
       callback) as Promise<Models.TagListByProductNextResponse>;
   }
+
+  /**
+   * Lists a collection of tags defined within a service instance.
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.TagListByServiceNextResponse>
+   */
+  listByServiceNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.TagListByServiceNextResponse>;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param callback The callback
+   */
+  listByServiceNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.TagCollection>): void;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listByServiceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TagCollection>): void;
+  listByServiceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TagCollection>, callback?: msRest.ServiceCallback<Models.TagCollection>): Promise<Models.TagListByServiceNextResponse> {
+    return this.client.sendOperationRequest(
+      {
+        nextPageLink,
+        options
+      },
+      listByServiceNextOperationSpec,
+      callback) as Promise<Models.TagListByServiceNextResponse>;
+  }
 }
 
 // Operation Specifications
 const serializer = new msRest.Serializer(Mappers);
-const listByServiceOperationSpec: msRest.OperationSpec = {
+const listByOperationOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tags",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/operations/{operationId}/tags",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
+    Parameters.apiId0,
+    Parameters.operationId,
     Parameters.subscriptionId
   ],
   queryParameters: [
@@ -1086,18 +1067,20 @@ const listByServiceOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.TagCollection
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
 };
 
-const getEntityStateOperationSpec: msRest.OperationSpec = {
+const getEntityStateByOperationOperationSpec: msRest.OperationSpec = {
   httpMethod: "HEAD",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tags/{tagId}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/operations/{operationId}/tags/{tagId}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
+    Parameters.apiId0,
+    Parameters.operationId,
     Parameters.tagId,
     Parameters.subscriptionId
   ],
@@ -1109,7 +1092,7 @@ const getEntityStateOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      headersMapper: Mappers.TagGetEntityStateHeaders
+      headersMapper: Mappers.TagGetEntityStateByOperationHeaders
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -1118,12 +1101,14 @@ const getEntityStateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getOperationSpec: msRest.OperationSpec = {
+const getByOperationOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tags/{tagId}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/operations/{operationId}/tags/{tagId}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
+    Parameters.apiId0,
+    Parameters.operationId,
     Parameters.tagId,
     Parameters.subscriptionId
   ],
@@ -1136,7 +1121,7 @@ const getOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.TagContract,
-      headersMapper: Mappers.TagGetHeaders
+      headersMapper: Mappers.TagGetByOperationHeaders
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -1145,12 +1130,14 @@ const getOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const createOrUpdateOperationSpec: msRest.OperationSpec = {
+const assignToOperationOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tags/{tagId}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/operations/{operationId}/tags/{tagId}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
+    Parameters.apiId0,
+    Parameters.operationId,
     Parameters.tagId,
     Parameters.subscriptionId
   ],
@@ -1160,13 +1147,6 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
   headerParameters: [
     Parameters.acceptLanguage
   ],
-  requestBody: {
-    parameterPath: "parameters",
-    mapper: {
-      ...Mappers.TagCreateUpdateParameters,
-      required: true
-    }
-  },
   responses: {
     200: {
       bodyMapper: Mappers.TagContract
@@ -1181,44 +1161,14 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const updateOperationSpec: msRest.OperationSpec = {
-  httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tags/{tagId}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.tagId,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.ifMatch0,
-    Parameters.acceptLanguage
-  ],
-  requestBody: {
-    parameterPath: "parameters",
-    mapper: {
-      ...Mappers.TagCreateUpdateParameters,
-      required: true
-    }
-  },
-  responses: {
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  serializer
-};
-
-const deleteMethodOperationSpec: msRest.OperationSpec = {
+const detachFromOperationOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tags/{tagId}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/operations/{operationId}/tags/{tagId}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
+    Parameters.apiId0,
+    Parameters.operationId,
     Parameters.tagId,
     Parameters.subscriptionId
   ],
@@ -1226,7 +1176,6 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.apiVersion
   ],
   headerParameters: [
-    Parameters.ifMatch0,
     Parameters.acceptLanguage
   ],
   responses: {
@@ -1337,15 +1286,16 @@ const assignToApiOperationSpec: msRest.OperationSpec = {
     Parameters.apiVersion
   ],
   headerParameters: [
-    Parameters.ifMatch1,
     Parameters.acceptLanguage
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.TagContract
+      bodyMapper: Mappers.TagContract,
+      headersMapper: Mappers.TagAssignToApiHeaders
     },
     201: {
-      bodyMapper: Mappers.TagContract
+      bodyMapper: Mappers.TagContract,
+      headersMapper: Mappers.TagAssignToApiHeaders
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -1368,154 +1318,6 @@ const detachFromApiOperationSpec: msRest.OperationSpec = {
     Parameters.apiVersion
   ],
   headerParameters: [
-    Parameters.ifMatch0,
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  serializer
-};
-
-const listByOperationOperationSpec: msRest.OperationSpec = {
-  httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/operations/{operationId}/tags",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.apiId0,
-    Parameters.operationId,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.filter0,
-    Parameters.top,
-    Parameters.skip,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.TagCollection
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  serializer
-};
-
-const getEntityStateByOperationOperationSpec: msRest.OperationSpec = {
-  httpMethod: "HEAD",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/operations/{operationId}/tags/{tagId}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.apiId0,
-    Parameters.operationId,
-    Parameters.tagId,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {
-      headersMapper: Mappers.TagGetEntityStateByOperationHeaders
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  serializer
-};
-
-const getByOperationOperationSpec: msRest.OperationSpec = {
-  httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/operations/{operationId}/tags/{tagId}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.apiId0,
-    Parameters.operationId,
-    Parameters.tagId,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.TagContract,
-      headersMapper: Mappers.TagGetByOperationHeaders
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  serializer
-};
-
-const assignToOperationOperationSpec: msRest.OperationSpec = {
-  httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/operations/{operationId}/tags/{tagId}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.apiId0,
-    Parameters.operationId,
-    Parameters.tagId,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.ifMatch1,
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.TagContract
-    },
-    201: {
-      bodyMapper: Mappers.TagContract
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  serializer
-};
-
-const detachFromOperationOperationSpec: msRest.OperationSpec = {
-  httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/operations/{operationId}/tags/{tagId}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.apiId0,
-    Parameters.operationId,
-    Parameters.tagId,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.ifMatch0,
     Parameters.acceptLanguage
   ],
   responses: {
@@ -1626,7 +1428,6 @@ const assignToProductOperationSpec: msRest.OperationSpec = {
     Parameters.apiVersion
   ],
   headerParameters: [
-    Parameters.ifMatch1,
     Parameters.acceptLanguage
   ],
   responses: {
@@ -1657,7 +1458,6 @@ const detachFromProductOperationSpec: msRest.OperationSpec = {
     Parameters.apiVersion
   ],
   headerParameters: [
-    Parameters.ifMatch0,
     Parameters.acceptLanguage
   ],
   responses: {
@@ -1670,12 +1470,20 @@ const detachFromProductOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listByServiceNextOperationSpec: msRest.OperationSpec = {
+const listByServiceOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  baseUrl: "https://management.azure.com",
-  path: "{nextLink}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tags",
   urlParameters: [
-    Parameters.nextPageLink
+    Parameters.resourceGroupName,
+    Parameters.serviceName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.filter0,
+    Parameters.top,
+    Parameters.skip,
+    Parameters.scope0,
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1685,26 +1493,155 @@ const listByServiceNextOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.TagCollection
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
 };
 
-const listByApiNextOperationSpec: msRest.OperationSpec = {
-  httpMethod: "GET",
-  baseUrl: "https://management.azure.com",
-  path: "{nextLink}",
+const getEntityStateOperationSpec: msRest.OperationSpec = {
+  httpMethod: "HEAD",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tags/{tagId}",
   urlParameters: [
-    Parameters.nextPageLink
+    Parameters.resourceGroupName,
+    Parameters.serviceName,
+    Parameters.tagId,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.TagCollection
+      headersMapper: Mappers.TagGetEntityStateHeaders
     },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const getOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tags/{tagId}",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.serviceName,
+    Parameters.tagId,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.TagContract,
+      headersMapper: Mappers.TagGetHeaders
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const createOrUpdateOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PUT",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tags/{tagId}",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.serviceName,
+    Parameters.tagId,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.ifMatch0,
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "parameters",
+    mapper: {
+      ...Mappers.TagCreateUpdateParameters,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.TagContract,
+      headersMapper: Mappers.TagCreateOrUpdateHeaders
+    },
+    201: {
+      bodyMapper: Mappers.TagContract,
+      headersMapper: Mappers.TagCreateOrUpdateHeaders
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const updateOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PATCH",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tags/{tagId}",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.serviceName,
+    Parameters.tagId,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.ifMatch1,
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "parameters",
+    mapper: {
+      ...Mappers.TagCreateUpdateParameters,
+      required: true
+    }
+  },
+  responses: {
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const deleteMethodOperationSpec: msRest.OperationSpec = {
+  httpMethod: "DELETE",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tags/{tagId}",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.serviceName,
+    Parameters.tagId,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.ifMatch1,
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {},
+    204: {},
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
@@ -1733,7 +1670,49 @@ const listByOperationNextOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
+const listByApiNextOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  baseUrl: "https://management.azure.com",
+  path: "{nextLink}",
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.TagCollection
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
 const listByProductNextOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  baseUrl: "https://management.azure.com",
+  path: "{nextLink}",
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.TagCollection
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const listByServiceNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",

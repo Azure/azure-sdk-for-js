@@ -38,7 +38,7 @@ export function getUniqueName(name: string): string {
  */
 export function reorderLockToken(lockTokenBytes: Buffer): Buffer {
   if (!lockTokenBytes || !Buffer.isBuffer(lockTokenBytes)) {
-    throw new Error("'lockToken' is a required parameter and must be of type 'Buffer'.");
+    return lockTokenBytes;
   }
 
   return Buffer.from([
