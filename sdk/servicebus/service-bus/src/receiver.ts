@@ -214,9 +214,6 @@ export class Receiver {
       sequenceNumber
     );
 
-    if (this._receiveMode !== ReceiveMode.peekLock) {
-      throw new Error("The operation is only supported in 'PeekLock' receive mode.");
-    }
     const messages = await this._context.managementClient!.receiveDeferredMessages(
       [sequenceNumber],
       this._receiveMode
@@ -248,9 +245,6 @@ export class Receiver {
       sequenceNumbers
     );
 
-    if (this._receiveMode !== ReceiveMode.peekLock) {
-      throw new Error("The operation is only supported in 'PeekLock' receive mode.");
-    }
     return this._context.managementClient!.receiveDeferredMessages(
       sequenceNumbers,
       this._receiveMode
@@ -532,10 +526,6 @@ export class SessionReceiver {
       sequenceNumber
     );
 
-    if (this._receiveMode !== ReceiveMode.peekLock) {
-      throw new Error("The operation is only supported in 'PeekLock' receive mode.");
-    }
-
     await this._createMessageSessionIfDoesntExist();
     const messages = await this._context.managementClient!.receiveDeferredMessages(
       [sequenceNumber],
@@ -569,9 +559,6 @@ export class SessionReceiver {
       sequenceNumbers
     );
 
-    if (this._receiveMode !== ReceiveMode.peekLock) {
-      throw new Error("The operation is only supported in 'PeekLock' receive mode.");
-    }
     await this._createMessageSessionIfDoesntExist();
     return this._context.managementClient!.receiveDeferredMessages(
       sequenceNumbers,
