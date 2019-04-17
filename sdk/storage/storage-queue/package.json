@@ -61,6 +61,13 @@
         "ts-node": "^7.0.1",
         "typescript": "^3.2.2"
     },
+    "files": [
+        "browser/",
+        "dist/",
+        "dist-esm/src/",
+        "src/",
+        "typings/src"
+      ],
     "scripts": {
         "unit-node": "npm run build && npm run test:node",
         "unit-browser": "npm run build && npm run test:browser",

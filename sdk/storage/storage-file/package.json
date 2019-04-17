@@ -63,6 +63,7 @@
     "typescript": "^3.2.2"
   },
   "files": [
+    "browser/",
     "dist/",
     "dist-esm/src/",
     "src/",
