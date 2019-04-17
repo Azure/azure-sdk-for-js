@@ -2,6 +2,7 @@
 
 * [![npm version](https://badge.fury.io/js/%40azure%2Fstorage-blob.svg)](https://badge.fury.io/js/%40azure%2Fstorage-blob)
 * [API Reference documentation](https://docs.microsoft.com/en-us/javascript/api/%40azure/storage-blob/index?view=azure-node-preview)
+* [Advanced Examples in Wiki](https://github.com/Azure/azure-storage-js/wiki)
 
 ## Introduction
 
@@ -97,7 +98,7 @@ The JS bundled file is compatible with [UMD](https://github.com/umdjs/umd) stand
 
 #### Download
 
-Download latest released JS bundles from links in the [GitHub release page](https://github.com/Azure/azure-sdk-for-js/releases). Or from following links directly:
+Download latest released JS bundles from links in the [GitHub release page](https://github.com/Azure/azure-storage-js/releases). Or from following links directly:
 
 * Blob [https://aka.ms/downloadazurestoragejsblob](https://aka.ms/downloadazurestoragejsblob)
 
@@ -254,8 +255,9 @@ main()
 
 ## More Code Samples
 
-* [Blob Storage Examples](https://github.com/azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob/samples)
-* [Blob Storage Examples - Test Cases](https://github.com/azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob/test/)
+* [Advanced Examples in Wiki](https://github.com/Azure/azure-storage-js/wiki)
+* [Blob Storage Examples](https://github.com/azure/azure-storage-js/tree/master/blob/samples)
+* [Blob Storage Examples - Test Cases](https://github.com/azure/azure-storage-js/tree/master/blob/tests/)
 
 ## License
 
