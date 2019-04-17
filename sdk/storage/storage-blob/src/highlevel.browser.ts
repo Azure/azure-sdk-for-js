@@ -1,10 +1,13 @@
 import { generateUuid } from "@azure/ms-rest-js";
 
 import { BlockBlobURL } from "./BlockBlobURL";
+import { AnonymousCredential } from "./credentials/AnonymousCredential";
+import { Credential } from "./credentials/Credential";
 import {
   BlobUploadCommonResponse,
   IUploadToBlockBlobOptions
 } from "./highlevel.common";
+import { INewPipelineOptions, StorageURL } from "./StorageURL";
 import { Batch } from "./utils/Batch";
 import {
   BLOCK_BLOB_MAX_BLOCKS,
@@ -43,6 +46,35 @@ export async function uploadBrowserDataToBlockBlob(
     blockBlobURL,
     options
   );
+}
+
+/**
+ * ONLY AVAILABLE IN BROWSERS.
+ *
+ * Uploads a browser Blob/File/ArrayBuffer/ArrayBufferView object to block blob given a url to that blob.
+ * This method assumes container already exists.
+ *
+ * When buffer length <= 256MB, this method will use 1 upload call to finish the upload.
+ * Otherwise, this method will call stageBlock to upload blocks, and finally call commitBlockList
+ * to commit the block list.
+ *
+ * @export
+ * @param {Blob | ArrayBuffer | ArrayBufferView} browserData Blob, File, ArrayBuffer or ArrayBufferView
+ * @param {BlockBlobURL} blockBlobURL
+ * @param {IUploadToBlockBlobOptions} [uploadOptions]
+ * @returns {Promise<BlobUploadCommonResponse>}
+ */
+export async function uploadBrowserDataToBlockBlobUrl(
+  browserData: Blob | ArrayBuffer | ArrayBufferView,
+  url: string,
+  uploadOptions: IUploadToBlockBlobOptions = {},
+  credential: Credential = new AnonymousCredential(),
+  pipelineOptions: INewPipelineOptions = {}
+): Promise<BlobUploadCommonResponse> {
+
+  const pipeline = StorageURL.newPipeline(credential, pipelineOptions);
+  const blockBlobURL = new BlockBlobURL(url, pipeline);
+  return uploadBrowserDataToBlockBlob(browserData, blockBlobURL, uploadOptions);
 }
 
 /**

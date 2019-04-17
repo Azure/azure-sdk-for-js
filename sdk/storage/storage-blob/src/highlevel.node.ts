@@ -1,10 +1,12 @@
-import * as fs from "fs";
 import { generateUuid, TransferProgressEvent } from "@azure/ms-rest-js";
+import * as fs from "fs";
 import { Readable } from "stream";
 
 import { Aborter } from "./Aborter";
 import { BlobURL } from "./BlobURL";
 import { BlockBlobURL } from "./BlockBlobURL";
+import { AnonymousCredential } from "./credentials/AnonymousCredential";
+import { Credential } from "./credentials/Credential";
 import { BlobHTTPHeaders } from "./generated/lib/models";
 import {
   BlobUploadCommonResponse,
@@ -12,6 +14,7 @@ import {
   IUploadToBlockBlobOptions
 } from "./highlevel.common";
 import { IBlobAccessConditions } from "./models";
+import { INewPipelineOptions, StorageURL } from "./StorageURL";
 import { Batch } from "./utils/Batch";
 import { BufferScheduler } from "./utils/BufferScheduler";
 import {
@@ -55,6 +58,37 @@ export async function uploadFileToBlockBlob(
     blockBlobURL,
     options
   );
+}
+
+/**
+ * ONLY AVAILABLE IN NODE.JS RUNTIME.
+ *
+ * Uploads a local file in blocks to a block blob given a url to that block blob.
+ * This method assumes that the container already exists.
+ *
+ * When file size <= 256MB, this method will use 1 upload call to finish the upload.
+ * Otherwise, this method will call stageBlock to upload blocks, and finally call commitBlockList
+ * to commit the block list.
+ *
+ * @export
+ * @param {string} filePath Full path of local file
+ * @param {string} blockBlobURL url to a block blob
+ * @param {IUploadToBlockBlobOptions} [uploadOptions] IUploadToBlockBlobOptions
+ * @param {credential} [credential]
+ * @param {INewPipelineOptions} [pipelineOptions]
+ * @returns {(Promise<BlobUploadCommonResponse>)} ICommonResponse
+ */
+export async function uploadFileToBlockBlobUrl(
+  filePath: string,
+  url: string,
+  uploadOptions: IUploadToBlockBlobOptions = {},
+  credential: Credential = new AnonymousCredential(),
+  pipelineOptions: INewPipelineOptions = {}
+) {
+
+  const pipeline = StorageURL.newPipeline(credential, pipelineOptions);
+  const blockBlobURL = new BlockBlobURL(url, pipeline);
+  return uploadFileToBlockBlob(filePath, blockBlobURL, uploadOptions);
 }
 
 /**
@@ -262,6 +296,38 @@ export async function downloadBlobToBuffer(
 }
 
 /**
+ * ONLY AVAILABLE IN NODE.JS RUNTIME.
+ *
+ * Downloads an Azure Blob in parallel to a buffer given a url to that blob.
+ * Offset and count are optional, pass 0 for both to download the entire blob.
+ *
+ * @export
+ * @param {Buffer} buffer Buffer to be fill, must have length larger than count
+ * @param {BlobURL} blobURL A BlobURL object
+ * @param {number} offset From which position of the block blob to download
+ * @param {number} [count] How much data to be downloaded. Will download to the end when passing undefined
+ * @param {IDownloadFromBlobOptions} [downloadOptions] IDownloadFromBlobOptions
+ * @param {credential} [credential] Credential. If not specified {@link AnonymousCredential} is used.
+ * @param {INewPipelineOptions} [pipelineOptions]
+ * @returns {Promise<void>}
+ */
+export async function downloadBlobToBufferFromUrl(
+  buffer: Buffer,
+  url: string,
+  offset: number,
+  count?: number,
+  downloadOptions: IDownloadFromBlobOptions = {},
+  credential: Credential = new AnonymousCredential(),
+  pipelineOptions: INewPipelineOptions = {}
+): Promise<void> {
+
+  const pipeline = StorageURL.newPipeline(credential, pipelineOptions);
+  const blockBlobURL = new BlockBlobURL(url, pipeline);
+
+  return downloadBlobToBuffer(buffer, blockBlobURL, offset, count, downloadOptions);
+}
+
+/**
  * Option interface for uploadStreamToBlockBlob.
  *
  * @export
@@ -376,4 +442,40 @@ export async function uploadStreamToBlockBlob(
   await scheduler.do();
 
   return blockBlobURL.commitBlockList(blockList, options);
+}
+
+/**
+ * ONLY AVAILABLE IN NODE.JS RUNTIME.
+ *
+ * Uploads a Node.js Readable stream into block blob given a url to that block blob.
+ * This method assumes that the container already exists.
+ *
+ * PERFORMANCE IMPROVEMENT TIPS:
+ * * Input stream highWaterMark is better to set a same value with bufferSize
+ *    parameter, which will avoid Buffer.concat() operations.
+ *
+ * @export
+ * @param {Readable} stream Node.js Readable stream
+ * @param {BlockBlobURL} blockBlobURL A BlockBlobURL instance
+ * @param {number} bufferSize Size of every buffer allocated, also the block size in the uploaded block blob
+ * @param {number} maxBuffers Max buffers will allocate during uploading, positive correlation
+ *                            with max uploading concurrency
+ * @param {IUploadStreamToBlockBlobOptions} [uploadOptions]
+ * @param {credential} [credential] Credential. If not specified {@link AnonymousCredential} is used.
+ * @param {INewPipelineOptions} [pipelineOptions]
+ * @returns {Promise<BlobUploadCommonResponse>}
+ */
+export async function uploadStreamToBlockBlobUrl(
+  stream: Readable,
+  url: string,
+  bufferSize: number,
+  maxBuffers: number,
+  uploadOptions: IUploadStreamToBlockBlobOptions = {},
+  credential: Credential = new AnonymousCredential(),
+  pipelineOptions: INewPipelineOptions = {}
+): Promise<BlobUploadCommonResponse> {
+  const pipeline = StorageURL.newPipeline(credential, pipelineOptions);
+  const blockBlobURL = new BlockBlobURL(url, pipeline);
+
+  return uploadStreamToBlockBlob(stream, blockBlobURL, bufferSize, maxBuffers, uploadOptions);
 }

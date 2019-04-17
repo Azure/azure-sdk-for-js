@@ -8,7 +8,9 @@ import { Aborter } from "../../src/Aborter";
 import {
   downloadBlobToBuffer,
   uploadFileToBlockBlob,
-  uploadStreamToBlockBlob
+  uploadFileToBlockBlobUrl,
+  uploadStreamToBlockBlob,
+  uploadStreamToBlockBlobUrl
 } from "../../src/highlevel.node";
 import { IRetriableReadableStreamOptions } from "../../src/utils/RetriableReadableStream";
 import {
@@ -95,6 +97,35 @@ describe("Highlevel", () => {
     await uploadFileToBlockBlob(tempFileSmall, blockBlobURL, {
       blockSize: 4 * 1024 * 1024,
       parallelism: 20
+    });
+
+    const downloadResponse = await blockBlobURL.download(0);
+    const downloadedFile = path.join(
+      tempFolderPath,
+      getUniqueName("downloadfile.")
+    );
+    await readStreamToLocalFile(
+      downloadResponse.readableStreamBody!,
+      downloadedFile
+    );
+
+    const downloadedData = await fs.readFileSync(downloadedFile);
+    const uploadedData = await fs.readFileSync(tempFileSmall);
+
+    fs.unlinkSync(downloadedFile);
+    assert.ok(downloadedData.equals(uploadedData));
+  });
+
+  it("uploadFileToBlockBlobUrl should success when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
+    const url = blockBlobURL.url;
+    const credential = blockBlobURL.pipeline.factories[blockBlobURL.pipeline.factories.length - 1];
+    await uploadFileToBlockBlobUrl(tempFileSmall, url, {
+      blockSize: 4 * 1024 * 1024,
+      parallelism: 20
+    },
+    credential, {
+      // Enable logger when debugging
+      // logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO)
     });
 
     const downloadResponse = await blockBlobURL.download(0);
@@ -306,6 +337,30 @@ describe("Highlevel", () => {
       blockBlobURL,
       4 * 1024 * 1024,
       20
+    );
+
+    const buf = Buffer.alloc(tempFileLargeLength);
+    await downloadBlobToBuffer(buf, blockBlobURL, 0, undefined, {
+      blockSize: 4 * 1024 * 1024,
+      maxRetryRequestsPerBlock: 5,
+      parallelism: 20
+    });
+
+    const localFileContent = fs.readFileSync(tempFileLarge);
+    assert.ok(localFileContent.equals(buf));
+  });
+
+  it("downloadBlobToBufferUrl should success", async () => {
+    const url = blockBlobURL.url;
+    const credential = blockBlobURL.pipeline.factories[blockBlobURL.pipeline.factories.length - 1];
+    const rs = fs.createReadStream(tempFileLarge);
+    await uploadStreamToBlockBlobUrl(
+      rs,
+      url,
+      4 * 1024 * 1024,
+      20,
+      {},
+      credential
     );
 
     const buf = Buffer.alloc(tempFileLargeLength);
