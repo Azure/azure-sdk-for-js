@@ -67,6 +67,7 @@
     "pack-client-storage-file": "cd sdk/storage/storage-file && npm pack",
     "pack-client-storage-queue": "cd sdk/storage/storage-queue && npm pack",
     "pack-client": "npm-run-all -p -l pack-client-*",
+    "preinstall": "node common/scripts/rush-welcome.js",
     "test-client-template": "cd sdk/template/template && npm run test",
     "test-client": "npm-run-all -p -l \"test-client-* -- {@}\"",
     "test-client-eventhubs-client": "echo skipped",
