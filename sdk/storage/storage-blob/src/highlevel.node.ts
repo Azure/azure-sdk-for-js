@@ -1,10 +1,12 @@
-import * as fs from "fs";
 import { generateUuid, TransferProgressEvent } from "@azure/ms-rest-js";
+import * as fs from "fs";
 import { Readable } from "stream";
 
 import { Aborter } from "./Aborter";
 import { BlobURL } from "./BlobURL";
 import { BlockBlobURL } from "./BlockBlobURL";
+import { AnonymousCredential } from "./credentials/AnonymousCredential";
+import { Credential } from "./credentials/Credential";
 import { BlobHTTPHeaders } from "./generated/lib/models";
 import {
   BlobUploadCommonResponse,
@@ -12,6 +14,7 @@ import {
   IUploadToBlockBlobOptions
 } from "./highlevel.common";
 import { IBlobAccessConditions } from "./models";
+import { INewPipelineOptions, StorageURL } from "./StorageURL";
 import { Batch } from "./utils/Batch";
 import { BufferScheduler } from "./utils/BufferScheduler";
 import {
@@ -59,6 +62,43 @@ export async function uploadFileToBlockBlob(
     blockBlobURL,
     options
   );
+}
+
+/**
+ * ONLY AVAILABLE IN NODE.JS RUNTIME.
+ *
+ * Given a URL to a Block Blob, uploads a local file in blocks to that block blob.
+ * This method assumes that the container already exists.
+ *
+ * When file size <= 256MB, this method will use 1 upload call to finish the upload.
+ * Otherwise, this method will call stageBlock to upload blocks, and finally call commitBlockList
+ * to commit the block list.
+ *
+ * @export
+ * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
+ *                          goto documents of Aborter for more examples about request cancellation
+ * @param {string} filePath Full path of local file
+ * @param {string} url URL to a block blob
+ * @param {IUploadToBlockBlobOptions} [uploadOptions] IUploadToBlockBlobOptions
+ * @param {credential} [credential]
+ * @param {INewPipelineOptions} [pipelineOptions]
+ * @returns {(Promise<BlobUploadCommonResponse>)} ICommonResponse
+ */
+export async function uploadFileToBlockBlobUrl(
+  aborter: Aborter,
+  filePath: string,
+  url: string,
+  uploadOptions: IUploadToBlockBlobOptions = {},
+  credential?: Credential,
+  pipelineOptions: INewPipelineOptions = {}
+) {
+  if (!credential) {
+    credential = new AnonymousCredential();
+  }
+
+  const pipeline = StorageURL.newPipeline(credential, pipelineOptions);
+  const blockBlobURL = new BlockBlobURL(url, pipeline);
+  return uploadFileToBlockBlob(aborter, filePath, blockBlobURL, uploadOptions);
 }
 
 /**
@@ -272,6 +312,44 @@ export async function downloadBlobToBuffer(
 }
 
 /**
+ * ONLY AVAILABLE IN NODE.JS RUNTIME.
+ *
+ * Given a URL to an Azure Blob, downloads that Azure Blob in parallel to a buffer.
+ * Offset and count are optional, pass 0 for both to download the entire blob.
+ *
+ * @export
+ * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
+ *                          goto documents of Aborter for more examples about request cancellation
+ * @param {Buffer} buffer Buffer to be fill, must have length larger than count
+ * @param {string} url URL to an Azure Blob
+ * @param {number} offset From which position of the block blob to download
+ * @param {number} [count] How much data to be downloaded. Will download to the end when passing undefined
+ * @param {IDownloadFromBlobOptions} [downloadOptions] IDownloadFromBlobOptions
+ * @param {credential} [credential] Credential. If not specified {@link AnonymousCredential} is used.
+ * @param {INewPipelineOptions} [pipelineOptions]
+ * @returns {Promise<void>}
+ */
+export async function downloadBlobToBufferFromUrl(
+  aborter: Aborter,
+  buffer: Buffer,
+  url: string,
+  offset: number,
+  count?: number,
+  downloadOptions: IDownloadFromBlobOptions = {},
+  credential?: Credential,
+  pipelineOptions: INewPipelineOptions = {}
+): Promise<void> {
+  if (!credential) {
+    credential = new AnonymousCredential();
+  }
+
+  const pipeline = StorageURL.newPipeline(credential, pipelineOptions);
+  const blockBlobURL = new BlockBlobURL(url, pipeline);
+
+  return downloadBlobToBuffer(aborter, buffer, blockBlobURL, offset, count, downloadOptions);
+}
+
+/**
  * Option interface for uploadStreamToBlockBlob.
  *
  * @export
@@ -378,4 +456,47 @@ export async function uploadStreamToBlockBlob(
   await scheduler.do();
 
   return blockBlobURL.commitBlockList(aborter, blockList, options);
+}
+
+/**
+ * ONLY AVAILABLE IN NODE.JS RUNTIME.
+ *
+ * Given a URL to a Block Blob, uploads a Node.js Readable stream into that block blob.
+ * This method assumes that the container already exists.
+ *
+ * PERFORMANCE IMPROVEMENT TIPS:
+ * * Input stream highWaterMark is better to set a same value with bufferSize
+ *    parameter, which will avoid Buffer.concat() operations.
+ *
+ * @export
+ * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
+ *                          goto documents of Aborter for more examples about request cancellation
+ * @param {Readable} stream Node.js Readable stream
+ * @param {string} url URL to a Block Blob
+ * @param {number} bufferSize Size of every buffer allocated, also the block size in the uploaded block blob
+ * @param {number} maxBuffers Max buffers will allocate during uploading, positive correlation
+ *                            with max uploading concurrency
+ * @param {IUploadStreamToBlockBlobOptions} [uploadOptions]
+ * @param {credential} [credential] Credential. If not specified {@link AnonymousCredential} is used.
+ * @param {INewPipelineOptions} [pipelineOptions]
+ * @returns {Promise<BlobUploadCommonResponse>}
+ */
+export async function uploadStreamToBlockBlobUrl(
+  aborter: Aborter,
+  stream: Readable,
+  url: string,
+  bufferSize: number,
+  maxBuffers: number,
+  uploadOptions: IUploadStreamToBlockBlobOptions = {},
+  credential?: Credential,
+  pipelineOptions: INewPipelineOptions = {}
+): Promise<BlobUploadCommonResponse> {
+  if (!credential) {
+    credential = new AnonymousCredential();
+  }
+
+  const pipeline = StorageURL.newPipeline(credential, pipelineOptions);
+  const blockBlobURL = new BlockBlobURL(url, pipeline);
+
+  return uploadStreamToBlockBlob(aborter, stream, blockBlobURL, bufferSize, maxBuffers, uploadOptions);
 }
