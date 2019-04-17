@@ -7,9 +7,9 @@
 
 ## Introduction
 
-This project provides a SDK in JavaScript that makes it easy to consume Microsoft Azure Storage services.
+This project provides a JavaScript SDK that makes it easy to consume Microsoft Azure Storage services from your Node.js and browser-based client applications. This respository contains the source for the latest version of the JavaScript SDK, v10.
 
-Please note that this version of the SDK is a compete overhaul of the current [Azure Storage SDK for Node.js and JavaScript in Browsers](https://github.com/azure/azure-storage-node), and is based on the new Storage SDK architecture.
+Note that this version of the SDK is based on the new Storage SDK architecture and replaces the [legacy SDK for Node.js and JavaScript in Browsers](https://github.com/azure/azure-storage-node).
 
 ### Features
 
