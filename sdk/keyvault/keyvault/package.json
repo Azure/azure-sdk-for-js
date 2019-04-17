@@ -34,15 +34,9 @@
     "url": "https://github.com/azure/azure-sdk-for-js/issues"
   },
   "files": [
-    "dist/**/*.js",
-    "dist/**/*.js.map",
-    "dist/**/*.d.ts",
-    "dist/**/*.d.ts.map",
-    "esm/**/*.js",
-    "esm/**/*.js.map",
-    "esm/**/*.d.ts",
-    "esm/**/*.d.ts.map",
-    "src/**/*.ts"
+    "dist/",
+    "esm/",
+    "src/"
   ],
   "scripts": {
     "build": "tsc && rollup -c rollup.config.js && npm run minify",
