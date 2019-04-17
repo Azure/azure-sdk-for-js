@@ -10,7 +10,33 @@
 
 export {
   BillingProperty,
+  Resource,
+  BaseResource,
   ErrorResponse,
-  ErrorDetails
+  ErrorDetails,
+  BillingProfile,
+  Address,
+  EnabledAzureSKUs,
+  InvoiceSection,
+  EnrollmentAccount,
+  Department,
+  BillingAccount,
+  Enrollment,
+  EnrollmentPolicies,
+  InvoiceSummary,
+  Amount,
+  DownloadProperties,
+  PaymentProperties,
+  ProductSummary,
+  BillingSubscriptionSummary,
+  TransactionsSummary,
+  Policy,
+  AvailableBalance,
+  PaymentMethod,
+  BillingRoleAssignment,
+  BillingRoleDefinition,
+  BillingPermissions,
+  Agreement,
+  Participants
 } from "../models/mappers";
 

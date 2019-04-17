@@ -23,6 +23,7 @@ export {
   EnrollmentAccount,
   ErrorResponse,
   ErrorDetails,
+  BillingProperty,
   InvoiceSummary,
   Amount,
   DownloadProperties,

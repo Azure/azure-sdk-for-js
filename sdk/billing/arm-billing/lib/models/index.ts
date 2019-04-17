@@ -709,6 +709,10 @@ export interface BillingAccount extends Resource {
    */
   address?: Address;
   /**
+   * @member {string} [company] Company Name.
+   */
+  company?: string;
+  /**
    * @member {InvoiceSection[]} [invoiceSections] The invoice sections
    * associated to the billing account. By default this is not populated,
    * unless it's specified in $expand.
@@ -771,10 +775,11 @@ export interface BillingAccountListResult {
 /**
  * @interface
  * An interface representing BillingProperty.
- * The billing property.
+ * A billing property resource.
  *
+ * @extends Resource
  */
-export interface BillingProperty {
+export interface BillingProperty extends Resource {
   /**
    * @member {string} [productId] Product Id.
    * **NOTE: This property will not be serialized. It can only be populated by

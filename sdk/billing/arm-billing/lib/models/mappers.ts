@@ -889,6 +889,12 @@ export const BillingAccount: msRest.CompositeMapper = {
           className: "Address"
         }
       },
+      company: {
+        serializedName: "properties.company",
+        type: {
+          name: "String"
+        }
+      },
       invoiceSections: {
         serializedName: "properties.invoiceSections",
         type: {
@@ -992,72 +998,73 @@ export const BillingProperty: msRest.CompositeMapper = {
     name: "Composite",
     className: "BillingProperty",
     modelProperties: {
+      ...Resource.type.modelProperties,
       productId: {
         readOnly: true,
-        serializedName: "productId",
+        serializedName: "properties.productId",
         type: {
           name: "String"
         }
       },
       billingTenantId: {
         readOnly: true,
-        serializedName: "billingTenantId",
+        serializedName: "properties.billingTenantId",
         type: {
           name: "String"
         }
       },
       billingAccountId: {
         readOnly: true,
-        serializedName: "billingAccountId",
+        serializedName: "properties.billingAccountId",
         type: {
           name: "String"
         }
       },
       billingAccountName: {
         readOnly: true,
-        serializedName: "billingAccountName",
+        serializedName: "properties.billingAccountName",
         type: {
           name: "String"
         }
       },
       billingProfileId: {
         readOnly: true,
-        serializedName: "billingProfileId",
+        serializedName: "properties.billingProfileId",
         type: {
           name: "String"
         }
       },
       billingProfileName: {
         readOnly: true,
-        serializedName: "billingProfileName",
+        serializedName: "properties.billingProfileName",
         type: {
           name: "String"
         }
       },
       invoiceSectionId: {
         readOnly: true,
-        serializedName: "invoiceSectionId",
+        serializedName: "properties.invoiceSectionId",
         type: {
           name: "String"
         }
       },
       invoiceSectionName: {
         readOnly: true,
-        serializedName: "invoiceSectionName",
+        serializedName: "properties.invoiceSectionName",
         type: {
           name: "String"
         }
       },
       skuId: {
         readOnly: true,
-        serializedName: "skuId",
+        serializedName: "properties.skuId",
         type: {
           name: "String"
         }
       },
       skuDescription: {
         readOnly: true,
-        serializedName: "skuDescription",
+        serializedName: "properties.skuDescription",
         type: {
           name: "String"
         }

@@ -26,6 +26,7 @@ export {
   BillingAccount,
   Enrollment,
   EnrollmentPolicies,
+  BillingProperty,
   ProductSummary,
   BillingSubscriptionSummary,
   TransactionsSummary,
