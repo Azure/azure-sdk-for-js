@@ -23,14 +23,13 @@ import {
 const connectionString = "";
 const queueName = "";
 
+let elapsedTime = 0;
+const interval = 60000;
 const testDurationInMilliseconds = 60000 * 5 * 12 * 24; // 24 hours
-
-let snapshotIntervalID: any;
 
 let receivedMessage: ServiceBusMessage;
 
 async function main(): Promise<void> {
-  snapshotIntervalID = setInterval(snapshot, 60000); // Every 60 seconds
   await sendMessage();
   await receiveMessage();
 }
@@ -67,6 +66,25 @@ async function receiveMessage(): Promise<void> {
       }
       console.log("Received message: ", receivedMessage.messageId);
 
+      while (elapsedTime < testDurationInMilliseconds) {
+        // simulate the user making an async call that takes time.
+        await delay(interval);
+        elapsedTime += interval;
+
+        // log how long we've executed.
+        console.log(`still executing after ${elapsedTime}`);
+
+        console.log("Time now: ", Date.now());
+        console.log("Processing message:");
+        console.log("MessageId: ", receivedMessage.messageId);
+        console.log("Delivery count: ", receivedMessage.deliveryCount);
+        console.log("LockedUntilUTC: ", receivedMessage.lockedUntilUtc);
+        console.log("Sequence number: ", receivedMessage.sequenceNumber);
+        console.log("TimeToLive: ", receivedMessage.timeToLive);
+        console.log("Message content: ", receivedMessage);
+        console.log("\n");
+      }
+
       await delay(testDurationInMilliseconds);
       await brokeredMessage.complete();
       console.log("Completed message: ", receivedMessage.messageId);
@@ -75,6 +93,7 @@ async function receiveMessage(): Promise<void> {
     const onErrorHandler: OnError = (err) => {
       // Since implementation of onError handler in SDK is such that it is supposed to be the
       // terminal executing code, any error while processing message will surface by crashing the process
+      console.log("Error thrown by user's OnError handler", err);
       throw err;
     };
 
@@ -88,20 +107,7 @@ async function receiveMessage(): Promise<void> {
   } finally {
     await client.close();
     await ns.close();
-    clearInterval(snapshotIntervalID);
   }
-}
-
-function snapshot(): void {
-  console.log("Time : ", new Date());
-  console.log("Processing message:");
-  console.log("MessageId: ", receivedMessage.messageId);
-  console.log("Delivery count: ", receivedMessage.deliveryCount);
-  console.log("LockedUntilUTC: ", receivedMessage.lockedUntilUtc);
-  console.log("Sequence number: ", receivedMessage.sequenceNumber);
-  console.log("TimeToLive: ", receivedMessage.timeToLive);
-  console.log("Message content: ", receivedMessage);
-  console.log("\n");
 }
 
 main().catch((err) => {
