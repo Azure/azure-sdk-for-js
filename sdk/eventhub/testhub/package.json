@@ -30,7 +30,9 @@
   },
   "scripts": {
     "build": "tsc",
+    "check-format": "true",
     "clean": "rimraf dist dist-esm test-dist typings *.tgz *.log",
+    "format": "true",
     "lint": "true",
     "pack": "npm pack 2>&1",
     "prebuild": "npm run clean",

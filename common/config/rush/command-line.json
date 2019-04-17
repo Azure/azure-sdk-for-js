@@ -119,6 +119,18 @@
     },
     {
       "commandKind": "bulk",
+      "name": "check-format",
+      "summary": "Show formatting issues within projects",
+      "enableParallelism": true
+    },
+    {
+      "commandKind": "bulk",
+      "name": "format",
+      "summary": "Reformat projects",
+      "enableParallelism": true
+    },
+    {
+      "commandKind": "bulk",
       "name": "lint",
       "summary": "Lint projects",
       "enableParallelism": true
