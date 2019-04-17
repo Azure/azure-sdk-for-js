@@ -33,6 +33,7 @@ export const cbsEndpoint = "$cbs";
 export const cbsReplyTo = "cbs";
 export const operationPutToken = "put-token";
 export const aadEventHubsAudience = "https://eventhubs.azure.net/";
+export const aadServiceBusAudience = "https://servicebus.azure.net/";
 export const maxUserAgentLength = 512;
 export const vendorString = "com.microsoft";
 export const attachEpoch = `${vendorString}:epoch`;
