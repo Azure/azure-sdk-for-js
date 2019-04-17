@@ -24,4 +24,3 @@ export interface ResumePoint {
 export interface ResumableAsyncIterableIterator<T> extends AsyncIterableIterator<T> {
   resumePoint: ResumePoint;
 }
-
