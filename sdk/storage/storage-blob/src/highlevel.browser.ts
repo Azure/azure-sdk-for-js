@@ -2,6 +2,7 @@ import { generateUuid } from "@azure/ms-rest-js";
 
 import { Aborter } from "./Aborter";
 import { BlockBlobURL } from "./BlockBlobURL";
+import { BlobConnectionOptions } from "./StorageURL";
 import { BlobUploadCommonResponse, IUploadToBlockBlobOptions } from "./highlevel.common";
 import { Batch } from "./utils/Batch";
 import {
@@ -45,6 +46,35 @@ export async function uploadBrowserDataToBlockBlob(
     blockBlobURL,
     options
   );
+}
+
+/**
+ * ONLY AVAILABLE IN BROWSERS.
+ *
+ * Given a URL to a Block Blob, uploads a browser Blob/File/ArrayBuffer/ArrayBufferView to that Block Blob.
+ * This method assumes container already exists.
+ *
+ * When buffer length <= 256MB, this method will use 1 upload call to finish the upload.
+ * Otherwise, this method will call stageBlock to upload blocks, and finally call commitBlockList
+ * to commit the block list.
+ *
+ * @export
+ * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
+ *                          goto documents of Aborter for more examples about request cancellation
+ * @param {Blob | ArrayBuffer | ArrayBufferView} browserData Blob, File, ArrayBuffer or ArrayBufferView
+ * @param {string} url URL to a Block Blob.
+ * @param {IUploadToBlockBlobOptions} [uploadOptions]
+ * @returns {Promise<BlobUploadCommonResponse>}
+ */
+export async function uploadBrowserDataToBlockBlobUrl(
+  aborter: Aborter,
+  browserData: Blob | ArrayBuffer | ArrayBufferView,
+  url: string,
+    uploadOptions: IUploadToBlockBlobOptions = {},
+    options: BlobConnectionOptions = {}
+): Promise<BlobUploadCommonResponse> {
+  const blockBlobURL = new BlockBlobURL(url, pipeline);
+  return uploadBrowserDataToBlockBlob(aborter, browserData, blockBlobURL, uploadOptions);
 }
 
 /**
