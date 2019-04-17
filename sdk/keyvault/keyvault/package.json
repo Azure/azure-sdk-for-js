@@ -42,9 +42,7 @@
     "esm/**/*.js.map",
     "esm/**/*.d.ts",
     "esm/**/*.d.ts.map",
-    "src/**/*.ts",
-    "rollup.config.js",
-    "tsconfig.json"
+    "src/**/*.ts"
   ],
   "scripts": {
     "build": "tsc && rollup -c rollup.config.js && npm run minify",
