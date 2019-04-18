@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
-
+export const associatedLinkName = "associated-link-name";
 export const partitionKey = "x-opt-partition-key";
 export const sequenceNumber = "x-opt-sequence-number";
 export const enqueueSequenceNumber = "x-opt-enqueue-sequence-number";
@@ -67,7 +67,9 @@ export const maxDeadLetterReasonLength = 4096;
 export const maxDurationValue = 922337203685477;
 export const minDurationValue = -922337203685477;
 // https://github.com/Azure/azure-amqp/blob/master/Microsoft.Azure.Amqp/Amqp/AmqpConstants.cs#L47
-export const maxAbsoluteExpiryTime = new Date("9999-12-31T07:59:59.000Z").getTime();
+export const maxAbsoluteExpiryTime = new Date(
+  "9999-12-31T07:59:59.000Z"
+).getTime();
 export const aadTokenValidityMarginSeconds = 5;
 export const connectionReconnectDelay = 300;
 export const defaultRetryAttempts = 3;
