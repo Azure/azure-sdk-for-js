@@ -1,8 +1,8 @@
 /*
 Test Scenario summary:
-- Creates a single sender and a single receiver on a queue.
+- Creates a single sender and a single receiver on a session enabled queue.
 - Receives a message and holds onto it for the duration of test.
-- Autolockrenewal is disabled and lock renewal is manually done on the message periodically in user code.
+- Autolockrenewal is disabled on session and lock renewal is manually done on the session periodically in user code.
 
 The test assumes no other process is working with the queues defined in here,
 but the queues must be empty and use default configurations before running the test.
