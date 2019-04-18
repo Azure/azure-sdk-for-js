@@ -198,7 +198,7 @@ export interface ResourceNameAvailabilityRequest {
    */
   type: CheckNameResourceTypes;
   /**
-   * @member {string} resourceGroup Is fully qualified domain name.
+   * @member {string} resourceGroup Resource group name.
    */
   resourceGroup: string;
 }
