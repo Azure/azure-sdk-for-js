@@ -2174,8 +2174,8 @@ export interface PoolSpecification {
   /**
    * @member {number} [maxTasksPerNode] The maximum number of tasks that can
    * run concurrently on a single compute node in the pool. The default value
-   * is 1. The maximum value is 4 times the number of cores of the vmSize of
-   * the pool, or 256, whichever is smaller.
+   * is 1. The maximum value is the smaller of 4 times the number of cores of
+   * the vmSize of the pool or 256.
    */
   maxTasksPerNode?: number;
   /**
@@ -2270,9 +2270,9 @@ export interface PoolSpecification {
   /**
    * @member {ApplicationPackageReference[]} [applicationPackageReferences] The
    * list of application packages to be installed on each compute node in the
-   * pool. Changes to application packages affect all new compute nodes joining
-   * the pool, but do not affect compute nodes that are already in the pool
-   * until they are rebooted or reimaged. There can be a maximum of 10
+   * pool. Changes to application package references affect all new compute
+   * nodes joining the pool, but do not affect compute nodes that are already
+   * in the pool until they are rebooted or reimaged. There is a maximum of 10
    * application package references on any given pool.
    */
   applicationPackageReferences?: ApplicationPackageReference[];
@@ -3645,9 +3645,9 @@ export interface CloudPool {
   /**
    * @member {ApplicationPackageReference[]} [applicationPackageReferences] The
    * list of application packages to be installed on each compute node in the
-   * pool. Changes to application packages affect all new compute nodes joining
-   * the pool, but do not affect compute nodes that are already in the pool
-   * until they are rebooted or reimaged. There can be a maximum of 10
+   * pool. Changes to application package references affect all new compute
+   * nodes joining the pool, but do not affect compute nodes that are already
+   * in the pool until they are rebooted or reimaged. There is a maximum of 10
    * application package references on any given pool.
    */
   applicationPackageReferences?: ApplicationPackageReference[];
@@ -3662,8 +3662,8 @@ export interface CloudPool {
   /**
    * @member {number} [maxTasksPerNode] The maximum number of tasks that can
    * run concurrently on a single compute node in the pool. The default value
-   * is 1. The maximum value is 4 times the number of cores of the vmSize of
-   * the pool, or 256, whichever is smaller.
+   * is 1. The maximum value is the smaller of 4 times the number of cores of
+   * the vmSize of the pool or 256.
    */
   maxTasksPerNode?: number;
   /**
@@ -3835,9 +3835,9 @@ export interface PoolAddParameter {
   /**
    * @member {ApplicationPackageReference[]} [applicationPackageReferences] The
    * list of application packages to be installed on each compute node in the
-   * pool. Changes to application packages affect all new compute nodes joining
-   * the pool, but do not affect compute nodes that are already in the pool
-   * until they are rebooted or reimaged. There can be a maximum of 10
+   * pool. Changes to application package references affect all new compute
+   * nodes joining the pool, but do not affect compute nodes that are already
+   * in the pool until they are rebooted or reimaged. There is a maximum of 10
    * application package references on any given pool.
    */
   applicationPackageReferences?: ApplicationPackageReference[];
@@ -3852,8 +3852,8 @@ export interface PoolAddParameter {
   /**
    * @member {number} [maxTasksPerNode] The maximum number of tasks that can
    * run concurrently on a single compute node in the pool. The default value
-   * is 1. The maximum value is 4 times the number of cores of the vmSize of
-   * the pool, or 256, whichever is smaller.
+   * is 1. The maximum value is the smaller of 4 times the number of cores of
+   * the vmSize of the pool or 256.
    */
   maxTasksPerNode?: number;
   /**
@@ -5469,9 +5469,9 @@ export interface PoolUpdatePropertiesParameter {
    * @member {ApplicationPackageReference[]} applicationPackageReferences The
    * list of application packages to be installed on each compute node in the
    * pool. The list replaces any existing application package references on the
-   * pool. Changes to application packages affect all new compute nodes joining
-   * the pool, but do not affect compute nodes that are already in the pool
-   * until they are rebooted or reimaged. There can be a maximum of 10
+   * pool. Changes to application package references affect all new compute
+   * nodes joining the pool, but do not affect compute nodes that are already
+   * in the pool until they are rebooted or reimaged. There is a maximum of 10
    * application package references on any given pool. If omitted, or if you
    * specify an empty collection, any existing application packages references
    * are removed from the pool.
@@ -5520,9 +5520,9 @@ export interface PoolPatchParameter {
    * @member {ApplicationPackageReference[]} [applicationPackageReferences] The
    * list of application packages to be installed on each compute node in the
    * pool. The list replaces any existing application package references on the
-   * pool. Changes to application packages affect all new compute nodes joining
-   * the pool, but do not affect compute nodes that are already in the pool
-   * until they are rebooted or reimaged. There can be a maximum of 10
+   * pool. Changes to application package references affect all new compute
+   * nodes joining the pool, but do not affect compute nodes that are already
+   * in the pool until they are rebooted or reimaged. There is a maximum of 10
    * application package references on any given pool. If omitted, any existing
    * application package references are left unchanged.
    */
