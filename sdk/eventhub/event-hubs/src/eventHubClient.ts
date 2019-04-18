@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import * as log from "./log";
-import { Delivery, WebSocketInstance, WebSocketImpl } from "rhea-promise";
+import { Delivery, WebSocketImpl } from "rhea-promise";
 import {
   ApplicationTokenCredentials, DeviceTokenCredentials, UserTokenCredentials, MSITokenCredentials
 } from "@azure/ms-rest-nodeauth";
