@@ -1276,6 +1276,89 @@ export const AggregationsKind1: msRest.CompositeMapper = {
   }
 };
 
+export const CasesAggregationBySeverityProperties: msRest.CompositeMapper = {
+  serializedName: "CasesAggregationBySeverityProperties",
+  type: {
+    name: "Composite",
+    className: "CasesAggregationBySeverityProperties",
+    modelProperties: {
+      totalCriticalSeverity: {
+        readOnly: true,
+        serializedName: "totalCriticalSeverity",
+        type: {
+          name: "String"
+        }
+      },
+      totalHighSeverity: {
+        readOnly: true,
+        serializedName: "totalHighSeverity",
+        type: {
+          name: "String"
+        }
+      },
+      totalMediumSeverity: {
+        readOnly: true,
+        serializedName: "totalMediumSeverity",
+        type: {
+          name: "String"
+        }
+      },
+      totalLowSeverity: {
+        readOnly: true,
+        serializedName: "totalLowSeverity",
+        type: {
+          name: "String"
+        }
+      },
+      totalInformationalSeverity: {
+        readOnly: true,
+        serializedName: "totalInformationalSeverity",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CasesAggregationByStatusProperties: msRest.CompositeMapper = {
+  serializedName: "CasesAggregationByStatusProperties",
+  type: {
+    name: "Composite",
+    className: "CasesAggregationByStatusProperties",
+    modelProperties: {
+      totalNewStatus: {
+        readOnly: true,
+        serializedName: "totalNewStatus",
+        type: {
+          name: "String"
+        }
+      },
+      totalInProgressStatus: {
+        readOnly: true,
+        serializedName: "totalInProgressStatus",
+        type: {
+          name: "String"
+        }
+      },
+      totalResolvedStatus: {
+        readOnly: true,
+        serializedName: "totalResolvedStatus",
+        type: {
+          name: "String"
+        }
+      },
+      totalDismissedStatus: {
+        readOnly: true,
+        serializedName: "totalDismissedStatus",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const CasesAggregation: msRest.CompositeMapper = {
   serializedName: "CasesAggregation",
   type: {
@@ -1285,67 +1368,18 @@ export const CasesAggregation: msRest.CompositeMapper = {
     className: "CasesAggregation",
     modelProperties: {
       ...Aggregations.type.modelProperties,
-      totalCriticalSeverity: {
-        readOnly: true,
-        serializedName: "properties.casesAggregationBySeverity.totalCriticalSeverity",
+      casesAggregationBySeverity: {
+        serializedName: "properties.casesAggregationBySeverity",
         type: {
-          name: "String"
+          name: "Composite",
+          className: "CasesAggregationBySeverityProperties"
         }
       },
-      totalHighSeverity: {
-        readOnly: true,
-        serializedName: "properties.casesAggregationBySeverity.totalHighSeverity",
+      casesAggregationByStatus: {
+        serializedName: "properties.casesAggregationByStatus",
         type: {
-          name: "String"
-        }
-      },
-      totalMediumSeverity: {
-        readOnly: true,
-        serializedName: "properties.casesAggregationBySeverity.totalMediumSeverity",
-        type: {
-          name: "String"
-        }
-      },
-      totalLowSeverity: {
-        readOnly: true,
-        serializedName: "properties.casesAggregationBySeverity.totalLowSeverity",
-        type: {
-          name: "String"
-        }
-      },
-      totalInformationalSeverity: {
-        readOnly: true,
-        serializedName: "properties.casesAggregationBySeverity.totalInformationalSeverity",
-        type: {
-          name: "String"
-        }
-      },
-      totalNewStatus: {
-        readOnly: true,
-        serializedName: "properties.casesAggregationByStatus.totalNewStatus",
-        type: {
-          name: "String"
-        }
-      },
-      totalInProgressStatus: {
-        readOnly: true,
-        serializedName: "properties.casesAggregationByStatus.totalInProgressStatus",
-        type: {
-          name: "String"
-        }
-      },
-      totalResolvedStatus: {
-        readOnly: true,
-        serializedName: "properties.casesAggregationByStatus.totalResolvedStatus",
-        type: {
-          name: "String"
-        }
-      },
-      totalDismissedStatus: {
-        readOnly: true,
-        serializedName: "properties.casesAggregationByStatus.totalDismissedStatus",
-        type: {
-          name: "String"
+          name: "Composite",
+          className: "CasesAggregationByStatusProperties"
         }
       }
     }

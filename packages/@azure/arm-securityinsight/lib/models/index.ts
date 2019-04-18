@@ -1276,33 +1276,11 @@ export interface AggregationsKind1 {
 
 /**
  * @interface
- * An interface representing CasesAggregation.
- * Represents aggregations results for cases.
+ * An interface representing CasesAggregationBySeverityProperties.
+ * Aggregative results of cases by severity property bag.
  *
  */
-export interface CasesAggregation {
-  /**
-   * @member {string} kind Polymorphic Discriminator
-   */
-  kind: "CasesAggregation";
-  /**
-   * @member {string} [id] Azure resource Id
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly id?: string;
-  /**
-   * @member {string} [type] Azure resource type
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly type?: string;
-  /**
-   * @member {string} [name] Azure resource name
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly name?: string;
+export interface CasesAggregationBySeverityProperties {
   /**
    * @member {string} [totalCriticalSeverity] Total amount of open cases with
    * severity Critical
@@ -1338,6 +1316,15 @@ export interface CasesAggregation {
    * the server.**
    */
   readonly totalInformationalSeverity?: string;
+}
+
+/**
+ * @interface
+ * An interface representing CasesAggregationByStatusProperties.
+ * Aggregative results of cases by status property bag.
+ *
+ */
+export interface CasesAggregationByStatusProperties {
   /**
    * @member {string} [totalNewStatus] Total amount of open cases with status
    * New
@@ -1366,6 +1353,47 @@ export interface CasesAggregation {
    * the server.**
    */
   readonly totalDismissedStatus?: string;
+}
+
+/**
+ * @interface
+ * An interface representing CasesAggregation.
+ * Represents aggregations results for cases.
+ *
+ */
+export interface CasesAggregation {
+  /**
+   * @member {string} kind Polymorphic Discriminator
+   */
+  kind: "CasesAggregation";
+  /**
+   * @member {string} [id] Azure resource Id
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly id?: string;
+  /**
+   * @member {string} [type] Azure resource type
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly type?: string;
+  /**
+   * @member {string} [name] Azure resource name
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly name?: string;
+  /**
+   * @member {CasesAggregationBySeverityProperties}
+   * [casesAggregationBySeverity] Aggregations results by case severity.
+   */
+  casesAggregationBySeverity?: CasesAggregationBySeverityProperties;
+  /**
+   * @member {CasesAggregationByStatusProperties} [casesAggregationByStatus]
+   * Aggregations results by case status.
+   */
+  casesAggregationByStatus?: CasesAggregationByStatusProperties;
 }
 
 /**
