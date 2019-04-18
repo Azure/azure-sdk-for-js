@@ -7,7 +7,7 @@ import {
   ApplicationTokenCredentials, DeviceTokenCredentials, UserTokenCredentials, MSITokenCredentials
 } from "@azure/ms-rest-nodeauth";
 import {
-  MessagingError, DataTransformer, TokenProvider, EventHubConnectionConfig, AadTokenProvider,
+  MessagingError, DataTransformer, TokenProvider, EventHubConnectionConfig, AadTokenProvider
 } from "@azure/amqp-common";
 import { OnMessage, OnError } from "./eventHubReceiver";
 import { EventData } from "./eventData";
@@ -18,7 +18,6 @@ import { EventHubSender } from "./eventHubSender";
 import { StreamingReceiver, ReceiveHandler } from "./streamingReceiver";
 import { BatchingReceiver } from "./batchingReceiver";
 import { IotHubClient } from "./iothub/iothubClient";
-
 
 /**
  * Describes the options that one can set while receiving messages.
