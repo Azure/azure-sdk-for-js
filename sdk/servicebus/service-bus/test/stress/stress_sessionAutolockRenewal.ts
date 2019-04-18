@@ -1,7 +1,7 @@
 /*
 Test Scenario summary:
-- Creates a single sender and a single receiver on a queue.
-- Receives a message and holds onto it for the duration of test. AutoLockRenewal is enabled and set to the test duration.
+- Creates a single sender and a single receiver on a session enabled queue.
+- Receives a message and holds onto it for the duration of test. AutoLockRenewal on session is enabled and set to the test duration.
 
 The test assumes no other process is working with the queues defined in here,
 but the queues must be empty and use default configurations before running the test.
@@ -90,6 +90,7 @@ async function receiveMessage(sessionId: string): Promise<void> {
       }
 
       await delay(testDurationInMilliseconds);
+      console.log("Trying to complete message: ", receivedMessage.messageId);
       await brokeredMessage.complete();
       console.log("Completed message: ", receivedMessage.messageId);
     };
