@@ -293,8 +293,8 @@ export interface TransferBillingSubscriptionResult {
  */
 export interface TransferBillingSubscriptionRequestProperties {
   /**
-   * @member {string} [destinationInvoiceSectionId] The destination
-   * invoiceSectionName.
+   * @member {string} [destinationInvoiceSectionId] The destination invoice
+   * section id.
    */
   destinationInvoiceSectionId?: string;
 }
@@ -307,8 +307,8 @@ export interface TransferBillingSubscriptionRequestProperties {
  */
 export interface TransferBillingSubscriptionRequest {
   /**
-   * @member {string} [destinationInvoiceSectionId] The destination
-   * invoiceSectionName.
+   * @member {string} [destinationInvoiceSectionId] The destination invoice
+   * section id.
    */
   destinationInvoiceSectionId?: string;
 }
@@ -2149,8 +2149,8 @@ export interface EnrollmentAccountsGetByEnrollmentAccountAccountIdOptionalParams
  */
 export interface BillingSubscriptionTransferOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * @member {string} [destinationInvoiceSectionId] The destination
-   * invoiceSectionName.
+   * @member {string} [destinationInvoiceSectionId] The destination invoice
+   * section id.
    */
   destinationInvoiceSectionId?: string;
 }
@@ -2164,8 +2164,8 @@ export interface BillingSubscriptionTransferOptionalParams extends msRest.Reques
  */
 export interface BillingSubscriptionBeginTransferOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * @member {string} [destinationInvoiceSectionId] The destination
-   * invoiceSectionName.
+   * @member {string} [destinationInvoiceSectionId] The destination invoice
+   * section id.
    */
   destinationInvoiceSectionId?: string;
 }
