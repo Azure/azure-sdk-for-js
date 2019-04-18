@@ -8,8 +8,7 @@ import {
   retry,
   RetryOperationType,
   RetryConfig,
-  ConditionErrorNameMapper,
-  SendRequestOptions
+  ConditionErrorNameMapper
 } from "@azure/amqp-common";
 import {
   Receiver,
@@ -345,10 +344,6 @@ export class MessageReceiver extends LinkEntity {
         true
       );
 
-      const sendRequestOptions: SendRequestOptions = {
-        receiverName: this._receiver!.name
-      };
-
       if (this.autoRenewLock && bMessage.lockToken) {
         const lockToken = bMessage.lockToken;
         // - We need to renew locks before they expire by looking at bMessage.lockedUntilUtc.
@@ -398,6 +393,14 @@ export class MessageReceiver extends LinkEntity {
                 bMessage.messageId as string,
                 setTimeout(async () => {
                   try {
+                    let receiverName;
+                    if (this._receiver) {
+                      receiverName = this._receiver.name;
+                    } else {
+                      throw new Error(
+                        "AMQP receiver is closed or undefined. Cannot renew lock on non-existing receiver link"
+                      );
+                    }
                     log.receiver(
                       "[%s] Attempting to renew the lock for message with id '%s'.",
                       connectionId,
@@ -405,7 +408,8 @@ export class MessageReceiver extends LinkEntity {
                     );
                     bMessage.lockedUntilUtc = await this._context.managementClient!.renewLock(
                       lockToken,
-                      sendRequestOptions
+                      undefined,
+                      receiverName
                     );
                     log.receiver(
                       "[%s] Successfully renewed the lock for message with id '%s'.",
