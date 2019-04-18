@@ -1286,35 +1286,35 @@ export const CasesAggregationBySeverityProperties: msRest.CompositeMapper = {
         readOnly: true,
         serializedName: "totalCriticalSeverity",
         type: {
-          name: "String"
+          name: "Number"
         }
       },
       totalHighSeverity: {
         readOnly: true,
         serializedName: "totalHighSeverity",
         type: {
-          name: "String"
+          name: "Number"
         }
       },
       totalMediumSeverity: {
         readOnly: true,
         serializedName: "totalMediumSeverity",
         type: {
-          name: "String"
+          name: "Number"
         }
       },
       totalLowSeverity: {
         readOnly: true,
         serializedName: "totalLowSeverity",
         type: {
-          name: "String"
+          name: "Number"
         }
       },
       totalInformationalSeverity: {
         readOnly: true,
         serializedName: "totalInformationalSeverity",
         type: {
-          name: "String"
+          name: "Number"
         }
       }
     }
@@ -1331,28 +1331,28 @@ export const CasesAggregationByStatusProperties: msRest.CompositeMapper = {
         readOnly: true,
         serializedName: "totalNewStatus",
         type: {
-          name: "String"
+          name: "Number"
         }
       },
       totalInProgressStatus: {
         readOnly: true,
         serializedName: "totalInProgressStatus",
         type: {
-          name: "String"
+          name: "Number"
         }
       },
       totalResolvedStatus: {
         readOnly: true,
         serializedName: "totalResolvedStatus",
         type: {
-          name: "String"
+          name: "Number"
         }
       },
       totalDismissedStatus: {
         readOnly: true,
         serializedName: "totalDismissedStatus",
         type: {
-          name: "String"
+          name: "Number"
         }
       }
     }

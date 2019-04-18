@@ -1282,40 +1282,40 @@ export interface AggregationsKind1 {
  */
 export interface CasesAggregationBySeverityProperties {
   /**
-   * @member {string} [totalCriticalSeverity] Total amount of open cases with
+   * @member {number} [totalCriticalSeverity] Total amount of open cases with
    * severity Critical
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly totalCriticalSeverity?: string;
+  readonly totalCriticalSeverity?: number;
   /**
-   * @member {string} [totalHighSeverity] Total amount of open cases with
+   * @member {number} [totalHighSeverity] Total amount of open cases with
    * severity High
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly totalHighSeverity?: string;
+  readonly totalHighSeverity?: number;
   /**
-   * @member {string} [totalMediumSeverity] Total amount of open cases with
+   * @member {number} [totalMediumSeverity] Total amount of open cases with
    * severity medium
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly totalMediumSeverity?: string;
+  readonly totalMediumSeverity?: number;
   /**
-   * @member {string} [totalLowSeverity] Total amount of open cases with
+   * @member {number} [totalLowSeverity] Total amount of open cases with
    * severity Low
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly totalLowSeverity?: string;
+  readonly totalLowSeverity?: number;
   /**
-   * @member {string} [totalInformationalSeverity] Total amount of open cases
+   * @member {number} [totalInformationalSeverity] Total amount of open cases
    * with severity Informational
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly totalInformationalSeverity?: string;
+  readonly totalInformationalSeverity?: number;
 }
 
 /**
@@ -1326,33 +1326,33 @@ export interface CasesAggregationBySeverityProperties {
  */
 export interface CasesAggregationByStatusProperties {
   /**
-   * @member {string} [totalNewStatus] Total amount of open cases with status
+   * @member {number} [totalNewStatus] Total amount of open cases with status
    * New
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly totalNewStatus?: string;
+  readonly totalNewStatus?: number;
   /**
-   * @member {string} [totalInProgressStatus] Total amount of open cases with
+   * @member {number} [totalInProgressStatus] Total amount of open cases with
    * status InProgress
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly totalInProgressStatus?: string;
+  readonly totalInProgressStatus?: number;
   /**
-   * @member {string} [totalResolvedStatus] Total amount of open cases with
+   * @member {number} [totalResolvedStatus] Total amount of open cases with
    * status Resolved
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly totalResolvedStatus?: string;
+  readonly totalResolvedStatus?: number;
   /**
-   * @member {string} [totalDismissedStatus] Total amount of open cases with
+   * @member {number} [totalDismissedStatus] Total amount of open cases with
    * status Dismissed
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly totalDismissedStatus?: string;
+  readonly totalDismissedStatus?: number;
 }
 
 /**
