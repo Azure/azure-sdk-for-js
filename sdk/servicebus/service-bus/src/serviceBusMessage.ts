@@ -13,8 +13,7 @@ import { Constants, AmqpMessage } from "@azure/amqp-common";
 import * as log from "./log";
 import { ClientEntityContext } from "./clientEntityContext";
 import { reorderLockToken } from "../src/util/utils";
-import { MessageReceiver } from "./core/messageReceiver";
-import { MessageSession } from "./session/messageSession";
+import { throwIfMessageCannotBeSettled } from "../src/util/errors";
 
 /**
  * The mode in which messages should be received
@@ -938,7 +937,7 @@ export class ServiceBusMessage implements ReceivedMessage {
       return;
     }
     const receiver = this._context.getReceiver(this.delivery.link.name, this.sessionId);
-    this._throwIfMessageCannotBeSettled(receiver, DispositionType.complete);
+    throwIfMessageCannotBeSettled(receiver, DispositionType.complete, this.delivery.remote_settled);
 
     return receiver!.settleMessage(this, DispositionType.complete);
   }
@@ -968,7 +967,7 @@ export class ServiceBusMessage implements ReceivedMessage {
       return;
     }
     const receiver = this._context.getReceiver(this.delivery.link.name, this.sessionId);
-    this._throwIfMessageCannotBeSettled(receiver, DispositionType.abandon);
+    throwIfMessageCannotBeSettled(receiver, DispositionType.abandon, this.delivery.remote_settled);
 
     return receiver!.settleMessage(this, DispositionType.abandon, {
       propertiesToModify: propertiesToModify
@@ -1002,7 +1001,7 @@ export class ServiceBusMessage implements ReceivedMessage {
       return;
     }
     const receiver = this._context.getReceiver(this.delivery.link.name, this.sessionId);
-    this._throwIfMessageCannotBeSettled(receiver, DispositionType.defer);
+    throwIfMessageCannotBeSettled(receiver, DispositionType.defer, this.delivery.remote_settled);
 
     return receiver!.settleMessage(this, DispositionType.defer, {
       propertiesToModify: propertiesToModify
@@ -1046,7 +1045,11 @@ export class ServiceBusMessage implements ReceivedMessage {
       return;
     }
     const receiver = this._context.getReceiver(this.delivery.link.name, this.sessionId);
-    this._throwIfMessageCannotBeSettled(receiver, DispositionType.deadletter);
+    throwIfMessageCannotBeSettled(
+      receiver,
+      DispositionType.deadletter,
+      this.delivery.remote_settled
+    );
 
     return receiver!.settleMessage(this, DispositionType.deadletter, {
       error: error
@@ -1077,39 +1080,5 @@ export class ServiceBusMessage implements ReceivedMessage {
     };
 
     return clone;
-  }
-
-  /**
-   * Logs and Throws an error if the given message cannot be settled.
-   * @param receiver Receiver to be used to settle this message
-   * @param operation Settle operation: complete, abandon, defer or deadLetter
-   */
-  private _throwIfMessageCannotBeSettled(
-    receiver: MessageReceiver | MessageSession | undefined,
-    operation: DispositionType
-  ): void {
-    let errorMessage;
-    if (!receiver) {
-      errorMessage = `Failed to ${operation} the message as it's receiver has been closed.`;
-    } else if (receiver.receiveMode !== ReceiveMode.peekLock) {
-      errorMessage = `Failed to ${operation} the message as the operation is only supported in 'PeekLock' receive mode.`;
-    } else if (this.delivery.remote_settled) {
-      errorMessage = `Failed to ${operation} the message as this message has been already settled.`;
-    }
-    if (!errorMessage) {
-      return;
-    }
-    const error = new Error(errorMessage);
-    if (receiver) {
-      log.error(
-        "An error occured when settling a message using the reciever %s: %O",
-        receiver.name,
-        error
-      );
-    } else {
-      log.error("An error occured when settling a message: %O", error);
-    }
-
-    throw error;
   }
 }
