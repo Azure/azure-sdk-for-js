@@ -1368,15 +1368,15 @@ export const CasesAggregation: msRest.CompositeMapper = {
     className: "CasesAggregation",
     modelProperties: {
       ...Aggregations.type.modelProperties,
-      casesAggregationBySeverity: {
-        serializedName: "properties.casesAggregationBySeverity",
+      aggregationBySeverity: {
+        serializedName: "properties.aggregationBySeverity",
         type: {
           name: "Composite",
           className: "CasesAggregationBySeverityProperties"
         }
       },
-      casesAggregationByStatus: {
-        serializedName: "properties.casesAggregationByStatus",
+      aggregationByStatus: {
+        serializedName: "properties.aggregationByStatus",
         type: {
           name: "Composite",
           className: "CasesAggregationByStatusProperties"

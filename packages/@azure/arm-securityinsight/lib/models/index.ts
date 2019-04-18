@@ -1385,15 +1385,15 @@ export interface CasesAggregation {
    */
   readonly name?: string;
   /**
-   * @member {CasesAggregationBySeverityProperties}
-   * [casesAggregationBySeverity] Aggregations results by case severity.
+   * @member {CasesAggregationBySeverityProperties} [aggregationBySeverity]
+   * Aggregations results by case severity.
    */
-  casesAggregationBySeverity?: CasesAggregationBySeverityProperties;
+  aggregationBySeverity?: CasesAggregationBySeverityProperties;
   /**
-   * @member {CasesAggregationByStatusProperties} [casesAggregationByStatus]
+   * @member {CasesAggregationByStatusProperties} [aggregationByStatus]
    * Aggregations results by case status.
    */
-  casesAggregationByStatus?: CasesAggregationByStatusProperties;
+  aggregationByStatus?: CasesAggregationByStatusProperties;
 }
 
 /**
