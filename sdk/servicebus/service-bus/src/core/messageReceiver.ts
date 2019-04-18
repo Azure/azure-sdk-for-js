@@ -8,7 +8,8 @@ import {
   retry,
   RetryOperationType,
   RetryConfig,
-  ConditionErrorNameMapper
+  ConditionErrorNameMapper,
+  SendRequestOptions
 } from "@azure/amqp-common";
 import {
   Receiver,
@@ -343,6 +344,11 @@ export class MessageReceiver extends LinkEntity {
         context.delivery!,
         true
       );
+
+      const sendRequestOptions: SendRequestOptions = {
+        receiverName: this._receiver!.name
+      };
+
       if (this.autoRenewLock && bMessage.lockToken) {
         const lockToken = bMessage.lockToken;
         // - We need to renew locks before they expire by looking at bMessage.lockedUntilUtc.
@@ -398,7 +404,8 @@ export class MessageReceiver extends LinkEntity {
                       bMessage.messageId
                     );
                     bMessage.lockedUntilUtc = await this._context.managementClient!.renewLock(
-                      lockToken
+                      lockToken,
+                      sendRequestOptions
                     );
                     log.receiver(
                       "[%s] Successfully renewed the lock for message with id '%s'.",
