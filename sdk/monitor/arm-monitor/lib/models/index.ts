@@ -2854,7 +2854,7 @@ export type MultiMetricCriteriaUnion = MultiMetricCriteria | StaticMetricCriteri
 /**
  * @interface
  * An interface representing MultiMetricCriteria.
- * The types of conditions for a multi resource alert
+ * The types of conditions for a multi resource alert.
  *
  */
 export interface MultiMetricCriteria {
@@ -2994,18 +2994,21 @@ export interface MetricAlertMultipleResourceMultipleMetricCriteria {
 /**
  * @interface
  * An interface representing DynamicThresholdFailingPeriods.
- * Select minimum number of violations within the selected lookback time window
- * required to raise an alert
+ * The minimum number of violations required within the selected lookback time
+ * window required to raise an alert.
  *
  */
 export interface DynamicThresholdFailingPeriods {
   /**
-   * @member {number} numberOfEvaluationPeriods Select how many t the lookback
-   * time window,
+   * @member {number} numberOfEvaluationPeriods The number of aggregated
+   * lookback points. The lookback time window is calculated based on the
+   * aggregation granularity (windowSize) and the selected number of aggregated
+   * points.
    */
   numberOfEvaluationPeriods: number;
   /**
-   * @member {number} minFailingPeriodsToAlert The least number of violations
+   * @member {number} minFailingPeriodsToAlert The number of violations to
+   * trigger an alert. Should be smaller or equal to numberOfEvaluationPeriods.
    */
   minFailingPeriodsToAlert: number;
 }
@@ -3042,24 +3045,26 @@ export interface DynamicMetricCriteria {
    */
   dimensions?: MetricDimension[];
   /**
-   * @member {any} operator The condition used to compare the metric value
-   * against the threshold
+   * @member {any} operator The operator used to compare the metric value
+   * against the threshold.
    */
   operator: any;
   /**
-   * @member {any} alertSensitivity The sensitivity of the threshold
+   * @member {any} alertSensitivity The extent of deviation required to trigger
+   * an alert. This will affect how tight the threshold is to the metric series
+   * pattern.
    */
   alertSensitivity: any;
   /**
-   * @member {DynamicThresholdFailingPeriods} failingPeriods Select minimum
-   * number of violations within the selected lookback time window required to
-   * raise an alert
+   * @member {DynamicThresholdFailingPeriods} failingPeriods The minimum number
+   * of violations required within the selected lookback time window required
+   * to raise an alert.
    */
   failingPeriods: DynamicThresholdFailingPeriods;
   /**
    * @member {Date} [ignoreDataBefore] Use this option to set the date from
    * which to start learning the metric historical data and calculate the
-   * dynamic thresholds
+   * dynamic thresholds (in ISO8601 format)
    */
   ignoreDataBefore?: Date;
 }
