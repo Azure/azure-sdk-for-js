@@ -592,7 +592,7 @@ describe("Message validations", function(): void {
   }
 
   it("Error thrown when the 'msg' is undefined", async function(): Promise<void> {
-    await validationTest(undefined!, "data is required and it must be of type object.");
+    await validationTest(undefined!, "'msg' cannot be null or undefined.");
   });
 
   it("Error thrown when the 'contentType' is not of type 'string'", async function(): Promise<
