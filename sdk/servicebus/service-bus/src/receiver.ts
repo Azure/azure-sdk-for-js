@@ -438,18 +438,10 @@ export class SessionReceiver {
   async renewSessionLock(): Promise<Date> {
     this._throwIfReceiverOrConnectionClosed();
     await this._createMessageSessionIfDoesntExist();
-    let receiverName;
-    if (this._messageSession) {
-      receiverName = this._messageSession.receiverName;
-    } else {
-      throw new Error(
-        "AMQP receiver is closed or undefined. Cannot renew lock on non-existing receiver link"
-      );
-    }
+
     this._messageSession!.sessionLockedUntilUtc = await this._context.managementClient!.renewSessionLock(
       this.sessionId!,
-      undefined,
-      receiverName
+      this._messageSession!.receiverName
     );
     return this._messageSession!.sessionLockedUntilUtc!;
   }

@@ -1010,6 +1010,7 @@ export class MessageSession extends LinkEntity {
         );
 
         this._receiver = await this._context.namespace.connection.createReceiver(options);
+        this.receiverName = this._receiver!.name;
         this.isConnecting = false;
         const receivedSessionId =
           this._receiver.source &&
@@ -1138,14 +1139,6 @@ export class MessageSession extends LinkEntity {
       const nextRenewalTimeout = calculateRenewAfterDuration(this.sessionLockedUntilUtc!);
       this._sessionLockRenewalTimer = setTimeout(async () => {
         try {
-          let receiverName;
-          if (this._receiver) {
-            receiverName = this._receiver.name;
-          } else {
-            throw new Error(
-              "AMQP receiver is closed or undefined. Cannot renew lock on non-existing receiver link"
-            );
-          }
           log.messageSession(
             "[%s] Attempting to renew the session lock for MessageSession '%s' " +
               "with name '%s'.",
@@ -1155,12 +1148,12 @@ export class MessageSession extends LinkEntity {
           );
           this.sessionLockedUntilUtc = await this._context.managementClient!.renewSessionLock(
             this.sessionId!,
+            this.receiverName,
             {
               delayInSeconds: 0,
               timeoutInSeconds: 10,
               times: 4
-            },
-            receiverName
+            }
           );
           log.receiver(
             "[%s] Successfully renewed the session lock for MessageSession '%s' " +
@@ -1210,7 +1203,6 @@ export class MessageSession extends LinkEntity {
     throwErrorIfConnectionClosed(context.namespace);
     const messageSession = new MessageSession(context, options);
     await messageSession._init();
-    messageSession.receiverName = messageSession!._receiver!.name;
     return messageSession;
   }
 }
