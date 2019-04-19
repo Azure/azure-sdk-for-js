@@ -1,6 +1,6 @@
-const { Connection } = require("rhea-promise");
-const moment = require("moment");
-const delay = require("delay");
+import { Connection } from "rhea-promise";
+import delay from "delay";
+import moment from "moment";
 
 const _payload = Buffer.alloc(1024);
 const _start = moment();
@@ -123,9 +123,9 @@ function WriteResult(
 ): void {
   log(
     `\tTot Msg\t${totalMessages}` +
-      `\tCur MPS\t${Math.round((currentMessages * 1000) / currentElapsed)}` +
-      `\tAvg MPS\t${Math.round((totalMessages * 1000) / totalElapsed)}` +
-      `\tMax MPS\t${Math.round((maxMessages * 1000) / maxElapsed)}`
+    `\tCur MPS\t${Math.round((currentMessages * 1000) / currentElapsed)}` +
+    `\tAvg MPS\t${Math.round((totalMessages * 1000) / totalElapsed)}` +
+    `\tMax MPS\t${Math.round((maxMessages * 1000) / maxElapsed)}`
   );
 }
 

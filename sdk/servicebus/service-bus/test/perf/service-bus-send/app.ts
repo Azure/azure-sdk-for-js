@@ -1,6 +1,7 @@
-const { Namespace } = require("@azure/service-bus");
-const moment = require("moment");
-const delay = require("delay");
+import { ServiceBusClient } from "../../../src";
+import delay from "delay";
+import moment from "moment";
+
 
 const _payload = Buffer.alloc(1024);
 const _start = moment();
@@ -30,11 +31,11 @@ async function RunTest(
   maxInflight: number,
   messages: number
 ): Promise<void> {
-  const ns = Namespace.createFromConnectionString(connectionString);
+  const ns = ServiceBusClient.createFromConnectionString(connectionString);
 
   // If using Topics, use createTopicClient to send to a topic
   const client = ns.createQueueClient(entityPath);
-  const sender = client.getSender();
+  const sender = client.createSender();
 
   const promises: Promise<void>[] = [];
 
@@ -94,9 +95,9 @@ function WriteResult(
 ): void {
   log(
     `\tTot Msg\t${totalMessages}` +
-      `\tCur MPS\t${Math.round((currentMessages * 1000) / currentElapsed)}` +
-      `\tAvg MPS\t${Math.round((totalMessages * 1000) / totalElapsed)}` +
-      `\tMax MPS\t${Math.round((maxMessages * 1000) / maxElapsed)}`
+    `\tCur MPS\t${Math.round((currentMessages * 1000) / currentElapsed)}` +
+    `\tAvg MPS\t${Math.round((totalMessages * 1000) / totalElapsed)}` +
+    `\tMax MPS\t${Math.round((maxMessages * 1000) / maxElapsed)}`
   );
 }
 
