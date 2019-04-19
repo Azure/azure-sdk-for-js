@@ -393,10 +393,6 @@ export class MessageReceiver extends LinkEntity {
                 bMessage.messageId as string,
                 setTimeout(async () => {
                   try {
-                    let receiverName;
-                    if (this._receiver) {
-                      receiverName = this._receiver.name;
-                    }
                     log.receiver(
                       "[%s] Attempting to renew the lock for message with id '%s'.",
                       connectionId,
@@ -404,7 +400,7 @@ export class MessageReceiver extends LinkEntity {
                     );
                     bMessage.lockedUntilUtc = await this._context.managementClient!.renewLock(
                       lockToken,
-                      receiverName
+                      this.name
                     );
                     log.receiver(
                       "[%s] Successfully renewed the lock for message with id '%s'.",
