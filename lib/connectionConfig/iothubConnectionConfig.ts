@@ -51,9 +51,8 @@ export namespace IotHubConnectionConfig {
    * @param {string} [path]           - The name/path of the entity (hub name) to which the connection needs to happen
    */
   export function create(connectionString: string, path?: string): IotHubConnectionConfig {
-    if (!connectionString || (connectionString && typeof connectionString !== "string")) {
-      throw new Error("'connectionString' is a required parameter and must be of type: 'string'.");
-    }
+    connectionString = String(connectionString);
+
     const parsedCS = parseConnectionString<IotHubConnectionStringModel>(connectionString);
     if (!path) {
       path = "messages/events";
@@ -76,23 +75,33 @@ export namespace IotHubConnectionConfig {
    * @param {ConnectionConfig} config The connection config to be validated.
    */
   export function validate(config: IotHubConnectionConfig): void {
-    if (!config || (config && typeof config !== "object")) {
-      throw new Error("'config' is a required parameter and must be of type: 'object'.");
+    if (!config) {
+      throw new TypeError("Missing configuration");
     }
-    if (!config.hostName || (config.hostName && typeof config.hostName !== "string")) {
-      throw new Error("'hostName' is a required property of the ConnectionConfig.");
+
+    if (!config.hostName) {
+      throw new TypeError("Missing 'hostName' in configuration");
     }
-    if (!config.entityPath || (config.entityPath && typeof config.entityPath !== "string")) {
-      throw new Error("'entityPath' is a required property of the ConnectionConfig.");
+    config.hostName = String(config.hostName);
+
+
+    if (!config.entityPath) {
+      throw new TypeError("Missing 'entityPath' in configuration");
     }
-    if (!config.sharedAccessKeyName || (config.sharedAccessKeyName && typeof config.sharedAccessKeyName !== "string")) {
-      throw new Error("'sharedAccessKeyName' is a required property of the ConnectionConfig.");
+    config.entityPath = String(config.entityPath);
+
+    if (!config.sharedAccessKeyName) {
+      throw new TypeError("Missing 'sharedAccessKeyName' in configuration");
     }
-    if (!config.sharedAccessKey || (config.sharedAccessKey && typeof config.sharedAccessKey !== "string")) {
-      throw new Error("'sharedAccessKey' is a required property of the ConnectionConfig.");
+    config.sharedAccessKeyName = String(config.sharedAccessKeyName);
+
+    if (!config.sharedAccessKey) {
+      throw new TypeError("Missing 'sharedAccessKey' in configuration");
     }
-    if (config.deviceId != undefined && typeof config.deviceId !== "string") {
-      throw new Error("'deviceId' must be of type 'string'.");
+    config.sharedAccessKey = String(config.sharedAccessKey);
+
+    if (config.deviceId) {
+      config.deviceId = String(config.deviceId);
     }
   }
   /**
@@ -101,9 +110,6 @@ export namespace IotHubConnectionConfig {
    * @param {IotHubConnectionConfig} iotHubConfig
    */
   export function convertToEventHubConnectionConfig(iotHubConfig: IotHubConnectionConfig): EventHubConnectionConfig {
-    if (!iotHubConfig || (iotHubConfig && typeof iotHubConfig !== "object")) {
-      throw new Error("'iotHubConfig' is a required parameter and must be of type: 'object'.");
-    }
     validate(iotHubConfig);
     const config: ConnectionConfig = {
       sharedAccessKey: iotHubConfig.sharedAccessKey,

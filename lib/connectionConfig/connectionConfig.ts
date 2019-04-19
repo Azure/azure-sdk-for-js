@@ -83,12 +83,11 @@ export namespace ConnectionConfig {
    * @returns {ConnectionConfig} ConnectionConfig
    */
   export function create(connectionString: string, path?: string): ConnectionConfig {
-    if (!connectionString || (connectionString && typeof connectionString !== "string")) {
-      throw new Error("'connectionString' is a required parameter and must be of type: 'string'.");
-    }
+    connectionString = String(connectionString);
+
     const parsedCS = parseConnectionString<ServiceBusConnectionStringModel>(connectionString);
     if (!parsedCS.Endpoint) {
-      throw new Error("Connection string is missing Endpoint.");
+      throw new TypeError("Missing Endpoint in Connection String.");
     }
 
     if (!parsedCS.Endpoint.endsWith("/")) parsedCS.Endpoint += "/";
@@ -112,25 +111,34 @@ export namespace ConnectionConfig {
    */
   export function validate(config: ConnectionConfig, options?: ConnectionConfigOptions): void {
     if (!options) options = {};
-    if (!config || (config && typeof config !== "object")) {
-      throw new Error("'config' is a required parameter and must be of type: 'object'.");
+
+    if (!config) {
+      throw new TypeError("Missing configuration");
     }
-    if (!config.endpoint || (config.endpoint && typeof config.endpoint !== "string")) {
-      throw new Error("'endpoint' is a required property of ConnectionConfig.");
+
+    if (!config.endpoint) {
+      throw new TypeError("Missing 'endpoint' in configuration");
     }
-    if (config.entityPath && typeof config.entityPath !== "string") {
-      throw new Error("'entityPath' must be of type 'string'.");
+    config.endpoint = String(config.endpoint);
+
+    if (!config.host) {
+      throw new TypeError("Missing 'host' in configuration");
     }
+    config.host = String(config.host);
+
     if (options.isEntityPathRequired && !config.entityPath) {
-      throw new Error("'entityPath' is a required property of ConnectionConfig.");
+      throw new TypeError("Missing 'entityPath' in configuration");
     }
-    if (!config.sharedAccessKeyName ||
-      (config.sharedAccessKeyName && typeof config.sharedAccessKeyName !== "string")) {
-      throw new Error("'sharedAccessKeyName' is a required property of ConnectionConfig.");
+    config.entityPath = String(config.entityPath);
+
+    if (!config.sharedAccessKeyName) {
+      throw new TypeError("Missing 'sharedAccessKeyName' in configuration");
     }
-    if (!config.sharedAccessKey ||
-      (config.sharedAccessKey && typeof config.sharedAccessKey !== "string")) {
-      throw new Error("'sharedAccessKey' is a required property of ConnectionConfig.");
+    config.sharedAccessKeyName = String(config.sharedAccessKeyName);
+
+    if (!config.sharedAccessKey) {
+      throw new TypeError("Missing 'sharedAccessKey' in configuration");
     }
+    config.sharedAccessKey = String(config.sharedAccessKey);
   }
 }

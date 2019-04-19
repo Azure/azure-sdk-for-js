@@ -508,9 +508,6 @@ export enum SystemErrorConditionMapper {
 }
 
 export function isSystemError(err: any): boolean {
-  if (!err || typeof err !== "object") {
-    throw new Error("err is a required parameter and must be of type 'object'.");
-  }
   let result: boolean = false;
   if ((err.code && typeof err.code === "string") &&
     (err.syscall && typeof err.syscall === "string") &&

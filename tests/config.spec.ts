@@ -85,7 +85,7 @@ describe("ConnectionConfig", function () {
 
       should.throw(() => {
         ConnectionConfig.create(connectionString);
-      }, /missing Endpoint/);
+      }, /Missing Endpoint/);
 
       done();
     });

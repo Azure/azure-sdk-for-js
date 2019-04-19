@@ -131,9 +131,6 @@ export module ConnectionContextBase {
    * the base connection context.
    */
   export function create(parameters: CreateConnectionContextBaseParameters): ConnectionContextBase {
-    if (!parameters || typeof parameters !== "object") {
-      throw new Error("'parameters' is a required parameter and must be of type 'object'.");
-    }
     ConnectionConfig.validate(parameters.config, {
       isEntityPathRequired: parameters.isEntityPathRequired || false
     });

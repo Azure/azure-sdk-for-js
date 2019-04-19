@@ -246,9 +246,8 @@ export function executePromisesSequentially(promiseFactories: Array<any>, kickst
  * @return {boolean} boolean.
  */
 export function isIotHubConnectionString(connectionString: string): boolean {
-  if (!connectionString || typeof connectionString !== "string") {
-    throw new Error("connectionString is a required parameter and must be of type string.");
-  }
+  connectionString = String(connectionString);
+
   let result: boolean = false;
   const model: any = parseConnectionString<any>(connectionString);
   if (model && model.HostName && model.SharedAccessKey && model.SharedAccessKeyName) {

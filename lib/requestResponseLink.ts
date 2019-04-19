@@ -76,10 +76,6 @@ export class RequestResponseLink implements ReqResLink {
    * @returns {Promise<Message>} Promise<Message> The AMQP (response) message.
    */
   sendRequest(request: AmqpMessage, options?: SendRequestOptions): Promise<AmqpMessage> {
-    if (!request) {
-      throw new Error("request is a required parameter and must be of type 'object'.");
-    }
-
     if (!options) options = {};
 
     if (!options.timeoutInSeconds) {
@@ -204,15 +200,6 @@ export class RequestResponseLink implements ReqResLink {
    * @returns {Promise<RequestResponseLink>} Promise<RequestResponseLink>
    */
   static async create(connection: Connection, senderOptions: SenderOptions, receiverOptions: ReceiverOptions): Promise<RequestResponseLink> {
-    if (!connection) {
-      throw new Error(`Please provide a connection to create the sender/receiver link on the same session.`);
-    }
-    if (!senderOptions) {
-      throw new Error(`Please provide sender options.`);
-    }
-    if (!receiverOptions) {
-      throw new Error(`Please provide receiver options.`);
-    }
     const session = await connection.createSession();
     const sender = await session.createSender(senderOptions);
     const receiver = await session.createReceiver(receiverOptions);

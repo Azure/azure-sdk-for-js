@@ -75,25 +75,16 @@ export interface RetryConfig<T> {
  * @ignore
  */
 function validateRetryConfig<T>(config: RetryConfig<T>): void {
-  if (!config.operation || typeof config.operation !== "function") {
-    throw new Error("'operation' is a required property and must be of type 'function' " +
-      "that returns a Promise.");
+  if (!config.operation) {
+    throw new TypeError("Missing 'operation' in retry configuration");
   }
 
-  if (!config.connectionId || typeof config.connectionId !== "string") {
-    throw new Error("'connectionId' is a required property and must be of type 'string'.");
+  if (!config.connectionId) {
+    throw new TypeError("Missing 'connectionId' in retry configuration");
   }
 
-  if (!config.operationType || typeof config.operationType !== "string") {
-    throw new Error("'operationType' is a required property and must be of type 'string'.");
-  }
-
-  if (config.times && typeof config.times !== "number") {
-    throw new Error("'times' must be of type 'number'.");
-  }
-
-  if (config.delayInSeconds && typeof config.delayInSeconds !== "number") {
-    throw new Error("'delayInSeconds' must be of type 'number'.");
+  if (!config.operationType) {
+    throw new TypeError("Missing 'operationType' in retry configuration");
   }
 }
 
