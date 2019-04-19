@@ -1310,6 +1310,38 @@ export interface ManagedClusterAADProfile {
 
 /**
  * @interface
+ * An interface representing ManagedClusterIdentity.
+ * Identity for the managed cluster.
+ *
+ */
+export interface ManagedClusterIdentity {
+  /**
+   * @member {string} [principalId] The principal id of the system assigned
+   * identity which is used by master components.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly principalId?: string;
+  /**
+   * @member {string} [tenantId] The tenant id of the system assigned identity
+   * which is used by master components.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly tenantId?: string;
+  /**
+   * @member {ResourceIdentityType} [type] The type of identity used for the
+   * managed cluster. Type 'SystemAssigned' will use an implicityly created
+   * identity in master components and an auto-created user assigned identity
+   * in MC_ resource group in agent nodes. Type 'None' will not use MSI for the
+   * managed cluster, service principal will be used instead. Possible values
+   * include: 'SystemAssigned', 'None'
+   */
+  type?: ResourceIdentityType;
+}
+
+/**
+ * @interface
  * An interface representing ManagedCluster.
  * Managed cluster.
  *
@@ -1404,6 +1436,11 @@ export interface ManagedCluster extends Resource {
    * Ranges to kubernetes API server.
    */
   apiServerAuthorizedIPRanges?: string[];
+  /**
+   * @member {ManagedClusterIdentity} [identity] The identity of the managed
+   * cluster, if configured.
+   */
+  identity?: ManagedClusterIdentity;
 }
 
 /**
@@ -1833,6 +1870,14 @@ export type NetworkPolicy = 'calico' | 'azure';
  * @enum {string}
  */
 export type LoadBalancerSku = 'standard' | 'basic';
+
+/**
+ * Defines values for ResourceIdentityType.
+ * Possible values include: 'SystemAssigned', 'None'
+ * @readonly
+ * @enum {string}
+ */
+export type ResourceIdentityType = 'SystemAssigned' | 'None';
 
 /**
  * Contains response data for the list operation.

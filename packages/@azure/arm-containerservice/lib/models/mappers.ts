@@ -1414,6 +1414,40 @@ export const ManagedClusterAADProfile: msRest.CompositeMapper = {
   }
 };
 
+export const ManagedClusterIdentity: msRest.CompositeMapper = {
+  serializedName: "ManagedClusterIdentity",
+  type: {
+    name: "Composite",
+    className: "ManagedClusterIdentity",
+    modelProperties: {
+      principalId: {
+        readOnly: true,
+        serializedName: "principalId",
+        type: {
+          name: "String"
+        }
+      },
+      tenantId: {
+        readOnly: true,
+        serializedName: "tenantId",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "SystemAssigned",
+            "None"
+          ]
+        }
+      }
+    }
+  }
+};
+
 export const ManagedCluster: msRest.CompositeMapper = {
   serializedName: "ManagedCluster",
   type: {
@@ -1541,6 +1575,13 @@ export const ManagedCluster: msRest.CompositeMapper = {
               name: "String"
             }
           }
+        }
+      },
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "ManagedClusterIdentity"
         }
       }
     }
