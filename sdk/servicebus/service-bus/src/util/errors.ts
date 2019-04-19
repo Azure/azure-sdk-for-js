@@ -259,7 +259,7 @@ export function throwIfMessageCannotBeSettled(
   if (!receiver) {
     errorMessage = `Failed to ${operation} the message as it's receiver has been closed.`;
   } else if (receiver.receiveMode !== ReceiveMode.peekLock) {
-    errorMessage = `Failed to ${operation} the message as the operation is only supported in 'PeekLock' receive mode.`;
+    errorMessage = getErrorMessageNotSupportedInReceiveAndDeleteMode(`${operation} the message`);
   } else if (isRemoteSettled) {
     errorMessage = `Failed to ${operation} the message as this message has been already settled.`;
   }
@@ -278,4 +278,13 @@ export function throwIfMessageCannotBeSettled(
   }
 
   throw error;
+}
+
+/**
+ * Gets error message for when an operation is not supported in ReceiveAndDelete mode
+ * @param failedToDo A string to add to the placeholder in the error message. Denotes the action
+ * that is not supported in ReceiveAndDelete mode
+ */
+export function getErrorMessageNotSupportedInReceiveAndDeleteMode(failedToDo: string) {
+  return `Failed to ${failedToDo} as the operation is only supported in 'PeekLock' recieve mode.`;
 }

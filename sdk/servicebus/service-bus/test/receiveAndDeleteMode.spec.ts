@@ -29,6 +29,7 @@ import {
 
 import { Receiver, SessionReceiver } from "../src/receiver";
 import { Sender } from "../src/sender";
+import { getErrorMessageNotSupportedInReceiveAndDeleteMode } from "../src/util/errors";
 
 async function testPeekMsgsLength(
   client: QueueClient | SubscriptionClient,
@@ -389,7 +390,7 @@ describe("Streaming Receiver in ReceiveAndDelete mode", function(): void {
   });
 });
 
-describe("Unsupported features in ReceiveAndDelete mode", function(): void {
+describe.only("Unsupported features in ReceiveAndDelete mode", function(): void {
   afterEach(async () => {
     await afterEachTest();
   });
@@ -409,7 +410,7 @@ describe("Unsupported features in ReceiveAndDelete mode", function(): void {
   const testError = (err: Error, operation: DispositionType) => {
     should.equal(
       err.message,
-      `Failed to ${operation} the message as the operation is only supported in 'PeekLock' receive mode.`,
+      getErrorMessageNotSupportedInReceiveAndDeleteMode(`${operation} the message`),
       "ErrorMessage is different than expected"
     );
     errorWasThrown = true;
@@ -690,7 +691,7 @@ describe("Unsupported features in ReceiveAndDelete mode", function(): void {
     await (<Receiver>receiver).renewMessageLock(msg).catch((err) => {
       should.equal(
         err.message,
-        "The 'renewMessageLock' operation is only supported in 'PeekLock' receive mode.",
+        getErrorMessageNotSupportedInReceiveAndDeleteMode("renew the message lock"),
         "ErrorMessage is different than expected"
       );
       errorWasThrown = true;

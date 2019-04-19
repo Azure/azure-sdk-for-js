@@ -19,7 +19,8 @@ import {
   throwErrorIfConnectionClosed,
   throwTypeErrorIfParameterMissing,
   throwTypeErrorIfParameterNotLong,
-  throwTypeErrorIfParameterNotLongArray
+  throwTypeErrorIfParameterNotLongArray,
+  getErrorMessageNotSupportedInReceiveAndDeleteMode
 } from "./util/errors";
 
 /**
@@ -170,9 +171,7 @@ export class Receiver {
   async renewMessageLock(lockTokenOrMessage: string | ServiceBusMessage): Promise<Date> {
     this._throwIfReceiverOrConnectionClosed();
     if (this._receiveMode !== ReceiveMode.peekLock) {
-      throw new Error(
-        "The 'renewMessageLock' operation is only supported in 'PeekLock' receive mode."
-      );
+      throw new Error(getErrorMessageNotSupportedInReceiveAndDeleteMode("renew the message lock"));
     }
     throwTypeErrorIfParameterMissing(
       this._context.namespace.connectionId,
@@ -215,7 +214,9 @@ export class Receiver {
     );
 
     if (this._receiveMode !== ReceiveMode.peekLock) {
-      throw new Error("The operation is only supported in 'PeekLock' receive mode.");
+      throw new Error(
+        getErrorMessageNotSupportedInReceiveAndDeleteMode("receive deferred message")
+      );
     }
     const messages = await this._context.managementClient!.receiveDeferredMessages(
       [sequenceNumber],
@@ -249,7 +250,9 @@ export class Receiver {
     );
 
     if (this._receiveMode !== ReceiveMode.peekLock) {
-      throw new Error("The operation is only supported in 'PeekLock' receive mode.");
+      throw new Error(
+        getErrorMessageNotSupportedInReceiveAndDeleteMode("receive deferred messages")
+      );
     }
     return this._context.managementClient!.receiveDeferredMessages(
       sequenceNumbers,
@@ -533,7 +536,9 @@ export class SessionReceiver {
     );
 
     if (this._receiveMode !== ReceiveMode.peekLock) {
-      throw new Error("The operation is only supported in 'PeekLock' receive mode.");
+      throw new Error(
+        getErrorMessageNotSupportedInReceiveAndDeleteMode("receive deferred message")
+      );
     }
 
     await this._createMessageSessionIfDoesntExist();
@@ -570,7 +575,9 @@ export class SessionReceiver {
     );
 
     if (this._receiveMode !== ReceiveMode.peekLock) {
-      throw new Error("The operation is only supported in 'PeekLock' receive mode.");
+      throw new Error(
+        getErrorMessageNotSupportedInReceiveAndDeleteMode("receive deferred messages")
+      );
     }
     await this._createMessageSessionIfDoesntExist();
     return this._context.managementClient!.receiveDeferredMessages(
