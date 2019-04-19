@@ -1,70 +1,36 @@
 let nock = require('nock');
 
-module.exports.testInfo = {"queueName":"queue155510753576007499"}
+module.exports.testInfo = {"queue":"queue155564017397609862"}
 
-nock('https://harshantest.queue.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/queue155510753491009223')
+nock('https://coolstorageaccount1234.queue.core.windows.net:443', {"encodedQueryParams":true})
+  .put('/queue155564017397609862')
   .query({"timeout":"30"})
   .reply(201, "", [ 'Content-Length',
   '0',
   'Server',
   'Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '320f9fea-8003-00b7-4e7d-f17594000000',
+  '766455e3-8003-0006-2e55-f66a20000000',
   'x-ms-version',
   '2018-03-28',
   'Date',
-  'Fri, 12 Apr 2019 22:18:55 GMT',
+  'Fri, 19 Apr 2019 02:16:14 GMT',
   'Connection',
   'close' ]);
 
 
-nock('https://harshantest.queue.core.windows.net:443', {"encodedQueryParams":true})
-  .delete('/queue155510753491009223')
+nock('https://coolstorageaccount1234.queue.core.windows.net:443', {"encodedQueryParams":true})
+  .delete('/queue155564017397609862')
   .query({"timeout":"30"})
   .reply(204, "", [ 'Content-Length',
   '0',
   'Server',
   'Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '2e8e8f41-7003-006e-057d-f1d3b8000000',
+  'ea7d9997-6003-006a-3055-f6c1f3000000',
   'x-ms-version',
   '2018-03-28',
   'Date',
-  'Fri, 12 Apr 2019 22:18:55 GMT',
-  'Connection',
-  'close' ]);
-
-
-nock('https://harshantest.queue.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/queue155510753576007499')
-  .query({"timeout":"30"})
-  .reply(201, "", [ 'Content-Length',
-  '0',
-  'Server',
-  'Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0',
-  'x-ms-request-id',
-  '6b286052-7003-0047-067d-f1a5fa000000',
-  'x-ms-version',
-  '2018-03-28',
-  'Date',
-  'Fri, 12 Apr 2019 22:18:55 GMT',
-  'Connection',
-  'close' ]);
-
-
-nock('https://harshantest.queue.core.windows.net:443', {"encodedQueryParams":true})
-  .delete('/queue155510753576007499')
-  .query({"timeout":"30"})
-  .reply(204, "", [ 'Content-Length',
-  '0',
-  'Server',
-  'Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0',
-  'x-ms-request-id',
-  'd6ccf231-e003-0085-1e7d-f12d44000000',
-  'x-ms-version',
-  '2018-03-28',
-  'Date',
-  'Fri, 12 Apr 2019 22:18:56 GMT',
+  'Fri, 19 Apr 2019 02:16:13 GMT',
   'Connection',
   'close' ]);

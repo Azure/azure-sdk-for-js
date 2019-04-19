@@ -1,7 +1,7 @@
 import * as assert from "assert";
 import { Aborter } from "../src/Aborter";
 import { QueueURL } from "../src/QueueURL";
-import { getQSU, getUniqueName } from "./utils";
+import { getQSU } from "./utils";
 import { record } from "./utils/nock-recorder";
 import * as dotenv from "dotenv";
 dotenv.config({ path: "../.env" });
@@ -9,29 +9,21 @@ dotenv.config({ path: "../.env" });
 // tslint:disable:no-empty
 describe("Aborter", function() {
   const serviceURL = getQSU();
-  let queueName: string = getUniqueName("queue");
-  let queueURL = QueueURL.fromServiceURL(serviceURL, queueName);
+  let queueName: string;
+  let queueURL: QueueURL;
   const testSuiteTitle = this.fullTitle();
 
-  let recorder: any = "";
-  let uniqueTestInfo: any = {};
+  let recorder: any = {};
 
   beforeEach(async () => {
     recorder = record(testSuiteTitle, this.ctx.currentTest!.title);
-    uniqueTestInfo = recorder.before();
-    if (process.env.TEST_MODE === "record") {
-      queueName = getUniqueName("queue");
-      uniqueTestInfo.queueName = queueName;
-    } else if (process.env.TEST_MODE === "playback") {
-      queueName = uniqueTestInfo.queueName;
-    }
+    recorder.before();
+    queueName = recorder.getUniqueName("queue");
     queueURL = QueueURL.fromServiceURL(serviceURL, queueName);
   });
 
   afterEach(async () => {
-    if (process.env.TEST_MODE === "record") {
-      recorder.after(uniqueTestInfo);
-    }
+    recorder.after();
   });
 
   it("should set value and get value successfully", async () => {
