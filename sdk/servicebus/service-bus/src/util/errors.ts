@@ -285,6 +285,6 @@ export function throwIfMessageCannotBeSettled(
  * @param failedToDo A string to add to the placeholder in the error message. Denotes the action
  * that is not supported in ReceiveAndDelete mode
  */
-export function getErrorMessageNotSupportedInReceiveAndDeleteMode(failedToDo: string) {
+export function getErrorMessageNotSupportedInReceiveAndDeleteMode(failedToDo: string): string {
   return `Failed to ${failedToDo} as the operation is only supported in 'PeekLock' recieve mode.`;
 }
