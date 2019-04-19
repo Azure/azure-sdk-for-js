@@ -5,10 +5,14 @@ import * as log from "./log";
 import { ConnectionContext } from "./connectionContext";
 import { Receiver, SessionReceiver } from "./receiver";
 import { ReceivedMessageInfo, ReceiveMode } from "./serviceBusMessage";
-import { Client } from "./client";
+import { Client, ClientType } from "./client";
 import { CorrelationFilter, RuleDescription } from "./core/managementClient";
 import { SessionReceiverOptions } from "./session/messageSession";
-import { throwErrorIfConnectionClosed } from "./util/utils";
+import {
+  getOpenReceiverErrorMsg,
+  throwErrorIfClientOrConnectionClosed,
+  throwErrorIfConnectionClosed
+} from "./util/errors";
 import { AmqpError, generate_uuid } from "rhea-promise";
 import { ClientEntityContext } from "./clientEntityContext";
 
@@ -66,12 +70,16 @@ export class SubscriptionClient implements Client {
   constructor(topicName: string, subscriptionName: string, context: ConnectionContext) {
     throwErrorIfConnectionClosed(context);
 
+    this.topicName = String(topicName);
+    this.subscriptionName = String(subscriptionName);
+
     this.entityPath = `${topicName}/Subscriptions/${subscriptionName}`;
     this.id = `${this.entityPath}/${generate_uuid()}`;
-    this._context = ClientEntityContext.create(this.entityPath, context);
-
-    this.topicName = topicName;
-    this.subscriptionName = subscriptionName;
+    this._context = ClientEntityContext.create(
+      this.entityPath,
+      ClientType.SubscriptionClient,
+      context
+    );
   }
 
   /**
@@ -114,8 +122,12 @@ export class SubscriptionClient implements Client {
         log.subscriptionClient("Closed the subscription client '%s'.", this.id);
       }
     } catch (err) {
-      err = err instanceof Error ? err : new Error(JSON.stringify(err));
-      log.error(`An error occurred while closing the subscription client "${this.id}":\n${err}`);
+      log.error(
+        "[%s] An error occurred while closing the SubscriptionClient for %s: %O",
+        this._context.namespace.connectionId,
+        this.id,
+        err
+      );
       throw err;
     }
   }
@@ -187,7 +199,7 @@ export class SubscriptionClient implements Client {
     receiveMode: ReceiveMode,
     sessionOptions?: SessionReceiverOptions
   ): Receiver | SessionReceiver {
-    this._throwErrorIfClientOrConnectionClosed();
+    throwErrorIfClientOrConnectionClosed(this._context.namespace, this.entityPath, this._isClosed);
 
     // Receiver for Subscription where sessions are not enabled
     if (!sessionOptions) {
@@ -195,24 +207,10 @@ export class SubscriptionClient implements Client {
         this._currentReceiver = new Receiver(this._context, receiveMode);
         return this._currentReceiver;
       }
-      throw new Error(
-        "An open receiver already exists on this SubscriptionClient. Please close it and try" +
-          " again or use a new SubscriptionClient instance"
-      );
-    }
-
-    // Check if receiver for given session already exists
-    if (sessionOptions.sessionId) {
-      if (
-        this._context.messageSessions[sessionOptions.sessionId] &&
-        this._context.messageSessions[sessionOptions.sessionId].isOpen()
-      ) {
-        throw new Error(
-          `An open receiver already exists for sessionId '${
-            sessionOptions.sessionId
-          }'. Please close it and try again.`
-        );
-      }
+      const errorMessage = getOpenReceiverErrorMsg(ClientType.SubscriptionClient, this.entityPath);
+      const error = new Error(errorMessage);
+      log.error(`[${this._context.namespace.connectionId}] %O`, error);
+      throw error;
     }
 
     return new SessionReceiver(this._context, receiveMode, sessionOptions);
@@ -230,7 +228,7 @@ export class SubscriptionClient implements Client {
    * @returns Promise<ReceivedSBMessage[]>
    */
   async peek(maxMessageCount?: number): Promise<ReceivedMessageInfo[]> {
-    this._throwErrorIfClientOrConnectionClosed();
+    throwErrorIfClientOrConnectionClosed(this._context.namespace, this.entityPath, this._isClosed);
     return this._context.managementClient!.peek(maxMessageCount);
   }
 
@@ -249,10 +247,11 @@ export class SubscriptionClient implements Client {
     fromSequenceNumber: Long,
     maxMessageCount?: number
   ): Promise<ReceivedMessageInfo[]> {
-    this._throwErrorIfClientOrConnectionClosed();
-    return this._context.managementClient!.peekBySequenceNumber(fromSequenceNumber, {
-      messageCount: maxMessageCount
-    });
+    throwErrorIfClientOrConnectionClosed(this._context.namespace, this.entityPath, this._isClosed);
+    return this._context.managementClient!.peekBySequenceNumber(
+      fromSequenceNumber,
+      maxMessageCount
+    );
   }
 
   //#region topic-filters
@@ -261,7 +260,7 @@ export class SubscriptionClient implements Client {
    * Get all the rules associated with the subscription
    */
   async getRules(): Promise<RuleDescription[]> {
-    this._throwErrorIfClientOrConnectionClosed();
+    throwErrorIfClientOrConnectionClosed(this._context.namespace, this.entityPath, this._isClosed);
     return this._context.managementClient!.getRules();
   }
 
@@ -270,7 +269,7 @@ export class SubscriptionClient implements Client {
    * @param ruleName
    */
   async removeRule(ruleName: string): Promise<void> {
-    this._throwErrorIfClientOrConnectionClosed();
+    throwErrorIfClientOrConnectionClosed(this._context.namespace, this.entityPath, this._isClosed);
     return this._context.managementClient!.removeRule(ruleName);
   }
 
@@ -290,7 +289,7 @@ export class SubscriptionClient implements Client {
     filter: boolean | string | CorrelationFilter,
     sqlRuleActionExpression?: string
   ): Promise<void> {
-    this._throwErrorIfClientOrConnectionClosed();
+    throwErrorIfClientOrConnectionClosed(this._context.namespace, this.entityPath, this._isClosed);
     return this._context.managementClient!.addRule(ruleName, filter, sqlRuleActionExpression);
   }
 
@@ -308,6 +307,7 @@ export class SubscriptionClient implements Client {
   //   maxNumberOfSessions: number,
   //   lastUpdatedTime?: Date
   // ): Promise<string[]> {
+  // TODO: Parameter validation if required
   // this.throwErrorIfClientOrConnectionClosed();
   //   return this._context.managementClient!.listMessageSessions(
   //     0,
@@ -317,15 +317,4 @@ export class SubscriptionClient implements Client {
   // }
 
   //#endregion
-
-  /**
-   * Throws error if this subscriptionClient has been closed
-   * @param client
-   */
-  private _throwErrorIfClientOrConnectionClosed(): void {
-    throwErrorIfConnectionClosed(this._context.namespace);
-    if (this._isClosed) {
-      throw new Error("The subscriptionClient has been closed and can no longer be used.");
-    }
-  }
 }

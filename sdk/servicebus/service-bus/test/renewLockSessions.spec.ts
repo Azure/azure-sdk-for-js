@@ -19,13 +19,13 @@ import {
   ReceiveMode,
   SessionReceiver
 } from "../src";
-import { purge, getSenderReceiverClients, ClientType, TestMessage } from "./testUtils";
+import { purge, getSenderReceiverClients, TestClientType, TestMessage } from "./testUtils";
 
 let ns: ServiceBusClient;
 let senderClient: QueueClient | TopicClient;
 let receiverClient: QueueClient | SubscriptionClient;
 
-async function beforeEachTest(senderType: ClientType, receiverType: ClientType): Promise<void> {
+async function beforeEachTest(senderType: TestClientType, receiverType: TestClientType): Promise<void> {
   if (!process.env.SERVICEBUS_CONNECTION_STRING) {
     throw new Error(
       "Define SERVICEBUS_CONNECTION_STRING in your environment before running integration tests."
@@ -52,8 +52,8 @@ async function afterEachTest(): Promise<void> {
 describe("Unpartitioned Queue - Lock Renewal for Sessions", function(): void {
   beforeEach(async () => {
     await beforeEachTest(
-      ClientType.UnpartitionedQueueWithSessions,
-      ClientType.UnpartitionedQueueWithSessions
+      TestClientType.UnpartitionedQueueWithSessions,
+      TestClientType.UnpartitionedQueueWithSessions
     );
   });
 
@@ -123,8 +123,8 @@ describe("Unpartitioned Queue - Lock Renewal for Sessions", function(): void {
 describe("Partitioned Queue - Lock Renewal for Sessions", function(): void {
   beforeEach(async () => {
     await beforeEachTest(
-      ClientType.PartitionedQueueWithSessions,
-      ClientType.PartitionedQueueWithSessions
+      TestClientType.PartitionedQueueWithSessions,
+      TestClientType.PartitionedQueueWithSessions
     );
   });
 
@@ -194,8 +194,8 @@ describe("Partitioned Queue - Lock Renewal for Sessions", function(): void {
 describe("Unpartitioned Subscription - Lock Renewal for Sessions", function(): void {
   beforeEach(async () => {
     await beforeEachTest(
-      ClientType.UnpartitionedTopicWithSessions,
-      ClientType.UnpartitionedSubscriptionWithSessions
+      TestClientType.UnpartitionedTopicWithSessions,
+      TestClientType.UnpartitionedSubscriptionWithSessions
     );
   });
 
@@ -265,8 +265,8 @@ describe("Unpartitioned Subscription - Lock Renewal for Sessions", function(): v
 describe("Partitioned Subscription - Lock Renewal for Sessions", function(): void {
   beforeEach(async () => {
     await beforeEachTest(
-      ClientType.PartitionedTopicWithSessions,
-      ClientType.PartitionedSubscriptionWithSessions
+      TestClientType.PartitionedTopicWithSessions,
+      TestClientType.PartitionedSubscriptionWithSessions
     );
   });
 

@@ -33,7 +33,7 @@ export class Policy {
    * @param [options] The optional parameters
    * @returns Promise<Models.PolicyListByServiceResponse>
    */
-  listByService(resourceGroupName: string, serviceName: string, options?: Models.PolicyListByServiceOptionalParams): Promise<Models.PolicyListByServiceResponse>;
+  listByService(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase): Promise<Models.PolicyListByServiceResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -46,8 +46,8 @@ export class Policy {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByService(resourceGroupName: string, serviceName: string, options: Models.PolicyListByServiceOptionalParams, callback: msRest.ServiceCallback<Models.PolicyCollection>): void;
-  listByService(resourceGroupName: string, serviceName: string, options?: Models.PolicyListByServiceOptionalParams | msRest.ServiceCallback<Models.PolicyCollection>, callback?: msRest.ServiceCallback<Models.PolicyCollection>): Promise<Models.PolicyListByServiceResponse> {
+  listByService(resourceGroupName: string, serviceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicyCollection>): void;
+  listByService(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicyCollection>, callback?: msRest.ServiceCallback<Models.PolicyCollection>): Promise<Models.PolicyListByServiceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -131,7 +131,7 @@ export class Policy {
    * @param [options] The optional parameters
    * @returns Promise<Models.PolicyCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, serviceName: string, parameters: Models.PolicyContract, options?: msRest.RequestOptionsBase): Promise<Models.PolicyCreateOrUpdateResponse>;
+  createOrUpdate(resourceGroupName: string, serviceName: string, parameters: Models.PolicyContract, options?: Models.PolicyCreateOrUpdateOptionalParams): Promise<Models.PolicyCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -146,8 +146,8 @@ export class Policy {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, serviceName: string, parameters: Models.PolicyContract, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicyContract>): void;
-  createOrUpdate(resourceGroupName: string, serviceName: string, parameters: Models.PolicyContract, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicyContract>, callback?: msRest.ServiceCallback<Models.PolicyContract>): Promise<Models.PolicyCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, serviceName: string, parameters: Models.PolicyContract, options: Models.PolicyCreateOrUpdateOptionalParams, callback: msRest.ServiceCallback<Models.PolicyContract>): void;
+  createOrUpdate(resourceGroupName: string, serviceName: string, parameters: Models.PolicyContract, options?: Models.PolicyCreateOrUpdateOptionalParams | msRest.ServiceCallback<Models.PolicyContract>, callback?: msRest.ServiceCallback<Models.PolicyContract>): Promise<Models.PolicyCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -210,7 +210,6 @@ const listByServiceOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.scope,
     Parameters.apiVersion
   ],
   headerParameters: [
@@ -221,7 +220,7 @@ const listByServiceOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.PolicyCollection
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -293,6 +292,7 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.apiVersion
   ],
   headerParameters: [
+    Parameters.ifMatch0,
     Parameters.acceptLanguage
   ],
   requestBody: {
@@ -304,10 +304,12 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
   },
   responses: {
     200: {
-      bodyMapper: Mappers.PolicyContract
+      bodyMapper: Mappers.PolicyContract,
+      headersMapper: Mappers.PolicyCreateOrUpdateHeaders
     },
     201: {
-      bodyMapper: Mappers.PolicyContract
+      bodyMapper: Mappers.PolicyContract,
+      headersMapper: Mappers.PolicyCreateOrUpdateHeaders
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -329,7 +331,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.apiVersion
   ],
   headerParameters: [
-    Parameters.ifMatch0,
+    Parameters.ifMatch1,
     Parameters.acceptLanguage
   ],
   responses: {

@@ -13,7 +13,7 @@ import {
   OnAmqpEventAsPromise
 } from "./messageReceiver";
 import { ClientEntityContext } from "../clientEntityContext";
-import { throwErrorIfConnectionClosed } from "../util/utils";
+import { throwErrorIfConnectionClosed } from "../util/errors";
 
 /**
  * Describes the batching receiver where the user can receive a specified number of messages for
@@ -50,11 +50,6 @@ export class BatchingReceiver extends MessageReceiver {
    */
   receive(maxMessageCount: number, idleTimeoutInSeconds?: number): Promise<ServiceBusMessage[]> {
     throwErrorIfConnectionClosed(this._context.namespace);
-    if (!maxMessageCount || (maxMessageCount && typeof maxMessageCount !== "number")) {
-      throw new Error(
-        "'maxMessageCount' is a required parameter of type number with a value " + "greater than 0."
-      );
-    }
 
     if (idleTimeoutInSeconds == undefined) {
       idleTimeoutInSeconds = Constants.defaultOperationTimeoutInSeconds;
@@ -147,8 +142,10 @@ export class BatchingReceiver extends MessageReceiver {
 
       // Action to be performed on the "receiver_drained" event.
       onReceiveDrain = (context: EventContext) => {
-        this._receiver!.removeListener(ReceiverEvents.receiverDrained, onReceiveDrain);
-        this._receiver!.drain = false;
+        if (this._receiver) {
+          this._receiver.removeListener(ReceiverEvents.receiverDrained, onReceiveDrain);
+          this._receiver.drain = false;
+        }
 
         this.isReceivingMessages = false;
 
@@ -180,7 +177,14 @@ export class BatchingReceiver extends MessageReceiver {
             brokeredMessages.push(data);
           }
         } catch (err) {
-          reject(`Error while converting AmqpMessage to ReceivedSBMessage: ${err}`);
+          err = err instanceof Error ? err : new Error(JSON.stringify(err));
+          log.error(
+            "[%s] Receiver '%s' received an error while converting AmqpMessage to ServiceBusMessage:\n%O",
+            this._context.namespace.connectionId,
+            this.name,
+            err
+          );
+          reject(err);
         }
         if (brokeredMessages.length === maxMessageCount) {
           finalAction();

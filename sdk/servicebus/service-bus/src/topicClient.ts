@@ -3,9 +3,13 @@
 
 import * as log from "./log";
 import { ConnectionContext } from "./connectionContext";
-import { Client } from "./client";
+import { Client, ClientType } from "./client";
 import { Sender } from "./sender";
-import { throwErrorIfConnectionClosed } from "./util/utils";
+import {
+  getOpenSenderErrorMsg,
+  throwErrorIfClientOrConnectionClosed,
+  throwErrorIfConnectionClosed
+} from "./util/errors";
 import { AmqpError, generate_uuid } from "rhea-promise";
 import { ClientEntityContext } from "./clientEntityContext";
 
@@ -41,14 +45,14 @@ export class TopicClient implements Client {
    *
    * @constructor
    * @internal
-   * @param name - The topic name.
+   * @param topicName - The topic name.
    * @param context - The connection context to create the TopicClient.
    */
-  constructor(name: string, context: ConnectionContext) {
+  constructor(topicName: string, context: ConnectionContext) {
     throwErrorIfConnectionClosed(context);
-    this.entityPath = name;
+    this.entityPath = String(topicName);
     this.id = `${this.entityPath}/${generate_uuid()}`;
-    this._context = ClientEntityContext.create(this.entityPath, context);
+    this._context = ClientEntityContext.create(this.entityPath, ClientType.TopicClient, context);
   }
 
   /**
@@ -78,8 +82,12 @@ export class TopicClient implements Client {
         log.topicClient("Closed the topic client '%s'.", this.id);
       }
     } catch (err) {
-      err = err instanceof Error ? err : new Error(JSON.stringify(err));
-      log.error(`An error occurred while closing the topic client "${this.id}":\n${err}`);
+      log.error(
+        "[%s] An error occurred while closing the TopicClient for %s: %O",
+        this._context.namespace.connectionId,
+        this.id,
+        err
+      );
       throw err;
     }
   }
@@ -113,26 +121,16 @@ export class TopicClient implements Client {
    * property will go to the dead letter queue of such subscriptions.
    */
   createSender(): Sender {
-    this._throwErrorIfClientOrConnectionClosed();
+    throwErrorIfClientOrConnectionClosed(this._context.namespace, this.entityPath, this._isClosed);
     if (!this._currentSender || this._currentSender.isClosed) {
       this._currentSender = new Sender(this._context);
       return this._currentSender;
     }
-    throw new Error(
-      "An open sender already exists on this TopicClient. Please close it and try" +
-        " again or use a new TopicClient instance"
-    );
-  }
 
-  /**
-   * Throws error if given client has been closed
-   * @param client
-   */
-  private _throwErrorIfClientOrConnectionClosed(): void {
-    throwErrorIfConnectionClosed(this._context.namespace);
-    if (this._isClosed) {
-      throw new Error("The topicClient has been closed and can no longer be used.");
-    }
+    const errorMessage = getOpenSenderErrorMsg("TopicClient", this.entityPath);
+    const error = new Error(errorMessage);
+    log.error(`[${this._context.namespace.connectionId}] %O`, error);
+    throw error;
   }
 
   /**

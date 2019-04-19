@@ -4,7 +4,6 @@
 import * as log from "./log";
 import { BaseLease, BaseLeaseInfo } from "./baseLease";
 
-
 /**
  * Describes the properties of a Complete Lease.
  * @interface CompleteLeaseInfo

@@ -5,11 +5,16 @@ import * as Long from "long";
 import * as log from "./log";
 import { ConnectionContext } from "./connectionContext";
 import { ReceivedMessageInfo, ReceiveMode } from "./serviceBusMessage";
-import { Client } from "./client";
+import { Client, ClientType } from "./client";
 import { SessionReceiverOptions } from "./session/messageSession";
 import { Sender } from "./sender";
 import { Receiver, SessionReceiver } from "./receiver";
-import { throwErrorIfConnectionClosed } from "./util/utils";
+import {
+  getOpenReceiverErrorMsg,
+  getOpenSenderErrorMsg,
+  throwErrorIfClientOrConnectionClosed,
+  throwErrorIfConnectionClosed
+} from "./util/errors";
 import { AmqpError, generate_uuid } from "rhea-promise";
 import { ClientEntityContext } from "./clientEntityContext";
 
@@ -46,14 +51,14 @@ export class QueueClient implements Client {
    *
    * @constructor
    * @internal
-   * @param name The Queue name.
+   * @param queueName The Queue name.
    * @param context The connection context to create the QueueClient.
    */
-  constructor(name: string, context: ConnectionContext) {
+  constructor(queueName: string, context: ConnectionContext) {
     throwErrorIfConnectionClosed(context);
-    this.entityPath = name;
+    this.entityPath = String(queueName);
     this.id = `${this.entityPath}/${generate_uuid()}`;
-    this._context = ClientEntityContext.create(this.entityPath, context);
+    this._context = ClientEntityContext.create(this.entityPath, ClientType.QueueClient, context);
   }
 
   /**
@@ -101,8 +106,12 @@ export class QueueClient implements Client {
         log.qClient("Closed the Queue client '%s'.", this.id);
       }
     } catch (err) {
-      err = err instanceof Error ? err : new Error(JSON.stringify(err));
-      log.error(`An error occurred while closing the queue client "${this.id}":\n${err}`);
+      log.error(
+        "[%s] An error occurred while closing the QueueClient for %s: %O",
+        this._context.namespace.connectionId,
+        this.id,
+        err
+      );
       throw err;
     }
   }
@@ -133,15 +142,15 @@ export class QueueClient implements Client {
    * Throws error if an open sender already exists for this QueueClient.
    */
   createSender(): Sender {
-    this._throwErrorIfClientOrConnectionClosed();
+    throwErrorIfClientOrConnectionClosed(this._context.namespace, this.entityPath, this._isClosed);
     if (!this._currentSender || this._currentSender.isClosed) {
       this._currentSender = new Sender(this._context);
       return this._currentSender;
     }
-    throw new Error(
-      "An open sender already exists on this QueueClient. Please close it and try" +
-        " again or use a new QueueClient instance"
-    );
+    const errorMessage = getOpenSenderErrorMsg("QueueClient", this.entityPath);
+    const error = new Error(errorMessage);
+    log.error(`[${this._context.namespace.connectionId}] %O`, error);
+    throw error;
   }
 
   /**
@@ -191,7 +200,7 @@ export class QueueClient implements Client {
     receiveMode: ReceiveMode,
     sessionOptions?: SessionReceiverOptions
   ): Receiver | SessionReceiver {
-    this._throwErrorIfClientOrConnectionClosed();
+    throwErrorIfClientOrConnectionClosed(this._context.namespace, this.entityPath, this._isClosed);
 
     // Receiver for Queue where sessions are not enabled
     if (!sessionOptions) {
@@ -199,24 +208,10 @@ export class QueueClient implements Client {
         this._currentReceiver = new Receiver(this._context, receiveMode);
         return this._currentReceiver;
       }
-      throw new Error(
-        "An open receiver already exists on this QueueClient. Please close it and try" +
-          " again or use a new QueueClient instance"
-      );
-    }
-
-    // Check if receiver for given session already exists
-    if (sessionOptions.sessionId) {
-      if (
-        this._context.messageSessions[sessionOptions.sessionId] &&
-        this._context.messageSessions[sessionOptions.sessionId].isOpen()
-      ) {
-        throw new Error(
-          `An open receiver already exists for sessionId '${
-            sessionOptions.sessionId
-          }'. Please close it and try again.`
-        );
-      }
+      const errorMessage = getOpenReceiverErrorMsg(ClientType.QueueClient, this.entityPath);
+      const error = new Error(errorMessage);
+      log.error(`[${this._context.namespace.connectionId}] %O`, error);
+      throw error;
     }
 
     return new SessionReceiver(this._context, receiveMode, sessionOptions);
@@ -234,7 +229,7 @@ export class QueueClient implements Client {
    * @returns Promise<ReceivedSBMessage[]>
    */
   async peek(maxMessageCount?: number): Promise<ReceivedMessageInfo[]> {
-    this._throwErrorIfClientOrConnectionClosed();
+    throwErrorIfClientOrConnectionClosed(this._context.namespace, this.entityPath, this._isClosed);
     return this._context.managementClient!.peek(maxMessageCount);
   }
 
@@ -253,10 +248,11 @@ export class QueueClient implements Client {
     fromSequenceNumber: Long,
     maxMessageCount?: number
   ): Promise<ReceivedMessageInfo[]> {
-    this._throwErrorIfClientOrConnectionClosed();
-    return this._context.managementClient!.peekBySequenceNumber(fromSequenceNumber, {
-      messageCount: maxMessageCount
-    });
+    throwErrorIfClientOrConnectionClosed(this._context.namespace, this.entityPath, this._isClosed);
+    return this._context.managementClient!.peekBySequenceNumber(
+      fromSequenceNumber,
+      maxMessageCount
+    );
   }
 
   // /**
@@ -269,6 +265,7 @@ export class QueueClient implements Client {
   //   maxNumberOfSessions: number,
   //   lastUpdatedTime?: Date
   // ): Promise<string[]> {
+  // TODO: Parameter validation if required
   // this.throwErrorIfClientOrConnectionClosed();
   //   return this._context.managementClient!.listMessageSessions(
   //     0,
@@ -276,17 +273,6 @@ export class QueueClient implements Client {
   //     lastUpdatedTime
   //   );
   // }
-
-  /**
-   * Throws error if this queueClient has been closed
-   * @param client
-   */
-  private _throwErrorIfClientOrConnectionClosed(): void {
-    throwErrorIfConnectionClosed(this._context.namespace);
-    if (this._isClosed) {
-      throw new Error("The queueClient has been closed and can no longer be used.");
-    }
-  }
 
   /**
    * Returns the corresponding dead letter queue name for the queue represented by the given name.

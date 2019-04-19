@@ -343,7 +343,8 @@ export class MessageReceiver extends LinkEntity {
         context.delivery!,
         true
       );
-      if (this.autoRenewLock) {
+      if (this.autoRenewLock && bMessage.lockToken) {
+        const lockToken = bMessage.lockToken;
         // - We need to renew locks before they expire by looking at bMessage.lockedUntilUtc.
         // - This autorenewal needs to happen **NO MORE** than maxAutoRenewDurationInSeconds
         // - We should be able to clear the renewal timer when the user's message handler
@@ -396,7 +397,9 @@ export class MessageReceiver extends LinkEntity {
                       connectionId,
                       bMessage.messageId
                     );
-                    await this._context.managementClient!.renewLock(bMessage);
+                    bMessage.lockedUntilUtc = await this._context.managementClient!.renewLock(
+                      lockToken
+                    );
                     log.receiver(
                       "[%s] Successfully renewed the lock for message with id '%s'.",
                       connectionId,

@@ -5,9 +5,14 @@ import * as Long from "long";
 import * as log from "./log";
 import { MessageSender } from "./core/messageSender";
 import { SendableMessageInfo } from "./serviceBusMessage";
-import { ScheduleMessage } from "./core/managementClient";
 import { ClientEntityContext } from "./clientEntityContext";
-import { throwErrorIfConnectionClosed } from "./util/utils";
+import {
+  getSenderClosedErrorMsg,
+  throwErrorIfConnectionClosed,
+  throwTypeErrorIfParameterMissing,
+  throwTypeErrorIfParameterNotLong,
+  throwTypeErrorIfParameterNotLongArray
+} from "./util/errors";
 
 /**
  * The Sender class can be used to send messages, schedule messages to be sent at a later time
@@ -86,10 +91,18 @@ export class Sender {
     message: SendableMessageInfo
   ): Promise<Long> {
     this._throwIfSenderOrConnectionClosed();
-    const scheduleMessages: ScheduleMessage[] = [
-      { message: message, scheduledEnqueueTimeUtc: scheduledEnqueueTimeUtc }
-    ];
-    const result = await this._context.managementClient!.scheduleMessages(scheduleMessages);
+    throwTypeErrorIfParameterMissing(
+      this._context.namespace.connectionId,
+      "scheduledEnqueueTimeUtc",
+      scheduledEnqueueTimeUtc
+    );
+    throwTypeErrorIfParameterMissing(this._context.namespace.connectionId, "message", message);
+
+    const messages = [message];
+    const result = await this._context.managementClient!.scheduleMessages(
+      scheduledEnqueueTimeUtc,
+      messages
+    );
     return result[0];
   }
 
@@ -108,13 +121,17 @@ export class Sender {
     messages: SendableMessageInfo[]
   ): Promise<Long[]> {
     this._throwIfSenderOrConnectionClosed();
-    const scheduleMessages: ScheduleMessage[] = messages.map((message) => {
-      return {
-        message,
-        scheduledEnqueueTimeUtc
-      };
-    });
-    return this._context.managementClient!.scheduleMessages(scheduleMessages);
+    throwTypeErrorIfParameterMissing(
+      this._context.namespace.connectionId,
+      "scheduledEnqueueTimeUtc",
+      scheduledEnqueueTimeUtc
+    );
+    throwTypeErrorIfParameterMissing(this._context.namespace.connectionId, "messages", messages);
+    if (!Array.isArray(messages)) {
+      messages = [messages];
+    }
+
+    return this._context.managementClient!.scheduleMessages(scheduledEnqueueTimeUtc, messages);
   }
 
   /**
@@ -124,6 +141,16 @@ export class Sender {
    */
   async cancelScheduledMessage(sequenceNumber: Long): Promise<void> {
     this._throwIfSenderOrConnectionClosed();
+    throwTypeErrorIfParameterMissing(
+      this._context.namespace.connectionId,
+      "sequenceNumber",
+      sequenceNumber
+    );
+    throwTypeErrorIfParameterNotLong(
+      this._context.namespace.connectionId,
+      "sequenceNumber",
+      sequenceNumber
+    );
     return this._context.managementClient!.cancelScheduledMessages([sequenceNumber]);
   }
 
@@ -134,6 +161,19 @@ export class Sender {
    */
   async cancelScheduledMessages(sequenceNumbers: Long[]): Promise<void> {
     this._throwIfSenderOrConnectionClosed();
+    throwTypeErrorIfParameterMissing(
+      this._context.namespace.connectionId,
+      "sequenceNumbers",
+      sequenceNumbers
+    );
+    if (!Array.isArray(sequenceNumbers)) {
+      sequenceNumbers = [sequenceNumbers];
+    }
+    throwTypeErrorIfParameterNotLongArray(
+      this._context.namespace.connectionId,
+      "sequenceNumbers",
+      sequenceNumbers
+    );
     return this._context.managementClient!.cancelScheduledMessages(sequenceNumbers);
   }
 
@@ -155,9 +195,11 @@ export class Sender {
       }
       this._isClosed = true;
     } catch (err) {
-      err = err instanceof Error ? err : new Error(JSON.stringify(err));
       log.error(
-        `An error occurred while closing the sender for "${this._context.entityPath}":\n${err}`
+        "[%s] An error occurred while closing the Sender for %s: %O",
+        this._context.namespace.connectionId,
+        this._context.entityPath,
+        err
       );
       throw err;
     }
@@ -166,7 +208,13 @@ export class Sender {
   private _throwIfSenderOrConnectionClosed(): void {
     throwErrorIfConnectionClosed(this._context.namespace);
     if (this._isClosed) {
-      throw new Error("The sender has been closed and can no longer be used.");
+      const errorMessage = getSenderClosedErrorMsg(
+        this._context.entityPath,
+        this._context.clientType
+      );
+      const error = new Error(errorMessage);
+      log.error(`[${this._context.namespace.connectionId}] %O`, error);
+      throw error;
     }
   }
 }

@@ -28,7 +28,8 @@ import {
 import { SendableMessageInfo } from "../serviceBusMessage";
 import { ClientEntityContext } from "../clientEntityContext";
 import { LinkEntity } from "./linkEntity";
-import { getUniqueName, throwErrorIfConnectionClosed } from "../util/utils";
+import { getUniqueName } from "../util/utils";
+import { throwErrorIfConnectionClosed } from "../util/errors";
 
 /**
  * @internal
@@ -339,10 +340,6 @@ export class MessageSender extends LinkEntity {
   async send(data: SendableMessageInfo): Promise<void> {
     throwErrorIfConnectionClosed(this._context.namespace);
     try {
-      if (!data || (data && typeof data !== "object")) {
-        throw new Error("data is required and it must be of type object.");
-      }
-
       if (!this.isOpen()) {
         log.sender(
           "Acquiring lock %s for initializing the session, sender and " +
@@ -366,15 +363,15 @@ export class MessageSender extends LinkEntity {
    * Send a batch of Message to the ServiceBus in a single AMQP message. The "message_annotations",
    * "application_properties" and "properties" of the first message will be set as that
    * of the envelope (batch message).
-   * @param {Array<Message>} datas  An array of Message objects to be sent in a
+   * @param {Array<Message>} inputMessages  An array of Message objects to be sent in a
    * Batch message.
    * @return {Promise<void>}
    */
-  async sendBatch(datas: SendableMessageInfo[]): Promise<void> {
+  async sendBatch(inputMessages: SendableMessageInfo[]): Promise<void> {
     throwErrorIfConnectionClosed(this._context.namespace);
     try {
-      if (!datas || (datas && !Array.isArray(datas))) {
-        throw new Error("data is required and it must be an Array.");
+      if (!Array.isArray(inputMessages)) {
+        inputMessages = [inputMessages];
       }
 
       if (!this.isOpen()) {
@@ -391,13 +388,13 @@ export class MessageSender extends LinkEntity {
         "[%s] Sender '%s', trying to send Message[]: %O",
         this._context.namespace.connectionId,
         this.name,
-        datas
+        inputMessages
       );
       const messages: AmqpMessage[] = [];
       // Convert Message to AmqpMessage.
-      for (let i = 0; i < datas.length; i++) {
-        const message = SendableMessageInfo.toAmqpMessage(datas[i]);
-        message.body = this._context.namespace.dataTransformer.encode(datas[i].body);
+      for (let i = 0; i < inputMessages.length; i++) {
+        const message = SendableMessageInfo.toAmqpMessage(inputMessages[i]);
+        message.body = this._context.namespace.dataTransformer.encode(inputMessages[i].body);
         messages[i] = message;
       }
       // Encode every amqp message and then convert every encoded message to amqp data section
@@ -494,10 +491,14 @@ export class MessageSender extends LinkEntity {
           let onAccepted: Func<EventContext, void>;
           const removeListeners = (): void => {
             clearTimeout(waitTimer);
-            this._sender!.removeListener(SenderEvents.rejected, onRejected);
-            this._sender!.removeListener(SenderEvents.accepted, onAccepted);
-            this._sender!.removeListener(SenderEvents.released, onReleased);
-            this._sender!.removeListener(SenderEvents.modified, onModified);
+            // When `removeListeners` is called on timeout, the sender might be closed and cleared
+            // So, check if it exists, before removing listeners from it.
+            if (this._sender) {
+              this._sender.removeListener(SenderEvents.rejected, onRejected);
+              this._sender.removeListener(SenderEvents.accepted, onAccepted);
+              this._sender.removeListener(SenderEvents.released, onReleased);
+              this._sender.removeListener(SenderEvents.modified, onModified);
+            }
           };
 
           onAccepted = (context: EventContext) => {
