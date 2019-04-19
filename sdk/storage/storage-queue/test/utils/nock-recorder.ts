@@ -8,17 +8,17 @@ export function record(folderpath: string, filename: string): { [key: string]: a
   let fp = folderpath.toLowerCase().replace(/ /g, "_") + "/recording_" + filename.toLowerCase().replace(/ /g, "_") + ".js";
   let importNock = "let nock = require('nock');\n";
   let uniqueTestInfo: any = {};
+
+  if (process.env.TEST_MODE === "playback") {
+    uniqueTestInfo = require("../../recordings/" + fp).testInfo;
+  } else {
+    nock.recorder.rec({
+      dont_print: true
+    });
+  }
+
   return {
-    before: function() {
-      if (process.env.TEST_MODE === "playback") {
-        uniqueTestInfo = require("../../recordings/" + fp).testInfo;
-      } else {
-        nock.recorder.rec({
-          dont_print: true
-        });
-      }
-    },
-    after: function() {
+    stop: function() {
       if (process.env.TEST_MODE !== "playback") {
         let fixtures = nock.recorder.play();
         let nockScript =

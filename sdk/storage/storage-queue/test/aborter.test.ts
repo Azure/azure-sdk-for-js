@@ -17,13 +17,12 @@ describe("Aborter", function() {
 
   beforeEach(async () => {
     recorder = record(testSuiteTitle, this.ctx.currentTest!.title);
-    recorder.before();
     queueName = recorder.getUniqueName("queue");
     queueURL = QueueURL.fromServiceURL(serviceURL, queueName);
   });
 
   afterEach(async () => {
-    recorder.after();
+    recorder.stop();
   });
 
   it("should set value and get value successfully", async () => {
