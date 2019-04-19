@@ -94,7 +94,6 @@ async function receiveMessage(sessionId: string): Promise<void> {
         console.log("\n");
       }
 
-      await delay(testDurationInMilliseconds);
       console.log("Trying to complete message: ", receivedMessage.messageId);
       await brokeredMessage.complete();
       console.log("Completed message: ", receivedMessage.messageId);
