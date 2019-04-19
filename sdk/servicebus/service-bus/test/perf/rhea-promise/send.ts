@@ -1,4 +1,4 @@
-/* 
+/*
 # Overview
 Measures the maximum throughput of `sender.send()` in package `rhea-promise`.
 
