@@ -368,7 +368,11 @@ export class ManagementClient extends LinkEntity {
    * @param {SendRequestOptions} [options] Options that can be set while sending the request.
    * @returns {Promise<Date>} Promise<Date> New lock token expiry date and time in UTC format.
    */
-  async renewLock(lockToken: string, options?: SendRequestOptions, associatedLinkName?: string): Promise<Date> {
+  async renewLock(
+    lockToken: string,
+    associatedLinkName?: string,
+    options?: SendRequestOptions
+  ): Promise<Date> {
     throwErrorIfConnectionClosed(this._context.namespace);
     if (!options) options = {};
     if (options.delayInSeconds == undefined) options.delayInSeconds = 1;

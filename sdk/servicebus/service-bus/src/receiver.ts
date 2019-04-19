@@ -191,11 +191,8 @@ export class Receiver {
     } else if (this._context.streamingReceiver) {
       receiverName = this._context.streamingReceiver.name;
     }
-    const lockedUntilUtc = await this._context.managementClient!.renewLock(
-      lockToken,
-      undefined,
-      receiverName
-    );
+
+    const lockedUntilUtc = await this._context.managementClient!.renewLock(lockToken, receiverName);
 
     return lockedUntilUtc;
   }

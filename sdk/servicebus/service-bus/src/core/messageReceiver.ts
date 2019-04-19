@@ -396,10 +396,6 @@ export class MessageReceiver extends LinkEntity {
                     let receiverName;
                     if (this._receiver) {
                       receiverName = this._receiver.name;
-                    } else {
-                      throw new Error(
-                        "AMQP receiver is closed or undefined. Cannot renew lock on non-existing receiver link"
-                      );
                     }
                     log.receiver(
                       "[%s] Attempting to renew the lock for message with id '%s'.",
@@ -408,7 +404,6 @@ export class MessageReceiver extends LinkEntity {
                     );
                     bMessage.lockedUntilUtc = await this._context.managementClient!.renewLock(
                       lockToken,
-                      undefined,
                       receiverName
                     );
                     log.receiver(
@@ -837,6 +832,7 @@ export class MessageReceiver extends LinkEntity {
       this._context.entityPath
     );
     if (this._newMessageReceivedTimer) clearTimeout(this._newMessageReceivedTimer);
+    this._clearAllMessageLockRenewTimers();
     if (this._receiver) {
       const receiverLink = this._receiver;
       this._deleteFromCache();
