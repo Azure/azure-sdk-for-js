@@ -365,6 +365,7 @@ export class ManagementClient extends LinkEntity {
    * LockDuration set on the Entity.
    *
    * @param {string} lockToken Lock token of the message
+   * @param {string} associatedLinkName associated link name on which operation is to be executed, if applicable
    * @param {SendRequestOptions} [options] Options that can be set while sending the request.
    * @returns {Promise<Date>} Promise<Date> New lock token expiry date and time in UTC format.
    */
