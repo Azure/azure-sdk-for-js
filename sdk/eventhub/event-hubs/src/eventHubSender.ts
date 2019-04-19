@@ -4,12 +4,27 @@
 import uuid from "uuid/v4";
 import * as log from "./log";
 import {
-  messageProperties, Sender, EventContext, OnAmqpEvent, SenderOptions, Delivery, SenderEvents,
-  message, AmqpError
+  messageProperties,
+  Sender,
+  EventContext,
+  OnAmqpEvent,
+  SenderOptions,
+  Delivery,
+  SenderEvents,
+  message,
+  AmqpError
 } from "rhea-promise";
 import {
-  defaultLock, Func, retry, translate, AmqpMessage, ErrorNameConditionMapper,
-  RetryConfig, RetryOperationType, Constants, randomNumberFromInterval
+  defaultLock,
+  Func,
+  retry,
+  translate,
+  AmqpMessage,
+  ErrorNameConditionMapper,
+  RetryConfig,
+  RetryOperationType,
+  Constants,
+  randomNumberFromInterval
 } from "@azure/amqp-common";
 import { EventData } from "./eventData";
 import { ConnectionContext } from "./connectionContext";
@@ -78,8 +93,7 @@ export class EventHubSender extends LinkEntity {
       const senderError = context.sender && context.sender.error;
       if (senderError) {
         const err = translate(senderError);
-        log.error("[%s] An error occurred for sender '%s': %O.",
-          this._context.connectionId, this.name, err);
+        log.error("[%s] An error occurred for sender '%s': %O.", this._context.connectionId, this.name, err);
       }
     };
 
@@ -87,8 +101,12 @@ export class EventHubSender extends LinkEntity {
       const sessionError = context.session && context.session.error;
       if (sessionError) {
         const err = translate(sessionError);
-        log.error("[%s] An error occurred on the session of sender '%s': %O.",
-          this._context.connectionId, this.name, err);
+        log.error(
+          "[%s] An error occurred on the session of sender '%s': %O.",
+          this._context.connectionId,
+          this.name,
+          err
+        );
       }
     };
 
@@ -96,27 +114,44 @@ export class EventHubSender extends LinkEntity {
       const sender = this._sender || context.sender!;
       const senderError = context.sender && context.sender.error;
       if (senderError) {
-        log.error("[%s] 'sender_close' event occurred for sender '%s' with address '%s'. " +
-          "The associated error is: %O", this._context.connectionId, this.name,
-          this.address, senderError);
+        log.error(
+          "[%s] 'sender_close' event occurred for sender '%s' with address '%s'. " + "The associated error is: %O",
+          this._context.connectionId,
+          this.name,
+          this.address,
+          senderError
+        );
       }
       if (sender && !sender.isItselfClosed()) {
         if (!this.isConnecting) {
-          log.error("[%s] 'sender_close' event occurred on the sender '%s' with address '%s' " +
-            "and the sdk did not initiate this. The sender is not reconnecting. Hence, calling " +
-            "detached from the _onAmqpClose() handler.", this._context.connectionId, this.name,
-            this.address);
+          log.error(
+            "[%s] 'sender_close' event occurred on the sender '%s' with address '%s' " +
+              "and the sdk did not initiate this. The sender is not reconnecting. Hence, calling " +
+              "detached from the _onAmqpClose() handler.",
+            this._context.connectionId,
+            this.name,
+            this.address
+          );
           await this.detached(senderError);
         } else {
-          log.error("[%s] 'sender_close' event occurred on the sender '%s' with address '%s' " +
-            "and the sdk did not initate this. Moreover the sender is already re-connecting. " +
-            "Hence not calling detached from the _onAmqpClose() handler.",
-            this._context.connectionId, this.name, this.address);
+          log.error(
+            "[%s] 'sender_close' event occurred on the sender '%s' with address '%s' " +
+              "and the sdk did not initate this. Moreover the sender is already re-connecting. " +
+              "Hence not calling detached from the _onAmqpClose() handler.",
+            this._context.connectionId,
+            this.name,
+            this.address
+          );
         }
       } else {
-        log.error("[%s] 'sender_close' event occurred on the sender '%s' with address '%s' " +
-          "because the sdk initiated it. Hence not calling detached from the _onAmqpClose" +
-          "() handler.", this._context.connectionId, this.name, this.address);
+        log.error(
+          "[%s] 'sender_close' event occurred on the sender '%s' with address '%s' " +
+            "because the sdk initiated it. Hence not calling detached from the _onAmqpClose" +
+            "() handler.",
+          this._context.connectionId,
+          this.name,
+          this.address
+        );
       }
     };
 
@@ -124,26 +159,44 @@ export class EventHubSender extends LinkEntity {
       const sender = this._sender || context.sender!;
       const sessionError = context.session && context.session.error;
       if (sessionError) {
-        log.error("[%s] 'session_close' event occurred for sender '%s' with address '%s'. " +
-          "The associated error is: %O", this._context.connectionId, this.name,
-          this.address, sessionError);
+        log.error(
+          "[%s] 'session_close' event occurred for sender '%s' with address '%s'. " + "The associated error is: %O",
+          this._context.connectionId,
+          this.name,
+          this.address,
+          sessionError
+        );
       }
       if (sender && !sender.isSessionItselfClosed()) {
         if (!this.isConnecting) {
-          log.error("[%s] 'session_close' event occurred on the session of sender '%s' with " +
-            "address '%s' and the sdk did not initiate this. Hence calling detached from the " +
-            "_onSessionClose() handler.", this._context.connectionId, this.name, this.address);
+          log.error(
+            "[%s] 'session_close' event occurred on the session of sender '%s' with " +
+              "address '%s' and the sdk did not initiate this. Hence calling detached from the " +
+              "_onSessionClose() handler.",
+            this._context.connectionId,
+            this.name,
+            this.address
+          );
           await this.detached(sessionError);
         } else {
-          log.error("[%s] 'session_close' event occurred on the session of sender '%s' with " +
-            "address '%s' and the sdk did not initiate this. Moreover the sender is already " +
-            "re-connecting. Hence not calling detached from the _onSessionClose() handler.",
-            this._context.connectionId, this.name, this.address);
+          log.error(
+            "[%s] 'session_close' event occurred on the session of sender '%s' with " +
+              "address '%s' and the sdk did not initiate this. Moreover the sender is already " +
+              "re-connecting. Hence not calling detached from the _onSessionClose() handler.",
+            this._context.connectionId,
+            this.name,
+            this.address
+          );
         }
       } else {
-        log.error("[%s] 'session_close' event occurred on the session of sender '%s' with address " +
-          "'%s' because the sdk initiated it. Hence not calling detached from the _onSessionClose" +
-          "() handler.", this._context.connectionId, this.name, this.address);
+        log.error(
+          "[%s] 'session_close' event occurred on the session of sender '%s' with address " +
+            "'%s' because the sdk initiated it. Hence not calling detached from the _onSessionClose" +
+            "() handler.",
+          this._context.connectionId,
+          this.name,
+          this.address
+        );
       }
     };
   }
@@ -166,27 +219,47 @@ export class EventHubSender extends LinkEntity {
         const translatedError = translate(senderError);
         if (translatedError.retryable) {
           shouldReopen = true;
-          log.error("[%s] close() method of Sender '%s' with address '%s' was not called. There " +
-            "was an accompanying error an it is retryable. This is a candidate for re-establishing " +
-            "the sender link.", this._context.connectionId, this.name, this.address);
+          log.error(
+            "[%s] close() method of Sender '%s' with address '%s' was not called. There " +
+              "was an accompanying error an it is retryable. This is a candidate for re-establishing " +
+              "the sender link.",
+            this._context.connectionId,
+            this.name,
+            this.address
+          );
         } else {
-          log.error("[%s] close() method of Sender '%s' with address '%s' was not called. There " +
-            "was an accompanying error and it is NOT retryable. Hence NOT re-establishing " +
-            "the sender link.", this._context.connectionId, this.name, this.address);
+          log.error(
+            "[%s] close() method of Sender '%s' with address '%s' was not called. There " +
+              "was an accompanying error and it is NOT retryable. Hence NOT re-establishing " +
+              "the sender link.",
+            this._context.connectionId,
+            this.name,
+            this.address
+          );
         }
       } else if (!wasCloseInitiated) {
         shouldReopen = true;
-        log.error("[%s] close() method of Sender '%s' with address '%s' was not called. There " +
-          "was no accompanying error as well. This is a candidate for re-establishing " +
-          "the sender link.", this._context.connectionId, this.name, this.address);
+        log.error(
+          "[%s] close() method of Sender '%s' with address '%s' was not called. There " +
+            "was no accompanying error as well. This is a candidate for re-establishing " +
+            "the sender link.",
+          this._context.connectionId,
+          this.name,
+          this.address
+        );
       } else {
         const state: any = {
           wasCloseInitiated: wasCloseInitiated,
           senderError: senderError,
           _sender: this._sender
         };
-        log.error("[%s] Something went wrong. State of sender '%s' with address '%s' is: %O",
-          this._context.connectionId, this.name, this.address, state);
+        log.error(
+          "[%s] Something went wrong. State of sender '%s' with address '%s' is: %O",
+          this._context.connectionId,
+          this.name,
+          this.address,
+          state
+        );
       }
       if (shouldReopen) {
         await defaultLock.acquire(this.senderLock, () => {
@@ -207,8 +280,13 @@ export class EventHubSender extends LinkEntity {
         });
       }
     } catch (err) {
-      log.error("[%s] An error occurred while processing detached() of Sender '%s' with address " +
-        "'%s': %O", this._context.connectionId, this.name, this.address, err);
+      log.error(
+        "[%s] An error occurred while processing detached() of Sender '%s' with address " + "'%s': %O",
+        this._context.connectionId,
+        this.name,
+        this.address,
+        err
+      );
     }
   }
 
@@ -232,8 +310,13 @@ export class EventHubSender extends LinkEntity {
    */
   isOpen(): boolean {
     const result: boolean = this._sender! && this._sender!.isOpen();
-    log.error("[%s] Sender '%s' with address '%s' is open? -> %s", this._context.connectionId,
-      this.name, this.address, result);
+    log.error(
+      "[%s] Sender '%s' with address '%s' is open? -> %s",
+      this._context.connectionId,
+      this.name,
+      this.address,
+      result
+    );
     return result;
   }
 
@@ -249,14 +332,18 @@ export class EventHubSender extends LinkEntity {
         throw new Error("data is required and it must be of type object.");
       }
 
-      if (data.partitionKey && typeof data.partitionKey !== "string"){
-          throw new Error("'partitionKey' must be of type 'string'.");
+      if (data.partitionKey && typeof data.partitionKey !== "string") {
+        throw new Error("'partitionKey' must be of type 'string'.");
       }
 
       if (!this.isOpen()) {
-        log.sender("Acquiring lock %s for initializing the session, sender and " +
-          "possibly the connection.", this.senderLock);
-        await defaultLock.acquire(this.senderLock, () => { return this._init(); });
+        log.sender(
+          "Acquiring lock %s for initializing the session, sender and " + "possibly the connection.",
+          this.senderLock
+        );
+        await defaultLock.acquire(this.senderLock, () => {
+          return this._init();
+        });
       }
       const message = EventData.toAmqpMessage(data);
       message.body = this._context.dataTransformer.encode(data.body);
@@ -282,12 +369,15 @@ export class EventHubSender extends LinkEntity {
       }
 
       if (!this.isOpen()) {
-        log.sender("Acquiring lock %s for initializing the session, sender and " +
-          "possibly the connection.", this.senderLock);
-        await defaultLock.acquire(this.senderLock, () => { return this._init(); });
+        log.sender(
+          "Acquiring lock %s for initializing the session, sender and " + "possibly the connection.",
+          this.senderLock
+        );
+        await defaultLock.acquire(this.senderLock, () => {
+          return this._init();
+        });
       }
-      log.sender("[%s] Sender '%s', trying to send EventData[].",
-        this._context.connectionId, this.name);
+      log.sender("[%s] Sender '%s', trying to send EventData[].", this._context.connectionId, this.name);
       const messages: AmqpMessage[] = [];
       // Convert EventData to AmqpMessage.
       for (let i = 0; i < datas.length; i++) {
@@ -315,8 +405,12 @@ export class EventHubSender extends LinkEntity {
 
       // Finally encode the envelope (batch message).
       const encodedBatchMessage = message.encode(batchMessage);
-      log.sender("[%s] Sender '%s', sending encoded batch message.",
-        this._context.connectionId, this.name, encodedBatchMessage);
+      log.sender(
+        "[%s] Sender '%s', sending encoded batch message.",
+        this._context.connectionId,
+        this.name,
+        encodedBatchMessage
+      );
       return await this._trySend(encodedBatchMessage, batchMessage.message_id, 0x80013700);
     } catch (err) {
       log.error("An error occurred while sending the batch message %O", err);
@@ -327,8 +421,12 @@ export class EventHubSender extends LinkEntity {
   private _deleteFromCache(): void {
     this._sender = undefined;
     delete this._context.senders[this.address];
-    log.error("[%s] Deleted the sender '%s' with address '%s' from the client cache.",
-      this._context.connectionId, this.name, this.address);
+    log.error(
+      "[%s] Deleted the sender '%s' with address '%s' from the client cache.",
+      this._context.connectionId,
+      this.name,
+      this.address
+    );
   }
 
   private _createSenderOptions(options: CreateSenderOptions): SenderOptions {
@@ -358,100 +456,121 @@ export class EventHubSender extends LinkEntity {
    * @return {Promise<Delivery>} Promise<Delivery>
    */
   private _trySend(message: AmqpMessage, tag: any, format?: number): Promise<Delivery> {
-    const sendEventPromise = () => new Promise<Delivery>((resolve, reject) => {
-      let waitTimer: any;
-      log.sender("[%s] Sender '%s', credit: %d available: %d", this._context.connectionId, this.name,
-        this._sender!.credit, this._sender!.session.outgoing.available());
-      if (this._sender!.sendable()) {
-        log.sender("[%s] Sender '%s', sending message with id '%s'.", this._context.connectionId,
-          this.name, message.message_id || tag || '<not specified>');
-        let onRejected: Func<EventContext, void>;
-        let onReleased: Func<EventContext, void>;
-        let onModified: Func<EventContext, void>;
-        let onAccepted: Func<EventContext, void>;
-        const removeListeners = (): void => {
-          clearTimeout(waitTimer);
-          this._sender!.removeListener(SenderEvents.rejected, onRejected);
-          this._sender!.removeListener(SenderEvents.accepted, onAccepted);
-          this._sender!.removeListener(SenderEvents.released, onReleased);
-          this._sender!.removeListener(SenderEvents.modified, onModified);
-        };
-
-        onAccepted = (context: EventContext) => {
-          // Since we will be adding listener for accepted and rejected event every time
-          // we send a message, we need to remove listener for both the events.
-          // This will ensure duplicate listeners are not added for the same event.
-          removeListeners();
-          log.sender("[%s] Sender '%s', got event accepted.", this._context.connectionId, this.name);
-          resolve(context.delivery);
-        };
-        onRejected = (context: EventContext) => {
-          removeListeners();
-          log.error("[%s] Sender '%s', got event rejected.", this._context.connectionId, this.name);
-          const err = translate(context!.delivery!.remote_state!.error);
-          log.error(err);
-          reject(err);
-        };
-        onReleased = (context: EventContext) => {
-          removeListeners();
-          log.error("[%s] Sender '%s', got event released.", this._context.connectionId, this.name);
-          let err: Error;
-          if (context!.delivery!.remote_state!.error) {
-            err = translate(context!.delivery!.remote_state!.error);
-          } else {
-            err = new Error(`[${this._context.connectionId}] Sender '${this.name}', ` +
-              `received a release disposition.Hence we are rejecting the promise.`);
-          }
-          log.error(err);
-          reject(err);
-        };
-        onModified = (context: EventContext) => {
-          removeListeners();
-          log.error("[%s] Sender '%s', got event modified.", this._context.connectionId, this.name);
-          let err: Error;
-          if (context!.delivery!.remote_state!.error) {
-            err = translate(context!.delivery!.remote_state!.error);
-          } else {
-            err = new Error(`[${this._context.connectionId}] Sender "${this.name}", ` +
-              `received a modified disposition.Hence we are rejecting the promise.`);
-          }
-          log.error(err);
-          reject(err);
-        };
-
-        const actionAfterTimeout = () => {
-          removeListeners();
-          const desc: string = `[${this._context.connectionId}] Sender "${this.name}" with ` +
-            `address "${this.address}", was not able to send the message right now, due ` +
-            `to operation timeout.`;
-          log.error(desc);
-          const e: AmqpError = {
-            condition: ErrorNameConditionMapper.ServiceUnavailableError,
-            description: desc
+    const sendEventPromise = () =>
+      new Promise<Delivery>((resolve, reject) => {
+        let waitTimer: any;
+        log.sender(
+          "[%s] Sender '%s', credit: %d available: %d",
+          this._context.connectionId,
+          this.name,
+          this._sender!.credit,
+          this._sender!.session.outgoing.available()
+        );
+        if (this._sender!.sendable()) {
+          log.sender(
+            "[%s] Sender '%s', sending message with id '%s'.",
+            this._context.connectionId,
+            this.name,
+            message.message_id || tag || "<not specified>"
+          );
+          let onRejected: Func<EventContext, void>;
+          let onReleased: Func<EventContext, void>;
+          let onModified: Func<EventContext, void>;
+          let onAccepted: Func<EventContext, void>;
+          const removeListeners = (): void => {
+            clearTimeout(waitTimer);
+            this._sender!.removeListener(SenderEvents.rejected, onRejected);
+            this._sender!.removeListener(SenderEvents.accepted, onAccepted);
+            this._sender!.removeListener(SenderEvents.released, onReleased);
+            this._sender!.removeListener(SenderEvents.modified, onModified);
           };
-          return reject(translate(e));
-        };
 
-        this._sender!.on(SenderEvents.accepted, onAccepted);
-        this._sender!.on(SenderEvents.rejected, onRejected);
-        this._sender!.on(SenderEvents.modified, onModified);
-        this._sender!.on(SenderEvents.released, onReleased);
-        waitTimer = setTimeout(actionAfterTimeout, Constants.defaultOperationTimeoutInSeconds * 1000);
-        const delivery = this._sender!.send(message, tag, format);
-        log.sender("[%s] Sender '%s', sent message with delivery id: %d and tag: %s",
-          this._context.connectionId, this.name, delivery.id, delivery.tag.toString());
-      } else {
-        // let us retry to send the message after some time.
-        const msg = `[${this._context.connectionId}] Sender "${this.name}", ` +
-          `cannot send the message right now. Please try later.`;
-        log.error(msg);
-        const amqpError: AmqpError = {
-          condition: ErrorNameConditionMapper.SenderBusyError,
-          description: msg
-        };
-        reject(translate(amqpError));
-      }
-    });
+          onAccepted = (context: EventContext) => {
+            // Since we will be adding listener for accepted and rejected event every time
+            // we send a message, we need to remove listener for both the events.
+            // This will ensure duplicate listeners are not added for the same event.
+            removeListeners();
+            log.sender("[%s] Sender '%s', got event accepted.", this._context.connectionId, this.name);
+            resolve(context.delivery);
+          };
+          onRejected = (context: EventContext) => {
+            removeListeners();
+            log.error("[%s] Sender '%s', got event rejected.", this._context.connectionId, this.name);
+            const err = translate(context!.delivery!.remote_state!.error);
+            log.error(err);
+            reject(err);
+          };
+          onReleased = (context: EventContext) => {
+            removeListeners();
+            log.error("[%s] Sender '%s', got event released.", this._context.connectionId, this.name);
+            let err: Error;
+            if (context!.delivery!.remote_state!.error) {
+              err = translate(context!.delivery!.remote_state!.error);
+            } else {
+              err = new Error(
+                `[${this._context.connectionId}] Sender '${this.name}', ` +
+                  `received a release disposition.Hence we are rejecting the promise.`
+              );
+            }
+            log.error(err);
+            reject(err);
+          };
+          onModified = (context: EventContext) => {
+            removeListeners();
+            log.error("[%s] Sender '%s', got event modified.", this._context.connectionId, this.name);
+            let err: Error;
+            if (context!.delivery!.remote_state!.error) {
+              err = translate(context!.delivery!.remote_state!.error);
+            } else {
+              err = new Error(
+                `[${this._context.connectionId}] Sender "${this.name}", ` +
+                  `received a modified disposition.Hence we are rejecting the promise.`
+              );
+            }
+            log.error(err);
+            reject(err);
+          };
+
+          const actionAfterTimeout = () => {
+            removeListeners();
+            const desc: string =
+              `[${this._context.connectionId}] Sender "${this.name}" with ` +
+              `address "${this.address}", was not able to send the message right now, due ` +
+              `to operation timeout.`;
+            log.error(desc);
+            const e: AmqpError = {
+              condition: ErrorNameConditionMapper.ServiceUnavailableError,
+              description: desc
+            };
+            return reject(translate(e));
+          };
+
+          this._sender!.on(SenderEvents.accepted, onAccepted);
+          this._sender!.on(SenderEvents.rejected, onRejected);
+          this._sender!.on(SenderEvents.modified, onModified);
+          this._sender!.on(SenderEvents.released, onReleased);
+          waitTimer = setTimeout(actionAfterTimeout, Constants.defaultOperationTimeoutInSeconds * 1000);
+          const delivery = this._sender!.send(message, tag, format);
+          log.sender(
+            "[%s] Sender '%s', sent message with delivery id: %d and tag: %s",
+            this._context.connectionId,
+            this.name,
+            delivery.id,
+            delivery.tag.toString()
+          );
+        } else {
+          // let us retry to send the message after some time.
+          const msg =
+            `[${this._context.connectionId}] Sender "${this.name}", ` +
+            `cannot send the message right now. Please try later.`;
+          log.error(msg);
+          const amqpError: AmqpError = {
+            condition: ErrorNameConditionMapper.SenderBusyError,
+            description: msg
+          };
+          reject(translate(amqpError));
+        }
+      });
 
     const jitterInSeconds = randomNumberFromInterval(1, 4);
     const config: RetryConfig<Delivery> = {
@@ -477,9 +596,13 @@ export class EventHubSender extends LinkEntity {
       // false    true           No
       // false    false          Yes
       if (!this.isOpen() && !this.isConnecting) {
-        log.error("[%s] The sender '%s' with address '%s' is not open and is not currently " +
-          "establishing itself. Hence let's try to connect.", this._context.connectionId,
-          this.name, this.address);
+        log.error(
+          "[%s] The sender '%s' with address '%s' is not open and is not currently " +
+            "establishing itself. Hence let's try to connect.",
+          this._context.connectionId,
+          this.name,
+          this.address
+        );
         this.isConnecting = true;
         await this._negotiateClaim();
         log.error("[%s] Trying to create sender '%s'...", this._context.connectionId, this.name);
@@ -488,27 +611,37 @@ export class EventHubSender extends LinkEntity {
         }
         this._sender = await this._context.connection.createSender(options);
         this.isConnecting = false;
-        log.error("[%s] Sender '%s' with address '%s' has established itself.",
-          this._context.connectionId, this.name, this.address);
+        log.error(
+          "[%s] Sender '%s' with address '%s' has established itself.",
+          this._context.connectionId,
+          this.name,
+          this.address
+        );
         this._sender.setMaxListeners(1000);
-        log.error("[%s] Promise to create the sender resolved. Created sender with name: %s",
-          this._context.connectionId, this.name);
-        log.error("[%s] Sender '%s' created with sender options: %O",
-          this._context.connectionId, this.name, options);
+        log.error(
+          "[%s] Promise to create the sender resolved. Created sender with name: %s",
+          this._context.connectionId,
+          this.name
+        );
+        log.error("[%s] Sender '%s' created with sender options: %O", this._context.connectionId, this.name, options);
         // It is possible for someone to close the sender and then start it again.
         // Thus make sure that the sender is present in the client cache.
         if (!this._context.senders[this.address]) this._context.senders[this.address] = this;
         await this._ensureTokenRenewal();
       } else {
-        log.error("[%s] The sender '%s' with address '%s' is open -> %s and is connecting " +
-          "-> %s. Hence not reconnecting.", this._context.connectionId, this.name, this.address,
-          this.isOpen(), this.isConnecting);
+        log.error(
+          "[%s] The sender '%s' with address '%s' is open -> %s and is connecting " + "-> %s. Hence not reconnecting.",
+          this._context.connectionId,
+          this.name,
+          this.address,
+          this.isOpen(),
+          this.isConnecting
+        );
       }
     } catch (err) {
       this.isConnecting = false;
       err = translate(err);
-      log.error("[%s] An error occurred while creating the sender %s",
-        this._context.connectionId, this.name, err);
+      log.error("[%s] An error occurred while creating the sender %s", this._context.connectionId, this.name, err);
       throw err;
     }
   }

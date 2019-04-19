@@ -355,27 +355,6 @@ describe("Test createFromAadTokenCredentials", function(): void {
     should.equal(msgs.length, 1, "Unexpected number of messages");
   }
 
-  it("throws error for an invalid host", async function(): Promise<void> {
-    const env = getEnvVars();
-    tokenCreds = await loginWithServicePrincipalSecret(
-      env.clientId,
-      env.clientSecret,
-      env.tenantId,
-      {
-        tokenAudience: aadServiceBusAudience
-      }
-    );
-    await testCreateFromAadTokenCredentials("", tokenCreds).catch((err) => {
-      errorWasThrown = true;
-      should.equal(
-        err.message,
-        "'host' is a required parameter and must be of type: 'string'.",
-        "ErrorMessage is different than expected"
-      );
-    });
-    should.equal(errorWasThrown, true, "Error thrown flag must be true");
-  });
-
   it("throws error for invalid tokenCredentials", async function(): Promise<void> {
     await testCreateFromAadTokenCredentials(serviceBusEndpoint, "").catch((err) => {
       errorWasThrown = true;

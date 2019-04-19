@@ -213,11 +213,6 @@ export class Receiver {
       sequenceNumber
     );
 
-    if (this._receiveMode !== ReceiveMode.peekLock) {
-      throw new Error(
-        getErrorMessageNotSupportedInReceiveAndDeleteMode("receive deferred message")
-      );
-    }
     const messages = await this._context.managementClient!.receiveDeferredMessages(
       [sequenceNumber],
       this._receiveMode
@@ -249,11 +244,6 @@ export class Receiver {
       sequenceNumbers
     );
 
-    if (this._receiveMode !== ReceiveMode.peekLock) {
-      throw new Error(
-        getErrorMessageNotSupportedInReceiveAndDeleteMode("receive deferred messages")
-      );
-    }
     return this._context.managementClient!.receiveDeferredMessages(
       sequenceNumbers,
       this._receiveMode
@@ -450,7 +440,7 @@ export class SessionReceiver {
     this._messageSession!.sessionLockedUntilUtc = await this._context.managementClient!.renewSessionLock(
       this.sessionId!
     );
-    return this._messageSession!.sessionLockedUntilUtc;
+    return this._messageSession!.sessionLockedUntilUtc!;
   }
 
   /**
@@ -535,12 +525,6 @@ export class SessionReceiver {
       sequenceNumber
     );
 
-    if (this._receiveMode !== ReceiveMode.peekLock) {
-      throw new Error(
-        getErrorMessageNotSupportedInReceiveAndDeleteMode("receive deferred message")
-      );
-    }
-
     await this._createMessageSessionIfDoesntExist();
     const messages = await this._context.managementClient!.receiveDeferredMessages(
       [sequenceNumber],
@@ -574,11 +558,6 @@ export class SessionReceiver {
       sequenceNumbers
     );
 
-    if (this._receiveMode !== ReceiveMode.peekLock) {
-      throw new Error(
-        getErrorMessageNotSupportedInReceiveAndDeleteMode("receive deferred messages")
-      );
-    }
     await this._createMessageSessionIfDoesntExist();
     return this._context.managementClient!.receiveDeferredMessages(
       sequenceNumbers,

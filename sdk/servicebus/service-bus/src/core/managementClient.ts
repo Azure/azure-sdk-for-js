@@ -625,7 +625,7 @@ export class ManagementClient extends LinkEntity {
       };
       request.application_properties![Constants.trackingId] = generate_uuid();
       log.mgmt(
-        "[%s] Receive deferred messages request bosy: %O.",
+        "[%s] Receive deferred messages request body: %O.",
         this._context.namespace.connectionId,
         request.body
       );
