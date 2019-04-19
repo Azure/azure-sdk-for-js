@@ -1,3 +1,15 @@
+/* 
+# Overview
+Measures the maximum throughput of `sender.send()` in package `rhea-promise`.
+
+# Instructions
+1. Create a Service Bus namespace with `Tier=Premium` and `Messaging Units=4`.  It is recommended to use the largest possible namespace to allow maximum client throughput.
+2. Create a queue inside the namespace.
+3. Set env vars `SERVICE_BUS_CONNECTION_STRING` and `SERVICE_BUS_QUEUE_NAME`.
+4. `ts-node app.ts [maxInflightMessages] [totalMessages]`
+5. Example: `ts-node app.ts 1000 1000000`
+ */
+
 import { Connection } from "rhea-promise";
 import delay from "delay";
 import moment from "moment";
