@@ -5,24 +5,30 @@ import { RestError, StorageURL } from "../src";
 import { Aborter } from "../src/Aborter";
 import { QueueURL } from "../src/QueueURL";
 import { Pipeline } from "../src/Pipeline";
-import { getQSU, getUniqueName } from "./utils";
+import { getQSU } from "./utils";
 import { InjectorPolicyFactory } from "./utils/InjectorPolicyFactory";
+import { record } from "./utils/nock-recorder";
 import * as dotenv from "dotenv";
-dotenv.config({path:"../.env"});
+dotenv.config({ path:"../.env" });
 
-describe("RetryPolicy", () => {
+describe("RetryPolicy", function() {
   const serviceURL = getQSU();
-  let queueName: string = getUniqueName("queue");
-  let queueURL = QueueURL.fromServiceURL(serviceURL, queueName);
+  let queueName: string;
+  let queueURL: QueueURL;
+  const testSuiteTitle = this.fullTitle();
+
+  let recorder: any;
 
   beforeEach(async () => {
-    queueName = getUniqueName("queue");
+    recorder = record(testSuiteTitle, this.ctx.currentTest!.title);
+    queueName = recorder.getUniqueName("queue");
     queueURL = QueueURL.fromServiceURL(serviceURL, queueName);
     await queueURL.create(Aborter.none);
   });
 
   afterEach(async () => {
     await queueURL.delete(Aborter.none);
+    recorder.stop();
   });
 
   it("Retry policy should work when first request fails with 500", async () => {
