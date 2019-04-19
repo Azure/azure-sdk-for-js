@@ -24,6 +24,12 @@
     "eslint-fix": "eslint \"src/**/*.ts\" \"test/**/*.ts\" -c .eslintrc.json --fix --fix-type [problem,suggestion]",
     "lint-and-test": "npm run eslint && npm run test"
   },
+  "files": [  
+    "dist/",
+    "dist-esm/src/",
+    "src/",
+    "typings/src"
+  ],
   "repository": "github:Azure/azure-sdk-for-js",
   "keywords": [
     "azure",

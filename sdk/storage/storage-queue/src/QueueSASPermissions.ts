@@ -4,7 +4,7 @@
  * This is a helper class to construct a string representing the permissions granted by a ServiceSAS to a Queue. Setting
  * a value to true means that any SAS which uses these permissions will grant permissions for that operation. Once all
  * the values are set, this should be serialized with toString and set as the permissions field on a
- * {@link ServiceSASSignatureValues} object. It is possible to construct the permissions string without this class, but
+ * {@link IQueueSASSignatureValues} object. It is possible to construct the permissions string without this class, but
  * the order of the permissions is particular and this class guarantees correctness.
  *
  * @export
@@ -12,7 +12,7 @@
  */
 export class QueueSASPermissions {
   /**
-   * Creates a {@link QueueSASPermission} from the specified permissions string. This method will throw an
+   * Creates a {@link QueueSASPermissions} from the specified permissions string. This method will throw an
    * Error if it encounters a character that does not correspond to a valid permission.
    *
    * @static
