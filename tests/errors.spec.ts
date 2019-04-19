@@ -19,15 +19,27 @@ class AMQPError {
 
 describe("Errors", function () {
   describe("translate", function () {
-    it("acts as a passthrough if the input is not an AmqpProtocolError", function () {
+    it("Converts to MessagingError, and acts as a passthrough if the input is not an AmqpProtocolError", function () {
       const MyError: any = function () { };
       const err: any = new MyError();
       const msg: any = undefined;
       const ehError = new Errors.MessagingError(msg);
-      const translatedError = Errors.translate(err);
+      const translatedError = <Errors.MessagingError>Errors.translate(err);
       translatedError.name.should.equal(ehError.name);
       translatedError.retryable.should.equal(ehError.retryable);
       translatedError.message.should.equal(ehError.message);
+    });
+
+    it("Skips converting to MessagingError, and acts as a passthrough if the input is TypeError", function () {
+      const err: any = new TypeError("This is a wrong type!!");
+      const translatedError = Errors.translate(err);
+      translatedError.should.equal(err);
+    });
+
+    it("Skips converting to MessagingError, and acts as a passthrough if the input is RangeError", function () {
+      const err: any = new RangeError("Out of range!!");
+      const translatedError = Errors.translate(err);
+      translatedError.should.equal(err);
     });
 
     [
@@ -38,7 +50,7 @@ describe("Errors", function () {
     ].forEach(function (mapping) {
       it("translates " + mapping.from + " into " + mapping.to, function () {
         const err: any = new AMQPError(mapping.from as any, mapping.message as any);
-        const translatedError = Errors.translate(err);
+        const translatedError = <Errors.MessagingError>Errors.translate(err);
         translatedError.name.should.equal(mapping.to);
         if (translatedError.name === "ServerBusyError" || translatedError.name === "MessagingError") {
           translatedError.retryable.should.equal(true);
@@ -56,7 +68,7 @@ describe("Errors", function () {
       { code: "ESOMETHINGRANDOM", errno: "ESOMETHINGRANDOM", syscall: "read", message: "code: ESOMETHINGRANDOM, errno: ESOMETHINGRANDOM, syscall: read" },
     ].forEach(function (mapping) {
       it("SystemError from node.js  with code: '" + mapping.code + "' to a MessagingError", function () {
-        const translatedError = Errors.translate(mapping as any);
+        const translatedError = <Errors.MessagingError>Errors.translate(mapping as any);
         if (mapping.code === "ECONNRESET") {
           translatedError.name.should.equal("ServiceUnavailableError");
           translatedError.retryable.should.equal(true);
