@@ -451,7 +451,7 @@ export class SessionReceiver {
       undefined,
       receiverName
     );
-    return this._messageSession!.sessionLockedUntilUtc;
+    return this._messageSession!.sessionLockedUntilUtc!;
   }
 
   /**

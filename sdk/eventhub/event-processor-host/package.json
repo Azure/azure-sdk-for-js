@@ -62,14 +62,11 @@
     "typescript": "^3.2.1"
   },
   "files": [
-    "LICENSE",
-    "changelog.md",
     "overview.md",
-    "README.md",
     "dist/",
     "dist-esm/src/",
     "src/",
-    "typings/"
+    "typings/src"
   ],
   "scripts": {
     "tslint": "tslint -p . -c tslint.json",
