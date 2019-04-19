@@ -517,7 +517,7 @@ describe("Errors after close()", function(): void {
     }
     should.equal(
       caughtError && caughtError.message,
-      "Failed to deadLetter the message as it's receiver has been closed."
+      "Failed to deadletter the message as it's receiver has been closed."
     );
   }
 
