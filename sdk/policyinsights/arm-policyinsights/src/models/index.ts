@@ -471,11 +471,11 @@ export interface ExpressionEvaluationDetails {
   /**
    * Value of the expression.
    */
-  expressionValue?: string;
+  expressionValue?: any;
   /**
    * Target value to be compared with the expression value.
    */
-  targetValue?: string;
+  targetValue?: any;
   /**
    * Operator to compare the expression value and the target value.
    */
