@@ -441,7 +441,7 @@ export class SessionReceiver {
     this._messageSession!.sessionLockedUntilUtc = await this._context.managementClient!.renewSessionLock(
       this.sessionId!
     );
-    return this._messageSession!.sessionLockedUntilUtc;
+    return this._messageSession!.sessionLockedUntilUtc!;
   }
 
   /**
