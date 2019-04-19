@@ -131,10 +131,6 @@ export type MessageSessionOptions = SessionManagerOptions &
  */
 export class MessageSession extends LinkEntity {
   /**
-   * @property {string} [receiverName] Internal AMQP receiver link name.
-   */
-  receiverName?: string;
-  /**
    * @property {Date} [sessionLockedUntilUtc] Provides the duration until which the session is locked.
    */
   sessionLockedUntilUtc?: Date;
@@ -1010,7 +1006,6 @@ export class MessageSession extends LinkEntity {
         );
 
         this._receiver = await this._context.namespace.connection.createReceiver(options);
-        this.receiverName = this._receiver!.name;
         this.isConnecting = false;
         const receivedSessionId =
           this._receiver.source &&
@@ -1148,7 +1143,7 @@ export class MessageSession extends LinkEntity {
           );
           this.sessionLockedUntilUtc = await this._context.managementClient!.renewSessionLock(
             this.sessionId!,
-            this.receiverName,
+            this.name,
             {
               delayInSeconds: 0,
               timeoutInSeconds: 10,
