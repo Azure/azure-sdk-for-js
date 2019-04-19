@@ -43,7 +43,17 @@ export function record(folderpath: string, filename: string): { [key: string]: a
         name = getUniqueName(prefix);
         uniqueTestInfo[recorderId] = name;
       }
-      return name!;
+      return name;
+    },
+    newDate: function(recorderId: string): Date {
+      let date: Date;
+      if (process.env.TEST_MODE === "playback") {
+        date = new Date(uniqueTestInfo[recorderId]);
+      } else {
+        date = new Date();
+        uniqueTestInfo[recorderId] = date.toISOString();
+      }
+      return date;
     }
   };
 }
