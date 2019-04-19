@@ -390,7 +390,7 @@ describe("Streaming Receiver in ReceiveAndDelete mode", function(): void {
   });
 });
 
-describe.only("Unsupported features in ReceiveAndDelete mode", function(): void {
+describe("Unsupported features in ReceiveAndDelete mode", function(): void {
   afterEach(async () => {
     await afterEachTest();
   });
