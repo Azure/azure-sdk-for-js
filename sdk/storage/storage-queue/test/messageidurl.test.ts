@@ -9,7 +9,7 @@ import { record } from "./utils/nock-recorder";
 import * as dotenv from "dotenv";
 dotenv.config({ path:"../.env" });
 
-describe.only("MessageIdURL", function() {
+describe("MessageIdURL", function() {
   const serviceURL = getQSU();
   let queueName: string;
   let queueURL: QueueURL;
