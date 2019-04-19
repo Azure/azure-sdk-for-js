@@ -142,8 +142,10 @@ export class BatchingReceiver extends MessageReceiver {
 
       // Action to be performed on the "receiver_drained" event.
       onReceiveDrain = (context: EventContext) => {
-        this._receiver!.removeListener(ReceiverEvents.receiverDrained, onReceiveDrain);
-        this._receiver!.drain = false;
+        if (this._receiver) {
+          this._receiver.removeListener(ReceiverEvents.receiverDrained, onReceiveDrain);
+          this._receiver.drain = false;
+        }
 
         this.isReceivingMessages = false;
 

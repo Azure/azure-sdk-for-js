@@ -491,10 +491,14 @@ export class MessageSender extends LinkEntity {
           let onAccepted: Func<EventContext, void>;
           const removeListeners = (): void => {
             clearTimeout(waitTimer);
-            this._sender!.removeListener(SenderEvents.rejected, onRejected);
-            this._sender!.removeListener(SenderEvents.accepted, onAccepted);
-            this._sender!.removeListener(SenderEvents.released, onReleased);
-            this._sender!.removeListener(SenderEvents.modified, onModified);
+            // When `removeListeners` is called on timeout, the sender might be closed and cleared
+            // So, check if it exists, before removing listeners from it.
+            if (this._sender) {
+              this._sender.removeListener(SenderEvents.rejected, onRejected);
+              this._sender.removeListener(SenderEvents.accepted, onAccepted);
+              this._sender.removeListener(SenderEvents.released, onReleased);
+              this._sender.removeListener(SenderEvents.modified, onModified);
+            }
           };
 
           onAccepted = (context: EventContext) => {
