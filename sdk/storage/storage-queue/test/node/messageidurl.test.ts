@@ -5,21 +5,36 @@ import { QueueURL } from "../../src/QueueURL";
 import { MessagesURL } from "../../src/MessagesURL";
 import { MessageIdURL } from "../../src/MessageIdURL";
 import { getQSU, getUniqueName } from "../utils";
+import { record } from "../utils/nock-recorder";
 
-describe("MessageIdURL Node", () => {
+describe("MessageIdURL Node", function() {
   const serviceURL = getQSU();
   let queueName = getUniqueName("queue");
   let queueURL = QueueURL.fromServiceURL(serviceURL, queueName);
   const messageContent = "Hello World";
+  const testSuiteTitle = this.fullTitle();
+
+  let recorder: any = "";
+  let uniqueTestInfo: any = {};
 
   beforeEach(async () => {
-    queueName = getUniqueName("queue");
+    recorder = record(testSuiteTitle, this.ctx.currentTest!.title);
+    uniqueTestInfo = recorder.before();
+    if (process.env.TEST_MODE === "record") {
+      queueName = getUniqueName("queue");
+      uniqueTestInfo.queueName = queueName;
+    } else if (process.env.TEST_MODE === "playback") {
+      queueName = uniqueTestInfo.queueName;
+    }
     queueURL = QueueURL.fromServiceURL(serviceURL, queueName);
     await queueURL.create(Aborter.none);
   });
 
   afterEach(async () => {
     await queueURL.delete(Aborter.none);
+    if (process.env.TEST_MODE === "record") {
+      recorder.after(uniqueTestInfo);
+    }
   });
 
   it("update message with 64KB characters including special char which is computed after encoding", async () => {

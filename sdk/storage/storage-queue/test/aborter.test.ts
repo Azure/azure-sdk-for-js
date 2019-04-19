@@ -13,7 +13,7 @@ describe("Aborter", function() {
   let queueURL: QueueURL;
   const testSuiteTitle = this.fullTitle();
 
-  let recorder: any = {};
+  let recorder: any;
 
   beforeEach(async () => {
     recorder = record(testSuiteTitle, this.ctx.currentTest!.title);
