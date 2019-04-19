@@ -741,10 +741,15 @@ export class ManagementClient extends LinkEntity {
   /**
    * Renews the lock for the specified session.
    * @param sessionId Id of the session for which the lock needs to be renewed
+   * @param {string} associatedLinkName associated link name on which operation is to be executed, if applicable
    * @param options Options that can be set while sending the request.
    * @returns Promise<Date> New lock token expiry date and time in UTC format.
    */
-  async renewSessionLock(sessionId: string, options?: SendRequestOptions): Promise<Date> {
+  async renewSessionLock(
+    sessionId: string,
+    associatedLinkName?: string,
+    options?: SendRequestOptions
+  ): Promise<Date> {
     throwErrorIfConnectionClosed(this._context.namespace);
     if (!options) options = {};
     if (options.delayInSeconds == undefined) options.delayInSeconds = 1;
@@ -761,6 +766,8 @@ export class ManagementClient extends LinkEntity {
         }
       };
       request.application_properties![Constants.trackingId] = generate_uuid();
+      // TODO: to use constant from AMQP common
+      request.application_properties!["associated-link-name"] = associatedLinkName;
       log.mgmt(
         "[%s] Renew Session Lock request body: %O.",
         this._context.namespace.connectionId,
