@@ -3,12 +3,15 @@
 
 import chai from "chai";
 import os from "os";
+import assert from "assert";
 const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
+chai.use(chaiAsPromised);
+import chaiString from "chai-string";
+chai.use(chaiString);
 import debugModule from "debug";
 import dotenv from "dotenv";
 dotenv.config();
-chai.use(chaiAsPromised);
 const debug = debugModule("azure:event-hubs:client-spec");
 import { EventHubClient } from "../src";
 import { packageJsonInfo } from "../src/util/constants";
@@ -91,7 +94,7 @@ describe("EventHubClient on ", function(): void {
       client = EventHubClient.createFromConnectionString(service.connectionString!, service.path);
       const packageVersion = packageJsonInfo.version;
       const properties = client["_context"].connection.options.properties;
-      should.equal(properties!["user-agent"], "/js-event-hubs");
+      properties!["user-agent"].should.startWith(`azsdk-js-azureeventhubs/${packageVersion}`);
       should.equal(properties!.product, "MSJSClient");
       should.equal(properties!.version, packageVersion);
       should.equal(properties!.framework, `Node/${process.version}`);
@@ -106,7 +109,8 @@ describe("EventHubClient on ", function(): void {
       });
       const packageVersion = packageJsonInfo.version;
       const properties = client["_context"].connection.options.properties;
-      should.equal(properties!["user-agent"], `/js-event-hubs,${customua}`);
+      properties!["user-agent"].should.startWith(`azsdk-js-azureeventhubs/${packageVersion}`);
+      properties!["user-agent"].should.endWith(customua);
       should.equal(properties!.product, "MSJSClient");
       should.equal(properties!.version, packageVersion);
       should.equal(properties!.framework, `Node/${process.version}`);

@@ -191,4 +191,9 @@ export interface EventProcessorHostOptions extends FromConnectionStringOptions {
    * provides the token for authentication. Default value: **`SasTokenProvider`**.
    */
   tokenProvider?: TokenProvider;
+  /**
+   * @property {string} [userAgent] The user agent that needs to be appended to the built in
+   * user agent string.
+   */
+  userAgent?: string;
 }
