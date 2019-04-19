@@ -2,7 +2,7 @@
   "extends": "../tsconfig.json",
   "compilerOptions": {
     "module": "commonjs",
-    "lib": ["esnext.asynciterable", "es2015"]
+    "lib": ["esnext.asynciterable"]
   },
   "include": [
     "**/*.ts"
