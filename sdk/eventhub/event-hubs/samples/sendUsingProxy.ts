@@ -35,6 +35,6 @@ async function main(): Promise<void> {
   await client.close();
 }
 
-main().catch((err) => {
+main().catch(err => {
   console.log("error: ", err);
 });
