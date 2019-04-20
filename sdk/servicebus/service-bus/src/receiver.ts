@@ -19,7 +19,8 @@ import {
   throwErrorIfConnectionClosed,
   throwTypeErrorIfParameterMissing,
   throwTypeErrorIfParameterNotLong,
-  throwTypeErrorIfParameterNotLongArray
+  throwTypeErrorIfParameterNotLongArray,
+  getErrorMessageNotSupportedInReceiveAndDeleteMode
 } from "./util/errors";
 
 /**
@@ -170,9 +171,7 @@ export class Receiver {
   async renewMessageLock(lockTokenOrMessage: string | ServiceBusMessage): Promise<Date> {
     this._throwIfReceiverOrConnectionClosed();
     if (this._receiveMode !== ReceiveMode.peekLock) {
-      throw new Error(
-        "The 'renewMessageLock' operation is only supported in 'PeekLock' receive mode."
-      );
+      throw new Error(getErrorMessageNotSupportedInReceiveAndDeleteMode("renew the message lock"));
     }
     throwTypeErrorIfParameterMissing(
       this._context.namespace.connectionId,

@@ -13,6 +13,7 @@ import { Constants, AmqpMessage } from "@azure/amqp-common";
 import * as log from "./log";
 import { ClientEntityContext } from "./clientEntityContext";
 import { reorderLockToken } from "../src/util/utils";
+import { throwIfMessageCannotBeSettled } from "../src/util/errors";
 
 /**
  * The mode in which messages should be received
@@ -924,7 +925,7 @@ export class ServiceBusMessage implements ReceivedMessage {
     );
     if (this._context.requestResponseLockedMessages.has(this.lockToken!)) {
       await this._context.managementClient!.updateDispositionStatus(
-        [this.lockToken!],
+        this.lockToken!,
         DispositionStatus.completed,
         {
           sessionId: this.sessionId
@@ -936,14 +937,9 @@ export class ServiceBusMessage implements ReceivedMessage {
       return;
     }
     const receiver = this._context.getReceiver(this.delivery.link.name, this.sessionId);
+    throwIfMessageCannotBeSettled(receiver, DispositionType.complete, this.delivery.remote_settled);
 
-    if (receiver.receiveMode !== ReceiveMode.peekLock) {
-      throw new Error("The operation is only supported in 'PeekLock' receive mode.");
-    }
-    if (this.delivery.remote_settled) {
-      throw new Error("This message has been already settled.");
-    }
-    return receiver.settleMessage(this, DispositionType.complete);
+    return receiver!.settleMessage(this, DispositionType.complete);
   }
   /**
    * Abandons a message using it's lock token. This will make the message available again in
@@ -961,7 +957,7 @@ export class ServiceBusMessage implements ReceivedMessage {
     );
     if (this._context.requestResponseLockedMessages.has(this.lockToken!)) {
       await this._context.managementClient!.updateDispositionStatus(
-        [this.lockToken!],
+        this.lockToken!,
         DispositionStatus.abandoned,
         { propertiesToModify: propertiesToModify, sessionId: this.sessionId }
       );
@@ -971,14 +967,9 @@ export class ServiceBusMessage implements ReceivedMessage {
       return;
     }
     const receiver = this._context.getReceiver(this.delivery.link.name, this.sessionId);
+    throwIfMessageCannotBeSettled(receiver, DispositionType.abandon, this.delivery.remote_settled);
 
-    if (receiver.receiveMode !== ReceiveMode.peekLock) {
-      throw new Error("The operation is only supported in 'PeekLock' receive mode.");
-    }
-    if (this.delivery.remote_settled) {
-      throw new Error("This message has been already settled.");
-    }
-    return receiver.settleMessage(this, DispositionType.abandon, {
+    return receiver!.settleMessage(this, DispositionType.abandon, {
       propertiesToModify: propertiesToModify
     });
   }
@@ -1000,7 +991,7 @@ export class ServiceBusMessage implements ReceivedMessage {
     );
     if (this._context.requestResponseLockedMessages.has(this.lockToken!)) {
       await this._context.managementClient!.updateDispositionStatus(
-        [this.lockToken!],
+        this.lockToken!,
         DispositionStatus.defered,
         { propertiesToModify: propertiesToModify, sessionId: this.sessionId }
       );
@@ -1010,14 +1001,9 @@ export class ServiceBusMessage implements ReceivedMessage {
       return;
     }
     const receiver = this._context.getReceiver(this.delivery.link.name, this.sessionId);
+    throwIfMessageCannotBeSettled(receiver, DispositionType.defer, this.delivery.remote_settled);
 
-    if (receiver.receiveMode !== ReceiveMode.peekLock) {
-      throw new Error("The operation is only supported in 'PeekLock' receive mode.");
-    }
-    if (this.delivery.remote_settled) {
-      throw new Error("This message has been already settled.");
-    }
-    return receiver.settleMessage(this, DispositionType.defer, {
+    return receiver!.settleMessage(this, DispositionType.defer, {
       propertiesToModify: propertiesToModify
     });
   }
@@ -1045,7 +1031,7 @@ export class ServiceBusMessage implements ReceivedMessage {
     );
     if (this._context.requestResponseLockedMessages.has(this.lockToken!)) {
       await this._context.managementClient!.updateDispositionStatus(
-        [this.lockToken!],
+        this.lockToken!,
         DispositionStatus.suspended,
         {
           deadLetterReason: error.condition,
@@ -1059,14 +1045,13 @@ export class ServiceBusMessage implements ReceivedMessage {
       return;
     }
     const receiver = this._context.getReceiver(this.delivery.link.name, this.sessionId);
+    throwIfMessageCannotBeSettled(
+      receiver,
+      DispositionType.deadletter,
+      this.delivery.remote_settled
+    );
 
-    if (receiver.receiveMode !== ReceiveMode.peekLock) {
-      throw new Error("The operation is only supported in 'PeekLock' receive mode.");
-    }
-    if (this.delivery.remote_settled) {
-      throw new Error("This message has been already settled.");
-    }
-    return receiver.settleMessage(this, DispositionType.deadletter, {
+    return receiver!.settleMessage(this, DispositionType.deadletter, {
       error: error
     });
   }
