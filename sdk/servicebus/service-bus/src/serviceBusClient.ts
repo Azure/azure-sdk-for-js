@@ -8,6 +8,7 @@ import {
   UserTokenCredentials,
   MSITokenCredentials
 } from "@azure/ms-rest-nodeauth";
+import { WebSocketImpl } from "rhea-promise";
 import { ConnectionContext } from "./connectionContext";
 import { QueueClient } from "./queueClient";
 import { TopicClient } from "./topicClient";
@@ -32,6 +33,16 @@ export interface ServiceBusClientOptions {
    * option needs to be used only for specialized scenarios.
    */
   dataTransformer?: DataTransformer;
+  /**
+   * @property {WebSocketImpl} [webSocket] - The WebSocket constructor used to create an AMQP connection
+   * over a WebSocket. In browsers, the built-in WebSocket will be  used by default. In Node, a
+   * TCP socket will be used if a WebSocket constructor is not provided.
+   */
+  webSocket?: WebSocketImpl;
+  /**
+   * @property {webSocketConstructorOptions} - Options to be passed to the WebSocket constructor
+   */
+  webSocketConstructorOptions?: any;
 }
 
 /**
@@ -166,6 +177,15 @@ export class ServiceBusClient {
     options?: ServiceBusClientOptions
   ): ServiceBusClient {
     const config = ConnectionConfig.create(connectionString);
+
+    if (options && options.webSocket) {
+      config.webSocket = options.webSocket;
+      config.webSocketEndpointPath = "$servicebus/websocket";
+      if (options.webSocketConstructorOptions) {
+        config.webSocketConstructorOptions = options.webSocketConstructorOptions;
+      }
+    }
+
     ConnectionConfig.validate(config);
     const tokenProvider = new SasTokenProvider(
       config.endpoint,
