@@ -1,5 +1,10 @@
-### 2019-4-16 1.0.0-preview.3
-- Added support for proxy.
+### 2019-4-22 1.0.0-preview.3
+- Update the `isNode` utility to return `true` when run in Electron applications. [PR 40](https://github.com/Azure/amqp-common-js/pull/40)
+- Add `webSocketConstructorOptions` as a property in `ConnectionConfig` object, so that the relevant options can be set by the user to enable the use of proxy. [PR 43](https://github.com/Azure/amqp-common-js/pull/43)
+- Change the size limit on the User Agent string from 128 to 512. [PR 42](https://github.com/Azure/amqp-common-js/pull/42)
+- Export new constant `aadServiceBusAudience` to fix [Bug 30](https://github.com/Azure/amqp-common-js/issues/30). [PR 46](https://github.com/Azure/amqp-common-js/pull/46)
+- Export new constant `associatedLinkName` which holds the property name for `assocaited-link-name` which should be set in order to enable Service Bus to do optimizations on it's end. [PR 47](https://github.com/Azure/amqp-common-js/pull/47)
+- Built-in errors like `TypeError` and `RangeError` are no longer converted to `MessageError` in the `translate` call and are no longer treated as retryable errors. [PR 51](https://github.com/Azure/amqp-common-js/pull/51) 
 
 ### 2019-3-22 1.0.0-preview.2
 - Added support for browser and websockets.
