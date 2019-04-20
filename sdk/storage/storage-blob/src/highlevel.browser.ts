@@ -67,14 +67,12 @@ export async function uploadBrowserDataToBlockBlob(
 export async function uploadBrowserDataToBlockBlobUrl(
   browserData: Blob | ArrayBuffer | ArrayBufferView,
   url: string,
-  uploadOptions: IUploadToBlockBlobOptions = {},
-  credential: Credential = new AnonymousCredential(),
-  pipelineOptions: INewPipelineOptions = {}
+  options: IUploadToBlockBlobOptions & { credential?: Credential } & INewPipelineOptions = {},
 ): Promise<BlobUploadCommonResponse> {
 
-  const pipeline = StorageURL.newPipeline(credential, pipelineOptions);
+  const pipeline = StorageURL.newPipeline(options.credential || new AnonymousCredential(), options);
   const blockBlobURL = new BlockBlobURL(url, pipeline);
-  return uploadBrowserDataToBlockBlob(browserData, blockBlobURL, uploadOptions);
+  return uploadBrowserDataToBlockBlob(browserData, blockBlobURL, options);
 }
 
 /**

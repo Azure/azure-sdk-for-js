@@ -73,22 +73,18 @@ export async function uploadFileToBlockBlob(
  * @export
  * @param {string} filePath Full path of local file
  * @param {string} blockBlobURL url to a block blob
- * @param {IUploadToBlockBlobOptions} [uploadOptions] IUploadToBlockBlobOptions
- * @param {credential} [credential]
- * @param {INewPipelineOptions} [pipelineOptions]
+ * @param {IUploadToBlockBlobOptions & \{ credential?: Credential \} & INewPipelineOptions} [options] IUploadToBlockBlobOptions
  * @returns {(Promise<BlobUploadCommonResponse>)} ICommonResponse
  */
 export async function uploadFileToBlockBlobUrl(
   filePath: string,
   url: string,
-  uploadOptions: IUploadToBlockBlobOptions = {},
-  credential: Credential = new AnonymousCredential(),
-  pipelineOptions: INewPipelineOptions = {}
-) {
+  options: IUploadToBlockBlobOptions & { credential?: Credential } & INewPipelineOptions = {},
+): Promise<BlobUploadCommonResponse> {
 
-  const pipeline = StorageURL.newPipeline(credential, pipelineOptions);
+  const pipeline = StorageURL.newPipeline(options.credential || new AnonymousCredential(), options);
   const blockBlobURL = new BlockBlobURL(url, pipeline);
-  return uploadFileToBlockBlob(filePath, blockBlobURL, uploadOptions);
+  return uploadFileToBlockBlob(filePath, blockBlobURL, options);
 }
 
 /**
@@ -316,15 +312,13 @@ export async function downloadBlobToBufferFromUrl(
   url: string,
   offset: number,
   count?: number,
-  downloadOptions: IDownloadFromBlobOptions = {},
-  credential: Credential = new AnonymousCredential(),
-  pipelineOptions: INewPipelineOptions = {}
+  options: IDownloadFromBlobOptions & { credential?: Credential } & INewPipelineOptions = {},
 ): Promise<void> {
 
-  const pipeline = StorageURL.newPipeline(credential, pipelineOptions);
+  const pipeline = StorageURL.newPipeline(options.credential || new AnonymousCredential(), options);
   const blockBlobURL = new BlockBlobURL(url, pipeline);
 
-  return downloadBlobToBuffer(buffer, blockBlobURL, offset, count, downloadOptions);
+  return downloadBlobToBuffer(buffer, blockBlobURL, offset, count, options);
 }
 
 /**
@@ -470,12 +464,10 @@ export async function uploadStreamToBlockBlobUrl(
   url: string,
   bufferSize: number,
   maxBuffers: number,
-  uploadOptions: IUploadStreamToBlockBlobOptions = {},
-  credential: Credential = new AnonymousCredential(),
-  pipelineOptions: INewPipelineOptions = {}
+  options: IUploadStreamToBlockBlobOptions & { credential?: Credential } & INewPipelineOptions = {},
 ): Promise<BlobUploadCommonResponse> {
-  const pipeline = StorageURL.newPipeline(credential, pipelineOptions);
+  const pipeline = StorageURL.newPipeline(options.credential || new AnonymousCredential(), options);
   const blockBlobURL = new BlockBlobURL(url, pipeline);
 
-  return uploadStreamToBlockBlob(stream, blockBlobURL, bufferSize, maxBuffers, uploadOptions);
+  return uploadStreamToBlockBlob(stream, blockBlobURL, bufferSize, maxBuffers, options);
 }

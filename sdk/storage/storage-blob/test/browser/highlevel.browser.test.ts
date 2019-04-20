@@ -115,7 +115,7 @@ describe("Highelvel", () => {
     assert.ok(eventTriggered);
   });
 
-  it.only("uploadBrowserDataToBlockBlob should success when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
+  it("uploadBrowserDataToBlockBlob should success when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
     await uploadBrowserDataToBlockBlob(tempFile2, blockBlobURL, {
       blockSize: 4 * 1024 * 1024,
       parallelism: 2
@@ -128,13 +128,13 @@ describe("Highelvel", () => {
     assert.equal(uploadedString, downloadedString);
   });
 
-  it.only("uploadBrowserDataToBlockBlobUrl should success when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
+  it("uploadBrowserDataToBlockBlobUrl should success when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
     const url = blockBlobURL.url;
     const credential = blockBlobURL.pipeline.factories[blockBlobURL.pipeline.factories.length - 1];
     await uploadBrowserDataToBlockBlobUrl(tempFile2, url, {
       blockSize: 4 * 1024 * 1024,
-      parallelism: 2
-    }, credential, {
+      parallelism: 2,
+      credential: credential
     });
 
     const downloadResponse = await blockBlobURL.download(0);

@@ -121,9 +121,8 @@ describe("Highlevel", () => {
     const credential = blockBlobURL.pipeline.factories[blockBlobURL.pipeline.factories.length - 1];
     await uploadFileToBlockBlobUrl(tempFileSmall, url, {
       blockSize: 4 * 1024 * 1024,
-      parallelism: 20
-    },
-    credential, {
+      parallelism: 20,
+      credential: credential
       // Enable logger when debugging
       // logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO)
     });
@@ -359,8 +358,7 @@ describe("Highlevel", () => {
       url,
       4 * 1024 * 1024,
       20,
-      {},
-      credential
+      { credential: credential},
     );
 
     const buf = Buffer.alloc(tempFileLargeLength);
