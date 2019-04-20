@@ -185,10 +185,14 @@ export class Receiver {
         ? String(lockTokenOrMessage.lockToken)
         : String(lockTokenOrMessage);
 
-    const lockedUntilUtc = await this._context.managementClient!.renewLock(lockToken);
-    if (lockTokenOrMessage instanceof ServiceBusMessage) {
-      lockTokenOrMessage.lockedUntilUtc = lockedUntilUtc;
+    let receiverName;
+    if (this._context.batchingReceiver) {
+      receiverName = BatchingReceiver.name;
+    } else if (this._context.streamingReceiver) {
+      receiverName = this._context.streamingReceiver.name;
     }
+
+    const lockedUntilUtc = await this._context.managementClient!.renewLock(lockToken, receiverName);
 
     return lockedUntilUtc;
   }

@@ -365,10 +365,15 @@ export class ManagementClient extends LinkEntity {
    * LockDuration set on the Entity.
    *
    * @param {string} lockToken Lock token of the message
+   * @param {string} associatedLinkName associated link name on which operation is to be executed, if applicable
    * @param {SendRequestOptions} [options] Options that can be set while sending the request.
    * @returns {Promise<Date>} Promise<Date> New lock token expiry date and time in UTC format.
    */
-  async renewLock(lockToken: string, options?: SendRequestOptions): Promise<Date> {
+  async renewLock(
+    lockToken: string,
+    associatedLinkName?: string,
+    options?: SendRequestOptions
+  ): Promise<Date> {
     throwErrorIfConnectionClosed(this._context.namespace);
     if (!options) options = {};
     if (options.delayInSeconds == undefined) options.delayInSeconds = 1;
@@ -391,6 +396,8 @@ export class ManagementClient extends LinkEntity {
         }
       };
       request.application_properties![Constants.trackingId] = generate_uuid();
+      // TODO: Update to use constant from AMQP common
+      request.application_properties!["associated-link-name"] = associatedLinkName;
       log.mgmt(
         "[%s] Renew message Lock request: %O.",
         this._context.namespace.connectionId,

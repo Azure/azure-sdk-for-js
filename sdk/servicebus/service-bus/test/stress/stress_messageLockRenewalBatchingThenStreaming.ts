@@ -1,7 +1,9 @@
 /*
 Test Scenario summary:
 - Creates a single sender and a single receiver on a queue.
-- Receives a message and holds onto it for the duration of test. AutoLockRenewal is enabled and set to the test duration.
+- Send 2 messages
+- Receive message using batching receiver
+- Receives second message and hold onto it for the duration of test. AutoLockRenewal is enabled and set to the test duration.
 
 The test assumes no other process is working with the queues defined in here,
 but the queues must be empty and use default configurations before running the test.
@@ -30,18 +32,19 @@ const testDurationInMilliseconds = 60000 * 5 * 12 * 24; // 24 hours
 let receivedMessage: ServiceBusMessage;
 
 async function main(): Promise<void> {
-  await sendMessage();
-  await receiveMessage();
+  await sendMessage("message-for-batching");
+  await sendMessage("message-for-streaming");
+  await receiveMessages();
 }
 
-async function sendMessage(): Promise<void> {
+async function sendMessage(messageId: string): Promise<void> {
   const ns = ServiceBusClient.createFromConnectionString(connectionString);
   const client = ns.createQueueClient(queueName);
   try {
     const sender = client.createSender();
 
     const message: SendableMessageInfo = {
-      messageId: "test",
+      messageId: messageId,
       body: "test",
       label: `test`
     };
@@ -53,7 +56,7 @@ async function sendMessage(): Promise<void> {
   }
 }
 
-async function receiveMessage(): Promise<void> {
+async function receiveMessages(): Promise<void> {
   const ns = ServiceBusClient.createFromConnectionString(connectionString);
   const client = ns.createQueueClient(queueName);
 
@@ -96,12 +99,18 @@ async function receiveMessage(): Promise<void> {
       throw err;
     };
 
+    const receivedBatchMessages = await receiver.receiveMessages(1);
+    if (receivedBatchMessages.length !== 1) {
+      throw new Error("Test failed: Could not receive message for batching receiver as intended");
+    }
+    await receivedBatchMessages[0].complete();
+
     receiver.registerMessageHandler(onMessageHandler, onErrorHandler, {
       autoComplete: false,
       maxMessageAutoRenewLockDurationInSeconds: testDurationInMilliseconds / 1000
     });
 
-    await delay(testDurationInMilliseconds + 5000);
+    await delay(testDurationInMilliseconds + 60000);
     await receiver.close();
   } finally {
     await client.close();
