@@ -343,6 +343,7 @@ export class MessageReceiver extends LinkEntity {
         context.delivery!,
         true
       );
+
       if (this.autoRenewLock && bMessage.lockToken) {
         const lockToken = bMessage.lockToken;
         // - We need to renew locks before they expire by looking at bMessage.lockedUntilUtc.
@@ -398,7 +399,8 @@ export class MessageReceiver extends LinkEntity {
                       bMessage.messageId
                     );
                     bMessage.lockedUntilUtc = await this._context.managementClient!.renewLock(
-                      lockToken
+                      lockToken,
+                      this.name
                     );
                     log.receiver(
                       "[%s] Successfully renewed the lock for message with id '%s'.",
@@ -826,6 +828,7 @@ export class MessageReceiver extends LinkEntity {
       this._context.entityPath
     );
     if (this._newMessageReceivedTimer) clearTimeout(this._newMessageReceivedTimer);
+    this._clearAllMessageLockRenewTimers();
     if (this._receiver) {
       const receiverLink = this._receiver;
       this._deleteFromCache();
