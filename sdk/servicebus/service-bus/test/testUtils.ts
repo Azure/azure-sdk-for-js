@@ -70,7 +70,8 @@ export class TestMessage {
   static checkMessageContents(
     sent: SendableMessageInfo,
     received: ServiceBusMessage,
-    useSessions?: boolean
+    useSessions?: boolean,
+    usePartitions?: boolean
   ): void {
     if (sent.userProperties) {
       if (!received.userProperties) {
@@ -116,11 +117,13 @@ export class TestMessage {
         sent.replyToSessionId,
         `Unexpected replyToSessionId in received msg`
       );
-      chai.assert.equal(
-        received.partitionKey,
-        sent.sessionId,
-        `Unexpected partitionKey in received msg`
-      );
+      if (usePartitions) {
+        chai.assert.equal(
+          received.partitionKey,
+          sent.sessionId,
+          `Unexpected partitionKey in received msg`
+        );
+      }
     } else {
       chai.assert.equal(
         received.partitionKey,
