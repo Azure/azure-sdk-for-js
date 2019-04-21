@@ -24,7 +24,7 @@ export class TestMessage {
     return {
       body: `message body ${randomNumber}`,
       messageId: `message id ${randomNumber}`,
-      partitionKey: `partition key ${randomNumber}`,
+      partitionKey: `dummy partition key`,
       contentType: `content type ${randomNumber}`,
       correlationId: `correlation id ${randomNumber}`,
       timeToLive: 60 * 60 * 24,
@@ -90,11 +90,7 @@ export class TestMessage {
 
     chai.assert.equal(received.body, sent.body, `Unexpected body in received msg`);
     chai.assert.equal(received.messageId, sent.messageId, `Unexpected messageId in received msg`);
-    chai.assert.equal(
-      received.partitionKey,
-      sent.partitionKey,
-      `Unexpected partitionKey in received msg`
-    );
+
     chai.assert.equal(
       received.contentType,
       sent.contentType,
@@ -119,6 +115,17 @@ export class TestMessage {
         received.replyToSessionId,
         sent.replyToSessionId,
         `Unexpected replyToSessionId in received msg`
+      );
+      chai.assert.equal(
+        received.partitionKey,
+        sent.sessionId,
+        `Unexpected partitionKey in received msg`
+      );
+    } else {
+      chai.assert.equal(
+        received.partitionKey,
+        sent.partitionKey,
+        `Unexpected partitionKey in received msg`
       );
     }
   }
