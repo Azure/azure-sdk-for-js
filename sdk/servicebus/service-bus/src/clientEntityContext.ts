@@ -219,21 +219,18 @@ export namespace ClientEntityContext {
       }
     };
 
-    const closeManagementClientIfNotInUse = async () => {
-      if (!entityContext.managementClient) {
-        return;
-      }
-      let isManagementClientInUse = false;
+    const isManagementClientSharedWithOtherClients = (): boolean => {
+      let isManagementClientShared = false;
       for (const id of Object.keys(context.clientContexts)) {
-        if (context.clientContexts[id].entityPath === entityContext.entityPath) {
-          isManagementClientInUse = true;
+        if (
+          context.clientContexts[id].entityPath === entityContext.entityPath &&
+          context.clientContexts[id].clientId !== entityContext.clientId
+        ) {
+          isManagementClientShared = true;
           break;
         }
       }
-      if (!isManagementClientInUse) {
-        await entityContext.managementClient.close();
-        entityContext.managementClient = undefined;
-      }
+      return isManagementClientShared;
     };
 
     (entityContext as ClientEntityContext).close = async () => {
@@ -278,7 +275,11 @@ export namespace ClientEntityContext {
       // Delete the reference in ConnectionContext
       delete context.clientContexts[clientId];
 
-      await closeManagementClientIfNotInUse();
+      // Close the managementClient unless it is shared with other clients
+      if (entityContext.managementClient && isManagementClientSharedWithOtherClients()) {
+        await entityContext.managementClient.close();
+        entityContext.managementClient = undefined;
+      }
 
       entityContext.isClosed = true;
 
