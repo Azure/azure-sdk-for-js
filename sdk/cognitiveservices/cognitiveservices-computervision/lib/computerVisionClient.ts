@@ -819,29 +819,25 @@ class ComputerVisionClient extends ComputerVisionClientContext {
    * 'Operation-Location'. The 'Operation-Location' field contains the URL that you must use for your
    * 'Get Read Result operation' to access OCR results.​
    * @param image An image stream.
-   * @param mode Type of text to recognize. Possible values include: 'Handwritten', 'Printed'
    * @param [options] The optional parameters
    * @returns Promise<Models.BatchReadFileInStreamResponse>
    */
-  batchReadFileInStream(image: msRest.HttpRequestBody, mode: Models.TextRecognitionMode, options?: msRest.RequestOptionsBase): Promise<Models.BatchReadFileInStreamResponse>;
+  batchReadFileInStream(image: msRest.HttpRequestBody, options?: msRest.RequestOptionsBase): Promise<Models.BatchReadFileInStreamResponse>;
   /**
    * @param image An image stream.
-   * @param mode Type of text to recognize. Possible values include: 'Handwritten', 'Printed'
    * @param callback The callback
    */
-  batchReadFileInStream(image: msRest.HttpRequestBody, mode: Models.TextRecognitionMode, callback: msRest.ServiceCallback<void>): void;
+  batchReadFileInStream(image: msRest.HttpRequestBody, callback: msRest.ServiceCallback<void>): void;
   /**
    * @param image An image stream.
-   * @param mode Type of text to recognize. Possible values include: 'Handwritten', 'Printed'
    * @param options The optional parameters
    * @param callback The callback
    */
-  batchReadFileInStream(image: msRest.HttpRequestBody, mode: Models.TextRecognitionMode, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  batchReadFileInStream(image: msRest.HttpRequestBody, mode: Models.TextRecognitionMode, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.BatchReadFileInStreamResponse> {
+  batchReadFileInStream(image: msRest.HttpRequestBody, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  batchReadFileInStream(image: msRest.HttpRequestBody, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.BatchReadFileInStreamResponse> {
     return this.sendOperationRequest(
       {
         image,
-        mode,
         options
       },
       batchReadFileInStreamOperationSpec,
@@ -1483,9 +1479,6 @@ const batchReadFileInStreamOperationSpec: msRest.OperationSpec = {
   path: "read/core/asyncBatchAnalyze",
   urlParameters: [
     Parameters.endpoint
-  ],
-  queryParameters: [
-    Parameters.mode
   ],
   requestBody: {
     parameterPath: "image",
