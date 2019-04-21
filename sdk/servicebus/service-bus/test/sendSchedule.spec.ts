@@ -89,9 +89,9 @@ describe("Simple Send", function(): void {
 
     should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
     should.equal(msgs.length, 1, "Unexpected number of messages");
-    should.equal(msgs[0].body, testMessages.body, "MessageBody is different than expected");
-    should.equal(msgs[0].messageId, testMessages.messageId, "MessageId is different than expected");
     should.equal(msgs[0].deliveryCount, 0, "DeliveryCount is different than expected");
+
+    TestMessage.checkMessageContents(testMessages, msgs[0], useSessions);
 
     await msgs[0].complete();
 

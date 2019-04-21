@@ -27,11 +27,12 @@ import {
   ReceivedMessageInfo,
   ServiceBusMessage,
   SendableMessageInfo,
-  DispositionStatus
+  DispositionStatus,
+  toAmqpMessage
 } from "../serviceBusMessage";
 import { LinkEntity } from "./linkEntity";
 import * as log from "../log";
-import { ReceiveMode } from "../serviceBusMessage";
+import { ReceiveMode, fromAmqpMessage } from "../serviceBusMessage";
 import { toBuffer } from "../util/utils";
 import {
   throwErrorIfConnectionClosed,
@@ -333,7 +334,7 @@ export class ManagementClient extends LinkEntity {
         const messages = result.body.messages as { message: Buffer }[];
         for (const msg of messages) {
           const decodedMessage = RheaMessageUtil.decode(msg.message);
-          const message = ReceivedMessageInfo.fromAmqpMessage(decodedMessage as any);
+          const message = fromAmqpMessage(decodedMessage as any);
           message.body = this._context.namespace.dataTransformer.decode(message.body);
           messageList.push(message);
           this._lastPeekedSequenceNumber = message.sequenceNumber!;
@@ -440,7 +441,7 @@ export class ManagementClient extends LinkEntity {
       const item = messages[i];
       if (!item.messageId) item.messageId = generate_uuid();
       item.scheduledEnqueueTimeUtc = scheduledEnqueueTimeUtc;
-      const amqpMessage = SendableMessageInfo.toAmqpMessage(item);
+      const amqpMessage = toAmqpMessage(item);
 
       try {
         const entry: any = {
