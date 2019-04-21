@@ -20,24 +20,26 @@ import { ClientEntityContext } from "./clientEntityContext";
 
 /**
  * Describes the client that allows interacting with a Service Bus Queue.
- * Use the `createQueueClient` function on the Namespace object to instantiate a QueueClient
+ * Use the `createQueueClient` function on the ServiceBusClient object to instantiate a QueueClient
  * @class QueueClient
  */
 export class QueueClient implements Client {
   /**
-   * @property {string} The entitypath for the Service Bus Queue for which this client is created.
+   * @readonly
+   * @property The path for the Service Bus Queue for which this client is created.
    */
   readonly entityPath: string;
   /**
-   * @property {string} A unique identifier for the client.
+   * @readonly
+   * @property A unique identifier for this client.
    */
   readonly id: string;
   /**
-   * @property {boolean} _isClosed Denotes if close() was called on this client.
+   * @property Denotes if close() was called on this client.
    */
   private _isClosed: boolean = false;
   /**
-   * @property {ClientEntityContext} _context Describes the amqp connection context for the QueueClient.
+   * @property Describes the amqp connection context for the QueueClient.
    */
   private _context: ClientEntityContext;
 
@@ -47,7 +49,7 @@ export class QueueClient implements Client {
   /**
    * Constructor for QueueClient.
    * This is not meant for the user to call directly.
-   * The user should use the `createQueueClient` on the Namespace instead.
+   * The user should use the `createQueueClient` on the ServiceBusClient instead.
    *
    * @constructor
    * @internal
@@ -64,8 +66,7 @@ export class QueueClient implements Client {
   /**
    * Closes all the AMQP links for sender/receivers created by this client.
    * Once closed, neither the QueueClient nor its sender/receivers can be used for any
-   * further operations. Use the `createQueueClient` function on the Namespace object to
-   * instantiate a new QueueClient
+   * further operations.
    *
    * @returns {Promise<void>}
    */
@@ -137,9 +138,9 @@ export class QueueClient implements Client {
   }
 
   /**
-   * Creates a Sender to be used for sending messages, scheduling messages to be sent at a later time
+   * Creates a Sender for sending messages, scheduling messages to be sent at a later time
    * and cancelling such scheduled messages.
-   * Throws error if an open sender already exists for this QueueClient.
+   * - Throws error if an open sender already exists for this QueueClient.
    */
   createSender(): Sender {
     throwErrorIfClientOrConnectionClosed(this._context.namespace, this.entityPath, this._isClosed);
@@ -155,12 +156,16 @@ export class QueueClient implements Client {
 
   /**
    * Creates a Receiver for receiving messages from a Queue which does not have sessions enabled.
-   * Throws error if an open receiver already exists for this QueueClient.
-   *
-   * Throws error if the Queue has sessions enabled.
+   * - Throws error if an open receiver already exists for this QueueClient.
+   * - Throws error if the Queue has sessions enabled.
    *
    * @param receiveMode An enum indicating the mode in which messages should be received. Possible
-   * values are `ReceiveMode.peekLock` and `ReceiveMode.receiveAndDelete`
+   * values are:
+   * - `ReceiveMode.peekLock`: Once a message is received in this mode, the reciever has a lock on
+   * the message for a particular duration. If the message is not settled by this time, it lands back
+   * on Service Bus to be fetched by the next receive operation.
+   * - `ReceiveMode.receiveAndDelete`: Messages received in this mode get automatically removed from
+   * Service Bus.
    *
    * @returns Receiver A receiver to receive messages from a Queue which does not have
    * sessions enabled.
@@ -169,12 +174,16 @@ export class QueueClient implements Client {
   /**
    * Creates a Receiver for receiving messages from a session enabled Queue. When no sessionId is
    * given, a random session among the available sessions is used.
-   *
-   * Throws error if an open receiver already exists for given sessionId.
-   * Throws error if the Queue does not have sessions enabled.
+   * - Throws error if an open receiver already exists for given sessionId.
+   * - Throws error if the Queue does not have sessions enabled.
    *
    * @param receiveMode An enum indicating the mode in which messages should be received. Possible
-   * values are `ReceiveMode.peekLock` and `ReceiveMode.receiveAndDelete`
+   * values are:
+   * - `ReceiveMode.peekLock`: Once a message is received in this mode, the reciever has a lock on
+   * the message for a particular duration. If the message is not settled by this time, it lands back
+   * on Service Bus to be fetched by the next receive operation.
+   * - `ReceiveMode.receiveAndDelete`: Messages received in this mode get automatically removed from
+   * Service Bus.
    * @param sessionOptions Options to provide sessionId and duration of automatic lock renewal for
    * the session receiver.
    *
@@ -219,10 +228,9 @@ export class QueueClient implements Client {
 
   /**
    * Fetches the next batch of active messages (including deferred but not deadlettered messages).
-   * The first call to `peek()` fetches the first active message. Each subsequent call fetches the
+   * - The first call to `peek()` fetches the first active message. Each subsequent call fetches the
    * subsequent message.
-   *
-   * Unlike a `received` message, `peeked` message is a read-only version of the message.
+   * - Unlike a `received` message, `peeked` message is a read-only version of the message.
    * It cannot be `Completed/Abandoned/Deferred/Deadlettered`. The lock on it cannot be renewed.
    *
    * @param [maxMessageCount] The maximum number of messages to peek. Default value `1`.
@@ -236,8 +244,7 @@ export class QueueClient implements Client {
   /**
    * Peeks the desired number of active messages (including deferred but not deadlettered messages)
    * from the specified sequence number.
-   *
-   * Unlike a `received` message, `peeked` message is a read-only version of the message.
+   * - Unlike a `received` message, `peeked` message is a read-only version of the message.
    * It cannot be `Completed/Abandoned/Deferred/Deadlettered`. The lock on it cannot be renewed.
    *
    * @param fromSequenceNumber The sequence number from where to read the message.
@@ -277,8 +284,8 @@ export class QueueClient implements Client {
   /**
    * Returns the corresponding dead letter queue name for the queue represented by the given name.
    * Use this in the `createQueueClient` function on the `ServiceBusClient` instance to receive
-   * messages from the dead letter queue.
-   * @param queueName
+   * messages from a dead letter queue.
+   * @param queueName Name of the queue whose dead letter counterpart's name is being fetched
    */
   static getDeadLetterQueuePath(queueName: string): string {
     return `${queueName}/$DeadLetterQueue`;
