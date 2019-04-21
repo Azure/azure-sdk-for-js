@@ -83,15 +83,15 @@ describe("Simple Send", function(): void {
   });
 
   async function testSimpleSend(useSessions?: boolean): Promise<void> {
-    const testMessages = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
-    await senderClient.createSender().send(testMessages);
+    const testMessage = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
+    await senderClient.createSender().send(testMessage);
     const msgs = await receiver.receiveMessages(1);
 
     should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
     should.equal(msgs.length, 1, "Unexpected number of messages");
     should.equal(msgs[0].deliveryCount, 0, "DeliveryCount is different than expected");
 
-    TestMessage.checkMessageContents(testMessages, msgs[0], useSessions);
+    TestMessage.checkMessageContents(testMessage, msgs[0], useSessions);
 
     await msgs[0].complete();
 
