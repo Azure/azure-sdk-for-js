@@ -89,21 +89,9 @@ export class SubscriptionClient implements Client {
    */
   async close(): Promise<void> {
     try {
-      if (this._context.namespace.connection && this._context.namespace.connection.isOpen()) {
-        log.subscriptionClient("Closing the subscription client '%s'.", this.id);
-
-        // Close the abstraction the receiver which the user has access to.
-        if (this._currentReceiver) {
-          await this._currentReceiver.close();
-        }
-
-        await this._context.close();
-
-        // Mark this client as closed, so that we can show appropriate errors for subsequent usage
-        this._context.isClosed = true;
-
-        log.subscriptionClient("Closed the subscription client '%s'.", this.id);
-      }
+      // Close the corresponding client context which will take care of closing all AMQP links
+      // associated with this client
+      await this._context.close();
     } catch (err) {
       log.error(
         "[%s] An error occurred while closing the SubscriptionClient for %s: %O",

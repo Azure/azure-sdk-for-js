@@ -72,24 +72,9 @@ export class QueueClient implements Client {
    */
   async close(): Promise<void> {
     try {
-      if (this._context.namespace.connection && this._context.namespace.connection.isOpen()) {
-        log.qClient("Closing the Queue client '%s'.", this.id);
-
-        // Close the abstraction the sender which the user has access to.
-        if (this._currentSender) {
-          await this._currentSender.close();
-        }
-
-        // Close the abstraction the reciever which the user has access to.
-        if (this._currentReceiver) {
-          await this._currentReceiver.close();
-        }
-
-        // Close the corresponding client context
-        await this._context.close();
-
-        log.qClient("Closed the Queue client '%s'.", this.id);
-      }
+      // Close the corresponding client context which will take care of closing all AMQP links
+      // associated with this client
+      await this._context.close();
     } catch (err) {
       log.error(
         "[%s] An error occurred while closing the QueueClient for %s: %O",

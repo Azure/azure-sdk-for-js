@@ -123,6 +123,12 @@ export namespace ClientEntityContext {
     clientId: string,
     options?: ClientEntityContextOptions
   ): ClientEntityContext {
+    log.entityCtxt(
+      "[%s] Creating client entity context for %s: %O",
+      context.connectionId,
+      clientId
+    );
+
     if (!options) options = {};
     const entityContext: ClientEntityContextBase = {
       namespace: context,
@@ -213,7 +219,7 @@ export namespace ClientEntityContext {
       }
     };
 
-    const closeManagementClientIfNotInUse = async (clientId: string) => {
+    const closeManagementClientIfNotInUse = async () => {
       if (!entityContext.managementClient) {
         return;
       }
@@ -231,6 +237,16 @@ export namespace ClientEntityContext {
     };
 
     (entityContext as ClientEntityContext).close = async () => {
+      if (!context.connection || !context.connection.isOpen()) {
+        return;
+      }
+
+      log.entityCtxt(
+        "[%s] Closing client entity context for %s: %O",
+        context.connectionId,
+        clientId
+      );
+
       // Close sender
       if (entityContext.sender) {
         await entityContext.sender.close();
@@ -262,9 +278,15 @@ export namespace ClientEntityContext {
       // Delete the reference in ConnectionContext
       delete context.clientContexts[clientId];
 
-      await closeManagementClientIfNotInUse(entityContext.clientId);
+      await closeManagementClientIfNotInUse();
 
       entityContext.isClosed = true;
+
+      log.entityCtxt(
+        "[%s] Closed client entity context for %s: %O",
+        context.connectionId,
+        clientId
+      );
     };
 
     let managementClient = getManagementClient(context.clientContexts, entityPath);
@@ -276,10 +298,12 @@ export namespace ClientEntityContext {
       managementClient = new ManagementClient(entityContext as ClientEntityContext, mOptions);
     }
     entityContext.managementClient = managementClient;
-    log.entityCtxt("Created client entity context: %O", entityContext);
 
     const clientEntityContext = entityContext as ClientEntityContext;
     context.clientContexts[entityContext.clientId] = clientEntityContext;
+
+    log.entityCtxt("[%s] Created client entity context for %s: %O", context.connectionId, clientId);
+
     return clientEntityContext;
   }
 }
