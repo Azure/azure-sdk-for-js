@@ -75,12 +75,12 @@ export class QueueClient implements Client {
       if (this._context.namespace.connection && this._context.namespace.connection.isOpen()) {
         log.qClient("Closing the Queue client '%s'.", this.id);
 
-        // Close the sender.
+        // Close the abstraction the sender which the user has access to.
         if (this._currentSender) {
           await this._currentSender.close();
         }
 
-        // Close the streaming and batching receivers.
+        // Close the abstraction the reciever which the user has access to.
         if (this._currentReceiver) {
           await this._currentReceiver.close();
         }

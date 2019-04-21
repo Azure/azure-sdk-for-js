@@ -69,7 +69,7 @@ export class TopicClient implements Client {
       if (this._context.namespace.connection && this._context.namespace.connection.isOpen()) {
         log.topicClient("Closing the topic client '%s'.", this.id);
 
-        // Close the sender.
+        // Close the abstraction the sender which the user has access to.
         if (this._currentSender) {
           await this._currentSender.close();
         }

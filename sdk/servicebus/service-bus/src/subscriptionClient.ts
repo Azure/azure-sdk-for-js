@@ -92,7 +92,7 @@ export class SubscriptionClient implements Client {
       if (this._context.namespace.connection && this._context.namespace.connection.isOpen()) {
         log.subscriptionClient("Closing the subscription client '%s'.", this.id);
 
-        // Close the streaming and batching receivers.
+        // Close the abstraction the receiver which the user has access to.
         if (this._currentReceiver) {
           await this._currentReceiver.close();
         }

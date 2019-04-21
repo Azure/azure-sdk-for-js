@@ -284,7 +284,7 @@ export namespace ClientEntityContext {
   }
 }
 
-// Multiple Queue clients for the same queue should be using the same management client.
+// Multiple clients for the same Service Bus entity should be using the same management client.
 function getManagementClient(
   clients: Dictionary<ClientEntityContext>,
   entityPath: string
