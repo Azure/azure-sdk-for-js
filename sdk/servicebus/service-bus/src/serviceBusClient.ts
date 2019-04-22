@@ -178,13 +178,9 @@ export class ServiceBusClient {
   ): ServiceBusClient {
     const config = ConnectionConfig.create(connectionString);
 
-    if (options && options.webSocket) {
-      config.webSocket = options.webSocket;
-      config.webSocketEndpointPath = "$servicebus/websocket";
-      if (options.webSocketConstructorOptions) {
-        config.webSocketConstructorOptions = options.webSocketConstructorOptions;
-      }
-    }
+    config.webSocket = options && options.webSocket;
+    config.webSocketEndpointPath = "$servicebus/websocket";
+    config.webSocketConstructorOptions = options && options.webSocketConstructorOptions;
 
     ConnectionConfig.validate(config);
     const tokenProvider = new SasTokenProvider(
@@ -219,6 +215,11 @@ export class ServiceBusClient {
       `Endpoint=sb://${host};SharedAccessKeyName=defaultKeyName;` +
       `SharedAccessKey=defaultKeyValue`;
     const config = ConnectionConfig.create(connectionString);
+
+    config.webSocket = options && options.webSocket;
+    config.webSocketEndpointPath = "$servicebus/websocket";
+    config.webSocketConstructorOptions = options && options.webSocketConstructorOptions;
+
     ConnectionConfig.validate(config);
     return new ServiceBusClient(config, tokenProvider, options);
   }
