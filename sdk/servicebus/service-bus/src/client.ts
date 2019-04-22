@@ -6,15 +6,17 @@
  */
 export interface Client {
   /**
-   * @property {string} The entitypath for the Service Bus entity for which this client is created.
+   * @readonly
+   * @property The path for the Service Bus entity for which this client is created.
    */
   readonly entityPath: string;
   /**
-   * @property {string} A unique identifier for the client.
+   * @readonly
+   * @property A unique identifier for this client.
    */
   readonly id: string;
   /**
-   * Closes the client.
+   * Closes the client along with all senders and receivers created using the client.
    */
   close(): Promise<void>;
 }

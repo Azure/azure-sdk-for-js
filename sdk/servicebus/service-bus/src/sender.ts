@@ -23,17 +23,16 @@ import {
  */
 export class Sender {
   /**
-   * @property {ClientEntityContext} _context Describes the amqp connection context for the Client.
+   * @property Describes the amqp connection context for the Client.
    */
   private _context: ClientEntityContext;
   /**
-   * @property {boolean} [_isClosed] Denotes if close() was called on this sender
+   * @property Denotes if close() was called on this sender
    */
   private _isClosed: boolean = false;
 
   /**
-   * @property {boolean} [isClosed] Returns `true` if either the sender or the client that created
-   * it has been closed
+   * @property Returns `true` if either the sender or the client that created it has been closed
    * @readonly
    */
   public get isClosed(): boolean {
@@ -66,8 +65,9 @@ export class Sender {
    * Sends the given messages in a single batch i.e. in a single AMQP message after creating an AMQP
    * Sender link if it doesnt already exists.
    *
-   * To send messages to a `session` and/or `partition` enabled Queue/Topic, set the `sessionId`
-   * and/or `partitionKey` properties respectively on the messages. When doing so, all
+   * - To send messages to a `session` and/or `partition` enabled Queue/Topic, set the `sessionId`
+   * and/or `partitionKey` properties respectively on the messages.
+   * - When doing so, all
    * messages in the batch should have the same `sessionId` (if using sessions) and the same
    * `parititionKey` (if using paritions).
    *
@@ -159,8 +159,8 @@ export class Sender {
   }
 
   /**
-   * Cancels an array of messages that were scheduled to appear on a ServiceBus Queue/Subscription.
-   * @param sequenceNumbers - An Array of sequence numbers of the message to be cancelled.
+   * Cancels multiple messages that were scheduled to appear on a ServiceBus Queue/Subscription.
+   * @param sequenceNumbers - An Array of sequence numbers of the messages to be cancelled.
    * @returns Promise<void>
    */
   async cancelScheduledMessages(sequenceNumbers: Long[]): Promise<void> {

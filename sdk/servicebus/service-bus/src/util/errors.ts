@@ -288,7 +288,7 @@ export function throwIfMessageCannotBeSettled(
   const error = new Error(errorMessage);
   if (receiver) {
     log.error(
-      "An error occured when settling a message using the reciever %s: %O",
+      "An error occured when settling a message using the receiver %s: %O",
       receiver.name,
       error
     );
