@@ -1,4 +1,3 @@
-import { Aborter } from "../src/Aborter";
 import { BlockBlobURL } from "../src/BlockBlobURL";
 import { ContainerURL } from "../src/ContainerURL";
 import { getBSU, getUniqueName } from "./utils/index";

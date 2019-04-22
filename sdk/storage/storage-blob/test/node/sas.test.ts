@@ -1,7 +1,6 @@
 import * as assert from "assert";
 
 import {
-  Aborter,
   AccountSASPermissions,
   AccountSASResourceTypes,
   AccountSASServices,
