@@ -169,6 +169,11 @@ export function browserConfig(test = false, production = false) {
           preamble: banner
         }
       })
+      // Comment visualizer because it only works on Node.js 8+; Uncomment it to get bundle analysis report
+      // visualizer({
+      //   filename: "./statistics.html",
+      //   sourcemap: true
+      // })
     );
   }
 
