@@ -1,5 +1,6 @@
 import { HttpResponse, TransferProgressEvent } from "@azure/ms-rest-js";
 
+import { Aborter } from "./Aborter";
 import * as Models from "./generated/lib/models";
 import { IBlobAccessConditions } from "./models";
 
@@ -10,6 +11,16 @@ import { IBlobAccessConditions } from "./models";
  * @interface IUploadToBlockBlobOptions
  */
 export interface IUploadToBlockBlobOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof IUploadToBlockBlobOptions
+   */
+  abortSignal?: Aborter;
+
   /**
    * Destination block blob size in bytes.
    *
@@ -91,6 +102,16 @@ export type BlobUploadCommonResponse = Models.BlockBlobUploadHeaders & {
  * @interface IDownloadFromBlobOptions
  */
 export interface IDownloadFromBlobOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof IUploadToBlockBlobOptions
+   */
+  abortSignal?: Aborter;
+
   /**
    * blockSize is the data every request trying to download.
    * Must be >= 0, if set to 0 or undefined, blockSize will automatically calculated according

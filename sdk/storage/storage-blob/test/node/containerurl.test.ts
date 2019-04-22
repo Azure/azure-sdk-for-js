@@ -1,6 +1,5 @@
 import * as assert from "assert";
 
-import { Aborter } from "../../src/Aborter";
 import { ContainerURL } from "../../src/ContainerURL";
 import { getBSU, getUniqueName } from "../utils";
 import { PublicAccessType } from "../../src/generated/lib/models/index";
@@ -13,15 +12,15 @@ describe("ContainerURL", () => {
   beforeEach(async () => {
     containerName = getUniqueName("container");
     containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
-    await containerURL.create(Aborter.none);
+    await containerURL.create();
   });
 
   afterEach(async () => {
-    await containerURL.delete(Aborter.none);
+    await containerURL.delete();
   });
 
   it("getAccessPolicy", async () => {
-    const result = await containerURL.getAccessPolicy(Aborter.none);
+    const result = await containerURL.getAccessPolicy();
     assert.ok(result.eTag!.length > 0);
     assert.ok(result.lastModified);
     assert.ok(result.requestId);
@@ -42,8 +41,8 @@ describe("ContainerURL", () => {
       }
     ];
 
-    await containerURL.setAccessPolicy(Aborter.none, access, containerAcl);
-    const result = await containerURL.getAccessPolicy(Aborter.none);
+    await containerURL.setAccessPolicy(access, containerAcl);
+    const result = await containerURL.getAccessPolicy();
     assert.deepEqual(result.signedIdentifiers, containerAcl);
     assert.deepEqual(result.blobPublicAccess, access);
   });

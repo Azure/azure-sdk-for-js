@@ -23,12 +23,12 @@ describe("Aborter", () => {
   });
 
   it("Should not abort after calling abort()", async () => {
-    await containerURL.create(Aborter.none);
+    await containerURL.create({abortSignal: Aborter.none});
   });
 
   it("Should abort when calling abort() before request finishes", async () => {
     const aborter = Aborter.none;
-    const response = containerURL.create(aborter);
+    const response = containerURL.create({abortSignal: aborter});
     aborter.abort();
     try {
       await response;
@@ -38,13 +38,13 @@ describe("Aborter", () => {
 
   it("Should not abort when calling abort() after request finishes", async () => {
     const aborter = Aborter.none;
-    await containerURL.create(aborter);
+    await containerURL.create({abortSignal: aborter});
     aborter.abort();
   });
 
   it("Should abort after aborter timeout", async () => {
     try {
-      await containerURL.create(Aborter.timeout(1));
+      await containerURL.create({abortSignal: Aborter.timeout(1)});
       assert.fail();
     } catch (err) {}
   });
@@ -52,7 +52,7 @@ describe("Aborter", () => {
   it("Should abort after father aborter calls abort()", async () => {
     try {
       const aborter = Aborter.none;
-      const response = containerURL.create(aborter.withTimeout(10 * 60 * 1000));
+      const response = containerURL.create({abortSignal: aborter.withTimeout(10 * 60 * 1000)});
       aborter.abort();
       await response;
       assert.fail();
@@ -62,7 +62,7 @@ describe("Aborter", () => {
   it("Should abort after father aborter timeout", async () => {
     try {
       const aborter = Aborter.timeout(1);
-      const response = containerURL.create(aborter.withTimeout(10 * 60 * 1000));
+      const response = containerURL.create({abortSignal: aborter.withTimeout(10 * 60 * 1000)});
       await response;
       assert.fail();
     } catch (err) {}

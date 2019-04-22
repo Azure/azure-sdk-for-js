@@ -2,7 +2,6 @@ import { URLBuilder } from "@azure/ms-rest-js";
 import * as assert from "assert";
 
 import { RestError, StorageURL } from "../src";
-import { Aborter } from "../src/Aborter";
 import { ContainerURL } from "../src/ContainerURL";
 import { Pipeline } from "../src/Pipeline";
 import { getBSU, getUniqueName } from "./utils";
@@ -18,11 +17,11 @@ describe("RetryPolicy", () => {
   beforeEach(async () => {
     containerName = getUniqueName("container");
     containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
-    await containerURL.create(Aborter.none);
+    await containerURL.create();
   });
 
   afterEach(async () => {
-    await containerURL.delete(Aborter.none);
+    await containerURL.delete();
   });
 
   it("Retry Policy should work when first request fails with 500", async () => {
@@ -43,9 +42,9 @@ describe("RetryPolicy", () => {
       keya: "vala",
       keyb: "valb"
     };
-    await injectContainerURL.setMetadata(Aborter.none, metadata);
+    await injectContainerURL.setMetadata(metadata);
 
-    const result = await containerURL.getProperties(Aborter.none);
+    const result = await containerURL.getProperties();
     assert.deepEqual(result.metadata, metadata);
   });
 
@@ -69,7 +68,7 @@ describe("RetryPolicy", () => {
         keya: "vala",
         keyb: "valb"
       };
-      await injectContainerURL.setMetadata(Aborter.none, metadata);
+      await injectContainerURL.setMetadata(metadata);
     } catch (err) {
       hasError = true;
     }
@@ -103,7 +102,7 @@ describe("RetryPolicy", () => {
 
     let finalRequestURL = "";
     try {
-      const response = await injectContainerURL.getProperties(Aborter.none);
+      const response = await injectContainerURL.getProperties();
       finalRequestURL = response._response.request.url;
     } catch (err) {
       finalRequestURL = err.request ? err.request.url : "";
