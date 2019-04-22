@@ -15,12 +15,14 @@ import { URLConstants } from "./utils/constants";
 import { appendToURLPath, setURLParameter } from "./utils/utils.common";
 
 export interface IAppendBlobCreateOptions {
+  abortSignal?: Aborter;
   accessConditions?: IBlobAccessConditions;
   blobHTTPHeaders?: Models.BlobHTTPHeaders;
   metadata?: IMetadata;
 }
 
 export interface IAppendBlobAppendBlockOptions {
+  abortSignal?: Aborter;
   accessConditions?: IAppendBlobAccessConditions;
   progress?: (progress: TransferProgressEvent) => void;
   transactionalContentMD5?: Uint8Array;
@@ -133,16 +135,14 @@ export class AppendBlobURL extends BlobURL {
    * Creates a 0-length append blob. Call AppendBlock to append data to an append blob.
    * @see https://docs.microsoft.com/rest/api/storageservices/put-blob
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
    * @param {IAppendBlobCreateOptions} [options]
    * @returns {Promise<Models.AppendBlobsCreateResponse>}
    * @memberof AppendBlobURL
    */
   public async create(
-    aborter: Aborter,
     options: IAppendBlobCreateOptions = {}
   ): Promise<Models.AppendBlobCreateResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     options.accessConditions = options.accessConditions || {};
     return this.appendBlobContext.create(0, {
       abortSignal: aborter,
@@ -158,8 +158,6 @@ export class AppendBlobURL extends BlobURL {
    * Commits a new block of data to the end of the existing append blob.
    * @see https://docs.microsoft.com/rest/api/storageservices/append-block
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
    * @param {HttpRequestBody} body
    * @param {number} contentLength
    * @param {IAppendBlobAppendBlockOptions} [options]
@@ -167,11 +165,11 @@ export class AppendBlobURL extends BlobURL {
    * @memberof AppendBlobURL
    */
   public async appendBlock(
-    aborter: Aborter,
     body: HttpRequestBody,
     contentLength: number,
     options: IAppendBlobAppendBlockOptions = {}
   ): Promise<Models.AppendBlobAppendBlockResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     options.accessConditions = options.accessConditions || {};
     return this.appendBlobContext.appendBlock(body, contentLength, {
       abortSignal: aborter,

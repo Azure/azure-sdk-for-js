@@ -16,6 +16,7 @@ import {
 import { appendToURLPath, setURLParameter } from "./utils/utils.common";
 
 export interface IBlobDownloadOptions {
+  abortSignal?: Aborter;
   snapshot?: string;
   rangeGetContentMD5?: boolean;
   blobAccessConditions?: IBlobAccessConditions;
@@ -40,58 +41,71 @@ export interface IBlobDownloadOptions {
 }
 
 export interface IBlobGetPropertiesOptions {
+  abortSignal?: Aborter;
   blobAccessConditions?: IBlobAccessConditions;
 }
 
 export interface IBlobDeleteOptions {
+  abortSignal?: Aborter;
   blobAccessConditions?: IBlobAccessConditions;
   deleteSnapshots?: Models.DeleteSnapshotsOptionType;
 }
 
 export interface IBlobSetHTTPHeadersOptions {
+  abortSignal?: Aborter;
   blobAccessConditions?: IBlobAccessConditions;
 }
 
 export interface IBlobSetMetadataOptions {
+  abortSignal?: Aborter;
   blobAccessConditions?: IBlobAccessConditions;
 }
 
 export interface IBlobAcquireLeaseOptions {
+  abortSignal?: Aborter;
   modifiedAccessConditions?: Models.ModifiedAccessConditions;
 }
 
 export interface IBlobReleaseLeaseOptions {
+  abortSignal?: Aborter;
   modifiedAccessConditions?: Models.ModifiedAccessConditions;
 }
 
 export interface IBlobRenewLeaseOptions {
+  abortSignal?: Aborter;
   modifiedAccessConditions?: Models.ModifiedAccessConditions;
 }
 
 export interface IBlobChangeLeaseOptions {
+  abortSignal?: Aborter;
   modifiedAccessConditions?: Models.ModifiedAccessConditions;
 }
 
 export interface IBlobBreakLeaseOptions {
+  abortSignal?: Aborter;
   modifiedAccessConditions?: Models.ModifiedAccessConditions;
 }
 
 export interface IBlobCreateSnapshotOptions {
+  abortSignal?: Aborter;
   metadata?: IMetadata;
   blobAccessConditions?: IBlobAccessConditions;
 }
 
 export interface IBlobStartCopyFromURLOptions {
+  abortSignal?: Aborter;
   metadata?: IMetadata;
   blobAccessConditions?: IBlobAccessConditions;
   sourceModifiedAccessConditions?: Models.ModifiedAccessConditions;
 }
 
 export interface IBlobAbortCopyFromURLOptions {
+  abortSignal?: Aborter;
   leaseAccessConditions?: Models.LeaseAccessConditions;
 }
 
 export interface IBlobSetTierOptions {
+  abortSignal?: Aborter;
   leaseAccessConditions?: Models.LeaseAccessConditions;
 }
 
@@ -192,8 +206,6 @@ export class BlobURL extends StorageURL {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-blob
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
    * @param {number} offset From which position of the blob to download, >= 0
    * @param {number} [count] How much data to be downloaded, > 0. Will download to the end when undefined
    * @param {IBlobDownloadOptions} [options]
@@ -201,11 +213,11 @@ export class BlobURL extends StorageURL {
    * @memberof BlobURL
    */
   public async download(
-    aborter: Aborter,
     offset: number,
     count?: number,
     options: IBlobDownloadOptions = {}
   ): Promise<Models.BlobDownloadResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     options.blobAccessConditions = options.blobAccessConditions || {};
     options.blobAccessConditions.modifiedAccessConditions =
       options.blobAccessConditions.modifiedAccessConditions || {};
@@ -253,7 +265,6 @@ export class BlobURL extends StorageURL {
     }
 
     return new BlobDownloadResponse(
-      aborter,
       res,
       async (start: number): Promise<NodeJS.ReadableStream> => {
         const updatedOptions: Models.BlobDownloadOptionalParams = {
@@ -292,6 +303,7 @@ export class BlobURL extends StorageURL {
       offset,
       res.contentLength!,
       {
+        abortSignal: aborter,
         maxRetryRequests: options.maxRetryRequests,
         progress: options.progress
       }
@@ -303,16 +315,14 @@ export class BlobURL extends StorageURL {
    * for the blob. It does not return the content of the blob.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-blob-properties
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
    * @param {IBlobGetPropertiesOptions} [options]
    * @returns {Promise<Models.BlobGetPropertiesResponse>}
    * @memberof BlobURL
    */
   public async getProperties(
-    aborter: Aborter,
     options: IBlobGetPropertiesOptions = {}
   ): Promise<Models.BlobGetPropertiesResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     options.blobAccessConditions = options.blobAccessConditions || {};
     return this.blobContext.getProperties({
       abortSignal: aborter,
@@ -329,16 +339,14 @@ export class BlobURL extends StorageURL {
    * Blob operation.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-blob
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
    * @param {IBlobDeleteOptions} [options]
    * @returns {Promise<Models.BlobDeleteResponse>}
    * @memberof BlobURL
    */
   public async delete(
-    aborter: Aborter,
     options: IBlobDeleteOptions = {}
   ): Promise<Models.BlobDeleteResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     options.blobAccessConditions = options.blobAccessConditions || {};
     return this.blobContext.deleteMethod({
       abortSignal: aborter,
@@ -355,16 +363,14 @@ export class BlobURL extends StorageURL {
    * or later.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/undelete-blob
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
    * @returns {Promise<Models.BlobUndeleteResponse>}
    * @memberof BlobURL
    */
   public async undelete(
-    aborter: Aborter
+    aborter?: Aborter
   ): Promise<Models.BlobUndeleteResponse> {
     return this.blobContext.undelete({
-      abortSignal: aborter
+      abortSignal: aborter || Aborter.none
     });
   }
 
@@ -375,8 +381,6 @@ export class BlobURL extends StorageURL {
    * these blob HTTP headers without a value will be cleared.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-blob-properties
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
    * @param {Models.BlobHTTPHeaders} [blobHTTPHeaders] If no value provided, or no value provided for
    *                                                   the specificed blob HTTP headers, these blob HTTP
    *                                                   headers without a value will be cleared.
@@ -385,10 +389,10 @@ export class BlobURL extends StorageURL {
    * @memberof BlobURL
    */
   public async setHTTPHeaders(
-    aborter: Aborter,
     blobHTTPHeaders?: Models.BlobHTTPHeaders,
     options: IBlobSetHTTPHeadersOptions = {}
   ): Promise<Models.BlobSetHTTPHeadersResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     options.blobAccessConditions = options.blobAccessConditions || {};
     return this.blobContext.setHTTPHeaders({
       abortSignal: aborter,
@@ -406,8 +410,6 @@ export class BlobURL extends StorageURL {
    * metadata will be removed.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-blob-metadata
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
    * @param {IMetadata} [metadata] Replace existing metadata with this value.
    *                               If no value provided the existing metadata will be removed.
    * @param {IBlobSetMetadataOptions} [options]
@@ -415,10 +417,10 @@ export class BlobURL extends StorageURL {
    * @memberof BlobURL
    */
   public async setMetadata(
-    aborter: Aborter,
     metadata?: IMetadata,
     options: IBlobSetMetadataOptions = {}
   ): Promise<Models.BlobSetMetadataResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     options.blobAccessConditions = options.blobAccessConditions || {};
     return this.blobContext.setMetadata({
       abortSignal: aborter,
@@ -435,8 +437,6 @@ export class BlobURL extends StorageURL {
    * In versions prior to 2012-02-12, the lock duration is 60 seconds.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/lease-blob
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
    * @param {string} proposedLeaseId Can be specified in any valid GUID string format
    * @param {number} duration The lock duration can be 15 to 60 seconds, or can be infinite
    * @param {IBlobAcquireLeaseOptions} [options]
@@ -444,11 +444,11 @@ export class BlobURL extends StorageURL {
    * @memberof BlobURL
    */
   public async acquireLease(
-    aborter: Aborter,
     proposedLeaseId: string,
     duration: number,
     options: IBlobAcquireLeaseOptions = {}
   ): Promise<Models.BlobAcquireLeaseResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     return this.blobContext.acquireLease({
       abortSignal: aborter,
       duration,
@@ -462,18 +462,16 @@ export class BlobURL extends StorageURL {
    * acquire a lease against the blob.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/lease-blob
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
    * @param {string} leaseId
    * @param {IBlobReleaseLeaseOptions} [options]
    * @returns {Promise<Models.BlobReleaseLeaseResponse>}
    * @memberof BlobURL
    */
   public async releaseLease(
-    aborter: Aborter,
     leaseId: string,
     options: IBlobReleaseLeaseOptions = {}
   ): Promise<Models.BlobReleaseLeaseResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     return this.blobContext.releaseLease(leaseId, {
       abortSignal: aborter,
       modifiedAccessConditions: options.modifiedAccessConditions
@@ -484,18 +482,16 @@ export class BlobURL extends StorageURL {
    * To renew an existing lease.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/lease-blob
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
    * @param {string} leaseId
    * @param {IBlobRenewLeaseOptions} [options]
    * @returns {Promise<Models.BlobRenewLeaseResponse>}
    * @memberof BlobURL
    */
   public async renewLease(
-    aborter: Aborter,
     leaseId: string,
     options: IBlobRenewLeaseOptions = {}
   ): Promise<Models.BlobRenewLeaseResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     return this.blobContext.renewLease(leaseId, {
       abortSignal: aborter,
       modifiedAccessConditions: options.modifiedAccessConditions
@@ -506,8 +502,6 @@ export class BlobURL extends StorageURL {
    * To change the ID of an existing lease.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/lease-blob
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
    * @param {string} leaseId
    * @param {string} proposedLeaseId
    * @param {IBlobChangeLeaseOptions} [options]
@@ -515,11 +509,11 @@ export class BlobURL extends StorageURL {
    * @memberof BlobURL
    */
   public async changeLease(
-    aborter: Aborter,
     leaseId: string,
     proposedLeaseId: string,
     options: IBlobChangeLeaseOptions = {}
   ): Promise<Models.BlobChangeLeaseResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     return this.blobContext.changeLease(leaseId, proposedLeaseId, {
       abortSignal: aborter,
       modifiedAccessConditions: options.modifiedAccessConditions
@@ -531,18 +525,16 @@ export class BlobURL extends StorageURL {
    * until the current lease period has expired.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/lease-blob
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
    * @param {number} [breakPeriod]
    * @param {IBlobBreakLeaseOptions} [options]
    * @returns {Promise<Models.BlobBreakLeaseResponse>}
    * @memberof BlobURL
    */
   public async breakLease(
-    aborter: Aborter,
     breakPeriod?: number,
     options: IBlobBreakLeaseOptions = {}
   ): Promise<Models.BlobBreakLeaseResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     return this.blobContext.breakLease({
       abortSignal: aborter,
       breakPeriod,
@@ -554,16 +546,14 @@ export class BlobURL extends StorageURL {
    * Creates a read-only snapshot of a blob.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/snapshot-blob
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
    * @param {IBlobCreateSnapshotOptions} [options]
    * @returns {Promise<Models.BlobCreateSnapshotResponse>}
    * @memberof BlobURL
    */
   public async createSnapshot(
-    aborter: Aborter,
     options: IBlobCreateSnapshotOptions = {}
   ): Promise<Models.BlobCreateSnapshotResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     options.blobAccessConditions = options.blobAccessConditions || {};
     return this.blobContext.createSnapshot({
       abortSignal: aborter,
@@ -584,18 +574,16 @@ export class BlobURL extends StorageURL {
    * operation to copy from another storage account.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/copy-blob
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
    * @param {string} copySource
    * @param {IBlobStartCopyFromURLOptions} [options]
    * @returns {Promise<Models.BlobStartCopyFromURLResponse>}
    * @memberof BlobURL
    */
   public async startCopyFromURL(
-    aborter: Aborter,
     copySource: string,
     options: IBlobStartCopyFromURLOptions = {}
   ): Promise<Models.BlobStartCopyFromURLResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     options.blobAccessConditions = options.blobAccessConditions || {};
     options.sourceModifiedAccessConditions =
       options.sourceModifiedAccessConditions || {};
@@ -622,18 +610,16 @@ export class BlobURL extends StorageURL {
    * length and full metadata. Version 2012-02-12 and newer.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/abort-copy-blob
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
    * @param {string} copyId
    * @param {IBlobAbortCopyFromURLOptions} [options]
    * @returns {Promise<Models.BlobAbortCopyFromURLResponse>}
    * @memberof BlobURL
    */
   public async abortCopyFromURL(
-    aborter: Aborter,
     copyId: string,
     options: IBlobAbortCopyFromURLOptions = {}
   ): Promise<Models.BlobAbortCopyFromURLResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     return this.blobContext.abortCopyFromURL(copyId, {
       abortSignal: aborter,
       leaseAccessConditions: options.leaseAccessConditions
@@ -648,18 +634,16 @@ export class BlobURL extends StorageURL {
    * storage type. This operation does not update the blob's ETag.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-blob-tier
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
    * @param {Models.AccessTier} tier
    * @param {IBlobSetTierOptions} [options]
    * @returns {Promise<Models.BlobsSetTierResponse>}
    * @memberof BlobURL
    */
   public async setTier(
-    aborter: Aborter,
     tier: Models.AccessTier,
     options: IBlobSetTierOptions = {}
   ): Promise<Models.BlobSetTierResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     return await this.blobContext.setTier(tier, {
       abortSignal: aborter,
       leaseAccessConditions: options.leaseAccessConditions

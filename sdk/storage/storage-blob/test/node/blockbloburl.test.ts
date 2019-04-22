@@ -1,6 +1,5 @@
 import * as assert from "assert";
 
-import { Aborter } from "../../src/Aborter";
 import { BlobURL } from "../../src/BlobURL";
 import { BlockBlobURL } from "../../src/BlockBlobURL";
 import { ContainerURL } from "../../src/ContainerURL";
@@ -17,22 +16,22 @@ describe("BlockBlobURL Node.js only", () => {
   beforeEach(async () => {
     containerName = getUniqueName("container");
     containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
-    await containerURL.create(Aborter.none);
+    await containerURL.create();
     blobName = getUniqueName("blob");
     blobURL = BlobURL.fromContainerURL(containerURL, blobName);
     blockBlobURL = BlockBlobURL.fromBlobURL(blobURL);
   });
 
   afterEach(async () => {
-    await containerURL.delete(Aborter.none);
+    await containerURL.delete();
   });
 
   it("upload with Readable stream body and default parameters", async () => {
     const body: string = getUniqueName("randomstring");
     const bodyBuffer = Buffer.from(body);
 
-    await blockBlobURL.upload(Aborter.none, bodyBuffer, body.length);
-    const result = await blobURL.download(Aborter.none, 0);
+    await blockBlobURL.upload(bodyBuffer, body.length);
+    const result = await blobURL.download(0);
 
     const downloadedBody = await new Promise((resolve, reject) => {
       const buffer: string[] = [];
@@ -50,8 +49,8 @@ describe("BlockBlobURL Node.js only", () => {
 
   it("upload with Chinese string body and default parameters", async () => {
     const body: string = getUniqueName("randomstring你好");
-    await blockBlobURL.upload(Aborter.none, body, Buffer.byteLength(body));
-    const result = await blobURL.download(Aborter.none, 0);
+    await blockBlobURL.upload(body, Buffer.byteLength(body));
+    const result = await blobURL.download(0);
     assert.deepStrictEqual(
       await bodyToString(result, Buffer.byteLength(body)),
       body

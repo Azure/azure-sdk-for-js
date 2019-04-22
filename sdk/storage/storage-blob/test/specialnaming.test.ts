@@ -13,18 +13,18 @@ describe("Special Naming Tests", () => {
   const containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
 
   before(async () => {
-    await containerURL.create(Aborter.none);
+    await containerURL.create();
   });
 
   after(async () => {
-    await containerURL.delete(Aborter.none);
+    await containerURL.delete();
   });
 
   it("Should work with special container and blob names with spaces", async () => {
     const blobName: string = getUniqueName("blob empty");
     const blockBlobURL = BlockBlobURL.fromContainerURL(containerURL, blobName);
 
-    await blockBlobURL.upload(Aborter.none, "A", 1);
+    await blockBlobURL.upload("A", 1);
     const response = await containerURL.listBlobFlatSegment(
       Aborter.none,
       undefined,
@@ -42,7 +42,7 @@ describe("Special Naming Tests", () => {
       containerURL.pipeline
     );
 
-    await blockBlobURL.upload(Aborter.none, "A", 1);
+    await blockBlobURL.upload("A", 1);
     const response = await containerURL.listBlobFlatSegment(
       Aborter.none,
       undefined,
@@ -57,8 +57,8 @@ describe("Special Naming Tests", () => {
     const blobName: string = getUniqueName("////blob/empty /another");
     const blockBlobURL = BlockBlobURL.fromContainerURL(containerURL, blobName);
 
-    await blockBlobURL.upload(Aborter.none, "A", 1);
-    await blockBlobURL.getProperties(Aborter.none);
+    await blockBlobURL.upload("A", 1);
+    await blockBlobURL.getProperties();
     const response = await containerURL.listBlobFlatSegment(
       Aborter.none,
       undefined,
@@ -76,8 +76,8 @@ describe("Special Naming Tests", () => {
       containerURL.pipeline
     );
 
-    await blockBlobURL.upload(Aborter.none, "A", 1);
-    await blockBlobURL.getProperties(Aborter.none);
+    await blockBlobURL.upload("A", 1);
+    await blockBlobURL.getProperties();
     const response = await containerURL.listBlobFlatSegment(
       Aborter.none,
       undefined,
@@ -92,8 +92,8 @@ describe("Special Naming Tests", () => {
     const blobName: string = getUniqueName("////Upper/blob/empty /another");
     const blockBlobURL = BlockBlobURL.fromContainerURL(containerURL, blobName);
 
-    await blockBlobURL.upload(Aborter.none, "A", 1);
-    await blockBlobURL.getProperties(Aborter.none);
+    await blockBlobURL.upload("A", 1);
+    await blockBlobURL.getProperties();
     const response = await containerURL.listBlobFlatSegment(
       Aborter.none,
       undefined,
@@ -111,8 +111,8 @@ describe("Special Naming Tests", () => {
       containerURL.pipeline
     );
 
-    await blockBlobURL.upload(Aborter.none, "A", 1);
-    await blockBlobURL.getProperties(Aborter.none);
+    await blockBlobURL.upload("A", 1);
+    await blockBlobURL.getProperties();
     const response = await containerURL.listBlobFlatSegment(
       Aborter.none,
       undefined,
@@ -129,8 +129,8 @@ describe("Special Naming Tests", () => {
     );
     const blockBlobURL = BlockBlobURL.fromContainerURL(containerURL, blobName);
 
-    await blockBlobURL.upload(Aborter.none, "A", 1);
-    await blockBlobURL.getProperties(Aborter.none);
+    await blockBlobURL.upload("A", 1);
+    await blockBlobURL.getProperties();
     const response = await containerURL.listBlobFlatSegment(
       Aborter.none,
       undefined,
@@ -150,8 +150,8 @@ describe("Special Naming Tests", () => {
       containerURL.pipeline
     );
 
-    await blockBlobURL.upload(Aborter.none, "A", 1);
-    await blockBlobURL.getProperties(Aborter.none);
+    await blockBlobURL.upload("A", 1);
+    await blockBlobURL.getProperties();
     const response = await containerURL.listBlobFlatSegment(
       Aborter.none,
       undefined,
@@ -168,8 +168,8 @@ describe("Special Naming Tests", () => {
     );
     const blockBlobURL = BlockBlobURL.fromContainerURL(containerURL, blobName);
 
-    await blockBlobURL.upload(Aborter.none, "A", 1);
-    await blockBlobURL.getProperties(Aborter.none);
+    await blockBlobURL.upload("A", 1);
+    await blockBlobURL.getProperties();
     const response = await containerURL.listBlobFlatSegment(
       Aborter.none,
       undefined,
@@ -196,8 +196,8 @@ describe("Special Naming Tests", () => {
       containerURL.pipeline
     );
 
-    await blockBlobURL.upload(Aborter.none, "A", 1);
-    await blockBlobURL.getProperties(Aborter.none);
+    await blockBlobURL.upload("A", 1);
+    await blockBlobURL.getProperties();
     const response = await containerURL.listBlobFlatSegment(
       Aborter.none,
       undefined,
@@ -217,8 +217,8 @@ describe("Special Naming Tests", () => {
       blobNameEncoded
     );
 
-    await blockBlobURL.upload(Aborter.none, "A", 1);
-    await blockBlobURL.getProperties(Aborter.none);
+    await blockBlobURL.upload("A", 1);
+    await blockBlobURL.getProperties();
     const response = await containerURL.listBlobFlatSegment(
       Aborter.none,
       undefined,
@@ -233,8 +233,8 @@ describe("Special Naming Tests", () => {
     const blobName: string = getUniqueName("ру́сский язы́к");
     const blockBlobURL = BlockBlobURL.fromContainerURL(containerURL, blobName);
 
-    await blockBlobURL.upload(Aborter.none, "A", 1);
-    await blockBlobURL.getProperties(Aborter.none);
+    await blockBlobURL.upload("A", 1);
+    await blockBlobURL.getProperties();
     const response = await containerURL.listBlobFlatSegment(
       Aborter.none,
       undefined,
@@ -252,8 +252,8 @@ describe("Special Naming Tests", () => {
       containerURL.pipeline
     );
 
-    await blockBlobURL.upload(Aborter.none, "A", 1);
-    await blockBlobURL.getProperties(Aborter.none);
+    await blockBlobURL.upload("A", 1);
+    await blockBlobURL.getProperties();
     const response = await containerURL.listBlobFlatSegment(
       Aborter.none,
       undefined,
@@ -272,8 +272,8 @@ describe("Special Naming Tests", () => {
       blobNameEncoded
     );
 
-    await blockBlobURL.upload(Aborter.none, "A", 1);
-    await blockBlobURL.getProperties(Aborter.none);
+    await blockBlobURL.upload("A", 1);
+    await blockBlobURL.getProperties();
     const response = await containerURL.listBlobFlatSegment(
       Aborter.none,
       undefined,
@@ -288,8 +288,8 @@ describe("Special Naming Tests", () => {
     const blobName: string = getUniqueName("عربي/عربى");
     const blockBlobURL = BlockBlobURL.fromContainerURL(containerURL, blobName);
 
-    await blockBlobURL.upload(Aborter.none, "A", 1);
-    await blockBlobURL.getProperties(Aborter.none);
+    await blockBlobURL.upload("A", 1);
+    await blockBlobURL.getProperties();
     const response = await containerURL.listBlobFlatSegment(
       Aborter.none,
       undefined,
@@ -307,8 +307,8 @@ describe("Special Naming Tests", () => {
       containerURL.pipeline
     );
 
-    await blockBlobURL.upload(Aborter.none, "A", 1);
-    await blockBlobURL.getProperties(Aborter.none);
+    await blockBlobURL.upload("A", 1);
+    await blockBlobURL.getProperties();
     const response = await containerURL.listBlobFlatSegment(
       Aborter.none,
       undefined,
@@ -327,8 +327,8 @@ describe("Special Naming Tests", () => {
       blobNameEncoded
     );
 
-    await blockBlobURL.upload(Aborter.none, "A", 1);
-    await blockBlobURL.getProperties(Aborter.none);
+    await blockBlobURL.upload("A", 1);
+    await blockBlobURL.getProperties();
     const response = await containerURL.listBlobFlatSegment(
       Aborter.none,
       undefined,
@@ -343,8 +343,8 @@ describe("Special Naming Tests", () => {
     const blobName: string = getUniqueName("にっぽんご/にほんご");
     const blockBlobURL = BlockBlobURL.fromContainerURL(containerURL, blobName);
 
-    await blockBlobURL.upload(Aborter.none, "A", 1);
-    await blockBlobURL.getProperties(Aborter.none);
+    await blockBlobURL.upload("A", 1);
+    await blockBlobURL.getProperties();
     const response = await containerURL.listBlobFlatSegment(
       Aborter.none,
       undefined,
@@ -362,8 +362,8 @@ describe("Special Naming Tests", () => {
       containerURL.pipeline
     );
 
-    await blockBlobURL.upload(Aborter.none, "A", 1);
-    await blockBlobURL.getProperties(Aborter.none);
+    await blockBlobURL.upload("A", 1);
+    await blockBlobURL.getProperties();
     const response = await containerURL.listBlobFlatSegment(
       Aborter.none,
       undefined,

@@ -1,6 +1,5 @@
 import * as assert from "assert";
 
-import { Aborter } from "../src/Aborter";
 import { AppendBlobURL } from "../src/AppendBlobURL";
 import { ContainerURL } from "../src/ContainerURL";
 import { bodyToString, getBSU, getUniqueName } from "./utils";
@@ -17,18 +16,18 @@ describe("AppendBlobURL", () => {
   beforeEach(async () => {
     containerName = getUniqueName("container");
     containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
-    await containerURL.create(Aborter.none);
+    await containerURL.create();
     blobName = getUniqueName("blob");
     appendBlobURL = AppendBlobURL.fromContainerURL(containerURL, blobName);
   });
 
   afterEach(async () => {
-    await containerURL.delete(Aborter.none);
+    await containerURL.delete();
   });
 
   it("create with default parameters", async () => {
-    await appendBlobURL.create(Aborter.none);
-    await appendBlobURL.download(Aborter.none, 0);
+    await appendBlobURL.create();
+    await appendBlobURL.download(0);
   });
 
   it("create with parameters configured", async () => {
@@ -45,8 +44,8 @@ describe("AppendBlobURL", () => {
         key2: "valb"
       }
     };
-    await appendBlobURL.create(Aborter.none, options);
-    const properties = await appendBlobURL.getProperties(Aborter.none);
+    await appendBlobURL.create(options);
+    const properties = await appendBlobURL.getProperties();
     assert.equal(
       properties.cacheControl,
       options.blobHTTPHeaders.blobCacheControl
@@ -72,12 +71,12 @@ describe("AppendBlobURL", () => {
   });
 
   it("appendBlock", async () => {
-    await appendBlobURL.create(Aborter.none);
+    await appendBlobURL.create();
 
     const content = "Hello World!";
-    await appendBlobURL.appendBlock(Aborter.none, content, content.length);
+    await appendBlobURL.appendBlock(content, content.length);
 
-    const downloadResponse = await appendBlobURL.download(Aborter.none, 0);
+    const downloadResponse = await appendBlobURL.download(0);
     assert.equal(await bodyToString(downloadResponse, content.length), content);
     assert.equal(downloadResponse.contentLength!, content.length);
   });

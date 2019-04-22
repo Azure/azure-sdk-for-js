@@ -17,25 +17,25 @@ describe("PageBlobURL", () => {
   beforeEach(async () => {
     containerName = getUniqueName("container");
     containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
-    await containerURL.create(Aborter.none);
+    await containerURL.create();
     blobName = getUniqueName("blob");
     blobURL = BlobURL.fromContainerURL(containerURL, blobName);
     pageBlobURL = PageBlobURL.fromBlobURL(blobURL);
   });
 
   afterEach(async () => {
-    await containerURL.delete(Aborter.none);
+    await containerURL.delete();
   });
 
   it("startCopyIncremental", async () => {
-    await pageBlobURL.create(Aborter.none, 1024, {
+    await pageBlobURL.create(1024, {
       metadata: {
         sourcemeta: "val"
       }
     });
-    await pageBlobURL.uploadPages(Aborter.none, "b".repeat(1024), 0, 1024);
+    await pageBlobURL.uploadPages("b".repeat(1024), 0, 1024);
 
-    let snapshotResult = await pageBlobURL.createSnapshot(Aborter.none);
+    let snapshotResult = await pageBlobURL.createSnapshot();
     assert.ok(snapshotResult.snapshot);
 
     const destPageBlobURL = PageBlobURL.fromContainerURL(
@@ -43,10 +43,9 @@ describe("PageBlobURL", () => {
       getUniqueName("page")
     );
 
-    await containerURL.setAccessPolicy(Aborter.none, "container");
+    await containerURL.setAccessPolicy("container");
     let copySource = pageBlobURL.withSnapshot(snapshotResult.snapshot!).url;
     let copyResponse = await destPageBlobURL.startCopyIncremental(
-      Aborter.none,
       copySource
     );
 
@@ -62,7 +61,7 @@ describe("PageBlobURL", () => {
           throw new Error("Copy unexcepted aborted.");
         case "pending":
           await sleep(3000);
-          copyResponse = await destPageBlobURL.getProperties(Aborter.none);
+          copyResponse = await destPageBlobURL.getProperties();
           await waitForCopy(++retries);
           return;
         case "failed":
@@ -84,12 +83,11 @@ describe("PageBlobURL", () => {
 
     assert.equal(listBlobResponse.segment.blobItems.length, 4);
 
-    await pageBlobURL.uploadPages(Aborter.none, "c".repeat(1024), 0, 1024);
-    snapshotResult = await pageBlobURL.createSnapshot(Aborter.none);
+    await pageBlobURL.uploadPages("c".repeat(1024), 0, 1024);
+    snapshotResult = await pageBlobURL.createSnapshot();
     assert.ok(snapshotResult.snapshot);
     copySource = pageBlobURL.withSnapshot(snapshotResult.snapshot!).url;
     copyResponse = await destPageBlobURL.startCopyIncremental(
-      Aborter.none,
       copySource
     );
 
@@ -105,9 +103,7 @@ describe("PageBlobURL", () => {
 
     assert.equal(listBlobResponse.segment.blobItems.length, 6);
 
-    const pageBlobProperties = await destPageBlobURL.getProperties(
-      Aborter.none
-    );
+    const pageBlobProperties = await destPageBlobURL.getProperties();
     assert.equal(pageBlobProperties.metadata!.sourcemeta, "val");
   });
 });

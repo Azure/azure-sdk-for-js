@@ -32,14 +32,14 @@ describe("Highelvel", () => {
   beforeEach(async () => {
     containerName = getUniqueName("container");
     containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
-    await containerURL.create(Aborter.none);
+    await containerURL.create();
     blobName = getUniqueName("blob");
     blobURL = BlobURL.fromContainerURL(containerURL, blobName);
     blockBlobURL = BlockBlobURL.fromBlobURL(blobURL);
   });
 
   afterEach(async () => {
-    await containerURL.delete(Aborter.none);
+    await containerURL.delete();
   });
 
   before(async () => {
@@ -53,7 +53,9 @@ describe("Highelvel", () => {
     const aborter = Aborter.timeout(1);
 
     try {
-      await uploadBrowserDataToBlockBlob(aborter, tempFile1, blockBlobURL);
+      await uploadBrowserDataToBlockBlob(tempFile1, blockBlobURL, {
+        abortSignal: aborter
+      });
       assert.fail();
     } catch (err) {
       assert.ok((err.code as string).toLowerCase().includes("abort"));
@@ -64,7 +66,8 @@ describe("Highelvel", () => {
     const aborter = Aborter.timeout(1);
 
     try {
-      await uploadBrowserDataToBlockBlob(aborter, tempFile2, blockBlobURL, {
+      await uploadBrowserDataToBlockBlob(tempFile2, blockBlobURL, {
+        abortSignal: aborter,
         blockSize: 4 * 1024 * 1024,
         parallelism: 2
       });
@@ -79,7 +82,8 @@ describe("Highelvel", () => {
     const aborter = Aborter.none;
 
     try {
-      await uploadBrowserDataToBlockBlob(aborter, tempFile1, blockBlobURL, {
+      await uploadBrowserDataToBlockBlob(tempFile1, blockBlobURL, {
+        abortSignal: aborter,
         blockSize: 4 * 1024 * 1024,
         parallelism: 2,
         progress: ev => {
@@ -97,7 +101,8 @@ describe("Highelvel", () => {
     const aborter = Aborter.none;
 
     try {
-      await uploadBrowserDataToBlockBlob(aborter, tempFile2, blockBlobURL, {
+      await uploadBrowserDataToBlockBlob(tempFile2, blockBlobURL, {
+        abortSignal: aborter,
         blockSize: 4 * 1024 * 1024,
         parallelism: 2,
         progress: ev => {
@@ -111,12 +116,12 @@ describe("Highelvel", () => {
   });
 
   it("uploadBrowserDataToBlockBlob should success when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
-    await uploadBrowserDataToBlockBlob(Aborter.none, tempFile2, blockBlobURL, {
+    await uploadBrowserDataToBlockBlob(tempFile2, blockBlobURL, {
       blockSize: 4 * 1024 * 1024,
       parallelism: 2
     });
 
-    const downloadResponse = await blockBlobURL.download(Aborter.none, 0);
+    const downloadResponse = await blockBlobURL.download(0);
     const downloadedString = await bodyToString(downloadResponse);
     const uploadedString = await blobToString(tempFile2);
 
@@ -124,12 +129,12 @@ describe("Highelvel", () => {
   });
 
   it("uploadBrowserDataToBlockBlob should success when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES and configured maxSingleShotSize", async () => {
-    await uploadBrowserDataToBlockBlob(Aborter.none, tempFile2, blockBlobURL, {
+    await uploadBrowserDataToBlockBlob(tempFile2, blockBlobURL, {
       blockSize: 512 * 1024,
       maxSingleShotSize: 0
     });
 
-    const downloadResponse = await blockBlobURL.download(Aborter.none, 0);
+    const downloadResponse = await blockBlobURL.download(0);
     const downloadedString = await bodyToString(downloadResponse);
     const uploadedString = await blobToString(tempFile2);
 
@@ -145,12 +150,12 @@ describe("Highelvel", () => {
       return;
     }
 
-    await uploadBrowserDataToBlockBlob(Aborter.none, tempFile1, blockBlobURL, {
+    await uploadBrowserDataToBlockBlob(tempFile1, blockBlobURL, {
       blockSize: 4 * 1024 * 1024,
       parallelism: 2
     });
 
-    const downloadResponse = await blockBlobURL.download(Aborter.none, 0);
+    const downloadResponse = await blockBlobURL.download(0);
     const buf1 = await blobToArrayBuffer(await downloadResponse.blobBody!);
     const buf2 = await blobToArrayBuffer(tempFile1);
 
