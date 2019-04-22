@@ -1,6 +1,5 @@
 import * as assert from "assert";
 
-import { Aborter } from "../src/Aborter";
 import { AppendBlobClient } from "../src/AppendBlobClient";
 import { ContainerClient } from "../src/ContainerClient";
 import { bodyToString, getBSU, getUniqueName } from "./utils";
@@ -17,18 +16,18 @@ describe("AppendBlobClient", () => {
   beforeEach(async () => {
     containerName = getUniqueName("container");
     containerClient = ContainerClient.fromBlobServiceClient(blobServiceClient, containerName);
-    await containerClient.create(Aborter.none);
+    await containerClient.create();
     blobName = getUniqueName("blob");
     appendBlobClient = AppendBlobClient.fromContainerClient(containerClient, blobName);
   });
 
   afterEach(async () => {
-    await containerClient.delete(Aborter.none);
+    await containerClient.delete();
   });
 
   it("create with default parameters", async () => {
-    await appendBlobClient.create(Aborter.none);
-    await appendBlobClient.download(Aborter.none, 0);
+    await appendBlobClient.create();
+    await appendBlobClient.download(0);
   });
 
   it("create with parameters configured", async () => {
@@ -45,8 +44,8 @@ describe("AppendBlobClient", () => {
         key2: "valb"
       }
     };
-    await appendBlobClient.create(Aborter.none, options);
-    const properties = await appendBlobClient.getProperties(Aborter.none);
+    await appendBlobClient.create(options);
+    const properties = await appendBlobClient.getProperties();
     assert.equal(properties.cacheControl, options.blobHTTPHeaders.blobCacheControl);
     assert.equal(properties.contentDisposition, options.blobHTTPHeaders.blobContentDisposition);
     assert.equal(properties.contentEncoding, options.blobHTTPHeaders.blobContentEncoding);
@@ -57,12 +56,12 @@ describe("AppendBlobClient", () => {
   });
 
   it("appendBlock", async () => {
-    await appendBlobClient.create(Aborter.none);
+    await appendBlobClient.create();
 
     const content = "Hello World!";
-    await appendBlobClient.appendBlock(Aborter.none, content, content.length);
+    await appendBlobClient.appendBlock(content, content.length);
 
-    const downloadResponse = await appendBlobClient.download(Aborter.none, 0);
+    const downloadResponse = await appendBlobClient.download(0);
     assert.equal(await bodyToString(downloadResponse, content.length), content);
     assert.equal(downloadResponse.contentLength!, content.length);
   });
