@@ -44,13 +44,14 @@ import { Typed } from "rhea-promise";
 import { max32BitNumber } from "../util/constants";
 
 /**
- * Represents a description of a rule.
+ * Represents a Rule on a Subscription that is used to filter the incoming message from the
+ * Subscription.
  */
 export interface RuleDescription {
   /**
    * Filter expression used to match messages. Supports 2 types:
-   * - `string`: SQL-like condition expression that is evaluated in the broker against the messages'
-   * user-defined properties and system properties. All system properties must be prefixed with
+   * - `string`: SQL-like condition expression that is evaluated against the messages'
+   * user-defined properties and system properties. All system properties will be prefixed with
    * `sys.` in the condition expression.
    * - `CorrelationFilter`: Properties of the filter will be used to match with the message properties.
    */
@@ -67,44 +68,44 @@ export interface RuleDescription {
 
 /**
  * Represents the correlation filter expression.
- * A CorrelationFilter holds a set of conditions that are matched against one of more of an
- * arriving message's user and system properties.
+ * A CorrelationFilter holds a set of conditions that are matched against user and system properties
+ * of incoming messages from a Subscription.
  */
 export interface CorrelationFilter {
   /**
-   * Identifier of the correlation.
+   * Value to be matched with the `correlationId` property of the incoming message.
    */
   correlationId?: string;
   /**
-   * Identifier of the message.
+   * Value to be matched with the `messageId` property of the incoming message.
    */
   messageId?: string;
   /**
-   * Address to send to.
+   * Value to be matched with the `to` property of the incoming message.
    */
   to?: string;
   /**
-   * Address of the queue to reply to.
+   * Value to be matched with the `replyTo` property of the incoming message.
    */
   replyTo?: string;
   /**
-   * Application specific label.
+   * Value to be matched with the `label` property of the incoming message.
    */
   label?: string;
   /**
-   * Session identifier.
+   * Value to be matched with the `sessionId` property of the incoming message.
    */
   sessionId?: string;
   /**
-   * Session identifier to reply to.
+   * Value to be matched with the `replyToSessionId` property of the incoming message.
    */
   replyToSessionId?: string;
   /**
-   * Content type of the message.
+   * Value to be matched with the `contentType` property of the incoming message.
    */
   contentType?: string;
   /**
-   * Application specific properties of the message.
+   * Value to be matched with the user properties of the incoming message.
    */
   userProperties?: any;
 }
