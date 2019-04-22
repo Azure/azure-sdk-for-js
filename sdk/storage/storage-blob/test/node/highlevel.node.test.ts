@@ -358,7 +358,7 @@ describe("Highlevel", () => {
       url,
       4 * 1024 * 1024,
       20,
-      { credential: credential},
+      { credential: credential },
     );
 
     const buf = Buffer.alloc(tempFileLargeLength);

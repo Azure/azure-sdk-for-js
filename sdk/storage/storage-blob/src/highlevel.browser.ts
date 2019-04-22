@@ -2,10 +2,10 @@ import { generateUuid } from "@azure/ms-rest-js";
 
 import { BlockBlobURL } from "./BlockBlobURL";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
-import { Credential } from "./credentials/Credential";
 import {
   BlobUploadCommonResponse,
-  IUploadToBlockBlobOptions
+  IUploadToBlockBlobOptions,
+  CredentialOptions
 } from "./highlevel.common";
 import { INewPipelineOptions, StorageURL } from "./StorageURL";
 import { Batch } from "./utils/Batch";
@@ -48,6 +48,8 @@ export async function uploadBrowserDataToBlockBlob(
   );
 }
 
+//type UploadBrowserDataToBlockBlobUrlOptions = IUploadToBlockBlobOptions & CredentialOptions & INewPipelineOptions;
+
 /**
  * ONLY AVAILABLE IN BROWSERS.
  *
@@ -61,13 +63,14 @@ export async function uploadBrowserDataToBlockBlob(
  * @export
  * @param {Blob | ArrayBuffer | ArrayBufferView} browserData Blob, File, ArrayBuffer or ArrayBufferView
  * @param {BlockBlobURL} blockBlobURL
- * @param {IUploadToBlockBlobOptions & { credential?: Credential } & INewPipelineOptions} [options] upload options & credential & new pipeline options
+ * @param {UploadBrowserDataToBlockBlobUrlOptions} [options] Upload browser data options & credential options & new pipeline options.
+ *                                                           If credential options is not specified {@link AnonymousCredential} is used.
  * @returns {Promise<BlobUploadCommonResponse>}
  */
 export async function uploadBrowserDataToBlockBlobUrl(
   browserData: Blob | ArrayBuffer | ArrayBufferView,
   url: string,
-  options: IUploadToBlockBlobOptions & { credential?: Credential } & INewPipelineOptions = {},
+  options: IUploadToBlockBlobOptions & CredentialOptions & INewPipelineOptions = {},
 ): Promise<BlobUploadCommonResponse> {
 
   const pipeline = StorageURL.newPipeline(options.credential || new AnonymousCredential(), options);

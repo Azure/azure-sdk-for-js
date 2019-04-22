@@ -6,12 +6,12 @@ import { Aborter } from "./Aborter";
 import { BlobURL } from "./BlobURL";
 import { BlockBlobURL } from "./BlockBlobURL";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
-import { Credential } from "./credentials/Credential";
 import { BlobHTTPHeaders } from "./generated/lib/models";
 import {
   BlobUploadCommonResponse,
   IDownloadFromBlobOptions,
-  IUploadToBlockBlobOptions
+  IUploadToBlockBlobOptions,
+  CredentialOptions
 } from "./highlevel.common";
 import { IBlobAccessConditions } from "./models";
 import { INewPipelineOptions, StorageURL } from "./StorageURL";
@@ -60,6 +60,8 @@ export async function uploadFileToBlockBlob(
   );
 }
 
+type UploadFileToBlockBlobUrlOptions = IUploadToBlockBlobOptions & CredentialOptions & INewPipelineOptions;
+
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
  *
@@ -73,14 +75,14 @@ export async function uploadFileToBlockBlob(
  * @export
  * @param {string} filePath Full path of local file
  * @param {string} blockBlobURL url to a block blob
- * @param {IUploadToBlockBlobOptions & { credential?: Credential } & INewPipelineOptions} [options] upload options & credential & new pipeline options
- *                                                                                                  If credential is not specified {@link AnonymousCredential} is used.
+ * @param {UploadFileToBlockBlobUrlOptions} [options] IUploadToBlockBlobOptions & CredentialOptions & INewPipelineOptions.
+ *                                                    If credential options is not specified {@link AnonymousCredential} is used.
  * @returns {(Promise<BlobUploadCommonResponse>)} ICommonResponse
  */
 export async function uploadFileToBlockBlobUrl(
   filePath: string,
   url: string,
-  options: IUploadToBlockBlobOptions & { credential?: Credential } & INewPipelineOptions = {},
+  options: UploadFileToBlockBlobUrlOptions = {},
 ): Promise<BlobUploadCommonResponse> {
 
   const pipeline = StorageURL.newPipeline(options.credential || new AnonymousCredential(), options);
@@ -292,6 +294,8 @@ export async function downloadBlobToBuffer(
   await batch.do();
 }
 
+export type DownloadBlobToBufferFromUrlOptions = IDownloadFromBlobOptions & CredentialOptions & INewPipelineOptions;
+
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
  *
@@ -303,8 +307,8 @@ export async function downloadBlobToBuffer(
  * @param {BlobURL} blobURL A BlobURL object
  * @param {number} offset From which position of the block blob to download
  * @param {number} [count] How much data to be downloaded. Will download to the end when passing undefined
- * @param {IDownloadFromBlobOptions} [options] download options & credential & new pipeline options
- *                                             If credential is not specified {@link AnonymousCredential} is used.
+ * @param {DownloadBlobToBufferFromUrlOptions} [options] IDownloadFromBlobOptions & CredentialOptions & INewPipelineOptions.
+ *                                                       If credential options is not specified {@link AnonymousCredential} is used.
  * @param {credential} [credential] Credential. If not specified {@link AnonymousCredential} is used.
  * @param {INewPipelineOptions} [pipelineOptions]
  * @returns {Promise<void>}
@@ -314,7 +318,7 @@ export async function downloadBlobToBufferFromUrl(
   url: string,
   offset: number,
   count?: number,
-  options: IDownloadFromBlobOptions & { credential?: Credential } & INewPipelineOptions = {},
+  options: DownloadBlobToBufferFromUrlOptions = {},
 ): Promise<void> {
 
   const pipeline = StorageURL.newPipeline(options.credential || new AnonymousCredential(), options);
@@ -440,6 +444,8 @@ export async function uploadStreamToBlockBlob(
   return blockBlobURL.commitBlockList(blockList, options);
 }
 
+type UploadStreamToBlockBlobUrlOptions = IUploadStreamToBlockBlobOptions & CredentialOptions & INewPipelineOptions
+
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
  *
@@ -456,8 +462,8 @@ export async function uploadStreamToBlockBlob(
  * @param {number} bufferSize Size of every buffer allocated, also the block size in the uploaded block blob
  * @param {number} maxBuffers Max buffers will allocate during uploading, positive correlation
  *                            with max uploading concurrency
- * @param {IUploadStreamToBlockBlobOptions & { credential?: Credential } & INewPipelineOptions} [options] upload options & credential & new pipeline options
- *                                                                                                        If credential is not specified {@link AnonymousCredential} is used.
+ * @param {UploadStreamToBlockBlobUrlOptions} [options] IUploadStreamToBlockBlobOptions & CredentialOptions & INewPipelineOptions.
+ *                                            If credential options is not specified {@link AnonymousCredential} is used.
  * @returns {Promise<BlobUploadCommonResponse>}
  */
 export async function uploadStreamToBlockBlobUrl(
@@ -465,7 +471,7 @@ export async function uploadStreamToBlockBlobUrl(
   url: string,
   bufferSize: number,
   maxBuffers: number,
-  options: IUploadStreamToBlockBlobOptions & { credential?: Credential } & INewPipelineOptions = {},
+  options: UploadStreamToBlockBlobUrlOptions = {},
 ): Promise<BlobUploadCommonResponse> {
   const pipeline = StorageURL.newPipeline(options.credential || new AnonymousCredential(), options);
   const blockBlobURL = new BlockBlobURL(url, pipeline);
