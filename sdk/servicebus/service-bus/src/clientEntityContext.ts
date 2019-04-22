@@ -192,7 +192,7 @@ export namespace ClientEntityContext {
       if (batchingReceiver && !batchingReceiver.isConnecting) {
         log.error(
           "[%s] Receiver '%s' with address '%s' is a Batching Receiver, so we will not be " +
-            "re-establishing the receiver link.",
+          "re-establishing the receiver link.",
           connectionId,
           batchingReceiver.name,
           batchingReceiver.address
@@ -220,17 +220,15 @@ export namespace ClientEntityContext {
     };
 
     const isManagementClientSharedWithOtherClients = (): boolean => {
-      let isManagementClientShared = false;
       for (const id of Object.keys(context.clientContexts)) {
         if (
           context.clientContexts[id].entityPath === entityContext.entityPath &&
           context.clientContexts[id].clientId !== entityContext.clientId
         ) {
-          isManagementClientShared = true;
-          break;
+          return true;
         }
       }
-      return isManagementClientShared;
+      return false;
     };
 
     (entityContext as ClientEntityContext).close = async () => {
