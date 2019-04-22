@@ -29,6 +29,7 @@ export function getUniqueName(name: string): string {
 }
 
 /**
+ * @internal
  * If you try to turn a Guid into a Buffer in .NET, the bytes of the first three groups get
  * flipped within the group, but the last two groups don't get flipped, so we end up with a
  * different byte order. This is the order of bytes needed to make Service Bus recognize the token.
@@ -38,7 +39,7 @@ export function getUniqueName(name: string): string {
  */
 export function reorderLockToken(lockTokenBytes: Buffer): Buffer {
   if (!lockTokenBytes || !Buffer.isBuffer(lockTokenBytes)) {
-    throw new Error("'lockToken' is a required parameter and must be of type 'Buffer'.");
+    return lockTokenBytes;
   }
 
   return Buffer.from([

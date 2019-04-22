@@ -18,7 +18,8 @@ import {
   ServiceBusClient,
   SessionReceiver,
   SubscriptionClient,
-  TopicClient
+  TopicClient,
+  ServiceBusMessage
 } from "../src";
 import {
   getClientClosedErrorMsg,
@@ -42,21 +43,25 @@ const aadServiceBusAudience = "https://servicebus.azure.net/";
 
 describe("Create ServiceBusClient and Queue/Topic/Subscription Clients", function(): void {
   let namespace: ServiceBusClient;
-  beforeEach(() => {
-    namespace = ServiceBusClient.createFromConnectionString(
-      "Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c;EntityPath=d"
-    );
-  });
-  afterEach(() => {
-    return namespace.close();
+
+  afterEach(async () => {
+    if (namespace) {
+      await namespace.close();
+    }
   });
 
   it("Creates an Namespace from a connection string", function(): void {
+    namespace = ServiceBusClient.createFromConnectionString(
+      "Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c;EntityPath=d"
+    );
     namespace.should.be.an.instanceof(ServiceBusClient);
     should.equal(namespace.name, "sb://a/", "Name of the namespace is different than expected");
   });
 
   it("Creates clients after coercing name to string", function(): void {
+    namespace = ServiceBusClient.createFromConnectionString(
+      "Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c;EntityPath=d"
+    );
     const queueClient = namespace.createQueueClient(1 as any);
     should.equal(queueClient.entityPath, "1");
 
@@ -65,6 +70,22 @@ describe("Create ServiceBusClient and Queue/Topic/Subscription Clients", functio
 
     const subscriptionClient = namespace.createSubscriptionClient(1 as any, 2 as any);
     should.equal(subscriptionClient.entityPath, "1/Subscriptions/2");
+  });
+
+  it("Missing tokenProvider in createFromTokenProvider", function(): void {
+    let caughtError: Error | undefined;
+    try {
+      namespace = ServiceBusClient.createFromTokenProvider("somestring", undefined as any);
+    } catch (error) {
+      caughtError = error;
+    }
+    should.equal(caughtError && caughtError.name, "TypeError");
+    should.equal(caughtError && caughtError.message, `Missing parameter "tokenProvider"`);
+  });
+
+  it("Coerces input to string for host in createFromTokenProvider", function(): void {
+    namespace = ServiceBusClient.createFromTokenProvider(123 as any, {} as any);
+    should.equal(namespace.name, "sb://123/", "Name of the namespace is different than expected");
   });
 });
 
@@ -334,27 +355,6 @@ describe("Test createFromAadTokenCredentials", function(): void {
     should.equal(msgs.length, 1, "Unexpected number of messages");
   }
 
-  it("throws error for an invalid host", async function(): Promise<void> {
-    const env = getEnvVars();
-    tokenCreds = await loginWithServicePrincipalSecret(
-      env.clientId,
-      env.clientSecret,
-      env.tenantId,
-      {
-        tokenAudience: aadServiceBusAudience
-      }
-    );
-    await testCreateFromAadTokenCredentials("", tokenCreds).catch((err) => {
-      errorWasThrown = true;
-      should.equal(
-        err.message,
-        "'host' is a required parameter and must be of type: 'string'.",
-        "ErrorMessage is different than expected"
-      );
-    });
-    should.equal(errorWasThrown, true, "Error thrown flag must be true");
-  });
-
   it("throws error for invalid tokenCredentials", async function(): Promise<void> {
     await testCreateFromAadTokenCredentials(serviceBusEndpoint, "").catch((err) => {
       errorWasThrown = true;
@@ -365,6 +365,22 @@ describe("Test createFromAadTokenCredentials", function(): void {
       );
     });
     should.equal(errorWasThrown, true, "Error thrown flag must be true");
+  });
+
+  it("Coerces input to string for host in createFromAadTokenCredentials", async function(): Promise<
+    void
+  > {
+    const env = getEnvVars();
+    tokenCreds = await loginWithServicePrincipalSecret(
+      env.clientId,
+      env.clientSecret,
+      env.tenantId,
+      {
+        tokenAudience: aadServiceBusAudience
+      }
+    );
+    namespace = ServiceBusClient.createFromAadTokenCredentials(123 as any, tokenCreds);
+    should.equal(namespace.name, "sb://123/", "Name of the namespace is different than expected");
   });
 
   it("sends a message to the ServiceBus entity", async function(): Promise<void> {
@@ -388,6 +404,7 @@ describe("Errors after close()", function(): void {
   let receiverClient: QueueClient | SubscriptionClient;
   let sender: Sender;
   let receiver: Receiver | SessionReceiver;
+  let receivedMessage: ServiceBusMessage;
 
   afterEach(() => {
     return namespace.close();
@@ -434,7 +451,7 @@ describe("Errors after close()", function(): void {
     await sender.send(testMessage);
     const receivedMsgs = await receiver.receiveMessages(1, 3);
     should.equal(receivedMsgs.length, 1, "Unexpected number of messages received");
-    await receivedMsgs[0].complete();
+    receivedMessage = receivedMsgs[0];
 
     // close(), so that we can then test the resulting error.
     switch (entityToClose) {
@@ -456,6 +473,52 @@ describe("Errors after close()", function(): void {
       default:
         break;
     }
+  }
+
+  /**
+   * Tests the error from settling a message after the receiver is closed
+   */
+  async function testDisposition(): Promise<void> {
+    let caughtError: Error | undefined;
+    try {
+      await receivedMessage.complete();
+    } catch (error) {
+      caughtError = error;
+    }
+    should.equal(
+      caughtError && caughtError.message,
+      "Failed to complete the message as it's receiver has been closed."
+    );
+
+    try {
+      await receivedMessage.abandon();
+    } catch (error) {
+      caughtError = error;
+    }
+    should.equal(
+      caughtError && caughtError.message,
+      "Failed to abandon the message as it's receiver has been closed."
+    );
+
+    try {
+      await receivedMessage.defer();
+    } catch (error) {
+      caughtError = error;
+    }
+    should.equal(
+      caughtError && caughtError.message,
+      "Failed to defer the message as it's receiver has been closed."
+    );
+
+    try {
+      await receivedMessage.deadLetter();
+    } catch (error) {
+      caughtError = error;
+    }
+    should.equal(
+      caughtError && caughtError.message,
+      "Failed to deadletter the message as it's receiver has been closed."
+    );
   }
 
   /**
@@ -1247,6 +1310,7 @@ describe("Errors after close()", function(): void {
       await testReceiver(
         getReceiverClosedErrorMsg(receiverClient.entityPath, ClientType.QueueClient)
       );
+      await testDisposition();
     });
 
     it("Partitioned Queue with sessions: errors after close() on receiver", async function(): Promise<
@@ -1266,6 +1330,7 @@ describe("Errors after close()", function(): void {
           TestMessage.sessionId
         )
       );
+      await testDisposition();
     });
 
     it("Partitioned Topic/Subscription: errors after close() on receiver", async function(): Promise<
@@ -1280,6 +1345,7 @@ describe("Errors after close()", function(): void {
       await testReceiver(
         getReceiverClosedErrorMsg(receiverClient.entityPath, ClientType.SubscriptionClient)
       );
+      await testDisposition();
     });
 
     it("Partitioned Topic/Subscription with sessions: errors after close() on receiver", async function(): Promise<
@@ -1299,6 +1365,7 @@ describe("Errors after close()", function(): void {
           TestMessage.sessionId
         )
       );
+      await testDisposition();
     });
 
     it("Unpartitioned Queue: errors after close() on receiver", async function(): Promise<void> {
@@ -1311,6 +1378,7 @@ describe("Errors after close()", function(): void {
       await testReceiver(
         getReceiverClosedErrorMsg(receiverClient.entityPath, ClientType.QueueClient)
       );
+      await testDisposition();
     });
 
     it("Unpartitioned Queue with sessions: errors after close() on receiver", async function(): Promise<
@@ -1330,6 +1398,7 @@ describe("Errors after close()", function(): void {
           TestMessage.sessionId
         )
       );
+      await testDisposition();
     });
 
     it("Unpartitioned Topic/Subscription: errors after close() on receiver", async function(): Promise<
@@ -1344,6 +1413,7 @@ describe("Errors after close()", function(): void {
       await testReceiver(
         getReceiverClosedErrorMsg(receiverClient.entityPath, ClientType.SubscriptionClient)
       );
+      await testDisposition();
     });
 
     it("Unpartitioned Topic/Subscription with sessions: errors after close() on receiver", async function(): Promise<
@@ -1363,6 +1433,7 @@ describe("Errors after close()", function(): void {
           TestMessage.sessionId
         )
       );
+      await testDisposition();
     });
   });
 

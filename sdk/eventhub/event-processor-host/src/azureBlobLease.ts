@@ -40,7 +40,6 @@ export interface AzureBlobLeaseInfo extends LeaseInfo {
  * Describes the lease used with an Azure Blob for storing the checkpoint information.
  */
 export class AzureBlobLease extends CompleteLease implements AzureBlobLeaseInfo {
-
   // It is important to keep the offset optional. While getting the startingCheckpoint in
   // PartitionContext.getInitialOffset(), we internally call leaseManager.getCheckpoint() which will
   // return undefined, if the offset is undefined. At that time, if the user had provided
@@ -83,7 +82,7 @@ export class AzureBlobLease extends CompleteLease implements AzureBlobLeaseInfo 
     info.token = this.token;
     info.offset = this.offset;
     log.azurebloblease("[%s] [%s] Lease info is: %o", this.owner, this.partitionId, info);
-    return (info as LeaseInfo);
+    return info as LeaseInfo;
   }
 
   /**
@@ -107,7 +106,7 @@ export class AzureBlobLease extends CompleteLease implements AzureBlobLeaseInfo 
       sequenceNumber: 0,
       owner: "",
       token: "",
-      blob: blob,
+      blob: blob
     });
   }
 }

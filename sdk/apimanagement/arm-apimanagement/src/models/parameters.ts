@@ -55,7 +55,7 @@ export const apiId1: msRest.OperationURLParameter = {
     constraints: {
       MaxLength: 80,
       MinLength: 1,
-      Pattern: /(^[\w]+$)|(^[\w][\w\-]+[\w]$)/
+      Pattern: /^[^*#&+:<>?]+$/
     },
     type: {
       name: "String"
@@ -95,22 +95,37 @@ export const authsid: msRest.OperationURLParameter = {
     constraints: {
       MaxLength: 80,
       MinLength: 1,
-      Pattern: /(^[\w]+$)|(^[\w][\w\-]+[\w]$)/
+      Pattern: /^[^*#&+:<>?]+$/
     },
     type: {
       name: "String"
     }
   }
 };
-export const backendid: msRest.OperationURLParameter = {
-  parameterPath: "backendid",
+export const backendId: msRest.OperationURLParameter = {
+  parameterPath: "backendId",
   mapper: {
     required: true,
-    serializedName: "backendid",
+    serializedName: "backendId",
     constraints: {
       MaxLength: 80,
       MinLength: 1,
-      Pattern: /(^[\w]+$)|(^[\w][\w\-]+[\w]$)/
+      Pattern: /^[^*#&+:<>?]+$/
+    },
+    type: {
+      name: "String"
+    }
+  }
+};
+export const cacheId: msRest.OperationURLParameter = {
+  parameterPath: "cacheId",
+  mapper: {
+    required: true,
+    serializedName: "cacheId",
+    constraints: {
+      MaxLength: 80,
+      MinLength: 1,
+      Pattern: /^[^*#&+:<>?]+$/
     },
     type: {
       name: "String"
@@ -125,7 +140,7 @@ export const certificateId: msRest.OperationURLParameter = {
     constraints: {
       MaxLength: 80,
       MinLength: 1,
-      Pattern: /(^[\w]+$)|(^[\w][\w\-]+[\w]$)/
+      Pattern: /^[^*#&+:<>?]+$/
     },
     type: {
       name: "String"
@@ -191,7 +206,7 @@ export const diagnosticId: msRest.OperationURLParameter = {
     constraints: {
       MaxLength: 80,
       MinLength: 1,
-      Pattern: /(^[\w]+$)|(^[\w][\w\-]+[\w]$)/
+      Pattern: /^[^*#&+:<>?]+$/
     },
     type: {
       name: "String"
@@ -215,7 +230,18 @@ export const expandApiVersionSet: msRest.OperationQueryParameter = {
   ],
   mapper: {
     serializedName: "expandApiVersionSet",
-    defaultValue: false,
+    type: {
+      name: "Boolean"
+    }
+  }
+};
+export const expandCommentsAttachments: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "expandCommentsAttachments"
+  ],
+  mapper: {
+    serializedName: "expandCommentsAttachments",
     type: {
       name: "Boolean"
     }
@@ -267,6 +293,18 @@ export const filter1: msRest.OperationQueryParameter = {
     }
   }
 };
+export const force: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "force"
+  ],
+  mapper: {
+    serializedName: "force",
+    type: {
+      name: "Boolean"
+    }
+  }
+};
 export const format: msRest.OperationQueryParameter = {
   parameterPath: "format",
   mapper: {
@@ -283,9 +321,9 @@ export const groupId: msRest.OperationURLParameter = {
     required: true,
     serializedName: "groupId",
     constraints: {
-      MaxLength: 80,
+      MaxLength: 256,
       MinLength: 1,
-      Pattern: /(^[\w]+$)|(^[\w][\w\-]+[\w]$)/
+      Pattern: /^[^*#&+:<>?]+$/
     },
     type: {
       name: "String"
@@ -303,6 +341,18 @@ export const identityProviderName: msRest.OperationURLParameter = {
   }
 };
 export const ifMatch0: msRest.OperationParameter = {
+  parameterPath: [
+    "options",
+    "ifMatch"
+  ],
+  mapper: {
+    serializedName: "If-Match",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const ifMatch1: msRest.OperationParameter = {
   parameterPath: "ifMatch",
   mapper: {
     required: true,
@@ -312,15 +362,39 @@ export const ifMatch0: msRest.OperationParameter = {
     }
   }
 };
-export const ifMatch1: msRest.OperationParameter = {
+export const includeNotTaggedApis: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "ifMatch"
+    "includeNotTaggedApis"
   ],
   mapper: {
-    serializedName: "If-Match",
+    serializedName: "includeNotTaggedApis",
     type: {
-      name: "String"
+      name: "Boolean"
+    }
+  }
+};
+export const includeNotTaggedOperations: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "includeNotTaggedOperations"
+  ],
+  mapper: {
+    serializedName: "includeNotTaggedOperations",
+    type: {
+      name: "Boolean"
+    }
+  }
+};
+export const includeNotTaggedProducts: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "includeNotTaggedProducts"
+  ],
+  mapper: {
+    serializedName: "includeNotTaggedProducts",
+    type: {
+      name: "Boolean"
     }
   }
 };
@@ -362,14 +436,14 @@ export const locationName: msRest.OperationURLParameter = {
     }
   }
 };
-export const loggerid: msRest.OperationURLParameter = {
-  parameterPath: "loggerid",
+export const loggerId: msRest.OperationURLParameter = {
+  parameterPath: "loggerId",
   mapper: {
     required: true,
-    serializedName: "loggerid",
+    serializedName: "loggerId",
     constraints: {
-      MaxLength: 80,
-      Pattern: /(^[\w]+$)|(^[\w][\w\-]+[\w]$)/
+      MaxLength: 256,
+      Pattern: /^[^*#&+:<>?]+$/
     },
     type: {
       name: "String"
@@ -417,7 +491,7 @@ export const operationId: msRest.OperationURLParameter = {
     constraints: {
       MaxLength: 80,
       MinLength: 1,
-      Pattern: /(^[\w]+$)|(^[\w][\w\-]+[\w]$)/
+      Pattern: /^[^*#&+:<>?]+$/
     },
     type: {
       name: "String"
@@ -433,6 +507,18 @@ export const opid: msRest.OperationURLParameter = {
       MaxLength: 256,
       Pattern: /^[^*#&+:<>?]+$/
     },
+    type: {
+      name: "String"
+    }
+  }
+};
+export const orderby: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "orderby"
+  ],
+  mapper: {
+    serializedName: "$orderby",
     type: {
       name: "String"
     }
@@ -456,9 +542,9 @@ export const productId: msRest.OperationURLParameter = {
     required: true,
     serializedName: "productId",
     constraints: {
-      MaxLength: 80,
+      MaxLength: 256,
       MinLength: 1,
-      Pattern: /(^[\w]+$)|(^[\w][\w\-]+[\w]$)/
+      Pattern: /^[^*#&+:<>?]+$/
     },
     type: {
       name: "String"
@@ -471,8 +557,8 @@ export const propId: msRest.OperationURLParameter = {
     required: true,
     serializedName: "propId",
     constraints: {
-      MaxLength: 80,
-      Pattern: /(^[\w]+$)|(^[\w][\w\-]+[\w]$)/
+      MaxLength: 256,
+      Pattern: /^[^*#&+:<>?]+$/
     },
     type: {
       name: "String"
@@ -507,7 +593,7 @@ export const releaseId: msRest.OperationURLParameter = {
     constraints: {
       MaxLength: 80,
       MinLength: 1,
-      Pattern: /(^[\w]+$)|(^[\w][\w\-]+[\w]$)/
+      Pattern: /^[^*#&+:<>?]+$/
     },
     type: {
       name: "String"
@@ -532,14 +618,26 @@ export const schemaId: msRest.OperationURLParameter = {
     constraints: {
       MaxLength: 80,
       MinLength: 1,
-      Pattern: /(^[\w]+$)|(^[\w][\w\-]+[\w]$)/
+      Pattern: /^[^*#&+:<>?]+$/
     },
     type: {
       name: "String"
     }
   }
 };
-export const scope: msRest.OperationQueryParameter = {
+export const scope0: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "scope"
+  ],
+  mapper: {
+    serializedName: "scope",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const scope1: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
     "scope"
@@ -579,8 +677,8 @@ export const sid: msRest.OperationURLParameter = {
     required: true,
     serializedName: "sid",
     constraints: {
-      MaxLength: 80,
-      Pattern: /(^[\w]+$)|(^[\w][\w\-]+[\w]$)/
+      MaxLength: 256,
+      Pattern: /^[^*#&+:<>?]+$/
     },
     type: {
       name: "String"
@@ -620,8 +718,20 @@ export const tagId: msRest.OperationURLParameter = {
     constraints: {
       MaxLength: 80,
       MinLength: 1,
-      Pattern: /(^[\w]+$)|(^[\w][\w\-]+[\w]$)/
+      Pattern: /^[^*#&+:<>?]+$/
     },
+    type: {
+      name: "String"
+    }
+  }
+};
+export const tags: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "tags"
+  ],
+  mapper: {
+    serializedName: "tags",
     type: {
       name: "String"
     }
@@ -652,15 +762,15 @@ export const top: msRest.OperationQueryParameter = {
     }
   }
 };
-export const uid: msRest.OperationURLParameter = {
-  parameterPath: "uid",
+export const userId: msRest.OperationURLParameter = {
+  parameterPath: "userId",
   mapper: {
     required: true,
-    serializedName: "uid",
+    serializedName: "userId",
     constraints: {
       MaxLength: 80,
       MinLength: 1,
-      Pattern: /(^[\w]+$)|(^[\w][\w\-]+[\w]$)/
+      Pattern: /^[^*#&+:<>?]+$/
     },
     type: {
       name: "String"
@@ -675,7 +785,7 @@ export const versionSetId: msRest.OperationURLParameter = {
     constraints: {
       MaxLength: 80,
       MinLength: 1,
-      Pattern: /(^[\w]+$)|(^[\w][\w\-]+[\w]$)/
+      Pattern: /^[^*#&+:<>?]+$/
     },
     type: {
       name: "String"

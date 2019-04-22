@@ -82,16 +82,16 @@ describe("Simple Send", function(): void {
     await afterEachTest();
   });
 
-  async function testSimpleSend(useSessions?: boolean): Promise<void> {
-    const testMessages = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
-    await senderClient.createSender().send(testMessages);
+  async function testSimpleSend(useSessions: boolean, usePartitions: boolean): Promise<void> {
+    const testMessage = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
+    await senderClient.createSender().send(testMessage);
     const msgs = await receiver.receiveMessages(1);
 
     should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
     should.equal(msgs.length, 1, "Unexpected number of messages");
-    should.equal(msgs[0].body, testMessages.body, "MessageBody is different than expected");
-    should.equal(msgs[0].messageId, testMessages.messageId, "MessageId is different than expected");
     should.equal(msgs[0].deliveryCount, 0, "DeliveryCount is different than expected");
+
+    TestMessage.checkMessageContents(testMessage, msgs[0], useSessions, usePartitions);
 
     await msgs[0].complete();
 
@@ -100,17 +100,17 @@ describe("Simple Send", function(): void {
 
   it("Partitioned Queue: Simple Send", async function(): Promise<void> {
     await beforeEachTest(TestClientType.PartitionedQueue, TestClientType.PartitionedQueue);
-    await testSimpleSend();
+    await testSimpleSend(false, true);
   });
 
   it("Partitioned Topic: Simple Send", async function(): Promise<void> {
     await beforeEachTest(TestClientType.PartitionedTopic, TestClientType.PartitionedSubscription);
-    await testSimpleSend();
+    await testSimpleSend(false, true);
   });
 
   it("Unpartitioned Queue: Simple Send", async function(): Promise<void> {
     await beforeEachTest(TestClientType.UnpartitionedQueue, TestClientType.UnpartitionedQueue);
-    await testSimpleSend();
+    await testSimpleSend(false, false);
   });
 
   it("Unpartitioned Topic: Simple Send", async function(): Promise<void> {
@@ -118,7 +118,7 @@ describe("Simple Send", function(): void {
       TestClientType.UnpartitionedTopic,
       TestClientType.UnpartitionedSubscription
     );
-    await testSimpleSend();
+    await testSimpleSend(false, false);
   });
 
   it("Partitioned Queue with Sessions: Simple Send", async function(): Promise<void> {
@@ -127,7 +127,7 @@ describe("Simple Send", function(): void {
       TestClientType.PartitionedQueueWithSessions,
       true
     );
-    await testSimpleSend(true);
+    await testSimpleSend(true, true);
   });
 
   it("Partitioned Topic with Sessions: Simple Send", async function(): Promise<void> {
@@ -136,7 +136,7 @@ describe("Simple Send", function(): void {
       TestClientType.PartitionedSubscriptionWithSessions,
       true
     );
-    await testSimpleSend(true);
+    await testSimpleSend(true, true);
   });
 
   it("Unpartitioned Queue with Sessions: Simple Send", async function(): Promise<void> {
@@ -145,7 +145,7 @@ describe("Simple Send", function(): void {
       TestClientType.UnpartitionedQueueWithSessions,
       true
     );
-    await testSimpleSend(true);
+    await testSimpleSend(true, false);
   });
 
   it("Unpartitioned Topic with Sessions: Simple Send", async function(): Promise<void> {
@@ -154,7 +154,7 @@ describe("Simple Send", function(): void {
       TestClientType.UnpartitionedSubscriptionWithSessions,
       true
     );
-    await testSimpleSend(true);
+    await testSimpleSend(true, false);
   });
 });
 
@@ -592,7 +592,7 @@ describe("Message validations", function(): void {
   }
 
   it("Error thrown when the 'msg' is undefined", async function(): Promise<void> {
-    await validationTest(undefined!, "data is required and it must be of type object.");
+    await validationTest(undefined!, "'msg' cannot be null or undefined.");
   });
 
   it("Error thrown when the 'contentType' is not of type 'string'", async function(): Promise<

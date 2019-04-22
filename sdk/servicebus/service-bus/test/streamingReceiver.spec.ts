@@ -700,10 +700,10 @@ describe("Streaming - Settle an already Settled message throws error", () => {
     await afterEachTest();
   });
 
-  const testError = (err: Error) => {
+  const testError = (err: Error, operation: DispositionType) => {
     should.equal(
       err.message,
-      "This message has been already settled.",
+      `Failed to ${operation} the message as this message has been already settled.`,
       "ErrorMessage is different than expected"
     );
     errorWasThrown = true;
@@ -742,13 +742,13 @@ describe("Streaming - Settle an already Settled message throws error", () => {
     await testPeekMsgsLength(receiverClient, 0);
 
     if (operation === DispositionType.complete) {
-      await receivedMsgs[0].complete().catch((err) => testError(err));
+      await receivedMsgs[0].complete().catch((err) => testError(err, operation));
     } else if (operation === DispositionType.abandon) {
-      await receivedMsgs[0].abandon().catch((err) => testError(err));
+      await receivedMsgs[0].abandon().catch((err) => testError(err, operation));
     } else if (operation === DispositionType.deadletter) {
-      await receivedMsgs[0].deadLetter().catch((err) => testError(err));
+      await receivedMsgs[0].deadLetter().catch((err) => testError(err, operation));
     } else if (operation === DispositionType.defer) {
-      await receivedMsgs[0].defer().catch((err) => testError(err));
+      await receivedMsgs[0].defer().catch((err) => testError(err, operation));
     }
 
     should.equal(errorWasThrown, true, "Error thrown flag must be true");
