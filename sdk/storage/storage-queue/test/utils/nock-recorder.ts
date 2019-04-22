@@ -5,7 +5,8 @@ import * as dotenv from "dotenv";
 dotenv.config({ path: "../../.env" });
 
 export function record(folderpath: string, filename: string): { [key: string]: any } {
-  let fp = folderpath.toLowerCase().replace(/ /g, "_") + "/recording_" + filename.toLowerCase().replace(/ /g, "_") + ".js";
+  let fp = folderpath.toLowerCase().replace(/ /g, "_").replace(/\W/g, "") +
+    "/recording_" + filename.toLowerCase().replace(/ /g, "_").replace(/\W/g, "") + ".js";
   let importNock = "let nock = require('nock');\n";
   let uniqueTestInfo: any = {};
 
