@@ -519,22 +519,24 @@ export function isSystemError(err: any): boolean {
 
 /**
  * Translates the AQMP error received at the protocol layer or a generic Error into a MessagingError.
- * Exceptions are errors that clearly indicate problems not related to messaging
  *
  * @param {AmqpError} err The amqp error that was received.
- * @returns {MessagingError | TypeError | RangeError} MessagingError object.
+ * @returns {MessagingError} MessagingError object.
  */
-export function translate(err: AmqpError | Error): MessagingError | TypeError | RangeError {
-  // Avoid converting built-in errors like TypeError and RangeError as these indicate issues with
-  // user input and not an issue with the Messaging process.
-  if (err instanceof TypeError || err instanceof RangeError) {
-    return err;
-  }
-
-  let error: MessagingError = err as MessagingError;
+export function translate(err: AmqpError | Error): MessagingError {
   if ((err as MessagingError).translated) { // already translated
     return err as MessagingError;
   }
+
+  let error: MessagingError = err as MessagingError;
+
+  // Built-in errors like TypeError and RangeError should not be retryable as these indicate issues
+  // with user input and not an issue with the Messaging process.
+  if (err instanceof TypeError || err instanceof RangeError) {
+    error.retryable = false;
+    return error;
+  }
+
   if (isAmqpError(err)) { // translate
     const condition = (err as AmqpError).condition;
     const description = (err as AmqpError).description as string;

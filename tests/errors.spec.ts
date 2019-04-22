@@ -2,7 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 import * as chai from "chai";
-chai.should();
+const should = chai.should();
 
 import * as Errors from "../lib/errors";
 
@@ -30,16 +30,22 @@ describe("Errors", function () {
       translatedError.message.should.equal(ehError.message);
     });
 
-    it("Skips converting to MessagingError, and acts as a passthrough if the input is TypeError", function () {
-      const err: any = new TypeError("This is a wrong type!!");
+    it("Sets retryable to false, and acts as a passthrough if the input is TypeError", function () {
+      const err = new TypeError("This is a wrong type!!");
       const translatedError = Errors.translate(err);
-      translatedError.should.equal(err);
+      should.equal(translatedError instanceof TypeError, true);
+      translatedError.message.should.equal(err.message);
+      translatedError.stack!.should.equal(err.stack);
+      translatedError.retryable.should.equal(false);
     });
 
-    it("Skips converting to MessagingError, and acts as a passthrough if the input is RangeError", function () {
-      const err: any = new RangeError("Out of range!!");
+    it("Sets retryable to false, and acts as a passthrough if the input is RangeError", function () {
+      const err = new RangeError("Out of range!!");
       const translatedError = Errors.translate(err);
-      translatedError.should.equal(err);
+      should.equal(translatedError instanceof RangeError, true);
+      translatedError.message.should.equal(err.message);
+      translatedError.stack!.should.equal(err.stack);
+      translatedError.retryable.should.equal(false);
     });
 
     [

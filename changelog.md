@@ -4,7 +4,7 @@
 - Change the size limit on the User Agent string from 128 to 512. [PR 42](https://github.com/Azure/amqp-common-js/pull/42)
 - Export new constant `aadServiceBusAudience` to fix [Bug 30](https://github.com/Azure/amqp-common-js/issues/30). [PR 46](https://github.com/Azure/amqp-common-js/pull/46)
 - Export new constant `associatedLinkName` which holds the property name for `assocaited-link-name` which should be set in order to enable Service Bus to do optimizations on it's end. [PR 47](https://github.com/Azure/amqp-common-js/pull/47)
-- Built-in errors like `TypeError` and `RangeError` are no longer converted to `MessageError` in the `translate` call and are no longer treated as retryable errors. [PR 51](https://github.com/Azure/amqp-common-js/pull/51) 
+- In the `translate` method, built-in errors like `TypeError` and `RangeError` are now treated as non-retryable errors and do not get converted into new `MessagingError` objects as they are related to user input issues and not messaging problems. This allows the caller of this method to use `instanceOf` on such errors and get the right error types. [PR 51](https://github.com/Azure/amqp-common-js/pull/51) and [PR 54](https://github.com/Azure/amqp-common-js/pull/54)
 
 ### 2019-3-22 1.0.0-preview.2
 - Added support for browser and websockets.
