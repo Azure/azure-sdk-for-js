@@ -335,13 +335,11 @@ export class EventHubClient {
       throw new Error("'connectionString' is a required parameter and must be of type: 'string'.");
     }
     const config = EventHubConnectionConfig.create(connectionString, path);
-    if (options && options.webSocket) {
-       config.webSocket = options.webSocket;
-       config.webSocketEndpointPath = "$servicebus/websocket";
-       if (options.webSocketConstructorOptions){
-          config.webSocketConstructorOptions = options.webSocketConstructorOptions;
-        }
-    }
+
+    config.webSocket = options && options.webSocket;
+    config.webSocketEndpointPath = "$servicebus/websocket";
+    config.webSocketConstructorOptions = options && options.webSocketConstructorOptions;
+
     if (!config.entityPath) {
       throw new Error(
         `Either the connectionString must have "EntityPath=<path-to-entity>" or ` +
