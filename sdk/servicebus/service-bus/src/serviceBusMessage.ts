@@ -347,6 +347,7 @@ export function validateAmqpMessage(msg: SendableMessageInfo): void {
  * Converts given SendableMessageInfo to AmqpMessage
  */
 export function toAmqpMessage(msg: SendableMessageInfo): AmqpMessage {
+  validateAmqpMessage(msg);
   const amqpMsg: AmqpMessage = {
     body: msg.body,
     message_annotations: {}
