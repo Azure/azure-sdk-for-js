@@ -20,7 +20,7 @@ import { throwIfMessageCannotBeSettled } from "../src/util/errors";
  */
 export enum ReceiveMode {
   /**
-   * Once a message is received in this mode, the reciever has a lock on the message for a
+   * Once a message is received in this mode, the receiver has a lock on the message for a
    * particular duration. If the message is not settled by this time, it lands back on Service Bus
    * to be fetched by the next receive operation.
    * @type {Number}
@@ -677,14 +677,14 @@ export module ReceivedMessageInfo {
       lockToken:
         delivery && delivery.tag && delivery.tag.length !== 0
           ? uuid_to_string(
-              shouldReorderLockToken === true
-                ? reorderLockToken(
-                    typeof delivery.tag === "string" ? Buffer.from(delivery.tag) : delivery.tag
-                  )
-                : typeof delivery.tag === "string"
+            shouldReorderLockToken === true
+              ? reorderLockToken(
+                typeof delivery.tag === "string" ? Buffer.from(delivery.tag) : delivery.tag
+              )
+              : typeof delivery.tag === "string"
                 ? Buffer.from(delivery.tag)
                 : delivery.tag
-            )
+          )
           : undefined,
       ...sbmsg,
       ...props

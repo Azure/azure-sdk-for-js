@@ -163,7 +163,7 @@ export class SubscriptionClient implements Client {
    *
    * @param receiveMode An enum indicating the mode in which messages should be received. Possible
    * values are:
-   * - `ReceiveMode.peekLock`: Once a message is received in this mode, the reciever has a lock on
+   * - `ReceiveMode.peekLock`: Once a message is received in this mode, the receiver has a lock on
    * the message for a particular duration. If the message is not settled by this time, it lands back
    * on Service Bus to be fetched by the next receive operation.
    * - `ReceiveMode.receiveAndDelete`: Messages received in this mode get automatically removed from
@@ -181,7 +181,7 @@ export class SubscriptionClient implements Client {
    *
    * @param receiveMode An enum indicating the mode in which messages should be received. Possible
    * values are:
-   * - `ReceiveMode.peekLock`: Once a message is received in this mode, the reciever has a lock on
+   * - `ReceiveMode.peekLock`: Once a message is received in this mode, the receiver has a lock on
    * the message for a particular duration. If the message is not settled by this time, it lands back
    * on Service Bus to be fetched by the next receive operation.
    * - `ReceiveMode.receiveAndDelete`: Messages received in this mode get automatically removed from
