@@ -61,7 +61,7 @@ export async function uploadBrowserDataToBlockBlob(
  * @export
  * @param {Blob | ArrayBuffer | ArrayBufferView} browserData Blob, File, ArrayBuffer or ArrayBufferView
  * @param {BlockBlobURL} blockBlobURL
- * @param {IUploadToBlockBlobOptions} [uploadOptions]
+ * @param {IUploadToBlockBlobOptions & { credential?: Credential } & INewPipelineOptions} [options] upload options & credential & new pipeline options
  * @returns {Promise<BlobUploadCommonResponse>}
  */
 export async function uploadBrowserDataToBlockBlobUrl(

@@ -73,7 +73,8 @@ export async function uploadFileToBlockBlob(
  * @export
  * @param {string} filePath Full path of local file
  * @param {string} blockBlobURL url to a block blob
- * @param {IUploadToBlockBlobOptions & \{ credential?: Credential \} & INewPipelineOptions} [options] IUploadToBlockBlobOptions
+ * @param {IUploadToBlockBlobOptions & { credential?: Credential } & INewPipelineOptions} [options] upload options & credential & new pipeline options
+ *                                                                                                  If credential is not specified {@link AnonymousCredential} is used.
  * @returns {(Promise<BlobUploadCommonResponse>)} ICommonResponse
  */
 export async function uploadFileToBlockBlobUrl(
@@ -302,7 +303,8 @@ export async function downloadBlobToBuffer(
  * @param {BlobURL} blobURL A BlobURL object
  * @param {number} offset From which position of the block blob to download
  * @param {number} [count] How much data to be downloaded. Will download to the end when passing undefined
- * @param {IDownloadFromBlobOptions} [downloadOptions] IDownloadFromBlobOptions
+ * @param {IDownloadFromBlobOptions} [options] download options & credential & new pipeline options
+ *                                             If credential is not specified {@link AnonymousCredential} is used.
  * @param {credential} [credential] Credential. If not specified {@link AnonymousCredential} is used.
  * @param {INewPipelineOptions} [pipelineOptions]
  * @returns {Promise<void>}
@@ -454,9 +456,8 @@ export async function uploadStreamToBlockBlob(
  * @param {number} bufferSize Size of every buffer allocated, also the block size in the uploaded block blob
  * @param {number} maxBuffers Max buffers will allocate during uploading, positive correlation
  *                            with max uploading concurrency
- * @param {IUploadStreamToBlockBlobOptions} [uploadOptions]
- * @param {credential} [credential] Credential. If not specified {@link AnonymousCredential} is used.
- * @param {INewPipelineOptions} [pipelineOptions]
+ * @param {IUploadStreamToBlockBlobOptions & { credential?: Credential } & INewPipelineOptions} [options] upload options & credential & new pipeline options
+ *                                                                                                        If credential is not specified {@link AnonymousCredential} is used.
  * @returns {Promise<BlobUploadCommonResponse>}
  */
 export async function uploadStreamToBlockBlobUrl(
