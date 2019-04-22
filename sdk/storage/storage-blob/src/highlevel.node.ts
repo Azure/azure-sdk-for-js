@@ -60,7 +60,11 @@ export async function uploadFileToBlockBlob(
   );
 }
 
-type UploadFileToBlockBlobUrlOptions = IUploadToBlockBlobOptions & CredentialOptions & INewPipelineOptions;
+/**
+ * Intersection type that is {@link IUploadToBlockBlobOptions}, {@link CredentialOptions}, and
+ * {@link INewPipelineOptions} at the same time. It contains all members of these types.
+ */
+export type UploadFileToBlockBlobUrlOptions = IUploadToBlockBlobOptions & CredentialOptions & INewPipelineOptions;
 
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
@@ -294,6 +298,10 @@ export async function downloadBlobToBuffer(
   await batch.do();
 }
 
+/**
+ * Intersection type that is {@link IDownloadFromBlobOptions}, {@link CredentialOptions}, and
+ * {@link INewPipelineOptions} at the same time. It contains all members of these types.
+ */
 export type DownloadBlobToBufferFromUrlOptions = IDownloadFromBlobOptions & CredentialOptions & INewPipelineOptions;
 
 /**
@@ -305,7 +313,7 @@ export type DownloadBlobToBufferFromUrlOptions = IDownloadFromBlobOptions & Cred
  * @export
  * @param {Buffer} buffer Buffer to be fill, must have length larger than count
  * @param {BlobURL} blobURL A BlobURL object
- * @param {number} offset From which position of the block blob to download
+ * @param {number} [offset] From which position of the block blob to download
  * @param {number} [count] How much data to be downloaded. Will download to the end when passing undefined
  * @param {DownloadBlobToBufferFromUrlOptions} [options] IDownloadFromBlobOptions & CredentialOptions & INewPipelineOptions.
  *                                                       If credential options is not specified {@link AnonymousCredential} is used.
@@ -316,8 +324,8 @@ export type DownloadBlobToBufferFromUrlOptions = IDownloadFromBlobOptions & Cred
 export async function downloadBlobToBufferFromUrl(
   buffer: Buffer,
   url: string,
-  offset: number,
-  count?: number,
+  offset: number = 0,
+  count: number = 0,
   options: DownloadBlobToBufferFromUrlOptions = {},
 ): Promise<void> {
 
@@ -444,7 +452,11 @@ export async function uploadStreamToBlockBlob(
   return blockBlobURL.commitBlockList(blockList, options);
 }
 
-type UploadStreamToBlockBlobUrlOptions = IUploadStreamToBlockBlobOptions & CredentialOptions & INewPipelineOptions
+/**
+ * Intersection type that is {@link IUploadStreamToBlockBlobOptions}, {@link CredentialOptions}, and
+ * {@link INewPipelineOptions} at the same time. It contains all members of these types.
+ */
+export type UploadStreamToBlockBlobUrlOptions = IUploadStreamToBlockBlobOptions & CredentialOptions & INewPipelineOptions
 
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
@@ -469,8 +481,8 @@ type UploadStreamToBlockBlobUrlOptions = IUploadStreamToBlockBlobOptions & Crede
 export async function uploadStreamToBlockBlobUrl(
   stream: Readable,
   url: string,
-  bufferSize: number,
-  maxBuffers: number,
+  bufferSize: number = 4 * 1024 * 1024,
+  maxBuffers: number = 20,
   options: UploadStreamToBlockBlobUrlOptions = {},
 ): Promise<BlobUploadCommonResponse> {
   const pipeline = StorageURL.newPipeline(options.credential || new AnonymousCredential(), options);

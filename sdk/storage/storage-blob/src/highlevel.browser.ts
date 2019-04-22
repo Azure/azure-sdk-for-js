@@ -48,7 +48,11 @@ export async function uploadBrowserDataToBlockBlob(
   );
 }
 
-//type UploadBrowserDataToBlockBlobUrlOptions = IUploadToBlockBlobOptions & CredentialOptions & INewPipelineOptions;
+// /**
+//  * Intersection type that is {@link IUploadToBlockBlobOptions}, {@link CredentialOptions}, and
+//  * {@link INewPipelineOptions} at the same time. It contains all members of these types.
+//  */
+// export type UploadBrowserDataToBlockBlobUrlOptions = IUploadToBlockBlobOptions & CredentialOptions & INewPipelineOptions;
 
 /**
  * ONLY AVAILABLE IN BROWSERS.
@@ -63,7 +67,7 @@ export async function uploadBrowserDataToBlockBlob(
  * @export
  * @param {Blob | ArrayBuffer | ArrayBufferView} browserData Blob, File, ArrayBuffer or ArrayBufferView
  * @param {BlockBlobURL} blockBlobURL
- * @param {UploadBrowserDataToBlockBlobUrlOptions} [options] Upload browser data options & credential options & new pipeline options.
+ * @param {IUploadToBlockBlobOptions & CredentialOptions & INewPipelineOptions} [options] Options for Uploading browser data, credential, and new pipeline.
  *                                                           If credential options is not specified {@link AnonymousCredential} is used.
  * @returns {Promise<BlobUploadCommonResponse>}
  */
