@@ -1053,7 +1053,7 @@ export interface ManagedClusterAgentPoolProfileProperties {
    */
   availabilityZones?: string[];
   /**
-   * @member {boolean} [enableNodePublicIP] Enable public IP for nodes.
+   * @member {boolean} [enableNodePublicIP] Enable public IP for nodes
    */
   enableNodePublicIP?: boolean;
 }
@@ -1200,7 +1200,7 @@ export interface AgentPool extends SubResource {
    */
   availabilityZones?: string[];
   /**
-   * @member {boolean} [enableNodePublicIP] Enable public IP for nodes.
+   * @member {boolean} [enableNodePublicIP] Enable public IP for nodes
    */
   enableNodePublicIP?: boolean;
 }
