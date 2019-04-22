@@ -9,7 +9,7 @@
  */
 
 export * from "./billingAccounts";
-export * from "./availableBalanceOperations";
+export * from "./availableBalances";
 export * from "./paymentMethods";
 export * from "./billingProfiles";
 export * from "./invoiceSections";
@@ -20,13 +20,13 @@ export * from "./priceSheet";
 export * from "./billingSubscriptions";
 export * from "./products";
 export * from "./transactions";
-export * from "./policyOperations";
+export * from "./policies";
 export * from "./billingPropertyOperations";
 export * from "./transfers";
 export * from "./recipientTransfers";
 export * from "./operations";
 export * from "./billingPermissionsOperations";
 export * from "./billingProfileBillingPermissions";
-export * from "./billingRoleDefinitionOperations";
-export * from "./billingRoleAssignmentOperations";
+export * from "./billingRoleDefinitions";
+export * from "./billingRoleAssignments";
 export * from "./agreements";

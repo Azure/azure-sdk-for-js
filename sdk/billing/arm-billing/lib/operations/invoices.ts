@@ -103,7 +103,7 @@ export class Invoices {
   }
 
   /**
-   * Get the invoice by id.
+   * Get the invoice by name.
    * @param billingAccountName billing Account Id.
    * @param billingProfileName Billing Profile Id.
    * @param invoiceName Invoice Id.

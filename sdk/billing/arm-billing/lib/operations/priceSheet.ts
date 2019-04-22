@@ -28,7 +28,7 @@ export class PriceSheet {
   }
 
   /**
-   * Get pricesheet for invoice id (invoiceName).
+   * Download price sheet for an invoice.
    * @param billingAccountName Azure Billing Account ID.
    * @param invoiceName The name of an invoice resource.
    * @param [options] The optional parameters
@@ -40,7 +40,7 @@ export class PriceSheet {
   }
 
   /**
-   * Get pricesheet for invoice id (invoiceName).
+   * Download price sheet for an invoice.
    * @param billingAccountName Azure Billing Account ID.
    * @param invoiceName The name of an invoice resource.
    * @param [options] The optional parameters

@@ -27,7 +27,7 @@ export class Transfers {
   }
 
   /**
-   * Initiates the request to transfer the modern or legacy subscriptions or RIs to modern.
+   * Initiates the request to transfer the legacy subscriptions or RIs.
    * @param billingAccountName billing Account Id.
    * @param invoiceSectionName InvoiceSection Id.
    * @param body Initiate transfer parameters.

@@ -2763,7 +2763,7 @@ export type BillingAccountsGetResponse = BillingAccount & {
 /**
  * Contains response data for the getByBillingProfile operation.
  */
-export type AvailableBalanceGetByBillingProfileResponse = AvailableBalance & {
+export type AvailableBalancesGetByBillingProfileResponse = AvailableBalance & {
   /**
    * The underlying HTTP response.
    */
@@ -3490,7 +3490,7 @@ export type TransactionsListByBillingAccountNameNextResponse = TransactionsListR
 /**
  * Contains response data for the getByBillingProfileName operation.
  */
-export type PolicyGetByBillingProfileNameResponse = Policy & {
+export type PoliciesGetByBillingProfileNameResponse = Policy & {
   /**
    * The underlying HTTP response.
    */
@@ -3509,7 +3509,7 @@ export type PolicyGetByBillingProfileNameResponse = Policy & {
 /**
  * Contains response data for the update operation.
  */
-export type PolicyUpdateResponse = Policy & {
+export type PoliciesUpdateResponse = Policy & {
   /**
    * The underlying HTTP response.
    */
@@ -3832,7 +3832,7 @@ export type BillingProfileBillingPermissionsListResponse = BillingPermissionsLis
 /**
  * Contains response data for the getByBillingAccountName operation.
  */
-export type BillingRoleDefinitionGetByBillingAccountNameResponse = BillingRoleDefinition & {
+export type BillingRoleDefinitionsGetByBillingAccountNameResponse = BillingRoleDefinition & {
   /**
    * The underlying HTTP response.
    */
@@ -3851,7 +3851,7 @@ export type BillingRoleDefinitionGetByBillingAccountNameResponse = BillingRoleDe
 /**
  * Contains response data for the getByInvoiceSectionName operation.
  */
-export type BillingRoleDefinitionGetByInvoiceSectionNameResponse = BillingRoleDefinition & {
+export type BillingRoleDefinitionsGetByInvoiceSectionNameResponse = BillingRoleDefinition & {
   /**
    * The underlying HTTP response.
    */
@@ -3870,7 +3870,7 @@ export type BillingRoleDefinitionGetByInvoiceSectionNameResponse = BillingRoleDe
 /**
  * Contains response data for the getByBillingProfileName operation.
  */
-export type BillingRoleDefinitionGetByBillingProfileNameResponse = BillingRoleDefinition & {
+export type BillingRoleDefinitionsGetByBillingProfileNameResponse = BillingRoleDefinition & {
   /**
    * The underlying HTTP response.
    */
@@ -3889,7 +3889,7 @@ export type BillingRoleDefinitionGetByBillingProfileNameResponse = BillingRoleDe
 /**
  * Contains response data for the listByBillingAccountName operation.
  */
-export type BillingRoleDefinitionListByBillingAccountNameResponse = BillingRoleDefinitionListResult & {
+export type BillingRoleDefinitionsListByBillingAccountNameResponse = BillingRoleDefinitionListResult & {
   /**
    * The underlying HTTP response.
    */
@@ -3908,7 +3908,7 @@ export type BillingRoleDefinitionListByBillingAccountNameResponse = BillingRoleD
 /**
  * Contains response data for the listByInvoiceSectionName operation.
  */
-export type BillingRoleDefinitionListByInvoiceSectionNameResponse = BillingRoleDefinitionListResult & {
+export type BillingRoleDefinitionsListByInvoiceSectionNameResponse = BillingRoleDefinitionListResult & {
   /**
    * The underlying HTTP response.
    */
@@ -3927,7 +3927,7 @@ export type BillingRoleDefinitionListByInvoiceSectionNameResponse = BillingRoleD
 /**
  * Contains response data for the listByBillingProfileName operation.
  */
-export type BillingRoleDefinitionListByBillingProfileNameResponse = BillingRoleDefinitionListResult & {
+export type BillingRoleDefinitionsListByBillingProfileNameResponse = BillingRoleDefinitionListResult & {
   /**
    * The underlying HTTP response.
    */
@@ -3946,7 +3946,7 @@ export type BillingRoleDefinitionListByBillingProfileNameResponse = BillingRoleD
 /**
  * Contains response data for the getByBillingAccount operation.
  */
-export type BillingRoleAssignmentGetByBillingAccountResponse = BillingRoleAssignment & {
+export type BillingRoleAssignmentsGetByBillingAccountResponse = BillingRoleAssignment & {
   /**
    * The underlying HTTP response.
    */
@@ -3965,7 +3965,7 @@ export type BillingRoleAssignmentGetByBillingAccountResponse = BillingRoleAssign
 /**
  * Contains response data for the deleteByBillingAccountName operation.
  */
-export type BillingRoleAssignmentDeleteByBillingAccountNameResponse = BillingRoleAssignment & {
+export type BillingRoleAssignmentsDeleteByBillingAccountNameResponse = BillingRoleAssignment & {
   /**
    * The underlying HTTP response.
    */
@@ -3984,7 +3984,7 @@ export type BillingRoleAssignmentDeleteByBillingAccountNameResponse = BillingRol
 /**
  * Contains response data for the getByInvoiceSectionName operation.
  */
-export type BillingRoleAssignmentGetByInvoiceSectionNameResponse = BillingRoleAssignment & {
+export type BillingRoleAssignmentsGetByInvoiceSectionNameResponse = BillingRoleAssignment & {
   /**
    * The underlying HTTP response.
    */
@@ -4003,7 +4003,7 @@ export type BillingRoleAssignmentGetByInvoiceSectionNameResponse = BillingRoleAs
 /**
  * Contains response data for the deleteByInvoiceSectionName operation.
  */
-export type BillingRoleAssignmentDeleteByInvoiceSectionNameResponse = BillingRoleAssignment & {
+export type BillingRoleAssignmentsDeleteByInvoiceSectionNameResponse = BillingRoleAssignment & {
   /**
    * The underlying HTTP response.
    */
@@ -4022,7 +4022,7 @@ export type BillingRoleAssignmentDeleteByInvoiceSectionNameResponse = BillingRol
 /**
  * Contains response data for the getByBillingProfileName operation.
  */
-export type BillingRoleAssignmentGetByBillingProfileNameResponse = BillingRoleAssignment & {
+export type BillingRoleAssignmentsGetByBillingProfileNameResponse = BillingRoleAssignment & {
   /**
    * The underlying HTTP response.
    */
@@ -4041,7 +4041,7 @@ export type BillingRoleAssignmentGetByBillingProfileNameResponse = BillingRoleAs
 /**
  * Contains response data for the deleteByBillingProfileName operation.
  */
-export type BillingRoleAssignmentDeleteByBillingProfileNameResponse = BillingRoleAssignment & {
+export type BillingRoleAssignmentsDeleteByBillingProfileNameResponse = BillingRoleAssignment & {
   /**
    * The underlying HTTP response.
    */
@@ -4060,7 +4060,7 @@ export type BillingRoleAssignmentDeleteByBillingProfileNameResponse = BillingRol
 /**
  * Contains response data for the listByBillingAccountName operation.
  */
-export type BillingRoleAssignmentListByBillingAccountNameResponse = BillingRoleAssignmentListResult & {
+export type BillingRoleAssignmentsListByBillingAccountNameResponse = BillingRoleAssignmentListResult & {
   /**
    * The underlying HTTP response.
    */
@@ -4079,7 +4079,7 @@ export type BillingRoleAssignmentListByBillingAccountNameResponse = BillingRoleA
 /**
  * Contains response data for the addByBillingAccountName operation.
  */
-export type BillingRoleAssignmentAddByBillingAccountNameResponse = BillingRoleAssignmentListResult & {
+export type BillingRoleAssignmentsAddByBillingAccountNameResponse = BillingRoleAssignmentListResult & {
   /**
    * The underlying HTTP response.
    */
@@ -4098,7 +4098,7 @@ export type BillingRoleAssignmentAddByBillingAccountNameResponse = BillingRoleAs
 /**
  * Contains response data for the listByInvoiceSectionName operation.
  */
-export type BillingRoleAssignmentListByInvoiceSectionNameResponse = BillingRoleAssignmentListResult & {
+export type BillingRoleAssignmentsListByInvoiceSectionNameResponse = BillingRoleAssignmentListResult & {
   /**
    * The underlying HTTP response.
    */
@@ -4117,7 +4117,7 @@ export type BillingRoleAssignmentListByInvoiceSectionNameResponse = BillingRoleA
 /**
  * Contains response data for the addByInvoiceSectionName operation.
  */
-export type BillingRoleAssignmentAddByInvoiceSectionNameResponse = BillingRoleAssignmentListResult & {
+export type BillingRoleAssignmentsAddByInvoiceSectionNameResponse = BillingRoleAssignmentListResult & {
   /**
    * The underlying HTTP response.
    */
@@ -4136,7 +4136,7 @@ export type BillingRoleAssignmentAddByInvoiceSectionNameResponse = BillingRoleAs
 /**
  * Contains response data for the listByBillingProfileName operation.
  */
-export type BillingRoleAssignmentListByBillingProfileNameResponse = BillingRoleAssignmentListResult & {
+export type BillingRoleAssignmentsListByBillingProfileNameResponse = BillingRoleAssignmentListResult & {
   /**
    * The underlying HTTP response.
    */
@@ -4155,7 +4155,7 @@ export type BillingRoleAssignmentListByBillingProfileNameResponse = BillingRoleA
 /**
  * Contains response data for the addByBillingProfileName operation.
  */
-export type BillingRoleAssignmentAddByBillingProfileNameResponse = BillingRoleAssignmentListResult & {
+export type BillingRoleAssignmentsAddByBillingProfileNameResponse = BillingRoleAssignmentListResult & {
   /**
    * The underlying HTTP response.
    */

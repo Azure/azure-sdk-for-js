@@ -156,7 +156,7 @@ export class BillingSubscriptions {
   }
 
   /**
-   * Transfers the modern subscription from one invoice section to another within a billing account.
+   * Transfers the subscription from one invoice section to another within a billing account.
    * @param billingAccountName billing Account Id.
    * @param invoiceSectionName InvoiceSection Id.
    * @param billingSubscriptionName Billing Subscription Id.
@@ -169,7 +169,7 @@ export class BillingSubscriptions {
   }
 
   /**
-   * Transfers the modern subscription from one invoice section to another within a billing account.
+   * Transfers the subscription from one invoice section to another within a billing account.
    * @param billingAccountName billing Account Id.
    * @param invoiceSectionName InvoiceSection Id.
    * @param billingSubscriptionName Billing Subscription Id.

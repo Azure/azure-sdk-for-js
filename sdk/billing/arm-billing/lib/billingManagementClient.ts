@@ -18,7 +18,7 @@ import { BillingManagementClientContext } from "./billingManagementClientContext
 class BillingManagementClient extends BillingManagementClientContext {
   // Operation groups
   billingAccounts: operations.BillingAccounts;
-  availableBalance: operations.AvailableBalanceOperations;
+  availableBalances: operations.AvailableBalances;
   paymentMethods: operations.PaymentMethods;
   billingProfiles: operations.BillingProfiles;
   invoiceSections: operations.InvoiceSections;
@@ -29,15 +29,15 @@ class BillingManagementClient extends BillingManagementClientContext {
   billingSubscriptions: operations.BillingSubscriptions;
   products: operations.Products;
   transactions: operations.Transactions;
-  policy: operations.PolicyOperations;
+  policies: operations.Policies;
   billingProperty: operations.BillingPropertyOperations;
   transfers: operations.Transfers;
   recipientTransfers: operations.RecipientTransfers;
   operations: operations.Operations;
   billingPermissions: operations.BillingPermissionsOperations;
   billingProfileBillingPermissions: operations.BillingProfileBillingPermissions;
-  billingRoleDefinition: operations.BillingRoleDefinitionOperations;
-  billingRoleAssignment: operations.BillingRoleAssignmentOperations;
+  billingRoleDefinitions: operations.BillingRoleDefinitions;
+  billingRoleAssignments: operations.BillingRoleAssignments;
   agreements: operations.Agreements;
 
   /**
@@ -49,7 +49,7 @@ class BillingManagementClient extends BillingManagementClientContext {
   constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.BillingManagementClientOptions) {
     super(credentials, subscriptionId, options);
     this.billingAccounts = new operations.BillingAccounts(this);
-    this.availableBalance = new operations.AvailableBalanceOperations(this);
+    this.availableBalances = new operations.AvailableBalances(this);
     this.paymentMethods = new operations.PaymentMethods(this);
     this.billingProfiles = new operations.BillingProfiles(this);
     this.invoiceSections = new operations.InvoiceSections(this);
@@ -60,15 +60,15 @@ class BillingManagementClient extends BillingManagementClientContext {
     this.billingSubscriptions = new operations.BillingSubscriptions(this);
     this.products = new operations.Products(this);
     this.transactions = new operations.Transactions(this);
-    this.policy = new operations.PolicyOperations(this);
+    this.policies = new operations.Policies(this);
     this.billingProperty = new operations.BillingPropertyOperations(this);
     this.transfers = new operations.Transfers(this);
     this.recipientTransfers = new operations.RecipientTransfers(this);
     this.operations = new operations.Operations(this);
     this.billingPermissions = new operations.BillingPermissionsOperations(this);
     this.billingProfileBillingPermissions = new operations.BillingProfileBillingPermissions(this);
-    this.billingRoleDefinition = new operations.BillingRoleDefinitionOperations(this);
-    this.billingRoleAssignment = new operations.BillingRoleAssignmentOperations(this);
+    this.billingRoleDefinitions = new operations.BillingRoleDefinitions(this);
+    this.billingRoleAssignments = new operations.BillingRoleAssignments(this);
     this.agreements = new operations.Agreements(this);
   }
 }
