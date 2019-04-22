@@ -1,0 +1,77 @@
+{
+  "name": "@azure/keyvault",
+  "author": "Microsoft Corporation",
+  "description": "KeyVaultClient Library with typescript type definitions for node.js and browser.",
+  "version": "1.0.0-preview1",
+  "dependencies": {
+    "@azure/ms-rest-azure-js": "^1.3.2",
+    "@azure/ms-rest-js": "^1.8.0",
+    "tslib": "^1.9.3"
+  },
+  "keywords": [
+    "node",
+    "azure",
+    "typescript",
+    "browser",
+    "isomorphic"
+  ],
+  "license": "MIT",
+  "main": "./dist/index.js",
+  "module": "./esm/index.js",
+  "browser": {
+    "./dist/index.js": "./browser/index.js"
+  },
+  "types": "./types/lib/index.d.ts",
+  "devDependencies": {
+    "@azure/ms-rest-nodeauth": "^0.9.1",
+    "@types/chai": "^4.1.7",
+    "@types/mocha": "^5.2.0",
+    "chai": "^4.2.0",
+    "cross-env": "^5.2.0",
+    "mocha": "^5.2.0",
+    "mocha-multi-reporters": "^1.1.7",
+    "rimraf": "2.6.3",
+    "rollup": "^0.66.2",
+    "rollup-plugin-commonjs": "^9.2.0",
+    "rollup-plugin-node-resolve": "^3.4.0",
+    "ts-node": "^8.0.3",
+    "typedoc": "^0.14.2",
+    "typescript": "^3.1.1",
+    "uglify-js": "^3.4.9"
+  },
+  "homepage": "https://github.com/azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/azure/azure-sdk-for-js.git"
+  },
+  "bugs": {
+    "url": "https://github.com/azure/azure-sdk-for-js/issues"
+  },
+  "files": [
+    "LICENSE.txt",
+    "README.md",
+    "lib/",
+    "types/lib/",
+    "dist/**/*.js",
+    "dist/**/*.js.map",
+    "dist/**/*.d.ts",
+    "dist/**/*.d.ts.map",
+    "esm/**/*.js",
+    "esm/**/*.js.map",
+    "esm/**/*.d.ts",
+    "esm/**/*.d.ts.map",
+    "src/**/*.ts",
+    "rollup.config.js",
+    "tsconfig.json"
+  ],
+  "scripts": {
+    "build": "tsc && rollup -c rollup.config.js && npm run minify",
+    "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/index.js.map'\" -o ./dist/index.min.js ./dist/index.js",
+    "test": "npm run test:node",
+    "test:node": "cross-env TS_NODE_COMPILER_OPTIONS=\"{\\\"module\\\": \\\"commonjs\\\"}\" mocha --require ts-node/register --require source-map-support/register --full-trace --no-timeouts tests/**/*.test.ts",
+    "prepack": "npm install && npm run build",
+    "typedoc": "typedoc",
+    "clean": "rimraf dist esm dist-test types temp"
+  },
+  "sideEffects": false
+}

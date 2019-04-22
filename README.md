@@ -22,9 +22,8 @@ Documentation of the supported SDKs can be found here:
   - data plane SDKs like `@azure/batch`, `@azure/graph`, etc.
 
 ## Authentication
-
-- For Node.js-based authentication, look at [ms-rest-nodeauth](https://npmjs.com/package/ms-rest-nodeauth).
-- For browser-based authentication, look at [ms-rest-browserauth](https://npmjs.com/package/ms-rest-browserauth).
+- For Node.js-based authentication, look at [@azure/ms-rest-nodeauth](https://npmjs.com/package/@azure/ms-rest-nodeauth).
+- For browser-based authentication, look at [@azure/ms-rest-browserauth](https://npmjs.com/package/@azure/ms-rest-browserauth).
   - The browser authentication storage is a little more complicated, so we encourage you to [read about how it works](https://github.com/Azure/ms-rest-browserauth/blob/master/README.md) before putting it in your application.
 
 ## Need Help?
@@ -67,3 +66,13 @@ get your code included into the project.
 3. Create new Pull Request
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2FREADME.png)
+
+## Client Library Tested Operating Systems and Node Versions
+
+Currently, the tests for client libraries in this repository are running against:
+
+|                      | Linux (Ubuntu 16.04) | MacOS 10.13 | Windows Server 2016 |
+|----------------------|----------------------|-------------|---------------------|
+| **Node 8**           |           x          |      x      |          x          |
+| **Node 10**          |           x          |      x      |          x          |
+| **Node 11**          |           x          |      x      |          x          |

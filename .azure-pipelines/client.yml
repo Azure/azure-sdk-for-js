@@ -1,3 +1,8 @@
+# External variables:
+# packageSuffix
+#   The package suffix for the package to build and test. Defined in pipeline web ui because multiple pipelines use this YAML with different packages.
+#   Example: -eventhubs-client
+#
 trigger:
   - master
 
@@ -27,24 +32,24 @@ jobs:
       - task: Npm@1
         inputs:
           command: 'custom'
-          customCommand: 'run install-client'
-        displayName: 'npm run install-client'
+          customCommand: 'run install-client$(packageSuffix)'
+        displayName: 'npm run install-client$(packageSuffix)'
 
       - task: Npm@1
         inputs:
           command: 'custom'
-          customCommand: 'run build-client'
-        displayName: 'npm run build-client'
+          customCommand: 'run build-client$(packageSuffix)'
+        displayName: 'npm run build-client$(packageSuffix)'
 
       - task: Npm@1
         inputs:
           command: 'custom'
-          customCommand: 'run pack-client'
-        displayName: 'npm run pack-client'
+          customCommand: 'run pack-client$(packageSuffix)'
+        displayName: 'npm run pack-client$(packageSuffix)'
 
       - task: CopyFiles@2
         inputs:
-          contents: 'packages/**/*.tgz'
+          contents: 'sdk/**/**/*.tgz'
           targetFolder: $(Build.ArtifactStagingDirectory)
           flattenFolders: true
         displayName: 'Copy Packages'
@@ -61,16 +66,20 @@ jobs:
       vmImage: 'ubuntu-16.04'
 
     steps:
+      - task: UsePythonVersion@0
+        displayName: 'Use Python 3.6'
+        inputs:
+          versionSpec: '3.6'
+
       - task: NodeTool@0
         inputs:
           versionSpec: '$(NodeVersion)'
         displayName: 'Install Node.js $(NodeVersion)'
 
-        # sudo is required for pip install, as a console_entrypoint shim needs to be placed in bin
       - script: |
           pip install setuptools wheel
-          sudo pip install doc-warden
-          ward scan -d $(Build.SourcesDirectory)
+          pip install doc-warden
+          ward scan -d $(Build.SourcesDirectory) -c $(Build.SourcesDirectory)/.docsettings.yml
         displayName: 'Verify Readmes'
 
       # Rather than running "npm install" in the repo root, reduce build time by only installing the "npm-run-all" package,
@@ -82,10 +91,11 @@ jobs:
         displayName: 'npm install npm-run-all'
 
       - task: Npm@1
+        condition: and(succeeded(), eq(variables['RunNpmAudit'], 'true'))
         inputs:
           command: 'custom'
-          customCommand: 'run audit-client'
-        displayName: 'npm run audit-client'
+          customCommand: 'run audit-client$(packageSuffix)'
+        displayName: 'npm run audit-client$(packageSuffix)'
 
       - task: ms.vss-governance-buildtask.governance-build-task-component-detection.ComponentGovernanceComponentDetection@0
         # ComponentGovernance is currently unable to run on pull requests of public projects. Running on non-PR
@@ -157,14 +167,14 @@ jobs:
       - task: Npm@1
         inputs:
           command: 'custom'
-          customCommand: 'run install-client'
-        displayName: 'npm run install-client'
+          customCommand: 'run install-client$(packageSuffix)'
+        displayName: 'npm run install-client$(packageSuffix)'
 
       - task: Npm@1
         inputs:
           command: 'custom'
-          customCommand: 'run test-client -- -- -- --reporter mocha-junit-reporter'
-        displayName: 'npm run test-client'
+          customCommand: 'run test-client$(packageSuffix) -- -- -- --reporter mocha-junit-reporter'
+        displayName: 'npm run test-client$(packageSuffix)'
 
       - task: PublishTestResults@2
         inputs:
