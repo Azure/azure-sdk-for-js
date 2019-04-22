@@ -25,7 +25,7 @@ import {
   Constants,
   randomNumberFromInterval
 } from "@azure/amqp-common";
-import { SendableMessageInfo } from "../serviceBusMessage";
+import { SendableMessageInfo, toAmqpMessage } from "../serviceBusMessage";
 import { ClientEntityContext } from "../clientEntityContext";
 import { LinkEntity } from "./linkEntity";
 import { getUniqueName } from "../util/utils";
@@ -350,7 +350,7 @@ export class MessageSender extends LinkEntity {
           return this._init();
         });
       }
-      const message = SendableMessageInfo.toAmqpMessage(data);
+      const message = toAmqpMessage(data);
       message.body = this._context.namespace.dataTransformer.encode(data.body);
       return await this._trySend(message);
     } catch (err) {
@@ -393,7 +393,7 @@ export class MessageSender extends LinkEntity {
       const messages: AmqpMessage[] = [];
       // Convert Message to AmqpMessage.
       for (let i = 0; i < inputMessages.length; i++) {
-        const message = SendableMessageInfo.toAmqpMessage(inputMessages[i]);
+        const message = toAmqpMessage(inputMessages[i]);
         message.body = this._context.namespace.dataTransformer.encode(inputMessages[i].body);
         messages[i] = message;
       }

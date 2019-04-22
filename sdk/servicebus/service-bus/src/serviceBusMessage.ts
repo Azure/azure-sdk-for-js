@@ -13,19 +13,22 @@ import { Constants, AmqpMessage } from "@azure/amqp-common";
 import * as log from "./log";
 import { ClientEntityContext } from "./clientEntityContext";
 import { reorderLockToken } from "../src/util/utils";
+import { throwIfMessageCannotBeSettled } from "../src/util/errors";
 
 /**
- * The mode in which messages should be received
+ * The mode in which messages should be received. The 2 modes are `peekLock` and `receiveAndDelete`.
  */
 export enum ReceiveMode {
   /**
-   * Peek the message and lock it until it is settled or times out.
+   * Once a message is received in this mode, the receiver has a lock on the message for a
+   * particular duration. If the message is not settled by this time, it lands back on Service Bus
+   * to be fetched by the next receive operation.
    * @type {Number}
    */
   peekLock = 1,
 
   /**
-   * Remove the message from the service bus upon delivery.
+   * Messages received in this mode get automatically removed from Service Bus.
    * @type {Number}
    */
   receiveAndDelete = 2
@@ -54,7 +57,7 @@ export enum DispositionStatus {
 
 /**
  * @internal
- * Describes the delivery annotations for ServiceBus.
+ * Describes the delivery annotations for Service Bus.
  * @interface
  */
 export interface ServiceBusDeliveryAnnotations extends DeliveryAnnotations {
@@ -82,7 +85,7 @@ export interface ServiceBusDeliveryAnnotations extends DeliveryAnnotations {
 
 /**
  * @internal
- * Describes the message annotations for ServiceBus.
+ * Describes the message annotations for Service Bus.
  * @interface ServiceBusMessageAnnotations
  */
 export interface ServiceBusMessageAnnotations extends MessageAnnotations {
@@ -109,60 +112,63 @@ export interface ServiceBusMessageAnnotations extends MessageAnnotations {
 }
 
 /**
- * Describes the reason and error description for dead lettering a message.
+ * Describes the reason and error description for dead lettering a message using the `deadLetter()`
+ * method on the message received from Service Bus.
  * @interface DeadLetterOptions
  */
 export interface DeadLetterOptions {
   /**
-   * @property {string} [deadletterReason] The reason for deadlettering the message.
+   * @property The reason for deadlettering the message.
    */
   deadletterReason: string;
   /**
-   * @property {string} [deadLetterErrorDescription] The error description for deadlettering the message.
+   * @property The error description for deadlettering the message.
    */
   deadLetterErrorDescription: string;
 }
 
 /**
- * Describes the message to be sent to ServiceBus.
+ * Describes the message to be sent to Service Bus.
  * @interface SendableMessageInfo.
  */
 export interface SendableMessageInfo {
   /**
-   * @property {any} body - The message body that needs to be sent or is received.
+   * @property The message body that needs to be sent or is received.
    */
   body: any;
   /**
-   * @property {string | number | Buffer} [messageId] The message identifier is an
+   * @property The message identifier is an
    * application-defined value that uniquely identifies the message and its payload.
    *
    * Note: Numbers that are not whole integers are not allowed.
    */
   messageId?: string | number | Buffer;
   /**
-   * @property {string} [contentType] The content type of the message. Optionally describes
+   * @property The content type of the message. Optionally describes
    * the payload of the message, with a descriptor following the format of RFC2045, Section 5, for
    * example "application/json".
    */
   contentType?: string;
   /**
-   * @property {string | number | Buffer} [correlationId] The correlation identifier that allows an
+   * @property The correlation identifier that allows an
    * application to specify a context for the message for the purposes of correlation, for example
    * reflecting the MessageId of a message that is being replied to.
    * See {@link https://docs.microsoft.com/azure/service-bus-messaging/service-bus-messages-payloads?#message-routing-and-correlation Message Routing and Correlation}.
    */
   correlationId?: string | number | Buffer;
   /**
-   * @property {string} [partitionKey] The partition key for sending a message to a
-   * partitioned entity. Maximum length is 128 characters. For {@link https://docs.microsoft.com/azure/service-bus-messaging/service-bus-partitioning partitioned entities},
-   * etting this value enables assigning related messages to the same internal partition,
+   * @property The partition key for sending a message to a partitioned entity.
+   * Maximum length is 128 characters. For {@link https://docs.microsoft.com/azure/service-bus-messaging/service-bus-partitioning partitioned entities},
+   * setting this value enables assigning related messages to the same internal partition,
    * so that submission sequence order is correctly recorded. The partition is chosen by a hash
-   * function over this value and cannot be chosen directly. For session-aware entities,
-   * the `sessionId` property overrides this value.
+   * function over this value and cannot be chosen directly.
+   * - For session-aware entities, the `sessionId` property overrides this value.
+   * - For non partitioned entities, partition key will be ignored
+   *
    */
   partitionKey?: string;
   /**
-   * @property {string} [viaPartitionKey] The partition key for sending a message into an entity
+   * @property The partition key for sending a message into an entity
    * via a partitioned transfer queue. Maximum length is 128 characters. If a message is sent via a
    * transfer queue in the scope of a transaction, this value selects the transfer queue partition:
    * This is functionally equivalent to `partitionKey` property and ensures that messages are kept
@@ -171,7 +177,7 @@ export interface SendableMessageInfo {
    */
   viaPartitionKey?: string;
   /**
-   * @property {string} [sessionId] The session identifier for a session-aware entity. Maximum
+   * @property The session identifier for a session-aware entity. Maximum
    * length is 128 characters. For session-aware entities, this application-defined value specifies
    * the session affiliation of the message. Messages with the same session identifier are subject
    * to summary locking and enable exact in-order processing and demultiplexing. For
@@ -180,14 +186,14 @@ export interface SendableMessageInfo {
    */
   sessionId?: string;
   /**
-   * @property {string} [replyToSessionId] The session identifier augmenting the `replyTo` address.
+   * @property The session identifier augmenting the `replyTo` address.
    * Maximum length is 128 characters. This value augments the ReplyTo information and specifies
    * which SessionId should be set for the reply when sent to the reply entity.
    * See {@link https://docs.microsoft.com/azure/service-bus-messaging/service-bus-messages-payloads?#message-routing-and-correlation Message Routing and Correlation}.
    */
   replyToSessionId?: string;
   /**
-   * @property {number} [timeToLive] The message’s time to live value. This value is the relative
+   * @property The message’s time to live value. This value is the relative
    * duration after which the message expires, starting from the instant the message has been
    * accepted and stored by the broker, as captured in `enqueuedTimeUtc`. When not set explicitly,
    * the assumed value is the DefaultTimeToLive for the respective queue or topic. A message-level
@@ -197,20 +203,20 @@ export interface SendableMessageInfo {
    */
   timeToLive?: number;
   /**
-   * @property {string} [label] The application specific label. This property enables the
+   * @property The application specific label. This property enables the
    * application to indicate the purpose of the message to the receiver in a standardized. fashion,
    * similar to an email subject line. The mapped AMQP property is "subject".
    */
   label?: string;
   /**
-   * @property {string} [to] The "to" address. This property is reserved for future use in routing
+   * @property The "to" address. This property is reserved for future use in routing
    * scenarios and presently ignored by the broker itself. Applications can use this value in
    * rule-driven {@link https://docs.microsoft.com/azure/service-bus-messaging/service-bus-auto-forwarding auto-forward chaining}
    * scenarios to indicate the intended logical destination of the message.
    */
   to?: string;
   /**
-   * @property {string} [replyTo] The address of an entity to send replies to. This optional and
+   * @property The address of an entity to send replies to. This optional and
    * application-defined value is a standard way to express a reply path to the receiver of the
    * message. When a sender expects a reply, it sets the value to the absolute or relative path of
    * the queue or topic it expects the reply to be sent to. See
@@ -218,7 +224,7 @@ export interface SendableMessageInfo {
    */
   replyTo?: string;
   /**
-   * @property {Date} [scheduledEnqueueTimeUtc] The date and time in UTC at which the message will
+   * @property The date and time in UTC at which the message will
    * be enqueued. This property returns the time in UTC; when setting the property, the
    * supplied DateTime value must also be in UTC. This value is for delayed message sending.
    * It is utilized to delay messages sending to a specific time in the future. Message enqueuing
@@ -227,294 +233,228 @@ export interface SendableMessageInfo {
    */
   scheduledEnqueueTimeUtc?: Date;
   /**
-   * @property {{ [key: string]: any }} [userProperties] The application specific properties which can be
+   * @property The application specific properties which can be
    * used for custom message metadata.
    */
   userProperties?: { [key: string]: any };
 }
 
 /**
- * Describes the message to be sent to ServiceBus.
+ * @internal
+ * Validates the properties in the given SendableMessageInfo
  */
-export module SendableMessageInfo {
-  /**
-   * @ignore
-   */
-  export function validate(msg: SendableMessageInfo): void {
-    if (!msg) {
-      throw new Error("'msg' cannot be null or undefined.");
-    }
-
-    if (msg.contentType != undefined && typeof msg.contentType !== "string") {
-      throw new Error("'contentType' must be of type 'string'.");
-    }
-
-    if (msg.label != undefined && typeof msg.label !== "string") {
-      throw new Error("'label' must be of type 'string'.");
-    }
-
-    if (msg.to != undefined && typeof msg.to !== "string") {
-      throw new Error("'to' must be of type 'string'.");
-    }
-
-    if (msg.replyToSessionId != undefined && typeof msg.replyToSessionId !== "string") {
-      throw new Error("'replyToSessionId' must be of type 'string'.");
-    }
-
-    if (msg.timeToLive != undefined && typeof msg.timeToLive !== "number") {
-      throw new Error("'timeToLive' must be of type 'number'.");
-    }
-
-    if (
-      msg.scheduledEnqueueTimeUtc &&
-      (!(msg.scheduledEnqueueTimeUtc instanceof Date) ||
-        msg.scheduledEnqueueTimeUtc!.toString() === "Invalid Date")
-    ) {
-      throw new Error("'scheduledEnqueueTimeUtc' must be an instance of a valid 'Date'.");
-    }
-
-    if (
-      (msg.partitionKey != undefined && typeof msg.partitionKey !== "string") ||
-      (typeof msg.partitionKey === "string" &&
-        msg.partitionKey.length > Constants.maxPartitionKeyLength)
-    ) {
-      throw new Error(
-        "'partitionKey' must be of type 'string' with a length less than 128 characters."
-      );
-    }
-
-    if (
-      (msg.viaPartitionKey != undefined && typeof msg.viaPartitionKey !== "string") ||
-      (typeof msg.viaPartitionKey === "string" &&
-        msg.viaPartitionKey.length > Constants.maxPartitionKeyLength)
-    ) {
-      throw new Error(
-        "'viaPartitionKey' must be of type 'string' with a length less than 128 characters."
-      );
-    }
-
-    if (msg.sessionId != undefined && typeof msg.sessionId !== "string") {
-      throw new Error("'sessionId' must be of type 'string'.");
-    }
-
-    if (
-      msg.sessionId != undefined &&
-      typeof msg.sessionId === "string" &&
-      msg.sessionId.length > Constants.maxSessionIdLength
-    ) {
-      throw new Error(
-        "Length of 'sessionId' of type 'string' cannot be greater than 128 characters."
-      );
-    }
-
-    if (
-      msg.messageId != undefined &&
-      typeof msg.messageId !== "string" &&
-      typeof msg.messageId !== "number" &&
-      !Buffer.isBuffer(msg.messageId)
-    ) {
-      throw new Error("'messageId' must be of type 'string' | 'number' | Buffer.");
-    }
-
-    if (
-      msg.messageId &&
-      typeof msg.messageId === "number" &&
-      Math.floor(msg.messageId) !== msg.messageId
-    ) {
-      throw new Error("'messageId' must be a whole integer. Decimal points are not allowed.");
-    }
-
-    if (
-      msg.messageId != undefined &&
-      typeof msg.messageId === "string" &&
-      msg.messageId.length > Constants.maxMessageIdLength
-    ) {
-      throw new Error(
-        "Length of 'messageId' of type 'string' cannot be greater than 128 characters."
-      );
-    }
-
-    if (
-      msg.correlationId != undefined &&
-      typeof msg.correlationId !== "string" &&
-      typeof msg.correlationId !== "number" &&
-      !Buffer.isBuffer(msg.correlationId)
-    ) {
-      throw new Error("'correlationId' must be of type 'string' | 'number' | Buffer.");
-    }
+export function validateAmqpMessage(msg: SendableMessageInfo): void {
+  if (!msg) {
+    throw new Error("'msg' cannot be null or undefined.");
   }
 
-  /**
-   * @ignore
-   * Converts given SendableMessageInfo to AmqpMessage
-   */
-  export function toAmqpMessage(msg: SendableMessageInfo): AmqpMessage {
-    validate(msg);
-    const amqpMsg: AmqpMessage = {
-      body: msg.body,
-      message_annotations: {}
-    };
-    if (msg.userProperties != undefined) {
-      amqpMsg.application_properties = msg.userProperties;
-    }
-    if (msg.contentType != undefined) {
-      amqpMsg.content_type = msg.contentType;
-    }
-    if (msg.sessionId != undefined) {
-      amqpMsg.group_id = msg.sessionId;
-    }
-    if (msg.replyTo != undefined) {
-      amqpMsg.reply_to = msg.replyTo;
-    }
-    if (msg.to != undefined) {
-      amqpMsg.to = msg.to;
-    }
-    if (msg.label != undefined) {
-      amqpMsg.subject = msg.label;
-    }
-    if (msg.messageId != undefined) {
-      amqpMsg.message_id = msg.messageId;
-    }
-    if (msg.correlationId != undefined) {
-      amqpMsg.correlation_id = msg.correlationId;
-    }
-    if (msg.replyToSessionId != undefined) {
-      amqpMsg.reply_to_group_id = msg.replyToSessionId;
-    }
-    if (msg.timeToLive != undefined && msg.timeToLive !== Constants.maxDurationValue) {
-      amqpMsg.ttl = msg.timeToLive;
-      amqpMsg.creation_time = Date.now();
-      if (Constants.maxAbsoluteExpiryTime - amqpMsg.creation_time > amqpMsg.ttl) {
-        amqpMsg.absolute_expiry_time = amqpMsg.creation_time + amqpMsg.ttl;
-      } else {
-        amqpMsg.absolute_expiry_time = Constants.maxAbsoluteExpiryTime;
-      }
-    }
-    if (msg.partitionKey != undefined) {
-      amqpMsg.message_annotations![Constants.partitionKey] = msg.partitionKey;
-    }
-    if (msg.viaPartitionKey != undefined) {
-      amqpMsg.message_annotations![Constants.viaPartitionKey] = msg.viaPartitionKey;
-    }
-    if (msg.scheduledEnqueueTimeUtc != undefined) {
-      amqpMsg.message_annotations![Constants.scheduledEnqueueTime] = msg.scheduledEnqueueTimeUtc;
-    }
-    log.message("SBMessage to AmqpMessage: %O", amqpMsg);
-    return amqpMsg;
+  if (msg.contentType != undefined && typeof msg.contentType !== "string") {
+    throw new Error("'contentType' must be of type 'string'.");
   }
 
-  /**
-   * @ignore
-   * Converts given AmqpMessage to SendableMessageInfo
-   */
-  export function fromAmqpMessage(msg: AmqpMessage): SendableMessageInfo {
-    if (!msg) {
-      throw new Error("'msg' cannot be null or undefined.");
-    }
-    const sbmsg: SendableMessageInfo = {
-      body: msg.body
-    };
+  if (msg.label != undefined && typeof msg.label !== "string") {
+    throw new Error("'label' must be of type 'string'.");
+  }
 
-    if (msg.application_properties != undefined) {
-      sbmsg.userProperties = msg.application_properties;
-    }
-    if (msg.content_type != undefined) {
-      sbmsg.contentType = msg.content_type;
-    }
-    if (msg.group_id != undefined) {
-      sbmsg.sessionId = msg.group_id;
-    }
-    if (msg.reply_to != undefined) {
-      sbmsg.replyTo = msg.reply_to;
-    }
-    if (msg.to != undefined) {
-      sbmsg.to = msg.to;
-    }
-    if (msg.ttl != undefined) {
-      sbmsg.timeToLive = msg.ttl;
-    }
-    if (msg.subject != undefined) {
-      sbmsg.label = msg.subject;
-    }
-    if (msg.message_id != undefined) {
-      sbmsg.messageId = msg.message_id;
-    }
-    if (msg.correlation_id != undefined) {
-      sbmsg.correlationId = msg.correlation_id;
-    }
-    if (msg.reply_to_group_id != undefined) {
-      sbmsg.replyToSessionId = msg.reply_to_group_id;
-    }
+  if (msg.to != undefined && typeof msg.to !== "string") {
+    throw new Error("'to' must be of type 'string'.");
+  }
 
-    if (msg.message_annotations != undefined) {
-      if (msg.message_annotations[Constants.partitionKey] != undefined) {
-        sbmsg.partitionKey = msg.message_annotations[Constants.partitionKey];
-      }
-      if (msg.message_annotations[Constants.viaPartitionKey] != undefined) {
-        sbmsg.viaPartitionKey = msg.message_annotations[Constants.viaPartitionKey];
-      }
-      if (msg.message_annotations[Constants.scheduledEnqueueTime] != undefined) {
-        sbmsg.scheduledEnqueueTimeUtc = msg.message_annotations[Constants.scheduledEnqueueTime];
-      }
-    }
-    log.message("AmqpMessage to SBMessage: %O", sbmsg);
-    return sbmsg;
+  if (msg.replyToSessionId != undefined && typeof msg.replyToSessionId !== "string") {
+    throw new Error("'replyToSessionId' must be of type 'string'.");
+  }
+
+  if (msg.timeToLive != undefined && typeof msg.timeToLive !== "number") {
+    throw new Error("'timeToLive' must be of type 'number'.");
+  }
+
+  if (
+    msg.scheduledEnqueueTimeUtc &&
+    (!(msg.scheduledEnqueueTimeUtc instanceof Date) ||
+      msg.scheduledEnqueueTimeUtc!.toString() === "Invalid Date")
+  ) {
+    throw new Error("'scheduledEnqueueTimeUtc' must be an instance of a valid 'Date'.");
+  }
+
+  if (
+    (msg.partitionKey != undefined && typeof msg.partitionKey !== "string") ||
+    (typeof msg.partitionKey === "string" &&
+      msg.partitionKey.length > Constants.maxPartitionKeyLength)
+  ) {
+    throw new Error(
+      "'partitionKey' must be of type 'string' with a length less than 128 characters."
+    );
+  }
+
+  if (
+    (msg.viaPartitionKey != undefined && typeof msg.viaPartitionKey !== "string") ||
+    (typeof msg.viaPartitionKey === "string" &&
+      msg.viaPartitionKey.length > Constants.maxPartitionKeyLength)
+  ) {
+    throw new Error(
+      "'viaPartitionKey' must be of type 'string' with a length less than 128 characters."
+    );
+  }
+
+  if (msg.sessionId != undefined && typeof msg.sessionId !== "string") {
+    throw new Error("'sessionId' must be of type 'string'.");
+  }
+
+  if (
+    msg.sessionId != undefined &&
+    typeof msg.sessionId === "string" &&
+    msg.sessionId.length > Constants.maxSessionIdLength
+  ) {
+    throw new Error(
+      "Length of 'sessionId' of type 'string' cannot be greater than 128 characters."
+    );
+  }
+
+  if (
+    msg.messageId != undefined &&
+    typeof msg.messageId !== "string" &&
+    typeof msg.messageId !== "number" &&
+    !Buffer.isBuffer(msg.messageId)
+  ) {
+    throw new Error("'messageId' must be of type 'string' | 'number' | Buffer.");
+  }
+
+  if (
+    msg.messageId &&
+    typeof msg.messageId === "number" &&
+    Math.floor(msg.messageId) !== msg.messageId
+  ) {
+    throw new Error("'messageId' must be a whole integer. Decimal points are not allowed.");
+  }
+
+  if (
+    msg.messageId != undefined &&
+    typeof msg.messageId === "string" &&
+    msg.messageId.length > Constants.maxMessageIdLength
+  ) {
+    throw new Error(
+      "Length of 'messageId' of type 'string' cannot be greater than 128 characters."
+    );
+  }
+
+  if (
+    msg.correlationId != undefined &&
+    typeof msg.correlationId !== "string" &&
+    typeof msg.correlationId !== "number" &&
+    !Buffer.isBuffer(msg.correlationId)
+  ) {
+    throw new Error("'correlationId' must be of type 'string' | 'number' | Buffer.");
   }
 }
 
 /**
- * Describes the message received from ServiceBus.
+ * @internal
+ * Converts given SendableMessageInfo to AmqpMessage
+ */
+export function toAmqpMessage(msg: SendableMessageInfo): AmqpMessage {
+  validateAmqpMessage(msg);
+  const amqpMsg: AmqpMessage = {
+    body: msg.body,
+    message_annotations: {}
+  };
+  if (msg.userProperties != undefined) {
+    amqpMsg.application_properties = msg.userProperties;
+  }
+  if (msg.contentType != undefined) {
+    amqpMsg.content_type = msg.contentType;
+  }
+  if (msg.sessionId != undefined) {
+    amqpMsg.group_id = msg.sessionId;
+  }
+  if (msg.replyTo != undefined) {
+    amqpMsg.reply_to = msg.replyTo;
+  }
+  if (msg.to != undefined) {
+    amqpMsg.to = msg.to;
+  }
+  if (msg.label != undefined) {
+    amqpMsg.subject = msg.label;
+  }
+  if (msg.messageId != undefined) {
+    amqpMsg.message_id = msg.messageId;
+  }
+  if (msg.correlationId != undefined) {
+    amqpMsg.correlation_id = msg.correlationId;
+  }
+  if (msg.replyToSessionId != undefined) {
+    amqpMsg.reply_to_group_id = msg.replyToSessionId;
+  }
+  if (msg.timeToLive != undefined && msg.timeToLive !== Constants.maxDurationValue) {
+    amqpMsg.ttl = msg.timeToLive;
+    amqpMsg.creation_time = Date.now();
+    if (Constants.maxAbsoluteExpiryTime - amqpMsg.creation_time > amqpMsg.ttl) {
+      amqpMsg.absolute_expiry_time = amqpMsg.creation_time + amqpMsg.ttl;
+    } else {
+      amqpMsg.absolute_expiry_time = Constants.maxAbsoluteExpiryTime;
+    }
+  }
+  if (msg.partitionKey != undefined) {
+    amqpMsg.message_annotations![Constants.partitionKey] = msg.partitionKey;
+  }
+  if (msg.viaPartitionKey != undefined) {
+    amqpMsg.message_annotations![Constants.viaPartitionKey] = msg.viaPartitionKey;
+  }
+  if (msg.scheduledEnqueueTimeUtc != undefined) {
+    amqpMsg.message_annotations![Constants.scheduledEnqueueTime] = msg.scheduledEnqueueTimeUtc;
+  }
+  log.message("SBMessage to AmqpMessage: %O", amqpMsg);
+  return amqpMsg;
+}
+
+/**
+ * Describes the message received from Service Bus.
  * @class ReceivedSBMessage
  */
 export interface ReceivedMessageInfo extends SendableMessageInfo {
   /**
-   * @property {string} [lockToken] The lock token for the current message. The lock token is a
-   * reference to the lock that is being held by the broker in `ReceiveMode.PeekLock` mode. Locks
-   * are used to explicitly settle messages as explained in the {@link https://docs.microsoft.com/azure/service-bus-messaging/message-transfers-locks-settlement product documentation in more detail}
-   * The token can also be used to pin the lock permanently through the {@link https://docs.microsoft.com/azure/service-bus-messaging/message-deferral Deferral API}
-   * and, with that, take the message out of the regular delivery state flow.
+   * @property The lock token is a reference to the lock that is being held by the broker in
+   * `ReceiveMode.PeekLock` mode. Locks are used internally settle messages as explained in the
+   * {@link https://docs.microsoft.com/azure/service-bus-messaging/message-transfers-locks-settlement product documentation in more detail}
+   * - Not applicable when the message is received in `ReceiveMode.receiveAndDelete`
+   * mode.
    * @readonly
    */
   readonly lockToken?: string;
   /**
-   * @property {number} [deliveryCount] The current delivery count. The value start from 1. Number
-   * of deliveries that have been attempted for this message. The count is incremented when a
-   * message lock expires, or the message is explicitly abandoned by the receiver.
+   * @property Number of deliveries that have been attempted for this message. The count is
+   * incremented when a message lock expires, or the message is explicitly abandoned using the
+   * `abandon()` method on the message.
    * @readonly
    */
   readonly deliveryCount?: number;
   /**
-   * @property {Date} [enqueuedTimeUtc] The date and time of the sent message in UTC. The UTC
-   * instant at which the message has been accepted and stored in the entity. This value can be
-   * used as an authoritative and neutral arrival time indicator when the receiver does not
-   * want to trust the sender's clock.
+   * @property The UTC instant at which the message has been accepted and stored in Service Bus.
    * @readonly
    */
   readonly enqueuedTimeUtc?: Date;
   /**
-   * @property {Date} [expiresAtUtc] The date and time in UTC at which the message is set to expire.
-   * The UTC instant at which the message is marked for removal and no longer available for
-   * retrieval from the entity due to expiration. Expiry is controlled by the `timeToLive` property
-   * and this property is computed from `enqueuedTimeUtc` + `timeToLive`.
+   * @property The UTC instant at which the message is marked for removal and no longer available for
+   * retrieval from the entity due to expiration. This property is computed from 2 other properties
+   * on the message: `enqueuedTimeUtc` + `timeToLive`.
    */
   readonly expiresAtUtc?: Date;
   /**
-   * @property {Date} [lockedUntilUtc] The date and time in UTC until which the message will be
-   * locked in the queue/subscription. For messages retrieved under a lock (peek-lock receive mode,
-   * not pre-settled) this property reflects the UTC instant until which the message is held
-   * locked in the queue/subscription. When the lock expires, the `deliveryCount` is incremented
-   * and the message is again available for retrieval.
+   * @property The UTC instant until which the message is held locked in the queue/subscription.
+   * When the lock expires, the `deliveryCount` is incremented and the message is again available
+   * for retrieval.
+   * - Not applicable when the message is received in `ReceiveMode.receiveAndDelete`
+   * mode.
    */
   lockedUntilUtc?: Date;
   /**
-   * @property {number} [enqueuedSequenceNumber] The original sequence number of the message. For
+   * @property The original sequence number of the message. For
    * messages that have been auto-forwarded, this property reflects the sequence number that had
    * first been assigned to the message at its original point of submission.
    * @readonly
    */
   readonly enqueuedSequenceNumber?: number;
   /**
-   * @property {number} [sequenceNumber] The unique number assigned to a message by Service Bus.
+   * @property The unique number assigned to a message by Service Bus.
    * The sequence number is a unique 64-bit integer assigned to a message as it is accepted
    * and stored by the broker and functions as its true identifier. For partitioned entities,
    * the topmost 16 bits reflect the partition identifier. Sequence numbers monotonically increase.
@@ -543,185 +483,174 @@ export interface ReceivedMessageInfo extends SendableMessageInfo {
 }
 
 /**
- * Describes the module that is responsible for converting the message received from ServiceBus
- * to/from AmqpMessage.
+ * @ignore
+ * Converts given AmqpMessage to ReceivedMessageInfo
  */
-export module ReceivedMessageInfo {
-  /**
-   * @ignore
-   */
-  export function validate(msg: ReceivedMessageInfo): void {
-    SendableMessageInfo.validate(msg);
-    if (msg.lockToken != undefined && typeof msg.lockToken !== "string") {
-      throw new Error("'lockToken' must be of type 'string'.");
-    }
+export function fromAmqpMessage(
+  msg: AmqpMessage,
+  delivery?: Delivery,
+  shouldReorderLockToken?: boolean
+): ReceivedMessageInfo {
+  if (!msg) {
+    throw new Error("'msg' cannot be null or undefined.");
+  }
+  const sbmsg: SendableMessageInfo = {
+    body: msg.body
+  };
 
-    if (msg.deliveryCount != undefined && typeof msg.deliveryCount !== "number") {
-      throw new Error("'deliveryCount' must be of type 'number'.");
-    }
+  if (msg.application_properties != undefined) {
+    sbmsg.userProperties = msg.application_properties;
+  }
+  if (msg.content_type != undefined) {
+    sbmsg.contentType = msg.content_type;
+  }
+  if (msg.group_id != undefined) {
+    sbmsg.sessionId = msg.group_id;
+  }
+  if (msg.reply_to != undefined) {
+    sbmsg.replyTo = msg.reply_to;
+  }
+  if (msg.to != undefined) {
+    sbmsg.to = msg.to;
+  }
+  if (msg.ttl != undefined) {
+    sbmsg.timeToLive = msg.ttl;
+  }
+  if (msg.subject != undefined) {
+    sbmsg.label = msg.subject;
+  }
+  if (msg.message_id != undefined) {
+    sbmsg.messageId = msg.message_id;
+  }
+  if (msg.correlation_id != undefined) {
+    sbmsg.correlationId = msg.correlation_id;
+  }
+  if (msg.reply_to_group_id != undefined) {
+    sbmsg.replyToSessionId = msg.reply_to_group_id;
+  }
 
-    if (msg.sequenceNumber != undefined && !Long.isLong(msg.sequenceNumber)) {
-      throw new Error("'sequenceNumber' must be an instance of 'Long' .");
+  if (msg.message_annotations != undefined) {
+    if (msg.message_annotations[Constants.partitionKey] != undefined) {
+      sbmsg.partitionKey = msg.message_annotations[Constants.partitionKey];
     }
-
-    if (msg.enqueuedSequenceNumber != undefined && typeof msg.enqueuedSequenceNumber !== "number") {
-      throw new Error("'enqueuedSequenceNumber' must be of type 'number'.");
+    if (msg.message_annotations[Constants.viaPartitionKey] != undefined) {
+      sbmsg.viaPartitionKey = msg.message_annotations[Constants.viaPartitionKey];
     }
-
-    if (
-      msg.enqueuedTimeUtc &&
-      !(msg.enqueuedTimeUtc instanceof Date) &&
-      msg.enqueuedTimeUtc!.toString() === "Invalid Date"
-    ) {
-      throw new Error("'enqueuedTimeUtc' must be an instance of a valid 'Date'.");
-    }
-
-    if (
-      msg.expiresAtUtc &&
-      !(msg.expiresAtUtc instanceof Date) &&
-      msg.expiresAtUtc!.toString() === "Invalid Date"
-    ) {
-      throw new Error("'expiresAtUtc' must be an instance of a valid 'Date'.");
-    }
-
-    if (
-      msg.lockedUntilUtc &&
-      !(msg.lockedUntilUtc instanceof Date) &&
-      msg.lockedUntilUtc!.toString() === "Invalid Date"
-    ) {
-      throw new Error("'lockedUntilUtc' must be an instance of a valid 'Date'.");
+    if (msg.message_annotations[Constants.scheduledEnqueueTime] != undefined) {
+      sbmsg.scheduledEnqueueTimeUtc = msg.message_annotations[Constants.scheduledEnqueueTime];
     }
   }
 
-  /**
-   * @ignore
-   * Converts given ReceivedMessageInfo to AmqpMessage
-   */
-  export function toAmqpMessage(msg: ReceivedMessageInfo): AmqpMessage {
-    ReceivedMessageInfo.validate(msg);
-    const amqpMsg: AmqpMessage = SendableMessageInfo.toAmqpMessage(msg);
-    if (msg.deliveryCount != undefined) {
-      amqpMsg.delivery_count = msg.deliveryCount;
+  const props: any = {};
+  if (msg.message_annotations != undefined) {
+    if (msg.message_annotations[Constants.deadLetterSource] != undefined) {
+      props.deadLetterSource = msg.message_annotations[Constants.deadLetterSource];
     }
-    if (!amqpMsg.message_annotations) {
-      amqpMsg.message_annotations = {};
+    if (msg.message_annotations[Constants.enqueueSequenceNumber] != undefined) {
+      props.enqueuedSequenceNumber = msg.message_annotations[Constants.enqueueSequenceNumber];
     }
-    if (msg.deadLetterSource != undefined) {
-      amqpMsg.message_annotations[Constants.deadLetterSource] = msg.deadLetterSource;
+    if (msg.message_annotations[Constants.sequenceNumber] != undefined) {
+      if (Buffer.isBuffer(msg.message_annotations[Constants.sequenceNumber])) {
+        props.sequenceNumber = Long.fromBytesBE(msg.message_annotations[Constants.sequenceNumber]);
+      } else {
+        props.sequenceNumber = Long.fromNumber(msg.message_annotations[Constants.sequenceNumber]);
+      }
     }
-    if (msg.enqueuedSequenceNumber != undefined) {
-      amqpMsg.message_annotations[Constants.enqueueSequenceNumber] = msg.enqueuedSequenceNumber;
+    if (msg.message_annotations[Constants.enqueuedTime] != undefined) {
+      props.enqueuedTimeUtc = new Date(msg.message_annotations[Constants.enqueuedTime] as number);
     }
-    if (msg.sequenceNumber != undefined) {
-      amqpMsg.message_annotations[Constants.sequenceNumber] = msg.sequenceNumber;
+    if (msg.message_annotations[Constants.lockedUntil] != undefined) {
+      props.lockedUntilUtc = new Date(msg.message_annotations[Constants.lockedUntil] as number);
     }
-    if (msg.enqueuedTimeUtc != undefined) {
-      amqpMsg.message_annotations[Constants.enqueuedTime] = msg.enqueuedTimeUtc;
-    }
-    if (msg.lockedUntilUtc != undefined) {
-      amqpMsg.message_annotations[Constants.lockedUntil] = msg.lockedUntilUtc;
-    }
-    log.message("ReceivedSBMessage to AmqpMessage: %O", amqpMsg);
-    return amqpMsg;
+  }
+  if (
+    msg.ttl != undefined &&
+    msg.ttl >= Constants.maxDurationValue - props.enqueuedTimeUtc.getTime()
+  ) {
+    props.expiresAtUtc = new Date(Constants.maxDurationValue);
+  } else {
+    props.expiresAtUtc = new Date(props.enqueuedTimeUtc.getTime() + msg.ttl!);
   }
 
-  /**
-   * @ignore
-   * Converts given AmqpMessage to ReceivedMessageInfo
-   */
-  export function fromAmqpMessage(
-    msg: AmqpMessage,
-    delivery?: Delivery,
-    shouldReorderLockToken?: boolean
-  ): ReceivedMessageInfo {
-    const sbmsg: SendableMessageInfo = SendableMessageInfo.fromAmqpMessage(msg);
-    const props: any = {};
-    if (msg.message_annotations != undefined) {
-      if (msg.message_annotations[Constants.deadLetterSource] != undefined) {
-        props.deadLetterSource = msg.message_annotations[Constants.deadLetterSource];
-      }
-      if (msg.message_annotations[Constants.enqueueSequenceNumber] != undefined) {
-        props.enqueuedSequenceNumber = msg.message_annotations[Constants.enqueueSequenceNumber];
-      }
-      if (msg.message_annotations[Constants.sequenceNumber] != undefined) {
-        if (Buffer.isBuffer(msg.message_annotations[Constants.sequenceNumber])) {
-          props.sequenceNumber = Long.fromBytesBE(
-            msg.message_annotations[Constants.sequenceNumber]
-          );
-        } else {
-          props.sequenceNumber = Long.fromNumber(msg.message_annotations[Constants.sequenceNumber]);
-        }
-      }
-      if (msg.message_annotations[Constants.enqueuedTime] != undefined) {
-        props.enqueuedTimeUtc = new Date(msg.message_annotations[Constants.enqueuedTime] as number);
-      }
-      if (msg.message_annotations[Constants.lockedUntil] != undefined) {
-        props.lockedUntilUtc = new Date(msg.message_annotations[Constants.lockedUntil] as number);
-      }
-    }
-    if (
-      msg.ttl != undefined &&
-      msg.ttl >= Constants.maxDurationValue - props.enqueuedTimeUtc.getTime()
-    ) {
-      props.expiresAtUtc = new Date(Constants.maxDurationValue);
-    } else {
-      props.expiresAtUtc = new Date(props.enqueuedTimeUtc.getTime() + msg.ttl!);
-    }
-
-    const rcvdsbmsg: ReceivedMessageInfo = {
-      _amqpMessage: msg,
-      _delivery: delivery,
-      deliveryCount: msg.delivery_count,
-      lockToken:
-        delivery && delivery.tag && delivery.tag.length !== 0
-          ? uuid_to_string(
-              shouldReorderLockToken === true
-                ? reorderLockToken(
-                    typeof delivery.tag === "string" ? Buffer.from(delivery.tag) : delivery.tag
-                  )
-                : typeof delivery.tag === "string"
-                ? Buffer.from(delivery.tag)
-                : delivery.tag
+  const rcvdsbmsg: ReceivedMessageInfo = {
+    _amqpMessage: msg,
+    _delivery: delivery,
+    deliveryCount: msg.delivery_count,
+    lockToken:
+      delivery && delivery.tag && delivery.tag.length !== 0
+        ? uuid_to_string(
+          shouldReorderLockToken === true
+            ? reorderLockToken(
+              typeof delivery.tag === "string" ? Buffer.from(delivery.tag) : delivery.tag
             )
-          : undefined,
-      ...sbmsg,
-      ...props
-    };
+            : typeof delivery.tag === "string"
+              ? Buffer.from(delivery.tag)
+              : delivery.tag
+        )
+        : undefined,
+    ...sbmsg,
+    ...props
+  };
 
-    log.message("AmqpMessage to ReceivedSBMessage: %O", rcvdsbmsg);
-    return rcvdsbmsg;
-  }
+  log.message("AmqpMessage to ReceivedSBMessage: %O", rcvdsbmsg);
+  return rcvdsbmsg;
 }
 
 /**
- * Describes the message received from ServiceBus.
+ * Describes the message received from Service Bus.
  * @interface ReceivedMessage
  */
 interface ReceivedMessage extends ReceivedMessageInfo {
+  /**
+   * Removes the message from Service Bus.
+   * @returns Promise<void>.
+   */
   complete(): Promise<void>;
 
+  /**
+   * The lock held on the message by the receiver is let go, making the message available again in
+   * Service Bus for another receive operation.
+   * @param propertiesToModify The properties of the message to modify while abandoning the message.
+   *
+   * @return Promise<void>.
+   */
   abandon(propertiesToModify?: { [key: string]: any }): Promise<void>;
 
+  /**
+   * Defers the processing of the message. Save the `sequenceNumber` of the message, in order to
+   * receive it message again in the future using the `receiveDeferredMessage` method.
+   * @param propertiesToModify The properties of the message to modify while deferring the message
+   *
+   * @returns Promise<void>
+   */
   defer(propertiesToModify?: { [key: string]: any }): Promise<void>;
 
+  /**
+   * Moves the message to the deadletter sub-queue. To receive a deadletted message, create a new
+   * QueueClient/SubscriptionClient using the path for the deadletter sub-queue.
+   * @param options The DeadLetter options that can be provided while
+   * rejecting the message.
+   *
+   * @returns Promise<void>
+   */
   deadLetter(options?: DeadLetterOptions): Promise<void>;
 }
 
 /**
- * Describes the message received from ServiceBus.
+ * Describes the message received from Service Bus.
  * @class ServiceBusMessage
  */
 export class ServiceBusMessage implements ReceivedMessage {
   /**
-   * @property {any} body - The message body that needs to be sent or is received.
+   * @property The message body that needs to be sent or is received.
    */
   body: any;
   /**
-   * @property {{ [key: string]: any }} [userProperties] The application specific properties.
+   * @property The application specific properties.
    */
   userProperties?: { [key: string]: any };
   /**
-   * @property {string | number | Buffer} [messageId] The message identifier is an
+   * @property The message identifier is an
    * application-defined value that uniquely identifies the message and its payload. The identifier
    * is a free-form string and can reflect a GUID or an identifier derived from the application
    * context. If enabled, the
@@ -730,29 +659,29 @@ export class ServiceBusMessage implements ReceivedMessage {
    */
   messageId?: string | number | Buffer;
   /**
-   * @property {string} [contentType] The content type of the message. Optionally describes
+   * @property The content type of the message. Optionally describes
    * the payload of the message, with a descriptor following the format of RFC2045, Section 5, for
    * example "application/json".
    */
   contentType?: string;
   /**
-   * @property {string | number | Buffer} [correlationId] The correlation identifier that allows an
+   * @property The correlation identifier that allows an
    * application to specify a context for the message for the purposes of correlation, for example
    * reflecting the MessageId of a message that is being replied to.
    * See {@link https://docs.microsoft.com/azure/service-bus-messaging/service-bus-messages-payloads?#message-routing-and-correlation Message Routing and Correlation}.
    */
   correlationId?: string | number | Buffer;
   /**
-   * @property {string} [partitionKey] The partition key for sending a message to a
+   * @property The partition key for sending a message to a
    * partitioned entity. Maximum length is 128 characters. For {@link https://docs.microsoft.com/azure/service-bus-messaging/service-bus-partitioning partitioned entities},
-   * etting this value enables assigning related messages to the same internal partition,
+   * setting this value enables assigning related messages to the same internal partition,
    * so that submission sequence order is correctly recorded. The partition is chosen by a hash
    * function over this value and cannot be chosen directly. For session-aware entities,
    * the `sessionId` property overrides this value.
    */
   partitionKey?: string;
   /**
-   * @property {string} [viaPartitionKey] The partition key for sending a message into an entity
+   * @property The partition key for sending a message into an entity
    * via a partitioned transfer queue. Maximum length is 128 characters. If a message is sent via a
    * transfer queue in the scope of a transaction, this value selects the transfer queue partition:
    * This is functionally equivalent to `partitionKey` property and ensures that messages are kept
@@ -761,7 +690,7 @@ export class ServiceBusMessage implements ReceivedMessage {
    */
   viaPartitionKey?: string;
   /**
-   * @property {string} [sessionId] The session identifier for a session-aware entity. Maximum
+   * @property The session identifier for a session-aware entity. Maximum
    * length is 128 characters. For session-aware entities, this application-defined value specifies
    * the session affiliation of the message. Messages with the same session identifier are subject
    * to summary locking and enable exact in-order processing and demultiplexing. For
@@ -770,14 +699,14 @@ export class ServiceBusMessage implements ReceivedMessage {
    */
   sessionId?: string;
   /**
-   * @property {string} [replyToSessionId] The session identifier augmenting the `replyTo` address.
+   * @property The session identifier augmenting the `replyTo` address.
    * Maximum length is 128 characters. This value augments the ReplyTo information and specifies
    * which SessionId should be set for the reply when sent to the reply entity.
    * See {@link https://docs.microsoft.com/azure/service-bus-messaging/service-bus-messages-payloads?#message-routing-and-correlation Message Routing and Correlation}.
    */
   replyToSessionId?: string;
   /**
-   * @property {number} [timeToLive] The message’s time to live value. This value is the relative
+   * @property The message’s time to live value. This value is the relative
    * duration after which the message expires, starting from the instant the message has been
    * accepted and stored by the broker, as captured in `enqueuedTimeUtc`. When not set explicitly,
    * the assumed value is the DefaultTimeToLive for the respective queue or topic. A message-level
@@ -787,20 +716,20 @@ export class ServiceBusMessage implements ReceivedMessage {
    */
   timeToLive?: number;
   /**
-   * @property {string} [label] The application specific label. This property enables the
+   * @property The application specific label. This property enables the
    * application to indicate the purpose of the message to the receiver in a standardized. fashion,
    * similar to an email subject line. The mapped AMQP property is "subject".
    */
   label?: string;
   /**
-   * @property {string} [to] The "to" address. This property is reserved for future use in routing
+   * @property The "to" address. This property is reserved for future use in routing
    * scenarios and presently ignored by the broker itself. Applications can use this value in
    * rule-driven {@link https://docs.microsoft.com/azure/service-bus-messaging/service-bus-auto-forwarding auto-forward chaining}
    * scenarios to indicate the intended logical destination of the message.
    */
   to?: string;
   /**
-   * @property {string} [replyTo] The address of an entity to send replies to. This optional and
+   * @property The address of an entity to send replies to. This optional and
    * application-defined value is a standard way to express a reply path to the receiver of the
    * message. When a sender expects a reply, it sets the value to the absolute or relative path of
    * the queue or topic it expects the reply to be sent to. See
@@ -808,7 +737,7 @@ export class ServiceBusMessage implements ReceivedMessage {
    */
   replyTo?: string;
   /**
-   * @property {Date} [scheduledEnqueueTimeUtc] The date and time in UTC at which the message will
+   * @property The date and time in UTC at which the message will
    * be enqueued. This property returns the time in UTC; when setting the property, the
    * supplied DateTime value must also be in UTC. This value is for delayed message sending.
    * It is utilized to delay messages sending to a specific time in the future. Message enqueuing
@@ -817,53 +746,49 @@ export class ServiceBusMessage implements ReceivedMessage {
    */
   scheduledEnqueueTimeUtc?: Date;
   /**
-   * @property {string} [lockToken] The lock token for the current message. The lock token is a
-   * reference to the lock that is being held by the broker in `ReceiveMode.PeekLock` mode. Locks
-   * are used to explicitly settle messages as explained in the {@link https://docs.microsoft.com/azure/service-bus-messaging/message-transfers-locks-settlement product documentation in more detail}
-   * The token can also be used to pin the lock permanently through the {@link https://docs.microsoft.com/azure/service-bus-messaging/message-deferral Deferral API}
-   * and, with that, take the message out of the regular delivery state flow.
+   * @property The lock token is a reference to the lock that is being held by the broker in
+   * `ReceiveMode.PeekLock` mode. Locks are used internally settle messages as explained in the
+   * {@link https://docs.microsoft.com/azure/service-bus-messaging/message-transfers-locks-settlement product documentation in more detail}
+   * - Not applicable when the message is received in `ReceiveMode.receiveAndDelete`
+   * mode.
    * @readonly
    */
   readonly lockToken?: string;
   /**
-   * @property {number} [deliveryCount] The current delivery count. The value start from 1. Number
-   * of deliveries that have been attempted for this message. The count is incremented when a
-   * message lock expires, or the message is explicitly abandoned by the receiver.
+   * @property Number of deliveries that have been attempted for this message. The count is
+   * incremented when a message lock expires, or the message is explicitly abandoned using the
+   * `abandon()` method on the message.
    * @readonly
    */
   readonly deliveryCount?: number;
   /**
-   * @property {Date} [enqueuedTimeUtc] The date and time of the sent message in UTC. The UTC
-   * instant at which the message has been accepted and stored in the entity. This value can be
-   * used as an authoritative and neutral arrival time indicator when the receiver does not
-   * want to trust the sender's clock.
+   * @property The UTC instant at which the message has been accepted and stored in Service Bus.
    * @readonly
    */
   readonly enqueuedTimeUtc?: Date;
   /**
-   * @property {Date} [expiresAtUtc] The date and time in UTC at which the message is set to expire.
-   * The UTC instant at which the message is marked for removal and no longer available for
-   * retrieval from the entity due to expiration. Expiry is controlled by the `timeToLive` property
-   * and this property is computed from `enqueuedTimeUtc` + `timeToLive`.
+   * @property The UTC instant at which the message is marked for removal and no longer available for
+   * retrieval from the entity due to expiration. This property is computed from 2 other properties
+   * on the message: `enqueuedTimeUtc` + `timeToLive`.
    */
   readonly expiresAtUtc?: Date;
   /**
-   * @property {Date} [lockedUntilUtc] The date and time in UTC until which the message will be
-   * locked in the queue/subscription. For messages retrieved under a lock (peek-lock receive mode,
-   * not pre-settled) this property reflects the UTC instant until which the message is held
-   * locked in the queue/subscription. When the lock expires, the `deliveryCount` is incremented
-   * and the message is again available for retrieval.
+   * @property The UTC instant until which the message is held locked in the queue/subscription.
+   * When the lock expires, the `deliveryCount` is incremented and the message is again available
+   * for retrieval.
+   * - Not applicable when the message is received in `ReceiveMode.receiveAndDelete`
+   * mode.
    */
   lockedUntilUtc?: Date;
   /**
-   * @property {number} [enqueuedSequenceNumber] The original sequence number of the message. For
+   * @property The original sequence number of the message. For
    * messages that have been auto-forwarded, this property reflects the sequence number that had
    * first been assigned to the message at its original point of submission.
    * @readonly
    */
   readonly enqueuedSequenceNumber?: number;
   /**
-   * @property {number} [sequenceNumber] The unique number assigned to a message by Service Bus.
+   * @property The unique number assigned to a message by Service Bus.
    * The sequence number is a unique 64-bit integer assigned to a message as it is accepted
    * and stored by the broker and functions as its true identifier. For partitioned entities,
    * the topmost 16 bits reflect the partition identifier. Sequence numbers monotonically increase.
@@ -872,7 +797,7 @@ export class ServiceBusMessage implements ReceivedMessage {
    */
   readonly sequenceNumber?: Long;
   /**
-   * @property {string} [deadLetterSource] The name of the queue or subscription that this message
+   * @property The name of the queue or subscription that this message
    * was enqueued on, before it was deadlettered. Only set in messages that have been dead-lettered
    * and subsequently auto-forwarded from the dead-letter queue to another entity. Indicates the
    * entity in which the message was dead-lettered.
@@ -903,7 +828,7 @@ export class ServiceBusMessage implements ReceivedMessage {
     delivery: Delivery,
     shouldReorderLockToken: boolean
   ) {
-    Object.assign(this, ReceivedMessageInfo.fromAmqpMessage(msg, delivery, shouldReorderLockToken));
+    Object.assign(this, fromAmqpMessage(msg, delivery, shouldReorderLockToken));
     this._context = context;
     if (msg.body) {
       this.body = this._context.namespace.dataTransformer.decode(msg.body);
@@ -913,7 +838,7 @@ export class ServiceBusMessage implements ReceivedMessage {
   }
 
   /**
-   * Completes a message using it's lock token. This will delete the message from ServiceBus.
+   * Removes the message from Service Bus.
    * @returns Promise<void>.
    */
   async complete(): Promise<void> {
@@ -924,7 +849,7 @@ export class ServiceBusMessage implements ReceivedMessage {
     );
     if (this._context.requestResponseLockedMessages.has(this.lockToken!)) {
       await this._context.managementClient!.updateDispositionStatus(
-        [this.lockToken!],
+        this.lockToken!,
         DispositionStatus.completed,
         {
           sessionId: this.sessionId
@@ -936,20 +861,15 @@ export class ServiceBusMessage implements ReceivedMessage {
       return;
     }
     const receiver = this._context.getReceiver(this.delivery.link.name, this.sessionId);
+    throwIfMessageCannotBeSettled(receiver, DispositionType.complete, this.delivery.remote_settled);
 
-    if (receiver.receiveMode !== ReceiveMode.peekLock) {
-      throw new Error("The operation is only supported in 'PeekLock' receive mode.");
-    }
-    if (this.delivery.remote_settled) {
-      throw new Error("This message has been already settled.");
-    }
-    return receiver.settleMessage(this, DispositionType.complete);
+    return receiver!.settleMessage(this, DispositionType.complete);
   }
   /**
-   * Abandons a message using it's lock token. This will make the message available again in
-   * Service Bus for processing.
-   * @param {{ [key: string]: any }} propertiesToModify The properties of the message to modify while
-   * abandoning the message. Abandoning a message will increase the delivery count on the message.
+   * The lock held on the message by the receiver is let go, making the message available again in
+   * Service Bus for another receive operation.
+   * @param propertiesToModify The properties of the message to modify while abandoning the message.
+   *
    * @return Promise<void>.
    */
   async abandon(propertiesToModify?: { [key: string]: any }): Promise<void> {
@@ -961,7 +881,7 @@ export class ServiceBusMessage implements ReceivedMessage {
     );
     if (this._context.requestResponseLockedMessages.has(this.lockToken!)) {
       await this._context.managementClient!.updateDispositionStatus(
-        [this.lockToken!],
+        this.lockToken!,
         DispositionStatus.abandoned,
         { propertiesToModify: propertiesToModify, sessionId: this.sessionId }
       );
@@ -971,25 +891,18 @@ export class ServiceBusMessage implements ReceivedMessage {
       return;
     }
     const receiver = this._context.getReceiver(this.delivery.link.name, this.sessionId);
+    throwIfMessageCannotBeSettled(receiver, DispositionType.abandon, this.delivery.remote_settled);
 
-    if (receiver.receiveMode !== ReceiveMode.peekLock) {
-      throw new Error("The operation is only supported in 'PeekLock' receive mode.");
-    }
-    if (this.delivery.remote_settled) {
-      throw new Error("This message has been already settled.");
-    }
-    return receiver.settleMessage(this, DispositionType.abandon, {
+    return receiver!.settleMessage(this, DispositionType.abandon, {
       propertiesToModify: propertiesToModify
     });
   }
 
   /**
-   * Defers the processing of the message. In order to receive this message again in the future,
-   * you will need to save the `sequenceNumber` and receive it
-   * using `receiveDeferredMessage(sequenceNumber)`. Deferring messages does not impact message's
-   * expiration, meaning that deferred messages can still expire.
-   * @param [propertiesToModify] The properties of the message to modify while
-   * deferring the message
+   * Defers the processing of the message. Save the `sequenceNumber` of the message, in order to
+   * receive it message again in the future using the `receiveDeferredMessage` method.
+   * @param propertiesToModify The properties of the message to modify while deferring the message
+   *
    * @returns Promise<void>
    */
   async defer(propertiesToModify?: { [key: string]: any }): Promise<void> {
@@ -1000,7 +913,7 @@ export class ServiceBusMessage implements ReceivedMessage {
     );
     if (this._context.requestResponseLockedMessages.has(this.lockToken!)) {
       await this._context.managementClient!.updateDispositionStatus(
-        [this.lockToken!],
+        this.lockToken!,
         DispositionStatus.defered,
         { propertiesToModify: propertiesToModify, sessionId: this.sessionId }
       );
@@ -1010,22 +923,19 @@ export class ServiceBusMessage implements ReceivedMessage {
       return;
     }
     const receiver = this._context.getReceiver(this.delivery.link.name, this.sessionId);
+    throwIfMessageCannotBeSettled(receiver, DispositionType.defer, this.delivery.remote_settled);
 
-    if (receiver.receiveMode !== ReceiveMode.peekLock) {
-      throw new Error("The operation is only supported in 'PeekLock' receive mode.");
-    }
-    if (this.delivery.remote_settled) {
-      throw new Error("This message has been already settled.");
-    }
-    return receiver.settleMessage(this, DispositionType.defer, {
+    return receiver!.settleMessage(this, DispositionType.defer, {
       propertiesToModify: propertiesToModify
     });
   }
 
   /**
-   * Moves the message to the deadletter sub-queue.
-   * @param [options] The DeadLetter options that can be provided while
+   * Moves the message to the deadletter sub-queue. To receive a deadletted message, create a new
+   * QueueClient/SubscriptionClient using the path for the deadletter sub-queue.
+   * @param options The DeadLetter options that can be provided while
    * rejecting the message.
+   *
    * @returns Promise<void>
    */
   async deadLetter(options?: DeadLetterOptions): Promise<void> {
@@ -1045,7 +955,7 @@ export class ServiceBusMessage implements ReceivedMessage {
     );
     if (this._context.requestResponseLockedMessages.has(this.lockToken!)) {
       await this._context.managementClient!.updateDispositionStatus(
-        [this.lockToken!],
+        this.lockToken!,
         DispositionStatus.suspended,
         {
           deadLetterReason: error.condition,
@@ -1059,14 +969,13 @@ export class ServiceBusMessage implements ReceivedMessage {
       return;
     }
     const receiver = this._context.getReceiver(this.delivery.link.name, this.sessionId);
+    throwIfMessageCannotBeSettled(
+      receiver,
+      DispositionType.deadletter,
+      this.delivery.remote_settled
+    );
 
-    if (receiver.receiveMode !== ReceiveMode.peekLock) {
-      throw new Error("The operation is only supported in 'PeekLock' receive mode.");
-    }
-    if (this.delivery.remote_settled) {
-      throw new Error("This message has been already settled.");
-    }
-    return receiver.settleMessage(this, DispositionType.deadletter, {
+    return receiver!.settleMessage(this, DispositionType.deadletter, {
       error: error
     });
   }
@@ -1076,7 +985,7 @@ export class ServiceBusMessage implements ReceivedMessage {
    * @returns ServiceBusMessage
    */
   clone(): SendableMessageInfo {
-    // We are returning a SendableMessageInfo object because that object can then be sent to ServiceBus
+    // We are returning a SendableMessageInfo object because that object can then be sent to Service Bus
     const clone: SendableMessageInfo = {
       body: this.body,
       contentType: this.contentType,
