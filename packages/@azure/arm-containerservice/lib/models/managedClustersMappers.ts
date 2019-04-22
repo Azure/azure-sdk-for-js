@@ -24,6 +24,7 @@ export {
   ManagedClusterAddonProfile,
   ContainerServiceNetworkProfile,
   ManagedClusterAADProfile,
+  ManagedClusterIdentity,
   CloudError,
   ManagedClusterUpgradeProfile,
   ManagedClusterPoolUpgradeProfile,
