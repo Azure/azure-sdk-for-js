@@ -139,6 +139,7 @@ async function UploadSeekableBlobToBlockBlob(
           blobFactory(start, contentLength),
           contentLength,
           {
+            abortSignal: options.abortSignal,
             leaseAccessConditions: options.blobAccessConditions!
               .leaseAccessConditions
           }
