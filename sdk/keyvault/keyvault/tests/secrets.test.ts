@@ -2,7 +2,7 @@ import * as assert from "assert";
 import chai from "chai"
 const expect = chai.expect;
 import { getKeyvaultName, getCredentialWithServicePrincipalSecret, getUniqueName } from "./utils/utils.common";
-import { SecretsClient } from "../lib";
+import { SecretsClient } from "../src";
 import { ServiceClientCredentials, RestError } from "@azure/ms-rest-js";
 
 describe("Secret client", () => {
@@ -99,7 +99,7 @@ describe("Secret client", () => {
       await client.deleteSecret(secretName);
     });
 
-    const secretValues = [ secretValue1, secretValue2, secretValue3 ];
+    const secretValues = [secretValue1, secretValue2, secretValue3];
     interface versionValuePair { version: string, value: string }
     let versions: versionValuePair[] = [];
     for (const v of secretValues) {
@@ -115,7 +115,7 @@ describe("Secret client", () => {
     }
 
     const comp = (a: versionValuePair, b: versionValuePair) =>
-     (a.version + a.value).localeCompare(b.version + b.value);
+      (a.version + a.value).localeCompare(b.version + b.value);
     results.sort(comp);
     versions.sort(comp);
 

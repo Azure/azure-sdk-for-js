@@ -1,6 +1,6 @@
 import * as assert from "assert";
 import { getKeyvaultName } from "./utils/utils.common";
-import { SecretsClient, Pipeline } from "../lib";
+import { SecretsClient, Pipeline } from "../src";
 import { signingPolicy, exponentialRetryPolicy, deserializationPolicy, ServiceClientCredentials } from "@azure/ms-rest-js";
 
 describe("Secret client pipeline", () => {
@@ -22,7 +22,7 @@ describe("Secret client pipeline", () => {
   it("can be created with NewPipelineOptions", () => {
     const client = new SecretsClient(keyVaultUrl, credential, {
       retryOptions: { retryCount: 10 },
-      proxyOptions: { proxySettings: "HTTP://myproxy"}
+      proxyOptions: { proxySettings: "HTTP://myproxy" }
     });
     assert.ok((client as any).client._requestPolicyFactories!.length > 0, "The client should be created from NewPipelineOptions with a set of request policy factories.");
   });

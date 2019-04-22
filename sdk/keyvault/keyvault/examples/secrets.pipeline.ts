@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import { SecretsClient, Pipeline, RestError } from "../lib";
+import { SecretsClient, Pipeline, RestError } from "../src";
 import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
 import { signingPolicy, exponentialRetryPolicy, deserializationPolicy } from "@azure/ms-rest-js";
 
