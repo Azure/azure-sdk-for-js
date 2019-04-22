@@ -80,14 +80,6 @@ export function nodeConfig(test = false) {
         return;
       }
 
-      if (
-        warning.code === "CIRCULAR_DEPENDENCY" &&
-        warning.importer.indexOf(path.normalize("node_modules/chai/lib") === 0)
-      ) {
-        // Chai contains circular references, but they are not fatal and can be ignored.
-        return;
-      }
-
       console.error(`(!) ${warning.message}`);
     };
   } else if (production) {
@@ -97,12 +89,12 @@ export function nodeConfig(test = false) {
   return baseConfig;
 }
 
-export function browserConfig(test = false) {
+export function browserConfig(test = false, production = false) {
   const baseConfig = {
     input: "dist-esm/src/index.browser.js",
     external: ["ms-rest-js"],
     output: {
-      file: "browser/index.js",
+      file: "browser/azure-storage-blob.js",
       banner: banner,
       format: "umd",
       name: "azblob",
@@ -167,18 +159,17 @@ export function browserConfig(test = false) {
         return;
       }
 
-      if (
-        warning.code === "CIRCULAR_DEPENDENCY" &&
-        warning.importer.indexOf(path.normalize("node_modules/chai/lib") === 0)
-      ) {
-        // Chai contains circular references, but they are not fatal and can be ignored.
-        return;
-      }
-
       console.error(`(!) ${warning.message}`);
     };
   } else if (production) {
-    baseConfig.plugins.push(uglify());
+    baseConfig.output.file = "browser/azure-storage-blob.min.js";
+    baseConfig.plugins.push(
+      uglify({
+        output: {
+          preamble: banner
+        }
+      })
+    );
   }
 
   return baseConfig;
