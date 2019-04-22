@@ -236,10 +236,9 @@ export interface SendableMessageInfo {
 
 /**
  * @internal
- * Converts given SendableMessageInfo to AmqpMessage
+ * Validates the properties in the given SendableMessageInfo
  */
-export function toAmqpMessage(msg: SendableMessageInfo): AmqpMessage {
-  // validate
+export function validateAmqpMessage(msg: SendableMessageInfo): void {
   if (!msg) {
     throw new Error("'msg' cannot be null or undefined.");
   }
@@ -341,7 +340,13 @@ export function toAmqpMessage(msg: SendableMessageInfo): AmqpMessage {
   ) {
     throw new Error("'correlationId' must be of type 'string' | 'number' | Buffer.");
   }
+}
 
+/**
+ * @internal
+ * Converts given SendableMessageInfo to AmqpMessage
+ */
+export function toAmqpMessage(msg: SendableMessageInfo): AmqpMessage {
   const amqpMsg: AmqpMessage = {
     body: msg.body,
     message_annotations: {}
