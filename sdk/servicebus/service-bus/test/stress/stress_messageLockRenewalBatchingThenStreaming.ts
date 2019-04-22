@@ -64,9 +64,7 @@ async function receiveMessages(): Promise<void> {
     const receiver = client.createReceiver(ReceiveMode.peekLock);
     const onMessageHandler: OnMessage = async (brokeredMessage) => {
       receivedMessage = brokeredMessage;
-      if (receivedMessage.messageId !== "test") {
-        throw new Error("Message is corrupt or unexpected");
-      }
+
       console.log("Received message: ", receivedMessage.messageId);
 
       while (elapsedTime < testDurationInMilliseconds) {
