@@ -27,11 +27,12 @@ import {
   ReceivedMessageInfo,
   ServiceBusMessage,
   SendableMessageInfo,
-  DispositionStatus
+  DispositionStatus,
+  toAmqpMessage
 } from "../serviceBusMessage";
 import { LinkEntity } from "./linkEntity";
 import * as log from "../log";
-import { ReceiveMode } from "../serviceBusMessage";
+import { ReceiveMode, fromAmqpMessage } from "../serviceBusMessage";
 import { toBuffer } from "../util/utils";
 import {
   throwErrorIfConnectionClosed,
@@ -44,13 +45,14 @@ import { Typed } from "rhea-promise";
 import { max32BitNumber } from "../util/constants";
 
 /**
- * Represents a description of a rule.
+ * Represents a Rule on a Subscription that is used to filter the incoming message from the
+ * Subscription.
  */
 export interface RuleDescription {
   /**
    * Filter expression used to match messages. Supports 2 types:
-   * - `string`: SQL-like condition expression that is evaluated in the broker against the messages'
-   * user-defined properties and system properties. All system properties must be prefixed with
+   * - `string`: SQL-like condition expression that is evaluated against the messages'
+   * user-defined properties and system properties. All system properties will be prefixed with
    * `sys.` in the condition expression.
    * - `CorrelationFilter`: Properties of the filter will be used to match with the message properties.
    */
@@ -67,44 +69,44 @@ export interface RuleDescription {
 
 /**
  * Represents the correlation filter expression.
- * A CorrelationFilter holds a set of conditions that are matched against one of more of an
- * arriving message's user and system properties.
+ * A CorrelationFilter holds a set of conditions that are matched against user and system properties
+ * of incoming messages from a Subscription.
  */
 export interface CorrelationFilter {
   /**
-   * Identifier of the correlation.
+   * Value to be matched with the `correlationId` property of the incoming message.
    */
   correlationId?: string;
   /**
-   * Identifier of the message.
+   * Value to be matched with the `messageId` property of the incoming message.
    */
   messageId?: string;
   /**
-   * Address to send to.
+   * Value to be matched with the `to` property of the incoming message.
    */
   to?: string;
   /**
-   * Address of the queue to reply to.
+   * Value to be matched with the `replyTo` property of the incoming message.
    */
   replyTo?: string;
   /**
-   * Application specific label.
+   * Value to be matched with the `label` property of the incoming message.
    */
   label?: string;
   /**
-   * Session identifier.
+   * Value to be matched with the `sessionId` property of the incoming message.
    */
   sessionId?: string;
   /**
-   * Session identifier to reply to.
+   * Value to be matched with the `replyToSessionId` property of the incoming message.
    */
   replyToSessionId?: string;
   /**
-   * Content type of the message.
+   * Value to be matched with the `contentType` property of the incoming message.
    */
   contentType?: string;
   /**
-   * Application specific properties of the message.
+   * Value to be matched with the user properties of the incoming message.
    */
   userProperties?: any;
 }
@@ -333,7 +335,7 @@ export class ManagementClient extends LinkEntity {
         const messages = result.body.messages as { message: Buffer }[];
         for (const msg of messages) {
           const decodedMessage = RheaMessageUtil.decode(msg.message);
-          const message = ReceivedMessageInfo.fromAmqpMessage(decodedMessage as any);
+          const message = fromAmqpMessage(decodedMessage as any);
           message.body = this._context.namespace.dataTransformer.decode(message.body);
           messageList.push(message);
           this._lastPeekedSequenceNumber = message.sequenceNumber!;
@@ -440,7 +442,7 @@ export class ManagementClient extends LinkEntity {
       const item = messages[i];
       if (!item.messageId) item.messageId = generate_uuid();
       item.scheduledEnqueueTimeUtc = scheduledEnqueueTimeUtc;
-      const amqpMessage = SendableMessageInfo.toAmqpMessage(item);
+      const amqpMessage = toAmqpMessage(item);
 
       try {
         const entry: any = {
@@ -657,10 +659,12 @@ export class ManagementClient extends LinkEntity {
           { tag: msg["lock-token"] } as any,
           false
         );
-        this._context.requestResponseLockedMessages.set(
-          message.lockToken!,
-          message.lockedUntilUtc!
-        );
+        if (message.lockToken && message.lockedUntilUtc) {
+          this._context.requestResponseLockedMessages.set(
+            message.lockToken,
+            message.lockedUntilUtc
+          );
+        }
         messageList.push(message);
       }
       return messageList;
@@ -685,24 +689,17 @@ export class ManagementClient extends LinkEntity {
    * @returns Promise<void>
    */
   async updateDispositionStatus(
-    lockTokens: string[],
+    lockToken: string,
     dispositionStatus: DispositionStatus,
     options?: DispositionStatusOptions
   ): Promise<void> {
     throwErrorIfConnectionClosed(this._context.namespace);
-    if (!Array.isArray(lockTokens)) {
-      throw new Error("'lockTokens' is a required parameter and must be of type 'Array'.");
-    }
-    if (!dispositionStatus || typeof dispositionStatus !== "string") {
-      throw new Error("'dispositionStatus' is a required parameter and must be of type 'string'.");
-    }
+
     if (!options) options = {};
     try {
       const messageBody: any = {};
       const lockTokenBuffer: Buffer[] = [];
-      for (const lockToken of lockTokens) {
-        lockTokenBuffer.push(string_to_uuid(lockToken));
-      }
+      lockTokenBuffer.push(string_to_uuid(lockToken));
       messageBody[Constants.lockTokens] = types.wrap_array(lockTokenBuffer, 0x98, undefined);
       messageBody[Constants.dispositionStatus] = dispositionStatus;
       if (options.deadLetterDescription != undefined) {

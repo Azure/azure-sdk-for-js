@@ -82,7 +82,7 @@ export interface ReceiveOptions extends MessageHandlerOptions {
 }
 
 /**
- * Describes the message handler signature.
+ * Describes the signature of the message handler passed to `registerMessageHandler` method.
  */
 export interface OnMessage {
   /**
@@ -92,7 +92,7 @@ export interface OnMessage {
 }
 
 /**
- * Describes the error handler signature.
+ * Describes the signature of the error handler passed to `registerMessageHandler` method.
  */
 export interface OnError {
   /**

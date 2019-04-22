@@ -27,7 +27,7 @@ import { SubscriptionClient } from "./subscriptionClient";
  */
 export interface ServiceBusClientOptions {
   /**
-   * @property {DataTransformer} [dataTransformer] The data transformer that will be used to encode
+   * @property The data transformer that will be used to encode
    * and decode the sent and received messages respectively. If not provided then we will use the
    * DefaultDataTransformer. The default transformer should handle majority of the cases. This
    * option needs to be used only for specialized scenarios.
@@ -52,11 +52,12 @@ export interface ServiceBusClientOptions {
  */
 export class ServiceBusClient {
   /**
-   * @property {string} name The namespace name of the Service Bus instance.
+   * @readonly
+   * @property The namespace name of the Service Bus instance.
    */
   readonly name: string;
   /**
-   * @property {ConnectionContext} _context Describes the amqp connection context for the Namespace.
+   * @property Describes the amqp connection context for the Namespace.
    * @private
    */
   private _context: ConnectionContext;

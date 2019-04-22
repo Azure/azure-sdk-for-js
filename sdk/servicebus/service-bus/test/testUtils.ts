@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+import chai from "chai";
 import {
   SendableMessageInfo,
   QueueClient,
@@ -8,7 +9,8 @@ import {
   ServiceBusClient,
   SubscriptionClient,
   delay,
-  ReceiveMode
+  ReceiveMode,
+  ServiceBusMessage
 } from "../src";
 import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
 import { ServiceBusManagementClient } from "@azure/arm-servicebus";
@@ -22,7 +24,19 @@ export class TestMessage {
     return {
       body: `message body ${randomNumber}`,
       messageId: `message id ${randomNumber}`,
-      partitionKey: "dummy"
+      partitionKey: `dummy partition key`,
+      contentType: `content type ${randomNumber}`,
+      correlationId: `correlation id ${randomNumber}`,
+      timeToLive: 60 * 60 * 24,
+      label: `label ${randomNumber}`,
+      to: `to ${randomNumber}`,
+      replyTo: `reply to ${randomNumber}`,
+      scheduledEnqueueTimeUtc: new Date(),
+      userProperties: {
+        propOne: 1,
+        propTwo: "two",
+        propThree: true
+      }
     };
   }
 
@@ -31,9 +45,92 @@ export class TestMessage {
     return {
       body: `message body ${randomNumber}`,
       messageId: `message id ${randomNumber}`,
+      partitionKey: `partition key ${randomNumber}`,
+      contentType: `content type ${randomNumber}`,
+      correlationId: `correlation id ${randomNumber}`,
+      timeToLive: 60 * 60 * 24,
+      label: `label ${randomNumber}`,
+      to: `to ${randomNumber}`,
+      replyTo: `reply to ${randomNumber}`,
+      scheduledEnqueueTimeUtc: new Date(),
+      userProperties: {
+        propOne: 1,
+        propTwo: "two",
+        propThree: true
+      },
       sessionId: TestMessage.sessionId,
-      partitionKey: "dummy"
+      replyToSessionId: "some-other-session-id"
     };
+  }
+
+  /**
+   * Compares all the properties set on the given sent message with those
+   * on the received message
+   */
+  static checkMessageContents(
+    sent: SendableMessageInfo,
+    received: ServiceBusMessage,
+    useSessions?: boolean,
+    usePartitions?: boolean
+  ): void {
+    if (sent.userProperties) {
+      if (!received.userProperties) {
+        chai.assert.fail("Received message doesnt have any user properties");
+        return;
+      }
+      const expectedUserProperties = sent.userProperties;
+      const receivedUserProperties = received.userProperties;
+      Object.keys(expectedUserProperties).forEach((key) => {
+        chai.assert.equal(
+          receivedUserProperties[key],
+          expectedUserProperties[key],
+          `Unexpected value for user property for ${key}`
+        );
+      });
+    }
+
+    chai.assert.equal(received.body, sent.body, `Unexpected body in received msg`);
+    chai.assert.equal(received.messageId, sent.messageId, `Unexpected messageId in received msg`);
+
+    chai.assert.equal(
+      received.contentType,
+      sent.contentType,
+      `Unexpected contentType in received msg`
+    );
+    chai.assert.equal(
+      received.correlationId,
+      sent.correlationId,
+      `Unexpected correlationId in received msg`
+    );
+    chai.assert.equal(
+      received.timeToLive,
+      sent.timeToLive,
+      `Unexpected timeToLive in received msg`
+    );
+    chai.assert.equal(received.to, sent.to, `Unexpected to in received msg`);
+    chai.assert.equal(received.replyTo, sent.replyTo, `Unexpected replyTo in received msg`);
+
+    if (useSessions) {
+      chai.assert.equal(received.sessionId, sent.sessionId, `Unexpected sessionId in received msg`);
+      chai.assert.equal(
+        received.replyToSessionId,
+        sent.replyToSessionId,
+        `Unexpected replyToSessionId in received msg`
+      );
+      if (usePartitions) {
+        chai.assert.equal(
+          received.partitionKey,
+          sent.sessionId,
+          `Unexpected partitionKey in received msg`
+        );
+      }
+    } else {
+      chai.assert.equal(
+        received.partitionKey,
+        sent.partitionKey,
+        `Unexpected partitionKey in received msg`
+      );
+    }
   }
 }
 
@@ -175,7 +272,7 @@ async function recreateSubscription(
     });
 }
 
-export async function getTopicClientWithTwoSubscriptionClients (
+export async function getTopicClientWithTwoSubscriptionClients(
   namespace: ServiceBusClient
 ): Promise<{
   topicClient: TopicClient;
