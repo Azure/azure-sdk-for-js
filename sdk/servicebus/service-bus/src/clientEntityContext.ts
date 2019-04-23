@@ -192,7 +192,7 @@ export namespace ClientEntityContext {
       if (batchingReceiver && !batchingReceiver.isConnecting) {
         log.error(
           "[%s] Receiver '%s' with address '%s' is a Batching Receiver, so we will not be " +
-          "re-establishing the receiver link.",
+            "re-establishing the receiver link.",
           connectionId,
           batchingReceiver.name,
           batchingReceiver.address
@@ -274,7 +274,7 @@ export namespace ClientEntityContext {
       delete context.clientContexts[clientId];
 
       // Close the managementClient unless it is shared with other clients
-      if (entityContext.managementClient && isManagementClientSharedWithOtherClients()) {
+      if (entityContext.managementClient && !isManagementClientSharedWithOtherClients()) {
         await entityContext.managementClient.close();
         entityContext.managementClient = undefined;
       }
