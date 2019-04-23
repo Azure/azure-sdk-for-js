@@ -15,7 +15,7 @@ npm install @azure/cognitiveservices-luis-authoring
 
 ### How to use
 
-#### nodejs - Authentication, client creation and listPhraseLists features as an example written in TypeScript.
+#### nodejs - Authentication, client creation and listApplicationVersionPatternFeatures features as an example written in TypeScript.
 
 ##### Install @azure/ms-rest-nodeauth
 
@@ -37,7 +37,7 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
   const versionId = "testversionId";
   const skip = 1;
   const take = 1;
-  client.features.listPhraseLists(appId, versionId, skip, take).then((result) => {
+  client.features.listApplicationVersionPatternFeatures(appId, versionId, skip, take).then((result) => {
     console.log("The result is:");
     console.log(result);
   });
@@ -46,7 +46,7 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
 });
 ```
 
-#### browser - Authentication, client creation and listPhraseLists features as an example written in JavaScript.
+#### browser - Authentication, client creation and listApplicationVersionPatternFeatures features as an example written in JavaScript.
 
 ##### Install @azure/ms-rest-browserauth
 
@@ -83,7 +83,7 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
         const versionId = "testversionId";
         const skip = 1;
         const take = 1;
-        client.features.listPhraseLists(appId, versionId, skip, take).then((result) => {
+        client.features.listApplicationVersionPatternFeatures(appId, versionId, skip, take).then((result) => {
           console.log("The result is:");
           console.log(result);
         }).catch((err) => {
@@ -100,6 +100,3 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
 ## Related projects
 
 - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
-
-
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/cognitiveservices/cognitiveservices-luis-authoring/README.png)
