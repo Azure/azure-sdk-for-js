@@ -11,8 +11,6 @@ import sourcemaps from "rollup-plugin-sourcemaps";
 import shim from "rollup-plugin-shim";
 // import visualizer from "rollup-plugin-visualizer";
 
-import path from "path";
-
 const version = require("./package.json").version;
 const banner = [
   "/*!",
