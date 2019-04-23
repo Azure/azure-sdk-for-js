@@ -240,232 +240,170 @@ export interface SendableMessageInfo {
 }
 
 /**
- * Describes the message to be sent to Service Bus.
+ * @internal
+ * Validates the properties in the given SendableMessageInfo
  */
-export module SendableMessageInfo {
-  /**
-   * @ignore
-   */
-  export function validate(msg: SendableMessageInfo): void {
-    if (!msg) {
-      throw new Error("'msg' cannot be null or undefined.");
-    }
-
-    if (msg.contentType != undefined && typeof msg.contentType !== "string") {
-      throw new Error("'contentType' must be of type 'string'.");
-    }
-
-    if (msg.label != undefined && typeof msg.label !== "string") {
-      throw new Error("'label' must be of type 'string'.");
-    }
-
-    if (msg.to != undefined && typeof msg.to !== "string") {
-      throw new Error("'to' must be of type 'string'.");
-    }
-
-    if (msg.replyToSessionId != undefined && typeof msg.replyToSessionId !== "string") {
-      throw new Error("'replyToSessionId' must be of type 'string'.");
-    }
-
-    if (msg.timeToLive != undefined && typeof msg.timeToLive !== "number") {
-      throw new Error("'timeToLive' must be of type 'number'.");
-    }
-
-    if (
-      msg.scheduledEnqueueTimeUtc &&
-      (!(msg.scheduledEnqueueTimeUtc instanceof Date) ||
-        msg.scheduledEnqueueTimeUtc!.toString() === "Invalid Date")
-    ) {
-      throw new Error("'scheduledEnqueueTimeUtc' must be an instance of a valid 'Date'.");
-    }
-
-    if (
-      (msg.partitionKey != undefined && typeof msg.partitionKey !== "string") ||
-      (typeof msg.partitionKey === "string" &&
-        msg.partitionKey.length > Constants.maxPartitionKeyLength)
-    ) {
-      throw new Error(
-        "'partitionKey' must be of type 'string' with a length less than 128 characters."
-      );
-    }
-
-    if (
-      (msg.viaPartitionKey != undefined && typeof msg.viaPartitionKey !== "string") ||
-      (typeof msg.viaPartitionKey === "string" &&
-        msg.viaPartitionKey.length > Constants.maxPartitionKeyLength)
-    ) {
-      throw new Error(
-        "'viaPartitionKey' must be of type 'string' with a length less than 128 characters."
-      );
-    }
-
-    if (msg.sessionId != undefined && typeof msg.sessionId !== "string") {
-      throw new Error("'sessionId' must be of type 'string'.");
-    }
-
-    if (
-      msg.sessionId != undefined &&
-      typeof msg.sessionId === "string" &&
-      msg.sessionId.length > Constants.maxSessionIdLength
-    ) {
-      throw new Error(
-        "Length of 'sessionId' of type 'string' cannot be greater than 128 characters."
-      );
-    }
-
-    if (
-      msg.messageId != undefined &&
-      typeof msg.messageId !== "string" &&
-      typeof msg.messageId !== "number" &&
-      !Buffer.isBuffer(msg.messageId)
-    ) {
-      throw new Error("'messageId' must be of type 'string' | 'number' | Buffer.");
-    }
-
-    if (
-      msg.messageId &&
-      typeof msg.messageId === "number" &&
-      Math.floor(msg.messageId) !== msg.messageId
-    ) {
-      throw new Error("'messageId' must be a whole integer. Decimal points are not allowed.");
-    }
-
-    if (
-      msg.messageId != undefined &&
-      typeof msg.messageId === "string" &&
-      msg.messageId.length > Constants.maxMessageIdLength
-    ) {
-      throw new Error(
-        "Length of 'messageId' of type 'string' cannot be greater than 128 characters."
-      );
-    }
-
-    if (
-      msg.correlationId != undefined &&
-      typeof msg.correlationId !== "string" &&
-      typeof msg.correlationId !== "number" &&
-      !Buffer.isBuffer(msg.correlationId)
-    ) {
-      throw new Error("'correlationId' must be of type 'string' | 'number' | Buffer.");
-    }
+export function validateAmqpMessage(msg: SendableMessageInfo): void {
+  if (!msg) {
+    throw new Error("'msg' cannot be null or undefined.");
   }
 
-  /**
-   * @ignore
-   * Converts given SendableMessageInfo to AmqpMessage
-   */
-  export function toAmqpMessage(msg: SendableMessageInfo): AmqpMessage {
-    validate(msg);
-    const amqpMsg: AmqpMessage = {
-      body: msg.body,
-      message_annotations: {}
-    };
-    if (msg.userProperties != undefined) {
-      amqpMsg.application_properties = msg.userProperties;
-    }
-    if (msg.contentType != undefined) {
-      amqpMsg.content_type = msg.contentType;
-    }
-    if (msg.sessionId != undefined) {
-      amqpMsg.group_id = msg.sessionId;
-    }
-    if (msg.replyTo != undefined) {
-      amqpMsg.reply_to = msg.replyTo;
-    }
-    if (msg.to != undefined) {
-      amqpMsg.to = msg.to;
-    }
-    if (msg.label != undefined) {
-      amqpMsg.subject = msg.label;
-    }
-    if (msg.messageId != undefined) {
-      amqpMsg.message_id = msg.messageId;
-    }
-    if (msg.correlationId != undefined) {
-      amqpMsg.correlation_id = msg.correlationId;
-    }
-    if (msg.replyToSessionId != undefined) {
-      amqpMsg.reply_to_group_id = msg.replyToSessionId;
-    }
-    if (msg.timeToLive != undefined && msg.timeToLive !== Constants.maxDurationValue) {
-      amqpMsg.ttl = msg.timeToLive;
-      amqpMsg.creation_time = Date.now();
-      if (Constants.maxAbsoluteExpiryTime - amqpMsg.creation_time > amqpMsg.ttl) {
-        amqpMsg.absolute_expiry_time = amqpMsg.creation_time + amqpMsg.ttl;
-      } else {
-        amqpMsg.absolute_expiry_time = Constants.maxAbsoluteExpiryTime;
-      }
-    }
-    if (msg.partitionKey != undefined) {
-      amqpMsg.message_annotations![Constants.partitionKey] = msg.partitionKey;
-    }
-    if (msg.viaPartitionKey != undefined) {
-      amqpMsg.message_annotations![Constants.viaPartitionKey] = msg.viaPartitionKey;
-    }
-    if (msg.scheduledEnqueueTimeUtc != undefined) {
-      amqpMsg.message_annotations![Constants.scheduledEnqueueTime] = msg.scheduledEnqueueTimeUtc;
-    }
-    log.message("SBMessage to AmqpMessage: %O", amqpMsg);
-    return amqpMsg;
+  if (msg.contentType != undefined && typeof msg.contentType !== "string") {
+    throw new Error("'contentType' must be of type 'string'.");
   }
 
-  /**
-   * @ignore
-   * Converts given AmqpMessage to SendableMessageInfo
-   */
-  export function fromAmqpMessage(msg: AmqpMessage): SendableMessageInfo {
-    if (!msg) {
-      throw new Error("'msg' cannot be null or undefined.");
-    }
-    const sbmsg: SendableMessageInfo = {
-      body: msg.body
-    };
-
-    if (msg.application_properties != undefined) {
-      sbmsg.userProperties = msg.application_properties;
-    }
-    if (msg.content_type != undefined) {
-      sbmsg.contentType = msg.content_type;
-    }
-    if (msg.group_id != undefined) {
-      sbmsg.sessionId = msg.group_id;
-    }
-    if (msg.reply_to != undefined) {
-      sbmsg.replyTo = msg.reply_to;
-    }
-    if (msg.to != undefined) {
-      sbmsg.to = msg.to;
-    }
-    if (msg.ttl != undefined) {
-      sbmsg.timeToLive = msg.ttl;
-    }
-    if (msg.subject != undefined) {
-      sbmsg.label = msg.subject;
-    }
-    if (msg.message_id != undefined) {
-      sbmsg.messageId = msg.message_id;
-    }
-    if (msg.correlation_id != undefined) {
-      sbmsg.correlationId = msg.correlation_id;
-    }
-    if (msg.reply_to_group_id != undefined) {
-      sbmsg.replyToSessionId = msg.reply_to_group_id;
-    }
-
-    if (msg.message_annotations != undefined) {
-      if (msg.message_annotations[Constants.partitionKey] != undefined) {
-        sbmsg.partitionKey = msg.message_annotations[Constants.partitionKey];
-      }
-      if (msg.message_annotations[Constants.viaPartitionKey] != undefined) {
-        sbmsg.viaPartitionKey = msg.message_annotations[Constants.viaPartitionKey];
-      }
-      if (msg.message_annotations[Constants.scheduledEnqueueTime] != undefined) {
-        sbmsg.scheduledEnqueueTimeUtc = msg.message_annotations[Constants.scheduledEnqueueTime];
-      }
-    }
-    log.message("AmqpMessage to SBMessage: %O", sbmsg);
-    return sbmsg;
+  if (msg.label != undefined && typeof msg.label !== "string") {
+    throw new Error("'label' must be of type 'string'.");
   }
+
+  if (msg.to != undefined && typeof msg.to !== "string") {
+    throw new Error("'to' must be of type 'string'.");
+  }
+
+  if (msg.replyToSessionId != undefined && typeof msg.replyToSessionId !== "string") {
+    throw new Error("'replyToSessionId' must be of type 'string'.");
+  }
+
+  if (msg.timeToLive != undefined && typeof msg.timeToLive !== "number") {
+    throw new Error("'timeToLive' must be of type 'number'.");
+  }
+
+  if (
+    msg.scheduledEnqueueTimeUtc &&
+    (!(msg.scheduledEnqueueTimeUtc instanceof Date) ||
+      msg.scheduledEnqueueTimeUtc!.toString() === "Invalid Date")
+  ) {
+    throw new Error("'scheduledEnqueueTimeUtc' must be an instance of a valid 'Date'.");
+  }
+
+  if (
+    (msg.partitionKey != undefined && typeof msg.partitionKey !== "string") ||
+    (typeof msg.partitionKey === "string" &&
+      msg.partitionKey.length > Constants.maxPartitionKeyLength)
+  ) {
+    throw new Error(
+      "'partitionKey' must be of type 'string' with a length less than 128 characters."
+    );
+  }
+
+  if (
+    (msg.viaPartitionKey != undefined && typeof msg.viaPartitionKey !== "string") ||
+    (typeof msg.viaPartitionKey === "string" &&
+      msg.viaPartitionKey.length > Constants.maxPartitionKeyLength)
+  ) {
+    throw new Error(
+      "'viaPartitionKey' must be of type 'string' with a length less than 128 characters."
+    );
+  }
+
+  if (msg.sessionId != undefined && typeof msg.sessionId !== "string") {
+    throw new Error("'sessionId' must be of type 'string'.");
+  }
+
+  if (
+    msg.sessionId != undefined &&
+    typeof msg.sessionId === "string" &&
+    msg.sessionId.length > Constants.maxSessionIdLength
+  ) {
+    throw new Error(
+      "Length of 'sessionId' of type 'string' cannot be greater than 128 characters."
+    );
+  }
+
+  if (
+    msg.messageId != undefined &&
+    typeof msg.messageId !== "string" &&
+    typeof msg.messageId !== "number" &&
+    !Buffer.isBuffer(msg.messageId)
+  ) {
+    throw new Error("'messageId' must be of type 'string' | 'number' | Buffer.");
+  }
+
+  if (
+    msg.messageId &&
+    typeof msg.messageId === "number" &&
+    Math.floor(msg.messageId) !== msg.messageId
+  ) {
+    throw new Error("'messageId' must be a whole integer. Decimal points are not allowed.");
+  }
+
+  if (
+    msg.messageId != undefined &&
+    typeof msg.messageId === "string" &&
+    msg.messageId.length > Constants.maxMessageIdLength
+  ) {
+    throw new Error(
+      "Length of 'messageId' of type 'string' cannot be greater than 128 characters."
+    );
+  }
+
+  if (
+    msg.correlationId != undefined &&
+    typeof msg.correlationId !== "string" &&
+    typeof msg.correlationId !== "number" &&
+    !Buffer.isBuffer(msg.correlationId)
+  ) {
+    throw new Error("'correlationId' must be of type 'string' | 'number' | Buffer.");
+  }
+}
+
+/**
+ * @internal
+ * Converts given SendableMessageInfo to AmqpMessage
+ */
+export function toAmqpMessage(msg: SendableMessageInfo): AmqpMessage {
+  validateAmqpMessage(msg);
+  const amqpMsg: AmqpMessage = {
+    body: msg.body,
+    message_annotations: {}
+  };
+  if (msg.userProperties != undefined) {
+    amqpMsg.application_properties = msg.userProperties;
+  }
+  if (msg.contentType != undefined) {
+    amqpMsg.content_type = msg.contentType;
+  }
+  if (msg.sessionId != undefined) {
+    amqpMsg.group_id = msg.sessionId;
+  }
+  if (msg.replyTo != undefined) {
+    amqpMsg.reply_to = msg.replyTo;
+  }
+  if (msg.to != undefined) {
+    amqpMsg.to = msg.to;
+  }
+  if (msg.label != undefined) {
+    amqpMsg.subject = msg.label;
+  }
+  if (msg.messageId != undefined) {
+    amqpMsg.message_id = msg.messageId;
+  }
+  if (msg.correlationId != undefined) {
+    amqpMsg.correlation_id = msg.correlationId;
+  }
+  if (msg.replyToSessionId != undefined) {
+    amqpMsg.reply_to_group_id = msg.replyToSessionId;
+  }
+  if (msg.timeToLive != undefined && msg.timeToLive !== Constants.maxDurationValue) {
+    amqpMsg.ttl = msg.timeToLive;
+    amqpMsg.creation_time = Date.now();
+    if (Constants.maxAbsoluteExpiryTime - amqpMsg.creation_time > amqpMsg.ttl) {
+      amqpMsg.absolute_expiry_time = amqpMsg.creation_time + amqpMsg.ttl;
+    } else {
+      amqpMsg.absolute_expiry_time = Constants.maxAbsoluteExpiryTime;
+    }
+  }
+  if (msg.partitionKey != undefined) {
+    amqpMsg.message_annotations![Constants.partitionKey] = msg.partitionKey;
+  }
+  if (msg.viaPartitionKey != undefined) {
+    amqpMsg.message_annotations![Constants.viaPartitionKey] = msg.viaPartitionKey;
+  }
+  if (msg.scheduledEnqueueTimeUtc != undefined) {
+    amqpMsg.message_annotations![Constants.scheduledEnqueueTime] = msg.scheduledEnqueueTimeUtc;
+  }
+  log.message("SBMessage to AmqpMessage: %O", amqpMsg);
+  return amqpMsg;
 }
 
 /**
@@ -545,154 +483,117 @@ export interface ReceivedMessageInfo extends SendableMessageInfo {
 }
 
 /**
- * Describes the module that is responsible for converting the message received from Service Bus
- * to/from AmqpMessage.
+ * @ignore
+ * Converts given AmqpMessage to ReceivedMessageInfo
  */
-export module ReceivedMessageInfo {
-  /**
-   * @ignore
-   */
-  export function validate(msg: ReceivedMessageInfo): void {
-    SendableMessageInfo.validate(msg);
-    if (msg.lockToken != undefined && typeof msg.lockToken !== "string") {
-      throw new Error("'lockToken' must be of type 'string'.");
-    }
+export function fromAmqpMessage(
+  msg: AmqpMessage,
+  delivery?: Delivery,
+  shouldReorderLockToken?: boolean
+): ReceivedMessageInfo {
+  if (!msg) {
+    throw new Error("'msg' cannot be null or undefined.");
+  }
+  const sbmsg: SendableMessageInfo = {
+    body: msg.body
+  };
 
-    if (msg.deliveryCount != undefined && typeof msg.deliveryCount !== "number") {
-      throw new Error("'deliveryCount' must be of type 'number'.");
-    }
+  if (msg.application_properties != undefined) {
+    sbmsg.userProperties = msg.application_properties;
+  }
+  if (msg.content_type != undefined) {
+    sbmsg.contentType = msg.content_type;
+  }
+  if (msg.group_id != undefined) {
+    sbmsg.sessionId = msg.group_id;
+  }
+  if (msg.reply_to != undefined) {
+    sbmsg.replyTo = msg.reply_to;
+  }
+  if (msg.to != undefined) {
+    sbmsg.to = msg.to;
+  }
+  if (msg.ttl != undefined) {
+    sbmsg.timeToLive = msg.ttl;
+  }
+  if (msg.subject != undefined) {
+    sbmsg.label = msg.subject;
+  }
+  if (msg.message_id != undefined) {
+    sbmsg.messageId = msg.message_id;
+  }
+  if (msg.correlation_id != undefined) {
+    sbmsg.correlationId = msg.correlation_id;
+  }
+  if (msg.reply_to_group_id != undefined) {
+    sbmsg.replyToSessionId = msg.reply_to_group_id;
+  }
 
-    if (msg.sequenceNumber != undefined && !Long.isLong(msg.sequenceNumber)) {
-      throw new Error("'sequenceNumber' must be an instance of 'Long' .");
+  if (msg.message_annotations != undefined) {
+    if (msg.message_annotations[Constants.partitionKey] != undefined) {
+      sbmsg.partitionKey = msg.message_annotations[Constants.partitionKey];
     }
-
-    if (msg.enqueuedSequenceNumber != undefined && typeof msg.enqueuedSequenceNumber !== "number") {
-      throw new Error("'enqueuedSequenceNumber' must be of type 'number'.");
+    if (msg.message_annotations[Constants.viaPartitionKey] != undefined) {
+      sbmsg.viaPartitionKey = msg.message_annotations[Constants.viaPartitionKey];
     }
-
-    if (
-      msg.enqueuedTimeUtc &&
-      !(msg.enqueuedTimeUtc instanceof Date) &&
-      msg.enqueuedTimeUtc!.toString() === "Invalid Date"
-    ) {
-      throw new Error("'enqueuedTimeUtc' must be an instance of a valid 'Date'.");
-    }
-
-    if (
-      msg.expiresAtUtc &&
-      !(msg.expiresAtUtc instanceof Date) &&
-      msg.expiresAtUtc!.toString() === "Invalid Date"
-    ) {
-      throw new Error("'expiresAtUtc' must be an instance of a valid 'Date'.");
-    }
-
-    if (
-      msg.lockedUntilUtc &&
-      !(msg.lockedUntilUtc instanceof Date) &&
-      msg.lockedUntilUtc!.toString() === "Invalid Date"
-    ) {
-      throw new Error("'lockedUntilUtc' must be an instance of a valid 'Date'.");
+    if (msg.message_annotations[Constants.scheduledEnqueueTime] != undefined) {
+      sbmsg.scheduledEnqueueTimeUtc = msg.message_annotations[Constants.scheduledEnqueueTime];
     }
   }
 
-  /**
-   * @ignore
-   * Converts given ReceivedMessageInfo to AmqpMessage
-   */
-  export function toAmqpMessage(msg: ReceivedMessageInfo): AmqpMessage {
-    ReceivedMessageInfo.validate(msg);
-    const amqpMsg: AmqpMessage = SendableMessageInfo.toAmqpMessage(msg);
-    if (msg.deliveryCount != undefined) {
-      amqpMsg.delivery_count = msg.deliveryCount;
+  const props: any = {};
+  if (msg.message_annotations != undefined) {
+    if (msg.message_annotations[Constants.deadLetterSource] != undefined) {
+      props.deadLetterSource = msg.message_annotations[Constants.deadLetterSource];
     }
-    if (!amqpMsg.message_annotations) {
-      amqpMsg.message_annotations = {};
+    if (msg.message_annotations[Constants.enqueueSequenceNumber] != undefined) {
+      props.enqueuedSequenceNumber = msg.message_annotations[Constants.enqueueSequenceNumber];
     }
-    if (msg.deadLetterSource != undefined) {
-      amqpMsg.message_annotations[Constants.deadLetterSource] = msg.deadLetterSource;
+    if (msg.message_annotations[Constants.sequenceNumber] != undefined) {
+      if (Buffer.isBuffer(msg.message_annotations[Constants.sequenceNumber])) {
+        props.sequenceNumber = Long.fromBytesBE(msg.message_annotations[Constants.sequenceNumber]);
+      } else {
+        props.sequenceNumber = Long.fromNumber(msg.message_annotations[Constants.sequenceNumber]);
+      }
     }
-    if (msg.enqueuedSequenceNumber != undefined) {
-      amqpMsg.message_annotations[Constants.enqueueSequenceNumber] = msg.enqueuedSequenceNumber;
+    if (msg.message_annotations[Constants.enqueuedTime] != undefined) {
+      props.enqueuedTimeUtc = new Date(msg.message_annotations[Constants.enqueuedTime] as number);
     }
-    if (msg.sequenceNumber != undefined) {
-      amqpMsg.message_annotations[Constants.sequenceNumber] = msg.sequenceNumber;
+    if (msg.message_annotations[Constants.lockedUntil] != undefined) {
+      props.lockedUntilUtc = new Date(msg.message_annotations[Constants.lockedUntil] as number);
     }
-    if (msg.enqueuedTimeUtc != undefined) {
-      amqpMsg.message_annotations[Constants.enqueuedTime] = msg.enqueuedTimeUtc;
-    }
-    if (msg.lockedUntilUtc != undefined) {
-      amqpMsg.message_annotations[Constants.lockedUntil] = msg.lockedUntilUtc;
-    }
-    log.message("ReceivedSBMessage to AmqpMessage: %O", amqpMsg);
-    return amqpMsg;
+  }
+  if (
+    msg.ttl != undefined &&
+    msg.ttl >= Constants.maxDurationValue - props.enqueuedTimeUtc.getTime()
+  ) {
+    props.expiresAtUtc = new Date(Constants.maxDurationValue);
+  } else {
+    props.expiresAtUtc = new Date(props.enqueuedTimeUtc.getTime() + msg.ttl!);
   }
 
-  /**
-   * @ignore
-   * Converts given AmqpMessage to ReceivedMessageInfo
-   */
-  export function fromAmqpMessage(
-    msg: AmqpMessage,
-    delivery?: Delivery,
-    shouldReorderLockToken?: boolean
-  ): ReceivedMessageInfo {
-    const sbmsg: SendableMessageInfo = SendableMessageInfo.fromAmqpMessage(msg);
-    const props: any = {};
-    if (msg.message_annotations != undefined) {
-      if (msg.message_annotations[Constants.deadLetterSource] != undefined) {
-        props.deadLetterSource = msg.message_annotations[Constants.deadLetterSource];
-      }
-      if (msg.message_annotations[Constants.enqueueSequenceNumber] != undefined) {
-        props.enqueuedSequenceNumber = msg.message_annotations[Constants.enqueueSequenceNumber];
-      }
-      if (msg.message_annotations[Constants.sequenceNumber] != undefined) {
-        if (Buffer.isBuffer(msg.message_annotations[Constants.sequenceNumber])) {
-          props.sequenceNumber = Long.fromBytesBE(
-            msg.message_annotations[Constants.sequenceNumber]
-          );
-        } else {
-          props.sequenceNumber = Long.fromNumber(msg.message_annotations[Constants.sequenceNumber]);
-        }
-      }
-      if (msg.message_annotations[Constants.enqueuedTime] != undefined) {
-        props.enqueuedTimeUtc = new Date(msg.message_annotations[Constants.enqueuedTime] as number);
-      }
-      if (msg.message_annotations[Constants.lockedUntil] != undefined) {
-        props.lockedUntilUtc = new Date(msg.message_annotations[Constants.lockedUntil] as number);
-      }
-    }
-    if (
-      msg.ttl != undefined &&
-      msg.ttl >= Constants.maxDurationValue - props.enqueuedTimeUtc.getTime()
-    ) {
-      props.expiresAtUtc = new Date(Constants.maxDurationValue);
-    } else {
-      props.expiresAtUtc = new Date(props.enqueuedTimeUtc.getTime() + msg.ttl!);
-    }
+  const rcvdsbmsg: ReceivedMessageInfo = {
+    _amqpMessage: msg,
+    _delivery: delivery,
+    deliveryCount: msg.delivery_count,
+    lockToken:
+      delivery && delivery.tag && delivery.tag.length !== 0
+        ? uuid_to_string(
+          shouldReorderLockToken === true
+            ? reorderLockToken(
+              typeof delivery.tag === "string" ? Buffer.from(delivery.tag) : delivery.tag
+            )
+            : typeof delivery.tag === "string"
+              ? Buffer.from(delivery.tag)
+              : delivery.tag
+        )
+        : undefined,
+    ...sbmsg,
+    ...props
+  };
 
-    const rcvdsbmsg: ReceivedMessageInfo = {
-      _amqpMessage: msg,
-      _delivery: delivery,
-      deliveryCount: msg.delivery_count,
-      lockToken:
-        delivery && delivery.tag && delivery.tag.length !== 0
-          ? uuid_to_string(
-            shouldReorderLockToken === true
-              ? reorderLockToken(
-                typeof delivery.tag === "string" ? Buffer.from(delivery.tag) : delivery.tag
-              )
-              : typeof delivery.tag === "string"
-                ? Buffer.from(delivery.tag)
-                : delivery.tag
-          )
-          : undefined,
-      ...sbmsg,
-      ...props
-    };
-
-    log.message("AmqpMessage to ReceivedSBMessage: %O", rcvdsbmsg);
-    return rcvdsbmsg;
-  }
+  log.message("AmqpMessage to ReceivedSBMessage: %O", rcvdsbmsg);
+  return rcvdsbmsg;
 }
 
 /**
@@ -927,7 +828,7 @@ export class ServiceBusMessage implements ReceivedMessage {
     delivery: Delivery,
     shouldReorderLockToken: boolean
   ) {
-    Object.assign(this, ReceivedMessageInfo.fromAmqpMessage(msg, delivery, shouldReorderLockToken));
+    Object.assign(this, fromAmqpMessage(msg, delivery, shouldReorderLockToken));
     this._context = context;
     if (msg.body) {
       this.body = this._context.namespace.dataTransformer.decode(msg.body);
