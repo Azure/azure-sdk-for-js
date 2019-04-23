@@ -3,6 +3,11 @@ import { HttpResponse, TransferProgressEvent } from "@azure/ms-rest-js";
 import { Aborter } from "./Aborter";
 import * as Models from "./generated/lib/models";
 import { IBlobAccessConditions } from "./models";
+import { Credential } from "./credentials/Credential";
+
+export interface CredentialOptions {
+  credential?: Credential;
+}
 
 /**
  * Option interface for uploadFileToBlockBlob and uploadSeekableStreamToBlockBlob.
