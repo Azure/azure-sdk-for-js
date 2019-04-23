@@ -26,12 +26,8 @@ async function main() {
   const pipeline = StorageURL.newPipeline(new AnonymousCredential(), {
     // httpClient: MyHTTPClient, // A customized HTTP client implementing IHttpClient interface
     // logger: MyLogger, // A customized logger implementing IHttpPipelineLogger interface
-    retryOptions: {
-      maxTries: 4
-    }, // Retry options
-    telemetry: {
-      value: "HighLevelSample V1.0.0"
-    } // Customized telemetry string
+    retryOptions: { maxTries: 4 }, // Retry options
+    telemetry: { value: "HighLevelSample V1.0.0" } // Customized telemetry string
   });
 
   const serviceURL = new ServiceURL(
@@ -61,11 +57,12 @@ async function main() {
   // Parallel uploading a Readable stream with uploadStreamToBlockBlob in Node.js runtime
   // uploadStreamToBlockBlob is only available in Node.js
   await uploadStreamToBlockBlob(
-    Aborter.timeout(30 * 60 * 60 * 1000), // Abort uploading with timeout in 30mins
+    Aborter.timeout(30 * 60 * 1000), // Abort uploading with timeout in 30mins
     fs.createReadStream(localFilePath),
     blockBlobURL,
     4 * 1024 * 1024,
-    20, {
+    20,
+    {
       progress: ev => console.log(ev)
     }
   );
@@ -87,11 +84,12 @@ async function main() {
   const fileSize = fs.statSync(localFilePath).size;
   const buffer = Buffer.alloc(fileSize);
   await downloadBlobToBuffer(
-    Aborter.timeout(30 * 60 * 60 * 1000),
+    Aborter.timeout(30 * 60 * 1000),
     buffer,
     blockBlobURL,
     0,
-    undefined, {
+    undefined,
+    {
       blockSize: 4 * 1024 * 1024, // 4MB block size
       parallelism: 20, // 20 concurrency
       progress: ev => console.log(ev)
