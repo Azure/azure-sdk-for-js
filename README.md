@@ -68,7 +68,7 @@ Want to get started hacking on the code? Super! Follow these instructions to get
 First, make sure you have the prerequisites installed and available on your `$PATH`:
 - Git
 - Node 8.x or higher
-- Rush 5.6.4 or higher (install / update globally via `npm install -g @microsoft/rush`)
+- Rush 5.7.0 or higher (install / update globally via `npm install -g @microsoft/rush`)
 
 Next, get the code:
 
@@ -79,6 +79,9 @@ Next, get the code:
 
 #### Warning for VSCode users
 Visual Studio Code has a feature which will automatically fetch and install @types packages for you, using the standard npm package manager. This will cause problems with your node_modules directory, since Rush uses PNPM which lays out this directory quite differently. It's highly recommended that you ensure "Typescript: Disable Automatic Type Acquisition" is checked in your VSCode Workspace Settings (or ensure `typescript.disableAutomaticTypeAcquisition` is present in your .vscode/settings.json file).
+
+#### Warning for Windows users
+Git for Windows has a bug where repository files may be unintentionally removed by `git clean -df` when a directory is locally linked. Because Rush creates local links between packages, you may encounter this. It's highly recommended to use the `rush reset-workspace` command to get your working directory back to a clean state instead. If you prefer to run `git clean -df` manually, you must first run `rush unlink` so that the operation can be performed safely.
 
 ### Inner loop developer workflow with Rush
 
@@ -129,7 +132,9 @@ Projects may optionally have the following scripts:
 
 #### Getting back to a clean state
 
-If you're having problems and want to restore your repo to a clean state without any packages installed, run `rush unlink` followed by `rush purge`. Now you can start clean by re-downloading and installing dependencies from scratch with `rush update`.
+If you're having problems and want to restore your repo to a clean state without any packages installed, run `rush uninstall`. Downloaded packages will be deleted from the cache and all node_modules directories will be removed. Now you can start clean by re-downloading and installing dependencies from scratch with `rush update`. This will not make any changes to any other files in your working directory.
+
+If you want to get back to a completely clean state, you can instead run `rush reset-workspace. This will perform the same operations as above, but will additionally run `git clean -dfx` to remove all untracked files and directories in your working directory. This is a destructive operation - use it with caution!!
 
 #### Onboarding a new library
 

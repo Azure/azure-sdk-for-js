@@ -152,6 +152,20 @@
       "name": "sync-versions",
       "summary": "Sync versions among projects",
       "shellCommand": "node common/scripts/sync-versions.js"
+    },
+    {
+      "commandKind": "global",
+      "name": "uninstall",
+      "summary": "Unlink dependencies and purge downloaded node_modules",
+      "safeForSimultaneousRushProcesses": true,
+      "shellCommand": "rush unlink && rush purge"
+    },
+    {
+      "commandKind": "global",
+      "name": "reset-workspace",
+      "summary": "Reset your workspace - !!DANGER!! unlink dependencies, purge downloaded node_modules, and remove all untracked files and directories",
+      "safeForSimultaneousRushProcesses": true,
+      "shellCommand": "rush unlink && echo \"\nStarting \\\"git clean\\\"\" && git clean -dfx && rush purge"
     }
   ],
 
