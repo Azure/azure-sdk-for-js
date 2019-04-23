@@ -21,21 +21,6 @@ function testFalsyValues(testFn: Function): void {
 }
 
 describe("EventHubClient", function(): void {
-  describe("#constructor", function(): void {
-    ["endpoint", "entityPath", "sharedAccessKeyName", "sharedAccessKey"].forEach(function(prop: string): void {
-      it("throws if config." + prop + " is falsy", function(): void {
-        testFalsyValues(function(falsyVal: any): void {
-          const test = function(): EventHubClient {
-            const config: any = { endpoint: "a", entityPath: "b", sharedAccessKey: "c", sharedAccessKeyName: "d" };
-            config[prop] = falsyVal;
-            return new EventHubClient(config as any);
-          };
-          test.should.throw(Error, `'${prop}' is a required property of ConnectionConfig.`);
-        });
-      });
-    });
-  });
-
   describe(".fromConnectionString", function(): void {
     it("throws when there is no connection string", function(): void {
       testFalsyValues(function(value: any): void {
@@ -127,19 +112,6 @@ describe("EventHubClient on ", function(): void {
       should.equal(properties!.framework, `Node/${process.version}`);
       should.equal(properties!.platform, `(${os.arch()}-${os.type()}-${os.release()})`);
       done();
-    });
-
-    it("should throw an error if the user-agent string is greater than 128 characters in length", function(done: Mocha.Done): void {
-      const customua =
-        "/js-event-processor-host=0.2.0zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz";
-      try {
-        client = EventHubClient.createFromConnectionString(service.connectionString!, service.path, {
-          userAgent: customua
-        });
-      } catch (err) {
-        err.message.should.match(/The user-agent string cannot be more than 128 characters in length.*/gi);
-        done();
-      }
     });
   });
 

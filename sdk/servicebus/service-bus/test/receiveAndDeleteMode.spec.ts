@@ -29,6 +29,7 @@ import {
 } from "./testUtils";
 
 import { Receiver, SessionReceiver } from "../src/receiver";
+import { getErrorMessageNotSupportedInReceiveAndDeleteMode } from "../src/util/errors";
 
 async function testPeekMsgsLength(
   client: QueueClient | SubscriptionClient,
@@ -413,10 +414,10 @@ describe("Unsupported features in ReceiveAndDelete mode", function(): void {
     return msgs[0];
   }
 
-  const testError = (err: Error) => {
+  const testError = (err: Error, operation: DispositionType) => {
     should.equal(
       err.message,
-      "The operation is only supported in 'PeekLock' receive mode.",
+      getErrorMessageNotSupportedInReceiveAndDeleteMode(`${operation} the message`),
       "ErrorMessage is different than expected"
     );
     errorWasThrown = true;
@@ -427,13 +428,13 @@ describe("Unsupported features in ReceiveAndDelete mode", function(): void {
     const msg = await sendReceiveMsg(testMessages);
 
     if (operation === DispositionType.complete) {
-      await msg.complete().catch((err) => testError(err));
+      await msg.complete().catch((err) => testError(err, operation));
     } else if (operation === DispositionType.abandon) {
-      await msg.abandon().catch((err) => testError(err));
+      await msg.abandon().catch((err) => testError(err, operation));
     } else if (operation === DispositionType.deadletter) {
-      await msg.deadLetter().catch((err) => testError(err));
+      await msg.deadLetter().catch((err) => testError(err, operation));
     } else if (operation === DispositionType.defer) {
-      await msg.defer().catch((err) => testError(err));
+      await msg.defer().catch((err) => testError(err, operation));
     }
 
     should.equal(errorWasThrown, true, "Error thrown flag must be true");
@@ -697,7 +698,7 @@ describe("Unsupported features in ReceiveAndDelete mode", function(): void {
     await (<Receiver>receiver).renewMessageLock(msg).catch((err) => {
       should.equal(
         err.message,
-        "The 'renewMessageLock' operation is only supported in 'PeekLock' receive mode.",
+        getErrorMessageNotSupportedInReceiveAndDeleteMode("renew the message lock"),
         "ErrorMessage is different than expected"
       );
       errorWasThrown = true;

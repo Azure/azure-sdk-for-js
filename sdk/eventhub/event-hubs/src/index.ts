@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 export { EventData, EventHubDeliveryAnnotations, EventHubMessageAnnotations } from "./eventData";
-export { Delivery, AmqpError, Message, MessageHeader, MessageProperties, Dictionary } from "rhea-promise";
+export { Delivery, AmqpError, Message, MessageHeader, MessageProperties, Dictionary, WebSocketImpl } from "rhea-promise";
 export { ReceiverRuntimeInfo, OnMessage, OnError } from "./eventHubReceiver";
 export { ReceiveHandler } from "./streamingReceiver";
 export { EventHubClient, ReceiveOptions, ClientOptionsBase, ClientOptions } from "./eventHubClient";
