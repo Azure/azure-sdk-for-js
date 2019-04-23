@@ -100,18 +100,15 @@ export function browserConfig(test = false, production = false) {
     },
     plugins: [
       sourcemaps(),
-      replace(
-        // ms-rest-js is externalized so users must include it prior to using this bundle.
-        {
-          delimiters: ["", ""],
-          values: {
-            // replace dynamic checks with if (false) since this is for
-            // browser only. Rollup's dead code elimination will remove
-            // any code guarded by if (isNode) { ... }
-            "if (isNode)": "if (false)"
-          }
+      replace({
+        delimiters: ["", ""],
+        values: {
+          // replace dynamic checks with if (false) since this is for
+          // browser only. Rollup's dead code elimination will remove
+          // any code guarded by if (isNode) { ... }
+          "if (isNode)": "if (false)"
         }
-      ),
+      }),
       // os is not used by the browser bundle, so just shim it
       shim({
         dotenv: `export function config() { }`,
