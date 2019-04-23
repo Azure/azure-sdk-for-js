@@ -31,6 +31,7 @@ import { CancellationOptions } from './CancellationOptions';
  * @param {Blob | ArrayBuffer | ArrayBufferView} browserData Blob, File, ArrayBuffer or ArrayBufferView
  * @param {BlockBlobURL} blockBlobURL
  * @param {IUploadToBlockBlobOptions & CancellationOptions} [options]
+ * @param {Aborter} options.abortSignal Optional {@link Aborter} instance to cancel HTTP requests.
  * @returns {Promise<BlobUploadCommonResponse>}
  */
 export async function uploadBrowserDataToBlockBlob(
@@ -69,7 +70,8 @@ export async function uploadBrowserDataToBlockBlob(
  * @param {Blob | ArrayBuffer | ArrayBufferView} browserData Blob, File, ArrayBuffer or ArrayBufferView
  * @param {BlockBlobURL} blockBlobURL
  * @param {IUploadToBlockBlobOptions & CancellationOptions & CredentialOptions & INewPipelineOptions} options Options for Uploading browser data, credential, and new pipeline.
- *                                                           If credential options is not specified {@link AnonymousCredential} is used.
+ * @param {Aborter} options.abortSignal Optional {@link Aborter} instance to cancel HTTP requests.
+ * @param {CredentialOptions} options.credential Optional credential. If not specified, {@link AnonymousCredential} is used.
  * @returns {Promise<BlobUploadCommonResponse>}
  */
 export async function uploadBrowserDataToBlockBlobUrl(
@@ -97,6 +99,7 @@ export async function uploadBrowserDataToBlockBlobUrl(
  * @param {number} size
  * @param {BlockBlobURL} blockBlobURL
  * @param {IUploadToBlockBlobOptions & CancellationOptions} [options]
+ * @param {Aborter} options.abortSignal Optional {@link Aborter} instance to cancel HTTP requests.
  * @returns {Promise<BlobUploadCommonResponse>}
  */
 async function UploadSeekableBlobToBlockBlob(

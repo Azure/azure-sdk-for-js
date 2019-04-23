@@ -38,7 +38,8 @@ import { CancellationOptions } from './CancellationOptions';
  * @export
  * @param {string} filePath Full path of local file
  * @param {BlockBlobURL} blockBlobURL BlockBlobURL
- * @param {IUploadToBlockBlobOptions & CancellationOptions} [options] IUploadToBlockBlobOptions
+ * @param {IUploadToBlockBlobOptions & CancellationOptions} options IUploadToBlockBlobOptions
+ * @param {Aborter} options.abortSignal Optional {@link Aborter} instance to cancel HTTP requests.
  * @returns {(Promise<BlobUploadCommonResponse>)} ICommonResponse
  */
 export async function uploadFileToBlockBlob(
@@ -111,6 +112,7 @@ export async function uploadFileToBlockBlobUrl(
  * @param {number} size Size of the block blob
  * @param {BlockBlobURL} blockBlobURL BlockBlobURL
  * @param {IUploadToBlockBlobOptions & CancellationOptions} [options] IUploadToBlockBlobOptions
+ * @param {Aborter} options.abortSignal Optional {@link Aborter} instance to cancel HTTP requests.
  * @returns {(Promise<BlobUploadCommonResponse>)} ICommonResponse
  */
 async function uploadResetableStreamToBlockBlob(
@@ -221,6 +223,7 @@ async function uploadResetableStreamToBlockBlob(
  * @param {number} offset From which position of the block blob to download
  * @param {number} [count] How much data to be downloaded. Will download to the end when passing undefined
  * @param {IDownloadFromBlobOptions & CancellationOptions} [options] IDownloadFromBlobOptions
+ * @param {Aborter} options.abortSignal Optional {@link Aborter} instance to cancel HTTP requests.
  * @returns {Promise<void>}
  */
 export async function downloadBlobToBuffer(
@@ -390,6 +393,7 @@ export interface IUploadStreamToBlockBlobOptions {
  * @param {number} maxBuffers Max buffers will allocate during uploading, positive correlation
  *                            with max uploading concurrency
  * @param {IUploadStreamToBlockBlobOptions & CancellationOptions} [options]
+ * @param {Aborter} options.abortSignal Optional {@link Aborter} instance to cancel HTTP requests.
  * @returns {Promise<BlobUploadCommonResponse>}
  */
 export async function uploadStreamToBlockBlob(
