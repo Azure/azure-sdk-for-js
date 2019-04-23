@@ -79,8 +79,8 @@ export type UploadFileToBlockBlobUrlOptions = IUploadToBlockBlobOptions & Creden
  * @export
  * @param {string} filePath Full path of local file
  * @param {string} blockBlobURL url to a block blob
- * @param {UploadFileToBlockBlobUrlOptions} [options] IUploadToBlockBlobOptions & CredentialOptions & INewPipelineOptions.
- *                                                    If credential options is not specified {@link AnonymousCredential} is used.
+ * @param {UploadFileToBlockBlobUrlOptions} options IUploadToBlockBlobOptions & CredentialOptions & INewPipelineOptions.
+ *                                                  If credential options is not specified {@link AnonymousCredential} is used.
  * @returns {(Promise<BlobUploadCommonResponse>)} ICommonResponse
  */
 export async function uploadFileToBlockBlobUrl(
@@ -315,8 +315,8 @@ export type DownloadBlobToBufferFromUrlOptions = IDownloadFromBlobOptions & Cred
  * @param {BlobURL} blobURL A BlobURL object
  * @param {number} [offset] From which position of the block blob to download
  * @param {number} [count] How much data to be downloaded. Will download to the end when passing undefined
- * @param {DownloadBlobToBufferFromUrlOptions} [options] IDownloadFromBlobOptions & CredentialOptions & INewPipelineOptions.
- *                                                       If credential options is not specified {@link AnonymousCredential} is used.
+ * @param {DownloadBlobToBufferFromUrlOptions} options IDownloadFromBlobOptions & CredentialOptions & INewPipelineOptions.
+ *                                                     If credential options is not specified {@link AnonymousCredential} is used.
  * @param {credential} [credential] Credential. If not specified {@link AnonymousCredential} is used.
  * @param {INewPipelineOptions} [pipelineOptions]
  * @returns {Promise<void>}
@@ -474,8 +474,8 @@ export type UploadStreamToBlockBlobUrlOptions = IUploadStreamToBlockBlobOptions 
  * @param {number} bufferSize Size of every buffer allocated, also the block size in the uploaded block blob
  * @param {number} maxBuffers Max buffers will allocate during uploading, positive correlation
  *                            with max uploading concurrency
- * @param {UploadStreamToBlockBlobUrlOptions} [options] IUploadStreamToBlockBlobOptions & CredentialOptions & INewPipelineOptions.
- *                                            If credential options is not specified {@link AnonymousCredential} is used.
+ * @param {UploadStreamToBlockBlobUrlOptions} options IUploadStreamToBlockBlobOptions & CredentialOptions & INewPipelineOptions.
+ *                                                    If credential options is not specified {@link AnonymousCredential} is used.
  * @returns {Promise<BlobUploadCommonResponse>}
  */
 export async function uploadStreamToBlockBlobUrl(
