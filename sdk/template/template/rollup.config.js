@@ -8,6 +8,7 @@ if (!process.env.ONLY_BROWSER) {
 
 if (!process.env.ONLY_NODE) {
   inputs.push(base.browserConfig());
+  inputs.push(base.browserConfig(false, true));
 }
 
 export default inputs;

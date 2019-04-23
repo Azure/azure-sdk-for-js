@@ -49,12 +49,12 @@ export function nodeConfig(test = false) {
   return baseConfig;
 }
 
-export function browserConfig(test = false) {
+export function browserConfig(test = false, production = false) {
   const baseConfig = {
     input: input,
     external: ["ms-rest-js"],
     output: {
-      file: "browser/index.js",
+      file: "browser/azure-template.js",
       format: "umd",
       name: "ExampleClient",
       sourcemap: true,
@@ -62,18 +62,15 @@ export function browserConfig(test = false) {
     },
     plugins: [
       sourcemaps(),
-      replace(
-        // ms-rest-js is externalized so users must include it prior to using this bundle.
-        {
-          delimiters: ["", ""],
-          values: {
-            // replace dynamic checks with if (false) since this is for
-            // browser only. Rollup's dead code elimination will remove
-            // any code guarded by if (isNode) { ... }
-            "if (isNode)": "if (false)"
-          }
+      replace({
+        delimiters: ["", ""],
+        values: {
+          // replace dynamic checks with if (false) since this is for
+          // browser only. Rollup's dead code elimination will remove
+          // any code guarded by if (isNode) { ... }
+          "if (isNode)": "if (false)"
         }
-      ),
+      }),
       nodeResolve({
         preferBuiltins: false,
         browser: true
@@ -90,6 +87,7 @@ export function browserConfig(test = false) {
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
     baseConfig.output.file = "test-browser/index.js";
   } else if (production) {
+    baseConfig.output.file = "browser/azure-template.min.js";
     baseConfig.plugins.push(uglify());
   }
 
