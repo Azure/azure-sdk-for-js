@@ -2320,7 +2320,7 @@ export interface ManagedInstance extends TrackedResource {
    */
   collation?: string;
   /**
-   * @member {string} [dnsZone] The Dns Zone taht the managed instance is in.
+   * @member {string} [dnsZone] The Dns Zone that the managed instance is in.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
@@ -2353,7 +2353,7 @@ export interface ManagedInstance extends TrackedResource {
   /**
    * @member {string} [timezoneId] Id of the timezone. Allowed values are
    * timezones supported by Windows.
-   * Winodws keeps details on supported timezones, including the id, in
+   * Windows keeps details on supported timezones, including the id, in
    * registry under
    * KEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Time Zones.
    * You can get those registry values via SQL Server by querying SELECT name
@@ -2443,7 +2443,7 @@ export interface ManagedInstanceUpdate {
    */
   collation?: string;
   /**
-   * @member {string} [dnsZone] The Dns Zone taht the managed instance is in.
+   * @member {string} [dnsZone] The Dns Zone that the managed instance is in.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
@@ -2476,7 +2476,7 @@ export interface ManagedInstanceUpdate {
   /**
    * @member {string} [timezoneId] Id of the timezone. Allowed values are
    * timezones supported by Windows.
-   * Winodws keeps details on supported timezones, including the id, in
+   * Windows keeps details on supported timezones, including the id, in
    * registry under
    * KEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Time Zones.
    * You can get those registry values via SQL Server by querying SELECT name
