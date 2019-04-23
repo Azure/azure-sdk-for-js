@@ -425,8 +425,6 @@ async function testBatchReceiverManualLockRenewalErrorOnLockExpiry(
 
   should.equal(errorWasThrown, true, "Error thrown flag must be true");
 
-  await sessionClient.close();
-
   // Subsequent receivers for the same session should work as expected.
   sessionClient = receiverClient.createReceiver(ReceiveMode.peekLock, {
     sessionId: undefined
