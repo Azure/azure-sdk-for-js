@@ -1070,11 +1070,6 @@ export interface OSDisk {
    */
   writeAcceleratorEnabled?: boolean;
   /**
-   * @member {boolean} [toBeDetached] Specifies whether the disk is in process
-   * of detachment from the VM/VMSS
-   */
-  toBeDetached?: boolean;
-  /**
    * @member {DiffDiskSettings} [diffDiskSettings] Specifies the ephemeral Disk
    * Settings for the operating system disk used by the virtual machine.
    */
@@ -1166,6 +1161,11 @@ export interface DataDisk {
    * @member {ManagedDiskParameters} [managedDisk] The managed disk parameters.
    */
   managedDisk?: ManagedDiskParameters;
+  /**
+   * @member {boolean} [toBeDetached] Specifies whether the datadisk is in
+   * process of detachment from the VirtualMachine/VirtualMachineScaleset
+   */
+  toBeDetached?: boolean;
 }
 
 /**

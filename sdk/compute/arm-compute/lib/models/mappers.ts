@@ -1294,12 +1294,6 @@ export const OSDisk: msRest.CompositeMapper = {
           name: "Boolean"
         }
       },
-      toBeDetached: {
-        serializedName: "toBeDetached",
-        type: {
-          name: "Boolean"
-        }
-      },
       diffDiskSettings: {
         serializedName: "diffDiskSettings",
         type: {
@@ -1399,6 +1393,12 @@ export const DataDisk: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ManagedDiskParameters"
+        }
+      },
+      toBeDetached: {
+        serializedName: "toBeDetached",
+        type: {
+          name: "Boolean"
         }
       }
     }
