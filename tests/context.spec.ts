@@ -82,4 +82,25 @@ describe("ConnectionContextBase", function () {
       should.exist(context.connection.options.connection_details);
     });
   }
+
+  it("Throws error if user-agent string length is greater than 512 characters", function (done) {
+    const connectionString = "Endpoint=sb://hostname.servicebus.windows.net/;SharedAccessKeyName=sakName;SharedAccessKey=sak;EntityPath=ep";
+    const path = "mypath";
+    const config = ConnectionConfig.create(connectionString, path);
+
+    const userAgentString = "user-agent-string".repeat(32);
+
+    should.throw(() => {
+      ConnectionContextBase.create({
+        config: config,
+        connectionProperties: {
+          product: "MSJSClient",
+          userAgent: userAgentString,
+          version: "1.0.0"
+        }
+      });
+    }, /user-agent string cannot be more than 512 characters/);
+
+    done();
+  });
 });

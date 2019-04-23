@@ -89,6 +89,106 @@ describe("ConnectionConfig", function () {
 
       done();
     });
+
+    describe("Throws error if required connection config properties are not present", function () {
+      const connectionString = `
+        Endpoint=sb://hostname.servicebus.windows.net/;
+        SharedAccessKeyName=sakName;
+        SharedAccessKey=sakName;
+        EntityPath=ep;
+      `;
+
+      it("requires that connection config be present", done => {
+        should.throw(() => {
+          ConnectionConfig.validate(undefined as any);
+        }, /Missing configuration/);
+
+        done();
+      });
+
+      it("requires that Endpoint be present in the connection config", done => {
+        const config: ConnectionConfig = {
+          connectionString: connectionString,
+          endpoint: '',
+          host: 'hostname.servicebus.windows.net/',
+          sharedAccessKeyName: 'sakName',
+          sharedAccessKey: 'sak'
+        };
+
+        should.throw(() => {
+          ConnectionConfig.validate(config);
+        }, /Missing 'endpoint'/);
+
+        done();
+      });
+
+      it("requires that host be present in the connection config", done => {
+        const config: ConnectionConfig = {
+          connectionString: connectionString,
+          endpoint: 'sb://hostname.servicebus.windows.net/',
+          host: '',
+          sharedAccessKeyName: 'sakName',
+          sharedAccessKey: 'sak'
+        };
+
+        should.throw(() => {
+          ConnectionConfig.validate(config);
+        }, /Missing 'host'/);
+
+        done();
+      });
+
+
+      it("requires that entityPath be present in the connection config", done => {
+        const config: ConnectionConfig = {
+          connectionString: connectionString,
+          endpoint: 'sb://hostname.servicebus.windows.net/',
+          host: 'hostname.servicebus.windows.net/',
+          sharedAccessKeyName: 'sakName',
+          sharedAccessKey: 'sak',
+          entityPath: ''
+        };
+
+        should.throw(() => {
+          ConnectionConfig.validate(config, { isEntityPathRequired: true });
+        }, /Missing 'entityPath'/);
+
+        done();
+      });
+
+      it("requires that sharedAccessKeyName be present in the connection config", done => {
+        const config: ConnectionConfig = {
+          connectionString: connectionString,
+          endpoint: 'sb://hostname.servicebus.windows.net/',
+          host: 'hostname.servicebus.windows.net/',
+          sharedAccessKeyName: '',
+          sharedAccessKey: 'sak',
+        };
+
+        should.throw(() => {
+          ConnectionConfig.validate(config);
+        }, /Missing 'sharedAccessKeyName'/);
+
+        done();
+      });
+
+      it("requires that sharedAccessKey be present in the connection config", done => {
+        const config: ConnectionConfig = {
+          connectionString: connectionString,
+          endpoint: 'sb://hostname.servicebus.windows.net/',
+          host: 'hostname.servicebus.windows.net/',
+          sharedAccessKeyName: 'sakName',
+          sharedAccessKey: '',
+        };
+
+        should.throw(() => {
+          ConnectionConfig.validate(config);
+        }, /Missing 'sharedAccessKey'/);
+
+        done();
+      });
+
+    });
   });
 
   describe("EventHub", function () {
@@ -187,6 +287,92 @@ describe("ConnectionConfig", function () {
       ehConfig.getReceiverAudience("0", "cg").should.equal("sb://someiot.azure-devices.net/messages/events/ConsumerGroups/cg/Partitions/0");
       ehConfig.getReceiverAudience(0, "cg").should.equal("sb://someiot.azure-devices.net/messages/events/ConsumerGroups/cg/Partitions/0");
       done();
+    });
+
+    describe("Throws error if required connection config properties are not present", function () {
+      const connectionString = `
+        Endpoint=sb://someiot.azure-devices.net/;
+        SharedAccessKeyName=sakName;
+        SharedAccessKey=sakName;
+        EntityPath=messages/events;
+      `;
+
+      it("requires that connection config be present", done => {
+        should.throw(() => {
+          IotHubConnectionConfig.validate(undefined as any);
+        }, /Missing configuration/);
+
+        done();
+      });
+
+      it("requires that hostName be present in the connection config", done => {
+        const config: IotHubConnectionConfig = {
+          connectionString: connectionString,
+          hostName: '',
+          host: 'someiot',
+          sharedAccessKeyName: 'sakName',
+          sharedAccessKey: 'sak',
+          entityPath: 'messages/events'
+        };
+
+        should.throw(() => {
+          IotHubConnectionConfig.validate(config);
+        }, /Missing 'hostName'/);
+
+        done();
+      });
+
+      it("requires that host be present in the connection config", done => {
+        const config: IotHubConnectionConfig = {
+          connectionString: connectionString,
+          hostName: 'someiot.azure-devices.net',
+          host: 'someiot',
+          sharedAccessKeyName: 'sakName',
+          sharedAccessKey: 'sak',
+          entityPath: ''
+        };
+
+        should.throw(() => {
+          IotHubConnectionConfig.validate(config);
+        }, /Missing 'entityPath'/);
+
+        done();
+      });
+
+      it("requires that sharedAccessKeyName be present in the connection config", done => {
+        const config: IotHubConnectionConfig = {
+          connectionString: connectionString,
+          hostName: 'someiot.azure-devices.net',
+          host: 'someiot',
+          sharedAccessKeyName: '',
+          sharedAccessKey: 'sak',
+          entityPath: 'messages/events'
+        };
+
+        should.throw(() => {
+          IotHubConnectionConfig.validate(config);
+        }, /Missing 'sharedAccessKeyName'/);
+
+        done();
+      });
+
+      it("requires that sharedAccessKey be present in the connection config", done => {
+        const config: IotHubConnectionConfig = {
+          connectionString: connectionString,
+          hostName: 'someiot.azure-devices.net',
+          host: 'someiot',
+          sharedAccessKeyName: 'sakName',
+          sharedAccessKey: '',
+          entityPath: 'messages/events'
+        };
+
+        should.throw(() => {
+          IotHubConnectionConfig.validate(config);
+        }, /Missing 'sharedAccessKey'/);
+
+        done();
+      });
+
     });
   });
 });
