@@ -25,7 +25,10 @@ let ns: ServiceBusClient;
 let senderClient: QueueClient | TopicClient;
 let receiverClient: QueueClient | SubscriptionClient;
 
-async function beforeEachTest(senderType: TestClientType, receiverType: TestClientType): Promise<void> {
+async function beforeEachTest(
+  senderType: TestClientType,
+  receiverType: TestClientType
+): Promise<void> {
   if (!process.env.SERVICEBUS_CONNECTION_STRING) {
     throw new Error(
       "Define SERVICEBUS_CONNECTION_STRING in your environment before running integration tests."
@@ -421,6 +424,8 @@ async function testBatchReceiverManualLockRenewalErrorOnLockExpiry(
   });
 
   should.equal(errorWasThrown, true, "Error thrown flag must be true");
+
+  await sessionClient.close();
 
   // Subsequent receivers for the same session should work as expected.
   sessionClient = receiverClient.createReceiver(ReceiveMode.peekLock, {

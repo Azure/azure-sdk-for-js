@@ -384,7 +384,7 @@ export class MessageSession extends LinkEntity {
         // no need to notify the user's error handler since rhea guarantees that receiver_error
         // will always be emitted before receiver_close.
       }
-      if (receiver && !receiver.isItselfClosed()) {
+      if (receiver && !receiver.isItselfClosed() && clearExpiredSessionFlag) {
         log.error(
           "[%s] 'receiver_close' event occurred on the receiver '%s' for sessionId '%s' " +
           "and the sdk did not initiate this. Hence, let's gracefully close the receiver.",
