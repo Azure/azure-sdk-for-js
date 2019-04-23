@@ -2,23 +2,29 @@ import * as assert from "assert";
 
 import { Aborter } from "../src/Aborter";
 import { QueueURL } from "../src/QueueURL";
-import { getQSU, getUniqueName } from "./utils";
+import { getQSU } from "./utils";
+import { record } from "./utils/nock-recorder";
 import * as dotenv from "dotenv";
-dotenv.config({path:"../.env"});
+dotenv.config({ path:"../.env" });
 
-describe("QueueURL", () => {
+describe("QueueURL", function() {
   const serviceURL = getQSU();
-  let queueName = getUniqueName("queue");
-  let queueURL = QueueURL.fromServiceURL(serviceURL, queueName);
+  let queueName: string;
+  let queueURL: QueueURL;
+  const testSuiteTitle = this.fullTitle();
+
+  let recorder: any;
 
   beforeEach(async () => {
-    queueName = getUniqueName("queue");
+    recorder = record(testSuiteTitle, this.ctx.currentTest!.title);
+    queueName = recorder.getUniqueName("queue");
     queueURL = QueueURL.fromServiceURL(serviceURL, queueName);
     await queueURL.create(Aborter.none);
   });
 
   afterEach(async () => {
     await queueURL.delete(Aborter.none);
+    recorder.stop();
   });
 
   it("setMetadata", async () => {
@@ -41,8 +47,8 @@ describe("QueueURL", () => {
     assert.ok(result.date);
   });
 
-  it("getPropertis negative", async () => {
-    const queueName2 = getUniqueName("queue")
+  it("getProperties negative", async () => {
+    const queueName2 = recorder.getUniqueName("queue", "queue2");
     const queueURL2 = QueueURL.fromServiceURL(serviceURL, queueName2)
     let error;
     try {
@@ -64,7 +70,7 @@ describe("QueueURL", () => {
   });
 
   it("create with all parameters", async () => {
-    const qURL = QueueURL.fromServiceURL(serviceURL, getUniqueName(queueName));
+    const qURL = QueueURL.fromServiceURL(serviceURL, recorder.getUniqueName(queueName));
     const metadata = { key: "value" };
     await qURL.create(Aborter.none, { metadata });
     const result = await qURL.getProperties(Aborter.none);
