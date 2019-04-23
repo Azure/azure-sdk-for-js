@@ -1,7 +1,7 @@
 /*
 Test Scenario summary:
-- Creates a single sender and a single receiver on a queue.
-- Receives a message and holds onto it for the duration of test. AutoLockRenewal is enabled and set to the test duration.
+- Creates a single sender and a single receiver on a session enabled queue.
+- Receives a message and holds onto it for the duration of test. AutoLockRenewal on session is enabled and set to the test duration.
 
 The test assumes no other process is working with the queues defined in here,
 but the queues must be empty and use default configurations before running the test.
@@ -30,11 +30,11 @@ const testDurationInMilliseconds = 60000 * 5 * 12 * 24; // 24 hours
 let receivedMessage: ServiceBusMessage;
 
 async function main(): Promise<void> {
-  await sendMessage();
-  await receiveMessage();
+  await sendMessage("session-1");
+  await receiveMessage("session-1");
 }
 
-async function sendMessage(): Promise<void> {
+async function sendMessage(sessionId: string): Promise<void> {
   const ns = ServiceBusClient.createFromConnectionString(connectionString);
   const client = ns.createQueueClient(queueName);
   try {
@@ -43,7 +43,8 @@ async function sendMessage(): Promise<void> {
     const message: SendableMessageInfo = {
       messageId: "test",
       body: "test",
-      label: `test`
+      label: `test`,
+      sessionId: sessionId
     };
 
     await sender.send(message);
@@ -53,12 +54,15 @@ async function sendMessage(): Promise<void> {
   }
 }
 
-async function receiveMessage(): Promise<void> {
+async function receiveMessage(sessionId: string): Promise<void> {
   const ns = ServiceBusClient.createFromConnectionString(connectionString);
   const client = ns.createQueueClient(queueName);
 
   try {
-    const receiver = client.createReceiver(ReceiveMode.peekLock);
+    const receiver = client.createReceiver(ReceiveMode.peekLock, {
+      sessionId: sessionId,
+      maxSessionAutoRenewLockDurationInSeconds: testDurationInMilliseconds / 1000
+    });
     const onMessageHandler: OnMessage = async (brokeredMessage) => {
       receivedMessage = brokeredMessage;
       if (receivedMessage.messageId !== "test") {
@@ -85,6 +89,7 @@ async function receiveMessage(): Promise<void> {
         console.log("\n");
       }
 
+      console.log("Trying to complete message: ", receivedMessage.messageId);
       await brokeredMessage.complete();
       console.log("Completed message: ", receivedMessage.messageId);
     };
@@ -97,8 +102,7 @@ async function receiveMessage(): Promise<void> {
     };
 
     receiver.registerMessageHandler(onMessageHandler, onErrorHandler, {
-      autoComplete: false,
-      maxMessageAutoRenewLockDurationInSeconds: testDurationInMilliseconds / 1000
+      autoComplete: false
     });
 
     await delay(testDurationInMilliseconds + 5000);
