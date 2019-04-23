@@ -10,9 +10,9 @@ import { IBlobAccessConditions, IMetadata } from "./models";
 import { Pipeline } from "./Pipeline";
 import { URLConstants } from "./utils/constants";
 import { appendToURLPath, setURLParameter } from "./utils/utils.common";
+import { CancellationOptions } from './CancellationOptions';
 
 export interface IBlockBlobUploadOptions {
-  abortSignal?: Aborter;
   accessConditions?: IBlobAccessConditions;
   blobHTTPHeaders?: Models.BlobHTTPHeaders;
   metadata?: IMetadata;
@@ -20,28 +20,24 @@ export interface IBlockBlobUploadOptions {
 }
 
 export interface IBlockBlobStageBlockOptions {
-  abortSignal?: Aborter;
   leaseAccessConditions?: Models.LeaseAccessConditions;
   progress?: (progress: TransferProgressEvent) => void;
   transactionalContentMD5?: Uint8Array;
 }
 
 export interface IBlockBlobStageBlockFromURLOptions {
-  abortSignal?: Aborter;
   range?: IRange;
   leaseAccessConditions?: Models.LeaseAccessConditions;
   sourceContentMD5?: Uint8Array;
 }
 
 export interface IBlockBlobCommitBlockListOptions {
-  abortSignal?: Aborter;
   accessConditions?: IBlobAccessConditions;
   blobHTTPHeaders?: Models.BlobHTTPHeaders;
   metadata?: IMetadata;
 }
 
 export interface IBlockBlobGetBlockListOptions {
-  abortSignal?: Aborter;
   leaseAccessConditions?: Models.LeaseAccessConditions;
 }
 
@@ -163,14 +159,14 @@ export class BlockBlobURL extends BlobURL {
    *
    * @param {HttpRequestBody} body
    * @param {number} contentLength
-   * @param {IBlockBlobUploadOptions} [options]
+   * @param {IBlockBlobUploadOptions & CancellationOptions} [options]
    * @returns {Promise<Models.BlockBlobUploadResponse>}
    * @memberof BlockBlobURL
    */
   public async upload(
     body: HttpRequestBody,
     contentLength: number,
-    options: IBlockBlobUploadOptions = {}
+    options: IBlockBlobUploadOptions & CancellationOptions = {}
   ): Promise<Models.BlockBlobUploadResponse> {
     const aborter = options.abortSignal || Aborter.none;
     options.accessConditions = options.accessConditions || {};
@@ -193,7 +189,7 @@ export class BlockBlobURL extends BlobURL {
    * @param {string} blockId A 64-byte value that is base64-encoded
    * @param {HttpRequestBody} body
    * @param {number} contentLength
-   * @param {IBlockBlobStageBlockOptions} [options]
+   * @param {IBlockBlobStageBlockOptions & CancellationOptions [options]
    * @returns {Promise<Models.BlockBlobStageBlockResponse>}
    * @memberof BlockBlobURL
    */
@@ -201,7 +197,7 @@ export class BlockBlobURL extends BlobURL {
     blockId: string,
     body: HttpRequestBody,
     contentLength: number,
-    options: IBlockBlobStageBlockOptions = {}
+    options: IBlockBlobStageBlockOptions & CancellationOptions = {}
   ): Promise<Models.BlockBlobStageBlockResponse> {
     const aborter = options.abortSignal || Aborter.none;
     return this.blockBlobContext.stageBlock(blockId, contentLength, body, {
@@ -230,7 +226,7 @@ export class BlockBlobURL extends BlobURL {
    *                           - https://myaccount.blob.core.windows.net/mycontainer/myblob?snapshot=<DateTime>
    * @param {number} offset From which position of the blob to download, >= 0
    * @param {number} [count] How much data to be downloaded, > 0. Will download to the end when undefined
-   * @param {IBlockBlobStageBlockFromURLOptions} [options={}]
+   * @param {IBlockBlobStageBlockFromURLOptions & CancellationOptions} [options={}]
    * @returns {Promise<Models.BlockBlobStageBlockFromURLResponse>}
    * @memberof BlockBlobURL
    */
@@ -239,7 +235,7 @@ export class BlockBlobURL extends BlobURL {
     sourceURL: string,
     offset: number,
     count?: number,
-    options: IBlockBlobStageBlockFromURLOptions = {}
+    options: IBlockBlobStageBlockFromURLOptions & CancellationOptions = {}
   ): Promise<Models.BlockBlobStageBlockFromURLResponse> {
     const aborter = options.abortSignal || Aborter.none;
     return this.blockBlobContext.stageBlockFromURL(blockId, 0, sourceURL, {
@@ -260,13 +256,13 @@ export class BlockBlobURL extends BlobURL {
    * @see https://docs.microsoft.com/rest/api/storageservices/put-block-list
    *
    * @param {string[]} blocks  Array of 64-byte value that is base64-encoded
-   * @param {IBlockBlobCommitBlockListOptions} [options]
+   * @param {IBlockBlobCommitBlockListOptions & CancellationOptions} [options]
    * @returns {Promise<Models.BlockBlobCommitBlockListResponse>}
    * @memberof BlockBlobURL
    */
   public async commitBlockList(
     blocks: string[],
-    options: IBlockBlobCommitBlockListOptions = {}
+    options: IBlockBlobCommitBlockListOptions & CancellationOptions = {}
   ): Promise<Models.BlockBlobCommitBlockListResponse> {
     const aborter = options.abortSignal || Aborter.none;
     options.accessConditions = options.accessConditions || {};
@@ -289,13 +285,13 @@ export class BlockBlobURL extends BlobURL {
    * @see https://docs.microsoft.com/rest/api/storageservices/get-block-list
    *
    * @param {Models.BlockListType} listType
-   * @param {IBlockBlobGetBlockListOptions} [options]
+   * @param {IBlockBlobGetBlockListOptions & CancellationOptions} [options]
    * @returns {Promise<Models.BlockBlobGetBlockListResponse>}
    * @memberof BlockBlobURL
    */
   public async getBlockList(
     listType: Models.BlockListType,
-    options: IBlockBlobGetBlockListOptions = {}
+    options: IBlockBlobGetBlockListOptions & CancellationOptions = {}
   ): Promise<Models.BlockBlobGetBlockListResponse> {
     const aborter = options.abortSignal || Aborter.none;
     const res = await this.blockBlobContext.getBlockList(listType, {

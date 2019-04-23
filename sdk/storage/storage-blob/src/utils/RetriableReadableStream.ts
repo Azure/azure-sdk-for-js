@@ -2,22 +2,13 @@ import { RestError, TransferProgressEvent } from "@azure/ms-rest-js";
 import { Readable } from "stream";
 
 import { Aborter } from "../Aborter";
+import { CancellationOptions } from '../CancellationOptions';
 
 export type ReadableStreamGetter = (
   offset: number
 ) => Promise<NodeJS.ReadableStream>;
 
 export interface IRetriableReadableStreamOptions {
-  /**
-   * Aborter instance to cancel request. It can be created with Aborter.none
-   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
-   * about request cancellation.
-   *
-   * @type {Aborter}
-   * @memberof IUploadToBlockBlobOptions
-   */
-  abortSignal?: Aborter;
-
   /**
    * Max retry count (>=0), undefined or invalid value means no retry
    *
@@ -76,7 +67,7 @@ export class RetriableReadableStream extends Readable {
    *                                      a new ReadableStream from specified offset
    * @param {number} offset Offset position in original data source to read
    * @param {number} count How much data in original data source to read
-   * @param {IRetriableReadableStreamOptions} [options={}]
+   * @param {IRetriableReadableStreamOptions & CancellationOptions} [options={}]
    * @memberof RetriableReadableStream
    */
   public constructor(
@@ -84,7 +75,7 @@ export class RetriableReadableStream extends Readable {
     getter: ReadableStreamGetter,
     offset: number,
     count: number,
-    options: IRetriableReadableStreamOptions = {}
+    options: IRetriableReadableStreamOptions & CancellationOptions = {}
   ) {
     super();
     this.aborter = options.abortSignal || Aborter.none;

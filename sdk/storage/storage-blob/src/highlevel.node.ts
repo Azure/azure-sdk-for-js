@@ -2,7 +2,6 @@ import { generateUuid, TransferProgressEvent } from "@azure/ms-rest-js";
 import * as fs from "fs";
 import { Readable } from "stream";
 
-import { Aborter } from "./Aborter";
 import { BlobURL } from "./BlobURL";
 import { BlockBlobURL } from "./BlockBlobURL";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
@@ -25,6 +24,7 @@ import {
 } from "./utils/constants";
 import { generateBlockID } from "./utils/utils.common";
 import { streamToBuffer } from "./utils/utils.node";
+import { CancellationOptions } from './CancellationOptions';
 
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
@@ -38,13 +38,13 @@ import { streamToBuffer } from "./utils/utils.node";
  * @export
  * @param {string} filePath Full path of local file
  * @param {BlockBlobURL} blockBlobURL BlockBlobURL
- * @param {IUploadToBlockBlobOptions} [options] IUploadToBlockBlobOptions
+ * @param {IUploadToBlockBlobOptions & CancellationOptions} [options] IUploadToBlockBlobOptions
  * @returns {(Promise<BlobUploadCommonResponse>)} ICommonResponse
  */
 export async function uploadFileToBlockBlob(
   filePath: string,
   blockBlobURL: BlockBlobURL,
-  options: IUploadToBlockBlobOptions = {}
+  options: IUploadToBlockBlobOptions & CancellationOptions = {}
 ): Promise<BlobUploadCommonResponse> {
   const size = fs.statSync(filePath).size;
   return uploadResetableStreamToBlockBlob(
@@ -110,14 +110,14 @@ export async function uploadFileToBlockBlobUrl(
  *                                                                  from the offset defined
  * @param {number} size Size of the block blob
  * @param {BlockBlobURL} blockBlobURL BlockBlobURL
- * @param {IUploadToBlockBlobOptions} [options] IUploadToBlockBlobOptions
+ * @param {IUploadToBlockBlobOptions & CancellationOptions} [options] IUploadToBlockBlobOptions
  * @returns {(Promise<BlobUploadCommonResponse>)} ICommonResponse
  */
 async function uploadResetableStreamToBlockBlob(
   streamFactory: (offset: number, count?: number) => NodeJS.ReadableStream,
   size: number,
   blockBlobURL: BlockBlobURL,
-  options: IUploadToBlockBlobOptions = {}
+  options: IUploadToBlockBlobOptions & CancellationOptions = {}
 ): Promise<BlobUploadCommonResponse> {
   if (!options.blockSize) {
     options.blockSize = 0;
@@ -220,7 +220,7 @@ async function uploadResetableStreamToBlockBlob(
  * @param {BlobURL} blobURL A BlobURL object
  * @param {number} offset From which position of the block blob to download
  * @param {number} [count] How much data to be downloaded. Will download to the end when passing undefined
- * @param {IDownloadFromBlobOptions} [options] IDownloadFromBlobOptions
+ * @param {IDownloadFromBlobOptions & CancellationOptions} [options] IDownloadFromBlobOptions
  * @returns {Promise<void>}
  */
 export async function downloadBlobToBuffer(
@@ -228,7 +228,7 @@ export async function downloadBlobToBuffer(
   blobURL: BlobURL,
   offset: number,
   count?: number,
-  options: IDownloadFromBlobOptions = {}
+  options: IDownloadFromBlobOptions & CancellationOptions = {}
 ): Promise<void> {
   if (!options.blockSize) {
     options.blockSize = 0;
@@ -343,16 +343,6 @@ export async function downloadBlobToBufferFromUrl(
  */
 export interface IUploadStreamToBlockBlobOptions {
   /**
-   * Aborter instance to cancel request. It can be created with Aborter.none
-   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
-   * about request cancellation.
-   *
-   * @type {Aborter}
-   * @memberof IUploadToBlockBlobOptions
-   */
-  abortSignal?: Aborter;
-
-  /**
    * Blob HTTP Headers.
    *
    * @type {BlobHTTPHeaders}
@@ -399,7 +389,7 @@ export interface IUploadStreamToBlockBlobOptions {
  * @param {number} bufferSize Size of every buffer allocated, also the block size in the uploaded block blob
  * @param {number} maxBuffers Max buffers will allocate during uploading, positive correlation
  *                            with max uploading concurrency
- * @param {IUploadStreamToBlockBlobOptions} [options]
+ * @param {IUploadStreamToBlockBlobOptions & CancellationOptions} [options]
  * @returns {Promise<BlobUploadCommonResponse>}
  */
 export async function uploadStreamToBlockBlob(
@@ -407,7 +397,7 @@ export async function uploadStreamToBlockBlob(
   blockBlobURL: BlockBlobURL,
   bufferSize: number,
   maxBuffers: number,
-  options: IUploadStreamToBlockBlobOptions = {}
+  options: IUploadStreamToBlockBlobOptions & CancellationOptions = {}
 ): Promise<BlobUploadCommonResponse> {
   if (!options.blobHTTPHeaders) {
     options.blobHTTPHeaders = {};

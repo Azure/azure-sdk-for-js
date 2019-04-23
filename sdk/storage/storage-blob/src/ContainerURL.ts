@@ -8,30 +8,26 @@ import { ServiceURL } from "./ServiceURL";
 import { StorageURL } from "./StorageURL";
 import { ETagNone } from "./utils/constants";
 import { appendToURLPath, truncatedISO8061Date } from "./utils/utils.common";
+import { CancellationOptions } from './CancellationOptions';
 
 export interface IContainerCreateOptions {
-  abortSignal?: Aborter;
   metadata?: IMetadata;
   access?: Models.PublicAccessType;
 }
 
 export interface IContainerGetPropertiesOptions {
-  abortSignal?: Aborter;
   leaseAccessConditions?: Models.LeaseAccessConditions;
 }
 
 export interface IContainerDeleteMethodOptions {
-  abortSignal?: Aborter;
   containerAccessConditions?: IContainerAccessConditions;
 }
 
 export interface IContainerSetMetadataOptions {
-  abortSignal?: Aborter;
   containerAccessConditions?: IContainerAccessConditions;
 }
 
 export interface IContainerGetAccessPolicyOptions {
-  abortSignal?: Aborter;
   leaseAccessConditions?: Models.LeaseAccessConditions;
 }
 
@@ -83,32 +79,26 @@ export declare type ContainerGetAccessPolicyResponse = {
   };
 
 export interface IContainerSetAccessPolicyOptions {
-  abortSignal?: Aborter;
   containerAccessConditions?: IContainerAccessConditions;
 }
 
 export interface IContainerAcquireLeaseOptions {
-  abortSignal?: Aborter;
   modifiedAccessConditions?: Models.ModifiedAccessConditions;
 }
 
 export interface IContainerReleaseLeaseOptions {
-  abortSignal?: Aborter;
   modifiedAccessConditions?: Models.ModifiedAccessConditions;
 }
 
 export interface IContainerRenewLeaseOptions {
-  abortSignal?: Aborter;
   modifiedAccessConditions?: Models.ModifiedAccessConditions;
 }
 
 export interface IContainerBreakLeaseOptions {
-  abortSignal?: Aborter;
   modifiedAccessConditions?: Models.ModifiedAccessConditions;
 }
 
 export interface IContainerChangeLeaseOptions {
-  abortSignal?: Aborter;
   modifiedAccessConditions?: Models.ModifiedAccessConditions;
 }
 
@@ -200,12 +190,12 @@ export class ContainerURL extends StorageURL {
    * the same name already exists, the operation fails.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-container
    *
-   * @param {IContainerCreateOptions} [options]
+   * @param {IContainerCreateOptions & CancellationOptions} [options]
    * @returns {Promise<Models.ContainerCreateResponse>}
    * @memberof ContainerURL
    */
   public async create(
-    options: IContainerCreateOptions = {}
+    options: IContainerCreateOptions & CancellationOptions = {}
   ): Promise<Models.ContainerCreateResponse> {
     if (!options.abortSignal) {
       options.abortSignal = Aborter.none;
@@ -222,12 +212,12 @@ export class ContainerURL extends StorageURL {
    * container. The data returned does not include the container's list of blobs.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-container-properties
    *
-   * @param {IContainersGetPropertiesOptions} [options]
+   * @param {IContainersGetPropertiesOptions & CancellationOptions} [options]
    * @returns {Promise<Models.ContainerGetPropertiesResponse>}
    * @memberof ContainerURL
    */
   public async getProperties(
-    options: IContainerGetPropertiesOptions = {}
+    options: IContainerGetPropertiesOptions & CancellationOptions = {}
   ): Promise<Models.ContainerGetPropertiesResponse> {
     if (!options.leaseAccessConditions) {
       options.leaseAccessConditions = {};
@@ -246,12 +236,12 @@ export class ContainerURL extends StorageURL {
    * contained within it are later deleted during garbage collection.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-container
    *
-   * @param {Models.ContainersDeleteMethodOptionalParams} [options]
+   * @param {IContainerDeleteMethodOptions & CancellationOptions} [options]
    * @returns {Promise<Models.ContainerDeleteResponse>}
    * @memberof ContainerURL
    */
   public async delete(
-    options: IContainerDeleteMethodOptions = {}
+    options: IContainerDeleteMethodOptions & CancellationOptions = {}
   ): Promise<Models.ContainerDeleteResponse> {
     const aborter = options.abortSignal || Aborter.none;
 
@@ -300,13 +290,13 @@ export class ContainerURL extends StorageURL {
    *
    * @param {IMetadata} [metadata] Replace existing metadata with this value.
    *                               If no value provided the existing metadata will be removed.
-   * @param {IContainerSetMetadataOptions} [options]
+   * @param {IContainerSetMetadataOptions & CancellationOptions} [options]
    * @returns {Promise<Models.ContainerSetMetadataResponse>}
    * @memberof ContainerURL
    */
   public async setMetadata(
     metadata?: IMetadata,
-    options: IContainerSetMetadataOptions = {}
+    options: IContainerSetMetadataOptions & CancellationOptions = {}
   ): Promise<Models.ContainerSetMetadataResponse> {
     const aborter = options.abortSignal || Aborter.none;
 
@@ -357,12 +347,12 @@ export class ContainerURL extends StorageURL {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-container-acl
    *
-   * @param {IContainerGetAccessPolicyOptions} [options]
+   * @param {IContainerGetAccessPolicyOptions & CancellationOptions} [options]
    * @returns {Promise<ContainerGetAccessPolicyResponse>}
    * @memberof ContainerURL
    */
   public async getAccessPolicy(
-    options: IContainerGetAccessPolicyOptions = {}
+    options: IContainerGetAccessPolicyOptions & CancellationOptions = {}
   ): Promise<ContainerGetAccessPolicyResponse> {
     if (!options.leaseAccessConditions) {
       options.leaseAccessConditions = {};
@@ -411,14 +401,14 @@ export class ContainerURL extends StorageURL {
    *
    * @param {PublicAccessType} [access]
    * @param {ISignedIdentifier[]} [containerAcl]
-   * @param {IContainerSetAccessPolicyOptions} [options]
+   * @param {IContainerSetAccessPolicyOptions & CancellationOptions} [options]
    * @returns {Promise<Models.ContainerSetAccessPolicyResponse>}
    * @memberof ContainerURL
    */
   public async setAccessPolicy(
     access?: Models.PublicAccessType,
     containerAcl?: ISignedIdentifier[],
-    options: IContainerSetAccessPolicyOptions = {}
+    options: IContainerSetAccessPolicyOptions & CancellationOptions = {}
   ): Promise<Models.ContainerSetAccessPolicyResponse> {
     const aborter = options.abortSignal || Aborter.none;
     options.containerAccessConditions = options.containerAccessConditions || {};
@@ -452,14 +442,14 @@ export class ContainerURL extends StorageURL {
    *
    * @param {string} proposedLeaseId Can be specified in any valid GUID string format
    * @param {number} duration Must be between 15 to 60 seconds, or infinite (-1)
-   * @param {IContainerAcquireLeaseOptions} [options]
+   * @param {IContainerAcquireLeaseOptions & CancellationOptions} [options]
    * @returns {Promise<Models.ContainerAcquireLeaseResponse>}
    * @memberof ContainerURL
    */
   public async acquireLease(
     proposedLeaseId: string,
     duration: number,
-    options: IContainerAcquireLeaseOptions = {}
+    options: IContainerAcquireLeaseOptions & CancellationOptions = {}
   ): Promise<Models.ContainerAcquireLeaseResponse> {
     const aborter = options.abortSignal || Aborter.none;
     return this.containerContext.acquireLease({
@@ -476,13 +466,13 @@ export class ContainerURL extends StorageURL {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/lease-container
    *
    * @param {string} leaseId
-   * @param {IContainerReleaseLeaseOptions} [options]
+   * @param {IContainerReleaseLeaseOptions & CancellationOptions} [options]
    * @returns {Promise<Models.ContainerReleaseLeaseResponse>}
    * @memberof ContainerURL
    */
   public async releaseLease(
     leaseId: string,
-    options: IContainerReleaseLeaseOptions = {}
+    options: IContainerReleaseLeaseOptions & CancellationOptions = {}
   ): Promise<Models.ContainerReleaseLeaseResponse> {
     const aborter = options.abortSignal || Aborter.none;
     return this.containerContext.releaseLease(leaseId, {
@@ -496,13 +486,13 @@ export class ContainerURL extends StorageURL {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/lease-container
    *
    * @param {string} leaseId
-   * @param {IContainerRenewLeaseOptions} [options]
+   * @param {IContainerRenewLeaseOptions & CancellationOptions} [options]
    * @returns {Promise<Models.ContainerRenewLeaseResponse>}
    * @memberof ContainerURL
    */
   public async renewLease(
     leaseId: string,
-    options: IContainerRenewLeaseOptions = {}
+    options: IContainerRenewLeaseOptions & CancellationOptions = {}
   ): Promise<Models.ContainerRenewLeaseResponse> {
     const aborter = options.abortSignal || Aborter.none;
     return this.containerContext.renewLease(leaseId, {
@@ -517,13 +507,13 @@ export class ContainerURL extends StorageURL {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/lease-container
    *
    * @param {number} period break period
-   * @param {IContainerBreakLeaseOptions} [options]
+   * @param {IContainerBreakLeaseOptions & CancellationOptions} [options]
    * @returns {Promise<Models.ContainerBreakLeaseResponse>}
    * @memberof ContainerURL
    */
   public async breakLease(
     period: number,
-    options: IContainerBreakLeaseOptions = {}
+    options: IContainerBreakLeaseOptions & CancellationOptions = {}
   ): Promise<Models.ContainerBreakLeaseResponse> {
     const aborter = options.abortSignal || Aborter.none;
     return this.containerContext.breakLease({
@@ -539,14 +529,14 @@ export class ContainerURL extends StorageURL {
    *
    * @param {string} leaseId
    * @param {string} proposedLeaseId
-   * @param {IContainerChangeLeaseOptions} [options]
+   * @param {IContainerChangeLeaseOptions & CancellationOptions} [options]
    * @returns {Promise<Models.ContainerChangeLeaseResponse>}
    * @memberof ContainerURL
    */
   public async changeLease(
     leaseId: string,
     proposedLeaseId: string,
-    options: IContainerChangeLeaseOptions = {}
+    options: IContainerChangeLeaseOptions & CancellationOptions = {}
   ): Promise<Models.ContainerChangeLeaseResponse> {
     const aborter = options.abortSignal || Aborter.none;
     return this.containerContext.changeLease(leaseId, proposedLeaseId, {

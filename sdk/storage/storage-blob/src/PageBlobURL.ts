@@ -14,9 +14,9 @@ import {
 import { Pipeline } from "./Pipeline";
 import { URLConstants } from "./utils/constants";
 import { appendToURLPath, setURLParameter } from "./utils/utils.common";
+import { CancellationOptions } from './CancellationOptions';
 
 export interface IPageBlobCreateOptions {
-  abortSignal?: Aborter;
   accessConditions?: IBlobAccessConditions;
   blobSequenceNumber?: number;
   blobHTTPHeaders?: Models.BlobHTTPHeaders;
@@ -24,40 +24,33 @@ export interface IPageBlobCreateOptions {
 }
 
 export interface IPageBlobUploadPagesOptions {
-  abortSignal?: Aborter;
   accessConditions?: IPageBlobAccessConditions;
   progress?: (progress: TransferProgressEvent) => void;
   transactionalContentMD5?: Uint8Array;
 }
 
 export interface IPageBlobClearPagesOptions {
-  abortSignal?: Aborter;
   accessConditions?: IPageBlobAccessConditions;
 }
 
 export interface IPageBlobGetPageRangesOptions {
-  abortSignal?: Aborter;
   accessConditions?: IBlobAccessConditions;
 }
 
 export interface IPageBlobGetPageRangesDiffOptions {
-  abortSignal?: Aborter;
   accessConditions?: IBlobAccessConditions;
   range?: string;
 }
 
 export interface IPageBlobResizeOptions {
-  abortSignal?: Aborter;
   accessConditions?: IBlobAccessConditions;
 }
 
 export interface IPageBlobUpdateSequenceNumberOptions {
-  abortSignal?: Aborter;
   accessConditions?: IBlobAccessConditions;
 }
 
 export interface IPageBlobStartCopyIncrementalOptions {
-  abortSignal?: Aborter;
   modifiedAccessConditions?: Models.ModifiedAccessConditions;
 }
 
@@ -170,13 +163,13 @@ export class PageBlobURL extends BlobURL {
    * @see https://docs.microsoft.com/rest/api/storageservices/put-blob
    *
    * @param {number} size
-   * @param {IPageBlobCreateOptions} [options]
+   * @param {IPageBlobCreateOptions & CancellationOptions} [options]
    * @returns {Promise<Models.PageBlobCreateResponse>}
    * @memberof PageBlobURL
    */
   public async create(
     size: number,
-    options: IPageBlobCreateOptions = {}
+    options: IPageBlobCreateOptions & CancellationOptions = {}
   ): Promise<Models.PageBlobCreateResponse> {
     const aborter = options.abortSignal || Aborter.none;
     options.accessConditions = options.accessConditions || {};
@@ -198,7 +191,7 @@ export class PageBlobURL extends BlobURL {
    * @param {HttpRequestBody} body
    * @param {number} offset Offset of destination page blob
    * @param {number} count Content length of body, also how many bytes to be uploaded
-   * @param {IPageBlobUploadPagesOptions} [options]
+   * @param {IPageBlobUploadPagesOptions & CancellationOptions} [options]
    * @returns {Promise<Models.PageBlobsUploadPagesResponse>}
    * @memberof PageBlobURL
    */
@@ -206,7 +199,7 @@ export class PageBlobURL extends BlobURL {
     body: HttpRequestBody,
     offset: number,
     count: number,
-    options: IPageBlobUploadPagesOptions = {}
+    options: IPageBlobUploadPagesOptions & CancellationOptions = {}
   ): Promise<Models.PageBlobUploadPagesResponse> {
     const aborter = options.abortSignal || Aborter.none;
     options.accessConditions = options.accessConditions || {};
@@ -229,14 +222,14 @@ export class PageBlobURL extends BlobURL {
    *
    * @param {number} offset
    * @param {number} count
-   * @param {IPageBlobClearPagesOptions} [options]
+   * @param {IPageBlobClearPagesOptions & CancellationOptions} [options]
    * @returns {Promise<Models.PageBlobClearPagesResponse>}
    * @memberof PageBlobURL
    */
   public async clearPages(
     offset: number,
     count: number,
-    options: IPageBlobClearPagesOptions = {}
+    options: IPageBlobClearPagesOptions & CancellationOptions = {}
   ): Promise<Models.PageBlobClearPagesResponse> {
     const aborter = options.abortSignal || Aborter.none;
     options.accessConditions = options.accessConditions || {};
@@ -257,14 +250,14 @@ export class PageBlobURL extends BlobURL {
    *
    * @param {number} offset
    * @param {number} count
-   * @param {IPageBlobGetPageRangesOptions} [options]
+   * @param {IPageBlobGetPageRangesOptions & CancellationOptions} [options]
    * @returns {Promise<Models.PageBlobGetPageRangesResponse>}
    * @memberof PageBlobURL
    */
   public async getPageRanges(
     offset: number,
     count: number,
-    options: IPageBlobGetPageRangesOptions = {}
+    options: IPageBlobGetPageRangesOptions & CancellationOptions = {}
   ): Promise<Models.PageBlobGetPageRangesResponse> {
     const aborter = options.abortSignal || Aborter.none;
     options.accessConditions = options.accessConditions || {};
@@ -284,7 +277,7 @@ export class PageBlobURL extends BlobURL {
    * @param {number} offset
    * @param {number} count
    * @param {string} prevSnapshot
-   * @param {IPageBlobGetPageRangesDiffOptions} [options]
+   * @param {IPageBlobGetPageRangesDiffOptions & CancellationOptions} [options]
    * @returns {Promise<Models.PageBlobGetPageRangesDiffResponse>}
    * @memberof PageBlobURL
    */
@@ -292,7 +285,7 @@ export class PageBlobURL extends BlobURL {
     offset: number,
     count: number,
     prevSnapshot: string,
-    options: IPageBlobGetPageRangesDiffOptions = {}
+    options: IPageBlobGetPageRangesDiffOptions & CancellationOptions = {}
   ): Promise<Models.PageBlobGetPageRangesDiffResponse> {
     const aborter = options.abortSignal || Aborter.none;
     options.accessConditions = options.accessConditions || {};
@@ -311,13 +304,13 @@ export class PageBlobURL extends BlobURL {
    * @see https://docs.microsoft.com/rest/api/storageservices/set-blob-properties
    *
    * @param {number} size
-   * @param {IPageBlobResizeOptions} [options]
+   * @param {IPageBlobResizeOptions & CancellationOptions} [options]
    * @returns {Promise<Models.PageBlobResizeResponse>}
    * @memberof PageBlobURL
    */
   public async resize(
     size: number,
-    options: IPageBlobResizeOptions = {}
+    options: IPageBlobResizeOptions & CancellationOptions = {}
   ): Promise<Models.PageBlobResizeResponse> {
     const aborter = options.abortSignal || Aborter.none;
     options.accessConditions = options.accessConditions || {};
@@ -335,14 +328,14 @@ export class PageBlobURL extends BlobURL {
    *
    * @param {Models.SequenceNumberActionType} sequenceNumberAction
    * @param {number} [sequenceNumber] Required if sequenceNumberAction is max or update
-   * @param {IPageBlobUpdateSequenceNumberOptions} [options]
+   * @param {IPageBlobUpdateSequenceNumberOptions & CancellationOptions} [options]
    * @returns {Promise<Models.PageBlobUpdateSequenceNumberResponse>}
    * @memberof PageBlobURL
    */
   public async updateSequenceNumber(
     sequenceNumberAction: Models.SequenceNumberActionType,
     sequenceNumber?: number,
-    options: IPageBlobUpdateSequenceNumberOptions = {}
+    options: IPageBlobUpdateSequenceNumberOptions & CancellationOptions = {}
   ): Promise<Models.PageBlobUpdateSequenceNumberResponse> {
     const aborter = options.abortSignal || Aborter.none;
     options.accessConditions = options.accessConditions || {};
@@ -365,13 +358,13 @@ export class PageBlobURL extends BlobURL {
    *
    * @param {string} copySource Specifies the name of the source page blob snapshot. For example,
    *                            https://myaccount.blob.core.windows.net/mycontainer/myblob?snapshot=<DateTime>
-   * @param {IPageBlobStartCopyIncrementalOptions} [options]
+   * @param {IPageBlobStartCopyIncrementalOptions & CancellationOptions} [options]
    * @returns {Promise<Models.PageBlobCopyIncrementalResponse>}
    * @memberof PageBlobURL
    */
   public async startCopyIncremental(
     copySource: string,
-    options: IPageBlobStartCopyIncrementalOptions = {}
+    options: IPageBlobStartCopyIncrementalOptions & CancellationOptions = {}
   ): Promise<Models.PageBlobCopyIncrementalResponse> {
     const aborter = options.abortSignal || Aborter.none;
     return this.pageBlobContext.copyIncremental(copySource, {

@@ -13,16 +13,15 @@ import {
 import { Pipeline } from "./Pipeline";
 import { URLConstants } from "./utils/constants";
 import { appendToURLPath, setURLParameter } from "./utils/utils.common";
+import { CancellationOptions } from './CancellationOptions';
 
 export interface IAppendBlobCreateOptions {
-  abortSignal?: Aborter;
   accessConditions?: IBlobAccessConditions;
   blobHTTPHeaders?: Models.BlobHTTPHeaders;
   metadata?: IMetadata;
 }
 
 export interface IAppendBlobAppendBlockOptions {
-  abortSignal?: Aborter;
   accessConditions?: IAppendBlobAccessConditions;
   progress?: (progress: TransferProgressEvent) => void;
   transactionalContentMD5?: Uint8Array;
@@ -135,12 +134,12 @@ export class AppendBlobURL extends BlobURL {
    * Creates a 0-length append blob. Call AppendBlock to append data to an append blob.
    * @see https://docs.microsoft.com/rest/api/storageservices/put-blob
    *
-   * @param {IAppendBlobCreateOptions} [options]
+   * @param {IAppendBlobCreateOptions & CancellationOptions} [options]
    * @returns {Promise<Models.AppendBlobsCreateResponse>}
    * @memberof AppendBlobURL
    */
   public async create(
-    options: IAppendBlobCreateOptions = {}
+    options: IAppendBlobCreateOptions & CancellationOptions = {}
   ): Promise<Models.AppendBlobCreateResponse> {
     const aborter = options.abortSignal || Aborter.none;
     options.accessConditions = options.accessConditions || {};
@@ -160,14 +159,14 @@ export class AppendBlobURL extends BlobURL {
    *
    * @param {HttpRequestBody} body
    * @param {number} contentLength
-   * @param {IAppendBlobAppendBlockOptions} [options]
+   * @param {IAppendBlobAppendBlockOptions & CancellationOptions} [options]
    * @returns {Promise<Models.AppendBlobsAppendBlockResponse>}
    * @memberof AppendBlobURL
    */
   public async appendBlock(
     body: HttpRequestBody,
     contentLength: number,
-    options: IAppendBlobAppendBlockOptions = {}
+    options: IAppendBlobAppendBlockOptions & CancellationOptions = {}
   ): Promise<Models.AppendBlobAppendBlockResponse> {
     const aborter = options.abortSignal || Aborter.none;
     options.accessConditions = options.accessConditions || {};

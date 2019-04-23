@@ -7,6 +7,7 @@ import {
   ReadableStreamGetter,
   RetriableReadableStream
 } from "./utils/RetriableReadableStream";
+import { CancellationOptions } from './CancellationOptions';
 
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
@@ -439,7 +440,7 @@ export class BlobDownloadResponse implements Models.BlobDownloadResponse {
    * @param {ReadableStreamGetter} getter
    * @param {number} offset
    * @param {number} count
-   * @param {IRetriableReadableStreamOptions} [options={}]
+   * @param {IRetriableReadableStreamOptions & CancellationOptions} [options={}]
    * @memberof BlobDownloadResponse
    */
   public constructor(
@@ -447,7 +448,7 @@ export class BlobDownloadResponse implements Models.BlobDownloadResponse {
     getter: ReadableStreamGetter,
     offset: number,
     count: number,
-    options: IRetriableReadableStreamOptions = {}
+    options: IRetriableReadableStreamOptions & CancellationOptions = {}
   ) {
     this.originalResponse = originalResponse;
     this.blobDownloadStream = new RetriableReadableStream(

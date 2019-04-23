@@ -16,6 +16,7 @@ import {
   DEFAULT_BLOB_DOWNLOAD_BLOCK_BYTES
 } from "./utils/constants";
 import { generateBlockID } from "./utils/utils.common";
+import { CancellationOptions } from './CancellationOptions';
 
 /**
  * ONLY AVAILABLE IN BROWSERS.
@@ -29,13 +30,13 @@ import { generateBlockID } from "./utils/utils.common";
  * @export
  * @param {Blob | ArrayBuffer | ArrayBufferView} browserData Blob, File, ArrayBuffer or ArrayBufferView
  * @param {BlockBlobURL} blockBlobURL
- * @param {IUploadToBlockBlobOptions} [options]
+ * @param {IUploadToBlockBlobOptions & CancellationOptions} [options]
  * @returns {Promise<BlobUploadCommonResponse>}
  */
 export async function uploadBrowserDataToBlockBlob(
   browserData: Blob | ArrayBuffer | ArrayBufferView,
   blockBlobURL: BlockBlobURL,
-  options: IUploadToBlockBlobOptions = {}
+  options: IUploadToBlockBlobOptions & CancellationOptions = {}
 ): Promise<BlobUploadCommonResponse> {
   const browserBlob = new Blob([browserData]);
   return UploadSeekableBlobToBlockBlob(
@@ -67,14 +68,14 @@ export async function uploadBrowserDataToBlockBlob(
  * @export
  * @param {Blob | ArrayBuffer | ArrayBufferView} browserData Blob, File, ArrayBuffer or ArrayBufferView
  * @param {BlockBlobURL} blockBlobURL
- * @param {IUploadToBlockBlobOptions & CredentialOptions & INewPipelineOptions} options Options for Uploading browser data, credential, and new pipeline.
+ * @param {IUploadToBlockBlobOptions & CancellationOptions & CredentialOptions & INewPipelineOptions} options Options for Uploading browser data, credential, and new pipeline.
  *                                                           If credential options is not specified {@link AnonymousCredential} is used.
  * @returns {Promise<BlobUploadCommonResponse>}
  */
 export async function uploadBrowserDataToBlockBlobUrl(
   browserData: Blob | ArrayBuffer | ArrayBufferView,
   url: string,
-  options: IUploadToBlockBlobOptions & CredentialOptions & INewPipelineOptions = {},
+  options: IUploadToBlockBlobOptions & CancellationOptions & CredentialOptions & INewPipelineOptions = {},
 ): Promise<BlobUploadCommonResponse> {
 
   const pipeline = StorageURL.newPipeline(options.credential || new AnonymousCredential(), options);
@@ -95,14 +96,14 @@ export async function uploadBrowserDataToBlockBlobUrl(
  * @param {(offset: number, size: number) => Blob} blobFactory
  * @param {number} size
  * @param {BlockBlobURL} blockBlobURL
- * @param {IUploadToBlockBlobOptions} [options]
+ * @param {IUploadToBlockBlobOptions & CancellationOptions} [options]
  * @returns {Promise<BlobUploadCommonResponse>}
  */
 async function UploadSeekableBlobToBlockBlob(
   blobFactory: (offset: number, size: number) => Blob,
   size: number,
   blockBlobURL: BlockBlobURL,
-  options: IUploadToBlockBlobOptions = {}
+  options: IUploadToBlockBlobOptions & CancellationOptions = {}
 ): Promise<BlobUploadCommonResponse> {
   if (!options.blockSize) {
     options.blockSize = 0;
