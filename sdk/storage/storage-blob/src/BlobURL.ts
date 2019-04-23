@@ -196,6 +196,7 @@ export class BlobURL extends StorageURL {
    * @param {number} offset From which position of the blob to download, >= 0
    * @param {number} [count] How much data to be downloaded, > 0. Will download to the end when undefined
    * @param {IBlobDownloadOptions & CancellationOptions} [options]
+   * @param {Aborter} options.abortSignal Optional {@link Aborter} instance to cancel HTTP requests.
    * @returns {Promise<Models.BlobDownloadResponse>}
    * @memberof BlobURL
    */
@@ -303,6 +304,7 @@ export class BlobURL extends StorageURL {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-blob-properties
    *
    * @param {IBlobGetPropertiesOptions & CancellationOptions} [options]
+   * @param {Aborter} options.abortSignal Optional {@link Aborter} instance to cancel HTTP requests.
    * @returns {Promise<Models.BlobGetPropertiesResponse>}
    * @memberof BlobURL
    */
@@ -327,6 +329,7 @@ export class BlobURL extends StorageURL {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-blob
    *
    * @param {IBlobDeleteOptions & CancellationOptions} [options]
+   * @param {Aborter} options.abortSignal Optional {@link Aborter} instance to cancel HTTP requests.
    * @returns {Promise<Models.BlobDeleteResponse>}
    * @memberof BlobURL
    */
@@ -372,6 +375,7 @@ export class BlobURL extends StorageURL {
    *                                                   the specificed blob HTTP headers, these blob HTTP
    *                                                   headers without a value will be cleared.
    * @param {IBlobSetHTTPHeadersOptions & CancellationOptions} [options]
+   * @param {Aborter} options.abortSignal Optional {@link Aborter} instance to cancel HTTP requests.
    * @returns {Promise<Models.BlobSetHTTPHeadersResponse>}
    * @memberof BlobURL
    */
@@ -400,6 +404,7 @@ export class BlobURL extends StorageURL {
    * @param {IMetadata} [metadata] Replace existing metadata with this value.
    *                               If no value provided the existing metadata will be removed.
    * @param {IBlobSetMetadataOptions & CancellationOptions} [options]
+   * @param {Aborter} options.abortSignal Optional {@link Aborter} instance to cancel HTTP requests.
    * @returns {Promise<Models.BlobSetMetadataResponse>}
    * @memberof BlobURL
    */
@@ -427,6 +432,7 @@ export class BlobURL extends StorageURL {
    * @param {string} proposedLeaseId Can be specified in any valid GUID string format
    * @param {number} duration The lock duration can be 15 to 60 seconds, or can be infinite
    * @param {IBlobAcquireLeaseOptions & CancellationOptions} [options]
+   * @param {Aborter} options.abortSignal Optional {@link Aborter} instance to cancel HTTP requests.
    * @returns {Promise<Models.BlobAcquireLeaseResponse>}
    * @memberof BlobURL
    */
@@ -451,6 +457,7 @@ export class BlobURL extends StorageURL {
    *
    * @param {string} leaseId
    * @param {IBlobReleaseLeaseOptions & CancellationOptions} [options]
+   * @param {Aborter} options.abortSignal Optional {@link Aborter} instance to cancel HTTP requests.
    * @returns {Promise<Models.BlobReleaseLeaseResponse>}
    * @memberof BlobURL
    */
@@ -471,6 +478,7 @@ export class BlobURL extends StorageURL {
    *
    * @param {string} leaseId
    * @param {IBlobRenewLeaseOptions & CancellationOptions} [options]
+   * @param {Aborter} options.abortSignal Optional {@link Aborter} instance to cancel HTTP requests.
    * @returns {Promise<Models.BlobRenewLeaseResponse>}
    * @memberof BlobURL
    */
@@ -492,6 +500,7 @@ export class BlobURL extends StorageURL {
    * @param {string} leaseId
    * @param {string} proposedLeaseId
    * @param {IBlobChangeLeaseOptions & CancellationOptions} [options]
+   * @param {Aborter} options.abortSignal Optional {@link Aborter} instance to cancel HTTP requests.
    * @returns {Promise<Models.BlobChangeLeaseResponse>}
    * @memberof BlobURL
    */
@@ -514,6 +523,7 @@ export class BlobURL extends StorageURL {
    *
    * @param {number} [breakPeriod]
    * @param {IBlobBreakLeaseOptions & CancellationOptions} [options]
+   * @param {Aborter} options.abortSignal Optional {@link Aborter} instance to cancel HTTP requests.
    * @returns {Promise<Models.BlobBreakLeaseResponse>}
    * @memberof BlobURL
    */
@@ -534,6 +544,7 @@ export class BlobURL extends StorageURL {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/snapshot-blob
    *
    * @param {IBlobCreateSnapshotOptions & CancellationOptions} [options]
+   * @param {Aborter} options.abortSignal Optional {@link Aborter} instance to cancel HTTP requests.
    * @returns {Promise<Models.BlobCreateSnapshotResponse>}
    * @memberof BlobURL
    */
@@ -563,6 +574,7 @@ export class BlobURL extends StorageURL {
    *
    * @param {string} copySource
    * @param {IBlobStartCopyFromURLOptions & CancellationOptions} [options]
+   * @param {Aborter} options.abortSignal Optional {@link Aborter} instance to cancel HTTP requests.
    * @returns {Promise<Models.BlobStartCopyFromURLResponse>}
    * @memberof BlobURL
    */
@@ -599,6 +611,7 @@ export class BlobURL extends StorageURL {
    *
    * @param {string} copyId
    * @param {IBlobAbortCopyFromURLOptions & CancellationOptions} [options]
+   * @param {Aborter} options.abortSignal Optional {@link Aborter} instance to cancel HTTP requests.
    * @returns {Promise<Models.BlobAbortCopyFromURLResponse>}
    * @memberof BlobURL
    */
@@ -623,6 +636,7 @@ export class BlobURL extends StorageURL {
    *
    * @param {Models.AccessTier} tier
    * @param {IBlobSetTierOptions & CancellationOptions} [options]
+   * @param {Aborter} options.abortSignal Optional {@link Aborter} instance to cancel HTTP requests.
    * @returns {Promise<Models.BlobsSetTierResponse>}
    * @memberof BlobURL
    */

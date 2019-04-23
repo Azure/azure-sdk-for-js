@@ -191,6 +191,7 @@ export class ContainerURL extends StorageURL {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-container
    *
    * @param {IContainerCreateOptions & CancellationOptions} [options]
+   * @param {Aborter} options.abortSignal Optional {@link Aborter} instance to cancel HTTP requests.
    * @returns {Promise<Models.ContainerCreateResponse>}
    * @memberof ContainerURL
    */
@@ -213,6 +214,7 @@ export class ContainerURL extends StorageURL {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-container-properties
    *
    * @param {IContainersGetPropertiesOptions & CancellationOptions} [options]
+   * @param {Aborter} options.abortSignal Optional {@link Aborter} instance to cancel HTTP requests.
    * @returns {Promise<Models.ContainerGetPropertiesResponse>}
    * @memberof ContainerURL
    */
@@ -237,6 +239,7 @@ export class ContainerURL extends StorageURL {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-container
    *
    * @param {IContainerDeleteMethodOptions & CancellationOptions} [options]
+   * @param {Aborter} options.abortSignal Optional {@link Aborter} instance to cancel HTTP requests.
    * @returns {Promise<Models.ContainerDeleteResponse>}
    * @memberof ContainerURL
    */
@@ -291,6 +294,7 @@ export class ContainerURL extends StorageURL {
    * @param {IMetadata} [metadata] Replace existing metadata with this value.
    *                               If no value provided the existing metadata will be removed.
    * @param {IContainerSetMetadataOptions & CancellationOptions} [options]
+   * @param {Aborter} options.abortSignal Optional {@link Aborter} instance to cancel HTTP requests.
    * @returns {Promise<Models.ContainerSetMetadataResponse>}
    * @memberof ContainerURL
    */
@@ -348,6 +352,7 @@ export class ContainerURL extends StorageURL {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-container-acl
    *
    * @param {IContainerGetAccessPolicyOptions & CancellationOptions} [options]
+   * @param {Aborter} options.abortSignal Optional {@link Aborter} instance to cancel HTTP requests.
    * @returns {Promise<ContainerGetAccessPolicyResponse>}
    * @memberof ContainerURL
    */
@@ -402,6 +407,7 @@ export class ContainerURL extends StorageURL {
    * @param {PublicAccessType} [access]
    * @param {ISignedIdentifier[]} [containerAcl]
    * @param {IContainerSetAccessPolicyOptions & CancellationOptions} [options]
+   * @param {Aborter} options.abortSignal Optional {@link Aborter} instance to cancel HTTP requests.
    * @returns {Promise<Models.ContainerSetAccessPolicyResponse>}
    * @memberof ContainerURL
    */
@@ -443,6 +449,7 @@ export class ContainerURL extends StorageURL {
    * @param {string} proposedLeaseId Can be specified in any valid GUID string format
    * @param {number} duration Must be between 15 to 60 seconds, or infinite (-1)
    * @param {IContainerAcquireLeaseOptions & CancellationOptions} [options]
+   * @param {Aborter} options.abortSignal Optional {@link Aborter} instance to cancel HTTP requests.
    * @returns {Promise<Models.ContainerAcquireLeaseResponse>}
    * @memberof ContainerURL
    */
@@ -467,6 +474,7 @@ export class ContainerURL extends StorageURL {
    *
    * @param {string} leaseId
    * @param {IContainerReleaseLeaseOptions & CancellationOptions} [options]
+   * @param {Aborter} options.abortSignal Optional {@link Aborter} instance to cancel HTTP requests.
    * @returns {Promise<Models.ContainerReleaseLeaseResponse>}
    * @memberof ContainerURL
    */
@@ -487,6 +495,7 @@ export class ContainerURL extends StorageURL {
    *
    * @param {string} leaseId
    * @param {IContainerRenewLeaseOptions & CancellationOptions} [options]
+   * @param {Aborter} options.abortSignal Optional {@link Aborter} instance to cancel HTTP requests.
    * @returns {Promise<Models.ContainerRenewLeaseResponse>}
    * @memberof ContainerURL
    */
@@ -508,6 +517,7 @@ export class ContainerURL extends StorageURL {
    *
    * @param {number} period break period
    * @param {IContainerBreakLeaseOptions & CancellationOptions} [options]
+   * @param {Aborter} options.abortSignal Optional {@link Aborter} instance to cancel HTTP requests.
    * @returns {Promise<Models.ContainerBreakLeaseResponse>}
    * @memberof ContainerURL
    */
@@ -530,6 +540,7 @@ export class ContainerURL extends StorageURL {
    * @param {string} leaseId
    * @param {string} proposedLeaseId
    * @param {IContainerChangeLeaseOptions & CancellationOptions} [options]
+   * @param {Aborter} options.abortSignal Optional {@link Aborter} instance to cancel HTTP requests.
    * @returns {Promise<Models.ContainerChangeLeaseResponse>}
    * @memberof ContainerURL
    */

@@ -160,6 +160,7 @@ export class BlockBlobURL extends BlobURL {
    * @param {HttpRequestBody} body
    * @param {number} contentLength
    * @param {IBlockBlobUploadOptions & CancellationOptions} [options]
+   * @param {Aborter} options.abortSignal Optional {@link Aborter} instance to cancel HTTP requests.
    * @returns {Promise<Models.BlockBlobUploadResponse>}
    * @memberof BlockBlobURL
    */
@@ -227,6 +228,7 @@ export class BlockBlobURL extends BlobURL {
    * @param {number} offset From which position of the blob to download, >= 0
    * @param {number} [count] How much data to be downloaded, > 0. Will download to the end when undefined
    * @param {IBlockBlobStageBlockFromURLOptions & CancellationOptions} [options={}]
+   * @param {Aborter} options.abortSignal Optional {@link Aborter} instance to cancel HTTP requests.
    * @returns {Promise<Models.BlockBlobStageBlockFromURLResponse>}
    * @memberof BlockBlobURL
    */
@@ -257,6 +259,7 @@ export class BlockBlobURL extends BlobURL {
    *
    * @param {string[]} blocks  Array of 64-byte value that is base64-encoded
    * @param {IBlockBlobCommitBlockListOptions & CancellationOptions} [options]
+   * @param {Aborter} options.abortSignal Optional {@link Aborter} instance to cancel HTTP requests.
    * @returns {Promise<Models.BlockBlobCommitBlockListResponse>}
    * @memberof BlockBlobURL
    */
@@ -286,6 +289,7 @@ export class BlockBlobURL extends BlobURL {
    *
    * @param {Models.BlockListType} listType
    * @param {IBlockBlobGetBlockListOptions & CancellationOptions} [options]
+   * @param {Aborter} options.abortSignal Optional {@link Aborter} instance to cancel HTTP requests.
    * @returns {Promise<Models.BlockBlobGetBlockListResponse>}
    * @memberof BlockBlobURL
    */

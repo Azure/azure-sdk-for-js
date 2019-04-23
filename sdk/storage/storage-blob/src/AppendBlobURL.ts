@@ -135,6 +135,7 @@ export class AppendBlobURL extends BlobURL {
    * @see https://docs.microsoft.com/rest/api/storageservices/put-blob
    *
    * @param {IAppendBlobCreateOptions & CancellationOptions} [options]
+   * @param {Aborter} options.abortSignal Optional {@link Aborter} instance to cancel HTTP requests.
    * @returns {Promise<Models.AppendBlobsCreateResponse>}
    * @memberof AppendBlobURL
    */
@@ -160,6 +161,7 @@ export class AppendBlobURL extends BlobURL {
    * @param {HttpRequestBody} body
    * @param {number} contentLength
    * @param {IAppendBlobAppendBlockOptions & CancellationOptions} [options]
+   * @param {Aborter} options.abortSignal Optional {@link Aborter} instance to cancel HTTP requests.
    * @returns {Promise<Models.AppendBlobsAppendBlockResponse>}
    * @memberof AppendBlobURL
    */

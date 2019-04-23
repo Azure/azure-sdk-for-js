@@ -441,6 +441,7 @@ export class BlobDownloadResponse implements Models.BlobDownloadResponse {
    * @param {number} offset
    * @param {number} count
    * @param {IRetriableReadableStreamOptions & CancellationOptions} [options={}]
+   * @param {Aborter} options.abortSignal Optional {@link Aborter} instance to cancel HTTP requests.
    * @memberof BlobDownloadResponse
    */
   public constructor(

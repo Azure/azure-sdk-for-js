@@ -164,6 +164,7 @@ export class PageBlobURL extends BlobURL {
    *
    * @param {number} size
    * @param {IPageBlobCreateOptions & CancellationOptions} [options]
+   * @param {Aborter} options.abortSignal Optional {@link Aborter} instance to cancel HTTP requests.
    * @returns {Promise<Models.PageBlobCreateResponse>}
    * @memberof PageBlobURL
    */
@@ -192,6 +193,7 @@ export class PageBlobURL extends BlobURL {
    * @param {number} offset Offset of destination page blob
    * @param {number} count Content length of body, also how many bytes to be uploaded
    * @param {IPageBlobUploadPagesOptions & CancellationOptions} [options]
+   * @param {Aborter} options.abortSignal Optional {@link Aborter} instance to cancel HTTP requests.
    * @returns {Promise<Models.PageBlobsUploadPagesResponse>}
    * @memberof PageBlobURL
    */
@@ -223,6 +225,7 @@ export class PageBlobURL extends BlobURL {
    * @param {number} offset
    * @param {number} count
    * @param {IPageBlobClearPagesOptions & CancellationOptions} [options]
+   * @param {Aborter} options.abortSignal Optional {@link Aborter} instance to cancel HTTP requests.
    * @returns {Promise<Models.PageBlobClearPagesResponse>}
    * @memberof PageBlobURL
    */
@@ -251,6 +254,7 @@ export class PageBlobURL extends BlobURL {
    * @param {number} offset
    * @param {number} count
    * @param {IPageBlobGetPageRangesOptions & CancellationOptions} [options]
+   * @param {Aborter} options.abortSignal Optional {@link Aborter} instance to cancel HTTP requests.
    * @returns {Promise<Models.PageBlobGetPageRangesResponse>}
    * @memberof PageBlobURL
    */
@@ -278,6 +282,7 @@ export class PageBlobURL extends BlobURL {
    * @param {number} count
    * @param {string} prevSnapshot
    * @param {IPageBlobGetPageRangesDiffOptions & CancellationOptions} [options]
+   * @param {Aborter} options.abortSignal Optional {@link Aborter} instance to cancel HTTP requests.
    * @returns {Promise<Models.PageBlobGetPageRangesDiffResponse>}
    * @memberof PageBlobURL
    */
@@ -305,6 +310,7 @@ export class PageBlobURL extends BlobURL {
    *
    * @param {number} size
    * @param {IPageBlobResizeOptions & CancellationOptions} [options]
+   * @param {Aborter} options.abortSignal Optional {@link Aborter} instance to cancel HTTP requests.
    * @returns {Promise<Models.PageBlobResizeResponse>}
    * @memberof PageBlobURL
    */
@@ -329,6 +335,7 @@ export class PageBlobURL extends BlobURL {
    * @param {Models.SequenceNumberActionType} sequenceNumberAction
    * @param {number} [sequenceNumber] Required if sequenceNumberAction is max or update
    * @param {IPageBlobUpdateSequenceNumberOptions & CancellationOptions} [options]
+   * @param {Aborter} options.abortSignal Optional {@link Aborter} instance to cancel HTTP requests.
    * @returns {Promise<Models.PageBlobUpdateSequenceNumberResponse>}
    * @memberof PageBlobURL
    */
@@ -359,6 +366,7 @@ export class PageBlobURL extends BlobURL {
    * @param {string} copySource Specifies the name of the source page blob snapshot. For example,
    *                            https://myaccount.blob.core.windows.net/mycontainer/myblob?snapshot=<DateTime>
    * @param {IPageBlobStartCopyIncrementalOptions & CancellationOptions} [options]
+   * @param {Aborter} options.abortSignal Optional {@link Aborter} instance to cancel HTTP requests.
    * @returns {Promise<Models.PageBlobCopyIncrementalResponse>}
    * @memberof PageBlobURL
    */

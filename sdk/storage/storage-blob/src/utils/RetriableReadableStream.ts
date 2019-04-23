@@ -68,6 +68,7 @@ export class RetriableReadableStream extends Readable {
    * @param {number} offset Offset position in original data source to read
    * @param {number} count How much data in original data source to read
    * @param {IRetriableReadableStreamOptions & CancellationOptions} [options={}]
+   * @param {Aborter} options.abortSignal Optional {@link Aborter} instance to cancel HTTP requests.
    * @memberof RetriableReadableStream
    */
   public constructor(
