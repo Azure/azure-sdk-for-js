@@ -52,7 +52,8 @@ async function setGetSessionState(sessionId: string): Promise<void> {
 
     const thirdState = { testKey: "testValue-c" };
     await receiver.setState(thirdState);
-    console.log(`Value of third state - ${retrievedSecondState.testKey}`);
+    const retrievedThirdState = await receiver.getState();
+    console.log(`Value of third state - ${retrievedThirdState.testKey}`);
 
     await receiver.close();
   } finally {
