@@ -94,7 +94,7 @@ export interface CognitiveServicesAccountUpdateParameters {
   tags?: { [propertyName: string]: string };
   /**
    * @member {any} [properties] Additional properties for Account. Only
-   * provided fileds will be updated.
+   * provided fields will be updated.
    */
   properties?: any;
 }
@@ -609,7 +609,7 @@ export interface AccountsUpdateOptionalParams extends msRest.RequestOptionsBase 
   tags?: { [propertyName: string]: string };
   /**
    * @member {any} [properties] Additional properties for Account. Only
-   * provided fileds will be updated.
+   * provided fields will be updated.
    */
   properties?: any;
 }
