@@ -27,7 +27,39 @@ export class TenantAccess {
   }
 
   /**
-   * Get tenant access information details.
+   * Tenant access metadata
+   * @param resourceGroupName The name of the resource group.
+   * @param serviceName The name of the API Management service.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.TenantAccessGetEntityTagResponse>
+   */
+  getEntityTag(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase): Promise<Models.TenantAccessGetEntityTagResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param serviceName The name of the API Management service.
+   * @param callback The callback
+   */
+  getEntityTag(resourceGroupName: string, serviceName: string, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param serviceName The name of the API Management service.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getEntityTag(resourceGroupName: string, serviceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  getEntityTag(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.TenantAccessGetEntityTagResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        serviceName,
+        options
+      },
+      getEntityTagOperationSpec,
+      callback) as Promise<Models.TenantAccessGetEntityTagResponse>;
+  }
+
+  /**
+   * Get tenant access information details
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param [options] The optional parameters
@@ -102,7 +134,7 @@ export class TenantAccess {
   }
 
   /**
-   * Regenerate primary access key.
+   * Regenerate primary access key
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param [options] The optional parameters
@@ -134,7 +166,7 @@ export class TenantAccess {
   }
 
   /**
-   * Regenerate secondary access key.
+   * Regenerate secondary access key
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param [options] The optional parameters
@@ -168,6 +200,32 @@ export class TenantAccess {
 
 // Operation Specifications
 const serializer = new msRest.Serializer(Mappers);
+const getEntityTagOperationSpec: msRest.OperationSpec = {
+  httpMethod: "HEAD",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tenant/{accessName}",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.serviceName,
+    Parameters.subscriptionId,
+    Parameters.accessName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      headersMapper: Mappers.TenantAccessGetEntityTagHeaders
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tenant/{accessName}",
@@ -189,7 +247,7 @@ const getOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.TenantAccessGetHeaders
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -208,7 +266,7 @@ const updateOperationSpec: msRest.OperationSpec = {
     Parameters.apiVersion
   ],
   headerParameters: [
-    Parameters.ifMatch0,
+    Parameters.ifMatch1,
     Parameters.acceptLanguage
   ],
   requestBody: {

@@ -30,32 +30,32 @@ export class UserSubscription {
    * Lists the collection of subscriptions of the specified user.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
-   * @param uid User identifier. Must be unique in the current API Management service instance.
+   * @param userId User identifier. Must be unique in the current API Management service instance.
    * @param [options] The optional parameters
    * @returns Promise<Models.UserSubscriptionListResponse>
    */
-  list(resourceGroupName: string, serviceName: string, uid: string, options?: Models.UserSubscriptionListOptionalParams): Promise<Models.UserSubscriptionListResponse>;
+  list(resourceGroupName: string, serviceName: string, userId: string, options?: Models.UserSubscriptionListOptionalParams): Promise<Models.UserSubscriptionListResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
-   * @param uid User identifier. Must be unique in the current API Management service instance.
+   * @param userId User identifier. Must be unique in the current API Management service instance.
    * @param callback The callback
    */
-  list(resourceGroupName: string, serviceName: string, uid: string, callback: msRest.ServiceCallback<Models.SubscriptionCollection>): void;
+  list(resourceGroupName: string, serviceName: string, userId: string, callback: msRest.ServiceCallback<Models.SubscriptionCollection>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
-   * @param uid User identifier. Must be unique in the current API Management service instance.
+   * @param userId User identifier. Must be unique in the current API Management service instance.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, serviceName: string, uid: string, options: Models.UserSubscriptionListOptionalParams, callback: msRest.ServiceCallback<Models.SubscriptionCollection>): void;
-  list(resourceGroupName: string, serviceName: string, uid: string, options?: Models.UserSubscriptionListOptionalParams | msRest.ServiceCallback<Models.SubscriptionCollection>, callback?: msRest.ServiceCallback<Models.SubscriptionCollection>): Promise<Models.UserSubscriptionListResponse> {
+  list(resourceGroupName: string, serviceName: string, userId: string, options: Models.UserSubscriptionListOptionalParams, callback: msRest.ServiceCallback<Models.SubscriptionCollection>): void;
+  list(resourceGroupName: string, serviceName: string, userId: string, options?: Models.UserSubscriptionListOptionalParams | msRest.ServiceCallback<Models.SubscriptionCollection>, callback?: msRest.ServiceCallback<Models.SubscriptionCollection>): Promise<Models.UserSubscriptionListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         serviceName,
-        uid,
+        userId,
         options
       },
       listOperationSpec,
@@ -95,11 +95,11 @@ export class UserSubscription {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/users/{uid}/subscriptions",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/users/{userId}/subscriptions",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.uid,
+    Parameters.userId,
     Parameters.subscriptionId
   ],
   queryParameters: [

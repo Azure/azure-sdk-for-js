@@ -2,12 +2,19 @@
 // Licensed under the MIT License.
 
 import * as log from "./log";
-import { Delivery } from "rhea-promise";
+import { Delivery, WebSocketImpl } from "rhea-promise";
 import {
-  ApplicationTokenCredentials, DeviceTokenCredentials, UserTokenCredentials, MSITokenCredentials
+  ApplicationTokenCredentials,
+  DeviceTokenCredentials,
+  UserTokenCredentials,
+  MSITokenCredentials
 } from "@azure/ms-rest-nodeauth";
 import {
-  MessagingError, DataTransformer, TokenProvider, EventHubConnectionConfig, AadTokenProvider
+  MessagingError,
+  DataTransformer,
+  TokenProvider,
+  EventHubConnectionConfig,
+  AadTokenProvider
 } from "@azure/amqp-common";
 import { OnMessage, OnError } from "./eventHubReceiver";
 import { EventData } from "./eventData";
@@ -74,6 +81,16 @@ export interface ClientOptionsBase {
    * user agent string.
    */
   userAgent?: string;
+  /**
+   * @property {WebSocketImpl} [webSocket] - The WebSocket constructor used to create an AMQP connection
+   * over a WebSocket. In browsers, the built-in WebSocket will be  used by default. In Node, a
+   * TCP socket will be used if a WebSocket constructor is not provided.
+   */
+   webSocket?: WebSocketImpl;
+  /**
+   * @property {webSocketConstructorOptions} - Options to be passed to the WebSocket constructor
+   */
+   webSocketConstructorOptions?: any;
 }
 
 /**
@@ -93,7 +110,6 @@ export interface ClientOptions extends ClientOptionsBase {
  * Describes the EventHub client.
  */
 export class EventHubClient {
-
   /**
    * @property {string} [connectionId] The amqp connection id that uniquely identifies the connection within a process.
    */
@@ -200,7 +216,12 @@ export class EventHubClient {
    *
    * @returns {ReceiveHandler} ReceiveHandler - An object that provides a mechanism to stop receiving more messages.
    */
-  receive(partitionId: string | number, onMessage: OnMessage, onError: OnError, options?: ReceiveOptions): ReceiveHandler {
+  receive(
+    partitionId: string | number,
+    onMessage: OnMessage,
+    onError: OnError,
+    options?: ReceiveOptions
+  ): ReceiveHandler {
     if (typeof partitionId !== "string" && typeof partitionId !== "number") {
       throw new Error("'partitionId' is a required parameter and must be of type: 'string' | 'number'.");
     }
@@ -221,7 +242,12 @@ export class EventHubClient {
    *
    * @returns {Promise<Array<EventData>>} Promise<Array<EventData>>.
    */
-  async receiveBatch(partitionId: string | number, maxMessageCount: number, maxWaitTimeInSeconds?: number, options?: ReceiveOptions): Promise<EventData[]> {
+  async receiveBatch(
+    partitionId: string | number,
+    maxMessageCount: number,
+    maxWaitTimeInSeconds?: number,
+    options?: ReceiveOptions
+  ): Promise<EventData[]> {
     if (typeof partitionId !== "string" && typeof partitionId !== "number") {
       throw new Error("'partitionId' is a required parameter and must be of type: 'string' | 'number'.");
     }
@@ -233,8 +259,14 @@ export class EventHubClient {
       result = await bReceiver.receive(maxMessageCount, maxWaitTimeInSeconds);
     } catch (err) {
       error = err;
-      log.error("[%s] Receiver '%s', an error occurred while receiving %d messages for %d max time:\n %O",
-        this._context.connectionId, bReceiver.name, maxMessageCount, maxWaitTimeInSeconds, err);
+      log.error(
+        "[%s] Receiver '%s', an error occurred while receiving %d messages for %d max time:\n %O",
+        this._context.connectionId,
+        bReceiver.name,
+        maxMessageCount,
+        maxWaitTimeInSeconds,
+        err
+      );
     }
     try {
       await bReceiver.close();
@@ -304,9 +336,15 @@ export class EventHubClient {
     }
     const config = EventHubConnectionConfig.create(connectionString, path);
 
+    config.webSocket = options && options.webSocket;
+    config.webSocketEndpointPath = "$servicebus/websocket";
+    config.webSocketConstructorOptions = options && options.webSocketConstructorOptions;
+
     if (!config.entityPath) {
-      throw new Error(`Either the connectionString must have "EntityPath=<path-to-entity>" or ` +
-        `you must provide "path", while creating the client`);
+      throw new Error(
+        `Either the connectionString must have "EntityPath=<path-to-entity>" or ` +
+          `you must provide "path", while creating the client`
+      );
     }
     return new EventHubClient(config, options);
   }
@@ -317,7 +355,10 @@ export class EventHubClient {
    * @param {ClientOptions} [options] Options that can be provided during client creation.
    * @returns {Promise<EventHubClient>} - Promise<EventHubClient>.
    */
-  static async createFromIotHubConnectionString(iothubConnectionString: string, options?: ClientOptions): Promise<EventHubClient> {
+  static async createFromIotHubConnectionString(
+    iothubConnectionString: string,
+    options?: ClientOptions
+  ): Promise<EventHubClient> {
     if (!iothubConnectionString || (iothubConnectionString && typeof iothubConnectionString !== "string")) {
       throw new Error("'connectionString' is a required parameter and must be of type: 'string'.");
     }
@@ -338,7 +379,8 @@ export class EventHubClient {
     host: string,
     entityPath: string,
     tokenProvider: TokenProvider,
-    options?: ClientOptionsBase): EventHubClient {
+    options?: ClientOptionsBase
+  ): EventHubClient {
     if (!host || (host && typeof host !== "string")) {
       throw new Error("'host' is a required parameter and must be of type: 'string'.");
     }
@@ -351,8 +393,8 @@ export class EventHubClient {
       throw new Error("'tokenProvider' is a required parameter and must be of type: 'object'.");
     }
     if (!host.endsWith("/")) host += "/";
-    const connectionString = `Endpoint=sb://${host};SharedAccessKeyName=defaultKeyName;` +
-      `SharedAccessKey=defaultKeyValue`;
+    const connectionString =
+      `Endpoint=sb://${host};SharedAccessKeyName=defaultKeyName;` + `SharedAccessKey=defaultKeyValue`;
     if (!options) options = {};
     const clientOptions: ClientOptions = options;
     clientOptions.tokenProvider = tokenProvider;
@@ -373,11 +415,14 @@ export class EventHubClient {
     host: string,
     entityPath: string,
     credentials: ApplicationTokenCredentials | UserTokenCredentials | DeviceTokenCredentials | MSITokenCredentials,
-    options?: ClientOptionsBase): EventHubClient {
+    options?: ClientOptionsBase
+  ): EventHubClient {
     if (!credentials || (credentials && typeof credentials !== "object")) {
-      throw new Error("'credentials' is a required parameter and must be an instance of " +
-        "ApplicationTokenCredentials | UserTokenCredentials | DeviceTokenCredentials | " +
-        "MSITokenCredentials.");
+      throw new Error(
+        "'credentials' is a required parameter and must be an instance of " +
+          "ApplicationTokenCredentials | UserTokenCredentials | DeviceTokenCredentials | " +
+          "MSITokenCredentials."
+      );
     }
     const tokenProvider = new AadTokenProvider(credentials);
     return EventHubClient.createFromTokenProvider(host, entityPath, tokenProvider, options);

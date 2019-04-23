@@ -3,12 +3,17 @@
 
 import uuid from "uuid/v4";
 import {
-  TokenProvider, EventHubRuntimeInformation, EventHubPartitionRuntimeInformation,
-  AadTokenProvider, EventHubClient
+  TokenProvider,
+  EventHubRuntimeInformation,
+  EventHubPartitionRuntimeInformation,
+  AadTokenProvider,
+  EventHubClient
 } from "@azure/event-hubs";
 import {
-  ApplicationTokenCredentials, UserTokenCredentials,
-  DeviceTokenCredentials, MSITokenCredentials
+  ApplicationTokenCredentials,
+  UserTokenCredentials,
+  DeviceTokenCredentials,
+  MSITokenCredentials
 } from "ms-rest-azure";
 import * as log from "./log";
 import { LeaseManager } from "./leaseManager";
@@ -16,11 +21,13 @@ import { HostContext } from "./hostContext";
 import { CheckpointManager } from "./checkpointManager";
 import { validateType } from "./util/utils";
 import {
-  FromConnectionStringOptions, EventProcessorHostOptions, FromTokenProviderOptions,
-  OnReceivedMessage, OnReceivedError, FromIotHubConnectionStringOptions
+  FromConnectionStringOptions,
+  EventProcessorHostOptions,
+  FromTokenProviderOptions,
+  OnReceivedMessage,
+  OnReceivedError,
+  FromIotHubConnectionStringOptions
 } from "./modelTypes";
-
-
 
 /**
  * Describes the Event Processor Host to process events from an EventHub.
@@ -171,7 +178,8 @@ export class EventProcessorHost {
     storageConnectionString: string,
     storageContainerName: string,
     eventHubConnectionString: string,
-    options?: FromConnectionStringOptions): EventProcessorHost {
+    options?: FromConnectionStringOptions
+  ): EventProcessorHost {
     if (!options) options = {};
 
     validateType("hostName", hostName, true, "string");
@@ -211,7 +219,8 @@ export class EventProcessorHost {
     eventHubConnectionString: string,
     checkpointManager: CheckpointManager,
     leaseManager: LeaseManager,
-    options?: FromConnectionStringOptions): EventProcessorHost {
+    options?: FromConnectionStringOptions
+  ): EventProcessorHost {
     if (!options) options = {};
 
     validateType("hostName", hostName, true, "string");
@@ -256,7 +265,8 @@ export class EventProcessorHost {
     namespace: string,
     eventHubPath: string,
     tokenProvider: TokenProvider,
-    options?: FromTokenProviderOptions): EventProcessorHost {
+    options?: FromTokenProviderOptions
+  ): EventProcessorHost {
     if (!options) options = {};
 
     validateType("hostName", hostName, true, "string");
@@ -268,7 +278,8 @@ export class EventProcessorHost {
     validateType("options", options, false, "object");
 
     if (!namespace.endsWith("/")) namespace += "/";
-    const connectionString = `Endpoint=sb://${namespace};SharedAccessKeyName=defaultKeyName;` +
+    const connectionString =
+      `Endpoint=sb://${namespace};SharedAccessKeyName=defaultKeyName;` +
       `SharedAccessKey=defaultKeyValue;EntityPath=${eventHubPath}`;
     const ephOptions: EventProcessorHostOptions = {
       ...options,
@@ -306,7 +317,8 @@ export class EventProcessorHost {
     tokenProvider: TokenProvider,
     checkpointManager: CheckpointManager,
     leaseManager: LeaseManager,
-    options?: FromTokenProviderOptions): EventProcessorHost {
+    options?: FromTokenProviderOptions
+  ): EventProcessorHost {
     if (!options) options = {};
 
     validateType("hostName", hostName, true, "string");
@@ -318,7 +330,8 @@ export class EventProcessorHost {
     validateType("options", options, false, "object");
 
     if (!namespace.endsWith("/")) namespace += "/";
-    const connectionString = `Endpoint=sb://${namespace};SharedAccessKeyName=defaultKeyName;` +
+    const connectionString =
+      `Endpoint=sb://${namespace};SharedAccessKeyName=defaultKeyName;` +
       `SharedAccessKey=defaultKeyValue;EntityPath=${eventHubPath}`;
     const ephOptions: EventProcessorHostOptions = {
       ...options,
@@ -360,7 +373,8 @@ export class EventProcessorHost {
     namespace: string,
     eventHubPath: string,
     credentials: ApplicationTokenCredentials | UserTokenCredentials | DeviceTokenCredentials | MSITokenCredentials,
-    options?: FromTokenProviderOptions): EventProcessorHost {
+    options?: FromTokenProviderOptions
+  ): EventProcessorHost {
     if (!options) options = {};
 
     validateType("hostName", hostName, true, "string");
@@ -372,7 +386,8 @@ export class EventProcessorHost {
     validateType("options", options, false, "object");
 
     if (!namespace.endsWith("/")) namespace += "/";
-    const connectionString = `Endpoint=sb://${namespace};SharedAccessKeyName=defaultKeyName;` +
+    const connectionString =
+      `Endpoint=sb://${namespace};SharedAccessKeyName=defaultKeyName;` +
       `SharedAccessKey=defaultKeyValue;EntityPath=${eventHubPath}`;
 
     const ephOptions: EventProcessorHostOptions = {
@@ -413,7 +428,8 @@ export class EventProcessorHost {
     credentials: ApplicationTokenCredentials | UserTokenCredentials | DeviceTokenCredentials | MSITokenCredentials,
     checkpointManager: CheckpointManager,
     leaseManager: LeaseManager,
-    options?: FromTokenProviderOptions): EventProcessorHost {
+    options?: FromTokenProviderOptions
+  ): EventProcessorHost {
     if (!options) options = {};
 
     validateType("hostName", hostName, true, "string");
@@ -425,7 +441,8 @@ export class EventProcessorHost {
     validateType("options", options, false, "object");
 
     if (!namespace.endsWith("/")) namespace += "/";
-    const connectionString = `Endpoint=sb://${namespace};SharedAccessKeyName=defaultKeyName;` +
+    const connectionString =
+      `Endpoint=sb://${namespace};SharedAccessKeyName=defaultKeyName;` +
       `SharedAccessKey=defaultKeyValue;EntityPath=${eventHubPath}`;
     const ephOptions: EventProcessorHostOptions = {
       ...options,
@@ -461,7 +478,8 @@ export class EventProcessorHost {
     storageConnectionString: string,
     storageContainerName: string,
     iotHubConnectionString: string,
-    options?: FromIotHubConnectionStringOptions): Promise<EventProcessorHost> {
+    options?: FromIotHubConnectionStringOptions
+  ): Promise<EventProcessorHost> {
     if (!options) options = {};
 
     validateType("hostName", hostName, true, "string");
@@ -504,7 +522,8 @@ export class EventProcessorHost {
     iotHubConnectionString: string,
     checkpointManager: CheckpointManager,
     leaseManager: LeaseManager,
-    options?: FromIotHubConnectionStringOptions): Promise<EventProcessorHost> {
+    options?: FromIotHubConnectionStringOptions
+  ): Promise<EventProcessorHost> {
     if (!options) options = {};
 
     validateType("hostName", hostName, true, "string");

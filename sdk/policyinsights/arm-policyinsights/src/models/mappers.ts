@@ -728,13 +728,13 @@ export const ExpressionEvaluationDetails: msRest.CompositeMapper = {
       expressionValue: {
         serializedName: "expressionValue",
         type: {
-          name: "String"
+          name: "Object"
         }
       },
       targetValue: {
         serializedName: "targetValue",
         type: {
-          name: "String"
+          name: "Object"
         }
       },
       operator: {

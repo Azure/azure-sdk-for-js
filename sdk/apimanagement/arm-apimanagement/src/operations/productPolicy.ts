@@ -241,8 +241,8 @@ const listByProductOperationSpec: msRest.OperationSpec = {
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.subscriptionId,
-    Parameters.productId
+    Parameters.productId,
+    Parameters.subscriptionId
   ],
   queryParameters: [
     Parameters.apiVersion
@@ -252,8 +252,7 @@ const listByProductOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.PolicyCollection,
-      headersMapper: Mappers.ProductPolicyListByProductHeaders
+      bodyMapper: Mappers.PolicyCollection
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -268,9 +267,9 @@ const getEntityTagOperationSpec: msRest.OperationSpec = {
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.subscriptionId,
     Parameters.productId,
-    Parameters.policyId
+    Parameters.policyId,
+    Parameters.subscriptionId
   ],
   queryParameters: [
     Parameters.apiVersion
@@ -295,9 +294,9 @@ const getOperationSpec: msRest.OperationSpec = {
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.subscriptionId,
     Parameters.productId,
-    Parameters.policyId
+    Parameters.policyId,
+    Parameters.subscriptionId
   ],
   queryParameters: [
     Parameters.apiVersion
@@ -331,7 +330,7 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.apiVersion
   ],
   headerParameters: [
-    Parameters.ifMatch1,
+    Parameters.ifMatch0,
     Parameters.acceptLanguage
   ],
   requestBody: {
@@ -343,10 +342,12 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
   },
   responses: {
     200: {
-      bodyMapper: Mappers.PolicyContract
+      bodyMapper: Mappers.PolicyContract,
+      headersMapper: Mappers.ProductPolicyCreateOrUpdateHeaders
     },
     201: {
-      bodyMapper: Mappers.PolicyContract
+      bodyMapper: Mappers.PolicyContract,
+      headersMapper: Mappers.ProductPolicyCreateOrUpdateHeaders
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -369,7 +370,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.apiVersion
   ],
   headerParameters: [
-    Parameters.ifMatch0,
+    Parameters.ifMatch1,
     Parameters.acceptLanguage
   ],
   responses: {

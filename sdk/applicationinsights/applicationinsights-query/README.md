@@ -112,4 +112,4 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
 - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
 
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fpackages%2F%40azure%2Fapplicationinsights-query%2FREADME.png)
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/applicationinsights/applicationinsights-query/README.png)

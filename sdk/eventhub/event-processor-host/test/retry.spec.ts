@@ -10,8 +10,8 @@ import debugModule from "debug";
 const should = chai.should();
 const debug = debugModule("azure:eph:retry-spec");
 
-describe("retry function", function (): void {
-  it("should succeed if the operation succeeds.", function (done: Mocha.Done): void {
+describe("retry function", function(): void {
+  it("should succeed if the operation succeeds.", function(done: Mocha.Done): void {
     const test = async () => {
       let counter = 0;
       try {
@@ -39,10 +39,16 @@ describe("retry function", function (): void {
         throw err;
       }
     };
-    test().then(() => { done(); }).catch((err) => { done(err); });
+    test()
+      .then(() => {
+        done();
+      })
+      .catch(err => {
+        done(err);
+      });
   });
 
-  it("should succeed if the operation initially fails and then succeeds.", function (done: Mocha.Done): void {
+  it("should succeed if the operation initially fails and then succeeds.", function(done: Mocha.Done): void {
     const test = async () => {
       let counter = 0;
       try {
@@ -71,10 +77,16 @@ describe("retry function", function (): void {
         throw err;
       }
     };
-    test().then(() => { done(); }).catch((err) => { done(err); });
+    test()
+      .then(() => {
+        done();
+      })
+      .catch(err => {
+        done(err);
+      });
   });
 
-  it("should succeed in the last attempt.", function (done: Mocha.Done): void {
+  it("should succeed in the last attempt.", function(done: Mocha.Done): void {
     const test = async () => {
       let counter = 0;
       try {
@@ -110,10 +122,16 @@ describe("retry function", function (): void {
         throw err;
       }
     };
-    test().then(() => { done(); }).catch((err) => { done(err); });
+    test()
+      .then(() => {
+        done();
+      })
+      .catch(err => {
+        done(err);
+      });
   });
 
-  it("should fail if all attempts return an error", function (done: Mocha.Done): void {
+  it("should fail if all attempts return an error", function(done: Mocha.Done): void {
     const test = async () => {
       let counter = 0;
       try {
@@ -139,9 +157,17 @@ describe("retry function", function (): void {
         err.hostName.should.equal("eph-1");
         err.partitionId.should.equal("1");
         should.exist(err.error);
-        err.error.message.should.match(/Out of retry attempts, still failing!! while performing the action "Fail after 5 attempts" due to Error\: I would always like to fail, keep retrying.*/ig);
+        err.error.message.should.match(
+          /Out of retry attempts, still failing!! while performing the action "Fail after 5 attempts" due to Error\: I would always like to fail, keep retrying.*/gi
+        );
       }
     };
-    test().then(() => { done(); }).catch((err) => { done(err); });
+    test()
+      .then(() => {
+        done();
+      })
+      .catch(err => {
+        done(err);
+      });
   });
 });

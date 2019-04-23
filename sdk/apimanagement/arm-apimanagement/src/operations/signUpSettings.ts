@@ -59,7 +59,7 @@ export class SignUpSettings {
   }
 
   /**
-   * Get Sign-Up settings.
+   * Get Sign Up Settings for the Portal
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param [options] The optional parameters
@@ -141,7 +141,7 @@ export class SignUpSettings {
    * @param [options] The optional parameters
    * @returns Promise<Models.SignUpSettingsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, serviceName: string, parameters: Models.PortalSignupSettings, options?: msRest.RequestOptionsBase): Promise<Models.SignUpSettingsCreateOrUpdateResponse>;
+  createOrUpdate(resourceGroupName: string, serviceName: string, parameters: Models.PortalSignupSettings, options?: Models.SignUpSettingsCreateOrUpdateOptionalParams): Promise<Models.SignUpSettingsCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -156,8 +156,8 @@ export class SignUpSettings {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, serviceName: string, parameters: Models.PortalSignupSettings, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PortalSignupSettings>): void;
-  createOrUpdate(resourceGroupName: string, serviceName: string, parameters: Models.PortalSignupSettings, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PortalSignupSettings>, callback?: msRest.ServiceCallback<Models.PortalSignupSettings>): Promise<Models.SignUpSettingsCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, serviceName: string, parameters: Models.PortalSignupSettings, options: Models.SignUpSettingsCreateOrUpdateOptionalParams, callback: msRest.ServiceCallback<Models.PortalSignupSettings>): void;
+  createOrUpdate(resourceGroupName: string, serviceName: string, parameters: Models.PortalSignupSettings, options?: Models.SignUpSettingsCreateOrUpdateOptionalParams | msRest.ServiceCallback<Models.PortalSignupSettings>, callback?: msRest.ServiceCallback<Models.PortalSignupSettings>): Promise<Models.SignUpSettingsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -217,7 +217,7 @@ const getOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.SignUpSettingsGetHeaders
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -235,7 +235,7 @@ const updateOperationSpec: msRest.OperationSpec = {
     Parameters.apiVersion
   ],
   headerParameters: [
-    Parameters.ifMatch0,
+    Parameters.ifMatch1,
     Parameters.acceptLanguage
   ],
   requestBody: {
@@ -266,6 +266,7 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.apiVersion
   ],
   headerParameters: [
+    Parameters.ifMatch0,
     Parameters.acceptLanguage
   ],
   requestBody: {

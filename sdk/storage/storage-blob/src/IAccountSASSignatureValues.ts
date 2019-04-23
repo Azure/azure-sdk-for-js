@@ -76,7 +76,7 @@ export interface IAccountSASSignatureValues {
   ipRange?: IIPRange;
 
   /**
-   * The values that indicate the services accessible with this SAS. Please refer to {@link AccountSASService} to
+   * The values that indicate the services accessible with this SAS. Please refer to {@link AccountSASServices} to
    * construct this value.
    *
    * @type {string}
@@ -86,7 +86,7 @@ export interface IAccountSASSignatureValues {
 
   /**
    * The values that indicate the resource types accessible with this SAS. Please refer
-   * to {@link AccountSASResourceType} to construct this value.
+   * to {@link AccountSASResourceTypes} to construct this value.
    *
    * @type {string}
    * @memberof IAccountSASSignatureValues

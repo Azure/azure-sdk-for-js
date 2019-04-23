@@ -86,7 +86,7 @@ export interface ClientEntityContextBase {
  */
 export interface ClientEntityContext extends ClientEntityContextBase {
   detached(error?: AmqpError | Error): Promise<void>;
-  getReceiver(name: string, sessionId?: string): MessageReceiver | MessageSession;
+  getReceiver(name: string, sessionId?: string): MessageReceiver | MessageSession | undefined;
   clearClientReference(clientId: string): Promise<void>;
 }
 
@@ -147,8 +147,6 @@ export namespace ClientEntityContext {
         receiver = entityContext.streamingReceiver;
       } else if (entityContext.batchingReceiver && entityContext.batchingReceiver.name === name) {
         receiver = entityContext.batchingReceiver;
-      } else {
-        throw new Error(`Cannot find the receiver with name '${name}'.`);
       }
       return receiver;
     };
