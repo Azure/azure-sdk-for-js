@@ -25,7 +25,7 @@ import { OnAmqpEvent, EventContext, ConnectionEvents } from "rhea-promise";
  */
 export interface ConnectionContext extends ConnectionContextBase {
   /**
-   * @property {Dictionary<ClientEntityContext} [clientContexts] A dictionary of ClientEntityContext
+   * @property A dictionary of ClientEntityContext
    * objects for each of the client in the `clients` dictionary
    */
   clientContexts: Dictionary<ClientEntityContext>;
