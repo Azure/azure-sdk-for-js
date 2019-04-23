@@ -1093,8 +1093,7 @@ export interface ModelInfo {
    * Extractor', 'Hierarchical Entity Extractor', 'Hierarchical Child Entity
    * Extractor', 'Composite Entity Extractor', 'List Entity Extractor',
    * 'Prebuilt Entity Extractor', 'Intent Classifier', 'Pattern.Any Entity
-   * Extractor', 'Regular Expression Entity Extractor', 'Closed List Entity
-   * Extractor', 'Regex Entity Extractor'
+   * Extractor', 'Closed List Entity Extractor', 'Regex Entity Extractor'
    */
   readableType: ReadableType;
 }
@@ -1174,8 +1173,7 @@ export interface ModelInfoResponse {
    * Extractor', 'Hierarchical Entity Extractor', 'Hierarchical Child Entity
    * Extractor', 'Composite Entity Extractor', 'List Entity Extractor',
    * 'Prebuilt Entity Extractor', 'Intent Classifier', 'Pattern.Any Entity
-   * Extractor', 'Regular Expression Entity Extractor', 'Closed List Entity
-   * Extractor', 'Regex Entity Extractor'
+   * Extractor', 'Closed List Entity Extractor', 'Regex Entity Extractor'
    */
   readableType: ReadableType1;
   /**
@@ -1246,8 +1244,7 @@ export interface HierarchicalEntityExtractor {
    * Extractor', 'Hierarchical Entity Extractor', 'Hierarchical Child Entity
    * Extractor', 'Composite Entity Extractor', 'List Entity Extractor',
    * 'Prebuilt Entity Extractor', 'Intent Classifier', 'Pattern.Any Entity
-   * Extractor', 'Regular Expression Entity Extractor', 'Closed List Entity
-   * Extractor', 'Regex Entity Extractor'
+   * Extractor', 'Closed List Entity Extractor', 'Regex Entity Extractor'
    */
   readableType: ReadableType2;
   /**
@@ -1284,8 +1281,7 @@ export interface CompositeEntityExtractor {
    * Extractor', 'Hierarchical Entity Extractor', 'Hierarchical Child Entity
    * Extractor', 'Composite Entity Extractor', 'List Entity Extractor',
    * 'Prebuilt Entity Extractor', 'Intent Classifier', 'Pattern.Any Entity
-   * Extractor', 'Regular Expression Entity Extractor', 'Closed List Entity
-   * Extractor', 'Regex Entity Extractor'
+   * Extractor', 'Closed List Entity Extractor', 'Regex Entity Extractor'
    */
   readableType: ReadableType3;
   /**
@@ -1322,8 +1318,7 @@ export interface ClosedListEntityExtractor {
    * Extractor', 'Hierarchical Entity Extractor', 'Hierarchical Child Entity
    * Extractor', 'Composite Entity Extractor', 'List Entity Extractor',
    * 'Prebuilt Entity Extractor', 'Intent Classifier', 'Pattern.Any Entity
-   * Extractor', 'Regular Expression Entity Extractor', 'Closed List Entity
-   * Extractor', 'Regex Entity Extractor'
+   * Extractor', 'Closed List Entity Extractor', 'Regex Entity Extractor'
    */
   readableType: ReadableType4;
   /**
@@ -1360,8 +1355,7 @@ export interface PrebuiltEntityExtractor {
    * Extractor', 'Hierarchical Entity Extractor', 'Hierarchical Child Entity
    * Extractor', 'Composite Entity Extractor', 'List Entity Extractor',
    * 'Prebuilt Entity Extractor', 'Intent Classifier', 'Pattern.Any Entity
-   * Extractor', 'Regular Expression Entity Extractor', 'Closed List Entity
-   * Extractor', 'Regex Entity Extractor'
+   * Extractor', 'Closed List Entity Extractor', 'Regex Entity Extractor'
    */
   readableType: ReadableType5;
   /**
@@ -1387,8 +1381,7 @@ export interface HierarchicalChildEntity extends ChildEntity {
    * Extractor', 'Hierarchical Entity Extractor', 'Hierarchical Child Entity
    * Extractor', 'Composite Entity Extractor', 'List Entity Extractor',
    * 'Prebuilt Entity Extractor', 'Intent Classifier', 'Pattern.Any Entity
-   * Extractor', 'Regular Expression Entity Extractor', 'Closed List Entity
-   * Extractor', 'Regex Entity Extractor'
+   * Extractor', 'Closed List Entity Extractor', 'Regex Entity Extractor'
    */
   readableType?: ReadableType6;
 }
@@ -1417,8 +1410,7 @@ export interface CustomPrebuiltModel {
    * Extractor', 'Hierarchical Entity Extractor', 'Hierarchical Child Entity
    * Extractor', 'Composite Entity Extractor', 'List Entity Extractor',
    * 'Prebuilt Entity Extractor', 'Intent Classifier', 'Pattern.Any Entity
-   * Extractor', 'Regular Expression Entity Extractor', 'Closed List Entity
-   * Extractor', 'Regex Entity Extractor'
+   * Extractor', 'Closed List Entity Extractor', 'Regex Entity Extractor'
    */
   readableType: ReadableType7;
   /**
@@ -1477,8 +1469,7 @@ export interface EntityExtractor {
    * Extractor', 'Hierarchical Entity Extractor', 'Hierarchical Child Entity
    * Extractor', 'Composite Entity Extractor', 'List Entity Extractor',
    * 'Prebuilt Entity Extractor', 'Intent Classifier', 'Pattern.Any Entity
-   * Extractor', 'Regular Expression Entity Extractor', 'Closed List Entity
-   * Extractor', 'Regex Entity Extractor'
+   * Extractor', 'Closed List Entity Extractor', 'Regex Entity Extractor'
    */
   readableType: ReadableType8;
   /**
@@ -2201,8 +2192,7 @@ export interface RegexEntityExtractor {
    * Extractor', 'Hierarchical Entity Extractor', 'Hierarchical Child Entity
    * Extractor', 'Composite Entity Extractor', 'List Entity Extractor',
    * 'Prebuilt Entity Extractor', 'Intent Classifier', 'Pattern.Any Entity
-   * Extractor', 'Regular Expression Entity Extractor', 'Closed List Entity
-   * Extractor', 'Regex Entity Extractor'
+   * Extractor', 'Closed List Entity Extractor', 'Regex Entity Extractor'
    */
   readableType: ReadableType9;
   /**
@@ -2239,8 +2229,7 @@ export interface PatternAnyEntityExtractor {
    * Extractor', 'Hierarchical Entity Extractor', 'Hierarchical Child Entity
    * Extractor', 'Composite Entity Extractor', 'List Entity Extractor',
    * 'Prebuilt Entity Extractor', 'Intent Classifier', 'Pattern.Any Entity
-   * Extractor', 'Regular Expression Entity Extractor', 'Closed List Entity
-   * Extractor', 'Regex Entity Extractor'
+   * Extractor', 'Closed List Entity Extractor', 'Regex Entity Extractor'
    */
   readableType: ReadableType10;
   /**
@@ -2881,100 +2870,100 @@ export type OperationStatusType = 'Failed' | 'FAILED' | 'Success';
  * Defines values for ReadableType.
  * Possible values include: 'Entity Extractor', 'Hierarchical Entity Extractor', 'Hierarchical
  * Child Entity Extractor', 'Composite Entity Extractor', 'List Entity Extractor', 'Prebuilt Entity
- * Extractor', 'Intent Classifier', 'Pattern.Any Entity Extractor', 'Regular Expression Entity
- * Extractor', 'Closed List Entity Extractor', 'Regex Entity Extractor'
+ * Extractor', 'Intent Classifier', 'Pattern.Any Entity Extractor', 'Closed List Entity Extractor',
+ * 'Regex Entity Extractor'
  * @readonly
  * @enum {string}
  */
-export type ReadableType = 'Entity Extractor' | 'Hierarchical Entity Extractor' | 'Hierarchical Child Entity Extractor' | 'Composite Entity Extractor' | 'List Entity Extractor' | 'Prebuilt Entity Extractor' | 'Intent Classifier' | 'Pattern.Any Entity Extractor' | 'Regular Expression Entity Extractor' | 'Closed List Entity Extractor' | 'Regex Entity Extractor';
+export type ReadableType = 'Entity Extractor' | 'Hierarchical Entity Extractor' | 'Hierarchical Child Entity Extractor' | 'Composite Entity Extractor' | 'List Entity Extractor' | 'Prebuilt Entity Extractor' | 'Intent Classifier' | 'Pattern.Any Entity Extractor' | 'Closed List Entity Extractor' | 'Regex Entity Extractor';
 
 /**
  * Defines values for ReadableType1.
  * Possible values include: 'Entity Extractor', 'Hierarchical Entity Extractor', 'Hierarchical
  * Child Entity Extractor', 'Composite Entity Extractor', 'List Entity Extractor', 'Prebuilt Entity
- * Extractor', 'Intent Classifier', 'Pattern.Any Entity Extractor', 'Regular Expression Entity
- * Extractor', 'Closed List Entity Extractor', 'Regex Entity Extractor'
+ * Extractor', 'Intent Classifier', 'Pattern.Any Entity Extractor', 'Closed List Entity Extractor',
+ * 'Regex Entity Extractor'
  * @readonly
  * @enum {string}
  */
-export type ReadableType1 = 'Entity Extractor' | 'Hierarchical Entity Extractor' | 'Hierarchical Child Entity Extractor' | 'Composite Entity Extractor' | 'List Entity Extractor' | 'Prebuilt Entity Extractor' | 'Intent Classifier' | 'Pattern.Any Entity Extractor' | 'Regular Expression Entity Extractor' | 'Closed List Entity Extractor' | 'Regex Entity Extractor';
+export type ReadableType1 = 'Entity Extractor' | 'Hierarchical Entity Extractor' | 'Hierarchical Child Entity Extractor' | 'Composite Entity Extractor' | 'List Entity Extractor' | 'Prebuilt Entity Extractor' | 'Intent Classifier' | 'Pattern.Any Entity Extractor' | 'Closed List Entity Extractor' | 'Regex Entity Extractor';
 
 /**
  * Defines values for ReadableType2.
  * Possible values include: 'Entity Extractor', 'Hierarchical Entity Extractor', 'Hierarchical
  * Child Entity Extractor', 'Composite Entity Extractor', 'List Entity Extractor', 'Prebuilt Entity
- * Extractor', 'Intent Classifier', 'Pattern.Any Entity Extractor', 'Regular Expression Entity
- * Extractor', 'Closed List Entity Extractor', 'Regex Entity Extractor'
+ * Extractor', 'Intent Classifier', 'Pattern.Any Entity Extractor', 'Closed List Entity Extractor',
+ * 'Regex Entity Extractor'
  * @readonly
  * @enum {string}
  */
-export type ReadableType2 = 'Entity Extractor' | 'Hierarchical Entity Extractor' | 'Hierarchical Child Entity Extractor' | 'Composite Entity Extractor' | 'List Entity Extractor' | 'Prebuilt Entity Extractor' | 'Intent Classifier' | 'Pattern.Any Entity Extractor' | 'Regular Expression Entity Extractor' | 'Closed List Entity Extractor' | 'Regex Entity Extractor';
+export type ReadableType2 = 'Entity Extractor' | 'Hierarchical Entity Extractor' | 'Hierarchical Child Entity Extractor' | 'Composite Entity Extractor' | 'List Entity Extractor' | 'Prebuilt Entity Extractor' | 'Intent Classifier' | 'Pattern.Any Entity Extractor' | 'Closed List Entity Extractor' | 'Regex Entity Extractor';
 
 /**
  * Defines values for ReadableType3.
  * Possible values include: 'Entity Extractor', 'Hierarchical Entity Extractor', 'Hierarchical
  * Child Entity Extractor', 'Composite Entity Extractor', 'List Entity Extractor', 'Prebuilt Entity
- * Extractor', 'Intent Classifier', 'Pattern.Any Entity Extractor', 'Regular Expression Entity
- * Extractor', 'Closed List Entity Extractor', 'Regex Entity Extractor'
+ * Extractor', 'Intent Classifier', 'Pattern.Any Entity Extractor', 'Closed List Entity Extractor',
+ * 'Regex Entity Extractor'
  * @readonly
  * @enum {string}
  */
-export type ReadableType3 = 'Entity Extractor' | 'Hierarchical Entity Extractor' | 'Hierarchical Child Entity Extractor' | 'Composite Entity Extractor' | 'List Entity Extractor' | 'Prebuilt Entity Extractor' | 'Intent Classifier' | 'Pattern.Any Entity Extractor' | 'Regular Expression Entity Extractor' | 'Closed List Entity Extractor' | 'Regex Entity Extractor';
+export type ReadableType3 = 'Entity Extractor' | 'Hierarchical Entity Extractor' | 'Hierarchical Child Entity Extractor' | 'Composite Entity Extractor' | 'List Entity Extractor' | 'Prebuilt Entity Extractor' | 'Intent Classifier' | 'Pattern.Any Entity Extractor' | 'Closed List Entity Extractor' | 'Regex Entity Extractor';
 
 /**
  * Defines values for ReadableType4.
  * Possible values include: 'Entity Extractor', 'Hierarchical Entity Extractor', 'Hierarchical
  * Child Entity Extractor', 'Composite Entity Extractor', 'List Entity Extractor', 'Prebuilt Entity
- * Extractor', 'Intent Classifier', 'Pattern.Any Entity Extractor', 'Regular Expression Entity
- * Extractor', 'Closed List Entity Extractor', 'Regex Entity Extractor'
+ * Extractor', 'Intent Classifier', 'Pattern.Any Entity Extractor', 'Closed List Entity Extractor',
+ * 'Regex Entity Extractor'
  * @readonly
  * @enum {string}
  */
-export type ReadableType4 = 'Entity Extractor' | 'Hierarchical Entity Extractor' | 'Hierarchical Child Entity Extractor' | 'Composite Entity Extractor' | 'List Entity Extractor' | 'Prebuilt Entity Extractor' | 'Intent Classifier' | 'Pattern.Any Entity Extractor' | 'Regular Expression Entity Extractor' | 'Closed List Entity Extractor' | 'Regex Entity Extractor';
+export type ReadableType4 = 'Entity Extractor' | 'Hierarchical Entity Extractor' | 'Hierarchical Child Entity Extractor' | 'Composite Entity Extractor' | 'List Entity Extractor' | 'Prebuilt Entity Extractor' | 'Intent Classifier' | 'Pattern.Any Entity Extractor' | 'Closed List Entity Extractor' | 'Regex Entity Extractor';
 
 /**
  * Defines values for ReadableType5.
  * Possible values include: 'Entity Extractor', 'Hierarchical Entity Extractor', 'Hierarchical
  * Child Entity Extractor', 'Composite Entity Extractor', 'List Entity Extractor', 'Prebuilt Entity
- * Extractor', 'Intent Classifier', 'Pattern.Any Entity Extractor', 'Regular Expression Entity
- * Extractor', 'Closed List Entity Extractor', 'Regex Entity Extractor'
+ * Extractor', 'Intent Classifier', 'Pattern.Any Entity Extractor', 'Closed List Entity Extractor',
+ * 'Regex Entity Extractor'
  * @readonly
  * @enum {string}
  */
-export type ReadableType5 = 'Entity Extractor' | 'Hierarchical Entity Extractor' | 'Hierarchical Child Entity Extractor' | 'Composite Entity Extractor' | 'List Entity Extractor' | 'Prebuilt Entity Extractor' | 'Intent Classifier' | 'Pattern.Any Entity Extractor' | 'Regular Expression Entity Extractor' | 'Closed List Entity Extractor' | 'Regex Entity Extractor';
+export type ReadableType5 = 'Entity Extractor' | 'Hierarchical Entity Extractor' | 'Hierarchical Child Entity Extractor' | 'Composite Entity Extractor' | 'List Entity Extractor' | 'Prebuilt Entity Extractor' | 'Intent Classifier' | 'Pattern.Any Entity Extractor' | 'Closed List Entity Extractor' | 'Regex Entity Extractor';
 
 /**
  * Defines values for ReadableType6.
  * Possible values include: 'Entity Extractor', 'Hierarchical Entity Extractor', 'Hierarchical
  * Child Entity Extractor', 'Composite Entity Extractor', 'List Entity Extractor', 'Prebuilt Entity
- * Extractor', 'Intent Classifier', 'Pattern.Any Entity Extractor', 'Regular Expression Entity
- * Extractor', 'Closed List Entity Extractor', 'Regex Entity Extractor'
+ * Extractor', 'Intent Classifier', 'Pattern.Any Entity Extractor', 'Closed List Entity Extractor',
+ * 'Regex Entity Extractor'
  * @readonly
  * @enum {string}
  */
-export type ReadableType6 = 'Entity Extractor' | 'Hierarchical Entity Extractor' | 'Hierarchical Child Entity Extractor' | 'Composite Entity Extractor' | 'List Entity Extractor' | 'Prebuilt Entity Extractor' | 'Intent Classifier' | 'Pattern.Any Entity Extractor' | 'Regular Expression Entity Extractor' | 'Closed List Entity Extractor' | 'Regex Entity Extractor';
+export type ReadableType6 = 'Entity Extractor' | 'Hierarchical Entity Extractor' | 'Hierarchical Child Entity Extractor' | 'Composite Entity Extractor' | 'List Entity Extractor' | 'Prebuilt Entity Extractor' | 'Intent Classifier' | 'Pattern.Any Entity Extractor' | 'Closed List Entity Extractor' | 'Regex Entity Extractor';
 
 /**
  * Defines values for ReadableType7.
  * Possible values include: 'Entity Extractor', 'Hierarchical Entity Extractor', 'Hierarchical
  * Child Entity Extractor', 'Composite Entity Extractor', 'List Entity Extractor', 'Prebuilt Entity
- * Extractor', 'Intent Classifier', 'Pattern.Any Entity Extractor', 'Regular Expression Entity
- * Extractor', 'Closed List Entity Extractor', 'Regex Entity Extractor'
+ * Extractor', 'Intent Classifier', 'Pattern.Any Entity Extractor', 'Closed List Entity Extractor',
+ * 'Regex Entity Extractor'
  * @readonly
  * @enum {string}
  */
-export type ReadableType7 = 'Entity Extractor' | 'Hierarchical Entity Extractor' | 'Hierarchical Child Entity Extractor' | 'Composite Entity Extractor' | 'List Entity Extractor' | 'Prebuilt Entity Extractor' | 'Intent Classifier' | 'Pattern.Any Entity Extractor' | 'Regular Expression Entity Extractor' | 'Closed List Entity Extractor' | 'Regex Entity Extractor';
+export type ReadableType7 = 'Entity Extractor' | 'Hierarchical Entity Extractor' | 'Hierarchical Child Entity Extractor' | 'Composite Entity Extractor' | 'List Entity Extractor' | 'Prebuilt Entity Extractor' | 'Intent Classifier' | 'Pattern.Any Entity Extractor' | 'Closed List Entity Extractor' | 'Regex Entity Extractor';
 
 /**
  * Defines values for ReadableType8.
  * Possible values include: 'Entity Extractor', 'Hierarchical Entity Extractor', 'Hierarchical
  * Child Entity Extractor', 'Composite Entity Extractor', 'List Entity Extractor', 'Prebuilt Entity
- * Extractor', 'Intent Classifier', 'Pattern.Any Entity Extractor', 'Regular Expression Entity
- * Extractor', 'Closed List Entity Extractor', 'Regex Entity Extractor'
+ * Extractor', 'Intent Classifier', 'Pattern.Any Entity Extractor', 'Closed List Entity Extractor',
+ * 'Regex Entity Extractor'
  * @readonly
  * @enum {string}
  */
-export type ReadableType8 = 'Entity Extractor' | 'Hierarchical Entity Extractor' | 'Hierarchical Child Entity Extractor' | 'Composite Entity Extractor' | 'List Entity Extractor' | 'Prebuilt Entity Extractor' | 'Intent Classifier' | 'Pattern.Any Entity Extractor' | 'Regular Expression Entity Extractor' | 'Closed List Entity Extractor' | 'Regex Entity Extractor';
+export type ReadableType8 = 'Entity Extractor' | 'Hierarchical Entity Extractor' | 'Hierarchical Child Entity Extractor' | 'Composite Entity Extractor' | 'List Entity Extractor' | 'Prebuilt Entity Extractor' | 'Intent Classifier' | 'Pattern.Any Entity Extractor' | 'Closed List Entity Extractor' | 'Regex Entity Extractor';
 
 /**
  * Defines values for Status.
@@ -2996,23 +2985,23 @@ export type Status1 = 'Queued' | 'InProgress' | 'UpToDate' | 'Fail' | 'Success';
  * Defines values for ReadableType9.
  * Possible values include: 'Entity Extractor', 'Hierarchical Entity Extractor', 'Hierarchical
  * Child Entity Extractor', 'Composite Entity Extractor', 'List Entity Extractor', 'Prebuilt Entity
- * Extractor', 'Intent Classifier', 'Pattern.Any Entity Extractor', 'Regular Expression Entity
- * Extractor', 'Closed List Entity Extractor', 'Regex Entity Extractor'
+ * Extractor', 'Intent Classifier', 'Pattern.Any Entity Extractor', 'Closed List Entity Extractor',
+ * 'Regex Entity Extractor'
  * @readonly
  * @enum {string}
  */
-export type ReadableType9 = 'Entity Extractor' | 'Hierarchical Entity Extractor' | 'Hierarchical Child Entity Extractor' | 'Composite Entity Extractor' | 'List Entity Extractor' | 'Prebuilt Entity Extractor' | 'Intent Classifier' | 'Pattern.Any Entity Extractor' | 'Regular Expression Entity Extractor' | 'Closed List Entity Extractor' | 'Regex Entity Extractor';
+export type ReadableType9 = 'Entity Extractor' | 'Hierarchical Entity Extractor' | 'Hierarchical Child Entity Extractor' | 'Composite Entity Extractor' | 'List Entity Extractor' | 'Prebuilt Entity Extractor' | 'Intent Classifier' | 'Pattern.Any Entity Extractor' | 'Closed List Entity Extractor' | 'Regex Entity Extractor';
 
 /**
  * Defines values for ReadableType10.
  * Possible values include: 'Entity Extractor', 'Hierarchical Entity Extractor', 'Hierarchical
  * Child Entity Extractor', 'Composite Entity Extractor', 'List Entity Extractor', 'Prebuilt Entity
- * Extractor', 'Intent Classifier', 'Pattern.Any Entity Extractor', 'Regular Expression Entity
- * Extractor', 'Closed List Entity Extractor', 'Regex Entity Extractor'
+ * Extractor', 'Intent Classifier', 'Pattern.Any Entity Extractor', 'Closed List Entity Extractor',
+ * 'Regex Entity Extractor'
  * @readonly
  * @enum {string}
  */
-export type ReadableType10 = 'Entity Extractor' | 'Hierarchical Entity Extractor' | 'Hierarchical Child Entity Extractor' | 'Composite Entity Extractor' | 'List Entity Extractor' | 'Prebuilt Entity Extractor' | 'Intent Classifier' | 'Pattern.Any Entity Extractor' | 'Regular Expression Entity Extractor' | 'Closed List Entity Extractor' | 'Regex Entity Extractor';
+export type ReadableType10 = 'Entity Extractor' | 'Hierarchical Entity Extractor' | 'Hierarchical Child Entity Extractor' | 'Composite Entity Extractor' | 'List Entity Extractor' | 'Prebuilt Entity Extractor' | 'Intent Classifier' | 'Pattern.Any Entity Extractor' | 'Closed List Entity Extractor' | 'Regex Entity Extractor';
 
 /**
  * Contains response data for the listApplicationVersionPatternFeatures operation.
