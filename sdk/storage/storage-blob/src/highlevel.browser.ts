@@ -1,10 +1,13 @@
 import { generateUuid } from "@azure/ms-rest-js";
 
 import { BlockBlobURL } from "./BlockBlobURL";
+import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import {
   BlobUploadCommonResponse,
-  IUploadToBlockBlobOptions
+  IUploadToBlockBlobOptions,
+  CredentialOptions
 } from "./highlevel.common";
+import { INewPipelineOptions, StorageURL } from "./StorageURL";
 import { Batch } from "./utils/Batch";
 import {
   BLOCK_BLOB_MAX_BLOCKS,
@@ -43,6 +46,40 @@ export async function uploadBrowserDataToBlockBlob(
     blockBlobURL,
     options
   );
+}
+
+// /**
+//  * Intersection type that is {@link IUploadToBlockBlobOptions}, {@link CredentialOptions}, and
+//  * {@link INewPipelineOptions} at the same time. It contains all members of these types.
+//  */
+// export type UploadBrowserDataToBlockBlobUrlOptions = IUploadToBlockBlobOptions & CredentialOptions & INewPipelineOptions;
+
+/**
+ * ONLY AVAILABLE IN BROWSERS.
+ *
+ * Uploads a browser Blob/File/ArrayBuffer/ArrayBufferView object to block blob given a url to that blob.
+ * This method assumes container already exists.
+ *
+ * When buffer length <= 256MB, this method will use 1 upload call to finish the upload.
+ * Otherwise, this method will call stageBlock to upload blocks, and finally call commitBlockList
+ * to commit the block list.
+ *
+ * @export
+ * @param {Blob | ArrayBuffer | ArrayBufferView} browserData Blob, File, ArrayBuffer or ArrayBufferView
+ * @param {BlockBlobURL} blockBlobURL
+ * @param {IUploadToBlockBlobOptions & CredentialOptions & INewPipelineOptions} options Options for Uploading browser data, credential, and new pipeline.
+ *                                                           If credential options is not specified {@link AnonymousCredential} is used.
+ * @returns {Promise<BlobUploadCommonResponse>}
+ */
+export async function uploadBrowserDataToBlockBlobUrl(
+  browserData: Blob | ArrayBuffer | ArrayBufferView,
+  url: string,
+  options: IUploadToBlockBlobOptions & CredentialOptions & INewPipelineOptions = {},
+): Promise<BlobUploadCommonResponse> {
+
+  const pipeline = StorageURL.newPipeline(options.credential || new AnonymousCredential(), options);
+  const blockBlobURL = new BlockBlobURL(url, pipeline);
+  return uploadBrowserDataToBlockBlob(browserData, blockBlobURL, options);
 }
 
 /**

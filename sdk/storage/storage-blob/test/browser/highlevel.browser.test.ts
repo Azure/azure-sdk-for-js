@@ -4,7 +4,7 @@ import { Aborter } from "../../src/Aborter";
 import { BlobURL } from "../../src/BlobURL";
 import { BlockBlobURL } from "../../src/BlockBlobURL";
 import { ContainerURL } from "../../src/ContainerURL";
-import { uploadBrowserDataToBlockBlob } from "../../src/highlevel.browser";
+import { uploadBrowserDataToBlockBlob, uploadBrowserDataToBlockBlobUrl } from "../../src/highlevel.browser";
 import {
   arrayBufferEqual,
   blobToArrayBuffer,
@@ -119,6 +119,22 @@ describe("Highelvel", () => {
     await uploadBrowserDataToBlockBlob(tempFile2, blockBlobURL, {
       blockSize: 4 * 1024 * 1024,
       parallelism: 2
+    });
+
+    const downloadResponse = await blockBlobURL.download(0);
+    const downloadedString = await bodyToString(downloadResponse);
+    const uploadedString = await blobToString(tempFile2);
+
+    assert.equal(uploadedString, downloadedString);
+  });
+
+  it("uploadBrowserDataToBlockBlobUrl should success when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
+    const url = blockBlobURL.url;
+    const credential = blockBlobURL.pipeline.factories[blockBlobURL.pipeline.factories.length - 1];
+    await uploadBrowserDataToBlockBlobUrl(tempFile2, url, {
+      blockSize: 4 * 1024 * 1024,
+      parallelism: 2,
+      credential: credential
     });
 
     const downloadResponse = await blockBlobURL.download(0);
