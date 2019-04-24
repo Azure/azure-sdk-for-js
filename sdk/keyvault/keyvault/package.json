@@ -41,6 +41,7 @@
     "src/"
   ],
   "scripts": {
+    "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build": "tsc && rollup -c rollup.config.js 2>&1 && npm run minify",
     "check-format": "prettier --list-different --config .prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist esm test-dist typings *.tgz *.log",

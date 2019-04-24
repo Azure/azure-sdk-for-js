@@ -148,6 +148,12 @@
       "enableParallelism": true
     },
     {
+      "commandKind": "bulk",
+      "name": "audit",
+      "summary": "Audit projects",
+      "enableParallelism": true
+    },
+    {
       "commandKind": "global",
       "name": "sync-versions",
       "summary": "Sync versions among projects",
