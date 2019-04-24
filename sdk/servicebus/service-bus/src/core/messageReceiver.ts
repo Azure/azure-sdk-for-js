@@ -716,7 +716,7 @@ export class MessageReceiver extends LinkEntity {
     const connectionId = this._context.namespace.connectionId;
     try {
       const wasCloseInitiated =
-        this.wasCloseInitiated && this._receiver && this._receiver.isItselfClosed();
+        this.wasCloseInitiated || (this._receiver && this._receiver.isItselfClosed());
       // Clears the token renewal timer. Closes the link and its session if they are open.
       // Removes the link and its session if they are present in rhea's cache.
       await this._closeLink(this._receiver);
@@ -828,6 +828,7 @@ export class MessageReceiver extends LinkEntity {
    * @return {Promise<void>} Promise<void>.
    */
   async close(): Promise<void> {
+    this.wasCloseInitiated = true;
     log.receiver(
       "[%s] Closing the [%s]Receiver for entity '%s'.",
       this._context.namespace.connectionId,
@@ -841,7 +842,6 @@ export class MessageReceiver extends LinkEntity {
       this._deleteFromCache();
       await this._closeLink(receiverLink);
     }
-    this.wasCloseInitiated = true;
   }
 
   /**
