@@ -18,6 +18,7 @@ const _payload = Buffer.alloc(1024);
 const _start = moment();
 
 let _messages = 0;
+let canSend = true;
 
 async function main(): Promise<void> {
   // Endpoint=sb://<your-namespace>.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=<shared-access-key>
@@ -86,9 +87,8 @@ async function RunTest(
 }
 
 async function ExecuteSendsAsync(sender: Sender, messages: number): Promise<void> {
-  let canSend = true;
   sender.setMaxListeners(1000);
-  let onSuccessOrFail: Func<EventContext, void> = (context: EventContext) => {
+  const onSuccessOrFail: Func<EventContext, void> = (context: EventContext) => {
     canSend = true;
     sender.removeListener(SenderEvents.rejected, onSuccessOrFail);
     sender.removeListener(SenderEvents.accepted, onSuccessOrFail);
