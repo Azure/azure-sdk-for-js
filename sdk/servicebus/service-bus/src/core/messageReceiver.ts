@@ -207,6 +207,11 @@ export class MessageReceiver extends LinkEntity {
    */
   protected _onSettled: OnAmqpEvent;
   /**
+   * @property {boolean} wasCloseInitiated Denotes if receiver was explicitly closed by user.
+   * @protected
+   */
+  protected wasCloseInitiated?: boolean;
+  /**
    * @property {Map<string, Function>} _messageRenewLockTimers Maintains a map of messages for which
    * the lock is automatically renewed.
    * @protected
@@ -242,6 +247,7 @@ export class MessageReceiver extends LinkEntity {
       audience: `${context.namespace.config.endpoint}${context.entityPath}`
     });
     if (!options) options = {};
+    this.wasCloseInitiated = false;
     this.receiverType = receiverType;
     this.receiveMode = options.receiveMode || ReceiveMode.peekLock;
     if (typeof options.maxConcurrentCalls === "number" && options.maxConcurrentCalls > 0) {
@@ -709,7 +715,8 @@ export class MessageReceiver extends LinkEntity {
   async detached(receiverError?: AmqpError | Error): Promise<void> {
     const connectionId = this._context.namespace.connectionId;
     try {
-      const wasCloseInitiated = this._receiver && this._receiver.isItselfClosed();
+      const wasCloseInitiated =
+        this.wasCloseInitiated && this._receiver && this._receiver.isItselfClosed();
       // Clears the token renewal timer. Closes the link and its session if they are open.
       // Removes the link and its session if they are present in rhea's cache.
       await this._closeLink(this._receiver);
@@ -834,6 +841,7 @@ export class MessageReceiver extends LinkEntity {
       this._deleteFromCache();
       await this._closeLink(receiverLink);
     }
+    this.wasCloseInitiated = true;
   }
 
   /**
