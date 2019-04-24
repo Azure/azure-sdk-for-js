@@ -36,24 +36,23 @@ export class PartitionScanner {
       const ourLeasesCount: number = await this._sortLeasesAndCalculateDesiredCount(isFirst);
       log.partitionScanner(withHost("Our lease count: %d."), ourLeasesCount);
       const attemptToAcquire: number = this._desiredCount - ourLeasesCount;
-      log.partitionScanner(withHost("Attempting to acquire %d leases in parallel starting from " +
-        "position 0."), attemptToAcquire);
+      log.partitionScanner(
+        withHost("Attempting to acquire %d leases in parallel starting from " + "position 0."),
+        attemptToAcquire
+      );
       const remainingNeeded = await this._acquireExpiredInParallel(0, attemptToAcquire);
       log.partitionScanner(withHost("Looking to steal: %d."), remainingNeeded);
       if (remainingNeeded > 0) {
         const stealThese = await this._findLeasesToSteal(remainingNeeded);
         log.partitionScanner(withHost("Number of lease found to steal: %d."), stealThese.length);
         didSteal = await this._stealLeases(stealThese);
-        log.partitionScanner(withHost("Have succesfully stolen: %d leases -> %s."),
-          stealThese.length, didSteal);
+        log.partitionScanner(withHost("Have succesfully stolen: %d leases -> %s."), stealThese.length, didSteal);
       } else {
-        log.partitionScanner(withHost("No need to scan further since remaining needed: %d."),
-          remainingNeeded);
+        log.partitionScanner(withHost("No need to scan further since remaining needed: %d."), remainingNeeded);
       }
     } catch (err) {
       didSteal = false;
-      const msg = `An error occurred while scanning leases: ` +
-        `${err ? err.stack : JSON.stringify(err)}.`;
+      const msg = `An error occurred while scanning leases: ` + `${err ? err.stack : JSON.stringify(err)}.`;
       log.error(withHost("%s"), hostName, msg);
       const info: EPHDiagnosticInfo = {
         action: EPHActionStrings.scanningLeases,
@@ -73,20 +72,20 @@ export class PartitionScanner {
     this._leaseOwnedByOthers = new Map<string, BaseLease>();
   }
 
-
   private async _getAllLeaseStates(): Promise<void> {
     const result = await this._context.leaseManager.getAllLeases();
     this._allLeaseStates = result.sort();
-    log.partitionScanner(this._context.withHost("State of all the leases that we know about:\n%O"),
-      this._allLeaseStates);
+    log.partitionScanner(
+      this._context.withHost("State of all the leases that we know about:\n%O"),
+      this._allLeaseStates
+    );
     return;
   }
 
   private _sortLeasesAndCalculateDesiredCount(isFirst: boolean): number {
     const hostName: string = this._context.hostName;
     const withHost = this._context.withHost;
-    log.partitionScanner(withHost("Accounting input: allLeaseStates count is: %d"),
-      this._allLeaseStates.length);
+    log.partitionScanner(withHost("Accounting input: allLeaseStates count is: %d"), this._allLeaseStates.length);
     const uniqueOwners: Set<string> = new Set<string>();
     uniqueOwners.add(hostName);
     let ourLeasesCount = 0;
@@ -107,9 +106,12 @@ export class PartitionScanner {
     const hostCount = uniqueOwners.size;
     const countPerHost = Math.floor(this._allLeaseStates.length / hostCount);
     this._desiredCount = isFirst ? 1 : countPerHost;
-    if (!isFirst && this._unownedCount > 0
-      && this._unownedCount < hostCount
-      && this._allLeaseStates.length % hostCount !== 0) {
+    if (
+      !isFirst &&
+      this._unownedCount > 0 &&
+      this._unownedCount < hostCount &&
+      this._allLeaseStates.length % hostCount !== 0
+    ) {
       // distribute leftovers
       this._desiredCount++;
     }
@@ -131,8 +133,7 @@ export class PartitionScanner {
       startingPoint = countPerHost * hostOrdinal;
     }
     // rotate this._allLeaseStates
-    log.partitionScanner(withHost("Host ordinal: %d. Rotating leases to start at: %d."),
-      hostOrdinal, startingPoint);
+    log.partitionScanner(withHost("Host ordinal: %d. Rotating leases to start at: %d."), hostOrdinal, startingPoint);
     if (startingPoint !== 0) {
       const rotatedList: Array<BaseLease> = [];
       for (let i = 0; i < this._allLeaseStates.length; i++) {
@@ -141,10 +142,16 @@ export class PartitionScanner {
       }
       this._allLeaseStates = rotatedList;
     }
-    log.partitionScanner(withHost("Host count is %d. So Desired partition count is %d."), hostCount,
-      this._desiredCount);
-    log.partitionScanner(withHost("our leases count: %d v/s leases owned by others: %d."),
-      ourLeasesCount, this._leaseOwnedByOthers.size);
+    log.partitionScanner(
+      withHost("Host count is %d. So Desired partition count is %d."),
+      hostCount,
+      this._desiredCount
+    );
+    log.partitionScanner(
+      withHost("our leases count: %d v/s leases owned by others: %d."),
+      ourLeasesCount,
+      this._leaseOwnedByOthers.size
+    );
     log.partitionScanner(withHost("Total number of pumps: %d."), this._context.pumps.size);
     return ourLeasesCount;
   }
@@ -152,9 +159,13 @@ export class PartitionScanner {
   private _findExpiredLeases(startAt: number, endAt: number): BaseLease[] {
     const withHost = this._context.withHost;
     const expiredLeases: BaseLease[] = [];
-    log.partitionScanner(withHost("Finding expired leases from '%s': [%d] upto '%s': [%d]"),
-      this._allLeaseStates[startAt].partitionId, startAt,
-      endAt < this._allLeaseStates.length ? this._allLeaseStates[endAt].partitionId : "end", endAt);
+    log.partitionScanner(
+      withHost("Finding expired leases from '%s': [%d] upto '%s': [%d]"),
+      this._allLeaseStates[startAt].partitionId,
+      startAt,
+      endAt < this._allLeaseStates.length ? this._allLeaseStates[endAt].partitionId : "end",
+      endAt
+    );
     for (const lease of this._allLeaseStates.slice(startAt, endAt)) {
       if (!lease.isOwned) {
         expiredLeases.push(lease);
@@ -172,8 +183,7 @@ export class PartitionScanner {
     if (startAt < this._allLeaseStates.length) {
       const lease = this._allLeaseStates[startAt];
       const partitionId = lease ? lease.partitionId : "undefined";
-      log.partitionScanner(withHost("Examining chunk at '%s': [%d], needed %d."),
-        partitionId, startAt, needed);
+      log.partitionScanner(withHost("Examining chunk at '%s': [%d], needed %d."), partitionId, startAt, needed);
     } else {
       log.partitionScanner(withHost("Examining chunk skipping, startAt is off end: %d"), startAt);
     }
@@ -181,62 +191,76 @@ export class PartitionScanner {
     if (needed > 0 && this._unownedCount > 0 && startAt < this._allLeaseStates.length) {
       let runningNeeded = needed;
       const endAt = Math.min(startAt + needed, this._allLeaseStates.length);
-      log.partitionScanner(withHost("Finding expired leases from inclusive position range %d - %d"),
-        startAt, endAt);
+      log.partitionScanner(withHost("Finding expired leases from inclusive position range %d - %d"), startAt, endAt);
       const getThese: BaseLease[] = this._findExpiredLeases(startAt, endAt);
       const leaseManager = this._context.leaseManager;
       const getTheseResult: Promise<void>[] = [];
       for (const thisLease of getThese) {
         let lease: CompleteLease | undefined = undefined;
-        const getThisPromise = leaseManager.getLease(thisLease.partitionId).then((receivedLease) => {
-          lease = receivedLease;
-          if (lease) {
-            return leaseManager.acquireLease(lease);
-          } else {
-            return false;
-          }
-        }).then((acquired) => {
-          if (acquired) {
-            runningNeeded--;
-            log.partitionScanner(withHostAndPartition(thisLease, "Acquired unowned/expired lease."));
-            if (this._leaseOwnedByOthers.has(lease!.partitionId)) {
-              this._leaseOwnedByOthers.delete(lease!.partitionId);
-              this._unownedCount--;
+        const getThisPromise = leaseManager
+          .getLease(thisLease.partitionId)
+          .then(receivedLease => {
+            lease = receivedLease;
+            if (lease) {
+              return leaseManager.acquireLease(lease);
+            } else {
+              return false;
             }
-            return this._context.pumpManager.addPump(lease!);
-          } else if (lease) {
-            this._leaseOwnedByOthers.set(lease.partitionId, lease);
-          }
-          return Promise.resolve();
-        }).catch((err) => {
-          const msg = `An error occurred while getting/acquiring lease for partitionId ` +
-            `'${thisLease.partitionId}': ${err ? err.stack : JSON.stringify(err)}`;
-          log.error(withHostAndPartition(thisLease, "%s"), msg);
-          const info: EPHDiagnosticInfo = {
-            action: EPHActionStrings.checkingLeases,
-            error: new Error(msg),
-            hostName: hostName,
-            partitionId: thisLease.partitionId
-          };
-          this._context.onEphError(info);
-        });
+          })
+          .then(acquired => {
+            if (acquired) {
+              runningNeeded--;
+              log.partitionScanner(withHostAndPartition(thisLease, "Acquired unowned/expired lease."));
+              if (this._leaseOwnedByOthers.has(lease!.partitionId)) {
+                this._leaseOwnedByOthers.delete(lease!.partitionId);
+                this._unownedCount--;
+              }
+              return this._context.pumpManager.addPump(lease!);
+            } else if (lease) {
+              this._leaseOwnedByOthers.set(lease.partitionId, lease);
+            }
+            return Promise.resolve();
+          })
+          .catch(err => {
+            const msg =
+              `An error occurred while getting/acquiring lease for partitionId ` +
+              `'${thisLease.partitionId}': ${err ? err.stack : JSON.stringify(err)}`;
+            log.error(withHostAndPartition(thisLease, "%s"), msg);
+            const info: EPHDiagnosticInfo = {
+              action: EPHActionStrings.checkingLeases,
+              error: new Error(msg),
+              hostName: hostName,
+              partitionId: thisLease.partitionId
+            };
+            this._context.onEphError(info);
+          });
         getTheseResult.push(getThisPromise);
       }
 
       return resultPromise.then(() => {
-        return Promise.all(getTheseResult).catch((err) => {
-          const msg = `An error occurred while getting/acquiring leases for some partitionId: ` +
-            `${err ? err.stack : JSON.stringify(err)}`;
-          log.error(withHost("%s"), msg);
-        }).then(() => {
-          log.partitionScanner(withHost("Calling _acquireExpiredInParallel with startAt %d, " +
-            "needed %d."), endAt, runningNeeded);
-          return this._acquireExpiredInParallel(endAt, runningNeeded);
-        });
+        return Promise.all(getTheseResult)
+          .catch(err => {
+            const msg =
+              `An error occurred while getting/acquiring leases for some partitionId: ` +
+              `${err ? err.stack : JSON.stringify(err)}`;
+            log.error(withHost("%s"), msg);
+          })
+          .then(() => {
+            log.partitionScanner(
+              withHost("Calling _acquireExpiredInParallel with startAt %d, " + "needed %d."),
+              endAt,
+              runningNeeded
+            );
+            return this._acquireExpiredInParallel(endAt, runningNeeded);
+          });
       });
     } else {
-      log.partitionScanner(withHost("Short circuit: needed is %d, unowned is: %d, off end -> %s."),
-        needed, this._unownedCount, startAt < this._allLeaseStates.length);
+      log.partitionScanner(
+        withHost("Short circuit: needed is %d, unowned is: %d, off end -> %s."),
+        needed,
+        this._unownedCount,
+        startAt < this._allLeaseStates.length
+      );
     }
 
     return resultPromise;
@@ -293,23 +317,26 @@ export class PartitionScanner {
       const steals: Promise<boolean>[] = [];
       for (const stealableLease of stealThese) {
         let lease: CompleteLease | undefined = undefined;
-        const tryStealPromise: Promise<boolean> =
-          this._context.leaseManager.getLease(stealableLease.partitionId).then((receivedLease) => {
+        const tryStealPromise: Promise<boolean> = this._context.leaseManager
+          .getLease(stealableLease.partitionId)
+          .then(receivedLease => {
             lease = receivedLease;
             if (receivedLease) {
               return this._context.leaseManager.acquireLease(receivedLease);
             } else {
               return false;
             }
-          }).then((acquired) => {
+          })
+          .then(acquired => {
             if (acquired) {
               this._context.pumpManager.addPump(lease!).catch();
-              log.partitionScanner(withHostAndPartition(stealableLease,
-                "Successfully stolen the lease."));
+              log.partitionScanner(withHostAndPartition(stealableLease, "Successfully stolen the lease."));
             }
             return acquired;
-          }).catch((err) => {
-            const msg = `An error occurred while stealing the lease for partitionId ` +
+          })
+          .catch(err => {
+            const msg =
+              `An error occurred while stealing the lease for partitionId ` +
               `'${stealableLease.partitionId}': ${err ? err.stack : JSON.stringify(err)}`;
             log.error(withHostAndPartition(stealableLease, "%s"), msg);
             const info: EPHDiagnosticInfo = {
@@ -328,7 +355,9 @@ export class PartitionScanner {
       // If we found at least one case where the lease could not be stolen then `.some()`
       // returns true. The final result will be true if `.some()` was not able to find a single
       // lease that could not be stolen.
-      const result = !stealResult.some((x) => { return !x; });
+      const result = !stealResult.some(x => {
+        return !x;
+      });
       return result;
     } else {
       return false;

@@ -51,8 +51,8 @@ async function sendReceiveMessages(): Promise<void> {
       await sender.send(message);
       await sender.close();
 
-      const receiver = await client.createReceiver(ReceiveMode.peekLock);
-      const messagesReceived = await receiver.receiveBatch(1);
+      const receiver = client.createReceiver(ReceiveMode.peekLock);
+      const messagesReceived = await receiver.receiveMessages(1);
       await messagesReceived[0].complete();
       await receiver.close();
 

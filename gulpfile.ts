@@ -205,7 +205,7 @@ function pack(): void {
     }
   }
 
-  const packageFolderRoot: string = path.resolve(__dirname, "packages");
+  const packageFolderRoot: string = path.resolve(__dirname, "sdk");
   _logger.logTrace(`INFO: Searching for package folders in ${packageFolderRoot}`);
   const packageFolderPaths: string[] | undefined = getPackageFolderPaths(packageFolderRoot);
   if (!packageFolderPaths) {

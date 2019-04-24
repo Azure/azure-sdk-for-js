@@ -2,31 +2,30 @@
 // Licensed under the MIT License.
 
 import chai from "chai";
-const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
 import dotenv from "dotenv";
+import {
+  delay,
+  QueueClient,
+  ServiceBusClient,
+  ServiceBusMessage,
+  SubscriptionClient,
+  TopicClient
+} from "../src";
+import { SessionReceiver } from "../src/receiver";
+import { Sender } from "../src/sender";
+import { DispositionType, ReceiveMode } from "../src/serviceBusMessage";
+import { getAlreadyReceivingErrorMsg } from "../src/util/errors";
+import {
+  checkWithTimeout,
+  TestClientType,
+  getSenderReceiverClients,
+  purge,
+  TestMessage
+} from "./testUtils";
+const should = chai.should();
 dotenv.config();
 chai.use(chaiAsPromised);
-import {
-  ServiceBusClient,
-  QueueClient,
-  ServiceBusMessage,
-  TopicClient,
-  SubscriptionClient,
-  delay
-} from "../src";
-
-import { DispositionType, ReceiveMode } from "../src/serviceBusMessage";
-
-import {
-  TestMessage,
-  getSenderReceiverClients,
-  ClientType,
-  purge,
-  checkWithTimeout
-} from "./testUtils";
-import { Sender } from "../src/sender";
-import { SessionReceiver } from "../src/receiver";
 
 async function testPeekMsgsLength(
   client: QueueClient | SubscriptionClient,
@@ -56,7 +55,11 @@ function unExpectedErrorHandler(err: Error): void {
   }
 }
 
-async function beforeEachTest(senderType: ClientType, receiverType: ClientType): Promise<void> {
+async function beforeEachTest(
+  senderType: TestClientType,
+  receiverType: TestClientType,
+  receiveMode?: ReceiveMode
+): Promise<void> {
   // The tests in this file expect the env variables to contain the connection string and
   // the names of empty queue/topic/subscription that are to be tested
 
@@ -95,7 +98,10 @@ async function beforeEachTest(senderType: ClientType, receiverType: ClientType):
     chai.assert.fail(`Please use an empty ${receiverEntityType} for integration testing`);
   }
 
-  sessionReceiver = <SessionReceiver>await receiverClient.createReceiver(ReceiveMode.peekLock, {
+  if (!receiveMode) {
+    receiveMode = ReceiveMode.peekLock;
+  }
+  sessionReceiver = <SessionReceiver>receiverClient.createReceiver(receiveMode, {
     sessionId: TestMessage.sessionId
   });
 
@@ -117,7 +123,7 @@ describe("Sessions Streaming - Misc Tests", function(): void {
     await sender.send(testMessage);
 
     const receivedMsgs: ServiceBusMessage[] = [];
-    sessionReceiver.receive((msg: ServiceBusMessage) => {
+    sessionReceiver.registerMessageHandler((msg: ServiceBusMessage) => {
       receivedMsgs.push(msg);
       should.equal(msg.body, testMessage.body, "MessageBody is different than expected");
       should.equal(msg.messageId, testMessage.messageId, "MessageId is different than expected");
@@ -143,8 +149,8 @@ describe("Sessions Streaming - Misc Tests", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedQueueWithSessions,
-      ClientType.PartitionedQueueWithSessions
+      TestClientType.PartitionedQueueWithSessions,
+      TestClientType.PartitionedQueueWithSessions
     );
     await testAutoComplete();
   });
@@ -153,8 +159,8 @@ describe("Sessions Streaming - Misc Tests", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedTopicWithSessions,
-      ClientType.PartitionedSubscriptionWithSessions
+      TestClientType.PartitionedTopicWithSessions,
+      TestClientType.PartitionedSubscriptionWithSessions
     );
     await testAutoComplete();
   });
@@ -163,8 +169,8 @@ describe("Sessions Streaming - Misc Tests", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedQueueWithSessions,
-      ClientType.UnpartitionedQueueWithSessions
+      TestClientType.UnpartitionedQueueWithSessions,
+      TestClientType.UnpartitionedQueueWithSessions
     );
     await testAutoComplete();
   });
@@ -173,8 +179,8 @@ describe("Sessions Streaming - Misc Tests", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedTopicWithSessions,
-      ClientType.UnpartitionedSubscriptionWithSessions
+      TestClientType.UnpartitionedTopicWithSessions,
+      TestClientType.UnpartitionedSubscriptionWithSessions
     );
     await testAutoComplete();
   });
@@ -184,7 +190,7 @@ describe("Sessions Streaming - Misc Tests", function(): void {
     await sender.send(testMessage);
 
     const receivedMsgs: ServiceBusMessage[] = [];
-    sessionReceiver.receive(
+    sessionReceiver.registerMessageHandler(
       (msg: ServiceBusMessage) => {
         receivedMsgs.push(msg);
         should.equal(msg.body, testMessage.body, "MessageBody is different than expected");
@@ -211,8 +217,8 @@ describe("Sessions Streaming - Misc Tests", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedQueueWithSessions,
-      ClientType.PartitionedQueueWithSessions
+      TestClientType.PartitionedQueueWithSessions,
+      TestClientType.PartitionedQueueWithSessions
     );
     await testManualComplete();
   });
@@ -221,8 +227,8 @@ describe("Sessions Streaming - Misc Tests", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedTopicWithSessions,
-      ClientType.PartitionedSubscriptionWithSessions
+      TestClientType.PartitionedTopicWithSessions,
+      TestClientType.PartitionedSubscriptionWithSessions
     );
     await testManualComplete();
   });
@@ -231,8 +237,8 @@ describe("Sessions Streaming - Misc Tests", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedQueueWithSessions,
-      ClientType.UnpartitionedQueueWithSessions
+      TestClientType.UnpartitionedQueueWithSessions,
+      TestClientType.UnpartitionedQueueWithSessions
     );
     await testManualComplete();
   });
@@ -241,8 +247,8 @@ describe("Sessions Streaming - Misc Tests", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedTopicWithSessions,
-      ClientType.UnpartitionedSubscriptionWithSessions
+      TestClientType.UnpartitionedTopicWithSessions,
+      TestClientType.UnpartitionedSubscriptionWithSessions
     );
     await testManualComplete();
   });
@@ -258,7 +264,7 @@ describe("Sessions Streaming - Complete message", function(): void {
     await sender.send(testMessage);
 
     const receivedMsgs: ServiceBusMessage[] = [];
-    sessionReceiver.receive(
+    sessionReceiver.registerMessageHandler(
       (msg: ServiceBusMessage) => {
         should.equal(msg.body, testMessage.body, "MessageBody is different than expected");
         should.equal(msg.messageId, testMessage.messageId, "MessageId is different than expected");
@@ -282,8 +288,8 @@ describe("Sessions Streaming - Complete message", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedQueueWithSessions,
-      ClientType.PartitionedQueueWithSessions
+      TestClientType.PartitionedQueueWithSessions,
+      TestClientType.PartitionedQueueWithSessions
     );
     await testComplete(false);
   });
@@ -292,8 +298,8 @@ describe("Sessions Streaming - Complete message", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedTopicWithSessions,
-      ClientType.PartitionedSubscriptionWithSessions
+      TestClientType.PartitionedTopicWithSessions,
+      TestClientType.PartitionedSubscriptionWithSessions
     );
     await testComplete(false);
   });
@@ -302,8 +308,8 @@ describe("Sessions Streaming - Complete message", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedQueueWithSessions,
-      ClientType.UnpartitionedQueueWithSessions
+      TestClientType.UnpartitionedQueueWithSessions,
+      TestClientType.UnpartitionedQueueWithSessions
     );
     await testComplete(false);
   });
@@ -312,8 +318,8 @@ describe("Sessions Streaming - Complete message", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedTopicWithSessions,
-      ClientType.UnpartitionedSubscriptionWithSessions
+      TestClientType.UnpartitionedTopicWithSessions,
+      TestClientType.UnpartitionedSubscriptionWithSessions
     );
     await testComplete(false);
   });
@@ -322,8 +328,8 @@ describe("Sessions Streaming - Complete message", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedQueueWithSessions,
-      ClientType.PartitionedQueueWithSessions
+      TestClientType.PartitionedQueueWithSessions,
+      TestClientType.PartitionedQueueWithSessions
     );
     await testComplete(true);
   });
@@ -332,8 +338,8 @@ describe("Sessions Streaming - Complete message", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedTopicWithSessions,
-      ClientType.PartitionedSubscriptionWithSessions
+      TestClientType.PartitionedTopicWithSessions,
+      TestClientType.PartitionedSubscriptionWithSessions
     );
     await testComplete(true);
   });
@@ -342,8 +348,8 @@ describe("Sessions Streaming - Complete message", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedQueueWithSessions,
-      ClientType.UnpartitionedQueueWithSessions
+      TestClientType.UnpartitionedQueueWithSessions,
+      TestClientType.UnpartitionedQueueWithSessions
     );
     await testComplete(true);
   });
@@ -352,8 +358,8 @@ describe("Sessions Streaming - Complete message", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedTopicWithSessions,
-      ClientType.UnpartitionedSubscriptionWithSessions
+      TestClientType.UnpartitionedTopicWithSessions,
+      TestClientType.UnpartitionedSubscriptionWithSessions
     );
     await testComplete(true);
   });
@@ -368,7 +374,7 @@ describe("Sessions Streaming - Abandon message", function(): void {
     const testMessage = TestMessage.getSessionSample();
     await sender.send(testMessage);
     let abandonFlag = 0;
-    await sessionReceiver.receive(
+    sessionReceiver.registerMessageHandler(
       (msg: ServiceBusMessage) => {
         return msg.abandon().then(() => {
           abandonFlag = 1;
@@ -390,10 +396,10 @@ describe("Sessions Streaming - Abandon message", function(): void {
     }
 
     should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
-    sessionReceiver = <SessionReceiver>await receiverClient.createReceiver(ReceiveMode.peekLock, {
+    sessionReceiver = <SessionReceiver>receiverClient.createReceiver(ReceiveMode.peekLock, {
       sessionId: TestMessage.sessionId
     });
-    const receivedMsgs = await sessionReceiver.receiveBatch(1);
+    const receivedMsgs = await sessionReceiver.receiveMessages(1);
     should.equal(receivedMsgs.length, 1, "Unexpected number of messages");
     should.equal(
       receivedMsgs[0].messageId,
@@ -408,8 +414,8 @@ describe("Sessions Streaming - Abandon message", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedQueueWithSessions,
-      ClientType.PartitionedQueueWithSessions
+      TestClientType.PartitionedQueueWithSessions,
+      TestClientType.PartitionedQueueWithSessions
     );
     await testAbandon(false);
   });
@@ -418,8 +424,8 @@ describe("Sessions Streaming - Abandon message", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedTopicWithSessions,
-      ClientType.PartitionedSubscriptionWithSessions
+      TestClientType.PartitionedTopicWithSessions,
+      TestClientType.PartitionedSubscriptionWithSessions
     );
     await testAbandon(false);
   });
@@ -428,8 +434,8 @@ describe("Sessions Streaming - Abandon message", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedQueueWithSessions,
-      ClientType.UnpartitionedQueueWithSessions
+      TestClientType.UnpartitionedQueueWithSessions,
+      TestClientType.UnpartitionedQueueWithSessions
     );
     await testAbandon(false);
   });
@@ -438,8 +444,8 @@ describe("Sessions Streaming - Abandon message", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedTopicWithSessions,
-      ClientType.UnpartitionedSubscriptionWithSessions
+      TestClientType.UnpartitionedTopicWithSessions,
+      TestClientType.UnpartitionedSubscriptionWithSessions
     );
     await testAbandon(false);
   });
@@ -448,8 +454,8 @@ describe("Sessions Streaming - Abandon message", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedQueueWithSessions,
-      ClientType.PartitionedQueueWithSessions
+      TestClientType.PartitionedQueueWithSessions,
+      TestClientType.PartitionedQueueWithSessions
     );
     await testAbandon(true);
   });
@@ -458,8 +464,8 @@ describe("Sessions Streaming - Abandon message", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedTopicWithSessions,
-      ClientType.PartitionedSubscriptionWithSessions
+      TestClientType.PartitionedTopicWithSessions,
+      TestClientType.PartitionedSubscriptionWithSessions
     );
     await testAbandon(true);
   });
@@ -468,8 +474,8 @@ describe("Sessions Streaming - Abandon message", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedQueueWithSessions,
-      ClientType.UnpartitionedQueueWithSessions
+      TestClientType.UnpartitionedQueueWithSessions,
+      TestClientType.UnpartitionedQueueWithSessions
     );
     await testAbandon(true);
   });
@@ -478,8 +484,8 @@ describe("Sessions Streaming - Abandon message", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedTopicWithSessions,
-      ClientType.UnpartitionedSubscriptionWithSessions
+      TestClientType.UnpartitionedTopicWithSessions,
+      TestClientType.UnpartitionedSubscriptionWithSessions
     );
     await testAbandon(true);
   });
@@ -495,7 +501,7 @@ describe("Sessions Streaming - Defer message", function(): void {
     await sender.send(testMessage);
 
     let sequenceNum: any = 0;
-    await sessionReceiver.receive(
+    sessionReceiver.registerMessageHandler(
       (msg: ServiceBusMessage) => {
         return msg.defer().then(() => {
           sequenceNum = msg.sequenceNumber;
@@ -534,8 +540,8 @@ describe("Sessions Streaming - Defer message", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedQueueWithSessions,
-      ClientType.PartitionedQueueWithSessions
+      TestClientType.PartitionedQueueWithSessions,
+      TestClientType.PartitionedQueueWithSessions
     );
     await testDefer(false);
   });
@@ -544,8 +550,8 @@ describe("Sessions Streaming - Defer message", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedTopicWithSessions,
-      ClientType.PartitionedSubscriptionWithSessions
+      TestClientType.PartitionedTopicWithSessions,
+      TestClientType.PartitionedSubscriptionWithSessions
     );
     await testDefer(false);
   });
@@ -554,8 +560,8 @@ describe("Sessions Streaming - Defer message", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedQueueWithSessions,
-      ClientType.UnpartitionedQueueWithSessions
+      TestClientType.UnpartitionedQueueWithSessions,
+      TestClientType.UnpartitionedQueueWithSessions
     );
     await testDefer(false);
   });
@@ -564,8 +570,8 @@ describe("Sessions Streaming - Defer message", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedTopicWithSessions,
-      ClientType.UnpartitionedSubscriptionWithSessions
+      TestClientType.UnpartitionedTopicWithSessions,
+      TestClientType.UnpartitionedSubscriptionWithSessions
     );
     await testDefer(false);
   });
@@ -574,8 +580,8 @@ describe("Sessions Streaming - Defer message", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedQueueWithSessions,
-      ClientType.PartitionedQueueWithSessions
+      TestClientType.PartitionedQueueWithSessions,
+      TestClientType.PartitionedQueueWithSessions
     );
     await testDefer(true);
   });
@@ -584,8 +590,8 @@ describe("Sessions Streaming - Defer message", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedTopicWithSessions,
-      ClientType.PartitionedSubscriptionWithSessions
+      TestClientType.PartitionedTopicWithSessions,
+      TestClientType.PartitionedSubscriptionWithSessions
     );
     await testDefer(true);
   });
@@ -594,8 +600,8 @@ describe("Sessions Streaming - Defer message", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedQueueWithSessions,
-      ClientType.UnpartitionedQueueWithSessions
+      TestClientType.UnpartitionedQueueWithSessions,
+      TestClientType.UnpartitionedQueueWithSessions
     );
     await testDefer(true);
   });
@@ -604,8 +610,8 @@ describe("Sessions Streaming - Defer message", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedTopicWithSessions,
-      ClientType.UnpartitionedSubscriptionWithSessions
+      TestClientType.UnpartitionedTopicWithSessions,
+      TestClientType.UnpartitionedSubscriptionWithSessions
     );
     await testDefer(true);
   });
@@ -621,7 +627,7 @@ describe("Sessions Streaming - Deadletter message", function(): void {
     await sender.send(testMessage);
 
     let msgCount = 0;
-    await sessionReceiver.receive(
+    sessionReceiver.registerMessageHandler(
       (msg: ServiceBusMessage) => {
         return msg.deadLetter().then(() => {
           msgCount++;
@@ -638,8 +644,8 @@ describe("Sessions Streaming - Deadletter message", function(): void {
     should.equal(msgCount, 1, "Unexpected number of messages");
     await testPeekMsgsLength(receiverClient, 0);
 
-    const deadLetterReceiver = await deadLetterClient.createReceiver(ReceiveMode.peekLock);
-    const deadLetterMsgs = await deadLetterReceiver.receiveBatch(1);
+    const deadLetterReceiver = deadLetterClient.createReceiver(ReceiveMode.peekLock);
+    const deadLetterMsgs = await deadLetterReceiver.receiveMessages(1);
     should.equal(Array.isArray(deadLetterMsgs), true, "`ReceivedMessages` is not an array");
     should.equal(deadLetterMsgs.length, 1, "Unexpected number of messages");
     should.equal(
@@ -656,8 +662,8 @@ describe("Sessions Streaming - Deadletter message", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedQueueWithSessions,
-      ClientType.PartitionedQueueWithSessions
+      TestClientType.PartitionedQueueWithSessions,
+      TestClientType.PartitionedQueueWithSessions
     );
     await testDeadletter(false);
   });
@@ -666,8 +672,8 @@ describe("Sessions Streaming - Deadletter message", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedTopicWithSessions,
-      ClientType.PartitionedSubscriptionWithSessions
+      TestClientType.PartitionedTopicWithSessions,
+      TestClientType.PartitionedSubscriptionWithSessions
     );
     await testDeadletter(false);
   });
@@ -676,8 +682,8 @@ describe("Sessions Streaming - Deadletter message", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedQueueWithSessions,
-      ClientType.UnpartitionedQueueWithSessions
+      TestClientType.UnpartitionedQueueWithSessions,
+      TestClientType.UnpartitionedQueueWithSessions
     );
     await testDeadletter(false);
   });
@@ -686,8 +692,8 @@ describe("Sessions Streaming - Deadletter message", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedTopicWithSessions,
-      ClientType.UnpartitionedSubscriptionWithSessions
+      TestClientType.UnpartitionedTopicWithSessions,
+      TestClientType.UnpartitionedSubscriptionWithSessions
     );
     await testDeadletter(false);
   });
@@ -696,8 +702,8 @@ describe("Sessions Streaming - Deadletter message", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedQueueWithSessions,
-      ClientType.PartitionedQueueWithSessions
+      TestClientType.PartitionedQueueWithSessions,
+      TestClientType.PartitionedQueueWithSessions
     );
     await testDeadletter(true);
   });
@@ -706,8 +712,8 @@ describe("Sessions Streaming - Deadletter message", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedTopicWithSessions,
-      ClientType.PartitionedSubscriptionWithSessions
+      TestClientType.PartitionedTopicWithSessions,
+      TestClientType.PartitionedSubscriptionWithSessions
     );
     await testDeadletter(true);
   });
@@ -716,8 +722,8 @@ describe("Sessions Streaming - Deadletter message", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedQueueWithSessions,
-      ClientType.UnpartitionedQueueWithSessions
+      TestClientType.UnpartitionedQueueWithSessions,
+      TestClientType.UnpartitionedQueueWithSessions
     );
     await testDeadletter(true);
   });
@@ -726,79 +732,91 @@ describe("Sessions Streaming - Deadletter message", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedTopicWithSessions,
-      ClientType.UnpartitionedSubscriptionWithSessions
+      TestClientType.UnpartitionedTopicWithSessions,
+      TestClientType.UnpartitionedSubscriptionWithSessions
     );
     await testDeadletter(true);
   });
 });
 
-describe("Sessions Streaming - Multiple Streaming Receivers", function(): void {
+describe("Sessions Streaming - Multiple Receive Operations", function(): void {
   afterEach(async () => {
     await afterEachTest();
   });
 
   async function testMultipleReceiveCalls(): Promise<void> {
-    await sessionReceiver.receive((msg: ServiceBusMessage) => {
+    let errorMessage;
+    const expectedErrorMessage = getAlreadyReceivingErrorMsg(
+      receiverClient.entityPath,
+      TestMessage.sessionId
+    );
+    sessionReceiver.registerMessageHandler((msg: ServiceBusMessage) => {
       return msg.complete();
     }, unExpectedErrorHandler);
     await delay(5000);
     try {
-      await sessionReceiver.receive(
-        (msg: ServiceBusMessage) => {
-          return Promise.resolve();
-        },
-        (err: Error) => {
-          should.exist(err);
-        }
-      );
+      sessionReceiver.registerMessageHandler((msg: ServiceBusMessage) => {
+        return Promise.resolve();
+      }, unExpectedErrorHandler);
     } catch (err) {
-      errorWasThrown = true;
-      should.equal(
-        !err.message.search("has already been created for the Subscription"),
-        false,
-        "ErrorMessage is different than expected"
-      );
+      errorMessage = err && err.message;
     }
-    should.equal(errorWasThrown, true, "Error thrown flag must be true");
+    should.equal(
+      errorMessage,
+      expectedErrorMessage,
+      "Unexpected error message for registerMessageHandler"
+    );
+    should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
+
+    errorMessage = "";
+    try {
+      await sessionReceiver.receiveMessages(1);
+    } catch (err) {
+      errorMessage = err && err.message;
+    }
+    should.equal(
+      errorMessage,
+      expectedErrorMessage,
+      "Unexpected error message for receiveMessages"
+    );
   }
 
-  it("Partitioned Queue: Second Streaming Receiver call should fail if the first one is not stopped(with sessions)", async function(): Promise<
+  it("Partitioned Queue: Second receive operation should fail if the first streaming receiver is not stopped(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedQueueWithSessions,
-      ClientType.PartitionedQueueWithSessions
+      TestClientType.PartitionedQueueWithSessions,
+      TestClientType.PartitionedQueueWithSessions
     );
     await testMultipleReceiveCalls();
   });
 
-  it("Partitioned Subscription: Second Streaming Receiver call should fail if the first one is not stopped(with sessions)", async function(): Promise<
+  it("Partitioned Subscription: Second receive operation should fail if the first streaming receiver is not stopped(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedTopicWithSessions,
-      ClientType.PartitionedSubscriptionWithSessions
+      TestClientType.PartitionedTopicWithSessions,
+      TestClientType.PartitionedSubscriptionWithSessions
     );
     await testMultipleReceiveCalls();
   });
 
-  it("UnPartitioned Queue: Second Streaming Receiver call should fail if the first one is not stopped(with sessions)", async function(): Promise<
+  it("UnPartitioned Queue: Second receive operation should fail if the first streaming receiver is not stopped(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedQueueWithSessions,
-      ClientType.UnpartitionedQueueWithSessions
+      TestClientType.UnpartitionedQueueWithSessions,
+      TestClientType.UnpartitionedQueueWithSessions
     );
     await testMultipleReceiveCalls();
   });
 
-  it("UnPartitioned Subscription: Second Streaming Receiver call should fail if the first one is not stopped(with sessions)", async function(): Promise<
+  it("UnPartitioned Subscription: Second receive operation should fail if the first streaming receiver is not stopped(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedTopicWithSessions,
-      ClientType.UnpartitionedSubscriptionWithSessions
+      TestClientType.UnpartitionedTopicWithSessions,
+      TestClientType.UnpartitionedSubscriptionWithSessions
     );
     await testMultipleReceiveCalls();
   });
@@ -809,10 +827,10 @@ describe("Sessions Streaming - Settle an already Settled message throws error", 
     await afterEachTest();
   });
 
-  const testError = (err: Error) => {
+  const testError = (err: Error, operation: DispositionType) => {
     should.equal(
       err.message,
-      "This message has been already settled.",
+      `Failed to ${operation} the message as this message has been already settled.`,
       "ErrorMessage is different than expected"
     );
     errorWasThrown = true;
@@ -823,7 +841,7 @@ describe("Sessions Streaming - Settle an already Settled message throws error", 
     await sender.send(testMessage);
 
     const receivedMsgs: ServiceBusMessage[] = [];
-    sessionReceiver.receive((msg: ServiceBusMessage) => {
+    sessionReceiver.registerMessageHandler((msg: ServiceBusMessage) => {
       receivedMsgs.push(msg);
       return Promise.resolve();
     }, unExpectedErrorHandler);
@@ -851,13 +869,13 @@ describe("Sessions Streaming - Settle an already Settled message throws error", 
     await testPeekMsgsLength(receiverClient, 0);
 
     if (operation === DispositionType.complete) {
-      await receivedMsgs[0].complete().catch((err) => testError(err));
+      await receivedMsgs[0].complete().catch((err) => testError(err, operation));
     } else if (operation === DispositionType.abandon) {
-      await receivedMsgs[0].abandon().catch((err) => testError(err));
+      await receivedMsgs[0].abandon().catch((err) => testError(err, operation));
     } else if (operation === DispositionType.deadletter) {
-      await receivedMsgs[0].deadLetter().catch((err) => testError(err));
+      await receivedMsgs[0].deadLetter().catch((err) => testError(err, operation));
     } else if (operation === DispositionType.defer) {
-      await receivedMsgs[0].defer().catch((err) => testError(err));
+      await receivedMsgs[0].defer().catch((err) => testError(err, operation));
     }
 
     should.equal(errorWasThrown, true, "Error thrown flag must be true");
@@ -865,8 +883,8 @@ describe("Sessions Streaming - Settle an already Settled message throws error", 
 
   it("Partitioned Queue: complete() throws error(with sessions)", async function(): Promise<void> {
     await beforeEachTest(
-      ClientType.PartitionedQueueWithSessions,
-      ClientType.PartitionedQueueWithSessions
+      TestClientType.PartitionedQueueWithSessions,
+      TestClientType.PartitionedQueueWithSessions
     );
     await testSettlement(DispositionType.complete);
   });
@@ -875,8 +893,8 @@ describe("Sessions Streaming - Settle an already Settled message throws error", 
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedTopicWithSessions,
-      ClientType.PartitionedSubscriptionWithSessions
+      TestClientType.PartitionedTopicWithSessions,
+      TestClientType.PartitionedSubscriptionWithSessions
     );
     await testSettlement(DispositionType.complete);
   });
@@ -885,8 +903,8 @@ describe("Sessions Streaming - Settle an already Settled message throws error", 
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedQueueWithSessions,
-      ClientType.UnpartitionedQueueWithSessions
+      TestClientType.UnpartitionedQueueWithSessions,
+      TestClientType.UnpartitionedQueueWithSessions
     );
     await testSettlement(DispositionType.complete);
   });
@@ -895,16 +913,16 @@ describe("Sessions Streaming - Settle an already Settled message throws error", 
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedTopicWithSessions,
-      ClientType.UnpartitionedSubscriptionWithSessions
+      TestClientType.UnpartitionedTopicWithSessions,
+      TestClientType.UnpartitionedSubscriptionWithSessions
     );
     await testSettlement(DispositionType.complete);
   });
 
   it("Partitioned Queue: abandon() throws error(with sessions)", async function(): Promise<void> {
     await beforeEachTest(
-      ClientType.PartitionedQueueWithSessions,
-      ClientType.PartitionedQueueWithSessions
+      TestClientType.PartitionedQueueWithSessions,
+      TestClientType.PartitionedQueueWithSessions
     );
     await testSettlement(DispositionType.abandon);
   });
@@ -913,16 +931,16 @@ describe("Sessions Streaming - Settle an already Settled message throws error", 
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedTopicWithSessions,
-      ClientType.PartitionedSubscriptionWithSessions
+      TestClientType.PartitionedTopicWithSessions,
+      TestClientType.PartitionedSubscriptionWithSessions
     );
     await testSettlement(DispositionType.abandon);
   });
 
   it("UnPartitioned Queue: abandon() throws error(with sessions)", async function(): Promise<void> {
     await beforeEachTest(
-      ClientType.UnpartitionedQueueWithSessions,
-      ClientType.UnpartitionedQueueWithSessions
+      TestClientType.UnpartitionedQueueWithSessions,
+      TestClientType.UnpartitionedQueueWithSessions
     );
     await testSettlement(DispositionType.abandon);
   });
@@ -931,16 +949,16 @@ describe("Sessions Streaming - Settle an already Settled message throws error", 
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedTopicWithSessions,
-      ClientType.UnpartitionedSubscriptionWithSessions
+      TestClientType.UnpartitionedTopicWithSessions,
+      TestClientType.UnpartitionedSubscriptionWithSessions
     );
     await testSettlement(DispositionType.abandon);
   });
 
   it("Partitioned Queue: defer() throws error(with sessions)", async function(): Promise<void> {
     await beforeEachTest(
-      ClientType.PartitionedQueueWithSessions,
-      ClientType.PartitionedQueueWithSessions
+      TestClientType.PartitionedQueueWithSessions,
+      TestClientType.PartitionedQueueWithSessions
     );
     await testSettlement(DispositionType.defer);
   });
@@ -949,16 +967,16 @@ describe("Sessions Streaming - Settle an already Settled message throws error", 
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedTopicWithSessions,
-      ClientType.PartitionedSubscriptionWithSessions
+      TestClientType.PartitionedTopicWithSessions,
+      TestClientType.PartitionedSubscriptionWithSessions
     );
     await testSettlement(DispositionType.defer);
   });
 
   it("UnPartitioned Queue: defer() throws error(with sessions)", async function(): Promise<void> {
     await beforeEachTest(
-      ClientType.UnpartitionedQueueWithSessions,
-      ClientType.UnpartitionedQueueWithSessions
+      TestClientType.UnpartitionedQueueWithSessions,
+      TestClientType.UnpartitionedQueueWithSessions
     );
     await testSettlement(DispositionType.defer);
   });
@@ -967,8 +985,8 @@ describe("Sessions Streaming - Settle an already Settled message throws error", 
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedTopicWithSessions,
-      ClientType.UnpartitionedSubscriptionWithSessions
+      TestClientType.UnpartitionedTopicWithSessions,
+      TestClientType.UnpartitionedSubscriptionWithSessions
     );
     await testSettlement(DispositionType.defer);
   });
@@ -977,8 +995,8 @@ describe("Sessions Streaming - Settle an already Settled message throws error", 
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedQueueWithSessions,
-      ClientType.PartitionedQueueWithSessions
+      TestClientType.PartitionedQueueWithSessions,
+      TestClientType.PartitionedQueueWithSessions
     );
     await testSettlement(DispositionType.deadletter);
   });
@@ -987,8 +1005,8 @@ describe("Sessions Streaming - Settle an already Settled message throws error", 
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedTopicWithSessions,
-      ClientType.PartitionedSubscriptionWithSessions
+      TestClientType.PartitionedTopicWithSessions,
+      TestClientType.PartitionedSubscriptionWithSessions
     );
     await testSettlement(DispositionType.deadletter);
   });
@@ -997,8 +1015,8 @@ describe("Sessions Streaming - Settle an already Settled message throws error", 
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedQueueWithSessions,
-      ClientType.UnpartitionedQueueWithSessions
+      TestClientType.UnpartitionedQueueWithSessions,
+      TestClientType.UnpartitionedQueueWithSessions
     );
     await testSettlement(DispositionType.deadletter);
   });
@@ -1007,8 +1025,8 @@ describe("Sessions Streaming - Settle an already Settled message throws error", 
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedTopicWithSessions,
-      ClientType.UnpartitionedSubscriptionWithSessions
+      TestClientType.UnpartitionedTopicWithSessions,
+      TestClientType.UnpartitionedSubscriptionWithSessions
     );
     await testSettlement(DispositionType.deadletter);
   });
@@ -1025,7 +1043,7 @@ describe("Sessions Streaming - User Error", function(): void {
     const errorMessage = "Will we see this error message?";
 
     const receivedMsgs: ServiceBusMessage[] = [];
-    sessionReceiver.receive(async (msg: ServiceBusMessage) => {
+    sessionReceiver.registerMessageHandler(async (msg: ServiceBusMessage) => {
       await msg.complete().then(() => {
         receivedMsgs.push(msg);
       });
@@ -1049,8 +1067,8 @@ describe("Sessions Streaming - User Error", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedQueueWithSessions,
-      ClientType.PartitionedQueueWithSessions
+      TestClientType.PartitionedQueueWithSessions,
+      TestClientType.PartitionedQueueWithSessions
     );
     await testUserError();
   });
@@ -1059,8 +1077,8 @@ describe("Sessions Streaming - User Error", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedTopicWithSessions,
-      ClientType.PartitionedSubscriptionWithSessions
+      TestClientType.PartitionedTopicWithSessions,
+      TestClientType.PartitionedSubscriptionWithSessions
     );
     await testUserError();
   });
@@ -1069,8 +1087,8 @@ describe("Sessions Streaming - User Error", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedQueueWithSessions,
-      ClientType.UnpartitionedQueueWithSessions
+      TestClientType.UnpartitionedQueueWithSessions,
+      TestClientType.UnpartitionedQueueWithSessions
     );
     await testUserError();
   });
@@ -1079,8 +1097,8 @@ describe("Sessions Streaming - User Error", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedTopicWithSessions,
-      ClientType.UnpartitionedSubscriptionWithSessions
+      TestClientType.UnpartitionedTopicWithSessions,
+      TestClientType.UnpartitionedSubscriptionWithSessions
     );
     await testUserError();
   });
@@ -1107,7 +1125,7 @@ describe("Sessions Streaming - maxConcurrentCalls", function(): void {
     const settledMsgs: ServiceBusMessage[] = [];
     const receivedMsgs: ServiceBusMessage[] = [];
 
-    sessionReceiver.receive(
+    sessionReceiver.registerMessageHandler(
       async (msg: ServiceBusMessage) => {
         if (receivedMsgs.length === 1) {
           if ((!maxConcurrentCalls || maxConcurrentCalls === 1) && settledMsgs.length === 0) {
@@ -1144,8 +1162,8 @@ describe("Sessions Streaming - maxConcurrentCalls", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedQueueWithSessions,
-      ClientType.PartitionedQueueWithSessions
+      TestClientType.PartitionedQueueWithSessions,
+      TestClientType.PartitionedQueueWithSessions
     );
     await testConcurrency();
   });
@@ -1154,8 +1172,8 @@ describe("Sessions Streaming - maxConcurrentCalls", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedQueueWithSessions,
-      ClientType.PartitionedQueueWithSessions
+      TestClientType.PartitionedQueueWithSessions,
+      TestClientType.PartitionedQueueWithSessions
     );
     await testConcurrency();
   });
@@ -1164,8 +1182,8 @@ describe("Sessions Streaming - maxConcurrentCalls", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedQueueWithSessions,
-      ClientType.PartitionedQueueWithSessions
+      TestClientType.PartitionedQueueWithSessions,
+      TestClientType.PartitionedQueueWithSessions
     );
     await testConcurrency();
   });
@@ -1174,8 +1192,8 @@ describe("Sessions Streaming - maxConcurrentCalls", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedQueueWithSessions,
-      ClientType.UnpartitionedQueueWithSessions
+      TestClientType.UnpartitionedQueueWithSessions,
+      TestClientType.UnpartitionedQueueWithSessions
     );
     await testConcurrency();
   });
@@ -1184,8 +1202,8 @@ describe("Sessions Streaming - maxConcurrentCalls", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedQueueWithSessions,
-      ClientType.UnpartitionedQueueWithSessions
+      TestClientType.UnpartitionedQueueWithSessions,
+      TestClientType.UnpartitionedQueueWithSessions
     );
     await testConcurrency();
   });
@@ -1194,8 +1212,8 @@ describe("Sessions Streaming - maxConcurrentCalls", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedQueueWithSessions,
-      ClientType.UnpartitionedQueueWithSessions
+      TestClientType.UnpartitionedQueueWithSessions,
+      TestClientType.UnpartitionedQueueWithSessions
     );
     await testConcurrency();
   });
@@ -1204,8 +1222,8 @@ describe("Sessions Streaming - maxConcurrentCalls", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedTopicWithSessions,
-      ClientType.PartitionedSubscriptionWithSessions
+      TestClientType.PartitionedTopicWithSessions,
+      TestClientType.PartitionedSubscriptionWithSessions
     );
     await testConcurrency();
   });
@@ -1214,8 +1232,8 @@ describe("Sessions Streaming - maxConcurrentCalls", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedTopicWithSessions,
-      ClientType.PartitionedSubscriptionWithSessions
+      TestClientType.PartitionedTopicWithSessions,
+      TestClientType.PartitionedSubscriptionWithSessions
     );
     await testConcurrency(1);
   });
@@ -1224,8 +1242,8 @@ describe("Sessions Streaming - maxConcurrentCalls", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedTopicWithSessions,
-      ClientType.PartitionedSubscriptionWithSessions
+      TestClientType.PartitionedTopicWithSessions,
+      TestClientType.PartitionedSubscriptionWithSessions
     );
     await testConcurrency(2);
   });
@@ -1234,8 +1252,8 @@ describe("Sessions Streaming - maxConcurrentCalls", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedTopicWithSessions,
-      ClientType.UnpartitionedSubscriptionWithSessions
+      TestClientType.UnpartitionedTopicWithSessions,
+      TestClientType.UnpartitionedSubscriptionWithSessions
     );
     await testConcurrency();
   });
@@ -1244,8 +1262,8 @@ describe("Sessions Streaming - maxConcurrentCalls", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedTopicWithSessions,
-      ClientType.UnpartitionedSubscriptionWithSessions
+      TestClientType.UnpartitionedTopicWithSessions,
+      TestClientType.UnpartitionedSubscriptionWithSessions
     );
     await testConcurrency(1);
   });
@@ -1254,9 +1272,137 @@ describe("Sessions Streaming - maxConcurrentCalls", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedTopicWithSessions,
-      ClientType.UnpartitionedSubscriptionWithSessions
+      TestClientType.UnpartitionedTopicWithSessions,
+      TestClientType.UnpartitionedSubscriptionWithSessions
     );
     await testConcurrency(2);
+  });
+});
+
+describe("Sessions Streaming - Not receive messages after receiver is closed", function(): void {
+  afterEach(async () => {
+    await afterEachTest();
+  });
+
+  async function testReceiveMessages(): Promise<void> {
+    const totalNumOfMessages = 5;
+    let num = 1;
+    const messages = [];
+    while (num <= totalNumOfMessages) {
+      const message = {
+        messageId: num,
+        body: "test",
+        label: `${num}`,
+        sessionId: TestMessage.sessionId,
+        partitionKey: "dummy" // Ensures all messages go to same parition to make peek work reliably
+      };
+      num++;
+      messages.push(message);
+    }
+    await sender.sendBatch(messages);
+
+    const receivedMsgs: ServiceBusMessage[] = [];
+
+    const onMessageHandler = async (brokeredMessage: ServiceBusMessage) => {
+      receivedMsgs.push(brokeredMessage);
+      await brokeredMessage.complete();
+    };
+
+    sessionReceiver.registerMessageHandler(onMessageHandler, unExpectedErrorHandler, {
+      autoComplete: false
+    });
+    await sessionReceiver.close();
+
+    await delay(5000);
+    should.equal(
+      receivedMsgs.length,
+      0,
+      `Expected 0 messages, but received ${receivedMsgs.length}`
+    );
+    await testPeekMsgsLength(receiverClient, totalNumOfMessages);
+  }
+
+  it("Partitioned Queue: Not receive messages after receiver is closed", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      TestClientType.PartitionedQueueWithSessions,
+      TestClientType.PartitionedQueueWithSessions
+    );
+    await testReceiveMessages();
+  });
+
+  it("Partitioned Subscription: Not receive messages after receiver is closed", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      TestClientType.PartitionedTopicWithSessions,
+      TestClientType.PartitionedSubscriptionWithSessions
+    );
+    await testReceiveMessages();
+  });
+
+  it("UnPartitioned Queue: Not receive messages after receiver is closed", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      TestClientType.UnpartitionedQueueWithSessions,
+      TestClientType.UnpartitionedQueueWithSessions
+    );
+    await testReceiveMessages();
+  });
+
+  it("UnPartitioned Subscription: Not receive messages after receiver is closed", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      TestClientType.UnpartitionedTopicWithSessions,
+      TestClientType.UnpartitionedSubscriptionWithSessions
+    );
+    await testReceiveMessages();
+  });
+
+  it("Partitioned Queue: (Receive And Delete mode) Not receive messages after receiver is closed", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      TestClientType.PartitionedQueueWithSessions,
+      TestClientType.PartitionedQueueWithSessions,
+      ReceiveMode.receiveAndDelete
+    );
+    await testReceiveMessages();
+  });
+
+  it("Partitioned Subscription: (Receive And Delete mode) Not receive messages after receiver is closed", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      TestClientType.PartitionedTopicWithSessions,
+      TestClientType.PartitionedSubscriptionWithSessions,
+      ReceiveMode.receiveAndDelete
+    );
+    await testReceiveMessages();
+  });
+
+  it("UnPartitioned Queue: (Receive And Delete mode) Not receive messages after receiver is closed", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      TestClientType.UnpartitionedQueueWithSessions,
+      TestClientType.UnpartitionedQueueWithSessions,
+      ReceiveMode.receiveAndDelete
+    );
+    await testReceiveMessages();
+  });
+
+  it("UnPartitioned Subscription: (Receive And Delete mode) Not receive messages after receiver is closed", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      TestClientType.UnpartitionedTopicWithSessions,
+      TestClientType.UnpartitionedSubscriptionWithSessions,
+      ReceiveMode.receiveAndDelete
+    );
+    await testReceiveMessages();
   });
 });

@@ -82,7 +82,7 @@ export interface ReceiveOptions extends MessageHandlerOptions {
 }
 
 /**
- * Describes the message handler signature.
+ * Describes the signature of the message handler passed to `registerMessageHandler` method.
  */
 export interface OnMessage {
   /**
@@ -92,7 +92,7 @@ export interface OnMessage {
 }
 
 /**
- * Describes the error handler signature.
+ * Describes the signature of the error handler passed to `registerMessageHandler` method.
  */
 export interface OnError {
   /**
@@ -125,8 +125,8 @@ export class MessageReceiver extends LinkEntity {
   receiveMode: ReceiveMode;
   /**
    * @property {boolean} autoComplete Indicates whether `Message.complete()` should be called
-   * automatically after the message processing is complete while receiving messages with handlers
-   * or while messages are received using receiveBatch(). Default: false.
+   * automatically after the message processing is complete while receiving messages with handlers.
+   * Default: false.
    */
   autoComplete: boolean;
   /**
@@ -343,7 +343,9 @@ export class MessageReceiver extends LinkEntity {
         context.delivery!,
         true
       );
-      if (this.autoRenewLock) {
+
+      if (this.autoRenewLock && bMessage.lockToken) {
+        const lockToken = bMessage.lockToken;
         // - We need to renew locks before they expire by looking at bMessage.lockedUntilUtc.
         // - This autorenewal needs to happen **NO MORE** than maxAutoRenewDurationInSeconds
         // - We should be able to clear the renewal timer when the user's message handler
@@ -396,7 +398,10 @@ export class MessageReceiver extends LinkEntity {
                       connectionId,
                       bMessage.messageId
                     );
-                    await this._context.managementClient!.renewLock(bMessage);
+                    bMessage.lockedUntilUtc = await this._context.managementClient!.renewLock(
+                      lockToken,
+                      this.name
+                    );
                     log.receiver(
                       "[%s] Successfully renewed the lock for message with id '%s'.",
                       connectionId,
@@ -823,6 +828,7 @@ export class MessageReceiver extends LinkEntity {
       this._context.entityPath
     );
     if (this._newMessageReceivedTimer) clearTimeout(this._newMessageReceivedTimer);
+    this._clearAllMessageLockRenewTimers();
     if (this._receiver) {
       const receiverLink = this._receiver;
       this._deleteFromCache();

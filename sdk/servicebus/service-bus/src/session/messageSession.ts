@@ -26,11 +26,8 @@ import {
 } from "../core/messageReceiver";
 import { LinkEntity } from "../core/linkEntity";
 import { ClientEntityContext } from "../clientEntityContext";
-import {
-  convertTicksToDate,
-  calculateRenewAfterDuration,
-  throwErrorIfConnectionClosed
-} from "../util/utils";
+import { convertTicksToDate, calculateRenewAfterDuration } from "../util/utils";
+import { throwErrorIfConnectionClosed } from "../util/errors";
 import { ServiceBusMessage, DispositionType, ReceiveMode } from "../serviceBusMessage";
 import { messageDispositionTimeout } from "../util/constants";
 
@@ -57,44 +54,45 @@ export interface CreateMessageSessionReceiverLinkOptions {
 }
 
 /**
- * Describes the options for creating a SessionReceiver.
+ * Describes the options passed to the `createReceiver` method when using a Queue/Subscription that
+ * has sessions enabled.
  */
 export interface SessionReceiverOptions {
   /**
-   * @property {string} [sessionId] The sessionId for the message session. If null or undefined is
+   * @property The sessionId for the message session. If null or undefined is
    * provided, the SessionReceiver gets created for a randomly chosen session from available sessions
    */
   sessionId: string | undefined;
   /**
-   * @property {number} [maxSessionAutoRenewLockDurationInSeconds] The maximum duration in seconds
-   * until which, the lock on the session will be renewed automatically.
+   * @property The maximum duration in seconds
+   * until which, the lock on the session will be renewed automatically by the sdk.
    * - **Default**: `300` seconds (5 minutes).
-   * - **To disable autolock renewal**, set `maxSessionAutoRenewLockDurationInSeconds` to `0`.
+   * - **To disable autolock renewal**, set this to `0`.
    */
   maxSessionAutoRenewLockDurationInSeconds?: number;
 }
 
 /**
- * Describes the options to control receiving of messages in streaming mode.
+ * Describes the options passed to `registerMessageHandler` method when receiving messages from a
+ * Queue/Subscription which has sessions enabled.
  */
 export interface SessionMessageHandlerOptions {
   /**
-   * @property {boolean} [autoComplete] Indicates whether the message (if not settled by the user)
-   * should be automatically completed after the user provided onMessage handler has been executed.
-   * Completing a message, removes it from the Queue/Subscription.
+   * @property Indicates whether the `complete()` method on the message should automatically be
+   * called by the sdk after the user provided onMessage handler has been executed.
+   * Calling `complete()` on a message removes it from the Queue/Subscription.
    * - **Default**: `true`.
    */
   autoComplete?: boolean;
   /**
-   * @property {number} [newMessageWaitTimeoutInSeconds] The maximum amount of time the receiver
-   * will wait to receive a new message. If no new message is received in this time, then the
-   * receiver will be closed.
-   *
-   * Caution: When setting this value, take into account the time taken to process messages. Once
-   * the receiver is closed, operations like complete()/abandon()/defer()/deadletter() cannot be
-   * invoked on messages.
+   * @property The maximum amount of time the receiver will wait to receive a new message. If no new
+   * message is received in this time, then the receiver will be closed.
    *
    * If this option is not provided, then receiver link will stay open until manually closed.
+   *
+   * **Caution**: When setting this value, take into account the time taken to process messages. Once
+   * the receiver is closed, operations like complete()/abandon()/defer()/deadletter() cannot be
+   * invoked on messages.
    */
   newMessageWaitTimeoutInSeconds?: number;
   /**
@@ -161,8 +159,8 @@ export class MessageSession extends LinkEntity {
   receiveMode: ReceiveMode;
   /**
    * @property {boolean} autoComplete Indicates whether `Message.complete()` should be called
-   * automatically after the message processing is complete while receiving messages with handlers
-   * or while messages are received using receiveBatch(). Default: false.
+   * automatically after the message processing is complete while receiving messages with handlers.
+   * Default: false.
    */
   autoComplete: boolean;
   /**
@@ -534,19 +532,6 @@ export class MessageSession extends LinkEntity {
    * @returns void
    */
   receive(onMessage: OnMessage, onError: OnError, options?: SessionMessageHandlerOptions): void {
-    throwErrorIfConnectionClosed(this._context.namespace);
-    if (this.isReceivingMessages) {
-      throw new Error(
-        `MessageSession '${this.name}' with sessionId '${this.sessionId}' is ` +
-          `already receiving messages.`
-      );
-    }
-    if (typeof onMessage !== "function") {
-      throw new Error("'onSessionMessage' is a required parameter and must be of type 'function'.");
-    }
-    if (typeof onError !== "function") {
-      throw new Error("'onError' is a required parameter and must be of type 'function'.");
-    }
     if (!options) options = {};
     this.isReceivingMessages = true;
     if (typeof options.maxConcurrentCalls === "number" && options.maxConcurrentCalls > 0) {
@@ -721,24 +706,10 @@ export class MessageSession extends LinkEntity {
    * - **Default**: `60` seconds.
    * @returns Promise<ServiceBusMessage[]> A promise that resolves with an array of Message objects.
    */
-  async receiveBatch(
+  async receiveMessages(
     maxMessageCount: number,
     idleTimeoutInSeconds?: number
   ): Promise<ServiceBusMessage[]> {
-    throwErrorIfConnectionClosed(this._context.namespace);
-    if (this.isReceivingMessages) {
-      throw new Error(
-        `MessageSession '${this.name}' with sessionId '${this.sessionId}' is ` +
-          `already receiving messages.`
-      );
-    }
-
-    if (!maxMessageCount || (maxMessageCount && typeof maxMessageCount !== "number")) {
-      throw new Error(
-        "'maxMessageCount' is a required parameter of type number with a value " + "greater than 0."
-      );
-    }
-
     if (idleTimeoutInSeconds == undefined) {
       idleTimeoutInSeconds = Constants.defaultOperationTimeoutInSeconds;
     }
@@ -766,7 +737,7 @@ export class MessageSession extends LinkEntity {
         if (firstMessageWaitTimer) {
           clearTimeout(firstMessageWaitTimer);
         }
-        // Removing listeners, so that the next receiveBatch() call can set them again.
+        // Removing listeners, so that the next receiveMessages() call can set them again.
         if (this._receiver) {
           this._receiver.removeListener(ReceiverEvents.message, onReceiveMessage);
           this._receiver.removeListener(ReceiverEvents.receiverDrained, onReceiveDrain);
@@ -787,7 +758,7 @@ export class MessageSession extends LinkEntity {
         // a batch of messages.
         setnewMessageWaitTimeoutInSeconds();
 
-        // Removing listeners, so that the next receiveBatch() call can set them again.
+        // Removing listeners, so that the next receiveMessages() call can set them again.
         if (this._receiver) {
           this._receiver.removeListener(ReceiverEvents.message, onReceiveMessage);
         }
@@ -810,7 +781,7 @@ export class MessageSession extends LinkEntity {
 
           this.isReceivingMessages = false;
           log.messageSession(
-            "[%s] Receiver '%s': Resolving receiveBatch() with %d messages.",
+            "[%s] Receiver '%s': Resolving receiveMessages() with %d messages.",
             this._context.namespace.connectionId,
             this.name,
             brokeredMessages.length
@@ -861,7 +832,7 @@ export class MessageSession extends LinkEntity {
         this.isReceivingMessages = false;
 
         log.messageSession(
-          "[%s] Receiver '%s' drained. Resolving receiveBatch() with %d messages.",
+          "[%s] Receiver '%s' drained. Resolving receiveMessages() with %d messages.",
           this._context.namespace.connectionId,
           this.name,
           brokeredMessages.length
@@ -888,12 +859,19 @@ export class MessageSession extends LinkEntity {
             brokeredMessages.push(data);
           }
         } catch (err) {
-          // Removing listeners, so that the next receiveBatch() call can set them again.
+          // Removing listeners, so that the next receiveMessages() call can set them again.
           if (this._receiver) {
             this._receiver.removeListener(ReceiverEvents.message, onReceiveMessage);
             this._receiver.removeListener(ReceiverEvents.receiverDrained, onReceiveDrain);
           }
-          reject(`Error while converting AmqpMessage to ReceivedSBMessage: ${err}`);
+          err = err instanceof Error ? err : new Error(JSON.stringify(err));
+          log.error(
+            "[%s] Receiver '%s' received an error while converting AmqpMessage to ServiceBusMessage:\n%O",
+            this._context.namespace.connectionId,
+            this.name,
+            err
+          );
+          reject(err);
         }
         if (brokeredMessages.length === maxMessageCount) {
           finalAction();
@@ -1166,6 +1144,7 @@ export class MessageSession extends LinkEntity {
           );
           this.sessionLockedUntilUtc = await this._context.managementClient!.renewSessionLock(
             this.sessionId!,
+            this.name,
             {
               delayInSeconds: 0,
               timeoutInSeconds: 10,

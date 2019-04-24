@@ -196,7 +196,7 @@ export async function getPackageInformationFromPackageJsons(azureSdkForJsRoot: s
 }
 
 async function getPackageJsons(azureSdkForJsRoot: string): Promise<string[]> {
-    const packagesPath = path.resolve(azureSdkForJsRoot, "packages");
+    const packagesPath = path.resolve(azureSdkForJsRoot, "sdk");
     const allChildDirectories = await findChildDirectoriesRecursively(packagesPath);
     const packagesJsonPaths = allChildDirectories
         .map(dir => path.resolve(dir, "package.json"))

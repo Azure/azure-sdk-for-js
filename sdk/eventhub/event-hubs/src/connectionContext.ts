@@ -6,7 +6,10 @@ import { packageJsonInfo } from "./util/constants";
 import { EventHubReceiver } from "./eventHubReceiver";
 import { EventHubSender } from "./eventHubSender";
 import {
-  Constants, delay, ConnectionContextBase, CreateConnectionContextBaseParameters,
+  Constants,
+  delay,
+  ConnectionContextBase,
+  CreateConnectionContextBaseParameters,
   EventHubConnectionConfig
 } from "@azure/amqp-common";
 import { ManagementClient, ManagementClientOptions } from "./managementClient";
@@ -51,14 +54,15 @@ export interface ConnectionContextOptions extends ClientOptions {
 }
 
 export namespace ConnectionContext {
-
   const userAgent: string = "/js-event-hubs";
 
   export function getUserAgent(options: ConnectionContextOptions): string {
     const finalUserAgent = options.userAgent ? `${userAgent},${options.userAgent}` : userAgent;
     if (finalUserAgent.length > Constants.maxUserAgentLength) {
-      throw new Error(`The user-agent string cannot be more than 128 characters in length.` +
-        `The given user-agent string is: ${finalUserAgent} with length: ${finalUserAgent.length}`);
+      throw new Error(
+        `The user-agent string cannot be more than 128 characters in length.` +
+          `The given user-agent string is: ${finalUserAgent} with length: ${finalUserAgent.length}`
+      );
     }
     return finalUserAgent;
   }
@@ -92,25 +96,34 @@ export namespace ConnectionContext {
     // "connection_open" and "connection_error" events.
     const onConnectionOpen: OnAmqpEvent = (context: EventContext) => {
       connectionContext.wasConnectionCloseCalled = false;
-      log.context("[%s] setting 'wasConnectionCloseCalled' property of connection context to %s.",
-        connectionContext.connection.id, connectionContext.wasConnectionCloseCalled);
+      log.context(
+        "[%s] setting 'wasConnectionCloseCalled' property of connection context to %s.",
+        connectionContext.connection.id,
+        connectionContext.wasConnectionCloseCalled
+      );
     };
 
     const disconnected: OnAmqpEvent = async (context: EventContext) => {
-      const connectionError = context.connection && context.connection.error
-        ? context.connection.error
-        : undefined;
+      const connectionError = context.connection && context.connection.error ? context.connection.error : undefined;
       if (connectionError) {
-        log.error("[%s] Error (context.connection.error) occurred on the amqp connection: %O",
-          connectionContext.connection.id, connectionError);
+        log.error(
+          "[%s] Error (context.connection.error) occurred on the amqp connection: %O",
+          connectionContext.connection.id,
+          connectionError
+        );
       }
       const contextError = context.error;
       if (contextError) {
-        log.error("[%s] Error (context.error) occurred on the amqp connection: %O",
-          connectionContext.connection.id, contextError);
+        log.error(
+          "[%s] Error (context.error) occurred on the amqp connection: %O",
+          connectionContext.connection.id,
+          contextError
+        );
       }
       const state: Readonly<{
-        wasConnectionCloseCalled: boolean; numSenders: number; numReceivers: number;
+        wasConnectionCloseCalled: boolean;
+        numSenders: number;
+        numReceivers: number;
       }> = {
         wasConnectionCloseCalled: connectionContext.wasConnectionCloseCalled,
         numSenders: Object.keys(connectionContext.senders).length,
@@ -130,39 +143,68 @@ export namespace ConnectionContext {
       // and there was atleast one sender/receiver link on the connection before it went down.
       log.error("[%s] state: %O", connectionContext.connection.id, state);
       if (!state.wasConnectionCloseCalled && (state.numSenders || state.numReceivers)) {
-        log.error("[%s] connection.close() was not called from the sdk and there were some " +
-          "sender or receiver links or both. We should reconnect.", connectionContext.connection.id);
+        log.error(
+          "[%s] connection.close() was not called from the sdk and there were some " +
+            "sender or receiver links or both. We should reconnect.",
+          connectionContext.connection.id
+        );
         await delay(Constants.connectionReconnectDelay);
         // reconnect senders if any
         for (const senderName of Object.keys(connectionContext.senders)) {
           const sender = connectionContext.senders[senderName];
           if (!sender.isConnecting) {
-            log.error("[%s] calling detached on sender '%s' with address '%s'.",
-              connectionContext.connection.id, sender.name, sender.address);
-            sender.detached(connectionError || contextError).catch((err) => {
-              log.error("[%s] An error occurred while reconnecting the sender '%s' with adress '%s' %O.",
-                connectionContext.connection.id, sender.name, sender.address, err);
+            log.error(
+              "[%s] calling detached on sender '%s' with address '%s'.",
+              connectionContext.connection.id,
+              sender.name,
+              sender.address
+            );
+            sender.detached(connectionError || contextError).catch(err => {
+              log.error(
+                "[%s] An error occurred while reconnecting the sender '%s' with adress '%s' %O.",
+                connectionContext.connection.id,
+                sender.name,
+                sender.address,
+                err
+              );
             });
           } else {
-            log.error("[%s] sender '%s' with address '%s' is already reconnecting. Hence not " +
-              "calling detached on the sender.", connectionContext.connection.id, sender.name,
-              sender.address);
+            log.error(
+              "[%s] sender '%s' with address '%s' is already reconnecting. Hence not " +
+                "calling detached on the sender.",
+              connectionContext.connection.id,
+              sender.name,
+              sender.address
+            );
           }
         }
         // reconnect receivers if any
         for (const receiverName of Object.keys(connectionContext.receivers)) {
           const receiver = connectionContext.receivers[receiverName];
           if (!receiver.isConnecting) {
-            log.error("[%s] calling detached on receiver '%s' with address '%s'.",
-              connectionContext.connection.id, receiver.name, receiver.address);
-            receiver.detached(connectionError || contextError).catch((err) => {
-              log.error("[%s] An error occurred while reconnecting the receiver '%s' with adress '%s' %O.",
-                connectionContext.connection.id, receiver.name, receiver.address, err);
+            log.error(
+              "[%s] calling detached on receiver '%s' with address '%s'.",
+              connectionContext.connection.id,
+              receiver.name,
+              receiver.address
+            );
+            receiver.detached(connectionError || contextError).catch(err => {
+              log.error(
+                "[%s] An error occurred while reconnecting the receiver '%s' with adress '%s' %O.",
+                connectionContext.connection.id,
+                receiver.name,
+                receiver.address,
+                err
+              );
             });
           } else {
-            log.error("[%s] receiver '%s' with address '%s' is already reconnecting. Hence not " +
-              "calling detached on the receiver.", connectionContext.connection.id, receiver.name,
-              receiver.address);
+            log.error(
+              "[%s] receiver '%s' with address '%s' is already reconnecting. Hence not " +
+                "calling detached on the receiver.",
+              connectionContext.connection.id,
+              receiver.name,
+              receiver.address
+            );
           }
         }
       }

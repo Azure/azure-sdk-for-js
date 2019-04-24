@@ -22,7 +22,7 @@ import {
 import {
   TestMessage,
   getSenderReceiverClients,
-  ClientType,
+  TestClientType,
   purge,
   checkWithTimeout
 } from "./testUtils";
@@ -54,7 +54,7 @@ function unExpectedErrorHandler(err: Error): void {
 
 const testSessionId2 = "my-session2";
 
-async function beforeEachTest(senderType: ClientType, sessionType: ClientType): Promise<void> {
+async function beforeEachTest(senderType: TestClientType, sessionType: TestClientType): Promise<void> {
   // The tests in this file expect the env variables to contain the connection string and
   // the names of empty queue/topic/subscription that are to be tested
 
@@ -91,15 +91,15 @@ describe("SessionReceiver with invalid sessionId", function(): void {
     const testMessage = TestMessage.getSessionSample();
     await senderClient.createSender().send(testMessage);
 
-    let receiver = await receiverClient.createReceiver(ReceiveMode.peekLock, {
+    let receiver = receiverClient.createReceiver(ReceiveMode.peekLock, {
       sessionId: "non" + TestMessage.sessionId
     });
-    let msgs = await receiver.receiveBatch(1, 10);
+    let msgs = await receiver.receiveMessages(1, 10);
     should.equal(msgs.length, 0, "Unexpected number of messages");
 
     await receiver.close();
-    receiver = await receiverClient.createReceiver(ReceiveMode.peekLock, { sessionId: undefined });
-    msgs = await receiver.receiveBatch(1);
+    receiver = receiverClient.createReceiver(ReceiveMode.peekLock, { sessionId: undefined });
+    msgs = await receiver.receiveMessages(1);
     should.equal(msgs.length, 1, "Unexpected number of messages");
     should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
     should.equal(msgs[0].body, testMessage.body, "MessageBody is different than expected");
@@ -112,8 +112,8 @@ describe("SessionReceiver with invalid sessionId", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedQueueWithSessions,
-      ClientType.PartitionedQueueWithSessions
+      TestClientType.PartitionedQueueWithSessions,
+      TestClientType.PartitionedQueueWithSessions
     );
     await test_batching();
   });
@@ -122,8 +122,8 @@ describe("SessionReceiver with invalid sessionId", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedTopicWithSessions,
-      ClientType.PartitionedSubscriptionWithSessions
+      TestClientType.PartitionedTopicWithSessions,
+      TestClientType.PartitionedSubscriptionWithSessions
     );
     await test_batching();
   });
@@ -132,8 +132,8 @@ describe("SessionReceiver with invalid sessionId", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedQueueWithSessions,
-      ClientType.UnpartitionedQueueWithSessions
+      TestClientType.UnpartitionedQueueWithSessions,
+      TestClientType.UnpartitionedQueueWithSessions
     );
     await test_batching();
   });
@@ -142,8 +142,8 @@ describe("SessionReceiver with invalid sessionId", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedTopicWithSessions,
-      ClientType.UnpartitionedSubscriptionWithSessions
+      TestClientType.UnpartitionedTopicWithSessions,
+      TestClientType.UnpartitionedSubscriptionWithSessions
     );
     await test_batching();
   });
@@ -152,11 +152,11 @@ describe("SessionReceiver with invalid sessionId", function(): void {
     const testMessage = TestMessage.getSessionSample();
     await senderClient.createSender().send(testMessage);
 
-    let receiver = await receiverClient.createReceiver(ReceiveMode.peekLock, {
+    let receiver = receiverClient.createReceiver(ReceiveMode.peekLock, {
       sessionId: "non" + TestMessage.sessionId
     });
     let receivedMsgs: ServiceBusMessage[] = [];
-    receiver.receive((msg: ServiceBusMessage) => {
+    receiver.registerMessageHandler((msg: ServiceBusMessage) => {
       receivedMsgs.push(msg);
       return Promise.resolve();
     }, unExpectedErrorHandler);
@@ -164,9 +164,9 @@ describe("SessionReceiver with invalid sessionId", function(): void {
     should.equal(receivedMsgs.length, 0, `Expected 0, received ${receivedMsgs.length} messages`);
     await receiver.close();
 
-    receiver = await receiverClient.createReceiver(ReceiveMode.peekLock, { sessionId: undefined });
+    receiver = receiverClient.createReceiver(ReceiveMode.peekLock, { sessionId: undefined });
     receivedMsgs = [];
-    receiver.receive(
+    receiver.registerMessageHandler(
       (msg: ServiceBusMessage) => {
         should.equal(msg.body, testMessage.body, "MessageBody is different than expected");
         should.equal(msg.messageId, testMessage.messageId, "MessageId is different than expected");
@@ -189,8 +189,8 @@ describe("SessionReceiver with invalid sessionId", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedQueueWithSessions,
-      ClientType.PartitionedQueueWithSessions
+      TestClientType.PartitionedQueueWithSessions,
+      TestClientType.PartitionedQueueWithSessions
     );
     await test_streaming();
   });
@@ -199,8 +199,8 @@ describe("SessionReceiver with invalid sessionId", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedTopicWithSessions,
-      ClientType.PartitionedSubscriptionWithSessions
+      TestClientType.PartitionedTopicWithSessions,
+      TestClientType.PartitionedSubscriptionWithSessions
     );
     await test_streaming();
   });
@@ -209,8 +209,8 @@ describe("SessionReceiver with invalid sessionId", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedQueueWithSessions,
-      ClientType.UnpartitionedQueueWithSessions
+      TestClientType.UnpartitionedQueueWithSessions,
+      TestClientType.UnpartitionedQueueWithSessions
     );
     await test_streaming();
   });
@@ -219,8 +219,8 @@ describe("SessionReceiver with invalid sessionId", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedTopicWithSessions,
-      ClientType.UnpartitionedSubscriptionWithSessions
+      TestClientType.UnpartitionedTopicWithSessions,
+      TestClientType.UnpartitionedSubscriptionWithSessions
     );
     await test_streaming();
   });
@@ -249,13 +249,12 @@ describe("SessionReceiver with no sessionId", function(): void {
     await sender.send(testMessagesWithDifferentSessionIds[0]);
     await sender.send(testMessagesWithDifferentSessionIds[1]);
 
-    let receiver = await receiverClient.createReceiver(ReceiveMode.peekLock, {
+    let receiver = <SessionReceiver>receiverClient.createReceiver(ReceiveMode.peekLock, {
       sessionId: undefined
     });
-    let msgs = await receiver.receiveBatch(2);
+    let msgs = await receiver.receiveMessages(2);
 
-    should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
-    should.equal(msgs.length, 1, "Unexpected number of messages");
+    should.equal(msgs.length, 1, "Unexpected number of messages received");
 
     should.equal(
       testMessagesWithDifferentSessionIds.some(
@@ -270,11 +269,13 @@ describe("SessionReceiver with no sessionId", function(): void {
     await msgs[0].complete();
     await receiver.close();
 
-    receiver = await receiverClient.createReceiver(ReceiveMode.peekLock, { sessionId: undefined });
-    msgs = await receiver.receiveBatch(2);
+    receiver = <SessionReceiver>(
+      receiverClient.createReceiver(ReceiveMode.peekLock, { sessionId: undefined })
+    );
+    msgs = await receiver.receiveMessages(2);
 
-    should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
-    should.equal(msgs.length, 1, "Unexpected number of messages");
+    should.equal(msgs.length, 1, "Unexpected number of messages received");
+
     should.equal(
       testMessagesWithDifferentSessionIds.some(
         (x) =>
@@ -293,8 +294,8 @@ describe("SessionReceiver with no sessionId", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedQueueWithSessions,
-      ClientType.PartitionedQueueWithSessions
+      TestClientType.PartitionedQueueWithSessions,
+      TestClientType.PartitionedQueueWithSessions
     );
     await purge(receiverClient, testSessionId2);
     await testComplete_batching();
@@ -304,8 +305,8 @@ describe("SessionReceiver with no sessionId", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedTopicWithSessions,
-      ClientType.PartitionedSubscriptionWithSessions
+      TestClientType.PartitionedTopicWithSessions,
+      TestClientType.PartitionedSubscriptionWithSessions
     );
     await purge(receiverClient, testSessionId2);
     await testComplete_batching();
@@ -315,8 +316,8 @@ describe("SessionReceiver with no sessionId", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedQueueWithSessions,
-      ClientType.UnpartitionedQueueWithSessions
+      TestClientType.UnpartitionedQueueWithSessions,
+      TestClientType.UnpartitionedQueueWithSessions
     );
     await purge(receiverClient, testSessionId2);
     await testComplete_batching();
@@ -326,8 +327,8 @@ describe("SessionReceiver with no sessionId", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedTopicWithSessions,
-      ClientType.UnpartitionedSubscriptionWithSessions
+      TestClientType.UnpartitionedTopicWithSessions,
+      TestClientType.UnpartitionedSubscriptionWithSessions
     );
     await purge(receiverClient, testSessionId2);
     await testComplete_batching();
@@ -344,10 +345,10 @@ describe("Session State", function(): void {
     const testMessage = TestMessage.getSessionSample();
     await sender.send(testMessage);
 
-    let receiver = <SessionReceiver>await receiverClient.createReceiver(ReceiveMode.peekLock, {
+    let receiver = <SessionReceiver>receiverClient.createReceiver(ReceiveMode.peekLock, {
       sessionId: undefined
     });
-    let msgs = await receiver.receiveBatch(2);
+    let msgs = await receiver.receiveMessages(2);
     should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
     should.equal(msgs.length, 1, "Unexpected number of messages");
     should.equal(msgs[0].body, testMessage.body, "MessageBody is different than expected");
@@ -363,9 +364,9 @@ describe("Session State", function(): void {
     await receiver.close();
 
     receiver = <SessionReceiver>(
-      await receiverClient.createReceiver(ReceiveMode.peekLock, { sessionId: undefined })
+      receiverClient.createReceiver(ReceiveMode.peekLock, { sessionId: undefined })
     );
-    msgs = await receiver.receiveBatch(2);
+    msgs = await receiver.receiveMessages(2);
     should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
     should.equal(msgs.length, 1, "Unexpected number of messages");
     should.equal(msgs[0].body, testMessage.body, "MessageBody is different than expected");
@@ -381,34 +382,134 @@ describe("Session State", function(): void {
   }
   it("Partitioned Queue - Testing getState and setState", async function(): Promise<void> {
     await beforeEachTest(
-      ClientType.PartitionedQueueWithSessions,
-      ClientType.PartitionedQueueWithSessions
+      TestClientType.PartitionedQueueWithSessions,
+      TestClientType.PartitionedQueueWithSessions
     );
     await purge(receiverClient, testSessionId2);
     await testGetSetState();
   });
   it("Partitioned Subscription - Testing getState and setState", async function(): Promise<void> {
     await beforeEachTest(
-      ClientType.PartitionedTopicWithSessions,
-      ClientType.PartitionedSubscriptionWithSessions
+      TestClientType.PartitionedTopicWithSessions,
+      TestClientType.PartitionedSubscriptionWithSessions
     );
     await purge(receiverClient, testSessionId2);
     await testGetSetState();
   });
   it("Unpartitioned Queue - Testing getState and setState", async function(): Promise<void> {
     await beforeEachTest(
-      ClientType.UnpartitionedQueueWithSessions,
-      ClientType.UnpartitionedQueueWithSessions
+      TestClientType.UnpartitionedQueueWithSessions,
+      TestClientType.UnpartitionedQueueWithSessions
     );
     await purge(receiverClient, testSessionId2);
     await testGetSetState();
   });
   it("Unpartitioned Subscription - Testing getState and setState", async function(): Promise<void> {
     await beforeEachTest(
-      ClientType.UnpartitionedTopicWithSessions,
-      ClientType.UnpartitionedSubscriptionWithSessions
+      TestClientType.UnpartitionedTopicWithSessions,
+      TestClientType.UnpartitionedSubscriptionWithSessions
     );
     await purge(receiverClient, testSessionId2);
     await testGetSetState();
+  });
+});
+
+describe("Peek session", function(): void {
+  afterEach(async () => {
+    await afterEachTest();
+  });
+
+  async function peekSession(useSessionId: boolean): Promise<void> {
+    const sender = senderClient.createSender();
+    const testMessage = TestMessage.getSessionSample();
+    await sender.send(testMessage);
+
+    const receiver = <SessionReceiver>receiverClient.createReceiver(ReceiveMode.peekLock, {
+      sessionId: useSessionId ? testMessage.sessionId : undefined
+    });
+
+    // At this point AMQP receiver link has not been established.
+    // peek() will not establish the link if sessionId was provided
+    const peekedMsgs = await receiver.peek(1);
+    should.equal(peekedMsgs.length, 1, "Unexpected number of messages");
+    should.equal(peekedMsgs[0].body, testMessage.body, "MessageBody is different than expected");
+    should.equal(
+      peekedMsgs[0].messageId,
+      testMessage.messageId,
+      "MessageId is different than expected"
+    );
+    should.equal(
+      peekedMsgs[0].sessionId,
+      testMessage.sessionId,
+      "SessionId is different than expected"
+    );
+
+    const msgs = await receiver.receiveMessages(1);
+    should.equal(msgs.length, 1, "Unexpected number of messages");
+    should.equal(msgs[0].body, testMessage.body, "MessageBody is different than expected");
+    should.equal(msgs[0].messageId, testMessage.messageId, "MessageId is different than expected");
+    should.equal(msgs[0].sessionId, testMessage.sessionId, "SessionId is different than expected");
+
+    await msgs[0].complete();
+  }
+
+  it("Partitioned Queue - Peek Session with sessionId", async function(): Promise<void> {
+    await beforeEachTest(
+      TestClientType.PartitionedQueueWithSessions,
+      TestClientType.PartitionedQueueWithSessions
+    );
+    await peekSession(true);
+  });
+  it("Partitioned Subscription - Peek Session with sessionId", async function(): Promise<void> {
+    await beforeEachTest(
+      TestClientType.PartitionedTopicWithSessions,
+      TestClientType.PartitionedSubscriptionWithSessions
+    );
+    await peekSession(true);
+  });
+  it("Unpartitioned Queue - Peek Session with sessionId", async function(): Promise<void> {
+    await beforeEachTest(
+      TestClientType.UnpartitionedQueueWithSessions,
+      TestClientType.UnpartitionedQueueWithSessions
+    );
+    await peekSession(true);
+  });
+  it("Unpartitioned Subscription - Peek Session with sessionId", async function(): Promise<void> {
+    await beforeEachTest(
+      TestClientType.UnpartitionedTopicWithSessions,
+      TestClientType.UnpartitionedSubscriptionWithSessions
+    );
+    await peekSession(true);
+  });
+
+  it("Partitioned Queue - Peek Session without sessionId", async function(): Promise<void> {
+    await beforeEachTest(
+      TestClientType.PartitionedQueueWithSessions,
+      TestClientType.PartitionedQueueWithSessions
+    );
+    await peekSession(false);
+  });
+  it("Partitioned Subscription - Peek Session without sessionId", async function(): Promise<void> {
+    await beforeEachTest(
+      TestClientType.PartitionedTopicWithSessions,
+      TestClientType.PartitionedSubscriptionWithSessions
+    );
+    await peekSession(false);
+  });
+  it("Unpartitioned Queue - Peek Session without sessionId", async function(): Promise<void> {
+    await beforeEachTest(
+      TestClientType.UnpartitionedQueueWithSessions,
+      TestClientType.UnpartitionedQueueWithSessions
+    );
+    await peekSession(false);
+  });
+  it("Unpartitioned Subscription - Peek Session without sessionId", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      TestClientType.UnpartitionedTopicWithSessions,
+      TestClientType.UnpartitionedSubscriptionWithSessions
+    );
+    await peekSession(false);
   });
 });

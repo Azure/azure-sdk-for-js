@@ -30,6 +30,7 @@
         "variable-declaration": "onespace"
       }
     ],
+    "import-blacklist": [true, "rhea", ["rhea/.*"]],
     "prefer-const": true,
     "no-construct": true,
     "no-duplicate-variable": true,
@@ -54,22 +55,11 @@
     "interface-name": [true, "never-prefix"],
     "jsdoc-format": true,
     "new-parens": true,
-    "one-line": [
-      true,
-      "check-catch",
-      "check-finally",
-      "check-else",
-      "check-open-brace"
-    ],
+    "one-line": [true, "check-catch", "check-finally", "check-else", "check-open-brace"],
     "one-variable-per-declaration": [true, "ignore-for-loop"],
     "semicolon": [true, "always"],
     "curly": [true, "ignore-same-line"],
-    "variable-name": [
-      true,
-      "check-format",
-      "allow-leading-underscore",
-      "ban-keywords"
-    ],
+    "variable-name": [true, "check-format", "allow-leading-underscore", "ban-keywords"],
     "whitespace": [
       true,
       "check-branch",

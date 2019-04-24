@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+import chai from "chai";
 import {
   SendableMessageInfo,
   QueueClient,
@@ -8,7 +9,8 @@ import {
   ServiceBusClient,
   SubscriptionClient,
   delay,
-  ReceiveMode
+  ReceiveMode,
+  ServiceBusMessage
 } from "../src";
 import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
 import { ServiceBusManagementClient } from "@azure/arm-servicebus";
@@ -22,7 +24,19 @@ export class TestMessage {
     return {
       body: `message body ${randomNumber}`,
       messageId: `message id ${randomNumber}`,
-      partitionKey: "dummy"
+      partitionKey: `dummy partition key`,
+      contentType: `content type ${randomNumber}`,
+      correlationId: `correlation id ${randomNumber}`,
+      timeToLive: 60 * 60 * 24,
+      label: `label ${randomNumber}`,
+      to: `to ${randomNumber}`,
+      replyTo: `reply to ${randomNumber}`,
+      scheduledEnqueueTimeUtc: new Date(),
+      userProperties: {
+        propOne: 1,
+        propTwo: "two",
+        propThree: true
+      }
     };
   }
 
@@ -31,12 +45,96 @@ export class TestMessage {
     return {
       body: `message body ${randomNumber}`,
       messageId: `message id ${randomNumber}`,
-      sessionId: TestMessage.sessionId
+      partitionKey: `partition key ${randomNumber}`,
+      contentType: `content type ${randomNumber}`,
+      correlationId: `correlation id ${randomNumber}`,
+      timeToLive: 60 * 60 * 24,
+      label: `label ${randomNumber}`,
+      to: `to ${randomNumber}`,
+      replyTo: `reply to ${randomNumber}`,
+      scheduledEnqueueTimeUtc: new Date(),
+      userProperties: {
+        propOne: 1,
+        propTwo: "two",
+        propThree: true
+      },
+      sessionId: TestMessage.sessionId,
+      replyToSessionId: "some-other-session-id"
     };
+  }
+
+  /**
+   * Compares all the properties set on the given sent message with those
+   * on the received message
+   */
+  static checkMessageContents(
+    sent: SendableMessageInfo,
+    received: ServiceBusMessage,
+    useSessions?: boolean,
+    usePartitions?: boolean
+  ): void {
+    if (sent.userProperties) {
+      if (!received.userProperties) {
+        chai.assert.fail("Received message doesnt have any user properties");
+        return;
+      }
+      const expectedUserProperties = sent.userProperties;
+      const receivedUserProperties = received.userProperties;
+      Object.keys(expectedUserProperties).forEach((key) => {
+        chai.assert.equal(
+          receivedUserProperties[key],
+          expectedUserProperties[key],
+          `Unexpected value for user property for ${key}`
+        );
+      });
+    }
+
+    chai.assert.equal(received.body, sent.body, `Unexpected body in received msg`);
+    chai.assert.equal(received.messageId, sent.messageId, `Unexpected messageId in received msg`);
+
+    chai.assert.equal(
+      received.contentType,
+      sent.contentType,
+      `Unexpected contentType in received msg`
+    );
+    chai.assert.equal(
+      received.correlationId,
+      sent.correlationId,
+      `Unexpected correlationId in received msg`
+    );
+    chai.assert.equal(
+      received.timeToLive,
+      sent.timeToLive,
+      `Unexpected timeToLive in received msg`
+    );
+    chai.assert.equal(received.to, sent.to, `Unexpected to in received msg`);
+    chai.assert.equal(received.replyTo, sent.replyTo, `Unexpected replyTo in received msg`);
+
+    if (useSessions) {
+      chai.assert.equal(received.sessionId, sent.sessionId, `Unexpected sessionId in received msg`);
+      chai.assert.equal(
+        received.replyToSessionId,
+        sent.replyToSessionId,
+        `Unexpected replyToSessionId in received msg`
+      );
+      if (usePartitions) {
+        chai.assert.equal(
+          received.partitionKey,
+          sent.sessionId,
+          `Unexpected partitionKey in received msg`
+        );
+      }
+    } else {
+      chai.assert.equal(
+        received.partitionKey,
+        sent.partitionKey,
+        `Unexpected partitionKey in received msg`
+      );
+    }
   }
 }
 
-export enum ClientType {
+export enum TestClientType {
   PartitionedQueue,
   PartitionedTopic,
   PartitionedSubscription,
@@ -174,16 +272,51 @@ async function recreateSubscription(
     });
 }
 
+export async function getTopicClientWithTwoSubscriptionClients(
+  namespace: ServiceBusClient
+): Promise<{
+  topicClient: TopicClient;
+  subscriptionClients: SubscriptionClient[];
+}> {
+  const subscriptionClients: SubscriptionClient[] = [];
+  const topicName = process.env.TOPIC_FILTER_NAME || "topic-filter";
+  const subscription1Name =
+    process.env.TOPIC_FILTER_SUBSCRIPTION_NAME || "topic-filter-subscription";
+  const subscription2Name =
+    process.env.TOPIC_FILTER_DEFAULT_SUBSCRIPTION_NAME || "topic-filter-default-subscription";
+  if (process.env.CLEAN_NAMESPACE) {
+    await recreateTopic(topicName, {
+      enableBatchedOperations: true
+    });
+    await recreateSubscription(topicName, subscription1Name, {
+      lockDuration: defaultLockDuration,
+      enableBatchedOperations: true
+    });
+    await recreateSubscription(topicName, subscription2Name, {
+      lockDuration: defaultLockDuration,
+      enableBatchedOperations: true
+    });
+  }
+
+  subscriptionClients.push(namespace.createSubscriptionClient(topicName, subscription1Name));
+  subscriptionClients.push(namespace.createSubscriptionClient(topicName, subscription2Name));
+
+  return {
+    topicClient: namespace.createTopicClient(topicName),
+    subscriptionClients
+  };
+}
+
 export async function getSenderReceiverClients(
   namespace: ServiceBusClient,
-  senderClientType: ClientType,
-  receiverClientType: ClientType
+  senderClientType: TestClientType,
+  receiverClientType: TestClientType
 ): Promise<{
   senderClient: QueueClient | TopicClient;
   receiverClient: QueueClient | SubscriptionClient;
 }> {
   switch (receiverClientType) {
-    case ClientType.PartitionedQueue: {
+    case TestClientType.PartitionedQueue: {
       const queueName = process.env.QUEUE_NAME || "partitioned-queue";
       if (process.env.CLEAN_NAMESPACE) {
         await recreateQueue(queueName, {
@@ -198,7 +331,7 @@ export async function getSenderReceiverClients(
         receiverClient: queueClient
       };
     }
-    case ClientType.PartitionedSubscription: {
+    case TestClientType.PartitionedSubscription: {
       const topicName = process.env.TOPIC_NAME || "partitioned-topic";
       const subscriptionName = process.env.SUBSCRIPTION_NAME || "partitioned-topic-subscription";
       if (process.env.CLEAN_NAMESPACE) {
@@ -216,7 +349,7 @@ export async function getSenderReceiverClients(
         receiverClient: namespace.createSubscriptionClient(topicName, subscriptionName)
       };
     }
-    case ClientType.UnpartitionedQueue: {
+    case TestClientType.UnpartitionedQueue: {
       const queueName = process.env.QUEUE_NAME_NO_PARTITION || "unpartitioned-queue";
       if (process.env.CLEAN_NAMESPACE) {
         await recreateQueue(queueName, {
@@ -230,7 +363,7 @@ export async function getSenderReceiverClients(
         receiverClient: queueClient
       };
     }
-    case ClientType.UnpartitionedSubscription: {
+    case TestClientType.UnpartitionedSubscription: {
       const topicName = process.env.TOPIC_NAME_NO_PARTITION || "unpartitioned-topic";
       const subscriptionName =
         process.env.SUBSCRIPTION_NAME_NO_PARTITION || "unpartitioned-topic-subscription";
@@ -248,7 +381,7 @@ export async function getSenderReceiverClients(
         receiverClient: namespace.createSubscriptionClient(topicName, subscriptionName)
       };
     }
-    case ClientType.PartitionedQueueWithSessions: {
+    case TestClientType.PartitionedQueueWithSessions: {
       const queueName = process.env.QUEUE_NAME_SESSION || "partitioned-queue-sessions";
       if (process.env.CLEAN_NAMESPACE) {
         await recreateQueue(queueName, {
@@ -264,7 +397,7 @@ export async function getSenderReceiverClients(
         receiverClient: queueClient
       };
     }
-    case ClientType.PartitionedSubscriptionWithSessions: {
+    case TestClientType.PartitionedSubscriptionWithSessions: {
       const topicName = process.env.TOPIC_NAME_SESSION || "partitioned-topic-sessions";
       const subscriptionName =
         process.env.SUBSCRIPTION_NAME_SESSION || "partitioned-topic-sessions-subscription";
@@ -284,7 +417,7 @@ export async function getSenderReceiverClients(
         receiverClient: namespace.createSubscriptionClient(topicName, subscriptionName)
       };
     }
-    case ClientType.UnpartitionedQueueWithSessions: {
+    case TestClientType.UnpartitionedQueueWithSessions: {
       const queueName =
         process.env.QUEUE_NAME_NO_PARTITION_SESSION || "unpartitioned-queue-sessions";
       if (process.env.CLEAN_NAMESPACE) {
@@ -300,7 +433,7 @@ export async function getSenderReceiverClients(
         receiverClient: queueClient
       };
     }
-    case ClientType.UnpartitionedSubscriptionWithSessions: {
+    case TestClientType.UnpartitionedSubscriptionWithSessions: {
       const topicName =
         process.env.TOPIC_NAME_NO_PARTITION_SESSION || "unpartitioned-topic-sessions";
       const subscriptionName =
@@ -321,7 +454,7 @@ export async function getSenderReceiverClients(
         receiverClient: namespace.createSubscriptionClient(topicName, subscriptionName)
       };
     }
-    case ClientType.TopicFilterTestDefaultSubscription: {
+    case TestClientType.TopicFilterTestDefaultSubscription: {
       const topicName = process.env.TOPIC_FILTER_NAME || "topic-filter";
       const subscriptionName =
         process.env.TOPIC_FILTER_DEFAULT_SUBSCRIPTION_NAME || "topic-filter-default-subscription";
@@ -339,7 +472,7 @@ export async function getSenderReceiverClients(
         receiverClient: namespace.createSubscriptionClient(topicName, subscriptionName)
       };
     }
-    case ClientType.TopicFilterTestSubscription: {
+    case TestClientType.TopicFilterTestSubscription: {
       const topicName = process.env.TOPIC_FILTER_NAME || "topic-filter";
       const subscriptionName =
         process.env.TOPIC_FILTER_SUBSCRIPTION_NAME || "topic-filter-subscription";
@@ -382,13 +515,13 @@ export async function purge(
     } else {
       let receiver;
       if (sessionId) {
-        receiver = await receiverClient.createReceiver(ReceiveMode.peekLock, {
+        receiver = receiverClient.createReceiver(ReceiveMode.peekLock, {
           sessionId
         });
       } else {
-        receiver = await receiverClient.createReceiver(ReceiveMode.peekLock);
+        receiver = receiverClient.createReceiver(ReceiveMode.peekLock);
       }
-      const msgs = await receiver.receiveBatch(peekedMsgs.length);
+      const msgs = await receiver.receiveMessages(peekedMsgs.length);
       for (let index = 0; index < msgs.length; index++) {
         if (msgs[index]) {
           await msgs[index].complete();

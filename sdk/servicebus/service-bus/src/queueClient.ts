@@ -5,34 +5,41 @@ import * as Long from "long";
 import * as log from "./log";
 import { ConnectionContext } from "./connectionContext";
 import { ReceivedMessageInfo, ReceiveMode } from "./serviceBusMessage";
-import { Client } from "./client";
-import { MessageSession, SessionReceiverOptions } from "./session/messageSession";
+import { Client, ClientType } from "./client";
+import { SessionReceiverOptions } from "./session/messageSession";
 import { Sender } from "./sender";
 import { Receiver, SessionReceiver } from "./receiver";
-import { throwErrorIfConnectionClosed } from "./util/utils";
+import {
+  getOpenReceiverErrorMsg,
+  getOpenSenderErrorMsg,
+  throwErrorIfClientOrConnectionClosed,
+  throwErrorIfConnectionClosed
+} from "./util/errors";
 import { AmqpError, generate_uuid } from "rhea-promise";
 import { ClientEntityContext } from "./clientEntityContext";
 
 /**
  * Describes the client that allows interacting with a Service Bus Queue.
- * Use the `createQueueClient` function on the Namespace object to instantiate a QueueClient
+ * Use the `createQueueClient` function on the ServiceBusClient object to instantiate a QueueClient
  * @class QueueClient
  */
 export class QueueClient implements Client {
   /**
-   * @property {string} The entitypath for the Service Bus Queue for which this client is created.
+   * @readonly
+   * @property The path for the Service Bus Queue for which this client is created.
    */
   readonly entityPath: string;
   /**
-   * @property {string} A unique identifier for the client.
+   * @readonly
+   * @property A unique identifier for this client.
    */
   readonly id: string;
   /**
-   * @property {boolean} _isClosed Denotes if close() was called on this client.
+   * @property Denotes if close() was called on this client.
    */
   private _isClosed: boolean = false;
   /**
-   * @property {ClientEntityContext} _context Describes the amqp connection context for the QueueClient.
+   * @property Describes the amqp connection context for the QueueClient.
    */
   private _context: ClientEntityContext;
 
@@ -42,25 +49,24 @@ export class QueueClient implements Client {
   /**
    * Constructor for QueueClient.
    * This is not meant for the user to call directly.
-   * The user should use the `createQueueClient` on the Namespace instead.
+   * The user should use the `createQueueClient` on the ServiceBusClient instead.
    *
    * @constructor
    * @internal
-   * @param name The Queue name.
+   * @param queueName The Queue name.
    * @param context The connection context to create the QueueClient.
    */
-  constructor(name: string, context: ConnectionContext) {
+  constructor(queueName: string, context: ConnectionContext) {
     throwErrorIfConnectionClosed(context);
-    this.entityPath = name;
+    this.entityPath = String(queueName);
     this.id = `${this.entityPath}/${generate_uuid()}`;
-    this._context = ClientEntityContext.create(this.entityPath, context);
+    this._context = ClientEntityContext.create(this.entityPath, ClientType.QueueClient, context);
   }
 
   /**
    * Closes all the AMQP links for sender/receivers created by this client.
    * Once closed, neither the QueueClient nor its sender/receivers can be used for any
-   * further operations. Use the `createQueueClient` function on the Namespace object to
-   * instantiate a new QueueClient
+   * further operations.
    *
    * @returns {Promise<void>}
    */
@@ -101,11 +107,13 @@ export class QueueClient implements Client {
         log.qClient("Closed the Queue client '%s'.", this.id);
       }
     } catch (err) {
-      const msg =
-        `An error occurred while closing the queue client ` +
-        `"${this.id}": ${JSON.stringify(err)} `;
-      log.error(msg);
-      throw new Error(msg);
+      log.error(
+        "[%s] An error occurred while closing the QueueClient for %s: %O",
+        this._context.namespace.connectionId,
+        this.id,
+        err
+      );
+      throw err;
     }
   }
 
@@ -130,54 +138,61 @@ export class QueueClient implements Client {
   }
 
   /**
-   * Creates a Sender to be used for sending messages, scheduling messages to be sent at a later time
+   * Creates a Sender for sending messages, scheduling messages to be sent at a later time
    * and cancelling such scheduled messages.
-   * Throws error if an open sender already exists for this QueueClient.
+   * - Throws error if an open sender already exists for this QueueClient.
    */
   createSender(): Sender {
-    this._throwErrorIfClientOrConnectionClosed();
+    throwErrorIfClientOrConnectionClosed(this._context.namespace, this.entityPath, this._isClosed);
     if (!this._currentSender || this._currentSender.isClosed) {
       this._currentSender = new Sender(this._context);
       return this._currentSender;
     }
-    throw new Error(
-      "An open sender already exists on this QueueClient. Please close it and try" +
-        " again or use a new QueueClient instance"
-    );
+    const errorMessage = getOpenSenderErrorMsg("QueueClient", this.entityPath);
+    const error = new Error(errorMessage);
+    log.error(`[${this._context.namespace.connectionId}] %O`, error);
+    throw error;
   }
 
   /**
    * Creates a Receiver for receiving messages from a Queue which does not have sessions enabled.
-   * Throws error if an open receiver already exists for this QueueClient.
-   *
-   * Throws error if the Queue has sessions enabled.
+   * - Throws error if an open receiver already exists for this QueueClient.
+   * - Throws error if the Queue has sessions enabled.
    *
    * @param receiveMode An enum indicating the mode in which messages should be received. Possible
-   * values are `ReceiveMode.peekLock` and `ReceiveMode.receiveAndDelete`
+   * values are:
+   * - `ReceiveMode.peekLock`: Once a message is received in this mode, the receiver has a lock on
+   * the message for a particular duration. If the message is not settled by this time, it lands back
+   * on Service Bus to be fetched by the next receive operation.
+   * - `ReceiveMode.receiveAndDelete`: Messages received in this mode get automatically removed from
+   * Service Bus.
    *
-   * @returns Promise<Receiver> A promise that resolves to a receiver to receive messages from a
-   * Queue which does not have sessions enabled.
+   * @returns Receiver A receiver to receive messages from a Queue which does not have
+   * sessions enabled.
    */
-  public async createReceiver(receiveMode: ReceiveMode): Promise<Receiver>;
+  public createReceiver(receiveMode: ReceiveMode): Receiver;
   /**
    * Creates a Receiver for receiving messages from a session enabled Queue. When no sessionId is
    * given, a random session among the available sessions is used.
-   *
-   * Throws error if an open receiver already exists for given sessionId.
-   * Throws error if the Queue does not have sessions enabled.
+   * - Throws error if an open receiver already exists for given sessionId.
+   * - Throws error if the Queue does not have sessions enabled.
    *
    * @param receiveMode An enum indicating the mode in which messages should be received. Possible
-   * values are `ReceiveMode.peekLock` and `ReceiveMode.receiveAndDelete`
+   * values are:
+   * - `ReceiveMode.peekLock`: Once a message is received in this mode, the receiver has a lock on
+   * the message for a particular duration. If the message is not settled by this time, it lands back
+   * on Service Bus to be fetched by the next receive operation.
+   * - `ReceiveMode.receiveAndDelete`: Messages received in this mode get automatically removed from
+   * Service Bus.
    * @param sessionOptions Options to provide sessionId and duration of automatic lock renewal for
    * the session receiver.
    *
-   * @returns Promise<SessionReceiver> A promise that resolves to a receiver to receive from a
-   * session in the Queue.
+   * @returns SessionReceiver A receiver to receive from a session in the Queue.
    */
-  public async createReceiver(
+  public createReceiver(
     receiveMode: ReceiveMode,
     sessionOptions: SessionReceiverOptions
-  ): Promise<SessionReceiver>;
+  ): SessionReceiver;
   /**
    * Create a Receiver for receiving messages from a Queue.
    *
@@ -187,15 +202,14 @@ export class QueueClient implements Client {
    * to provide sessionId and duration for which automatic lock renewal for should be done for the
    * receiver.
    *
-   * @returns Promise<Receiver|SessionReceiver> A promise that resolves to a receiver to receive
-   * from a session in the Queue if `sessionOptions` were provided. Else, the promise resolves to a
-   * receiver to receive messages from the Queue.
+   * @returns Receiver|SessionReceiver A receiver to receive from a session in the Queue if
+   * `sessionOptions` were provided. Else, a receiver to receive messages from the Queue.
    */
-  public async createReceiver(
+  public createReceiver(
     receiveMode: ReceiveMode,
     sessionOptions?: SessionReceiverOptions
-  ): Promise<Receiver | SessionReceiver> {
-    this._throwErrorIfClientOrConnectionClosed();
+  ): Receiver | SessionReceiver {
+    throwErrorIfClientOrConnectionClosed(this._context.namespace, this.entityPath, this._isClosed);
 
     // Receiver for Queue where sessions are not enabled
     if (!sessionOptions) {
@@ -203,60 +217,34 @@ export class QueueClient implements Client {
         this._currentReceiver = new Receiver(this._context, receiveMode);
         return this._currentReceiver;
       }
-      throw new Error(
-        "An open receiver already exists on this QueueClient. Please close it and try" +
-          " again or use a new QueueClient instance"
-      );
+      const errorMessage = getOpenReceiverErrorMsg(ClientType.QueueClient, this.entityPath);
+      const error = new Error(errorMessage);
+      log.error(`[${this._context.namespace.connectionId}] %O`, error);
+      throw error;
     }
 
-    // Check if receiver for given session already exists
-    if (sessionOptions.sessionId) {
-      if (
-        this._context.messageSessions[sessionOptions.sessionId] &&
-        this._context.messageSessions[sessionOptions.sessionId].isOpen()
-      ) {
-        throw new Error(
-          `An open receiver already exists for sessionId '${
-            sessionOptions.sessionId
-          }'. Please close it and try again.`
-        );
-      }
-    }
-
-    this._context.isSessionEnabled = true;
-    const messageSession = await MessageSession.create(this._context, {
-      sessionId: sessionOptions.sessionId,
-      maxSessionAutoRenewLockDurationInSeconds:
-        sessionOptions.maxSessionAutoRenewLockDurationInSeconds,
-      receiveMode
-    });
-    if (messageSession.sessionId) {
-      delete this._context.expiredMessageSessions[messageSession.sessionId];
-    }
-    return new SessionReceiver(this._context, messageSession);
+    return new SessionReceiver(this._context, receiveMode, sessionOptions);
   }
 
   /**
    * Fetches the next batch of active messages (including deferred but not deadlettered messages).
-   * The first call to `peek()` fetches the first active message. Each subsequent call fetches the
+   * - The first call to `peek()` fetches the first active message. Each subsequent call fetches the
    * subsequent message.
-   *
-   * Unlike a `received` message, `peeked` message is a read-only version of the message.
+   * - Unlike a `received` message, `peeked` message is a read-only version of the message.
    * It cannot be `Completed/Abandoned/Deferred/Deadlettered`. The lock on it cannot be renewed.
    *
    * @param [maxMessageCount] The maximum number of messages to peek. Default value `1`.
    * @returns Promise<ReceivedSBMessage[]>
    */
   async peek(maxMessageCount?: number): Promise<ReceivedMessageInfo[]> {
-    this._throwErrorIfClientOrConnectionClosed();
+    throwErrorIfClientOrConnectionClosed(this._context.namespace, this.entityPath, this._isClosed);
     return this._context.managementClient!.peek(maxMessageCount);
   }
 
   /**
    * Peeks the desired number of active messages (including deferred but not deadlettered messages)
    * from the specified sequence number.
-   *
-   * Unlike a `received` message, `peeked` message is a read-only version of the message.
+   * - Unlike a `received` message, `peeked` message is a read-only version of the message.
    * It cannot be `Completed/Abandoned/Deferred/Deadlettered`. The lock on it cannot be renewed.
    *
    * @param fromSequenceNumber The sequence number from where to read the message.
@@ -267,10 +255,11 @@ export class QueueClient implements Client {
     fromSequenceNumber: Long,
     maxMessageCount?: number
   ): Promise<ReceivedMessageInfo[]> {
-    this._throwErrorIfClientOrConnectionClosed();
-    return this._context.managementClient!.peekBySequenceNumber(fromSequenceNumber, {
-      messageCount: maxMessageCount
-    });
+    throwErrorIfClientOrConnectionClosed(this._context.namespace, this.entityPath, this._isClosed);
+    return this._context.managementClient!.peekBySequenceNumber(
+      fromSequenceNumber,
+      maxMessageCount
+    );
   }
 
   // /**
@@ -283,6 +272,7 @@ export class QueueClient implements Client {
   //   maxNumberOfSessions: number,
   //   lastUpdatedTime?: Date
   // ): Promise<string[]> {
+  // TODO: Parameter validation if required
   // this.throwErrorIfClientOrConnectionClosed();
   //   return this._context.managementClient!.listMessageSessions(
   //     0,
@@ -292,21 +282,10 @@ export class QueueClient implements Client {
   // }
 
   /**
-   * Throws error if this queueClient has been closed
-   * @param client
-   */
-  private _throwErrorIfClientOrConnectionClosed(): void {
-    throwErrorIfConnectionClosed(this._context.namespace);
-    if (this._isClosed) {
-      throw new Error("The queueClient has been closed and can no longer be used.");
-    }
-  }
-
-  /**
    * Returns the corresponding dead letter queue name for the queue represented by the given name.
    * Use this in the `createQueueClient` function on the `ServiceBusClient` instance to receive
-   * messages from the dead letter queue.
-   * @param queueName
+   * messages from a dead letter queue.
+   * @param queueName Name of the queue whose dead letter counterpart's name is being fetched
    */
   static getDeadLetterQueuePath(queueName: string): string {
     return `${queueName}/$DeadLetterQueue`;

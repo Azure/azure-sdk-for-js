@@ -19,13 +19,13 @@ import {
   ReceiveMode
 } from "../src";
 import { delay } from "rhea-promise";
-import { purge, getSenderReceiverClients, ClientType, TestMessage } from "./testUtils";
+import { purge, getSenderReceiverClients, TestClientType, TestMessage } from "./testUtils";
 
 let ns: ServiceBusClient;
 let senderClient: QueueClient | TopicClient;
 let receiverClient: QueueClient | SubscriptionClient;
 
-async function beforeEachTest(senderType: ClientType, receiverType: ClientType): Promise<void> {
+async function beforeEachTest(senderType: TestClientType, receiverType: TestClientType): Promise<void> {
   if (!process.env.SERVICEBUS_CONNECTION_STRING) {
     throw new Error(
       "Define SERVICEBUS_CONNECTION_STRING in your environment before running integration tests."
@@ -51,7 +51,7 @@ async function afterEachTest(): Promise<void> {
 
 describe("Unpartitioned Queue - Lock Renewal", function(): void {
   beforeEach(async () => {
-    await beforeEachTest(ClientType.UnpartitionedQueue, ClientType.UnpartitionedQueue);
+    await beforeEachTest(TestClientType.UnpartitionedQueue, TestClientType.UnpartitionedQueue);
   });
 
   afterEach(async () => {
@@ -119,7 +119,7 @@ describe("Unpartitioned Queue - Lock Renewal", function(): void {
 
 describe("Partitioned Queue - Lock Renewal", function(): void {
   beforeEach(async () => {
-    await beforeEachTest(ClientType.PartitionedQueue, ClientType.PartitionedQueue);
+    await beforeEachTest(TestClientType.PartitionedQueue, TestClientType.PartitionedQueue);
   });
 
   afterEach(async () => {
@@ -188,7 +188,7 @@ describe("Partitioned Queue - Lock Renewal", function(): void {
 
 describe("Unpartitioned Subscription - Lock Renewal", function(): void {
   beforeEach(async () => {
-    await beforeEachTest(ClientType.UnpartitionedTopic, ClientType.UnpartitionedSubscription);
+    await beforeEachTest(TestClientType.UnpartitionedTopic, TestClientType.UnpartitionedSubscription);
   });
 
   afterEach(async () => {
@@ -257,7 +257,7 @@ describe("Unpartitioned Subscription - Lock Renewal", function(): void {
 
 describe("Partitioned Subscription - Lock Renewal", function(): void {
   beforeEach(async () => {
-    await beforeEachTest(ClientType.PartitionedTopic, ClientType.PartitionedSubscription);
+    await beforeEachTest(TestClientType.PartitionedTopic, TestClientType.PartitionedSubscription);
   });
 
   afterEach(async () => {
@@ -342,8 +342,8 @@ async function testBatchReceiverManualLockRenewalHappyCase(
   const testMessage = TestMessage.getSample();
   await senderClient.createSender().send(testMessage);
 
-  const receiver = await receiverClient.createReceiver(ReceiveMode.peekLock);
-  const msgs = await receiver.receiveBatch(1);
+  const receiver = receiverClient.createReceiver(ReceiveMode.peekLock);
+  const msgs = await receiver.receiveMessages(1);
 
   // Compute expected initial lock expiry time
   const expectedLockExpiryTimeUtc = new Date();
@@ -365,7 +365,7 @@ async function testBatchReceiverManualLockRenewalHappyCase(
 
   await delay(5000);
   if (msgs[0].lockToken) {
-    await receiver.renewLock(msgs[0].lockToken);
+    await receiver.renewMessageLock(msgs[0].lockToken);
   }
 
   // Compute expected lock expiry time after renewing lock after 5 seconds
@@ -391,8 +391,8 @@ async function testBatchReceiverManualLockRenewalErrorOnLockExpiry(
   const testMessage = TestMessage.getSample();
   await senderClient.createSender().send(testMessage);
 
-  const receiver = await receiverClient.createReceiver(ReceiveMode.peekLock);
-  const msgs = await receiver.receiveBatch(1);
+  const receiver = receiverClient.createReceiver(ReceiveMode.peekLock);
+  const msgs = await receiver.receiveMessages(1);
 
   should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
   should.equal(msgs.length, 1, "Expected message length does not match");
@@ -411,7 +411,7 @@ async function testBatchReceiverManualLockRenewalErrorOnLockExpiry(
   should.equal(errorWasThrown, true, "Error thrown flag must be true");
 
   // Clean up any left over messages
-  const unprocessedMsgs = await receiver.receiveBatch(1);
+  const unprocessedMsgs = await receiver.receiveMessages(1);
   await unprocessedMsgs[0].complete();
 }
 
@@ -425,7 +425,7 @@ async function testStreamingReceiverManualLockRenewalHappyCase(
   let numOfMessagesReceived = 0;
   const testMessage = TestMessage.getSample();
   await senderClient.createSender().send(testMessage);
-  const receiver = await receiverClient.createReceiver(ReceiveMode.peekLock);
+  const receiver = receiverClient.createReceiver(ReceiveMode.peekLock);
 
   const onMessage: OnMessage = async (brokeredMessage: ServiceBusMessage) => {
     if (numOfMessagesReceived < 1) {
@@ -456,7 +456,7 @@ async function testStreamingReceiverManualLockRenewalHappyCase(
       );
 
       await delay(5000);
-      await receiver.renewLock(brokeredMessage);
+      await receiver.renewMessageLock(brokeredMessage);
 
       // Compute expected lock expiry time after renewing lock after 5 seconds
       expectedLockExpiryTimeUtc.setSeconds(expectedLockExpiryTimeUtc.getSeconds() + 5);
@@ -472,7 +472,7 @@ async function testStreamingReceiverManualLockRenewalHappyCase(
     }
   };
 
-  receiver.receive(onMessage, onError, {
+  receiver.registerMessageHandler(onMessage, onError, {
     autoComplete: false,
     maxMessageAutoRenewLockDurationInSeconds: 0
   });
@@ -500,7 +500,7 @@ async function testAutoLockRenewalConfigBehavior(
   let numOfMessagesReceived = 0;
   const testMessage = TestMessage.getSample();
   await senderClient.createSender().send(testMessage);
-  const receiver = await receiverClient.createReceiver(ReceiveMode.peekLock);
+  const receiver = receiverClient.createReceiver(ReceiveMode.peekLock);
 
   const onMessage: OnMessage = async (brokeredMessage: ServiceBusMessage) => {
     if (numOfMessagesReceived < 1) {
@@ -530,7 +530,7 @@ async function testAutoLockRenewalConfigBehavior(
     }
   };
 
-  receiver.receive(onMessage, onError, {
+  receiver.registerMessageHandler(onMessage, onError, {
     autoComplete: false,
     maxMessageAutoRenewLockDurationInSeconds: options.maxAutoRenewDurationInSeconds
   });
@@ -545,8 +545,8 @@ async function testAutoLockRenewalConfigBehavior(
 
   if (options.willCompleteFail) {
     // Clean up any left over messages
-    const newReceiver = await receiverClient.createReceiver(ReceiveMode.peekLock);
-    const unprocessedMsgs = await newReceiver.receiveBatch(1);
+    const newReceiver = receiverClient.createReceiver(ReceiveMode.peekLock);
+    const unprocessedMsgs = await newReceiver.receiveMessages(1);
     await unprocessedMsgs[0].complete();
   }
 }

@@ -7,14 +7,14 @@
   Setup: Please run "sendMessages.ts" sample before running this to populate the queue/topic
 */
 
-import { Namespace } from "@azure/service-bus";
+import { ServiceBusClient } from "@azure/service-bus";
 
 // Define connection string and related Service Bus entity names here
 const connectionString = "";
 const queueName = "";
 
 async function main(): Promise<void> {
-  const ns = Namespace.createFromConnectionString(connectionString);
+  const ns = ServiceBusClient.createFromConnectionString(connectionString);
 
   // If using Topics & Subscription, use createSubscriptionClient to peek from the subscription
   const client = ns.createQueueClient(queueName);

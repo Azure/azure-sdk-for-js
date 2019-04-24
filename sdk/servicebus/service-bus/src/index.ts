@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 /// <reference lib="es2015" />
+/// <reference lib="esnext.asynciterable" />
 
 export { ServiceBusClient, ServiceBusClientOptions } from "./serviceBusClient";
 export {
@@ -33,4 +34,4 @@ export {
   DeadLetterOptions,
   ReceiveMode
 } from "./serviceBusMessage";
-export { AmqpError, Delivery } from "rhea-promise";
+export { AmqpError, Delivery, WebSocketImpl } from "rhea-promise";

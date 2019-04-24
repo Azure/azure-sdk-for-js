@@ -5,7 +5,7 @@ import path from "path";
 // Since `npm run build-samples` now update the typescript samples to make them debuggable,
 // we now have the below tests to ensure such updates dont get checked in.
 describe("Ensure typescript samples use published package", function(): void {
-  const regex = new RegExp('import (.*) from "@azure/service-bus"');
+  const regex = new RegExp('from "@azure/service-bus"');
 
   function testSamples(folder: string): void {
     const files = fs.readdirSync(folder);

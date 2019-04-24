@@ -74,7 +74,7 @@ async function receiveMessages(): Promise<void> {
   const client = ns.createQueueClient(queueName);
 
   try {
-    const receiver = await client.createReceiver(ReceiveMode.peekLock);
+    const receiver = client.createReceiver(ReceiveMode.peekLock);
     const onMessageHandler: OnMessage = async (brokeredMessage) => {
       const receivedMsgId = brokeredMessage.messageId;
 
@@ -134,7 +134,7 @@ async function receiveMessages(): Promise<void> {
       throw err;
     };
 
-    receiver.receive(onMessageHandler, onErrorHandler, { autoComplete: false });
+    receiver.registerMessageHandler(onMessageHandler, onErrorHandler, { autoComplete: false });
     await delay(testDurationInMilliseconds);
 
     isJobDone = true;
