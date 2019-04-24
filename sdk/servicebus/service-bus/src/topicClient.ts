@@ -10,7 +10,7 @@ import {
   throwErrorIfClientOrConnectionClosed,
   throwErrorIfConnectionClosed
 } from "./util/errors";
-import { AmqpError, generate_uuid } from "rhea-promise";
+import { generate_uuid } from "rhea-promise";
 import { ClientEntityContext } from "./clientEntityContext";
 
 /**
@@ -30,11 +30,7 @@ export class TopicClient implements Client {
    */
   readonly id: string;
   /**
-   * @property Denotes if close() was called on this client.
-   */
-  private _isClosed: boolean = false;
-  /**
-   * @property  Describes the amqp connection context for the QueueClient.
+   * @property Describes the amqp connection context for the QueueClient.
    */
   private _context: ClientEntityContext;
 
@@ -54,7 +50,12 @@ export class TopicClient implements Client {
     throwErrorIfConnectionClosed(context);
     this.entityPath = String(topicName);
     this.id = `${this.entityPath}/${generate_uuid()}`;
-    this._context = ClientEntityContext.create(this.entityPath, ClientType.TopicClient, context);
+    this._context = ClientEntityContext.create(
+      this.entityPath,
+      ClientType.TopicClient,
+      context,
+      this.id
+    );
   }
 
   /**
@@ -66,22 +67,9 @@ export class TopicClient implements Client {
    */
   async close(): Promise<void> {
     try {
-      if (this._context.namespace.connection && this._context.namespace.connection.isOpen()) {
-        log.topicClient("Closing the topic client '%s'.", this.id);
-
-        // Close the sender.
-        if (this._currentSender) {
-          await this._currentSender.close();
-        }
-
-        // Delete the reference in ConnectionContext
-        await this._context.clearClientReference(this.id);
-
-        // Mark this client as closed, so that we can show appropriate errors for subsequent usage
-        this._isClosed = true;
-
-        log.topicClient("Closed the topic client '%s'.", this.id);
-      }
+      // Close the corresponding client context which will take care of closing all AMQP links
+      // associated with this client
+      await this._context.close();
     } catch (err) {
       log.error(
         "[%s] An error occurred while closing the TopicClient for %s: %O",
@@ -94,26 +82,6 @@ export class TopicClient implements Client {
   }
 
   /**
-   * Will reconnect the topicClient and its sender links.
-   * This is meant for the library to use to resume sending when retryable errors are seen.
-   * This is not meant for the consumer of this library to use.
-   * @ignore
-   * @param error Error if any due to which we are attempting to reconnect
-   */
-  async detached(error?: AmqpError | Error): Promise<void> {
-    try {
-      await this._context.detached(error);
-    } catch (err) {
-      log.error(
-        "[%s] [%s] An error occurred while reconnecting the client: %O.",
-        this._context.namespace.connectionId,
-        this.id,
-        err
-      );
-    }
-  }
-
-  /**
    * Creates a Sender to be used for sending messages, scheduling messages to be sent at a later time
    * and cancelling such scheduled messages.
    * - Throws error if an open sender already exists for this TopicClient.
@@ -122,7 +90,11 @@ export class TopicClient implements Client {
    * property will go to the dead letter queue of such subscriptions.
    */
   createSender(): Sender {
-    throwErrorIfClientOrConnectionClosed(this._context.namespace, this.entityPath, this._isClosed);
+    throwErrorIfClientOrConnectionClosed(
+      this._context.namespace,
+      this.entityPath,
+      this._context.isClosed
+    );
     if (!this._currentSender || this._currentSender.isClosed) {
       this._currentSender = new Sender(this._context);
       return this._currentSender;

@@ -139,7 +139,7 @@ export class MessageSender extends LinkEntity {
             this.name,
             this.address
           );
-          await this.detached(senderError);
+          await this.onDetached(senderError);
         } else {
           log.error(
             "[%s] 'sender_close' event occurred on the sender '%s' with address '%s' " +
@@ -185,7 +185,7 @@ export class MessageSender extends LinkEntity {
             this.name,
             this.address
           );
-          await this.detached(sessionError);
+          await this.onDetached(sessionError);
         } else {
           log.error(
             "[%s] 'session_close' event occurred on the session of sender '%s' with " +
@@ -214,7 +214,7 @@ export class MessageSender extends LinkEntity {
    * @param {AmqpError | Error} [senderError] The sender error if any.
    * @returns {Promise<void>} Promise<void>.
    */
-  async detached(senderError?: AmqpError | Error): Promise<void> {
+  async onDetached(senderError?: AmqpError | Error): Promise<void> {
     try {
       const wasCloseInitiated = this._sender && this._sender.isItselfClosed();
       // Clears the token renewal timer. Closes the link and its session if they are open.
