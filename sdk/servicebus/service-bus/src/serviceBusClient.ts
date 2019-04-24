@@ -90,7 +90,6 @@ export class ServiceBusClient {
    */
   createQueueClient(queueName: string): QueueClient {
     const client = new QueueClient(queueName, this._context);
-    this._context.clients[client.id] = client;
     log.ns("Created the QueueClient for Queue: %s", queueName);
     return client;
   }
@@ -102,7 +101,6 @@ export class ServiceBusClient {
    */
   createTopicClient(topicName: string): TopicClient {
     const client = new TopicClient(topicName, this._context);
-    this._context.clients[client.id] = client;
     log.ns("Created the TopicClient for Topic: %s", topicName);
     return client;
   }
@@ -115,7 +113,6 @@ export class ServiceBusClient {
    */
   createSubscriptionClient(topicName: string, subscriptionName: string): SubscriptionClient {
     const client = new SubscriptionClient(topicName, subscriptionName, this._context);
-    this._context.clients[client.id] = client;
     log.ns(
       "Created the SubscriptionClient for Topic: %s and Subscription: %s",
       topicName,
@@ -138,18 +135,12 @@ export class ServiceBusClient {
       if (this._context.connection.isOpen()) {
         log.ns("Closing the amqp connection '%s' on the client.", this._context.connectionId);
 
-        // Close all the senders.
-        for (const id of Object.keys(this._context.clients)) {
-          const client = this._context.clients[id];
-          await client.close();
+        // Close all the clients.
+        for (const id of Object.keys(this._context.clientContexts)) {
+          const clientContext = this._context.clientContexts[id];
+          await clientContext.close();
         }
         await this._context.cbsSession.close();
-
-        // Close management sessions
-        for (const id of Object.keys(this._context.clients)) {
-          const client = this._context.clients[id];
-          await (client as any)._context.managementClient.close();
-        }
 
         await this._context.connection.close();
         this._context.wasConnectionCloseCalled = true;

@@ -35,6 +35,9 @@ export class Receiver {
    */
   private _context: ClientEntityContext;
   private _receiveMode: ReceiveMode;
+  /**
+   * @property {boolean} [_isClosed] Denotes if close() was called on this receiver
+   */
   private _isClosed: boolean = false;
 
   /**
@@ -46,11 +49,11 @@ export class Receiver {
   }
 
   /**
-   * @property Denotes if close() was called on this receiver.
+   * @property Returns `true` if either the receiver or the client that created it has been closed
    * @readonly
    */
   public get isClosed(): boolean {
-    return this._isClosed;
+    return this._isClosed || this._context.isClosed;
   }
 
   /**
@@ -323,7 +326,8 @@ export class Receiver {
     if (this.isClosed) {
       const errorMessage = getReceiverClosedErrorMsg(
         this._context.entityPath,
-        this._context.clientType
+        this._context.clientType,
+        this._context.isClosed
       );
       const error = new Error(errorMessage);
       log.error(`[${this._context.namespace.connectionId}] %O`, error);
@@ -349,6 +353,9 @@ export class SessionReceiver {
   private _receiveMode: ReceiveMode;
   private _messageSession: MessageSession | undefined;
   private _sessionOptions: SessionReceiverOptions;
+  /**
+   * @property {boolean} [_isClosed] Denotes if close() was called on this receiver
+   */
   private _isClosed: boolean = false;
   private _sessionId: string | undefined;
 
@@ -361,7 +368,7 @@ export class SessionReceiver {
   }
 
   /**
-   * @property Denotes if close() was called on this receiver.
+   * @property Returns `true` if either the receiver or the client that created it has been closed
    * @readonly
    */
   public get isClosed(): boolean {
@@ -697,6 +704,7 @@ export class SessionReceiver {
       const errorMessage = getReceiverClosedErrorMsg(
         this._context.entityPath,
         this._context.clientType,
+        this._context.isClosed,
         this.sessionId!
       );
       const error = new Error(errorMessage);
