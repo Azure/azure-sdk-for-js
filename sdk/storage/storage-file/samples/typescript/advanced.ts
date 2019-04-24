@@ -63,7 +63,7 @@ async function main() {
   // Parallel uploading a Readable stream with uploadStreamToAzureFile in Node.js runtime
   // uploadStreamToAzureFile is only available in Node.js
   await uploadStreamToAzureFile(
-    Aborter.timeout(30 * 60 * 60 * 1000), // Abort uploading with timeout in 30mins
+    Aborter.timeout(30 * 60 * 1000), // Abort uploading with timeout in 30mins
     fs.createReadStream(localFilePath),
     fileSize,
     fileURL,
@@ -90,7 +90,7 @@ async function main() {
   // downloadAzureFileToBuffer is only available in Node.js
   const buffer = Buffer.alloc(fileSize);
   await downloadAzureFileToBuffer(
-    Aborter.timeout(30 * 60 * 60 * 1000),
+    Aborter.timeout(30 * 60 * 1000),
     buffer,
     fileURL,
     0,
