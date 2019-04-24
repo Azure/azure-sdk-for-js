@@ -79,11 +79,12 @@
     "extract-api": "tsc -p . && api-extractor run --local"
   },
   "files": [
-    "browser/",
+    "BreakingChanges.md",
     "dist/",
     "dist-esm/src/",
     "src/",
-    "typings/src"
+    "typings/src",
+    "tsconfig.json"
   ],
   "repository": {
     "type": "git",
