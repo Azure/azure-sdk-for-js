@@ -814,7 +814,7 @@ export class ManagementClient extends LinkEntity {
    * @param state The state that needs to be set.
    * @returns Promise<void>
    */
-  async setSessionState(sessionId: string, state: any): Promise<void> {
+  async setSessionState(sessionId: string, state: any, associatedLinkName: string): Promise<void> {
     throwErrorIfConnectionClosed(this._context.namespace);
 
     try {
@@ -828,6 +828,7 @@ export class ManagementClient extends LinkEntity {
           operation: Constants.operations.setSessionState
         }
       };
+      request.application_properties![Constants.associatedLinkName] = associatedLinkName;
       request.application_properties![Constants.trackingId] = generate_uuid();
       log.mgmt(
         "[%s] Set Session state request body: %O.",
@@ -857,7 +858,7 @@ export class ManagementClient extends LinkEntity {
    * @param sessionId The session for which the state needs to be retrieved.
    * @returns Promise<any> The state of that session
    */
-  async getSessionState(sessionId: string): Promise<any> {
+  async getSessionState(sessionId: string, associatedLinkName: string): Promise<any> {
     throwErrorIfConnectionClosed(this._context.namespace);
     try {
       const messageBody: any = {};
@@ -869,6 +870,7 @@ export class ManagementClient extends LinkEntity {
           operation: Constants.operations.getSessionState
         }
       };
+      request.application_properties![Constants.associatedLinkName] = associatedLinkName;
       request.application_properties![Constants.trackingId] = generate_uuid();
       log.mgmt(
         "[%s] Get session state request body: %O.",

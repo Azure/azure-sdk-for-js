@@ -464,7 +464,11 @@ export class SessionReceiver {
   async setState(state: any): Promise<void> {
     this._throwIfReceiverOrConnectionClosed();
     await this._createMessageSessionIfDoesntExist();
-    return this._context.managementClient!.setSessionState(this.sessionId!, state);
+    return this._context.managementClient!.setSessionState(
+      this.sessionId!,
+      state,
+      this._messageSession!.name
+    );
   }
 
   /**
@@ -475,7 +479,10 @@ export class SessionReceiver {
   async getState(): Promise<any> {
     this._throwIfReceiverOrConnectionClosed();
     await this._createMessageSessionIfDoesntExist();
-    return this._context.managementClient!.getSessionState(this.sessionId!);
+    return this._context.managementClient!.getSessionState(
+      this.sessionId!,
+      this._messageSession!.name
+    );
   }
 
   /**
