@@ -800,8 +800,18 @@ export class MessageReceiver extends LinkEntity {
         const config: RetryConfig<void> = {
           operation: () =>
             this._init(options).then(() => {
-              if (this._receiver && this.receiverType === ReceiverType.streaming) {
-                this._receiver.addCredit(this.maxConcurrentCalls);
+              if (this.wasCloseInitiated) {
+                log.error(
+                  "[%s] close() method of Receiver '%s' with address '%s' was called. " +
+                    "by the time the receiver finished getting created. Hence, disallowing messages from being received. ",
+                  connectionId,
+                  this.name,
+                  this.address
+                );
+              } else {
+                if (this._receiver && this.receiverType === ReceiverType.streaming) {
+                  this._receiver.addCredit(this.maxConcurrentCalls);
+                }
               }
             }),
           connectionId: connectionId,
@@ -810,7 +820,9 @@ export class MessageReceiver extends LinkEntity {
           connectionHost: this._context.namespace.config.host,
           delayInSeconds: 15
         };
-        await retry<void>(config);
+        if (!this.wasCloseInitiated) {
+          await retry<void>(config);
+        }
       }
     } catch (err) {
       log.error(
