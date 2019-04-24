@@ -13,8 +13,9 @@ export {
   ResourceSku,
   ResourceSkuCapacity,
   ResourceSkuLocationInfo,
-  ResourceSkuCosts,
+  ResourceSkuZoneDetails,
   ResourceSkuCapabilities,
+  ResourceSkuCosts,
   ResourceSkuRestrictions,
   ResourceSkuRestrictionInfo,
   CloudError

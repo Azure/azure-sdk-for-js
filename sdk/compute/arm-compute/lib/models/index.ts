@@ -3273,14 +3273,6 @@ export interface VirtualMachineScaleSetVMProfile {
    */
   storageProfile?: VirtualMachineScaleSetStorageProfile;
   /**
-   * @member {AdditionalCapabilities} [additionalCapabilities] Specifies
-   * additional capabilities enabled or disabled on the virtual machine in the
-   * scale set. For instance: whether the virtual machine has the capability to
-   * support attaching managed data disks with UltraSSD_LRS storage account
-   * type.
-   */
-  additionalCapabilities?: AdditionalCapabilities;
-  /**
    * @member {VirtualMachineScaleSetNetworkProfile} [networkProfile] Specifies
    * properties of the network interfaces of the virtual machines in the scale
    * set.
@@ -3442,6 +3434,14 @@ export interface VirtualMachineScaleSet extends Resource {
    */
   proximityPlacementGroup?: SubResource;
   /**
+   * @member {AdditionalCapabilities} [additionalCapabilities] Specifies
+   * additional capabilities enabled or disabled on the Virtual Machines in the
+   * Virtual Machine Scale Set. For instance: whether the Virtual Machines have
+   * the capability to support attaching managed data disks with UltraSSD_LRS
+   * storage account type.
+   */
+  additionalCapabilities?: AdditionalCapabilities;
+  /**
    * @member {VirtualMachineScaleSetIdentity} [identity] The identity of the
    * virtual machine scale set, if configured.
    */
@@ -3515,6 +3515,14 @@ export interface VirtualMachineScaleSetUpdate extends UpdateResource {
    * set to a single placement group, of max size 100 virtual machines.
    */
   singlePlacementGroup?: boolean;
+  /**
+   * @member {AdditionalCapabilities} [additionalCapabilities] Specifies
+   * additional capabilities enabled or disabled on the Virtual Machines in the
+   * Virtual Machine Scale Set. For instance: whether the Virtual Machines have
+   * the capability to support attaching managed data disks with UltraSSD_LRS
+   * storage account type.
+   */
+  additionalCapabilities?: AdditionalCapabilities;
   /**
    * @member {VirtualMachineScaleSetIdentity} [identity] The identity of the
    * virtual machine scale set, if configured.
@@ -4631,6 +4639,29 @@ export interface ResourceSkuCapabilities {
 
 /**
  * @interface
+ * An interface representing ResourceSkuZoneDetails.
+ * Describes The zonal capabilities of a SKU.
+ *
+ */
+export interface ResourceSkuZoneDetails {
+  /**
+   * @member {string[]} [name] The set of zones that the SKU is available in
+   * with the specified capabilities.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly name?: string[];
+  /**
+   * @member {ResourceSkuCapabilities[]} [capabilities] A list of capabilities
+   * that are available for the SKU in the specified list of zones.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly capabilities?: ResourceSkuCapabilities[];
+}
+
+/**
+ * @interface
  * An interface representing ResourceSkuRestrictionInfo.
  */
 export interface ResourceSkuRestrictionInfo {
@@ -4706,6 +4737,13 @@ export interface ResourceSkuLocationInfo {
    * the server.**
    */
   readonly zones?: string[];
+  /**
+   * @member {ResourceSkuZoneDetails[]} [zoneDetails] Details of capabilities
+   * available to a SKU in specific zones.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly zoneDetails?: ResourceSkuZoneDetails[];
 }
 
 /**
