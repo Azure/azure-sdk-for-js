@@ -98,8 +98,19 @@ export function getClientClosedErrorMsg(entityPath: string): string {
  * Gets the error message when a sender is used when its already closed
  * @param entityPath Value of the `entityPath` property on the client which denotes its name
  * @param clientType One of "QueueClient", "TopicClient" or "SubscriptionClient", used for logging
+ * @param isClientClosed Denotes if the close() was called on the client that created the sender
  */
-export function getSenderClosedErrorMsg(entityPath: string, clientType: ClientType): string {
+export function getSenderClosedErrorMsg(
+  entityPath: string,
+  clientType: ClientType,
+  isClientClosed: boolean
+): string {
+  if (isClientClosed) {
+    return (
+      `The client for "${entityPath}" has been closed. The sender created by it can no longer be used. ` +
+      `Please create a new client using an instance of ServiceBusClient.`
+    );
+  }
   return (
     `The sender for "${entityPath}" has been closed and can no longer be used. ` +
     `Please create a new sender using the "createSender" function on the ${clientType}.`
@@ -111,13 +122,21 @@ export function getSenderClosedErrorMsg(entityPath: string, clientType: ClientTy
  * Gets the error message when a receiver is used when its already closed
  * @param entityPath Value of the `entityPath` property on the client which denotes its name
  * @param clientType One of "QueueClient", "TopicClient" or "SubscriptionClient", used for logging
+ * @param isClientClosed Denotes if the close() was called on the client that created the sender
  * @param sessionId If using session receiver, then the id of the session
  */
 export function getReceiverClosedErrorMsg(
   entityPath: string,
   clientType: ClientType,
+  isClientClosed: boolean,
   sessionId?: string
 ): string {
+  if (isClientClosed) {
+    return (
+      `The client for "${entityPath}" has been closed. The receiver created by it can no longer be used. ` +
+      `Please create a new client using an instance of ServiceBusClient.`
+    );
+  }
   if (!sessionId) {
     return (
       `The receiver for "${entityPath}" has been closed and can no longer be used. ` +
