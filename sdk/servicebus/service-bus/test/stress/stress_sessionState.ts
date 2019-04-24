@@ -3,7 +3,7 @@ Test Scenario summary:
 - Creates a single session receiver on a session enabled queue.
 - Autolockrenewal is enabled and set to test duration.
 - Set state to value #1, wait for half test durations (12 hours), get state to retrieve value #1
-- Set state to value #2, wait for other half test durations (12 hours), get state to retrieve value #2
+- Wait for other half test durations (12 hours), set state to value #2, get state to retrieve value #2
 - Set state to value #3 and get state to retrieve value #3
 
 The test assumes no other process is working with the queues defined in here,
@@ -43,21 +43,24 @@ async function setGetSessionState(sessionId: string): Promise<void> {
     console.log(`Value of first state - ${retrievedFirstState.testKey}`);
 
     if (retrievedFirstState.testKey !== firstState.testKey) {
-      throw new Error(`Expected ${firstState.testKey} but got ${retrievedFirstState.testKey}`);
+      throw new Error(
+        `Step 1 - Expected ${firstState.testKey} but got ${retrievedFirstState.testKey}`
+      );
     }
+
+    await delay(testDurationInMilliseconds / 2);
 
     const secondState = { testKey: "testValue-b" };
     await receiver.setState(secondState);
 
-    await delay(testDurationInMilliseconds / 2);
-
     const retrievedSecondState = await receiver.getState();
     console.log(`Value of second state - ${retrievedSecondState.testKey}`);
 
-    const thirdState = { testKey: "testValue-c" };
-    await receiver.setState(thirdState);
-    const retrievedThirdState = await receiver.getState();
-    console.log(`Value of third state - ${retrievedThirdState.testKey}`);
+    if (retrievedSecondState.testKey !== secondState.testKey) {
+      throw new Error(
+        `Step 2 - Expected ${secondState.testKey} but got ${retrievedSecondState.testKey}`
+      );
+    }
 
     await receiver.close();
   } finally {
