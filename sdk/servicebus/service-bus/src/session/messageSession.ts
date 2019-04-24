@@ -255,11 +255,14 @@ export class MessageSession extends LinkEntity {
 
   private _totalAutoLockRenewDuration: number;
 
+  private isClosedDueToExpiry: boolean;
+
   constructor(context: ClientEntityContext, options?: MessageSessionOptions) {
     super(context.entityPath, context, {
       address: context.entityPath,
       audience: `${context.namespace.config.endpoint}${context.entityPath}`
     });
+    this.isClosedDueToExpiry = false;
     this._context.isSessionEnabled = true;
     this.isReceivingMessages = false;
     if (!options) options = { sessionId: undefined };
@@ -331,6 +334,11 @@ export class MessageSession extends LinkEntity {
       const connectionId = this._context.namespace.connectionId;
       const receiverError = context.receiver && context.receiver.error;
       if (receiverError) {
+        console.log(
+          `part 1 - size of expired sessions map: ${
+            Object.keys(this._context.expiredMessageSessions).length
+          }`
+        );
         const sbError = translate(receiverError);
         if (sbError.name === "SessionLockLostError") {
           this._context.expiredMessageSessions[this.sessionId!] = true;
@@ -367,11 +375,10 @@ export class MessageSession extends LinkEntity {
       const connectionId = this._context.namespace.connectionId;
       const receiverError = context.receiver && context.receiver.error;
       const receiver = this._receiver || context.receiver!;
-      let isSessionExpired = false;
       if (receiverError) {
         const sbError = translate(receiverError);
         if (sbError.name === "SessionLockLostError") {
-          isSessionExpired = true;
+          this.isClosedDueToExpiry = true;
         }
         log.error(
           "[%s] 'receiver_close' event occurred for receiver '%s' for sessionId '%s'. " +
@@ -393,7 +400,7 @@ export class MessageSession extends LinkEntity {
           this.sessionId
         );
         try {
-          await this.close(isSessionExpired);
+          await this.close();
         } catch (err) {
           log.error(
             "[%s] An error occurred while closing the receiver '%s' for sessionId '%s': %O.",
@@ -411,10 +418,6 @@ export class MessageSession extends LinkEntity {
           this.name,
           this.sessionId
         );
-      }
-
-      if (this.sessionId && !isSessionExpired) {
-        delete this._context.expiredMessageSessions[this.sessionId];
       }
     };
 
@@ -470,7 +473,7 @@ export class MessageSession extends LinkEntity {
   /**
    * Closes the underlying AMQP receiver link.
    */
-  async close(isSessionExpired?: boolean): Promise<void> {
+  async close(): Promise<void> {
     try {
       log.messageSession(
         "[%s] Closing the MessageSession '%s' for queue '%s'.",
@@ -488,7 +491,9 @@ export class MessageSession extends LinkEntity {
         this._context.namespace.connectionId
       );
 
-      if (isSessionExpired === undefined || !isSessionExpired) {
+      if (this.isClosedDueToExpiry) {
+        this.isClosedDueToExpiry = false;
+      } else {
         delete this._context.expiredMessageSessions[this.sessionId!];
       }
 
@@ -1012,6 +1017,7 @@ export class MessageSession extends LinkEntity {
         );
 
         this._receiver = await this._context.namespace.connection.createReceiver(options);
+        this.isClosedDueToExpiry = false;
         this.isConnecting = false;
         const receivedSessionId =
           this._receiver.source &&
