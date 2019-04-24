@@ -3944,13 +3944,6 @@ export const VirtualMachineScaleSetVMProfile: msRest.CompositeMapper = {
           className: "VirtualMachineScaleSetStorageProfile"
         }
       },
-      additionalCapabilities: {
-        serializedName: "additionalCapabilities",
-        type: {
-          name: "Composite",
-          className: "AdditionalCapabilities"
-        }
-      },
       networkProfile: {
         serializedName: "networkProfile",
         type: {
@@ -4131,6 +4124,13 @@ export const VirtualMachineScaleSet: msRest.CompositeMapper = {
           className: "SubResource"
         }
       },
+      additionalCapabilities: {
+        serializedName: "properties.additionalCapabilities",
+        type: {
+          name: "Composite",
+          className: "AdditionalCapabilities"
+        }
+      },
       identity: {
         serializedName: "identity",
         type: {
@@ -4231,6 +4231,13 @@ export const VirtualMachineScaleSetUpdate: msRest.CompositeMapper = {
         serializedName: "properties.singlePlacementGroup",
         type: {
           name: "Boolean"
+        }
+      },
+      additionalCapabilities: {
+        serializedName: "properties.additionalCapabilities",
+        type: {
+          name: "Composite",
+          className: "AdditionalCapabilities"
         }
       },
       identity: {
@@ -5659,6 +5666,41 @@ export const ResourceSkuCapabilities: msRest.CompositeMapper = {
   }
 };
 
+export const ResourceSkuZoneDetails: msRest.CompositeMapper = {
+  serializedName: "ResourceSkuZoneDetails",
+  type: {
+    name: "Composite",
+    className: "ResourceSkuZoneDetails",
+    modelProperties: {
+      name: {
+        readOnly: true,
+        serializedName: "name",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      capabilities: {
+        readOnly: true,
+        serializedName: "capabilities",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ResourceSkuCapabilities"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const ResourceSkuRestrictionInfo: msRest.CompositeMapper = {
   serializedName: "ResourceSkuRestrictionInfo",
   type: {
@@ -5766,6 +5808,19 @@ export const ResourceSkuLocationInfo: msRest.CompositeMapper = {
           element: {
             type: {
               name: "String"
+            }
+          }
+        }
+      },
+      zoneDetails: {
+        readOnly: true,
+        serializedName: "zoneDetails",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ResourceSkuZoneDetails"
             }
           }
         }
