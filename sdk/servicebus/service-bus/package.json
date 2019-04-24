@@ -72,7 +72,8 @@
     "dist/",
     "dist-esm/src/",
     "src/",
-    "typings/src"
+    "typings/src",
+    "tsconfig.json"
   ],
   "scripts": {
     "tslint": "tslint -p . -c tslint.json",
