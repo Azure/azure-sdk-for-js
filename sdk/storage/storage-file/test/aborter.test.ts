@@ -2,20 +2,29 @@ import * as assert from "assert";
 
 import { Aborter } from "../src/Aborter";
 import { ShareURL } from "../src/ShareURL";
-import { getBSU, getUniqueName } from "./utils";
+import { getBSU } from "./utils";
+import { record } from "./utils/nock-recorder"
 import * as dotenv from "dotenv";
-dotenv.config({path:"../.env"});
+dotenv.config({ path:"../.env" });
 
 // tslint:disable:no-empty
-describe("Aborter", () => {
+describe("Aborter", function() {
   const serviceURL = getBSU();
-  let shareName: string = getUniqueName("share");
-  let shareURL = ShareURL.fromServiceURL(serviceURL, shareName);
+  let shareName: string;
+  let shareURL: ShareURL;
+  const testSuiteTitle = this.fullTitle();
+
+  let recorder: any;
 
   beforeEach(async () => {
-    shareName = getUniqueName("share");
+    recorder = record(testSuiteTitle, this.ctx.currentTest!.title);
+    shareName = recorder.getUniqueName("share");
     shareURL = ShareURL.fromServiceURL(serviceURL, shareName);
   });
+
+  afterEach(async () => {
+    recorder.stop();
+  })
 
   it("should set value and get value successfully", async () => {
     const aborter = Aborter.none.withValue("mykey", "myvalue");
