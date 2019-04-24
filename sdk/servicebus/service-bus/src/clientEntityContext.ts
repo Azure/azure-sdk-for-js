@@ -95,7 +95,7 @@ export interface ClientEntityContextBase {
  * @internal
  */
 export interface ClientEntityContext extends ClientEntityContextBase {
-  detached(error?: AmqpError | Error): Promise<void>;
+  onDetached(error?: AmqpError | Error): Promise<void>;
   getReceiver(name: string, sessionId?: string): MessageReceiver | MessageSession | undefined;
   close(): Promise<void>;
 }
@@ -170,14 +170,14 @@ export namespace ClientEntityContext {
       return receiver;
     };
 
-    (entityContext as ClientEntityContext).detached = async (error?: AmqpError | Error) => {
+    (entityContext as ClientEntityContext).onDetached = async (error?: AmqpError | Error) => {
       const connectionId = entityContext.namespace.connectionId;
       // reconnect the sender if present
       const sender = entityContext.sender;
       if (sender && !sender.isConnecting) {
         try {
           log.error("[%s] calling detached on sender '%s'.", connectionId, sender.name);
-          await sender.detached();
+          await sender.onDetached();
         } catch (err) {
           log.error(
             "[%s] An error occurred while reconnecting the sender '%s': %O.",
@@ -207,7 +207,7 @@ export namespace ClientEntityContext {
             connectionId,
             streamingReceiver.name
           );
-          await streamingReceiver.detached(error);
+          await streamingReceiver.onDetached(error);
         } catch (err) {
           log.error(
             "[%s] An error occurred while reconnecting the sender '%s': %O.",
