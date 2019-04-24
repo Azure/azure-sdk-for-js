@@ -42,6 +42,10 @@ async function setGetSessionState(sessionId: string): Promise<void> {
     const retrievedFirstState = await receiver.getState();
     console.log(`Value of first state - ${retrievedFirstState.testKey}`);
 
+    if (retrievedFirstState.testKey !== firstState.testKey) {
+      throw new Error(`Expected ${firstState} but got ${retrievedFirstState.testKey}`);
+    }
+
     const secondState = { testKey: "testValue-b" };
     await receiver.setState(secondState);
 
