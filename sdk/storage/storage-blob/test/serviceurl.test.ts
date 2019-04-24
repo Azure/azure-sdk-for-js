@@ -10,7 +10,7 @@ dotenv.config({path:"../.env"});
 describe("ServiceURL", () => {
   it("ListContainers with default parameters", async () => {
     const serviceURL = getBSU();
-    const result = await serviceURL.listContainersSegment(Aborter.none);
+    const result = await serviceURL.listContainersSegment();
     assert.ok(typeof result.requestId);
     assert.ok(result.requestId!.length > 0);
     assert.ok(typeof result.version);
@@ -45,7 +45,6 @@ describe("ServiceURL", () => {
     await containerURL2.create({ metadata: { key: "val" } });
 
     const result1 = await serviceURL.listContainersSegment(
-      Aborter.none,
       undefined,
       {
         include: "metadata",
@@ -72,7 +71,6 @@ describe("ServiceURL", () => {
     assert.deepEqual(result1.containerItems![0].metadata!.key, "val");
 
     const result2 = await serviceURL.listContainersSegment(
-      Aborter.none,
       result1.nextMarker,
       {
         include: "metadata",

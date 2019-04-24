@@ -4,6 +4,7 @@ import { Aborter } from "./Aborter";
 import { Container } from "./generated/lib/operations";
 import { IContainerAccessConditions, IMetadata } from "./models";
 import { Pipeline } from "./Pipeline";
+import { ResumableAsyncIterableIterator, ResumePoint } from "./ResumableIterator";
 import { ServiceURL } from "./ServiceURL";
 import { StorageURL } from "./StorageURL";
 import { ETagNone } from "./utils/constants";
@@ -133,6 +134,18 @@ export interface IContainerListBlobsSegmentOptions {
    * specify one or more datasets to include in the response.
    */
   include?: Models.ListBlobsIncludeItem[];
+
+  /**
+   * @member {Aborter} [aborter] Aborter instance to cancel request.
+   *                             Can be created with Aborter.none or Aborter.timeout(),
+   *                             goto documents of Aborter for more examples about request cancellation
+   */
+  abortSignal?: Aborter;
+
+  /**
+   * @member {ResumePoint} [resumePoint] The resume point to continue iterating blobs from listing operaterations.
+   */
+  resumePoint?: ResumePoint;
 }
 
 /**
@@ -556,6 +569,66 @@ export class ContainerURL extends StorageURL {
   }
 
   /**
+   * Iterates over blobs under the specified container.  The returned iterator is resumable.
+   *
+   * @example
+   * for await (const blob of containerURL.listBlobs()) {
+   *   console.log(`Container: ${blob.name}`);
+   * }
+   *
+   * @example
+   * let iter1 = containerURL.listBlobs();
+   * let i = 1;
+   * for await (const blob of iter1) {
+   *   console.log(`${i}: ${blob.name}`);
+   *   i++;
+   *   if (i > 5) {
+   *     break;
+   *   }
+   * }
+   *
+   * const iter2 = containerURL.listBlobs({ resumePoint: iter1.resumePoint });
+   * for await (const blob of iter2) {
+   *   console.log(`${i}: ${blob.name}`);
+   *   i++;
+   * }
+   *
+   * @param {IContainerListBlobsSegmentOptions} [options]
+   * @returns {ResumableAsyncIterableIterator<Models.BlobItem>}
+   * @memberof ContainerURL
+   */
+  public listBlobs(
+    options?: IContainerListBlobsSegmentOptions
+  ): ResumableAsyncIterableIterator<Models.BlobItem> {
+    const serviceURL = this;
+    const resumePoint = !options || !options.resumePoint ? { } : options.resumePoint;
+    const aborter = !options || !options.abortSignal ? Aborter.none : options.abortSignal;
+    const iter: ResumableAsyncIterableIterator<Models.BlobItem> =
+     (async function* items(): AsyncIterableIterator<Models.BlobItem> {
+      do {
+        const listBlobsResponse = await serviceURL.listBlobFlatSegment(
+          resumePoint.lastNextMarker,
+          {
+            ... options,
+            abortSignal: aborter
+          });
+
+        const blobs = listBlobsResponse.segment.blobItems;
+        for (let i = iter.resumePoint.lastIndex || 0; i < blobs.length; i++) {
+          iter.resumePoint.lastIndex = i;
+          yield blobs[i];
+        }
+
+        iter.resumePoint.lastNextMarker = listBlobsResponse.nextMarker;
+        iter.resumePoint.lastIndex = 0;
+      } while (iter.resumePoint.lastNextMarker);
+    } as any)() as any;
+
+    iter.resumePoint = { ... resumePoint };
+    return iter;
+  }
+
+  /**
    * listBlobFlatSegment returns a single segment of blobs starting from the
    * specified Marker. Use an empty Marker to start enumeration from the beginning.
    * After getting a segment, process it, and then call ListBlobsFlatSegment again
@@ -570,12 +643,10 @@ export class ContainerURL extends StorageURL {
    * @memberof ContainerURL
    */
   public async listBlobFlatSegment(
-    aborter: Aborter,
     marker?: string,
     options: IContainerListBlobsSegmentOptions = {}
   ): Promise<Models.ContainerListBlobFlatSegmentResponse> {
     return this.containerContext.listBlobFlatSegment({
-      abortSignal: aborter,
       marker,
       ...options
     });

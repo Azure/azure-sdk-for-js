@@ -1,7 +1,6 @@
 import * as assert from "assert";
 
 import { isNode } from "@azure/ms-rest-js";
-import { Aborter } from "../src/Aborter";
 import { BlobURL } from "../src/BlobURL";
 import { BlockBlobURL } from "../src/BlockBlobURL";
 import { ContainerURL } from "../src/ContainerURL";
@@ -220,7 +219,6 @@ describe("BlobURL", () => {
     await blobURL.delete();
 
     const result2 = await containerURL.listBlobFlatSegment(
-      Aborter.none,
       undefined,
       {
         include: ["snapshots"]
@@ -239,7 +237,6 @@ describe("BlobURL", () => {
     await blobSnapshotURL.getProperties();
 
     const result3 = await containerURL.listBlobFlatSegment(
-      Aborter.none,
       undefined,
       {
         include: ["snapshots"]
@@ -282,7 +279,6 @@ describe("BlobURL", () => {
     await blobURL.delete();
 
     const result = await containerURL.listBlobFlatSegment(
-      Aborter.none,
       undefined,
       {
         include: ["deleted"]
@@ -292,7 +288,6 @@ describe("BlobURL", () => {
 
     await blobURL.undelete();
     const result2 = await containerURL.listBlobFlatSegment(
-      Aborter.none,
       undefined,
       {
         include: ["deleted"]

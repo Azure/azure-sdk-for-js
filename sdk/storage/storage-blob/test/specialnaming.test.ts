@@ -1,4 +1,3 @@
-import { Aborter } from "../src/Aborter";
 import { BlockBlobURL } from "../src/BlockBlobURL";
 import { ContainerURL } from "../src/ContainerURL";
 import { getBSU, getUniqueName } from "./utils/index";
@@ -26,7 +25,6 @@ describe("Special Naming Tests", () => {
 
     await blockBlobURL.upload("A", 1);
     const response = await containerURL.listBlobFlatSegment(
-      Aborter.none,
       undefined,
       {
         prefix: blobName
@@ -44,7 +42,6 @@ describe("Special Naming Tests", () => {
 
     await blockBlobURL.upload("A", 1);
     const response = await containerURL.listBlobFlatSegment(
-      Aborter.none,
       undefined,
       {
         prefix: blobName
@@ -60,7 +57,6 @@ describe("Special Naming Tests", () => {
     await blockBlobURL.upload("A", 1);
     await blockBlobURL.getProperties();
     const response = await containerURL.listBlobFlatSegment(
-      Aborter.none,
       undefined,
       {
         prefix: blobName
@@ -79,7 +75,6 @@ describe("Special Naming Tests", () => {
     await blockBlobURL.upload("A", 1);
     await blockBlobURL.getProperties();
     const response = await containerURL.listBlobFlatSegment(
-      Aborter.none,
       undefined,
       {
         prefix: blobName
@@ -95,7 +90,6 @@ describe("Special Naming Tests", () => {
     await blockBlobURL.upload("A", 1);
     await blockBlobURL.getProperties();
     const response = await containerURL.listBlobFlatSegment(
-      Aborter.none,
       undefined,
       {
         prefix: blobName
@@ -114,7 +108,6 @@ describe("Special Naming Tests", () => {
     await blockBlobURL.upload("A", 1);
     await blockBlobURL.getProperties();
     const response = await containerURL.listBlobFlatSegment(
-      Aborter.none,
       undefined,
       {
         prefix: blobName
@@ -132,7 +125,6 @@ describe("Special Naming Tests", () => {
     await blockBlobURL.upload("A", 1);
     await blockBlobURL.getProperties();
     const response = await containerURL.listBlobFlatSegment(
-      Aborter.none,
       undefined,
       {
         prefix: blobName
@@ -153,7 +145,6 @@ describe("Special Naming Tests", () => {
     await blockBlobURL.upload("A", 1);
     await blockBlobURL.getProperties();
     const response = await containerURL.listBlobFlatSegment(
-      Aborter.none,
       undefined,
       {
         prefix: blobName
@@ -171,7 +162,6 @@ describe("Special Naming Tests", () => {
     await blockBlobURL.upload("A", 1);
     await blockBlobURL.getProperties();
     const response = await containerURL.listBlobFlatSegment(
-      Aborter.none,
       undefined,
       {
         // NOTICE: Azure Storage Server will replace "\" with "/" in the blob names
@@ -199,7 +189,6 @@ describe("Special Naming Tests", () => {
     await blockBlobURL.upload("A", 1);
     await blockBlobURL.getProperties();
     const response = await containerURL.listBlobFlatSegment(
-      Aborter.none,
       undefined,
       {
         // NOTICE: Azure Storage Server will replace "\" with "/" in the blob names
@@ -220,7 +209,6 @@ describe("Special Naming Tests", () => {
     await blockBlobURL.upload("A", 1);
     await blockBlobURL.getProperties();
     const response = await containerURL.listBlobFlatSegment(
-      Aborter.none,
       undefined,
       {
         prefix: blobNameEncoded
@@ -236,7 +224,6 @@ describe("Special Naming Tests", () => {
     await blockBlobURL.upload("A", 1);
     await blockBlobURL.getProperties();
     const response = await containerURL.listBlobFlatSegment(
-      Aborter.none,
       undefined,
       {
         prefix: blobName
@@ -255,7 +242,6 @@ describe("Special Naming Tests", () => {
     await blockBlobURL.upload("A", 1);
     await blockBlobURL.getProperties();
     const response = await containerURL.listBlobFlatSegment(
-      Aborter.none,
       undefined,
       {
         prefix: blobName
@@ -275,7 +261,6 @@ describe("Special Naming Tests", () => {
     await blockBlobURL.upload("A", 1);
     await blockBlobURL.getProperties();
     const response = await containerURL.listBlobFlatSegment(
-      Aborter.none,
       undefined,
       {
         prefix: blobNameEncoded
@@ -291,7 +276,6 @@ describe("Special Naming Tests", () => {
     await blockBlobURL.upload("A", 1);
     await blockBlobURL.getProperties();
     const response = await containerURL.listBlobFlatSegment(
-      Aborter.none,
       undefined,
       {
         prefix: blobName
@@ -310,7 +294,6 @@ describe("Special Naming Tests", () => {
     await blockBlobURL.upload("A", 1);
     await blockBlobURL.getProperties();
     const response = await containerURL.listBlobFlatSegment(
-      Aborter.none,
       undefined,
       {
         prefix: blobName
@@ -330,7 +313,6 @@ describe("Special Naming Tests", () => {
     await blockBlobURL.upload("A", 1);
     await blockBlobURL.getProperties();
     const response = await containerURL.listBlobFlatSegment(
-      Aborter.none,
       undefined,
       {
         prefix: blobNameEncoded
@@ -346,7 +328,6 @@ describe("Special Naming Tests", () => {
     await blockBlobURL.upload("A", 1);
     await blockBlobURL.getProperties();
     const response = await containerURL.listBlobFlatSegment(
-      Aborter.none,
       undefined,
       {
         prefix: blobName
@@ -365,7 +346,6 @@ describe("Special Naming Tests", () => {
     await blockBlobURL.upload("A", 1);
     await blockBlobURL.getProperties();
     const response = await containerURL.listBlobFlatSegment(
-      Aborter.none,
       undefined,
       {
         prefix: blobName

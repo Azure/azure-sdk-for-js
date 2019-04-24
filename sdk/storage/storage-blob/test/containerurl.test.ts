@@ -176,7 +176,7 @@ describe("ContainerURL", () => {
       blobURLs.push(blobURL);
     }
 
-    const result = await containerURL.listBlobFlatSegment(Aborter.none);
+    const result = await containerURL.listBlobFlatSegment();
     assert.ok(result.serviceEndpoint.length > 0);
     assert.ok(containerURL.url.indexOf(result.containerName));
     assert.deepStrictEqual(result.nextMarker, "");
@@ -208,7 +208,6 @@ describe("ContainerURL", () => {
     }
 
     const result = await containerURL.listBlobFlatSegment(
-      Aborter.none,
       undefined,
       {
         include: [
@@ -229,7 +228,6 @@ describe("ContainerURL", () => {
     assert.deepStrictEqual(result.segment.blobItems![0].metadata, metadata);
 
     const result2 = await containerURL.listBlobFlatSegment(
-      Aborter.none,
       result.nextMarker,
       {
         include: [

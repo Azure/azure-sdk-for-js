@@ -1,5 +1,5 @@
-/* 
- Setup: Enter your storage account name and shared key in main()
+/*
+ Setup: Enter your storage account name and shared key in main() or set them as environtment variables.
 */
 
 const {
@@ -16,8 +16,8 @@ const {
 
 async function main() {
   // Enter your storage account name and shared key
-  const account = "";
-  const accountKey = "";
+  const account = process.env["ACCOUNT_NAME"] || "accountName";
+  const accountKey = process.env["ACCOUNT_KEY"] || "accountkey";
 
   // Use SharedKeyCredential with storage account and account key
   const sharedKeyCredential = new SharedKeyCredential(account, accountKey);
@@ -42,7 +42,6 @@ async function main() {
   let marker;
   do {
     const listContainersResponse = await serviceURL.listContainersSegment(
-      Aborter.none,
       marker
     );
 
@@ -56,7 +55,7 @@ async function main() {
   const containerName = `newcontainer${new Date().getTime()}`;
   const containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
 
-  const createContainerResponse = await containerURL.create(Aborter.none);
+  const createContainerResponse = await containerURL.create();
   console.log(
     `Create container ${containerName} successfully`,
     createContainerResponse.requestId
@@ -68,7 +67,6 @@ async function main() {
   const blobURL = BlobURL.fromContainerURL(containerURL, blobName);
   const blockBlobURL = BlockBlobURL.fromBlobURL(blobURL);
   const uploadBlobResponse = await blockBlobURL.upload(
-    Aborter.none,
     content,
     content.length
   );
@@ -81,8 +79,8 @@ async function main() {
   marker = undefined;
   do {
     const listBlobsResponse = await containerURL.listBlobFlatSegment(
-      Aborter.none,
-      marker
+      marker,
+      { abortSignal: Aborter.timeout(30 * 1000) } // abortSignal optional
     );
 
     marker = listBlobsResponse.nextMarker;
@@ -94,14 +92,14 @@ async function main() {
   // Get blob content from position 0 to the end
   // In Node.js, get downloaded data by accessing downloadBlockBlobResponse.readableStreamBody
   // In browsers, get downloaded data by accessing downloadBlockBlobResponse.blobBody
-  const downloadBlockBlobResponse = await blobURL.download(Aborter.none, 0);
+  const downloadBlockBlobResponse = await blobURL.download(0);
   console.log(
     "Downloaded blob content",
     await streamToString(downloadBlockBlobResponse.readableStreamBody)
   );
 
   // Delete container
-  await containerURL.delete(Aborter.none);
+  await containerURL.delete();
 
   console.log("deleted container");
 }

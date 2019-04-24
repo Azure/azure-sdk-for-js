@@ -1,7 +1,6 @@
 import * as assert from "assert";
 
 import {
-  Aborter,
   AccountSASPermissions,
   AccountSASResourceTypes,
   AccountSASServices,
@@ -195,7 +194,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       StorageURL.newPipeline(new AnonymousCredential())
     );
 
-    await containerURLwithSAS.listBlobFlatSegment(Aborter.none);
+    await containerURLwithSAS.listBlobFlatSegment();
     await containerURL.delete();
   });
 
