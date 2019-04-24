@@ -399,7 +399,7 @@ export class ManagementClient extends LinkEntity {
       };
       request.application_properties![Constants.trackingId] = generate_uuid();
       // TODO: Update to use constant from AMQP common
-      request.application_properties!["associated-link-name"] = associatedLinkName;
+      request.application_properties![Constants.associatedLinkName] = associatedLinkName;
       log.mgmt(
         "[%s] Renew message Lock request: %O.",
         this._context.namespace.connectionId,
@@ -776,7 +776,7 @@ export class ManagementClient extends LinkEntity {
       };
       request.application_properties![Constants.trackingId] = generate_uuid();
       // TODO: to use constant from AMQP common
-      request.application_properties!["associated-link-name"] = associatedLinkName;
+      request.application_properties![Constants.associatedLinkName] = associatedLinkName;
       log.mgmt(
         "[%s] Renew Session Lock request body: %O.",
         this._context.namespace.connectionId,
