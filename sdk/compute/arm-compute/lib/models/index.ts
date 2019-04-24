@@ -2373,6 +2373,12 @@ export interface Image extends Resource {
    * the server.**
    */
   readonly provisioningState?: string;
+  /**
+   * @member {HyperVGenerationTypes} [hyperVGeneration] Gets the
+   * HyperVGenerationType of the VirtualMachine created from the image.
+   * Possible values include: 'V1', 'V2'
+   */
+  hyperVGeneration?: HyperVGenerationTypes;
 }
 
 /**
@@ -2399,6 +2405,12 @@ export interface ImageUpdate extends UpdateResource {
    * the server.**
    */
   readonly provisioningState?: string;
+  /**
+   * @member {HyperVGenerationTypes} [hyperVGeneration] Gets the
+   * HyperVGenerationType of the VirtualMachine created from the image.
+   * Possible values include: 'V1', 'V2'
+   */
+  hyperVGeneration?: HyperVGenerationTypes;
 }
 
 /**
@@ -6928,6 +6940,14 @@ export interface ContainerServiceListResult extends Array<ContainerService> {
    */
   nextLink?: string;
 }
+
+/**
+ * Defines values for HyperVGenerationTypes.
+ * Possible values include: 'V1', 'V2'
+ * @readonly
+ * @enum {string}
+ */
+export type HyperVGenerationTypes = 'V1' | 'V2';
 
 /**
  * Defines values for StatusLevelTypes.
