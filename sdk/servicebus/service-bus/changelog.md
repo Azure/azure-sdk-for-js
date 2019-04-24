@@ -1,9 +1,9 @@
 # 2019-04-24 1.0.0-preview.3
 
-- README updated with API reference links
 - Proxy support added. Please refer to the [useProxy](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/samples/javascript/gettingStarted/useProxy.js)
   sample to see how you can use Websockets to run this library with a proxy server
 - Standardized error messages on errors thrown on parameter validations
+- We now have API reference docs published for this library. Checkout our README which has been updated with the relevant API reference links.
 
 # 2019-04-08 1.0.0-preview.2
 
