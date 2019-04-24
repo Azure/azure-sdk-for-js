@@ -27,7 +27,7 @@ const queueName = "";
 
 let elapsedTime = 0;
 const interval = 60000;
-const testDurationInMilliseconds = 60000 * 5 * 12 * 24; // 24 hours
+const testDurationInMilliseconds = 60000 * 20; // 20 min
 
 let receivedMessage: ServiceBusMessage;
 
