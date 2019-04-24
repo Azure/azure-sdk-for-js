@@ -1182,7 +1182,7 @@ const extendImmutabilityPolicyOperationSpec: msRest.OperationSpec = {
 
 const leaseOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}/lease",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}/lease",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.accountName,
