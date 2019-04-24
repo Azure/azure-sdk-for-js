@@ -18,7 +18,7 @@ import { ServiceBusClient, delay, ReceiveMode } from "../../src";
 const connectionString = "";
 const queueName = "";
 
-const testDurationInMilliseconds = 60000 * 20; // 24 hours
+const testDurationInMilliseconds = 60000 * 5 * 12 * 24; // 24 hours
 
 async function main(): Promise<void> {
   await setGetSessionState("session-1");
