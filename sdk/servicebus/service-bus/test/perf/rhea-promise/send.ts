@@ -10,7 +10,7 @@ Measures the maximum throughput of `sender.send()` in package `rhea-promise`.
 5. Example: `ts-node send.ts 1000 1000000`
  */
 
-import { Connection } from "rhea-promise";
+import { Connection, Sender, SenderEvents, EventContext, Func } from "rhea-promise";
 import delay from "delay";
 import moment from "moment";
 
@@ -85,16 +85,25 @@ async function RunTest(
   await connection.close();
 }
 
-async function ExecuteSendsAsync(sender: any, messages: number): Promise<void> {
+async function ExecuteSendsAsync(sender: Sender, messages: number): Promise<void> {
+  let canSend = true;
+  sender.setMaxListeners(1000);
+  let onSuccessOrFail: Func<EventContext, void> = (context: EventContext) => {
+    canSend = true;
+    sender.removeListener(SenderEvents.rejected, onSuccessOrFail);
+    sender.removeListener(SenderEvents.accepted, onSuccessOrFail);
+  };
   while (++_messages <= messages) {
-    while (!sender.sendable()) {
+    while (!sender.sendable() || canSend === false) {
       await delay(0.01);
     }
     if (sender.sendable()) {
+      sender.once(SenderEvents.accepted, onSuccessOrFail);
+      sender.once(SenderEvents.rejected, onSuccessOrFail);
       await sender.send({ body: _payload });
+      canSend = false;
     }
   }
-
   // Undo last increment, since a message was never sent on the final loop iteration
   _messages--;
 }
@@ -135,9 +144,9 @@ function WriteResult(
 ): void {
   log(
     `\tTot Msg\t${totalMessages}` +
-    `\tCur MPS\t${Math.round((currentMessages * 1000) / currentElapsed)}` +
-    `\tAvg MPS\t${Math.round((totalMessages * 1000) / totalElapsed)}` +
-    `\tMax MPS\t${Math.round((maxMessages * 1000) / maxElapsed)}`
+      `\tCur MPS\t${Math.round((currentMessages * 1000) / currentElapsed)}` +
+      `\tAvg MPS\t${Math.round((totalMessages * 1000) / totalElapsed)}` +
+      `\tMax MPS\t${Math.round((maxMessages * 1000) / maxElapsed)}`
   );
 }
 
