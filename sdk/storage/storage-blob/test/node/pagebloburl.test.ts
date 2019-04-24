@@ -1,6 +1,5 @@
 import * as assert from "assert";
 
-import { Aborter } from "../../src/Aborter";
 import { BlobURL } from "../../src/BlobURL";
 import { ContainerURL } from "../../src/ContainerURL";
 import { PageBlobURL } from "../../src/PageBlobURL";
@@ -73,9 +72,12 @@ describe("PageBlobURL", () => {
 
     await waitForCopy();
 
-    let listBlobResponse = await containerURL.listBlobFlatSegment(Aborter.none, undefined, {
-      include: ["copy", "snapshots"]
-    });
+    let listBlobResponse = await containerURL.listBlobFlatSegment(
+      undefined,
+      {
+        include: ["copy", "snapshots"]
+      }
+    );
 
     assert.equal(listBlobResponse.segment.blobItems.length, 4);
 
@@ -89,9 +91,12 @@ describe("PageBlobURL", () => {
 
     await waitForCopy();
 
-    listBlobResponse = await containerURL.listBlobFlatSegment(Aborter.none, undefined, {
-      include: ["copy", "snapshots"]
-    });
+    listBlobResponse = await containerURL.listBlobFlatSegment(
+      undefined,
+      {
+        include: ["copy", "snapshots"]
+      }
+    );
 
     assert.equal(listBlobResponse.segment.blobItems.length, 6);
 

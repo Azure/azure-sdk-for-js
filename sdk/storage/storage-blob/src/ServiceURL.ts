@@ -3,6 +3,7 @@ import { Aborter } from "./Aborter";
 import { ListContainersIncludeType } from "./generated/lib/models/index";
 import { Service } from "./generated/lib/operations";
 import { Pipeline } from "./Pipeline";
+import { ResumableAsyncIterableIterator, ResumePoint } from "./ResumableIterator";
 import { StorageURL } from "./StorageURL";
 
 export interface IServiceListContainersSegmentOptions {
@@ -27,6 +28,18 @@ export interface IServiceListContainersSegmentOptions {
    * body. Possible values include: 'metadata'
    */
   include?: ListContainersIncludeType;
+
+  /**
+   * @member {Aborter} [aborter] Aborter instance to cancel request.
+   *                             Can be created with Aborter.none or Aborter.timeout(),
+   *                             goto documents of Aborter for more examples about request cancellation
+   */
+  abortSignal?: Aborter;
+
+  /**
+   * @member {ResumePoint} [resumePoint] The resume point to continue iterating blobs from listing operaterations.
+   */
+  resumePoint?: ResumePoint;
 }
 
 /**
@@ -152,11 +165,69 @@ export class ServiceURL extends StorageURL {
   }
 
   /**
+   * Iterates over containers under the specified account.  The returned iterator is resumable.
+   *
+   * @example
+   * for await (const container of serviceURL.listContainers()) {
+   *   console.log(`Container: ${container.name}`);
+   * }
+   *
+   * @example
+   * let iter1 = serviceURL.listContainers();
+   * let i = 1;
+   * for await (const container of iter1) {
+   *   console.log(`${i}: ${container.name}`);
+   *   i++;
+   *   if (i > 5) {
+   *     break;
+   *   }
+   * }
+   *
+   * const iter2 = serviceURL.listContainers({ resumePoint: iter1.resumePoint });
+   * for await (const container of iter2) {
+   *   console.log(`${i}: ${container.name}`);
+   *   i++;
+   * }
+   *
+   * @param {IServiceListContainersSegmentOptions} [options]
+   * @returns {ResumableAsyncIterableIterator<Models.ContainerItem>}
+   * @memberof ServiceURL
+   */
+  public listContainers(
+    options?: IServiceListContainersSegmentOptions
+  ): ResumableAsyncIterableIterator<Models.ContainerItem> {
+    const serviceURL = this;
+    const resumePoint = !options || !options.resumePoint ? { } : options.resumePoint;
+    const aborter = !options || !options.abortSignal ? Aborter.none : options.abortSignal;
+    const iter: ResumableAsyncIterableIterator<Models.ContainerItem> =
+     (async function* items(): AsyncIterableIterator<Models.ContainerItem> {
+      do {
+        const listContainersResponse = await serviceURL.listContainersSegment(
+          resumePoint.lastNextMarker,
+          {
+            ... options,
+            abortSignal: aborter
+          });
+
+        const containers = listContainersResponse.containerItems;
+        for (let i = iter.resumePoint.lastIndex || 0; i < containers.length; i++) {
+          iter.resumePoint.lastIndex = i;
+          yield containers[i];
+        }
+
+        iter.resumePoint.lastNextMarker = listContainersResponse.nextMarker;
+        iter.resumePoint.lastIndex = 0;
+      } while (iter.resumePoint.lastNextMarker);
+    } as any)() as any;
+
+    iter.resumePoint = { ... resumePoint };
+    return iter;
+  }
+
+  /**
    * Returns a list of the containers under the specified account.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/list-containers2
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
    * @param {string} [marker] A string value that identifies the portion of
    *                          the list of containers to be returned with the next listing operation. The
    *                          operation returns the NextMarker value within the response body if the
@@ -169,12 +240,10 @@ export class ServiceURL extends StorageURL {
    * @memberof ServiceURL
    */
   public async listContainersSegment(
-    aborter: Aborter,
     marker?: string,
     options: IServiceListContainersSegmentOptions = {}
   ): Promise<Models.ServiceListContainersSegmentResponse> {
     return this.serviceContext.listContainersSegment({
-      abortSignal: aborter,
       marker,
       ...options
     });

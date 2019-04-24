@@ -1,9 +1,8 @@
-/* 
+/*
  Setup: Enter your storage account name and shared key in main()
 */
 
 import {
-  Aborter,
   BlobURL,
   BlockBlobURL,
   ContainerURL,
@@ -42,7 +41,6 @@ async function main() {
   let marker;
   do {
     const listContainersResponse: Models.ServiceListContainersSegmentResponse = await serviceURL.listContainersSegment(
-      Aborter.none,
       marker
     );
 
@@ -80,7 +78,6 @@ async function main() {
   marker = undefined;
   do {
     const listBlobsResponse: Models.ContainerListBlobFlatSegmentResponse = await containerURL.listBlobFlatSegment(
-      Aborter.none,
       marker
     );
 

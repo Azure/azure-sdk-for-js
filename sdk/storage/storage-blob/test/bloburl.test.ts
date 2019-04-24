@@ -1,7 +1,6 @@
 import * as assert from "assert";
 
 import { isNode } from "@azure/ms-rest-js";
-import { Aborter } from "../src/Aborter";
 import { BlobURL } from "../src/BlobURL";
 import { BlockBlobURL } from "../src/BlockBlobURL";
 import { ContainerURL } from "../src/ContainerURL";
@@ -213,9 +212,12 @@ describe("BlobURL", () => {
     await blobSnapshotURL.delete();
     await blobURL.delete();
 
-    const result2 = await containerURL.listBlobFlatSegment(Aborter.none, undefined, {
-      include: ["snapshots"]
-    });
+    const result2 = await containerURL.listBlobFlatSegment(
+      undefined,
+      {
+        include: ["snapshots"]
+      }
+    );
 
     // Verify that the snapshot is deleted
     assert.equal(result2.segment.blobItems!.length, 0);
@@ -228,9 +230,12 @@ describe("BlobURL", () => {
     const blobSnapshotURL = blobURL.withSnapshot(result.snapshot!);
     await blobSnapshotURL.getProperties();
 
-    const result3 = await containerURL.listBlobFlatSegment(Aborter.none, undefined, {
-      include: ["snapshots"]
-    });
+    const result3 = await containerURL.listBlobFlatSegment(
+      undefined,
+      {
+        include: ["snapshots"]
+      }
+    );
 
     // As a snapshot doesn't have leaseStatus and leaseState properties but origin blob has,
     // let assign them to undefined both for other properties' easy comparison
@@ -264,14 +269,16 @@ describe("BlobURL", () => {
 
     await blobURL.delete();
 
-    const result = await containerURL.listBlobFlatSegment(Aborter.none, undefined, {
-      include: ["deleted"]
-    });
+    const result = await containerURL.listBlobFlatSegment(
+      undefined,
+      {
+        include: ["deleted"]
+      }
+    );
     assert.ok(result.segment.blobItems![0].deleted);
 
     await blobURL.undelete();
     const result2 = await containerURL.listBlobFlatSegment(
-      Aborter.none,
       undefined,
       {
         include: ["deleted"]

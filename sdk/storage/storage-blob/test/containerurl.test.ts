@@ -170,7 +170,7 @@ describe("ContainerURL", () => {
       blobURLs.push(blobURL);
     }
 
-    const result = await containerURL.listBlobFlatSegment(Aborter.none);
+    const result = await containerURL.listBlobFlatSegment();
     assert.ok(result.serviceEndpoint.length > 0);
     assert.ok(containerURL.url.indexOf(result.containerName));
     assert.deepStrictEqual(result.nextMarker, "");
@@ -198,22 +198,40 @@ describe("ContainerURL", () => {
       blobURLs.push(blobURL);
     }
 
-    const result = await containerURL.listBlobFlatSegment(Aborter.none, undefined, {
-      include: ["snapshots", "metadata", "uncommittedblobs", "copy", "deleted"],
-      maxresults: 1,
-      prefix
-    });
+    const result = await containerURL.listBlobFlatSegment(
+      undefined,
+      {
+        include: [
+          "snapshots",
+          "metadata",
+          "uncommittedblobs",
+          "copy",
+          "deleted"
+        ],
+        maxresults: 1,
+        prefix
+      }
+    );
     assert.ok(result.serviceEndpoint.length > 0);
     assert.ok(containerURL.url.indexOf(result.containerName));
     assert.deepStrictEqual(result.segment.blobItems!.length, 1);
     assert.ok(blobURLs[0].url.indexOf(result.segment.blobItems![0].name));
     assert.deepStrictEqual(result.segment.blobItems![0].metadata, metadata);
 
-    const result2 = await containerURL.listBlobFlatSegment(Aborter.none, result.nextMarker, {
-      include: ["snapshots", "metadata", "uncommittedblobs", "copy", "deleted"],
-      maxresults: 2,
-      prefix
-    });
+    const result2 = await containerURL.listBlobFlatSegment(
+      result.nextMarker,
+      {
+        include: [
+          "snapshots",
+          "metadata",
+          "uncommittedblobs",
+          "copy",
+          "deleted"
+        ],
+        maxresults: 2,
+        prefix
+      }
+    );
 
     assert.ok(result2.serviceEndpoint.length > 0);
     assert.ok(containerURL.url.indexOf(result2.containerName));
