@@ -2791,6 +2791,12 @@ export const Image: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      hyperVGeneration: {
+        serializedName: "properties.hyperVGeneration",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -2820,6 +2826,12 @@ export const ImageUpdate: msRest.CompositeMapper = {
       provisioningState: {
         readOnly: true,
         serializedName: "properties.provisioningState",
+        type: {
+          name: "String"
+        }
+      },
+      hyperVGeneration: {
+        serializedName: "properties.hyperVGeneration",
         type: {
           name: "String"
         }
