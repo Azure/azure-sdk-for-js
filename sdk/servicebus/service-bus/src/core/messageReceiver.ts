@@ -715,8 +715,7 @@ export class MessageReceiver extends LinkEntity {
   async detached(receiverError?: AmqpError | Error): Promise<void> {
     const connectionId = this._context.namespace.connectionId;
     try {
-      const wasCloseInitiated =
-        this.wasCloseInitiated || (this._receiver && this._receiver.isItselfClosed());
+      const wasCloseInitiated = this._receiver && this._receiver.isItselfClosed();
       // Clears the token renewal timer. Closes the link and its session if they are open.
       // Removes the link and its session if they are present in rhea's cache.
       await this._closeLink(this._receiver);
@@ -799,7 +798,7 @@ export class MessageReceiver extends LinkEntity {
         // else bail out when the error is not retryable or the oepration succeeds.
         const config: RetryConfig<void> = {
           operation: () =>
-            this._init(options).then(() => {
+            this._init(options).then(async () => {
               if (this.wasCloseInitiated) {
                 log.error(
                   "[%s] close() method of Receiver '%s' with address '%s' was called. " +
@@ -808,6 +807,7 @@ export class MessageReceiver extends LinkEntity {
                   this.name,
                   this.address
                 );
+                await this.close();
               } else {
                 if (this._receiver && this.receiverType === ReceiverType.streaming) {
                   this._receiver.addCredit(this.maxConcurrentCalls);
