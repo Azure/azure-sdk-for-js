@@ -27,8 +27,9 @@ describe("AxiosHttpClient", () => {
             { proxy: "https", request: "hTTps", port: 443, isProxyHttps: true }
         ].forEach(testCase => {
             it(`should return ${testCase.isProxyHttps ? "HTTPS" : "HTTP"} proxy for ${testCase.proxy.toUpperCase()} proxy server and ${testCase.request.toUpperCase()} request`, function (done) {
+                const urlHost = "proxy.microsoft.com"
                 const proxySettings = {
-                    host: `${testCase.proxy}://proxy.microsoft.com`,
+                    host: `${testCase.proxy}://${urlHost}`,
                     port: 8080
                 };
                 const requestUrl = `${testCase.request}://example.com`;
@@ -38,7 +39,7 @@ describe("AxiosHttpClient", () => {
                 proxyAgent.isHttps.should.equal(testCase.isProxyHttps);
                 const agent = proxyAgent.agent as HttpsAgent;
                 should().equal(agent.defaultPort, testCase.port);
-                agent.options.proxy.host!.should.equal(proxySettings.host);
+                agent.options.proxy.host!.should.equal(urlHost);
                 agent.options.proxy.port!.should.equal(proxySettings.port);
                 done();
             });
