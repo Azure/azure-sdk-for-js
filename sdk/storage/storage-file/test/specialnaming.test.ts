@@ -1,31 +1,50 @@
 import { Aborter } from "../src/Aborter";
 import { FileURL } from "../src/FileURL";
 import { ShareURL } from "../src/ShareURL";
-import { getBSU, getUniqueName } from "./utils/index";
+import { getBSU } from "./utils/index";
 import * as assert from "assert";
 import { appendToURLPath } from "../src/utils/utils.common";
 import { DirectoryURL } from "../src/DirectoryURL";
+import { record } from "./utils/nock-recorder";
 import * as dotenv from "dotenv";
-dotenv.config({path:"../.env"});
+dotenv.config({ path:"../.env" });
 
-describe("Special Naming Tests", () => {
+describe("Special Naming Tests", function() {
+  const testSuiteTitle = this.fullTitle();
+
+  let recorder = record(testSuiteTitle, "describe");
+
   const serviceURL = getBSU();
-  const shareName: string = getUniqueName("1share-with-dash");
+  const shareName: string = recorder.getUniqueName("1share-with-dash");
   const shareURL = ShareURL.fromServiceURL(serviceURL, shareName);
-  const directoryName = getUniqueName("dir");
+  const directoryName = recorder.getUniqueName("dir");
   const directoryURL = DirectoryURL.fromShareURL(shareURL, directoryName);
 
+  recorder.stop();
+
   before(async () => {
+    recorder = record(testSuiteTitle, "before");
     await shareURL.create(Aborter.none);
     await directoryURL.create(Aborter.none);
+    recorder.stop();
+  });
+
+  beforeEach(async () => {
+    recorder = record(testSuiteTitle, this.ctx.currentTest!.title);
+  });
+
+  afterEach(async () => {
+    recorder.stop();
   });
 
   after(async () => {
+    recorder = record(testSuiteTitle, "after");
     await shareURL.delete(Aborter.none);
+    recorder.stop();
   });
 
   it("Should work with special container and file names with spaces", async () => {
-    const fileName: string = getUniqueName("file empty");
+    const fileName: string = recorder.getUniqueName("file empty");
     const fileURL = FileURL.fromDirectoryURL(directoryURL, fileName);
 
     await fileURL.create(Aborter.none, 10);
@@ -40,7 +59,7 @@ describe("Special Naming Tests", () => {
   });
 
   it("Should work with special container and file names with spaces in URL string", async () => {
-    const fileName: string = getUniqueName("file empty");
+    const fileName: string = recorder.getUniqueName("file empty");
     const fileURL = new FileURL(
       appendToURLPath(directoryURL.url, fileName),
       directoryURL.pipeline
@@ -58,7 +77,7 @@ describe("Special Naming Tests", () => {
   });
 
   it("Should work with special container and file names uppercase", async () => {
-    const fileName: string = getUniqueName("Upper file empty another");
+    const fileName: string = recorder.getUniqueName("Upper file empty another");
     const fileURL = FileURL.fromDirectoryURL(directoryURL, fileName);
 
     await fileURL.create(Aborter.none, 10);
@@ -74,7 +93,7 @@ describe("Special Naming Tests", () => {
   });
 
   it("Should work with special container and file names uppercase in URL string", async () => {
-    const fileName: string = getUniqueName("Upper file empty another");
+    const fileName: string = recorder.getUniqueName("Upper file empty another");
     const fileURL = new FileURL(
       appendToURLPath(directoryURL.url, fileName),
       directoryURL.pipeline
@@ -93,7 +112,7 @@ describe("Special Naming Tests", () => {
   });
 
   it("Should work with special file names Chinese characters", async () => {
-    const fileName: string = getUniqueName("Upper file empty another 汉字");
+    const fileName: string = recorder.getUniqueName("Upper file empty another 汉字");
     const fileURL = FileURL.fromDirectoryURL(directoryURL, fileName);
 
     await fileURL.create(Aborter.none, 10);
@@ -109,7 +128,7 @@ describe("Special Naming Tests", () => {
   });
 
   it("Should work with special file names Chinese characters in URL string", async () => {
-    const fileName: string = getUniqueName("Upper file empty another 汉字");
+    const fileName: string = recorder.getUniqueName("Upper file empty another 汉字");
     const fileURL = new FileURL(
       appendToURLPath(directoryURL.url, fileName),
       directoryURL.pipeline
@@ -128,7 +147,7 @@ describe("Special Naming Tests", () => {
   });
 
   it("Should work with special file name characters", async () => {
-    const fileName: string = getUniqueName(
+    const fileName: string = recorder.getUniqueName(
       "汉字. special ~!@#$%^&()_+`1234567890-={}[];','"
     );
     const fileURL = FileURL.fromDirectoryURL(directoryURL, fileName);
@@ -147,7 +166,7 @@ describe("Special Naming Tests", () => {
   });
 
   it("Should work with special file name characters in URL string", async () => {
-    const fileName: string = getUniqueName(
+    const fileName: string = recorder.getUniqueName(
       "汉字. special ~!@#$%^&()_+`1234567890-={}[];','"
     );
     const fileURL = new FileURL(
@@ -175,7 +194,7 @@ describe("Special Naming Tests", () => {
   });
 
   it("Should work with special directory name characters", async () => {
-    const directoryName: string = getUniqueName(
+    const directoryName: string = recorder.getUniqueName(
       "汉字. special ~!@#$%^&()_+`1234567890-={}[];','"
     );
     const specialDirectoryURL = DirectoryURL.fromShareURL(
@@ -198,7 +217,7 @@ describe("Special Naming Tests", () => {
   });
 
   it("Should work with special directory name characters in URL string", async () => {
-    const directoryName: string = getUniqueName(
+    const directoryName: string = recorder.getUniqueName(
       "汉字. special ~!@#$%^&()_+`1234567890-={}[];','"
     );
     const specialDirectoryURL = new DirectoryURL(
@@ -228,7 +247,7 @@ describe("Special Naming Tests", () => {
   });
 
   it("Should work with special file name Russian URI encoded", async () => {
-    const fileName: string = getUniqueName("ру́сский язы́к");
+    const fileName: string = recorder.getUniqueName("ру́сский язы́к");
     const blobNameEncoded: string = encodeURIComponent(fileName);
     const fileURL = FileURL.fromDirectoryURL(directoryURL, blobNameEncoded);
 
@@ -245,7 +264,7 @@ describe("Special Naming Tests", () => {
   });
 
   it("Should work with special file name Russian", async () => {
-    const fileName: string = getUniqueName("ру́сский язы́к");
+    const fileName: string = recorder.getUniqueName("ру́сский язы́к");
     const fileURL = FileURL.fromDirectoryURL(directoryURL, fileName);
 
     await fileURL.create(Aborter.none, 10);
@@ -261,7 +280,7 @@ describe("Special Naming Tests", () => {
   });
 
   it("Should work with special file name Russian in URL string", async () => {
-    const fileName: string = getUniqueName("ру́сский язы́к");
+    const fileName: string = recorder.getUniqueName("ру́сский язы́к");
     const fileURL = new FileURL(
       appendToURLPath(directoryURL.url, fileName),
       directoryURL.pipeline
@@ -280,7 +299,7 @@ describe("Special Naming Tests", () => {
   });
 
   it("Should work with special file name Arabic URI encoded", async () => {
-    const fileName: string = getUniqueName("عربي/عربى");
+    const fileName: string = recorder.getUniqueName("عربي/عربى");
     const blobNameEncoded: string = encodeURIComponent(fileName);
     const fileURL = FileURL.fromDirectoryURL(directoryURL, blobNameEncoded);
 
@@ -297,7 +316,7 @@ describe("Special Naming Tests", () => {
   });
 
   it("Should work with special file name Arabic", async () => {
-    const fileName: string = getUniqueName("عربيعربى");
+    const fileName: string = recorder.getUniqueName("عربيعربى");
     const fileURL = FileURL.fromDirectoryURL(directoryURL, fileName);
 
     await fileURL.create(Aborter.none, 10);
@@ -313,7 +332,7 @@ describe("Special Naming Tests", () => {
   });
 
   it("Should work with special file name Arabic in URL string", async () => {
-    const fileName: string = getUniqueName("عربيعربى");
+    const fileName: string = recorder.getUniqueName("عربيعربى");
     const fileURL = new FileURL(
       appendToURLPath(directoryURL.url, fileName),
       directoryURL.pipeline
@@ -332,7 +351,7 @@ describe("Special Naming Tests", () => {
   });
 
   it("Should work with special file name Japanese URI encoded", async () => {
-    const fileName: string = getUniqueName("にっぽんごにほんご");
+    const fileName: string = recorder.getUniqueName("にっぽんごにほんご");
     const blobNameEncoded: string = encodeURIComponent(fileName);
     const fileURL = FileURL.fromDirectoryURL(directoryURL, blobNameEncoded);
 
@@ -349,7 +368,7 @@ describe("Special Naming Tests", () => {
   });
 
   it("Should work with special file name Japanese", async () => {
-    const fileName: string = getUniqueName("にっぽんごにほんご");
+    const fileName: string = recorder.getUniqueName("にっぽんごにほんご");
     const fileURL = FileURL.fromDirectoryURL(directoryURL, fileName);
 
     await fileURL.create(Aborter.none, 10);
@@ -365,7 +384,7 @@ describe("Special Naming Tests", () => {
   });
 
   it("Should work with special file name Japanese in URL string", async () => {
-    const fileName: string = getUniqueName("にっぽんごにほんご");
+    const fileName: string = recorder.getUniqueName("にっぽんごにほんご");
     const fileURL = new FileURL(
       appendToURLPath(directoryURL.url, fileName),
       directoryURL.pipeline
