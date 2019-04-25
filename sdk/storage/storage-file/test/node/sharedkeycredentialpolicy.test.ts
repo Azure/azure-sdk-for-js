@@ -6,19 +6,24 @@ import { getBSU } from "../utils";
 import { record } from "../utils/nock-recorder";
 
 describe("SharedKeyCredentialPolicy Node.js only", function() {
+  const serviceURL = getBSU();
+  let shareName: string;
+  let shareURL: ShareURL;
   const testSuiteTitle = this.fullTitle();
 
-  let recorder = record(testSuiteTitle, "describe");
-
-  const serviceURL = getBSU();
-  const shareName: string = recorder.getUniqueName("1share-with-dash");
-  const shareURL = ShareURL.fromServiceURL(serviceURL, shareName);
-
-  recorder.stop();
+  let recorder: any;
 
   before(async () => {
     recorder = record(testSuiteTitle, "before");
+    shareName = recorder.getUniqueName("1share-with-dash");
+    shareURL = ShareURL.fromServiceURL(serviceURL, shareName);
     await shareURL.create(Aborter.none);
+    recorder.stop();
+  });
+
+  after(async () => {
+    recorder = record(testSuiteTitle, "after");
+    await shareURL.delete(Aborter.none);
     recorder.stop();
   });
 
@@ -27,12 +32,6 @@ describe("SharedKeyCredentialPolicy Node.js only", function() {
   });
 
   afterEach(async () => {
-    recorder.stop();
-  });
-
-  after(async () => {
-    recorder = record(testSuiteTitle, "after");
-    await shareURL.delete(Aborter.none);
     recorder.stop();
   });
 

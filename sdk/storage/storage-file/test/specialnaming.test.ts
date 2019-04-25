@@ -10,22 +10,33 @@ import * as dotenv from "dotenv";
 dotenv.config({ path:"../.env" });
 
 describe("Special Naming Tests", function() {
+  const serviceURL = getBSU();
+  let shareName: string;
+  let shareURL: ShareURL;
+  let directoryName: string;
+  let directoryURL: DirectoryURL;
   const testSuiteTitle = this.fullTitle();
 
-  let recorder = record(testSuiteTitle, "describe");
-
-  const serviceURL = getBSU();
-  const shareName: string = recorder.getUniqueName("1share-with-dash");
-  const shareURL = ShareURL.fromServiceURL(serviceURL, shareName);
-  const directoryName = recorder.getUniqueName("dir");
-  const directoryURL = DirectoryURL.fromShareURL(shareURL, directoryName);
-
-  recorder.stop();
+  let recorder: any;
 
   before(async () => {
     recorder = record(testSuiteTitle, "before");
+
+    shareName = recorder.getUniqueName("1share-with-dash");
+    shareURL = ShareURL.fromServiceURL(serviceURL, shareName);
+
+    directoryName = recorder.getUniqueName("dir");
+    directoryURL = DirectoryURL.fromShareURL(shareURL, directoryName);
+
     await shareURL.create(Aborter.none);
     await directoryURL.create(Aborter.none);
+
+    recorder.stop();
+  });
+
+  after(async () => {
+    recorder = record(testSuiteTitle, "after");
+    await shareURL.delete(Aborter.none);
     recorder.stop();
   });
 
@@ -34,12 +45,6 @@ describe("Special Naming Tests", function() {
   });
 
   afterEach(async () => {
-    recorder.stop();
-  });
-
-  after(async () => {
-    recorder = record(testSuiteTitle, "after");
-    await shareURL.delete(Aborter.none);
     recorder.stop();
   });
 

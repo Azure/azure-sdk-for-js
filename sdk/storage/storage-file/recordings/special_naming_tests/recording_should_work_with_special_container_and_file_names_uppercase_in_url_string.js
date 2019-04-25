@@ -1,43 +1,43 @@
 let nock = require('nock');
 
-module.exports.testInfo = {"Upper file empty another":"Upper file empty another155621591988001648"}
+module.exports.testInfo = {"Upper file empty another":"Upper file empty another155623276850406035"}
 
 nock('https://coolstorageaccount1234.file.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/1share-with-dash155621591612707589/dir155621591612804618/Upper%20file%20empty%20another155621591988001648')
+  .put('/1share-with-dash155623276433906629/dir155623276433902629/Upper%20file%20empty%20another155623276850406035')
   .reply(201, "", [ 'Content-Length',
   '0',
   'Last-Modified',
-  'Thu, 25 Apr 2019 18:12:00 GMT',
+  'Thu, 25 Apr 2019 22:52:48 GMT',
   'ETag',
-  '"0x8D6C9A982E8F88A"',
+  '"0x8D6C9D0BD793830"',
   'Server',
   'Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '3d267b59-901a-0074-0192-fb1b1e000000',
+  'ccd4160e-e01a-003f-5fb9-fb2a84000000',
   'x-ms-version',
   '2018-03-28',
   'x-ms-request-server-encrypted',
   'true',
   'Date',
-  'Thu, 25 Apr 2019 18:12:00 GMT',
+  'Thu, 25 Apr 2019 22:52:48 GMT',
   'Connection',
   'close' ]);
 
 
 nock('https://coolstorageaccount1234.file.core.windows.net:443', {"encodedQueryParams":true})
-  .head('/1share-with-dash155621591612707589/dir155621591612804618/Upper%20file%20empty%20another155621591988001648')
+  .head('/1share-with-dash155623276433906629/dir155623276433902629/Upper%20file%20empty%20another155623276850406035')
   .reply(200, "", [ 'Content-Length',
   '10',
   'Content-Type',
   'application/octet-stream',
   'Last-Modified',
-  'Thu, 25 Apr 2019 18:12:00 GMT',
+  'Thu, 25 Apr 2019 22:52:48 GMT',
   'ETag',
-  '"0x8D6C9A982E8F88A"',
+  '"0x8D6C9D0BD793830"',
   'Server',
   'Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '88841bf3-901a-0056-7c92-fb7528000000',
+  '92ac17d3-201a-0083-46b9-fb3df5000000',
   'x-ms-version',
   '2018-03-28',
   'x-ms-type',
@@ -49,22 +49,22 @@ nock('https://coolstorageaccount1234.file.core.windows.net:443', {"encodedQueryP
   'Access-Control-Allow-Origin',
   '*',
   'Date',
-  'Thu, 25 Apr 2019 18:12:00 GMT',
+  'Thu, 25 Apr 2019 22:52:48 GMT',
   'Connection',
   'close' ]);
 
 
 nock('https://coolstorageaccount1234.file.core.windows.net:443', {"encodedQueryParams":true})
-  .get('/1share-with-dash155621591612707589/dir155621591612804618')
-  .query({"prefix":"Upper%20file%20empty%20another155621591988001648","restype":"directory","comp":"list"})
-  .reply(200, "﻿<?xml version=\"1.0\" encoding=\"utf-8\"?><EnumerationResults ServiceEndpoint=\"https://coolstorageaccount1234.file.core.windows.net/\" ShareName=\"1share-with-dash155621591612707589\" DirectoryPath=\"dir155621591612804618\"><Prefix>Upper file empty another155621591988001648</Prefix><Entries><File><Name>Upper file empty another155621591988001648</Name><Properties><Content-Length>10</Content-Length></Properties></File></Entries><NextMarker /></EnumerationResults>", [ 'Transfer-Encoding',
+  .get('/1share-with-dash155623276433906629/dir155623276433902629')
+  .query({"prefix":"Upper%20file%20empty%20another155623276850406035","restype":"directory","comp":"list"})
+  .reply(200, "﻿<?xml version=\"1.0\" encoding=\"utf-8\"?><EnumerationResults ServiceEndpoint=\"https://coolstorageaccount1234.file.core.windows.net/\" ShareName=\"1share-with-dash155623276433906629\" DirectoryPath=\"dir155623276433902629\"><Prefix>Upper file empty another155623276850406035</Prefix><Entries><File><Name>Upper file empty another155623276850406035</Name><Properties><Content-Length>10</Content-Length></Properties></File></Entries><NextMarker /></EnumerationResults>", [ 'Transfer-Encoding',
   'chunked',
   'Content-Type',
   'application/xml',
   'Server',
   'Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '87b87251-701a-0013-6292-fba8b9000000',
+  'eaadf93a-401a-0010-75b9-fbabbe000000',
   'x-ms-version',
   '2018-03-28',
   'Access-Control-Expose-Headers',
@@ -72,6 +72,6 @@ nock('https://coolstorageaccount1234.file.core.windows.net:443', {"encodedQueryP
   'Access-Control-Allow-Origin',
   '*',
   'Date',
-  'Thu, 25 Apr 2019 18:12:00 GMT',
+  'Thu, 25 Apr 2019 22:52:49 GMT',
   'Connection',
   'close' ]);

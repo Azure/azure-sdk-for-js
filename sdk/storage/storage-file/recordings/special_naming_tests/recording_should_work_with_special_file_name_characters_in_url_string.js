@@ -1,43 +1,43 @@
 let nock = require('nock');
 
-module.exports.testInfo = {"汉字. special ~!@#$%^&()_+`1234567890-={}[];','":"汉字. special ~!@#$%^&()_+`1234567890-={}[];','155621592487204628"}
+module.exports.testInfo = {"汉字. special ~!@#$%^&()_+`1234567890-={}[];','":"汉字. special ~!@#$%^&()_+`1234567890-={}[];','155623277356805592"}
 
 nock('https://coolstorageaccount1234.file.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/1share-with-dash155621591612707589/dir155621591612804618/%E6%B1%89%E5%AD%97.%20special%20~!%40%23%24%25%5E%26()_%2B%601234567890-%3D%7B%7D%5B%5D%3B%27%2C%27155621592487204628')
+  .put('/1share-with-dash155623276433906629/dir155623276433902629/%E6%B1%89%E5%AD%97.%20special%20~!%40%23%24%25%5E%26()_%2B%601234567890-%3D%7B%7D%5B%5D%3B%27%2C%27155623277356805592')
   .reply(201, "", [ 'Content-Length',
   '0',
   'Last-Modified',
-  'Thu, 25 Apr 2019 18:12:05 GMT',
+  'Thu, 25 Apr 2019 22:52:53 GMT',
   'ETag',
-  '"0x8D6C9A985E0CABD"',
+  '"0x8D6C9D0C07D68C2"',
   'Server',
   'Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '4a9aba32-f01a-002b-7e92-fbe9e0000000',
+  '597aecdc-b01a-004a-46b9-fbad3f000000',
   'x-ms-version',
   '2018-03-28',
   'x-ms-request-server-encrypted',
   'true',
   'Date',
-  'Thu, 25 Apr 2019 18:12:05 GMT',
+  'Thu, 25 Apr 2019 22:52:53 GMT',
   'Connection',
   'close' ]);
 
 
 nock('https://coolstorageaccount1234.file.core.windows.net:443', {"encodedQueryParams":true})
-  .head('/1share-with-dash155621591612707589/dir155621591612804618/%E6%B1%89%E5%AD%97.%20special%20~!%40%23%24%25%5E%26()_%2B%601234567890-%3D%7B%7D%5B%5D%3B%27%2C%27155621592487204628')
+  .head('/1share-with-dash155623276433906629/dir155623276433902629/%E6%B1%89%E5%AD%97.%20special%20~!%40%23%24%25%5E%26()_%2B%601234567890-%3D%7B%7D%5B%5D%3B%27%2C%27155623277356805592')
   .reply(200, "", [ 'Content-Length',
   '10',
   'Content-Type',
   'application/octet-stream',
   'Last-Modified',
-  'Thu, 25 Apr 2019 18:12:05 GMT',
+  'Thu, 25 Apr 2019 22:52:53 GMT',
   'ETag',
-  '"0x8D6C9A985E0CABD"',
+  '"0x8D6C9D0C07D68C2"',
   'Server',
   'Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'ed7e8c17-401a-0032-1592-fbc588000000',
+  'd218e34f-001a-003e-7ab9-fb2b79000000',
   'x-ms-version',
   '2018-03-28',
   'x-ms-type',
@@ -49,22 +49,22 @@ nock('https://coolstorageaccount1234.file.core.windows.net:443', {"encodedQueryP
   'Access-Control-Allow-Origin',
   '*',
   'Date',
-  'Thu, 25 Apr 2019 18:12:05 GMT',
+  'Thu, 25 Apr 2019 22:52:54 GMT',
   'Connection',
   'close' ]);
 
 
 nock('https://coolstorageaccount1234.file.core.windows.net:443', {"encodedQueryParams":true})
-  .get('/1share-with-dash155621591612707589/dir155621591612804618')
-  .query({"prefix":"%E6%B1%89%E5%AD%97.%20special%20~%21%40%23%24%25%5E%26%28%29_%2B%601234567890-%3D%7B%7D%5B%5D%3B%27%2C%27155621592487204628","restype":"directory","comp":"list"})
-  .reply(200, "﻿<?xml version=\"1.0\" encoding=\"utf-8\"?><EnumerationResults ServiceEndpoint=\"https://coolstorageaccount1234.file.core.windows.net/\" ShareName=\"1share-with-dash155621591612707589\" DirectoryPath=\"dir155621591612804618\"><Prefix>汉字. special ~!@#$%^&amp;()_+`1234567890-={}[];','155621592487204628</Prefix><Entries><File><Name>汉字. special ~!@#$%^&amp;()_+`1234567890-={}[];','155621592487204628</Name><Properties><Content-Length>10</Content-Length></Properties></File></Entries><NextMarker /></EnumerationResults>", [ 'Transfer-Encoding',
+  .get('/1share-with-dash155623276433906629/dir155623276433902629')
+  .query({"prefix":"%E6%B1%89%E5%AD%97.%20special%20~%21%40%23%24%25%5E%26%28%29_%2B%601234567890-%3D%7B%7D%5B%5D%3B%27%2C%27155623277356805592","restype":"directory","comp":"list"})
+  .reply(200, "﻿<?xml version=\"1.0\" encoding=\"utf-8\"?><EnumerationResults ServiceEndpoint=\"https://coolstorageaccount1234.file.core.windows.net/\" ShareName=\"1share-with-dash155623276433906629\" DirectoryPath=\"dir155623276433902629\"><Prefix>汉字. special ~!@#$%^&amp;()_+`1234567890-={}[];','155623277356805592</Prefix><Entries><File><Name>汉字. special ~!@#$%^&amp;()_+`1234567890-={}[];','155623277356805592</Name><Properties><Content-Length>10</Content-Length></Properties></File></Entries><NextMarker /></EnumerationResults>", [ 'Transfer-Encoding',
   'chunked',
   'Content-Type',
   'application/xml',
   'Server',
   'Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '6210817a-401a-0076-0792-fb19e4000000',
+  '7e1fe4ca-d01a-0015-0ab9-fb5fc1000000',
   'x-ms-version',
   '2018-03-28',
   'Access-Control-Expose-Headers',
@@ -72,6 +72,6 @@ nock('https://coolstorageaccount1234.file.core.windows.net:443', {"encodedQueryP
   'Access-Control-Allow-Origin',
   '*',
   'Date',
-  'Thu, 25 Apr 2019 18:12:05 GMT',
+  'Thu, 25 Apr 2019 22:52:54 GMT',
   'Connection',
   'close' ]);
