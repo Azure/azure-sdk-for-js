@@ -24,7 +24,7 @@
     "eslint-fix": "eslint \"src/**/*.ts\" \"test/**/*.ts\" -c .eslintrc.json --fix --fix-type [problem,suggestion]",
     "lint-and-test": "npm run eslint && npm run test"
   },
-  "files": [  
+  "files": [
     "dist/",
     "dist-esm/src/",
     "src/",
@@ -70,7 +70,7 @@
   "dependencies": {
     "assert": "^1.4.1",
     "events": "^3.0.0",
-    "ms-rest-js": "^1.0.455",
+    "@azure/ms-rest-js": "^1.8.2",
     "tslib": "^1.9.3"
   },
   "private": true

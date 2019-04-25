@@ -635,7 +635,7 @@ export class MessageReceiver extends LinkEntity {
             this.name,
             this.address
           );
-          await this.detached(receiverError);
+          await this.onDetached(receiverError);
         } else {
           log.error(
             "[%s] 'receiver_close' event occurred on the receiver '%s' with address '%s' " +
@@ -683,7 +683,7 @@ export class MessageReceiver extends LinkEntity {
             this.name,
             this.address
           );
-          await this.detached(sessionError);
+          await this.onDetached(sessionError);
         } else {
           log.error(
             "[%s] 'session_close' event occurred on the session of receiver '%s' with " +
@@ -712,7 +712,7 @@ export class MessageReceiver extends LinkEntity {
    * @param {AmqpError | Error} [receiverError] The receiver error if any.
    * @returns {Promise<void>} Promise<void>.
    */
-  async detached(receiverError?: AmqpError | Error): Promise<void> {
+  async onDetached(receiverError?: AmqpError | Error): Promise<void> {
     const connectionId = this._context.namespace.connectionId;
     try {
       const wasCloseInitiated = this._receiver && this._receiver.isItselfClosed();

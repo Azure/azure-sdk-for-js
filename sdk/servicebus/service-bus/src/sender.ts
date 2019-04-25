@@ -26,14 +26,17 @@ export class Sender {
    * @property Describes the amqp connection context for the Client.
    */
   private _context: ClientEntityContext;
+  /**
+   * @property Denotes if close() was called on this sender
+   */
   private _isClosed: boolean = false;
 
   /**
-   * @property Denotes if close() was called on this sender.
+   * @property Returns `true` if either the sender or the client that created it has been closed
    * @readonly
    */
   public get isClosed(): boolean {
-    return this._isClosed;
+    return this._isClosed || this._context.isClosed;
   }
 
   /**
@@ -208,10 +211,11 @@ export class Sender {
 
   private _throwIfSenderOrConnectionClosed(): void {
     throwErrorIfConnectionClosed(this._context.namespace);
-    if (this._isClosed) {
+    if (this.isClosed) {
       const errorMessage = getSenderClosedErrorMsg(
         this._context.entityPath,
-        this._context.clientType
+        this._context.clientType,
+        this._context.isClosed
       );
       const error = new Error(errorMessage);
       log.error(`[${this._context.namespace.connectionId}] %O`, error);
