@@ -200,7 +200,14 @@ export class QueueClient implements Client {
       this.entityPath,
       this._context.isClosed
     );
-    return this._context.managementClient!.peek(maxMessageCount);
+
+    let receiverName;
+    if (this._context.batchingReceiver) {
+      receiverName = this._context.batchingReceiver.name;
+    } else if (this._context.streamingReceiver) {
+      receiverName = this._context.streamingReceiver.name;
+    }
+    return this._context.managementClient!.peek(maxMessageCount, receiverName);
   }
 
   /**
@@ -222,9 +229,19 @@ export class QueueClient implements Client {
       this.entityPath,
       this._context.isClosed
     );
+
+    let receiverName;
+    if (this._context.batchingReceiver) {
+      receiverName = this._context.batchingReceiver.name;
+    } else if (this._context.streamingReceiver) {
+      receiverName = this._context.streamingReceiver.name;
+    }
+
     return this._context.managementClient!.peekBySequenceNumber(
       fromSequenceNumber,
-      maxMessageCount
+      maxMessageCount,
+      undefined,
+      receiverName
     );
   }
 
