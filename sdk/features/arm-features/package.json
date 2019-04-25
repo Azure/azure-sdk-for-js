@@ -26,7 +26,7 @@
     "rollup-plugin-sourcemaps": "^0.4.2",
     "uglify-js": "^3.4.9"
   },
-  "homepage": "https://github.com/azure/azure-sdk-for-js/tree/master/sdk/features/arm-features",
+  "homepage": "https://github.com/azure/azure-sdk-for-js",
   "repository": {
     "type": "git",
     "url": "https://github.com/azure/azure-sdk-for-js.git"
@@ -43,8 +43,7 @@
     "esm/**/*.js.map",
     "esm/**/*.d.ts",
     "esm/**/*.d.ts.map",
-    "src/**/*.ts",
-    "README.md",
+    "lib/**/*.ts",
     "rollup.config.js",
     "tsconfig.json"
   ],
@@ -53,6 +52,5 @@
     "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/arm-features.js.map'\" -o ./dist/arm-features.min.js ./dist/arm-features.js",
     "prepack": "npm install && npm run build"
   },
-  "sideEffects": false,
-  "authPublish": true
+  "sideEffects": false
 }
