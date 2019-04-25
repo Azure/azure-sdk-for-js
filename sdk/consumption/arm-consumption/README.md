@@ -39,7 +39,7 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
   const filter = "testfilter";
   const skiptoken = "testskiptoken";
   const top = 1;
-  const metric = "usage";
+  const metric = "actualcost";
   client.usageDetails.list(scope, expand, filter, skiptoken, top, metric).then((result) => {
     console.log("The result is:");
     console.log(result);
@@ -88,7 +88,7 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
         const filter = "testfilter";
         const skiptoken = "testskiptoken";
         const top = 1;
-        const metric = "usage";
+        const metric = "actualcost";
         client.usageDetails.list(scope, expand, filter, skiptoken, top, metric).then((result) => {
           console.log("The result is:");
           console.log(result);

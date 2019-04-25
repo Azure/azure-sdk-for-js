@@ -1701,8 +1701,8 @@ export interface UsageDetailsListOptionalParams extends msRest.RequestOptionsBas
   top?: number;
   /**
    * @member {Metrictype} [metric] Allows to select different type of
-   * cost/usage records. Possible values include: 'UsageMetricType',
-   * 'ActualCostMetricType', 'AmortizedCostMetricType'
+   * cost/usage records. Possible values include: 'ActualCostMetricType',
+   * 'AmortizedCostMetricType', 'UsageMetricType'
    */
   metric?: Metrictype;
 }
@@ -1717,8 +1717,8 @@ export interface UsageDetailsListOptionalParams extends msRest.RequestOptionsBas
 export interface UsageDetailsListDownloadOptionalParams extends msRest.RequestOptionsBase {
   /**
    * @member {Metrictype} [metric] Allows to select different type of
-   * cost/usage records. Possible values include: 'UsageMetricType',
-   * 'ActualCostMetricType', 'AmortizedCostMetricType'
+   * cost/usage records. Possible values include: 'ActualCostMetricType',
+   * 'AmortizedCostMetricType', 'UsageMetricType'
    */
   metric?: Metrictype;
 }
@@ -1733,8 +1733,8 @@ export interface UsageDetailsListDownloadOptionalParams extends msRest.RequestOp
 export interface UsageDetailsListBeginDownloadOptionalParams extends msRest.RequestOptionsBase {
   /**
    * @member {Metrictype} [metric] Allows to select different type of
-   * cost/usage records. Possible values include: 'UsageMetricType',
-   * 'ActualCostMetricType', 'AmortizedCostMetricType'
+   * cost/usage records. Possible values include: 'ActualCostMetricType',
+   * 'AmortizedCostMetricType', 'UsageMetricType'
    */
   metric?: Metrictype;
 }
@@ -2163,11 +2163,11 @@ export type Datagrain = 'daily' | 'monthly';
 
 /**
  * Defines values for Metrictype.
- * Possible values include: 'UsageMetricType', 'ActualCostMetricType', 'AmortizedCostMetricType'
+ * Possible values include: 'ActualCostMetricType', 'AmortizedCostMetricType', 'UsageMetricType'
  * @readonly
  * @enum {string}
  */
-export type Metrictype = 'usage' | 'actualcost' | 'amortizedcost';
+export type Metrictype = 'actualcost' | 'amortizedcost' | 'usage';
 
 /**
  * Contains response data for the list operation.
