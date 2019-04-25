@@ -6,7 +6,8 @@
   "dependencies": {
     "@azure/ms-rest-azure-js": "^1.1.0",
     "@azure/ms-rest-js": "^1.1.0",
-    "tslib": "^1.9.3"
+    "tslib": "^1.9.3",
+    "uglify": "^0.1.5"
   },
   "keywords": [
     "node",
@@ -34,7 +35,7 @@
     "url": "https://github.com/azure/azure-sdk-for-js/issues"
   },
   "files": [
-    "dist/",
+    "dist/*.min.js*",
     "esm/",
     "src/",
     "tsconfig.json"
