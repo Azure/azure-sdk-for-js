@@ -255,14 +255,14 @@ export class MessageSession extends LinkEntity {
 
   private _totalAutoLockRenewDuration: number;
 
-  private isClosedDueToExpiry: boolean;
+  private _isClosedDueToExpiry: boolean;
 
   constructor(context: ClientEntityContext, options?: MessageSessionOptions) {
     super(context.entityPath, context, {
       address: context.entityPath,
       audience: `${context.namespace.config.endpoint}${context.entityPath}`
     });
-    this.isClosedDueToExpiry = false;
+    this._isClosedDueToExpiry = false;
     this._context.isSessionEnabled = true;
     this.isReceivingMessages = false;
     if (!options) options = { sessionId: undefined };
@@ -334,11 +334,6 @@ export class MessageSession extends LinkEntity {
       const connectionId = this._context.namespace.connectionId;
       const receiverError = context.receiver && context.receiver.error;
       if (receiverError) {
-        console.log(
-          `part 1 - size of expired sessions map: ${
-            Object.keys(this._context.expiredMessageSessions).length
-          }`
-        );
         const sbError = translate(receiverError);
         if (sbError.name === "SessionLockLostError") {
           this._context.expiredMessageSessions[this.sessionId!] = true;
@@ -378,7 +373,7 @@ export class MessageSession extends LinkEntity {
       if (receiverError) {
         const sbError = translate(receiverError);
         if (sbError.name === "SessionLockLostError") {
-          this.isClosedDueToExpiry = true;
+          this._isClosedDueToExpiry = true;
         }
         log.error(
           "[%s] 'receiver_close' event occurred for receiver '%s' for sessionId '%s'. " +
@@ -491,8 +486,8 @@ export class MessageSession extends LinkEntity {
         this._context.namespace.connectionId
       );
 
-      if (this.isClosedDueToExpiry) {
-        this.isClosedDueToExpiry = false;
+      if (this._isClosedDueToExpiry) {
+        this._isClosedDueToExpiry = false;
       } else {
         delete this._context.expiredMessageSessions[this.sessionId!];
       }
@@ -1017,7 +1012,7 @@ export class MessageSession extends LinkEntity {
         );
 
         this._receiver = await this._context.namespace.connection.createReceiver(options);
-        this.isClosedDueToExpiry = false;
+        this._isClosedDueToExpiry = false;
         this.isConnecting = false;
         const receivedSessionId =
           this._receiver.source &&
