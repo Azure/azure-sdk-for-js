@@ -265,7 +265,7 @@ export class ManagementClient extends LinkEntity {
   async peekMessagesBySession(
     sessionId: string,
     associatedLinkName: string,
-    messageCount?: number,
+    messageCount?: number
   ): Promise<ReceivedMessageInfo[]> {
     throwErrorIfConnectionClosed(this._context.namespace);
     return this.peekBySequenceNumber(
@@ -443,7 +443,8 @@ export class ManagementClient extends LinkEntity {
    */
   async scheduleMessages(
     scheduledEnqueueTimeUtc: Date,
-    messages: SendableMessageInfo[]
+    messages: SendableMessageInfo[],
+    associatedLinkName?: string
   ): Promise<Long[]> {
     throwErrorIfConnectionClosed(this._context.namespace);
     const messageBody: any[] = [];
@@ -488,6 +489,7 @@ export class ManagementClient extends LinkEntity {
           operation: Constants.operations.scheduleMessage
         }
       };
+      request.application_properties![Constants.associatedLinkName] = associatedLinkName;
       request.application_properties![Constants.trackingId] = generate_uuid();
       log.mgmt(
         "[%s] Schedule messages request body: %O.",
@@ -528,7 +530,10 @@ export class ManagementClient extends LinkEntity {
    * @param sequenceNumbers - An Array of sequence numbers of the message to be cancelled.
    * @returns Promise<void>
    */
-  async cancelScheduledMessages(sequenceNumbers: Long[]): Promise<void> {
+  async cancelScheduledMessages(
+    sequenceNumbers: Long[],
+    associatedLinkName?: string
+  ): Promise<void> {
     throwErrorIfConnectionClosed(this._context.namespace);
     const messageBody: any = {};
     messageBody[Constants.sequenceNumbers] = [];
@@ -562,6 +567,7 @@ export class ManagementClient extends LinkEntity {
           operation: Constants.operations.cancelScheduledMessage
         }
       };
+      request.application_properties![Constants.associatedLinkName] = associatedLinkName;
       request.application_properties![Constants.trackingId] = generate_uuid();
       log.mgmt(
         "[%s] Cancel scheduled messages request body: %O.",
