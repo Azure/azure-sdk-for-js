@@ -2,26 +2,32 @@ import * as assert from "assert";
 
 import { Aborter } from "../../src/Aborter";
 import { ISignedIdentifier, ShareURL } from "../../src/ShareURL";
-import { getBSU, getUniqueName } from "./../utils";
+import { getBSU } from "./../utils";
+import { record } from "../utils/nock-recorder";
 
-describe("ShareURL", () => {
+describe("ShareURL", function() {
   const serviceURL = getBSU();
-  let shareName: string = getUniqueName("share");
-  let shareURL = ShareURL.fromServiceURL(serviceURL, shareName);
+  let shareName: string;
+  let shareURL: ShareURL;
+  const testSuiteTitle = this.fullTitle();
+
+  let recorder: any;
 
   beforeEach(async () => {
-    shareName = getUniqueName("share");
+    recorder = record(testSuiteTitle, this.ctx.currentTest!.title);
+    shareName = recorder.getUniqueName("share");
     shareURL = ShareURL.fromServiceURL(serviceURL, shareName);
     await shareURL.create(Aborter.none);
   });
 
   afterEach(async () => {
     await shareURL.delete(Aborter.none);
+    recorder.stop();
   });
 
   it("setAccessPolicy", async () => {
-    const yesterday = new Date();
-    const tomorrow = new Date();
+    const yesterday = recorder.newDate();
+    const tomorrow = recorder.newDate();
     yesterday.setDate(yesterday.getDate() - 1);
     tomorrow.setDate(tomorrow.getDate() + 1);
 
