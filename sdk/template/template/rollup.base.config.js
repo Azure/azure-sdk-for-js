@@ -52,13 +52,13 @@ export function nodeConfig(test = false) {
 export function browserConfig(test = false, production = false) {
   const baseConfig = {
     input: input,
-    external: ["ms-rest-js"],
+    external: ["@azure/ms-rest-js"],
     output: {
       file: "browser/azure-template.js",
       format: "umd",
       name: "ExampleClient",
       sourcemap: true,
-      globals: { "ms-rest-js": "msRest" }
+      globals: { "@azure/ms-rest-js": "msRest" }
     },
     plugins: [
       sourcemaps(),
