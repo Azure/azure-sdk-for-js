@@ -78,6 +78,7 @@
     },
     "files": [
         "BreakingChanges.md",
+        "browser/ThirdPartyNotices.txt",
         "browser/*.min.js*",
         "dist/",
         "dist-esm/src/",
