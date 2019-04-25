@@ -465,6 +465,9 @@ export class MessageSession extends LinkEntity {
 
   /**
    * Closes the underlying AMQP receiver link.
+   * @param isClosedDueToExpiry Flag that denotes if close is invoked due to session expiring.
+   * This is so that the internal map of expired sessions doesn't get cleared when session is
+   * closed due to expiry.
    */
   async close(isClosedDueToExpiry?: boolean): Promise<void> {
     try {
