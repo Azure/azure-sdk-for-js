@@ -4,24 +4,30 @@ import { RestError, StorageURL } from "../src";
 import { Aborter } from "../src/Aborter";
 import { ShareURL } from "../src/ShareURL";
 import { Pipeline } from "../src/Pipeline";
-import { getBSU, getUniqueName } from "./utils";
+import { getBSU } from "./utils";
 import { InjectorPolicyFactory } from "./utils/InjectorPolicyFactory";
+import { record } from "./utils/nock-recorder";
 import * as dotenv from "dotenv";
-dotenv.config({path:"../.env"});
+dotenv.config({ path:"../.env" });
 
-describe("RetryPolicy", () => {
+describe("RetryPolicy", function() {
   const serviceURL = getBSU();
-  let shareName: string = getUniqueName("share");
-  let shareURL = ShareURL.fromServiceURL(serviceURL, shareName);
+  let shareName: string;
+  let shareURL: ShareURL;
+  const testSuiteTitle = this.fullTitle();
+
+  let recorder: any;
 
   beforeEach(async () => {
-    shareName = getUniqueName("share");
+    recorder = record(testSuiteTitle, this.ctx.currentTest!.title);
+    shareName = recorder.getUniqueName("share");
     shareURL = ShareURL.fromServiceURL(serviceURL, shareName);
     await shareURL.create(Aborter.none);
   });
 
   afterEach(async () => {
     await shareURL.delete(Aborter.none);
+    recorder.stop();
   });
 
   it("Retry Policy should work when first request fails with 500", async () => {
@@ -52,7 +58,7 @@ describe("RetryPolicy", () => {
     assert.deepEqual(result.metadata, metadata);
   });
 
-  it("Retry Policy should failed when requests always fail with 500", async () => {
+  it("Retry Policy should fail when requests always fail with 500", async () => {
     const injector = new InjectorPolicyFactory(() => {
       return new RestError("Server Internal Error", "ServerInternalError", 500);
     });
