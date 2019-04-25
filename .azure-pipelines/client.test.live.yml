@@ -7,23 +7,21 @@
 #   Additional arguments to the test command.
 #   Example: --fgrep "test description"
 
-variables:
-  NodeVersion: '10.x'
-
 jobs:
-  - job: 'Test'
-
+  - job: 'Test_Node'
     strategy:
       # Service Bus and Event Hubs currently lack support for running multiple test suites in parallel,
       # since the tests would attempt to use the same resources which causes conflicts.
       maxParallel: 1
       matrix:
-        Linux:
+        Linux_Node10X:
           OSName: 'Linux'
           OSVmImage: 'ubuntu-16.04'
-        Windows:
+          NodeVersion: '10.x'
+        Windows_Node10X:
           OSName: 'Windows'
           OSVmImage: 'vs2017-win2016'
+          NodeVersion: '10.x'
 
     pool:
       vmImage: '$(OSVmImage)'
@@ -52,8 +50,8 @@ jobs:
 
       # To get realtime logging of test progress in Azure Pipelines, we need to use "script" instead of "Npm@1",
       # since "Npm@1" currently buffers output (https://github.com/Microsoft/azure-pipelines-tasks/issues/8171).
-      - script: npm run live-test-client-$(Package) -- -- --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=- $(AdditionalTestArguments)
-        displayName: 'npm run live-test-client-$(Package)'
+      - script: npm run live-test-client-$(Package)-node -- -- --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=- $(AdditionalTestArguments)
+        displayName: 'npm run live-test-client-$(Package)-node'
         env:
           # Service Bus
           AAD_CLIENT_ID: $(aad-azure-sdk-test-client-id)
@@ -72,6 +70,72 @@ jobs:
       - task: PublishTestResults@2
         inputs:
           testResultsFiles: '**/test-results.xml'
-          testRunTitle: '$(OSName) Node $(NodeVersion)'
+          testRunTitle: '$(OSName) Node $(NodeVersion) - Node'
         condition: succeededOrFailed()
-        displayName: 'Publish test results'
+        displayName: 'Publish node test results'
+
+  - job: 'Test_Browser'
+    strategy:
+      # Service Bus and Event Hubs currently lack support for running multiple test suites in parallel,
+      # since the tests would attempt to use the same resources which causes conflicts.
+      maxParallel: 1
+      matrix:
+        Linux_Node10X:
+          OSName: 'Linux'
+          OSVmImage: 'ubuntu-16.04'
+          NodeVersion: '10.x'
+        Windows_Node10X:
+          OSName: 'Windows'
+          OSVmImage: 'vs2017-win2016'
+          NodeVersion: '10.x'
+
+    pool:
+      vmImage: '$(OSVmImage)'
+
+    timeoutInMinutes: 240
+
+    steps:
+      - task: NodeTool@0
+        inputs:
+          versionSpec: '$(NodeVersion)'
+        displayName: 'Install Node.js $(NodeVersion)'
+
+      # Rather than running "npm install" in the repo root, reduce build time by only installing the "npm-run-all" package,
+      # which is the minimum required to run the composite script commands.
+      - task: Npm@1
+        inputs:
+          command: 'custom'
+          customCommand: 'install npm-run-all'
+        displayName: 'npm install npm-run-all'
+
+      - task: Npm@1
+        inputs:
+          command: 'custom'
+          customCommand: 'run install-client-$(Package)'
+        displayName: 'npm run install-client-$(Package)'
+
+      - script: npm run live-test-client-$(Package)-browser
+        condition: succeededOrFailed()
+        displayName: 'npm run live-test-client-$(Package)-browser'
+        env:
+          # Service Bus
+          AAD_CLIENT_ID: $(aad-azure-sdk-test-client-id)
+          AAD_TENANT_ID: $(aad-azure-sdk-test-tenant-id)
+          AAD_CLIENT_SECRET: $(aad-azure-sdk-test-client-secret)
+          AZURE_SUBSCRIPTION_ID: $(test-subscription-id)
+          CLEAN_NAMESPACE: 'true'
+          RESOURCE_GROUP: $(service-bus-test-resource-group)
+          SERVICEBUS_CONNECTION_STRING: $(service-bus-test-connection-string)
+          # Event Hubs
+          EVENTHUB_CONNECTION_STRING: $(js-event-hubs-test-connection-string)
+          EVENTHUB_NAME: $(js-event-hubs-test-name)
+          IOTHUB_CONNECTION_STRING: $(js-event-hubs-test-iothub-connection-string)
+          STORAGE_CONNECTION_STRING: $(js-event-hubs-test-storage-connection-string)
+
+      - task: PublishTestResults@2
+        inputs:
+          testRunner: JUnit
+          testResultsFiles: "**/test-results.browser.xml"
+          testRunTitle: '$(OSName) Node $(NodeVersion) - Browser'
+        condition: succeededOrFailed()
+        displayName: 'Publish browser test results'
