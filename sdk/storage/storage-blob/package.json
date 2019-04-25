@@ -80,6 +80,7 @@
   },
   "files": [
     "BreakingChanges.md",
+    "browser/*.min.js*",
     "dist/",
     "dist-esm/src/",
     "src/",
