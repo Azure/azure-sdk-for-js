@@ -2,23 +2,29 @@ import * as assert from "assert";
 
 import { Aborter } from "../src/Aborter";
 import { ShareURL } from "../src/ShareURL";
-import { getBSU, getUniqueName } from "./utils";
+import { getBSU } from "./utils";
+import { record } from "./utils/nock-recorder";
 import * as dotenv from "dotenv";
-dotenv.config({path:"../.env"});
+dotenv.config({ path:"../.env" });
 
-describe("ShareURL", () => {
+describe("ShareURL", function() {
   const serviceURL = getBSU();
-  let shareName: string = getUniqueName("share");
-  let shareURL = ShareURL.fromServiceURL(serviceURL, shareName);
+  let shareName: string;
+  let shareURL: ShareURL;
+  const testSuiteTitle = this.fullTitle();
+
+  let recorder: any;
 
   beforeEach(async () => {
-    shareName = getUniqueName("share");
+    recorder = record(testSuiteTitle, this.ctx.currentTest!.title);
+    shareName = recorder.getUniqueName("share");
     shareURL = ShareURL.fromServiceURL(serviceURL, shareName);
     await shareURL.create(Aborter.none);
   });
 
   afterEach(async () => {
     await shareURL.delete(Aborter.none);
+    recorder.stop();
   });
 
   it("setMetadata", async () => {
@@ -50,7 +56,7 @@ describe("ShareURL", () => {
   it("create with all parameters configured", async () => {
     const shareURL2 = ShareURL.fromServiceURL(
       serviceURL,
-      getUniqueName(shareName)
+      recorder.getUniqueName(shareName)
     );
     const metadata = { key: "value" };
     await shareURL2.create(Aborter.none, { metadata });
