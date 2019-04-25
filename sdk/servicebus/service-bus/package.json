@@ -1,7 +1,7 @@
 {
   "name": "@azure/service-bus",
   "author": "Microsoft Corporation",
-  "version": "1.0.0-preview.2",
+  "version": "1.0.0-preview.3",
   "license": "MIT",
   "description": "Azure Service Bus SDK for Node.js",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus",
@@ -72,7 +72,8 @@
     "dist/",
     "dist-esm/src/",
     "src/",
-    "typings/src"
+    "typings/src",
+    "tsconfig.json"
   ],
   "scripts": {
     "tslint": "tslint -p . -c tslint.json",
