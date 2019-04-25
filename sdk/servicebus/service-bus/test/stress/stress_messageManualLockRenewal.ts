@@ -103,7 +103,7 @@ async function receiveMessage(): Promise<void> {
       maxMessageAutoRenewLockDurationInSeconds: 0
     });
 
-    await delay(testDurationInMilliseconds + 5000);
+    await delay(testDurationInMilliseconds + 30000);
     await receiver.close();
   } finally {
     await client.close();
