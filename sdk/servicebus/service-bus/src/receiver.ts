@@ -22,7 +22,7 @@ import {
   throwTypeErrorIfParameterNotLongArray
 } from "./util/errors";
 
-import { getErrorMessageNotSupportedInReceiveAndDeleteMode } from "./util/utils";
+import { getErrorMessageNotSupportedInReceiveAndDeleteMode } from "./util/errors";
 /**
  * The Receiver class can be used to receive messages in a batch or by registering handlers.
  * Use the `createReceiver` function on the QueueClient or SubscriptionClient to instantiate a Receiver.
