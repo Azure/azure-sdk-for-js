@@ -39,6 +39,7 @@ export * from "./loadBalancerLoadBalancingRules";
 export * from "./loadBalancerOutboundRules";
 export * from "./loadBalancerNetworkInterfaces";
 export * from "./loadBalancerProbes";
+export * from "./natGateways";
 export * from "./networkInterfaces";
 export * from "./networkInterfaceIPConfigurations";
 export * from "./networkInterfaceLoadBalancers";
