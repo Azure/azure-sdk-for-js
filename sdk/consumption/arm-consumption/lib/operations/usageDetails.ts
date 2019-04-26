@@ -9,6 +9,7 @@
  */
 
 import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/usageDetailsMappers";
 import * as Parameters from "../models/parameters";
@@ -89,6 +90,55 @@ export class UsageDetails {
   }
 
   /**
+   * Download usage details data.
+   * @param scope The scope associated with usage details operations. This includes
+   * '/subscriptions/{subscriptionId}/' for subscription scope,
+   * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}' for resourceGroup scope,
+   * '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for Billing Account scope,
+   * '/providers/Microsoft.Billing/departments/{departmentId}' for Department scope,
+   * '/providers/Microsoft.Billing/enrollmentAccounts/{enrollmentAccountId}' for EnrollmentAccount
+   * scope and '/providers/Microsoft.Management/managementGroups/{managementGroupId}' for Management
+   * Group scope. For subscription, billing account, department, enrollment account and management
+   * group, you can also add billing period to the scope using
+   * '/providers/Microsoft.Billing/billingPeriods/{billingPeriodName}'. For e.g. to specify billing
+   * period at department scope use
+   * '/providers/Microsoft.Billing/departments/{departmentId}/providers/Microsoft.Billing/billingPeriods/{billingPeriodName}'
+   * @param [options] The optional parameters
+   * @returns Promise<Models.UsageDetailsDownloadResponse2>
+   */
+  download(scope: string, options?: Models.UsageDetailsDownloadOptionalParams): Promise<Models.UsageDetailsDownloadResponse2> {
+    return this.beginDownload(scope,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.UsageDetailsDownloadResponse2>;
+  }
+
+  /**
+   * Download usage details data.
+   * @param scope The scope associated with usage details operations. This includes
+   * '/subscriptions/{subscriptionId}/' for subscription scope,
+   * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}' for resourceGroup scope,
+   * '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for Billing Account scope,
+   * '/providers/Microsoft.Billing/departments/{departmentId}' for Department scope,
+   * '/providers/Microsoft.Billing/enrollmentAccounts/{enrollmentAccountId}' for EnrollmentAccount
+   * scope and '/providers/Microsoft.Management/managementGroups/{managementGroupId}' for Management
+   * Group scope. For subscription, billing account, department, enrollment account and management
+   * group, you can also add billing period to the scope using
+   * '/providers/Microsoft.Billing/billingPeriods/{billingPeriodName}'. For e.g. to specify billing
+   * period at department scope use
+   * '/providers/Microsoft.Billing/departments/{departmentId}/providers/Microsoft.Billing/billingPeriods/{billingPeriodName}'
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginDownload(scope: string, options?: Models.UsageDetailsBeginDownloadOptionalParams): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        scope,
+        options
+      },
+      beginDownloadOperationSpec,
+      options);
+  }
+
+  /**
    * Lists the usage details for the defined scope. Usage details are available via this API only for
    * May 1, 2014 or later.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
@@ -140,6 +190,34 @@ const listOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.UsageDetailsListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const beginDownloadOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "{scope}/providers/Microsoft.Consumption/usageDetails/download",
+  urlParameters: [
+    Parameters.scope
+  ],
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.metric
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.UsageDetailsDownloadResponse,
+      headersMapper: Mappers.UsageDetailsDownloadHeaders
+    },
+    202: {
+      headersMapper: Mappers.UsageDetailsDownloadHeaders
     },
     default: {
       bodyMapper: Mappers.ErrorResponse

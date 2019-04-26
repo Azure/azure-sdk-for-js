@@ -1709,12 +1709,12 @@ export interface UsageDetailsListOptionalParams extends msRest.RequestOptionsBas
 
 /**
  * @interface
- * An interface representing UsageDetailsListDownloadOptionalParams.
+ * An interface representing UsageDetailsDownloadOptionalParams.
  * Optional Parameters.
  *
  * @extends RequestOptionsBase
  */
-export interface UsageDetailsListDownloadOptionalParams extends msRest.RequestOptionsBase {
+export interface UsageDetailsDownloadOptionalParams extends msRest.RequestOptionsBase {
   /**
    * @member {Metrictype} [metric] Allows to select different type of
    * cost/usage records. Possible values include: 'ActualCostMetricType',
@@ -1725,12 +1725,12 @@ export interface UsageDetailsListDownloadOptionalParams extends msRest.RequestOp
 
 /**
  * @interface
- * An interface representing UsageDetailsListBeginDownloadOptionalParams.
+ * An interface representing UsageDetailsBeginDownloadOptionalParams.
  * Optional Parameters.
  *
  * @extends RequestOptionsBase
  */
-export interface UsageDetailsListBeginDownloadOptionalParams extends msRest.RequestOptionsBase {
+export interface UsageDetailsBeginDownloadOptionalParams extends msRest.RequestOptionsBase {
   /**
    * @member {Metrictype} [metric] Allows to select different type of
    * cost/usage records. Possible values include: 'ActualCostMetricType',
@@ -1942,11 +1942,11 @@ export interface ConsumptionManagementClientOptions extends AzureServiceClientOp
 
 /**
  * @interface
- * An interface representing UsageDetailsListDownloadHeaders.
+ * An interface representing UsageDetailsDownloadHeaders.
  * Defines headers for Download operation.
  *
  */
-export interface UsageDetailsListDownloadHeaders {
+export interface UsageDetailsDownloadHeaders {
   /**
    * @member {string} [location] GET this URL to retrieve the status of the
    * asynchronous operation.
@@ -2185,6 +2185,29 @@ export type UsageDetailsListResponse = UsageDetailsListResult & {
 };
 
 /**
+ * Contains response data for the download operation.
+ */
+export type UsageDetailsDownloadResponse2 = UsageDetailsDownloadResponse & UsageDetailsDownloadHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: UsageDetailsDownloadHeaders;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: UsageDetailsDownloadResponse;
+    };
+};
+
+/**
  * Contains response data for the listNext operation.
  */
 export type UsageDetailsListNextResponse = UsageDetailsListResult & {
@@ -2200,29 +2223,6 @@ export type UsageDetailsListNextResponse = UsageDetailsListResult & {
        * The response body as parsed JSON or XML
        */
       parsedBody: UsageDetailsListResult;
-    };
-};
-
-/**
- * Contains response data for the download operation.
- */
-export type UsageDetailsListDownloadResponse = UsageDetailsDownloadResponse & UsageDetailsListDownloadHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: UsageDetailsListDownloadHeaders;
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UsageDetailsDownloadResponse;
     };
 };
 

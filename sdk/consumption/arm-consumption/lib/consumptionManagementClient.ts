@@ -18,7 +18,6 @@ import { ConsumptionManagementClientContext } from "./consumptionManagementClien
 class ConsumptionManagementClient extends ConsumptionManagementClientContext {
   // Operation groups
   usageDetails: operations.UsageDetails;
-  usageDetailsList: operations.UsageDetailsList;
   marketplaces: operations.Marketplaces;
   budgets: operations.Budgets;
   tags: operations.Tags;
@@ -41,7 +40,6 @@ class ConsumptionManagementClient extends ConsumptionManagementClientContext {
   constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.ConsumptionManagementClientOptions) {
     super(credentials, subscriptionId, options);
     this.usageDetails = new operations.UsageDetails(this);
-    this.usageDetailsList = new operations.UsageDetailsList(this);
     this.marketplaces = new operations.Marketplaces(this);
     this.budgets = new operations.Budgets(this);
     this.tags = new operations.Tags(this);

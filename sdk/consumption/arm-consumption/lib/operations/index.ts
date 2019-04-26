@@ -9,7 +9,6 @@
  */
 
 export * from "./usageDetails";
-export * from "./usageDetailsList";
 export * from "./marketplaces";
 export * from "./budgets";
 export * from "./tags";

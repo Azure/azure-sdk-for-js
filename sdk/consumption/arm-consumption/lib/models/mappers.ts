@@ -1951,11 +1951,11 @@ export const ResourceAttributes: msRest.CompositeMapper = {
   }
 };
 
-export const UsageDetailsListDownloadHeaders: msRest.CompositeMapper = {
-  serializedName: "usagedetailslist-download-headers",
+export const UsageDetailsDownloadHeaders: msRest.CompositeMapper = {
+  serializedName: "usagedetails-download-headers",
   type: {
     name: "Composite",
-    className: "UsageDetailsListDownloadHeaders",
+    className: "UsageDetailsDownloadHeaders",
     modelProperties: {
       location: {
         serializedName: "location",

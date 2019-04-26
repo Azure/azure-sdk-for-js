@@ -17,6 +17,7 @@ export {
   ErrorResponse,
   ErrorDetails,
   UsageDetailsDownloadResponse,
+  UsageDetailsDownloadHeaders,
   Marketplace,
   Balance,
   BalancePropertiesNewPurchasesDetailsItem,
