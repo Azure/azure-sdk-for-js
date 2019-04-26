@@ -10,14 +10,15 @@ Measures the maximum throughput of `sender.send()` in package `rhea-promise`.
 5. Example: `ts-node send.ts 1000 1000000`
  */
 
-import { Connection } from "rhea-promise";
+import { Connection, SenderEvents } from "rhea-promise";
 import delay from "delay";
 import moment from "moment";
 
 const _payload = Buffer.alloc(1024);
 const _start = moment();
 
-let _messages = 0;
+let _sent = 0;
+let _accepted = 0;
 
 async function main(): Promise<void> {
   // Endpoint=sb://<your-namespace>.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=<shared-access-key>
@@ -73,30 +74,26 @@ async function RunTest(
     }
   });
 
-  const promises: Promise<void>[] = [];
-
-  for (let i = 0; i < maxInflight; i++) {
-    const promise = ExecuteSendsAsync(sender, messages);
-    promises[i] = promise;
-  }
-
-  await Promise.all(promises);
-
-  await connection.close();
-}
-
-async function ExecuteSendsAsync(sender: any, messages: number): Promise<void> {
-  while (++_messages <= messages) {
-    while (!sender.sendable()) {
-      await delay(0.01);
-    }
-    if (sender.sendable()) {
-      await sender.send({ body: _payload });
+  function sendMessages(): void {
+    while (sender.sendable() && _sent < messages && inflight() < maxInflight) {
+      _sent++;
+      sender.send({ body: _payload });
     }
   }
 
-  // Undo last increment, since a message was never sent on the final loop iteration
-  _messages--;
+  sender.on(SenderEvents.sendable, () => {
+    sendMessages();
+  });
+
+  sender.on(SenderEvents.accepted, async () => {
+    if (++_accepted === messages) {
+      await connection.close();
+    } else {
+      sendMessages();
+    }
+  });
+
+  sendMessages();
 }
 
 async function WriteResults(messages: number): Promise<void> {
@@ -108,9 +105,9 @@ async function WriteResults(messages: number): Promise<void> {
   do {
     await delay(1000);
 
-    const sentMessages = _messages;
-    const currentMessages = sentMessages - lastMessages;
-    lastMessages = sentMessages;
+    const acceptedMessages = _accepted;
+    const currentMessages = acceptedMessages - lastMessages;
+    lastMessages = acceptedMessages;
 
     const elapsed = moment().diff(_start);
     const currentElapsed = elapsed - lastElapsed;
@@ -121,8 +118,8 @@ async function WriteResults(messages: number): Promise<void> {
       maxElapsed = currentElapsed;
     }
 
-    WriteResult(sentMessages, elapsed, currentMessages, currentElapsed, maxMessages, maxElapsed);
-  } while (_messages < messages);
+    WriteResult(acceptedMessages, elapsed, currentMessages, currentElapsed, maxMessages, maxElapsed);
+  } while (_accepted < messages);
 }
 
 function WriteResult(
@@ -139,6 +136,10 @@ function WriteResult(
     `\tAvg MPS\t${Math.round((totalMessages * 1000) / totalElapsed)}` +
     `\tMax MPS\t${Math.round((maxMessages * 1000) / maxElapsed)}`
   );
+}
+
+function inflight() : number {
+  return _sent - _accepted;
 }
 
 function log(message: string): void {
