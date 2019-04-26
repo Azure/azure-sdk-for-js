@@ -4,23 +4,29 @@ import { getUniqueName } from "../utils";
 import * as dotenv from "dotenv";
 dotenv.config({ path: "../../.env" });
 
+const skip: any = [
+];
+
 export function record(folderpath: string, filename: string): { [key: string]: any } {
   let fp = folderpath.toLowerCase().replace(/ /g, "_").replace(/\W/g, "") +
     "/recording_" + filename.toLowerCase().replace(/ /g, "_").replace(/\W/g, "") + ".js";
   let importNock = "let nock = require('nock');\n";
   let uniqueTestInfo: any = {};
 
-  if (process.env.TEST_MODE === "record") {
+  const isRecording = (process.env.TEST_MODE === "record") && (!skip.includes(fp));
+  const isPlayingBack = (process.env.TEST_MODE === "playback") && (!skip.includes(fp));
+
+  if (isRecording) {
     nock.recorder.rec({
       dont_print: true
     });
-  } else if (process.env.TEST_MODE === "playback") {
+  } else if (isPlayingBack) {
     uniqueTestInfo = require("../../recordings/" + fp).testInfo;
   }
 
   return {
     stop: function() {
-      if (process.env.TEST_MODE === "record") {
+      if (isRecording) {
         let fixtures = nock.recorder.play();
         let file = fs.createWriteStream("./recordings/" + fp, { flags: "w" });
         file.on("error", err => console.log(err));
@@ -38,11 +44,11 @@ export function record(folderpath: string, filename: string): { [key: string]: a
       if (!recorderId) {
         recorderId = prefix;
       }
-      if (process.env.TEST_MODE === "record") {
+      if (isRecording) {
         name = getUniqueName(prefix);
         uniqueTestInfo[recorderId] = name;
       }
-      else if (process.env.TEST_MODE === "playback") {
+      else if (isPlayingBack) {
         name = uniqueTestInfo[recorderId];
       } else {
         name = getUniqueName(prefix);
@@ -51,11 +57,11 @@ export function record(folderpath: string, filename: string): { [key: string]: a
     },
     newDate: function(recorderId: string): Date {
       let date: Date;
-      if (process.env.TEST_MODE === "record") {
+      if (isRecording) {
         date = new Date();
         uniqueTestInfo[recorderId] = date.toISOString();
       }
-      else if (process.env.TEST_MODE === "playback") {
+      else if (isPlayingBack) {
         date = new Date(uniqueTestInfo[recorderId]);
       } else {
         date = new Date();
