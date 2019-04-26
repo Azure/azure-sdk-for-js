@@ -8,7 +8,6 @@
  * regenerated.
  */
 
-import { ServiceClientOptions } from "@azure/ms-rest-js";
 import * as msRest from "@azure/ms-rest-js";
 
 
@@ -1204,18 +1203,6 @@ export interface ImageUrl {
    * @member {string} url Publicly reachable URL of an image
    */
   url: string;
-}
-
-/**
- * @interface
- * An interface representing FaceClientOptions.
- * @extends ServiceClientOptions
- */
-export interface FaceClientOptions extends ServiceClientOptions {
-  /**
-   * @member {string} [baseUri]
-   */
-  baseUri?: string;
 }
 
 /**

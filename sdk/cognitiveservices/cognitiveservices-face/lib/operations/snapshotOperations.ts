@@ -309,6 +309,9 @@ const serializer = new msRest.Serializer(Mappers);
 const takeOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "snapshots",
+  urlParameters: [
+    Parameters.endpoint
+  ],
   requestBody: {
     parameterPath: {
       type: "type",
@@ -338,6 +341,9 @@ const takeOperationSpec: msRest.OperationSpec = {
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "snapshots",
+  urlParameters: [
+    Parameters.endpoint
+  ],
   queryParameters: [
     Parameters.type,
     Parameters.applyScope
@@ -368,6 +374,7 @@ const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "snapshots/{snapshotId}",
   urlParameters: [
+    Parameters.endpoint,
     Parameters.snapshotId
   ],
   responses: {
@@ -385,6 +392,7 @@ const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
   path: "snapshots/{snapshotId}",
   urlParameters: [
+    Parameters.endpoint,
     Parameters.snapshotId
   ],
   requestBody: {
@@ -416,6 +424,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "snapshots/{snapshotId}",
   urlParameters: [
+    Parameters.endpoint,
     Parameters.snapshotId
   ],
   responses: {
@@ -431,6 +440,7 @@ const applyOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "snapshots/{snapshotId}/apply",
   urlParameters: [
+    Parameters.endpoint,
     Parameters.snapshotId
   ],
   requestBody: {
@@ -461,6 +471,7 @@ const getOperationStatusOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "operations/{operationId}",
   urlParameters: [
+    Parameters.endpoint,
     Parameters.operationId
   ],
   responses: {

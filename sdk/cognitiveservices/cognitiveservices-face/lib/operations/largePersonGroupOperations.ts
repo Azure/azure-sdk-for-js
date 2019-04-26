@@ -29,28 +29,35 @@ export class LargePersonGroupOperations {
   /**
    * Create a new large person group with user-specified largePersonGroupId, name, an optional
    * userData and recognitionModel.
-   * <br /> A large person group is the container of the uploaded person data, including face images
-   * and face recognition feature, and up to 1,000,000 people.
+   * <br /> A large person group is the container of the uploaded person data, including face
+   * recognition feature, and up to 1,000,000
+   * people.
    * <br /> After creation, use [LargePersonGroup Person -
    * Create](/docs/services/563879b61984550e40cbbe8d/operations/599adcba3a7b9412a4d53f40) to add
    * person into the group, and call [LargePersonGroup -
    * Train](/docs/services/563879b61984550e40cbbe8d/operations/599ae2d16ac60f11b48b5aa4) to get this
    * group ready for [Face -
    * Identify](/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f30395239).
-   * <br /> The person face, image, and userData will be stored on server until [LargePersonGroup
-   * Person - Delete](/docs/services/563879b61984550e40cbbe8d/operations/599ade5c6ac60f11b48b5aa2) or
+   * <br /> No image will be stored. Only the person's extracted face features and userData will be
+   * stored on server until [LargePersonGroup Person -
+   * Delete](/docs/services/563879b61984550e40cbbe8d/operations/599ade5c6ac60f11b48b5aa2) or
    * [LargePersonGroup -
    * Delete](/docs/services/563879b61984550e40cbbe8d/operations/599adc216ac60f11b48b5a9f) is called.
-   * <br />
-   * * Free-tier subscription quota: 1,000 large person groups.
-   * * S0-tier subscription quota: 1,000,000 large person groups.
-   * <br />
-   * 'recognitionModel' should be specified to associate with this large person group. The default
-   * value for 'recognitionModel' is 'recognition_01', if the latest model needed, please explicitly
-   * specify the model you need in this parameter. New faces that are added to an existing large
-   * person group will use the recognition model that's already associated with the collection.
+   * <br/>'recognitionModel' should be specified to associate with this large person group. The
+   * default value for 'recognitionModel' is 'recognition_01', if the latest model needed, please
+   * explicitly specify the model you need in this parameter. New faces that are added to an existing
+   * large person group will use the recognition model that's already associated with the collection.
    * Existing face features in a large person group can't be updated to features extracted by another
    * version of recognition model.
+   * * 'recognition_01': The default recognition model for [LargePersonGroup -
+   * Create](/docs/services/563879b61984550e40cbbe8d/operations/599acdee6ac60f11b48b5a9d). All those
+   * large person groups created before 2019 March are bonded with this recognition model.
+   * * 'recognition_02': Recognition model released in 2019 March. 'recognition_02' is recommended
+   * since its overall accuracy is improved compared with 'recognition_01'.
+   *
+   * Large person group quota:
+   * * Free-tier subscription quota: 1,000 large person groups.
+   * * S0-tier subscription quota: 1,000,000 large person groups.
    * @param largePersonGroupId Id referencing a particular large person group.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
@@ -266,6 +273,7 @@ const createOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "largepersongroups/{largePersonGroupId}",
   urlParameters: [
+    Parameters.endpoint,
     Parameters.largePersonGroupId
   ],
   requestBody: {
@@ -301,6 +309,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "largepersongroups/{largePersonGroupId}",
   urlParameters: [
+    Parameters.endpoint,
     Parameters.largePersonGroupId
   ],
   responses: {
@@ -316,6 +325,7 @@ const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "largepersongroups/{largePersonGroupId}",
   urlParameters: [
+    Parameters.endpoint,
     Parameters.largePersonGroupId
   ],
   queryParameters: [
@@ -336,6 +346,7 @@ const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
   path: "largepersongroups/{largePersonGroupId}",
   urlParameters: [
+    Parameters.endpoint,
     Parameters.largePersonGroupId
   ],
   requestBody: {
@@ -367,6 +378,7 @@ const getTrainingStatusOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "largepersongroups/{largePersonGroupId}/training",
   urlParameters: [
+    Parameters.endpoint,
     Parameters.largePersonGroupId
   ],
   responses: {
@@ -383,6 +395,9 @@ const getTrainingStatusOperationSpec: msRest.OperationSpec = {
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "largepersongroups",
+  urlParameters: [
+    Parameters.endpoint
+  ],
   queryParameters: [
     Parameters.start1,
     Parameters.top1,
@@ -414,6 +429,7 @@ const trainOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "largepersongroups/{largePersonGroupId}/train",
   urlParameters: [
+    Parameters.endpoint,
     Parameters.largePersonGroupId
   ],
   responses: {

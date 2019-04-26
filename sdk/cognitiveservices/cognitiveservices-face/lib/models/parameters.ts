@@ -28,6 +28,18 @@ export const applyScope: msRest.OperationQueryParameter = {
   },
   collectionFormat: msRest.QueryCollectionFormat.Csv
 };
+export const endpoint: msRest.OperationURLParameter = {
+  parameterPath: "endpoint",
+  mapper: {
+    required: true,
+    serializedName: "Endpoint",
+    defaultValue: '',
+    type: {
+      name: "String"
+    }
+  },
+  skipEncoding: true
+};
 export const faceListId: msRest.OperationURLParameter = {
   parameterPath: "faceListId",
   mapper: {

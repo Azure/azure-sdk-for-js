@@ -32,7 +32,7 @@ class FaceClient extends FaceClientContext {
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param [options] The parameter options
    */
-  constructor(endpoint: string, credentials: msRest.ServiceClientCredentials, options?: Models.FaceClientOptions) {
+  constructor(endpoint: string, credentials: msRest.ServiceClientCredentials, options?: msRest.ServiceClientOptions) {
     super(endpoint, credentials, options);
     this.face = new operations.Face(this);
     this.personGroupPerson = new operations.PersonGroupPerson(this);

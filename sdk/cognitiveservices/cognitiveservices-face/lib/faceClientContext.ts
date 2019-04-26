@@ -9,7 +9,6 @@
  */
 
 import * as msRest from "@azure/ms-rest-js";
-import * as Models from "./models";
 
 const packageName = "@azure/cognitiveservices-face";
 const packageVersion = "3.0.0";
@@ -25,7 +24,7 @@ export class FaceClientContext extends msRest.ServiceClient {
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param [options] The parameter options
    */
-  constructor(endpoint: string, credentials: msRest.ServiceClientCredentials, options?: Models.FaceClientOptions) {
+  constructor(endpoint: string, credentials: msRest.ServiceClientCredentials, options?: msRest.ServiceClientOptions) {
     if (endpoint === null || endpoint === undefined) {
       throw new Error('\'endpoint\' cannot be null.');
     }
@@ -43,7 +42,7 @@ export class FaceClientContext extends msRest.ServiceClient {
 
     super(credentials, options);
 
-    this.baseUri = options.baseUri || this.baseUri || "http://localhost";
+    this.baseUri = "{Endpoint}";
     this.requestContentType = "application/json; charset=utf-8";
     this.endpoint = endpoint;
     this.credentials = credentials;

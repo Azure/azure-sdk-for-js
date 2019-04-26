@@ -214,7 +214,7 @@ export class Face {
    * * Optional parameters including faceId, landmarks, and attributes. Attributes include age,
    * gender, headPose, smile, facialHair, glasses, emotion, hair, makeup, occlusion, accessories,
    * blur, exposure and noise.
-   * * The extracted face feature, instead of the actual image, will be stored on server. The faceId
+   * * No image will be stored. Only the extracted face feature will be stored on server. The faceId
    * is an identifier of the face feature and will be used in [Face -
    * Identify](/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f30395239), [Face -
    * Verify](/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f3039523a), and [Face
@@ -233,8 +233,7 @@ export class Face {
    * detected, e.g. exceptionally large face angles (head-pose) or being occluded, or wrong image
    * orientation.
    * * Attributes (age, gender, headPose, smile, facialHair, glasses, emotion, hair, makeup,
-   * occlusion, accessories, blur, exposure and noise) may not be perfectly accurate. HeadPose's
-   * pitch value is a reserved field and will always return 0.
+   * occlusion, accessories, blur, exposure and noise) may not be perfectly accurate.
    * * Different 'recognitionModel' values are provided. If follow-up operations like Verify,
    * Identify, Find Similar are needed, please specify the recognition model with 'recognitionModel'
    * parameter. The default value for 'recognitionModel' is 'recognition_01', if latest model needed,
@@ -338,6 +337,9 @@ const serializer = new msRest.Serializer(Mappers);
 const findSimilarOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "findsimilars",
+  urlParameters: [
+    Parameters.endpoint
+  ],
   requestBody: {
     parameterPath: {
       faceId: "faceId",
@@ -392,6 +394,9 @@ const findSimilarOperationSpec: msRest.OperationSpec = {
 const groupOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "group",
+  urlParameters: [
+    Parameters.endpoint
+  ],
   requestBody: {
     parameterPath: {
       faceIds: "faceIds"
@@ -415,6 +420,9 @@ const groupOperationSpec: msRest.OperationSpec = {
 const identifyOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "identify",
+  urlParameters: [
+    Parameters.endpoint
+  ],
   requestBody: {
     parameterPath: {
       faceIds: "faceIds",
@@ -465,6 +473,9 @@ const identifyOperationSpec: msRest.OperationSpec = {
 const verifyFaceToFaceOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "verify",
+  urlParameters: [
+    Parameters.endpoint
+  ],
   requestBody: {
     parameterPath: {
       faceId1: "faceId1",
@@ -489,6 +500,9 @@ const verifyFaceToFaceOperationSpec: msRest.OperationSpec = {
 const detectWithUrlOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "detect",
+  urlParameters: [
+    Parameters.endpoint
+  ],
   queryParameters: [
     Parameters.returnFaceId,
     Parameters.returnFaceLandmarks,
@@ -530,6 +544,9 @@ const detectWithUrlOperationSpec: msRest.OperationSpec = {
 const verifyFaceToPersonOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "verify",
+  urlParameters: [
+    Parameters.endpoint
+  ],
   requestBody: {
     parameterPath: {
       faceId: "faceId",
@@ -562,6 +579,9 @@ const verifyFaceToPersonOperationSpec: msRest.OperationSpec = {
 const detectWithStreamOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "detect",
+  urlParameters: [
+    Parameters.endpoint
+  ],
   queryParameters: [
     Parameters.returnFaceId,
     Parameters.returnFaceLandmarks,
