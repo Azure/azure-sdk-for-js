@@ -375,10 +375,10 @@ export interface MonitoringDetails {
    */
   hanaDbName?: string;
   /**
-   * @member {number} [hanaDbSQLPort] The port number of the tenant DB. Used to
+   * @member {number} [hanaDbSqlPort] The port number of the tenant DB. Used to
    * connect to the DB.
    */
-  hanaDbSQLPort?: number;
+  hanaDbSqlPort?: number;
   /**
    * @member {string} [hanaDbUsername] Username for the HANA database to login
    * to for monitoring

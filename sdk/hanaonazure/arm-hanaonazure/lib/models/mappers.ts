@@ -426,8 +426,8 @@ export const MonitoringDetails: msRest.CompositeMapper = {
           name: "String"
         }
       },
-      hanaDbSQLPort: {
-        serializedName: "hanaDbSQLPort",
+      hanaDbSqlPort: {
+        serializedName: "hanaDbSqlPort",
         type: {
           name: "Number"
         }
