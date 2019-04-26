@@ -186,6 +186,20 @@ export class ApplicationGateways {
   }
 
   /**
+   * Gets the backend health for given combination of backend pool and http setting of the specified
+   * application gateway in a resource group.
+   * @param resourceGroupName The name of the resource group.
+   * @param applicationGatewayName The name of the application gateway.
+   * @param probeRequest Request body for on-demand test probe operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ApplicationGatewaysBackendHealthOnDemandResponse>
+   */
+  backendHealthOnDemand(resourceGroupName: string, applicationGatewayName: string, probeRequest: Models.ApplicationGatewayOnDemandProbe, options?: Models.ApplicationGatewaysBackendHealthOnDemandOptionalParams): Promise<Models.ApplicationGatewaysBackendHealthOnDemandResponse> {
+    return this.beginBackendHealthOnDemand(resourceGroupName,applicationGatewayName,probeRequest,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ApplicationGatewaysBackendHealthOnDemandResponse>;
+  }
+
+  /**
    * Lists all available server variables.
    * @param [options] The optional parameters
    * @returns Promise<Models.ApplicationGatewaysListAvailableServerVariablesResponse>
@@ -466,6 +480,27 @@ export class ApplicationGateways {
         options
       },
       beginBackendHealthOperationSpec,
+      options);
+  }
+
+  /**
+   * Gets the backend health for given combination of backend pool and http setting of the specified
+   * application gateway in a resource group.
+   * @param resourceGroupName The name of the resource group.
+   * @param applicationGatewayName The name of the application gateway.
+   * @param probeRequest Request body for on-demand test probe operation.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginBackendHealthOnDemand(resourceGroupName: string, applicationGatewayName: string, probeRequest: Models.ApplicationGatewayOnDemandProbe, options?: Models.ApplicationGatewaysBeginBackendHealthOnDemandOptionalParams): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        applicationGatewayName,
+        probeRequest,
+        options
+      },
+      beginBackendHealthOnDemandOperationSpec,
       options);
   }
 
@@ -978,6 +1013,40 @@ const beginBackendHealthOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.ApplicationGatewayBackendHealth
+    },
+    202: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginBackendHealthOnDemandOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}/getBackendHealthOnDemand",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.applicationGatewayName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion0,
+    Parameters.expand
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "probeRequest",
+    mapper: {
+      ...Mappers.ApplicationGatewayOnDemandProbe,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.ApplicationGatewayBackendHealthOnDemand
     },
     202: {},
     default: {
