@@ -240,9 +240,14 @@ export class ManagementClient extends LinkEntity {
    * @param {number} [messageCount] The number of messages to retrieve. Default value `1`.
    * @returns Promise<ReceivedSBMessage[]>
    */
-  async peek(messageCount?: number): Promise<ReceivedMessageInfo[]> {
+  async peek(messageCount?: number, associatedLinkName?: string): Promise<ReceivedMessageInfo[]> {
     throwErrorIfConnectionClosed(this._context.namespace);
-    return this.peekBySequenceNumber(this._lastPeekedSequenceNumber.add(1), messageCount);
+    return this.peekBySequenceNumber(
+      this._lastPeekedSequenceNumber.add(1),
+      messageCount,
+      undefined,
+      associatedLinkName
+    );
   }
 
   /**
@@ -259,13 +264,15 @@ export class ManagementClient extends LinkEntity {
    */
   async peekMessagesBySession(
     sessionId: string,
+    associatedLinkName: string,
     messageCount?: number
   ): Promise<ReceivedMessageInfo[]> {
     throwErrorIfConnectionClosed(this._context.namespace);
     return this.peekBySequenceNumber(
       this._lastPeekedSequenceNumber.add(1),
       messageCount,
-      sessionId
+      sessionId,
+      associatedLinkName
     );
   }
 
@@ -279,7 +286,8 @@ export class ManagementClient extends LinkEntity {
   async peekBySequenceNumber(
     fromSequenceNumber: Long,
     maxMessageCount?: number,
-    sessionId?: string
+    sessionId?: string,
+    associatedLinkName?: string
   ): Promise<ReceivedMessageInfo[]> {
     throwErrorIfConnectionClosed(this._context.namespace);
     const connId = this._context.namespace.connectionId;
@@ -316,6 +324,9 @@ export class ManagementClient extends LinkEntity {
           operation: Constants.operations.peekMessage
         }
       };
+      if (associatedLinkName) {
+        request.application_properties![Constants.associatedLinkName] = associatedLinkName;
+      }
       request.application_properties![Constants.trackingId] = generate_uuid();
       log.mgmt(
         "[%s] Peek by sequence number request body: %O.",
@@ -398,8 +409,9 @@ export class ManagementClient extends LinkEntity {
         }
       };
       request.application_properties![Constants.trackingId] = generate_uuid();
-      // TODO: Update to use constant from AMQP common
-      request.application_properties!["associated-link-name"] = associatedLinkName;
+      if (associatedLinkName) {
+        request.application_properties![Constants.associatedLinkName] = associatedLinkName;
+      }
       log.mgmt(
         "[%s] Renew message Lock request: %O.",
         this._context.namespace.connectionId,
@@ -434,7 +446,8 @@ export class ManagementClient extends LinkEntity {
    */
   async scheduleMessages(
     scheduledEnqueueTimeUtc: Date,
-    messages: SendableMessageInfo[]
+    messages: SendableMessageInfo[],
+    associatedLinkName?: string
   ): Promise<Long[]> {
     throwErrorIfConnectionClosed(this._context.namespace);
     const messageBody: any[] = [];
@@ -479,6 +492,9 @@ export class ManagementClient extends LinkEntity {
           operation: Constants.operations.scheduleMessage
         }
       };
+      if (associatedLinkName) {
+        request.application_properties![Constants.associatedLinkName] = associatedLinkName;
+      }
       request.application_properties![Constants.trackingId] = generate_uuid();
       log.mgmt(
         "[%s] Schedule messages request body: %O.",
@@ -519,7 +535,10 @@ export class ManagementClient extends LinkEntity {
    * @param sequenceNumbers - An Array of sequence numbers of the message to be cancelled.
    * @returns Promise<void>
    */
-  async cancelScheduledMessages(sequenceNumbers: Long[]): Promise<void> {
+  async cancelScheduledMessages(
+    sequenceNumbers: Long[],
+    associatedLinkName?: string
+  ): Promise<void> {
     throwErrorIfConnectionClosed(this._context.namespace);
     const messageBody: any = {};
     messageBody[Constants.sequenceNumbers] = [];
@@ -553,6 +572,9 @@ export class ManagementClient extends LinkEntity {
           operation: Constants.operations.cancelScheduledMessage
         }
       };
+      if (associatedLinkName) {
+        request.application_properties![Constants.associatedLinkName] = associatedLinkName;
+      }
       request.application_properties![Constants.trackingId] = generate_uuid();
       log.mgmt(
         "[%s] Cancel scheduled messages request body: %O.",
@@ -775,8 +797,9 @@ export class ManagementClient extends LinkEntity {
         }
       };
       request.application_properties![Constants.trackingId] = generate_uuid();
-      // TODO: to use constant from AMQP common
-      request.application_properties!["associated-link-name"] = associatedLinkName;
+      if (associatedLinkName) {
+        request.application_properties![Constants.associatedLinkName] = associatedLinkName;
+      }
       log.mgmt(
         "[%s] Renew Session Lock request body: %O.",
         this._context.namespace.connectionId,
@@ -814,7 +837,7 @@ export class ManagementClient extends LinkEntity {
    * @param state The state that needs to be set.
    * @returns Promise<void>
    */
-  async setSessionState(sessionId: string, state: any): Promise<void> {
+  async setSessionState(sessionId: string, state: any, associatedLinkName: string): Promise<void> {
     throwErrorIfConnectionClosed(this._context.namespace);
 
     try {
@@ -828,6 +851,9 @@ export class ManagementClient extends LinkEntity {
           operation: Constants.operations.setSessionState
         }
       };
+      if (associatedLinkName) {
+        request.application_properties![Constants.associatedLinkName] = associatedLinkName;
+      }
       request.application_properties![Constants.trackingId] = generate_uuid();
       log.mgmt(
         "[%s] Set Session state request body: %O.",
@@ -857,7 +883,7 @@ export class ManagementClient extends LinkEntity {
    * @param sessionId The session for which the state needs to be retrieved.
    * @returns Promise<any> The state of that session
    */
-  async getSessionState(sessionId: string): Promise<any> {
+  async getSessionState(sessionId: string, associatedLinkName: string): Promise<any> {
     throwErrorIfConnectionClosed(this._context.namespace);
     try {
       const messageBody: any = {};
@@ -869,6 +895,9 @@ export class ManagementClient extends LinkEntity {
           operation: Constants.operations.getSessionState
         }
       };
+      if (associatedLinkName) {
+        request.application_properties![Constants.associatedLinkName] = associatedLinkName;
+      }
       request.application_properties![Constants.trackingId] = generate_uuid();
       log.mgmt(
         "[%s] Get session state request body: %O.",
