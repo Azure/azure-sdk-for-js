@@ -5,9 +5,6 @@ import * as log from "../log";
 import Long from "long";
 import { ClientType } from "../client";
 import { ConnectionContext } from "../connectionContext";
-import { MessageReceiver } from "../core/messageReceiver";
-import { MessageSession } from "../session/messageSession";
-import { DispositionType, ReceiveMode } from "../serviceBusMessage";
 
 /**
  * @internal
@@ -260,42 +257,6 @@ export function throwTypeErrorIfParameterIsEmptyString(
   }
   const error = new TypeError(`Empty string not allowed in parameter "${parameterName}"`);
   log.error(`[${connectionId}] %O`, error);
-  throw error;
-}
-
-/**
- * Logs and Throws an error if the given message cannot be settled.
- * @param receiver Receiver to be used to settle this message
- * @param operation Settle operation: complete, abandon, defer or deadLetter
- * @param isRemoteSettled Boolean indicating if the message has been settled at the remote
- */
-export function throwIfMessageCannotBeSettled(
-  receiver: MessageReceiver | MessageSession | undefined,
-  operation: DispositionType,
-  isRemoteSettled: boolean
-): void {
-  let errorMessage;
-  if (!receiver) {
-    errorMessage = `Failed to ${operation} the message as it's receiver has been closed.`;
-  } else if (receiver.receiveMode !== ReceiveMode.peekLock) {
-    errorMessage = getErrorMessageNotSupportedInReceiveAndDeleteMode(`${operation} the message`);
-  } else if (isRemoteSettled) {
-    errorMessage = `Failed to ${operation} the message as this message has been already settled.`;
-  }
-  if (!errorMessage) {
-    return;
-  }
-  const error = new Error(errorMessage);
-  if (receiver) {
-    log.error(
-      "An error occured when settling a message using the receiver %s: %O",
-      receiver.name,
-      error
-    );
-  } else {
-    log.error("An error occured when settling a message: %O", error);
-  }
-
   throw error;
 }
 

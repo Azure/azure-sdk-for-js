@@ -13,7 +13,8 @@ import { Constants, AmqpMessage } from "@azure/amqp-common";
 import * as log from "./log";
 import { ClientEntityContext } from "./clientEntityContext";
 import { reorderLockToken } from "../src/util/utils";
-import { throwIfMessageCannotBeSettled } from "../src/util/errors";
+import { MessageReceiver } from "../src/core/messageReceiver";
+import { MessageSession } from "../src/session/messageSession";
 
 /**
  * The mode in which messages should be received. The 2 modes are `peekLock` and `receiveAndDelete`.
@@ -579,14 +580,14 @@ export function fromAmqpMessage(
     lockToken:
       delivery && delivery.tag && delivery.tag.length !== 0
         ? uuid_to_string(
-          shouldReorderLockToken === true
-            ? reorderLockToken(
-              typeof delivery.tag === "string" ? Buffer.from(delivery.tag) : delivery.tag
-            )
-            : typeof delivery.tag === "string"
+            shouldReorderLockToken === true
+              ? reorderLockToken(
+                  typeof delivery.tag === "string" ? Buffer.from(delivery.tag) : delivery.tag
+                )
+              : typeof delivery.tag === "string"
               ? Buffer.from(delivery.tag)
               : delivery.tag
-        )
+          )
         : undefined,
     ...sbmsg,
     ...props
@@ -1005,4 +1006,49 @@ export class ServiceBusMessage implements ReceivedMessage {
 
     return clone;
   }
+}
+
+/**
+ * Logs and Throws an error if the given message cannot be settled.
+ * @param receiver Receiver to be used to settle this message
+ * @param operation Settle operation: complete, abandon, defer or deadLetter
+ * @param isRemoteSettled Boolean indicating if the message has been settled at the remote
+ */
+function throwIfMessageCannotBeSettled(
+  receiver: MessageReceiver | MessageSession | undefined,
+  operation: DispositionType,
+  isRemoteSettled: boolean
+): void {
+  let errorMessage;
+  if (!receiver) {
+    errorMessage = `Failed to ${operation} the message as it's receiver has been closed.`;
+  } else if (receiver.receiveMode !== ReceiveMode.peekLock) {
+    errorMessage = getErrorMessageNotSupportedInReceiveAndDeleteMode(`${operation} the message`);
+  } else if (isRemoteSettled) {
+    errorMessage = `Failed to ${operation} the message as this message has been already settled.`;
+  }
+  if (!errorMessage) {
+    return;
+  }
+  const error = new Error(errorMessage);
+  if (receiver) {
+    log.error(
+      "An error occured when settling a message using the receiver %s: %O",
+      receiver.name,
+      error
+    );
+  } else {
+    log.error("An error occured when settling a message: %O", error);
+  }
+
+  throw error;
+}
+
+/**
+ * Gets error message for when an operation is not supported in ReceiveAndDelete mode
+ * @param failedToDo A string to add to the placeholder in the error message. Denotes the action
+ * that is not supported in ReceiveAndDelete mode
+ */
+function getErrorMessageNotSupportedInReceiveAndDeleteMode(failedToDo: string): string {
+  return `Failed to ${failedToDo} as the operation is only supported in 'PeekLock' recieve mode.`;
 }
