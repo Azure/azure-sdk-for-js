@@ -78,6 +78,16 @@
     "clean": "rimraf dist dist-esm dist-test typings temp browser/*.js* browser/*.zip statistics.html coverage coverage-browser .nyc_output *.tgz *.log test*.xml TEST*.xml",
     "extract-api": "tsc -p . && api-extractor run --local"
   },
+  "files": [
+    "BreakingChanges.md",
+    "browser/*.min.js*",
+    "browser/ThirdPartyNotices.txt",
+    "dist/",
+    "dist-esm/src/",
+    "src/",
+    "typings/src",
+    "tsconfig.json"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Azure/azure-sdk-for-js.git"
