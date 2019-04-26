@@ -144,6 +144,8 @@ export {
   MatchCondition,
   MatchedRule,
   MatchVariable,
+  NatGateway,
+  NatGatewaySku,
   NetworkConfigurationDiagnosticParameters,
   NetworkConfigurationDiagnosticProfile,
   NetworkConfigurationDiagnosticResponse,
