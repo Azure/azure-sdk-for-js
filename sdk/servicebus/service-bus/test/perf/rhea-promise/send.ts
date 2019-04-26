@@ -10,7 +10,7 @@ Measures the maximum throughput of `sender.send()` in package `rhea-promise`.
 5. Example: `ts-node send.ts 1000 1000000`
  */
 
-import { Connection, Sender, SenderEvents, EventContext, Func } from "rhea-promise";
+import { Connection } from "rhea-promise";
 import delay from "delay";
 import moment from "moment";
 
@@ -18,7 +18,6 @@ const _payload = Buffer.alloc(1024);
 const _start = moment();
 
 let _messages = 0;
-let canSend = true;
 
 async function main(): Promise<void> {
   // Endpoint=sb://<your-namespace>.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=<shared-access-key>
@@ -74,8 +73,6 @@ async function RunTest(
     }
   });
 
-  sender.setMaxListeners(1000);
-
   const promises: Promise<void>[] = [];
 
   for (let i = 0; i < maxInflight; i++) {
@@ -88,25 +85,16 @@ async function RunTest(
   await connection.close();
 }
 
-async function ExecuteSendsAsync(sender: Sender, messages: number): Promise<void> {
-  const onSuccessOrFail: Func<EventContext, void> = (context: EventContext) => {
-    sender.removeListener(SenderEvents.rejected, onSuccessOrFail);
-    sender.removeListener(SenderEvents.accepted, onSuccessOrFail);
-  };
-
-  sender.once(SenderEvents.accepted, onSuccessOrFail);
-  sender.once(SenderEvents.rejected, onSuccessOrFail);
-  sender.send({ body: _payload });
-
+async function ExecuteSendsAsync(sender: any, messages: number): Promise<void> {
   while (++_messages <= messages) {
-    while (!sender.sendable() || canSend === false) {
+    while (!sender.sendable()) {
       await delay(0.01);
     }
     if (sender.sendable()) {
-      sender.send({ body: _payload });
-      canSend = false;
+      await sender.send({ body: _payload });
     }
   }
+
   // Undo last increment, since a message was never sent on the final loop iteration
   _messages--;
 }
@@ -147,9 +135,9 @@ function WriteResult(
 ): void {
   log(
     `\tTot Msg\t${totalMessages}` +
-      `\tCur MPS\t${Math.round((currentMessages * 1000) / currentElapsed)}` +
-      `\tAvg MPS\t${Math.round((totalMessages * 1000) / totalElapsed)}` +
-      `\tMax MPS\t${Math.round((maxMessages * 1000) / maxElapsed)}`
+    `\tCur MPS\t${Math.round((currentMessages * 1000) / currentElapsed)}` +
+    `\tAvg MPS\t${Math.round((totalMessages * 1000) / totalElapsed)}` +
+    `\tMax MPS\t${Math.round((maxMessages * 1000) / maxElapsed)}`
   );
 }
 
