@@ -100,7 +100,7 @@ async function ExecuteSendsAsync(sender: Sender, messages: number): Promise<void
     if (sender.sendable()) {
       sender.once(SenderEvents.accepted, onSuccessOrFail);
       sender.once(SenderEvents.rejected, onSuccessOrFail);
-      sender.send({ body: _payload });
+      await sender.send({ body: _payload });
       canSend = false;
     }
   }
