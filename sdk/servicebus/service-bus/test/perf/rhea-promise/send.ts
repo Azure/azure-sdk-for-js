@@ -138,7 +138,7 @@ function WriteResult(
   );
 }
 
-function inflight() : number {
+function inflight(): number {
   return _sent - _accepted;
 }
 
