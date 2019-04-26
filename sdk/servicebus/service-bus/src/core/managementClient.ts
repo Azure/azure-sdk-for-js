@@ -324,7 +324,9 @@ export class ManagementClient extends LinkEntity {
           operation: Constants.operations.peekMessage
         }
       };
-      request.application_properties![Constants.associatedLinkName] = associatedLinkName;
+      if (associatedLinkName) {
+        request.application_properties![Constants.associatedLinkName] = associatedLinkName;
+      }
       request.application_properties![Constants.trackingId] = generate_uuid();
       log.mgmt(
         "[%s] Peek by sequence number request body: %O.",
@@ -407,8 +409,9 @@ export class ManagementClient extends LinkEntity {
         }
       };
       request.application_properties![Constants.trackingId] = generate_uuid();
-      // TODO: Update to use constant from AMQP common
-      request.application_properties![Constants.associatedLinkName] = associatedLinkName;
+      if (associatedLinkName) {
+        request.application_properties![Constants.associatedLinkName] = associatedLinkName;
+      }
       log.mgmt(
         "[%s] Renew message Lock request: %O.",
         this._context.namespace.connectionId,
@@ -489,7 +492,9 @@ export class ManagementClient extends LinkEntity {
           operation: Constants.operations.scheduleMessage
         }
       };
-      request.application_properties![Constants.associatedLinkName] = associatedLinkName;
+      if (associatedLinkName) {
+        request.application_properties![Constants.associatedLinkName] = associatedLinkName;
+      }
       request.application_properties![Constants.trackingId] = generate_uuid();
       log.mgmt(
         "[%s] Schedule messages request body: %O.",
@@ -567,7 +572,9 @@ export class ManagementClient extends LinkEntity {
           operation: Constants.operations.cancelScheduledMessage
         }
       };
-      request.application_properties![Constants.associatedLinkName] = associatedLinkName;
+      if (associatedLinkName) {
+        request.application_properties![Constants.associatedLinkName] = associatedLinkName;
+      }
       request.application_properties![Constants.trackingId] = generate_uuid();
       log.mgmt(
         "[%s] Cancel scheduled messages request body: %O.",
@@ -790,8 +797,9 @@ export class ManagementClient extends LinkEntity {
         }
       };
       request.application_properties![Constants.trackingId] = generate_uuid();
-      // TODO: to use constant from AMQP common
-      request.application_properties![Constants.associatedLinkName] = associatedLinkName;
+      if (associatedLinkName) {
+        request.application_properties![Constants.associatedLinkName] = associatedLinkName;
+      }
       log.mgmt(
         "[%s] Renew Session Lock request body: %O.",
         this._context.namespace.connectionId,
@@ -843,7 +851,9 @@ export class ManagementClient extends LinkEntity {
           operation: Constants.operations.setSessionState
         }
       };
-      request.application_properties![Constants.associatedLinkName] = associatedLinkName;
+      if (associatedLinkName) {
+        request.application_properties![Constants.associatedLinkName] = associatedLinkName;
+      }
       request.application_properties![Constants.trackingId] = generate_uuid();
       log.mgmt(
         "[%s] Set Session state request body: %O.",
@@ -885,7 +895,9 @@ export class ManagementClient extends LinkEntity {
           operation: Constants.operations.getSessionState
         }
       };
-      request.application_properties![Constants.associatedLinkName] = associatedLinkName;
+      if (associatedLinkName) {
+        request.application_properties![Constants.associatedLinkName] = associatedLinkName;
+      }
       request.application_properties![Constants.trackingId] = generate_uuid();
       log.mgmt(
         "[%s] Get session state request body: %O.",
