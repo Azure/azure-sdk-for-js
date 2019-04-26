@@ -10,17 +10,17 @@ export function record(folderpath: string, filename: string): { [key: string]: a
   let importNock = "let nock = require('nock');\n";
   let uniqueTestInfo: any = {};
 
-  if (process.env.TEST_MODE === "playback") {
-    uniqueTestInfo = require("../../recordings/" + fp).testInfo;
-  } else {
+  if (process.env.TEST_MODE === "record") {
     nock.recorder.rec({
       dont_print: true
     });
+  } else if (process.env.TEST_MODE === "playback") {
+    uniqueTestInfo = require("../../recordings/" + fp).testInfo;
   }
 
   return {
     stop: function() {
-      if (process.env.TEST_MODE !== "playback") {
+      if (process.env.TEST_MODE === "record") {
         let fixtures = nock.recorder.play();
         let file = fs.createWriteStream("./recordings/" + fp, { flags: "w" });
         file.on("error", err => console.log(err));
@@ -38,21 +38,27 @@ export function record(folderpath: string, filename: string): { [key: string]: a
       if (!recorderId) {
         recorderId = prefix;
       }
-      if (process.env.TEST_MODE === "playback") {
+      if (process.env.TEST_MODE === "record") {
+        name = getUniqueName(prefix);
+        uniqueTestInfo[recorderId] = name;
+      }
+      else if (process.env.TEST_MODE === "playback") {
         name = uniqueTestInfo[recorderId];
       } else {
         name = getUniqueName(prefix);
-        uniqueTestInfo[recorderId] = name;
       }
       return name;
     },
     newDate: function(recorderId: string): Date {
       let date: Date;
-      if (process.env.TEST_MODE === "playback") {
+      if (process.env.TEST_MODE === "record") {
+        date = new Date();
+        uniqueTestInfo[recorderId] = date.toISOString();
+      }
+      else if (process.env.TEST_MODE === "playback") {
         date = new Date(uniqueTestInfo[recorderId]);
       } else {
         date = new Date();
-        uniqueTestInfo[recorderId] = date.toISOString();
       }
       return date;
     }
