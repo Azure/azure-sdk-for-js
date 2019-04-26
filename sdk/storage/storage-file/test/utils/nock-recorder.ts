@@ -22,13 +22,13 @@ export function record(folderpath: string, filename: string): { [key: string]: a
     stop: function() {
       if (process.env.TEST_MODE !== "playback") {
         let fixtures = nock.recorder.play();
-        let nockScript =
-          importNock + "\n" + "module.exports.testInfo = " + JSON.stringify(uniqueTestInfo) + "\n" + fixtures.join("\n");
-        fs.writeFile("./recordings/" + fp, nockScript, function(err) {
-          if (err) {
-            return console.log(err);
-          }
-        });
+        let file = fs.createWriteStream("./recordings/" + fp, { flags: "w" });
+        file.on("error", err => console.log(err));
+        file.write(importNock + "\n" + "module.exports.testInfo = " + JSON.stringify(uniqueTestInfo) + "\n");
+        for (let i = 0; i < fixtures.length; i++) {
+          file.write(fixtures[i] + "\n");
+        }
+        file.end();
         nock.recorder.clear();
         nock.restore();
       }
