@@ -16,6 +16,7 @@ import { reorderLockToken } from "../src/util/utils";
 import { MessageReceiver } from "../src/core/messageReceiver";
 import { MessageSession } from "../src/session/messageSession";
 
+import { getErrorMessageNotSupportedInReceiveAndDeleteMode } from "./util/utils";
 /**
  * The mode in which messages should be received. The 2 modes are `peekLock` and `receiveAndDelete`.
  */
@@ -1042,13 +1043,4 @@ function throwIfMessageCannotBeSettled(
   }
 
   throw error;
-}
-
-/**
- * Gets error message for when an operation is not supported in ReceiveAndDelete mode
- * @param failedToDo A string to add to the placeholder in the error message. Denotes the action
- * that is not supported in ReceiveAndDelete mode
- */
-function getErrorMessageNotSupportedInReceiveAndDeleteMode(failedToDo: string): string {
-  return `Failed to ${failedToDo} as the operation is only supported in 'PeekLock' recieve mode.`;
 }

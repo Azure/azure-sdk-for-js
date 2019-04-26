@@ -259,12 +259,3 @@ export function throwTypeErrorIfParameterIsEmptyString(
   log.error(`[${connectionId}] %O`, error);
   throw error;
 }
-
-/**
- * Gets error message for when an operation is not supported in ReceiveAndDelete mode
- * @param failedToDo A string to add to the placeholder in the error message. Denotes the action
- * that is not supported in ReceiveAndDelete mode
- */
-export function getErrorMessageNotSupportedInReceiveAndDeleteMode(failedToDo: string): string {
-  return `Failed to ${failedToDo} as the operation is only supported in 'PeekLock' recieve mode.`;
-}
