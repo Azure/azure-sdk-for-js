@@ -715,6 +715,8 @@ export class MessageReceiver extends LinkEntity {
   async detached(receiverError?: AmqpError | Error): Promise<void> {
     const connectionId = this._context.namespace.connectionId;
     try {
+      // Local 'wasCloseInitiated' serves same purpose as {this.wasCloseInitiated}
+      // but the condition is inferred based on state of receiver in context of network disconnect scenario
       const wasCloseInitiated = this._receiver && this._receiver.isItselfClosed();
       // Clears the token renewal timer. Closes the link and its session if they are open.
       // Removes the link and its session if they are present in rhea's cache.
