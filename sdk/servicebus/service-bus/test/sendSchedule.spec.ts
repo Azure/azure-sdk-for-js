@@ -14,7 +14,8 @@ import {
   SubscriptionClient,
   delay,
   SendableMessageInfo,
-  ReceiveMode
+  ReceiveMode,
+  Sender
 } from "../src";
 
 import { TestMessage, getSenderReceiverClients, TestClientType, purge } from "./testUtils";
@@ -574,152 +575,140 @@ describe("Cancel multiple Scheduled messages", function(): void {
   });
 });
 
-describe("Message validations", function(): void {
+describe("SendableMessageInfo validations", function(): void {
+  let sender: Sender;
   const longString =
     "A very very very very very very very very very very very very very very very very very very very very very very very very very long string.";
-  afterEach(async () => {
+  after(async () => {
     await afterEachTest();
   });
 
-  async function validationTest(msg: any, expectedErrorMsg: string): Promise<void> {
-    let actualErrorMsg = "";
+  before(async () => {
     await beforeEachTest(TestClientType.PartitionedQueue, TestClientType.PartitionedQueue);
-    const sender = senderClient.createSender();
-    await sender.send(msg).catch((err) => {
-      actualErrorMsg = err.message;
+    sender = senderClient.createSender();
+  });
+
+  const testInputs: {
+    message: SendableMessageInfo;
+    expectedErrorMessage: string;
+    title?: string;
+  }[] = [
+    {
+      message: { body: "", contentType: 1 as any },
+      expectedErrorMessage: "The property 'contentType' on the message must be of type 'string'",
+      title: "contenType is of invalid type"
+    },
+    {
+      message: { body: "", label: 1 as any },
+      expectedErrorMessage: "The property 'label' on the message must be of type 'string'",
+      title: "label is of invalid type"
+    },
+    {
+      message: { body: "", to: 1 as any },
+      expectedErrorMessage: "The property 'to' on the message must be of type 'string'",
+      title: "to is of invalid type"
+    },
+    {
+      message: { body: "", replyToSessionId: 1 as any },
+      expectedErrorMessage:
+        "The property 'replyToSessionId' on the message must be of type 'string'",
+      title: "replyToSessionId is of invalid type"
+    },
+    {
+      message: { body: "", sessionId: 1 as any },
+      expectedErrorMessage: "The property 'sessionId' on the message must be of type 'string'",
+      title: "sessionId is of invalid type"
+    },
+    {
+      message: { body: "", replyTo: 1 as any },
+      expectedErrorMessage: "The property 'replyTo' on the message must be of type 'string'",
+      title: "replyTo is of invalid type"
+    },
+    {
+      message: { body: "", timeToLive: "" as any },
+      expectedErrorMessage: "The property 'timeToLive' on the message must be of type 'number'",
+      title: "timeToLive is of invalid type"
+    },
+    {
+      message: { body: "", partitionKey: longString },
+      expectedErrorMessage:
+        "Length of 'partitionKey' property on the message cannot be greater than 128 characters.",
+      title: "partitionKey is longer than 128 characters"
+    },
+    {
+      message: { body: "", viaPartitionKey: longString },
+      expectedErrorMessage:
+        "Length of 'viaPartitionKey' property on the message cannot be greater than 128 characters.",
+      title: "viaPartitionKey is longer than 128 characters"
+    },
+    {
+      message: { body: "", sessionId: longString },
+      expectedErrorMessage:
+        "Length of 'sessionId' property on the message cannot be greater than 128 characters.",
+      title: "sessionId is longer than 128 characters"
+    },
+    {
+      message: { body: "", messageId: longString },
+      expectedErrorMessage:
+        "Length of 'messageId' property on the message cannot be greater than 128 characters.",
+      title: "messageId is longer than 128 characters"
+    }
+    // {
+    //   message: { body: "", messageId: false as any },
+    //   expectedErrorMessage:
+    //     "The property 'messageId' on the message must be of type 'string, number or Buffer'",
+    //   title: "messageId is of invalid type"
+    // },
+    // {
+    //   message: { body: "", correlationId: false as any },
+    //   expectedErrorMessage:
+    //     "The property 'correlationId' on the message must be of type 'string, number or Buffer'",
+    //   title: "correlationId is of invalid type"
+    // }
+  ];
+
+  testInputs.forEach(function(testInput: any): void {
+    it("Send() throws if " + testInput.title, async function(): Promise<void> {
+      let actualErrorMsg = "";
+      await sender.send(testInput.message).catch((err) => {
+        actualErrorMsg = err.message;
+      });
+      should.equal(actualErrorMsg, testInput.expectedErrorMessage, "Error not thrown as expected");
     });
-    should.equal(actualErrorMsg, expectedErrorMsg, "Error not thrown as expected");
-  }
 
-  it("Error thrown when the 'msg' is undefined", async function(): Promise<void> {
-    await validationTest(undefined!, "'msg' cannot be null or undefined.");
-  });
+    it("SendBatch() throws if in the first message, " + testInput.title, async function(): Promise<
+      void
+    > {
+      let actualErrorMsg = "";
+      await sender.sendBatch([testInput.message, { body: "random" }]).catch((err) => {
+        actualErrorMsg = err.message;
+      });
+      should.equal(actualErrorMsg, testInput.expectedErrorMessage, "Error not thrown as expected");
+    });
 
-  it("Error thrown when the 'contentType' is not of type 'string'", async function(): Promise<
-    void
-  > {
-    await validationTest(
-      { body: "", contentType: 1 as any },
-      "'contentType' must be of type 'string'."
+    it(
+      "SendBatch() throws if in the subsequent message, " + testInput.title,
+      async function(): Promise<void> {
+        let actualErrorMsg = "";
+        await sender.sendBatch([{ body: "random" }, testInput.message]).catch((err) => {
+          actualErrorMsg = err.message;
+        });
+        should.equal(
+          actualErrorMsg,
+          testInput.expectedErrorMessage,
+          "Error not thrown as expected"
+        );
+      }
     );
-  });
 
-  it("Error thrown when the 'label' is not of type 'string'", async function(): Promise<void> {
-    await validationTest({ body: "", label: 1 as any }, "'label' must be of type 'string'.");
-  });
-
-  it("Error thrown when the 'to' is not of type 'string'", async function(): Promise<void> {
-    await validationTest({ body: "", to: 1 as any }, "'to' must be of type 'string'.");
-  });
-
-  it("Error thrown when the 'replyToSessionId' is not of type 'string'", async function(): Promise<
-    void
-  > {
-    await validationTest(
-      { body: "", replyToSessionId: 1 as any },
-      "'replyToSessionId' must be of type 'string'."
-    );
-  });
-
-  it("Error thrown when the 'timeToLive' is not of type 'number'", async function(): Promise<void> {
-    await validationTest(
-      { body: "", timeToLive: "" as any },
-      "'timeToLive' must be of type 'number'."
-    );
-  });
-
-  it("Error thrown when the 'scheduledEnqueueTimeUtc' is not an instance of a valid 'Date'", async function(): Promise<
-    void
-  > {
-    await validationTest(
-      { body: "", scheduledEnqueueTimeUtc: new Date("foo") },
-      "'scheduledEnqueueTimeUtc' must be an instance of a valid 'Date'."
-    );
-  });
-
-  it("Error thrown when the 'scheduledEnqueueTimeUtc' is a number(not an instance of 'Date')", async function(): Promise<
-    void
-  > {
-    await validationTest(
-      { body: "", scheduledEnqueueTimeUtc: 1 as any },
-      "'scheduledEnqueueTimeUtc' must be an instance of a valid 'Date'."
-    );
-  });
-
-  it("Error thrown when the length of 'partitionKey' is greater than 128 characters", async function(): Promise<
-    void
-  > {
-    await validationTest(
-      { body: "", partitionKey: longString },
-      "'partitionKey' must be of type 'string' with a length less than 128 characters."
-    );
-  });
-
-  it("Error thrown when the 'partitionKey' is not of type 'string'", async function(): Promise<
-    void
-  > {
-    await validationTest(
-      { body: "", partitionKey: 1 as any },
-      "'partitionKey' must be of type 'string' with a length less than 128 characters."
-    );
-  });
-
-  it("Error thrown when the length of 'viaPartitionKey' is greater than 128 characters.", async function(): Promise<
-    void
-  > {
-    await validationTest(
-      { body: "", viaPartitionKey: longString },
-      "'viaPartitionKey' must be of type 'string' with a length less than 128 characters."
-    );
-  });
-
-  it("Error thrown when the 'viaPartitionKey' is not of type 'string'", async function(): Promise<
-    void
-  > {
-    await validationTest(
-      { body: "", viaPartitionKey: 1 as any },
-      "'viaPartitionKey' must be of type 'string' with a length less than 128 characters."
-    );
-  });
-
-  it("Error thrown when the 'sessionId' is not of type 'string'", async function(): Promise<void> {
-    await validationTest(
-      { body: "", sessionId: 1 as any },
-      "'sessionId' must be of type 'string'."
-    );
-  });
-
-  it("Error thrown when the length of 'sessionId' is greater than 128 characters", async function(): Promise<
-    void
-  > {
-    await validationTest(
-      { body: "", sessionId: longString },
-      "Length of 'sessionId' of type 'string' cannot be greater than 128 characters."
-    );
-  });
-
-  it("Error thrown when the 'messageId' is not a whole number.", async function(): Promise<void> {
-    await validationTest(
-      { body: "", messageId: 1.5 },
-      "'messageId' must be a whole integer. Decimal points are not allowed."
-    );
-  });
-
-  it("Error thrown when the length of 'messageId' is greater than 128 characters", async function(): Promise<
-    void
-  > {
-    await validationTest(
-      { body: "", messageId: longString },
-      "Length of 'messageId' of type 'string' cannot be greater than 128 characters."
-    );
-  });
-
-  it("Error thrown when the 'correlationId' is not an instance of 'string' | 'number' | Buffer", async function(): Promise<
-    void
-  > {
-    await validationTest(
-      { body: "", correlationId: [] as any },
-      "'correlationId' must be of type 'string' | 'number' | Buffer."
-    );
+    it("ScheduleMessage() throws if " + testInput.title, async function(): Promise<void> {
+      let actualErrorMsg = "";
+      let actualErr;
+      await sender.scheduleMessage(new Date(), testInput.message).catch((err) => {
+        actualErr = err;
+        actualErrorMsg = err.message;
+      });
+      should.equal(actualErrorMsg, testInput.expectedErrorMessage, actualErr);
+    });
   });
 });

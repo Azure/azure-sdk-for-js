@@ -25,7 +25,7 @@ import {
   Constants,
   randomNumberFromInterval
 } from "@azure/amqp-common";
-import { SendableMessageInfo, toAmqpMessage } from "../serviceBusMessage";
+import { SendableMessageInfo, toAmqpMessage, validateAmqpMessage } from "../serviceBusMessage";
 import { ClientEntityContext } from "../clientEntityContext";
 import { LinkEntity } from "./linkEntity";
 import { getUniqueName } from "../util/utils";
@@ -354,6 +354,15 @@ export class MessageSender extends LinkEntity {
       message.body = this._context.namespace.dataTransformer.encode(data.body);
       return await this._trySend(message);
     } catch (err) {
+      if (err instanceof TypeError) {
+        // rhea could have failed to encode message due to invalid types for properties on the message
+        // These messages are not user friendly, so run `validateAmqpMessage` instead
+        try {
+          validateAmqpMessage(data);
+        } catch (validationError) {
+          err = validationError;
+        }
+      }
       log.error("An error occurred while sending the message %O", err);
       throw err;
     }
@@ -425,6 +434,15 @@ export class MessageSender extends LinkEntity {
       );
       return await this._trySend(encodedBatchMessage, undefined, 0x80013700);
     } catch (err) {
+      if (err instanceof TypeError) {
+        // rhea could have failed to encode messages due to invalid types for properties on the message
+        // These messages are not user friendly, so run `validateAmqpMessage` instead
+        try {
+          inputMessages.forEach((msg) => validateAmqpMessage(msg));
+        } catch (validationError) {
+          err = validationError;
+        }
+      }
       log.error("An error occurred while sending the batch message %O", err);
       throw err;
     }
@@ -467,7 +485,7 @@ export class MessageSender extends LinkEntity {
    * @param message The message to be sent to ServiceBus.
    * @return {Promise<Delivery>} Promise<Delivery>
    */
-  private _trySend(message: SendableMessageInfo, tag?: any, format?: number): Promise<void> {
+  private _trySend(message: AmqpMessage, tag?: any, format?: number): Promise<void> {
     const sendEventPromise = () =>
       new Promise<void>((resolve, reject) => {
         let waitTimer: any;
@@ -585,13 +603,25 @@ export class MessageSender extends LinkEntity {
             actionAfterTimeout,
             Constants.defaultOperationTimeoutInSeconds * 1000
           );
-          const delivery = this._sender!.send(message, tag, format);
-          log.sender(
-            "[%s] Sender '%s', sent message with delivery id: %d",
-            this._context.namespace.connectionId,
-            this.name,
-            delivery.id
-          );
+          try {
+            const delivery = this._sender!.send(message, tag, format);
+            log.sender(
+              "[%s] Sender '%s', sent message with delivery id: %d",
+              this._context.namespace.connectionId,
+              this.name,
+              delivery.id
+            );
+          } catch (error) {
+            removeListeners();
+            log.error(
+              "[%s] An error occured when sending message using the Sender '%s': %O",
+              this._context.namespace.connectionId,
+              this.name,
+              error
+            );
+            log.error("[%s] The message is: %O", this._context.namespace.connectionId, message);
+            return reject(error);
+          }
         } else {
           // let us retry to send the message after some time.
           const msg =

@@ -28,7 +28,8 @@ import {
   ServiceBusMessage,
   SendableMessageInfo,
   DispositionStatus,
-  toAmqpMessage
+  toAmqpMessage,
+  validateAmqpMessage
 } from "../serviceBusMessage";
 import { LinkEntity } from "./linkEntity";
 import * as log from "../log";
@@ -475,6 +476,16 @@ export class ManagementClient extends LinkEntity {
         const wrappedEntry = types.wrap_map(entry);
         messageBody.push(wrappedEntry);
       } catch (err) {
+        if (err instanceof TypeError) {
+          // rhea could have failed to encode message due to invalid types for properties on the message
+          // These messages are not user friendly, so run `validateAmqpMessage` instead
+          try {
+            validateAmqpMessage(item);
+          } catch (validationError) {
+            err = validationError;
+          }
+        }
+
         const error = translate(err);
         log.error(
           "An error occurred while encoding the item at position %d in the messages array" + ": %O",
