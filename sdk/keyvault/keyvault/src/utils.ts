@@ -1,4 +1,4 @@
-import { ParsedKeyVaultEntityIdentifier } from "./secretsModels";
+import { ParsedKeyVaultEntityIdentifier, EntityVersion } from "./secretsModels";
 import * as url from "url";
 
 export function parseKeyvaultIdentifier(
@@ -42,6 +42,6 @@ export function parseKeyvaultIdentifier(
   return {
     vaultUrl,
     name,
-    version
+    version: version as EntityVersion,
   };
 }
