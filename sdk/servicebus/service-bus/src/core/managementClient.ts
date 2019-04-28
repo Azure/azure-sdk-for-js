@@ -480,10 +480,7 @@ export class ManagementClient extends LinkEntity {
           // `RheaMessageUtil.encode` can fail if message properties are of invalid type
           // Errors in such cases do not have user friendy message or call stack
           // So use `getMessagePropertyTypeMismatchError` to get a better error message
-          const betterErrorMsg = getMessagePropertyTypeMismatchError(item);
-          if (betterErrorMsg) {
-            err = new TypeError(betterErrorMsg);
-          }
+          err = getMessagePropertyTypeMismatchError(item) || err;
         }
 
         const error = translate(err);

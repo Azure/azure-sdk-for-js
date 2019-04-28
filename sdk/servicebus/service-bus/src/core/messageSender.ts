@@ -362,10 +362,7 @@ export class MessageSender extends LinkEntity {
         // rhea's send() encodes given message first which can fail if message properties are of invalid type
         // Errors in such cases do not have user friendy message or call stack
         // So use `getMessagePropertyTypeMismatchError` to get a better error message
-        const betterErrorMsg = getMessagePropertyTypeMismatchError(data);
-        if (betterErrorMsg) {
-          err = new TypeError(betterErrorMsg);
-        }
+        err = getMessagePropertyTypeMismatchError(data) || err;
       }
       log.error("An error occurred while sending the message %O", err);
       throw err;
@@ -443,9 +440,9 @@ export class MessageSender extends LinkEntity {
         // Errors in such cases do not have user friendy message or call stack
         // So use `getMessagePropertyTypeMismatchError` to get a better error message
         for (let i = 0; i < inputMessages.length; i++) {
-          const betterErrorMsg = getMessagePropertyTypeMismatchError(inputMessages[i]);
-          if (betterErrorMsg) {
-            err = new TypeError(betterErrorMsg);
+          const betterError = getMessagePropertyTypeMismatchError(inputMessages[i]);
+          if (betterError) {
+            err = betterError;
             break;
           }
         }

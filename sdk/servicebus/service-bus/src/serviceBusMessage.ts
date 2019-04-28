@@ -244,33 +244,33 @@ export interface SendableMessageInfo {
  * @internal
  * Gets the error message for when a property on given message is not of expected type
  */
-export function getMessagePropertyTypeMismatchError(msg: SendableMessageInfo): string | undefined {
+export function getMessagePropertyTypeMismatchError(msg: SendableMessageInfo): Error | undefined {
   if (msg.contentType != undefined && typeof msg.contentType !== "string") {
-    return "The property 'contentType' on the message must be of type 'string'";
+    return new TypeError("The property 'contentType' on the message must be of type 'string'");
   }
 
   if (msg.label != undefined && typeof msg.label !== "string") {
-    return "The property 'label' on the message must be of type 'string'";
+    return new TypeError("The property 'label' on the message must be of type 'string'");
   }
 
   if (msg.to != undefined && typeof msg.to !== "string") {
-    return "The property 'to' on the message must be of type 'string'";
+    return new TypeError("The property 'to' on the message must be of type 'string'");
   }
 
   if (msg.replyTo != undefined && typeof msg.replyTo !== "string") {
-    return "The property 'replyTo' on the message must be of type 'string'";
+    return new TypeError("The property 'replyTo' on the message must be of type 'string'");
   }
 
   if (msg.replyToSessionId != undefined && typeof msg.replyToSessionId !== "string") {
-    return "The property 'replyToSessionId' on the message must be of type 'string'";
+    return new TypeError("The property 'replyToSessionId' on the message must be of type 'string'");
   }
 
   if (msg.timeToLive != undefined && typeof msg.timeToLive !== "number") {
-    return "The property 'timeToLive' on the message must be of type 'number'";
+    return new TypeError("The property 'timeToLive' on the message must be of type 'number'");
   }
 
   if (msg.sessionId != undefined && typeof msg.sessionId !== "string") {
-    return "The property 'sessionId' on the message must be of type 'string'";
+    return new TypeError("The property 'sessionId' on the message must be of type 'string'");
   }
 
   if (
@@ -279,7 +279,9 @@ export function getMessagePropertyTypeMismatchError(msg: SendableMessageInfo): s
     typeof msg.messageId !== "number" &&
     !Buffer.isBuffer(msg.messageId)
   ) {
-    return "The property 'messageId' on the message must be of type string, number or Buffer";
+    return new TypeError(
+      "The property 'messageId' on the message must be of type string, number or Buffer"
+    );
   }
 
   if (
@@ -288,7 +290,9 @@ export function getMessagePropertyTypeMismatchError(msg: SendableMessageInfo): s
     typeof msg.correlationId !== "number" &&
     !Buffer.isBuffer(msg.correlationId)
   ) {
-    return "The property 'correlationId' on the message must be of type string, number or Buffer";
+    return new TypeError(
+      "The property 'correlationId' on the message must be of type string, number or Buffer"
+    );
   }
   return;
 }
