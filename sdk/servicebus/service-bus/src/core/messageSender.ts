@@ -377,7 +377,13 @@ export class MessageSender extends LinkEntity {
       );
       return await this._trySend(encodedMessage);
     } catch (err) {
-      log.error("An error occurred while sending the message %O", err);
+      log.error(
+        "[%s] Sender '%s': An error occurred while sending the message: %O\nError: %O",
+        this._context.namespace.connectionId,
+        this.name,
+        data,
+        err
+      );
       throw err;
     }
   }
@@ -461,7 +467,13 @@ export class MessageSender extends LinkEntity {
       );
       return await this._trySend(encodedBatchMessage, true);
     } catch (err) {
-      log.error("An error occurred while sending the batch message %O", err);
+      log.error(
+        "[%s] Sender '%s': An error occurred while sending the messages: %O\nError: %O",
+        this._context.namespace.connectionId,
+        this.name,
+        inputMessages,
+        err
+      );
       throw err;
     }
   }
@@ -552,7 +564,6 @@ export class MessageSender extends LinkEntity {
               this.name
             );
             const err = translate(context!.delivery!.remote_state!.error);
-            log.error(err);
             reject(err);
           };
           onReleased = (context: EventContext) => {
@@ -571,7 +582,6 @@ export class MessageSender extends LinkEntity {
                   `received a release disposition.Hence we are rejecting the promise.`
               );
             }
-            log.error(err);
             reject(err);
           };
           onModified = (context: EventContext) => {
@@ -590,7 +600,6 @@ export class MessageSender extends LinkEntity {
                   `received a modified disposition.Hence we are rejecting the promise.`
               );
             }
-            log.error(err);
             reject(err);
           };
 
@@ -630,17 +639,6 @@ export class MessageSender extends LinkEntity {
             );
           } catch (error) {
             removeListeners();
-            log.error(
-              "[%s] An error occured when sending message using the Sender '%s': %O",
-              this._context.namespace.connectionId,
-              this.name,
-              error
-            );
-            log.error(
-              "[%s] The message is: %O",
-              this._context.namespace.connectionId,
-              encodedMessage
-            );
             return reject(error);
           }
         } else {
