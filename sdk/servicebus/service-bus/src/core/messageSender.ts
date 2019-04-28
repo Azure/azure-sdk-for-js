@@ -25,7 +25,11 @@ import {
   Constants,
   randomNumberFromInterval
 } from "@azure/amqp-common";
-import { SendableMessageInfo, toAmqpMessage, validateAmqpMessage } from "../serviceBusMessage";
+import {
+  SendableMessageInfo,
+  toAmqpMessage,
+  getMessagePropertyTypeMismatchError
+} from "../serviceBusMessage";
 import { ClientEntityContext } from "../clientEntityContext";
 import { LinkEntity } from "./linkEntity";
 import { getUniqueName } from "../util/utils";
@@ -355,12 +359,12 @@ export class MessageSender extends LinkEntity {
       return await this._trySend(message);
     } catch (err) {
       if (err instanceof TypeError) {
-        // rhea could have failed to encode message due to invalid types for properties on the message
-        // These messages are not user friendly, so run `validateAmqpMessage` instead
-        try {
-          validateAmqpMessage(data);
-        } catch (validationError) {
-          err = validationError;
+        // rhea's send() encodes given message first which can fail if message properties are of invalid type
+        // Errors in such cases do not have user friendy message or call stack
+        // So use `getMessagePropertyTypeMismatchError` to get a better error message
+        const betterErrorMsg = getMessagePropertyTypeMismatchError(data);
+        if (betterErrorMsg) {
+          err = new TypeError(betterErrorMsg);
         }
       }
       log.error("An error occurred while sending the message %O", err);
@@ -435,12 +439,15 @@ export class MessageSender extends LinkEntity {
       return await this._trySend(encodedBatchMessage, undefined, 0x80013700);
     } catch (err) {
       if (err instanceof TypeError) {
-        // rhea could have failed to encode messages due to invalid types for properties on the message
-        // These messages are not user friendly, so run `validateAmqpMessage` instead
-        try {
-          inputMessages.forEach((msg) => validateAmqpMessage(msg));
-        } catch (validationError) {
-          err = validationError;
+        // rhea's send() encodes given message first which can fail if message properties are of invalid type
+        // Errors in such cases do not have user friendy message or call stack
+        // So use `getMessagePropertyTypeMismatchError` to get a better error message
+        for (let i = 0; i < inputMessages.length; i++) {
+          const betterErrorMsg = getMessagePropertyTypeMismatchError(inputMessages[i]);
+          if (betterErrorMsg) {
+            err = new TypeError(betterErrorMsg);
+            break;
+          }
         }
       }
       log.error("An error occurred while sending the batch message %O", err);

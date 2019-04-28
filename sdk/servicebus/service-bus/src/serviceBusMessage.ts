@@ -15,10 +15,7 @@ import { ClientEntityContext } from "./clientEntityContext";
 import { reorderLockToken } from "../src/util/utils";
 import { MessageReceiver } from "../src/core/messageReceiver";
 import { MessageSession } from "../src/session/messageSession";
-import {
-  getErrorMessageNotSupportedInReceiveAndDeleteMode,
-  throwMessagePropertyTypeMismatchError
-} from "./util/errors";
+import { getErrorMessageNotSupportedInReceiveAndDeleteMode } from "./util/errors";
 /**
  * The mode in which messages should be received. The 2 modes are `peekLock` and `receiveAndDelete`.
  */
@@ -245,43 +242,35 @@ export interface SendableMessageInfo {
 
 /**
  * @internal
- * Validates the properties in the given SendableMessageInfo
+ * Gets the error message for when a property on given message is not of expected type
  */
-export function validateAmqpMessage(msg: SendableMessageInfo): void {
+export function getMessagePropertyTypeMismatchError(msg: SendableMessageInfo): string | undefined {
   if (msg.contentType != undefined && typeof msg.contentType !== "string") {
-    throwMessagePropertyTypeMismatchError("contentType", "string");
+    return "The property 'contentType' on the message must be of type 'string'";
   }
 
   if (msg.label != undefined && typeof msg.label !== "string") {
-    throwMessagePropertyTypeMismatchError("label", "string");
+    return "The property 'label' on the message must be of type 'string'";
   }
 
   if (msg.to != undefined && typeof msg.to !== "string") {
-    throwMessagePropertyTypeMismatchError("to", "string");
+    return "The property 'to' on the message must be of type 'string'";
   }
 
   if (msg.replyTo != undefined && typeof msg.replyTo !== "string") {
-    throwMessagePropertyTypeMismatchError("replyTo", "string");
+    return "The property 'replyTo' on the message must be of type 'string'";
   }
 
   if (msg.replyToSessionId != undefined && typeof msg.replyToSessionId !== "string") {
-    throwMessagePropertyTypeMismatchError("replyToSessionId", "string");
+    return "The property 'replyToSessionId' on the message must be of type 'string'";
   }
 
   if (msg.timeToLive != undefined && typeof msg.timeToLive !== "number") {
-    throwMessagePropertyTypeMismatchError("timeToLive", "number");
-  }
-
-  if (msg.partitionKey != undefined && typeof msg.partitionKey !== "string") {
-    throwMessagePropertyTypeMismatchError("partitionKey", "string");
-  }
-
-  if (msg.viaPartitionKey != undefined && typeof msg.viaPartitionKey !== "string") {
-    throwMessagePropertyTypeMismatchError("viaPartitionKey", "string");
+    return "The property 'timeToLive' on the message must be of type 'number'";
   }
 
   if (msg.sessionId != undefined && typeof msg.sessionId !== "string") {
-    throwMessagePropertyTypeMismatchError("sessionId", "string");
+    return "The property 'sessionId' on the message must be of type 'string'";
   }
 
   if (
@@ -290,7 +279,7 @@ export function validateAmqpMessage(msg: SendableMessageInfo): void {
     typeof msg.messageId !== "number" &&
     !Buffer.isBuffer(msg.messageId)
   ) {
-    throwMessagePropertyTypeMismatchError("messageId", "string, number or Buffer");
+    return "The property 'messageId' on the message must be of type string, number or Buffer";
   }
 
   if (
@@ -299,8 +288,9 @@ export function validateAmqpMessage(msg: SendableMessageInfo): void {
     typeof msg.correlationId !== "number" &&
     !Buffer.isBuffer(msg.correlationId)
   ) {
-    throwMessagePropertyTypeMismatchError("correlationId", "string, number or Buffer");
+    return "The property 'correlationId' on the message must be of type string, number or Buffer";
   }
+  return;
 }
 
 /**
