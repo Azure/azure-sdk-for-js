@@ -265,12 +265,12 @@ export interface DeletedKeyItem extends KeyItem {
 
 /**
  * @interface
- * An interface representing SecretAttributes.
+ * An interface representing SecretManagementAttributes.
  * The secret management attributes.
  *
  * @extends Attributes
  */
-export interface SecretAttributes extends Attributes {
+export interface SecretManagementAttributes extends Attributes {
   /**
    * @member {DeletionRecoveryLevel} [recoveryLevel] Reflects the deletion
    * recovery level currently in effect for secrets in the current vault. If it
@@ -305,9 +305,9 @@ export interface SecretBundle {
    */
   contentType?: string;
   /**
-   * @member {SecretAttributes} [attributes] The secret management attributes.
+   * @member {SecretManagementAttributes} [attributes] The secret management attributes.
    */
-  attributes?: SecretAttributes;
+  attributes?: SecretManagementAttributes;
   /**
    * @member {{ [propertyName: string]: string }} [tags] Application specific
    * metadata in the form of key-value pairs.
@@ -342,9 +342,9 @@ export interface SecretItem {
    */
   id?: string;
   /**
-   * @member {SecretAttributes} [attributes] The secret management attributes.
+   * @member {SecretManagementAttributes} [attributes] The secret management attributes.
    */
-  attributes?: SecretAttributes;
+  attributes?: SecretManagementAttributes;
   /**
    * @member {{ [propertyName: string]: string }} [tags] Application specific
    * metadata in the form of key-value pairs.
@@ -1283,10 +1283,10 @@ export interface SecretSetParameters {
    */
   contentType?: string;
   /**
-   * @member {SecretAttributes} [secretAttributes] The secret management
+   * @member {SecretManagementAttributes} [secretAttributes] The secret management
    * attributes.
    */
-  secretAttributes?: SecretAttributes;
+  secretAttributes?: SecretManagementAttributes;
 }
 
 /**
@@ -1302,10 +1302,10 @@ export interface SecretUpdateParameters {
    */
   contentType?: string;
   /**
-   * @member {SecretAttributes} [secretAttributes] The secret management
+   * @member {SecretManagementAttributes} [secretAttributes] The secret management
    * attributes.
    */
-  secretAttributes?: SecretAttributes;
+  secretAttributes?: SecretManagementAttributes;
   /**
    * @member {{ [propertyName: string]: string }} [tags] Application specific
    * metadata in the form of key-value pairs.
@@ -2310,10 +2310,10 @@ export interface KeyVaultClientSetSecretOptionalParams extends msRest.RequestOpt
    */
   contentType?: string;
   /**
-   * @member {SecretAttributes} [secretAttributes] The secret management
+   * @member {SecretManagementAttributes} [secretAttributes] The secret management
    * attributes.
    */
-  secretAttributes?: SecretAttributes;
+  secretAttributes?: SecretManagementAttributes;
 }
 
 /**
@@ -2330,10 +2330,10 @@ export interface KeyVaultClientUpdateSecretOptionalParams extends msRest.Request
    */
   contentType?: string;
   /**
-   * @member {SecretAttributes} [secretAttributes] The secret management
+   * @member {SecretManagementAttributes} [secretAttributes] The secret management
    * attributes.
    */
-  secretAttributes?: SecretAttributes;
+  secretAttributes?: SecretManagementAttributes;
   /**
    * @member {{ [propertyName: string]: string }} [tags] Application specific
    * metadata in the form of key-value pairs.

@@ -1,14 +1,16 @@
 import * as msRest from "@azure/ms-rest-js";
-import { SecretAttributes } from "./models";
+import { SecretManagementAttributes } from "./models";
 
+export { SecretManagementAttributes };
 
-export { SecretAttributes };
-
-export interface Secret extends ParsedKeyVaultEntityIdentifier {
+export interface Secret extends SecretAttributes {
   /**
    * @member {string} [value] The secret value.
    */
   value?: string;
+}
+
+export interface SecretAttributes extends ParsedKeyVaultEntityIdentifier {
   /**
    * @member {string} [id] The secret id.
    */
@@ -20,7 +22,7 @@ export interface Secret extends ParsedKeyVaultEntityIdentifier {
   /**
    * @member {SecretAttributes} [attributes] The secret management attributes.
    */
-  attributes?: SecretAttributes;
+  attributes?: SecretManagementAttributes;
   /**
    * @member {{ [propertyName: string]: string }} [tags] Application specific
    * metadata in the form of key-value pairs.
@@ -64,15 +66,21 @@ export interface DeletedSecret extends Secret {
   readonly deletedDate?: Date;
 }
 
+/**
+ * The version of the given entity (key/secret/certificate). Note, these versions
+ * are created internally via set calls, eg addSecret. 
+ */
+export type EntityVersion = string & { _tag: "__INTERNAL_VALUE__" }
+
 export interface ParsedKeyVaultEntityIdentifier {
   /** 
    * @member {string} [vaultUrl] The vault URI.
    */
   vaultUrl: string;
   /** 
-   * @member {string} [version] The version of key/secret/certificate. May be undefined.
+   * @member {EntityVersion} [version] The version of key/secret/certificate. May be undefined.
    */
-  version?: string;
+  version?: EntityVersion;
   /** 
    * @member {string} [name] The name of key/secret/certificate.
    */
@@ -87,7 +95,7 @@ export interface ParsedKeyVaultEntityIdentifier {
  *
  * @extends RequestOptionsBase
  */
-export interface SetSecretOptions extends msRest.RequestOptionsBase {
+export interface AddSecretOptions extends msRest.RequestOptionsBase {
   /**
    * @member {{ [propertyName: string]: string }} [tags] Application specific
    * metadata in the form of key-value pairs.
@@ -102,7 +110,7 @@ export interface SetSecretOptions extends msRest.RequestOptionsBase {
    * @member {SecretAttributes} [secretAttributes] The secret management
    * attributes.
    */
-  attributes?: SecretAttributes;
+  attributes?: SecretManagementAttributes;
 }
 
 
@@ -123,7 +131,7 @@ export interface UpdateSecretOptions extends msRest.RequestOptionsBase {
    * @member {SecretAttributes} [secretAttributes] The secret management
    * attributes.
    */
-  attributes?: SecretAttributes;
+  attributes?: SecretManagementAttributes;
   /**
    * @member {{ [propertyName: string]: string }} [tags] Application specific
    * metadata in the form of key-value pairs.

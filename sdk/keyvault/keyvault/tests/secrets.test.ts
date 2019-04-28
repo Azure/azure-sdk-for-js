@@ -2,7 +2,7 @@ import * as assert from "assert";
 import chai from "chai"
 const expect = chai.expect;
 import { getKeyvaultName, getCredentialWithServicePrincipalSecret, getUniqueName } from "./utils/utils.common";
-import { SecretsClient } from "../src";
+import { SecretsClient, EntityVersion } from "../src";
 import { ServiceClientCredentials, RestError } from "@azure/ms-rest-js";
 
 describe("Secret client", () => {
@@ -25,10 +25,10 @@ describe("Secret client", () => {
       await client.deleteSecret(secretName);
     });
 
-    const result = await client.setSecret(secretName, secretValue);
+    const result = await client.addSecret(secretName, secretValue);
 
-    assert.equal(result.name, secretName, "Unexpected secret name in result from setSecret().");
-    assert.equal(result.value, secretValue, "Unexpected secret value in result from setSecret().");
+    assert.equal(result.name, secretName, "Unexpected secret name in result from addSecret().");
+    assert.equal(result.value, secretValue, "Unexpected secret value in result from addSecret().");
   });
 
   it("can retrieve the latest version of a secret value", async () => {
@@ -37,12 +37,12 @@ describe("Secret client", () => {
     after(async () => {
       await client.deleteSecret(secretName);
     });
-    await client.setSecret(secretName, secretValue);
+    await client.addSecret(secretName, secretValue);
 
     const result = await client.getSecret(secretName);
 
-    assert.equal(result.name, secretName, "Unexpected secret name in result from setSecret().");
-    assert.equal(result.value, secretValue, "Unexpected secret value in result from setSecret().");
+    assert.equal(result.name, secretName, "Unexpected secret name in result from addSecret().");
+    assert.equal(result.value, secretValue, "Unexpected secret value in result from addSecret().");
   });
 
   it("can update a secret", async () => {
@@ -52,9 +52,11 @@ describe("Secret client", () => {
     after(async () => {
       await client.deleteSecret(secretName);
     });
-    await client.setSecret(secretName, secretValue);
+    await client.addSecret(secretName, secretValue);
 
-    await client.updateSecret(secretName, "", {
+    let version = "" as EntityVersion;
+
+    await client.updateSecretAttributes(secretName, version, {
       secretAttributes: {
         expires: expiryDate
       }
@@ -74,7 +76,7 @@ describe("Secret client", () => {
   it("can delete a secret", async () => {
     const secretName = getUniqueName("secret");
     const secretValue1 = getUniqueName("value");
-    await client.setSecret(secretName, secretValue1);
+    await client.addSecret(secretName, secretValue1);
 
     await client.deleteSecret(secretName);
 
@@ -103,7 +105,7 @@ describe("Secret client", () => {
     interface versionValuePair { version: string, value: string }
     let versions: versionValuePair[] = [];
     for (const v of secretValues) {
-      const response = await client.setSecret(secretName, v);
+      const response = await client.addSecret(secretName, v);
       versions.push({ version: response.version!, value: response.value! });
     }
 

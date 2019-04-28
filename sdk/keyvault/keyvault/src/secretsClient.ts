@@ -28,10 +28,12 @@ import { RetryConstants, SDK_VERSION } from "./utils/constants";
 import {
   Secret,
   DeletedSecret,
-  SetSecretOptions,
+  AddSecretOptions,
   UpdateSecretOptions,
   GetSecretOptions,
-  GetAllSecretsOptions
+  GetAllSecretsOptions,
+  EntityVersion,
+  SecretAttributes
 } from "./secretsModels";
 import { parseKeyvaultIdentifier as parseKeyvaultEntityIdentifier } from "./utils";
 
@@ -177,19 +179,19 @@ export class SecretsClient {
   // TODO: do we want Aborter as well?
 
   /**
-   * The SET operation adds a secret to the Azure Key Vault. If the named secret already exists,
+   * The ADD operation adds a secret to the Azure Key Vault. If the named secret already exists,
    * Azure Key Vault creates a new version of that secret. This operation requires the secrets/set
    * permission.
-   * @summary Sets a secret in a specified key vault.
+   * @summary Adds a secret in a specified key vault.
    * @param secretName The name of the secret.
    * @param value The value of the secret.
    * @param [options] The optional parameters
    * @returns Promise<Secret>
    */
-  public async setSecret(
+  public async addSecret(
     secretName: string,
     value: string,
-    options?: SetSecretOptions
+    options?: AddSecretOptions
   ) {
     const response = await this.client.setSecret(this.vaultBaseUrl, secretName, value, options);
     return this.getSecretFromSecretBundle(response);
@@ -222,9 +224,9 @@ export class SecretsClient {
    * @param [options] The optional parameters
    * @returns Promise<Secret>
    */
-  public async updateSecret(
+  public async updateSecretAttributes(
     secretName: string,
-    secretVersion: string,
+    secretVersion: EntityVersion,
     options?: UpdateSecretOptions
   ): Promise<Secret> {
     const response = await this.client.updateSecret(
@@ -241,7 +243,6 @@ export class SecretsClient {
    * the secrets/get permission.
    * @summary Get a specified secret from a given key vault.
    * @param secretName The name of the secret.
-   * @param secretVersion The version of the secret.
    * @param [options] The optional parameters
    * @returns Promise<Secret>
    */
@@ -342,7 +343,7 @@ export class SecretsClient {
   public async *getSecretVersions(
     secretName: string,
     options?: GetAllSecretsOptions
-  ): AsyncIterableIterator<Secret> {
+  ): AsyncIterableIterator<SecretAttributes> {
     let currentSetResponse = await this.client.getSecretVersions(
       this.vaultBaseUrl,
       secretName,

@@ -37,7 +37,7 @@ async function main(): Promise<void> {
   // });
 
   const secretName = "SecretName";
-  const result = await client.setSecret(secretName, "secret");
+  const result = await client.addSecret(secretName, "secret");
   console.log("result: ", result);
 
   try {
