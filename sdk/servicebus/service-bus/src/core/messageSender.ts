@@ -354,16 +354,21 @@ export class MessageSender extends LinkEntity {
           return this._init();
         });
       }
-      const message = toAmqpMessage(data);
-      message.body = this._context.namespace.dataTransformer.encode(data.body);
-      return await this._trySend(message);
-    } catch (err) {
-      if (err instanceof TypeError) {
-        // rhea's send() encodes given message first which can fail if message properties are of invalid type
-        // Errors in such cases do not have user friendy message or call stack
-        // So use `getMessagePropertyTypeMismatchError` to get a better error message
-        err = getMessagePropertyTypeMismatchError(data) || err;
+      let amqpMessage = toAmqpMessage(data);
+      amqpMessage.body = this._context.namespace.dataTransformer.encode(data.body);
+      try {
+        amqpMessage = message.encode(amqpMessage);
+      } catch (error) {
+        if (error instanceof TypeError || error.name === "TypeError") {
+          // `RheaMessageUtil.encode` can fail if message properties are of invalid type
+          // Errors in such cases do not have user friendy message or call stack
+          // So use `getMessagePropertyTypeMismatchError` to get a better error message
+          error = getMessagePropertyTypeMismatchError(data) || error;
+        }
+        throw error;
       }
+      return await this._trySend(amqpMessage, 0);
+    } catch (err) {
       log.error("An error occurred while sending the message %O", err);
       throw err;
     }
@@ -446,7 +451,7 @@ export class MessageSender extends LinkEntity {
         this.name,
         encodedBatchMessage
       );
-      return await this._trySend(encodedBatchMessage, undefined, 0x80013700);
+      return await this._trySend(encodedBatchMessage, 0x80013700);
     } catch (err) {
       log.error("An error occurred while sending the batch message %O", err);
       throw err;
@@ -490,7 +495,7 @@ export class MessageSender extends LinkEntity {
    * @param message The message to be sent to ServiceBus.
    * @return {Promise<Delivery>} Promise<Delivery>
    */
-  private _trySend(message: AmqpMessage, tag?: any, format?: number): Promise<void> {
+  private _trySend(message: AmqpMessage, format: number): Promise<void> {
     const sendEventPromise = () =>
       new Promise<void>((resolve, reject) => {
         let waitTimer: any;
@@ -609,7 +614,7 @@ export class MessageSender extends LinkEntity {
             Constants.defaultOperationTimeoutInSeconds * 1000
           );
           try {
-            const delivery = this._sender!.send(message, tag, format);
+            const delivery = this._sender!.send(message, undefined, format);
             log.sender(
               "[%s] Sender '%s', sent message with delivery id: %d",
               this._context.namespace.connectionId,
@@ -617,16 +622,6 @@ export class MessageSender extends LinkEntity {
               delivery.id
             );
           } catch (error) {
-            // Convert rhea's type errors that only bear that name but not type to TypeError
-            // so that it doesnt get translated and its context lost inside the `retry()` where
-            // non builtin errors get translated. See https://github.com/Azure/amqp-common-js/issues/58
-            if (!(error instanceof TypeError) && error.name === "TypeError") {
-              const stack = error.stack;
-              error = new TypeError(error.message);
-              if (stack) {
-                error.stack = stack;
-              }
-            }
             removeListeners();
             log.error(
               "[%s] An error occured when sending message using the Sender '%s': %O",
