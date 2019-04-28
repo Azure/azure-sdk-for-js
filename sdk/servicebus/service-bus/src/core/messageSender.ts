@@ -9,7 +9,7 @@ import {
   OnAmqpEvent,
   SenderOptions,
   SenderEvents,
-  message,
+  message as RheaMessageUtil,
   AmqpError,
   generate_uuid
 } from "rhea-promise";
@@ -354,10 +354,12 @@ export class MessageSender extends LinkEntity {
           return this._init();
         });
       }
-      let amqpMessage = toAmqpMessage(data);
+      const amqpMessage = toAmqpMessage(data);
       amqpMessage.body = this._context.namespace.dataTransformer.encode(data.body);
+
+      let encodedMessage;
       try {
-        amqpMessage = message.encode(amqpMessage);
+        encodedMessage = RheaMessageUtil.encode(amqpMessage);
       } catch (error) {
         if (error instanceof TypeError || error.name === "TypeError") {
           // `RheaMessageUtil.encode` can fail if message properties are of invalid type
@@ -367,7 +369,13 @@ export class MessageSender extends LinkEntity {
         }
         throw error;
       }
-      return await this._trySend(amqpMessage, 0);
+      log.sender(
+        "[%s] Sender '%s', trying to send message: %O",
+        this._context.namespace.connectionId,
+        this.name,
+        data
+      );
+      return await this._trySend(encodedMessage);
     } catch (err) {
       log.error("An error occurred while sending the message %O", err);
       throw err;
@@ -413,7 +421,7 @@ export class MessageSender extends LinkEntity {
         amqpMessage.body = this._context.namespace.dataTransformer.encode(inputMessages[i].body);
         amqpMessages[i] = amqpMessage;
         try {
-          encodedMessages[i] = message.encode(amqpMessage);
+          encodedMessages[i] = RheaMessageUtil.encode(amqpMessage);
         } catch (error) {
           if (error instanceof TypeError || error.name === "TypeError") {
             // `RheaMessageUtil.encode` can fail if message properties are of invalid type
@@ -427,7 +435,7 @@ export class MessageSender extends LinkEntity {
 
       // Convert every encoded message to amqp data section
       const batchMessage: AmqpMessage = {
-        body: message.data_sections(encodedMessages)
+        body: RheaMessageUtil.data_sections(encodedMessages)
       };
       // Set message_annotations, application_properties and properties of the first message as
       // that of the envelope (batch message).
@@ -444,14 +452,14 @@ export class MessageSender extends LinkEntity {
       }
 
       // Finally encode the envelope (batch message).
-      const encodedBatchMessage = message.encode(batchMessage);
+      const encodedBatchMessage = RheaMessageUtil.encode(batchMessage);
       log.sender(
         "[%s]Sender '%s', sending encoded batch message.",
         this._context.namespace.connectionId,
         this.name,
         encodedBatchMessage
       );
-      return await this._trySend(encodedBatchMessage, 0x80013700);
+      return await this._trySend(encodedBatchMessage, true);
     } catch (err) {
       log.error("An error occurred while sending the batch message %O", err);
       throw err;
@@ -492,10 +500,11 @@ export class MessageSender extends LinkEntity {
    * We have implemented a synchronous send over here in the sense that we shall be waiting
    * for the message to be accepted or rejected and accordingly resolve or reject the promise.
    *
-   * @param message The message to be sent to ServiceBus.
+   * @param encodedMessage The encoded message to be sent to ServiceBus.
+   * @param sendBatch Boolean indicating whether the encoded message represents a batch of messages or not
    * @return {Promise<Delivery>} Promise<Delivery>
    */
-  private _trySend(message: AmqpMessage, format: number): Promise<void> {
+  private _trySend(encodedMessage: Buffer, sendBatch?: boolean): Promise<void> {
     const sendEventPromise = () =>
       new Promise<void>((resolve, reject) => {
         let waitTimer: any;
@@ -507,12 +516,6 @@ export class MessageSender extends LinkEntity {
           this._sender!.session.outgoing.available()
         );
         if (this._sender!.sendable()) {
-          log.sender(
-            "[%s] Sender '%s', sending message: %O",
-            this._context.namespace.connectionId,
-            this.name,
-            message
-          );
           let onRejected: Func<EventContext, void>;
           let onReleased: Func<EventContext, void>;
           let onModified: Func<EventContext, void>;
@@ -614,7 +617,11 @@ export class MessageSender extends LinkEntity {
             Constants.defaultOperationTimeoutInSeconds * 1000
           );
           try {
-            const delivery = this._sender!.send(message, undefined, format);
+            const delivery = this._sender!.send(
+              encodedMessage,
+              undefined,
+              sendBatch ? 0x80013700 : 0
+            );
             log.sender(
               "[%s] Sender '%s', sent message with delivery id: %d",
               this._context.namespace.connectionId,
@@ -629,7 +636,11 @@ export class MessageSender extends LinkEntity {
               this.name,
               error
             );
-            log.error("[%s] The message is: %O", this._context.namespace.connectionId, message);
+            log.error(
+              "[%s] The message is: %O",
+              this._context.namespace.connectionId,
+              encodedMessage
+            );
             return reject(error);
           }
         } else {
