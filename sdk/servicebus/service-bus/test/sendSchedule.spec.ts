@@ -159,6 +159,96 @@ describe("Simple Send", function(): void {
   });
 });
 
+describe("Simple Send Batch", function(): void {
+  afterEach(async () => {
+    await afterEachTest();
+  });
+
+  async function testSimpleSendBatch(useSessions: boolean, usePartitions: boolean): Promise<void> {
+    const testMessages = [];
+    testMessages.push(useSessions ? TestMessage.getSessionSample() : TestMessage.getSample());
+    testMessages.push(useSessions ? TestMessage.getSessionSample() : TestMessage.getSample());
+
+    await senderClient.createSender().sendBatch(testMessages);
+    const msgs = await receiver.receiveMessages(2);
+
+    should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
+    should.equal(msgs.length, 2, "Unexpected number of messages");
+
+    if (testMessages[0].messageId === msgs[0].messageId) {
+      TestMessage.checkMessageContents(testMessages[0], msgs[0], useSessions, usePartitions);
+      TestMessage.checkMessageContents(testMessages[1], msgs[1], useSessions, usePartitions);
+    } else {
+      TestMessage.checkMessageContents(testMessages[1], msgs[0], useSessions, usePartitions);
+      TestMessage.checkMessageContents(testMessages[0], msgs[1], useSessions, usePartitions);
+    }
+
+    await msgs[0].complete();
+    await msgs[1].complete();
+
+    await testPeekMsgsLength(receiverClient, 0);
+  }
+
+  it("Partitioned Queue: Simple SendBatch", async function(): Promise<void> {
+    await beforeEachTest(TestClientType.PartitionedQueue, TestClientType.PartitionedQueue);
+    await testSimpleSendBatch(false, true);
+  });
+
+  it("Partitioned Topic: Simple SendBatch", async function(): Promise<void> {
+    await beforeEachTest(TestClientType.PartitionedTopic, TestClientType.PartitionedSubscription);
+    await testSimpleSendBatch(false, true);
+  });
+
+  it("Unpartitioned Queue: Simple SendBatch", async function(): Promise<void> {
+    await beforeEachTest(TestClientType.UnpartitionedQueue, TestClientType.UnpartitionedQueue);
+    await testSimpleSendBatch(false, false);
+  });
+
+  it("Unpartitioned Topic: Simple SendBatch", async function(): Promise<void> {
+    await beforeEachTest(
+      TestClientType.UnpartitionedTopic,
+      TestClientType.UnpartitionedSubscription
+    );
+    await testSimpleSendBatch(false, false);
+  });
+
+  it("Partitioned Queue with Sessions: Simple SendBatch", async function(): Promise<void> {
+    await beforeEachTest(
+      TestClientType.PartitionedQueueWithSessions,
+      TestClientType.PartitionedQueueWithSessions,
+      true
+    );
+    await testSimpleSendBatch(true, true);
+  });
+
+  it("Partitioned Topic with Sessions: Simple SendBatch", async function(): Promise<void> {
+    await beforeEachTest(
+      TestClientType.PartitionedTopicWithSessions,
+      TestClientType.PartitionedSubscriptionWithSessions,
+      true
+    );
+    await testSimpleSendBatch(true, true);
+  });
+
+  it("Unpartitioned Queue with Sessions: Simple SendBatch", async function(): Promise<void> {
+    await beforeEachTest(
+      TestClientType.UnpartitionedQueueWithSessions,
+      TestClientType.UnpartitionedQueueWithSessions,
+      true
+    );
+    await testSimpleSendBatch(true, false);
+  });
+
+  it("Unpartitioned Topic with Sessions: Simple SendBatch", async function(): Promise<void> {
+    await beforeEachTest(
+      TestClientType.UnpartitionedTopicWithSessions,
+      TestClientType.UnpartitionedSubscriptionWithSessions,
+      true
+    );
+    await testSimpleSendBatch(true, false);
+  });
+});
+
 describe("Schedule single message", function(): void {
   afterEach(async () => {
     await afterEachTest();
