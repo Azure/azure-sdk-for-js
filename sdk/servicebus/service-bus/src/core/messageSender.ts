@@ -619,7 +619,7 @@ export class MessageSender extends LinkEntity {
           } catch (error) {
             // Convert rhea's type errors that only bear that name but not type to TypeError
             // so that it doesnt get translated and its context lost inside the `retry()` where
-            // non builtin errors get translated.
+            // non builtin errors get translated. See https://github.com/Azure/amqp-common-js/issues/58
             if (!(error instanceof TypeError) && error.name === "TypeError") {
               const stack = error.stack;
               error = new TypeError(error.message);
