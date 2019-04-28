@@ -476,7 +476,7 @@ export class ManagementClient extends LinkEntity {
         const wrappedEntry = types.wrap_map(entry);
         messageBody.push(wrappedEntry);
       } catch (err) {
-        if (err instanceof TypeError) {
+        if (err instanceof TypeError || err.name === "TypeError") {
           // `RheaMessageUtil.encode` can fail if message properties are of invalid type
           // Errors in such cases do not have user friendy message or call stack
           // So use `getMessagePropertyTypeMismatchError` to get a better error message

@@ -652,19 +652,19 @@ describe("SendableMessageInfo validations", function(): void {
       expectedErrorMessage:
         "Length of 'messageId' property on the message cannot be greater than 128 characters.",
       title: "messageId is longer than 128 characters"
+    },
+    {
+      message: { body: "", messageId: {} as any },
+      expectedErrorMessage:
+        "The property 'messageId' on the message must be of type string, number or Buffer",
+      title: "messageId is of invalid type"
+    },
+    {
+      message: { body: "", correlationId: {} as any },
+      expectedErrorMessage:
+        "The property 'correlationId' on the message must be of type string, number or Buffer",
+      title: "correlationId is of invalid type"
     }
-    // {
-    //   message: { body: "", messageId: false as any },
-    //   expectedErrorMessage:
-    //     "The property 'messageId' on the message must be of type 'string, number or Buffer'",
-    //   title: "messageId is of invalid type"
-    // },
-    // {
-    //   message: { body: "", correlationId: false as any },
-    //   expectedErrorMessage:
-    //     "The property 'correlationId' on the message must be of type 'string, number or Buffer'",
-    //   title: "correlationId is of invalid type"
-    // }
   ];
 
   testInputs.forEach(function(testInput: any): void {

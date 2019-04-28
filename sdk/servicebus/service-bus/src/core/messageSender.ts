@@ -400,28 +400,41 @@ export class MessageSender extends LinkEntity {
         this.name,
         inputMessages
       );
-      const messages: AmqpMessage[] = [];
+      const amqpMessages: AmqpMessage[] = [];
+      const encodedMessages = [];
       // Convert Message to AmqpMessage.
       for (let i = 0; i < inputMessages.length; i++) {
-        const message = toAmqpMessage(inputMessages[i]);
-        message.body = this._context.namespace.dataTransformer.encode(inputMessages[i].body);
-        messages[i] = message;
+        const amqpMessage = toAmqpMessage(inputMessages[i]);
+        amqpMessage.body = this._context.namespace.dataTransformer.encode(inputMessages[i].body);
+        amqpMessages[i] = amqpMessage;
+        try {
+          encodedMessages[i] = message.encode(amqpMessage);
+        } catch (error) {
+          if (error instanceof TypeError || error.name === "TypeError") {
+            // `RheaMessageUtil.encode` can fail if message properties are of invalid type
+            // Errors in such cases do not have user friendy message or call stack
+            // So use `getMessagePropertyTypeMismatchError` to get a better error message
+            error = getMessagePropertyTypeMismatchError(inputMessages[i]) || error;
+          }
+          throw error;
+        }
       }
-      // Encode every amqp message and then convert every encoded message to amqp data section
+
+      // Convert every encoded message to amqp data section
       const batchMessage: AmqpMessage = {
-        body: message.data_sections(messages.map(message.encode))
+        body: message.data_sections(encodedMessages)
       };
       // Set message_annotations, application_properties and properties of the first message as
       // that of the envelope (batch message).
-      if (messages[0].message_annotations) {
-        batchMessage.message_annotations = messages[0].message_annotations;
+      if (amqpMessages[0].message_annotations) {
+        batchMessage.message_annotations = amqpMessages[0].message_annotations;
       }
-      if (messages[0].application_properties) {
-        batchMessage.application_properties = messages[0].application_properties;
+      if (amqpMessages[0].application_properties) {
+        batchMessage.application_properties = amqpMessages[0].application_properties;
       }
       for (const prop of messageProperties) {
-        if ((messages[0] as any)[prop]) {
-          (batchMessage as any)[prop] = (messages[0] as any)[prop];
+        if ((amqpMessages[0] as any)[prop]) {
+          (batchMessage as any)[prop] = (amqpMessages[0] as any)[prop];
         }
       }
 
@@ -435,18 +448,6 @@ export class MessageSender extends LinkEntity {
       );
       return await this._trySend(encodedBatchMessage, undefined, 0x80013700);
     } catch (err) {
-      if (err instanceof TypeError) {
-        // rhea's send() encodes given message first which can fail if message properties are of invalid type
-        // Errors in such cases do not have user friendy message or call stack
-        // So use `getMessagePropertyTypeMismatchError` to get a better error message
-        for (let i = 0; i < inputMessages.length; i++) {
-          const betterError = getMessagePropertyTypeMismatchError(inputMessages[i]);
-          if (betterError) {
-            err = betterError;
-            break;
-          }
-        }
-      }
       log.error("An error occurred while sending the batch message %O", err);
       throw err;
     }
@@ -616,6 +617,16 @@ export class MessageSender extends LinkEntity {
               delivery.id
             );
           } catch (error) {
+            // Convert rhea's type errors that only bear that name but not type to TypeError
+            // so that it doesnt get translated and its context lost inside the `retry()` where
+            // non builtin errors get translated.
+            if (!(error instanceof TypeError) && error.name === "TypeError") {
+              const stack = error.stack;
+              error = new TypeError(error.message);
+              if (stack) {
+                error.stack = stack;
+              }
+            }
             removeListeners();
             log.error(
               "[%s] An error occured when sending message using the Sender '%s': %O",
