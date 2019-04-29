@@ -15,7 +15,7 @@ npm install @azure/cognitiveservices-luis-runtime
 
 ### How to use
 
-#### nodejs - Authentication, client creation and resolve prediction as an example written in TypeScript.
+#### nodejs - Authentication, client creation and getVersionPrediction prediction as an example written in TypeScript.
 
 ##### Install @azure/ms-rest-nodeauth
 
@@ -33,15 +33,33 @@ const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
 msRestNodeAuth.interactiveLogin().then((creds) => {
   const client = new LUISRuntimeClient(creds, subscriptionId);
-  const appId = "testappId";
-  const query = "testquery";
-  const timezoneOffset = 1.01;
+  const appId = ec7b1657-199d-4d8a-bbb2-89a11a42e02a;
+  const versionId = "testversionId";
+  const predictionRequest: LUISRuntimeModels.PredictionRequest = {
+    query: "testquery",
+    options: {
+      datetimeReference: new Date().toISOString(),
+      overridePredictions: true
+    },
+    externalEntities: [{
+      entityName: "testentityName",
+      startIndex: 1,
+      entityLength: 1,
+      resolution: {}
+    }],
+    dynamicLists: [{
+      listEntityName: "testlistEntityName",
+      requestLists: [{
+        name: "testname",
+        canonicalForm: "testcanonicalForm",
+        synonyms: ["testsynonyms"]
+      }]
+    }]
+  };
   const verbose = true;
-  const staging = true;
-  const spellCheck = true;
-  const bingSpellCheckSubscriptionKey = "testbingSpellCheckSubscriptionKey";
+  const showAllIntents = true;
   const log = true;
-  client.prediction.resolve(appId, query, timezoneOffset, verbose, staging, spellCheck, bingSpellCheckSubscriptionKey, log).then((result) => {
+  client.prediction.getVersionPrediction(appId, versionId, predictionRequest, verbose, showAllIntents, log).then((result) => {
     console.log("The result is:");
     console.log(result);
   });
@@ -50,7 +68,7 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
 });
 ```
 
-#### browser - Authentication, client creation and resolve prediction as an example written in JavaScript.
+#### browser - Authentication, client creation and getVersionPrediction prediction as an example written in JavaScript.
 
 ##### Install @azure/ms-rest-browserauth
 
@@ -83,15 +101,33 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
           authManager.login();
         }
         const client = new Azure.CognitiveservicesLuisRuntime.LUISRuntimeClient(res.creds, subscriptionId);
-        const appId = "testappId";
-        const query = "testquery";
-        const timezoneOffset = 1.01;
+        const appId = ec7b1657-199d-4d8a-bbb2-89a11a42e02a;
+        const versionId = "testversionId";
+        const predictionRequest = {
+          query: "testquery",
+          options: {
+            datetimeReference: new Date().toISOString(),
+            overridePredictions: true
+          },
+          externalEntities: [{
+            entityName: "testentityName",
+            startIndex: 1,
+            entityLength: 1,
+            resolution: {}
+          }],
+          dynamicLists: [{
+            listEntityName: "testlistEntityName",
+            requestLists: [{
+              name: "testname",
+              canonicalForm: "testcanonicalForm",
+              synonyms: ["testsynonyms"]
+            }]
+          }]
+        };
         const verbose = true;
-        const staging = true;
-        const spellCheck = true;
-        const bingSpellCheckSubscriptionKey = "testbingSpellCheckSubscriptionKey";
+        const showAllIntents = true;
         const log = true;
-        client.prediction.resolve(appId, query, timezoneOffset, verbose, staging, spellCheck, bingSpellCheckSubscriptionKey, log).then((result) => {
+        client.prediction.getVersionPrediction(appId, versionId, predictionRequest, verbose, showAllIntents, log).then((result) => {
           console.log("The result is:");
           console.log(result);
         }).catch((err) => {
@@ -108,6 +144,3 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
 ## Related projects
 
 - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
-
-
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/cognitiveservices/cognitiveservices-luis-runtime/README.png)
