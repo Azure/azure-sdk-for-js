@@ -17,6 +17,25 @@ const depNames = Object.keys(pkg.dependencies);
 const input = "dist-esm/src/index.js";
 const production = process.env.NODE_ENV === "production";
 
+const ignoreKnownWarnings = (warning) => {
+  if (warning.code === "THIS_IS_UNDEFINED") {
+    // This error happens frequently due to TypeScript emitting `this` at the
+    // top-level of a module. In this case its fine if it gets rewritten to
+    // undefined, so ignore this error.
+    return;
+  }
+
+  if (
+    warning.code === "CIRCULAR_DEPENDENCY" &&
+    warning.importer.indexOf(path.normalize("node_modules/chai/lib") === 0)
+  ) {
+    // Chai contains circular references, but they are not fatal and can be ignored.
+    return;
+  }
+
+  console.error(`(!) ${warning.message}`);
+};
+
 export function nodeConfig(test = false) {
   const externalNodeBuiltins = ["events", "util", "os"];
   const baseConfig = {
@@ -56,24 +75,7 @@ export function nodeConfig(test = false) {
       "@azure/ms-rest-nodeauth"
     );
 
-    baseConfig.onwarn = (warning) => {
-      if (warning.code === "THIS_IS_UNDEFINED") {
-        // This error happens frequently due to TypeScript emitting `this` at the
-        // top-level of a module. In this case its fine if it gets rewritten to
-        // undefined, so ignore this error.
-        return;
-      }
-
-      if (
-        warning.code === "CIRCULAR_DEPENDENCY" &&
-        warning.importer.indexOf(path.normalize("node_modules/chai/lib") === 0)
-      ) {
-        // Chai contains circular references, but they are not fatal and can be ignored.
-        return;
-      }
-
-      console.error(`(!) ${warning.message}`);
-    };
+    baseConfig.onwarn = ignoreKnownWarnings;
   } else if (production) {
     baseConfig.plugins.push(uglify());
   }
@@ -141,6 +143,8 @@ export function browserConfig(test = false) {
       json()
     ]
   };
+
+  baseConfig.onwarn = ignoreKnownWarnings;
 
   if (test) {
     baseConfig.input = "dist-esm/test/**/*.spec.js";
