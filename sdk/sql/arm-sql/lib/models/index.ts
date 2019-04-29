@@ -696,9 +696,10 @@ export interface ImportRequest extends ExportRequest {
    * @member {DatabaseEdition} edition The edition for the database being
    * created.
    *
-   * To determine the editions that are available to your subscription in an
-   * Azure location, use the `Capabilities_ListByLocation` REST API or one of
-   * the following commands:
+   * The list of SKUs may vary by region and support offer. To determine the
+   * SKUs (including the SKU name, tier/edition, family, and capacity) that are
+   * available to your subscription in an Azure region, use the
+   * `Capabilities_ListByLocation` REST API or one of the following commands:
    *
    * ```azurecli
    * az sql db list-editions -l <location> -o table
@@ -706,7 +707,8 @@ export interface ImportRequest extends ExportRequest {
    *
    * ```powershell
    * Get-AzSqlServerServiceObjective -Location <location>
-   * ````. Possible values include: 'Web', 'Business', 'Basic', 'Standard',
+   * ````
+   * . Possible values include: 'Web', 'Business', 'Basic', 'Standard',
    * 'Premium', 'PremiumRS', 'Free', 'Stretch', 'DataWarehouse', 'System',
    * 'System2', 'GeneralPurpose', 'BusinessCritical', 'Hyperscale'
    */
@@ -6021,10 +6023,10 @@ export interface Database extends TrackedResource {
   /**
    * @member {Sku} [sku] The database SKU.
    *
-   * To determine the SKUs (including the SKU name, tier/edition, family, and
-   * capacity) that are available to your subscription in an Azure location,
-   * use the `Capabilities_ListByLocation` REST API or one of the following
-   * interfaces:
+   * The list of SKUs may vary by region and support offer. To determine the
+   * SKUs (including the SKU name, tier/edition, family, and capacity) that are
+   * available to your subscription in an Azure region, use the
+   * `Capabilities_ListByLocation` REST API or one of the following commands:
    *
    * ```azurecli
    * az sql db list-editions -l <location> -o table
@@ -6516,10 +6518,10 @@ export interface ElasticPool extends TrackedResource {
   /**
    * @member {Sku} [sku] The elastic pool SKU.
    *
-   * To determine the SKUs (including the SKU name, tier/edition, family, and
-   * capacity) that are available to your subscription in an Azure location,
-   * use the `Capabilities_ListByLocation` REST API or one of the following
-   * interfaces:
+   * The list of SKUs may vary by region and support offer. To determine the
+   * SKUs (including the SKU name, tier/edition, family, and capacity) that are
+   * available to your subscription in an Azure region, use the
+   * `Capabilities_ListByLocation` REST API or the following command:
    *
    * ```azurecli
    * az sql elastic-pool list-editions -l <location> -o table
