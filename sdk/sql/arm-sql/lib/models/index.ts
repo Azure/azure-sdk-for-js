@@ -694,9 +694,23 @@ export interface ImportRequest extends ExportRequest {
   databaseName: string;
   /**
    * @member {DatabaseEdition} edition The edition for the database being
-   * created. Possible values include: 'Web', 'Business', 'Basic', 'Standard',
+   * created.
+   *
+   * The list of SKUs may vary by region and support offer. To determine the
+   * SKUs (including the SKU name, tier/edition, family, and capacity) that are
+   * available to your subscription in an Azure region, use the
+   * `Capabilities_ListByLocation` REST API or one of the following commands:
+   *
+   * ```azurecli
+   * az sql db list-editions -l <location> -o table
+   * ````
+   *
+   * ```powershell
+   * Get-AzSqlServerServiceObjective -Location <location>
+   * ````
+   * . Possible values include: 'Web', 'Business', 'Basic', 'Standard',
    * 'Premium', 'PremiumRS', 'Free', 'Stretch', 'DataWarehouse', 'System',
-   * 'System2'
+   * 'System2', 'GeneralPurpose', 'BusinessCritical', 'Hyperscale'
    */
   edition: DatabaseEdition;
   /**
@@ -937,7 +951,7 @@ export interface RecommendedElasticPool extends ProxyResource {
    * @member {ElasticPoolEdition} [databaseEdition] The edition of the
    * recommended elastic pool. The ElasticPoolEdition enumeration contains all
    * the valid editions. Possible values include: 'Basic', 'Standard',
-   * 'Premium'
+   * 'Premium', 'GeneralPurpose', 'BusinessCritical'
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
@@ -6007,7 +6021,20 @@ export interface LocationCapabilities {
  */
 export interface Database extends TrackedResource {
   /**
-   * @member {Sku} [sku] The name and tier of the SKU.
+   * @member {Sku} [sku] The database SKU.
+   *
+   * The list of SKUs may vary by region and support offer. To determine the
+   * SKUs (including the SKU name, tier/edition, family, and capacity) that are
+   * available to your subscription in an Azure region, use the
+   * `Capabilities_ListByLocation` REST API or one of the following commands:
+   *
+   * ```azurecli
+   * az sql db list-editions -l <location> -o table
+   * ````
+   *
+   * ```powershell
+   * Get-AzSqlServerServiceObjective -Location <location>
+   * ````
    */
   sku?: Sku;
   /**
@@ -6093,7 +6120,8 @@ export interface Database extends TrackedResource {
    * values include: 'Online', 'Restoring', 'RecoveryPending', 'Recovering',
    * 'Suspect', 'Offline', 'Standby', 'Shutdown', 'EmergencyMode',
    * 'AutoClosed', 'Copying', 'Creating', 'Inaccessible', 'OfflineSecondary',
-   * 'Pausing', 'Paused', 'Resuming', 'Scaling'
+   * 'Pausing', 'Paused', 'Resuming', 'Scaling',
+   * 'OfflineChangingDwPerformanceTiers', 'OnlineChangingDwPerformanceTiers'
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
@@ -6308,7 +6336,8 @@ export interface DatabaseUpdate {
    * values include: 'Online', 'Restoring', 'RecoveryPending', 'Recovering',
    * 'Suspect', 'Offline', 'Standby', 'Shutdown', 'EmergencyMode',
    * 'AutoClosed', 'Copying', 'Creating', 'Inaccessible', 'OfflineSecondary',
-   * 'Pausing', 'Paused', 'Resuming', 'Scaling'
+   * 'Pausing', 'Paused', 'Resuming', 'Scaling',
+   * 'OfflineChangingDwPerformanceTiers', 'OnlineChangingDwPerformanceTiers'
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
@@ -6487,7 +6516,16 @@ export interface ElasticPoolPerDatabaseSettings {
  */
 export interface ElasticPool extends TrackedResource {
   /**
-   * @member {Sku} [sku]
+   * @member {Sku} [sku] The elastic pool SKU.
+   *
+   * The list of SKUs may vary by region and support offer. To determine the
+   * SKUs (including the SKU name, tier/edition, family, and capacity) that are
+   * available to your subscription in an Azure region, use the
+   * `Capabilities_ListByLocation` REST API or the following command:
+   *
+   * ```azurecli
+   * az sql elastic-pool list-editions -l <location> -o table
+   * ````
    */
   sku?: Sku;
   /**
@@ -8433,11 +8471,12 @@ export type GeoBackupPolicyState = 'Disabled' | 'Enabled';
 /**
  * Defines values for DatabaseEdition.
  * Possible values include: 'Web', 'Business', 'Basic', 'Standard', 'Premium', 'PremiumRS', 'Free',
- * 'Stretch', 'DataWarehouse', 'System', 'System2'
+ * 'Stretch', 'DataWarehouse', 'System', 'System2', 'GeneralPurpose', 'BusinessCritical',
+ * 'Hyperscale'
  * @readonly
  * @enum {string}
  */
-export type DatabaseEdition = 'Web' | 'Business' | 'Basic' | 'Standard' | 'Premium' | 'PremiumRS' | 'Free' | 'Stretch' | 'DataWarehouse' | 'System' | 'System2';
+export type DatabaseEdition = 'Web' | 'Business' | 'Basic' | 'Standard' | 'Premium' | 'PremiumRS' | 'Free' | 'Stretch' | 'DataWarehouse' | 'System' | 'System2' | 'GeneralPurpose' | 'BusinessCritical' | 'Hyperscale';
 
 /**
  * Defines values for ServiceObjectiveName.
@@ -8497,11 +8536,11 @@ export type UnitDefinitionType = 'Count' | 'Bytes' | 'Seconds' | 'Percent' | 'Co
 
 /**
  * Defines values for ElasticPoolEdition.
- * Possible values include: 'Basic', 'Standard', 'Premium'
+ * Possible values include: 'Basic', 'Standard', 'Premium', 'GeneralPurpose', 'BusinessCritical'
  * @readonly
  * @enum {string}
  */
-export type ElasticPoolEdition = 'Basic' | 'Standard' | 'Premium';
+export type ElasticPoolEdition = 'Basic' | 'Standard' | 'Premium' | 'GeneralPurpose' | 'BusinessCritical';
 
 /**
  * Defines values for ReplicationRole.
@@ -8927,11 +8966,12 @@ export type SampleName = 'AdventureWorksLT' | 'WideWorldImportersStd' | 'WideWor
  * Defines values for DatabaseStatus.
  * Possible values include: 'Online', 'Restoring', 'RecoveryPending', 'Recovering', 'Suspect',
  * 'Offline', 'Standby', 'Shutdown', 'EmergencyMode', 'AutoClosed', 'Copying', 'Creating',
- * 'Inaccessible', 'OfflineSecondary', 'Pausing', 'Paused', 'Resuming', 'Scaling'
+ * 'Inaccessible', 'OfflineSecondary', 'Pausing', 'Paused', 'Resuming', 'Scaling',
+ * 'OfflineChangingDwPerformanceTiers', 'OnlineChangingDwPerformanceTiers'
  * @readonly
  * @enum {string}
  */
-export type DatabaseStatus = 'Online' | 'Restoring' | 'RecoveryPending' | 'Recovering' | 'Suspect' | 'Offline' | 'Standby' | 'Shutdown' | 'EmergencyMode' | 'AutoClosed' | 'Copying' | 'Creating' | 'Inaccessible' | 'OfflineSecondary' | 'Pausing' | 'Paused' | 'Resuming' | 'Scaling';
+export type DatabaseStatus = 'Online' | 'Restoring' | 'RecoveryPending' | 'Recovering' | 'Suspect' | 'Offline' | 'Standby' | 'Shutdown' | 'EmergencyMode' | 'AutoClosed' | 'Copying' | 'Creating' | 'Inaccessible' | 'OfflineSecondary' | 'Pausing' | 'Paused' | 'Resuming' | 'Scaling' | 'OfflineChangingDwPerformanceTiers' | 'OnlineChangingDwPerformanceTiers';
 
 /**
  * Defines values for DatabaseLicenseType.
