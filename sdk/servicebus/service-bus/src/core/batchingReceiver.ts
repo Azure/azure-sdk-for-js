@@ -83,6 +83,11 @@ export class BatchingReceiver extends MessageReceiver {
           this._receiver.session.removeListener(SessionEvents.sessionError, onSessionError);
         }
 
+        if (this._receiver && !this._receiver.isOpen()) {
+          throw new Error(`Receiver ${this._receiver.name} with address ${this._receiver.address} is a Batching Receiver,
+          so we will not be re-establishing the receiver link.`);
+        }
+
         if (this._receiver && this._receiver.credit > 0) {
           log.batching(
             "[%s] Receiver '%s': Draining leftover credits(%d).",
@@ -300,7 +305,7 @@ export class BatchingReceiver extends MessageReceiver {
           const settled = delivery.remote_settled;
           log.receiver(
             "[%s] Delivery with id %d, remote_settled: %s, remote_state: %o has been " +
-              "received.",
+            "received.",
             connectionId,
             id,
             settled,
