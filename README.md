@@ -37,6 +37,13 @@ helloCosmos().catch(err => {
 });
 ```
 
+## Install via NPM
+You can install the npm package using the following command:
+
+```bash
+npm install @azure/cosmos
+```
+
 ## Useful links
 
 - [Welcome to Azure Cosmos DB](https://docs.microsoft.com/en-us/azure/cosmos-db/community)
