@@ -440,6 +440,8 @@ const listCurrentByDatabaseOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
+    Parameters.skipToken,
+    Parameters.count,
     Parameters.filter1,
     Parameters.apiVersion3
   ],

@@ -172,6 +172,18 @@ export const continuationToken: msRest.OperationQueryParameter = {
     }
   }
 };
+export const count: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "count"
+  ],
+  mapper: {
+    serializedName: "$count",
+    type: {
+      name: "Boolean"
+    }
+  }
+};
 export const createTimeMax: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",

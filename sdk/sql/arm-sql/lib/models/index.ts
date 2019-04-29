@@ -7317,6 +7317,14 @@ export interface LongTermRetentionBackupsListByServerOptionalParams extends msRe
  */
 export interface SensitivityLabelsListCurrentByDatabaseOptionalParams extends msRest.RequestOptionsBase {
   /**
+   * @member {string} [skipToken]
+   */
+  skipToken?: string;
+  /**
+   * @member {boolean} [count]
+   */
+  count?: boolean;
+  /**
    * @member {string} [filter] An OData filter expression that filters elements
    * in the collection.
    */
@@ -7387,6 +7395,14 @@ export interface ManagedInstanceKeysListByInstanceOptionalParams extends msRest.
  * @extends RequestOptionsBase
  */
 export interface ManagedDatabaseSensitivityLabelsListCurrentByDatabaseOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {string} [skipToken]
+   */
+  skipToken?: string;
+  /**
+   * @member {boolean} [count]
+   */
+  count?: boolean;
   /**
    * @member {string} [filter] An OData filter expression that filters elements
    * in the collection.
