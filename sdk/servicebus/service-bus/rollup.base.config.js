@@ -8,8 +8,9 @@ import json from "rollup-plugin-json";
 import replace from "rollup-plugin-replace";
 import { uglify } from "rollup-plugin-uglify";
 import sourcemaps from "rollup-plugin-sourcemaps";
-
+import shim from "rollup-plugin-shim";
 import path from "path";
+import inject from "rollup-plugin-inject";
 
 const pkg = require("./package.json");
 const depNames = Object.keys(pkg.dependencies);
@@ -47,7 +48,13 @@ export function nodeConfig(test = false) {
     baseConfig.output.file = "test-dist/index.js";
 
     // mark assert as external
-    baseConfig.external.push("assert", "fs", "path", "@azure/arm-servicebus", "@azure/ms-rest-nodeauth");
+    baseConfig.external.push(
+      "assert",
+      "fs",
+      "path",
+      "@azure/arm-servicebus",
+      "@azure/ms-rest-nodeauth"
+    );
 
     baseConfig.onwarn = (warning) => {
       if (warning.code === "THIS_IS_UNDEFINED") {
@@ -77,13 +84,12 @@ export function nodeConfig(test = false) {
 export function browserConfig(test = false) {
   const baseConfig = {
     input: input,
-    external: ["ms-rest-js"],
+    external: [],
     output: {
-      file: "browser/index.js",
+      file: "browser/service-bus.js",
       format: "umd",
-      name: "ExampleClient",
-      sourcemap: true,
-      globals: { "ms-rest-js": "msRest" }
+      name: "Azure.Messaging.ServiceBus",
+      sourcemap: true
     },
     plugins: [
       sourcemaps(),
@@ -99,6 +105,22 @@ export function browserConfig(test = false) {
           }
         }
       ),
+      // fs, net, and tls are used by rhea and need to be shimmed
+      // dotenv doesn't work in the browser, so replace it with a no-op function
+      shim({
+        fs: `export default {}`,
+        net: `export default {}`,
+        tls: `export default {}`,
+        dotenv: `export function config() { }`,
+        os: `
+          export function arch() { return "javascript" }
+          export function type() { return "Browser" }
+          export function release() { typeof navigator === 'undefined' ? '' : navigator.appVersion }
+        `,
+        path: `export default {}`,
+        dns: `export function resolve() { }`
+      }),
+
       nodeResolve({
         preferBuiltins: false,
         browser: true
@@ -106,6 +128,16 @@ export function browserConfig(test = false) {
       cjs({
         namedExports: { events: ["EventEmitter"] }
       }),
+
+      // rhea and rhea-promise use the Buffer global which requires
+      // injection to shim properly
+      inject({
+        modules: {
+          Buffer: ["buffer", "Buffer"],
+          process: "process"
+        }
+      }),
+
       json()
     ]
   };
