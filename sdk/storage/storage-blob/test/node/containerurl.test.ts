@@ -1,27 +1,27 @@
 import * as assert from "assert";
 
 import { Aborter } from "../../src/Aborter";
-import { ContainerURL } from "../../src/ContainerURL";
+import { ContainerClient } from "../../src/ContainerClient";
 import { getBSU, getUniqueName } from "../utils";
 import { PublicAccessType } from "../../src/generated/lib/models/index";
 
-describe("ContainerURL", () => {
-  const serviceURL = getBSU();
+describe("ContainerClient", () => {
+  const serviceClient = getBSU();
   let containerName: string = getUniqueName("container");
-  let containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
+  let containerClient = ContainerClient.fromServiceClient(serviceClient, containerName);
 
   beforeEach(async () => {
     containerName = getUniqueName("container");
-    containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
-    await containerURL.create(Aborter.none);
+    containerClient = ContainerClient.fromServiceClient(serviceClient, containerName);
+    await containerClient.create(Aborter.none);
   });
 
   afterEach(async () => {
-    await containerURL.delete(Aborter.none);
+    await containerClient.delete(Aborter.none);
   });
 
   it("getAccessPolicy", async () => {
-    const result = await containerURL.getAccessPolicy(Aborter.none);
+    const result = await containerClient.getAccessPolicy(Aborter.none);
     assert.ok(result.eTag!.length > 0);
     assert.ok(result.lastModified);
     assert.ok(result.requestId);
@@ -42,8 +42,8 @@ describe("ContainerURL", () => {
       }
     ];
 
-    await containerURL.setAccessPolicy(Aborter.none, access, containerAcl);
-    const result = await containerURL.getAccessPolicy(Aborter.none);
+    await containerClient.setAccessPolicy(Aborter.none, access, containerAcl);
+    const result = await containerClient.getAccessPolicy(Aborter.none);
     assert.deepEqual(result.signedIdentifiers, containerAcl);
     assert.deepEqual(result.blobPublicAccess, access);
   });

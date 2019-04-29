@@ -1,9 +1,9 @@
 import { HttpRequestBody, TransferProgressEvent } from "@azure/ms-rest-js";
 
-import * as Models from "../src/generated/lib/models";
+import * as Models from "./generated/lib/models";
 import { Aborter } from "./Aborter";
-import { BlobURL } from "./BlobURL";
-import { ContainerURL } from "./ContainerURL";
+import { BlobClient } from "./BlobClient";
+import { ContainerClient } from "./ContainerClient";
 import { AppendBlob } from "./generated/lib/operations";
 import { IAppendBlobAccessConditions, IBlobAccessConditions, IMetadata } from "./models";
 import { Pipeline } from "./Pipeline";
@@ -23,39 +23,42 @@ export interface IAppendBlobAppendBlockOptions {
 }
 
 /**
- * AppendBlobURL defines a set of operations applicable to append blobs.
+ * AppendBlobClient defines a set of operations applicable to append blobs.
  *
  * @export
- * @class AppendBlobURL
- * @extends {StorageURL}
+ * @class AppendBlobClient
+ * @extends {StorageClient}
  */
-export class AppendBlobURL extends BlobURL {
+export class AppendBlobClient extends BlobClient {
   /**
-   * Creates a AppendBlobURL object from ContainerURL instance.
+   * Creates a AppendBlobClient object from ContainerClient instance.
    *
    * @static
-   * @param {ContainerURL} containerURL A ContainerURL object
+   * @param {ContainerClient} containerClient A ContainerClient object
    * @param {string} blobName An append blob name
-   * @returns {AppendBlobURL}
-   * @memberof AppendBlobURL
+   * @returns {AppendBlobClient}
+   * @memberof AppendBlobClient
    */
-  public static fromContainerURL(containerURL: ContainerURL, blobName: string): AppendBlobURL {
-    return new AppendBlobURL(
-      appendToURLPath(containerURL.url, encodeURIComponent(blobName)),
-      containerURL.pipeline
+  public static fromContainerClient(
+    containerClient: ContainerClient,
+    blobName: string
+  ): AppendBlobClient {
+    return new AppendBlobClient(
+      appendToURLPath(containerClient.url, encodeURIComponent(blobName)),
+      containerClient.pipeline
     );
   }
 
   /**
-   * Creates a AppendBlobURL object from BlobURL instance.
+   * Creates a AppendBlobClient object from BlobClient instance.
    *
    * @static
-   * @param {BlobURL} blobURL
-   * @returns {AppendBlobURL}
-   * @memberof AppendBlobURL
+   * @param {BlobClient} blobClient
+   * @returns {AppendBlobClient}
+   * @memberof AppendBlobClient
    */
-  public static fromBlobURL(blobURL: BlobURL): AppendBlobURL {
-    return new AppendBlobURL(blobURL.url, blobURL.pipeline);
+  public static fromBlobClient(blobClient: BlobClient): AppendBlobClient {
+    return new AppendBlobClient(blobClient.url, blobClient.pipeline);
   }
 
   /**
@@ -63,12 +66,12 @@ export class AppendBlobURL extends BlobURL {
    *
    * @private
    * @type {AppendBlobs}
-   * @memberof AppendBlobURL
+   * @memberof AppendBlobClient
    */
   private appendBlobContext: AppendBlob;
 
   /**
-   * Creates an instance of AppendBlobURL.
+   * Creates an instance of AppendBlobClient.
    * This method accepts an encoded URL or non-encoded URL pointing to an append blob.
    * Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
    * If a blob name includes ? or %, blob name must be encoded in the URL.
@@ -81,9 +84,9 @@ export class AppendBlobURL extends BlobURL {
    *                     Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
    *                     However, if a blob name includes ? or %, blob name must be encoded in the URL.
    *                     Such as a blob named "my?blob%", the URL should be "https://myaccount.blob.core.windows.net/mycontainer/my%3Fblob%25".
-   * @param {Pipeline} pipeline Call StorageURL.newPipeline() to create a default
+   * @param {Pipeline} pipeline Call StorageClient.newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
-   * @memberof AppendBlobURL
+   * @memberof AppendBlobClient
    */
   constructor(url: string, pipeline: Pipeline) {
     super(url, pipeline);
@@ -91,28 +94,28 @@ export class AppendBlobURL extends BlobURL {
   }
 
   /**
-   * Creates a new AppendBlobURL object identical to the source but with the
+   * Creates a new AppendBlobClient object identical to the source but with the
    * specified request policy pipeline.
    *
    * @param {Pipeline} pipeline
-   * @returns {AppendBlobURL}
-   * @memberof AppendBlobURL
+   * @returns {AppendBlobClient}
+   * @memberof AppendBlobClient
    */
-  public withPipeline(pipeline: Pipeline): AppendBlobURL {
-    return new AppendBlobURL(this.url, pipeline);
+  public withPipeline(pipeline: Pipeline): AppendBlobClient {
+    return new AppendBlobClient(this.url, pipeline);
   }
 
   /**
-   * Creates a new AppendBlobURL object identical to the source but with the
+   * Creates a new AppendBlobClient object identical to the source but with the
    * specified snapshot timestamp.
-   * Provide "" will remove the snapshot and return a URL to the base blob.
+   * Provide "" will remove the snapshot and return a Client to the base blob.
    *
    * @param {string} snapshot
-   * @returns {AppendBlobURL}
-   * @memberof AppendBlobURL
+   * @returns {AppendBlobClient}
+   * @memberof AppendBlobClient
    */
-  public withSnapshot(snapshot: string): AppendBlobURL {
-    return new AppendBlobURL(
+  public withSnapshot(snapshot: string): AppendBlobClient {
+    return new AppendBlobClient(
       setURLParameter(
         this.url,
         URLConstants.Parameters.SNAPSHOT,
@@ -130,7 +133,7 @@ export class AppendBlobURL extends BlobURL {
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {IAppendBlobCreateOptions} [options]
    * @returns {Promise<Models.AppendBlobsCreateResponse>}
-   * @memberof AppendBlobURL
+   * @memberof AppendBlobClient
    */
   public async create(
     aborter: Aborter,
@@ -156,7 +159,7 @@ export class AppendBlobURL extends BlobURL {
    * @param {number} contentLength
    * @param {IAppendBlobAppendBlockOptions} [options]
    * @returns {Promise<Models.AppendBlobsAppendBlockResponse>}
-   * @memberof AppendBlobURL
+   * @memberof AppendBlobClient
    */
   public async appendBlock(
     aborter: Aborter,

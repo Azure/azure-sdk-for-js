@@ -2,37 +2,37 @@ import * as assert from "assert";
 import { bodyToString, getBSU, getUniqueName } from "./utils";
 
 import { Aborter } from "../src/Aborter";
-import { BlobURL } from "../src/BlobURL";
-import { ContainerURL } from "../src/ContainerURL";
-import { PageBlobURL } from "../src/PageBlobURL";
+import { BlobClient } from "../src/BlobClient";
+import { ContainerClient } from "../src/ContainerClient";
+import { PageBlobClient } from "../src/PageBlobClient";
 import * as dotenv from "dotenv";
 dotenv.config({ path: "../.env" });
 
-describe("PageBlobURL", () => {
-  const serviceURL = getBSU();
+describe("PageBlobClient", () => {
+  const serviceClient = getBSU();
   let containerName: string = getUniqueName("container");
-  let containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
+  let containerClient = ContainerClient.fromServiceClient(serviceClient, containerName);
   let blobName: string = getUniqueName("blob");
-  let blobURL = BlobURL.fromContainerURL(containerURL, blobName);
-  let pageBlobURL = PageBlobURL.fromBlobURL(blobURL);
+  let blobClient = BlobClient.fromContainerClient(containerClient, blobName);
+  let pageBlobClient = PageBlobClient.fromBlobClient(blobClient);
 
   beforeEach(async () => {
     containerName = getUniqueName("container");
-    containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
-    await containerURL.create(Aborter.none);
+    containerClient = ContainerClient.fromServiceClient(serviceClient, containerName);
+    await containerClient.create(Aborter.none);
     blobName = getUniqueName("blob");
-    blobURL = BlobURL.fromContainerURL(containerURL, blobName);
-    pageBlobURL = PageBlobURL.fromBlobURL(blobURL);
+    blobClient = BlobClient.fromContainerClient(containerClient, blobName);
+    pageBlobClient = PageBlobClient.fromBlobClient(blobClient);
   });
 
   afterEach(async () => {
-    await containerURL.delete(Aborter.none);
+    await containerClient.delete(Aborter.none);
   });
 
   it("create with default parameters", async () => {
-    await pageBlobURL.create(Aborter.none, 512);
+    await pageBlobClient.create(Aborter.none, 512);
 
-    const result = await blobURL.download(Aborter.none, 0);
+    const result = await blobClient.download(Aborter.none, 0);
     assert.deepStrictEqual(await bodyToString(result, 512), "\u0000".repeat(512));
   });
 
@@ -50,12 +50,12 @@ describe("PageBlobURL", () => {
         key2: "valb"
       }
     };
-    await pageBlobURL.create(Aborter.none, 512, options);
+    await pageBlobClient.create(Aborter.none, 512, options);
 
-    const result = await blobURL.download(Aborter.none, 0);
+    const result = await blobClient.download(Aborter.none, 0);
     assert.deepStrictEqual(await bodyToString(result, 512), "\u0000".repeat(512));
 
-    const properties = await blobURL.getProperties(Aborter.none);
+    const properties = await blobClient.getProperties(Aborter.none);
     assert.equal(properties.cacheControl, options.blobHTTPHeaders.blobCacheControl);
     assert.equal(properties.contentDisposition, options.blobHTTPHeaders.blobContentDisposition);
     assert.equal(properties.contentEncoding, options.blobHTTPHeaders.blobContentEncoding);
@@ -66,66 +66,66 @@ describe("PageBlobURL", () => {
   });
 
   it("uploadPages", async () => {
-    await pageBlobURL.create(Aborter.none, 1024);
+    await pageBlobClient.create(Aborter.none, 1024);
 
-    const result = await blobURL.download(Aborter.none, 0);
+    const result = await blobClient.download(Aborter.none, 0);
     assert.equal(await bodyToString(result, 1024), "\u0000".repeat(1024));
 
-    await pageBlobURL.uploadPages(Aborter.none, "a".repeat(512), 0, 512);
-    await pageBlobURL.uploadPages(Aborter.none, "b".repeat(512), 512, 512);
+    await pageBlobClient.uploadPages(Aborter.none, "a".repeat(512), 0, 512);
+    await pageBlobClient.uploadPages(Aborter.none, "b".repeat(512), 512, 512);
 
-    const page1 = await pageBlobURL.download(Aborter.none, 0, 512);
-    const page2 = await pageBlobURL.download(Aborter.none, 512, 512);
+    const page1 = await pageBlobClient.download(Aborter.none, 0, 512);
+    const page2 = await pageBlobClient.download(Aborter.none, 512, 512);
 
     assert.equal(await bodyToString(page1, 512), "a".repeat(512));
     assert.equal(await bodyToString(page2, 512), "b".repeat(512));
   });
 
   it("clearPages", async () => {
-    await pageBlobURL.create(Aborter.none, 1024);
-    let result = await blobURL.download(Aborter.none, 0);
+    await pageBlobClient.create(Aborter.none, 1024);
+    let result = await blobClient.download(Aborter.none, 0);
     assert.deepStrictEqual(await bodyToString(result, 1024), "\u0000".repeat(1024));
 
-    await pageBlobURL.uploadPages(Aborter.none, "a".repeat(1024), 0, 1024);
-    result = await pageBlobURL.download(Aborter.none, 0, 1024);
+    await pageBlobClient.uploadPages(Aborter.none, "a".repeat(1024), 0, 1024);
+    result = await pageBlobClient.download(Aborter.none, 0, 1024);
     assert.deepStrictEqual(await bodyToString(result, 1024), "a".repeat(1024));
 
-    await pageBlobURL.clearPages(Aborter.none, 0, 512);
-    result = await pageBlobURL.download(Aborter.none, 0, 512);
+    await pageBlobClient.clearPages(Aborter.none, 0, 512);
+    result = await pageBlobClient.download(Aborter.none, 0, 512);
     assert.deepStrictEqual(await bodyToString(result, 512), "\u0000".repeat(512));
   });
 
   it("getPageRanges", async () => {
-    await pageBlobURL.create(Aborter.none, 1024);
+    await pageBlobClient.create(Aborter.none, 1024);
 
-    const result = await blobURL.download(Aborter.none, 0);
+    const result = await blobClient.download(Aborter.none, 0);
     assert.deepStrictEqual(await bodyToString(result, 1024), "\u0000".repeat(1024));
 
-    await pageBlobURL.uploadPages(Aborter.none, "a".repeat(512), 0, 512);
-    await pageBlobURL.uploadPages(Aborter.none, "b".repeat(512), 512, 512);
+    await pageBlobClient.uploadPages(Aborter.none, "a".repeat(512), 0, 512);
+    await pageBlobClient.uploadPages(Aborter.none, "b".repeat(512), 512, 512);
 
-    const page1 = await pageBlobURL.getPageRanges(Aborter.none, 0, 512);
-    const page2 = await pageBlobURL.getPageRanges(Aborter.none, 512, 512);
+    const page1 = await pageBlobClient.getPageRanges(Aborter.none, 0, 512);
+    const page2 = await pageBlobClient.getPageRanges(Aborter.none, 512, 512);
 
     assert.equal(page1.pageRange![0].end, 511);
     assert.equal(page2.pageRange![0].end, 1023);
   });
 
   it("getPageRangesDiff", async () => {
-    await pageBlobURL.create(Aborter.none, 1024);
+    await pageBlobClient.create(Aborter.none, 1024);
 
-    const result = await blobURL.download(Aborter.none, 0);
+    const result = await blobClient.download(Aborter.none, 0);
     assert.deepStrictEqual(await bodyToString(result, 1024), "\u0000".repeat(1024));
 
-    await pageBlobURL.uploadPages(Aborter.none, "b".repeat(1024), 0, 1024);
+    await pageBlobClient.uploadPages(Aborter.none, "b".repeat(1024), 0, 1024);
 
-    const snapshotResult = await pageBlobURL.createSnapshot(Aborter.none);
+    const snapshotResult = await pageBlobClient.createSnapshot(Aborter.none);
     assert.ok(snapshotResult.snapshot);
 
-    await pageBlobURL.uploadPages(Aborter.none, "a".repeat(512), 0, 512);
-    await pageBlobURL.clearPages(Aborter.none, 512, 512);
+    await pageBlobClient.uploadPages(Aborter.none, "a".repeat(512), 0, 512);
+    await pageBlobClient.clearPages(Aborter.none, 512, 512);
 
-    const rangesDiff = await pageBlobURL.getPageRangesDiff(
+    const rangesDiff = await pageBlobClient.getPageRangesDiff(
       Aborter.none,
       0,
       1024,
@@ -138,19 +138,19 @@ describe("PageBlobURL", () => {
   });
 
   it("updateSequenceNumber", async () => {
-    await pageBlobURL.create(Aborter.none, 1024);
-    let propertiesResponse = await pageBlobURL.getProperties(Aborter.none);
+    await pageBlobClient.create(Aborter.none, 1024);
+    let propertiesResponse = await pageBlobClient.getProperties(Aborter.none);
 
-    await pageBlobURL.updateSequenceNumber(Aborter.none, "increment");
-    propertiesResponse = await pageBlobURL.getProperties(Aborter.none);
+    await pageBlobClient.updateSequenceNumber(Aborter.none, "increment");
+    propertiesResponse = await pageBlobClient.getProperties(Aborter.none);
     assert.equal(propertiesResponse.blobSequenceNumber!, 1);
 
-    await pageBlobURL.updateSequenceNumber(Aborter.none, "update", 10);
-    propertiesResponse = await pageBlobURL.getProperties(Aborter.none);
+    await pageBlobClient.updateSequenceNumber(Aborter.none, "update", 10);
+    propertiesResponse = await pageBlobClient.getProperties(Aborter.none);
     assert.equal(propertiesResponse.blobSequenceNumber!, 10);
 
-    await pageBlobURL.updateSequenceNumber(Aborter.none, "max", 100);
-    propertiesResponse = await pageBlobURL.getProperties(Aborter.none);
+    await pageBlobClient.updateSequenceNumber(Aborter.none, "max", 100);
+    propertiesResponse = await pageBlobClient.getProperties(Aborter.none);
     assert.equal(propertiesResponse.blobSequenceNumber!, 100);
   });
 });

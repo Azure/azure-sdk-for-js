@@ -1,14 +1,14 @@
 import { isNode, TransferProgressEvent } from "@azure/ms-rest-js";
 
-import * as Models from "../src/generated/lib/models";
+import * as Models from "./generated/lib/models";
 import { Aborter } from "./Aborter";
 import { BlobDownloadResponse } from "./BlobDownloadResponse";
-import { ContainerURL } from "./ContainerURL";
+import { ContainerClient } from "./ContainerClient";
 import { Blob } from "./generated/lib/operations";
 import { rangeToString } from "./IRange";
 import { IBlobAccessConditions, IMetadata } from "./models";
 import { Pipeline } from "./Pipeline";
-import { StorageURL } from "./StorageURL";
+import { StorageClient } from "./StorageClient";
 import { DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS, URLConstants } from "./utils/constants";
 import { appendToURLPath, setURLParameter } from "./utils/utils.common";
 
@@ -25,7 +25,7 @@ export interface IBlobDownloadOptions {
    * Above kind of ends will not trigger retry policy defined in a pipeline,
    * because they doesn't emit network errors.
    *
-   * With this option, every additional retry means an additional FileURL.download() request will be made
+   * With this option, every additional retry means an additional FileClient.download() request will be made
    * from the broken point, until the requested range has been successfully downloaded or maxRetryRequests is reached.
    *
    * Default value is 5, please set a larger value when loading large files in poor network.
@@ -93,27 +93,27 @@ export interface IBlobSetTierOptions {
 }
 
 /**
- * A BlobURL represents a URL to an Azure Storage blob; the blob may be a block blob,
+ * A BlobClient represents a URL to an Azure Storage blob; the blob may be a block blob,
  * append blob, or page blob.
  *
  * @export
- * @class BlobURL
- * @extends {StorageURL}
+ * @class BlobClient
+ * @extends {StorageClient}
  */
-export class BlobURL extends StorageURL {
+export class BlobClient extends StorageClient {
   /**
-   * Creates a BlobURL object from an ContainerURL object.
+   * Creates a BlobClient object from an ContainerClient object.
    *
    * @static
-   * @param {ContainerURL} containerURL A ContainerURL object
+   * @param {ContainerClient} containerClient A ContainerClient object
    * @param {string} blobName A blob name
    * @returns
-   * @memberof BlobURL
+   * @memberof BlobClient
    */
-  public static fromContainerURL(containerURL: ContainerURL, blobName: string) {
-    return new BlobURL(
-      appendToURLPath(containerURL.url, encodeURIComponent(blobName)),
-      containerURL.pipeline
+  public static fromContainerClient(containerClient: ContainerClient, blobName: string) {
+    return new BlobClient(
+      appendToURLPath(containerClient.url, encodeURIComponent(blobName)),
+      containerClient.pipeline
     );
   }
 
@@ -122,12 +122,12 @@ export class BlobURL extends StorageURL {
    *
    * @private
    * @type {Blobs}
-   * @memberof BlobURL
+   * @memberof BlobClient
    */
   private blobContext: Blob;
 
   /**
-   * Creates an instance of BlobURL.
+   * Creates an instance of BlobClient.
    * This method accepts an encoded URL or non-encoded URL pointing to a blob.
    * Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
    * If a blob name includes ? or %, blob name must be encoded in the URL.
@@ -140,9 +140,9 @@ export class BlobURL extends StorageURL {
    *                     Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
    *                     However, if a blob name includes ? or %, blob name must be encoded in the URL.
    *                     Such as a blob named "my?blob%", the URL should be "https://myaccount.blob.core.windows.net/mycontainer/my%3Fblob%25".
-   * @param {Pipeline} pipeline Call StorageURL.newPipeline() to create a default
+   * @param {Pipeline} pipeline Call StorageClient.newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
-   * @memberof BlobURL
+   * @memberof BlobClient
    */
   constructor(url: string, pipeline: Pipeline) {
     super(url, pipeline);
@@ -150,27 +150,27 @@ export class BlobURL extends StorageURL {
   }
 
   /**
-   * Creates a new BlobURL object identical to the source but with the
+   * Creates a new BlobClient object identical to the source but with the
    * specified request policy pipeline.
    *
    * @param {Pipeline} pipeline
-   * @returns {BlobURL}
-   * @memberof BlobURL
+   * @returns {BlobClient}
+   * @memberof BlobClient
    */
-  public withPipeline(pipeline: Pipeline): BlobURL {
-    return new BlobURL(this.url, pipeline);
+  public withPipeline(pipeline: Pipeline): BlobClient {
+    return new BlobClient(this.url, pipeline);
   }
 
   /**
-   * Creates a new BlobURL object identical to the source but with the specified snapshot timestamp.
-   * Provide "" will remove the snapshot and return a URL to the base blob.
+   * Creates a new BlobClient object identical to the source but with the specified snapshot timestamp.
+   * Provide "" will remove the snapshot and return a Client to the base blob.
    *
    * @param {string} snapshot
-   * @returns {BlobURL} A new BlobURL object identical to the source but with the specified snapshot timestamp
-   * @memberof BlobURL
+   * @returns {BlobClient} A new BlobClient object identical to the source but with the specified snapshot timestamp
+   * @memberof BlobClient
    */
-  public withSnapshot(snapshot: string): BlobURL {
-    return new BlobURL(
+  public withSnapshot(snapshot: string): BlobClient {
+    return new BlobClient(
       setURLParameter(
         this.url,
         URLConstants.Parameters.SNAPSHOT,
@@ -195,7 +195,7 @@ export class BlobURL extends StorageURL {
    * @param {number} [count] How much data to be downloaded, > 0. Will download to the end when undefined
    * @param {IBlobDownloadOptions} [options]
    * @returns {Promise<Models.BlobDownloadResponse>}
-   * @memberof BlobURL
+   * @memberof BlobClient
    */
   public async download(
     aborter: Aborter,
@@ -291,7 +291,7 @@ export class BlobURL extends StorageURL {
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {IBlobGetPropertiesOptions} [options]
    * @returns {Promise<Models.BlobGetPropertiesResponse>}
-   * @memberof BlobURL
+   * @memberof BlobClient
    */
   public async getProperties(
     aborter: Aborter,
@@ -316,7 +316,7 @@ export class BlobURL extends StorageURL {
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {IBlobDeleteOptions} [options]
    * @returns {Promise<Models.BlobDeleteResponse>}
-   * @memberof BlobURL
+   * @memberof BlobClient
    */
   public async delete(
     aborter: Aborter,
@@ -340,7 +340,7 @@ export class BlobURL extends StorageURL {
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
    * @returns {Promise<Models.BlobUndeleteResponse>}
-   * @memberof BlobURL
+   * @memberof BlobClient
    */
   public async undelete(aborter: Aborter): Promise<Models.BlobUndeleteResponse> {
     return this.blobContext.undelete({
@@ -362,7 +362,7 @@ export class BlobURL extends StorageURL {
    *                                                   headers without a value will be cleared.
    * @param {IBlobSetHTTPHeadersOptions} [options]
    * @returns {Promise<Models.BlobSetHTTPHeadersResponse>}
-   * @memberof BlobURL
+   * @memberof BlobClient
    */
   public async setHTTPHeaders(
     aborter: Aborter,
@@ -391,7 +391,7 @@ export class BlobURL extends StorageURL {
    *                               If no value provided the existing metadata will be removed.
    * @param {IBlobSetMetadataOptions} [options]
    * @returns {Promise<Models.BlobSetMetadataResponse>}
-   * @memberof BlobURL
+   * @memberof BlobClient
    */
   public async setMetadata(
     aborter: Aborter,
@@ -419,7 +419,7 @@ export class BlobURL extends StorageURL {
    * @param {number} duration The lock duration can be 15 to 60 seconds, or can be infinite
    * @param {IBlobAcquireLeaseOptions} [options]
    * @returns {Promise<Models.BlobAcquireLeaseResponse>}
-   * @memberof BlobURL
+   * @memberof BlobClient
    */
   public async acquireLease(
     aborter: Aborter,
@@ -445,7 +445,7 @@ export class BlobURL extends StorageURL {
    * @param {string} leaseId
    * @param {IBlobReleaseLeaseOptions} [options]
    * @returns {Promise<Models.BlobReleaseLeaseResponse>}
-   * @memberof BlobURL
+   * @memberof BlobClient
    */
   public async releaseLease(
     aborter: Aborter,
@@ -467,7 +467,7 @@ export class BlobURL extends StorageURL {
    * @param {string} leaseId
    * @param {IBlobRenewLeaseOptions} [options]
    * @returns {Promise<Models.BlobRenewLeaseResponse>}
-   * @memberof BlobURL
+   * @memberof BlobClient
    */
   public async renewLease(
     aborter: Aborter,
@@ -490,7 +490,7 @@ export class BlobURL extends StorageURL {
    * @param {string} proposedLeaseId
    * @param {IBlobChangeLeaseOptions} [options]
    * @returns {Promise<Models.BlobChangeLeaseResponse>}
-   * @memberof BlobURL
+   * @memberof BlobClient
    */
   public async changeLease(
     aborter: Aborter,
@@ -514,7 +514,7 @@ export class BlobURL extends StorageURL {
    * @param {number} [breakPeriod]
    * @param {IBlobBreakLeaseOptions} [options]
    * @returns {Promise<Models.BlobBreakLeaseResponse>}
-   * @memberof BlobURL
+   * @memberof BlobClient
    */
   public async breakLease(
     aborter: Aborter,
@@ -536,7 +536,7 @@ export class BlobURL extends StorageURL {
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {IBlobCreateSnapshotOptions} [options]
    * @returns {Promise<Models.BlobCreateSnapshotResponse>}
-   * @memberof BlobURL
+   * @memberof BlobClient
    */
   public async createSnapshot(
     aborter: Aborter,
@@ -566,7 +566,7 @@ export class BlobURL extends StorageURL {
    * @param {string} copySource
    * @param {IBlobStartCopyFromURLOptions} [options]
    * @returns {Promise<Models.BlobStartCopyFromURLResponse>}
-   * @memberof BlobURL
+   * @memberof BlobClient
    */
   public async startCopyFromURL(
     aborter: Aborter,
@@ -600,7 +600,7 @@ export class BlobURL extends StorageURL {
    * @param {string} copyId
    * @param {IBlobAbortCopyFromURLOptions} [options]
    * @returns {Promise<Models.BlobAbortCopyFromURLResponse>}
-   * @memberof BlobURL
+   * @memberof BlobClient
    */
   public async abortCopyFromURL(
     aborter: Aborter,
@@ -626,7 +626,7 @@ export class BlobURL extends StorageURL {
    * @param {Models.AccessTier} tier
    * @param {IBlobSetTierOptions} [options]
    * @returns {Promise<Models.BlobsSetTierResponse>}
-   * @memberof BlobURL
+   * @memberof BlobClient
    */
   public async setTier(
     aborter: Aborter,
