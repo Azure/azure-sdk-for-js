@@ -21,9 +21,6 @@ export {
   AlertEntity,
   AlertConfidenceReason,
   SettingResource,
-  RegulatoryComplianceStandard,
-  RegulatoryComplianceControl,
-  RegulatoryComplianceAssessment,
   SecurityTask,
   SecurityTaskParameters,
   AdvancedThreatProtectionSetting,
@@ -35,6 +32,9 @@ export {
   InformationType,
   InformationProtectionKeyword,
   WorkspaceSetting,
+  RegulatoryComplianceStandard,
+  RegulatoryComplianceControl,
+  RegulatoryComplianceAssessment,
   Setting,
   DataExportSetting
 } from "../models/mappers";

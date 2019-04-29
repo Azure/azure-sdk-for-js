@@ -20,9 +20,6 @@ class SecurityCenter extends SecurityCenterContext {
   pricings: operations.Pricings;
   alerts: operations.Alerts;
   settings: operations.Settings;
-  regulatoryComplianceStandards: operations.RegulatoryComplianceStandards;
-  regulatoryComplianceControls: operations.RegulatoryComplianceControls;
-  regulatoryComplianceAssessments: operations.RegulatoryComplianceAssessments;
   allowedConnections: operations.AllowedConnections;
   discoveredSecuritySolutions: operations.DiscoveredSecuritySolutions;
   externalSecuritySolutions: operations.ExternalSecuritySolutions;
@@ -37,6 +34,9 @@ class SecurityCenter extends SecurityCenterContext {
   informationProtectionPolicies: operations.InformationProtectionPolicies;
   securityContacts: operations.SecurityContacts;
   workspaceSettings: operations.WorkspaceSettings;
+  regulatoryComplianceStandards: operations.RegulatoryComplianceStandards;
+  regulatoryComplianceControls: operations.RegulatoryComplianceControls;
+  regulatoryComplianceAssessments: operations.RegulatoryComplianceAssessments;
 
   /**
    * Initializes a new instance of the SecurityCenter class.
@@ -51,9 +51,6 @@ class SecurityCenter extends SecurityCenterContext {
     this.pricings = new operations.Pricings(this);
     this.alerts = new operations.Alerts(this);
     this.settings = new operations.Settings(this);
-    this.regulatoryComplianceStandards = new operations.RegulatoryComplianceStandards(this);
-    this.regulatoryComplianceControls = new operations.RegulatoryComplianceControls(this);
-    this.regulatoryComplianceAssessments = new operations.RegulatoryComplianceAssessments(this);
     this.allowedConnections = new operations.AllowedConnections(this);
     this.discoveredSecuritySolutions = new operations.DiscoveredSecuritySolutions(this);
     this.externalSecuritySolutions = new operations.ExternalSecuritySolutions(this);
@@ -68,6 +65,9 @@ class SecurityCenter extends SecurityCenterContext {
     this.informationProtectionPolicies = new operations.InformationProtectionPolicies(this);
     this.securityContacts = new operations.SecurityContacts(this);
     this.workspaceSettings = new operations.WorkspaceSettings(this);
+    this.regulatoryComplianceStandards = new operations.RegulatoryComplianceStandards(this);
+    this.regulatoryComplianceControls = new operations.RegulatoryComplianceControls(this);
+    this.regulatoryComplianceAssessments = new operations.RegulatoryComplianceAssessments(this);
   }
 }
 

@@ -11,9 +11,6 @@
 export * from "./pricings";
 export * from "./alerts";
 export * from "./settings";
-export * from "./regulatoryComplianceStandards";
-export * from "./regulatoryComplianceControls";
-export * from "./regulatoryComplianceAssessments";
 export * from "./allowedConnections";
 export * from "./discoveredSecuritySolutions";
 export * from "./externalSecuritySolutions";
@@ -28,3 +25,6 @@ export * from "./compliances";
 export * from "./informationProtectionPolicies";
 export * from "./securityContacts";
 export * from "./workspaceSettings";
+export * from "./regulatoryComplianceStandards";
+export * from "./regulatoryComplianceControls";
+export * from "./regulatoryComplianceAssessments";

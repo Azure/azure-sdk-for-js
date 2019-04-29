@@ -175,7 +175,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion3
+    Parameters.apiVersion2
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -199,7 +199,7 @@ const listByHomeRegionOperationSpec: msRest.OperationSpec = {
     Parameters.ascLocation
   ],
   queryParameters: [
-    Parameters.apiVersion3
+    Parameters.apiVersion2
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -225,7 +225,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.topologyResourceName
   ],
   queryParameters: [
-    Parameters.apiVersion3
+    Parameters.apiVersion2
   ],
   headerParameters: [
     Parameters.acceptLanguage

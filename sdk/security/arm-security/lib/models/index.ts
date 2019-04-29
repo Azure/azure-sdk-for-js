@@ -335,161 +335,6 @@ export interface DataExportSetting extends Setting {
 
 /**
  * @interface
- * An interface representing RegulatoryComplianceStandard.
- * Regulatory compliance standard details and state
- *
- * @extends Resource
- */
-export interface RegulatoryComplianceStandard extends Resource {
-  /**
-   * @member {State} [state] Aggregative state based on the standard's
-   * supported controls states. Possible values include: 'Passed', 'Failed',
-   * 'Skipped', 'Unsupported'
-   */
-  state?: State;
-  /**
-   * @member {number} [passedControls] The number of supported regulatory
-   * compliance controls of the given standard with a passed state
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly passedControls?: number;
-  /**
-   * @member {number} [failedControls] The number of supported regulatory
-   * compliance controls of the given standard with a failed state
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly failedControls?: number;
-  /**
-   * @member {number} [skippedControls] The number of supported regulatory
-   * compliance controls of the given standard with a skipped state
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly skippedControls?: number;
-  /**
-   * @member {number} [unsupportedControls] The number of regulatory compliance
-   * controls of the given standard which are unsupported by automated
-   * assessments
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly unsupportedControls?: number;
-}
-
-/**
- * @interface
- * An interface representing RegulatoryComplianceControl.
- * Regulatory compliance control details and state
- *
- * @extends Resource
- */
-export interface RegulatoryComplianceControl extends Resource {
-  /**
-   * @member {string} [description] The description of the regulatory
-   * compliance control
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly description?: string;
-  /**
-   * @member {State} [state] Aggregative state based on the control's supported
-   * assessments states. Possible values include: 'Passed', 'Failed',
-   * 'Skipped', 'Unsupported'
-   */
-  state?: State;
-  /**
-   * @member {number} [passedAssessments] The number of supported regulatory
-   * compliance assessments of the given control with a passed state
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly passedAssessments?: number;
-  /**
-   * @member {number} [failedAssessments] The number of supported regulatory
-   * compliance assessments of the given control with a failed state
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly failedAssessments?: number;
-  /**
-   * @member {number} [skippedAssessments] The number of supported regulatory
-   * compliance assessments of the given control with a skipped state
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly skippedAssessments?: number;
-}
-
-/**
- * @interface
- * An interface representing RegulatoryComplianceAssessment.
- * Regulatory compliance assessment details and state
- *
- * @extends Resource
- */
-export interface RegulatoryComplianceAssessment extends Resource {
-  /**
-   * @member {string} [description] The description of the regulatory
-   * compliance assessment
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly description?: string;
-  /**
-   * @member {string} [assessmentType] The expected type of assessment
-   * contained in the AssessmentDetailsLink
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly assessmentType?: string;
-  /**
-   * @member {string} [assessmentDetailsLink] Link to more detailed assessment
-   * results data. The response type will be according to the assessmentType
-   * field
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly assessmentDetailsLink?: string;
-  /**
-   * @member {State} [state] Aggregative state based on the assessment's
-   * scanned resources states. Possible values include: 'Passed', 'Failed',
-   * 'Skipped', 'Unsupported'
-   */
-  state?: State;
-  /**
-   * @member {number} [passedResources] The given assessment's related
-   * resources count with passed state.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly passedResources?: number;
-  /**
-   * @member {number} [failedResources] The given assessment's related
-   * resources count with failed state.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly failedResources?: number;
-  /**
-   * @member {number} [skippedResources] The given assessment's related
-   * resources count with skipped state.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly skippedResources?: number;
-  /**
-   * @member {number} [unsupportedResources] The given assessment's related
-   * resources count with unsupported state.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly unsupportedResources?: number;
-}
-
-/**
- * @interface
  * An interface representing ConnectedResource.
  * Describes properties of a connected resource
  *
@@ -1691,6 +1536,161 @@ export interface WorkspaceSetting extends Resource {
 
 /**
  * @interface
+ * An interface representing RegulatoryComplianceStandard.
+ * Regulatory compliance standard details and state
+ *
+ * @extends Resource
+ */
+export interface RegulatoryComplianceStandard extends Resource {
+  /**
+   * @member {State} [state] Aggregative state based on the standard's
+   * supported controls states. Possible values include: 'Passed', 'Failed',
+   * 'Skipped', 'Unsupported'
+   */
+  state?: State;
+  /**
+   * @member {number} [passedControls] The number of supported regulatory
+   * compliance controls of the given standard with a passed state
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly passedControls?: number;
+  /**
+   * @member {number} [failedControls] The number of supported regulatory
+   * compliance controls of the given standard with a failed state
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly failedControls?: number;
+  /**
+   * @member {number} [skippedControls] The number of supported regulatory
+   * compliance controls of the given standard with a skipped state
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly skippedControls?: number;
+  /**
+   * @member {number} [unsupportedControls] The number of regulatory compliance
+   * controls of the given standard which are unsupported by automated
+   * assessments
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly unsupportedControls?: number;
+}
+
+/**
+ * @interface
+ * An interface representing RegulatoryComplianceControl.
+ * Regulatory compliance control details and state
+ *
+ * @extends Resource
+ */
+export interface RegulatoryComplianceControl extends Resource {
+  /**
+   * @member {string} [description] The description of the regulatory
+   * compliance control
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly description?: string;
+  /**
+   * @member {State} [state] Aggregative state based on the control's supported
+   * assessments states. Possible values include: 'Passed', 'Failed',
+   * 'Skipped', 'Unsupported'
+   */
+  state?: State;
+  /**
+   * @member {number} [passedAssessments] The number of supported regulatory
+   * compliance assessments of the given control with a passed state
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly passedAssessments?: number;
+  /**
+   * @member {number} [failedAssessments] The number of supported regulatory
+   * compliance assessments of the given control with a failed state
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly failedAssessments?: number;
+  /**
+   * @member {number} [skippedAssessments] The number of supported regulatory
+   * compliance assessments of the given control with a skipped state
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly skippedAssessments?: number;
+}
+
+/**
+ * @interface
+ * An interface representing RegulatoryComplianceAssessment.
+ * Regulatory compliance assessment details and state
+ *
+ * @extends Resource
+ */
+export interface RegulatoryComplianceAssessment extends Resource {
+  /**
+   * @member {string} [description] The description of the regulatory
+   * compliance assessment
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly description?: string;
+  /**
+   * @member {string} [assessmentType] The expected type of assessment
+   * contained in the AssessmentDetailsLink
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly assessmentType?: string;
+  /**
+   * @member {string} [assessmentDetailsLink] Link to more detailed assessment
+   * results data. The response type will be according to the assessmentType
+   * field
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly assessmentDetailsLink?: string;
+  /**
+   * @member {State} [state] Aggregative state based on the assessment's
+   * scanned resources states. Possible values include: 'Passed', 'Failed',
+   * 'Skipped', 'Unsupported'
+   */
+  state?: State;
+  /**
+   * @member {number} [passedResources] The given assessment's related
+   * resources count with passed state.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly passedResources?: number;
+  /**
+   * @member {number} [failedResources] The given assessment's related
+   * resources count with failed state.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly failedResources?: number;
+  /**
+   * @member {number} [skippedResources] The given assessment's related
+   * resources count with skipped state.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly skippedResources?: number;
+  /**
+   * @member {number} [unsupportedResources] The given assessment's related
+   * resources count with unsupported state.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly unsupportedResources?: number;
+}
+
+/**
+ * @interface
  * An interface representing AlertsListOptionalParams.
  * Optional Parameters.
  *
@@ -1779,48 +1779,6 @@ export interface AlertsListResourceGroupLevelAlertsByRegionOptionalParams extend
 
 /**
  * @interface
- * An interface representing RegulatoryComplianceStandardsListOptionalParams.
- * Optional Parameters.
- *
- * @extends RequestOptionsBase
- */
-export interface RegulatoryComplianceStandardsListOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * @member {string} [filter] OData filter. Optional.
-   */
-  filter?: string;
-}
-
-/**
- * @interface
- * An interface representing RegulatoryComplianceControlsListOptionalParams.
- * Optional Parameters.
- *
- * @extends RequestOptionsBase
- */
-export interface RegulatoryComplianceControlsListOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * @member {string} [filter] OData filter. Optional.
-   */
-  filter?: string;
-}
-
-/**
- * @interface
- * An interface representing RegulatoryComplianceAssessmentsListOptionalParams.
- * Optional Parameters.
- *
- * @extends RequestOptionsBase
- */
-export interface RegulatoryComplianceAssessmentsListOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * @member {string} [filter] OData filter. Optional.
-   */
-  filter?: string;
-}
-
-/**
- * @interface
  * An interface representing TasksListOptionalParams.
  * Optional Parameters.
  *
@@ -1855,6 +1813,48 @@ export interface TasksListByHomeRegionOptionalParams extends msRest.RequestOptio
  * @extends RequestOptionsBase
  */
 export interface TasksListByResourceGroupOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {string} [filter] OData filter. Optional.
+   */
+  filter?: string;
+}
+
+/**
+ * @interface
+ * An interface representing RegulatoryComplianceStandardsListOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface RegulatoryComplianceStandardsListOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {string} [filter] OData filter. Optional.
+   */
+  filter?: string;
+}
+
+/**
+ * @interface
+ * An interface representing RegulatoryComplianceControlsListOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface RegulatoryComplianceControlsListOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {string} [filter] OData filter. Optional.
+   */
+  filter?: string;
+}
+
+/**
+ * @interface
+ * An interface representing RegulatoryComplianceAssessmentsListOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface RegulatoryComplianceAssessmentsListOptionalParams extends msRest.RequestOptionsBase {
   /**
    * @member {string} [filter] OData filter. Optional.
    */
@@ -1898,54 +1898,6 @@ export interface AlertList extends Array<Alert> {
  * @extends Array<Setting>
  */
 export interface SettingsList extends Array<Setting> {
-  /**
-   * @member {string} [nextLink] The URI to fetch the next page.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly nextLink?: string;
-}
-
-/**
- * @interface
- * An interface representing the RegulatoryComplianceStandardList.
- * List of regulatory compliance standards response
- *
- * @extends Array<RegulatoryComplianceStandard>
- */
-export interface RegulatoryComplianceStandardList extends Array<RegulatoryComplianceStandard> {
-  /**
-   * @member {string} [nextLink] The URI to fetch the next page.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly nextLink?: string;
-}
-
-/**
- * @interface
- * An interface representing the RegulatoryComplianceControlList.
- * List of regulatory compliance controls response
- *
- * @extends Array<RegulatoryComplianceControl>
- */
-export interface RegulatoryComplianceControlList extends Array<RegulatoryComplianceControl> {
-  /**
-   * @member {string} [nextLink] The URI to fetch the next page.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly nextLink?: string;
-}
-
-/**
- * @interface
- * An interface representing the RegulatoryComplianceAssessmentList.
- * List of regulatory compliance assessment response
- *
- * @extends Array<RegulatoryComplianceAssessment>
- */
-export interface RegulatoryComplianceAssessmentList extends Array<RegulatoryComplianceAssessment> {
   /**
    * @member {string} [nextLink] The URI to fetch the next page.
    * **NOTE: This property will not be serialized. It can only be populated by
@@ -2155,6 +2107,54 @@ export interface WorkspaceSettingList extends Array<WorkspaceSetting> {
 }
 
 /**
+ * @interface
+ * An interface representing the RegulatoryComplianceStandardList.
+ * List of regulatory compliance standards response
+ *
+ * @extends Array<RegulatoryComplianceStandard>
+ */
+export interface RegulatoryComplianceStandardList extends Array<RegulatoryComplianceStandard> {
+  /**
+   * @member {string} [nextLink] The URI to fetch the next page.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * An interface representing the RegulatoryComplianceControlList.
+ * List of regulatory compliance controls response
+ *
+ * @extends Array<RegulatoryComplianceControl>
+ */
+export interface RegulatoryComplianceControlList extends Array<RegulatoryComplianceControl> {
+  /**
+   * @member {string} [nextLink] The URI to fetch the next page.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * An interface representing the RegulatoryComplianceAssessmentList.
+ * List of regulatory compliance assessment response
+ *
+ * @extends Array<RegulatoryComplianceAssessment>
+ */
+export interface RegulatoryComplianceAssessmentList extends Array<RegulatoryComplianceAssessment> {
+  /**
+   * @member {string} [nextLink] The URI to fetch the next page.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
  * Defines values for PricingTier.
  * Possible values include: 'Free', 'Standard'
  * @readonly
@@ -2177,14 +2177,6 @@ export type ReportedSeverity = 'Informational' | 'Low' | 'Medium' | 'High';
  * @enum {string}
  */
 export type SettingKind = 'DataExportSetting' | 'AlertSuppressionSetting';
-
-/**
- * Defines values for State.
- * Possible values include: 'Passed', 'Failed', 'Skipped', 'Unsupported'
- * @readonly
- * @enum {string}
- */
-export type State = 'Passed' | 'Failed' | 'Skipped' | 'Unsupported';
 
 /**
  * Defines values for SecurityFamily.
@@ -2257,6 +2249,14 @@ export type AlertNotifications = 'On' | 'Off';
  * @enum {string}
  */
 export type AlertsToAdmins = 'On' | 'Off';
+
+/**
+ * Defines values for State.
+ * Possible values include: 'Passed', 'Failed', 'Skipped', 'Unsupported'
+ * @readonly
+ * @enum {string}
+ */
+export type State = 'Passed' | 'Failed' | 'Skipped' | 'Unsupported';
 
 /**
  * Defines values for ConnectionType.
@@ -2650,177 +2650,6 @@ export type SettingsListNextResponse = SettingsList & {
        * The response body as parsed JSON or XML
        */
       parsedBody: SettingsList;
-    };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type RegulatoryComplianceStandardsListResponse = RegulatoryComplianceStandardList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RegulatoryComplianceStandardList;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type RegulatoryComplianceStandardsGetResponse = RegulatoryComplianceStandard & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RegulatoryComplianceStandard;
-    };
-};
-
-/**
- * Contains response data for the listNext operation.
- */
-export type RegulatoryComplianceStandardsListNextResponse = RegulatoryComplianceStandardList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RegulatoryComplianceStandardList;
-    };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type RegulatoryComplianceControlsListResponse = RegulatoryComplianceControlList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RegulatoryComplianceControlList;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type RegulatoryComplianceControlsGetResponse = RegulatoryComplianceControl & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RegulatoryComplianceControl;
-    };
-};
-
-/**
- * Contains response data for the listNext operation.
- */
-export type RegulatoryComplianceControlsListNextResponse = RegulatoryComplianceControlList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RegulatoryComplianceControlList;
-    };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type RegulatoryComplianceAssessmentsListResponse = RegulatoryComplianceAssessmentList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RegulatoryComplianceAssessmentList;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type RegulatoryComplianceAssessmentsGetResponse = RegulatoryComplianceAssessment & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RegulatoryComplianceAssessment;
-    };
-};
-
-/**
- * Contains response data for the listNext operation.
- */
-export type RegulatoryComplianceAssessmentsListNextResponse = RegulatoryComplianceAssessmentList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RegulatoryComplianceAssessmentList;
     };
 };
 
@@ -4094,5 +3923,176 @@ export type WorkspaceSettingsListNextResponse = WorkspaceSettingList & {
        * The response body as parsed JSON or XML
        */
       parsedBody: WorkspaceSettingList;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type RegulatoryComplianceStandardsListResponse = RegulatoryComplianceStandardList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RegulatoryComplianceStandardList;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type RegulatoryComplianceStandardsGetResponse = RegulatoryComplianceStandard & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RegulatoryComplianceStandard;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type RegulatoryComplianceStandardsListNextResponse = RegulatoryComplianceStandardList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RegulatoryComplianceStandardList;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type RegulatoryComplianceControlsListResponse = RegulatoryComplianceControlList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RegulatoryComplianceControlList;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type RegulatoryComplianceControlsGetResponse = RegulatoryComplianceControl & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RegulatoryComplianceControl;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type RegulatoryComplianceControlsListNextResponse = RegulatoryComplianceControlList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RegulatoryComplianceControlList;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type RegulatoryComplianceAssessmentsListResponse = RegulatoryComplianceAssessmentList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RegulatoryComplianceAssessmentList;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type RegulatoryComplianceAssessmentsGetResponse = RegulatoryComplianceAssessment & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RegulatoryComplianceAssessment;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type RegulatoryComplianceAssessmentsListNextResponse = RegulatoryComplianceAssessmentList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RegulatoryComplianceAssessmentList;
     };
 };
