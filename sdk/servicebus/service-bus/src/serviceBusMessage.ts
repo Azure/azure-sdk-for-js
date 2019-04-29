@@ -1015,13 +1015,13 @@ export class ServiceBusMessage implements ReceivedMessage {
  * @param operation Settle operation: complete, abandon, defer or deadLetter
  * @param isRemoteSettled Boolean indicating if the message has been settled at the remote
  */
-function throwIfMessageCannotBeSettled(
+export function throwIfMessageCannotBeSettled(
   receiver: MessageReceiver | MessageSession | undefined,
   operation: DispositionType,
   isRemoteSettled: boolean
 ): void {
   let errorMessage;
-  if (!receiver) {
+  if (!receiver || !receiver.isOpen) {
     errorMessage = `Failed to ${operation} the message as it's receiver has been closed.`;
   } else if (receiver.receiveMode !== ReceiveMode.peekLock) {
     errorMessage = getErrorMessageNotSupportedInReceiveAndDeleteMode(`${operation} the message`);
