@@ -1,0 +1,57 @@
+parameters:
+  EnvVars: []
+  MaxParallel: 0
+  Matrix:
+    Linux_Node10X:
+      OSName: "Linux"
+      OSVmImage: "ubuntu-16.04"
+    Windows_Node10X:
+      OSName: "Windows"
+      OSVmImage: "vs2017-win2016"
+    Mac_Node10X:
+      OSName: "Mac"
+      OSVmImage: "macOS-10.13"
+
+jobs:
+  - job: "Test_Node"
+    variables:
+      - template: ../variables/globals.yml
+
+    strategy:
+      maxParallel: 1
+      matrix: ${{ parameters.Matrix }}
+
+    pool:
+      vmImage: "$(OSVmImage)"
+
+    timeoutInMinutes: 240
+
+    steps:
+      - task: NodeTool@0
+        inputs:
+          versionSpec: "$(NodeVersion)"
+        displayName: "Install Node.js $(NodeVersion)"
+
+      - script: |
+          node common/scripts/install-run-rush.js install
+        displayName: "Install dependencies"
+
+      - script: |
+          node common/scripts/install-run-rush.js build -t "${{parameters.PackageName}}" --verbose
+        displayName: 'rush build -t "${{parameters.PackageName}}"'
+
+      - script: |
+          node common/scripts/install-run-rush.js build:test -t "${{parameters.PackageName}}" --verbose
+        displayName: 'rush build:test -t "${{parameters.PackageName}}"'
+
+      - script: |
+          node common/scripts/install-run-rush.js integration-test:node -t "${{parameters.PackageName}}" --verbose
+        displayName: 'rush integration-test:node -t "${{parameters.PackageName}}"'
+        env: ${{ parameters.EnvVars }}
+
+      - task: PublishTestResults@2
+        inputs:
+          testResultsFiles: "**/test-results.xml"
+          testRunTitle: "$(OSName) Node $(NodeVersion) - Node"
+        condition: succeededOrFailed()
+        displayName: "Publish node test results"
