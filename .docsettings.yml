@@ -71,6 +71,3 @@ package_indexing_exclusion_list:
   - 'azure-sp'
   - 'testhub'
   - 'azure-sdk-for-js'
-package_indexing_stop_directories:
-  - 'sdk/'
-  - 'src/SDKs/'
