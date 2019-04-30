@@ -1,5 +1,5 @@
 
-# Package Index - azure-sdk-for-js
+# Package Index - sdk-for-js
 
 | Package Id     | Readme    | Changelog                 | Published Url       |
 |----------------|-----------|---------------------------|---------------------|
@@ -89,6 +89,7 @@
 | [`@azure/arm-resources`]( sdk/resources/arm-resources/package.json )| [Readme](sdk/resources/arm-resources/README.md) |  N/A  | [NPM]( https://www.npmjs.com/package/@azure/arm-resources ) |
 | [`@azure/arm-search`]( sdk/search/arm-search/package.json )| [Readme](sdk/search/arm-search/README.md) |  N/A  | [NPM]( https://www.npmjs.com/package/@azure/arm-search ) |
 | [`@azure/arm-security`]( sdk/security/arm-security/package.json )| [Readme](sdk/security/arm-security/README.md) |  N/A  | [NPM]( https://www.npmjs.com/package/@azure/arm-security ) |
+| [`@azure/arm-serialconsole`]( sdk/serialconsole/arm-serialconsole/package.json )| [Readme](sdk/serialconsole/arm-serialconsole/README.md) |  N/A  | [NPM]( https://www.npmjs.com/package/@azure/arm-serialconsole ) |
 | [`@azure/arm-servicebus`]( sdk/servicebus/arm-servicebus/package.json )| [Readme](sdk/servicebus/arm-servicebus/README.md) |  N/A  | [NPM]( https://www.npmjs.com/package/@azure/arm-servicebus ) |
 | [`@azure/arm-servicefabricmesh`]( sdk/servicefabricmesh/arm-servicefabricmesh/package.json )| [Readme](sdk/servicefabricmesh/arm-servicefabricmesh/README.md) |  N/A  | [NPM]( https://www.npmjs.com/package/@azure/arm-servicefabricmesh ) |
 | [`@azure/arm-servicemap`]( sdk/service-map/arm-servicemap/package.json )| [Readme](sdk/service-map/arm-servicemap/README.md) |  N/A  | [NPM]( https://www.npmjs.com/package/@azure/arm-servicemap ) |
