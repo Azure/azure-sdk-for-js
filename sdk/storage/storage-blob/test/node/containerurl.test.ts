@@ -2,22 +2,28 @@ import * as assert from "assert";
 
 import { Aborter } from "../../src/Aborter";
 import { ContainerURL } from "../../src/ContainerURL";
-import { getBSU, getUniqueName } from "../utils";
+import { getBSU } from "../utils";
 import { PublicAccessType } from "../../src/generated/lib/models/index";
+import { record } from "../utils/nock-recorder";
 
-describe("ContainerURL", () => {
+describe("ContainerURL", function() {
   const serviceURL = getBSU();
-  let containerName: string = getUniqueName("container");
-  let containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
+  let containerName: string;
+  let containerURL: ContainerURL;
+  const testSuiteTitle = this.fullTitle();
+
+  let recorder: any;
 
   beforeEach(async () => {
-    containerName = getUniqueName("container");
+    recorder = record(testSuiteTitle, this.ctx.currentTest!.title);
+    containerName = recorder.getUniqueName("container");
     containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
     await containerURL.create(Aborter.none);
   });
 
   afterEach(async () => {
     await containerURL.delete(Aborter.none);
+    recorder.stop();
   });
 
   it("getAccessPolicy", async () => {
