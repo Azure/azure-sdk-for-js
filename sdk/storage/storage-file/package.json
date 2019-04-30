@@ -83,7 +83,7 @@
     "prebuild": "npm run clean",
     "pretest": "npm run build:test",
     "test:browser": "karma start --single-run",
-    "test:node": "nyc mocha --reporter mocha-multi-reporters --reporter-options configFile=mocha.reporter.config.json dist-test/index.node.js",
+    "test:node": "nyc mocha --reporter mocha-multi-reporters --reporter-options configFile=mocha.reporter.config.json -t 120000 dist-test/index.node.js",
     "test": "npm run test:node && npm run test:browser",
     "unit-browser": "npm run build && npm run build:test && npm run test:browser",
     "unit-node": "npm run build && npm run build:test && npm run test:node"
