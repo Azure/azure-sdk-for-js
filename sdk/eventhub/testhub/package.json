@@ -8,7 +8,7 @@
   "dependencies": {
     "@azure/event-hubs": "^1.0.6",
     "@azure/event-processor-host": "^1.0.6",
-    "@types/node": "^8.0.0",
+    "@types/node": "^8.10.22",
     "@types/uuid": "^3.4.3",
     "@types/yargs": "^11.0.0",
     "async-lock": "^1.1.3",
