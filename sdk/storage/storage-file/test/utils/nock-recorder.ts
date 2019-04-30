@@ -5,6 +5,21 @@ import * as dotenv from "dotenv";
 dotenv.config({ path: "../../.env" });
 
 const skip: any = [
+  "fileurl/recording_download_should_update_progress_and_abort_successfully.js", // Not supported by Nock
+  "highlevel/recording_bloburldownload_should_abort_after_retrys.js", // Not supported by Nock
+  "highlevel/recording_bloburldownload_should_download_data_failed_when_exceeding_max_stream_retry_requests.js", // Not supported by Nock
+  "highlevel/recording_bloburldownload_should_download_full_data_successfully_when_internal_stream_unexcepted_ends.js", // Not supported by Nock
+  "highlevel/recording_bloburldownload_should_download_partial_data_when_internal_stream_unexcepted_ends.js", // Not supported by Nock
+  "highlevel/recording_bloburldownload_should_success_when_internal_stream_unexcepted_ends_at_the_stream_end.js", // Not supported by Nock
+  "highlevel/recording_downloadazurefiletobuffer_should_abort.js", // Recording too big: 263MB
+  "highlevel/recording_downloadazurefiletobuffer_should_success.js", // Recording too big: 526MB
+  "highlevel/recording_downloadazurefiletobuffer_should_update_progress_event.js", // Not supported by Nock
+  "highlevel/recording_uploadfiletoazurefile_should_success_for_large_data.js", // Recording too big: 526MB
+  "highlevel/recording_uploadfiletoazurefile_should_success_for_small_data.js", // Recording too big: 30MB
+  "highlevel/recording_uploadfiletoazurefile_should_update_progress_for_large_data.js", // Not supported by Nock
+  "highlevel/recording_uploadfiletoazurefile_should_update_progress_for_small_data.js", // Not supported by Nock
+  "highlevel/recording_uploadstreamtoazurefile_should_success.js", // Recording too big: 526MB
+  "highlevel/recording_uploadstreamtoazurefile_should_update_progress_event.js" // Not supported by Nock
 ];
 
 export function record(folderpath: string, filename: string): { [key: string]: any } {
@@ -22,6 +37,8 @@ export function record(folderpath: string, filename: string): { [key: string]: a
     });
   } else if (isPlayingBack) {
     uniqueTestInfo = require("../../recordings/" + fp).testInfo;
+  } else {
+    nock.restore();
   }
 
   return {
@@ -37,6 +54,8 @@ export function record(folderpath: string, filename: string): { [key: string]: a
         file.end();
         nock.recorder.clear();
         nock.restore();
+      } else if (!isPlayingBack) {
+        nock.activate();
       }
     },
     getUniqueName: function(prefix: string, recorderId?: string): string {
