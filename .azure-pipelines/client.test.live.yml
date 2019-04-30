@@ -53,6 +53,7 @@ jobs:
       - script: npm run live-test-client-$(Package)-node -- -- --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=- $(AdditionalTestArguments)
         displayName: 'npm run live-test-client-$(Package)-node'
         env:
+          DEBUG: $(DEBUG)
           # Service Bus
           AAD_CLIENT_ID: $(aad-azure-sdk-test-client-id)
           AAD_TENANT_ID: $(aad-azure-sdk-test-tenant-id)
@@ -118,6 +119,7 @@ jobs:
         condition: succeededOrFailed()
         displayName: 'npm run live-test-client-$(Package)-browser'
         env:
+          DEBUG: $(DEBUG)
           # Service Bus
           AAD_CLIENT_ID: $(aad-azure-sdk-test-client-id)
           AAD_TENANT_ID: $(aad-azure-sdk-test-tenant-id)
