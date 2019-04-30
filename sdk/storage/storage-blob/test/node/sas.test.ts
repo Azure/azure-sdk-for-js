@@ -17,16 +17,28 @@ import {
   StorageURL
 } from "../../src";
 import { SASProtocol } from "../../src/SASQueryParameters";
-import { getBSU, getUniqueName } from "../utils";
+import { getBSU } from "../utils";
+import { record } from "../utils/nock-recorder";
 
-describe("Shared Access Signature (SAS) generation Node.js only", () => {
+describe("Shared Access Signature (SAS) generation Node.js only", function() {
   const serviceURL = getBSU();
+  const testSuiteTitle = this.fullTitle();
+
+  let recorder: any;
+
+  beforeEach(async () => {
+    recorder = record(testSuiteTitle, this.ctx.currentTest!.title);
+  });
+
+  afterEach(async () => {
+    recorder.stop();
+  });
 
   it("generateAccountSASQueryParameters should work", async () => {
-    const now = new Date();
+    const now = recorder.newDate("now");
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
 
-    const tmr = new Date();
+    const tmr = recorder.newDate("tmr");
     tmr.setDate(tmr.getDate() + 1);
 
     // By default, credential is always the last element of pipeline factories
@@ -57,7 +69,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("generateAccountSASQueryParameters should not work with invalid permission", async () => {
-    const tmr = new Date();
+    const tmr = recorder.newDate("tmr");
     tmr.setDate(tmr.getDate() + 1);
 
     // By default, credential is always the last element of pipeline factories
@@ -91,7 +103,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("generateAccountSASQueryParameters should not work with invalid service", async () => {
-    const tmr = new Date();
+    const tmr = recorder.newDate("tmr");
     tmr.setDate(tmr.getDate() + 1);
 
     // By default, credential is always the last element of pipeline factories
@@ -125,7 +137,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("generateAccountSASQueryParameters should not work with invalid resource type", async () => {
-    const tmr = new Date();
+    const tmr = recorder.newDate("tmr");
     tmr.setDate(tmr.getDate() + 1);
 
     // By default, credential is always the last element of pipeline factories
@@ -162,17 +174,17 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("generateBlobSASQueryParameters should work for container", async () => {
-    const now = new Date();
+    const now = recorder.newDate("now");
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
 
-    const tmr = new Date();
+    const tmr = recorder.newDate("tmr");
     tmr.setDate(tmr.getDate() + 1);
 
     // By default, credential is always the last element of pipeline factories
     const factories = serviceURL.pipeline.factories;
     const sharedKeyCredential = factories[factories.length - 1];
 
-    const containerName = getUniqueName("container");
+    const containerName = recorder.getUniqueName("container");
     const containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
     await containerURL.create(Aborter.none);
 
@@ -200,21 +212,21 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("generateBlobSASQueryParameters should work for blob", async () => {
-    const now = new Date();
+    const now = recorder.newDate("now");
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
 
-    const tmr = new Date();
+    const tmr = recorder.newDate("tmr");
     tmr.setDate(tmr.getDate() + 1);
 
     // By default, credential is always the last element of pipeline factories
     const factories = serviceURL.pipeline.factories;
     const sharedKeyCredential = factories[factories.length - 1];
 
-    const containerName = getUniqueName("container");
+    const containerName = recorder.getUniqueName("container");
     const containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
     await containerURL.create(Aborter.none);
 
-    const blobName = getUniqueName("blob");
+    const blobName = recorder.getUniqueName("blob");
     const blobURL = PageBlobURL.fromContainerURL(containerURL, blobName);
     await blobURL.create(Aborter.none, 1024, {
       blobHTTPHeaders: {
@@ -258,21 +270,21 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("generateBlobSASQueryParameters should work for blob with special namings", async () => {
-    const now = new Date();
+    const now = recorder.newDate("now");
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
 
-    const tmr = new Date();
+    const tmr = recorder.newDate("tmr");
     tmr.setDate(tmr.getDate() + 1);
 
     // By default, credential is always the last element of pipeline factories
     const factories = serviceURL.pipeline.factories;
     const sharedKeyCredential = factories[factories.length - 1];
 
-    const containerName = getUniqueName("container-with-dash");
+    const containerName = recorder.getUniqueName("container-with-dash");
     const containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
     await containerURL.create(Aborter.none);
 
-    const blobName = getUniqueName(
+    const blobName = recorder.getUniqueName(
       "////Upper/blob/empty /another 汉字 ру́сский язы́к ру́сский язы́к عربي/عربى にっぽんご/にほんご . special ~!@#$%^&*()_+`1234567890-={}|[]\\:\";'<>?,/'"
     );
     const blobURL = PageBlobURL.fromContainerURL(containerURL, blobName);
@@ -319,21 +331,21 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("generateBlobSASQueryParameters should work for blob with access policy", async () => {
-    const now = new Date();
+    const now = recorder.newDate("now");
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
 
-    const tmr = new Date();
+    const tmr = recorder.newDate("tmr");
     tmr.setDate(tmr.getDate() + 1);
 
     // By default, credential is always the last element of pipeline factories
     const factories = serviceURL.pipeline.factories;
     const sharedKeyCredential = factories[factories.length - 1];
 
-    const containerName = getUniqueName("container");
+    const containerName = recorder.getUniqueName("container");
     const containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
     await containerURL.create(Aborter.none);
 
-    const blobName = getUniqueName("blob");
+    const blobName = recorder.getUniqueName("blob");
     const blobURL = PageBlobURL.fromContainerURL(containerURL, blobName);
     await blobURL.create(Aborter.none, 1024);
 
