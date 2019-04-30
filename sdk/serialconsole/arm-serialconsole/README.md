@@ -1,6 +1,6 @@
-## Azure ContainerRegistryManagementClient SDK for JavaScript
+## Azure MicrosoftSerialConsoleClient SDK for JavaScript
 
-This package contains an isomorphic SDK for ContainerRegistryManagementClient.
+This package contains an isomorphic SDK for MicrosoftSerialConsoleClient.
 
 ### Currently supported environments
 
@@ -10,12 +10,12 @@ This package contains an isomorphic SDK for ContainerRegistryManagementClient.
 ### How to Install
 
 ```bash
-npm install @azure/arm-containerregistry
+npm install @azure/arm-serialconsole
 ```
 
 ### How to use
 
-#### nodejs - Authentication, client creation and get registries as an example written in TypeScript.
+#### nodejs - Authentication, client creation and operations list as an example written in TypeScript.
 
 ##### Install @azure/ms-rest-nodeauth
 
@@ -29,14 +29,12 @@ npm install @azure/ms-rest-nodeauth
 import * as msRest from "@azure/ms-rest-js";
 import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
-import { ContainerRegistryManagementClient, ContainerRegistryManagementModels, ContainerRegistryManagementMappers } from "@azure/arm-containerregistry";
+import { MicrosoftSerialConsoleClient, MicrosoftSerialConsoleModels, MicrosoftSerialConsoleMappers } from "@azure/arm-serialconsole";
 const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
 msRestNodeAuth.interactiveLogin().then((creds) => {
-  const client = new ContainerRegistryManagementClient(creds, subscriptionId);
-  const resourceGroupName = "testresourceGroupName";
-  const registryName = "testregistryName";
-  client.registries.get(resourceGroupName, registryName).then((result) => {
+  const client = new MicrosoftSerialConsoleClient(creds, subscriptionId);
+  client.list.operations().then((result) => {
     console.log("The result is:");
     console.log(result);
   });
@@ -45,7 +43,7 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
 });
 ```
 
-#### browser - Authentication, client creation and get registries as an example written in JavaScript.
+#### browser - Authentication, client creation and operations list as an example written in JavaScript.
 
 ##### Install @azure/ms-rest-browserauth
 
@@ -62,11 +60,11 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>@azure/arm-containerregistry sample</title>
+    <title>@azure/arm-serialconsole sample</title>
     <script src="node_modules/@azure/ms-rest-js/dist/msRest.browser.js"></script>
     <script src="node_modules/@azure/ms-rest-azure-js/dist/msRestAzure.js"></script>
     <script src="node_modules/@azure/ms-rest-browserauth/dist/msAuth.js"></script>
-    <script src="node_modules/@azure/arm-containerregistry/dist/arm-containerregistry.js"></script>
+    <script src="node_modules/@azure/arm-serialconsole/dist/arm-serialconsole.js"></script>
     <script type="text/javascript">
       const subscriptionId = "<Subscription_Id>";
       const authManager = new msAuth.AuthManager({
@@ -78,10 +76,8 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
           // may cause redirects
           authManager.login();
         }
-        const client = new Azure.ArmContainerregistry.ContainerRegistryManagementClient(res.creds, subscriptionId);
-        const resourceGroupName = "testresourceGroupName";
-        const registryName = "testregistryName";
-        client.registries.get(resourceGroupName, registryName).then((result) => {
+        const client = new Azure.ArmSerialconsole.MicrosoftSerialConsoleClient(res.creds, subscriptionId);
+        client.list.operations().then((result) => {
           console.log("The result is:");
           console.log(result);
         }).catch((err) => {

@@ -12,21 +12,21 @@ import * as Models from "./models";
 import * as msRest from "@azure/ms-rest-js";
 import * as msRestAzure from "@azure/ms-rest-azure-js";
 
-const packageName = "@azure/arm-containerservice";
-const packageVersion = "8.0.0";
+const packageName = "@azure/arm-serialconsole";
+const packageVersion = "1.0.0";
 
-export class ContainerServiceClientContext extends msRestAzure.AzureServiceClient {
+export class MicrosoftSerialConsoleClientContext extends msRestAzure.AzureServiceClient {
   credentials: msRest.ServiceClientCredentials;
   subscriptionId: string;
+  apiVersion?: string;
 
   /**
-   * Initializes a new instance of the ContainerServiceClient class.
+   * Initializes a new instance of the MicrosoftSerialConsoleClient class.
    * @param credentials Credentials needed for the client to connect to Azure.
-   * @param subscriptionId Subscription credentials which uniquely identify Microsoft Azure
-   * subscription. The subscription ID forms part of the URI for every service call.
+   * @param subscriptionId The ID of the target subscription.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.ContainerServiceClientOptions) {
+  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.MicrosoftSerialConsoleClientOptions) {
     if (credentials == undefined) {
       throw new Error('\'credentials\' cannot be null.');
     }
@@ -44,6 +44,7 @@ export class ContainerServiceClientContext extends msRestAzure.AzureServiceClien
 
     super(credentials, options);
 
+    this.apiVersion = '2018-05-01';
     this.acceptLanguage = 'en-US';
     this.longRunningOperationRetryTimeout = 30;
     this.baseUri = options.baseUri || this.baseUri || "https://management.azure.com";
