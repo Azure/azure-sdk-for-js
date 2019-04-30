@@ -1,6 +1,6 @@
 import { generateUuid } from "@azure/ms-rest-js";
 
-import { Aborter } from "./Aborter";
+import { Aborter } from "@azure/core-aborter";
 import { BlockBlobURL } from "./BlockBlobURL";
 import {
   BlobUploadCommonResponse,

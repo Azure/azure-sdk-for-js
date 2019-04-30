@@ -1,4 +1,4 @@
-import { Aborter } from "../src/Aborter";
+import { Aborter } from "@azure/core-aborter";
 import { BlockBlobURL } from "../src/BlockBlobURL";
 import { ContainerURL } from "../src/ContainerURL";
 import { getBSU, getUniqueName } from "./utils/index";

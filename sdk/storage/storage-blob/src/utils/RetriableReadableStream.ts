@@ -1,7 +1,7 @@
 import { RestError, TransferProgressEvent } from "@azure/ms-rest-js";
 import { Readable } from "stream";
 
-import { Aborter } from "../Aborter";
+import { Aborter } from "@azure/core-aborter";
 
 export type ReadableStreamGetter = (
   offset: number

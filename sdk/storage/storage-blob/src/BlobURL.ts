@@ -1,7 +1,7 @@
 import { isNode, TransferProgressEvent } from "@azure/ms-rest-js";
 
 import * as Models from "../src/generated/lib/models";
-import { Aborter } from "./Aborter";
+import { Aborter } from "@azure/core-aborter";
 import { BlobDownloadResponse } from "./BlobDownloadResponse";
 import { ContainerURL } from "./ContainerURL";
 import { Blob } from "./generated/lib/operations";

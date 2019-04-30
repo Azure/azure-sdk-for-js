@@ -1,6 +1,6 @@
 import { HttpResponse } from "@azure/ms-rest-js";
 import * as Models from "../src/generated/lib/models";
-import { Aborter } from "./Aborter";
+import { Aborter } from "@azure/core-aborter";
 import { Container } from "./generated/lib/operations";
 import { IContainerAccessConditions, IMetadata } from "./models";
 import { Pipeline } from "./Pipeline";

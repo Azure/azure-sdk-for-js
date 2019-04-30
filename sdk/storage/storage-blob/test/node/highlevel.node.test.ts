@@ -4,7 +4,7 @@ import * as path from "path";
 import { PassThrough } from "stream";
 
 import { BlobURL, BlockBlobURL, ContainerURL } from "../../src";
-import { Aborter } from "../../src/Aborter";
+import { Aborter } from "@azure/core-aborter";
 import {
   downloadBlobToBuffer,
   uploadFileToBlockBlob,

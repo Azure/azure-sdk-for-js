@@ -1,6 +1,6 @@
 import { HttpResponse, isNode } from "@azure/ms-rest-js";
 
-import { Aborter } from "./Aborter";
+import { Aborter } from "@azure/core-aborter";
 import * as Models from "./generated/lib/models";
 import { IMetadata } from "./models";
 import { IRetriableReadableStreamOptions } from "./utils/RetriableReadableStream";

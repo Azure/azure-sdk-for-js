@@ -2,7 +2,7 @@ import { URLBuilder } from "@azure/ms-rest-js";
 import * as assert from "assert";
 
 import { RestError, StorageURL } from "../src";
-import { Aborter } from "../src/Aborter";
+import { Aborter } from "@azure/core-aborter";
 import { ContainerURL } from "../src/ContainerURL";
 import { Pipeline } from "../src/Pipeline";
 import { getBSU, getUniqueName } from "./utils";

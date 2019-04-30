@@ -1,7 +1,7 @@
 import { HttpRequestBody, TransferProgressEvent } from "@azure/ms-rest-js";
 
 import * as Models from "../src/generated/lib/models";
-import { Aborter } from "./Aborter";
+import { Aborter } from "@azure/core-aborter";
 import { BlobURL } from "./BlobURL";
 import { ContainerURL } from "./ContainerURL";
 import { AppendBlob } from "./generated/lib/operations";

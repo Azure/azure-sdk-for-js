@@ -1,6 +1,6 @@
 import * as assert from "assert";
 
-import { Aborter } from "../../src/Aborter";
+import { Aborter } from "@azure/core-aborter";
 import { BlobURL } from "../../src/BlobURL";
 import { BlockBlobURL } from "../../src/BlockBlobURL";
 import { ContainerURL } from "../../src/ContainerURL";

@@ -1,6 +1,6 @@
 import * as assert from "assert";
 
-import { Aborter } from "../../src/Aborter";
+import { Aborter } from "@azure/core-aborter";
 import { ContainerURL } from "../../src/ContainerURL";
 import { getBSU, getUniqueName } from "../utils";
 import { PublicAccessType } from "../../src/generated/lib/models/index";

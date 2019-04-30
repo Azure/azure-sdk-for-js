@@ -1,7 +1,7 @@
 import * as assert from "assert";
 import { bodyToString, getBSU, getUniqueName } from "./utils";
 
-import { Aborter } from "../src/Aborter";
+import { Aborter } from "@azure/core-aborter";
 import { BlobURL } from "../src/BlobURL";
 import { ContainerURL } from "../src/ContainerURL";
 import { PageBlobURL } from "../src/PageBlobURL";
