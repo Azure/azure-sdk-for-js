@@ -22,19 +22,6 @@
   "engine": {
     "node": ">=6.0.0"
   },
-  "dependencies": {
-    "@azure/ms-rest-azure-js": "^1.1.0",
-    "@azure/ms-rest-js": "^1.2.6",
-    "tslib": "^1.9.3"
-  },
-  "devDependencies": {
-    "prettier": "^1.16.4",
-    "rimraf": "^2.6.2",
-    "rollup": "^1.0.0",
-    "rollup-plugin-node-resolve": "^4.2.0",
-    "typescript": "^3.2.2",
-    "uglify-js": "^3.4.9"
-  },
   "files": [
     "dist/",
     "esm/",
@@ -52,5 +39,18 @@
     "prebuild": "npm run clean",
     "test": "true"
   },
-  "sideEffects": false
+  "sideEffects": false,
+  "dependencies": {
+    "@azure/ms-rest-azure-js": "^1.1.0",
+    "@azure/ms-rest-js": "^1.2.6",
+    "tslib": "^1.9.3"
+  },
+  "devDependencies": {
+    "prettier": "^1.16.4",
+    "rimraf": "^2.6.2",
+    "rollup": "^1.0.0",
+    "rollup-plugin-node-resolve": "~4.2.3",
+    "typescript": "^3.2.2",
+    "uglify-js": "^3.4.9"
+  }
 }
