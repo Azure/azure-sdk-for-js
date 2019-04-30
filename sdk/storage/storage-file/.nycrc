@@ -1,6 +1,6 @@
 {
     "include": [
-      "src/**/*.ts"
+      "dist-test/index.node.js"
     ],
     "exclude": [
       "**/*.d.ts",
@@ -24,6 +24,7 @@
       "html",
       "cobertura"
     ],
+    "exclude-after-remap":false,
     "sourceMap": true,
     "instrument": true,
     "all": true
