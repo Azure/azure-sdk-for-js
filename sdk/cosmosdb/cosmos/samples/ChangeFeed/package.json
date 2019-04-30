@@ -1,0 +1,11 @@
+{
+  "name": "cosmos-change-feed",
+  "version": "0.0.0",
+  "private": true,
+  "description": "A sample showing usage of the change feed in Cosmos DB",
+  "main": "app.js",
+  "dependencies": {},
+  "scripts": {
+    "start": "node app.js"
+  }
+}

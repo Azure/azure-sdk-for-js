@@ -1,0 +1,82 @@
+# Node.js
+# Build a general Node.js project with npm.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
+
+trigger:
+  - master
+
+jobs:
+  # - job: Staging
+  #   pool:
+  #     vmImage: ubuntu-16.04
+  #   steps:
+  #     - task: NodeTool@0
+  #       inputs:
+  #         versionSpec: "6.x"
+  #       displayName: "Install Node.js"
+
+  #     - script: npm install
+  #       displayName: "npm install"
+
+  #     - script: npm run build
+  #       displayName: "npm run build"
+
+  #     - script: npm run test
+  #       displayName: "npm run test"
+  #       env:
+  #         ACCOUNT_HOST: $(stagingEndpoint)
+  #         ACCOUNT_KEY: $(stagingKey)
+  #         MOCHA_TIMEOUT: 100000
+  #         TESTS_MULTIREGION: true
+  - job: Emulator
+    pool:
+      vmImage: vs2017-win2016
+    steps:
+      - task: azure-cosmosdb.emulator-public-preview.run-cosmosdbemulatorcontainer.CosmosDbEmulator@2
+        displayName: "Run Azure Cosmos DB Emulator container"
+        inputs:
+          defaultPartitionCount: 25
+      - task: NodeTool@0
+        inputs:
+          versionSpec: "6.x"
+        displayName: "Install Node.js"
+
+      - script: npm install
+        displayName: "npm install"
+
+      - script: npm run build
+        displayName: "npm run build"
+
+      - bash: ACCOUNT_HOST=$COSMOSDBEMULATOR_ENDPOINT NODE_TLS_REJECT_UNAUTHORIZED="0" npm run test
+        failOnStderr: true
+        displayName: "npm test"
+        env:
+          MOCHA_TIMEOUT: 100000
+  - job: NightlyEmulator
+    pool:
+      vmImage: vs2017-win2016
+    steps:
+      - task: azure-cosmosdb.emulator-internal-preview.run-cosmosdbemulatorcontainer.CosmosDbEmulator@2
+        displayName: "Run Azure Cosmos DB Emulator container"
+        inputs:
+          username: "$(cosmosdb.azurecr.io.Username)"
+          password: "$(cosmosdb.azurecr.io.Password)"
+          defaultPartitionCount: 25
+      - task: NodeTool@0
+        inputs:
+          versionSpec: "6.x"
+        displayName: "Install Node.js"
+
+      - script: npm install
+        displayName: "npm install"
+
+      - script: npm run build
+        displayName: "npm run build"
+
+      - bash: ACCOUNT_HOST=$COSMOSDBEMULATOR_ENDPOINT NODE_TLS_REJECT_UNAUTHORIZED="0" npm run test
+        failOnStderr: true
+        continueOnError: true
+        displayName: "npm test"
+        env:
+          MOCHA_TIMEOUT: 100000

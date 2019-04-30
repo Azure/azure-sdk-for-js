@@ -1,0 +1,21 @@
+{
+  "name": "multiregionwrite",
+  "version": "0.0.1",
+  "description": "Demonstrates the ability to read between multiple regions and handling conflicts",
+  "main": "app.ts",
+  "scripts": {
+    "start": "ts-node app.ts"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ora": "^3.0.0",
+    "uuid": "^3.3.2"
+  },
+  "devDependencies": {
+    "@types/ora": "^1.3.4",
+    "@types/uuid": "^3.4.3",
+    "ts-node": "^7.0.1",
+    "typescript": "^3.0.1"
+  }
+}
