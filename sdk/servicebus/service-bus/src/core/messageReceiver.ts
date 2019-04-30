@@ -207,6 +207,11 @@ export class MessageReceiver extends LinkEntity {
    */
   protected _onSettled: OnAmqpEvent;
   /**
+   * @property {boolean} wasCloseInitiated Denotes if receiver was explicitly closed by user.
+   * @protected
+   */
+  protected wasCloseInitiated?: boolean;
+  /**
    * @property {Map<string, Function>} _messageRenewLockTimers Maintains a map of messages for which
    * the lock is automatically renewed.
    * @protected
@@ -242,6 +247,7 @@ export class MessageReceiver extends LinkEntity {
       audience: `${context.namespace.config.endpoint}${context.entityPath}`
     });
     if (!options) options = {};
+    this.wasCloseInitiated = false;
     this.receiverType = receiverType;
     this.receiveMode = options.receiveMode || ReceiveMode.peekLock;
     if (typeof options.maxConcurrentCalls === "number" && options.maxConcurrentCalls > 0) {
@@ -629,7 +635,7 @@ export class MessageReceiver extends LinkEntity {
             this.name,
             this.address
           );
-          await this.detached(receiverError);
+          await this.onDetached(receiverError);
         } else {
           log.error(
             "[%s] 'receiver_close' event occurred on the receiver '%s' with address '%s' " +
@@ -677,7 +683,7 @@ export class MessageReceiver extends LinkEntity {
             this.name,
             this.address
           );
-          await this.detached(sessionError);
+          await this.onDetached(sessionError);
         } else {
           log.error(
             "[%s] 'session_close' event occurred on the session of receiver '%s' with " +
@@ -706,9 +712,11 @@ export class MessageReceiver extends LinkEntity {
    * @param {AmqpError | Error} [receiverError] The receiver error if any.
    * @returns {Promise<void>} Promise<void>.
    */
-  async detached(receiverError?: AmqpError | Error): Promise<void> {
+  async onDetached(receiverError?: AmqpError | Error): Promise<void> {
     const connectionId = this._context.namespace.connectionId;
     try {
+      // Local 'wasCloseInitiated' serves same purpose as {this.wasCloseInitiated}
+      // but the condition is inferred based on state of receiver in context of network disconnect scenario
       const wasCloseInitiated = this._receiver && this._receiver.isItselfClosed();
       // Clears the token renewal timer. Closes the link and its session if they are open.
       // Removes the link and its session if they are present in rhea's cache.
@@ -792,9 +800,20 @@ export class MessageReceiver extends LinkEntity {
         // else bail out when the error is not retryable or the oepration succeeds.
         const config: RetryConfig<void> = {
           operation: () =>
-            this._init(options).then(() => {
-              if (this._receiver && this.receiverType === ReceiverType.streaming) {
-                this._receiver.addCredit(this.maxConcurrentCalls);
+            this._init(options).then(async () => {
+              if (this.wasCloseInitiated) {
+                log.error(
+                  "[%s] close() method of Receiver '%s' with address '%s' was called. " +
+                    "by the time the receiver finished getting created. Hence, disallowing messages from being received. ",
+                  connectionId,
+                  this.name,
+                  this.address
+                );
+                await this.close();
+              } else {
+                if (this._receiver && this.receiverType === ReceiverType.streaming) {
+                  this._receiver.addCredit(this.maxConcurrentCalls);
+                }
               }
             }),
           connectionId: connectionId,
@@ -803,7 +822,9 @@ export class MessageReceiver extends LinkEntity {
           connectionHost: this._context.namespace.config.host,
           delayInSeconds: 15
         };
-        await retry<void>(config);
+        if (!this.wasCloseInitiated) {
+          await retry<void>(config);
+        }
       }
     } catch (err) {
       log.error(
@@ -821,6 +842,7 @@ export class MessageReceiver extends LinkEntity {
    * @return {Promise<void>} Promise<void>.
    */
   async close(): Promise<void> {
+    this.wasCloseInitiated = true;
     log.receiver(
       "[%s] Closing the [%s]Receiver for entity '%s'.",
       this._context.namespace.connectionId,

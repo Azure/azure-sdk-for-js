@@ -2,11 +2,6 @@
 browser/azure-storage.blob.js
 browser/azure-storage.blob.js.map
 
-# dist-esm #
-!dist-esm/src/**/*.js
-dist-esm/tests
-dist-esm/samples
-
 # dist-test #
 dist-test/
 
@@ -19,11 +14,6 @@ samples/
 # Swagger #
 swagger/
 
-# typings #
-!typings/src/**/*.d.ts
-typings/tests
-typings/samples
-
 # git #
 .git*
 
@@ -33,20 +23,13 @@ tests/
 # Others #
 .vscode/
 .idea/
-.travis.yml
 .gitignore
 gulpfile.js
 .git
 .DS_Store
-tsconfig.json
-tslint.json
 *.zip
-package-lock.json
-karma.conf.js
 temp
 gulpfile.js
-rollup.config.js
-rollup.test.config.js
 *.html
 coverage/
 .nyc_output/

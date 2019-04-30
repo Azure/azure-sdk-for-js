@@ -14,7 +14,7 @@ import {
   TokenProvider
 } from "@azure/amqp-common";
 import { ServiceBusClientOptions } from "./serviceBusClient";
-import { Client } from "./client";
+import { ClientEntityContext } from "./clientEntityContext";
 import { OnAmqpEvent, EventContext, ConnectionEvents } from "rhea-promise";
 
 /**
@@ -25,10 +25,10 @@ import { OnAmqpEvent, EventContext, ConnectionEvents } from "rhea-promise";
  */
 export interface ConnectionContext extends ConnectionContextBase {
   /**
-   * @property {Dictionary<Client>} [clients] A dictionary of servicebus entities for the
-   * given amqp connection.
+   * @property A dictionary of ClientEntityContext
+   * objects for each of the client in the `clients` dictionary
    */
-  clients: Dictionary<Client>;
+  clientContexts: Dictionary<ClientEntityContext>;
 }
 
 /**
@@ -62,7 +62,7 @@ export namespace ConnectionContext {
     };
     // Let us create the base context and then add ServiceBus specific ConnectionContext properties.
     const connectionContext = ConnectionContextBase.create(parameters) as ConnectionContext;
-    connectionContext.clients = {};
+    connectionContext.clientContexts = {};
 
     // Define listeners to be added to the connection object for
     // "connection_open" and "connection_error" events.
@@ -98,7 +98,7 @@ export namespace ConnectionContext {
         numClients: number;
       }> = {
         wasConnectionCloseCalled: connectionContext.wasConnectionCloseCalled,
-        numClients: Object.keys(connectionContext.clients).length
+        numClients: Object.keys(connectionContext.clientContexts).length
       };
 
       // Clear internal map maintained by rhea to avoid reconnecting of old links once the
@@ -109,9 +109,11 @@ export namespace ConnectionContext {
       await connectionContext.cbsSession.close();
 
       // Close the management sessions to ensure all the event handlers are released.
-      for (const id of Object.keys(connectionContext.clients)) {
-        const client = connectionContext.clients[id];
-        await (client as any)._context.managementClient.close();
+      for (const id of Object.keys(connectionContext.clientContexts)) {
+        const clientContext = connectionContext.clientContexts[id];
+        if (clientContext.managementClient) {
+          await clientContext.managementClient.close();
+        }
       }
 
       // The connection should always be brought back up if the sdk did not call connection.close()
@@ -125,18 +127,18 @@ export namespace ConnectionContext {
         );
         await delay(Constants.connectionReconnectDelay);
         // reconnect clients if any
-        for (const id of Object.keys(connectionContext.clients)) {
-          const client = connectionContext.clients[id];
+        for (const id of Object.keys(connectionContext.clientContexts)) {
+          const clientContext = connectionContext.clientContexts[id];
           log.error(
             "[%s] calling detached on client '%s'.",
             connectionContext.connection.id,
-            client.id
+            clientContext.clientId
           );
-          client.detached(connectionError || contextError).catch((err) => {
+          clientContext.onDetached(connectionError || contextError).catch((err) => {
             log.error(
               "[%s] An error occurred while reconnecting the sender '%s': %O.",
               connectionContext.connection.id,
-              client.id,
+              clientContext.clientId,
               err
             );
           });

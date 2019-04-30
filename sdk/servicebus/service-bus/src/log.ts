@@ -49,21 +49,6 @@ export const connectionCtxt = debugModule("azure:service-bus:connectionContext")
 export const entityCtxt = debugModule("azure:service-bus:clientEntityContext");
 /**
  * @internal
- * log statements for queue client
- */
-export const qClient = debugModule("azure:service-bus:queueClient");
-/**
- * @internal
- * log statements for topic client
- */
-export const topicClient = debugModule("azure:service-bus:topicClient");
-/**
- * @internal
- * log statements for subscription client
- */
-export const subscriptionClient = debugModule("azure:service-bus:subscriptionClient");
-/**
- * @internal
  * log statements for namespace
  */
 export const ns = debugModule("azure:service-bus:namespace");

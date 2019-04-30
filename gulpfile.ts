@@ -62,7 +62,7 @@ if (!fs.existsSync(dropFolderPath)) {
   fs.mkdirSync(dropFolderPath);
 }
 
-gulp.task('default', () => {
+gulp.task('default', async () => {
   _logger.log('gulp build --package <package-name>');
   _logger.log('  --package');
   _logger.log('    NPM package to run "npm run build" on.');
@@ -296,7 +296,7 @@ function pack(): void {
   }
 }
 
-gulp.task('pack', () => pack());
+gulp.task('pack', async () => pack());
 
 gulp.task("find-missing-sdks", async () => {
   try {

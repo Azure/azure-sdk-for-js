@@ -47,12 +47,15 @@ export class SharedKeyCredentialPolicy extends CredentialPolicy {
   protected signRequest(request: WebResource): WebResource {
     request.headers.set(HeaderConstants.X_MS_DATE, new Date().toUTCString());
 
+    let contentLength = this.getHeaderValueToSign(request, HeaderConstants.CONTENT_LENGTH);
     if (
       request.body &&
       typeof request.body === "string" &&
       request.body.length > 0
     ) {
-      request.headers.set(HeaderConstants.CONTENT_LENGTH, Buffer.byteLength(request.body));
+      // Workaround for https://github.com/axios/axios/issues/2107
+      // We should properly set the 'content-length' header once the issue is solved
+      contentLength = `${Buffer.byteLength(request.body)}`;
     }
 
     const stringToSign: string =
@@ -60,7 +63,7 @@ export class SharedKeyCredentialPolicy extends CredentialPolicy {
         request.method.toUpperCase(),
         this.getHeaderValueToSign(request, HeaderConstants.CONTENT_LANGUAGE),
         this.getHeaderValueToSign(request, HeaderConstants.CONTENT_ENCODING),
-        this.getHeaderValueToSign(request, HeaderConstants.CONTENT_LENGTH),
+        contentLength,
         this.getHeaderValueToSign(request, HeaderConstants.CONTENT_MD5),
         this.getHeaderValueToSign(request, HeaderConstants.CONTENT_TYPE),
         this.getHeaderValueToSign(request, HeaderConstants.DATE),

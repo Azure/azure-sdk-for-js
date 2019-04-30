@@ -35,6 +35,9 @@ export class Receiver {
    */
   private _context: ClientEntityContext;
   private _receiveMode: ReceiveMode;
+  /**
+   * @property {boolean} [_isClosed] Denotes if close() was called on this receiver
+   */
   private _isClosed: boolean = false;
 
   /**
@@ -46,11 +49,11 @@ export class Receiver {
   }
 
   /**
-   * @property Denotes if close() was called on this receiver.
+   * @property Returns `true` if either the receiver or the client that created it has been closed
    * @readonly
    */
   public get isClosed(): boolean {
-    return this._isClosed;
+    return this._isClosed || this._context.isClosed;
   }
 
   /**
@@ -186,7 +189,7 @@ export class Receiver {
 
     let receiverName;
     if (this._context.batchingReceiver) {
-      receiverName = BatchingReceiver.name;
+      receiverName = this._context.batchingReceiver.name;
     } else if (this._context.streamingReceiver) {
       receiverName = this._context.streamingReceiver.name;
     }
@@ -323,7 +326,8 @@ export class Receiver {
     if (this.isClosed) {
       const errorMessage = getReceiverClosedErrorMsg(
         this._context.entityPath,
-        this._context.clientType
+        this._context.clientType,
+        this._context.isClosed
       );
       const error = new Error(errorMessage);
       log.error(`[${this._context.namespace.connectionId}] %O`, error);
@@ -349,6 +353,9 @@ export class SessionReceiver {
   private _receiveMode: ReceiveMode;
   private _messageSession: MessageSession | undefined;
   private _sessionOptions: SessionReceiverOptions;
+  /**
+   * @property {boolean} [_isClosed] Denotes if close() was called on this receiver
+   */
   private _isClosed: boolean = false;
   private _sessionId: string | undefined;
 
@@ -361,7 +368,7 @@ export class SessionReceiver {
   }
 
   /**
-   * @property Denotes if close() was called on this receiver.
+   * @property Returns `true` if either the receiver or the client that created it has been closed
    * @readonly
    */
   public get isClosed(): boolean {
@@ -457,7 +464,11 @@ export class SessionReceiver {
   async setState(state: any): Promise<void> {
     this._throwIfReceiverOrConnectionClosed();
     await this._createMessageSessionIfDoesntExist();
-    return this._context.managementClient!.setSessionState(this.sessionId!, state);
+    return this._context.managementClient!.setSessionState(
+      this.sessionId!,
+      state,
+      this._messageSession!.name
+    );
   }
 
   /**
@@ -468,7 +479,10 @@ export class SessionReceiver {
   async getState(): Promise<any> {
     this._throwIfReceiverOrConnectionClosed();
     await this._createMessageSessionIfDoesntExist();
-    return this._context.managementClient!.getSessionState(this.sessionId!);
+    return this._context.managementClient!.getSessionState(
+      this.sessionId!,
+      this._messageSession!.name
+    );
   }
 
   /**
@@ -485,7 +499,11 @@ export class SessionReceiver {
   async peek(maxMessageCount?: number): Promise<ReceivedMessageInfo[]> {
     this._throwIfReceiverOrConnectionClosed();
     await this._createMessageSessionIfDoesntExist();
-    return this._context.managementClient!.peekMessagesBySession(this.sessionId!, maxMessageCount);
+    return this._context.managementClient!.peekMessagesBySession(
+      this.sessionId!,
+      this._messageSession!.name,
+      maxMessageCount
+    );
   }
 
   /**
@@ -507,7 +525,8 @@ export class SessionReceiver {
     return this._context.managementClient!.peekBySequenceNumber(
       fromSequenceNumber,
       maxMessageCount,
-      this.sessionId
+      this.sessionId,
+      this._messageSession!.name
     );
   }
 
@@ -697,6 +716,7 @@ export class SessionReceiver {
       const errorMessage = getReceiverClosedErrorMsg(
         this._context.entityPath,
         this._context.clientType,
+        this._context.isClosed,
         this.sessionId!
       );
       const error = new Error(errorMessage);

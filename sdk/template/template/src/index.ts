@@ -7,10 +7,10 @@ export { print };
 
 // this is a utility function from a library that should be external
 // for both node and web
-import { isNode } from "ms-rest-js";
+import { isNode } from "@azure/ms-rest-js";
 
 // exporting some value from a dependency
-export { URLBuilder } from "ms-rest-js";
+export { URLBuilder } from "@azure/ms-rest-js";
 
 export function createEventEmitter() {
   // use event emitter
