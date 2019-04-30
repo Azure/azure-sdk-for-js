@@ -5,23 +5,29 @@ import { Aborter } from "../src/Aborter";
 import { BlobURL } from "../src/BlobURL";
 import { BlockBlobURL } from "../src/BlockBlobURL";
 import { ContainerURL } from "../src/ContainerURL";
-import { bodyToString, getBSU, getUniqueName, sleep } from "./utils";
+import { bodyToString, getBSU, sleep } from "./utils";
+import { record } from "./utils/nock-recorder";
 import * as dotenv from "dotenv";
 dotenv.config({ path: "../.env" });
-describe("BlobURL", () => {
+
+describe("BlobURL", function() {
   const serviceURL = getBSU();
-  let containerName: string = getUniqueName("container");
-  let containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
-  let blobName: string = getUniqueName("blob");
-  let blobURL = BlobURL.fromContainerURL(containerURL, blobName);
-  let blockBlobURL = BlockBlobURL.fromBlobURL(blobURL);
+  let containerName: string;
+  let containerURL: ContainerURL;
+  let blobName: string;;
+  let blobURL: BlobURL;
+  let blockBlobURL: BlockBlobURL;
   const content = "Hello World";
+  const testSuiteTitle = this.fullTitle();
+
+  let recorder: any;
 
   beforeEach(async () => {
-    containerName = getUniqueName("container");
+    recorder = record(testSuiteTitle, this.ctx.currentTest!.title);
+    containerName = recorder.getUniqueName("container");
     containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
     await containerURL.create(Aborter.none);
-    blobName = getUniqueName("blob");
+    blobName = recorder.getUniqueName("blob");
     blobURL = BlobURL.fromContainerURL(containerURL, blobName);
     blockBlobURL = BlockBlobURL.fromBlobURL(blobURL);
     await blockBlobURL.upload(Aborter.none, content, content.length);
@@ -29,6 +35,7 @@ describe("BlobURL", () => {
 
   afterEach(async () => {
     await containerURL.delete(Aborter.none);
+    recorder.stop();
   });
 
   it("download with with default parameters", async () => {
@@ -304,7 +311,7 @@ describe("BlobURL", () => {
   it("startCopyFromURL", async () => {
     const newBlobURL = BlobURL.fromContainerURL(
       containerURL,
-      getUniqueName("copiedblob")
+      recorder.getUniqueName("copiedblob")
     );
     const result = await newBlobURL.startCopyFromURL(Aborter.none, blobURL.url);
     assert.ok(result.copyId);
@@ -319,7 +326,7 @@ describe("BlobURL", () => {
   it("abortCopyFromURL should failed for a completed copy operation", async () => {
     const newBlobURL = BlobURL.fromContainerURL(
       containerURL,
-      getUniqueName("copiedblob")
+      recorder.getUniqueName("copiedblob")
     );
     const result = await newBlobURL.startCopyFromURL(Aborter.none, blobURL.url);
     assert.ok(result.copyId);
