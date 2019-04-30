@@ -1021,7 +1021,7 @@ export function throwIfMessageCannotBeSettled(
   isRemoteSettled: boolean
 ): void {
   let errorMessage;
-  if (!receiver || !receiver.isOpen) {
+  if (!receiver || !receiver.isOpen()) {
     errorMessage = `Failed to ${operation} the message as it's receiver has been closed.`;
   } else if (receiver.receiveMode !== ReceiveMode.peekLock) {
     errorMessage = getErrorMessageNotSupportedInReceiveAndDeleteMode(`${operation} the message`);
