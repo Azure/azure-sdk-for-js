@@ -24,7 +24,7 @@ describe("Aborter", function() {
 
   afterEach(async () => {
     recorder.stop();
-  })
+  });
 
   it("should set value and get value successfully", async () => {
     const aborter = Aborter.none.withValue("mykey", "myvalue");

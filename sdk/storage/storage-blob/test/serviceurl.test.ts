@@ -3,11 +3,24 @@ import * as assert from "assert";
 import { Aborter } from "../src/Aborter";
 import { ContainerURL } from "../src/ContainerURL";
 import { ServiceURL } from "../src/ServiceURL";
-import { getAlternateBSU, getBSU, getUniqueName, wait } from "./utils";
+import { getAlternateBSU, getBSU, wait } from "./utils";
+import { record } from "./utils/nock-recorder";
 import * as dotenv from "dotenv";
 dotenv.config({path:"../.env"});
 
-describe("ServiceURL", () => {
+describe("ServiceURL", function() {
+  const testSuiteTitle = this.fullTitle();
+
+  let recorder: any;
+
+  beforeEach(async () => {
+    recorder = record(testSuiteTitle, this.ctx.currentTest!.title);
+  });
+
+  afterEach(async () => {
+    recorder.stop();
+  });
+
   it("ListContainers with default parameters", async () => {
     const serviceURL = getBSU();
     const result = await serviceURL.listContainersSegment(Aborter.none);
@@ -30,7 +43,7 @@ describe("ServiceURL", () => {
   it("ListContainers with all parameters configured", async () => {
     const serviceURL = getBSU();
 
-    const containerNamePrefix = getUniqueName("container");
+    const containerNamePrefix = recorder.getUniqueName("container");
     const containerName1 = `${containerNamePrefix}x1`;
     const containerName2 = `${containerNamePrefix}x2`;
     const containerURL1 = ContainerURL.fromServiceURL(
