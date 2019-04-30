@@ -4,31 +4,37 @@ import { Aborter } from "../../src/Aborter";
 import { BlobURL } from "../../src/BlobURL";
 import { BlockBlobURL } from "../../src/BlockBlobURL";
 import { ContainerURL } from "../../src/ContainerURL";
-import { bodyToString, getBSU, getUniqueName } from "../utils";
+import { record } from "../utils/nock-recorder";
+import { bodyToString, getBSU } from "../utils";
 
-describe("BlockBlobURL Node.js only", () => {
+describe("BlockBlobURL Node.js only", function() {
   const serviceURL = getBSU();
-  let containerName: string = getUniqueName("container");
-  let containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
-  let blobName: string = getUniqueName("blob");
-  let blobURL = BlobURL.fromContainerURL(containerURL, blobName);
-  let blockBlobURL = BlockBlobURL.fromBlobURL(blobURL);
+  let containerName: string;
+  let containerURL: ContainerURL;
+  let blobName: string;
+  let blobURL: BlobURL;
+  let blockBlobURL: BlockBlobURL;
+  const testSuiteTitle = this.fullTitle();
+
+  let recorder: any;
 
   beforeEach(async () => {
-    containerName = getUniqueName("container");
+    recorder = record(testSuiteTitle, this.ctx.currentTest!.title);
+    containerName = recorder.getUniqueName("container");
     containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
     await containerURL.create(Aborter.none);
-    blobName = getUniqueName("blob");
+    blobName = recorder.getUniqueName("blob");
     blobURL = BlobURL.fromContainerURL(containerURL, blobName);
     blockBlobURL = BlockBlobURL.fromBlobURL(blobURL);
   });
 
   afterEach(async () => {
     await containerURL.delete(Aborter.none);
+    recorder.stop();
   });
 
   it("upload with Readable stream body and default parameters", async () => {
-    const body: string = getUniqueName("randomstring");
+    const body: string = recorder.getUniqueName("randomstring");
     const bodyBuffer = Buffer.from(body);
 
     await blockBlobURL.upload(Aborter.none, bodyBuffer, body.length);
@@ -49,7 +55,7 @@ describe("BlockBlobURL Node.js only", () => {
   });
 
   it("upload with Chinese string body and default parameters", async () => {
-    const body: string = getUniqueName("randomstring你好");
+    const body: string = recorder.getUniqueName("randomstring你好");
     await blockBlobURL.upload(Aborter.none, body, Buffer.byteLength(body));
     const result = await blobURL.download(Aborter.none, 0);
     assert.deepStrictEqual(
