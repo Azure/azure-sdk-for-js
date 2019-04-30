@@ -38,7 +38,7 @@ jobs:
       - script: npm run install-client-cosmos
         displayName: "npm install"
 
-      - script: npm run build-client-cosmos
+      - script: cd sdk/cosmosdb/cosmos && npm run build-dev
         displayName: "npm run build"
 
       - bash: cd sdk/cosmosdb/cosmos && ACCOUNT_HOST=$COSMOSDBEMULATOR_ENDPOINT NODE_TLS_REJECT_UNAUTHORIZED="0" npm run test -- --reporter mocha-multi-reporters --reporter-options spec=-,mocha-junit-reporter=- $(AdditionalTestArguments)
