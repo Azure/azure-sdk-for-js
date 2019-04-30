@@ -3,14 +3,14 @@
   where outgoing network requests have to go through a proxy server
 */
 
-import { EventHubClient } from "../src";
+import { EventHubClient } from "@azure/event-hubs";
 import WebSocket from "ws";
 const url = require("url");
 const httpsProxyAgent = require("https-proxy-agent");
 
 // Define connection string and related Event Hubs entity name here
 const connectionString = "";
-const path = "";
+const eventHubsName = "";
 
 // Get relevant proxy url, username and password needed to create an instance of httpsProxyAgent
 const urlParts = url.parse("http://localhost:3128");
@@ -20,7 +20,7 @@ urlParts.auth = "username:password"; // Skip this if proxy server does not need 
 const proxyAgent = new httpsProxyAgent(urlParts);
 
 async function main(): Promise<void> {
-  const client = EventHubClient.createFromConnectionString(connectionString, path, {
+  const client = EventHubClient.createFromConnectionString(connectionString, eventHubsName, {
     webSocket: WebSocket,
     webSocketConstructorOptions: { agent: proxyAgent }
   });

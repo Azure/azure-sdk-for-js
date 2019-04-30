@@ -1,13 +1,14 @@
 /*
-  This sample demonstrates how to get IoT Hub information.
+ This sample demonstrates how to use getHubRuntimeInformation() and
+ getPartitionInformation() to get information about the Iot Hub instance.
 */
-import { EventHubClient } from "../src";
+import { EventHubClient } from "@azure/event-hubs";
 
 // Define IoT Hub connection string here
-const str = "";
+const connectionString = "";
 
 async function main(): Promise<void> {
-  const client = await EventHubClient.createFromIotHubConnectionString(str);
+  const client = await EventHubClient.createFromIotHubConnectionString(connectionString);
 
   const info = await client.getHubRuntimeInformation();
   console.log("RuntimeInfo: ", info);

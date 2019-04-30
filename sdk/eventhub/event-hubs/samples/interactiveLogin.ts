@@ -1,5 +1,5 @@
 /*
-  This sample demonstrates how to create a namespace using AAD token credentials
+  This sample demonstrates how to instantiate EventHubsClien using AAD token credentials
   obtained from interactive login.
 
   Setup :
@@ -7,16 +7,16 @@
     region. AAD Role Based Access Control is not supported in other regions yet.
 */
 
-import { EventHubClient } from "../src";
+import { EventHubClient } from "@azure/event-hubs";
 import { interactiveLogin } from "@azure/ms-rest-nodeauth";
 
 // Define Event Hubs Endpoint and related entity name here here
 const evenHubsEndpoint = ""; // <your-eventhubs-namespace>.servicebus.windows.net
-const path = "";
+const eventHubsName = "";
 
 async function main(): Promise<void> {
   const credentials = await interactiveLogin({ tokenAudience: "https://eventhubs.azure.net/" });
-  const client = EventHubClient.createFromAadTokenCredentials(evenHubsEndpoint, path, credentials);
+  const client = EventHubClient.createFromAadTokenCredentials(evenHubsEndpoint, eventHubsName, credentials);
   /*
    Refer to other samples, and place your code here
    to send/receive messages

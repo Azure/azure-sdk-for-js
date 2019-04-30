@@ -2,17 +2,18 @@
   This sample demonstrates how the receive() function can be used to receive Event Hubs messages
   in a stream.
 
-  Setup: Please run "sendMessages.ts" sample before running this to populate the Event Hubs
+  If your Event Hubs instance doesn't have any messages, then please run "sendMesages.ts" sample
+  to populate Event Hubs before running this sample.
 */
 
-import { EventHubClient, EventPosition, OnMessage, OnError, MessagingError, delay, EventData } from "../src";
+import { EventHubClient, EventPosition, OnMessage, OnError, MessagingError, delay, EventData } from "@azure/event-hubs";
 
 // Define connection string and related Event Hubs entity name here
-const str = "";
-const path = "";
+const connectionString = "";
+const eventHubsName = "";
 
 async function main(): Promise<void> {
-  const client = EventHubClient.createFromConnectionString(str, path);
+  const client = EventHubClient.createFromConnectionString(connectionString, eventHubsName);
   const partitionIds = await client.getPartitionIds();
 
   const onMessageHandler: OnMessage = async (brokeredMessage: EventData) => {

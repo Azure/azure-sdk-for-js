@@ -1,5 +1,5 @@
 /*
-  This sample demonstrates how to create a namespace using AAD token credentials
+  This sample demonstrates how to instantiate EventHubsClient using AAD token credentials
   obtained from using Service Principal Secrets.
 
   Setup :
@@ -14,12 +14,12 @@
      - In the Azure portal, go to your Even Hubs resource and click on the Access control (IAM)
        tab. Here, assign "owner" role to the registered application.
 */
-import { EventHubClient } from "../src";
+import { EventHubClient } from "@azure/event-hubs";
 import { loginWithServicePrincipalSecret } from "@azure/ms-rest-nodeauth";
 
 // Define Event Hubs Endpoint and related entity name here here
 const evenHubsEndpoint = ""; // <your-eventhubs-namespace>.servicebus.windows.net
-const path = "";
+const eventHubsName = "";
 
 // Define CLIENT_ID, TENANT_ID and SECRET of your AAD application here
 const clientId = "";
@@ -30,7 +30,7 @@ async function main(): Promise<void> {
   const credentials = await loginWithServicePrincipalSecret(clientId, clientSecret, tenantId, {
     tokenAudience: "https://eventhubs.azure.net/"
   });
-  const client = EventHubClient.createFromAadTokenCredentials(evenHubsEndpoint, path, credentials);
+  const client = EventHubClient.createFromAadTokenCredentials(evenHubsEndpoint, eventHubsName, credentials);
   /*
    Refer to other samples, and place your code here
    to send/receive messages

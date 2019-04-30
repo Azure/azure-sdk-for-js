@@ -5,11 +5,11 @@
   to learn about Event Hubs.
 */
 
-import { EventHubClient, EventData } from "../src";
+import { EventHubClient, EventData } from "@azure/event-hubs";
 
 // Define connection string and related Event Hubs entity name here
-const str = "";
-const path = "";
+const connectionString = "";
+const eventHubsName = "";
 
 const listOfScientists = [
   { name: "Einstein", firstName: "Albert" },
@@ -25,7 +25,7 @@ const listOfScientists = [
 ];
 
 async function main(): Promise<void> {
-  const client = EventHubClient.createFromConnectionString(str, path);
+  const client = EventHubClient.createFromConnectionString(connectionString, eventHubsName);
   const partitionIds = await client.getPartitionIds();
 
   for (let index = 0; index < listOfScientists.length; index++) {

@@ -1,15 +1,16 @@
 /*
-  This sample demonstrates how to get Event Hubs information.
+  This sample demonstrates how to use getHubRuntimeInformation() and
+  getPartitionInformation() to get information about the Event Hubs instance.
 */
 
-import { EventHubClient } from "../src";
+import { EventHubClient } from "@azure/event-hubs";
 
 // Define connection string and related Event Hubs entity name here
-const str = "";
-const path = "";
+const connectionString = "";
+const eventHubsName = "";
 
 async function main(): Promise<void> {
-  const client = EventHubClient.createFromConnectionString(str, path);
+  const client = EventHubClient.createFromConnectionString(connectionString, eventHubsName);
 
   const info = await client.getHubRuntimeInformation();
   console.log("RuntimeInfo: ", info);

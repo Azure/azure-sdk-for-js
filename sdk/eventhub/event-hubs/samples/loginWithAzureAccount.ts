@@ -1,5 +1,5 @@
 /*
-  This sample demonstrates how to create a namespace using AAD token credentials
+  This sample demonstrates how to instantiate EventHubsClient using AAD token credentials
   obtained from signing in through your Azure account.
 
   Setup :
@@ -10,12 +10,12 @@
     Here, assign "owner" role to your account.
 */
 
-import { EventHubClient } from "../src";
+import { EventHubClient } from "@azure/event-hubs";
 import { loginWithUsernamePassword } from "@azure/ms-rest-nodeauth";
 
 // Define Event Hubs Endpoint and related entity name here here
 const evenHubsEndpoint = ""; // <your-eventhubs-namespace>.servicebus.windows.net
-const path = "";
+const eventHubsName = "";
 
 const username = "";
 const password = "";
@@ -24,7 +24,7 @@ async function main(): Promise<void> {
   const credentials = await loginWithUsernamePassword(username, password, {
     tokenAudience: "https://eventhubs.azure.net/"
   });
-  const client = EventHubClient.createFromAadTokenCredentials(evenHubsEndpoint, path, credentials);
+  const client = EventHubClient.createFromAadTokenCredentials(evenHubsEndpoint, eventHubsName, credentials);
   /*
    Refer to other samples, and place your code here
    to send/receive messages
