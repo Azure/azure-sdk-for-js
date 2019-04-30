@@ -3,27 +3,33 @@ import * as assert from "assert";
 import { Aborter } from "../src/Aborter";
 import { AppendBlobURL } from "../src/AppendBlobURL";
 import { ContainerURL } from "../src/ContainerURL";
-import { bodyToString, getBSU, getUniqueName } from "./utils";
+import { bodyToString, getBSU } from "./utils";
+import { record } from "./utils/nock-recorder";
 import * as dotenv from "dotenv";
 dotenv.config({path:"../.env"});
 
-describe("AppendBlobURL", () => {
+describe("AppendBlobURL", function() {
   const serviceURL = getBSU();
-  let containerName: string = getUniqueName("container");
-  let containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
-  let blobName: string = getUniqueName("blob");
-  let appendBlobURL = AppendBlobURL.fromContainerURL(containerURL, blobName);
+  let containerName: string;
+  let containerURL: ContainerURL;
+  let blobName: string;
+  let appendBlobURL: AppendBlobURL;
+  const testSuiteTitle = this.fullTitle();
+
+  let recorder: any;
 
   beforeEach(async () => {
-    containerName = getUniqueName("container");
+    recorder = record(testSuiteTitle, this.ctx.currentTest!.title);
+    containerName = recorder.getUniqueName("container");
     containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
     await containerURL.create(Aborter.none);
-    blobName = getUniqueName("blob");
+    blobName = recorder.getUniqueName("blob");
     appendBlobURL = AppendBlobURL.fromContainerURL(containerURL, blobName);
   });
 
   afterEach(async () => {
     await containerURL.delete(Aborter.none);
+    recorder.stop();
   });
 
   it("create with default parameters", async () => {
