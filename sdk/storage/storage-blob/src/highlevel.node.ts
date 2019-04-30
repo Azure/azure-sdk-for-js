@@ -190,7 +190,7 @@ async function uploadResetableStreamToBlockBlob(
  *                          goto documents of Aborter for more examples about request cancellation
  * @param {Buffer} buffer Buffer to be fill, must have length larger than count
  * @param {BlobURL} blobURL A BlobURL object
- * @param {number} offset From which position of the block blob to download
+ * @param {number} [offset] From which position of the block blob to download
  * @param {number} [count] How much data to be downloaded. Will download to the end when passing undefined
  * @param {IDownloadFromBlobOptions} [options] IDownloadFromBlobOptions
  * @returns {Promise<void>}
@@ -199,7 +199,7 @@ export async function downloadBlobToBuffer(
   aborter: Aborter,
   buffer: Buffer,
   blobURL: BlobURL,
-  offset: number,
+  offset: number = 0,
   count?: number,
   options: IDownloadFromBlobOptions = {}
 ): Promise<void> {

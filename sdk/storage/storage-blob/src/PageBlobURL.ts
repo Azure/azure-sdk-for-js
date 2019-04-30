@@ -225,16 +225,16 @@ export class PageBlobURL extends BlobURL {
    *
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
-   * @param {number} offset
-   * @param {number} count
+   * @param {number} [offset]
+   * @param {number} [count]
    * @param {IPageBlobClearPagesOptions} [options]
    * @returns {Promise<Models.PageBlobClearPagesResponse>}
    * @memberof PageBlobURL
    */
   public async clearPages(
     aborter: Aborter,
-    offset: number,
-    count: number,
+    offset: number = 0,
+    count?: number,
     options: IPageBlobClearPagesOptions = {}
   ): Promise<Models.PageBlobClearPagesResponse> {
     options.accessConditions = options.accessConditions || {};
@@ -255,16 +255,16 @@ export class PageBlobURL extends BlobURL {
    *
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
-   * @param {number} offset
-   * @param {number} count
+   * @param {number} [offset]
+   * @param {number} [count]
    * @param {IPageBlobGetPageRangesOptions} [options]
    * @returns {Promise<Models.PageBlobGetPageRangesResponse>}
    * @memberof PageBlobURL
    */
   public async getPageRanges(
     aborter: Aborter,
-    offset: number,
-    count: number,
+    offset: number = 0,
+    count?: number,
     options: IPageBlobGetPageRangesOptions = {}
   ): Promise<Models.PageBlobGetPageRangesResponse> {
     options.accessConditions = options.accessConditions || {};
@@ -283,8 +283,8 @@ export class PageBlobURL extends BlobURL {
    *
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
-   * @param {number} offset
-   * @param {number} count
+   * @param {number} [offset]
+   * @param {number} [count]
    * @param {string} prevSnapshot
    * @param {IPageBlobGetPageRangesDiffOptions} [options]
    * @returns {Promise<Models.PageBlobGetPageRangesDiffResponse>}
@@ -292,9 +292,9 @@ export class PageBlobURL extends BlobURL {
    */
   public async getPageRangesDiff(
     aborter: Aborter,
-    offset: number,
-    count: number,
-    prevSnapshot: string,
+    offset: number = 0,
+    count?: number,
+    prevSnapshot?: string,
     options: IPageBlobGetPageRangesDiffOptions = {}
   ): Promise<Models.PageBlobGetPageRangesDiffResponse> {
     options.accessConditions = options.accessConditions || {};

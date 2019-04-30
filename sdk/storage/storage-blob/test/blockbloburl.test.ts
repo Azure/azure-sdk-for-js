@@ -109,8 +109,7 @@ describe("BlockBlobURL", () => {
     await newBlockBlobURL.stageBlockFromURL(
       Aborter.none,
       base64encode("1"),
-      blockBlobURL.url,
-      0
+      blockBlobURL.url
     );
 
     const listResponse = await newBlockBlobURL.getBlockList(

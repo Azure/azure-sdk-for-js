@@ -194,7 +194,7 @@ export class BlobURL extends StorageURL {
    *
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
-   * @param {number} offset From which position of the blob to download, >= 0
+   * @param {number} [offset] From which position of the blob to download, >= 0
    * @param {number} [count] How much data to be downloaded, > 0. Will download to the end when undefined
    * @param {IBlobDownloadOptions} [options]
    * @returns {Promise<Models.BlobDownloadResponse>}
@@ -202,7 +202,7 @@ export class BlobURL extends StorageURL {
    */
   public async download(
     aborter: Aborter,
-    offset: number,
+    offset: number = 0,
     count?: number,
     options: IBlobDownloadOptions = {}
   ): Promise<Models.BlobDownloadResponse> {

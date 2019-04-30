@@ -32,7 +32,7 @@ describe("BlobURL", () => {
   });
 
   it("download with with default parameters", async () => {
-    const result = await blobURL.download(Aborter.none, 0);
+    const result = await blobURL.download(Aborter.none);
     assert.deepStrictEqual(await bodyToString(result, content.length), content);
   });
 

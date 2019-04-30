@@ -231,7 +231,7 @@ export class BlockBlobURL extends BlobURL {
    *                           to perform the operation. Here are some examples of source object URLs:
    *                           - https://myaccount.blob.core.windows.net/mycontainer/myblob
    *                           - https://myaccount.blob.core.windows.net/mycontainer/myblob?snapshot=<DateTime>
-   * @param {number} offset From which position of the blob to download, >= 0
+   * @param {number} [offset] From which position of the blob to download, >= 0
    * @param {number} [count] How much data to be downloaded, > 0. Will download to the end when undefined
    * @param {IBlockBlobStageBlockFromURLOptions} [options={}]
    * @returns {Promise<Models.BlockBlobStageBlockFromURLResponse>}
@@ -241,7 +241,7 @@ export class BlockBlobURL extends BlobURL {
     aborter: Aborter,
     blockId: string,
     sourceURL: string,
-    offset: number,
+    offset: number= 0,
     count?: number,
     options: IBlockBlobStageBlockFromURLOptions = {}
   ): Promise<Models.BlockBlobStageBlockFromURLResponse> {
