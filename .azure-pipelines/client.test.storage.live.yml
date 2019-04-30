@@ -1,7 +1,7 @@
 # External variables:
 # Package
 #   The package to build and test. Defined in pipeline web ui because multiple pipelines use this YAML with different packages.
-#   Example: eventhubs-client
+#   Example: @azure/event-hubs
 #
 # AdditionalTestArguments
 #   Additional arguments to the test command.
@@ -62,24 +62,13 @@ jobs:
           versionSpec: '$(NodeVersion)'
         displayName: 'Install Node.js $(NodeVersion)'
 
-      # Rather than running "npm install" in the repo root, reduce build time by only installing the "npm-run-all" package,
-      # which is the minimum required to run the composite script commands.
-      - task: Npm@1
-        inputs:
-          command: 'custom'
-          customCommand: 'install npm-run-all'
-        displayName: 'npm install npm-run-all'
+      - script: |
+          node common/scripts/install-run-rush.js install
+        displayName: 'rush install'
 
-      - task: Npm@1
-        inputs:
-          command: 'custom'
-          customCommand: 'run install-client-$(Package)'
-        displayName: 'npm run install-client-$(Package)'
-
-      # To get realtime logging of test progress in Azure Pipelines, we need to use "script" instead of "Npm@1",
-      # since "Npm@1" currently buffers output (https://github.com/Microsoft/azure-pipelines-tasks/issues/8171).
-      - script: npm run live-test-client-$(Package)-node -- -- --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=- $(AdditionalTestArguments)
-        displayName: 'npm run live-test-client-$(Package)-node'
+      - script: |
+          node common/scripts/npm-run-project.js "$(Package)" integration-test:node -- -- --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=- $(AdditionalTestArguments)
+        displayName: 'npm-run-project "$(Package)" integration-test:node'
         env:
           # Storage
           ACCOUNT_NAME: $(js-storage-test-account-name)
@@ -123,23 +112,14 @@ jobs:
           versionSpec: '$(NodeVersion)'
         displayName: 'Install Node.js $(NodeVersion)'
 
-      # Rather than running "npm install" in the repo root, reduce build time by only installing the "npm-run-all" package,
-      # which is the minimum required to run the composite script commands.
-      - task: Npm@1
-        inputs:
-          command: 'custom'
-          customCommand: 'install npm-run-all'
-        displayName: 'npm install npm-run-all'
+      - script: |
+          node common/scripts/install-run-rush.js install
+        displayName: 'rush install'
 
-      - task: Npm@1
-        inputs:
-          command: 'custom'
-          customCommand: 'run install-client-$(Package)'
-        displayName: 'npm run install-client-$(Package)'
-
-      - script: npm run live-test-client-$(Package)-browser
+      - script: |
+          node common/scripts/install-run-rush.js integration-test:browser -t "$(Package)"
         condition: succeededOrFailed()
-        displayName: 'npm run live-test-client-$(Package)-browser'
+        displayName: 'rush integration-test:browser -t "$(Package)"'
         env:
           # Storage
           ACCOUNT_NAME: $(js-storage-test-account-name)
