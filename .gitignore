@@ -136,7 +136,9 @@ test-dist*
 browser
 test-browser
 typings
+types
 typedoc
 
 # autorest generated files
 swagger/*.json
+sdk/core/aborter/package.json

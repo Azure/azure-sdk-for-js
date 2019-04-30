@@ -4,7 +4,7 @@ import { Aborter } from "@azure/core-aborter";
 import { ContainerURL } from "../src/ContainerURL";
 import { getBSU, getUniqueName } from "./utils";
 import * as dotenv from "dotenv";
-dotenv.config({path:"../.env"});
+dotenv.config({ path: "../.env" });
 
 // tslint:disable:no-empty
 describe("Aborter", () => {
@@ -15,11 +15,6 @@ describe("Aborter", () => {
   beforeEach(async () => {
     containerName = getUniqueName("container");
     containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
-  });
-
-  it("should set value and get value successfully", async () => {
-    const aborter = Aborter.none.withValue("mykey", "myvalue");
-    assert.deepStrictEqual(aborter.getValue("mykey"), "myvalue");
   });
 
   it("Should not abort after calling abort()", async () => {
