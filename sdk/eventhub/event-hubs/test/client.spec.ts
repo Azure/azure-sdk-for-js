@@ -3,7 +3,6 @@
 
 import chai from "chai";
 import os from "os";
-import assert from "assert";
 const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
