@@ -33,7 +33,7 @@ export interface PredictionRequestOptions {
 /**
  * @interface
  * An interface representing ExternalEntity.
- * Defines a user perdicted entity that extends an already existing one.
+ * Defines a user predicted entity that extends an already existing one.
  *
  */
 export interface ExternalEntity {
@@ -145,7 +145,7 @@ export interface Intent {
 /**
  * @interface
  * An interface representing Sentiment.
- * The result of the sentiment analaysis.
+ * The result of the sentiment analysis.
  *
  */
 export interface Sentiment {
