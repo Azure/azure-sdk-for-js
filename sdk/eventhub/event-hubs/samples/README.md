@@ -31,7 +31,6 @@ npm run build
 > _Note : **RootManageSharedAccessKey** is automatically created for the namespace and has permissions for the entire namespace. If you want to use restricted access, refer [Shared Access Signatures](https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-sas), create the Access Keys exclusive to the specific created Queue/Topic._
 
 Before running a sample, update it with the connection string and the hub name you have noted down above.
-- to load environment variables from an `.env` file, please refer to [NPM dotenv package](https://www.npmjs.com/package/dotenv) for more details. See the [sample.env](../../sample.env) for an example.
 
 ## Executing a sample
 - The samples are to be run using ts-node, after changing your current working directory to the `samples` folder.
