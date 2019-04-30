@@ -1,0 +1,57 @@
+# Node.js
+# Build a general Node.js project with npm.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
+
+trigger:
+  branches:
+    include:
+    - master
+    - cosmos-build-master
+  paths:
+    include:
+    - sdk/cosmosdb/cosmos
+
+pr:
+  branches:
+    include:
+    - master
+    - cosmos-build-master
+  paths:
+    include:
+    - sdk/cosmosdb/cosmos
+
+jobs:
+  - job: NightlyEmulator
+    pool:
+      vmImage: vs2017-win2016
+    steps:
+      - task: azure-cosmosdb.emulator-internal-preview.run-cosmosdbemulatorcontainer.CosmosDbEmulator@2
+        displayName: "Run Azure Cosmos DB Emulator container"
+        inputs:
+          username: "$(cosmos-cosmosdb-azurecr-io-username)"
+          password: "$(cosmos-cosmosdb-azurecr-io-password)"
+          defaultPartitionCount: 25
+      - task: NodeTool@0
+        inputs:
+          versionSpec: "6.x"
+        displayName: "Install Node.js"
+
+      - script: npm run install-client-cosmos
+        displayName: "npm install"
+
+      - script: npm run build-client-cosmos
+        displayName: "npm run build"
+
+      - bash: cd sdk/cosmosdb/cosmos && ACCOUNT_HOST=$COSMOSDBEMULATOR_ENDPOINT NODE_TLS_REJECT_UNAUTHORIZED="0" npm run test -- --reporter mocha-multi-reporters --reporter-options spec=-,mocha-junit-reporter=- $(AdditionalTestArguments)
+        failOnStderr: true
+        displayName: "npm test"
+        env:
+          MOCHA_TIMEOUT: 100000
+
+      - task: PublishTestResults@2
+        inputs:
+          testResultsFiles: '**/xunit.xml'
+          testRunTitle: 'Cosmos $(OSName) Node $(NodeVersion) - Node'
+        condition: succeededOrFailed()
+        displayName: 'Publish node test results'
