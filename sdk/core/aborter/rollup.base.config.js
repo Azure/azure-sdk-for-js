@@ -13,7 +13,7 @@ import path from "path";
 
 const pkg = require("./package.json");
 const depNames = Object.keys(pkg.dependencies);
-const input = "./dist-esm/Aborter.js";
+const input = "./dist-esm/src/aborter.js";
 const production = process.env.NODE_ENV === "production";
 
 export function nodeConfig(test = false) {
@@ -32,7 +32,7 @@ export function nodeConfig(test = false) {
           "if (isNode)": "if (true)"
         }
       }),
-      nodeResolve({ preferBuiltins: true, main: false }),
+      nodeResolve({ preferBuiltins: true, mainFields: ["module"] }),
       cjs(),
       json()
     ]
@@ -44,16 +44,10 @@ export function nodeConfig(test = false) {
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
 
     // different output file
-    baseConfig.output.file = "test-dist/index.js";
+    baseConfig.output.file = "dist-test/aborter.js";
 
     // mark assert as external
-    baseConfig.external.push(
-      "assert",
-      "fs",
-      "path",
-      "@azure/arm-servicebus",
-      "@azure/ms-rest-nodeauth"
-    );
+    baseConfig.external.push("assert");
 
     baseConfig.onwarn = (warning) => {
       if (warning.code === "THIS_IS_UNDEFINED") {
