@@ -4,8 +4,8 @@
   "description": "ContainerRegistryManagementClient Library with typescript type definitions for node.js and browser.",
   "version": "5.0.1",
   "dependencies": {
-    "@azure/ms-rest-azure-js": "^1.2.4",
-    "@azure/ms-rest-js": "^1.2.6",
+    "@azure/ms-rest-azure-js": "^1.3.2",
+    "@azure/ms-rest-js": "^1.8.1",
     "tslib": "^1.9.3"
   },
   "keywords": [
@@ -26,7 +26,7 @@
     "rollup-plugin-sourcemaps": "^0.4.2",
     "uglify-js": "^3.4.9"
   },
-  "homepage": "https://github.com/azure/azure-sdk-for-js/tree/master/sdk/containerregistry/arm-containerregistry",
+  "homepage": "https://github.com/azure/azure-sdk-for-js",
   "repository": {
     "type": "git",
     "url": "https://github.com/azure/azure-sdk-for-js.git"
@@ -54,5 +54,5 @@
     "prepack": "npm install && npm run build"
   },
   "sideEffects": false,
-  "authPublish": true
+  "autoPublish": true
 }
