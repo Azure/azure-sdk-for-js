@@ -225,8 +225,8 @@ export class PageBlobURL extends BlobURL {
    *
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
-   * @param {number} [offset]
-   * @param {number} [count]
+   * @param {number} [offset] Starting byte position of the range to free. If not specified, starting clearing from 0.
+   * @param {number} [count]  Byte size of the range to free. If not specified, freeing until the end of the page.
    * @param {IPageBlobClearPagesOptions} [options]
    * @returns {Promise<Models.PageBlobClearPagesResponse>}
    * @memberof PageBlobURL
@@ -255,8 +255,10 @@ export class PageBlobURL extends BlobURL {
    *
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
-   * @param {number} [offset]
-   * @param {number} [count]
+   * @param {number} [offset] Starting byte position of the range to retrieve.
+   *                          If not specified, starting from 0.
+   * @param {number} [count]  Byte size of the range to retrieve.
+   *                          If not specified, retrieving til the end of the page blob.
    * @param {IPageBlobGetPageRangesOptions} [options]
    * @returns {Promise<Models.PageBlobGetPageRangesResponse>}
    * @memberof PageBlobURL
@@ -283,8 +285,10 @@ export class PageBlobURL extends BlobURL {
    *
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
-   * @param {number} [offset]
-   * @param {number} [count]
+   * @param {number} [offset] Starting byte position of range to retrieve differences.
+   *                          If not specified, starting from 0.
+   * @param {number} [count]  Byte size of the range to retrieve differences.
+   *                          If not specified, the range is from {@link offset} to the end of the page blob.
    * @param {string} prevSnapshot
    * @param {IPageBlobGetPageRangesDiffOptions} [options]
    * @returns {Promise<Models.PageBlobGetPageRangesDiffResponse>}

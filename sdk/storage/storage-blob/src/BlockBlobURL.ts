@@ -241,7 +241,7 @@ export class BlockBlobURL extends BlobURL {
     aborter: Aborter,
     blockId: string,
     sourceURL: string,
-    offset: number= 0,
+    offset: number = 0,
     count?: number,
     options: IBlockBlobStageBlockFromURLOptions = {}
   ): Promise<Models.BlockBlobStageBlockFromURLResponse> {
