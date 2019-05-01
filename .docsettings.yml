@@ -51,6 +51,7 @@ known_content_issues:
   - ['sdk/servicebus/service-bus/README.md', '#1583']
   - ['sdk/servicebus/service-bus/samples/README.md', '#1583']
   - ['sdk/servicebus/service-bus/test/README.md', '#1583']
+  - ["sdk/servicebus/service-bus/test/perf/azure-sb-package/README.md", "#1583"]
   - ['sdk/servicefabric/servicefabric/README.md', '#1583']
   - ['sdk/storage/README.md', '#1583']
   - ['sdk/storage/storage-blob/README.md', '#1583']
