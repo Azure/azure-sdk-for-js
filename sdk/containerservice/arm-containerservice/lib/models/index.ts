@@ -1614,19 +1614,19 @@ export interface CredentialResults {
  */
 export interface OrchestratorProfile {
   /**
-   * @member {string} orchestratorType Orchestrator type.
+   * @member {string} [orchestratorType] Orchestrator type.
    */
-  orchestratorType: string;
+  orchestratorType?: string;
   /**
    * @member {string} orchestratorVersion Orchestrator version (major, minor,
    * patch).
    */
   orchestratorVersion: string;
   /**
-   * @member {boolean} isPreview Whether Kubernetes version is currently in
+   * @member {boolean} [isPreview] Whether Kubernetes version is currently in
    * preview.
    */
-  isPreview: boolean;
+  isPreview?: boolean;
 }
 
 /**

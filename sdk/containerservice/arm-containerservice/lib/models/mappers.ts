@@ -1809,7 +1809,6 @@ export const OrchestratorProfile: msRest.CompositeMapper = {
     className: "OrchestratorProfile",
     modelProperties: {
       orchestratorType: {
-        required: true,
         serializedName: "orchestratorType",
         type: {
           name: "String"
@@ -1823,7 +1822,6 @@ export const OrchestratorProfile: msRest.CompositeMapper = {
         }
       },
       isPreview: {
-        required: true,
         serializedName: "isPreview",
         type: {
           name: "Boolean"
