@@ -96,35 +96,7 @@
     "rollup-plugin-uglify": "^6.0.0",
     "ts-node": "^7.0.1",
     "tslint": "^5.15.0",
-    "typescript": "^3.2.2"
-  },
-  "files": [
-    "dist/",
-    "dist-esm/src/",
-    "src/",
-    "typings/src"
-  ],
-  "scripts": {
-    "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
-    "build-browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1",
-    "build-node": "tsc -p . && cross-env ONLY_NODE=true rollup -c 2>&1",
-    "build-samples": "cd samples && tsc -p .",
-    "build-test": "tsc -p . && cross-env ONLY_NODE=true rollup -c rollup.test.config.js 2>&1",
-    "build": "tsc -p . && rollup -c 2>&1",
-    "check-format": "prettier --list-different --config .prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
-    "clean": "rimraf dist dist-esm test-dist typings *.tgz *.log",
-    "coverage": "npm run build-test && nyc --reporter=lcov mocha -t 120000 test-dist/index.js",
-    "extract-api": "tsc -p . && api-extractor run --local",
-    "format": "prettier --write --config .prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
-    "lint": "tslint -p . -c tslint.json",
-    "pack": "npm pack 2>&1",
-    "prebuild": "npm run clean",
-    "pretest": "npm run build-test",
-    "test": "npm run build",
-    "tsc": "tsc",
-    "unit-node": "npm run build-test && mocha -t 120000 test-dist/index.js"
     "typescript": "^3.2.2",
     "ws": "^6.2.1"
   }
 }
-
