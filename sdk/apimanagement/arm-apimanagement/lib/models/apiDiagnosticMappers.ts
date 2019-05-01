@@ -28,6 +28,7 @@ export {
   IssueCommentContract,
   IssueContract,
   SchemaContract,
+  SchemaCreateOrUpdateContract,
   PolicyContract,
   ProductContract,
   OperationContract,
