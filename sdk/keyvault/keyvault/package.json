@@ -24,6 +24,7 @@
   "types": "./types/lib/index.d.ts",
   "devDependencies": {
     "@azure/ms-rest-nodeauth": "^0.9.1",
+    "@microsoft/api-extractor": "^6.3.0",
     "@types/chai": "^4.1.7",
     "@types/mocha": "^5.2.0",
     "chai": "^4.2.0",
@@ -69,7 +70,8 @@
     "test": "npm run test:node",
     "test:node": "cross-env TS_NODE_COMPILER_OPTIONS=\"{\\\"module\\\": \\\"commonjs\\\"}\" mocha --require ts-node/register --require source-map-support/register --full-trace --no-timeouts tests/**/*.test.ts",
     "prepack": "npm install && npm run build",
-    "clean": "rimraf dist esm dist-test types temp"
+    "clean": "rimraf dist esm dist-test types temp",
+    "extract-api": "tsc -p . && api-extractor run --local"
   },
   "sideEffects": false
 }

@@ -1,7 +1,7 @@
 import * as msRest from "@azure/ms-rest-js";
-import { SecretManagementAttributes } from "./models";
+import { Models } from "./models";
 
-export { SecretManagementAttributes };
+//export { SecretManagementAttributes };
 
 export interface Secret extends SecretAttributes {
   /**
@@ -22,7 +22,7 @@ export interface SecretAttributes extends ParsedKeyVaultEntityIdentifier {
   /**
    * @member {SecretAttributes} [attributes] The secret management attributes.
    */
-  attributes?: SecretManagementAttributes;
+  attributes?: Models.SecretManagementAttributes;
   /**
    * @member {{ [propertyName: string]: string }} [tags] Application specific
    * metadata in the form of key-value pairs.
@@ -110,7 +110,7 @@ export interface AddSecretOptions extends msRest.RequestOptionsBase {
    * @member {SecretAttributes} [secretAttributes] The secret management
    * attributes.
    */
-  attributes?: SecretManagementAttributes;
+  attributes?: Models.SecretManagementAttributes;
 }
 
 
@@ -131,7 +131,7 @@ export interface UpdateSecretOptions extends msRest.RequestOptionsBase {
    * @member {SecretAttributes} [secretAttributes] The secret management
    * attributes.
    */
-  attributes?: SecretManagementAttributes;
+  attributes?: Models.SecretManagementAttributes;
   /**
    * @member {{ [propertyName: string]: string }} [tags] Application specific
    * metadata in the form of key-value pairs.

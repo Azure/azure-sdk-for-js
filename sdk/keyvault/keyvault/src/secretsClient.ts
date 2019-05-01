@@ -22,7 +22,7 @@ import {
 import { AzureServiceClientOptions as Pipeline, getDefaultUserAgentValue } from "@azure/ms-rest-azure-js";
 
 import { RetryOptions, ProxyOptions, TelemetryOptions } from ".";
-import * as Models from "./models";
+import { Models } from "./models";
 import { KeyVaultClient } from "./keyVaultClient";
 import { RetryConstants, SDK_VERSION } from "./utils/constants";
 import {
@@ -37,8 +37,7 @@ import {
 } from "./secretsModels";
 import { parseKeyvaultIdentifier as parseKeyvaultEntityIdentifier } from "./utils";
 
-export { Pipeline };
-
+export { Pipeline, Models };
 /**
  * Option interface for Pipeline.newPipeline method.
  *

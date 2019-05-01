@@ -13,6 +13,9 @@ import * as msRest from "@azure/ms-rest-js";
 
 export { BaseResource, CloudError };
 
+export namespace Models {
+
+
 
 /**
  * @interface
@@ -4713,3 +4716,5 @@ export type GetDeletedSasDefinitionsNextResponse = DeletedSasDefinitionListResul
       parsedBody: DeletedSasDefinitionListResult;
     };
 };
+
+}

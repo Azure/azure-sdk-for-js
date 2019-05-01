@@ -10,6 +10,7 @@
 
 import * as msRest from "@azure/ms-rest-js";
 import * as msRestAzure from "@azure/ms-rest-azure-js";
+import { AzureServiceClientOptions as Pipeline } from "@azure/ms-rest-azure-js";
 
 const packageName = "@azure/keyvault";
 const packageVersion = "0.1.0";
@@ -23,7 +24,7 @@ export class KeyVaultClientContext extends msRestAzure.AzureServiceClient {
    * @param credentials Credentials needed for the client to connect to Azure.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, options?: msRestAzure.AzureServiceClientOptions) {
+  constructor(credentials: msRest.ServiceClientCredentials, options?: Pipeline) {
     if (credentials == undefined) {
       throw new Error('\'credentials\' cannot be null.');
     }
