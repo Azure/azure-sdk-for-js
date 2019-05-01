@@ -478,6 +478,7 @@ export class ManagementClient extends LinkEntity {
       } catch (err) {
         if (err instanceof TypeError || err.name === "TypeError") {
           // `RheaMessageUtil.encode` can fail if message properties are of invalid type
+          // rhea throws errors with name `TypeError` but not an instance of `TypeError`, so catch them too
           // Errors in such cases do not have user friendy message or call stack
           // So use `getMessagePropertyTypeMismatchError` to get a better error message
           err = getMessagePropertyTypeMismatchError(item) || err;
