@@ -7,7 +7,6 @@ trigger:
   branches:
     include:
     - master
-    - cosmos-build-master
   paths:
     include:
     - sdk/cosmosdb/cosmos
@@ -16,7 +15,6 @@ pr:
   branches:
     include:
     - master
-    - cosmos-build-master
   paths:
     include:
     - sdk/cosmosdb/cosmos
