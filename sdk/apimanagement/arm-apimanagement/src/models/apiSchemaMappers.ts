@@ -75,6 +75,7 @@ export {
   SamplingSettings,
   SchemaCollection,
   SchemaContract,
+  SchemaCreateOrUpdateContract,
   SubscriptionContract,
   SubscriptionKeyParameterNamesContract,
   SubscriptionsDelegationSettingsProperties,
