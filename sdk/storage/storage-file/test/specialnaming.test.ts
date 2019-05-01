@@ -19,8 +19,8 @@ describe("Special Naming Tests", function() {
 
   let recorder: any;
 
-  before(async () => {
-    recorder = record(testSuiteTitle, "before");
+  before(async function() {
+    recorder = record.call(this, testSuiteTitle, "before");
 
     shareName = recorder.getUniqueName("1share-with-dash");
     shareURL = ShareURL.fromServiceURL(serviceURL, shareName);
@@ -34,14 +34,14 @@ describe("Special Naming Tests", function() {
     recorder.stop();
   });
 
-  after(async () => {
-    recorder = record(testSuiteTitle, "after");
+  after(async function() {
+    recorder = record.call(this, testSuiteTitle, "after");
     await shareURL.delete(Aborter.none);
     recorder.stop();
   });
 
-  beforeEach(async () => {
-    recorder = record(testSuiteTitle, this.ctx.currentTest!.title);
+  beforeEach(async function() {
+    recorder = record.call(this, testSuiteTitle);
   });
 
   afterEach(async () => {

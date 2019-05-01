@@ -21,8 +21,8 @@ describe("BlockBlobURL Node.js only", function() {
 
   let recorder: any;
 
-  beforeEach(async () => {
-    recorder = record(testSuiteTitle, this.ctx.currentTest!.title);
+  beforeEach(async function() {
+    recorder = record.call(this, testSuiteTitle);
 
     shareName = recorder.getUniqueName("share");
     shareURL = ShareURL.fromServiceURL(serviceURL, shareName);

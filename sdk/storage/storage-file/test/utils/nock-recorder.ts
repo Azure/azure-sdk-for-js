@@ -22,14 +22,19 @@ const skip: any = [
   "highlevel/recording_uploadstreamtoazurefile_should_update_progress_event.js" // Not supported by Nock
 ];
 
-export function record(folderpath: string, filename: string): { [key: string]: any } {
-  let fp = folderpath.toLowerCase().replace(/ /g, "_").replace(/\W/g, "") +
-    "/recording_" + filename.toLowerCase().replace(/ /g, "_").replace(/\W/g, "") + ".js";
-  let importNock = "let nock = require('nock');\n";
+export function record(this: any, folderpath: string, testTitle?: string): { [key: string]: any } {
+  const filename = "recording_" + (testTitle || this.currentTest.title);
+  const fp = folderpath.toLowerCase().replace(/ /g, "_").replace(/\W/g, "") +
+    "/" + filename.toLowerCase().replace(/ /g, "_").replace(/\W/g, "") + ".js";
+  const importNock = "let nock = require('nock');\n";
   let uniqueTestInfo: any = {};
 
-  const isRecording = (process.env.TEST_MODE === "record") && (!skip.includes(fp));
-  const isPlayingBack = (process.env.TEST_MODE === "playback") && (!skip.includes(fp));
+  const isRecording = (process.env.TEST_MODE === "record");
+  const isPlayingBack = (process.env.TEST_MODE === "playback");
+
+  if (skip.includes(fp) && (isRecording || isPlayingBack)) {
+    this.skip();
+  }
 
   if (isRecording) {
     nock.recorder.rec({
@@ -37,8 +42,6 @@ export function record(folderpath: string, filename: string): { [key: string]: a
     });
   } else if (isPlayingBack) {
     uniqueTestInfo = require("../../recordings/" + fp).testInfo;
-  } else {
-    nock.restore();
   }
 
   return {
@@ -54,8 +57,6 @@ export function record(folderpath: string, filename: string): { [key: string]: a
         file.end();
         nock.recorder.clear();
         nock.restore();
-      } else if (!isPlayingBack) {
-        nock.activate();
       }
     },
     getUniqueName: function(prefix: string, recorderId?: string): string {

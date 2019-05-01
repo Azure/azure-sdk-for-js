@@ -27,8 +27,8 @@ describe("Shared Access Signature (SAS) generation Node.js only", function() {
 
   let recorder: any;
 
-  beforeEach(async () => {
-    recorder = record(testSuiteTitle, this.ctx.currentTest!.title);
+  beforeEach(async function() {
+    recorder = record.call(this, testSuiteTitle);
   });
 
   afterEach(async () => {
