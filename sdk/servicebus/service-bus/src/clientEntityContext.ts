@@ -190,6 +190,7 @@ export namespace ClientEntityContext {
 
       const batchingReceiver = entityContext.batchingReceiver;
       if (batchingReceiver && !batchingReceiver.isConnecting) {
+        await batchingReceiver.onDetached(error);
         log.error(
           "[%s] Receiver '%s' with address '%s' is a Batching Receiver, so we will not be " +
             "re-establishing the receiver link.",

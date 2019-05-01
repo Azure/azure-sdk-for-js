@@ -3,7 +3,7 @@
 
 import * as log from "../log";
 import { Constants, translate, MessagingError } from "@azure/amqp-common";
-import { ReceiverEvents, EventContext, OnAmqpEvent, SessionEvents } from "rhea-promise";
+import { ReceiverEvents, EventContext, OnAmqpEvent, SessionEvents, AmqpError } from "rhea-promise";
 import { ServiceBusMessage } from "../serviceBusMessage";
 import {
   MessageReceiver,
@@ -30,6 +30,12 @@ export class BatchingReceiver extends MessageReceiver {
   isReceivingMessages: boolean = false;
 
   /**
+   * @property {AmqpError | Error | undefined} connectionError Error on the amqp connection.
+   *  Default: undefined.
+   */
+  private connectionError: AmqpError | Error | undefined = undefined;
+
+  /**
    * Instantiate a new BatchingReceiver.
    *
    * @constructor
@@ -38,6 +44,17 @@ export class BatchingReceiver extends MessageReceiver {
    */
   constructor(context: ClientEntityContext, options?: ReceiveOptions) {
     super(context, ReceiverType.batching, options);
+  }
+
+  /**
+   * Clear the token renewal timer and set the connection error in `connectionError` property.
+   * @param {AmqpError | Error} [receiverError] The receiver error if any.
+   * @returns {Promise<void>} Promise<void>.
+   */
+  async onDetached(receiverError?: AmqpError | Error): Promise<void> {
+    // Clears the token renewal timer. Closes the link and its session if they are open.
+    await this._closeLink(this._receiver);
+    this.connectionError = receiverError;
   }
 
   /**
@@ -83,9 +100,13 @@ export class BatchingReceiver extends MessageReceiver {
           this._receiver.session.removeListener(SessionEvents.sessionError, onSessionError);
         }
 
-        if (this._receiver && !this._receiver.isOpen()) {
-          throw new Error(`Receiver ${this._receiver.name} with address ${this._receiver.address} is a Batching Receiver,
-          so we will not be re-establishing the receiver link.`);
+        if (this.connectionError) {
+          if (this._receiver) {
+            this._receiver.removeListener(ReceiverEvents.receiverDrained, onReceiveDrain);
+          }
+          this.isReceivingMessages = false;
+          const err = translate(this.connectionError);
+          return reject(err);
         }
 
         if (this._receiver && this._receiver.credit > 0) {
@@ -305,7 +326,7 @@ export class BatchingReceiver extends MessageReceiver {
           const settled = delivery.remote_settled;
           log.receiver(
             "[%s] Delivery with id %d, remote_settled: %s, remote_state: %o has been " +
-            "received.",
+              "received.",
             connectionId,
             id,
             settled,
