@@ -1,22 +1,24 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+/*
+ This sample demonstrates how to use getHubRuntimeInformation() and
+ getPartitionInformation() to get information about the Iot Hub instance.
+*/
+import { EventHubClient } from "@azure/event-hubs";
 
-import { EventHubClient } from "../src";
-import dotenv from "dotenv";
-dotenv.config();
-
-const connectionString = "IOTHUB_CONNECTION_STRING";
-const str = process.env[connectionString] || "";
+// Define IoT Hub connection string here
+const connectionString = "";
 
 async function main(): Promise<void> {
-  const client = await EventHubClient.createFromIotHubConnectionString(str);
+  const client = await EventHubClient.createFromIotHubConnectionString(connectionString);
+
   const info = await client.getHubRuntimeInformation();
   console.log("RuntimeInfo: ", info);
+
   const pInfo = await client.getPartitionInformation(info.partitionIds[0]);
   console.log("Partition Information: ", pInfo);
+
   await client.close();
 }
 
-main().catch((err) => {
-  console.log("error: ", err);
+main().catch(err => {
+  console.log("Error occurred: ", err);
 });
