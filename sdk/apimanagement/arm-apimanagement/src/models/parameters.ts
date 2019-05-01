@@ -305,7 +305,20 @@ export const force: msRest.OperationQueryParameter = {
     }
   }
 };
-export const format: msRest.OperationQueryParameter = {
+export const format0: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "format"
+  ],
+  mapper: {
+    serializedName: "format",
+    defaultValue: 'xml',
+    type: {
+      name: "String"
+    }
+  }
+};
+export const format1: msRest.OperationQueryParameter = {
   parameterPath: "format",
   mapper: {
     required: true,

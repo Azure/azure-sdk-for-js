@@ -113,7 +113,7 @@ export class ProductPolicy {
    * @param [options] The optional parameters
    * @returns Promise<Models.ProductPolicyGetResponse>
    */
-  get(resourceGroupName: string, serviceName: string, productId: string, options?: msRest.RequestOptionsBase): Promise<Models.ProductPolicyGetResponse>;
+  get(resourceGroupName: string, serviceName: string, productId: string, options?: Models.ProductPolicyGetOptionalParams): Promise<Models.ProductPolicyGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -130,8 +130,8 @@ export class ProductPolicy {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, serviceName: string, productId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicyContract>): void;
-  get(resourceGroupName: string, serviceName: string, productId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicyContract>, callback?: msRest.ServiceCallback<Models.PolicyContract>): Promise<Models.ProductPolicyGetResponse> {
+  get(resourceGroupName: string, serviceName: string, productId: string, options: Models.ProductPolicyGetOptionalParams, callback: msRest.ServiceCallback<Models.PolicyContract>): void;
+  get(resourceGroupName: string, serviceName: string, productId: string, options?: Models.ProductPolicyGetOptionalParams | msRest.ServiceCallback<Models.PolicyContract>, callback?: msRest.ServiceCallback<Models.PolicyContract>): Promise<Models.ProductPolicyGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -299,6 +299,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
+    Parameters.format0,
     Parameters.apiVersion
   ],
   headerParameters: [
