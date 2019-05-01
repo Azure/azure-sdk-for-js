@@ -30,10 +30,11 @@ export class BatchingReceiver extends MessageReceiver {
   isReceivingMessages: boolean = false;
 
   /**
-   * @property {AmqpError | Error | undefined} connectionError Error on the amqp connection.
+   * @property {AmqpError | Error | undefined} detachedError Error that occured when receiver
+   * got detached. Not applicable when onReceiveError is called.
    *  Default: undefined.
    */
-  private connectionError: AmqpError | Error | undefined = undefined;
+  private detachedError: AmqpError | Error | undefined = undefined;
 
   /**
    * Instantiate a new BatchingReceiver.
@@ -47,14 +48,14 @@ export class BatchingReceiver extends MessageReceiver {
   }
 
   /**
-   * Clear the token renewal timer and set the connection error in `connectionError` property.
+   * Clear the token renewal timer and set the `detachedError` property.
    * @param {AmqpError | Error} [receiverError] The receiver error if any.
    * @returns {Promise<void>} Promise<void>.
    */
   async onDetached(receiverError?: AmqpError | Error): Promise<void> {
     // Clears the token renewal timer. Closes the link and its session if they are open.
     await this._closeLink(this._receiver);
-    this.connectionError = receiverError;
+    this.detachedError = receiverError;
   }
 
   /**
@@ -100,12 +101,12 @@ export class BatchingReceiver extends MessageReceiver {
           this._receiver.session.removeListener(SessionEvents.sessionError, onSessionError);
         }
 
-        if (this.connectionError) {
+        if (this.detachedError) {
           if (this._receiver) {
             this._receiver.removeListener(ReceiverEvents.receiverDrained, onReceiveDrain);
           }
           this.isReceivingMessages = false;
-          const err = translate(this.connectionError);
+          const err = translate(this.detachedError);
           return reject(err);
         }
 
