@@ -85,7 +85,7 @@ async function receiveMessages(ns) {
 
   await delay(5000);
   receiver = client.createReceiver(ReceiveMode.peekLock);
-  
+
   console.log(`\nStarting receiver at ${new Date(Date.now())}`);
 
   receiver.registerMessageHandler(onMessageHandler, onErrorHandler);
