@@ -31,6 +31,7 @@ export {
   HttpMessageDiagnostic,
   BodyDiagnosticSettings,
   SchemaContract,
+  SchemaCreateOrUpdateContract,
   PolicyContract,
   ProductContract,
   OperationContract,

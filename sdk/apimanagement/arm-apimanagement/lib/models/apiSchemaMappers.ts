@@ -17,6 +17,7 @@ export {
   ErrorFieldContract,
   ApiSchemaGetEntityTagHeaders,
   ApiSchemaGetHeaders,
+  SchemaCreateOrUpdateContract,
   ApiSchemaCreateOrUpdateHeaders,
   TagContract,
   TagDescriptionContract,
