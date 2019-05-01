@@ -34,6 +34,11 @@
     "resolveJsonModule": true
   },
   "compileOnSave": true,
-  "exclude": ["node_modules", "typings/**", "./samples/**/*.ts"],
+  "exclude": [
+    "node_modules",
+    "typings/**",
+    "./samples/**/*.ts",
+    "./test/perf/azure-sb-package/*.ts"
+  ],
   "include": ["./src/**/*.ts", "./test/**/*.ts"]
 }
