@@ -1622,6 +1622,11 @@ export interface OrchestratorProfile {
    * patch).
    */
   orchestratorVersion: string;
+  /**
+   * @member {boolean} isPreview Whether Kubernetes version is currently in
+   * preview.
+   */
+  isPreview: boolean;
 }
 
 /**
@@ -1645,6 +1650,11 @@ export interface OrchestratorVersionProfile {
    * specified.
    */
   default: boolean;
+  /**
+   * @member {boolean} isPreview Whether Kubernetes version is currently in
+   * preview.
+   */
+  isPreview: boolean;
   /**
    * @member {OrchestratorProfile[]} upgrades The list of available upgrade
    * versions.
