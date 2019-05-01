@@ -82,6 +82,7 @@ export {
   ResponseContract,
   SamplingSettings,
   SchemaContract,
+  SchemaCreateOrUpdateContract,
   SubscriptionContract,
   SubscriptionKeyParameterNamesContract,
   SubscriptionsDelegationSettingsProperties,

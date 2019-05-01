@@ -759,7 +759,30 @@ export interface DiagnosticContract extends Resource {
 export interface SchemaContract extends Resource {
   /**
    * Must be a valid a media type used in a Content-Type header as defined in the RFC 2616. Media
-   * type of the schema document (e.g. application/json, application/xml).
+   * type of the schema document (e.g. application/json, application/xml). </br> - `Swagger` Schema
+   * use `application/vnd.ms-azure-apim.swagger.definitions+json` </br> - `WSDL` Schema use
+   * `application/vnd.ms-azure-apim.xsd+xml` </br> - `OpenApi` Schema use
+   * `application/vnd.oai.openapi.components+json` </br> - `WADL Schema` use
+   * `application/vnd.ms-azure-apim.wadl.grammars+xml`.
+   */
+  contentType: string;
+  /**
+   * Properties of the Schema Document.
+   */
+  document?: any;
+}
+
+/**
+ * Schema Contract details.
+ */
+export interface SchemaCreateOrUpdateContract extends Resource {
+  /**
+   * Must be a valid a media type used in a Content-Type header as defined in the RFC 2616. Media
+   * type of the schema document (e.g. application/json, application/xml). </br> - `Swagger` Schema
+   * use `application/vnd.ms-azure-apim.swagger.definitions+json` </br> - `WSDL` Schema use
+   * `application/vnd.ms-azure-apim.xsd+xml` </br> - `OpenApi` Schema use
+   * `application/vnd.oai.openapi.components+json` </br> - `WADL Schema` use
+   * `application/vnd.ms-azure-apim.wadl.grammars+xml`.
    */
   contentType: string;
   /**
@@ -2191,8 +2214,7 @@ export interface ApiManagementServiceSkuProperties {
    */
   name: SkuType;
   /**
-   * Capacity of the SKU (number of deployed units of the SKU). The default value is 1. Default
-   * value: 1.
+   * Capacity of the SKU (number of deployed units of the SKU).
    */
   capacity?: number;
 }
@@ -4572,6 +4594,16 @@ export interface ApiOperationCreateOrUpdateOptionalParams extends msRest.Request
 /**
  * Optional Parameters.
  */
+export interface ApiOperationPolicyGetOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Policy Export Format. Possible values include: 'xml', 'rawxml'. Default value: 'xml'.
+   */
+  format?: PolicyExportFormat;
+}
+
+/**
+ * Optional Parameters.
+ */
 export interface ApiOperationPolicyCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
   /**
    * ETag of the Entity. Not required when creating an entity, but required when updating an
@@ -4697,6 +4729,16 @@ export interface ApiProductListByApisOptionalParams extends msRest.RequestOption
    * Number of records to skip.
    */
   skip?: number;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface ApiPolicyGetOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Policy Export Format. Possible values include: 'xml', 'rawxml'. Default value: 'xml'.
+   */
+  format?: PolicyExportFormat;
 }
 
 /**
@@ -5404,6 +5446,16 @@ export interface OpenIdConnectProviderCreateOrUpdateOptionalParams extends msRes
 /**
  * Optional Parameters.
  */
+export interface PolicyGetOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Policy Export Format. Possible values include: 'xml', 'rawxml'. Default value: 'xml'.
+   */
+  format?: PolicyExportFormat;
+}
+
+/**
+ * Optional Parameters.
+ */
 export interface PolicyCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
   /**
    * ETag of the Entity. Not required when creating an entity, but required when updating an
@@ -5608,6 +5660,16 @@ export interface ProductSubscriptionsListOptionalParams extends msRest.RequestOp
    * Number of records to skip.
    */
   skip?: number;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface ProductPolicyGetOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Policy Export Format. Possible values include: 'xml', 'rawxml'. Default value: 'xml'.
+   */
+  format?: PolicyExportFormat;
 }
 
 /**
@@ -7819,6 +7881,14 @@ export type KeyType = 'primary' | 'secondary';
  * @enum {string}
  */
 export type NotificationName = 'RequestPublisherNotificationMessage' | 'PurchasePublisherNotificationMessage' | 'NewApplicationNotificationMessage' | 'BCC' | 'NewIssuePublisherNotificationMessage' | 'AccountClosedPublisher' | 'QuotaLimitApproachingPublisherNotificationMessage';
+
+/**
+ * Defines values for PolicyExportFormat.
+ * Possible values include: 'xml', 'rawxml'
+ * @readonly
+ * @enum {string}
+ */
+export type PolicyExportFormat = 'xml' | 'rawxml';
 
 /**
  * Defines values for TemplateName.

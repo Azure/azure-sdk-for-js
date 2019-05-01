@@ -129,7 +129,7 @@ export class ApiOperationPolicy {
    * @param [options] The optional parameters
    * @returns Promise<Models.ApiOperationPolicyGetResponse>
    */
-  get(resourceGroupName: string, serviceName: string, apiId: string, operationId: string, options?: msRest.RequestOptionsBase): Promise<Models.ApiOperationPolicyGetResponse>;
+  get(resourceGroupName: string, serviceName: string, apiId: string, operationId: string, options?: Models.ApiOperationPolicyGetOptionalParams): Promise<Models.ApiOperationPolicyGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -150,8 +150,8 @@ export class ApiOperationPolicy {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, serviceName: string, apiId: string, operationId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicyContract>): void;
-  get(resourceGroupName: string, serviceName: string, apiId: string, operationId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicyContract>, callback?: msRest.ServiceCallback<Models.PolicyContract>): Promise<Models.ApiOperationPolicyGetResponse> {
+  get(resourceGroupName: string, serviceName: string, apiId: string, operationId: string, options: Models.ApiOperationPolicyGetOptionalParams, callback: msRest.ServiceCallback<Models.PolicyContract>): void;
+  get(resourceGroupName: string, serviceName: string, apiId: string, operationId: string, options?: Models.ApiOperationPolicyGetOptionalParams | msRest.ServiceCallback<Models.PolicyContract>, callback?: msRest.ServiceCallback<Models.PolicyContract>): Promise<Models.ApiOperationPolicyGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -337,6 +337,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
+    Parameters.format0,
     Parameters.apiVersion
   ],
   headerParameters: [
