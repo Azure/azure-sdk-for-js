@@ -1821,13 +1821,6 @@ export const OrchestratorProfile: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
-      },
-      isPreview: {
-        required: true,
-        serializedName: "isPreview",
-        type: {
-          name: "Boolean"
-        }
       }
     }
   }
@@ -1856,13 +1849,6 @@ export const OrchestratorVersionProfile: msRest.CompositeMapper = {
       default: {
         required: true,
         serializedName: "default",
-        type: {
-          name: "Boolean"
-        }
-      },
-      isPreview: {
-        required: true,
-        serializedName: "isPreview",
         type: {
           name: "Boolean"
         }
