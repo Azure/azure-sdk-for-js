@@ -122,6 +122,8 @@ export {
   ManagedServiceIdentityUserAssignedIdentitiesValue,
   MatchCondition,
   MatchVariable,
+  NatGateway,
+  NatGatewaySku,
   NetworkIntentPolicy,
   NetworkInterface,
   NetworkInterfaceDnsSettings,

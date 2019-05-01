@@ -189,7 +189,7 @@ export class Receiver {
 
     let receiverName;
     if (this._context.batchingReceiver) {
-      receiverName = BatchingReceiver.name;
+      receiverName = this._context.batchingReceiver.name;
     } else if (this._context.streamingReceiver) {
       receiverName = this._context.streamingReceiver.name;
     }
@@ -464,7 +464,11 @@ export class SessionReceiver {
   async setState(state: any): Promise<void> {
     this._throwIfReceiverOrConnectionClosed();
     await this._createMessageSessionIfDoesntExist();
-    return this._context.managementClient!.setSessionState(this.sessionId!, state);
+    return this._context.managementClient!.setSessionState(
+      this.sessionId!,
+      state,
+      this._messageSession!.name
+    );
   }
 
   /**
@@ -475,7 +479,10 @@ export class SessionReceiver {
   async getState(): Promise<any> {
     this._throwIfReceiverOrConnectionClosed();
     await this._createMessageSessionIfDoesntExist();
-    return this._context.managementClient!.getSessionState(this.sessionId!);
+    return this._context.managementClient!.getSessionState(
+      this.sessionId!,
+      this._messageSession!.name
+    );
   }
 
   /**
@@ -492,7 +499,11 @@ export class SessionReceiver {
   async peek(maxMessageCount?: number): Promise<ReceivedMessageInfo[]> {
     this._throwIfReceiverOrConnectionClosed();
     await this._createMessageSessionIfDoesntExist();
-    return this._context.managementClient!.peekMessagesBySession(this.sessionId!, maxMessageCount);
+    return this._context.managementClient!.peekMessagesBySession(
+      this.sessionId!,
+      this._messageSession!.name,
+      maxMessageCount
+    );
   }
 
   /**
@@ -514,7 +525,8 @@ export class SessionReceiver {
     return this._context.managementClient!.peekBySequenceNumber(
       fromSequenceNumber,
       maxMessageCount,
-      this.sessionId
+      this.sessionId,
+      this._messageSession!.name
     );
   }
 

@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import * as log from "./log";
+import os from "os";
 import { packageJsonInfo } from "./util/constants";
 import { EventHubReceiver } from "./eventHubReceiver";
 import { EventHubSender } from "./eventHubSender";
@@ -54,13 +55,19 @@ export interface ConnectionContextOptions extends ClientOptions {
 }
 
 export namespace ConnectionContext {
-  const userAgent: string = "/js-event-hubs";
+  /**
+   * @property {string} userAgent The user agent string for the EventHubs client.
+   * See guideline at https://github.com/Azure/azure-sdk/blob/master/docs/design/Telemetry.mdk
+   */
+  const userAgent: string = `azsdk-js-azureeventhubs/${packageJsonInfo.version} (NODE-VERSION ${
+    process.version
+  }; ${os.type()} ${os.release()})`;
 
   export function getUserAgent(options: ConnectionContextOptions): string {
     const finalUserAgent = options.userAgent ? `${userAgent},${options.userAgent}` : userAgent;
     if (finalUserAgent.length > Constants.maxUserAgentLength) {
       throw new Error(
-        `The user-agent string cannot be more than 128 characters in length.` +
+        `The user-agent string cannot be more than ${Constants.maxUserAgentLength} characters in length.` +
           `The given user-agent string is: ${finalUserAgent} with length: ${finalUserAgent.length}`
       );
     }
