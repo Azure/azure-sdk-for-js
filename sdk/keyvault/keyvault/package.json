@@ -1,13 +1,11 @@
 {
   "name": "@azure/keyvault",
   "author": "Microsoft Corporation",
-  "description": "KeyVaultClient Library with typescript type definitions for node.js and browser.",
   "version": "0.1.0",
-  "dependencies": {
-    "@azure/ms-rest-azure-js": "^1.1.0",
-    "@azure/ms-rest-js": "^1.1.0",
-    "tslib": "^1.9.3"
-  },
+  "license": "MIT",
+  "description": "KeyVaultClient Library with typescript type definitions for node.js and browser.",
+  "homepage": "https://github.com/azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault",
+  "repository": "github:Azure/azure-sdk-for-js",
   "keywords": [
     "node",
     "azure",
@@ -15,41 +13,44 @@
     "browser",
     "isomorphic"
   ],
-  "license": "MIT",
-  "main": "./dist/keyvault.js",
-  "module": "./esm/keyVaultClient.js",
-  "types": "./esm/keyVaultClient.d.ts",
-  "devDependencies": {
-    "typescript": "^3.1.1",
-    "rollup": "^0.66.2",
-    "rollup-plugin-node-resolve": "^3.4.0",
-    "uglify-js": "^3.4.9"
-  },
-  "homepage": "https://github.com/azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/azure/azure-sdk-for-js.git"
-  },
   "bugs": {
     "url": "https://github.com/azure/azure-sdk-for-js/issues"
   },
+  "main": "./dist/keyvault.js",
+  "module": "./esm/keyVaultClient.js",
+  "types": "./esm/keyVaultClient.d.ts",
+  "engine": {
+    "node": ">=6.0.0"
+  },
+  "dependencies": {
+    "@azure/ms-rest-azure-js": "^1.1.0",
+    "@azure/ms-rest-js": "^1.2.6",
+    "tslib": "^1.9.3"
+  },
+  "devDependencies": {
+    "prettier": "^1.16.4",
+    "rimraf": "^2.6.2",
+    "rollup": "^1.0.0",
+    "rollup-plugin-node-resolve": "^4.2.0",
+    "typescript": "^3.2.2",
+    "uglify-js": "^3.4.9"
+  },
   "files": [
-    "dist/**/*.js",
-    "dist/**/*.js.map",
-    "dist/**/*.d.ts",
-    "dist/**/*.d.ts.map",
-    "esm/**/*.js",
-    "esm/**/*.js.map",
-    "esm/**/*.d.ts",
-    "esm/**/*.d.ts.map",
-    "src/**/*.ts",
-    "rollup.config.js",
-    "tsconfig.json"
+    "dist/",
+    "esm/",
+    "src/"
   ],
   "scripts": {
-    "build": "tsc && rollup -c rollup.config.js && npm run minify",
-    "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/keyvault.js.map'\" -o ./dist/keyvault.min.js ./dist/keyvault.js",
-    "prepack": "npm install && npm run build"
+    "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
+    "build": "tsc && rollup -c rollup.config.js 2>&1 && npm run minify",
+    "check-format": "prettier --list-different --config .prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "clean": "rimraf dist esm test-dist typings *.tgz *.log",
+    "format": "prettier --write --config .prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "lint": "true",
+    "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/keyvault.js.map'\" -o ./dist/keyvault.min.js ./dist/keyvault.js 2>&1",
+    "pack": "npm pack 2>&1",
+    "prebuild": "npm run clean",
+    "test": "true"
   },
   "sideEffects": false
 }

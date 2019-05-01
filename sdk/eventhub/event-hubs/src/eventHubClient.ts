@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import * as log from "./log";
-import { Delivery } from "rhea-promise";
+import { Delivery, WebSocketImpl } from "rhea-promise";
 import {
   ApplicationTokenCredentials,
   DeviceTokenCredentials,
@@ -81,6 +81,16 @@ export interface ClientOptionsBase {
    * user agent string.
    */
   userAgent?: string;
+  /**
+   * @property {WebSocketImpl} [webSocket] - The WebSocket constructor used to create an AMQP connection
+   * over a WebSocket. In browsers, the built-in WebSocket will be  used by default. In Node, a
+   * TCP socket will be used if a WebSocket constructor is not provided.
+   */
+   webSocket?: WebSocketImpl;
+  /**
+   * @property {webSocketConstructorOptions} - Options to be passed to the WebSocket constructor
+   */
+   webSocketConstructorOptions?: any;
 }
 
 /**
@@ -325,6 +335,10 @@ export class EventHubClient {
       throw new Error("'connectionString' is a required parameter and must be of type: 'string'.");
     }
     const config = EventHubConnectionConfig.create(connectionString, path);
+
+    config.webSocket = options && options.webSocket;
+    config.webSocketEndpointPath = "$servicebus/websocket";
+    config.webSocketConstructorOptions = options && options.webSocketConstructorOptions;
 
     if (!config.entityPath) {
       throw new Error(

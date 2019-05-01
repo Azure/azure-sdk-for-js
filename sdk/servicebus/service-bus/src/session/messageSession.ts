@@ -54,44 +54,45 @@ export interface CreateMessageSessionReceiverLinkOptions {
 }
 
 /**
- * Describes the options for creating a SessionReceiver.
+ * Describes the options passed to the `createReceiver` method when using a Queue/Subscription that
+ * has sessions enabled.
  */
 export interface SessionReceiverOptions {
   /**
-   * @property {string} [sessionId] The sessionId for the message session. If null or undefined is
+   * @property The sessionId for the message session. If null or undefined is
    * provided, the SessionReceiver gets created for a randomly chosen session from available sessions
    */
   sessionId: string | undefined;
   /**
-   * @property {number} [maxSessionAutoRenewLockDurationInSeconds] The maximum duration in seconds
-   * until which, the lock on the session will be renewed automatically.
+   * @property The maximum duration in seconds
+   * until which, the lock on the session will be renewed automatically by the sdk.
    * - **Default**: `300` seconds (5 minutes).
-   * - **To disable autolock renewal**, set `maxSessionAutoRenewLockDurationInSeconds` to `0`.
+   * - **To disable autolock renewal**, set this to `0`.
    */
   maxSessionAutoRenewLockDurationInSeconds?: number;
 }
 
 /**
- * Describes the options to control receiving of messages in streaming mode.
+ * Describes the options passed to `registerMessageHandler` method when receiving messages from a
+ * Queue/Subscription which has sessions enabled.
  */
 export interface SessionMessageHandlerOptions {
   /**
-   * @property {boolean} [autoComplete] Indicates whether the message (if not settled by the user)
-   * should be automatically completed after the user provided onMessage handler has been executed.
-   * Completing a message, removes it from the Queue/Subscription.
+   * @property Indicates whether the `complete()` method on the message should automatically be
+   * called by the sdk after the user provided onMessage handler has been executed.
+   * Calling `complete()` on a message removes it from the Queue/Subscription.
    * - **Default**: `true`.
    */
   autoComplete?: boolean;
   /**
-   * @property {number} [newMessageWaitTimeoutInSeconds] The maximum amount of time the receiver
-   * will wait to receive a new message. If no new message is received in this time, then the
-   * receiver will be closed.
-   *
-   * Caution: When setting this value, take into account the time taken to process messages. Once
-   * the receiver is closed, operations like complete()/abandon()/defer()/deadletter() cannot be
-   * invoked on messages.
+   * @property The maximum amount of time the receiver will wait to receive a new message. If no new
+   * message is received in this time, then the receiver will be closed.
    *
    * If this option is not provided, then receiver link will stay open until manually closed.
+   *
+   * **Caution**: When setting this value, take into account the time taken to process messages. Once
+   * the receiver is closed, operations like complete()/abandon()/defer()/deadletter() cannot be
+   * invoked on messages.
    */
   newMessageWaitTimeoutInSeconds?: number;
   /**
@@ -366,11 +367,11 @@ export class MessageSession extends LinkEntity {
       const connectionId = this._context.namespace.connectionId;
       const receiverError = context.receiver && context.receiver.error;
       const receiver = this._receiver || context.receiver!;
-      let clearExpiredSessionFlag = true;
+      let isClosedDueToExpiry = false;
       if (receiverError) {
         const sbError = translate(receiverError);
         if (sbError.name === "SessionLockLostError") {
-          clearExpiredSessionFlag = false;
+          isClosedDueToExpiry = true;
         }
         log.error(
           "[%s] 'receiver_close' event occurred for receiver '%s' for sessionId '%s'. " +
@@ -392,7 +393,7 @@ export class MessageSession extends LinkEntity {
           this.sessionId
         );
         try {
-          await this.close();
+          await this.close(isClosedDueToExpiry);
         } catch (err) {
           log.error(
             "[%s] An error occurred while closing the receiver '%s' for sessionId '%s': %O.",
@@ -410,10 +411,6 @@ export class MessageSession extends LinkEntity {
           this.name,
           this.sessionId
         );
-      }
-
-      if (this.sessionId && clearExpiredSessionFlag) {
-        delete this._context.expiredMessageSessions[this.sessionId];
       }
     };
 
@@ -468,8 +465,11 @@ export class MessageSession extends LinkEntity {
 
   /**
    * Closes the underlying AMQP receiver link.
+   * @param isClosedDueToExpiry Flag that denotes if close is invoked due to session expiring.
+   * This is so that the internal map of expired sessions doesn't get cleared when session is
+   * closed due to expiry.
    */
-  async close(): Promise<void> {
+  async close(isClosedDueToExpiry?: boolean): Promise<void> {
     try {
       log.messageSession(
         "[%s] Closing the MessageSession '%s' for queue '%s'.",
@@ -486,6 +486,11 @@ export class MessageSession extends LinkEntity {
           "'session lock renewal' task.",
         this._context.namespace.connectionId
       );
+
+      if (!isClosedDueToExpiry) {
+        delete this._context.expiredMessageSessions[this.sessionId!];
+      }
+
       if (this._receiver) {
         const receiverLink = this._receiver;
         this._deleteFromCache();
@@ -1143,6 +1148,7 @@ export class MessageSession extends LinkEntity {
           );
           this.sessionLockedUntilUtc = await this._context.managementClient!.renewSessionLock(
             this.sessionId!,
+            this.name,
             {
               delayInSeconds: 0,
               timeoutInSeconds: 10,

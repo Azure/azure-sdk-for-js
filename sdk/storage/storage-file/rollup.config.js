@@ -55,8 +55,7 @@ const browserRollupConfigFactory = isProduction => {
         `
       }),
       nodeResolve({
-        module: true,
-        browser: true,
+        mainFields: ['module', 'browser'],
         preferBuiltins: false
       }),
       commonjs({

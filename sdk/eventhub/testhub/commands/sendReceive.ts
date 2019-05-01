@@ -3,7 +3,7 @@
 import { CommandBuilder } from "yargs";
 import { EventHubClient, EventPosition, EventData, delay } from "@azure/event-hubs";
 import { log, setCurrentCommand, randomNumberFromInterval } from "../utils/util";
-import * as uuid from "uuid/v4";
+import uuid from "uuid/v4";
 
 export const command = "send-receive";
 
