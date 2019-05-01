@@ -14,6 +14,107 @@ import * as msRest from "@azure/ms-rest-js";
 export const CloudError = CloudErrorMapper;
 export const BaseResource = BaseResourceMapper;
 
+export const MetadataSupportedValueDetail: msRest.CompositeMapper = {
+  serializedName: "MetadataSupportedValueDetail",
+  type: {
+    name: "Composite",
+    className: "MetadataSupportedValueDetail",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      displayName: {
+        serializedName: "displayName",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const MetadataEntity: msRest.CompositeMapper = {
+  serializedName: "MetadataEntity",
+  type: {
+    name: "Composite",
+    className: "MetadataEntity",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      displayName: {
+        serializedName: "properties.displayName",
+        type: {
+          name: "String"
+        }
+      },
+      dependsOn: {
+        serializedName: "properties.dependsOn",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      supportedValues: {
+        serializedName: "properties.supportedValues",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "MetadataSupportedValueDetail"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const MetadataEntityListResult: msRest.CompositeMapper = {
+  serializedName: "MetadataEntityListResult",
+  type: {
+    name: "Composite",
+    className: "MetadataEntityListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "MetadataEntity"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const ConfigDataProperties: msRest.CompositeMapper = {
   serializedName: "ConfigData_properties",
   type: {
