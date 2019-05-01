@@ -16,6 +16,7 @@ lib-cov
 
 # Coverage directory used by tools like istanbul
 coverage
+coverage-browser
 
 # nyc test coverage
 .nyc_output
@@ -101,7 +102,7 @@ npm-debug.log.*
 azure_error
 checkstyle-result.xml
 test-result.xml
-test-results.xml
+test-results.*xml
 **/cjs/
 **/esm/
 
