@@ -17,15 +17,20 @@ const packageVersion = "1.0.0";
 
 export class SubscriptionClientContext extends msRestAzure.AzureServiceClient {
   credentials: msRest.ServiceClientCredentials;
+  subscriptionId: string;
 
   /**
    * Initializes a new instance of the SubscriptionClient class.
    * @param credentials Credentials needed for the client to connect to Azure.
+   * @param subscriptionId Subscription Id.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, options?: Models.SubscriptionClientOptions) {
+  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.SubscriptionClientOptions) {
     if (credentials == undefined) {
       throw new Error('\'credentials\' cannot be null.');
+    }
+    if (subscriptionId == undefined) {
+      throw new Error('\'subscriptionId\' cannot be null.');
     }
 
     if (!options) {
@@ -43,6 +48,7 @@ export class SubscriptionClientContext extends msRestAzure.AzureServiceClient {
     this.baseUri = options.baseUri || this.baseUri || "https://management.azure.com";
     this.requestContentType = "application/json; charset=utf-8";
     this.credentials = credentials;
+    this.subscriptionId = subscriptionId;
 
     if(options.acceptLanguage !== null && options.acceptLanguage !== undefined) {
       this.acceptLanguage = options.acceptLanguage;

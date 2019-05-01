@@ -9,6 +9,10 @@
  */
 
 export {
+  CanceledSubscriptionId,
+  ErrorResponse,
+  SubscriptionName,
+  RenamedSubscriptionId,
   LocationListResult,
   Location,
   CloudError,

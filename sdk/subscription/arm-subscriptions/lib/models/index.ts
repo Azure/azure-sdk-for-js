@@ -16,68 +16,6 @@ export { BaseResource, CloudError };
 
 /**
  * @interface
- * An interface representing SubscriptionCreationResult.
- * The created subscription object.
- *
- */
-export interface SubscriptionCreationResult {
-  /**
-   * @member {string} [subscriptionLink] The link to the new subscription.
-   */
-  subscriptionLink?: string;
-}
-
-/**
- * @interface
- * An interface representing AdPrincipal.
- * Active Directory Principal for subscription creation delegated permission
- *
- */
-export interface AdPrincipal {
-  /**
-   * @member {string} objectId Object id of the Principal
-   */
-  objectId: string;
-}
-
-/**
- * @interface
- * An interface representing SubscriptionCreationParameters.
- * Subscription Creation Parameters required to create a new Azure
- * subscription.
- *
- */
-export interface SubscriptionCreationParameters {
-  /**
-   * @member {string} [displayName] The display name of the subscription.
-   */
-  displayName?: string;
-  /**
-   * @member {string} [billingProfileId] The ARM id of the billing profile.
-   */
-  billingProfileId?: string;
-  /**
-   * @member {string} [skuId] The commerce id of the sku.
-   */
-  skuId?: string;
-  /**
-   * @member {string} [costCenter] optional customer cost center
-   */
-  costCenter?: string;
-  /**
-   * @member {AdPrincipal} [owner] rbac owner of the subscription
-   */
-  owner?: AdPrincipal;
-  /**
-   * @member {{ [propertyName: string]: any }} [additionalParameters]
-   * Additional, untyped parameters to support custom subscription creation
-   * scenarios.
-   */
-  additionalParameters?: { [propertyName: string]: any };
-}
-
-/**
- * @interface
  * An interface representing ErrorResponse.
  * Describes the format of Error response.
  *
@@ -96,98 +34,45 @@ export interface ErrorResponse {
 
 /**
  * @interface
- * An interface representing SubscriptionOperation.
- * status of the subscription POST operation.
+ * An interface representing CanceledSubscriptionId.
+ * Canceled Subscription Id
  *
  */
-export interface SubscriptionOperation {
+export interface CanceledSubscriptionId {
   /**
-   * @member {string} [id] The operation Id.
+   * @member {string} [value] Canceled Subscription Id
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly id?: string;
-  /**
-   * @member {string} [status] Status of the pending subscription
-   */
-  status?: string;
-  /**
-   * @member {string} [statusDetail] Status Detail of the pending subscription
-   */
-  statusDetail?: string;
+  readonly value?: string;
 }
 
 /**
  * @interface
- * An interface representing SubscriptionOperationListResult.
- * A list of pending subscription operations.
+ * An interface representing RenamedSubscriptionId.
+ * Renamed Subscription Id
  *
  */
-export interface SubscriptionOperationListResult {
+export interface RenamedSubscriptionId {
   /**
-   * @member {SubscriptionOperation[]} [value] A list of pending
-   * SubscriptionOperations
+   * @member {string} [value] Renamed Subscription Id
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  value?: SubscriptionOperation[];
+  readonly value?: string;
 }
 
 /**
  * @interface
- * An interface representing OperationDisplay.
- * The object that represents the operation.
+ * An interface representing SubscriptionName.
+ * New name of the subscription.
  *
  */
-export interface OperationDisplay {
+export interface SubscriptionName {
   /**
-   * @member {string} [provider] Service provider: Microsoft.Subscription
+   * @member {string} [subscriptionName] New subscription name
    */
-  provider?: string;
-  /**
-   * @member {string} [resource] Resource on which the operation is performed:
-   * Profile, endpoint, etc.
-   */
-  resource?: string;
-  /**
-   * @member {string} [operation] Operation type: Read, write, delete, etc.
-   */
-  operation?: string;
-}
-
-/**
- * @interface
- * An interface representing Operation.
- * REST API operation
- *
- */
-export interface Operation {
-  /**
-   * @member {string} [name] Operation name: {provider}/{resource}/{operation}
-   */
-  name?: string;
-  /**
-   * @member {OperationDisplay} [display] The object that represents the
-   * operation.
-   */
-  display?: OperationDisplay;
-}
-
-/**
- * @interface
- * An interface representing OperationListResult.
- * Result of the request to list operations. It contains a list of operations
- * and a URL link to get the next set of results.
- *
- */
-export interface OperationListResult {
-  /**
-   * @member {Operation[]} [value] List of operations.
-   */
-  value?: Operation[];
-  /**
-   * @member {string} [nextLink] URL to get the next set of operation list
-   * results if there are any.
-   */
-  nextLink?: string;
+  subscriptionName?: string;
 }
 
 /**
@@ -349,44 +234,6 @@ export interface SubscriptionClientOptions extends AzureServiceClientOptions {
   baseUri?: string;
 }
 
-/**
- * @interface
- * An interface representing SubscriptionOperationGetHeaders.
- * Defines headers for Get operation.
- *
- */
-export interface SubscriptionOperationGetHeaders {
-  /**
-   * @member {string} [location] The URL where the status of the asynchronous
-   * operation can be checked.
-   */
-  location: string;
-  /**
-   * @member {number} [retryAfter] The amount of delay to use while the status
-   * of the operation is checked. The value is expressed in seconds.
-   */
-  retryAfter: number;
-}
-
-/**
- * @interface
- * An interface representing SubscriptionFactoryCreateSubscriptionHeaders.
- * Defines headers for CreateSubscription operation.
- *
- */
-export interface SubscriptionFactoryCreateSubscriptionHeaders {
-  /**
-   * @member {string} [location] GET this URL to retrieve the status of the
-   * asynchronous operation.
-   */
-  location: string;
-  /**
-   * @member {number} [retryAfter] The amount of delay to use while the status
-   * of the operation is checked. The value is expressed in seconds.
-   */
-  retryAfter: number;
-}
-
 
 /**
  * @interface
@@ -444,9 +291,9 @@ export type SubscriptionState = 'Enabled' | 'Warned' | 'PastDue' | 'Disabled' | 
 export type SpendingLimit = 'On' | 'Off' | 'CurrentPeriodOff';
 
 /**
- * Contains response data for the list operation.
+ * Contains response data for the cancel operation.
  */
-export type OperationsListResponse = OperationListResult & {
+export type SubscriptionsCancelResponse = CanceledSubscriptionId & {
   /**
    * The underlying HTTP response.
    */
@@ -458,22 +305,18 @@ export type OperationsListResponse = OperationListResult & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: OperationListResult;
+      parsedBody: CanceledSubscriptionId;
     };
 };
 
 /**
- * Contains response data for the get operation.
+ * Contains response data for the rename operation.
  */
-export type SubscriptionOperationGetResponse = SubscriptionCreationResult & SubscriptionOperationGetHeaders & {
+export type SubscriptionsRenameResponse = RenamedSubscriptionId & {
   /**
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: SubscriptionOperationGetHeaders;
       /**
        * The response body as text (string format)
        */
@@ -481,30 +324,7 @@ export type SubscriptionOperationGetResponse = SubscriptionCreationResult & Subs
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: SubscriptionCreationResult;
-    };
-};
-
-/**
- * Contains response data for the createSubscription operation.
- */
-export type SubscriptionFactoryCreateSubscriptionResponse = SubscriptionCreationResult & SubscriptionFactoryCreateSubscriptionHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: SubscriptionFactoryCreateSubscriptionHeaders;
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SubscriptionCreationResult;
+      parsedBody: RenamedSubscriptionId;
     };
 };
 

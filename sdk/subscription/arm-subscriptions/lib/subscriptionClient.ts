@@ -17,22 +17,17 @@ import { SubscriptionClientContext } from "./subscriptionClientContext";
 
 class SubscriptionClient extends SubscriptionClientContext {
   // Operation groups
-  operations: operations.Operations;
-  subscriptionOperation: operations.SubscriptionOperationOperations;
-  subscriptionFactory: operations.SubscriptionFactory;
   subscriptions: operations.Subscriptions;
   tenants: operations.Tenants;
 
   /**
    * Initializes a new instance of the SubscriptionClient class.
    * @param credentials Credentials needed for the client to connect to Azure.
+   * @param subscriptionId Subscription Id.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, options?: Models.SubscriptionClientOptions) {
-    super(credentials, options);
-    this.operations = new operations.Operations(this);
-    this.subscriptionOperation = new operations.SubscriptionOperationOperations(this);
-    this.subscriptionFactory = new operations.SubscriptionFactory(this);
+  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.SubscriptionClientOptions) {
+    super(credentials, subscriptionId, options);
     this.subscriptions = new operations.Subscriptions(this);
     this.tenants = new operations.Tenants(this);
   }
