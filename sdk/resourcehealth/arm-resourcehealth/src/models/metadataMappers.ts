@@ -7,13 +7,9 @@
  */
 
 export {
-  AvailabilityStatus,
-  AvailabilityStatusListResult,
-  AvailabilityStatusProperties,
-  AvailabilityStatusPropertiesRecentlyResolvedState,
+  CloudError,
   ErrorResponse,
-  RecommendedAction,
-  ServiceImpactingEvent,
-  ServiceImpactingEventIncidentProperties,
-  ServiceImpactingEventStatus
+  MetadataEntity,
+  MetadataEntityListResult,
+  MetadataSupportedValueDetail
 } from "../models/mappers";

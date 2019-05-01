@@ -17,7 +17,10 @@ import { MicrosoftResourceHealthContext } from "./microsoftResourceHealthContext
 
 class MicrosoftResourceHealth extends MicrosoftResourceHealthContext {
   // Operation groups
+  metadata: operations.Metadata;
   availabilityStatuses: operations.AvailabilityStatuses;
+  childAvailabilityStatuses: operations.ChildAvailabilityStatuses;
+  childResources: operations.ChildResources;
   operations: operations.Operations;
 
   /**
@@ -29,7 +32,10 @@ class MicrosoftResourceHealth extends MicrosoftResourceHealthContext {
    */
   constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.MicrosoftResourceHealthOptions) {
     super(credentials, subscriptionId, options);
+    this.metadata = new operations.Metadata(this);
     this.availabilityStatuses = new operations.AvailabilityStatuses(this);
+    this.childAvailabilityStatuses = new operations.ChildAvailabilityStatuses(this);
+    this.childResources = new operations.ChildResources(this);
     this.operations = new operations.Operations(this);
   }
 }

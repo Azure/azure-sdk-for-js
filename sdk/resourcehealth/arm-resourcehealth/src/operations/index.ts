@@ -8,5 +8,8 @@
  * regenerated.
  */
 
+export * from "./metadata";
 export * from "./availabilityStatuses";
+export * from "./childAvailabilityStatuses";
+export * from "./childResources";
 export * from "./operations";
