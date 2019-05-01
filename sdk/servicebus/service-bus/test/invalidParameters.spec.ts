@@ -779,6 +779,28 @@ describe("Invalid parameters in Sender", function(): void {
     await ns.close();
   });
 
+  it("Send: Missing message in Sender", async function(): Promise<void> {
+    let caughtError: Error | undefined;
+    try {
+      await sender.send(undefined as any);
+    } catch (error) {
+      caughtError = error;
+    }
+    should.equal(caughtError && caughtError.name, "TypeError");
+    should.equal(caughtError && caughtError.message, `Missing parameter "message"`);
+  });
+
+  it("Sendbatch: Missing messages in Sender", async function(): Promise<void> {
+    let caughtError: Error | undefined;
+    try {
+      await sender.sendBatch(undefined as any);
+    } catch (error) {
+      caughtError = error;
+    }
+    should.equal(caughtError && caughtError.name, "TypeError");
+    should.equal(caughtError && caughtError.message, `Missing parameter "messages"`);
+  });
+
   it("ScheduledMessage: Missing date in Sender", async function(): Promise<void> {
     let caughtError: Error | undefined;
     try {
