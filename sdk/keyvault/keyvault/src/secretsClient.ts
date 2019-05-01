@@ -231,7 +231,7 @@ export class SecretsClient {
     const response = await this.client.updateSecret(
       this.vaultBaseUrl,
       secretName,
-      secretVersion,
+      secretVersion._getVersion(),
       options
     );
     return this.getSecretFromSecretBundle(response);
@@ -252,7 +252,7 @@ export class SecretsClient {
     const response = await this.client.getSecret(
       this.vaultBaseUrl,
       secretName,
-      options && options.version ? options.version : "",
+      options && options.version ? options.version._getVersion() : "",
       options
     );
     return this.getSecretFromSecretBundle(response);

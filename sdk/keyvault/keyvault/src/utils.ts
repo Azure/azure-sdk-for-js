@@ -38,10 +38,10 @@ export function parseKeyvaultIdentifier(
 
   var vaultUrl = `${baseUri.protocol}//${baseUri.host}`;
   var name = segments[2];
-  var version = segments.length === 4 ? segments[3] : undefined;
+  var version = segments.length === 4 ? EntityVersion._createVersion(segments[3]) : undefined;
   return {
     vaultUrl,
     name,
-    version: version as EntityVersion,
+    version,
   };
 }

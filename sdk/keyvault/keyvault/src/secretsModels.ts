@@ -67,10 +67,34 @@ export interface DeletedSecret extends Secret {
 }
 
 /**
- * The version of the given entity (key/secret/certificate). Note, these versions
- * are created internally via set calls, eg addSecret. 
+ * NOTE: EntityVersion is an internal type used by Azure. To get versions, use
+ * the corresponding 'get' call for the entity (for example: `getSecret`). 
  */
-export type EntityVersion = string & { _tag: "__INTERNAL_VALUE__" }
+export class EntityVersion {
+  private version: string;
+
+  /**
+   * NOTE: EntityVersion is an internal type used by Azure. To get versions, use
+   * the corresponding 'get' call for the entity (for example: `getSecret`). 
+   */
+  private constructor(version: string) {
+    this.version = version;
+  }
+
+  /**
+   * @internal
+   */
+  static _createVersion(version: string) {
+    return new EntityVersion(version);
+  }
+
+  /**
+   * @internal
+   */
+  _getVersion() {
+    return this.version;
+  }
+}
 
 export interface ParsedKeyVaultEntityIdentifier {
   /** 
@@ -151,7 +175,7 @@ export interface GetSecretOptions extends msRest.RequestOptionsBase {
    * @member {string} [version] The version of the secret to retrieve.  If not 
    * specified the latest version of the secret will be retrieved.
    */
-  version?: string;
+  version?: EntityVersion;
 }
 
 /**

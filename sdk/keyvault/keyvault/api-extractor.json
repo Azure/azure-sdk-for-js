@@ -1,21 +1,14 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/api-extractor/api-extractor.schema.json",
-  "compiler": {
-    "configType": "tsconfig",
-    "rootFolder": "."
+  "mainEntryPointFilePath": "esm/index.d.ts",
+  "docModel": {
+    "enabled": false
   },
-  "apiReviewFile": {
-    "enabled": true,
-    "apiReviewFolder": "./etc"
-  },
-  "validationRules": {
-    "missingReleaseTags": "allow"
-  },
-  "project": {
-    "entryPointSourceFile": "esm/index.d.ts"
-  },
+  "apiReport": {
+    "enabled": false
+  },  
   "dtsRollup": {
     "enabled": true,
-    "mainDtsRollupPath": "../dist/index.d.ts"
+    "publicTrimmedFilePath": "<projectFolder>/dist/index.d.ts"
   }
 }
