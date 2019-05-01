@@ -14,7 +14,7 @@ import { createServiceBusService, ServiceBusService } from "azure-sb";
 import delay from "delay";
 import moment from "moment";
 
-const _payload = Buffer.alloc(1024);
+const _payload = JSON.stringify(Buffer.alloc(1024));
 const _start = moment();
 
 let _sent = 0;
@@ -32,25 +32,23 @@ async function main(): Promise<void> {
 
   const writeResultsPromise = WriteResults(messages);
 
-  await RunTest(connectionString, entityPath, maxInflight, messages);
+  RunTest(connectionString, entityPath, maxInflight, messages);
 
   await writeResultsPromise;
 }
 
-async function RunTest(
+function RunTest(
   connectionString: string,
   entityPath: string,
   maxInflight: number,
   messages: number
-): Promise<void> {
+) {
   const sbService: ServiceBusService = createServiceBusService(connectionString);
 
   function sendMessages(): void {
     while (_sent < messages && inflight() < maxInflight) {
       _sent++;
-      sbService.sendQueueMessage(entityPath, { body: JSON.stringify(_payload) }, function(
-        err: any
-      ) {
+      sbService.sendQueueMessage(entityPath, { body: _payload }, function(err: any) {
         if (err) {
           console.log(err.message);
         } else {
