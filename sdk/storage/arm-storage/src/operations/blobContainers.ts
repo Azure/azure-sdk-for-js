@@ -733,6 +733,61 @@ export class BlobContainers {
       extendImmutabilityPolicyOperationSpec,
       callback) as Promise<Models.BlobContainersExtendImmutabilityPolicyResponse>;
   }
+
+  /**
+   * The Lease Container operation establishes and manages a lock on a container for delete
+   * operations. The lock duration can be 15 to 60 seconds, or can be infinite.
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param containerName The name of the blob container within the specified storage account. Blob
+   * container names must be between 3 and 63 characters in length and use numbers, lower-case
+   * letters and dash (-) only. Every dash (-) character must be immediately preceded and followed by
+   * a letter or number.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.BlobContainersLeaseResponse>
+   */
+  lease(resourceGroupName: string, accountName: string, containerName: string, options?: Models.BlobContainersLeaseOptionalParams): Promise<Models.BlobContainersLeaseResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param containerName The name of the blob container within the specified storage account. Blob
+   * container names must be between 3 and 63 characters in length and use numbers, lower-case
+   * letters and dash (-) only. Every dash (-) character must be immediately preceded and followed by
+   * a letter or number.
+   * @param callback The callback
+   */
+  lease(resourceGroupName: string, accountName: string, containerName: string, callback: msRest.ServiceCallback<Models.LeaseContainerResponse>): void;
+  /**
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param containerName The name of the blob container within the specified storage account. Blob
+   * container names must be between 3 and 63 characters in length and use numbers, lower-case
+   * letters and dash (-) only. Every dash (-) character must be immediately preceded and followed by
+   * a letter or number.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  lease(resourceGroupName: string, accountName: string, containerName: string, options: Models.BlobContainersLeaseOptionalParams, callback: msRest.ServiceCallback<Models.LeaseContainerResponse>): void;
+  lease(resourceGroupName: string, accountName: string, containerName: string, options?: Models.BlobContainersLeaseOptionalParams | msRest.ServiceCallback<Models.LeaseContainerResponse>, callback?: msRest.ServiceCallback<Models.LeaseContainerResponse>): Promise<Models.BlobContainersLeaseResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        accountName,
+        containerName,
+        options
+      },
+      leaseOperationSpec,
+      callback) as Promise<Models.BlobContainersLeaseResponse>;
+  }
 }
 
 // Operation Specifications
@@ -794,6 +849,9 @@ const createOperationSpec: msRest.OperationSpec = {
     }
   },
   responses: {
+    200: {
+      bodyMapper: Mappers.BlobContainer
+    },
     201: {
       bodyMapper: Mappers.BlobContainer
     },
@@ -1114,6 +1172,39 @@ const extendImmutabilityPolicyOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.ImmutabilityPolicy,
       headersMapper: Mappers.BlobContainersExtendImmutabilityPolicyHeaders
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const leaseOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}/lease",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.containerName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: [
+      "options",
+      "parameters"
+    ],
+    mapper: Mappers.LeaseContainerRequest
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.LeaseContainerResponse
     },
     default: {
       bodyMapper: Mappers.CloudError

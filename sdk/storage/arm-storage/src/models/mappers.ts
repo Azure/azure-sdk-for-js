@@ -291,15 +291,7 @@ export const Sku: msRest.CompositeMapper = {
         required: true,
         serializedName: "name",
         type: {
-          name: "Enum",
-          allowedValues: [
-            "Standard_LRS",
-            "Standard_GRS",
-            "Standard_RAGRS",
-            "Standard_ZRS",
-            "Premium_LRS",
-            "Premium_ZRS"
-          ]
+          name: "String"
         }
       },
       tier: {
@@ -324,14 +316,7 @@ export const Sku: msRest.CompositeMapper = {
         readOnly: true,
         serializedName: "kind",
         type: {
-          name: "Enum",
-          allowedValues: [
-            "Storage",
-            "StorageV2",
-            "BlobStorage",
-            "FileStorage",
-            "BlockBlobStorage"
-          ]
+          name: "String"
         }
       },
       locations: {
@@ -727,14 +712,7 @@ export const StorageAccountCreateParameters: msRest.CompositeMapper = {
         required: true,
         serializedName: "kind",
         type: {
-          name: "Enum",
-          allowedValues: [
-            "Storage",
-            "StorageV2",
-            "BlobStorage",
-            "FileStorage",
-            "BlockBlobStorage"
-          ]
+          name: "String"
         }
       },
       location: {
@@ -977,14 +955,7 @@ export const StorageAccount: msRest.CompositeMapper = {
         readOnly: true,
         serializedName: "kind",
         type: {
-          name: "Enum",
-          allowedValues: [
-            "Storage",
-            "StorageV2",
-            "BlobStorage",
-            "FileStorage",
-            "BlockBlobStorage"
-          ]
+          name: "String"
         }
       },
       identity: {
@@ -1296,14 +1267,7 @@ export const StorageAccountUpdateParameters: msRest.CompositeMapper = {
       kind: {
         serializedName: "kind",
         type: {
-          name: "Enum",
-          allowedValues: [
-            "Storage",
-            "StorageV2",
-            "BlobStorage",
-            "FileStorage",
-            "BlockBlobStorage"
-          ]
+          name: "String"
         }
       }
     }
@@ -2461,6 +2425,75 @@ export const BlobServiceProperties: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "DeleteRetentionPolicy"
+        }
+      },
+      automaticSnapshotPolicyEnabled: {
+        serializedName: "properties.automaticSnapshotPolicyEnabled",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const LeaseContainerRequest: msRest.CompositeMapper = {
+  serializedName: "LeaseContainerRequest",
+  type: {
+    name: "Composite",
+    className: "LeaseContainerRequest",
+    modelProperties: {
+      action: {
+        required: true,
+        serializedName: "action",
+        type: {
+          name: "String"
+        }
+      },
+      leaseId: {
+        serializedName: "leaseId",
+        type: {
+          name: "String"
+        }
+      },
+      breakPeriod: {
+        serializedName: "breakPeriod",
+        type: {
+          name: "Number"
+        }
+      },
+      leaseDuration: {
+        serializedName: "leaseDuration",
+        type: {
+          name: "Number"
+        }
+      },
+      proposedLeaseId: {
+        serializedName: "proposedLeaseId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const LeaseContainerResponse: msRest.CompositeMapper = {
+  serializedName: "LeaseContainerResponse",
+  type: {
+    name: "Composite",
+    className: "LeaseContainerResponse",
+    modelProperties: {
+      leaseId: {
+        serializedName: "leaseId",
+        type: {
+          name: "String"
+        }
+      },
+      leaseTimeSeconds: {
+        serializedName: "leaseTimeSeconds",
+        type: {
+          name: "String"
         }
       }
     }
