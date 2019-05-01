@@ -3,7 +3,7 @@
 
 import * as log from "../log";
 import { Constants, translate, MessagingError } from "@azure/amqp-common";
-import { ReceiverEvents, EventContext, OnAmqpEvent, SessionEvents } from "rhea-promise";
+import { ReceiverEvents, EventContext, OnAmqpEvent, SessionEvents, AmqpError } from "rhea-promise";
 import { ServiceBusMessage } from "../serviceBusMessage";
 import {
   MessageReceiver,
@@ -30,6 +30,13 @@ export class BatchingReceiver extends MessageReceiver {
   isReceivingMessages: boolean = false;
 
   /**
+   * @property {AmqpError | Error | undefined} detachedError Error that occured when receiver
+   * got detached. Not applicable when onReceiveError is called.
+   *  Default: undefined.
+   */
+  private detachedError: AmqpError | Error | undefined = undefined;
+
+  /**
    * Instantiate a new BatchingReceiver.
    *
    * @constructor
@@ -38,6 +45,17 @@ export class BatchingReceiver extends MessageReceiver {
    */
   constructor(context: ClientEntityContext, options?: ReceiveOptions) {
     super(context, ReceiverType.batching, options);
+  }
+
+  /**
+   * Clear the token renewal timer and set the `detachedError` property.
+   * @param {AmqpError | Error} [receiverError] The receiver error if any.
+   * @returns {Promise<void>} Promise<void>.
+   */
+  async onDetached(receiverError?: AmqpError | Error): Promise<void> {
+    // Clears the token renewal timer. Closes the link and its session if they are open.
+    await this._closeLink(this._receiver);
+    this.detachedError = receiverError;
   }
 
   /**
@@ -81,6 +99,15 @@ export class BatchingReceiver extends MessageReceiver {
           this._receiver.removeListener(ReceiverEvents.receiverError, onReceiveError);
           this._receiver.removeListener(ReceiverEvents.message, onReceiveMessage);
           this._receiver.session.removeListener(SessionEvents.sessionError, onSessionError);
+        }
+
+        if (this.detachedError) {
+          if (this._receiver) {
+            this._receiver.removeListener(ReceiverEvents.receiverDrained, onReceiveDrain);
+          }
+          this.isReceivingMessages = false;
+          const err = translate(this.detachedError);
+          return reject(err);
         }
 
         if (this._receiver && this._receiver.credit > 0) {
