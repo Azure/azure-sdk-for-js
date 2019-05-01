@@ -10,5 +10,20 @@
   "dtsRollup": {
     "enabled": true,
     "publicTrimmedFilePath": "<projectFolder>/dist/index.d.ts"
+  },
+  "messages": {
+    "tsdocMessageReporting": {
+      "default": {
+        "logLevel": "none"
+      }
+    },
+    "extractorMessageReporting": {
+      "ae-missing-release-tag": {
+        "logLevel": "none"
+      },
+      "ae-unresolved-link": {
+        "logLevel": "none"
+      }
+    }
   }
 }

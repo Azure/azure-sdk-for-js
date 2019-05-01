@@ -128,7 +128,7 @@ export class SecretsClient {
   public readonly pipeline: Pipeline;
 
   protected readonly credential: ServiceClientCredentials;
-  protected readonly client: KeyVaultClient;
+  private readonly client: KeyVaultClient;
 
   /**
    * Creates an instance of SecretsClient.
