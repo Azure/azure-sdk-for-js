@@ -1646,20 +1646,20 @@ export interface OrchestratorVersionProfile {
    */
   orchestratorVersion: string;
   /**
-   * @member {boolean} default Installed by default if version is not
+   * @member {boolean} [default] Installed by default if version is not
    * specified.
    */
-  default: boolean;
+  default?: boolean;
   /**
-   * @member {boolean} isPreview Whether Kubernetes version is currently in
+   * @member {boolean} [isPreview] Whether Kubernetes version is currently in
    * preview.
    */
-  isPreview: boolean;
+  isPreview?: boolean;
   /**
-   * @member {OrchestratorProfile[]} upgrades The list of available upgrade
+   * @member {OrchestratorProfile[]} [upgrades] The list of available upgrade
    * versions.
    */
-  upgrades: OrchestratorProfile[];
+  upgrades?: OrchestratorProfile[];
 }
 
 /**

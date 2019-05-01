@@ -1854,21 +1854,18 @@ export const OrchestratorVersionProfile: msRest.CompositeMapper = {
         }
       },
       default: {
-        required: true,
         serializedName: "default",
         type: {
           name: "Boolean"
         }
       },
       isPreview: {
-        required: true,
         serializedName: "isPreview",
         type: {
           name: "Boolean"
         }
       },
       upgrades: {
-        required: true,
         serializedName: "upgrades",
         type: {
           name: "Sequence",
