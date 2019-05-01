@@ -10,12 +10,14 @@ describe("Secret client", () => {
   let keyVaultName: string;
   let keyVaultUrl: string;
   let client: SecretsClient;
+  let entityVersion: EntityVersion;
 
   before(async () => {
     credential = await getCredentialWithServicePrincipalSecret()
     keyVaultName = getKeyvaultName();
     keyVaultUrl = `https://${keyVaultName}.vault.azure.net`;
     client = new SecretsClient(keyVaultUrl, credential);
+    entityVersion = EntityVersion._createVersion("");
   });
 
   it("can add a secret", async () => {
@@ -54,7 +56,7 @@ describe("Secret client", () => {
     });
     await client.addSecret(secretName, secretValue);
 
-    let version = "" as EntityVersion;
+    let version = entityVersion;
 
     await client.updateSecretAttributes(secretName, version, {
       secretAttributes: {
@@ -102,7 +104,7 @@ describe("Secret client", () => {
     });
 
     const secretValues = [secretValue1, secretValue2, secretValue3];
-    interface versionValuePair { version: string, value: string }
+    interface versionValuePair { version: EntityVersion, value: string }
     let versions: versionValuePair[] = [];
     for (const v of secretValues) {
       const response = await client.addSecret(secretName, v);
