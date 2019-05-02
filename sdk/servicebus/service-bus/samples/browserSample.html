@@ -1,0 +1,36 @@
+<!-- This sample demonstrates a simple send message operation.  
+Refer to other Javascript samples and replace code in main() to try them out -->
+
+<!-- Line that imports the SDK source script for use in browser -->
+<script src="../browser/service-bus.js"></script>
+
+<script>
+  // SBC holds reference to the ServiceBusClient global object exposed by the imported script
+  const SBC = Azure.Messaging.ServiceBus.ServiceBusClient;
+
+  const connectionString = "";
+  const queueName = "";
+
+  async function main() {
+    // Creates the instance of ServiceBusClient using input connection string
+    // Refer to SDK documentation and other Javascript samples for more usage related information
+    const serviceBusClientObj = SBC.createFromConnectionString(connectionString);
+
+    try {
+      const client = serviceBusClientObj.createQueueClient(queueName);
+
+      const sender = client.createSender();
+
+      console.log(`Sending message ... `);
+      await sender.send({ body: "Hello world!" });
+
+      await client.close();
+    } finally {
+      await serviceBusClientObj.close();
+    }
+  }
+
+  main().catch((err) => {
+    console.log("Error occurred: ", err);
+  });
+</script>
