@@ -39,15 +39,15 @@ export interface MetadataSupportedValueDetail {
  */
 export interface MetadataEntity {
   /**
-   * @member {string} [id] The resource Id of the configuration resource.
+   * @member {string} [id] The resource Id of the metadata entity.
    */
   id?: string;
   /**
-   * @member {string} [type] The type of the configuration resource.
+   * @member {string} [type] The type of the metadata entity.
    */
   type?: string;
   /**
-   * @member {string} [name] The name of the configuration resource.
+   * @member {string} [name] The name of the metadata entity.
    */
   name?: string;
   /**
