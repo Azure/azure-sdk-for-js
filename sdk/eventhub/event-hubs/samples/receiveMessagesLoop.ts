@@ -15,16 +15,14 @@ const eventHubsName = "";
 async function main(): Promise<void> {
   const client = EventHubClient.createFromConnectionString(connectionString, eventHubsName);
   const partitionIds = await client.getPartitionIds();
+  let eventPosition = EventPosition.fromStart();
 
   for (let i = 0; i < 10; i++) {
     const messages = await client.receiveBatch(partitionIds[0], 1, 5, {
-      eventPosition: EventPosition.fromSequenceNumber(i - 1)
+      eventPosition: eventPosition
     });
-    if (!messages.length) {
-      console.log("No more messages to receive");
-      break;
-    }
-    console.log(`Received message #${i}: ${messages[0].body}`);
+    eventPosition = EventPosition.fromSequenceNumber(messages[0].sequenceNumber!);
+    console.log(`Received message #${i}: ${messages[messages.length - 1].body}`);
   }
   await client.close();
 }
