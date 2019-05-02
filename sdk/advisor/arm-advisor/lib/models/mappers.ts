@@ -93,28 +93,6 @@ export const MetadataEntity: msRest.CompositeMapper = {
   }
 };
 
-export const MetadataEntityListResult: msRest.CompositeMapper = {
-  serializedName: "MetadataEntityListResult",
-  type: {
-    name: "Composite",
-    className: "MetadataEntityListResult",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "MetadataEntity"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
 export const ConfigDataProperties: msRest.CompositeMapper = {
   serializedName: "ConfigData_properties",
   type: {
@@ -444,6 +422,34 @@ export const RecommendationsGenerateHeaders: msRest.CompositeMapper = {
       },
       retryAfter: {
         serializedName: "retry-after",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const MetadataEntityListResult: msRest.CompositeMapper = {
+  serializedName: "MetadataEntityListResult",
+  type: {
+    name: "Composite",
+    className: "MetadataEntityListResult",
+    modelProperties: {
+      value: {
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "MetadataEntity"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
         type: {
           name: "String"
         }

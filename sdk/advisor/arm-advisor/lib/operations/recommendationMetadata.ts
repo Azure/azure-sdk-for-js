@@ -77,6 +77,34 @@ export class RecommendationMetadata {
       listOperationSpec,
       callback) as Promise<Models.RecommendationMetadataListResponse>;
   }
+
+  /**
+   * @summary Gets the list of metadata entities.
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.RecommendationMetadataListNextResponse>
+   */
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.RecommendationMetadataListNextResponse>;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param callback The callback
+   */
+  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.MetadataEntityListResult>): void;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MetadataEntityListResult>): void;
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MetadataEntityListResult>, callback?: msRest.ServiceCallback<Models.MetadataEntityListResult>): Promise<Models.RecommendationMetadataListNextResponse> {
+    return this.client.sendOperationRequest(
+      {
+        nextPageLink,
+        options
+      },
+      listNextOperationSpec,
+      callback) as Promise<Models.RecommendationMetadataListNextResponse>;
+  }
 }
 
 // Operation Specifications
@@ -112,6 +140,27 @@ const listOperationSpec: msRest.OperationSpec = {
   path: "providers/Microsoft.Advisor/metadata",
   queryParameters: [
     Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.MetadataEntityListResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const listNextOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  baseUrl: "https://management.azure.com",
+  path: "{nextLink}",
+  urlParameters: [
+    Parameters.nextPageLink
   ],
   headerParameters: [
     Parameters.acceptLanguage

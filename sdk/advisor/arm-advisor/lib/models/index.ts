@@ -68,19 +68,6 @@ export interface MetadataEntity {
 
 /**
  * @interface
- * An interface representing MetadataEntityListResult.
- * The list of metadata entities
- *
- */
-export interface MetadataEntityListResult {
-  /**
-   * @member {MetadataEntity[]} [value] The list of metadata entities.
-   */
-  value?: MetadataEntity[];
-}
-
-/**
- * @interface
  * An interface representing ConfigDataProperties.
  * The list of property name/value pairs.
  *
@@ -399,6 +386,21 @@ export interface RecommendationsGenerateHeaders {
 
 /**
  * @interface
+ * An interface representing the MetadataEntityListResult.
+ * The list of metadata entities
+ *
+ * @extends Array<MetadataEntity>
+ */
+export interface MetadataEntityListResult extends Array<MetadataEntity> {
+  /**
+   * @member {string} [nextLink] The link used to get the next page of
+   * metadata.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
  * An interface representing the ConfigurationListResult.
  * The list of Advisor configurations.
  *
@@ -508,6 +510,25 @@ export type RecommendationMetadataGetResponse = {
  * Contains response data for the list operation.
  */
 export type RecommendationMetadataListResponse = MetadataEntityListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: MetadataEntityListResult;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type RecommendationMetadataListNextResponse = MetadataEntityListResult & {
   /**
    * The underlying HTTP response.
    */
