@@ -103,7 +103,13 @@ Do not check in any package-lock.json or pnpm-lock.yaml files.
 
 #### Resolving dependency version conflicts
 
-When you run `rush update`, Rush will also ensure that dependency versions are consistent across all of our packages. If they are not, the command will fail and show you all packages which use a conflicting versions of dependencies. Run `rush sync-versions` to update all projects which use a dependency to the highest version among those in use, and then run `rush update` manually to update all affected projects' node_modules directories.
+When you run `rush update`, Rush will also ensure that dependency versions are consistent across all of our packages. If they are not, the command will fail and show you all packages which use a conflicting versions of dependencies. There are a few ways to resolve this:
+
+First and foremost, you should make every attempt to match the versions of any dependencies your library has to those that already exist in the repository. Because we use approximate version range specifiers (e.g. "^8.0.0"), this is almost always what you want to do. There are only a few cases where this won't work.
+
+If you know your library requires functionality introduced in a newer version of the dependency, you can update the version range specifier for your library and then run `rush sync-versions` to update all other projects that use that dependency. Keep in mind that for minor versions, this is usually safe, but major version bumps may introduce breaking changes and thus any other libraries that use that dependency should be tested thoroughly before merging. Make sure to run `rush update` manually after this action to update all affected projects' node_modules directories.
+
+On the other hand, if you know your library does not work with the existing version of the dependency and you explicitly need an older version, you have a few options. The preferred option would be to update your library so that it works with the existing version of the dependency. If this is not feasible, Rush can be instructed to permit an exception to the "consistent versions" policy. Reach out to a member of the [engineering system team](mailto:azuresdkengsysteam@microsoft.com) to describe your situation and they will be able to help you add the exception.
 
 #### Building
 
@@ -138,7 +144,7 @@ If you want to get back to a completely clean state, you can instead run `rush r
 
 #### Onboarding a new library
 
-To add a new library to the repo, update `rush.json` in the root of the repo and add a new entry to the `projects` array at the bottom of the file. The package name must be the full name of the package as specified in its package.json. Your new library must follow our [repository structure](https://github.com/Azure/azure-sdk/blob/master/docs/engineering-system/repo-structure.md) (specifically, it must be located at `sdk/<servicename>/<packagename>`) and your library's package.json must contain the required scripts as documented [above](#other-npm-scripts). Once the library is added, run `rush update` to install and link dependencies. If your new library has introduced a dependency version conflict, this command will fail. See [above](##resolving-dependency-version-conflicts) to learn how to resolve dependency version conflicts.
+To add a new library to the repo, update `rush.json` in the root of the repo and add a new entry to the `projects` array at the bottom of the file. The package name must be the full name of the package as specified in its package.json. Your new library must follow our [repository structure](https://github.com/Azure/azure-sdk/blob/master/docs/engineering-system/repo-structure.md) (specifically, it must be located at `sdk/<servicename>/<packagename>`) and your library's package.json must contain the required scripts as documented [above](#other-npm-scripts). Once the library is added, run `rush update` to install and link dependencies. If your new library has introduced a dependency version conflict, this command will fail. See [above](#resolving-dependency-version-conflicts) to learn how to resolve dependency version conflicts.
 
 Rush assumes that anything printed to `STDERR` is a warning. Your package scripts should avoid writing to `STDERR` unless emitting warnings or errors, since this will cause Rush to flag them as warnings during the execution of your build or script command. If your library uses a tool that can't be configured this way, you can still append ` 2>&1` to the command which will redirect all output to `STDOUT`. You won't see warnings show up, but Rush will still consider the command to have failed as long as it returns a nonzero exit code.
 
