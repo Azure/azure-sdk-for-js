@@ -12,7 +12,7 @@ export {
   CapacityPool,
   CapacityPoolList,
   CapacityPoolPatch,
-  ErrorModel,
+  CloudError,
   ExportPolicyRule,
   NetAppAccount,
   NetAppAccountPatch,

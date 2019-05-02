@@ -41,6 +41,16 @@ export const apiVersion: msRest.OperationQueryParameter = {
     }
   }
 };
+export const location: msRest.OperationURLParameter = {
+  parameterPath: "location",
+  mapper: {
+    required: true,
+    serializedName: "location",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const poolName: msRest.OperationURLParameter = {
   parameterPath: "poolName",
   mapper: {
