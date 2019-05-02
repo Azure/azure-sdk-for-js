@@ -24,7 +24,7 @@
             "type": "node",
             "request": "launch",
             "name": "Client Example",
-            "program": "${workspaceFolder}/samples/simpleSender.ts",
+            "program": "${file}",
             "preLaunchTask": "npm: build-samples",
             "outFiles": [
                 "${workspaceFolder}/dist-esm/**/*.js"
