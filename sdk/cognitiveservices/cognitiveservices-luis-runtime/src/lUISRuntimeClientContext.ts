@@ -43,7 +43,7 @@ export class LUISRuntimeClientContext extends msRest.ServiceClient {
 
     super(credentials, options);
 
-    this.baseUri = "{Endpoint}/luis/v2.0";
+    this.baseUri = "{Endpoint}/luis/v3.0-preview";
     this.requestContentType = "application/json; charset=utf-8";
     this.endpoint = endpoint;
     this.credentials = credentials;

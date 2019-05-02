@@ -10,188 +10,230 @@
 import * as msRest from "@azure/ms-rest-js";
 
 /**
- * An intent detected from the utterance.
+ * The custom options for the prediction request.
  */
-export interface IntentModel {
+export interface PredictionRequestOptions {
   /**
-   * Name of the intent, as defined in LUIS.
+   * The reference DateTime used for predicting datetime entities.
    */
-  intent?: string;
+  datetimeReference?: Date;
   /**
-   * Associated prediction score for the intent (float).
+   * Whether to make the external entities resolution override the predictions if an overlap
+   * occurs.
    */
-  score?: number;
+  overridePredictions?: boolean;
 }
 
 /**
- * An entity extracted from the utterance.
+ * Defines a user predicted entity that extends an already existing one.
  */
-export interface EntityModel {
+export interface ExternalEntity {
   /**
-   * Name of the entity, as defined in LUIS.
+   * The name of the entity to extend.
    */
-  entity: string;
+  entityName: string;
   /**
-   * Type of the entity, as defined in LUIS.
-   */
-  type: string;
-  /**
-   * The position of the first character of the matched entity within the utterance.
+   * The start character index of the predicted entity.
    */
   startIndex: number;
   /**
-   * The position of the last character of the matched entity within the utterance.
+   * The length of the predicted entity.
    */
-  endIndex: number;
+  entityLength: number;
   /**
-   * Describes unknown properties. The value of an unknown property can be of "any" type.
+   * A user supplied custom resolution to return as the entity's prediction.
    */
-  [property: string]: any;
+  resolution?: any;
 }
 
 /**
- * Child entity in a LUIS Composite Entity.
+ * Defines a sub-list to append to an existing list entity.
  */
-export interface CompositeChildModel {
+export interface RequestList {
   /**
-   * Type of child entity.
+   * The name of the sub-list.
    */
-  type: string;
+  name?: string;
   /**
-   * Value extracted by LUIS.
+   * The canonical form of the sub-list.
    */
-  value: string;
+  canonicalForm: string;
+  /**
+   * The synonyms of the canonical form.
+   */
+  synonyms?: string[];
 }
 
 /**
- * LUIS Composite Entity.
+ * Defines an extension for a list entity.
  */
-export interface CompositeEntityModel {
+export interface DynamicList {
   /**
-   * Type/name of parent entity.
+   * The name of the list entity to extend.
    */
-  parentType: string;
+  listEntityName: string;
   /**
-   * Value for composite entity extracted by LUIS.
+   * The lists to append on the extended list entity.
    */
-  value: string;
-  /**
-   * Child entities.
-   */
-  children: CompositeChildModel[];
+  requestLists: RequestList[];
 }
 
 /**
- * Sentiment of the input utterance.
+ * Represents the prediction request parameters.
+ */
+export interface PredictionRequest {
+  /**
+   * The query to predict
+   */
+  query: string;
+  /**
+   * The custom options defined for this request.
+   */
+  options?: PredictionRequestOptions;
+  /**
+   * The externally predicted entities for this request
+   */
+  externalEntities?: ExternalEntity[];
+  /**
+   * The dynamically created list entities for this request
+   */
+  dynamicLists?: DynamicList[];
+}
+
+/**
+ * Represents an intent prediction.
+ */
+export interface Intent {
+  /**
+   * The score of the fired intent.
+   */
+  score?: number;
+  /**
+   * The prediction of the dispatched application.
+   */
+  childApp?: Prediction;
+}
+
+/**
+ * The result of the sentiment analysis.
  */
 export interface Sentiment {
   /**
-   * The polarity of the sentiment, can be positive, neutral or negative.
-   */
-  label?: string;
-  /**
-   * Score of the sentiment, ranges from 0 (most negative) to 1 (most positive).
-   */
-  score?: number;
-}
-
-/**
- * Prediction, based on the input query, containing intent(s) and entities.
- */
-export interface LuisResult {
-  /**
-   * The input utterance that was analyzed.
-   */
-  query?: string;
-  /**
-   * The corrected utterance (when spell checking was enabled).
-   */
-  alteredQuery?: string;
-  topScoringIntent?: IntentModel;
-  /**
-   * All the intents (and their score) that were detected from utterance.
-   */
-  intents?: IntentModel[];
-  /**
-   * The entities extracted from the utterance.
-   */
-  entities?: EntityModel[];
-  /**
-   * The composite entities extracted from the utterance.
-   */
-  compositeEntities?: CompositeEntityModel[];
-  sentimentAnalysis?: Sentiment;
-  connectedServiceResult?: LuisResult;
-}
-
-/**
- * An interface representing EntityWithScore.
- */
-export interface EntityWithScore extends EntityModel {
-  /**
-   * Associated prediction score for the intent (float).
+   * The sentiment score of the query.
    */
   score: number;
+  /**
+   * The label of the sentiment analysis result.
+   */
+  label?: string;
 }
 
 /**
- * An interface representing EntityWithResolution.
+ * Represents the prediction of a query.
  */
-export interface EntityWithResolution extends EntityModel {
+export interface Prediction {
   /**
-   * Resolution values for pre-built LUIS entities.
+   * The query after pre-processing and normalization.
    */
-  resolution: any;
+  normalizedQuery: string;
+  /**
+   * The query after spell checking. Only set if spell check was enabled and a spelling mistake was
+   * found.
+   */
+  alteredQuery?: string;
+  /**
+   * The name of the top scoring intent.
+   */
+  topIntent: string;
+  /**
+   * A dictionary representing the intents that fired.
+   */
+  intents: { [propertyName: string]: Intent };
+  /**
+   * The dictionary representing the entities that fired.
+   */
+  entities: { [propertyName: string]: any };
+  /**
+   * The result of the sentiment analysis.
+   */
+  sentiment?: Sentiment;
 }
 
 /**
- * Error information returned by the API
+ * Represents the prediction response.
  */
-export interface APIError {
+export interface PredictionResponse {
   /**
-   * HTTP Status code
+   * The query used in the prediction.
    */
-  statusCode?: string;
+  query: string;
   /**
-   * Cause of the error.
+   * The prediction of the requested query.
    */
-  message?: string;
+  prediction: Prediction;
+}
+
+/**
+ * Represents the definition of the error that occurred.
+ */
+export interface ErrorBody {
+  /**
+   * The error code.
+   */
+  code: string;
+  /**
+   * The error message.
+   */
+  message: string;
+}
+
+/**
+ * Represents the error that occurred.
+ */
+export interface ErrorModel {
+  error: ErrorBody;
 }
 
 /**
  * Optional Parameters.
  */
-export interface PredictionResolveOptionalParams extends msRest.RequestOptionsBase {
+export interface PredictionGetVersionPredictionOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * The timezone offset for the location of the request.
-   */
-  timezoneOffset?: number;
-  /**
-   * If true, return all intents instead of just the top scoring intent.
+   * Indicates whether to get extra metadata for the entities predictions or not.
    */
   verbose?: boolean;
   /**
-   * Use the staging endpoint slot.
+   * Indicates whether to return all the intents in the response or just the top intent.
    */
-  staging?: boolean;
+  showAllIntents?: boolean;
   /**
-   * Enable spell checking.
-   */
-  spellCheck?: boolean;
-  /**
-   * The subscription key to use when enabling bing spell check
-   */
-  bingSpellCheckSubscriptionKey?: string;
-  /**
-   * Log query (default is true)
+   * Indicates whether to log the endpoint query or not.
    */
   log?: boolean;
 }
 
 /**
- * Contains response data for the resolve operation.
+ * Optional Parameters.
  */
-export type PredictionResolveResponse = LuisResult & {
+export interface PredictionGetSlotPredictionOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Indicates whether to get extra metadata for the entities predictions or not.
+   */
+  verbose?: boolean;
+  /**
+   * Indicates whether to return all the intents in the response or just the top intent.
+   */
+  showAllIntents?: boolean;
+  /**
+   * Indicates whether to log the endpoint query or not.
+   */
+  log?: boolean;
+}
+
+/**
+ * Contains response data for the getVersionPrediction operation.
+ */
+export type PredictionGetVersionPredictionResponse = PredictionResponse & {
   /**
    * The underlying HTTP response.
    */
@@ -204,6 +246,26 @@ export type PredictionResolveResponse = LuisResult & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: LuisResult;
+      parsedBody: PredictionResponse;
+    };
+};
+
+/**
+ * Contains response data for the getSlotPrediction operation.
+ */
+export type PredictionGetSlotPredictionResponse = PredictionResponse & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PredictionResponse;
     };
 };
