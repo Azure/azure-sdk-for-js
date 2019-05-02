@@ -101,5 +101,6 @@
     "test": "npm run build",
     "tsc": "tsc",
     "unit-node": "npm run build-test && mocha -t 120000 test-dist/index.js"
-  }
+  },
+  "sideEffects": false
 }
