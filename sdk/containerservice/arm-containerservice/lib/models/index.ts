@@ -1074,10 +1074,6 @@ export interface ManagedClusterAgentPoolProfileProperties {
    * nodes. Must use VirtualMachineScaleSets AgentPoolType.
    */
   availabilityZones?: string[];
-  /**
-   * @member {boolean} [enableNodePublicIP] Enable public IP for nodes
-   */
-  enableNodePublicIP?: boolean;
 }
 
 /**
@@ -1221,10 +1217,6 @@ export interface AgentPool extends SubResource {
    * nodes. Must use VirtualMachineScaleSets AgentPoolType.
    */
   availabilityZones?: string[];
-  /**
-   * @member {boolean} [enableNodePublicIP] Enable public IP for nodes
-   */
-  enableNodePublicIP?: boolean;
 }
 
 /**

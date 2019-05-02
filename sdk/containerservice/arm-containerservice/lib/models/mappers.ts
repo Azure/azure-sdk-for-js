@@ -1145,12 +1145,6 @@ export const ManagedClusterAgentPoolProfileProperties: msRest.CompositeMapper = 
             }
           }
         }
-      },
-      enableNodePublicIP: {
-        serializedName: "enableNodePublicIP",
-        type: {
-          name: "Boolean"
-        }
       }
     }
   }
@@ -1274,12 +1268,6 @@ export const AgentPool: msRest.CompositeMapper = {
               name: "String"
             }
           }
-        }
-      },
-      enableNodePublicIP: {
-        serializedName: "properties.enableNodePublicIP",
-        type: {
-          name: "Boolean"
         }
       }
     }
