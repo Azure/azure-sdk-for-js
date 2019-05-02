@@ -1,2 +1,2 @@
 variables:
-  NodeVersion: '2.1.503'
+  NodeVersion: '10.x'
