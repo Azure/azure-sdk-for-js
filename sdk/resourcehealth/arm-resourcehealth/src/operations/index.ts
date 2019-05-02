@@ -9,4 +9,6 @@
  */
 
 export * from "./availabilityStatuses";
+export * from "./childAvailabilityStatuses";
+export * from "./childResources";
 export * from "./operations";
