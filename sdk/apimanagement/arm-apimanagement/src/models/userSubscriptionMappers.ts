@@ -71,6 +71,7 @@ export {
   ResponseContract,
   SamplingSettings,
   SchemaContract,
+  SchemaCreateOrUpdateContract,
   SubscriptionCollection,
   SubscriptionContract,
   SubscriptionKeyParameterNamesContract,
