@@ -1614,14 +1614,19 @@ export interface CredentialResults {
  */
 export interface OrchestratorProfile {
   /**
-   * @member {string} orchestratorType Orchestrator type.
+   * @member {string} [orchestratorType] Orchestrator type.
    */
-  orchestratorType: string;
+  orchestratorType?: string;
   /**
    * @member {string} orchestratorVersion Orchestrator version (major, minor,
    * patch).
    */
   orchestratorVersion: string;
+  /**
+   * @member {boolean} [isPreview] Whether Kubernetes version is currently in
+   * preview.
+   */
+  isPreview?: boolean;
 }
 
 /**
@@ -1641,15 +1646,20 @@ export interface OrchestratorVersionProfile {
    */
   orchestratorVersion: string;
   /**
-   * @member {boolean} default Installed by default if version is not
+   * @member {boolean} [default] Installed by default if version is not
    * specified.
    */
-  default: boolean;
+  default?: boolean;
   /**
-   * @member {OrchestratorProfile[]} upgrades The list of available upgrade
+   * @member {boolean} [isPreview] Whether Kubernetes version is currently in
+   * preview.
+   */
+  isPreview?: boolean;
+  /**
+   * @member {OrchestratorProfile[]} [upgrades] The list of available upgrade
    * versions.
    */
-  upgrades: OrchestratorProfile[];
+  upgrades?: OrchestratorProfile[];
 }
 
 /**
