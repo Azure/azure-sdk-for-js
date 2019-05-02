@@ -14,35 +14,40 @@ import { IRetriableReadableStreamOptions } from "../../src/utils/RetriableReadab
 import {
   createRandomLocalFile,
   getBSU,
-  getUniqueName,
   readStreamToLocalFile
 } from "../utils";
+import { record } from "../utils/nock-recorder";
 
 // tslint:disable:no-empty
-describe("Highlevel", () => {
+describe("Highlevel", function() {
   const serviceURL = getBSU();
-  let containerName = getUniqueName("container");
-  let containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
-  let blobName = getUniqueName("blob");
-  let blobURL = BlobURL.fromContainerURL(containerURL, blobName);
-  let blockBlobURL = BlockBlobURL.fromBlobURL(blobURL);
+  let containerName: string;
+  let containerURL: ContainerURL;
+  let blobName: string;
+  let blobURL: BlobURL;
+  let blockBlobURL: BlockBlobURL;
   let tempFileSmall: string;
   let tempFileSmallLength: number;
   let tempFileLarge: string;
   let tempFileLargeLength: number;
   const tempFolderPath = "temp";
+  const testSuiteTitle = this.fullTitle();
 
-  beforeEach(async () => {
-    containerName = getUniqueName("container");
+  let recorder: any;
+
+  beforeEach(async function() {
+    recorder = record.call(this, testSuiteTitle);
+    containerName = recorder.getUniqueName("container");
     containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
     await containerURL.create(Aborter.none);
-    blobName = getUniqueName("blob");
+    blobName = recorder.getUniqueName("blob");
     blobURL = BlobURL.fromContainerURL(containerURL, blobName);
     blockBlobURL = BlockBlobURL.fromBlobURL(blobURL);
   });
 
   afterEach(async () => {
     await containerURL.delete(Aborter.none);
+    recorder.stop();
   });
 
   before(async () => {
@@ -77,7 +82,7 @@ describe("Highlevel", () => {
     const downloadResponse = await blockBlobURL.download(Aborter.none, 0);
     const downloadedFile = path.join(
       tempFolderPath,
-      getUniqueName("downloadfile.")
+      recorder.getUniqueName("downloadfile.")
     );
     await readStreamToLocalFile(
       downloadResponse.readableStreamBody!,
@@ -100,7 +105,7 @@ describe("Highlevel", () => {
     const downloadResponse = await blockBlobURL.download(Aborter.none, 0);
     const downloadedFile = path.join(
       tempFolderPath,
-      getUniqueName("downloadfile.")
+      recorder.getUniqueName("downloadfile.")
     );
     await readStreamToLocalFile(
       downloadResponse.readableStreamBody!,
@@ -122,7 +127,7 @@ describe("Highlevel", () => {
     const downloadResponse = await blockBlobURL.download(Aborter.none, 0);
     const downloadedFile = path.join(
       tempFolderPath,
-      getUniqueName("downloadfile.")
+      recorder.getUniqueName("downloadfile.")
     );
     await readStreamToLocalFile(
       downloadResponse.readableStreamBody!,
@@ -214,7 +219,7 @@ describe("Highlevel", () => {
 
     const downloadFilePath = path.join(
       tempFolderPath,
-      getUniqueName("downloadFile")
+      recorder.getUniqueName("downloadFile")
     );
     await readStreamToLocalFile(
       downloadResponse.readableStreamBody!,
@@ -245,7 +250,7 @@ describe("Highlevel", () => {
 
     const downloadFilePath = path.join(
       tempFolderPath,
-      getUniqueName("downloadFile")
+      recorder.getUniqueName("downloadFile")
     );
     await readStreamToLocalFile(
       downloadResponse.readableStreamBody!,
@@ -410,7 +415,7 @@ describe("Highlevel", () => {
 
     const downloadedFile = path.join(
       tempFolderPath,
-      getUniqueName("downloadfile.")
+      recorder.getUniqueName("downloadfile.")
     );
     await readStreamToLocalFile(
       downloadResponse.readableStreamBody!,
@@ -461,7 +466,7 @@ describe("Highlevel", () => {
 
     const downloadedFile = path.join(
       tempFolderPath,
-      getUniqueName("downloadfile.")
+      recorder.getUniqueName("downloadfile.")
     );
     await readStreamToLocalFile(
       downloadResponse.readableStreamBody!,
@@ -514,7 +519,7 @@ describe("Highlevel", () => {
 
     const downloadedFile = path.join(
       tempFolderPath,
-      getUniqueName("downloadfile.")
+      recorder.getUniqueName("downloadfile.")
     );
     await readStreamToLocalFile(
       downloadResponse.readableStreamBody!,
@@ -545,7 +550,7 @@ describe("Highlevel", () => {
 
     const downloadedFile = path.join(
       tempFolderPath,
-      getUniqueName("downloadfile.")
+      recorder.getUniqueName("downloadfile.")
     );
 
     let retirableReadableStreamOptions: IRetriableReadableStreamOptions;
@@ -598,7 +603,7 @@ describe("Highlevel", () => {
 
     const downloadedFile = path.join(
       tempFolderPath,
-      getUniqueName("downloadfile.")
+      recorder.getUniqueName("downloadfile.")
     );
 
     let retirableReadableStreamOptions: IRetriableReadableStreamOptions;
