@@ -9,19 +9,24 @@
 import { EventHubClient, EventPosition } from "@azure/event-hubs";
 
 // Define connection string and related Event Hubs entity name here
-const connectionString = "";
-const eventHubsName = "";
+const connectionString = "Endpoint=sb://shivangieventhubs.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=mHuzn4laFeLg25QlzhL7Fe0IfJzkEiqsTZZyAS2z12M=";
+const eventHubsName = "test";
 
 async function main(): Promise<void> {
   const client = EventHubClient.createFromConnectionString(connectionString, eventHubsName);
   const partitionIds = await client.getPartitionIds();
   let eventPosition = EventPosition.fromStart();
+  const batchSize = 1;
 
   for (let i = 0; i < 10; i++) {
-    const messages = await client.receiveBatch(partitionIds[0], 1, 5, {
+    const messages = await client.receiveBatch(partitionIds[0], batchSize, 5, {
       eventPosition: eventPosition
     });
-    eventPosition = EventPosition.fromSequenceNumber(messages[0].sequenceNumber!);
+    if (!messages.length) {
+      console.log("No more messages to receive");
+      break;
+    }
+    eventPosition = EventPosition.fromSequenceNumber(messages[messages.length - 1].sequenceNumber!);
     console.log(`Received message #${i}: ${messages[messages.length - 1].body}`);
   }
   await client.close();
