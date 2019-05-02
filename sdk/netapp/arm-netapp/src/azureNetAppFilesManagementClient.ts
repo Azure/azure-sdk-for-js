@@ -11,6 +11,7 @@
 import * as msRest from "@azure/ms-rest-js";
 import * as Models from "./models";
 import * as Mappers from "./models/mappers";
+import * as Parameters from "./models/parameters";
 import * as operations from "./operations";
 import { AzureNetAppFilesManagementClientContext } from "./azureNetAppFilesManagementClientContext";
 
@@ -40,9 +41,115 @@ class AzureNetAppFilesManagementClient extends AzureNetAppFilesManagementClientC
     this.mountTargets = new operations.MountTargets(this);
     this.snapshots = new operations.Snapshots(this);
   }
+
+  /**
+   * Check if a resource name is available.
+   * @summary Check resource name availability
+   * @param location The location
+   * @param [options] The optional parameters
+   * @returns Promise<Models.CheckNameAvailabilityResponse>
+   */
+  checkNameAvailability(location: string, options?: msRest.RequestOptionsBase): Promise<Models.CheckNameAvailabilityResponse>;
+  /**
+   * @param location The location
+   * @param callback The callback
+   */
+  checkNameAvailability(location: string, callback: msRest.ServiceCallback<Models.ResourceNameAvailability>): void;
+  /**
+   * @param location The location
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  checkNameAvailability(location: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceNameAvailability>): void;
+  checkNameAvailability(location: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceNameAvailability>, callback?: msRest.ServiceCallback<Models.ResourceNameAvailability>): Promise<Models.CheckNameAvailabilityResponse> {
+    return this.sendOperationRequest(
+      {
+        location,
+        options
+      },
+      checkNameAvailabilityOperationSpec,
+      callback) as Promise<Models.CheckNameAvailabilityResponse>;
+  }
+
+  /**
+   * Check if a file path is available.
+   * @summary Check file path availability
+   * @param location The location
+   * @param [options] The optional parameters
+   * @returns Promise<Models.CheckFilePathAvailabilityResponse>
+   */
+  checkFilePathAvailability(location: string, options?: msRest.RequestOptionsBase): Promise<Models.CheckFilePathAvailabilityResponse>;
+  /**
+   * @param location The location
+   * @param callback The callback
+   */
+  checkFilePathAvailability(location: string, callback: msRest.ServiceCallback<Models.ResourceNameAvailability>): void;
+  /**
+   * @param location The location
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  checkFilePathAvailability(location: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceNameAvailability>): void;
+  checkFilePathAvailability(location: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceNameAvailability>, callback?: msRest.ServiceCallback<Models.ResourceNameAvailability>): Promise<Models.CheckFilePathAvailabilityResponse> {
+    return this.sendOperationRequest(
+      {
+        location,
+        options
+      },
+      checkFilePathAvailabilityOperationSpec,
+      callback) as Promise<Models.CheckFilePathAvailabilityResponse>;
+  }
 }
 
 // Operation Specifications
+const serializer = new msRest.Serializer(Mappers);
+const checkNameAvailabilityOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/providers/Microsoft.NetApp/locations/{location}/checkNameAvailability",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.location
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.ResourceNameAvailability
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const checkFilePathAvailabilityOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/providers/Microsoft.NetApp/locations/{location}/checkFilePathAvailability",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.location
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.ResourceNameAvailability
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
 
 export {
   AzureNetAppFilesManagementClient,
