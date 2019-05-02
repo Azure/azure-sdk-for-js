@@ -77,6 +77,65 @@ export interface SubscriptionName {
 
 /**
  * @interface
+ * An interface representing OperationDisplay.
+ * The object that represents the operation.
+ *
+ */
+export interface OperationDisplay {
+  /**
+   * @member {string} [provider] Service provider: Microsoft.Subscription
+   */
+  provider?: string;
+  /**
+   * @member {string} [resource] Resource on which the operation is performed:
+   * Profile, endpoint, etc.
+   */
+  resource?: string;
+  /**
+   * @member {string} [operation] Operation type: Read, write, delete, etc.
+   */
+  operation?: string;
+}
+
+/**
+ * @interface
+ * An interface representing Operation.
+ * REST API operation
+ *
+ */
+export interface Operation {
+  /**
+   * @member {string} [name] Operation name: {provider}/{resource}/{operation}
+   */
+  name?: string;
+  /**
+   * @member {OperationDisplay} [display] The object that represents the
+   * operation.
+   */
+  display?: OperationDisplay;
+}
+
+/**
+ * @interface
+ * An interface representing OperationListResult.
+ * Result of the request to list operations. It contains a list of operations
+ * and a URL link to get the next set of results.
+ *
+ */
+export interface OperationListResult {
+  /**
+   * @member {Operation[]} [value] List of operations.
+   */
+  value?: Operation[];
+  /**
+   * @member {string} [nextLink] URL to get the next set of operation list
+   * results if there are any.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
  * An interface representing Location.
  * Location information.
  *
@@ -289,6 +348,25 @@ export type SubscriptionState = 'Enabled' | 'Warned' | 'PastDue' | 'Disabled' | 
  * @enum {string}
  */
 export type SpendingLimit = 'On' | 'Off' | 'CurrentPeriodOff';
+
+/**
+ * Contains response data for the list operation.
+ */
+export type OperationsListResponse = OperationListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OperationListResult;
+    };
+};
 
 /**
  * Contains response data for the cancel operation.
