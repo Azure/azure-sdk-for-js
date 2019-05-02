@@ -17,7 +17,7 @@ describe("Special Naming Tests", function() {
   let recorder: any;
 
   before(async () => {
-    recorder = record(testSuiteTitle, "before");
+    recorder = record.call(this, testSuiteTitle, "before");
     containerName = recorder.getUniqueName("1container-with-dash");
     containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
     await containerURL.create(Aborter.none);
@@ -25,13 +25,13 @@ describe("Special Naming Tests", function() {
   });
 
   after(async () => {
-    recorder = record(testSuiteTitle, "after");
+    recorder = record.call(this, testSuiteTitle, "after");
     await containerURL.delete(Aborter.none);
     recorder.stop();
   });
 
-  beforeEach(async () => {
-    recorder = record(testSuiteTitle, this.ctx.currentTest!.title);
+  beforeEach(async function() {
+    recorder = record.call(this, testSuiteTitle);
   });
 
   afterEach(async () => {

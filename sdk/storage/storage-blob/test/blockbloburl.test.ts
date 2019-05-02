@@ -20,8 +20,8 @@ describe("BlockBlobURL", function() {
 
   let recorder: any;
 
-  beforeEach(async () => {
-    recorder = record(testSuiteTitle, this.ctx.currentTest!.title);
+  beforeEach(async function() {
+    recorder = record.call(this, testSuiteTitle);
     containerName = recorder.getUniqueName("container");
     containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
     await containerURL.create(Aborter.none);
