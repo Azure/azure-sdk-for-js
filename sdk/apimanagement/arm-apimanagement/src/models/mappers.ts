@@ -1268,6 +1268,30 @@ export const SchemaContract: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      document: {
+        serializedName: "properties.document",
+        type: {
+          name: "Object"
+        }
+      }
+    }
+  }
+};
+
+export const SchemaCreateOrUpdateContract: msRest.CompositeMapper = {
+  serializedName: "SchemaCreateOrUpdateContract",
+  type: {
+    name: "Composite",
+    className: "SchemaCreateOrUpdateContract",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      contentType: {
+        required: true,
+        serializedName: "properties.contentType",
+        type: {
+          name: "String"
+        }
+      },
       value: {
         serializedName: "properties.document.value",
         type: {
@@ -3888,7 +3912,6 @@ export const ApiManagementServiceSkuProperties: msRest.CompositeMapper = {
       },
       capacity: {
         serializedName: "capacity",
-        defaultValue: 1,
         type: {
           name: "Number"
         }
