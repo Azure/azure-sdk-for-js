@@ -3,10 +3,10 @@
 
 export { EventData, EventHubDeliveryAnnotations, EventHubMessageAnnotations } from "./eventData";
 export { Delivery, AmqpError, Message, MessageHeader, MessageProperties, Dictionary, WebSocketImpl } from "rhea-promise";
-export { ReceiverRuntimeInfo, OnMessage, OnError } from "./eventHubReceiver";
+export { EventHubReceiver, ReceiverRuntimeInfo, OnMessage, OnError } from "./eventHubReceiver";
 export { ReceiveHandler } from "./streamingReceiver";
 export { EventHubClient, ReceiveOptions, ClientOptionsBase, ClientOptions } from "./eventHubClient";
-export { EventPosition } from "./eventPosition";
+export { EventPosition, EventPositionOptions } from "./eventPosition";
 export { EventHubPartitionRuntimeInformation, EventHubRuntimeInformation } from "./managementClient";
 import { Constants } from "@azure/amqp-common";
 export const aadEventHubsAudience = Constants.aadEventHubsAudience;

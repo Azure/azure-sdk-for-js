@@ -13,7 +13,7 @@ import {
   EventHubPartitionRuntimeInformation,
   EventHubConnectionConfig
 } from "@azure/event-hubs";
-import AsyncLock from "async-lock";
+import AsyncLock from 'async-lock';
 import { LeaseManager } from "./leaseManager";
 import { PumpManager } from "./pumpManager";
 import { PartitionManager } from "./partitionManager";

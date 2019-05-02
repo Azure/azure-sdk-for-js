@@ -17,7 +17,7 @@
   },
   "main": "./dist/index.js",
   "module": "dist-esm/src/index.js",
-  "types": "./typings/src/index.d.ts",
+  "types": "./types/event-hubs.d.ts",
   "browser": {
     "./dist/index.js": "./browser/index.js"
   },
@@ -28,17 +28,17 @@
     "dist/",
     "dist-esm/src/",
     "src/",
-    "typings/src"
+    "types/"
   ],
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
-    "build-browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1",
-    "build-node": "tsc -p . && cross-env ONLY_NODE=true rollup -c 2>&1",
+    "build-browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1 && npm run extract-api",
+    "build-node": "tsc -p . && cross-env ONLY_NODE=true rollup -c 2>&1 && npm run extract-api",
     "build-samples": "cd examples && tsc -p .",
-    "build-test": "tsc -p . && cross-env ONLY_NODE=true rollup -c rollup.test.config.js 2>&1",
-    "build": "tsc -p . && rollup -c 2>&1",
+    "build-test": "tsc -p . && cross-env ONLY_NODE=true rollup -c rollup.test.config.js 2>&1 && npm run extract-api",
+    "build": "tsc -p . && rollup -c 2>&1 && npm run extract-api",
     "check-format": "prettier --list-different --config .prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
-    "clean": "rimraf dist dist-esm test-dist typings *.tgz *.log",
+    "clean": "rimraf dist dist-esm test-dist types *.tgz *.log",
     "coverage": "npm run build-test && nyc --reporter=lcov --exclude-after-remap=false mocha -t 120000 test-dist/index.js",
     "extract-api": "tsc -p . && api-extractor run --local",
     "format": "prettier --write --config .prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
@@ -62,7 +62,7 @@
     "uuid": "^3.3.2"
   },
   "devDependencies": {
-    "@microsoft/api-extractor": "^6.3.0",
+    "@microsoft/api-extractor": "^7.1.0",
     "@types/async-lock": "^1.1.0",
     "@types/chai": "^4.1.6",
     "@types/chai-as-promised": "^7.1.0",
