@@ -1,0 +1,10 @@
+{
+  "name": "cosmos-serversidescripts-sample",
+  "private": true,
+  "version": "0.0.0",
+  "description": "A sample showing server side scripts with Azure Cosmos DB",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {}
+}

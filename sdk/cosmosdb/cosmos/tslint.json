@@ -1,0 +1,15 @@
+{
+  "extends": ["tslint:recommended", "tslint-config-prettier"],
+  "exclude": "./node_modules",
+  "rules": {
+    "interface-name": false,
+    "no-string-literal": false,
+    "object-literal-sort-keys": false,
+    "member-ordering": false, // TODO: might want to look at this eventually...
+    "no-floating-promises": true,
+    "import-blacklist": [true, "assert", "util"]
+  },
+  "linterOptions": {
+    "exclude": ["*.json"]
+  }
+}
