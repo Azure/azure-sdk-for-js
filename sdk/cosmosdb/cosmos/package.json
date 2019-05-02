@@ -1,0 +1,76 @@
+{
+  "name": "@azure/cosmos",
+  "description": "Azure Cosmos DB Service Node.js SDK for SQL API",
+  "keywords": [
+    "cosmosdb",
+    "cosmos db",
+    "documentdb",
+    "document database",
+    "azure",
+    "nosql",
+    "database",
+    "cloud"
+  ],
+  "version": "2.1.5",
+  "author": "Microsoft Corporation",
+  "main": "./lib/src/index.js",
+  "types": "./lib/src/index.d.ts",
+  "engine": {
+    "node": ">=6.0.0"
+  },
+  "scripts": {
+    "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
+    "clean": "rimraf lib",
+    "lint": "tslint --project tsconfig.json",
+    "format": "prettier --write --config .prettierrc.json \"src/**/*.ts\"",
+    "check-format": "prettier --list-different --config .prettierrc.json \"src/**/*.ts\"",
+    "compile-dev": "echo Using TypeScript && tsc --version && tsc --pretty",
+    "compile": "echo Using TypeScript && tsc --version && tsc -p tsconfig.prod.json --pretty",
+    "pack": "npm pack 2>&1",
+    "webpack-dev": "webpack -d",
+    "webpack": "webpack -p",
+    "build-dev": "npm run clean && npm run check-format && npm run lint && npm run compile-dev && npm run webpack-dev",
+    "build": "npm run clean && npm run check-format && npm run lint && npm run compile && npm run webpack",
+    "test": "echo Temporarily skipped. Current CI executes all unit tests using 'test' script. Cosmos emulator tests have their own builds",
+    "integration-test": "mocha -r ./src/test/common/setup.ts ./lib/src/test/ --recursive --timeout 100000 -i -g .*ignore.js",
+    "test-ts": "mocha -r ts-node/register -r ./src/test/common/setup.ts ./src/test/**/*.spec.ts --recursive --timeout 100000 -i -g .*ignore.js",
+    "ci": "npm run build && npm run test && node ts-test.js"
+  },
+  "devDependencies": {
+    "@types/mocha": "^5.2.5",
+    "@types/node": "^8.0.0",
+    "@types/priorityqueuejs": "^1.0.1",
+    "@types/semaphore": "^1.1.0",
+    "@types/sinon": "^4.3.3",
+    "@types/tunnel": "^0.0.0",
+    "@types/underscore": "^1.8.8",
+    "execa": "1.0.0",
+    "mocha": "^5.2.0",
+    "mocha-junit-reporter": "^1.18.0",
+    "mocha-multi-reporters": "^1.1.7",
+    "prettier": "^1.16.4",
+    "requirejs": "^2.3.5",
+    "rimraf": "^2.6.2",
+    "sinon": "^5.1.1",
+    "ts-node": "^7.0.1",
+    "tslint": "^5.15.0",
+    "tslint-config-prettier": "^1.14.0",
+    "typescript": "^3.2.2",
+    "webpack": "^4.16.3",
+    "webpack-cli": "^3.2.3"
+  },
+  "dependencies": {
+    "binary-search-bounds": "2.0.3",
+    "create-hmac": "^1.1.7",
+    "priorityqueuejs": "1.0.0",
+    "semaphore": "1.0.5",
+    "stream-http": "^2.8.3",
+    "tslib": "^1.9.3",
+    "tunnel": "0.0.5"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Azure/azure-cosmos-js"
+  },
+  "license": "MIT"
+}

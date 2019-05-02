@@ -1,0 +1,10 @@
+{
+  "name": "user-management",
+  "version": "0.0.0",
+  "private": true,
+  "description": "UserManagement",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {}
+}
