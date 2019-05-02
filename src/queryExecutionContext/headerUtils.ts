@@ -47,7 +47,7 @@ export function mergeHeaders(headers: CosmosHeaders, toBeMergedHeaders: CosmosHe
     return;
   }
 
-  (headers[Constants.HttpHeaders.RequestCharge] as number) += getRequestChargeIfAny(toBeMergedHeaders);
+  headers[Constants.HttpHeaders.RequestCharge] += getRequestChargeIfAny(toBeMergedHeaders);
   if (toBeMergedHeaders[Constants.HttpHeaders.IsRUPerMinuteUsed]) {
     headers[Constants.HttpHeaders.IsRUPerMinuteUsed] = toBeMergedHeaders[Constants.HttpHeaders.IsRUPerMinuteUsed];
   }
@@ -58,7 +58,7 @@ export function mergeHeaders(headers: CosmosHeaders, toBeMergedHeaders: CosmosHe
 
     for (const partitionId in toBeMergedHeaderQueryMetrics) {
       if (partitionId in headerQueryMetrics) {
-        const combinedQueryMetrics = headerQueryMetrics[partitionId].add(toBeMergedHeaderQueryMetrics[partitionId]);
+        const combinedQueryMetrics = headerQueryMetrics[partitionId].add([toBeMergedHeaderQueryMetrics[partitionId]]);
         headerQueryMetrics[partitionId] = combinedQueryMetrics;
       } else {
         headerQueryMetrics[partitionId] = toBeMergedHeaderQueryMetrics[partitionId];

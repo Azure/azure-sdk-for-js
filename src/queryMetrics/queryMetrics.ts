@@ -165,7 +165,7 @@ export class QueryMetrics {
    * @instance
    */
   public static createFromArray(queryMetricsArray: QueryMetrics[]) {
-    if (queryMetricsArray == null) {
+    if (!queryMetricsArray) {
       throw new Error("queryMetricsArray is null or undefined item(s)");
     }
 
