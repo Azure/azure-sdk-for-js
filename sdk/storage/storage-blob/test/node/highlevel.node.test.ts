@@ -317,6 +317,23 @@ describe("Highlevel", () => {
     assert.ok(localFileContent.equals(buf));
   });
 
+  it("downloadBlobToBuffer with default parameters should success", async () => {
+    const rs = fs.createReadStream(tempFileLarge);
+    await uploadStreamToBlockBlob(
+      Aborter.none,
+      rs,
+      blockBlobURL,
+      4 * 1024 * 1024,
+      20
+    );
+
+    const buf = Buffer.alloc(tempFileLargeLength);
+    await downloadBlobToBuffer(Aborter.none, buf, blockBlobURL);
+
+    const localFileContent = fs.readFileSync(tempFileLarge);
+    assert.ok(localFileContent.equals(buf));
+  });
+
   it("downloadBlobToBuffer should abort", async () => {
     const rs = fs.createReadStream(tempFileLarge);
     await uploadStreamToBlockBlob(
