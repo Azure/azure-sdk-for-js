@@ -27,7 +27,7 @@ async function main(): Promise<void> {
       break;
     }
     eventPosition = EventPosition.fromSequenceNumber(messages[messages.length - 1].sequenceNumber!);
-    console.log(`Received message #${i}: ${messages[messages.length - 1].body}`);
+    console.log(`Received messages #${i}: ${messages.map(msg => msg.body)}`);
   }
   await client.close();
 }
