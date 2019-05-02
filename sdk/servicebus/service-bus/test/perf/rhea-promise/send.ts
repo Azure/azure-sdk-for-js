@@ -19,6 +19,7 @@ const _start = moment();
 
 let _sent = 0;
 let _accepted = 0;
+let _rejected = 0;
 
 async function main(): Promise<void> {
   // Endpoint=sb://<your-namespace>.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=<shared-access-key>
@@ -89,7 +90,17 @@ async function RunTest(
   });
 
   sender.on(SenderEvents.accepted, async () => {
-    if (++_accepted === messages) {
+    _accepted++;
+    if (_accepted + _rejected === messages) {
+      await connection.close();
+    } else {
+      sendMessages();
+    }
+  });
+
+  sender.on(SenderEvents.rejected, async () => {
+    _rejected++;
+    if (_accepted + _rejected === messages) {
       await connection.close();
     } else {
       sendMessages();
@@ -129,7 +140,7 @@ async function WriteResults(messages: number): Promise<void> {
       maxMessages,
       maxElapsed
     );
-  } while (_accepted < messages);
+  } while (_accepted + _rejected < messages);
 }
 
 function WriteResult(
