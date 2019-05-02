@@ -98,7 +98,7 @@ export class Policy {
    * @param [options] The optional parameters
    * @returns Promise<Models.PolicyGetResponse>
    */
-  get(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase): Promise<Models.PolicyGetResponse>;
+  get(resourceGroupName: string, serviceName: string, options?: Models.PolicyGetOptionalParams): Promise<Models.PolicyGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -111,8 +111,8 @@ export class Policy {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, serviceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicyContract>): void;
-  get(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicyContract>, callback?: msRest.ServiceCallback<Models.PolicyContract>): Promise<Models.PolicyGetResponse> {
+  get(resourceGroupName: string, serviceName: string, options: Models.PolicyGetOptionalParams, callback: msRest.ServiceCallback<Models.PolicyContract>): void;
+  get(resourceGroupName: string, serviceName: string, options?: Models.PolicyGetOptionalParams | msRest.ServiceCallback<Models.PolicyContract>, callback?: msRest.ServiceCallback<Models.PolicyContract>): Promise<Models.PolicyGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -262,6 +262,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
+    Parameters.format0,
     Parameters.apiVersion
   ],
   headerParameters: [
