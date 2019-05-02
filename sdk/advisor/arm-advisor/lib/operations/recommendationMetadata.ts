@@ -83,7 +83,7 @@ export class RecommendationMetadata {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "providers/Microsoft.Advisor/recommendations/metadata/{name}",
+  path: "providers/Microsoft.Advisor/metadata/{name}",
   urlParameters: [
     Parameters.name
   ],
@@ -109,7 +109,7 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "providers/Microsoft.Advisor/recommendations/metadata",
+  path: "providers/Microsoft.Advisor/metadata",
   queryParameters: [
     Parameters.apiVersion
   ],
