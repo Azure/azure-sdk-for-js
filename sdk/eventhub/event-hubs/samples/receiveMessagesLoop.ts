@@ -18,7 +18,7 @@ async function main(): Promise<void> {
 
   for (let i = 0; i < 10; i++) {
     const messages = await client.receiveBatch(partitionIds[0], 1, 5, {
-      eventPosition: EventPosition.fromStart()
+      eventPosition: EventPosition.fromSequenceNumber(i - 1)
     });
     if (!messages.length) {
       console.log("No more messages to receive");
