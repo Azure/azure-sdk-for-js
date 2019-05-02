@@ -9,8 +9,8 @@
 import { EventHubClient, EventPosition } from "@azure/event-hubs";
 
 // Define connection string and related Event Hubs entity name here
-const connectionString = "Endpoint=sb://shivangieventhubs.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=mHuzn4laFeLg25QlzhL7Fe0IfJzkEiqsTZZyAS2z12M=";
-const eventHubsName = "test";
+const connectionString = "";
+const eventHubsName = "";
 
 async function main(): Promise<void> {
   const client = EventHubClient.createFromConnectionString(connectionString, eventHubsName);
