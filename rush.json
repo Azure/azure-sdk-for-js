@@ -330,6 +330,10 @@
     // },
     //
     {
+      "packageName": "@azure/amqp-common",
+      "projectFolder": "sdk/core/amqp-common"
+    },
+    {
       "packageName": "@azure/cosmos",
       "projectFolder": "sdk/cosmosdb/cosmos"
     },
@@ -368,10 +372,6 @@
     {
       "packageName": "testhub",
       "projectFolder": "sdk/eventhub/testhub"
-    },
-    {
-      "packageName": "@azure/amqp-common",
-      "projectFolder": "sdk/core/amqp-common"
     }
   ]
 }
