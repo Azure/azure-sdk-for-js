@@ -122,18 +122,29 @@ By default, Rush only displays things written to `STDERR`. If you want to see th
 
 #### Other NPM scripts
 
-Most package scripts are exposed as Rush commands. Use `rush <scriptname>` in place of `npm run <scriptname>` to run the package script in all projects. Navigate to a project's directory and substitute `rushx` for `rush` to run the script for just the current project.
+Most package scripts are exposed as Rush commands. Use `rush <scriptname>` in place of `npm run <scriptname>` to run the package script in all projects. Navigate to a project's directory and substitute `rushx` for `rush` to run the script for just the current project. Run `rush <scriptname> --help` for more information about each script.
+
 All projects have at least the following scripts:
-- `test`: Run tests (specifics vary by project)
+- `audit`: Run `npm audit` on the project (with some workarounds for Rush)
+- `build`: Build the project's production artifacts (Node and browser bundles)
+- `build:test`: Build the project's test artifacts only
+- `check-format`: Show Prettier formatting issues within the project
 - `clean`: Remove generated and temporary files
-- `lint`: Run tslint / eslint
-- `format`: Run Prettier and reformat files to match the formatting guidelines
-- `check-format`: Run Prettier display format issues without making any changes
-- `pack`: Run `npm pack`
+- `format`: Reformat project files with Prettier
+- `integration-test:browser`: Execute browser integration tests
+- `integration-test:node`: Execute Node integration tests
+- `integration-test`: Execute all integration tests
+- `lint:fix`: Fix ESLint issues within the project
+- `lint`: Show ESLint issues within the project
+- `pack`: Run `npm pack` on the project
+- `test:browser`: Execute browser dev tests
+- `test:node`: Execute Node dev tests
+- `test`: Execute all dev tests
+- `unit-test:browser`: Execute browser unit tests
+- `unit-test:node`: Execute Node unit tests
+- `unit-test`: Execute all unit tests
 
 Projects may optionally have the following scripts:
-- `unit-node`: Run NodeJS tests against the Node package
-- `unit-browser`: Run browser tests against the browser bundle
 - `extract-api`: Run API Extractor to show API issues and generate API reports
 
 #### Getting back to a clean state

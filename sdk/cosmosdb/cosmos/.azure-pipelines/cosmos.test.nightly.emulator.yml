@@ -38,12 +38,12 @@ jobs:
       - script: node common/scripts/install-run-rush.js install
         displayName: "rush install"
 
-      - script: cd sdk/cosmosdb/cosmos && npm run build-dev
-        displayName: "npm run build"
+      - script: cd sdk/cosmosdb/cosmos && npm run build:test
+        displayName: "npm run build:test"
 
       - bash: cd sdk/cosmosdb/cosmos && ACCOUNT_HOST=$COSMOSDBEMULATOR_ENDPOINT NODE_TLS_REJECT_UNAUTHORIZED="0" npm run integration-test -- --reporter mocha-multi-reporters --reporter-options spec=-,mocha-junit-reporter=- $(AdditionalTestArguments)
         failOnStderr: true
-        displayName: "npm test"
+        displayName: "npm run integration-test"
         env:
           MOCHA_TIMEOUT: 100000
 
