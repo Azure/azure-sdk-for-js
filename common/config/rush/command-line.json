@@ -172,6 +172,12 @@
       "summary": "Reset your workspace - !!DANGER!! unlink dependencies, purge downloaded node_modules, and remove all untracked files and directories",
       "safeForSimultaneousRushProcesses": true,
       "shellCommand": "rush unlink && echo \"\nStarting \\\"git clean\\\"\" && git clean -dfx && rush purge"
+    },
+    {
+      "commandKind": "global",
+      "name": "list-files",
+      "summary": "List files within Rush project directories",
+      "shellCommand": "node common/scripts/list-files.js"
     }
   ],
 
