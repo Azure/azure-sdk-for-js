@@ -4,22 +4,42 @@ import { getUniqueName } from "../utils";
 import * as dotenv from "dotenv";
 dotenv.config({ path: "../../.env" });
 
+/**
+ * Possible reasons for skipping a test:
+ * * Size: the generated recording file is too big and would considerably increase the size of the package
+ * * UUID: a UUID is randomly generated within the SDK and used in an HTTP request, resulting in Nock being unable to recognize it
+*/
 const skip: any = [
-  "highlevel/recording_bloburldownload_should_abort_after_retrys.js", // Recording too big: 15MB
-  "highlevel/recording_bloburldownload_should_download_data_failed_when_exceeding_max_stream_retry_requests.js", // Recording too big: 15MB
-  "highlevel/recording_bloburldownload_should_download_full_data_successfully_when_internal_stream_unexcepted_ends.js", // Recording too big: 30MB
-  "highlevel/recording_bloburldownload_should_download_partial_data_when_internal_stream_unexcepted_ends.js", // Recording too big: 15MB
-  "highlevel/recording_bloburldownload_should_success_when_internal_stream_unexcepted_ends_at_the_stream_end.js", // Recording too big: 30MB
-  "highlevel/recording_downloadblobtobuffer_should_abort.js", // Recording too big: 263MB
-  "highlevel/recording_downloadblobtobuffer_should_success.js", // Recording too big: 526MB
-  "highlevel/recording_downloadblobtobuffer_should_update_progress_event.js", // Recording too big: 15MB
-  "highlevel/recording_uploadfiletoblockblob_should_success_when_blob_gte_block_blob_max_upload_blob_bytes.js", // Recording too big: 526MB
-  "highlevel/recording_uploadfiletoblockblob_should_success_when_blob_lt_block_blob_max_upload_blob_bytes.js", // Recording too big: 30MB
-  "highlevel/recording_uploadfiletoblockblob_should_success_when_blob_lt_block_blob_max_upload_blob_bytes_and_configured_maxsingleshotsize.js", // Recording too big: 30MB
-  "highlevel/recording_uploadfiletoblockblob_should_update_progress_when_blob_gte_block_blob_max_upload_blob_bytes.js", // Recording too big: 4MB
-  "highlevel/recording_uploadstreamtoblockblob_should_success.js", // Recording too big: 526MB
-  "highlevel/recording_uploadstreamtoblockblob_should_success_for_tiny_buffers.js", // Not working (needs debugging)
-  "highlevel/recording_uploadstreamtoblockblob_should_update_progress_event.js" // Recording too big: 263MB
+  // Size (15MB)
+  "highlevel/recording_bloburldownload_should_abort_after_retrys.js",
+  // Size (15MB)
+  "highlevel/recording_bloburldownload_should_download_data_failed_when_exceeding_max_stream_retry_requests.js",
+  // Size (30MB)
+  "highlevel/recording_bloburldownload_should_download_full_data_successfully_when_internal_stream_unexcepted_ends.js",
+  // Size (15MB)
+  "highlevel/recording_bloburldownload_should_download_partial_data_when_internal_stream_unexcepted_ends.js",
+  // Size (30MB)
+  "highlevel/recording_bloburldownload_should_success_when_internal_stream_unexcepted_ends_at_the_stream_end.js",
+  // Size (263MB), UUID (uploadStreamToBlockBlob)
+  "highlevel/recording_downloadblobtobuffer_should_abort.js",
+  // Size (526MB), UUID (uploadStreamToBlockBlob)
+  "highlevel/recording_downloadblobtobuffer_should_success.js",
+  // Size (15MB), UUID (uploadStreamToBlockBlob)
+  "highlevel/recording_downloadblobtobuffer_should_update_progress_event.js",
+  // Size (526MB)
+  "highlevel/recording_uploadfiletoblockblob_should_success_when_blob_gte_block_blob_max_upload_blob_bytes.js",
+  // Size (30MB)
+  "highlevel/recording_uploadfiletoblockblob_should_success_when_blob_lt_block_blob_max_upload_blob_bytes.js",
+  // Size (30MB)
+  "highlevel/recording_uploadfiletoblockblob_should_success_when_blob_lt_block_blob_max_upload_blob_bytes_and_configured_maxsingleshotsize.js",
+  // Size (4MB)
+  "highlevel/recording_uploadfiletoblockblob_should_update_progress_when_blob_gte_block_blob_max_upload_blob_bytes.js",
+  // Size (526MB), UUID (uploadStreamToBlockBlob)
+  "highlevel/recording_uploadstreamtoblockblob_should_success.js",
+  // UUID (uploadStreamToBlockBlob)
+  "highlevel/recording_uploadstreamtoblockblob_should_success_for_tiny_buffers.js",
+  // Size (263MB), UUID (uploadStreamToBlockBlob)
+  "highlevel/recording_uploadstreamtoblockblob_should_update_progress_event.js"
 ];
 
 function formatPath(path: string): string {
