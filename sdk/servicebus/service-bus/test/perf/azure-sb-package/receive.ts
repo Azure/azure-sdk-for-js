@@ -36,21 +36,24 @@ async function main(): Promise<void> {
 
 function RunTest(connectionString: string, entityPath: string, messages: number) {
   const sbService: ServiceBusService = createServiceBusService(connectionString);
-
-  function receiveMessages(): void {
+  function receiveMessages(done: any): void {
     while (_messages < messages) {
-      _messages++;
-      sbService.receiveQueueMessage(entityPath, { isPeekLock: false }, function(err: any) {
+      sbService.receiveQueueMessage(entityPath, { isPeekLock: false }, function(err) {
         if (err) {
           console.log(err.message);
+          done();
         } else {
-          _messages++;
-          receiveMessages();
+          if (_messages === messages) {
+            done();
+          } else {
+            _messages++;
+            receiveMessages(() => {});
+          }
         }
       });
     }
   }
-  receiveMessages();
+  receiveMessages(() => {});
 }
 
 async function WriteResults(messages: number): Promise<void> {
