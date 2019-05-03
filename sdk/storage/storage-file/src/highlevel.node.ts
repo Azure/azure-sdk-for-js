@@ -1,13 +1,16 @@
-import * as fs from "fs";
 import { TransferProgressEvent } from "@azure/ms-rest-js";
+import * as fs from "fs";
 import { Readable } from "stream";
 import { Aborter } from "./Aborter";
+import { AnonymousCredential } from "./credentials/AnonymousCredential";
+import { Credential } from "./credentials/Credential";
 import { FileURL } from "./FileURL";
 import {
   IDownloadFromAzureFileOptions,
   IUploadToAzureFileOptions
 } from "./highlevel.common";
 import { IFileHTTPHeaders, IMetadata } from "./models";
+import { INewPipelineOptions, StorageURL } from "./StorageURL";
 import { Batch } from "./utils/Batch";
 import { BufferScheduler } from "./utils/BufferScheduler";
 import {
@@ -35,6 +38,49 @@ export async function uploadFileToAzureFile(
   fileURL: FileURL,
   options?: IUploadToAzureFileOptions
 ): Promise<void> {
+  const size = fs.statSync(filePath).size;
+  return uploadResetableStreamToAzureFile(
+    aborter,
+    (offset, count) =>
+      fs.createReadStream(filePath, {
+        autoClose: true,
+        end: count ? offset + count - 1 : Infinity,
+        start: offset
+      }),
+    size,
+    fileURL,
+    options
+  );
+}
+
+/**
+ * ONLY AVAILABLE IN NODE.JS RUNTIME.
+ *
+ * Given a url to an Azure File, uploads a local file to that Azure file.
+ *
+ * @export
+ * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
+ *                          goto documents of Aborter for more examples about request cancellation
+ * @param {string} filePath Full path of local file
+ * @param {string} url url to an Azure file
+ * @param {IUploadToAzureFileOptions} [options]
+ * @returns {(Promise<void>)}
+ */
+export async function uploadFileToAzureFileUrl(
+  aborter: Aborter,
+  filePath: string,
+  url: string,
+  options: IUploadToAzureFileOptions = {},
+  credential?: Credential,
+  pipelineOptions: INewPipelineOptions = {}
+
+): Promise<void> {
+  if (!credential) {
+    credential = new AnonymousCredential();
+  }
+
+  const pipeline = StorageURL.newPipeline(credential, pipelineOptions);
+  const fileURL = new FileURL(url, pipeline);
   const size = fs.statSync(filePath).size;
   return uploadResetableStreamToAzureFile(
     aborter,
@@ -219,6 +265,40 @@ export async function downloadAzureFileToBuffer(
 }
 
 /**
+ * ONLY AVAILABLE IN NODE.JS RUNTIME.
+ *
+ * Given a url to an Azure file, downloads that Azure file in parallel to a buffer.
+ * Offset and count are optional, pass 0 for both to download the entire file.
+ *
+ * @export
+ * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
+ *                          goto documents of Aborter for more examples about request cancellation
+ * @param {string} url url to a Azure File.
+ * @param {Buffer} buffer Buffer to be fill, must have length larger than count
+ * @param {number} offset From which position of the Azure File to download
+ * @param {number} [count] How much data to be downloaded. Will download to the end when passing undefined
+ * @param {IDownloadFromAzureFileOptions} [options]
+ * @returns {Promise<void>}
+ */
+export async function downloadFromAzureFileUrlToBuffer(
+  aborter: Aborter,
+  url: string,
+  buffer: Buffer,
+  offset: number,
+  count?: number,
+  options: IDownloadFromAzureFileOptions = {},
+  credential?: Credential,
+  pipelineOptions: INewPipelineOptions = {}
+): Promise<void> {
+  if (!credential) {
+    credential = new AnonymousCredential();
+  }
+
+  const pipeline = StorageURL.newPipeline(credential, pipelineOptions);
+  const fileURL = new FileURL(url, pipeline);
+  return downloadAzureFileToBuffer(aborter, buffer, fileURL, offset, count, options);
+}
+/**
  * Option interface for uploadStreamToAzureFile.
  *
  * @export
@@ -332,4 +412,50 @@ export async function uploadStreamToAzureFile(
     Math.ceil((maxBuffers / 4) * 3)
   );
   return scheduler.do();
+}
+
+/**
+ * ONLY AVAILABLE IN NODE.JS RUNTIME.
+ *
+ * Given a url to an Azure File, uploads a Node.js Readable stream into that Azure file.
+ * This method will try to create an Azure, then starts uploading chunk by chunk.
+ * Size of chunk is defined by `bufferSize` parameter.
+ * Please make sure potential size of stream doesn't exceed file size.
+ *
+ * PERFORMANCE IMPROVEMENT TIPS:
+ * * Input stream highWaterMark is better to set a same value with bufferSize
+ *   parameter, which will avoid Buffer.concat() operations.
+ *
+ * @export
+ * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
+ *                          goto documents of Aborter for more examples about request cancellation
+ * @param {Readable} stream Node.js Readable stream. Must be less or equal than file size.
+ * @param {number} size Size of file to be created. Maxium size allowed is 1TB.
+ *                      If this value is larger than stream size, there will be empty bytes in file tail.
+ * @param {string} url url to an Azure file.
+ * @param {number} bufferSize Size of every buffer allocated in bytes, also the chunk/range size during
+ *                            the uploaded file. Size must be > 0 and <= 4 * 1024 * 1024 (4MB)
+ * @param {number} maxBuffers Max buffers will allocate during uploading, positive correlation
+ *                            with max uploading concurrency
+ * @param {IUploadStreamToAzureFileOptions} [options]
+ * @returns {Promise<void>}
+ */
+export async function uploadStreamToAzureFileUrl(
+  aborter: Aborter,
+  stream: Readable,
+  size: number,
+  url: string,
+  bufferSize: number,
+  maxBuffers: number,
+  options: IUploadStreamToAzureFileOptions = {},
+  credential?: Credential,
+  pipelineOptions: INewPipelineOptions = {}
+): Promise<void> {
+  if (!credential) {
+    credential = new AnonymousCredential();
+  }
+
+  const pipeline = StorageURL.newPipeline(credential, pipelineOptions);
+  const fileURL = new FileURL(url, pipeline);
+  return uploadStreamToAzureFile(aborter, stream, size, fileURL, bufferSize, maxBuffers, options);
 }

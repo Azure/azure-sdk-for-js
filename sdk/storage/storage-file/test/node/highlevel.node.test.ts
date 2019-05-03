@@ -7,16 +7,19 @@ import { Aborter } from "../../src/Aborter";
 import { DirectoryURL } from "../../src/DirectoryURL";
 import {
   downloadAzureFileToBuffer,
+  downloadFromAzureFileUrlToBuffer,
   uploadFileToAzureFile,
-  uploadStreamToAzureFile
+  uploadFileToAzureFileUrl,
+  uploadStreamToAzureFile,
+  uploadStreamToAzureFileUrl
 } from "../../src/highlevel.node";
+import { IRetriableReadableStreamOptions } from "../../src/utils/RetriableReadableStream";
 import {
   createRandomLocalFile,
   getBSU,
   getUniqueName,
   readStreamToLocalFile
 } from "../utils";
-import { IRetriableReadableStreamOptions } from "../../src/utils/RetriableReadableStream";
 
 // tslint:disable:no-empty
 describe("Highlevel", () => {
@@ -99,6 +102,31 @@ describe("Highlevel", () => {
       parallelism: 20,
       rangeSize: 4 * 1024 * 1024
     });
+
+    const downloadResponse = await fileURL.download(Aborter.none, 0);
+    const downloadedFile = path.join(
+      tempFolderPath,
+      getUniqueName("downloadfile.")
+    );
+    await readStreamToLocalFile(
+      downloadResponse.readableStreamBody!,
+      downloadedFile
+    );
+
+    const downloadedData = await fs.readFileSync(downloadedFile);
+    const uploadedData = await fs.readFileSync(tempFileSmall);
+
+    fs.unlinkSync(downloadedFile);
+    assert.ok(downloadedData.equals(uploadedData));
+  });
+
+  it("uploadFileToAzureFileUrl should success for samll data", async () => {
+    const url = fileURL.url;
+    const credential = fileURL.pipeline.factories[fileURL.pipeline.factories.length - 1];
+    await uploadFileToAzureFileUrl(Aborter.none, tempFileSmall, url, {
+      parallelism: 20,
+      rangeSize: 4 * 1024 * 1024 },
+      credential);
 
     const downloadResponse = await fileURL.download(Aborter.none, 0);
     const downloadedFile = path.join(
@@ -210,6 +238,39 @@ describe("Highlevel", () => {
     fs.unlinkSync(downloadFilePath);
   });
 
+  it("uploadStreamToAzureFileUrl should success", async () => {
+    const url = fileURL.url;
+    const credential = fileURL.pipeline.factories[fileURL.pipeline.factories.length - 1];
+    const rs = fs.createReadStream(tempFileLarge);
+    await uploadStreamToAzureFileUrl(
+      Aborter.none,
+      rs,
+      tempFileLargeLength,
+      url,
+      4 * 1024 * 1024,
+      20,
+      {},
+      credential
+    );
+
+    const downloadResponse = await fileURL.download(Aborter.none, 0);
+
+    const downloadFilePath = path.join(
+      tempFolderPath,
+      getUniqueName("downloadFile")
+    );
+    await readStreamToLocalFile(
+      downloadResponse.readableStreamBody!,
+      downloadFilePath
+    );
+
+    const downloadedBuffer = fs.readFileSync(downloadFilePath);
+    const uploadedBuffer = fs.readFileSync(tempFileLarge);
+    assert.ok(uploadedBuffer.equals(downloadedBuffer));
+
+    fs.unlinkSync(downloadFilePath);
+  });
+
   it("uploadStreamToAzureFile should abort", async () => {
     const rs = fs.createReadStream(tempFileLarge);
     const aborter = Aborter.timeout(1);
@@ -266,6 +327,29 @@ describe("Highlevel", () => {
       parallelism: 20,
       rangeSize: 4 * 1024 * 1024
     });
+
+    const localFileContent = fs.readFileSync(tempFileLarge);
+    assert.ok(localFileContent.equals(buf));
+  });
+
+  it("downloadFromAzureFileUrlToBuffer should success", async () => {
+    const url = fileURL.url;
+    const credential = fileURL.pipeline.factories[fileURL.pipeline.factories.length - 1];
+    const rs = fs.createReadStream(tempFileLarge);
+    await uploadStreamToAzureFile(
+      Aborter.none,
+      rs,
+      tempFileLargeLength,
+      fileURL,
+      4 * 1024 * 1024,
+      20
+    );
+
+    const buf = Buffer.alloc(tempFileLargeLength);
+    await downloadFromAzureFileUrlToBuffer(Aborter.none, url, buf, 0, undefined, {
+      parallelism: 20,
+      rangeSize: 4 * 1024 * 1024 },
+      credential);
 
     const localFileContent = fs.readFileSync(tempFileLarge);
     assert.ok(localFileContent.equals(buf));

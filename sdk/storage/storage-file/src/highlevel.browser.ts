@@ -1,6 +1,9 @@
 import { Aborter } from "./Aborter";
+import { AnonymousCredential } from "./credentials/AnonymousCredential";
+import { Credential } from "./credentials/Credential";
 import { FileURL } from "./FileURL";
 import { IUploadToAzureFileOptions } from "./highlevel.common";
+import { INewPipelineOptions, StorageURL } from "./StorageURL";
 import { Batch } from "./utils/Batch";
 import {
   FILE_RANGE_MAX_SIZE_BYTES,
@@ -36,6 +39,36 @@ export async function uploadBrowserDataToAzureFile(
     fileURL,
     options
   );
+}
+
+/**
+ * ONLY AVAILABLE IN BROWSERS.
+ *
+ * Given a url to an Azure File, uploads a browser Blob/File/ArrayBuffer/ArrayBufferView object to that Azure File.
+ *
+ * @export
+ * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
+ *                          goto documents of Aborter for more examples about request cancellation
+ * @param {Blob | ArrayBuffer | ArrayBufferView} browserData Blob, File, ArrayBuffer or ArrayBufferView
+ * @param {string} url Url to an Azure file
+ * @param {IUploadToAzureFileOptions} [options]
+ * @returns {Promise<void>}
+ */
+export async function uploadBrowserDataToAzureFileUrl(
+  aborter: Aborter,
+  browserData: Blob | ArrayBuffer | ArrayBufferView,
+  url: string,
+  options: IUploadToAzureFileOptions = {},
+  credential?: Credential,
+  pipelineOptions: INewPipelineOptions = {}
+): Promise<void> {
+  if (!credential) {
+    credential = new AnonymousCredential();
+  }
+
+  const pipeline = StorageURL.newPipeline(credential, pipelineOptions);
+  const fileURL = new FileURL(url, pipeline);
+  return uploadBrowserDataToAzureFile(aborter, browserData, fileURL, options);
 }
 
 /**
