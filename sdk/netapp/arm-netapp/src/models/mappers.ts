@@ -196,6 +196,65 @@ export const Operation: msRest.CompositeMapper = {
   }
 };
 
+export const ResourceNameAvailability: msRest.CompositeMapper = {
+  serializedName: "ResourceNameAvailability",
+  type: {
+    name: "Composite",
+    className: "ResourceNameAvailability",
+    modelProperties: {
+      isAvailable: {
+        serializedName: "isAvailable",
+        type: {
+          name: "Boolean"
+        }
+      },
+      reason: {
+        serializedName: "reason",
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        serializedName: "message",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ResourceNameAvailabilityRequest: msRest.CompositeMapper = {
+  serializedName: "ResourceNameAvailabilityRequest",
+  type: {
+    name: "Composite",
+    className: "ResourceNameAvailabilityRequest",
+    modelProperties: {
+      name: {
+        required: true,
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        required: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      resourceGroup: {
+        required: true,
+        serializedName: "resourceGroup",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const ActiveDirectory: msRest.CompositeMapper = {
   serializedName: "activeDirectory",
   type: {
@@ -226,8 +285,8 @@ export const ActiveDirectory: msRest.CompositeMapper = {
           name: "String"
         }
       },
-      dNS: {
-        serializedName: "dNS",
+      dns: {
+        serializedName: "dns",
         type: {
           name: "String"
         }
@@ -238,8 +297,8 @@ export const ActiveDirectory: msRest.CompositeMapper = {
           name: "String"
         }
       },
-      sMBServerName: {
-        serializedName: "sMBServerName",
+      smbServerName: {
+        serializedName: "smbServerName",
         type: {
           name: "String"
         }
@@ -687,6 +746,29 @@ export const Volume: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      snapshotId: {
+        serializedName: "properties.snapshotId",
+        constraints: {
+          MaxLength: 36,
+          MinLength: 36,
+          Pattern: /^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$/
+        },
+        type: {
+          name: "String"
+        }
+      },
+      baremetalTenantId: {
+        readOnly: true,
+        serializedName: "properties.baremetalTenantId",
+        constraints: {
+          MaxLength: 36,
+          MinLength: 36,
+          Pattern: /^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$/
+        },
+        type: {
+          name: "String"
+        }
+      },
       subnetId: {
         serializedName: "properties.subnetId",
         type: {
@@ -951,7 +1033,6 @@ export const Snapshot: msRest.CompositeMapper = {
         }
       },
       fileSystemId: {
-        required: true,
         serializedName: "properties.fileSystemId",
         constraints: {
           MaxLength: 36,
@@ -990,30 +1071,6 @@ export const SnapshotPatch: msRest.CompositeMapper = {
         serializedName: "tags",
         type: {
           name: "Object"
-        }
-      }
-    }
-  }
-};
-
-export const ErrorModel: msRest.CompositeMapper = {
-  serializedName: "error",
-  type: {
-    name: "Composite",
-    className: "ErrorModel",
-    modelProperties: {
-      code: {
-        required: true,
-        serializedName: "code",
-        type: {
-          name: "String"
-        }
-      },
-      message: {
-        required: true,
-        serializedName: "message",
-        type: {
-          name: "String"
         }
       }
     }

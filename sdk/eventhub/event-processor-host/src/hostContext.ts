@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+import os from "os";
 import uuid from "uuid/v4";
 import {
   EventHubClient,
@@ -33,7 +34,6 @@ import {
   defaultLeaseDurationInSeconds,
   defaultStartupScanDelayInSeconds,
   packageInfo,
-  userAgentPrefix,
   defaultFastScanIntervalInSeconds,
   defaultSlowScanIntervalInSeconds,
   defaultConsumerGroup
@@ -296,11 +296,18 @@ export namespace HostContext {
   }
 
   /**
+   * @property {string} userAgent The user agent string for the EventHubs client.
+   * See guideline at https://github.com/Azure/azure-sdk/blob/master/docs/design/Telemetry.mdk
+   */
+  const userAgent: string = `azsdk-js-azureeventprocessorhost/${packageInfo.version} (NODE-VERSION ${
+    process.version
+  }; ${os.type()} ${os.release()})`;
+
+  /**
    * @ignore
    */
   export function getUserAgent(options: EventProcessorHostOptions): string {
-    const userAgentForEPH = `${userAgentPrefix}=${packageInfo.version}`;
-    const finalUserAgent = options.userAgent ? `${userAgentForEPH},${options.userAgent}` : userAgentForEPH;
+    const finalUserAgent = options.userAgent ? `${userAgent},${options.userAgent}` : userAgent;
     return finalUserAgent;
   }
 

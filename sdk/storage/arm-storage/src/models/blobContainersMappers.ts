@@ -33,6 +33,8 @@ export {
   ImmutabilityPolicyProperties,
   IPRule,
   KeyVaultProperties,
+  LeaseContainerRequest,
+  LeaseContainerResponse,
   LegalHold,
   LegalHoldProperties,
   ListContainerItem,
