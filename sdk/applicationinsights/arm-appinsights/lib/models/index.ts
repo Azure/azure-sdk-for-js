@@ -985,7 +985,7 @@ export interface ComponentPurgeBodyFilters {
   /**
    * @member {string} [operator] A query operator to evaluate over the provided
    * column and value(s). Supported operators are ==, =~, in, in~, >, >=, <,
-   * <=, between, and have the same behaviour as they would in a KQL query.
+   * <=, between, and have the same behavior as they would in a KQL query.
    */
   operator?: string;
   /**
