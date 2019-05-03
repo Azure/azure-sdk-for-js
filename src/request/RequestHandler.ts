@@ -66,7 +66,6 @@ async function httpRequest(requestContext: RequestContext) {
   clearTimeout(timeout);
 
   const result = response.status === 204 || response.status === 304 ? null : await response.json();
-
   const headers = {} as any;
   response.headers.forEach((value: string, key: string) => {
     headers[key] = value;

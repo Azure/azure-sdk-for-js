@@ -9,13 +9,23 @@ interface ErrorBody {
 export interface PartitionedQueryExecutionInfo {
   partitionedQueryExecutionInfoVersion: number;
   queryInfo: QueryInfo;
-  queryRanges: any[]; // TODO add types
+  queryRanges: QueryRange[];
+}
+
+interface QueryRange {
+  min: string;
+  max: string;
+  isMinInclusive: boolean;
+  isMaxInclusive: boolean;
 }
 
 interface QueryInfo {
   top?: any;
-  orderBy?: any;
-  aggregates?: any;
+  orderBy?: any[];
+  orderByExpressions?: any[];
+  offset?: number;
+  limit?: number;
+  aggregates?: any[];
   rewrittenQuery?: any;
 }
 

@@ -1,11 +1,11 @@
 import { ClientContext } from "../ClientContext";
 import { PartitionedQueryExecutionInfo } from "../request/ErrorResponse";
 import { DocumentProducer } from "./documentProducer";
-import { IExecutionContext } from "./IExecutionContext";
+import { ExecutionContext } from "./ExecutionContext";
 import { ParallelQueryExecutionContextBase } from "./parallelQueryExecutionContextBase";
 
 /** @hidden */
-export class ParallelQueryExecutionContext extends ParallelQueryExecutionContextBase implements IExecutionContext {
+export class ParallelQueryExecutionContext extends ParallelQueryExecutionContextBase implements ExecutionContext {
   /**
    * Provides the ParallelQueryExecutionContext.
    * This class is capable of handling parallelized queries and dervives from ParallelQueryExecutionContextBase.

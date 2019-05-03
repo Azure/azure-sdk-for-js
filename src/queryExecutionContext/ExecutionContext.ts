@@ -1,7 +1,7 @@
 import { Response } from "../request";
 
 /** @hidden */
-export interface IExecutionContext {
+export interface ExecutionContext {
   nextItem: () => Promise<Response<any>>;
   current: () => Promise<Response<any>>;
   hasMoreResults: () => boolean;

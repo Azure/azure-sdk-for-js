@@ -2,9 +2,9 @@
 import { ClientContext } from "./ClientContext";
 import {
   CosmosHeaders,
+  ExecutionContext,
   FetchFunctionCallback,
   getInitialHeader,
-  IExecutionContext,
   mergeHeaders,
   ProxyQueryExecutionContext,
   SqlQuerySpec
@@ -20,7 +20,7 @@ import { FeedResponse } from "./request/FeedResponse";
 export class QueryIterator<T> {
   private fetchAllTempResources: T[]; // TODO
   private fetchAllLastResHeaders: CosmosHeaders;
-  private queryExecutionContext: IExecutionContext;
+  private queryExecutionContext: ExecutionContext;
   /**
    * @hidden
    */
@@ -109,10 +109,9 @@ export class QueryIterator<T> {
         result.headers,
         this.queryExecutionContext.hasMoreResults()
       );
-      if (result.result === undefined) {
-        return;
+      if (result.result !== undefined) {
+        yield feedResponse;
       }
-      yield feedResponse;
     }
   }
 
@@ -160,12 +159,9 @@ export class QueryIterator<T> {
       // concatenate the results and fetch more
       mergeHeaders(this.fetchAllLastResHeaders, headers);
 
-      if (result === undefined) {
-        // no more results
-        break;
+      if (result !== undefined) {
+        this.fetchAllTempResources.push(result);
       }
-
-      this.fetchAllTempResources.push(result);
     }
     return new FeedResponse(
       this.fetchAllTempResources,

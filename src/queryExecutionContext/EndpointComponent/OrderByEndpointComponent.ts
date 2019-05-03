@@ -1,9 +1,8 @@
 import { Response } from "../../request";
-import { IExecutionContext } from "../IExecutionContext";
-import { IEndpointComponent } from "./IEndpointComponent";
+import { ExecutionContext } from "../ExecutionContext";
 
 /** @hidden */
-export class OrderByEndpointComponent implements IEndpointComponent {
+export class OrderByEndpointComponent implements ExecutionContext {
   /**
    * Represents an endpoint in handling an order by query. For each processed orderby \
    * result it returns 'payload' item of the result
@@ -11,43 +10,31 @@ export class OrderByEndpointComponent implements IEndpointComponent {
    * @param {object} executionContext              - Underlying Execution Context
    * @ignore
    */
-  constructor(private executionContext: IExecutionContext) {}
+  constructor(private executionContext: ExecutionContext) {}
   /**
    * Execute a provided function on the next element in the OrderByEndpointComponent.
    * @memberof OrderByEndpointComponent
    * @instance
-   * @param {callback} callback - Function to execute for each element. the function \
-   * takes two parameters error, element.
    */
   public async nextItem(): Promise<Response<any>> {
-    try {
-      const { result: item, headers } = await this.executionContext.nextItem();
-      return {
-        result: item !== undefined ? item.payload : undefined,
-        headers
-      };
-    } catch (err) {
-      throw err;
-    }
+    const { result: item, headers } = await this.executionContext.nextItem();
+    return {
+      result: item !== undefined ? item.payload : undefined,
+      headers
+    };
   }
 
   /**
    * Retrieve the current element on the OrderByEndpointComponent.
    * @memberof OrderByEndpointComponent
    * @instance
-   * @param {callback} callback - Function to execute for the current element. \
-   * the function takes two parameters error, element.
    */
   public async current(): Promise<Response<any>> {
-    try {
-      const { result: item, headers } = await this.executionContext.current();
-      return {
-        result: item !== undefined ? item.payload : undefined,
-        headers
-      };
-    } catch (err) {
-      throw err;
-    }
+    const { result: item, headers } = await this.executionContext.current();
+    return {
+      result: item !== undefined ? item.payload : undefined,
+      headers
+    };
   }
 
   /**

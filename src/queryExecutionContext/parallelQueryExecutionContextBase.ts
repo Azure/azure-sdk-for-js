@@ -9,8 +9,8 @@ import { QueryRange } from "../routing/QueryRange";
 import { PARITIONKEYRANGE, SmartRoutingMapProvider } from "../routing/smartRoutingMapProvider";
 import { CosmosHeaders } from "./CosmosHeaders";
 import { DocumentProducer } from "./documentProducer";
+import { ExecutionContext } from "./ExecutionContext";
 import { getInitialHeader, mergeHeaders } from "./headerUtils";
-import { IExecutionContext } from "./IExecutionContext";
 
 /** @hidden */
 export enum ParallelQueryExecutionContextBaseStates {
@@ -20,7 +20,7 @@ export enum ParallelQueryExecutionContextBaseStates {
 }
 
 /** @hidden */
-export abstract class ParallelQueryExecutionContextBase implements IExecutionContext {
+export abstract class ParallelQueryExecutionContextBase implements ExecutionContext {
   private static readonly DEFAULT_PAGE_SIZE = 10;
 
   private err: any;

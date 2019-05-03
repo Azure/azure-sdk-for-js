@@ -1,12 +1,12 @@
 import { ClientContext } from "../ClientContext";
 import { PartitionedQueryExecutionInfo } from "../request/ErrorResponse";
 import { DocumentProducer } from "./documentProducer";
-import { IExecutionContext } from "./IExecutionContext";
+import { ExecutionContext } from "./ExecutionContext";
 import { OrderByDocumentProducerComparator } from "./orderByDocumentProducerComparator";
 import { ParallelQueryExecutionContextBase } from "./parallelQueryExecutionContextBase";
 
 /** @hidden */
-export class OrderByQueryExecutionContext extends ParallelQueryExecutionContextBase implements IExecutionContext {
+export class OrderByQueryExecutionContext extends ParallelQueryExecutionContextBase implements ExecutionContext {
   private orderByComparator: any;
   /**
    * Provides the OrderByQueryExecutionContext.

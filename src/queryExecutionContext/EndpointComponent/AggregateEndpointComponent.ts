@@ -1,12 +1,11 @@
 import { Response } from "../../request";
 import { AverageAggregator, CountAggregator, MaxAggregator, MinAggregator, SumAggregator } from "../Aggregators";
+import { ExecutionContext } from "../ExecutionContext";
 import { getInitialHeader } from "../headerUtils";
-import { IExecutionContext } from "../IExecutionContext";
 import { CosmosHeaders } from "../index";
-import { IEndpointComponent } from "./IEndpointComponent";
 
 /** @hidden */
-export class AggregateEndpointComponent implements IEndpointComponent {
+export class AggregateEndpointComponent implements ExecutionContext {
   private toArrayTempResources: any[];
   private aggregateValues: any[];
   private aggregateValuesIndex: number;
@@ -18,7 +17,7 @@ export class AggregateEndpointComponent implements IEndpointComponent {
    * @param { object } executionContext - Underlying Execution Context
    * @ignore
    */
-  constructor(private executionContext: IExecutionContext, aggregateOperators: string[]) {
+  constructor(private executionContext: ExecutionContext, aggregateOperators: string[]) {
     // TODO: any
     this.executionContext = executionContext;
     this.localAggregators = [];

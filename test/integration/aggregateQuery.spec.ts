@@ -8,8 +8,6 @@ import { FeedOptions } from "../../dist-esm/request";
 import { TestData } from "../common/TestData";
 import { bulkInsertItems, getTestContainer, removeAllDatabases } from "../common/TestHelpers";
 
-// process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
-
 describe("NodeJS Aggregate Query Tests", async function() {
   this.timeout(process.env.MOCHA_TIMEOUT || 20000);
   const partitionKey = "key";
@@ -165,8 +163,6 @@ describe("NodeJS Aggregate Query Tests", async function() {
           expected: testdata.sum / testdata.numberOfDocumentsWithNumbericId,
           condition: util.format("IS_NUMBER(r.%s)", partitionKey)
         },
-        // TODO: Remove this test since query team says its invalid now
-        // { operator: "AVG", expected: undefined, condition: "true" },
         {
           operator: "COUNT",
           expected: testdata.numberOfDocuments,
@@ -179,8 +175,6 @@ describe("NodeJS Aggregate Query Tests", async function() {
           expected: testdata.sum,
           condition: util.format("IS_NUMBER(r.%s)", partitionKey)
         }
-        // TODO: Remove this test since query team says its invalid now
-        // { operator: "SUM", expected: undefined, condition: "true" }
       ];
 
       aggregateConfigs.forEach(function(config) {

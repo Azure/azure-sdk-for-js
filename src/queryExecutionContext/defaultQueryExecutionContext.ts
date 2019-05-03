@@ -2,7 +2,7 @@ import { Constants } from "../common";
 import { ClientSideMetrics, QueryMetrics } from "../queryMetrics";
 import { Response } from "../request";
 import { getInitialHeader } from "./headerUtils";
-import { IExecutionContext } from "./index";
+import { ExecutionContext } from "./index";
 
 /** @hidden */
 export type FetchFunctionCallback = (options: any) => Promise<Response<any>>;
@@ -15,7 +15,7 @@ enum STATES {
 }
 
 /** @hidden */
-export class DefaultQueryExecutionContext implements IExecutionContext {
+export class DefaultQueryExecutionContext implements ExecutionContext {
   private static readonly STATES = STATES;
   private resources: any; // TODO: any resources
   private currentIndex: number;

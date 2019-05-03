@@ -3,13 +3,13 @@ import { StatusCodes, SubStatusCodes } from "../common/statusCodes";
 import { ErrorResponse, Response } from "../request";
 import { PartitionedQueryExecutionInfo } from "../request/ErrorResponse";
 import { DefaultQueryExecutionContext, FetchFunctionCallback } from "./defaultQueryExecutionContext";
-import { IExecutionContext } from "./IExecutionContext";
+import { ExecutionContext } from "./ExecutionContext";
 import { PipelinedQueryExecutionContext } from "./pipelinedQueryExecutionContext";
 import { SqlQuerySpec } from "./SqlQuerySpec";
 
 /** @hidden */
-export class ProxyQueryExecutionContext implements IExecutionContext {
-  private queryExecutionContext: IExecutionContext;
+export class ProxyQueryExecutionContext implements ExecutionContext {
+  private queryExecutionContext: ExecutionContext;
 
   constructor(
     private clientContext: ClientContext,
