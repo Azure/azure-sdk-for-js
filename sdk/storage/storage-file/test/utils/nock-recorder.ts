@@ -4,28 +4,61 @@ import { getUniqueName } from "../utils";
 import * as dotenv from "dotenv";
 dotenv.config({ path: "../../.env" });
 
+/**
+ * Possible reasons for skipping a test:
+ * * Progress: Nock does not record a request if it's aborted in a 'progress' callback
+ * * Size: the generated recording file is too big and would considerably increase the size of the package
+ * * Tempfile: the request makes use of a random tempfile created locally, and the recorder does not support recording it as unique information
+ * * UUID: a UUID is randomly generated within the SDK and used in an HTTP request, resulting in Nock being unable to recognize it
+*/
 const skip: any = [
-  "fileurl/recording_download_should_update_progress_and_abort_successfully.js", // Not supported by Nock
-  "highlevel/recording_bloburldownload_should_abort_after_retrys.js", // Not supported by Nock
-  "highlevel/recording_bloburldownload_should_download_data_failed_when_exceeding_max_stream_retry_requests.js", // Not supported by Nock
-  "highlevel/recording_bloburldownload_should_download_full_data_successfully_when_internal_stream_unexcepted_ends.js", // Not supported by Nock
-  "highlevel/recording_bloburldownload_should_download_partial_data_when_internal_stream_unexcepted_ends.js", // Not supported by Nock
-  "highlevel/recording_bloburldownload_should_success_when_internal_stream_unexcepted_ends_at_the_stream_end.js", // Not supported by Nock
-  "highlevel/recording_downloadazurefiletobuffer_should_abort.js", // Recording too big: 263MB
-  "highlevel/recording_downloadazurefiletobuffer_should_success.js", // Recording too big: 526MB
-  "highlevel/recording_downloadazurefiletobuffer_should_update_progress_event.js", // Not supported by Nock
-  "highlevel/recording_uploadfiletoazurefile_should_success_for_large_data.js", // Recording too big: 526MB
-  "highlevel/recording_uploadfiletoazurefile_should_success_for_small_data.js", // Recording too big: 30MB
-  "highlevel/recording_uploadfiletoazurefile_should_update_progress_for_large_data.js", // Not supported by Nock
-  "highlevel/recording_uploadfiletoazurefile_should_update_progress_for_small_data.js", // Not supported by Nock
-  "highlevel/recording_uploadstreamtoazurefile_should_success.js", // Recording too big: 526MB
-  "highlevel/recording_uploadstreamtoazurefile_should_update_progress_event.js" // Not supported by Nock
+  // Progress
+  "fileurl/recording_download_should_update_progress_and_abort_successfully.js",
+  // Progress, Size (15MB), Tempfile
+  "highlevel/recording_bloburldownload_should_abort_after_retrys.js",
+  // Size (15MB), Tempfile
+  "highlevel/recording_bloburldownload_should_download_data_failed_when_exceeding_max_stream_retry_requests.js",
+  // Size (30MB), Tempfile
+  "highlevel/recording_bloburldownload_should_download_full_data_successfully_when_internal_stream_unexcepted_ends.js",
+  // Size (15MB), Tempfile
+  "highlevel/recording_bloburldownload_should_download_partial_data_when_internal_stream_unexcepted_ends.js",
+  // Size (30MB), Tempfile
+  "highlevel/recording_bloburldownload_should_success_when_internal_stream_unexcepted_ends_at_the_stream_end.js",
+  // Size (263MB), Tempfile
+  "highlevel/recording_downloadazurefiletobuffer_should_abort.js",
+  // Size (526MB), Tempfile
+  "highlevel/recording_downloadazurefiletobuffer_should_success.js",
+  // Progress, Size (15MB), Tempfile
+  "highlevel/recording_downloadazurefiletobuffer_should_update_progress_event.js",
+  // Size (526MB), Tempfile
+  "highlevel/recording_uploadfiletoazurefile_should_success_for_large_data.js",
+  // Size (30MB), Tempfile
+  "highlevel/recording_uploadfiletoazurefile_should_success_for_small_data.js",
+  // Progress, Size (4MB), Tempfile
+  "highlevel/recording_uploadfiletoazurefile_should_update_progress_for_large_data.js",
+  // Progress, Size (3MB), Tempfile
+  "highlevel/recording_uploadfiletoazurefile_should_update_progress_for_small_data.js",
+  // Size (526MB), Tempfile
+  "highlevel/recording_uploadstreamtoazurefile_should_success.js",
+  // Size (263MB), Tempfile
+  "highlevel/recording_uploadstreamtoazurefile_should_update_progress_event.js"
 ];
+
+function formatPath(path: string): string {
+  return path
+    .toLowerCase()
+    .replace(/ /g, "_")
+    .replace(/<=/g, "lte")
+    .replace(/>=/g, "gte")
+    .replace(/</g, "lt")
+    .replace(/>/g, "gt")
+    .replace(/=/g, "eq")
+    .replace(/\W/g, "");
+}
 
 export function record(this: any, folderpath: string, testTitle?: string): { [key: string]: any } {
   const filename = "recording_" + (testTitle || this.currentTest.title);
-  const fp = folderpath.toLowerCase().replace(/ /g, "_").replace(/\W/g, "") +
-    "/" + filename.toLowerCase().replace(/ /g, "_").replace(/\W/g, "") + ".js";
+  const fp = formatPath(folderpath) + "/" + formatPath(filename) + ".js";
   const importNock = "let nock = require('nock');\n";
   let uniqueTestInfo: any = {};
 
