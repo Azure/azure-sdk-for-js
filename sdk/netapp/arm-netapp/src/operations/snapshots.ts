@@ -28,7 +28,8 @@ export class Snapshots {
   }
 
   /**
-   * List snapshots
+   * List all snapshots associated with the volume
+   * @summary Describe all snapshots
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
@@ -68,7 +69,8 @@ export class Snapshots {
   }
 
   /**
-   * Get a snapshot
+   * Get details of the specified snapshot
+   * @summary Describe a snapshot
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
@@ -112,7 +114,8 @@ export class Snapshots {
   }
 
   /**
-   * Create a snapshot
+   * Create the specified snapshot within the given volume
+   * @summary Create a snapshot
    * @param body Snapshot object supplied in the body of the operation.
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
@@ -129,6 +132,7 @@ export class Snapshots {
 
   /**
    * Patch a snapshot
+   * @summary Update a snapshot
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
@@ -173,6 +177,7 @@ export class Snapshots {
 
   /**
    * Delete snapshot
+   * @summary Delete a snapshot
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
@@ -187,7 +192,8 @@ export class Snapshots {
   }
 
   /**
-   * Create a snapshot
+   * Create the specified snapshot within the given volume
+   * @summary Create a snapshot
    * @param body Snapshot object supplied in the body of the operation.
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
@@ -214,6 +220,7 @@ export class Snapshots {
 
   /**
    * Delete snapshot
+   * @summary Delete a snapshot
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
@@ -260,7 +267,7 @@ const listOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.SnapshotsList
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -288,7 +295,7 @@ const getOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.Snapshot
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -328,7 +335,7 @@ const updateOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.Snapshot
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -364,7 +371,7 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
     },
     202: {},
     default: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -392,7 +399,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
