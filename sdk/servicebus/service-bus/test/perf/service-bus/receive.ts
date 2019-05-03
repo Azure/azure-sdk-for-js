@@ -11,30 +11,13 @@ Measures the maximum throughput of `receiver.receive()` in package `@azure/servi
 5. Example: `ts-node receive.ts 1000000`
  */
 
-import { ServiceBusClient, ReceiveMode, OnError, OnMessage, Receiver } from "../../../src";
+import { ServiceBusClient, ReceiveMode, OnError, OnMessage } from "../../../src";
 import delay from "delay";
 import moment from "moment";
 
 const _start = moment();
 
 let _messages = 0;
-
-/**
- * Maximum wait duration for the expected event to happen = `10000 ms`(default value is 10 seconds)(= maxWaitTimeInMilliseconds)
- * Keep checking whether the predicate is true after every `1000 ms`(default value is 1 second) (= delayBetweenRetriesInMilliseconds)
- */
-async function checkWithTimeout(
-  predicate: () => boolean,
-  maxWaitTimeInMilliseconds: number = 10000,
-  delayBetweenRetriesInMilliseconds: number = 1000
-): Promise<boolean> {
-  const maxTime = Date.now() + maxWaitTimeInMilliseconds;
-  while (Date.now() < maxTime) {
-    if (predicate()) return true;
-    await delay(delayBetweenRetriesInMilliseconds);
-  }
-  return false;
-}
 
 async function main(): Promise<void> {
   // Endpoint=sb://<your-namespace>.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=<shared-access-key>
@@ -60,18 +43,14 @@ async function RunTest(
   // If using Topics, use createTopicClient to send to a topic
   const client = ns.createQueueClient(entityPath);
   const receiver = client.createReceiver(ReceiveMode.receiveAndDelete);
-  ExecuteReceivesAsync(receiver);
 
-  await checkWithTimeout(() => _messages >= messages, messages * 1000);
-
-  await receiver.close();
-  await client.close();
-  await ns.close();
-}
-
-function ExecuteReceivesAsync(receiver: Receiver) {
   const onMessageHandler: OnMessage = async (msg) => {
     _messages++;
+    if (_messages === messages) {
+      await receiver.close();
+      await client.close();
+      await ns.close();
+    }
   };
   const onErrorHandler: OnError = async (err) => {
     console.log("Error occurred: ", err);
