@@ -59,7 +59,7 @@ export class BaseLease implements BaseLeaseInfo {
   getInfo(): BaseLeaseInfo {
     const info: BaseLeaseInfo = {
       partitionId: this.partitionId,
-      owner: this.owner,
+      owner: this.owner
     };
     return info;
   }

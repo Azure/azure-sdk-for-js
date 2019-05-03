@@ -10,16 +10,16 @@
 
 import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
-import * as Mappers from "../models/regionsMappers";
+import * as Mappers from "../models/regionMappers";
 import * as Parameters from "../models/parameters";
 import { ApiManagementClientContext } from "../apiManagementClientContext";
 
-/** Class representing a Regions. */
-export class Regions {
+/** Class representing a Region. */
+export class Region {
   private readonly client: ApiManagementClientContext;
 
   /**
-   * Create a Regions.
+   * Create a Region.
    * @param {ApiManagementClientContext} client Reference to the service client.
    */
   constructor(client: ApiManagementClientContext) {
@@ -31,9 +31,9 @@ export class Regions {
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param [options] The optional parameters
-   * @returns Promise<Models.RegionsListByServiceResponse>
+   * @returns Promise<Models.RegionListByServiceResponse>
    */
-  listByService(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase): Promise<Models.RegionsListByServiceResponse>;
+  listByService(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase): Promise<Models.RegionListByServiceResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -47,7 +47,7 @@ export class Regions {
    * @param callback The callback
    */
   listByService(resourceGroupName: string, serviceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RegionListResult>): void;
-  listByService(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RegionListResult>, callback?: msRest.ServiceCallback<Models.RegionListResult>): Promise<Models.RegionsListByServiceResponse> {
+  listByService(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RegionListResult>, callback?: msRest.ServiceCallback<Models.RegionListResult>): Promise<Models.RegionListByServiceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -55,16 +55,16 @@ export class Regions {
         options
       },
       listByServiceOperationSpec,
-      callback) as Promise<Models.RegionsListByServiceResponse>;
+      callback) as Promise<Models.RegionListByServiceResponse>;
   }
 
   /**
    * Lists all azure regions in which the service exists.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
-   * @returns Promise<Models.RegionsListByServiceNextResponse>
+   * @returns Promise<Models.RegionListByServiceNextResponse>
    */
-  listByServiceNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.RegionsListByServiceNextResponse>;
+  listByServiceNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.RegionListByServiceNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
@@ -76,14 +76,14 @@ export class Regions {
    * @param callback The callback
    */
   listByServiceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RegionListResult>): void;
-  listByServiceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RegionListResult>, callback?: msRest.ServiceCallback<Models.RegionListResult>): Promise<Models.RegionsListByServiceNextResponse> {
+  listByServiceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RegionListResult>, callback?: msRest.ServiceCallback<Models.RegionListResult>): Promise<Models.RegionListByServiceNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByServiceNextOperationSpec,
-      callback) as Promise<Models.RegionsListByServiceNextResponse>;
+      callback) as Promise<Models.RegionListByServiceNextResponse>;
   }
 }
 
@@ -108,7 +108,7 @@ const listByServiceOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.RegionListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -129,7 +129,7 @@ const listByServiceNextOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.RegionListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer

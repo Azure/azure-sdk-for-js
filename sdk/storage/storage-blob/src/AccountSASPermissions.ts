@@ -4,7 +4,7 @@
  * This is a helper class to construct a string representing the permissions granted by an AccountSAS. Setting a value
  * to true means that any SAS which uses these permissions will grant permissions for that operation. Once all the
  * values are set, this should be serialized with toString and set as the permissions field on an
- * {@link AccountSASSignatureValues} object. It is possible to construct the permissions string without this class, but
+ * {@link IAccountSASSignatureValues} object. It is possible to construct the permissions string without this class, but
  * the order of the permissions is particular and this class guarantees correctness.
  *
  * @export
@@ -122,7 +122,7 @@ export class AccountSASPermissions {
 
   /**
    * Produces the SAS permissions string for an Azure Storage account.
-   * Call this method to set AccountSASSignatureValues Permissions field.
+   * Call this method to set IAccountSASSignatureValues Permissions field.
    *
    * Using this method will guarantee the resource types are in
    * an order accepted by the service.

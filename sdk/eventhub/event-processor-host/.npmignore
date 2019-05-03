@@ -35,8 +35,6 @@ sample.env
 # misc #
 contribute.md
 .idea/
-changelog.md
-samples/
 typings/samples/
 dist/samples/
 docs/

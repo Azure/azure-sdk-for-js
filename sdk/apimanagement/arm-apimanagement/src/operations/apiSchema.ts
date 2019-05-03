@@ -35,7 +35,7 @@ export class ApiSchema {
    * @param [options] The optional parameters
    * @returns Promise<Models.ApiSchemaListByApiResponse>
    */
-  listByApi(resourceGroupName: string, serviceName: string, apiId: string, options?: msRest.RequestOptionsBase): Promise<Models.ApiSchemaListByApiResponse>;
+  listByApi(resourceGroupName: string, serviceName: string, apiId: string, options?: Models.ApiSchemaListByApiOptionalParams): Promise<Models.ApiSchemaListByApiResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -52,8 +52,8 @@ export class ApiSchema {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByApi(resourceGroupName: string, serviceName: string, apiId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SchemaCollection>): void;
-  listByApi(resourceGroupName: string, serviceName: string, apiId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SchemaCollection>, callback?: msRest.ServiceCallback<Models.SchemaCollection>): Promise<Models.ApiSchemaListByApiResponse> {
+  listByApi(resourceGroupName: string, serviceName: string, apiId: string, options: Models.ApiSchemaListByApiOptionalParams, callback: msRest.ServiceCallback<Models.SchemaCollection>): void;
+  listByApi(resourceGroupName: string, serviceName: string, apiId: string, options?: Models.ApiSchemaListByApiOptionalParams | msRest.ServiceCallback<Models.SchemaCollection>, callback?: msRest.ServiceCallback<Models.SchemaCollection>): Promise<Models.ApiSchemaListByApiResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -220,7 +220,7 @@ export class ApiSchema {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, serviceName: string, apiId: string, schemaId: string, ifMatch: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(resourceGroupName: string, serviceName: string, apiId: string, schemaId: string, ifMatch: string, options?: Models.ApiSchemaDeleteMethodOptionalParams): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -245,8 +245,8 @@ export class ApiSchema {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, serviceName: string, apiId: string, schemaId: string, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, serviceName: string, apiId: string, schemaId: string, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, serviceName: string, apiId: string, schemaId: string, ifMatch: string, options: Models.ApiSchemaDeleteMethodOptionalParams, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(resourceGroupName: string, serviceName: string, apiId: string, schemaId: string, ifMatch: string, options?: Models.ApiSchemaDeleteMethodOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -264,9 +264,9 @@ export class ApiSchema {
    * Get the schema configuration at the API level.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
-   * @returns Promise<Models.ApiSchemaListByApiResponse>
+   * @returns Promise<Models.ApiSchemaListByApiNextResponse>
    */
-  listByApiNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ApiSchemaListByApiResponse>;
+  listByApiNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ApiSchemaListByApiNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
@@ -278,14 +278,14 @@ export class ApiSchema {
    * @param callback The callback
    */
   listByApiNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SchemaCollection>): void;
-  listByApiNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SchemaCollection>, callback?: msRest.ServiceCallback<Models.SchemaCollection>): Promise<Models.ApiSchemaListByApiResponse> {
+  listByApiNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SchemaCollection>, callback?: msRest.ServiceCallback<Models.SchemaCollection>): Promise<Models.ApiSchemaListByApiNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByApiNextOperationSpec,
-      callback) as Promise<Models.ApiSchemaListByApiResponse>;
+      callback) as Promise<Models.ApiSchemaListByApiNextResponse>;
   }
 }
 
@@ -301,6 +301,9 @@ const listByApiOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
+    Parameters.filter0,
+    Parameters.top,
+    Parameters.skip,
     Parameters.apiVersion
   ],
   headerParameters: [
@@ -308,8 +311,7 @@ const listByApiOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.SchemaCollection,
-      headersMapper: Mappers.ApiSchemaListByApiHeaders
+      bodyMapper: Mappers.SchemaCollection
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -387,7 +389,7 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.apiVersion
   ],
   headerParameters: [
-    Parameters.ifMatch1,
+    Parameters.ifMatch0,
     Parameters.acceptLanguage
   ],
   requestBody: {
@@ -399,10 +401,12 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
   },
   responses: {
     200: {
-      bodyMapper: Mappers.SchemaContract
+      bodyMapper: Mappers.SchemaContract,
+      headersMapper: Mappers.ApiSchemaCreateOrUpdateHeaders
     },
     201: {
-      bodyMapper: Mappers.SchemaContract
+      bodyMapper: Mappers.SchemaContract,
+      headersMapper: Mappers.ApiSchemaCreateOrUpdateHeaders
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -422,10 +426,11 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
+    Parameters.force,
     Parameters.apiVersion
   ],
   headerParameters: [
-    Parameters.ifMatch0,
+    Parameters.ifMatch1,
     Parameters.acceptLanguage
   ],
   responses: {
@@ -450,8 +455,7 @@ const listByApiNextOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.SchemaCollection,
-      headersMapper: Mappers.ApiSchemaListByApiHeaders
+      bodyMapper: Mappers.SchemaCollection
     },
     default: {
       bodyMapper: Mappers.ErrorResponse

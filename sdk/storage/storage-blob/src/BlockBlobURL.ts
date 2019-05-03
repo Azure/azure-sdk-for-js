@@ -158,8 +158,10 @@ export class BlockBlobURL extends BlobURL {
    *
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
-   * @param {HttpRequestBody} body
-   * @param {number} contentLength
+   * @param {HttpRequestBody} body Blob, string, ArrayBuffer, ArrayBufferView or a function
+   *                               which returns a new Readable stream whose offset is from data source beginning.
+   * @param {number} contentLength Length of body in bytes. Use Buffer.byteLength() to calculate body length for a
+   *                               string including non non-Base64/Hex-encoded characters.
    * @param {IBlockBlobUploadOptions} [options]
    * @returns {Promise<Models.BlockBlobUploadResponse>}
    * @memberof BlockBlobURL

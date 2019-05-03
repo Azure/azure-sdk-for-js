@@ -3,10 +3,11 @@
 Azure Service Bus is a highly-reliable cloud messaging service from Microsoft
 
 Use the client library for Azure Service Bus in your Node.js application to
+
 - Send messages to a Queue or Topic
 - Receive messages from a Queue or Subscription
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus) | [Package (npm)](https://www.npmjs.com/package/@azure/service-bus) | [Product documentation](https://azure.microsoft.com/en-us/services/service-bus/)
+[Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus) | [Package (npm)](https://www.npmjs.com/package/@azure/service-bus) | [API Reference Documentation](https://docs.microsoft.com/en-us/javascript/api/%40azure/service-bus/?view=azure-node-preview) | [Product documentation](https://azure.microsoft.com/en-us/services/service-bus/)
 
 ## Status
 
@@ -34,37 +35,38 @@ npm install @types/node
 
 You also need to enable `compilerOptions.allowSyntheticDefaultImports` in your tsconfig.json. Note that if you have enabled `compilerOptions.esModuleInterop`, `allowSyntheticDefaultImports` is enabled by default. See [TypeScript's compiler options handbook](https://www.typescriptlang.org/docs/handbook/compiler-options.html) for more information.
 
-
 ### Authenticate the client
 
-Interaction with Service Bus starts with an instance of the `ServiceBusClient` class. You can instantiate
+Interaction with Service Bus starts with an instance of the [ServiceBusClient](https://docs.microsoft.com/en-us/javascript/api/%40azure/service-bus/servicebusclient?view=azure-node-preview) class. You can instantiate
 this class using one of the 3 static methods on it
-- `createFromConnectionString`
+
+- [createFromConnectionString](https://docs.microsoft.com/en-us/javascript/api/%40azure/service-bus/servicebusclient?view=azure-node-preview#createfromconnectionstring-string--servicebusclientoptions-)
   - This method takes the connection string to your Service Bus instance. You can get the connection string
-  from the Azure portal
-- `createFromTokenProvider`
+    from the Azure portal
+- [createFromTokenProvider](https://docs.microsoft.com/en-us/javascript/api/%40azure/service-bus/servicebusclient?view=azure-node-preview#createfromtokenprovider-string--tokenprovider--servicebusclientoptions-)
   - This method takes the host name of your Service Bus instance and your custom Token Provider. The
-  host name is of the format `name-of-service-bus-instance.servicebus.windows.net`.
-- `createFromAADTokenCredentials`
+    host name is of the format `name-of-service-bus-instance.servicebus.windows.net`.
+- [createFromAADTokenCredentials](https://docs.microsoft.com/en-us/javascript/api/%40azure/service-bus/servicebusclient?view=azure-node-preview#createfromaadtokencredentials-string--applicationtokencredentials---usertokencredentials---devicetokencredentials---msitokencredentials--servicebusclientoptions-)
   - This method takes the host name of your Service Bus instance and a credentials object that you need
-  to generate using the [@azure/ms-rest-nodeauth](https://www.npmjs.com/package/@azure/ms-rest-nodeauth)
-  library. The host name is of the format `name-of-service-bus-instance.servicebus.windows.net`.
+    to generate using the [@azure/ms-rest-nodeauth](https://www.npmjs.com/package/@azure/ms-rest-nodeauth)
+    library. The host name is of the format `name-of-service-bus-instance.servicebus.windows.net`.
 
 ### Key concepts
 
-Once you have initialized the `ServiceBusClient` class, use the below methods to create client
+Once you have initialized the [ServiceBusClient](https://docs.microsoft.com/en-us/javascript/api/%40azure/service-bus/servicebusclient?view=azure-node-preview) class, use the below methods to create client
 objects for Queues, Topics and Subscriptions to interact with existing Service Bus entities. Please
 note that the Queues, Topics and Subscriptions should already have been created prior to using this
 library.
-- `createQueueClient`
+
+- [createQueueClient](https://docs.microsoft.com/en-us/javascript/api/%40azure/service-bus/servicebusclient?view=azure-node-preview#createqueueclient-string-)
   - Takes the name of an existing Service Bus Queue instance, returns a QueueClient that you can use
-   to send to and receive messages from the queue.
-- `createTopicClient`
+    to send to and receive messages from the queue.
+- [createTopicClient](https://docs.microsoft.com/en-us/javascript/api/%40azure/service-bus/servicebusclient?view=azure-node-preview#createtopicclient-string-)
   - Takes the name of an existing Service Bus Topic instance, returns a TopicClient that you can use
-   to send messages to the topic
-- `createSubscriptionClient`
+    to send messages to the topic
+- [createSubscriptionClient](https://docs.microsoft.com/en-us/javascript/api/%40azure/service-bus/servicebusclient?view=azure-node-preview#createsubscriptionclient-string--string-)
   - Takes the name of existing Service Bus Topic and Subscription instances, returns a SubscriptionClient
-  that you can use to receive messages from the subscription.
+    that you can use to receive messages from the subscription.
 
 Next, using the client object created in the previous step, create a sender or a receiver based on
 whether you want to send or receive messages
@@ -81,8 +83,9 @@ The following sections provide code snippets that cover some of the common tasks
 
 ### Send messages
 
-Once you have created an instance of a `QueueClient` class, create a sender and use the `send`
-function to send messages.
+Once you have created an instance of a `QueueClient` or `SubscriptionClient` class, create a sender
+using the [createSender](https://docs.microsoft.com/en-us/javascript/api/%40azure/service-bus/queueclient?view=azure-node-preview#createsender--)
+function. This gives you a sender which you can use to [send](https://docs.microsoft.com/en-us/javascript/api/%40azure/service-bus/sender?view=azure-node-preview#send-sendablemessageinfo-) messages.
 
 ```javascript
 const queueClient = serviceBusClient.createQueueClient("my-queue");
@@ -95,7 +98,7 @@ await sender.send({
 ### Receive messages
 
 Once you have created an instance of a `QueueClient` or `SubscriptionClient` class, create a receiver
-using the `createReceiver` function.
+using the [createReceiver](https://docs.microsoft.com/en-us/javascript/api/%40azure/service-bus/queueclient?view=azure-node-preview#createreceiver-receivemode-) function.
 
 ```javascript
 const queueClient = serviceBusClient.createQueueClient("my-queue");
@@ -106,7 +109,8 @@ You can use this receiver in one of 3 ways to receive messages:
 
 #### Get an array of messages
 
-Use the `receiveMessages` function which returns a promise that resolves to an array of messages.
+Use the [receiveMessages](https://docs.microsoft.com/en-us/javascript/api/%40azure/service-bus/receiver?view=azure-node-preview#receivemessages-number--number-) function which returns a promise that
+resolves to an array of messages.
 
 ```javascript
 const myMessages = await receiver.receiveMessages(10);
@@ -114,22 +118,23 @@ const myMessages = await receiver.receiveMessages(10);
 
 #### Register message handler
 
-Use the `registerMessageHandler` to set up message handlers and have it running as long as you
+Use the [registerMessageHandler](https://docs.microsoft.com/en-us/javascript/api/%40azure/service-bus/receiver?view=azure-node-preview#registermessagehandler-onmessage--onerror--messagehandleroptions-) to set up
+message handlers and have it running as long as you
 need. When you are done, call `receiver.close()` to stop receiving any more messages.
 
 ```javascript
 const myMessageHandler = async (message) => {
   // your code here
-}
+};
 const myErrorHandler = (error) => {
   console.log(error);
-}
+};
 receiver.registerMessageHandler(myMessageHandler, myErrorHandler);
 ```
 
 #### Use async iterator
 
-Use the `getMessageIterator` to get an async iterator over messages
+Use the [getMessageIterator](https://docs.microsoft.com/en-us/javascript/api/%40azure/service-bus/receiver?view=azure-node-preview#getmessageiterator--) to get an async iterator over messages
 
 ```javascript
 for await (let message of receiver.getMessageIterator()){
@@ -145,8 +150,12 @@ based on how you want to settle the message. To learn more, please read [Settlin
 ### Send messages using Sessions
 
 To send messages using sessions, you first need to create a session enabled Queue. You can do this
-in the Azure portal. Then, use an instance of `QueueClient` to create a sender. When sending the
-message, set the `sessionId` property in the message body to ensure your message lands in the right session.
+in the Azure portal. Then, use an instance of `QueueClient` to create a sender
+using the [createSender](https://docs.microsoft.com/en-us/javascript/api/%40azure/service-bus/queueclient?view=azure-node-preview#createsender--)
+function. This gives you a sender which you can use to [send](https://docs.microsoft.com/en-us/javascript/api/%40azure/service-bus/sender?view=azure-node-preview#send-sendablemessageinfo-) messages.
+
+When sending the message, set the `sessionId` property in the message body to ensure your message
+lands in the right session.
 
 ```javascript
 const queueClient = serviceBusClient.createQueueClient("my-session-queue");
@@ -160,18 +169,20 @@ await sender.send({
 ### Receive messages from Sessions
 
 To receive messages from sessions, you first need to create a session enabled Queue and send messages
-to it. Then, use an instance of `QueueClient` or `SubscriptionClient` to create a receiver. Note
+to it. Then, use an instance of `QueueClient` or `SubscriptionClient` to create a receiver
+using the [createReceiver](https://docs.microsoft.com/en-us/javascript/api/%40azure/service-bus/queueclient?view=azure-node-preview#createreceiver-receivemode--sessionreceiveroptions-) function. Note
 that you will need to specify the session from which you want to receive messages.
 
 ```javascript
 const queueClient = serviceBusClient.createQueueClient("my-session-queue");
-const receiver = queueClient.createReceiver(ReceiveMode.peekLock, { sessionId: "my-session"});
+const receiver = queueClient.createReceiver(ReceiveMode.peekLock, { sessionId: "my-session" });
 ```
+
 You can use this receiver in one of 3 ways to receive messages
+
 - [Get an array of messages](#get-an-array-of-messages)
 - [Register message handler](#register-message-handler)
 - [Use async iterator](#use-async-iterator)
-
 
 ## Troubleshooting
 
@@ -225,6 +236,4 @@ Please take a look at the [samples](https://github.com/Azure/azure-sdk-for-js/tr
 directory for detailed examples on how to use this library to send and receive messages to/from
 [Service Bus Queues, Topics and Subscriptions](https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-messaging-overview).
 
-
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/servicebus/service-bus/README.png)
-

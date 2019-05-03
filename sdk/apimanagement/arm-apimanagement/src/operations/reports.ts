@@ -66,7 +66,19 @@ export class Reports {
    * Lists report records by User.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
-   * @param filter The filter to apply on the operation.
+   * @param filter |   Field     |     Usage     |     Supported operators     |     Supported
+   * functions     |</br>|-------------|-------------|-------------|-------------|</br>| timestamp |
+   * filter | ge, le |     | </br>| displayName | select, orderBy |     |     | </br>| userId |
+   * select, filter | eq |     | </br>| apiRegion | filter | eq |     | </br>| productId | filter |
+   * eq |     | </br>| subscriptionId | filter | eq |     | </br>| apiId | filter | eq |     | </br>|
+   * operationId | filter | eq |     | </br>| callCountSuccess | select, orderBy |     |     | </br>|
+   * callCountBlocked | select, orderBy |     |     | </br>| callCountFailed | select, orderBy |
+   * |     | </br>| callCountOther | select, orderBy |     |     | </br>| callCountTotal | select,
+   * orderBy |     |     | </br>| bandwidth | select, orderBy |     |     | </br>| cacheHitsCount |
+   * select |     |     | </br>| cacheMissCount | select |     |     | </br>| apiTimeAvg | select,
+   * orderBy |     |     | </br>| apiTimeMin | select |     |     | </br>| apiTimeMax | select |
+   * |     | </br>| serviceTimeAvg | select |     |     | </br>| serviceTimeMin | select |     |
+   * | </br>| serviceTimeMax | select |     |     | </br>
    * @param [options] The optional parameters
    * @returns Promise<Models.ReportsListByUserResponse>
    */
@@ -74,14 +86,38 @@ export class Reports {
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
-   * @param filter The filter to apply on the operation.
+   * @param filter |   Field     |     Usage     |     Supported operators     |     Supported
+   * functions     |</br>|-------------|-------------|-------------|-------------|</br>| timestamp |
+   * filter | ge, le |     | </br>| displayName | select, orderBy |     |     | </br>| userId |
+   * select, filter | eq |     | </br>| apiRegion | filter | eq |     | </br>| productId | filter |
+   * eq |     | </br>| subscriptionId | filter | eq |     | </br>| apiId | filter | eq |     | </br>|
+   * operationId | filter | eq |     | </br>| callCountSuccess | select, orderBy |     |     | </br>|
+   * callCountBlocked | select, orderBy |     |     | </br>| callCountFailed | select, orderBy |
+   * |     | </br>| callCountOther | select, orderBy |     |     | </br>| callCountTotal | select,
+   * orderBy |     |     | </br>| bandwidth | select, orderBy |     |     | </br>| cacheHitsCount |
+   * select |     |     | </br>| cacheMissCount | select |     |     | </br>| apiTimeAvg | select,
+   * orderBy |     |     | </br>| apiTimeMin | select |     |     | </br>| apiTimeMax | select |
+   * |     | </br>| serviceTimeAvg | select |     |     | </br>| serviceTimeMin | select |     |
+   * | </br>| serviceTimeMax | select |     |     | </br>
    * @param callback The callback
    */
   listByUser(resourceGroupName: string, serviceName: string, filter: string, callback: msRest.ServiceCallback<Models.ReportCollection>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
-   * @param filter The filter to apply on the operation.
+   * @param filter |   Field     |     Usage     |     Supported operators     |     Supported
+   * functions     |</br>|-------------|-------------|-------------|-------------|</br>| timestamp |
+   * filter | ge, le |     | </br>| displayName | select, orderBy |     |     | </br>| userId |
+   * select, filter | eq |     | </br>| apiRegion | filter | eq |     | </br>| productId | filter |
+   * eq |     | </br>| subscriptionId | filter | eq |     | </br>| apiId | filter | eq |     | </br>|
+   * operationId | filter | eq |     | </br>| callCountSuccess | select, orderBy |     |     | </br>|
+   * callCountBlocked | select, orderBy |     |     | </br>| callCountFailed | select, orderBy |
+   * |     | </br>| callCountOther | select, orderBy |     |     | </br>| callCountTotal | select,
+   * orderBy |     |     | </br>| bandwidth | select, orderBy |     |     | </br>| cacheHitsCount |
+   * select |     |     | </br>| cacheMissCount | select |     |     | </br>| apiTimeAvg | select,
+   * orderBy |     |     | </br>| apiTimeMin | select |     |     | </br>| apiTimeMax | select |
+   * |     | </br>| serviceTimeAvg | select |     |     | </br>| serviceTimeMin | select |     |
+   * | </br>| serviceTimeMax | select |     |     | </br>
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -102,7 +138,19 @@ export class Reports {
    * Lists report records by API Operations.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
-   * @param filter The filter to apply on the operation.
+   * @param filter |   Field     |     Usage     |     Supported operators     |     Supported
+   * functions     |</br>|-------------|-------------|-------------|-------------|</br>| timestamp |
+   * filter | ge, le |     | </br>| displayName | select, orderBy |     |     | </br>| apiRegion |
+   * filter | eq |     | </br>| userId | filter | eq |     | </br>| productId | filter | eq |     |
+   * </br>| subscriptionId | filter | eq |     | </br>| apiId | filter | eq |     | </br>|
+   * operationId | select, filter | eq |     | </br>| callCountSuccess | select, orderBy |     |
+   * | </br>| callCountBlocked | select, orderBy |     |     | </br>| callCountFailed | select,
+   * orderBy |     |     | </br>| callCountOther | select, orderBy |     |     | </br>|
+   * callCountTotal | select, orderBy |     |     | </br>| bandwidth | select, orderBy |     |     |
+   * </br>| cacheHitsCount | select |     |     | </br>| cacheMissCount | select |     |     | </br>|
+   * apiTimeAvg | select, orderBy |     |     | </br>| apiTimeMin | select |     |     | </br>|
+   * apiTimeMax | select |     |     | </br>| serviceTimeAvg | select |     |     | </br>|
+   * serviceTimeMin | select |     |     | </br>| serviceTimeMax | select |     |     | </br>
    * @param [options] The optional parameters
    * @returns Promise<Models.ReportsListByOperationResponse>
    */
@@ -110,14 +158,38 @@ export class Reports {
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
-   * @param filter The filter to apply on the operation.
+   * @param filter |   Field     |     Usage     |     Supported operators     |     Supported
+   * functions     |</br>|-------------|-------------|-------------|-------------|</br>| timestamp |
+   * filter | ge, le |     | </br>| displayName | select, orderBy |     |     | </br>| apiRegion |
+   * filter | eq |     | </br>| userId | filter | eq |     | </br>| productId | filter | eq |     |
+   * </br>| subscriptionId | filter | eq |     | </br>| apiId | filter | eq |     | </br>|
+   * operationId | select, filter | eq |     | </br>| callCountSuccess | select, orderBy |     |
+   * | </br>| callCountBlocked | select, orderBy |     |     | </br>| callCountFailed | select,
+   * orderBy |     |     | </br>| callCountOther | select, orderBy |     |     | </br>|
+   * callCountTotal | select, orderBy |     |     | </br>| bandwidth | select, orderBy |     |     |
+   * </br>| cacheHitsCount | select |     |     | </br>| cacheMissCount | select |     |     | </br>|
+   * apiTimeAvg | select, orderBy |     |     | </br>| apiTimeMin | select |     |     | </br>|
+   * apiTimeMax | select |     |     | </br>| serviceTimeAvg | select |     |     | </br>|
+   * serviceTimeMin | select |     |     | </br>| serviceTimeMax | select |     |     | </br>
    * @param callback The callback
    */
   listByOperation(resourceGroupName: string, serviceName: string, filter: string, callback: msRest.ServiceCallback<Models.ReportCollection>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
-   * @param filter The filter to apply on the operation.
+   * @param filter |   Field     |     Usage     |     Supported operators     |     Supported
+   * functions     |</br>|-------------|-------------|-------------|-------------|</br>| timestamp |
+   * filter | ge, le |     | </br>| displayName | select, orderBy |     |     | </br>| apiRegion |
+   * filter | eq |     | </br>| userId | filter | eq |     | </br>| productId | filter | eq |     |
+   * </br>| subscriptionId | filter | eq |     | </br>| apiId | filter | eq |     | </br>|
+   * operationId | select, filter | eq |     | </br>| callCountSuccess | select, orderBy |     |
+   * | </br>| callCountBlocked | select, orderBy |     |     | </br>| callCountFailed | select,
+   * orderBy |     |     | </br>| callCountOther | select, orderBy |     |     | </br>|
+   * callCountTotal | select, orderBy |     |     | </br>| bandwidth | select, orderBy |     |     |
+   * </br>| cacheHitsCount | select |     |     | </br>| cacheMissCount | select |     |     | </br>|
+   * apiTimeAvg | select, orderBy |     |     | </br>| apiTimeMin | select |     |     | </br>|
+   * apiTimeMax | select |     |     | </br>| serviceTimeAvg | select |     |     | </br>|
+   * serviceTimeMin | select |     |     | </br>| serviceTimeMax | select |     |     | </br>
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -138,7 +210,18 @@ export class Reports {
    * Lists report records by Product.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
-   * @param filter The filter to apply on the operation.
+   * @param filter |   Field     |     Usage     |     Supported operators     |     Supported
+   * functions     |</br>|-------------|-------------|-------------|-------------|</br>| timestamp |
+   * filter | ge, le |     | </br>| displayName | select, orderBy |     |     | </br>| apiRegion |
+   * filter | eq |     | </br>| userId | filter | eq |     | </br>| productId | select, filter | eq |
+   * | </br>| subscriptionId | filter | eq |     | </br>| callCountSuccess | select, orderBy |     |
+   * | </br>| callCountBlocked | select, orderBy |     |     | </br>| callCountFailed | select,
+   * orderBy |     |     | </br>| callCountOther | select, orderBy |     |     | </br>|
+   * callCountTotal | select, orderBy |     |     | </br>| bandwidth | select, orderBy |     |     |
+   * </br>| cacheHitsCount | select |     |     | </br>| cacheMissCount | select |     |     | </br>|
+   * apiTimeAvg | select, orderBy |     |     | </br>| apiTimeMin | select |     |     | </br>|
+   * apiTimeMax | select |     |     | </br>| serviceTimeAvg | select |     |     | </br>|
+   * serviceTimeMin | select |     |     | </br>| serviceTimeMax | select |     |     | </br>
    * @param [options] The optional parameters
    * @returns Promise<Models.ReportsListByProductResponse>
    */
@@ -146,14 +229,36 @@ export class Reports {
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
-   * @param filter The filter to apply on the operation.
+   * @param filter |   Field     |     Usage     |     Supported operators     |     Supported
+   * functions     |</br>|-------------|-------------|-------------|-------------|</br>| timestamp |
+   * filter | ge, le |     | </br>| displayName | select, orderBy |     |     | </br>| apiRegion |
+   * filter | eq |     | </br>| userId | filter | eq |     | </br>| productId | select, filter | eq |
+   * | </br>| subscriptionId | filter | eq |     | </br>| callCountSuccess | select, orderBy |     |
+   * | </br>| callCountBlocked | select, orderBy |     |     | </br>| callCountFailed | select,
+   * orderBy |     |     | </br>| callCountOther | select, orderBy |     |     | </br>|
+   * callCountTotal | select, orderBy |     |     | </br>| bandwidth | select, orderBy |     |     |
+   * </br>| cacheHitsCount | select |     |     | </br>| cacheMissCount | select |     |     | </br>|
+   * apiTimeAvg | select, orderBy |     |     | </br>| apiTimeMin | select |     |     | </br>|
+   * apiTimeMax | select |     |     | </br>| serviceTimeAvg | select |     |     | </br>|
+   * serviceTimeMin | select |     |     | </br>| serviceTimeMax | select |     |     | </br>
    * @param callback The callback
    */
   listByProduct(resourceGroupName: string, serviceName: string, filter: string, callback: msRest.ServiceCallback<Models.ReportCollection>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
-   * @param filter The filter to apply on the operation.
+   * @param filter |   Field     |     Usage     |     Supported operators     |     Supported
+   * functions     |</br>|-------------|-------------|-------------|-------------|</br>| timestamp |
+   * filter | ge, le |     | </br>| displayName | select, orderBy |     |     | </br>| apiRegion |
+   * filter | eq |     | </br>| userId | filter | eq |     | </br>| productId | select, filter | eq |
+   * | </br>| subscriptionId | filter | eq |     | </br>| callCountSuccess | select, orderBy |     |
+   * | </br>| callCountBlocked | select, orderBy |     |     | </br>| callCountFailed | select,
+   * orderBy |     |     | </br>| callCountOther | select, orderBy |     |     | </br>|
+   * callCountTotal | select, orderBy |     |     | </br>| bandwidth | select, orderBy |     |     |
+   * </br>| cacheHitsCount | select |     |     | </br>| cacheMissCount | select |     |     | </br>|
+   * apiTimeAvg | select, orderBy |     |     | </br>| apiTimeMin | select |     |     | </br>|
+   * apiTimeMax | select |     |     | </br>| serviceTimeAvg | select |     |     | </br>|
+   * serviceTimeMin | select |     |     | </br>| serviceTimeMax | select |     |     | </br>
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -171,31 +276,71 @@ export class Reports {
   }
 
   /**
-   * Lists report records by GeoGraphy.
+   * Lists report records by geography.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
+   * @param filter |   Field     |     Usage     |     Supported operators     |     Supported
+   * functions     |</br>|-------------|-------------|-------------|-------------|</br>| timestamp |
+   * filter | ge, le |     | </br>| country | select |     |     | </br>| region | select |     |
+   * | </br>| zip | select |     |     | </br>| apiRegion | filter | eq |     | </br>| userId |
+   * filter | eq |     | </br>| productId | filter | eq |     | </br>| subscriptionId | filter | eq |
+   * | </br>| apiId | filter | eq |     | </br>| operationId | filter | eq |     | </br>|
+   * callCountSuccess | select |     |     | </br>| callCountBlocked | select |     |     | </br>|
+   * callCountFailed | select |     |     | </br>| callCountOther | select |     |     | </br>|
+   * bandwidth | select, orderBy |     |     | </br>| cacheHitsCount | select |     |     | </br>|
+   * cacheMissCount | select |     |     | </br>| apiTimeAvg | select |     |     | </br>| apiTimeMin
+   * | select |     |     | </br>| apiTimeMax | select |     |     | </br>| serviceTimeAvg | select |
+   * |     | </br>| serviceTimeMin | select |     |     | </br>| serviceTimeMax | select |     |
+   * | </br>
    * @param [options] The optional parameters
    * @returns Promise<Models.ReportsListByGeoResponse>
    */
-  listByGeo(resourceGroupName: string, serviceName: string, options?: Models.ReportsListByGeoOptionalParams): Promise<Models.ReportsListByGeoResponse>;
+  listByGeo(resourceGroupName: string, serviceName: string, filter: string, options?: Models.ReportsListByGeoOptionalParams): Promise<Models.ReportsListByGeoResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
+   * @param filter |   Field     |     Usage     |     Supported operators     |     Supported
+   * functions     |</br>|-------------|-------------|-------------|-------------|</br>| timestamp |
+   * filter | ge, le |     | </br>| country | select |     |     | </br>| region | select |     |
+   * | </br>| zip | select |     |     | </br>| apiRegion | filter | eq |     | </br>| userId |
+   * filter | eq |     | </br>| productId | filter | eq |     | </br>| subscriptionId | filter | eq |
+   * | </br>| apiId | filter | eq |     | </br>| operationId | filter | eq |     | </br>|
+   * callCountSuccess | select |     |     | </br>| callCountBlocked | select |     |     | </br>|
+   * callCountFailed | select |     |     | </br>| callCountOther | select |     |     | </br>|
+   * bandwidth | select, orderBy |     |     | </br>| cacheHitsCount | select |     |     | </br>|
+   * cacheMissCount | select |     |     | </br>| apiTimeAvg | select |     |     | </br>| apiTimeMin
+   * | select |     |     | </br>| apiTimeMax | select |     |     | </br>| serviceTimeAvg | select |
+   * |     | </br>| serviceTimeMin | select |     |     | </br>| serviceTimeMax | select |     |
+   * | </br>
    * @param callback The callback
    */
-  listByGeo(resourceGroupName: string, serviceName: string, callback: msRest.ServiceCallback<Models.ReportCollection>): void;
+  listByGeo(resourceGroupName: string, serviceName: string, filter: string, callback: msRest.ServiceCallback<Models.ReportCollection>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
+   * @param filter |   Field     |     Usage     |     Supported operators     |     Supported
+   * functions     |</br>|-------------|-------------|-------------|-------------|</br>| timestamp |
+   * filter | ge, le |     | </br>| country | select |     |     | </br>| region | select |     |
+   * | </br>| zip | select |     |     | </br>| apiRegion | filter | eq |     | </br>| userId |
+   * filter | eq |     | </br>| productId | filter | eq |     | </br>| subscriptionId | filter | eq |
+   * | </br>| apiId | filter | eq |     | </br>| operationId | filter | eq |     | </br>|
+   * callCountSuccess | select |     |     | </br>| callCountBlocked | select |     |     | </br>|
+   * callCountFailed | select |     |     | </br>| callCountOther | select |     |     | </br>|
+   * bandwidth | select, orderBy |     |     | </br>| cacheHitsCount | select |     |     | </br>|
+   * cacheMissCount | select |     |     | </br>| apiTimeAvg | select |     |     | </br>| apiTimeMin
+   * | select |     |     | </br>| apiTimeMax | select |     |     | </br>| serviceTimeAvg | select |
+   * |     | </br>| serviceTimeMin | select |     |     | </br>| serviceTimeMax | select |     |
+   * | </br>
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByGeo(resourceGroupName: string, serviceName: string, options: Models.ReportsListByGeoOptionalParams, callback: msRest.ServiceCallback<Models.ReportCollection>): void;
-  listByGeo(resourceGroupName: string, serviceName: string, options?: Models.ReportsListByGeoOptionalParams | msRest.ServiceCallback<Models.ReportCollection>, callback?: msRest.ServiceCallback<Models.ReportCollection>): Promise<Models.ReportsListByGeoResponse> {
+  listByGeo(resourceGroupName: string, serviceName: string, filter: string, options: Models.ReportsListByGeoOptionalParams, callback: msRest.ServiceCallback<Models.ReportCollection>): void;
+  listByGeo(resourceGroupName: string, serviceName: string, filter: string, options?: Models.ReportsListByGeoOptionalParams | msRest.ServiceCallback<Models.ReportCollection>, callback?: msRest.ServiceCallback<Models.ReportCollection>): Promise<Models.ReportsListByGeoResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         serviceName,
+        filter,
         options
       },
       listByGeoOperationSpec,
@@ -206,28 +351,65 @@ export class Reports {
    * Lists report records by subscription.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
+   * @param filter |   Field     |     Usage     |     Supported operators     |     Supported
+   * functions     |</br>|-------------|-------------|-------------|-------------|</br>| timestamp |
+   * filter | ge, le |     | </br>| displayName | select, orderBy |     |     | </br>| apiRegion |
+   * filter | eq |     | </br>| userId | select, filter | eq |     | </br>| productId | select,
+   * filter | eq |     | </br>| subscriptionId | select, filter | eq |     | </br>| callCountSuccess
+   * | select, orderBy |     |     | </br>| callCountBlocked | select, orderBy |     |     | </br>|
+   * callCountFailed | select, orderBy |     |     | </br>| callCountOther | select, orderBy |     |
+   * | </br>| callCountTotal | select, orderBy |     |     | </br>| bandwidth | select, orderBy |
+   * |     | </br>| cacheHitsCount | select |     |     | </br>| cacheMissCount | select |     |
+   * | </br>| apiTimeAvg | select, orderBy |     |     | </br>| apiTimeMin | select |     |     |
+   * </br>| apiTimeMax | select |     |     | </br>| serviceTimeAvg | select |     |     | </br>|
+   * serviceTimeMin | select |     |     | </br>| serviceTimeMax | select |     |     | </br>
    * @param [options] The optional parameters
    * @returns Promise<Models.ReportsListBySubscriptionResponse>
    */
-  listBySubscription(resourceGroupName: string, serviceName: string, options?: Models.ReportsListBySubscriptionOptionalParams): Promise<Models.ReportsListBySubscriptionResponse>;
+  listBySubscription(resourceGroupName: string, serviceName: string, filter: string, options?: Models.ReportsListBySubscriptionOptionalParams): Promise<Models.ReportsListBySubscriptionResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
+   * @param filter |   Field     |     Usage     |     Supported operators     |     Supported
+   * functions     |</br>|-------------|-------------|-------------|-------------|</br>| timestamp |
+   * filter | ge, le |     | </br>| displayName | select, orderBy |     |     | </br>| apiRegion |
+   * filter | eq |     | </br>| userId | select, filter | eq |     | </br>| productId | select,
+   * filter | eq |     | </br>| subscriptionId | select, filter | eq |     | </br>| callCountSuccess
+   * | select, orderBy |     |     | </br>| callCountBlocked | select, orderBy |     |     | </br>|
+   * callCountFailed | select, orderBy |     |     | </br>| callCountOther | select, orderBy |     |
+   * | </br>| callCountTotal | select, orderBy |     |     | </br>| bandwidth | select, orderBy |
+   * |     | </br>| cacheHitsCount | select |     |     | </br>| cacheMissCount | select |     |
+   * | </br>| apiTimeAvg | select, orderBy |     |     | </br>| apiTimeMin | select |     |     |
+   * </br>| apiTimeMax | select |     |     | </br>| serviceTimeAvg | select |     |     | </br>|
+   * serviceTimeMin | select |     |     | </br>| serviceTimeMax | select |     |     | </br>
    * @param callback The callback
    */
-  listBySubscription(resourceGroupName: string, serviceName: string, callback: msRest.ServiceCallback<Models.ReportCollection>): void;
+  listBySubscription(resourceGroupName: string, serviceName: string, filter: string, callback: msRest.ServiceCallback<Models.ReportCollection>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
+   * @param filter |   Field     |     Usage     |     Supported operators     |     Supported
+   * functions     |</br>|-------------|-------------|-------------|-------------|</br>| timestamp |
+   * filter | ge, le |     | </br>| displayName | select, orderBy |     |     | </br>| apiRegion |
+   * filter | eq |     | </br>| userId | select, filter | eq |     | </br>| productId | select,
+   * filter | eq |     | </br>| subscriptionId | select, filter | eq |     | </br>| callCountSuccess
+   * | select, orderBy |     |     | </br>| callCountBlocked | select, orderBy |     |     | </br>|
+   * callCountFailed | select, orderBy |     |     | </br>| callCountOther | select, orderBy |     |
+   * | </br>| callCountTotal | select, orderBy |     |     | </br>| bandwidth | select, orderBy |
+   * |     | </br>| cacheHitsCount | select |     |     | </br>| cacheMissCount | select |     |
+   * | </br>| apiTimeAvg | select, orderBy |     |     | </br>| apiTimeMin | select |     |     |
+   * </br>| apiTimeMax | select |     |     | </br>| serviceTimeAvg | select |     |     | </br>|
+   * serviceTimeMin | select |     |     | </br>| serviceTimeMax | select |     |     | </br>
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBySubscription(resourceGroupName: string, serviceName: string, options: Models.ReportsListBySubscriptionOptionalParams, callback: msRest.ServiceCallback<Models.ReportCollection>): void;
-  listBySubscription(resourceGroupName: string, serviceName: string, options?: Models.ReportsListBySubscriptionOptionalParams | msRest.ServiceCallback<Models.ReportCollection>, callback?: msRest.ServiceCallback<Models.ReportCollection>): Promise<Models.ReportsListBySubscriptionResponse> {
+  listBySubscription(resourceGroupName: string, serviceName: string, filter: string, options: Models.ReportsListBySubscriptionOptionalParams, callback: msRest.ServiceCallback<Models.ReportCollection>): void;
+  listBySubscription(resourceGroupName: string, serviceName: string, filter: string, options?: Models.ReportsListBySubscriptionOptionalParams | msRest.ServiceCallback<Models.ReportCollection>, callback?: msRest.ServiceCallback<Models.ReportCollection>): Promise<Models.ReportsListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         serviceName,
+        filter,
         options
       },
       listBySubscriptionOperationSpec,
@@ -238,40 +420,77 @@ export class Reports {
    * Lists report records by Time.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
+   * @param filter |   Field     |     Usage     |     Supported operators     |     Supported
+   * functions     |</br>|-------------|-------------|-------------|-------------|</br>| timestamp |
+   * filter, select | ge, le |     | </br>| interval | select |     |     | </br>| apiRegion | filter
+   * | eq |     | </br>| userId | filter | eq |     | </br>| productId | filter | eq |     | </br>|
+   * subscriptionId | filter | eq |     | </br>| apiId | filter | eq |     | </br>| operationId |
+   * filter | eq |     | </br>| callCountSuccess | select |     |     | </br>| callCountBlocked |
+   * select |     |     | </br>| callCountFailed | select |     |     | </br>| callCountOther |
+   * select |     |     | </br>| bandwidth | select, orderBy |     |     | </br>| cacheHitsCount |
+   * select |     |     | </br>| cacheMissCount | select |     |     | </br>| apiTimeAvg | select |
+   * |     | </br>| apiTimeMin | select |     |     | </br>| apiTimeMax | select |     |     | </br>|
+   * serviceTimeAvg | select |     |     | </br>| serviceTimeMin | select |     |     | </br>|
+   * serviceTimeMax | select |     |     | </br>
    * @param interval By time interval. Interval must be multiple of 15 minutes and may not be zero.
    * The value should be in ISO  8601 format (http://en.wikipedia.org/wiki/ISO_8601#Durations).This
    * code can be used to convert TimeSpan to a valid interval string: XmlConvert.ToString(new
-   * TimeSpan(hours, minutes, secconds))
+   * TimeSpan(hours, minutes, seconds)).
    * @param [options] The optional parameters
    * @returns Promise<Models.ReportsListByTimeResponse>
    */
-  listByTime(resourceGroupName: string, serviceName: string, interval: string, options?: Models.ReportsListByTimeOptionalParams): Promise<Models.ReportsListByTimeResponse>;
+  listByTime(resourceGroupName: string, serviceName: string, filter: string, interval: string, options?: Models.ReportsListByTimeOptionalParams): Promise<Models.ReportsListByTimeResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
+   * @param filter |   Field     |     Usage     |     Supported operators     |     Supported
+   * functions     |</br>|-------------|-------------|-------------|-------------|</br>| timestamp |
+   * filter, select | ge, le |     | </br>| interval | select |     |     | </br>| apiRegion | filter
+   * | eq |     | </br>| userId | filter | eq |     | </br>| productId | filter | eq |     | </br>|
+   * subscriptionId | filter | eq |     | </br>| apiId | filter | eq |     | </br>| operationId |
+   * filter | eq |     | </br>| callCountSuccess | select |     |     | </br>| callCountBlocked |
+   * select |     |     | </br>| callCountFailed | select |     |     | </br>| callCountOther |
+   * select |     |     | </br>| bandwidth | select, orderBy |     |     | </br>| cacheHitsCount |
+   * select |     |     | </br>| cacheMissCount | select |     |     | </br>| apiTimeAvg | select |
+   * |     | </br>| apiTimeMin | select |     |     | </br>| apiTimeMax | select |     |     | </br>|
+   * serviceTimeAvg | select |     |     | </br>| serviceTimeMin | select |     |     | </br>|
+   * serviceTimeMax | select |     |     | </br>
    * @param interval By time interval. Interval must be multiple of 15 minutes and may not be zero.
    * The value should be in ISO  8601 format (http://en.wikipedia.org/wiki/ISO_8601#Durations).This
    * code can be used to convert TimeSpan to a valid interval string: XmlConvert.ToString(new
-   * TimeSpan(hours, minutes, secconds))
+   * TimeSpan(hours, minutes, seconds)).
    * @param callback The callback
    */
-  listByTime(resourceGroupName: string, serviceName: string, interval: string, callback: msRest.ServiceCallback<Models.ReportCollection>): void;
+  listByTime(resourceGroupName: string, serviceName: string, filter: string, interval: string, callback: msRest.ServiceCallback<Models.ReportCollection>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
+   * @param filter |   Field     |     Usage     |     Supported operators     |     Supported
+   * functions     |</br>|-------------|-------------|-------------|-------------|</br>| timestamp |
+   * filter, select | ge, le |     | </br>| interval | select |     |     | </br>| apiRegion | filter
+   * | eq |     | </br>| userId | filter | eq |     | </br>| productId | filter | eq |     | </br>|
+   * subscriptionId | filter | eq |     | </br>| apiId | filter | eq |     | </br>| operationId |
+   * filter | eq |     | </br>| callCountSuccess | select |     |     | </br>| callCountBlocked |
+   * select |     |     | </br>| callCountFailed | select |     |     | </br>| callCountOther |
+   * select |     |     | </br>| bandwidth | select, orderBy |     |     | </br>| cacheHitsCount |
+   * select |     |     | </br>| cacheMissCount | select |     |     | </br>| apiTimeAvg | select |
+   * |     | </br>| apiTimeMin | select |     |     | </br>| apiTimeMax | select |     |     | </br>|
+   * serviceTimeAvg | select |     |     | </br>| serviceTimeMin | select |     |     | </br>|
+   * serviceTimeMax | select |     |     | </br>
    * @param interval By time interval. Interval must be multiple of 15 minutes and may not be zero.
    * The value should be in ISO  8601 format (http://en.wikipedia.org/wiki/ISO_8601#Durations).This
    * code can be used to convert TimeSpan to a valid interval string: XmlConvert.ToString(new
-   * TimeSpan(hours, minutes, secconds))
+   * TimeSpan(hours, minutes, seconds)).
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByTime(resourceGroupName: string, serviceName: string, interval: string, options: Models.ReportsListByTimeOptionalParams, callback: msRest.ServiceCallback<Models.ReportCollection>): void;
-  listByTime(resourceGroupName: string, serviceName: string, interval: string, options?: Models.ReportsListByTimeOptionalParams | msRest.ServiceCallback<Models.ReportCollection>, callback?: msRest.ServiceCallback<Models.ReportCollection>): Promise<Models.ReportsListByTimeResponse> {
+  listByTime(resourceGroupName: string, serviceName: string, filter: string, interval: string, options: Models.ReportsListByTimeOptionalParams, callback: msRest.ServiceCallback<Models.ReportCollection>): void;
+  listByTime(resourceGroupName: string, serviceName: string, filter: string, interval: string, options?: Models.ReportsListByTimeOptionalParams | msRest.ServiceCallback<Models.ReportCollection>, callback?: msRest.ServiceCallback<Models.ReportCollection>): Promise<Models.ReportsListByTimeResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         serviceName,
+        filter,
         interval,
         options
       },
@@ -283,7 +502,11 @@ export class Reports {
    * Lists report records by Request.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
-   * @param filter The filter to apply on the operation.
+   * @param filter |   Field     |     Usage     |     Supported operators     |     Supported
+   * functions     |</br>|-------------|-------------|-------------|-------------|</br>| timestamp |
+   * filter | ge, le |     | </br>| apiId | filter | eq |     | </br>| operationId | filter | eq |
+   * | </br>| productId | filter | eq |     | </br>| userId | filter | eq |     | </br>| apiRegion |
+   * filter | eq |     | </br>| subscriptionId | filter | eq |     | </br>
    * @param [options] The optional parameters
    * @returns Promise<Models.ReportsListByRequestResponse>
    */
@@ -291,14 +514,22 @@ export class Reports {
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
-   * @param filter The filter to apply on the operation.
+   * @param filter |   Field     |     Usage     |     Supported operators     |     Supported
+   * functions     |</br>|-------------|-------------|-------------|-------------|</br>| timestamp |
+   * filter | ge, le |     | </br>| apiId | filter | eq |     | </br>| operationId | filter | eq |
+   * | </br>| productId | filter | eq |     | </br>| userId | filter | eq |     | </br>| apiRegion |
+   * filter | eq |     | </br>| subscriptionId | filter | eq |     | </br>
    * @param callback The callback
    */
   listByRequest(resourceGroupName: string, serviceName: string, filter: string, callback: msRest.ServiceCallback<Models.RequestReportCollection>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
-   * @param filter The filter to apply on the operation.
+   * @param filter |   Field     |     Usage     |     Supported operators     |     Supported
+   * functions     |</br>|-------------|-------------|-------------|-------------|</br>| timestamp |
+   * filter | ge, le |     | </br>| apiId | filter | eq |     | </br>| operationId | filter | eq |
+   * | </br>| productId | filter | eq |     | </br>| userId | filter | eq |     | </br>| apiRegion |
+   * filter | eq |     | </br>| subscriptionId | filter | eq |     | </br>
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -428,7 +659,7 @@ export class Reports {
   }
 
   /**
-   * Lists report records by GeoGraphy.
+   * Lists report records by geography.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.ReportsListByGeoNextResponse>
@@ -526,6 +757,7 @@ const listByApiOperationSpec: msRest.OperationSpec = {
     Parameters.filter1,
     Parameters.top,
     Parameters.skip,
+    Parameters.orderby,
     Parameters.apiVersion
   ],
   headerParameters: [
@@ -554,6 +786,7 @@ const listByUserOperationSpec: msRest.OperationSpec = {
     Parameters.filter1,
     Parameters.top,
     Parameters.skip,
+    Parameters.orderby,
     Parameters.apiVersion
   ],
   headerParameters: [
@@ -582,6 +815,7 @@ const listByOperationOperationSpec: msRest.OperationSpec = {
     Parameters.filter1,
     Parameters.top,
     Parameters.skip,
+    Parameters.orderby,
     Parameters.apiVersion
   ],
   headerParameters: [
@@ -610,6 +844,7 @@ const listByProductOperationSpec: msRest.OperationSpec = {
     Parameters.filter1,
     Parameters.top,
     Parameters.skip,
+    Parameters.orderby,
     Parameters.apiVersion
   ],
   headerParameters: [
@@ -635,7 +870,7 @@ const listByGeoOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.filter0,
+    Parameters.filter1,
     Parameters.top,
     Parameters.skip,
     Parameters.apiVersion
@@ -663,9 +898,10 @@ const listBySubscriptionOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.filter0,
+    Parameters.filter1,
     Parameters.top,
     Parameters.skip,
+    Parameters.orderby,
     Parameters.apiVersion
   ],
   headerParameters: [
@@ -691,9 +927,10 @@ const listByTimeOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.filter0,
+    Parameters.filter1,
     Parameters.top,
     Parameters.skip,
+    Parameters.orderby,
     Parameters.interval,
     Parameters.apiVersion
   ],

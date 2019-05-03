@@ -9,6 +9,7 @@
  */
 
 import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/apiMappers";
 import * as Parameters from "../models/parameters";
@@ -146,37 +147,9 @@ export class Api {
    * @param [options] The optional parameters
    * @returns Promise<Models.ApiCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, serviceName: string, apiId: string, parameters: Models.ApiCreateOrUpdateParameter, options?: Models.ApiCreateOrUpdateOptionalParams): Promise<Models.ApiCreateOrUpdateResponse>;
-  /**
-   * @param resourceGroupName The name of the resource group.
-   * @param serviceName The name of the API Management service.
-   * @param apiId API revision identifier. Must be unique in the current API Management service
-   * instance. Non-current revision has ;rev=n as a suffix where n is the revision number.
-   * @param parameters Create or update parameters.
-   * @param callback The callback
-   */
-  createOrUpdate(resourceGroupName: string, serviceName: string, apiId: string, parameters: Models.ApiCreateOrUpdateParameter, callback: msRest.ServiceCallback<Models.ApiContract>): void;
-  /**
-   * @param resourceGroupName The name of the resource group.
-   * @param serviceName The name of the API Management service.
-   * @param apiId API revision identifier. Must be unique in the current API Management service
-   * instance. Non-current revision has ;rev=n as a suffix where n is the revision number.
-   * @param parameters Create or update parameters.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  createOrUpdate(resourceGroupName: string, serviceName: string, apiId: string, parameters: Models.ApiCreateOrUpdateParameter, options: Models.ApiCreateOrUpdateOptionalParams, callback: msRest.ServiceCallback<Models.ApiContract>): void;
-  createOrUpdate(resourceGroupName: string, serviceName: string, apiId: string, parameters: Models.ApiCreateOrUpdateParameter, options?: Models.ApiCreateOrUpdateOptionalParams | msRest.ServiceCallback<Models.ApiContract>, callback?: msRest.ServiceCallback<Models.ApiContract>): Promise<Models.ApiCreateOrUpdateResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        serviceName,
-        apiId,
-        parameters,
-        options
-      },
-      createOrUpdateOperationSpec,
-      callback) as Promise<Models.ApiCreateOrUpdateResponse>;
+  createOrUpdate(resourceGroupName: string, serviceName: string, apiId: string, parameters: Models.ApiCreateOrUpdateParameter, options?: Models.ApiCreateOrUpdateOptionalParams): Promise<Models.ApiCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(resourceGroupName,serviceName,apiId,parameters,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ApiCreateOrUpdateResponse>;
   }
 
   /**
@@ -308,6 +281,29 @@ export class Api {
   }
 
   /**
+   * Creates new or updates existing specified API of the API Management service instance.
+   * @param resourceGroupName The name of the resource group.
+   * @param serviceName The name of the API Management service.
+   * @param apiId API revision identifier. Must be unique in the current API Management service
+   * instance. Non-current revision has ;rev=n as a suffix where n is the revision number.
+   * @param parameters Create or update parameters.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginCreateOrUpdate(resourceGroupName: string, serviceName: string, apiId: string, parameters: Models.ApiCreateOrUpdateParameter, options?: Models.ApiBeginCreateOrUpdateOptionalParams): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        serviceName,
+        apiId,
+        parameters,
+        options
+      },
+      beginCreateOrUpdateOperationSpec,
+      options);
+  }
+
+  /**
    * Lists all APIs of the API Management service instance.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -378,8 +374,9 @@ const listByServiceOperationSpec: msRest.OperationSpec = {
     Parameters.filter0,
     Parameters.top,
     Parameters.skip,
-    Parameters.apiVersion,
-    Parameters.expandApiVersionSet
+    Parameters.tags,
+    Parameters.expandApiVersionSet,
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -448,45 +445,6 @@ const getOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const createOrUpdateOperationSpec: msRest.OperationSpec = {
-  httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.apiId0,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.ifMatch1,
-    Parameters.acceptLanguage
-  ],
-  requestBody: {
-    parameterPath: "parameters",
-    mapper: {
-      ...Mappers.ApiCreateOrUpdateParameter,
-      required: true
-    }
-  },
-  responses: {
-    200: {
-      bodyMapper: Mappers.ApiContract,
-      headersMapper: Mappers.ApiCreateOrUpdateHeaders
-    },
-    201: {
-      bodyMapper: Mappers.ApiContract,
-      headersMapper: Mappers.ApiCreateOrUpdateHeaders
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  serializer
-};
-
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}",
@@ -500,7 +458,7 @@ const updateOperationSpec: msRest.OperationSpec = {
     Parameters.apiVersion
   ],
   headerParameters: [
-    Parameters.ifMatch0,
+    Parameters.ifMatch1,
     Parameters.acceptLanguage
   ],
   requestBody: {
@@ -533,7 +491,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.apiVersion
   ],
   headerParameters: [
-    Parameters.ifMatch0,
+    Parameters.ifMatch1,
     Parameters.acceptLanguage
   ],
   responses: {
@@ -558,6 +516,7 @@ const listByTagsOperationSpec: msRest.OperationSpec = {
     Parameters.filter0,
     Parameters.top,
     Parameters.skip,
+    Parameters.includeNotTaggedApis,
     Parameters.apiVersion
   ],
   headerParameters: [
@@ -568,7 +527,49 @@ const listByTagsOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.TagResourceCollection
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PUT",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.serviceName,
+    Parameters.apiId0,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.ifMatch0,
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "parameters",
+    mapper: {
+      ...Mappers.ApiCreateOrUpdateParameter,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.ApiContract,
+      headersMapper: Mappers.ApiCreateOrUpdateHeaders
+    },
+    201: {
+      bodyMapper: Mappers.ApiContract,
+      headersMapper: Mappers.ApiCreateOrUpdateHeaders
+    },
+    202: {
+      headersMapper: Mappers.ApiCreateOrUpdateHeaders
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -610,7 +611,7 @@ const listByTagsNextOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.TagResourceCollection
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer

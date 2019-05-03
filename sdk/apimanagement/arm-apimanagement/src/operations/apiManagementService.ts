@@ -121,31 +121,11 @@ export class ApiManagementService {
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<Models.ApiManagementServiceDeleteMethodResponse>
    */
-  deleteMethod(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
-  /**
-   * @param resourceGroupName The name of the resource group.
-   * @param serviceName The name of the API Management service.
-   * @param callback The callback
-   */
-  deleteMethod(resourceGroupName: string, serviceName: string, callback: msRest.ServiceCallback<void>): void;
-  /**
-   * @param resourceGroupName The name of the resource group.
-   * @param serviceName The name of the API Management service.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  deleteMethod(resourceGroupName: string, serviceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        serviceName,
-        options
-      },
-      deleteMethodOperationSpec,
-      callback);
+  deleteMethod(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase): Promise<Models.ApiManagementServiceDeleteMethodResponse> {
+    return this.beginDeleteMethod(resourceGroupName,serviceName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ApiManagementServiceDeleteMethodResponse>;
   }
 
   /**
@@ -274,62 +254,6 @@ export class ApiManagementService {
   }
 
   /**
-   * Upload Custom Domain SSL certificate for an API Management service. This operation will be
-   * deprecated in future releases.
-   * @param resourceGroupName The name of the resource group.
-   * @param serviceName The name of the API Management service.
-   * @param parameters Parameters supplied to the Upload SSL certificate for an API Management
-   * service operation.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.ApiManagementServiceUploadCertificateResponse>
-   */
-  uploadCertificate(resourceGroupName: string, serviceName: string, parameters: Models.ApiManagementServiceUploadCertificateParameters, options?: msRest.RequestOptionsBase): Promise<Models.ApiManagementServiceUploadCertificateResponse>;
-  /**
-   * @param resourceGroupName The name of the resource group.
-   * @param serviceName The name of the API Management service.
-   * @param parameters Parameters supplied to the Upload SSL certificate for an API Management
-   * service operation.
-   * @param callback The callback
-   */
-  uploadCertificate(resourceGroupName: string, serviceName: string, parameters: Models.ApiManagementServiceUploadCertificateParameters, callback: msRest.ServiceCallback<Models.CertificateInformation>): void;
-  /**
-   * @param resourceGroupName The name of the resource group.
-   * @param serviceName The name of the API Management service.
-   * @param parameters Parameters supplied to the Upload SSL certificate for an API Management
-   * service operation.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  uploadCertificate(resourceGroupName: string, serviceName: string, parameters: Models.ApiManagementServiceUploadCertificateParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CertificateInformation>): void;
-  uploadCertificate(resourceGroupName: string, serviceName: string, parameters: Models.ApiManagementServiceUploadCertificateParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CertificateInformation>, callback?: msRest.ServiceCallback<Models.CertificateInformation>): Promise<Models.ApiManagementServiceUploadCertificateResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        serviceName,
-        parameters,
-        options
-      },
-      uploadCertificateOperationSpec,
-      callback) as Promise<Models.ApiManagementServiceUploadCertificateResponse>;
-  }
-
-  /**
-   * Creates, updates, or deletes the custom hostnames for an API Management service. The custom
-   * hostname can be applied to the Proxy and Portal endpoint. This is a long running operation and
-   * could take several minutes to complete. This operation will be deprecated in the next version
-   * update.
-   * @param resourceGroupName The name of the resource group.
-   * @param serviceName The name of the API Management service.
-   * @param parameters Parameters supplied to the UpdateHostname operation.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.ApiManagementServiceUpdateHostnameResponse>
-   */
-  updateHostname(resourceGroupName: string, serviceName: string, parameters: Models.ApiManagementServiceUpdateHostnameParameters, options?: msRest.RequestOptionsBase): Promise<Models.ApiManagementServiceUpdateHostnameResponse> {
-    return this.beginUpdateHostname(resourceGroupName,serviceName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ApiManagementServiceUpdateHostnameResponse>;
-  }
-
-  /**
    * Restores a backup of an API Management service created using the ApiManagementService_Backup
    * operation on the current service. This is a long running operation and could take several
    * minutes to complete.
@@ -415,6 +339,24 @@ export class ApiManagementService {
   }
 
   /**
+   * Deletes an existing API Management service.
+   * @param resourceGroupName The name of the resource group.
+   * @param serviceName The name of the API Management service.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginDeleteMethod(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        serviceName,
+        options
+      },
+      beginDeleteMethodOperationSpec,
+      options);
+  }
+
+  /**
    * Updates the Microsoft.ApiManagement resource running in the Virtual network to pick the updated
    * network settings.
    * @param resourceGroupName The name of the resource group.
@@ -430,29 +372,6 @@ export class ApiManagementService {
         options
       },
       beginApplyNetworkConfigurationUpdatesOperationSpec,
-      options);
-  }
-
-  /**
-   * Creates, updates, or deletes the custom hostnames for an API Management service. The custom
-   * hostname can be applied to the Proxy and Portal endpoint. This is a long running operation and
-   * could take several minutes to complete. This operation will be deprecated in the next version
-   * update.
-   * @param resourceGroupName The name of the resource group.
-   * @param serviceName The name of the API Management service.
-   * @param parameters Parameters supplied to the UpdateHostname operation.
-   * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
-   */
-  beginUpdateHostname(resourceGroupName: string, serviceName: string, parameters: Models.ApiManagementServiceUpdateHostnameParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
-    return this.client.sendLRORequest(
-      {
-        resourceGroupName,
-        serviceName,
-        parameters,
-        options
-      },
-      beginUpdateHostnameOperationSpec,
       options);
   }
 
@@ -533,30 +452,6 @@ const getOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.ApiManagementServiceResource
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  serializer
-};
-
-const deleteMethodOperationSpec: msRest.OperationSpec = {
-  httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {},
-    204: {},
     default: {
       bodyMapper: Mappers.CloudError
     }
@@ -666,38 +561,6 @@ const checkNameAvailabilityOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const uploadCertificateOperationSpec: msRest.OperationSpec = {
-  httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/updatecertificate",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  requestBody: {
-    parameterPath: "parameters",
-    mapper: {
-      ...Mappers.ApiManagementServiceUploadCertificateParameters,
-      required: true
-    }
-  },
-  responses: {
-    200: {
-      bodyMapper: Mappers.CertificateInformation
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  serializer
-};
-
 const beginRestoreOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/restore",
@@ -792,9 +655,7 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
     201: {
       bodyMapper: Mappers.ApiManagementServiceResource
     },
-    202: {
-      bodyMapper: Mappers.ApiManagementServiceResource
-    },
+    202: {},
     default: {
       bodyMapper: Mappers.CloudError
     }
@@ -835,6 +696,33 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
+const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
+  httpMethod: "DELETE",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.serviceName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {},
+    202: {
+      bodyMapper: Mappers.ApiManagementServiceResource
+    },
+    204: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
 const beginApplyNetworkConfigurationUpdatesOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/applynetworkconfigurationupdates",
@@ -861,41 +749,6 @@ const beginApplyNetworkConfigurationUpdatesOperationSpec: msRest.OperationSpec =
       bodyMapper: Mappers.ApiManagementServiceResource
     },
     202: {},
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  serializer
-};
-
-const beginUpdateHostnameOperationSpec: msRest.OperationSpec = {
-  httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/updatehostname",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  requestBody: {
-    parameterPath: "parameters",
-    mapper: {
-      ...Mappers.ApiManagementServiceUpdateHostnameParameters,
-      required: true
-    }
-  },
-  responses: {
-    200: {
-      bodyMapper: Mappers.ApiManagementServiceResource
-    },
-    202: {
-      bodyMapper: Mappers.ApiManagementServiceResource
-    },
     default: {
       bodyMapper: Mappers.CloudError
     }

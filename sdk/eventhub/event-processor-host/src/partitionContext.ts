@@ -122,20 +122,28 @@ export class PartitionContext {
     let result: EventPosition;
     if (!startingCheckpoint) {
       if (this._context.initialOffset) {
-        log.partitionContext(withHostAndPartiton(this, "User provided initial offset: %s"),
-          this._context.initialOffset.getExpression());
+        log.partitionContext(
+          withHostAndPartiton(this, "User provided initial offset: %s"),
+          this._context.initialOffset.getExpression()
+        );
       }
       result = this._context.initialOffset || EventPosition.fromOffset(this._offset);
     } else {
       if (startingCheckpoint.offset != undefined) this._offset = startingCheckpoint.offset;
       if (startingCheckpoint.sequenceNumber != undefined) this._sequenceNumber = startingCheckpoint.sequenceNumber;
       result = EventPosition.fromOffset(this._offset);
-      log.partitionContext(withHostAndPartiton(this, "Retrieved starting offset/sequence " +
-        "number: %s/%d"),
-        this._offset, this._sequenceNumber);
+      log.partitionContext(
+        withHostAndPartiton(this, "Retrieved starting offset/sequence " + "number: %s/%d"),
+        this._offset,
+        this._sequenceNumber
+      );
     }
-    log.partitionContext(withHostAndPartiton(this, "Initial position provider offset: %s, " +
-      "sequenceNumber: %d, enqueuedTime: %d"), result.offset, result.sequenceNumber, result.enqueuedTime);
+    log.partitionContext(
+      withHostAndPartiton(this, "Initial position provider offset: %s, " + "sequenceNumber: %d, enqueuedTime: %d"),
+      result.offset,
+      result.sequenceNumber,
+      result.enqueuedTime
+    );
     return result;
   }
 
@@ -147,7 +155,8 @@ export class PartitionContext {
     try {
       const inStoreCheckpoint = await this._context.checkpointManager.getCheckpoint(checkpoint.partitionId);
       if (inStoreCheckpoint && inStoreCheckpoint.sequenceNumber >= checkpoint.sequenceNumber) {
-        const msg = `Ignoring out of date checkpoint with offset: '${checkpoint.offset}', ` +
+        const msg =
+          `Ignoring out of date checkpoint with offset: '${checkpoint.offset}', ` +
           `sequenceNumber: ${checkpoint.sequenceNumber} because currently persisted checkpoint ` +
           ` has higher offset '${inStoreCheckpoint.offset}', sequenceNumber ` +
           `${inStoreCheckpoint.sequenceNumber}.`;
@@ -156,10 +165,10 @@ export class PartitionContext {
       }
       log.partitionContext(withHostAndPartiton(this, "Persisting the checkpoint: %O."), checkpoint);
       await this._context.checkpointManager.updateCheckpoint(this.lease, checkpoint);
-      log.partitionContext(withHostAndPartiton(this, "Successfully persisted the checkpoint: %O."),
-        checkpoint);
+      log.partitionContext(withHostAndPartiton(this, "Successfully persisted the checkpoint: %O."), checkpoint);
     } catch (err) {
-      const msg = `An error occurred while checkpointing info for partition ` +
+      const msg =
+        `An error occurred while checkpointing info for partition ` +
         `'${checkpoint.partitionId}': ${err ? err.stack : JSON.stringify(err)}.`;
       log.error(withHostAndPartiton(this, "%s"), msg);
       throw err;

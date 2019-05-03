@@ -18,39 +18,44 @@ import { ClientEntityContext } from "./clientEntityContext";
 
 /**
  * Describes the client that allows interacting with a Service Bus Subscription.
- * Use the `createSubscriptionClient` function on the Namespace object to instantiate a
+ * Use the `createSubscriptionClient` function on the ServiceBusClient object to instantiate a
  * SubscriptionClient
  * @class SubscriptionClient
  */
 export class SubscriptionClient implements Client {
   /**
-   * @property {string}  The topic name.
+   * @readonly
+   * @property The topic name.
    */
   readonly topicName: string;
   /**
-   * @property {string}  The subscription name.
+   * @readonly
+   * @property The subscription name.
    */
   readonly subscriptionName: string;
 
   /**
-   * @property {string} defaultRuleName Name of the default rule on the subscription.
+   * @readonly
+   * @property defaultRuleName Name of the default rule on the subscription.
    */
   readonly defaultRuleName: string = "$Default";
 
   /**
-   * @property {string} The entitypath for the Service Bus Subscription for which this client is created.
+   * @readonly
+   * @property The path for the Service Bus Subscription for which this client is created.
    */
   readonly entityPath: string;
   /**
-   * @property {string} A unique identifier for the client.
+   * @readonly
+   * @property A unique identifier for this client.
    */
   readonly id: string;
   /**
-   * @property {boolean} _isClosed Denotes if close() was called on this client.
+   * @property Denotes if close() was called on this client.
    */
   private _isClosed: boolean = false;
   /**
-   * @property {ClientEntityContext} _context Describes the amqp connection context for the SubscriptionClient.
+   * @property Describes the amqp connection context for the SubscriptionClient.
    */
   private _context: ClientEntityContext;
 
@@ -85,8 +90,7 @@ export class SubscriptionClient implements Client {
   /**
    * Closes the AMQP link for the receivers created by this client.
    * Once closed, neither the SubscriptionClient nor its receivers can be used for any
-   * further operations. Use the `createSubscriptionClient` function on the Namespace object to
-   * instantiate a new SubscriptionClient.
+   * further operations.
    *
    * @returns {Promise<void>}
    */
@@ -122,8 +126,12 @@ export class SubscriptionClient implements Client {
         log.subscriptionClient("Closed the subscription client '%s'.", this.id);
       }
     } catch (err) {
-      err = err instanceof Error ? err : new Error(JSON.stringify(err));
-      log.error(`An error occurred while closing the subscription client "${this.id}":\n${err}`);
+      log.error(
+        "[%s] An error occurred while closing the SubscriptionClient for %s: %O",
+        this._context.namespace.connectionId,
+        this.id,
+        err
+      );
       throw err;
     }
   }
@@ -149,13 +157,17 @@ export class SubscriptionClient implements Client {
   }
 
   /**
-   * Creates a Receiver for receiving messages from a Subscription which does not have sessions enabled.
-   * Throws error if an open receiver already exists for this SubscriptionClient.
-   *
-   * Throws error if the Subscription has sessions enabled.
+   * Creates a Receiver for receiving messages from a Queue which does not have sessions enabled.
+   * - Throws error if an open receiver already exists for this QueueClient.
+   * - Throws error if the Queue has sessions enabled.
    *
    * @param receiveMode An enum indicating the mode in which messages should be received. Possible
-   * values are `ReceiveMode.peekLock` and `ReceiveMode.receiveAndDelete`
+   * values are:
+   * - `ReceiveMode.peekLock`: Once a message is received in this mode, the receiver has a lock on
+   * the message for a particular duration. If the message is not settled by this time, it lands back
+   * on Service Bus to be fetched by the next receive operation.
+   * - `ReceiveMode.receiveAndDelete`: Messages received in this mode get automatically removed from
+   * Service Bus.
    *
    * @returns Receiver A receiver to receive messages from a Subscription which does not have
    * sessions enabled.
@@ -164,12 +176,16 @@ export class SubscriptionClient implements Client {
   /**
    * Creates a Receiver for receiving messages from a session enabled Subscription. When no sessionId is
    * given, a random session among the available sessions is used.
-   *
-   * Throws error if an open receiver already exists for given sessionId.
-   * Throws error if the Subscription does not have sessions enabled.
+   * - Throws error if an open receiver already exists for given sessionId.
+   * - Throws error if the Queue does not have sessions enabled.
    *
    * @param receiveMode An enum indicating the mode in which messages should be received. Possible
-   * values are `ReceiveMode.peekLock` and `ReceiveMode.receiveAndDelete`
+   * values are:
+   * - `ReceiveMode.peekLock`: Once a message is received in this mode, the receiver has a lock on
+   * the message for a particular duration. If the message is not settled by this time, it lands back
+   * on Service Bus to be fetched by the next receive operation.
+   * - `ReceiveMode.receiveAndDelete`: Messages received in this mode get automatically removed from
+   * Service Bus.
    * @param sessionOptions Options to provide sessionId and duration of automatic lock renewal for
    * the session receiver.
    *
@@ -214,10 +230,9 @@ export class SubscriptionClient implements Client {
 
   /**
    * Fetches the next batch of active messages (including deferred but not deadlettered messages).
-   * The first call to `peek()` fetches the first active message. Each subsequent call fetches the
+   * - The first call to `peek()` fetches the first active message. Each subsequent call fetches the
    * subsequent message.
-   *
-   * Unlike a `received` message, `peeked` message is a read-only version of the message.
+   * - Unlike a `received` message, `peeked` message is a read-only version of the message.
    * It cannot be `Completed/Abandoned/Deferred/Deadlettered`. The lock on it cannot be renewed.
    *
    * @param [maxMessageCount] The maximum number of messages to peek. Default value `1`.
@@ -231,8 +246,7 @@ export class SubscriptionClient implements Client {
   /**
    * Peeks the desired number of active messages (including deferred but not deadlettered messages)
    * from the specified sequence number.
-   *
-   * Unlike a `received` message, `peeked` message is a read-only version of the message.
+   * - Unlike a `received` message, `peeked` message is a read-only version of the message.
    * It cannot be `Completed/Abandoned/Deferred/Deadlettered`. The lock on it cannot be renewed.
    *
    * @param fromSequenceNumber The sequence number from where to read the message.
@@ -262,6 +276,8 @@ export class SubscriptionClient implements Client {
 
   /**
    * Removes the rule on the subscription identified by the given rule name.
+   * **Note**: If all rules on a subscription are removed, then the subscription will not receive
+   * any more messages.
    * @param ruleName
    */
   async removeRule(ruleName: string): Promise<void> {
@@ -271,7 +287,7 @@ export class SubscriptionClient implements Client {
 
   /**
    * Adds a rule on the subscription as defined by the given rule name, filter and action.
-   * Remember to remove the default true filter on the subscription before adding a rule,
+   * **Note**: Remove the default true filter on the subscription before adding a rule,
    * otherwise, the added rule will have no affect as the true filter will always result in
    * the subscription receiving all messages.
    * @param ruleName Name of the rule
@@ -303,6 +319,7 @@ export class SubscriptionClient implements Client {
   //   maxNumberOfSessions: number,
   //   lastUpdatedTime?: Date
   // ): Promise<string[]> {
+  // TODO: Parameter validation if required
   // this.throwErrorIfClientOrConnectionClosed();
   //   return this._context.managementClient!.listMessageSessions(
   //     0,

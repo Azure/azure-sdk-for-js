@@ -30,32 +30,32 @@ export class UserGroup {
    * Lists all user groups.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
-   * @param uid User identifier. Must be unique in the current API Management service instance.
+   * @param userId User identifier. Must be unique in the current API Management service instance.
    * @param [options] The optional parameters
    * @returns Promise<Models.UserGroupListResponse>
    */
-  list(resourceGroupName: string, serviceName: string, uid: string, options?: Models.UserGroupListOptionalParams): Promise<Models.UserGroupListResponse>;
+  list(resourceGroupName: string, serviceName: string, userId: string, options?: Models.UserGroupListOptionalParams): Promise<Models.UserGroupListResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
-   * @param uid User identifier. Must be unique in the current API Management service instance.
+   * @param userId User identifier. Must be unique in the current API Management service instance.
    * @param callback The callback
    */
-  list(resourceGroupName: string, serviceName: string, uid: string, callback: msRest.ServiceCallback<Models.GroupCollection>): void;
+  list(resourceGroupName: string, serviceName: string, userId: string, callback: msRest.ServiceCallback<Models.GroupCollection>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
-   * @param uid User identifier. Must be unique in the current API Management service instance.
+   * @param userId User identifier. Must be unique in the current API Management service instance.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, serviceName: string, uid: string, options: Models.UserGroupListOptionalParams, callback: msRest.ServiceCallback<Models.GroupCollection>): void;
-  list(resourceGroupName: string, serviceName: string, uid: string, options?: Models.UserGroupListOptionalParams | msRest.ServiceCallback<Models.GroupCollection>, callback?: msRest.ServiceCallback<Models.GroupCollection>): Promise<Models.UserGroupListResponse> {
+  list(resourceGroupName: string, serviceName: string, userId: string, options: Models.UserGroupListOptionalParams, callback: msRest.ServiceCallback<Models.GroupCollection>): void;
+  list(resourceGroupName: string, serviceName: string, userId: string, options?: Models.UserGroupListOptionalParams | msRest.ServiceCallback<Models.GroupCollection>, callback?: msRest.ServiceCallback<Models.GroupCollection>): Promise<Models.UserGroupListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         serviceName,
-        uid,
+        userId,
         options
       },
       listOperationSpec,
@@ -95,11 +95,11 @@ export class UserGroup {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/users/{uid}/groups",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/users/{userId}/groups",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.uid,
+    Parameters.userId,
     Parameters.subscriptionId
   ],
   queryParameters: [

@@ -28,4 +28,4 @@ The overall build pipeline looks like the following:
 Tests follow a similar pipeline, however output folders have the `test-` prefix.
 
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fpackages%2F%40azure%2Ftemplate%2FREADME.png)
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/template/template/README.png)

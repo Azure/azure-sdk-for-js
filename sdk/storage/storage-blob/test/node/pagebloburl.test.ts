@@ -44,6 +44,9 @@ describe("PageBlobURL", () => {
     );
 
     await containerURL.setAccessPolicy(Aborter.none, "container");
+
+    await sleep(5 * 1000);
+
     let copySource = pageBlobURL.withSnapshot(snapshotResult.snapshot!).url;
     let copyResponse = await destPageBlobURL.startCopyIncremental(
       Aborter.none,

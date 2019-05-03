@@ -8,6 +8,7 @@ import Octokit, { PullRequestsCreateParams, PullRequestsCreateReviewRequestParam
 import { Reference, Repository } from 'nodegit';
 import { Branch, commitChanges, createNewUniqueBranch, getToken, pushBranch, ValidateEachFunction, ValidateFunction } from './git';
 import { Logger } from './logger';
+import * as path from "path";
 
 const _repositoryOwner = "Azure";
 const _logger = Logger.get();
@@ -118,8 +119,9 @@ export async function getDataFromPullRequest(pullRequestUrl: string): Promise<{ 
     const pullRequest: Octokit.Response<Octokit.PullRequestsGetResponse> = await octokit.pullRequests.get(params);
     const branchName: string = pullRequest.data.head.ref;
     const files: Octokit.Response<Octokit.PullRequestsGetFilesResponseItem[]> = await octokit.pullRequests.getFiles(params);
-    const path: string = getRootFolder(files.data.map(i => i.filename));
-    const packageName: string | undefined = getPackageNameFromPath(path);
+    const rootPath: string = getRootFolder(files.data.map(i => i.filename));
+    const packageJson = require(path.join(rootPath, "package.json"));
+    const packageName: string | undefined = packageJson.name;
 
     _logger.logTrace(`Found "${packageName}" package name and ${branchName} branch name`)
     return { packageName: packageName, branchName: branchName, prId: params.number };
@@ -138,15 +140,6 @@ function parsePullRequestUrl(pullRequestUrl: string): PullRequestsGetParams {
         owner: owner,
         repo: repositoryName
     };
-}
-
-function getPackageNameFromPath(rootFolder: string): string | undefined {
-    if (!rootFolder || !rootFolder.startsWith("packages/") || rootFolder === "packages/" || rootFolder === "packages/@azure/") {
-        _logger.logDebug(`Can't get package name from '${rootFolder}' path`);
-        return undefined;
-    }
-
-    return rootFolder.slice("packages/".length);
 }
 
 function getRootFolder(changedFiles: string[]): string {

@@ -9,22 +9,29 @@ chai.use(chaiAsPromised);
 import debugModule from "debug";
 const debug = debugModule("azure:eph:iothub-spec");
 import {
-  EventPosition, OnReceivedError, PartitionContext, EventData, OnReceivedMessage, EventProcessorHost
+  EventPosition,
+  OnReceivedError,
+  PartitionContext,
+  EventData,
+  OnReceivedMessage,
+  EventProcessorHost
 } from "../src";
 import { delay } from "@azure/event-hubs";
 dotenv.config();
 
-describe("EPH with iothub connection string", function (): void {
+describe("EPH with iothub connection string", function(): void {
   const iothubConnString = process.env.IOTHUB_CONNECTION_STRING;
   const storageConnString = process.env.STORAGE_CONNECTION_STRING;
   const hostName = EventProcessorHost.createHostName();
   let host: EventProcessorHost;
-  before("validate environment", async function (): Promise<void> {
-    should.exist(process.env.IOTHUB_CONNECTION_STRING,
-      "define IOTHUB_CONNECTION_STRING in your environment before running integration tests.");
+  before("validate environment", async function(): Promise<void> {
+    should.exist(
+      process.env.IOTHUB_CONNECTION_STRING,
+      "define IOTHUB_CONNECTION_STRING in your environment before running integration tests."
+    );
   });
 
-  it("should be able to receive messages from the event hub associated with an iothub.", function (done: Mocha.Done): void {
+  it("should be able to receive messages from the event hub associated with an iothub.", function(done: Mocha.Done): void {
     const test = async () => {
       try {
         host = await EventProcessorHost.createFromIotHubConnectionString(
@@ -41,7 +48,7 @@ describe("EPH with iothub connection string", function (): void {
         const onMessage: OnReceivedMessage = (context: PartitionContext, data: EventData) => {
           debug(">>> [%s] Rx message from '%s': '%O'", hostName, context.partitionId, data);
         };
-        const onError: OnReceivedError = (err) => {
+        const onError: OnReceivedError = err => {
           debug("An error occurred while receiving the message: %O", err);
           throw err;
         };
@@ -57,6 +64,12 @@ describe("EPH with iothub connection string", function (): void {
         throw err;
       }
     };
-    test().then(() => { done(); }).catch((err) => { done(err); });
+    test()
+      .then(() => {
+        done();
+      })
+      .catch(err => {
+        done(err);
+      });
   });
 }).timeout(60000);

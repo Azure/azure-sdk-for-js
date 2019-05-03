@@ -27,35 +27,35 @@ export class UserIdentities {
   }
 
   /**
-   * Lists all user identities.
+   * List of all user identities.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
-   * @param uid User identifier. Must be unique in the current API Management service instance.
+   * @param userId User identifier. Must be unique in the current API Management service instance.
    * @param [options] The optional parameters
    * @returns Promise<Models.UserIdentitiesListResponse>
    */
-  list(resourceGroupName: string, serviceName: string, uid: string, options?: msRest.RequestOptionsBase): Promise<Models.UserIdentitiesListResponse>;
+  list(resourceGroupName: string, serviceName: string, userId: string, options?: msRest.RequestOptionsBase): Promise<Models.UserIdentitiesListResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
-   * @param uid User identifier. Must be unique in the current API Management service instance.
+   * @param userId User identifier. Must be unique in the current API Management service instance.
    * @param callback The callback
    */
-  list(resourceGroupName: string, serviceName: string, uid: string, callback: msRest.ServiceCallback<Models.UserIdentityCollection>): void;
+  list(resourceGroupName: string, serviceName: string, userId: string, callback: msRest.ServiceCallback<Models.UserIdentityCollection>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
-   * @param uid User identifier. Must be unique in the current API Management service instance.
+   * @param userId User identifier. Must be unique in the current API Management service instance.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, serviceName: string, uid: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.UserIdentityCollection>): void;
-  list(resourceGroupName: string, serviceName: string, uid: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.UserIdentityCollection>, callback?: msRest.ServiceCallback<Models.UserIdentityCollection>): Promise<Models.UserIdentitiesListResponse> {
+  list(resourceGroupName: string, serviceName: string, userId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.UserIdentityCollection>): void;
+  list(resourceGroupName: string, serviceName: string, userId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.UserIdentityCollection>, callback?: msRest.ServiceCallback<Models.UserIdentityCollection>): Promise<Models.UserIdentitiesListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         serviceName,
-        uid,
+        userId,
         options
       },
       listOperationSpec,
@@ -63,7 +63,7 @@ export class UserIdentities {
   }
 
   /**
-   * Lists all user identities.
+   * List of all user identities.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.UserIdentitiesListNextResponse>
@@ -95,11 +95,11 @@ export class UserIdentities {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/users/{uid}/identities",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/users/{userId}/identities",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.uid,
+    Parameters.userId,
     Parameters.subscriptionId
   ],
   queryParameters: [

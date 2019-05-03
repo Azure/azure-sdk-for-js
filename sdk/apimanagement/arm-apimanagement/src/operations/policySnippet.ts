@@ -10,16 +10,16 @@
 
 import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
-import * as Mappers from "../models/policySnippetsMappers";
+import * as Mappers from "../models/policySnippetMappers";
 import * as Parameters from "../models/parameters";
 import { ApiManagementClientContext } from "../apiManagementClientContext";
 
-/** Class representing a PolicySnippets. */
-export class PolicySnippets {
+/** Class representing a PolicySnippet. */
+export class PolicySnippet {
   private readonly client: ApiManagementClientContext;
 
   /**
-   * Create a PolicySnippets.
+   * Create a PolicySnippet.
    * @param {ApiManagementClientContext} client Reference to the service client.
    */
   constructor(client: ApiManagementClientContext) {
@@ -31,9 +31,9 @@ export class PolicySnippets {
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param [options] The optional parameters
-   * @returns Promise<Models.PolicySnippetsListByServiceResponse>
+   * @returns Promise<Models.PolicySnippetListByServiceResponse>
    */
-  listByService(resourceGroupName: string, serviceName: string, options?: Models.PolicySnippetsListByServiceOptionalParams): Promise<Models.PolicySnippetsListByServiceResponse>;
+  listByService(resourceGroupName: string, serviceName: string, options?: Models.PolicySnippetListByServiceOptionalParams): Promise<Models.PolicySnippetListByServiceResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -46,8 +46,8 @@ export class PolicySnippets {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByService(resourceGroupName: string, serviceName: string, options: Models.PolicySnippetsListByServiceOptionalParams, callback: msRest.ServiceCallback<Models.PolicySnippetsCollection>): void;
-  listByService(resourceGroupName: string, serviceName: string, options?: Models.PolicySnippetsListByServiceOptionalParams | msRest.ServiceCallback<Models.PolicySnippetsCollection>, callback?: msRest.ServiceCallback<Models.PolicySnippetsCollection>): Promise<Models.PolicySnippetsListByServiceResponse> {
+  listByService(resourceGroupName: string, serviceName: string, options: Models.PolicySnippetListByServiceOptionalParams, callback: msRest.ServiceCallback<Models.PolicySnippetsCollection>): void;
+  listByService(resourceGroupName: string, serviceName: string, options?: Models.PolicySnippetListByServiceOptionalParams | msRest.ServiceCallback<Models.PolicySnippetsCollection>, callback?: msRest.ServiceCallback<Models.PolicySnippetsCollection>): Promise<Models.PolicySnippetListByServiceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -55,7 +55,7 @@ export class PolicySnippets {
         options
       },
       listByServiceOperationSpec,
-      callback) as Promise<Models.PolicySnippetsListByServiceResponse>;
+      callback) as Promise<Models.PolicySnippetListByServiceResponse>;
   }
 }
 
@@ -70,7 +70,7 @@ const listByServiceOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.scope,
+    Parameters.scope1,
     Parameters.apiVersion
   ],
   headerParameters: [
@@ -81,7 +81,7 @@ const listByServiceOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.PolicySnippetsCollection
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer

@@ -233,7 +233,7 @@ export async function regenerate(branchName: string, packageName: string, azureS
 }
 
 async function bumpMinorVersion(azureSdkForJsRepoPath: string, packageName: string) {
-    const pathToPackageJson = path.resolve(azureSdkForJsRepoPath, "packages", packageName, "package.json");
+    const pathToPackageJson = path.resolve(azureSdkForJsRepoPath, "sdk", packageName, "package.json");
     const packageJsonContent = await fs.promises.readFile(pathToPackageJson);
     const packageJson = JSON.parse(packageJsonContent.toString());
     const versionString = packageJson.version;

@@ -12,7 +12,6 @@ import { PartitionScanner } from "./partitionScanner";
  * @ignore
  */
 export class PartitionManager {
-
   private _context: HostContextWithPumpManager;
   private _partitionScanner: PartitionScanner;
   private _isCancelRequested: boolean = false;
@@ -59,8 +58,7 @@ export class PartitionManager {
       try {
         await localRunTask;
       } catch (err) {
-        const msg = `An error occurred while stopping the run task: ` +
-          `${err ? err.stack : JSON.stringify(err)}.`;
+        const msg = `An error occurred while stopping the run task: ` + `${err ? err.stack : JSON.stringify(err)}.`;
         log.error(withHost("%s"), msg);
       } finally {
         this._isRunning = false;
@@ -73,8 +71,10 @@ export class PartitionManager {
    */
   shouldStop(): boolean {
     if (this._isCancelRequested) {
-      log.partitionManager(this._context.withHost("Cancellation was requested -> %s. " +
-        "Hence stopping further execution."), this._isCancelRequested);
+      log.partitionManager(
+        this._context.withHost("Cancellation was requested -> %s. " + "Hence stopping further execution."),
+        this._isCancelRequested
+      );
     }
     return this._isCancelRequested;
   }
@@ -100,7 +100,8 @@ export class PartitionManager {
     try {
       await this._scan(true);
     } catch (err) {
-      const msg = `An error occurred in the main loop of the partition ` +
+      const msg =
+        `An error occurred in the main loop of the partition ` +
         `manager: ${err ? err.stack : JSON.stringify(err)}. Hence shutting down.`;
       log.error(withHost("%s"), msg);
       this._context.onEphError({
@@ -115,8 +116,8 @@ export class PartitionManager {
       log.partitionManager(withHost("Shutting down all the receivers."));
       await this._context.pumpManager.removeAllPumps(CloseReason.shutdown);
     } catch (err) {
-      const msg = `An error occurred while shutting down the partition ` +
-        `manager: ${err ? err.stack : JSON.stringify(err)}.`;
+      const msg =
+        `An error occurred while shutting down the partition ` + `manager: ${err ? err.stack : JSON.stringify(err)}.`;
       log.error(withHost("%s"), msg);
       this._context.onEphError({
         hostName: this._context.hostName,
@@ -160,7 +161,7 @@ export class PartitionManager {
     validateType("this._context.onError", this._context.onError, true, "function");
 
     log.partitionManager(withHost("Ensuring that the lease store exists."));
-    if (!await leaseManager.leaseStoreExists()) {
+    if (!(await leaseManager.leaseStoreExists())) {
       const config: RetryConfig<void> = {
         hostName: hostName,
         operation: () => leaseManager.createLeaseStoreIfNotExists(),
@@ -175,7 +176,7 @@ export class PartitionManager {
     if (this.shouldStop()) return;
 
     log.partitionManager(withHost("Ensure the checkpointstore exists."));
-    if (!await checkpointManager.checkpointStoreExists()) {
+    if (!(await checkpointManager.checkpointStoreExists())) {
       const config: RetryConfig<void> = {
         hostName: hostName,
         operation: () => checkpointManager.createCheckpointStoreIfNotExists(),

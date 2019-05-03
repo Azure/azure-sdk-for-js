@@ -1,10 +1,11 @@
 {
-  "name": "@azure/applicationinsights-query",
+  "name": "@azure/arm-commerce",
   "author": "Microsoft Corporation",
-  "description": "ApplicationInsightsDataClient Library with typescript type definitions for node.js and browser.",
-  "version": "1.1.0",
+  "description": "UsageManagementClient Library with typescript type definitions for node.js and browser.",
+  "version": "2.1.1",
   "dependencies": {
-    "@azure/ms-rest-js": "^1.1.0",
+    "@azure/ms-rest-azure-js": "^1.2.0",
+    "@azure/ms-rest-js": "^1.2.0",
     "tslib": "^1.9.3"
   },
   "keywords": [
@@ -15,16 +16,17 @@
     "isomorphic"
   ],
   "license": "MIT",
-  "main": "./dist/applicationinsights-query.js",
-  "module": "./esm/applicationInsightsDataClient.js",
-  "types": "./esm/applicationInsightsDataClient.d.ts",
+  "main": "./dist/arm-commerce.js",
+  "module": "./esm/usageManagementClient.js",
+  "types": "./esm/usageManagementClient.d.ts",
   "devDependencies": {
     "typescript": "^3.1.1",
     "rollup": "^0.66.2",
     "rollup-plugin-node-resolve": "^3.4.0",
+    "rollup-plugin-sourcemaps": "^0.4.2",
     "uglify-js": "^3.4.9"
   },
-  "homepage": "https://github.com/azure/azure-sdk-for-js/tree/master/packages/@azure/applicationinsights-query",
+  "homepage": "https://github.com/azure/azure-sdk-for-js/tree/master/sdk/commerce/arm-commerce",
   "repository": {
     "type": "git",
     "url": "https://github.com/azure/azure-sdk-for-js.git"
@@ -41,13 +43,14 @@
     "esm/**/*.js.map",
     "esm/**/*.d.ts",
     "esm/**/*.d.ts.map",
-    "lib/**/*.ts",
+    "src/**/*.ts",
+    "README.md",
     "rollup.config.js",
     "tsconfig.json"
   ],
   "scripts": {
     "build": "tsc && rollup -c rollup.config.js && npm run minify",
-    "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/applicationinsights-query.js.map'\" -o ./dist/applicationinsights-query.min.js ./dist/applicationinsights-query.js",
+    "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/arm-commerce.js.map'\" -o ./dist/arm-commerce.min.js ./dist/arm-commerce.js",
     "prepack": "npm install && npm run build"
   },
   "sideEffects": false,

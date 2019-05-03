@@ -180,7 +180,7 @@ export class Product {
   }
 
   /**
-   * Update product.
+   * Update existing product details.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param productId Product identifier. Must be unique in the current API Management service
@@ -276,6 +276,38 @@ export class Product {
   }
 
   /**
+   * Lists a collection of products associated with tags.
+   * @param resourceGroupName The name of the resource group.
+   * @param serviceName The name of the API Management service.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ProductListByTagsResponse>
+   */
+  listByTags(resourceGroupName: string, serviceName: string, options?: Models.ProductListByTagsOptionalParams): Promise<Models.ProductListByTagsResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param serviceName The name of the API Management service.
+   * @param callback The callback
+   */
+  listByTags(resourceGroupName: string, serviceName: string, callback: msRest.ServiceCallback<Models.TagResourceCollection>): void;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param serviceName The name of the API Management service.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listByTags(resourceGroupName: string, serviceName: string, options: Models.ProductListByTagsOptionalParams, callback: msRest.ServiceCallback<Models.TagResourceCollection>): void;
+  listByTags(resourceGroupName: string, serviceName: string, options?: Models.ProductListByTagsOptionalParams | msRest.ServiceCallback<Models.TagResourceCollection>, callback?: msRest.ServiceCallback<Models.TagResourceCollection>): Promise<Models.ProductListByTagsResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        serviceName,
+        options
+      },
+      listByTagsOperationSpec,
+      callback) as Promise<Models.ProductListByTagsResponse>;
+  }
+
+  /**
    * Lists a collection of products in the specified service instance.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -302,6 +334,34 @@ export class Product {
       listByServiceNextOperationSpec,
       callback) as Promise<Models.ProductListByServiceNextResponse>;
   }
+
+  /**
+   * Lists a collection of products associated with tags.
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ProductListByTagsNextResponse>
+   */
+  listByTagsNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ProductListByTagsNextResponse>;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param callback The callback
+   */
+  listByTagsNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.TagResourceCollection>): void;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listByTagsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TagResourceCollection>): void;
+  listByTagsNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TagResourceCollection>, callback?: msRest.ServiceCallback<Models.TagResourceCollection>): Promise<Models.ProductListByTagsNextResponse> {
+    return this.client.sendOperationRequest(
+      {
+        nextPageLink,
+        options
+      },
+      listByTagsNextOperationSpec,
+      callback) as Promise<Models.ProductListByTagsNextResponse>;
+  }
 }
 
 // Operation Specifications
@@ -319,6 +379,7 @@ const listByServiceOperationSpec: msRest.OperationSpec = {
     Parameters.top,
     Parameters.skip,
     Parameters.expandGroups,
+    Parameters.tags,
     Parameters.apiVersion
   ],
   headerParameters: [
@@ -401,7 +462,7 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.apiVersion
   ],
   headerParameters: [
-    Parameters.ifMatch1,
+    Parameters.ifMatch0,
     Parameters.acceptLanguage
   ],
   requestBody: {
@@ -413,10 +474,12 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
   },
   responses: {
     200: {
-      bodyMapper: Mappers.ProductContract
+      bodyMapper: Mappers.ProductContract,
+      headersMapper: Mappers.ProductCreateOrUpdateHeaders
     },
     201: {
-      bodyMapper: Mappers.ProductContract
+      bodyMapper: Mappers.ProductContract,
+      headersMapper: Mappers.ProductCreateOrUpdateHeaders
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -438,7 +501,7 @@ const updateOperationSpec: msRest.OperationSpec = {
     Parameters.apiVersion
   ],
   headerParameters: [
-    Parameters.ifMatch0,
+    Parameters.ifMatch1,
     Parameters.acceptLanguage
   ],
   requestBody: {
@@ -471,12 +534,41 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.apiVersion
   ],
   headerParameters: [
-    Parameters.ifMatch0,
+    Parameters.ifMatch1,
     Parameters.acceptLanguage
   ],
   responses: {
     200: {},
     204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const listByTagsOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/productsByTags",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.serviceName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.filter0,
+    Parameters.top,
+    Parameters.skip,
+    Parameters.includeNotTaggedProducts,
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.TagResourceCollection
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
@@ -497,6 +589,27 @@ const listByServiceNextOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.ProductCollection
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const listByTagsNextOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  baseUrl: "https://management.azure.com",
+  path: "{nextLink}",
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.TagResourceCollection
     },
     default: {
       bodyMapper: Mappers.ErrorResponse

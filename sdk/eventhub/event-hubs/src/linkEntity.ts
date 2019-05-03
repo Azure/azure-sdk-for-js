@@ -113,22 +113,43 @@ export class LinkEntity {
     // Although node.js is single threaded, we need a locking mechanism to ensure that a
     // race condition does not happen while creating a shared resource (in this case the
     // cbs session, since we want to have exactly 1 cbs session per connection).
-    log.link("[%s] Acquiring cbs lock: '%s' for creating the cbs session while creating the %s: " +
-      "'%s' with address: '%s'.", this._context.connectionId, this._context.cbsSession.cbsLock,
-      this._type, this.name, this.address);
-    await defaultLock.acquire(this._context.cbsSession.cbsLock,
-      () => { return this._context.cbsSession.init(); });
+    log.link(
+      "[%s] Acquiring cbs lock: '%s' for creating the cbs session while creating the %s: " + "'%s' with address: '%s'.",
+      this._context.connectionId,
+      this._context.cbsSession.cbsLock,
+      this._type,
+      this.name,
+      this.address
+    );
+    await defaultLock.acquire(this._context.cbsSession.cbsLock, () => {
+      return this._context.cbsSession.init();
+    });
     const tokenObject = await this._context.tokenProvider.getToken(this.audience);
-    log.link("[%s] %s: calling negotiateClaim for audience '%s'.",
-      this._context.connectionId, this._type, this.audience);
+    log.link(
+      "[%s] %s: calling negotiateClaim for audience '%s'.",
+      this._context.connectionId,
+      this._type,
+      this.audience
+    );
     // Acquire the lock to negotiate the CBS claim.
-    log.link("[%s] Acquiring cbs lock: '%s' for cbs auth for %s: '%s' with address '%s'.",
-      this._context.connectionId, this._context.negotiateClaimLock, this._type, this.name, this.address);
+    log.link(
+      "[%s] Acquiring cbs lock: '%s' for cbs auth for %s: '%s' with address '%s'.",
+      this._context.connectionId,
+      this._context.negotiateClaimLock,
+      this._type,
+      this.name,
+      this.address
+    );
     await defaultLock.acquire(this._context.negotiateClaimLock, () => {
       return this._context.cbsSession.negotiateClaim(this.audience, tokenObject);
     });
-    log.link("[%s] Negotiated claim for %s '%s' with with address: %s",
-      this._context.connectionId, this._type, this.name, this.address);
+    log.link(
+      "[%s] Negotiated claim for %s '%s' with with address: %s",
+      this._context.connectionId,
+      this._type,
+      this.name,
+      this.address
+    );
     if (setTokenRenewal) {
       await this._ensureTokenRenewal();
     }
@@ -148,13 +169,25 @@ export class LinkEntity {
       try {
         await this._negotiateClaim(true);
       } catch (err) {
-        log.error("[%s] %s '%s' with address %s, an error occurred while renewing the token: %O",
-          this._context.connectionId, this._type, this.name, this.address, err);
+        log.error(
+          "[%s] %s '%s' with address %s, an error occurred while renewing the token: %O",
+          this._context.connectionId,
+          this._type,
+          this.name,
+          this.address,
+          err
+        );
       }
     }, nextRenewalTimeout);
-    log.link("[%s] %s '%s' with address %s, has next token renewal in %d seconds @(%s).",
-      this._context.connectionId, this._type, this.name, this.address, nextRenewalTimeout / 1000,
-      new Date(Date.now() + nextRenewalTimeout).toString());
+    log.link(
+      "[%s] %s '%s' with address %s, has next token renewal in %d seconds @(%s).",
+      this._context.connectionId,
+      this._type,
+      this.name,
+      this.address,
+      nextRenewalTimeout / 1000,
+      new Date(Date.now() + nextRenewalTimeout).toString()
+    );
   }
 
   /**
@@ -171,11 +204,22 @@ export class LinkEntity {
         // Closing the link and its underlying session if the link is open. This should also
         // remove them from the internal map.
         await link.close();
-        log.link("[%s] %s '%s' with address '%s' closed.", this._context.connectionId, this._type,
-          this.name, this.address);
+        log.link(
+          "[%s] %s '%s' with address '%s' closed.",
+          this._context.connectionId,
+          this._type,
+          this.name,
+          this.address
+        );
       } catch (err) {
-        log.error("[%s] An error occurred while closing the %s '%s' with address '%s': %O",
-          this._context.connectionId, this._type, this.name, this.address, err);
+        log.error(
+          "[%s] An error occurred while closing the %s '%s' with address '%s': %O",
+          this._context.connectionId,
+          this._type,
+          this.name,
+          this.address,
+          err
+        );
       }
     }
   }

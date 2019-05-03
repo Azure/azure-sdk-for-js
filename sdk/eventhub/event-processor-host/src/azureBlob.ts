@@ -14,8 +14,13 @@ export class AzureBlob {
   private _blobPath: string;
   private _containerAndBlobExist: boolean = false;
 
-  constructor(hostName: string, connectionString: string, containerName: string,
-    blob: string, blobService?: BlobService) {
+  constructor(
+    hostName: string,
+    connectionString: string,
+    containerName: string,
+    blob: string,
+    blobService?: BlobService
+  ) {
     this._blobPath = blob;
     this._containerName = containerName;
     this._blobService = blobService || BlobService.create(hostName, connectionString);
@@ -28,7 +33,8 @@ export class AzureBlob {
         this._containerAndBlobExist = true;
       }
     } catch (err) {
-      const msg = `An error occurred while ensuring that the container and blob exists. ` +
+      const msg =
+        `An error occurred while ensuring that the container and blob exists. ` +
         `It is: \n${err ? err.stack : JSON.stringify(err)}`;
       throw new Error(msg);
     }
@@ -50,18 +56,24 @@ export class AzureBlob {
     return this._blobService.ensureBlobExists(this._containerName, this._blobPath, text);
   }
 
-  renewLease(leaseId: string,
-    options: StorageBlobService.LeaseRequestOptions): Promise<StorageBlobService.LeaseResult> {
+  renewLease(
+    leaseId: string,
+    options: StorageBlobService.LeaseRequestOptions
+  ): Promise<StorageBlobService.LeaseResult> {
     return this._blobService.renewLease(this._containerName, this._blobPath, leaseId, options);
   }
 
-  releaseLease(leaseId: string,
-    options?: StorageBlobService.LeaseRequestOptions): Promise<StorageBlobService.LeaseResult> {
+  releaseLease(
+    leaseId: string,
+    options?: StorageBlobService.LeaseRequestOptions
+  ): Promise<StorageBlobService.LeaseResult> {
     return this._blobService.releaseLease(this._containerName, this._blobPath, leaseId, options);
   }
 
-  updateContent(text: string,
-    options?: StorageBlobService.CreateBlobRequestOptions): Promise<StorageBlobService.BlobResult> {
+  updateContent(
+    text: string,
+    options?: StorageBlobService.CreateBlobRequestOptions
+  ): Promise<StorageBlobService.BlobResult> {
     return this._blobService.updateContent(this._containerName, this._blobPath, text, options);
   }
 
@@ -69,10 +81,8 @@ export class AzureBlob {
     return this._blobService.getContent(this._containerName, this._blobPath, options);
   }
 
-  changeLease(currentLeaseId: string,
-    proposedLeaseId: string): Promise<StorageBlobService.LeaseResult> {
-    return this._blobService.changeLease(this._containerName,
-      this._blobPath, currentLeaseId, proposedLeaseId);
+  changeLease(currentLeaseId: string, proposedLeaseId: string): Promise<StorageBlobService.LeaseResult> {
+    return this._blobService.changeLease(this._containerName, this._blobPath, currentLeaseId, proposedLeaseId);
   }
 
   getBlobProperties(): Promise<StorageBlobService.BlobResult> {
@@ -83,19 +93,20 @@ export class AzureBlob {
     return this._blobService.getBlobMetadata(this._containerName, this._blobPath);
   }
 
-  setBlobMetadata(metadata: Dictionary<string>,
-    options?: StorageBlobService.BlobRequestOptions): Promise<StorageBlobService.BlobResult> {
-    return this._blobService.setBlobMetadata(this._containerName, this._blobPath,
-      metadata, options);
+  setBlobMetadata(
+    metadata: Dictionary<string>,
+    options?: StorageBlobService.BlobRequestOptions
+  ): Promise<StorageBlobService.BlobResult> {
+    return this._blobService.setBlobMetadata(this._containerName, this._blobPath, metadata, options);
   }
 
-  listBlobsSegmented(options?: StorageBlobService.ListBlobsSegmentedRequestOptions):
-    Promise<StorageBlobService.ListBlobsResult> {
+  listBlobsSegmented(
+    options?: StorageBlobService.ListBlobsSegmentedRequestOptions
+  ): Promise<StorageBlobService.ListBlobsResult> {
     return this._blobService.listBlobsSegmented(this._containerName, options);
   }
 
-  acquireLease(options: StorageBlobService.AcquireLeaseRequestOptions):
-    Promise<StorageBlobService.LeaseResult> {
+  acquireLease(options: StorageBlobService.AcquireLeaseRequestOptions): Promise<StorageBlobService.LeaseResult> {
     return this._blobService.acquireLease(this._containerName, this._blobPath, options);
   }
 

@@ -51,7 +51,7 @@ export function nodeConfig(test = false) {
     // mark assert as external
     baseConfig.external.push("assert", "fs", "path", "os", "tty", "child_process");
 
-    baseConfig.onwarn = (warning) => {
+    baseConfig.onwarn = warning => {
       if (
         warning.code === "CIRCULAR_DEPENDENCY" &&
         warning.importer.indexOf(path.normalize("node_modules/chai/lib") === 0)

@@ -100,15 +100,15 @@ export class EventPosition {
     let result;
     // order of preference
     if (this.offset != undefined) {
-      result = this.isInclusive ?
-        `${Constants.offsetAnnotation} >= '${this.offset}'` :
-        `${Constants.offsetAnnotation} > '${this.offset}'`;
+      result = this.isInclusive
+        ? `${Constants.offsetAnnotation} >= '${this.offset}'`
+        : `${Constants.offsetAnnotation} > '${this.offset}'`;
     } else if (this.sequenceNumber != undefined) {
-      result = this.isInclusive ?
-        `${Constants.sequenceNumberAnnotation} >= '${this.sequenceNumber}'` :
-        `${Constants.sequenceNumberAnnotation} > '${this.sequenceNumber}'`;
+      result = this.isInclusive
+        ? `${Constants.sequenceNumberAnnotation} >= '${this.sequenceNumber}'`
+        : `${Constants.sequenceNumberAnnotation} > '${this.sequenceNumber}'`;
     } else if (this.enqueuedTime != undefined) {
-      const time = (this.enqueuedTime instanceof Date) ? this.enqueuedTime.getTime() : this.enqueuedTime;
+      const time = this.enqueuedTime instanceof Date ? this.enqueuedTime.getTime() : this.enqueuedTime;
       result = `${Constants.enqueuedTimeAnnotation} > '${time}'`;
     } else if (this.customFilter != undefined) {
       result = this.customFilter;

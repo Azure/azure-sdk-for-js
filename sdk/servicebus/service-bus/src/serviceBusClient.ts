@@ -8,6 +8,7 @@ import {
   UserTokenCredentials,
   MSITokenCredentials
 } from "@azure/ms-rest-nodeauth";
+import { WebSocketImpl } from "rhea-promise";
 import { ConnectionContext } from "./connectionContext";
 import { QueueClient } from "./queueClient";
 import { TopicClient } from "./topicClient";
@@ -26,12 +27,22 @@ import { SubscriptionClient } from "./subscriptionClient";
  */
 export interface ServiceBusClientOptions {
   /**
-   * @property {DataTransformer} [dataTransformer] The data transformer that will be used to encode
+   * @property The data transformer that will be used to encode
    * and decode the sent and received messages respectively. If not provided then we will use the
    * DefaultDataTransformer. The default transformer should handle majority of the cases. This
    * option needs to be used only for specialized scenarios.
    */
   dataTransformer?: DataTransformer;
+  /**
+   * @property {WebSocketImpl} [webSocket] - The WebSocket constructor used to create an AMQP connection
+   * over a WebSocket. In browsers, the built-in WebSocket will be  used by default. In Node, a
+   * TCP socket will be used if a WebSocket constructor is not provided.
+   */
+  webSocket?: WebSocketImpl;
+  /**
+   * @property {webSocketConstructorOptions} - Options to be passed to the WebSocket constructor
+   */
+  webSocketConstructorOptions?: any;
 }
 
 /**
@@ -41,11 +52,12 @@ export interface ServiceBusClientOptions {
  */
 export class ServiceBusClient {
   /**
-   * @property {string} name The namespace name of the Service Bus instance.
+   * @readonly
+   * @property The namespace name of the Service Bus instance.
    */
   readonly name: string;
   /**
-   * @property {ConnectionContext} _context Describes the amqp connection context for the Namespace.
+   * @property Describes the amqp connection context for the Namespace.
    * @private
    */
   private _context: ConnectionContext;
@@ -166,6 +178,11 @@ export class ServiceBusClient {
     options?: ServiceBusClientOptions
   ): ServiceBusClient {
     const config = ConnectionConfig.create(connectionString);
+
+    config.webSocket = options && options.webSocket;
+    config.webSocketEndpointPath = "$servicebus/websocket";
+    config.webSocketConstructorOptions = options && options.webSocketConstructorOptions;
+
     ConnectionConfig.validate(config);
     const tokenProvider = new SasTokenProvider(
       config.endpoint,
@@ -190,17 +207,20 @@ export class ServiceBusClient {
     tokenProvider: TokenProvider,
     options?: ServiceBusClientOptions
   ): ServiceBusClient {
-    if (!host || (host && typeof host !== "string")) {
-      throw new Error("'host' is a required parameter and must be of type: 'string'.");
-    }
-    if (!tokenProvider || (tokenProvider && typeof tokenProvider !== "object")) {
-      throw new Error("'tokenProvider' is a required parameter and must be of type: 'object'.");
+    host = String(host);
+    if (!tokenProvider) {
+      throw new TypeError('Missing parameter "tokenProvider"');
     }
     if (!host.endsWith("/")) host += "/";
     const connectionString =
       `Endpoint=sb://${host};SharedAccessKeyName=defaultKeyName;` +
       `SharedAccessKey=defaultKeyValue`;
     const config = ConnectionConfig.create(connectionString);
+
+    config.webSocket = options && options.webSocket;
+    config.webSocketEndpointPath = "$servicebus/websocket";
+    config.webSocketConstructorOptions = options && options.webSocketConstructorOptions;
+
     ConnectionConfig.validate(config);
     return new ServiceBusClient(config, tokenProvider, options);
   }
@@ -229,17 +249,7 @@ export class ServiceBusClient {
       | MSITokenCredentials,
     options?: ServiceBusClientOptions
   ): ServiceBusClient {
-    if (!host || typeof host !== "string") {
-      throw new Error("'host' is a required parameter and must be of type: 'string'.");
-    }
-
-    if (typeof credentials !== "object") {
-      throw new Error(
-        "'credentials' is a required parameter and must be an instance of " +
-          "ApplicationTokenCredentials | UserTokenCredentials | DeviceTokenCredentials | " +
-          "MSITokenCredentials."
-      );
-    }
+    host = String(host);
     const tokenProvider = new AadTokenProvider(credentials);
     return ServiceBusClient.createFromTokenProvider(host, tokenProvider, options);
   }

@@ -59,7 +59,7 @@ export class DelegationSettings {
   }
 
   /**
-   * Get Delegation settings.
+   * Get Delegation Settings for the Portal.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param [options] The optional parameters
@@ -141,7 +141,7 @@ export class DelegationSettings {
    * @param [options] The optional parameters
    * @returns Promise<Models.DelegationSettingsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, serviceName: string, parameters: Models.PortalDelegationSettings, options?: msRest.RequestOptionsBase): Promise<Models.DelegationSettingsCreateOrUpdateResponse>;
+  createOrUpdate(resourceGroupName: string, serviceName: string, parameters: Models.PortalDelegationSettings, options?: Models.DelegationSettingsCreateOrUpdateOptionalParams): Promise<Models.DelegationSettingsCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -156,8 +156,8 @@ export class DelegationSettings {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, serviceName: string, parameters: Models.PortalDelegationSettings, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PortalDelegationSettings>): void;
-  createOrUpdate(resourceGroupName: string, serviceName: string, parameters: Models.PortalDelegationSettings, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PortalDelegationSettings>, callback?: msRest.ServiceCallback<Models.PortalDelegationSettings>): Promise<Models.DelegationSettingsCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, serviceName: string, parameters: Models.PortalDelegationSettings, options: Models.DelegationSettingsCreateOrUpdateOptionalParams, callback: msRest.ServiceCallback<Models.PortalDelegationSettings>): void;
+  createOrUpdate(resourceGroupName: string, serviceName: string, parameters: Models.PortalDelegationSettings, options?: Models.DelegationSettingsCreateOrUpdateOptionalParams | msRest.ServiceCallback<Models.PortalDelegationSettings>, callback?: msRest.ServiceCallback<Models.PortalDelegationSettings>): Promise<Models.DelegationSettingsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -217,7 +217,7 @@ const getOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.DelegationSettingsGetHeaders
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -235,7 +235,7 @@ const updateOperationSpec: msRest.OperationSpec = {
     Parameters.apiVersion
   ],
   headerParameters: [
-    Parameters.ifMatch0,
+    Parameters.ifMatch1,
     Parameters.acceptLanguage
   ],
   requestBody: {
@@ -266,6 +266,7 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.apiVersion
   ],
   headerParameters: [
+    Parameters.ifMatch0,
     Parameters.acceptLanguage
   ],
   requestBody: {

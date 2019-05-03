@@ -9,6 +9,7 @@
  */
 
 import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/hanaInstancesMappers";
 import * as Parameters from "../models/parameters";
@@ -117,35 +118,104 @@ export class HanaInstances {
   }
 
   /**
+   * Patches the Tags field of a SAP HANA instance for the specified subscription, resource group,
+   * and instance name.
+   * @summary Patches the Tags field of a SAP HANA instance.
+   * @param resourceGroupName Name of the resource group.
+   * @param hanaInstanceName Name of the SAP HANA on Azure instance.
+   * @param tagsParameter Request body that only contains the new Tags field
+   * @param [options] The optional parameters
+   * @returns Promise<Models.HanaInstancesUpdateResponse>
+   */
+  update(resourceGroupName: string, hanaInstanceName: string, tagsParameter: Models.Tags, options?: msRest.RequestOptionsBase): Promise<Models.HanaInstancesUpdateResponse>;
+  /**
+   * @param resourceGroupName Name of the resource group.
+   * @param hanaInstanceName Name of the SAP HANA on Azure instance.
+   * @param tagsParameter Request body that only contains the new Tags field
+   * @param callback The callback
+   */
+  update(resourceGroupName: string, hanaInstanceName: string, tagsParameter: Models.Tags, callback: msRest.ServiceCallback<Models.HanaInstance>): void;
+  /**
+   * @param resourceGroupName Name of the resource group.
+   * @param hanaInstanceName Name of the SAP HANA on Azure instance.
+   * @param tagsParameter Request body that only contains the new Tags field
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  update(resourceGroupName: string, hanaInstanceName: string, tagsParameter: Models.Tags, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.HanaInstance>): void;
+  update(resourceGroupName: string, hanaInstanceName: string, tagsParameter: Models.Tags, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HanaInstance>, callback?: msRest.ServiceCallback<Models.HanaInstance>): Promise<Models.HanaInstancesUpdateResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        hanaInstanceName,
+        tagsParameter,
+        options
+      },
+      updateOperationSpec,
+      callback) as Promise<Models.HanaInstancesUpdateResponse>;
+  }
+
+  /**
    * The operation to restart a SAP HANA instance.
    * @param resourceGroupName Name of the resource group.
    * @param hanaInstanceName Name of the SAP HANA on Azure instance.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  restart(resourceGroupName: string, hanaInstanceName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  restart(resourceGroupName: string, hanaInstanceName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginRestart(resourceGroupName,hanaInstanceName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
+  }
+
   /**
+   * The operation to add a monitor to an SAP HANA instance.
    * @param resourceGroupName Name of the resource group.
    * @param hanaInstanceName Name of the SAP HANA on Azure instance.
-   * @param callback The callback
+   * @param monitoringParameter Request body that only contains monitoring attributes
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
    */
-  restart(resourceGroupName: string, hanaInstanceName: string, callback: msRest.ServiceCallback<void>): void;
+  enableMonitoring(resourceGroupName: string, hanaInstanceName: string, monitoringParameter: Models.MonitoringDetails, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginEnableMonitoring(resourceGroupName,hanaInstanceName,monitoringParameter,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
+  }
+
   /**
+   * The operation to restart a SAP HANA instance.
    * @param resourceGroupName Name of the resource group.
    * @param hanaInstanceName Name of the SAP HANA on Azure instance.
-   * @param options The optional parameters
-   * @param callback The callback
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
    */
-  restart(resourceGroupName: string, hanaInstanceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  restart(resourceGroupName: string, hanaInstanceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
-    return this.client.sendOperationRequest(
+  beginRestart(resourceGroupName: string, hanaInstanceName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
       {
         resourceGroupName,
         hanaInstanceName,
         options
       },
-      restartOperationSpec,
-      callback);
+      beginRestartOperationSpec,
+      options);
+  }
+
+  /**
+   * The operation to add a monitor to an SAP HANA instance.
+   * @param resourceGroupName Name of the resource group.
+   * @param hanaInstanceName Name of the SAP HANA on Azure instance.
+   * @param monitoringParameter Request body that only contains monitoring attributes
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginEnableMonitoring(resourceGroupName: string, hanaInstanceName: string, monitoringParameter: Models.MonitoringDetails, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        hanaInstanceName,
+        monitoringParameter,
+        options
+      },
+      beginEnableMonitoringOperationSpec,
+      options);
   }
 
   /**
@@ -283,7 +353,39 @@ const getOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const restartOperationSpec: msRest.OperationSpec = {
+const updateOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PATCH",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HanaOnAzure/hanaInstances/{hanaInstanceName}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.hanaInstanceName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "tagsParameter",
+    mapper: {
+      ...Mappers.Tags,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.HanaInstance
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const beginRestartOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HanaOnAzure/hanaInstances/{hanaInstanceName}/restart",
   urlParameters: [
@@ -298,6 +400,38 @@ const restartOperationSpec: msRest.OperationSpec = {
     Parameters.acceptLanguage
   ],
   responses: {
+    200: {},
+    202: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginEnableMonitoringOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HanaOnAzure/hanaInstances/{hanaInstanceName}/monitoring",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.hanaInstanceName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "monitoringParameter",
+    mapper: {
+      ...Mappers.MonitoringDetails,
+      required: true
+    }
+  },
+  responses: {
+    200: {},
     202: {},
     default: {
       bodyMapper: Mappers.CloudError

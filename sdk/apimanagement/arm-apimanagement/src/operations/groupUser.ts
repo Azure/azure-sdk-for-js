@@ -27,7 +27,7 @@ export class GroupUser {
   }
 
   /**
-   * Lists a collection of the members of the group, specified by its identifier.
+   * Lists a collection of user entities associated with the group.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param groupId Group identifier. Must be unique in the current API Management service instance.
@@ -67,35 +67,35 @@ export class GroupUser {
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param groupId Group identifier. Must be unique in the current API Management service instance.
-   * @param uid User identifier. Must be unique in the current API Management service instance.
+   * @param userId User identifier. Must be unique in the current API Management service instance.
    * @param [options] The optional parameters
    * @returns Promise<Models.GroupUserCheckEntityExistsResponse>
    */
-  checkEntityExists(resourceGroupName: string, serviceName: string, groupId: string, uid: string, options?: msRest.RequestOptionsBase): Promise<Models.GroupUserCheckEntityExistsResponse>;
+  checkEntityExists(resourceGroupName: string, serviceName: string, groupId: string, userId: string, options?: msRest.RequestOptionsBase): Promise<Models.GroupUserCheckEntityExistsResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param groupId Group identifier. Must be unique in the current API Management service instance.
-   * @param uid User identifier. Must be unique in the current API Management service instance.
+   * @param userId User identifier. Must be unique in the current API Management service instance.
    * @param callback The callback
    */
-  checkEntityExists(resourceGroupName: string, serviceName: string, groupId: string, uid: string, callback: msRest.ServiceCallback<boolean>): void;
+  checkEntityExists(resourceGroupName: string, serviceName: string, groupId: string, userId: string, callback: msRest.ServiceCallback<boolean>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param groupId Group identifier. Must be unique in the current API Management service instance.
-   * @param uid User identifier. Must be unique in the current API Management service instance.
+   * @param userId User identifier. Must be unique in the current API Management service instance.
    * @param options The optional parameters
    * @param callback The callback
    */
-  checkEntityExists(resourceGroupName: string, serviceName: string, groupId: string, uid: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<boolean>): void;
-  checkEntityExists(resourceGroupName: string, serviceName: string, groupId: string, uid: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<boolean>, callback?: msRest.ServiceCallback<boolean>): Promise<Models.GroupUserCheckEntityExistsResponse> {
+  checkEntityExists(resourceGroupName: string, serviceName: string, groupId: string, userId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<boolean>): void;
+  checkEntityExists(resourceGroupName: string, serviceName: string, groupId: string, userId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<boolean>, callback?: msRest.ServiceCallback<boolean>): Promise<Models.GroupUserCheckEntityExistsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         serviceName,
         groupId,
-        uid,
+        userId,
         options
       },
       checkEntityExistsOperationSpec,
@@ -103,39 +103,39 @@ export class GroupUser {
   }
 
   /**
-   * Adds a user to the specified group.
+   * Add existing user to existing group
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param groupId Group identifier. Must be unique in the current API Management service instance.
-   * @param uid User identifier. Must be unique in the current API Management service instance.
+   * @param userId User identifier. Must be unique in the current API Management service instance.
    * @param [options] The optional parameters
    * @returns Promise<Models.GroupUserCreateResponse>
    */
-  create(resourceGroupName: string, serviceName: string, groupId: string, uid: string, options?: msRest.RequestOptionsBase): Promise<Models.GroupUserCreateResponse>;
+  create(resourceGroupName: string, serviceName: string, groupId: string, userId: string, options?: msRest.RequestOptionsBase): Promise<Models.GroupUserCreateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param groupId Group identifier. Must be unique in the current API Management service instance.
-   * @param uid User identifier. Must be unique in the current API Management service instance.
+   * @param userId User identifier. Must be unique in the current API Management service instance.
    * @param callback The callback
    */
-  create(resourceGroupName: string, serviceName: string, groupId: string, uid: string, callback: msRest.ServiceCallback<Models.UserContract>): void;
+  create(resourceGroupName: string, serviceName: string, groupId: string, userId: string, callback: msRest.ServiceCallback<Models.UserContract>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param groupId Group identifier. Must be unique in the current API Management service instance.
-   * @param uid User identifier. Must be unique in the current API Management service instance.
+   * @param userId User identifier. Must be unique in the current API Management service instance.
    * @param options The optional parameters
    * @param callback The callback
    */
-  create(resourceGroupName: string, serviceName: string, groupId: string, uid: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.UserContract>): void;
-  create(resourceGroupName: string, serviceName: string, groupId: string, uid: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.UserContract>, callback?: msRest.ServiceCallback<Models.UserContract>): Promise<Models.GroupUserCreateResponse> {
+  create(resourceGroupName: string, serviceName: string, groupId: string, userId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.UserContract>): void;
+  create(resourceGroupName: string, serviceName: string, groupId: string, userId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.UserContract>, callback?: msRest.ServiceCallback<Models.UserContract>): Promise<Models.GroupUserCreateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         serviceName,
         groupId,
-        uid,
+        userId,
         options
       },
       createOperationSpec,
@@ -147,35 +147,35 @@ export class GroupUser {
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param groupId Group identifier. Must be unique in the current API Management service instance.
-   * @param uid User identifier. Must be unique in the current API Management service instance.
+   * @param userId User identifier. Must be unique in the current API Management service instance.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, serviceName: string, groupId: string, uid: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(resourceGroupName: string, serviceName: string, groupId: string, userId: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param groupId Group identifier. Must be unique in the current API Management service instance.
-   * @param uid User identifier. Must be unique in the current API Management service instance.
+   * @param userId User identifier. Must be unique in the current API Management service instance.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, serviceName: string, groupId: string, uid: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(resourceGroupName: string, serviceName: string, groupId: string, userId: string, callback: msRest.ServiceCallback<void>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param groupId Group identifier. Must be unique in the current API Management service instance.
-   * @param uid User identifier. Must be unique in the current API Management service instance.
+   * @param userId User identifier. Must be unique in the current API Management service instance.
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, serviceName: string, groupId: string, uid: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, serviceName: string, groupId: string, uid: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, serviceName: string, groupId: string, userId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(resourceGroupName: string, serviceName: string, groupId: string, userId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         serviceName,
         groupId,
-        uid,
+        userId,
         options
       },
       deleteMethodOperationSpec,
@@ -183,7 +183,7 @@ export class GroupUser {
   }
 
   /**
-   * Lists a collection of the members of the group, specified by its identifier.
+   * Lists a collection of user entities associated with the group.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.GroupUserListNextResponse>
@@ -244,12 +244,12 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const checkEntityExistsOperationSpec: msRest.OperationSpec = {
   httpMethod: "HEAD",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/groups/{groupId}/users/{uid}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/groups/{groupId}/users/{userId}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.groupId,
-    Parameters.uid,
+    Parameters.userId,
     Parameters.subscriptionId
   ],
   queryParameters: [
@@ -270,12 +270,12 @@ const checkEntityExistsOperationSpec: msRest.OperationSpec = {
 
 const createOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/groups/{groupId}/users/{uid}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/groups/{groupId}/users/{userId}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.groupId,
-    Parameters.uid,
+    Parameters.userId,
     Parameters.subscriptionId
   ],
   queryParameters: [
@@ -300,12 +300,12 @@ const createOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/groups/{groupId}/users/{uid}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/groups/{groupId}/users/{userId}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.groupId,
-    Parameters.uid,
+    Parameters.userId,
     Parameters.subscriptionId
   ],
   queryParameters: [

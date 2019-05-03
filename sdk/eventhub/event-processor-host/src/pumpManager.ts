@@ -30,19 +30,21 @@ export class PumpManager {
           log.error(withHostAndPartition(partitionId, "The existing pump is open -> %s."), isOpen);
           await this.removePump(partitionId, CloseReason.shutdown);
         } else {
-          log.pumpManager(withHostAndPartition(partitionId, "Updating lease for pump since it" +
-            "is open -> %s."), partitionId, isOpen);
+          log.pumpManager(
+            withHostAndPartition(partitionId, "Updating lease for pump since it" + "is open -> %s."),
+            partitionId,
+            isOpen
+          );
           capturedPump.lease = lease;
         }
       } else {
-        log.pumpManager(withHostAndPartition(partitionId, "Creating a new pump with lease %o."),
-          lease.getInfo());
-        const pump = new PartitionPump(this._context, lease, this._context.onMessage!,
-          this._context.onError!);
+        log.pumpManager(withHostAndPartition(partitionId, "Creating a new pump with lease %o."), lease.getInfo());
+        const pump = new PartitionPump(this._context, lease, this._context.onMessage!, this._context.onError!);
         await pump.start();
       }
     } catch (err) {
-      const msg = `An error occurred while adding/updating a pump for partitionId ` +
+      const msg =
+        `An error occurred while adding/updating a pump for partitionId ` +
         `'${partitionId}': ${err ? err.stack : JSON.stringify(err)}`;
       log.error(withHostAndPartition(partitionId, "%s."), msg);
       this._context.onEphError({
@@ -65,7 +67,8 @@ export class PumpManager {
         log.pumpManager(withHostAndPartition(partitionId, "No pump was found, to remove."));
       }
     } catch (err) {
-      const msg = `An error occurred while removing a pump for partitionId '${partitionId}': ` +
+      const msg =
+        `An error occurred while removing a pump for partitionId '${partitionId}': ` +
         `${err ? err.stack : JSON.stringify(err)}`;
       log.error(withHostAndPartition(partitionId, "%s."), msg);
       this._context.onEphError({

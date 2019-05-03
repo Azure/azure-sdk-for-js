@@ -6,13 +6,7 @@
         "order": "instance-sandwich"
       }
     ],
-    "typedef": [
-      true,
-      "call-signature",
-      "parameter",
-      "property-declaration",
-      "member-variable-declaration"
-    ],
+    "typedef": [true, "call-signature", "parameter", "property-declaration", "member-variable-declaration"],
     "typedef-whitespace": [
       true,
       {
@@ -49,28 +43,17 @@
     "eofline": true,
     "indent": [true, "spaces"],
     "no-trailing-whitespace": true,
-    "arrow-parens": true,
+    "arrow-parens": [true, "ban-single-arg-parens"],
     "class-name": true,
     "comment-format": [true, "check-space"],
     "interface-name": [true, "never-prefix"],
     "jsdoc-format": true,
     "new-parens": true,
-    "one-line": [
-      true,
-      "check-catch",
-      "check-finally",
-      "check-else",
-      "check-open-brace"
-    ],
+    "one-line": [true, "check-catch", "check-finally", "check-else", "check-open-brace"],
     "one-variable-per-declaration": [true, "ignore-for-loop"],
     "semicolon": [true, "always"],
     "curly": [true, "ignore-same-line"],
-    "variable-name": [
-      true,
-      "check-format",
-      "allow-leading-underscore",
-      "ban-keywords"
-    ],
+    "variable-name": [true, "check-format", "allow-leading-underscore", "ban-keywords"],
     "whitespace": [
       true,
       "check-branch",

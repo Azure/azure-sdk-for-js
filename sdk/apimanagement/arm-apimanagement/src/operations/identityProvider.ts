@@ -311,9 +311,9 @@ const listByServiceOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/identityProviders",
   urlParameters: [
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.serviceName
+    Parameters.serviceName,
+    Parameters.subscriptionId
   ],
   queryParameters: [
     Parameters.apiVersion
@@ -336,10 +336,10 @@ const getEntityTagOperationSpec: msRest.OperationSpec = {
   httpMethod: "HEAD",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/identityProviders/{identityProviderName}",
   urlParameters: [
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.identityProviderName
+    Parameters.identityProviderName,
+    Parameters.subscriptionId
   ],
   queryParameters: [
     Parameters.apiVersion
@@ -362,10 +362,10 @@ const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/identityProviders/{identityProviderName}",
   urlParameters: [
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.identityProviderName
+    Parameters.identityProviderName,
+    Parameters.subscriptionId
   ],
   queryParameters: [
     Parameters.apiVersion
@@ -398,7 +398,7 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.apiVersion
   ],
   headerParameters: [
-    Parameters.ifMatch1,
+    Parameters.ifMatch0,
     Parameters.acceptLanguage
   ],
   requestBody: {
@@ -410,10 +410,12 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
   },
   responses: {
     200: {
-      bodyMapper: Mappers.IdentityProviderContract
+      bodyMapper: Mappers.IdentityProviderContract,
+      headersMapper: Mappers.IdentityProviderCreateOrUpdateHeaders
     },
     201: {
-      bodyMapper: Mappers.IdentityProviderContract
+      bodyMapper: Mappers.IdentityProviderContract,
+      headersMapper: Mappers.IdentityProviderCreateOrUpdateHeaders
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -435,7 +437,7 @@ const updateOperationSpec: msRest.OperationSpec = {
     Parameters.apiVersion
   ],
   headerParameters: [
-    Parameters.ifMatch0,
+    Parameters.ifMatch1,
     Parameters.acceptLanguage
   ],
   requestBody: {
@@ -467,7 +469,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.apiVersion
   ],
   headerParameters: [
-    Parameters.ifMatch0,
+    Parameters.ifMatch1,
     Parameters.acceptLanguage
   ],
   responses: {

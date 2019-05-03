@@ -62,35 +62,35 @@ export class Backend {
    * Gets the entity state (Etag) version of the backend specified by its identifier.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
-   * @param backendid Identifier of the Backend entity. Must be unique in the current API Management
+   * @param backendId Identifier of the Backend entity. Must be unique in the current API Management
    * service instance.
    * @param [options] The optional parameters
    * @returns Promise<Models.BackendGetEntityTagResponse>
    */
-  getEntityTag(resourceGroupName: string, serviceName: string, backendid: string, options?: msRest.RequestOptionsBase): Promise<Models.BackendGetEntityTagResponse>;
+  getEntityTag(resourceGroupName: string, serviceName: string, backendId: string, options?: msRest.RequestOptionsBase): Promise<Models.BackendGetEntityTagResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
-   * @param backendid Identifier of the Backend entity. Must be unique in the current API Management
+   * @param backendId Identifier of the Backend entity. Must be unique in the current API Management
    * service instance.
    * @param callback The callback
    */
-  getEntityTag(resourceGroupName: string, serviceName: string, backendid: string, callback: msRest.ServiceCallback<void>): void;
+  getEntityTag(resourceGroupName: string, serviceName: string, backendId: string, callback: msRest.ServiceCallback<void>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
-   * @param backendid Identifier of the Backend entity. Must be unique in the current API Management
+   * @param backendId Identifier of the Backend entity. Must be unique in the current API Management
    * service instance.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getEntityTag(resourceGroupName: string, serviceName: string, backendid: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  getEntityTag(resourceGroupName: string, serviceName: string, backendid: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.BackendGetEntityTagResponse> {
+  getEntityTag(resourceGroupName: string, serviceName: string, backendId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  getEntityTag(resourceGroupName: string, serviceName: string, backendId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.BackendGetEntityTagResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         serviceName,
-        backendid,
+        backendId,
         options
       },
       getEntityTagOperationSpec,
@@ -101,35 +101,35 @@ export class Backend {
    * Gets the details of the backend specified by its identifier.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
-   * @param backendid Identifier of the Backend entity. Must be unique in the current API Management
+   * @param backendId Identifier of the Backend entity. Must be unique in the current API Management
    * service instance.
    * @param [options] The optional parameters
    * @returns Promise<Models.BackendGetResponse>
    */
-  get(resourceGroupName: string, serviceName: string, backendid: string, options?: msRest.RequestOptionsBase): Promise<Models.BackendGetResponse>;
+  get(resourceGroupName: string, serviceName: string, backendId: string, options?: msRest.RequestOptionsBase): Promise<Models.BackendGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
-   * @param backendid Identifier of the Backend entity. Must be unique in the current API Management
+   * @param backendId Identifier of the Backend entity. Must be unique in the current API Management
    * service instance.
    * @param callback The callback
    */
-  get(resourceGroupName: string, serviceName: string, backendid: string, callback: msRest.ServiceCallback<Models.BackendContract>): void;
+  get(resourceGroupName: string, serviceName: string, backendId: string, callback: msRest.ServiceCallback<Models.BackendContract>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
-   * @param backendid Identifier of the Backend entity. Must be unique in the current API Management
+   * @param backendId Identifier of the Backend entity. Must be unique in the current API Management
    * service instance.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, serviceName: string, backendid: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BackendContract>): void;
-  get(resourceGroupName: string, serviceName: string, backendid: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BackendContract>, callback?: msRest.ServiceCallback<Models.BackendContract>): Promise<Models.BackendGetResponse> {
+  get(resourceGroupName: string, serviceName: string, backendId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BackendContract>): void;
+  get(resourceGroupName: string, serviceName: string, backendId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BackendContract>, callback?: msRest.ServiceCallback<Models.BackendContract>): Promise<Models.BackendGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         serviceName,
-        backendid,
+        backendId,
         options
       },
       getOperationSpec,
@@ -140,38 +140,38 @@ export class Backend {
    * Creates or Updates a backend.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
-   * @param backendid Identifier of the Backend entity. Must be unique in the current API Management
+   * @param backendId Identifier of the Backend entity. Must be unique in the current API Management
    * service instance.
    * @param parameters Create parameters.
    * @param [options] The optional parameters
    * @returns Promise<Models.BackendCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, serviceName: string, backendid: string, parameters: Models.BackendContract, options?: Models.BackendCreateOrUpdateOptionalParams): Promise<Models.BackendCreateOrUpdateResponse>;
+  createOrUpdate(resourceGroupName: string, serviceName: string, backendId: string, parameters: Models.BackendContract, options?: Models.BackendCreateOrUpdateOptionalParams): Promise<Models.BackendCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
-   * @param backendid Identifier of the Backend entity. Must be unique in the current API Management
+   * @param backendId Identifier of the Backend entity. Must be unique in the current API Management
    * service instance.
    * @param parameters Create parameters.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, serviceName: string, backendid: string, parameters: Models.BackendContract, callback: msRest.ServiceCallback<Models.BackendContract>): void;
+  createOrUpdate(resourceGroupName: string, serviceName: string, backendId: string, parameters: Models.BackendContract, callback: msRest.ServiceCallback<Models.BackendContract>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
-   * @param backendid Identifier of the Backend entity. Must be unique in the current API Management
+   * @param backendId Identifier of the Backend entity. Must be unique in the current API Management
    * service instance.
    * @param parameters Create parameters.
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, serviceName: string, backendid: string, parameters: Models.BackendContract, options: Models.BackendCreateOrUpdateOptionalParams, callback: msRest.ServiceCallback<Models.BackendContract>): void;
-  createOrUpdate(resourceGroupName: string, serviceName: string, backendid: string, parameters: Models.BackendContract, options?: Models.BackendCreateOrUpdateOptionalParams | msRest.ServiceCallback<Models.BackendContract>, callback?: msRest.ServiceCallback<Models.BackendContract>): Promise<Models.BackendCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, serviceName: string, backendId: string, parameters: Models.BackendContract, options: Models.BackendCreateOrUpdateOptionalParams, callback: msRest.ServiceCallback<Models.BackendContract>): void;
+  createOrUpdate(resourceGroupName: string, serviceName: string, backendId: string, parameters: Models.BackendContract, options?: Models.BackendCreateOrUpdateOptionalParams | msRest.ServiceCallback<Models.BackendContract>, callback?: msRest.ServiceCallback<Models.BackendContract>): Promise<Models.BackendCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         serviceName,
-        backendid,
+        backendId,
         parameters,
         options
       },
@@ -183,7 +183,7 @@ export class Backend {
    * Updates an existing backend.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
-   * @param backendid Identifier of the Backend entity. Must be unique in the current API Management
+   * @param backendId Identifier of the Backend entity. Must be unique in the current API Management
    * service instance.
    * @param parameters Update parameters.
    * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
@@ -191,22 +191,22 @@ export class Backend {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  update(resourceGroupName: string, serviceName: string, backendid: string, parameters: Models.BackendUpdateParameters, ifMatch: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  update(resourceGroupName: string, serviceName: string, backendId: string, parameters: Models.BackendUpdateParameters, ifMatch: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
-   * @param backendid Identifier of the Backend entity. Must be unique in the current API Management
+   * @param backendId Identifier of the Backend entity. Must be unique in the current API Management
    * service instance.
    * @param parameters Update parameters.
    * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
    * response of the GET request or it should be * for unconditional update.
    * @param callback The callback
    */
-  update(resourceGroupName: string, serviceName: string, backendid: string, parameters: Models.BackendUpdateParameters, ifMatch: string, callback: msRest.ServiceCallback<void>): void;
+  update(resourceGroupName: string, serviceName: string, backendId: string, parameters: Models.BackendUpdateParameters, ifMatch: string, callback: msRest.ServiceCallback<void>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
-   * @param backendid Identifier of the Backend entity. Must be unique in the current API Management
+   * @param backendId Identifier of the Backend entity. Must be unique in the current API Management
    * service instance.
    * @param parameters Update parameters.
    * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
@@ -214,13 +214,13 @@ export class Backend {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, serviceName: string, backendid: string, parameters: Models.BackendUpdateParameters, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  update(resourceGroupName: string, serviceName: string, backendid: string, parameters: Models.BackendUpdateParameters, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  update(resourceGroupName: string, serviceName: string, backendId: string, parameters: Models.BackendUpdateParameters, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  update(resourceGroupName: string, serviceName: string, backendId: string, parameters: Models.BackendUpdateParameters, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         serviceName,
-        backendid,
+        backendId,
         parameters,
         ifMatch,
         options
@@ -233,41 +233,41 @@ export class Backend {
    * Deletes the specified backend.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
-   * @param backendid Identifier of the Backend entity. Must be unique in the current API Management
+   * @param backendId Identifier of the Backend entity. Must be unique in the current API Management
    * service instance.
    * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
    * response of the GET request or it should be * for unconditional update.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, serviceName: string, backendid: string, ifMatch: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(resourceGroupName: string, serviceName: string, backendId: string, ifMatch: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
-   * @param backendid Identifier of the Backend entity. Must be unique in the current API Management
+   * @param backendId Identifier of the Backend entity. Must be unique in the current API Management
    * service instance.
    * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
    * response of the GET request or it should be * for unconditional update.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, serviceName: string, backendid: string, ifMatch: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(resourceGroupName: string, serviceName: string, backendId: string, ifMatch: string, callback: msRest.ServiceCallback<void>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
-   * @param backendid Identifier of the Backend entity. Must be unique in the current API Management
+   * @param backendId Identifier of the Backend entity. Must be unique in the current API Management
    * service instance.
    * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
    * response of the GET request or it should be * for unconditional update.
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, serviceName: string, backendid: string, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, serviceName: string, backendid: string, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, serviceName: string, backendId: string, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(resourceGroupName: string, serviceName: string, backendId: string, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         serviceName,
-        backendid,
+        backendId,
         ifMatch,
         options
       },
@@ -280,35 +280,35 @@ export class Backend {
    * If no timeout was specified, timeout of 2 minutes is used.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
-   * @param backendid Identifier of the Backend entity. Must be unique in the current API Management
+   * @param backendId Identifier of the Backend entity. Must be unique in the current API Management
    * service instance.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  reconnect(resourceGroupName: string, serviceName: string, backendid: string, options?: Models.BackendReconnectOptionalParams): Promise<msRest.RestResponse>;
+  reconnect(resourceGroupName: string, serviceName: string, backendId: string, options?: Models.BackendReconnectOptionalParams): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
-   * @param backendid Identifier of the Backend entity. Must be unique in the current API Management
+   * @param backendId Identifier of the Backend entity. Must be unique in the current API Management
    * service instance.
    * @param callback The callback
    */
-  reconnect(resourceGroupName: string, serviceName: string, backendid: string, callback: msRest.ServiceCallback<void>): void;
+  reconnect(resourceGroupName: string, serviceName: string, backendId: string, callback: msRest.ServiceCallback<void>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
-   * @param backendid Identifier of the Backend entity. Must be unique in the current API Management
+   * @param backendId Identifier of the Backend entity. Must be unique in the current API Management
    * service instance.
    * @param options The optional parameters
    * @param callback The callback
    */
-  reconnect(resourceGroupName: string, serviceName: string, backendid: string, options: Models.BackendReconnectOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  reconnect(resourceGroupName: string, serviceName: string, backendid: string, options?: Models.BackendReconnectOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  reconnect(resourceGroupName: string, serviceName: string, backendId: string, options: Models.BackendReconnectOptionalParams, callback: msRest.ServiceCallback<void>): void;
+  reconnect(resourceGroupName: string, serviceName: string, backendId: string, options?: Models.BackendReconnectOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         serviceName,
-        backendid,
+        backendId,
         options
       },
       reconnectOperationSpec,
@@ -376,11 +376,11 @@ const listByServiceOperationSpec: msRest.OperationSpec = {
 
 const getEntityTagOperationSpec: msRest.OperationSpec = {
   httpMethod: "HEAD",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/backends/{backendid}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/backends/{backendId}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.backendid,
+    Parameters.backendId,
     Parameters.subscriptionId
   ],
   queryParameters: [
@@ -402,11 +402,11 @@ const getEntityTagOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/backends/{backendid}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/backends/{backendId}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.backendid,
+    Parameters.backendId,
     Parameters.subscriptionId
   ],
   queryParameters: [
@@ -429,18 +429,18 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/backends/{backendid}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/backends/{backendId}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.backendid,
+    Parameters.backendId,
     Parameters.subscriptionId
   ],
   queryParameters: [
     Parameters.apiVersion
   ],
   headerParameters: [
-    Parameters.ifMatch1,
+    Parameters.ifMatch0,
     Parameters.acceptLanguage
   ],
   requestBody: {
@@ -452,10 +452,12 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
   },
   responses: {
     200: {
-      bodyMapper: Mappers.BackendContract
+      bodyMapper: Mappers.BackendContract,
+      headersMapper: Mappers.BackendCreateOrUpdateHeaders
     },
     201: {
-      bodyMapper: Mappers.BackendContract
+      bodyMapper: Mappers.BackendContract,
+      headersMapper: Mappers.BackendCreateOrUpdateHeaders
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -466,18 +468,18 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/backends/{backendid}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/backends/{backendId}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.backendid,
+    Parameters.backendId,
     Parameters.subscriptionId
   ],
   queryParameters: [
     Parameters.apiVersion
   ],
   headerParameters: [
-    Parameters.ifMatch0,
+    Parameters.ifMatch1,
     Parameters.acceptLanguage
   ],
   requestBody: {
@@ -498,18 +500,18 @@ const updateOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/backends/{backendid}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/backends/{backendId}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.backendid,
+    Parameters.backendId,
     Parameters.subscriptionId
   ],
   queryParameters: [
     Parameters.apiVersion
   ],
   headerParameters: [
-    Parameters.ifMatch0,
+    Parameters.ifMatch1,
     Parameters.acceptLanguage
   ],
   responses: {
@@ -524,11 +526,11 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const reconnectOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/backends/{backendid}/reconnect",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/backends/{backendId}/reconnect",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.backendid,
+    Parameters.backendId,
     Parameters.subscriptionId
   ],
   queryParameters: [

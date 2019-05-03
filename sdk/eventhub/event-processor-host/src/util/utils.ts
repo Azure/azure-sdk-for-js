@@ -20,8 +20,12 @@ export function randomNumberFromInterval(min: number, max: number): number {
  * @param paramValue The parameter value
  * @param type The type of the parameter
  */
-export function validateType(paramName: string, paramValue: any, required: boolean,
-  type: "string" | "number" | "boolean" | "Array" | "object" | "Date" | "function"): void {
+export function validateType(
+  paramName: string,
+  paramValue: any,
+  required: boolean,
+  type: "string" | "number" | "boolean" | "Array" | "object" | "Date" | "function"
+): void {
   if (required && paramValue == undefined) {
     throw new TypeError(`${paramName} is required. Given value: ${paramValue}. Hence it cannot be null or undefined.`);
   }
@@ -34,14 +38,21 @@ export function validateType(paramName: string, paramValue: any, required: boole
       if (!(paramValue instanceof Date)) {
         throw new TypeError(`${paramName} must be of type "${type}".`);
       }
-    } else if (type === "string" || type === "number" || type === "boolean"
-      || type === "object" || type === "function") {
+    } else if (
+      type === "string" ||
+      type === "number" ||
+      type === "boolean" ||
+      type === "object" ||
+      type === "function"
+    ) {
       if (typeof paramValue !== type) {
         throw new TypeError(`${paramName} must be of type "${type}".`);
       }
     } else {
-      throw new Error(`Invalid argument. type "${type}" is not a valid type. Valid values are: ` +
-        `"string", "number", "boolean", "Array", "object", "Date", "function"`);
+      throw new Error(
+        `Invalid argument. type "${type}" is not a valid type. Valid values are: ` +
+          `"string", "number", "boolean", "Array", "object", "Date", "function"`
+      );
     }
   }
 }
@@ -122,29 +133,45 @@ export async function retry<T>(config: RetryConfig<T>): Promise<T> {
       result = await config.operation();
       createdOK = true;
       if (config.partitionId) {
-        log.util("[%s] Retry attempt: %d. Action '%s' for partitionId: '%s' suceeded.",
-          config.hostName, retryCount, config.action, config.partitionId);
+        log.util(
+          "[%s] Retry attempt: %d. Action '%s' for partitionId: '%s' suceeded.",
+          config.hostName,
+          retryCount,
+          config.action,
+          config.partitionId
+        );
       } else {
-        log.util("[%s] Retry attempt: %d. Action '%s' suceeded.",
-          config.hostName, retryCount, config.action);
+        log.util("[%s] Retry attempt: %d. Action '%s' suceeded.", config.hostName, retryCount, config.action);
       }
     } catch (err) {
       innerError = err;
       if (config.partitionId) {
-        log.error("[%s] An error occurred. Retry attempt: %d. PartitionId: '%s'. %s: %O",
-          config.hostName, config.partitionId, retryCount, config.retryMessage, err);
+        log.error(
+          "[%s] An error occurred. Retry attempt: %d. PartitionId: '%s'. %s: %O",
+          config.hostName,
+          config.partitionId,
+          retryCount,
+          config.retryMessage,
+          err
+        );
       } else {
-        log.error("[%s] An error occurred. Retry attempt: %d. %s: %O", config.hostName,
-          retryCount, config.retryMessage, err);
+        log.error(
+          "[%s] An error occurred. Retry attempt: %d. %s: %O",
+          config.hostName,
+          retryCount,
+          config.retryMessage,
+          err
+        );
       }
       retryCount++;
     }
-  } while (!createdOK && (retryCount < config.maxRetries));
+  } while (!createdOK && retryCount < config.maxRetries);
 
   if (!createdOK) {
     let msg: string;
     if (innerError) {
-      msg = `${config.finalFailureMessage} while performing the action "${config.action}" ` +
+      msg =
+        `${config.finalFailureMessage} while performing the action "${config.action}" ` +
         `due to ${innerError.stack ? innerError.stack : JSON.stringify(innerError)}`;
     } else {
       msg = `${config.finalFailureMessage} while performing the action "${config.action}"`;

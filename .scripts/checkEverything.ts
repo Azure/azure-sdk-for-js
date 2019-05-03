@@ -37,7 +37,7 @@ if (baseReference !== headReference) {
 }
 
 const repositoryFolderPath: string = resolvePath(__dirname, "..");
-const packagesFolderPath: string = joinPath(repositoryFolderPath, "packages");
+const packagesFolderPath: string = joinPath(repositoryFolderPath, "sdk");
 const packageFolderPaths: string[] | undefined = getPackageFolderPaths(packagesFolderPath);
 
 let exitCode: number = 0;

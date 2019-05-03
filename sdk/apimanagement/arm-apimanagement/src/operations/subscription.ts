@@ -181,7 +181,7 @@ export class Subscription {
   }
 
   /**
-   * Updates the details of a subscription specificied by its identifier.
+   * Updates the details of a subscription specified by its identifier.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param sid Subscription entity Identifier. The entity represents the association between a user
@@ -480,7 +480,7 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.apiVersion
   ],
   headerParameters: [
-    Parameters.ifMatch1,
+    Parameters.ifMatch0,
     Parameters.acceptLanguage
   ],
   requestBody: {
@@ -492,10 +492,12 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
   },
   responses: {
     200: {
-      bodyMapper: Mappers.SubscriptionContract
+      bodyMapper: Mappers.SubscriptionContract,
+      headersMapper: Mappers.SubscriptionCreateOrUpdateHeaders
     },
     201: {
-      bodyMapper: Mappers.SubscriptionContract
+      bodyMapper: Mappers.SubscriptionContract,
+      headersMapper: Mappers.SubscriptionCreateOrUpdateHeaders
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -518,7 +520,7 @@ const updateOperationSpec: msRest.OperationSpec = {
     Parameters.apiVersion
   ],
   headerParameters: [
-    Parameters.ifMatch0,
+    Parameters.ifMatch1,
     Parameters.acceptLanguage
   ],
   requestBody: {
@@ -550,7 +552,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.apiVersion
   ],
   headerParameters: [
-    Parameters.ifMatch0,
+    Parameters.ifMatch1,
     Parameters.acceptLanguage
   ],
   responses: {

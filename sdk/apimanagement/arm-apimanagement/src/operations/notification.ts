@@ -104,7 +104,7 @@ export class Notification {
   }
 
   /**
-   * Updates an Notification.
+   * Create or Update API Management publisher notification.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param notificationName Notification Name Identifier. Possible values include:
@@ -200,7 +200,7 @@ const listByServiceOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.NotificationCollection
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -245,7 +245,7 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.apiVersion
   ],
   headerParameters: [
-    Parameters.ifMatch1,
+    Parameters.ifMatch0,
     Parameters.acceptLanguage
   ],
   responses: {
@@ -274,7 +274,7 @@ const listByServiceNextOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.NotificationCollection
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer

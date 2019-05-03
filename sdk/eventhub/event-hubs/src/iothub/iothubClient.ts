@@ -48,7 +48,11 @@ export class IotHubClient {
     const config = IotHubConnectionConfig.convertToEventHubConnectionConfig(iothubconfig);
     let result: string = "";
     if (!options) options = {};
-    options.tokenProvider = new IotSasTokenProvider(config.endpoint, config.sharedAccessKeyName, config.sharedAccessKey);
+    options.tokenProvider = new IotSasTokenProvider(
+      config.endpoint,
+      config.sharedAccessKeyName,
+      config.sharedAccessKey
+    );
     options.managementSessionAddress = `/messages/events/$management`;
     const context = ConnectionContext.create(config, options);
     try {
@@ -110,8 +114,9 @@ export class IotHubClient {
 
     const address: string = error.info.address;
     const parsedResult = address.match(/5671\/(.*)\/\$management/i);
-    if (parsedResult == undefined || parsedResult && parsedResult[1] == undefined) {
-      const msg = `Cannot parse the EventHub name from the given address: ${address} in the error: ` +
+    if (parsedResult == undefined || (parsedResult && parsedResult[1] == undefined)) {
+      const msg =
+        `Cannot parse the EventHub name from the given address: ${address} in the error: ` +
         `${error.stack}\n${JSON.stringify(error.info)}.\nThe parsed result is: ${JSON.stringify(parsedResult)}.`;
       throw new Error(msg);
     }
@@ -128,6 +133,8 @@ export class IotHubClient {
     parts.set("SharedAccessKeyName", config.sharedAccessKeyName);
     parts.set("SharedAccessKey", config.sharedAccessKey);
     parts.set("EntityPath", config.entityPath);
-    return Array.from(parts).map((part) => `${part[0]}=${part[1]}`).join(";");
+    return Array.from(parts)
+      .map(part => `${part[0]}=${part[1]}`)
+      .join(";");
   }
 }

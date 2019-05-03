@@ -3,8 +3,14 @@
 
 import uuid from "uuid/v4";
 import {
-  EventHubClient, EventPosition, TokenProvider, DefaultDataTransformer, Dictionary,
-  EventHubRuntimeInformation, EventHubPartitionRuntimeInformation, EventHubConnectionConfig
+  EventHubClient,
+  EventPosition,
+  TokenProvider,
+  DefaultDataTransformer,
+  Dictionary,
+  EventHubRuntimeInformation,
+  EventHubPartitionRuntimeInformation,
+  EventHubConnectionConfig
 } from "@azure/event-hubs";
 import AsyncLock from "async-lock";
 import { LeaseManager } from "./leaseManager";
@@ -19,13 +25,18 @@ import { validateType } from "./util/utils";
 import { PartitionContext } from "./partitionContext";
 import { BaseLease } from "./baseLease";
 import { PartitionPump } from "./partitionPump";
+import { EventProcessorHostOptions, OnEphError, OnReceivedMessage, OnReceivedError } from "./modelTypes";
 import {
-  EventProcessorHostOptions, OnEphError, OnReceivedMessage, OnReceivedError
-} from "./modelTypes";
-import {
-  maxLeaseDurationInSeconds, minLeaseDurationInSeconds, defaultLeaseRenewIntervalInSeconds,
-  defaultLeaseDurationInSeconds, defaultStartupScanDelayInSeconds, packageInfo, userAgentPrefix,
-  defaultFastScanIntervalInSeconds, defaultSlowScanIntervalInSeconds, defaultConsumerGroup
+  maxLeaseDurationInSeconds,
+  minLeaseDurationInSeconds,
+  defaultLeaseRenewIntervalInSeconds,
+  defaultLeaseDurationInSeconds,
+  defaultStartupScanDelayInSeconds,
+  packageInfo,
+  userAgentPrefix,
+  defaultFastScanIntervalInSeconds,
+  defaultSlowScanIntervalInSeconds,
+  defaultConsumerGroup
 } from "./util/constants";
 
 /**
@@ -87,26 +98,28 @@ export interface HostContext extends HostContextWithPumpManager {
  * @ignore
  */
 export namespace HostContext {
-
   function _validateLeaseDurationAndRenewInterval(duration: number, interval: number): void {
     validateType("leaseDuration", duration, true, "number");
     validateType("leaseRenewInterval", interval, true, "number");
 
     if (duration <= interval) {
-      throw new Error(`Lease duration ${duration} needs to be greater than lease ` +
-        `renew interval ${interval}.`);
+      throw new Error(`Lease duration ${duration} needs to be greater than lease ` + `renew interval ${interval}.`);
     }
 
     if (duration > maxLeaseDurationInSeconds || duration < minLeaseDurationInSeconds) {
-      throw new Error(`Lease duration needs to be between ${minLeaseDurationInSeconds} ` +
-        `seconds and ${maxLeaseDurationInSeconds} seconds. The given value is: ${duration} seconds.`);
+      throw new Error(
+        `Lease duration needs to be between ${minLeaseDurationInSeconds} ` +
+          `seconds and ${maxLeaseDurationInSeconds} seconds. The given value is: ${duration} seconds.`
+      );
     }
   }
 
   function _validatestorageContainerName(name: string): void {
-    if (!name || name.match(/^[a-z0-9](([a-z0-9\-[^\-])){1,61}[a-z0-9]$/ig) === null) {
-      throw new Error(`Azure Storage lease container name "${name}" is invalid. Please check ` +
-        `naming conventions at https://msdn.microsoft.com/en-us/library/azure/dd135715.aspx`);
+    if (!name || name.match(/^[a-z0-9](([a-z0-9\-[^\-])){1,61}[a-z0-9]$/gi) === null) {
+      throw new Error(
+        `Azure Storage lease container name "${name}" is invalid. Please check ` +
+          `naming conventions at https://msdn.microsoft.com/en-us/library/azure/dd135715.aspx`
+      );
     }
   }
 
@@ -117,12 +130,14 @@ export namespace HostContext {
     const storageConnectionString = options.storageConnectionString;
     if (storageConnectionString) {
       if (checkpointManager || leaseManager) {
-        throw new Error("Either provide ('checkpointManager' and 'leaseManager') or " +
-          "provide 'storageConnectionString'.");
+        throw new Error(
+          "Either provide ('checkpointManager' and 'leaseManager') or " + "provide 'storageConnectionString'."
+        );
       }
     } else if (!(checkpointManager && leaseManager)) {
-      throw new Error("Either provide ('checkpointManager' and 'leaseManager') or " +
-        "provide 'storageConnectionString'.");
+      throw new Error(
+        "Either provide ('checkpointManager' and 'leaseManager') or " + "provide 'storageConnectionString'."
+      );
     }
   }
 
@@ -133,12 +148,10 @@ export namespace HostContext {
     const leaseRenewInterval = options.leaseRenewInterval;
     if (leaseManager) {
       if (leaseDuration || leaseRenewInterval) {
-        throw new Error("Either provide ('leaseDuration' and 'leaseRenewInterval') or " +
-          "provide 'leaseManager'.");
+        throw new Error("Either provide ('leaseDuration' and 'leaseRenewInterval') or " + "provide 'leaseManager'.");
       }
     } else if (!(leaseDuration && leaseRenewInterval)) {
-      throw new Error("Either provide ('leaseDuration' and 'leaseRenewInterval') or " +
-        "provide 'leaseManager'.");
+      throw new Error("Either provide ('leaseDuration' and 'leaseRenewInterval') or " + "provide 'leaseManager'.");
     }
   }
 
@@ -174,7 +187,6 @@ export namespace HostContext {
     validateType("options.leaseDuration", options.leaseDuration, false, "number");
     _eitherStorageConnectionStringOrCheckpointLeaseManager(options);
     _eitherLeaseManagerOrleaseDurationAndRenewal(options);
-
 
     const context: BaseHostContext = {
       hostName: hostName,
@@ -225,19 +237,26 @@ export namespace HostContext {
     return context;
   }
 
-  function _createWithCheckpointLeaseManager(hostName: string,
-    options: EventProcessorHostOptions): HostContextWithCheckpointLeaseManager {
+  function _createWithCheckpointLeaseManager(
+    hostName: string,
+    options: EventProcessorHostOptions
+  ): HostContextWithCheckpointLeaseManager {
     const ctxt = _createBase(hostName, options) as HostContextWithCheckpointLeaseManager;
     const checkpointLeaseManager = new AzureStorageCheckpointLeaseManager(ctxt);
     ctxt.leaseManager = options.leaseManager || checkpointLeaseManager;
     ctxt.checkpointManager = options.checkpointManager || checkpointLeaseManager;
     ctxt.getEventHubClient = () => {
       if (ctxt.tokenProvider) {
-        return EventHubClient.createFromTokenProvider(ctxt.connectionConfig.host,
-          ctxt.eventHubPath, ctxt.tokenProvider, { userAgent: ctxt.userAgent });
+        return EventHubClient.createFromTokenProvider(
+          ctxt.connectionConfig.host,
+          ctxt.eventHubPath,
+          ctxt.tokenProvider,
+          { userAgent: ctxt.userAgent }
+        );
       } else {
-        return EventHubClient.createFromConnectionString(
-          ctxt.eventHubConnectionString, ctxt.eventHubPath, { userAgent: ctxt.userAgent });
+        return EventHubClient.createFromConnectionString(ctxt.eventHubConnectionString, ctxt.eventHubPath, {
+          userAgent: ctxt.userAgent
+        });
       }
     };
     ctxt.getHubRuntimeInformation = async () => {

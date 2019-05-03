@@ -82,7 +82,7 @@ export interface ReceiveOptions extends MessageHandlerOptions {
 }
 
 /**
- * Describes the message handler signature.
+ * Describes the signature of the message handler passed to `registerMessageHandler` method.
  */
 export interface OnMessage {
   /**
@@ -92,7 +92,7 @@ export interface OnMessage {
 }
 
 /**
- * Describes the error handler signature.
+ * Describes the signature of the error handler passed to `registerMessageHandler` method.
  */
 export interface OnError {
   /**
@@ -343,6 +343,7 @@ export class MessageReceiver extends LinkEntity {
         context.delivery!,
         true
       );
+
       if (this.autoRenewLock && bMessage.lockToken) {
         const lockToken = bMessage.lockToken;
         // - We need to renew locks before they expire by looking at bMessage.lockedUntilUtc.
@@ -398,7 +399,8 @@ export class MessageReceiver extends LinkEntity {
                       bMessage.messageId
                     );
                     bMessage.lockedUntilUtc = await this._context.managementClient!.renewLock(
-                      lockToken
+                      lockToken,
+                      this.name
                     );
                     log.receiver(
                       "[%s] Successfully renewed the lock for message with id '%s'.",
@@ -826,6 +828,7 @@ export class MessageReceiver extends LinkEntity {
       this._context.entityPath
     );
     if (this._newMessageReceivedTimer) clearTimeout(this._newMessageReceivedTimer);
+    this._clearAllMessageLockRenewTimers();
     if (this._receiver) {
       const receiverLink = this._receiver;
       this._deleteFromCache();

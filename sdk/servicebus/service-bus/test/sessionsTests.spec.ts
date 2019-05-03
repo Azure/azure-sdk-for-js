@@ -428,7 +428,7 @@ describe("Peek session", function(): void {
       sessionId: useSessionId ? testMessage.sessionId : undefined
     });
 
-    // At this point AMQP reciever link has not been established.
+    // At this point AMQP receiver link has not been established.
     // peek() will not establish the link if sessionId was provided
     const peekedMsgs = await receiver.peek(1);
     should.equal(peekedMsgs.length, 1, "Unexpected number of messages");

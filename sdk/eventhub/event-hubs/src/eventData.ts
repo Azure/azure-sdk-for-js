@@ -2,8 +2,14 @@
 // Licensed under the MIT License.
 
 import {
-  Message, MessageProperties, MessageHeader, Dictionary, messageHeader, messageProperties,
-  MessageAnnotations, DeliveryAnnotations
+  Message,
+  MessageProperties,
+  MessageHeader,
+  Dictionary,
+  messageHeader,
+  messageProperties,
+  MessageAnnotations,
+  DeliveryAnnotations
 } from "rhea-promise";
 import { Constants } from "@azure/amqp-common";
 
@@ -130,7 +136,6 @@ export interface EventData {
  * @module EventData
  */
 export namespace EventData {
-
   /**
    * Converts the AMQP message to an EventData.
    * @param {AmqpMessage} msg The AMQP message that needs to be converted to EventData.
@@ -142,10 +147,18 @@ export namespace EventData {
     };
     if (msg.message_annotations) {
       data.annotations = msg.message_annotations;
-      if (msg.message_annotations[Constants.partitionKey] != undefined) data.partitionKey = msg.message_annotations[Constants.partitionKey];
-      if (msg.message_annotations[Constants.sequenceNumber] != undefined) data.sequenceNumber = msg.message_annotations[Constants.sequenceNumber];
-      if (msg.message_annotations[Constants.enqueuedTime] != undefined) data.enqueuedTimeUtc = new Date(msg.message_annotations[Constants.enqueuedTime] as number);
-      if (msg.message_annotations[Constants.offset] != undefined) data.offset = msg.message_annotations[Constants.offset];
+      if (msg.message_annotations[Constants.partitionKey] != undefined) {
+        data.partitionKey = msg.message_annotations[Constants.partitionKey];
+      }
+      if (msg.message_annotations[Constants.sequenceNumber] != undefined) {
+        data.sequenceNumber = msg.message_annotations[Constants.sequenceNumber];
+      }
+      if (msg.message_annotations[Constants.enqueuedTime] != undefined) {
+        data.enqueuedTimeUtc = new Date(msg.message_annotations[Constants.enqueuedTime] as number);
+      }
+      if (msg.message_annotations[Constants.offset] != undefined) {
+        data.offset = msg.message_annotations[Constants.offset];
+      }
     }
     // Since rhea expects message properties as top level properties we will look for them and unflatten them inside properties.
     for (const prop of messageProperties) {
@@ -183,7 +196,7 @@ export namespace EventData {
    */
   export function toAmqpMessage(data: EventData): Message {
     const msg: Message = {
-      body: data.body,
+      body: data.body
     };
     // As per the AMQP 1.0 spec If the message-annotations or delivery-annotations section is omitted,
     // it is equivalent to a message-annotations section containing anempty map of annotations.

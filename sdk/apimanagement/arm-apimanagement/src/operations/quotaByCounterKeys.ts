@@ -129,10 +129,10 @@ const listByServiceOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/quotas/{quotaCounterKey}",
   urlParameters: [
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.quotaCounterKey
+    Parameters.quotaCounterKey,
+    Parameters.subscriptionId
   ],
   queryParameters: [
     Parameters.apiVersion

@@ -46,7 +46,7 @@
     "mocha": "^5.2.0",
     "mocha-junit-reporter": "^1.18.0",
     "mocha-multi-reporters": "^1.1.7",
-    "nyc": "^13.1.0",
+    "nyc": "^14.0.0",
     "puppeteer": "^1.11.0",
     "rimraf": "^2.6.2",
     "rollup": "^1.0.0",
