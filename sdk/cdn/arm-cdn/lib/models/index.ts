@@ -540,7 +540,7 @@ export interface DeliveryRuleRemoteAddressCondition {
 /**
  * @interface
  * An interface representing RequestMethodMatchConditionParameters.
- * Defines the parameters for match conditions for RequestMethod
+ * Defines the parameters for RequestMethod match conditions
  *
  */
 export interface RequestMethodMatchConditionParameters {
@@ -725,7 +725,7 @@ export interface DeliveryRuleRequestUriCondition {
 /**
  * @interface
  * An interface representing RequestHeaderMatchConditionParameters.
- * Defines the parameters for generall match conditions
+ * Defines the parameters for RequestHeader match conditions
  *
  */
 export interface RequestHeaderMatchConditionParameters {
@@ -825,7 +825,7 @@ export interface DeliveryRuleRequestBodyCondition {
 /**
  * @interface
  * An interface representing RequestSchemeMatchConditionParameters.
- * Defines the parameters for match conditions for RequestScheme
+ * Defines the parameters for RequestScheme match conditions
  *
  */
 export interface RequestSchemeMatchConditionParameters {
