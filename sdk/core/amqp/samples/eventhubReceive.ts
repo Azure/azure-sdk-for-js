@@ -25,7 +25,7 @@ const parameters: CreateConnectionContextBaseParameters = {
   config: ehConnectionConfig,
   connectionProperties: {
     product: "MSJSClient",
-    userAgent: "/js-amqp-common",
+    userAgent: "/js-amqp",
     version: "0.1.0"
   }
 };

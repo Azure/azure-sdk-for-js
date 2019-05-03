@@ -1,7 +1,5 @@
 # Azure Core AMQP client library for AMQP operations
 
-[![Build Status](https://dev.azure.com/azure-sdk/public/_apis/build/status/amqp-common-js?branchName=master)](https://dev.azure.com/azure-sdk/public/_build/latest?definitionId=61?branchName=master)
-
 Library that provides common functionality for different **Azure** Javascript libraries using amqp protocol.
 Some of the common functionalities include:
 
@@ -15,7 +13,9 @@ Some of the common functionalities include:
 
 ## Status
 
-This library is currently in preview and the APIs may change prior to release.
+This library is currently maintained at https://github.com/Azure/azure-sdk-for-js which will be deprecated after the newer @azure/amqp package is published.
+
+[![Build Status](https://dev.azure.com/azure-sdk/public/_apis/build/status/amqp-common-js?branchName=master)](https://dev.azure.com/azure-sdk/public/_build/latest?definitionId=61?branchName=master)
 
 ## Getting started
 
@@ -30,7 +30,7 @@ This library is currently in preview and the APIs may change prior to release.
 - Installing this library
 
 ```bash
-npm install @azure/amqp-common
+npm install @azure/amqp
 ```
 
 - [`rhea-romise`](https://github.com/amqp/rhea-promise) is a peer dependency. You need to explicitly install this library as a dependency
@@ -47,12 +47,12 @@ This SDK houses core AMQP common related functionality in use bu Azure SDKs that
 
 ## Examples
 
-Please take a look at the [samples](https://github.com/Azure/amqp-common-js/tree/sdk/core/amqp-common/samples) directory for detailed samples.
+Please take a look at the [samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/amqp/samples) directory for detailed samples.
 You can run the samples by cloning the repo or copy pasting the below sample in your sample.js file.
 
 ```bash
 - git clone https://github.com/Azure/azure-sdk-for-js.git
-- cd azure-sdk-for-js/sdk/core/amqp-common
+- cd azure-sdk-for-js/sdk/core/amqp
 - npm i
 - npm i -g typescript  #This is optional. However it is useful to have typescript installed globally on your box
 - npm i -g ts-node     #This is optional. However it is useful to have ts-node installed globally on your box
@@ -61,7 +61,7 @@ You can run the samples by cloning the repo or copy pasting the below sample in 
 ```
 
 The samples below are generic for EventHubs and Servicebus. You can find EventHub specific samples,
-in the [samples](https://github.com/Azure/amqp-common-js/tree/sdk/core/amqp-common/samples) directory.
+in the [samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/amqp/samples) directory.
 
 ## Example 1 - CBS (Claims Based Authorization Specification) example
 
@@ -74,7 +74,7 @@ const {
   ConnectionContextBase,
   ConnectionConfig,
   CbsResponse
-} = require("@azure/amqp-common");
+} = require("@azure/amqp");
 const dotenv = require("dotenv");
 dotenv.config(); // Optional for loading environment configuration from a .env (config) file
 
@@ -85,7 +85,7 @@ const parameters = {
   config: connectionConfig,
   connectionProperties: {
     product: "MSJSClient",
-    userAgent: "/js-amqp-common",
+    userAgent: "/js-amqp",
     version: "0.1.0"
   }
 };
@@ -302,25 +302,25 @@ You can set the following environment variable to get the debug logs.
 - Getting debug logs from the Event Hub SDK
 
 ```bash
-export DEBUG=azure:amqp-common*
+export DEBUG=azure:amqp*
 ```
 
 - Getting debug logs from the Event Hub SDK and the protocol level library.
 
 ```bash
-export DEBUG=azure:amqp-common*,rhea*
+export DEBUG=azure:amqp*,rhea*
 ```
 
 - If you are **not interested in viewing the message transformation** (which consumes lot of console/disk space) then you can set the `DEBUG` environment variable as follows:
 
 ```bash
-export DEBUG=azure:amqp-common*,rhea*,-rhea:raw,-rhea:message,-azure:amqp-common:datatransformer
+export DEBUG=azure:amqp*,rhea*,-rhea:raw,-rhea:message,-azure:amqp:datatransformer
 ```
 
 - If you are interested only in **errors**, then you can set the `DEBUG` environment variable as follows:
 
 ```bash
-export DEBUG=azure-amqp-common:error,rhea-promise:error,rhea:events,rhea:frames,rhea:io,rhea:flow
+export DEBUG=azure-amqp:error,rhea-promise:error,rhea:events,rhea:frames,rhea:io,rhea:flow
 ```
 
 #### Logging to a file
