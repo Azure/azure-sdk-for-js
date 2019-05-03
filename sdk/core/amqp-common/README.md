@@ -1,10 +1,10 @@
-@azure/amqp-common
-================
+# @azure/amqp-common
 
 [![Build Status](https://dev.azure.com/azure-sdk/public/_apis/build/status/amqp-common-js?branchName=master)](https://dev.azure.com/azure-sdk/public/_build/latest?definitionId=61?branchName=master)
 
-Library that provides common functionality for different **Azure** Javascript libraries using amqp protocol. 
+Library that provides common functionality for different **Azure** Javascript libraries using amqp protocol.
 Some of the common functionalities include:
+
 - CBS Auth
 - Request-Response link for sending request and receiving response over AMQP
 - Error translation of different AMQP error codes.
@@ -13,45 +13,58 @@ Some of the common functionalities include:
 - AMQP message data transformation (encoding/decoding) that most AMQP based Azure services use for communication
 - RetryPolicy for retrying different operations
 
-## Pre-requisite ##
-- **Node.js version: 6.x or higher.** 
+## Pre-requisite
+
+- **Node.js version: 6.x or higher.**
 - We would **still encourage you** to install the latest available LTS version at any given time from https://nodejs.org. **It is a good practice to always install the latest available LTS version of node.js.**
 - Installing node.js on **Windows or macOS** is very simple with available installers on the [node.js website](https://nodejs.org). If you are using a **linux based OS**, then you can find easy to follow, one step installation instructions over [here](https://nodejs.org/en/download/package-manager/).
 
-## Installation ##
+## Installation
+
 - Installing this library
+
 ```bash
 npm install @azure/amqp-common
 ```
-- [`rhea-romise`](https://github.com/amqp/rhea-promise) is a peer dependency. You need to explicitly install this library as a dependency
-in your application.
 
-## IDE ##
-This sdk has been developed in [TypeScript](https://typescriptlang.org) and has good source code documentation. It is highly recommended to use [vscode](https://code.visualstudio.com) 
+- [`rhea-romise`](https://github.com/amqp/rhea-promise) is a peer dependency. You need to explicitly install this library as a dependency
+  in your application.
+
+## IDE
+
+This sdk has been developed in [TypeScript](https://typescriptlang.org) and has good source code documentation. It is highly recommended to use [vscode](https://code.visualstudio.com)
 or any other IDE that provides better intellisense and exposes the full power of source code documentation.
 
-## Debug logs ##
+## Debug logs
 
 You can set the following environment variable to get the debug logs.
 
 - Getting debug logs from the Event Hub SDK
+
 ```bash
 export DEBUG=azure:amqp-common*
 ```
+
 - Getting debug logs from the Event Hub SDK and the protocol level library.
+
 ```bash
 export DEBUG=azure:amqp-common*,rhea*
 ```
+
 - If you are **not interested in viewing the message transformation** (which consumes lot of console/disk space) then you can set the `DEBUG` environment variable as follows:
+
 ```bash
 export DEBUG=azure:amqp-common*,rhea*,-rhea:raw,-rhea:message,-azure:amqp-common:datatransformer
 ```
+
 - If you are interested only in **errors**, then you can set the `DEBUG` environment variable as follows:
+
 ```bash
 export DEBUG=azure-amqp-common:error,rhea-promise:error,rhea:events,rhea:frames,rhea:io,rhea:flow
 ```
 
 #### Logging to a file
+
 - Set the `DEBUG` environment variable as shown above and then run your test script as follows:
   - Logging statements from you test script go to `out.log` and logging statement from the sdk go to `debug.log`.
     ```bash
@@ -66,30 +79,36 @@ export DEBUG=azure-amqp-common:error,rhea-promise:error,rhea:events,rhea:frames,
       node your-test-script.js &> out.log
     ```
 
-## Examples ##
+## Samples
 
-Please take a look at the [examples](https://github.com/Azure/amqp-common-js/tree/master/examples) directory for detailed examples.
-You can run the examples by cloning the repo or copy pasting the below sample in your sample.js file.
+Please take a look at the [samples](https://github.com/Azure/amqp-common-js/tree/sdk/core/amqp-common/samples) directory for detailed samples.
+You can run the samples by cloning the repo or copy pasting the below sample in your sample.js file.
+
 ```bash
-- git clone https://github.com/Azure/amqp-common-js.git
-- cd amqp-common-js
+- git clone https://github.com/Azure/azure-sdk-for-js.git
+- cd azure-sdk-for-js/sdk/core/amqp-common
 - npm i
 - npm i -g typescript  #This is optional. However it is useful to have typescript installed globally on your box
 - npm i -g ts-node     #This is optional. However it is useful to have ts-node installed globally on your box
 # Make sure to set the environment variables and then run
-- ts-node ./examples/cbsAuth.ts
+- ts-node ./samples/cbsAuth.ts
 ```
 
-The samples below are generic for EventHubs and Servicebus. You can find EventHub specific examples,
-in the [examples](https://github.com/Azure/amqp-common-js/tree/master/examples) directory.
+The samples below are generic for EventHubs and Servicebus. You can find EventHub specific samples,
+in the [samples](https://github.com/Azure/amqp-common-js/tree/sdk/core/amqp-common/samples) directory.
 
 ## Example 1 - CBS (Claims Based Authorization Specification) example
+
 You can find more information about cbs authorization over [here](https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-amqp-protocol-guide#claims-based-authorization).
 
 NOTE: The code block below has been later referred to as "./cbsAuth".
 
 ```js
-const { ConnectionContextBase, ConnectionConfig, CbsResponse }  = require("@azure/amqp-common");
+const {
+  ConnectionContextBase,
+  ConnectionConfig,
+  CbsResponse
+} = require("@azure/amqp-common");
 const dotenv = require("dotenv");
 dotenv.config(); // Optional for loading environment configuration from a .env (config) file
 
@@ -121,7 +140,7 @@ export const connectionContext = ConnectionContextBase.create(parameters);
  *    - **ManagementClient**
  *         - `"sb://<your-namespace>.servicebus.windows.net/<queue-name>/$management"`.
  *         - `"sb://<your-namespace>.servicebus.windows.net/<topic-name>/$management"`.
- * 
+ *
  * - **EventHubs**
  *     - **Sender**
  *          - `"sb://<yournamespace>.servicebus.windows.net/<hubName>"`
@@ -136,7 +155,10 @@ export const connectionContext = ConnectionContextBase.create(parameters);
 export async function authenticate(audience, closeConnection = false) {
   await connectionContext.cbsSession.init();
   const tokenObject = await connectionContext.tokenProvider.getToken(audience);
-  const result = await connectionContext.cbsSession.negotiateClaim(audience, tokenObject);
+  const result = await connectionContext.cbsSession.negotiateClaim(
+    audience,
+    tokenObject
+  );
   console.log(`Result is: ${result}`);
   if (closeConnection) {
     await connectionContext.connection.close();
@@ -151,13 +173,25 @@ export async function authenticate(audience, closeConnection = false) {
 ```
 
 ## Example 2 - Send a message
+
 Building on the above mentioned cbs auth sample, after authentication, we can send a message to EventHub or ServiceBus.
 
 ```js
 const dotenv = require("dotenv");
 dotenv.config(); // Optional for loading environment configuration from a .env (config) file
-const { Sender, SenderOptions, EventContext, Message, Delivery } = require("rhea-promise");
-const { authenticate, connectionContext, connectionConfig, path } =  require("./cbsAuth");
+const {
+  Sender,
+  SenderOptions,
+  EventContext,
+  Message,
+  Delivery
+} = require("rhea-promise");
+const {
+  authenticate,
+  connectionContext,
+  connectionConfig,
+  path
+} = require("./cbsAuth");
 
 async function main() {
   await authenticate(`${connectionConfig.endpoint}${path}`);
@@ -169,18 +203,26 @@ async function main() {
       // For ServiceBus Queue, it will be "<QueueName>"
       address: `${path}`
     },
-    onError: (context) => {
+    onError: context => {
       const senderError = context.sender && context.sender.error;
       if (senderError) {
-        console.log(">>>>> [%s] An error occurred for sender '%s': %O.",
-          connectionContext.connection.id, senderName, senderError);
+        console.log(
+          ">>>>> [%s] An error occurred for sender '%s': %O.",
+          connectionContext.connection.id,
+          senderName,
+          senderError
+        );
       }
     },
-    onSessionError: (context) => {
+    onSessionError: context => {
       const sessionError = context.session && context.session.error;
       if (sessionError) {
-        console.log(">>>>> [%s] An error occurred for session of sender '%s': %O.",
-          connectionContext.connection.id, senderName, sessionError);
+        console.log(
+          ">>>>> [%s] An error occurred for session of sender '%s': %O.",
+          connectionContext.connection.id,
+          senderName,
+          sessionError
+        );
       }
     }
   };
@@ -192,7 +234,11 @@ async function main() {
   };
 
   const delivery = await sender.send(message);
-  console.log(">>>>>[%s] Delivery id: ", connectionContext.connection.id, delivery.id);
+  console.log(
+    ">>>>>[%s] Delivery id: ",
+    connectionContext.connection.id,
+    delivery.id
+  );
 
   await sender.close();
   await connectionContext.connection.close();
@@ -200,49 +246,78 @@ async function main() {
 
 main().catch(err => console.log(err));
 ```
+
 ## Example 3 - Receiving a message
 
 Building on the auth sample, post authentication we can receive messages from an EventHub or ServiceBus.
+
 ```js
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 const dotenv = require("dotenv");
 dotenv.config(); // Optional for loading environment configuration from a .env (config) file
-const { Receiver, ReceiverOptions, EventContext, ReceiverEvents, delay, types } = require("rhea-promise");
-const { authenticate, connectionContext, connectionConfig, path } = require("./cbsAuth");
+const {
+  Receiver,
+  ReceiverOptions,
+  EventContext,
+  ReceiverEvents,
+  delay,
+  types
+} = require("rhea-promise");
+const {
+  authenticate,
+  connectionContext,
+  connectionConfig,
+  path
+} = require("./cbsAuth");
 
 async function main() {
   await authenticate(`${connectionConfig.endpoint}${path}`);
   const receiverName = "receiver-1";
-  const filterClause = `amqp.annotation.x-opt-enqueued-time > '${Date.now() - 3600 * 1000}'`; // Get messages from the past hour
+  const filterClause = `amqp.annotation.x-opt-enqueued-time > '${Date.now() -
+    3600 * 1000}'`; // Get messages from the past hour
   const receiverAddress = `${path}/ConsumerGroups/$default/Partitions/0`; // For ServiceBus "<QueueName>"
   const receiverOptions = {
     name: receiverName,
     source: {
       address: receiverAddress,
-      filter: { // May not be required for ServiceBus. The current example is for EventHubs.
-        "apache.org:selector-filter:string": types.wrap_described(filterClause, 0x468C00000004)
+      filter: {
+        // May not be required for ServiceBus. The current example is for EventHubs.
+        "apache.org:selector-filter:string": types.wrap_described(
+          filterClause,
+          0x468c00000004
+        )
       }
     },
-    onSessionError: (context) => {
+    onSessionError: context => {
       const sessionError = context.session && context.session.error;
       if (sessionError) {
-        console.log(">>>>> [%s] An error occurred for session of receiver '%s': %O.",
-          connectionContext.connection.id, receiverName, sessionError);
+        console.log(
+          ">>>>> [%s] An error occurred for session of receiver '%s': %O.",
+          connectionContext.connection.id,
+          receiverName,
+          sessionError
+        );
       }
     }
   };
 
-  const receiver = await connectionContext.connection.createReceiver(receiverOptions);
-  receiver.on(ReceiverEvents.message, (context) => {
+  const receiver = await connectionContext.connection.createReceiver(
+    receiverOptions
+  );
+  receiver.on(ReceiverEvents.message, context => {
     console.log("Received message: %O", context.message);
   });
-  receiver.on(ReceiverEvents.receiverError, (context) => {
+  receiver.on(ReceiverEvents.receiverError, context => {
     const receiverError = context.receiver && context.receiver.error;
     if (receiverError) {
-      console.log(">>>>> [%s] An error occurred for receiver '%s': %O.",
-        connectionContext.connection.id, receiverName, receiverError);
+      console.log(
+        ">>>>> [%s] An error occurred for receiver '%s': %O.",
+        connectionContext.connection.id,
+        receiverName,
+        receiverError
+      );
     }
   });
   // sleeping for 2 mins to let the receiver receive messages and then closing it.
@@ -256,7 +331,7 @@ main().catch(err => console.log(err));
 
 # Contributing
 
-This project welcomes contributions and suggestions.  Most contributions require you to agree to a
+This project welcomes contributions and suggestions. Most contributions require you to agree to a
 Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
 the rights to use your contribution. For details, visit https://cla.microsoft.com.
 

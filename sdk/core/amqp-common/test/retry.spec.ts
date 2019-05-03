@@ -2,8 +2,14 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 import {
-  retry, translate, RetryConfig, RetryOperationType, Constants, delay, MessagingError
-} from "../lib";
+  retry,
+  translate,
+  RetryConfig,
+  RetryOperationType,
+  Constants,
+  delay,
+  MessagingError
+} from "../src";
 import * as chai from "chai";
 import debugModule from "debug";
 const debug = debugModule("azure:amqp-common:retry-spec");
@@ -11,9 +17,8 @@ const should = chai.should();
 import * as dotenv from "dotenv";
 dotenv.config();
 
-describe("retry function", function () {
-
-  it("should succeed if the operation succeeds.", async function () {
+describe("retry function", function() {
+  it("should succeed if the operation succeeds.", async function() {
     let counter = 0;
     try {
       const config: RetryConfig<any> = {
@@ -23,7 +28,7 @@ describe("retry function", function () {
           return {
             code: 200,
             description: "OK"
-          }
+          };
         },
         connectionId: "connection-1",
         operationType: RetryOperationType.cbsAuth
@@ -38,7 +43,7 @@ describe("retry function", function () {
     }
   });
 
-  it("should fail if the operation returns a non retryable error", async function () {
+  it("should fail if the operation returns a non retryable error", async function() {
     let counter = 0;
     try {
       const config: RetryConfig<any> = {
@@ -62,7 +67,7 @@ describe("retry function", function () {
     }
   });
 
-  it("should succeed if the operation initially fails with a retryable error and then succeeds.", async function () {
+  it("should succeed if the operation initially fails with a retryable error and then succeeds.", async function() {
     let counter = 0;
     try {
       const config: RetryConfig<any> = {
@@ -96,7 +101,7 @@ describe("retry function", function () {
     }
   });
 
-  it("should succeed in the last attempt.", async function () {
+  it("should succeed in the last attempt.", async function() {
     let counter = 0;
     try {
       const config: RetryConfig<any> = {
@@ -133,7 +138,7 @@ describe("retry function", function () {
     }
   });
 
-  it("should fail if the last attempt return a non-retryable error", async function () {
+  it("should fail if the last attempt return a non-retryable error", async function() {
     let counter = 0;
     try {
       const config: RetryConfig<any> = {
@@ -152,7 +157,7 @@ describe("retry function", function () {
             const x: any = {
               condition: "com.microsoft:message-lock-lost",
               description: "I would like to fail."
-            }
+            };
             throw x;
           }
         },
@@ -170,14 +175,16 @@ describe("retry function", function () {
     }
   });
 
-  it("should fail if all attempts return a retryable error", async function () {
+  it("should fail if all attempts return a retryable error", async function() {
     let counter = 0;
     try {
       const config: RetryConfig<any> = {
         operation: async () => {
           debug("counter: %d", ++counter);
           await delay(200);
-          const e = new MessagingError("I would always like to fail, keep retrying.");
+          const e = new MessagingError(
+            "I would always like to fail, keep retrying."
+          );
           e.retryable = true;
           throw e;
         },
@@ -195,8 +202,8 @@ describe("retry function", function () {
     }
   });
 
-  describe("with config.times set to Infinity", function () {
-    it("should succeed if the operation succeeds.", async function () {
+  describe("with config.times set to Infinity", function() {
+    it("should succeed if the operation succeeds.", async function() {
       let counter = 0;
       try {
         const config: RetryConfig<any> = {
@@ -207,7 +214,7 @@ describe("retry function", function () {
             return {
               code: 200,
               description: "OK"
-            }
+            };
           },
           connectionId: "connection-1",
           operationType: RetryOperationType.cbsAuth
@@ -217,12 +224,15 @@ describe("retry function", function () {
         result.description.should.equal("OK");
         counter.should.equal(1);
       } catch (err) {
-        debug("An error occurred in a test that should have succeeded: %O", err);
+        debug(
+          "An error occurred in a test that should have succeeded: %O",
+          err
+        );
         throw err;
       }
     });
 
-    it("should fail if the operation returns a non retryable error", async function () {
+    it("should fail if the operation returns a non retryable error", async function() {
       let counter = 0;
       try {
         const config: RetryConfig<any> = {
@@ -247,7 +257,7 @@ describe("retry function", function () {
       }
     });
 
-    it("should succeed if the operation initially fails with a retryable error and then succeeds.", async function () {
+    it("should succeed if the operation initially fails with a retryable error and then succeeds.", async function() {
       let counter = 0;
       try {
         const config: RetryConfig<any> = {
@@ -276,12 +286,15 @@ describe("retry function", function () {
         result.description.should.equal("OK");
         counter.should.equal(2);
       } catch (err) {
-        debug("An error occurred in a test that should have succeeded: %O", err);
+        debug(
+          "An error occurred in a test that should have succeeded: %O",
+          err
+        );
         throw err;
       }
     });
 
-    it("should succeed in the last attempt.", async function () {
+    it("should succeed in the last attempt.", async function() {
       let counter = 0;
       try {
         const config: RetryConfig<any> = {
@@ -313,12 +326,15 @@ describe("retry function", function () {
         result.description.should.equal("OK");
         counter.should.equal(3);
       } catch (err) {
-        debug("An error occurred in a test that should have succeeded: %O", err);
+        debug(
+          "An error occurred in a test that should have succeeded: %O",
+          err
+        );
         throw err;
       }
     });
 
-    it("should fail if the last attempt return a non-retryable error", async function () {
+    it("should fail if the last attempt return a non-retryable error", async function() {
       let counter = 0;
       try {
         const config: RetryConfig<any> = {
@@ -337,7 +353,7 @@ describe("retry function", function () {
               const x: any = {
                 condition: "com.microsoft:message-lock-lost",
                 description: "I would like to fail."
-              }
+              };
               throw x;
             }
           },

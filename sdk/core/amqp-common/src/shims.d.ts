@@ -9,7 +9,7 @@ interface Navigator {
   onLine: boolean;
 }
 interface Window {
-  readonly navigator: Navigator
+  readonly navigator: Navigator;
 }
 declare var window: Window;
-declare var navigator: Navigator
+declare var navigator: Navigator;

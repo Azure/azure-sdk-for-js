@@ -1,7 +1,10 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import { parseConnectionString, ServiceBusConnectionStringModel } from "../util/utils";
+import {
+  parseConnectionString,
+  ServiceBusConnectionStringModel
+} from "../util/utils";
 import { TokenInfo, TokenProvider, TokenType } from "./token";
 import { Buffer } from "buffer";
 import isBuffer from "is-buffer";
@@ -44,14 +47,22 @@ export class SasTokenProvider implements TokenProvider {
    * @param {string} keyName - The name of the EventHub/ServiceBus key.
    * @param {string} key - The secret value associated with the above EventHub/ServiceBus key
    */
-  constructor(namespace: string, keyName: string, key: string, tokenValidTimeInSeconds?: number, tokenRenewalMarginInSeconds?: number) {
+  constructor(
+    namespace: string,
+    keyName: string,
+    key: string,
+    tokenValidTimeInSeconds?: number,
+    tokenRenewalMarginInSeconds?: number
+  ) {
     this.namespace = namespace;
     this.keyName = keyName;
     this.key = key;
     this.tokenValidTimeInSeconds = tokenValidTimeInSeconds || 3600;
     this.tokenRenewalMarginInSeconds = tokenRenewalMarginInSeconds || 900;
     if (this.tokenValidTimeInSeconds <= this.tokenRenewalMarginInSeconds) {
-      throw new Error('tokenRenewalMarginInSeconds must be less than tokenValidTimeInSeconds');
+      throw new Error(
+        "tokenRenewalMarginInSeconds must be less than tokenValidTimeInSeconds"
+      );
     }
   }
 
@@ -61,7 +72,10 @@ export class SasTokenProvider implements TokenProvider {
    * provided then the Endpoint from the connection string will be applied.
    */
   async getToken(audience?: string): Promise<TokenInfo> {
-    return this._createToken(Math.floor(Date.now() / 1000) + this.tokenValidTimeInSeconds, audience);
+    return this._createToken(
+      Math.floor(Date.now() / 1000) + this.tokenValidTimeInSeconds,
+      audience
+    );
   }
 
   /**
@@ -72,11 +86,15 @@ export class SasTokenProvider implements TokenProvider {
    * provided then the Endpoint from the connection string will be applied.
    * @param {string | Buffer} [hashInput] The input to be provided to hmac to create the hash.
    */
-  protected _createToken(expiry: number, audience?: string, hashInput?: string | Buffer): TokenInfo {
+  protected _createToken(
+    expiry: number,
+    audience?: string,
+    hashInput?: string | Buffer
+  ): TokenInfo {
     if (!audience) audience = this.namespace;
     audience = encodeURIComponent(audience);
     const keyName = encodeURIComponent(this.keyName);
-    const stringToSign = audience + '\n' + expiry;
+    const stringToSign = audience + "\n" + expiry;
     hashInput = hashInput || this.key;
     let shaObj: any;
     if (isBuffer(hashInput)) {
@@ -101,7 +119,13 @@ export class SasTokenProvider implements TokenProvider {
    * @param {string} connectionString - The EventHub/ServiceBus connection string
    */
   static fromConnectionString(connectionString: string): SasTokenProvider {
-    const parsed = parseConnectionString<ServiceBusConnectionStringModel>(connectionString);
-    return new SasTokenProvider(parsed.Endpoint, parsed.SharedAccessKeyName, parsed.SharedAccessKey);
+    const parsed = parseConnectionString<ServiceBusConnectionStringModel>(
+      connectionString
+    );
+    return new SasTokenProvider(
+      parsed.Endpoint,
+      parsed.SharedAccessKeyName,
+      parsed.SharedAccessKey
+    );
   }
 }

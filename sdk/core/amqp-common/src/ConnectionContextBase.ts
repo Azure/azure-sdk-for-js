@@ -10,7 +10,7 @@ import { SasTokenProvider } from "./auth/sas";
 
 import * as Constants from "./util/constants";
 import * as os from "os";
-import { isNode } from './util/utils';
+import { isNode } from "./util/utils";
 
 /**
  * @interface ConnectionContextBase
@@ -130,15 +130,21 @@ export module ConnectionContextBase {
    * @param {CreateConnectionContextBaseParameters} parameters Parameters to be provided to create
    * the base connection context.
    */
-  export function create(parameters: CreateConnectionContextBaseParameters): ConnectionContextBase {
+  export function create(
+    parameters: CreateConnectionContextBaseParameters
+  ): ConnectionContextBase {
     ConnectionConfig.validate(parameters.config, {
       isEntityPathRequired: parameters.isEntityPathRequired || false
     });
     const userAgent = parameters.connectionProperties.userAgent;
     if (userAgent.length > Constants.maxUserAgentLength) {
       throw new Error(
-        `The user-agent string cannot be more than ${Constants.maxUserAgentLength} characters in length.` +
-        `The given user-agent string is: ${userAgent} with length: ${userAgent.length}`
+        `The user-agent string cannot be more than ${
+          Constants.maxUserAgentLength
+        } characters in length.` +
+          `The given user-agent string is: ${userAgent} with length: ${
+            userAgent.length
+          }`
       );
     }
 
@@ -177,7 +183,9 @@ export module ConnectionContextBase {
     }
 
     const connection = new Connection(connectionOptions);
-    const connectionLock = `${Constants.establishConnection}-${generate_uuid()}`;
+    const connectionLock = `${
+      Constants.establishConnection
+    }-${generate_uuid()}`;
     const connectionContextBase: ConnectionContextBase = {
       wasConnectionCloseCalled: false,
       connectionLock: connectionLock,
@@ -193,7 +201,8 @@ export module ConnectionContextBase {
           parameters.config.sharedAccessKeyName,
           parameters.config.sharedAccessKey
         ),
-      dataTransformer: parameters.dataTransformer || new DefaultDataTransformer()
+      dataTransformer:
+        parameters.dataTransformer || new DefaultDataTransformer()
     };
 
     return connectionContextBase;

@@ -2,7 +2,10 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import { ConnectionConfig, EventHubConnectionConfig } from ".";
-import { parseConnectionString, IotHubConnectionStringModel } from "../util/utils";
+import {
+  parseConnectionString,
+  IotHubConnectionStringModel
+} from "../util/utils";
 
 /**
  * @interface IotHubConnectionConfig
@@ -50,17 +53,23 @@ export namespace IotHubConnectionConfig {
    * @param {string} connectionString - The event hub connection string
    * @param {string} [path]           - The name/path of the entity (hub name) to which the connection needs to happen
    */
-  export function create(connectionString: string, path?: string): IotHubConnectionConfig {
+  export function create(
+    connectionString: string,
+    path?: string
+  ): IotHubConnectionConfig {
     connectionString = String(connectionString);
 
-    const parsedCS = parseConnectionString<IotHubConnectionStringModel>(connectionString);
+    const parsedCS = parseConnectionString<IotHubConnectionStringModel>(
+      connectionString
+    );
     if (!path) {
       path = "messages/events";
     }
     const result: IotHubConnectionConfig = {
       connectionString: connectionString,
       hostName: parsedCS.HostName,
-      host: (parsedCS && parsedCS.HostName) ? parsedCS.HostName.split(".")[0] : "",
+      host:
+        parsedCS && parsedCS.HostName ? parsedCS.HostName.split(".")[0] : "",
       entityPath: path,
       sharedAccessKeyName: parsedCS.SharedAccessKeyName,
       sharedAccessKey: parsedCS.SharedAccessKey,
@@ -83,7 +92,6 @@ export namespace IotHubConnectionConfig {
       throw new TypeError("Missing 'hostName' in configuration");
     }
     config.hostName = String(config.hostName);
-
 
     if (!config.entityPath) {
       throw new TypeError("Missing 'entityPath' in configuration");
@@ -109,7 +117,9 @@ export namespace IotHubConnectionConfig {
    * @ignore
    * @param {IotHubConnectionConfig} iotHubConfig
    */
-  export function convertToEventHubConnectionConfig(iotHubConfig: IotHubConnectionConfig): EventHubConnectionConfig {
+  export function convertToEventHubConnectionConfig(
+    iotHubConfig: IotHubConnectionConfig
+  ): EventHubConnectionConfig {
     validate(iotHubConfig);
     const config: ConnectionConfig = {
       sharedAccessKey: iotHubConfig.sharedAccessKey,

@@ -39,7 +39,6 @@ export interface MessageHeader {
  * @module MessageHeader
  */
 export namespace MessageHeader {
-
   /**
    * Converts MessageHeader to AmqpMessageHeader.
    *
@@ -48,11 +47,19 @@ export namespace MessageHeader {
    */
   export function toAmqpMessageHeader(props: MessageHeader): AmqpMessageHeader {
     const amqpHeader: AmqpMessageHeader = {};
-    if (props.deliveryCount != undefined) amqpHeader.delivery_count = props.deliveryCount;
+    if (props.deliveryCount != undefined) {
+      amqpHeader.delivery_count = props.deliveryCount;
+    }
     if (props.durable != undefined) amqpHeader.durable = props.durable;
-    if (props.firstAcquirer != undefined) amqpHeader.first_acquirer = props.firstAcquirer;
-    if (props.priority != undefined) amqpHeader.priority = props.priority;
-    if (props.ttl != undefined) amqpHeader.ttl = props.ttl;
+    if (props.firstAcquirer != undefined) {
+      amqpHeader.first_acquirer = props.firstAcquirer;
+    }
+    if (props.priority != undefined) {
+      amqpHeader.priority = props.priority;
+    }
+    if (props.ttl != undefined) {
+      amqpHeader.ttl = props.ttl;
+    }
     log.msgHeader("To AmqpMessageHeader: %O", amqpHeader);
     return amqpHeader;
   }
@@ -63,13 +70,25 @@ export namespace MessageHeader {
    * @param {AmqpMessageHeader} props Amqp Message Header
    * @returns {MessageHeader} MessageHeader.
    */
-  export function fromAmqpMessageHeader(props: AmqpMessageHeader): MessageHeader {
+  export function fromAmqpMessageHeader(
+    props: AmqpMessageHeader
+  ): MessageHeader {
     const msgHeader: MessageHeader = {};
-    if (props.delivery_count != undefined) msgHeader.deliveryCount = props.delivery_count;
-    if (props.durable != undefined) msgHeader.durable = props.durable;
-    if (props.first_acquirer != undefined) msgHeader.firstAcquirer = props.first_acquirer;
-    if (props.priority != undefined) msgHeader.priority = props.priority;
-    if (props.ttl != undefined) msgHeader.ttl = props.ttl;
+    if (props.delivery_count != undefined) {
+      msgHeader.deliveryCount = props.delivery_count;
+    }
+    if (props.durable != undefined) {
+      msgHeader.durable = props.durable;
+    }
+    if (props.first_acquirer != undefined) {
+      msgHeader.firstAcquirer = props.first_acquirer;
+    }
+    if (props.priority != undefined) {
+      msgHeader.priority = props.priority;
+    }
+    if (props.ttl != undefined) {
+      msgHeader.ttl = props.ttl;
+    }
     log.msgHeader("From AmqpMessageHeader: %O", msgHeader);
     return msgHeader;
   }

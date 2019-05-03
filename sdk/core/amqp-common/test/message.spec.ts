@@ -1,21 +1,27 @@
 // Copyright (c) Microsoft. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-import { MessageHeader, AmqpMessageHeader, MessageProperties, AmqpMessageProperties } from "../lib";
+import {
+  MessageHeader,
+  AmqpMessageHeader,
+  MessageProperties,
+  AmqpMessageProperties
+} from "../src";
 import * as chai from "chai";
 chai.should();
 
-describe("message", function () {
-  describe("header", function () {
-
-    it("should be able to convert empty MessageHeader to AmqpMessageHeader", function (done) {
+describe("message", function() {
+  describe("header", function() {
+    it("should be able to convert empty MessageHeader to AmqpMessageHeader", function(done) {
       const msgHeader: MessageHeader = {};
-      const amqpMsgHeader: AmqpMessageHeader = MessageHeader.toAmqpMessageHeader(msgHeader);
+      const amqpMsgHeader: AmqpMessageHeader = MessageHeader.toAmqpMessageHeader(
+        msgHeader
+      );
       JSON.stringify(amqpMsgHeader).should.equal(JSON.stringify(msgHeader));
       done();
     });
 
-    it("should be able to convert MessageHeader with falsy values to AmqpMessageHeader", function (done) {
+    it("should be able to convert MessageHeader with falsy values to AmqpMessageHeader", function(done) {
       const msgHeader: MessageHeader = {
         deliveryCount: 0,
         durable: false,
@@ -29,21 +35,26 @@ describe("message", function () {
         first_acquirer: false,
         priority: 0,
         ttl: 0
-      }
-      const amqpMsgHeader: AmqpMessageHeader = MessageHeader.toAmqpMessageHeader(msgHeader);
-      JSON.stringify(amqpMsgHeader).should.equal(JSON.stringify(amqpMsgHeaderExpected));
+      };
+      const amqpMsgHeader: AmqpMessageHeader = MessageHeader.toAmqpMessageHeader(
+        msgHeader
+      );
+      JSON.stringify(amqpMsgHeader).should.equal(
+        JSON.stringify(amqpMsgHeaderExpected)
+      );
       done();
     });
 
-    it("should be able to convert empty AmqpMessageHeader to MessageHeader", function (done) {
-
+    it("should be able to convert empty AmqpMessageHeader to MessageHeader", function(done) {
       const amqpMsgHeader: AmqpMessageHeader = {};
-      const msgHeader: MessageHeader = MessageHeader.fromAmqpMessageHeader(amqpMsgHeader);
+      const msgHeader: MessageHeader = MessageHeader.fromAmqpMessageHeader(
+        amqpMsgHeader
+      );
       JSON.stringify(msgHeader).should.equal(JSON.stringify(amqpMsgHeader));
       done();
     });
 
-    it("should be able to convert AmqpMessageHeader with falsy values to MessageHeader", function (done) {
+    it("should be able to convert AmqpMessageHeader with falsy values to MessageHeader", function(done) {
       const msgHeaderExpected: MessageHeader = {
         deliveryCount: 0,
         durable: false,
@@ -57,22 +68,28 @@ describe("message", function () {
         first_acquirer: false,
         priority: 0,
         ttl: 0
-      }
-      const msgHeader: MessageHeader = MessageHeader.fromAmqpMessageHeader(amqpMsgHeader);
+      };
+      const msgHeader: MessageHeader = MessageHeader.fromAmqpMessageHeader(
+        amqpMsgHeader
+      );
       JSON.stringify(msgHeader).should.equal(JSON.stringify(msgHeaderExpected));
       done();
     });
   });
 
-  describe("poperties", function () {
-    it("should be able to convert empty MessageProperties to AmqpMessageProperties", function (done) {
+  describe("poperties", function() {
+    it("should be able to convert empty MessageProperties to AmqpMessageProperties", function(done) {
       const msgProperties: MessageProperties = {};
-      const amqpMsgProperties: AmqpMessageProperties = MessageProperties.toAmqpMessageProperties(msgProperties);
-      JSON.stringify(amqpMsgProperties).should.equal(JSON.stringify(msgProperties));
+      const amqpMsgProperties: AmqpMessageProperties = MessageProperties.toAmqpMessageProperties(
+        msgProperties
+      );
+      JSON.stringify(amqpMsgProperties).should.equal(
+        JSON.stringify(msgProperties)
+      );
       done();
     });
 
-    it("should be able to convert MessageProperties with falsy values to AmqpMessageProperties", function (done) {
+    it("should be able to convert MessageProperties with falsy values to AmqpMessageProperties", function(done) {
       const msgProperties: MessageProperties = {
         absoluteExpiryTime: 0,
         contentEncoding: "",
@@ -102,20 +119,28 @@ describe("message", function () {
         subject: "",
         to: "",
         user_id: ""
-      }
-      const amqpMsgProperties: AmqpMessageProperties = MessageProperties.toAmqpMessageProperties(msgProperties);
-      JSON.stringify(amqpMsgProperties).should.equal(JSON.stringify(amqpMsgPropertiesExpected));
+      };
+      const amqpMsgProperties: AmqpMessageProperties = MessageProperties.toAmqpMessageProperties(
+        msgProperties
+      );
+      JSON.stringify(amqpMsgProperties).should.equal(
+        JSON.stringify(amqpMsgPropertiesExpected)
+      );
       done();
     });
 
-    it("should be able to convert empty AmqpMessageProperties to MessageProperties", function (done) {
+    it("should be able to convert empty AmqpMessageProperties to MessageProperties", function(done) {
       const amqpMsgProperties: AmqpMessageProperties = {};
-      const msgProperties: MessageProperties = MessageProperties.fromAmqpMessageProperties(amqpMsgProperties);
-      JSON.stringify(msgProperties).should.equal(JSON.stringify(amqpMsgProperties));
+      const msgProperties: MessageProperties = MessageProperties.fromAmqpMessageProperties(
+        amqpMsgProperties
+      );
+      JSON.stringify(msgProperties).should.equal(
+        JSON.stringify(amqpMsgProperties)
+      );
       done();
     });
 
-    it("should be able to convert AmqpMessageProperties with falsy values to MessageProperties", function (done) {
+    it("should be able to convert AmqpMessageProperties with falsy values to MessageProperties", function(done) {
       const msgPropertiesExpected: MessageProperties = {
         absoluteExpiryTime: 0,
         contentEncoding: "",
@@ -145,9 +170,13 @@ describe("message", function () {
         subject: "",
         to: "",
         user_id: ""
-      }
-      const msgProperties: AmqpMessageProperties = MessageProperties.fromAmqpMessageProperties(amqpMsgProperties);
-      JSON.stringify(msgProperties).should.equal(JSON.stringify(msgPropertiesExpected));
+      };
+      const msgProperties: AmqpMessageProperties = MessageProperties.fromAmqpMessageProperties(
+        amqpMsgProperties
+      );
+      JSON.stringify(msgProperties).should.equal(
+        JSON.stringify(msgPropertiesExpected)
+      );
       done();
     });
   });

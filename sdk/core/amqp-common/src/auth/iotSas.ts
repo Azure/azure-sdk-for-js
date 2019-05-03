@@ -18,7 +18,10 @@ export class IotSasTokenProvider extends SasTokenProvider {
    * provided then the Endpoint from the connection string will be applied.
    */
   async getToken(audience?: string): Promise<TokenInfo> {
-    return this._createToken(Math.floor(Date.now() / 1000) + this.tokenValidTimeInSeconds,
-      audience, Buffer.from(this.key, "base64"));
+    return this._createToken(
+      Math.floor(Date.now() / 1000) + this.tokenValidTimeInSeconds,
+      audience,
+      Buffer.from(this.key, "base64")
+    );
   }
 }

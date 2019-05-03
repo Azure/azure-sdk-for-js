@@ -484,11 +484,16 @@ export class MessagingError extends Error {
  * "TransferLimitExceededError"
  */
 export const retryableErrors: string[] = [
-  "InternalServerError", "ServerBusyError", "ServiceUnavailableError", "OperationCancelledError",
-  "SenderBusyError", "MessagingError", "DetachForcedError", "ConnectionForcedError",
+  "InternalServerError",
+  "ServerBusyError",
+  "ServiceUnavailableError",
+  "OperationCancelledError",
+  "SenderBusyError",
+  "MessagingError",
+  "DetachForcedError",
+  "ConnectionForcedError",
   "TransferLimitExceededError"
 ];
-
 
 /**
  * Maps some SytemErrors to amqp error conditions
@@ -509,9 +514,13 @@ export enum SystemErrorConditionMapper {
 
 export function isSystemError(err: any): boolean {
   let result: boolean = false;
-  if ((err.code && typeof err.code === "string") &&
+  if (
+    err.code &&
+    typeof err.code === "string" &&
     (err.syscall && typeof err.syscall === "string") &&
-    (err.errno && (typeof err.errno === "string" || typeof err.errno === "number"))) {
+    (err.errno &&
+      (typeof err.errno === "string" || typeof err.errno === "number"))
+  ) {
     result = true;
   }
   return result;
@@ -524,7 +533,8 @@ export function isSystemError(err: any): boolean {
  * @returns {MessagingError} MessagingError object.
  */
 export function translate(err: AmqpError | Error): MessagingError {
-  if ((err as MessagingError).translated) { // already translated
+  if ((err as MessagingError).translated) {
+    // already translated
     return err as MessagingError;
   }
 
@@ -537,7 +547,8 @@ export function translate(err: AmqpError | Error): MessagingError {
     return error;
   }
 
-  if (isAmqpError(err)) { // translate
+  if (isAmqpError(err)) {
+    // translate
     const condition = (err as AmqpError).condition;
     const description = (err as AmqpError).description as string;
     error = new MessagingError(description);
@@ -548,15 +559,20 @@ export function translate(err: AmqpError | Error): MessagingError {
       error.name = ConditionErrorNameMapper[condition as any];
     }
     if (!error.name) error.name = "MessagingError";
-    if (description &&
+    if (
+      description &&
       (description.includes("status-code: 404") ||
-        description.match(/The messaging entity .* could not be found.*/i) !== null)) {
+        description.match(/The messaging entity .* could not be found.*/i) !==
+          null)
+    ) {
       error.name = "MessagingEntityNotFoundError";
     }
-    if (retryableErrors.indexOf(error.name) === -1) { // not found
+    if (retryableErrors.indexOf(error.name) === -1) {
+      // not found
       error.retryable = false;
     }
-  } else if (isSystemError(err)) { // translate
+  } else if (isSystemError(err)) {
+    // translate
     const condition = (err as any).code;
     const description = (err as Error).message;
     error = new MessagingError(description);
@@ -566,7 +582,8 @@ export function translate(err: AmqpError | Error): MessagingError {
       error.name = ConditionErrorNameMapper[amqpErrorCondition as any];
     }
     if (!error.name) error.name = "SystemError";
-    if (retryableErrors.indexOf(error.name) === -1) { // not found
+    if (retryableErrors.indexOf(error.name) === -1) {
+      // not found
       error.retryable = false;
     }
   } else {
@@ -576,4 +593,3 @@ export function translate(err: AmqpError | Error): MessagingError {
   }
   return error;
 }
-

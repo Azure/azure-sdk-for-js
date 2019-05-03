@@ -4,15 +4,19 @@
 import * as chai from "chai";
 const should = chai.should();
 import {
-  ConnectionConfig, ConnectionContextBase, SasTokenProvider, DefaultDataTransformer, CbsClient
-} from "../lib";
+  ConnectionConfig,
+  ConnectionContextBase,
+  SasTokenProvider,
+  DefaultDataTransformer,
+  CbsClient
+} from "../src";
 import { Connection } from "rhea-promise";
-import { isNode } from '../lib/util/utils';
+import { isNode } from "../src/util/utils";
 
-
-describe("ConnectionContextBase", function () {
-  it("should be created with required parameters", function (done) {
-    const connectionString = "Endpoint=sb://hostname.servicebus.windows.net/;SharedAccessKeyName=sakName;SharedAccessKey=sak;EntityPath=ep";
+describe("ConnectionContextBase", function() {
+  it("should be created with required parameters", function(done) {
+    const connectionString =
+      "Endpoint=sb://hostname.servicebus.windows.net/;SharedAccessKeyName=sakName;SharedAccessKey=sak;EntityPath=ep";
     const path = "mypath";
     const config = ConnectionConfig.create(connectionString, path);
     const context = ConnectionContextBase.create({
@@ -34,7 +38,9 @@ describe("ConnectionContextBase", function () {
     context.tokenProvider.should.instanceOf(SasTokenProvider);
     context.connection.should.instanceOf(Connection);
     context.connection.options.properties!.product.should.equal("MSJSClient");
-    context.connection.options.properties!["user-agent"].should.equal("/js-amqp-client");
+    context.connection.options.properties!["user-agent"].should.equal(
+      "/js-amqp-client"
+    );
     context.connection.options.properties!.version.should.equal("1.0.0");
     context.cbsSession.should.instanceOf(CbsClient);
     context.dataTransformer.should.instanceOf(DefaultDataTransformer);
@@ -43,12 +49,13 @@ describe("ConnectionContextBase", function () {
 
   if (isNode) {
     it("should accept a websocket constructor in Node", async () => {
-      const connectionString = "Endpoint=sb://hostname.servicebus.windows.net/;SharedAccessKeyName=sakName;SharedAccessKey=sak;EntityPath=ep";
+      const connectionString =
+        "Endpoint=sb://hostname.servicebus.windows.net/;SharedAccessKeyName=sakName;SharedAccessKey=sak;EntityPath=ep";
       const path = "mypath";
       const config = ConnectionConfig.create(connectionString, path);
 
-      config.webSocket = require('ws');
-      config.webSocketEndpointPath = '/ws';
+      config.webSocket = require("ws");
+      config.webSocketEndpointPath = "/ws";
 
       const context = ConnectionContextBase.create({
         config: config,
@@ -63,11 +70,12 @@ describe("ConnectionContextBase", function () {
     });
   } else {
     it("should default to using a websocket in the browser", async () => {
-      const connectionString = "Endpoint=sb://hostname.servicebus.windows.net/;SharedAccessKeyName=sakName;SharedAccessKey=sak;EntityPath=ep";
+      const connectionString =
+        "Endpoint=sb://hostname.servicebus.windows.net/;SharedAccessKeyName=sakName;SharedAccessKey=sak;EntityPath=ep";
       const path = "mypath";
       const config = ConnectionConfig.create(connectionString, path);
 
-      config.webSocketEndpointPath = '/ws';
+      config.webSocketEndpointPath = "/ws";
 
       const context = ConnectionContextBase.create({
         config: config,
@@ -83,8 +91,9 @@ describe("ConnectionContextBase", function () {
     });
   }
 
-  it("Throws error if user-agent string length is greater than 512 characters", function (done) {
-    const connectionString = "Endpoint=sb://hostname.servicebus.windows.net/;SharedAccessKeyName=sakName;SharedAccessKey=sak;EntityPath=ep";
+  it("Throws error if user-agent string length is greater than 512 characters", function(done) {
+    const connectionString =
+      "Endpoint=sb://hostname.servicebus.windows.net/;SharedAccessKeyName=sakName;SharedAccessKey=sak;EntityPath=ep";
     const path = "mypath";
     const config = ConnectionConfig.create(connectionString, path);
 

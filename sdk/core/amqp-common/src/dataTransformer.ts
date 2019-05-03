@@ -29,7 +29,6 @@ export interface DataTransformer {
  * The default data transformer that will be used by the Azure SDK.
  */
 export class DefaultDataTransformer implements DataTransformer {
-
   /**
    * A function that takes the body property from an EventData object
    * and returns an encoded body (some form of AMQP type).
@@ -43,7 +42,10 @@ export class DefaultDataTransformer implements DataTransformer {
    */
   encode(body: any): any {
     let result: any;
-    log.transformer("[encode] The given message body that needs to be encoded is: ", body);
+    log.transformer(
+      "[encode] The given message body that needs to be encoded is: ",
+      body
+    );
     if (isBuffer(body)) {
       result = message.data_section(body);
     } else {
@@ -55,8 +57,10 @@ export class DefaultDataTransformer implements DataTransformer {
         const bodyStr = JSON.stringify(body);
         result = message.data_section(Buffer.from(bodyStr, "utf8"));
       } catch (err) {
-        const msg = `An error occurred while executing JSON.stringify() on the given body ` + body
-          + `${err ? err.stack : JSON.stringify(err)}`;
+        const msg =
+          `An error occurred while executing JSON.stringify() on the given body ` +
+          body +
+          `${err ? err.stack : JSON.stringify(err)}`;
         log.error("[encode] " + msg);
         throw new Error(msg);
       }
@@ -76,7 +80,10 @@ export class DefaultDataTransformer implements DataTransformer {
   decode(body: any): any {
     let processedBody: any = body;
     try {
-      log.transformer("[decode] Received message body for decoding is: %O", body);
+      log.transformer(
+        "[decode] Received message body for decoding is: %O",
+        body
+      );
       if (body.content && isBuffer(body.content)) {
         // This indicates that we are getting the AMQP described type. Let us try decoding it.
         processedBody = body.content;
@@ -87,11 +94,17 @@ export class DefaultDataTransformer implements DataTransformer {
         const bodyStr: string = processedBody.toString("utf8");
         processedBody = JSON.parse(bodyStr);
       } catch (err) {
-        log.error("[decode] An error occurred while trying JSON.parse() on the received body. " +
-          "The error is %O", err);
+        log.error(
+          "[decode] An error occurred while trying JSON.parse() on the received body. " +
+            "The error is %O",
+          err
+        );
       }
     } catch (err) {
-      log.error("[decode] An error occurred while decoding the received message body. The error is: %O", err);
+      log.error(
+        "[decode] An error occurred while decoding the received message body. The error is: %O",
+        err
+      );
     }
     log.transformer("[decode] The decoded message body is: %O", processedBody);
     return processedBody;

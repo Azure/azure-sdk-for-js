@@ -39,7 +39,10 @@ export interface EventHubConnectionConfig extends ConnectionConfig {
    * @param consumergroup The consumergoup in the EventHub from which the messages will
    * be received. Default: `$default`.
    */
-  getReceiverAddress(partitionId: string | number, consumergroup?: string): string;
+  getReceiverAddress(
+    partitionId: string | number,
+    consumergroup?: string
+  ): string;
   /**
    * Provides the EventHub Receiver audience.
    * - `"sb://<your-namespace>.servicebus.windows.net/<hub-name>/ConsumerGroups/<consumer-group-name>/Partitions/<partition-id>"`
@@ -48,7 +51,10 @@ export interface EventHubConnectionConfig extends ConnectionConfig {
    * @param consumergroup The consumergoup in the EventHub from which the messages will
    * be received. Default: `$default`.
    */
-  getReceiverAudience(partitionId: string | number, consumergroup?: string): string;
+  getReceiverAudience(
+    partitionId: string | number,
+    consumergroup?: string
+  ): string;
   /**
    * Provides the EventHub Management address.
    * - `"<hub-name>/$management"`
@@ -77,11 +83,16 @@ export module EventHubConnectionConfig {
    * if present.
    * @returns {EventHubConnectionConfig} EventHubConnectionConfig
    */
-  export function create(connectionString: string, path?: string): EventHubConnectionConfig {
+  export function create(
+    connectionString: string,
+    path?: string
+  ): EventHubConnectionConfig {
     const config = ConnectionConfig.create(connectionString, path);
     if (!config.entityPath) {
-      throw new TypeError(`Either provide "path" or the "connectionString": "${connectionString}", ` +
-        `must contain EntityPath="<path-to-the-entity>".`);
+      throw new TypeError(
+        `Either provide "path" or the "connectionString": "${connectionString}", ` +
+          `must contain EntityPath="<path-to-the-entity>".`
+      );
     }
     return createFromConnectionConfig(config);
   }
@@ -92,7 +103,9 @@ export module EventHubConnectionConfig {
    * created.
    * @returns EventHubConnectionConfig
    */
-  export function createFromConnectionConfig(config: ConnectionConfig): EventHubConnectionConfig {
+  export function createFromConnectionConfig(
+    config: ConnectionConfig
+  ): EventHubConnectionConfig {
     ConnectionConfig.validate(config, { isEntityPathRequired: true });
 
     (config as EventHubConnectionConfig).getManagementAudience = () => {
@@ -102,37 +115,50 @@ export module EventHubConnectionConfig {
       return `${config.entityPath}/$management`;
     };
 
-    (config as EventHubConnectionConfig).getSenderAudience =
-      (partitionId?: string | number) => {
-        if (partitionId != undefined) {
-          return `${config.endpoint}${config.entityPath}/Partitions/${partitionId}`;
-        } else {
-          return `${config.endpoint}${config.entityPath}`;
-        }
-      };
+    (config as EventHubConnectionConfig).getSenderAudience = (
+      partitionId?: string | number
+    ) => {
+      if (partitionId != undefined) {
+        return `${config.endpoint}${
+          config.entityPath
+        }/Partitions/${partitionId}`;
+      } else {
+        return `${config.endpoint}${config.entityPath}`;
+      }
+    };
 
-    (config as EventHubConnectionConfig).getSenderAddress =
-      (partitionId?: string | number) => {
-        if (partitionId != undefined) {
-          return `${config.entityPath}/Partitions/${partitionId}`;
-        } else {
-          return `${config.entityPath}`;
-        }
-      };
+    (config as EventHubConnectionConfig).getSenderAddress = (
+      partitionId?: string | number
+    ) => {
+      if (partitionId != undefined) {
+        return `${config.entityPath}/Partitions/${partitionId}`;
+      } else {
+        return `${config.entityPath}`;
+      }
+    };
 
-    (config as EventHubConnectionConfig).getReceiverAudience =
-      (partitionId: string | number, consumergroup?: string) => {
-        if (!consumergroup) consumergroup = "$default";
-        return `${config.endpoint}${config.entityPath}/ConsumerGroups/${consumergroup}/` +
-          `Partitions/${partitionId}`;
-      };
+    (config as EventHubConnectionConfig).getReceiverAudience = (
+      partitionId: string | number,
+      consumergroup?: string
+    ) => {
+      if (!consumergroup) consumergroup = "$default";
+      return (
+        `${config.endpoint}${
+          config.entityPath
+        }/ConsumerGroups/${consumergroup}/` + `Partitions/${partitionId}`
+      );
+    };
 
-    (config as EventHubConnectionConfig).getReceiverAddress =
-      (partitionId: string | number, consumergroup?: string) => {
-        if (!consumergroup) consumergroup = "$default";
-        return `${config.entityPath}/ConsumerGroups/${consumergroup}/Partitions/${partitionId}`;
-      };
-    return (config as EventHubConnectionConfig);
+    (config as EventHubConnectionConfig).getReceiverAddress = (
+      partitionId: string | number,
+      consumergroup?: string
+    ) => {
+      if (!consumergroup) consumergroup = "$default";
+      return `${
+        config.entityPath
+      }/ConsumerGroups/${consumergroup}/Partitions/${partitionId}`;
+    };
+    return config as EventHubConnectionConfig;
   }
 
   /**

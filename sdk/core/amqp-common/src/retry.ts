@@ -4,7 +4,10 @@
 import { translate, MessagingError } from "./errors";
 import { delay, isNode } from "./util/utils";
 import * as log from "./log";
-import { defaultRetryAttempts, defaultDelayBetweenRetriesInSeconds } from "./util/constants";
+import {
+  defaultRetryAttempts,
+  defaultDelayBetweenRetriesInSeconds
+} from "./util/constants";
 import { resolve } from "dns";
 
 /**
@@ -13,8 +16,13 @@ import { resolve } from "dns";
  */
 function isDelivery(obj: any): boolean {
   let result: boolean = false;
-  if (obj && typeof obj.id === "number" && typeof obj.settled === "boolean" &&
-    typeof obj.remote_settled === "boolean" && typeof obj.format === "number") {
+  if (
+    obj &&
+    typeof obj.id === "number" &&
+    typeof obj.settled === "boolean" &&
+    typeof obj.remote_settled === "boolean" &&
+    typeof obj.format === "number"
+  ) {
     result = true;
   }
   return result;
@@ -88,11 +96,10 @@ function validateRetryConfig<T>(config: RetryConfig<T>): void {
   }
 }
 
-
 async function checkNetworkConnection(host: string): Promise<boolean> {
   if (isNode) {
-    return new Promise((res) => {
-      resolve(host, function (err: any): void {
+    return new Promise(res => {
+      resolve(host, function(err: any): void {
         if (err && err.code === "ECONNREFUSED") {
           res(false);
         } else {
@@ -105,7 +112,6 @@ async function checkNetworkConnection(host: string): Promise<boolean> {
   }
 }
 
-
 /**
  * It will attempt to linearly retry an operation specified number of times with a specified
  * delay in between each retry. The retries will only happen if the error is retryable.
@@ -117,20 +123,36 @@ async function checkNetworkConnection(host: string): Promise<boolean> {
 export async function retry<T>(config: RetryConfig<T>): Promise<T> {
   validateRetryConfig(config);
   if (config.times == undefined) config.times = defaultRetryAttempts;
-  if (config.delayInSeconds == undefined) config.delayInSeconds = defaultDelayBetweenRetriesInSeconds;
+  if (config.delayInSeconds == undefined) {
+    config.delayInSeconds = defaultDelayBetweenRetriesInSeconds;
+  }
   let lastError: MessagingError | undefined;
   let result: any;
   let success = false;
   for (let i = 0; i < config.times; i++) {
     const j = i + 1;
-    log.retry("[%s] Retry for '%s', attempt number: %d", config.connectionId, config.operationType, j);
+    log.retry(
+      "[%s] Retry for '%s', attempt number: %d",
+      config.connectionId,
+      config.operationType,
+      j
+    );
     try {
       result = await config.operation();
       success = true;
-      log.retry("[%s] Success for '%s', after attempt number: %d.", config.connectionId,
-        config.operationType, j);
+      log.retry(
+        "[%s] Success for '%s', after attempt number: %d.",
+        config.connectionId,
+        config.operationType,
+        j
+      );
       if (result && !isDelivery(result)) {
-        log.retry("[%s] Success result for '%s': %O", config.connectionId, config.operationType, result);
+        log.retry(
+          "[%s] Success result for '%s': %O",
+          config.connectionId,
+          config.operationType,
+          result
+        );
       }
       break;
     } catch (err) {
@@ -138,7 +160,11 @@ export async function retry<T>(config: RetryConfig<T>): Promise<T> {
         err = translate(err);
       }
 
-      if (!err.retryable && err.name === "ServiceCommunicationError" && config.connectionHost) {
+      if (
+        !err.retryable &&
+        err.name === "ServiceCommunicationError" &&
+        config.connectionHost
+      ) {
         const isConnected = await checkNetworkConnection(config.connectionHost);
         if (!isConnected) {
           err.name = "ConnectionLostError";
@@ -146,11 +172,20 @@ export async function retry<T>(config: RetryConfig<T>): Promise<T> {
         }
       }
       lastError = err;
-      log.error("[%s] Error occured for '%s' in attempt number %d: %O", config.connectionId,
-        config.operationType, j, err);
+      log.error(
+        "[%s] Error occured for '%s' in attempt number %d: %O",
+        config.connectionId,
+        config.operationType,
+        j,
+        err
+      );
       if (lastError && lastError.retryable) {
-        log.error("[%s] Sleeping for %d seconds for '%s'.", config.connectionId,
-          config.delayInSeconds, config.operationType);
+        log.error(
+          "[%s] Sleeping for %d seconds for '%s'.",
+          config.connectionId,
+          config.delayInSeconds,
+          config.operationType
+        );
         await delay(config.delayInSeconds * 1000);
         continue;
       } else {

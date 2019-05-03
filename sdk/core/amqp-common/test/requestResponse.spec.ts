@@ -2,13 +2,17 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 import * as assert from "assert";
-import { RequestResponseLink, AmqpMessage, ErrorNameConditionMapper } from "../lib";
+import {
+  RequestResponseLink,
+  AmqpMessage,
+  ErrorNameConditionMapper
+} from "../src";
 import { Connection } from "rhea-promise";
 import { stub } from "sinon";
 import EventEmitter from "events";
 
-describe("RequestResponseLink", function () {
-  it("should send a request and receive a response correctly", async function () {
+describe("RequestResponseLink", function() {
+  it("should send a request and receive a response correctly", async function() {
     const connectionStub = stub(new Connection());
     const rcvr = new EventEmitter();
     let req: any = {};
@@ -22,28 +26,33 @@ describe("RequestResponseLink", function () {
             req = request;
           }
         });
-      }, createReceiver: () => {
+      },
+      createReceiver: () => {
         return Promise.resolve(rcvr);
       }
     });
     const sessionStub = await connectionStub.createSession();
     const senderStub = await sessionStub.createSender();
     const receiverStub = await sessionStub.createReceiver();
-    const link = new RequestResponseLink(sessionStub as any, senderStub, receiverStub);
+    const link = new RequestResponseLink(
+      sessionStub as any,
+      senderStub,
+      receiverStub
+    );
     const request: AmqpMessage = {
       body: "Hello World!!"
     };
     setTimeout(() => {
       rcvr.emit("message", {
-        "message": {
-          "correlation_id": req.message_id,
-          "application_properties": {
-            "statusCode": 200,
-            "errorCondition": null,
-            "statusDescription": null,
+        message: {
+          correlation_id: req.message_id,
+          application_properties: {
+            statusCode: 200,
+            errorCondition: null,
+            statusDescription: null,
             "com.microsoft:tracking-id": null
           },
-          "body": "Hello World!!"
+          body: "Hello World!!"
         }
       });
     }, 2000);
@@ -51,7 +60,7 @@ describe("RequestResponseLink", function () {
     assert.equal(response.correlation_id, req.message_id);
   });
 
-  it("should send a request and receive a response correctly", async function () {
+  it("should send a request and receive a response correctly", async function() {
     const connectionStub = stub(new Connection());
     const rcvr = new EventEmitter();
     let messageId: string = "";
@@ -72,25 +81,30 @@ describe("RequestResponseLink", function () {
             messageId = request.message_id;
           }
         });
-      }, createReceiver: () => {
+      },
+      createReceiver: () => {
         return Promise.resolve(rcvr);
       }
     });
     const sessionStub = await connectionStub.createSession();
     const senderStub = await sessionStub.createSender();
     const receiverStub = await sessionStub.createReceiver();
-    const link = new RequestResponseLink(sessionStub as any, senderStub, receiverStub);
+    const link = new RequestResponseLink(
+      sessionStub as any,
+      senderStub,
+      receiverStub
+    );
     const request: AmqpMessage = {
       body: "Hello World!!"
     };
     setTimeout(() => {
       rcvr.emit("message", {
-        "message": {
-          "correlation_id": messageId,
-          "application_properties": {
-            "statusCode": 500,
-            "errorCondition": ErrorNameConditionMapper.InternalServerError,
-            "statusDescription": "Please retry later.",
+        message: {
+          correlation_id: messageId,
+          application_properties: {
+            statusCode: 500,
+            errorCondition: ErrorNameConditionMapper.InternalServerError,
+            statusDescription: "Please retry later.",
             "com.microsoft:tracking-id": "1"
           }
         }
@@ -98,19 +112,22 @@ describe("RequestResponseLink", function () {
     }, 2000);
     setTimeout(() => {
       rcvr.emit("message", {
-        "message": {
-          "correlation_id": messageId,
-          "application_properties": {
-            "statusCode": 200,
-            "errorCondition": null,
-            "statusDescription": null,
+        message: {
+          correlation_id: messageId,
+          application_properties: {
+            statusCode: 200,
+            errorCondition: null,
+            statusDescription: null,
             "com.microsoft:tracking-id": null
           },
-          "body": "Hello World!!"
+          body: "Hello World!!"
         }
       });
     }, 4000);
-    const response = await link.sendRequest(request, { delayInSeconds: 1, timeoutInSeconds: 5 });
+    const response = await link.sendRequest(request, {
+      delayInSeconds: 1,
+      timeoutInSeconds: 5
+    });
     assert.equal(response.correlation_id, messageId);
   });
 });

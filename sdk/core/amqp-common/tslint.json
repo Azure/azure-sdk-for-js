@@ -51,7 +51,7 @@
     "eofline": true,
     "indent": [true, "spaces"],
     "no-trailing-whitespace": true,
-    "arrow-parens": true,
+    "arrow-parens": false,
     "class-name": true,
     "comment-format": [true, "check-space"],
     "interface-name": [true, "never-prefix"],
