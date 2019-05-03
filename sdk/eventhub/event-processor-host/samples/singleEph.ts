@@ -1,7 +1,8 @@
 /*
   This sample demonstrates how the start() function can be used to Start the event processor host
-  and provide messages received across all the partitions and checkpoint metadata about the
-  received messages at regular interval in an Azure Storage Blob.
+  and provide messages received across all the partitions. It also describes how the
+  checkpointFromEventData() function can be used to checkpoint metadata about the received
+  messages at regular interval in an Azure Storage Blob.
 
   If your Event Hubs instance doesn't have any messages, then please run "sendBatch.ts" sample
   to populate Event Hubs before running this sample.

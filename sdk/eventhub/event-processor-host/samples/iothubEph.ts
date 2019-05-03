@@ -1,7 +1,8 @@
 /*
   This sample demonstrates how the start() function can be used for Iot hub to Start the
-  event processor host and provide messages received across all the partitions and checkpoint
-  metadata about the received messages at regular interval in an Azure Storage Blob.
+  event processor host and provide messages received across all the partitions. It also describes
+  how the checkpointFromEventData() function can be used to checkpoint metadata about the received
+  messages at regular interval in an Azure Storage Blob.
 */
 
 import {
