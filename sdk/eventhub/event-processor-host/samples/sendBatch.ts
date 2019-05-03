@@ -1,23 +1,18 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+/*
+  This sample demonstrates how the sendBatch() function can be used to send messages to Event Hubs.
+*/
 
 import { EventHubClient, EventData, delay } from "@azure/event-hubs";
-import dotenv from "dotenv";
-dotenv.config();
 
-const connectionString = "EVENTHUB_CONNECTION_STRING";
-const entityPath = "EVENTHUB_NAME";
-const str = process.env[connectionString] || "";
-const path = process.env[entityPath] || "";
-
+// Define connection string and related Event Hubs entity name here
+const connectionString = "";
+const eventHubsName = "";
 
 async function main(): Promise<void> {
-  const client = EventHubClient.createFromConnectionString(str, path);
-  console.log("Created EH client from connection string");
-  console.log("Created Sender for partition 0.");
-
+  const client = EventHubClient.createFromConnectionString(connectionString, eventHubsName);
   const partitionIds = await client.getPartitionIds();
   const messageCount = 300;
+
   const data: EventData[] = [];
   for (let i = 0; i < messageCount; i++) {
     const obj: EventData = { body: `Hello foo ${i}` };
@@ -43,6 +38,6 @@ async function main(): Promise<void> {
   await client.close();
 }
 
-main().catch((err) => {
-  console.log("error: ", err);
+main().catch(err => {
+  console.log("Error occurred: ", err);
 });

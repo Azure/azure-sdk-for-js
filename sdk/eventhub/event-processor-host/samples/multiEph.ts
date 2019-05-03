@@ -1,25 +1,29 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+/*
+  This sample demonstrates how to create multiple instances of EPH in the same process and
+  how the start() function can be used to Start the event processor host and provide messages
+  received across all the partitions and checkpoint metadata about the received messages at regular
+  interval in an Azure Storage Blob.
+
+  If your Event Hubs instance doesn't have any messages, then please run "sendBatch.ts" sample
+  to populate Event Hubs before running this sample.
+
+  See https://docs.microsoft.com/en-us/azure/event-hubs/event-hubs-event-processor-host
+  to learn about Event Processor Host.
+*/
 
 import {
   EventProcessorHost, OnReceivedError, OnReceivedMessage, EventData, PartitionContext, delay
-} from "../src";
-import dotenv from "dotenv";
-dotenv.config();
+} from "@azure/event-processor-host";
 
-// set the values from environment variables.
-const storageConnectionString = "STORAGE_CONNECTION_STRING";
-const ehconnectionString = "EVENTHUB_CONNECTION_STRING";
-const entityPath = "EVENTHUB_NAME";
-const path = process.env[entityPath] || "";
-const storageCS = process.env[storageConnectionString];
-const ehCS = process.env[ehconnectionString];
+// Define storage connection string and Event Hubs connection string and related entity name here
+const ehConnectionString = "";
+const eventHubsName = "";
+const storageConnectionString = "";
 
 // set the names of eph and the storage container.
 // creates a unique storageContainer name for every run
 // if you wish to keep the name same between different runs then use the following then that is fine as well.
 const storageContainerName = EventProcessorHost.createHostName("test-container");
-console.log(">>>> The storage container name is: %s.", storageContainerName);
 const ephName1 = "eph-1";
 const ephName2 = "eph-2";
 
@@ -41,8 +45,8 @@ async function main(): Promise<void> {
 }
 
 // calling the main().
-main().catch((err) => {
-  console.log("Exiting from main() due to an error: %O.", err);
+main().catch(err => {
+  console.log("Error occurred: ", err);
 });
 
 /**
@@ -63,16 +67,16 @@ async function startEph(ephName: string): Promise<EventProcessorHost> {
   // Create the Event Processor Host
   const eph = EventProcessorHost.createFromConnectionString(
     ephName,
-    storageCS!,
+    storageConnectionString!,
     storageContainerName,
-    ehCS!,
+    ehConnectionString!,
     {
-      eventHubPath: path,
+      eventHubPath: eventHubsName,
       // This method will provide errors that occur during lease and partition management. The
       // errors that occur while receiving messages will be provided in the onError handler
       // provided in the eph.start() method.
-      onEphError: (error) => {
-        console.log(">>>>>>> [%s] Error: %O", ephName, error);
+      onEphError: error => {
+        console.log("[%s] Error: %O", ephName, error);
       }
     }
   );
@@ -82,27 +86,27 @@ async function startEph(ephName: string): Promise<EventProcessorHost> {
     (!partionCount[context.partitionId])
       ? partionCount[context.partitionId] = 1
       : partionCount[context.partitionId]++;
-    console.log("##### [%s] %d - Rx message from partition: '%s', offset: '%s'", ephName,
+    console.log("[%s] %d - Received message from partition: '%s', offset: '%s'", ephName,
       partionCount[context.partitionId], context.partitionId, data.offset);
     // Checkpointing every 100th event
     if (partionCount[context.partitionId] % 100 === 0) {
       try {
-        console.log("***** [%s] EPH is currently receiving messages from partitions: %O", ephName,
+        console.log("[%s] EPH is currently receiving messages from partitions: %O", ephName,
           eph.receivingFromPartitions);
-        await context.checkpoint();
-        console.log("$$$$ [%s] Successfully checkpointed message number %d", ephName,
+        await context.checkpointFromEventData(data);
+        console.log("[%s] Successfully checkpointed message number %d", ephName,
           partionCount[context.partitionId]);
       } catch (err) {
-        console.log(">>>>>>> [%s] An error occurred while checkpointing msg number %d: %O",
+        console.log("[%s] An error occurred while checkpointing msg number %d: %O",
           ephName, partionCount[context.partitionId], err);
       }
     }
   };
   // Error handler
-  const onError: OnReceivedError = (error) => {
-    console.log(">>>>> [%s] Received Error: %O", ephName, error);
+  const onError: OnReceivedError = error => {
+    console.log("[%s] Received Error: %O", ephName, error);
   };
-  console.log(">>>>>> Starting the EPH - %s", ephName);
+  console.log("Starting the EPH - %s", ephName);
   await eph.start(onMessage, onError);
   return eph;
 }
@@ -113,7 +117,7 @@ async function startEph(ephName: string): Promise<EventProcessorHost> {
  * @returns {Promise<void>} Promise<void>
  */
 async function stopEph(eph: EventProcessorHost): Promise<void> {
-  console.log(">>>>>> Stopping the EPH - '%s'.", eph.hostName);
+  console.log("Stopping the EPH - '%s'.", eph.hostName);
   await eph.stop();
-  console.log(">>>>>> Successfully stopped the EPH - '%s'.", eph.hostName);
+  console.log("Successfully stopped the EPH - '%s'.", eph.hostName);
 }
