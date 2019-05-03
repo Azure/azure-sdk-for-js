@@ -28,6 +28,7 @@ export class Operations {
 
   /**
    * Lists all of the available Microsoft.NetApp Rest API operations
+   * @summary Describes the Resource Provider
    * @param [options] The optional parameters
    * @returns Promise<Models.OperationsListResponse>
    */
@@ -67,7 +68,7 @@ const listOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.OperationListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer

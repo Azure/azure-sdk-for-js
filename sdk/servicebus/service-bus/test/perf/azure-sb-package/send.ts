@@ -1,23 +1,25 @@
 /*
 # Overview
-Measures the maximum throughput of `sender.send()` in package `@azure/service-bus`.
+Measures the maximum throughput of `sender.send()` in package `azure-sb`.
 
 # Instructions
 1. Create a Service Bus namespace with `Tier=Premium` and `Messaging Units=4`.  It is recommended to use the largest possible namespace to allow maximum client throughput.
 2. Create a queue inside the namespace.
 3. Set env vars `SERVICE_BUS_CONNECTION_STRING` and `SERVICE_BUS_QUEUE_NAME`.
-4. `ts-node app.ts [maxInflightMessages] [totalMessages]`
-5. Example: `ts-node app.ts 1000 1000000`
+4. Run `npm install azure-sb @types/azure-sb` to install `azure-sb` package for this test.
+5. `ts-node send.ts [maxInflightMessages] [totalMessages]`
+6. Example: `ts-node send.ts 1000 1000000`
  */
 
-import { ServiceBusClient, Sender } from "../../../src";
+import { createServiceBusService, ServiceBusService } from "azure-sb";
 import delay from "delay";
 import moment from "moment";
 
-const _payload = Buffer.alloc(1024);
+const _payload = JSON.stringify(Buffer.alloc(1024));
 const _start = moment();
 
-let _messages = 0;
+let _sent = 0;
+let _accepted = 0;
 
 async function main(): Promise<void> {
   // Endpoint=sb://<your-namespace>.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=<shared-access-key>
@@ -31,43 +33,33 @@ async function main(): Promise<void> {
 
   const writeResultsPromise = WriteResults(messages);
 
-  await RunTest(connectionString, entityPath, maxInflight, messages);
+  RunTest(connectionString, entityPath, maxInflight, messages);
 
   await writeResultsPromise;
 }
 
-async function RunTest(
+function RunTest(
   connectionString: string,
   entityPath: string,
   maxInflight: number,
   messages: number
-): Promise<void> {
-  const ns = ServiceBusClient.createFromConnectionString(connectionString);
+) {
+  const sbService: ServiceBusService = createServiceBusService(connectionString);
 
-  // If using Topics, use createTopicClient to send to a topic
-  const client = ns.createQueueClient(entityPath);
-  const sender = client.createSender();
-
-  const promises: Promise<void>[] = [];
-
-  for (let i = 0; i < maxInflight; i++) {
-    const promise = ExecuteSendsAsync(sender, messages);
-    promises[i] = promise;
+  function sendMessages(): void {
+    while (_sent < messages && inflight() < maxInflight) {
+      _sent++;
+      sbService.sendQueueMessage(entityPath, { body: _payload }, function(err: any) {
+        if (err) {
+          console.log(err.message);
+        } else {
+          ++_accepted;
+          sendMessages();
+        }
+      });
+    }
   }
-
-  await Promise.all(promises);
-
-  await client.close();
-  await ns.close();
-}
-
-async function ExecuteSendsAsync(sender: Sender, messages: number): Promise<void> {
-  while (++_messages <= messages) {
-    await sender.send({ body: _payload });
-  }
-
-  // Undo last increment, since a message was never sent on the final loop iteration
-  _messages--;
+  sendMessages();
 }
 
 async function WriteResults(messages: number): Promise<void> {
@@ -79,9 +71,9 @@ async function WriteResults(messages: number): Promise<void> {
   do {
     await delay(1000);
 
-    const sentMessages = _messages;
-    const currentMessages = sentMessages - lastMessages;
-    lastMessages = sentMessages;
+    const acceptedMessages = _accepted;
+    const currentMessages = acceptedMessages - lastMessages;
+    lastMessages = acceptedMessages;
 
     const elapsed = moment().diff(_start);
     const currentElapsed = elapsed - lastElapsed;
@@ -92,8 +84,15 @@ async function WriteResults(messages: number): Promise<void> {
       maxElapsed = currentElapsed;
     }
 
-    WriteResult(sentMessages, elapsed, currentMessages, currentElapsed, maxMessages, maxElapsed);
-  } while (_messages < messages);
+    WriteResult(
+      acceptedMessages,
+      elapsed,
+      currentMessages,
+      currentElapsed,
+      maxMessages,
+      maxElapsed
+    );
+  } while (_accepted < messages);
 }
 
 function WriteResult(
@@ -110,6 +109,10 @@ function WriteResult(
       `\tAvg MPS\t${Math.round((totalMessages * 1000) / totalElapsed)}` +
       `\tMax MPS\t${Math.round((maxMessages * 1000) / maxElapsed)}`
   );
+}
+
+function inflight(): number {
+  return _sent - _accepted;
 }
 
 function log(message: string): void {

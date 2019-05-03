@@ -11,7 +11,7 @@ export {
   BaseResource,
   CapacityPool,
   CapacityPoolPatch,
-  ErrorModel,
+  CloudError,
   ExportPolicyRule,
   NetAppAccount,
   NetAppAccountList,

@@ -28,7 +28,8 @@ export class Accounts {
   }
 
   /**
-   * Lists all NetApp accounts in the resource group
+   * List and describe all NetApp accounts in the resource group
+   * @summary Describe all NetApp Accounts in a resource group
    * @param resourceGroupName The name of the resource group.
    * @param [options] The optional parameters
    * @returns Promise<Models.AccountsListResponse>
@@ -57,6 +58,7 @@ export class Accounts {
 
   /**
    * Get the NetApp account
+   * @summary Describe a NetApp Account
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
    * @param [options] The optional parameters
@@ -88,7 +90,8 @@ export class Accounts {
   }
 
   /**
-   * Create or update a NetApp account
+   * Create or update the specified NetApp account within the resource group
+   * @summary Create or update a NetApp account
    * @param body NetApp Account object supplied in the body of the operation.
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
@@ -101,7 +104,8 @@ export class Accounts {
   }
 
   /**
-   * Delete a NetApp account
+   * Delete the specified NetApp account
+   * @summary Delete a NetApp account
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
    * @param [options] The optional parameters
@@ -113,7 +117,8 @@ export class Accounts {
   }
 
   /**
-   * Patch a NetApp account
+   * Patch the specified NetApp account
+   * @summary Update a NetApp account
    * @param body NetApp Account object supplied in the body of the operation.
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
@@ -149,7 +154,8 @@ export class Accounts {
   }
 
   /**
-   * Create or update a NetApp account
+   * Create or update the specified NetApp account within the resource group
+   * @summary Create or update a NetApp account
    * @param body NetApp Account object supplied in the body of the operation.
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
@@ -169,7 +175,8 @@ export class Accounts {
   }
 
   /**
-   * Delete a NetApp account
+   * Delete the specified NetApp account
+   * @summary Delete a NetApp account
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
    * @param [options] The optional parameters
@@ -207,7 +214,7 @@ const listOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.NetAppAccountList
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -232,7 +239,7 @@ const getOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.NetAppAccount
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -264,7 +271,7 @@ const updateOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.NetAppAccount
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -300,7 +307,7 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
     },
     202: {},
     default: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -324,7 +331,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
