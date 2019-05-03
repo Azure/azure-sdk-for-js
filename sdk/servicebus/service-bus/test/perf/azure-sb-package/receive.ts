@@ -24,38 +24,44 @@ async function main(): Promise<void> {
   const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING as string;
   const entityPath = process.env.SERVICE_BUS_QUEUE_NAME as string;
 
-  const messages = process.argv.length > 2 ? parseInt(process.argv[2]) : 10;
+  const maxConcurrentCalls = process.argv.length > 2 ? parseInt(process.argv[2]) : 10;
+  const messages = process.argv.length > 3 ? parseInt(process.argv[3]) : 100;
+  log(`Maximum Concurrent Calls: ${maxConcurrentCalls}`);
   log(`Total messages: ${messages}`);
 
   const writeResultsPromise = WriteResults(messages);
 
-  RunTest(connectionString, entityPath, messages);
+  RunTest(connectionString, entityPath, maxConcurrentCalls, messages);
 
   await writeResultsPromise;
 }
 
-function RunTest(connectionString: string, entityPath: string, messages: number) {
+function RunTest(
+  connectionString: string,
+  entityPath: string,
+  maxConcurrentCalls: number,
+  messages: number
+) {
   const sbService: ServiceBusService = createServiceBusService(connectionString);
-  function receiveMessages(done: any) {
-    let _maxCalls = 0;
-    while (_messages < messages && _maxCalls < 10) {
-      _maxCalls++;
+  let credits = maxConcurrentCalls;
+  function receiveMessages() {
+    while (_messages < messages && credits > 0) {
+      credits--;
       sbService.receiveQueueMessage(entityPath, { isPeekLock: false }, function(err) {
         if (err) {
           console.log(err.message);
-          done();
         } else {
           if (_messages === messages) {
-            done();
           } else {
+            credits++;
             _messages++;
-            receiveMessages(() => {});
+            receiveMessages();
           }
         }
       });
     }
   }
-  receiveMessages(() => {});
+  receiveMessages();
 }
 
 async function WriteResults(messages: number): Promise<void> {
