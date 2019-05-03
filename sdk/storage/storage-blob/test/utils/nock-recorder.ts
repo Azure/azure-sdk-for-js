@@ -6,39 +6,43 @@ dotenv.config({ path: "../../.env" });
 
 /**
  * Possible reasons for skipping a test:
+ * * Progress: Nock does not record a request if it's aborted in a 'progress' callback
  * * Size: the generated recording file is too big and would considerably increase the size of the package
+ * * Tempfile: the request makes use of a random tempfile created locally, and the recorder does not support recording it as unique information
  * * UUID: a UUID is randomly generated within the SDK and used in an HTTP request, resulting in Nock being unable to recognize it
 */
 const skip: any = [
-  // Size (15MB)
+  // Progress, Size (15MB), Tempfile
   "highlevel/recording_bloburldownload_should_abort_after_retrys.js",
-  // Size (15MB)
+  // Size (15MB), Tempfile
   "highlevel/recording_bloburldownload_should_download_data_failed_when_exceeding_max_stream_retry_requests.js",
-  // Size (30MB)
+  // Size (30MB), Tempfile
   "highlevel/recording_bloburldownload_should_download_full_data_successfully_when_internal_stream_unexcepted_ends.js",
-  // Size (15MB)
+  // Size (15MB), Tempfile
   "highlevel/recording_bloburldownload_should_download_partial_data_when_internal_stream_unexcepted_ends.js",
-  // Size (30MB)
+  // Size (30MB), Tempfile
   "highlevel/recording_bloburldownload_should_success_when_internal_stream_unexcepted_ends_at_the_stream_end.js",
-  // Size (263MB), UUID (uploadStreamToBlockBlob)
+  // Size (263MB), Tempfile, UUID (uploadStreamToBlockBlob)
   "highlevel/recording_downloadblobtobuffer_should_abort.js",
-  // Size (526MB), UUID (uploadStreamToBlockBlob)
+  // Size (526MB), Tempfile, UUID (uploadStreamToBlockBlob)
   "highlevel/recording_downloadblobtobuffer_should_success.js",
-  // Size (15MB), UUID (uploadStreamToBlockBlob)
+  // Progress, Size (15MB), Tempfile, UUID (uploadStreamToBlockBlob)
   "highlevel/recording_downloadblobtobuffer_should_update_progress_event.js",
-  // Size (526MB)
+  // Size (526MB), Tempfile
   "highlevel/recording_uploadfiletoblockblob_should_success_when_blob_gte_block_blob_max_upload_blob_bytes.js",
-  // Size (30MB)
+  // Size (30MB), Tempfile
   "highlevel/recording_uploadfiletoblockblob_should_success_when_blob_lt_block_blob_max_upload_blob_bytes.js",
-  // Size (30MB)
+  // Size (30MB), Tempfile
   "highlevel/recording_uploadfiletoblockblob_should_success_when_blob_lt_block_blob_max_upload_blob_bytes_and_configured_maxsingleshotsize.js",
-  // Size (4MB)
+  // Progress, Size (4MB), Tempfile
   "highlevel/recording_uploadfiletoblockblob_should_update_progress_when_blob_gte_block_blob_max_upload_blob_bytes.js",
-  // Size (526MB), UUID (uploadStreamToBlockBlob)
+  // Progress, Tempfile
+  "highlevel/recording_uploadfiletoblockblob_should_update_progress_when_blob_lt_block_blob_max_upload_blob_bytes.js",
+  // Size (526MB), Tempfile, UUID (uploadStreamToBlockBlob)
   "highlevel/recording_uploadstreamtoblockblob_should_success.js",
   // UUID (uploadStreamToBlockBlob)
   "highlevel/recording_uploadstreamtoblockblob_should_success_for_tiny_buffers.js",
-  // Size (263MB), UUID (uploadStreamToBlockBlob)
+  // Size (263MB), Tempfile, UUID (uploadStreamToBlockBlob)
   "highlevel/recording_uploadstreamtoblockblob_should_update_progress_event.js"
 ];
 
