@@ -43,7 +43,6 @@ async function RunTest(
 ): Promise<void> {
   const ns = ServiceBusClient.createFromConnectionString(connectionString);
 
-  // If using Topics, use createTopicClient to send to a topic
   const client = ns.createQueueClient(entityPath);
   const receiver = client.createReceiver(ReceiveMode.receiveAndDelete);
 
