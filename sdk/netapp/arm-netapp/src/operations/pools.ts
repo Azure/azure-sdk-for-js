@@ -28,7 +28,8 @@ export class Pools {
   }
 
   /**
-   * Lists all capacity pools in the NetApp Account
+   * List all capacity pools in the NetApp Account
+   * @summary Describe all Capacity Pools
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
    * @param [options] The optional parameters
@@ -60,7 +61,8 @@ export class Pools {
   }
 
   /**
-   * Get a capacity pool
+   * Get details of the specified capacity pool
+   * @summary Describe a Capacity Pool
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
@@ -97,6 +99,7 @@ export class Pools {
 
   /**
    * Create or Update a capacity pool
+   * @summary Create or Update the specified capacity pool within the resource group
    * @param body Capacity pool object supplied in the body of the operation.
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
@@ -110,7 +113,8 @@ export class Pools {
   }
 
   /**
-   * Patch a capacity pool
+   * Patch the specified capacity pool
+   * @summary Update a capacity pool
    * @param body Capacity pool object supplied in the body of the operation.
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
@@ -150,7 +154,8 @@ export class Pools {
   }
 
   /**
-   * Delete a capacity pool
+   * Delete the specified capacity pool
+   * @summary Delete a capacity pool
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
@@ -164,6 +169,7 @@ export class Pools {
 
   /**
    * Create or Update a capacity pool
+   * @summary Create or Update the specified capacity pool within the resource group
    * @param body Capacity pool object supplied in the body of the operation.
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
@@ -185,7 +191,8 @@ export class Pools {
   }
 
   /**
-   * Delete a capacity pool
+   * Delete the specified capacity pool
+   * @summary Delete a capacity pool
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
@@ -226,7 +233,7 @@ const listOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.CapacityPoolList
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -252,7 +259,7 @@ const getOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.CapacityPool
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -285,7 +292,7 @@ const updateOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.CapacityPool
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -322,7 +329,7 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
     },
     202: {},
     default: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -347,7 +354,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer

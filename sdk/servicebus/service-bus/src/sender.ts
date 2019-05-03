@@ -57,6 +57,7 @@ export class Sender {
    */
   async send(message: SendableMessageInfo): Promise<void> {
     this._throwIfSenderOrConnectionClosed();
+    throwTypeErrorIfParameterMissing(this._context.namespace.connectionId, "message", message);
     const sender = MessageSender.create(this._context);
     return sender.send(message);
   }
@@ -76,6 +77,10 @@ export class Sender {
    */
   async sendBatch(messages: SendableMessageInfo[]): Promise<void> {
     this._throwIfSenderOrConnectionClosed();
+    throwTypeErrorIfParameterMissing(this._context.namespace.connectionId, "messages", messages);
+    if (!Array.isArray(messages)) {
+      messages = [messages];
+    }
     const sender = MessageSender.create(this._context);
     return sender.sendBatch(messages);
   }

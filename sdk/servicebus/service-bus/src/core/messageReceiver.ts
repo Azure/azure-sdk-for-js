@@ -21,7 +21,12 @@ import {
 import * as log from "../log";
 import { LinkEntity } from "./linkEntity";
 import { ClientEntityContext } from "../clientEntityContext";
-import { ServiceBusMessage, DispositionType, ReceiveMode } from "../serviceBusMessage";
+import {
+  ServiceBusMessage,
+  DispositionType,
+  ReceiveMode,
+  throwIfMessageCannotBeSettled
+} from "../serviceBusMessage";
 import { getUniqueName, calculateRenewAfterDuration } from "../util/utils";
 import { MessageHandlerOptions } from "./streamingReceiver";
 import { messageDispositionTimeout } from "../util/constants";
@@ -878,6 +883,9 @@ export class MessageReceiver extends LinkEntity {
       const delivery = message.delivery;
       const timer = setTimeout(() => {
         this._deliveryDispositionMap.delete(delivery.id);
+
+        throwIfMessageCannotBeSettled(this, operation, delivery.remote_settled);
+
         log.receiver(
           "[%s] Disposition for delivery id: %d, did not complete in %d milliseconds. " +
             "Hence resolving the promise.",

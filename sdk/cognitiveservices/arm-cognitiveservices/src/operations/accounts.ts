@@ -460,6 +460,10 @@ const updateOperationSpec: msRest.OperationSpec = {
       tags: [
         "options",
         "tags"
+      ],
+      properties: [
+        "options",
+        "properties"
       ]
     },
     mapper: {

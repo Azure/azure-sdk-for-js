@@ -172,7 +172,8 @@ export namespace ClientEntityContext {
 
     (entityContext as ClientEntityContext).onDetached = async (error?: AmqpError | Error) => {
       const connectionId = entityContext.namespace.connectionId;
-      // reconnect the sender if present
+
+      // Call onDetached() on sender so that it can decide whether to reconnect or not
       const sender = entityContext.sender;
       if (sender && !sender.isConnecting) {
         try {
@@ -180,7 +181,7 @@ export namespace ClientEntityContext {
           await sender.onDetached();
         } catch (err) {
           log.error(
-            "[%s] An error occurred while reconnecting the sender '%s': %O.",
+            "[%s] An error occurred while calling onDetached() the sender '%s': %O.",
             connectionId,
             sender.name,
             err
@@ -188,17 +189,27 @@ export namespace ClientEntityContext {
         }
       }
 
+      // Call onDetached() on batchingReceiver so that it can gracefully close any ongoing batch operation.
       const batchingReceiver = entityContext.batchingReceiver;
       if (batchingReceiver && !batchingReceiver.isConnecting) {
-        log.error(
-          "[%s] Receiver '%s' with address '%s' is a Batching Receiver, so we will not be " +
-            "re-establishing the receiver link.",
-          connectionId,
-          batchingReceiver.name,
-          batchingReceiver.address
-        );
+        try {
+          log.error(
+            "[%s] calling detached on batching receiver '%s'.",
+            connectionId,
+            batchingReceiver.name
+          );
+          await batchingReceiver.onDetached(error);
+        } catch (err) {
+          log.error(
+            "[%s] An error occurred while calling onDetached() on the batching receiver '%s': %O.",
+            connectionId,
+            batchingReceiver.name,
+            err
+          );
+        }
       }
-      // reconnect the streaming receiver if present
+
+      // Call onDetached() on streamingReceiver so that it can decide whether to reconnect or not
       const streamingReceiver = entityContext.streamingReceiver;
       if (streamingReceiver && !streamingReceiver.isConnecting) {
         try {
@@ -210,7 +221,7 @@ export namespace ClientEntityContext {
           await streamingReceiver.onDetached(error);
         } catch (err) {
           log.error(
-            "[%s] An error occurred while reconnecting the sender '%s': %O.",
+            "[%s] An error occurred while calling onDetached() on the streaming receiver '%s': %O.",
             connectionId,
             streamingReceiver.name,
             err

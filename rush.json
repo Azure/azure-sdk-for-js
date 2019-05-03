@@ -330,6 +330,10 @@
     // },
     //
     {
+      "packageName": "@azure/cosmos",
+      "projectFolder": "sdk/cosmosdb/cosmos"
+    },
+    {
       "packageName": "@azure/event-hubs",
       "projectFolder": "sdk/eventhub/event-hubs"
     },
