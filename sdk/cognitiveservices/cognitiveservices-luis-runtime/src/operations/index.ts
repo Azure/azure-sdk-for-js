@@ -8,4 +8,4 @@
  * regenerated.
  */
 
-export * from "./prediction";
+export * from "./predictionOperations";

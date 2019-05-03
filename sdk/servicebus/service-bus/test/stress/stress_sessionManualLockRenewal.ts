@@ -72,16 +72,17 @@ async function receiveMessage(sessionId: string): Promise<void> {
       }
       console.log("Received message: ", receivedMessage.messageId);
 
+      const startTime = Date.now();
       while (elapsedTime < testDurationInMilliseconds) {
         // simulate the user making an async call that takes time.
         await delay(interval);
         await receiver.renewSessionLock();
-        elapsedTime += interval;
+        elapsedTime = Date.now() - startTime;
 
         // log how long we've executed.
         console.log(`still executing after ${elapsedTime}`);
 
-        console.log("Time now: ", Date.now());
+        console.log("Time now: ", new Date().getUTCDate());
         console.log("Session LockedUntilUTC: ", receiver.sessionLockedUntilUtc);
 
         console.log("Processing message:");

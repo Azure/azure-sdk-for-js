@@ -7,13 +7,15 @@
  */
 
 export {
-  APIError,
-  CompositeChildModel,
-  CompositeEntityModel,
-  EntityModel,
-  EntityWithResolution,
-  EntityWithScore,
-  IntentModel,
-  LuisResult,
+  DynamicList,
+  ErrorBody,
+  ErrorModel,
+  ExternalEntity,
+  Intent,
+  Prediction,
+  PredictionRequest,
+  PredictionRequestOptions,
+  PredictionResponse,
+  RequestList,
   Sentiment
 } from "../models/mappers";
