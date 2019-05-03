@@ -11,30 +11,13 @@ Measures the maximum throughput of `receiver.receive()` in package `rhea-promise
 6. Example: `ts-node receive.ts 1000000`
  */
 
-import { Connection, ConnectionOptions, Receiver, ReceiverEvents } from "rhea-promise";
+import { Connection, ConnectionOptions, ReceiverEvents } from "rhea-promise";
 import delay from "delay";
 import moment from "moment";
 
 const _start = moment();
 
 let _messages = 0;
-
-/**
- * Maximum wait duration for the expected event to happen = `10000 ms`(default value is 10 seconds)(= maxWaitTimeInMilliseconds)
- * Keep checking whether the predicate is true after every `1000 ms`(default value is 1 second) (= delayBetweenRetriesInMilliseconds)
- */
-async function checkWithTimeout(
-  predicate: () => boolean,
-  maxWaitTimeInMilliseconds: number = 10000,
-  delayBetweenRetriesInMilliseconds: number = 1000
-): Promise<boolean> {
-  const maxTime = Date.now() + maxWaitTimeInMilliseconds;
-  while (Date.now() < maxTime) {
-    if (predicate()) return true;
-    await delay(delayBetweenRetriesInMilliseconds);
-  }
-  return false;
-}
 
 async function main(): Promise<void> {
   // Endpoint=sb://<your-namespace>.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=<shared-access-key>
@@ -89,18 +72,14 @@ async function RunTest(
       address: entityPath
     }
   });
-  ExecuteReceivesAsync(receiver);
 
-  await checkWithTimeout(() => _messages >= messages, messages * 1000);
-
-  await receiver.close();
-  await connection.close();
-}
-
-function ExecuteReceivesAsync(receiver: Receiver) {
-  receiver.on(ReceiverEvents.message, (context) => {
+  receiver.on(ReceiverEvents.message, async (context) => {
     //console.log("Received message: %O", context.message);
     _messages++;
+    if (_messages === messages) {
+      await receiver.close();
+      await connection.close();
+    }
   });
 }
 
