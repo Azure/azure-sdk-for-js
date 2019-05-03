@@ -89,11 +89,12 @@ async function RunTest(
 
   receiver.on(ReceiverEvents.message, async (context: any) => {
     // console.log("Received message: %O", context.message.body);
-    receiver.addCredit(1);
-    _messages++;
     if (_messages === messages) {
       await receiver.close();
       await connection.close();
+    } else {
+      receiver.addCredit(1);
+      _messages++;
     }
   });
 }
