@@ -47,7 +47,6 @@ function RunTest(connectionString: string, entityPath: string, messages: number)
             done();
           } else {
             _messages++;
-            receiveMessages(() => {});
           }
         }
       });
