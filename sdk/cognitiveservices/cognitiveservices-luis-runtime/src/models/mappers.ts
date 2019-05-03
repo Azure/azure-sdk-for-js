@@ -9,48 +9,37 @@
 import * as msRest from "@azure/ms-rest-js";
 
 
-export const IntentModel: msRest.CompositeMapper = {
-  serializedName: "IntentModel",
+export const PredictionRequestOptions: msRest.CompositeMapper = {
+  serializedName: "PredictionRequestOptions",
   type: {
     name: "Composite",
-    className: "IntentModel",
+    className: "PredictionRequestOptions",
     modelProperties: {
-      intent: {
-        serializedName: "intent",
+      datetimeReference: {
+        serializedName: "datetimeReference",
         type: {
-          name: "String"
+          name: "DateTime"
         }
       },
-      score: {
-        serializedName: "score",
-        constraints: {
-          InclusiveMaximum: 1,
-          InclusiveMinimum: 0
-        },
+      overridePredictions: {
+        serializedName: "overridePredictions",
         type: {
-          name: "Number"
+          name: "Boolean"
         }
       }
     }
   }
 };
 
-export const EntityModel: msRest.CompositeMapper = {
-  serializedName: "EntityModel",
+export const ExternalEntity: msRest.CompositeMapper = {
+  serializedName: "ExternalEntity",
   type: {
     name: "Composite",
-    className: "EntityModel",
+    className: "ExternalEntity",
     modelProperties: {
-      entity: {
+      entityName: {
         required: true,
-        serializedName: "entity",
-        type: {
-          name: "String"
-        }
-      },
-      type: {
-        required: true,
-        serializedName: "type",
+        serializedName: "entityName",
         type: {
           name: "String"
         }
@@ -62,77 +51,152 @@ export const EntityModel: msRest.CompositeMapper = {
           name: "Number"
         }
       },
-      endIndex: {
+      entityLength: {
         required: true,
-        serializedName: "endIndex",
+        serializedName: "entityLength",
         type: {
           name: "Number"
         }
-      }
-    },
-    additionalProperties: {
-      type: {
-        name: "Object"
-      }
-    }
-  }
-};
-
-export const CompositeChildModel: msRest.CompositeMapper = {
-  serializedName: "CompositeChildModel",
-  type: {
-    name: "Composite",
-    className: "CompositeChildModel",
-    modelProperties: {
-      type: {
-        required: true,
-        serializedName: "type",
-        type: {
-          name: "String"
-        }
       },
-      value: {
-        required: true,
-        serializedName: "value",
+      resolution: {
+        serializedName: "resolution",
         type: {
-          name: "String"
+          name: "Object"
         }
       }
     }
   }
 };
 
-export const CompositeEntityModel: msRest.CompositeMapper = {
-  serializedName: "CompositeEntityModel",
+export const RequestList: msRest.CompositeMapper = {
+  serializedName: "RequestList",
   type: {
     name: "Composite",
-    className: "CompositeEntityModel",
+    className: "RequestList",
     modelProperties: {
-      parentType: {
-        required: true,
-        serializedName: "parentType",
+      name: {
+        serializedName: "name",
         type: {
           name: "String"
         }
       },
-      value: {
+      canonicalForm: {
         required: true,
-        serializedName: "value",
+        serializedName: "canonicalForm",
         type: {
           name: "String"
         }
       },
-      children: {
+      synonyms: {
+        serializedName: "synonyms",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const DynamicList: msRest.CompositeMapper = {
+  serializedName: "DynamicList",
+  type: {
+    name: "Composite",
+    className: "DynamicList",
+    modelProperties: {
+      listEntityName: {
         required: true,
-        serializedName: "children",
+        serializedName: "listEntityName",
+        type: {
+          name: "String"
+        }
+      },
+      requestLists: {
+        required: true,
+        serializedName: "requestLists",
         type: {
           name: "Sequence",
           element: {
             type: {
               name: "Composite",
-              className: "CompositeChildModel"
+              className: "RequestList"
             }
           }
+        }
+      }
+    }
+  }
+};
+
+export const PredictionRequest: msRest.CompositeMapper = {
+  serializedName: "PredictionRequest",
+  type: {
+    name: "Composite",
+    className: "PredictionRequest",
+    modelProperties: {
+      query: {
+        required: true,
+        serializedName: "query",
+        type: {
+          name: "String"
+        }
+      },
+      options: {
+        serializedName: "options",
+        type: {
+          name: "Composite",
+          className: "PredictionRequestOptions"
+        }
+      },
+      externalEntities: {
+        serializedName: "externalEntities",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ExternalEntity"
+            }
+          }
+        }
+      },
+      dynamicLists: {
+        serializedName: "dynamicLists",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DynamicList"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const Intent: msRest.CompositeMapper = {
+  serializedName: "Intent",
+  type: {
+    name: "Composite",
+    className: "Intent",
+    modelProperties: {
+      score: {
+        serializedName: "score",
+        type: {
+          name: "Number"
+        }
+      },
+      childApp: {
+        serializedName: "childApp",
+        type: {
+          name: "Composite",
+          className: "Prediction"
         }
       }
     }
@@ -145,30 +209,32 @@ export const Sentiment: msRest.CompositeMapper = {
     name: "Composite",
     className: "Sentiment",
     modelProperties: {
+      score: {
+        required: true,
+        serializedName: "score",
+        type: {
+          name: "Number"
+        }
+      },
       label: {
         serializedName: "label",
         type: {
           name: "String"
-        }
-      },
-      score: {
-        serializedName: "score",
-        type: {
-          name: "Number"
         }
       }
     }
   }
 };
 
-export const LuisResult: msRest.CompositeMapper = {
-  serializedName: "LuisResult",
+export const Prediction: msRest.CompositeMapper = {
+  serializedName: "Prediction",
   type: {
     name: "Composite",
-    className: "LuisResult",
+    className: "Prediction",
     modelProperties: {
-      query: {
-        serializedName: "query",
+      normalizedQuery: {
+        required: true,
+        serializedName: "normalizedQuery",
         type: {
           name: "String"
         }
@@ -179,130 +245,110 @@ export const LuisResult: msRest.CompositeMapper = {
           name: "String"
         }
       },
-      topScoringIntent: {
-        serializedName: "topScoringIntent",
+      topIntent: {
+        required: true,
+        serializedName: "topIntent",
         type: {
-          name: "Composite",
-          className: "IntentModel"
+          name: "String"
         }
       },
       intents: {
+        required: true,
         serializedName: "intents",
         type: {
-          name: "Sequence",
-          element: {
+          name: "Dictionary",
+          value: {
             type: {
               name: "Composite",
-              className: "IntentModel"
+              className: "Intent"
             }
           }
         }
       },
       entities: {
+        required: true,
         serializedName: "entities",
         type: {
-          name: "Sequence",
-          element: {
+          name: "Dictionary",
+          value: {
             type: {
-              name: "Composite",
-              className: "EntityModel",
-              additionalProperties: {
-                type: {
-                  name: "Object"
-                }
-              }
+              name: "Object"
             }
           }
         }
       },
-      compositeEntities: {
-        serializedName: "compositeEntities",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "CompositeEntityModel"
-            }
-          }
-        }
-      },
-      sentimentAnalysis: {
-        serializedName: "sentimentAnalysis",
+      sentiment: {
+        serializedName: "sentiment",
         type: {
           name: "Composite",
           className: "Sentiment"
-        }
-      },
-      connectedServiceResult: {
-        serializedName: "connectedServiceResult",
-        type: {
-          name: "Composite",
-          className: "LuisResult"
         }
       }
     }
   }
 };
 
-export const EntityWithScore: msRest.CompositeMapper = {
-  serializedName: "EntityWithScore",
+export const PredictionResponse: msRest.CompositeMapper = {
+  serializedName: "PredictionResponse",
   type: {
     name: "Composite",
-    className: "EntityWithScore",
+    className: "PredictionResponse",
     modelProperties: {
-      ...EntityModel.type.modelProperties,
-      score: {
+      query: {
         required: true,
-        serializedName: "score",
-        constraints: {
-          InclusiveMaximum: 1,
-          InclusiveMinimum: 0
-        },
+        serializedName: "query",
         type: {
-          name: "Number"
+          name: "String"
+        }
+      },
+      prediction: {
+        required: true,
+        serializedName: "prediction",
+        type: {
+          name: "Composite",
+          className: "Prediction"
         }
       }
-    },
-    additionalProperties: EntityModel.type.additionalProperties
+    }
   }
 };
 
-export const EntityWithResolution: msRest.CompositeMapper = {
-  serializedName: "EntityWithResolution",
+export const ErrorBody: msRest.CompositeMapper = {
+  serializedName: "ErrorBody",
   type: {
     name: "Composite",
-    className: "EntityWithResolution",
+    className: "ErrorBody",
     modelProperties: {
-      ...EntityModel.type.modelProperties,
-      resolution: {
+      code: {
         required: true,
-        serializedName: "resolution",
-        type: {
-          name: "Object"
-        }
-      }
-    },
-    additionalProperties: EntityModel.type.additionalProperties
-  }
-};
-
-export const APIError: msRest.CompositeMapper = {
-  serializedName: "APIError",
-  type: {
-    name: "Composite",
-    className: "APIError",
-    modelProperties: {
-      statusCode: {
-        serializedName: "statusCode",
+        serializedName: "code",
         type: {
           name: "String"
         }
       },
       message: {
+        required: true,
         serializedName: "message",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ErrorModel: msRest.CompositeMapper = {
+  serializedName: "Error",
+  type: {
+    name: "Composite",
+    className: "ErrorModel",
+    modelProperties: {
+      error: {
+        required: true,
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "ErrorBody"
         }
       }
     }

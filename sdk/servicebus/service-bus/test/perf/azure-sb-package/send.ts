@@ -1,20 +1,21 @@
 /*
 # Overview
-Measures the maximum throughput of `sender.send()` in package `rhea-promise`.
+Measures the maximum throughput of `sender.send()` in package `azure-sb`.
 
 # Instructions
 1. Create a Service Bus namespace with `Tier=Premium` and `Messaging Units=4`.  It is recommended to use the largest possible namespace to allow maximum client throughput.
 2. Create a queue inside the namespace.
 3. Set env vars `SERVICE_BUS_CONNECTION_STRING` and `SERVICE_BUS_QUEUE_NAME`.
-4. `ts-node send.ts [maxInflightMessages] [totalMessages]`
-5. Example: `ts-node send.ts 1000 1000000`
+4. Run `npm install azure-sb @types/azure-sb` to install `azure-sb` package for this test.
+5. `ts-node send.ts [maxInflightMessages] [totalMessages]`
+6. Example: `ts-node send.ts 1000 1000000`
  */
 
-import { Connection, SenderEvents, ConnectionOptions } from "rhea-promise";
+import { createServiceBusService, ServiceBusService } from "azure-sb";
 import delay from "delay";
 import moment from "moment";
 
-const _payload = Buffer.alloc(1024);
+const _payload = JSON.stringify(Buffer.alloc(1024));
 const _start = moment();
 
 let _sent = 0;
@@ -25,16 +26,6 @@ async function main(): Promise<void> {
   // Endpoint=sb://<your-namespace>.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=<shared-access-key>
   const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING as string;
   const entityPath = process.env.SERVICE_BUS_QUEUE_NAME as string;
-  const allowUnauthorized = process.env.SERVICE_BUS_ALLOW_UNAUTHORIZED ? true : false;
-
-  // <your-namespace>.servicebus.windows.net
-  const host = connectionString.match(/\/\/([^\/]*)\//)![1];
-
-  // SharedAccessKeyName (usually  "RootManageSharedAccessKey")
-  const username = connectionString.match(/SharedAccessKeyName=(.*);/)![1];
-
-  // SharedAccessKey
-  const password = connectionString.match(/SharedAccessKey=(.*)/)![1];
 
   const maxInflight = process.argv.length > 2 ? parseInt(process.argv[2]) : 1;
   const messages = process.argv.length > 3 ? parseInt(process.argv[3]) : 10;
@@ -43,70 +34,33 @@ async function main(): Promise<void> {
 
   const writeResultsPromise = WriteResults(messages);
 
-  await RunTest(host, username, password, allowUnauthorized, entityPath, maxInflight, messages);
+  RunTest(connectionString, entityPath, maxInflight, messages);
 
   await writeResultsPromise;
 }
 
-async function RunTest(
-  host: string,
-  username: string,
-  password: string,
-  allowUnauthorized: boolean,
+function RunTest(
+  connectionString: string,
   entityPath: string,
   maxInflight: number,
   messages: number
-): Promise<void> {
-  const port = 5671;
-
-  const connection = new Connection({
-    transport: "tls",
-    host: host,
-    hostname: host,
-    username: username,
-    password: password,
-    port: port,
-    reconnect: false,
-    rejectUnauthorized: !allowUnauthorized
-  } as ConnectionOptions);
-  await connection.open();
-
-  const sender = await connection.createSender({
-    name: "sender-1",
-    target: {
-      address: entityPath
-    }
-  });
+) {
+  const sbService: ServiceBusService = createServiceBusService(connectionString);
 
   function sendMessages(): void {
-    while (sender.sendable() && _sent < messages && inflight() < maxInflight) {
+    while (_sent < messages && inflight() < maxInflight) {
       _sent++;
-      sender.send({ body: _payload });
+      sbService.sendQueueMessage(entityPath, { body: _payload }, function(err: any) {
+        if (err) {
+          _rejected++;
+          console.log(err.message);
+        } else {
+          _accepted++;
+          sendMessages();
+        }
+      });
     }
   }
-
-  sender.on(SenderEvents.sendable, () => {
-    sendMessages();
-  });
-
-  sender.on(SenderEvents.accepted, async () => {
-    _accepted++;
-    if (_accepted + _rejected === messages) {
-      await connection.close();
-    } else {
-      sendMessages();
-    }
-  });
-
-  sender.on(SenderEvents.rejected, async () => {
-    _rejected++;
-    if (_accepted + _rejected === messages) {
-      await connection.close();
-    } else {
-      sendMessages();
-    }
-  });
-
   sendMessages();
 }
 
