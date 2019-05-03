@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "module": "es2015",
+    "lib": [],
+    "preserveConstEnums": true,
+    "sourceMap": true,
+    "newLine": "LF",
+    "target": "es2015",
+    "importHelpers": true,
+    "moduleResolution": "node",
+    "noImplicitReturns": true,
+    "outDir": "dist-esm",
+    "allowJs": false,
+    "esModuleInterop": true,
+    "noUnusedLocals": true,
+    "strict": true,
+    "declaration": true,
+    "declarationDir": "./typings",
+    "declarationMap": true
+  },
+  "compileOnSave": true,
+  "exclude": ["node_modules", "testhub", "typings/**", "processor"],
+  "include": ["./src/**/*.ts", "./test/**/*.ts", "./samples/**/*.ts"]
+}
