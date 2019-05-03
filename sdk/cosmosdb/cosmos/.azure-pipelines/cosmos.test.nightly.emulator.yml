@@ -11,13 +11,13 @@ trigger:
     include:
     - sdk/cosmosdb/cosmos
 
-pr:
-  branches:
-    include:
-    - master
-  paths:
-    include:
-    - sdk/cosmosdb/cosmos
+# pr:
+#   branches:
+#     include:
+#     - master
+#   paths:
+#     include:
+#     - sdk/cosmosdb/cosmos
 
 jobs:
   - job: NightlyEmulator
