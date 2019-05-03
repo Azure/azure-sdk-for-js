@@ -24,18 +24,21 @@ async function main(): Promise<void> {
   const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING as string;
   const entityPath = process.env.SERVICE_BUS_QUEUE_NAME as string;
 
-  const messages = process.argv.length > 2 ? parseInt(process.argv[2]) : 10;
+  const maxConcurrentCalls = process.argv.length > 2 ? parseInt(process.argv[2]) : 10;
+  const messages = process.argv.length > 3 ? parseInt(process.argv[3]) : 100;
+  log(`Maximum Concurrent Calls: ${maxConcurrentCalls}`);
   log(`Total messages: ${messages}`);
 
   const writeResultsPromise = WriteResults(messages);
 
-  await RunTest(connectionString, entityPath, messages);
+  await RunTest(connectionString, entityPath, maxConcurrentCalls, messages);
   await writeResultsPromise;
 }
 
 async function RunTest(
   connectionString: string,
   entityPath: string,
+  maxConcurrentCalls: number,
   messages: number
 ): Promise<void> {
   const ns = ServiceBusClient.createFromConnectionString(connectionString);
@@ -56,7 +59,10 @@ async function RunTest(
     console.log("Error occurred: ", err);
   };
 
-  receiver.registerMessageHandler(onMessageHandler, onErrorHandler, { autoComplete: false });
+  receiver.registerMessageHandler(onMessageHandler, onErrorHandler, {
+    autoComplete: false,
+    maxConcurrentCalls: maxConcurrentCalls
+  });
 }
 
 async function WriteResults(messages: number): Promise<void> {
