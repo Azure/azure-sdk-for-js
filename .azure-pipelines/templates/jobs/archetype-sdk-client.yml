@@ -1,6 +1,7 @@
 jobs:
   - job: 'Build'
-
+    variables:
+    - template: ../variables/globals.yml
     pool:
       vmImage: 'ubuntu-16.04'
 
@@ -50,7 +51,8 @@ jobs:
           targetPath: $(Build.ArtifactStagingDirectory)
 
   - job: 'Analyze'
-
+    variables:
+    - template: ../variables/globals.yml
     pool:
       vmImage: 'ubuntu-16.04'
 
@@ -93,7 +95,8 @@ jobs:
         displayName: 'Component Detection'
 
   - job: 'Test'
-
+    variables:
+    - template: ../variables/globals.yml
     strategy:
       matrix:
         Linux_Node8:
