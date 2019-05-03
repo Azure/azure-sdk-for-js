@@ -77,7 +77,10 @@
   },
   "dependencies": {
     "@azure/cosmos-sign": "1.0.2",
+    "@types/fast-json-stable-stringify": "2.0.0",
     "binary-search-bounds": "2.0.3",
+    "crypto-hash": "1.1.0",
+    "fast-json-stable-stringify": "2.0.0",
     "node-abort-controller": "1.0.3",
     "node-fetch": "2.3.0",
     "priorityqueuejs": "1.0.0",

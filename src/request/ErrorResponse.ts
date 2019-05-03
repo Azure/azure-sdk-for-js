@@ -27,6 +27,7 @@ interface QueryInfo {
   limit?: number;
   aggregates?: any[];
   rewrittenQuery?: any;
+  distinctType: string;
 }
 
 export interface ErrorResponse {

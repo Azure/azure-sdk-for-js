@@ -31,6 +31,7 @@ describe("Cross Partition", function() {
         cnt: i,
         key: "value",
         spam2: i === 3 ? "eggs" + i.toString() : i,
+        spam3: `eggs${i % 3}`,
         boolVar: i % 2 === 0,
         number: 1.1 * i
       };
@@ -86,7 +87,7 @@ describe("Cross Partition", function() {
         expectedCount || (expectedOrderIds && expectedOrderIds.length) || documentDefinitions.length,
         "actual results length doesn't match with expected results length."
       );
-      if (expectedOrderIds) assert.deepStrictEqual(actualResults.map(doc => doc.id), expectedOrderIds);
+      if (expectedOrderIds) assert.deepStrictEqual(actualResults.map(doc => doc.id || doc), expectedOrderIds);
     };
 
     const validateFetchAll = async function(
@@ -335,6 +336,75 @@ describe("Cross Partition", function() {
       const expectedOrderedIds = documentDefinitions.sort(compare("spam")).map(function(r) {
         return r["id"];
       });
+
+      // validates the results size and order
+      await executeQueryAndValidateResults({ query, options, expectedOrderIds: expectedOrderedIds });
+    });
+
+    it("Validate DISTINCT Query", async function() {
+      // simple order by query in string format
+      const query = "SELECT DISTINCT VALUE r.spam3 FROM root r";
+      const options = {
+        enableCrossPartitionQuery: true,
+        maxItemCount: 2
+      };
+
+      // validates the results size and order
+      await executeQueryAndValidateResults({ query, options, expectedCount: 3 });
+    });
+
+    it("Validate DISTINCT OrderBy Query", async function() {
+      // simple order by query in string format
+      const query = "SELECT DISTINCT VALUE r.spam3 FROM root r order by r.spam3 DESC";
+      const options = {
+        enableCrossPartitionQuery: true,
+        maxItemCount: 2
+      };
+
+      const expectedOrderedIds = ["eggs2", "eggs1", "eggs0"];
+
+      // validates the results size and order
+      await executeQueryAndValidateResults({ query, options, expectedOrderIds: expectedOrderedIds });
+    });
+
+    it("Validate parallel DISTINCT Query", async function() {
+      // simple order by query in string format
+      const query = "SELECT DISTINCT VALUE r.spam3 FROM root r order by r.spam3";
+      const options = {
+        enableCrossPartitionQuery: true,
+        maxItemCount: 2,
+        maxDegreeOfParallelism: 3
+      };
+
+      const expectedOrderedIds = ["eggs0", "eggs1", "eggs2"];
+
+      // validates the results size and order
+      await executeQueryAndValidateResults({ query, options, expectedOrderIds: expectedOrderedIds });
+    });
+
+    it("Validate DISTINCT Query with maxItemCount = 1", async function() {
+      // simple order by query in string format
+      const query = "SELECT DISTINCT VALUE r.spam3 FROM root r order by r.spam3";
+      const options = {
+        enableCrossPartitionQuery: true,
+        maxItemCount: 1
+      };
+
+      const expectedOrderedIds = ["eggs0", "eggs1", "eggs2"];
+
+      // validates the results size and order
+      await executeQueryAndValidateResults({ query, options, expectedOrderIds: expectedOrderedIds });
+    });
+
+    it("Validate DISTINCT Query with maxItemCount = 20", async function() {
+      // simple order by query in string format
+      const query = "SELECT DISTINCT VALUE r.spam3 FROM root r order by r.spam3";
+      const options = {
+        enableCrossPartitionQuery: true,
+        maxItemCount: 20
+      };
+
+      const expectedOrderedIds = ["eggs0", "eggs1", "eggs2"];
 
       // validates the results size and order
       await executeQueryAndValidateResults({ query, options, expectedOrderIds: expectedOrderedIds });

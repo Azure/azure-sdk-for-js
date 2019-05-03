@@ -5,6 +5,8 @@ import { CosmosHeaders } from "./CosmosHeaders";
 import { AggregateEndpointComponent } from "./EndpointComponent/AggregateEndpointComponent";
 import { OffsetLimitEndpointComponent } from "./EndpointComponent/OffsetLimitEndpointComponent";
 import { OrderByEndpointComponent } from "./EndpointComponent/OrderByEndpointComponent";
+import { OrderedDistinctEndpointComponent } from "./EndpointComponent/OrderedDistinctEndpointComponent";
+import { UnorderedDistinctEndpointComponent } from "./EndpointComponent/UnorderedDistinctEndpointComponent";
 import { ExecutionContext } from "./ExecutionContext";
 import { getInitialHeader, mergeHeaders } from "./headerUtils";
 import { OrderByQueryExecutionContext } from "./orderByQueryExecutionContext";
@@ -71,6 +73,15 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
     const offset = partitionedQueryExecutionInfo.queryInfo.offset;
     if (typeof limit === "number" && typeof offset === "number") {
       this.endpoint = new OffsetLimitEndpointComponent(this.endpoint, offset, limit);
+    }
+
+    // If distinct then add that to the pipeline
+    const distinctType = partitionedQueryExecutionInfo.queryInfo.distinctType;
+    if (distinctType === "Ordered") {
+      this.endpoint = new OrderedDistinctEndpointComponent(this.endpoint);
+    }
+    if (distinctType === "Unordered") {
+      this.endpoint = new UnorderedDistinctEndpointComponent(this.endpoint);
     }
   }
 
