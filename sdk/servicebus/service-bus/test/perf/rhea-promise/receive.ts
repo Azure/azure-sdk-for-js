@@ -7,8 +7,8 @@ Measures the maximum throughput of `receiver.receive()` in package `rhea-promise
 2. Create a queue inside the namespace.
 3. Set env vars `SERVICE_BUS_CONNECTION_STRING` and `SERVICE_BUS_QUEUE_NAME`.
 4. This test presumes that there are messages in the queue.
-5. `ts-node receive.ts [totalMessages]`
-6. Example: `ts-node receive.ts 1000000`
+5. `ts-node receive.ts [maxConcurrentCalls] [totalMessages]`
+6. Example: `ts-node receive.ts 1000 1000000`
  */
 
 import { Connection, ConnectionOptions, ReceiverEvents } from "rhea-promise";
@@ -34,12 +34,22 @@ async function main(): Promise<void> {
   // SharedAccessKey
   const password = connectionString.match(/SharedAccessKey=(.*)/)![1];
 
-  const messages = process.argv.length > 2 ? parseInt(process.argv[2]) : 10;
+  const maxConcurrentCalls = process.argv.length > 2 ? parseInt(process.argv[2]) : 10;
+  const messages = process.argv.length > 3 ? parseInt(process.argv[3]) : 100;
+  log(`Maximum Concurrent Calls: ${maxConcurrentCalls}`);
   log(`Total messages: ${messages}`);
 
   const writeResultsPromise = WriteResults(messages);
 
-  await RunTest(host, username, password, allowUnauthorized, entityPath, messages);
+  await RunTest(
+    host,
+    username,
+    password,
+    allowUnauthorized,
+    entityPath,
+    maxConcurrentCalls,
+    messages
+  );
 
   await writeResultsPromise;
 }
@@ -50,6 +60,7 @@ async function RunTest(
   password: string,
   allowUnauthorized: boolean,
   entityPath: string,
+  maxConcurrentCalls: number,
   messages: number
 ): Promise<void> {
   const port = 5671;
@@ -70,11 +81,15 @@ async function RunTest(
     name: "receiver-1",
     source: {
       address: entityPath
-    }
+    },
+    credit_window: 0
   });
 
-  receiver.on(ReceiverEvents.message, async (context) => {
-    //console.log("Received message: %O", context.message);
+  receiver.addCredit(maxConcurrentCalls);
+
+  receiver.on(ReceiverEvents.message, async (context: any) => {
+    // console.log("Received message: %O", context.message.body);
+    receiver.addCredit(1);
     _messages++;
     if (_messages === messages) {
       await receiver.close();
