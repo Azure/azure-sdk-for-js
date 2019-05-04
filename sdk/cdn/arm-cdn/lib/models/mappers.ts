@@ -633,7 +633,7 @@ export const RemoteAddressMatchConditionParameters: msRest.CompositeMapper = {
         required: true,
         isConstant: true,
         serializedName: "@odata\\.type",
-        defaultValue: 'Microsoft.Azure.Cdn.Models.DeliveryRuleRemoteAddressConditionParameters',
+        defaultValue: '#Microsoft.Azure.Cdn.Models.DeliveryRuleRemoteAddressConditionParameters',
         type: {
           name: "String"
         }
@@ -710,7 +710,7 @@ export const RequestMethodMatchConditionParameters: msRest.CompositeMapper = {
         required: true,
         isConstant: true,
         serializedName: "@odata\\.type",
-        defaultValue: 'Microsoft.Azure.Cdn.Models.DeliveryRuleRequestMethodConditionParameters',
+        defaultValue: '#Microsoft.Azure.Cdn.Models.DeliveryRuleRequestMethodConditionParameters',
         type: {
           name: "String"
         }
@@ -778,7 +778,7 @@ export const QueryStringMatchConditionParameters: msRest.CompositeMapper = {
         required: true,
         isConstant: true,
         serializedName: "@odata\\.type",
-        defaultValue: 'Microsoft.Azure.Cdn.Models.DeliveryRuleQueryStringConditionParameters',
+        defaultValue: '#Microsoft.Azure.Cdn.Models.DeliveryRuleQueryStringConditionParameters',
         type: {
           name: "String"
         }
@@ -855,7 +855,7 @@ export const PostArgsMatchConditionParameters: msRest.CompositeMapper = {
         required: true,
         isConstant: true,
         serializedName: "@odata\\.type",
-        defaultValue: 'Microsoft.Azure.Cdn.Models.DeliveryRulePostArgsConditionParameters',
+        defaultValue: '#Microsoft.Azure.Cdn.Models.DeliveryRulePostArgsConditionParameters',
         type: {
           name: "String"
         }
@@ -939,7 +939,7 @@ export const RequestUriMatchConditionParameters: msRest.CompositeMapper = {
         required: true,
         isConstant: true,
         serializedName: "@odata\\.type",
-        defaultValue: 'Microsoft.Azure.Cdn.Models.DeliveryRuleRequestUriConditionParameters',
+        defaultValue: '#Microsoft.Azure.Cdn.Models.DeliveryRuleRequestUriConditionParameters',
         type: {
           name: "String"
         }
@@ -1016,7 +1016,7 @@ export const RequestHeaderMatchConditionParameters: msRest.CompositeMapper = {
         required: true,
         isConstant: true,
         serializedName: "@odata\\.type",
-        defaultValue: 'Microsoft.Azure.Cdn.Models.DeliveryRuleRequestHeaderConditionParameters',
+        defaultValue: '#Microsoft.Azure.Cdn.Models.DeliveryRuleRequestHeaderConditionParameters',
         type: {
           name: "String"
         }
@@ -1100,7 +1100,7 @@ export const RequestBodyMatchConditionParameters: msRest.CompositeMapper = {
         required: true,
         isConstant: true,
         serializedName: "@odata\\.type",
-        defaultValue: 'Microsoft.Azure.Cdn.Models.DeliveryRuleRequestBodyConditionParameters',
+        defaultValue: '#Microsoft.Azure.Cdn.Models.DeliveryRuleRequestBodyConditionParameters',
         type: {
           name: "String"
         }
@@ -1177,7 +1177,7 @@ export const RequestSchemeMatchConditionParameters: msRest.CompositeMapper = {
         required: true,
         isConstant: true,
         serializedName: "@odata\\.type",
-        defaultValue: 'Microsoft.Azure.Cdn.Models.DeliveryRuleRequestSchemeConditionParameters',
+        defaultValue: '#Microsoft.Azure.Cdn.Models.DeliveryRuleRequestSchemeConditionParameters',
         type: {
           name: "String"
         }
@@ -1245,7 +1245,7 @@ export const UrlPathMatchConditionParameters: msRest.CompositeMapper = {
         required: true,
         isConstant: true,
         serializedName: "@odata\\.type",
-        defaultValue: 'Microsoft.Azure.Cdn.Models.DeliveryRuleUrlPathMatchConditionParameters',
+        defaultValue: '#Microsoft.Azure.Cdn.Models.DeliveryRuleUrlPathMatchConditionParameters',
         type: {
           name: "String"
         }
@@ -1322,7 +1322,7 @@ export const UrlFileExtensionMatchConditionParameters: msRest.CompositeMapper = 
         required: true,
         isConstant: true,
         serializedName: "@odata\\.type",
-        defaultValue: 'Microsoft.Azure.Cdn.Models.DeliveryRuleUrlFileExtensionMatchConditionParameters',
+        defaultValue: '#Microsoft.Azure.Cdn.Models.DeliveryRuleUrlFileExtensionMatchConditionParameters',
         type: {
           name: "String"
         }
@@ -1399,7 +1399,7 @@ export const UrlFileNameMatchConditionParameters: msRest.CompositeMapper = {
         required: true,
         isConstant: true,
         serializedName: "@odata\\.type",
-        defaultValue: 'Microsoft.Azure.Cdn.Models.DeliveryRuleUrlFilenameConditionParameters',
+        defaultValue: '#Microsoft.Azure.Cdn.Models.DeliveryRuleUrlFilenameConditionParameters',
         type: {
           name: "String"
         }
@@ -1476,7 +1476,7 @@ export const IsDeviceMatchConditionParameters: msRest.CompositeMapper = {
         required: true,
         isConstant: true,
         serializedName: "@odata\\.type",
-        defaultValue: 'Microsoft.Azure.Cdn.Models.DeliveryRuleIsDeviceConditionParameters',
+        defaultValue: '#Microsoft.Azure.Cdn.Models.DeliveryRuleIsDeviceConditionParameters',
         type: {
           name: "String"
         }
@@ -1555,7 +1555,7 @@ export const UrlRedirectActionParameters: msRest.CompositeMapper = {
         required: true,
         isConstant: true,
         serializedName: "@odata\\.type",
-        defaultValue: 'Microsoft.Azure.Cdn.Models.DeliveryRuleUrlRedirectActionParameters',
+        defaultValue: '#Microsoft.Azure.Cdn.Models.DeliveryRuleUrlRedirectActionParameters',
         type: {
           name: "String"
         }
@@ -1633,7 +1633,7 @@ export const HeaderActionParameters: msRest.CompositeMapper = {
         required: true,
         isConstant: true,
         serializedName: "@odata\\.type",
-        defaultValue: 'Microsoft.Azure.Cdn.Models.DeliveryRuleHeaderActionParameters',
+        defaultValue: '#Microsoft.Azure.Cdn.Models.DeliveryRuleHeaderActionParameters',
         type: {
           name: "String"
         }
@@ -1716,7 +1716,7 @@ export const CacheExpirationActionParameters: msRest.CompositeMapper = {
         required: true,
         isConstant: true,
         serializedName: "@odata\\.type",
-        defaultValue: 'Microsoft.Azure.Cdn.Models.DeliveryRuleCacheExpirationActionParameters',
+        defaultValue: '#Microsoft.Azure.Cdn.Models.DeliveryRuleCacheExpirationActionParameters',
         type: {
           name: "String"
         }
