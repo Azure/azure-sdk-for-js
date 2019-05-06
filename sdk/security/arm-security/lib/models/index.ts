@@ -44,6 +44,51 @@ export interface Resource extends BaseResource {
 
 /**
  * @interface
+ * An interface representing ComplianceResult.
+ * a compliance result
+ *
+ * @extends Resource
+ */
+export interface ComplianceResult extends Resource {
+  /**
+   * @member {ResourceStatus} [resourceStatus] The status of the resource
+   * regarding a single assessment. Possible values include: 'Healthy',
+   * 'NotApplicable', 'OffByPolicy', 'NotHealthy'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly resourceStatus?: ResourceStatus;
+}
+
+/**
+ * @interface
+ * An interface representing ComplianceResultList.
+ * List of compliance results response
+ *
+ */
+export interface ComplianceResultList {
+  /**
+   * @member {ComplianceResult[]} value List of compliance results
+   */
+  value: ComplianceResult[];
+}
+
+/**
+ * @interface
+ * An interface representing AscLocation.
+ * The ASC location of the subscription is in the "name" field
+ *
+ * @extends Resource
+ */
+export interface AscLocation extends Resource {
+  /**
+   * @member {any} [properties]
+   */
+  properties?: any;
+}
+
+/**
+ * @interface
  * An interface representing Pricing.
  * Pricing tier will be applied for the scope based on the resource ID
  *
@@ -76,20 +121,6 @@ export interface PricingList {
    * @member {Pricing[]} value List of pricing configurations
    */
   value: Pricing[];
-}
-
-/**
- * @interface
- * An interface representing AscLocation.
- * The ASC location of the subscription is in the "name" field
- *
- * @extends Resource
- */
-export interface AscLocation extends Resource {
-  /**
-   * @member {any} [properties]
-   */
-  properties?: any;
 }
 
 /**
@@ -2155,6 +2186,14 @@ export interface RegulatoryComplianceAssessmentList extends Array<RegulatoryComp
 }
 
 /**
+ * Defines values for ResourceStatus.
+ * Possible values include: 'Healthy', 'NotApplicable', 'OffByPolicy', 'NotHealthy'
+ * @readonly
+ * @enum {string}
+ */
+export type ResourceStatus = 'Healthy' | 'NotApplicable' | 'OffByPolicy' | 'NotHealthy';
+
+/**
  * Defines values for PricingTier.
  * Possible values include: 'Free', 'Standard'
  * @readonly
@@ -2329,6 +2368,44 @@ export type InformationProtectionPolicyName = 'effective' | 'custom';
  * @enum {string}
  */
 export type InformationProtectionPolicyName1 = 'effective' | 'custom';
+
+/**
+ * Contains response data for the list operation.
+ */
+export type ComplianceResultsListResponse = ComplianceResultList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ComplianceResultList;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type ComplianceResultsGetResponse = ComplianceResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ComplianceResult;
+    };
+};
 
 /**
  * Contains response data for the list operation.

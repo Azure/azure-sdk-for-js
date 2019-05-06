@@ -8,6 +8,7 @@
  * regenerated.
  */
 
+export * from "./complianceResults";
 export * from "./pricings";
 export * from "./alerts";
 export * from "./settings";

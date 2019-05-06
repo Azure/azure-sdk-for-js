@@ -15,6 +15,7 @@ export {
   Resource,
   BaseResource,
   CloudError,
+  ComplianceResult,
   AscLocation,
   Alert,
   AlertEntity,

@@ -17,6 +17,7 @@ import { SecurityCenterContext } from "./securityCenterContext";
 
 class SecurityCenter extends SecurityCenterContext {
   // Operation groups
+  complianceResults: operations.ComplianceResults;
   pricings: operations.Pricings;
   alerts: operations.Alerts;
   settings: operations.Settings;
@@ -48,6 +49,7 @@ class SecurityCenter extends SecurityCenterContext {
    */
   constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, ascLocation: string, options?: Models.SecurityCenterOptions) {
     super(credentials, subscriptionId, ascLocation, options);
+    this.complianceResults = new operations.ComplianceResults(this);
     this.pricings = new operations.Pricings(this);
     this.alerts = new operations.Alerts(this);
     this.settings = new operations.Settings(this);

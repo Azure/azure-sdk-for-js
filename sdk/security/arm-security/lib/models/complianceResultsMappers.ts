@@ -10,11 +10,11 @@
 
 export {
   discriminators,
-  AdvancedThreatProtectionSetting,
+  ComplianceResultList,
+  ComplianceResult,
   Resource,
   BaseResource,
   CloudError,
-  ComplianceResult,
   AscLocation,
   Pricing,
   Alert,
@@ -23,6 +23,7 @@ export {
   SettingResource,
   SecurityTask,
   SecurityTaskParameters,
+  AdvancedThreatProtectionSetting,
   AutoProvisioningSetting,
   Compliance,
   ComplianceSegment,

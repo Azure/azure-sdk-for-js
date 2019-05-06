@@ -97,7 +97,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.settingName1
   ],
   queryParameters: [
-    Parameters.apiVersion3
+    Parameters.apiVersion4
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -121,7 +121,7 @@ const createOperationSpec: msRest.OperationSpec = {
     Parameters.settingName1
   ],
   queryParameters: [
-    Parameters.apiVersion3
+    Parameters.apiVersion4
   ],
   headerParameters: [
     Parameters.acceptLanguage

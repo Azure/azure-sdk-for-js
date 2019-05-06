@@ -140,7 +140,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.regulatoryComplianceStandardName
   ],
   queryParameters: [
-    Parameters.apiVersion4,
+    Parameters.apiVersion5,
     Parameters.filter
   ],
   headerParameters: [
@@ -167,7 +167,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.regulatoryComplianceControlName
   ],
   queryParameters: [
-    Parameters.apiVersion4
+    Parameters.apiVersion5
   ],
   headerParameters: [
     Parameters.acceptLanguage

@@ -45,6 +45,64 @@ export const Resource: msRest.CompositeMapper = {
   }
 };
 
+export const ComplianceResult: msRest.CompositeMapper = {
+  serializedName: "ComplianceResult",
+  type: {
+    name: "Composite",
+    className: "ComplianceResult",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      resourceStatus: {
+        readOnly: true,
+        serializedName: "properties.resourceStatus",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ComplianceResultList: msRest.CompositeMapper = {
+  serializedName: "ComplianceResultList",
+  type: {
+    name: "Composite",
+    className: "ComplianceResultList",
+    modelProperties: {
+      value: {
+        required: true,
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ComplianceResult"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const AscLocation: msRest.CompositeMapper = {
+  serializedName: "AscLocation",
+  type: {
+    name: "Composite",
+    className: "AscLocation",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Object"
+        }
+      }
+    }
+  }
+};
+
 export const Pricing: msRest.CompositeMapper = {
   serializedName: "Pricing",
   type: {
@@ -87,23 +145,6 @@ export const PricingList: msRest.CompositeMapper = {
               className: "Pricing"
             }
           }
-        }
-      }
-    }
-  }
-};
-
-export const AscLocation: msRest.CompositeMapper = {
-  serializedName: "AscLocation",
-  type: {
-    name: "Composite",
-    className: "AscLocation",
-    modelProperties: {
-      ...Resource.type.modelProperties,
-      properties: {
-        serializedName: "properties",
-        type: {
-          name: "Object"
         }
       }
     }
