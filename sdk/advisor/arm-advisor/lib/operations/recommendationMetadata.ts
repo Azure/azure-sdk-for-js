@@ -126,7 +126,7 @@ const getOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.MetadataEntity
     },
     404: {
-      bodyMapper: Mappers.ARMErrorResponseBody
+      bodyMapper: Mappers.ARMErrorResponse
     },
     default: {
       bodyMapper: Mappers.CloudError
