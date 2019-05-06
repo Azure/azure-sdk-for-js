@@ -1554,7 +1554,7 @@ export const ServicePrincipal: msRest.CompositeMapper = {
       accountEnabled: {
         serializedName: "accountEnabled",
         type: {
-          name: "String"
+          name: "Boolean"
         }
       },
       alternativeNames: {

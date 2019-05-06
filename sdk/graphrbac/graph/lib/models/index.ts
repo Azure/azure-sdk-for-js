@@ -1140,10 +1140,10 @@ export interface ServicePrincipal {
    */
   readonly deletionTimestamp?: Date;
   /**
-   * @member {string} [accountEnabled] whether or not the service principal
+   * @member {boolean} [accountEnabled] whether or not the service principal
    * account is enabled
    */
-  accountEnabled?: string;
+  accountEnabled?: boolean;
   /**
    * @member {string[]} [alternativeNames] alternative names
    */
