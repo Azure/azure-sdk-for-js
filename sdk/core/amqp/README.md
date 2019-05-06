@@ -13,9 +13,7 @@ Some of the common functionalities include:
 
 ## Status
 
-This library is currently maintained at https://github.com/Azure/azure-sdk-for-js which will be deprecated after the newer @azure/amqp package is published.
-
-[![Build Status](https://dev.azure.com/azure-sdk/public/_apis/build/status/amqp-common-js?branchName=master)](https://dev.azure.com/azure-sdk/public/_build/latest?definitionId=61?branchName=master)
+This library is now released for general availability.
 
 ## Getting started
 
@@ -33,7 +31,7 @@ This library is currently maintained at https://github.com/Azure/azure-sdk-for-j
 npm install @azure/amqp
 ```
 
-- [`rhea-romise`](https://github.com/amqp/rhea-promise) is a peer dependency. You need to explicitly install this library as a dependency
+- [`rhea-promise`](https://github.com/amqp/rhea-promise) is a peer dependency. You need to explicitly install this library as a dependency
   in your application.
 
 ### IDE
