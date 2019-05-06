@@ -1678,13 +1678,10 @@ export interface SecurityAssessmentMetadata extends Resource {
    */
   readonly remediationDescription?: string;
   /**
-   * @member {Category} [category] The category of resource that is at risk
-   * when the assessment is unhealthy. Possible values include: 'Compute',
-   * 'Network', 'Data', 'IdentityAndAccess', 'IoT'
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
+   * @member {Category[]} [category] **NOTE: This property will not be
+   * serialized. It can only be populated by the server.**
    */
-  readonly category?: Category;
+  readonly category?: Category[];
   /**
    * @member {number} [secureScoreWeight] Weight for the security score
    * calculation. the higher this number, this severity  of this assessment is
@@ -1693,6 +1690,11 @@ export interface SecurityAssessmentMetadata extends Resource {
    * the server.**
    */
   readonly secureScoreWeight?: number;
+  /**
+   * @member {RequiredPricingBundle[]} [requiredPricingBundle] **NOTE: This
+   * property will not be serialized. It can only be populated by the server.**
+   */
+  readonly requiredPricingBundle?: RequiredPricingBundle[];
   /**
    * @member {boolean} [preview] True if this assessment is in preview release
    * status
@@ -2465,6 +2467,14 @@ export type Severity = 'Passed' | 'Failed' | 'NotApplicable';
  * @enum {string}
  */
 export type Category = 'Compute' | 'Network' | 'Data' | 'IdentityAndAccess' | 'IoT';
+
+/**
+ * Defines values for RequiredPricingBundle.
+ * Possible values include: 'VirtualMachines', 'SqlServers', 'AppServices', 'StorageAccounts'
+ * @readonly
+ * @enum {string}
+ */
+export type RequiredPricingBundle = 'VirtualMachines' | 'SqlServers' | 'AppServices' | 'StorageAccounts';
 
 /**
  * Defines values for State.

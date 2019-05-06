@@ -2057,7 +2057,12 @@ export const SecurityAssessmentMetadata: msRest.CompositeMapper = {
         readOnly: true,
         serializedName: "properties.category",
         type: {
-          name: "String"
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       },
       secureScoreWeight: {
@@ -2065,6 +2070,18 @@ export const SecurityAssessmentMetadata: msRest.CompositeMapper = {
         serializedName: "properties.secureScoreWeight",
         type: {
           name: "Number"
+        }
+      },
+      requiredPricingBundle: {
+        readOnly: true,
+        serializedName: "properties.requiredPricingBundle",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       },
       preview: {
