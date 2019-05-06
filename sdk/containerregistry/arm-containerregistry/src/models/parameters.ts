@@ -38,6 +38,18 @@ export const apiVersion1: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
+    defaultValue: '2019-05-01-preview',
+    type: {
+      name: "String"
+    }
+  }
+};
+export const apiVersion2: msRest.OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    required: true,
+    isConstant: true,
+    serializedName: "api-version",
     defaultValue: '2019-04-01',
     type: {
       name: "String"
@@ -120,6 +132,21 @@ export const runId: msRest.OperationURLParameter = {
     }
   }
 };
+export const scopeMapName: msRest.OperationURLParameter = {
+  parameterPath: "scopeMapName",
+  mapper: {
+    required: true,
+    serializedName: "scopeMapName",
+    constraints: {
+      MaxLength: 50,
+      MinLength: 5,
+      Pattern: /^[a-zA-Z][a-zA-Z0-9-]*$/
+    },
+    type: {
+      name: "String"
+    }
+  }
+};
 export const subscriptionId: msRest.OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
@@ -139,6 +166,21 @@ export const taskName: msRest.OperationURLParameter = {
       MaxLength: 50,
       MinLength: 5,
       Pattern: /^[a-zA-Z0-9-_]*$/
+    },
+    type: {
+      name: "String"
+    }
+  }
+};
+export const tokenName: msRest.OperationURLParameter = {
+  parameterPath: "tokenName",
+  mapper: {
+    required: true,
+    serializedName: "tokenName",
+    constraints: {
+      MaxLength: 50,
+      MinLength: 5,
+      Pattern: /^[a-zA-Z][a-zA-Z0-9-]*$/
     },
     type: {
       name: "String"

@@ -12,5 +12,7 @@ export * from "./registries";
 export * from "./operations";
 export * from "./replications";
 export * from "./webhooks";
+export * from "./scopeMaps";
+export * from "./tokens";
 export * from "./runs";
 export * from "./tasks";
