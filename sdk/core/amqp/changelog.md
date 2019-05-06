@@ -1,3 +1,8 @@
+### 2019-5-6 1.0.0
+
+- The package name for this package was updated from `@azure/amqp-common` to `@azure/amqp` and released for General Availability.
+- Moved repo from https://github.com/Azure/amqp-common-js to https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/amqp [Issue 1208](https://github.com/Azure/azure-sdk-for-js/issues/1208)
+
 ### 2019-4-22 1.0.0-preview.3
 
 - Update the `isNode` utility to return `true` when run in Electron applications. [PR 40](https://github.com/Azure/amqp-common-js/pull/40)
@@ -30,7 +35,7 @@
 
 ### 2018-10-19 0.1.6
 
-- Fixed error stack propogation
+- Fixed error stack propagation
 - Added more constants
 
 ### 2018-10-17 0.1.5

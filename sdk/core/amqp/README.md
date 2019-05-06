@@ -11,10 +11,6 @@ Some of the common functionalities include:
 - AMQP message data transformation (encoding/decoding) that most AMQP based Azure services use for communication
 - RetryPolicy for retrying different operations
 
-## Status
-
-This library is now released for general availability.
-
 ## Getting started
 
 ### Pre-requisite
