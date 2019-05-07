@@ -24,6 +24,7 @@ const config = {
  * regenerated.
  */`
   },
+  preserveSymlinks: false,
   plugins: [
     nodeResolve({ module: true })
   ]
