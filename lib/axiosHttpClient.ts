@@ -23,7 +23,7 @@ export class AxiosHttpClient implements HttpClient {
   private readonly cookieJar = new tough.CookieJar();
 
   public async sendRequest(httpRequest: WebResource): Promise<HttpOperationResponse> {
-    if (!httpRequest) {
+    if (typeof httpRequest !== "object") {
       throw new Error("httpRequest (WebResource) cannot be null or undefined and must be of type object.");
     }
 
