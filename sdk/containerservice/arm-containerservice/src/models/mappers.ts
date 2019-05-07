@@ -108,6 +108,7 @@ export const OpenShiftRouterProfile: msRest.CompositeMapper = {
         }
       },
       publicSubdomain: {
+        readOnly: true,
         serializedName: "publicSubdomain",
         type: {
           name: "String"
@@ -139,6 +140,12 @@ export const NetworkProfile: msRest.CompositeMapper = {
       },
       peerVnetId: {
         serializedName: "peerVnetId",
+        type: {
+          name: "String"
+        }
+      },
+      vnetId: {
+        serializedName: "vnetId",
         type: {
           name: "String"
         }
@@ -336,13 +343,22 @@ export const OpenShiftManagedCluster: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      clusterVersion: {
+        readOnly: true,
+        serializedName: "properties.clusterVersion",
+        type: {
+          name: "String"
+        }
+      },
       publicHostname: {
+        readOnly: true,
         serializedName: "properties.publicHostname",
         type: {
           name: "String"
         }
       },
       fqdn: {
+        readOnly: true,
         serializedName: "properties.fqdn",
         type: {
           name: "String"

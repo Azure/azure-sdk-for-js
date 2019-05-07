@@ -10,7 +10,7 @@ Measures the maximum throughput of `sender.send()` in package `rhea-promise`.
 5. Example: `ts-node send.ts 1000 1000000`
  */
 
-import { Connection, SenderEvents } from "rhea-promise";
+import { Connection, SenderEvents, ConnectionOptions } from "rhea-promise";
 import delay from "delay";
 import moment from "moment";
 
@@ -19,14 +19,16 @@ const _start = moment();
 
 let _sent = 0;
 let _accepted = 0;
+let _rejected = 0;
 
 async function main(): Promise<void> {
   // Endpoint=sb://<your-namespace>.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=<shared-access-key>
   const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING as string;
   const entityPath = process.env.SERVICE_BUS_QUEUE_NAME as string;
+  const allowUnauthorized = process.env.SERVICE_BUS_ALLOW_UNAUTHORIZED ? true : false;
 
   // <your-namespace>.servicebus.windows.net
-  const host = connectionString.match(/\/\/(.*\.servicebus\.windows\.net)/)![1];
+  const host = connectionString.match(/\/\/([^\/]*)\//)![1];
 
   // SharedAccessKeyName (usually  "RootManageSharedAccessKey")
   const username = connectionString.match(/SharedAccessKeyName=(.*);/)![1];
@@ -41,7 +43,7 @@ async function main(): Promise<void> {
 
   const writeResultsPromise = WriteResults(messages);
 
-  await RunTest(host, username, password, entityPath, maxInflight, messages);
+  await RunTest(host, username, password, allowUnauthorized, entityPath, maxInflight, messages);
 
   await writeResultsPromise;
 }
@@ -50,6 +52,7 @@ async function RunTest(
   host: string,
   username: string,
   password: string,
+  allowUnauthorized: boolean,
   entityPath: string,
   maxInflight: number,
   messages: number
@@ -63,8 +66,9 @@ async function RunTest(
     username: username,
     password: password,
     port: port,
-    reconnect: false
-  });
+    reconnect: false,
+    rejectUnauthorized: !allowUnauthorized
+  } as ConnectionOptions);
   await connection.open();
 
   const sender = await connection.createSender({
@@ -86,7 +90,17 @@ async function RunTest(
   });
 
   sender.on(SenderEvents.accepted, async () => {
-    if (++_accepted === messages) {
+    _accepted++;
+    if (_accepted + _rejected === messages) {
+      await connection.close();
+    } else {
+      sendMessages();
+    }
+  });
+
+  sender.on(SenderEvents.rejected, async () => {
+    _rejected++;
+    if (_accepted + _rejected === messages) {
       await connection.close();
     } else {
       sendMessages();
@@ -118,8 +132,15 @@ async function WriteResults(messages: number): Promise<void> {
       maxElapsed = currentElapsed;
     }
 
-    WriteResult(acceptedMessages, elapsed, currentMessages, currentElapsed, maxMessages, maxElapsed);
-  } while (_accepted < messages);
+    WriteResult(
+      acceptedMessages,
+      elapsed,
+      currentMessages,
+      currentElapsed,
+      maxMessages,
+      maxElapsed
+    );
+  } while (_accepted + _rejected < messages);
 }
 
 function WriteResult(
@@ -132,9 +153,9 @@ function WriteResult(
 ): void {
   log(
     `\tTot Msg\t${totalMessages}` +
-    `\tCur MPS\t${Math.round((currentMessages * 1000) / currentElapsed)}` +
-    `\tAvg MPS\t${Math.round((totalMessages * 1000) / totalElapsed)}` +
-    `\tMax MPS\t${Math.round((maxMessages * 1000) / maxElapsed)}`
+      `\tCur MPS\t${Math.round((currentMessages * 1000) / currentElapsed)}` +
+      `\tAvg MPS\t${Math.round((totalMessages * 1000) / totalElapsed)}` +
+      `\tMax MPS\t${Math.round((maxMessages * 1000) / maxElapsed)}`
   );
 }
 

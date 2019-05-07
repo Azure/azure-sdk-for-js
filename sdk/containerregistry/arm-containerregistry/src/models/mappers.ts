@@ -1147,6 +1147,18 @@ export const Target: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      version: {
+        serializedName: "version",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -1708,13 +1720,6 @@ export const Run: msRest.CompositeMapper = {
           className: "SourceTriggerDescriptor"
         }
       },
-      isArchiveEnabled: {
-        serializedName: "properties.isArchiveEnabled",
-        defaultValue: false,
-        type: {
-          name: "Boolean"
-        }
-      },
       platform: {
         serializedName: "properties.platform",
         type: {
@@ -1729,10 +1734,41 @@ export const Run: msRest.CompositeMapper = {
           className: "AgentProperties"
         }
       },
+      sourceRegistryAuth: {
+        serializedName: "properties.sourceRegistryAuth",
+        type: {
+          name: "String"
+        }
+      },
+      customRegistries: {
+        serializedName: "properties.customRegistries",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      runErrorMessage: {
+        readOnly: true,
+        serializedName: "properties.runErrorMessage",
+        type: {
+          name: "String"
+        }
+      },
       provisioningState: {
         serializedName: "properties.provisioningState",
         type: {
           name: "String"
+        }
+      },
+      isArchiveEnabled: {
+        serializedName: "properties.isArchiveEnabled",
+        defaultValue: false,
+        type: {
+          name: "Boolean"
         }
       }
     }
@@ -1851,6 +1887,74 @@ export const RunGetLogResult: msRest.CompositeMapper = {
   }
 };
 
+export const UserIdentityProperties: msRest.CompositeMapper = {
+  serializedName: "UserIdentityProperties",
+  type: {
+    name: "Composite",
+    className: "UserIdentityProperties",
+    modelProperties: {
+      principalId: {
+        serializedName: "principalId",
+        type: {
+          name: "String"
+        }
+      },
+      clientId: {
+        serializedName: "clientId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const IdentityProperties: msRest.CompositeMapper = {
+  serializedName: "IdentityProperties",
+  type: {
+    name: "Composite",
+    className: "IdentityProperties",
+    modelProperties: {
+      principalId: {
+        serializedName: "principalId",
+        type: {
+          name: "String"
+        }
+      },
+      tenantId: {
+        serializedName: "tenantId",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "SystemAssigned",
+            "UserAssigned",
+            "SystemAssigned, UserAssigned",
+            "None"
+          ]
+        }
+      },
+      userAssignedIdentities: {
+        serializedName: "userAssignedIdentities",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Composite",
+              className: "UserIdentityProperties"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const BaseImageDependency: msRest.CompositeMapper = {
   serializedName: "BaseImageDependency",
   type: {
@@ -1930,6 +2034,37 @@ export const TaskStepProperties: msRest.CompositeMapper = {
       type: {
         required: true,
         serializedName: "type",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const TimerTrigger: msRest.CompositeMapper = {
+  serializedName: "TimerTrigger",
+  type: {
+    name: "Composite",
+    className: "TimerTrigger",
+    modelProperties: {
+      schedule: {
+        required: true,
+        serializedName: "schedule",
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        defaultValue: 'Enabled',
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        required: true,
+        serializedName: "name",
         type: {
           name: "String"
         }
@@ -2045,6 +2180,7 @@ export const SourceTrigger: msRest.CompositeMapper = {
       },
       status: {
         serializedName: "status",
+        defaultValue: 'Enabled',
         type: {
           name: "String"
         }
@@ -2075,6 +2211,7 @@ export const BaseImageTrigger: msRest.CompositeMapper = {
       },
       status: {
         serializedName: "status",
+        defaultValue: 'Enabled',
         type: {
           name: "String"
         }
@@ -2096,6 +2233,18 @@ export const TriggerProperties: msRest.CompositeMapper = {
     name: "Composite",
     className: "TriggerProperties",
     modelProperties: {
+      timerTriggers: {
+        serializedName: "timerTriggers",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "TimerTrigger"
+            }
+          }
+        }
+      },
       sourceTriggers: {
         serializedName: "sourceTriggers",
         type: {
@@ -2119,6 +2268,103 @@ export const TriggerProperties: msRest.CompositeMapper = {
   }
 };
 
+export const SourceRegistryCredentials: msRest.CompositeMapper = {
+  serializedName: "SourceRegistryCredentials",
+  type: {
+    name: "Composite",
+    className: "SourceRegistryCredentials",
+    modelProperties: {
+      loginMode: {
+        serializedName: "loginMode",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SecretObject: msRest.CompositeMapper = {
+  serializedName: "SecretObject",
+  type: {
+    name: "Composite",
+    className: "SecretObject",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CustomRegistryCredentials: msRest.CompositeMapper = {
+  serializedName: "CustomRegistryCredentials",
+  type: {
+    name: "Composite",
+    className: "CustomRegistryCredentials",
+    modelProperties: {
+      userName: {
+        serializedName: "userName",
+        type: {
+          name: "Composite",
+          className: "SecretObject"
+        }
+      },
+      password: {
+        serializedName: "password",
+        type: {
+          name: "Composite",
+          className: "SecretObject"
+        }
+      },
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const Credentials: msRest.CompositeMapper = {
+  serializedName: "Credentials",
+  type: {
+    name: "Composite",
+    className: "Credentials",
+    modelProperties: {
+      sourceRegistry: {
+        serializedName: "sourceRegistry",
+        type: {
+          name: "Composite",
+          className: "SourceRegistryCredentials"
+        }
+      },
+      customRegistries: {
+        serializedName: "customRegistries",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Composite",
+              className: "CustomRegistryCredentials"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const Task: msRest.CompositeMapper = {
   serializedName: "Task",
   type: {
@@ -2126,6 +2372,13 @@ export const Task: msRest.CompositeMapper = {
     className: "Task",
     modelProperties: {
       ...Resource.type.modelProperties,
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "IdentityProperties"
+        }
+      },
       provisioningState: {
         readOnly: true,
         serializedName: "properties.provisioningState",
@@ -2186,6 +2439,13 @@ export const Task: msRest.CompositeMapper = {
           name: "Composite",
           className: "TriggerProperties"
         }
+      },
+      credentials: {
+        serializedName: "properties.credentials",
+        type: {
+          name: "Composite",
+          className: "Credentials"
+        }
       }
     }
   }
@@ -2245,6 +2505,36 @@ export const TaskStepUpdateParameters: msRest.CompositeMapper = {
       type: {
         required: true,
         serializedName: "type",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const TimerTriggerUpdateParameters: msRest.CompositeMapper = {
+  serializedName: "TimerTriggerUpdateParameters",
+  type: {
+    name: "Composite",
+    className: "TimerTriggerUpdateParameters",
+    modelProperties: {
+      schedule: {
+        serializedName: "schedule",
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        defaultValue: 'Enabled',
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        required: true,
+        serializedName: "name",
         type: {
           name: "String"
         }
@@ -2354,6 +2644,7 @@ export const SourceTriggerUpdateParameters: msRest.CompositeMapper = {
       },
       status: {
         serializedName: "status",
+        defaultValue: 'Enabled',
         type: {
           name: "String"
         }
@@ -2383,6 +2674,7 @@ export const BaseImageTriggerUpdateParameters: msRest.CompositeMapper = {
       },
       status: {
         serializedName: "status",
+        defaultValue: 'Enabled',
         type: {
           name: "String"
         }
@@ -2404,6 +2696,18 @@ export const TriggerUpdateParameters: msRest.CompositeMapper = {
     name: "Composite",
     className: "TriggerUpdateParameters",
     modelProperties: {
+      timerTriggers: {
+        serializedName: "timerTriggers",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "TimerTriggerUpdateParameters"
+            }
+          }
+        }
+      },
       sourceTriggers: {
         serializedName: "sourceTriggers",
         type: {
@@ -2433,6 +2737,13 @@ export const TaskUpdateParameters: msRest.CompositeMapper = {
     name: "Composite",
     className: "TaskUpdateParameters",
     modelProperties: {
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "IdentityProperties"
+        }
+      },
       status: {
         serializedName: "properties.status",
         type: {
@@ -2471,6 +2782,13 @@ export const TaskUpdateParameters: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "TriggerUpdateParameters"
+        }
+      },
+      credentials: {
+        serializedName: "properties.credentials",
+        type: {
+          name: "Composite",
+          className: "Credentials"
         }
       },
       tags: {
@@ -2560,6 +2878,12 @@ export const DockerBuildRequest: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      target: {
+        serializedName: "target",
+        type: {
+          name: "String"
+        }
+      },
       argumentsProperty: {
         serializedName: "arguments",
         type: {
@@ -2602,6 +2926,13 @@ export const DockerBuildRequest: msRest.CompositeMapper = {
         serializedName: "sourceLocation",
         type: {
           name: "String"
+        }
+      },
+      credentials: {
+        serializedName: "credentials",
+        type: {
+          name: "Composite",
+          className: "Credentials"
         }
       }
     }
@@ -2703,6 +3034,13 @@ export const FileTaskRunRequest: msRest.CompositeMapper = {
         serializedName: "sourceLocation",
         type: {
           name: "String"
+        }
+      },
+      credentials: {
+        serializedName: "credentials",
+        type: {
+          name: "Composite",
+          className: "Credentials"
         }
       }
     }
@@ -2806,6 +3144,13 @@ export const EncodedTaskRunRequest: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      credentials: {
+        serializedName: "credentials",
+        type: {
+          name: "Composite",
+          className: "Credentials"
+        }
       }
     }
   }
@@ -2848,6 +3193,12 @@ export const DockerBuildStep: msRest.CompositeMapper = {
       dockerFilePath: {
         required: true,
         serializedName: "dockerFilePath",
+        type: {
+          name: "String"
+        }
+      },
+      target: {
+        serializedName: "target",
         type: {
           name: "String"
         }
@@ -2992,6 +3343,12 @@ export const DockerBuildStepUpdateParameters: msRest.CompositeMapper = {
               className: "Argument"
             }
           }
+        }
+      },
+      target: {
+        serializedName: "target",
+        type: {
+          name: "String"
         }
       }
     }

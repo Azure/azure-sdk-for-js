@@ -37,9 +37,9 @@ export interface ConnectionContext extends ConnectionContextBase {
 export namespace ConnectionContext {
   /**
    * @property {string} userAgent The user agent string for the ServiceBus client.
-   * azure-sdk-for-js/azure-<package-name>/<package-version> (NODE-VERSION <node-version>; <os-type> <os-version>)
+   * See guideline at https://github.com/Azure/azure-sdk/blob/master/docs/design/Telemetry.mdk
    */
-  export const userAgent: string = `azure-sdk-for-js/azure-service-bus/${
+  export const userAgent: string = `azsdk-js-azureservicebus/${
     packageJsonInfo.version
   } (NODE-VERSION ${process.version}; ${os.type()} ${os.release()})`;
 
