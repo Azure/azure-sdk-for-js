@@ -1,10 +1,13 @@
 // Karma configuration
 // Generated on Fri Mar 08 2019 11:00:13 GMT-0800 (Pacific Standard Time)
 
+// https://github.com/karma-runner/karma-chrome-launcher
+process.env.CHROME_BIN = require("puppeteer").executablePath();
+
 module.exports = function(config) {
   config.set({
     // base path that will be used to resolve all patterns (eg. files, exclude)
-    basePath: "",
+    basePath: "./",
 
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
@@ -13,7 +16,7 @@ module.exports = function(config) {
     plugins: ["karma-mocha", require("karma-chrome-launcher")],
 
     // list of files / patterns to load in the browser
-    files: ["./test-browser/index.js"],
+    files: ["test-browser/index.js"],
 
     // list of files / patterns to exclude
     exclude: [],
@@ -42,7 +45,7 @@ module.exports = function(config) {
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ["Chrome"],
+    browsers: ["ChromeHeadless"],
 
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits
@@ -50,11 +53,17 @@ module.exports = function(config) {
 
     // Concurrency level
     // how many browser should be started simultaneous
-    concurrency: Infinity,
+    concurrency: 1,
+
+    browserNoActivityTimeout: 600000,
+    browserDisconnectTimeout: 10000,
+    browserDisconnectTolerance: 3,
 
     client: {
       mocha: {
-        timeout: 50000
+        // change Karma's debug.html to the mocha web reporter
+        reporter: "html",
+        timeout: "600000"
       }
     }
   });

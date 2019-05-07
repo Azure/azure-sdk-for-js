@@ -53,6 +53,8 @@
     "mocha-junit-reporter": "^1.18.0",
     "nyc": "^14.0.0",
     "prettier": "^1.16.4",
+    "puppeteer": "^1.11.0",
+    "rhea": "^1.0.4",
     "rhea-promise": "^0.1.15",
     "rimraf": "^2.6.2",
     "rollup": "^1.0.0",
