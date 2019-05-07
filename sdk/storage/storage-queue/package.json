@@ -5,7 +5,7 @@
   "main": "./dist/index.js",
   "module": "./dist-esm/src/index.js",
   "browser": {
-    "./dist/index.js": "./browser/azure-storage.queue.min.js",
+    "./dist/index.js": "./browser/azure-storage-queue.min.js",
     "./dist-esm/src/index.js": "./dist-esm/src/index.browser.js",
     "./dist-esm/test/utils/index.js": "./dist-esm/test/utils/index.browser.js",
     "os": false,
