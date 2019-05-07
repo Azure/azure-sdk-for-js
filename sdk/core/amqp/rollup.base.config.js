@@ -49,6 +49,7 @@ export function nodeConfig(test = false) {
     input: input,
     external: depNames.concat(externalNodeBuiltins),
     output: { file: "dist/index.js", format: "cjs", sourcemap: true },
+    preserveSymlinks: false,
     plugins: [
       sourcemaps(),
       replace({
@@ -91,6 +92,7 @@ export function browserConfig(test = false) {
       name: "Azure.AMQPCommon",
       sourcemap: true
     },
+    preserveSymlinks: false,
     plugins: [
       sourcemaps(),
 
@@ -122,8 +124,8 @@ export function browserConfig(test = false) {
       }),
 
       nodeResolve({
-        preferBuiltins: false,
-        mainFields: ["module", "browser"]
+        mainFields: ["module", "browser"],
+        preferBuiltins: false
       }),
 
       cjs({
