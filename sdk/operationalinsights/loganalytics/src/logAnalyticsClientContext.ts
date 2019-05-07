@@ -12,7 +12,7 @@ import * as msRest from "@azure/ms-rest-js";
 import * as Models from "./models";
 
 const packageName = "@azure/loganalytics";
-const packageVersion = "0.1.0";
+const packageVersion = "0.2.0";
 
 export class LogAnalyticsClientContext extends msRest.ServiceClient {
   credentials: msRest.ServiceClientCredentials;
@@ -23,23 +23,23 @@ export class LogAnalyticsClientContext extends msRest.ServiceClient {
    * @param [options] The parameter options
    */
   constructor(credentials: msRest.ServiceClientCredentials, options?: Models.LogAnalyticsClientOptions) {
-    if (credentials === null || credentials === undefined) {
-      throw new Error('\'credentials\' cannot be null.');
+    if (credentials == undefined) {
+      throw new Error("'credentials' cannot be null.");
     }
 
     if (!options) {
       options = {};
     }
-    if(!options.userAgent) {
+
+    if (!options.userAgent) {
       const defaultUserAgent = msRest.getDefaultUserAgentValue();
       options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
     }
 
     super(credentials, options);
 
-    this.baseUri = options.baseUri || this.baseUri || "https://api.loganalytics.io";
+    this.baseUri = options.baseUri || this.baseUri || "https://api.loganalytics.io/v1";
     this.requestContentType = "application/json; charset=utf-8";
     this.credentials = credentials;
-
   }
 }

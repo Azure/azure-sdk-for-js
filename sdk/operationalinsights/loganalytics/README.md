@@ -9,7 +9,7 @@ This package contains an isomorphic SDK for LogAnalyticsClient.
 
 ### How to Install
 
-```
+```bash
 npm install @azure/loganalytics
 ```
 
@@ -19,13 +19,13 @@ npm install @azure/loganalytics
 
 ##### Install @azure/ms-rest-nodeauth
 
-```
+```bash
 npm install @azure/ms-rest-nodeauth
 ```
 
 ##### Sample code
 
-```ts
+```typescript
 import * as msRest from "@azure/ms-rest-js";
 import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
 import { LogAnalyticsClient, LogAnalyticsModels, LogAnalyticsMappers } from "@azure/loganalytics";
@@ -52,7 +52,7 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
 
 ##### Install @azure/ms-rest-browserauth
 
-```
+```bash
 npm install @azure/ms-rest-browserauth
 ```
 
@@ -104,6 +104,3 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
 ## Related projects
 
 - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
-
-
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/operationalinsights/loganalytics/README.png)
