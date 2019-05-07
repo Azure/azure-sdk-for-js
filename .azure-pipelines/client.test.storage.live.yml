@@ -60,10 +60,14 @@ jobs:
 
       - script: |
           node common/scripts/install-run-rush.js install
-        displayName: 'rush install'
+        displayName: 'Install dependencies'
 
       - script: |
-          node common/scripts/install-run-rush.js integration-test:node -t "$(Package)"
+          node common/scripts/install-run-rush.js build:test -t "$(Package)" --verbose
+        displayName: 'rush build:test -t "$(Package)"'
+
+      - script: |
+          node common/scripts/install-run-rush.js integration-test:node -t "$(Package)" --verbose
         displayName: 'rush integration-test:node -t "$(Package)"'
         env:
           # Storage
@@ -110,10 +114,14 @@ jobs:
 
       - script: |
           node common/scripts/install-run-rush.js install
-        displayName: 'rush install'
+        displayName: 'Install dependencies'
 
       - script: |
-          node common/scripts/install-run-rush.js integration-test:browser -t "$(Package)"
+          node common/scripts/install-run-rush.js build:test -t "$(Package)" --verbose
+        displayName: 'rush build:test -t "$(Package)"'
+
+      - script: |
+          node common/scripts/install-run-rush.js integration-test:browser -t "$(Package)" --verbose
         condition: succeededOrFailed()
         displayName: 'rush integration-test:browser -t "$(Package)"'
         env:
