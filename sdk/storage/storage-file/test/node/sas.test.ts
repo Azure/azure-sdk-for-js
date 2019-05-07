@@ -11,7 +11,7 @@ import {
   StorageURL,
   SASProtocol
 } from "../../src";
-import { Aborter } from "../../src/Aborter";
+import { Aborter } from "@azure/core-aborter";
 import { DirectoryURL } from "../../src/DirectoryURL";
 import { FileSASPermissions } from "../../src/FileSASPermissions";
 import { FileURL } from "../../src/FileURL";

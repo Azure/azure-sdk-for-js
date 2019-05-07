@@ -1,4 +1,4 @@
-import { Aborter } from "../src/Aborter";
+import { Aborter } from "@azure/core-aborter";
 import { FileURL } from "../src/FileURL";
 import { ShareURL } from "../src/ShareURL";
 import { getBSU, getUniqueName } from "./utils/index";

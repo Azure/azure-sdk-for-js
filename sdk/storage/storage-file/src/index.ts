@@ -2,7 +2,7 @@ import { RestError } from "@azure/ms-rest-js";
 
 import * as Models from "../src/generated/lib/models";
 
-export * from "./Aborter";
+export * from "@azure/core-aborter";
 export * from "./AccountSASPermissions";
 export * from "./AccountSASResourceTypes";
 export * from "./AccountSASServices";

@@ -1,7 +1,7 @@
 import * as assert from "assert";
 
 import { RestError, StorageURL } from "../src";
-import { Aborter } from "../src/Aborter";
+import { Aborter } from "@azure/core-aborter";
 import { ShareURL } from "../src/ShareURL";
 import { Pipeline } from "../src/Pipeline";
 import { getBSU, getUniqueName } from "./utils";

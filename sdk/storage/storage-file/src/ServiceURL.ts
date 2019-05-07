@@ -1,5 +1,5 @@
 import * as Models from "../src/generated/lib/models";
-import { Aborter } from "./Aborter";
+import { Aborter } from "@azure/core-aborter";
 import { Service } from "./generated/lib/operations";
 import { Pipeline } from "./Pipeline";
 import { StorageURL } from "./StorageURL";

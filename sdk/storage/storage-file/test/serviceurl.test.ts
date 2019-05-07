@@ -1,6 +1,6 @@
 import * as assert from "assert";
 
-import { Aborter } from "../src/Aborter";
+import { Aborter } from "@azure/core-aborter";
 import { ShareURL } from "../src/ShareURL";
 import { getBSU, getUniqueName, wait } from "./utils";
 import * as dotenv from "dotenv";

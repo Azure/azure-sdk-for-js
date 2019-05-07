@@ -1,6 +1,6 @@
 import * as assert from "assert";
 
-import { Aborter } from "../../src/Aborter";
+import { Aborter } from "@azure/core-aborter";
 import { QueueURL } from "../../src/QueueURL";
 import { getQSU, getUniqueName } from "../utils";
 

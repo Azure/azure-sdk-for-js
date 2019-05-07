@@ -1,4 +1,4 @@
-import { Aborter } from "./Aborter";
+import { Aborter } from "@azure/core-aborter";
 import * as Models from "./generated/lib/models";
 import { Directory } from "./generated/lib/operations";
 import { IMetadata } from "./models";

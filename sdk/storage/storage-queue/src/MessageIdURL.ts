@@ -1,5 +1,5 @@
 import * as Models from "./generated/lib/models";
-import { Aborter } from "./Aborter";
+import { Aborter } from "@azure/core-aborter";
 import { MessageId } from "./generated/lib/operations";
 import { Pipeline } from "./Pipeline";
 import { MessagesURL } from "./MessagesURL";

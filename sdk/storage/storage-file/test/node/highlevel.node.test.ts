@@ -3,7 +3,7 @@ import * as fs from "fs";
 import * as path from "path";
 
 import { FileURL, ShareURL } from "../../src";
-import { Aborter } from "../../src/Aborter";
+import { Aborter } from "@azure/core-aborter";
 import { DirectoryURL } from "../../src/DirectoryURL";
 import {
   downloadAzureFileToBuffer,

@@ -1,4 +1,4 @@
-import { Aborter } from "../../src/Aborter";
+import { Aborter } from "@azure/core-aborter";
 import { DirectoryURL } from "../../src/DirectoryURL";
 import { FileURL } from "../../src/FileURL";
 import { ShareURL } from "../../src/ShareURL";

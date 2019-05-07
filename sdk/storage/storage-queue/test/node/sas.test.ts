@@ -15,7 +15,7 @@ import {
   SharedKeyCredential,
   StorageURL
 } from "../../src";
-import { Aborter } from "../../src/Aborter";
+import { Aborter } from "@azure/core-aborter";
 import { SASProtocol } from "../../src/SASQueryParameters";
 import { getQSU, getUniqueName, sleep } from "../utils/index";
 

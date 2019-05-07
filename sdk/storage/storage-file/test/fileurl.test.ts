@@ -1,7 +1,7 @@
 import * as assert from "assert";
 import { isNode } from "@azure/ms-rest-js";
 
-import { Aborter } from "../src/Aborter";
+import { Aborter } from "@azure/core-aborter";
 import { DirectoryURL } from "../src/DirectoryURL";
 import { FileURL } from "../src/FileURL";
 import { ShareURL } from "../src/ShareURL";

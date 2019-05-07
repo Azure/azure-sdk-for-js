@@ -1,4 +1,4 @@
-import { Aborter } from "./Aborter";
+import { Aborter } from "@azure/core-aborter";
 import { FileURL } from "./FileURL";
 import { IUploadToAzureFileOptions } from "./highlevel.common";
 import { Batch } from "./utils/Batch";

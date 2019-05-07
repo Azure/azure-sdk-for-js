@@ -4,7 +4,7 @@ import {
   isNode,
   TransferProgressEvent
 } from "@azure/ms-rest-js";
-import { Aborter } from "./Aborter";
+import { Aborter } from "@azure/core-aborter";
 import { DirectoryURL } from "./DirectoryURL";
 import { FileDownloadResponse } from "./FileDownloadResponse";
 import * as Models from "./generated/lib/models";

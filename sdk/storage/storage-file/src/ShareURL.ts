@@ -1,6 +1,6 @@
 import { HttpResponse } from "@azure/ms-rest-js";
 
-import { Aborter } from "./Aborter";
+import { Aborter } from "@azure/core-aborter";
 import * as Models from "./generated/lib/models";
 import { Share } from "./generated/lib/operations";
 import { IMetadata } from "./models";
