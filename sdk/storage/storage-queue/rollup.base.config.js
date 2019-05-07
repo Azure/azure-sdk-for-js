@@ -33,6 +33,7 @@ export function nodeConfig(test = false) {
       format: "cjs",
       sourcemap: true
     },
+    preserveSymlinks: false,
     plugins: [
       sourcemaps(),
       replace({
@@ -90,6 +91,7 @@ export function browserConfig(test = false, production = false) {
       name: "azqueue",
       sourcemap: true
     },
+    preserveSymlinks: false,
     plugins: [
       sourcemaps(),
       replace({
@@ -110,8 +112,7 @@ export function browserConfig(test = false, production = false) {
         `
       }),
       nodeResolve({
-        module: true,
-        browser: true,
+        mainFields: ["module", "browser"],
         preferBuiltins: false
       }),
       cjs({
