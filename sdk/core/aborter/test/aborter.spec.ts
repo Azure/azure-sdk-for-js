@@ -3,7 +3,10 @@ import delay from "delay";
 import { Aborter } from "../src/aborter";
 
 describe("Aborter", () => {
-  async function doAsyncOperation(aborter: Aborter, runningTimeinMs: number = 100): Promise<number> {
+  async function doAsyncOperation(
+    aborter: Aborter,
+    runningTimeinMs: number = 100
+  ): Promise<number> {
     await delay(runningTimeinMs);
     if (aborter.aborted) {
       throw new Error("Operation aborted");
