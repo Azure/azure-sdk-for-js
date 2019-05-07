@@ -58,9 +58,6 @@ The following sections provide code snippets that cover some of the common tasks
 - [Get the partition Ids](#get-the-partition-ids)
 - [Send messages](#send-messages)
 - [Receive messages](#receive-messages)]
- - You can use this receiver in one of 2 ways to receive messages
-   - [Get an array of messages](#get-an-array-of-messages)
-   - [Register message handler](#register-message-handler)
 - [Get an event hub runtime info](#get-an-event-hub-runtime-info)
 - [Get info about the specified partition](#get-info-about-the-specified-partition)
 
@@ -91,6 +88,9 @@ const client = EventHubClient.createFromConnectionString("connectionString" , "e
 ### Receive messages
 
 Once you have created an instance of an `EventHubClient` class, you can receive messages in one of 2 ways:
+
+   - [Get an array of messages](#get-an-array-of-messages)
+   - [Register message handler](#register-message-handler)
 
 #### Get an array of messages
 
