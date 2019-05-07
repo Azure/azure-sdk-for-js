@@ -1,6 +1,6 @@
 {
-  "name": "@azure/amqp",
-  "version": "1.0.0",
+  "name": "@azure/amqp-common",
+  "version": "1.0.0-preview.4",
   "description": "Common library for amqp based azure sdks like @azure/event-hubs.",
   "author": "Microsoft Corporation",
   "license": "MIT",
@@ -103,7 +103,7 @@
     "prepack": "npm i && npm run build:node",
     "pack": "npm pack 2>&1"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/amqp",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js",
   "repository": {
     "type": "git",
     "url": "https://github.com/azure/azure-sdk-for-js.git"

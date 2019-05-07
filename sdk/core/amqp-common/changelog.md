@@ -1,6 +1,5 @@
-### 2019-5-6 1.0.0
+### 2019-5-6 1.0.0-preview.4
 
-- The package name for this package was updated from `@azure/amqp-common` to `@azure/amqp` and released for General Availability.
 - Moved repo from https://github.com/Azure/amqp-common-js to https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/amqp [Issue 1208](https://github.com/Azure/azure-sdk-for-js/issues/1208)
 
 ### 2019-4-22 1.0.0-preview.3
