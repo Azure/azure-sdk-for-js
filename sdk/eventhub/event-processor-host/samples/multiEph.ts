@@ -12,7 +12,12 @@
 */
 
 import {
-  EventProcessorHost, OnReceivedError, OnReceivedMessage, EventData, PartitionContext, delay
+  EventProcessorHost,
+  OnReceivedError,
+  OnReceivedMessage,
+  EventData,
+  PartitionContext,
+  delay
 } from "@azure/event-processor-host";
 
 // Define storage connection string and Event Hubs connection string and related entity name here
@@ -20,43 +25,30 @@ const ehConnectionString = "";
 const eventHubsName = "";
 const storageConnectionString = "";
 
-// set the names of eph and the storage container.
-// creates a unique storageContainer name for every run
-// if you wish to keep the name same between different runs then use the following then that is fine as well.
+// if you want to create a unique storageContainer name for every run, use `createHostName` function, otherwise
+// provide storageContainer name here.
+// const storageContainerName = "my-container";
 const storageContainerName = EventProcessorHost.createHostName("test-container");
 const ephName1 = "eph-1";
 const ephName2 = "eph-2";
 
-/**
- * The main function that executes the sample.
- */
 async function main(): Promise<void> {
-  // 1. Start eph-1.
+  // Start eph-1.
   const eph1 = await startEph(ephName1);
-  await sleep(20);
-  // 2. After 20 seconds start eph-2.
+  await delay(20000);
+  // After 20 seconds start eph-2.
   const eph2 = await startEph(ephName2);
-  await sleep(90);
-  // 3. Now, load will be evenly balanced between eph-1 and eph-2. After 90 seconds stop eph-1.
+  await delay(90000);
+  // Now, load will be evenly balanced between eph-1 and eph-2. After 90 seconds stop eph-1.
   await stopEph(eph1);
-  await sleep(40);
-  // 4. Now, eph-1 will regain access to all the partitions and will close after 40 seconds.
+  await delay(40000);
+  // Now, eph-1 will regain access to all the partitions and will close after 40 seconds.
   await stopEph(eph2);
 }
 
-// calling the main().
 main().catch(err => {
   console.log("Error occurred: ", err);
 });
-
-/**
- * Sleeps for the given number of seconds.
- * @param timeInSeconds Time to sleep in seconds.
- */
-async function sleep(timeInSeconds: number): Promise<void> {
-  console.log(">>>>>> Sleeping for %d seconds..", timeInSeconds);
-  await delay(timeInSeconds * 1000);
-}
 
 /**
  * Creates an EPH with the given name and starts the EPH.
@@ -72,9 +64,6 @@ async function startEph(ephName: string): Promise<EventProcessorHost> {
     ehConnectionString!,
     {
       eventHubPath: eventHubsName,
-      // This method will provide errors that occur during lease and partition management. The
-      // errors that occur while receiving messages will be provided in the onError handler
-      // provided in the eph.start() method.
       onEphError: error => {
         console.log("[%s] Error: %O", ephName, error);
       }
@@ -82,23 +71,32 @@ async function startEph(ephName: string): Promise<EventProcessorHost> {
   );
   // Message handler
   const partionCount: { [x: string]: number } = {};
-  const onMessage: OnReceivedMessage = async (context: PartitionContext, data: EventData) => {
-    (!partionCount[context.partitionId])
-      ? partionCount[context.partitionId] = 1
-      : partionCount[context.partitionId]++;
-    console.log("[%s] %d - Received message from partition: '%s', offset: '%s'", ephName,
-      partionCount[context.partitionId], context.partitionId, data.offset);
+  const onMessage: OnReceivedMessage = async (context: PartitionContext, event: EventData) => {
+    !partionCount[context.partitionId] ? (partionCount[context.partitionId] = 1) : partionCount[context.partitionId]++;
+    console.log(
+      "[%s] %d - Received message from partition: '%s', offset: '%s'",
+      ephName,
+      partionCount[context.partitionId],
+      context.partitionId,
+      event.offset
+    );
     // Checkpointing every 100th event
     if (partionCount[context.partitionId] % 100 === 0) {
       try {
-        console.log("[%s] EPH is currently receiving messages from partitions: %O", ephName,
-          eph.receivingFromPartitions);
-        await context.checkpointFromEventData(data);
-        console.log("[%s] Successfully checkpointed message number %d", ephName,
-          partionCount[context.partitionId]);
+        console.log(
+          "[%s] EPH is currently receiving messages from partitions: %O",
+          ephName,
+          eph.receivingFromPartitions
+        );
+        await context.checkpointFromEventData(event);
+        console.log("[%s] Successfully checkpointed message number %d", ephName, partionCount[context.partitionId]);
       } catch (err) {
-        console.log("[%s] An error occurred while checkpointing msg number %d: %O",
-          ephName, partionCount[context.partitionId], err);
+        console.log(
+          "[%s] An error occurred while checkpointing msg number %d: %O",
+          ephName,
+          partionCount[context.partitionId],
+          err
+        );
       }
     }
   };
