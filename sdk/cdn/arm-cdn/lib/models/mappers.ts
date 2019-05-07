@@ -318,13 +318,6 @@ export const Endpoint: msRest.CompositeMapper = {
           className: "EndpointPropertiesUpdateParametersDeliveryPolicy"
         }
       },
-      webApplicationFirewallPolicyLink: {
-        serializedName: "properties.webApplicationFirewallPolicyLink",
-        type: {
-          name: "Composite",
-          className: "EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink"
-        }
-      },
       hostName: {
         readOnly: true,
         serializedName: "properties.hostName",
@@ -525,22 +518,6 @@ export const EndpointPropertiesUpdateParametersDeliveryPolicy: msRest.CompositeM
   }
 };
 
-export const EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink: msRest.CompositeMapper = {
-  serializedName: "EndpointPropertiesUpdateParameters_webApplicationFirewallPolicyLink",
-  type: {
-    name: "Composite",
-    className: "EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink",
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const EndpointUpdateParameters: msRest.CompositeMapper = {
   serializedName: "EndpointUpdateParameters",
   type: {
@@ -640,13 +617,6 @@ export const EndpointUpdateParameters: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "EndpointPropertiesUpdateParametersDeliveryPolicy"
-        }
-      },
-      webApplicationFirewallPolicyLink: {
-        serializedName: "properties.webApplicationFirewallPolicyLink",
-        type: {
-          name: "Composite",
-          className: "EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink"
         }
       }
     }

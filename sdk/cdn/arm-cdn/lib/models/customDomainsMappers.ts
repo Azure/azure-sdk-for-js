@@ -26,7 +26,6 @@ export {
   DeliveryRule,
   DeliveryRuleCondition,
   DeliveryRuleAction,
-  EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink,
   DeliveryRuleRemoteAddressCondition,
   RemoteAddressMatchConditionParameters,
   DeliveryRuleRequestMethodCondition,

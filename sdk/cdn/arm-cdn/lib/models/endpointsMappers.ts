@@ -20,7 +20,6 @@ export {
   DeliveryRule,
   DeliveryRuleCondition,
   DeliveryRuleAction,
-  EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink,
   DeepCreatedOrigin,
   ErrorResponse,
   EndpointUpdateParameters,
