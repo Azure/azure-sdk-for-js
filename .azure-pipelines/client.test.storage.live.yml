@@ -2,10 +2,6 @@
 # Package
 #   The package to build and test. Defined in pipeline web ui because multiple pipelines use this YAML with different packages.
 #   Example: @azure/event-hubs
-#
-# AdditionalTestArguments
-#   Additional arguments to the test command.
-#   Example: --fgrep "test description"
 
 jobs:
   - job: 'Test_Storage_Node'
@@ -67,8 +63,8 @@ jobs:
         displayName: 'rush install'
 
       - script: |
-          node common/scripts/npm-run-project.js "$(Package)" integration-test:node -- -- --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=- $(AdditionalTestArguments)
-        displayName: 'npm-run-project "$(Package)" integration-test:node'
+          node common/scripts/install-run-rush.js integration-test:node -t "$(Package)"
+        displayName: 'rush integration-test:node -t "$(Package)"'
         env:
           # Storage
           ACCOUNT_NAME: $(js-storage-test-account-name)
