@@ -1,4 +1,7 @@
 /*
+  Copyright (c) Microsoft Corporation. All rights reserved.
+  Licensed under the MIT Licence.
+  
   This sample demonstrates how the peek() function can be used to browse a Service Bus message.
 
   See https://docs.microsoft.com/en-us/azure/service-bus-messaging/message-browsing to learn
