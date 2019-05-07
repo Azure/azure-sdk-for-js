@@ -43,7 +43,7 @@ function registerIfNeeded(policy: RPRegistrationPolicy, request: WebResource, re
             return policy._nextPolicy.sendRequest(request.clone());
           }
           return response;
-      });
+        });
     }
   }
 

@@ -10,6 +10,7 @@ import { WebResource } from "../lib/webResource";
 
 const emptyRequestPolicy: RequestPolicy = {
   sendRequest(request: WebResource): Promise<HttpOperationResponse> {
+    // tslint:disable-next-line: no-null-keyword
     return Promise.resolve({ request, status: 200, headers: new HttpHeaders(), bodyAsText: null });
   }
 };

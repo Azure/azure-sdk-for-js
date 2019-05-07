@@ -16,7 +16,7 @@ export function encodeString(value: string): string {
 export function encodeByteArray(value: Uint8Array): string {
   let str = "";
   for (let i = 0; i < value.length; i++) {
-  str += String.fromCharCode(value[i]);
+    str += String.fromCharCode(value[i]);
   }
   return btoa(str);
 }

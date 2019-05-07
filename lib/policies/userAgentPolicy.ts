@@ -11,58 +11,58 @@ import { BaseRequestPolicy, RequestPolicy, RequestPolicyFactory, RequestPolicyOp
 export type TelemetryInfo = { key?: string; value?: string };
 
 function getRuntimeInfo(): TelemetryInfo[] {
-    const msRestRuntime = {
-        key: "ms-rest-js",
-        value: Constants.msRestVersion
-    };
+  const msRestRuntime = {
+    key: "ms-rest-js",
+    value: Constants.msRestVersion
+  };
 
-    return [msRestRuntime];
+  return [msRestRuntime];
 }
 
 function getUserAgentString(telemetryInfo: TelemetryInfo[], keySeparator = " ", valueSeparator = "/"): string {
-    return telemetryInfo.map(info => {
-        const value = info.value ? `${valueSeparator}${info.value}` : "";
-        return `${info.key}${value}`;
-    }).join(keySeparator);
+  return telemetryInfo.map(info => {
+    const value = info.value ? `${valueSeparator}${info.value}` : "";
+    return `${info.key}${value}`;
+  }).join(keySeparator);
 }
 
 export const getDefaultUserAgentHeaderName = getDefaultUserAgentKey;
 
 export function getDefaultUserAgentValue(): string {
-    const runtimeInfo = getRuntimeInfo();
-    const platformSpecificData = getPlatformSpecificData();
-    const userAgent = getUserAgentString(runtimeInfo.concat(platformSpecificData));
-    return userAgent;
+  const runtimeInfo = getRuntimeInfo();
+  const platformSpecificData = getPlatformSpecificData();
+  const userAgent = getUserAgentString(runtimeInfo.concat(platformSpecificData));
+  return userAgent;
 }
 
 export function userAgentPolicy(userAgentData?: TelemetryInfo): RequestPolicyFactory {
-    const key: string = (!userAgentData || userAgentData.key == undefined) ? getDefaultUserAgentKey() : userAgentData.key;
-    const value: string = (!userAgentData || userAgentData.value == undefined) ?  getDefaultUserAgentValue() : userAgentData.value;
+  const key: string = (!userAgentData || userAgentData.key == undefined) ? getDefaultUserAgentKey() : userAgentData.key;
+  const value: string = (!userAgentData || userAgentData.value == undefined) ?  getDefaultUserAgentValue() : userAgentData.value;
 
-    return {
-        create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
-            return new UserAgentPolicy(nextPolicy, options, key, value);
-        }
-    };
+  return {
+    create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
+      return new UserAgentPolicy(nextPolicy, options, key, value);
+    }
+  };
 }
 
 export class UserAgentPolicy extends BaseRequestPolicy {
-    constructor(readonly _nextPolicy: RequestPolicy, readonly _options: RequestPolicyOptions, protected headerKey: string, protected headerValue: string) {
-        super(_nextPolicy, _options);
+  constructor(readonly _nextPolicy: RequestPolicy, readonly _options: RequestPolicyOptions, protected headerKey: string, protected headerValue: string) {
+    super(_nextPolicy, _options);
+  }
+
+  sendRequest(request: WebResource): Promise<HttpOperationResponse> {
+    this.addUserAgentHeader(request);
+    return this._nextPolicy.sendRequest(request);
+  }
+
+  addUserAgentHeader(request: WebResource): void {
+    if (!request.headers) {
+      request.headers = new HttpHeaders();
     }
 
-    sendRequest(request: WebResource): Promise<HttpOperationResponse> {
-        this.addUserAgentHeader(request);
-        return this._nextPolicy.sendRequest(request);
+    if (!request.headers.get(this.headerKey) && this.headerValue) {
+      request.headers.set(this.headerKey, this.headerValue);
     }
-
-    addUserAgentHeader(request: WebResource): void {
-        if (!request.headers) {
-            request.headers = new HttpHeaders();
-        }
-
-        if (!request.headers.get(this.headerKey) && this.headerValue) {
-            request.headers.set(this.headerKey, this.headerValue);
-        }
-    }
+  }
 }

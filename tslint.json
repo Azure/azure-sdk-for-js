@@ -1,12 +1,12 @@
 {
+    "extends": [
+        "tslint-eslint-rules"
+    ],
     "rules": {
         "class-name": true,
-        "comment-format": [true,
-            "check-space"
-        ],
-        "indent": [true,
-            "spaces"
-        ],
+        "comment-format": [true, "check-space"],
+        "indent": [true, "spaces"],
+        "ter-indent": [true, 2],
         "linebreak-style": [true, "LF"],
         "one-line": [true,
             "check-open-brace",
