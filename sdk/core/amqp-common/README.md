@@ -41,7 +41,7 @@ This SDK houses core AMQP common related functionality in use bu Azure SDKs that
 
 ## Examples
 
-Please take a look at the [samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/amqp-common/samples) directory for detailed samples.
+Please take a look at the [samples](https://github.com/Azure/azure-sdk-for-js/tree/%40azure/amqp-common_1.0.0-preview.4/sdk/core/amqp-common/samples) directory for detailed samples.
 You can run the samples by cloning the repo or copy pasting the below sample in your sample.js file.
 
 ```bash
@@ -55,7 +55,7 @@ You can run the samples by cloning the repo or copy pasting the below sample in 
 ```
 
 The samples below are generic for EventHubs and Servicebus. You can find EventHub specific samples,
-in the [samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/amqp-common/samples) directory.
+in the [samples](https://github.com/Azure/azure-sdk-for-js/tree/%40azure/amqp-common_1.0.0-preview.4/sdk/core/amqp-common/samples) directory.
 
 ## Example 1 - CBS (Claims Based Authorization Specification) example
 

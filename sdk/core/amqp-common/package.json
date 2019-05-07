@@ -103,7 +103,7 @@
     "prepack": "npm i && npm run build:node",
     "pack": "npm pack 2>&1"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/%40azure/amqp-common_1.0.0-preview.4/sdk/core/amqp-common",
   "repository": {
     "type": "git",
     "url": "https://github.com/azure/azure-sdk-for-js.git"

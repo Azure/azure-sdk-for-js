@@ -1,6 +1,6 @@
 ### 2019-5-6 1.0.0-preview.4
 
-- Moved repo from https://github.com/Azure/amqp-common-js to https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/amqp-common [Issue 1208](https://github.com/Azure/azure-sdk-for-js/issues/1208)
+- Updated dependencies to include @types/async-lock to fix Typescript compile error "TS7016: Could not find a declaration file for module 'async-lock'". [PR 2703](https://github.com/Azure/azure-sdk-for-js/pull/2703)
 
 ### 2019-4-22 1.0.0-preview.3
 
