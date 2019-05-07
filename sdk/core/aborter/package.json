@@ -2,8 +2,8 @@
   "name": "@azure/core-aborter",
   "version": "1.0.0",
   "description": "",
-  "main": "./dist/aborter.js",
-  "module": "./dist-esm/aborter.js",
+  "main": "./dist/index.js",
+  "module": "./dist-esm/src/aborter.js",
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:es6": "tsc -p tsconfig.json",
