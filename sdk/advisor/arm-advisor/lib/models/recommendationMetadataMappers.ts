@@ -8,8 +8,11 @@
  * regenerated.
  */
 
-export * from "./recommendationMetadata";
-export * from "./configurations";
-export * from "./recommendations";
-export * from "./operations";
-export * from "./suppressions";
+export {
+  MetadataEntity,
+  MetadataSupportedValueDetail,
+  ARMErrorResponseBody,
+  CloudError,
+  MetadataEntityListResult
+} from "../models/mappers";
+

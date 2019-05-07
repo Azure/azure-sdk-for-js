@@ -16,6 +16,58 @@ export { BaseResource, CloudError };
 
 /**
  * @interface
+ * An interface representing MetadataSupportedValueDetail.
+ * The metadata supported value detail.
+ *
+ */
+export interface MetadataSupportedValueDetail {
+  /**
+   * @member {string} [id] The id.
+   */
+  id?: string;
+  /**
+   * @member {string} [displayName] The display name.
+   */
+  displayName?: string;
+}
+
+/**
+ * @interface
+ * An interface representing MetadataEntity.
+ * The metadata entity contract.
+ *
+ */
+export interface MetadataEntity {
+  /**
+   * @member {string} [id] The resource Id of the metadata entity.
+   */
+  id?: string;
+  /**
+   * @member {string} [type] The type of the metadata entity.
+   */
+  type?: string;
+  /**
+   * @member {string} [name] The name of the metadata entity.
+   */
+  name?: string;
+  /**
+   * @member {string} [displayName] The display name.
+   */
+  displayName?: string;
+  /**
+   * @member {string[]} [dependsOn] The list of keys on which this entity
+   * depends on.
+   */
+  dependsOn?: string[];
+  /**
+   * @member {MetadataSupportedValueDetail[]} [supportedValues] The list of
+   * supported values.
+   */
+  supportedValues?: MetadataSupportedValueDetail[];
+}
+
+/**
+ * @interface
  * An interface representing ConfigDataProperties.
  * The list of property name/value pairs.
  *
@@ -334,6 +386,21 @@ export interface RecommendationsGenerateHeaders {
 
 /**
  * @interface
+ * An interface representing the MetadataEntityListResult.
+ * The list of metadata entities
+ *
+ * @extends Array<MetadataEntity>
+ */
+export interface MetadataEntityListResult extends Array<MetadataEntity> {
+  /**
+   * @member {string} [nextLink] The link used to get the next page of
+   * metadata.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
  * An interface representing the ConfigurationListResult.
  * The list of Advisor configurations.
  *
@@ -415,6 +482,67 @@ export type Impact = 'High' | 'Medium' | 'Low';
  * @enum {string}
  */
 export type Risk = 'Error' | 'Warning' | 'None';
+
+/**
+ * Contains response data for the get operation.
+ */
+export type RecommendationMetadataGetResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: any;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type RecommendationMetadataListResponse = MetadataEntityListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: MetadataEntityListResult;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type RecommendationMetadataListNextResponse = MetadataEntityListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: MetadataEntityListResult;
+    };
+};
 
 /**
  * Contains response data for the listBySubscription operation.
