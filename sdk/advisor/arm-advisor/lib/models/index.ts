@@ -138,17 +138,6 @@ export interface ARMErrorResponseBody {
 
 /**
  * @interface
- * An interface representing ARMErrorResponse.
- */
-export interface ARMErrorResponse {
-  /**
-   * @member {ARMErrorResponseBody} [error]
-   */
-  error?: ARMErrorResponseBody;
-}
-
-/**
- * @interface
  * An interface representing ShortDescription.
  * A summary of the recommendation.
  *

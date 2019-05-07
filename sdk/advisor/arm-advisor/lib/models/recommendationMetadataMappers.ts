@@ -11,7 +11,6 @@
 export {
   MetadataEntity,
   MetadataSupportedValueDetail,
-  ARMErrorResponse,
   ARMErrorResponseBody,
   CloudError,
   MetadataEntityListResult

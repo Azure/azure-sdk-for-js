@@ -182,23 +182,6 @@ export const ARMErrorResponseBody: msRest.CompositeMapper = {
   }
 };
 
-export const ARMErrorResponse: msRest.CompositeMapper = {
-  serializedName: "ARMErrorResponse",
-  type: {
-    name: "Composite",
-    className: "ARMErrorResponse",
-    modelProperties: {
-      error: {
-        serializedName: "error",
-        type: {
-          name: "Composite",
-          className: "ARMErrorResponseBody"
-        }
-      }
-    }
-  }
-};
-
 export const ShortDescription: msRest.CompositeMapper = {
   serializedName: "ShortDescription",
   type: {
