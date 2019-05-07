@@ -24,9 +24,9 @@ async function main(): Promise<void> {
   for (let i = 0; i < messageCount; i++) {
     events.push({ body: `Hello foo ${i}` });
   }
-  console.log("Sending batch message...");
+  console.log("Sending batch events...");
 
-  // Will concurrently send batched messages to all the partitions.
+  // Will concurrently send batched events to all the partitions.
   const sendPromises = partitionIds.map(id => client.sendBatch(events, id));
 
   await Promise.all(sendPromises);
