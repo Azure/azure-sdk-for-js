@@ -266,6 +266,13 @@ export interface Endpoint extends TrackedResource {
    */
   deliveryPolicy?: EndpointPropertiesUpdateParametersDeliveryPolicy;
   /**
+   * @member
+   * {EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink}
+   * [webApplicationFirewallPolicyLink] Defines the Web Application Firewall
+   * policy for the endpoint (if applicable)
+   */
+  webApplicationFirewallPolicyLink?: EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink;
+  /**
    * @member {string} [hostName] The host name of the endpoint structured as
    * {endpointName}.{DNSZone}, e.g. contoso.azureedge.net
    * **NOTE: This property will not be serialized. It can only be populated by
@@ -403,6 +410,19 @@ export interface EndpointPropertiesUpdateParametersDeliveryPolicy {
 
 /**
  * @interface
+ * An interface representing EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink.
+ * Defines the Web Application Firewall policy for the endpoint (if applicable)
+ *
+ */
+export interface EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink {
+  /**
+   * @member {string} [id] Resource ID.
+   */
+  id?: string;
+}
+
+/**
+ * @interface
  * An interface representing EndpointUpdateParameters.
  * Properties required to create or update an endpoint.
  *
@@ -487,6 +507,13 @@ export interface EndpointUpdateParameters extends BaseResource {
    * an endpoint.
    */
   deliveryPolicy?: EndpointPropertiesUpdateParametersDeliveryPolicy;
+  /**
+   * @member
+   * {EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink}
+   * [webApplicationFirewallPolicyLink] Defines the Web Application Firewall
+   * policy for the endpoint (if applicable)
+   */
+  webApplicationFirewallPolicyLink?: EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink;
 }
 
 /**
