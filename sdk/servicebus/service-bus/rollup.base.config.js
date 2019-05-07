@@ -41,6 +41,7 @@ export function nodeConfig({ test = false, production = false } = {}) {
     input: input,
     external: depNames.concat(externalNodeBuiltins),
     output: { file: "dist/index.js", format: "cjs", sourcemap: true },
+    preserveSymlinks: false,
     plugins: [
       sourcemaps(),
       replace({
@@ -92,6 +93,7 @@ export function browserConfig({ test = false, production = false } = {}) {
       name: "Azure.Messaging.ServiceBus",
       sourcemap: true
     },
+    preserveSymlinks: false,
     plugins: [
       sourcemaps(),
       replace(
@@ -123,8 +125,8 @@ export function browserConfig({ test = false, production = false } = {}) {
       }),
 
       nodeResolve({
-        preferBuiltins: false,
-        browser: true
+        mainFields: ['module', 'browser'],
+        preferBuiltins: false
       }),
       cjs({
         namedExports: { events: ["EventEmitter"] }

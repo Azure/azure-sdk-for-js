@@ -22,6 +22,7 @@ export function nodeConfig(test = false) {
     input: input,
     external: depNames.concat(externalNodeBuiltins),
     output: { file: "dist/index.js", format: "cjs", sourcemap: true },
+    preserveSymlinks: false,
     plugins: [
       sourcemaps(),
       replace({
@@ -80,6 +81,7 @@ export function browserConfig(test = false) {
       sourcemap: true,
       globals: { "ms-rest-js": "msRest" }
     },
+    preserveSymlinks: false,
     plugins: [
       sourcemaps(),
       replace(
@@ -95,8 +97,8 @@ export function browserConfig(test = false) {
         }
       ),
       nodeResolve({
-        preferBuiltins: false,
-        browser: true
+        mainFields: ['module', 'browser'],
+        preferBuiltins: false
       }),
       cjs({
         namedExports: { events: ["EventEmitter"] }
