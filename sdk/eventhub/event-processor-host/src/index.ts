@@ -9,7 +9,6 @@ export { BaseLease, BaseLeaseInfo } from "./baseLease";
 export { LeaseManager } from "./leaseManager";
 export { CheckpointManager } from "./checkpointManager";
 export { LeaseInfo } from "./azureBlobLease";
-export { HostContextWithCheckpointLeaseManager, BaseHostContext } from "./hostContext";
 export {
   OnReceivedError,
   EPHDiagnosticInfo,

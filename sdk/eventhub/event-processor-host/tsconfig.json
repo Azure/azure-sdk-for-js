@@ -9,6 +9,7 @@
     "sourceMap": true /* Generates corresponding '.map' file. */,
 
     "outDir": "./dist-esm" /* Redirect output structure to the directory. */,
+    "stripInternal": true /* Do not emit declarations for code with @internal annotation*/,
     "declarationDir": "./types" /* Output directory for generated declaration files.*/,
 
     "importHelpers": true /* Import emit helpers from 'tslib'. */,

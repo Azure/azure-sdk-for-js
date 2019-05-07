@@ -3,8 +3,10 @@
 
 export { EventData, EventHubDeliveryAnnotations, EventHubMessageAnnotations } from "./eventData";
 export { Delivery, AmqpError, Message, MessageHeader, MessageProperties, Dictionary, WebSocketImpl } from "rhea-promise";
-export { EventHubReceiver, ReceiverRuntimeInfo, OnMessage, OnError } from "./eventHubReceiver";
+export { CheckpointData, EventHubReceiver, ReceiverRuntimeInfo, OnMessage, OnError } from "./eventHubReceiver";
+export { ConnectionContext } from "./connectionContext";
 export { ReceiveHandler } from "./streamingReceiver";
+export { LinkEntity, LinkEntityOptions } from "./linkEntity";
 export { EventHubClient, ReceiveOptions, ClientOptionsBase, ClientOptions } from "./eventHubClient";
 export { EventPosition, EventPositionOptions } from "./eventPosition";
 export { EventHubPartitionRuntimeInformation, EventHubRuntimeInformation } from "./managementClient";

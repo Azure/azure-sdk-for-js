@@ -13,8 +13,8 @@ import { Constants, AmqpMessage } from "@azure/amqp-common";
 import * as log from "./log";
 import { ClientEntityContext } from "./clientEntityContext";
 import { reorderLockToken } from "../src/util/utils";
-import { MessageReceiver } from "../src/core/messageReceiver";
-import { MessageSession } from "../src/session/messageSession";
+import { MessageReceiver } from "./core/messageReceiver";
+import { MessageSession } from "./session/messageSession";
 import { getErrorMessageNotSupportedInReceiveAndDeleteMode } from "./util/errors";
 /**
  * The mode in which messages should be received. The 2 modes are `peekLock` and `receiveAndDelete`.
@@ -569,7 +569,7 @@ export function fromAmqpMessage(
  * Describes the message received from Service Bus.
  * @interface ReceivedMessage
  */
-interface ReceivedMessage extends ReceivedMessageInfo {
+export interface ReceivedMessage extends ReceivedMessageInfo {
   /**
    * Removes the message from Service Bus.
    * @returns Promise<void>.

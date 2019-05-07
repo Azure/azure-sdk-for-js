@@ -1,12 +1,12 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/api-extractor/api-extractor.schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/api-extractor/v7/api-extractor.schema.json",
   "mainEntryPointFilePath": "types/src/index.d.ts",
   "docModel": {
     "enabled": false
   },
   "apiReport": {
     "enabled": true,
-    "reportFolder": "./etc"
+    "reportFolder": "./review"
   },
   "dtsRollup": {
     "enabled": true,

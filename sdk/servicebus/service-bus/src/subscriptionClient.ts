@@ -15,6 +15,7 @@ import {
 } from "./util/errors";
 import { generate_uuid } from "rhea-promise";
 import { ClientEntityContext } from "./clientEntityContext";
+import * as Long from 'long';
 
 /**
  * Describes the client that allows interacting with a Service Bus Subscription.
