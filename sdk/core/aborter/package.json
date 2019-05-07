@@ -18,7 +18,7 @@
     "pack": "npm pack 2>&1",
     "prebuild": "npm run clean",
     "pretest": "npm run build:test",
-    "test:browser": "echo \"Browser tests not yet supported\"",
+    "test:browser": "karma start --single-run",
     "test:node": "cross-env TS_NODE_COMPILER_OPTIONS=\"{\\\"module\\\": \\\"commonjs\\\"}\" mocha --require ts-node/register --require source-map-support/register --reporter mocha-multi-reporters --reporter-options configFile=mocha.reporter.config.json --full-trace --no-timeouts test/*.spec.ts",
     "test": "npm run test:node && npm run test:browser",
     "unit-browser": "npm run build && npm run test:browser",
@@ -30,12 +30,14 @@
   "license": "ISC",
   "dependencies": {
     "@azure/ms-rest-js": "^1.2.6",
-    "@types/node": "~8.10.48"
+    "tslib": "^1.9.3"
   },
   "devDependencies": {
     "@microsoft/api-extractor": "^6.3.0",
     "@types/mocha": "^5.2.5",
+    "@types/node": "^8.0.0",
     "cross-env": "^5.2.0",
+    "delay": "^4.2.0",
     "karma": "^4.0.1",
     "karma-chrome-launcher": "^2.2.0",
     "karma-coverage": "^1.1.2",

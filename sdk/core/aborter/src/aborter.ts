@@ -135,7 +135,7 @@ export class Aborter implements AbortSignalLike {
 
   /**
    * Create and return a new Aborter instance, which will be appended as a child node of current Aborter.
-   * Current Aborter instance becomes father node of the new instance. When current or father Aborter node
+   * Current Aborter instance becomes parent node of the new instance. When current or parent Aborter node
    * triggers timeout event, all children nodes abort event will be triggered too.
    *
    * When timeout parameter (in millisecond) is larger than 0, the abort event will be triggered when timeout.
@@ -153,7 +153,7 @@ export class Aborter implements AbortSignalLike {
 
   /**
    * Create and return a new Aborter instance, which will be appended as a child node of current Aborter.
-   * Current Aborter instance becomes father node of the new instance. When current or father Aborter node
+   * Current Aborter instance becomes parent node of the new instance. When current or parent Aborter node
    * triggers timeout event, all children nodes abort event will be triggered too.
    *
    * Immutable key value pair will be set into the new created Aborter instance.

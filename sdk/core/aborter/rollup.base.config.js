@@ -22,6 +22,7 @@ export function nodeConfig(test = false) {
     input: input,
     external: depNames.concat(externalNodeBuiltins),
     output: { file: "dist/index.js", format: "cjs", sourcemap: true },
+    preserveSymlinks: false,
     plugins: [
       sourcemaps(),
       replace({
@@ -50,21 +51,6 @@ export function nodeConfig(test = false) {
     baseConfig.external.push("assert");
 
     baseConfig.onwarn = (warning) => {
-      if (warning.code === "THIS_IS_UNDEFINED") {
-        // This error happens frequently due to TypeScript emitting `this` at the
-        // top-level of a module. In this case its fine if it gets rewritten to
-        // undefined, so ignore this error.
-        return;
-      }
-
-      if (
-        warning.code === "CIRCULAR_DEPENDENCY" &&
-        warning.importer.indexOf(path.normalize("node_modules/chai/lib") === 0)
-      ) {
-        // Chai contains circular references, but they are not fatal and can be ignored.
-        return;
-      }
-
       console.error(`(!) ${warning.message}`);
     };
   } else if (production) {
@@ -85,6 +71,7 @@ export function browserConfig(test = false) {
       sourcemap: true,
       globals: { "ms-rest-js": "msRest" }
     },
+    preserveSymlinks: false,
     plugins: [
       sourcemaps(),
       replace(
@@ -104,7 +91,17 @@ export function browserConfig(test = false) {
         browser: true
       }),
       cjs({
-        namedExports: { events: ["EventEmitter"] }
+        namedExports: {
+          events: ["EventEmitter"],
+          assert: [
+            "ok",
+            "deepEqual",
+            "equal",
+            "fail",
+            "deepStrictEqual",
+            "notDeepEqual"
+          ]
+        }
       }),
       json()
     ]

@@ -25,7 +25,7 @@ module.exports = function(config) {
     ],
 
     // list of files / patterns to load in the browser
-    files: ["dist-test/aborter.js"],
+    files: ["test-browser/index.js"],
 
     // list of files / patterns to exclude
     exclude: [],
@@ -36,7 +36,7 @@ module.exports = function(config) {
       "**/*.js": ["env"],
       // IMPORTANT: COMMENT following line if you want to debug in your browsers!!
       // Preprocess source file to calculate code coverage, however this will make source file unreadable
-      "dist-test/index.browser.js": ["coverage"]
+      // "test-browser/index.js": ["coverage"]
     },
 
     // test results reporter to use

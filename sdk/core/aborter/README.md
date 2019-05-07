@@ -1,6 +1,6 @@
 # Aborter
 
-Aborter is used by the Azure SDK for JavaScript to abort pending work based on timeouts or other signals. Aborter is compatible with the AbortSignal used by the `fetch` API built into modern browsers.
+`Aborter` is used by the Azure SDK for JavaScript to abort pending work based on timeouts or other signals. `Aborter` is compatible with the `AbortSignal` used by the `fetch` API built into modern browsers.
 
 ## Getting started
 
@@ -34,8 +34,8 @@ import { Aborter } from "@azure/core-aborter";
 
 const allTasksSignal = new Aborter();
 
-const subTask1 = new Aborter(allTasksSignal);
-const subtask2 = new Aborter(allTasksSignal);
+const subTask1 = allTasksSignal.withValue("key1", "value1");
+const subtask2 = allTasksSignal.withValue("key2", "value2");
 
 allTasksSignal.abort(); // aborts allTasksSignal, subTask1, subTask2
 subTask1.abort(); // aborts only subTask1
