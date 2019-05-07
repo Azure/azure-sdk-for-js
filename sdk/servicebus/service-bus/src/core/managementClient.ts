@@ -28,7 +28,8 @@ import {
   ServiceBusMessage,
   SendableMessageInfo,
   DispositionStatus,
-  toAmqpMessage
+  toAmqpMessage,
+  getMessagePropertyTypeMismatchError
 } from "../serviceBusMessage";
 import { LinkEntity } from "./linkEntity";
 import * as log from "../log";
@@ -475,6 +476,14 @@ export class ManagementClient extends LinkEntity {
         const wrappedEntry = types.wrap_map(entry);
         messageBody.push(wrappedEntry);
       } catch (err) {
+        if (err instanceof TypeError || err.name === "TypeError") {
+          // `RheaMessageUtil.encode` can fail if message properties are of invalid type
+          // rhea throws errors with name `TypeError` but not an instance of `TypeError`, so catch them too
+          // Errors in such cases do not have user friendy message or call stack
+          // So use `getMessagePropertyTypeMismatchError` to get a better error message
+          err = getMessagePropertyTypeMismatchError(item) || err;
+        }
+
         const error = translate(err);
         log.error(
           "An error occurred while encoding the item at position %d in the messages array" + ": %O",

@@ -28,6 +28,7 @@
     "test": "mocha test-dist/**/*.js --reporter spec"
   },
   "files": [
+    "browser/*.js*",
     "dist/",
     "dist-esm/src/",
     "src/",
