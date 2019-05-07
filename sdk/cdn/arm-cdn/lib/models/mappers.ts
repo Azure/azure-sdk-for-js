@@ -318,6 +318,13 @@ export const Endpoint: msRest.CompositeMapper = {
           className: "EndpointPropertiesUpdateParametersDeliveryPolicy"
         }
       },
+      webApplicationFirewallPolicyLink: {
+        serializedName: "properties.webApplicationFirewallPolicyLink",
+        type: {
+          name: "Composite",
+          className: "EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink"
+        }
+      },
       hostName: {
         readOnly: true,
         serializedName: "properties.hostName",
@@ -518,6 +525,22 @@ export const EndpointPropertiesUpdateParametersDeliveryPolicy: msRest.CompositeM
   }
 };
 
+export const EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink: msRest.CompositeMapper = {
+  serializedName: "EndpointPropertiesUpdateParameters_webApplicationFirewallPolicyLink",
+  type: {
+    name: "Composite",
+    className: "EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const EndpointUpdateParameters: msRest.CompositeMapper = {
   serializedName: "EndpointUpdateParameters",
   type: {
@@ -617,6 +640,13 @@ export const EndpointUpdateParameters: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "EndpointPropertiesUpdateParametersDeliveryPolicy"
+        }
+      },
+      webApplicationFirewallPolicyLink: {
+        serializedName: "properties.webApplicationFirewallPolicyLink",
+        type: {
+          name: "Composite",
+          className: "EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink"
         }
       }
     }
@@ -2509,6 +2539,587 @@ export const ErrorResponse: msRest.CompositeMapper = {
   }
 };
 
+export const PolicySettings: msRest.CompositeMapper = {
+  serializedName: "policySettings",
+  type: {
+    name: "Composite",
+    className: "PolicySettings",
+    modelProperties: {
+      enabledState: {
+        serializedName: "enabledState",
+        type: {
+          name: "String"
+        }
+      },
+      mode: {
+        serializedName: "mode",
+        type: {
+          name: "String"
+        }
+      },
+      defaultRedirectUrl: {
+        serializedName: "defaultRedirectUrl",
+        type: {
+          name: "String"
+        }
+      },
+      defaultCustomBlockResponseStatusCode: {
+        serializedName: "defaultCustomBlockResponseStatusCode",
+        type: {
+          name: "Number"
+        }
+      },
+      defaultCustomBlockResponseBody: {
+        serializedName: "defaultCustomBlockResponseBody",
+        constraints: {
+          Pattern: /^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=|[A-Za-z0-9+\/]{4})$/
+        },
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CustomRule: msRest.CompositeMapper = {
+  serializedName: "CustomRule",
+  type: {
+    name: "Composite",
+    className: "CustomRule",
+    modelProperties: {
+      name: {
+        required: true,
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      enabledState: {
+        serializedName: "enabledState",
+        type: {
+          name: "String"
+        }
+      },
+      priority: {
+        required: true,
+        serializedName: "priority",
+        type: {
+          name: "Number"
+        }
+      },
+      matchConditions: {
+        required: true,
+        serializedName: "matchConditions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "MatchCondition"
+            }
+          }
+        }
+      },
+      action: {
+        required: true,
+        serializedName: "action",
+        type: {
+          name: "Composite",
+          className: "ActionType"
+        }
+      }
+    }
+  }
+};
+
+export const RateLimitRule: msRest.CompositeMapper = {
+  serializedName: "RateLimitRule",
+  type: {
+    name: "Composite",
+    className: "RateLimitRule",
+    modelProperties: {
+      ...CustomRule.type.modelProperties,
+      rateLimitThreshold: {
+        required: true,
+        serializedName: "rateLimitThreshold",
+        type: {
+          name: "Number"
+        }
+      },
+      rateLimitDurationInMinutes: {
+        required: true,
+        serializedName: "rateLimitDurationInMinutes",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const RateLimitRuleList: msRest.CompositeMapper = {
+  serializedName: "RateLimitRuleList",
+  type: {
+    name: "Composite",
+    className: "RateLimitRuleList",
+    modelProperties: {
+      rules: {
+        serializedName: "rules",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "RateLimitRule"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const MatchCondition: msRest.CompositeMapper = {
+  serializedName: "MatchCondition",
+  type: {
+    name: "Composite",
+    className: "MatchCondition",
+    modelProperties: {
+      matchVariable: {
+        required: true,
+        serializedName: "matchVariable",
+        type: {
+          name: "String"
+        }
+      },
+      selector: {
+        serializedName: "selector",
+        type: {
+          name: "String"
+        }
+      },
+      operator: {
+        required: true,
+        serializedName: "operator",
+        type: {
+          name: "String"
+        }
+      },
+      negateCondition: {
+        serializedName: "negateCondition",
+        type: {
+          name: "Boolean"
+        }
+      },
+      matchValue: {
+        required: true,
+        serializedName: "matchValue",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ActionType: msRest.CompositeMapper = {
+  serializedName: "ActionType",
+  type: {
+    name: "Composite",
+    className: "ActionType",
+    modelProperties: {
+      actionType: {
+        required: true,
+        serializedName: "actionType",
+        type: {
+          name: "String"
+        }
+      },
+      redirectUrl: {
+        serializedName: "redirectUrl",
+        type: {
+          name: "String"
+        }
+      },
+      customBlockResponseStatusCode: {
+        serializedName: "customBlockResponseStatusCode",
+        type: {
+          name: "Number"
+        }
+      },
+      customBlockResponseBody: {
+        serializedName: "customBlockResponseBody",
+        constraints: {
+          Pattern: /^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=|[A-Za-z0-9+\/]{4})$/
+        },
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CustomRuleList: msRest.CompositeMapper = {
+  serializedName: "CustomRuleList",
+  type: {
+    name: "Composite",
+    className: "CustomRuleList",
+    modelProperties: {
+      rules: {
+        serializedName: "rules",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "CustomRule"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ManagedRuleOverride: msRest.CompositeMapper = {
+  serializedName: "ManagedRuleOverride",
+  type: {
+    name: "Composite",
+    className: "ManagedRuleOverride",
+    modelProperties: {
+      ruleId: {
+        required: true,
+        serializedName: "ruleId",
+        type: {
+          name: "String"
+        }
+      },
+      enabledState: {
+        serializedName: "enabledState",
+        type: {
+          name: "String"
+        }
+      },
+      action: {
+        serializedName: "action",
+        type: {
+          name: "Composite",
+          className: "ActionType"
+        }
+      }
+    }
+  }
+};
+
+export const ManagedRuleGroupOverride: msRest.CompositeMapper = {
+  serializedName: "ManagedRuleGroupOverride",
+  type: {
+    name: "Composite",
+    className: "ManagedRuleGroupOverride",
+    modelProperties: {
+      ruleGroupName: {
+        required: true,
+        serializedName: "ruleGroupName",
+        type: {
+          name: "String"
+        }
+      },
+      rules: {
+        serializedName: "rules",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ManagedRuleOverride"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ManagedRuleSet: msRest.CompositeMapper = {
+  serializedName: "ManagedRuleSet",
+  type: {
+    name: "Composite",
+    className: "ManagedRuleSet",
+    modelProperties: {
+      ruleSetType: {
+        required: true,
+        serializedName: "ruleSetType",
+        type: {
+          name: "String"
+        }
+      },
+      ruleSetVersion: {
+        required: true,
+        serializedName: "ruleSetVersion",
+        type: {
+          name: "String"
+        }
+      },
+      anomalyScore: {
+        serializedName: "anomalyScore",
+        type: {
+          name: "Number"
+        }
+      },
+      ruleGroupOverrides: {
+        serializedName: "ruleGroupOverrides",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ManagedRuleGroupOverride"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ManagedRuleSetList: msRest.CompositeMapper = {
+  serializedName: "ManagedRuleSetList",
+  type: {
+    name: "Composite",
+    className: "ManagedRuleSetList",
+    modelProperties: {
+      managedRuleSets: {
+        serializedName: "managedRuleSets",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ManagedRuleSet"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const CdnEndpoint: msRest.CompositeMapper = {
+  serializedName: "CdnEndpoint",
+  type: {
+    name: "Composite",
+    className: "CdnEndpoint",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CdnWebApplicationFirewallPolicy: msRest.CompositeMapper = {
+  serializedName: "CdnWebApplicationFirewallPolicy",
+  type: {
+    name: "Composite",
+    className: "CdnWebApplicationFirewallPolicy",
+    modelProperties: {
+      ...TrackedResource.type.modelProperties,
+      policySettings: {
+        serializedName: "properties.policySettings",
+        type: {
+          name: "Composite",
+          className: "PolicySettings"
+        }
+      },
+      rateLimitRules: {
+        serializedName: "properties.rateLimitRules",
+        type: {
+          name: "Composite",
+          className: "RateLimitRuleList"
+        }
+      },
+      customRules: {
+        serializedName: "properties.customRules",
+        type: {
+          name: "Composite",
+          className: "CustomRuleList"
+        }
+      },
+      managedRules: {
+        serializedName: "properties.managedRules",
+        type: {
+          name: "Composite",
+          className: "ManagedRuleSetList"
+        }
+      },
+      cdnEndpointLinks: {
+        readOnly: true,
+        serializedName: "properties.cdnEndpointLinks",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "CdnEndpoint"
+            }
+          }
+        }
+      },
+      provisioningState: {
+        readOnly: true,
+        serializedName: "properties.provisioningState",
+        type: {
+          name: "String"
+        }
+      },
+      resourceState: {
+        readOnly: true,
+        serializedName: "properties.resourceState",
+        type: {
+          name: "String"
+        }
+      },
+      etag: {
+        serializedName: "etag",
+        type: {
+          name: "String"
+        }
+      },
+      sku: {
+        required: true,
+        serializedName: "sku",
+        type: {
+          name: "Composite",
+          className: "Sku"
+        }
+      }
+    }
+  }
+};
+
+export const ManagedRuleDefinition: msRest.CompositeMapper = {
+  serializedName: "ManagedRuleDefinition",
+  type: {
+    name: "Composite",
+    className: "ManagedRuleDefinition",
+    modelProperties: {
+      ruleId: {
+        readOnly: true,
+        serializedName: "ruleId",
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        readOnly: true,
+        serializedName: "description",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ManagedRuleGroupDefinition: msRest.CompositeMapper = {
+  serializedName: "ManagedRuleGroupDefinition",
+  type: {
+    name: "Composite",
+    className: "ManagedRuleGroupDefinition",
+    modelProperties: {
+      ruleGroupName: {
+        readOnly: true,
+        serializedName: "ruleGroupName",
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        readOnly: true,
+        serializedName: "description",
+        type: {
+          name: "String"
+        }
+      },
+      rules: {
+        readOnly: true,
+        serializedName: "rules",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ManagedRuleDefinition"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ManagedRuleSetDefinition: msRest.CompositeMapper = {
+  serializedName: "ManagedRuleSetDefinition",
+  type: {
+    name: "Composite",
+    className: "ManagedRuleSetDefinition",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      provisioningState: {
+        readOnly: true,
+        serializedName: "properties.provisioningState",
+        type: {
+          name: "String"
+        }
+      },
+      ruleSetType: {
+        readOnly: true,
+        serializedName: "properties.ruleSetType",
+        type: {
+          name: "String"
+        }
+      },
+      ruleSetVersion: {
+        readOnly: true,
+        serializedName: "properties.ruleSetVersion",
+        type: {
+          name: "String"
+        }
+      },
+      ruleGroups: {
+        readOnly: true,
+        serializedName: "properties.ruleGroups",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ManagedRuleGroupDefinition"
+            }
+          }
+        }
+      },
+      sku: {
+        serializedName: "sku",
+        type: {
+          name: "Composite",
+          className: "Sku"
+        }
+      }
+    }
+  }
+};
+
 export const ProfileListResult: msRest.CompositeMapper = {
   serializedName: "ProfileListResult",
   type: {
@@ -2698,6 +3309,64 @@ export const EdgenodeResult: msRest.CompositeMapper = {
             type: {
               name: "Composite",
               className: "EdgeNode"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CdnWebApplicationFirewallPolicyList: msRest.CompositeMapper = {
+  serializedName: "CdnWebApplicationFirewallPolicyList",
+  type: {
+    name: "Composite",
+    className: "CdnWebApplicationFirewallPolicyList",
+    modelProperties: {
+      value: {
+        readOnly: true,
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "CdnWebApplicationFirewallPolicy"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ManagedRuleSetDefinitionList: msRest.CompositeMapper = {
+  serializedName: "ManagedRuleSetDefinitionList",
+  type: {
+    name: "Composite",
+    className: "ManagedRuleSetDefinitionList",
+    modelProperties: {
+      value: {
+        readOnly: true,
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ManagedRuleSetDefinition"
             }
           }
         }
