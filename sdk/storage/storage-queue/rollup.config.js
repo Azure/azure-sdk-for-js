@@ -22,6 +22,7 @@ const nodeRollupConfigFactory = () => {
             format: "cjs",
             sourcemap: true
         },
+        preserveSymlinks: false,
         plugins: [nodeResolve(), uglify()]
     };
 };
@@ -36,6 +37,7 @@ const browserRollupConfigFactory = isProduction => {
             name: "azqueue",
             sourcemap: true
         },
+        preserveSymlinks: false,
         plugins: [
             replace({
                 delimiters: ["", ""],
@@ -55,8 +57,7 @@ const browserRollupConfigFactory = isProduction => {
         `
             }),
             nodeResolve({
-                module: true,
-                browser: true,
+                mainFields: ['module', 'browser'],
                 preferBuiltins: false
             }),
             commonjs({

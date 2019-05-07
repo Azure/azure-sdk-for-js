@@ -26,14 +26,17 @@ export class Sender {
    * @property Describes the amqp connection context for the Client.
    */
   private _context: ClientEntityContext;
+  /**
+   * @property Denotes if close() was called on this sender
+   */
   private _isClosed: boolean = false;
 
   /**
-   * @property Denotes if close() was called on this sender.
+   * @property Returns `true` if either the sender or the client that created it has been closed
    * @readonly
    */
   public get isClosed(): boolean {
-    return this._isClosed;
+    return this._isClosed || this._context.isClosed;
   }
 
   /**
@@ -54,6 +57,7 @@ export class Sender {
    */
   async send(message: SendableMessageInfo): Promise<void> {
     this._throwIfSenderOrConnectionClosed();
+    throwTypeErrorIfParameterMissing(this._context.namespace.connectionId, "message", message);
     const sender = MessageSender.create(this._context);
     return sender.send(message);
   }
@@ -73,6 +77,10 @@ export class Sender {
    */
   async sendBatch(messages: SendableMessageInfo[]): Promise<void> {
     this._throwIfSenderOrConnectionClosed();
+    throwTypeErrorIfParameterMissing(this._context.namespace.connectionId, "messages", messages);
+    if (!Array.isArray(messages)) {
+      messages = [messages];
+    }
     const sender = MessageSender.create(this._context);
     return sender.sendBatch(messages);
   }
@@ -99,10 +107,16 @@ export class Sender {
     );
     throwTypeErrorIfParameterMissing(this._context.namespace.connectionId, "message", message);
 
+    let senderName;
+    if (this._context.sender) {
+      senderName = this._context.sender.name;
+    }
+
     const messages = [message];
     const result = await this._context.managementClient!.scheduleMessages(
       scheduledEnqueueTimeUtc,
-      messages
+      messages,
+      senderName
     );
     return result[0];
   }
@@ -132,7 +146,16 @@ export class Sender {
       messages = [messages];
     }
 
-    return this._context.managementClient!.scheduleMessages(scheduledEnqueueTimeUtc, messages);
+    let senderName;
+    if (this._context.sender) {
+      senderName = this._context.sender.name;
+    }
+
+    return this._context.managementClient!.scheduleMessages(
+      scheduledEnqueueTimeUtc,
+      messages,
+      senderName
+    );
   }
 
   /**
@@ -152,7 +175,13 @@ export class Sender {
       "sequenceNumber",
       sequenceNumber
     );
-    return this._context.managementClient!.cancelScheduledMessages([sequenceNumber]);
+
+    let senderName;
+    if (this._context.sender) {
+      senderName = this._context.sender.name;
+    }
+
+    return this._context.managementClient!.cancelScheduledMessages([sequenceNumber], senderName);
   }
 
   /**
@@ -175,7 +204,13 @@ export class Sender {
       "sequenceNumbers",
       sequenceNumbers
     );
-    return this._context.managementClient!.cancelScheduledMessages(sequenceNumbers);
+
+    let senderName;
+    if (this._context.sender) {
+      senderName = this._context.sender.name;
+    }
+
+    return this._context.managementClient!.cancelScheduledMessages(sequenceNumbers, senderName);
   }
 
   /**
@@ -208,10 +243,11 @@ export class Sender {
 
   private _throwIfSenderOrConnectionClosed(): void {
     throwErrorIfConnectionClosed(this._context.namespace);
-    if (this._isClosed) {
+    if (this.isClosed) {
       const errorMessage = getSenderClosedErrorMsg(
         this._context.entityPath,
-        this._context.clientType
+        this._context.clientType,
+        this._context.isClosed
       );
       const error = new Error(errorMessage);
       log.error(`[${this._context.namespace.connectionId}] %O`, error);

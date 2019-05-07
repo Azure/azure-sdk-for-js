@@ -7,7 +7,7 @@
  */
 
 export {
-  ErrorModel,
+  CloudError,
   MountTarget,
   MountTargetList
 } from "../models/mappers";

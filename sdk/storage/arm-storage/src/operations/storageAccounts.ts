@@ -464,6 +464,47 @@ export class StorageAccounts {
   }
 
   /**
+   * Revoke user delegation keys.
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  revokeUserDelegationKeys(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param callback The callback
+   */
+  revokeUserDelegationKeys(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  revokeUserDelegationKeys(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  revokeUserDelegationKeys(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        accountName,
+        options
+      },
+      revokeUserDelegationKeysOperationSpec,
+      callback);
+  }
+
+  /**
    * Asynchronously creates a new storage account with the specified parameters. If an account is
    * already created and a subsequent create request is issued with different properties, the account
    * properties will be updated. If an account is already created and a subsequent create or update
@@ -792,6 +833,29 @@ const listServiceSASOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.ListServiceSasResponse
     },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const revokeUserDelegationKeysOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/revokeUserDelegationKeys",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {},
     default: {
       bodyMapper: Mappers.CloudError
     }

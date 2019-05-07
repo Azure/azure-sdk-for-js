@@ -159,3 +159,4 @@ export function toBuffer(input: any): Buffer {
   log.utils("[utils.toBuffer] The converted buffer is: %O.", result);
   return result;
 }
+

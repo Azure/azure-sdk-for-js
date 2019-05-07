@@ -1,6 +1,0 @@
-browser/
-dist/
-dist-esm/
-dist-test/
-temp/
-swagger/*.json

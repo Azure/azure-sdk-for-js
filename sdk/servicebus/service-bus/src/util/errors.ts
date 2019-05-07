@@ -5,9 +5,6 @@ import * as log from "../log";
 import Long from "long";
 import { ClientType } from "../client";
 import { ConnectionContext } from "../connectionContext";
-import { MessageReceiver } from "../core/messageReceiver";
-import { MessageSession } from "../session/messageSession";
-import { DispositionType, ReceiveMode } from "../serviceBusMessage";
 
 /**
  * @internal
@@ -98,8 +95,19 @@ export function getClientClosedErrorMsg(entityPath: string): string {
  * Gets the error message when a sender is used when its already closed
  * @param entityPath Value of the `entityPath` property on the client which denotes its name
  * @param clientType One of "QueueClient", "TopicClient" or "SubscriptionClient", used for logging
+ * @param isClientClosed Denotes if the close() was called on the client that created the sender
  */
-export function getSenderClosedErrorMsg(entityPath: string, clientType: ClientType): string {
+export function getSenderClosedErrorMsg(
+  entityPath: string,
+  clientType: ClientType,
+  isClientClosed: boolean
+): string {
+  if (isClientClosed) {
+    return (
+      `The client for "${entityPath}" has been closed. The sender created by it can no longer be used. ` +
+      `Please create a new client using an instance of ServiceBusClient.`
+    );
+  }
   return (
     `The sender for "${entityPath}" has been closed and can no longer be used. ` +
     `Please create a new sender using the "createSender" function on the ${clientType}.`
@@ -111,13 +119,21 @@ export function getSenderClosedErrorMsg(entityPath: string, clientType: ClientTy
  * Gets the error message when a receiver is used when its already closed
  * @param entityPath Value of the `entityPath` property on the client which denotes its name
  * @param clientType One of "QueueClient", "TopicClient" or "SubscriptionClient", used for logging
+ * @param isClientClosed Denotes if the close() was called on the client that created the sender
  * @param sessionId If using session receiver, then the id of the session
  */
 export function getReceiverClosedErrorMsg(
   entityPath: string,
   clientType: ClientType,
+  isClientClosed: boolean,
   sessionId?: string
 ): string {
+  if (isClientClosed) {
+    return (
+      `The client for "${entityPath}" has been closed. The receiver created by it can no longer be used. ` +
+      `Please create a new client using an instance of ServiceBusClient.`
+    );
+  }
   if (!sessionId) {
     return (
       `The receiver for "${entityPath}" has been closed and can no longer be used. ` +
@@ -241,42 +257,6 @@ export function throwTypeErrorIfParameterIsEmptyString(
   }
   const error = new TypeError(`Empty string not allowed in parameter "${parameterName}"`);
   log.error(`[${connectionId}] %O`, error);
-  throw error;
-}
-
-/**
- * Logs and Throws an error if the given message cannot be settled.
- * @param receiver Receiver to be used to settle this message
- * @param operation Settle operation: complete, abandon, defer or deadLetter
- * @param isRemoteSettled Boolean indicating if the message has been settled at the remote
- */
-export function throwIfMessageCannotBeSettled(
-  receiver: MessageReceiver | MessageSession | undefined,
-  operation: DispositionType,
-  isRemoteSettled: boolean
-): void {
-  let errorMessage;
-  if (!receiver) {
-    errorMessage = `Failed to ${operation} the message as it's receiver has been closed.`;
-  } else if (receiver.receiveMode !== ReceiveMode.peekLock) {
-    errorMessage = getErrorMessageNotSupportedInReceiveAndDeleteMode(`${operation} the message`);
-  } else if (isRemoteSettled) {
-    errorMessage = `Failed to ${operation} the message as this message has been already settled.`;
-  }
-  if (!errorMessage) {
-    return;
-  }
-  const error = new Error(errorMessage);
-  if (receiver) {
-    log.error(
-      "An error occured when settling a message using the receiver %s: %O",
-      receiver.name,
-      error
-    );
-  } else {
-    log.error("An error occured when settling a message: %O", error);
-  }
-
   throw error;
 }
 

@@ -16,7 +16,7 @@ import { LUISRuntimeClientContext } from "./lUISRuntimeClientContext";
 
 class LUISRuntimeClient extends LUISRuntimeClientContext {
   // Operation groups
-  prediction: operations.Prediction;
+  prediction: operations.PredictionOperations;
 
   /**
    * Initializes a new instance of the LUISRuntimeClient class.
@@ -27,7 +27,7 @@ class LUISRuntimeClient extends LUISRuntimeClientContext {
    */
   constructor(credentials: msRest.ServiceClientCredentials, endpoint: string, options?: msRest.ServiceClientOptions) {
     super(credentials, endpoint, options);
-    this.prediction = new operations.Prediction(this);
+    this.prediction = new operations.PredictionOperations(this);
   }
 }
 

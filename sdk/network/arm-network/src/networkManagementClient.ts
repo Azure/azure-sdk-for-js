@@ -49,6 +49,7 @@ class NetworkManagementClient extends NetworkManagementClientContext {
   loadBalancerOutboundRules: operations.LoadBalancerOutboundRules;
   loadBalancerNetworkInterfaces: operations.LoadBalancerNetworkInterfaces;
   loadBalancerProbes: operations.LoadBalancerProbes;
+  natGateways: operations.NatGateways;
   networkInterfaces: operations.NetworkInterfaces;
   networkInterfaceIPConfigurations: operations.NetworkInterfaceIPConfigurations;
   networkInterfaceLoadBalancers: operations.NetworkInterfaceLoadBalancers;
@@ -129,6 +130,7 @@ class NetworkManagementClient extends NetworkManagementClientContext {
     this.loadBalancerOutboundRules = new operations.LoadBalancerOutboundRules(this);
     this.loadBalancerNetworkInterfaces = new operations.LoadBalancerNetworkInterfaces(this);
     this.loadBalancerProbes = new operations.LoadBalancerProbes(this);
+    this.natGateways = new operations.NatGateways(this);
     this.networkInterfaces = new operations.NetworkInterfaces(this);
     this.networkInterfaceIPConfigurations = new operations.NetworkInterfaceIPConfigurations(this);
     this.networkInterfaceLoadBalancers = new operations.NetworkInterfaceLoadBalancers(this);

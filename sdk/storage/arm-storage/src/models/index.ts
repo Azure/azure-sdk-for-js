@@ -180,7 +180,8 @@ export interface Sku {
   /**
    * Gets or sets the SKU name. Required for account creation; optional for update. Note that in
    * older versions, SKU name was called accountType. Possible values include: 'Standard_LRS',
-   * 'Standard_GRS', 'Standard_RAGRS', 'Standard_ZRS', 'Premium_LRS', 'Premium_ZRS'
+   * 'Standard_GRS', 'Standard_RAGRS', 'Standard_ZRS', 'Premium_LRS', 'Premium_ZRS',
+   * 'Standard_GZRS', 'Standard_RAGZRS'
    */
   name: SkuName;
   /**
@@ -1503,6 +1504,54 @@ export interface BlobServiceProperties extends Resource {
    * The blob service properties for soft delete.
    */
   deleteRetentionPolicy?: DeleteRetentionPolicy;
+  /**
+   * Automatic Snapshot is enabled if set to true.
+   */
+  automaticSnapshotPolicyEnabled?: boolean;
+}
+
+/**
+ * Lease Container request schema.
+ */
+export interface LeaseContainerRequest {
+  /**
+   * Specifies the lease action. Can be one of the available actions. Possible values include:
+   * 'Acquire', 'Renew', 'Change', 'Release', 'Break'
+   */
+  action: Action1;
+  /**
+   * Identifies the lease. Can be specified in any valid GUID string format.
+   */
+  leaseId?: string;
+  /**
+   * Optional. For a break action, proposed duration the lease should continue before it is broken,
+   * in seconds, between 0 and 60.
+   */
+  breakPeriod?: number;
+  /**
+   * Required for acquire. Specifies the duration of the lease, in seconds, or negative one (-1)
+   * for a lease that never expires.
+   */
+  leaseDuration?: number;
+  /**
+   * Optional for acquire, required for change. Proposed lease ID, in a GUID string format.
+   */
+  proposedLeaseId?: string;
+}
+
+/**
+ * Lease Container response schema.
+ */
+export interface LeaseContainerResponse {
+  /**
+   * Returned unique lease ID that must be included with any request to delete the container, or to
+   * renew, change, or release the lease.
+   */
+  leaseId?: string;
+  /**
+   * Approximate time remaining in the lease period, in seconds.
+   */
+  leaseTimeSeconds?: string;
 }
 
 /**
@@ -1569,6 +1618,16 @@ export interface BlobContainersGetImmutabilityPolicyOptionalParams extends msRes
    * operation will always be applied.
    */
   ifMatch?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface BlobContainersLeaseOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Lease Container request body.
+   */
+  parameters?: LeaseContainerRequest;
 }
 
 /**
@@ -1682,11 +1741,11 @@ export type ReasonCode = 'QuotaId' | 'NotAvailableForSubscription';
 /**
  * Defines values for SkuName.
  * Possible values include: 'Standard_LRS', 'Standard_GRS', 'Standard_RAGRS', 'Standard_ZRS',
- * 'Premium_LRS', 'Premium_ZRS'
+ * 'Premium_LRS', 'Premium_ZRS', 'Standard_GZRS', 'Standard_RAGZRS'
  * @readonly
  * @enum {string}
  */
-export type SkuName = 'Standard_LRS' | 'Standard_GRS' | 'Standard_RAGRS' | 'Standard_ZRS' | 'Premium_LRS' | 'Premium_ZRS';
+export type SkuName = 'Standard_LRS' | 'Standard_GRS' | 'Standard_RAGRS' | 'Standard_ZRS' | 'Premium_LRS' | 'Premium_ZRS' | 'Standard_GZRS' | 'Standard_RAGZRS';
 
 /**
  * Defines values for SkuTier.
@@ -1898,6 +1957,14 @@ export type ImmutabilityPolicyUpdateType = 'put' | 'lock' | 'extend';
  * @enum {string}
  */
 export type StorageAccountExpand = 'geoReplicationStats';
+
+/**
+ * Defines values for Action1.
+ * Possible values include: 'Acquire', 'Renew', 'Change', 'Release', 'Break'
+ * @readonly
+ * @enum {string}
+ */
+export type Action1 = 'Acquire' | 'Renew' | 'Change' | 'Release' | 'Break';
 
 /**
  * Contains response data for the list operation.
@@ -2501,5 +2568,25 @@ export type BlobContainersExtendImmutabilityPolicyResponse = ImmutabilityPolicy 
        * The response body as parsed JSON or XML
        */
       parsedBody: ImmutabilityPolicy;
+    };
+};
+
+/**
+ * Contains response data for the lease operation.
+ */
+export type BlobContainersLeaseResponse = LeaseContainerResponse & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: LeaseContainerResponse;
     };
 };
