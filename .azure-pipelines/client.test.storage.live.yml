@@ -10,10 +10,6 @@ jobs:
       # since the tests would attempt to use the same resources which causes conflicts.
       maxParallel: 1
       matrix:
-        Linux_Node6X:
-          OSName: 'Linux'
-          OSVmImage: 'ubuntu-16.04'
-          NodeVersion: '6.x'
         Linux_Node8X:
           OSName: 'Linux'
           OSVmImage: 'ubuntu-16.04'
@@ -22,10 +18,10 @@ jobs:
           OSName: 'Linux'
           OSVmImage: 'ubuntu-16.04'
           NodeVersion: '10.x'
-        Windows_Node6X:
-          OSName: 'Windows'
-          OSVmImage: 'vs2017-win2016'
-          NodeVersion: '6.x'
+        Linux_Node12X:
+          OSName: 'Linux'
+          OSVmImage: 'ubuntu-16.04'
+          NodeVersion: '12.x'
         Windows_Node8X:
           OSName: 'Windows'
           OSVmImage: 'vs2017-win2016'
@@ -34,10 +30,10 @@ jobs:
           OSName: 'Windows'
           OSVmImage: 'vs2017-win2016'
           NodeVersion: '10.x'
-        Mac_Node6X:
-          OSName: 'Mac'
-          OSVmImage: 'macOS-10.13'
-          NodeVersion: '6.x'
+        Windows_Node12X:
+          OSName: 'Windows'
+          OSVmImage: 'vs2017-win2016'
+          NodeVersion: '12.x'
         Mac_Node8X:
           OSName: 'Mac'
           OSVmImage: 'macOS-10.13'
@@ -46,6 +42,10 @@ jobs:
           OSName: 'Mac'
           OSVmImage: 'macOS-10.13'
           NodeVersion: '10.x'
+        Mac_Node12X:
+          OSName: 'Mac'
+          OSVmImage: 'macOS-10.13'
+          NodeVersion: '12.x'
 
     pool:
       vmImage: '$(OSVmImage)'

@@ -18,6 +18,10 @@ jobs:
           OSName: 'Windows'
           OSVmImage: 'vs2017-win2016'
           NodeVersion: '10.x'
+        Mac_Node10X:
+          OSName: 'Mac'
+          OSVmImage: 'macOS-10.13'
+          NodeVersion: '10.x'
 
     pool:
       vmImage: '$(OSVmImage)'
@@ -76,6 +80,10 @@ jobs:
         Windows_Node10X:
           OSName: 'Windows'
           OSVmImage: 'vs2017-win2016'
+          NodeVersion: '10.x'
+        Mac_Node10X:
+          OSName: 'Mac'
+          OSVmImage: 'macOS-10.13'
           NodeVersion: '10.x'
 
     pool:
