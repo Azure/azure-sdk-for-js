@@ -3,7 +3,7 @@
  * Licensed under the MIT License. See License.txt in the project root for
  * license information.
  */
-let internalMappers: any = {};
+const internalMappers: any = {};
 
 internalMappers.Cat = {
   required: false,
@@ -401,10 +401,10 @@ internalMappers.SawShark = {
   type: {
     name: "Composite",
     polymorphicDiscriminator: {
-      serializedName: 'fish.type',
-      clientName: 'fishtype'
+      serializedName: "fish.type",
+      clientName: "fishtype"
     },
-    uberParent: 'Fish',
+    uberParent: "Fish",
     className: "Sawshark",
     modelProperties: {
       species: {
@@ -478,10 +478,10 @@ internalMappers.Shark = {
   type: {
     name: "Composite",
     polymorphicDiscriminator: {
-      serializedName: 'fish.type',
-      clientName: 'fishtype'
+      serializedName: "fish.type",
+      clientName: "fishtype"
     },
-    uberParent: 'Fish',
+    uberParent: "Fish",
     className: "Shark",
     modelProperties: {
       species: {

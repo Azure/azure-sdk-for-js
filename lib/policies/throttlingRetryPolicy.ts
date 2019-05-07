@@ -5,6 +5,7 @@ import { BaseRequestPolicy, RequestPolicy, RequestPolicyOptions, RequestPolicyFa
 import { WebResource } from "../webResource";
 import { HttpOperationResponse } from "../httpOperationResponse";
 import { Constants } from "../util/constants";
+import { delay } from "../util/utils";
 
 type ResponseHandler = (httpRequest: WebResource, response: HttpOperationResponse) => Promise<HttpOperationResponse>;
 const StatusCodes = Constants.HttpConstants.StatusCodes;
@@ -47,7 +48,7 @@ export class ThrottlingRetryPolicy extends BaseRequestPolicy {
     if (retryAfterHeader) {
       const delayInMs: number | undefined = ThrottlingRetryPolicy.parseRetryAfterHeader(retryAfterHeader);
       if (delayInMs) {
-        return delay(delayInMs).then(_ => this._nextPolicy.sendRequest(httpRequest));
+        return delay(delayInMs).then((_: any) => this._nextPolicy.sendRequest(httpRequest));
       }
     }
 

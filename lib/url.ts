@@ -83,52 +83,52 @@ export class URLQuery {
       for (let i = 0; i < text.length; ++i) {
         const currentCharacter: string = text[i];
         switch (currentState) {
-          case "ParameterName":
-            switch (currentCharacter) {
-              case "=":
-                currentState = "ParameterValue";
-                break;
-
-              case "&":
-                parameterName = "";
-                parameterValue = "";
-                break;
-
-              default:
-                parameterName += currentCharacter;
-                break;
-            }
+        case "ParameterName":
+          switch (currentCharacter) {
+          case "=":
+            currentState = "ParameterValue";
             break;
 
-          case "ParameterValue":
-            switch (currentCharacter) {
-              case "=":
-                parameterName = "";
-                parameterValue = "";
-                currentState = "Invalid";
-                break;
-
-              case "&":
-                result.set(parameterName, parameterValue);
-                parameterName = "";
-                parameterValue = "";
-                currentState = "ParameterName";
-                break;
-
-              default:
-                parameterValue += currentCharacter;
-                break;
-            }
-            break;
-
-          case "Invalid":
-            if (currentCharacter === "&") {
-              currentState = "ParameterName";
-            }
+          case "&":
+            parameterName = "";
+            parameterValue = "";
             break;
 
           default:
-            throw new Error("Unrecognized URLQuery parse state: " + currentState);
+            parameterName += currentCharacter;
+            break;
+          }
+          break;
+
+        case "ParameterValue":
+          switch (currentCharacter) {
+          case "=":
+            parameterName = "";
+            parameterValue = "";
+            currentState = "Invalid";
+            break;
+
+          case "&":
+            result.set(parameterName, parameterValue);
+            parameterName = "";
+            parameterValue = "";
+            currentState = "ParameterName";
+            break;
+
+          default:
+            parameterValue += currentCharacter;
+            break;
+          }
+          break;
+
+        case "Invalid":
+          if (currentCharacter === "&") {
+            currentState = "ParameterName";
+          }
+          break;
+
+        default:
+          throw new Error("Unrecognized URLQuery parse state: " + currentState);
         }
       }
       if (currentState === "ParameterValue") {
@@ -302,31 +302,31 @@ export class URLBuilder {
       const token: URLToken | undefined = tokenizer.current();
       if (token) {
         switch (token.type) {
-          case "SCHEME":
-            this._scheme = token.text || undefined;
-            break;
+        case "SCHEME":
+          this._scheme = token.text || undefined;
+          break;
 
-          case "HOST":
-            this._host = token.text || undefined;
-            break;
+        case "HOST":
+          this._host = token.text || undefined;
+          break;
 
-          case "PORT":
-            this._port = token.text || undefined;
-            break;
+        case "PORT":
+          this._port = token.text || undefined;
+          break;
 
-          case "PATH":
-            const tokenPath: string | undefined = token.text || undefined;
-            if (!this._path || this._path === "/" || tokenPath !== "/") {
-              this._path = tokenPath;
-            }
-            break;
+        case "PATH":
+          const tokenPath: string | undefined = token.text || undefined;
+          if (!this._path || this._path === "/" || tokenPath !== "/") {
+            this._path = tokenPath;
+          }
+          break;
 
-          case "QUERY":
-            this._query = URLQuery.parse(token.text);
-            break;
+        case "QUERY":
+          this._query = URLQuery.parse(token.text);
+          break;
 
-          default:
-            throw new Error(`Unrecognized URLTokenType: ${token.type}`);
+        default:
+          throw new Error(`Unrecognized URLTokenType: ${token.type}`);
         }
       }
     }
@@ -453,32 +453,32 @@ export class URLTokenizer {
       this._currentToken = undefined;
     } else {
       switch (this._currentState) {
-        case "SCHEME":
-          nextScheme(this);
-          break;
+      case "SCHEME":
+        nextScheme(this);
+        break;
 
-        case "SCHEME_OR_HOST":
-          nextSchemeOrHost(this);
-          break;
+      case "SCHEME_OR_HOST":
+        nextSchemeOrHost(this);
+        break;
 
-        case "HOST":
-          nextHost(this);
-          break;
+      case "HOST":
+        nextHost(this);
+        break;
 
-        case "PORT":
-          nextPort(this);
-          break;
+      case "PORT":
+        nextPort(this);
+        break;
 
-        case "PATH":
-          nextPath(this);
-          break;
+      case "PATH":
+        nextPath(this);
+        break;
 
-        case "QUERY":
-          nextQuery(this);
-          break;
+      case "QUERY":
+        nextQuery(this);
+        break;
 
-        default:
-          throw new Error(`Unrecognized URLTokenizerState: ${this._currentState}`);
+      default:
+        throw new Error(`Unrecognized URLTokenizerState: ${this._currentState}`);
       }
     }
     return !!this._currentToken;
