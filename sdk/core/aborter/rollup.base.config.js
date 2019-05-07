@@ -17,7 +17,7 @@ const input = "./dist-esm/src/aborter.js";
 const production = process.env.NODE_ENV === "production";
 
 export function nodeConfig(test = false) {
-  const externalNodeBuiltins = ["events", "util", "os"];
+  const externalNodeBuiltins = [];
   const baseConfig = {
     input: input,
     external: depNames.concat(externalNodeBuiltins),
@@ -87,8 +87,8 @@ export function browserConfig(test = false) {
         }
       ),
       nodeResolve({
-        preferBuiltins: false,
-        browser: true
+        mainFields: ['module', 'browser'],
+        preferBuiltins: false
       }),
       cjs({
         namedExports: {
