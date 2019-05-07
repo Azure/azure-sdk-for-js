@@ -10,7 +10,7 @@ import { Constants } from "./constants";
 /**
  * A constant that indicates whether the environment is node.js or browser based.
  */
-export const isNode = typeof navigator === "undefined" && typeof process !== "undefined";
+export const isNode = (typeof process !== "undefined") && !!process.version && !!process.versions && !!process.versions.node;
 
 /**
  * Checks if a parsed URL is HTTPS
