@@ -21,7 +21,7 @@ function walk(dir) {
     }
 
     const stat = fs.statSync(filePath);
-    if (stat && stat.isDirectory()) { 
+    if (stat && stat.isDirectory()) {
       walk(filePath);
     } else {
       console.log(path.resolve(filePath));

@@ -13,7 +13,6 @@
             "outFiles": [
                 "${workspaceFolder}/dist-esm/**/*.js"
             ]
-            
         },
         {
             "type": "node",
