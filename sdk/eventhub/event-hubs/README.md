@@ -39,8 +39,6 @@ this class using one of the 4 static methods on it
 - [createFromConnectionString](https://docs.microsoft.com/en-us/javascript/api/@azure/event-hubs/eventhubclient?view=azure-node-latest#createfromconnectionstring-string--string--clientoptions-)
   - This method takes the connection string and entity name to your Event Hub instance. You can get the connection string
     from the Azure portal
-- [createFromIotHubConnectionString](https://docs.microsoft.com/en-us/javascript/api/%40azure/event-hubs/eventhubclient?view=azure-node-latest#createfromiothubconnectionstring-string--clientoptions-)
-  - This method takes an IotHub Connection string. You can get the connection string from the Azure portal.
 - [createFromTokenProvider](https://docs.microsoft.com/en-us/javascript/api/%40azure/event-hubs/eventhubclient?view=azure-node-latest#createfromtokenprovider-string--string--tokenprovider--clientoptionsbase-)
   - This method takes the host name and entity name of your Event Hub instance and your custom Token Provider. The
     host name is of the format `name-of-event-hub-instance.servicebus.windows.net`.
@@ -53,36 +51,52 @@ this class using one of the 4 static methods on it
 
 The following sections provide code snippets that cover some of the common tasks using Azure Event Hubs
 
-- [Get the partition Ids](#get-the-partition-ids)
 - [Send events](#send-events)
 - [Receive events](#receive-events)
-- [Create an EventHubClient from an IotHub connection string](#create-an-EventHubClient-from-an-IotHub-connection-string)
-
-### Get the partition Ids
-
-Partition Ids can be used to send and receive events. Once you have created an instance of an `EventHubClient` class, get the partition IDs
-using the [getPartitionIds](https://docs.microsoft.com/en-us/javascript/api/@azure/event-hubs/eventhubclient?view=azure-node-latest#getpartitionids--) function.
-
-```javascript
-const client = EventHubClient.createFromConnectionString("connectionString", "eventHubName");
-const partitionIds = await client.getPartitionIds();
-```
+- [Use EventHubClient to receive from IotHub](#use-eventHubClient-to-receive-from-IotHub)
 
 ### Send events
 
 Once you have created an instance of an `EventHubClient` class, send events
 using the [send](https://docs.microsoft.com/en-us/javascript/api/@azure/event-hubs/eventhubclient?view=azure-node-latest#send-eventdata--string---number-) function.
 
+You can also use the `sendBatch` method to send multiple messages using a single call.
+
 ```javascript
 const client = EventHubClient.createFromConnectionString("connectionString", "eventHubName");
-// NOTE: When working with Azure Stream Analytics, the body should be a JSON object as well
-// const eventData = { body: { "message": "Hello World" }};
-await client.send(
-  {
-    body: "my-event-body"
-  },
-  "partitionId"
+
+await client.send({ body: "my-event-body" });
+await client.sendBatch(
+  [
+    { body: "my-event-body-1" },
+    { body: "my-event-body-2" },
+    { body: "my-event-body-3" }
+  ]
 );
+```
+
+**Note**: When working with Azure Stream Analytics, the body of the event being sent should be a JSON object as well.
+For example: `body: { "message": "Hello World" }`
+
+#### Send events to a particular partition
+
+If you want to send events to a particular partition, you can do it in one of 2 ways. 
+
+If you know the id of the partition you want to target, then pass it as an argument to the `send` or `sendBatch` functions.
+You can use the [getPartitionIds](https://docs.microsoft.com/en-us/javascript/api/@azure/event-hubs/eventhubclient?view=azure-node-latest#getpartitionids--)
+function to get the ids of all available partitions in your Event Hub instance.
+
+Another way is to use the `partitionKey` property on the JSON object being sent.
+The Event Hubs service will hash the value you pass here and use it as `partitionId`
+
+```javascript
+const client = EventHubClient.createFromConnectionString("connectionString", "eventHubName");
+
+// Using partitionId
+await client.send({ body: "my-event-body" }, "my-partitionId");
+
+// Using partitionKey
+await client.send({ body: "my-event-body", partitionKey: "my-partitionKey" });
 ```
 
 ### Receive events
@@ -96,26 +110,37 @@ Once you have created an instance of an `EventHubClient` class, you can receive 
 
 Use the [receiveBatch](https://docs.microsoft.com/en-us/javascript/api/@azure/event-hubs/eventhubclient?view=azure-node-latest#receivebatch-string---number--number--number--receiveoptions-) function which returns a promise that resolves to an array of events.
 
+This function takes an optional parameter called `options` of type [ReceiveOptions](https://docs.microsoft.com/en-us/javascript/api/%40azure/event-hubs/receiveoptions?view=azure-node-latest)
+which you can use to specify the Consumer Group you want to target or the position from where you want to start receiving messages.
+
 ```javascript
-const myEvents = await client.receiveBatch("partitionId", 10);
+const client = EventHubClient.createFromConnectionString("connectionString", "eventHubName");
+const myEvents = await client.receiveBatch("my-partitionId", 10);
 ```
 
 #### Register event handler
 
 Use the [receive](https://docs.microsoft.com/en-us/javascript/api/@azure/event-hubs/eventhubclient?view=azure-node-latest#receive-string---number--onmessage--onerror--receiveoptions-) to set up event handlers and have it running as long as you
-need. When you are done, call `receiveHandler.close()` to stop receiving any more events.
+need. 
+
+This function takes an optional parameter called `options` of type [ReceiveOptions](https://docs.microsoft.com/en-us/javascript/api/%40azure/event-hubs/receiveoptions?view=azure-node-latest)
+which you can use to specify the Consumer Group you want to target or the position from where you want to start receiving messages.
 
 ```javascript
 const myEventHandler = async event => {
   // your code here
 };
 const myErrorHandler = error => {
-  console.log(error);
+  // your error handler here
 };
-client.receive("partitionId", myEventHandler, myErrorHandler);
+const receiveHandler = client.receive("partitionId", myEventHandler, myErrorHandler);
+
+// When ready to stop receiving
+await receiveHandler.stop();
+
 ```
 
-### Create an EventHubClient from an IotHub connection string
+### Use EventHubClient to receive from IotHub
 
 Create EventHub Client from an IotHub Connection string. This is useful for receiving telemetry data of IotHub from the linked EventHub.
 Most likely the associated connection string will not have send claims. Hence getting HubRuntimeInfo or PartitionRuntimeInfo and receiving messages would be the possible operations.
