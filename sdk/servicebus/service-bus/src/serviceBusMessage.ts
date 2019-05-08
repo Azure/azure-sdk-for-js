@@ -376,7 +376,7 @@ export function toAmqpMessage(msg: SendableMessageInfo): AmqpMessage {
 }
 
 /**
- * Describes the message received from Service Bus.
+ * Describes the message received from Service Bus during peek operations and so cannot be settled.
  * @class ReceivedSBMessage
  */
 export interface ReceivedMessageInfo extends SendableMessageInfo {
@@ -566,7 +566,7 @@ export function fromAmqpMessage(
 }
 
 /**
- * Describes the message received from Service Bus.
+ * Describes the message received from Service Bus that can be settled.
  * @interface ReceivedMessage
  */
 interface ReceivedMessage extends ReceivedMessageInfo {
