@@ -1027,7 +1027,12 @@ export function throwIfMessageCannotBeSettled(
   sessionId?: string
 ): void {
   let error: Error | undefined;
-  if (isRemoteSettled) {
+
+  if (receiver && receiver.receiveMode !== ReceiveMode.peekLock) {
+    error = new Error(
+      getErrorMessageNotSupportedInReceiveAndDeleteMode(`${operation} the message`)
+    );
+  } else if (isRemoteSettled) {
     error = new Error(
       `Failed to ${operation} the message as this message has been already settled.`
     );
@@ -1043,10 +1048,6 @@ export function throwIfMessageCannotBeSettled(
         condition: ErrorNameConditionMapper.MessageLockLostError
       });
     }
-  } else if (receiver.receiveMode !== ReceiveMode.peekLock) {
-    error = new Error(
-      getErrorMessageNotSupportedInReceiveAndDeleteMode(`${operation} the message`)
-    );
   }
   if (!error) {
     return;
