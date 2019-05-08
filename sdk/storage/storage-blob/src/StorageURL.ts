@@ -33,6 +33,42 @@ export interface INewPipelineOptions {
 }
 
 /**
+ * Options to configure the client connection.
+ *
+ * @export
+ * @interface BlobConnectionOptions
+ */
+export interface BlobConnectionOptions {
+  /**
+   * Credential such as {@link AnonymousCredential}, {@link SharedKeyCredential}
+   * or {@link TokenCredential}.
+   *
+   * @type {Credential}
+   * @memberof BlobConnectionOptions
+   */
+  credential?: Credential;
+
+  /**
+   * Options to create the default pipeline.
+   *
+   * @type {INewPipelineOptions}
+   * @memberof BlobConnectionOptions
+   */
+  pipelineOptions?: INewPipelineOptions;
+
+  /**
+   * Custom pipeline.
+   * If not specified, {@link credential} and {@link pipelineOptions} will be
+   * used to created a default pipeline; otherwise {@link credential} and
+   * {@link pipelineOptions} are ignored.
+   *
+   * @type {Pipeline}
+   * @memberof BlobConnectionOptions
+   */
+  pipeline?: Pipeline;
+}
+
+/**
  * A ServiceURL represents a based URL class for ServiceURL, ContainerURL and etc.
  *
  * @export
