@@ -1,5 +1,5 @@
 /*
-  This sample demonstrates how the sendBatch() function can be used to send messages to Event Hubs.
+  This sample demonstrates how the sendBatch() function can be used to send events to Event Hubs.
 */
 
 import { EventHubClient, EventData } from "@azure/event-hubs";
