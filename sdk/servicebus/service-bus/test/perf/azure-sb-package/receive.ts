@@ -1,20 +1,20 @@
 /*
 # Overview
-Measures the maximum throughput of `sender.send()` in package `@azure/service-bus`.
+Measures the maximum throughput of `receiver.receive()` in package `azure-sb`.
 
 # Instructions
 1. Create a Service Bus namespace with `Tier=Premium` and `Messaging Units=4`.  It is recommended to use the largest possible namespace to allow maximum client throughput.
 2. Create a queue inside the namespace.
 3. Set env vars `SERVICE_BUS_CONNECTION_STRING` and `SERVICE_BUS_QUEUE_NAME`.
-4. `ts-node app.ts [maxInflightMessages] [totalMessages]`
-5. Example: `ts-node app.ts 1000 1000000`
+4. This test presumes that there are messages in the queue.
+5. `ts-node receive.ts [totalMessages]`
+6. Example: `ts-node receive.ts 1000000`
  */
 
-import { ServiceBusClient, Sender } from "../../../src";
+import { createServiceBusService, ServiceBusService } from "azure-sb";
 import delay from "delay";
 import moment from "moment";
 
-const _payload = Buffer.alloc(1024);
 const _start = moment();
 
 let _messages = 0;
@@ -24,49 +24,44 @@ async function main(): Promise<void> {
   const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING as string;
   const entityPath = process.env.SERVICE_BUS_QUEUE_NAME as string;
 
-  const maxInflight = process.argv.length > 2 ? parseInt(process.argv[2]) : 1;
-  const messages = process.argv.length > 3 ? parseInt(process.argv[3]) : 10;
-  log(`Maximum inflight messages: ${maxInflight}`);
+  const maxConcurrentCalls = process.argv.length > 2 ? parseInt(process.argv[2]) : 10;
+  const messages = process.argv.length > 3 ? parseInt(process.argv[3]) : 100;
+  log(`Maximum Concurrent Calls: ${maxConcurrentCalls}`);
   log(`Total messages: ${messages}`);
 
   const writeResultsPromise = WriteResults(messages);
 
-  await RunTest(connectionString, entityPath, maxInflight, messages);
+  RunTest(connectionString, entityPath, maxConcurrentCalls, messages);
 
   await writeResultsPromise;
 }
 
-async function RunTest(
+function RunTest(
   connectionString: string,
   entityPath: string,
-  maxInflight: number,
+  maxConcurrentCalls: number,
   messages: number
-): Promise<void> {
-  const ns = ServiceBusClient.createFromConnectionString(connectionString);
-
-  const client = ns.createQueueClient(entityPath);
-  const sender = client.createSender();
-
-  const promises: Promise<void>[] = [];
-
-  for (let i = 0; i < maxInflight; i++) {
-    const promise = ExecuteSendsAsync(sender, messages);
-    promises[i] = promise;
+) {
+  const sbService: ServiceBusService = createServiceBusService(connectionString);
+  let credits = maxConcurrentCalls;
+  function receiveMessages() {
+    while (_messages < messages && credits > 0) {
+      credits--;
+      sbService.receiveQueueMessage(entityPath, { isPeekLock: false }, function(err) {
+        if (err) {
+          console.log(err.message);
+        } else {
+          if (_messages === messages) {
+          } else {
+            credits++;
+            _messages++;
+            receiveMessages();
+          }
+        }
+      });
+    }
   }
-
-  await Promise.all(promises);
-
-  await client.close();
-  await ns.close();
-}
-
-async function ExecuteSendsAsync(sender: Sender, messages: number): Promise<void> {
-  while (++_messages <= messages) {
-    await sender.send({ body: _payload });
-  }
-
-  // Undo last increment, since a message was never sent on the final loop iteration
-  _messages--;
+  receiveMessages();
 }
 
 async function WriteResults(messages: number): Promise<void> {
@@ -78,9 +73,9 @@ async function WriteResults(messages: number): Promise<void> {
   do {
     await delay(1000);
 
-    const sentMessages = _messages;
-    const currentMessages = sentMessages - lastMessages;
-    lastMessages = sentMessages;
+    const receivedMessages = _messages;
+    const currentMessages = receivedMessages - lastMessages;
+    lastMessages = receivedMessages;
 
     const elapsed = moment().diff(_start);
     const currentElapsed = elapsed - lastElapsed;
@@ -91,7 +86,14 @@ async function WriteResults(messages: number): Promise<void> {
       maxElapsed = currentElapsed;
     }
 
-    WriteResult(sentMessages, elapsed, currentMessages, currentElapsed, maxMessages, maxElapsed);
+    WriteResult(
+      receivedMessages,
+      elapsed,
+      currentMessages,
+      currentElapsed,
+      maxMessages,
+      maxElapsed
+    );
   } while (_messages < messages);
 }
 
