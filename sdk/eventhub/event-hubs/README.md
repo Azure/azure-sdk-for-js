@@ -34,7 +34,7 @@ You also need to enable `compilerOptions.allowSyntheticDefaultImports` in your t
 ### Authenticate the client
 
 Interaction with Event Hubs starts with an instance of the [EventHubClient](https://docs.microsoft.com/en-us/javascript/api/%40azure/event-hubs/eventhubclient?view=azure-node-latest) class. You can instantiate
-this class using one of the 4 static methods on it
+this class using one of the below static methods on it
 
 - [createFromConnectionString](https://docs.microsoft.com/en-us/javascript/api/@azure/event-hubs/eventhubclient?view=azure-node-latest#createfromconnectionstring-string--string--clientoptions-)
   - This method takes the connection string and entity name to your Event Hub instance. You can get the connection string
@@ -75,29 +75,12 @@ await client.sendBatch(
 );
 ```
 
-**Note**: When working with Azure Stream Analytics, the body of the event being sent should be a JSON object as well.
-For example: `body: { "message": "Hello World" }`
-
-#### Send events to a particular partition
-
-If you want to send events to a particular partition, you can do it in one of 2 ways. 
-
-If you know the id of the partition you want to target, then pass it as an argument to the `send` or `sendBatch` functions.
+To send events to a particular partition, use the optional parameter `partitionId` on the `send` and `sendBatch` functions.
 You can use the [getPartitionIds](https://docs.microsoft.com/en-us/javascript/api/@azure/event-hubs/eventhubclient?view=azure-node-latest#getpartitionids--)
 function to get the ids of all available partitions in your Event Hub instance.
 
-Another way is to use the `partitionKey` property on the JSON object being sent.
-The Event Hubs service will hash the value you pass here and use it as `partitionId`
-
-```javascript
-const client = EventHubClient.createFromConnectionString("connectionString", "eventHubName");
-
-// Using partitionId
-await client.send({ body: "my-event-body" }, "my-partitionId");
-
-// Using partitionKey
-await client.send({ body: "my-event-body", partitionKey: "my-partitionKey" });
-```
+**Note**: When working with Azure Stream Analytics, the body of the event being sent should be a JSON object as well.
+For example: `body: { "message": "Hello World" }`
 
 ### Receive events
 
