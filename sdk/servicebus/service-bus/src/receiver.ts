@@ -385,7 +385,8 @@ export class SessionReceiver {
    */
   public get isClosed(): boolean {
     return (
-      this._isClosed || (this.sessionId ? !this._context.messageSessions[this.sessionId] : false)
+      this._isClosed ||
+      (this.sessionId != undefined ? !this._context.messageSessions[this.sessionId] : false)
     );
   }
 
@@ -424,10 +425,6 @@ export class SessionReceiver {
     this._receiveMode =
       receiveMode === ReceiveMode.receiveAndDelete ? receiveMode : ReceiveMode.peekLock;
     this._sessionOptions = sessionOptions;
-
-    if (typeof sessionOptions.sessionId === "string" && !sessionOptions.sessionId.trim()) {
-      sessionOptions.sessionId = undefined;
-    }
 
     if (sessionOptions.sessionId != undefined) {
       sessionOptions.sessionId = String(sessionOptions.sessionId);
@@ -764,13 +761,6 @@ export class SessionReceiver {
         .maxSessionAutoRenewLockDurationInSeconds,
       receiveMode: this._receiveMode
     });
-    // By this point, we should have a valid sessionId on the messageSession
-    // If not, the receiver cannot be used, so throw error.
-    if (!this._messageSession.sessionId) {
-      const error = new Error("Something went wrong. Cannot lock a session.");
-      log.error(`[${this._context.namespace.connectionId}] %O`, error);
-      throw error;
-    }
     this._sessionId = this._messageSession.sessionId;
   }
 

@@ -136,7 +136,7 @@ export class MessageSession extends LinkEntity {
    */
   sessionLockedUntilUtc?: Date;
   /**
-   * @property {string} [sessionId] The sessionId for the message session.
+   * @property {string} [sessionId] The sessionId for the message session. Empty string is valid sessionId
    */
   sessionId?: string;
   /**
@@ -1004,12 +1004,17 @@ export class MessageSession extends LinkEntity {
           this._receiver.source.filter &&
           this._receiver.source.filter[Constants.sessionFilterName];
         let errorMessage: string = "";
-        // Service Bus creates receiver successfully with empty sessionId even if it fails to get a
-        // lock on the session. So we throw appropriate errors instead
+        // Service Bus treats empty string as a valid sessionId. It also creates receiver successfully
+        // with no sessionId instead of throwing the SessionLockLostError if it fails to get a lock
+        // on the session. So we throw SessionLockLostError instead
         if (receivedSessionId == undefined) {
-          if (!this.sessionId) {
+          if (this.sessionId == undefined) {
+            // User asked for a random session to be picked, but there are no sessions free to take
+            // a lock on or the Queue/Subscription doesnt have sessions enabled.
             errorMessage = `There are no sessions available for receiving messages.`;
           } else {
+            // User passed a sessionId, but cannot get a lock on it either because somebody else
+            // has a lock on it or the Queue/Subscription doesnt have sessions enabled.
             errorMessage = `The session with id ${
               this.sessionId
             } is not available for receiving messages.`;
