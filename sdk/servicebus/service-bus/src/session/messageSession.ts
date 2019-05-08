@@ -85,17 +85,6 @@ export interface SessionMessageHandlerOptions {
    */
   autoComplete?: boolean;
   /**
-   * @property The maximum amount of time the receiver will wait to receive a new message. If no new
-   * message is received in this time, then the receiver will be closed.
-   *
-   * If this option is not provided, then receiver link will stay open until manually closed.
-   *
-   * **Caution**: When setting this value, take into account the time taken to process messages. Once
-   * the receiver is closed, operations like complete()/abandon()/defer()/deadletter() cannot be
-   * invoked on messages.
-   */
-  newMessageWaitTimeoutInSeconds?: number;
-  /**
    * @property {number} [maxConcurrentCalls] The maximum number of concurrent calls that the library
    * can make to the user's message handler. Once this limit has been reached, more messages will
    * not be received until atleast one of the calls to the user's message handler has completed.
@@ -114,6 +103,17 @@ export interface SessionManagerOptions extends SessionMessageHandlerOptions {
    * - **Default**: `2000`.
    */
   maxConcurrentSessions?: number;
+  /**
+   * @property The maximum amount of time the receiver will wait to receive a new message. If no new
+   * message is received in this time, then the receiver will be closed.
+   *
+   * If this option is not provided, then receiver link will stay open until manually closed.
+   *
+   * **Caution**: When setting this value, take into account the time taken to process messages. Once
+   * the receiver is closed, operations like complete()/abandon()/defer()/deadletter() cannot be
+   * invoked on messages.
+   */
+  newMessageWaitTimeoutInSeconds?: number;
 }
 
 /**
@@ -541,7 +541,6 @@ export class MessageSession extends LinkEntity {
     if (typeof options.maxConcurrentCalls === "number" && options.maxConcurrentCalls > 0) {
       this.maxConcurrentCalls = options.maxConcurrentCalls;
     }
-    this.newMessageWaitTimeoutInSeconds = options.newMessageWaitTimeoutInSeconds;
 
     // If explicitly set to false then autoComplete is false else true (default).
     this.autoComplete = options.autoComplete === false ? options.autoComplete : true;

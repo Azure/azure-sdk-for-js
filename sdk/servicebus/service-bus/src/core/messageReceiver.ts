@@ -258,7 +258,6 @@ export class MessageReceiver extends LinkEntity {
     if (typeof options.maxConcurrentCalls === "number" && options.maxConcurrentCalls > 0) {
       this.maxConcurrentCalls = options.maxConcurrentCalls;
     }
-    this.newMessageWaitTimeoutInSeconds = options.newMessageWaitTimeoutInSeconds;
     this.resetTimerOnNewMessageReceived = () => {
       /** */
     };
