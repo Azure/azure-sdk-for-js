@@ -60,7 +60,7 @@ The following sections provide code snippets that cover some of the common tasks
 Once you have created an instance of an `EventHubClient` class, send events
 using the [send](https://docs.microsoft.com/en-us/javascript/api/@azure/event-hubs/eventhubclient?view=azure-node-latest#send-eventdata--string---number-) function.
 
-You can also use the `sendBatch` method to send multiple messages using a single call.
+You can also use the [sendBatch](https://docs.microsoft.com/en-us/javascript/api/@azure/event-hubs/eventhubclient?view=azure-node-latest#sendbatch-eventdata----string---number-) method to send multiple messages using a single call.
 
 ```javascript
 const client = EventHubClient.createFromConnectionString("connectionString", "eventHubName");
@@ -129,7 +129,7 @@ await receiveHandler.stop();
 
 ### Use EventHubClient to receive from IotHub
 
-Create EventHub Client from an IotHub Connection string. This is useful for receiving telemetry data of IotHub from the linked EventHub.
+You can use `EventHubClient` to work with IotHub as well. This is useful for receiving telemetry data of IotHub from the linked EventHub.
 Most likely the associated connection string will not have send claims. Hence getting HubRuntimeInfo or PartitionRuntimeInfo and receiving messages would be the possible operations.
 
 - Please notice that we are awaiting on the [createFromIotHubConnectionString](https://docs.microsoft.com/en-us/javascript/api/%40azure/event-hubs/eventhubclient?view=azure-node-latest#createfromiothubconnectionstring-string--clientoptions-) method to get an instance of the EventHubClient. This is different from other static methods on the client. The method talks to the IotHub endpoint to get a redirect error which contains the EventHub endpoint to talk to. It then constructs the right EventHub connection string based on the information in the redirect error and returns an instance of the EventHubClient that you can play with.
