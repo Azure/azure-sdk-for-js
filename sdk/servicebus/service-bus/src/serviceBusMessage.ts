@@ -566,7 +566,7 @@ export function fromAmqpMessage(
 }
 
 /**
- * Describes the message received from Service Bus that can be settled.
+ * Describes the message received from Service Bus.
  * @interface ReceivedMessage
  */
 interface ReceivedMessage extends ReceivedMessageInfo {

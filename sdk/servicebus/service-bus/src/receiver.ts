@@ -50,7 +50,7 @@ export class Receiver {
 
   /**
    * @property Returns `true` if the receiver is closed. This can happen either because the receiver
-   * itself has bee closed or the client that created it has been closed.
+   * itself has been closed or the client that created it has been closed.
    * @readonly
    */
   public get isClosed(): boolean {
@@ -370,7 +370,7 @@ export class SessionReceiver {
 
   /**
    * @property Returns `true` if the receiver is closed. This can happen either because the receiver
-   * itself has bee closed or the client that created it has been closed.
+   * itself has been closed or the client that created it has been closed.
    * @readonly
    */
   public get isClosed(): boolean {
