@@ -130,6 +130,9 @@ export class SessionManager {
     onError: OnError,
     options?: SessionManagerOptions
   ): Promise<void> {
+    if (!options) {
+      options = {};
+    }
     const connectionId = this._context.namespace.connectionId;
     const noActiveSessionBackOffInSeconds = 10;
     while (!this._isCancelRequested) {
@@ -178,6 +181,9 @@ export class SessionManager {
           callee: SessionCallee.sessionManager,
           ...options
         });
+
+        messageSession.newMessageWaitTimeoutInSeconds = options.newMessageWaitTimeoutInSeconds;
+
         if (this._isCancelRequested) {
           log.sessionManager(
             "[%s] Since cancellation was requested, we will close the messageSession with id '%s'.",

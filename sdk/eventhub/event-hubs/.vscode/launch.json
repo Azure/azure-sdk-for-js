@@ -18,14 +18,14 @@
                 "${workspaceFolder}/test-dist/index.js"
             ],
             "internalConsoleOptions": "openOnSessionStart",
-            "preLaunchTask": "npm: build-test"
+            "preLaunchTask": "npm: build:test"
         },
         {
             "type": "node",
             "request": "launch",
             "name": "Client Example",
             "program": "${file}",
-            "preLaunchTask": "npm: build-samples",
+            "preLaunchTask": "npm: build:samples",
             "outFiles": [
                 "${workspaceFolder}/dist-esm/**/*.js"
             ],
