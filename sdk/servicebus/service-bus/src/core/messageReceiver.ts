@@ -883,7 +883,7 @@ export class MessageReceiver extends LinkEntity {
       const timer = setTimeout(() => {
         this._deliveryDispositionMap.delete(delivery.id);
 
-        throwIfMessageCannotBeSettled(this, operation, delivery.remote_settled);
+        throwIfMessageCannotBeSettled(this, operation, delivery.remote_settled, message.sessionId);
 
         log.receiver(
           "[%s] Disposition for delivery id: %d, did not complete in %d milliseconds. " +

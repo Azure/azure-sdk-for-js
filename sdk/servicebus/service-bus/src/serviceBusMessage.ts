@@ -847,7 +847,12 @@ export class ServiceBusMessage implements ReceivedMessage {
       return;
     }
     const receiver = this._context.getReceiver(this.delivery.link.name, this.sessionId);
-    throwIfMessageCannotBeSettled(receiver, DispositionType.complete, this.delivery.remote_settled);
+    throwIfMessageCannotBeSettled(
+      receiver,
+      DispositionType.complete,
+      this.delivery.remote_settled,
+      this.sessionId
+    );
 
     return receiver!.settleMessage(this, DispositionType.complete);
   }
@@ -884,7 +889,12 @@ export class ServiceBusMessage implements ReceivedMessage {
       return;
     }
     const receiver = this._context.getReceiver(this.delivery.link.name, this.sessionId);
-    throwIfMessageCannotBeSettled(receiver, DispositionType.abandon, this.delivery.remote_settled);
+    throwIfMessageCannotBeSettled(
+      receiver,
+      DispositionType.abandon,
+      this.delivery.remote_settled,
+      this.sessionId
+    );
 
     return receiver!.settleMessage(this, DispositionType.abandon, {
       propertiesToModify: propertiesToModify
@@ -923,7 +933,12 @@ export class ServiceBusMessage implements ReceivedMessage {
       return;
     }
     const receiver = this._context.getReceiver(this.delivery.link.name, this.sessionId);
-    throwIfMessageCannotBeSettled(receiver, DispositionType.defer, this.delivery.remote_settled);
+    throwIfMessageCannotBeSettled(
+      receiver,
+      DispositionType.defer,
+      this.delivery.remote_settled,
+      this.sessionId
+    );
 
     return receiver!.settleMessage(this, DispositionType.defer, {
       propertiesToModify: propertiesToModify
@@ -979,7 +994,8 @@ export class ServiceBusMessage implements ReceivedMessage {
     throwIfMessageCannotBeSettled(
       receiver,
       DispositionType.deadletter,
-      this.delivery.remote_settled
+      this.delivery.remote_settled,
+      this.sessionId
     );
 
     return receiver!.settleMessage(this, DispositionType.deadletter, {
@@ -1015,16 +1031,18 @@ export class ServiceBusMessage implements ReceivedMessage {
 }
 
 /**
+ * @internal
  * Logs and Throws an error if the given message cannot be settled.
  * @param receiver Receiver to be used to settle this message
  * @param operation Settle operation: complete, abandon, defer or deadLetter
  * @param isRemoteSettled Boolean indicating if the message has been settled at the remote
+ * @param sessionId sessionId of the message if applicable
  */
 export function throwIfMessageCannotBeSettled(
   receiver: MessageReceiver | MessageSession | undefined,
   operation: DispositionType,
   isRemoteSettled: boolean,
-  sessionId?: string
+  sessionId: string | undefined
 ): void {
   let error: Error | undefined;
 
@@ -1037,7 +1055,7 @@ export function throwIfMessageCannotBeSettled(
       `Failed to ${operation} the message as this message has been already settled.`
     );
   } else if (!receiver || !receiver.isOpen()) {
-    if (sessionId) {
+    if (sessionId != undefined) {
       error = translate({
         description: `Failed to ${operation} the message as the lock on the session with id ${sessionId} has expired.`,
         condition: ErrorNameConditionMapper.SessionLockLostError
