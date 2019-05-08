@@ -106,6 +106,10 @@ Once you have created an instance of an `EventHubClient` class, you can receive 
 - [Get an array of events](#get-an-array-of-events)
 - [Register event handler](#register-event-handler)
 
+Both ways require you to know the id of the partition that you want to receive events from.
+You can use the [getPartitionIds](https://docs.microsoft.com/en-us/javascript/api/@azure/event-hubs/eventhubclient?view=azure-node-latest#getpartitionids--)
+function to get the ids of all available partitions in your Event Hub instance.
+
 #### Get an array of events
 
 Use the [receiveBatch](https://docs.microsoft.com/en-us/javascript/api/@azure/event-hubs/eventhubclient?view=azure-node-latest#receivebatch-string---number--number--number--receiveoptions-) function which returns a promise that resolves to an array of events.
