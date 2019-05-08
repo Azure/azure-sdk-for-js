@@ -2066,7 +2066,8 @@ export interface ManagedRuleSet {
   ruleSetVersion: string;
   /**
    * @member {number} [anomalyScore] Verizon only : If the rule set supports
-   * anomaly detection mode, this descibes the threshold for blocking requests.
+   * anomaly detection mode, this describes the threshold for blocking
+   * requests.
    */
   anomalyScore?: number;
   /**
