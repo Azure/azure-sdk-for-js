@@ -49,7 +49,8 @@ export class Receiver {
   }
 
   /**
-   * @property Returns `true` if either the receiver or the client that created it has been closed
+   * @property Returns `true` if the receiver is closed. This can happen either because the receiver
+   * itself has been closed or the client that created it has been closed.
    * @readonly
    */
   public get isClosed(): boolean {
@@ -368,7 +369,8 @@ export class SessionReceiver {
   }
 
   /**
-   * @property Returns `true` if either the receiver or the client that created it has been closed
+   * @property Returns `true` if the receiver is closed. This can happen either because the receiver
+   * itself has been closed or the client that created it has been closed.
    * @readonly
    */
   public get isClosed(): boolean {
@@ -378,7 +380,7 @@ export class SessionReceiver {
   }
 
   /**
-   * @property The sessionId for the message session.
+   * @property The id of the session from which this receiver will receive messages.
    * Will return undefined until a AMQP receiver link has been successfully set up for the session.
    * @readonly
    */
