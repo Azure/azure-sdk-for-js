@@ -14,7 +14,6 @@ import * as Models from "./models";
 import * as Mappers from "./models/mappers";
 import * as Parameters from "./models/parameters";
 import { KeyVaultClientContext } from "./keyVaultClientContext";
-import { AzureServiceClientOptions as Pipeline } from "@azure/ms-rest-azure-js";
 
 class KeyVaultClient extends KeyVaultClientContext {
   /**
@@ -22,7 +21,7 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param credentials Credentials needed for the client to connect to Azure.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, options?: Pipeline) {
+  constructor(credentials: msRest.ServiceClientCredentials, options?: msRestAzure.AzureServiceClientOptions) {
     super(credentials, options);
   }
 
