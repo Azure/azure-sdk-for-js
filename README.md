@@ -68,7 +68,7 @@ Want to get started hacking on the code? Super! Follow these instructions to get
 First, make sure you have the prerequisites installed and available on your `$PATH`:
 - Git
 - Node 8.x or higher
-- Rush 5.7.0 or higher (install / update globally via `npm install -g @microsoft/rush`)
+- Rush 5.7.3 or higher (install / update globally via `npm install -g @microsoft/rush`)
 
 Next, get the code:
 
@@ -76,6 +76,10 @@ Next, get the code:
 2. Clone your fork locally (`git clone https://github.com/<youruser>/azure-sdk-for-js.git`)
 3. Open a terminal and move into your local copy (`cd azure-sdk-for-js`)
 4. Install and link all dependencies (`rush update`)
+
+
+#### Making the switch
+If you have previously worked in this repo using the `npm` workflow, the first time you switch to using Rush you should commit or stash any untracked files and then get back to a clean state by running `rush reset-workspace` before proceeding any further. This will get rid of any latent package-lock files, as well as your existing (incompatible) node_modules directories. You can then proceed down the path outlined below.
 
 #### Warning for VSCode users
 Visual Studio Code has a feature which will automatically fetch and install @types packages for you, using the standard npm package manager. This will cause problems with your node_modules directory, since Rush uses PNPM which lays out this directory quite differently. It's highly recommended that you ensure "Typescript: Disable Automatic Type Acquisition" is checked in your VSCode Workspace Settings (or ensure `typescript.disableAutomaticTypeAcquisition` is present in your .vscode/settings.json file).
@@ -99,7 +103,7 @@ To remove a dependency, you must edit the package.json to remove the dependency 
 
 If you manually edit dependencies within the package.json for any reason, make sure to run `rush update` afterwards to update the project's node_modules directory.
 
-Do not check in any package-lock.json or pnpm-lock.yaml files.
+Any time you add, update, or remove dependencies, running `rush update` will generate a diff to the file `common/config/rush/pnpm-lock.yaml`. You should commit these changes - this file works similarly to NPM's package-lock.json files, except it tracks package versions for all projects in the Rush workspace. Do not check in any package-lock.json files.
 
 #### Resolving dependency version conflicts
 
@@ -151,7 +155,26 @@ Projects may optionally have the following scripts:
 
 If you're having problems and want to restore your repo to a clean state without any packages installed, run `rush uninstall`. Downloaded packages will be deleted from the cache and all node_modules directories will be removed. Now you can start clean by re-downloading and installing dependencies from scratch with `rush update`. This will not make any changes to any other files in your working directory.
 
-If you want to get back to a completely clean state, you can instead run `rush reset-workspace. This will perform the same operations as above, but will additionally run `git clean -dfx` to remove all untracked files and directories in your working directory. This is a destructive operation - use it with caution!!
+If you want to get back to a completely clean state, you can instead run `rush reset-workspace`. This will perform the same operations as above, but will additionally run `git clean -dfx` to remove all untracked files and directories in your working directory. This is a destructive operation - use it with caution!!
+
+#### Rush for NPM users
+
+Generally speaking, the following commands are roughly equivalent:
+
+| NPM command                          | Rush command                         | Rush command effect                                              |
+|------------------------------------- | ------------------------------------ | ---------------------------------------------------------------- |
+| `npm install`                        | `rush update`                        | Install dependencies for all projects in the Rush workspace      |
+| `npm install --save[-dev] <package>` | `rush add -p <package> [--dev]`      | Add or update a dependency in the current project                |
+| `npm build`                          | `rush [re]build`                     | Build all projects in the Rush workspace                         |
+|                                      | `rush [re]build -t <package>`        | Build named project and any projects it depends on               |
+|                                      | `rushx build`                        | Build the current project only                                   |
+| `npm test`                           | `rush test`                          | Run dev tests in all projects in the Rush workspace              |
+|                                      | `rush test -t <packagename>`         | Run dev tests in named project and any projects it depends on    |
+|                                      | `rushx test`                         | Run dev tests in the current project only                        |
+| `npm run <scriptname>`               | `rush <scriptname>`                  | Run named script in all projects in the Rush workspace           |
+|                                      | `rush <scriptname> -t <packagename>` | Run named script in named project and any projects it depends on |
+|                                      | `rushx <scriptname>`                 | Run named script in the current project only                     |
+| `npx <command>`                      | `node_modules/.bin/<command>`        | Run named command provided by installed dependency package       |
 
 ### Onboarding a new library
 
