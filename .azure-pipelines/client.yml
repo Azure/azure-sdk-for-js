@@ -136,7 +136,7 @@ jobs:
         displayName: 'Install dependencies'
 
       - script: |
-          node common/scripts/install-run-rush.js build -t $(rushFlags)
+          node common/scripts/install-run-rush.js build $(rushFlags)
         displayName: 'Build libraries"'
 
       - script: |
