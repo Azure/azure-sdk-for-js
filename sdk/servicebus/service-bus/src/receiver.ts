@@ -73,9 +73,9 @@ export class Receiver {
    * To stop receiving messages, call `close()` on the Receiver or set the property
    * `newMessageWaitTimeoutInSeconds` in the options to provide a timeout.
    *
-   * Check the `isReceivingMessages` property on the receiver before calling this function to
-   * determine if the receiver is currently receiving messages. If it returns `true`, a call to
-   * this function will result in an error being thrown.
+   * Throws an error if there is another receive operation in progress on the same receiver. If you
+   * are not sure whether there is another receive operation running, check the `isReceivingMessages`
+   * property on the receiver.
    *
    * @param onMessage - Handler for processing each incoming message.
    * @param onError - Handler for any error that occurs while receiving or processing messages.
@@ -126,9 +126,9 @@ export class Receiver {
    * Returns a promise that resolves to an array of messages based on given count and timeout over
    * an AMQP receiver link from a Queue/Subscription.
    *
-   * Check the `isReceivingMessages` property on the receiver before calling this function to
-   * determine if the receiver is currently receiving messages. If it returns `true`, a call to
-   * this function will result in an error being thrown.
+   * Throws an error if there is another receive operation in progress on the same receiver. If you
+   * are not sure whether there is another receive operation running, check the `isReceivingMessages`
+   * property on the receiver.
    *
    * @param maxMessageCount      The maximum number of messages to receive from Queue/Subscription.
    * @param idleTimeoutInSeconds The maximum wait time in seconds for which the Receiver
@@ -159,9 +159,9 @@ export class Receiver {
   /**
    * Gets an async iterator over messages from the receiver.
    *
-   * Check the `isReceivingMessages` property on the receiver before calling this function to
-   * determine if the receiver is currently receiving messages. If it returns `true`, a call to
-   * this function will result in an error being thrown.
+   * Throws an error if there is another receive operation in progress on the same receiver. If you
+   * are not sure whether there is another receive operation running, check the `isReceivingMessages`
+   * property on the receiver.
    *
    * If the iterator is not able to fetch a new message in over a minute, `undefined` will be returned.
    */
@@ -612,9 +612,9 @@ export class SessionReceiver {
    * Returns a promise that resolves to an array of messages based on given count and timeout over
    * an AMQP receiver link from a Queue/Subscription.
    *
-   * Check the `isReceivingMessages` property on the receiver before calling this function to
-   * determine if the receiver is currently receiving messages. If it returns `true`, a call to
-   * this function will result in an error being thrown.
+   * Throws an error if there is another receive operation in progress on the same receiver. If you
+   * are not sure whether there is another receive operation running, check the `isReceivingMessages`
+   * property on the receiver.
    *
    * @param maxMessageCount      The maximum number of messages to receive from Queue/Subscription.
    * @param maxWaitTimeInSeconds The maximum wait time in seconds for which the Receiver
@@ -639,9 +639,9 @@ export class SessionReceiver {
    * To stop receiving messages, call `close()` on the SessionReceiver or set the property
    * `newMessageWaitTimeoutInSeconds` in the options to provide a timeout.
    *
-   * Check the `isReceivingMessages` property on the receiver before calling this function to
-   * determine if the receiver is currently receiving messages. If it returns `true`, a call to
-   * this function will result in an error being thrown.
+   * Throws an error if there is another receive operation in progress on the same receiver. If you
+   * are not sure whether there is another receive operation running, check the `isReceivingMessages`
+   * property on the receiver.
    *
    * @param onMessage - Handler for processing each incoming message.
    * @param onError - Handler for any error that occurs while receiving or processing messages.
@@ -689,9 +689,9 @@ export class SessionReceiver {
   /**
    * Gets an async iterator over messages from the receiver.
    *
-   * Check the `isReceivingMessages` property on the receiver before calling this function to
-   * determine if the receiver is currently receiving messages. If it returns `true`, a call to
-   * this function will result in an error being thrown.
+   * Throws an error if there is another receive operation in progress on the same receiver. If you
+   * are not sure whether there is another receive operation running, check the `isReceivingMessages`
+   * property on the receiver.
    *
    * If the iterator is not able to fetch a new message in over a minute, `undefined` will be returned
    */
