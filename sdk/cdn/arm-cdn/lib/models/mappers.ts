@@ -447,7 +447,6 @@ export const DeliveryRule: msRest.CompositeMapper = {
     className: "DeliveryRule",
     modelProperties: {
       name: {
-        required: true,
         serializedName: "name",
         type: {
           name: "String"
