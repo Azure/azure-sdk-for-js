@@ -110,7 +110,7 @@ export class Database {
   }
 
   /**
-   * Retrieves metric defintions for the given database.
+   * Retrieves metric definitions for the given database.
    * @param resourceGroupName Name of an Azure resource group.
    * @param accountName Cosmos DB database account name.
    * @param databaseRid Cosmos DB database rid.
