@@ -1,7 +1,8 @@
 # External variables:
-# packageSuffix
-#   The package suffix for the package to build and test. Defined in pipeline web ui because multiple pipelines use this YAML with different packages.
-#   Example: -eventhubs-client
+# rushFlags
+#   Flags to pass to Rush for bulk commands. Typically, this is used to limit commands to a subset of packages, or to enable verbose output.
+#   Defined in pipeline web ui because multiple pipelines use this YAML with different packages.
+#   Example: -t @azure/event-hubs --verbose
 #
 trigger:
   - master
@@ -21,42 +22,28 @@ jobs:
           versionSpec: '$(NodeVersion)'
         displayName: 'Install Node.js $(NodeVersion)'
 
-      # Rather than running "npm install" in the repo root, reduce build time by only installing the "npm-run-all" package,
-      # which is the minimum required to run the composite script commands.
-      - task: Npm@1
-        inputs:
-          command: 'custom'
-          customCommand: 'install npm-run-all'
-        displayName: 'npm install npm-run-all'
+      - script: |
+          node common/scripts/install-run-rush.js install
+        displayName: 'Install dependencies'
 
-      - task: Npm@1
-        inputs:
-          command: 'custom'
-          customCommand: 'run install-client$(packageSuffix)'
-        displayName: 'npm run install-client$(packageSuffix)'
+      - script: |
+          node common/scripts/install-run-rush.js build $(rushFlags)
+        displayName: 'Build libraries'
 
-      - task: Npm@1
-        inputs:
-          command: 'custom'
-          customCommand: 'run build-client$(packageSuffix)'
-        displayName: 'npm run build-client$(packageSuffix)'
-
-      - task: Npm@1
-        inputs:
-          command: 'custom'
-          customCommand: 'run pack-client$(packageSuffix)'
-        displayName: 'npm run pack-client$(packageSuffix)'
+      - script: |
+          node common/scripts/install-run-rush.js pack $(rushFlags)
+        displayName: 'Pack libraries'
 
       - task: CopyFiles@2
         inputs:
           contents: 'sdk/**/**/*.tgz'
           targetFolder: $(Build.ArtifactStagingDirectory)
           flattenFolders: true
-        displayName: 'Copy Packages'
+        displayName: 'Copy packages'
 
       - task: PublishBuildArtifacts@1
         condition: succeededOrFailed()
-        displayName: 'Publish Artifacts'
+        displayName: 'Publish artifacts'
         inputs:
           artifactName: packages
 
@@ -82,20 +69,11 @@ jobs:
           ward scan -d $(Build.SourcesDirectory) -c $(Build.SourcesDirectory)/.docsettings.yml
         displayName: 'Verify Readmes'
 
-      # Rather than running "npm install" in the repo root, reduce build time by only installing the "npm-run-all" package,
-      # which is the minimum required to run the composite script commands.
-      - task: Npm@1
-        inputs:
-          command: 'custom'
-          customCommand: 'install npm-run-all'
-        displayName: 'npm install npm-run-all'
-
-      - task: Npm@1
+      - script: |
+          node common/scripts/install-run-rush.js install
+          node common/scripts/install-run-rush.js audit $(rushFlags)
         condition: and(succeeded(), eq(variables['RunNpmAudit'], 'true'))
-        inputs:
-          command: 'custom'
-          customCommand: 'run audit-client$(packageSuffix)'
-        displayName: 'npm run audit-client$(packageSuffix)'
+        displayName: 'Audit packages'
 
       - task: ms.vss-governance-buildtask.governance-build-task-component-detection.ComponentGovernanceComponentDetection@0
         # ComponentGovernance is currently unable to run on pull requests of public projects. Running on non-PR
@@ -115,10 +93,10 @@ jobs:
           OSName: 'Linux'
           OSVmImage: 'ubuntu-16.04'
           NodeVersion: '10.x'
-        Linux_Node11:
+        Linux_Node12:
           OSName: 'Linux'
           OSVmImage: 'ubuntu-16.04'
-          NodeVersion: '11.x'
+          NodeVersion: '12.x'
         macOS_Node8:
           OSName: 'macOS'
           OSVmImage: 'macOS-10.13'
@@ -127,10 +105,10 @@ jobs:
           OSName: 'macOS'
           OSVmImage: 'macOS-10.13'
           NodeVersion: '10.x'
-        macOS_Node11:
+        macOS_Node12:
           OSName: 'macOS'
           OSVmImage: 'macOS-10.13'
-          NodeVersion: '11.x'
+          NodeVersion: '12.x'
         Windows_Node8:
           OSName: 'Windows'
           OSVmImage: 'vs2017-win2016'
@@ -139,10 +117,10 @@ jobs:
           OSName: 'Windows'
           OSVmImage: 'vs2017-win2016'
           NodeVersion: '10.x'
-        Windows_Node11:
+        Windows_Node12:
           OSName: 'Windows'
           OSVmImage: 'vs2017-win2016'
-          NodeVersion: '11.x'
+          NodeVersion: '12.x'
 
     pool:
       vmImage: '$(OSVmImage)'
@@ -153,28 +131,17 @@ jobs:
           versionSpec: '$(NodeVersion)'
         displayName: 'Install Node.js $(NodeVersion)'
 
-      # Rather than running "npm install" in the repo root, reduce build time by only installing the "npm-run-all" package,
-      # which is the minimum required to run the composite script commands.
-      #
-      # Also, "npm install" in the repo root fails when using Node11 on Windows or Linux
-      # (https://github.com/Azure/azure-sdk-for-js/issues/845)
-      - task: Npm@1
-        inputs:
-          command: 'custom'
-          customCommand: 'install npm-run-all'
-        displayName: 'npm install npm-run-all'
+      - script: |
+          node common/scripts/install-run-rush.js install
+        displayName: 'Install dependencies'
 
-      - task: Npm@1
-        inputs:
-          command: 'custom'
-          customCommand: 'run install-client$(packageSuffix)'
-        displayName: 'npm run install-client$(packageSuffix)'
+      - script: |
+          node common/scripts/install-run-rush.js build:test $(rushFlags)
+        displayName: 'Build libraries'
 
-      - task: Npm@1
-        inputs:
-          command: 'custom'
-          customCommand: 'run test-client$(packageSuffix) -- -- -- --reporter mocha-junit-reporter'
-        displayName: 'npm run test-client$(packageSuffix)'
+      - script: |
+          node common/scripts/install-run-rush.js unit-test $(rushFlags)
+        displayName: 'Test libraries'
 
       - task: PublishTestResults@2
         inputs:

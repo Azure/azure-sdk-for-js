@@ -25,18 +25,18 @@ import { ClientEntityContext } from "./clientEntityContext";
 export class SubscriptionClient implements Client {
   /**
    * @readonly
-   * @property The topic name.
+   * @property The name of the Service Bus Topic for whose Subscription, this client is created.
    */
   readonly topicName: string;
   /**
    * @readonly
-   * @property The subscription name.
+   * @property The name of the Service Bus Subscription for which this client is created.
    */
   readonly subscriptionName: string;
 
   /**
    * @readonly
-   * @property defaultRuleName Name of the default rule on the subscription.
+   * @property The name of the default rule on the subscription.
    */
   readonly defaultRuleName: string = "$Default";
 
@@ -251,7 +251,7 @@ export class SubscriptionClient implements Client {
   //#region topic-filters
 
   /**
-   * Get all the rules associated with the subscription
+   * Gets all rules associated with the subscription
    */
   async getRules(): Promise<RuleDescription[]> {
     throwErrorIfClientOrConnectionClosed(
@@ -264,7 +264,8 @@ export class SubscriptionClient implements Client {
 
   /**
    * Removes the rule on the subscription identified by the given rule name.
-   * **Note**: If all rules on a subscription are removed, then the subscription will not receive
+   *
+   * **Caution**: If all rules on a subscription are removed, then the subscription will not receive
    * any more messages.
    * @param ruleName
    */
@@ -279,8 +280,9 @@ export class SubscriptionClient implements Client {
 
   /**
    * Adds a rule on the subscription as defined by the given rule name, filter and action.
-   * **Note**: Remove the default true filter on the subscription before adding a rule,
-   * otherwise, the added rule will have no affect as the true filter will always result in
+   *
+   * **Note**: Remove the default true filter on the subscription before adding a rule.
+   * Otherwise, the added rule will have no affect as the true filter will always result in
    * the subscription receiving all messages.
    * @param ruleName Name of the rule
    * @param filter A Boolean, SQL expression or a Correlation filter. For SQL Filter syntax, see
