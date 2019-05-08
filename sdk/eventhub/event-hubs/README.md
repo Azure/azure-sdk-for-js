@@ -53,7 +53,7 @@ The following sections provide code snippets that cover some of the common tasks
 
 - [Send events](#send-events)
 - [Receive events](#receive-events)
-- [Use EventHubClient to receive from IotHub](#use-eventHubClient-to-receive-from-IotHub)
+- [Use EventHubClient to work with IotHub](#use-eventHubClient-to-work-with-IotHub)
 
 ### Send events
 
@@ -127,7 +127,7 @@ await receiveHandler.stop();
 
 ```
 
-### Use EventHubClient to receive from IotHub
+### Use EventHubClient to work with IotHub
 
 You can use `EventHubClient` to work with IotHub as well. This is useful for receiving telemetry data of IotHub from the linked EventHub.
 Most likely the associated connection string will not have send claims. Hence getting HubRuntimeInfo or PartitionRuntimeInfo and receiving messages would be the possible operations.
