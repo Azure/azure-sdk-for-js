@@ -4,8 +4,8 @@ Azure Event Hubs is a scalable event processing service that ingests and process
 
 Use the client library for Azure Event Hubs in your Node.js application to
 
-- Send events to an Event Hub
-- Receive events from an Event Hub
+- Send events to Event Hub
+- Receive events from Event Hub
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs) | [Package (npm)](https://www.npmjs.com/package/@azure/event-hubs) | [API Reference Documentation](https://docs.microsoft.com/en-us/javascript/api/%40azure/event-hubs/index?view=azure-node-latest) | [Product documentation](https://azure.microsoft.com/en-us/services/event-hubs/)
 
@@ -40,9 +40,7 @@ this class using one of the 4 static methods on it
   - This method takes the connection string and entity name to your Event Hub instance. You can get the connection string
     from the Azure portal
 - [createFromIotHubConnectionString](https://docs.microsoft.com/en-us/javascript/api/%40azure/event-hubs/eventhubclient?view=azure-node-latest#createfromiothubconnectionstring-string--clientoptions-)
-  - This method takes an IotHub Connection string. You can get the connection string from the Azure portal. This is useful for receiving telemetry data
-    of IotHub from the linked EventHub. Most likely the associated connection string will not have send claims. Hence getting HubRuntimeInfo or PartitionRuntimeInfo
-    and receiving events would be the possible operations.
+  - This method takes an IotHub Connection string. You can get the connection string from the Azure portal.
 - [createFromTokenProvider](https://docs.microsoft.com/en-us/javascript/api/%40azure/event-hubs/eventhubclient?view=azure-node-latest#createfromtokenprovider-string--string--tokenprovider--clientoptionsbase-)
   - This method takes the host name and entity name of your Event Hub instance and your custom Token Provider. The
     host name is of the format `name-of-event-hub-instance.servicebus.windows.net`.
@@ -58,10 +56,11 @@ The following sections provide code snippets that cover some of the common tasks
 - [Get the partition Ids](#get-the-partition-ids)
 - [Send events](#send-events)
 - [Receive events](#receive-events)
+- [Create an EventHubClient from an IotHub connection string](#create-an-EventHubClient-from-an-IotHub-connection-string)
 
 ### Get the partition Ids
 
-Once you have created an instance of an `EventHubClient` class, get the partition IDs
+Partition Ids can be used to send and receive events. Once you have created an instance of an `EventHubClient` class, get the partition IDs
 using the [getPartitionIds](https://docs.microsoft.com/en-us/javascript/api/@azure/event-hubs/eventhubclient?view=azure-node-latest#getpartitionids--) function.
 
 ```javascript
@@ -116,12 +115,20 @@ const myErrorHandler = error => {
 client.receive("partitionId", myEventHandler, myErrorHandler);
 ```
 
-**Note:** For scalable and efficient receiving, please take a look at [azure-event-processor-host](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-processor-host). The Event Processor host, internally uses the streaming receiver to receive events.
+### Create an EventHubClient from an IotHub connection string
 
-## IDE
+Create EventHub Client from an IotHub Connection string. This is useful for receiving telemetry data of IotHub from the linked EventHub.
+Most likely the associated connection string will not have send claims. Hence getting HubRuntimeInfo or PartitionRuntimeInfo and receiving messages would be the possible operations.
 
-This sdk has been developed in [TypeScript](https://typescriptlang.org) and has good source code documentation. It is highly recommended to use [vscode](https://code.visualstudio.com)
-or any other IDE that provides better intellisense and exposes the full power of source code documentation.
+- Please notice that we are awaiting on the [createFromIotHubConnectionString](https://docs.microsoft.com/en-us/javascript/api/%40azure/event-hubs/eventhubclient?view=azure-node-latest#createfromiothubconnectionstring-string--clientoptions-) method to get an instance of the EventHubClient. This is different from other static methods on the client. The method talks to the IotHub endpoint to get a redirect error which contains the EventHub endpoint to talk to. It then constructs the right EventHub connection string based on the information in the redirect error and returns an instance of the EventHubClient that you can play with.
+
+```javascript
+const client = await EventHubClient.createFromIotHubConnectionString("connectionString");
+await client.getHubRuntimeInformation();
+await client.getPartitionInformation("partitionId");
+```
+
+**Notes:** For scalable and efficient receiving, please take a look at [azure-event-processor-host](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-processor-host). The Event Processor host, internally uses the streaming receiver to receive events.
 
 ## Troubleshooting
 
