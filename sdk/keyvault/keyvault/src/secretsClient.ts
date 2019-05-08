@@ -22,22 +22,21 @@ import {
 import { AzureServiceClientOptions as Pipeline, getDefaultUserAgentValue } from "@azure/ms-rest-azure-js";
 
 import { RetryOptions, ProxyOptions, TelemetryOptions } from ".";
-import { Models } from "./models";
+import { SecretBundle } from "./models";
 import { KeyVaultClient } from "./keyVaultClient";
 import { RetryConstants, SDK_VERSION } from "./utils/constants";
 import {
   Secret,
   DeletedSecret,
-  AddSecretOptions,
+  SetSecretOptions,
   UpdateSecretOptions,
   GetSecretOptions,
   GetAllSecretsOptions,
-  EntityVersion,
   SecretAttributes
 } from "./secretsModels";
 import { parseKeyvaultIdentifier as parseKeyvaultEntityIdentifier } from "./utils";
 
-export { Pipeline, Models };
+export { Pipeline };
 /**
  * Option interface for Pipeline.newPipeline method.
  *
@@ -178,7 +177,7 @@ export class SecretsClient {
   // TODO: do we want Aborter as well?
 
   /**
-   * The ADD operation adds a secret to the Azure Key Vault. If the named secret already exists,
+   * The SET operation adds a secret to the Azure Key Vault. If the named secret already exists,
    * Azure Key Vault creates a new version of that secret. This operation requires the secrets/set
    * permission.
    * @summary Adds a secret in a specified key vault.
@@ -187,13 +186,24 @@ export class SecretsClient {
    * @param [options] The optional parameters
    * @returns Promise<Secret>
    */
-  public async addSecret(
+  public async setSecret(
     secretName: string,
     value: string,
-    options?: AddSecretOptions
+    options?: SetSecretOptions
   ) {
-    const response = await this.client.setSecret(this.vaultBaseUrl, secretName, value, options);
-    return this.getSecretFromSecretBundle(response);
+    if (options) {
+      let unflattenedAttributes = {enabled: options.enabled, notBefore: options.notBefore, expires: options.expires};
+      let unflattenedOptions = {...options, secretAttributes: unflattenedAttributes};
+      delete unflattenedOptions.enabled;
+      delete unflattenedOptions.notBefore;
+      delete unflattenedOptions.expires;
+
+      const response = await this.client.setSecret(this.vaultBaseUrl, secretName, value, unflattenedOptions);
+      return this.getSecretFromSecretBundle(response);
+    } else {
+      const response = await this.client.setSecret(this.vaultBaseUrl, secretName, value, options);
+      return this.getSecretFromSecretBundle(response);
+    }
   }
 
   /**
@@ -225,16 +235,32 @@ export class SecretsClient {
    */
   public async updateSecretAttributes(
     secretName: string,
-    secretVersion: EntityVersion,
+    secretVersion: string,
     options?: UpdateSecretOptions
   ): Promise<Secret> {
-    const response = await this.client.updateSecret(
-      this.vaultBaseUrl,
-      secretName,
-      secretVersion._getVersion(),
-      options
-    );
-    return this.getSecretFromSecretBundle(response);
+    if (options) {
+      let unflattenedAttributes = {enabled: options.enabled, notBefore: options.notBefore, expires: options.expires};
+      let unflattenedOptions = {...options, secretAttributes: unflattenedAttributes};
+      delete unflattenedOptions.enabled;
+      delete unflattenedOptions.notBefore;
+      delete unflattenedOptions.expires;
+
+      const response = await this.client.updateSecret(
+        this.vaultBaseUrl,
+        secretName,
+        secretVersion,
+        unflattenedOptions
+      );
+      return this.getSecretFromSecretBundle(response);
+    } else {
+      const response = await this.client.updateSecret(
+        this.vaultBaseUrl,
+        secretName,
+        secretVersion,
+        options
+      );
+      return this.getSecretFromSecretBundle(response);
+    }
   }
 
   /**
@@ -252,7 +278,7 @@ export class SecretsClient {
     const response = await this.client.getSecret(
       this.vaultBaseUrl,
       secretName,
-      options && options.version ? options.version._getVersion() : "",
+      options && options.version ? options.version : "",
       options
     );
     return this.getSecretFromSecretBundle(response);
@@ -416,11 +442,26 @@ export class SecretsClient {
     }
   }
 
-  private getSecretFromSecretBundle(secretBundle: Models.SecretBundle): Secret {
+  private getSecretFromSecretBundle(secretBundle: SecretBundle): Secret {
     const parsedId = parseKeyvaultEntityIdentifier("secrets", secretBundle.id);
-    return {
-      ...secretBundle,
-      ...parsedId
-    };
+
+    let resultObject;
+    if (secretBundle.attributes) {
+      resultObject = {
+        ...secretBundle,
+        ...parsedId,
+        enabled: secretBundle.attributes?secretBundle.attributes.enabled:undefined,
+        notBefore: secretBundle.attributes?secretBundle.attributes.notBefore:undefined,
+        expires: secretBundle.attributes?secretBundle.attributes.expires:undefined,
+      }
+      delete(resultObject.attributes);
+    } else {
+      resultObject = {
+        ...secretBundle,
+        ...parsedId
+      }
+    }
+
+    return resultObject;
   }
 }

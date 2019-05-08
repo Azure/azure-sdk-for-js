@@ -1,7 +1,4 @@
 import * as msRest from "@azure/ms-rest-js";
-import { Models } from "./models";
-
-//export { SecretManagementAttributes };
 
 export interface Secret extends SecretAttributes {
   /**
@@ -20,9 +17,17 @@ export interface SecretAttributes extends ParsedKeyVaultEntityIdentifier {
    */
   contentType?: string;
   /**
-   * @member {SecretAttributes} [attributes] The secret management attributes.
+   * @member {boolean} [enabled] Determines whether the object is enabled.
    */
-  attributes?: Models.SecretManagementAttributes;
+  enabled?: boolean;
+  /**
+   * @member {Date} [notBefore] Not before date in UTC.
+   */
+  notBefore?: Date;
+  /**
+   * @member {Date} [expires] Expiry date in UTC.
+   */
+  expires?: Date;
   /**
    * @member {{ [propertyName: string]: string }} [tags] Application specific
    * metadata in the form of key-value pairs.
@@ -66,45 +71,15 @@ export interface DeletedSecret extends Secret {
   readonly deletedDate?: Date;
 }
 
-/**
- * NOTE: EntityVersion is an internal type used by Azure. To get versions, use
- * the corresponding 'get' call for the entity (for example: `getSecret`). 
- */
-export class EntityVersion {
-  private version: string;
-
-  /**
-   * NOTE: EntityVersion is an internal type used by Azure. To get versions, use
-   * the corresponding 'get' call for the entity (for example: `getSecret`). 
-   */
-  private constructor(version: string) {
-    this.version = version;
-  }
-
-  /**
-   * @internal
-   */
-  static _createVersion(version: string) {
-    return new EntityVersion(version);
-  }
-
-  /**
-   * @internal
-   */
-  _getVersion() {
-    return this.version;
-  }
-}
-
 export interface ParsedKeyVaultEntityIdentifier {
   /** 
    * @member {string} [vaultUrl] The vault URI.
    */
   vaultUrl: string;
   /** 
-   * @member {EntityVersion} [version] The version of key/secret/certificate. May be undefined.
+   * @member {string} [version] The version of key/secret/certificate. May be undefined.
    */
-  version?: EntityVersion;
+  version?: string;
   /** 
    * @member {string} [name] The name of key/secret/certificate.
    */
@@ -119,7 +94,7 @@ export interface ParsedKeyVaultEntityIdentifier {
  *
  * @extends RequestOptionsBase
  */
-export interface AddSecretOptions extends msRest.RequestOptionsBase {
+export interface SetSecretOptions extends msRest.RequestOptionsBase {
   /**
    * @member {{ [propertyName: string]: string }} [tags] Application specific
    * metadata in the form of key-value pairs.
@@ -131,10 +106,17 @@ export interface AddSecretOptions extends msRest.RequestOptionsBase {
    */
   contentType?: string;
   /**
-   * @member {SecretAttributes} [secretAttributes] The secret management
-   * attributes.
+   * @member {boolean} [enabled] Determines whether the object is enabled.
    */
-  attributes?: Models.SecretManagementAttributes;
+  enabled?: boolean;
+  /**
+   * @member {Date} [notBefore] Not before date in UTC.
+   */
+  notBefore?: Date;
+  /**
+   * @member {Date} [expires] Expiry date in UTC.
+   */
+  expires?: Date;
 }
 
 
@@ -152,10 +134,17 @@ export interface UpdateSecretOptions extends msRest.RequestOptionsBase {
    */
   contentType?: string;
   /**
-   * @member {SecretAttributes} [secretAttributes] The secret management
-   * attributes.
+   * @member {boolean} [enabled] Determines whether the object is enabled.
    */
-  attributes?: Models.SecretManagementAttributes;
+  enabled?: boolean;
+  /**
+   * @member {Date} [notBefore] Not before date in UTC.
+   */
+  notBefore?: Date;
+  /**
+   * @member {Date} [expires] Expiry date in UTC.
+   */
+  expires?: Date;
   /**
    * @member {{ [propertyName: string]: string }} [tags] Application specific
    * metadata in the form of key-value pairs.
@@ -175,7 +164,7 @@ export interface GetSecretOptions extends msRest.RequestOptionsBase {
    * @member {string} [version] The version of the secret to retrieve.  If not 
    * specified the latest version of the secret will be retrieved.
    */
-  version?: EntityVersion;
+  version?: string;
 }
 
 /**

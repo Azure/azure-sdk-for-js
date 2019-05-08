@@ -13,10 +13,6 @@ import * as msRest from "@azure/ms-rest-js";
 
 export { BaseResource, CloudError };
 
-export namespace Models {
-
-
-
 /**
  * @interface
  * An interface representing Attributes.
@@ -4716,5 +4712,3 @@ export type GetDeletedSasDefinitionsNextResponse = DeletedSasDefinitionListResul
       parsedBody: DeletedSasDefinitionListResult;
     };
 };
-
-}

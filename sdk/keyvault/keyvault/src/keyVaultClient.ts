@@ -10,7 +10,7 @@
 
 import * as msRest from "@azure/ms-rest-js";
 import * as msRestAzure from "@azure/ms-rest-azure-js";
-import { Models } from "./models";
+import * as Models from "./models";
 import * as Mappers from "./models/mappers";
 import * as Parameters from "./models/parameters";
 import { KeyVaultClientContext } from "./keyVaultClientContext";

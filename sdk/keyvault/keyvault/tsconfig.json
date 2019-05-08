@@ -12,8 +12,9 @@
     "lib": ["es6"],
     "declaration": true,
     "outDir": "./esm",
-    "importHelpers": true
+    "importHelpers": true,
+    "declarationDir": "./types/src" /* Output directory for generated declaration files.*/,
   },
   "include": ["./src/**/*.ts"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "types/**"]
 }

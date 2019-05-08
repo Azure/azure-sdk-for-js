@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import { SecretsClient, Pipeline, RestError, EntityVersion } from "../src";
+import { SecretsClient, Pipeline, RestError } from "../src";
 import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
 import { signingPolicy, exponentialRetryPolicy, deserializationPolicy } from "@azure/ms-rest-js";
 
@@ -37,11 +37,11 @@ async function main(): Promise<void> {
   // });
 
   const secretName = "SecretName";
-  const result = await client.addSecret(secretName, "secret");
+  const result = await client.setSecret(secretName, "secret");
   console.log("result: ", result);
 
   try {
-    await client.getSecret("invalid-name", { version: EntityVersion._createVersion("3597ab0798b043d398cde46f309010ea") });
+    await client.getSecret("invalid-name", { version: "3597ab0798b043d398cde46f309010ea" });
   } catch (e) {
     if (e instanceof RestError) {
       console.log("Rest Error: ", e.message);
