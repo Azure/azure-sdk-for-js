@@ -370,8 +370,8 @@
       "projectFolder": "sdk/eventhub/testhub"
     },
     {
-      "packageName": "@azure/amqp",
-      "projectFolder": "sdk/core/amqp"
+      "packageName": "@azure/amqp-common",
+      "projectFolder": "sdk/core/amqp-common"
     }
   ]
 }

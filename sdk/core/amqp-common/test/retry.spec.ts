@@ -12,7 +12,7 @@ import {
 } from "../src";
 import * as chai from "chai";
 import debugModule from "debug";
-const debug = debugModule("azure:amqp:retry-spec");
+const debug = debugModule("azure:amqp-common:retry-spec");
 const should = chai.should();
 import * as dotenv from "dotenv";
 dotenv.config();
