@@ -361,9 +361,9 @@ export interface DeliveryRuleAction {
  */
 export interface DeliveryRule {
   /**
-   * @member {string} name Name of the rule
+   * @member {string} [name] Name of the rule
    */
-  name: string;
+  name?: string;
   /**
    * @member {number} order The order in which the rules are applied for the
    * endpoint. Possible values {0,1,2,3,………}. A rule with a lesser order will
