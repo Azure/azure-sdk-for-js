@@ -4,7 +4,7 @@
 import * as chai from "chai";
 chai.should();
 import debugModule from "debug";
-const debug = debugModule("azure:amqp:token-spec");
+const debug = debugModule("azure:amqp-common:token-spec");
 import { SasTokenProvider, IotSasTokenProvider } from "../src";
 
 describe("SasTokenProvider", function() {

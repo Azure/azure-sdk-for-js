@@ -49,7 +49,8 @@ export class Receiver {
   }
 
   /**
-   * @property Returns `true` if either the receiver or the client that created it has been closed
+   * @property Returns `true` if the receiver is closed. This can happen either because the receiver
+   * itself has been closed or the client that created it has been closed.
    * @readonly
    */
   public get isClosed(): boolean {
@@ -70,8 +71,7 @@ export class Receiver {
   /**
    * Registers handlers to deal with the incoming stream of messages over an AMQP receiver link
    * from a Queue/Subscription.
-   * To stop receiving messages, call `close()` on the Receiver or set the property
-   * `newMessageWaitTimeoutInSeconds` in the options to provide a timeout.
+   * To stop receiving messages, call `close()` on the Receiver.
    *
    * @param onMessage - Handler for processing each incoming message.
    * @param onError - Handler for any error that occurs while receiving or processing messages.
@@ -139,8 +139,7 @@ export class Receiver {
     if (!this._context.batchingReceiver || !this._context.batchingReceiver.isOpen()) {
       const options: ReceiveOptions = {
         maxConcurrentCalls: 0,
-        receiveMode: this._receiveMode,
-        newMessageWaitTimeoutInSeconds: 1
+        receiveMode: this._receiveMode
       };
       this._context.batchingReceiver = BatchingReceiver.create(this._context, options);
     }
@@ -368,7 +367,8 @@ export class SessionReceiver {
   }
 
   /**
-   * @property Returns `true` if either the receiver or the client that created it has been closed
+   * @property Returns `true` if the receiver is closed. This can happen either because the receiver
+   * itself has been closed or the client that created it has been closed.
    * @readonly
    */
   public get isClosed(): boolean {
@@ -378,7 +378,7 @@ export class SessionReceiver {
   }
 
   /**
-   * @property The sessionId for the message session.
+   * @property The id of the session from which this receiver will receive messages.
    * Will return undefined until a AMQP receiver link has been successfully set up for the session.
    * @readonly
    */
@@ -616,8 +616,7 @@ export class SessionReceiver {
   /**
    * Registers handlers to deal with the incoming stream of messages over an AMQP receiver link
    * from a Queue/Subscription.
-   * To stop receiving messages, call `close()` on the SessionReceiver or set the property
-   * `newMessageWaitTimeoutInSeconds` in the options to provide a timeout.
+   * To stop receiving messages, call `close()` on the SessionReceiver.
    *
    * @param onMessage - Handler for processing each incoming message.
    * @param onError - Handler for any error that occurs while receiving or processing messages.
