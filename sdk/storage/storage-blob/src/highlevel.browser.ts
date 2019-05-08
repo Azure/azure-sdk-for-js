@@ -3,12 +3,11 @@ import { generateUuid } from "@azure/ms-rest-js";
 import { Aborter } from "./Aborter";
 import { BlockBlobURL } from "./BlockBlobURL";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
-import { Credential } from "./credentials/Credential";
 import {
   BlobUploadCommonResponse,
   IUploadToBlockBlobOptions
 } from "./highlevel.common";
-import { INewPipelineOptions, StorageURL } from "./StorageURL";
+import { BlobConnectionOptions, StorageURL } from "./StorageURL";
 import { Batch } from "./utils/Batch";
 import {
   BLOCK_BLOB_MAX_BLOCKS,
@@ -17,6 +16,7 @@ import {
   DEFAULT_BLOB_DOWNLOAD_BLOCK_BYTES
 } from "./utils/constants";
 import { generateBlockID } from "./utils/utils.common";
+import { Pipeline } from './Pipeline';
 
 /**
  * ONLY AVAILABLE IN BROWSERS.
@@ -69,8 +69,7 @@ export async function uploadBrowserDataToBlockBlob(
  * @param {Blob | ArrayBuffer | ArrayBufferView} browserData Blob, File, ArrayBuffer or ArrayBufferView
  * @param {string} url URL to a Block Blob.
  * @param {IUploadToBlockBlobOptions} [uploadOptions]
- * @param {credential} [credential]
- * @param {INewPipelineOptions} [pipelineOptions]
+ * @param {BlobConnectionOptions} []
  * @returns {Promise<BlobUploadCommonResponse>}
  */
 export async function uploadBrowserDataToBlockBlobUrl(
@@ -78,15 +77,19 @@ export async function uploadBrowserDataToBlockBlobUrl(
   browserData: Blob | ArrayBuffer | ArrayBufferView,
   url: string,
   uploadOptions: IUploadToBlockBlobOptions = {},
-  credential?: Credential,
-  pipelineOptions: INewPipelineOptions = {}
+  connectionOptions: BlobConnectionOptions = {}
 ): Promise<BlobUploadCommonResponse> {
-  if (!credential) {
-    credential = new AnonymousCredential();
+  let blockBlobURL: BlockBlobURL;
+  if (connectionOptions.pipeline) {
+    blockBlobURL = new BlockBlobURL(url, connectionOptions.pipeline);
+  } else {
+    if (!connectionOptions.credential) {
+      connectionOptions.credential = new AnonymousCredential();
+    }
+    const pipeline = StorageURL.newPipeline(connectionOptions.credential, connectionOptions.pipelineOptions);
+    blockBlobURL = new BlockBlobURL(url, pipeline);
   }
 
-  const pipeline = StorageURL.newPipeline(credential, pipelineOptions);
-  const blockBlobURL = new BlockBlobURL(url, pipeline);
   return uploadBrowserDataToBlockBlob(aborter, browserData, blockBlobURL, uploadOptions);
 }
 
