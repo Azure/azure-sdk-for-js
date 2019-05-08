@@ -1,4 +1,7 @@
 /*
+  Copyright (c) Microsoft Corporation. All rights reserved.
+  Licensed under the MIT Licence.
+
   This sample demonstrates how the send() function can be used to send messages to Event Hubs.
 
   See https://docs.microsoft.com/en-us/azure/event-hubs/event-hubs-about

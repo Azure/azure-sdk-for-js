@@ -1,4 +1,7 @@
 /*
+  Copyright (c) Microsoft Corporation. All rights reserved.
+  Licensed under the MIT Licence.
+
   This sample demonstrates how to instantiate EventHubsClien using AAD token credentials
   obtained from interactive login.
 

@@ -34,13 +34,13 @@ export interface ServiceBusClientOptions {
    */
   dataTransformer?: DataTransformer;
   /**
-   * @property {WebSocketImpl} [webSocket] - The WebSocket constructor used to create an AMQP connection
+   * @property The WebSocket constructor used to create an AMQP connection
    * over a WebSocket. In browsers, the built-in WebSocket will be  used by default. In Node, a
    * TCP socket will be used if a WebSocket constructor is not provided.
    */
   webSocket?: WebSocketImpl;
   /**
-   * @property {webSocketConstructorOptions} - Options to be passed to the WebSocket constructor
+   * @property Options to be passed to the WebSocket constructor
    */
   webSocketConstructorOptions?: any;
 }
@@ -53,7 +53,7 @@ export interface ServiceBusClientOptions {
 export class ServiceBusClient {
   /**
    * @readonly
-   * @property The namespace name of the Service Bus instance.
+   * @property The name of the Service Bus Namespace.
    */
   readonly name: string;
   /**

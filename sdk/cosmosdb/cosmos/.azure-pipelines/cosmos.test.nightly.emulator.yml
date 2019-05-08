@@ -19,37 +19,50 @@ pr:
     include:
     - sdk/cosmosdb/cosmos
 
+variables:
+  NodeVersion: '10.x'
+
 jobs:
   - job: NightlyEmulator
     pool:
       vmImage: vs2017-win2016
     steps:
+      - task: NodeTool@0
+        inputs:
+          versionSpec: '$(NodeVersion)'
+        displayName: 'Install Node.js $(NodeVersion)'
+
+      - script: |
+          node common/scripts/install-run-rush.js install
+        displayName: 'Install dependencies'
+
+      - script: |
+          node common/scripts/install-run-rush.js build -t "@azure/cosmos" --verbose
+        displayName: 'rush build -t "@azure/cosmos"'
+
+      - script: |
+          node common/scripts/install-run-rush.js build:test -t "@azure/cosmos" --verbose
+        displayName: 'rush build:test -t "@azure/cosmos"'
+
       - task: azure-cosmosdb.emulator-internal-preview.run-cosmosdbemulatorcontainer.CosmosDbEmulator@2
         displayName: "Run Azure Cosmos DB Emulator container"
         inputs:
           username: "$(cosmos-cosmosdb-azurecr-io-username)"
           password: "$(cosmos-cosmosdb-azurecr-io-password)"
           defaultPartitionCount: 25
-      - task: NodeTool@0
-        inputs:
-          versionSpec: "6.x"
-        displayName: "Install Node.js"
 
-      - script: npm run install-client-cosmos
-        displayName: "npm install"
-
-      - script: cd sdk/cosmosdb/cosmos && npm run build-dev
-        displayName: "npm run build"
-
-      - bash: cd sdk/cosmosdb/cosmos && ACCOUNT_HOST=$COSMOSDBEMULATOR_ENDPOINT NODE_TLS_REJECT_UNAUTHORIZED="0" npm run integration-test -- --reporter mocha-multi-reporters --reporter-options spec=-,mocha-junit-reporter=- $(AdditionalTestArguments)
+      - script: |
+          node common/scripts/install-run-rush.js integration-test -t "@azure/cosmos" --verbose
         failOnStderr: true
-        displayName: "npm test"
+        displayName: 'rush integration-test -t "@azure/cosmos"'
         env:
+          ACCOUNT_HOST: $(CosmosDbEmulator.Endpoint)
           MOCHA_TIMEOUT: 100000
+          NODE_TLS_REJECT_UNAUTHORIZED: 0
 
       - task: PublishTestResults@2
         inputs:
-          testResultsFiles: '**/xunit.xml'
-          testRunTitle: 'Cosmos $(OSName) Node $(NodeVersion) - Node'
+          testResultsFiles: '**/test-results.xml'
+          testRunTitle: 'Cosmos Emulator Node $(NodeVersion)'
         condition: succeededOrFailed()
-        displayName: 'Publish node test results'
+        displayName: 'Publish test results'

@@ -1,4 +1,7 @@
 /*
+  Copyright (c) Microsoft Corporation. All rights reserved.
+  Licensed under the MIT Licence.
+
   This sample demonstrates how the receiveBatch() function can be used to receive Event Hubs
   messages in a loop.
 
