@@ -1,4 +1,7 @@
 /*
+  Copyright (c) Microsoft Corporation. All rights reserved.
+  Licensed under the MIT Licence.
+  
   This sample demonstrates how the defer() function can be used to defer a message for later processing.
 
   In this sample, we have an application that gets cooking instructions out of order. It uses

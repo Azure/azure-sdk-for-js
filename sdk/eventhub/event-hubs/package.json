@@ -6,6 +6,7 @@
   "license": "MIT",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub",
   "repository": "github:Azure/azure-sdk-for-js",
+  "sideEffects": false,
   "keywords": [
     "azure",
     "cloud",
