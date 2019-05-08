@@ -54,7 +54,10 @@ function unExpectedErrorHandler(err: Error): void {
 
 const testSessionId2 = "my-session2";
 
-async function beforeEachTest(senderType: TestClientType, sessionType: TestClientType): Promise<void> {
+async function beforeEachTest(
+  senderType: TestClientType,
+  sessionType: TestClientType
+): Promise<void> {
   // The tests in this file expect the env variables to contain the connection string and
   // the names of empty queue/topic/subscription that are to be tested
 
@@ -255,7 +258,7 @@ describe("SessionReceiver with no sessionId", function(): void {
     let msgs = await receiver.receiveMessages(2);
 
     should.equal(msgs.length, 1, "Unexpected number of messages received");
-
+    should.equal(receiver.sessionId, msgs[0].sessionId, "Unexpected sessionId in receiver");
     should.equal(
       testMessagesWithDifferentSessionIds.some(
         (x) =>
@@ -275,7 +278,7 @@ describe("SessionReceiver with no sessionId", function(): void {
     msgs = await receiver.receiveMessages(2);
 
     should.equal(msgs.length, 1, "Unexpected number of messages received");
-
+    should.equal(receiver.sessionId, msgs[0].sessionId, "Unexpected sessionId in receiver");
     should.equal(
       testMessagesWithDifferentSessionIds.some(
         (x) =>

@@ -57,10 +57,6 @@ export interface ClientEntityContextBase {
    */
   messageSessions: Dictionary<MessageSession>;
   /**
-   * @property {Dictionary<MessageSession>} expiredMessageSessions A dictionary that stores expired message sessions IDs.
-   */
-  expiredMessageSessions: Dictionary<Boolean>;
-  /**
    * @property {MessageSender} [sender] The ServiceBus sender associated with the client entity.
    */
   sender?: MessageSender;
@@ -138,8 +134,7 @@ export namespace ClientEntityContext {
       isClosed: false,
       requestResponseLockedMessages: new ConcurrentExpiringMap<string>(),
       isSessionEnabled: !!options.isSessionEnabled,
-      messageSessions: {},
-      expiredMessageSessions: {}
+      messageSessions: {}
     };
 
     (entityContext as ClientEntityContext).sessionManager = new SessionManager(
@@ -147,14 +142,6 @@ export namespace ClientEntityContext {
     );
 
     (entityContext as ClientEntityContext).getReceiver = (name: string, sessionId?: string) => {
-      if (sessionId && entityContext.expiredMessageSessions[sessionId]) {
-        const error = new Error(
-          `The session lock has expired on the session with id ${sessionId}.`
-        );
-        error.name = "SessionLockLostError";
-        throw error;
-      }
-
       let receiver: MessageReceiver | MessageSession | undefined = undefined;
       if (
         sessionId != undefined &&

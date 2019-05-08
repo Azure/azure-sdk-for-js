@@ -9,7 +9,7 @@ import {
   MessageAnnotations,
   DeliveryAnnotations
 } from "rhea-promise";
-import { Constants, AmqpMessage } from "@azure/amqp-common";
+import { Constants, AmqpMessage, translate, ErrorNameConditionMapper } from "@azure/amqp-common";
 import * as log from "./log";
 import { ClientEntityContext } from "./clientEntityContext";
 import { reorderLockToken } from "../src/util/utils";
@@ -461,7 +461,9 @@ export function fromAmqpMessage(
   shouldReorderLockToken?: boolean
 ): ReceivedMessageInfo {
   if (!msg) {
-    throw new Error("'msg' cannot be null or undefined.");
+    msg = {
+      body: undefined
+    };
   }
   const sbmsg: SendableMessageInfo = {
     body: msg.body
@@ -786,6 +788,14 @@ export class ServiceBusMessage implements ReceivedMessage {
    * @property {ClientEntityContext} _context The client entity context.
    * @readonly
    */
+  /**
+   * @property Boolean denoting if the message has already been settled.
+   * @readonly
+   */
+  public get isSettled(): boolean {
+    return this.delivery.remote_settled;
+  }
+
   private readonly _context: ClientEntityContext;
 
   /**
@@ -808,6 +818,13 @@ export class ServiceBusMessage implements ReceivedMessage {
 
   /**
    * Removes the message from Service Bus.
+   * - Throws `SessionLockLostError` if the message is from a Queue/Subscription with sessions
+   * enabled and the session receiver that received the message is closed
+   * - Throws `MessageLockLostError` if the message is from a Queue/Subscription without sessions
+   * enabled and the receiver that received the message is closed
+   * - Throws an error if the message is already settled. Check the `isSettled` property on the
+   * message to see if it is already settled.
+   *
    * @returns Promise<void>.
    */
   async complete(): Promise<void> {
@@ -837,6 +854,13 @@ export class ServiceBusMessage implements ReceivedMessage {
   /**
    * The lock held on the message by the receiver is let go, making the message available again in
    * Service Bus for another receive operation.
+   * - Throws `SessionLockLostError` if the message is from a Queue/Subscription with sessions
+   * enabled and the session receiver that received the message is closed
+   * - Throws `MessageLockLostError` if the message is from a Queue/Subscription without sessions
+   * enabled and the receiver that received the message is closed
+   * - Throws an error if the message is already settled. Check the `isSettled` property on the
+   * message to see if it is already settled.
+   *
    * @param propertiesToModify The properties of the message to modify while abandoning the message.
    *
    * @return Promise<void>.
@@ -870,6 +894,13 @@ export class ServiceBusMessage implements ReceivedMessage {
   /**
    * Defers the processing of the message. Save the `sequenceNumber` of the message, in order to
    * receive it message again in the future using the `receiveDeferredMessage` method.
+   * - Throws `SessionLockLostError` if the message is from a Queue/Subscription with sessions
+   * enabled and the session receiver that received the message is closed
+   * - Throws `MessageLockLostError` if the message is from a Queue/Subscription without sessions
+   * enabled and the receiver that received the message is closed
+   * - Throws an error if the message is already settled. Check the `isSettled` property on the
+   * message to see if it is already settled.
+   *
    * @param propertiesToModify The properties of the message to modify while deferring the message
    *
    * @returns Promise<void>
@@ -902,6 +933,13 @@ export class ServiceBusMessage implements ReceivedMessage {
   /**
    * Moves the message to the deadletter sub-queue. To receive a deadletted message, create a new
    * QueueClient/SubscriptionClient using the path for the deadletter sub-queue.
+   * - Throws `SessionLockLostError` if the message is from a Queue/Subscription with sessions
+   * enabled and the session receiver that received the message is closed
+   * - Throws `MessageLockLostError` if the message is from a Queue/Subscription without sessions
+   * enabled and the receiver that received the message is closed
+   * - Throws an error if the message is already settled. Check the `isSettled` property on the
+   * message to see if it is already settled.
+   *
    * @param options The DeadLetter options that can be provided while
    * rejecting the message.
    *
@@ -985,20 +1023,35 @@ export class ServiceBusMessage implements ReceivedMessage {
 export function throwIfMessageCannotBeSettled(
   receiver: MessageReceiver | MessageSession | undefined,
   operation: DispositionType,
-  isRemoteSettled: boolean
+  isRemoteSettled: boolean,
+  sessionId?: string
 ): void {
-  let errorMessage;
-  if (!receiver || !receiver.isOpen()) {
-    errorMessage = `Failed to ${operation} the message as it's receiver has been closed.`;
+  let error: Error | undefined;
+  if (isRemoteSettled) {
+    error = new Error(
+      `Failed to ${operation} the message as this message has been already settled.`
+    );
+  } else if (!receiver || !receiver.isOpen()) {
+    if (sessionId) {
+      error = translate({
+        description: `Failed to ${operation} the message as the lock on the session with id ${sessionId} has expired.`,
+        condition: ErrorNameConditionMapper.SessionLockLostError
+      });
+    } else {
+      error = translate({
+        description: `Failed to ${operation} the message as the lock on the message has expired.`,
+        condition: ErrorNameConditionMapper.MessageLockLostError
+      });
+    }
   } else if (receiver.receiveMode !== ReceiveMode.peekLock) {
-    errorMessage = getErrorMessageNotSupportedInReceiveAndDeleteMode(`${operation} the message`);
-  } else if (isRemoteSettled) {
-    errorMessage = `Failed to ${operation} the message as this message has been already settled.`;
+    error = new Error(
+      getErrorMessageNotSupportedInReceiveAndDeleteMode(`${operation} the message`)
+    );
   }
-  if (!errorMessage) {
+  if (!error) {
     return;
   }
-  const error = new Error(errorMessage);
+
   if (receiver) {
     log.error(
       "An error occured when settling a message using the receiver %s: %O",

@@ -332,12 +332,6 @@ export class MessageSession extends LinkEntity {
       const receiverError = context.receiver && context.receiver.error;
       if (receiverError) {
         const sbError = translate(receiverError);
-        if (sbError.name === "SessionLockLostError") {
-          this._context.expiredMessageSessions[this.sessionId!] = true;
-          sbError.message = `The session lock has expired on the session with id ${
-            this.sessionId
-          }.`;
-        }
         log.error(
           "[%s] An error occurred for Receiver '%s': %O.",
           connectionId,
@@ -367,12 +361,9 @@ export class MessageSession extends LinkEntity {
       const connectionId = this._context.namespace.connectionId;
       const receiverError = context.receiver && context.receiver.error;
       const receiver = this._receiver || context.receiver!;
-      let isClosedDueToExpiry = false;
+
       if (receiverError) {
         const sbError = translate(receiverError);
-        if (sbError.name === "SessionLockLostError") {
-          isClosedDueToExpiry = true;
-        }
         log.error(
           "[%s] 'receiver_close' event occurred for receiver '%s' for sessionId '%s'. " +
             "The associated error is: %O",
@@ -393,7 +384,7 @@ export class MessageSession extends LinkEntity {
           this.sessionId
         );
         try {
-          await this.close(isClosedDueToExpiry);
+          await this.close();
         } catch (err) {
           log.error(
             "[%s] An error occurred while closing the receiver '%s' for sessionId '%s': %O.",
@@ -469,7 +460,7 @@ export class MessageSession extends LinkEntity {
    * This is so that the internal map of expired sessions doesn't get cleared when session is
    * closed due to expiry.
    */
-  async close(isClosedDueToExpiry?: boolean): Promise<void> {
+  async close(): Promise<void> {
     try {
       log.messageSession(
         "[%s] Closing the MessageSession '%s' for queue '%s'.",
@@ -486,10 +477,6 @@ export class MessageSession extends LinkEntity {
           "'session lock renewal' task.",
         this._context.namespace.connectionId
       );
-
-      if (!isClosedDueToExpiry) {
-        delete this._context.expiredMessageSessions[this.sessionId!];
-      }
 
       if (this._receiver) {
         const receiverLink = this._receiver;
@@ -1017,16 +1004,16 @@ export class MessageSession extends LinkEntity {
           this._receiver.source.filter &&
           this._receiver.source.filter[Constants.sessionFilterName];
         let errorMessage: string = "";
-        // SB allows a sessionId with empty string value :)
+        // Service Bus creates receiver successfully with empty sessionId even if it fails to get a
+        // lock on the session. So we throw appropriate errors instead
         if (receivedSessionId == undefined) {
-          errorMessage =
-            `Received an incorrect sessionId '${receivedSessionId}' while creating ` +
-            `the receiver '${this.name}'.`;
-        }
-        if (this.sessionId != undefined && receivedSessionId !== this.sessionId) {
-          errorMessage =
-            `Received sessionId '${receivedSessionId}' does not match the provided ` +
-            `sessionId '${this.sessionId}' while creating the receiver '${this.name}'.`;
+          if (!this.sessionId) {
+            errorMessage = `There are no sessions available for receiving messages.`;
+          } else {
+            errorMessage = `The session with id ${
+              this.sessionId
+            } is not available for receiving messages.`;
+          }
         }
         if (errorMessage) {
           const error = translate({

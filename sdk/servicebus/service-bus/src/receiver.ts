@@ -73,6 +73,10 @@ export class Receiver {
    * To stop receiving messages, call `close()` on the Receiver or set the property
    * `newMessageWaitTimeoutInSeconds` in the options to provide a timeout.
    *
+   * Check the `isReceivingMessages` property on the receiver before calling this function to
+   * determine if the receiver is currently receiving messages. If it returns `true`, a call to
+   * this function will result in an error being thrown.
+   *
    * @param onMessage - Handler for processing each incoming message.
    * @param onError - Handler for any error that occurs while receiving or processing messages.
    * @param options - Options to control if messages should be automatically completed, and/or have
@@ -122,6 +126,10 @@ export class Receiver {
    * Returns a promise that resolves to an array of messages based on given count and timeout over
    * an AMQP receiver link from a Queue/Subscription.
    *
+   * Check the `isReceivingMessages` property on the receiver before calling this function to
+   * determine if the receiver is currently receiving messages. If it returns `true`, a call to
+   * this function will result in an error being thrown.
+   *
    * @param maxMessageCount      The maximum number of messages to receive from Queue/Subscription.
    * @param idleTimeoutInSeconds The maximum wait time in seconds for which the Receiver
    * should wait to receive the first message. If no message is received by this time,
@@ -150,8 +158,12 @@ export class Receiver {
 
   /**
    * Gets an async iterator over messages from the receiver.
-   * While iterating, you will get `undefined` instead of a message, if the iterator is not able to
-   * fetch a new message in over a minute.
+   *
+   * Check the `isReceivingMessages` property on the receiver before calling this function to
+   * determine if the receiver is currently receiving messages. If it returns `true`, a call to
+   * this function will result in an error being thrown.
+   *
+   * If the iterator is not able to fetch a new message in over a minute, `undefined` will be returned.
    */
   async *getMessageIterator(): AsyncIterableIterator<ServiceBusMessage> {
     while (true) {
@@ -413,7 +425,11 @@ export class SessionReceiver {
       receiveMode === ReceiveMode.receiveAndDelete ? receiveMode : ReceiveMode.peekLock;
     this._sessionOptions = sessionOptions;
 
-    if (sessionOptions.sessionId) {
+    if (typeof sessionOptions.sessionId === "string" && !sessionOptions.sessionId.trim()) {
+      sessionOptions.sessionId = undefined;
+    }
+
+    if (sessionOptions.sessionId != undefined) {
       sessionOptions.sessionId = String(sessionOptions.sessionId);
 
       // Check if receiver for given session already exists
@@ -596,6 +612,10 @@ export class SessionReceiver {
    * Returns a promise that resolves to an array of messages based on given count and timeout over
    * an AMQP receiver link from a Queue/Subscription.
    *
+   * Check the `isReceivingMessages` property on the receiver before calling this function to
+   * determine if the receiver is currently receiving messages. If it returns `true`, a call to
+   * this function will result in an error being thrown.
+   *
    * @param maxMessageCount      The maximum number of messages to receive from Queue/Subscription.
    * @param maxWaitTimeInSeconds The maximum wait time in seconds for which the Receiver
    * should wait to receive the first message. If no message is received by this time,
@@ -618,6 +638,10 @@ export class SessionReceiver {
    * from a Queue/Subscription.
    * To stop receiving messages, call `close()` on the SessionReceiver or set the property
    * `newMessageWaitTimeoutInSeconds` in the options to provide a timeout.
+   *
+   * Check the `isReceivingMessages` property on the receiver before calling this function to
+   * determine if the receiver is currently receiving messages. If it returns `true`, a call to
+   * this function will result in an error being thrown.
    *
    * @param onMessage - Handler for processing each incoming message.
    * @param onError - Handler for any error that occurs while receiving or processing messages.
@@ -664,8 +688,12 @@ export class SessionReceiver {
 
   /**
    * Gets an async iterator over messages from the receiver.
-   * While iterating, you will get `undefined` instead of a message, if the iterator is not able to
-   * fetch a new message in over a minute.
+   *
+   * Check the `isReceivingMessages` property on the receiver before calling this function to
+   * determine if the receiver is currently receiving messages. If it returns `true`, a call to
+   * this function will result in an error being thrown.
+   *
+   * If the iterator is not able to fetch a new message in over a minute, `undefined` will be returned
    */
   async *getMessageIterator(): AsyncIterableIterator<ServiceBusMessage> {
     while (true) {
@@ -744,7 +772,6 @@ export class SessionReceiver {
       throw error;
     }
     this._sessionId = this._messageSession.sessionId;
-    delete this._context.expiredMessageSessions[this._messageSession.sessionId];
   }
 
   private _throwIfAlreadyReceiving(): void {
