@@ -148,7 +148,7 @@ export function browserConfig({ test = false, production = false } = {}) {
   baseConfig.onwarn = ignoreKnownWarnings;
 
   if (test) {
-    baseConfig.input = ["browser/service-bus.js", "dist-esm/test/browserified/*.spec.js"];
+    baseConfig.input = "dist-esm/test/browserified/*.spec.js";
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
     baseConfig.output.file = "test-browser/index.js";
   } else if (production) {
