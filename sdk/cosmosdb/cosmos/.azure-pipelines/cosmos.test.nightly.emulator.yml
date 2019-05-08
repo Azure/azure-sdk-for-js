@@ -37,6 +37,10 @@ jobs:
         displayName: 'Install dependencies'
 
       - script: |
+          node common/scripts/install-run-rush.js build -t "@azure/cosmos" --verbose
+        displayName: 'rush build -t "@azure/cosmos"'
+
+      - script: |
           node common/scripts/install-run-rush.js build:test -t "@azure/cosmos" --verbose
         displayName: 'rush build:test -t "@azure/cosmos"'
 

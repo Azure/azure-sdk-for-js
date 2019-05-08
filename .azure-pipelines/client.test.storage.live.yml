@@ -63,6 +63,10 @@ jobs:
         displayName: 'Install dependencies'
 
       - script: |
+          node common/scripts/install-run-rush.js build -t "$(Package)" --verbose
+        displayName: 'rush build -t "$(Package)"'
+
+      - script: |
           node common/scripts/install-run-rush.js build:test -t "$(Package)" --verbose
         displayName: 'rush build:test -t "$(Package)"'
 
@@ -115,6 +119,10 @@ jobs:
       - script: |
           node common/scripts/install-run-rush.js install
         displayName: 'Install dependencies'
+
+      - script: |
+          node common/scripts/install-run-rush.js build -t "$(Package)" --verbose
+        displayName: 'rush build -t "$(Package)"'
 
       - script: |
           node common/scripts/install-run-rush.js build:test -t "$(Package)" --verbose

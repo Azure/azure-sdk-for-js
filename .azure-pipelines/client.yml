@@ -136,8 +136,12 @@ jobs:
         displayName: 'Install dependencies'
 
       - script: |
+          node common/scripts/install-run-rush.js build -t $(rushFlags)
+        displayName: 'Build libraries"'
+
+      - script: |
           node common/scripts/install-run-rush.js build:test $(rushFlags)
-        displayName: 'Build libraries'
+        displayName: 'Build test assets'
 
       - script: |
           node common/scripts/install-run-rush.js unit-test $(rushFlags)
