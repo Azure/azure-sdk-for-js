@@ -60,7 +60,7 @@ export function nodeConfig({ test = false, production = false } = {}) {
 
   if (test) {
     // entry point is every test file
-    baseConfig.input = "dist-esm/test/**/*.spec.js";
+    baseConfig.input = "dist-esm/test/browserified/*.spec.js";
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
 
     // different output file
@@ -125,7 +125,7 @@ export function browserConfig({ test = false, production = false } = {}) {
       }),
 
       nodeResolve({
-        mainFields: ['module', 'browser'],
+        mainFields: ["module", "browser"],
         preferBuiltins: false
       }),
       cjs({
@@ -148,7 +148,7 @@ export function browserConfig({ test = false, production = false } = {}) {
   baseConfig.onwarn = ignoreKnownWarnings;
 
   if (test) {
-    baseConfig.input = "dist-esm/test/**/*.spec.js";
+    baseConfig.input = ["browser/service-bus.js", "dist-esm/test/browserified/*.spec.js"];
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
     baseConfig.output.file = "test-browser/index.js";
   } else if (production) {
