@@ -36,7 +36,7 @@ You also need to enable `compilerOptions.allowSyntheticDefaultImports` in your t
 Interaction with Event Hubs start with an instance of the [EventHubClient](https://docs.microsoft.com/en-us/javascript/api/%40azure/event-hubs/eventhubclient?view=azure-node-latest) class. You can instantiate
 this class using one of the 4 static methods on it
 
-- [createFromConnectionString](https://docs.microsoft.com/en-us/javascript/api/%40azure/event-hubs/eventhubclient?view=azure-node-latest#createfromconnectionstring-string--ClientOptions-)
+- [createFromConnectionString](https://docs.microsoft.com/en-us/javascript/api/@azure/event-hubs/eventhubclient?view=azure-node-latest#createfromconnectionstring-string--string--clientoptions-)
   - This method takes the connection string and entity name to your Event Hub instance. You can get the connection string
     from the Azure portal
 - [createFromIotHubConnectionString](https://docs.microsoft.com/en-us/javascript/api/%40azure/event-hubs/eventhubclient?view=azure-node-latest#createfromiothubconnectionstring-string--clientoptions-)
@@ -57,9 +57,7 @@ The following sections provide code snippets that cover some of the common tasks
 
 - [Get the partition Ids](#get-the-partition-ids)
 - [Send events](#send-events)
-- [Receive events](#receive-events)]
-- [Get an event hub runtime info](#get-an-event-hub-runtime-info)
-- [Get info about the specified partition](#get-info-about-the-specified-partition)
+- [Receive events](#receive-events)
 
 ### Get the partition Ids
 
@@ -67,34 +65,37 @@ Once you have created an instance of an `EventHubClient` class, get the partitio
 using the [getPartitionIds](https://docs.microsoft.com/en-us/javascript/api/@azure/event-hubs/eventhubclient?view=azure-node-latest#getpartitionids--) function.
 
 ```javascript
-const client = EventHubClient.createFromConnectionString("connectionString" , "eventHubName");
+const client = EventHubClient.createFromConnectionString("connectionString", "eventHubName");
 const partitionIds = await client.getPartitionIds();
 ```
 
 ### Send events
 
-Once you have created an instance of an `EventHubClient` class, send events 
+Once you have created an instance of an `EventHubClient` class, send events
 using the [send](https://docs.microsoft.com/en-us/javascript/api/@azure/event-hubs/eventhubclient?view=azure-node-latest#send-eventdata--string---number-) function.
 
 ```javascript
-const client = EventHubClient.createFromConnectionString("connectionString" , "eventHubName");
-  // NOTE: For receiving events from Azure Stream Analytics, please send Events to an EventHub where the body is a JSON object.
-  // const eventData = { body: { "message": "Hello World" }};
-  await client.send({
-  body: "my-event-body"
-}, "partitionId");
+const client = EventHubClient.createFromConnectionString("connectionString", "eventHubName");
+// NOTE: When working with Azure Stream Analytics, the body should be a JSON object as well
+// const eventData = { body: { "message": "Hello World" }};
+await client.send(
+  {
+    body: "my-event-body"
+  },
+  "partitionId"
+);
 ```
 
 ### Receive events
 
 Once you have created an instance of an `EventHubClient` class, you can receive events in one of 2 ways:
 
-   - [Get an array of events](#get-an-array-of-events)
-   - [Register event handler](#register-event-handler)
+- [Get an array of events](#get-an-array-of-events)
+- [Register event handler](#register-event-handler)
 
 #### Get an array of events
 
-Use the [receiveBatch](https://docs.microsoft.com/en-us/javascript/api/@azure/event-hubs/eventhubclient?view=azure-node-latest#sendbatch-eventdata----string---number-) function which returns a promise that resolves to an array of events.
+Use the [receiveBatch](https://docs.microsoft.com/en-us/javascript/api/@azure/event-hubs/eventhubclient?view=azure-node-latest#receivebatch-string---number--number--number--receiveoptions-) function which returns a promise that resolves to an array of events.
 
 ```javascript
 const myEvents = await client.receiveBatch("partitionId", 10);
@@ -106,40 +107,23 @@ Use the [receive](https://docs.microsoft.com/en-us/javascript/api/@azure/event-h
 need. When you are done, call `receiveHandler.close()` to stop receiving any more events.
 
 ```javascript
-const myEventHandler = async (event) => {
+const myEventHandler = async event => {
   // your code here
 };
-const myErrorHandler = (error) => {
+const myErrorHandler = error => {
   console.log(error);
 };
 client.receive("partitionId", myEventHandler, myErrorHandler);
 ```
 
-### Get an event hub runtime info
-
-Once you have created an instance of an `EventHubClient` class, get an event hub run time information 
-using the [getHubRuntimeInformation](https://docs.microsoft.com/en-us/javascript/api/%40azure/event-hubs/eventhubclient?view=azure-node-latest#gethubruntimeinformation--) function.
-
-```javascript
-const client = EventHubClient.createFromConnectionString("connectionString");
-await client.getHubRuntimeInformation();  
-```
-
-### Get info about the specified partition
-
-Once you have created an instance of an `EventHubClient` class, get information about the specified partition
-using the [getPartitionInformation](https://docs.microsoft.com/en-us/javascript/api/@azure/event-hubs/eventhubclient?view=azure-node-latest#send-eventdata--string---number-) function.
-
-```javascript
-const client = EventHubClient.createFromConnectionString("connectionString");
-await client.getPartitionInformation("partitionId);  
-```
-
 **Note:** For scalable and efficient receiving, please take a look at [azure-event-processor-host](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-processor-host). The Event Processor host, internally uses the streaming receiver to receive events.
 
-## IDE ##
-This sdk has been developed in [TypeScript](https://typescriptlang.org) and has good source code documentation. It is highly recommended to use [vscode](https://code.visualstudio.com) 
+## IDE
+
+This sdk has been developed in [TypeScript](https://typescriptlang.org) and has good source code documentation. It is highly recommended to use [vscode](https://code.visualstudio.com)
 or any other IDE that provides better intellisense and exposes the full power of source code documentation.
+
+## Troubleshooting
 
 ### Enable logs
 
@@ -185,7 +169,8 @@ export DEBUG=azure:event-hubs:error,azure-amqp-common:error,rhea-promise:error,r
       node your-test-script.js &> out.log
     ```
 
-## AMQP Dependencies ##
+## AMQP Dependencies
+
 It depends on [rhea](https://github.com/amqp/rhea) library for managing connections, sending and receiving events over the [AMQP](http://docs.oasis-open.org/amqp/core/v1.0/os/amqp-core-complete-v1.0-os.pdf) protocol.
 
 ## Next Steps
@@ -193,6 +178,5 @@ It depends on [rhea](https://github.com/amqp/rhea) library for managing connecti
 Please take a look at the [samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs/samples)
 directory for detailed examples on how to use this library to send and receive events to/from
 [Event Hubs](https://docs.microsoft.com/en-us/azure/event-hubs/event-hubs-about).
-
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/eventhub/event-hubs/README.png)
