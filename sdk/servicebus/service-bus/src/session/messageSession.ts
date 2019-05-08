@@ -59,8 +59,8 @@ export interface CreateMessageSessionReceiverLinkOptions {
  */
 export interface SessionReceiverOptions {
   /**
-   * @property The sessionId for the message session. If null or undefined is
-   * provided, the SessionReceiver gets created for a randomly chosen session from available sessions
+   * @property The id of the session from which messages need to be received. If null or undefined is
+   * provided, Service Bus chooses a random session from available sessions.
    */
   sessionId: string | undefined;
   /**
@@ -85,7 +85,7 @@ export interface SessionMessageHandlerOptions {
    */
   autoComplete?: boolean;
   /**
-   * @property {number} [maxConcurrentCalls] The maximum number of concurrent calls that the library
+   * @property The maximum number of concurrent calls that the library
    * can make to the user's message handler. Once this limit has been reached, more messages will
    * not be received until atleast one of the calls to the user's message handler has completed.
    * - **Default**: `1`.
