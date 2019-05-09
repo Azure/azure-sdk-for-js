@@ -96,9 +96,9 @@ await sender.send({
   body: "my-message-body"
 });
 await sender.sendBatch([
-  { body: "my-event-body-1" },
-  { body: "my-event-body-2" },
-  { body: "my-event-body-3" }
+  { body: "my-message-body-1" },
+  { body: "my-message-body-2" },
+  { body: "my-message-body-3" }
 ]);
 ```
 
