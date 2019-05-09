@@ -162,8 +162,8 @@ function WriteResult(
       `\tCur MPS\t${Math.round((currentMessages * 1000) / currentElapsed)}` +
       `\tAvg MPS\t${Math.round((totalMessages * 1000) / totalElapsed)}` +
       `\tMax MPS\t${Math.round((maxMessages * 1000) / maxElapsed)}` +
-      `\tRejected\t${rejectedMessages}` +
-      `\tInflight\t${inflightMessages}`
+      `\tReject\t${rejectedMessages}` +
+      `\tInflt\t${inflightMessages}`
   );
 }
 
