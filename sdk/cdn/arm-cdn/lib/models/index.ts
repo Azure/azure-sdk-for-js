@@ -25,8 +25,8 @@ export interface Sku {
   /**
    * @member {SkuName} [name] Name of the pricing tier. Possible values
    * include: 'Standard_Verizon', 'Premium_Verizon', 'Custom_Verizon',
-   * 'Standard_Akamai', 'Standard_ChinaCdn', 'Premium_ChinaCdn',
-   * 'Standard_Microsoft'
+   * 'Standard_Akamai', 'Standard_ChinaCdn', 'Standard_Microsoft',
+   * 'Premium_ChinaCdn'
    */
   name?: SkuName;
 }
@@ -1967,11 +1967,11 @@ export interface EdgenodeResult extends Array<EdgeNode> {
 /**
  * Defines values for SkuName.
  * Possible values include: 'Standard_Verizon', 'Premium_Verizon', 'Custom_Verizon',
- * 'Standard_Akamai', 'Standard_ChinaCdn', 'Premium_ChinaCdn', 'Standard_Microsoft'
+ * 'Standard_Akamai', 'Standard_ChinaCdn', 'Standard_Microsoft', 'Premium_ChinaCdn'
  * @readonly
  * @enum {string}
  */
-export type SkuName = 'Standard_Verizon' | 'Premium_Verizon' | 'Custom_Verizon' | 'Standard_Akamai' | 'Standard_ChinaCdn' | 'Premium_ChinaCdn' | 'Standard_Microsoft';
+export type SkuName = 'Standard_Verizon' | 'Premium_Verizon' | 'Custom_Verizon' | 'Standard_Akamai' | 'Standard_ChinaCdn' | 'Standard_Microsoft' | 'Premium_ChinaCdn';
 
 /**
  * Defines values for ProfileResourceState.
