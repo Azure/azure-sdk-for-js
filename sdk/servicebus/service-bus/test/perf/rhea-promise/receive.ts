@@ -9,6 +9,7 @@ Measures the maximum throughput of `receiver.receive()` in package `rhea-promise
 4. This test presumes that there are messages in the queue.
 5. `ts-node receive.ts [maxConcurrentCalls] [totalMessages]`
 6. Example: `ts-node receive.ts 1000 1000000`
+7. If "maxConcurrentCalls <= 0", then receive credits are automatically managed which seems to improve throughput (both maximum rate and consistency).
  */
 
 import {
