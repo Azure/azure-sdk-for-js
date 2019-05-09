@@ -70,7 +70,7 @@ export class BatchingReceiver extends MessageReceiver {
   receive(maxMessageCount: number, idleTimeoutInSeconds?: number): Promise<ServiceBusMessage[]> {
     throwErrorIfConnectionClosed(this._context.namespace);
 
-    if (idleTimeoutInSeconds == undefined) {
+    if (idleTimeoutInSeconds == null) {
       idleTimeoutInSeconds = Constants.defaultOperationTimeoutInSeconds;
     }
 

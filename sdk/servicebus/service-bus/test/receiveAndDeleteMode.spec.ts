@@ -129,7 +129,7 @@ describe("Batch Receiver in ReceiveAndDelete mode", function(): void {
     await testNoSettlement();
   });
 
-  /*it("Unpartitioned Queue: No settlement of the message removes message", async function(): Promise<
+  /* it("Unpartitioned Queue: No settlement of the message removes message", async function(): Promise<
     void
   > {
     await beforeEachTest(ClientType.UnpartitionedQueue, ClientType.UnpartitionedQueue);

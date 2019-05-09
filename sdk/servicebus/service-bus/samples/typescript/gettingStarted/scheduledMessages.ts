@@ -72,13 +72,12 @@ async function receiveMessages(sbClient: ServiceBusClient): Promise<void> {
   const queueClient = sbClient.createQueueClient(queueName);
 
   let numOfMessagesReceived = 0;
-  const onMessageHandler: OnMessage = async (brokeredMessage) => {
+  const onMessageHandler: OnMessage = async (brokeredMessage): Promise<void> => {
     numOfMessagesReceived++;
     console.log(`Received message: ${brokeredMessage.body} - ${brokeredMessage.label}`);
-
     await brokeredMessage.complete();
   };
-  const onErrorHandler: OnError = (err) => {
+  const onErrorHandler: OnError = (err): void => {
     console.log("Error occurred: ", err);
   };
 

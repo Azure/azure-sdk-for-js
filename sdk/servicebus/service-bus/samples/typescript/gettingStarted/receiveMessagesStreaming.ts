@@ -24,11 +24,11 @@ async function main(): Promise<void> {
   // the sample in sessions.ts file
   const receiver = queueClient.createReceiver(ReceiveMode.peekLock);
 
-  const onMessageHandler: OnMessage = async (brokeredMessage) => {
+  const onMessageHandler: OnMessage = async (brokeredMessage): Promise<void> => {
     console.log(`Received message: ${brokeredMessage.body}`);
     await brokeredMessage.complete();
   };
-  const onErrorHandler: OnError = (err) => {
+  const onErrorHandler: OnError = (err): void => {
     console.log("Error occurred: ", err);
   };
 

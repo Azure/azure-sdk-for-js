@@ -9,6 +9,7 @@ import {
   ServiceBusClient,
   ServiceBusMessage,
   SubscriptionClient,
+  OnMessage,
   TopicClient
 } from "../src";
 import { SessionReceiver } from "../src/receiver";
@@ -255,12 +256,11 @@ describe("Sessions Streaming - Complete message", function(): void {
 
     const receivedMsgs: ServiceBusMessage[] = [];
     sessionReceiver.registerMessageHandler(
-      (msg: ServiceBusMessage) => {
+      async (msg: ServiceBusMessage) => {
         should.equal(msg.body, testMessage.body, "MessageBody is different than expected");
         should.equal(msg.messageId, testMessage.messageId, "MessageId is different than expected");
-        return msg.complete().then(() => {
-          receivedMsgs.push(msg);
-        });
+        await msg.complete();
+        receivedMsgs.push(msg);
       },
       unExpectedErrorHandler,
       { autoComplete }
@@ -492,10 +492,9 @@ describe("Sessions Streaming - Defer message", function(): void {
 
     let sequenceNum: any = 0;
     sessionReceiver.registerMessageHandler(
-      (msg: ServiceBusMessage) => {
-        return msg.defer().then(() => {
-          sequenceNum = msg.sequenceNumber;
-        });
+      async (msg: ServiceBusMessage) => {
+        await msg.defer();
+        sequenceNum = msg.sequenceNumber;
       },
       unExpectedErrorHandler,
       { autoComplete }
@@ -618,10 +617,9 @@ describe("Sessions Streaming - Deadletter message", function(): void {
 
     let msgCount = 0;
     sessionReceiver.registerMessageHandler(
-      (msg: ServiceBusMessage) => {
-        return msg.deadLetter().then(() => {
-          msgCount++;
-        });
+      async (msg: ServiceBusMessage) => {
+        await msg.deadLetter();
+        msgCount++;
       },
       unExpectedErrorHandler,
       { autoComplete }
@@ -745,7 +743,7 @@ describe("Sessions Streaming - Multiple Receive Operations", function(): void {
     }, unExpectedErrorHandler);
     await delay(5000);
     try {
-      sessionReceiver.registerMessageHandler((msg: ServiceBusMessage) => {
+      sessionReceiver.registerMessageHandler(() => {
         return Promise.resolve();
       }, unExpectedErrorHandler);
     } catch (err) {
@@ -817,7 +815,7 @@ describe("Sessions Streaming - Settle an already Settled message throws error", 
     await afterEachTest();
   });
 
-  const testError = (err: Error, operation: DispositionType) => {
+  const testError = (err: Error, operation: DispositionType): void => {
     should.equal(
       err.message,
       `Failed to ${operation} the message as this message is already settled.`,
@@ -1038,9 +1036,8 @@ describe("Sessions Streaming - User Error", function(): void {
 
     const receivedMsgs: ServiceBusMessage[] = [];
     sessionReceiver.registerMessageHandler(async (msg: ServiceBusMessage) => {
-      await msg.complete().then(() => {
-        receivedMsgs.push(msg);
-      });
+      await msg.complete();
+      receivedMsgs.push(msg);
       throw new Error(errorMessage);
     }, unExpectedErrorHandler);
 
@@ -1137,9 +1134,8 @@ describe("Sessions Streaming - maxConcurrentCalls", function(): void {
 
         receivedMsgs.push(msg);
         await delay(2000);
-        await msg.complete().then(() => {
-          settledMsgs.push(msg);
-        });
+        await msg.complete();
+        settledMsgs.push(msg);
       },
       unExpectedErrorHandler,
       maxConcurrentCalls ? { maxConcurrentCalls } : {}
@@ -1297,7 +1293,7 @@ describe("Sessions Streaming - Not receive messages after receiver is closed", f
 
     const receivedMsgs: ServiceBusMessage[] = [];
 
-    const onMessageHandler = async (brokeredMessage: ServiceBusMessage) => {
+    const onMessageHandler: OnMessage = async (brokeredMessage: ServiceBusMessage) => {
       receivedMsgs.push(brokeredMessage);
       await brokeredMessage.complete();
     };

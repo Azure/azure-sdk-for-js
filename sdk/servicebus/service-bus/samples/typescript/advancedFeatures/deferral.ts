@@ -49,8 +49,10 @@ async function sendMessages(): Promise<void> {
         try {
           await sender.send(message);
           console.log("Sent message step:", data[index].step);
+          return;
         } catch (err) {
           console.log("Error while sending message", err);
+          return;
         }
       })
     );
@@ -70,7 +72,7 @@ async function receiveMessage(): Promise<void> {
   const deferredSteps = new Map();
   let lastProcessedRecipeStep = 0;
   try {
-    const onMessage: OnMessage = async (brokeredMessage) => {
+    const onMessage: OnMessage = async (brokeredMessage): Promise<void> => {
       if (
         brokeredMessage.label === "RecipeStep" &&
         brokeredMessage.contentType === "application/json"
@@ -98,7 +100,7 @@ async function receiveMessage(): Promise<void> {
         await brokeredMessage.deadLetter();
       }
     };
-    const onError: OnError = (err) => {
+    const onError: OnError = (err): void => {
       console.log(">>>>> Error occurred: ", err);
     };
 
