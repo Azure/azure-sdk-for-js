@@ -8,7 +8,7 @@
   to learn about Event Hubs.
 */
 
-import { EventHubClient } from "@azure/event-hubs";
+import { EventHubClient, EventData } from "@azure/event-hubs";
 
 // Define connection string and related Event Hubs entity name here
 const connectionString = "";
@@ -33,7 +33,7 @@ async function main(): Promise<void> {
 
   for (let index = 0; index < listOfScientists.length; index++) {
     const scientist = listOfScientists[index];
-    const event = {
+    const event: EventData = {
       body: `${scientist.firstName} ${scientist.name}`
     };
     // NOTE: For receiving events from Azure Stream Analytics, please send Events to an EventHub
