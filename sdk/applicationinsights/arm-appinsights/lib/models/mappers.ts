@@ -1309,7 +1309,7 @@ export const WorkItemCreateConfiguration: msRest.CompositeMapper = {
       validateOnly: {
         serializedName: "ValidateOnly",
         type: {
-          name: "String"
+          name: "Boolean"
         }
       },
       workItemProperties: {

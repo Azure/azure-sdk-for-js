@@ -1095,10 +1095,9 @@ export interface WorkItemCreateConfiguration {
    */
   connectorDataConfiguration?: string;
   /**
-   * @member {string} [validateOnly] True or false string indicating validate
-   * only
+   * @member {boolean} [validateOnly] Boolean indicating validate only
    */
-  validateOnly?: string;
+  validateOnly?: boolean;
   /**
    * @member {{ [propertyName: string]: string }} [workItemProperties] Custom
    * work item properties
