@@ -60,7 +60,7 @@ The following sections provide code snippets that cover some of the common tasks
 Once you have created an instance of an `EventHubClient` class, send events
 using the [send](https://docs.microsoft.com/en-us/javascript/api/@azure/event-hubs/eventhubclient?view=azure-node-latest#send-eventdata--string---number-) function.
 
-You can also use the [sendBatch](https://docs.microsoft.com/en-us/javascript/api/@azure/event-hubs/eventhubclient?view=azure-node-latest#sendbatch-eventdata----string---number-) method to send multiple messages using a single call.
+You can also use the [sendBatch](https://docs.microsoft.com/en-us/javascript/api/@azure/event-hubs/eventhubclient?view=azure-node-latest#sendbatch-eventdata----string---number-) method to send multiple events using a single call.
 
 ```javascript
 const client = EventHubClient.createFromConnectionString("connectionString", "eventHubName");
@@ -98,7 +98,7 @@ function to get the ids of all available partitions in your Event Hub instance.
 Use the [receiveBatch](https://docs.microsoft.com/en-us/javascript/api/@azure/event-hubs/eventhubclient?view=azure-node-latest#receivebatch-string---number--number--number--receiveoptions-) function which returns a promise that resolves to an array of events.
 
 This function takes an optional parameter called `options` of type [ReceiveOptions](https://docs.microsoft.com/en-us/javascript/api/%40azure/event-hubs/receiveoptions?view=azure-node-latest)
-which you can use to specify the Consumer Group you want to target or the position from where you want to start receiving messages.
+which you can use to specify the Consumer Group you want to target or the position from where you want to start receiving events.
 
 ```javascript
 const client = EventHubClient.createFromConnectionString("connectionString", "eventHubName");
@@ -111,7 +111,7 @@ Use the [receive](https://docs.microsoft.com/en-us/javascript/api/@azure/event-h
 need. 
 
 This function takes an optional parameter called `options` of type [ReceiveOptions](https://docs.microsoft.com/en-us/javascript/api/%40azure/event-hubs/receiveoptions?view=azure-node-latest)
-which you can use to specify the Consumer Group you want to target or the position from where you want to start receiving messages.
+which you can use to specify the Consumer Group you want to target or the position from where you want to start receiving events.
 
 ```javascript
 const myEventHandler = async event => {
@@ -130,7 +130,7 @@ await receiveHandler.stop();
 ### Use EventHubClient to work with IotHub
 
 You can use `EventHubClient` to work with IotHub as well. This is useful for receiving telemetry data of IotHub from the linked EventHub.
-Most likely the associated connection string will not have send claims. Hence getting HubRuntimeInfo or PartitionRuntimeInfo and receiving messages would be the possible operations.
+Most likely the associated connection string will not have send claims. Hence getting HubRuntimeInfo or PartitionRuntimeInfo and receiving events would be the possible operations.
 
 - Please notice that we are awaiting on the [createFromIotHubConnectionString](https://docs.microsoft.com/en-us/javascript/api/%40azure/event-hubs/eventhubclient?view=azure-node-latest#createfromiothubconnectionstring-string--clientoptions-) method to get an instance of the EventHubClient. This is different from other static methods on the client. The method talks to the IotHub endpoint to get a redirect error which contains the EventHub endpoint to talk to. It then constructs the right EventHub connection string based on the information in the redirect error and returns an instance of the EventHubClient that you can play with.
 
@@ -187,11 +187,7 @@ export DEBUG=azure:event-hubs:error,azure-amqp-common:error,rhea-promise:error,r
     ```bash
       node your-test-script.js &> out.log
     ```
-
-## AMQP Dependencies
-
-It depends on [rhea](https://github.com/amqp/rhea) library for managing connections, sending and receiving events over the [AMQP](http://docs.oasis-open.org/amqp/core/v1.0/os/amqp-core-complete-v1.0-os.pdf) protocol.
-
+    
 ## Next Steps
 
 Please take a look at the [samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs/samples)
