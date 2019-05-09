@@ -31,7 +31,7 @@ export function getGenericBSU(accountType: string, accountNameSuffix: string = "
     // logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO)
   });
   const blobPrimaryURL = `https://${accountName}${accountNameSuffix}.blob.core.windows.net/`;
-  return new ServiceURL(blobPrimaryURL, pipeline);
+  return new ServiceURL(blobPrimaryURL, { pipeline });
 }
 
 export function getBSU(): ServiceURL {

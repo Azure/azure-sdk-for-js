@@ -48,10 +48,9 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     ).toString();
 
     const sasURL = `${serviceURL.url}?${sas}`;
-    const serviceURLWithSAS = new ServiceURL(
-      sasURL,
-      StorageURL.newPipeline(new AnonymousCredential())
-    );
+    const serviceURLWithSAS = new ServiceURL(sasURL, {
+      pipeline: StorageURL.newPipeline(new AnonymousCredential())
+    });
 
     await serviceURLWithSAS.getAccountInfo(Aborter.none);
   });
@@ -75,10 +74,9 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     ).toString();
 
     const sasURL = `${serviceURL.url}?${sas}`;
-    const serviceURLWithSAS = new ServiceURL(
-      sasURL,
-      StorageURL.newPipeline(new AnonymousCredential())
-    );
+    const serviceURLWithSAS = new ServiceURL(sasURL, {
+      pipeline: StorageURL.newPipeline(new AnonymousCredential())
+    });
 
     let error;
     try {
@@ -109,10 +107,9 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     ).toString();
 
     const sasURL = `${serviceURL.url}?${sas}`;
-    const serviceURLWithSAS = new ServiceURL(
-      sasURL,
-      StorageURL.newPipeline(new AnonymousCredential())
-    );
+    const serviceURLWithSAS = new ServiceURL(sasURL, {
+      pipeline: StorageURL.newPipeline(new AnonymousCredential())
+    });
 
     let error;
     try {
@@ -146,10 +143,9 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     ).toString();
 
     const sasURL = `${serviceURL.url}?${sas}`;
-    const serviceURLWithSAS = new ServiceURL(
-      sasURL,
-      StorageURL.newPipeline(new AnonymousCredential())
-    );
+    const serviceURLWithSAS = new ServiceURL(sasURL, {
+      pipeline: StorageURL.newPipeline(new AnonymousCredential())
+    });
 
     let error;
     try {

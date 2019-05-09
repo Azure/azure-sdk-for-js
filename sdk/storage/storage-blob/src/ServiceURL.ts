@@ -3,7 +3,8 @@ import { Aborter } from "./Aborter";
 import { ListContainersIncludeType } from "./generated/lib/models/index";
 import { Service } from "./generated/lib/operations";
 import { Pipeline } from "./Pipeline";
-import { StorageURL } from "./StorageURL";
+import { StorageURL, BlobConnectionOptions } from "./StorageURL";
+import { AnonymousCredential } from "./credentials/AnonymousCredential";
 
 export interface IServiceListContainersSegmentOptions {
   /**
@@ -57,7 +58,14 @@ export class ServiceURL extends StorageURL {
    *                            pipeline, or provide a customized pipeline.
    * @memberof ServiceURL
    */
-  constructor(url: string, pipeline: Pipeline) {
+  constructor(url: string, options: BlobConnectionOptions = {}) {
+    let pipeline: Pipeline;
+    if (!options.pipeline) {
+      const credential = options.credential || new AnonymousCredential();
+      pipeline = StorageURL.newPipeline(credential, options.pipelineOptions);
+    } else {
+      pipeline = options.pipeline;
+    }
     super(url, pipeline);
     this.serviceContext = new Service(this.storageClientContext);
   }
@@ -71,7 +79,7 @@ export class ServiceURL extends StorageURL {
    * @memberof ServiceURL
    */
   public withPipeline(pipeline: Pipeline): ServiceURL {
-    return new ServiceURL(this.url, pipeline);
+    return new ServiceURL(this.url, { pipeline });
   }
 
   /**
