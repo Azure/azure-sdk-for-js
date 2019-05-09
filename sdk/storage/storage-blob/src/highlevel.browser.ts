@@ -12,7 +12,6 @@ import {
   DEFAULT_BLOB_DOWNLOAD_BLOCK_BYTES
 } from "./utils/constants";
 import { generateBlockID } from "./utils/utils.common";
-import { Pipeline } from './Pipeline';
 
 /**
  * ONLY AVAILABLE IN BROWSERS.
@@ -65,7 +64,7 @@ export async function uploadBrowserDataToBlockBlob(
  * @param {Blob | ArrayBuffer | ArrayBufferView} browserData Blob, File, ArrayBuffer or ArrayBufferView
  * @param {string} url URL to a Block Blob.
  * @param {IUploadToBlockBlobOptions} [uploadOptions]
- * @param {BlobConnectionOptions} []
+ * @param {BlobConnectionOptions} [blobConnectionOptions] Connection options including credential and pipeline options, or a custom pipeline.
  * @returns {Promise<BlobUploadCommonResponse>}
  */
 export async function uploadBrowserDataToBlockBlobUrl(

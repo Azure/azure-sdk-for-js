@@ -57,10 +57,9 @@ export interface BlobConnectionOptions {
   pipelineOptions?: INewPipelineOptions;
 
   /**
-   * Custom pipeline.
-   * If not specified, {@link credential} and {@link pipelineOptions} will be
-   * used to created a default pipeline; otherwise {@link credential} and
-   * {@link pipelineOptions} are ignored.
+   * Custom pipeline. If specified, {@link credential} and {@link
+   * pipelineOptions} are ignored; otherwise {@link credential} and {@link
+   * pipelineOptions} are used to created a default pipeline.
    *
    * @type {Pipeline}
    * @memberof BlobConnectionOptions
