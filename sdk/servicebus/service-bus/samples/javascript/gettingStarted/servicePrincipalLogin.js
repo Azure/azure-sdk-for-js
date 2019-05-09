@@ -10,11 +10,11 @@
     region. AAD Role Based Access Control is not supported in other regions yet.
 
     Register a new application in AAD and assign the "owner" role to it
-     - See https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app 
+     - See https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app
        to register a new application in the Azure Active Directory.
      - Note down the CLIENT_ID and TENANT_ID from the above step.
      - In the "Certificates & Secrets" tab, create a secret and note that down.
-     - In the Azure portal, go to your Service Bus resource and click on the Access control (IAM) 
+     - In the Azure portal, go to your Service Bus resource and click on the Access control (IAM)
        tab. Here, assign "owner" role to the registered application.
 */
 
