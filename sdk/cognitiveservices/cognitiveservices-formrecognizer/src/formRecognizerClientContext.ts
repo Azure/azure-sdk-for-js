@@ -10,17 +10,17 @@
 
 import * as msRest from "@azure/ms-rest-js";
 
-const packageName = "@azure/cognitiveservices-qnamaker";
+const packageName = "@azure/cognitiveservices-formrecognizer";
 const packageVersion = "1.0.0";
 
-export class QnAMakerClientContext extends msRest.ServiceClient {
+export class FormRecognizerClientContext extends msRest.ServiceClient {
   endpoint: string;
   credentials: msRest.ServiceClientCredentials;
 
   /**
-   * Initializes a new instance of the QnAMakerClientContext class.
+   * Initializes a new instance of the FormRecognizerClientContext class.
    * @param endpoint Supported Cognitive Services endpoints (protocol and hostname, for example:
-   * https://westus.api.cognitive.microsoft.com).
+   * https://westus2.api.cognitive.microsoft.com).
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param [options] The parameter options
    */
@@ -43,7 +43,7 @@ export class QnAMakerClientContext extends msRest.ServiceClient {
 
     super(credentials, options);
 
-    this.baseUri = "{Endpoint}/qnamaker/v4.0";
+    this.baseUri = "{Endpoint}/formrecognizer/v1.0-preview";
     this.requestContentType = "application/json; charset=utf-8";
     this.endpoint = endpoint;
     this.credentials = credentials;

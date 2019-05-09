@@ -1,10 +1,10 @@
 {
-  "name": "@azure/cognitiveservices-qnamaker",
+  "name": "@azure/cognitiveservices-formrecognizer",
   "author": "Microsoft Corporation",
-  "description": "QnAMakerClient Library with typescript type definitions for node.js and browser.",
-  "version": "2.0.0",
+  "description": "FormRecognizerClient Library with typescript type definitions for node.js and browser.",
+  "version": "1.0.0",
   "dependencies": {
-    "@azure/ms-rest-js": "^1.8.4",
+    "@azure/ms-rest-js": "^1.8.1",
     "tslib": "^1.9.3"
   },
   "keywords": [
@@ -15,9 +15,9 @@
     "isomorphic"
   ],
   "license": "MIT",
-  "main": "./dist/cognitiveservices-qnamaker.js",
-  "module": "./esm/qnAMakerClient.js",
-  "types": "./esm/qnAMakerClient.d.ts",
+  "main": "./dist/cognitiveservices-formrecognizer.js",
+  "module": "./esm/formRecognizerClient.js",
+  "types": "./esm/formRecognizerClient.d.ts",
   "devDependencies": {
     "typescript": "^3.1.1",
     "rollup": "^0.66.2",
@@ -25,7 +25,7 @@
     "rollup-plugin-sourcemaps": "^0.4.2",
     "uglify-js": "^3.4.9"
   },
-  "homepage": "https://github.com/azure/azure-sdk-for-js/tree/master/sdk/cognitiveservices/cognitiveservices-qnamaker",
+  "homepage": "https://github.com/azure/azure-sdk-for-js",
   "repository": {
     "type": "git",
     "url": "https://github.com/azure/azure-sdk-for-js.git"
@@ -49,7 +49,7 @@
   ],
   "scripts": {
     "build": "tsc && rollup -c rollup.config.js && npm run minify",
-    "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/cognitiveservices-qnamaker.js.map'\" -o ./dist/cognitiveservices-qnamaker.min.js ./dist/cognitiveservices-qnamaker.js",
+    "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/cognitiveservices-formrecognizer.js.map'\" -o ./dist/cognitiveservices-formrecognizer.min.js ./dist/cognitiveservices-formrecognizer.js",
     "prepack": "npm install && npm run build"
   },
   "sideEffects": false,
