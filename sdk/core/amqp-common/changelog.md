@@ -1,4 +1,4 @@
-### 2019-5-6 1.0.0-preview.4
+### 2019-5-6 1.0.0-preview.5
 
 - Updated dependencies to include @types/async-lock to fix Typescript compile error "TS7016: Could not find a declaration file for module 'async-lock'". [PR 2703](https://github.com/Azure/azure-sdk-for-js/pull/2703)
 
