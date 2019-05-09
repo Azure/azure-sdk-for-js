@@ -118,15 +118,24 @@ describe("Highlevel", () => {
 
   it("uploadFileToBlockBlobUrl should success when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
     const url = blockBlobURL.url;
-    const credential = blockBlobURL.pipeline.factories[blockBlobURL.pipeline.factories.length - 1];
-    await uploadFileToBlockBlobUrl(Aborter.none, tempFileSmall, url, {
-      blockSize: 4 * 1024 * 1024,
-      parallelism: 20
-    },
-    credential, {
-      // Enable logger when debugging
-      // logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO)
-    });
+    const credential =
+      blockBlobURL.pipeline.factories[
+        blockBlobURL.pipeline.factories.length - 1
+      ];
+    await uploadFileToBlockBlobUrl(
+      Aborter.none,
+      tempFileSmall,
+      url,
+      {
+        blockSize: 4 * 1024 * 1024,
+        parallelism: 20
+      },
+      {
+        credential: credential
+        // Enable logger when debugging
+        // logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO)
+      }
+    );
 
     const downloadResponse = await blockBlobURL.download(Aborter.none, 0);
     const downloadedFile = path.join(
@@ -350,7 +359,10 @@ describe("Highlevel", () => {
 
   it("downloadBlobToBufferUrl should success", async () => {
     const url = blockBlobURL.url;
-    const credential = blockBlobURL.pipeline.factories[blockBlobURL.pipeline.factories.length - 1];
+    const credential =
+      blockBlobURL.pipeline.factories[
+        blockBlobURL.pipeline.factories.length - 1
+      ];
     const rs = fs.createReadStream(tempFileLarge);
     await uploadStreamToBlockBlobUrl(
       Aborter.none,
@@ -359,7 +371,7 @@ describe("Highlevel", () => {
       4 * 1024 * 1024,
       20,
       {},
-      credential
+      { credential }
     );
 
     const buf = Buffer.alloc(tempFileLargeLength);
