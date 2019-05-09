@@ -1,10 +1,9 @@
 /*
-  This sample demonstrates how to create multiple instances of EPH in the same process and
-  how the start() function can be used to Start the event processor host and provide messages
-  received across all the partitions. It also describes how the checkpointFromEventData() function
-  can be used to checkpoint metadata about the received messages at regular interval in an Azure Storage Blob.
+  This sample demonstrates how to use multiple instances of Event Processor Host in the same process
+  to receive events from all partitions. It also shows how to checkpoint metadata for received events
+  at regular intervals in an Azure Storage Blob.
 
-  If your Event Hubs instance doesn't have any messages, then please run "sendBatch.ts" sample
+  If your Event Hubs instance doesn't have any events, then please run "sendBatch.ts" sample
   to populate Event Hubs before running this sample.
 
   See https://docs.microsoft.com/en-us/azure/event-hubs/event-hubs-event-processor-host
@@ -15,14 +14,13 @@ import {
   EventProcessorHost, OnReceivedError, OnReceivedMessage, EventData, PartitionContext, delay
 } from "@azure/event-processor-host";
 
-// Define storage connection string and Event Hubs connection string and related entity name here
+// Define Storage and Event Hubs connection strings and related Event Hubs entity name here
 const ehConnectionString = "";
 const eventHubsName = "";
 const storageConnectionString = "";
 
 // set the names of eph and the storage container.
-// creates a unique storageContainer name for every run
-// if you wish to keep the name same between different runs then use the following then that is fine as well.
+// Use `createHostName` to create a unique name based on given prefix to use different storage containers on each run if needed.
 const storageContainerName = EventProcessorHost.createHostName("test-container");
 const ephName1 = "eph-1";
 const ephName2 = "eph-2";
@@ -75,7 +73,7 @@ async function startEph(ephName: string): Promise<EventProcessorHost> {
       // This method will provide errors that occur during lease and partition management. The
       // errors that occur while receiving messages will be provided in the onError handler
       // provided in the eph.start() method.
-      onEphError: error => {
+      onEphError: (error: any) => {
         console.log("[%s] Error: %O", ephName, error);
       }
     }
@@ -103,7 +101,7 @@ async function startEph(ephName: string): Promise<EventProcessorHost> {
     }
   };
   // Error handler
-  const onError: OnReceivedError = error => {
+  const onError: OnReceivedError = (error: any) => {
     console.log("[%s] Received Error: %O", ephName, error);
   };
   console.log("Starting the EPH - %s", ephName);

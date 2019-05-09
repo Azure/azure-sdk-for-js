@@ -15,7 +15,7 @@ npm install @azure/event-processor-host
 - Note down the "Primary Connection String" of **RootManageSharedAccessKey** at **Shared access policies** under **Settings** tab.
 - Find the "Event Hubs" tab right under "Entities" at **_your-eventhubs-namespace_**, create a Event Hub and note down its name.
 > _Note : **RootManageSharedAccessKey** is automatically created for the namespace and has permissions for the entire namespace. If you want to use restricted access, refer [Shared Access Signatures](https://docs.microsoft.com/en-us/rest/api/eventhub/generate-sas-token), create the Access Keys exclusive to the specific Event Hubs._
-- You would also need an Azure Storage Account for all the `*Eph.ts` examples. The docs are at
+- You would also need an Azure Storage Account when working with Event Processor Host. The docs are at
 [Create a storage account](https://docs.microsoft.com/en-us/azure/storage/common/storage-quickstart-create-account?tabs=azure-portal). After the storage account is created, find the connection string at **Access keys** tab in the **Settings** section.
 
 Before running a sample, update it with the connection string and the hub name you have noted down above.

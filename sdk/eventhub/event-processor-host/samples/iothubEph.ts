@@ -1,8 +1,7 @@
 /*
-  This sample demonstrates how the start() function can be used for Iot hub to Start the
-  event processor host and provide messages received across all the partitions. It also describes
-  how the checkpointFromEventData() function can be used to checkpoint metadata about the received
-  messages at regular interval in an Azure Storage Blob.
+  This sample demonstrates how to use Event Processor Host to receive events from all partitions
+  of an IoTHub instance. It also shows how to checkpoint metadata for received events at regular
+  intervals in an Azure Storage Blob.
 */
 
 import {
@@ -14,12 +13,11 @@ import {
   delay
 } from "@azure/event-processor-host";
 
-// Define IoT Hub connection string and storage connection string here
+// Define IoT Hub and storage connection strings here
 const iotConnectionString = "";
 const storageConnectionString = "";
 
-// creates a unique storageContainer name for every run
-// if you wish to keep the name same between different runs then use the following then that is fine as well.
+// Use `createHostName` to create a unique name based on given prefix to use different storage containers on each run if needed.
 const storageContainerName = EventProcessorHost.createHostName("iothub-container");
 const ephName = "my-iothub-eph";
 
@@ -54,7 +52,7 @@ async function startEph(ephName: string): Promise<EventProcessorHost> {
     storageContainerName,
     iotConnectionString!,
     {
-      onEphError: error => {
+      onEphError: (error: any) => {
         console.log("[%s] Error: %O", ephName, error);
       }
     }
@@ -91,7 +89,7 @@ async function startEph(ephName: string): Promise<EventProcessorHost> {
     }
   };
   // Error handler
-  const onError: OnReceivedError = error => {
+  const onError: OnReceivedError = (error: any) => {
     console.log("[%s] Received Error: %O", ephName, error);
   };
   console.log("Starting the EPH - %s", ephName);

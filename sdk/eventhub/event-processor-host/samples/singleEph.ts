@@ -1,10 +1,9 @@
 /*
-  This sample demonstrates how the start() function can be used to Start the event processor host
-  and provide messages received across all the partitions. It also describes how the
-  checkpointFromEventData() function can be used to checkpoint metadata about the received
-  messages at regular interval in an Azure Storage Blob.
+  This sample demonstrates how to use Event Processor Host to receive events from all partitions
+  of an Event Hub instance. It also shows how to checkpoint metadata for received events at regular
+  intervals in an Azure Storage Blob.
 
-  If your Event Hubs instance doesn't have any messages, then please run "sendBatch.ts" sample
+  If your Event Hubs instance doesn't have any events, then please run "sendBatch.ts" sample
   to populate Event Hubs before running this sample.
 
   See https://docs.microsoft.com/en-us/azure/event-hubs/event-hubs-event-processor-host
@@ -63,7 +62,7 @@ async function startEph(ephName: string): Promise<EventProcessorHost> {
     ehConnectionString!,
     {
       eventHubPath: eventHubsName,
-      onEphError: error => {
+      onEphError: (error: any) => {
         console.log("[%s] Error: %O", ephName, error);
       }
     }
@@ -100,7 +99,7 @@ async function startEph(ephName: string): Promise<EventProcessorHost> {
     }
   };
   // Error handler
-  const onError: OnReceivedError = error => {
+  const onError: OnReceivedError = (error: any) => {
     console.log("[%s] Received Error: %O", ephName, error);
   };
   console.log("Starting the EPH - %s", ephName);
