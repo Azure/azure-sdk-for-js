@@ -48,11 +48,7 @@ export class SharedKeyCredentialPolicy extends CredentialPolicy {
     request.headers.set(HeaderConstants.X_MS_DATE, new Date().toUTCString());
 
     let contentLength = this.getHeaderValueToSign(request, HeaderConstants.CONTENT_LENGTH);
-    if (
-      request.body &&
-      typeof request.body === "string" &&
-      request.body.length > 0
-    ) {
+    if (request.body && typeof request.body === "string" && request.body.length > 0) {
       // Workaround for https://github.com/axios/axios/issues/2107
       // We should properly set the 'content-length' header once the issue is solved
       contentLength = `${Buffer.byteLength(request.body)}`;
@@ -100,10 +96,7 @@ export class SharedKeyCredentialPolicy extends CredentialPolicy {
    * @returns {string}
    * @memberof SharedKeyCredentialPolicy
    */
-  private getHeaderValueToSign(
-    request: WebResource,
-    headerName: string
-  ): string {
+  private getHeaderValueToSign(request: WebResource, headerName: string): string {
     const value = request.headers.get(headerName);
 
     if (!value) {
@@ -137,10 +130,8 @@ export class SharedKeyCredentialPolicy extends CredentialPolicy {
    * @memberof SharedKeyCredentialPolicy
    */
   private getCanonicalizedHeadersString(request: WebResource): string {
-    let headersArray = request.headers.headersArray().filter(value => {
-      return value.name
-        .toLowerCase()
-        .startsWith(HeaderConstants.PREFIX_FOR_STORAGE);
+    let headersArray = request.headers.headersArray().filter((value) => {
+      return value.name.toLowerCase().startsWith(HeaderConstants.PREFIX_FOR_STORAGE);
     });
 
     headersArray.sort(
@@ -151,17 +142,14 @@ export class SharedKeyCredentialPolicy extends CredentialPolicy {
 
     // Remove duplicate headers
     headersArray = headersArray.filter((value, index, array) => {
-      if (
-        index > 0 &&
-        value.name.toLowerCase() === array[index - 1].name.toLowerCase()
-      ) {
+      if (index > 0 && value.name.toLowerCase() === array[index - 1].name.toLowerCase()) {
         return false;
       }
       return true;
     });
 
     let canonicalizedHeadersStringToSign: string = "";
-    headersArray.forEach(header => {
+    headersArray.forEach((header) => {
       canonicalizedHeadersStringToSign += `${header.name
         .toLowerCase()
         .trimRight()}:${header.value.trimLeft()}\n`;
@@ -198,9 +186,7 @@ export class SharedKeyCredentialPolicy extends CredentialPolicy {
 
       queryKeys.sort();
       for (const key of queryKeys) {
-        canonicalizedResourceString += `\n${key}:${decodeURIComponent(
-          lowercaseQueries[key]
-        )}`;
+        canonicalizedResourceString += `\n${key}:${decodeURIComponent(lowercaseQueries[key])}`;
       }
     }
 

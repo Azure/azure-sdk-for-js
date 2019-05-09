@@ -9,10 +9,7 @@ import { getUniqueName } from "./testutils.common";
 
 export * from "./testutils.common";
 
-export function getGenericBSU(
-  accountType: string,
-  accountNameSuffix: string = ""
-): ServiceURL {
+export function getGenericBSU(accountType: string, accountNameSuffix: string = ""): ServiceURL {
   const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
   const accountKeyEnvVar = `${accountType}ACCOUNT_KEY`;
 
@@ -112,10 +109,7 @@ export async function createRandomLocalFile(
 // Returns a Promise which is completed after the file handle is closed.
 // If Promise is rejected, the reason will be set to the first error raised by either the
 // ReadableStream or the fs.WriteStream.
-export async function readStreamToLocalFile(
-  rs: NodeJS.ReadableStream,
-  file: string
-) {
+export async function readStreamToLocalFile(rs: NodeJS.ReadableStream, file: string) {
   return new Promise<void>((resolve, reject) => {
     const ws = fs.createWriteStream(file);
 
@@ -134,7 +128,7 @@ export async function readStreamToLocalFile(
       ws.on("unpipe", () => console.log("ws.unpipe"));
     }
 
-    let error : Error;
+    let error: Error;
 
     rs.on("error", (err: Error) => {
       // First error wins

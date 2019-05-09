@@ -3,17 +3,11 @@ import { TransferProgressEvent } from "@azure/ms-rest-js";
 import { Readable } from "stream";
 import { Aborter } from "./Aborter";
 import { FileURL } from "./FileURL";
-import {
-  IDownloadFromAzureFileOptions,
-  IUploadToAzureFileOptions
-} from "./highlevel.common";
+import { IDownloadFromAzureFileOptions, IUploadToAzureFileOptions } from "./highlevel.common";
 import { IFileHTTPHeaders, IMetadata } from "./models";
 import { Batch } from "./utils/Batch";
 import { BufferScheduler } from "./utils/BufferScheduler";
-import {
-  DEFAULT_HIGH_LEVEL_PARALLELISM,
-  FILE_RANGE_MAX_SIZE_BYTES
-} from "./utils/constants";
+import { DEFAULT_HIGH_LEVEL_PARALLELISM, FILE_RANGE_MAX_SIZE_BYTES } from "./utils/constants";
 import { streamToBuffer } from "./utils/utils.node";
 
 /**
@@ -78,9 +72,7 @@ async function uploadResetableStreamToAzureFile(
     options.rangeSize = FILE_RANGE_MAX_SIZE_BYTES;
   }
   if (options.rangeSize < 0 || options.rangeSize > FILE_RANGE_MAX_SIZE_BYTES) {
-    throw new RangeError(
-      `options.rangeSize must be > 0 and <= ${FILE_RANGE_MAX_SIZE_BYTES}`
-    );
+    throw new RangeError(`options.rangeSize must be > 0 and <= ${FILE_RANGE_MAX_SIZE_BYTES}`);
   }
 
   if (!options.fileHTTPHeaders) {
@@ -194,16 +186,10 @@ export async function downloadAzureFileToBuffer(
   const batch = new Batch(options.parallelism);
   for (let off = offset; off < offset + count; off = off + options.rangeSize) {
     batch.addOperation(async () => {
-      const chunkEnd =
-        off + options.rangeSize! < count! ? off + options.rangeSize! : count!;
-      const response = await fileURL.download(
-        aborter,
-        off,
-        chunkEnd - off + 1,
-        {
-          maxRetryRequests: options.maxRetryRequestsPerRange
-        }
-      );
+      const chunkEnd = off + options.rangeSize! < count! ? off + options.rangeSize! : count!;
+      const response = await fileURL.download(aborter, off, chunkEnd - off + 1, {
+        maxRetryRequests: options.maxRetryRequestsPerRange
+      });
       const stream = response.readableStreamBody!;
       await streamToBuffer(stream, buffer, off - offset, chunkEnd - offset);
       // Update progress after block is downloaded, in case of block trying
@@ -289,9 +275,7 @@ export async function uploadStreamToAzureFile(
   }
 
   if (bufferSize <= 0 || bufferSize > FILE_RANGE_MAX_SIZE_BYTES) {
-    throw new RangeError(
-      `bufferSize must be > 0 and <= ${FILE_RANGE_MAX_SIZE_BYTES}`
-    );
+    throw new RangeError(`bufferSize must be > 0 and <= ${FILE_RANGE_MAX_SIZE_BYTES}`);
   }
 
   if (maxBuffers < 0) {

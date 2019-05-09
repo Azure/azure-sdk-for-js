@@ -8,11 +8,7 @@ import { Pipeline } from "./Pipeline";
 import { ServiceURL } from "./ServiceURL";
 import { StorageURL } from "./StorageURL";
 import { URLConstants } from "./utils/constants";
-import {
-  appendToURLPath,
-  setURLParameter,
-  truncatedISO8061Date
-} from "./utils/utils.common";
+import { appendToURLPath, setURLParameter, truncatedISO8061Date } from "./utils/utils.common";
 
 export interface IShareCreateOptions {
   /**
@@ -116,14 +112,8 @@ export class ShareURL extends StorageURL {
    * @param serviceURL
    * @param shareName
    */
-  public static fromServiceURL(
-    serviceURL: ServiceURL,
-    shareName: string
-  ): ShareURL {
-    return new ShareURL(
-      appendToURLPath(serviceURL.url, shareName),
-      serviceURL.pipeline
-    );
+  public static fromServiceURL(serviceURL: ServiceURL, shareName: string): ShareURL {
+    return new ShareURL(appendToURLPath(serviceURL.url, shareName), serviceURL.pipeline);
   }
 
   /**
@@ -213,9 +203,7 @@ export class ShareURL extends StorageURL {
    * @returns {Promise<Models.ShareGetPropertiesResponse>}
    * @memberof ShareURL
    */
-  public async getProperties(
-    aborter: Aborter
-  ): Promise<Models.ShareGetPropertiesResponse> {
+  public async getProperties(aborter: Aborter): Promise<Models.ShareGetPropertiesResponse> {
     return this.context.getProperties({
       abortSignal: aborter
     });
@@ -279,9 +267,7 @@ export class ShareURL extends StorageURL {
    * @returns {Promise<ShareGetAccessPolicyResponse>}
    * @memberof ShareURL
    */
-  public async getAccessPolicy(
-    aborter: Aborter
-  ): Promise<ShareGetAccessPolicyResponse> {
+  public async getAccessPolicy(aborter: Aborter): Promise<ShareGetAccessPolicyResponse> {
     const response = await this.context.getAccessPolicy({
       abortSignal: aborter
     });
@@ -398,9 +384,7 @@ export class ShareURL extends StorageURL {
    * @returns {Promise<Models.ShareGetStatisticsResponse>}
    * @memberof ShareURL
    */
-  public async getStatistics(
-    aborter: Aborter
-  ): Promise<Models.ShareGetStatisticsResponse> {
+  public async getStatistics(aborter: Aborter): Promise<Models.ShareGetStatisticsResponse> {
     return this.context.getStatistics({
       abortSignal: aborter
     });

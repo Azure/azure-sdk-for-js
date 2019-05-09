@@ -4,10 +4,7 @@ import { StorageURL } from "../../src/StorageURL";
 
 export * from "./testutils.common";
 
-export function getGenericBSU(
-  accountType: string,
-  accountNameSuffix: string = ""
-): ServiceURL {
+export function getGenericBSU(accountType: string, accountNameSuffix: string = ""): ServiceURL {
   const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
   const accountSASEnvVar = `${accountType}ACCOUNT_SAS`;
 
@@ -84,10 +81,7 @@ export async function blobToArrayBuffer(blob: Blob): Promise<ArrayBuffer> {
   });
 }
 
-export function arrayBufferEqual(
-  buf1: ArrayBuffer,
-  buf2: ArrayBuffer
-): boolean {
+export function arrayBufferEqual(buf1: ArrayBuffer, buf2: ArrayBuffer): boolean {
   if (buf1.byteLength !== buf2.byteLength) {
     return false;
   }

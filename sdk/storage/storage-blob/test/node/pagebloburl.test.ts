@@ -38,20 +38,14 @@ describe("PageBlobURL", () => {
     let snapshotResult = await pageBlobURL.createSnapshot(Aborter.none);
     assert.ok(snapshotResult.snapshot);
 
-    const destPageBlobURL = PageBlobURL.fromContainerURL(
-      containerURL,
-      getUniqueName("page")
-    );
+    const destPageBlobURL = PageBlobURL.fromContainerURL(containerURL, getUniqueName("page"));
 
     await containerURL.setAccessPolicy(Aborter.none, "container");
 
     await sleep(5 * 1000);
 
     let copySource = pageBlobURL.withSnapshot(snapshotResult.snapshot!).url;
-    let copyResponse = await destPageBlobURL.startCopyIncremental(
-      Aborter.none,
-      copySource
-    );
+    let copyResponse = await destPageBlobURL.startCopyIncremental(Aborter.none, copySource);
 
     async function waitForCopy(retries = 0) {
       if (retries >= 30) {
@@ -77,13 +71,9 @@ describe("PageBlobURL", () => {
 
     await waitForCopy();
 
-    let listBlobResponse = await containerURL.listBlobFlatSegment(
-      Aborter.none,
-      undefined,
-      {
-        include: ["copy", "snapshots"]
-      }
-    );
+    let listBlobResponse = await containerURL.listBlobFlatSegment(Aborter.none, undefined, {
+      include: ["copy", "snapshots"]
+    });
 
     assert.equal(listBlobResponse.segment.blobItems.length, 4);
 
@@ -91,26 +81,17 @@ describe("PageBlobURL", () => {
     snapshotResult = await pageBlobURL.createSnapshot(Aborter.none);
     assert.ok(snapshotResult.snapshot);
     copySource = pageBlobURL.withSnapshot(snapshotResult.snapshot!).url;
-    copyResponse = await destPageBlobURL.startCopyIncremental(
-      Aborter.none,
-      copySource
-    );
+    copyResponse = await destPageBlobURL.startCopyIncremental(Aborter.none, copySource);
 
     await waitForCopy();
 
-    listBlobResponse = await containerURL.listBlobFlatSegment(
-      Aborter.none,
-      undefined,
-      {
-        include: ["copy", "snapshots"]
-      }
-    );
+    listBlobResponse = await containerURL.listBlobFlatSegment(Aborter.none, undefined, {
+      include: ["copy", "snapshots"]
+    });
 
     assert.equal(listBlobResponse.segment.blobItems.length, 6);
 
-    const pageBlobProperties = await destPageBlobURL.getProperties(
-      Aborter.none
-    );
+    const pageBlobProperties = await destPageBlobURL.getProperties(Aborter.none);
     assert.equal(pageBlobProperties.metadata!.sourcemeta, "val");
   });
 });
