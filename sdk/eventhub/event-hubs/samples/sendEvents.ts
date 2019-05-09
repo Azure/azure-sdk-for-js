@@ -2,13 +2,13 @@
   Copyright (c) Microsoft Corporation. All rights reserved.
   Licensed under the MIT Licence.
 
-  This sample demonstrates how the send() function can be used to send messages to Event Hubs.
+  This sample demonstrates how the send() function can be used to send events to Event Hubs.
 
   See https://docs.microsoft.com/en-us/azure/event-hubs/event-hubs-about
   to learn about Event Hubs.
 */
 
-import { EventHubClient, EventData } from "@azure/event-hubs";
+import { EventHubClient } from "@azure/event-hubs";
 
 // Define connection string and related Event Hubs entity name here
 const connectionString = "";
@@ -33,14 +33,14 @@ async function main(): Promise<void> {
 
   for (let index = 0; index < listOfScientists.length; index++) {
     const scientist = listOfScientists[index];
-    const data: EventData = {
+    const event = {
       body: `${scientist.firstName} ${scientist.name}`
     };
     // NOTE: For receiving events from Azure Stream Analytics, please send Events to an EventHub
     // where the body is a JSON object/array.
-    // const data = { body: { "message": `${scientist.firstName} ${scientist.name}` } };
-    console.log(`Sending message: ${data.body}`);
-    await client.send(data, partitionIds[0]);
+    // const event = { body: { "message": `${scientist.firstName} ${scientist.name}` } };
+    console.log(`Sending event: ${event.body}`);
+    await client.send(event, partitionIds[0]);
   }
 
   await client.close();

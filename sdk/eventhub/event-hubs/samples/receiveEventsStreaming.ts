@@ -2,10 +2,9 @@
   Copyright (c) Microsoft Corporation. All rights reserved.
   Licensed under the MIT Licence.
 
-  This sample demonstrates how the receive() function can be used to receive Event Hubs messages
-  in a stream.
+  This sample demonstrates how the receive() function can be used to receive events in a stream.
 
-  If your Event Hubs instance doesn't have any messages, then please run "sendMesages.ts" sample
+  If your Event Hubs instance doesn't have any events, then please run "sendEvents.ts" sample
   to populate Event Hubs before running this sample.
 */
 
@@ -20,17 +19,18 @@ async function main(): Promise<void> {
   const partitionIds = await client.getPartitionIds();
 
   const onMessageHandler: OnMessage = async (brokeredMessage: EventData) => {
-    console.log(`Received message: ${brokeredMessage.body}`);
+    console.log(`Received event: ${brokeredMessage.body}`);
   };
   const onErrorHandler: OnError = (err: MessagingError | Error) => {
     console.log("Error occurred: ", err);
   };
 
   const rcvHandler = client.receive(partitionIds[0], onMessageHandler, onErrorHandler, {
-    eventPosition: EventPosition.fromStart()
+    eventPosition: EventPosition.fromStart(),
+    consumerGroup: "$Default"
   });
 
-  // Waiting long enough before closing the receiver to receive messages
+  // Waiting long enough before closing the receiver to receive event
   await delay(5000);
   await rcvHandler.stop();
   await client.close();
