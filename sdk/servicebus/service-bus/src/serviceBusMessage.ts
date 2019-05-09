@@ -818,14 +818,12 @@ export class ServiceBusMessage implements ReceivedMessage {
     );
     if (this._context.requestResponseLockedMessages.has(this.lockToken!)) {
       let receiverName;
-      if (this._context.batchingReceiver) {
+      if (this.sessionId !== undefined) {
+        receiverName = this._context.messageSessions[this.sessionId].name;
+      } else if (this._context.batchingReceiver) {
         receiverName = this._context.batchingReceiver.name;
       } else if (this._context.streamingReceiver) {
         receiverName = this._context.streamingReceiver.name;
-      }
-
-      if (this.sessionId) {
-        receiverName = this._context.messageSessions[this.sessionId].name;
       }
 
       await this._context.managementClient!.updateDispositionStatus(
@@ -862,14 +860,12 @@ export class ServiceBusMessage implements ReceivedMessage {
     );
     if (this._context.requestResponseLockedMessages.has(this.lockToken!)) {
       let receiverName;
-      if (this._context.batchingReceiver) {
+      if (this.sessionId !== undefined) {
+        receiverName = this._context.messageSessions[this.sessionId].name;
+      } else if (this._context.batchingReceiver) {
         receiverName = this._context.batchingReceiver.name;
       } else if (this._context.streamingReceiver) {
         receiverName = this._context.streamingReceiver.name;
-      }
-
-      if (this.sessionId) {
-        receiverName = this._context.messageSessions[this.sessionId].name;
       }
 
       await this._context.managementClient!.updateDispositionStatus(
@@ -906,14 +902,12 @@ export class ServiceBusMessage implements ReceivedMessage {
     );
     if (this._context.requestResponseLockedMessages.has(this.lockToken!)) {
       let receiverName;
-      if (this._context.batchingReceiver) {
+      if (this.sessionId !== undefined) {
+        receiverName = this._context.messageSessions[this.sessionId].name;
+      } else if (this._context.batchingReceiver) {
         receiverName = this._context.batchingReceiver.name;
       } else if (this._context.streamingReceiver) {
         receiverName = this._context.streamingReceiver.name;
-      }
-
-      if (this.sessionId) {
-        receiverName = this._context.messageSessions[this.sessionId].name;
       }
 
       await this._context.managementClient!.updateDispositionStatus(
@@ -960,14 +954,12 @@ export class ServiceBusMessage implements ReceivedMessage {
     );
     if (this._context.requestResponseLockedMessages.has(this.lockToken!)) {
       let receiverName;
-      if (this._context.batchingReceiver) {
+      if (this.sessionId !== undefined) {
+        receiverName = this._context.messageSessions[this.sessionId].name;
+      } else if (this._context.batchingReceiver) {
         receiverName = this._context.batchingReceiver.name;
       } else if (this._context.streamingReceiver) {
         receiverName = this._context.streamingReceiver.name;
-      }
-
-      if (this.sessionId) {
-        receiverName = this._context.messageSessions[this.sessionId].name;
       }
 
       await this._context.managementClient!.updateDispositionStatus(
