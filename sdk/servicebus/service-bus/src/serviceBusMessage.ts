@@ -817,9 +817,21 @@ export class ServiceBusMessage implements ReceivedMessage {
       this.messageId
     );
     if (this._context.requestResponseLockedMessages.has(this.lockToken!)) {
+      let receiverName;
+      if (this._context.batchingReceiver) {
+        receiverName = this._context.batchingReceiver.name;
+      } else if (this._context.streamingReceiver) {
+        receiverName = this._context.streamingReceiver.name;
+      }
+
+      if (this.sessionId) {
+        receiverName = this._context.messageSessions[this.sessionId].name;
+      }
+
       await this._context.managementClient!.updateDispositionStatus(
         this.lockToken!,
         DispositionStatus.completed,
+        receiverName,
         {
           sessionId: this.sessionId
         }
@@ -849,9 +861,21 @@ export class ServiceBusMessage implements ReceivedMessage {
       this.messageId
     );
     if (this._context.requestResponseLockedMessages.has(this.lockToken!)) {
+      let receiverName;
+      if (this._context.batchingReceiver) {
+        receiverName = this._context.batchingReceiver.name;
+      } else if (this._context.streamingReceiver) {
+        receiverName = this._context.streamingReceiver.name;
+      }
+
+      if (this.sessionId) {
+        receiverName = this._context.messageSessions[this.sessionId].name;
+      }
+
       await this._context.managementClient!.updateDispositionStatus(
         this.lockToken!,
         DispositionStatus.abandoned,
+        receiverName,
         { propertiesToModify: propertiesToModify, sessionId: this.sessionId }
       );
 
@@ -881,9 +905,21 @@ export class ServiceBusMessage implements ReceivedMessage {
       this.messageId
     );
     if (this._context.requestResponseLockedMessages.has(this.lockToken!)) {
+      let receiverName;
+      if (this._context.batchingReceiver) {
+        receiverName = this._context.batchingReceiver.name;
+      } else if (this._context.streamingReceiver) {
+        receiverName = this._context.streamingReceiver.name;
+      }
+
+      if (this.sessionId) {
+        receiverName = this._context.messageSessions[this.sessionId].name;
+      }
+
       await this._context.managementClient!.updateDispositionStatus(
         this.lockToken!,
         DispositionStatus.defered,
+        receiverName,
         { propertiesToModify: propertiesToModify, sessionId: this.sessionId }
       );
 
@@ -923,9 +959,21 @@ export class ServiceBusMessage implements ReceivedMessage {
       this.messageId
     );
     if (this._context.requestResponseLockedMessages.has(this.lockToken!)) {
+      let receiverName;
+      if (this._context.batchingReceiver) {
+        receiverName = this._context.batchingReceiver.name;
+      } else if (this._context.streamingReceiver) {
+        receiverName = this._context.streamingReceiver.name;
+      }
+
+      if (this.sessionId) {
+        receiverName = this._context.messageSessions[this.sessionId].name;
+      }
+
       await this._context.managementClient!.updateDispositionStatus(
         this.lockToken!,
         DispositionStatus.suspended,
+        receiverName,
         {
           deadLetterReason: error.condition,
           deadLetterDescription: error.description,

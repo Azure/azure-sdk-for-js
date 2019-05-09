@@ -726,6 +726,7 @@ export class ManagementClient extends LinkEntity {
   async updateDispositionStatus(
     lockToken: string,
     dispositionStatus: DispositionStatus,
+    associatedLinkName?: string,
     options?: DispositionStatusOptions
   ): Promise<void> {
     throwErrorIfConnectionClosed(this._context.namespace);
@@ -757,6 +758,9 @@ export class ManagementClient extends LinkEntity {
           operation: Constants.operations.updateDisposition
         }
       };
+      if (associatedLinkName) {
+        request.application_properties![Constants.associatedLinkName] = associatedLinkName;
+      }
       request.application_properties![Constants.trackingId] = generate_uuid();
       log.mgmt(
         "[%s] Update disposition status request body: %O.",
