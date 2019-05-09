@@ -1,4 +1,7 @@
 /*
+  Copyright (c) Microsoft Corporation. All rights reserved.
+  Licensed under the MIT Licence.
+
   This sample demonstrates how the start() function can be used to Start the event processor host
   and provide messages received across all the partitions. It also describes how the
   checkpointFromEventData() function can be used to checkpoint metadata about the received

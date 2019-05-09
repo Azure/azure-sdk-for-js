@@ -1,4 +1,7 @@
 /*
+  Copyright (c) Microsoft Corporation. All rights reserved.
+  Licensed under the MIT Licence.
+
   This sample demonstrates how the sendBatch() function can be used to send events to Event Hubs.
 */
 
