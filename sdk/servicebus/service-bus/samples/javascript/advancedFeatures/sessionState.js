@@ -1,4 +1,7 @@
 /*
+  Copyright (c) Microsoft Corporation. All rights reserved.
+  Licensed under the MIT Licence.
+  
   This sample demonstrates usage of SessionState.
 
   We take for example the context of an online shopping app and see how we can use Session State
