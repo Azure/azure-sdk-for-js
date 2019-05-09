@@ -35,7 +35,7 @@ describe("Special Naming Tests", () => {
     const blobName: string = getUniqueName("blob empty");
     const blockBlobURL = new BlockBlobURL(
       appendToURLPath(containerURL.url, blobName),
-      containerURL.pipeline
+      { pipeline: containerURL.pipeline }
     );
 
     await blockBlobURL.upload(Aborter.none, "A", 1);
@@ -61,7 +61,7 @@ describe("Special Naming Tests", () => {
     const blobName: string = getUniqueName("////blob/empty /another");
     const blockBlobURL = new BlockBlobURL(
       appendToURLPath(containerURL.url, blobName),
-      containerURL.pipeline
+      { pipeline: containerURL.pipeline }
     );
 
     await blockBlobURL.upload(Aborter.none, "A", 1);
@@ -88,7 +88,7 @@ describe("Special Naming Tests", () => {
     const blobName: string = getUniqueName("////Upper/blob/empty /another");
     const blockBlobURL = new BlockBlobURL(
       appendToURLPath(containerURL.url, blobName),
-      containerURL.pipeline
+      { pipeline: containerURL.pipeline }
     );
 
     await blockBlobURL.upload(Aborter.none, "A", 1);
@@ -115,7 +115,7 @@ describe("Special Naming Tests", () => {
     const blobName: string = getUniqueName("////Upper/blob/empty /another 汉字");
     const blockBlobURL = new BlockBlobURL(
       appendToURLPath(containerURL.url, blobName),
-      containerURL.pipeline
+      { pipeline: containerURL.pipeline }
     );
 
     await blockBlobURL.upload(Aborter.none, "A", 1);
@@ -191,7 +191,7 @@ describe("Special Naming Tests", () => {
     const blobName: string = getUniqueName("ру́сский язы́к");
     const blockBlobURL = new BlockBlobURL(
       appendToURLPath(containerURL.url, blobName),
-      containerURL.pipeline
+      { pipeline: containerURL.pipeline }
     );
 
     await blockBlobURL.upload(Aborter.none, "A", 1);
@@ -231,7 +231,7 @@ describe("Special Naming Tests", () => {
     const blobName: string = getUniqueName("عربي/عربى");
     const blockBlobURL = new BlockBlobURL(
       appendToURLPath(containerURL.url, blobName),
-      containerURL.pipeline
+      { pipeline: containerURL.pipeline }
     );
 
     await blockBlobURL.upload(Aborter.none, "A", 1);
@@ -271,7 +271,7 @@ describe("Special Naming Tests", () => {
     const blobName: string = getUniqueName("にっぽんご/にほんご");
     const blockBlobURL = new BlockBlobURL(
       appendToURLPath(containerURL.url, blobName),
-      containerURL.pipeline
+      { pipeline: containerURL.pipeline }
     );
 
     await blockBlobURL.upload(Aborter.none, "A", 1);

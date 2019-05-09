@@ -9,8 +9,7 @@ import { BlobHTTPHeaders } from "./generated/lib/models";
 import {
   BlobUploadCommonResponse,
   IDownloadFromBlobOptions,
-  IUploadToBlockBlobOptions,
-  createBlockBlobURLWithBlobConnectionOptions
+  IUploadToBlockBlobOptions
 } from "./highlevel.common";
 import { IBlobAccessConditions } from "./models";
 import { BlobConnectionOptions } from "./StorageURL";
@@ -89,10 +88,7 @@ export async function uploadFileToBlockBlobUrl(
   uploadOptions: IUploadToBlockBlobOptions = {},
   blobConnectionOptions: BlobConnectionOptions = {}
 ) {
-  const blockBlobURL = createBlockBlobURLWithBlobConnectionOptions(
-    url,
-    blobConnectionOptions
-  );
+  const blockBlobURL = new BlockBlobURL(url, blobConnectionOptions);
   return uploadFileToBlockBlob(aborter, filePath, blockBlobURL, uploadOptions);
 }
 
@@ -322,10 +318,7 @@ export async function downloadBlobToBufferFromUrl(
   downloadOptions: IDownloadFromBlobOptions = {},
   blobConnectionOptions: BlobConnectionOptions = {}
 ): Promise<void> {
-  const blockBlobURL = createBlockBlobURLWithBlobConnectionOptions(
-    url,
-    blobConnectionOptions
-  );
+  const blockBlobURL = new BlockBlobURL(url, blobConnectionOptions);
   return downloadBlobToBuffer(
     aborter,
     buffer,
@@ -476,10 +469,7 @@ export async function uploadStreamToBlockBlobUrl(
   uploadOptions: IUploadStreamToBlockBlobOptions = {},
   blobConnectionOptions: BlobConnectionOptions = {}
 ): Promise<BlobUploadCommonResponse> {
-  const blockBlobURL = createBlockBlobURLWithBlobConnectionOptions(
-    url,
-    blobConnectionOptions
-  );
+  const blockBlobURL = new BlockBlobURL(url, blobConnectionOptions);
   return uploadStreamToBlockBlob(
     aborter,
     stream,

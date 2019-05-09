@@ -9,6 +9,7 @@ import { IAppendBlobAccessConditions, IBlobAccessConditions, IMetadata } from ".
 import { Pipeline } from "./Pipeline";
 import { URLConstants } from "./utils/constants";
 import { appendToURLPath, setURLParameter } from "./utils/utils.common";
+import { BlobConnectionOptions } from "./StorageURL";
 
 export interface IAppendBlobCreateOptions {
   accessConditions?: IBlobAccessConditions;
@@ -42,7 +43,7 @@ export class AppendBlobURL extends BlobURL {
   public static fromContainerURL(containerURL: ContainerURL, blobName: string): AppendBlobURL {
     return new AppendBlobURL(
       appendToURLPath(containerURL.url, encodeURIComponent(blobName)),
-      containerURL.pipeline
+      { pipeline: containerURL.pipeline }
     );
   }
 
@@ -55,7 +56,7 @@ export class AppendBlobURL extends BlobURL {
    * @memberof AppendBlobURL
    */
   public static fromBlobURL(blobURL: BlobURL): AppendBlobURL {
-    return new AppendBlobURL(blobURL.url, blobURL.pipeline);
+    return new AppendBlobURL(blobURL.url, { pipeline: blobURL.pipeline });
   }
 
   /**
@@ -81,12 +82,11 @@ export class AppendBlobURL extends BlobURL {
    *                     Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
    *                     However, if a blob name includes ? or %, blob name must be encoded in the URL.
    *                     Such as a blob named "my?blob%", the URL should be "https://myaccount.blob.core.windows.net/mycontainer/my%3Fblob%25".
-   * @param {Pipeline} pipeline Call StorageURL.newPipeline() to create a default
-   *                            pipeline, or provide a customized pipeline.
+   * @param {BlobConnectionOptions} options
    * @memberof AppendBlobURL
    */
-  constructor(url: string, pipeline: Pipeline) {
-    super(url, pipeline);
+  constructor(url: string, options: BlobConnectionOptions) {
+    super(url, options);
     this.appendBlobContext = new AppendBlob(this.storageClientContext);
   }
 
@@ -99,7 +99,7 @@ export class AppendBlobURL extends BlobURL {
    * @memberof AppendBlobURL
    */
   public withPipeline(pipeline: Pipeline): AppendBlobURL {
-    return new AppendBlobURL(this.url, pipeline);
+    return new AppendBlobURL(this.url, { pipeline });
   }
 
   /**
@@ -118,7 +118,7 @@ export class AppendBlobURL extends BlobURL {
         URLConstants.Parameters.SNAPSHOT,
         snapshot.length === 0 ? undefined : snapshot
       ),
-      this.pipeline
+      { pipeline: this.pipeline }
     );
   }
 

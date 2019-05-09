@@ -2,9 +2,6 @@ import { HttpResponse, TransferProgressEvent } from "@azure/ms-rest-js";
 
 import * as Models from "./generated/lib/models";
 import { IBlobAccessConditions } from "./models";
-import { AnonymousCredential } from "./credentials/AnonymousCredential";
-import { BlobConnectionOptions, StorageURL } from "./StorageURL";
-import { BlockBlobURL } from "./BlockBlobURL";
 
 /**
  * Option interface for uploadFileToBlockBlob and uploadSeekableStreamToBlockBlob.
@@ -144,23 +141,4 @@ export interface IDownloadFromBlobOptions {
    * @memberof IDownloadFromBlobOptions
    */
   parallelism?: number;
-}
-
-export function createBlockBlobURLWithBlobConnectionOptions(
-  url: string,
-  options: BlobConnectionOptions
-): BlockBlobURL {
-  let client: BlockBlobURL;
-  if (options.pipeline) {
-    client = new BlockBlobURL(url, options.pipeline);
-  } else {
-    options.credential = options.credential || new AnonymousCredential();
-    const pipeline = StorageURL.newPipeline(
-      options.credential,
-      options.pipelineOptions
-    );
-    client = new BlockBlobURL(url, pipeline);
-  }
-
-  return client;
 }

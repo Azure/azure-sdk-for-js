@@ -5,7 +5,6 @@ import {
   AccountSASPermissions,
   AccountSASResourceTypes,
   AccountSASServices,
-  AnonymousCredential,
   BlobSASPermissions,
   ContainerSASPermissions,
   ContainerURL,
@@ -13,8 +12,7 @@ import {
   generateBlobSASQueryParameters,
   PageBlobURL,
   ServiceURL,
-  SharedKeyCredential,
-  StorageURL
+  SharedKeyCredential
 } from "../../src";
 import { SASProtocol } from "../../src/SASQueryParameters";
 import { getBSU, getUniqueName } from "../utils";
@@ -48,9 +46,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     ).toString();
 
     const sasURL = `${serviceURL.url}?${sas}`;
-    const serviceURLWithSAS = new ServiceURL(sasURL, {
-      pipeline: StorageURL.newPipeline(new AnonymousCredential())
-    });
+    const serviceURLWithSAS = new ServiceURL(sasURL);
 
     await serviceURLWithSAS.getAccountInfo(Aborter.none);
   });
@@ -74,9 +70,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     ).toString();
 
     const sasURL = `${serviceURL.url}?${sas}`;
-    const serviceURLWithSAS = new ServiceURL(sasURL, {
-      pipeline: StorageURL.newPipeline(new AnonymousCredential())
-    });
+    const serviceURLWithSAS = new ServiceURL(sasURL);
 
     let error;
     try {
@@ -107,9 +101,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     ).toString();
 
     const sasURL = `${serviceURL.url}?${sas}`;
-    const serviceURLWithSAS = new ServiceURL(sasURL, {
-      pipeline: StorageURL.newPipeline(new AnonymousCredential())
-    });
+    const serviceURLWithSAS = new ServiceURL(sasURL);
 
     let error;
     try {
@@ -143,9 +135,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     ).toString();
 
     const sasURL = `${serviceURL.url}?${sas}`;
-    const serviceURLWithSAS = new ServiceURL(sasURL, {
-      pipeline: StorageURL.newPipeline(new AnonymousCredential())
-    });
+    const serviceURLWithSAS = new ServiceURL(sasURL);
 
     let error;
     try {
@@ -186,10 +176,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     );
 
     const sasURL = `${containerURL.url}?${containerSAS}`;
-    const containerURLwithSAS = new ContainerURL(
-      sasURL,
-      StorageURL.newPipeline(new AnonymousCredential())
-    );
+    const containerURLwithSAS = new ContainerURL(sasURL);
 
     await containerURLwithSAS.listBlobFlatSegment(Aborter.none);
     await containerURL.delete(Aborter.none);
@@ -238,10 +225,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     );
 
     const sasURL = `${blobURL.url}?${blobSAS}`;
-    const blobURLwithSAS = new PageBlobURL(
-      sasURL,
-      StorageURL.newPipeline(new AnonymousCredential())
-    );
+    const blobURLwithSAS = new PageBlobURL(sasURL);
 
     const properties = await blobURLwithSAS.getProperties(Aborter.none);
     assert.equal(properties.cacheControl, "cache-control-override");
@@ -299,10 +283,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     );
 
     const sasURL = `${blobURL.url}?${blobSAS}`;
-    const blobURLwithSAS = new PageBlobURL(
-      sasURL,
-      StorageURL.newPipeline(new AnonymousCredential())
-    );
+    const blobURLwithSAS = new PageBlobURL(sasURL);
 
     const properties = await blobURLwithSAS.getProperties(Aborter.none);
     assert.equal(properties.cacheControl, "cache-control-override");
@@ -354,10 +335,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     );
 
     const sasURL = `${blobURL.url}?${blobSAS}`;
-    const blobURLwithSAS = new PageBlobURL(
-      sasURL,
-      StorageURL.newPipeline(new AnonymousCredential())
-    );
+    const blobURLwithSAS = new PageBlobURL(sasURL);
 
     await blobURLwithSAS.getProperties(Aborter.none);
     await containerURL.delete(Aborter.none);

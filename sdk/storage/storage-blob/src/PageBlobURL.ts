@@ -10,6 +10,7 @@ import { IBlobAccessConditions, IMetadata, IPageBlobAccessConditions } from "./m
 import { Pipeline } from "./Pipeline";
 import { URLConstants } from "./utils/constants";
 import { appendToURLPath, setURLParameter } from "./utils/utils.common";
+import { BlobConnectionOptions } from "./StorageURL";
 
 export interface IPageBlobCreateOptions {
   accessConditions?: IBlobAccessConditions;
@@ -69,7 +70,7 @@ export class PageBlobURL extends BlobURL {
   public static fromContainerURL(containerURL: ContainerURL, blobName: string): PageBlobURL {
     return new PageBlobURL(
       appendToURLPath(containerURL.url, encodeURIComponent(blobName)),
-      containerURL.pipeline
+      { pipeline: containerURL.pipeline }
     );
   }
 
@@ -82,7 +83,7 @@ export class PageBlobURL extends BlobURL {
    * @memberof PageBlobURL
    */
   public static fromBlobURL(blobURL: BlobURL): PageBlobURL {
-    return new PageBlobURL(blobURL.url, blobURL.pipeline);
+    return new PageBlobURL(blobURL.url, { pipeline: blobURL.pipeline });
   }
 
   /**
@@ -108,12 +109,11 @@ export class PageBlobURL extends BlobURL {
    *                     Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
    *                     However, if a blob name includes ? or %, blob name must be encoded in the URL.
    *                     Such as a blob named "my?blob%", the URL should be "https://myaccount.blob.core.windows.net/mycontainer/my%3Fblob%25".
-   * @param {Pipeline} pipeline Call StorageURL.newPipeline() to create a default
-   *                            pipeline, or provide a customized pipeline.
+   * @param {BlobConnectionOptions} options
    * @memberof PageBlobURL
    */
-  constructor(url: string, pipeline: Pipeline) {
-    super(url, pipeline);
+  constructor(url: string, options: BlobConnectionOptions = {}) {
+    super(url, options);
     this.pageBlobContext = new PageBlob(this.storageClientContext);
   }
 
@@ -126,7 +126,7 @@ export class PageBlobURL extends BlobURL {
    * @memberof PageBlobURL
    */
   public withPipeline(pipeline: Pipeline): PageBlobURL {
-    return new PageBlobURL(this.url, pipeline);
+    return new PageBlobURL(this.url, { pipeline });
   }
 
   /**
@@ -145,7 +145,7 @@ export class PageBlobURL extends BlobURL {
         URLConstants.Parameters.SNAPSHOT,
         snapshot.length === 0 ? undefined : snapshot
       ),
-      this.pipeline
+      { pipeline: this.pipeline }
     );
   }
 

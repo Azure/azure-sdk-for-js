@@ -10,6 +10,7 @@ import { IBlobAccessConditions, IMetadata } from "./models";
 import { Pipeline } from "./Pipeline";
 import { URLConstants } from "./utils/constants";
 import { appendToURLPath, setURLParameter } from "./utils/utils.common";
+import { BlobConnectionOptions } from "./StorageURL";
 
 export interface IBlockBlobUploadOptions {
   accessConditions?: IBlobAccessConditions;
@@ -60,7 +61,7 @@ export class BlockBlobURL extends BlobURL {
   public static fromContainerURL(containerURL: ContainerURL, blobName: string): BlockBlobURL {
     return new BlockBlobURL(
       appendToURLPath(containerURL.url, encodeURIComponent(blobName)),
-      containerURL.pipeline
+      { pipeline: containerURL.pipeline }
     );
   }
 
@@ -73,7 +74,7 @@ export class BlockBlobURL extends BlobURL {
    * @memberof BlockBlobURL
    */
   public static fromBlobURL(blobURL: BlobURL): BlockBlobURL {
-    return new BlockBlobURL(blobURL.url, blobURL.pipeline);
+    return new BlockBlobURL(blobURL.url, { pipeline: blobURL.pipeline });
   }
 
   /**
@@ -99,12 +100,11 @@ export class BlockBlobURL extends BlobURL {
    *                     Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
    *                     However, if a blob name includes ? or %, blob name must be encoded in the URL.
    *                     Such as a blob named "my?blob%", the URL should be "https://myaccount.blob.core.windows.net/mycontainer/my%3Fblob%25".
-   * @param {Pipeline} pipeline Call StorageURL.newPipeline() to create a default
-   *                            pipeline, or provide a customized pipeline.
+   * @param {BlobConnectionOptions} options
    * @memberof BlockBlobURL
    */
-  constructor(url: string, pipeline: Pipeline) {
-    super(url, pipeline);
+  constructor(url: string, options: BlobConnectionOptions = {}) {
+    super(url, options);
     this.blockBlobContext = new BlockBlob(this.storageClientContext);
   }
 
@@ -117,7 +117,7 @@ export class BlockBlobURL extends BlobURL {
    * @memberof BlockBlobURL
    */
   public withPipeline(pipeline: Pipeline): BlockBlobURL {
-    return new BlockBlobURL(this.url, pipeline);
+    return new BlockBlobURL(this.url, { pipeline });
   }
 
   /**
@@ -136,7 +136,7 @@ export class BlockBlobURL extends BlobURL {
         URLConstants.Parameters.SNAPSHOT,
         snapshot.length === 0 ? undefined : snapshot
       ),
-      this.pipeline
+      { pipeline: this.pipeline }
     );
   }
 

@@ -11,6 +11,7 @@ import { Pipeline } from "./Pipeline";
 import { StorageURL } from "./StorageURL";
 import { DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS, URLConstants } from "./utils/constants";
 import { appendToURLPath, setURLParameter } from "./utils/utils.common";
+import { AnonymousCredential } from "./credentials/AnonymousCredential";
 
 export interface IBlobDownloadOptions {
   snapshot?: string;
@@ -113,7 +114,7 @@ export class BlobURL extends StorageURL {
   public static fromContainerURL(containerURL: ContainerURL, blobName: string) {
     return new BlobURL(
       appendToURLPath(containerURL.url, encodeURIComponent(blobName)),
-      containerURL.pipeline
+      { pipeline: containerURL.pipeline }
     );
   }
 
@@ -140,11 +141,17 @@ export class BlobURL extends StorageURL {
    *                     Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
    *                     However, if a blob name includes ? or %, blob name must be encoded in the URL.
    *                     Such as a blob named "my?blob%", the URL should be "https://myaccount.blob.core.windows.net/mycontainer/my%3Fblob%25".
-   * @param {Pipeline} pipeline Call StorageURL.newPipeline() to create a default
-   *                            pipeline, or provide a customized pipeline.
+   * @param {BlobConnectionOptions} options
    * @memberof BlobURL
    */
-  constructor(url: string, pipeline: Pipeline) {
+  constructor(url: string, options: BlobConnectionOptions = {}) {
+    let pipeline: Pipeline;
+    if (!options.pipeline) {
+      const credential = options.credential || new AnonymousCredential();
+      pipeline = StorageURL.newPipeline(credential, options.pipelineOptions);
+    } else {
+      pipeline = options.pipeline;
+    }
     super(url, pipeline);
     this.blobContext = new Blob(this.storageClientContext);
   }
@@ -158,7 +165,7 @@ export class BlobURL extends StorageURL {
    * @memberof BlobURL
    */
   public withPipeline(pipeline: Pipeline): BlobURL {
-    return new BlobURL(this.url, pipeline);
+    return new BlobURL(this.url, { pipeline });
   }
 
   /**
@@ -176,7 +183,7 @@ export class BlobURL extends StorageURL {
         URLConstants.Parameters.SNAPSHOT,
         snapshot.length === 0 ? undefined : snapshot
       ),
-      this.pipeline
+      { pipeline: this.pipeline }
     );
   }
 

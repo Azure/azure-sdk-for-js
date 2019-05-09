@@ -5,9 +5,10 @@ import { Container } from "./generated/lib/operations";
 import { IContainerAccessConditions, IMetadata } from "./models";
 import { Pipeline } from "./Pipeline";
 import { ServiceURL } from "./ServiceURL";
-import { StorageURL } from "./StorageURL";
+import { StorageURL, BlobConnectionOptions } from "./StorageURL";
 import { ETagNone } from "./utils/constants";
 import { appendToURLPath, truncatedISO8061Date } from "./utils/utils.common";
+import { AnonymousCredential } from "./credentials/AnonymousCredential";
 
 export interface IContainerCreateOptions {
   metadata?: IMetadata;
@@ -141,7 +142,7 @@ export class ContainerURL extends StorageURL {
   public static fromServiceURL(serviceURL: ServiceURL, containerName: string): ContainerURL {
     return new ContainerURL(
       appendToURLPath(serviceURL.url, encodeURIComponent(containerName)),
-      serviceURL.pipeline
+      { pipeline: serviceURL.pipeline }
     );
   }
 
@@ -160,11 +161,17 @@ export class ContainerURL extends StorageURL {
    *                     "https://myaccount.blob.core.windows.net/mycontainer". You can
    *                     append a SAS if using AnonymousCredential, such as
    *                     "https://myaccount.blob.core.windows.net/mycontainer?sasString".
-   * @param {Pipeline} pipeline Call StorageURL.newPipeline() to create a default
-   *                            pipeline, or provide a customized pipeline.
+   * @param {BlobConnectionOptions} options
    * @memberof ContainerURL
    */
-  constructor(url: string, pipeline: Pipeline) {
+  constructor(url: string, options: BlobConnectionOptions = {}) {
+    let pipeline: Pipeline;
+    if (!options.pipeline) {
+      const credential = options.credential || new AnonymousCredential();
+      pipeline = StorageURL.newPipeline(credential, options.pipelineOptions);
+    } else {
+      pipeline = options.pipeline;
+    }
     super(url, pipeline);
     this.containerContext = new Container(this.storageClientContext);
   }
@@ -178,7 +185,7 @@ export class ContainerURL extends StorageURL {
    * @memberof ContainerURL
    */
   public withPipeline(pipeline: Pipeline): ContainerURL {
-    return new ContainerURL(this.url, pipeline);
+    return new ContainerURL(this.url, { pipeline });
   }
 
   /**
