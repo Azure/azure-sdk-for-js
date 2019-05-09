@@ -33,14 +33,14 @@ async function main(): Promise<void> {
 
   for (let index = 0; index < listOfScientists.length; index++) {
     const scientist = listOfScientists[index];
-    const event: EventData = {
+    const eventData: EventData = {
       body: `${scientist.firstName} ${scientist.name}`
     };
     // NOTE: For receiving events from Azure Stream Analytics, please send Events to an EventHub
     // where the body is a JSON object/array.
-    // const event = { body: { "message": `${scientist.firstName} ${scientist.name}` } };
-    console.log(`Sending event: ${event.body}`);
-    await client.send(event, partitionIds[0]);
+    // const eventData = { body: { "message": `${scientist.firstName} ${scientist.name}` } };
+    console.log(`Sending event: ${eventData.body}`);
+    await client.send(eventData, partitionIds[0]);
   }
 
   await client.close();
