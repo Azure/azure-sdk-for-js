@@ -102,7 +102,7 @@
     "build:samples": "node .scripts/prepSamples.js && cd samples && tsc -p .",
     "build:test:browser": "tsc -p . && cross-env BROWSER_TEST=true rollup -c 2>&1",
     "build:test:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c rollup.test.config.js 2>&1",
-    "build:test": "npm run build:test-node && npm run nuild:test-browser",
+    "build:test": "npm run build:test:node && npm run nuild:test:browser",
     "build": "npm run build:node && npm run build:browser && npm run build:test-node && npm run build:test-browser",
     "check-format": "prettier --list-different --config .prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-esm test-dist typings *.tgz *.log",
