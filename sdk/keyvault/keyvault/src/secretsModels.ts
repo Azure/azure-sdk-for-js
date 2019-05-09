@@ -1,4 +1,5 @@
 import * as msRest from "@azure/ms-rest-js";
+import {ParsedKeyVaultEntityIdentifier} from "./keyVaultBase";
 
 export interface Secret extends SecretAttributes {
   /**
@@ -71,22 +72,6 @@ export interface DeletedSecret extends Secret {
   readonly deletedDate?: Date;
 }
 
-export interface ParsedKeyVaultEntityIdentifier {
-  /** 
-   * @member {string} [vaultUrl] The vault URI.
-   */
-  vaultUrl: string;
-  /** 
-   * @member {string} [version] The version of key/secret/certificate. May be undefined.
-   */
-  version?: string;
-  /** 
-   * @member {string} [name] The name of key/secret/certificate.
-   */
-  name: string;
-}
-
-
 /**
  * @interface
  * An interface representing KeyVaultClientSetSecretOptionalParams.
@@ -118,7 +103,6 @@ export interface SetSecretOptions extends msRest.RequestOptionsBase {
    */
   expires?: Date;
 }
-
 
 /**
  * @interface
