@@ -1,4 +1,7 @@
 /*
+  Copyright (c) Microsoft Corporation. All rights reserved.
+  Licensed under the MIT Licence.
+
   This sample demonstrates how to use Event Processor Host to receive events from all partitions
   of an Event Hub instance. It also shows how to checkpoint metadata for received events at regular
   intervals in an Azure Storage Blob.
@@ -24,26 +27,21 @@ const ehConnectionString = "";
 const eventHubsName = "";
 const storageConnectionString = "";
 
-// creates a unique storageContainer name for every run
-// if you wish to keep the name same between different runs then use the following then that is fine as well.
+// if you want to create a unique storageContainer name for every run, use `createHostName` function, otherwise
+// provide storageContainer name here.
+// const storageContainerName = "my-container";
 const storageContainerName = EventProcessorHost.createHostName("test-container");
 const ephName = "my-eph";
 
-/**
- * The main function that executes the sample.
- */
 async function main(): Promise<void> {
-  // Please feel free to use the `./sendBatch.ts` sample to send messages to an EventHub.
-  // Post that you can run this sample to start the EPH and see it in action.
-  // 1. Start eph.
+  // Start eph.
   const eph = await startEph(ephName);
-  // 2. Sleeeping for 90 seconds. This will give time for eph to receive messages.
+  // Sleeeping for 90 seconds. This will give time for eph to receive messages.
   await delay(90000);
-  // 3. After 90 seconds stop eph.
+  // After 90 seconds stop eph.
   await stopEph(eph);
 }
 
-// calling the main().
 main().catch(err => {
   console.log("Error occurred: ", err);
 });
@@ -69,14 +67,14 @@ async function startEph(ephName: string): Promise<EventProcessorHost> {
   );
   // Message handler
   const partionCount: { [x: string]: number } = {};
-  const onMessage: OnReceivedMessage = async (context: PartitionContext, data: EventData) => {
+  const onMessage: OnReceivedMessage = async (context: PartitionContext, event: EventData) => {
     !partionCount[context.partitionId] ? (partionCount[context.partitionId] = 1) : partionCount[context.partitionId]++;
     console.log(
       "[%s] %d - Received message from partition: '%s', offset: '%s'",
       ephName,
       partionCount[context.partitionId],
       context.partitionId,
-      data.offset
+      event.offset
     );
     // Checkpointing every 100th event received for a given partition.
     if (partionCount[context.partitionId] % 100 === 0) {
@@ -86,7 +84,7 @@ async function startEph(ephName: string): Promise<EventProcessorHost> {
           ephName,
           eph.receivingFromPartitions
         );
-        await context.checkpointFromEventData(data);
+        await context.checkpointFromEventData(event);
         console.log("[%s] Successfully checkpointed message number %d", ephName, partionCount[context.partitionId]);
       } catch (err) {
         console.log(

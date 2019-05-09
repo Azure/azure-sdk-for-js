@@ -18,7 +18,7 @@
                 "${workspaceFolder}/test-dist/index.js"
             ],
             "internalConsoleOptions": "openOnSessionStart",
-            "preLaunchTask": "npm: build-test",
+            "preLaunchTask": "npm: build:test",
             "envFile": "${workspaceFolder}/.env" // You can take a look at the sample.env file for supported environment variables.
         },
         {
@@ -29,7 +29,7 @@
             "outFiles": [
                 "${workspaceFolder}/dist-esm/**/*.js"
             ],
-            "preLaunchTask": "npm: build-samples",
+            "preLaunchTask": "npm: build:samples",
             "envFile": "${workspaceFolder}/.env" // You can take a look at the sample.env file for supported environment variables.
         }
     ]
