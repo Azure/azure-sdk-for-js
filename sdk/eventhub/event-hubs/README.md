@@ -187,11 +187,7 @@ export DEBUG=azure:event-hubs:error,azure-amqp-common:error,rhea-promise:error,r
     ```bash
       node your-test-script.js &> out.log
     ```
-
-## AMQP Dependencies
-
-It depends on [rhea](https://github.com/amqp/rhea) library for managing connections, sending and receiving events over the [AMQP](http://docs.oasis-open.org/amqp/core/v1.0/os/amqp-core-complete-v1.0-os.pdf) protocol.
-
+    
 ## Next Steps
 
 Please take a look at the [samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs/samples)
