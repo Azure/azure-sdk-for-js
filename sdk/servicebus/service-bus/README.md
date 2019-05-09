@@ -87,12 +87,19 @@ Once you have created an instance of a `QueueClient` or `SubscriptionClient` cla
 using the [createSender](https://docs.microsoft.com/en-us/javascript/api/%40azure/service-bus/queueclient?view=azure-node-preview#createsender--)
 function. This gives you a sender which you can use to [send](https://docs.microsoft.com/en-us/javascript/api/%40azure/service-bus/sender?view=azure-node-preview#send-sendablemessageinfo-) messages.
 
+You can also use the [sendBatch](https://docs.microsoft.com/en-us/javascript/api/@azure/service-bus/sender?view=azure-node-preview#sendbatch-sendablemessageinfo---) method to send multiple messages using a single call.
+
 ```javascript
 const queueClient = serviceBusClient.createQueueClient("my-queue");
 const sender = queueClient.createSender();
 await sender.send({
   body: "my-message-body"
 });
+await sender.sendBatch([
+  { body: "my-event-body-1" },
+  { body: "my-event-body-2" },
+  { body: "my-event-body-3" }
+]);
 ```
 
 ### Receive messages
