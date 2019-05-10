@@ -107,7 +107,6 @@ export class BatchingReceiver extends MessageReceiver {
           if (this._receiver) {
             this._receiver.removeListener(ReceiverEvents.receiverDrained, onReceiveDrain);
           }
-          this._clearAllMessageLockRenewTimers();
           this.isReceivingMessages = false;
           const err = translate(this.detachedError);
           return reject(err);
