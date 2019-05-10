@@ -29,7 +29,6 @@ module.exports = function(config) {
       // polyfill service supporting IE11 missing features
       // Promise,String.prototype.startsWith,String.prototype.endsWith,String.prototype.repeat,String.prototype.includes,Array.prototype.includes,Object.keys
       "https://cdn.polyfill.io/v2/polyfill.js?features=Promise,String.prototype.startsWith,String.prototype.endsWith,String.prototype.repeat,String.prototype.includes,Array.prototype.includes,Object.keys|always",
-      "browser/service-bus.js",
       "test-browser/index.js"
     ],
 
