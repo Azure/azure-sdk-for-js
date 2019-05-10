@@ -6,7 +6,7 @@ import { FileURL } from "../src/FileURL";
 import { ShareURL } from "../src/ShareURL";
 import { getBSU, getUniqueName } from "./utils";
 import * as dotenv from "dotenv";
-dotenv.config({path:"../.env"});
+dotenv.config({ path: "../.env" });
 
 describe("DirectoryURL", () => {
   const serviceURL = getBSU();
@@ -55,7 +55,7 @@ describe("DirectoryURL", () => {
     assert.ok(result.date);
   });
 
-  it("create with default parameters", done => {
+  it("create with default parameters", (done) => {
     // create() with default parameters has been tested in beforeEach
     done();
   });
@@ -68,7 +68,7 @@ describe("DirectoryURL", () => {
     assert.deepStrictEqual(result.metadata, metadata);
   });
 
-  it("delete", done => {
+  it("delete", (done) => {
     // delete() with default parameters has been tested in afterEach
     done();
   });
@@ -89,26 +89,18 @@ describe("DirectoryURL", () => {
 
     const subFileURLs = [];
     for (let i = 0; i < 3; i++) {
-      const subFileURL = FileURL.fromDirectoryURL(
-        rootDirURL,
-        getUniqueName(`${prefix}file${i}`)
-      );
+      const subFileURL = FileURL.fromDirectoryURL(rootDirURL, getUniqueName(`${prefix}file${i}`));
       await subFileURL.create(Aborter.none, 1024);
       subFileURLs.push(subFileURL);
     }
 
-    const result = await rootDirURL.listFilesAndDirectoriesSegment(
-      Aborter.none,
-      undefined,
-      { prefix }
-    );
+    const result = await rootDirURL.listFilesAndDirectoriesSegment(Aborter.none, undefined, {
+      prefix
+    });
     assert.ok(result.serviceEndpoint.length > 0);
     assert.ok(shareURL.url.indexOf(result.shareName));
     assert.deepStrictEqual(result.nextMarker, "");
-    assert.deepStrictEqual(
-      result.segment.directoryItems.length,
-      subDirURLs.length
-    );
+    assert.deepStrictEqual(result.segment.directoryItems.length, subDirURLs.length);
     assert.deepStrictEqual(result.segment.fileItems.length, subFileURLs.length);
 
     let i = 0;
@@ -145,29 +137,21 @@ describe("DirectoryURL", () => {
 
     const subFileURLs = [];
     for (let i = 0; i < 3; i++) {
-      const subFileURL = FileURL.fromDirectoryURL(
-        rootDirURL,
-        getUniqueName(`${prefix}file${i}`)
-      );
+      const subFileURL = FileURL.fromDirectoryURL(rootDirURL, getUniqueName(`${prefix}file${i}`));
       await subFileURL.create(Aborter.none, 1024);
       subFileURLs.push(subFileURL);
     }
 
-    const firstRequestSize = Math.ceil(
-      (subDirURLs.length + subFileURLs.length) / 2
-    );
-    const secondRequestSize =
-      subDirURLs.length + subFileURLs.length - firstRequestSize;
+    const firstRequestSize = Math.ceil((subDirURLs.length + subFileURLs.length) / 2);
+    const secondRequestSize = subDirURLs.length + subFileURLs.length - firstRequestSize;
 
-    const firstResult = await rootDirURL.listFilesAndDirectoriesSegment(
-      Aborter.none,
-      undefined,
-      { prefix, maxresults: firstRequestSize }
-    );
+    const firstResult = await rootDirURL.listFilesAndDirectoriesSegment(Aborter.none, undefined, {
+      prefix,
+      maxresults: firstRequestSize
+    });
 
     assert.deepStrictEqual(
-      firstResult.segment.directoryItems.length +
-        firstResult.segment.fileItems.length,
+      firstResult.segment.directoryItems.length + firstResult.segment.fileItems.length,
       firstRequestSize
     );
     assert.notDeepEqual(firstResult.nextMarker, undefined);
@@ -178,8 +162,7 @@ describe("DirectoryURL", () => {
       { prefix, maxresults: firstRequestSize + secondRequestSize }
     );
     assert.deepStrictEqual(
-      secondResult.segment.directoryItems.length +
-        secondResult.segment.fileItems.length,
+      secondResult.segment.directoryItems.length + secondResult.segment.fileItems.length,
       secondRequestSize
     );
 

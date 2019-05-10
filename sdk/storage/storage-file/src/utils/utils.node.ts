@@ -35,14 +35,9 @@ export async function streamToBuffer(
       }
 
       // How much data needed in this chunk
-      const chunkLength =
-        pos + chunk.length > count ? count - pos : chunk.length;
+      const chunkLength = pos + chunk.length > count ? count - pos : chunk.length;
 
-      buffer.fill(
-        chunk.slice(0, chunkLength),
-        offset + pos,
-        offset + pos + chunkLength
-      );
+      buffer.fill(chunk.slice(0, chunkLength), offset + pos, offset + pos + chunkLength);
       pos += chunkLength;
     });
 

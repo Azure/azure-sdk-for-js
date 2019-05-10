@@ -59,16 +59,14 @@ export class Aborter implements AbortSignalLike {
    *
    * @memberof Aborter
    */
-  public onabort?: ((ev?: Event) => any);
+  public onabort?: (ev?: Event) => any;
 
   // tslint:disable-next-line:variable-name
   private _aborted: boolean = false;
   private timer?: any;
   private readonly parent?: Aborter;
   private readonly children: Aborter[] = []; // When child object calls dispose(), remove child from here
-  private readonly abortEventListeners: Array<
-    (this: AbortSignalLike, ev?: any) => any
-  > = [];
+  private readonly abortEventListeners: Array<(this: AbortSignalLike, ev?: any) => any> = [];
   // Pipeline proxies need to use "abortSignal as Aborter" in order to access non AbortSignalLike methods
   // immutable primitive types
   private readonly key?: string;
@@ -140,10 +138,7 @@ export class Aborter implements AbortSignalLike {
    * @returns {Aborter}
    * @memberof Aborter
    */
-  public withValue(
-    key: string,
-    value?: string | number | boolean | null
-  ): Aborter {
+  public withValue(key: string, value?: string | number | boolean | null): Aborter {
     const childCancelContext = new Aborter(this, 0, key, value);
     this.children.push(childCancelContext);
     return childCancelContext;
@@ -160,11 +155,7 @@ export class Aborter implements AbortSignalLike {
    * @memberof Aborter
    */
   public getValue(key: string): string | number | boolean | null | undefined {
-    for (
-      let parent: Aborter | undefined = this;
-      parent;
-      parent = parent.parent
-    ) {
+    for (let parent: Aborter | undefined = this; parent; parent = parent.parent) {
       if (parent.key === key) {
         return parent.value;
       }
@@ -192,11 +183,11 @@ export class Aborter implements AbortSignalLike {
       this.onabort.call(this);
     }
 
-    this.abortEventListeners.forEach(listener => {
+    this.abortEventListeners.forEach((listener) => {
       listener.call(this, undefined);
     });
 
-    this.children.forEach(child => child.cancelByParent());
+    this.children.forEach((child) => child.cancelByParent());
 
     this._aborted = true;
   }

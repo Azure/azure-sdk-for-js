@@ -5,7 +5,7 @@ import { getBSU, getUniqueName } from "./utils/index";
 import * as assert from "assert";
 import { appendToURLPath } from "../src/utils/utils.common";
 import * as dotenv from "dotenv";
-dotenv.config({path:"../.env"});
+dotenv.config({ path: "../.env" });
 
 describe("Special Naming Tests", () => {
   const serviceURL = getBSU();
@@ -25,13 +25,9 @@ describe("Special Naming Tests", () => {
     const blockBlobURL = BlockBlobURL.fromContainerURL(containerURL, blobName);
 
     await blockBlobURL.upload(Aborter.none, "A", 1);
-    const response = await containerURL.listBlobFlatSegment(
-      Aborter.none,
-      undefined,
-      {
-        prefix: blobName
-      }
-    );
+    const response = await containerURL.listBlobFlatSegment(Aborter.none, undefined, {
+      prefix: blobName
+    });
     assert.notDeepEqual(response.segment.blobItems.length, 0);
   });
 
@@ -43,13 +39,9 @@ describe("Special Naming Tests", () => {
     );
 
     await blockBlobURL.upload(Aborter.none, "A", 1);
-    const response = await containerURL.listBlobFlatSegment(
-      Aborter.none,
-      undefined,
-      {
-        prefix: blobName
-      }
-    );
+    const response = await containerURL.listBlobFlatSegment(Aborter.none, undefined, {
+      prefix: blobName
+    });
     assert.notDeepEqual(response.segment.blobItems.length, 0);
   });
 
@@ -59,13 +51,9 @@ describe("Special Naming Tests", () => {
 
     await blockBlobURL.upload(Aborter.none, "A", 1);
     await blockBlobURL.getProperties(Aborter.none);
-    const response = await containerURL.listBlobFlatSegment(
-      Aborter.none,
-      undefined,
-      {
-        prefix: blobName
-      }
-    );
+    const response = await containerURL.listBlobFlatSegment(Aborter.none, undefined, {
+      prefix: blobName
+    });
     assert.notDeepEqual(response.segment.blobItems.length, 0);
   });
 
@@ -78,13 +66,9 @@ describe("Special Naming Tests", () => {
 
     await blockBlobURL.upload(Aborter.none, "A", 1);
     await blockBlobURL.getProperties(Aborter.none);
-    const response = await containerURL.listBlobFlatSegment(
-      Aborter.none,
-      undefined,
-      {
-        prefix: blobName
-      }
-    );
+    const response = await containerURL.listBlobFlatSegment(Aborter.none, undefined, {
+      prefix: blobName
+    });
     assert.notDeepEqual(response.segment.blobItems.length, 0);
   });
 
@@ -94,13 +78,9 @@ describe("Special Naming Tests", () => {
 
     await blockBlobURL.upload(Aborter.none, "A", 1);
     await blockBlobURL.getProperties(Aborter.none);
-    const response = await containerURL.listBlobFlatSegment(
-      Aborter.none,
-      undefined,
-      {
-        prefix: blobName
-      }
-    );
+    const response = await containerURL.listBlobFlatSegment(Aborter.none, undefined, {
+      prefix: blobName
+    });
     assert.notDeepEqual(response.segment.blobItems.length, 0);
   });
 
@@ -113,38 +93,26 @@ describe("Special Naming Tests", () => {
 
     await blockBlobURL.upload(Aborter.none, "A", 1);
     await blockBlobURL.getProperties(Aborter.none);
-    const response = await containerURL.listBlobFlatSegment(
-      Aborter.none,
-      undefined,
-      {
-        prefix: blobName
-      }
-    );
+    const response = await containerURL.listBlobFlatSegment(Aborter.none, undefined, {
+      prefix: blobName
+    });
     assert.notDeepEqual(response.segment.blobItems.length, 0);
   });
 
   it("Should work with special blob names Chinese characters", async () => {
-    const blobName: string = getUniqueName(
-      "////Upper/blob/empty /another 汉字"
-    );
+    const blobName: string = getUniqueName("////Upper/blob/empty /another 汉字");
     const blockBlobURL = BlockBlobURL.fromContainerURL(containerURL, blobName);
 
     await blockBlobURL.upload(Aborter.none, "A", 1);
     await blockBlobURL.getProperties(Aborter.none);
-    const response = await containerURL.listBlobFlatSegment(
-      Aborter.none,
-      undefined,
-      {
-        prefix: blobName
-      }
-    );
+    const response = await containerURL.listBlobFlatSegment(Aborter.none, undefined, {
+      prefix: blobName
+    });
     assert.notDeepEqual(response.segment.blobItems.length, 0);
   });
 
   it("Should work with special blob names Chinese characters in URL string", async () => {
-    const blobName: string = getUniqueName(
-      "////Upper/blob/empty /another 汉字"
-    );
+    const blobName: string = getUniqueName("////Upper/blob/empty /another 汉字");
     const blockBlobURL = new BlockBlobURL(
       appendToURLPath(containerURL.url, blobName),
       containerURL.pipeline
@@ -152,13 +120,9 @@ describe("Special Naming Tests", () => {
 
     await blockBlobURL.upload(Aborter.none, "A", 1);
     await blockBlobURL.getProperties(Aborter.none);
-    const response = await containerURL.listBlobFlatSegment(
-      Aborter.none,
-      undefined,
-      {
-        prefix: blobName
-      }
-    );
+    const response = await containerURL.listBlobFlatSegment(Aborter.none, undefined, {
+      prefix: blobName
+    });
     assert.notDeepEqual(response.segment.blobItems.length, 0);
   });
 
@@ -170,14 +134,10 @@ describe("Special Naming Tests", () => {
 
     await blockBlobURL.upload(Aborter.none, "A", 1);
     await blockBlobURL.getProperties(Aborter.none);
-    const response = await containerURL.listBlobFlatSegment(
-      Aborter.none,
-      undefined,
-      {
-        // NOTICE: Azure Storage Server will replace "\" with "/" in the blob names
-        prefix: blobName.replace(/\\/g, "/")
-      }
-    );
+    const response = await containerURL.listBlobFlatSegment(Aborter.none, undefined, {
+      // NOTICE: Azure Storage Server will replace "\" with "/" in the blob names
+      prefix: blobName.replace(/\\/g, "/")
+    });
     assert.notDeepEqual(response.segment.blobItems.length, 0);
   });
 
@@ -189,43 +149,29 @@ describe("Special Naming Tests", () => {
       // There are 2 special cases for a URL string:
       // Escape "%" when creating XXXURL object with URL strings
       // Escape "?" otherwise string after "?" will be treated as URL parameters
-      appendToURLPath(
-        containerURL.url,
-        blobName.replace(/%/g, "%25").replace(/\?/g, "%3F")
-      ),
+      appendToURLPath(containerURL.url, blobName.replace(/%/g, "%25").replace(/\?/g, "%3F")),
       containerURL.pipeline
     );
 
     await blockBlobURL.upload(Aborter.none, "A", 1);
     await blockBlobURL.getProperties(Aborter.none);
-    const response = await containerURL.listBlobFlatSegment(
-      Aborter.none,
-      undefined,
-      {
-        // NOTICE: Azure Storage Server will replace "\" with "/" in the blob names
-        prefix: blobName.replace(/\\/g, "/")
-      }
-    );
+    const response = await containerURL.listBlobFlatSegment(Aborter.none, undefined, {
+      // NOTICE: Azure Storage Server will replace "\" with "/" in the blob names
+      prefix: blobName.replace(/\\/g, "/")
+    });
     assert.notDeepEqual(response.segment.blobItems.length, 0);
   });
 
   it("Should work with special blob name Russian URI encoded", async () => {
     const blobName: string = getUniqueName("ру́сский язы́к");
     const blobNameEncoded: string = encodeURIComponent(blobName);
-    const blockBlobURL = BlockBlobURL.fromContainerURL(
-      containerURL,
-      blobNameEncoded
-    );
+    const blockBlobURL = BlockBlobURL.fromContainerURL(containerURL, blobNameEncoded);
 
     await blockBlobURL.upload(Aborter.none, "A", 1);
     await blockBlobURL.getProperties(Aborter.none);
-    const response = await containerURL.listBlobFlatSegment(
-      Aborter.none,
-      undefined,
-      {
-        prefix: blobNameEncoded
-      }
-    );
+    const response = await containerURL.listBlobFlatSegment(Aborter.none, undefined, {
+      prefix: blobNameEncoded
+    });
     assert.notDeepEqual(response.segment.blobItems.length, 0);
   });
 
@@ -235,13 +181,9 @@ describe("Special Naming Tests", () => {
 
     await blockBlobURL.upload(Aborter.none, "A", 1);
     await blockBlobURL.getProperties(Aborter.none);
-    const response = await containerURL.listBlobFlatSegment(
-      Aborter.none,
-      undefined,
-      {
-        prefix: blobName
-      }
-    );
+    const response = await containerURL.listBlobFlatSegment(Aborter.none, undefined, {
+      prefix: blobName
+    });
     assert.notDeepEqual(response.segment.blobItems.length, 0);
   });
 
@@ -254,33 +196,22 @@ describe("Special Naming Tests", () => {
 
     await blockBlobURL.upload(Aborter.none, "A", 1);
     await blockBlobURL.getProperties(Aborter.none);
-    const response = await containerURL.listBlobFlatSegment(
-      Aborter.none,
-      undefined,
-      {
-        prefix: blobName
-      }
-    );
+    const response = await containerURL.listBlobFlatSegment(Aborter.none, undefined, {
+      prefix: blobName
+    });
     assert.notDeepEqual(response.segment.blobItems.length, 0);
   });
 
   it("Should work with special blob name Arabic URI encoded", async () => {
     const blobName: string = getUniqueName("عربي/عربى");
     const blobNameEncoded: string = encodeURIComponent(blobName);
-    const blockBlobURL = BlockBlobURL.fromContainerURL(
-      containerURL,
-      blobNameEncoded
-    );
+    const blockBlobURL = BlockBlobURL.fromContainerURL(containerURL, blobNameEncoded);
 
     await blockBlobURL.upload(Aborter.none, "A", 1);
     await blockBlobURL.getProperties(Aborter.none);
-    const response = await containerURL.listBlobFlatSegment(
-      Aborter.none,
-      undefined,
-      {
-        prefix: blobNameEncoded
-      }
-    );
+    const response = await containerURL.listBlobFlatSegment(Aborter.none, undefined, {
+      prefix: blobNameEncoded
+    });
     assert.notDeepEqual(response.segment.blobItems.length, 0);
   });
 
@@ -290,13 +221,9 @@ describe("Special Naming Tests", () => {
 
     await blockBlobURL.upload(Aborter.none, "A", 1);
     await blockBlobURL.getProperties(Aborter.none);
-    const response = await containerURL.listBlobFlatSegment(
-      Aborter.none,
-      undefined,
-      {
-        prefix: blobName
-      }
-    );
+    const response = await containerURL.listBlobFlatSegment(Aborter.none, undefined, {
+      prefix: blobName
+    });
     assert.notDeepEqual(response.segment.blobItems.length, 0);
   });
 
@@ -309,33 +236,22 @@ describe("Special Naming Tests", () => {
 
     await blockBlobURL.upload(Aborter.none, "A", 1);
     await blockBlobURL.getProperties(Aborter.none);
-    const response = await containerURL.listBlobFlatSegment(
-      Aborter.none,
-      undefined,
-      {
-        prefix: blobName
-      }
-    );
+    const response = await containerURL.listBlobFlatSegment(Aborter.none, undefined, {
+      prefix: blobName
+    });
     assert.notDeepEqual(response.segment.blobItems.length, 0);
   });
 
   it("Should work with special blob name Japanese URI encoded", async () => {
     const blobName: string = getUniqueName("にっぽんご/にほんご");
     const blobNameEncoded: string = encodeURIComponent(blobName);
-    const blockBlobURL = BlockBlobURL.fromContainerURL(
-      containerURL,
-      blobNameEncoded
-    );
+    const blockBlobURL = BlockBlobURL.fromContainerURL(containerURL, blobNameEncoded);
 
     await blockBlobURL.upload(Aborter.none, "A", 1);
     await blockBlobURL.getProperties(Aborter.none);
-    const response = await containerURL.listBlobFlatSegment(
-      Aborter.none,
-      undefined,
-      {
-        prefix: blobNameEncoded
-      }
-    );
+    const response = await containerURL.listBlobFlatSegment(Aborter.none, undefined, {
+      prefix: blobNameEncoded
+    });
     assert.notDeepEqual(response.segment.blobItems.length, 0);
   });
 
@@ -345,13 +261,9 @@ describe("Special Naming Tests", () => {
 
     await blockBlobURL.upload(Aborter.none, "A", 1);
     await blockBlobURL.getProperties(Aborter.none);
-    const response = await containerURL.listBlobFlatSegment(
-      Aborter.none,
-      undefined,
-      {
-        prefix: blobName
-      }
-    );
+    const response = await containerURL.listBlobFlatSegment(Aborter.none, undefined, {
+      prefix: blobName
+    });
     assert.notDeepEqual(response.segment.blobItems.length, 0);
   });
 
@@ -364,13 +276,9 @@ describe("Special Naming Tests", () => {
 
     await blockBlobURL.upload(Aborter.none, "A", 1);
     await blockBlobURL.getProperties(Aborter.none);
-    const response = await containerURL.listBlobFlatSegment(
-      Aborter.none,
-      undefined,
-      {
-        prefix: blobName
-      }
-    );
+    const response = await containerURL.listBlobFlatSegment(Aborter.none, undefined, {
+      prefix: blobName
+    });
     assert.notDeepEqual(response.segment.blobItems.length, 0);
   });
 });
