@@ -6,3 +6,4 @@ samples
 *.code-workspace
 *.tgz
 ts-test/
+ci.yml
