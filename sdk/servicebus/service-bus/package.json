@@ -105,7 +105,7 @@
     "build:test": "npm run build:test:node && npm run build:test:browser",
     "build": "npm run build:node && npm run build:browser && npm run build:test:node && npm run build:test:browser",
     "check-format": "prettier --list-different --config .prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
-    "clean": "rimraf dist dist-esm test-dist typings *.tgz *.log",
+    "clean": "rimraf dist dist-esm test-dist typings *.tgz *.log coverage coverage-browser .nyc_output",
     "coverage": "nyc --reporter=lcov --exclude-after-remap=false mocha -t 120000 test-dist/index.js --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=-",
     "extract-api": "tsc -p . && api-extractor run --local",
     "format": "prettier --write --config .prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
