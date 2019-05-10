@@ -2565,6 +2565,10 @@ export const PolicySettings: msRest.CompositeMapper = {
       },
       defaultCustomBlockResponseStatusCode: {
         serializedName: "defaultCustomBlockResponseStatusCode",
+        constraints: {
+          InclusiveMaximum: 599,
+          InclusiveMinimum: 200
+        },
         type: {
           name: "Number"
         }
@@ -2650,6 +2654,10 @@ export const RateLimitRule: msRest.CompositeMapper = {
       rateLimitDurationInMinutes: {
         required: true,
         serializedName: "rateLimitDurationInMinutes",
+        constraints: {
+          InclusiveMaximum: 60,
+          InclusiveMinimum: 1
+        },
         type: {
           name: "Number"
         }
@@ -2749,6 +2757,10 @@ export const ActionType: msRest.CompositeMapper = {
       },
       customBlockResponseStatusCode: {
         serializedName: "customBlockResponseStatusCode",
+        constraints: {
+          InclusiveMaximum: 599,
+          InclusiveMinimum: 200
+        },
         type: {
           name: "Number"
         }
@@ -2869,6 +2881,10 @@ export const ManagedRuleSet: msRest.CompositeMapper = {
       },
       anomalyScore: {
         serializedName: "anomalyScore",
+        constraints: {
+          InclusiveMaximum: 20,
+          InclusiveMinimum: 0
+        },
         type: {
           name: "Number"
         }

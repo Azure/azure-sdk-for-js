@@ -1847,8 +1847,8 @@ export interface PolicySettings {
   defaultRedirectUrl?: string;
   /**
    * @member {number} [defaultCustomBlockResponseStatusCode] If the action type
-   * is block, this field defines the default customer overridable response
-   * status code.
+   * is block, this field defines the default customer overridable http
+   * response status code.
    */
   defaultCustomBlockResponseStatusCode?: number;
   /**
