@@ -4,7 +4,7 @@ import { Aborter } from "../src/Aborter";
 import { QueueURL } from "../src/QueueURL";
 import { getQSU, getUniqueName } from "./utils";
 import * as dotenv from "dotenv";
-dotenv.config({path:"../.env"});
+dotenv.config({ path: "../.env" });
 
 describe("QueueURL", () => {
   const serviceURL = getQSU();
@@ -42,8 +42,8 @@ describe("QueueURL", () => {
   });
 
   it("getPropertis negative", async () => {
-    const queueName2 = getUniqueName("queue")
-    const queueURL2 = QueueURL.fromServiceURL(serviceURL, queueName2)
+    const queueName2 = getUniqueName("queue");
+    const queueURL2 = QueueURL.fromServiceURL(serviceURL, queueName2);
     let error;
     try {
       await queueURL2.getProperties(Aborter.none);
@@ -52,13 +52,13 @@ describe("QueueURL", () => {
     }
     assert.ok(error);
     assert.ok(error.statusCode);
-    assert.deepEqual(error.statusCode, 404)
-    assert.ok(error.response)
-    assert.ok(error.response.body)
-    assert.ok(error.response.body.includes("QueueNotFound"))
-  })
+    assert.deepEqual(error.statusCode, 404);
+    assert.ok(error.response);
+    assert.ok(error.response.body);
+    assert.ok(error.response.body.includes("QueueNotFound"));
+  });
 
-  it("create with default parameters", done => {
+  it("create with default parameters", (done) => {
     // create() with default parameters has been tested in beforeEach
     done();
   });
@@ -72,23 +72,23 @@ describe("QueueURL", () => {
   });
 
   // create with invalid queue name
-  it("create negative", async() => {
+  it("create negative", async () => {
     const qURL = QueueURL.fromServiceURL(serviceURL, "");
     let error;
     try {
       await qURL.create(Aborter.none);
-    } catch(err) {
+    } catch (err) {
       error = err;
     }
     assert.ok(error);
     assert.ok(error.statusCode);
-    assert.deepEqual(error.statusCode, 400)
-    assert.ok(error.response)
-    assert.ok(error.response.body)
-    assert.ok(error.response.body.includes("InvalidResourceName"))
+    assert.deepEqual(error.statusCode, 400);
+    assert.ok(error.response);
+    assert.ok(error.response.body);
+    assert.ok(error.response.body.includes("InvalidResourceName"));
   });
 
-  it("delete", done => {
+  it("delete", (done) => {
     // delete() with default parameters has been tested in afterEach
     done();
   });

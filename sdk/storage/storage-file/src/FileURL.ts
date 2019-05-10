@@ -1,9 +1,4 @@
-import {
-  HttpRequestBody,
-  HttpResponse,
-  isNode,
-  TransferProgressEvent
-} from "@azure/ms-rest-js";
+import { HttpRequestBody, HttpResponse, isNode, TransferProgressEvent } from "@azure/ms-rest-js";
 import { Aborter } from "./Aborter";
 import { DirectoryURL } from "./DirectoryURL";
 import { FileDownloadResponse } from "./FileDownloadResponse";
@@ -264,9 +259,7 @@ export class FileURL extends StorageURL {
     options: IFileDownloadOptions = {}
   ): Promise<Models.FileDownloadResponse> {
     if (options.rangeGetContentMD5 && offset === 0 && count === undefined) {
-      throw new RangeError(
-        `rangeGetContentMD5 only works with partial data downloading`
-      );
+      throw new RangeError(`rangeGetContentMD5 only works with partial data downloading`);
     }
 
     const downloadFullFile = offset === 0 && !count;
@@ -287,18 +280,13 @@ export class FileURL extends StorageURL {
     // bundlers may try to bundle following code and "FileReadResponse.ts".
     // In this case, "FileDownloadResponse.browser.ts" will be used as a shim of "FileDownloadResponse.ts"
     // The config is in package.json "browser" field
-    if (
-      options.maxRetryRequests === undefined ||
-      options.maxRetryRequests < 0
-    ) {
+    if (options.maxRetryRequests === undefined || options.maxRetryRequests < 0) {
       // TODO: Default value or make it a required parameter?
       options.maxRetryRequests = DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS;
     }
 
     if (res.contentLength === undefined) {
-      throw new RangeError(
-        `File download response doesn't contain valid content length header`
-      );
+      throw new RangeError(`File download response doesn't contain valid content length header`);
     }
 
     return new FileDownloadResponse(
@@ -343,9 +331,7 @@ export class FileURL extends StorageURL {
    * @returns {Promise<Models.FileGetPropertiesResponse>}
    * @memberof FileURL
    */
-  public async getProperties(
-    aborter: Aborter
-  ): Promise<Models.FileGetPropertiesResponse> {
+  public async getProperties(aborter: Aborter): Promise<Models.FileGetPropertiesResponse> {
     return this.context.getProperties({
       abortSignal: aborter
     });
@@ -476,9 +462,7 @@ export class FileURL extends StorageURL {
     }
 
     if (contentLength > FILE_RANGE_MAX_SIZE_BYTES) {
-      throw new RangeError(
-        `offset must be < ${FILE_RANGE_MAX_SIZE_BYTES} bytes`
-      );
+      throw new RangeError(`offset must be < ${FILE_RANGE_MAX_SIZE_BYTES} bytes`);
     }
 
     return this.context.uploadRange(
@@ -514,14 +498,9 @@ export class FileURL extends StorageURL {
       throw new RangeError(`offset must >= 0 and contentLength must be > 0`);
     }
 
-    return this.context.uploadRange(
-      rangeToString({ count: contentLength, offset }),
-      "clear",
-      0,
-      {
-        abortSignal: aborter
-      }
-    );
+    return this.context.uploadRange(rangeToString({ count: contentLength, offset }), "clear", 0, {
+      abortSignal: aborter
+    });
   }
 
   /**

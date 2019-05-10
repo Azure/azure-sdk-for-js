@@ -138,10 +138,7 @@ export class ContainerURL extends StorageURL {
    * @param serviceURL A ServiceURL object
    * @param containerName A container name
    */
-  public static fromServiceURL(
-    serviceURL: ServiceURL,
-    containerName: string
-  ): ContainerURL {
+  public static fromServiceURL(serviceURL: ServiceURL, containerName: string): ContainerURL {
     return new ContainerURL(
       appendToURLPath(serviceURL.url, encodeURIComponent(containerName)),
       serviceURL.pipeline
@@ -261,11 +258,9 @@ export class ContainerURL extends StorageURL {
 
     if (
       (options.containerAccessConditions.modifiedAccessConditions.ifMatch &&
-        options.containerAccessConditions.modifiedAccessConditions.ifMatch !==
-          ETagNone) ||
+        options.containerAccessConditions.modifiedAccessConditions.ifMatch !== ETagNone) ||
       (options.containerAccessConditions.modifiedAccessConditions.ifNoneMatch &&
-        options.containerAccessConditions.modifiedAccessConditions
-          .ifNoneMatch !== ETagNone)
+        options.containerAccessConditions.modifiedAccessConditions.ifNoneMatch !== ETagNone)
     ) {
       throw new RangeError(
         "the IfMatch and IfNoneMatch access conditions must have their default\
@@ -275,10 +270,8 @@ export class ContainerURL extends StorageURL {
 
     return this.containerContext.deleteMethod({
       abortSignal: aborter,
-      leaseAccessConditions:
-        options.containerAccessConditions.leaseAccessConditions,
-      modifiedAccessConditions:
-        options.containerAccessConditions.modifiedAccessConditions
+      leaseAccessConditions: options.containerAccessConditions.leaseAccessConditions,
+      modifiedAccessConditions: options.containerAccessConditions.modifiedAccessConditions
     });
   }
 
@@ -316,14 +309,11 @@ export class ContainerURL extends StorageURL {
     }
 
     if (
-      options.containerAccessConditions.modifiedAccessConditions
-        .ifUnmodifiedSince ||
+      options.containerAccessConditions.modifiedAccessConditions.ifUnmodifiedSince ||
       (options.containerAccessConditions.modifiedAccessConditions.ifMatch &&
-        options.containerAccessConditions.modifiedAccessConditions.ifMatch !==
-          ETagNone) ||
+        options.containerAccessConditions.modifiedAccessConditions.ifMatch !== ETagNone) ||
       (options.containerAccessConditions.modifiedAccessConditions.ifNoneMatch &&
-        options.containerAccessConditions.modifiedAccessConditions
-          .ifNoneMatch !== ETagNone)
+        options.containerAccessConditions.modifiedAccessConditions.ifNoneMatch !== ETagNone)
     ) {
       throw new RangeError(
         "the IfUnmodifiedSince, IfMatch, and IfNoneMatch must have their default values\
@@ -333,11 +323,9 @@ export class ContainerURL extends StorageURL {
 
     return this.containerContext.setMetadata({
       abortSignal: aborter,
-      leaseAccessConditions:
-        options.containerAccessConditions.leaseAccessConditions,
+      leaseAccessConditions: options.containerAccessConditions.leaseAccessConditions,
       metadata,
-      modifiedAccessConditions:
-        options.containerAccessConditions.modifiedAccessConditions
+      modifiedAccessConditions: options.containerAccessConditions.modifiedAccessConditions
     });
   }
 
@@ -435,10 +423,8 @@ export class ContainerURL extends StorageURL {
       abortSignal: aborter,
       access,
       containerAcl: acl,
-      leaseAccessConditions:
-        options.containerAccessConditions.leaseAccessConditions,
-      modifiedAccessConditions:
-        options.containerAccessConditions.modifiedAccessConditions
+      leaseAccessConditions: options.containerAccessConditions.leaseAccessConditions,
+      modifiedAccessConditions: options.containerAccessConditions.modifiedAccessConditions
     });
   }
 

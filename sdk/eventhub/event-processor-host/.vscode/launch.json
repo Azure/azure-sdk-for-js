@@ -25,7 +25,7 @@
             "type": "node",
             "request": "launch",
             "name": "EPH Example",
-            "program": "${workspaceFolder}/examples/singleEph.ts",
+            "program": "${file}",
             "outFiles": [
                 "${workspaceFolder}/dist-esm/**/*.js"
             ],

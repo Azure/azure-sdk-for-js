@@ -191,10 +191,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     );
 
     const sasURL = `${shareURL.url}?${shareSAS}`;
-    const shareURLwithSAS = new ShareURL(
-      sasURL,
-      StorageURL.newPipeline(new AnonymousCredential())
-    );
+    const shareURLwithSAS = new ShareURL(sasURL, StorageURL.newPipeline(new AnonymousCredential()));
 
     const dirURLwithSAS = DirectoryURL.fromShareURL(shareURLwithSAS, "");
     await dirURLwithSAS.listFilesAndDirectoriesSegment(Aborter.none);
@@ -249,10 +246,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     );
 
     const sasURL = `${fileURL.url}?${fileSAS}`;
-    const fileURLwithSAS = new FileURL(
-      sasURL,
-      StorageURL.newPipeline(new AnonymousCredential())
-    );
+    const fileURLwithSAS = new FileURL(sasURL, StorageURL.newPipeline(new AnonymousCredential()));
 
     const properties = await fileURLwithSAS.getProperties(Aborter.none);
     assert.equal(properties.cacheControl, "cache-control-override");
@@ -312,10 +306,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     );
 
     const sasURL = `${shareURL.url}?${shareSAS}`;
-    const shareURLwithSAS = new ShareURL(
-      sasURL,
-      StorageURL.newPipeline(new AnonymousCredential())
-    );
+    const shareURLwithSAS = new ShareURL(sasURL, StorageURL.newPipeline(new AnonymousCredential()));
 
     const dirURLwithSAS = DirectoryURL.fromShareURL(shareURLwithSAS, "");
     await dirURLwithSAS.listFilesAndDirectoriesSegment(Aborter.none);

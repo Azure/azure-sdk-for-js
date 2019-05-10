@@ -10,10 +10,7 @@ import { UniqueRequestIDPolicy } from "./policies/UniqueRequestIDPolicy";
  * @implements {RequestPolicyFactory}
  */
 export class UniqueRequestIDPolicyFactory implements RequestPolicyFactory {
-  public create(
-    nextPolicy: RequestPolicy,
-    options: RequestPolicyOptions
-  ): UniqueRequestIDPolicy {
+  public create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): UniqueRequestIDPolicy {
     return new UniqueRequestIDPolicy(nextPolicy, options);
   }
 }
