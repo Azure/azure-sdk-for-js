@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 import { deserializationPolicy, RequestPolicyFactory } from "@azure/ms-rest-js";
 
 import { BrowserPolicyFactory } from "./BrowserPolicyFactory";
@@ -113,7 +116,7 @@ export abstract class StorageURL {
       url,
       pipeline.toServiceClientOptions()
     );
-    
+
     // Override protocol layer's default content-type
     const storageClientContext = this.storageClientContext as any;
     storageClientContext.requestContentType = undefined;

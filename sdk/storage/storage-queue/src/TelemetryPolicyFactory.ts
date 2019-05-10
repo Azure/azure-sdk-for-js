@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 import {
   isNode,
   RequestPolicy,
@@ -57,7 +60,7 @@ export class TelemetryPolicyFactory implements RequestPolicyFactory {
       // e.g. (NODE-VERSION 4.9.1; Windows_NT 10.0.16299)
       const runtimeInfo = `(NODE-VERSION ${
         process.version
-      }; ${os.type()} ${os.release()})`;
+        }; ${os.type()} ${os.release()})`;
       if (userAgentInfo.indexOf(runtimeInfo) === -1) {
         userAgentInfo.push(runtimeInfo);
       }

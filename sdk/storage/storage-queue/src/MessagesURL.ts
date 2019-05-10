@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 import { HttpResponse } from "@azure/ms-rest-js";
 import * as Models from "../src/generated/lib/models";
 import { Aborter } from "./Aborter";
@@ -34,68 +37,68 @@ export declare type MessagesEnqueueResponse = {
    */
   timeNextVisible: Date;
 } & Models.MessagesEnqueueHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpResponse & {
     /**
-     * The underlying HTTP response.
+     * The parsed HTTP response headers.
      */
-    _response: HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: Models.MessagesEnqueueHeaders;
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Models.EnqueuedMessage[];
-    };
+    parsedHeaders: Models.MessagesEnqueueHeaders;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Models.EnqueuedMessage[];
   };
+};
 
 export declare type MessagesDequeueResponse = {
   dequeuedMessageItems: Models.DequeuedMessageItem[];
 } & Models.MessagesDequeueHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpResponse & {
     /**
-     * The underlying HTTP response.
+     * The parsed HTTP response headers.
      */
-    _response: HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: Models.MessagesDequeueHeaders;
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Models.DequeuedMessageItem[];
-    };
+    parsedHeaders: Models.MessagesDequeueHeaders;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Models.DequeuedMessageItem[];
   };
+};
 
 export declare type MessagesPeekResponse = {
   peekedMessageItems: Models.PeekedMessageItem[];
 } & Models.MessagesPeekHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpResponse & {
     /**
-     * The underlying HTTP response.
+     * The parsed HTTP response headers.
      */
-    _response: HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: Models.MessagesPeekHeaders;
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Models.PeekedMessageItem[];
-    };
+    parsedHeaders: Models.MessagesPeekHeaders;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Models.PeekedMessageItem[];
   };
+};
 
 /**
  * A MessagesURL represents a URL to an Azure Storage Queue's messages allowing you to manipulate its messages.

@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 import { QueueSASPermissions } from "./QueueSASPermissions";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 import { IIPRange, ipRangeToString } from "./IIPRange";
@@ -122,9 +125,9 @@ export function generateQueueSASQueryParameters(
 
   // Calling parse and toString guarantees the proper ordering and throws on invalid characters.
   if (queueSASSignatureValues.permissions) {
-      verifiedPermissions = QueueSASPermissions.parse(
-        queueSASSignatureValues.permissions
-      ).toString();
+    verifiedPermissions = QueueSASPermissions.parse(
+      queueSASSignatureValues.permissions
+    ).toString();
   }
 
   // Signature is generated on the un-url-encoded values.

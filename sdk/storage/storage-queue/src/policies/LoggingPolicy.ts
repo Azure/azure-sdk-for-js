@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 import {
   BaseRequestPolicy,
   HttpOperationResponse,
@@ -100,7 +103,7 @@ export class LoggingPolicy extends BaseRequestPolicy {
           currentLevel = HttpPipelineLogLevel.WARNING;
           logMessage = `SLOW OPERATION. Duration > ${
             this.loggingOptions.logWarningIfTryOverThreshold
-          } ms. `;
+            } ms. `;
         }
       }
 
@@ -111,12 +114,12 @@ export class LoggingPolicy extends BaseRequestPolicy {
             response.status !== HTTPURLConnection.HTTP_CONFLICT &&
             response.status !== HTTPURLConnection.HTTP_PRECON_FAILED &&
             response.status !==
-              HTTPURLConnection.HTTP_RANGE_NOT_SATISFIABLE)) ||
+            HTTPURLConnection.HTTP_RANGE_NOT_SATISFIABLE)) ||
         (response.status >= 500 && response.status <= 509)
       ) {
         const errorString = `REQUEST ERROR: HTTP request failed with status code: ${
           response.status
-        }. `;
+          }. `;
         logMessage = errorString;
 
         currentLevel = HttpPipelineLogLevel.ERROR;
@@ -124,7 +127,7 @@ export class LoggingPolicy extends BaseRequestPolicy {
 
       const messageInfo = `Request try:${this.tryCount}, status:${
         response.status
-      } request duration:${requestCompletionTime} ms, operation duration:${operationDuration} ms\n`;
+        } request duration:${requestCompletionTime} ms, operation duration:${operationDuration} ms\n`;
       this.log(currentLevel, logMessage + messageInfo);
 
       return response;
@@ -132,7 +135,7 @@ export class LoggingPolicy extends BaseRequestPolicy {
       this.log(
         HttpPipelineLogLevel.ERROR,
         `Unexpected failure attempting to make request. Error message: ${
-          err.message
+        err.message
         }`
       );
       throw err;
