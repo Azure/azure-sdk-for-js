@@ -36,10 +36,24 @@ export class SharedKeyCredential extends Credential {
    * @param {string} accountKey
    * @memberof SharedKeyCredential
    */
-  constructor(accountName: string, accountKey: string) {
+  // constructor(accountName: string, accountKey: string) {
+  //   super();
+  //   this.accountName = accountName;
+  //   this.accountKey = Buffer.from(accountKey, "base64");
+  // }
+
+  /**
+   * Creates an instance of SharedKeyCredential.
+   * @param {string} connectionString
+   * @memberof SharedKeyCredential
+   */
+  constructor(connectionString: string) {
     super();
-    this.accountName = accountName;
-    this.accountKey = Buffer.from(accountKey, "base64");
+    const matchCredentials = connectionString.match(
+      "DefaultEndpointsProtocol=https;AccountName=(.*);AccountKey=(.*);EndpointSuffix=core.windows.net"
+    );
+    this.accountName = matchCredentials![1] || "";
+    this.accountKey = Buffer.from(matchCredentials![2], "base64");
   }
 
   /**
