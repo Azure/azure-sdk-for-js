@@ -30,7 +30,7 @@ export class ReplicaSets {
   /**
    * The List ReplicaSets in Resource Group operation lists all the domain services available under
    * the given resource group.
-   * @summary List ReplicaSets in Resource Group (GET Resources)
+   * @summary List ReplicaSets in Resource Group
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
    * @param domainServiceName The name of the domain service.
@@ -82,7 +82,7 @@ export class ReplicaSets {
 
   /**
    * The Get ReplicaSet operation retrieves a json representation of the ReplicaSet.
-   * @summary Get ReplicaSet (GET Resources)
+   * @summary Get ReplicaSet
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
    * @param domainServiceName The name of the domain service.
@@ -226,7 +226,7 @@ export class ReplicaSets {
   /**
    * The List ReplicaSets in Resource Group operation lists all the domain services available under
    * the given resource group.
-   * @summary List ReplicaSets in Resource Group (GET Resources)
+   * @summary List ReplicaSets in Resource Group
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.ReplicaSetsListByResourceGroupNextResponse>
