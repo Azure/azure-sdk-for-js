@@ -1,8 +1,4 @@
-import {
-  RequestPolicy,
-  RequestPolicyFactory,
-  RequestPolicyOptions
-} from "../../src";
+import { RequestPolicy, RequestPolicyFactory, RequestPolicyOptions } from "../../src";
 import { InjectorPolicy, Injector } from "./InjectorPolicy";
 
 /**
@@ -19,10 +15,7 @@ export class InjectorPolicyFactory implements RequestPolicyFactory {
     this.injector = injector;
   }
 
-  public create(
-    nextPolicy: RequestPolicy,
-    options: RequestPolicyOptions
-  ): InjectorPolicy {
+  public create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): InjectorPolicy {
     return new InjectorPolicy(nextPolicy, options, this.injector);
   }
 }

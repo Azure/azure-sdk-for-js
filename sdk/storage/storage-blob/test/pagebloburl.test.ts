@@ -6,7 +6,7 @@ import { BlobURL } from "../src/BlobURL";
 import { ContainerURL } from "../src/ContainerURL";
 import { PageBlobURL } from "../src/PageBlobURL";
 import * as dotenv from "dotenv";
-dotenv.config({path:"../.env"});
+dotenv.config({ path: "../.env" });
 
 describe("PageBlobURL", () => {
   const serviceURL = getBSU();
@@ -33,10 +33,7 @@ describe("PageBlobURL", () => {
     await pageBlobURL.create(Aborter.none, 512);
 
     const result = await blobURL.download(Aborter.none, 0);
-    assert.deepStrictEqual(
-      await bodyToString(result, 512),
-      "\u0000".repeat(512)
-    );
+    assert.deepStrictEqual(await bodyToString(result, 512), "\u0000".repeat(512));
   });
 
   it("create with all parameters set", async () => {
@@ -56,32 +53,14 @@ describe("PageBlobURL", () => {
     await pageBlobURL.create(Aborter.none, 512, options);
 
     const result = await blobURL.download(Aborter.none, 0);
-    assert.deepStrictEqual(
-      await bodyToString(result, 512),
-      "\u0000".repeat(512)
-    );
+    assert.deepStrictEqual(await bodyToString(result, 512), "\u0000".repeat(512));
 
     const properties = await blobURL.getProperties(Aborter.none);
-    assert.equal(
-      properties.cacheControl,
-      options.blobHTTPHeaders.blobCacheControl
-    );
-    assert.equal(
-      properties.contentDisposition,
-      options.blobHTTPHeaders.blobContentDisposition
-    );
-    assert.equal(
-      properties.contentEncoding,
-      options.blobHTTPHeaders.blobContentEncoding
-    );
-    assert.equal(
-      properties.contentLanguage,
-      options.blobHTTPHeaders.blobContentLanguage
-    );
-    assert.equal(
-      properties.contentType,
-      options.blobHTTPHeaders.blobContentType
-    );
+    assert.equal(properties.cacheControl, options.blobHTTPHeaders.blobCacheControl);
+    assert.equal(properties.contentDisposition, options.blobHTTPHeaders.blobContentDisposition);
+    assert.equal(properties.contentEncoding, options.blobHTTPHeaders.blobContentEncoding);
+    assert.equal(properties.contentLanguage, options.blobHTTPHeaders.blobContentLanguage);
+    assert.equal(properties.contentType, options.blobHTTPHeaders.blobContentType);
     assert.equal(properties.metadata!.key1, options.metadata.key1);
     assert.equal(properties.metadata!.key2, options.metadata.key2);
   });
@@ -105,10 +84,7 @@ describe("PageBlobURL", () => {
   it("clearPages", async () => {
     await pageBlobURL.create(Aborter.none, 1024);
     let result = await blobURL.download(Aborter.none, 0);
-    assert.deepStrictEqual(
-      await bodyToString(result, 1024),
-      "\u0000".repeat(1024)
-    );
+    assert.deepStrictEqual(await bodyToString(result, 1024), "\u0000".repeat(1024));
 
     await pageBlobURL.uploadPages(Aborter.none, "a".repeat(1024), 0, 1024);
     result = await pageBlobURL.download(Aborter.none, 0, 1024);
@@ -116,20 +92,14 @@ describe("PageBlobURL", () => {
 
     await pageBlobURL.clearPages(Aborter.none, 0, 512);
     result = await pageBlobURL.download(Aborter.none, 0, 512);
-    assert.deepStrictEqual(
-      await bodyToString(result, 512),
-      "\u0000".repeat(512)
-    );
+    assert.deepStrictEqual(await bodyToString(result, 512), "\u0000".repeat(512));
   });
 
   it("getPageRanges", async () => {
     await pageBlobURL.create(Aborter.none, 1024);
 
     const result = await blobURL.download(Aborter.none, 0);
-    assert.deepStrictEqual(
-      await bodyToString(result, 1024),
-      "\u0000".repeat(1024)
-    );
+    assert.deepStrictEqual(await bodyToString(result, 1024), "\u0000".repeat(1024));
 
     await pageBlobURL.uploadPages(Aborter.none, "a".repeat(512), 0, 512);
     await pageBlobURL.uploadPages(Aborter.none, "b".repeat(512), 512, 512);
@@ -145,10 +115,7 @@ describe("PageBlobURL", () => {
     await pageBlobURL.create(Aborter.none, 1024);
 
     const result = await blobURL.download(Aborter.none, 0);
-    assert.deepStrictEqual(
-      await bodyToString(result, 1024),
-      "\u0000".repeat(1024)
-    );
+    assert.deepStrictEqual(await bodyToString(result, 1024), "\u0000".repeat(1024));
 
     await pageBlobURL.uploadPages(Aborter.none, "b".repeat(1024), 0, 1024);
 

@@ -6,11 +6,7 @@ import { BlobURL } from "./BlobURL";
 import { ContainerURL } from "./ContainerURL";
 import { PageBlob } from "./generated/lib/operations";
 import { rangeToString } from "./IRange";
-import {
-  IBlobAccessConditions,
-  IMetadata,
-  IPageBlobAccessConditions
-} from "./models";
+import { IBlobAccessConditions, IMetadata, IPageBlobAccessConditions } from "./models";
 import { Pipeline } from "./Pipeline";
 import { URLConstants } from "./utils/constants";
 import { appendToURLPath, setURLParameter } from "./utils/utils.common";
@@ -70,10 +66,7 @@ export class PageBlobURL extends BlobURL {
    * @returns {PageBlobURL}
    * @memberof PageBlobURL
    */
-  public static fromContainerURL(
-    containerURL: ContainerURL,
-    blobName: string
-  ): PageBlobURL {
+  public static fromContainerURL(containerURL: ContainerURL, blobName: string): PageBlobURL {
     return new PageBlobURL(
       appendToURLPath(containerURL.url, encodeURIComponent(blobName)),
       containerURL.pipeline
@@ -180,8 +173,7 @@ export class PageBlobURL extends BlobURL {
       blobSequenceNumber: options.blobSequenceNumber,
       leaseAccessConditions: options.accessConditions.leaseAccessConditions,
       metadata: options.metadata,
-      modifiedAccessConditions:
-        options.accessConditions.modifiedAccessConditions
+      modifiedAccessConditions: options.accessConditions.modifiedAccessConditions
     });
   }
 
@@ -209,12 +201,10 @@ export class PageBlobURL extends BlobURL {
     return this.pageBlobContext.uploadPages(body, count, {
       abortSignal: aborter,
       leaseAccessConditions: options.accessConditions.leaseAccessConditions,
-      modifiedAccessConditions:
-        options.accessConditions.modifiedAccessConditions,
+      modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
       onUploadProgress: options.progress,
       range: rangeToString({ offset, count }),
-      sequenceNumberAccessConditions:
-        options.accessConditions.sequenceNumberAccessConditions,
+      sequenceNumberAccessConditions: options.accessConditions.sequenceNumberAccessConditions,
       transactionalContentMD5: options.transactionalContentMD5
     });
   }
@@ -241,11 +231,9 @@ export class PageBlobURL extends BlobURL {
     return this.pageBlobContext.clearPages(0, {
       abortSignal: aborter,
       leaseAccessConditions: options.accessConditions.leaseAccessConditions,
-      modifiedAccessConditions:
-        options.accessConditions.modifiedAccessConditions,
+      modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
       range: rangeToString({ offset, count }),
-      sequenceNumberAccessConditions:
-        options.accessConditions.sequenceNumberAccessConditions
+      sequenceNumberAccessConditions: options.accessConditions.sequenceNumberAccessConditions
     });
   }
 
@@ -271,8 +259,7 @@ export class PageBlobURL extends BlobURL {
     return this.pageBlobContext.getPageRanges({
       abortSignal: aborter,
       leaseAccessConditions: options.accessConditions.leaseAccessConditions,
-      modifiedAccessConditions:
-        options.accessConditions.modifiedAccessConditions,
+      modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
       range: rangeToString({ offset, count })
     });
   }
@@ -301,8 +288,7 @@ export class PageBlobURL extends BlobURL {
     return this.pageBlobContext.getPageRangesDiff({
       abortSignal: aborter,
       leaseAccessConditions: options.accessConditions.leaseAccessConditions,
-      modifiedAccessConditions:
-        options.accessConditions.modifiedAccessConditions,
+      modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
       prevsnapshot: prevSnapshot,
       range: rangeToString({ offset, count })
     });
@@ -328,8 +314,7 @@ export class PageBlobURL extends BlobURL {
     return this.pageBlobContext.resize(size, {
       abortSignal: aborter,
       leaseAccessConditions: options.accessConditions.leaseAccessConditions,
-      modifiedAccessConditions:
-        options.accessConditions.modifiedAccessConditions
+      modifiedAccessConditions: options.accessConditions.modifiedAccessConditions
     });
   }
 
@@ -356,8 +341,7 @@ export class PageBlobURL extends BlobURL {
       abortSignal: aborter,
       blobSequenceNumber: sequenceNumber,
       leaseAccessConditions: options.accessConditions.leaseAccessConditions,
-      modifiedAccessConditions:
-        options.accessConditions.modifiedAccessConditions
+      modifiedAccessConditions: options.accessConditions.modifiedAccessConditions
     });
   }
 
