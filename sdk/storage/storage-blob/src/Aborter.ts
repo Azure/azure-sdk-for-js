@@ -86,7 +86,7 @@ export class Aborter implements AbortSignalLike {
    *
    * @memberof Aborter
    */
-  public onabort?: (ev?: Event) => any;
+  public onabort?: ((ev?: Event) => any);
 
   // tslint:disable-next-line:variable-name
   private _aborted: boolean = false;
