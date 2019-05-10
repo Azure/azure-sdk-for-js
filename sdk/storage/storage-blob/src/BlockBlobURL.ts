@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 import { HttpRequestBody, TransferProgressEvent } from "@azure/ms-rest-js";
 
 import * as Models from "../src/generated/lib/models";

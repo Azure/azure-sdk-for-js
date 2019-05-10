@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 import { HttpResponse, isNode } from "@azure/ms-rest-js";
 
 import { Aborter } from "./Aborter";

@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 import { HttpResponse } from "@azure/ms-rest-js";
 import * as Models from "../src/generated/lib/models";
 import { Aborter } from "./Aborter";

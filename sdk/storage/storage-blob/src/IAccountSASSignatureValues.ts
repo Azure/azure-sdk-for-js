@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 import { AccountSASPermissions } from "./AccountSASPermissions";
 import { AccountSASResourceTypes } from "./AccountSASResourceTypes";
 import { AccountSASServices } from "./AccountSASServices";

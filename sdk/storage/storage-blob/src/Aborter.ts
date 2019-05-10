@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 import { AbortSignalLike, isNode } from "@azure/ms-rest-js";
 
 /**
@@ -83,7 +86,7 @@ export class Aborter implements AbortSignalLike {
    *
    * @memberof Aborter
    */
-  public onabort?: ((ev?: Event) => any);
+  public onabort?: (ev?: Event) => any;
 
   // tslint:disable-next-line:variable-name
   private _aborted: boolean = false;
