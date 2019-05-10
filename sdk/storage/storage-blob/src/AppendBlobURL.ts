@@ -41,10 +41,9 @@ export class AppendBlobURL extends BlobURL {
    * @memberof AppendBlobURL
    */
   public static fromContainerURL(containerURL: ContainerURL, blobName: string): AppendBlobURL {
-    return new AppendBlobURL(
-      appendToURLPath(containerURL.url, encodeURIComponent(blobName)),
-      { pipeline: containerURL.pipeline }
-    );
+    return new AppendBlobURL(appendToURLPath(containerURL.url, encodeURIComponent(blobName)), {
+      pipeline: containerURL.pipeline
+    });
   }
 
   /**

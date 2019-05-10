@@ -33,10 +33,9 @@ describe("Special Naming Tests", () => {
 
   it("Should work with special container and blob names with spaces in URL string", async () => {
     const blobName: string = getUniqueName("blob empty");
-    const blockBlobURL = new BlockBlobURL(
-      appendToURLPath(containerURL.url, blobName),
-      { pipeline: containerURL.pipeline }
-    );
+    const blockBlobURL = new BlockBlobURL(appendToURLPath(containerURL.url, blobName), {
+      pipeline: containerURL.pipeline
+    });
 
     await blockBlobURL.upload(Aborter.none, "A", 1);
     const response = await containerURL.listBlobFlatSegment(Aborter.none, undefined, {
@@ -59,10 +58,9 @@ describe("Special Naming Tests", () => {
 
   it("Should work with special container and blob names with / in URL string", async () => {
     const blobName: string = getUniqueName("////blob/empty /another");
-    const blockBlobURL = new BlockBlobURL(
-      appendToURLPath(containerURL.url, blobName),
-      { pipeline: containerURL.pipeline }
-    );
+    const blockBlobURL = new BlockBlobURL(appendToURLPath(containerURL.url, blobName), {
+      pipeline: containerURL.pipeline
+    });
 
     await blockBlobURL.upload(Aborter.none, "A", 1);
     await blockBlobURL.getProperties(Aborter.none);
@@ -86,10 +84,9 @@ describe("Special Naming Tests", () => {
 
   it("Should work with special container and blob names uppercase in URL string", async () => {
     const blobName: string = getUniqueName("////Upper/blob/empty /another");
-    const blockBlobURL = new BlockBlobURL(
-      appendToURLPath(containerURL.url, blobName),
-      { pipeline: containerURL.pipeline }
-    );
+    const blockBlobURL = new BlockBlobURL(appendToURLPath(containerURL.url, blobName), {
+      pipeline: containerURL.pipeline
+    });
 
     await blockBlobURL.upload(Aborter.none, "A", 1);
     await blockBlobURL.getProperties(Aborter.none);
@@ -113,10 +110,9 @@ describe("Special Naming Tests", () => {
 
   it("Should work with special blob names Chinese characters in URL string", async () => {
     const blobName: string = getUniqueName("////Upper/blob/empty /another 汉字");
-    const blockBlobURL = new BlockBlobURL(
-      appendToURLPath(containerURL.url, blobName),
-      { pipeline: containerURL.pipeline }
-    );
+    const blockBlobURL = new BlockBlobURL(appendToURLPath(containerURL.url, blobName), {
+      pipeline: containerURL.pipeline
+    });
 
     await blockBlobURL.upload(Aborter.none, "A", 1);
     await blockBlobURL.getProperties(Aborter.none);
@@ -150,7 +146,7 @@ describe("Special Naming Tests", () => {
       // Escape "%" when creating XXXURL object with URL strings
       // Escape "?" otherwise string after "?" will be treated as URL parameters
       appendToURLPath(containerURL.url, blobName.replace(/%/g, "%25").replace(/\?/g, "%3F")),
-      containerURL.pipeline
+      { pipeline: containerURL.pipeline }
     );
 
     await blockBlobURL.upload(Aborter.none, "A", 1);
@@ -189,10 +185,9 @@ describe("Special Naming Tests", () => {
 
   it("Should work with special blob name Russian in URL string", async () => {
     const blobName: string = getUniqueName("ру́сский язы́к");
-    const blockBlobURL = new BlockBlobURL(
-      appendToURLPath(containerURL.url, blobName),
-      { pipeline: containerURL.pipeline }
-    );
+    const blockBlobURL = new BlockBlobURL(appendToURLPath(containerURL.url, blobName), {
+      pipeline: containerURL.pipeline
+    });
 
     await blockBlobURL.upload(Aborter.none, "A", 1);
     await blockBlobURL.getProperties(Aborter.none);
@@ -229,10 +224,9 @@ describe("Special Naming Tests", () => {
 
   it("Should work with special blob name Arabic in URL string", async () => {
     const blobName: string = getUniqueName("عربي/عربى");
-    const blockBlobURL = new BlockBlobURL(
-      appendToURLPath(containerURL.url, blobName),
-      { pipeline: containerURL.pipeline }
-    );
+    const blockBlobURL = new BlockBlobURL(appendToURLPath(containerURL.url, blobName), {
+      pipeline: containerURL.pipeline
+    });
 
     await blockBlobURL.upload(Aborter.none, "A", 1);
     await blockBlobURL.getProperties(Aborter.none);
@@ -269,10 +263,9 @@ describe("Special Naming Tests", () => {
 
   it("Should work with special blob name Japanese in URL string", async () => {
     const blobName: string = getUniqueName("にっぽんご/にほんご");
-    const blockBlobURL = new BlockBlobURL(
-      appendToURLPath(containerURL.url, blobName),
-      { pipeline: containerURL.pipeline }
-    );
+    const blockBlobURL = new BlockBlobURL(appendToURLPath(containerURL.url, blobName), {
+      pipeline: containerURL.pipeline
+    });
 
     await blockBlobURL.upload(Aborter.none, "A", 1);
     await blockBlobURL.getProperties(Aborter.none);

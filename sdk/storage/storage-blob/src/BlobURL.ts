@@ -8,7 +8,7 @@ import { Blob } from "./generated/lib/operations";
 import { rangeToString } from "./IRange";
 import { IBlobAccessConditions, IMetadata } from "./models";
 import { Pipeline } from "./Pipeline";
-import { StorageURL } from "./StorageURL";
+import { StorageURL, BlobConnectionOptions } from "./StorageURL";
 import { DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS, URLConstants } from "./utils/constants";
 import { appendToURLPath, setURLParameter } from "./utils/utils.common";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
@@ -112,10 +112,9 @@ export class BlobURL extends StorageURL {
    * @memberof BlobURL
    */
   public static fromContainerURL(containerURL: ContainerURL, blobName: string) {
-    return new BlobURL(
-      appendToURLPath(containerURL.url, encodeURIComponent(blobName)),
-      { pipeline: containerURL.pipeline }
-    );
+    return new BlobURL(appendToURLPath(containerURL.url, encodeURIComponent(blobName)), {
+      pipeline: containerURL.pipeline
+    });
   }
 
   /**

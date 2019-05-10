@@ -93,10 +93,7 @@ describe("Highlevel", () => {
 
   it("uploadFileToBlockBlobUrl should success when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
     const url = blockBlobURL.url;
-    const credential =
-      blockBlobURL.pipeline.factories[
-        blockBlobURL.pipeline.factories.length - 1
-      ];
+    const credential = blockBlobURL.pipeline.factories[blockBlobURL.pipeline.factories.length - 1];
     await uploadFileToBlockBlobUrl(
       Aborter.none,
       tempFileSmall,
@@ -113,14 +110,8 @@ describe("Highlevel", () => {
     );
 
     const downloadResponse = await blockBlobURL.download(Aborter.none, 0);
-    const downloadedFile = path.join(
-      tempFolderPath,
-      getUniqueName("downloadfile.")
-    );
-    await readStreamToLocalFile(
-      downloadResponse.readableStreamBody!,
-      downloadedFile
-    );
+    const downloadedFile = path.join(tempFolderPath, getUniqueName("downloadfile."));
+    await readStreamToLocalFile(downloadResponse.readableStreamBody!, downloadedFile);
 
     const downloadedData = await fs.readFileSync(downloadedFile);
     const uploadedData = await fs.readFileSync(tempFileSmall);
@@ -285,10 +276,7 @@ describe("Highlevel", () => {
 
   it("downloadBlobToBufferUrl should success", async () => {
     const url = blockBlobURL.url;
-    const credential =
-      blockBlobURL.pipeline.factories[
-        blockBlobURL.pipeline.factories.length - 1
-      ];
+    const credential = blockBlobURL.pipeline.factories[blockBlobURL.pipeline.factories.length - 1];
     const rs = fs.createReadStream(tempFileLarge);
     await uploadStreamToBlockBlobUrl(
       Aborter.none,

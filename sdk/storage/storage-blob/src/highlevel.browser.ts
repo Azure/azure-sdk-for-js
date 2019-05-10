@@ -71,10 +71,10 @@ export async function uploadBrowserDataToBlockBlobUrl(
   aborter: Aborter,
   browserData: Blob | ArrayBuffer | ArrayBufferView,
   url: string,
-    uploadOptions: IUploadToBlockBlobOptions = {},
-    options: BlobConnectionOptions = {}
+  uploadOptions: IUploadToBlockBlobOptions = {},
+  options: BlobConnectionOptions = {}
 ): Promise<BlobUploadCommonResponse> {
-  const blockBlobURL = new BlockBlobURL(url, pipeline);
+  const blockBlobURL = new BlockBlobURL(url, options);
   return uploadBrowserDataToBlockBlob(aborter, browserData, blockBlobURL, uploadOptions);
 }
 

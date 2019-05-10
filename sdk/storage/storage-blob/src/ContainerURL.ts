@@ -140,10 +140,9 @@ export class ContainerURL extends StorageURL {
    * @param containerName A container name
    */
   public static fromServiceURL(serviceURL: ServiceURL, containerName: string): ContainerURL {
-    return new ContainerURL(
-      appendToURLPath(serviceURL.url, encodeURIComponent(containerName)),
-      { pipeline: serviceURL.pipeline }
-    );
+    return new ContainerURL(appendToURLPath(serviceURL.url, encodeURIComponent(containerName)), {
+      pipeline: serviceURL.pipeline
+    });
   }
 
   /**

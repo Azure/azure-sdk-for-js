@@ -128,10 +128,7 @@ describe("Highelvel", () => {
 
   it("uploadBrowserDataToBlockBlobUrl should success when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
     const url = blockBlobURL.url;
-    const credential =
-      blockBlobURL.pipeline.factories[
-        blockBlobURL.pipeline.factories.length - 1
-      ];
+    const credential = blockBlobURL.pipeline.factories[blockBlobURL.pipeline.factories.length - 1];
     await uploadBrowserDataToBlockBlobUrl(
       Aborter.none,
       tempFile2,

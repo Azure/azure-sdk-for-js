@@ -68,10 +68,9 @@ export class PageBlobURL extends BlobURL {
    * @memberof PageBlobURL
    */
   public static fromContainerURL(containerURL: ContainerURL, blobName: string): PageBlobURL {
-    return new PageBlobURL(
-      appendToURLPath(containerURL.url, encodeURIComponent(blobName)),
-      { pipeline: containerURL.pipeline }
-    );
+    return new PageBlobURL(appendToURLPath(containerURL.url, encodeURIComponent(blobName)), {
+      pipeline: containerURL.pipeline
+    });
   }
 
   /**

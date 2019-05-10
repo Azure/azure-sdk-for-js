@@ -319,14 +319,7 @@ export async function downloadBlobToBufferFromUrl(
   blobConnectionOptions: BlobConnectionOptions = {}
 ): Promise<void> {
   const blockBlobURL = new BlockBlobURL(url, blobConnectionOptions);
-  return downloadBlobToBuffer(
-    aborter,
-    buffer,
-    blockBlobURL,
-    offset,
-    count,
-    downloadOptions
-  );
+  return downloadBlobToBuffer(aborter, buffer, blockBlobURL, offset, count, downloadOptions);
 }
 
 /**
