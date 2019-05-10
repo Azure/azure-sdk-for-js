@@ -425,10 +425,9 @@ async function testBatchReceiverManualLockRenewalErrorOnLockExpiry(
 
   should.equal(errorWasThrown, true, "Error thrown flag must be true");
 
-  // Subsequent receivers for the same session should work as expected.
-  sessionClient = receiverClient.createReceiver(ReceiveMode.peekLock, {
-    sessionId: undefined
-  });
+  // Subsequent operations on the same receiver should work as expected even if the underlying AMQP
+  // receiver got closed due to session expiry. This is because we expect the `sessionClient` object
+  // to create a new AMQP link for new requests on it.
   const unprocessedMsgs = await sessionClient.receiveMessages(1);
   should.equal(unprocessedMsgs[0].deliveryCount, 1, "Unexpected deliveryCount");
   await unprocessedMsgs[0].complete();
@@ -582,6 +581,15 @@ async function testAutoLockRenewalConfigBehavior(
     options.expectSessionLockLostErrorToBeThrown,
     "Error Thrown flag value mismatch"
   );
+
+  if (options.expectSessionLockLostErrorToBeThrown) {
+    // Subsequent operations on the same receiver should work as expected even if the underlying AMQP
+    // receiver got closed due to session expiry. This is because we expect the `sessionClient` object
+    // to create a new AMQP link for new requests on it.
+    const unprocessedMsgs = await sessionClient.receiveMessages(1);
+    should.equal(unprocessedMsgs[0].deliveryCount, 1, "Unexpected deliveryCount");
+    await unprocessedMsgs[0].complete();
+  }
 
   await sessionClient.close();
 
