@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 import {
   BaseRequestPolicy,
   delay,
@@ -110,11 +113,11 @@ export class RetryPolicy extends BaseRequestPolicy {
       retryDelayInMs:
         retryOptions.retryDelayInMs && retryOptions.retryDelayInMs >= 0
           ? Math.min(
-              retryOptions.retryDelayInMs,
-              retryOptions.maxRetryDelayInMs
-                ? retryOptions.maxRetryDelayInMs
-                : DEFAULT_RETRY_OPTIONS.maxRetryDelayInMs!
-            )
+            retryOptions.retryDelayInMs,
+            retryOptions.maxRetryDelayInMs
+              ? retryOptions.maxRetryDelayInMs
+              : DEFAULT_RETRY_OPTIONS.maxRetryDelayInMs!
+          )
           : DEFAULT_RETRY_OPTIONS.retryDelayInMs,
 
       maxRetryDelayInMs:
@@ -174,7 +177,7 @@ export class RetryPolicy extends BaseRequestPolicy {
       this.logf(
         HttpPipelineLogLevel.INFO,
         `RetryPolicy: =====> Try=${attempt} ${
-          isPrimaryRetry ? "Primary" : "Secondary"
+        isPrimaryRetry ? "Primary" : "Secondary"
         }`
       );
       response = await this._nextPolicy.sendRequest(newRequest);

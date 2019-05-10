@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 /**
  * This is a helper class to construct a string representing the permissions granted by a ServiceSAS to a share.
  * Setting a value to true means that any SAS which uses these permissions will grant permissions for that operation.

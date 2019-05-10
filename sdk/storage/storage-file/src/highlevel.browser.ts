@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 import { Aborter } from "./Aborter";
 import { FileURL } from "./FileURL";
 import { IUploadToAzureFileOptions } from "./highlevel.common";

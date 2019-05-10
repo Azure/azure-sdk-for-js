@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 import * as fs from "fs";
 import { TransferProgressEvent } from "@azure/ms-rest-js";
 import { Readable } from "stream";
@@ -313,7 +316,7 @@ export async function uploadStreamToAzureFile(
       if (transferProgress + buffer.length > size) {
         throw new RangeError(
           `Stream size is larger than file size ${size} bytes, uploading failed. ` +
-            `Please make sure stream length is less or equal than file size.`
+          `Please make sure stream length is less or equal than file size.`
         );
       }
 

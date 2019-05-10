@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 import { RestError, TransferProgressEvent } from "@azure/ms-rest-js";
 import { Readable } from "stream";
 import { Aborter } from "../Aborter";
@@ -169,7 +172,7 @@ export class RetriableReadableStream extends Readable {
               // tslint:disable-next-line:max-line-length
               `Data corruption failure: received less data than required and reached maxRetires limitation. Received data offset: ${this
                 .offset - 1}, data needed offset: ${this.end}, retries: ${
-                this.retries
+              this.retries
               }, max retries: ${this.maxRetryRequests}`
             )
           );
@@ -179,7 +182,7 @@ export class RetriableReadableStream extends Readable {
           "error",
           new Error(
             `Data corruption failure: Received more data than original request, data needed offset is ${
-              this.end
+            this.end
             }, received offset: ${this.offset - 1}`
           )
         );
