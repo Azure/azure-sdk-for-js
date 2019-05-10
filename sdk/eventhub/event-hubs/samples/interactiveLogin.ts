@@ -22,7 +22,7 @@ async function main(): Promise<void> {
   const client = EventHubClient.createFromAadTokenCredentials(evenHubsEndpoint, eventHubsName, credentials);
   /*
    Refer to other samples, and place your code here
-   to send/receive messages
+   to send/receive events
   */
   await client.close();
 }

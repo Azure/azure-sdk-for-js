@@ -29,7 +29,7 @@ async function main(): Promise<void> {
   });
   /*
    Refer to other samples, and place your code here
-   to send/receive messages
+   to send/receive events
   */
   await client.close();
 }
