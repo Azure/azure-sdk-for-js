@@ -4,7 +4,7 @@ import { Aborter } from "../src/Aborter";
 import { ShareURL } from "../src/ShareURL";
 import { getBSU, getUniqueName } from "./utils";
 import * as dotenv from "dotenv";
-dotenv.config({path:"../.env"});
+dotenv.config({ path: "../.env" });
 
 // tslint:disable:no-empty
 describe("Aborter", () => {

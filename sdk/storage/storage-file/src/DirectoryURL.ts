@@ -53,10 +53,7 @@ export class DirectoryURL extends StorageURL {
    * @param shareURL A ShareURL object
    * @param directoryName A directory name
    */
-  public static fromShareURL(
-    shareURL: ShareURL,
-    directoryName: string
-  ): DirectoryURL {
+  public static fromShareURL(shareURL: ShareURL, directoryName: string): DirectoryURL {
     return new DirectoryURL(
       appendToURLPath(shareURL.url, encodeURIComponent(directoryName)),
       shareURL.pipeline
@@ -69,10 +66,7 @@ export class DirectoryURL extends StorageURL {
    * @param directoryURL A DirectoryURL object
    * @param directoryName A subdirectory name
    */
-  public static fromDirectoryURL(
-    directoryURL: DirectoryURL,
-    directoryName: string
-  ): DirectoryURL {
+  public static fromDirectoryURL(directoryURL: DirectoryURL, directoryName: string): DirectoryURL {
     return new DirectoryURL(
       appendToURLPath(directoryURL.url, encodeURIComponent(directoryName)),
       directoryURL.pipeline
@@ -151,9 +145,7 @@ export class DirectoryURL extends StorageURL {
    * @returns {Promise<Models.DirectoryGetPropertiesResponse>}
    * @memberof DirectoryURL
    */
-  public async getProperties(
-    aborter: Aborter
-  ): Promise<Models.DirectoryGetPropertiesResponse> {
+  public async getProperties(aborter: Aborter): Promise<Models.DirectoryGetPropertiesResponse> {
     return this.context.getProperties({
       abortSignal: aborter
     });
@@ -169,9 +161,7 @@ export class DirectoryURL extends StorageURL {
    * @returns {Promise<Models.DirectoryDeleteResponse>}
    * @memberof DirectoryURL
    */
-  public async delete(
-    aborter: Aborter
-  ): Promise<Models.DirectoryDeleteResponse> {
+  public async delete(aborter: Aborter): Promise<Models.DirectoryDeleteResponse> {
     return this.context.deleteMethod({
       abortSignal: aborter
     });

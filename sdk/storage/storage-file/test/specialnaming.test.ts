@@ -6,7 +6,7 @@ import * as assert from "assert";
 import { appendToURLPath } from "../src/utils/utils.common";
 import { DirectoryURL } from "../src/DirectoryURL";
 import * as dotenv from "dotenv";
-dotenv.config({path:"../.env"});
+dotenv.config({ path: "../.env" });
 
 describe("Special Naming Tests", () => {
   const serviceURL = getBSU();
@@ -29,31 +29,20 @@ describe("Special Naming Tests", () => {
     const fileURL = FileURL.fromDirectoryURL(directoryURL, fileName);
 
     await fileURL.create(Aborter.none, 10);
-    const response = await directoryURL.listFilesAndDirectoriesSegment(
-      Aborter.none,
-      undefined,
-      {
-        prefix: fileName
-      }
-    );
+    const response = await directoryURL.listFilesAndDirectoriesSegment(Aborter.none, undefined, {
+      prefix: fileName
+    });
     assert.notDeepEqual(response.segment.fileItems.length, 0);
   });
 
   it("Should work with special container and file names with spaces in URL string", async () => {
     const fileName: string = getUniqueName("file empty");
-    const fileURL = new FileURL(
-      appendToURLPath(directoryURL.url, fileName),
-      directoryURL.pipeline
-    );
+    const fileURL = new FileURL(appendToURLPath(directoryURL.url, fileName), directoryURL.pipeline);
 
     await fileURL.create(Aborter.none, 10);
-    const response = await directoryURL.listFilesAndDirectoriesSegment(
-      Aborter.none,
-      undefined,
-      {
-        prefix: fileName
-      }
-    );
+    const response = await directoryURL.listFilesAndDirectoriesSegment(Aborter.none, undefined, {
+      prefix: fileName
+    });
     assert.notDeepEqual(response.segment.fileItems.length, 0);
   });
 
@@ -63,32 +52,21 @@ describe("Special Naming Tests", () => {
 
     await fileURL.create(Aborter.none, 10);
     await fileURL.getProperties(Aborter.none);
-    const response = await directoryURL.listFilesAndDirectoriesSegment(
-      Aborter.none,
-      undefined,
-      {
-        prefix: fileName
-      }
-    );
+    const response = await directoryURL.listFilesAndDirectoriesSegment(Aborter.none, undefined, {
+      prefix: fileName
+    });
     assert.notDeepEqual(response.segment.fileItems.length, 0);
   });
 
   it("Should work with special container and file names uppercase in URL string", async () => {
     const fileName: string = getUniqueName("Upper file empty another");
-    const fileURL = new FileURL(
-      appendToURLPath(directoryURL.url, fileName),
-      directoryURL.pipeline
-    );
+    const fileURL = new FileURL(appendToURLPath(directoryURL.url, fileName), directoryURL.pipeline);
 
     await fileURL.create(Aborter.none, 10);
     await fileURL.getProperties(Aborter.none);
-    const response = await directoryURL.listFilesAndDirectoriesSegment(
-      Aborter.none,
-      undefined,
-      {
-        prefix: fileName
-      }
-    );
+    const response = await directoryURL.listFilesAndDirectoriesSegment(Aborter.none, undefined, {
+      prefix: fileName
+    });
     assert.notDeepEqual(response.segment.fileItems.length, 0);
   });
 
@@ -98,90 +76,59 @@ describe("Special Naming Tests", () => {
 
     await fileURL.create(Aborter.none, 10);
     await fileURL.getProperties(Aborter.none);
-    const response = await directoryURL.listFilesAndDirectoriesSegment(
-      Aborter.none,
-      undefined,
-      {
-        prefix: fileName
-      }
-    );
+    const response = await directoryURL.listFilesAndDirectoriesSegment(Aborter.none, undefined, {
+      prefix: fileName
+    });
     assert.notDeepEqual(response.segment.fileItems.length, 0);
   });
 
   it("Should work with special file names Chinese characters in URL string", async () => {
     const fileName: string = getUniqueName("Upper file empty another 汉字");
-    const fileURL = new FileURL(
-      appendToURLPath(directoryURL.url, fileName),
-      directoryURL.pipeline
-    );
+    const fileURL = new FileURL(appendToURLPath(directoryURL.url, fileName), directoryURL.pipeline);
 
     await fileURL.create(Aborter.none, 10);
     await fileURL.getProperties(Aborter.none);
-    const response = await directoryURL.listFilesAndDirectoriesSegment(
-      Aborter.none,
-      undefined,
-      {
-        prefix: fileName
-      }
-    );
+    const response = await directoryURL.listFilesAndDirectoriesSegment(Aborter.none, undefined, {
+      prefix: fileName
+    });
     assert.notDeepEqual(response.segment.fileItems.length, 0);
   });
 
   it("Should work with special file name characters", async () => {
-    const fileName: string = getUniqueName(
-      "汉字. special ~!@#$%^&()_+`1234567890-={}[];','"
-    );
+    const fileName: string = getUniqueName("汉字. special ~!@#$%^&()_+`1234567890-={}[];','");
     const fileURL = FileURL.fromDirectoryURL(directoryURL, fileName);
 
     await fileURL.create(Aborter.none, 10);
     await fileURL.getProperties(Aborter.none);
-    const response = await directoryURL.listFilesAndDirectoriesSegment(
-      Aborter.none,
-      undefined,
-      {
-        // NOTICE: Azure Storage Server will replace "\" with "/" in the file names
-        prefix: fileName.replace(/\\/g, "/")
-      }
-    );
+    const response = await directoryURL.listFilesAndDirectoriesSegment(Aborter.none, undefined, {
+      // NOTICE: Azure Storage Server will replace "\" with "/" in the file names
+      prefix: fileName.replace(/\\/g, "/")
+    });
     assert.notDeepEqual(response.segment.fileItems.length, 0);
   });
 
   it("Should work with special file name characters in URL string", async () => {
-    const fileName: string = getUniqueName(
-      "汉字. special ~!@#$%^&()_+`1234567890-={}[];','"
-    );
+    const fileName: string = getUniqueName("汉字. special ~!@#$%^&()_+`1234567890-={}[];','");
     const fileURL = new FileURL(
       // There are 2 special cases for a URL string:
       // Escape "%" when creating XXXURL object with URL strings
       // Escape "?" otherwise string after "?" will be treated as URL parameters
-      appendToURLPath(
-        directoryURL.url,
-        fileName.replace(/%/g, "%25").replace(/\?/g, "%3F")
-      ),
+      appendToURLPath(directoryURL.url, fileName.replace(/%/g, "%25").replace(/\?/g, "%3F")),
       directoryURL.pipeline
     );
 
     await fileURL.create(Aborter.none, 10);
     await fileURL.getProperties(Aborter.none);
-    const response = await directoryURL.listFilesAndDirectoriesSegment(
-      Aborter.none,
-      undefined,
-      {
-        // NOTICE: Azure Storage Server will replace "\" with "/" in the file names
-        prefix: fileName.replace(/\\/g, "/")
-      }
-    );
+    const response = await directoryURL.listFilesAndDirectoriesSegment(Aborter.none, undefined, {
+      // NOTICE: Azure Storage Server will replace "\" with "/" in the file names
+      prefix: fileName.replace(/\\/g, "/")
+    });
     assert.notDeepEqual(response.segment.fileItems.length, 0);
   });
 
   it("Should work with special directory name characters", async () => {
-    const directoryName: string = getUniqueName(
-      "汉字. special ~!@#$%^&()_+`1234567890-={}[];','"
-    );
-    const specialDirectoryURL = DirectoryURL.fromShareURL(
-      shareURL,
-      directoryName
-    );
+    const directoryName: string = getUniqueName("汉字. special ~!@#$%^&()_+`1234567890-={}[];','");
+    const specialDirectoryURL = DirectoryURL.fromShareURL(shareURL, directoryName);
     const rootDirectoryURL = DirectoryURL.fromShareURL(shareURL, "");
 
     await specialDirectoryURL.create(Aborter.none);
@@ -198,17 +145,12 @@ describe("Special Naming Tests", () => {
   });
 
   it("Should work with special directory name characters in URL string", async () => {
-    const directoryName: string = getUniqueName(
-      "汉字. special ~!@#$%^&()_+`1234567890-={}[];','"
-    );
+    const directoryName: string = getUniqueName("汉字. special ~!@#$%^&()_+`1234567890-={}[];','");
     const specialDirectoryURL = new DirectoryURL(
       // There are 2 special cases for a URL string:
       // Escape "%" when creating XXXURL object with URL strings
       // Escape "?" otherwise string after "?" will be treated as URL parameters
-      appendToURLPath(
-        shareURL.url,
-        directoryName.replace(/%/g, "%25").replace(/\?/g, "%3F")
-      ),
+      appendToURLPath(shareURL.url, directoryName.replace(/%/g, "%25").replace(/\?/g, "%3F")),
       shareURL.pipeline
     );
 
@@ -234,13 +176,9 @@ describe("Special Naming Tests", () => {
 
     await fileURL.create(Aborter.none, 10);
     await fileURL.getProperties(Aborter.none);
-    const response = await directoryURL.listFilesAndDirectoriesSegment(
-      Aborter.none,
-      undefined,
-      {
-        prefix: blobNameEncoded
-      }
-    );
+    const response = await directoryURL.listFilesAndDirectoriesSegment(Aborter.none, undefined, {
+      prefix: blobNameEncoded
+    });
     assert.notDeepEqual(response.segment.fileItems.length, 0);
   });
 
@@ -250,32 +188,21 @@ describe("Special Naming Tests", () => {
 
     await fileURL.create(Aborter.none, 10);
     await fileURL.getProperties(Aborter.none);
-    const response = await directoryURL.listFilesAndDirectoriesSegment(
-      Aborter.none,
-      undefined,
-      {
-        prefix: fileName
-      }
-    );
+    const response = await directoryURL.listFilesAndDirectoriesSegment(Aborter.none, undefined, {
+      prefix: fileName
+    });
     assert.notDeepEqual(response.segment.fileItems.length, 0);
   });
 
   it("Should work with special file name Russian in URL string", async () => {
     const fileName: string = getUniqueName("ру́сский язы́к");
-    const fileURL = new FileURL(
-      appendToURLPath(directoryURL.url, fileName),
-      directoryURL.pipeline
-    );
+    const fileURL = new FileURL(appendToURLPath(directoryURL.url, fileName), directoryURL.pipeline);
 
     await fileURL.create(Aborter.none, 10);
     await fileURL.getProperties(Aborter.none);
-    const response = await directoryURL.listFilesAndDirectoriesSegment(
-      Aborter.none,
-      undefined,
-      {
-        prefix: fileName
-      }
-    );
+    const response = await directoryURL.listFilesAndDirectoriesSegment(Aborter.none, undefined, {
+      prefix: fileName
+    });
     assert.notDeepEqual(response.segment.fileItems.length, 0);
   });
 
@@ -286,13 +213,9 @@ describe("Special Naming Tests", () => {
 
     await fileURL.create(Aborter.none, 10);
     await fileURL.getProperties(Aborter.none);
-    const response = await directoryURL.listFilesAndDirectoriesSegment(
-      Aborter.none,
-      undefined,
-      {
-        prefix: blobNameEncoded
-      }
-    );
+    const response = await directoryURL.listFilesAndDirectoriesSegment(Aborter.none, undefined, {
+      prefix: blobNameEncoded
+    });
     assert.notDeepEqual(response.segment.fileItems.length, 0);
   });
 
@@ -302,32 +225,21 @@ describe("Special Naming Tests", () => {
 
     await fileURL.create(Aborter.none, 10);
     await fileURL.getProperties(Aborter.none);
-    const response = await directoryURL.listFilesAndDirectoriesSegment(
-      Aborter.none,
-      undefined,
-      {
-        prefix: fileName
-      }
-    );
+    const response = await directoryURL.listFilesAndDirectoriesSegment(Aborter.none, undefined, {
+      prefix: fileName
+    });
     assert.notDeepEqual(response.segment.fileItems.length, 0);
   });
 
   it("Should work with special file name Arabic in URL string", async () => {
     const fileName: string = getUniqueName("عربيعربى");
-    const fileURL = new FileURL(
-      appendToURLPath(directoryURL.url, fileName),
-      directoryURL.pipeline
-    );
+    const fileURL = new FileURL(appendToURLPath(directoryURL.url, fileName), directoryURL.pipeline);
 
     await fileURL.create(Aborter.none, 10);
     await fileURL.getProperties(Aborter.none);
-    const response = await directoryURL.listFilesAndDirectoriesSegment(
-      Aborter.none,
-      undefined,
-      {
-        prefix: fileName
-      }
-    );
+    const response = await directoryURL.listFilesAndDirectoriesSegment(Aborter.none, undefined, {
+      prefix: fileName
+    });
     assert.notDeepEqual(response.segment.fileItems.length, 0);
   });
 
@@ -338,13 +250,9 @@ describe("Special Naming Tests", () => {
 
     await fileURL.create(Aborter.none, 10);
     await fileURL.getProperties(Aborter.none);
-    const response = await directoryURL.listFilesAndDirectoriesSegment(
-      Aborter.none,
-      undefined,
-      {
-        prefix: blobNameEncoded
-      }
-    );
+    const response = await directoryURL.listFilesAndDirectoriesSegment(Aborter.none, undefined, {
+      prefix: blobNameEncoded
+    });
     assert.notDeepEqual(response.segment.fileItems.length, 0);
   });
 
@@ -354,32 +262,21 @@ describe("Special Naming Tests", () => {
 
     await fileURL.create(Aborter.none, 10);
     await fileURL.getProperties(Aborter.none);
-    const response = await directoryURL.listFilesAndDirectoriesSegment(
-      Aborter.none,
-      undefined,
-      {
-        prefix: fileName
-      }
-    );
+    const response = await directoryURL.listFilesAndDirectoriesSegment(Aborter.none, undefined, {
+      prefix: fileName
+    });
     assert.notDeepEqual(response.segment.fileItems.length, 0);
   });
 
   it("Should work with special file name Japanese in URL string", async () => {
     const fileName: string = getUniqueName("にっぽんごにほんご");
-    const fileURL = new FileURL(
-      appendToURLPath(directoryURL.url, fileName),
-      directoryURL.pipeline
-    );
+    const fileURL = new FileURL(appendToURLPath(directoryURL.url, fileName), directoryURL.pipeline);
 
     await fileURL.create(Aborter.none, 10);
     await fileURL.getProperties(Aborter.none);
-    const response = await directoryURL.listFilesAndDirectoriesSegment(
-      Aborter.none,
-      undefined,
-      {
-        prefix: fileName
-      }
-    );
+    const response = await directoryURL.listFilesAndDirectoriesSegment(Aborter.none, undefined, {
+      prefix: fileName
+    });
     assert.notDeepEqual(response.segment.fileItems.length, 0);
   });
 });
