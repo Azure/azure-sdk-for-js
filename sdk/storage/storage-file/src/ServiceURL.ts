@@ -89,9 +89,7 @@ export class ServiceURL extends StorageURL {
    * @returns {Promise<Models.ServiceGetPropertiesResponse>}
    * @memberof ServiceURL
    */
-  public async getProperties(
-    aborter: Aborter
-  ): Promise<Models.ServiceGetPropertiesResponse> {
+  public async getProperties(aborter: Aborter): Promise<Models.ServiceGetPropertiesResponse> {
     return this.serviceContext.getProperties({
       abortSignal: aborter
     });
