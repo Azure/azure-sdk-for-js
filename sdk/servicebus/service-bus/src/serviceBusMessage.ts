@@ -12,7 +12,7 @@ import {
 import { Constants, AmqpMessage } from "@azure/amqp-common";
 import * as log from "./log";
 import { ClientEntityContext } from "./clientEntityContext";
-import { reorderLockToken } from "../src/util/utils";
+import { reorderLockToken, getAssociatedReceiverName } from "../src/util/utils";
 import { MessageReceiver } from "../src/core/messageReceiver";
 import { MessageSession } from "../src/session/messageSession";
 import { getErrorMessageNotSupportedInReceiveAndDeleteMode } from "./util/errors";
@@ -820,7 +820,7 @@ export class ServiceBusMessage implements ReceivedMessage {
       await this._context.managementClient!.updateDispositionStatus(
         this.lockToken!,
         DispositionStatus.completed,
-        this._getAssociatedReceiverName(),
+        getAssociatedReceiverName(this._context, this.sessionId),
         {
           sessionId: this.sessionId
         }
@@ -853,7 +853,7 @@ export class ServiceBusMessage implements ReceivedMessage {
       await this._context.managementClient!.updateDispositionStatus(
         this.lockToken!,
         DispositionStatus.abandoned,
-        this._getAssociatedReceiverName(),
+        getAssociatedReceiverName(this._context, this.sessionId),
         { propertiesToModify: propertiesToModify, sessionId: this.sessionId }
       );
 
@@ -886,7 +886,7 @@ export class ServiceBusMessage implements ReceivedMessage {
       await this._context.managementClient!.updateDispositionStatus(
         this.lockToken!,
         DispositionStatus.defered,
-        this._getAssociatedReceiverName(),
+        getAssociatedReceiverName(this._context, this.sessionId),
         { propertiesToModify: propertiesToModify, sessionId: this.sessionId }
       );
 
@@ -929,7 +929,7 @@ export class ServiceBusMessage implements ReceivedMessage {
       await this._context.managementClient!.updateDispositionStatus(
         this.lockToken!,
         DispositionStatus.suspended,
-        this._getAssociatedReceiverName(),
+        getAssociatedReceiverName(this._context, this.sessionId),
         {
           deadLetterReason: error.condition,
           deadLetterDescription: error.description,
@@ -977,21 +977,6 @@ export class ServiceBusMessage implements ReceivedMessage {
     };
 
     return clone;
-  }
-
-  /**
-   * Helper function to retrieve active receiver name, if it exists.
-   */
-  _getAssociatedReceiverName(): string {
-    let receiverName: string;
-    if (this.sessionId !== undefined) {
-      receiverName = this._context.messageSessions[this.sessionId].name;
-    } else if (this._context.batchingReceiver) {
-      receiverName = this._context.batchingReceiver.name;
-    } else if (this._context.streamingReceiver) {
-      receiverName = this._context.streamingReceiver.name;
-    }
-    return receiverName!;
   }
 }
 

@@ -23,6 +23,8 @@ import {
   getErrorMessageNotSupportedInReceiveAndDeleteMode
 } from "./util/errors";
 
+import { getAssociatedReceiverName } from "../src/util/utils";
+
 /**
  * The Receiver class can be used to receive messages in a batch or by registering handlers.
  * Use the `createReceiver` function on the QueueClient or SubscriptionClient to instantiate a Receiver.
@@ -186,14 +188,10 @@ export class Receiver {
         ? String(lockTokenOrMessage.lockToken)
         : String(lockTokenOrMessage);
 
-    let receiverName;
-    if (this._context.batchingReceiver) {
-      receiverName = this._context.batchingReceiver.name;
-    } else if (this._context.streamingReceiver) {
-      receiverName = this._context.streamingReceiver.name;
-    }
-
-    const lockedUntilUtc = await this._context.managementClient!.renewLock(lockToken, receiverName);
+    const lockedUntilUtc = await this._context.managementClient!.renewLock(
+      lockToken,
+      getAssociatedReceiverName(this._context)
+    );
 
     return lockedUntilUtc;
   }
@@ -219,17 +217,10 @@ export class Receiver {
       sequenceNumber
     );
 
-    let receiverName;
-    if (this._context.batchingReceiver) {
-      receiverName = this._context.batchingReceiver.name;
-    } else if (this._context.streamingReceiver) {
-      receiverName = this._context.streamingReceiver.name;
-    }
-
     const messages = await this._context.managementClient!.receiveDeferredMessages(
       [sequenceNumber],
       this._receiveMode,
-      receiverName
+      getAssociatedReceiverName(this._context)
     );
     return messages[0];
   }
@@ -258,17 +249,10 @@ export class Receiver {
       sequenceNumbers
     );
 
-    let receiverName;
-    if (this._context.batchingReceiver) {
-      receiverName = this._context.batchingReceiver.name;
-    } else if (this._context.streamingReceiver) {
-      receiverName = this._context.streamingReceiver.name;
-    }
-
     return this._context.managementClient!.receiveDeferredMessages(
       sequenceNumbers,
       this._receiveMode,
-      receiverName
+      getAssociatedReceiverName(this._context)
     );
   }
 
