@@ -1,5 +1,6 @@
-import { findPackageJsonFileSync, Logger, getDefaultLogger, PackageJson, readPackageJsonFileSync, getParentFolderPath, joinPath, fileExistsSync } from "@ts-common/azure-js-dev-tools";
+import { findPackageJsonFileSync, PackageJson, readPackageJsonFileSync, getParentFolderPath, joinPath, fileExistsSync } from "@ts-common/azure-js-dev-tools";
 import { readFileSync } from "fs";
+import { Logger, getDefaultLogger } from "@azure/logger-js";
 
 export function checkConstantsVersion(): number {
   const logger: Logger = getDefaultLogger();

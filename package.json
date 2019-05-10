@@ -5,7 +5,7 @@
     "email": "azsdkteam@microsoft.com",
     "url": "https://github.com/Azure/ms-rest-js"
   },
-  "version": "1.8.4",
+  "version": "1.8.6",
   "description": "Isomorphic client Runtime for Typescript/node.js/browser javascript client libraries generated using AutoRest",
   "tags": [
     "isomorphic",
@@ -58,7 +58,8 @@
     "xml2js": "^0.4.19"
   },
   "devDependencies": {
-    "@ts-common/azure-js-dev-tools": "^1.0.0",
+    "@azure/logger-js": "^1.0.2",
+    "@ts-common/azure-js-dev-tools": "^15.2.0",
     "@types/chai": "^4.1.7",
     "@types/express": "^4.16.0",
     "@types/form-data": "^2.2.1",
@@ -138,6 +139,8 @@
     "test:unit": "nyc mocha",
     "test:karma": "npm run build:test-browser && node ./node_modules/karma/bin/karma start karma.conf.ts --browsers ChromeNoSecurity --single-run ",
     "test:karma:debug": "npm run build:test-browser && node ./node_modules/karma/bin/karma start karma.conf.ts  --log-level debug --browsers ChromeDebugging --debug --auto-watch",
+    "dep:autorest.typescript": "npx ts-node .scripts/testDependentProjects.ts autorest.typescript 'gulp build' 'gulp regenerate' 'npm run local'",
+    "dep:ms-rest-azure-js": "npx ts-node .scripts/testDependentProjects.ts ms-rest-azure-js",
     "publish-preview": "mocha --no-colors && shx rm -rf dist/test && node ./.scripts/publish",
     "local": "ts-node ./.scripts/local.ts",
     "latest": "ts-node ./.scripts/latest.ts",
