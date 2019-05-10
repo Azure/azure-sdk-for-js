@@ -314,6 +314,40 @@ export const CloudEndpoint: msRest.CompositeMapper = {
   }
 };
 
+export const TriggerChangeDetectionParameters: msRest.CompositeMapper = {
+  serializedName: "TriggerChangeDetectionParameters",
+  type: {
+    name: "Composite",
+    className: "TriggerChangeDetectionParameters",
+    modelProperties: {
+      directoryPath: {
+        serializedName: "directoryPath",
+        type: {
+          name: "String"
+        }
+      },
+      changeDetectionMode: {
+        serializedName: "changeDetectionMode",
+        type: {
+          name: "String"
+        }
+      },
+      paths: {
+        readOnly: true,
+        serializedName: "paths",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const RecallActionParameters: msRest.CompositeMapper = {
   serializedName: "RecallActionParameters",
   type: {
@@ -2002,6 +2036,34 @@ export const CloudEndpointsPostRestoreHeaders: msRest.CompositeMapper = {
   type: {
     name: "Composite",
     className: "CloudEndpointsPostRestoreHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      xMsRequestId: {
+        serializedName: "x-ms-request-id",
+        type: {
+          name: "String"
+        }
+      },
+      xMsCorrelationRequestId: {
+        serializedName: "x-ms-correlation-request-id",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CloudEndpointsTriggerChangeDetectionHeaders: msRest.CompositeMapper = {
+  serializedName: "cloudendpoints-triggerchangedetection-headers",
+  type: {
+    name: "Composite",
+    className: "CloudEndpointsTriggerChangeDetectionHeaders",
     modelProperties: {
       location: {
         serializedName: "location",

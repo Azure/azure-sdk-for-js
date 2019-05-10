@@ -204,6 +204,27 @@ export interface CloudEndpoint extends ProxyResource {
 }
 
 /**
+ * The parameters used when calling trigger change detection action on cloud endpoint.
+ */
+export interface TriggerChangeDetectionParameters {
+  /**
+   * Relative path to a directory Azure File share for which change detection is to be performed.
+   */
+  directoryPath?: string;
+  /**
+   * Change Detection Mode. Applies to a directory specified in directoryPath parameter. Possible
+   * values include: 'Default', 'Recursive'
+   */
+  changeDetectionMode?: ChangeDetectionMode;
+  /**
+   * Array of relative paths on the Azure File share to be included in the change detection. Can be
+   * files and directories.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly paths?: string[];
+}
+
+/**
  * The parameters used when calling recall action on server endpoint.
  */
 export interface RecallActionParameters {
@@ -1317,6 +1338,24 @@ export interface CloudEndpointsPostRestoreHeaders {
 }
 
 /**
+ * Defines headers for TriggerChangeDetection operation.
+ */
+export interface CloudEndpointsTriggerChangeDetectionHeaders {
+  /**
+   * Operation Status Location URI
+   */
+  location: string;
+  /**
+   * request id.
+   */
+  xMsRequestId: string;
+  /**
+   * correlation request id.
+   */
+  xMsCorrelationRequestId: string;
+}
+
+/**
  * Defines headers for Create operation.
  */
 export interface ServerEndpointsCreateHeaders {
@@ -1623,6 +1662,14 @@ export interface WorkflowArray extends Array<Workflow> {
  * @enum {string}
  */
 export type Reason = 'Registered' | 'Unregistered' | 'Warned' | 'Suspended' | 'Deleted';
+
+/**
+ * Defines values for ChangeDetectionMode.
+ * Possible values include: 'Default', 'Recursive'
+ * @readonly
+ * @enum {string}
+ */
+export type ChangeDetectionMode = 'Default' | 'Recursive';
 
 /**
  * Defines values for NameAvailabilityReason.
@@ -2181,6 +2228,21 @@ export type CloudEndpointsPostRestoreResponse = CloudEndpointsPostRestoreHeaders
        * The parsed HTTP response headers.
        */
       parsedHeaders: CloudEndpointsPostRestoreHeaders;
+    };
+};
+
+/**
+ * Contains response data for the triggerChangeDetection operation.
+ */
+export type CloudEndpointsTriggerChangeDetectionResponse = CloudEndpointsTriggerChangeDetectionHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: CloudEndpointsTriggerChangeDetectionHeaders;
     };
 };
 
