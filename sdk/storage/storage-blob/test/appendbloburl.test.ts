@@ -46,26 +46,11 @@ describe("AppendBlobURL", () => {
     };
     await appendBlobURL.create(options);
     const properties = await appendBlobURL.getProperties();
-    assert.equal(
-      properties.cacheControl,
-      options.blobHTTPHeaders.blobCacheControl
-    );
-    assert.equal(
-      properties.contentDisposition,
-      options.blobHTTPHeaders.blobContentDisposition
-    );
-    assert.equal(
-      properties.contentEncoding,
-      options.blobHTTPHeaders.blobContentEncoding
-    );
-    assert.equal(
-      properties.contentLanguage,
-      options.blobHTTPHeaders.blobContentLanguage
-    );
-    assert.equal(
-      properties.contentType,
-      options.blobHTTPHeaders.blobContentType
-    );
+    assert.equal(properties.cacheControl, options.blobHTTPHeaders.blobCacheControl);
+    assert.equal(properties.contentDisposition, options.blobHTTPHeaders.blobContentDisposition);
+    assert.equal(properties.contentEncoding, options.blobHTTPHeaders.blobContentEncoding);
+    assert.equal(properties.contentLanguage, options.blobHTTPHeaders.blobContentLanguage);
+    assert.equal(properties.contentType, options.blobHTTPHeaders.blobContentType);
     assert.equal(properties.metadata!.key1, options.metadata.key1);
     assert.equal(properties.metadata!.key2, options.metadata.key2);
   });

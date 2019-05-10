@@ -326,9 +326,7 @@ export class BlobURL extends StorageURL {
    * @returns {Promise<Models.BlobDeleteResponse>}
    * @memberof BlobURL
    */
-  public async delete(
-    options: IBlobDeleteOptions = {}
-  ): Promise<Models.BlobDeleteResponse> {
+  public async delete(options: IBlobDeleteOptions = {}): Promise<Models.BlobDeleteResponse> {
     const aborter = options.abortSignal || Aborter.none;
     options.blobAccessConditions = options.blobAccessConditions || {};
     return this.blobContext.deleteMethod({
@@ -348,9 +346,7 @@ export class BlobURL extends StorageURL {
    * @returns {Promise<Models.BlobUndeleteResponse>}
    * @memberof BlobURL
    */
-  public async undelete(
-    aborter?: Aborter
-  ): Promise<Models.BlobUndeleteResponse> {
+  public async undelete(aborter?: Aborter): Promise<Models.BlobUndeleteResponse> {
     return this.blobContext.undelete({
       abortSignal: aborter || Aborter.none
     });

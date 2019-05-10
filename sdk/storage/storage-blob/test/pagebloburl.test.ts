@@ -32,10 +32,7 @@ describe("PageBlobURL", () => {
     await pageBlobURL.create(512);
 
     const result = await blobURL.download(0);
-    assert.deepStrictEqual(
-      await bodyToString(result, 512),
-      "\u0000".repeat(512)
-    );
+    assert.deepStrictEqual(await bodyToString(result, 512), "\u0000".repeat(512));
   });
 
   it("create with all parameters set", async () => {
@@ -55,32 +52,14 @@ describe("PageBlobURL", () => {
     await pageBlobURL.create(512, options);
 
     const result = await blobURL.download(0);
-    assert.deepStrictEqual(
-      await bodyToString(result, 512),
-      "\u0000".repeat(512)
-    );
+    assert.deepStrictEqual(await bodyToString(result, 512), "\u0000".repeat(512));
 
     const properties = await blobURL.getProperties();
-    assert.equal(
-      properties.cacheControl,
-      options.blobHTTPHeaders.blobCacheControl
-    );
-    assert.equal(
-      properties.contentDisposition,
-      options.blobHTTPHeaders.blobContentDisposition
-    );
-    assert.equal(
-      properties.contentEncoding,
-      options.blobHTTPHeaders.blobContentEncoding
-    );
-    assert.equal(
-      properties.contentLanguage,
-      options.blobHTTPHeaders.blobContentLanguage
-    );
-    assert.equal(
-      properties.contentType,
-      options.blobHTTPHeaders.blobContentType
-    );
+    assert.equal(properties.cacheControl, options.blobHTTPHeaders.blobCacheControl);
+    assert.equal(properties.contentDisposition, options.blobHTTPHeaders.blobContentDisposition);
+    assert.equal(properties.contentEncoding, options.blobHTTPHeaders.blobContentEncoding);
+    assert.equal(properties.contentLanguage, options.blobHTTPHeaders.blobContentLanguage);
+    assert.equal(properties.contentType, options.blobHTTPHeaders.blobContentType);
     assert.equal(properties.metadata!.key1, options.metadata.key1);
     assert.equal(properties.metadata!.key2, options.metadata.key2);
   });
@@ -104,10 +83,7 @@ describe("PageBlobURL", () => {
   it("clearPages", async () => {
     await pageBlobURL.create(1024);
     let result = await blobURL.download(0);
-    assert.deepStrictEqual(
-      await bodyToString(result, 1024),
-      "\u0000".repeat(1024)
-    );
+    assert.deepStrictEqual(await bodyToString(result, 1024), "\u0000".repeat(1024));
 
     await pageBlobURL.uploadPages("a".repeat(1024), 0, 1024);
     result = await pageBlobURL.download(0, 1024);
@@ -115,20 +91,14 @@ describe("PageBlobURL", () => {
 
     await pageBlobURL.clearPages(0, 512);
     result = await pageBlobURL.download(0, 512);
-    assert.deepStrictEqual(
-      await bodyToString(result, 512),
-      "\u0000".repeat(512)
-    );
+    assert.deepStrictEqual(await bodyToString(result, 512), "\u0000".repeat(512));
   });
 
   it("getPageRanges", async () => {
     await pageBlobURL.create(1024);
 
     const result = await blobURL.download(0);
-    assert.deepStrictEqual(
-      await bodyToString(result, 1024),
-      "\u0000".repeat(1024)
-    );
+    assert.deepStrictEqual(await bodyToString(result, 1024), "\u0000".repeat(1024));
 
     await pageBlobURL.uploadPages("a".repeat(512), 0, 512);
     await pageBlobURL.uploadPages("b".repeat(512), 512, 512);
@@ -144,10 +114,7 @@ describe("PageBlobURL", () => {
     await pageBlobURL.create(1024);
 
     const result = await blobURL.download(0);
-    assert.deepStrictEqual(
-      await bodyToString(result, 1024),
-      "\u0000".repeat(1024)
-    );
+    assert.deepStrictEqual(await bodyToString(result, 1024), "\u0000".repeat(1024));
 
     await pageBlobURL.uploadPages("b".repeat(1024), 0, 1024);
 
@@ -157,11 +124,7 @@ describe("PageBlobURL", () => {
     await pageBlobURL.uploadPages("a".repeat(512), 0, 512);
     await pageBlobURL.clearPages(512, 512);
 
-    const rangesDiff = await pageBlobURL.getPageRangesDiff(
-      0,
-      1024,
-      snapshotResult.snapshot!
-    );
+    const rangesDiff = await pageBlobURL.getPageRangesDiff(0, 1024, snapshotResult.snapshot!);
     assert.equal(rangesDiff.pageRange![0].start, 0);
     assert.equal(rangesDiff.pageRange![0].end, 511);
     assert.equal(rangesDiff.clearRange![0].start, 512);

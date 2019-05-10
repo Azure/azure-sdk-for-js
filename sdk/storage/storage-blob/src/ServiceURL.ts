@@ -97,9 +97,7 @@ export class ServiceURL extends StorageURL {
    * @returns {Promise<Models.ServiceGetPropertiesResponse>}
    * @memberof ServiceURL
    */
-  public async getProperties(
-    aborter?: Aborter
-  ): Promise<Models.ServiceGetPropertiesResponse> {
+  public async getProperties(aborter?: Aborter): Promise<Models.ServiceGetPropertiesResponse> {
     return this.serviceContext.getProperties({
       abortSignal: aborter || Aborter.none
     });
@@ -136,9 +134,7 @@ export class ServiceURL extends StorageURL {
    * @returns {Promise<Models.ServiceGetStatisticsResponse>}
    * @memberof ServiceURL
    */
-  public async getStatistics(
-    aborter?: Aborter
-  ): Promise<Models.ServiceGetStatisticsResponse> {
+  public async getStatistics(aborter?: Aborter): Promise<Models.ServiceGetStatisticsResponse> {
     return this.serviceContext.getStatistics({
       abortSignal: aborter || Aborter.none
     });
@@ -156,9 +152,7 @@ export class ServiceURL extends StorageURL {
    * @returns {Promise<Models.ServiceGetAccountInfoResponse>}
    * @memberof ServiceURL
    */
-  public async getAccountInfo(
-    aborter?: Aborter
-  ): Promise<Models.ServiceGetAccountInfoResponse> {
+  public async getAccountInfo(aborter?: Aborter): Promise<Models.ServiceGetAccountInfoResponse> {
     return this.serviceContext.getAccountInfo({
       abortSignal: aborter || Aborter.none
     });
@@ -197,17 +191,19 @@ export class ServiceURL extends StorageURL {
     options?: IServiceListContainersSegmentOptions
   ): ResumableAsyncIterableIterator<Models.ContainerItem> {
     const serviceURL = this;
-    const resumePoint = !options || !options.resumePoint ? { } : options.resumePoint;
+    const resumePoint = !options || !options.resumePoint ? {} : options.resumePoint;
     const aborter = !options || !options.abortSignal ? Aborter.none : options.abortSignal;
-    const iter: ResumableAsyncIterableIterator<Models.ContainerItem> =
-     (async function* items(): AsyncIterableIterator<Models.ContainerItem> {
+    const iter: ResumableAsyncIterableIterator<
+      Models.ContainerItem
+    > = (async function* items(): AsyncIterableIterator<Models.ContainerItem> {
       do {
         const listContainersResponse = await serviceURL.listContainersSegment(
           resumePoint.lastNextMarker,
           {
-            ... options,
+            ...options,
             abortSignal: aborter
-          });
+          }
+        );
 
         const containers = listContainersResponse.containerItems;
         for (let i = iter.resumePoint.lastIndex || 0; i < containers.length; i++) {
@@ -220,7 +216,7 @@ export class ServiceURL extends StorageURL {
       } while (iter.resumePoint.lastNextMarker);
     } as any)() as any;
 
-    iter.resumePoint = { ... resumePoint };
+    iter.resumePoint = { ...resumePoint };
     return iter;
   }
 

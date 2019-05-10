@@ -44,9 +44,7 @@ describe("PageBlobURL", () => {
     await sleep(5 * 1000);
 
     let copySource = pageBlobURL.withSnapshot(snapshotResult.snapshot!).url;
-    let copyResponse = await destPageBlobURL.startCopyIncremental(
-      copySource
-    );
+    let copyResponse = await destPageBlobURL.startCopyIncremental(copySource);
 
     async function waitForCopy(retries = 0) {
       if (retries >= 30) {
@@ -72,12 +70,9 @@ describe("PageBlobURL", () => {
 
     await waitForCopy();
 
-    let listBlobResponse = await containerURL.listBlobFlatSegment(
-      undefined,
-      {
-        include: ["copy", "snapshots"]
-      }
-    );
+    let listBlobResponse = await containerURL.listBlobFlatSegment(undefined, {
+      include: ["copy", "snapshots"]
+    });
 
     assert.equal(listBlobResponse.segment.blobItems.length, 4);
 
@@ -85,18 +80,13 @@ describe("PageBlobURL", () => {
     snapshotResult = await pageBlobURL.createSnapshot();
     assert.ok(snapshotResult.snapshot);
     copySource = pageBlobURL.withSnapshot(snapshotResult.snapshot!).url;
-    copyResponse = await destPageBlobURL.startCopyIncremental(
-      copySource
-    );
+    copyResponse = await destPageBlobURL.startCopyIncremental(copySource);
 
     await waitForCopy();
 
-    listBlobResponse = await containerURL.listBlobFlatSegment(
-      undefined,
-      {
-        include: ["copy", "snapshots"]
-      }
-    );
+    listBlobResponse = await containerURL.listBlobFlatSegment(undefined, {
+      include: ["copy", "snapshots"]
+    });
 
     assert.equal(listBlobResponse.segment.blobItems.length, 6);
 

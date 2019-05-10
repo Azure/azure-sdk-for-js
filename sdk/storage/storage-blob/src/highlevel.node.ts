@@ -64,7 +64,9 @@ export async function uploadFileToBlockBlob(
  * Intersection type that is {@link IUploadToBlockBlobOptions}, {@link CredentialOptions}, and
  * {@link INewPipelineOptions} at the same time. It contains all members of these types.
  */
-export type UploadFileToBlockBlobUrlOptions = IUploadToBlockBlobOptions & CredentialOptions & INewPipelineOptions;
+export type UploadFileToBlockBlobUrlOptions = IUploadToBlockBlobOptions &
+  CredentialOptions &
+  INewPipelineOptions;
 
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
@@ -86,9 +88,8 @@ export type UploadFileToBlockBlobUrlOptions = IUploadToBlockBlobOptions & Creden
 export async function uploadFileToBlockBlobUrl(
   filePath: string,
   url: string,
-  options: UploadFileToBlockBlobUrlOptions = {},
+  options: UploadFileToBlockBlobUrlOptions = {}
 ): Promise<BlobUploadCommonResponse> {
-
   const pipeline = StorageURL.newPipeline(options.credential || new AnonymousCredential(), options);
   const blockBlobURL = new BlockBlobURL(url, pipeline);
   return uploadFileToBlockBlob(filePath, blockBlobURL, options);
@@ -189,8 +190,7 @@ async function uploadResetableStreamToBlockBlob(
           contentLength,
           {
             abortSignal: options.abortSignal,
-            leaseAccessConditions: options.blobAccessConditions!
-              .leaseAccessConditions
+            leaseAccessConditions: options.blobAccessConditions!.leaseAccessConditions
           }
         );
         // Update progress after block is successfully uploaded to server, in case of block trying
@@ -270,17 +270,12 @@ export async function downloadBlobToBuffer(
   const batch = new Batch(options.parallelism);
   for (let off = offset; off < offset + count; off = off + options.blockSize) {
     batch.addOperation(async () => {
-      const chunkEnd =
-        off + options.blockSize! < count! ? off + options.blockSize! : count!;
-      const response = await blobURL.download(
-        off,
-        chunkEnd - off + 1,
-        {
-          abortSignal: options.abortSignal,
-          blobAccessConditions: options.blobAccessConditions,
-          maxRetryRequests: options.maxRetryRequestsPerBlock
-        }
-      );
+      const chunkEnd = off + options.blockSize! < count! ? off + options.blockSize! : count!;
+      const response = await blobURL.download(off, chunkEnd - off + 1, {
+        abortSignal: options.abortSignal,
+        blobAccessConditions: options.blobAccessConditions,
+        maxRetryRequests: options.maxRetryRequestsPerBlock
+      });
       const stream = response.readableStreamBody!;
       await streamToBuffer(stream, buffer, off - offset, chunkEnd - offset);
       // Update progress after block is downloaded, in case of block trying
@@ -299,7 +294,9 @@ export async function downloadBlobToBuffer(
  * Intersection type that is {@link IDownloadFromBlobOptions}, {@link CredentialOptions}, and
  * {@link INewPipelineOptions} at the same time. It contains all members of these types.
  */
-export type DownloadBlobToBufferFromUrlOptions = IDownloadFromBlobOptions & CredentialOptions & INewPipelineOptions;
+export type DownloadBlobToBufferFromUrlOptions = IDownloadFromBlobOptions &
+  CredentialOptions &
+  INewPipelineOptions;
 
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
@@ -323,9 +320,8 @@ export async function downloadBlobToBufferFromUrl(
   url: string,
   offset: number = 0,
   count: number = 0,
-  options: DownloadBlobToBufferFromUrlOptions = {},
+  options: DownloadBlobToBufferFromUrlOptions = {}
 ): Promise<void> {
-
   const pipeline = StorageURL.newPipeline(options.credential || new AnonymousCredential(), options);
   const blockBlobURL = new BlockBlobURL(url, pipeline);
 
@@ -453,7 +449,9 @@ export async function uploadStreamToBlockBlob(
  * Intersection type that is {@link IUploadStreamToBlockBlobOptions}, {@link CredentialOptions}, and
  * {@link INewPipelineOptions} at the same time. It contains all members of these types.
  */
-export type UploadStreamToBlockBlobUrlOptions = IUploadStreamToBlockBlobOptions & CredentialOptions & INewPipelineOptions
+export type UploadStreamToBlockBlobUrlOptions = IUploadStreamToBlockBlobOptions &
+  CredentialOptions &
+  INewPipelineOptions;
 
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
@@ -480,7 +478,7 @@ export async function uploadStreamToBlockBlobUrl(
   url: string,
   bufferSize: number = 4 * 1024 * 1024,
   maxBuffers: number = 20,
-  options: UploadStreamToBlockBlobUrlOptions = {},
+  options: UploadStreamToBlockBlobUrlOptions = {}
 ): Promise<BlobUploadCommonResponse> {
   const pipeline = StorageURL.newPipeline(options.credential || new AnonymousCredential(), options);
   const blockBlobURL = new BlockBlobURL(url, pipeline);

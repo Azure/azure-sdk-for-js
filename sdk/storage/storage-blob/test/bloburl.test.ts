@@ -212,12 +212,9 @@ describe("BlobURL", () => {
     await blobSnapshotURL.delete();
     await blobURL.delete();
 
-    const result2 = await containerURL.listBlobFlatSegment(
-      undefined,
-      {
-        include: ["snapshots"]
-      }
-    );
+    const result2 = await containerURL.listBlobFlatSegment(undefined, {
+      include: ["snapshots"]
+    });
 
     // Verify that the snapshot is deleted
     assert.equal(result2.segment.blobItems!.length, 0);
@@ -230,12 +227,9 @@ describe("BlobURL", () => {
     const blobSnapshotURL = blobURL.withSnapshot(result.snapshot!);
     await blobSnapshotURL.getProperties();
 
-    const result3 = await containerURL.listBlobFlatSegment(
-      undefined,
-      {
-        include: ["snapshots"]
-      }
-    );
+    const result3 = await containerURL.listBlobFlatSegment(undefined, {
+      include: ["snapshots"]
+    });
 
     // As a snapshot doesn't have leaseStatus and leaseState properties but origin blob has,
     // let assign them to undefined both for other properties' easy comparison
@@ -269,29 +263,20 @@ describe("BlobURL", () => {
 
     await blobURL.delete();
 
-    const result = await containerURL.listBlobFlatSegment(
-      undefined,
-      {
-        include: ["deleted"]
-      }
-    );
+    const result = await containerURL.listBlobFlatSegment(undefined, {
+      include: ["deleted"]
+    });
     assert.ok(result.segment.blobItems![0].deleted);
 
     await blobURL.undelete();
-    const result2 = await containerURL.listBlobFlatSegment(
-      undefined,
-      {
-        include: ["deleted"]
-      }
-    );
+    const result2 = await containerURL.listBlobFlatSegment(undefined, {
+      include: ["deleted"]
+    });
     assert.ok(!result2.segment.blobItems![0].deleted);
   });
 
   it("startCopyFromURL", async () => {
-    const newBlobURL = BlobURL.fromContainerURL(
-      containerURL,
-      getUniqueName("copiedblob")
-    );
+    const newBlobURL = BlobURL.fromContainerURL(containerURL, getUniqueName("copiedblob"));
     const result = await newBlobURL.startCopyFromURL(blobURL.url);
     assert.ok(result.copyId);
 
@@ -303,10 +288,7 @@ describe("BlobURL", () => {
   });
 
   it("abortCopyFromURL should failed for a completed copy operation", async () => {
-    const newBlobURL = BlobURL.fromContainerURL(
-      containerURL,
-      getUniqueName("copiedblob")
-    );
+    const newBlobURL = BlobURL.fromContainerURL(containerURL, getUniqueName("copiedblob"));
     const result = await newBlobURL.startCopyFromURL(blobURL.url);
     assert.ok(result.copyId);
     sleep(1 * 1000);

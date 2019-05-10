@@ -33,25 +33,16 @@ describe("ServiceURL", () => {
     const containerNamePrefix = getUniqueName("container");
     const containerName1 = `${containerNamePrefix}x1`;
     const containerName2 = `${containerNamePrefix}x2`;
-    const containerURL1 = ContainerURL.fromServiceURL(
-      serviceURL,
-      containerName1
-    );
-    const containerURL2 = ContainerURL.fromServiceURL(
-      serviceURL,
-      containerName2
-    );
+    const containerURL1 = ContainerURL.fromServiceURL(serviceURL, containerName1);
+    const containerURL2 = ContainerURL.fromServiceURL(serviceURL, containerName2);
     await containerURL1.create({ metadata: { key: "val" } });
     await containerURL2.create({ metadata: { key: "val" } });
 
-    const result1 = await serviceURL.listContainersSegment(
-      undefined,
-      {
-        include: "metadata",
-        maxresults: 1,
-        prefix: containerNamePrefix
-      }
-    );
+    const result1 = await serviceURL.listContainersSegment(undefined, {
+      include: "metadata",
+      maxresults: 1,
+      prefix: containerNamePrefix
+    });
 
     assert.ok(result1.nextMarker);
     assert.equal(result1.containerItems!.length, 1);
@@ -64,14 +55,11 @@ describe("ServiceURL", () => {
     assert.deepEqual(result1.containerItems![0].properties.leaseStatus, "unlocked");
     assert.deepEqual(result1.containerItems![0].metadata!.key, "val");
 
-    const result2 = await serviceURL.listContainersSegment(
-      result1.nextMarker,
-      {
-        include: "metadata",
-        maxresults: 1,
-        prefix: containerNamePrefix
-      }
-    );
+    const result2 = await serviceURL.listContainersSegment(result1.nextMarker, {
+      include: "metadata",
+      maxresults: 1,
+      prefix: containerNamePrefix
+    });
 
     assert.ok(!result2.nextMarker);
     assert.equal(result2.containerItems!.length, 1);

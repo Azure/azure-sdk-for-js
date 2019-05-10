@@ -4,7 +4,10 @@ import { Aborter } from "../../src/Aborter";
 import { BlobURL } from "../../src/BlobURL";
 import { BlockBlobURL } from "../../src/BlockBlobURL";
 import { ContainerURL } from "../../src/ContainerURL";
-import { uploadBrowserDataToBlockBlob, uploadBrowserDataToBlockBlobUrl } from "../../src/highlevel.browser";
+import {
+  uploadBrowserDataToBlockBlob,
+  uploadBrowserDataToBlockBlobUrl
+} from "../../src/highlevel.browser";
 import {
   arrayBufferEqual,
   blobToArrayBuffer,

@@ -74,9 +74,8 @@ export async function uploadBrowserDataToBlockBlob(
 export async function uploadBrowserDataToBlockBlobUrl(
   browserData: Blob | ArrayBuffer | ArrayBufferView,
   url: string,
-  options: IUploadToBlockBlobOptions & CredentialOptions & INewPipelineOptions = {},
+  options: IUploadToBlockBlobOptions & CredentialOptions & INewPipelineOptions = {}
 ): Promise<BlobUploadCommonResponse> {
-
   const pipeline = StorageURL.newPipeline(options.credential || new AnonymousCredential(), options);
   const blockBlobURL = new BlockBlobURL(url, pipeline);
   return uploadBrowserDataToBlockBlob(browserData, blockBlobURL, options);
@@ -168,16 +167,10 @@ async function UploadSeekableBlobToBlockBlob(
         const end = i === numBlocks - 1 ? size : start + options.blockSize!;
         const contentLength = end - start;
         blockList.push(blockID);
-        await blockBlobURL.stageBlock(
-          blockID,
-          blobFactory(start, contentLength),
-          contentLength,
-          {
-            abortSignal: options.abortSignal,
-            leaseAccessConditions: options.blobAccessConditions!
-              .leaseAccessConditions
-          }
-        );
+        await blockBlobURL.stageBlock(blockID, blobFactory(start, contentLength), contentLength, {
+          abortSignal: options.abortSignal,
+          leaseAccessConditions: options.blobAccessConditions!.leaseAccessConditions
+        });
         // Update progress after block is successfully uploaded to server, in case of block trying
         // TODO: Hook with convenience layer progress event in finer level
         transferProgress += contentLength;

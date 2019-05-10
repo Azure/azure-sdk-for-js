@@ -64,19 +64,9 @@ describe("BlockBlobURL", () => {
 
   it("stageBlock", async () => {
     const body = "HelloWorld";
-    await blockBlobURL.stageBlock(
-      base64encode("1"),
-      body,
-      body.length
-    );
-    await blockBlobURL.stageBlock(
-      base64encode("2"),
-      body,
-      body.length
-    );
-    const listResponse = await blockBlobURL.getBlockList(
-      "uncommitted"
-    );
+    await blockBlobURL.stageBlock(base64encode("1"), body, body.length);
+    await blockBlobURL.stageBlock(base64encode("2"), body, body.length);
+    const listResponse = await blockBlobURL.getBlockList("uncommitted");
     assert.equal(listResponse.uncommittedBlocks!.length, 2);
     assert.equal(listResponse.uncommittedBlocks![0].name, base64encode("1"));
     assert.equal(listResponse.uncommittedBlocks![0].size, body.length);
@@ -99,15 +89,9 @@ describe("BlockBlobURL", () => {
       containerURL,
       getUniqueName("newblockblob")
     );
-    await newBlockBlobURL.stageBlockFromURL(
-      base64encode("1"),
-      blockBlobURL.url,
-      0
-    );
+    await newBlockBlobURL.stageBlockFromURL(base64encode("1"), blockBlobURL.url, 0);
 
-    const listResponse = await newBlockBlobURL.getBlockList(
-      "uncommitted"
-    );
+    const listResponse = await newBlockBlobURL.getBlockList("uncommitted");
     assert.equal(listResponse.uncommittedBlocks!.length, 1);
     assert.equal(listResponse.uncommittedBlocks![0].name, base64encode("1"));
     assert.equal(listResponse.uncommittedBlocks![0].size, body.length);
@@ -128,28 +112,11 @@ describe("BlockBlobURL", () => {
       containerURL,
       getUniqueName("newblockblob")
     );
-    await newBlockBlobURL.stageBlockFromURL(
-      base64encode("1"),
-      blockBlobURL.url,
-      0,
-      4
-    );
-    await newBlockBlobURL.stageBlockFromURL(
-      base64encode("2"),
-      blockBlobURL.url,
-      4,
-      4
-    );
-    await newBlockBlobURL.stageBlockFromURL(
-      base64encode("3"),
-      blockBlobURL.url,
-      8,
-      2
-    );
+    await newBlockBlobURL.stageBlockFromURL(base64encode("1"), blockBlobURL.url, 0, 4);
+    await newBlockBlobURL.stageBlockFromURL(base64encode("2"), blockBlobURL.url, 4, 4);
+    await newBlockBlobURL.stageBlockFromURL(base64encode("3"), blockBlobURL.url, 8, 2);
 
-    const listResponse = await newBlockBlobURL.getBlockList(
-      "uncommitted"
-    );
+    const listResponse = await newBlockBlobURL.getBlockList("uncommitted");
     assert.equal(listResponse.uncommittedBlocks!.length, 3);
     assert.equal(listResponse.uncommittedBlocks![0].name, base64encode("1"));
     assert.equal(listResponse.uncommittedBlocks![0].size, 4);
@@ -170,23 +137,10 @@ describe("BlockBlobURL", () => {
 
   it("commitBlockList", async () => {
     const body = "HelloWorld";
-    await blockBlobURL.stageBlock(
-      base64encode("1"),
-      body,
-      body.length
-    );
-    await blockBlobURL.stageBlock(
-      base64encode("2"),
-      body,
-      body.length
-    );
-    await blockBlobURL.commitBlockList([
-      base64encode("1"),
-      base64encode("2")
-    ]);
-    const listResponse = await blockBlobURL.getBlockList(
-      "committed"
-    );
+    await blockBlobURL.stageBlock(base64encode("1"), body, body.length);
+    await blockBlobURL.stageBlock(base64encode("2"), body, body.length);
+    await blockBlobURL.commitBlockList([base64encode("1"), base64encode("2")]);
+    const listResponse = await blockBlobURL.getBlockList("committed");
     assert.equal(listResponse.committedBlocks!.length, 2);
     assert.equal(listResponse.committedBlocks![0].name, base64encode("1"));
     assert.equal(listResponse.committedBlocks![0].size, body.length);
@@ -196,16 +150,8 @@ describe("BlockBlobURL", () => {
 
   it("commitBlockList with all parameters set", async () => {
     const body = "HelloWorld";
-    await blockBlobURL.stageBlock(
-      base64encode("1"),
-      body,
-      body.length
-    );
-    await blockBlobURL.stageBlock(
-      base64encode("2"),
-      body,
-      body.length
-    );
+    await blockBlobURL.stageBlock(base64encode("1"), body, body.length);
+    await blockBlobURL.stageBlock(base64encode("2"), body, body.length);
 
     const options = {
       blobCacheControl: "blobCacheControl",
@@ -218,17 +164,12 @@ describe("BlockBlobURL", () => {
         keyb: "valb"
       }
     };
-    await blockBlobURL.commitBlockList(
-      [base64encode("1"), base64encode("2")],
-      {
-        blobHTTPHeaders: options,
-        metadata: options.metadata
-      }
-    );
+    await blockBlobURL.commitBlockList([base64encode("1"), base64encode("2")], {
+      blobHTTPHeaders: options,
+      metadata: options.metadata
+    });
 
-    const listResponse = await blockBlobURL.getBlockList(
-      "committed"
-    );
+    const listResponse = await blockBlobURL.getBlockList("committed");
     assert.equal(listResponse.committedBlocks!.length, 2);
     assert.equal(listResponse.committedBlocks![0].name, base64encode("1"));
     assert.equal(listResponse.committedBlocks![0].size, body.length);
@@ -236,10 +177,7 @@ describe("BlockBlobURL", () => {
     assert.equal(listResponse.committedBlocks![1].size, body.length);
 
     const result = await blobURL.download(0);
-    assert.deepStrictEqual(
-      await bodyToString(result, body.repeat(2).length),
-      body.repeat(2)
-    );
+    assert.deepStrictEqual(await bodyToString(result, body.repeat(2).length), body.repeat(2));
     assert.deepStrictEqual(result.cacheControl, options.blobCacheControl);
     assert.deepStrictEqual(result.contentDisposition, options.blobContentDisposition);
     assert.deepStrictEqual(result.contentEncoding, options.blobContentEncoding);
@@ -250,16 +188,8 @@ describe("BlockBlobURL", () => {
 
   it("getBlockList", async () => {
     const body = "HelloWorld";
-    await blockBlobURL.stageBlock(
-      base64encode("1"),
-      body,
-      body.length
-    );
-    await blockBlobURL.stageBlock(
-      base64encode("2"),
-      body,
-      body.length
-    );
+    await blockBlobURL.stageBlock(base64encode("1"), body, body.length);
+    await blockBlobURL.stageBlock(base64encode("2"), body, body.length);
     await blockBlobURL.commitBlockList([base64encode("2")]);
     const listResponse = await blockBlobURL.getBlockList("all");
     assert.equal(listResponse.committedBlocks!.length, 1);

@@ -587,17 +587,16 @@ export class ContainerURL extends StorageURL {
     options?: IContainerListBlobsSegmentOptions
   ): ResumableAsyncIterableIterator<Models.BlobItem> {
     const serviceURL = this;
-    const resumePoint = !options || !options.resumePoint ? { } : options.resumePoint;
+    const resumePoint = !options || !options.resumePoint ? {} : options.resumePoint;
     const aborter = !options || !options.abortSignal ? Aborter.none : options.abortSignal;
-    const iter: ResumableAsyncIterableIterator<Models.BlobItem> =
-     (async function* items(): AsyncIterableIterator<Models.BlobItem> {
+    const iter: ResumableAsyncIterableIterator<
+      Models.BlobItem
+    > = (async function* items(): AsyncIterableIterator<Models.BlobItem> {
       do {
-        const listBlobsResponse = await serviceURL.listBlobFlatSegment(
-          resumePoint.lastNextMarker,
-          {
-            ... options,
-            abortSignal: aborter
-          });
+        const listBlobsResponse = await serviceURL.listBlobFlatSegment(resumePoint.lastNextMarker, {
+          ...options,
+          abortSignal: aborter
+        });
 
         const blobs = listBlobsResponse.segment.blobItems;
         for (let i = iter.resumePoint.lastIndex || 0; i < blobs.length; i++) {
@@ -610,7 +609,7 @@ export class ContainerURL extends StorageURL {
       } while (iter.resumePoint.lastNextMarker);
     } as any)() as any;
 
-    iter.resumePoint = { ... resumePoint };
+    iter.resumePoint = { ...resumePoint };
     return iter;
   }
 

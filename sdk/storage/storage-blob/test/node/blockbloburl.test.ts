@@ -51,9 +51,6 @@ describe("BlockBlobURL Node.js only", () => {
     const body: string = getUniqueName("randomstring你好");
     await blockBlobURL.upload(body, Buffer.byteLength(body));
     const result = await blobURL.download(0);
-    assert.deepStrictEqual(
-      await bodyToString(result, Buffer.byteLength(body)),
-      body
-    );
+    assert.deepStrictEqual(await bodyToString(result, Buffer.byteLength(body)), body);
   });
 });
