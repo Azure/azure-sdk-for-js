@@ -2,8 +2,6 @@
 process.env.CHROME_BIN = require("puppeteer").executablePath();
 require("dotenv").config();
 
-console.log("in karma", process.env.SERVICEBUS_CONNECTION_STRING);
-
 module.exports = function(config) {
   config.set({
     // base path that will be used to resolve all patterns (eg. files, exclude)
