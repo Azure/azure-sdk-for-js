@@ -231,9 +231,17 @@ export class Receiver {
       sequenceNumber
     );
 
+    let receiverName;
+    if (this._context.batchingReceiver) {
+      receiverName = this._context.batchingReceiver.name;
+    } else if (this._context.streamingReceiver) {
+      receiverName = this._context.streamingReceiver.name;
+    }
+
     const messages = await this._context.managementClient!.receiveDeferredMessages(
       [sequenceNumber],
-      this._receiveMode
+      this._receiveMode,
+      receiverName
     );
     return messages[0];
   }
@@ -262,9 +270,17 @@ export class Receiver {
       sequenceNumbers
     );
 
+    let receiverName;
+    if (this._context.batchingReceiver) {
+      receiverName = this._context.batchingReceiver.name;
+    } else if (this._context.streamingReceiver) {
+      receiverName = this._context.streamingReceiver.name;
+    }
+
     return this._context.managementClient!.receiveDeferredMessages(
       sequenceNumbers,
-      this._receiveMode
+      this._receiveMode,
+      receiverName
     );
   }
 
@@ -568,6 +584,7 @@ export class SessionReceiver {
     const messages = await this._context.managementClient!.receiveDeferredMessages(
       [sequenceNumber],
       this._receiveMode,
+      this._messageSession!.name,
       this.sessionId
     );
     return messages[0];
@@ -601,6 +618,7 @@ export class SessionReceiver {
     return this._context.managementClient!.receiveDeferredMessages(
       sequenceNumbers,
       this._receiveMode,
+      this._messageSession!.name,
       this.sessionId
     );
   }
