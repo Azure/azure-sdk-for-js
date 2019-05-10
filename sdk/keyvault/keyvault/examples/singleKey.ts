@@ -1,4 +1,4 @@
-import { SecretsClient, KeysClient } from "../src";
+import { KeysClient } from "../src";
 import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
 
 async function main(): Promise<void> {
@@ -32,13 +32,11 @@ async function main(): Promise<void> {
   console.log("getResult: ", getResult);
   let encoded = Buffer.from("Hello World");
 
-  /*
   let wrappedResponse = await client.wrapKey("MyKeyName", '', "RSA-OAEP", encoded);
   console.log("wrappedResponse: ", wrappedResponse);
 
-  let unwrappedResponse = await client.wrapKey("MyKeyName", '', "RSA-OAEP", wrappedResponse.result);
-  console.log("unwrappedResponse: ", unwrappedResponse);
-  */
+  let unwrappedResponse = await client.unwrapKey("MyKeyName", '', "RSA-OAEP", wrappedResponse.result!);
+  console.log("unwrappedResponse: ", unwrappedResponse.result!.toString());
  
   for await (let x of client.getAllKeys()) {
     console.log(">> ", x);
