@@ -1,8 +1,4 @@
-import {
-  RequestPolicy,
-  RequestPolicyFactory,
-  RequestPolicyOptions
-} from "@azure/ms-rest-js";
+import { RequestPolicy, RequestPolicyFactory, RequestPolicyOptions } from "@azure/ms-rest-js";
 
 import { RetryPolicy, RetryPolicyType } from "./policies/RetryPolicy";
 
@@ -95,10 +91,7 @@ export class RetryPolicyFactory implements RequestPolicyFactory {
     this.retryOptions = retryOptions;
   }
 
-  public create(
-    nextPolicy: RequestPolicy,
-    options: RequestPolicyOptions
-  ): RetryPolicy {
+  public create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): RetryPolicy {
     return new RetryPolicy(nextPolicy, options, this.retryOptions);
   }
 }

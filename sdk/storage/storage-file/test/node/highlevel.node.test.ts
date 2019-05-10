@@ -10,12 +10,7 @@ import {
   uploadFileToAzureFile,
   uploadStreamToAzureFile
 } from "../../src/highlevel.node";
-import {
-  createRandomLocalFile,
-  getBSU,
-  getUniqueName,
-  readStreamToLocalFile
-} from "../utils";
+import { createRandomLocalFile, getBSU, getUniqueName, readStreamToLocalFile } from "../utils";
 import { IRetriableReadableStreamOptions } from "../../src/utils/RetriableReadableStream";
 
 // tslint:disable:no-empty
@@ -52,17 +47,9 @@ describe("Highlevel", () => {
     if (!fs.existsSync(tempFolderPath)) {
       fs.mkdirSync(tempFolderPath);
     }
-    tempFileLarge = await createRandomLocalFile(
-      tempFolderPath,
-      257,
-      1024 * 1024
-    );
+    tempFileLarge = await createRandomLocalFile(tempFolderPath, 257, 1024 * 1024);
     tempFileLargeLength = 257 * 1024 * 1024;
-    tempFileSmall = await createRandomLocalFile(
-      tempFolderPath,
-      15,
-      1024 * 1024
-    );
+    tempFileSmall = await createRandomLocalFile(tempFolderPath, 15, 1024 * 1024);
     tempFileSmallLength = 15 * 1024 * 1024;
   });
 
@@ -78,14 +65,8 @@ describe("Highlevel", () => {
     });
 
     const downloadResponse = await fileURL.download(Aborter.none, 0);
-    const downloadedFile = path.join(
-      tempFolderPath,
-      getUniqueName("downloadfile.")
-    );
-    await readStreamToLocalFile(
-      downloadResponse.readableStreamBody!,
-      downloadedFile
-    );
+    const downloadedFile = path.join(tempFolderPath, getUniqueName("downloadfile."));
+    await readStreamToLocalFile(downloadResponse.readableStreamBody!, downloadedFile);
 
     const downloadedData = await fs.readFileSync(downloadedFile);
     const uploadedData = await fs.readFileSync(tempFileLarge);
@@ -101,14 +82,8 @@ describe("Highlevel", () => {
     });
 
     const downloadResponse = await fileURL.download(Aborter.none, 0);
-    const downloadedFile = path.join(
-      tempFolderPath,
-      getUniqueName("downloadfile.")
-    );
-    await readStreamToLocalFile(
-      downloadResponse.readableStreamBody!,
-      downloadedFile
-    );
+    const downloadedFile = path.join(tempFolderPath, getUniqueName("downloadfile."));
+    await readStreamToLocalFile(downloadResponse.readableStreamBody!, downloadedFile);
 
     const downloadedData = await fs.readFileSync(downloadedFile);
     const uploadedData = await fs.readFileSync(tempFileSmall);
@@ -152,7 +127,7 @@ describe("Highlevel", () => {
     try {
       await uploadFileToAzureFile(aborter, tempFileLarge, fileURL, {
         parallelism: 20,
-        progress: ev => {
+        progress: (ev) => {
           assert.ok(ev.loadedBytes);
           eventTriggered = true;
           aborter.abort();
@@ -170,7 +145,7 @@ describe("Highlevel", () => {
     try {
       await uploadFileToAzureFile(aborter, tempFileSmall, fileURL, {
         parallelism: 20,
-        progress: ev => {
+        progress: (ev) => {
           assert.ok(ev.loadedBytes);
           eventTriggered = true;
           aborter.abort();
@@ -194,14 +169,8 @@ describe("Highlevel", () => {
 
     const downloadResponse = await fileURL.download(Aborter.none, 0);
 
-    const downloadFilePath = path.join(
-      tempFolderPath,
-      getUniqueName("downloadFile")
-    );
-    await readStreamToLocalFile(
-      downloadResponse.readableStreamBody!,
-      downloadFilePath
-    );
+    const downloadFilePath = path.join(tempFolderPath, getUniqueName("downloadFile"));
+    await readStreamToLocalFile(downloadResponse.readableStreamBody!, downloadFilePath);
 
     const downloadedBuffer = fs.readFileSync(downloadFilePath);
     const uploadedBuffer = fs.readFileSync(tempFileLarge);
@@ -215,14 +184,7 @@ describe("Highlevel", () => {
     const aborter = Aborter.timeout(1);
 
     try {
-      await uploadStreamToAzureFile(
-        aborter,
-        rs,
-        tempFileLargeLength,
-        fileURL,
-        4 * 1024 * 1024,
-        20
-      );
+      await uploadStreamToAzureFile(aborter, rs, tempFileLargeLength, fileURL, 4 * 1024 * 1024, 20);
       assert.fail();
     } catch (err) {
       assert.ok((err.code as string).toLowerCase().includes("abort"));
@@ -241,7 +203,7 @@ describe("Highlevel", () => {
       4 * 1024 * 1024,
       20,
       {
-        progress: ev => {
+        progress: (ev) => {
           assert.ok(ev.loadedBytes);
           eventTriggered = true;
         }
@@ -284,17 +246,10 @@ describe("Highlevel", () => {
 
     try {
       const buf = Buffer.alloc(tempFileLargeLength);
-      await downloadAzureFileToBuffer(
-        Aborter.timeout(1),
-        buf,
-        fileURL,
-        0,
-        undefined,
-        {
-          parallelism: 20,
-          rangeSize: 4 * 1024 * 1024
-        }
-      );
+      await downloadAzureFileToBuffer(Aborter.timeout(1), buf, fileURL, 0, undefined, {
+        parallelism: 20,
+        rangeSize: 4 * 1024 * 1024
+      });
       assert.fail();
     } catch (err) {
       assert.ok((err.code as string).toLowerCase().includes("abort"));
@@ -335,31 +290,19 @@ describe("Highlevel", () => {
     });
 
     let retirableReadableStreamOptions: IRetriableReadableStreamOptions;
-    const downloadResponse = await fileURL.download(
-      Aborter.none,
-      0,
-      undefined,
-      {
-        maxRetryRequests: 1,
-        progress: ev => {
-          if (ev.loadedBytes >= tempFileSmallLength) {
-            retirableReadableStreamOptions.doInjectErrorOnce = true;
-          }
+    const downloadResponse = await fileURL.download(Aborter.none, 0, undefined, {
+      maxRetryRequests: 1,
+      progress: (ev) => {
+        if (ev.loadedBytes >= tempFileSmallLength) {
+          retirableReadableStreamOptions.doInjectErrorOnce = true;
         }
       }
-    );
+    });
 
-    retirableReadableStreamOptions = (downloadResponse.readableStreamBody! as any)
-      .options;
+    retirableReadableStreamOptions = (downloadResponse.readableStreamBody! as any).options;
 
-    const downloadedFile = path.join(
-      tempFolderPath,
-      getUniqueName("downloadfile.")
-    );
-    await readStreamToLocalFile(
-      downloadResponse.readableStreamBody!,
-      downloadedFile
-    );
+    const downloadedFile = path.join(tempFolderPath, getUniqueName("downloadfile."));
+    await readStreamToLocalFile(downloadResponse.readableStreamBody!, downloadedFile);
 
     const downloadedData = await fs.readFileSync(downloadedFile);
     const uploadedData = await fs.readFileSync(tempFileSmall);
@@ -376,31 +319,19 @@ describe("Highlevel", () => {
 
     let retirableReadableStreamOptions: IRetriableReadableStreamOptions;
     let injectedErrors = 0;
-    const downloadResponse = await fileURL.download(
-      Aborter.none,
-      0,
-      undefined,
-      {
-        maxRetryRequests: 3,
-        progress: () => {
-          if (injectedErrors++ < 3) {
-            retirableReadableStreamOptions.doInjectErrorOnce = true;
-          }
+    const downloadResponse = await fileURL.download(Aborter.none, 0, undefined, {
+      maxRetryRequests: 3,
+      progress: () => {
+        if (injectedErrors++ < 3) {
+          retirableReadableStreamOptions.doInjectErrorOnce = true;
         }
       }
-    );
+    });
 
-    retirableReadableStreamOptions = (downloadResponse.readableStreamBody! as any)
-      .options;
+    retirableReadableStreamOptions = (downloadResponse.readableStreamBody! as any).options;
 
-    const downloadedFile = path.join(
-      tempFolderPath,
-      getUniqueName("downloadfile.")
-    );
-    await readStreamToLocalFile(
-      downloadResponse.readableStreamBody!,
-      downloadedFile
-    );
+    const downloadedFile = path.join(tempFolderPath, getUniqueName("downloadfile."));
+    await readStreamToLocalFile(downloadResponse.readableStreamBody!, downloadedFile);
 
     const downloadedData = await fs.readFileSync(downloadedFile);
     const uploadedData = await fs.readFileSync(tempFileSmall);
@@ -419,31 +350,19 @@ describe("Highlevel", () => {
 
     let retirableReadableStreamOptions: IRetriableReadableStreamOptions;
     let injectedErrors = 0;
-    const downloadResponse = await fileURL.download(
-      Aborter.none,
-      1,
-      partialSize,
-      {
-        maxRetryRequests: 3,
-        progress: () => {
-          if (injectedErrors++ < 3) {
-            retirableReadableStreamOptions.doInjectErrorOnce = true;
-          }
+    const downloadResponse = await fileURL.download(Aborter.none, 1, partialSize, {
+      maxRetryRequests: 3,
+      progress: () => {
+        if (injectedErrors++ < 3) {
+          retirableReadableStreamOptions.doInjectErrorOnce = true;
         }
       }
-    );
+    });
 
-    retirableReadableStreamOptions = (downloadResponse.readableStreamBody! as any)
-      .options;
+    retirableReadableStreamOptions = (downloadResponse.readableStreamBody! as any).options;
 
-    const downloadedFile = path.join(
-      tempFolderPath,
-      getUniqueName("downloadfile.")
-    );
-    await readStreamToLocalFile(
-      downloadResponse.readableStreamBody!,
-      downloadedFile
-    );
+    const downloadedFile = path.join(tempFolderPath, getUniqueName("downloadfile."));
+    await readStreamToLocalFile(downloadResponse.readableStreamBody!, downloadedFile);
 
     const downloadedData = await fs.readFileSync(downloadedFile);
     const uploadedData = await fs.readFileSync(tempFileSmall);
@@ -458,35 +377,23 @@ describe("Highlevel", () => {
       parallelism: 20
     });
 
-    const downloadedFile = path.join(
-      tempFolderPath,
-      getUniqueName("downloadfile.")
-    );
+    const downloadedFile = path.join(tempFolderPath, getUniqueName("downloadfile."));
 
     let retirableReadableStreamOptions: IRetriableReadableStreamOptions;
     let injectedErrors = 0;
     let expectedError = false;
 
     try {
-      const downloadResponse = await fileURL.download(
-        Aborter.none,
-        0,
-        undefined,
-        {
-          maxRetryRequests: 0,
-          progress: () => {
-            if (injectedErrors++ < 1) {
-              retirableReadableStreamOptions.doInjectErrorOnce = true;
-            }
+      const downloadResponse = await fileURL.download(Aborter.none, 0, undefined, {
+        maxRetryRequests: 0,
+        progress: () => {
+          if (injectedErrors++ < 1) {
+            retirableReadableStreamOptions.doInjectErrorOnce = true;
           }
         }
-      );
-      retirableReadableStreamOptions = (downloadResponse.readableStreamBody! as any)
-        .options;
-      await readStreamToLocalFile(
-        downloadResponse.readableStreamBody!,
-        downloadedFile
-      );
+      });
+      retirableReadableStreamOptions = (downloadResponse.readableStreamBody! as any).options;
+      await readStreamToLocalFile(downloadResponse.readableStreamBody!, downloadedFile);
     } catch (error) {
       expectedError = true;
     }
@@ -501,10 +408,7 @@ describe("Highlevel", () => {
       parallelism: 20
     });
 
-    const downloadedFile = path.join(
-      tempFolderPath,
-      getUniqueName("downloadfile.")
-    );
+    const downloadedFile = path.join(tempFolderPath, getUniqueName("downloadfile."));
 
     let retirableReadableStreamOptions: IRetriableReadableStreamOptions;
     let injectedErrors = 0;
@@ -524,12 +428,8 @@ describe("Highlevel", () => {
           }
         }
       });
-      retirableReadableStreamOptions = (downloadResponse.readableStreamBody! as any)
-        .options;
-      await readStreamToLocalFile(
-        downloadResponse.readableStreamBody!,
-        downloadedFile
-      );
+      retirableReadableStreamOptions = (downloadResponse.readableStreamBody! as any).options;
+      await readStreamToLocalFile(downloadResponse.readableStreamBody!, downloadedFile);
     } catch (error) {
       expectedError = true;
     }

@@ -164,18 +164,14 @@ export function generateFileSASQueryParameters(
     );
   }
 
-  const version = fileSASSignatureValues.version
-    ? fileSASSignatureValues.version
-    : SERVICE_VERSION;
+  const version = fileSASSignatureValues.version ? fileSASSignatureValues.version : SERVICE_VERSION;
   let resource: string = "s";
   let verifiedPermissions: string | undefined;
 
   // Calling parse and toString guarantees the proper ordering and throws on invalid characters.
   if (fileSASSignatureValues.permissions) {
     if (fileSASSignatureValues.filePath) {
-      verifiedPermissions = FileSASPermissions.parse(
-        fileSASSignatureValues.permissions
-      ).toString();
+      verifiedPermissions = FileSASPermissions.parse(fileSASSignatureValues.permissions).toString();
       resource = "f";
     } else {
       verifiedPermissions = ShareSASPermissions.parse(
@@ -199,9 +195,7 @@ export function generateFileSASQueryParameters(
       fileSASSignatureValues.filePath
     ),
     fileSASSignatureValues.identifier,
-    fileSASSignatureValues.ipRange
-      ? ipRangeToString(fileSASSignatureValues.ipRange)
-      : "",
+    fileSASSignatureValues.ipRange ? ipRangeToString(fileSASSignatureValues.ipRange) : "",
     fileSASSignatureValues.protocol,
     version,
     fileSASSignatureValues.cacheControl,
@@ -233,11 +227,7 @@ export function generateFileSASQueryParameters(
   );
 }
 
-function getCanonicalName(
-  accountName: string,
-  shareName: string,
-  filePath?: string
-): string {
+function getCanonicalName(accountName: string, shareName: string, filePath?: string): string {
   // Share: "/file/account/sharename"
   // File:  "/file/account/sharename/filename"
   // File:  "/file/account/sharename/directoryname/filename"

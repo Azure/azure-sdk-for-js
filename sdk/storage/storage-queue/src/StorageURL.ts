@@ -6,10 +6,7 @@ import { StorageClientContext } from "./generated/lib/storageClientContext";
 import { LoggingPolicyFactory } from "./LoggingPolicyFactory";
 import { IHttpClient, IHttpPipelineLogger, Pipeline } from "./Pipeline";
 import { IRetryOptions, RetryPolicyFactory } from "./RetryPolicyFactory";
-import {
-  ITelemetryOptions,
-  TelemetryPolicyFactory
-} from "./TelemetryPolicyFactory";
+import { ITelemetryOptions, TelemetryPolicyFactory } from "./TelemetryPolicyFactory";
 import { UniqueRequestIDPolicyFactory } from "./UniqueRequestIDPolicyFactory";
 
 export { deserializationPolicy };
@@ -109,11 +106,8 @@ export abstract class StorageURL {
   protected constructor(url: string, pipeline: Pipeline) {
     this.url = url;
     this.pipeline = pipeline;
-    this.storageClientContext = new StorageClientContext(
-      url,
-      pipeline.toServiceClientOptions()
-    );
-    
+    this.storageClientContext = new StorageClientContext(url, pipeline.toServiceClientOptions());
+
     // Override protocol layer's default content-type
     const storageClientContext = this.storageClientContext as any;
     storageClientContext.requestContentType = undefined;

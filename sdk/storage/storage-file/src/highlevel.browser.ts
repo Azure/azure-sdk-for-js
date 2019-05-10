@@ -2,10 +2,7 @@ import { Aborter } from "./Aborter";
 import { FileURL } from "./FileURL";
 import { IUploadToAzureFileOptions } from "./highlevel.common";
 import { Batch } from "./utils/Batch";
-import {
-  FILE_RANGE_MAX_SIZE_BYTES,
-  DEFAULT_HIGH_LEVEL_PARALLELISM
-} from "./utils/constants";
+import { FILE_RANGE_MAX_SIZE_BYTES, DEFAULT_HIGH_LEVEL_PARALLELISM } from "./utils/constants";
 
 /**
  * ONLY AVAILABLE IN BROWSERS.
@@ -63,9 +60,7 @@ async function UploadSeekableBlobToAzureFile(
     options.rangeSize = FILE_RANGE_MAX_SIZE_BYTES;
   }
   if (options.rangeSize < 0 || options.rangeSize > FILE_RANGE_MAX_SIZE_BYTES) {
-    throw new RangeError(
-      `options.rangeSize must be > 0 and <= ${FILE_RANGE_MAX_SIZE_BYTES}`
-    );
+    throw new RangeError(`options.rangeSize must be > 0 and <= ${FILE_RANGE_MAX_SIZE_BYTES}`);
   }
 
   if (!options.fileHTTPHeaders) {
@@ -95,12 +90,7 @@ async function UploadSeekableBlobToAzureFile(
         const start = options.rangeSize! * i;
         const end = i === numBlocks - 1 ? size : start + options.rangeSize!;
         const contentLength = end - start;
-        await fileURL.uploadRange(
-          aborter,
-          blobFactory(start, contentLength),
-          start,
-          contentLength
-        );
+        await fileURL.uploadRange(aborter, blobFactory(start, contentLength), start, contentLength);
         // Update progress after block is successfully uploaded to server, in case of block trying
         // TODO: Hook with convenience layer progress event in finer level
         transferProgress += contentLength;
