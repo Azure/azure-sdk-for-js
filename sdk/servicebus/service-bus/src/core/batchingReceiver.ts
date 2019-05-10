@@ -57,6 +57,7 @@ export class BatchingReceiver extends MessageReceiver {
     // Clears the token renewal timer. Closes the link and its session if they are open.
     await this._closeLink(this._receiver);
     this.detachedError = receiverError;
+    await super.onDetached(receiverError);
   }
 
   /**
@@ -106,6 +107,7 @@ export class BatchingReceiver extends MessageReceiver {
           if (this._receiver) {
             this._receiver.removeListener(ReceiverEvents.receiverDrained, onReceiveDrain);
           }
+          this._clearAllMessageLockRenewTimers();
           this.isReceivingMessages = false;
           const err = translate(this.detachedError);
           return reject(err);
