@@ -384,6 +384,7 @@ export class SessionReceiver {
    * @property {boolean} [_isClosed] Denotes if close() was called on this receiver
    */
   private _isClosed: boolean = false;
+  private _sessionId: string | undefined;
 
   /**
    * @property Denotes receiveMode of this receiver.
@@ -408,7 +409,7 @@ export class SessionReceiver {
    * @readonly
    */
   public get sessionId(): string | undefined {
-    return this._messageSession ? this._messageSession.sessionId : undefined;
+    return this._sessionId;
   }
 
   /**
@@ -774,6 +775,7 @@ export class SessionReceiver {
         .maxSessionAutoRenewLockDurationInSeconds,
       receiveMode: this._receiveMode
     });
+    this._sessionId = this._messageSession.sessionId;
   }
 
   private _throwIfAlreadyReceiving(): void {
