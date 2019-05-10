@@ -7,8 +7,9 @@
  */
 
 export {
-  ApplicationInsightsComponentAvailableFeatures,
-  ApplicationInsightsComponentFeature,
-  ApplicationInsightsComponentFeatureCapability,
-  CloudError
+  ARMErrorResponseBody,
+  CloudError,
+  MetadataEntity,
+  MetadataEntityListResult,
+  MetadataSupportedValueDetail
 } from "../models/mappers";
