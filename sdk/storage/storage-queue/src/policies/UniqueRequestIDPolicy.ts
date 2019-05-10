@@ -33,14 +33,9 @@ export class UniqueRequestIDPolicy extends BaseRequestPolicy {
    * @returns {Promise<HttpOperationResponse>}
    * @memberof UniqueRequestIDPolicy
    */
-  public async sendRequest(
-    request: WebResource
-  ): Promise<HttpOperationResponse> {
+  public async sendRequest(request: WebResource): Promise<HttpOperationResponse> {
     if (!request.headers.contains(HeaderConstants.X_MS_CLIENT_REQUEST_ID)) {
-      request.headers.set(
-        HeaderConstants.X_MS_CLIENT_REQUEST_ID,
-        generateUuid()
-      );
+      request.headers.set(HeaderConstants.X_MS_CLIENT_REQUEST_ID, generateUuid());
     }
 
     return this._nextPolicy.sendRequest(request);

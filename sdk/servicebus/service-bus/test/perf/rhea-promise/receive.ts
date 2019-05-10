@@ -9,15 +9,22 @@ Measures the maximum throughput of `receiver.receive()` in package `rhea-promise
 4. This test presumes that there are messages in the queue.
 5. `ts-node receive.ts [maxConcurrentCalls] [totalMessages]`
 6. Example: `ts-node receive.ts 1000 1000000`
+7. If "maxConcurrentCalls <= 0", then receive credits are automatically managed which seems to improve throughput (both maximum rate and consistency).
  */
 
-import { Connection, ConnectionOptions, ReceiverEvents } from "rhea-promise";
+import {
+  Connection,
+  ConnectionOptions,
+  ReceiverEvents,
+  ReceiverOptionsWithSession
+} from "rhea-promise";
 import delay from "delay";
 import moment from "moment";
 
 const _start = moment();
 
 let _messages = 0;
+let _credit = -1;
 
 async function main(): Promise<void> {
   // Endpoint=sb://<your-namespace>.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=<shared-access-key>
@@ -77,23 +84,34 @@ async function RunTest(
   } as ConnectionOptions);
   await connection.open();
 
-  const receiver = await connection.createReceiver({
+  let receiverOptions: ReceiverOptionsWithSession = {
     name: "receiver-1",
     source: {
       address: entityPath
-    },
-    credit_window: 0
-  });
+    }
+  };
 
-  receiver.addCredit(maxConcurrentCalls);
+  const manuallyManageCredit = (maxConcurrentCalls > 0);
+  if (manuallyManageCredit) {
+    receiverOptions.credit_window = 0;
+  }
+
+  const receiver = await connection.createReceiver(receiverOptions);
+  
+  if (manuallyManageCredit) {
+    receiver.addCredit(maxConcurrentCalls);
+  }
 
   receiver.on(ReceiverEvents.message, async (context: any) => {
     // console.log("Received message: %O", context.message.body);
     _messages++;
+
+    _credit = receiver.credit;
+
     if (_messages === messages) {
       await receiver.close();
       await connection.close();
-    } else {
+    } else if (manuallyManageCredit) {
       receiver.addCredit(1);
     }
   });
@@ -127,7 +145,8 @@ async function WriteResults(messages: number): Promise<void> {
       currentMessages,
       currentElapsed,
       maxMessages,
-      maxElapsed
+      maxElapsed,
+      _credit
     );
   } while (_messages < messages);
 }
@@ -138,13 +157,15 @@ function WriteResult(
   currentMessages: number,
   currentElapsed: number,
   maxMessages: number,
-  maxElapsed: number
+  maxElapsed: number,
+  credit: number
 ): void {
   log(
     `\tTot Msg\t${totalMessages}` +
       `\tCur MPS\t${Math.round((currentMessages * 1000) / currentElapsed)}` +
       `\tAvg MPS\t${Math.round((totalMessages * 1000) / totalElapsed)}` +
-      `\tMax MPS\t${Math.round((maxMessages * 1000) / maxElapsed)}`
+      `\tMax MPS\t${Math.round((maxMessages * 1000) / maxElapsed)}` +
+      `\tCredit\t${credit}`
   );
 }
 

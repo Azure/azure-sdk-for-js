@@ -190,10 +190,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     );
 
     const sasURL = `${queueURL.url}?${queueSAS}`;
-    const queueURLwithSAS = new QueueURL(
-      sasURL,
-      StorageURL.newPipeline(new AnonymousCredential())
-    );
+    const queueURLwithSAS = new QueueURL(sasURL, StorageURL.newPipeline(new AnonymousCredential()));
 
     await queueURLwithSAS.getProperties(Aborter.none);
     await queueURL.delete(Aborter.none);
@@ -235,18 +232,12 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       sasURLForMessages,
       StorageURL.newPipeline(new AnonymousCredential())
     );
-    const enqueueResult = await messagesURLWithSAS.enqueue(
-      Aborter.none,
-      messageContent
-    );
+    const enqueueResult = await messagesURLWithSAS.enqueue(Aborter.none, messageContent);
 
     let pResult = await messagesURL.peek(Aborter.none);
     assert.deepStrictEqual(pResult.peekedMessageItems.length, 1);
 
-    const messageIdURL = MessageIdURL.fromMessagesURL(
-      messagesURL,
-      enqueueResult.messageId
-    );
+    const messageIdURL = MessageIdURL.fromMessagesURL(messagesURL, enqueueResult.messageId);
     const sasURLForMessageId = `${messageIdURL.url}?${queueSAS}`;
     const messageIdURLWithSAS = new MessageIdURL(
       sasURLForMessageId,
@@ -306,23 +297,14 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const messageContent = "hello";
 
-    const eResult = await messagesURLwithSAS.enqueue(
-      Aborter.none,
-      messageContent
-    );
+    const eResult = await messagesURLwithSAS.enqueue(Aborter.none, messageContent);
     assert.ok(eResult.messageId);
     const pResult = await messagesURLwithSAS.peek(Aborter.none);
-    assert.deepStrictEqual(
-      pResult.peekedMessageItems[0].messageText,
-      messageContent
-    );
+    assert.deepStrictEqual(pResult.peekedMessageItems[0].messageText, messageContent);
     const dResult = await messagesURLwithSAS.dequeue(Aborter.none, {
       visibilitytimeout: 1
     });
-    assert.deepStrictEqual(
-      dResult.dequeuedMessageItems[0].messageText,
-      messageContent
-    );
+    assert.deepStrictEqual(dResult.dequeuedMessageItems[0].messageText, messageContent);
 
     await sleep(2 * 1000);
 

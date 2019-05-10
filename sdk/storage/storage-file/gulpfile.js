@@ -4,7 +4,7 @@ const zip = require("gulp-zip");
 const version = require("./package.json").version;
 const zipFileName = `azurestoragejs.file-${version}.zip`;
 
-gulp.task("zip", function(callback) {
+gulp.task("zip", function (callback) {
   gulp
     .src([
       "browser/azure-storage-file.js",
