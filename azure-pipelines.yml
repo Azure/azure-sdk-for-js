@@ -2,7 +2,7 @@ trigger:
 - master
 
 jobs:
-- job: Check_Everything
+- job: npm_install
   pool:
     vmImage: 'Ubuntu 16.04'
   steps:
@@ -12,12 +12,6 @@ jobs:
       command: custom
       verbose: false
       customCommand: install
-  - task: Npm@1
-    displayName: 'npm run check:everything -- --azure-devops'
-    inputs:
-      command: custom
-      verbose: false
-      customCommand: run check:everything -- --azure-devops
 - job: Test
   pool:
     vmImage: 'Ubuntu 16.04'
@@ -57,16 +51,8 @@ jobs:
     vmImage: 'Ubuntu 16.04'
   steps:
   - task: Npm@1
-    displayName: 'npm pack'
+    displayName: 'npm build'
     inputs:
       command: custom
       verbose: false
-      customCommand: pack
-  - task: CopyFiles@2
-    displayName: 'Copy Files to: drop'
-    inputs:
-      Contents: '*.tgz'
-      TargetFolder: drop
-  - task: PublishBuildArtifacts@1
-    inputs:
-      pathtoPublish: $(Build.SourcesDirectory)/drop
+      customCommand: build
