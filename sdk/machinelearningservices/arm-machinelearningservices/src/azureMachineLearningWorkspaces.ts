@@ -19,6 +19,9 @@ class AzureMachineLearningWorkspaces extends AzureMachineLearningWorkspacesConte
   // Operation groups
   operations: operations.Operations;
   workspaces: operations.Workspaces;
+  usages: operations.Usages;
+  usagesByVMFamily: operations.UsagesByVMFamily;
+  virtualMachineSizes: operations.VirtualMachineSizes;
   machineLearningCompute: operations.MachineLearningCompute;
 
   /**
@@ -31,6 +34,9 @@ class AzureMachineLearningWorkspaces extends AzureMachineLearningWorkspacesConte
     super(credentials, subscriptionId, options);
     this.operations = new operations.Operations(this);
     this.workspaces = new operations.Workspaces(this);
+    this.usages = new operations.Usages(this);
+    this.usagesByVMFamily = new operations.UsagesByVMFamily(this);
+    this.virtualMachineSizes = new operations.VirtualMachineSizes(this);
     this.machineLearningCompute = new operations.MachineLearningCompute(this);
   }
 }

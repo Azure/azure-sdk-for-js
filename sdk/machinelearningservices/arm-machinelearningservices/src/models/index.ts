@@ -104,11 +104,6 @@ export interface Workspace extends Resource {
    */
   readonly creationTime?: Date;
   /**
-   * ARM id of the Batch AI workspace associated with this workspace. This cannot be changed once
-   * the workspace has been created
-   */
-  batchaiWorkspace?: string;
-  /**
    * ARM id of the key vault associated with this workspace. This cannot be changed once the
    * workspace has been created
    */
@@ -161,6 +156,115 @@ export interface WorkspaceUpdateParameters {
 }
 
 /**
+ * The Usage Names.
+ */
+export interface UsageName {
+  /**
+   * The name of the resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly value?: string;
+  /**
+   * The localized name of the resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly localizedValue?: string;
+}
+
+/**
+ * Describes AML Resource Usage.
+ */
+export interface Usage {
+  /**
+   * An enum describing the unit of usage measurement. Possible values include: 'Count'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly unit?: UsageUnit;
+  /**
+   * The current usage of the resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly currentValue?: number;
+  /**
+   * The maximum permitted usage of the resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly limit?: number;
+  /**
+   * The name of the type of usage.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: UsageName;
+}
+
+/**
+ * Describes Batch AI Resource Usage by VM Family, broken down by Workspace and Cluster usage
+ */
+export interface UsageByVMFamily extends Usage {
+  /**
+   * The name of the resource group this resource type belongs to
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly resourceGroupName?: string;
+  /**
+   * The type of the resource, whether its VM family, workspace name, or cluster
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly resourceType?: string;
+  /**
+   * The breakdown of usage by Workspace or Cluster
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly usageBreakdown?: UsageByVMFamily[];
+}
+
+/**
+ * Describes the properties of a VM size.
+ */
+export interface VirtualMachineSize {
+  /**
+   * Virtual Machine size name. The name of the virtual machine size.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * Virtual Machine family name. The family name of the virtual machine size.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly family?: string;
+  /**
+   * Number of vPUs. The number of vCPUs supported by the virtual machine size.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly vCPUs?: number;
+  /**
+   * OS VHD Disk size. The OS VHD disk size, in MB, allowed by the virtual machine size.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly osVhdSizeMB?: number;
+  /**
+   * Resource volume size. The resource volume size, in MB, allowed by the virtual machine size.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly maxResourceVolumeMB?: number;
+  /**
+   * Memory size. The amount of memory, in GB, supported by the virtual machine size.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly memoryGB?: number;
+  /**
+   * Low priority capable. Specifies if the virtual machine size supports low priority VMs.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly lowPriorityCapable?: boolean;
+  /**
+   * Premium IO supported. Specifies if the virtual machine size supports premium IO.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly premiumIO?: boolean;
+}
+
+/**
  * Identity for the resource.
  */
 export interface Identity {
@@ -178,6 +282,16 @@ export interface Identity {
    * The identity type. Possible values include: 'SystemAssigned'
    */
   type?: ResourceIdentityType;
+}
+
+/**
+ * Represents a resource ID. For example, for a subnet, it is the resource URL for the subnet.
+ */
+export interface ResourceId extends BaseResource {
+  /**
+   * The ID of the resource
+   */
+  id: string;
 }
 
 /**
@@ -251,16 +365,19 @@ export interface ErrorDetail {
 export interface ErrorResponse {
   /**
    * Error code.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  code: string;
+  readonly code?: string;
   /**
    * Error message.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  message: string;
+  readonly message?: string;
   /**
    * An array of error detail objects.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  details?: ErrorDetail[];
+  readonly details?: ErrorDetail[];
 }
 
 /**
@@ -269,14 +386,15 @@ export interface ErrorResponse {
 export interface MachineLearningServiceError {
   /**
    * The error response.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  error?: ErrorResponse;
+  readonly error?: ErrorResponse;
 }
 
 /**
  * Contains the possible cases for Compute.
  */
-export type ComputeUnion = Compute | AKS | BatchAI | VirtualMachine | HDInsight | DataFactory;
+export type ComputeUnion = Compute | AKS | AmlCompute | VirtualMachine | HDInsight | DataFactory | Databricks | DataLakeAnalytics;
 
 /**
  * Machine Learning compute object.
@@ -312,7 +430,7 @@ export interface Compute {
    */
   readonly modifiedOn?: Date;
   /**
-   * ARM resource id of the compute
+   * ARM resource id of the underlying compute
    */
   resourceId?: string;
   /**
@@ -320,6 +438,12 @@ export interface Compute {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly provisioningErrors?: MachineLearningServiceError[];
+  /**
+   * Indicating whether the compute was provisioned by user and brought from outside if true, or
+   * machine learning service provisioned it if false.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly isAttachedCompute?: boolean;
 }
 
 /**
@@ -354,11 +478,11 @@ export interface SystemService {
 }
 
 /**
- * The SSL configuration for scoring
+ * The ssl configuration for scoring
  */
 export interface SslConfiguration {
   /**
-   * Enable or disable SSL for scoring. Possible values include: 'Disabled', 'Enabled'
+   * Enable or disable ssl for scoring. Possible values include: 'Disabled', 'Enabled'
    */
   status?: Status;
   /**
@@ -376,6 +500,31 @@ export interface SslConfiguration {
 }
 
 /**
+ * Advance configuration for AKS networking
+ */
+export interface AksNetworkingConfiguration {
+  /**
+   * Virtual network subnet resource ID the compute nodes belong to
+   */
+  subnetId?: string;
+  /**
+   * A CIDR notation IP range from which to assign service cluster IPs. It must not overlap with
+   * any Subnet IP ranges.
+   */
+  serviceCidr?: string;
+  /**
+   * An IP address assigned to the Kubernetes DNS service. It must be within the Kubernetes service
+   * address range specified in serviceCidr.
+   */
+  dnsServiceIP?: string;
+  /**
+   * A CIDR notation IP range assigned to the Docker bridge network. It must not overlap with any
+   * Subnet IP ranges or the Kubernetes service address range.
+   */
+  dockerBridgeCidr?: string;
+}
+
+/**
  * AKS properties
  */
 export interface AKSProperties {
@@ -385,8 +534,9 @@ export interface AKSProperties {
   clusterFqdn?: string;
   /**
    * System services
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  systemServices?: SystemService[];
+  readonly systemServices?: SystemService[];
   /**
    * Number of agents
    */
@@ -399,6 +549,10 @@ export interface AKSProperties {
    * SSL configuration
    */
   sslConfiguration?: SslConfiguration;
+  /**
+   * AKS networking configuration for vnet
+   */
+  aksNetworkingConfiguration?: AksNetworkingConfiguration;
 }
 
 /**
@@ -435,7 +589,7 @@ export interface AKS {
    */
   readonly modifiedOn?: Date;
   /**
-   * ARM resource id of the compute
+   * ARM resource id of the underlying compute
    */
   resourceId?: string;
   /**
@@ -444,55 +598,163 @@ export interface AKS {
    */
   readonly provisioningErrors?: MachineLearningServiceError[];
   /**
+   * Indicating whether the compute was provisioned by user and brought from outside if true, or
+   * machine learning service provisioned it if false.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly isAttachedCompute?: boolean;
+  /**
    * AKS properties
    */
   properties?: AKSProperties;
 }
 
 /**
- * scale settings for BatchAI Compute
+ * scale settings for AML Compute
  */
 export interface ScaleSettings {
   /**
    * Max number of nodes to use
    */
-  maxNodeCount?: number;
+  maxNodeCount: number;
   /**
-   * Min number of nodes to use
+   * Min number of nodes to use. Default value: 0.
    */
   minNodeCount?: number;
   /**
-   * Enable or disable auto scale
+   * Node Idle Time before scaling down amlCompute
    */
-  autoScaleEnabled?: boolean;
+  nodeIdleTimeBeforeScaleDown?: string;
 }
 
 /**
- * BatchAI properties
+ * Settings for user account that gets created on each on the nodes of a compute.
  */
-export interface BatchAIProperties {
+export interface UserAccountCredentials {
+  /**
+   * User name. Name of the administrator user account which can be used to SSH to nodes.
+   */
+  adminUserName: string;
+  /**
+   * SSH public key. SSH public key of the administrator user account.
+   */
+  adminUserSshPublicKey?: string;
+  /**
+   * Password. Password of the administrator user account.
+   */
+  adminUserPassword?: string;
+}
+
+/**
+ * Counts of various compute node states on the amlCompute.
+ */
+export interface NodeStateCounts {
+  /**
+   * Idle node count. Number of compute nodes in idle state.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly idleNodeCount?: number;
+  /**
+   * Running node count. Number of compute nodes which are running jobs.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly runningNodeCount?: number;
+  /**
+   * Preparing node count. Number of compute nodes which are being prepared.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly preparingNodeCount?: number;
+  /**
+   * Unusable node count. Number of compute nodes which are in unusable state.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly unusableNodeCount?: number;
+  /**
+   * Leaving node count. Number of compute nodes which are leaving the amlCompute.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly leavingNodeCount?: number;
+  /**
+   * Preempted node count. Number of compute nodes which are in preempted state.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly preemptedNodeCount?: number;
+}
+
+/**
+ * AML Compute properties
+ */
+export interface AmlComputeProperties {
   /**
    * Virtual Machine Size
    */
   vmSize?: string;
   /**
-   * Virtual Machine priority
+   * Virtual Machine priority. Possible values include: 'Dedicated', 'LowPriority'
    */
-  vmPriority?: string;
+  vmPriority?: VmPriority;
   /**
-   * Scale settings for BatchAI
+   * Scale settings for AML Compute
    */
   scaleSettings?: ScaleSettings;
+  /**
+   * User account credentials. Credentials for an administrator user account that will be created
+   * on each compute node.
+   */
+  userAccountCredentials?: UserAccountCredentials;
+  /**
+   * Subnet. Virtual network subnet resource ID the compute nodes belong to.
+   */
+  subnet?: ResourceId;
+  /**
+   * Allocation state. Allocation state of the compute. Possible values are: steady - Indicates
+   * that the compute is not resizing. There are no changes to the number of compute nodes in the
+   * compute in progress. A compute enters this state when it is created and when no operations are
+   * being performed on the compute to change the number of compute nodes. resizing - Indicates
+   * that the compute is resizing; that is, compute nodes are being added to or removed from the
+   * compute. Possible values include: 'Steady', 'Resizing'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly allocationState?: AllocationState;
+  /**
+   * Allocation state transition time. The time at which the compute entered its current allocation
+   * state.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly allocationStateTransitionTime?: Date;
+  /**
+   * Errors. Collection of errors encountered by various compute nodes during node setup.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly errors?: MachineLearningServiceError[];
+  /**
+   * Current node count. The number of compute nodes currently assigned to the compute.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly currentNodeCount?: number;
+  /**
+   * Target node count. The target number of compute nodes for the compute. If the allocationState
+   * is resizing, this property denotes the target node count for the ongoing resize operation. If
+   * the allocationState is steady, this property denotes the target node count for the previous
+   * resize operation.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly targetNodeCount?: number;
+  /**
+   * Node state counts. Counts of various node states on the compute.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nodeStateCounts?: NodeStateCounts;
 }
 
 /**
- * A Machine Learning compute based on Azure BatchAI.
+ * An Azure Machine Learning compute.
  */
-export interface BatchAI {
+export interface AmlCompute {
   /**
    * Polymorphic Discriminator
    */
-  computeType: "BatchAI";
+  computeType: "AmlCompute";
   /**
    * Location for the underlying compute
    */
@@ -519,7 +781,7 @@ export interface BatchAI {
    */
   readonly modifiedOn?: Date;
   /**
-   * ARM resource id of the compute
+   * ARM resource id of the underlying compute
    */
   resourceId?: string;
   /**
@@ -528,9 +790,15 @@ export interface BatchAI {
    */
   readonly provisioningErrors?: MachineLearningServiceError[];
   /**
-   * BatchAI properties
+   * Indicating whether the compute was provisioned by user and brought from outside if true, or
+   * machine learning service provisioned it if false.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  properties?: BatchAIProperties;
+  readonly isAttachedCompute?: boolean;
+  /**
+   * AML Compute properties
+   */
+  properties?: AmlComputeProperties;
 }
 
 /**
@@ -611,7 +879,7 @@ export interface VirtualMachine {
    */
   readonly modifiedOn?: Date;
   /**
-   * ARM resource id of the compute
+   * ARM resource id of the underlying compute
    */
   resourceId?: string;
   /**
@@ -619,6 +887,12 @@ export interface VirtualMachine {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly provisioningErrors?: MachineLearningServiceError[];
+  /**
+   * Indicating whether the compute was provisioned by user and brought from outside if true, or
+   * machine learning service provisioned it if false.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly isAttachedCompute?: boolean;
   properties?: VirtualMachineProperties;
 }
 
@@ -674,7 +948,7 @@ export interface HDInsight {
    */
   readonly modifiedOn?: Date;
   /**
-   * ARM resource id of the compute
+   * ARM resource id of the underlying compute
    */
   resourceId?: string;
   /**
@@ -682,6 +956,12 @@ export interface HDInsight {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly provisioningErrors?: MachineLearningServiceError[];
+  /**
+   * Indicating whether the compute was provisioned by user and brought from outside if true, or
+   * machine learning service provisioned it if false.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly isAttachedCompute?: boolean;
   properties?: HDInsightProperties;
 }
 
@@ -719,7 +999,7 @@ export interface DataFactory {
    */
   readonly modifiedOn?: Date;
   /**
-   * ARM resource id of the compute
+   * ARM resource id of the underlying compute
    */
   resourceId?: string;
   /**
@@ -727,6 +1007,134 @@ export interface DataFactory {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly provisioningErrors?: MachineLearningServiceError[];
+  /**
+   * Indicating whether the compute was provisioned by user and brought from outside if true, or
+   * machine learning service provisioned it if false.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly isAttachedCompute?: boolean;
+}
+
+/**
+ * An interface representing DatabricksProperties.
+ */
+export interface DatabricksProperties {
+  /**
+   * Databricks access token
+   */
+  databricksAccessToken?: string;
+}
+
+/**
+ * A DataFactory compute.
+ */
+export interface Databricks {
+  /**
+   * Polymorphic Discriminator
+   */
+  computeType: "Databricks";
+  /**
+   * Location for the underlying compute
+   */
+  computeLocation?: string;
+  /**
+   * The provision state of the cluster. Valid values are Unknown, Updating, Provisioning,
+   * Succeeded, and Failed. Possible values include: 'Unknown', 'Updating', 'Creating', 'Deleting',
+   * 'Succeeded', 'Failed', 'Canceled'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * The description of the Machine Learning compute.
+   */
+  description?: string;
+  /**
+   * The date and time when the compute was created.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly createdOn?: Date;
+  /**
+   * The date and time when the compute was last modified.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly modifiedOn?: Date;
+  /**
+   * ARM resource id of the underlying compute
+   */
+  resourceId?: string;
+  /**
+   * Errors during provisioning
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningErrors?: MachineLearningServiceError[];
+  /**
+   * Indicating whether the compute was provisioned by user and brought from outside if true, or
+   * machine learning service provisioned it if false.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly isAttachedCompute?: boolean;
+  properties?: DatabricksProperties;
+}
+
+/**
+ * An interface representing DataLakeAnalyticsProperties.
+ */
+export interface DataLakeAnalyticsProperties {
+  /**
+   * DataLake Store Account Name
+   */
+  dataLakeStoreAccountName?: string;
+}
+
+/**
+ * A DataLakeAnalytics compute.
+ */
+export interface DataLakeAnalytics {
+  /**
+   * Polymorphic Discriminator
+   */
+  computeType: "DataLakeAnalytics";
+  /**
+   * Location for the underlying compute
+   */
+  computeLocation?: string;
+  /**
+   * The provision state of the cluster. Valid values are Unknown, Updating, Provisioning,
+   * Succeeded, and Failed. Possible values include: 'Unknown', 'Updating', 'Creating', 'Deleting',
+   * 'Succeeded', 'Failed', 'Canceled'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * The description of the Machine Learning compute.
+   */
+  description?: string;
+  /**
+   * The date and time when the compute was created.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly createdOn?: Date;
+  /**
+   * The date and time when the compute was last modified.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly modifiedOn?: Date;
+  /**
+   * ARM resource id of the underlying compute
+   */
+  resourceId?: string;
+  /**
+   * Errors during provisioning
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningErrors?: MachineLearningServiceError[];
+  /**
+   * Indicating whether the compute was provisioned by user and brought from outside if true, or
+   * machine learning service provisioned it if false.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly isAttachedCompute?: boolean;
+  properties?: DataLakeAnalyticsProperties;
 }
 
 /**
@@ -744,9 +1152,81 @@ export interface ServicePrincipalCredentials {
 }
 
 /**
+ * AmlCompute update parameters.
+ */
+export interface ClusterUpdateParameters {
+  /**
+   * Scale settings. Desired scale settings for the amlCompute.
+   */
+  scaleSettings?: ScaleSettings;
+}
+
+/**
+ * Contains the possible cases for ComputeNodesInformation.
+ */
+export type ComputeNodesInformationUnion = ComputeNodesInformation | AmlComputeNodesInformation;
+
+/**
+ * Compute nodes information related to a Machine Learning compute. Might differ for every type of
+ * compute.
+ */
+export interface ComputeNodesInformation {
+  /**
+   * Polymorphic Discriminator
+   */
+  computeType: "ComputeNodesInformation";
+  /**
+   * The continuation token.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * Compute node information related to a AmlCompute.
+ */
+export interface AmlComputeNodeInformation {
+  /**
+   * Node ID. ID of the compute node.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nodeId?: string;
+  /**
+   * IP address. Public IP address of the compute node.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly ipAddress?: string;
+  /**
+   * Port. SSH port number of the node.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly port?: number;
+}
+
+/**
+ * Compute node information related to a AmlCompute.
+ */
+export interface AmlComputeNodesInformation {
+  /**
+   * Polymorphic Discriminator
+   */
+  computeType: "AmlCompute";
+  /**
+   * The continuation token.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+  /**
+   * The collection of returned AmlCompute nodes details.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nodes?: AmlComputeNodeInformation[];
+}
+
+/**
  * Contains the possible cases for ComputeSecrets.
  */
-export type ComputeSecretsUnion = ComputeSecrets | AksComputeSecrets | VirtualMachineSecrets;
+export type ComputeSecretsUnion = ComputeSecrets | AksComputeSecrets | VirtualMachineSecrets | DatabricksComputeSecrets;
 
 /**
  * Secrets related to a Machine Learning compute. Might differ for every type of compute.
@@ -792,6 +1272,20 @@ export interface VirtualMachineSecrets {
    * Admin credentials for virtual machine.
    */
   administratorAccount?: VirtualMachineSshCredentials;
+}
+
+/**
+ * Secrets related to a Machine Learning compute based on Databricks.
+ */
+export interface DatabricksComputeSecrets {
+  /**
+   * Polymorphic Discriminator
+   */
+  computeType: "Databricks";
+  /**
+   * access token for databricks account.
+   */
+  databricksAccessToken?: string;
 }
 
 /**
@@ -856,20 +1350,6 @@ export interface MachineLearningComputeDeleteHeaders {
 }
 
 /**
- * Defines headers for SystemUpdate operation.
- */
-export interface MachineLearningComputeSystemUpdateHeaders {
-  /**
-   * URI to poll for asynchronous operation status.
-   */
-  azureAsyncOperation: string;
-  /**
-   * URI to poll for asynchronous operation result.
-   */
-  location: string;
-}
-
-/**
  * @interface
  * An array of operations supported by the resource provider.
  * @extends Array<Operation>
@@ -887,6 +1367,45 @@ export interface WorkspaceListResult extends Array<Workspace> {
    * The URI that can be used to request the next list of machine learning workspaces.
    */
   nextLink?: string;
+}
+
+/**
+ * @interface
+ * The List Usages operation response.
+ * @extends Array<Usage>
+ */
+export interface ListUsagesResult extends Array<Usage> {
+  /**
+   * The URI to fetch the next page of AML resource usage information. Call ListNext() with this to
+   * fetch the next page of AML resource usage information.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * The List UsagesByVMFamily operation response.
+ * @extends Array<UsageByVMFamily>
+ */
+export interface ListUsagesByVMFamilyResult extends Array<UsageByVMFamily> {
+  /**
+   * The URI to fetch the next page of compute resource usage information.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * The List Virtual Machine size operation response.
+ * @extends Array<VirtualMachineSize>
+ */
+export interface VirtualMachineSizeListResult extends Array<VirtualMachineSize> {
+  /**
+   * The list of virtual machine sizes supported by AmlCompute.
+   */
+  amlCompute?: VirtualMachineSize[];
 }
 
 /**
@@ -911,6 +1430,14 @@ export interface PaginatedComputeResourcesList extends Array<ComputeResource> {
 export type ProvisioningState = 'Unknown' | 'Updating' | 'Creating' | 'Deleting' | 'Succeeded' | 'Failed' | 'Canceled';
 
 /**
+ * Defines values for UsageUnit.
+ * Possible values include: 'Count'
+ * @readonly
+ * @enum {string}
+ */
+export type UsageUnit = 'Count';
+
+/**
  * Defines values for ResourceIdentityType.
  * Possible values include: 'SystemAssigned'
  * @readonly
@@ -919,12 +1446,37 @@ export type ProvisioningState = 'Unknown' | 'Updating' | 'Creating' | 'Deleting'
 export type ResourceIdentityType = 'SystemAssigned';
 
 /**
- * Defines values for ComputeType.
- * Possible values include: 'AKS', 'BatchAI', 'DataFactory', 'VirtualMachine', 'HDInsight'
+ * Defines values for VmPriority.
+ * Possible values include: 'Dedicated', 'LowPriority'
  * @readonly
  * @enum {string}
  */
-export type ComputeType = 'AKS' | 'BatchAI' | 'DataFactory' | 'VirtualMachine' | 'HDInsight';
+export type VmPriority = 'Dedicated' | 'LowPriority';
+
+/**
+ * Defines values for AllocationState.
+ * Possible values include: 'Steady', 'Resizing'
+ * @readonly
+ * @enum {string}
+ */
+export type AllocationState = 'Steady' | 'Resizing';
+
+/**
+ * Defines values for ComputeType.
+ * Possible values include: 'AKS', 'AmlCompute', 'DataFactory', 'VirtualMachine', 'HDInsight',
+ * 'Databricks', 'DataLakeAnalytics'
+ * @readonly
+ * @enum {string}
+ */
+export type ComputeType = 'AKS' | 'AmlCompute' | 'DataFactory' | 'VirtualMachine' | 'HDInsight' | 'Databricks' | 'DataLakeAnalytics';
+
+/**
+ * Defines values for UnderlyingResourceAction.
+ * Possible values include: 'Delete', 'Detach'
+ * @readonly
+ * @enum {string}
+ */
+export type UnderlyingResourceAction = 'Delete' | 'Detach';
 
 /**
  * Defines values for Status.
@@ -1115,6 +1667,106 @@ export type WorkspacesListBySubscriptionNextResponse = WorkspaceListResult & {
 };
 
 /**
+ * Contains response data for the list operation.
+ */
+export type UsagesListResponse = ListUsagesResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ListUsagesResult;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type UsagesListNextResponse = ListUsagesResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ListUsagesResult;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type UsagesByVMFamilyListResponse = ListUsagesByVMFamilyResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ListUsagesByVMFamilyResult;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type UsagesByVMFamilyListNextResponse = ListUsagesByVMFamilyResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ListUsagesByVMFamilyResult;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type VirtualMachineSizesListResponse = VirtualMachineSizeListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VirtualMachineSizeListResult;
+    };
+};
+
+/**
  * Contains response data for the listByWorkspace operation.
  */
 export type MachineLearningComputeListByWorkspaceResponse = PaginatedComputeResourcesList & {
@@ -1180,6 +1832,26 @@ export type MachineLearningComputeCreateOrUpdateResponse = ComputeResource & Mac
 };
 
 /**
+ * Contains response data for the update operation.
+ */
+export type MachineLearningComputeUpdateResponse = ComputeResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ComputeResource;
+    };
+};
+
+/**
  * Contains response data for the deleteMethod operation.
  */
 export type MachineLearningComputeDeleteResponse = MachineLearningComputeDeleteHeaders & {
@@ -1195,17 +1867,22 @@ export type MachineLearningComputeDeleteResponse = MachineLearningComputeDeleteH
 };
 
 /**
- * Contains response data for the systemUpdate operation.
+ * Contains response data for the listNodes operation.
  */
-export type MachineLearningComputeSystemUpdateResponse = MachineLearningComputeSystemUpdateHeaders & {
+export type MachineLearningComputeListNodesResponse = ComputeNodesInformationUnion & {
   /**
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
       /**
-       * The parsed HTTP response headers.
+       * The response body as text (string format)
        */
-      parsedHeaders: MachineLearningComputeSystemUpdateHeaders;
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ComputeNodesInformationUnion;
     };
 };
 
@@ -1230,6 +1907,26 @@ export type MachineLearningComputeListKeysResponse = ComputeSecretsUnion & {
 };
 
 /**
+ * Contains response data for the beginUpdate operation.
+ */
+export type MachineLearningComputeBeginUpdateResponse = ComputeResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ComputeResource;
+    };
+};
+
+/**
  * Contains response data for the listByWorkspaceNext operation.
  */
 export type MachineLearningComputeListByWorkspaceNextResponse = PaginatedComputeResourcesList & {
@@ -1246,5 +1943,25 @@ export type MachineLearningComputeListByWorkspaceNextResponse = PaginatedCompute
        * The response body as parsed JSON or XML
        */
       parsedBody: PaginatedComputeResourcesList;
+    };
+};
+
+/**
+ * Contains response data for the listNodesNext operation.
+ */
+export type MachineLearningComputeListNodesNextResponse = ComputeNodesInformationUnion & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ComputeNodesInformationUnion;
     };
 };
