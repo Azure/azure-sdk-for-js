@@ -108,8 +108,7 @@ export class BatchingReceiver extends MessageReceiver {
             this._receiver.removeListener(ReceiverEvents.receiverDrained, onReceiveDrain);
           }
           this.isReceivingMessages = false;
-          const err = translate(this.detachedError);
-          return reject(err);
+          return resolve([]);
         }
 
         if (this._receiver && this._receiver.credit > 0) {
