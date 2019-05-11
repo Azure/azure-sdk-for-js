@@ -429,7 +429,7 @@ export class SessionReceiver {
       receiveMode === ReceiveMode.receiveAndDelete ? receiveMode : ReceiveMode.peekLock;
     this._sessionOptions = sessionOptions;
 
-    if (sessionOptions.sessionId) {
+    if (sessionOptions.sessionId != undefined) {
       sessionOptions.sessionId = String(sessionOptions.sessionId);
 
       // Check if receiver for given session already exists
@@ -753,15 +753,8 @@ export class SessionReceiver {
         .maxSessionAutoRenewLockDurationInSeconds,
       receiveMode: this._receiveMode
     });
-    // By this point, we should have a valid sessionId on the messageSession
-    // If not, the receiver cannot be used, so throw error.
-    if (!this._messageSession.sessionId) {
-      const error = new Error("Something went wrong. Cannot lock a session.");
-      log.error(`[${this._context.namespace.connectionId}] %O`, error);
-      throw error;
-    }
     this._sessionId = this._messageSession.sessionId;
-    delete this._context.expiredMessageSessions[this._messageSession.sessionId];
+    delete this._context.expiredMessageSessions[this._messageSession.sessionId!];
   }
 
   private _throwIfAlreadyReceiving(): void {

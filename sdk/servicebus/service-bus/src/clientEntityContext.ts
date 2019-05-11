@@ -147,7 +147,7 @@ export namespace ClientEntityContext {
     );
 
     (entityContext as ClientEntityContext).getReceiver = (name: string, sessionId?: string) => {
-      if (sessionId && entityContext.expiredMessageSessions[sessionId]) {
+      if (sessionId != undefined && entityContext.expiredMessageSessions[sessionId]) {
         const error = new Error(
           `The session lock has expired on the session with id ${sessionId}.`
         );
