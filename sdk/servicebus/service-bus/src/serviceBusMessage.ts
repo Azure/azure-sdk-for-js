@@ -461,7 +461,9 @@ export function fromAmqpMessage(
   shouldReorderLockToken?: boolean
 ): ReceivedMessageInfo {
   if (!msg) {
-    throw new Error("'msg' cannot be null or undefined.");
+    msg = {
+      body: undefined
+    };
   }
   const sbmsg: SendableMessageInfo = {
     body: msg.body
