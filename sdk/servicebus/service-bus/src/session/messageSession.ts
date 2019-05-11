@@ -136,7 +136,7 @@ export class MessageSession extends LinkEntity {
    */
   sessionLockedUntilUtc?: Date;
   /**
-   * @property {string} [sessionId] The sessionId for the message session.
+   * @property {string} [sessionId] The sessionId for the message session. Empty string is valid sessionId
    */
   sessionId?: string;
   /**
