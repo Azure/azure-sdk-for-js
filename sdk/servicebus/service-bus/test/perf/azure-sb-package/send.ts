@@ -44,7 +44,7 @@ function RunTest(
   entityPath: string,
   maxInflight: number,
   messages: number
-) {
+): void {
   const sbService: ServiceBusService = createServiceBusService(connectionString);
 
   function sendMessages(): void {

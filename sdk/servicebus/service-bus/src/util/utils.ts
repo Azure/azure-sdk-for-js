@@ -12,7 +12,7 @@ import { ClientEntityContext } from "../../src/clientEntityContext";
 interface Navigator {
   hardwareConcurrency: number;
 }
-let var navigator: Navigator;
+let navigator: Navigator;
 
 /**
  * A constant that indicates whether the environment is node.js or browser based.
@@ -160,6 +160,7 @@ export function toBuffer(input: any): Buffer {
   log.utils("[utils.toBuffer] The converted buffer is: %O.", result);
   return result;
 }
+<<<<<<< HEAD
 
 /**
  * @internal
@@ -181,3 +182,5 @@ export function getAssociatedReceiverName(
   }
   return receiverName;
 }
+=======
+>>>>>>> 66071887... fixing eslint errors

@@ -447,7 +447,7 @@ async function testStreamingReceiverManualLockRenewalHappyCase(
     maxSessionAutoRenewLockDurationInSeconds: 0
   });
 
-  const onSessionMessage = async (brokeredMessage: ServiceBusMessage) => {
+  const onSessionMessage = async (brokeredMessage: ServiceBusMessage): Promise<void> => {
     if (numOfMessagesReceived < 1) {
       numOfMessagesReceived++;
 
