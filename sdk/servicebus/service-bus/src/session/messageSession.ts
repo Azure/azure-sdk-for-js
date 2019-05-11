@@ -775,7 +775,7 @@ export class MessageSession extends LinkEntity {
      * It will close the receiver gracefully, if no
      * messages were received for the configured newMessageWaitTimeoutInSeconds
      */
-    const resetTimerOnNewMessageReceived = () => {
+    const resetTimerOnNewMessageReceived = (): void => {
       if (this._newMessageReceivedTimer) clearTimeout(this._newMessageReceivedTimer);
       if (this.newMessageWaitTimeoutInSeconds) {
         this._newMessageReceivedTimer = setTimeout(async () => {
@@ -801,7 +801,7 @@ export class MessageSession extends LinkEntity {
     };
 
     if (this._receiver && this._receiver.isOpen()) {
-      const onSessionMessage = async (context: EventContext) => {
+      const onSessionMessage = async (context: EventContext): Promise<void> => {
         // If the receiver got closed in PeekLock mode, avoid processing the message as we
         // cannot settle the message.
         if (
@@ -935,7 +935,7 @@ export class MessageSession extends LinkEntity {
     maxMessageCount: number,
     idleTimeoutInSeconds?: number
   ): Promise<ServiceBusMessage[]> {
-    if (idleTimeoutInSeconds == undefined) {
+    if (idleTimeoutInSeconds == null) {
       idleTimeoutInSeconds = Constants.defaultOperationTimeoutInSeconds;
     }
 
@@ -946,9 +946,8 @@ export class MessageSession extends LinkEntity {
       let onReceiveMessage: OnAmqpEventAsPromise;
       let onReceiveDrain: OnAmqpEvent;
       let firstMessageWaitTimer: any;
-      let actionAfterWaitTimeout: Func<void, void>;
 
-      const setnewMessageWaitTimeoutInSeconds = (value?: number) => {
+      const setnewMessageWaitTimeoutInSeconds = (value?: number): void => {
         this.newMessageWaitTimeoutInSeconds = value;
       };
 
@@ -971,7 +970,7 @@ export class MessageSession extends LinkEntity {
       };
 
       // Final action to be performed after maxMessageCount is reached or the maxWaitTime is over.
-      const finalAction = () => {
+      const finalAction = (): void => {
         if (this._newMessageReceivedTimer) {
           clearTimeout(this._newMessageReceivedTimer);
         }
@@ -1020,7 +1019,7 @@ export class MessageSession extends LinkEntity {
        * `newMessageWaitTimeoutInSeconds`, the messages received till now are returned. The
        * receiver link stays open for the next receive call, but doesnt receive messages until
        */
-      const resetTimerOnNewMessageReceived = () => {
+      const resetTimerOnNewMessageReceived = (): void => {
         if (this._newMessageReceivedTimer) clearTimeout(this._newMessageReceivedTimer);
         if (this.newMessageWaitTimeoutInSeconds) {
           this._newMessageReceivedTimer = setTimeout(async () => {
@@ -1039,7 +1038,7 @@ export class MessageSession extends LinkEntity {
       };
 
       // Action to be performed after the max wait time is over.
-      actionAfterWaitTimeout = () => {
+      const actionAfterWaitTimeout = (): void => {
         log.batching(
           "[%s] Batching Receiver '%s'  max wait time in seconds %d over.",
           this._context.namespace.connectionId,
