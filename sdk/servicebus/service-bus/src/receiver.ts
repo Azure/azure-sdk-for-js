@@ -73,6 +73,10 @@ export class Receiver {
    * from a Queue/Subscription.
    * To stop receiving messages, call `close()` on the Receiver.
    *
+   * Throws an error if there is another receive operation in progress on the same receiver. If you
+   * are not sure whether there is another receive operation running, check the `isReceivingMessages`
+   * property on the receiver.
+   *
    * @param onMessage - Handler for processing each incoming message.
    * @param onError - Handler for any error that occurs while receiving or processing messages.
    * @param options - Options to control if messages should be automatically completed, and/or have
@@ -122,6 +126,10 @@ export class Receiver {
    * Returns a promise that resolves to an array of messages based on given count and timeout over
    * an AMQP receiver link from a Queue/Subscription.
    *
+   * Throws an error if there is another receive operation in progress on the same receiver. If you
+   * are not sure whether there is another receive operation running, check the `isReceivingMessages`
+   * property on the receiver.
+   *
    * @param maxMessageCount      The maximum number of messages to receive from Queue/Subscription.
    * @param idleTimeoutInSeconds The maximum wait time in seconds for which the Receiver
    * should wait to receive the first message. If no message is received by this time,
@@ -149,8 +157,12 @@ export class Receiver {
 
   /**
    * Gets an async iterator over messages from the receiver.
-   * While iterating, you will get `undefined` instead of a message, if the iterator is not able to
-   * fetch a new message in over a minute.
+   *
+   * Throws an error if there is another receive operation in progress on the same receiver. If you
+   * are not sure whether there is another receive operation running, check the `isReceivingMessages`
+   * property on the receiver.
+   *
+   * If the iterator is not able to fetch a new message in over a minute, `undefined` will be returned.
    */
   async *getMessageIterator(): AsyncIterableIterator<ServiceBusMessage> {
     while (true) {
@@ -614,6 +626,10 @@ export class SessionReceiver {
    * Returns a promise that resolves to an array of messages based on given count and timeout over
    * an AMQP receiver link from a Queue/Subscription.
    *
+   * Throws an error if there is another receive operation in progress on the same receiver. If you
+   * are not sure whether there is another receive operation running, check the `isReceivingMessages`
+   * property on the receiver.
+   *
    * @param maxMessageCount      The maximum number of messages to receive from Queue/Subscription.
    * @param maxWaitTimeInSeconds The maximum wait time in seconds for which the Receiver
    * should wait to receive the first message. If no message is received by this time,
@@ -635,6 +651,10 @@ export class SessionReceiver {
    * Registers handlers to deal with the incoming stream of messages over an AMQP receiver link
    * from a Queue/Subscription.
    * To stop receiving messages, call `close()` on the SessionReceiver.
+   *
+   * Throws an error if there is another receive operation in progress on the same receiver. If you
+   * are not sure whether there is another receive operation running, check the `isReceivingMessages`
+   * property on the receiver.
    *
    * @param onMessage - Handler for processing each incoming message.
    * @param onError - Handler for any error that occurs while receiving or processing messages.
@@ -681,8 +701,12 @@ export class SessionReceiver {
 
   /**
    * Gets an async iterator over messages from the receiver.
-   * While iterating, you will get `undefined` instead of a message, if the iterator is not able to
-   * fetch a new message in over a minute.
+   *
+   * Throws an error if there is another receive operation in progress on the same receiver. If you
+   * are not sure whether there is another receive operation running, check the `isReceivingMessages`
+   * property on the receiver.
+   *
+   * If the iterator is not able to fetch a new message in over a minute, `undefined` will be returned
    */
   async *getMessageIterator(): AsyncIterableIterator<ServiceBusMessage> {
     while (true) {
