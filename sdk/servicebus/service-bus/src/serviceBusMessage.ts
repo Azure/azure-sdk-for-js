@@ -1076,9 +1076,7 @@ export function throwIfMessageCannotBeSettled(
       getErrorMessageNotSupportedInReceiveAndDeleteMode(`${operation} the message`)
     );
   } else if (isRemoteSettled) {
-    error = new Error(
-      `Failed to ${operation} the message as this message has been already settled.`
-    );
+    error = new Error(`Failed to ${operation} the message as this message is already settled.`);
   } else if (!receiver || !receiver.isOpen()) {
     const errorMessage =
       `Failed to ${operation} the message as the AMQP link with which the message was ` +
