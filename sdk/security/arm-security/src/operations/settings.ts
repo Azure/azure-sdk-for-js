@@ -52,23 +52,23 @@ export class Settings {
 
   /**
    * Settings of different configurations in security center
-   * @param settingName Name of setting. Possible values include: 'MCAS', 'WDATP'
+   * @param settingName Name of setting: (MCAS/WDATP). Possible values include: 'MCAS', 'WDATP'
    * @param [options] The optional parameters
    * @returns Promise<Models.SettingsGetResponse>
    */
   get(settingName: Models.SettingName, options?: msRest.RequestOptionsBase): Promise<Models.SettingsGetResponse>;
   /**
-   * @param settingName Name of setting. Possible values include: 'MCAS', 'WDATP'
+   * @param settingName Name of setting: (MCAS/WDATP). Possible values include: 'MCAS', 'WDATP'
    * @param callback The callback
    */
-  get(settingName: Models.SettingName, callback: msRest.ServiceCallback<Models.SettingUnion>): void;
+  get(settingName: Models.SettingName, callback: msRest.ServiceCallback<Models.Setting>): void;
   /**
-   * @param settingName Name of setting. Possible values include: 'MCAS', 'WDATP'
+   * @param settingName Name of setting: (MCAS/WDATP). Possible values include: 'MCAS', 'WDATP'
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(settingName: Models.SettingName, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SettingUnion>): void;
-  get(settingName: Models.SettingName, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SettingUnion>, callback?: msRest.ServiceCallback<Models.SettingUnion>): Promise<Models.SettingsGetResponse> {
+  get(settingName: Models.SettingName, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Setting>): void;
+  get(settingName: Models.SettingName, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Setting>, callback?: msRest.ServiceCallback<Models.Setting>): Promise<Models.SettingsGetResponse> {
     return this.client.sendOperationRequest(
       {
         settingName,
@@ -80,26 +80,26 @@ export class Settings {
 
   /**
    * updating settings about different configurations in security center
-   * @param settingName Name of setting. Possible values include: 'MCAS', 'WDATP'
+   * @param settingName Name of setting: (MCAS/WDATP). Possible values include: 'MCAS', 'WDATP'
    * @param setting Setting object
    * @param [options] The optional parameters
    * @returns Promise<Models.SettingsUpdateResponse>
    */
-  update(settingName: Models.SettingName1, setting: Models.SettingUnion, options?: msRest.RequestOptionsBase): Promise<Models.SettingsUpdateResponse>;
+  update(settingName: Models.SettingName1, setting: Models.Setting, options?: msRest.RequestOptionsBase): Promise<Models.SettingsUpdateResponse>;
   /**
-   * @param settingName Name of setting. Possible values include: 'MCAS', 'WDATP'
+   * @param settingName Name of setting: (MCAS/WDATP). Possible values include: 'MCAS', 'WDATP'
    * @param setting Setting object
    * @param callback The callback
    */
-  update(settingName: Models.SettingName1, setting: Models.SettingUnion, callback: msRest.ServiceCallback<Models.SettingUnion>): void;
+  update(settingName: Models.SettingName1, setting: Models.Setting, callback: msRest.ServiceCallback<Models.Setting>): void;
   /**
-   * @param settingName Name of setting. Possible values include: 'MCAS', 'WDATP'
+   * @param settingName Name of setting: (MCAS/WDATP). Possible values include: 'MCAS', 'WDATP'
    * @param setting Setting object
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(settingName: Models.SettingName1, setting: Models.SettingUnion, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SettingUnion>): void;
-  update(settingName: Models.SettingName1, setting: Models.SettingUnion, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SettingUnion>, callback?: msRest.ServiceCallback<Models.SettingUnion>): Promise<Models.SettingsUpdateResponse> {
+  update(settingName: Models.SettingName1, setting: Models.Setting, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Setting>): void;
+  update(settingName: Models.SettingName1, setting: Models.Setting, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Setting>, callback?: msRest.ServiceCallback<Models.Setting>): Promise<Models.SettingsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         settingName,
@@ -148,7 +148,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion2
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -172,7 +172,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.settingName0
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion2
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -196,7 +196,7 @@ const updateOperationSpec: msRest.OperationSpec = {
     Parameters.settingName0
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion2
   ],
   headerParameters: [
     Parameters.acceptLanguage
