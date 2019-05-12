@@ -209,7 +209,7 @@ export interface IPv4FirewallSettings {
   /**
    * The indicator of enabling PBI service.
    */
-  enablePowerBIService?: string;
+  enablePowerBIService?: boolean;
 }
 
 /**

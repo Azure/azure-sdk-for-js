@@ -328,7 +328,7 @@ export const IPv4FirewallSettings: msRest.CompositeMapper = {
       enablePowerBIService: {
         serializedName: "enablePowerBIService",
         type: {
-          name: "String"
+          name: "Boolean"
         }
       }
     }
