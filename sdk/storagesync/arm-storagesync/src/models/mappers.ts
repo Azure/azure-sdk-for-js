@@ -445,6 +445,12 @@ export const CloudEndpointCreateParameters: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      friendlyName: {
+        serializedName: "properties.friendlyName",
+        type: {
+          name: "String"
+        }
       }
     }
   }

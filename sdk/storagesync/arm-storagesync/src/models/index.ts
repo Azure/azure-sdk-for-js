@@ -285,6 +285,10 @@ export interface CloudEndpointCreateParameters extends ProxyResource {
    * Storage Account Tenant Id
    */
   storageAccountTenantId?: string;
+  /**
+   * Friendly Name
+   */
+  friendlyName?: string;
 }
 
 /**
