@@ -3,6 +3,13 @@
 
 import * as log from "./log";
 
+import {
+  ApplicationTokenCredentials,
+  DeviceTokenCredentials,
+  UserTokenCredentials,
+  MSITokenCredentials
+} from "@azure/ms-rest-nodeauth";
+
 import { WebSocketImpl } from "rhea-promise";
 import { ConnectionContext } from "./connectionContext";
 import { QueueClient } from "./queueClient";
@@ -228,7 +235,11 @@ export class ServiceBusClient {
    */
   static createFromAadTokenCredentials(
     host: string,
-    credentials: any,
+    credentials:
+      | ApplicationTokenCredentials
+      | UserTokenCredentials
+      | DeviceTokenCredentials
+      | MSITokenCredentials,
     options?: ServiceBusClientOptions
   ): ServiceBusClient {
     host = String(host);
