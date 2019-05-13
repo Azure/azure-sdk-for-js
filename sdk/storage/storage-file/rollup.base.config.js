@@ -23,14 +23,7 @@ const depNames = Object.keys(pkg.dependencies);
 const production = process.env.NODE_ENV === "production";
 
 export function nodeConfig(test = false) {
-  const externalNodeBuiltins = [
-    "@azure/ms-rest-js",
-    "crypto",
-    "fs",
-    "events",
-    "os",
-    "stream"
-  ];
+  const externalNodeBuiltins = ["@azure/ms-rest-js", "crypto", "fs", "events", "os", "stream"];
   const baseConfig = {
     input: "dist-esm/src/index.js",
     external: depNames.concat(externalNodeBuiltins),
@@ -57,10 +50,7 @@ export function nodeConfig(test = false) {
 
   if (test) {
     // entry point is every test file
-    baseConfig.input = [
-      "dist-esm/test/*.spec.js",
-      "dist-esm/test/node/*.spec.js"
-    ];
+    baseConfig.input = ["dist-esm/test/*.spec.js", "dist-esm/test/node/*.spec.js"];
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
 
     // different output file
@@ -69,16 +59,7 @@ export function nodeConfig(test = false) {
     // mark assert as external
     baseConfig.external.push("assert", "fs", "path");
 
-    baseConfig.onwarn = warning => {
-      if (warning.code === "THIS_IS_UNDEFINED") {
-        // This error happens frequently due to TypeScript emitting `this` at the
-        // top-level of a module. In this case its fine if it gets rewritten to
-        // undefined, so ignore this error.
-        return;
-      }
-
-      console.error(`(!) ${warning.message}`);
-    };
+    baseConfig.context = "null";
   } else if (production) {
     baseConfig.plugins.push(uglify());
   }
@@ -140,22 +121,11 @@ export function browserConfig(test = false, production = false) {
   };
 
   if (test) {
-    baseConfig.input = [
-      "dist-esm/test/*.spec.js",
-      "dist-esm/test/browser/*.spec.js"
-    ];
+    baseConfig.input = ["dist-esm/test/*.spec.js", "dist-esm/test/browser/*.spec.js"];
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
     baseConfig.output.file = "dist-test/index.browser.js";
-    baseConfig.onwarn = warning => {
-      if (warning.code === "THIS_IS_UNDEFINED") {
-        // This error happens frequently due to TypeScript emitting `this` at the
-        // top-level of a module. In this case its fine if it gets rewritten to
-        // undefined, so ignore this error.
-        return;
-      }
 
-      console.error(`(!) ${warning.message}`);
-    };
+    baseConfig.context = "null";
   } else if (production) {
     baseConfig.output.file = "browser/azure-storage-file.min.js";
     baseConfig.plugins.push(
