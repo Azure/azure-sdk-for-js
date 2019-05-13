@@ -2654,7 +2654,7 @@ export const RateLimitRule: msRest.CompositeMapper = {
         serializedName: "rateLimitDurationInMinutes",
         constraints: {
           InclusiveMaximum: 60,
-          InclusiveMinimum: 1
+          InclusiveMinimum: 0
         },
         type: {
           name: "Number"
