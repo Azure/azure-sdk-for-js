@@ -2,10 +2,9 @@
   Copyright (c) Microsoft Corporation. All rights reserved.
   Licensed under the MIT Licence.
 
-  This sample demonstrates how the receiveBatch() function can be used to receive Event Hubs
-  messages in a loop.
+  This sample demonstrates how the receiveBatch() function can be used to receive events in a loop.
 
-  If your Event Hubs instance doesn't have any messages, then please run "sendMesages.ts" sample
+  If your Event Hubs instance doesn't have any events, then please run "sendEvents.ts" sample
   to populate Event Hubs before running this sample.
 */
 
@@ -22,15 +21,16 @@ async function main(): Promise<void> {
   const batchSize = 1;
 
   for (let i = 0; i < 10; i++) {
-    const messages = await client.receiveBatch(partitionIds[0], batchSize, 5, {
-      eventPosition: eventPosition
+    const events = await client.receiveBatch(partitionIds[0], batchSize, 5, {
+      eventPosition: eventPosition,
+      consumerGroup: "$Default"
     });
-    if (!messages.length) {
-      console.log("No more messages to receive");
+    if (!events.length) {
+      console.log("No more events to receive");
       break;
     }
-    eventPosition = EventPosition.fromSequenceNumber(messages[messages.length - 1].sequenceNumber!);
-    console.log(`Received messages #${i}: ${messages.map(msg => msg.body)}`);
+    eventPosition = EventPosition.fromSequenceNumber(events[events.length - 1].sequenceNumber!);
+    console.log(`Received events #${i}: ${events.map(event => event.body)}`);
   }
   await client.close();
 }
