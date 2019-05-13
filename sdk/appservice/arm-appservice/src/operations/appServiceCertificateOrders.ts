@@ -148,7 +148,7 @@ export class AppServiceCertificateOrders {
    * @summary Create or update a certificate purchase order.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param certificateOrderName Name of the certificate order.
-   * @param certificateDistinguishedName Distinguished name to to use for the certificate order.
+   * @param certificateDistinguishedName Distinguished name to use for the certificate order.
    * @param [options] The optional parameters
    * @returns Promise<Models.AppServiceCertificateOrdersCreateOrUpdateResponse>
    */
@@ -195,7 +195,7 @@ export class AppServiceCertificateOrders {
    * @summary Create or update a certificate purchase order.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param certificateOrderName Name of the certificate order.
-   * @param certificateDistinguishedName Distinguished name to to use for the certificate order.
+   * @param certificateDistinguishedName Distinguished name to use for the certificate order.
    * @param [options] The optional parameters
    * @returns Promise<Models.AppServiceCertificateOrdersUpdateResponse>
    */
@@ -203,14 +203,14 @@ export class AppServiceCertificateOrders {
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param certificateOrderName Name of the certificate order.
-   * @param certificateDistinguishedName Distinguished name to to use for the certificate order.
+   * @param certificateDistinguishedName Distinguished name to use for the certificate order.
    * @param callback The callback
    */
   update(resourceGroupName: string, certificateOrderName: string, certificateDistinguishedName: Models.AppServiceCertificateOrderPatchResource, callback: msRest.ServiceCallback<Models.AppServiceCertificateOrder>): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param certificateOrderName Name of the certificate order.
-   * @param certificateDistinguishedName Distinguished name to to use for the certificate order.
+   * @param certificateDistinguishedName Distinguished name to use for the certificate order.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -671,7 +671,7 @@ export class AppServiceCertificateOrders {
    * @summary Create or update a certificate purchase order.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param certificateOrderName Name of the certificate order.
-   * @param certificateDistinguishedName Distinguished name to to use for the certificate order.
+   * @param certificateDistinguishedName Distinguished name to use for the certificate order.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
@@ -807,7 +807,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -830,7 +830,7 @@ const validatePurchaseInformationOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -859,7 +859,7 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -884,7 +884,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -909,7 +909,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -933,7 +933,7 @@ const updateOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -968,7 +968,7 @@ const listCertificatesOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -994,7 +994,7 @@ const getCertificateOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1020,7 +1020,7 @@ const deleteCertificateOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1045,7 +1045,7 @@ const updateCertificateOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1080,7 +1080,7 @@ const reissueOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1110,7 +1110,7 @@ const renewOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1140,7 +1140,7 @@ const resendEmailOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1163,7 +1163,7 @@ const resendRequestEmailsOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1198,7 +1198,7 @@ const retrieveSiteSealOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1230,7 +1230,7 @@ const verifyDomainOwnershipOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1253,7 +1253,7 @@ const retrieveCertificateActionsOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1289,7 +1289,7 @@ const retrieveCertificateEmailHistoryOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1325,7 +1325,7 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1361,7 +1361,7 @@ const beginCreateOrUpdateCertificateOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
