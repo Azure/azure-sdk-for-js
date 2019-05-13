@@ -62,6 +62,10 @@ export interface StorageProfile {
    * Max storage allowed for a server.
    */
   storageMB?: number;
+  /**
+   * Enable Storage Auto Grow. Possible values include: 'Enabled', 'Disabled'
+   */
+  storageAutogrow?: StorageAutogrow;
 }
 
 /**
@@ -740,6 +744,14 @@ export type ServerState = 'Ready' | 'Dropping' | 'Disabled';
  * @enum {string}
  */
 export type GeoRedundantBackup = 'Enabled' | 'Disabled';
+
+/**
+ * Defines values for StorageAutogrow.
+ * Possible values include: 'Enabled', 'Disabled'
+ * @readonly
+ * @enum {string}
+ */
+export type StorageAutogrow = 'Enabled' | 'Disabled';
 
 /**
  * Defines values for SkuTier.
