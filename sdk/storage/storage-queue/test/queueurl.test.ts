@@ -3,7 +3,7 @@ import * as assert from "assert";
 import { Aborter } from "../src/Aborter";
 import { QueueURL } from "../src/QueueURL";
 import { getQSU } from "./utils";
-import { record } from "./utils/nock-recorder";
+import { record } from "./utils/recorder";
 import * as dotenv from "dotenv";
 dotenv.config({ path: "../.env" });
 

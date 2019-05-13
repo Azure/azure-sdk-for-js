@@ -26,40 +26,59 @@ function formatPath(path: string): string {
     .replace(/\W/g, "");
 }
 
-export function record(this: any, folderpath: string, testTitle?: string): { [key: string]: any } {
-  const filename = "recording_" + (testTitle || this.currentTest.title);
+function nockRecorder(folderpath: string, testTitle: string) {
+  const filename = "recording_" + testTitle;
   const fp = formatPath(folderpath) + "/" + formatPath(filename) + ".js";
   const importNock = "let nock = require('nock');\n";
   let uniqueTestInfo: any = {};
 
+  return {
+    skip: skip.includes(fp),
+    getUniqueTestInfoHandle: () => uniqueTestInfo,
+    record: function() {
+      nock.recorder.rec({
+        dont_print: true
+      });
+    },
+    playback: function() {
+      uniqueTestInfo = require("../../recordings/" + fp).testInfo;
+    },
+    stop: function() {
+      let fixtures = nock.recorder.play();
+      let file = fs.createWriteStream("./recordings/" + fp, { flags: "w" });
+      file.on("error", err => console.log(err));
+      file.write(importNock + "\n" + "module.exports.testInfo = " + JSON.stringify(uniqueTestInfo) + "\n");
+      for (let i = 0; i < fixtures.length; i++) {
+        file.write(fixtures[i] + "\n");
+      }
+      file.end();
+      nock.recorder.clear();
+      nock.restore();
+    }
+  };
+}
+
+export function record(this: any, folderpath: string, testTitle?: string) {
   const isRecording = (process.env.TEST_MODE === "record");
   const isPlayingBack = (process.env.TEST_MODE === "playback");
+  const recorder = nockRecorder(folderpath, testTitle || this.currentTest.title);
 
-  if (skip.includes(fp) && (isRecording || isPlayingBack)) {
+  if (recorder.skip && (isRecording || isPlayingBack)) {
     this.skip();
   }
 
   if (isRecording) {
-    nock.recorder.rec({
-      dont_print: true
-    });
+    recorder.record();
   } else if (isPlayingBack) {
-    uniqueTestInfo = require("../../recordings/" + fp).testInfo;
+    recorder.playback();
   }
+
+  const uniqueTestInfo = recorder.getUniqueTestInfoHandle();
 
   return {
     stop: function() {
       if (isRecording) {
-        let fixtures = nock.recorder.play();
-        let file = fs.createWriteStream("./recordings/" + fp, { flags: "w" });
-        file.on("error", err => console.log(err));
-        file.write(importNock + "\n" + "module.exports.testInfo = " + JSON.stringify(uniqueTestInfo) + "\n");
-        for (let i = 0; i < fixtures.length; i++) {
-          file.write(fixtures[i] + "\n");
-        }
-        file.end();
-        nock.recorder.clear();
-        nock.restore();
+        recorder.stop();
       }
     },
     getUniqueName: function(prefix: string, recorderId?: string): string {

@@ -5,7 +5,7 @@ import { QueueURL } from "../../src/QueueURL";
 import { MessagesURL } from "../../src/MessagesURL";
 import { MessageIdURL } from "../../src/MessageIdURL";
 import { getQSU } from "../utils";
-import { record } from "../utils/nock-recorder";
+import { record } from "../utils/recorder";
 
 describe("MessageIdURL Node", function() {
   const serviceURL = getQSU();

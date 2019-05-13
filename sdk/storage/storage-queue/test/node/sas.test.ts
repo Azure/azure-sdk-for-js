@@ -18,7 +18,7 @@ import {
 import { Aborter } from "../../src/Aborter";
 import { SASProtocol } from "../../src/SASQueryParameters";
 import { getQSU, sleep } from "../utils/index";
-import { record } from "../utils/nock-recorder";
+import { record } from "../utils/recorder";
 
 describe("Shared Access Signature (SAS) generation Node.js only", function() {
   const serviceURL = getQSU();
