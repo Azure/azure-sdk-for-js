@@ -899,6 +899,10 @@ export interface CloningInfo {
    */
   sourceWebAppId: string;
   /**
+   * Location of source app ex: West US or North Europe
+   */
+  sourceWebAppLocation?: string;
+  /**
    * App Service Environment.
    */
   hostingEnvironment?: string;

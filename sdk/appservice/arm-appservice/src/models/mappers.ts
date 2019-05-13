@@ -1452,6 +1452,12 @@ export const CloningInfo: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      sourceWebAppLocation: {
+        serializedName: "sourceWebAppLocation",
+        type: {
+          name: "String"
+        }
+      },
       hostingEnvironment: {
         serializedName: "hostingEnvironment",
         type: {
