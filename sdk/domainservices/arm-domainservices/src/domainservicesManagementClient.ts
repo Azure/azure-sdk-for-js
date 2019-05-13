@@ -19,6 +19,7 @@ class DomainservicesManagementClient extends DomainservicesManagementClientConte
   // Operation groups
   domainServiceOperations: operations.DomainServiceOperations;
   domainServices: operations.DomainServices;
+  replicaSets: operations.ReplicaSets;
 
   /**
    * Initializes a new instance of the DomainservicesManagementClient class.
@@ -31,6 +32,7 @@ class DomainservicesManagementClient extends DomainservicesManagementClientConte
     super(credentials, subscriptionId, options);
     this.domainServiceOperations = new operations.DomainServiceOperations(this);
     this.domainServices = new operations.DomainServices(this);
+    this.replicaSets = new operations.ReplicaSets(this);
   }
 }
 

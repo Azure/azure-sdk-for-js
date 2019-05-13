@@ -7,8 +7,15 @@
  */
 
 export {
+  BaseResource,
   CloudError,
-  OperationDisplayInfo,
-  OperationEntity,
-  OperationEntityListResult
+  DomainSecuritySettings,
+  DomainService,
+  HealthAlert,
+  HealthMonitor,
+  LdapsSettings,
+  NotificationSettings,
+  ReplicaSet,
+  ReplicaSetListResult,
+  Resource
 } from "../models/mappers";
