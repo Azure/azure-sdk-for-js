@@ -32,4 +32,3 @@ test*.xml
 coverage-browser
 .nycrc
 mocha.reporter.config.json
-ci.yml
