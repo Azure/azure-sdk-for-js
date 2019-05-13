@@ -2,10 +2,7 @@ import { generateUuid } from "@azure/ms-rest-js";
 
 import { Aborter } from "./Aborter";
 import { BlockBlobURL } from "./BlockBlobURL";
-import {
-  BlobUploadCommonResponse,
-  IUploadToBlockBlobOptions
-} from "./highlevel.common";
+import { BlobUploadCommonResponse, IUploadToBlockBlobOptions } from "./highlevel.common";
 import { Batch } from "./utils/Batch";
 import {
   BLOCK_BLOB_MAX_BLOCKS,
@@ -78,10 +75,7 @@ async function UploadSeekableBlobToBlockBlob(
   if (!options.blockSize) {
     options.blockSize = 0;
   }
-  if (
-    options.blockSize < 0 ||
-    options.blockSize > BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES
-  ) {
+  if (options.blockSize < 0 || options.blockSize > BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES) {
     throw new RangeError(
       `blockSize option must be >= 0 and <= ${BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES}`
     );
@@ -148,8 +142,7 @@ async function UploadSeekableBlobToBlockBlob(
           blobFactory(start, contentLength),
           contentLength,
           {
-            leaseAccessConditions: options.blobAccessConditions!
-              .leaseAccessConditions
+            leaseAccessConditions: options.blobAccessConditions!.leaseAccessConditions
           }
         );
         // Update progress after block is successfully uploaded to server, in case of block trying

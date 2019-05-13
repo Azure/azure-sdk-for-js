@@ -6,7 +6,7 @@ import { ServiceURL } from "../src/ServiceURL";
 import { getAlternateQSU, getQSU, wait } from "./utils";
 import { record } from "./utils/nock-recorder";
 import * as dotenv from "dotenv";
-dotenv.config({ path:"../.env" });
+dotenv.config({ path: "../.env" });
 
 describe("ServiceURL", function() {
   const testSuiteTitle = this.fullTitle();
@@ -49,30 +49,22 @@ describe("ServiceURL", function() {
     await queueURL1.create(Aborter.none, { metadata: { key: "val" } });
     await queueURL2.create(Aborter.none, { metadata: { key: "val" } });
 
-    const result1 = await serviceURL.listQueuesSegment(
-      Aborter.none,
-      undefined,
-      {
-        include: 'metadata',
-        maxresults: 1,
-        prefix: queueNamePrefix
-      }
-    );
+    const result1 = await serviceURL.listQueuesSegment(Aborter.none, undefined, {
+      include: "metadata",
+      maxresults: 1,
+      prefix: queueNamePrefix
+    });
 
     assert.ok(result1.nextMarker);
     assert.equal(result1.queueItems!.length, 1);
     assert.ok(result1.queueItems![0].name.startsWith(queueNamePrefix));
     assert.deepEqual(result1.queueItems![0].metadata!.key, "val");
 
-    const result2 = await serviceURL.listQueuesSegment(
-      Aborter.none,
-      result1.nextMarker,
-      {
-        include: 'metadata',
-        maxresults: 1,
-        prefix: queueNamePrefix
-      }
-    );
+    const result2 = await serviceURL.listQueuesSegment(Aborter.none, result1.nextMarker, {
+      include: "metadata",
+      maxresults: 1,
+      prefix: queueNamePrefix
+    });
 
     assert.ok(!result2.nextMarker);
     assert.equal(result2.queueItems!.length, 1);
@@ -161,7 +153,7 @@ describe("ServiceURL", function() {
     assert.deepEqual(result.hourMetrics, serviceProperties.hourMetrics);
   });
 
-  it("getStatistics with default/all parameters secondary", done => {
+  it("getStatistics with default/all parameters secondary", (done) => {
     let serviceURL: ServiceURL | undefined;
     try {
       serviceURL = getAlternateQSU();
@@ -172,7 +164,7 @@ describe("ServiceURL", function() {
 
     serviceURL!
       .getStatistics(Aborter.none)
-      .then(result => {
+      .then((result) => {
         assert.ok(result.geoReplication!.lastSyncTime);
         done();
       })

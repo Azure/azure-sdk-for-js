@@ -1,4 +1,7 @@
 /*
+  Copyright (c) Microsoft Corporation. All rights reserved.
+  Licensed under the MIT Licence.
+  
   This sample illustrates how to use topic subscriptions and filters for splitting
   up a message stream into multiple streams based on message properties.
 

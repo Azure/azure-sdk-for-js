@@ -5,11 +5,7 @@ import { Aborter } from "./Aborter";
 import { BlobURL } from "./BlobURL";
 import { ContainerURL } from "./ContainerURL";
 import { AppendBlob } from "./generated/lib/operations";
-import {
-  IAppendBlobAccessConditions,
-  IBlobAccessConditions,
-  IMetadata
-} from "./models";
+import { IAppendBlobAccessConditions, IBlobAccessConditions, IMetadata } from "./models";
 import { Pipeline } from "./Pipeline";
 import { URLConstants } from "./utils/constants";
 import { appendToURLPath, setURLParameter } from "./utils/utils.common";
@@ -43,10 +39,7 @@ export class AppendBlobURL extends BlobURL {
    * @returns {AppendBlobURL}
    * @memberof AppendBlobURL
    */
-  public static fromContainerURL(
-    containerURL: ContainerURL,
-    blobName: string
-  ): AppendBlobURL {
+  public static fromContainerURL(containerURL: ContainerURL, blobName: string): AppendBlobURL {
     return new AppendBlobURL(
       appendToURLPath(containerURL.url, encodeURIComponent(blobName)),
       containerURL.pipeline
@@ -149,8 +142,7 @@ export class AppendBlobURL extends BlobURL {
       blobHTTPHeaders: options.blobHTTPHeaders,
       leaseAccessConditions: options.accessConditions.leaseAccessConditions,
       metadata: options.metadata,
-      modifiedAccessConditions:
-        options.accessConditions.modifiedAccessConditions
+      modifiedAccessConditions: options.accessConditions.modifiedAccessConditions
     });
   }
 
@@ -175,11 +167,9 @@ export class AppendBlobURL extends BlobURL {
     options.accessConditions = options.accessConditions || {};
     return this.appendBlobContext.appendBlock(body, contentLength, {
       abortSignal: aborter,
-      appendPositionAccessConditions:
-        options.accessConditions.appendPositionAccessConditions,
+      appendPositionAccessConditions: options.accessConditions.appendPositionAccessConditions,
       leaseAccessConditions: options.accessConditions.leaseAccessConditions,
-      modifiedAccessConditions:
-        options.accessConditions.modifiedAccessConditions,
+      modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
       onUploadProgress: options.progress,
       transactionalContentMD5: options.transactionalContentMD5
     });

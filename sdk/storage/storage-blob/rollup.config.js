@@ -27,7 +27,7 @@ const nodeRollupConfigFactory = () => {
   };
 };
 
-const browserRollupConfigFactory = isProduction => {
+const browserRollupConfigFactory = (isProduction) => {
   const browserRollupConfig = {
     input: "dist-esm/src/index.browser.js",
     output: {
@@ -57,20 +57,13 @@ const browserRollupConfigFactory = isProduction => {
         `
       }),
       nodeResolve({
-        mainFields: ['module', 'browser'],
+        mainFields: ["module", "browser"],
         preferBuiltins: false
       }),
       commonjs({
         namedExports: {
           events: ["EventEmitter"],
-          assert: [
-            "ok",
-            "deepEqual",
-            "equal",
-            "fail",
-            "deepStrictEqual",
-            "notDeepEqual"
-          ]
+          assert: ["ok", "deepEqual", "equal", "fail", "deepStrictEqual", "notDeepEqual"]
         }
       })
     ]

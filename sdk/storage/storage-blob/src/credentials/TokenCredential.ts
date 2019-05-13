@@ -56,10 +56,7 @@ export class TokenCredential extends Credential {
    * @returns {TokenCredentialPolicy}
    * @memberof TokenCredential
    */
-  public create(
-    nextPolicy: RequestPolicy,
-    options: RequestPolicyOptions
-  ): TokenCredentialPolicy {
+  public create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): TokenCredentialPolicy {
     return new TokenCredentialPolicy(nextPolicy, options, this);
   }
 }

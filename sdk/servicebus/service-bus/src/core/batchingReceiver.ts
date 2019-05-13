@@ -45,6 +45,7 @@ export class BatchingReceiver extends MessageReceiver {
    */
   constructor(context: ClientEntityContext, options?: ReceiveOptions) {
     super(context, ReceiverType.batching, options);
+    this.newMessageWaitTimeoutInSeconds = 1;
   }
 
   /**

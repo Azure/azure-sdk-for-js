@@ -9,7 +9,7 @@ import { getQSU } from "./utils";
 import { InjectorPolicyFactory } from "./utils/InjectorPolicyFactory";
 import { record } from "./utils/nock-recorder";
 import * as dotenv from "dotenv";
-dotenv.config({ path:"../.env" });
+dotenv.config({ path: "../.env" });
 
 describe("RetryPolicy", function() {
   const serviceURL = getQSU();
@@ -36,11 +36,7 @@ describe("RetryPolicy", function() {
     const injector = new InjectorPolicyFactory(() => {
       if (injectCounter === 0) {
         injectCounter++;
-        return new RestError(
-          "Server Internal Error",
-          "ServerInternalError",
-          500
-        );
+        return new RestError("Server Internal Error", "ServerInternalError", 500);
       }
     });
     const factories = queueURL.pipeline.factories.slice(); // clone factories array
@@ -64,10 +60,7 @@ describe("RetryPolicy", function() {
       return new RestError("Server Internal Error", "ServerInternalError", 500);
     });
 
-    const credential =
-      queueURL.pipeline.factories[
-        queueURL.pipeline.factories.length - 1
-      ];
+    const credential = queueURL.pipeline.factories[queueURL.pipeline.factories.length - 1];
     const factories = StorageURL.newPipeline(credential, {
       retryOptions: { maxTries: 3 }
     }).factories;
@@ -93,11 +86,7 @@ describe("RetryPolicy", function() {
     let injectCounter = 0;
     const injector = new InjectorPolicyFactory(() => {
       if (injectCounter++ < 1) {
-        return new RestError(
-          "Server Internal Error",
-          "ServerInternalError",
-          500
-        );
+        return new RestError("Server Internal Error", "ServerInternalError", 500);
       }
     });
 
@@ -110,10 +99,7 @@ describe("RetryPolicy", function() {
     hostParts.unshift(secondaryAccount);
     const secondaryHost = hostParts.join(".");
 
-    const credential =
-      queueURL.pipeline.factories[
-        queueURL.pipeline.factories.length - 1
-      ];
+    const credential = queueURL.pipeline.factories[queueURL.pipeline.factories.length - 1];
     const factories = StorageURL.newPipeline(credential, {
       retryOptions: { maxTries: 2, secondaryHost }
     }).factories;
@@ -129,9 +115,6 @@ describe("RetryPolicy", function() {
       finalRequestURL = err.request ? err.request.url : "";
     }
 
-    assert.deepStrictEqual(
-      URLBuilder.parse(finalRequestURL).getHost(),
-      secondaryHost
-    );
+    assert.deepStrictEqual(URLBuilder.parse(finalRequestURL).getHost(), secondaryHost);
   });
 });

@@ -7,7 +7,7 @@ import { MessageIdURL } from "../src/MessageIdURL";
 import { getQSU, sleep } from "./utils";
 import { record } from "./utils/nock-recorder";
 import * as dotenv from "dotenv";
-dotenv.config({ path:"../.env" });
+dotenv.config({ path: "../.env" });
 
 describe("MessageIdURL", function() {
   const serviceURL = getQSU();
@@ -43,16 +43,8 @@ describe("MessageIdURL", function() {
     assert.ok(eResult.version);
 
     let newMessage = "";
-    let messageIdURL = MessageIdURL.fromMessagesURL(
-      messagesURL,
-      eResult.messageId
-    );
-    let uResult = await messageIdURL.update(
-      Aborter.none,
-      eResult.popReceipt,
-      0,
-      newMessage
-    );
+    let messageIdURL = MessageIdURL.fromMessagesURL(messagesURL, eResult.messageId);
+    let uResult = await messageIdURL.update(Aborter.none, eResult.popReceipt, 0, newMessage);
     assert.ok(uResult.version);
     assert.ok(uResult.timeNextVisible);
     assert.ok(uResult.date);
@@ -61,10 +53,7 @@ describe("MessageIdURL", function() {
 
     let pResult = await messagesURL.peek(Aborter.none);
     assert.equal(pResult.peekedMessageItems.length, 1);
-    assert.deepStrictEqual(
-      pResult.peekedMessageItems[0].messageText,
-      newMessage
-    );
+    assert.deepStrictEqual(pResult.peekedMessageItems[0].messageText, newMessage);
 
     let dResult = await messageIdURL.delete(Aborter.none, uResult.popReceipt!);
     assert.ok(dResult.date);
@@ -88,16 +77,8 @@ describe("MessageIdURL", function() {
     assert.ok(eResult.version);
 
     let newMessage = "New Message";
-    let messageIdURL = MessageIdURL.fromMessagesURL(
-      messagesURL,
-      eResult.messageId
-    );
-    let uResult = await messageIdURL.update(
-      Aborter.none,
-      eResult.popReceipt,
-      10,
-      newMessage
-    );
+    let messageIdURL = MessageIdURL.fromMessagesURL(messagesURL, eResult.messageId);
+    let uResult = await messageIdURL.update(Aborter.none, eResult.popReceipt, 10, newMessage);
     assert.ok(uResult.version);
     assert.ok(uResult.timeNextVisible);
     assert.ok(uResult.date);
@@ -106,15 +87,12 @@ describe("MessageIdURL", function() {
 
     let pResult = await messagesURL.peek(Aborter.none);
     assert.equal(pResult.peekedMessageItems.length, 0);
-    
+
     await sleep(11 * 1000); // Sleep 11 seconds, and wait the message to be visible again
 
     let pResult2 = await messagesURL.peek(Aborter.none);
     assert.equal(pResult2.peekedMessageItems.length, 1);
-    assert.deepStrictEqual(
-      pResult2.peekedMessageItems[0].messageText,
-      newMessage
-    );
+    assert.deepStrictEqual(pResult2.peekedMessageItems[0].messageText, newMessage);
   });
 
   it("update message with 64KB characters size which is computed after encoding", async () => {
@@ -129,17 +107,9 @@ describe("MessageIdURL", function() {
     assert.ok(eResult.timeNextVisible);
     assert.ok(eResult.version);
 
-    let newMessage = new Array(64*1024 + 1).join('a');
-    let messageIdURL = MessageIdURL.fromMessagesURL(
-      messagesURL,
-      eResult.messageId
-    );
-    let uResult = await messageIdURL.update(
-      Aborter.none,
-      eResult.popReceipt,
-      0,
-      newMessage
-    );
+    let newMessage = new Array(64 * 1024 + 1).join("a");
+    let messageIdURL = MessageIdURL.fromMessagesURL(messagesURL, eResult.messageId);
+    let uResult = await messageIdURL.update(Aborter.none, eResult.popReceipt, 0, newMessage);
     assert.ok(uResult.version);
     assert.ok(uResult.timeNextVisible);
     assert.ok(uResult.date);
@@ -148,10 +118,7 @@ describe("MessageIdURL", function() {
 
     let pResult = await messagesURL.peek(Aborter.none);
     assert.equal(pResult.peekedMessageItems.length, 1);
-    assert.deepStrictEqual(
-      pResult.peekedMessageItems[0].messageText,
-      newMessage
-    );
+    assert.deepStrictEqual(pResult.peekedMessageItems[0].messageText, newMessage);
   });
 
   it("update message negative with 65537B (64KB+1B) characters size which is computed after encoding", async () => {
@@ -166,43 +133,35 @@ describe("MessageIdURL", function() {
     assert.ok(eResult.timeNextVisible);
     assert.ok(eResult.version);
 
-    let newMessage = new Array(64*1024 + 2).join('a');
-    
-    let messageIdURL = MessageIdURL.fromMessagesURL(
-      messagesURL,
-      eResult.messageId
-    );
+    let newMessage = new Array(64 * 1024 + 2).join("a");
+
+    let messageIdURL = MessageIdURL.fromMessagesURL(messagesURL, eResult.messageId);
 
     let error;
-    try{
-      await messageIdURL.update(
-        Aborter.none,
-        eResult.popReceipt,
-        0,
-        newMessage
-      );
-    } catch(err) {
-      error = err
+    try {
+      await messageIdURL.update(Aborter.none, eResult.popReceipt, 0, newMessage);
+    } catch (err) {
+      error = err;
     }
     assert.ok(error);
-    assert.ok(error.message.includes("The request body is too large and exceeds the maximum permissible limit."))
+    assert.ok(
+      error.message.includes(
+        "The request body is too large and exceeds the maximum permissible limit."
+      )
+    );
   });
-
 
   it("delete message negative", async () => {
     let messagesURL = MessagesURL.fromQueueURL(queueURL);
     let eResult = await messagesURL.enqueue(Aborter.none, messageContent);
 
-    let messageIdURL = MessageIdURL.fromMessagesURL(
-      messagesURL,
-      eResult.messageId
-    );
+    let messageIdURL = MessageIdURL.fromMessagesURL(messagesURL, eResult.messageId);
 
-    let error
-    try{
+    let error;
+    try {
       await messageIdURL.delete(Aborter.none, "invalid");
-    } catch(err) {
-      error = err
+    } catch (err) {
+      error = err;
     }
     assert.ok(error);
   });

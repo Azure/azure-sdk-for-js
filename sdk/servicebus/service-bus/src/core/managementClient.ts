@@ -314,7 +314,7 @@ export class ManagementClient extends LinkEntity {
         Buffer.from(fromSequenceNumber.toBytesBE())
       );
       messageBody[Constants.messageCount] = types.wrap_int(maxMessageCount);
-      if (sessionId) {
+      if (sessionId != undefined) {
         messageBody[Constants.sessionIdMapKey] = sessionId;
       }
       const request: AmqpMessage = {
@@ -621,6 +621,7 @@ export class ManagementClient extends LinkEntity {
   async receiveDeferredMessages(
     sequenceNumbers: Long[],
     receiveMode: ReceiveMode,
+    associatedLinkName?: string,
     sessionId?: string
   ): Promise<ServiceBusMessage[]> {
     throwErrorIfConnectionClosed(this._context.namespace);
@@ -663,6 +664,9 @@ export class ManagementClient extends LinkEntity {
           operation: Constants.operations.receiveBySequenceNumber
         }
       };
+      if (associatedLinkName) {
+        request.application_properties![Constants.associatedLinkName] = associatedLinkName;
+      }
       request.application_properties![Constants.trackingId] = generate_uuid();
       log.mgmt(
         "[%s] Receive deferred messages request body: %O.",

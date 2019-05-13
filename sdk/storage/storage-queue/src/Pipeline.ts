@@ -61,10 +61,7 @@ export class Pipeline {
    * @param {IPipelineOptions} [options={}]
    * @memberof Pipeline
    */
-  constructor(
-    factories: RequestPolicyFactory[],
-    options: IPipelineOptions = {}
-  ) {
+  constructor(factories: RequestPolicyFactory[], options: IPipelineOptions = {}) {
     this.factories = factories;
     this.options = options;
   }

@@ -40,10 +40,7 @@ export class TelemetryPolicyFactory implements RequestPolicyFactory {
     if (isNode) {
       if (telemetry) {
         const telemetryString = telemetry.value;
-        if (
-          telemetryString.length > 0 &&
-          userAgentInfo.indexOf(telemetryString) === -1
-        ) {
+        if (telemetryString.length > 0 && userAgentInfo.indexOf(telemetryString) === -1) {
           userAgentInfo.push(telemetryString);
         }
       }
@@ -55,9 +52,7 @@ export class TelemetryPolicyFactory implements RequestPolicyFactory {
       }
 
       // e.g. (NODE-VERSION 4.9.1; Windows_NT 10.0.16299)
-      const runtimeInfo = `(NODE-VERSION ${
-        process.version
-      }; ${os.type()} ${os.release()})`;
+      const runtimeInfo = `(NODE-VERSION ${process.version}; ${os.type()} ${os.release()})`;
       if (userAgentInfo.indexOf(runtimeInfo) === -1) {
         userAgentInfo.push(runtimeInfo);
       }
@@ -66,10 +61,7 @@ export class TelemetryPolicyFactory implements RequestPolicyFactory {
     this.telemetryString = userAgentInfo.join(" ");
   }
 
-  public create(
-    nextPolicy: RequestPolicy,
-    options: RequestPolicyOptions
-  ): TelemetryPolicy {
+  public create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): TelemetryPolicy {
     return new TelemetryPolicy(nextPolicy, options, this.telemetryString);
   }
 }
