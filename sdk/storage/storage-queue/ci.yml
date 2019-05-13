@@ -12,7 +12,7 @@ pr:
     - sdk/storage/storage-queue/
 
 variables:
-  rushFlags: '--to storage-queue'
+  ProjectFile: storage-queue
 
 jobs:
 - template: ../../../eng/pipelines/templates/jobs/archetype-sdk-client.yml
