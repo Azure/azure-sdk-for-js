@@ -12,7 +12,7 @@ pr:
     - sdk/storage/storage-queue/
 
 variables:
-  ProjectFile: storage-queue
+  PackageName: storage-queue
 
 jobs:
 - template: ../../../eng/pipelines/templates/jobs/archetype-sdk-client.yml
