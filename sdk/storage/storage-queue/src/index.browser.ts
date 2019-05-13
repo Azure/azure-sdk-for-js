@@ -16,7 +16,7 @@ export * from "./RetryPolicyFactory";
 export * from "./LoggingPolicyFactory";
 export * from "./TelemetryPolicyFactory";
 export * from "./policies/TokenCredentialPolicy";
-export * from "./QueueURL"
+export * from "./QueueURL";
 export * from "./QueueSASPermissions";
 export * from "./UniqueRequestIDPolicyFactory";
 export * from "./ServiceURL";

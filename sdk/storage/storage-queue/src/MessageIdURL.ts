@@ -19,14 +19,8 @@ export class MessageIdURL extends StorageURL {
    * @param messagesURL
    * @param messageId
    */
-  public static fromMessagesURL(
-    messagesURL: MessagesURL,
-    messageId: string
-  ): MessageIdURL {
-    return new MessageIdURL(
-      appendToURLPath(messagesURL.url, messageId),
-      messagesURL.pipeline
-    );
+  public static fromMessagesURL(messagesURL: MessagesURL, messageId: string): MessageIdURL {
+    return new MessageIdURL(appendToURLPath(messagesURL.url, messageId), messagesURL.pipeline);
   }
 
   /**
@@ -86,8 +80,8 @@ export class MessageIdURL extends StorageURL {
 
   /**
    * Update changes a message's visibility timeout and contents.
-   * The message content is up to 64KB in size, and must be in a format that can be included in an XML request with UTF-8 encoding. 
-   * To include markup in the message, the contents of the message must either be XML-escaped or Base64-encode. 
+   * The message content is up to 64KB in size, and must be in a format that can be included in an XML request with UTF-8 encoding.
+   * To include markup in the message, the contents of the message must either be XML-escaped or Base64-encode.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/update-message
    *
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),

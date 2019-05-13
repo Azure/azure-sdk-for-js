@@ -6,10 +6,7 @@ import { StorageClientContext } from "./generated/lib/storageClientContext";
 import { LoggingPolicyFactory } from "./LoggingPolicyFactory";
 import { IHttpClient, IHttpPipelineLogger, Pipeline } from "./Pipeline";
 import { IRetryOptions, RetryPolicyFactory } from "./RetryPolicyFactory";
-import {
-  ITelemetryOptions,
-  TelemetryPolicyFactory
-} from "./TelemetryPolicyFactory";
+import { ITelemetryOptions, TelemetryPolicyFactory } from "./TelemetryPolicyFactory";
 import { UniqueRequestIDPolicyFactory } from "./UniqueRequestIDPolicyFactory";
 import { escapeURLPath } from "./utils/utils.common";
 

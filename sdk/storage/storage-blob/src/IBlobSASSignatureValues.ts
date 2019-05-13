@@ -164,18 +164,14 @@ export function generateBlobSASQueryParameters(
     );
   }
 
-  const version = blobSASSignatureValues.version
-    ? blobSASSignatureValues.version
-    : SERVICE_VERSION;
+  const version = blobSASSignatureValues.version ? blobSASSignatureValues.version : SERVICE_VERSION;
   let resource: string = "c";
   let verifiedPermissions: string | undefined;
 
   // Calling parse and toString guarantees the proper ordering and throws on invalid characters.
   if (blobSASSignatureValues.permissions) {
     if (blobSASSignatureValues.blobName) {
-      verifiedPermissions = BlobSASPermissions.parse(
-        blobSASSignatureValues.permissions
-      ).toString();
+      verifiedPermissions = BlobSASPermissions.parse(blobSASSignatureValues.permissions).toString();
       resource = "b";
     } else {
       verifiedPermissions = ContainerSASPermissions.parse(
@@ -199,23 +195,13 @@ export function generateBlobSASQueryParameters(
       blobSASSignatureValues.blobName
     ),
     blobSASSignatureValues.identifier,
-    blobSASSignatureValues.ipRange
-      ? ipRangeToString(blobSASSignatureValues.ipRange)
-      : "",
+    blobSASSignatureValues.ipRange ? ipRangeToString(blobSASSignatureValues.ipRange) : "",
     blobSASSignatureValues.protocol ? blobSASSignatureValues.protocol : "",
     version,
-    blobSASSignatureValues.cacheControl
-      ? blobSASSignatureValues.cacheControl
-      : "",
-    blobSASSignatureValues.contentDisposition
-      ? blobSASSignatureValues.contentDisposition
-      : "",
-    blobSASSignatureValues.contentEncoding
-      ? blobSASSignatureValues.contentEncoding
-      : "",
-    blobSASSignatureValues.contentLanguage
-      ? blobSASSignatureValues.contentLanguage
-      : "",
+    blobSASSignatureValues.cacheControl ? blobSASSignatureValues.cacheControl : "",
+    blobSASSignatureValues.contentDisposition ? blobSASSignatureValues.contentDisposition : "",
+    blobSASSignatureValues.contentEncoding ? blobSASSignatureValues.contentEncoding : "",
+    blobSASSignatureValues.contentLanguage ? blobSASSignatureValues.contentLanguage : "",
     blobSASSignatureValues.contentType ? blobSASSignatureValues.contentType : ""
   ].join("\n");
 
@@ -241,11 +227,7 @@ export function generateBlobSASQueryParameters(
   );
 }
 
-function getCanonicalName(
-  accountName: string,
-  containerName: string,
-  blobName?: string
-): string {
+function getCanonicalName(accountName: string, containerName: string, blobName?: string): string {
   // Container: "/blob/account/containerName"
   // Blob:      "/blob/account/containerName/blobName"
   const elements: string[] = [`/blob/${accountName}/${containerName}`];

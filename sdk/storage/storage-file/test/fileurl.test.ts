@@ -7,7 +7,7 @@ import { FileURL } from "../src/FileURL";
 import { ShareURL } from "../src/ShareURL";
 import { bodyToString, getBSU, getUniqueName, sleep } from "./utils";
 import * as dotenv from "dotenv";
-dotenv.config({path:"../.env"});
+dotenv.config({ path: "../.env" });
 
 describe("FileURL", () => {
   const serviceURL = getBSU();
@@ -62,32 +62,14 @@ describe("FileURL", () => {
     await fileURL.create(Aborter.none, 512, options);
 
     const result = await fileURL.download(Aborter.none, 0);
-    assert.deepStrictEqual(
-      await bodyToString(result, 512),
-      "\u0000".repeat(512)
-    );
+    assert.deepStrictEqual(await bodyToString(result, 512), "\u0000".repeat(512));
 
     const properties = await fileURL.getProperties(Aborter.none);
-    assert.equal(
-      properties.cacheControl,
-      options.fileHTTPHeaders.fileCacheControl
-    );
-    assert.equal(
-      properties.contentDisposition,
-      options.fileHTTPHeaders.fileContentDisposition
-    );
-    assert.equal(
-      properties.contentEncoding,
-      options.fileHTTPHeaders.fileContentEncoding
-    );
-    assert.equal(
-      properties.contentLanguage,
-      options.fileHTTPHeaders.fileContentLanguage
-    );
-    assert.equal(
-      properties.contentType,
-      options.fileHTTPHeaders.fileContentType
-    );
+    assert.equal(properties.cacheControl, options.fileHTTPHeaders.fileCacheControl);
+    assert.equal(properties.contentDisposition, options.fileHTTPHeaders.fileContentDisposition);
+    assert.equal(properties.contentEncoding, options.fileHTTPHeaders.fileContentEncoding);
+    assert.equal(properties.contentLanguage, options.fileHTTPHeaders.fileContentLanguage);
+    assert.equal(properties.contentType, options.fileHTTPHeaders.fileContentType);
     assert.equal(properties.metadata!.key1, options.metadata.key1);
     assert.equal(properties.metadata!.key2, options.metadata.key2);
   });
@@ -140,9 +122,7 @@ describe("FileURL", () => {
       fileContentDisposition: "fileContentDisposition",
       fileContentEncoding: "fileContentEncoding",
       fileContentLanguage: "fileContentLanguage",
-      fileContentMD5: isNode
-        ? Buffer.from([1, 2, 3, 4])
-        : new Uint8Array([1, 2, 3, 4]),
+      fileContentMD5: isNode ? Buffer.from([1, 2, 3, 4]) : new Uint8Array([1, 2, 3, 4]),
       fileContentType: "fileContentType"
     };
     await fileURL.setHTTPHeaders(Aborter.none, headers);
@@ -154,10 +134,7 @@ describe("FileURL", () => {
     assert.deepStrictEqual(result.contentMD5, headers.fileContentMD5);
     assert.deepStrictEqual(result.contentEncoding, headers.fileContentEncoding);
     assert.deepStrictEqual(result.contentLanguage, headers.fileContentLanguage);
-    assert.deepStrictEqual(
-      result.contentDisposition,
-      headers.fileContentDisposition
-    );
+    assert.deepStrictEqual(result.contentDisposition, headers.fileContentDisposition);
   });
 
   it("delete", async () => {
@@ -167,10 +144,7 @@ describe("FileURL", () => {
 
   it("startCopyFromURL", async () => {
     await fileURL.create(Aborter.none, 1024);
-    const newFileURL = FileURL.fromDirectoryURL(
-      dirURL,
-      getUniqueName("copiedfile")
-    );
+    const newFileURL = FileURL.fromDirectoryURL(dirURL, getUniqueName("copiedfile"));
     const result = await newFileURL.startCopyFromURL(Aborter.none, fileURL.url);
     assert.ok(result.copyId);
 
@@ -183,10 +157,7 @@ describe("FileURL", () => {
 
   it("abortCopyFromURL should failed for a completed copy operation", async () => {
     await fileURL.create(Aborter.none, content.length);
-    const newFileURL = FileURL.fromDirectoryURL(
-      dirURL,
-      getUniqueName("copiedfile")
-    );
+    const newFileURL = FileURL.fromDirectoryURL(dirURL, getUniqueName("copiedfile"));
     const result = await newFileURL.startCopyFromURL(Aborter.none, fileURL.url);
     assert.ok(result.copyId);
     sleep(1 * 1000);
@@ -264,10 +235,7 @@ describe("FileURL", () => {
     await fileURL.clearRange(Aborter.none, 1, 8);
 
     const result = await fileURL.download(Aborter.none, 0);
-    assert.deepStrictEqual(
-      await bodyToString(result, 10),
-      "H" + "\u0000".repeat(8) + "d"
-    );
+    assert.deepStrictEqual(await bodyToString(result, 10), "H" + "\u0000".repeat(8) + "d");
   });
 
   it("getRangeList", async () => {

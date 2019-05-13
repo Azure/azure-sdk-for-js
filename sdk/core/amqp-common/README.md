@@ -41,7 +41,7 @@ This SDK houses core AMQP common related functionality in use bu Azure SDKs that
 
 ## Examples
 
-Please take a look at the [samples](https://github.com/Azure/azure-sdk-for-js/tree/%40azure/amqp-common_1.0.0-preview.4/sdk/core/amqp-common/samples) directory for detailed samples.
+Please take a look at the [samples](https://github.com/Azure/azure-sdk-for-js/tree/%40azure/amqp-common_1.0.0-preview.5/sdk/core/amqp-common/samples) directory for detailed samples.
 You can run the samples by cloning the repo or copy pasting the below sample in your sample.js file.
 
 ```bash
@@ -55,7 +55,7 @@ You can run the samples by cloning the repo or copy pasting the below sample in 
 ```
 
 The samples below are generic for EventHubs and Servicebus. You can find EventHub specific samples,
-in the [samples](https://github.com/Azure/azure-sdk-for-js/tree/%40azure/amqp-common_1.0.0-preview.4/sdk/core/amqp-common/samples) directory.
+in the [samples](https://github.com/Azure/azure-sdk-for-js/tree/%40azure/amqp-common_1.0.0-preview.5/sdk/core/amqp-common/samples) directory.
 
 ## Example 1 - CBS (Claims Based Authorization Specification) example
 
@@ -64,11 +64,7 @@ You can find more information about cbs authorization over [here](https://docs.m
 NOTE: The code block below has been later referred to as "./cbsAuth".
 
 ```js
-const {
-  ConnectionContextBase,
-  ConnectionConfig,
-  CbsResponse
-} = require("@azure/amqp-common");
+const { ConnectionContextBase, ConnectionConfig, CbsResponse } = require("@azure/amqp-common");
 const dotenv = require("dotenv");
 dotenv.config(); // Optional for loading environment configuration from a .env (config) file
 
@@ -115,10 +111,7 @@ export const connectionContext = ConnectionContextBase.create(parameters);
 export async function authenticate(audience, closeConnection = false) {
   await connectionContext.cbsSession.init();
   const tokenObject = await connectionContext.tokenProvider.getToken(audience);
-  const result = await connectionContext.cbsSession.negotiateClaim(
-    audience,
-    tokenObject
-  );
+  const result = await connectionContext.cbsSession.negotiateClaim(audience, tokenObject);
   console.log(`Result is: ${result}`);
   if (closeConnection) {
     await connectionContext.connection.close();
@@ -139,19 +132,8 @@ Building on the above mentioned cbs auth sample, after authentication, we can se
 ```js
 const dotenv = require("dotenv");
 dotenv.config(); // Optional for loading environment configuration from a .env (config) file
-const {
-  Sender,
-  SenderOptions,
-  EventContext,
-  Message,
-  Delivery
-} = require("rhea-promise");
-const {
-  authenticate,
-  connectionContext,
-  connectionConfig,
-  path
-} = require("./cbsAuth");
+const { Sender, SenderOptions, EventContext, Message, Delivery } = require("rhea-promise");
+const { authenticate, connectionContext, connectionConfig, path } = require("./cbsAuth");
 
 async function main() {
   await authenticate(`${connectionConfig.endpoint}${path}`);
@@ -163,7 +145,7 @@ async function main() {
       // For ServiceBus Queue, it will be "<QueueName>"
       address: `${path}`
     },
-    onError: context => {
+    onError: (context) => {
       const senderError = context.sender && context.sender.error;
       if (senderError) {
         console.log(
@@ -174,7 +156,7 @@ async function main() {
         );
       }
     },
-    onSessionError: context => {
+    onSessionError: (context) => {
       const sessionError = context.session && context.session.error;
       if (sessionError) {
         console.log(
@@ -194,17 +176,13 @@ async function main() {
   };
 
   const delivery = await sender.send(message);
-  console.log(
-    ">>>>>[%s] Delivery id: ",
-    connectionContext.connection.id,
-    delivery.id
-  );
+  console.log(">>>>>[%s] Delivery id: ", connectionContext.connection.id, delivery.id);
 
   await sender.close();
   await connectionContext.connection.close();
 }
 
-main().catch(err => console.log(err));
+main().catch((err) => console.log(err));
 ```
 
 ## Example 3 - Receiving a message
@@ -225,18 +203,12 @@ const {
   delay,
   types
 } = require("rhea-promise");
-const {
-  authenticate,
-  connectionContext,
-  connectionConfig,
-  path
-} = require("./cbsAuth");
+const { authenticate, connectionContext, connectionConfig, path } = require("./cbsAuth");
 
 async function main() {
   await authenticate(`${connectionConfig.endpoint}${path}`);
   const receiverName = "receiver-1";
-  const filterClause = `amqp.annotation.x-opt-enqueued-time > '${Date.now() -
-    3600 * 1000}'`; // Get messages from the past hour
+  const filterClause = `amqp.annotation.x-opt-enqueued-time > '${Date.now() - 3600 * 1000}'`; // Get messages from the past hour
   const receiverAddress = `${path}/ConsumerGroups/$default/Partitions/0`; // For ServiceBus "<QueueName>"
   const receiverOptions = {
     name: receiverName,
@@ -244,13 +216,10 @@ async function main() {
       address: receiverAddress,
       filter: {
         // May not be required for ServiceBus. The current example is for EventHubs.
-        "apache.org:selector-filter:string": types.wrap_described(
-          filterClause,
-          0x468c00000004
-        )
+        "apache.org:selector-filter:string": types.wrap_described(filterClause, 0x468c00000004)
       }
     },
-    onSessionError: context => {
+    onSessionError: (context) => {
       const sessionError = context.session && context.session.error;
       if (sessionError) {
         console.log(
@@ -263,13 +232,11 @@ async function main() {
     }
   };
 
-  const receiver = await connectionContext.connection.createReceiver(
-    receiverOptions
-  );
-  receiver.on(ReceiverEvents.message, context => {
+  const receiver = await connectionContext.connection.createReceiver(receiverOptions);
+  receiver.on(ReceiverEvents.message, (context) => {
     console.log("Received message: %O", context.message);
   });
-  receiver.on(ReceiverEvents.receiverError, context => {
+  receiver.on(ReceiverEvents.receiverError, (context) => {
     const receiverError = context.receiver && context.receiver.error;
     if (receiverError) {
       console.log(
@@ -286,7 +253,7 @@ async function main() {
   await connectionContext.connection.close();
 }
 
-main().catch(err => console.log(err));
+main().catch((err) => console.log(err));
 ```
 
 ## Troubleshooting

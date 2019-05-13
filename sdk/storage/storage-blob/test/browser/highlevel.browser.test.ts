@@ -82,7 +82,7 @@ describe("Highelvel", () => {
       await uploadBrowserDataToBlockBlob(aborter, tempFile1, blockBlobURL, {
         blockSize: 4 * 1024 * 1024,
         parallelism: 2,
-        progress: ev => {
+        progress: (ev) => {
           assert.ok(ev.loadedBytes);
           eventTriggered = true;
           aborter.abort();
@@ -100,7 +100,7 @@ describe("Highelvel", () => {
       await uploadBrowserDataToBlockBlob(aborter, tempFile2, blockBlobURL, {
         blockSize: 4 * 1024 * 1024,
         parallelism: 2,
-        progress: ev => {
+        progress: (ev) => {
           assert.ok(ev.loadedBytes);
           eventTriggered = true;
           aborter.abort();

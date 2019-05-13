@@ -88,9 +88,7 @@ describe("BlobURL", () => {
       blobContentDisposition: "blobContentDisposition",
       blobContentEncoding: "blobContentEncoding",
       blobContentLanguage: "blobContentLanguage",
-      blobContentMD5: isNode
-        ? Buffer.from([1, 2, 3, 4])
-        : new Uint8Array([1, 2, 3, 4]),
+      blobContentMD5: isNode ? Buffer.from([1, 2, 3, 4]) : new Uint8Array([1, 2, 3, 4]),
       blobContentType: "blobContentType"
     };
     await blobURL.setHTTPHeaders(Aborter.none, headers);
@@ -104,10 +102,7 @@ describe("BlobURL", () => {
     assert.deepStrictEqual(result.contentMD5, headers.blobContentMD5);
     assert.deepStrictEqual(result.contentEncoding, headers.blobContentEncoding);
     assert.deepStrictEqual(result.contentLanguage, headers.blobContentLanguage);
-    assert.deepStrictEqual(
-      result.contentDisposition,
-      headers.blobContentDisposition
-    );
+    assert.deepStrictEqual(result.contentDisposition, headers.blobContentDisposition);
   });
 
   it("acquireLease", async () => {
@@ -219,13 +214,9 @@ describe("BlobURL", () => {
     await blobSnapshotURL.delete(Aborter.none);
     await blobURL.delete(Aborter.none);
 
-    const result2 = await containerURL.listBlobFlatSegment(
-      Aborter.none,
-      undefined,
-      {
-        include: ["snapshots"]
-      }
-    );
+    const result2 = await containerURL.listBlobFlatSegment(Aborter.none, undefined, {
+      include: ["snapshots"]
+    });
 
     // Verify that the snapshot is deleted
     assert.equal(result2.segment.blobItems!.length, 0);
@@ -238,13 +229,9 @@ describe("BlobURL", () => {
     const blobSnapshotURL = blobURL.withSnapshot(result.snapshot!);
     await blobSnapshotURL.getProperties(Aborter.none);
 
-    const result3 = await containerURL.listBlobFlatSegment(
-      Aborter.none,
-      undefined,
-      {
-        include: ["snapshots"]
-      }
-    );
+    const result3 = await containerURL.listBlobFlatSegment(Aborter.none, undefined, {
+      include: ["snapshots"]
+    });
 
     // As a snapshot doesn't have leaseStatus and leaseState properties but origin blob has,
     // let assign them to undefined both for other properties' easy comparison
@@ -261,10 +248,7 @@ describe("BlobURL", () => {
       result3.segment.blobItems![0].properties,
       result3.segment.blobItems![1].properties
     );
-    assert.ok(
-      result3.segment.blobItems![0].snapshot ||
-        result3.segment.blobItems![1].snapshot
-    );
+    assert.ok(result3.segment.blobItems![0].snapshot || result3.segment.blobItems![1].snapshot);
   });
 
   it("undelete", async () => {
@@ -281,31 +265,20 @@ describe("BlobURL", () => {
 
     await blobURL.delete(Aborter.none);
 
-    const result = await containerURL.listBlobFlatSegment(
-      Aborter.none,
-      undefined,
-      {
-        include: ["deleted"]
-      }
-    );
+    const result = await containerURL.listBlobFlatSegment(Aborter.none, undefined, {
+      include: ["deleted"]
+    });
     assert.ok(result.segment.blobItems![0].deleted);
 
     await blobURL.undelete(Aborter.none);
-    const result2 = await containerURL.listBlobFlatSegment(
-      Aborter.none,
-      undefined,
-      {
-        include: ["deleted"]
-      }
-    );
+    const result2 = await containerURL.listBlobFlatSegment(Aborter.none, undefined, {
+      include: ["deleted"]
+    });
     assert.ok(!result2.segment.blobItems![0].deleted);
   });
 
   it("startCopyFromURL", async () => {
-    const newBlobURL = BlobURL.fromContainerURL(
-      containerURL,
-      getUniqueName("copiedblob")
-    );
+    const newBlobURL = BlobURL.fromContainerURL(containerURL, getUniqueName("copiedblob"));
     const result = await newBlobURL.startCopyFromURL(Aborter.none, blobURL.url);
     assert.ok(result.copyId);
 
@@ -317,10 +290,7 @@ describe("BlobURL", () => {
   });
 
   it("abortCopyFromURL should failed for a completed copy operation", async () => {
-    const newBlobURL = BlobURL.fromContainerURL(
-      containerURL,
-      getUniqueName("copiedblob")
-    );
+    const newBlobURL = BlobURL.fromContainerURL(containerURL, getUniqueName("copiedblob"));
     const result = await newBlobURL.startCopyFromURL(Aborter.none, blobURL.url);
     assert.ok(result.copyId);
     sleep(1 * 1000);
@@ -349,10 +319,7 @@ describe("BlobURL", () => {
     await blockBlobURL.setTier(Aborter.none, "Hot");
     properties = await blockBlobURL.getProperties(Aborter.none);
     if (properties.archiveStatus) {
-      assert.equal(
-        properties.archiveStatus.toLowerCase(),
-        "rehydrate-pending-to-hot"
-      );
+      assert.equal(properties.archiveStatus.toLowerCase(), "rehydrate-pending-to-hot");
     }
   });
 });
