@@ -14,6 +14,7 @@ export {
   CdnEndpoint,
   CdnWebApplicationFirewallPolicy,
   CdnWebApplicationFirewallPolicyList,
+  CdnWebApplicationFirewallPolicyPatchParameters,
   CidrIpAddress,
   CloudError,
   CustomDomain,

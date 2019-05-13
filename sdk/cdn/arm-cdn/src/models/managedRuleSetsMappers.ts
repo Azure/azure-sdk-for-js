@@ -13,6 +13,7 @@ export {
   CacheExpirationActionParameters,
   CdnEndpoint,
   CdnWebApplicationFirewallPolicy,
+  CdnWebApplicationFirewallPolicyPatchParameters,
   CidrIpAddress,
   CustomDomain,
   CustomRule,

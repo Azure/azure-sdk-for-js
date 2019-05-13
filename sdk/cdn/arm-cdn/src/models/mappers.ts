@@ -3021,6 +3021,27 @@ export const CdnWebApplicationFirewallPolicy: msRest.CompositeMapper = {
   }
 };
 
+export const CdnWebApplicationFirewallPolicyPatchParameters: msRest.CompositeMapper = {
+  serializedName: "CdnWebApplicationFirewallPolicyPatchParameters",
+  type: {
+    name: "Composite",
+    className: "CdnWebApplicationFirewallPolicyPatchParameters",
+    modelProperties: {
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const ManagedRuleDefinition: msRest.CompositeMapper = {
   serializedName: "ManagedRuleDefinition",
   type: {

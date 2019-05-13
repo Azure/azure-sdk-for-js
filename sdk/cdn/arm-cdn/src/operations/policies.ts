@@ -101,15 +101,48 @@ export class Policies {
   }
 
   /**
+   * Update an existing CdnWebApplicationFirewallPolicy with the specified policy name uner the
+   * specified subcription and resource group
+   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param policyName The name of the CdnWebApplicationFirewallPolicy.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.PoliciesUpdateResponse>
+   */
+  update(resourceGroupName: string, policyName: string, options?: Models.PoliciesUpdateOptionalParams): Promise<Models.PoliciesUpdateResponse> {
+    return this.beginUpdate(resourceGroupName,policyName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.PoliciesUpdateResponse>;
+  }
+
+  /**
    * Deletes Policy
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param policyName The name of the CdnWebApplicationFirewallPolicy.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, policyName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,policyName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(resourceGroupName: string, policyName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  /**
+   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param policyName The name of the CdnWebApplicationFirewallPolicy.
+   * @param callback The callback
+   */
+  deleteMethod(resourceGroupName: string, policyName: string, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param policyName The name of the CdnWebApplicationFirewallPolicy.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  deleteMethod(resourceGroupName: string, policyName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(resourceGroupName: string, policyName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        policyName,
+        options
+      },
+      deleteMethodOperationSpec,
+      callback);
   }
 
   /**
@@ -133,20 +166,21 @@ export class Policies {
   }
 
   /**
-   * Deletes Policy
+   * Update an existing CdnWebApplicationFirewallPolicy with the specified policy name uner the
+   * specified subcription and resource group
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param policyName The name of the CdnWebApplicationFirewallPolicy.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, policyName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpdate(resourceGroupName: string, policyName: string, options?: Models.PoliciesBeginUpdateOptionalParams): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
         policyName,
         options
       },
-      beginDeleteMethodOperationSpec,
+      beginUpdateOperationSpec,
       options);
   }
 
@@ -230,6 +264,30 @@ const getOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
+const deleteMethodOperationSpec: msRest.OperationSpec = {
+  httpMethod: "DELETE",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/CdnWebApplicationFirewallPolicies/{policyName}",
+  urlParameters: [
+    Parameters.resourceGroupName1,
+    Parameters.policyName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/CdnWebApplicationFirewallPolicies/{policyName}",
@@ -268,8 +326,8 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
-  httpMethod: "DELETE",
+const beginUpdateOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PATCH",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/CdnWebApplicationFirewallPolicies/{policyName}",
   urlParameters: [
     Parameters.resourceGroupName1,
@@ -282,12 +340,27 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   headerParameters: [
     Parameters.acceptLanguage
   ],
+  requestBody: {
+    parameterPath: {
+      tags: [
+        "options",
+        "tags"
+      ]
+    },
+    mapper: {
+      ...Mappers.CdnWebApplicationFirewallPolicyPatchParameters,
+      required: true
+    }
+  },
   responses: {
-    200: {},
-    202: {},
-    204: {},
+    200: {
+      bodyMapper: Mappers.CdnWebApplicationFirewallPolicy
+    },
+    202: {
+      bodyMapper: Mappers.CdnWebApplicationFirewallPolicy
+    },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer

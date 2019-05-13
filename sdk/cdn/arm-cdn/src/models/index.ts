@@ -1661,6 +1661,16 @@ export interface CdnWebApplicationFirewallPolicy extends TrackedResource {
 }
 
 /**
+ * Properties required to update a CdnWebApplicationFirewallPolicy.
+ */
+export interface CdnWebApplicationFirewallPolicyPatchParameters extends BaseResource {
+  /**
+   * CdnWebApplicationFirewallPolicy tags
+   */
+  tags?: { [propertyName: string]: string };
+}
+
+/**
  * Describes a managed rule definition.
  */
 export interface ManagedRuleDefinition {
@@ -1758,6 +1768,26 @@ export interface CustomDomainsEnableCustomHttpsOptionalParams extends msRest.Req
    * certificate by default.
    */
   customDomainHttpsParameters?: CustomDomainHttpsParametersUnion;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface PoliciesUpdateOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * CdnWebApplicationFirewallPolicy tags
+   */
+  tags?: { [propertyName: string]: string };
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface PoliciesBeginUpdateOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * CdnWebApplicationFirewallPolicy tags
+   */
+  tags?: { [propertyName: string]: string };
 }
 
 /**
@@ -3239,9 +3269,49 @@ export type PoliciesCreateOrUpdateResponse = CdnWebApplicationFirewallPolicy & {
 };
 
 /**
+ * Contains response data for the update operation.
+ */
+export type PoliciesUpdateResponse = CdnWebApplicationFirewallPolicy & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CdnWebApplicationFirewallPolicy;
+    };
+};
+
+/**
  * Contains response data for the beginCreateOrUpdate operation.
  */
 export type PoliciesBeginCreateOrUpdateResponse = CdnWebApplicationFirewallPolicy & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CdnWebApplicationFirewallPolicy;
+    };
+};
+
+/**
+ * Contains response data for the beginUpdate operation.
+ */
+export type PoliciesBeginUpdateResponse = CdnWebApplicationFirewallPolicy & {
   /**
    * The underlying HTTP response.
    */
