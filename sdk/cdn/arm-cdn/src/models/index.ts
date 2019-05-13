@@ -1639,10 +1639,11 @@ export interface CdnWebApplicationFirewallPolicy extends TrackedResource {
    */
   readonly cdnEndpointLinks?: CdnEndpoint[];
   /**
-   * Provisioning state of the WebApplicationFirewallPolicy.
+   * Provisioning state of the WebApplicationFirewallPolicy. Possible values include: 'Creating',
+   * 'Succeeded', 'Failed'
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly provisioningState?: string;
+  readonly provisioningState?: ProvisioningState;
   /**
    * Resource status of the policy. Possible values include: 'Creating', 'Enabling', 'Enabled',
    * 'Disabling', 'Disabled', 'Deleting'
@@ -2199,6 +2200,14 @@ export type Action = 'Allow' | 'Block' | 'Log' | 'Redirect';
  * @enum {string}
  */
 export type ManagedRuleEnabledState = 'Disabled' | 'Enabled';
+
+/**
+ * Defines values for ProvisioningState.
+ * Possible values include: 'Creating', 'Succeeded', 'Failed'
+ * @readonly
+ * @enum {string}
+ */
+export type ProvisioningState = 'Creating' | 'Succeeded' | 'Failed';
 
 /**
  * Defines values for PolicyResourceState.
