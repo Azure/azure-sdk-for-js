@@ -200,6 +200,10 @@ export interface Endpoint extends TrackedResource {
    */
   deliveryPolicy?: EndpointPropertiesUpdateParametersDeliveryPolicy;
   /**
+   * Defines the Web Application Firewall policy for the endpoint (if applicable)
+   */
+  webApplicationFirewallPolicyLink?: EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink;
+  /**
    * The host name of the endpoint structured as {endpointName}.{DNSZone}, e.g.
    * contoso.azureedge.net
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -242,24 +246,9 @@ export interface GeoFilter {
 }
 
 /**
- * Contains the possible cases for DeliveryRuleAction.
- */
-export type DeliveryRuleActionUnion = DeliveryRuleAction | DeliveryRuleCacheExpirationAction;
-
-/**
- * An action for the delivery rule.
- */
-export interface DeliveryRuleAction {
-  /**
-   * Polymorphic Discriminator
-   */
-  name: "DeliveryRuleAction";
-}
-
-/**
  * Contains the possible cases for DeliveryRuleCondition.
  */
-export type DeliveryRuleConditionUnion = DeliveryRuleCondition | DeliveryRuleUrlPathCondition | DeliveryRuleUrlFileExtensionCondition;
+export type DeliveryRuleConditionUnion = DeliveryRuleCondition | DeliveryRuleRemoteAddressCondition | DeliveryRuleRequestMethodCondition | DeliveryRuleQueryStringCondition | DeliveryRulePostArgsCondition | DeliveryRuleRequestUriCondition | DeliveryRuleRequestHeaderCondition | DeliveryRuleRequestBodyCondition | DeliveryRuleRequestSchemeCondition | DeliveryRuleUrlPathCondition | DeliveryRuleUrlFileExtensionCondition | DeliveryRuleUrlFileNameCondition | DeliveryRuleIsDeviceCondition;
 
 /**
  * A condition for the delivery rule.
@@ -272,9 +261,28 @@ export interface DeliveryRuleCondition {
 }
 
 /**
+ * Contains the possible cases for DeliveryRuleAction.
+ */
+export type DeliveryRuleActionUnion = DeliveryRuleAction | UrlRedirectAction | DeliveryRuleRequestHeaderAction | DeliveryRuleResponseHeaderAction | DeliveryRuleCacheExpirationAction;
+
+/**
+ * An action for the delivery rule.
+ */
+export interface DeliveryRuleAction {
+  /**
+   * Polymorphic Discriminator
+   */
+  name: "DeliveryRuleAction";
+}
+
+/**
  * A rule that specifies a set of actions and conditions
  */
 export interface DeliveryRule {
+  /**
+   * Name of the rule
+   */
+  name: string;
   /**
    * The order in which the rules are applied for the endpoint. Possible values {0,1,2,3,………}. A
    * rule with a lesser order will be applied before a rule with a greater order. Rule with order 0
@@ -283,13 +291,13 @@ export interface DeliveryRule {
    */
   order: number;
   /**
-   * A list of actions that are executed when all the conditions of a rule are satisfied.
-   */
-  actions: DeliveryRuleActionUnion[];
-  /**
    * A list of conditions that must be matched for the actions to be executed
    */
   conditions?: DeliveryRuleConditionUnion[];
+  /**
+   * A list of actions that are executed when all the conditions of a rule are satisfied.
+   */
+  actions: DeliveryRuleActionUnion[];
 }
 
 /**
@@ -304,6 +312,16 @@ export interface EndpointPropertiesUpdateParametersDeliveryPolicy {
    * A list of the delivery rules.
    */
   rules: DeliveryRule[];
+}
+
+/**
+ * Defines the Web Application Firewall policy for the endpoint (if applicable)
+ */
+export interface EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink {
+  /**
+   * Resource ID.
+   */
+  id?: string;
 }
 
 /**
@@ -374,25 +392,325 @@ export interface EndpointUpdateParameters extends BaseResource {
    * A policy that specifies the delivery rules to be used for an endpoint.
    */
   deliveryPolicy?: EndpointPropertiesUpdateParametersDeliveryPolicy;
+  /**
+   * Defines the Web Application Firewall policy for the endpoint (if applicable)
+   */
+  webApplicationFirewallPolicyLink?: EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink;
 }
 
 /**
- * Defines the parameters for the URL path condition.
+ * Defines the parameters for RemoteAddress match conditions
  */
-export interface UrlPathConditionParameters {
+export interface RemoteAddressMatchConditionParameters {
   /**
-   * A URL path for the condition of the delivery rule
+   * Describes operator to be matched. Possible values include: 'Any', 'IPMatch', 'GeoMatch'
    */
-  path: string;
+  operator: RemoteAddressOperator;
   /**
-   * The match type for the condition of the delivery rule. Possible values include: 'Literal',
+   * Describes if this is negate condition or not
+   */
+  negateCondition?: boolean;
+  /**
+   * Match values to match against. The operator will apply to each value in here with OR
+   * semantics. If any of them match the variable with the given operator this match condition is
+   * considered a match.
+   */
+  matchValues: string[];
+  /**
+   * List of transforms
+   */
+  transforms?: Transform[];
+}
+
+/**
+ * Defines the RemoteAddress condition for the delivery rule.
+ */
+export interface DeliveryRuleRemoteAddressCondition {
+  /**
+   * Polymorphic Discriminator
+   */
+  name: "RemoteAddress";
+  /**
+   * Defines the parameters for the condition.
+   */
+  parameters: RemoteAddressMatchConditionParameters;
+}
+
+/**
+ * Defines the parameters for RequestMethod match conditions
+ */
+export interface RequestMethodMatchConditionParameters {
+  /**
+   * Describes if this is negate condition or not
+   */
+  negateCondition?: boolean;
+  /**
+   * The match value for the condition of the delivery rule
+   */
+  matchValues: string[];
+}
+
+/**
+ * Defines the RequestMethod condition for the delivery rule.
+ */
+export interface DeliveryRuleRequestMethodCondition {
+  /**
+   * Polymorphic Discriminator
+   */
+  name: "RequestMethod";
+  /**
+   * Defines the parameters for the condition.
+   */
+  parameters: RequestMethodMatchConditionParameters;
+}
+
+/**
+ * Defines the parameters for QueryString match conditions
+ */
+export interface QueryStringMatchConditionParameters {
+  /**
+   * Describes operator to be matched. Possible values include: 'Any', 'Equal', 'Contains',
+   * 'BeginsWith', 'EndsWith', 'LessThan', 'LessThanOrEqual', 'GreaterThan', 'GreaterThanOrEqual'
+   */
+  operator: QueryStringOperator;
+  /**
+   * Describes if this is negate condition or not
+   */
+  negateCondition?: boolean;
+  /**
+   * The match value for the condition of the delivery rule
+   */
+  matchValues: string[];
+  /**
+   * List of transforms
+   */
+  transforms?: Transform[];
+}
+
+/**
+ * Defines the QueryString condition for the delivery rule.
+ */
+export interface DeliveryRuleQueryStringCondition {
+  /**
+   * Polymorphic Discriminator
+   */
+  name: "QueryString";
+  /**
+   * Defines the parameters for the condition.
+   */
+  parameters: QueryStringMatchConditionParameters;
+}
+
+/**
+ * Defines the parameters for PostArgs match conditions
+ */
+export interface PostArgsMatchConditionParameters {
+  /**
+   * Name of PostArg to be matched
+   */
+  selector: string;
+  /**
+   * Describes operator to be matched. Possible values include: 'Any', 'Equal', 'Contains',
+   * 'BeginsWith', 'EndsWith', 'LessThan', 'LessThanOrEqual', 'GreaterThan', 'GreaterThanOrEqual'
+   */
+  operator: PostArgsOperator;
+  /**
+   * Describes if this is negate condition or not
+   */
+  negateCondition?: boolean;
+  /**
+   * The match value for the condition of the delivery rule
+   */
+  matchValues: string[];
+  /**
+   * List of transforms
+   */
+  transforms?: Transform[];
+}
+
+/**
+ * Defines the PostArgs condition for the delivery rule.
+ */
+export interface DeliveryRulePostArgsCondition {
+  /**
+   * Polymorphic Discriminator
+   */
+  name: "PostArgs";
+  /**
+   * Defines the parameters for the condition.
+   */
+  parameters: PostArgsMatchConditionParameters;
+}
+
+/**
+ * Defines the parameters for RequestUri match conditions
+ */
+export interface RequestUriMatchConditionParameters {
+  /**
+   * Describes operator to be matched. Possible values include: 'Any', 'Equal', 'Contains',
+   * 'BeginsWith', 'EndsWith', 'LessThan', 'LessThanOrEqual', 'GreaterThan', 'GreaterThanOrEqual'
+   */
+  operator: RequestUriOperator;
+  /**
+   * Describes if this is negate condition or not
+   */
+  negateCondition?: boolean;
+  /**
+   * The match value for the condition of the delivery rule
+   */
+  matchValues: string[];
+  /**
+   * List of transforms
+   */
+  transforms?: Transform[];
+}
+
+/**
+ * Defines the RequestUri condition for the delivery rule.
+ */
+export interface DeliveryRuleRequestUriCondition {
+  /**
+   * Polymorphic Discriminator
+   */
+  name: "RequestUri";
+  /**
+   * Defines the parameters for the condition.
+   */
+  parameters: RequestUriMatchConditionParameters;
+}
+
+/**
+ * Defines the parameters for RequestHeader match conditions
+ */
+export interface RequestHeaderMatchConditionParameters {
+  /**
+   * Name of Header to be matched
+   */
+  selector: string;
+  /**
+   * Describes operator to be matched. Possible values include: 'Any', 'Equal', 'Contains',
+   * 'BeginsWith', 'EndsWith', 'LessThan', 'LessThanOrEqual', 'GreaterThan', 'GreaterThanOrEqual'
+   */
+  operator: RequestHeaderOperator;
+  /**
+   * Describes if this is negate condition or not
+   */
+  negateCondition?: boolean;
+  /**
+   * The match value for the condition of the delivery rule
+   */
+  matchValues: string[];
+  /**
+   * List of transforms
+   */
+  transforms?: Transform[];
+}
+
+/**
+ * Defines the RequestHeader condition for the delivery rule.
+ */
+export interface DeliveryRuleRequestHeaderCondition {
+  /**
+   * Polymorphic Discriminator
+   */
+  name: "RequestHeader";
+  /**
+   * Defines the parameters for the condition.
+   */
+  parameters: RequestHeaderMatchConditionParameters;
+}
+
+/**
+ * Defines the parameters for RequestBody match conditions
+ */
+export interface RequestBodyMatchConditionParameters {
+  /**
+   * Describes operator to be matched. Possible values include: 'Any', 'Equal', 'Contains',
+   * 'BeginsWith', 'EndsWith', 'LessThan', 'LessThanOrEqual', 'GreaterThan', 'GreaterThanOrEqual'
+   */
+  operator: RequestBodyOperator;
+  /**
+   * Describes if this is negate condition or not
+   */
+  negateCondition?: boolean;
+  /**
+   * The match value for the condition of the delivery rule
+   */
+  matchValues: string[];
+  /**
+   * List of transforms
+   */
+  transforms?: Transform[];
+}
+
+/**
+ * Defines the RequestBody condition for the delivery rule.
+ */
+export interface DeliveryRuleRequestBodyCondition {
+  /**
+   * Polymorphic Discriminator
+   */
+  name: "RequestBody";
+  /**
+   * Defines the parameters for the condition.
+   */
+  parameters: RequestBodyMatchConditionParameters;
+}
+
+/**
+ * Defines the parameters for RequestScheme match conditions
+ */
+export interface RequestSchemeMatchConditionParameters {
+  /**
+   * Describes if this is negate condition or not
+   */
+  negateCondition?: boolean;
+  /**
+   * The match value for the condition of the delivery rule
+   */
+  matchValues: string[];
+}
+
+/**
+ * Defines the RequestScheme condition for the delivery rule.
+ */
+export interface DeliveryRuleRequestSchemeCondition {
+  /**
+   * Polymorphic Discriminator
+   */
+  name: "RequestScheme";
+  /**
+   * Defines the parameters for the condition.
+   */
+  parameters: RequestSchemeMatchConditionParameters;
+}
+
+/**
+ * Defines the parameters for UrlPath match conditions
+ */
+export interface UrlPathMatchConditionParameters {
+  /**
+   * Describes operator to be matched. Possible values include: 'Any', 'Equal', 'Contains',
+   * 'BeginsWith', 'EndsWith', 'LessThan', 'LessThanOrEqual', 'GreaterThan', 'GreaterThanOrEqual',
    * 'Wildcard'
    */
-  matchType: MatchType;
+  operator: UrlPathOperator;
+  /**
+   * Describes if this is negate condition or not
+   */
+  negateCondition?: boolean;
+  /**
+   * The match value for the condition of the delivery rule
+   */
+  matchValues: string[];
+  /**
+   * List of transforms
+   */
+  transforms?: Transform[];
 }
 
 /**
- * Defines the URL path condition for the delivery rule.
+ * Defines the UrlPath condition for the delivery rule.
  */
 export interface DeliveryRuleUrlPathCondition {
   /**
@@ -402,21 +720,34 @@ export interface DeliveryRuleUrlPathCondition {
   /**
    * Defines the parameters for the condition.
    */
-  parameters: UrlPathConditionParameters;
+  parameters: UrlPathMatchConditionParameters;
 }
 
 /**
- * Defines the parameters for the URL file extension condition.
+ * Defines the parameters for UrlFileExtension match conditions
  */
-export interface UrlFileExtensionConditionParameters {
+export interface UrlFileExtensionMatchConditionParameters {
   /**
-   * A list of extensions for the condition of the delivery rule.
+   * Describes operator to be matched. Possible values include: 'Any', 'Equal', 'Contains',
+   * 'BeginsWith', 'EndsWith', 'LessThan', 'LessThanOrEqual', 'GreaterThan', 'GreaterThanOrEqual'
    */
-  extensions: string[];
+  operator: UrlFileExtensionOperator;
+  /**
+   * Describes if this is negate condition or not
+   */
+  negateCondition?: boolean;
+  /**
+   * The match value for the condition of the delivery rule
+   */
+  matchValues: string[];
+  /**
+   * List of transforms
+   */
+  transforms?: Transform[];
 }
 
 /**
- * Defines the URL file extension condition for the delivery rule.
+ * Defines the UrlFileExtension condition for the delivery rule.
  */
 export interface DeliveryRuleUrlFileExtensionCondition {
   /**
@@ -426,7 +757,172 @@ export interface DeliveryRuleUrlFileExtensionCondition {
   /**
    * Defines the parameters for the condition.
    */
-  parameters: UrlFileExtensionConditionParameters;
+  parameters: UrlFileExtensionMatchConditionParameters;
+}
+
+/**
+ * Defines the parameters for UrlFilename match conditions
+ */
+export interface UrlFileNameMatchConditionParameters {
+  /**
+   * Describes operator to be matched. Possible values include: 'Any', 'Equal', 'Contains',
+   * 'BeginsWith', 'EndsWith', 'LessThan', 'LessThanOrEqual', 'GreaterThan', 'GreaterThanOrEqual'
+   */
+  operator: UrlFileNameOperator;
+  /**
+   * Describes if this is negate condition or not
+   */
+  negateCondition?: boolean;
+  /**
+   * The match value for the condition of the delivery rule
+   */
+  matchValues: string[];
+  /**
+   * List of transforms
+   */
+  transforms?: Transform[];
+}
+
+/**
+ * Defines the UrlFileName condition for the delivery rule.
+ */
+export interface DeliveryRuleUrlFileNameCondition {
+  /**
+   * Polymorphic Discriminator
+   */
+  name: "UrlFileName";
+  /**
+   * Defines the parameters for the condition.
+   */
+  parameters: UrlFileNameMatchConditionParameters;
+}
+
+/**
+ * Defines the parameters for IsDevice match conditions
+ */
+export interface IsDeviceMatchConditionParameters {
+  /**
+   * Describes if this is negate condition or not
+   */
+  negateCondition?: boolean;
+  /**
+   * The match value for the condition of the delivery rule
+   */
+  matchValues: string[];
+  /**
+   * List of transforms
+   */
+  transforms?: Transform[];
+}
+
+/**
+ * Defines the IsDevice condition for the delivery rule.
+ */
+export interface DeliveryRuleIsDeviceCondition {
+  /**
+   * Polymorphic Discriminator
+   */
+  name: "IsDevice";
+  /**
+   * Defines the parameters for the condition.
+   */
+  parameters: IsDeviceMatchConditionParameters;
+}
+
+/**
+ * Defines the parameters for the url redirect action.
+ */
+export interface UrlRedirectActionParameters {
+  /**
+   * The redirect type the rule will use when redirecting traffic. Possible values include:
+   * 'Moved', 'Found', 'TemporaryRedirect', 'PermanentRedirect'
+   */
+  redirectType: RedirectType;
+  /**
+   * Protocol to use for the redirect. The default value is MatchRequest. Possible values include:
+   * 'MatchRequest', 'Http', 'Https'
+   */
+  destinationProtocol?: DestinationProtocol;
+  /**
+   * The full path to redirect. Path cannot be empty and must start with /. Leave empty to use the
+   * incoming path as destination path.
+   */
+  customPath?: string;
+  /**
+   * Host to redirect. Leave empty to use use the incoming host as the destination host.
+   */
+  customHostname?: string;
+  /**
+   * The set of query strings to be placed in the redirect URL. Setting this value would replace
+   * any existing query string; leave empty to preserve the incoming query string. Query string
+   * must be in <key>=<value> format. ? and & will be added automatically so do not include them.
+   */
+  customQueryString?: string;
+  /**
+   * Fragment to add to the redirect URL. Fragment is the part of the URL that comes after #. Do
+   * not include the #.
+   */
+  customFragment?: string;
+}
+
+/**
+ * Defines the url redirect action for the delivery rule.
+ */
+export interface UrlRedirectAction {
+  /**
+   * Polymorphic Discriminator
+   */
+  name: "UrlRedirect";
+  /**
+   * Defines the parameters for the action.
+   */
+  parameters: UrlRedirectActionParameters;
+}
+
+/**
+ * Defines the parameters for the request header action.
+ */
+export interface HeaderActionParameters {
+  /**
+   * Action to perform. Possible values include: 'Append', 'Overwrite', 'Delete'
+   */
+  headerAction: HeaderAction;
+  /**
+   * Name of the header to modify
+   */
+  headerName: string;
+  /**
+   * Value for the specified action
+   */
+  value?: string;
+}
+
+/**
+ * Defines the request header action for the delivery rule.
+ */
+export interface DeliveryRuleRequestHeaderAction {
+  /**
+   * Polymorphic Discriminator
+   */
+  name: "ModifyRequestHeader";
+  /**
+   * Defines the parameters for the action.
+   */
+  parameters: HeaderActionParameters;
+}
+
+/**
+ * Defines the response header action for the delivery rule.
+ */
+export interface DeliveryRuleResponseHeaderAction {
+  /**
+   * Polymorphic Discriminator
+   */
+  name: "ModifyResponseHeader";
+  /**
+   * Defines the parameters for the action.
+   */
+  parameters: HeaderActionParameters;
 }
 
 /**
@@ -434,8 +930,8 @@ export interface DeliveryRuleUrlFileExtensionCondition {
  */
 export interface CacheExpirationActionParameters {
   /**
-   * Caching behavior for the requests that include query strings. Possible values include:
-   * 'BypassCache', 'Override', 'SetIfMissing'
+   * Caching behavior for the requests. Possible values include: 'BypassCache', 'Override',
+   * 'SetIfMissing'
    */
   cacheBehavior: CacheBehavior;
   /**
@@ -896,6 +1392,343 @@ export interface ErrorResponse {
 }
 
 /**
+ * Defines contents of a web application firewall global configuration
+ */
+export interface PolicySettings {
+  /**
+   * describes if the policy is in enabled state or disabled state. Possible values include:
+   * 'Disabled', 'Enabled'
+   */
+  enabledState?: PolicyEnabledState;
+  /**
+   * Describes if it is in detection mode or prevention mode at policy level. Possible values
+   * include: 'Prevention', 'Detection'
+   */
+  mode?: PolicyMode;
+  /**
+   * If action type is redirect, this field represents the default redirect URL for the client.
+   */
+  defaultRedirectUrl?: string;
+  /**
+   * If the action type is block, this field defines the default customer overridable http response
+   * status code.
+   */
+  defaultCustomBlockResponseStatusCode?: number;
+  /**
+   * If the action type is block, customer can override the response body. The body must be
+   * specified in base64 encoding.
+   */
+  defaultCustomBlockResponseBody?: string;
+}
+
+/**
+ * Defines the common attributes for a custom rule that can be included in a waf policy
+ */
+export interface CustomRule {
+  /**
+   * Defines the name of the custom rule
+   */
+  name: string;
+  /**
+   * Describes if the custom rule is in enabled or disabled state. Defaults to Enabled if not
+   * specified. Possible values include: 'Disabled', 'Enabled'
+   */
+  enabledState?: CustomRuleEnabledState;
+  /**
+   * Defines in what order this rule be evaluated in the overall list of custom rules
+   */
+  priority: number;
+  /**
+   * List of match conditions.
+   */
+  matchConditions: MatchCondition[];
+  /**
+   * Describes what action to be applied when rule matches
+   */
+  action: ActionType;
+}
+
+/**
+ * Defines a rate limiting rule that can be included in a waf policy
+ */
+export interface RateLimitRule extends CustomRule {
+  /**
+   * Defines rate limit threshold.
+   */
+  rateLimitThreshold: number;
+  /**
+   * Defines rate limit duration. Default is 1 minute.
+   */
+  rateLimitDurationInMinutes: number;
+}
+
+/**
+ * Defines contents of rate limit rules
+ */
+export interface RateLimitRuleList {
+  /**
+   * List of rules
+   */
+  rules?: RateLimitRule[];
+}
+
+/**
+ * Define match conditions
+ */
+export interface MatchCondition {
+  /**
+   * Match variable to compare against. Possible values include: 'RemoteAddr', 'Country',
+   * 'RequestMethod', 'RequestHeader', 'RequestUri', 'QueryString', 'RequestBody', 'Cookies',
+   * 'PostArgs'
+   */
+  matchVariable: MatchVariable;
+  /**
+   * Selector can used to match a specific key for QueryString, RequestUri, RequestHeaders or
+   * RequestBody.
+   */
+  selector?: string;
+  /**
+   * Describes operator to be matched. Possible values include: 'Any', 'IPMatch', 'GeoMatch',
+   * 'Equal', 'Contains', 'LessThan', 'GreaterThan', 'LessThanOrEqual', 'GreaterThanOrEqual',
+   * 'BeginsWith', 'EndsWith', 'RegEx'
+   */
+  operator: Operator;
+  /**
+   * Describes if the result of this condition should be negated.
+   */
+  negateCondition?: boolean;
+  /**
+   * List of possible match values.
+   */
+  matchValue: string[];
+}
+
+/**
+ * Defines the action to take on rule match.
+ */
+export interface ActionType {
+  /**
+   * Describes type of action. Possible values include: 'Allow', 'Block', 'Log', 'Redirect'
+   */
+  actionType: Action;
+  /**
+   * If action type is redirect, this field represents URL to be re-directed.
+   */
+  redirectUrl?: string;
+  /**
+   * If the action type is block, customer can override the response status code.
+   */
+  customBlockResponseStatusCode?: number;
+  /**
+   * If the action type is block, customer can override the response body. The body must be
+   * specified in base64 encoding.
+   */
+  customBlockResponseBody?: string;
+}
+
+/**
+ * Defines contents of custom rules
+ */
+export interface CustomRuleList {
+  /**
+   * List of rules
+   */
+  rules?: CustomRule[];
+}
+
+/**
+ * Defines a managed rule group override setting.
+ */
+export interface ManagedRuleOverride {
+  /**
+   * Identifier for the managed rule.
+   */
+  ruleId: string;
+  /**
+   * Describes if the managed rule is in enabled or disabled state. Defaults to Disabled if not
+   * specified. Possible values include: 'Disabled', 'Enabled'
+   */
+  enabledState?: ManagedRuleEnabledState;
+  /**
+   * Describes the override action to be applied when rule matches.
+   */
+  action?: ActionType;
+}
+
+/**
+ * Defines a managed rule group override setting.
+ */
+export interface ManagedRuleGroupOverride {
+  /**
+   * Describes the managed rule group within the rule set to override
+   */
+  ruleGroupName: string;
+  /**
+   * List of rules that will be disabled. If none specified, all rules in the group will be
+   * disabled.
+   */
+  rules?: ManagedRuleOverride[];
+}
+
+/**
+ * Defines a managed rule set.
+ */
+export interface ManagedRuleSet {
+  /**
+   * Defines the rule set type to use.
+   */
+  ruleSetType: string;
+  /**
+   * Defines the version of the rule set to use.
+   */
+  ruleSetVersion: string;
+  /**
+   * Verizon only : If the rule set supports anomaly detection mode, this describes the threshold
+   * for blocking requests.
+   */
+  anomalyScore?: number;
+  /**
+   * Defines the rule overrides to apply to the rule set.
+   */
+  ruleGroupOverrides?: ManagedRuleGroupOverride[];
+}
+
+/**
+ * Defines the list of managed rule sets for the policy.
+ */
+export interface ManagedRuleSetList {
+  /**
+   * List of rule sets.
+   */
+  managedRuleSets?: ManagedRuleSet[];
+}
+
+/**
+ * Defines the ARM Resource ID for the linked endpoints
+ */
+export interface CdnEndpoint {
+  /**
+   * ARM Resource ID string.
+   */
+  id?: string;
+}
+
+/**
+ * Defines web application firewall policy for Azure CDN.
+ */
+export interface CdnWebApplicationFirewallPolicy extends TrackedResource {
+  /**
+   * Describes  policySettings for policy
+   */
+  policySettings?: PolicySettings;
+  /**
+   * Describes rate limit rules inside the policy.
+   */
+  rateLimitRules?: RateLimitRuleList;
+  /**
+   * Describes custom rules inside the policy.
+   */
+  customRules?: CustomRuleList;
+  /**
+   * Describes managed rules inside the policy.
+   */
+  managedRules?: ManagedRuleSetList;
+  /**
+   * Describes Azure CDN endpoints associated with this Web Application Firewall policy.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly cdnEndpointLinks?: CdnEndpoint[];
+  /**
+   * Provisioning state of the WebApplicationFirewallPolicy.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: string;
+  /**
+   * Resource status of the policy. Possible values include: 'Creating', 'Enabling', 'Enabled',
+   * 'Disabling', 'Disabled', 'Deleting'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly resourceState?: PolicyResourceState;
+  /**
+   * Gets a unique read-only string that changes whenever the resource is updated.
+   */
+  etag?: string;
+  /**
+   * The pricing tier (defines a CDN provider, feature list and rate) of the
+   * CdnWebApplicationFirewallPolicy.
+   */
+  sku: Sku;
+}
+
+/**
+ * Describes a managed rule definition.
+ */
+export interface ManagedRuleDefinition {
+  /**
+   * Identifier for the managed rule.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly ruleId?: string;
+  /**
+   * Describes the functionality of the managed rule.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly description?: string;
+}
+
+/**
+ * Describes a managed rule group.
+ */
+export interface ManagedRuleGroupDefinition {
+  /**
+   * Name of the managed rule group.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly ruleGroupName?: string;
+  /**
+   * Description of the managed rule group.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly description?: string;
+  /**
+   * List of rules within the managed rule group.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly rules?: ManagedRuleDefinition[];
+}
+
+/**
+ * Describes a managed rule set definition.
+ */
+export interface ManagedRuleSetDefinition extends Resource {
+  /**
+   * Provisioning state of the managed rule set.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: string;
+  /**
+   * Type of the managed rule set.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly ruleSetType?: string;
+  /**
+   * Version of the managed rule set type.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly ruleSetVersion?: string;
+  /**
+   * Rule groups of the managed rule set.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly ruleGroups?: ManagedRuleGroupDefinition[];
+  /**
+   * The pricing tier (defines a CDN provider, feature list and rate) of the
+   * CdnWebApplicationFirewallPolicy.
+   */
+  sku?: Sku;
+}
+
+/**
  * Optional Parameters.
  */
 export interface ProfilesUpdateOptionalParams extends msRest.RequestOptionsBase {
@@ -1025,6 +1858,31 @@ export interface EdgenodeResult extends Array<EdgeNode> {
 }
 
 /**
+ * @interface
+ * Defines a list of WebApplicationFirewallPolicies for Azure CDN. It contains a list of
+ * WebApplicationFirewallPolicy objects and a URL link to get the next set of results.
+ * @extends Array<CdnWebApplicationFirewallPolicy>
+ */
+export interface CdnWebApplicationFirewallPolicyList extends Array<CdnWebApplicationFirewallPolicy> {
+  /**
+   * URL to get the next set of WebApplicationFirewallPolicy objects if there are any.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
+ * List of managed rule set definitions available for use in a policy.
+ * @extends Array<ManagedRuleSetDefinition>
+ */
+export interface ManagedRuleSetDefinitionList extends Array<ManagedRuleSetDefinition> {
+  /**
+   * URL to retrieve next set of managed rule set definitions.
+   */
+  nextLink?: string;
+}
+
+/**
  * Defines values for SkuName.
  * Possible values include: 'Standard_Verizon', 'Premium_Verizon', 'Custom_Verizon',
  * 'Standard_Akamai', 'Standard_ChinaCdn', 'Standard_Microsoft'
@@ -1073,6 +1931,126 @@ export type QueryStringCachingBehavior = 'IgnoreQueryString' | 'BypassCaching' |
  * @enum {string}
  */
 export type GeoFilterActions = 'Block' | 'Allow';
+
+/**
+ * Defines values for RemoteAddressOperator.
+ * Possible values include: 'Any', 'IPMatch', 'GeoMatch'
+ * @readonly
+ * @enum {string}
+ */
+export type RemoteAddressOperator = 'Any' | 'IPMatch' | 'GeoMatch';
+
+/**
+ * Defines values for Transform.
+ * Possible values include: 'Lowercase', 'Uppercase'
+ * @readonly
+ * @enum {string}
+ */
+export type Transform = 'Lowercase' | 'Uppercase';
+
+/**
+ * Defines values for QueryStringOperator.
+ * Possible values include: 'Any', 'Equal', 'Contains', 'BeginsWith', 'EndsWith', 'LessThan',
+ * 'LessThanOrEqual', 'GreaterThan', 'GreaterThanOrEqual'
+ * @readonly
+ * @enum {string}
+ */
+export type QueryStringOperator = 'Any' | 'Equal' | 'Contains' | 'BeginsWith' | 'EndsWith' | 'LessThan' | 'LessThanOrEqual' | 'GreaterThan' | 'GreaterThanOrEqual';
+
+/**
+ * Defines values for PostArgsOperator.
+ * Possible values include: 'Any', 'Equal', 'Contains', 'BeginsWith', 'EndsWith', 'LessThan',
+ * 'LessThanOrEqual', 'GreaterThan', 'GreaterThanOrEqual'
+ * @readonly
+ * @enum {string}
+ */
+export type PostArgsOperator = 'Any' | 'Equal' | 'Contains' | 'BeginsWith' | 'EndsWith' | 'LessThan' | 'LessThanOrEqual' | 'GreaterThan' | 'GreaterThanOrEqual';
+
+/**
+ * Defines values for RequestUriOperator.
+ * Possible values include: 'Any', 'Equal', 'Contains', 'BeginsWith', 'EndsWith', 'LessThan',
+ * 'LessThanOrEqual', 'GreaterThan', 'GreaterThanOrEqual'
+ * @readonly
+ * @enum {string}
+ */
+export type RequestUriOperator = 'Any' | 'Equal' | 'Contains' | 'BeginsWith' | 'EndsWith' | 'LessThan' | 'LessThanOrEqual' | 'GreaterThan' | 'GreaterThanOrEqual';
+
+/**
+ * Defines values for RequestHeaderOperator.
+ * Possible values include: 'Any', 'Equal', 'Contains', 'BeginsWith', 'EndsWith', 'LessThan',
+ * 'LessThanOrEqual', 'GreaterThan', 'GreaterThanOrEqual'
+ * @readonly
+ * @enum {string}
+ */
+export type RequestHeaderOperator = 'Any' | 'Equal' | 'Contains' | 'BeginsWith' | 'EndsWith' | 'LessThan' | 'LessThanOrEqual' | 'GreaterThan' | 'GreaterThanOrEqual';
+
+/**
+ * Defines values for RequestBodyOperator.
+ * Possible values include: 'Any', 'Equal', 'Contains', 'BeginsWith', 'EndsWith', 'LessThan',
+ * 'LessThanOrEqual', 'GreaterThan', 'GreaterThanOrEqual'
+ * @readonly
+ * @enum {string}
+ */
+export type RequestBodyOperator = 'Any' | 'Equal' | 'Contains' | 'BeginsWith' | 'EndsWith' | 'LessThan' | 'LessThanOrEqual' | 'GreaterThan' | 'GreaterThanOrEqual';
+
+/**
+ * Defines values for UrlPathOperator.
+ * Possible values include: 'Any', 'Equal', 'Contains', 'BeginsWith', 'EndsWith', 'LessThan',
+ * 'LessThanOrEqual', 'GreaterThan', 'GreaterThanOrEqual', 'Wildcard'
+ * @readonly
+ * @enum {string}
+ */
+export type UrlPathOperator = 'Any' | 'Equal' | 'Contains' | 'BeginsWith' | 'EndsWith' | 'LessThan' | 'LessThanOrEqual' | 'GreaterThan' | 'GreaterThanOrEqual' | 'Wildcard';
+
+/**
+ * Defines values for UrlFileExtensionOperator.
+ * Possible values include: 'Any', 'Equal', 'Contains', 'BeginsWith', 'EndsWith', 'LessThan',
+ * 'LessThanOrEqual', 'GreaterThan', 'GreaterThanOrEqual'
+ * @readonly
+ * @enum {string}
+ */
+export type UrlFileExtensionOperator = 'Any' | 'Equal' | 'Contains' | 'BeginsWith' | 'EndsWith' | 'LessThan' | 'LessThanOrEqual' | 'GreaterThan' | 'GreaterThanOrEqual';
+
+/**
+ * Defines values for UrlFileNameOperator.
+ * Possible values include: 'Any', 'Equal', 'Contains', 'BeginsWith', 'EndsWith', 'LessThan',
+ * 'LessThanOrEqual', 'GreaterThan', 'GreaterThanOrEqual'
+ * @readonly
+ * @enum {string}
+ */
+export type UrlFileNameOperator = 'Any' | 'Equal' | 'Contains' | 'BeginsWith' | 'EndsWith' | 'LessThan' | 'LessThanOrEqual' | 'GreaterThan' | 'GreaterThanOrEqual';
+
+/**
+ * Defines values for RedirectType.
+ * Possible values include: 'Moved', 'Found', 'TemporaryRedirect', 'PermanentRedirect'
+ * @readonly
+ * @enum {string}
+ */
+export type RedirectType = 'Moved' | 'Found' | 'TemporaryRedirect' | 'PermanentRedirect';
+
+/**
+ * Defines values for DestinationProtocol.
+ * Possible values include: 'MatchRequest', 'Http', 'Https'
+ * @readonly
+ * @enum {string}
+ */
+export type DestinationProtocol = 'MatchRequest' | 'Http' | 'Https';
+
+/**
+ * Defines values for HeaderAction.
+ * Possible values include: 'Append', 'Overwrite', 'Delete'
+ * @readonly
+ * @enum {string}
+ */
+export type HeaderAction = 'Append' | 'Overwrite' | 'Delete';
+
+/**
+ * Defines values for CacheBehavior.
+ * Possible values include: 'BypassCache', 'Override', 'SetIfMissing'
+ * @readonly
+ * @enum {string}
+ */
+export type CacheBehavior = 'BypassCache' | 'Override' | 'SetIfMissing';
 
 /**
  * Defines values for OriginResourceState.
@@ -1135,20 +2113,70 @@ export type CertificateType = 'Shared' | 'Dedicated';
 export type ResourceType = 'Microsoft.Cdn/Profiles/Endpoints';
 
 /**
- * Defines values for MatchType.
- * Possible values include: 'Literal', 'Wildcard'
+ * Defines values for PolicyEnabledState.
+ * Possible values include: 'Disabled', 'Enabled'
  * @readonly
  * @enum {string}
  */
-export type MatchType = 'Literal' | 'Wildcard';
+export type PolicyEnabledState = 'Disabled' | 'Enabled';
 
 /**
- * Defines values for CacheBehavior.
- * Possible values include: 'BypassCache', 'Override', 'SetIfMissing'
+ * Defines values for PolicyMode.
+ * Possible values include: 'Prevention', 'Detection'
  * @readonly
  * @enum {string}
  */
-export type CacheBehavior = 'BypassCache' | 'Override' | 'SetIfMissing';
+export type PolicyMode = 'Prevention' | 'Detection';
+
+/**
+ * Defines values for CustomRuleEnabledState.
+ * Possible values include: 'Disabled', 'Enabled'
+ * @readonly
+ * @enum {string}
+ */
+export type CustomRuleEnabledState = 'Disabled' | 'Enabled';
+
+/**
+ * Defines values for MatchVariable.
+ * Possible values include: 'RemoteAddr', 'Country', 'RequestMethod', 'RequestHeader',
+ * 'RequestUri', 'QueryString', 'RequestBody', 'Cookies', 'PostArgs'
+ * @readonly
+ * @enum {string}
+ */
+export type MatchVariable = 'RemoteAddr' | 'Country' | 'RequestMethod' | 'RequestHeader' | 'RequestUri' | 'QueryString' | 'RequestBody' | 'Cookies' | 'PostArgs';
+
+/**
+ * Defines values for Operator.
+ * Possible values include: 'Any', 'IPMatch', 'GeoMatch', 'Equal', 'Contains', 'LessThan',
+ * 'GreaterThan', 'LessThanOrEqual', 'GreaterThanOrEqual', 'BeginsWith', 'EndsWith', 'RegEx'
+ * @readonly
+ * @enum {string}
+ */
+export type Operator = 'Any' | 'IPMatch' | 'GeoMatch' | 'Equal' | 'Contains' | 'LessThan' | 'GreaterThan' | 'LessThanOrEqual' | 'GreaterThanOrEqual' | 'BeginsWith' | 'EndsWith' | 'RegEx';
+
+/**
+ * Defines values for Action.
+ * Possible values include: 'Allow', 'Block', 'Log', 'Redirect'
+ * @readonly
+ * @enum {string}
+ */
+export type Action = 'Allow' | 'Block' | 'Log' | 'Redirect';
+
+/**
+ * Defines values for ManagedRuleEnabledState.
+ * Possible values include: 'Disabled', 'Enabled'
+ * @readonly
+ * @enum {string}
+ */
+export type ManagedRuleEnabledState = 'Disabled' | 'Enabled';
+
+/**
+ * Defines values for PolicyResourceState.
+ * Possible values include: 'Creating', 'Enabling', 'Enabled', 'Disabling', 'Disabled', 'Deleting'
+ * @readonly
+ * @enum {string}
+ */
+export type PolicyResourceState = 'Creating' | 'Enabling' | 'Enabled' | 'Disabling' | 'Disabled' | 'Deleting';
 
 /**
  * Contains response data for the list operation.
@@ -2147,5 +3175,145 @@ export type EdgeNodesListNextResponse = EdgenodeResult & {
        * The response body as parsed JSON or XML
        */
       parsedBody: EdgenodeResult;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type PoliciesListResponse = CdnWebApplicationFirewallPolicyList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CdnWebApplicationFirewallPolicyList;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type PoliciesGetResponse = CdnWebApplicationFirewallPolicy & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CdnWebApplicationFirewallPolicy;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type PoliciesCreateOrUpdateResponse = CdnWebApplicationFirewallPolicy & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CdnWebApplicationFirewallPolicy;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdate operation.
+ */
+export type PoliciesBeginCreateOrUpdateResponse = CdnWebApplicationFirewallPolicy & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CdnWebApplicationFirewallPolicy;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type PoliciesListNextResponse = CdnWebApplicationFirewallPolicyList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CdnWebApplicationFirewallPolicyList;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type ManagedRuleSetsListResponse = ManagedRuleSetDefinitionList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedRuleSetDefinitionList;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type ManagedRuleSetsListNextResponse = ManagedRuleSetDefinitionList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedRuleSetDefinitionList;
     };
 };
