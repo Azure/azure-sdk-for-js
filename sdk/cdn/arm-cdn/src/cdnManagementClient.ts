@@ -33,12 +33,10 @@ class CdnManagementClient extends CdnManagementClientContext {
    * @param credentials Credentials needed for the client to connect to Azure.
    * @param subscriptionId Azure Subscription ID.
    * @param subscriptionId1 Azure Subscription ID.
-   * @param apiVersion1 Version of the API to be used with the client request. Current version is
-   * 2017-04-02.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, subscriptionId1: string, apiVersion1: string, options?: Models.CdnManagementClientOptions) {
-    super(credentials, subscriptionId, subscriptionId1, apiVersion1, options);
+  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, subscriptionId1: string, options?: Models.CdnManagementClientOptions) {
+    super(credentials, subscriptionId, subscriptionId1, options);
     this.profiles = new operations.Profiles(this);
     this.endpoints = new operations.Endpoints(this);
     this.origins = new operations.Origins(this);
@@ -145,7 +143,7 @@ const checkNameAvailabilityOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "providers/Microsoft.Cdn/checkNameAvailability",
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -177,7 +175,7 @@ const checkNameAvailabilityWithSubscriptionOperationSpec: msRest.OperationSpec =
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -209,7 +207,7 @@ const validateProbeOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage

@@ -18,20 +18,16 @@ const packageVersion = "4.2.0";
 export class CdnManagementClientContext extends msRestAzure.AzureServiceClient {
   credentials: msRest.ServiceClientCredentials;
   subscriptionId: string;
-  apiVersion?: string;
   subscriptionId1: string;
-  apiVersion1: string;
 
   /**
    * Initializes a new instance of the CdnManagementClient class.
    * @param credentials Credentials needed for the client to connect to Azure.
    * @param subscriptionId Azure Subscription ID.
    * @param subscriptionId1 Azure Subscription ID.
-   * @param apiVersion1 Version of the API to be used with the client request. Current version is
-   * 2017-04-02.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, subscriptionId1: string, apiVersion1: string, options?: Models.CdnManagementClientOptions) {
+  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, subscriptionId1: string, options?: Models.CdnManagementClientOptions) {
     if (credentials == undefined) {
       throw new Error('\'credentials\' cannot be null.');
     }
@@ -40,9 +36,6 @@ export class CdnManagementClientContext extends msRestAzure.AzureServiceClient {
     }
     if (subscriptionId1 == undefined) {
       throw new Error('\'subscriptionId1\' cannot be null.');
-    }
-    if (apiVersion1 == undefined) {
-      throw new Error('\'apiVersion1\' cannot be null.');
     }
 
     if (!options) {
@@ -55,7 +48,6 @@ export class CdnManagementClientContext extends msRestAzure.AzureServiceClient {
 
     super(credentials, options);
 
-    this.apiVersion = '2019-06-15';
     this.acceptLanguage = 'en-US';
     this.longRunningOperationRetryTimeout = 30;
     this.baseUri = options.baseUri || this.baseUri || "https://management.azure.com";
@@ -63,7 +55,6 @@ export class CdnManagementClientContext extends msRestAzure.AzureServiceClient {
     this.credentials = credentials;
     this.subscriptionId = subscriptionId;
     this.subscriptionId1 = subscriptionId1;
-    this.apiVersion1 = apiVersion1;
 
     if(options.acceptLanguage !== null && options.acceptLanguage !== undefined) {
       this.acceptLanguage = options.acceptLanguage;

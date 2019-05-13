@@ -497,7 +497,7 @@ const listByProfileOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -523,7 +523,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -549,7 +549,7 @@ const validateCustomDomainOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -584,7 +584,7 @@ const listResourceUsageOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -610,7 +610,7 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -649,7 +649,7 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -685,7 +685,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -710,7 +710,7 @@ const beginStartOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -739,7 +739,7 @@ const beginStopOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -768,7 +768,7 @@ const beginPurgeContentOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -802,7 +802,7 @@ const beginLoadContentOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage

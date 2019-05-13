@@ -183,7 +183,7 @@ const listByEndpointOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -210,7 +210,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -237,7 +237,7 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage

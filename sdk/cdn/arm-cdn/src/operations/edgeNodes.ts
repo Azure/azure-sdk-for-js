@@ -87,7 +87,7 @@ const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "providers/Microsoft.Cdn/edgenodes",
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
