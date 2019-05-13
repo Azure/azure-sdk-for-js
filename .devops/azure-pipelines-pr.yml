@@ -1,5 +1,9 @@
 trigger:
-- '*'
+  branches:
+    include:
+    - '*'
+    exclude:
+    - master
 
 jobs:
 - job: Check_Everything
