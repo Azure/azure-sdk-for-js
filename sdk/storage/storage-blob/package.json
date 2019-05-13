@@ -1,6 +1,6 @@
 {
   "name": "@azure/storage-blob",
-  "version": "11.0.0",
+  "version": "11.0.0-preview.1",
   "description": "Microsoft Azure Storage SDK for JavaScript - Blob",
   "main": "./dist/index.js",
   "module": "./dist-esm/src/index.js",
