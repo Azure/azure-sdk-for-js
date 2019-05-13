@@ -1,5 +1,5 @@
 trigger:
-- master
+- '*'
 
 jobs:
 - job: Check_Everything
@@ -57,16 +57,14 @@ jobs:
     vmImage: 'Ubuntu 16.04'
   steps:
   - task: Npm@1
-    displayName: 'npm pack'
+    displayName: 'npm install'
     inputs:
       command: custom
       verbose: false
-      customCommand: pack
-  - task: CopyFiles@2
-    displayName: 'Copy Files to: drop'
+      customCommand: install
+  - task: Npm@1
+    displayName: 'npm run build'
     inputs:
-      Contents: '*.tgz'
-      TargetFolder: drop
-  - task: PublishBuildArtifacts@1
-    inputs:
-      pathtoPublish: $(Build.SourcesDirectory)/drop
+      command: custom
+      verbose: true
+      customCommand: run build
