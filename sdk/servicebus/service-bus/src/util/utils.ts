@@ -162,15 +162,15 @@ export function toBuffer(input: any): Buffer {
 }
 
 /**
+ * @internal
  * Helper function to retrieve active receiver name, if it exists.
- *
  */
 export function getAssociatedReceiverName(
   clientEntityContext: ClientEntityContext,
   sessionId?: string
-): string {
-  let receiverName: string;
-  if (sessionId !== undefined) {
+): string | undefined {
+  let receiverName: string | undefined;
+  if (sessionId != undefined) {
     if (clientEntityContext.messageSessions[sessionId]) {
       receiverName = clientEntityContext.messageSessions[sessionId].name;
     }
@@ -179,5 +179,5 @@ export function getAssociatedReceiverName(
   } else if (clientEntityContext.streamingReceiver) {
     receiverName = clientEntityContext.streamingReceiver.name;
   }
-  return receiverName!;
+  return receiverName;
 }
