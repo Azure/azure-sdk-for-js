@@ -118,6 +118,39 @@ export class HanaInstances {
   }
 
   /**
+   * Creates a SAP HANA instance for the specified subscription, resource group, and instance name.
+   * @summary Creates a SAP HANA instance.
+   * @param resourceGroupName Name of the resource group.
+   * @param hanaInstanceName Name of the SAP HANA on Azure instance.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.HanaInstancesCreateResponse>
+   */
+  create(resourceGroupName: string, hanaInstanceName: string, options?: msRest.RequestOptionsBase): Promise<Models.HanaInstancesCreateResponse>;
+  /**
+   * @param resourceGroupName Name of the resource group.
+   * @param hanaInstanceName Name of the SAP HANA on Azure instance.
+   * @param callback The callback
+   */
+  create(resourceGroupName: string, hanaInstanceName: string, callback: msRest.ServiceCallback<Models.HanaInstance>): void;
+  /**
+   * @param resourceGroupName Name of the resource group.
+   * @param hanaInstanceName Name of the SAP HANA on Azure instance.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  create(resourceGroupName: string, hanaInstanceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.HanaInstance>): void;
+  create(resourceGroupName: string, hanaInstanceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HanaInstance>, callback?: msRest.ServiceCallback<Models.HanaInstance>): Promise<Models.HanaInstancesCreateResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        hanaInstanceName,
+        options
+      },
+      createOperationSpec,
+      callback) as Promise<Models.HanaInstancesCreateResponse>;
+  }
+
+  /**
    * Patches the Tags field of a SAP HANA instance for the specified subscription, resource group,
    * and instance name.
    * @summary Patches the Tags field of a SAP HANA instance.
@@ -344,6 +377,31 @@ const getOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
+      bodyMapper: Mappers.HanaInstance
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const createOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PUT",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HanaOnAzure/hanaInstances/{hanaInstanceName}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.hanaInstanceName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    201: {
       bodyMapper: Mappers.HanaInstance
     },
     default: {
