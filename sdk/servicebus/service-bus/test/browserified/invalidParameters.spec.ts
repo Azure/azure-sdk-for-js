@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import chai from "chai";
+import * as Long from "long";
 const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
 import * as dotenv from "dotenv";
@@ -69,7 +70,6 @@ describe("Invalid parameters in QueueClient", function(): void {
     );
   });
 
-  /*
   it("PeekBySequenceNumber: Invalid maxMessageCount in QueueClient", async function(): Promise<
     void
   > {
@@ -108,7 +108,6 @@ describe("Invalid parameters in QueueClient", function(): void {
       `The parameter "fromSequenceNumber" should be of type "Long"`
     );
   });
-  */
 
   it("PeekBySequenceNumber: Missing fromSequenceNumber in QueueClient", async function(): Promise<
     void
@@ -162,7 +161,6 @@ describe("Invalid parameters in SubscriptionClient", function(): void {
     );
   });
 
-  /*
   it("PeekBySequenceNumber: Invalid maxMessageCount in SubscriptionClient", async function(): Promise<
     void
   > {
@@ -201,7 +199,6 @@ describe("Invalid parameters in SubscriptionClient", function(): void {
       `The parameter "fromSequenceNumber" should be of type "Long"`
     );
   });
-  */
 
   it("PeekBySequenceNumber: Missing fromSequenceNumber in SubscriptionClient", async function(): Promise<
     void
@@ -381,7 +378,6 @@ describe("Invalid parameters in SessionReceiver", function(): void {
     );
   });
 
-  /*
   it("PeekBySequenceNumber: Invalid maxMessageCount in SessionReceiver", async function(): Promise<
     void
   > {
@@ -420,7 +416,6 @@ describe("Invalid parameters in SessionReceiver", function(): void {
       `The parameter "fromSequenceNumber" should be of type "Long"`
     );
   });
-  */
 
   it("PeekBySequenceNumber: Missing sequenceNumber in SessionReceiver", async function(): Promise<
     void
