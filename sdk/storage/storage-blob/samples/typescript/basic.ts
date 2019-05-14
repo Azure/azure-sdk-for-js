@@ -8,19 +8,17 @@ import {
   BlockBlobURL,
   ContainerURL,
   ServiceURL,
-  StorageURL,
-  SharedKeyCredential,
   TokenCredential,
   Models
 } from "../../src"; // Change to "@azure/storage-blob" in your package
 
 async function main() {
   // Enter your storage account name and shared key
-  const account = "";
-  const accountKey = "";
+  // const account = "";
+  // const accountKey = "";
 
   // Use SharedKeyCredential with storage account and account key
-  const sharedKeyCredential = new SharedKeyCredential(account, accountKey);
+  // const sharedKeyCredential = new SharedKeyCredential(account, accountKey);
 
   // Use TokenCredential with OAuth token
   const tokenCredential = new TokenCredential("token");
@@ -30,7 +28,7 @@ async function main() {
   // const anonymousCredential = new AnonymousCredential();
 
   // Use sharedKeyCredential, tokenCredential or anonymousCredential to create a pipeline
-  const pipeline = StorageURL.newPipeline(sharedKeyCredential);
+  // const pipeline = StorageURL.newPipeline(sharedKeyCredential);
 
   const CONNECTION_STRING = "";
 
@@ -41,7 +39,7 @@ async function main() {
   //   pipeline
   // );
   // List containers
-  const serviceURL = new ServiceURL(CONNECTION_STRING, pipeline);
+  const serviceURL = ServiceURL.fromConnectionString(CONNECTION_STRING);
   let marker;
   do {
     const listContainersResponse: Models.ServiceListContainersSegmentResponse = await serviceURL.listContainersSegment(
