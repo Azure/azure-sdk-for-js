@@ -3,7 +3,6 @@
 
 import { name, version } from "../../package.json";
 
-
 export const packageJsonInfo = {
   name: name,
   version: version
