@@ -70,6 +70,7 @@ describe("Invalid parameters in QueueClient", function(): void {
     );
   });
 
+  /*
   it("PeekBySequenceNumber: Invalid maxMessageCount in QueueClient", async function(): Promise<
     void
   > {
@@ -108,6 +109,7 @@ describe("Invalid parameters in QueueClient", function(): void {
       `The parameter "fromSequenceNumber" should be of type "Long"`
     );
   });
+  */
 
   it("PeekBySequenceNumber: Missing fromSequenceNumber in QueueClient", async function(): Promise<
     void
