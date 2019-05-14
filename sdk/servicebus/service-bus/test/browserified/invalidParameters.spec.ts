@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import chai from "chai";
-import * as Long from "long";
 const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
 import * as dotenv from "dotenv";
