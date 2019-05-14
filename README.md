@@ -93,7 +93,7 @@ Git for Windows has a bug where repository files may be unintentionally removed 
 
 Run `rush update` to install the current set of package dependencies in all projects inside the repo.
 
-To add a new dependency (assuming the dependency is published on the NPM registry), navigate to the project's directory and run `rush add -p "<packagename@^version>" [--dev]`. This will update the project's package.json and then automatically run `rush update` to install the package into the project's node_modules directory. Do not use `npm install [--save | --save-dev]`.
+To add a new dependency (assuming the dependency is published on the NPM registry), navigate to the project's directory and run `rush add -p "<packagename>" --caret [--dev]`. This will add the dependency at its latest version to the project's package.json, and then automatically run `rush update` to install the package into the project's node_modules directory. If you know the specific version of the package you want, you can instead run `rush add -p "<packagename@^version>"` - make sure to use the caret before the version number. Do not use `npm install [--save | --save-dev]`.
 
 To add a dependency on another library within the Azure SDK, you can follow the same procedure as above as long as the library is also published to the NPM registry. Additionally, as long as the local copy of that library satisfies the SemVer range you specify when you run `rush add`, that library will be locally linked rather than downloaded from the registry. If the library has not yet been published to the NPM registry, you can't use `rush add`. In this case, you must manually edit the package.json to add the dependency and then run `rush update` to locally link the library into the project's node_modules directory.
 
@@ -225,4 +225,4 @@ Currently, the tests for client libraries in this repository are running against
 | ----------- | -------------------- | ----------- | ------------------- |
 | **Node 8**  | x                    | x           | x                   |
 | **Node 10** | x                    | x           | x                   |
-| **Node 11** | x                    | x           | x                   |
+| **Node 12** | x                    | x           | x                   |
