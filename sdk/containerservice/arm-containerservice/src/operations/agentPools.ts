@@ -32,20 +32,20 @@ export class AgentPools {
    * each agent pool.
    * @summary Gets a list of agent pools in the specified managed cluster.
    * @param resourceGroupName The name of the resource group.
-   * @param resourceName The name of the resource.
+   * @param resourceName The name of the managed cluster resource.
    * @param [options] The optional parameters
    * @returns Promise<Models.AgentPoolsListResponse>
    */
   list(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.AgentPoolsListResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
-   * @param resourceName The name of the resource.
+   * @param resourceName The name of the managed cluster resource.
    * @param callback The callback
    */
   list(resourceGroupName: string, resourceName: string, callback: msRest.ServiceCallback<Models.AgentPoolListResult>): void;
   /**
    * @param resourceGroupName The name of the resource group.
-   * @param resourceName The name of the resource.
+   * @param resourceName The name of the managed cluster resource.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -65,7 +65,7 @@ export class AgentPools {
    * Gets the details of the agent pool by managed cluster and resource group.
    * @summary Gets the agent pool.
    * @param resourceGroupName The name of the resource group.
-   * @param resourceName The name of the resource.
+   * @param resourceName The name of the managed cluster resource.
    * @param agentPoolName The name of the agent pool.
    * @param [options] The optional parameters
    * @returns Promise<Models.AgentPoolsGetResponse>
@@ -73,14 +73,14 @@ export class AgentPools {
   get(resourceGroupName: string, resourceName: string, agentPoolName: string, options?: msRest.RequestOptionsBase): Promise<Models.AgentPoolsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
-   * @param resourceName The name of the resource.
+   * @param resourceName The name of the managed cluster resource.
    * @param agentPoolName The name of the agent pool.
    * @param callback The callback
    */
   get(resourceGroupName: string, resourceName: string, agentPoolName: string, callback: msRest.ServiceCallback<Models.AgentPool>): void;
   /**
    * @param resourceGroupName The name of the resource group.
-   * @param resourceName The name of the resource.
+   * @param resourceName The name of the managed cluster resource.
    * @param agentPoolName The name of the agent pool.
    * @param options The optional parameters
    * @param callback The callback
@@ -102,7 +102,7 @@ export class AgentPools {
    * Creates or updates an agent pool in the specified managed cluster.
    * @summary Creates or updates an agent pool.
    * @param resourceGroupName The name of the resource group.
-   * @param resourceName The name of the resource.
+   * @param resourceName The name of the managed cluster resource.
    * @param agentPoolName The name of the agent pool.
    * @param parameters Parameters supplied to the Create or Update an agent pool operation.
    * @param [options] The optional parameters
@@ -117,7 +117,7 @@ export class AgentPools {
    * Deletes the agent pool in the specified managed cluster.
    * @summary Deletes an agent pool.
    * @param resourceGroupName The name of the resource group.
-   * @param resourceName The name of the resource.
+   * @param resourceName The name of the managed cluster resource.
    * @param agentPoolName The name of the agent pool.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
@@ -131,7 +131,7 @@ export class AgentPools {
    * Creates or updates an agent pool in the specified managed cluster.
    * @summary Creates or updates an agent pool.
    * @param resourceGroupName The name of the resource group.
-   * @param resourceName The name of the resource.
+   * @param resourceName The name of the managed cluster resource.
    * @param agentPoolName The name of the agent pool.
    * @param parameters Parameters supplied to the Create or Update an agent pool operation.
    * @param [options] The optional parameters
@@ -154,7 +154,7 @@ export class AgentPools {
    * Deletes the agent pool in the specified managed cluster.
    * @summary Deletes an agent pool.
    * @param resourceGroupName The name of the resource group.
-   * @param resourceName The name of the resource.
+   * @param resourceName The name of the managed cluster resource.
    * @param agentPoolName The name of the agent pool.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
