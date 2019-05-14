@@ -138,7 +138,8 @@ export function browserConfig({ test = false, production = false } = {}) {
         modules: {
           Buffer: ["buffer", "Buffer"],
           process: "process"
-        }
+        },
+        exclude: ["./**/package.json"]
       }),
 
       json()
