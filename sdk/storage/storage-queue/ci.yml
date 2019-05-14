@@ -11,8 +11,7 @@ pr:
     include:
     - sdk/storage/storage-queue/
 
-variables:
-  PackageName: storage-queue
-
 jobs:
 - template: ../../../eng/pipelines/templates/jobs/archetype-sdk-client.yml
+  parameters:
+    PackageName: '@azure/storage-queue'

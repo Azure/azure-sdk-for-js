@@ -15,7 +15,7 @@ jobs:
           node common/scripts/install-run-rush.js install
         displayName: 'Install dependencies'
 
-      - ${{ if eq(variables['PackageName'],'')}}:
+      - ${{ if eq(parameters.PackageName,'')}}:
         - script: |
             node common/scripts/install-run-rush.js build --verbose
           displayName: 'Build libraries'
@@ -23,12 +23,12 @@ jobs:
             node common/scripts/install-run-rush.js pack --verbose
           displayName: 'Pack libraries'
 
-      - ${{ if ne(variables['PackageName'],'')}}:
+      - ${{ if ne(parameters.PackageName,'')}}:
         - script: |
-            node common/scripts/install-run-rush.js build --verbose --to $(PackageName)
+            node common/scripts/install-run-rush.js build --verbose --to ${{parameters.PackageName}}
           displayName: 'Build libraries'
         - script: |
-            node common/scripts/install-run-rush.js pack --verbose --to $(PackageName)
+            node common/scripts/install-run-rush.js pack --verbose --to ${{parameters.PackageName}}
           displayName: 'Pack libraries'
 
       - task: CopyFiles@2
@@ -136,7 +136,7 @@ jobs:
         displayName: 'Install dependencies'
 
       # If there is no package name, then don't use the --to option.
-      - ${{ if eq(variables['PackageName'],'')}}:
+      - ${{ if eq(parameters.PackageName,'')}}:
         - script: |
             node common/scripts/install-run-rush.js build --verbose
           displayName: 'Build libraries"'
@@ -148,15 +148,15 @@ jobs:
           displayName: 'Test libraries'
 
       # On the other hand, if there is a PackageName, supply the --to option.
-      - ${{ if ne(variables['PackageName'],'')}}:
+      - ${{ if ne(parameters.PackageName,'')}}:
         - script: |
-            node common/scripts/install-run-rush.js build --verbose --to $(PackageName)
+            node common/scripts/install-run-rush.js build --verbose --to ${{parameters.PackageName}}
           displayName: 'Build libraries"'
         - script: |
-            node common/scripts/install-run-rush.js build:test --verbose --to $(PackageName)
+            node common/scripts/install-run-rush.js build:test --verbose --to ${{parameters.PackageName}}
           displayName: 'Build test assets'
         - script: |
-            node common/scripts/install-run-rush.js unit-test --verbose --to $(PackageName)
+            node common/scripts/install-run-rush.js unit-test --verbose --to ${{parameters.PackageName}}
           displayName: 'Test libraries'
 
       - task: PublishTestResults@2
