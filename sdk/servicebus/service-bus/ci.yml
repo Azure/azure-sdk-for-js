@@ -6,13 +6,12 @@ trigger: none
 pr:
   branches:
     include:
-    - master
+      - master
   paths:
     include:
-    - sdk/servicebus/service-bus/
-
-variables:
-  PackageName: service-bus
+      - sdk/servicebus/service-bus/
 
 jobs:
-- template: ../../../eng/pipelines/templates/jobs/archetype-sdk-client.yml
+  - template: ../../../eng/pipelines/templates/jobs/archetype-sdk-client.yml
+    parameters:
+      - PackageName: "@azure/service-bus"
