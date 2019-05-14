@@ -239,7 +239,7 @@ export class CloudEndpoints {
    * @param storageSyncServiceName Name of Storage Sync Service resource.
    * @param syncGroupName Name of Sync Group resource.
    * @param cloudEndpointName Name of Cloud Endpoint object.
-   * @param parameters Trigger Change Detecton Action parameters.
+   * @param parameters Trigger Change Detection Action parameters.
    * @param [options] The optional parameters
    * @returns Promise<Models.CloudEndpointsTriggerChangeDetectionResponse>
    */
@@ -397,7 +397,7 @@ export class CloudEndpoints {
    * @param storageSyncServiceName Name of Storage Sync Service resource.
    * @param syncGroupName Name of Sync Group resource.
    * @param cloudEndpointName Name of Cloud Endpoint object.
-   * @param parameters Trigger Change Detecton Action parameters.
+   * @param parameters Trigger Change Detection Action parameters.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
