@@ -1569,6 +1569,52 @@ export const StorageSyncServiceUpdateParameters: msRest.CompositeMapper = {
   }
 };
 
+export const OperationStatus: msRest.CompositeMapper = {
+  serializedName: "OperationStatus",
+  type: {
+    name: "Composite",
+    className: "OperationStatus",
+    modelProperties: {
+      name: {
+        readOnly: true,
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        readOnly: true,
+        serializedName: "status",
+        type: {
+          name: "String"
+        }
+      },
+      startTime: {
+        readOnly: true,
+        serializedName: "startTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      endTime: {
+        readOnly: true,
+        serializedName: "endTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      error: {
+        readOnly: true,
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "StorageSyncApiError"
+        }
+      }
+    }
+  }
+};
+
 export const AzureEntityResource: msRest.CompositeMapper = {
   serializedName: "AzureEntityResource",
   type: {
@@ -2450,6 +2496,28 @@ export const WorkflowsAbortHeaders: msRest.CompositeMapper = {
   type: {
     name: "Composite",
     className: "WorkflowsAbortHeaders",
+    modelProperties: {
+      xMsRequestId: {
+        serializedName: "x-ms-request-id",
+        type: {
+          name: "String"
+        }
+      },
+      xMsCorrelationRequestId: {
+        serializedName: "x-ms-correlation-request-id",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const OperationStatusGetHeaders: msRest.CompositeMapper = {
+  serializedName: "operationstatus-get-headers",
+  type: {
+    name: "Composite",
+    className: "OperationStatusGetHeaders",
     modelProperties: {
       xMsRequestId: {
         serializedName: "x-ms-request-id",

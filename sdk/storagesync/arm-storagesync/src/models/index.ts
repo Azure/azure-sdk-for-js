@@ -988,6 +988,37 @@ export interface StorageSyncServiceUpdateParameters {
 }
 
 /**
+ * Operation status object
+ */
+export interface OperationStatus {
+  /**
+   * Operation Id
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * Operation status
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly status?: string;
+  /**
+   * Start time of the operation
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly startTime?: Date;
+  /**
+   * End time of the operation
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly endTime?: Date;
+  /**
+   * Error details.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly error?: StorageSyncApiError;
+}
+
+/**
  * The resource model definition for a Azure Resource Manager resource with an etag.
  */
 export interface AzureEntityResource extends Resource {
@@ -1589,6 +1620,20 @@ export interface WorkflowsGetHeaders {
  * Defines headers for Abort operation.
  */
 export interface WorkflowsAbortHeaders {
+  /**
+   * request id.
+   */
+  xMsRequestId: string;
+  /**
+   * correlation request id.
+   */
+  xMsCorrelationRequestId: string;
+}
+
+/**
+ * Defines headers for Get operation.
+ */
+export interface OperationStatusGetHeaders {
   /**
    * request id.
    */
@@ -2547,5 +2592,30 @@ export type WorkflowsAbortResponse = WorkflowsAbortHeaders & {
        * The parsed HTTP response headers.
        */
       parsedHeaders: WorkflowsAbortHeaders;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type OperationStatusGetResponse = OperationStatus & OperationStatusGetHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: OperationStatusGetHeaders;
+
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OperationStatus;
     };
 };
