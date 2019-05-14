@@ -7,7 +7,7 @@ import { getBSU, getUniqueName } from "../utils";
 describe("SharedKeyCredentialPolicy Node.js only", () => {
   const serviceClient = getBSU();
   const shareName: string = getUniqueName("1share-with-dash");
-  const shareClient = ShareClient.fromServiceClient(serviceClient, shareName);
+  const shareClient = ShareClient.fromFileServiceClient(serviceClient, shareName);
 
   before(async () => {
     await shareClient.create(Aborter.none);

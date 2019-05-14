@@ -174,7 +174,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const sharedKeyCredential = factories[factories.length - 1];
 
     const shareName = getUniqueName("share");
-    const shareClient = ShareClient.fromServiceClient(serviceClient, shareName);
+    const shareClient = ShareClient.fromFileServiceClient(serviceClient, shareName);
     await shareClient.create(Aborter.none);
 
     const shareSAS = generateFileSASQueryParameters(
@@ -214,7 +214,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const sharedKeyCredential = factories[factories.length - 1];
 
     const shareName = getUniqueName("share");
-    const shareClient = ShareClient.fromServiceClient(serviceClient, shareName);
+    const shareClient = ShareClient.fromFileServiceClient(serviceClient, shareName);
     await shareClient.create(Aborter.none);
 
     const dirName = getUniqueName("dir");
@@ -276,7 +276,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const sharedKeyCredential = factories[factories.length - 1];
 
     const shareName = getUniqueName("share");
-    const shareClient = ShareClient.fromServiceClient(serviceClient, shareName);
+    const shareClient = ShareClient.fromFileServiceClient(serviceClient, shareName);
     await shareClient.create(Aborter.none);
 
     const dirName = getUniqueName("dir");

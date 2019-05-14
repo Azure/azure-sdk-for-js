@@ -116,7 +116,7 @@ For example, you can create following CORS settings for debugging. But please cu
 
 The Azure Storage SDK for JavaScript provides low-level and high-level APIs.
 
-* ServiceClient, ShareClient, DirectoryClient and FileClient objects provide the low-level API functionality and map one-to-one to the [Azure Storage File REST APIs](https://docs.microsoft.com/en-us/rest/api/storageservices/file-service-rest-api).
+* FileServiceClient, ShareClient, DirectoryClient and FileClient objects provide the low-level API functionality and map one-to-one to the [Azure Storage File REST APIs](https://docs.microsoft.com/en-us/rest/api/storageservices/file-service-rest-api).
 
 * The high-level APIs provide convenience abstractions such as uploading a large stream to a file (using multiple PutBlock requests).
 
@@ -172,7 +172,7 @@ async function main() {
 
   // Create a share
   const shareName = `newshare${new Date().getTime()}`;
-  const shareClient = ShareClient.fromServiceClient(servieClient, shareName);
+  const shareClient = ShareClient.fromFileServiceClient(servieClient, shareName);
   await shareClient.create(Aborter.none);
   console.log(`Create share ${shareName} successfully`);
 

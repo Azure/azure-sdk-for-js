@@ -10,11 +10,11 @@ dotenv.config({ path: "../.env" });
 describe("Aborter", () => {
   const serviceClient = getBSU();
   let shareName: string = getUniqueName("share");
-  let shareClient = ShareClient.fromServiceClient(serviceClient, shareName);
+  let shareClient = ShareClient.fromFileServiceClient(serviceClient, shareName);
 
   beforeEach(async () => {
     shareName = getUniqueName("share");
-    shareClient = ShareClient.fromServiceClient(serviceClient, shareName);
+    shareClient = ShareClient.fromFileServiceClient(serviceClient, shareName);
   });
 
   it("should set value and get value successfully", async () => {

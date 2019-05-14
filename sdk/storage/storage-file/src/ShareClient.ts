@@ -112,7 +112,7 @@ export class ShareClient extends StorageClient {
    * @param serviceClient
    * @param shareName
    */
-  public static fromServiceClient(
+  public static fromFileServiceClient(
     serviceClient: FileServiceClient,
     shareName: string
   ): ShareClient {

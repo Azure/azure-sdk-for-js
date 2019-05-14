@@ -13,7 +13,7 @@ const {
   FileClient,
   DirectoryClient,
   ShareClient,
-  ServieClient,
+  FileServiceClient,
   StorageClient
 } = require(".."); // Change to "@azure/storage-file" in your package
 
@@ -30,14 +30,14 @@ async function main() {
     telemetry: { value: "HighLevelSample V1.0.0" } // Customized telemetry string
   });
 
-  const servieClient = new ServieClient(
+  const servieClient = new FileServiceClient(
     `https://${account}.file.core.windows.net${accountSas}`,
     pipeline
   );
 
   // Create a share
   const shareName = `newshare${new Date().getTime()}`;
-  const shareClient = ShareClient.fromServieClient(servieClient, shareName);
+  const shareClient = ShareClient.fromFileServiceClient(servieClient, shareName);
   await shareClient.create(Aborter.none);
   console.log(`Create share ${shareName} successfully`);
 

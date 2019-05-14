@@ -5,7 +5,7 @@
 const {
   Aborter,
   StorageClient,
-  ServieClient,
+  FileServiceClient,
   ShareClient,
   DirectoryClient,
   FileClient,
@@ -29,7 +29,7 @@ async function main() {
   const pipeline = StorageClient.newPipeline(sharedKeyCredential);
 
   // List shares
-  const servieClient = new ServieClient(
+  const servieClient = new FileServiceClient(
     // When using AnonymousCredential, following url should include a valid SAS
     `https://${account}.file.core.windows.net`,
     pipeline
@@ -51,7 +51,7 @@ async function main() {
 
   // Create a share
   const shareName = `newshare${new Date().getTime()}`;
-  const shareClient = ShareClient.fromServieClient(servieClient, shareName);
+  const shareClient = ShareClient.fromFileServiceClient(servieClient, shareName);
   await shareClient.create(Aborter.none);
   console.log(`Create share ${shareName} successfully`);
 

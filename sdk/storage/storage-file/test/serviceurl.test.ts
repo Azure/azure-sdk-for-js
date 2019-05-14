@@ -6,7 +6,7 @@ import { getBSU, getUniqueName, wait } from "./utils";
 import * as dotenv from "dotenv";
 dotenv.config({ path: "../.env" });
 
-describe("ServiceClient", () => {
+describe("FileServiceClient", () => {
   it("ListShares with default parameters", async () => {
     const serviceClient = getBSU();
     const result = await serviceClient.listSharesSegment(Aborter.none);
@@ -33,8 +33,8 @@ describe("ServiceClient", () => {
     const shareNamePrefix = getUniqueName("share");
     const shareName1 = `${shareNamePrefix}x1`;
     const shareName2 = `${shareNamePrefix}x2`;
-    const shareClient1 = ShareClient.fromServiceClient(serviceClient, shareName1);
-    const shareClient2 = ShareClient.fromServiceClient(serviceClient, shareName2);
+    const shareClient1 = ShareClient.fromFileServiceClient(serviceClient, shareName1);
+    const shareClient2 = ShareClient.fromFileServiceClient(serviceClient, shareName2);
     await shareClient1.create(Aborter.none, { metadata: { key: "val" } });
     await shareClient2.create(Aborter.none, { metadata: { key: "val" } });
 

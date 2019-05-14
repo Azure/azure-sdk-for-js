@@ -11,13 +11,13 @@ dotenv.config({ path: "../.env" });
 describe("DirectoryClient", () => {
   const serviceClient = getBSU();
   let shareName = getUniqueName("share");
-  let shareClient = ShareClient.fromServiceClient(serviceClient, shareName);
+  let shareClient = ShareClient.fromFileServiceClient(serviceClient, shareName);
   let dirName = getUniqueName("dir");
   let dirClient = DirectoryClient.fromShareClient(shareClient, dirName);
 
   beforeEach(async () => {
     shareName = getUniqueName("share");
-    shareClient = ShareClient.fromServiceClient(serviceClient, shareName);
+    shareClient = ShareClient.fromFileServiceClient(serviceClient, shareName);
     await shareClient.create(Aborter.none);
 
     dirName = getUniqueName("dir");
@@ -61,7 +61,7 @@ describe("DirectoryClient", () => {
   });
 
   it("create with all parameters configured", async () => {
-    const cClient = ShareClient.fromServiceClient(serviceClient, getUniqueName(shareName));
+    const cClient = ShareClient.fromFileServiceClient(serviceClient, getUniqueName(shareName));
     const metadata = { key: "value" };
     await cClient.create(Aborter.none, { metadata });
     const result = await cClient.getProperties(Aborter.none);

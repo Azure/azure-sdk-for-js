@@ -11,7 +11,7 @@ dotenv.config({ path: "../.env" });
 describe("Special Naming Tests", () => {
   const serviceClient = getBSU();
   const shareName: string = getUniqueName("1share-with-dash");
-  const shareClient = ShareClient.fromServiceClient(serviceClient, shareName);
+  const shareClient = ShareClient.fromFileServiceClient(serviceClient, shareName);
   const directoryName = getUniqueName("dir");
   const directoryClient = DirectoryClient.fromShareClient(shareClient, directoryName);
 

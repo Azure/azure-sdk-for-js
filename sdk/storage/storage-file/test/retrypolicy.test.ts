@@ -12,11 +12,11 @@ dotenv.config({ path: "../.env" });
 describe("RetryPolicy", () => {
   const serviceClient = getBSU();
   let shareName: string = getUniqueName("share");
-  let shareClient = ShareClient.fromServiceClient(serviceClient, shareName);
+  let shareClient = ShareClient.fromFileServiceClient(serviceClient, shareName);
 
   beforeEach(async () => {
     shareName = getUniqueName("share");
-    shareClient = ShareClient.fromServiceClient(serviceClient, shareName);
+    shareClient = ShareClient.fromFileServiceClient(serviceClient, shareName);
     await shareClient.create(Aborter.none);
   });
 

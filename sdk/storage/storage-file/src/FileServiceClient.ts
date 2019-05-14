@@ -35,11 +35,11 @@ export interface IServiceListSharesSegmentOptions {
 }
 
 /**
- * A ServiceClient represents a URL to the Azure Storage File service allowing you
+ * A FileServiceClient represents a URL to the Azure Storage File service allowing you
  * to manipulate file shares.
  *
  * @export
- * @class ServiceClient
+ * @class FileServiceClient
  * @extends {StorageClient}
  */
 export class FileServiceClient extends StorageClient {
@@ -48,19 +48,19 @@ export class FileServiceClient extends StorageClient {
    *
    * @private
    * @type {Service}
-   * @memberof ServiceClient
+   * @memberof FileServiceClient
    */
   private serviceContext: Service;
 
   /**
-   * Creates an instance of ServiceClient.
+   * Creates an instance of FileServiceClient.
    *
    * @param {string} url A URL string pointing to Azure Storage file service, such as
    *                     "https://myaccount.file.core.windows.net". You can Append a SAS
    *                     if using AnonymousCredential, such as "https://myaccount.file.core.windows.net?sasString".
    * @param {Pipeline} pipeline Call StorageClient.newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
-   * @memberof ServiceClient
+   * @memberof FileServiceClient
    */
   constructor(url: string, pipeline: Pipeline) {
     super(url, pipeline);
@@ -68,12 +68,12 @@ export class FileServiceClient extends StorageClient {
   }
 
   /**
-   * Creates a new ServiceClient object identical to the source but with the
+   * Creates a new FileServiceClient object identical to the source but with the
    * specified request policy pipeline.
    *
    * @param {Pipeline} pipeline
    * @returns {FileServiceClient}
-   * @memberof ServiceClient
+   * @memberof FileServiceClient
    */
   public withPipeline(pipeline: Pipeline): FileServiceClient {
     return new FileServiceClient(this.url, pipeline);
@@ -87,7 +87,7 @@ export class FileServiceClient extends StorageClient {
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
    * @returns {Promise<Models.ServiceGetPropertiesResponse>}
-   * @memberof ServiceClient
+   * @memberof FileServiceClient
    */
   public async getProperties(aborter: Aborter): Promise<Models.ServiceGetPropertiesResponse> {
     return this.serviceContext.getProperties({
@@ -104,7 +104,7 @@ export class FileServiceClient extends StorageClient {
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {Models.StorageServiceProperties} properties
    * @returns {Promise<Models.ServiceSetPropertiesResponse>}
-   * @memberof ServiceClient
+   * @memberof FileServiceClient
    */
   public async setProperties(
     aborter: Aborter,
@@ -129,7 +129,7 @@ export class FileServiceClient extends StorageClient {
    *                          client.
    * @param {IServiceListSharesSegmentOptions} [options={}]
    * @returns {Promise<Models.ServiceListSharesSegmentResponse>}
-   * @memberof ServiceClient
+   * @memberof FileServiceClient
    */
   public async listSharesSegment(
     aborter: Aborter,
