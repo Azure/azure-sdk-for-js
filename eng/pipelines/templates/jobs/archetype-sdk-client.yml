@@ -16,11 +16,11 @@ jobs:
         displayName: 'Install dependencies'
 
       - script: |
-          node common/scripts/install-run-rush.js build --to $(PackageName)
+          node common/scripts/install-run-rush.js build --verbose --to $(PackageName)
         displayName: 'Build libraries'
 
       - script: |
-          node common/scripts/install-run-rush.js pack --to $(PackageName)
+          node common/scripts/install-run-rush.js pack --verbose --to $(PackageName)
         displayName: 'Pack libraries'
 
       - task: CopyFiles@2
@@ -128,15 +128,15 @@ jobs:
         displayName: 'Install dependencies'
 
       - script: |
-          node common/scripts/install-run-rush.js build --to $(PackageName)
+          node common/scripts/install-run-rush.js build --verbose --to $(PackageName)
         displayName: 'Build libraries"'
 
       - script: |
-          node common/scripts/install-run-rush.js build:test --to $(PackageName)
+          node common/scripts/install-run-rush.js build:test --verbose --to $(PackageName)
         displayName: 'Build test assets'
 
       - script: |
-          node common/scripts/install-run-rush.js unit-test --to $(PackageName)
+          node common/scripts/install-run-rush.js unit-test --verbose --to $(PackageName)
         displayName: 'Test libraries'
 
       - task: PublishTestResults@2
