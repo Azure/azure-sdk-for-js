@@ -1224,13 +1224,13 @@ export class DatabaseAccounts {
    * Update an Azure Cosmos DB Table throughput
    * @param resourceGroupName Name of an Azure resource group.
    * @param accountName Cosmos DB database account name.
-   * @param databaseName Cosmos DB database name.
+   * @param tableName Cosmos DB table name.
    * @param updateThroughputParameters The parameters to provide for the current Table throughput.
    * @param [options] The optional parameters
    * @returns Promise<Models.DatabaseAccountsUpdateTableThroughputResponse>
    */
-  updateTableThroughput(resourceGroupName: string, accountName: string, databaseName: string, updateThroughputParameters: Models.ThroughputUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.DatabaseAccountsUpdateTableThroughputResponse> {
-    return this.beginUpdateTableThroughput(resourceGroupName,accountName,databaseName,updateThroughputParameters,options)
+  updateTableThroughput(resourceGroupName: string, accountName: string, tableName: string, updateThroughputParameters: Models.ThroughputUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.DatabaseAccountsUpdateTableThroughputResponse> {
+    return this.beginUpdateTableThroughput(resourceGroupName,accountName,tableName,updateThroughputParameters,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.DatabaseAccountsUpdateTableThroughputResponse>;
   }
 
@@ -1750,31 +1750,35 @@ export class DatabaseAccounts {
    * @param resourceGroupName Name of an Azure resource group.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
+   * @param graphName Cosmos DB graph name.
    * @param [options] The optional parameters
    * @returns Promise<Models.DatabaseAccountsGetGremlinGraphThroughputResponse>
    */
-  getGremlinGraphThroughput(resourceGroupName: string, accountName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<Models.DatabaseAccountsGetGremlinGraphThroughputResponse>;
+  getGremlinGraphThroughput(resourceGroupName: string, accountName: string, databaseName: string, graphName: string, options?: msRest.RequestOptionsBase): Promise<Models.DatabaseAccountsGetGremlinGraphThroughputResponse>;
   /**
    * @param resourceGroupName Name of an Azure resource group.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
+   * @param graphName Cosmos DB graph name.
    * @param callback The callback
    */
-  getGremlinGraphThroughput(resourceGroupName: string, accountName: string, databaseName: string, callback: msRest.ServiceCallback<Models.Throughput>): void;
+  getGremlinGraphThroughput(resourceGroupName: string, accountName: string, databaseName: string, graphName: string, callback: msRest.ServiceCallback<Models.Throughput>): void;
   /**
    * @param resourceGroupName Name of an Azure resource group.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
+   * @param graphName Cosmos DB graph name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getGremlinGraphThroughput(resourceGroupName: string, accountName: string, databaseName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Throughput>): void;
-  getGremlinGraphThroughput(resourceGroupName: string, accountName: string, databaseName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Throughput>, callback?: msRest.ServiceCallback<Models.Throughput>): Promise<Models.DatabaseAccountsGetGremlinGraphThroughputResponse> {
+  getGremlinGraphThroughput(resourceGroupName: string, accountName: string, databaseName: string, graphName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Throughput>): void;
+  getGremlinGraphThroughput(resourceGroupName: string, accountName: string, databaseName: string, graphName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Throughput>, callback?: msRest.ServiceCallback<Models.Throughput>): Promise<Models.DatabaseAccountsGetGremlinGraphThroughputResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         accountName,
         databaseName,
+        graphName,
         options
       },
       getGremlinGraphThroughputOperationSpec,
@@ -1786,13 +1790,14 @@ export class DatabaseAccounts {
    * @param resourceGroupName Name of an Azure resource group.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
+   * @param graphName Cosmos DB graph name.
    * @param updateThroughputParameters The parameters to provide for the current Gremlin graph
    * throughput.
    * @param [options] The optional parameters
    * @returns Promise<Models.DatabaseAccountsUpdateGremlinGraphThroughputResponse>
    */
-  updateGremlinGraphThroughput(resourceGroupName: string, accountName: string, databaseName: string, updateThroughputParameters: Models.ThroughputUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.DatabaseAccountsUpdateGremlinGraphThroughputResponse> {
-    return this.beginUpdateGremlinGraphThroughput(resourceGroupName,accountName,databaseName,updateThroughputParameters,options)
+  updateGremlinGraphThroughput(resourceGroupName: string, accountName: string, databaseName: string, graphName: string, updateThroughputParameters: Models.ThroughputUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.DatabaseAccountsUpdateGremlinGraphThroughputResponse> {
+    return this.beginUpdateGremlinGraphThroughput(resourceGroupName,accountName,databaseName,graphName,updateThroughputParameters,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.DatabaseAccountsUpdateGremlinGraphThroughputResponse>;
   }
 
@@ -2258,17 +2263,17 @@ export class DatabaseAccounts {
    * Update an Azure Cosmos DB Table throughput
    * @param resourceGroupName Name of an Azure resource group.
    * @param accountName Cosmos DB database account name.
-   * @param databaseName Cosmos DB database name.
+   * @param tableName Cosmos DB table name.
    * @param updateThroughputParameters The parameters to provide for the current Table throughput.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUpdateTableThroughput(resourceGroupName: string, accountName: string, databaseName: string, updateThroughputParameters: Models.ThroughputUpdateParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpdateTableThroughput(resourceGroupName: string, accountName: string, tableName: string, updateThroughputParameters: Models.ThroughputUpdateParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
         accountName,
-        databaseName,
+        tableName,
         updateThroughputParameters,
         options
       },
@@ -2507,17 +2512,19 @@ export class DatabaseAccounts {
    * @param resourceGroupName Name of an Azure resource group.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
+   * @param graphName Cosmos DB graph name.
    * @param updateThroughputParameters The parameters to provide for the current Gremlin graph
    * throughput.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUpdateGremlinGraphThroughput(resourceGroupName: string, accountName: string, databaseName: string, updateThroughputParameters: Models.ThroughputUpdateParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpdateGremlinGraphThroughput(resourceGroupName: string, accountName: string, databaseName: string, graphName: string, updateThroughputParameters: Models.ThroughputUpdateParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
         accountName,
         databaseName,
+        graphName,
         updateThroughputParameters,
         options
       },
@@ -3457,7 +3464,8 @@ const getGremlinGraphThroughputOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.databaseName
+    Parameters.databaseName,
+    Parameters.graphName
   ],
   queryParameters: [
     Parameters.apiVersion
@@ -4132,7 +4140,7 @@ const beginUpdateTableThroughputOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.databaseName
+    Parameters.tableName
   ],
   queryParameters: [
     Parameters.apiVersion
@@ -4474,7 +4482,8 @@ const beginUpdateGremlinGraphThroughputOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.databaseName
+    Parameters.databaseName,
+    Parameters.graphName
   ],
   queryParameters: [
     Parameters.apiVersion
