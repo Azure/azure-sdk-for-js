@@ -126,7 +126,7 @@ The Azure Storage SDK for JavaScript provides low-level and high-level APIs.
 const {
   Aborter,
   StorageClient,
-  ServiceClient,
+  FileServiceClient,
   ShareClient,
   DirectoryClient,
   FileClient,
@@ -150,7 +150,7 @@ async function main() {
   const pipeline = StorageClient.newPipeline(sharedKeyCredential);
 
   // List shares
-  const servieClient = new ServiceClient(
+  const servieClient = new FileServiceClient(
     // When using AnonymousCredential, following url should include a valid SAS
     `https://${account}.file.core.windows.net`,
     pipeline
