@@ -314,7 +314,7 @@ export class ManagementClient extends LinkEntity {
         Buffer.from(fromSequenceNumber.toBytesBE())
       );
       messageBody[Constants.messageCount] = types.wrap_int(maxMessageCount);
-      if (sessionId) {
+      if (sessionId != undefined) {
         messageBody[Constants.sessionIdMapKey] = sessionId;
       }
       const request: AmqpMessage = {

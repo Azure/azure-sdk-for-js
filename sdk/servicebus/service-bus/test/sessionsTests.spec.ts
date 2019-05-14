@@ -54,7 +54,10 @@ function unExpectedErrorHandler(err: Error): void {
 
 const testSessionId2 = "my-session2";
 
-async function beforeEachTest(senderType: TestClientType, sessionType: TestClientType): Promise<void> {
+async function beforeEachTest(
+  senderType: TestClientType,
+  sessionType: TestClientType
+): Promise<void> {
   // The tests in this file expect the env variables to contain the connection string and
   // the names of empty queue/topic/subscription that are to be tested
 
@@ -255,7 +258,7 @@ describe("SessionReceiver with no sessionId", function(): void {
     let msgs = await receiver.receiveMessages(2);
 
     should.equal(msgs.length, 1, "Unexpected number of messages received");
-
+    should.equal(receiver.sessionId, msgs[0].sessionId, "Unexpected sessionId in receiver");
     should.equal(
       testMessagesWithDifferentSessionIds.some(
         (x) =>
@@ -275,7 +278,7 @@ describe("SessionReceiver with no sessionId", function(): void {
     msgs = await receiver.receiveMessages(2);
 
     should.equal(msgs.length, 1, "Unexpected number of messages received");
-
+    should.equal(receiver.sessionId, msgs[0].sessionId, "Unexpected sessionId in receiver");
     should.equal(
       testMessagesWithDifferentSessionIds.some(
         (x) =>
@@ -288,6 +291,98 @@ describe("SessionReceiver with no sessionId", function(): void {
     );
     await msgs[0].complete();
     await testPeekMsgsLength(receiverClient, 0);
+  }
+
+  it("Partitioned Queue: complete() removes message from random session", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      TestClientType.PartitionedQueueWithSessions,
+      TestClientType.PartitionedQueueWithSessions
+    );
+    await purge(receiverClient, testSessionId2);
+    await testComplete_batching();
+  });
+
+  it("Partitioned Subscription: complete() removes message from random session", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      TestClientType.PartitionedTopicWithSessions,
+      TestClientType.PartitionedSubscriptionWithSessions
+    );
+    await purge(receiverClient, testSessionId2);
+    await testComplete_batching();
+  });
+
+  it("Unpartitioned Queue: complete() removes message from random session", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      TestClientType.UnpartitionedQueueWithSessions,
+      TestClientType.UnpartitionedQueueWithSessions
+    );
+    await purge(receiverClient, testSessionId2);
+    await testComplete_batching();
+  });
+
+  it("Unpartitioned Subscription: complete() removes message from random session", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      TestClientType.UnpartitionedTopicWithSessions,
+      TestClientType.UnpartitionedSubscriptionWithSessions
+    );
+    await purge(receiverClient, testSessionId2);
+    await testComplete_batching();
+  });
+});
+
+describe("SessionReceiver with empty string as sessionId", function(): void {
+  afterEach(async () => {
+    await afterEachTest();
+  });
+
+  // Sending messages with different session id, so that we know for sure we pick the right one
+  // and that Service Bus is not choosing a random one for us
+  const testMessagesWithDifferentSessionIds: SendableMessageInfo[] = [
+    {
+      body: "hello1",
+      messageId: `test message ${Math.random()}`,
+      sessionId: TestMessage.sessionId
+    },
+    {
+      body: "hello2",
+      messageId: `test message ${Math.random()}`,
+      sessionId: ""
+    }
+  ];
+
+  async function testComplete_batching(): Promise<void> {
+    const sender = senderClient.createSender();
+    await sender.send(testMessagesWithDifferentSessionIds[0]);
+    await sender.send(testMessagesWithDifferentSessionIds[1]);
+
+    const receiver = <SessionReceiver>receiverClient.createReceiver(ReceiveMode.peekLock, {
+      sessionId: ""
+    });
+    const msgs = await receiver.receiveMessages(2);
+
+    should.equal(msgs.length, 1, "Unexpected number of messages received");
+    should.equal(receiver.sessionId, "", "Unexpected sessionId in receiver");
+    should.equal(
+      testMessagesWithDifferentSessionIds[1].body === msgs[0].body &&
+        testMessagesWithDifferentSessionIds[1].messageId === msgs[0].messageId &&
+        testMessagesWithDifferentSessionIds[1].sessionId === msgs[0].sessionId,
+      true,
+      "Received Message doesnt match expected test message"
+    );
+    await msgs[0].complete();
+
+    const peekedMsgsInSession = await receiver.peek();
+    should.equal(peekedMsgsInSession.length, 0, "Unexpected number of messages peeked");
+
+    await receiver.close();
   }
 
   it("Partitioned Queue: complete() removes message from random session", async function(): Promise<
