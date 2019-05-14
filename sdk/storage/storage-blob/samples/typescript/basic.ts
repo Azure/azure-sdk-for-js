@@ -12,15 +12,20 @@ import {
   SharedKeyCredential,
   TokenCredential,
   Models
-} from "../.."; // Change to "@azure/storage-blob" in your package
+} from "../../src"; // Change to "@azure/storage-blob" in your package
 
 async function main() {
   // Enter your storage account name and shared key
-  const account = "";
-  const accountKey = "";
+  // const account = "";
+  // const accountKey = "";
+
+  // Enter your connection string
+  const connectionString = "";
 
   // Use SharedKeyCredential with storage account and account key
-  const sharedKeyCredential = new SharedKeyCredential(account, accountKey);
+  // const sharedKeyCredential = new SharedKeyCredential(account, accountKey);
+  // Use SharedKeyCredential with connectionString
+  const sharedKeyCredential = new SharedKeyCredential(connectionString);
 
   // Use TokenCredential with OAuth token
   const tokenCredential = new TokenCredential("token");
@@ -32,6 +37,11 @@ async function main() {
   // Use sharedKeyCredential, tokenCredential or anonymousCredential to create a pipeline
   const pipeline = StorageURL.newPipeline(sharedKeyCredential);
 
+  // Extract account name from connection string for ServiceURL
+  const account =
+    connectionString.match(
+      "DefaultEndpointsProtocol=https;AccountName=(.*);AccountKey=(.*);EndpointSuffix=core.windows.net"
+    )![1] || "";
   // List containers
   const serviceURL = new ServiceURL(
     // When using AnonymousCredential, following url should include a valid SAS or support public access
