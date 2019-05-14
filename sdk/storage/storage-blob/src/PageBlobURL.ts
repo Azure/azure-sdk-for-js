@@ -9,7 +9,9 @@ import { rangeToString } from "./IRange";
 import { IBlobAccessConditions, IMetadata, IPageBlobAccessConditions } from "./models";
 import { Pipeline } from "./Pipeline";
 import { URLConstants } from "./utils/constants";
-import { appendToURLPath, setURLParameter } from "./utils/utils.common";
+import { appendToURLPath, setURLParameter, extractPartsWithValidation } from "./utils/utils.common";
+import { StorageURL, INewPipelineOptions } from "./StorageURL";
+import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 
 export interface IPageBlobCreateOptions {
   accessConditions?: IBlobAccessConditions;
@@ -115,6 +117,28 @@ export class PageBlobURL extends BlobURL {
   constructor(url: string, pipeline: Pipeline) {
     super(url, pipeline);
     this.pageBlobContext = new PageBlob(this.storageClientContext);
+  }
+
+  /**
+   * Creates a new PageBlobURL object from ConnectionString
+   *
+   * @param {string} connectionString
+   * @param {INewPipelineOptions} pipelineOptions
+   * @returns {PageBlobURL}
+   * @memberof PageBlobURL
+   */
+  static fromConnectionString(
+    connectionString: string,
+    pipelineOptions?: INewPipelineOptions
+  ): PageBlobURL {
+    const extractedCreds = extractPartsWithValidation(connectionString);
+    const sharedKeyCredential = new SharedKeyCredential(
+      extractedCreds.accountName,
+      extractedCreds.accountKey
+    );
+    const pipeline = StorageURL.newPipeline(sharedKeyCredential, pipelineOptions);
+    // using the new constructor that takes BlobConnectionOptions
+    return new PageBlobURL(extractedCreds.url, pipeline);
   }
 
   /**

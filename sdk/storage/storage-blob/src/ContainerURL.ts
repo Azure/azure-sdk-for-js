@@ -5,9 +5,14 @@ import { Container } from "./generated/lib/operations";
 import { IContainerAccessConditions, IMetadata } from "./models";
 import { Pipeline } from "./Pipeline";
 import { ServiceURL } from "./ServiceURL";
-import { StorageURL } from "./StorageURL";
+import { StorageURL, INewPipelineOptions } from "./StorageURL";
 import { ETagNone } from "./utils/constants";
-import { appendToURLPath, truncatedISO8061Date } from "./utils/utils.common";
+import {
+  appendToURLPath,
+  truncatedISO8061Date,
+  extractPartsWithValidation
+} from "./utils/utils.common";
+import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 
 export interface IContainerCreateOptions {
   metadata?: IMetadata;
@@ -167,6 +172,28 @@ export class ContainerURL extends StorageURL {
   constructor(url: string, pipeline: Pipeline) {
     super(url, pipeline);
     this.containerContext = new Container(this.storageClientContext);
+  }
+
+  /**
+   * Creates a new ContainerURL object from ConnectionString
+   *
+   * @param {string} connectionString
+   * @param {INewPipelineOptions} pipelineOptions
+   * @returns {ContainerURL}
+   * @memberof ContainerURL
+   */
+  static fromConnectionString(
+    connectionString: string,
+    pipelineOptions?: INewPipelineOptions
+  ): ContainerURL {
+    const extractedCreds = extractPartsWithValidation(connectionString);
+    const sharedKeyCredential = new SharedKeyCredential(
+      extractedCreds.accountName,
+      extractedCreds.accountKey
+    );
+    const pipeline = StorageURL.newPipeline(sharedKeyCredential, pipelineOptions);
+    // using the new constructor that takes BlobConnectionOptions
+    return new ContainerURL(extractedCreds.url, pipeline);
   }
 
   /**

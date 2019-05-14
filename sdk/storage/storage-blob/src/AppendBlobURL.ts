@@ -8,7 +8,9 @@ import { AppendBlob } from "./generated/lib/operations";
 import { IAppendBlobAccessConditions, IBlobAccessConditions, IMetadata } from "./models";
 import { Pipeline } from "./Pipeline";
 import { URLConstants } from "./utils/constants";
-import { appendToURLPath, setURLParameter } from "./utils/utils.common";
+import { appendToURLPath, setURLParameter, extractPartsWithValidation } from "./utils/utils.common";
+import { INewPipelineOptions, StorageURL } from "./StorageURL";
+import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 
 export interface IAppendBlobCreateOptions {
   accessConditions?: IBlobAccessConditions;
@@ -88,6 +90,28 @@ export class AppendBlobURL extends BlobURL {
   constructor(url: string, pipeline: Pipeline) {
     super(url, pipeline);
     this.appendBlobContext = new AppendBlob(this.storageClientContext);
+  }
+
+  /**
+   * Creates a new AppendBlobURL object from ConnectionString
+   *
+   * @param {string} connectionString
+   * @param {INewPipelineOptions} pipelineOptions
+   * @returns {AppendBlobURL}
+   * @memberof AppendBlobURL
+   */
+  static fromConnectionString(
+    connectionString: string,
+    pipelineOptions?: INewPipelineOptions
+  ): AppendBlobURL {
+    const extractedCreds = extractPartsWithValidation(connectionString);
+    const sharedKeyCredential = new SharedKeyCredential(
+      extractedCreds.accountName,
+      extractedCreds.accountKey
+    );
+    const pipeline = StorageURL.newPipeline(sharedKeyCredential, pipelineOptions);
+    // using the new constructor that takes BlobConnectionOptions
+    return new AppendBlobURL(extractedCreds.url, pipeline);
   }
 
   /**

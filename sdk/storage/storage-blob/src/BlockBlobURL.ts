@@ -9,7 +9,9 @@ import { IRange, rangeToString } from "./IRange";
 import { IBlobAccessConditions, IMetadata } from "./models";
 import { Pipeline } from "./Pipeline";
 import { URLConstants } from "./utils/constants";
-import { appendToURLPath, setURLParameter } from "./utils/utils.common";
+import { appendToURLPath, setURLParameter, extractPartsWithValidation } from "./utils/utils.common";
+import { INewPipelineOptions, StorageURL } from "./StorageURL";
+import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 
 export interface IBlockBlobUploadOptions {
   accessConditions?: IBlobAccessConditions;
@@ -106,6 +108,28 @@ export class BlockBlobURL extends BlobURL {
   constructor(url: string, pipeline: Pipeline) {
     super(url, pipeline);
     this.blockBlobContext = new BlockBlob(this.storageClientContext);
+  }
+
+  /**
+   * Creates a new BlockBlobURL object from ConnectionString
+   *
+   * @param {string} connectionString
+   * @param {INewPipelineOptions} pipelineOptions
+   * @returns {BlockBlobURL}
+   * @memberof BlockBlobURL
+   */
+  static fromConnectionString(
+    connectionString: string,
+    pipelineOptions?: INewPipelineOptions
+  ): BlockBlobURL {
+    const extractedCreds = extractPartsWithValidation(connectionString);
+    const sharedKeyCredential = new SharedKeyCredential(
+      extractedCreds.accountName,
+      extractedCreds.accountKey
+    );
+    const pipeline = StorageURL.newPipeline(sharedKeyCredential, pipelineOptions);
+    // using the new constructor that takes BlobConnectionOptions
+    return new BlockBlobURL(extractedCreds.url, pipeline);
   }
 
   /**
