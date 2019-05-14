@@ -4,6 +4,7 @@ import { ListContainersIncludeType } from "./generated/lib/models/index";
 import { Service } from "./generated/lib/operations";
 import { Pipeline } from "./Pipeline";
 import { StorageURL } from "./StorageURL";
+import { extractPartsWithValidation } from "./utils/utils.common";
 
 export interface IServiceListContainersSegmentOptions {
   /**
@@ -57,11 +58,23 @@ export class ServiceURL extends StorageURL {
    *                            pipeline, or provide a customized pipeline.
    * @memberof ServiceURL
    */
-  constructor(url: string, pipeline: Pipeline) {
-    super(url, pipeline);
+  // constructor(url: string, pipeline: Pipeline) {
+  //   super(url, pipeline);
+  //   this.serviceContext = new Service(this.storageClientContext);
+  // }
+  /**
+   * Creates an instance of ServiceURL.
+   *
+   * @param {string} connectionString
+   * @param {Pipeline} pipeline Call StorageURL.newPipeline() to create a default
+   *                            pipeline, or provide a customized pipeline.
+   * @memberof ServiceURL
+   */
+  constructor(connectionString: string, pipeline: Pipeline) {
+    const extractedCreds = extractPartsWithValidation(connectionString);
+    super(extractedCreds.url, pipeline);
     this.serviceContext = new Service(this.storageClientContext);
   }
-
   /**
    * Creates a new ServiceURL object identical to the source but with the
    * specified request policy pipeline.

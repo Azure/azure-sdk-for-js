@@ -16,16 +16,11 @@ import {
 
 async function main() {
   // Enter your storage account name and shared key
-  // const account = "";
-  // const accountKey = "";
-
-  // Enter your connection string
-  const connectionString = "";
+  const account = "";
+  const accountKey = "";
 
   // Use SharedKeyCredential with storage account and account key
-  // const sharedKeyCredential = new SharedKeyCredential(account, accountKey);
-  // Use SharedKeyCredential with connectionString
-  const sharedKeyCredential = new SharedKeyCredential(connectionString);
+  const sharedKeyCredential = new SharedKeyCredential(account, accountKey);
 
   // Use TokenCredential with OAuth token
   const tokenCredential = new TokenCredential("token");
@@ -37,18 +32,16 @@ async function main() {
   // Use sharedKeyCredential, tokenCredential or anonymousCredential to create a pipeline
   const pipeline = StorageURL.newPipeline(sharedKeyCredential);
 
-  // Extract account name from connection string for ServiceURL
-  const account =
-    connectionString.match(
-      "DefaultEndpointsProtocol=https;AccountName=(.*);AccountKey=(.*);EndpointSuffix=core.windows.net"
-    )![1] || "";
-  // List containers
-  const serviceURL = new ServiceURL(
-    // When using AnonymousCredential, following url should include a valid SAS or support public access
-    `https://${account}.blob.core.windows.net`,
-    pipeline
-  );
+  const CONNECTION_STRING = "";
 
+  // List containers
+  // const serviceURL = new ServiceURL(
+  //   // When using AnonymousCredential, following url should include a valid SAS or support public access
+  //   `https://${account}.blob.core.windows.net`,
+  //   pipeline
+  // );
+  // List containers
+  const serviceURL = new ServiceURL(CONNECTION_STRING, pipeline);
   let marker;
   do {
     const listContainersResponse: Models.ServiceListContainersSegmentResponse = await serviceURL.listContainersSegment(
@@ -67,25 +60,15 @@ async function main() {
   const containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
 
   const createContainerResponse = await containerURL.create(Aborter.none);
-  console.log(
-    `Create container ${containerName} successfully`,
-    createContainerResponse.requestId
-  );
+  console.log(`Create container ${containerName} successfully`, createContainerResponse.requestId);
 
   // Create a blob
   const content = "hello";
   const blobName = "newblob" + new Date().getTime();
   const blobURL = BlobURL.fromContainerURL(containerURL, blobName);
   const blockBlobURL = BlockBlobURL.fromBlobURL(blobURL);
-  const uploadBlobResponse = await blockBlobURL.upload(
-    Aborter.none,
-    content,
-    content.length
-  );
-  console.log(
-    `Upload block blob ${blobName} successfully`,
-    uploadBlobResponse.requestId
-  );
+  const uploadBlobResponse = await blockBlobURL.upload(Aborter.none, content, content.length);
+  console.log(`Upload block blob ${blobName} successfully`, uploadBlobResponse.requestId);
 
   // List blobs
   marker = undefined;
@@ -123,7 +106,7 @@ async function main() {
 async function streamToString(readableStream: NodeJS.ReadableStream) {
   return new Promise((resolve, reject) => {
     const chunks: string[] = [];
-    readableStream.on("data", data => {
+    readableStream.on("data", (data) => {
       chunks.push(data.toString());
     });
     readableStream.on("end", () => {
@@ -138,6 +121,6 @@ main()
   .then(() => {
     console.log("Successfully executed sample.");
   })
-  .catch(err => {
+  .catch((err) => {
     console.log(err.message);
   });
