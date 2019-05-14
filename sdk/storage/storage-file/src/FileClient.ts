@@ -1,13 +1,13 @@
 import { HttpRequestBody, HttpResponse, isNode, TransferProgressEvent } from "@azure/ms-rest-js";
 import { Aborter } from "./Aborter";
-import { DirectoryURL } from "./DirectoryURL";
+import { DirectoryClient } from "./DirectoryClient";
 import { FileDownloadResponse } from "./FileDownloadResponse";
 import * as Models from "./generated/lib/models";
 import { File } from "./generated/lib/operations";
 import { IRange, rangeToString } from "./IRange";
 import { IFileHTTPHeaders, IMetadata } from "./models";
 import { Pipeline } from "./Pipeline";
-import { StorageURL } from "./StorageURL";
+import { StorageClient } from "./StorageClient";
 import {
   DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS,
   FILE_MAX_SIZE_BYTES,
@@ -42,7 +42,7 @@ export interface IFileDownloadOptions {
    * Above kind of ends will not trigger retry policy defined in a pipeline,
    * because they doesn't emit network errors.
    *
-   * With this option, every additional retry means an additional FileURL.download() request will be made
+   * With this option, every additional retry means an additional FileClient.download() request will be made
    * from the broken point, until the requested range has been successfully downloaded or maxRetryRequests is reached.
    *
    * Default value is 5, please set a larger value when loading large files in poor network.
@@ -144,26 +144,26 @@ export interface IFileStartCopyOptions {
 }
 
 /**
- * A FileURL represents a URL to an Azure Storage file.
+ * A FileClient represents a URL to an Azure Storage file.
  *
  * @export
- * @class FileURL
- * @extends {StorageURL}
+ * @class FileClient
+ * @extends {StorageClient}
  */
-export class FileURL extends StorageURL {
+export class FileClient extends StorageClient {
   /**
-   * Creates a FileURL object from a DirectoryURL object.
+   * Creates a FileClient object from a DirectoryClient object.
    *
    * @static
-   * @param {DirectoryURL} directoryURL A DirectoryURL object
+   * @param {DirectoryClient} directoryClient A DirectoryClient object
    * @param {string} fileName A file name
    * @returns
-   * @memberof FileURL
+   * @memberof FileClient
    */
-  public static fromDirectoryURL(directoryURL: DirectoryURL, fileName: string) {
-    return new FileURL(
-      appendToURLPath(directoryURL.url, encodeURIComponent(fileName)),
-      directoryURL.pipeline
+  public static fromDirectoryClient(directoryClient: DirectoryClient, fileName: string) {
+    return new FileClient(
+      appendToURLPath(directoryClient.url, encodeURIComponent(fileName)),
+      directoryClient.pipeline
     );
   }
 
@@ -172,12 +172,12 @@ export class FileURL extends StorageURL {
    *
    * @private
    * @type {File}
-   * @memberof FileURL
+   * @memberof FileClient
    */
   private context: File;
 
   /**
-   * Creates an instance of FileURL.
+   * Creates an instance of FileClient.
    *
    * @param {string} url A URL string pointing to Azure Storage file, such as
    *                     "https://myaccount.file.core.windows.net/myshare/mydirectory/file". You can
@@ -187,9 +187,9 @@ export class FileURL extends StorageURL {
    *                     Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
    *                     However, if a file or directory name includes %, file or directory name must be encoded in the URL.
    *                     Such as a file named "myfile%", the URL should be "https://myaccount.file.core.windows.net/myshare/mydirectory/myfile%25".
-   * @param {Pipeline} pipeline Call StorageURL.newPipeline() to create a default
+   * @param {Pipeline} pipeline Call StorageClient.newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
-   * @memberof FileURL
+   * @memberof FileClient
    */
   constructor(url: string, pipeline: Pipeline) {
     super(url, pipeline);
@@ -197,15 +197,15 @@ export class FileURL extends StorageURL {
   }
 
   /**
-   * Creates a new FileURL object identical to the source but with the
+   * Creates a new FileClient object identical to the source but with the
    * specified request policy pipeline.
    *
    * @param {Pipeline} pipeline
-   * @returns {FileURL}
-   * @memberof FileURL
+   * @returns {FileClient}
+   * @memberof FileClient
    */
-  public withPipeline(pipeline: Pipeline): FileURL {
-    return new FileURL(this.url, pipeline);
+  public withPipeline(pipeline: Pipeline): FileClient {
+    return new FileClient(this.url, pipeline);
   }
 
   /**
@@ -217,7 +217,7 @@ export class FileURL extends StorageURL {
    * @param {number} size Specifies the maximum size in bytes for the file, up to 1 TB.
    * @param {IFileCreateOptions} [options]
    * @returns {Promise<Models.FileCreateResponse>}
-   * @memberof FileURL
+   * @memberof FileClient
    */
   public async create(
     aborter: Aborter,
@@ -250,7 +250,7 @@ export class FileURL extends StorageURL {
    * @param {number} [count] How much data to be downloaded, > 0. Will download to the end when undefined
    * @param {IFileDownloadOptions} [options]
    * @returns {Promise<Models.FileDownloadResponse>}
-   * @memberof FileURL
+   * @memberof FileClient
    */
   public async download(
     aborter: Aborter,
@@ -329,7 +329,7 @@ export class FileURL extends StorageURL {
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
    * @returns {Promise<Models.FileGetPropertiesResponse>}
-   * @memberof FileURL
+   * @memberof FileClient
    */
   public async getProperties(aborter: Aborter): Promise<Models.FileGetPropertiesResponse> {
     return this.context.getProperties({
@@ -354,7 +354,7 @@ export class FileURL extends StorageURL {
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
    * @returns {Promise<Models.FileDeleteResponse>}
-   * @memberof FileURL
+   * @memberof FileClient
    */
   public async delete(aborter: Aborter): Promise<Models.FileDeleteResponse> {
     return this.context.deleteMethod({
@@ -374,7 +374,7 @@ export class FileURL extends StorageURL {
    * @param {fileHTTPHeaders} [IFileHTTPHeaders] File HTTP headers like Content-Type.
    *                                             Provide undefined will remove existing HTTP headers.
    * @returns {Promise<Models.FileSetHTTPHeadersResponse>}
-   * @memberof FileURL
+   * @memberof FileClient
    */
   public async setHTTPHeaders(
     aborter: Aborter,
@@ -397,7 +397,7 @@ export class FileURL extends StorageURL {
    *                        If the specified byte value is less than the current size of the file,
    *                        then all ranges above the specified byte value are cleared.
    * @returns {Promise<Models.FileSetHTTPHeadersResponse>}
-   * @memberof FileURL
+   * @memberof FileClient
    */
   public async resize(
     aborter: Aborter,
@@ -423,7 +423,7 @@ export class FileURL extends StorageURL {
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {IMetadata} [metadata] If no metadata provided, all existing directory metadata will be removed
    * @returns {Promise<Models.FileSetMetadataResponse>}
-   * @memberof FileURL
+   * @memberof FileClient
    */
   public async setMetadata(
     aborter: Aborter,
@@ -448,7 +448,7 @@ export class FileURL extends StorageURL {
    *                               string including non non-Base64/Hex-encoded characters.
    * @param {IFileUploadRangeOptions} [options]
    * @returns {Promise<Models.FileUploadRangeResponse>}
-   * @memberof FileURL
+   * @memberof FileClient
    */
   public async uploadRange(
     aborter: Aborter,
@@ -487,7 +487,7 @@ export class FileURL extends StorageURL {
    * @param {number} offset
    * @param {number} contentLength
    * @returns {Promise<Models.FileUploadRangeResponse>}
-   * @memberof FileURL
+   * @memberof FileClient
    */
   public async clearRange(
     aborter: Aborter,
@@ -510,7 +510,7 @@ export class FileURL extends StorageURL {
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {IFileGetRangeListOptions} [options]
    * @returns {Promise<FileGetRangeListResponse>}
-   * @memberof FileURL
+   * @memberof FileClient
    */
   public async getRangeList(
     aborter: Aborter,
@@ -549,7 +549,7 @@ export class FileURL extends StorageURL {
    * can also be specified as a copy source.
    * @param {IFileStartCopyOptions} [options]
    * @returns {Promise<Models.FileStartCopyResponse>}
-   * @memberof FileURL
+   * @memberof FileClient
    */
   public async startCopyFromURL(
     aborter: Aborter,
@@ -571,7 +571,7 @@ export class FileURL extends StorageURL {
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {string} copyId
    * @returns {Promise<Models.FileAbortCopyResponse>}
-   * @memberof FileURL
+   * @memberof FileClient
    */
   public async abortCopyFromURL(
     aborter: Aborter,

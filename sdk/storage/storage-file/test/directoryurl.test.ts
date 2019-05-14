@@ -1,33 +1,33 @@
 import * as assert from "assert";
 
 import { Aborter } from "../src/Aborter";
-import { DirectoryURL } from "../src/DirectoryURL";
-import { FileURL } from "../src/FileURL";
-import { ShareURL } from "../src/ShareURL";
+import { DirectoryClient } from "../src/DirectoryClient";
+import { FileClient } from "../src/FileClient";
+import { ShareClient } from "../src/ShareClient";
 import { getBSU, getUniqueName } from "./utils";
 import * as dotenv from "dotenv";
 dotenv.config({ path: "../.env" });
 
-describe("DirectoryURL", () => {
-  const serviceURL = getBSU();
+describe("DirectoryClient", () => {
+  const serviceClient = getBSU();
   let shareName = getUniqueName("share");
-  let shareURL = ShareURL.fromServiceURL(serviceURL, shareName);
+  let shareClient = ShareClient.fromServiceClient(serviceClient, shareName);
   let dirName = getUniqueName("dir");
-  let dirURL = DirectoryURL.fromShareURL(shareURL, dirName);
+  let dirClient = DirectoryClient.fromShareClient(shareClient, dirName);
 
   beforeEach(async () => {
     shareName = getUniqueName("share");
-    shareURL = ShareURL.fromServiceURL(serviceURL, shareName);
-    await shareURL.create(Aborter.none);
+    shareClient = ShareClient.fromServiceClient(serviceClient, shareName);
+    await shareClient.create(Aborter.none);
 
     dirName = getUniqueName("dir");
-    dirURL = DirectoryURL.fromShareURL(shareURL, dirName);
-    await dirURL.create(Aborter.none);
+    dirClient = DirectoryClient.fromShareClient(shareClient, dirName);
+    await dirClient.create(Aborter.none);
   });
 
   afterEach(async () => {
-    await dirURL.delete(Aborter.none);
-    await shareURL.delete(Aborter.none);
+    await dirClient.delete(Aborter.none);
+    await shareClient.delete(Aborter.none);
   });
 
   it("setMetadata", async () => {
@@ -37,9 +37,9 @@ describe("DirectoryURL", () => {
       keyb: "valb"
     };
     try {
-      await dirURL.setMetadata(Aborter.none, metadata);
+      await dirClient.setMetadata(Aborter.none, metadata);
 
-      const result = await dirURL.getProperties(Aborter.none);
+      const result = await dirClient.getProperties(Aborter.none);
       assert.deepEqual(result.metadata, metadata);
     } catch (err) {
       console.log(err);
@@ -47,7 +47,7 @@ describe("DirectoryURL", () => {
   });
 
   it("getProperties", async () => {
-    const result = await dirURL.getProperties(Aborter.none);
+    const result = await dirClient.getProperties(Aborter.none);
     assert.ok(result.eTag!.length > 0);
     assert.ok(result.lastModified);
     assert.ok(result.requestId);
@@ -61,10 +61,10 @@ describe("DirectoryURL", () => {
   });
 
   it("create with all parameters configured", async () => {
-    const cURL = ShareURL.fromServiceURL(serviceURL, getUniqueName(shareName));
+    const cClient = ShareClient.fromServiceClient(serviceClient, getUniqueName(shareName));
     const metadata = { key: "value" };
-    await cURL.create(Aborter.none, { metadata });
-    const result = await cURL.getProperties(Aborter.none);
+    await cClient.create(Aborter.none, { metadata });
+    const result = await cClient.getProperties(Aborter.none);
     assert.deepStrictEqual(result.metadata, metadata);
   });
 
@@ -74,81 +74,91 @@ describe("DirectoryURL", () => {
   });
 
   it("listFilesAndDirectoriesSegment under root directory", async () => {
-    const subDirURLs = [];
-    const rootDirURL = DirectoryURL.fromShareURL(shareURL, "");
+    const subDirClients = [];
+    const rootDirClient = DirectoryClient.fromShareClient(shareClient, "");
 
     const prefix = getUniqueName(`pre${new Date().getTime().toString()}`);
     for (let i = 0; i < 3; i++) {
-      const subDirURL = DirectoryURL.fromDirectoryURL(
-        rootDirURL,
+      const subDirClient = DirectoryClient.fromDirectoryClient(
+        rootDirClient,
         getUniqueName(`${prefix}dir${i}`)
       );
-      await subDirURL.create(Aborter.none);
-      subDirURLs.push(subDirURL);
+      await subDirClient.create(Aborter.none);
+      subDirClients.push(subDirClient);
     }
 
-    const subFileURLs = [];
+    const subFileClients = [];
     for (let i = 0; i < 3; i++) {
-      const subFileURL = FileURL.fromDirectoryURL(rootDirURL, getUniqueName(`${prefix}file${i}`));
-      await subFileURL.create(Aborter.none, 1024);
-      subFileURLs.push(subFileURL);
+      const subFileClient = FileClient.fromDirectoryClient(
+        rootDirClient,
+        getUniqueName(`${prefix}file${i}`)
+      );
+      await subFileClient.create(Aborter.none, 1024);
+      subFileClients.push(subFileClient);
     }
 
-    const result = await rootDirURL.listFilesAndDirectoriesSegment(Aborter.none, undefined, {
+    const result = await rootDirClient.listFilesAndDirectoriesSegment(Aborter.none, undefined, {
       prefix
     });
     assert.ok(result.serviceEndpoint.length > 0);
-    assert.ok(shareURL.url.indexOf(result.shareName));
+    assert.ok(shareClient.url.indexOf(result.shareName));
     assert.deepStrictEqual(result.nextMarker, "");
-    assert.deepStrictEqual(result.segment.directoryItems.length, subDirURLs.length);
-    assert.deepStrictEqual(result.segment.fileItems.length, subFileURLs.length);
+    assert.deepStrictEqual(result.segment.directoryItems.length, subDirClients.length);
+    assert.deepStrictEqual(result.segment.fileItems.length, subFileClients.length);
 
     let i = 0;
     for (const entry of result.segment.directoryItems) {
-      assert.ok(subDirURLs[i++].url.indexOf(entry.name) > 0);
+      assert.ok(subDirClients[i++].url.indexOf(entry.name) > 0);
     }
 
     i = 0;
     for (const entry of result.segment.fileItems) {
-      assert.ok(subFileURLs[i++].url.indexOf(entry.name) > 0);
+      assert.ok(subFileClients[i++].url.indexOf(entry.name) > 0);
     }
 
-    for (const subFile of subFileURLs) {
+    for (const subFile of subFileClients) {
       await subFile.delete(Aborter.none);
     }
-    for (const subDir of subDirURLs) {
+    for (const subDir of subDirClients) {
       await subDir.delete(Aborter.none);
     }
   });
 
   it("listFilesAndDirectoriesSegment with all parameters confirgured", async () => {
-    const subDirURLs = [];
-    const rootDirURL = DirectoryURL.fromShareURL(shareURL, "");
+    const subDirClients = [];
+    const rootDirClient = DirectoryClient.fromShareClient(shareClient, "");
 
     const prefix = getUniqueName(`pre${new Date().getTime().toString()}`);
     for (let i = 0; i < 3; i++) {
-      const subDirURL = DirectoryURL.fromDirectoryURL(
-        rootDirURL,
+      const subDirClient = DirectoryClient.fromDirectoryClient(
+        rootDirClient,
         getUniqueName(`${prefix}dir${i}`)
       );
-      await subDirURL.create(Aborter.none);
-      subDirURLs.push(subDirURL);
+      await subDirClient.create(Aborter.none);
+      subDirClients.push(subDirClient);
     }
 
-    const subFileURLs = [];
+    const subFileClients = [];
     for (let i = 0; i < 3; i++) {
-      const subFileURL = FileURL.fromDirectoryURL(rootDirURL, getUniqueName(`${prefix}file${i}`));
-      await subFileURL.create(Aborter.none, 1024);
-      subFileURLs.push(subFileURL);
+      const subFileClient = FileClient.fromDirectoryClient(
+        rootDirClient,
+        getUniqueName(`${prefix}file${i}`)
+      );
+      await subFileClient.create(Aborter.none, 1024);
+      subFileClients.push(subFileClient);
     }
 
-    const firstRequestSize = Math.ceil((subDirURLs.length + subFileURLs.length) / 2);
-    const secondRequestSize = subDirURLs.length + subFileURLs.length - firstRequestSize;
+    const firstRequestSize = Math.ceil((subDirClients.length + subFileClients.length) / 2);
+    const secondRequestSize = subDirClients.length + subFileClients.length - firstRequestSize;
 
-    const firstResult = await rootDirURL.listFilesAndDirectoriesSegment(Aborter.none, undefined, {
-      prefix,
-      maxresults: firstRequestSize
-    });
+    const firstResult = await rootDirClient.listFilesAndDirectoriesSegment(
+      Aborter.none,
+      undefined,
+      {
+        prefix,
+        maxresults: firstRequestSize
+      }
+    );
 
     assert.deepStrictEqual(
       firstResult.segment.directoryItems.length + firstResult.segment.fileItems.length,
@@ -156,7 +166,7 @@ describe("DirectoryURL", () => {
     );
     assert.notDeepEqual(firstResult.nextMarker, undefined);
 
-    const secondResult = await rootDirURL.listFilesAndDirectoriesSegment(
+    const secondResult = await rootDirClient.listFilesAndDirectoriesSegment(
       Aborter.none,
       firstResult.nextMarker,
       { prefix, maxresults: firstRequestSize + secondRequestSize }
@@ -166,10 +176,10 @@ describe("DirectoryURL", () => {
       secondRequestSize
     );
 
-    for (const subFile of subFileURLs) {
+    for (const subFile of subFileClients) {
       await subFile.delete(Aborter.none);
     }
-    for (const subDir of subDirURLs) {
+    for (const subDir of subDirClients) {
       await subDir.delete(Aborter.none);
     }
   });

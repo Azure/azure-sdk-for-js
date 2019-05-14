@@ -76,7 +76,7 @@ export interface IDownloadFromAzureFileOptions {
    * Above kind of ends will not trigger retry policy defined in a pipeline,
    * because they doesn't emit network errors.
    *
-   * With this option, every additional retry means an additional FileURL.download() request will be made
+   * With this option, every additional retry means an additional FileClient.download() request will be made
    * from the broken point, until the requested range has been successfully downloaded or
    * maxRetryRequestsPerRange is reached.
    *
