@@ -944,6 +944,20 @@ export interface AgentPool extends SubResource {
 }
 
 /**
+ * Profile for Windows VMs in the container service cluster.
+ */
+export interface ManagedClusterWindowsProfile {
+  /**
+   * The administrator username to use for Windows VMs.
+   */
+  adminUsername: string;
+  /**
+   * The administrator password to use for Windows VMs.
+   */
+  adminPassword?: string;
+}
+
+/**
  * Profile of network configuration.
  */
 export interface ContainerServiceNetworkProfile {
@@ -977,6 +991,10 @@ export interface ContainerServiceNetworkProfile {
    * Subnet IP ranges or the Kubernetes service address range. Default value: '172.17.0.1/16'.
    */
   dockerBridgeCidr?: string;
+  /**
+   * The load balancer sku for the managed cluster. Possible values include: 'standard', 'basic'
+   */
+  loadBalancerSku?: LoadBalancerSku;
 }
 
 /**
@@ -1017,6 +1035,29 @@ export interface ManagedClusterAADProfile {
 }
 
 /**
+ * Identity for the managed cluster.
+ */
+export interface ManagedClusterIdentity {
+  /**
+   * The principal id of the system assigned identity which is used by master components.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly principalId?: string;
+  /**
+   * The tenant id of the system assigned identity which is used by master components.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly tenantId?: string;
+  /**
+   * The type of identity used for the managed cluster. Type 'SystemAssigned' will use an
+   * implicitly created identity in master components and an auto-created user assigned identity in
+   * MC_ resource group in agent nodes. Type 'None' will not use MSI for the managed cluster,
+   * service principal will be used instead. Possible values include: 'SystemAssigned', 'None'
+   */
+  type?: ResourceIdentityType;
+}
+
+/**
  * Managed cluster.
  */
 export interface ManagedCluster extends Resource {
@@ -1025,6 +1066,11 @@ export interface ManagedCluster extends Resource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly provisioningState?: string;
+  /**
+   * The max number of agent pools for the managed cluster.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly maxAgentPools?: number;
   /**
    * Version of Kubernetes specified when creating the managed cluster.
    */
@@ -1047,6 +1093,10 @@ export interface ManagedCluster extends Resource {
    */
   linuxProfile?: ContainerServiceLinuxProfile;
   /**
+   * Profile for Windows VMs in the container service cluster.
+   */
+  windowsProfile?: ManagedClusterWindowsProfile;
+  /**
    * Information about a service principal identity for the cluster to use for manipulating Azure
    * APIs.
    */
@@ -1057,9 +1107,8 @@ export interface ManagedCluster extends Resource {
   addonProfiles?: { [propertyName: string]: ManagedClusterAddonProfile };
   /**
    * Name of the resource group containing agent pool nodes.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly nodeResourceGroup?: string;
+  nodeResourceGroup?: string;
   /**
    * Whether to enable Kubernetes Role-Based Access Control.
    */
@@ -1080,20 +1129,10 @@ export interface ManagedCluster extends Resource {
    * (PREVIEW) Authorized IP Ranges to kubernetes API server.
    */
   apiServerAuthorizedIPRanges?: string[];
-}
-
-/**
- * Contains information about orchestrator.
- */
-export interface OrchestratorProfile {
   /**
-   * Orchestrator type.
+   * The identity of the managed cluster, if configured.
    */
-  orchestratorType: string;
-  /**
-   * Orchestrator version (major, minor, patch).
-   */
-  orchestratorVersion: string;
+  identity?: ManagedClusterIdentity;
 }
 
 /**
@@ -1104,6 +1143,20 @@ export interface ManagedClusterAccessProfile extends Resource {
    * Base64-encoded Kubernetes configuration file.
    */
   kubeConfig?: Uint8Array;
+}
+
+/**
+ * An interface representing ManagedClusterPoolUpgradeProfileUpgradesItem.
+ */
+export interface ManagedClusterPoolUpgradeProfileUpgradesItem {
+  /**
+   * Kubernetes version (major, minor, patch).
+   */
+  kubernetesVersion?: string;
+  /**
+   * Whether Kubernetes version is currently in preview.
+   */
+  isPreview?: boolean;
 }
 
 /**
@@ -1126,7 +1179,7 @@ export interface ManagedClusterPoolUpgradeProfile {
   /**
    * List of orchestrator types and versions available for upgrade.
    */
-  upgrades?: string[];
+  upgrades?: ManagedClusterPoolUpgradeProfileUpgradesItem[];
 }
 
 /**
@@ -1186,6 +1239,24 @@ export interface CredentialResults {
 }
 
 /**
+ * Contains information about orchestrator.
+ */
+export interface OrchestratorProfile {
+  /**
+   * Orchestrator type.
+   */
+  orchestratorType?: string;
+  /**
+   * Orchestrator version (major, minor, patch).
+   */
+  orchestratorVersion: string;
+  /**
+   * Whether Kubernetes version is currently in preview.
+   */
+  isPreview?: boolean;
+}
+
+/**
  * The profile of an orchestrator and its available versions.
  */
 export interface OrchestratorVersionProfile {
@@ -1200,11 +1271,15 @@ export interface OrchestratorVersionProfile {
   /**
    * Installed by default if version is not specified.
    */
-  default: boolean;
+  default?: boolean;
+  /**
+   * Whether Kubernetes version is currently in preview.
+   */
+  isPreview?: boolean;
   /**
    * The list of available upgrade versions.
    */
-  upgrades: OrchestratorProfile[];
+  upgrades?: OrchestratorProfile[];
 }
 
 /**
@@ -1424,6 +1499,22 @@ export type NetworkPlugin = 'azure' | 'kubenet';
  * @enum {string}
  */
 export type NetworkPolicy = 'calico' | 'azure';
+
+/**
+ * Defines values for LoadBalancerSku.
+ * Possible values include: 'standard', 'basic'
+ * @readonly
+ * @enum {string}
+ */
+export type LoadBalancerSku = 'standard' | 'basic';
+
+/**
+ * Defines values for ResourceIdentityType.
+ * Possible values include: 'SystemAssigned', 'None'
+ * @readonly
+ * @enum {string}
+ */
+export type ResourceIdentityType = 'SystemAssigned' | 'None';
 
 /**
  * Contains response data for the list operation.
