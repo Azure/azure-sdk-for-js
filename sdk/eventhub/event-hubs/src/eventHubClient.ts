@@ -323,12 +323,12 @@ export class EventHubClient {
    */
   static createFromConnectionString(connectionString: string, path?: string, options?: ClientOptions): EventHubClient {
     const config = EventHubConnectionConfig.create(connectionString, path);
+    EventHubConnectionConfig.validate(config);
 
     config.webSocket = options && options.webSocket;
     config.webSocketEndpointPath = "$servicebus/websocket";
     config.webSocketConstructorOptions = options && options.webSocketConstructorOptions;
 
-    EventHubConnectionConfig.validate(config);
     const tokenProvider = new SasTokenProvider(
       config.endpoint,
       config.sharedAccessKeyName,
