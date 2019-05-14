@@ -23,7 +23,7 @@ jobs:
             node common/scripts/install-run-rush.js pack --verbose
           displayName: 'Pack libraries'
 
-      - ${{ if not(variables['PackageName'],'')}}:
+      - ${{ if ne(variables['PackageName'],'')}}:
         - script: |
             node common/scripts/install-run-rush.js build --verbose --to $(PackageName)
           displayName: 'Build libraries'
@@ -148,7 +148,7 @@ jobs:
           displayName: 'Test libraries'
 
       # On the other hand, if there is a PackageName, supply the --to option.
-      - ${{ if not(variables['PackageName'],'')}}:
+      - ${{ if ne(variables['PackageName'],'')}}:
         - script: |
             node common/scripts/install-run-rush.js build --verbose --to $(PackageName)
           displayName: 'Build libraries"'
