@@ -64,6 +64,14 @@ export class ServiceURL extends StorageURL {
     this.serviceContext = new Service(this.storageClientContext);
   }
 
+  /**
+   * Creates a new ServiceURL object from ConnectionString
+   *
+   * @param {string} connectionString
+   * @param {INewPipelineOptions} pipelineOptions
+   * @returns {ServiceURL}
+   * @memberof ServiceURL
+   */
   static fromConnectionString(
     connectionString: string,
     pipelineOptions?: INewPipelineOptions
