@@ -1,26 +1,26 @@
 import * as assert from "assert";
 
 import { Aborter } from "../../src/Aborter";
-import { QueueURL } from "../../src/QueueURL";
+import { QueueClient } from "../../src/QueueClient";
 import { getQSU, getUniqueName } from "../utils";
 
-describe("QueueURL Node", () => {
-  const serviceURL = getQSU();
+describe("QueueClient Node", () => {
+  const queueServiceClient = getQSU();
   let queueName: string = getUniqueName("queue");
-  let queueURL = QueueURL.fromServiceURL(serviceURL, queueName);
+  let queueClient = QueueClient.fromQueueServiceClient(queueServiceClient, queueName);
 
   beforeEach(async () => {
     queueName = getUniqueName("queue");
-    queueURL = QueueURL.fromServiceURL(serviceURL, queueName);
-    await queueURL.create(Aborter.none);
+    queueClient = QueueClient.fromQueueServiceClient(queueServiceClient, queueName);
+    await queueClient.create(Aborter.none);
   });
 
   afterEach(async () => {
-    await queueURL.delete(Aborter.none);
+    await queueClient.delete(Aborter.none);
   });
 
   it("getAccessPolicy", async () => {
-    const result = await queueURL.getAccessPolicy(Aborter.none);
+    const result = await queueClient.getAccessPolicy(Aborter.none);
     assert.ok(result.requestId);
     assert.ok(result.version);
     assert.ok(result.date);
@@ -38,8 +38,8 @@ describe("QueueURL Node", () => {
       }
     ];
 
-    await queueURL.setAccessPolicy(Aborter.none, queueAcl);
-    const result = await queueURL.getAccessPolicy(Aborter.none);
+    await queueClient.setAccessPolicy(Aborter.none, queueAcl);
+    const result = await queueClient.getAccessPolicy(Aborter.none);
     assert.deepEqual(result.signedIdentifiers, queueAcl);
   });
 });

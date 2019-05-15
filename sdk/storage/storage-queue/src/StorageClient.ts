@@ -32,12 +32,12 @@ export interface INewPipelineOptions {
 }
 
 /**
- * A ServiceURL represents a based URL class for ServiceURL, QueueURL and etc.
+ * A StorageClient represents a based client class for QueueServiceClient, QueueClient and etc.
  *
  * @export
- * @class StorageURL
+ * @class StorageClient
  */
-export abstract class StorageURL {
+export abstract class StorageClient {
   /**
    * A static method used to create a new Pipeline object with Credential provided.
    *
@@ -75,7 +75,7 @@ export abstract class StorageURL {
    *
    * @internal
    * @type {Pipeline}
-   * @memberof StorageURL
+   * @memberof StorageClient
    */
   public readonly pipeline: Pipeline;
 
@@ -83,7 +83,7 @@ export abstract class StorageURL {
    * URL string value.
    *
    * @type {string}
-   * @memberof StorageURL
+   * @memberof StorageClient
    */
   public readonly url: string;
 
@@ -93,15 +93,15 @@ export abstract class StorageURL {
    *
    * @protected
    * @type {StorageClient}
-   * @memberof StorageURL
+   * @memberof StorageClient
    */
   protected readonly storageClientContext: StorageClientContext;
 
   /**
-   * Creates an instance of StorageURL.
+   * Creates an instance of StorageClient.
    * @param {string} url
    * @param {Pipeline} pipeline
-   * @memberof StorageURL
+   * @memberof StorageClient
    */
   protected constructor(url: string, pipeline: Pipeline) {
     this.url = url;

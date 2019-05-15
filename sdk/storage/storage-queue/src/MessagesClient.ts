@@ -1,10 +1,10 @@
 import { HttpResponse } from "@azure/ms-rest-js";
-import * as Models from "../src/generated/lib/models";
+import * as Models from "./generated/lib/models";
 import { Aborter } from "./Aborter";
 import { Messages } from "./generated/lib/operations";
 import { Pipeline } from "./Pipeline";
-import { QueueURL } from "./QueueURL";
-import { StorageURL } from "./StorageURL";
+import { QueueClient } from "./QueueClient";
+import { StorageClient } from "./StorageClient";
 import { appendToURLPath } from "./utils/utils.common";
 
 export declare type MessagesEnqueueResponse = {
@@ -98,20 +98,20 @@ export declare type MessagesPeekResponse = {
   };
 
 /**
- * A MessagesURL represents a URL to an Azure Storage Queue's messages allowing you to manipulate its messages.
+ * A MessagesClient represents a URL to an Azure Storage Queue's messages allowing you to manipulate its messages.
  *
  * @export
- * @class MessagesURL
- * @extends {StorageURL}
+ * @class MessagesClient
+ * @extends {StorageClient}
  */
-export class MessagesURL extends StorageURL {
+export class MessagesClient extends StorageClient {
   /**
-   * Creates a MessagesURL object from QueueURL
-   * @param queueURL
+   * Creates a MessagesClient object from QueueClient
+   * @param queueClient
    * @param queueName
    */
-  public static fromQueueURL(queueURL: QueueURL): MessagesURL {
-    return new MessagesURL(appendToURLPath(queueURL.url, "messages"), queueURL.pipeline);
+  public static fromQueueClient(queueClient: QueueClient): MessagesClient {
+    return new MessagesClient(appendToURLPath(queueClient.url, "messages"), queueClient.pipeline);
   }
 
   /**
@@ -119,19 +119,19 @@ export class MessagesURL extends StorageURL {
    *
    * @private
    * @type {Messages}
-   * @memberof MessagesURL
+   * @memberof MessagesClient
    */
   private messagesContext: Messages;
 
   /**
-   * Creates an instance of MessagesURL.
+   * Creates an instance of MessagesClient.
    * @param {string} url A URL string pointing to Azure Storage queue's messages, such as
    *                     "https://myaccount.queue.core.windows.net/myqueue/messages". You can
    *                     append a SAS if using AnonymousCredential, such as
    *                     "https://myaccount.queue.core.windows.net/myqueue/messages?sasString".
-   * @param {Pipeline} pipeline Call StorageURL.newPipeline() to create a default
+   * @param {Pipeline} pipeline Call StorageClient.newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
-   * @memberof MessagesURL
+   * @memberof MessagesClient
    */
   constructor(url: string, pipeline: Pipeline) {
     super(url, pipeline);
@@ -139,15 +139,15 @@ export class MessagesURL extends StorageURL {
   }
 
   /**
-   * Creates a new MessagesURL object identical to the source but with the
+   * Creates a new MessagesClient object identical to the source but with the
    * specified request policy pipeline.
    *
    * @param {Pipeline} pipeline
-   * @returns {MessagesURL}
-   * @memberof MessagesURL
+   * @returns {MessagesClient}
+   * @memberof MessagesClient
    */
-  public withPipeline(pipeline: Pipeline): MessagesURL {
-    return new MessagesURL(this.url, pipeline);
+  public withPipeline(pipeline: Pipeline): MessagesClient {
+    return new MessagesClient(this.url, pipeline);
   }
 
   /**
@@ -157,7 +157,7 @@ export class MessagesURL extends StorageURL {
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
    * @returns {Promise<Models.MessageClearResponse>}
-   * @memberof MessagesURL
+   * @memberof MessagesClient
    */
   public async clear(aborter: Aborter): Promise<Models.MessagesClearResponse> {
     return this.messagesContext.clear({
@@ -177,7 +177,7 @@ export class MessagesURL extends StorageURL {
    * @param {string} messageText
    * @param {Models.MessagesEnqueueOptionalParams} [options]
    * @returns {Promise<Models.MessagesEnqueueResponse>}
-   * @memberof MessagesURL
+   * @memberof MessagesClient
    */
   public async enqueue(
     aborter: Aborter,
@@ -216,7 +216,7 @@ export class MessagesURL extends StorageURL {
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {Models.MessagesDequeueOptionalParams} [options]
    * @returns {Promise<Models.MessagesDequeueResponse>}
-   * @memberof MessagesURL
+   * @memberof MessagesClient
    */
   public async dequeue(
     aborter: Aborter,
@@ -251,7 +251,7 @@ export class MessagesURL extends StorageURL {
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {Models.MessagesPeekOptionalParams} [options]
    * @returns {Promise<Models.MessagesPeekResponse>}
-   * @memberof MessagesURL
+   * @memberof MessagesClient
    */
   public async peek(
     aborter: Aborter,

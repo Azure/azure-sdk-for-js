@@ -1,11 +1,11 @@
 import { HttpResponse } from "@azure/ms-rest-js";
-import * as Models from "../src/generated/lib/models";
+import * as Models from "./generated/lib/models";
 import { Aborter } from "./Aborter";
 import { Queue } from "./generated/lib/operations";
 import { IMetadata } from "./models";
 import { Pipeline } from "./Pipeline";
-import { ServiceURL } from "./ServiceURL";
-import { StorageURL } from "./StorageURL";
+import { QueueServiceClient } from "./QueueServiceClient";
+import { StorageClient } from "./StorageClient";
 import { appendToURLPath, truncatedISO8061Date } from "./utils/utils.common";
 
 export interface IQueueCreateOptions {
@@ -64,16 +64,22 @@ export declare type QueueGetAccessPolicyResponse = {
  *
  * @export
  * @class QueueURL
- * @extends {StorageURL}
+ * @extends {StorageClient}
  */
-export class QueueURL extends StorageURL {
+export class QueueClient extends StorageClient {
   /**
-   * Creates a QueueURL object from ServiceURL
-   * @param serviceURL
+   * Creates a QueueURL object from QueueServiceClient
+   * @param queueServiceClient
    * @param queueName
    */
-  public static fromServiceURL(serviceURL: ServiceURL, queueName: string): QueueURL {
-    return new QueueURL(appendToURLPath(serviceURL.url, queueName), serviceURL.pipeline);
+  public static fromQueueServiceClient(
+    queueServiceClient: QueueServiceClient,
+    queueName: string
+  ): QueueClient {
+    return new QueueClient(
+      appendToURLPath(queueServiceClient.url, queueName),
+      queueServiceClient.pipeline
+    );
   }
 
   /**
@@ -91,7 +97,7 @@ export class QueueURL extends StorageURL {
    *                     "https://myaccount.queue.core.windows.net/myqueue". You can
    *                     append a SAS if using AnonymousCredential, such as
    *                     "https://myaccount.queue.core.windows.net/myqueue?sasString".
-   * @param {Pipeline} pipeline Call StorageURL.newPipeline() to create a default
+   * @param {Pipeline} pipeline Call StorageClient.newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
    * @memberof QueueURL
    */
@@ -105,11 +111,11 @@ export class QueueURL extends StorageURL {
    * specified request policy pipeline.
    *
    * @param {Pipeline} pipeline
-   * @returns {QueueURL}
+   * @returns {QueueClient}
    * @memberof QueueURL
    */
-  public withPipeline(pipeline: Pipeline): QueueURL {
-    return new QueueURL(this.url, pipeline);
+  public withPipeline(pipeline: Pipeline): QueueClient {
+    return new QueueClient(this.url, pipeline);
   }
 
   /**

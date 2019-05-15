@@ -2,25 +2,31 @@ import * as Models from "./generated/lib/models";
 import { Aborter } from "./Aborter";
 import { MessageId } from "./generated/lib/operations";
 import { Pipeline } from "./Pipeline";
-import { MessagesURL } from "./MessagesURL";
-import { StorageURL } from "./StorageURL";
+import { MessagesClient } from "./MessagesClient";
+import { StorageClient } from "./StorageClient";
 import { appendToURLPath } from "./utils/utils.common";
 
 /**
- * A MessageIdURL represents a URL to a specific Azure Storage Queue message allowing you to manipulate the message.
+ * A MessageIdClient represents a URL to a specific Azure Storage Queue message allowing you to manipulate the message.
  *
  * @export
- * @class MessageIdURL
- * @extends {StorageURL}
+ * @class MessageIdClient
+ * @extends {StorageClient}
  */
-export class MessageIdURL extends StorageURL {
+export class MessageIdClient extends StorageClient {
   /**
-   * Creates a MessageIdURL object from MessagesURL
-   * @param messagesURL
+   * Creates a MessageIdClient object from MessagesClient
+   * @param messagesClient
    * @param messageId
    */
-  public static fromMessagesURL(messagesURL: MessagesURL, messageId: string): MessageIdURL {
-    return new MessageIdURL(appendToURLPath(messagesURL.url, messageId), messagesURL.pipeline);
+  public static fromMessagesClient(
+    messagesClient: MessagesClient,
+    messageId: string
+  ): MessageIdClient {
+    return new MessageIdClient(
+      appendToURLPath(messagesClient.url, messageId),
+      messagesClient.pipeline
+    );
   }
 
   /**
@@ -28,19 +34,19 @@ export class MessageIdURL extends StorageURL {
    *
    * @private
    * @type {MessageId}
-   * @memberof MessageIdURL
+   * @memberof MessageIdClient
    */
   private messageIdContext: MessageId;
 
   /**
-   * Creates an instance of MessageIdURL.
+   * Creates an instance of MessageIdClient.
    * @param {string} url A URL string pointing to Azure Storage queue's message, such as
    *                     "https://myaccount.queue.core.windows.net/myqueue/messages/messageid". You can
    *                     append a SAS if using AnonymousCredential, such as
    *                     "https://myaccount.queue.core.windows.net/myqueue/messages/messageid?sasString".
-   * @param {Pipeline} pipeline Call StorageURL.newPipeline() to create a default
+   * @param {Pipeline} pipeline Call StorageClient.newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
-   * @memberof MessageIdURL
+   * @memberof MessageIdClient
    */
   constructor(url: string, pipeline: Pipeline) {
     super(url, pipeline);
@@ -48,15 +54,15 @@ export class MessageIdURL extends StorageURL {
   }
 
   /**
-   * Creates a new MessageIdURL object identical to the source but with the
+   * Creates a new MessageIdClient object identical to the source but with the
    * specified request policy pipeline.
    *
    * @param {Pipeline} pipeline
-   * @returns {MessageIdURL}
-   * @memberof MessageIdURL
+   * @returns {MessageIdClient}
+   * @memberof MessageIdClient
    */
-  public withPipeline(pipeline: Pipeline): MessageIdURL {
-    return new MessageIdURL(this.url, pipeline);
+  public withPipeline(pipeline: Pipeline): MessageIdClient {
+    return new MessageIdClient(this.url, pipeline);
   }
 
   /**
@@ -67,7 +73,7 @@ export class MessageIdURL extends StorageURL {
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {string} popReceipt A valid pop receipt value returned from an earlier call to the dequeue messages or update message operation.
    * @returns {Promise<Models.MessageIdDeleteResponse>}
-   * @memberof MessageIdURL
+   * @memberof MessageIdClient
    */
   public async delete(
     aborter: Aborter,
@@ -94,7 +100,7 @@ export class MessageIdURL extends StorageURL {
    *                                   A message can be updated until it has been deleted or has expired.
    * @param {string} message Message to update.
    * @returns {Promise<Models.MessageIdUpdateResponse>}
-   * @memberof MessageIdURL
+   * @memberof MessageIdClient
    */
   public async update(
     aborter: Aborter,
