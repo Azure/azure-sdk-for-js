@@ -12,15 +12,9 @@ import {
 import { Constants, AmqpMessage, translate, ErrorNameConditionMapper } from "@azure/amqp-common";
 import * as log from "./log";
 import { ClientEntityContext } from "./clientEntityContext";
-<<<<<<< HEAD
-import { reorderLockToken } from "../src/util/utils";
-import { MessageReceiver } from "./core/messageReceiver";
-import { MessageSession } from "./session/messageSession";
-=======
 import { reorderLockToken, getAssociatedReceiverName } from "../src/util/utils";
 import { MessageReceiver } from "../src/core/messageReceiver";
 import { MessageSession } from "../src/session/messageSession";
->>>>>>> master
 import { getErrorMessageNotSupportedInReceiveAndDeleteMode } from "./util/errors";
 /**
  * The mode in which messages should be received. The 2 modes are `peekLock` and `receiveAndDelete`.
@@ -556,14 +550,14 @@ export function fromAmqpMessage(
     lockToken:
       delivery && delivery.tag && delivery.tag.length !== 0
         ? uuid_to_string(
-            shouldReorderLockToken === true
-              ? reorderLockToken(
-                  typeof delivery.tag === "string" ? Buffer.from(delivery.tag) : delivery.tag
-                )
-              : typeof delivery.tag === "string"
+          shouldReorderLockToken === true
+            ? reorderLockToken(
+              typeof delivery.tag === "string" ? Buffer.from(delivery.tag) : delivery.tag
+            )
+            : typeof delivery.tag === "string"
               ? Buffer.from(delivery.tag)
               : delivery.tag
-          )
+        )
         : undefined,
     ...sbmsg,
     ...props

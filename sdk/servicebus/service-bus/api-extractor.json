@@ -5,9 +5,9 @@
     "enabled": false
   },
   "apiReport": {
-    "enabled": false,
-    "reportFolder": "./etc"
-  },  
+    "enabled": true,
+    "reportFolder": "./review"
+  },
   "dtsRollup": {
     "enabled": true,
     "publicTrimmedFilePath": "./types/servicebus.d.ts"
