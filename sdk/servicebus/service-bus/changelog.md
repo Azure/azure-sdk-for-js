@@ -1,7 +1,7 @@
 # 2019-05-15 1.0.0
 
 - Pass value for `associated-link-name` in the application properties when making a request over the
-$management link. This is used by Service Bus to carry out some optimizations on their end.
+$management link. This is used to carry out optimizations by the service on the server side.
 - User agent string which is passed as a AMQP connection property is updated to follow the new standard.
 For example: `azsdk-js-azureservicebus/1.0.0/(NODE-VERSION v10.15.0) Windows_NT 10.0.17763`
 - Avoid type checks on the message before sending it, as `rhea` throws type errors while encoding the message.
