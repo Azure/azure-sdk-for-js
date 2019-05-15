@@ -478,7 +478,7 @@ describe("Streaming - Settle an already Settled message throws error", () => {
   const testError = (err: Error, operation: DispositionType) => {
     should.equal(
       err.message,
-      `Failed to ${operation} the message as this message has been already settled.`,
+      `Failed to ${operation} the message as this message is already settled.`,
       "ErrorMessage is different than expected"
     );
     errorWasThrown = true;
