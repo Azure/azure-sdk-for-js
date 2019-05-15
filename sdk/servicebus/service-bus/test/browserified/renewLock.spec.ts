@@ -63,18 +63,6 @@ describe("Unpartitioned Queue - Lock Renewal", function(): void {
     await afterEachTest();
   });
 
-  it("Batch Receiver: renewLock() resets lock duration each time.", async function(): Promise<
-    void
-  > {
-    await testBatchReceiverManualLockRenewalHappyCase(senderClient, receiverClient);
-  });
-
-  it("Batch Receiver: complete() after lock expiry with throws error", async function(): Promise<
-    void
-  > {
-    await testBatchReceiverManualLockRenewalErrorOnLockExpiry(senderClient, receiverClient);
-  });
-
   it("Streaming Receiver: renewLock() resets lock duration each time.", async function(): Promise<
     void
   > {
@@ -100,26 +88,6 @@ describe("Unpartitioned Queue - Lock Renewal", function(): void {
       willCompleteFail: false
     });
   });
-
-  it("Streaming Receiver: lock expires sometime after configured time", async function(): Promise<
-    void
-  > {
-    await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
-      maxAutoRenewDurationInSeconds: 35,
-      delayBeforeAttemptingToCompleteMessageInSeconds: 55,
-      willCompleteFail: true
-    });
-  }).timeout(90000);
-
-  it("Streaming Receiver: No lock renewal when config value is less than lock duration", async function(): Promise<
-    void
-  > {
-    await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
-      maxAutoRenewDurationInSeconds: 15,
-      delayBeforeAttemptingToCompleteMessageInSeconds: 31,
-      willCompleteFail: true
-    });
-  });
 });
 
 const lockDurationInMilliseconds = 30000;
@@ -129,89 +97,6 @@ let uncaughtErrorFromHandlers: Error | undefined;
 const onError: OnError = (err: MessagingError | Error) => {
   uncaughtErrorFromHandlers = err;
 };
-
-/**
- * Test renewLock() after receiving a message using Batch Receiver
- */
-async function testBatchReceiverManualLockRenewalHappyCase(
-  senderClient: QueueClient | TopicClient,
-  receiverClient: QueueClient | SubscriptionClient
-): Promise<void> {
-  const testMessage = TestMessage.getSample();
-  await senderClient.createSender().send(testMessage);
-
-  const receiver = receiverClient.createReceiver(ReceiveMode.peekLock);
-  const msgs = await receiver.receiveMessages(1);
-
-  // Compute expected initial lock expiry time
-  const expectedLockExpiryTimeUtc = new Date();
-  expectedLockExpiryTimeUtc.setSeconds(
-    expectedLockExpiryTimeUtc.getSeconds() + lockDurationInMilliseconds / 1000
-  );
-
-  should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
-  should.equal(msgs.length, 1, "Unexpected number of messages");
-  should.equal(msgs[0].body, testMessage.body, "MessageBody is different than expected");
-  should.equal(msgs[0].messageId, testMessage.messageId, "MessageId is different than expected");
-
-  // Verify initial lock expiry time on the message
-  assertTimestampsAreApproximatelyEqual(
-    msgs[0].lockedUntilUtc,
-    expectedLockExpiryTimeUtc,
-    "Initial"
-  );
-
-  await delay(5000);
-  if (msgs[0].lockToken) {
-    await receiver.renewMessageLock(msgs[0].lockToken);
-  }
-
-  // Compute expected lock expiry time after renewing lock after 5 seconds
-  expectedLockExpiryTimeUtc.setSeconds(expectedLockExpiryTimeUtc.getSeconds() + 5);
-
-  // Verify lock expiry time after renewLock()
-  assertTimestampsAreApproximatelyEqual(
-    msgs[0].lockedUntilUtc,
-    expectedLockExpiryTimeUtc,
-    "After renewlock()"
-  );
-
-  await msgs[0].complete();
-}
-
-/**
- * Test settling of message from Batch Receiver fails after message lock expires
- */
-async function testBatchReceiverManualLockRenewalErrorOnLockExpiry(
-  senderClient: QueueClient | TopicClient,
-  receiverClient: QueueClient | SubscriptionClient
-): Promise<void> {
-  const testMessage = TestMessage.getSample();
-  await senderClient.createSender().send(testMessage);
-
-  const receiver = receiverClient.createReceiver(ReceiveMode.peekLock);
-  const msgs = await receiver.receiveMessages(1);
-
-  should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
-  should.equal(msgs.length, 1, "Expected message length does not match");
-  should.equal(msgs[0].body, testMessage.body, "MessageBody is different than expected");
-  should.equal(msgs[0].messageId, testMessage.messageId, "MessageId is different than expected");
-
-  // Sleeping 30 seconds...
-  await delay(lockDurationInMilliseconds + 1000);
-
-  let errorWasThrown: boolean = false;
-  await msgs[0].complete().catch((err) => {
-    should.equal(err.name, "MessageLockLostError", "ErrorName is different than expected");
-    errorWasThrown = true;
-  });
-
-  should.equal(errorWasThrown, true, "Error thrown flag must be true");
-
-  // Clean up any left over messages
-  const unprocessedMsgs = await receiver.receiveMessages(1);
-  await unprocessedMsgs[0].complete();
-}
 
 /**
  * Test renewLock() after receiving a message using Streaming Receiver with autoLockRenewal disabled

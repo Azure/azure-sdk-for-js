@@ -10,15 +10,13 @@ import {
   ServiceBusClient,
   SubscriptionClient,
   ReceiveMode,
-  ServiceBusMessage
+  ServiceBusMessage,
+  delay
 } from "../../src";
-
-import { delay } from "rhea-promise";
 
 export class TestMessage {
   static sessionId: string = "my-session";
 
-  // @ts-ignore
   static getSample(): SendableMessageInfo {
     const randomNumber = Math.random();
     return {
@@ -40,7 +38,6 @@ export class TestMessage {
     };
   }
 
-  // @ts-ignore
   static getSessionSample(): SendableMessageInfo {
     const randomNumber = Math.random();
     return {
@@ -213,12 +210,9 @@ export function getEnvVars(): { [key: string]: string } {
 }
 
 export async function getTopicClientWithTwoSubscriptionClients(
-  // @ts-ignore
   namespace: ServiceBusClient
 ): Promise<{
-  // @ts-ignore
   topicClient: TopicClient;
-  // @ts-ignore
   subscriptionClients: SubscriptionClient[];
 }> {
   const subscriptionClients: SubscriptionClient[] = [];
@@ -230,7 +224,6 @@ export async function getTopicClientWithTwoSubscriptionClients(
   const subscription2Name =
     // @ts-ignore
     window.__env__["TOPIC_FILTER_DEFAULT_SUBSCRIPTION_NAME"] || "topic-filter-default-subscription";
-  // @ts-ignore
 
   subscriptionClients.push(namespace.createSubscriptionClient(topicName, subscription1Name));
   subscriptionClients.push(namespace.createSubscriptionClient(topicName, subscription2Name));
@@ -242,14 +235,11 @@ export async function getTopicClientWithTwoSubscriptionClients(
 }
 
 export async function getSenderReceiverClients(
-  // @ts-ignore
   namespace: ServiceBusClient,
   senderClientType: TestClientType,
   receiverClientType: TestClientType
 ): Promise<{
-  // @ts-ignore
   senderClient: QueueClient | TopicClient;
-  // @ts-ignore
   receiverClient: QueueClient | SubscriptionClient;
 }> {
   switch (receiverClientType) {
@@ -290,7 +280,6 @@ export async function getSenderReceiverClients(
       const subscriptionName =
         // @ts-ignore
         window.__env__["SUBSCRIPTION_NAME_NO_PARTITION"] || "unpartitioned-topic-subscription";
-      // @ts-ignore
 
       return {
         senderClient: namespace.createTopicClient(topicName),
@@ -381,7 +370,6 @@ export async function getSenderReceiverClients(
  * @param sessionId if passed, session receiver will be used instead of normal receiver
  */
 export async function purge(
-  // @ts-ignore
   receiverClient: QueueClient | SubscriptionClient,
   sessionId?: string
 ): Promise<void> {

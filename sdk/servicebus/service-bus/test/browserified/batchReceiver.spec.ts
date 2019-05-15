@@ -36,14 +36,11 @@ async function testPeekMsgsLength(
 
 let ns: ServiceBusClient;
 
-let errorWasThrown: boolean;
-
 let senderClient: QueueClient | TopicClient;
 let receiverClient: QueueClient | SubscriptionClient;
 let deadLetterClient: QueueClient | SubscriptionClient;
 let sender: Sender;
 let receiver: Receiver | SessionReceiver;
-const maxDeliveryCount = 10;
 
 async function beforeEachTest(
   senderType: TestClientType,
@@ -189,71 +186,6 @@ describe("Batch Receiver - Settle message", function(): void {
     await testAbandon(true);
   });
 
-  async function testAbandonMsgsTillMaxDeliveryCount(useSessions?: boolean): Promise<void> {
-    const testMessages = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
-    await sender.send(testMessages);
-    let abandonMsgCount = 0;
-
-    while (abandonMsgCount < maxDeliveryCount) {
-      const receivedMsgs = await receiver.receiveMessages(1);
-
-      should.equal(receivedMsgs.length, 1, "Unexpected number of messages");
-      should.equal(
-        receivedMsgs[0].messageId,
-        testMessages.messageId,
-        "MessageId is different than expected"
-      );
-      should.equal(
-        receivedMsgs[0].deliveryCount,
-        abandonMsgCount,
-        "DeliveryCount is different than expected"
-      );
-      abandonMsgCount++;
-
-      await receivedMsgs[0].abandon();
-    }
-
-    await testPeekMsgsLength(receiverClient, 0);
-
-    const deadLetterReceiver = deadLetterClient.createReceiver(ReceiveMode.peekLock);
-    const deadLetterMsgs = await deadLetterReceiver.receiveMessages(1);
-
-    should.equal(
-      Array.isArray(deadLetterMsgs),
-      true,
-      "`ReceivedMessages` from Deadletter is not an array"
-    );
-    should.equal(deadLetterMsgs.length, 1, "Unexpected number of messages");
-    should.equal(
-      deadLetterMsgs[0].body,
-      testMessages.body,
-      "MessageBody is different than expected"
-    );
-    should.equal(
-      deadLetterMsgs[0].messageId,
-      testMessages.messageId,
-      "MessageId is different than expected"
-    );
-
-    await deadLetterMsgs[0].complete();
-
-    await testPeekMsgsLength(deadLetterClient, 0);
-  }
-
-  it("Unpartitioned Queue: Multiple abandons until maxDeliveryCount.", async function(): Promise<
-    void
-  > {
-    await beforeEachTest(TestClientType.UnpartitionedQueue, TestClientType.UnpartitionedQueue);
-    await testAbandonMsgsTillMaxDeliveryCount();
-  });
-
-  it("Unpartitioned Queue with Sessions: Multiple abandons until maxDeliveryCount.", async function(): Promise<
-    void
-  > {
-    await beforeEachTest(TestClientType.UnpartitionedQueue, TestClientType.UnpartitionedQueue);
-    await testAbandonMsgsTillMaxDeliveryCount(true);
-  });
-
   async function testDefer(useSessions?: boolean): Promise<void> {
     const testMessages = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
     const msg = await sendReceiveMsg(testMessages);
@@ -347,148 +279,6 @@ describe("Batch Receiver - Settle message", function(): void {
       true
     );
     await testDeadletter(true);
-  });
-});
-
-describe("Batch Receiver - Settle deadlettered message", function(): void {
-  afterEach(async () => {
-    await afterEachTest();
-  });
-
-  let deadletterReceiver: Receiver;
-
-  async function deadLetterMessage(testMessage: SendableMessageInfo): Promise<ServiceBusMessage> {
-    await sender.send(testMessage);
-    const receivedMsgs = await receiver.receiveMessages(1);
-
-    should.equal(receivedMsgs.length, 1, "Unexpected number of messages");
-    should.equal(receivedMsgs[0].body, testMessage.body, "MessageBody is different than expected");
-    should.equal(
-      receivedMsgs[0].messageId,
-      testMessage.messageId,
-      "MessageId is different than expected"
-    );
-    should.equal(receivedMsgs[0].deliveryCount, 0, "DeliveryCount is different than expected");
-
-    await receivedMsgs[0].deadLetter();
-
-    await testPeekMsgsLength(receiverClient, 0);
-
-    deadletterReceiver = deadLetterClient.createReceiver(ReceiveMode.peekLock);
-    const deadLetterMsgs = await deadletterReceiver.receiveMessages(1);
-
-    should.equal(deadLetterMsgs.length, 1, "Unexpected number of messages");
-    should.equal(
-      deadLetterMsgs[0].body,
-      testMessage.body,
-      "MessageBody is different than expected"
-    );
-    should.equal(
-      deadLetterMsgs[0].messageId,
-      testMessage.messageId,
-      "MessageId is different than expected"
-    );
-    should.equal(deadLetterMsgs[0].deliveryCount, 0, "DeliveryCount is different than expected");
-
-    return deadLetterMsgs[0];
-  }
-
-  async function completeDeadLetteredMessage(
-    testMessage: SendableMessageInfo,
-    deadletterClient: QueueClient | SubscriptionClient,
-    expectedDeliverCount: number
-  ): Promise<void> {
-    const deadLetterMsgs = await deadletterReceiver.receiveMessages(1);
-
-    should.equal(deadLetterMsgs.length, 1, "Unexpected number of messages");
-    should.equal(
-      deadLetterMsgs[0].body,
-      testMessage.body,
-      "MessageBody is different than expected"
-    );
-    should.equal(
-      deadLetterMsgs[0].messageId,
-      testMessage.messageId,
-      "MessageId is different than expected"
-    );
-    should.equal(
-      deadLetterMsgs[0].deliveryCount,
-      expectedDeliverCount,
-      "DeliveryCount is different than expected"
-    );
-
-    await deadLetterMsgs[0].complete();
-    await testPeekMsgsLength(deadletterClient, 0);
-  }
-
-  async function testDeadletter(testMessage: SendableMessageInfo): Promise<void> {
-    const deadLetterMsg = await deadLetterMessage(testMessage);
-
-    await deadLetterMsg.deadLetter().catch((err) => {
-      should.equal(err.name, "InvalidOperationError", "ErrorName is different than expected");
-      errorWasThrown = true;
-    });
-
-    should.equal(errorWasThrown, true, "Error thrown flag must be true");
-
-    await completeDeadLetteredMessage(testMessage, deadLetterClient, 0);
-  }
-
-  it("Unpartitioned Queue: Throws error when dead lettering a dead lettered message", async function(): Promise<
-    void
-  > {
-    await beforeEachTest(TestClientType.UnpartitionedQueue, TestClientType.UnpartitionedQueue);
-    await testDeadletter(TestMessage.getSample());
-  });
-
-  async function testAbandon(testMessage: SendableMessageInfo): Promise<void> {
-    const deadLetterMsg = await deadLetterMessage(testMessage);
-
-    await deadLetterMsg.abandon();
-
-    await completeDeadLetteredMessage(testMessage, deadLetterClient, 0);
-  }
-
-  it("Unpartitioned Queue: Abandon a message received from dead letter queue", async function(): Promise<
-    void
-  > {
-    await beforeEachTest(TestClientType.UnpartitionedQueue, TestClientType.UnpartitionedQueue);
-    await testAbandon(TestMessage.getSample());
-  });
-
-  async function testDefer(testMessage: SendableMessageInfo): Promise<void> {
-    const deadLetterMsg = await deadLetterMessage(testMessage);
-
-    if (!deadLetterMsg.sequenceNumber) {
-      throw "Sequence Number can not be null";
-    }
-
-    const sequenceNumber = deadLetterMsg.sequenceNumber;
-    await deadLetterMsg.defer();
-
-    const deferredMsgs = await deadletterReceiver.receiveDeferredMessage(sequenceNumber);
-    if (!deferredMsgs) {
-      throw "No message received for sequence number";
-    }
-    should.equal(deferredMsgs.body, testMessage.body, "MessageBody is different than expected");
-    should.equal(
-      deferredMsgs.messageId,
-      testMessage.messageId,
-      "MessageId is different than expected"
-    );
-
-    await deferredMsgs.complete();
-
-    await testPeekMsgsLength(receiverClient, 0);
-
-    await testPeekMsgsLength(deadLetterClient, 0);
-  }
-
-  it("Unpartitioned Queue: Defer a message received from dead letter queue", async function(): Promise<
-    void
-  > {
-    await beforeEachTest(TestClientType.UnpartitionedQueue, TestClientType.UnpartitionedQueue);
-    await testDefer(TestMessage.getSample());
   });
 });
 
