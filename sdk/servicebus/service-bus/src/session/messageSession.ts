@@ -14,6 +14,7 @@ import {
   EventContext,
   ReceiverOptions,
   ReceiverEvents,
+  AmqpError,
   isAmqpError
 } from "rhea-promise";
 import * as log from "../log";
@@ -937,12 +938,19 @@ export class MessageSession extends LinkEntity {
         this._deliveryDispositionMap.delete(delivery.id);
         log.receiver(
           "[%s] Disposition for delivery id: %d, did not complete in %d milliseconds. " +
-            "Hence resolving the promise.",
+            "Hence rejecting the promise with timeout error",
           this._context.namespace.connectionId,
           delivery.id,
           messageDispositionTimeout
         );
-        return resolve();
+
+        const e: AmqpError = {
+          condition: ErrorNameConditionMapper.ServiceUnavailableError,
+          description:
+            "Operation to settle the message has timed out. The disposition of the " +
+            "message may or may not be successful"
+        };
+        return reject(translate(e));
       }, messageDispositionTimeout);
       this._deliveryDispositionMap.set(delivery.id, {
         resolve: resolve,
