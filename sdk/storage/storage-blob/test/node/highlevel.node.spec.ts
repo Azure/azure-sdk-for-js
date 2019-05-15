@@ -15,9 +15,9 @@ import { createRandomLocalFile, getBSU, getUniqueName, readStreamToLocalFile } f
 
 // tslint:disable:no-empty
 describe("Highlevel", () => {
-  const serviceClient = getBSU();
+  const blobServiceClient = getBSU();
   let containerName = getUniqueName("container");
-  let containerClient = ContainerClient.fromServiceClient(serviceClient, containerName);
+  let containerClient = ContainerClient.fromBlobServiceClient(blobServiceClient, containerName);
   let blobName = getUniqueName("blob");
   let blobClient = BlobClient.fromContainerClient(containerClient, blobName);
   let blockBlobClient = BlockBlobClient.fromBlobClient(blobClient);
@@ -29,7 +29,7 @@ describe("Highlevel", () => {
 
   beforeEach(async () => {
     containerName = getUniqueName("container");
-    containerClient = ContainerClient.fromServiceClient(serviceClient, containerName);
+    containerClient = ContainerClient.fromBlobServiceClient(blobServiceClient, containerName);
     await containerClient.create(Aborter.none);
     blobName = getUniqueName("blob");
     blobClient = BlobClient.fromContainerClient(containerClient, blobName);

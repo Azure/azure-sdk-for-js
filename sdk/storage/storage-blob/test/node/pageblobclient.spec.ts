@@ -7,16 +7,16 @@ import { PageBlobClient } from "../../src/PageBlobClient";
 import { getBSU, getUniqueName, sleep } from "../utils";
 
 describe("PageBlobClient", () => {
-  const serviceClient = getBSU();
+  const blobServiceClient = getBSU();
   let containerName: string = getUniqueName("container");
-  let containerClient = ContainerClient.fromServiceClient(serviceClient, containerName);
+  let containerClient = ContainerClient.fromBlobServiceClient(blobServiceClient, containerName);
   let blobName: string = getUniqueName("blob");
   let blobClient = BlobClient.fromContainerClient(containerClient, blobName);
   let pageBlobClient = PageBlobClient.fromBlobClient(blobClient);
 
   beforeEach(async () => {
     containerName = getUniqueName("container");
-    containerClient = ContainerClient.fromServiceClient(serviceClient, containerName);
+    containerClient = ContainerClient.fromBlobServiceClient(blobServiceClient, containerName);
     await containerClient.create(Aborter.none);
     blobName = getUniqueName("blob");
     blobClient = BlobClient.fromContainerClient(containerClient, blobName);

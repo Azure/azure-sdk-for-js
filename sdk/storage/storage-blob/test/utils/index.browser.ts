@@ -1,10 +1,10 @@
 import { AnonymousCredential } from "../../src/credentials/AnonymousCredential";
-import { ServiceClient } from "../../src/ServiceClient";
+import { BlobServiceClient } from "../../src/BlobServiceClient";
 import { StorageClient } from "../../src/StorageClient";
 
 export * from "./testutils.common";
 
-export function getGenericBSU(accountType: string, accountNameSuffix: string = ""): ServiceClient {
+export function getGenericBSU(accountType: string, accountNameSuffix: string = ""): BlobServiceClient {
   const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
   const accountSASEnvVar = `${accountType}ACCOUNT_SAS`;
 
@@ -29,14 +29,14 @@ export function getGenericBSU(accountType: string, accountNameSuffix: string = "
     // logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO)
   });
   const blobPrimaryURL = `https://${accountName}${accountNameSuffix}.blob.core.windows.net${accountSAS}`;
-  return new ServiceClient(blobPrimaryURL, pipeline);
+  return new BlobServiceClient(blobPrimaryURL, pipeline);
 }
 
-export function getBSU(): ServiceClient {
+export function getBSU(): BlobServiceClient {
   return getGenericBSU("");
 }
 
-export function getAlternateBSU(): ServiceClient {
+export function getAlternateBSU(): BlobServiceClient {
   return getGenericBSU("SECONDARY_", "-secondary");
 }
 
