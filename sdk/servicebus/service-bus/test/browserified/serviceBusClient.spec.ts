@@ -3,7 +3,7 @@
 
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
-import dotenv from "dotenv";
+import * as dotenv from "dotenv";
 import long from "long";
 import {
   delay,
