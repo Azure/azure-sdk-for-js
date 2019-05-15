@@ -17,6 +17,7 @@ import {
 } from "./util/errors";
 import { generate_uuid } from "rhea-promise";
 import { ClientEntityContext } from "./clientEntityContext";
+import { getAssociatedReceiverName } from "../src/util/utils";
 
 /**
  * Describes the client that allows interacting with a Service Bus Queue.
@@ -204,13 +205,10 @@ export class QueueClient implements Client {
       this._context.isClosed
     );
 
-    let receiverName;
-    if (this._context.batchingReceiver) {
-      receiverName = this._context.batchingReceiver.name;
-    } else if (this._context.streamingReceiver) {
-      receiverName = this._context.streamingReceiver.name;
-    }
-    return this._context.managementClient!.peek(maxMessageCount, receiverName);
+    return this._context.managementClient!.peek(
+      maxMessageCount,
+      getAssociatedReceiverName(this._context)
+    );
   }
 
   /**
@@ -233,18 +231,11 @@ export class QueueClient implements Client {
       this._context.isClosed
     );
 
-    let receiverName;
-    if (this._context.batchingReceiver) {
-      receiverName = this._context.batchingReceiver.name;
-    } else if (this._context.streamingReceiver) {
-      receiverName = this._context.streamingReceiver.name;
-    }
-
     return this._context.managementClient!.peekBySequenceNumber(
       fromSequenceNumber,
       maxMessageCount,
       undefined,
-      receiverName
+      getAssociatedReceiverName(this._context)
     );
   }
 
