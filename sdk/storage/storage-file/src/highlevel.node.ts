@@ -16,8 +16,6 @@ import { streamToBuffer } from "./utils/utils.node";
  * Uploads a local file to an Azure file.
  *
  * @export
- * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
- *                          goto documents of Aborter for more examples about request cancellation
  * @param {string} filePath Full path of local file
  * @param {FileClient} fileClient FileClient
  * @param {IUploadToAzureFileOptions} [options]
@@ -50,8 +48,6 @@ export async function uploadFileToAzureFile(
  * is the offset in the Azure file to be uploaded.
  *
  * @export
- * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
- *                          goto documents of Aborter for more examples about request cancellation
  * @param {(offset: number) => NodeJS.ReadableStream} streamFactory Returns a Node.js Readable stream starting
  *                                                                  from the offset defined
  * @param {number} size Size of the Azure file
@@ -127,8 +123,6 @@ async function uploadResetableStreamToAzureFile(
  * Offset and count are optional, pass 0 for both to download the entire file.
  *
  * @export
- * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
- *                          goto documents of Aborter for more examples about request cancellation
  * @param {Buffer} buffer Buffer to be fill, must have length larger than count
  * @param {FileClient} fileClient A FileClient object
  * @param {number} offset From which position of the Azure File to download
@@ -251,8 +245,6 @@ export interface IUploadStreamToAzureFileOptions {
  *   parameter, which will avoid Buffer.concat() operations.
  *
  * @export
- * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
- *                          goto documents of Aborter for more examples about request cancellation
  * @param {Readable} stream Node.js Readable stream. Must be less or equal than file size.
  * @param {number} size Size of file to be created. Maxium size allowed is 1TB.
  *                      If this value is larger than stream size, there will be empty bytes in file tail.

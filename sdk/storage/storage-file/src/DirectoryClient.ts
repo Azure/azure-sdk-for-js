@@ -135,8 +135,6 @@ export class DirectoryClient extends StorageClient {
    * Creates a new directory under the specified share or parent directory.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-directory
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
    * @param {IDirectoryCreateOptions} [options]
    * @returns {Promise<Models.DirectoryCreateResponse>}
    * @memberof DirectoryClient
@@ -157,8 +155,6 @@ export class DirectoryClient extends StorageClient {
    * subdirectories.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-directory-properties
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
    * @returns {Promise<Models.DirectoryGetPropertiesResponse>}
    * @memberof DirectoryClient
    */
@@ -176,8 +172,6 @@ export class DirectoryClient extends StorageClient {
    * deleted.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-directory
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
    * @returns {Promise<Models.DirectoryDeleteResponse>}
    * @memberof DirectoryClient
    */
@@ -194,8 +188,6 @@ export class DirectoryClient extends StorageClient {
    * Updates user defined metadata for the specified directory.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-directory-metadata
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
    * @param {IMetadata} [metadata] If no metadata provided, all existing directory metadata will be removed
    * @returns {Promise<Models.DirectorySetMetadataResponse>}
    * @memberof DirectoryClient
@@ -216,8 +208,6 @@ export class DirectoryClient extends StorageClient {
    * contents only for a single level of the directory hierarchy.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/list-directories-and-files
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
    * @param {string} [marker]
    * @param {IDirectoryListFilesAndDirectoriesSegmentOptions} [options]
    * @returns {Promise<Models.DirectoryListFilesAndDirectoriesSegmentResponse>}

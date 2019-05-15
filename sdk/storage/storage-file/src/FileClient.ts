@@ -245,8 +245,6 @@ export class FileClient extends StorageClient {
    * Creates a new file or replaces a file. Note it only initializes the file with no content.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-file
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
    * @param {number} size Specifies the maximum size in bytes for the file, up to 1 TB.
    * @param {IFileCreateOptions} [options]
    * @returns {Promise<Models.FileCreateResponse>}
@@ -277,8 +275,6 @@ export class FileClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-file
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
    * @param {number} offset From which position of the file to download, >= 0
    * @param {number} [count] How much data to be downloaded, > 0. Will download to the end when undefined
    * @param {IFileDownloadOptions} [options]
@@ -359,8 +355,6 @@ export class FileClient extends StorageClient {
    * for the file. It does not return the content of the file.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-file-properties
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
    * @returns {Promise<Models.FileGetPropertiesResponse>}
    * @memberof FileClient
    */
@@ -387,8 +381,6 @@ export class FileClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-file2
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
    * @returns {Promise<Models.FileDeleteResponse>}
    * @memberof FileClient
    */
@@ -406,8 +398,6 @@ export class FileClient extends StorageClient {
    * these file HTTP headers without a value will be cleared.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-file-properties
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
    * @param {fileHTTPHeaders} [IFileHTTPHeaders] File HTTP headers like Content-Type.
    *                                             Provide undefined will remove existing HTTP headers.
    * @returns {Promise<Models.FileSetHTTPHeadersResponse>}
@@ -429,8 +419,6 @@ export class FileClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-file-properties
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
    * @param {number} length Resizes a file to the specified size in bytes.
    *                        If the specified byte value is less than the current size of the file,
    *                        then all ranges above the specified byte value are cleared.
@@ -458,8 +446,6 @@ export class FileClient extends StorageClient {
    * metadata will be removed.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-file-metadata
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
    * @param {IMetadata} [metadata] If no metadata provided, all existing directory metadata will be removed
    * @returns {Promise<Models.FileSetMetadataResponse>}
    * @memberof FileClient
@@ -479,8 +465,6 @@ export class FileClient extends StorageClient {
    * Upload a range of bytes to a file. Both the start and count of the
    * range must be specified. The range can be up to 4 MB in size.
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
    * @param {HttpRequestBody} body Blob, string, ArrayBuffer, ArrayBufferView or a function
    *                               which returns a new Readable stream whose offset is from data source beginning.
    * @param {number} offset Offset position of the destination Azure File to upload.
@@ -522,8 +506,6 @@ export class FileClient extends StorageClient {
    * Clears the specified range and
    * releases the space used in storage for that range.
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
    * @param {number} offset
    * @param {number} contentLength
    * @returns {Promise<Models.FileUploadRangeResponse>}
@@ -547,8 +529,6 @@ export class FileClient extends StorageClient {
   /**
    * Returns the list of valid ranges for a file.
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
    * @param {IFileGetRangeListOptions} [options]
    * @returns {Promise<FileGetRangeListResponse>}
    * @memberof FileClient
@@ -579,8 +559,6 @@ export class FileClient extends StorageClient {
   /**
    * Copies a blob or file to a destination file within the storage account.
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
    * @param {string} copySource Specifies the URL of the source file or blob, up to 2 KB in length.
    * To copy a file to another file within the same storage account, you may use Shared Key to
    * authenticate the source file. If you are copying a file from another storage account, or if you
@@ -608,8 +586,6 @@ export class FileClient extends StorageClient {
    * metadata.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/abort-copy-file
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
    * @param {string} copyId
    * @returns {Promise<Models.FileAbortCopyResponse>}
    * @memberof FileClient

@@ -10,8 +10,6 @@ import { FILE_RANGE_MAX_SIZE_BYTES, DEFAULT_HIGH_LEVEL_PARALLELISM } from "./uti
  * Uploads a browser Blob/File/ArrayBuffer/ArrayBufferView object to an Azure File.
  *
  * @export
- * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
- *                          goto documents of Aborter for more examples about request cancellation
  * @param {Blob | ArrayBuffer | ArrayBufferView} browserData Blob, File, ArrayBuffer or ArrayBufferView
  * @param {FileClient} fileClient
  * @param {IUploadToAzureFileOptions} [options]
@@ -39,8 +37,6 @@ export async function uploadBrowserDataToAzureFile(
  * Uploads a browser Blob object to an Azure file. Requires a blobFactory as the data source,
  * which need to return a Blob object with the offset and size provided.
  *
- * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
- *                          goto documents of Aborter for more examples about request cancellation
  * @param {(offset: number, size: number) => Blob} blobFactory
  * @param {number} size
  * @param {FileClient} fileClient

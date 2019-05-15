@@ -361,7 +361,6 @@ export class FileDownloadResponse implements Models.FileDownloadResponse {
   /**
    * Creates an instance of FileDownloadResponse.
    *
-   * @param {Aborter} aborter
    * @param {Models.FileDownloadResponse} originalResponse
    * @param {ReadableStreamGetter} getter
    * @param {number} offset

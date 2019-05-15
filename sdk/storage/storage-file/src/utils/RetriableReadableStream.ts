@@ -59,8 +59,6 @@ export class RetriableReadableStream extends Readable {
   /**
    * Creates an instance of RetriableReadableStream.
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
    * @param {NodeJS.ReadableStream} source The current ReadableStream returned from getter
    * @param {ReadableStreamGetter} getter A method calling downloading request returning
    *                                      a new ReadableStream from specified offset

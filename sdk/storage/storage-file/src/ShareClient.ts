@@ -210,8 +210,6 @@ export class ShareClient extends StorageClient {
    * the same name already exists, the operation fails.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-share
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
    * @param {IShareCreateOptions} [options]
    * @returns {Promise<Models.ShareCreateResponse>}
    * @memberof ShareClient
@@ -229,8 +227,6 @@ export class ShareClient extends StorageClient {
    * share.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-share-properties
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
    * @returns {Promise<Models.ShareGetPropertiesResponse>}
    * @memberof ShareClient
    */
@@ -248,8 +244,6 @@ export class ShareClient extends StorageClient {
    * contained within it are later deleted during garbage collection.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-share
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
    * @param {Models.IShareDeleteMethodOptions} [options]
    * @returns {Promise<Models.ShareDeleteResponse>}
    * @memberof ShareClient
@@ -271,8 +265,6 @@ export class ShareClient extends StorageClient {
    * metadata will be removed.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-share-metadata
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
    * @param {IMetadata} [metadata] If no metadata provided, all existing directory metadata will be removed
    * @returns {Promise<Models.ShareSetMetadataResponse>}
    * @memberof ShareClient
@@ -297,8 +289,6 @@ export class ShareClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-share-acl
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
    * @returns {Promise<ShareGetAccessPolicyResponse>}
    * @memberof ShareClient
    */
@@ -343,8 +333,6 @@ export class ShareClient extends StorageClient {
    * removed.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-share-acl
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
    * @param {ISignedIdentifier[]} [shareAcl]
    * @returns {Promise<Models.ShareSetAccessPolicyResponse>}
    * @memberof ShareClient
@@ -375,8 +363,6 @@ export class ShareClient extends StorageClient {
   /**
    * Creates a read-only snapshot of a share.
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
    * @param {IShareCreateSnapshotOptions} [options={}]
    * @returns {Promise<Models.ShareCreateSnapshotResponse>}
    * @memberof ShareClient
@@ -394,8 +380,6 @@ export class ShareClient extends StorageClient {
   /**
    * Sets quota for the specified share.
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
    * @param {number} quotaInGB Specifies the maximum size of the share in gigabytes
    * @returns {Promise<Models.ShareSetQuotaResponse>}
    * @memberof ShareClient
@@ -419,8 +403,6 @@ export class ShareClient extends StorageClient {
   /**
    * Retrieves statistics related to the share.
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
    * @returns {Promise<Models.ShareGetStatisticsResponse>}
    * @memberof ShareClient
    */
