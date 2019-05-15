@@ -2,13 +2,15 @@
   "extends": "../tsconfig.json",
   "compilerOptions": {
     "module": "commonjs",
-    "lib": ["esnext.asynciterable"]
+    "lib": [
+      "esnext.asynciterable"
+    ]
   },
   "include": [
     "**/*.ts"
   ],
   "exclude": [
     "../node_modules",
-    "../typings/**",
+    "../types/**",
   ]
 }

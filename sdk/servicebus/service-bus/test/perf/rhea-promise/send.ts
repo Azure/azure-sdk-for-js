@@ -19,6 +19,7 @@ const _start = moment();
 
 let _sent = 0;
 let _accepted = 0;
+let _rejected = 0;
 
 async function main(): Promise<void> {
   // Endpoint=sb://<your-namespace>.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=<shared-access-key>
@@ -89,7 +90,17 @@ async function RunTest(
   });
 
   sender.on(SenderEvents.accepted, async () => {
-    if (++_accepted === messages) {
+    _accepted++;
+    if (_accepted + _rejected === messages) {
+      await connection.close();
+    } else {
+      sendMessages();
+    }
+  });
+
+  sender.on(SenderEvents.rejected, async () => {
+    _rejected++;
+    if (_accepted + _rejected === messages) {
       await connection.close();
     } else {
       sendMessages();
@@ -121,15 +132,19 @@ async function WriteResults(messages: number): Promise<void> {
       maxElapsed = currentElapsed;
     }
 
+    const inflightMessages = _sent - _accepted - _rejected;
+
     WriteResult(
       acceptedMessages,
       elapsed,
       currentMessages,
       currentElapsed,
       maxMessages,
-      maxElapsed
+      maxElapsed,
+      _rejected,
+      inflightMessages
     );
-  } while (_accepted < messages);
+  } while (_accepted + _rejected < messages);
 }
 
 function WriteResult(
@@ -138,13 +153,17 @@ function WriteResult(
   currentMessages: number,
   currentElapsed: number,
   maxMessages: number,
-  maxElapsed: number
+  maxElapsed: number,
+  rejectedMessages: number,
+  inflightMessages: number
 ): void {
   log(
     `\tTot Msg\t${totalMessages}` +
       `\tCur MPS\t${Math.round((currentMessages * 1000) / currentElapsed)}` +
       `\tAvg MPS\t${Math.round((totalMessages * 1000) / totalElapsed)}` +
-      `\tMax MPS\t${Math.round((maxMessages * 1000) / maxElapsed)}`
+      `\tMax MPS\t${Math.round((maxMessages * 1000) / maxElapsed)}` +
+      `\tReject\t${rejectedMessages}` +
+      `\tInflt\t${inflightMessages}`
   );
 }
 

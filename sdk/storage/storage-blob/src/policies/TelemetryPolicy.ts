@@ -32,11 +32,7 @@ export class TelemetryPolicy extends BaseRequestPolicy {
    * @param {ITelemetryOptions} [telemetry]
    * @memberof TelemetryPolicy
    */
-  constructor(
-    nextPolicy: RequestPolicy,
-    options: RequestPolicyOptions,
-    telemetry: string
-  ) {
+  constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, telemetry: string) {
     super(nextPolicy, options);
     this.telemetry = telemetry;
   }
@@ -48,9 +44,7 @@ export class TelemetryPolicy extends BaseRequestPolicy {
    * @returns {Promise<HttpOperationResponse>}
    * @memberof TelemetryPolicy
    */
-  public async sendRequest(
-    request: WebResource
-  ): Promise<HttpOperationResponse> {
+  public async sendRequest(request: WebResource): Promise<HttpOperationResponse> {
     if (isNode) {
       if (!request.headers) {
         request.headers = new HttpHeaders();

@@ -9,10 +9,7 @@ import { rangeToString } from "./IRange";
 import { IBlobAccessConditions, IMetadata } from "./models";
 import { Pipeline } from "./Pipeline";
 import { StorageURL } from "./StorageURL";
-import {
-  DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS,
-  URLConstants
-} from "./utils/constants";
+import { DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS, URLConstants } from "./utils/constants";
 import { appendToURLPath, setURLParameter } from "./utils/utils.common";
 
 export interface IBlobDownloadOptions {
@@ -213,11 +210,9 @@ export class BlobURL extends StorageURL {
     const res = await this.blobContext.download({
       abortSignal: aborter,
       leaseAccessConditions: options.blobAccessConditions.leaseAccessConditions,
-      modifiedAccessConditions:
-        options.blobAccessConditions.modifiedAccessConditions,
+      modifiedAccessConditions: options.blobAccessConditions.modifiedAccessConditions,
       onDownloadProgress: isNode ? undefined : options.progress,
-      range:
-        offset === 0 && !count ? undefined : rangeToString({ offset, count }),
+      range: offset === 0 && !count ? undefined : rangeToString({ offset, count }),
       rangeGetContentMD5: options.rangeGetContentMD5,
       snapshot: options.snapshot
     });
@@ -232,24 +227,17 @@ export class BlobURL extends StorageURL {
     // bundlers may try to bundle following code and "FileReadResponse.ts".
     // In this case, "FileDownloadResponse.browser.ts" will be used as a shim of "FileDownloadResponse.ts"
     // The config is in package.json "browser" field
-    if (
-      options.maxRetryRequests === undefined ||
-      options.maxRetryRequests < 0
-    ) {
+    if (options.maxRetryRequests === undefined || options.maxRetryRequests < 0) {
       // TODO: Default value or make it a required parameter?
       options.maxRetryRequests = DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS;
     }
 
     if (res.contentLength === undefined) {
-      throw new RangeError(
-        `File download response doesn't contain valid content length header`
-      );
+      throw new RangeError(`File download response doesn't contain valid content length header`);
     }
 
     if (!res.eTag) {
-      throw new RangeError(
-        `File download response doesn't contain valid etag header`
-      );
+      throw new RangeError(`File download response doesn't contain valid etag header`);
     }
 
     return new BlobDownloadResponse(
@@ -257,18 +245,14 @@ export class BlobURL extends StorageURL {
       res,
       async (start: number): Promise<NodeJS.ReadableStream> => {
         const updatedOptions: Models.BlobDownloadOptionalParams = {
-          leaseAccessConditions: options.blobAccessConditions!
-            .leaseAccessConditions,
+          leaseAccessConditions: options.blobAccessConditions!.leaseAccessConditions,
           modifiedAccessConditions: {
-            ifMatch:
-              options.blobAccessConditions!.modifiedAccessConditions!.ifMatch ||
-              res.eTag,
-            ifModifiedSince: options.blobAccessConditions!
-              .modifiedAccessConditions!.ifModifiedSince,
-            ifNoneMatch: options.blobAccessConditions!.modifiedAccessConditions!
-              .ifNoneMatch,
-            ifUnmodifiedSince: options.blobAccessConditions!
-              .modifiedAccessConditions!.ifUnmodifiedSince
+            ifMatch: options.blobAccessConditions!.modifiedAccessConditions!.ifMatch || res.eTag,
+            ifModifiedSince: options.blobAccessConditions!.modifiedAccessConditions!
+              .ifModifiedSince,
+            ifNoneMatch: options.blobAccessConditions!.modifiedAccessConditions!.ifNoneMatch,
+            ifUnmodifiedSince: options.blobAccessConditions!.modifiedAccessConditions!
+              .ifUnmodifiedSince
           },
           range: rangeToString({
             count: offset + res.contentLength! - start,
@@ -317,8 +301,7 @@ export class BlobURL extends StorageURL {
     return this.blobContext.getProperties({
       abortSignal: aborter,
       leaseAccessConditions: options.blobAccessConditions.leaseAccessConditions,
-      modifiedAccessConditions:
-        options.blobAccessConditions.modifiedAccessConditions
+      modifiedAccessConditions: options.blobAccessConditions.modifiedAccessConditions
     });
   }
 
@@ -344,8 +327,7 @@ export class BlobURL extends StorageURL {
       abortSignal: aborter,
       deleteSnapshots: options.deleteSnapshots,
       leaseAccessConditions: options.blobAccessConditions.leaseAccessConditions,
-      modifiedAccessConditions:
-        options.blobAccessConditions.modifiedAccessConditions
+      modifiedAccessConditions: options.blobAccessConditions.modifiedAccessConditions
     });
   }
 
@@ -360,9 +342,7 @@ export class BlobURL extends StorageURL {
    * @returns {Promise<Models.BlobUndeleteResponse>}
    * @memberof BlobURL
    */
-  public async undelete(
-    aborter: Aborter
-  ): Promise<Models.BlobUndeleteResponse> {
+  public async undelete(aborter: Aborter): Promise<Models.BlobUndeleteResponse> {
     return this.blobContext.undelete({
       abortSignal: aborter
     });
@@ -394,8 +374,7 @@ export class BlobURL extends StorageURL {
       abortSignal: aborter,
       blobHTTPHeaders,
       leaseAccessConditions: options.blobAccessConditions.leaseAccessConditions,
-      modifiedAccessConditions:
-        options.blobAccessConditions.modifiedAccessConditions
+      modifiedAccessConditions: options.blobAccessConditions.modifiedAccessConditions
     });
   }
 
@@ -424,8 +403,7 @@ export class BlobURL extends StorageURL {
       abortSignal: aborter,
       leaseAccessConditions: options.blobAccessConditions.leaseAccessConditions,
       metadata,
-      modifiedAccessConditions:
-        options.blobAccessConditions.modifiedAccessConditions
+      modifiedAccessConditions: options.blobAccessConditions.modifiedAccessConditions
     });
   }
 
@@ -569,8 +547,7 @@ export class BlobURL extends StorageURL {
       abortSignal: aborter,
       leaseAccessConditions: options.blobAccessConditions.leaseAccessConditions,
       metadata: options.metadata,
-      modifiedAccessConditions:
-        options.blobAccessConditions.modifiedAccessConditions
+      modifiedAccessConditions: options.blobAccessConditions.modifiedAccessConditions
     });
   }
 
@@ -597,22 +574,18 @@ export class BlobURL extends StorageURL {
     options: IBlobStartCopyFromURLOptions = {}
   ): Promise<Models.BlobStartCopyFromURLResponse> {
     options.blobAccessConditions = options.blobAccessConditions || {};
-    options.sourceModifiedAccessConditions =
-      options.sourceModifiedAccessConditions || {};
+    options.sourceModifiedAccessConditions = options.sourceModifiedAccessConditions || {};
 
     return this.blobContext.startCopyFromURL(copySource, {
       abortSignal: aborter,
       leaseAccessConditions: options.blobAccessConditions.leaseAccessConditions,
       metadata: options.metadata,
-      modifiedAccessConditions:
-        options.blobAccessConditions.modifiedAccessConditions,
+      modifiedAccessConditions: options.blobAccessConditions.modifiedAccessConditions,
       sourceModifiedAccessConditions: {
         sourceIfMatch: options.sourceModifiedAccessConditions.ifMatch,
-        sourceIfModifiedSince:
-          options.sourceModifiedAccessConditions.ifModifiedSince,
+        sourceIfModifiedSince: options.sourceModifiedAccessConditions.ifModifiedSince,
         sourceIfNoneMatch: options.sourceModifiedAccessConditions.ifNoneMatch,
-        sourceIfUnmodifiedSince:
-          options.sourceModifiedAccessConditions.ifUnmodifiedSince
+        sourceIfUnmodifiedSince: options.sourceModifiedAccessConditions.ifUnmodifiedSince
       }
     });
   }

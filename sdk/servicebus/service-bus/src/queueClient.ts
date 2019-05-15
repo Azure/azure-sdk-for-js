@@ -17,6 +17,7 @@ import {
 } from "./util/errors";
 import { generate_uuid } from "rhea-promise";
 import { ClientEntityContext } from "./clientEntityContext";
+import { getAssociatedReceiverName } from "../src/util/utils";
 
 /**
  * Describes the client that allows interacting with a Service Bus Queue.
@@ -111,7 +112,8 @@ export class QueueClient implements Client {
   /**
    * Creates a Receiver for receiving messages from a Queue which does not have sessions enabled.
    * - Throws error if an open receiver already exists for this QueueClient.
-   * - Throws error if the Queue has sessions enabled.
+   * - Throws `InvalidOperationError` if the Queue has sessions enabled (in which case, use the
+   * overload of this method which takes `sessionOptions` argument)
    *
    * @param receiveMode An enum indicating the mode in which messages should be received. Possible
    * values are:
@@ -129,7 +131,9 @@ export class QueueClient implements Client {
    * Creates a Receiver for receiving messages from a session enabled Queue. When no sessionId is
    * given, a random session among the available sessions is used.
    * - Throws error if an open receiver already exists for given sessionId.
-   * - Throws error if the Queue does not have sessions enabled.
+   * - Throws `SessionCannotBeLockedError` if the Queue does not have sessions enabled (in which
+   * case do not pass the `sessionOptions` argument) or if Service Bus is not able to get a lock on
+   * the session (in which case try again after some time)
    *
    * @param receiveMode An enum indicating the mode in which messages should be received. Possible
    * values are:
@@ -201,13 +205,10 @@ export class QueueClient implements Client {
       this._context.isClosed
     );
 
-    let receiverName;
-    if (this._context.batchingReceiver) {
-      receiverName = this._context.batchingReceiver.name;
-    } else if (this._context.streamingReceiver) {
-      receiverName = this._context.streamingReceiver.name;
-    }
-    return this._context.managementClient!.peek(maxMessageCount, receiverName);
+    return this._context.managementClient!.peek(
+      maxMessageCount,
+      getAssociatedReceiverName(this._context)
+    );
   }
 
   /**
@@ -230,18 +231,11 @@ export class QueueClient implements Client {
       this._context.isClosed
     );
 
-    let receiverName;
-    if (this._context.batchingReceiver) {
-      receiverName = this._context.batchingReceiver.name;
-    } else if (this._context.streamingReceiver) {
-      receiverName = this._context.streamingReceiver.name;
-    }
-
     return this._context.managementClient!.peekBySequenceNumber(
       fromSequenceNumber,
       maxMessageCount,
       undefined,
-      receiverName
+      getAssociatedReceiverName(this._context)
     );
   }
 

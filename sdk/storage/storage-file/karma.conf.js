@@ -1,6 +1,6 @@
 // https://github.com/karma-runner/karma-chrome-launcher
 process.env.CHROME_BIN = require("puppeteer").executablePath();
-require("dotenv").config({path:"../.env"});
+require("dotenv").config({ path: "../.env" });
 
 module.exports = function(config) {
   config.set({
@@ -65,7 +65,7 @@ module.exports = function(config) {
 
     // Exclude coverage calculation for following files
     remapOptions: {
-      exclude: /node_modules|tests/g
+      exclude: /node_modules|test/g
     },
 
     junitReporter: {

@@ -72,14 +72,8 @@ export class QueueURL extends StorageURL {
    * @param serviceURL
    * @param queueName
    */
-  public static fromServiceURL(
-    serviceURL: ServiceURL,
-    queueName: string
-  ): QueueURL {
-    return new QueueURL(
-      appendToURLPath(serviceURL.url, queueName),
-      serviceURL.pipeline
-    );
+  public static fromServiceURL(serviceURL: ServiceURL, queueName: string): QueueURL {
+    return new QueueURL(appendToURLPath(serviceURL.url, queueName), serviceURL.pipeline);
   }
 
   /**
@@ -148,9 +142,7 @@ export class QueueURL extends StorageURL {
    * @returns {Promise<Models.QueueGetPropertiesResponse>}
    * @memberof QueueURL
    */
-  public async getProperties(
-    aborter: Aborter
-  ): Promise<Models.QueueGetPropertiesResponse> {
+  public async getProperties(aborter: Aborter): Promise<Models.QueueGetPropertiesResponse> {
     return this.queueContext.getProperties({
       abortSignal: aborter
     });
@@ -208,9 +200,7 @@ export class QueueURL extends StorageURL {
    * @returns {Promise<QueueGetAccessPolicyResponse>}
    * @memberof QueueURL
    */
-  public async getAccessPolicy(
-    aborter: Aborter
-  ): Promise<QueueGetAccessPolicyResponse> {
+  public async getAccessPolicy(aborter: Aborter): Promise<QueueGetAccessPolicyResponse> {
     const response = await this.queueContext.getAccessPolicy({
       abortSignal: aborter
     });
