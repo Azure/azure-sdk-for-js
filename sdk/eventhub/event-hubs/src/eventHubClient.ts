@@ -322,12 +322,21 @@ export class EventHubClient {
    * @returns {EventHubClient} - An instance of the eventhub client.
    */
   static createFromConnectionString(connectionString: string, path?: string, options?: ClientOptions): EventHubClient {
+    if (!connectionString || (connectionString && typeof connectionString !== "string")) {
+      throw new Error("'connectionString' is a required parameter and must be of type: 'string'.");
+    }
     const config = EventHubConnectionConfig.create(connectionString, path);
-    EventHubConnectionConfig.validate(config);
 
     config.webSocket = options && options.webSocket;
     config.webSocketEndpointPath = "$servicebus/websocket";
     config.webSocketConstructorOptions = options && options.webSocketConstructorOptions;
+
+    if (!config.entityPath) {
+      throw new Error(
+        `Either the connectionString must have "EntityPath=<path-to-entity>" or ` +
+          `you must provide "path", while creating the client`
+      );
+    }
 
     const tokenProvider = new SasTokenProvider(
       config.endpoint,
@@ -370,12 +379,17 @@ export class EventHubClient {
     tokenProvider: TokenProvider,
     options?: ClientOptions
   ): EventHubClient {
-    host = String(host);
-    entityPath = String(entityPath);
-    if (!tokenProvider) {
-      throw new TypeError('Missing parameter "tokenProvider"');
+    if (!host || (host && typeof host !== "string")) {
+      throw new Error("'host' is a required parameter and must be of type: 'string'.");
     }
 
+    if (!entityPath || (entityPath && typeof entityPath !== "string")) {
+      throw new Error("'entityPath' is a required parameter and must be of type: 'string'.");
+    }
+
+     if (!tokenProvider || (tokenProvider && typeof tokenProvider !== "object")) {
+      throw new Error("'tokenProvider' is a required parameter and must be of type: 'object'.");
+    }
     if (!host.endsWith("/")) host += "/";
     const connectionString =
       `Endpoint=sb://${host};SharedAccessKeyName=defaultKeyName;` + `SharedAccessKey=defaultKeyValue`;
