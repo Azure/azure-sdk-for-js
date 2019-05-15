@@ -3,8 +3,8 @@ import * as Models from "./generated/lib/models";
 import { Directory } from "./generated/lib/operations";
 import { IMetadata } from "./models";
 import { Pipeline } from "./Pipeline";
-import { ShareURL } from "./ShareURL";
-import { StorageURL } from "./StorageURL";
+import { ShareClient } from "./ShareClient";
+import { StorageClient } from "./StorageClient";
 import { appendToURLPath } from "./utils/utils.common";
 
 export interface IDirectoryCreateOptions {
@@ -40,36 +40,39 @@ export interface IDirectoryListFilesAndDirectoriesSegmentOptions {
 }
 
 /**
- * A DirectoryURL represents a URL to the Azure Storage directory allowing you to manipulate its files and directories.
+ * A DirectoryClient represents a URL to the Azure Storage directory allowing you to manipulate its files and directories.
  *
  * @export
- * @class DirectoryURL
- * @extends {StorageURL}
+ * @class DirectoryClient
+ * @extends {StorageClient}
  */
-export class DirectoryURL extends StorageURL {
+export class DirectoryClient extends StorageClient {
   /**
-   * Creates a DirectoryURL object from ShareURL.
+   * Creates a DirectoryClient object from ShareClient.
    *
-   * @param shareURL A ShareURL object
+   * @param shareClient A ShareClient object
    * @param directoryName A directory name
    */
-  public static fromShareURL(shareURL: ShareURL, directoryName: string): DirectoryURL {
-    return new DirectoryURL(
-      appendToURLPath(shareURL.url, encodeURIComponent(directoryName)),
-      shareURL.pipeline
+  public static fromShareClient(shareClient: ShareClient, directoryName: string): DirectoryClient {
+    return new DirectoryClient(
+      appendToURLPath(shareClient.url, encodeURIComponent(directoryName)),
+      shareClient.pipeline
     );
   }
 
   /**
-   * Creates a DirectoryURL object from an existing DirectoryURL.
+   * Creates a DirectoryClient object from an existing DirectoryClient.
    *
-   * @param directoryURL A DirectoryURL object
+   * @param directoryClient A DirectoryClient object
    * @param directoryName A subdirectory name
    */
-  public static fromDirectoryURL(directoryURL: DirectoryURL, directoryName: string): DirectoryURL {
-    return new DirectoryURL(
-      appendToURLPath(directoryURL.url, encodeURIComponent(directoryName)),
-      directoryURL.pipeline
+  public static fromDirectoryClient(
+    directoryClient: DirectoryClient,
+    directoryName: string
+  ): DirectoryClient {
+    return new DirectoryClient(
+      appendToURLPath(directoryClient.url, encodeURIComponent(directoryName)),
+      directoryClient.pipeline
     );
   }
 
@@ -78,12 +81,12 @@ export class DirectoryURL extends StorageURL {
    *
    * @private
    * @type {Directory}
-   * @memberof DirectoryURL
+   * @memberof DirectoryClient
    */
   private context: Directory;
 
   /**
-   * Creates an instance of DirectoryURL.
+   * Creates an instance of DirectoryClient.
    *
    * @param {string} url A URL string pointing to Azure Storage file directory, such as
    *                     "https://myaccount.file.core.windows.net/myshare/mydirectory". You can
@@ -93,9 +96,9 @@ export class DirectoryURL extends StorageURL {
    *                     Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
    *                     However, if a directory name includes %, directory name must be encoded in the URL.
    *                     Such as a directory named "mydir%", the URL should be "https://myaccount.file.core.windows.net/myshare/mydir%25".
-   * @param {Pipeline} pipeline Call StorageURL.newPipeline() to create a default
+   * @param {Pipeline} pipeline Call StorageClient.newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
-   * @memberof DirectoryURL
+   * @memberof DirectoryClient
    */
   constructor(url: string, pipeline: Pipeline) {
     super(url, pipeline);
@@ -103,15 +106,15 @@ export class DirectoryURL extends StorageURL {
   }
 
   /**
-   * Creates a new DirectoryURL object identical to the source but with the
+   * Creates a new DirectoryClient object identical to the source but with the
    * specified request policy pipeline.
    *
    * @param {Pipeline} pipeline
-   * @returns {DirectoryURL}
-   * @memberof DirectoryURL
+   * @returns {DirectoryClient}
+   * @memberof DirectoryClient
    */
-  public withPipeline(pipeline: Pipeline): DirectoryURL {
-    return new DirectoryURL(this.url, pipeline);
+  public withPipeline(pipeline: Pipeline): DirectoryClient {
+    return new DirectoryClient(this.url, pipeline);
   }
 
   /**
@@ -122,7 +125,7 @@ export class DirectoryURL extends StorageURL {
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {IDirectoryCreateOptions} [options]
    * @returns {Promise<Models.DirectoryCreateResponse>}
-   * @memberof DirectoryURL
+   * @memberof DirectoryClient
    */
   public async create(
     aborter: Aborter,
@@ -143,7 +146,7 @@ export class DirectoryURL extends StorageURL {
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
    * @returns {Promise<Models.DirectoryGetPropertiesResponse>}
-   * @memberof DirectoryURL
+   * @memberof DirectoryClient
    */
   public async getProperties(aborter: Aborter): Promise<Models.DirectoryGetPropertiesResponse> {
     return this.context.getProperties({
@@ -159,7 +162,7 @@ export class DirectoryURL extends StorageURL {
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
    * @returns {Promise<Models.DirectoryDeleteResponse>}
-   * @memberof DirectoryURL
+   * @memberof DirectoryClient
    */
   public async delete(aborter: Aborter): Promise<Models.DirectoryDeleteResponse> {
     return this.context.deleteMethod({
@@ -175,7 +178,7 @@ export class DirectoryURL extends StorageURL {
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {IMetadata} [metadata] If no metadata provided, all existing directory metadata will be removed
    * @returns {Promise<Models.DirectorySetMetadataResponse>}
-   * @memberof DirectoryURL
+   * @memberof DirectoryClient
    */
   public async setMetadata(
     aborter: Aborter,
@@ -197,7 +200,7 @@ export class DirectoryURL extends StorageURL {
    * @param {string} [marker]
    * @param {IDirectoryListFilesAndDirectoriesSegmentOptions} [options]
    * @returns {Promise<Models.DirectoryListFilesAndDirectoriesSegmentResponse>}
-   * @memberof DirectoryURL
+   * @memberof DirectoryClient
    */
   public async listFilesAndDirectoriesSegment(
     aborter: Aborter,

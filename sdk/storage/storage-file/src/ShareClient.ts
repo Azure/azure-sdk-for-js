@@ -5,8 +5,8 @@ import * as Models from "./generated/lib/models";
 import { Share } from "./generated/lib/operations";
 import { IMetadata } from "./models";
 import { Pipeline } from "./Pipeline";
-import { ServiceURL } from "./ServiceURL";
-import { StorageURL } from "./StorageURL";
+import { FileServiceClient } from "./FileServiceClient";
+import { StorageClient } from "./StorageClient";
 import { URLConstants } from "./utils/constants";
 import { appendToURLPath, setURLParameter, truncatedISO8061Date } from "./utils/utils.common";
 
@@ -99,21 +99,24 @@ export interface IShareCreateSnapshotOptions {
 }
 
 /**
- * A ShareURL represents a URL to the Azure Storage share allowing you to manipulate its directories and files.
+ * A ShareClient represents a URL to the Azure Storage share allowing you to manipulate its directories and files.
  *
  * @export
- * @class ShareURL
- * @extends {StorageURL}
+ * @class ShareClient
+ * @extends {StorageClient}
  */
-export class ShareURL extends StorageURL {
+export class ShareClient extends StorageClient {
   /**
-   * Creates a ShareURL object from ServiceURL
+   * Creates a ShareClient object from ServiceClient
    *
-   * @param serviceURL
+   * @param serviceClient
    * @param shareName
    */
-  public static fromServiceURL(serviceURL: ServiceURL, shareName: string): ShareURL {
-    return new ShareURL(appendToURLPath(serviceURL.url, shareName), serviceURL.pipeline);
+  public static fromFileServiceClient(
+    serviceClient: FileServiceClient,
+    shareName: string
+  ): ShareClient {
+    return new ShareClient(appendToURLPath(serviceClient.url, shareName), serviceClient.pipeline);
   }
 
   /**
@@ -121,20 +124,20 @@ export class ShareURL extends StorageURL {
    *
    * @private
    * @type {Share}
-   * @memberof ShareURL
+   * @memberof ShareClient
    */
   private context: Share;
 
   /**
-   * Creates an instance of ShareURL.
+   * Creates an instance of ShareClient.
    *
    * @param {string} url A URL string pointing to Azure Storage file share, such as
    *                     "https://myaccount.file.core.windows.net/share". You can
    *                     append a SAS if using AnonymousCredential, such as
    *                     "https://myaccount.file.core.windows.net/share?sasString".
-   * @param {Pipeline} pipeline Call StorageURL.newPipeline() to create a default
+   * @param {Pipeline} pipeline Call StorageClient.newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
-   * @memberof ShareURL
+   * @memberof ShareClient
    */
   constructor(url: string, pipeline: Pipeline) {
     super(url, pipeline);
@@ -142,27 +145,27 @@ export class ShareURL extends StorageURL {
   }
 
   /**
-   * Creates a new ShareURL object identical to the source but with the
+   * Creates a new ShareClient object identical to the source but with the
    * specified request policy pipeline.
    *
    * @param {Pipeline} pipeline
-   * @returns {ShareURL}
-   * @memberof ShareURL
+   * @returns {ShareClient}
+   * @memberof ShareClient
    */
-  public withPipeline(pipeline: Pipeline): ShareURL {
-    return new ShareURL(this.url, pipeline);
+  public withPipeline(pipeline: Pipeline): ShareClient {
+    return new ShareClient(this.url, pipeline);
   }
 
   /**
-   * Creates a new ShareURL object identical to the source but with the specified snapshot timestamp.
+   * Creates a new ShareClient object identical to the source but with the specified snapshot timestamp.
    * Provide "" will remove the snapshot and return a URL to the base share.
    *
    * @param {string} snapshot
-   * @returns {ShareURL} A new ShareURL object identical to the source but with the specified snapshot timestamp
-   * @memberof ShareURL
+   * @returns {ShareClient} A new ShareClient object identical to the source but with the specified snapshot timestamp
+   * @memberof ShareClient
    */
-  public withSnapshot(snapshot: string): ShareURL {
-    return new ShareURL(
+  public withSnapshot(snapshot: string): ShareClient {
+    return new ShareClient(
       setURLParameter(
         this.url,
         URLConstants.Parameters.SHARE_SNAPSHOT,
@@ -181,7 +184,7 @@ export class ShareURL extends StorageURL {
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {IShareCreateOptions} [options]
    * @returns {Promise<Models.ShareCreateResponse>}
-   * @memberof ShareURL
+   * @memberof ShareClient
    */
   public async create(
     aborter: Aborter,
@@ -201,7 +204,7 @@ export class ShareURL extends StorageURL {
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
    * @returns {Promise<Models.ShareGetPropertiesResponse>}
-   * @memberof ShareURL
+   * @memberof ShareClient
    */
   public async getProperties(aborter: Aborter): Promise<Models.ShareGetPropertiesResponse> {
     return this.context.getProperties({
@@ -218,7 +221,7 @@ export class ShareURL extends StorageURL {
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {Models.IShareDeleteMethodOptions} [options]
    * @returns {Promise<Models.ShareDeleteResponse>}
-   * @memberof ShareURL
+   * @memberof ShareClient
    */
   public async delete(
     aborter: Aborter,
@@ -241,7 +244,7 @@ export class ShareURL extends StorageURL {
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {IMetadata} [metadata] If no metadata provided, all existing directory metadata will be removed
    * @returns {Promise<Models.ShareSetMetadataResponse>}
-   * @memberof ShareURL
+   * @memberof ShareClient
    */
   public async setMetadata(
     aborter: Aborter,
@@ -265,7 +268,7 @@ export class ShareURL extends StorageURL {
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
    * @returns {Promise<ShareGetAccessPolicyResponse>}
-   * @memberof ShareURL
+   * @memberof ShareClient
    */
   public async getAccessPolicy(aborter: Aborter): Promise<ShareGetAccessPolicyResponse> {
     const response = await this.context.getAccessPolicy({
@@ -309,7 +312,7 @@ export class ShareURL extends StorageURL {
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {ISignedIdentifier[]} [shareAcl]
    * @returns {Promise<Models.ShareSetAccessPolicyResponse>}
-   * @memberof ShareURL
+   * @memberof ShareClient
    */
   public async setAccessPolicy(
     aborter: Aborter,
@@ -340,7 +343,7 @@ export class ShareURL extends StorageURL {
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {IShareCreateSnapshotOptions} [options={}]
    * @returns {Promise<Models.ShareCreateSnapshotResponse>}
-   * @memberof ShareURL
+   * @memberof ShareClient
    */
   public async createSnapshot(
     aborter: Aborter,
@@ -359,7 +362,7 @@ export class ShareURL extends StorageURL {
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {number} quotaInGB Specifies the maximum size of the share in gigabytes
    * @returns {Promise<Models.ShareSetQuotaResponse>}
-   * @memberof ShareURL
+   * @memberof ShareClient
    */
   public async setQuota(
     aborter: Aborter,
@@ -382,7 +385,7 @@ export class ShareURL extends StorageURL {
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
    * @returns {Promise<Models.ShareGetStatisticsResponse>}
-   * @memberof ShareURL
+   * @memberof ShareClient
    */
   public async getStatistics(aborter: Aborter): Promise<Models.ShareGetStatisticsResponse> {
     return this.context.getStatistics({
