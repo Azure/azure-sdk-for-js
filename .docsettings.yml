@@ -61,7 +61,6 @@ known_content_issues:
   - ['sdk/graphrbac/graph/README.md', '#1583']
   - ['sdk/keyvault/keyvault/README.md', '#1583']
   - ['sdk/operationalinsights/loganalytics/README.md', '#1583']
-  - ['sdk/servicebus/service-bus/README.md', '#1583']
   - ['sdk/servicebus/service-bus/samples/README.md', '#1583']
   - ['sdk/servicebus/service-bus/test/README.md', '#1583']
   - ['sdk/servicefabric/servicefabric/README.md', '#1583']
@@ -86,4 +85,3 @@ package_indexing_exclusion_list:
   - 'azure-sp'
   - 'testhub'
   - 'azure-sdk-for-js'
-
