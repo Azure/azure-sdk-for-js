@@ -5,7 +5,7 @@
   "main": "./dist/index.js",
   "module": "./dist-esm/src/index.js",
   "browser": {
-    "./dist/index.js": "./browser/azure-storage.blob.min.js",
+    "./dist/index.js": "./browser/azure-storage-blob.min.js",
     "./dist-esm/src/index.js": "./dist-esm/src/index.browser.js",
     "./dist-esm/test/utils/index.js": "./dist-esm/test/utils/index.browser.js",
     "./dist-esm/src/BlobDownloadResponse.js": "./dist-esm/src/BlobDownloadResponse.browser.js",
@@ -78,7 +78,7 @@
     "extract-api": "tsc -p . && api-extractor run --local",
     "format": "prettier --write --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "karma start --single-run",
-    "integration-test:node": "cross-env TS_NODE_COMPILER_OPTIONS=\"{\\\"module\\\": \\\"commonjs\\\"}\" nyc mocha --compilers ts-node/register --require source-map-support/register --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=- --full-trace --no-timeouts test/*.test.ts test/node/*.test.ts",
+    "integration-test:node": "nyc mocha --require source-map-support/register --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=- --full-trace -t 120000 dist-test/index.node.js",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "lint:fix": "echo skipped",
     "lint": "echo skipped",
