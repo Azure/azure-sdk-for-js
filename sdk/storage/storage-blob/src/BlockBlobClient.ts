@@ -1,9 +1,9 @@
 import { HttpRequestBody, TransferProgressEvent } from "@azure/ms-rest-js";
 
-import * as Models from "../src/generated/lib/models";
+import * as Models from "./generated/lib/models";
 import { Aborter } from "./Aborter";
-import { BlobURL } from "./BlobURL";
-import { ContainerURL } from "./ContainerURL";
+import { BlobClient } from "./BlobClient";
+import { ContainerClient } from "./ContainerClient";
 import { BlockBlob } from "./generated/lib/operations";
 import { IRange, rangeToString } from "./IRange";
 import { IBlobAccessConditions, IMetadata } from "./models";
@@ -41,39 +41,42 @@ export interface IBlockBlobGetBlockListOptions {
 }
 
 /**
- * BlockBlobURL defines a set of operations applicable to block blobs.
+ * BlockBlobClient defines a set of operations applicable to block blobs.
  *
  * @export
- * @class BlockBlobURL
- * @extends {StorageURL}
+ * @class BlockBlobClient
+ * @extends {StorageClient}
  */
-export class BlockBlobURL extends BlobURL {
+export class BlockBlobClient extends BlobClient {
   /**
-   * Creates a BlockBlobURL object from ContainerURL instance.
+   * Creates a BlockBlobClient object from ContainerClient instance.
    *
    * @static
-   * @param {ContainerURL} containerURL A ContainerURL object
+   * @param {ContainerClient} containerClient A ContainerClient object
    * @param {string} blobName A block blob name
-   * @returns {BlockBlobURL}
-   * @memberof BlockBlobURL
+   * @returns {BlockBlobClient}
+   * @memberof BlockBlobClient
    */
-  public static fromContainerURL(containerURL: ContainerURL, blobName: string): BlockBlobURL {
-    return new BlockBlobURL(
-      appendToURLPath(containerURL.url, encodeURIComponent(blobName)),
-      containerURL.pipeline
+  public static fromContainerClient(
+    containerClient: ContainerClient,
+    blobName: string
+  ): BlockBlobClient {
+    return new BlockBlobClient(
+      appendToURLPath(containerClient.url, encodeURIComponent(blobName)),
+      containerClient.pipeline
     );
   }
 
   /**
-   * Creates a BlockBlobURL object from BlobURL instance.
+   * Creates a BlockBlobClient object from BlobClient instance.
    *
    * @static
-   * @param {BlobURL} blobURL
-   * @returns {BlockBlobURL}
-   * @memberof BlockBlobURL
+   * @param {BlobClient} blobClient
+   * @returns {BlockBlobClient}
+   * @memberof BlockBlobClient
    */
-  public static fromBlobURL(blobURL: BlobURL): BlockBlobURL {
-    return new BlockBlobURL(blobURL.url, blobURL.pipeline);
+  public static fromBlobClient(blobClient: BlobClient): BlockBlobClient {
+    return new BlockBlobClient(blobClient.url, blobClient.pipeline);
   }
 
   /**
@@ -81,12 +84,12 @@ export class BlockBlobURL extends BlobURL {
    *
    * @private
    * @type {BlockBlobs}
-   * @memberof BlockBlobURL
+   * @memberof BlockBlobClient
    */
   private blockBlobContext: BlockBlob;
 
   /**
-   * Creates an instance of BlockBlobURL.
+   * Creates an instance of BlockBlobClient.
    * This method accepts an encoded URL or non-encoded URL pointing to a block blob.
    * Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
    * If a blob name includes ? or %, blob name must be encoded in the URL.
@@ -99,9 +102,9 @@ export class BlockBlobURL extends BlobURL {
    *                     Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
    *                     However, if a blob name includes ? or %, blob name must be encoded in the URL.
    *                     Such as a blob named "my?blob%", the URL should be "https://myaccount.blob.core.windows.net/mycontainer/my%3Fblob%25".
-   * @param {Pipeline} pipeline Call StorageURL.newPipeline() to create a default
+   * @param {Pipeline} pipeline Call StorageClient.newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
-   * @memberof BlockBlobURL
+   * @memberof BlockBlobClient
    */
   constructor(url: string, pipeline: Pipeline) {
     super(url, pipeline);
@@ -109,28 +112,28 @@ export class BlockBlobURL extends BlobURL {
   }
 
   /**
-   * Creates a new BlockBlobURL object identical to the source but with the
+   * Creates a new BlockBlobClient object identical to the source but with the
    * specified request policy pipeline.
    *
    * @param {Pipeline} pipeline
-   * @returns {BlockBlobURL}
-   * @memberof BlockBlobURL
+   * @returns {BlockBlobClient}
+   * @memberof BlockBlobClient
    */
-  public withPipeline(pipeline: Pipeline): BlockBlobURL {
-    return new BlockBlobURL(this.url, pipeline);
+  public withPipeline(pipeline: Pipeline): BlockBlobClient {
+    return new BlockBlobClient(this.url, pipeline);
   }
 
   /**
-   * Creates a new BlockBlobURL object identical to the source but with the
+   * Creates a new BlockBlobClient object identical to the source but with the
    * specified snapshot timestamp.
    * Provide "" will remove the snapshot and return a URL to the base blob.
    *
    * @param {string} snapshot
-   * @returns {BlockBlobURL}
-   * @memberof BlockBlobURL
+   * @returns {BlockBlobClient}
+   * @memberof BlockBlobClient
    */
-  public withSnapshot(snapshot: string): BlockBlobURL {
-    return new BlockBlobURL(
+  public withSnapshot(snapshot: string): BlockBlobClient {
+    return new BlockBlobClient(
       setURLParameter(
         this.url,
         URLConstants.Parameters.SNAPSHOT,
@@ -161,7 +164,7 @@ export class BlockBlobURL extends BlobURL {
    *                               string including non non-Base64/Hex-encoded characters.
    * @param {IBlockBlobUploadOptions} [options]
    * @returns {Promise<Models.BlockBlobUploadResponse>}
-   * @memberof BlockBlobURL
+   * @memberof BlockBlobClient
    */
   public async upload(
     aborter: Aborter,
@@ -192,7 +195,7 @@ export class BlockBlobURL extends BlobURL {
    * @param {number} contentLength
    * @param {IBlockBlobStageBlockOptions} [options]
    * @returns {Promise<Models.BlockBlobStageBlockResponse>}
-   * @memberof BlockBlobURL
+   * @memberof BlockBlobClient
    */
   public async stageBlock(
     aborter: Aborter,
@@ -231,7 +234,7 @@ export class BlockBlobURL extends BlobURL {
    * @param {number} [count] How much data to be downloaded, > 0. Will download to the end when undefined
    * @param {IBlockBlobStageBlockFromURLOptions} [options={}]
    * @returns {Promise<Models.BlockBlobStageBlockFromURLResponse>}
-   * @memberof BlockBlobURL
+   * @memberof BlockBlobClient
    */
   public async stageBlockFromURL(
     aborter: Aborter,
@@ -262,7 +265,7 @@ export class BlockBlobURL extends BlobURL {
    * @param {string[]} blocks  Array of 64-byte value that is base64-encoded
    * @param {IBlockBlobCommitBlockListOptions} [options]
    * @returns {Promise<Models.BlockBlobCommitBlockListResponse>}
-   * @memberof BlockBlobURL
+   * @memberof BlockBlobClient
    */
   public async commitBlockList(
     aborter: Aborter,
@@ -292,7 +295,7 @@ export class BlockBlobURL extends BlobURL {
    * @param {Models.BlockListType} listType
    * @param {IBlockBlobGetBlockListOptions} [options]
    * @returns {Promise<Models.BlockBlobGetBlockListResponse>}
-   * @memberof BlockBlobURL
+   * @memberof BlockBlobClient
    */
   public async getBlockList(
     aborter: Aborter,

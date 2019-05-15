@@ -8,19 +8,19 @@ import {
   AnonymousCredential,
   BlobSASPermissions,
   ContainerSASPermissions,
-  ContainerURL,
+  ContainerClient,
   generateAccountSASQueryParameters,
   generateBlobSASQueryParameters,
-  PageBlobURL,
-  ServiceURL,
+  PageBlobClient,
+  ServiceClient,
   SharedKeyCredential,
-  StorageURL
+  StorageClient
 } from "../../src";
 import { SASProtocol } from "../../src/SASQueryParameters";
 import { getBSU, getUniqueName } from "../utils";
 
 describe("Shared Access Signature (SAS) generation Node.js only", () => {
-  const serviceURL = getBSU();
+  const serviceClient = getBSU();
 
   it("generateAccountSASQueryParameters should work", async () => {
     const now = new Date();
@@ -30,7 +30,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     tmr.setDate(tmr.getDate() + 1);
 
     // By default, credential is always the last element of pipeline factories
-    const factories = serviceURL.pipeline.factories;
+    const factories = serviceClient.pipeline.factories;
     const sharedKeyCredential = factories[factories.length - 1];
 
     const sas = generateAccountSASQueryParameters(
@@ -47,13 +47,13 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       sharedKeyCredential as SharedKeyCredential
     ).toString();
 
-    const sasURL = `${serviceURL.url}?${sas}`;
-    const serviceURLWithSAS = new ServiceURL(
-      sasURL,
-      StorageURL.newPipeline(new AnonymousCredential())
+    const sasClient = `${serviceClient.url}?${sas}`;
+    const serviceClientWithSAS = new ServiceClient(
+      sasClient,
+      StorageClient.newPipeline(new AnonymousCredential())
     );
 
-    await serviceURLWithSAS.getAccountInfo(Aborter.none);
+    await serviceClientWithSAS.getAccountInfo(Aborter.none);
   });
 
   it("generateAccountSASQueryParameters should not work with invalid permission", async () => {
@@ -61,7 +61,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     tmr.setDate(tmr.getDate() + 1);
 
     // By default, credential is always the last element of pipeline factories
-    const factories = serviceURL.pipeline.factories;
+    const factories = serviceClient.pipeline.factories;
     const sharedKeyCredential = factories[factories.length - 1];
 
     const sas = generateAccountSASQueryParameters(
@@ -74,15 +74,15 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       sharedKeyCredential as SharedKeyCredential
     ).toString();
 
-    const sasURL = `${serviceURL.url}?${sas}`;
-    const serviceURLWithSAS = new ServiceURL(
-      sasURL,
-      StorageURL.newPipeline(new AnonymousCredential())
+    const sasClient = `${serviceClient.url}?${sas}`;
+    const serviceClientWithSAS = new ServiceClient(
+      sasClient,
+      StorageClient.newPipeline(new AnonymousCredential())
     );
 
     let error;
     try {
-      await serviceURLWithSAS.getProperties(Aborter.none);
+      await serviceClientWithSAS.getProperties(Aborter.none);
     } catch (err) {
       error = err;
     }
@@ -95,7 +95,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     tmr.setDate(tmr.getDate() + 1);
 
     // By default, credential is always the last element of pipeline factories
-    const factories = serviceURL.pipeline.factories;
+    const factories = serviceClient.pipeline.factories;
     const sharedKeyCredential = factories[factories.length - 1];
 
     const sas = generateAccountSASQueryParameters(
@@ -108,15 +108,15 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       sharedKeyCredential as SharedKeyCredential
     ).toString();
 
-    const sasURL = `${serviceURL.url}?${sas}`;
-    const serviceURLWithSAS = new ServiceURL(
-      sasURL,
-      StorageURL.newPipeline(new AnonymousCredential())
+    const sasClient = `${serviceClient.url}?${sas}`;
+    const serviceClientWithSAS = new ServiceClient(
+      sasClient,
+      StorageClient.newPipeline(new AnonymousCredential())
     );
 
     let error;
     try {
-      await serviceURLWithSAS.getProperties(Aborter.none);
+      await serviceClientWithSAS.getProperties(Aborter.none);
     } catch (err) {
       error = err;
     }
@@ -129,7 +129,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     tmr.setDate(tmr.getDate() + 1);
 
     // By default, credential is always the last element of pipeline factories
-    const factories = serviceURL.pipeline.factories;
+    const factories = serviceClient.pipeline.factories;
     const sharedKeyCredential = factories[factories.length - 1];
 
     const sas = generateAccountSASQueryParameters(
@@ -145,15 +145,15 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       sharedKeyCredential as SharedKeyCredential
     ).toString();
 
-    const sasURL = `${serviceURL.url}?${sas}`;
-    const serviceURLWithSAS = new ServiceURL(
-      sasURL,
-      StorageURL.newPipeline(new AnonymousCredential())
+    const sasClient = `${serviceClient.url}?${sas}`;
+    const serviceClientWithSAS = new ServiceClient(
+      sasClient,
+      StorageClient.newPipeline(new AnonymousCredential())
     );
 
     let error;
     try {
-      await serviceURLWithSAS.getProperties(Aborter.none);
+      await serviceClientWithSAS.getProperties(Aborter.none);
     } catch (err) {
       error = err;
     }
@@ -169,12 +169,12 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     tmr.setDate(tmr.getDate() + 1);
 
     // By default, credential is always the last element of pipeline factories
-    const factories = serviceURL.pipeline.factories;
+    const factories = serviceClient.pipeline.factories;
     const sharedKeyCredential = factories[factories.length - 1];
 
     const containerName = getUniqueName("container");
-    const containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
-    await containerURL.create(Aborter.none);
+    const containerClient = ContainerClient.fromServiceClient(serviceClient, containerName);
+    await containerClient.create(Aborter.none);
 
     const containerSAS = generateBlobSASQueryParameters(
       {
@@ -189,14 +189,14 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       sharedKeyCredential as SharedKeyCredential
     );
 
-    const sasURL = `${containerURL.url}?${containerSAS}`;
-    const containerURLwithSAS = new ContainerURL(
-      sasURL,
-      StorageURL.newPipeline(new AnonymousCredential())
+    const sasClient = `${containerClient.url}?${containerSAS}`;
+    const containerClientwithSAS = new ContainerClient(
+      sasClient,
+      StorageClient.newPipeline(new AnonymousCredential())
     );
 
-    await containerURLwithSAS.listBlobFlatSegment(Aborter.none);
-    await containerURL.delete(Aborter.none);
+    await containerClientwithSAS.listBlobFlatSegment(Aborter.none);
+    await containerClient.delete(Aborter.none);
   });
 
   it("generateBlobSASQueryParameters should work for blob", async () => {
@@ -207,16 +207,16 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     tmr.setDate(tmr.getDate() + 1);
 
     // By default, credential is always the last element of pipeline factories
-    const factories = serviceURL.pipeline.factories;
+    const factories = serviceClient.pipeline.factories;
     const sharedKeyCredential = factories[factories.length - 1];
 
     const containerName = getUniqueName("container");
-    const containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
-    await containerURL.create(Aborter.none);
+    const containerClient = ContainerClient.fromServiceClient(serviceClient, containerName);
+    await containerClient.create(Aborter.none);
 
     const blobName = getUniqueName("blob");
-    const blobURL = PageBlobURL.fromContainerURL(containerURL, blobName);
-    await blobURL.create(Aborter.none, 1024, {
+    const blobClient = PageBlobClient.fromContainerClient(containerClient, blobName);
+    await blobClient.create(Aborter.none, 1024, {
       blobHTTPHeaders: {
         blobContentType: "content-type-original"
       }
@@ -241,20 +241,20 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       sharedKeyCredential as SharedKeyCredential
     );
 
-    const sasURL = `${blobURL.url}?${blobSAS}`;
-    const blobURLwithSAS = new PageBlobURL(
-      sasURL,
-      StorageURL.newPipeline(new AnonymousCredential())
+    const sasClient = `${blobClient.url}?${blobSAS}`;
+    const blobClientwithSAS = new PageBlobClient(
+      sasClient,
+      StorageClient.newPipeline(new AnonymousCredential())
     );
 
-    const properties = await blobURLwithSAS.getProperties(Aborter.none);
+    const properties = await blobClientwithSAS.getProperties(Aborter.none);
     assert.equal(properties.cacheControl, "cache-control-override");
     assert.equal(properties.contentDisposition, "content-disposition-override");
     assert.equal(properties.contentEncoding, "content-encoding-override");
     assert.equal(properties.contentLanguage, "content-language-override");
     assert.equal(properties.contentType, "content-type-override");
 
-    await containerURL.delete(Aborter.none);
+    await containerClient.delete(Aborter.none);
   });
 
   it("generateBlobSASQueryParameters should work for blob with special namings", async () => {
@@ -265,18 +265,18 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     tmr.setDate(tmr.getDate() + 1);
 
     // By default, credential is always the last element of pipeline factories
-    const factories = serviceURL.pipeline.factories;
+    const factories = serviceClient.pipeline.factories;
     const sharedKeyCredential = factories[factories.length - 1];
 
     const containerName = getUniqueName("container-with-dash");
-    const containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
-    await containerURL.create(Aborter.none);
+    const containerClient = ContainerClient.fromServiceClient(serviceClient, containerName);
+    await containerClient.create(Aborter.none);
 
     const blobName = getUniqueName(
       "////Upper/blob/empty /another 汉字 ру́сский язы́к ру́сский язы́к عربي/عربى にっぽんご/にほんご . special ~!@#$%^&*()_+`1234567890-={}|[]\\:\";'<>?,/'"
     );
-    const blobURL = PageBlobURL.fromContainerURL(containerURL, blobName);
-    await blobURL.create(Aborter.none, 1024, {
+    const blobClient = PageBlobClient.fromContainerClient(containerClient, blobName);
+    await blobClient.create(Aborter.none, 1024, {
       blobHTTPHeaders: {
         blobContentType: "content-type-original"
       }
@@ -302,20 +302,20 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       sharedKeyCredential as SharedKeyCredential
     );
 
-    const sasURL = `${blobURL.url}?${blobSAS}`;
-    const blobURLwithSAS = new PageBlobURL(
-      sasURL,
-      StorageURL.newPipeline(new AnonymousCredential())
+    const sasClient = `${blobClient.url}?${blobSAS}`;
+    const blobClientwithSAS = new PageBlobClient(
+      sasClient,
+      StorageClient.newPipeline(new AnonymousCredential())
     );
 
-    const properties = await blobURLwithSAS.getProperties(Aborter.none);
+    const properties = await blobClientwithSAS.getProperties(Aborter.none);
     assert.equal(properties.cacheControl, "cache-control-override");
     assert.equal(properties.contentDisposition, "content-disposition-override");
     assert.equal(properties.contentEncoding, "content-encoding-override");
     assert.equal(properties.contentLanguage, "content-language-override");
     assert.equal(properties.contentType, "content-type-override");
 
-    await containerURL.delete(Aborter.none);
+    await containerClient.delete(Aborter.none);
   });
 
   it("generateBlobSASQueryParameters should work for blob with access policy", async () => {
@@ -326,19 +326,19 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     tmr.setDate(tmr.getDate() + 1);
 
     // By default, credential is always the last element of pipeline factories
-    const factories = serviceURL.pipeline.factories;
+    const factories = serviceClient.pipeline.factories;
     const sharedKeyCredential = factories[factories.length - 1];
 
     const containerName = getUniqueName("container");
-    const containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
-    await containerURL.create(Aborter.none);
+    const containerClient = ContainerClient.fromServiceClient(serviceClient, containerName);
+    await containerClient.create(Aborter.none);
 
     const blobName = getUniqueName("blob");
-    const blobURL = PageBlobURL.fromContainerURL(containerURL, blobName);
-    await blobURL.create(Aborter.none, 1024);
+    const blobClient = PageBlobClient.fromContainerClient(containerClient, blobName);
+    await blobClient.create(Aborter.none, 1024);
 
     const id = "unique-id";
-    await containerURL.setAccessPolicy(Aborter.none, undefined, [
+    await containerClient.setAccessPolicy(Aborter.none, undefined, [
       {
         accessPolicy: {
           expiry: tmr,
@@ -357,13 +357,13 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       sharedKeyCredential as SharedKeyCredential
     );
 
-    const sasURL = `${blobURL.url}?${blobSAS}`;
-    const blobURLwithSAS = new PageBlobURL(
-      sasURL,
-      StorageURL.newPipeline(new AnonymousCredential())
+    const sasClient = `${blobClient.url}?${blobSAS}`;
+    const blobClientwithSAS = new PageBlobClient(
+      sasClient,
+      StorageClient.newPipeline(new AnonymousCredential())
     );
 
-    await blobURLwithSAS.getProperties(Aborter.none);
-    await containerURL.delete(Aborter.none);
+    await blobClientwithSAS.getProperties(Aborter.none);
+    await containerClient.delete(Aborter.none);
   });
 });

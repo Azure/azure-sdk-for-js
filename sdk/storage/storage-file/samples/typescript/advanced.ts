@@ -9,11 +9,11 @@ import {
   uploadFileToAzureFile,
   uploadStreamToAzureFile,
   Aborter,
-  FileURL,
-  DirectoryURL,
-  ShareURL,
-  ServiceURL,
-  StorageURL
+  FileClient,
+  DirectoryClient,
+  ShareClient,
+  FileServiceClient,
+  StorageClient
 } from "../../src"; // Change to "@azure/storage-file" in your package
 
 async function main() {
@@ -22,38 +22,38 @@ async function main() {
   const accountSas = "";
   const localFilePath = "";
 
-  const pipeline = StorageURL.newPipeline(new AnonymousCredential(), {
+  const pipeline = StorageClient.newPipeline(new AnonymousCredential(), {
     // httpClient: MyHTTPClient, // A customized HTTP client implementing IHttpClient interface
     // logger: MyLogger, // A customized logger implementing IHttpPipelineLogger interface
     retryOptions: { maxTries: 4 }, // Retry options
     telemetry: { value: "HighLevelSample V1.0.0" } // Customized telemetry string
   });
 
-  const serviceURL = new ServiceURL(
+  const serviceClient = new FileServiceClient(
     `https://${account}.file.core.windows.net${accountSas}`,
     pipeline
   );
 
   // Create a share
   const shareName = `newshare${new Date().getTime()}`;
-  const shareURL = ShareURL.fromServiceURL(serviceURL, shareName);
-  await shareURL.create();
+  const shareClient = ShareClient.fromFileServiceClient(serviceClient, shareName);
+  await shareClient.create();
   console.log(`Create share ${shareName} successfully`);
 
   // Create a directory
   const directoryName = `newdirectory${new Date().getTime()}`;
-  const directoryURL = DirectoryURL.fromShareURL(shareURL, directoryName);
-  await directoryURL.create();
+  const directoryClient = DirectoryClient.fromShareClient(shareClient, directoryName);
+  await directoryClient.create();
   console.log(`Create directory ${directoryName} successfully`);
 
   // Upload local file to Azure file parallelly
   const fileName = "newfile" + new Date().getTime();
-  const fileURL = FileURL.fromDirectoryURL(directoryURL, fileName);
+  const fileClient = FileClient.fromDirectoryClient(directoryClient, fileName);
   const fileSize = fs.statSync(localFilePath).size;
 
   // Parallel uploading with uploadFileToAzureFile in Node.js runtime
   // uploadFileToAzureFile is only available in Node.js
-  await uploadFileToAzureFile(localFilePath, fileURL, {
+  await uploadFileToAzureFile(localFilePath, fileClient, {
     rangeSize: 4 * 1024 * 1024, // 4MB range size
     parallelism: 20, // 20 concurrency
     progress: (ev) => console.log(ev)
@@ -65,7 +65,7 @@ async function main() {
   await uploadStreamToAzureFile(
     fs.createReadStream(localFilePath),
     fileSize,
-    fileURL,
+    fileClient,
     4 * 1024 * 1024,
     20,
     {
@@ -79,7 +79,7 @@ async function main() {
   // Uncomment following code in browsers because uploadBrowserDataToAzureFile is only available in browsers
   /*
   const browserFile = document.getElementById("fileinput").files[0];
-  await uploadBrowserDataToAzureFile(browserFile, fileURL, {
+  await uploadBrowserDataToAzureFile(browserFile, fileClient, {
     abortSignal: Aborter.none, 
     rangeSize: 4 * 1024 * 1024, // 4MB range size
     parallelism: 20, // 20 concurrency
@@ -90,16 +90,16 @@ async function main() {
   // Parallel downloading an Azure file into Node.js buffer
   // downloadAzureFileToBuffer is only available in Node.js
   const buffer = Buffer.alloc(fileSize);
-  await downloadAzureFileToBuffer(buffer, fileURL, 0, undefined, {
+  await downloadAzureFileToBuffer(buffer, fileClient, 0, undefined, {
     abortSignal: Aborter.timeout(30 * 60 * 1000),
     rangeSize: 4 * 1024 * 1024, // 4MB range size
     parallelism: 20, // 20 concurrency
-    progress: (ev: any) => console.log(ev)
+    progress: (ev) => console.log(ev)
   });
   console.log("downloadAzureFileToBuffer success");
 
   // Delete share
-  await shareURL.delete();
+  await shareClient.delete();
   console.log("deleted share");
 }
 

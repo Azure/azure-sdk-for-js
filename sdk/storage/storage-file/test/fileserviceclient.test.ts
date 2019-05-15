@@ -1,13 +1,13 @@
 import * as assert from "assert";
-import { ShareURL } from "../src/ShareURL";
+import { ShareClient } from "../src/ShareClient";
 import { getBSU, getUniqueName, wait } from "./utils";
 import * as dotenv from "dotenv";
 dotenv.config({ path: "../.env" });
 
-describe("ServiceURL", () => {
+describe("FileServiceClient", () => {
   it("ListShares with default parameters", async () => {
-    const serviceURL = getBSU();
-    const result = await serviceURL.listSharesSegment();
+    const serviceClient = getBSU();
+    const result = await serviceClient.listSharesSegment();
 
     assert.ok(typeof result.requestId);
     assert.ok(result.requestId!.length > 0);
@@ -26,17 +26,17 @@ describe("ServiceURL", () => {
   });
 
   it("ListShares with all parameters configured", async () => {
-    const serviceURL = getBSU();
+    const serviceClient = getBSU();
 
     const shareNamePrefix = getUniqueName("share");
     const shareName1 = `${shareNamePrefix}x1`;
     const shareName2 = `${shareNamePrefix}x2`;
-    const shareURL1 = ShareURL.fromServiceURL(serviceURL, shareName1);
-    const shareURL2 = ShareURL.fromServiceURL(serviceURL, shareName2);
-    await shareURL1.create({ metadata: { key: "val" } });
-    await shareURL2.create({ metadata: { key: "val" } });
+    const shareClient1 = ShareClient.fromFileServiceClient(serviceClient, shareName1);
+    const shareClient2 = ShareClient.fromFileServiceClient(serviceClient, shareName2);
+    await shareClient1.create({ metadata: { key: "val" } });
+    await shareClient2.create({ metadata: { key: "val" } });
 
-    const result1 = await serviceURL.listSharesSegment(undefined, {
+    const result1 = await serviceClient.listSharesSegment(undefined, {
       include: ["metadata", "snapshots"],
       maxresults: 1,
       prefix: shareNamePrefix
@@ -49,7 +49,7 @@ describe("ServiceURL", () => {
     assert.ok(result1.shareItems![0].properties.lastModified);
     assert.deepEqual(result1.shareItems![0].metadata!.key, "val");
 
-    const result2 = await serviceURL.listSharesSegment(result1.nextMarker, {
+    const result2 = await serviceClient.listSharesSegment(result1.nextMarker, {
       include: ["metadata", "snapshots"],
       maxresults: 1,
       prefix: shareNamePrefix
@@ -62,13 +62,13 @@ describe("ServiceURL", () => {
     assert.ok(result2.shareItems![0].properties.lastModified);
     assert.deepEqual(result2.shareItems![0].metadata!.key, "val");
 
-    await shareURL1.delete();
-    await shareURL2.delete();
+    await shareClient1.delete();
+    await shareClient2.delete();
   });
 
   it("GetProperties", async () => {
-    const serviceURL = getBSU();
-    const result = await serviceURL.getProperties();
+    const serviceClient = getBSU();
+    const result = await serviceClient.getProperties();
 
     assert.ok(typeof result.requestId);
     assert.ok(result.requestId!.length > 0);
@@ -85,9 +85,9 @@ describe("ServiceURL", () => {
   });
 
   it("SetProperties", async () => {
-    const serviceURL = getBSU();
+    const serviceClient = getBSU();
 
-    const serviceProperties = await serviceURL.getProperties();
+    const serviceProperties = await serviceClient.getProperties();
 
     serviceProperties.minuteMetrics = {
       enabled: true,
@@ -122,10 +122,10 @@ describe("ServiceURL", () => {
       serviceProperties.cors.push(newCORS);
     }
 
-    await serviceURL.setProperties(serviceProperties);
+    await serviceClient.setProperties(serviceProperties);
     await wait(5 * 1000);
 
-    const result = await serviceURL.getProperties();
+    const result = await serviceClient.getProperties();
     assert.ok(typeof result.requestId);
     assert.ok(result.requestId!.length > 0);
     assert.ok(typeof result.version);

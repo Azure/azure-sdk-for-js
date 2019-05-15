@@ -1,52 +1,52 @@
 import * as assert from "assert";
 import { Duplex } from "stream";
-import { DirectoryURL } from "../../src/DirectoryURL";
-import { FileURL } from "../../src/FileURL";
-import { ShareURL } from "../../src/ShareURL";
+import { DirectoryClient } from "../../src/DirectoryClient";
+import { FileClient } from "../../src/FileClient";
+import { ShareClient } from "../../src/ShareClient";
 import { bodyToString, getBSU, getUniqueName } from "../utils";
 import { Buffer } from "buffer";
 
 describe("BlockBlobURL Node.js only", () => {
-  const serviceURL = getBSU();
+  const serviceClient = getBSU();
   let shareName = getUniqueName("share");
-  let shareURL = ShareURL.fromServiceURL(serviceURL, shareName);
+  let shareClient = ShareClient.fromFileServiceClient(serviceClient, shareName);
   let dirName = getUniqueName("dir");
-  let dirURL = DirectoryURL.fromShareURL(shareURL, dirName);
+  let dirClient = DirectoryClient.fromShareClient(shareClient, dirName);
   let fileName = getUniqueName("file");
-  let fileURL = FileURL.fromDirectoryURL(dirURL, fileName);
+  let fileClient = FileClient.fromDirectoryClient(dirClient, fileName);
 
   beforeEach(async () => {
     shareName = getUniqueName("share");
-    shareURL = ShareURL.fromServiceURL(serviceURL, shareName);
-    await shareURL.create();
+    shareClient = ShareClient.fromFileServiceClient(serviceClient, shareName);
+    await shareClient.create();
 
     dirName = getUniqueName("dir");
-    dirURL = DirectoryURL.fromShareURL(shareURL, dirName);
-    await dirURL.create();
+    dirClient = DirectoryClient.fromShareClient(shareClient, dirName);
+    await dirClient.create();
 
     fileName = getUniqueName("file");
-    fileURL = FileURL.fromDirectoryURL(dirURL, fileName);
+    fileClient = FileClient.fromDirectoryClient(dirClient, fileName);
   });
 
   afterEach(async () => {
-    await shareURL.delete();
+    await shareClient.delete();
   });
 
   it("upload with buffer and default parameters", async () => {
     const body: string = getUniqueName("randomstring");
     const bodyBuffer = Buffer.from(body);
 
-    await fileURL.create(body.length);
-    await fileURL.uploadRange(bodyBuffer, 0, body.length);
-    const result = await fileURL.download(0);
+    await fileClient.create(body.length);
+    await fileClient.uploadRange(bodyBuffer, 0, body.length);
+    const result = await fileClient.download(0);
     assert.deepStrictEqual(await bodyToString(result, body.length), body);
   });
 
   it("upload with Node.js stream", async () => {
     const body: string = getUniqueName("randomstring");
 
-    await fileURL.create(body.length);
-    await fileURL.uploadRange(
+    await fileClient.create(body.length);
+    await fileClient.uploadRange(
       () => {
         const duplexStream = new Duplex();
         duplexStream.push(body);
@@ -56,7 +56,7 @@ describe("BlockBlobURL Node.js only", () => {
       0,
       body.length
     );
-    const result = await fileURL.download(0);
+    const result = await fileClient.download(0);
     assert.deepStrictEqual(await bodyToString(result, body.length), body);
   });
 
@@ -64,9 +64,9 @@ describe("BlockBlobURL Node.js only", () => {
     const body: string = getUniqueName("randomstring你好");
     const bodyLength = Buffer.byteLength(body);
 
-    await fileURL.create(bodyLength);
-    await fileURL.uploadRange(body, 0, bodyLength);
-    const result = await fileURL.download(0);
+    await fileClient.create(bodyLength);
+    await fileClient.uploadRange(body, 0, bodyLength);
+    const result = await fileClient.download(0);
     assert.deepStrictEqual(await bodyToString(result, bodyLength), body);
   });
 });

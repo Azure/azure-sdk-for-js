@@ -1,38 +1,38 @@
 import * as assert from "assert";
 
 import { Aborter } from "../../src/Aborter";
-import { BlobURL } from "../../src/BlobURL";
-import { BlockBlobURL } from "../../src/BlockBlobURL";
-import { ContainerURL } from "../../src/ContainerURL";
+import { BlobClient } from "../../src/BlobClient";
+import { BlockBlobClient } from "../../src/BlockBlobClient";
+import { ContainerClient } from "../../src/ContainerClient";
 import { bodyToString, getBSU, getUniqueName } from "../utils";
 
-describe("BlockBlobURL Node.js only", () => {
-  const serviceURL = getBSU();
+describe("BlockBlobClient Node.js only", () => {
+  const serviceClient = getBSU();
   let containerName: string = getUniqueName("container");
-  let containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
+  let containerClient = ContainerClient.fromServiceClient(serviceClient, containerName);
   let blobName: string = getUniqueName("blob");
-  let blobURL = BlobURL.fromContainerURL(containerURL, blobName);
-  let blockBlobURL = BlockBlobURL.fromBlobURL(blobURL);
+  let blobClient = BlobClient.fromContainerClient(containerClient, blobName);
+  let blockBlobClient = BlockBlobClient.fromBlobClient(blobClient);
 
   beforeEach(async () => {
     containerName = getUniqueName("container");
-    containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
-    await containerURL.create(Aborter.none);
+    containerClient = ContainerClient.fromServiceClient(serviceClient, containerName);
+    await containerClient.create(Aborter.none);
     blobName = getUniqueName("blob");
-    blobURL = BlobURL.fromContainerURL(containerURL, blobName);
-    blockBlobURL = BlockBlobURL.fromBlobURL(blobURL);
+    blobClient = BlobClient.fromContainerClient(containerClient, blobName);
+    blockBlobClient = BlockBlobClient.fromBlobClient(blobClient);
   });
 
   afterEach(async () => {
-    await containerURL.delete(Aborter.none);
+    await containerClient.delete(Aborter.none);
   });
 
   it("upload with Readable stream body and default parameters", async () => {
     const body: string = getUniqueName("randomstring");
     const bodyBuffer = Buffer.from(body);
 
-    await blockBlobURL.upload(Aborter.none, bodyBuffer, body.length);
-    const result = await blobURL.download(Aborter.none, 0);
+    await blockBlobClient.upload(Aborter.none, bodyBuffer, body.length);
+    const result = await blobClient.download(Aborter.none, 0);
 
     const downloadedBody = await new Promise((resolve, reject) => {
       const buffer: string[] = [];
@@ -50,8 +50,8 @@ describe("BlockBlobURL Node.js only", () => {
 
   it("upload with Chinese string body and default parameters", async () => {
     const body: string = getUniqueName("randomstring你好");
-    await blockBlobURL.upload(Aborter.none, body, Buffer.byteLength(body));
-    const result = await blobURL.download(Aborter.none, 0);
+    await blockBlobClient.upload(Aborter.none, body, Buffer.byteLength(body));
+    const result = await blobClient.download(Aborter.none, 0);
     assert.deepStrictEqual(await bodyToString(result, Buffer.byteLength(body)), body);
   });
 });

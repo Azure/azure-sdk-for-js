@@ -1,20 +1,20 @@
 import * as assert from "assert";
-import { ISignedIdentifier, ShareURL } from "../../src/ShareURL";
+import { ISignedIdentifier, ShareClient } from "../../src/ShareClient";
 import { getBSU, getUniqueName } from "./../utils";
 
-describe("ShareURL", () => {
-  const serviceURL = getBSU();
+describe("ShareClient", () => {
+  const serviceClient = getBSU();
   let shareName: string = getUniqueName("share");
-  let shareURL = ShareURL.fromServiceURL(serviceURL, shareName);
+  let shareClient = ShareClient.fromFileServiceClient(serviceClient, shareName);
 
   beforeEach(async () => {
     shareName = getUniqueName("share");
-    shareURL = ShareURL.fromServiceURL(serviceURL, shareName);
-    await shareURL.create();
+    shareClient = ShareClient.fromFileServiceClient(serviceClient, shareName);
+    await shareClient.create();
   });
 
   afterEach(async () => {
-    await shareURL.delete();
+    await shareClient.delete();
   });
 
   it("setAccessPolicy", async () => {
@@ -34,8 +34,8 @@ describe("ShareURL", () => {
       }
     ];
 
-    await shareURL.setAccessPolicy(identifiers);
-    const getAccessPolicyResponse = await shareURL.getAccessPolicy();
+    await shareClient.setAccessPolicy(identifiers);
+    const getAccessPolicyResponse = await shareClient.getAccessPolicy();
 
     assert.equal(getAccessPolicyResponse.signedIdentifiers[0].id, identifiers[0].id);
     assert.equal(

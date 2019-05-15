@@ -1,10 +1,10 @@
 import { AnonymousCredential } from "../../src/credentials/AnonymousCredential";
-import { ServiceURL } from "../../src/ServiceURL";
-import { StorageURL } from "../../src/StorageURL";
+import { ServiceClient } from "../../src/ServiceClient";
+import { StorageClient } from "../../src/StorageClient";
 
 export * from "./testutils.common";
 
-export function getGenericBSU(accountType: string, accountNameSuffix: string = ""): ServiceURL {
+export function getGenericBSU(accountType: string, accountNameSuffix: string = ""): ServiceClient {
   const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
   const accountSASEnvVar = `${accountType}ACCOUNT_SAS`;
 
@@ -24,19 +24,19 @@ export function getGenericBSU(accountType: string, accountNameSuffix: string = "
   }
 
   const credentials = new AnonymousCredential();
-  const pipeline = StorageURL.newPipeline(credentials, {
+  const pipeline = StorageClient.newPipeline(credentials, {
     // Enable logger when debugging
     // logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO)
   });
   const blobPrimaryURL = `https://${accountName}${accountNameSuffix}.blob.core.windows.net${accountSAS}`;
-  return new ServiceURL(blobPrimaryURL, pipeline);
+  return new ServiceClient(blobPrimaryURL, pipeline);
 }
 
-export function getBSU(): ServiceURL {
+export function getBSU(): ServiceClient {
   return getGenericBSU("");
 }
 
-export function getAlternateBSU(): ServiceURL {
+export function getAlternateBSU(): ServiceClient {
   return getGenericBSU("SECONDARY_", "-secondary");
 }
 

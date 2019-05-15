@@ -1,8 +1,8 @@
-import * as Models from "../src/generated/lib/models";
+import * as Models from "./generated/lib/models";
 import { Aborter } from "./Aborter";
 import { Service } from "./generated/lib/operations";
 import { Pipeline } from "./Pipeline";
-import { StorageURL } from "./StorageURL";
+import { StorageClient } from "./StorageClient";
 
 export interface IServiceListSharesSegmentOptions {
   abortSignal?: Aborter;
@@ -44,32 +44,32 @@ export interface IServiceSetPropertiesOptions {
 }
 
 /**
- * A ServiceURL represents a URL to the Azure Storage File service allowing you
+ * A FileServiceClient represents a URL to the Azure Storage File service allowing you
  * to manipulate file shares.
  *
  * @export
- * @class ServiceURL
- * @extends {StorageURL}
+ * @class FileServiceClient
+ * @extends {StorageClient}
  */
-export class ServiceURL extends StorageURL {
+export class FileServiceClient extends StorageClient {
   /**
    * serviceContext provided by protocol layer.
    *
    * @private
    * @type {Service}
-   * @memberof ServiceURL
+   * @memberof FileServiceClient
    */
   private serviceContext: Service;
 
   /**
-   * Creates an instance of ServiceURL.
+   * Creates an instance of FileServiceClient.
    *
    * @param {string} url A URL string pointing to Azure Storage file service, such as
    *                     "https://myaccount.file.core.windows.net". You can Append a SAS
    *                     if using AnonymousCredential, such as "https://myaccount.file.core.windows.net?sasString".
-   * @param {Pipeline} pipeline Call StorageURL.newPipeline() to create a default
+   * @param {Pipeline} pipeline Call StorageClient.newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
-   * @memberof ServiceURL
+   * @memberof FileServiceClient
    */
   constructor(url: string, pipeline: Pipeline) {
     super(url, pipeline);
@@ -77,15 +77,15 @@ export class ServiceURL extends StorageURL {
   }
 
   /**
-   * Creates a new ServiceURL object identical to the source but with the
+   * Creates a new FileServiceClient object identical to the source but with the
    * specified request policy pipeline.
    *
    * @param {Pipeline} pipeline
-   * @returns {ServiceURL}
-   * @memberof ServiceURL
+   * @returns {FileServiceClient}
+   * @memberof FileServiceClient
    */
-  public withPipeline(pipeline: Pipeline): ServiceURL {
-    return new ServiceURL(this.url, pipeline);
+  public withPipeline(pipeline: Pipeline): FileServiceClient {
+    return new FileServiceClient(this.url, pipeline);
   }
 
   /**
@@ -96,7 +96,7 @@ export class ServiceURL extends StorageURL {
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
    * @returns {Promise<Models.ServiceGetPropertiesResponse>}
-   * @memberof ServiceURL
+   * @memberof FileServiceClient
    */
   public async getProperties(
     options: IServiceGetPropertiesOptions = {}
@@ -116,7 +116,7 @@ export class ServiceURL extends StorageURL {
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {Models.StorageServiceProperties} properties
    * @returns {Promise<Models.ServiceSetPropertiesResponse>}
-   * @memberof ServiceURL
+   * @memberof FileServiceClient
    */
   public async setProperties(
     properties: Models.StorageServiceProperties,
@@ -142,7 +142,7 @@ export class ServiceURL extends StorageURL {
    *                          client.
    * @param {IServiceListSharesSegmentOptions} [options={}]
    * @returns {Promise<Models.ServiceListSharesSegmentResponse>}
-   * @memberof ServiceURL
+   * @memberof FileServiceClient
    */
   public async listSharesSegment(
     marker?: string,

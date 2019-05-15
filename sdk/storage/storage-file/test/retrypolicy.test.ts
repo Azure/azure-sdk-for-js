@@ -1,7 +1,6 @@
 import * as assert from "assert";
-
-import { RestError, StorageURL } from "../src";
-import { ShareURL } from "../src/ShareURL";
+import { RestError, StorageClient } from "../src";
+import { ShareClient } from "../src/ShareClient";
 import { Pipeline } from "../src/Pipeline";
 import { getBSU, getUniqueName } from "./utils";
 import { InjectorPolicyFactory } from "./utils/InjectorPolicyFactory";
@@ -9,18 +8,18 @@ import * as dotenv from "dotenv";
 dotenv.config({ path: "../.env" });
 
 describe("RetryPolicy", () => {
-  const serviceURL = getBSU();
+  const serviceClient = getBSU();
   let shareName: string = getUniqueName("share");
-  let shareURL = ShareURL.fromServiceURL(serviceURL, shareName);
+  let shareClient = ShareClient.fromFileServiceClient(serviceClient, shareName);
 
   beforeEach(async () => {
     shareName = getUniqueName("share");
-    shareURL = ShareURL.fromServiceURL(serviceURL, shareName);
-    await shareURL.create();
+    shareClient = ShareClient.fromFileServiceClient(serviceClient, shareName);
+    await shareClient.create();
   });
 
   afterEach(async () => {
-    await shareURL.delete();
+    await shareClient.delete();
   });
 
   it("Retry Policy should work when first request fails with 500", async () => {
@@ -31,19 +30,19 @@ describe("RetryPolicy", () => {
         return new RestError("Server Internal Error", "ServerInternalError", 500);
       }
     });
-    const factories = shareURL.pipeline.factories.slice(); // clone factories array
+    const factories = shareClient.pipeline.factories.slice(); // clone factories array
     factories.push(injector);
     const pipeline = new Pipeline(factories);
-    const injectShareURL = shareURL.withPipeline(pipeline);
+    const injectShareClient = shareClient.withPipeline(pipeline);
 
     const metadata = {
       key0: "val0",
       keya: "vala",
       keyb: "valb"
     };
-    await injectShareURL.setMetadata(metadata);
+    await injectShareClient.setMetadata(metadata);
 
-    const result = await shareURL.getProperties();
+    const result = await shareClient.getProperties();
     assert.deepEqual(result.metadata, metadata);
   });
 
@@ -52,13 +51,13 @@ describe("RetryPolicy", () => {
       return new RestError("Server Internal Error", "ServerInternalError", 500);
     });
 
-    const credential = shareURL.pipeline.factories[shareURL.pipeline.factories.length - 1];
-    const factories = StorageURL.newPipeline(credential, {
+    const credential = shareClient.pipeline.factories[shareClient.pipeline.factories.length - 1];
+    const factories = StorageClient.newPipeline(credential, {
       retryOptions: { maxTries: 3 }
     }).factories;
     factories.push(injector);
     const pipeline = new Pipeline(factories);
-    const injectShareURL = shareURL.withPipeline(pipeline);
+    const injectShareClient = shareClient.withPipeline(pipeline);
 
     let hasError = false;
     try {
@@ -67,7 +66,7 @@ describe("RetryPolicy", () => {
         keya: "vala",
         keyb: "valb"
       };
-      await injectShareURL.setMetadata(metadata);
+      await injectShareClient.setMetadata(metadata);
     } catch (err) {
       hasError = true;
     }

@@ -1,34 +1,34 @@
 import * as assert from "assert";
 
 import { Aborter } from "../src/Aborter";
-import { AppendBlobURL } from "../src/AppendBlobURL";
-import { ContainerURL } from "../src/ContainerURL";
+import { AppendBlobClient } from "../src/AppendBlobClient";
+import { ContainerClient } from "../src/ContainerClient";
 import { bodyToString, getBSU, getUniqueName } from "./utils";
 import * as dotenv from "dotenv";
 dotenv.config({ path: "../.env" });
 
-describe("AppendBlobURL", () => {
-  const serviceURL = getBSU();
+describe("AppendBlobClient", () => {
+  const serviceClient = getBSU();
   let containerName: string = getUniqueName("container");
-  let containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
+  let containerClient = ContainerClient.fromServiceClient(serviceClient, containerName);
   let blobName: string = getUniqueName("blob");
-  let appendBlobURL = AppendBlobURL.fromContainerURL(containerURL, blobName);
+  let appendBlobClient = AppendBlobClient.fromContainerClient(containerClient, blobName);
 
   beforeEach(async () => {
     containerName = getUniqueName("container");
-    containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
-    await containerURL.create(Aborter.none);
+    containerClient = ContainerClient.fromServiceClient(serviceClient, containerName);
+    await containerClient.create(Aborter.none);
     blobName = getUniqueName("blob");
-    appendBlobURL = AppendBlobURL.fromContainerURL(containerURL, blobName);
+    appendBlobClient = AppendBlobClient.fromContainerClient(containerClient, blobName);
   });
 
   afterEach(async () => {
-    await containerURL.delete(Aborter.none);
+    await containerClient.delete(Aborter.none);
   });
 
   it("create with default parameters", async () => {
-    await appendBlobURL.create(Aborter.none);
-    await appendBlobURL.download(Aborter.none, 0);
+    await appendBlobClient.create(Aborter.none);
+    await appendBlobClient.download(Aborter.none, 0);
   });
 
   it("create with parameters configured", async () => {
@@ -45,8 +45,8 @@ describe("AppendBlobURL", () => {
         key2: "valb"
       }
     };
-    await appendBlobURL.create(Aborter.none, options);
-    const properties = await appendBlobURL.getProperties(Aborter.none);
+    await appendBlobClient.create(Aborter.none, options);
+    const properties = await appendBlobClient.getProperties(Aborter.none);
     assert.equal(properties.cacheControl, options.blobHTTPHeaders.blobCacheControl);
     assert.equal(properties.contentDisposition, options.blobHTTPHeaders.blobContentDisposition);
     assert.equal(properties.contentEncoding, options.blobHTTPHeaders.blobContentEncoding);
@@ -57,12 +57,12 @@ describe("AppendBlobURL", () => {
   });
 
   it("appendBlock", async () => {
-    await appendBlobURL.create(Aborter.none);
+    await appendBlobClient.create(Aborter.none);
 
     const content = "Hello World!";
-    await appendBlobURL.appendBlock(Aborter.none, content, content.length);
+    await appendBlobClient.appendBlock(Aborter.none, content, content.length);
 
-    const downloadResponse = await appendBlobURL.download(Aborter.none, 0);
+    const downloadResponse = await appendBlobClient.download(Aborter.none, 0);
     assert.equal(await bodyToString(downloadResponse, content.length), content);
     assert.equal(downloadResponse.contentLength!, content.length);
   });
