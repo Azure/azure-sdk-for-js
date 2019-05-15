@@ -27,10 +27,57 @@ import { BatchingReceiver } from "./batchingReceiver";
 import { IotHubClient } from "./iothub/iothubClient";
 
 /**
- * Describes the options that one can set while receiving messages.
+ * LogLevel that defines the level of logging to be used
+ */
+export enum LogLevel {
+  None,
+  Verbose,
+  Info,
+  Warning,
+  Error
+}
+
+/**
+ * Options that can be passed to each operation on the EventHubsClient
+ */
+export interface RequestOptions {
+  /**
+   * Number of times to attempt an operation on failure
+   */
+  retryAttempts?: number;
+  /**
+   * Number of milliseconds to wait between retries
+   */
+  delayBetweenRetries?: number;
+  /**
+   * Number of milliseconds to wait before declaring an opetration to have timed out
+   */
+  idleTimeout?: number;
+  /**
+   * The cancellation token used to cancel the current request
+   */
+  cancellationToken?: any;
+  /**
+   * Log level to use for the current operation. This overrides the value set when creating the EventHubsClient
+   */
+  logLevel?: LogLevel;
+}
+
+/**
+ * Options that can be passed to the send operations on the EventHubsClient
+ */
+export interface SendOptions extends RequestOptions {
+  /**
+   * The id of the partition to which the event should be sent
+   */
+  partitionId?: string;
+}
+
+/**
+ * Options that can be passed to the receive operations on the EventHubsClient
  * @interface ReceiveOptions
  */
-export interface ReceiveOptions {
+export interface ReceiveOptions extends RequestOptions {
   /**
    * @property {string} [name] The name of the receiver. If not provided then we will set a GUID by default.
    */
@@ -86,11 +133,16 @@ export interface ClientOptionsBase {
    * over a WebSocket. In browsers, the built-in WebSocket will be  used by default. In Node, a
    * TCP socket will be used if a WebSocket constructor is not provided.
    */
-   webSocket?: WebSocketImpl;
+  webSocket?: WebSocketImpl;
   /**
    * @property {webSocketConstructorOptions} - Options to be passed to the WebSocket constructor
    */
-   webSocketConstructorOptions?: any;
+  webSocketConstructorOptions?: any;
+  /**
+   * LogLevel that defines the level of logging to be used. The logLevel set on each operation of the
+   * EventHubsClient will override this value
+   */
+  logLevel?: LogLevel;
 }
 
 /**
@@ -183,7 +235,15 @@ export class EventHubClient {
    *
    * @returns {Promise<Delivery>} Promise<Delivery>
    */
-  async send(data: EventData, partitionId?: string | number): Promise<Delivery> {
+  async send(data: EventData, partitionId?: string | number): Promise<Delivery>;
+  async send(data: EventData, options?: SendOptions): Promise<Delivery>;
+  async send(data: EventData, partitionIdOrptions?: string | number | SendOptions): Promise<Delivery> {
+    let partitionId: string | number | undefined;
+    if (typeof partitionIdOrptions === "string" || typeof partitionIdOrptions === "number") {
+      partitionId = partitionIdOrptions;
+    } else if (partitionIdOrptions && partitionIdOrptions.hasOwnProperty("partitionId")) {
+      partitionId = partitionIdOrptions.partitionId;
+    }
     const sender = EventHubSender.create(this._context, partitionId);
     return sender.send(data);
   }
@@ -199,7 +259,15 @@ export class EventHubClient {
    *
    * @return {Promise<Delivery>} Promise<Delivery>
    */
-  async sendBatch(datas: EventData[], partitionId?: string | number): Promise<Delivery> {
+  async sendBatch(datas: EventData[], partitionId?: string | number): Promise<Delivery>;
+  async sendBatch(datas: EventData[], options?: SendOptions): Promise<Delivery>;
+  async sendBatch(datas: EventData[], partitionIdOrptions?: string | number | SendOptions): Promise<Delivery> {
+    let partitionId: string | number | undefined;
+    if (typeof partitionIdOrptions === "string" || typeof partitionIdOrptions === "number") {
+      partitionId = partitionIdOrptions;
+    } else if (partitionIdOrptions && partitionIdOrptions.hasOwnProperty("partitionId")) {
+      partitionId = partitionIdOrptions.partitionId;
+    }
     const sender = EventHubSender.create(this._context, partitionId);
     return sender.sendBatch(datas);
   }
@@ -283,7 +351,7 @@ export class EventHubClient {
    * Provides the eventhub runtime information.
    * @returns {Promise<EventHubRuntimeInformation>} A promise that resolves with EventHubRuntimeInformation.
    */
-  async getHubRuntimeInformation(): Promise<EventHubRuntimeInformation> {
+  async getHubRuntimeInformation(options?: RequestOptions): Promise<EventHubRuntimeInformation> {
     try {
       return await this._context.managementSession!.getHubRuntimeInformation();
     } catch (err) {
@@ -296,9 +364,9 @@ export class EventHubClient {
    * Provides an array of partitionIds.
    * @returns {Promise<Array<string>>} A promise that resolves with an Array of strings.
    */
-  async getPartitionIds(): Promise<Array<string>> {
+  async getPartitionIds(options?: RequestOptions): Promise<Array<string>> {
     try {
-      const runtimeInfo = await this.getHubRuntimeInformation();
+      const runtimeInfo = await this.getHubRuntimeInformation(options);
       return runtimeInfo.partitionIds;
     } catch (err) {
       log.error("An error occurred while getting the partition ids: %O", err);
@@ -311,7 +379,10 @@ export class EventHubClient {
    * @param {(string|number)} partitionId Partition ID for which partition information is required.
    * @returns {Promise<EventHubPartitionRuntimeInformation>} A promise that resoloves with EventHubPartitionRuntimeInformation.
    */
-  async getPartitionInformation(partitionId: string | number): Promise<EventHubPartitionRuntimeInformation> {
+  async getPartitionInformation(
+    partitionId: string | number,
+    options?: RequestOptions
+  ): Promise<EventHubPartitionRuntimeInformation> {
     if (typeof partitionId !== "string" && typeof partitionId !== "number") {
       throw new Error("'partitionId' is a required parameter and must be of type: 'string' | 'number'.");
     }
