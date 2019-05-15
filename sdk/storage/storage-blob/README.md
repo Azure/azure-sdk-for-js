@@ -164,10 +164,7 @@ async function main() {
 
   let marker;
   do {
-    const listContainersResponse = await blobServiceClient.listContainersSegment(
-      Aborter.none,
-      marker
-    );
+    const listContainersResponse = await blobServiceClient.listContainersSegment(marker);
 
     marker = listContainersResponse.nextMarker;
     for (const container of listContainersResponse.containerItems) {
@@ -179,34 +176,21 @@ async function main() {
   const containerName = `newcontainer${new Date().getTime()}`;
   const containerClient = ContainerClient.fromBlobServiceClient(blobServiceClient, containerName);
 
-  const createContainerResponse = await containerClient.create(Aborter.none);
-  console.log(
-    `Create container ${containerName} successfully`,
-    createContainerResponse.requestId
-  );
+  const createContainerResponse = await containerClient.create();
+  console.log(`Create container ${containerName} successfully`, createContainerResponse.requestId);
 
   // Create a blob
   const content = "hello";
   const blobName = "newblob" + new Date().getTime();
   const blobClient = BlobClient.fromContainerClient(containerClient, blobName);
   const blockBlobClient = BlockBlobClient.fromBlobClient(blobClient);
-  const uploadBlobResponse = await blockBlobClient.upload(
-    Aborter.none,
-    content,
-    content.length
-  );
-  console.log(
-    `Upload block blob ${blobName} successfully`,
-    uploadBlobResponse.requestId
-  );
+  const uploadBlobResponse = await blockBlobClient.upload(content, content.length);
+  console.log(`Upload block blob ${blobName} successfully`, uploadBlobResponse.requestId);
 
   // List blobs
   marker = undefined;
   do {
-    const listBlobsResponse = await containerClient.listBlobFlatSegment(
-      Aborter.none,
-      marker
-    );
+    const listBlobsResponse = await containerClient.listBlobFlatSegment(marker);
 
     marker = listBlobsResponse.nextMarker;
     for (const blob of listBlobsResponse.segment.blobItems) {
@@ -217,14 +201,14 @@ async function main() {
   // Get blob content from position 0 to the end
   // In Node.js, get downloaded data by accessing downloadBlockBlobResponse.readableStreamBody
   // In browsers, get downloaded data by accessing downloadBlockBlobResponse.blobBody
-  const downloadBlockBlobResponse = await blobClient.download(Aborter.none, 0);
+  const downloadBlockBlobResponse = await blobClient.download(0);
   console.log(
     "Downloaded blob content",
     await streamToString(downloadBlockBlobResponse.readableStreamBody)
   );
 
   // Delete container
-  await containerClient.delete(Aborter.none);
+  await containerClient.delete();
 
   console.log("deleted container");
 }
@@ -233,7 +217,7 @@ async function main() {
 async function streamToString(readableStream) {
   return new Promise((resolve, reject) => {
     const chunks = [];
-    readableStream.on("data", data => {
+    readableStream.on("data", (data) => {
       chunks.push(data.toString());
     });
     readableStream.on("end", () => {
@@ -248,7 +232,7 @@ main()
   .then(() => {
     console.log("Successfully executed sample.");
   })
-  .catch(err => {
+  .catch((err) => {
     console.log(err.message);
   });
 ```
