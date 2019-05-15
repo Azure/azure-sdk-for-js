@@ -1,11 +1,11 @@
 import { HttpResponse } from "@azure/ms-rest-js";
-import * as Models from "../src/generated/lib/models";
+import * as Models from "./generated/lib/models";
 import { Aborter } from "./Aborter";
 import { Container } from "./generated/lib/operations";
 import { IContainerAccessConditions, IMetadata } from "./models";
 import { Pipeline } from "./Pipeline";
-import { ServiceURL } from "./ServiceURL";
-import { StorageURL } from "./StorageURL";
+import { ServiceClient } from "./ServiceClient";
+import { StorageClient } from "./StorageClient";
 import { ETagNone } from "./utils/constants";
 import { appendToURLPath, truncatedISO8061Date } from "./utils/utils.common";
 
@@ -125,23 +125,26 @@ export interface IContainerListBlobsSegmentOptions {
 }
 
 /**
- * A ContainerURL represents a URL to the Azure Storage container allowing you to manipulate its blobs.
+ * A ContainerClient represents a URL to the Azure Storage container allowing you to manipulate its blobs.
  *
  * @export
- * @class ContainerURL
- * @extends {StorageURL}
+ * @class ContainerClient
+ * @extends {StorageClient}
  */
-export class ContainerURL extends StorageURL {
+export class ContainerClient extends StorageClient {
   /**
-   * Creates a ContainerURL object from ServiceURL
+   * Creates a ContainerClient object from ServiceClient
    *
-   * @param serviceURL A ServiceURL object
+   * @param serviceClient A ServiceClient object
    * @param containerName A container name
    */
-  public static fromServiceURL(serviceURL: ServiceURL, containerName: string): ContainerURL {
-    return new ContainerURL(
-      appendToURLPath(serviceURL.url, encodeURIComponent(containerName)),
-      serviceURL.pipeline
+  public static fromServiceClient(
+    serviceClient: ServiceClient,
+    containerName: string
+  ): ContainerClient {
+    return new ContainerClient(
+      appendToURLPath(serviceClient.url, encodeURIComponent(containerName)),
+      serviceClient.pipeline
     );
   }
 
@@ -150,19 +153,19 @@ export class ContainerURL extends StorageURL {
    *
    * @private
    * @type {Containers}
-   * @memberof ContainerURL
+   * @memberof ContainerClient
    */
   private containerContext: Container;
 
   /**
-   * Creates an instance of ContainerURL.
+   * Creates an instance of ContainerClient.
    * @param {string} url A URL string pointing to Azure Storage blob container, such as
    *                     "https://myaccount.blob.core.windows.net/mycontainer". You can
    *                     append a SAS if using AnonymousCredential, such as
    *                     "https://myaccount.blob.core.windows.net/mycontainer?sasString".
-   * @param {Pipeline} pipeline Call StorageURL.newPipeline() to create a default
+   * @param {Pipeline} pipeline Call StorageClient.newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
-   * @memberof ContainerURL
+   * @memberof ContainerClient
    */
   constructor(url: string, pipeline: Pipeline) {
     super(url, pipeline);
@@ -170,15 +173,15 @@ export class ContainerURL extends StorageURL {
   }
 
   /**
-   * Creates a new ContainerURL object identical to the source but with the
+   * Creates a new ContainerClient object identical to the source but with the
    * specified request policy pipeline.
    *
    * @param {Pipeline} pipeline
-   * @returns {ContainerURL}
-   * @memberof ContainerURL
+   * @returns {ContainerClient}
+   * @memberof ContainerClient
    */
-  public withPipeline(pipeline: Pipeline): ContainerURL {
-    return new ContainerURL(this.url, pipeline);
+  public withPipeline(pipeline: Pipeline): ContainerClient {
+    return new ContainerClient(this.url, pipeline);
   }
 
   /**
@@ -190,7 +193,7 @@ export class ContainerURL extends StorageURL {
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {IContainerCreateOptions} [options]
    * @returns {Promise<Models.ContainerCreateResponse>}
-   * @memberof ContainerURL
+   * @memberof ContainerClient
    */
   public async create(
     aborter: Aborter,
@@ -213,7 +216,7 @@ export class ContainerURL extends StorageURL {
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {IContainersGetPropertiesOptions} [options]
    * @returns {Promise<Models.ContainerGetPropertiesResponse>}
-   * @memberof ContainerURL
+   * @memberof ContainerClient
    */
   public async getProperties(
     aborter: Aborter,
@@ -238,7 +241,7 @@ export class ContainerURL extends StorageURL {
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {Models.ContainersDeleteMethodOptionalParams} [options]
    * @returns {Promise<Models.ContainerDeleteResponse>}
-   * @memberof ContainerURL
+   * @memberof ContainerClient
    */
   public async delete(
     aborter: Aborter,
@@ -289,7 +292,7 @@ export class ContainerURL extends StorageURL {
    *                               If no value provided the existing metadata will be removed.
    * @param {IContainerSetMetadataOptions} [options]
    * @returns {Promise<Models.ContainerSetMetadataResponse>}
-   * @memberof ContainerURL
+   * @memberof ContainerClient
    */
   public async setMetadata(
     aborter: Aborter,
@@ -342,7 +345,7 @@ export class ContainerURL extends StorageURL {
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {IContainerGetAccessPolicyOptions} [options]
    * @returns {Promise<ContainerGetAccessPolicyResponse>}
-   * @memberof ContainerURL
+   * @memberof ContainerClient
    */
   public async getAccessPolicy(
     aborter: Aborter,
@@ -398,7 +401,7 @@ export class ContainerURL extends StorageURL {
    * @param {ISignedIdentifier[]} [containerAcl]
    * @param {IContainerSetAccessPolicyOptions} [options]
    * @returns {Promise<Models.ContainerSetAccessPolicyResponse>}
-   * @memberof ContainerURL
+   * @memberof ContainerClient
    */
   public async setAccessPolicy(
     aborter: Aborter,
@@ -439,7 +442,7 @@ export class ContainerURL extends StorageURL {
    * @param {number} duration Must be between 15 to 60 seconds, or infinite (-1)
    * @param {IContainerAcquireLeaseOptions} [options]
    * @returns {Promise<Models.ContainerAcquireLeaseResponse>}
-   * @memberof ContainerURL
+   * @memberof ContainerClient
    */
   public async acquireLease(
     aborter: Aborter,
@@ -465,7 +468,7 @@ export class ContainerURL extends StorageURL {
    * @param {string} leaseId
    * @param {IContainerReleaseLeaseOptions} [options]
    * @returns {Promise<Models.ContainerReleaseLeaseResponse>}
-   * @memberof ContainerURL
+   * @memberof ContainerClient
    */
   public async releaseLease(
     aborter: Aborter,
@@ -487,7 +490,7 @@ export class ContainerURL extends StorageURL {
    * @param {string} leaseId
    * @param {IContainerRenewLeaseOptions} [options]
    * @returns {Promise<Models.ContainerRenewLeaseResponse>}
-   * @memberof ContainerURL
+   * @memberof ContainerClient
    */
   public async renewLease(
     aborter: Aborter,
@@ -510,7 +513,7 @@ export class ContainerURL extends StorageURL {
    * @param {number} period break period
    * @param {IContainerBreakLeaseOptions} [options]
    * @returns {Promise<Models.ContainerBreakLeaseResponse>}
-   * @memberof ContainerURL
+   * @memberof ContainerClient
    */
   public async breakLease(
     aborter: Aborter,
@@ -534,7 +537,7 @@ export class ContainerURL extends StorageURL {
    * @param {string} proposedLeaseId
    * @param {IContainerChangeLeaseOptions} [options]
    * @returns {Promise<Models.ContainerChangeLeaseResponse>}
-   * @memberof ContainerURL
+   * @memberof ContainerClient
    */
   public async changeLease(
     aborter: Aborter,
@@ -560,7 +563,7 @@ export class ContainerURL extends StorageURL {
    * @param {string} [marker]
    * @param {IContainerListBlobsSegmentOptions} [options]
    * @returns {Promise<Models.ContainerListBlobFlatSegmentResponse>}
-   * @memberof ContainerURL
+   * @memberof ContainerClient
    */
   public async listBlobFlatSegment(
     aborter: Aborter,
@@ -586,7 +589,7 @@ export class ContainerURL extends StorageURL {
    * @param {string} delimiter
    * @param {IContainerListBlobsSegmentOptions} [options]
    * @returns {Promise<Models.ContainerListBlobHierarchySegmentResponse>}
-   * @memberof ContainerURL
+   * @memberof ContainerClient
    */
   public async listBlobHierarchySegment(
     aborter: Aborter,

@@ -1,24 +1,24 @@
 import * as assert from "assert";
 
 import { Aborter } from "../src/Aborter";
-import { ShareURL } from "../src/ShareURL";
+import { ShareClient } from "../src/ShareClient";
 import { getBSU, getUniqueName } from "./utils";
 import * as dotenv from "dotenv";
 dotenv.config({ path: "../.env" });
 
-describe("ShareURL", () => {
-  const serviceURL = getBSU();
+describe("ShareClient", () => {
+  const serviceClient = getBSU();
   let shareName: string = getUniqueName("share");
-  let shareURL = ShareURL.fromServiceURL(serviceURL, shareName);
+  let shareClient = ShareClient.fromFileServiceClient(serviceClient, shareName);
 
   beforeEach(async () => {
     shareName = getUniqueName("share");
-    shareURL = ShareURL.fromServiceURL(serviceURL, shareName);
-    await shareURL.create(Aborter.none);
+    shareClient = ShareClient.fromFileServiceClient(serviceClient, shareName);
+    await shareClient.create(Aborter.none);
   });
 
   afterEach(async () => {
-    await shareURL.delete(Aborter.none);
+    await shareClient.delete(Aborter.none);
   });
 
   it("setMetadata", async () => {
@@ -27,14 +27,14 @@ describe("ShareURL", () => {
       keya: "vala",
       keyb: "valb"
     };
-    await shareURL.setMetadata(Aborter.none, metadata);
+    await shareClient.setMetadata(Aborter.none, metadata);
 
-    const result = await shareURL.getProperties(Aborter.none);
+    const result = await shareClient.getProperties(Aborter.none);
     assert.deepEqual(result.metadata, metadata);
   });
 
   it("getProperties", async () => {
-    const result = await shareURL.getProperties(Aborter.none);
+    const result = await shareClient.getProperties(Aborter.none);
     assert.ok(result.eTag!.length > 0);
     assert.ok(result.lastModified);
     assert.ok(result.requestId);
@@ -48,10 +48,10 @@ describe("ShareURL", () => {
   });
 
   it("create with all parameters configured", async () => {
-    const shareURL2 = ShareURL.fromServiceURL(serviceURL, getUniqueName(shareName));
+    const shareClient2 = ShareClient.fromFileServiceClient(serviceClient, getUniqueName(shareName));
     const metadata = { key: "value" };
-    await shareURL2.create(Aborter.none, { metadata });
-    const result = await shareURL2.getProperties(Aborter.none);
+    await shareClient2.create(Aborter.none, { metadata });
+    const result = await shareClient2.getProperties(Aborter.none);
     assert.deepEqual(result.metadata, metadata);
   });
 
@@ -62,32 +62,32 @@ describe("ShareURL", () => {
 
   it("setQuota", async () => {
     const quotaInGB = 20;
-    await shareURL.setQuota(Aborter.none, quotaInGB);
-    const propertiesResponse = await shareURL.getProperties(Aborter.none);
+    await shareClient.setQuota(Aborter.none, quotaInGB);
+    const propertiesResponse = await shareClient.getProperties(Aborter.none);
     assert.equal(propertiesResponse.quota, quotaInGB);
   });
 
   it("getStatistics", async () => {
-    const statisticsResponse = await shareURL.getStatistics(Aborter.none);
+    const statisticsResponse = await shareClient.getStatistics(Aborter.none);
     assert.notEqual(statisticsResponse.shareUsage, undefined);
   });
 
   it("create snapshot", async () => {
     const metadata = { key1: "value1", key2: "value2" };
-    const createSnapshotResponse = await shareURL.createSnapshot(Aborter.none, {
+    const createSnapshotResponse = await shareClient.createSnapshot(Aborter.none, {
       metadata
     });
 
     assert.notEqual(createSnapshotResponse.snapshot, undefined);
     const sanpshot = createSnapshotResponse.snapshot!;
-    const snapshotShareURL = shareURL.withSnapshot(sanpshot);
+    const snapshotShareClient = shareClient.withSnapshot(sanpshot);
 
-    const snapshotProperties = await snapshotShareURL.getProperties(Aborter.none);
+    const snapshotProperties = await snapshotShareClient.getProperties(Aborter.none);
     assert.deepStrictEqual(snapshotProperties.metadata, metadata);
 
-    const originProperties = await shareURL.getProperties(Aborter.none);
+    const originProperties = await shareClient.getProperties(Aborter.none);
     assert.notDeepStrictEqual(originProperties.metadata, metadata);
 
-    await snapshotShareURL.delete(Aborter.none, {});
+    await snapshotShareClient.delete(Aborter.none, {});
   });
 });

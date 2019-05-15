@@ -1,20 +1,20 @@
 import * as assert from "assert";
 
 import { Aborter } from "../src/Aborter";
-import { ContainerURL } from "../src/ContainerURL";
+import { ContainerClient } from "../src/ContainerClient";
 import { getBSU, getUniqueName } from "./utils";
 import * as dotenv from "dotenv";
 dotenv.config({ path: "../.env" });
 
 // tslint:disable:no-empty
 describe("Aborter", () => {
-  const serviceURL = getBSU();
+  const serviceClient = getBSU();
   let containerName: string = getUniqueName("container");
-  let containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
+  let containerClient = ContainerClient.fromServiceClient(serviceClient, containerName);
 
   beforeEach(async () => {
     containerName = getUniqueName("container");
-    containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
+    containerClient = ContainerClient.fromServiceClient(serviceClient, containerName);
   });
 
   it("should set value and get value successfully", async () => {
@@ -23,12 +23,12 @@ describe("Aborter", () => {
   });
 
   it("Should not abort after calling abort()", async () => {
-    await containerURL.create(Aborter.none);
+    await containerClient.create(Aborter.none);
   });
 
   it("Should abort when calling abort() before request finishes", async () => {
     const aborter = Aborter.none;
-    const response = containerURL.create(aborter);
+    const response = containerClient.create(aborter);
     aborter.abort();
     try {
       await response;
@@ -38,13 +38,13 @@ describe("Aborter", () => {
 
   it("Should not abort when calling abort() after request finishes", async () => {
     const aborter = Aborter.none;
-    await containerURL.create(aborter);
+    await containerClient.create(aborter);
     aborter.abort();
   });
 
   it("Should abort after aborter timeout", async () => {
     try {
-      await containerURL.create(Aborter.timeout(1));
+      await containerClient.create(Aborter.timeout(1));
       assert.fail();
     } catch (err) {}
   });
@@ -52,7 +52,7 @@ describe("Aborter", () => {
   it("Should abort after father aborter calls abort()", async () => {
     try {
       const aborter = Aborter.none;
-      const response = containerURL.create(aborter.withTimeout(10 * 60 * 1000));
+      const response = containerClient.create(aborter.withTimeout(10 * 60 * 1000));
       aborter.abort();
       await response;
       assert.fail();
@@ -62,7 +62,7 @@ describe("Aborter", () => {
   it("Should abort after father aborter timeout", async () => {
     try {
       const aborter = Aborter.timeout(1);
-      const response = containerURL.create(aborter.withTimeout(10 * 60 * 1000));
+      const response = containerClient.create(aborter.withTimeout(10 * 60 * 1000));
       await response;
       assert.fail();
     } catch (err) {}

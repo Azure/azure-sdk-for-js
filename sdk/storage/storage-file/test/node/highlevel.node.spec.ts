@@ -2,9 +2,9 @@ import * as assert from "assert";
 import * as fs from "fs";
 import * as path from "path";
 
-import { FileURL, ShareURL } from "../../src";
+import { FileClient, ShareClient } from "../../src";
 import { Aborter } from "../../src/Aborter";
-import { DirectoryURL } from "../../src/DirectoryURL";
+import { DirectoryClient } from "../../src/DirectoryClient";
 import {
   downloadAzureFileToBuffer,
   uploadFileToAzureFile,
@@ -15,13 +15,13 @@ import { IRetriableReadableStreamOptions } from "../../src/utils/RetriableReadab
 
 // tslint:disable:no-empty
 describe("Highlevel", () => {
-  const serviceURL = getBSU();
+  const serviceClient = getBSU();
   let shareName = getUniqueName("share");
-  let shareURL = ShareURL.fromServiceURL(serviceURL, shareName);
+  let shareClient = ShareClient.fromFileServiceClient(serviceClient, shareName);
   let dirName = getUniqueName("dir");
-  let dirURL = DirectoryURL.fromShareURL(shareURL, dirName);
+  let dirClient = DirectoryClient.fromShareClient(shareClient, dirName);
   let fileName = getUniqueName("file");
-  let fileURL = FileURL.fromDirectoryURL(dirURL, fileName);
+  let fileClient = FileClient.fromDirectoryClient(dirClient, fileName);
   let tempFileSmall: string;
   let tempFileSmallLength: number;
   let tempFileLarge: string;
@@ -30,17 +30,17 @@ describe("Highlevel", () => {
 
   beforeEach(async () => {
     shareName = getUniqueName("share");
-    shareURL = ShareURL.fromServiceURL(serviceURL, shareName);
-    await shareURL.create(Aborter.none);
+    shareClient = ShareClient.fromFileServiceClient(serviceClient, shareName);
+    await shareClient.create(Aborter.none);
     dirName = getUniqueName("dir");
-    dirURL = DirectoryURL.fromShareURL(shareURL, dirName);
-    await dirURL.create(Aborter.none);
+    dirClient = DirectoryClient.fromShareClient(shareClient, dirName);
+    await dirClient.create(Aborter.none);
     fileName = getUniqueName("file");
-    fileURL = FileURL.fromDirectoryURL(dirURL, fileName);
+    fileClient = FileClient.fromDirectoryClient(dirClient, fileName);
   });
 
   afterEach(async () => {
-    await shareURL.delete(Aborter.none);
+    await shareClient.delete(Aborter.none);
   });
 
   before(async () => {
@@ -59,12 +59,12 @@ describe("Highlevel", () => {
   });
 
   it("uploadFileToAzureFile should success for large data", async () => {
-    await uploadFileToAzureFile(Aborter.none, tempFileLarge, fileURL, {
+    await uploadFileToAzureFile(Aborter.none, tempFileLarge, fileClient, {
       parallelism: 20,
       rangeSize: 4 * 1024 * 1024
     });
 
-    const downloadResponse = await fileURL.download(Aborter.none, 0);
+    const downloadResponse = await fileClient.download(Aborter.none, 0);
     const downloadedFile = path.join(tempFolderPath, getUniqueName("downloadfile."));
     await readStreamToLocalFile(downloadResponse.readableStreamBody!, downloadedFile);
 
@@ -76,12 +76,12 @@ describe("Highlevel", () => {
   });
 
   it("uploadFileToAzureFile should success for samll data", async () => {
-    await uploadFileToAzureFile(Aborter.none, tempFileSmall, fileURL, {
+    await uploadFileToAzureFile(Aborter.none, tempFileSmall, fileClient, {
       parallelism: 20,
       rangeSize: 4 * 1024 * 1024
     });
 
-    const downloadResponse = await fileURL.download(Aborter.none, 0);
+    const downloadResponse = await fileClient.download(Aborter.none, 0);
     const downloadedFile = path.join(tempFolderPath, getUniqueName("downloadfile."));
     await readStreamToLocalFile(downloadResponse.readableStreamBody!, downloadedFile);
 
@@ -96,7 +96,7 @@ describe("Highlevel", () => {
     const aborter = Aborter.timeout(1);
 
     try {
-      await uploadFileToAzureFile(aborter, tempFileLarge, fileURL, {
+      await uploadFileToAzureFile(aborter, tempFileLarge, fileClient, {
         parallelism: 20,
         rangeSize: 4 * 1024 * 1024
       });
@@ -110,7 +110,7 @@ describe("Highlevel", () => {
     const aborter = Aborter.timeout(1);
 
     try {
-      await uploadFileToAzureFile(aborter, tempFileSmall, fileURL, {
+      await uploadFileToAzureFile(aborter, tempFileSmall, fileClient, {
         parallelism: 20,
         rangeSize: 4 * 1024 * 1024
       });
@@ -125,7 +125,7 @@ describe("Highlevel", () => {
     const aborter = Aborter.none;
 
     try {
-      await uploadFileToAzureFile(aborter, tempFileLarge, fileURL, {
+      await uploadFileToAzureFile(aborter, tempFileLarge, fileClient, {
         parallelism: 20,
         progress: (ev) => {
           assert.ok(ev.loadedBytes);
@@ -143,7 +143,7 @@ describe("Highlevel", () => {
     const aborter = Aborter.none;
 
     try {
-      await uploadFileToAzureFile(aborter, tempFileSmall, fileURL, {
+      await uploadFileToAzureFile(aborter, tempFileSmall, fileClient, {
         parallelism: 20,
         progress: (ev) => {
           assert.ok(ev.loadedBytes);
@@ -162,12 +162,12 @@ describe("Highlevel", () => {
       Aborter.none,
       rs,
       tempFileLargeLength,
-      fileURL,
+      fileClient,
       4 * 1024 * 1024,
       20
     );
 
-    const downloadResponse = await fileURL.download(Aborter.none, 0);
+    const downloadResponse = await fileClient.download(Aborter.none, 0);
 
     const downloadFilePath = path.join(tempFolderPath, getUniqueName("downloadFile"));
     await readStreamToLocalFile(downloadResponse.readableStreamBody!, downloadFilePath);
@@ -184,7 +184,14 @@ describe("Highlevel", () => {
     const aborter = Aborter.timeout(1);
 
     try {
-      await uploadStreamToAzureFile(aborter, rs, tempFileLargeLength, fileURL, 4 * 1024 * 1024, 20);
+      await uploadStreamToAzureFile(
+        aborter,
+        rs,
+        tempFileLargeLength,
+        fileClient,
+        4 * 1024 * 1024,
+        20
+      );
       assert.fail();
     } catch (err) {
       assert.ok((err.code as string).toLowerCase().includes("abort"));
@@ -199,7 +206,7 @@ describe("Highlevel", () => {
       Aborter.none,
       rs,
       tempFileLargeLength,
-      fileURL,
+      fileClient,
       4 * 1024 * 1024,
       20,
       {
@@ -218,13 +225,13 @@ describe("Highlevel", () => {
       Aborter.none,
       rs,
       tempFileLargeLength,
-      fileURL,
+      fileClient,
       4 * 1024 * 1024,
       20
     );
 
     const buf = Buffer.alloc(tempFileLargeLength);
-    await downloadAzureFileToBuffer(Aborter.none, buf, fileURL, 0, undefined, {
+    await downloadAzureFileToBuffer(Aborter.none, buf, fileClient, 0, undefined, {
       parallelism: 20,
       rangeSize: 4 * 1024 * 1024
     });
@@ -239,14 +246,14 @@ describe("Highlevel", () => {
       Aborter.none,
       rs,
       tempFileLargeLength,
-      fileURL,
+      fileClient,
       4 * 1024 * 1024,
       20
     );
 
     try {
       const buf = Buffer.alloc(tempFileLargeLength);
-      await downloadAzureFileToBuffer(Aborter.timeout(1), buf, fileURL, 0, undefined, {
+      await downloadAzureFileToBuffer(Aborter.timeout(1), buf, fileClient, 0, undefined, {
         parallelism: 20,
         rangeSize: 4 * 1024 * 1024
       });
@@ -262,7 +269,7 @@ describe("Highlevel", () => {
       Aborter.none,
       rs,
       tempFileSmallLength,
-      fileURL,
+      fileClient,
       4 * 1024 * 1024,
       10
     );
@@ -271,7 +278,7 @@ describe("Highlevel", () => {
     const buf = Buffer.alloc(tempFileSmallLength);
     const aborter = Aborter.none;
     try {
-      await downloadAzureFileToBuffer(aborter, buf, fileURL, 0, undefined, {
+      await downloadAzureFileToBuffer(aborter, buf, fileClient, 0, undefined, {
         parallelism: 1,
         progress: () => {
           eventTriggered = true;
@@ -284,13 +291,13 @@ describe("Highlevel", () => {
   });
 
   it("bloburl.download should success when internal stream unexcepted ends at the stream end", async () => {
-    await uploadFileToAzureFile(Aborter.none, tempFileSmall, fileURL, {
+    await uploadFileToAzureFile(Aborter.none, tempFileSmall, fileClient, {
       rangeSize: 4 * 1024 * 1024,
       parallelism: 20
     });
 
     let retirableReadableStreamOptions: IRetriableReadableStreamOptions;
-    const downloadResponse = await fileURL.download(Aborter.none, 0, undefined, {
+    const downloadResponse = await fileClient.download(Aborter.none, 0, undefined, {
       maxRetryRequests: 1,
       progress: (ev) => {
         if (ev.loadedBytes >= tempFileSmallLength) {
@@ -312,14 +319,14 @@ describe("Highlevel", () => {
   });
 
   it("bloburl.download should download full data successfully when internal stream unexcepted ends", async () => {
-    await uploadFileToAzureFile(Aborter.none, tempFileSmall, fileURL, {
+    await uploadFileToAzureFile(Aborter.none, tempFileSmall, fileClient, {
       rangeSize: 4 * 1024 * 1024,
       parallelism: 20
     });
 
     let retirableReadableStreamOptions: IRetriableReadableStreamOptions;
     let injectedErrors = 0;
-    const downloadResponse = await fileURL.download(Aborter.none, 0, undefined, {
+    const downloadResponse = await fileClient.download(Aborter.none, 0, undefined, {
       maxRetryRequests: 3,
       progress: () => {
         if (injectedErrors++ < 3) {
@@ -341,7 +348,7 @@ describe("Highlevel", () => {
   });
 
   it("bloburl.download should download partial data when internal stream unexcepted ends", async () => {
-    await uploadFileToAzureFile(Aborter.none, tempFileSmall, fileURL, {
+    await uploadFileToAzureFile(Aborter.none, tempFileSmall, fileClient, {
       rangeSize: 4 * 1024 * 1024,
       parallelism: 20
     });
@@ -350,7 +357,7 @@ describe("Highlevel", () => {
 
     let retirableReadableStreamOptions: IRetriableReadableStreamOptions;
     let injectedErrors = 0;
-    const downloadResponse = await fileURL.download(Aborter.none, 1, partialSize, {
+    const downloadResponse = await fileClient.download(Aborter.none, 1, partialSize, {
       maxRetryRequests: 3,
       progress: () => {
         if (injectedErrors++ < 3) {
@@ -372,7 +379,7 @@ describe("Highlevel", () => {
   });
 
   it("bloburl.download should download data failed when exceeding max stream retry requests", async () => {
-    await uploadFileToAzureFile(Aborter.none, tempFileSmall, fileURL, {
+    await uploadFileToAzureFile(Aborter.none, tempFileSmall, fileClient, {
       rangeSize: 4 * 1024 * 1024,
       parallelism: 20
     });
@@ -384,7 +391,7 @@ describe("Highlevel", () => {
     let expectedError = false;
 
     try {
-      const downloadResponse = await fileURL.download(Aborter.none, 0, undefined, {
+      const downloadResponse = await fileClient.download(Aborter.none, 0, undefined, {
         maxRetryRequests: 0,
         progress: () => {
           if (injectedErrors++ < 1) {
@@ -403,7 +410,7 @@ describe("Highlevel", () => {
   });
 
   it("bloburl.download should abort after retrys", async () => {
-    await uploadFileToAzureFile(Aborter.none, tempFileSmall, fileURL, {
+    await uploadFileToAzureFile(Aborter.none, tempFileSmall, fileClient, {
       rangeSize: 4 * 1024 * 1024,
       parallelism: 20
     });
@@ -416,7 +423,7 @@ describe("Highlevel", () => {
 
     try {
       const aborter = Aborter.none;
-      const downloadResponse = await fileURL.download(aborter, 0, undefined, {
+      const downloadResponse = await fileClient.download(aborter, 0, undefined, {
         maxRetryRequests: 3,
         progress: () => {
           if (injectedErrors++ < 2) {

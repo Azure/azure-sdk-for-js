@@ -9,10 +9,10 @@ import { TokenCredentialPolicy } from "../policies/TokenCredentialPolicy";
  *
  * @example
  *  const tokenCredential = new TokenCredential("token");
- *  const pipeline = StorageURL.newPipeline(tokenCredential);
+ *  const pipeline = StorageClient.newPipeline(tokenCredential);
  *
  *  // List containers
- *  const serviceURL = new ServiceURL("https://mystorageaccount.blob.core.windows.net", pipeline);
+ *  const serviceClient = new ServiceClient("https://mystorageaccount.blob.core.windows.net", pipeline);
  *
  *  // Set up a timer to refresh the token
  *  const timerID = setInterval(() => {
