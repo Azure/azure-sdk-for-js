@@ -10,11 +10,11 @@ const {
   uploadFileToBlockBlob,
   uploadStreamToBlockBlob,
   Aborter,
-  BlobURL,
-  BlockBlobURL,
-  ContainerURL,
-  ServiceURL,
-  StorageURL
+  BlobClient,
+  BlobServiceClient,
+  BlockBlobClient,
+  ContainerClient,
+  StorageClient
 } = require("../.."); // Change to "@azure/storage-blob" in your package
 
 async function main() {
@@ -23,31 +23,31 @@ async function main() {
   const accountSas = "";
   const localFilePath = "";
 
-  const pipeline = StorageURL.newPipeline(new AnonymousCredential(), {
+  const pipeline = StorageClient.newPipeline(new AnonymousCredential(), {
     // httpClient: MyHTTPClient, // A customized HTTP client implementing IHttpClient interface
     // logger: MyLogger, // A customized logger implementing IHttpPipelineLogger interface
     retryOptions: { maxTries: 4 }, // Retry options
     telemetry: { value: "HighLevelSample V1.0.0" } // Customized telemetry string
   });
 
-  const serviceURL = new ServiceURL(
+  const blobServiceClient = new BlobServiceClient(
     `https://${account}.blob.core.windows.net${accountSas}`,
     pipeline
   );
 
   // Create a container
   const containerName = `newcontainer${new Date().getTime()}`;
-  const containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
-  await containerURL.create(Aborter.none);
+  const containerClient = ContainerClient.fromBlobServiceClient(blobServiceClient, containerName);
+  await containerClient.create(Aborter.none);
 
   // Create a blob
   const blobName = "newblob" + new Date().getTime();
-  const blobURL = BlobURL.fromContainerURL(containerURL, blobName);
-  const blockBlobURL = BlockBlobURL.fromBlobURL(blobURL);
+  const blobClient = BlobClient.fromContainerClient(containerClient, blobName);
+  const blockBlobClient = BlockBlobClient.fromBlobClient(blobClient);
 
   // Parallel uploading with uploadFileToBlockBlob in Node.js runtime
   // uploadFileToBlockBlob is only available in Node.js
-  await uploadFileToBlockBlob(Aborter.none, localFilePath, blockBlobURL, {
+  await uploadFileToBlockBlob(Aborter.none, localFilePath, blockBlobClient, {
     blockSize: 4 * 1024 * 1024, // 4MB block size
     parallelism: 20, // 20 concurrency
     progress: ev => console.log(ev)
@@ -59,7 +59,7 @@ async function main() {
   await uploadStreamToBlockBlob(
     Aborter.timeout(30 * 60 * 1000), // Abort uploading with timeout in 30mins
     fs.createReadStream(localFilePath),
-    blockBlobURL,
+    blockBlobClient,
     4 * 1024 * 1024,
     20,
     {
@@ -72,7 +72,7 @@ async function main() {
   // Uncomment following code in browsers because uploadBrowserDataToBlockBlob is only available in browsers
   /*
   const browserFile = document.getElementById("fileinput").files[0];
-  await uploadBrowserDataToBlockBlob(Aborter.none, browserFile, blockBlobURL, {
+  await uploadBrowserDataToBlockBlob(Aborter.none, browserFile, blockBlobClient, {
     blockSize: 4 * 1024 * 1024, // 4MB block size
     parallelism: 20, // 20 concurrency
     progress: ev => console.log(ev)
@@ -86,7 +86,7 @@ async function main() {
   await downloadBlobToBuffer(
     Aborter.timeout(30 * 60 * 1000),
     buffer,
-    blockBlobURL,
+    blockBlobClient,
     0,
     undefined,
     {
@@ -98,7 +98,7 @@ async function main() {
   console.log("downloadBlobToBuffer success");
 
   // Delete container
-  await containerURL.delete(Aborter.none);
+  await containerClient.delete(Aborter.none);
   console.log("deleted container");
 }
 
