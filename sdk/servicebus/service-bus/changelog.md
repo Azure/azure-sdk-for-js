@@ -1,3 +1,20 @@
+# 2019-05-15 1.0.0
+
+- Pass value for `associated-link-name` in the application properties when making a request over the
+$management link. This is used by Service Bus to carry out some optimizations on their end.
+- User agent string which is passed as a AMQP connection property is updated to follow the new standard.
+For example: `azsdk-js-azureservicebus/1.0.0/(NODE-VERSION v10.15.0) Windows_NT 10.0.17763`
+- Avoid type checks on the message before sending it, as `rhea` throws type errors while encoding the message.
+- `receiveMessages()` now returns rejected promise if network connection is lost instead of getting stuck
+forever waiting for the `drain` event to be fired by rhea
+- Empty string is a valid sessionId as per Service Bus, therefore allow it to be used when receiving messages.
+- When Service Bus does not acknowledge a message settlement/disposition request in time, throw an error
+instead of returning a resolved promise that misleads into assuming a successful operation.
+- Throw `MessageLockLostError` or `SessionLockLostError` (based on whether the entity has sessions enabled
+or not) for a message settlement/disposition request when the AMQP receiver link that was used to receive
+the message has died.
+- Document errors thrown explicitly by the library for the user facing apis in jsdocs.
+
 # 2019-04-24 1.0.0-preview.3
 
 - Proxy support added. Please refer to the [useProxy](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/samples/javascript/gettingStarted/useProxy.js)
