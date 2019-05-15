@@ -32,12 +32,6 @@ async function main(): Promise<void> {
   console.log("getResult: ", getResult);
   let encoded = Buffer.from("Hello World");
 
-  let wrappedResponse = await client.wrapKey("MyKeyName", '', "RSA-OAEP", encoded);
-  console.log("wrappedResponse: ", wrappedResponse);
-
-  let unwrappedResponse = await client.unwrapKey("MyKeyName", '', "RSA-OAEP", wrappedResponse.result!);
-  console.log("unwrappedResponse: ", unwrappedResponse.result!.toString());
- 
   for await (let x of client.getAllKeys()) {
     console.log(">> ", x);
   }

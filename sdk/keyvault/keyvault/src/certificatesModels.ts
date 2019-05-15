@@ -1,21 +1,132 @@
 import * as msRest from "@azure/ms-rest-js";
 import {ParsedKeyVaultEntityIdentifier} from "./keyVaultBase";
-import {KeyUsageType, JsonWebKeyType, JsonWebKey, JsonWebKeyOperation} from "./models";
+import {CertificatePolicy} from "./models";
 
-export interface Key extends KeyAttributes {
+export interface Certificate extends CertificateAttributes {
   /**
-   * @member {string} [value] The key value.
+   * @member {string} [kid] The key id.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  key?: JsonWebKey;
+  readonly kid?: string;
+  /**
+   * @member {string} [sid] The secret id.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly sid?: string;
+  /**
+   * @member {CertificatePolicy} [policy] The management policy.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly policy?: CertificatePolicy;
+  /**
+   * @member {Uint8Array} [cer] CER contents of x509 certificate.
+   */
+  cer?: Uint8Array;
+  /**
+   * @member {string} [contentType] The content type of the secret.
+   */
+  contentType?: string;
 }
 
-export interface KeyAttributes extends ParsedKeyVaultEntityIdentifier {
+export interface CertificateAttributes extends ParsedKeyVaultEntityIdentifier {
   /**
-   * @member {string} [id] The key id.
+   * @member {string} [id] The certificate id.
    */
   id?: string;
   /**
-   * @member {string} [contentType] The content type of the key.
+   * @member {boolean} [enabled] Determines whether the object is enabled.
+   */
+  enabled?: boolean;
+  /**
+   * @member {Date} [notBefore] Not before date in UTC.
+   */
+  notBefore?: Date;
+  /**
+   * @member {Date} [expires] Expiry date in UTC.
+   */
+  expires?: Date;
+  /**
+   * @member {{ [propertyName: string]: string }} [tags] Application specific
+   * metadata in the form of key-value pairs.
+   */
+  tags?: { [propertyName: string]: string };
+  /**
+   * @member {Uint8Array} [x509Thumbprint] Thumbprint of the certificate.
+   */
+  x509Thumbprint?: Uint8Array;
+}
+
+export interface DeletedCertificate extends Certificate {
+  /**
+   * @member {string} [recoveryId] The url of the recovery object, used to
+   * identify and recover the deleted certificate.
+   */
+  recoveryId?: string;
+  /**
+   * @member {Date} [scheduledPurgeDate] The time when the certificate is scheduled
+   * to be purged, in UTC
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly scheduledPurgeDate?: Date;
+  /**
+   * @member {Date} [deletedDate] The time when the certificate was deleted, in UTC
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly deletedDate?: Date;
+}
+
+/**
+ * @interface
+ * An interface representing KeyVaultClientSetCertificateOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface SetCertificateOptions {
+  /**
+   * @member {{ [propertyName: string]: string }} [tags] Application specific
+   * metadata in the form of key-value pairs.
+   */
+  tags?: { [propertyName: string]: string };
+  /**
+   * @member {string} [contentType] Type of the certificate value such as a
+   * password.
+   */
+  contentType?: string;
+  /**
+   * @member {boolean} [enabled] Determines whether the object is enabled.
+   */
+  enabled?: boolean;
+  /**
+   * @member {Date} [notBefore] Not before date in UTC.
+   */
+  notBefore?: Date;
+  /**
+   * @member {Date} [expires] Expiry date in UTC.
+   */
+  expires?: Date;
+  /**
+   * @member {msRest.RequestOptionsBase} [requestOptions] Options for this request
+   */
+  requestOptions?: msRest.RequestOptionsBase;
+}
+
+/**
+ * @interface
+ * An interface representing KeyVaultClientUpdateCertificateOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface UpdateCertificateOptions {
+  /**
+   * @member {string} [contentType] Type of the certificate value such as a
+   * password.
    */
   contentType?: string;
   /**
@@ -35,64 +146,6 @@ export interface KeyAttributes extends ParsedKeyVaultEntityIdentifier {
    * metadata in the form of key-value pairs.
    */
   tags?: { [propertyName: string]: string };
-
-}
-
-export interface DeletedKey extends Key {
-  /**
-   * @member {string} [recoveryId] The url of the recovery object, used to
-   * identify and recover the deleted key.
-   */
-  recoveryId?: string;
-  /**
-   * @member {Date} [scheduledPurgeDate] The time when the key is scheduled
-   * to be purged, in UTC
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly scheduledPurgeDate?: Date;
-  /**
-   * @member {Date} [deletedDate] The time when the key was deleted, in UTC
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly deletedDate?: Date;
-}
-
-/**
- * @interface
- * An interface representing the optional parameters that can be
- * passed to createKey
- *
- * @extends RequestOptionsBase
- */
-export interface CreateKeyOptions {
-  /**
-   * @member {{ [propertyName: string]: string }} [tags] Application specific
-   * metadata in the form of key-value pairs.
-   */
-  tags?: { [propertyName: string]: string };
-  /**
-   * @member {number} [keySize] The key size in bits. For example: 2048, 3072,
-   * or 4096 for RSA.
-   */
-  keySize?: number;
-  /**
-   * @member {JsonWebKeyOperation[]} [keyOps]
-   */
-  keyOps?: JsonWebKeyOperation[];
-  /**
-   * @member {boolean} [enabled] Determines whether the object is enabled.
-   */
-  enabled?: boolean;
-  /**
-   * @member {Date} [notBefore] Not before date in UTC.
-   */
-  notBefore?: Date;
-  /**
-   * @member {Date} [expires] Expiry date in UTC.
-   */
-  expires?: Date;
   /**
    * @member {msRest.RequestOptionsBase} [requestOptions] Options for this request
    */
@@ -101,87 +154,15 @@ export interface CreateKeyOptions {
 
 /**
  * @interface
- * An interface representing the optional parameters that can be
- * passed to createKey
- *
- * @extends RequestOptionsBase
- */
-export interface ImportKeyOptions {
-  /**
-   * @member {{ [propertyName: string]: string }} [tags] Application specific
-   * metadata in the form of key-value pairs.
-   */
-  tags?: { [propertyName: string]: string };
-  /**
-   * @member {boolean} [hsm] Whether to import as a hardware key (HSM) or
-   * software key.
-   */
-  hsm?: boolean;
-  /**
-   * @member {boolean} [enabled] Determines whether the object is enabled.
-   */
-  enabled?: boolean;
-  /**
-   * @member {Date} [notBefore] Not before date in UTC.
-   */
-  notBefore?: Date;
-  /**
-   * @member {Date} [expires] Expiry date in UTC.
-   */
-  expires?: Date;
-  /**
-   * @member {msRest.RequestOptionsBase} [requestOptions] Options for this request
-   */
-  requestOptions?: msRest.RequestOptionsBase;
-}
-
-/**
- * @interface
- * An interface representing KeyVaultClientUpdateKeyOptionalParams.
+ * An interface representing CertificateClientGetCertificateOptionalParams.
  * Optional Parameters.
  *
  * @extends RequestOptionsBase
  */
-export interface UpdateKeyOptions {
+export interface GetCertificateOptions {
   /**
-   * @member {JsonWebKeyOperation[]} [keyOps] Json web key operations. For more
-   * information on possible key operations, see JsonWebKeyOperation.
-   */
-  keyOps?: JsonWebKeyOperation[];
-  /**
-   * @member {boolean} [enabled] Determines whether the object is enabled.
-   */
-  enabled?: boolean;
-  /**
-   * @member {Date} [notBefore] Not before date in UTC.
-   */
-  notBefore?: Date;
-  /**
-   * @member {Date} [expires] Expiry date in UTC.
-   */
-  expires?: Date;
-  /**
-   * @member {{ [propertyName: string]: string }} [tags] Application specific
-   * metadata in the form of key-value pairs.
-   */
-  tags?: { [propertyName: string]: string };
-  /**
-   * @member {msRest.RequestOptionsBase} [requestOptions] Options for this request
-   */
-  requestOptions?: msRest.RequestOptionsBase;
-}
-
-/**
- * @interface
- * An interface representing KeyClientGetKeyOptionalParams.
- * Optional Parameters.
- *
- * @extends RequestOptionsBase
- */
-export interface GetKeyOptions {
-  /**
-   * @member {string} [version] The version of the secret to retrieve.  If not 
-   * specified the latest version of the secret will be retrieved.
+   * @member {string} [version] The version of the certificate to retrieve.  If not 
+   * specified the latest version of the certificate will be retrieved.
    */
   version?: string;
   /**
@@ -192,12 +173,12 @@ export interface GetKeyOptions {
 
 /**
  * @interface
- * An interface representing optional parameters for KeyClient paged operations.
+ * An interface representing optional parameters for CertificateClient paged operations.
  * Optional Parameters.
  *
  * @extends RequestOptionsBase
  */
-export interface GetAllKeysOptions {
+export interface GetAllCertificatesOptions {
   /**
    * @member {number} [maxPageSize] Maximum number of results to return in a
    * page. If not specified, the service will return up to 25 results per page.

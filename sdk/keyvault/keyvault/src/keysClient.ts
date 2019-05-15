@@ -194,10 +194,12 @@ export class KeysClient {
   ) {
     if (options) {
       let unflattenedAttributes = { enabled: options.enabled, notBefore: options.notBefore, expires: options.expires };
-      let unflattenedOptions = { ...options, keyAttributes: unflattenedAttributes };
+      let unflattenedOptions = { ...options, ...(options.requestOptions ? options.requestOptions : {}), keyAttributes: unflattenedAttributes };
+
       delete unflattenedOptions.enabled;
       delete unflattenedOptions.notBefore;
       delete unflattenedOptions.expires;
+      delete unflattenedOptions.requestOptions;
 
       const response = await this.client.createKey(this.vaultBaseUrl, keyName, keyType, unflattenedOptions);
       return this.getKeyFromKeyBundle(response);
@@ -224,10 +226,11 @@ export class KeysClient {
   ) {
     if (options) {
       let unflattenedAttributes = { enabled: options.enabled, notBefore: options.notBefore, expires: options.expires };
-      let unflattenedOptions = { ...options, keyAttributes: unflattenedAttributes };
+      let unflattenedOptions = { ...options, ...(options.requestOptions ? options.requestOptions : {}), keyAttributes: unflattenedAttributes };
       delete unflattenedOptions.enabled;
       delete unflattenedOptions.notBefore;
       delete unflattenedOptions.expires;
+      delete unflattenedOptions.requestOptions;
 
       const response = await this.client.importKey(this.vaultBaseUrl, keyName, key, unflattenedOptions);
       return this.getKeyFromKeyBundle(response);
@@ -271,10 +274,11 @@ export class KeysClient {
   ): Promise<Key> {
     if (options) {
       let unflattenedAttributes = { enabled: options.enabled, notBefore: options.notBefore, expires: options.expires };
-      let unflattenedOptions = { ...options, keyAttributes: unflattenedAttributes };
+      let unflattenedOptions = { ...options, ...(options.requestOptions ? options.requestOptions : {}), keyAttributes: unflattenedAttributes };
       delete unflattenedOptions.enabled;
       delete unflattenedOptions.notBefore;
       delete unflattenedOptions.expires;
+      delete unflattenedOptions.requestOptions;
 
       const response = await this.client.updateKey(
         this.vaultBaseUrl,
@@ -313,39 +317,6 @@ export class KeysClient {
       options
     );
     return this.getKeyFromKeyBundle(response);
-  }
-
-  public async sign(
-    keyName: string,
-    keyVersion: string,
-    algorithm: JsonWebKeySignatureAlgorithm,
-    value: Uint8Array
-  ): Promise<SignResponse> {
-    const response = await this.client.sign(this.vaultBaseUrl, keyName, keyVersion, algorithm, value);
-
-    return response;
-  }
-
-  public async wrapKey(
-    keyName: string,
-    keyVersion: string,
-    algorithm: JsonWebKeyEncryptionAlgorithm,
-    value: Uint8Array
-  ) {
-    const response = await this.client.wrapKey(this.vaultBaseUrl, keyName, keyVersion, algorithm, value);
-
-    return response;
-  }
-
-  public async unwrapKey(
-    keyName: string,
-    keyVersion: string,
-    algorithm: JsonWebKeyEncryptionAlgorithm,
-    value: Uint8Array
-  ) {
-    const response = await this.client.unwrapKey(this.vaultBaseUrl, keyName, keyVersion, algorithm, value);
-
-    return response;
   }
 
   /**
@@ -438,7 +409,8 @@ export class KeysClient {
       keyName,
       {
         maxresults: options ? options.maxPageSize : undefined,
-        ...options
+        maxPageSize: options ? options.maxPageSize : undefined,
+        ...(options && options.requestOptions ? options.requestOptions : {})
       }
     );
     yield* currentSetResponse.map(this.getKeyFromKeyItem);
@@ -465,7 +437,8 @@ export class KeysClient {
       this.vaultBaseUrl,
       {
         maxresults: options ? options.maxPageSize : undefined,
-        ...options
+        maxPageSize: options ? options.maxPageSize : undefined,
+        ...(options && options.requestOptions ? options.requestOptions : {})
       }
     );
     yield* currentSetResponse.map(this.getKeyFromKeyItem);
@@ -492,7 +465,8 @@ export class KeysClient {
       this.vaultBaseUrl,
       {
         maxresults: options ? options.maxPageSize : undefined,
-        ...options
+        maxPageSize: options ? options.maxPageSize : undefined,
+        ...(options && options.requestOptions ? options.requestOptions : {})
       }
     );
     yield* currentSetResponse.map(this.getKeyFromKeyItem);
@@ -514,9 +488,7 @@ export class KeysClient {
       resultObject = {
         ...keyBundle,
         ...parsedId,
-        enabled: keyBundle.attributes ? keyBundle.attributes.enabled : undefined,
-        notBefore: keyBundle.attributes ? keyBundle.attributes.notBefore : undefined,
-        expires: keyBundle.attributes ? keyBundle.attributes.expires : undefined,
+        ...keyBundle.attributes
       }
       delete (resultObject.attributes);
     } else {
@@ -537,9 +509,7 @@ export class KeysClient {
       resultObject = {
         ...keyItem,
         ...parsedId,
-        enabled: keyItem.attributes ? keyItem.attributes.enabled : undefined,
-        notBefore: keyItem.attributes ? keyItem.attributes.notBefore : undefined,
-        expires: keyItem.attributes ? keyItem.attributes.expires : undefined,
+        ...keyItem.attributes
       }
       delete (resultObject.attributes);
     } else {
