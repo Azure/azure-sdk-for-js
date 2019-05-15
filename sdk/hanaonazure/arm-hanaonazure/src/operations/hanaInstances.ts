@@ -118,6 +118,39 @@ export class HanaInstances {
   }
 
   /**
+   * Deletes a SAP HANA instance with the specified subscription, resource group, and instance name.
+   * @summary Deletes a SAP HANA instance.
+   * @param resourceGroupName Name of the resource group.
+   * @param hanaInstanceName Name of the SAP HANA on Azure instance.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.HanaInstancesDeleteMethodResponse>
+   */
+  deleteMethod(resourceGroupName: string, hanaInstanceName: string, options?: msRest.RequestOptionsBase): Promise<Models.HanaInstancesDeleteMethodResponse>;
+  /**
+   * @param resourceGroupName Name of the resource group.
+   * @param hanaInstanceName Name of the SAP HANA on Azure instance.
+   * @param callback The callback
+   */
+  deleteMethod(resourceGroupName: string, hanaInstanceName: string, callback: msRest.ServiceCallback<Models.HanaInstance>): void;
+  /**
+   * @param resourceGroupName Name of the resource group.
+   * @param hanaInstanceName Name of the SAP HANA on Azure instance.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  deleteMethod(resourceGroupName: string, hanaInstanceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.HanaInstance>): void;
+  deleteMethod(resourceGroupName: string, hanaInstanceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HanaInstance>, callback?: msRest.ServiceCallback<Models.HanaInstance>): Promise<Models.HanaInstancesDeleteMethodResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        hanaInstanceName,
+        options
+      },
+      deleteMethodOperationSpec,
+      callback) as Promise<Models.HanaInstancesDeleteMethodResponse>;
+  }
+
+  /**
    * Patches the Tags field of a SAP HANA instance for the specified subscription, resource group,
    * and instance name.
    * @summary Patches the Tags field of a SAP HANA instance.
@@ -344,6 +377,31 @@ const getOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
+      bodyMapper: Mappers.HanaInstance
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const deleteMethodOperationSpec: msRest.OperationSpec = {
+  httpMethod: "DELETE",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HanaOnAzure/hanaInstances/{hanaInstanceName}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.hanaInstanceName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    201: {
       bodyMapper: Mappers.HanaInstance
     },
     default: {

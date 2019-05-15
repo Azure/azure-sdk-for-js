@@ -270,26 +270,21 @@ export interface Tags {
  */
 export interface MonitoringDetails {
   /**
-   * ARM ID of an Azure Vnet with access to the HANA instance.
+   * ARM ID of an Azure Subnet with access to the HANA instance.
    */
-  hanaVnet?: string;
+  hanaSubnet?: string;
   /**
    * Hostname of the HANA Instance blade.
    */
   hanaHostname?: string;
   /**
-   * A number between 00 and 99, stored as a string to maintain leading zero.
+   * Name of the database itself.
    */
-  hanaInstanceNum?: string;
+  hanaDbName?: string;
   /**
-   * Either single or multiple depending on the use of MDC(Multiple Database Containers). Possible
-   * values include: 'single', 'multiple'. Default value: 'single'.
+   * The port number of the tenant DB. Used to connect to the DB.
    */
-  dbContainer?: HanaDatabaseContainersEnum;
-  /**
-   * Name of the database itself.  It only needs to be specified if using MDC
-   */
-  hanaDatabase?: string;
+  hanaDbSqlPort?: number;
   /**
    * Username for the HANA database to login to for monitoring
    */
@@ -351,14 +346,6 @@ export type HanaInstanceSizeNamesEnum = 'S72m' | 'S144m' | 'S72' | 'S144' | 'S19
  * @enum {string}
  */
 export type HanaInstancePowerStateEnum = 'starting' | 'started' | 'stopping' | 'stopped' | 'restarting' | 'unknown';
-
-/**
- * Defines values for HanaDatabaseContainersEnum.
- * Possible values include: 'single', 'multiple'
- * @readonly
- * @enum {string}
- */
-export type HanaDatabaseContainersEnum = 'single' | 'multiple';
 
 /**
  * Contains response data for the list operation.
@@ -424,6 +411,26 @@ export type HanaInstancesListByResourceGroupResponse = HanaInstancesListResult &
  * Contains response data for the get operation.
  */
 export type HanaInstancesGetResponse = HanaInstance & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: HanaInstance;
+    };
+};
+
+/**
+ * Contains response data for the deleteMethod operation.
+ */
+export type HanaInstancesDeleteMethodResponse = HanaInstance & {
   /**
    * The underlying HTTP response.
    */
