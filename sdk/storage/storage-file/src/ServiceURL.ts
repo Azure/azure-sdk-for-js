@@ -5,6 +5,7 @@ import { Pipeline } from "./Pipeline";
 import { StorageURL } from "./StorageURL";
 
 export interface IServiceListSharesSegmentOptions {
+  abortSignal?: Aborter;
   /**
    * Filters the results to return only entries whose
    * name begins with the specified prefix.
@@ -32,6 +33,14 @@ export interface IServiceListSharesSegmentOptions {
    * @memberof IServiceListSharesSegmentOptions
    */
   include?: Models.ListSharesIncludeType[];
+}
+
+export interface IServiceGetPropertiesOptions {
+  abortSignal?: Aborter;
+}
+
+export interface IServiceSetPropertiesOptions {
+  abortSignal?: Aborter;
 }
 
 /**
@@ -89,7 +98,10 @@ export class ServiceURL extends StorageURL {
    * @returns {Promise<Models.ServiceGetPropertiesResponse>}
    * @memberof ServiceURL
    */
-  public async getProperties(aborter: Aborter): Promise<Models.ServiceGetPropertiesResponse> {
+  public async getProperties(
+    options: IServiceGetPropertiesOptions = {}
+  ): Promise<Models.ServiceGetPropertiesResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     return this.serviceContext.getProperties({
       abortSignal: aborter
     });
@@ -107,9 +119,10 @@ export class ServiceURL extends StorageURL {
    * @memberof ServiceURL
    */
   public async setProperties(
-    aborter: Aborter,
-    properties: Models.StorageServiceProperties
+    properties: Models.StorageServiceProperties,
+    options: IServiceSetPropertiesOptions = {}
   ): Promise<Models.ServiceSetPropertiesResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     return this.serviceContext.setProperties(properties, {
       abortSignal: aborter
     });
@@ -132,10 +145,10 @@ export class ServiceURL extends StorageURL {
    * @memberof ServiceURL
    */
   public async listSharesSegment(
-    aborter: Aborter,
     marker?: string,
     options: IServiceListSharesSegmentOptions = {}
   ): Promise<Models.ServiceListSharesSegmentResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     return this.serviceContext.listSharesSegment({
       abortSignal: aborter,
       marker,

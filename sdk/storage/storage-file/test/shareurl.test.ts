@@ -1,6 +1,4 @@
 import * as assert from "assert";
-
-import { Aborter } from "../src/Aborter";
 import { ShareURL } from "../src/ShareURL";
 import { getBSU, getUniqueName } from "./utils";
 import * as dotenv from "dotenv";
@@ -14,11 +12,11 @@ describe("ShareURL", () => {
   beforeEach(async () => {
     shareName = getUniqueName("share");
     shareURL = ShareURL.fromServiceURL(serviceURL, shareName);
-    await shareURL.create(Aborter.none);
+    await shareURL.create();
   });
 
   afterEach(async () => {
-    await shareURL.delete(Aborter.none);
+    await shareURL.delete();
   });
 
   it("setMetadata", async () => {
@@ -27,14 +25,14 @@ describe("ShareURL", () => {
       keya: "vala",
       keyb: "valb"
     };
-    await shareURL.setMetadata(Aborter.none, metadata);
+    await shareURL.setMetadata(metadata);
 
-    const result = await shareURL.getProperties(Aborter.none);
+    const result = await shareURL.getProperties();
     assert.deepEqual(result.metadata, metadata);
   });
 
   it("getProperties", async () => {
-    const result = await shareURL.getProperties(Aborter.none);
+    const result = await shareURL.getProperties();
     assert.ok(result.eTag!.length > 0);
     assert.ok(result.lastModified);
     assert.ok(result.requestId);
@@ -50,8 +48,8 @@ describe("ShareURL", () => {
   it("create with all parameters configured", async () => {
     const shareURL2 = ShareURL.fromServiceURL(serviceURL, getUniqueName(shareName));
     const metadata = { key: "value" };
-    await shareURL2.create(Aborter.none, { metadata });
-    const result = await shareURL2.getProperties(Aborter.none);
+    await shareURL2.create({ metadata });
+    const result = await shareURL2.getProperties();
     assert.deepEqual(result.metadata, metadata);
   });
 
@@ -62,19 +60,19 @@ describe("ShareURL", () => {
 
   it("setQuota", async () => {
     const quotaInGB = 20;
-    await shareURL.setQuota(Aborter.none, quotaInGB);
-    const propertiesResponse = await shareURL.getProperties(Aborter.none);
+    await shareURL.setQuota(quotaInGB);
+    const propertiesResponse = await shareURL.getProperties();
     assert.equal(propertiesResponse.quota, quotaInGB);
   });
 
   it("getStatistics", async () => {
-    const statisticsResponse = await shareURL.getStatistics(Aborter.none);
+    const statisticsResponse = await shareURL.getStatistics();
     assert.notEqual(statisticsResponse.shareUsage, undefined);
   });
 
   it("create snapshot", async () => {
     const metadata = { key1: "value1", key2: "value2" };
-    const createSnapshotResponse = await shareURL.createSnapshot(Aborter.none, {
+    const createSnapshotResponse = await shareURL.createSnapshot({
       metadata
     });
 
@@ -82,12 +80,12 @@ describe("ShareURL", () => {
     const sanpshot = createSnapshotResponse.snapshot!;
     const snapshotShareURL = shareURL.withSnapshot(sanpshot);
 
-    const snapshotProperties = await snapshotShareURL.getProperties(Aborter.none);
+    const snapshotProperties = await snapshotShareURL.getProperties();
     assert.deepStrictEqual(snapshotProperties.metadata, metadata);
 
-    const originProperties = await shareURL.getProperties(Aborter.none);
+    const originProperties = await shareURL.getProperties();
     assert.notDeepStrictEqual(originProperties.metadata, metadata);
 
-    await snapshotShareURL.delete(Aborter.none, {});
+    await snapshotShareURL.delete({});
   });
 });

@@ -1,4 +1,3 @@
-import { Aborter } from "../src/Aborter";
 import { FileURL } from "../src/FileURL";
 import { ShareURL } from "../src/ShareURL";
 import { getBSU, getUniqueName } from "./utils/index";
@@ -16,20 +15,20 @@ describe("Special Naming Tests", () => {
   const directoryURL = DirectoryURL.fromShareURL(shareURL, directoryName);
 
   before(async () => {
-    await shareURL.create(Aborter.none);
-    await directoryURL.create(Aborter.none);
+    await shareURL.create();
+    await directoryURL.create();
   });
 
   after(async () => {
-    await shareURL.delete(Aborter.none);
+    await shareURL.delete();
   });
 
   it("Should work with special container and file names with spaces", async () => {
     const fileName: string = getUniqueName("file empty");
     const fileURL = FileURL.fromDirectoryURL(directoryURL, fileName);
 
-    await fileURL.create(Aborter.none, 10);
-    const response = await directoryURL.listFilesAndDirectoriesSegment(Aborter.none, undefined, {
+    await fileURL.create(10);
+    const response = await directoryURL.listFilesAndDirectoriesSegment(undefined, {
       prefix: fileName
     });
     assert.notDeepEqual(response.segment.fileItems.length, 0);
@@ -39,8 +38,8 @@ describe("Special Naming Tests", () => {
     const fileName: string = getUniqueName("file empty");
     const fileURL = new FileURL(appendToURLPath(directoryURL.url, fileName), directoryURL.pipeline);
 
-    await fileURL.create(Aborter.none, 10);
-    const response = await directoryURL.listFilesAndDirectoriesSegment(Aborter.none, undefined, {
+    await fileURL.create(10);
+    const response = await directoryURL.listFilesAndDirectoriesSegment(undefined, {
       prefix: fileName
     });
     assert.notDeepEqual(response.segment.fileItems.length, 0);
@@ -50,9 +49,9 @@ describe("Special Naming Tests", () => {
     const fileName: string = getUniqueName("Upper file empty another");
     const fileURL = FileURL.fromDirectoryURL(directoryURL, fileName);
 
-    await fileURL.create(Aborter.none, 10);
-    await fileURL.getProperties(Aborter.none);
-    const response = await directoryURL.listFilesAndDirectoriesSegment(Aborter.none, undefined, {
+    await fileURL.create(10);
+    await fileURL.getProperties();
+    const response = await directoryURL.listFilesAndDirectoriesSegment(undefined, {
       prefix: fileName
     });
     assert.notDeepEqual(response.segment.fileItems.length, 0);
@@ -62,9 +61,9 @@ describe("Special Naming Tests", () => {
     const fileName: string = getUniqueName("Upper file empty another");
     const fileURL = new FileURL(appendToURLPath(directoryURL.url, fileName), directoryURL.pipeline);
 
-    await fileURL.create(Aborter.none, 10);
-    await fileURL.getProperties(Aborter.none);
-    const response = await directoryURL.listFilesAndDirectoriesSegment(Aborter.none, undefined, {
+    await fileURL.create(10);
+    await fileURL.getProperties();
+    const response = await directoryURL.listFilesAndDirectoriesSegment(undefined, {
       prefix: fileName
     });
     assert.notDeepEqual(response.segment.fileItems.length, 0);
@@ -74,9 +73,9 @@ describe("Special Naming Tests", () => {
     const fileName: string = getUniqueName("Upper file empty another 汉字");
     const fileURL = FileURL.fromDirectoryURL(directoryURL, fileName);
 
-    await fileURL.create(Aborter.none, 10);
-    await fileURL.getProperties(Aborter.none);
-    const response = await directoryURL.listFilesAndDirectoriesSegment(Aborter.none, undefined, {
+    await fileURL.create(10);
+    await fileURL.getProperties();
+    const response = await directoryURL.listFilesAndDirectoriesSegment(undefined, {
       prefix: fileName
     });
     assert.notDeepEqual(response.segment.fileItems.length, 0);
@@ -86,9 +85,9 @@ describe("Special Naming Tests", () => {
     const fileName: string = getUniqueName("Upper file empty another 汉字");
     const fileURL = new FileURL(appendToURLPath(directoryURL.url, fileName), directoryURL.pipeline);
 
-    await fileURL.create(Aborter.none, 10);
-    await fileURL.getProperties(Aborter.none);
-    const response = await directoryURL.listFilesAndDirectoriesSegment(Aborter.none, undefined, {
+    await fileURL.create(10);
+    await fileURL.getProperties();
+    const response = await directoryURL.listFilesAndDirectoriesSegment(undefined, {
       prefix: fileName
     });
     assert.notDeepEqual(response.segment.fileItems.length, 0);
@@ -98,9 +97,9 @@ describe("Special Naming Tests", () => {
     const fileName: string = getUniqueName("汉字. special ~!@#$%^&()_+`1234567890-={}[];','");
     const fileURL = FileURL.fromDirectoryURL(directoryURL, fileName);
 
-    await fileURL.create(Aborter.none, 10);
-    await fileURL.getProperties(Aborter.none);
-    const response = await directoryURL.listFilesAndDirectoriesSegment(Aborter.none, undefined, {
+    await fileURL.create(10);
+    await fileURL.getProperties();
+    const response = await directoryURL.listFilesAndDirectoriesSegment(undefined, {
       // NOTICE: Azure Storage Server will replace "\" with "/" in the file names
       prefix: fileName.replace(/\\/g, "/")
     });
@@ -117,9 +116,9 @@ describe("Special Naming Tests", () => {
       directoryURL.pipeline
     );
 
-    await fileURL.create(Aborter.none, 10);
-    await fileURL.getProperties(Aborter.none);
-    const response = await directoryURL.listFilesAndDirectoriesSegment(Aborter.none, undefined, {
+    await fileURL.create(10);
+    await fileURL.getProperties();
+    const response = await directoryURL.listFilesAndDirectoriesSegment(undefined, {
       // NOTICE: Azure Storage Server will replace "\" with "/" in the file names
       prefix: fileName.replace(/\\/g, "/")
     });
@@ -131,16 +130,12 @@ describe("Special Naming Tests", () => {
     const specialDirectoryURL = DirectoryURL.fromShareURL(shareURL, directoryName);
     const rootDirectoryURL = DirectoryURL.fromShareURL(shareURL, "");
 
-    await specialDirectoryURL.create(Aborter.none);
-    await specialDirectoryURL.getProperties(Aborter.none);
-    const response = await rootDirectoryURL.listFilesAndDirectoriesSegment(
-      Aborter.none,
-      undefined,
-      {
-        // NOTICE: Azure Storage Server will replace "\" with "/" in the file names
-        prefix: directoryName.replace(/\\/g, "/")
-      }
-    );
+    await specialDirectoryURL.create();
+    await specialDirectoryURL.getProperties();
+    const response = await rootDirectoryURL.listFilesAndDirectoriesSegment(undefined, {
+      // NOTICE: Azure Storage Server will replace "\" with "/" in the file names
+      prefix: directoryName.replace(/\\/g, "/")
+    });
     assert.notDeepEqual(response.segment.directoryItems.length, 0);
   });
 
@@ -154,18 +149,14 @@ describe("Special Naming Tests", () => {
       shareURL.pipeline
     );
 
-    await specialDirectoryURL.create(Aborter.none);
-    await specialDirectoryURL.getProperties(Aborter.none);
+    await specialDirectoryURL.create();
+    await specialDirectoryURL.getProperties();
 
     const rootDirectoryURL = DirectoryURL.fromShareURL(shareURL, "");
-    const response = await rootDirectoryURL.listFilesAndDirectoriesSegment(
-      Aborter.none,
-      undefined,
-      {
-        // NOTICE: Azure Storage Server will replace "\" with "/" in the file names
-        prefix: directoryName.replace(/\\/g, "/")
-      }
-    );
+    const response = await rootDirectoryURL.listFilesAndDirectoriesSegment(undefined, {
+      // NOTICE: Azure Storage Server will replace "\" with "/" in the file names
+      prefix: directoryName.replace(/\\/g, "/")
+    });
     assert.notDeepEqual(response.segment.directoryItems.length, 0);
   });
 
@@ -174,9 +165,9 @@ describe("Special Naming Tests", () => {
     const blobNameEncoded: string = encodeURIComponent(fileName);
     const fileURL = FileURL.fromDirectoryURL(directoryURL, blobNameEncoded);
 
-    await fileURL.create(Aborter.none, 10);
-    await fileURL.getProperties(Aborter.none);
-    const response = await directoryURL.listFilesAndDirectoriesSegment(Aborter.none, undefined, {
+    await fileURL.create(10);
+    await fileURL.getProperties();
+    const response = await directoryURL.listFilesAndDirectoriesSegment(undefined, {
       prefix: blobNameEncoded
     });
     assert.notDeepEqual(response.segment.fileItems.length, 0);
@@ -186,9 +177,9 @@ describe("Special Naming Tests", () => {
     const fileName: string = getUniqueName("ру́сский язы́к");
     const fileURL = FileURL.fromDirectoryURL(directoryURL, fileName);
 
-    await fileURL.create(Aborter.none, 10);
-    await fileURL.getProperties(Aborter.none);
-    const response = await directoryURL.listFilesAndDirectoriesSegment(Aborter.none, undefined, {
+    await fileURL.create(10);
+    await fileURL.getProperties();
+    const response = await directoryURL.listFilesAndDirectoriesSegment(undefined, {
       prefix: fileName
     });
     assert.notDeepEqual(response.segment.fileItems.length, 0);
@@ -198,9 +189,9 @@ describe("Special Naming Tests", () => {
     const fileName: string = getUniqueName("ру́сский язы́к");
     const fileURL = new FileURL(appendToURLPath(directoryURL.url, fileName), directoryURL.pipeline);
 
-    await fileURL.create(Aborter.none, 10);
-    await fileURL.getProperties(Aborter.none);
-    const response = await directoryURL.listFilesAndDirectoriesSegment(Aborter.none, undefined, {
+    await fileURL.create(10);
+    await fileURL.getProperties();
+    const response = await directoryURL.listFilesAndDirectoriesSegment(undefined, {
       prefix: fileName
     });
     assert.notDeepEqual(response.segment.fileItems.length, 0);
@@ -211,9 +202,9 @@ describe("Special Naming Tests", () => {
     const blobNameEncoded: string = encodeURIComponent(fileName);
     const fileURL = FileURL.fromDirectoryURL(directoryURL, blobNameEncoded);
 
-    await fileURL.create(Aborter.none, 10);
-    await fileURL.getProperties(Aborter.none);
-    const response = await directoryURL.listFilesAndDirectoriesSegment(Aborter.none, undefined, {
+    await fileURL.create(10);
+    await fileURL.getProperties();
+    const response = await directoryURL.listFilesAndDirectoriesSegment(undefined, {
       prefix: blobNameEncoded
     });
     assert.notDeepEqual(response.segment.fileItems.length, 0);
@@ -223,9 +214,9 @@ describe("Special Naming Tests", () => {
     const fileName: string = getUniqueName("عربيعربى");
     const fileURL = FileURL.fromDirectoryURL(directoryURL, fileName);
 
-    await fileURL.create(Aborter.none, 10);
-    await fileURL.getProperties(Aborter.none);
-    const response = await directoryURL.listFilesAndDirectoriesSegment(Aborter.none, undefined, {
+    await fileURL.create(10);
+    await fileURL.getProperties();
+    const response = await directoryURL.listFilesAndDirectoriesSegment(undefined, {
       prefix: fileName
     });
     assert.notDeepEqual(response.segment.fileItems.length, 0);
@@ -235,9 +226,9 @@ describe("Special Naming Tests", () => {
     const fileName: string = getUniqueName("عربيعربى");
     const fileURL = new FileURL(appendToURLPath(directoryURL.url, fileName), directoryURL.pipeline);
 
-    await fileURL.create(Aborter.none, 10);
-    await fileURL.getProperties(Aborter.none);
-    const response = await directoryURL.listFilesAndDirectoriesSegment(Aborter.none, undefined, {
+    await fileURL.create(10);
+    await fileURL.getProperties();
+    const response = await directoryURL.listFilesAndDirectoriesSegment(undefined, {
       prefix: fileName
     });
     assert.notDeepEqual(response.segment.fileItems.length, 0);
@@ -248,9 +239,9 @@ describe("Special Naming Tests", () => {
     const blobNameEncoded: string = encodeURIComponent(fileName);
     const fileURL = FileURL.fromDirectoryURL(directoryURL, blobNameEncoded);
 
-    await fileURL.create(Aborter.none, 10);
-    await fileURL.getProperties(Aborter.none);
-    const response = await directoryURL.listFilesAndDirectoriesSegment(Aborter.none, undefined, {
+    await fileURL.create(10);
+    await fileURL.getProperties();
+    const response = await directoryURL.listFilesAndDirectoriesSegment(undefined, {
       prefix: blobNameEncoded
     });
     assert.notDeepEqual(response.segment.fileItems.length, 0);
@@ -260,9 +251,9 @@ describe("Special Naming Tests", () => {
     const fileName: string = getUniqueName("にっぽんごにほんご");
     const fileURL = FileURL.fromDirectoryURL(directoryURL, fileName);
 
-    await fileURL.create(Aborter.none, 10);
-    await fileURL.getProperties(Aborter.none);
-    const response = await directoryURL.listFilesAndDirectoriesSegment(Aborter.none, undefined, {
+    await fileURL.create(10);
+    await fileURL.getProperties();
+    const response = await directoryURL.listFilesAndDirectoriesSegment(undefined, {
       prefix: fileName
     });
     assert.notDeepEqual(response.segment.fileItems.length, 0);
@@ -272,9 +263,9 @@ describe("Special Naming Tests", () => {
     const fileName: string = getUniqueName("にっぽんごにほんご");
     const fileURL = new FileURL(appendToURLPath(directoryURL.url, fileName), directoryURL.pipeline);
 
-    await fileURL.create(Aborter.none, 10);
-    await fileURL.getProperties(Aborter.none);
-    const response = await directoryURL.listFilesAndDirectoriesSegment(Aborter.none, undefined, {
+    await fileURL.create(10);
+    await fileURL.getProperties();
+    const response = await directoryURL.listFilesAndDirectoriesSegment(undefined, {
       prefix: fileName
     });
     assert.notDeepEqual(response.segment.fileItems.length, 0);

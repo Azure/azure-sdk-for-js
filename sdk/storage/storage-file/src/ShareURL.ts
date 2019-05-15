@@ -11,6 +11,7 @@ import { URLConstants } from "./utils/constants";
 import { appendToURLPath, setURLParameter, truncatedISO8061Date } from "./utils/utils.common";
 
 export interface IShareCreateOptions {
+  abortSignal?: Aborter;
   /**
    * A name-value pair to associate with a file storage object.
    *
@@ -30,6 +31,7 @@ export interface IShareCreateOptions {
 }
 
 export interface IShareDeleteMethodOptions {
+  abortSignal?: Aborter;
   /**
    * Specifies the option
    * include to delete the base share and all of its snapshots. Possible values
@@ -39,6 +41,33 @@ export interface IShareDeleteMethodOptions {
    * @memberof IShareDeleteMethodOptions
    */
   deleteSnapshots?: Models.DeleteSnapshotsOptionType;
+}
+
+export interface IShareSetMetadataOptions {
+  abortSignal?: Aborter;
+}
+
+export interface IShareSetAccessPolicyOptions {
+  abortSignal?: Aborter;
+}
+
+export interface IShareGetAccessPolicyOptions {
+  abortSignal?: Aborter;
+}
+
+export interface IShareGetAccessPolicyOptions {
+  abortSignal?: Aborter;
+}
+export interface IShareGetPropertiesOptions {
+  abortSignal?: Aborter;
+}
+
+export interface IShareSetQuotaOptions {
+  abortSignal?: Aborter;
+}
+
+export interface IShareGetStatisticsOptions {
+  abortSignal?: Aborter;
 }
 
 export interface ISignedIdentifier {
@@ -89,6 +118,7 @@ export declare type ShareGetAccessPolicyResponse = {
   };
 
 export interface IShareCreateSnapshotOptions {
+  abortSignal?: Aborter;
   /**
    * A name-value pair to associate with a file storage object.
    *
@@ -183,10 +213,8 @@ export class ShareURL extends StorageURL {
    * @returns {Promise<Models.ShareCreateResponse>}
    * @memberof ShareURL
    */
-  public async create(
-    aborter: Aborter,
-    options: IShareCreateOptions = {}
-  ): Promise<Models.ShareCreateResponse> {
+  public async create(options: IShareCreateOptions = {}): Promise<Models.ShareCreateResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     return this.context.create({
       ...options,
       abortSignal: aborter
@@ -203,7 +231,10 @@ export class ShareURL extends StorageURL {
    * @returns {Promise<Models.ShareGetPropertiesResponse>}
    * @memberof ShareURL
    */
-  public async getProperties(aborter: Aborter): Promise<Models.ShareGetPropertiesResponse> {
+  public async getProperties(
+    options: IShareGetPropertiesOptions = {}
+  ): Promise<Models.ShareGetPropertiesResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     return this.context.getProperties({
       abortSignal: aborter
     });
@@ -221,9 +252,9 @@ export class ShareURL extends StorageURL {
    * @memberof ShareURL
    */
   public async delete(
-    aborter: Aborter,
     options: IShareDeleteMethodOptions = {}
   ): Promise<Models.ShareDeleteResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     return this.context.deleteMethod({
       abortSignal: aborter,
       ...options
@@ -244,9 +275,10 @@ export class ShareURL extends StorageURL {
    * @memberof ShareURL
    */
   public async setMetadata(
-    aborter: Aborter,
-    metadata?: IMetadata
+    metadata?: IMetadata,
+    options: IShareSetMetadataOptions = {}
   ): Promise<Models.ShareSetMetadataResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     return this.context.setMetadata({
       abortSignal: aborter,
       metadata
@@ -267,7 +299,10 @@ export class ShareURL extends StorageURL {
    * @returns {Promise<ShareGetAccessPolicyResponse>}
    * @memberof ShareURL
    */
-  public async getAccessPolicy(aborter: Aborter): Promise<ShareGetAccessPolicyResponse> {
+  public async getAccessPolicy(
+    options: IShareGetAccessPolicyOptions = {}
+  ): Promise<ShareGetAccessPolicyResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     const response = await this.context.getAccessPolicy({
       abortSignal: aborter
     });
@@ -312,9 +347,10 @@ export class ShareURL extends StorageURL {
    * @memberof ShareURL
    */
   public async setAccessPolicy(
-    aborter: Aborter,
-    shareAcl?: ISignedIdentifier[]
+    shareAcl?: ISignedIdentifier[],
+    options: IShareSetAccessPolicyOptions = {}
   ): Promise<Models.ShareSetAccessPolicyResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     const acl: Models.SignedIdentifier[] = [];
     for (const identifier of shareAcl || []) {
       acl.push({
@@ -343,9 +379,9 @@ export class ShareURL extends StorageURL {
    * @memberof ShareURL
    */
   public async createSnapshot(
-    aborter: Aborter,
     options: IShareCreateSnapshotOptions = {}
   ): Promise<Models.ShareCreateSnapshotResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     return this.context.createSnapshot({
       abortSignal: aborter,
       ...options
@@ -362,9 +398,10 @@ export class ShareURL extends StorageURL {
    * @memberof ShareURL
    */
   public async setQuota(
-    aborter: Aborter,
-    quotaInGB: number
+    quotaInGB: number,
+    options: IShareSetQuotaOptions = {}
   ): Promise<Models.ShareSetQuotaResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     if (quotaInGB <= 0 || quotaInGB > 5120) {
       throw new RangeError(
         `Share quota must be greater than 0, and less than or equal to 5Tib (5120GB)`
@@ -384,7 +421,10 @@ export class ShareURL extends StorageURL {
    * @returns {Promise<Models.ShareGetStatisticsResponse>}
    * @memberof ShareURL
    */
-  public async getStatistics(aborter: Aborter): Promise<Models.ShareGetStatisticsResponse> {
+  public async getStatistics(
+    options: IShareGetStatisticsOptions = {}
+  ): Promise<Models.ShareGetStatisticsResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     return this.context.getStatistics({
       abortSignal: aborter
     });

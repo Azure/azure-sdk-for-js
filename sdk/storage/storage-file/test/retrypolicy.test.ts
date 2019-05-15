@@ -1,7 +1,6 @@
 import * as assert from "assert";
 
 import { RestError, StorageURL } from "../src";
-import { Aborter } from "../src/Aborter";
 import { ShareURL } from "../src/ShareURL";
 import { Pipeline } from "../src/Pipeline";
 import { getBSU, getUniqueName } from "./utils";
@@ -17,11 +16,11 @@ describe("RetryPolicy", () => {
   beforeEach(async () => {
     shareName = getUniqueName("share");
     shareURL = ShareURL.fromServiceURL(serviceURL, shareName);
-    await shareURL.create(Aborter.none);
+    await shareURL.create();
   });
 
   afterEach(async () => {
-    await shareURL.delete(Aborter.none);
+    await shareURL.delete();
   });
 
   it("Retry Policy should work when first request fails with 500", async () => {
@@ -42,9 +41,9 @@ describe("RetryPolicy", () => {
       keya: "vala",
       keyb: "valb"
     };
-    await injectShareURL.setMetadata(Aborter.none, metadata);
+    await injectShareURL.setMetadata(metadata);
 
-    const result = await shareURL.getProperties(Aborter.none);
+    const result = await shareURL.getProperties();
     assert.deepEqual(result.metadata, metadata);
   });
 
@@ -68,7 +67,7 @@ describe("RetryPolicy", () => {
         keya: "vala",
         keyb: "valb"
       };
-      await injectShareURL.setMetadata(Aborter.none, metadata);
+      await injectShareURL.setMetadata(metadata);
     } catch (err) {
       hasError = true;
     }

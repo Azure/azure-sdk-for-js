@@ -16,6 +16,7 @@ import {
 import { appendToURLPath } from "./utils/utils.common";
 
 export interface IFileCreateOptions {
+  abortSignal?: Aborter;
   /**
    * File HTTP headers like Content-Type.
    *
@@ -34,7 +35,12 @@ export interface IFileCreateOptions {
   metadata?: IMetadata;
 }
 
+export interface IFileDeleteOptions {
+  abortSignal?: Aborter;
+}
+
 export interface IFileDownloadOptions {
+  abortSignal?: Aborter;
   /**
    * Optional. ONLY AVAILABLE IN NODE.JS.
    *
@@ -71,6 +77,7 @@ export interface IFileDownloadOptions {
 }
 
 export interface IFileUploadRangeOptions {
+  abortSignal?: Aborter;
   /**
    * An MD5 hash of the content. This hash is
    * used to verify the integrity of the data during transport. When the
@@ -93,6 +100,7 @@ export interface IFileUploadRangeOptions {
 }
 
 export interface IFileGetRangeListOptions {
+  abortSignal?: Aborter;
   /**
    * Optional. Specifies the range of bytes over which to list ranges, inclusively.
    *
@@ -100,6 +108,10 @@ export interface IFileGetRangeListOptions {
    * @memberof IFileGetRangeListOptions
    */
   range?: IRange;
+}
+
+export interface IFileGetPropertiesOptions {
+  abortSignal?: Aborter;
 }
 
 /**
@@ -133,6 +145,7 @@ export type FileGetRangeListResponse = Models.FileGetRangeListHeaders & {
 };
 
 export interface IFileStartCopyOptions {
+  abortSignal?: Aborter;
   /**
    * A name-value pair
    * to associate with a file storage object.
@@ -141,6 +154,26 @@ export interface IFileStartCopyOptions {
    * @memberof IFileCreateOptions
    */
   metadata?: IMetadata;
+}
+
+export interface IFileSetMetadataOptions {
+  abortSignal?: Aborter;
+}
+
+export interface IFileHTTPHeadersOptions {
+  abortSignal?: Aborter;
+}
+
+export interface IFileAbortCopyFromURLOptions {
+  abortSignal?: Aborter;
+}
+
+export interface IFileResizeOptions {
+  abortSignal?: Aborter;
+}
+
+export interface IFileClearRangeOptions {
+  abortSignal?: Aborter;
 }
 
 /**
@@ -220,10 +253,10 @@ export class FileURL extends StorageURL {
    * @memberof FileURL
    */
   public async create(
-    aborter: Aborter,
     size: number,
     options: IFileCreateOptions = {}
   ): Promise<Models.FileCreateResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     if (size < 0 || size > FILE_MAX_SIZE_BYTES) {
       throw new RangeError(`File size must >= 0 and < ${FILE_MAX_SIZE_BYTES}.`);
     }
@@ -253,11 +286,11 @@ export class FileURL extends StorageURL {
    * @memberof FileURL
    */
   public async download(
-    aborter: Aborter,
     offset: number,
     count?: number,
     options: IFileDownloadOptions = {}
   ): Promise<Models.FileDownloadResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     if (options.rangeGetContentMD5 && offset === 0 && count === undefined) {
       throw new RangeError(`rangeGetContentMD5 only works with partial data downloading`);
     }
@@ -290,7 +323,6 @@ export class FileURL extends StorageURL {
     }
 
     return new FileDownloadResponse(
-      aborter,
       res,
       async (start: number): Promise<NodeJS.ReadableStream> => {
         const updatedOptions: Models.FileDownloadOptionalParams = {
@@ -315,6 +347,7 @@ export class FileURL extends StorageURL {
       offset,
       res.contentLength!,
       {
+        abortSignal: aborter,
         maxRetryRequests: options.maxRetryRequests,
         progress: options.progress
       }
@@ -331,7 +364,10 @@ export class FileURL extends StorageURL {
    * @returns {Promise<Models.FileGetPropertiesResponse>}
    * @memberof FileURL
    */
-  public async getProperties(aborter: Aborter): Promise<Models.FileGetPropertiesResponse> {
+  public async getProperties(
+    options: IFileGetPropertiesOptions = {}
+  ): Promise<Models.FileGetPropertiesResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     return this.context.getProperties({
       abortSignal: aborter
     });
@@ -356,7 +392,8 @@ export class FileURL extends StorageURL {
    * @returns {Promise<Models.FileDeleteResponse>}
    * @memberof FileURL
    */
-  public async delete(aborter: Aborter): Promise<Models.FileDeleteResponse> {
+  public async delete(options: IFileDeleteOptions = {}): Promise<Models.FileDeleteResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     return this.context.deleteMethod({
       abortSignal: aborter
     });
@@ -377,9 +414,10 @@ export class FileURL extends StorageURL {
    * @memberof FileURL
    */
   public async setHTTPHeaders(
-    aborter: Aborter,
-    fileHTTPHeaders: IFileHTTPHeaders = {}
+    fileHTTPHeaders: IFileHTTPHeaders = {},
+    options: IFileHTTPHeadersOptions = {}
   ): Promise<Models.FileSetHTTPHeadersResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     return this.context.setHTTPHeaders({
       abortSignal: aborter,
       ...fileHTTPHeaders
@@ -400,9 +438,10 @@ export class FileURL extends StorageURL {
    * @memberof FileURL
    */
   public async resize(
-    aborter: Aborter,
-    length: number
+    length: number,
+    options: IFileResizeOptions = {}
   ): Promise<Models.FileSetHTTPHeadersResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     if (length < 0) {
       throw new RangeError(`Size cannot less than 0 when resizing file.`);
     }
@@ -426,9 +465,10 @@ export class FileURL extends StorageURL {
    * @memberof FileURL
    */
   public async setMetadata(
-    aborter: Aborter,
-    metadata: IMetadata = {}
+    metadata: IMetadata = {},
+    options: IFileSetMetadataOptions = {}
   ): Promise<Models.FileSetMetadataResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     return this.context.setMetadata({
       abortSignal: aborter,
       metadata
@@ -451,12 +491,12 @@ export class FileURL extends StorageURL {
    * @memberof FileURL
    */
   public async uploadRange(
-    aborter: Aborter,
     body: HttpRequestBody,
     offset: number,
     contentLength: number,
     options: IFileUploadRangeOptions = {}
   ): Promise<Models.FileUploadRangeResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     if (offset < 0 || contentLength <= 0) {
       throw new RangeError(`offset must >= 0 and contentLength must be > 0`);
     }
@@ -490,10 +530,11 @@ export class FileURL extends StorageURL {
    * @memberof FileURL
    */
   public async clearRange(
-    aborter: Aborter,
     offset: number,
-    contentLength: number
+    contentLength: number,
+    options: IFileClearRangeOptions = {}
   ): Promise<Models.FileUploadRangeResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     if (offset < 0 || contentLength <= 0) {
       throw new RangeError(`offset must >= 0 and contentLength must be > 0`);
     }
@@ -513,9 +554,9 @@ export class FileURL extends StorageURL {
    * @memberof FileURL
    */
   public async getRangeList(
-    aborter: Aborter,
     options: IFileGetRangeListOptions = {}
   ): Promise<FileGetRangeListResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     const originalResponse = await this.context.getRangeList({
       abortSignal: aborter,
       range: options.range ? rangeToString(options.range) : undefined
@@ -552,10 +593,10 @@ export class FileURL extends StorageURL {
    * @memberof FileURL
    */
   public async startCopyFromURL(
-    aborter: Aborter,
     copySource: string,
     options: IFileStartCopyOptions = {}
   ): Promise<Models.FileStartCopyResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     return this.context.startCopy(copySource, {
       abortSignal: aborter,
       metadata: options.metadata
@@ -574,9 +615,10 @@ export class FileURL extends StorageURL {
    * @memberof FileURL
    */
   public async abortCopyFromURL(
-    aborter: Aborter,
-    copyId: string
+    copyId: string,
+    options: IFileAbortCopyFromURLOptions = {}
   ): Promise<Models.FileAbortCopyResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     return this.context.abortCopy(copyId, {
       abortSignal: aborter
     });

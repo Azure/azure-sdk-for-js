@@ -5,6 +5,7 @@ import { Aborter } from "../Aborter";
 export type ReadableStreamGetter = (offset: number) => Promise<NodeJS.ReadableStream>;
 
 export interface IRetriableReadableStreamOptions {
+  abortSignal?: Aborter;
   /**
    * Max retry count (>=0), undefined or invalid value means no retry
    *
@@ -69,7 +70,6 @@ export class RetriableReadableStream extends Readable {
    * @memberof RetriableReadableStream
    */
   public constructor(
-    aborter: Aborter,
     source: NodeJS.ReadableStream,
     getter: ReadableStreamGetter,
     offset: number,
@@ -77,6 +77,7 @@ export class RetriableReadableStream extends Readable {
     options: IRetriableReadableStreamOptions = {}
   ) {
     super();
+    const aborter = options.abortSignal || Aborter.none;
     this.aborter = aborter;
     this.getter = getter;
     this.source = source;

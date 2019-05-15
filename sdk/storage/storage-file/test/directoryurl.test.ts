@@ -1,6 +1,4 @@
 import * as assert from "assert";
-
-import { Aborter } from "../src/Aborter";
 import { DirectoryURL } from "../src/DirectoryURL";
 import { FileURL } from "../src/FileURL";
 import { ShareURL } from "../src/ShareURL";
@@ -18,16 +16,16 @@ describe("DirectoryURL", () => {
   beforeEach(async () => {
     shareName = getUniqueName("share");
     shareURL = ShareURL.fromServiceURL(serviceURL, shareName);
-    await shareURL.create(Aborter.none);
+    await shareURL.create();
 
     dirName = getUniqueName("dir");
     dirURL = DirectoryURL.fromShareURL(shareURL, dirName);
-    await dirURL.create(Aborter.none);
+    await dirURL.create();
   });
 
   afterEach(async () => {
-    await dirURL.delete(Aborter.none);
-    await shareURL.delete(Aborter.none);
+    await dirURL.delete();
+    await shareURL.delete();
   });
 
   it("setMetadata", async () => {
@@ -37,9 +35,9 @@ describe("DirectoryURL", () => {
       keyb: "valb"
     };
     try {
-      await dirURL.setMetadata(Aborter.none, metadata);
+      await dirURL.setMetadata(metadata);
 
-      const result = await dirURL.getProperties(Aborter.none);
+      const result = await dirURL.getProperties();
       assert.deepEqual(result.metadata, metadata);
     } catch (err) {
       console.log(err);
@@ -47,7 +45,7 @@ describe("DirectoryURL", () => {
   });
 
   it("getProperties", async () => {
-    const result = await dirURL.getProperties(Aborter.none);
+    const result = await dirURL.getProperties();
     assert.ok(result.eTag!.length > 0);
     assert.ok(result.lastModified);
     assert.ok(result.requestId);
@@ -63,8 +61,8 @@ describe("DirectoryURL", () => {
   it("create with all parameters configured", async () => {
     const cURL = ShareURL.fromServiceURL(serviceURL, getUniqueName(shareName));
     const metadata = { key: "value" };
-    await cURL.create(Aborter.none, { metadata });
-    const result = await cURL.getProperties(Aborter.none);
+    await cURL.create({ metadata });
+    const result = await cURL.getProperties();
     assert.deepStrictEqual(result.metadata, metadata);
   });
 
@@ -83,18 +81,18 @@ describe("DirectoryURL", () => {
         rootDirURL,
         getUniqueName(`${prefix}dir${i}`)
       );
-      await subDirURL.create(Aborter.none);
+      await subDirURL.create();
       subDirURLs.push(subDirURL);
     }
 
     const subFileURLs = [];
     for (let i = 0; i < 3; i++) {
       const subFileURL = FileURL.fromDirectoryURL(rootDirURL, getUniqueName(`${prefix}file${i}`));
-      await subFileURL.create(Aborter.none, 1024);
+      await subFileURL.create(1024);
       subFileURLs.push(subFileURL);
     }
 
-    const result = await rootDirURL.listFilesAndDirectoriesSegment(Aborter.none, undefined, {
+    const result = await rootDirURL.listFilesAndDirectoriesSegment(undefined, {
       prefix
     });
     assert.ok(result.serviceEndpoint.length > 0);
@@ -114,10 +112,10 @@ describe("DirectoryURL", () => {
     }
 
     for (const subFile of subFileURLs) {
-      await subFile.delete(Aborter.none);
+      await subFile.delete();
     }
     for (const subDir of subDirURLs) {
-      await subDir.delete(Aborter.none);
+      await subDir.delete();
     }
   });
 
@@ -131,21 +129,21 @@ describe("DirectoryURL", () => {
         rootDirURL,
         getUniqueName(`${prefix}dir${i}`)
       );
-      await subDirURL.create(Aborter.none);
+      await subDirURL.create();
       subDirURLs.push(subDirURL);
     }
 
     const subFileURLs = [];
     for (let i = 0; i < 3; i++) {
       const subFileURL = FileURL.fromDirectoryURL(rootDirURL, getUniqueName(`${prefix}file${i}`));
-      await subFileURL.create(Aborter.none, 1024);
+      await subFileURL.create(1024);
       subFileURLs.push(subFileURL);
     }
 
     const firstRequestSize = Math.ceil((subDirURLs.length + subFileURLs.length) / 2);
     const secondRequestSize = subDirURLs.length + subFileURLs.length - firstRequestSize;
 
-    const firstResult = await rootDirURL.listFilesAndDirectoriesSegment(Aborter.none, undefined, {
+    const firstResult = await rootDirURL.listFilesAndDirectoriesSegment(undefined, {
       prefix,
       maxresults: firstRequestSize
     });
@@ -156,21 +154,20 @@ describe("DirectoryURL", () => {
     );
     assert.notDeepEqual(firstResult.nextMarker, undefined);
 
-    const secondResult = await rootDirURL.listFilesAndDirectoriesSegment(
-      Aborter.none,
-      firstResult.nextMarker,
-      { prefix, maxresults: firstRequestSize + secondRequestSize }
-    );
+    const secondResult = await rootDirURL.listFilesAndDirectoriesSegment(firstResult.nextMarker, {
+      prefix,
+      maxresults: firstRequestSize + secondRequestSize
+    });
     assert.deepStrictEqual(
       secondResult.segment.directoryItems.length + secondResult.segment.fileItems.length,
       secondRequestSize
     );
 
     for (const subFile of subFileURLs) {
-      await subFile.delete(Aborter.none);
+      await subFile.delete();
     }
     for (const subDir of subDirURLs) {
-      await subDir.delete(Aborter.none);
+      await subDir.delete();
     }
   });
 });

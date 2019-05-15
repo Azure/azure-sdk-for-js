@@ -11,7 +11,6 @@ import {
   StorageURL,
   SASProtocol
 } from "../../src";
-import { Aborter } from "../../src/Aborter";
 import { DirectoryURL } from "../../src/DirectoryURL";
 import { FileSASPermissions } from "../../src/FileSASPermissions";
 import { FileURL } from "../../src/FileURL";
@@ -54,7 +53,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       StorageURL.newPipeline(new AnonymousCredential())
     );
 
-    await serviceURLWithSAS.listSharesSegment(Aborter.none);
+    await serviceURLWithSAS.listSharesSegment();
   });
 
   it("generateAccountSASQueryParameters should not work with invalid permission", async () => {
@@ -83,7 +82,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     let error;
     try {
-      await serviceURLWithSAS.getProperties(Aborter.none);
+      await serviceURLWithSAS.getProperties();
     } catch (err) {
       error = err;
     }
@@ -117,7 +116,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     let error;
     try {
-      await serviceURLWithSAS.getProperties(Aborter.none);
+      await serviceURLWithSAS.getProperties();
     } catch (err) {
       error = err;
     }
@@ -154,7 +153,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     let error;
     try {
-      await serviceURLWithSAS.getProperties(Aborter.none);
+      await serviceURLWithSAS.getProperties();
     } catch (err) {
       error = err;
     }
@@ -175,7 +174,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const shareName = getUniqueName("share");
     const shareURL = ShareURL.fromServiceURL(serviceURL, shareName);
-    await shareURL.create(Aborter.none);
+    await shareURL.create();
 
     const shareSAS = generateFileSASQueryParameters(
       {
@@ -194,9 +193,9 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const shareURLwithSAS = new ShareURL(sasURL, StorageURL.newPipeline(new AnonymousCredential()));
 
     const dirURLwithSAS = DirectoryURL.fromShareURL(shareURLwithSAS, "");
-    await dirURLwithSAS.listFilesAndDirectoriesSegment(Aborter.none);
+    await dirURLwithSAS.listFilesAndDirectoriesSegment();
 
-    await shareURL.delete(Aborter.none);
+    await shareURL.delete();
   });
 
   it("generateFileSASQueryParameters should work for file", async () => {
@@ -212,15 +211,15 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const shareName = getUniqueName("share");
     const shareURL = ShareURL.fromServiceURL(serviceURL, shareName);
-    await shareURL.create(Aborter.none);
+    await shareURL.create();
 
     const dirName = getUniqueName("dir");
     const dirURL = DirectoryURL.fromShareURL(shareURL, dirName);
-    await dirURL.create(Aborter.none);
+    await dirURL.create();
 
     const fileName = getUniqueName("file");
     const fileURL = FileURL.fromDirectoryURL(dirURL, fileName);
-    await fileURL.create(Aborter.none, 1024, {
+    await fileURL.create(1024, {
       fileHTTPHeaders: {
         fileContentType: "content-type-original"
       }
@@ -248,14 +247,14 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const sasURL = `${fileURL.url}?${fileSAS}`;
     const fileURLwithSAS = new FileURL(sasURL, StorageURL.newPipeline(new AnonymousCredential()));
 
-    const properties = await fileURLwithSAS.getProperties(Aborter.none);
+    const properties = await fileURLwithSAS.getProperties();
     assert.equal(properties.cacheControl, "cache-control-override");
     assert.equal(properties.contentDisposition, "content-disposition-override");
     assert.equal(properties.contentEncoding, "content-encoding-override");
     assert.equal(properties.contentLanguage, "content-language-override");
     assert.equal(properties.contentType, "content-type-override");
 
-    await shareURL.delete(Aborter.none);
+    await shareURL.delete();
   });
 
   it("generateFileSASQueryParameters should work for file with access policy", async () => {
@@ -271,22 +270,22 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const shareName = getUniqueName("share");
     const shareURL = ShareURL.fromServiceURL(serviceURL, shareName);
-    await shareURL.create(Aborter.none);
+    await shareURL.create();
 
     const dirName = getUniqueName("dir");
     const dirURL = DirectoryURL.fromShareURL(shareURL, dirName);
-    await dirURL.create(Aborter.none);
+    await dirURL.create();
 
     const fileName = getUniqueName("file");
     const fileURL = FileURL.fromDirectoryURL(dirURL, fileName);
-    await fileURL.create(Aborter.none, 1024, {
+    await fileURL.create(1024, {
       fileHTTPHeaders: {
         fileContentType: "content-type-original"
       }
     });
 
     const id = "unique-id";
-    await shareURL.setAccessPolicy(Aborter.none, [
+    await shareURL.setAccessPolicy([
       {
         accessPolicy: {
           expiry: tmr,
@@ -309,7 +308,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const shareURLwithSAS = new ShareURL(sasURL, StorageURL.newPipeline(new AnonymousCredential()));
 
     const dirURLwithSAS = DirectoryURL.fromShareURL(shareURLwithSAS, "");
-    await dirURLwithSAS.listFilesAndDirectoriesSegment(Aborter.none);
-    await shareURL.delete(Aborter.none);
+    await dirURLwithSAS.listFilesAndDirectoriesSegment();
+    await shareURL.delete();
   });
 });

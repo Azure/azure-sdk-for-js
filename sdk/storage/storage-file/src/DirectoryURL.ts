@@ -8,6 +8,7 @@ import { StorageURL } from "./StorageURL";
 import { appendToURLPath } from "./utils/utils.common";
 
 export interface IDirectoryCreateOptions {
+  abortSignal?: Aborter;
   /**
    * A name-value pair
    * to associate with a file storage object.
@@ -19,6 +20,7 @@ export interface IDirectoryCreateOptions {
 }
 
 export interface IDirectoryListFilesAndDirectoriesSegmentOptions {
+  abortSignal?: Aborter;
   /**
    * Filters the results to return only entries whose
    * name begins with the specified prefix.
@@ -37,6 +39,18 @@ export interface IDirectoryListFilesAndDirectoriesSegmentOptions {
    * @memberof IDirectoryListFilesAndDirectoriesSegmentOptions
    */
   maxresults?: number;
+}
+
+export interface IDirectoryDeleteOptions {
+  abortSignal?: Aborter;
+}
+
+export interface IDirectoryGetPropertiesOptions {
+  abortSignal?: Aborter;
+}
+
+export interface IDirectorySetMetadataOptions {
+  abortSignal?: Aborter;
 }
 
 /**
@@ -125,9 +139,9 @@ export class DirectoryURL extends StorageURL {
    * @memberof DirectoryURL
    */
   public async create(
-    aborter: Aborter,
     options: IDirectoryCreateOptions = {}
   ): Promise<Models.DirectoryCreateResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     return this.context.create({
       ...options,
       abortSignal: aborter
@@ -145,7 +159,10 @@ export class DirectoryURL extends StorageURL {
    * @returns {Promise<Models.DirectoryGetPropertiesResponse>}
    * @memberof DirectoryURL
    */
-  public async getProperties(aborter: Aborter): Promise<Models.DirectoryGetPropertiesResponse> {
+  public async getProperties(
+    options: IDirectoryGetPropertiesOptions = {}
+  ): Promise<Models.DirectoryGetPropertiesResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     return this.context.getProperties({
       abortSignal: aborter
     });
@@ -161,7 +178,10 @@ export class DirectoryURL extends StorageURL {
    * @returns {Promise<Models.DirectoryDeleteResponse>}
    * @memberof DirectoryURL
    */
-  public async delete(aborter: Aborter): Promise<Models.DirectoryDeleteResponse> {
+  public async delete(
+    options: IDirectoryDeleteOptions = {}
+  ): Promise<Models.DirectoryDeleteResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     return this.context.deleteMethod({
       abortSignal: aborter
     });
@@ -178,9 +198,10 @@ export class DirectoryURL extends StorageURL {
    * @memberof DirectoryURL
    */
   public async setMetadata(
-    aborter: Aborter,
-    metadata?: IMetadata
+    metadata?: IMetadata,
+    options: IDirectorySetMetadataOptions = {}
   ): Promise<Models.DirectorySetMetadataResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     return this.context.setMetadata({
       abortSignal: aborter,
       metadata
@@ -200,10 +221,10 @@ export class DirectoryURL extends StorageURL {
    * @memberof DirectoryURL
    */
   public async listFilesAndDirectoriesSegment(
-    aborter: Aborter,
     marker?: string,
     options: IDirectoryListFilesAndDirectoriesSegmentOptions = {}
   ): Promise<Models.DirectoryListFilesAndDirectoriesSegmentResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     return this.context.listFilesAndDirectoriesSegment({
       abortSignal: aborter,
       marker,

@@ -1,4 +1,3 @@
-import { Aborter } from "../../src/Aborter";
 import { DirectoryURL } from "../../src/DirectoryURL";
 import { FileURL } from "../../src/FileURL";
 import { ShareURL } from "../../src/ShareURL";
@@ -10,30 +9,30 @@ describe("SharedKeyCredentialPolicy Node.js only", () => {
   const shareURL = ShareURL.fromServiceURL(serviceURL, shareName);
 
   before(async () => {
-    await shareURL.create(Aborter.none);
+    await shareURL.create();
   });
 
   after(async () => {
-    await shareURL.delete(Aborter.none);
+    await shareURL.delete();
   });
 
   it("SharedKeyCredentialPolicy should work with special share and file names with spaces", async () => {
     const dirName = getUniqueName("dir empty");
     const dirURL = DirectoryURL.fromShareURL(shareURL, dirName);
-    await dirURL.create(Aborter.none);
+    await dirURL.create();
 
     const fileName: string = getUniqueName("file empty");
     const fileURL = FileURL.fromDirectoryURL(dirURL, fileName);
-    await fileURL.create(Aborter.none, 0);
+    await fileURL.create(0);
   });
 
   it("SharedKeyCredentialPolicy should work with special share and file names uppercase", async () => {
     const dirName = getUniqueName("Dir empty");
     const dirURL = DirectoryURL.fromShareURL(shareURL, dirName);
-    await dirURL.create(Aborter.none);
+    await dirURL.create();
 
     const fileName: string = getUniqueName("Upper_another");
     const fileURL = FileURL.fromDirectoryURL(dirURL, fileName);
-    await fileURL.create(Aborter.none, 0);
+    await fileURL.create(0);
   });
 });

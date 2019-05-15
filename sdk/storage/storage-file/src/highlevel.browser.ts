@@ -18,14 +18,12 @@ import { FILE_RANGE_MAX_SIZE_BYTES, DEFAULT_HIGH_LEVEL_PARALLELISM } from "./uti
  * @returns {Promise<void>}
  */
 export async function uploadBrowserDataToAzureFile(
-  aborter: Aborter,
   browserData: Blob | ArrayBuffer | ArrayBufferView,
   fileURL: FileURL,
-  options?: IUploadToAzureFileOptions
+  options: IUploadToAzureFileOptions = {}
 ): Promise<void> {
   const browserBlob = new Blob([browserData]);
   return UploadSeekableBlobToAzureFile(
-    aborter,
     (offset: number, size: number): Blob => {
       return browserBlob.slice(offset, offset + size);
     },
@@ -50,12 +48,12 @@ export async function uploadBrowserDataToAzureFile(
  * @returns {Promise<void>}
  */
 async function UploadSeekableBlobToAzureFile(
-  aborter: Aborter,
   blobFactory: (offset: number, size: number) => Blob,
   size: number,
   fileURL: FileURL,
   options: IUploadToAzureFileOptions = {}
 ): Promise<void> {
+  const aborter = options.abortSignal || Aborter.none;
   if (!options.rangeSize) {
     options.rangeSize = FILE_RANGE_MAX_SIZE_BYTES;
   }
@@ -75,7 +73,8 @@ async function UploadSeekableBlobToAzureFile(
   }
 
   // Create the file
-  await fileURL.create(aborter, size, {
+  await fileURL.create(size, {
+    abortSignal: aborter,
     fileHTTPHeaders: options.fileHTTPHeaders,
     metadata: options.metadata
   });
@@ -90,7 +89,9 @@ async function UploadSeekableBlobToAzureFile(
         const start = options.rangeSize! * i;
         const end = i === numBlocks - 1 ? size : start + options.rangeSize!;
         const contentLength = end - start;
-        await fileURL.uploadRange(aborter, blobFactory(start, contentLength), start, contentLength);
+        await fileURL.uploadRange(blobFactory(start, contentLength), start, contentLength, {
+          abortSignal: aborter
+        });
         // Update progress after block is successfully uploaded to server, in case of block trying
         // TODO: Hook with convenience layer progress event in finer level
         transferProgress += contentLength;

@@ -23,13 +23,13 @@ describe("Aborter", () => {
   });
 
   it("Should not abort after calling abort()", async () => {
-    await shareURL.create(Aborter.none);
-    await shareURL.delete(Aborter.none);
+    await shareURL.create();
+    await shareURL.delete();
   });
 
   it("Should abort when calling abort() before request finishes", async () => {
     const aborter = Aborter.none;
-    const response = shareURL.create(aborter);
+    const response = shareURL.create({ abortSignal: aborter });
     aborter.abort();
     try {
       await response;
@@ -39,13 +39,13 @@ describe("Aborter", () => {
 
   it("Should not abort when calling abort() after request finishes", async () => {
     const aborter = Aborter.none;
-    await shareURL.create(aborter);
+    await shareURL.create();
     aborter.abort();
   });
 
   it("Should abort after aborter timeout", async () => {
     try {
-      await shareURL.create(Aborter.timeout(1));
+      await shareURL.create({ abortSignal: Aborter.timeout(1) });
       assert.fail();
     } catch (err) {}
   });
@@ -53,7 +53,7 @@ describe("Aborter", () => {
   it("Should abort after parent aborter calls abort()", async () => {
     try {
       const aborter = Aborter.none;
-      const response = shareURL.create(aborter.withTimeout(10 * 60 * 1000));
+      const response = shareURL.create({ abortSignal: aborter.withTimeout(10 * 60 * 1000) });
       aborter.abort();
       await response;
       assert.fail();
@@ -63,7 +63,7 @@ describe("Aborter", () => {
   it("Should abort after parent aborter timeout", async () => {
     try {
       const aborter = Aborter.timeout(1);
-      const response = shareURL.create(aborter.withTimeout(10 * 60 * 1000));
+      const response = shareURL.create({ abortSignal: aborter.withTimeout(10 * 60 * 1000) });
       await response;
       assert.fail();
     } catch (err) {}

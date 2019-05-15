@@ -1,6 +1,4 @@
 import { HttpResponse, isNode } from "@azure/ms-rest-js";
-
-import { Aborter } from "./Aborter";
 import * as Models from "./generated/lib/models";
 import { IMetadata } from "./models";
 import {
@@ -372,7 +370,6 @@ export class FileDownloadResponse implements Models.FileDownloadResponse {
    * @memberof FileDownloadResponse
    */
   public constructor(
-    aborter: Aborter,
     originalResponse: Models.FileDownloadResponse,
     getter: ReadableStreamGetter,
     offset: number,
@@ -381,7 +378,6 @@ export class FileDownloadResponse implements Models.FileDownloadResponse {
   ) {
     this.originalResponse = originalResponse;
     this.fileDownloadStream = new RetriableReadableStream(
-      aborter,
       this.originalResponse.readableStreamBody!,
       getter,
       offset,
