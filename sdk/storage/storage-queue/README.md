@@ -1,7 +1,7 @@
 # Azure Storage SDK V10 for JavaScript - Queue
 
-* [![npm version](https://badge.fury.io/js/%40azure%2Fstorage-queue.svg)](https://badge.fury.io/js/%40azure%2Fstorage-queue)
-* [API Reference documentation](https://docs.microsoft.com/en-us/javascript/api/%40azure/storage-queue/index?view=azure-node-preview)
+- [![npm version](https://badge.fury.io/js/%40azure%2Fstorage-queue.svg)](https://badge.fury.io/js/%40azure%2Fstorage-queue)
+- [API Reference documentation](https://docs.microsoft.com/en-us/javascript/api/%40azure/storage-queue/index?view=azure-node-preview)
 
 ## Introduction
 
@@ -11,14 +11,14 @@ Please note that this version of the SDK is a compete overhaul of the current [A
 
 ### Features
 
-* Queue Storage
-  * Get/Set Queue Service Properties
-  * Create/List/Delete Queues
-  * Enqueue/Dequeue/Peek/Clear/Update/Delete Queue Messages
-* Features new
-  * Asynchronous I/O for all operations using the async methods
-  * HttpPipeline which enables a high degree of per-request configurability
-  * 1-to-1 correlation with the Storage REST API for clarity and simplicity
+- Queue Storage
+  - Get/Set Queue Service Properties
+  - Create/List/Delete Queues
+  - Enqueue/Dequeue/Peek/Clear/Update/Delete Queue Messages
+- Features new
+  - Asynchronous I/O for all operations using the async methods
+  - HttpPipeline which enables a high degree of per-request configurability
+  - 1-to-1 correlation with the Storage REST API for clarity and simplicity
 
 ### Compatibility
 
@@ -30,14 +30,13 @@ You need polyfills to make this library work with IE11. The easiest way is to us
 Or you can load separate polyfills for missed ES feature(s).
 This library depends on following ES features which need external polyfills loaded.
 
-* `Promise`
-* `String.prototype.startsWith`
-* `String.prototype.endsWith`
-* `String.prototype.repeat`
-* `String.prototype.includes`
-* `Array.prototype.includes`
-* `Object.keys` (Override IE11's `Object.keys` with ES6 polyfill forcely to enable [ES6 behavior](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/keys#Notes))
-
+- `Promise`
+- `String.prototype.startsWith`
+- `String.prototype.endsWith`
+- `String.prototype.repeat`
+- `String.prototype.includes`
+- `Array.prototype.includes`
+- `Object.keys` (Override IE11's `Object.keys` with ES6 polyfill forcely to enable [ES6 behavior](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/keys#Notes))
 
 #### Differences between Node.js and browsers
 
@@ -45,11 +44,11 @@ There are differences between Node.js and browsers runtime. When getting start w
 
 ##### Following features, interfaces, classes or functions are only available in Node.js
 
-* Shared Key Authorization based on account name and account key
-  * `SharedKeyCredential`
-* Shared Access Signature(SAS) generation
-  * `generateAccountSASQueryParameters()`
-  * `generateQueueSASQueryParameters()`
+- Shared Key Authorization based on account name and account key
+  - `SharedKeyCredential`
+- Shared Access Signature(SAS) generation
+  - `generateAccountSASQueryParameters()`
+  - `generateQueueSASQueryParameters()`
 
 ## Getting Started
 
@@ -78,18 +77,18 @@ const Azure = require("@azure/storage-queue");
 To use the SDK with JS bundle in the browsers, simply add a script tag to your HTML pages pointing to the downloaded JS bundle file(s):
 
 ```html
-<script src="https://mydomain/azure-storage.queue.min.js"></script>
+<script src="https://mydomain/azure-storage-queue.min.js"></script>
 ```
 
 The JS bundled file is compatible with [UMD](https://github.com/umdjs/umd) standard, if no module system found, following global variable(s) will be exported:
 
-* `azqueue`
+- `azqueue`
 
 #### Download
 
 Download latest released JS bundles from links in the [GitHub release page](https://github.com/Azure/azure-sdk-for-js/releases). Or from following links directly:
 
-* Queue [https://aka.ms/downloadazurestoragejsqueue](https://aka.ms/downloadazurestoragejsqueue)
+- Queue [https://aka.ms/downloadazurestoragejsqueue](https://aka.ms/downloadazurestoragejsqueue)
 
 ### CORS
 
@@ -97,128 +96,157 @@ You need to set up [Cross-Origin Resource Sharing (CORS)](https://docs.microsoft
 
 For example, you can create following CORS settings for debugging. But please customize the settings carefully according to your requirements in production environment.
 
-* Allowed origins: \*
-* Allowed verbs: DELETE,GET,HEAD,MERGE,POST,OPTIONS,PUT
-* Allowed headers: \*
-* Exposed headers: \*
-* Maximum age (seconds): 86400
+- Allowed origins: \*
+- Allowed verbs: DELETE,GET,HEAD,MERGE,POST,OPTIONS,PUT
+- Allowed headers: \*
+- Exposed headers: \*
+- Maximum age (seconds): 86400
 
 ## SDK Architecture
 
 The Azure Storage SDK for JavaScript provides low-level and high-level APIs.
 
-* ServiceURL, QueueURL, MessagesURL and MessageIdURL objects provide the low-level API functionality and map one-to-one to the [Azure Storage Queue REST APIs](https://docs.microsoft.com/en-us/rest/api/storageservices/queue-service-rest-api).
+- ServiceURL, QueueURL, MessagesURL and MessageIdURL objects provide the low-level API functionality and map one-to-one to the [Azure Storage Queue REST APIs](https://docs.microsoft.com/en-us/rest/api/storageservices/queue-service-rest-api).
 
 ## Code Samples
 
 ```javascript
 const {
-    Aborter,
-    QueueURL,
-    MessagesURL,
-    MessageIdURL,
-    ServiceURL,
-    StorageURL,
-    SharedKeyCredential,
-    AnonymousCredential,
-    TokenCredential
+  Aborter,
+  QueueURL,
+  MessagesURL,
+  MessageIdURL,
+  ServiceURL,
+  StorageURL,
+  SharedKeyCredential,
+  AnonymousCredential,
+  TokenCredential
 } = require(".."); // Change to "@azure/storage-queue" in your package
 
 async function main() {
-    // Enter your storage account name and shared key
-    const account = "<account>";
-    const accountKey = "<accountkey>";
+  // Enter your storage account name and shared key
+  const account = "<account>";
+  const accountKey = "<accountkey>";
 
-    // Use SharedKeyCredential with storage account and account key
-    const sharedKeyCredential = new SharedKeyCredential(account, accountKey);
+  // Use SharedKeyCredential with storage account and account key
+  const sharedKeyCredential = new SharedKeyCredential(account, accountKey);
 
-    // Use TokenCredential with OAuth token
-    const tokenCredential = new TokenCredential("token");
-    tokenCredential.token = "renewedToken"; // Renew the token by updating token field of token credential
+  // Use TokenCredential with OAuth token
+  const tokenCredential = new TokenCredential("token");
+  tokenCredential.token = "renewedToken"; // Renew the token by updating token field of token credential
 
-    // Use AnonymousCredential when url already includes a SAS signature
-    const anonymousCredential = new AnonymousCredential();
+  // Use AnonymousCredential when url already includes a SAS signature
+  const anonymousCredential = new AnonymousCredential();
 
-    // Use sharedKeyCredential, tokenCredential or anonymousCredential to create a pipeline
-    const pipeline = StorageURL.newPipeline(sharedKeyCredential, {
-        // httpClient: MyHTTPClient, // A customized HTTP client implementing IHttpClient interface
-        // logger: MyLogger, // A customized logger implementing IHttpPipelineLogger interface
-        retryOptions: { maxTries: 4 }, // Retry options
-        telemetry: { value: "BasicSample V10.0.0" } // Customized telemetry string
-    });
+  // Use sharedKeyCredential, tokenCredential or anonymousCredential to create a pipeline
+  const pipeline = StorageURL.newPipeline(sharedKeyCredential, {
+    // httpClient: MyHTTPClient, // A customized HTTP client implementing IHttpClient interface
+    // logger: MyLogger, // A customized logger implementing IHttpPipelineLogger interface
+    retryOptions: { maxTries: 4 }, // Retry options
+    telemetry: { value: "BasicSample V10.0.0" } // Customized telemetry string
+  });
 
-    // List queues
-    const serviceURL = new ServiceURL(
-        // When using AnonymousCredential, following url should include a valid SAS or support public access
-        `https://${account}.queue.core.windows.net`,
-        pipeline
+  // List queues
+  const serviceURL = new ServiceURL(
+    // When using AnonymousCredential, following url should include a valid SAS or support public access
+    `https://${account}.queue.core.windows.net`,
+    pipeline
+  );
+
+  console.log(`List queues`);
+  let marker;
+  do {
+    const listQueuesResponse = await serviceURL.listQueuesSegment(
+      Aborter.none,
+      marker
     );
 
-    console.log(`List queues`);
-    let marker;
-    do {
-        const listQueuesResponse = await serviceURL.listQueuesSegment(
-            Aborter.none,
-            marker
-        );
-
-        marker = listQueuesResponse.nextMarker;
-        for (const queue of listQueuesResponse.queueItems) {
-            console.log(`Queue: ${queue.name}`);
-        }
-    } while (marker);
-
-    // Create a new queue
-    const queueName = `newqueue${new Date().getTime()}`;
-    const queueURL = QueueURL.fromServiceURL(serviceURL, queueName);
-    const createQueueResponse = await queueURL.create(Aborter.none);
-    console.log(
-        `Create queue ${queueName} successfully, service assigned request Id: ${createQueueResponse.requestId}`
-    );
-
-    // Enqueue a message into the queue using the enqueue method.
-    const messagesURL = MessagesURL.fromQueueURL(queueURL);
-    const enqueueQueueResponse = await messagesURL.enqueue(Aborter.none, "Hello World!");
-    console.log(
-        `Enqueue message successfully, service assigned message Id: ${enqueueQueueResponse.messageId}, service assigned request Id: ${enqueueQueueResponse.requestId}`
-    );
-
-    // Peek a message using peek method.
-    const peekQueueResponse = await messagesURL.peek(Aborter.none);
-    console.log(`The peeked message is: ${peekQueueResponse.peekedMessageItems[0].messageText}`);
-
-    // You de-queue a message in two steps. Call GetMessage at which point the message becomes invisible to any other code reading messages 
-    // from this queue for a default period of 30 seconds. To finish removing the message from the queue, you call DeleteMessage. 
-    // This two-step process ensures that if your code fails to process a message due to hardware or software failure, another instance 
-    // of your code can get the same message and try again. 
-    const dequeueResponse = await messagesURL.dequeue(Aborter.none);
-    if (dequeueResponse.dequeuedMessageItems.length == 1) {
-        const dequeueMessageItem = dequeueResponse.dequeuedMessageItems[0];
-        console.log(`Processing & deleting message with content: ${dequeueMessageItem.messageText}`);
-        const messageIdURL = MessageIdURL.fromMessagesURL(messagesURL, dequeueMessageItem.messageId);
-        const deleteMessageResponse = await messageIdURL.delete(Aborter.none, dequeueMessageItem.popReceipt);
-        console.log(`Delete message succesfully, service assigned request Id: ${deleteMessageResponse.requestId}`);
+    marker = listQueuesResponse.nextMarker;
+    for (const queue of listQueuesResponse.queueItems) {
+      console.log(`Queue: ${queue.name}`);
     }
+  } while (marker);
 
-    // Delete the queue.
-    const deleteQueueResponse = await queueURL.delete(Aborter.none);
-    console.log(`Delete queue successfully, service assigned request Id: ${deleteQueueResponse.requestId}`);
+  // Create a new queue
+  const queueName = `newqueue${new Date().getTime()}`;
+  const queueURL = QueueURL.fromServiceURL(serviceURL, queueName);
+  const createQueueResponse = await queueURL.create(Aborter.none);
+  console.log(
+    `Create queue ${queueName} successfully, service assigned request Id: ${
+      createQueueResponse.requestId
+    }`
+  );
+
+  // Enqueue a message into the queue using the enqueue method.
+  const messagesURL = MessagesURL.fromQueueURL(queueURL);
+  const enqueueQueueResponse = await messagesURL.enqueue(
+    Aborter.none,
+    "Hello World!"
+  );
+  console.log(
+    `Enqueue message successfully, service assigned message Id: ${
+      enqueueQueueResponse.messageId
+    }, service assigned request Id: ${enqueueQueueResponse.requestId}`
+  );
+
+  // Peek a message using peek method.
+  const peekQueueResponse = await messagesURL.peek(Aborter.none);
+  console.log(
+    `The peeked message is: ${
+      peekQueueResponse.peekedMessageItems[0].messageText
+    }`
+  );
+
+  // You de-queue a message in two steps. Call GetMessage at which point the message becomes invisible to any other code reading messages
+  // from this queue for a default period of 30 seconds. To finish removing the message from the queue, you call DeleteMessage.
+  // This two-step process ensures that if your code fails to process a message due to hardware or software failure, another instance
+  // of your code can get the same message and try again.
+  const dequeueResponse = await messagesURL.dequeue(Aborter.none);
+  if (dequeueResponse.dequeuedMessageItems.length == 1) {
+    const dequeueMessageItem = dequeueResponse.dequeuedMessageItems[0];
+    console.log(
+      `Processing & deleting message with content: ${
+        dequeueMessageItem.messageText
+      }`
+    );
+    const messageIdURL = MessageIdURL.fromMessagesURL(
+      messagesURL,
+      dequeueMessageItem.messageId
+    );
+    const deleteMessageResponse = await messageIdURL.delete(
+      Aborter.none,
+      dequeueMessageItem.popReceipt
+    );
+    console.log(
+      `Delete message succesfully, service assigned request Id: ${
+        deleteMessageResponse.requestId
+      }`
+    );
+  }
+
+  // Delete the queue.
+  const deleteQueueResponse = await queueURL.delete(Aborter.none);
+  console.log(
+    `Delete queue successfully, service assigned request Id: ${
+      deleteQueueResponse.requestId
+    }`
+  );
 }
 
 // An async method returns a Promise object, which is compatible with then().catch() coding style.
 main()
-    .then(() => {
-        console.log("Successfully executed sample.");
-    })
-    .catch(err => {
-        console.log(err.message);
-    });
+  .then(() => {
+    console.log("Successfully executed sample.");
+  })
+  .catch(err => {
+    console.log(err.message);
+  });
 ```
 
 ## More Code Samples
 
-* [Queue Storage Examples](https://github.com/azure/azure-sdk-for-js/tree/master/sdk/storage/storage-queue/samples)
-* [Queue Storage Examples - Test Cases](https://github.com/azure/azure-sdk-for-js/tree/master/sdk/storage/storage-queue/test/)
+- [Queue Storage Examples](https://github.com/azure/azure-sdk-for-js/tree/master/sdk/storage/storage-queue/samples)
+- [Queue Storage Examples - Test Cases](https://github.com/azure/azure-sdk-for-js/tree/master/sdk/storage/storage-queue/test/)
 
 ## License
 
