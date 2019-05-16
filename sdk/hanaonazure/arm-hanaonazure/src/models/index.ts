@@ -468,6 +468,26 @@ export type HanaInstancesUpdateResponse = HanaInstance & {
 };
 
 /**
+ * Contains response data for the beginDeleteMethod operation.
+ */
+export type HanaInstancesBeginDeleteMethodResponse = HanaInstance & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: HanaInstance;
+    };
+};
+
+/**
  * Contains response data for the listNext operation.
  */
 export type HanaInstancesListNextResponse = HanaInstancesListResult & {
