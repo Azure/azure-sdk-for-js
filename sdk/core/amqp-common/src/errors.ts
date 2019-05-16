@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import { AmqpResponseStatusCode, isAmqpError, AmqpError } from "rhea-promise";
+import { isNode } from "../src/util/utils";
 
 /**
  * Maps the conditions to the numeric AMQP Response status codes.
@@ -526,6 +527,19 @@ export function isSystemError(err: any): boolean {
   return result;
 }
 
+export function isWebsocketError(err: any): boolean {
+  let result: boolean = false;
+  if (
+    !isNode &&
+    window !== undefined &&
+    err.type === "error" &&
+    err.target instanceof (window as any).WebSocket
+  ) {
+    result = true;
+  }
+  return result;
+}
+
 /**
  * Translates the AQMP error received at the protocol layer or a generic Error into a MessagingError.
  *
@@ -586,6 +600,11 @@ export function translate(err: AmqpError | Error): MessagingError {
       // not found
       error.retryable = false;
     }
+  } else if (isWebsocketError(err)) {
+    // Translate to a generic Browser specific error for security reasons.
+    // For more information refer to - https://html.spec.whatwg.org/multipage/comms.html#feedback-from-the-protocol
+    error = new MessagingError("Websocket connection failed.");
+    error.name = ConditionErrorNameMapper[ErrorNameConditionMapper.ServiceCommunicationError];
   } else {
     // Translate a generic error into MessagingError.
     error = new MessagingError((err as Error).message);
