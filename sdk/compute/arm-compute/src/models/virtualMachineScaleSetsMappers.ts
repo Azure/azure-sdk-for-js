@@ -81,6 +81,8 @@ export {
   OSDiskImage,
   OSProfile,
   Plan,
+  ProximityPlacementGroup,
+  ProximityPlacementGroupUpdate,
   PurchasePlan,
   RecommendedMachineConfiguration,
   RecoveryWalkResponse,
@@ -172,6 +174,7 @@ export {
   VirtualMachineScaleSetVMReimageParameters,
   VirtualMachineStatusCodeCount,
   VirtualMachineUpdate,
+  VMScaleSetConvertToSinglePlacementGroupInput,
   WindowsConfiguration,
   WinRMConfiguration,
   WinRMListener
