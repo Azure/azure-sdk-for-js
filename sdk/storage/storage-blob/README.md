@@ -89,7 +89,7 @@ const Azure = require("@azure/storage-blob");
 To use the SDK with JS bundle in the browsers, simply add a script tag to your HTML pages pointing to the downloaded JS bundle file(s):
 
 ```html
-<script src="https://mydomain/azure-storage.blob.min.js"></script>
+<script src="https://mydomain/azure-storage-blob.min.js"></script>
 ```
 
 The JS bundled file is compatible with [UMD](https://github.com/umdjs/umd) standard, if no module system found, following global variable(s) will be exported:
