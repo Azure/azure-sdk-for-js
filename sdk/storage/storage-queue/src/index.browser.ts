@@ -6,7 +6,7 @@ export * from "./Aborter";
 export * from "./credentials/AnonymousCredential";
 export * from "./credentials/Credential";
 export * from "./credentials/TokenCredential";
-export { IIPRange } from "./IIPRange";
+export { IPRange } from "./IPRange";
 export * from "./MessageIdClient";
 export * from "./MessagesClient";
 export * from "./Pipeline";

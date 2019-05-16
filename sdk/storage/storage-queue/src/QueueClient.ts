@@ -2,17 +2,17 @@ import { HttpResponse } from "@azure/ms-rest-js";
 import * as Models from "./generated/lib/models";
 import { Aborter } from "./Aborter";
 import { Queue } from "./generated/lib/operations";
-import { IMetadata } from "./models";
+import { Metadata } from "./models";
 import { Pipeline } from "./Pipeline";
 import { QueueServiceClient } from "./QueueServiceClient";
 import { StorageClient } from "./StorageClient";
 import { appendToURLPath, truncatedISO8061Date } from "./utils/utils.common";
 
-export interface IQueueCreateOptions {
-  metadata?: IMetadata;
+export interface QueueCreateOptions {
+  metadata?: Metadata;
 }
 
-export interface ISignedIdentifier {
+export interface SignedIdentifier {
   /**
    * @member {string} id a unique id
    */
@@ -38,7 +38,7 @@ export interface ISignedIdentifier {
 }
 
 export declare type QueueGetAccessPolicyResponse = {
-  signedIdentifiers: ISignedIdentifier[];
+  signedIdentifiers: SignedIdentifier[];
 } & Models.QueueGetAccessPolicyHeaders & {
     /**
      * The underlying HTTP response.
@@ -124,13 +124,13 @@ export class QueueClient extends StorageClient {
    *
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
-   * @param {IQueueCreateOptions} [options]
+   * @param {QueueCreateOptions} [options]
    * @returns {Promise<Models.QueueCreateResponse>}
    * @memberof QueueURL
    */
   public async create(
     aborter: Aborter,
-    options: IQueueCreateOptions = {}
+    options: QueueCreateOptions = {}
   ): Promise<Models.QueueCreateResponse> {
     return this.queueContext.create({
       ...options,
@@ -178,13 +178,13 @@ export class QueueClient extends StorageClient {
    *
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
-   * @param {IMetadata} [metadata] If no metadata provided, all existing metadata will be removed.
+   * @param {Metadata} [metadata] If no metadata provided, all existing metadata will be removed.
    * @returns {Promise<Models.QueueSetMetadataResponse>}
    * @memberof QueueURL
    */
   public async setMetadata(
     aborter: Aborter,
-    metadata?: IMetadata
+    metadata?: Metadata
   ): Promise<Models.QueueSetMetadataResponse> {
     return this.queueContext.setMetadata({
       abortSignal: aborter,
@@ -202,7 +202,7 @@ export class QueueClient extends StorageClient {
    *
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
-   * @param {IQueueGetAccessPolicyOptions} [options]
+   * @param {QueueGetAccessPolicyOptions} [options]
    * @returns {Promise<QueueGetAccessPolicyResponse>}
    * @memberof QueueURL
    */
@@ -241,14 +241,14 @@ export class QueueClient extends StorageClient {
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {PublicAccessType} [access]
-   * @param {ISignedIdentifier[]} [queueAcl]
-   * @param {IQueueSetAccessPolicyOptions} [options]
+   * @param {SignedIdentifier[]} [queueAcl]
+   * @param {QueueSetAccessPolicyOptions} [options]
    * @returns {Promise<Models.QueueSetAccessPolicyResponse>}
    * @memberof QueueURL
    */
   public async setAccessPolicy(
     aborter: Aborter,
-    queueAcl?: ISignedIdentifier[]
+    queueAcl?: SignedIdentifier[]
   ): Promise<Models.QueueSetAccessPolicyResponse> {
     const acl: Models.SignedIdentifier[] = [];
     for (const identifier of queueAcl || []) {
