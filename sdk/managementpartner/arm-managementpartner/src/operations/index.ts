@@ -10,3 +10,4 @@
 
 export * from "./partner";
 export * from "./operation";
+export * from "./partners";
