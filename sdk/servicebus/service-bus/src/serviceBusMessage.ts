@@ -829,7 +829,10 @@ export class ServiceBusMessage implements ReceivedMessage {
    * - Throws an error if the message is already settled. To avoid this error check the `isSettled`
    * property on the message if you are not sure whether the message is settled.
    * - Throws an error if used in `ReceiveAndDelete` mode because all messages received in this mode
-   * are pre-settled.
+   * are pre-settled. To avoid this error, update your code to not settle a message which is received
+   * in this mode.
+   * - Throws `ServiceUnavailableError` if Service Bus does not acknowledge the request to settle
+   * the message in time. The message may or may not have been settled successfully.
    *
    * @returns Promise<void>.
    */
@@ -878,7 +881,10 @@ export class ServiceBusMessage implements ReceivedMessage {
    * - Throws an error if the message is already settled. To avoid this error check the `isSettled`
    * property on the message if you are not sure whether the message is settled.
    * - Throws an error if used in `ReceiveAndDelete` mode because all messages received in this mode
-   * are pre-settled.
+   * are pre-settled. To avoid this error, update your code to not settle a message which is received
+   * in this mode.
+   * - Throws `ServiceUnavailableError` if Service Bus does not acknowledge the request to settle
+   * the message in time. The message may or may not have been settled successfully.
    *
    * @param propertiesToModify The properties of the message to modify while abandoning the message.
    *
@@ -931,7 +937,10 @@ export class ServiceBusMessage implements ReceivedMessage {
    * - Throws an error if the message is already settled. To avoid this error check the `isSettled`
    * property on the message if you are not sure whether the message is settled.
    * - Throws an error if used in `ReceiveAndDelete` mode because all messages received in this mode
-   * are pre-settled.
+   * are pre-settled. To avoid this error, update your code to not settle a message which is received
+   * in this mode.
+   * - Throws `ServiceUnavailableError` if Service Bus does not acknowledge the request to settle
+   * the message in time. The message may or may not have been settled successfully.
    *
    * @param propertiesToModify The properties of the message to modify while deferring the message
    *
@@ -983,7 +992,10 @@ export class ServiceBusMessage implements ReceivedMessage {
    * - Throws an error if the message is already settled. To avoid this error check the `isSettled`
    * property on the message if you are not sure whether the message is settled.
    * - Throws an error if used in `ReceiveAndDelete` mode because all messages received in this mode
-   * are pre-settled.
+   * are pre-settled. To avoid this error, update your code to not settle a message which is received
+   * in this mode.
+   * - Throws `ServiceUnavailableError` if Service Bus does not acknowledge the request to settle
+   * the message in time. The message may or may not have been settled successfully.
    *
    * @param options The DeadLetter options that can be provided while
    * rejecting the message.
