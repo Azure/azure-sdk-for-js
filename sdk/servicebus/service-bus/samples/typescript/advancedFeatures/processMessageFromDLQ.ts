@@ -17,18 +17,18 @@ const queueName = "";
 
 // If deadlettered messages are from Subscription, use `TopicClient.getDeadLetterTopicPath` instead
 const deadLetterQueueName = QueueClient.getDeadLetterQueuePath(queueName);
-const ns: ServiceBusClient = ServiceBusClient.createFromConnectionString(connectionString);
+const sbClient: ServiceBusClient = ServiceBusClient.createFromConnectionString(connectionString);
 
 async function main(): Promise<void> {
   try {
     await processDeadletterMessageQueue();
   } finally {
-    await ns.close();
+    await sbClient.close();
   }
 }
 
 async function processDeadletterMessageQueue(): Promise<void> {
-  const client = ns.createQueueClient(deadLetterQueueName);
+  const client = sbClient.createQueueClient(deadLetterQueueName);
   const receiver = client.createReceiver(ReceiveMode.peekLock);
 
   const messages = await receiver.receiveMessages(1);
@@ -51,7 +51,7 @@ async function processDeadletterMessageQueue(): Promise<void> {
 // Send repaired message back to the current queue / topic
 async function fixAndResendMessage(oldMessage: ServiceBusMessage): Promise<void> {
   // If sending to a Topic, use `createTopicClient` instead of `createQueueClient`
-  const client = ns.createQueueClient(queueName);
+  const client = sbClient.createQueueClient(queueName);
   const sender = client.createSender();
 
   // Inspect given message and make any changes if necessary

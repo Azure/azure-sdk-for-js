@@ -15,10 +15,10 @@ const connectionString = "";
 const queueName = "";
 
 async function main(): Promise<void> {
-  const ns = ServiceBusClient.createFromConnectionString(connectionString);
+  const sbClient = ServiceBusClient.createFromConnectionString(connectionString);
 
   // If receiving from a Subscription, use `createSubscriptionClient` instead of `createQueueClient`
-  const client = ns.createQueueClient(queueName);
+  const client = sbClient.createQueueClient(queueName);
 
   // To receive messages from sessions, use getSessionReceiver instead of getReceiver or look at
   // the sample in sessions.ts file
@@ -41,7 +41,7 @@ async function main(): Promise<void> {
     await receiver.close();
     await client.close();
   } finally {
-    await ns.close();
+    await sbClient.close();
   }
 }
 

@@ -14,7 +14,7 @@ const { ServiceBusClient, ReceiveMode } = require("@azure/service-bus");
 // Define connection string and related Service Bus entity names here
 const connectionString = "";
 const queueName = "";
-const ns = ServiceBusClient.createFromConnectionString(connectionString);
+const sbClient = ServiceBusClient.createFromConnectionString(connectionString);
 
 async function main() {
   try {
@@ -23,13 +23,13 @@ async function main() {
 
     await receiveMessage();
   } finally {
-    await ns.close();
+    await sbClient.close();
   }
 }
 
 async function sendMessage() {
   // If sending to a Topic, use `createTopicClient` instead of `createQueueClient`
-  const client = ns.createQueueClient(queueName);
+  const client = sbClient.createQueueClient(queueName);
   const sender = client.createSender();
 
   const message = {
@@ -43,7 +43,7 @@ async function sendMessage() {
 
 async function receiveMessage() {
   // If receiving from a Subscription, use `createSubscriptionClient` instead of `createQueueClient`
-  const client = ns.createQueueClient(queueName);
+  const client = sbClient.createQueueClient(queueName);
   const receiver = client.createReceiver(ReceiveMode.peekLock);
 
   const messages = await receiver.receiveMessages(1);

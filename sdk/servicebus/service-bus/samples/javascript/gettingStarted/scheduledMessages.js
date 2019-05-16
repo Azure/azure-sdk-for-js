@@ -29,20 +29,20 @@ const listOfScientists = [
 ];
 
 async function main(){
-  const ns = ServiceBusClient.createFromConnectionString(connectionString);
+  const sbClient = ServiceBusClient.createFromConnectionString(connectionString);
   try {
-    await sendScheduledMessages(ns);
+    await sendScheduledMessages(sbClient);
 
-    await receiveMessages(ns);
+    await receiveMessages(sbClient);
   } finally {
-    await ns.close();
+    await sbClient.close();
   }
 }
 
 // Scheduling messages to be sent after 10 seconds from now
-async function sendScheduledMessages(ns){
+async function sendScheduledMessages(sbClient){
   // If sending to a Topic, use `createTopicClient` instead of `createQueueClient`
-  const client = ns.createQueueClient(queueName);
+  const client = sbClient.createQueueClient(queueName);
   const sender = client.createSender();
 
   const messages = listOfScientists.map((scientist) => ({
@@ -60,7 +60,7 @@ async function sendScheduledMessages(ns){
   await sender.scheduleMessages(scheduledEnqueueTimeUtc, messages);
 }
 
-async function receiveMessages(ns) {
+async function receiveMessages(sbClient) {
   // If receiving from a Subscription, use `createSubscriptionClient` instead of `createQueueClient`
   const client = ns.createQueueClient(queueName);
 

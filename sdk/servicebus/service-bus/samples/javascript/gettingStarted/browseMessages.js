@@ -17,10 +17,10 @@ const connectionString = "";
 const queueName = "";
 
 async function main() {
-  const ns = ServiceBusClient.createFromConnectionString(connectionString);
+  const sbClient = ServiceBusClient.createFromConnectionString(connectionString);
 
   // If using Topics & Subscription, use createSubscriptionClient to peek from the subscription
-  const client = ns.createQueueClient(queueName);
+  const client = sbClient.createQueueClient(queueName);
 
   try {
     for (let i = 0; i < 20; i++) {
@@ -33,7 +33,7 @@ async function main() {
     }
     await client.close();
   } finally {
-    await ns.close();
+    await sbClient.close();
   }
 }
 

@@ -36,20 +36,20 @@ const listOfScientists = [
 ];
 
 async function main(): Promise<void> {
-  const ns = ServiceBusClient.createFromConnectionString(connectionString);
+  const sbClient = ServiceBusClient.createFromConnectionString(connectionString);
   try {
-    await sendScheduledMessages(ns);
+    await sendScheduledMessages(sbClient);
 
-    await receiveMessages(ns);
+    await receiveMessages(sbClient);
   } finally {
-    await ns.close();
+    await sbClient.close();
   }
 }
 
 // Scheduling messages to be sent after 10 seconds from now
-async function sendScheduledMessages(ns: ServiceBusClient): Promise<void> {
+async function sendScheduledMessages(sbClient: ServiceBusClient): Promise<void> {
   // If sending to a Topic, use `createTopicClient` instead of `createQueueClient`
-  const client = ns.createQueueClient(queueName);
+  const client = sbClient.createQueueClient(queueName);
   const sender = client.createSender();
 
   const messages: SendableMessageInfo[] = listOfScientists.map((scientist) => ({
@@ -67,9 +67,9 @@ async function sendScheduledMessages(ns: ServiceBusClient): Promise<void> {
   await sender.scheduleMessages(scheduledEnqueueTimeUtc, messages);
 }
 
-async function receiveMessages(ns: ServiceBusClient): Promise<void> {
+async function receiveMessages(sbClient: ServiceBusClient): Promise<void> {
   // If receiving from a Subscription, use `createSubscriptionClient` instead of `createQueueClient`
-  const client = ns.createQueueClient(queueName);
+  const client = sbClient.createQueueClient(queueName);
 
   let numOfMessagesReceived = 0;
   const onMessageHandler: OnMessage = async (brokeredMessage) => {

@@ -29,23 +29,23 @@ const subscriptionName2 = "";
 const subscriptionName3 = "";
 
 async function main(): Promise<void> {
-  const ns = ServiceBusClient.createFromConnectionString(connectionString);
+  const sbClient = ServiceBusClient.createFromConnectionString(connectionString);
   try {
-    await addRules(ns);
+    await addRules(sbClient);
 
-    await sendMessages(ns);
+    await sendMessages(sbClient);
 
-    await receiveMessages(ns);
+    await receiveMessages(sbClient);
   } finally {
-    await ns.close();
+    await sbClient.close();
   }
 }
 
 // Adds Rules on subscriptions to route messages from a topic to different subscriptions
-async function addRules(ns: ServiceBusClient): Promise<void> {
-  const subscription1Client = ns.createSubscriptionClient(topicName, subscriptionName1);
-  const subscription2Client = ns.createSubscriptionClient(topicName, subscriptionName2);
-  const subscription3Client = ns.createSubscriptionClient(topicName, subscriptionName3);
+async function addRules(sbClient: ServiceBusClient): Promise<void> {
+  const subscription1Client = sbClient.createSubscriptionClient(topicName, subscriptionName1);
+  const subscription2Client = sbClient.createSubscriptionClient(topicName, subscriptionName2);
+  const subscription3Client = sbClient.createSubscriptionClient(topicName, subscriptionName3);
 
   // The default rule on the subscription allows all messages in.
   // So, remove existing rules before adding new ones
@@ -59,8 +59,8 @@ async function addRules(ns: ServiceBusClient): Promise<void> {
 }
 
 // Sends 100 messages with a user property called "priority" whose value is between 1 and 4
-async function sendMessages(ns: ServiceBusClient): Promise<void> {
-  const sender = ns.createTopicClient(topicName).createSender();
+async function sendMessages(sbClient: ServiceBusClient): Promise<void> {
+  const sender = sbClient.createTopicClient(topicName).createSender();
   for (let index = 0; index < 10; index++) {
     const priority = Math.ceil(Math.random() * 4);
     const message: SendableMessageInfo = {
@@ -74,14 +74,14 @@ async function sendMessages(ns: ServiceBusClient): Promise<void> {
 }
 
 // Prints messages from the 3 subscriptions
-async function receiveMessages(ns: ServiceBusClient): Promise<void> {
-  const subscription1 = ns
+async function receiveMessages(sbClient: ServiceBusClient): Promise<void> {
+  const subscription1 = sbClient
     .createSubscriptionClient(topicName, subscriptionName1)
     .createReceiver(ReceiveMode.peekLock);
-  const subscription2 = ns
+  const subscription2 = sbClient
     .createSubscriptionClient(topicName, subscriptionName2)
     .createReceiver(ReceiveMode.peekLock);
-  const subscription3 = ns
+  const subscription3 = sbClient
     .createSubscriptionClient(topicName, subscriptionName3)
     .createReceiver(ReceiveMode.peekLock);
 

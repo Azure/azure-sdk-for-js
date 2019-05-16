@@ -29,10 +29,10 @@ const listOfScientists = [
 ];
 
 async function main(){
-  const ns = ServiceBusClient.createFromConnectionString(connectionString);
+  const sbClient = ServiceBusClient.createFromConnectionString(connectionString);
 
   // If sending to a Topic, use `createTopicClient` instead of `createQueueClient`
-  const client = ns.createQueueClient(queueName);
+  const client = sbClient.createQueueClient(queueName);
   const sender = client.createSender();
 
   try {
@@ -49,7 +49,7 @@ async function main(){
 
     await client.close();
   } finally {
-    await ns.close();
+    await sbClient.close();
   }
 }
 

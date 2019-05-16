@@ -24,13 +24,13 @@ const { ServiceBusClient, ReceiveMode } = require("@azure/service-bus");
 // Define connection string and related Service Bus entity names here
 const connectionString = "";
 const userEventsQueueName = "";
-const ns = ServiceBusClient.createFromConnectionString(connectionString);
+const sbClient = ServiceBusClient.createFromConnectionString(connectionString);
 
 async function main() {
   try {
     await runScenario();
   } finally {
-    await ns.close();
+    await sbClient.close();
   }
 }
 
@@ -76,7 +76,7 @@ async function runScenario() {
 
 async function getSessionState(sessionId) {
   // If receiving from a Subscription, use `createSubscriptionClient` instead of `createQueueClient`
-  const client = ns.createQueueClient(userEventsQueueName);
+  const client = sbClient.createQueueClient(userEventsQueueName);
 
   const sessionReceiver = client.createReceiver(ReceiveMode.peekLock, {
     sessionId: sessionId
@@ -96,7 +96,7 @@ async function getSessionState(sessionId) {
 
 async function sendMessagesForSession(shoppingEvents, sessionId) {
   // If sending to a Topic, use `createTopicClient` instead of `createQueueClient`
-  const client = ns.createQueueClient(userEventsQueueName);
+  const client = sbClient.createQueueClient(userEventsQueueName);
   const sender = client.createSender();
 
   for (let index = 0; index < shoppingEvents.length; index++) {
@@ -112,7 +112,7 @@ async function sendMessagesForSession(shoppingEvents, sessionId) {
 
 async function processMessageFromSession(sessionId) {
   // If receiving from a Subscription, use `createSubscriptionClient` instead of `createQueueClient`
-  const client = ns.createQueueClient(userEventsQueueName);
+  const client = sbClient.createQueueClient(userEventsQueueName);
 
   const sessionReceiver = client.createReceiver(ReceiveMode.peekLock, {
     sessionId: sessionId

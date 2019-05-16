@@ -24,9 +24,9 @@ async function main() {
 
 // Shuffle and send messages
 async function sendMessages() {
-  const nsSend = ServiceBusClient.createFromConnectionString(connectionString);
+  const sbClient = ServiceBusClient.createFromConnectionString(connectionString);
   // If sending to a Topic, use `createTopicClient` instead of `createQueueClient`
-  const sendClient = nsSend.createQueueClient(queueName);
+  const sendClient = sbClient.createQueueClient(queueName);
   const sender = sendClient.createSender();
 
   const data = [
@@ -57,14 +57,14 @@ async function sendMessages() {
   }
   // wait until all the send tasks are complete
   await Promise.all(promises);
-  await nsSend.close();
+  await sbClient.close();
 }
 
 async function receiveMessage() {
-  const nsRcv = ServiceBusClient.createFromConnectionString(connectionString);
+  const sbClient = ServiceBusClient.createFromConnectionString(connectionString);
 
   // If receiving from a Subscription, use `createSubscriptionClient` instead of `createQueueClient`
-  const receiveClient = nsRcv.createQueueClient(queueName);
+  const receiveClient = sbClient.createQueueClient(queueName);
 
   const deferredSteps = new Map();
   let lastProcessedRecipeStep = 0;
@@ -123,7 +123,7 @@ async function receiveMessage() {
       lastProcessedRecipeStep++;
     }
   } finally {
-    await nsRcv.close();
+    await sbClient.close();
   }
 }
 
