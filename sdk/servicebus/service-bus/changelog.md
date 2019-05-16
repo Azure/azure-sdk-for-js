@@ -1,4 +1,4 @@
-# 2019-05-15 1.0.0
+# 2019-05-16 1.0.0
 
 - User agent string which is passed as a AMQP connection property is updated to follow the new standard.
 For example: `azsdk-js-azureservicebus/1.0.0/(NODE-VERSION v10.15.0) Windows_NT 10.0.17763`
