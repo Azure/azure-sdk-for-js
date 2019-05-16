@@ -26,8 +26,8 @@ async function main(): Promise<void> {
 async function sendMessages(): Promise<void> {
   const sbClient = ServiceBusClient.createFromConnectionString(connectionString);
   // If sending to a Topic, use `createTopicClient` instead of `createQueueClient`
-  const sendClient = sbClient.createQueueClient(queueName);
-  const sender = sendClient.createSender();
+  const queueClient = sbClient.createQueueClient(queueName);
+  const sender = queueClient.createSender();
 
   const data = [
     { step: 1, title: "Shop" },
@@ -57,6 +57,7 @@ async function sendMessages(): Promise<void> {
   }
   // wait until all the send tasks are complete
   await Promise.all(promises);
+  await queueClient.close();
   await sbClient.close();
 }
 
@@ -64,7 +65,7 @@ async function receiveMessage(): Promise<void> {
   const sbClient = ServiceBusClient.createFromConnectionString(connectionString);
 
   // If receiving from a Subscription, use `createSubscriptionClient` instead of `createQueueClient`
-  const receiveClient = sbClient.createQueueClient(queueName);
+  const queueClient = sbClient.createQueueClient(queueName);
 
   const deferredSteps = new Map();
   let lastProcessedRecipeStep = 0;
@@ -101,13 +102,13 @@ async function receiveMessage(): Promise<void> {
       console.log(">>>>> Error occurred: ", err);
     };
 
-    let receiver = receiveClient.createReceiver(ReceiveMode.peekLock);
+    let receiver = queueClient.createReceiver(ReceiveMode.peekLock);
     receiver.registerMessageHandler(onMessage, onError, { autoComplete: false }); // Disabling autoComplete so we can control when message can be completed, deferred or deadlettered
     await delay(10000);
     await receiver.close();
     console.log("Total number of deferred messages:", deferredSteps.size);
 
-    receiver = receiveClient.createReceiver(ReceiveMode.peekLock);
+    receiver = queueClient.createReceiver(ReceiveMode.peekLock);
     // Now we process the deferred messages
     while (deferredSteps.size > 0) {
       const step = lastProcessedRecipeStep + 1;
@@ -122,6 +123,7 @@ async function receiveMessage(): Promise<void> {
       deferredSteps.delete(step);
       lastProcessedRecipeStep++;
     }
+    await queueClient.close();
   } finally {
     await sbClient.close();
   }

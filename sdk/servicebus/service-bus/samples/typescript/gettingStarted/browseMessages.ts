@@ -20,18 +20,18 @@ async function main(): Promise<void> {
   const sbClient = ServiceBusClient.createFromConnectionString(connectionString);
 
   // If using Topics & Subscription, use createSubscriptionClient to peek from the subscription
-  const client = sbClient.createQueueClient(queueName);
+  const queueClient = sbClient.createQueueClient(queueName);
 
   try {
     for (let i = 0; i < 20; i++) {
-      const messages = await client.peek();
+      const messages = await queueClient.peek();
       if (!messages.length) {
         console.log("No more messages to peek");
         break;
       }
       console.log(`Peeking message #${i}: ${messages[0].body}`);
     }
-    await client.close();
+    await queueClient.close();
   } finally {
     await sbClient.close();
   }

@@ -18,11 +18,11 @@ async function main(): Promise<void> {
   const sbClient = ServiceBusClient.createFromConnectionString(connectionString);
 
   // If receiving from a Subscription, use `createSubscriptionClient` instead of `createQueueClient`
-  const client = sbClient.createQueueClient(queueName);
+  const queueClient = sbClient.createQueueClient(queueName);
 
   // To receive messages from sessions, use getSessionReceiver instead of getReceiver or look at
   // the sample in sessions.ts file
-  const receiver = client.createReceiver(ReceiveMode.peekLock);
+  const receiver = queueClient.createReceiver(ReceiveMode.peekLock);
 
   try {
     for (let i = 0; i < 10; i++) {
@@ -34,7 +34,7 @@ async function main(): Promise<void> {
       console.log(`Received message #${i}: ${messages[0].body}`);
       await messages[0].complete();
     }
-    await client.close();
+    await queueClient.close();
   } finally {
     await sbClient.close();
   }

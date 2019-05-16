@@ -32,8 +32,8 @@ async function main() {
   const sbClient = ServiceBusClient.createFromConnectionString(connectionString);
 
   // If sending to a Topic, use `createTopicClient` instead of `createQueueClient`
-  const client = sbClient.createQueueClient(queueName);
-  const sender = client.createSender();
+  const queueClient = sbClient.createQueueClient(queueName);
+  const sender = queueClient.createSender();
 
   try {
     for (let index = 0; index < listOfScientists.length; index++) {
@@ -47,7 +47,7 @@ async function main() {
       await sender.send(message);
     }
 
-    await client.close();
+    await queueClient.close();
   } finally {
     await sbClient.close();
   }

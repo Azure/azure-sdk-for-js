@@ -83,8 +83,8 @@ async function sendMessage(
 
 async function receiveMessages(ns: ServiceBusClient, sessionId: string): Promise<void> {
   // If receiving from a Subscription, use `createSubscriptionClient` instead of `createQueueClient`
-  const client = ns.createQueueClient(queueName);
-  const receiver = client.createReceiver(ReceiveMode.peekLock, { sessionId: sessionId });
+  const queueClient = ns.createQueueClient(queueName);
+  const receiver = queueClient.createReceiver(ReceiveMode.peekLock, { sessionId: sessionId });
 
   const onMessage = async (brokeredMessage: ServiceBusMessage) => {
     console.log(`Received: ${brokeredMessage.sessionId} - ${brokeredMessage.body} `);
@@ -95,7 +95,7 @@ async function receiveMessages(ns: ServiceBusClient, sessionId: string): Promise
   receiver.registerMessageHandler(onMessage, onError);
   await delay(5000);
 
-  await client.close();
+  await queueClient.close();
 }
 
 main().catch((err) => {

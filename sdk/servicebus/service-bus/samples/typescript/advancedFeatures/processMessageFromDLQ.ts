@@ -28,8 +28,8 @@ async function main(): Promise<void> {
 }
 
 async function processDeadletterMessageQueue(): Promise<void> {
-  const client = sbClient.createQueueClient(deadLetterQueueName);
-  const receiver = client.createReceiver(ReceiveMode.peekLock);
+  const queueClient = sbClient.createQueueClient(deadLetterQueueName);
+  const receiver = queueClient.createReceiver(ReceiveMode.peekLock);
 
   const messages = await receiver.receiveMessages(1);
 
@@ -45,14 +45,14 @@ async function processDeadletterMessageQueue(): Promise<void> {
     console.log(">>>> Error: No messages were received from the DLQ.");
   }
 
-  await client.close();
+  await queueClient.close();
 }
 
 // Send repaired message back to the current queue / topic
 async function fixAndResendMessage(oldMessage: ServiceBusMessage): Promise<void> {
   // If sending to a Topic, use `createTopicClient` instead of `createQueueClient`
-  const client = sbClient.createQueueClient(queueName);
-  const sender = client.createSender();
+  const queueClient = sbClient.createQueueClient(queueName);
+  const sender = queueClient.createSender();
 
   // Inspect given message and make any changes if necessary
   const repairedMessage = oldMessage.clone();
@@ -60,7 +60,7 @@ async function fixAndResendMessage(oldMessage: ServiceBusMessage): Promise<void>
   console.log(">>>>> Cloning the message from DLQ and resending it - ", oldMessage.body);
 
   await sender.send(repairedMessage);
-  await client.close();
+  await queueClient.close();
 }
 
 main().catch((err) => {

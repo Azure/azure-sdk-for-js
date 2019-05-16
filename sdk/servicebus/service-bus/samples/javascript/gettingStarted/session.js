@@ -56,8 +56,8 @@ async function main() {
 
 async function sendMessage(sbClient, scientist, sessionId) {
   // If sending to a Topic, use `createTopicClient` instead of `createQueueClient`
-  const client = sbClient.createQueueClient(queueName);
-  const sender = client.createSender();
+  const queueClient = sbClient.createQueueClient(queueName);
+  const sender = queueClient.createSender();
 
   const message = {
     body: `${scientist.firstName} ${scientist.lastName}`,
@@ -68,13 +68,13 @@ async function sendMessage(sbClient, scientist, sessionId) {
   console.log(`Sending message: "${message.body}" to "${sessionId}"`);
   await sender.send(message);
 
-  await client.close();
+  await queueClient.close();
 }
 
 async function receiveMessages(sbClient, sessionId) {
   // If receiving from a Subscription, use `createSubscriptionClient` instead of `createQueueClient`
-  const client = sbClient.createQueueClient(queueName);
-  const receiver = client.createReceiver(ReceiveMode.peekLock, { sessionId: sessionId });
+  const queueClient = sbClient.createQueueClient(queueName);
+  const receiver = queueClient.createReceiver(ReceiveMode.peekLock, { sessionId: sessionId });
 
   const onMessage = async (brokeredMessage) => {
     console.log(`Received: ${brokeredMessage.sessionId} - ${brokeredMessage.body} `);
@@ -85,7 +85,7 @@ async function receiveMessages(sbClient, sessionId) {
   receiver.registerMessageHandler(onMessage, onError);
   await delay(5000);
 
-  await client.close();
+  await queueClient.close();
 }
 
 main().catch((err) => {

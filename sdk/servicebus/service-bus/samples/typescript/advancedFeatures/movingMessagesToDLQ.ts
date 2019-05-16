@@ -29,8 +29,8 @@ async function main(): Promise<void> {
 
 async function sendMessage(): Promise<void> {
   // If sending to a Topic, use `createTopicClient` instead of `createQueueClient`
-  const client = sbClient.createQueueClient(queueName);
-  const sender = client.createSender();
+  const queueClient = sbClient.createQueueClient(queueName);
+  const sender = queueClient.createSender();
 
   const message = {
     body: { name: "Creamy Chicken Pasta", type: "Dinner" },
@@ -38,13 +38,13 @@ async function sendMessage(): Promise<void> {
     label: "Recipe"
   };
   await sender.send(message);
-  await client.close();
+  await queueClient.close();
 }
 
 async function receiveMessage(): Promise<void> {
   // If receiving from a Subscription, use `createSubscriptionClient` instead of `createQueueClient`
-  const client = sbClient.createQueueClient(queueName);
-  const receiver = client.createReceiver(ReceiveMode.peekLock);
+  const queueClient = sbClient.createQueueClient(queueName);
+  const receiver = queueClient.createReceiver(ReceiveMode.peekLock);
 
   const messages = await receiver.receiveMessages(1);
 
@@ -62,7 +62,7 @@ async function receiveMessage(): Promise<void> {
     console.log(">>>> Error: No messages were received from the main queue.");
   }
 
-  await client.close();
+  await queueClient.close();
 }
 
 main().catch((err) => {
