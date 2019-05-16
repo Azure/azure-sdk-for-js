@@ -66,9 +66,7 @@ export class TestMessage {
    * on the received message
    */
   static checkMessageContents(
-    // @ts-ignore
     sent: SendableMessageInfo,
-    // @ts-ignore
     received: ServiceBusMessage,
     useSessions?: boolean,
     usePartitions?: boolean
