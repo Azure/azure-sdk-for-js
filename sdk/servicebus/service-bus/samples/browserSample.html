@@ -21,14 +21,14 @@ Refer to other Javascript samples and replace code in main() to try them out -->
     const sbClient = ServiceBusClient.createFromConnectionString(connectionString);
 
     try {
-      const client = sbClient.createQueueClient(queueName);
+      const queueClient = sbClient.createQueueClient(queueName);
 
-      const sender = client.createSender();
+      const sender = queueClient.createSender();
 
       console.log(`Sending message ... `);
       await sender.send({ body: "Hello world!" });
 
-      await client.close();
+      await queueClient.close();
     } finally {
       await sbClient.close();
     }
