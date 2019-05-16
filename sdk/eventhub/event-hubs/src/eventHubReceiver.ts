@@ -222,9 +222,9 @@ export class EventHubReceiver extends LinkEntity {
         if (!isAmqpError(err)) {
           log.error(
             "[%s] An error occurred while running user's message handler for the message " +
-              "'%s' on the receiver '%s': %O",
+              "with sequence number '%s' on the receiver '%s': %O",
               this._context.connectionId,
-              evData.body,
+              evData.sequenceNumber,
               this.name,
             err
           );

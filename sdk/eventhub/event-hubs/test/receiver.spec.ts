@@ -575,7 +575,7 @@ describe("EventHub Receiver", function(): void {
   });
   describe("Streaming - User Error", function(): void {
     it("onError handler is called for user error", async function(): Promise<void> {
-    let unexpectedError: Error | undefined;
+    let caughtError: Error | undefined;
     const data: EventData = {
       body: "Hello World"
     };
@@ -587,7 +587,7 @@ describe("EventHub Receiver", function(): void {
       throw new Error(errorMessage);
     };
     const onErrorHandler = (err: MessagingError | Error) => {
-        unexpectedError = err;
+      caughtError  = err;
     };
 
     client.receive(partitionIds[0], onMessageHandler, onErrorHandler, {
@@ -596,7 +596,7 @@ describe("EventHub Receiver", function(): void {
     await delay(5000);
 
     should.equal(
-      unexpectedError && unexpectedError.message,
+      caughtError  && caughtError.message,
       errorMessage,
       "User error did not surface."
     );
