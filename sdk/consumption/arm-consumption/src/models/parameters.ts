@@ -30,19 +30,6 @@ export const apiVersion: msRest.OperationQueryParameter = {
     }
   }
 };
-export const apply: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "queryOptions",
-    "apply"
-  ],
-  mapper: {
-    serializedName: "$apply",
-    type: {
-      name: "String"
-    }
-  }
-};
 export const billingAccountId: msRest.OperationURLParameter = {
   parameterPath: "billingAccountId",
   mapper: {
@@ -68,26 +55,6 @@ export const budgetName: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "budgetName",
-    type: {
-      name: "String"
-    }
-  }
-};
-export const departmentId: msRest.OperationURLParameter = {
-  parameterPath: "departmentId",
-  mapper: {
-    required: true,
-    serializedName: "departmentId",
-    type: {
-      name: "String"
-    }
-  }
-};
-export const enrollmentAccountId: msRest.OperationURLParameter = {
-  parameterPath: "enrollmentAccountId",
-  mapper: {
-    required: true,
-    serializedName: "enrollmentAccountId",
     type: {
       name: "String"
     }
@@ -147,6 +114,18 @@ export const managementGroupId: msRest.OperationURLParameter = {
     }
   }
 };
+export const metric: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "metric"
+  ],
+  mapper: {
+    serializedName: "metric",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const nextPageLink: msRest.OperationURLParameter = {
   parameterPath: "nextPageLink",
   mapper: {
@@ -178,15 +157,16 @@ export const reservationOrderId: msRest.OperationURLParameter = {
     }
   }
 };
-export const resourceGroupName: msRest.OperationURLParameter = {
-  parameterPath: "resourceGroupName",
+export const scope: msRest.OperationURLParameter = {
+  parameterPath: "scope",
   mapper: {
     required: true,
-    serializedName: "resourceGroupName",
+    serializedName: "scope",
     type: {
       name: "String"
     }
-  }
+  },
+  skipEncoding: true
 };
 export const skiptoken: msRest.OperationQueryParameter = {
   parameterPath: [
