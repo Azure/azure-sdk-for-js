@@ -27,6 +27,7 @@
   },
   "files": [
     "dist/",
+    "dist-esm/package.json",
     "dist-esm/src/",
     "src/",
     "typings/src",
