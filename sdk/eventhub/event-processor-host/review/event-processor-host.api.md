@@ -55,6 +55,7 @@ export interface CheckpointInfo {
 export namespace CheckpointInfo {
     export function create(partitionId: string, offset?: string, sequenceNumber?: number): CheckpointInfo;
     export function createFromEventData(partitionId: string, eventData: EventData): CheckpointInfo;
+    // Warning: (ae-forgotten-export) The symbol "LeaseInfo" needs to be exported by the entry point index.d.ts
     export function createFromLease(lease: LeaseInfo): CheckpointInfo;
 }
 
@@ -110,6 +111,7 @@ export class EventProcessorHost {
     static createFromAadTokenCredentialsWithCustomCheckpointAndLeaseManager(hostName: string, namespace: string, eventHubPath: string, credentials: ApplicationTokenCredentials | UserTokenCredentials | DeviceTokenCredentials | MSITokenCredentials, checkpointManager: CheckpointManager, leaseManager: LeaseManager, options?: FromTokenProviderOptions): EventProcessorHost;
     static createFromConnectionString(hostName: string, storageConnectionString: string, storageContainerName: string, eventHubConnectionString: string, options?: FromConnectionStringOptions): EventProcessorHost;
     static createFromConnectionStringWithCustomCheckpointAndLeaseManager(hostName: string, eventHubConnectionString: string, checkpointManager: CheckpointManager, leaseManager: LeaseManager, options?: FromConnectionStringOptions): EventProcessorHost;
+    // Warning: (ae-forgotten-export) The symbol "FromIotHubConnectionStringOptions" needs to be exported by the entry point index.d.ts
     static createFromIotHubConnectionString(hostName: string, storageConnectionString: string, storageContainerName: string, iotHubConnectionString: string, options?: FromIotHubConnectionStringOptions): Promise<EventProcessorHost>;
     static createFromIotHubConnectionStringWithCustomCheckpointAndLeaseManager(hostName: string, iotHubConnectionString: string, checkpointManager: CheckpointManager, leaseManager: LeaseManager, options?: FromIotHubConnectionStringOptions): Promise<EventProcessorHost>;
     static createFromTokenProvider(hostName: string, storageConnectionString: string, storageContainerName: string, namespace: string, eventHubPath: string, tokenProvider: TokenProvider, options?: FromTokenProviderOptions): EventProcessorHost;
@@ -140,9 +142,6 @@ export interface FromConnectionStringOptions extends FromTokenProviderOptions {
 }
 
 // @public
-export type FromIotHubConnectionStringOptions = FromTokenProviderOptions;
-
-// @public
 export interface FromTokenProviderOptions extends ClientOptionsBase {
     consumerGroup?: string;
     fastScanInterval?: number;
@@ -153,13 +152,6 @@ export interface FromTokenProviderOptions extends ClientOptionsBase {
     slowScanInterval?: number;
     startupScanDelay?: number;
     storageBlobPrefix?: string;
-}
-
-// @public
-export interface LeaseInfo extends CompleteLeaseInfo {
-    offset?: string;
-    sequenceNumber: number;
-    token: string;
 }
 
 // @public

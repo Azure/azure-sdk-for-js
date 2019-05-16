@@ -51,13 +51,6 @@ export { AadTokenProvider }
 export { AmqpError }
 
 // @public
-export interface CheckpointData {
-    enqueuedTimeUtc: Date;
-    offset: string;
-    sequenceNumber: number;
-}
-
-// @public
 export interface ClientOptions extends ClientOptionsBase {
     tokenProvider?: TokenProvider;
 }
@@ -75,27 +68,6 @@ export { ConditionErrorNameMapper }
 export { ConditionStatusMapper }
 
 export { ConnectionConfig }
-
-// @public
-export interface ConnectionContext extends ConnectionContextBase {
-    readonly config: EventHubConnectionConfig;
-    // Warning: (ae-forgotten-export) The symbol "ManagementClient" needs to be exported by the entry point index.d.ts
-    managementSession?: ManagementClient;
-    receivers: Dictionary<EventHubReceiver>;
-    // Warning: (ae-forgotten-export) The symbol "EventHubSender" needs to be exported by the entry point index.d.ts
-    senders: Dictionary<EventHubSender>;
-    wasConnectionCloseCalled: boolean;
-}
-
-// @public (undocumented)
-export namespace ConnectionContext {
-    // (undocumented)
-    export function create(config: EventHubConnectionConfig, options?: ConnectionContextOptions): ConnectionContext;
-    // Warning: (ae-forgotten-export) The symbol "ConnectionContextOptions" needs to be exported by the entry point index.d.ts
-    // 
-    // (undocumented)
-    export function getUserAgent(options: ConnectionContextOptions): string;
-}
 
 export { DataTransformer }
 
@@ -186,35 +158,6 @@ export interface EventHubPartitionRuntimeInformation {
 }
 
 // @public
-export class EventHubReceiver extends LinkEntity {
-    constructor(context: ConnectionContext, partitionId: string | number, options?: ReceiveOptions);
-    protected _checkpoint: CheckpointData;
-    close(): Promise<void>;
-    consumerGroup: string;
-    // Warning: (ae-forgotten-export) The symbol "CreateReceiverOptions" needs to be exported by the entry point index.d.ts
-    protected _createReceiverOptions(options: CreateReceiverOptions): ReceiverOptions;
-    // (undocumented)
-    protected _deleteFromCache(): void;
-    detached(receiverError?: AmqpError | Error): Promise<void>;
-    epoch?: number;
-    identifier?: string;
-    protected _init(options?: ReceiverOptions): Promise<void>;
-    isOpen(): boolean;
-    protected _onAmqpClose: OnAmqpEvent;
-    protected _onAmqpError: OnAmqpEvent;
-    protected _onAmqpMessage: OnAmqpEvent;
-    protected _onError?: OnError;
-    protected _onMessage?: OnMessage;
-    protected _onSessionClose: OnAmqpEvent;
-    protected _onSessionError: OnAmqpEvent;
-    options: ReceiveOptions;
-    prefetchCount?: number;
-    protected _receiver?: Receiver;
-    receiverRuntimeMetricEnabled: boolean;
-    runtimeInfo: ReceiverRuntimeInfo;
-}
-
-// @public
 export interface EventHubRuntimeInformation {
     createdAt: Date;
     partitionCount: number;
@@ -225,6 +168,7 @@ export interface EventHubRuntimeInformation {
 
 // @public
 export class EventPosition {
+    // Warning: (ae-forgotten-export) The symbol "EventPositionOptions" needs to be exported by the entry point index.d.ts
     constructor(options?: EventPositionOptions);
     customFilter?: string;
     static readonly endOfStream: string;
@@ -242,41 +186,9 @@ export class EventPosition {
     static withCustomFilter(customFilter: string): EventPosition;
 }
 
-// @public
-export interface EventPositionOptions {
-    customFilter?: string;
-    enqueuedTime?: Date | number;
-    isInclusive?: boolean;
-    offset?: string;
-    sequenceNumber?: number;
-}
-
 export { IotHubConnectionStringModel }
 
 export { isIotHubConnectionString }
-
-// @public
-export class LinkEntity {
-    constructor(context: ConnectionContext, options?: LinkEntityOptions);
-    address: string;
-    audience: string;
-    protected _closeLink(link?: Sender | Receiver): Promise<void>;
-    protected _context: ConnectionContext;
-    protected _ensureTokenRenewal(): Promise<void>;
-    isConnecting: boolean;
-    name: string;
-    protected _negotiateClaim(setTokenRenewal?: boolean): Promise<void>;
-    partitionId?: string | number;
-    protected _tokenRenewalTimer?: NodeJS.Timer;
-    }
-
-// @public (undocumented)
-export interface LinkEntityOptions {
-    address?: string;
-    audience?: string;
-    name?: string;
-    partitionId?: string | number;
-}
 
 export { Message }
 
@@ -296,6 +208,7 @@ export { parseConnectionString }
 
 // @public
 export class ReceiveHandler {
+    // Warning: (ae-forgotten-export) The symbol "EventHubReceiver" needs to be exported by the entry point index.d.ts
     constructor(receiver: EventHubReceiver);
     readonly address: string | undefined;
     readonly consumerGroup: string | undefined;

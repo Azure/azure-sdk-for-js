@@ -8,13 +8,11 @@ export { CompleteLease, CompleteLeaseInfo } from "./completeLease";
 export { BaseLease, BaseLeaseInfo } from "./baseLease";
 export { LeaseManager } from "./leaseManager";
 export { CheckpointManager } from "./checkpointManager";
-export { LeaseInfo } from "./azureBlobLease";
 export {
   OnReceivedError,
   EPHDiagnosticInfo,
   EventProcessorHostOptions,
   FromConnectionStringOptions,
-  FromIotHubConnectionStringOptions,
   FromTokenProviderOptions,
   OnEphError,
   OnReceivedMessage

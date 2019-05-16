@@ -33,7 +33,7 @@
     "build:test": "npm run build",
     "build": "tsc",
     "check-format": "echo skipped",
-    "clean": "rimraf dist dist-esm test-dist types *.tgz *.log",
+    "clean": "rimraf dist dist-esm test-dist typings *.tgz *.log",
     "format": "echo skipped",
     "integration-test:browser": "echo skipped",
     "integration-test:node": "echo skipped",

@@ -20,13 +20,6 @@ import { UserTokenCredentials } from '@azure/ms-rest-nodeauth';
 import { WebSocketImpl } from 'rhea-promise';
 
 // @public
-export interface Client {
-    close(): Promise<void>;
-    readonly entityPath: string;
-    readonly id: string;
-}
-
-// @public
 export interface CorrelationFilter {
     contentType?: string;
     correlationId?: string;
@@ -70,6 +63,8 @@ export interface OnMessage {
     (message: ServiceBusMessage): Promise<void>;
 }
 
+// Warning: (ae-forgotten-export) The symbol "Client" needs to be exported by the entry point index.d.ts
+// 
 // @public
 export class QueueClient implements Client {
     close(): Promise<void>;
@@ -81,18 +76,6 @@ export class QueueClient implements Client {
     readonly id: string;
     peek(maxMessageCount?: number): Promise<ReceivedMessageInfo[]>;
     peekBySequenceNumber(fromSequenceNumber: Long, maxMessageCount?: number): Promise<ReceivedMessageInfo[]>;
-}
-
-// @public
-export interface ReceivedMessage extends ReceivedMessageInfo {
-    abandon(propertiesToModify?: {
-        [key: string]: any;
-    }): Promise<void>;
-    complete(): Promise<void>;
-    deadLetter(options?: DeadLetterOptions): Promise<void>;
-    defer(propertiesToModify?: {
-        [key: string]: any;
-    }): Promise<void>;
 }
 
 // @public
@@ -186,6 +169,8 @@ export interface ServiceBusClientOptions {
     webSocketConstructorOptions?: any;
 }
 
+// Warning: (ae-forgotten-export) The symbol "ReceivedMessage" needs to be exported by the entry point index.d.ts
+// 
 // @public
 export class ServiceBusMessage implements ReceivedMessage {
     abandon(propertiesToModify?: {

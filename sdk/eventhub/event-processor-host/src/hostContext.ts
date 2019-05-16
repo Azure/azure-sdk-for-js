@@ -13,7 +13,7 @@ import {
   EventHubPartitionRuntimeInformation,
   EventHubConnectionConfig
 } from "@azure/event-hubs";
-import AsyncLock from 'async-lock';
+import AsyncLock from "async-lock";
 import { LeaseManager } from "./leaseManager";
 import { PumpManager } from "./pumpManager";
 import { PartitionManager } from "./partitionManager";
@@ -109,7 +109,7 @@ export namespace HostContext {
     if (duration > maxLeaseDurationInSeconds || duration < minLeaseDurationInSeconds) {
       throw new Error(
         `Lease duration needs to be between ${minLeaseDurationInSeconds} ` +
-          `seconds and ${maxLeaseDurationInSeconds} seconds. The given value is: ${duration} seconds.`
+        `seconds and ${maxLeaseDurationInSeconds} seconds. The given value is: ${duration} seconds.`
       );
     }
   }
@@ -118,7 +118,7 @@ export namespace HostContext {
     if (!name || name.match(/^[a-z0-9](([a-z0-9\-[^\-])){1,61}[a-z0-9]$/gi) === null) {
       throw new Error(
         `Azure Storage lease container name "${name}" is invalid. Please check ` +
-          `naming conventions at https://msdn.microsoft.com/en-us/library/azure/dd135715.aspx`
+        `naming conventions at https://msdn.microsoft.com/en-us/library/azure/dd135715.aspx`
       );
     }
   }
@@ -301,7 +301,7 @@ export namespace HostContext {
    */
   const userAgent: string = `azsdk-js-azureeventprocessorhost/${packageInfo.version} (NODE-VERSION ${
     process.version
-  }; ${os.type()} ${os.release()})`;
+    }; ${os.type()} ${os.release()})`;
 
   /**
    * @ignore

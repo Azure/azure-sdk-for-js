@@ -17,7 +17,6 @@ export {
 export { QueueClient } from "./queueClient";
 export { TopicClient } from "./topicClient";
 export { SubscriptionClient } from "./subscriptionClient";
-export { Client } from "./client";
 
 export { Sender } from "./sender";
 export { Receiver, SessionReceiver } from "./receiver";
@@ -25,7 +24,6 @@ export { Receiver, SessionReceiver } from "./receiver";
 export { MessageHandlerOptions } from "./core/streamingReceiver";
 export { OnError, OnMessage } from "./core/messageReceiver";
 export { SessionReceiverOptions, SessionMessageHandlerOptions } from "./session/messageSession";
-export { ReceivedMessage } from "./serviceBusMessage";
 
 export { CorrelationFilter, RuleDescription } from "./core/managementClient";
 
