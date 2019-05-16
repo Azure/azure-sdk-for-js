@@ -249,7 +249,7 @@ export const ControllerUpdateParameters: msRest.CompositeMapper = {
         }
       },
       targetContainerHostCredentialsBase64: {
-        serializedName: "Properties.targetContainerHostCredentialsBase64",
+        serializedName: "properties.targetContainerHostCredentialsBase64",
         type: {
           name: "String"
         }
