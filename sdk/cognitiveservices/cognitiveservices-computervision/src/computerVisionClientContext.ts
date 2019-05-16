@@ -11,7 +11,7 @@
 import * as msRest from "@azure/ms-rest-js";
 
 const packageName = "@azure/cognitiveservices-computervision";
-const packageVersion = "3.2.0";
+const packageVersion = "4.0.0";
 
 export class ComputerVisionClientContext extends msRest.ServiceClient {
   endpoint: string;
