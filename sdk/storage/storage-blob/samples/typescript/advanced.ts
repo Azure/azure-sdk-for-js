@@ -12,7 +12,7 @@ import {
   BlobClient,
   BlockBlobClient,
   ContainerClient,
-  ServiceClient,
+  BlobServiceClient,
   StorageClient
 } from "../.."; // Change to "@azure/storage-blob" in your package
 
@@ -29,14 +29,14 @@ async function main() {
     telemetry: { value: "HighLevelSample V1.0.0" } // Customized telemetry string
   });
 
-  const serviceClient = new ServiceClient(
+  const blobServiceClient = new BlobServiceClient(
     `https://${account}.blob.core.windows.net${accountSas}`,
     pipeline
   );
 
   // Create a container
   const containerName = `newcontainer${new Date().getTime()}`;
-  const containerClient = ContainerClient.fromServiceClient(serviceClient, containerName);
+  const containerClient = ContainerClient.fromBlobServiceClient(blobServiceClient, containerName);
   await containerClient.create(Aborter.none);
 
   // Create a blob

@@ -30,32 +30,32 @@ export interface ServiceListContainersSegmentOptions {
 }
 
 /**
- * A ServiceClient represents a Client to the Azure Storage Blob service allowing you
+ * A BlobServiceClient represents a Client to the Azure Storage Blob service allowing you
  * to manipulate blob containers.
  *
  * @export
- * @class ServiceClient
+ * @class BlobServiceClient
  * @extends {StorageClient}
  */
-export class ServiceClient extends StorageClient {
+export class BlobServiceClient extends StorageClient {
   /**
    * serviceContext provided by protocol layer.
    *
    * @private
    * @type {Service}
-   * @memberof ServiceClient
+   * @memberof BlobServiceClient
    */
   private serviceContext: Service;
 
   /**
-   * Creates an instance of ServiceClient.
+   * Creates an instance of BlobServiceClient.
    *
    * @param {string} url A Client string pointing to Azure Storage blob service, such as
    *                     "https://myaccount.blob.core.windows.net". You can append a SAS
    *                     if using AnonymousCredential, such as "https://myaccount.blob.core.windows.net?sasString".
    * @param {Pipeline} pipeline Call StorageClient.newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
-   * @memberof ServiceClient
+   * @memberof BlobServiceClient
    */
   constructor(url: string, pipeline: Pipeline) {
     super(url, pipeline);
@@ -63,15 +63,15 @@ export class ServiceClient extends StorageClient {
   }
 
   /**
-   * Creates a new ServiceClient object identical to the source but with the
+   * Creates a new BlobServiceClient object identical to the source but with the
    * specified request policy pipeline.
    *
    * @param {Pipeline} pipeline
-   * @returns {ServiceClient}
-   * @memberof ServiceClient
+   * @returns {BlobServiceClient}
+   * @memberof BlobServiceClient
    */
-  public withPipeline(pipeline: Pipeline): ServiceClient {
-    return new ServiceClient(this.url, pipeline);
+  public withPipeline(pipeline: Pipeline): BlobServiceClient {
+    return new BlobServiceClient(this.url, pipeline);
   }
 
   /**
@@ -82,7 +82,7 @@ export class ServiceClient extends StorageClient {
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
    * @returns {Promise<Models.ServiceGetPropertiesResponse>}
-   * @memberof ServiceClient
+   * @memberof BlobServiceClient
    */
   public async getProperties(aborter: Aborter): Promise<Models.ServiceGetPropertiesResponse> {
     return this.serviceContext.getProperties({
@@ -99,7 +99,7 @@ export class ServiceClient extends StorageClient {
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {Models.StorageServiceProperties} properties
    * @returns {Promise<Models.ServiceSetPropertiesResponse>}
-   * @memberof ServiceClient
+   * @memberof BlobServiceClient
    */
   public async setProperties(
     aborter: Aborter,
@@ -119,7 +119,7 @@ export class ServiceClient extends StorageClient {
    *  @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
    * @returns {Promise<Models.ServiceGetStatisticsResponse>}
-   * @memberof ServiceClient
+   * @memberof BlobServiceClient
    */
   public async getStatistics(aborter: Aborter): Promise<Models.ServiceGetStatisticsResponse> {
     return this.serviceContext.getStatistics({
@@ -137,7 +137,7 @@ export class ServiceClient extends StorageClient {
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
    * @returns {Promise<Models.ServiceGetAccountInfoResponse>}
-   * @memberof ServiceClient
+   * @memberof BlobServiceClient
    */
   public async getAccountInfo(aborter: Aborter): Promise<Models.ServiceGetAccountInfoResponse> {
     return this.serviceContext.getAccountInfo({
@@ -160,7 +160,7 @@ export class ServiceClient extends StorageClient {
    *                          items. The marker value is opaque to the client.
    * @param {ServiceListContainersSegmentOptions} [options]
    * @returns {Promise<Models.ServiceListContainersSegmentResponse>}
-   * @memberof ServiceClient
+   * @memberof BlobServiceClient
    */
   public async listContainersSegment(
     aborter: Aborter,

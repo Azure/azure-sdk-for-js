@@ -24,6 +24,6 @@ export * from "./LoggingPolicyFactory";
 export * from "./TelemetryPolicyFactory";
 export * from "./policies/TokenCredentialPolicy";
 export * from "./UniqueRequestIDPolicyFactory";
-export * from "./ServiceClient";
+export * from "./BlobServiceClient";
 export * from "./StorageClient";
 export { Models, RestError };

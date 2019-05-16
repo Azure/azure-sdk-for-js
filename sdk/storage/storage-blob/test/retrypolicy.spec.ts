@@ -11,13 +11,13 @@ import * as dotenv from "dotenv";
 dotenv.config({ path: "../.env" });
 
 describe("RetryPolicy", () => {
-  const serviceClient = getBSU();
+  const blobServiceClient = getBSU();
   let containerName: string = getUniqueName("container");
-  let containerClient = ContainerClient.fromServiceClient(serviceClient, containerName);
+  let containerClient = ContainerClient.fromBlobServiceClient(blobServiceClient, containerName);
 
   beforeEach(async () => {
     containerName = getUniqueName("container");
-    containerClient = ContainerClient.fromServiceClient(serviceClient, containerName);
+    containerClient = ContainerClient.fromBlobServiceClient(blobServiceClient, containerName);
     await containerClient.create(Aborter.none);
   });
 
@@ -85,7 +85,7 @@ describe("RetryPolicy", () => {
       }
     });
 
-    const url = serviceClient.url;
+    const url = blobServiceClient.url;
     const urlParsed = URLBuilder.parse(url);
     const host = urlParsed.getHost()!;
     const hostParts = host.split(".");

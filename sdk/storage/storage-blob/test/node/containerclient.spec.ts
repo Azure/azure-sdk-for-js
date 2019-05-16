@@ -6,13 +6,13 @@ import { getBSU, getUniqueName } from "../utils";
 import { PublicAccessType } from "../../src/generated/lib/models/index";
 
 describe("ContainerClient", () => {
-  const serviceClient = getBSU();
+  const blobServiceClient = getBSU();
   let containerName: string = getUniqueName("container");
-  let containerClient = ContainerClient.fromServiceClient(serviceClient, containerName);
+  let containerClient = ContainerClient.fromBlobServiceClient(blobServiceClient, containerName);
 
   beforeEach(async () => {
     containerName = getUniqueName("container");
-    containerClient = ContainerClient.fromServiceClient(serviceClient, containerName);
+    containerClient = ContainerClient.fromBlobServiceClient(blobServiceClient, containerName);
     await containerClient.create(Aborter.none);
   });
 

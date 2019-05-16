@@ -4,7 +4,7 @@ import { Aborter } from "./Aborter";
 import { Container } from "./generated/lib/operations";
 import { ContainerAccessConditions, Metadata } from "./models";
 import { Pipeline } from "./Pipeline";
-import { ServiceClient } from "./ServiceClient";
+import { BlobServiceClient } from "./BlobServiceClient";
 import { StorageClient } from "./StorageClient";
 import { ETagNone } from "./utils/constants";
 import { appendToURLPath, truncatedISO8061Date } from "./utils/utils.common";
@@ -133,18 +133,18 @@ export interface ContainerListBlobsSegmentOptions {
  */
 export class ContainerClient extends StorageClient {
   /**
-   * Creates a ContainerClient object from ServiceClient
+   * Creates a ContainerClient object from BlobServiceClient
    *
-   * @param serviceClient A ServiceClient object
+   * @param blobServiceClient A BlobServiceClient object
    * @param containerName A container name
    */
-  public static fromServiceClient(
-    serviceClient: ServiceClient,
+  public static fromBlobServiceClient(
+    blobServiceClient: BlobServiceClient,
     containerName: string
   ): ContainerClient {
     return new ContainerClient(
-      appendToURLPath(serviceClient.url, encodeURIComponent(containerName)),
-      serviceClient.pipeline
+      appendToURLPath(blobServiceClient.url, encodeURIComponent(containerName)),
+      blobServiceClient.pipeline
     );
   }
 

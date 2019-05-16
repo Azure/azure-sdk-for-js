@@ -33,7 +33,7 @@ export interface NewPipelineOptions {
 }
 
 /**
- * A ServiceClient represents a based URL class for ServiceClient, ContainerClient and etc.
+ * A StorageClient represents a based URL class for BlobServiceClient, ContainerClient and etc.
  *
  * @export
  * @class StorageClient

@@ -3,7 +3,7 @@ import * as fs from "fs";
 import * as path from "path";
 
 import { SharedKeyCredential } from "../../src/credentials/SharedKeyCredential";
-import { ServiceClient } from "../../src/ServiceClient";
+import { BlobServiceClient } from "../../src/BlobServiceClient";
 import { StorageClient } from "../../src/StorageClient";
 import { getUniqueName } from "./testutils.common";
 import * as dotenv from "dotenv";
@@ -11,7 +11,7 @@ dotenv.config({ path: "../.env" });
 
 export * from "./testutils.common";
 
-export function getGenericBSU(accountType: string, accountNameSuffix: string = ""): ServiceClient {
+export function getGenericBSU(accountType: string, accountNameSuffix: string = ""): BlobServiceClient {
   const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
   const accountKeyEnvVar = `${accountType}ACCOUNT_KEY`;
 
@@ -31,14 +31,14 @@ export function getGenericBSU(accountType: string, accountNameSuffix: string = "
     // logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO)
   });
   const blobPrimaryURL = `https://${accountName}${accountNameSuffix}.blob.core.windows.net/`;
-  return new ServiceClient(blobPrimaryURL, pipeline);
+  return new BlobServiceClient(blobPrimaryURL, pipeline);
 }
 
-export function getBSU(): ServiceClient {
+export function getBSU(): BlobServiceClient {
   return getGenericBSU("");
 }
 
-export function getAlternateBSU(): ServiceClient {
+export function getAlternateBSU(): BlobServiceClient {
   return getGenericBSU("SECONDARY_", "-secondary");
 }
 

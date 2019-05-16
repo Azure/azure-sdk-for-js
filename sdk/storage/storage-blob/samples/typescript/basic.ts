@@ -7,7 +7,7 @@ import {
   BlobClient,
   BlockBlobClient,
   ContainerClient,
-  ServiceClient,
+  BlobServiceClient,
   StorageClient,
   SharedKeyCredential,
   TokenCredential,
@@ -33,7 +33,7 @@ async function main() {
   const pipeline = StorageClient.newPipeline(sharedKeyCredential);
 
   // List containers
-  const serviceClient = new ServiceClient(
+  const blobServiceClient = new BlobServiceClient(
     // When using AnonymousCredential, following url should include a valid SAS or support public access
     `https://${account}.blob.core.windows.net`,
     pipeline
@@ -41,7 +41,7 @@ async function main() {
 
   let marker;
   do {
-    const listContainersResponse: Models.ServiceListContainersSegmentResponse = await serviceClient.listContainersSegment(
+    const listContainersResponse: Models.ServiceListContainersSegmentResponse = await blobServiceClient.listContainersSegment(
       Aborter.none,
       marker
     );
@@ -54,7 +54,7 @@ async function main() {
 
   // Create a container
   const containerName = `newcontainer${new Date().getTime()}`;
-  const containerClient = ContainerClient.fromServiceClient(serviceClient, containerName);
+  const containerClient = ContainerClient.fromBlobServiceClient(blobServiceClient, containerName);
 
   const createContainerResponse = await containerClient.create(Aborter.none);
   console.log(
