@@ -57,24 +57,17 @@ function registerIfNeeded(policy: RPRegistrationPolicy, request: WebResource, re
  * @returns {object} A new request object with desired headers.
  */
 function getRequestEssentials(originalRequest: WebResource, reuseUrlToo = false): any {
-  const reqOptions: any = {
-    headers: {}
-  };
+  const reqOptions = originalRequest.clone();
   if (reuseUrlToo) {
     reqOptions.url = originalRequest.url;
   }
 
-  // Copy over the original request headers. This will get us the auth token and other useful stuff from
-  // the original request header. Thus making it easier to make requests from this filter.
-  for (const h in originalRequest.headers) {
-    reqOptions.headers.set(h, originalRequest.headers.get(h));
-  }
   // We have to change the x-ms-client-request-id otherwise Azure endpoint
-  // will return the initial 409 (cached) response.
-  reqOptions.headers["x-ms-client-request-id"] = utils.generateUuid();
+  // will return the ini(tial 409 (cached) response.
+  reqOptions.headers.set("x-ms-client-request-id", utils.generateUuid());
 
   // Set content-type to application/json
-  reqOptions.headers["Content-Type"] = "application/json; charset=utf-8";
+  reqOptions.headers.set("Content-Type", "application/json; charset=utf-8");
 
   return reqOptions;
 }

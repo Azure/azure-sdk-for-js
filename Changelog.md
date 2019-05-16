@@ -1,24 +1,58 @@
 # Changelog
+# 1.8.7 - 2019-05-16
+- Fixed issue [#347](https://github.com/Azure/ms-rest-js/issues/347), [#348](https://github.com/Azure/ms-rest-js/issues/348) in PR [#349](https://github.com/Azure/ms-rest-js/pull/349)
+
+# 1.8.6 - 2019-05-10
+- Added script to run tests on dependent projects [#345](https://github.com/Azure/ms-rest-js/pull/345)
+
+# 1.8.4 - 2019-05-07
+- Fixed incorrect undefined check in Axios client [62b65d](https://github.com/Azure/ms-rest-js/commit/ea7ceb86f1e6e6f7879e7e7ddfe791113762b65d#diff-b9cfc7f2cdf78a7f4b91a753d10865a2)
+- Added TSLint check. Fix TSLint errors [#344](https://github.com/Azure/ms-rest-js/pull/344)
+
+# 1.8.2 - 2019-04-25
+- Fixed http over https bug [#341](https://github.com/Azure/ms-rest-js/pull/341)
+
+# 1.8.1 - 2019-04-01
+- Fixed serialization issue when required object is empty [#337](https://github.com/Azure/ms-rest-js/pull/337)
+
+# 1.8.0 - 2019-03-18
+- Added exports to several request policy factory methods [#336](https://github.com/Azure/ms-rest-js/pull/336)
+
+# 1.7.0 - 2019-02-11
+- Added userAgentHeaderName to ServiceClientOptions [#330](https://github.com/Azure/ms-rest-js/pull/330)
+
+# 1.6.0 - 2019-01-30
+- Fixed including proxy policy in browser [0c552f](https://github.com/Azure/ms-rest-js/commit/fafa26180e591db43d43c9cf0c7e93c8030c552f#diff-b9cfc7f2cdf78a7f4b91a753d10865a2)
+
+# 1.5.3 - 2019-01-25
+- Brought Axios interceptors back [c33602](https://github.com/Azure/ms-rest-js/commit/c1742fe6a80ed9b794115362633e0a8307c33602#diff-b9cfc7f2cdf78a7f4b91a753d10865a2)
+
+# 1.5.2 - 2019-01-25
+- Added HTTP(S) over HTTP(S) proxy support [2b1844](https://github.com/Azure/ms-rest-js/commit/1ee5a40d5016e286a7492c8cbd7b08d5c92b1844#diff-b9cfc7f2cdf78a7f4b91a753d10865a2)
+- Added `@types/tunnel` [0865a2](https://github.com/Azure/ms-rest-js/commit/7a9b496d04294446f940f1549fb0a44dd9b94c01#diff-b9cfc7f2cdf78a7f4b91a753d10865a2)
+
+# 1.5.1 - 2019-01-22
+- Fixed default HTTP client tests [c75b87](https://github.com/Azure/ms-rest-js/commit/4c2b1c5390deab989b5ec9cadb84891de9c75b87#diff-b9cfc7f2cdf78a7f4b91a753d10865a2)
 
 ## 1.5.0 - 2019-01-15
 
-- Add support to specify proxy setting in ServiceClientOptions.
+- Added support to specify proxy setting in ServiceClientOptions.
 
 ## 1.4.1 - 2019-01-15
 
-- Move browser-environment tests to Karma.
+- Movec browser-environment tests to Karma.
 
 ## 1.4.0 - 2019-10-15
 
-- Allow ServiceClientOptions.requestPolicyFactories to be a function.
+- Allowed ServiceClientOptions.requestPolicyFactories to be a function.
 
 ## 1.3.0 - 2019-01-15
 
-- Allow ServiceClientOptions.userAgent property to be a function.
+- Allowed ServiceClientOptions.userAgent property to be a function.
 
 ## 1.1.1 - 2018-11-13
 
-- Improve debugging by adding rollup-plugin-sourcemaps.
+- Improved debugging by adding rollup-plugin-sourcemaps.
 
 ## 1.1.0 - 2018-11-09
 
