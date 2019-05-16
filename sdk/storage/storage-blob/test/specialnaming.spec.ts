@@ -8,9 +8,9 @@ import * as dotenv from "dotenv";
 dotenv.config({ path: "../.env" });
 
 describe("Special Naming Tests", () => {
-  const serviceClient = getBSU();
+  const blobServiceClient = getBSU();
   const containerName: string = getUniqueName("1container-with-dash");
-  const containerClient = ContainerClient.fromServiceClient(serviceClient, containerName);
+  const containerClient = ContainerClient.fromBlobServiceClient(blobServiceClient, containerName);
 
   before(async () => {
     await containerClient.create(Aborter.none);

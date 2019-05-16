@@ -34,7 +34,7 @@ export * from "./policies/SharedKeyCredentialPolicy";
 export * from "./TelemetryPolicyFactory";
 export * from "./policies/TokenCredentialPolicy";
 export * from "./UniqueRequestIDPolicyFactory";
-export * from "./ServiceClient";
+export * from "./BlobServiceClient";
 export * from "./StorageClient";
 export * from "./SASQueryParameters";
 export { Models, RestError };

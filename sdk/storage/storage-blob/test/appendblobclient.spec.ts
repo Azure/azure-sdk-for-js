@@ -8,15 +8,15 @@ import * as dotenv from "dotenv";
 dotenv.config({ path: "../.env" });
 
 describe("AppendBlobClient", () => {
-  const serviceClient = getBSU();
+  const blobServiceClient = getBSU();
   let containerName: string = getUniqueName("container");
-  let containerClient = ContainerClient.fromServiceClient(serviceClient, containerName);
+  let containerClient = ContainerClient.fromBlobServiceClient(blobServiceClient, containerName);
   let blobName: string = getUniqueName("blob");
   let appendBlobClient = AppendBlobClient.fromContainerClient(containerClient, blobName);
 
   beforeEach(async () => {
     containerName = getUniqueName("container");
-    containerClient = ContainerClient.fromServiceClient(serviceClient, containerName);
+    containerClient = ContainerClient.fromBlobServiceClient(blobServiceClient, containerName);
     await containerClient.create(Aborter.none);
     blobName = getUniqueName("blob");
     appendBlobClient = AppendBlobClient.fromContainerClient(containerClient, blobName);

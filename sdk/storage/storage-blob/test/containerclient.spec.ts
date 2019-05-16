@@ -9,13 +9,13 @@ import * as dotenv from "dotenv";
 dotenv.config({ path: "../.env" });
 
 describe("ContainerClient", () => {
-  const serviceClient = getBSU();
+  const blobServiceClient = getBSU();
   let containerName: string = getUniqueName("container");
-  let containerClient = ContainerClient.fromServiceClient(serviceClient, containerName);
+  let containerClient = ContainerClient.fromBlobServiceClient(blobServiceClient, containerName);
 
   beforeEach(async () => {
     containerName = getUniqueName("container");
-    containerClient = ContainerClient.fromServiceClient(serviceClient, containerName);
+    containerClient = ContainerClient.fromBlobServiceClient(blobServiceClient, containerName);
     await containerClient.create(Aborter.none);
   });
 
@@ -54,7 +54,7 @@ describe("ContainerClient", () => {
   });
 
   it("create with all parameters configured", async () => {
-    const cClient = ContainerClient.fromServiceClient(serviceClient, getUniqueName(containerName));
+    const cClient = ContainerClient.fromBlobServiceClient(blobServiceClient, getUniqueName(containerName));
     const metadata = { key: "value" };
     const access = "container";
     await cClient.create(Aborter.none, { metadata, access });
