@@ -65,7 +65,7 @@ module.exports = function(config) {
 
     // Exclude coverage calculation for following files
     remapOptions: {
-      exclude: /node_modules|tests/g
+      exclude: /node_modules|test/g
     },
 
     junitReporter: {
