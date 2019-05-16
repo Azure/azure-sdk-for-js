@@ -63,7 +63,7 @@ function getRequestEssentials(originalRequest: WebResource, reuseUrlToo = false)
   }
 
   // We have to change the x-ms-client-request-id otherwise Azure endpoint
-  // will return the ini(tial 409 (cached) response.
+  // will return the initial 409 (cached) response.
   reqOptions.headers.set("x-ms-client-request-id", utils.generateUuid());
 
   // Set content-type to application/json
