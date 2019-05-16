@@ -255,7 +255,7 @@ describe("Highlevel", () => {
     assert.ok(eventTriggered);
   });
 
-  it("blobClient.download should success when internal stream unexcepted ends at the stream end", async () => {
+  it("fileClient.download should success when internal stream unexcepted ends at the stream end", async () => {
     await uploadFileToAzureFile(tempFileSmall, fileClient, {
       rangeSize: 4 * 1024 * 1024,
       parallelism: 20
@@ -283,7 +283,7 @@ describe("Highlevel", () => {
     assert.ok(downloadedData.equals(uploadedData));
   });
 
-  it("blobClient.download should download full data successfully when internal stream unexcepted ends", async () => {
+  it("fileClient.download should download full data successfully when internal stream unexcepted ends", async () => {
     await uploadFileToAzureFile(tempFileSmall, fileClient, {
       rangeSize: 4 * 1024 * 1024,
       parallelism: 20
@@ -312,7 +312,7 @@ describe("Highlevel", () => {
     assert.ok(downloadedData.equals(uploadedData));
   });
 
-  it("blobClient.download should download partial data when internal stream unexcepted ends", async () => {
+  it("fileClient.download should download partial data when internal stream unexcepted ends", async () => {
     await uploadFileToAzureFile(tempFileSmall, fileClient, {
       rangeSize: 4 * 1024 * 1024,
       parallelism: 20
@@ -343,7 +343,7 @@ describe("Highlevel", () => {
     assert.ok(downloadedData.equals(uploadedData.slice(1, partialSize + 1)));
   });
 
-  it("blobClient.download should download data failed when exceeding max stream retry requests", async () => {
+  it("fileClient.download should download data failed when exceeding max stream retry requests", async () => {
     await uploadFileToAzureFile(tempFileSmall, fileClient, {
       rangeSize: 4 * 1024 * 1024,
       parallelism: 20
@@ -374,7 +374,7 @@ describe("Highlevel", () => {
     fs.unlinkSync(downloadedFile);
   });
 
-  it("blobClient.download should abort after retrys", async () => {
+  it("fileClient.download should abort after retrys", async () => {
     await uploadFileToAzureFile(tempFileSmall, fileClient, {
       rangeSize: 4 * 1024 * 1024,
       parallelism: 20

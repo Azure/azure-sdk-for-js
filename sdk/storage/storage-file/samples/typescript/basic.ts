@@ -10,7 +10,7 @@ import {
   ShareClient,
   DirectoryClient,
   FileClient
-} from "../../src"; // Change to "@azure/storage-file" in your package
+} from "../.."; // Change to "@azure/storage-file" in your package
 
 async function main() {
   // Enter your storage account name and shared key

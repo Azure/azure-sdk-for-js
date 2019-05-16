@@ -14,7 +14,7 @@ import {
   ShareClient,
   FileServiceClient,
   StorageClient
-} from "../../src"; // Change to "@azure/storage-file" in your package
+} from "../.."; // Change to "@azure/storage-file" in your package
 
 async function main() {
   // Fill in following settings before running this sample
@@ -80,7 +80,6 @@ async function main() {
   /*
   const browserFile = document.getElementById("fileinput").files[0];
   await uploadBrowserDataToAzureFile(browserFile, fileClient, {
-    abortSignal: Aborter.none, 
     rangeSize: 4 * 1024 * 1024, // 4MB range size
     parallelism: 20, // 20 concurrency
     progress: ev => console.log(ev)
