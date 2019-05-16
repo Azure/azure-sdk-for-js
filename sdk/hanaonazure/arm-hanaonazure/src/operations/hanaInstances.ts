@@ -118,6 +118,19 @@ export class HanaInstances {
   }
 
   /**
+   * Creates a SAP HANA instance for the specified subscription, resource group, and instance name.
+   * @summary Creates a SAP HANA instance.
+   * @param resourceGroupName Name of the resource group.
+   * @param hanaInstanceName Name of the SAP HANA on Azure instance.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.HanaInstancesCreateResponse>
+   */
+  create(resourceGroupName: string, hanaInstanceName: string, options?: msRest.RequestOptionsBase): Promise<Models.HanaInstancesCreateResponse> {
+    return this.beginCreate(resourceGroupName,hanaInstanceName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.HanaInstancesCreateResponse>;
+  }
+
+  /**
    * Patches the Tags field of a SAP HANA instance for the specified subscription, resource group,
    * and instance name.
    * @summary Patches the Tags field of a SAP HANA instance.
@@ -178,6 +191,25 @@ export class HanaInstances {
   enableMonitoring(resourceGroupName: string, hanaInstanceName: string, monitoringParameter: Models.MonitoringDetails, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
     return this.beginEnableMonitoring(resourceGroupName,hanaInstanceName,monitoringParameter,options)
       .then(lroPoller => lroPoller.pollUntilFinished());
+  }
+
+  /**
+   * Creates a SAP HANA instance for the specified subscription, resource group, and instance name.
+   * @summary Creates a SAP HANA instance.
+   * @param resourceGroupName Name of the resource group.
+   * @param hanaInstanceName Name of the SAP HANA on Azure instance.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginCreate(resourceGroupName: string, hanaInstanceName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        hanaInstanceName,
+        options
+      },
+      beginCreateOperationSpec,
+      options);
   }
 
   /**
@@ -376,6 +408,34 @@ const updateOperationSpec: msRest.OperationSpec = {
   },
   responses: {
     200: {
+      bodyMapper: Mappers.HanaInstance
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const beginCreateOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PUT",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HanaOnAzure/hanaInstances/{hanaInstanceName}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.hanaInstanceName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.HanaInstance
+    },
+    201: {
       bodyMapper: Mappers.HanaInstance
     },
     default: {
