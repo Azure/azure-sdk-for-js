@@ -7,12 +7,12 @@ import {
   WebResource
 } from "@azure/ms-rest-js";
 
-import { IRequestLogOptions } from "../LoggingPolicyFactory";
+import { RequestLogOptions } from "../LoggingPolicyFactory";
 import { HTTPURLConnection, URLConstants } from "../utils/constants";
 import { getURLParameter, setURLParameter } from "../utils/utils.common";
 
-// Default values of IRetryOptions
-const DEFAULT_REQUEST_LOG_OPTIONS: IRequestLogOptions = {
+// Default values of RetryOptions
+const DEFAULT_REQUEST_LOG_OPTIONS: RequestLogOptions = {
   logWarningIfTryOverThreshold: 3000
 };
 
@@ -27,19 +27,19 @@ export class LoggingPolicy extends BaseRequestPolicy {
   private operationStartTime: Date = new Date();
   private requestStartTime: Date = new Date();
 
-  private readonly loggingOptions: IRequestLogOptions;
+  private readonly loggingOptions: RequestLogOptions;
 
   /**
    * Creates an instance of LoggingPolicy.
    * @param {RequestPolicy} nextPolicy
    * @param {RequestPolicyOptions} options
-   * @param {IRequestLogOptions} [loggingOptions=DEFAULT_REQUEST_LOG_OPTIONS]
+   * @param {RequestLogOptions} [loggingOptions=DEFAULT_REQUEST_LOG_OPTIONS]
    * @memberof LoggingPolicy
    */
   constructor(
     nextPolicy: RequestPolicy,
     options: RequestPolicyOptions,
-    loggingOptions: IRequestLogOptions = DEFAULT_REQUEST_LOG_OPTIONS
+    loggingOptions: RequestLogOptions = DEFAULT_REQUEST_LOG_OPTIONS
   ) {
     super(nextPolicy, options);
     this.loggingOptions = loggingOptions;

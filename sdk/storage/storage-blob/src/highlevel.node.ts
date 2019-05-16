@@ -8,10 +8,10 @@ import { BlockBlobClient } from "./BlockBlobClient";
 import { BlobHTTPHeaders } from "./generated/lib/models";
 import {
   BlobUploadCommonResponse,
-  IDownloadFromBlobOptions,
-  IUploadToBlockBlobOptions
+  DownloadFromBlobOptions,
+  UploadToBlockBlobOptions
 } from "./highlevel.common";
-import { IBlobAccessConditions } from "./models";
+import { BlobAccessConditions } from "./models";
 import { Batch } from "./utils/Batch";
 import { BufferScheduler } from "./utils/BufferScheduler";
 import {
@@ -37,14 +37,14 @@ import { streamToBuffer } from "./utils/utils.node";
  *                          goto documents of Aborter for more examples about request cancellation
  * @param {string} filePath Full path of local file
  * @param {BlockBlobClient} blockBlobClient BlockBlobClient
- * @param {IUploadToBlockBlobOptions} [options] IUploadToBlockBlobOptions
+ * @param {UploadToBlockBlobOptions} [options] UploadToBlockBlobOptions
  * @returns {(Promise<BlobUploadCommonResponse>)} ICommonResponse
  */
 export async function uploadFileToBlockBlob(
   aborter: Aborter,
   filePath: string,
   blockBlobClient: BlockBlobClient,
-  options?: IUploadToBlockBlobOptions
+  options?: UploadToBlockBlobOptions
 ): Promise<BlobUploadCommonResponse> {
   const size = fs.statSync(filePath).size;
   return uploadResetableStreamToBlockBlob(
@@ -79,7 +79,7 @@ export async function uploadFileToBlockBlob(
  *                                                                  from the offset defined
  * @param {number} size Size of the block blob
  * @param {BlockBlobClient} blockBlobClient BlockBlobClient
- * @param {IUploadToBlockBlobOptions} [options] IUploadToBlockBlobOptions
+ * @param {UploadToBlockBlobOptions} [options] UploadToBlockBlobOptions
  * @returns {(Promise<BlobUploadCommonResponse>)} ICommonResponse
  */
 async function uploadResetableStreamToBlockBlob(
@@ -87,7 +87,7 @@ async function uploadResetableStreamToBlockBlob(
   streamFactory: (offset: number, count?: number) => NodeJS.ReadableStream,
   size: number,
   blockBlobClient: BlockBlobClient,
-  options: IUploadToBlockBlobOptions = {}
+  options: UploadToBlockBlobOptions = {}
 ): Promise<BlobUploadCommonResponse> {
   if (!options.blockSize) {
     options.blockSize = 0;
@@ -188,7 +188,7 @@ async function uploadResetableStreamToBlockBlob(
  * @param {BlobClient} blobClient A BlobClient object
  * @param {number} offset From which position of the block blob to download
  * @param {number} [count] How much data to be downloaded. Will download to the end when passing undefined
- * @param {IDownloadFromBlobOptions} [options] IDownloadFromBlobOptions
+ * @param {DownloadFromBlobOptions} [options] DownloadFromBlobOptions
  * @returns {Promise<void>}
  */
 export async function downloadBlobToBuffer(
@@ -197,7 +197,7 @@ export async function downloadBlobToBuffer(
   blobClient: BlobClient,
   offset: number,
   count?: number,
-  options: IDownloadFromBlobOptions = {}
+  options: DownloadFromBlobOptions = {}
 ): Promise<void> {
   if (!options.blockSize) {
     options.blockSize = 0;
@@ -265,14 +265,14 @@ export async function downloadBlobToBuffer(
  * Option interface for uploadStreamToBlockBlob.
  *
  * @export
- * @interface IUploadStreamToBlockBlobOptions
+ * @interface UploadStreamToBlockBlobOptions
  */
-export interface IUploadStreamToBlockBlobOptions {
+export interface UploadStreamToBlockBlobOptions {
   /**
    * Blob HTTP Headers.
    *
    * @type {BlobHTTPHeaders}
-   * @memberof IUploadStreamToBlockBlobOptions
+   * @memberof UploadStreamToBlockBlobOptions
    */
   blobHTTPHeaders?: BlobHTTPHeaders;
 
@@ -280,22 +280,22 @@ export interface IUploadStreamToBlockBlobOptions {
    * Metadata of block blob.
    *
    * @type {{ [propertyName: string]: string }}
-   * @memberof IUploadStreamToBlockBlobOptions
+   * @memberof UploadStreamToBlockBlobOptions
    */
   metadata?: { [propertyName: string]: string };
 
   /**
    * Access conditions headers.
    *
-   * @type {IBlobAccessConditions}
-   * @memberof IUploadStreamToBlockBlobOptions
+   * @type {BlobAccessConditions}
+   * @memberof UploadStreamToBlockBlobOptions
    */
-  accessConditions?: IBlobAccessConditions;
+  accessConditions?: BlobAccessConditions;
 
   /**
    * Progress updater.
    *
-   * @memberof IUploadStreamToBlockBlobOptions
+   * @memberof UploadStreamToBlockBlobOptions
    */
   progress?: (progress: TransferProgressEvent) => void;
 }
@@ -317,7 +317,7 @@ export interface IUploadStreamToBlockBlobOptions {
  * @param {number} bufferSize Size of every buffer allocated, also the block size in the uploaded block blob
  * @param {number} maxBuffers Max buffers will allocate during uploading, positive correlation
  *                            with max uploading concurrency
- * @param {IUploadStreamToBlockBlobOptions} [options]
+ * @param {UploadStreamToBlockBlobOptions} [options]
  * @returns {Promise<BlobUploadCommonResponse>}
  */
 export async function uploadStreamToBlockBlob(
@@ -326,7 +326,7 @@ export async function uploadStreamToBlockBlob(
   blockBlobClient: BlockBlobClient,
   bufferSize: number,
   maxBuffers: number,
-  options: IUploadStreamToBlockBlobOptions = {}
+  options: UploadStreamToBlockBlobOptions = {}
 ): Promise<BlobUploadCommonResponse> {
   if (!options.blobHTTPHeaders) {
     options.blobHTTPHeaders = {};

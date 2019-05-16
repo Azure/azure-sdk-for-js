@@ -5,38 +5,38 @@ import { Aborter } from "./Aborter";
 import { BlobClient } from "./BlobClient";
 import { ContainerClient } from "./ContainerClient";
 import { BlockBlob } from "./generated/lib/operations";
-import { IRange, rangeToString } from "./IRange";
-import { IBlobAccessConditions, IMetadata } from "./models";
+import { Range, rangeToString } from "./Range";
+import { BlobAccessConditions, Metadata } from "./models";
 import { Pipeline } from "./Pipeline";
 import { URLConstants } from "./utils/constants";
 import { appendToURLPath, setURLParameter } from "./utils/utils.common";
 
-export interface IBlockBlobUploadOptions {
-  accessConditions?: IBlobAccessConditions;
+export interface BlockBlobUploadOptions {
+  accessConditions?: BlobAccessConditions;
   blobHTTPHeaders?: Models.BlobHTTPHeaders;
-  metadata?: IMetadata;
+  metadata?: Metadata;
   progress?: (progress: TransferProgressEvent) => void;
 }
 
-export interface IBlockBlobStageBlockOptions {
+export interface BlockBlobStageBlockOptions {
   leaseAccessConditions?: Models.LeaseAccessConditions;
   progress?: (progress: TransferProgressEvent) => void;
   transactionalContentMD5?: Uint8Array;
 }
 
-export interface IBlockBlobStageBlockFromURLOptions {
-  range?: IRange;
+export interface BlockBlobStageBlockFromURLOptions {
+  range?: Range;
   leaseAccessConditions?: Models.LeaseAccessConditions;
   sourceContentMD5?: Uint8Array;
 }
 
-export interface IBlockBlobCommitBlockListOptions {
-  accessConditions?: IBlobAccessConditions;
+export interface BlockBlobCommitBlockListOptions {
+  accessConditions?: BlobAccessConditions;
   blobHTTPHeaders?: Models.BlobHTTPHeaders;
-  metadata?: IMetadata;
+  metadata?: Metadata;
 }
 
-export interface IBlockBlobGetBlockListOptions {
+export interface BlockBlobGetBlockListOptions {
   leaseAccessConditions?: Models.LeaseAccessConditions;
 }
 
@@ -162,7 +162,7 @@ export class BlockBlobClient extends BlobClient {
    *                               which returns a new Readable stream whose offset is from data source beginning.
    * @param {number} contentLength Length of body in bytes. Use Buffer.byteLength() to calculate body length for a
    *                               string including non non-Base64/Hex-encoded characters.
-   * @param {IBlockBlobUploadOptions} [options]
+   * @param {BlockBlobUploadOptions} [options]
    * @returns {Promise<Models.BlockBlobUploadResponse>}
    * @memberof BlockBlobClient
    */
@@ -170,7 +170,7 @@ export class BlockBlobClient extends BlobClient {
     aborter: Aborter,
     body: HttpRequestBody,
     contentLength: number,
-    options: IBlockBlobUploadOptions = {}
+    options: BlockBlobUploadOptions = {}
   ): Promise<Models.BlockBlobUploadResponse> {
     options.accessConditions = options.accessConditions || {};
     return this.blockBlobContext.upload(body, contentLength, {
@@ -193,7 +193,7 @@ export class BlockBlobClient extends BlobClient {
    * @param {string} blockId A 64-byte value that is base64-encoded
    * @param {HttpRequestBody} body
    * @param {number} contentLength
-   * @param {IBlockBlobStageBlockOptions} [options]
+   * @param {BlockBlobStageBlockOptions} [options]
    * @returns {Promise<Models.BlockBlobStageBlockResponse>}
    * @memberof BlockBlobClient
    */
@@ -202,7 +202,7 @@ export class BlockBlobClient extends BlobClient {
     blockId: string,
     body: HttpRequestBody,
     contentLength: number,
-    options: IBlockBlobStageBlockOptions = {}
+    options: BlockBlobStageBlockOptions = {}
   ): Promise<Models.BlockBlobStageBlockResponse> {
     return this.blockBlobContext.stageBlock(blockId, contentLength, body, {
       abortSignal: aborter,
@@ -232,7 +232,7 @@ export class BlockBlobClient extends BlobClient {
    *                           - https://myaccount.blob.core.windows.net/mycontainer/myblob?snapshot=<DateTime>
    * @param {number} offset From which position of the blob to download, >= 0
    * @param {number} [count] How much data to be downloaded, > 0. Will download to the end when undefined
-   * @param {IBlockBlobStageBlockFromURLOptions} [options={}]
+   * @param {BlockBlobStageBlockFromURLOptions} [options={}]
    * @returns {Promise<Models.BlockBlobStageBlockFromURLResponse>}
    * @memberof BlockBlobClient
    */
@@ -242,7 +242,7 @@ export class BlockBlobClient extends BlobClient {
     sourceURL: string,
     offset: number,
     count?: number,
-    options: IBlockBlobStageBlockFromURLOptions = {}
+    options: BlockBlobStageBlockFromURLOptions = {}
   ): Promise<Models.BlockBlobStageBlockFromURLResponse> {
     return this.blockBlobContext.stageBlockFromURL(blockId, 0, sourceURL, {
       abortSignal: aborter,
@@ -263,14 +263,14 @@ export class BlockBlobClient extends BlobClient {
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {string[]} blocks  Array of 64-byte value that is base64-encoded
-   * @param {IBlockBlobCommitBlockListOptions} [options]
+   * @param {BlockBlobCommitBlockListOptions} [options]
    * @returns {Promise<Models.BlockBlobCommitBlockListResponse>}
    * @memberof BlockBlobClient
    */
   public async commitBlockList(
     aborter: Aborter,
     blocks: string[],
-    options: IBlockBlobCommitBlockListOptions = {}
+    options: BlockBlobCommitBlockListOptions = {}
   ): Promise<Models.BlockBlobCommitBlockListResponse> {
     options.accessConditions = options.accessConditions || {};
     return this.blockBlobContext.commitBlockList(
@@ -293,14 +293,14 @@ export class BlockBlobClient extends BlobClient {
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {Models.BlockListType} listType
-   * @param {IBlockBlobGetBlockListOptions} [options]
+   * @param {BlockBlobGetBlockListOptions} [options]
    * @returns {Promise<Models.BlockBlobGetBlockListResponse>}
    * @memberof BlockBlobClient
    */
   public async getBlockList(
     aborter: Aborter,
     listType: Models.BlockListType,
-    options: IBlockBlobGetBlockListOptions = {}
+    options: BlockBlobGetBlockListOptions = {}
   ): Promise<Models.BlockBlobGetBlockListResponse> {
     const res = await this.blockBlobContext.getBlockList(listType, {
       abortSignal: aborter,

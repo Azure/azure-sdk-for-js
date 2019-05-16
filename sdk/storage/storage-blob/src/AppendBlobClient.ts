@@ -5,19 +5,19 @@ import { Aborter } from "./Aborter";
 import { BlobClient } from "./BlobClient";
 import { ContainerClient } from "./ContainerClient";
 import { AppendBlob } from "./generated/lib/operations";
-import { IAppendBlobAccessConditions, IBlobAccessConditions, IMetadata } from "./models";
+import { AppendBlobAccessConditions, BlobAccessConditions, Metadata } from "./models";
 import { Pipeline } from "./Pipeline";
 import { URLConstants } from "./utils/constants";
 import { appendToURLPath, setURLParameter } from "./utils/utils.common";
 
-export interface IAppendBlobCreateOptions {
-  accessConditions?: IBlobAccessConditions;
+export interface AppendBlobCreateOptions {
+  accessConditions?: BlobAccessConditions;
   blobHTTPHeaders?: Models.BlobHTTPHeaders;
-  metadata?: IMetadata;
+  metadata?: Metadata;
 }
 
-export interface IAppendBlobAppendBlockOptions {
-  accessConditions?: IAppendBlobAccessConditions;
+export interface AppendBlobAppendBlockOptions {
+  accessConditions?: AppendBlobAccessConditions;
   progress?: (progress: TransferProgressEvent) => void;
   transactionalContentMD5?: Uint8Array;
 }
@@ -131,13 +131,13 @@ export class AppendBlobClient extends BlobClient {
    *
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
-   * @param {IAppendBlobCreateOptions} [options]
+   * @param {AppendBlobCreateOptions} [options]
    * @returns {Promise<Models.AppendBlobsCreateResponse>}
    * @memberof AppendBlobClient
    */
   public async create(
     aborter: Aborter,
-    options: IAppendBlobCreateOptions = {}
+    options: AppendBlobCreateOptions = {}
   ): Promise<Models.AppendBlobCreateResponse> {
     options.accessConditions = options.accessConditions || {};
     return this.appendBlobContext.create(0, {
@@ -157,7 +157,7 @@ export class AppendBlobClient extends BlobClient {
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {HttpRequestBody} body
    * @param {number} contentLength
-   * @param {IAppendBlobAppendBlockOptions} [options]
+   * @param {AppendBlobAppendBlockOptions} [options]
    * @returns {Promise<Models.AppendBlobsAppendBlockResponse>}
    * @memberof AppendBlobClient
    */
@@ -165,7 +165,7 @@ export class AppendBlobClient extends BlobClient {
     aborter: Aborter,
     body: HttpRequestBody,
     contentLength: number,
-    options: IAppendBlobAppendBlockOptions = {}
+    options: AppendBlobAppendBlockOptions = {}
   ): Promise<Models.AppendBlobAppendBlockResponse> {
     options.accessConditions = options.accessConditions || {};
     return this.appendBlobContext.appendBlock(body, contentLength, {

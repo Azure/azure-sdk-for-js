@@ -2,8 +2,8 @@ import { HttpResponse, isNode } from "@azure/ms-rest-js";
 
 import { Aborter } from "./Aborter";
 import * as Models from "./generated/lib/models";
-import { IMetadata } from "./models";
-import { IRetriableReadableStreamOptions } from "./utils/RetriableReadableStream";
+import { Metadata } from "./models";
+import { RetriableReadableStreamOptions } from "./utils/RetriableReadableStream";
 import { ReadableStreamGetter, RetriableReadableStream } from "./utils/RetriableReadableStream";
 
 /**
@@ -364,10 +364,10 @@ export class BlobDownloadResponse implements Models.BlobDownloadResponse {
    * to associate with a file storage object.
    *
    * @readonly
-   * @type {(IMetadata | undefined)}
+   * @type {(Metadata | undefined)}
    * @memberof BlobDownloadResponse
    */
-  public get metadata(): IMetadata | undefined {
+  public get metadata(): Metadata | undefined {
     return this.originalResponse.metadata;
   }
 
@@ -438,7 +438,7 @@ export class BlobDownloadResponse implements Models.BlobDownloadResponse {
    * @param {ReadableStreamGetter} getter
    * @param {number} offset
    * @param {number} count
-   * @param {IRetriableReadableStreamOptions} [options={}]
+   * @param {RetriableReadableStreamOptions} [options={}]
    * @memberof BlobDownloadResponse
    */
   public constructor(
@@ -447,7 +447,7 @@ export class BlobDownloadResponse implements Models.BlobDownloadResponse {
     getter: ReadableStreamGetter,
     offset: number,
     count: number,
-    options: IRetriableReadableStreamOptions = {}
+    options: RetriableReadableStreamOptions = {}
   ) {
     this.originalResponse = originalResponse;
     this.blobDownloadStream = new RetriableReadableStream(

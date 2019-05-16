@@ -5,17 +5,17 @@ import { Aborter } from "./Aborter";
 import { BlobDownloadResponse } from "./BlobDownloadResponse";
 import { ContainerClient } from "./ContainerClient";
 import { Blob } from "./generated/lib/operations";
-import { rangeToString } from "./IRange";
-import { IBlobAccessConditions, IMetadata } from "./models";
+import { rangeToString } from "./Range";
+import { BlobAccessConditions, Metadata } from "./models";
 import { Pipeline } from "./Pipeline";
 import { StorageClient } from "./StorageClient";
 import { DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS, URLConstants } from "./utils/constants";
 import { appendToURLPath, setURLParameter } from "./utils/utils.common";
 
-export interface IBlobDownloadOptions {
+export interface BlobDownloadOptions {
   snapshot?: string;
   rangeGetContentMD5?: boolean;
-  blobAccessConditions?: IBlobAccessConditions;
+  blobAccessConditions?: BlobAccessConditions;
   progress?: (progress: TransferProgressEvent) => void;
 
   /**
@@ -31,64 +31,64 @@ export interface IBlobDownloadOptions {
    * Default value is 5, please set a larger value when loading large files in poor network.
    *
    * @type {number}
-   * @memberof IBlobDownloadOptions
+   * @memberof BlobDownloadOptions
    */
   maxRetryRequests?: number;
 }
 
-export interface IBlobGetPropertiesOptions {
-  blobAccessConditions?: IBlobAccessConditions;
+export interface BlobGetPropertiesOptions {
+  blobAccessConditions?: BlobAccessConditions;
 }
 
-export interface IBlobDeleteOptions {
-  blobAccessConditions?: IBlobAccessConditions;
+export interface BlobDeleteOptions {
+  blobAccessConditions?: BlobAccessConditions;
   deleteSnapshots?: Models.DeleteSnapshotsOptionType;
 }
 
-export interface IBlobSetHTTPHeadersOptions {
-  blobAccessConditions?: IBlobAccessConditions;
+export interface BlobSetHTTPHeadersOptions {
+  blobAccessConditions?: BlobAccessConditions;
 }
 
-export interface IBlobSetMetadataOptions {
-  blobAccessConditions?: IBlobAccessConditions;
+export interface BlobSetMetadataOptions {
+  blobAccessConditions?: BlobAccessConditions;
 }
 
-export interface IBlobAcquireLeaseOptions {
+export interface BlobAcquireLeaseOptions {
   modifiedAccessConditions?: Models.ModifiedAccessConditions;
 }
 
-export interface IBlobReleaseLeaseOptions {
+export interface BlobReleaseLeaseOptions {
   modifiedAccessConditions?: Models.ModifiedAccessConditions;
 }
 
-export interface IBlobRenewLeaseOptions {
+export interface BlobRenewLeaseOptions {
   modifiedAccessConditions?: Models.ModifiedAccessConditions;
 }
 
-export interface IBlobChangeLeaseOptions {
+export interface BlobChangeLeaseOptions {
   modifiedAccessConditions?: Models.ModifiedAccessConditions;
 }
 
-export interface IBlobBreakLeaseOptions {
+export interface BlobBreakLeaseOptions {
   modifiedAccessConditions?: Models.ModifiedAccessConditions;
 }
 
-export interface IBlobCreateSnapshotOptions {
-  metadata?: IMetadata;
-  blobAccessConditions?: IBlobAccessConditions;
+export interface BlobCreateSnapshotOptions {
+  metadata?: Metadata;
+  blobAccessConditions?: BlobAccessConditions;
 }
 
-export interface IBlobStartCopyFromURLOptions {
-  metadata?: IMetadata;
-  blobAccessConditions?: IBlobAccessConditions;
+export interface BlobStartCopyFromURLOptions {
+  metadata?: Metadata;
+  blobAccessConditions?: BlobAccessConditions;
   sourceModifiedAccessConditions?: Models.ModifiedAccessConditions;
 }
 
-export interface IBlobAbortCopyFromURLOptions {
+export interface BlobAbortCopyFromURLOptions {
   leaseAccessConditions?: Models.LeaseAccessConditions;
 }
 
-export interface IBlobSetTierOptions {
+export interface BlobSetTierOptions {
   leaseAccessConditions?: Models.LeaseAccessConditions;
 }
 
@@ -193,7 +193,7 @@ export class BlobClient extends StorageClient {
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {number} offset From which position of the blob to download, >= 0
    * @param {number} [count] How much data to be downloaded, > 0. Will download to the end when undefined
-   * @param {IBlobDownloadOptions} [options]
+   * @param {BlobDownloadOptions} [options]
    * @returns {Promise<Models.BlobDownloadResponse>}
    * @memberof BlobClient
    */
@@ -201,7 +201,7 @@ export class BlobClient extends StorageClient {
     aborter: Aborter,
     offset: number,
     count?: number,
-    options: IBlobDownloadOptions = {}
+    options: BlobDownloadOptions = {}
   ): Promise<Models.BlobDownloadResponse> {
     options.blobAccessConditions = options.blobAccessConditions || {};
     options.blobAccessConditions.modifiedAccessConditions =
@@ -289,13 +289,13 @@ export class BlobClient extends StorageClient {
    *
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
-   * @param {IBlobGetPropertiesOptions} [options]
+   * @param {BlobGetPropertiesOptions} [options]
    * @returns {Promise<Models.BlobGetPropertiesResponse>}
    * @memberof BlobClient
    */
   public async getProperties(
     aborter: Aborter,
-    options: IBlobGetPropertiesOptions = {}
+    options: BlobGetPropertiesOptions = {}
   ): Promise<Models.BlobGetPropertiesResponse> {
     options.blobAccessConditions = options.blobAccessConditions || {};
     return this.blobContext.getProperties({
@@ -314,13 +314,13 @@ export class BlobClient extends StorageClient {
    *
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
-   * @param {IBlobDeleteOptions} [options]
+   * @param {BlobDeleteOptions} [options]
    * @returns {Promise<Models.BlobDeleteResponse>}
    * @memberof BlobClient
    */
   public async delete(
     aborter: Aborter,
-    options: IBlobDeleteOptions = {}
+    options: BlobDeleteOptions = {}
   ): Promise<Models.BlobDeleteResponse> {
     options.blobAccessConditions = options.blobAccessConditions || {};
     return this.blobContext.deleteMethod({
@@ -360,14 +360,14 @@ export class BlobClient extends StorageClient {
    * @param {Models.BlobHTTPHeaders} [blobHTTPHeaders] If no value provided, or no value provided for
    *                                                   the specificed blob HTTP headers, these blob HTTP
    *                                                   headers without a value will be cleared.
-   * @param {IBlobSetHTTPHeadersOptions} [options]
+   * @param {BlobSetHTTPHeadersOptions} [options]
    * @returns {Promise<Models.BlobSetHTTPHeadersResponse>}
    * @memberof BlobClient
    */
   public async setHTTPHeaders(
     aborter: Aborter,
     blobHTTPHeaders?: Models.BlobHTTPHeaders,
-    options: IBlobSetHTTPHeadersOptions = {}
+    options: BlobSetHTTPHeadersOptions = {}
   ): Promise<Models.BlobSetHTTPHeadersResponse> {
     options.blobAccessConditions = options.blobAccessConditions || {};
     return this.blobContext.setHTTPHeaders({
@@ -387,16 +387,16 @@ export class BlobClient extends StorageClient {
    *
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
-   * @param {IMetadata} [metadata] Replace existing metadata with this value.
+   * @param {Metadata} [metadata] Replace existing metadata with this value.
    *                               If no value provided the existing metadata will be removed.
-   * @param {IBlobSetMetadataOptions} [options]
+   * @param {BlobSetMetadataOptions} [options]
    * @returns {Promise<Models.BlobSetMetadataResponse>}
    * @memberof BlobClient
    */
   public async setMetadata(
     aborter: Aborter,
-    metadata?: IMetadata,
-    options: IBlobSetMetadataOptions = {}
+    metadata?: Metadata,
+    options: BlobSetMetadataOptions = {}
   ): Promise<Models.BlobSetMetadataResponse> {
     options.blobAccessConditions = options.blobAccessConditions || {};
     return this.blobContext.setMetadata({
@@ -417,7 +417,7 @@ export class BlobClient extends StorageClient {
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {string} proposedLeaseId Can be specified in any valid GUID string format
    * @param {number} duration The lock duration can be 15 to 60 seconds, or can be infinite
-   * @param {IBlobAcquireLeaseOptions} [options]
+   * @param {BlobAcquireLeaseOptions} [options]
    * @returns {Promise<Models.BlobAcquireLeaseResponse>}
    * @memberof BlobClient
    */
@@ -425,7 +425,7 @@ export class BlobClient extends StorageClient {
     aborter: Aborter,
     proposedLeaseId: string,
     duration: number,
-    options: IBlobAcquireLeaseOptions = {}
+    options: BlobAcquireLeaseOptions = {}
   ): Promise<Models.BlobAcquireLeaseResponse> {
     return this.blobContext.acquireLease({
       abortSignal: aborter,
@@ -443,14 +443,14 @@ export class BlobClient extends StorageClient {
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {string} leaseId
-   * @param {IBlobReleaseLeaseOptions} [options]
+   * @param {BlobReleaseLeaseOptions} [options]
    * @returns {Promise<Models.BlobReleaseLeaseResponse>}
    * @memberof BlobClient
    */
   public async releaseLease(
     aborter: Aborter,
     leaseId: string,
-    options: IBlobReleaseLeaseOptions = {}
+    options: BlobReleaseLeaseOptions = {}
   ): Promise<Models.BlobReleaseLeaseResponse> {
     return this.blobContext.releaseLease(leaseId, {
       abortSignal: aborter,
@@ -465,14 +465,14 @@ export class BlobClient extends StorageClient {
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {string} leaseId
-   * @param {IBlobRenewLeaseOptions} [options]
+   * @param {BlobRenewLeaseOptions} [options]
    * @returns {Promise<Models.BlobRenewLeaseResponse>}
    * @memberof BlobClient
    */
   public async renewLease(
     aborter: Aborter,
     leaseId: string,
-    options: IBlobRenewLeaseOptions = {}
+    options: BlobRenewLeaseOptions = {}
   ): Promise<Models.BlobRenewLeaseResponse> {
     return this.blobContext.renewLease(leaseId, {
       abortSignal: aborter,
@@ -488,7 +488,7 @@ export class BlobClient extends StorageClient {
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {string} leaseId
    * @param {string} proposedLeaseId
-   * @param {IBlobChangeLeaseOptions} [options]
+   * @param {BlobChangeLeaseOptions} [options]
    * @returns {Promise<Models.BlobChangeLeaseResponse>}
    * @memberof BlobClient
    */
@@ -496,7 +496,7 @@ export class BlobClient extends StorageClient {
     aborter: Aborter,
     leaseId: string,
     proposedLeaseId: string,
-    options: IBlobChangeLeaseOptions = {}
+    options: BlobChangeLeaseOptions = {}
   ): Promise<Models.BlobChangeLeaseResponse> {
     return this.blobContext.changeLease(leaseId, proposedLeaseId, {
       abortSignal: aborter,
@@ -512,14 +512,14 @@ export class BlobClient extends StorageClient {
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {number} [breakPeriod]
-   * @param {IBlobBreakLeaseOptions} [options]
+   * @param {BlobBreakLeaseOptions} [options]
    * @returns {Promise<Models.BlobBreakLeaseResponse>}
    * @memberof BlobClient
    */
   public async breakLease(
     aborter: Aborter,
     breakPeriod?: number,
-    options: IBlobBreakLeaseOptions = {}
+    options: BlobBreakLeaseOptions = {}
   ): Promise<Models.BlobBreakLeaseResponse> {
     return this.blobContext.breakLease({
       abortSignal: aborter,
@@ -534,13 +534,13 @@ export class BlobClient extends StorageClient {
    *
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
-   * @param {IBlobCreateSnapshotOptions} [options]
+   * @param {BlobCreateSnapshotOptions} [options]
    * @returns {Promise<Models.BlobCreateSnapshotResponse>}
    * @memberof BlobClient
    */
   public async createSnapshot(
     aborter: Aborter,
-    options: IBlobCreateSnapshotOptions = {}
+    options: BlobCreateSnapshotOptions = {}
   ): Promise<Models.BlobCreateSnapshotResponse> {
     options.blobAccessConditions = options.blobAccessConditions || {};
     return this.blobContext.createSnapshot({
@@ -564,14 +564,14 @@ export class BlobClient extends StorageClient {
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {string} copySource
-   * @param {IBlobStartCopyFromURLOptions} [options]
+   * @param {BlobStartCopyFromURLOptions} [options]
    * @returns {Promise<Models.BlobStartCopyFromURLResponse>}
    * @memberof BlobClient
    */
   public async startCopyFromURL(
     aborter: Aborter,
     copySource: string,
-    options: IBlobStartCopyFromURLOptions = {}
+    options: BlobStartCopyFromURLOptions = {}
   ): Promise<Models.BlobStartCopyFromURLResponse> {
     options.blobAccessConditions = options.blobAccessConditions || {};
     options.sourceModifiedAccessConditions = options.sourceModifiedAccessConditions || {};
@@ -598,14 +598,14 @@ export class BlobClient extends StorageClient {
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {string} copyId
-   * @param {IBlobAbortCopyFromURLOptions} [options]
+   * @param {BlobAbortCopyFromURLOptions} [options]
    * @returns {Promise<Models.BlobAbortCopyFromURLResponse>}
    * @memberof BlobClient
    */
   public async abortCopyFromURL(
     aborter: Aborter,
     copyId: string,
-    options: IBlobAbortCopyFromURLOptions = {}
+    options: BlobAbortCopyFromURLOptions = {}
   ): Promise<Models.BlobAbortCopyFromURLResponse> {
     return this.blobContext.abortCopyFromURL(copyId, {
       abortSignal: aborter,
@@ -624,14 +624,14 @@ export class BlobClient extends StorageClient {
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {Models.AccessTier} tier
-   * @param {IBlobSetTierOptions} [options]
+   * @param {BlobSetTierOptions} [options]
    * @returns {Promise<Models.BlobsSetTierResponse>}
    * @memberof BlobClient
    */
   public async setTier(
     aborter: Aborter,
     tier: Models.AccessTier,
-    options: IBlobSetTierOptions = {}
+    options: BlobSetTierOptions = {}
   ): Promise<Models.BlobSetTierResponse> {
     return await this.blobContext.setTier(tier, {
       abortSignal: aborter,

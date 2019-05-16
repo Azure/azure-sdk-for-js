@@ -2,35 +2,35 @@ import { HttpResponse } from "@azure/ms-rest-js";
 import * as Models from "./generated/lib/models";
 import { Aborter } from "./Aborter";
 import { Container } from "./generated/lib/operations";
-import { IContainerAccessConditions, IMetadata } from "./models";
+import { ContainerAccessConditions, Metadata } from "./models";
 import { Pipeline } from "./Pipeline";
 import { ServiceClient } from "./ServiceClient";
 import { StorageClient } from "./StorageClient";
 import { ETagNone } from "./utils/constants";
 import { appendToURLPath, truncatedISO8061Date } from "./utils/utils.common";
 
-export interface IContainerCreateOptions {
-  metadata?: IMetadata;
+export interface ContainerCreateOptions {
+  metadata?: Metadata;
   access?: Models.PublicAccessType;
 }
 
-export interface IContainerGetPropertiesOptions {
+export interface ContainerGetPropertiesOptions {
   leaseAccessConditions?: Models.LeaseAccessConditions;
 }
 
-export interface IContainerDeleteMethodOptions {
-  containerAccessConditions?: IContainerAccessConditions;
+export interface ContainerDeleteMethodOptions {
+  containerAccessConditions?: ContainerAccessConditions;
 }
 
-export interface IContainerSetMetadataOptions {
-  containerAccessConditions?: IContainerAccessConditions;
+export interface ContainerSetMetadataOptions {
+  containerAccessConditions?: ContainerAccessConditions;
 }
 
-export interface IContainerGetAccessPolicyOptions {
+export interface ContainerGetAccessPolicyOptions {
   leaseAccessConditions?: Models.LeaseAccessConditions;
 }
 
-export interface ISignedIdentifier {
+export interface SignedIdentifier {
   /**
    * @member {string} id a unique id
    */
@@ -56,7 +56,7 @@ export interface ISignedIdentifier {
 }
 
 export declare type ContainerGetAccessPolicyResponse = {
-  signedIdentifiers: ISignedIdentifier[];
+  signedIdentifiers: SignedIdentifier[];
 } & Models.ContainerGetAccessPolicyHeaders & {
     /**
      * The underlying HTTP response.
@@ -77,31 +77,31 @@ export declare type ContainerGetAccessPolicyResponse = {
     };
   };
 
-export interface IContainerSetAccessPolicyOptions {
-  containerAccessConditions?: IContainerAccessConditions;
+export interface ContainerSetAccessPolicyOptions {
+  containerAccessConditions?: ContainerAccessConditions;
 }
 
-export interface IContainerAcquireLeaseOptions {
+export interface ContainerAcquireLeaseOptions {
   modifiedAccessConditions?: Models.ModifiedAccessConditions;
 }
 
-export interface IContainerReleaseLeaseOptions {
+export interface ContainerReleaseLeaseOptions {
   modifiedAccessConditions?: Models.ModifiedAccessConditions;
 }
 
-export interface IContainerRenewLeaseOptions {
+export interface ContainerRenewLeaseOptions {
   modifiedAccessConditions?: Models.ModifiedAccessConditions;
 }
 
-export interface IContainerBreakLeaseOptions {
+export interface ContainerBreakLeaseOptions {
   modifiedAccessConditions?: Models.ModifiedAccessConditions;
 }
 
-export interface IContainerChangeLeaseOptions {
+export interface ContainerChangeLeaseOptions {
   modifiedAccessConditions?: Models.ModifiedAccessConditions;
 }
 
-export interface IContainerListBlobsSegmentOptions {
+export interface ContainerListBlobsSegmentOptions {
   /**
    * @member {string} [prefix] Filters the results to return only containers
    * whose name begins with the specified prefix.
@@ -191,13 +191,13 @@ export class ContainerClient extends StorageClient {
    *
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
-   * @param {IContainerCreateOptions} [options]
+   * @param {ContainerCreateOptions} [options]
    * @returns {Promise<Models.ContainerCreateResponse>}
    * @memberof ContainerClient
    */
   public async create(
     aborter: Aborter,
-    options: IContainerCreateOptions = {}
+    options: ContainerCreateOptions = {}
   ): Promise<Models.ContainerCreateResponse> {
     // Spread operator in destructuring assignments,
     // this will filter out unwanted properties from the response object into result object
@@ -220,7 +220,7 @@ export class ContainerClient extends StorageClient {
    */
   public async getProperties(
     aborter: Aborter,
-    options: IContainerGetPropertiesOptions = {}
+    options: ContainerGetPropertiesOptions = {}
   ): Promise<Models.ContainerGetPropertiesResponse> {
     if (!options.leaseAccessConditions) {
       options.leaseAccessConditions = {};
@@ -245,7 +245,7 @@ export class ContainerClient extends StorageClient {
    */
   public async delete(
     aborter: Aborter,
-    options: IContainerDeleteMethodOptions = {}
+    options: ContainerDeleteMethodOptions = {}
   ): Promise<Models.ContainerDeleteResponse> {
     if (!options.containerAccessConditions) {
       options.containerAccessConditions = {};
@@ -288,16 +288,16 @@ export class ContainerClient extends StorageClient {
    *
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
-   * @param {IMetadata} [metadata] Replace existing metadata with this value.
+   * @param {Metadata} [metadata] Replace existing metadata with this value.
    *                               If no value provided the existing metadata will be removed.
-   * @param {IContainerSetMetadataOptions} [options]
+   * @param {ContainerSetMetadataOptions} [options]
    * @returns {Promise<Models.ContainerSetMetadataResponse>}
    * @memberof ContainerClient
    */
   public async setMetadata(
     aborter: Aborter,
-    metadata?: IMetadata,
-    options: IContainerSetMetadataOptions = {}
+    metadata?: Metadata,
+    options: ContainerSetMetadataOptions = {}
   ): Promise<Models.ContainerSetMetadataResponse> {
     if (!options.containerAccessConditions) {
       options.containerAccessConditions = {};
@@ -343,13 +343,13 @@ export class ContainerClient extends StorageClient {
    *
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
-   * @param {IContainerGetAccessPolicyOptions} [options]
+   * @param {ContainerGetAccessPolicyOptions} [options]
    * @returns {Promise<ContainerGetAccessPolicyResponse>}
    * @memberof ContainerClient
    */
   public async getAccessPolicy(
     aborter: Aborter,
-    options: IContainerGetAccessPolicyOptions = {}
+    options: ContainerGetAccessPolicyOptions = {}
   ): Promise<ContainerGetAccessPolicyResponse> {
     if (!options.leaseAccessConditions) {
       options.leaseAccessConditions = {};
@@ -398,16 +398,16 @@ export class ContainerClient extends StorageClient {
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {PublicAccessType} [access]
-   * @param {ISignedIdentifier[]} [containerAcl]
-   * @param {IContainerSetAccessPolicyOptions} [options]
+   * @param {SignedIdentifier[]} [containerAcl]
+   * @param {ContainerSetAccessPolicyOptions} [options]
    * @returns {Promise<Models.ContainerSetAccessPolicyResponse>}
    * @memberof ContainerClient
    */
   public async setAccessPolicy(
     aborter: Aborter,
     access?: Models.PublicAccessType,
-    containerAcl?: ISignedIdentifier[],
-    options: IContainerSetAccessPolicyOptions = {}
+    containerAcl?: SignedIdentifier[],
+    options: ContainerSetAccessPolicyOptions = {}
   ): Promise<Models.ContainerSetAccessPolicyResponse> {
     options.containerAccessConditions = options.containerAccessConditions || {};
     const acl: Models.SignedIdentifier[] = [];
@@ -440,7 +440,7 @@ export class ContainerClient extends StorageClient {
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {string} proposedLeaseId Can be specified in any valid GUID string format
    * @param {number} duration Must be between 15 to 60 seconds, or infinite (-1)
-   * @param {IContainerAcquireLeaseOptions} [options]
+   * @param {ContainerAcquireLeaseOptions} [options]
    * @returns {Promise<Models.ContainerAcquireLeaseResponse>}
    * @memberof ContainerClient
    */
@@ -448,7 +448,7 @@ export class ContainerClient extends StorageClient {
     aborter: Aborter,
     proposedLeaseId: string,
     duration: number,
-    options: IContainerAcquireLeaseOptions = {}
+    options: ContainerAcquireLeaseOptions = {}
   ): Promise<Models.ContainerAcquireLeaseResponse> {
     return this.containerContext.acquireLease({
       abortSignal: aborter,
@@ -466,14 +466,14 @@ export class ContainerClient extends StorageClient {
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {string} leaseId
-   * @param {IContainerReleaseLeaseOptions} [options]
+   * @param {ContainerReleaseLeaseOptions} [options]
    * @returns {Promise<Models.ContainerReleaseLeaseResponse>}
    * @memberof ContainerClient
    */
   public async releaseLease(
     aborter: Aborter,
     leaseId: string,
-    options: IContainerReleaseLeaseOptions = {}
+    options: ContainerReleaseLeaseOptions = {}
   ): Promise<Models.ContainerReleaseLeaseResponse> {
     return this.containerContext.releaseLease(leaseId, {
       abortSignal: aborter,
@@ -488,14 +488,14 @@ export class ContainerClient extends StorageClient {
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {string} leaseId
-   * @param {IContainerRenewLeaseOptions} [options]
+   * @param {ContainerRenewLeaseOptions} [options]
    * @returns {Promise<Models.ContainerRenewLeaseResponse>}
    * @memberof ContainerClient
    */
   public async renewLease(
     aborter: Aborter,
     leaseId: string,
-    options: IContainerRenewLeaseOptions = {}
+    options: ContainerRenewLeaseOptions = {}
   ): Promise<Models.ContainerRenewLeaseResponse> {
     return this.containerContext.renewLease(leaseId, {
       abortSignal: aborter,
@@ -511,14 +511,14 @@ export class ContainerClient extends StorageClient {
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {number} period break period
-   * @param {IContainerBreakLeaseOptions} [options]
+   * @param {ContainerBreakLeaseOptions} [options]
    * @returns {Promise<Models.ContainerBreakLeaseResponse>}
    * @memberof ContainerClient
    */
   public async breakLease(
     aborter: Aborter,
     period: number,
-    options: IContainerBreakLeaseOptions = {}
+    options: ContainerBreakLeaseOptions = {}
   ): Promise<Models.ContainerBreakLeaseResponse> {
     return this.containerContext.breakLease({
       abortSignal: aborter,
@@ -535,7 +535,7 @@ export class ContainerClient extends StorageClient {
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {string} leaseId
    * @param {string} proposedLeaseId
-   * @param {IContainerChangeLeaseOptions} [options]
+   * @param {ContainerChangeLeaseOptions} [options]
    * @returns {Promise<Models.ContainerChangeLeaseResponse>}
    * @memberof ContainerClient
    */
@@ -543,7 +543,7 @@ export class ContainerClient extends StorageClient {
     aborter: Aborter,
     leaseId: string,
     proposedLeaseId: string,
-    options: IContainerChangeLeaseOptions = {}
+    options: ContainerChangeLeaseOptions = {}
   ): Promise<Models.ContainerChangeLeaseResponse> {
     return this.containerContext.changeLease(leaseId, proposedLeaseId, {
       abortSignal: aborter,
@@ -561,14 +561,14 @@ export class ContainerClient extends StorageClient {
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {string} [marker]
-   * @param {IContainerListBlobsSegmentOptions} [options]
+   * @param {ContainerListBlobsSegmentOptions} [options]
    * @returns {Promise<Models.ContainerListBlobFlatSegmentResponse>}
    * @memberof ContainerClient
    */
   public async listBlobFlatSegment(
     aborter: Aborter,
     marker?: string,
-    options: IContainerListBlobsSegmentOptions = {}
+    options: ContainerListBlobsSegmentOptions = {}
   ): Promise<Models.ContainerListBlobFlatSegmentResponse> {
     return this.containerContext.listBlobFlatSegment({
       abortSignal: aborter,
@@ -587,7 +587,7 @@ export class ContainerClient extends StorageClient {
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {string} delimiter
-   * @param {IContainerListBlobsSegmentOptions} [options]
+   * @param {ContainerListBlobsSegmentOptions} [options]
    * @returns {Promise<Models.ContainerListBlobHierarchySegmentResponse>}
    * @memberof ContainerClient
    */
@@ -595,7 +595,7 @@ export class ContainerClient extends StorageClient {
     aborter: Aborter,
     delimiter: string,
     marker?: string,
-    options: IContainerListBlobsSegmentOptions = {}
+    options: ContainerListBlobsSegmentOptions = {}
   ): Promise<Models.ContainerListBlobHierarchySegmentResponse> {
     return this.containerContext.listBlobHierarchySegment(delimiter, {
       abortSignal: aborter,

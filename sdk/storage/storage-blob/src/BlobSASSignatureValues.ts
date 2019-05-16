@@ -1,7 +1,7 @@
 import { BlobSASPermissions } from "./BlobSASPermissions";
 import { ContainerSASPermissions } from "./ContainerSASPermissions";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
-import { IIPRange, ipRangeToString } from "./IIPRange";
+import { IPRange, ipRangeToString } from "./IPRange";
 import { SASProtocol } from "./SASQueryParameters";
 import { SASQueryParameters } from "./SASQueryParameters";
 import { SERVICE_VERSION } from "./utils/constants";
@@ -10,18 +10,18 @@ import { truncatedISO8061Date } from "./utils/utils.common";
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
  *
- * IBlobSASSignatureValues is used to help generating Blob service SAS tokens for containers or blobs.
+ * BlobSASSignatureValues is used to help generating Blob service SAS tokens for containers or blobs.
  *
  * @export
- * @class IBlobSASSignatureValues
+ * @class BlobSASSignatureValues
  */
-export interface IBlobSASSignatureValues {
+export interface BlobSASSignatureValues {
   /**
    * The version of the service this SAS will target. If not specified, it will default to the version targeted by the
    * library.
    *
    * @type {string}
-   * @memberof IBlobSASSignatureValues
+   * @memberof BlobSASSignatureValues
    */
   version?: string;
 
@@ -29,7 +29,7 @@ export interface IBlobSASSignatureValues {
    * Optional. SAS protocols, HTTPS only or HTTPSandHTTP
    *
    * @type {SASProtocol}
-   * @memberof IBlobSASSignatureValues
+   * @memberof BlobSASSignatureValues
    */
   protocol?: SASProtocol;
 
@@ -37,7 +37,7 @@ export interface IBlobSASSignatureValues {
    * Optional. When the SAS will take effect.
    *
    * @type {Date}
-   * @memberof IBlobSASSignatureValues
+   * @memberof BlobSASSignatureValues
    */
   startTime?: Date;
 
@@ -45,7 +45,7 @@ export interface IBlobSASSignatureValues {
    * Optional only when identifier is provided. The time after which the SAS will no longer work.
    *
    * @type {Date}
-   * @memberof IBlobSASSignatureValues
+   * @memberof BlobSASSignatureValues
    */
   expiryTime?: Date;
 
@@ -55,23 +55,23 @@ export interface IBlobSASSignatureValues {
    * being accessed for help constructing the permissions string.
    *
    * @type {string}
-   * @memberof IBlobSASSignatureValues
+   * @memberof BlobSASSignatureValues
    */
   permissions?: string;
 
   /**
    * Optional. IP ranges allowed in this SAS.
    *
-   * @type {IIPRange}
-   * @memberof IBlobSASSignatureValues
+   * @type {IPRange}
+   * @memberof BlobSASSignatureValues
    */
-  ipRange?: IIPRange;
+  ipRange?: IPRange;
 
   /**
    * The name of the container the SAS user may access.
    *
    * @type {string}
-   * @memberof IBlobSASSignatureValues
+   * @memberof BlobSASSignatureValues
    */
   containerName: string;
 
@@ -79,7 +79,7 @@ export interface IBlobSASSignatureValues {
    * Optional. The name of the container the SAS user may access.
    *
    * @type {string}
-   * @memberof IBlobSASSignatureValues
+   * @memberof BlobSASSignatureValues
    */
   blobName?: string;
 
@@ -89,7 +89,7 @@ export interface IBlobSASSignatureValues {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/establishing-a-stored-access-policy
    *
    * @type {string}
-   * @memberof IBlobSASSignatureValues
+   * @memberof BlobSASSignatureValues
    */
   identifier?: string;
 
@@ -97,7 +97,7 @@ export interface IBlobSASSignatureValues {
    * Optional. The cache-control header for the SAS.
    *
    * @type {string}
-   * @memberof IBlobSASSignatureValues
+   * @memberof BlobSASSignatureValues
    */
   cacheControl?: string;
 
@@ -105,7 +105,7 @@ export interface IBlobSASSignatureValues {
    * Optional. The content-disposition header for the SAS.
    *
    * @type {string}
-   * @memberof IBlobSASSignatureValues
+   * @memberof BlobSASSignatureValues
    */
   contentDisposition?: string;
 
@@ -113,7 +113,7 @@ export interface IBlobSASSignatureValues {
    * Optional. The content-encoding header for the SAS.
    *
    * @type {string}
-   * @memberof IBlobSASSignatureValues
+   * @memberof BlobSASSignatureValues
    */
   contentEncoding?: string;
 
@@ -121,7 +121,7 @@ export interface IBlobSASSignatureValues {
    * Optional. The content-language header for the SAS.
    *
    * @type {string}
-   * @memberof IBlobSASSignatureValues
+   * @memberof BlobSASSignatureValues
    */
   contentLanguage?: string;
 
@@ -129,7 +129,7 @@ export interface IBlobSASSignatureValues {
    * Optional. The content-type header for the SAS.
    *
    * @type {string}
-   * @memberof IBlobSASSignatureValues
+   * @memberof BlobSASSignatureValues
    */
   contentType?: string;
 }
@@ -147,12 +147,12 @@ export interface IBlobSASSignatureValues {
  * this constructor.
  *
  * @export
- * @param {IBlobSASSignatureValues} blobSASSignatureValues
+ * @param {BlobSASSignatureValues} blobSASSignatureValues
  * @param {SharedKeyCredential} sharedKeyCredential
  * @returns {SASQueryParameters}
  */
 export function generateBlobSASQueryParameters(
-  blobSASSignatureValues: IBlobSASSignatureValues,
+  blobSASSignatureValues: BlobSASSignatureValues,
   sharedKeyCredential: SharedKeyCredential
 ): SASQueryParameters {
   if (

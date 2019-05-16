@@ -5,7 +5,7 @@ import { Service } from "./generated/lib/operations";
 import { Pipeline } from "./Pipeline";
 import { StorageClient } from "./StorageClient";
 
-export interface IServiceListContainersSegmentOptions {
+export interface ServiceListContainersSegmentOptions {
   /**
    * @member {string} [prefix] Filters the results to return only containers
    * whose name begins with the specified prefix.
@@ -158,14 +158,14 @@ export class ServiceClient extends StorageClient {
    *                          with the current page. The NextMarker value can be used as the value for
    *                          the marker parameter in a subsequent call to request the next page of list
    *                          items. The marker value is opaque to the client.
-   * @param {IServiceListContainersSegmentOptions} [options]
+   * @param {ServiceListContainersSegmentOptions} [options]
    * @returns {Promise<Models.ServiceListContainersSegmentResponse>}
    * @memberof ServiceClient
    */
   public async listContainersSegment(
     aborter: Aborter,
     marker?: string,
-    options: IServiceListContainersSegmentOptions = {}
+    options: ServiceListContainersSegmentOptions = {}
   ): Promise<Models.ServiceListContainersSegmentResponse> {
     return this.serviceContext.listContainersSegment({
       abortSignal: aborter,
