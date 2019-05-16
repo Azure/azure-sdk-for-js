@@ -1,32 +1,32 @@
 import * as assert from "assert";
 
 import { Aborter } from "../src/Aborter";
-import { QueueURL } from "../src/QueueURL";
-import { MessagesURL } from "../src/MessagesURL";
-import { MessageIdURL } from "../src/MessageIdURL";
+import { QueueClient } from "../src/QueueClient";
+import { MessagesClient } from "../src/MessagesClient";
+import { MessageIdClient } from "../src/MessageIdClient";
 import { getQSU, getUniqueName, sleep } from "./utils";
 import * as dotenv from "dotenv";
 dotenv.config({ path: "../.env" });
 
-describe("MessageIdURL", () => {
-  const serviceURL = getQSU();
+describe("MessageIdClient", () => {
+  const queueServiceClient = getQSU();
   let queueName = getUniqueName("queue");
-  let queueURL = QueueURL.fromServiceURL(serviceURL, queueName);
+  let queueClient = QueueClient.fromQueueServiceClient(queueServiceClient, queueName);
   const messageContent = "Hello World";
 
   beforeEach(async () => {
     queueName = getUniqueName("queue");
-    queueURL = QueueURL.fromServiceURL(serviceURL, queueName);
-    await queueURL.create(Aborter.none);
+    queueClient = QueueClient.fromQueueServiceClient(queueServiceClient, queueName);
+    await queueClient.create(Aborter.none);
   });
 
   afterEach(async () => {
-    await queueURL.delete(Aborter.none);
+    await queueClient.delete(Aborter.none);
   });
 
   it("update and delete empty message with default parameters", async () => {
-    let messagesURL = MessagesURL.fromQueueURL(queueURL);
-    let eResult = await messagesURL.enqueue(Aborter.none, messageContent);
+    let messagesClient = MessagesClient.fromQueueClient(queueClient);
+    let eResult = await messagesClient.enqueue(Aborter.none, messageContent);
     assert.ok(eResult.date);
     assert.ok(eResult.expirationTime);
     assert.ok(eResult.insertionTime);
@@ -37,30 +37,30 @@ describe("MessageIdURL", () => {
     assert.ok(eResult.version);
 
     let newMessage = "";
-    let messageIdURL = MessageIdURL.fromMessagesURL(messagesURL, eResult.messageId);
-    let uResult = await messageIdURL.update(Aborter.none, eResult.popReceipt, 0, newMessage);
+    let messageIdClient = MessageIdClient.fromMessagesClient(messagesClient, eResult.messageId);
+    let uResult = await messageIdClient.update(Aborter.none, eResult.popReceipt, 0, newMessage);
     assert.ok(uResult.version);
     assert.ok(uResult.timeNextVisible);
     assert.ok(uResult.date);
     assert.ok(uResult.requestId);
     assert.ok(uResult.popReceipt);
 
-    let pResult = await messagesURL.peek(Aborter.none);
+    let pResult = await messagesClient.peek(Aborter.none);
     assert.equal(pResult.peekedMessageItems.length, 1);
     assert.deepStrictEqual(pResult.peekedMessageItems[0].messageText, newMessage);
 
-    let dResult = await messageIdURL.delete(Aborter.none, uResult.popReceipt!);
+    let dResult = await messageIdClient.delete(Aborter.none, uResult.popReceipt!);
     assert.ok(dResult.date);
     assert.ok(dResult.requestId);
     assert.ok(dResult.version);
 
-    pResult = await messagesURL.peek(Aborter.none);
+    pResult = await messagesClient.peek(Aborter.none);
     assert.equal(pResult.peekedMessageItems.length, 0);
   });
 
   it("update and delete message with all parameters", async () => {
-    let messagesURL = MessagesURL.fromQueueURL(queueURL);
-    let eResult = await messagesURL.enqueue(Aborter.none, messageContent);
+    let messagesClient = MessagesClient.fromQueueClient(queueClient);
+    let eResult = await messagesClient.enqueue(Aborter.none, messageContent);
     assert.ok(eResult.date);
     assert.ok(eResult.expirationTime);
     assert.ok(eResult.insertionTime);
@@ -71,27 +71,27 @@ describe("MessageIdURL", () => {
     assert.ok(eResult.version);
 
     let newMessage = "New Message";
-    let messageIdURL = MessageIdURL.fromMessagesURL(messagesURL, eResult.messageId);
-    let uResult = await messageIdURL.update(Aborter.none, eResult.popReceipt, 10, newMessage);
+    let messageIdClient = MessageIdClient.fromMessagesClient(messagesClient, eResult.messageId);
+    let uResult = await messageIdClient.update(Aborter.none, eResult.popReceipt, 10, newMessage);
     assert.ok(uResult.version);
     assert.ok(uResult.timeNextVisible);
     assert.ok(uResult.date);
     assert.ok(uResult.requestId);
     assert.ok(uResult.popReceipt);
 
-    let pResult = await messagesURL.peek(Aborter.none);
+    let pResult = await messagesClient.peek(Aborter.none);
     assert.equal(pResult.peekedMessageItems.length, 0);
 
     await sleep(11 * 1000); // Sleep 11 seconds, and wait the message to be visible again
 
-    let pResult2 = await messagesURL.peek(Aborter.none);
+    let pResult2 = await messagesClient.peek(Aborter.none);
     assert.equal(pResult2.peekedMessageItems.length, 1);
     assert.deepStrictEqual(pResult2.peekedMessageItems[0].messageText, newMessage);
   });
 
   it("update message with 64KB characters size which is computed after encoding", async () => {
-    let messagesURL = MessagesURL.fromQueueURL(queueURL);
-    let eResult = await messagesURL.enqueue(Aborter.none, messageContent);
+    let messagesClient = MessagesClient.fromQueueClient(queueClient);
+    let eResult = await messagesClient.enqueue(Aborter.none, messageContent);
     assert.ok(eResult.date);
     assert.ok(eResult.expirationTime);
     assert.ok(eResult.insertionTime);
@@ -102,22 +102,22 @@ describe("MessageIdURL", () => {
     assert.ok(eResult.version);
 
     let newMessage = new Array(64 * 1024 + 1).join("a");
-    let messageIdURL = MessageIdURL.fromMessagesURL(messagesURL, eResult.messageId);
-    let uResult = await messageIdURL.update(Aborter.none, eResult.popReceipt, 0, newMessage);
+    let messageIdClient = MessageIdClient.fromMessagesClient(messagesClient, eResult.messageId);
+    let uResult = await messageIdClient.update(Aborter.none, eResult.popReceipt, 0, newMessage);
     assert.ok(uResult.version);
     assert.ok(uResult.timeNextVisible);
     assert.ok(uResult.date);
     assert.ok(uResult.requestId);
     assert.ok(uResult.popReceipt);
 
-    let pResult = await messagesURL.peek(Aborter.none);
+    let pResult = await messagesClient.peek(Aborter.none);
     assert.equal(pResult.peekedMessageItems.length, 1);
     assert.deepStrictEqual(pResult.peekedMessageItems[0].messageText, newMessage);
   });
 
   it("update message negative with 65537B (64KB+1B) characters size which is computed after encoding", async () => {
-    let messagesURL = MessagesURL.fromQueueURL(queueURL);
-    let eResult = await messagesURL.enqueue(Aborter.none, messageContent);
+    let messagesClient = MessagesClient.fromQueueClient(queueClient);
+    let eResult = await messagesClient.enqueue(Aborter.none, messageContent);
     assert.ok(eResult.date);
     assert.ok(eResult.expirationTime);
     assert.ok(eResult.insertionTime);
@@ -129,11 +129,11 @@ describe("MessageIdURL", () => {
 
     let newMessage = new Array(64 * 1024 + 2).join("a");
 
-    let messageIdURL = MessageIdURL.fromMessagesURL(messagesURL, eResult.messageId);
+    let messageIdClient = MessageIdClient.fromMessagesClient(messagesClient, eResult.messageId);
 
     let error;
     try {
-      await messageIdURL.update(Aborter.none, eResult.popReceipt, 0, newMessage);
+      await messageIdClient.update(Aborter.none, eResult.popReceipt, 0, newMessage);
     } catch (err) {
       error = err;
     }
@@ -146,14 +146,14 @@ describe("MessageIdURL", () => {
   });
 
   it("delete message negative", async () => {
-    let messagesURL = MessagesURL.fromQueueURL(queueURL);
-    let eResult = await messagesURL.enqueue(Aborter.none, messageContent);
+    let messagesClient = MessagesClient.fromQueueClient(queueClient);
+    let eResult = await messagesClient.enqueue(Aborter.none, messageContent);
 
-    let messageIdURL = MessageIdURL.fromMessagesURL(messagesURL, eResult.messageId);
+    let messageIdClient = MessageIdClient.fromMessagesClient(messagesClient, eResult.messageId);
 
     let error;
     try {
-      await messageIdURL.delete(Aborter.none, "invalid");
+      await messageIdClient.delete(Aborter.none, "invalid");
     } catch (err) {
       error = err;
     }

@@ -1,9 +1,9 @@
-import * as Models from "../src/generated/lib/models";
+import * as Models from "./generated/lib/models";
 import { Aborter } from "./Aborter";
 import { ListQueuesIncludeType } from "./generated/lib/models/index";
 import { Service } from "./generated/lib/operations";
 import { Pipeline } from "./Pipeline";
-import { StorageURL } from "./StorageURL";
+import { StorageClient } from "./StorageClient";
 
 export interface IServiceListQueuesSegmentOptions {
   /**
@@ -30,31 +30,31 @@ export interface IServiceListQueuesSegmentOptions {
 }
 
 /**
- * A ServiceURL represents a URL to the Azure Storage Queue service allowing you
+ * A QueueServiceClient represents a URL to the Azure Storage Queue service allowing you
  * to manipulate queues.
  *
  * @export
- * @class ServiceURL
- * @extends {StorageURL}
+ * @class QueueServiceClient
+ * @extends {StorageClient}
  */
-export class ServiceURL extends StorageURL {
+export class QueueServiceClient extends StorageClient {
   /**
    * serviceContext provided by protocol layer.
    *
    * @private
    * @type {Service}
-   * @memberof ServiceURL
+   * @memberof QueueServiceClient
    */
   private serviceContext: Service;
 
   /**
-   * Creates an instance of ServiceURL.
+   * Creates an instance of QueueServiceClient.
    * @param {string} url A URL string pointing to Azure Storage queue service, such as
    *                     "https://myaccount.queue.core.windows.net". You can append a SAS
    *                     if using AnonymousCredential, such as "https://myaccount.queue.core.windows.net?sasString".
-   * @param {Pipeline} pipeline Call StorageURL.newPipeline() to create a default
+   * @param {Pipeline} pipeline Call StorageClient.newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
-   * @memberof ServiceURL
+   * @memberof QueueServiceClient
    */
   constructor(url: string, pipeline: Pipeline) {
     super(url, pipeline);
@@ -62,15 +62,15 @@ export class ServiceURL extends StorageURL {
   }
 
   /**
-   * Creates a new ServiceURL object identical to the source but with the
+   * Creates a new QueueServiceClient object identical to the source but with the
    * specified request policy pipeline.
    *
    * @param {Pipeline} pipeline
-   * @returns {ServiceURL}
-   * @memberof ServiceURL
+   * @returns {QueueServiceClient}
+   * @memberof QueueServiceClient
    */
-  public withPipeline(pipeline: Pipeline): ServiceURL {
-    return new ServiceURL(this.url, pipeline);
+  public withPipeline(pipeline: Pipeline): QueueServiceClient {
+    return new QueueServiceClient(this.url, pipeline);
   }
 
   /**
@@ -81,7 +81,7 @@ export class ServiceURL extends StorageURL {
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
    * @returns {Promise<Models.ServiceGetPropertiesResponse>}
-   * @memberof ServiceURL
+   * @memberof QueueServiceClient
    */
   public async getProperties(aborter: Aborter): Promise<Models.ServiceGetPropertiesResponse> {
     return this.serviceContext.getProperties({
@@ -98,7 +98,7 @@ export class ServiceURL extends StorageURL {
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {Models.StorageServiceProperties} properties
    * @returns {Promise<Models.ServiceSetPropertiesResponse>}
-   * @memberof ServiceURL
+   * @memberof QueueServiceClient
    */
   public async setProperties(
     aborter: Aborter,
@@ -118,7 +118,7 @@ export class ServiceURL extends StorageURL {
    *  @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
    * @returns {Promise<Models.ServiceGetStatisticsResponse>}
-   * @memberof ServiceURL
+   * @memberof QueueServiceClient
    */
   public async getStatistics(aborter: Aborter): Promise<Models.ServiceGetStatisticsResponse> {
     return this.serviceContext.getStatistics({
@@ -141,7 +141,7 @@ export class ServiceURL extends StorageURL {
    *                          items. The marker value is opaque to the client.
    * @param {IServiceListQueuesSegmentOptions} [options]
    * @returns {Promise<Models.ServiceListQueuesSegmentResponse>}
-   * @memberof ServiceURL
+   * @memberof QueueServiceClient
    */
   public async listQueuesSegment(
     aborter: Aborter,

@@ -5,22 +5,22 @@ import {
   AccountSASResourceTypes,
   AccountSASServices,
   AnonymousCredential,
-  MessagesURL,
-  MessageIdURL,
+  MessagesClient,
+  MessageIdClient,
   QueueSASPermissions,
-  QueueURL,
+  QueueClient,
   generateAccountSASQueryParameters,
   generateQueueSASQueryParameters,
-  ServiceURL,
+  QueueServiceClient,
   SharedKeyCredential,
-  StorageURL
+  StorageClient
 } from "../../src";
 import { Aborter } from "../../src/Aborter";
 import { SASProtocol } from "../../src/SASQueryParameters";
 import { getQSU, getUniqueName, sleep } from "../utils/index";
 
 describe("Shared Access Signature (SAS) generation Node.js only", () => {
-  const serviceURL = getQSU();
+  const queueServiceClient = getQSU();
 
   it("generateAccountSASQueryParameters should work", async () => {
     const now = new Date();
@@ -30,7 +30,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     tmr.setDate(tmr.getDate() + 1);
 
     // By default, credential is always the last element of pipeline factories
-    const factories = serviceURL.pipeline.factories;
+    const factories = queueServiceClient.pipeline.factories;
     const sharedKeyCredential = factories[factories.length - 1];
 
     const sas = generateAccountSASQueryParameters(
@@ -47,13 +47,13 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       sharedKeyCredential as SharedKeyCredential
     ).toString();
 
-    const sasURL = `${serviceURL.url}?${sas}`;
-    const serviceURLwithSAS = new ServiceURL(
+    const sasURL = `${queueServiceClient.url}?${sas}`;
+    const queueServiceClientwithSAS = new QueueServiceClient(
       sasURL,
-      StorageURL.newPipeline(new AnonymousCredential())
+      StorageClient.newPipeline(new AnonymousCredential())
     );
 
-    await serviceURLwithSAS.getProperties(Aborter.none);
+    await queueServiceClientwithSAS.getProperties(Aborter.none);
   });
 
   it("generateAccountSASQueryParameters should not work with invalid permission", async () => {
@@ -61,7 +61,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     tmr.setDate(tmr.getDate() + 1);
 
     // By default, credential is always the last element of pipeline factories
-    const factories = serviceURL.pipeline.factories;
+    const factories = queueServiceClient.pipeline.factories;
     const sharedKeyCredential = factories[factories.length - 1];
 
     const sas = generateAccountSASQueryParameters(
@@ -74,15 +74,15 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       sharedKeyCredential as SharedKeyCredential
     ).toString();
 
-    const sasURL = `${serviceURL.url}?${sas}`;
-    const serviceURLwithSAS = new ServiceURL(
+    const sasURL = `${queueServiceClient.url}?${sas}`;
+    const queueServiceClientwithSAS = new QueueServiceClient(
       sasURL,
-      StorageURL.newPipeline(new AnonymousCredential())
+      StorageClient.newPipeline(new AnonymousCredential())
     );
 
     let error;
     try {
-      await serviceURLwithSAS.getProperties(Aborter.none);
+      await queueServiceClientwithSAS.getProperties(Aborter.none);
     } catch (err) {
       error = err;
     }
@@ -95,7 +95,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     tmr.setDate(tmr.getDate() + 1);
 
     // By default, credential is always the last element of pipeline factories
-    const factories = serviceURL.pipeline.factories;
+    const factories = queueServiceClient.pipeline.factories;
     const sharedKeyCredential = factories[factories.length - 1];
 
     const sas = generateAccountSASQueryParameters(
@@ -108,15 +108,15 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       sharedKeyCredential as SharedKeyCredential
     ).toString();
 
-    const sasURL = `${serviceURL.url}?${sas}`;
-    const serviceURLwithSAS = new ServiceURL(
+    const sasURL = `${queueServiceClient.url}?${sas}`;
+    const queueServiceClientwithSAS = new QueueServiceClient(
       sasURL,
-      StorageURL.newPipeline(new AnonymousCredential())
+      StorageClient.newPipeline(new AnonymousCredential())
     );
 
     let error;
     try {
-      await serviceURLwithSAS.getProperties(Aborter.none);
+      await queueServiceClientwithSAS.getProperties(Aborter.none);
     } catch (err) {
       error = err;
     }
@@ -129,7 +129,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     tmr.setDate(tmr.getDate() + 1);
 
     // By default, credential is always the last element of pipeline factories
-    const factories = serviceURL.pipeline.factories;
+    const factories = queueServiceClient.pipeline.factories;
     const sharedKeyCredential = factories[factories.length - 1];
 
     const sas = generateAccountSASQueryParameters(
@@ -145,15 +145,15 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       sharedKeyCredential as SharedKeyCredential
     ).toString();
 
-    const sasURL = `${serviceURL.url}?${sas}`;
-    const serviceURLwithSAS = new ServiceURL(
+    const sasURL = `${queueServiceClient.url}?${sas}`;
+    const queueServiceClientwithSAS = new QueueServiceClient(
       sasURL,
-      StorageURL.newPipeline(new AnonymousCredential())
+      StorageClient.newPipeline(new AnonymousCredential())
     );
 
     let error;
     try {
-      await serviceURLwithSAS.getProperties(Aborter.none);
+      await queueServiceClientwithSAS.getProperties(Aborter.none);
     } catch (err) {
       error = err;
     }
@@ -169,12 +169,12 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     tmr.setDate(tmr.getDate() + 1);
 
     // By default, credential is always the last element of pipeline factories
-    const factories = serviceURL.pipeline.factories;
+    const factories = queueServiceClient.pipeline.factories;
     const sharedKeyCredential = factories[factories.length - 1];
 
     const queueName = getUniqueName("queue");
-    const queueURL = QueueURL.fromServiceURL(serviceURL, queueName);
-    await queueURL.create(Aborter.none);
+    const queueClient = QueueClient.fromQueueServiceClient(queueServiceClient, queueName);
+    await queueClient.create(Aborter.none);
 
     const queueSAS = generateQueueSASQueryParameters(
       {
@@ -189,11 +189,14 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       sharedKeyCredential as SharedKeyCredential
     );
 
-    const sasURL = `${queueURL.url}?${queueSAS}`;
-    const queueURLwithSAS = new QueueURL(sasURL, StorageURL.newPipeline(new AnonymousCredential()));
+    const sasURL = `${queueClient.url}?${queueSAS}`;
+    const queueClientwithSAS = new QueueClient(
+      sasURL,
+      StorageClient.newPipeline(new AnonymousCredential())
+    );
 
-    await queueURLwithSAS.getProperties(Aborter.none);
-    await queueURL.delete(Aborter.none);
+    await queueClientwithSAS.getProperties(Aborter.none);
+    await queueClient.delete(Aborter.none);
   });
 
   it("generateQueueSASQueryParameters should work for messages", async () => {
@@ -204,12 +207,12 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     tmr.setDate(tmr.getDate() + 1);
 
     // By default, credential is always the last element of pipeline factories
-    const factories = serviceURL.pipeline.factories;
+    const factories = queueServiceClient.pipeline.factories;
     const sharedKeyCredential = factories[factories.length - 1];
 
     const queueName = getUniqueName("queue");
-    const queueURL = QueueURL.fromServiceURL(serviceURL, queueName);
-    await queueURL.create(Aborter.none);
+    const queueClient = QueueClient.fromQueueServiceClient(queueServiceClient, queueName);
+    await queueClient.create(Aborter.none);
 
     const queueSAS = generateQueueSASQueryParameters(
       {
@@ -226,30 +229,33 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const messageContent = "Hello World!";
 
-    const messagesURL = MessagesURL.fromQueueURL(queueURL);
-    const sasURLForMessages = `${messagesURL.url}?${queueSAS}`;
-    const messagesURLWithSAS = new MessagesURL(
+    const messagesClient = MessagesClient.fromQueueClient(queueClient);
+    const sasURLForMessages = `${messagesClient.url}?${queueSAS}`;
+    const messagesClientWithSAS = new MessagesClient(
       sasURLForMessages,
-      StorageURL.newPipeline(new AnonymousCredential())
+      StorageClient.newPipeline(new AnonymousCredential())
     );
-    const enqueueResult = await messagesURLWithSAS.enqueue(Aborter.none, messageContent);
+    const enqueueResult = await messagesClientWithSAS.enqueue(Aborter.none, messageContent);
 
-    let pResult = await messagesURL.peek(Aborter.none);
+    let pResult = await messagesClient.peek(Aborter.none);
     assert.deepStrictEqual(pResult.peekedMessageItems.length, 1);
 
-    const messageIdURL = MessageIdURL.fromMessagesURL(messagesURL, enqueueResult.messageId);
-    const sasURLForMessageId = `${messageIdURL.url}?${queueSAS}`;
-    const messageIdURLWithSAS = new MessageIdURL(
+    const messageIdClient = MessageIdClient.fromMessagesClient(
+      messagesClient,
+      enqueueResult.messageId
+    );
+    const sasURLForMessageId = `${messageIdClient.url}?${queueSAS}`;
+    const messageIdClientWithSAS = new MessageIdClient(
       sasURLForMessageId,
-      StorageURL.newPipeline(new AnonymousCredential())
+      StorageClient.newPipeline(new AnonymousCredential())
     );
 
-    await messageIdURLWithSAS.delete(Aborter.none, enqueueResult.popReceipt);
+    await messageIdClientWithSAS.delete(Aborter.none, enqueueResult.popReceipt);
 
-    pResult = await messagesURL.peek(Aborter.none);
+    pResult = await messagesClient.peek(Aborter.none);
     assert.deepStrictEqual(pResult.peekedMessageItems.length, 0);
 
-    await queueURL.delete(Aborter.none);
+    await queueClient.delete(Aborter.none);
   });
 
   it("generateQueueSASQueryParameters should work for queue with access policy", async () => {
@@ -260,15 +266,15 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     tmr.setDate(tmr.getDate() + 1);
 
     // By default, credential is always the last element of pipeline factories
-    const factories = serviceURL.pipeline.factories;
+    const factories = queueServiceClient.pipeline.factories;
     const sharedKeyCredential = factories[factories.length - 1];
 
     const queueName = getUniqueName("queue");
-    const queueURL = QueueURL.fromServiceURL(serviceURL, queueName);
-    await queueURL.create(Aborter.none);
+    const queueClient = QueueClient.fromQueueServiceClient(queueServiceClient, queueName);
+    await queueClient.create(Aborter.none);
 
     const id = "unique-id";
-    await queueURL.setAccessPolicy(Aborter.none, [
+    await queueClient.setAccessPolicy(Aborter.none, [
       {
         accessPolicy: {
           expiry: tmr,
@@ -287,43 +293,43 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       sharedKeyCredential as SharedKeyCredential
     );
 
-    const messagesURL = MessagesURL.fromQueueURL(queueURL);
+    const messagesClient = MessagesClient.fromQueueClient(queueClient);
 
-    const sasURL = `${messagesURL.url}?${queueSAS}`;
-    const messagesURLwithSAS = new MessagesURL(
+    const sasURL = `${messagesClient.url}?${queueSAS}`;
+    const messagesClientwithSAS = new MessagesClient(
       sasURL,
-      StorageURL.newPipeline(new AnonymousCredential())
+      StorageClient.newPipeline(new AnonymousCredential())
     );
 
     const messageContent = "hello";
 
-    const eResult = await messagesURLwithSAS.enqueue(Aborter.none, messageContent);
+    const eResult = await messagesClientwithSAS.enqueue(Aborter.none, messageContent);
     assert.ok(eResult.messageId);
-    const pResult = await messagesURLwithSAS.peek(Aborter.none);
+    const pResult = await messagesClientwithSAS.peek(Aborter.none);
     assert.deepStrictEqual(pResult.peekedMessageItems[0].messageText, messageContent);
-    const dResult = await messagesURLwithSAS.dequeue(Aborter.none, {
+    const dResult = await messagesClientwithSAS.dequeue(Aborter.none, {
       visibilitytimeout: 1
     });
     assert.deepStrictEqual(dResult.dequeuedMessageItems[0].messageText, messageContent);
 
     await sleep(2 * 1000);
 
-    const messageIdURL = MessageIdURL.fromMessagesURL(
-      messagesURL,
+    const messageIdClient = MessageIdClient.fromMessagesClient(
+      messagesClient,
       dResult.dequeuedMessageItems[0].messageId
     );
 
-    const sasURLForMessage = `${messageIdURL.url}?${queueSAS}`;
-    const messageIdURLwithSAS = new MessageIdURL(
+    const sasURLForMessage = `${messageIdClient.url}?${queueSAS}`;
+    const messageIdClientwithSAS = new MessageIdClient(
       sasURLForMessage,
-      StorageURL.newPipeline(new AnonymousCredential())
+      StorageClient.newPipeline(new AnonymousCredential())
     );
-    const deleteResult = await messageIdURLwithSAS.delete(
+    const deleteResult = await messageIdClientwithSAS.delete(
       Aborter.none,
       dResult.dequeuedMessageItems[0].popReceipt
     );
     assert.ok(deleteResult.requestId);
 
-    //const cResult = await messagesURLwithSAS.clear(Aborter.none); //This request is not authorized to perform this operation. As testing, this is service's current behavior.
+    //const cResult = await messagesClientwithSAS.clear(Aborter.none); //This request is not authorized to perform this operation. As testing, this is service's current behavior.
   });
 });

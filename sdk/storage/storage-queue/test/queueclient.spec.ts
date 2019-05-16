@@ -1,24 +1,24 @@
 import * as assert from "assert";
 
 import { Aborter } from "../src/Aborter";
-import { QueueURL } from "../src/QueueURL";
+import { QueueClient } from "../src/QueueClient";
 import { getQSU, getUniqueName } from "./utils";
 import * as dotenv from "dotenv";
 dotenv.config({ path: "../.env" });
 
-describe("QueueURL", () => {
-  const serviceURL = getQSU();
+describe("QueueClient", () => {
+  const queueServiceClient = getQSU();
   let queueName = getUniqueName("queue");
-  let queueURL = QueueURL.fromServiceURL(serviceURL, queueName);
+  let queueClient = QueueClient.fromQueueServiceClient(queueServiceClient, queueName);
 
   beforeEach(async () => {
     queueName = getUniqueName("queue");
-    queueURL = QueueURL.fromServiceURL(serviceURL, queueName);
-    await queueURL.create(Aborter.none);
+    queueClient = QueueClient.fromQueueServiceClient(queueServiceClient, queueName);
+    await queueClient.create(Aborter.none);
   });
 
   afterEach(async () => {
-    await queueURL.delete(Aborter.none);
+    await queueClient.delete(Aborter.none);
   });
 
   it("setMetadata", async () => {
@@ -27,14 +27,14 @@ describe("QueueURL", () => {
       keya: "vala",
       keyb: "valb"
     };
-    await queueURL.setMetadata(Aborter.none, metadata);
+    await queueClient.setMetadata(Aborter.none, metadata);
 
-    const result = await queueURL.getProperties(Aborter.none);
+    const result = await queueClient.getProperties(Aborter.none);
     assert.deepEqual(result.metadata, metadata);
   });
 
   it("getProperties with default/all parameters", async () => {
-    const result = await queueURL.getProperties(Aborter.none);
+    const result = await queueClient.getProperties(Aborter.none);
     assert.ok(result.approximateMessagesCount! >= 0);
     assert.ok(result.requestId);
     assert.ok(result.version);
@@ -43,10 +43,10 @@ describe("QueueURL", () => {
 
   it("getPropertis negative", async () => {
     const queueName2 = getUniqueName("queue");
-    const queueURL2 = QueueURL.fromServiceURL(serviceURL, queueName2);
+    const queueClient2 = QueueClient.fromQueueServiceClient(queueServiceClient, queueName2);
     let error;
     try {
-      await queueURL2.getProperties(Aborter.none);
+      await queueClient2.getProperties(Aborter.none);
     } catch (err) {
       error = err;
     }
@@ -64,7 +64,7 @@ describe("QueueURL", () => {
   });
 
   it("create with all parameters", async () => {
-    const qURL = QueueURL.fromServiceURL(serviceURL, getUniqueName(queueName));
+    const qURL = QueueClient.fromQueueServiceClient(queueServiceClient, getUniqueName(queueName));
     const metadata = { key: "value" };
     await qURL.create(Aborter.none, { metadata });
     const result = await qURL.getProperties(Aborter.none);
@@ -73,7 +73,7 @@ describe("QueueURL", () => {
 
   // create with invalid queue name
   it("create negative", async () => {
-    const qURL = QueueURL.fromServiceURL(serviceURL, "");
+    const qURL = QueueClient.fromQueueServiceClient(queueServiceClient, "");
     let error;
     try {
       await qURL.create(Aborter.none);
@@ -108,7 +108,7 @@ describe("QueueURL", () => {
 
     let error;
     try {
-      await queueURL.setAccessPolicy(Aborter.none, queueAcl);
+      await queueClient.setAccessPolicy(Aborter.none, queueAcl);
     } catch (err) {
       error = err;
     }
