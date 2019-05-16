@@ -39,7 +39,7 @@ async function testPeekMsgsLength(
   );
 }
 
-let ns: ServiceBusClient;
+let sbClient: ServiceBusClient;
 let subscriptionClient: SubscriptionClient;
 let topicClient: TopicClient;
 
@@ -53,10 +53,10 @@ async function beforeEachTest(receiverType: TestClientType): Promise<void> {
     );
   }
 
-  ns = ServiceBusClient.createFromConnectionString(process.env.SERVICEBUS_CONNECTION_STRING);
+  sbClient = ServiceBusClient.createFromConnectionString(process.env.SERVICEBUS_CONNECTION_STRING);
 
   const clients = await getSenderReceiverClients(
-    ns,
+    sbClient,
     TestClientType.TopicFilterTestTopic,
     receiverType
   );
@@ -82,7 +82,7 @@ async function afterEachTest(clearRules: boolean = true): Promise<void> {
     should.equal(rules.length, 1, "Unexpected number of rules");
     should.equal(rules[0].name, "DefaultFilter", "RuleName is different than expected");
   }
-  await ns.close();
+  await sbClient.close();
 }
 
 const data = [

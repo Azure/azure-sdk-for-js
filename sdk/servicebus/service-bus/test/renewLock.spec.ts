@@ -21,7 +21,7 @@ import {
 import { delay } from "rhea-promise";
 import { purge, getSenderReceiverClients, TestClientType, TestMessage } from "./testUtils";
 
-let ns: ServiceBusClient;
+let sbClient: ServiceBusClient;
 let senderClient: QueueClient | TopicClient;
 let receiverClient: QueueClient | SubscriptionClient;
 
@@ -32,8 +32,8 @@ async function beforeEachTest(senderType: TestClientType, receiverType: TestClie
     );
   }
 
-  ns = ServiceBusClient.createFromConnectionString(process.env.SERVICEBUS_CONNECTION_STRING);
-  const clients = await getSenderReceiverClients(ns, senderType, receiverType);
+  sbClient = ServiceBusClient.createFromConnectionString(process.env.SERVICEBUS_CONNECTION_STRING);
+  const clients = await getSenderReceiverClients(sbClient, senderType, receiverType);
   senderClient = clients.senderClient;
   receiverClient = clients.receiverClient;
 
@@ -46,7 +46,7 @@ async function beforeEachTest(senderType: TestClientType, receiverType: TestClie
 }
 
 async function afterEachTest(): Promise<void> {
-  await ns.close();
+  await sbClient.close();
 }
 
 describe("Unpartitioned Queue - Lock Renewal", function(): void {

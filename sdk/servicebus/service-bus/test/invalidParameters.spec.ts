@@ -15,7 +15,7 @@ import { TestMessage, getSenderReceiverClients, TestClientType } from "./testUti
 import { Receiver, SessionReceiver } from "../src/receiver";
 import { Sender } from "../src/sender";
 
-let ns: ServiceBusClient;
+let sbClient: ServiceBusClient;
 
 function createServiceBusClient(): void {
   // The tests in this file expect the env variables to contain the connection string and
@@ -27,7 +27,7 @@ function createServiceBusClient(): void {
     );
   }
 
-  ns = ServiceBusClient.createFromConnectionString(process.env.SERVICEBUS_CONNECTION_STRING);
+  sbClient = ServiceBusClient.createFromConnectionString(process.env.SERVICEBUS_CONNECTION_STRING);
 }
 
 describe("Invalid parameters in QueueClient", function(): void {
@@ -38,7 +38,7 @@ describe("Invalid parameters in QueueClient", function(): void {
   before(async () => {
     createServiceBusClient();
     const clients = await getSenderReceiverClients(
-      ns,
+      sbClient,
       TestClientType.PartitionedQueue,
       TestClientType.PartitionedQueue
     );
@@ -46,7 +46,7 @@ describe("Invalid parameters in QueueClient", function(): void {
   });
 
   after(async () => {
-    await ns.close();
+    await sbClient.close();
   });
 
   it("Peek: Invalid maxMessageCount in QueueClient", async function(): Promise<void> {
@@ -129,7 +129,7 @@ describe("Invalid parameters in SubscriptionClient", function(): void {
   before(async () => {
     createServiceBusClient();
     const clients = await getSenderReceiverClients(
-      ns,
+      sbClient,
       TestClientType.PartitionedTopic,
       TestClientType.PartitionedSubscription
     );
@@ -137,7 +137,7 @@ describe("Invalid parameters in SubscriptionClient", function(): void {
   });
 
   after(async () => {
-    await ns.close();
+    await sbClient.close();
   });
 
   it("Peek: Invalid maxMessageCount in SubscriptionClient", async function(): Promise<void> {
@@ -315,7 +315,7 @@ describe("Invalid parameters in SessionReceiver", function(): void {
   before(async () => {
     createServiceBusClient();
     const clients = await getSenderReceiverClients(
-      ns,
+      sbClient,
       TestClientType.PartitionedQueueWithSessions,
       TestClientType.PartitionedQueueWithSessions
     );
@@ -330,7 +330,7 @@ describe("Invalid parameters in SessionReceiver", function(): void {
   });
 
   after(async () => {
-    await ns.close();
+    await sbClient.close();
   });
 
   it("SessionReceiver: Missing ReceiveMode", async function(): Promise<void> {
@@ -562,7 +562,7 @@ describe("Invalid parameters in Receiver", function(): void {
   before(async () => {
     createServiceBusClient();
     const clients = await getSenderReceiverClients(
-      ns,
+      sbClient,
       TestClientType.PartitionedQueue,
       TestClientType.PartitionedQueue
     );
@@ -575,7 +575,7 @@ describe("Invalid parameters in Receiver", function(): void {
   });
 
   after(async () => {
-    await ns.close();
+    await sbClient.close();
   });
 
   it("Receiver: Missing ReceiveMode", async function(): Promise<void> {
@@ -767,7 +767,7 @@ describe("Invalid parameters in Sender", function(): void {
   before(async () => {
     createServiceBusClient();
     const clients = await getSenderReceiverClients(
-      ns,
+      sbClient,
       TestClientType.PartitionedQueue,
       TestClientType.PartitionedQueue
     );
@@ -776,7 +776,7 @@ describe("Invalid parameters in Sender", function(): void {
   });
 
   after(async () => {
-    await ns.close();
+    await sbClient.close();
   });
 
   it("Send: Missing message in Sender", async function(): Promise<void> {

@@ -21,7 +21,7 @@ import {
 } from "../src";
 import { purge, getSenderReceiverClients, TestClientType, TestMessage } from "./testUtils";
 
-let ns: ServiceBusClient;
+let sbClient: ServiceBusClient;
 let senderClient: QueueClient | TopicClient;
 let receiverClient: QueueClient | SubscriptionClient;
 
@@ -35,8 +35,8 @@ async function beforeEachTest(
     );
   }
 
-  ns = ServiceBusClient.createFromConnectionString(process.env.SERVICEBUS_CONNECTION_STRING);
-  const clients = await getSenderReceiverClients(ns, senderType, receiverType);
+  sbClient = ServiceBusClient.createFromConnectionString(process.env.SERVICEBUS_CONNECTION_STRING);
+  const clients = await getSenderReceiverClients(sbClient, senderType, receiverType);
   senderClient = clients.senderClient;
   receiverClient = clients.receiverClient;
 
@@ -49,7 +49,7 @@ async function beforeEachTest(
 }
 
 async function afterEachTest(): Promise<void> {
-  await ns.close();
+  await sbClient.close();
 }
 
 describe("Unpartitioned Queue - Lock Renewal for Sessions", function(): void {

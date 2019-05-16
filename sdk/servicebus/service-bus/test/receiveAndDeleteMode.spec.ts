@@ -43,7 +43,7 @@ async function testPeekMsgsLength(
   );
 }
 
-let ns: ServiceBusClient;
+let sbClient: ServiceBusClient;
 
 let errorWasThrown: boolean;
 
@@ -67,9 +67,9 @@ async function beforeEachTest(
     );
   }
 
-  ns = ServiceBusClient.createFromConnectionString(process.env.SERVICEBUS_CONNECTION_STRING);
+  sbClient = ServiceBusClient.createFromConnectionString(process.env.SERVICEBUS_CONNECTION_STRING);
 
-  const clients = await getSenderReceiverClients(ns, senderType, receiverType);
+  const clients = await getSenderReceiverClients(sbClient, senderType, receiverType);
   senderClient = clients.senderClient;
   receiverClient = clients.receiverClient;
 
@@ -99,7 +99,7 @@ async function beforeEachTest(
 async function afterEachTest(): Promise<void> {
   await receiver.close();
   await sender.close();
-  await ns.close();
+  await sbClient.close();
 }
 
 describe("Batch Receiver in ReceiveAndDelete mode", function(): void {

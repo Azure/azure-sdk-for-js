@@ -33,7 +33,7 @@ async function testPeekMsgsLength(
   );
 }
 
-let ns: ServiceBusClient;
+let sbClient: ServiceBusClient;
 
 let senderClient: QueueClient | TopicClient;
 let receiverClient: QueueClient | SubscriptionClient;
@@ -54,20 +54,20 @@ async function beforeEachTest(
       "Define SERVICEBUS_CONNECTION_STRING in your environment before running integration tests."
     );
   }
-  ns = ServiceBusClient.createFromConnectionString(process.env.SERVICEBUS_CONNECTION_STRING);
+  sbClient = ServiceBusClient.createFromConnectionString(process.env.SERVICEBUS_CONNECTION_STRING);
 
-  const clients = await getSenderReceiverClients(ns, senderType, receiverType);
+  const clients = await getSenderReceiverClients(sbClient, senderType, receiverType);
   senderClient = clients.senderClient;
   receiverClient = clients.receiverClient;
 
   if (receiverClient instanceof QueueClient) {
-    deadLetterClient = ns.createQueueClient(
+    deadLetterClient = sbClient.createQueueClient(
       QueueClient.getDeadLetterQueuePath(receiverClient.entityPath)
     );
   }
 
   if (receiverClient instanceof SubscriptionClient) {
-    deadLetterClient = ns.createSubscriptionClient(
+    deadLetterClient = sbClient.createSubscriptionClient(
       TopicClient.getDeadLetterTopicPath(senderClient.entityPath, receiverClient.subscriptionName),
       receiverClient.subscriptionName
     );
@@ -98,7 +98,7 @@ async function beforeEachTest(
 }
 
 async function afterEachTest(): Promise<void> {
-  await ns.close();
+  await sbClient.close();
 }
 
 /**
