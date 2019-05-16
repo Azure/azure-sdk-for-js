@@ -56,8 +56,8 @@ function registerIfNeeded(policy: RPRegistrationPolicy, request: WebResource, re
  * @param {boolean} reuseUrlToo Should the url from the original request be reused as well. Default false.
  * @returns {object} A new request object with desired headers.
  */
-function getRequestEssentials(originalRequest: WebResource, reuseUrlToo = false): any {
-  const reqOptions = originalRequest.clone();
+function getRequestEssentials(originalRequest: WebResource, reuseUrlToo = false): WebResource {
+  const reqOptions: WebResource = originalRequest.clone();
   if (reuseUrlToo) {
     reqOptions.url = originalRequest.url;
   }
