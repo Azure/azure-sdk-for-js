@@ -1,7 +1,7 @@
 import * as assert from "assert";
 
 import { Aborter } from "../../src/Aborter";
-import { ISignedIdentifier, ShareClient } from "../../src/ShareClient";
+import { SignedIdentifier, ShareClient } from "../../src/ShareClient";
 import { getBSU, getUniqueName } from "./../utils";
 
 describe("ShareClient", () => {
@@ -25,7 +25,7 @@ describe("ShareClient", () => {
     yesterday.setDate(yesterday.getDate() - 1);
     tomorrow.setDate(tomorrow.getDate() + 1);
 
-    const identifiers: ISignedIdentifier[] = [
+    const identifiers: SignedIdentifier[] = [
       {
         accessPolicy: {
           expiry: tomorrow,

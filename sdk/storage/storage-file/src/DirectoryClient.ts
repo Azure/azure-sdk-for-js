@@ -1,30 +1,30 @@
 import { Aborter } from "./Aborter";
 import * as Models from "./generated/lib/models";
 import { Directory } from "./generated/lib/operations";
-import { IMetadata } from "./models";
+import { Metadata } from "./models";
 import { Pipeline } from "./Pipeline";
 import { ShareClient } from "./ShareClient";
 import { StorageClient } from "./StorageClient";
 import { appendToURLPath } from "./utils/utils.common";
 
-export interface IDirectoryCreateOptions {
+export interface DirectoryCreateOptions {
   /**
    * A name-value pair
    * to associate with a file storage object.
    *
-   * @type {IMetadata}
-   * @memberof IDirectoryCreateOptions
+   * @type {Metadata}
+   * @memberof DirectoryCreateOptions
    */
-  metadata?: IMetadata;
+  metadata?: Metadata;
 }
 
-export interface IDirectoryListFilesAndDirectoriesSegmentOptions {
+export interface DirectoryListFilesAndDirectoriesSegmentOptions {
   /**
    * Filters the results to return only entries whose
    * name begins with the specified prefix.
    *
    * @type {string}
-   * @memberof IDirectoryListFilesAndDirectoriesSegmentOptions
+   * @memberof DirectoryListFilesAndDirectoriesSegmentOptions
    */
   prefix?: string;
 
@@ -34,7 +34,7 @@ export interface IDirectoryListFilesAndDirectoriesSegmentOptions {
    * greater than 5,000, the server will return up to 5,000 items.
    *
    * @type {number}
-   * @memberof IDirectoryListFilesAndDirectoriesSegmentOptions
+   * @memberof DirectoryListFilesAndDirectoriesSegmentOptions
    */
   maxresults?: number;
 }
@@ -123,13 +123,13 @@ export class DirectoryClient extends StorageClient {
    *
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
-   * @param {IDirectoryCreateOptions} [options]
+   * @param {DirectoryCreateOptions} [options]
    * @returns {Promise<Models.DirectoryCreateResponse>}
    * @memberof DirectoryClient
    */
   public async create(
     aborter: Aborter,
-    options: IDirectoryCreateOptions = {}
+    options: DirectoryCreateOptions = {}
   ): Promise<Models.DirectoryCreateResponse> {
     return this.context.create({
       ...options,
@@ -176,13 +176,13 @@ export class DirectoryClient extends StorageClient {
    *
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
-   * @param {IMetadata} [metadata] If no metadata provided, all existing directory metadata will be removed
+   * @param {Metadata} [metadata] If no metadata provided, all existing directory metadata will be removed
    * @returns {Promise<Models.DirectorySetMetadataResponse>}
    * @memberof DirectoryClient
    */
   public async setMetadata(
     aborter: Aborter,
-    metadata?: IMetadata
+    metadata?: Metadata
   ): Promise<Models.DirectorySetMetadataResponse> {
     return this.context.setMetadata({
       abortSignal: aborter,
@@ -198,14 +198,14 @@ export class DirectoryClient extends StorageClient {
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {string} [marker]
-   * @param {IDirectoryListFilesAndDirectoriesSegmentOptions} [options]
+   * @param {DirectoryListFilesAndDirectoriesSegmentOptions} [options]
    * @returns {Promise<Models.DirectoryListFilesAndDirectoriesSegmentResponse>}
    * @memberof DirectoryClient
    */
   public async listFilesAndDirectoriesSegment(
     aborter: Aborter,
     marker?: string,
-    options: IDirectoryListFilesAndDirectoriesSegmentOptions = {}
+    options: DirectoryListFilesAndDirectoriesSegmentOptions = {}
   ): Promise<Models.DirectoryListFilesAndDirectoriesSegmentResponse> {
     return this.context.listFilesAndDirectoriesSegment({
       abortSignal: aborter,

@@ -4,8 +4,8 @@ import { DirectoryClient } from "./DirectoryClient";
 import { FileDownloadResponse } from "./FileDownloadResponse";
 import * as Models from "./generated/lib/models";
 import { File } from "./generated/lib/operations";
-import { IRange, rangeToString } from "./IRange";
-import { IFileHTTPHeaders, IMetadata } from "./models";
+import { Range, rangeToString } from "./Range";
+import { FileHTTPHeaders, Metadata } from "./models";
 import { Pipeline } from "./Pipeline";
 import { StorageClient } from "./StorageClient";
 import {
@@ -15,26 +15,26 @@ import {
 } from "./utils/constants";
 import { appendToURLPath } from "./utils/utils.common";
 
-export interface IFileCreateOptions {
+export interface FileCreateOptions {
   /**
    * File HTTP headers like Content-Type.
    *
-   * @type {IFileHTTPHeaders}
-   * @memberof IFileCreateOptions
+   * @type {FileHTTPHeaders}
+   * @memberof FileCreateOptions
    */
-  fileHTTPHeaders?: IFileHTTPHeaders;
+  fileHTTPHeaders?: FileHTTPHeaders;
 
   /**
    * A name-value pair
    * to associate with a file storage object.
    *
-   * @type {IMetadata}
-   * @memberof IFileCreateOptions
+   * @type {Metadata}
+   * @memberof FileCreateOptions
    */
-  metadata?: IMetadata;
+  metadata?: Metadata;
 }
 
-export interface IFileDownloadOptions {
+export interface FileDownloadOptions {
   /**
    * Optional. ONLY AVAILABLE IN NODE.JS.
    *
@@ -48,7 +48,7 @@ export interface IFileDownloadOptions {
    * Default value is 5, please set a larger value when loading large files in poor network.
    *
    * @type {number}
-   * @memberof IFileDownloadOptions
+   * @memberof FileDownloadOptions
    */
   maxRetryRequests?: number;
 
@@ -58,19 +58,19 @@ export interface IFileDownloadOptions {
    * for the range, as long as the range is less than or equal to 4 MB in size.
    *
    * @type {boolean}
-   * @memberof IFileDownloadOptions
+   * @memberof FileDownloadOptions
    */
   rangeGetContentMD5?: boolean;
 
   /**
    * Download progress updating event handler.
    *
-   * @memberof IFileDownloadOptions
+   * @memberof FileDownloadOptions
    */
   progress?: (progress: TransferProgressEvent) => void;
 }
 
-export interface IFileUploadRangeOptions {
+export interface FileUploadRangeOptions {
   /**
    * An MD5 hash of the content. This hash is
    * used to verify the integrity of the data during transport. When the
@@ -80,26 +80,26 @@ export interface IFileUploadRangeOptions {
    * Request).
    *
    * @type {Uint8Array}
-   * @memberof IFileUploadRangeOptions
+   * @memberof FileUploadRangeOptions
    */
   contentMD5?: Uint8Array;
 
   /**
    * Progress updating event handler.
    *
-   * @memberof IFileUploadRangeOptions
+   * @memberof FileUploadRangeOptions
    */
   progress?: (progress: TransferProgressEvent) => void;
 }
 
-export interface IFileGetRangeListOptions {
+export interface FileGetRangeListOptions {
   /**
    * Optional. Specifies the range of bytes over which to list ranges, inclusively.
    *
-   * @type {IRange}
-   * @memberof IFileGetRangeListOptions
+   * @type {Range}
+   * @memberof FileGetRangeListOptions
    */
-  range?: IRange;
+  range?: Range;
 }
 
 /**
@@ -132,15 +132,15 @@ export type FileGetRangeListResponse = Models.FileGetRangeListHeaders & {
   };
 };
 
-export interface IFileStartCopyOptions {
+export interface FileStartCopyOptions {
   /**
    * A name-value pair
    * to associate with a file storage object.
    *
-   * @type {IMetadata}
-   * @memberof IFileCreateOptions
+   * @type {Metadata}
+   * @memberof FileCreateOptions
    */
-  metadata?: IMetadata;
+  metadata?: Metadata;
 }
 
 /**
@@ -215,14 +215,14 @@ export class FileClient extends StorageClient {
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {number} size Specifies the maximum size in bytes for the file, up to 1 TB.
-   * @param {IFileCreateOptions} [options]
+   * @param {FileCreateOptions} [options]
    * @returns {Promise<Models.FileCreateResponse>}
    * @memberof FileClient
    */
   public async create(
     aborter: Aborter,
     size: number,
-    options: IFileCreateOptions = {}
+    options: FileCreateOptions = {}
   ): Promise<Models.FileCreateResponse> {
     if (size < 0 || size > FILE_MAX_SIZE_BYTES) {
       throw new RangeError(`File size must >= 0 and < ${FILE_MAX_SIZE_BYTES}.`);
@@ -248,7 +248,7 @@ export class FileClient extends StorageClient {
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {number} offset From which position of the file to download, >= 0
    * @param {number} [count] How much data to be downloaded, > 0. Will download to the end when undefined
-   * @param {IFileDownloadOptions} [options]
+   * @param {FileDownloadOptions} [options]
    * @returns {Promise<Models.FileDownloadResponse>}
    * @memberof FileClient
    */
@@ -256,7 +256,7 @@ export class FileClient extends StorageClient {
     aborter: Aborter,
     offset: number,
     count?: number,
-    options: IFileDownloadOptions = {}
+    options: FileDownloadOptions = {}
   ): Promise<Models.FileDownloadResponse> {
     if (options.rangeGetContentMD5 && offset === 0 && count === undefined) {
       throw new RangeError(`rangeGetContentMD5 only works with partial data downloading`);
@@ -371,14 +371,14 @@ export class FileClient extends StorageClient {
    *
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
-   * @param {fileHTTPHeaders} [IFileHTTPHeaders] File HTTP headers like Content-Type.
+   * @param {fileHTTPHeaders} [FileHTTPHeaders] File HTTP headers like Content-Type.
    *                                             Provide undefined will remove existing HTTP headers.
    * @returns {Promise<Models.FileSetHTTPHeadersResponse>}
    * @memberof FileClient
    */
   public async setHTTPHeaders(
     aborter: Aborter,
-    fileHTTPHeaders: IFileHTTPHeaders = {}
+    fileHTTPHeaders: FileHTTPHeaders = {}
   ): Promise<Models.FileSetHTTPHeadersResponse> {
     return this.context.setHTTPHeaders({
       abortSignal: aborter,
@@ -421,13 +421,13 @@ export class FileClient extends StorageClient {
    *
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
-   * @param {IMetadata} [metadata] If no metadata provided, all existing directory metadata will be removed
+   * @param {Metadata} [metadata] If no metadata provided, all existing directory metadata will be removed
    * @returns {Promise<Models.FileSetMetadataResponse>}
    * @memberof FileClient
    */
   public async setMetadata(
     aborter: Aborter,
-    metadata: IMetadata = {}
+    metadata: Metadata = {}
   ): Promise<Models.FileSetMetadataResponse> {
     return this.context.setMetadata({
       abortSignal: aborter,
@@ -446,7 +446,7 @@ export class FileClient extends StorageClient {
    * @param {number} offset Offset position of the destination Azure File to upload.
    * @param {number} contentLength Length of body in bytes. Use Buffer.byteLength() to calculate body length for a
    *                               string including non non-Base64/Hex-encoded characters.
-   * @param {IFileUploadRangeOptions} [options]
+   * @param {FileUploadRangeOptions} [options]
    * @returns {Promise<Models.FileUploadRangeResponse>}
    * @memberof FileClient
    */
@@ -455,7 +455,7 @@ export class FileClient extends StorageClient {
     body: HttpRequestBody,
     offset: number,
     contentLength: number,
-    options: IFileUploadRangeOptions = {}
+    options: FileUploadRangeOptions = {}
   ): Promise<Models.FileUploadRangeResponse> {
     if (offset < 0 || contentLength <= 0) {
       throw new RangeError(`offset must >= 0 and contentLength must be > 0`);
@@ -508,13 +508,13 @@ export class FileClient extends StorageClient {
    *
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
-   * @param {IFileGetRangeListOptions} [options]
+   * @param {FileGetRangeListOptions} [options]
    * @returns {Promise<FileGetRangeListResponse>}
    * @memberof FileClient
    */
   public async getRangeList(
     aborter: Aborter,
-    options: IFileGetRangeListOptions = {}
+    options: FileGetRangeListOptions = {}
   ): Promise<FileGetRangeListResponse> {
     const originalResponse = await this.context.getRangeList({
       abortSignal: aborter,
@@ -547,14 +547,14 @@ export class FileClient extends StorageClient {
    * authenticate the source file or blob using a shared access signature. If the source is a public
    * blob, no authentication is required to perform the copy operation. A file in a share snapshot
    * can also be specified as a copy source.
-   * @param {IFileStartCopyOptions} [options]
+   * @param {FileStartCopyOptions} [options]
    * @returns {Promise<Models.FileStartCopyResponse>}
    * @memberof FileClient
    */
   public async startCopyFromURL(
     aborter: Aborter,
     copySource: string,
-    options: IFileStartCopyOptions = {}
+    options: FileStartCopyOptions = {}
   ): Promise<Models.FileStartCopyResponse> {
     return this.context.startCopy(copySource, {
       abortSignal: aborter,

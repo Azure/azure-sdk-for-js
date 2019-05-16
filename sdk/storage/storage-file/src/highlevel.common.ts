@@ -1,52 +1,52 @@
 import { TransferProgressEvent } from "@azure/ms-rest-js";
 
-import { IFileHTTPHeaders, IMetadata } from "./models";
+import { FileHTTPHeaders, Metadata } from "./models";
 
 /**
  * Option interface for uploadFileToAzureFile and uploadSeekableStreamToAzureFile.
  *
  * @export
- * @interface IUploadToAzureFileOptions
+ * @interface UploadToAzureFileOptions
  */
-export interface IUploadToAzureFileOptions {
+export interface UploadToAzureFileOptions {
   /**
    * RangeSize specifies the range size to use in each parallel upload,
    * the default (and maximum size) is FILE_RANGE_MAX_SIZE_BYTES.
    *
    * @type {number}
-   * @memberof IUploadToAzureFileOptions
+   * @memberof UploadToAzureFileOptions
    */
   rangeSize?: number;
 
   /**
    * Progress updater.
    *
-   * @memberof IUploadToAzureFileOptions
+   * @memberof UploadToAzureFileOptions
    */
   progress?: (progress: TransferProgressEvent) => void;
 
   /**
    * File HTTP Headers.
    *
-   * @type {IFileHTTPHeaders}
-   * @memberof IUploadToAzureFileOptions
+   * @type {FileHTTPHeaders}
+   * @memberof UploadToAzureFileOptions
    */
-  fileHTTPHeaders?: IFileHTTPHeaders;
+  fileHTTPHeaders?: FileHTTPHeaders;
 
   /**
    * Metadata of an Azure file.
    *
-   * @type {IMetadata}
-   * @memberof IUploadToAzureFileOptions
+   * @type {Metadata}
+   * @memberof UploadToAzureFileOptions
    */
-  metadata?: IMetadata;
+  metadata?: Metadata;
 
   /**
    * Parallelism indicates the maximum number of ranges to upload in parallel.
    * If not provided, 5 parallelism will be used by default.
    *
    * @type {number}
-   * @memberof IUploadToAzureFileOptions
+   * @memberof UploadToAzureFileOptions
    */
   parallelism?: number;
 }
@@ -55,9 +55,9 @@ export interface IUploadToAzureFileOptions {
  * Option interface for DownloadAzurefileToBuffer.
  *
  * @export
- * @interface IDownloadFromAzureFileOptions
+ * @interface DownloadFromAzureFileOptions
  */
-export interface IDownloadFromAzureFileOptions {
+export interface DownloadFromAzureFileOptions {
   /**
    * When downloading Azure files, download method will try to split large file into small ranges.
    * Every small range will be downloaded via a separte request.
@@ -65,7 +65,7 @@ export interface IDownloadFromAzureFileOptions {
    * Must be > 0, will use the default value if undefined,
    *
    * @type {number}
-   * @memberof IDownloadFromAzureFileOptions
+   * @memberof DownloadFromAzureFileOptions
    */
   rangeSize?: number;
 
@@ -83,14 +83,14 @@ export interface IDownloadFromAzureFileOptions {
    * Default value is 5, please set a larger value when in poor network.
    *
    * @type {number}
-   * @memberof IDownloadFromAzureFileOptions
+   * @memberof DownloadFromAzureFileOptions
    */
   maxRetryRequestsPerRange?: number;
 
   /**
    * Progress updater.
    *
-   * @memberof IDownloadFromAzureFileOptions
+   * @memberof DownloadFromAzureFileOptions
    */
   progress?: (progress: TransferProgressEvent) => void;
 
@@ -99,7 +99,7 @@ export interface IDownloadFromAzureFileOptions {
    * If not provided, 5 parallelism will be used by default.
    *
    * @type {number}
-   * @memberof IDownloadFromAzureFileOptions
+   * @memberof DownloadFromAzureFileOptions
    */
   parallelism?: number;
 }

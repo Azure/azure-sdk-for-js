@@ -3,19 +3,19 @@ import { HttpResponse } from "@azure/ms-rest-js";
 import { Aborter } from "./Aborter";
 import * as Models from "./generated/lib/models";
 import { Share } from "./generated/lib/operations";
-import { IMetadata } from "./models";
+import { Metadata } from "./models";
 import { Pipeline } from "./Pipeline";
 import { FileServiceClient } from "./FileServiceClient";
 import { StorageClient } from "./StorageClient";
 import { URLConstants } from "./utils/constants";
 import { appendToURLPath, setURLParameter, truncatedISO8061Date } from "./utils/utils.common";
 
-export interface IShareCreateOptions {
+export interface ShareCreateOptions {
   /**
    * A name-value pair to associate with a file storage object.
    *
    * @type {{ [propertyName: string]: string }}
-   * @memberof IShareCreateOptions
+   * @memberof ShareCreateOptions
    */
   metadata?: { [propertyName: string]: string };
 
@@ -24,24 +24,24 @@ export interface IShareCreateOptions {
    * gigabytes.
    *
    * @type {number}
-   * @memberof IShareCreateOptions
+   * @memberof ShareCreateOptions
    */
   quota?: number;
 }
 
-export interface IShareDeleteMethodOptions {
+export interface ShareDeleteMethodOptions {
   /**
    * Specifies the option
    * include to delete the base share and all of its snapshots. Possible values
    * include: 'include'
    *
    * @type {Models.DeleteSnapshotsOptionType}
-   * @memberof IShareDeleteMethodOptions
+   * @memberof ShareDeleteMethodOptions
    */
   deleteSnapshots?: Models.DeleteSnapshotsOptionType;
 }
 
-export interface ISignedIdentifier {
+export interface SignedIdentifier {
   /**
    * @member {string} id a unique id
    */
@@ -67,7 +67,7 @@ export interface ISignedIdentifier {
 }
 
 export declare type ShareGetAccessPolicyResponse = {
-  signedIdentifiers: ISignedIdentifier[];
+  signedIdentifiers: SignedIdentifier[];
 } & Models.ShareGetAccessPolicyHeaders & {
     /**
      * The underlying HTTP response.
@@ -88,12 +88,12 @@ export declare type ShareGetAccessPolicyResponse = {
     };
   };
 
-export interface IShareCreateSnapshotOptions {
+export interface ShareCreateSnapshotOptions {
   /**
    * A name-value pair to associate with a file storage object.
    *
    * @type {{ [propertyName: string]: string }}
-   * @memberof IShareCreateOptions
+   * @memberof ShareCreateOptions
    */
   metadata?: { [propertyName: string]: string };
 }
@@ -182,13 +182,13 @@ export class ShareClient extends StorageClient {
    *
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
-   * @param {IShareCreateOptions} [options]
+   * @param {ShareCreateOptions} [options]
    * @returns {Promise<Models.ShareCreateResponse>}
    * @memberof ShareClient
    */
   public async create(
     aborter: Aborter,
-    options: IShareCreateOptions = {}
+    options: ShareCreateOptions = {}
   ): Promise<Models.ShareCreateResponse> {
     return this.context.create({
       ...options,
@@ -219,13 +219,13 @@ export class ShareClient extends StorageClient {
    *
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
-   * @param {Models.IShareDeleteMethodOptions} [options]
+   * @param {Models.ShareDeleteMethodOptions} [options]
    * @returns {Promise<Models.ShareDeleteResponse>}
    * @memberof ShareClient
    */
   public async delete(
     aborter: Aborter,
-    options: IShareDeleteMethodOptions = {}
+    options: ShareDeleteMethodOptions = {}
   ): Promise<Models.ShareDeleteResponse> {
     return this.context.deleteMethod({
       abortSignal: aborter,
@@ -242,13 +242,13 @@ export class ShareClient extends StorageClient {
    *
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
-   * @param {IMetadata} [metadata] If no metadata provided, all existing directory metadata will be removed
+   * @param {Metadata} [metadata] If no metadata provided, all existing directory metadata will be removed
    * @returns {Promise<Models.ShareSetMetadataResponse>}
    * @memberof ShareClient
    */
   public async setMetadata(
     aborter: Aborter,
-    metadata?: IMetadata
+    metadata?: Metadata
   ): Promise<Models.ShareSetMetadataResponse> {
     return this.context.setMetadata({
       abortSignal: aborter,
@@ -310,13 +310,13 @@ export class ShareClient extends StorageClient {
    *
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
-   * @param {ISignedIdentifier[]} [shareAcl]
+   * @param {SignedIdentifier[]} [shareAcl]
    * @returns {Promise<Models.ShareSetAccessPolicyResponse>}
    * @memberof ShareClient
    */
   public async setAccessPolicy(
     aborter: Aborter,
-    shareAcl?: ISignedIdentifier[]
+    shareAcl?: SignedIdentifier[]
   ): Promise<Models.ShareSetAccessPolicyResponse> {
     const acl: Models.SignedIdentifier[] = [];
     for (const identifier of shareAcl || []) {
@@ -341,13 +341,13 @@ export class ShareClient extends StorageClient {
    *
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
-   * @param {IShareCreateSnapshotOptions} [options={}]
+   * @param {ShareCreateSnapshotOptions} [options={}]
    * @returns {Promise<Models.ShareCreateSnapshotResponse>}
    * @memberof ShareClient
    */
   public async createSnapshot(
     aborter: Aborter,
-    options: IShareCreateSnapshotOptions = {}
+    options: ShareCreateSnapshotOptions = {}
   ): Promise<Models.ShareCreateSnapshotResponse> {
     return this.context.createSnapshot({
       abortSignal: aborter,
