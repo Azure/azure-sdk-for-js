@@ -5,8 +5,7 @@ For example: `azsdk-js-azureservicebus/1.0.0/(NODE-VERSION v10.15.0) Windows_NT 
 - `receiveMessages()` now returns rejected promise when network connection is lost.
 - Receiving messages from a session whose id is an empty string is now allowed.
 - When Service Bus does not acknowledge a message settlement/disposition request in time, the error
-`ServiceUnavailbleError` is thrown. Previously, we returned a resolved promise that misleads users to assume a
- successful operation. This is consistent with send requests and requests over the $management link.
+`ServiceUnavailbleError` is thrown. This is consistent with send requests and requests over the $management link.
 - The error `MessageLockLostError` or `SessionLockLostError` (based on whether the entity has sessions enabled
 or not) is thrown for a message settlement/disposition request when the AMQP receiver link that was used to receive
 the message has died.
