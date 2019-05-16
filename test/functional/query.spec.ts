@@ -121,22 +121,6 @@ describe("NodeJS CRUD Tests", function() {
       assert(counter === 2, "iterator should have run 3 times");
     };
 
-    const queryIteratorForEachTest = async function() {
-      const queryIterator = resources.container.items.readAll({ maxItemCount: 2 });
-      let counter = 0;
-      await queryIterator.forEach((item, headers, index) => {
-        counter++;
-        if (index === 0) {
-          assert.equal(item.id, resources.doc1.id, "first document should be doc1");
-        } else if (index === 1) {
-          assert.equal(item.id, resources.doc2.id, "second document should be doc2");
-        } else if (index === 2) {
-          assert.equal(item.id, resources.doc3.id, "third document should be doc3");
-        }
-      });
-      assert(counter === 3, "iterator should have run 3 times");
-    };
-
     const queryIteratorExecuteNextTest = async function() {
       let queryIterator = resources.container.items.readAll({ maxItemCount: 2 });
       const firstResponse = await queryIterator.fetchNext();
@@ -166,10 +150,6 @@ describe("NodeJS CRUD Tests", function() {
 
     it("validate queryIterator asyncIterator", async function() {
       await queryIteratorAsyncIteratorTest();
-    });
-
-    it("validate queryIterator forEach", async function() {
-      await queryIteratorForEachTest();
     });
 
     it("nativeApi validate queryIterator iterator executeNext name based", async function() {
