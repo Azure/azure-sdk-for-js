@@ -28,7 +28,7 @@ const listOfScientists = [
   { lastName: "Kopernikus", firstName: "Nikolaus" }
 ];
 
-async function main(){
+async function main() {
   const sbClient = ServiceBusClient.createFromConnectionString(connectionString);
   try {
     await sendScheduledMessages(sbClient);
@@ -40,7 +40,7 @@ async function main(){
 }
 
 // Scheduling messages to be sent after 10 seconds from now
-async function sendScheduledMessages(sbClient){
+async function sendScheduledMessages(sbClient) {
   // If sending to a Topic, use `createTopicClient` instead of `createQueueClient`
   const client = sbClient.createQueueClient(queueName);
   const sender = client.createSender();

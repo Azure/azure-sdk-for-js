@@ -14,7 +14,7 @@ const { ServiceBusClient, ReceiveMode } = require("@azure/service-bus");
 const connectionString = "";
 const queueName = "";
 
-async function main(){
+async function main() {
   const sbClient = ServiceBusClient.createFromConnectionString(connectionString);
 
   // If receiving from a Subscription, use `createSubscriptionClient` instead of `createQueueClient`

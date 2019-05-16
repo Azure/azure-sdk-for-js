@@ -28,7 +28,7 @@ const listOfScientists = [
   { name: "Kopernikus", firstName: "Nikolaus" }
 ];
 
-async function main(){
+async function main() {
   const sbClient = ServiceBusClient.createFromConnectionString(connectionString);
 
   // If sending to a Topic, use `createTopicClient` instead of `createQueueClient`
@@ -38,7 +38,7 @@ async function main(){
   try {
     for (let index = 0; index < listOfScientists.length; index++) {
       const scientist = listOfScientists[index];
-      const message= {
+      const message = {
         body: `${scientist.firstName} ${scientist.name}`,
         label: "Scientist"
       };

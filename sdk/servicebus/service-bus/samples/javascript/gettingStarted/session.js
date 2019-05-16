@@ -54,8 +54,7 @@ async function main() {
   }
 }
 
-    await sbClient.close();
-    async function sendMessage(sbClient, scientist, sessionId) {
+async function sendMessage(sbClient, scientist, sessionId) {
   // If sending to a Topic, use `createTopicClient` instead of `createQueueClient`
   const client = sbClient.createQueueClient(queueName);
   const sender = client.createSender();

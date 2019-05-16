@@ -10,7 +10,7 @@ Refer to other Javascript samples and replace code in main() to try them out -->
 
 <script>
   // sbClient holds reference to the ServiceBusClient global object exposed by the imported script
-  const sbClient = Azure.Messaging.ServiceBus.ServiceBusClient;
+  const ServiceBusClient = Azure.Messaging.ServiceBus.ServiceBusClient;
 
   const connectionString = "";
   const queueName = "";
@@ -18,10 +18,10 @@ Refer to other Javascript samples and replace code in main() to try them out -->
   async function main() {
     // Creates the instance of ServiceBusClient using input connection string
     // Refer to SDK documentation and other Javascript samples for more usage related information
-    const serviceBusClientObj = sbClient.createFromConnectionString(connectionString);
+    const sbClient = ServiceBusClient.createFromConnectionString(connectionString);
 
     try {
-      const client = serviceBusClientObj.createQueueClient(queueName);
+      const client = sbClient.createQueueClient(queueName);
 
       const sender = client.createSender();
 
@@ -30,7 +30,7 @@ Refer to other Javascript samples and replace code in main() to try them out -->
 
       await client.close();
     } finally {
-      await serviceBusClientObj.close();
+      await sbClient.close();
     }
   }
 
