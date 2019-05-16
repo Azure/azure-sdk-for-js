@@ -373,6 +373,9 @@ const updateOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.Controller
     },
+    201: {
+      bodyMapper: Mappers.Controller
+    },
     default: {
       bodyMapper: Mappers.DevSpacesErrorResponse
     }
