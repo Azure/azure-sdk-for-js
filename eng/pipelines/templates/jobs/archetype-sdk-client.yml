@@ -1,0 +1,176 @@
+jobs:
+  - job: "Build"
+    variables:
+      - template: ../variables/globals.yml
+
+    pool:
+      vmImage: "ubuntu-16.04"
+
+    steps:
+      - task: NodeTool@0
+        inputs:
+          versionSpec: "$(NodeVersion)"
+        displayName: "Install Node.js $(NodeVersion)"
+
+      - script: |
+          node common/scripts/install-run-rush.js install
+        displayName: "Install dependencies"
+
+      - ${{ if eq(parameters.PackageName,'')}}:
+          - script: |
+              node common/scripts/install-run-rush.js build --verbose
+            displayName: "Build libraries"
+          - script: |
+              node common/scripts/install-run-rush.js pack --verbose
+            displayName: "Pack libraries"
+
+      - ${{ if ne(parameters.PackageName,'')}}:
+          - script: |
+              node common/scripts/install-run-rush.js build --verbose --to ${{parameters.PackageName}}
+            displayName: "Build libraries"
+          - script: |
+              node common/scripts/install-run-rush.js pack --verbose --to ${{parameters.PackageName}}
+            displayName: "Pack libraries"
+
+      - task: CopyFiles@2
+        inputs:
+          contents: "sdk/**/**/*.tgz"
+          targetFolder: $(Build.ArtifactStagingDirectory)
+          flattenFolders: true
+        displayName: "Copy packages"
+
+      - task: PublishPipelineArtifact@0
+        condition: succeededOrFailed()
+        displayName: "Publish artifacts"
+        inputs:
+          artifactName: packages
+          targetPath: $(Build.ArtifactStagingDirectory)
+
+  - job: "Analyze"
+    variables:
+      - template: ../variables/globals.yml
+
+    pool:
+      vmImage: "ubuntu-16.04"
+
+    steps:
+      - task: UsePythonVersion@0
+        displayName: "Use Python 3.6"
+        inputs:
+          versionSpec: "3.6"
+
+      - task: NodeTool@0
+        inputs:
+          versionSpec: "$(NodeVersion)"
+        displayName: "Install Node.js $(NodeVersion)"
+
+      - script: |
+          pip install setuptools wheel
+          pip install doc-warden
+          ward scan -d $(Build.SourcesDirectory) -c $(Build.SourcesDirectory)/.docsettings.yml
+        displayName: "Verify Readmes"
+
+      - ${{ if eq(parameters.PackageName,'')}}:
+          - script: |
+              node common/scripts/install-run-rush.js install
+              node common/scripts/install-run-rush.js audit
+            condition: and(succeeded(), eq(variables['RunNpmAudit'], 'true'))
+            displayName: "Audit packages"
+
+      - ${{ if ne(parameters.PackageName,'')}}:
+          - script: |
+              node common/scripts/install-run-rush.js install
+              node common/scripts/install-run-rush.js audit --to ${{parameters.PackageName}}
+            condition: and(succeeded(), eq(variables['RunNpmAudit'], 'true'))
+            displayName: "Audit packages"
+
+      - task: ms.vss-governance-buildtask.governance-build-task-component-detection.ComponentGovernanceComponentDetection@0
+        # ComponentGovernance is currently unable to run on pull requests of public projects. Running on non-PR
+        # builds should be sufficient.
+        condition: and(succeededOrFailed(), ne(variables['Build.Reason'], 'PullRequest'))
+        displayName: "Component Detection"
+
+  - job: "Test"
+
+    strategy:
+      matrix:
+        Linux_Node8:
+          OSName: "Linux"
+          OSVmImage: "ubuntu-16.04"
+          NodeVersion: "8.x"
+        Linux_Node10:
+          OSName: "Linux"
+          OSVmImage: "ubuntu-16.04"
+          NodeVersion: "10.x"
+        Linux_Node12:
+          OSName: "Linux"
+          OSVmImage: "ubuntu-16.04"
+          NodeVersion: "12.x"
+        macOS_Node8:
+          OSName: "macOS"
+          OSVmImage: "macOS-10.13"
+          NodeVersion: "8.x"
+        macOS_Node10:
+          OSName: "macOS"
+          OSVmImage: "macOS-10.13"
+          NodeVersion: "10.x"
+        macOS_Node12:
+          OSName: "macOS"
+          OSVmImage: "macOS-10.13"
+          NodeVersion: "12.x"
+        Windows_Node8:
+          OSName: "Windows"
+          OSVmImage: "vs2017-win2016"
+          NodeVersion: "8.x"
+        Windows_Node10:
+          OSName: "Windows"
+          OSVmImage: "vs2017-win2016"
+          NodeVersion: "10.x"
+        Windows_Node12:
+          OSName: "Windows"
+          OSVmImage: "vs2017-win2016"
+          NodeVersion: "12.x"
+
+    pool:
+      vmImage: "$(OSVmImage)"
+
+    steps:
+      - task: NodeTool@0
+        inputs:
+          versionSpec: "$(NodeVersion)"
+        displayName: "Install Node.js $(NodeVersion)"
+
+      - script: |
+          node common/scripts/install-run-rush.js install
+        displayName: "Install dependencies"
+
+      # If there is no package name, then don't use the --to option.
+      - ${{ if eq(parameters.PackageName,'')}}:
+          - script: |
+              node common/scripts/install-run-rush.js build --verbose
+            displayName: 'Build libraries"'
+          - script: |
+              node common/scripts/install-run-rush.js build:test --verbose
+            displayName: "Build test assets"
+          - script: |
+              node common/scripts/install-run-rush.js unit-test --verbose
+            displayName: "Test libraries"
+
+      # On the other hand, if there is a PackageName, supply the --to option.
+      - ${{ if ne(parameters.PackageName,'')}}:
+          - script: |
+              node common/scripts/install-run-rush.js build --verbose --to ${{parameters.PackageName}}
+            displayName: 'Build libraries"'
+          - script: |
+              node common/scripts/install-run-rush.js build:test --verbose --to ${{parameters.PackageName}}
+            displayName: "Build test assets"
+          - script: |
+              node common/scripts/install-run-rush.js unit-test --verbose --to ${{parameters.PackageName}}
+            displayName: "Test libraries"
+
+      - task: PublishTestResults@2
+        inputs:
+          testResultsFiles: "**/test-results.xml"
+          testRunTitle: "$(OSName) Node $(NodeVersion)"
+        condition: succeededOrFailed()
+        displayName: "Publish test results"
