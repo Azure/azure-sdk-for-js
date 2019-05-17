@@ -46,6 +46,8 @@ export function nodeConfig(test = false) {
     // mark assert as external
     baseConfig.external.push("assert");
 
+    baseConfig.context = "null";
+
     baseConfig.onwarn = (warning) => {
       console.error(`(!) ${warning.message}`);
     };
@@ -99,6 +101,7 @@ export function browserConfig(test = false) {
     baseConfig.input = "dist-esm/test/**/*.spec.js";
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
     baseConfig.output.file = "test-browser/index.js";
+    baseConfig.context = "null";
   } else if (production) {
     baseConfig.plugins.push(uglify());
   }
