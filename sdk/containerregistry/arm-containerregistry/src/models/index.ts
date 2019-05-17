@@ -1342,6 +1342,10 @@ export interface BaseImageTrigger {
    */
   baseImageTriggerType: BaseImageTriggerType;
   /**
+   * The endpoint URL for receiving update triggers.
+   */
+  updateTriggerEndpoint?: string;
+  /**
    * The current status of trigger. Possible values include: 'Disabled', 'Enabled'. Default value:
    * 'Enabled'.
    */
@@ -1395,7 +1399,7 @@ export interface SecretObject {
   value?: string;
   /**
    * The type of the secret object which determines how the value of the secret object has to be
-   * interpreted. Possible values include: 'Opaque', 'Vaultsecret'
+   * interpreted. Possible values include: 'Opaque'
    */
   type?: SecretObjectType;
 }
@@ -1634,6 +1638,10 @@ export interface BaseImageTriggerUpdateParameters {
    */
   baseImageTriggerType?: BaseImageTriggerType;
   /**
+   * The endpoint URL for receiving update triggers.
+   */
+  updateTriggerEndpoint?: string;
+  /**
    * The current status of trigger. Possible values include: 'Disabled', 'Enabled'. Default value:
    * 'Enabled'.
    */
@@ -1856,6 +1864,33 @@ export interface FileTaskRunRequest {
 }
 
 /**
+ * An interface representing OverrideTaskStepProperties.
+ */
+export interface OverrideTaskStepProperties {
+  /**
+   * The source context against which run has to be queued.
+   */
+  contextPath?: string;
+  /**
+   * The file against which run has to be queued.
+   */
+  file?: string;
+  /**
+   * Gets or sets the collection of override arguments to be used when
+   * executing a build step.
+   */
+  argumentsProperty?: Argument[];
+  /**
+   * The name of the target build stage for the docker build.
+   */
+  target?: string;
+  /**
+   * The collection of overridable values that can be passed when running a Task.
+   */
+  values?: SetValue[];
+}
+
+/**
  * The parameters for a task run request.
  */
 export interface TaskRunRequest {
@@ -1869,13 +1904,17 @@ export interface TaskRunRequest {
    */
   isArchiveEnabled?: boolean;
   /**
-   * The name of task against which run has to be queued.
+   * The resource ID of task against which run has to be queued.
    */
-  taskName: string;
+  taskId: string;
   /**
-   * The collection of overridable values that can be passed when running a task.
+   * Set of overridable parameters that can be passed when running a Task.
    */
-  values?: SetValue[];
+  overrideTaskStepProperties?: OverrideTaskStepProperties;
+  /**
+   * Base64 encoded continuation token that will be attached with the base image trigger webhook.
+   */
+  continuationToken?: string;
 }
 
 /**
@@ -2474,11 +2513,11 @@ export type SourceRegistryLoginMode = 'None' | 'Default';
 
 /**
  * Defines values for SecretObjectType.
- * Possible values include: 'Opaque', 'Vaultsecret'
+ * Possible values include: 'Opaque'
  * @readonly
  * @enum {string}
  */
-export type SecretObjectType = 'Opaque' | 'Vaultsecret';
+export type SecretObjectType = 'Opaque';
 
 /**
  * Contains response data for the checkNameAvailability operation.
