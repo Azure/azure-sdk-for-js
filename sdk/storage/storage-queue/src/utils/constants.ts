@@ -1,4 +1,4 @@
-export const SDK_VERSION: string = "10.1.0";
+export const SDK_VERSION: string = "11.0.0-preview.1";
 export const SERVICE_VERSION: string = "2018-03-28";
 
 export const URLConstants = {
