@@ -1,9 +1,12 @@
 {
   "name": "@azure/core-aborter",
   "version": "1.0.0",
-  "description": "",
+  "description": "Microsoft Azure SDK for JavaScript - Aborter",
   "main": "./dist/index.js",
   "module": "./dist-esm/src/aborter.js",
+  "browser": {
+    "./dist/index.js": "./browser/index.js"
+  },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:es6": "tsc -p tsconfig.json",
@@ -25,9 +28,9 @@
     "unit-node": "npm run build && npm run test:node"
   },
   "types": "./types/src/aborter.d.ts",
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "engine": {
+    "node": ">=6.0.0"
+  },
   "dependencies": {
     "@azure/ms-rest-js": "^1.2.6",
     "tslib": "^1.9.3"
@@ -64,5 +67,34 @@
     "rollup-plugin-sourcemaps": "^0.4.2",
     "rollup-plugin-uglify": "^6.0.0",
     "typescript": "^3.2.2"
-  }
+  },
+  "files": [
+    "browser/*.js*",
+    "dist/",
+    "dist-esm/src/",
+    "src/",
+    "types/src",
+    "tsconfig.json"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git"
+  },
+  "keywords": [
+    "Azure",
+    "Aborter",
+    "AbortSignal",
+    "Cancellation",
+    "Node.js",
+    "TypeScript",
+    "JavaScript",
+    "Browser"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js#readme",
+  "sideEffects": false
 }
