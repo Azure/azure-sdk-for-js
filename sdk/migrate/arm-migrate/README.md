@@ -1,6 +1,6 @@
-## Azure MicrosoftAzureFDSWebRole SDK for JavaScript
+## Azure AzureMigrate SDK for JavaScript
 
-This package contains an isomorphic SDK for MicrosoftAzureFDSWebRole.
+This package contains an isomorphic SDK for AzureMigrate.
 
 ### Currently supported environments
 
@@ -15,7 +15,7 @@ npm install @azure/arm-migrate
 
 ### How to use
 
-#### nodejs - Authentication, client creation and getCluster hyperVCluster as an example written in TypeScript.
+#### nodejs - Authentication, client creation and get assessmentOptions as an example written in TypeScript.
 
 ##### Install @azure/ms-rest-nodeauth
 
@@ -29,17 +29,13 @@ npm install @azure/ms-rest-nodeauth
 import * as msRest from "@azure/ms-rest-js";
 import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
-import { MicrosoftAzureFDSWebRole, MicrosoftAzureFDSWebRoleModels, MicrosoftAzureFDSWebRoleMappers } from "@azure/arm-migrate";
+import { AzureMigrate, AzureMigrateModels, AzureMigrateMappers } from "@azure/arm-migrate";
 const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
 msRestNodeAuth.interactiveLogin().then((creds) => {
-  const client = new MicrosoftAzureFDSWebRole(creds, subscriptionId);
-  const subscriptionId = "testsubscriptionId";
-  const resourceGroupName = "testresourceGroupName";
-  const siteName = "testsiteName";
-  const clusterName = "testclusterName";
-  const apiVersion = "testapiVersion";
-  client.hyperVCluster.getCluster(subscriptionId, resourceGroupName, siteName, clusterName, apiVersion).then((result) => {
+  const client = new AzureMigrate(creds, subscriptionId);
+  const locationName = "testlocationName";
+  client.assessmentOptions.get(locationName).then((result) => {
     console.log("The result is:");
     console.log(result);
   });
@@ -48,7 +44,7 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
 });
 ```
 
-#### browser - Authentication, client creation and getCluster hyperVCluster as an example written in JavaScript.
+#### browser - Authentication, client creation and get assessmentOptions as an example written in JavaScript.
 
 ##### Install @azure/ms-rest-browserauth
 
@@ -81,13 +77,9 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
           // may cause redirects
           authManager.login();
         }
-        const client = new Azure.ArmMigrate.MicrosoftAzureFDSWebRole(res.creds, subscriptionId);
-        const subscriptionId = "testsubscriptionId";
-        const resourceGroupName = "testresourceGroupName";
-        const siteName = "testsiteName";
-        const clusterName = "testclusterName";
-        const apiVersion = "testapiVersion";
-        client.hyperVCluster.getCluster(subscriptionId, resourceGroupName, siteName, clusterName, apiVersion).then((result) => {
+        const client = new Azure.ArmMigrate.AzureMigrate(res.creds, subscriptionId);
+        const locationName = "testlocationName";
+        client.assessmentOptions.get(locationName).then((result) => {
           console.log("The result is:");
           console.log(result);
         }).catch((err) => {

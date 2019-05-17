@@ -8,24 +8,11 @@
  * regenerated.
  */
 
-export * from "./hyperVClusterOperations";
-export * from "./hyperVHostOperations";
-export * from "./hyperVJobs";
-export * from "./hyperVMachines";
-export * from "./hyperVOperationsStatus";
-export * from "./hyperVRunAsAccounts";
-export * from "./hyperVSites";
-export * from "./jobs";
+export * from "./location";
+export * from "./assessmentOptions";
+export * from "./projects";
 export * from "./machines";
-export * from "./runAsAccounts";
-export * from "./sites";
-export * from "./vCenterOperations";
-export * from "./vMwareOperationsStatus";
-export * from "./importJobs";
-export * from "./importMachines";
-export * from "./importSites";
-export * from "./serverJobs";
-export * from "./serverOperationsStatus";
-export * from "./serverRunAsAccounts";
-export * from "./servers";
-export * from "./serverSites";
+export * from "./groups";
+export * from "./assessments";
+export * from "./assessedMachines";
+export * from "./operations";

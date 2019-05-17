@@ -13,18 +13,7 @@ import * as msRest from "@azure/ms-rest-js";
 export const acceptLanguage: msRest.OperationParameter = {
   parameterPath: "acceptLanguage",
   mapper: {
-    serializedName: "accept-language",
-    defaultValue: 'en-US',
-    type: {
-      name: "String"
-    }
-  }
-};
-export const accountName: msRest.OperationURLParameter = {
-  parameterPath: "accountName",
-  mapper: {
-    required: true,
-    serializedName: "accountName",
+    serializedName: "Accept-Language",
     type: {
       name: "String"
     }
@@ -34,61 +23,49 @@ export const apiVersion: msRest.OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     required: true,
+    isConstant: true,
     serializedName: "api-version",
+    defaultValue: '2018-02-02',
     type: {
       name: "String"
     }
   }
 };
-export const clusterName: msRest.OperationURLParameter = {
-  parameterPath: "clusterName",
+export const assessedMachineName: msRest.OperationURLParameter = {
+  parameterPath: "assessedMachineName",
   mapper: {
     required: true,
-    serializedName: "clusterName",
+    serializedName: "assessedMachineName",
     type: {
       name: "String"
     }
   }
 };
-export const continuationToken: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "continuationToken"
-  ],
-  mapper: {
-    serializedName: "continuationToken",
-    type: {
-      name: "String"
-    }
-  }
-};
-export const filter: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "filter"
-  ],
-  mapper: {
-    serializedName: "$filter",
-    type: {
-      name: "String"
-    }
-  }
-};
-export const hostName: msRest.OperationURLParameter = {
-  parameterPath: "hostName",
+export const assessmentName: msRest.OperationURLParameter = {
+  parameterPath: "assessmentName",
   mapper: {
     required: true,
-    serializedName: "hostName",
+    serializedName: "assessmentName",
     type: {
       name: "String"
     }
   }
 };
-export const jobName: msRest.OperationURLParameter = {
-  parameterPath: "jobName",
+export const groupName: msRest.OperationURLParameter = {
+  parameterPath: "groupName",
   mapper: {
     required: true,
-    serializedName: "jobName",
+    serializedName: "groupName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const locationName: msRest.OperationURLParameter = {
+  parameterPath: "locationName",
+  mapper: {
+    required: true,
+    serializedName: "locationName",
     type: {
       name: "String"
     }
@@ -104,25 +81,13 @@ export const machineName: msRest.OperationURLParameter = {
     }
   }
 };
-export const operationStatusName: msRest.OperationURLParameter = {
-  parameterPath: "operationStatusName",
+export const projectName: msRest.OperationURLParameter = {
+  parameterPath: "projectName",
   mapper: {
     required: true,
-    serializedName: "operationStatusName",
+    serializedName: "projectName",
     type: {
       name: "String"
-    }
-  }
-};
-export const pageSize: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "pageSize"
-  ],
-  mapper: {
-    serializedName: "pageSize",
-    type: {
-      name: "Number"
     }
   }
 };
@@ -136,53 +101,11 @@ export const resourceGroupName: msRest.OperationURLParameter = {
     }
   }
 };
-export const siteName: msRest.OperationURLParameter = {
-  parameterPath: "siteName",
-  mapper: {
-    required: true,
-    serializedName: "siteName",
-    type: {
-      name: "String"
-    }
-  }
-};
 export const subscriptionId: msRest.OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
     required: true,
     serializedName: "subscriptionId",
-    type: {
-      name: "String"
-    }
-  }
-};
-export const totalRecordCount: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "totalRecordCount"
-  ],
-  mapper: {
-    serializedName: "totalRecordCount",
-    type: {
-      name: "Number"
-    }
-  }
-};
-export const validationRequired: msRest.OperationQueryParameter = {
-  parameterPath: "validationRequired",
-  mapper: {
-    required: true,
-    serializedName: "validationRequired",
-    type: {
-      name: "String"
-    }
-  }
-};
-export const vcenterName: msRest.OperationURLParameter = {
-  parameterPath: "vcenterName",
-  mapper: {
-    required: true,
-    serializedName: "vcenterName",
     type: {
       name: "String"
     }

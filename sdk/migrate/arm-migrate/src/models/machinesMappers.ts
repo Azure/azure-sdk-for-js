@@ -7,14 +7,19 @@
  */
 
 export {
+  AssessedDisk,
+  AssessedMachine,
+  AssessedNetworkAdapter,
+  Assessment,
+  BaseResource,
   CloudError,
-  HealthErrorDetails,
-  MachinesStartMachineHeaders,
-  MachinesStopMachineHeaders,
-  OperatingSystem,
-  VMwareDisk,
-  VMwareMachine,
-  VMwareMachineCollection,
-  VMwareMachineProperties,
-  VMwareNetworkAdapter
+  Disk,
+  Group,
+  Machine,
+  MachineResultList,
+  MachinesGetHeaders,
+  MachinesListByProjectHeaders,
+  NetworkAdapter,
+  Project,
+  ProjectKey
 } from "../models/mappers";
