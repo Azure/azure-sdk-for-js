@@ -951,6 +951,7 @@ export class MessageReceiver extends LinkEntity {
                   this._receiver.addCredit(this.maxConcurrentCalls);
                 }
               }
+              return;
             }),
           connectionId: connectionId,
           operationType: RetryOperationType.receiverLink,

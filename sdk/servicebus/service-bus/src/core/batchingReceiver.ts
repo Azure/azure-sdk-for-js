@@ -87,7 +87,7 @@ export class BatchingReceiver extends MessageReceiver {
       let firstMessageWaitTimer: NodeJS.Timer | undefined;
 
       // Final action to be performed after maxMessageCount is reached or the maxWaitTime is over.
-      const finalAction = () => {
+      const finalAction = (): void => {
         if (this._newMessageReceivedTimer) {
           clearTimeout(this._newMessageReceivedTimer);
         }
@@ -158,7 +158,7 @@ export class BatchingReceiver extends MessageReceiver {
       };
 
       // Action to be performed after the max wait time is over.
-      const actionAfterWaitTimeout = () => {
+      const actionAfterWaitTimeout = (): void => {
         log.batching(
           "[%s] Batching Receiver '%s'  max wait time in seconds %d over.",
           this._context.namespace.connectionId,
@@ -169,7 +169,7 @@ export class BatchingReceiver extends MessageReceiver {
       };
 
       // Action to be performed on the "receiver_drained" event.
-      onReceiveDrain = (context: EventContext) => {
+      onReceiveDrain = () => {
         if (this._receiver) {
           this._receiver.removeListener(ReceiverEvents.receiverDrained, onReceiveDrain);
           this._receiver.drain = false;
@@ -359,7 +359,7 @@ export class BatchingReceiver extends MessageReceiver {
         }
       };
 
-      const addCreditAndSetTimer = (reuse?: boolean) => {
+      const addCreditAndSetTimer = (reuse?: boolean): void => {
         log.batching(
           "[%s] Receiver '%s', adding credit for receiving %d messages.",
           this._context.namespace.connectionId,
@@ -413,6 +413,7 @@ export class BatchingReceiver extends MessageReceiver {
           .then(() => {
             this._receiver!.on(ReceiverEvents.receiverDrained, onReceiveDrain);
             addCreditAndSetTimer();
+            return;
           })
           .catch(reject);
       } else {
