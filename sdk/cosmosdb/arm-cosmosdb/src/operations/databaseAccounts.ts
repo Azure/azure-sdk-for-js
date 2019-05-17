@@ -436,7 +436,7 @@ export class DatabaseAccounts {
   }
 
   /**
-   * Retrieves metric defintions for the given database account.
+   * Retrieves metric definitions for the given database account.
    * @param resourceGroupName Name of an Azure resource group.
    * @param accountName Cosmos DB database account name.
    * @param [options] The optional parameters
@@ -465,6 +465,912 @@ export class DatabaseAccounts {
       },
       listMetricDefinitionsOperationSpec,
       callback) as Promise<Models.DatabaseAccountsListMetricDefinitionsResponse>;
+  }
+
+  /**
+   * Lists the SQL databases under an existing Azure Cosmos DB database account.
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.DatabaseAccountsListSqlDatabasesResponse>
+   */
+  listSqlDatabases(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.DatabaseAccountsListSqlDatabasesResponse>;
+  /**
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param callback The callback
+   */
+  listSqlDatabases(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.SqlDatabaseListResult>): void;
+  /**
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listSqlDatabases(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SqlDatabaseListResult>): void;
+  listSqlDatabases(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SqlDatabaseListResult>, callback?: msRest.ServiceCallback<Models.SqlDatabaseListResult>): Promise<Models.DatabaseAccountsListSqlDatabasesResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        accountName,
+        options
+      },
+      listSqlDatabasesOperationSpec,
+      callback) as Promise<Models.DatabaseAccountsListSqlDatabasesResponse>;
+  }
+
+  /**
+   * Gets the SQL databases under an existing Azure Cosmos DB database account with the provided
+   * name.
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.DatabaseAccountsGetSqlDatabaseResponse>
+   */
+  getSqlDatabase(resourceGroupName: string, accountName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<Models.DatabaseAccountsGetSqlDatabaseResponse>;
+  /**
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param callback The callback
+   */
+  getSqlDatabase(resourceGroupName: string, accountName: string, databaseName: string, callback: msRest.ServiceCallback<Models.SqlDatabase>): void;
+  /**
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getSqlDatabase(resourceGroupName: string, accountName: string, databaseName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SqlDatabase>): void;
+  getSqlDatabase(resourceGroupName: string, accountName: string, databaseName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SqlDatabase>, callback?: msRest.ServiceCallback<Models.SqlDatabase>): Promise<Models.DatabaseAccountsGetSqlDatabaseResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        accountName,
+        databaseName,
+        options
+      },
+      getSqlDatabaseOperationSpec,
+      callback) as Promise<Models.DatabaseAccountsGetSqlDatabaseResponse>;
+  }
+
+  /**
+   * Create or update an Azure Cosmos DB SQL database
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param createUpdateSqlDatabaseParameters The parameters to provide for the current SQL database.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.DatabaseAccountsCreateUpdateSqlDatabaseResponse>
+   */
+  createUpdateSqlDatabase(resourceGroupName: string, accountName: string, databaseName: string, createUpdateSqlDatabaseParameters: Models.SqlDatabaseCreateUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.DatabaseAccountsCreateUpdateSqlDatabaseResponse> {
+    return this.beginCreateUpdateSqlDatabase(resourceGroupName,accountName,databaseName,createUpdateSqlDatabaseParameters,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.DatabaseAccountsCreateUpdateSqlDatabaseResponse>;
+  }
+
+  /**
+   * Deletes an existing Azure Cosmos DB SQL database.
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  deleteSqlDatabase(resourceGroupName: string, accountName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginDeleteSqlDatabase(resourceGroupName,accountName,databaseName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
+  }
+
+  /**
+   * Lists the SQL container under an existing Azure Cosmos DB database account.
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.DatabaseAccountsListSqlContainersResponse>
+   */
+  listSqlContainers(resourceGroupName: string, accountName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<Models.DatabaseAccountsListSqlContainersResponse>;
+  /**
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param callback The callback
+   */
+  listSqlContainers(resourceGroupName: string, accountName: string, databaseName: string, callback: msRest.ServiceCallback<Models.SqlContainerListResult>): void;
+  /**
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listSqlContainers(resourceGroupName: string, accountName: string, databaseName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SqlContainerListResult>): void;
+  listSqlContainers(resourceGroupName: string, accountName: string, databaseName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SqlContainerListResult>, callback?: msRest.ServiceCallback<Models.SqlContainerListResult>): Promise<Models.DatabaseAccountsListSqlContainersResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        accountName,
+        databaseName,
+        options
+      },
+      listSqlContainersOperationSpec,
+      callback) as Promise<Models.DatabaseAccountsListSqlContainersResponse>;
+  }
+
+  /**
+   * Gets the SQL container under an existing Azure Cosmos DB database account.
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param containerName Cosmos DB container name.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.DatabaseAccountsGetSqlContainerResponse>
+   */
+  getSqlContainer(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, options?: msRest.RequestOptionsBase): Promise<Models.DatabaseAccountsGetSqlContainerResponse>;
+  /**
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param containerName Cosmos DB container name.
+   * @param callback The callback
+   */
+  getSqlContainer(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, callback: msRest.ServiceCallback<Models.SqlContainer>): void;
+  /**
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param containerName Cosmos DB container name.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getSqlContainer(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SqlContainer>): void;
+  getSqlContainer(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SqlContainer>, callback?: msRest.ServiceCallback<Models.SqlContainer>): Promise<Models.DatabaseAccountsGetSqlContainerResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        accountName,
+        databaseName,
+        containerName,
+        options
+      },
+      getSqlContainerOperationSpec,
+      callback) as Promise<Models.DatabaseAccountsGetSqlContainerResponse>;
+  }
+
+  /**
+   * Create or update an Azure Cosmos DB SQL container
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param containerName Cosmos DB container name.
+   * @param createUpdateSqlContainerParameters The parameters to provide for the current SQL
+   * container.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.DatabaseAccountsCreateUpdateSqlContainerResponse>
+   */
+  createUpdateSqlContainer(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, createUpdateSqlContainerParameters: Models.SqlContainerCreateUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.DatabaseAccountsCreateUpdateSqlContainerResponse> {
+    return this.beginCreateUpdateSqlContainer(resourceGroupName,accountName,databaseName,containerName,createUpdateSqlContainerParameters,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.DatabaseAccountsCreateUpdateSqlContainerResponse>;
+  }
+
+  /**
+   * Deletes an existing Azure Cosmos DB SQL container.
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param containerName Cosmos DB container name.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  deleteSqlContainer(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginDeleteSqlContainer(resourceGroupName,accountName,databaseName,containerName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
+  }
+
+  /**
+   * Lists the MongoDB databases under an existing Azure Cosmos DB database account.
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.DatabaseAccountsListMongoDBDatabasesResponse>
+   */
+  listMongoDBDatabases(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.DatabaseAccountsListMongoDBDatabasesResponse>;
+  /**
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param callback The callback
+   */
+  listMongoDBDatabases(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.MongoDBDatabaseListResult>): void;
+  /**
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listMongoDBDatabases(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MongoDBDatabaseListResult>): void;
+  listMongoDBDatabases(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MongoDBDatabaseListResult>, callback?: msRest.ServiceCallback<Models.MongoDBDatabaseListResult>): Promise<Models.DatabaseAccountsListMongoDBDatabasesResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        accountName,
+        options
+      },
+      listMongoDBDatabasesOperationSpec,
+      callback) as Promise<Models.DatabaseAccountsListMongoDBDatabasesResponse>;
+  }
+
+  /**
+   * Gets the MongoDB databases under an existing Azure Cosmos DB database account with the provided
+   * name.
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.DatabaseAccountsGetMongoDBDatabaseResponse>
+   */
+  getMongoDBDatabase(resourceGroupName: string, accountName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<Models.DatabaseAccountsGetMongoDBDatabaseResponse>;
+  /**
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param callback The callback
+   */
+  getMongoDBDatabase(resourceGroupName: string, accountName: string, databaseName: string, callback: msRest.ServiceCallback<Models.MongoDBDatabase>): void;
+  /**
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getMongoDBDatabase(resourceGroupName: string, accountName: string, databaseName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MongoDBDatabase>): void;
+  getMongoDBDatabase(resourceGroupName: string, accountName: string, databaseName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MongoDBDatabase>, callback?: msRest.ServiceCallback<Models.MongoDBDatabase>): Promise<Models.DatabaseAccountsGetMongoDBDatabaseResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        accountName,
+        databaseName,
+        options
+      },
+      getMongoDBDatabaseOperationSpec,
+      callback) as Promise<Models.DatabaseAccountsGetMongoDBDatabaseResponse>;
+  }
+
+  /**
+   * Create or updates Azure Cosmos DB MongoDB database
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param createUpdateMongoDBDatabaseParameters The parameters to provide for the current MongoDB
+   * database.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.DatabaseAccountsCreateUpdateMongoDBDatabaseResponse>
+   */
+  createUpdateMongoDBDatabase(resourceGroupName: string, accountName: string, databaseName: string, createUpdateMongoDBDatabaseParameters: Models.MongoDBDatabaseCreateUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.DatabaseAccountsCreateUpdateMongoDBDatabaseResponse> {
+    return this.beginCreateUpdateMongoDBDatabase(resourceGroupName,accountName,databaseName,createUpdateMongoDBDatabaseParameters,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.DatabaseAccountsCreateUpdateMongoDBDatabaseResponse>;
+  }
+
+  /**
+   * Deletes an existing Azure Cosmos DB MongoDB database.
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  deleteMongoDBDatabase(resourceGroupName: string, accountName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginDeleteMongoDBDatabase(resourceGroupName,accountName,databaseName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
+  }
+
+  /**
+   * Lists the MongoDB collection under an existing Azure Cosmos DB database account.
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.DatabaseAccountsListMongoDBCollectionsResponse>
+   */
+  listMongoDBCollections(resourceGroupName: string, accountName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<Models.DatabaseAccountsListMongoDBCollectionsResponse>;
+  /**
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param callback The callback
+   */
+  listMongoDBCollections(resourceGroupName: string, accountName: string, databaseName: string, callback: msRest.ServiceCallback<Models.MongoDBCollectionListResult>): void;
+  /**
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listMongoDBCollections(resourceGroupName: string, accountName: string, databaseName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MongoDBCollectionListResult>): void;
+  listMongoDBCollections(resourceGroupName: string, accountName: string, databaseName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MongoDBCollectionListResult>, callback?: msRest.ServiceCallback<Models.MongoDBCollectionListResult>): Promise<Models.DatabaseAccountsListMongoDBCollectionsResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        accountName,
+        databaseName,
+        options
+      },
+      listMongoDBCollectionsOperationSpec,
+      callback) as Promise<Models.DatabaseAccountsListMongoDBCollectionsResponse>;
+  }
+
+  /**
+   * Gets the MongoDB collection under an existing Azure Cosmos DB database account.
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param collectionName Cosmos DB collection name.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.DatabaseAccountsGetMongoDBCollectionResponse>
+   */
+  getMongoDBCollection(resourceGroupName: string, accountName: string, databaseName: string, collectionName: string, options?: msRest.RequestOptionsBase): Promise<Models.DatabaseAccountsGetMongoDBCollectionResponse>;
+  /**
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param collectionName Cosmos DB collection name.
+   * @param callback The callback
+   */
+  getMongoDBCollection(resourceGroupName: string, accountName: string, databaseName: string, collectionName: string, callback: msRest.ServiceCallback<Models.MongoDBCollection>): void;
+  /**
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param collectionName Cosmos DB collection name.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getMongoDBCollection(resourceGroupName: string, accountName: string, databaseName: string, collectionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MongoDBCollection>): void;
+  getMongoDBCollection(resourceGroupName: string, accountName: string, databaseName: string, collectionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MongoDBCollection>, callback?: msRest.ServiceCallback<Models.MongoDBCollection>): Promise<Models.DatabaseAccountsGetMongoDBCollectionResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        accountName,
+        databaseName,
+        collectionName,
+        options
+      },
+      getMongoDBCollectionOperationSpec,
+      callback) as Promise<Models.DatabaseAccountsGetMongoDBCollectionResponse>;
+  }
+
+  /**
+   * Create or update an Azure Cosmos DB MongoDB Collection
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param collectionName Cosmos DB collection name.
+   * @param createUpdateMongoDBCollectionParameters The parameters to provide for the current MongoDB
+   * Collection.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.DatabaseAccountsCreateUpdateMongoDBCollectionResponse>
+   */
+  createUpdateMongoDBCollection(resourceGroupName: string, accountName: string, databaseName: string, collectionName: string, createUpdateMongoDBCollectionParameters: Models.MongoDBCollectionCreateUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.DatabaseAccountsCreateUpdateMongoDBCollectionResponse> {
+    return this.beginCreateUpdateMongoDBCollection(resourceGroupName,accountName,databaseName,collectionName,createUpdateMongoDBCollectionParameters,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.DatabaseAccountsCreateUpdateMongoDBCollectionResponse>;
+  }
+
+  /**
+   * Deletes an existing Azure Cosmos DB MongoDB Collection.
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param collectionName Cosmos DB collection name.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  deleteMongoDBCollection(resourceGroupName: string, accountName: string, databaseName: string, collectionName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginDeleteMongoDBCollection(resourceGroupName,accountName,databaseName,collectionName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
+  }
+
+  /**
+   * Lists the Tables under an existing Azure Cosmos DB database account.
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.DatabaseAccountsListTablesResponse>
+   */
+  listTables(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.DatabaseAccountsListTablesResponse>;
+  /**
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param callback The callback
+   */
+  listTables(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.TableListResult>): void;
+  /**
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listTables(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TableListResult>): void;
+  listTables(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TableListResult>, callback?: msRest.ServiceCallback<Models.TableListResult>): Promise<Models.DatabaseAccountsListTablesResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        accountName,
+        options
+      },
+      listTablesOperationSpec,
+      callback) as Promise<Models.DatabaseAccountsListTablesResponse>;
+  }
+
+  /**
+   * Gets the Tables under an existing Azure Cosmos DB database account with the provided name.
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param tableName Cosmos DB table name.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.DatabaseAccountsGetTableResponse>
+   */
+  getTable(resourceGroupName: string, accountName: string, tableName: string, options?: msRest.RequestOptionsBase): Promise<Models.DatabaseAccountsGetTableResponse>;
+  /**
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param tableName Cosmos DB table name.
+   * @param callback The callback
+   */
+  getTable(resourceGroupName: string, accountName: string, tableName: string, callback: msRest.ServiceCallback<Models.Table>): void;
+  /**
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param tableName Cosmos DB table name.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getTable(resourceGroupName: string, accountName: string, tableName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Table>): void;
+  getTable(resourceGroupName: string, accountName: string, tableName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Table>, callback?: msRest.ServiceCallback<Models.Table>): Promise<Models.DatabaseAccountsGetTableResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        accountName,
+        tableName,
+        options
+      },
+      getTableOperationSpec,
+      callback) as Promise<Models.DatabaseAccountsGetTableResponse>;
+  }
+
+  /**
+   * Create or update an Azure Cosmos DB Table
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param tableName Cosmos DB table name.
+   * @param createUpdateTableParameters The parameters to provide for the current Table.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.DatabaseAccountsCreateUpdateTableResponse>
+   */
+  createUpdateTable(resourceGroupName: string, accountName: string, tableName: string, createUpdateTableParameters: Models.TableCreateUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.DatabaseAccountsCreateUpdateTableResponse> {
+    return this.beginCreateUpdateTable(resourceGroupName,accountName,tableName,createUpdateTableParameters,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.DatabaseAccountsCreateUpdateTableResponse>;
+  }
+
+  /**
+   * Deletes an existing Azure Cosmos DB Table.
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param tableName Cosmos DB table name.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  deleteTable(resourceGroupName: string, accountName: string, tableName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginDeleteTable(resourceGroupName,accountName,tableName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
+  }
+
+  /**
+   * Lists the Cassandra keyspaces under an existing Azure Cosmos DB database account.
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.DatabaseAccountsListCassandraKeyspacesResponse>
+   */
+  listCassandraKeyspaces(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.DatabaseAccountsListCassandraKeyspacesResponse>;
+  /**
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param callback The callback
+   */
+  listCassandraKeyspaces(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.CassandraKeyspaceListResult>): void;
+  /**
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listCassandraKeyspaces(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CassandraKeyspaceListResult>): void;
+  listCassandraKeyspaces(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CassandraKeyspaceListResult>, callback?: msRest.ServiceCallback<Models.CassandraKeyspaceListResult>): Promise<Models.DatabaseAccountsListCassandraKeyspacesResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        accountName,
+        options
+      },
+      listCassandraKeyspacesOperationSpec,
+      callback) as Promise<Models.DatabaseAccountsListCassandraKeyspacesResponse>;
+  }
+
+  /**
+   * Gets the Cassandra keyspaces under an existing Azure Cosmos DB database account with the
+   * provided name.
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param keyspaceName Cosmos DB keyspace name.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.DatabaseAccountsGetCassandraKeyspaceResponse>
+   */
+  getCassandraKeyspace(resourceGroupName: string, accountName: string, keyspaceName: string, options?: msRest.RequestOptionsBase): Promise<Models.DatabaseAccountsGetCassandraKeyspaceResponse>;
+  /**
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param keyspaceName Cosmos DB keyspace name.
+   * @param callback The callback
+   */
+  getCassandraKeyspace(resourceGroupName: string, accountName: string, keyspaceName: string, callback: msRest.ServiceCallback<Models.CassandraKeyspace>): void;
+  /**
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param keyspaceName Cosmos DB keyspace name.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getCassandraKeyspace(resourceGroupName: string, accountName: string, keyspaceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CassandraKeyspace>): void;
+  getCassandraKeyspace(resourceGroupName: string, accountName: string, keyspaceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CassandraKeyspace>, callback?: msRest.ServiceCallback<Models.CassandraKeyspace>): Promise<Models.DatabaseAccountsGetCassandraKeyspaceResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        accountName,
+        keyspaceName,
+        options
+      },
+      getCassandraKeyspaceOperationSpec,
+      callback) as Promise<Models.DatabaseAccountsGetCassandraKeyspaceResponse>;
+  }
+
+  /**
+   * Create or update an Azure Cosmos DB Cassandra keyspace
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param keyspaceName Cosmos DB keyspace name.
+   * @param createUpdateCassandraKeyspaceParameters The parameters to provide for the current
+   * Cassandra keyspace.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.DatabaseAccountsCreateUpdateCassandraKeyspaceResponse>
+   */
+  createUpdateCassandraKeyspace(resourceGroupName: string, accountName: string, keyspaceName: string, createUpdateCassandraKeyspaceParameters: Models.CassandraKeyspaceCreateUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.DatabaseAccountsCreateUpdateCassandraKeyspaceResponse> {
+    return this.beginCreateUpdateCassandraKeyspace(resourceGroupName,accountName,keyspaceName,createUpdateCassandraKeyspaceParameters,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.DatabaseAccountsCreateUpdateCassandraKeyspaceResponse>;
+  }
+
+  /**
+   * Deletes an existing Azure Cosmos DB Cassandra keyspace.
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param keyspaceName Cosmos DB keyspace name.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  deleteCassandraKeyspace(resourceGroupName: string, accountName: string, keyspaceName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginDeleteCassandraKeyspace(resourceGroupName,accountName,keyspaceName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
+  }
+
+  /**
+   * Lists the Cassandra table under an existing Azure Cosmos DB database account.
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param keyspaceName Cosmos DB keyspace name.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.DatabaseAccountsListCassandraTablesResponse>
+   */
+  listCassandraTables(resourceGroupName: string, accountName: string, keyspaceName: string, options?: msRest.RequestOptionsBase): Promise<Models.DatabaseAccountsListCassandraTablesResponse>;
+  /**
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param keyspaceName Cosmos DB keyspace name.
+   * @param callback The callback
+   */
+  listCassandraTables(resourceGroupName: string, accountName: string, keyspaceName: string, callback: msRest.ServiceCallback<Models.CassandraTableListResult>): void;
+  /**
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param keyspaceName Cosmos DB keyspace name.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listCassandraTables(resourceGroupName: string, accountName: string, keyspaceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CassandraTableListResult>): void;
+  listCassandraTables(resourceGroupName: string, accountName: string, keyspaceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CassandraTableListResult>, callback?: msRest.ServiceCallback<Models.CassandraTableListResult>): Promise<Models.DatabaseAccountsListCassandraTablesResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        accountName,
+        keyspaceName,
+        options
+      },
+      listCassandraTablesOperationSpec,
+      callback) as Promise<Models.DatabaseAccountsListCassandraTablesResponse>;
+  }
+
+  /**
+   * Gets the Cassandra table under an existing Azure Cosmos DB database account.
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param keyspaceName Cosmos DB keyspace name.
+   * @param tableName Cosmos DB table name.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.DatabaseAccountsGetCassandraTableResponse>
+   */
+  getCassandraTable(resourceGroupName: string, accountName: string, keyspaceName: string, tableName: string, options?: msRest.RequestOptionsBase): Promise<Models.DatabaseAccountsGetCassandraTableResponse>;
+  /**
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param keyspaceName Cosmos DB keyspace name.
+   * @param tableName Cosmos DB table name.
+   * @param callback The callback
+   */
+  getCassandraTable(resourceGroupName: string, accountName: string, keyspaceName: string, tableName: string, callback: msRest.ServiceCallback<Models.CassandraTable>): void;
+  /**
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param keyspaceName Cosmos DB keyspace name.
+   * @param tableName Cosmos DB table name.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getCassandraTable(resourceGroupName: string, accountName: string, keyspaceName: string, tableName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CassandraTable>): void;
+  getCassandraTable(resourceGroupName: string, accountName: string, keyspaceName: string, tableName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CassandraTable>, callback?: msRest.ServiceCallback<Models.CassandraTable>): Promise<Models.DatabaseAccountsGetCassandraTableResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        accountName,
+        keyspaceName,
+        tableName,
+        options
+      },
+      getCassandraTableOperationSpec,
+      callback) as Promise<Models.DatabaseAccountsGetCassandraTableResponse>;
+  }
+
+  /**
+   * Create or update an Azure Cosmos DB Cassandra Table
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param keyspaceName Cosmos DB keyspace name.
+   * @param tableName Cosmos DB table name.
+   * @param createUpdateCassandraTableParameters The parameters to provide for the current Cassandra
+   * Table.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.DatabaseAccountsCreateUpdateCassandraTableResponse>
+   */
+  createUpdateCassandraTable(resourceGroupName: string, accountName: string, keyspaceName: string, tableName: string, createUpdateCassandraTableParameters: Models.CassandraTableCreateUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.DatabaseAccountsCreateUpdateCassandraTableResponse> {
+    return this.beginCreateUpdateCassandraTable(resourceGroupName,accountName,keyspaceName,tableName,createUpdateCassandraTableParameters,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.DatabaseAccountsCreateUpdateCassandraTableResponse>;
+  }
+
+  /**
+   * Deletes an existing Azure Cosmos DB Cassandra table.
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param keyspaceName Cosmos DB keyspace name.
+   * @param tableName Cosmos DB table name.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  deleteCassandraTable(resourceGroupName: string, accountName: string, keyspaceName: string, tableName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginDeleteCassandraTable(resourceGroupName,accountName,keyspaceName,tableName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
+  }
+
+  /**
+   * Lists the Gremlin databases under an existing Azure Cosmos DB database account.
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.DatabaseAccountsListGremlinDatabasesResponse>
+   */
+  listGremlinDatabases(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.DatabaseAccountsListGremlinDatabasesResponse>;
+  /**
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param callback The callback
+   */
+  listGremlinDatabases(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.GremlinDatabaseListResult>): void;
+  /**
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listGremlinDatabases(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.GremlinDatabaseListResult>): void;
+  listGremlinDatabases(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GremlinDatabaseListResult>, callback?: msRest.ServiceCallback<Models.GremlinDatabaseListResult>): Promise<Models.DatabaseAccountsListGremlinDatabasesResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        accountName,
+        options
+      },
+      listGremlinDatabasesOperationSpec,
+      callback) as Promise<Models.DatabaseAccountsListGremlinDatabasesResponse>;
+  }
+
+  /**
+   * Gets the Gremlin databases under an existing Azure Cosmos DB database account with the provided
+   * name.
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.DatabaseAccountsGetGremlinDatabaseResponse>
+   */
+  getGremlinDatabase(resourceGroupName: string, accountName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<Models.DatabaseAccountsGetGremlinDatabaseResponse>;
+  /**
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param callback The callback
+   */
+  getGremlinDatabase(resourceGroupName: string, accountName: string, databaseName: string, callback: msRest.ServiceCallback<Models.GremlinDatabase>): void;
+  /**
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getGremlinDatabase(resourceGroupName: string, accountName: string, databaseName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.GremlinDatabase>): void;
+  getGremlinDatabase(resourceGroupName: string, accountName: string, databaseName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GremlinDatabase>, callback?: msRest.ServiceCallback<Models.GremlinDatabase>): Promise<Models.DatabaseAccountsGetGremlinDatabaseResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        accountName,
+        databaseName,
+        options
+      },
+      getGremlinDatabaseOperationSpec,
+      callback) as Promise<Models.DatabaseAccountsGetGremlinDatabaseResponse>;
+  }
+
+  /**
+   * Create or update an Azure Cosmos DB Gremlin database
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param createUpdateGremlinDatabaseParameters The parameters to provide for the current Gremlin
+   * database.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.DatabaseAccountsCreateUpdateGremlinDatabaseResponse>
+   */
+  createUpdateGremlinDatabase(resourceGroupName: string, accountName: string, databaseName: string, createUpdateGremlinDatabaseParameters: Models.GremlinDatabaseCreateUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.DatabaseAccountsCreateUpdateGremlinDatabaseResponse> {
+    return this.beginCreateUpdateGremlinDatabase(resourceGroupName,accountName,databaseName,createUpdateGremlinDatabaseParameters,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.DatabaseAccountsCreateUpdateGremlinDatabaseResponse>;
+  }
+
+  /**
+   * Deletes an existing Azure Cosmos DB Gremlin database.
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  deleteGremlinDatabase(resourceGroupName: string, accountName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginDeleteGremlinDatabase(resourceGroupName,accountName,databaseName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
+  }
+
+  /**
+   * Lists the Gremlin graph under an existing Azure Cosmos DB database account.
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.DatabaseAccountsListGremlinGraphsResponse>
+   */
+  listGremlinGraphs(resourceGroupName: string, accountName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<Models.DatabaseAccountsListGremlinGraphsResponse>;
+  /**
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param callback The callback
+   */
+  listGremlinGraphs(resourceGroupName: string, accountName: string, databaseName: string, callback: msRest.ServiceCallback<Models.GremlinGraphListResult>): void;
+  /**
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listGremlinGraphs(resourceGroupName: string, accountName: string, databaseName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.GremlinGraphListResult>): void;
+  listGremlinGraphs(resourceGroupName: string, accountName: string, databaseName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GremlinGraphListResult>, callback?: msRest.ServiceCallback<Models.GremlinGraphListResult>): Promise<Models.DatabaseAccountsListGremlinGraphsResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        accountName,
+        databaseName,
+        options
+      },
+      listGremlinGraphsOperationSpec,
+      callback) as Promise<Models.DatabaseAccountsListGremlinGraphsResponse>;
+  }
+
+  /**
+   * Gets the Gremlin graph under an existing Azure Cosmos DB database account.
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param graphName Cosmos DB graph name.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.DatabaseAccountsGetGremlinGraphResponse>
+   */
+  getGremlinGraph(resourceGroupName: string, accountName: string, databaseName: string, graphName: string, options?: msRest.RequestOptionsBase): Promise<Models.DatabaseAccountsGetGremlinGraphResponse>;
+  /**
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param graphName Cosmos DB graph name.
+   * @param callback The callback
+   */
+  getGremlinGraph(resourceGroupName: string, accountName: string, databaseName: string, graphName: string, callback: msRest.ServiceCallback<Models.GremlinGraph>): void;
+  /**
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param graphName Cosmos DB graph name.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getGremlinGraph(resourceGroupName: string, accountName: string, databaseName: string, graphName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.GremlinGraph>): void;
+  getGremlinGraph(resourceGroupName: string, accountName: string, databaseName: string, graphName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GremlinGraph>, callback?: msRest.ServiceCallback<Models.GremlinGraph>): Promise<Models.DatabaseAccountsGetGremlinGraphResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        accountName,
+        databaseName,
+        graphName,
+        options
+      },
+      getGremlinGraphOperationSpec,
+      callback) as Promise<Models.DatabaseAccountsGetGremlinGraphResponse>;
+  }
+
+  /**
+   * Create or update an Azure Cosmos DB Gremlin graph
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param graphName Cosmos DB graph name.
+   * @param createUpdateGremlinGraphParameters The parameters to provide for the current Gremlin
+   * graph.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.DatabaseAccountsCreateUpdateGremlinGraphResponse>
+   */
+  createUpdateGremlinGraph(resourceGroupName: string, accountName: string, databaseName: string, graphName: string, createUpdateGremlinGraphParameters: Models.GremlinGraphCreateUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.DatabaseAccountsCreateUpdateGremlinGraphResponse> {
+    return this.beginCreateUpdateGremlinGraph(resourceGroupName,accountName,databaseName,graphName,createUpdateGremlinGraphParameters,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.DatabaseAccountsCreateUpdateGremlinGraphResponse>;
+  }
+
+  /**
+   * Deletes an existing Azure Cosmos DB Gremlin graph.
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param graphName Cosmos DB graph name.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  deleteGremlinGraph(resourceGroupName: string, accountName: string, databaseName: string, graphName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginDeleteGremlinGraph(resourceGroupName,accountName,databaseName,graphName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -605,6 +1511,407 @@ export class DatabaseAccounts {
         options
       },
       beginRegenerateKeyOperationSpec,
+      options);
+  }
+
+  /**
+   * Create or update an Azure Cosmos DB SQL database
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param createUpdateSqlDatabaseParameters The parameters to provide for the current SQL database.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginCreateUpdateSqlDatabase(resourceGroupName: string, accountName: string, databaseName: string, createUpdateSqlDatabaseParameters: Models.SqlDatabaseCreateUpdateParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        accountName,
+        databaseName,
+        createUpdateSqlDatabaseParameters,
+        options
+      },
+      beginCreateUpdateSqlDatabaseOperationSpec,
+      options);
+  }
+
+  /**
+   * Deletes an existing Azure Cosmos DB SQL database.
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginDeleteSqlDatabase(resourceGroupName: string, accountName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        accountName,
+        databaseName,
+        options
+      },
+      beginDeleteSqlDatabaseOperationSpec,
+      options);
+  }
+
+  /**
+   * Create or update an Azure Cosmos DB SQL container
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param containerName Cosmos DB container name.
+   * @param createUpdateSqlContainerParameters The parameters to provide for the current SQL
+   * container.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginCreateUpdateSqlContainer(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, createUpdateSqlContainerParameters: Models.SqlContainerCreateUpdateParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        accountName,
+        databaseName,
+        containerName,
+        createUpdateSqlContainerParameters,
+        options
+      },
+      beginCreateUpdateSqlContainerOperationSpec,
+      options);
+  }
+
+  /**
+   * Deletes an existing Azure Cosmos DB SQL container.
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param containerName Cosmos DB container name.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginDeleteSqlContainer(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        accountName,
+        databaseName,
+        containerName,
+        options
+      },
+      beginDeleteSqlContainerOperationSpec,
+      options);
+  }
+
+  /**
+   * Create or updates Azure Cosmos DB MongoDB database
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param createUpdateMongoDBDatabaseParameters The parameters to provide for the current MongoDB
+   * database.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginCreateUpdateMongoDBDatabase(resourceGroupName: string, accountName: string, databaseName: string, createUpdateMongoDBDatabaseParameters: Models.MongoDBDatabaseCreateUpdateParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        accountName,
+        databaseName,
+        createUpdateMongoDBDatabaseParameters,
+        options
+      },
+      beginCreateUpdateMongoDBDatabaseOperationSpec,
+      options);
+  }
+
+  /**
+   * Deletes an existing Azure Cosmos DB MongoDB database.
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginDeleteMongoDBDatabase(resourceGroupName: string, accountName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        accountName,
+        databaseName,
+        options
+      },
+      beginDeleteMongoDBDatabaseOperationSpec,
+      options);
+  }
+
+  /**
+   * Create or update an Azure Cosmos DB MongoDB Collection
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param collectionName Cosmos DB collection name.
+   * @param createUpdateMongoDBCollectionParameters The parameters to provide for the current MongoDB
+   * Collection.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginCreateUpdateMongoDBCollection(resourceGroupName: string, accountName: string, databaseName: string, collectionName: string, createUpdateMongoDBCollectionParameters: Models.MongoDBCollectionCreateUpdateParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        accountName,
+        databaseName,
+        collectionName,
+        createUpdateMongoDBCollectionParameters,
+        options
+      },
+      beginCreateUpdateMongoDBCollectionOperationSpec,
+      options);
+  }
+
+  /**
+   * Deletes an existing Azure Cosmos DB MongoDB Collection.
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param collectionName Cosmos DB collection name.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginDeleteMongoDBCollection(resourceGroupName: string, accountName: string, databaseName: string, collectionName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        accountName,
+        databaseName,
+        collectionName,
+        options
+      },
+      beginDeleteMongoDBCollectionOperationSpec,
+      options);
+  }
+
+  /**
+   * Create or update an Azure Cosmos DB Table
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param tableName Cosmos DB table name.
+   * @param createUpdateTableParameters The parameters to provide for the current Table.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginCreateUpdateTable(resourceGroupName: string, accountName: string, tableName: string, createUpdateTableParameters: Models.TableCreateUpdateParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        accountName,
+        tableName,
+        createUpdateTableParameters,
+        options
+      },
+      beginCreateUpdateTableOperationSpec,
+      options);
+  }
+
+  /**
+   * Deletes an existing Azure Cosmos DB Table.
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param tableName Cosmos DB table name.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginDeleteTable(resourceGroupName: string, accountName: string, tableName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        accountName,
+        tableName,
+        options
+      },
+      beginDeleteTableOperationSpec,
+      options);
+  }
+
+  /**
+   * Create or update an Azure Cosmos DB Cassandra keyspace
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param keyspaceName Cosmos DB keyspace name.
+   * @param createUpdateCassandraKeyspaceParameters The parameters to provide for the current
+   * Cassandra keyspace.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginCreateUpdateCassandraKeyspace(resourceGroupName: string, accountName: string, keyspaceName: string, createUpdateCassandraKeyspaceParameters: Models.CassandraKeyspaceCreateUpdateParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        accountName,
+        keyspaceName,
+        createUpdateCassandraKeyspaceParameters,
+        options
+      },
+      beginCreateUpdateCassandraKeyspaceOperationSpec,
+      options);
+  }
+
+  /**
+   * Deletes an existing Azure Cosmos DB Cassandra keyspace.
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param keyspaceName Cosmos DB keyspace name.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginDeleteCassandraKeyspace(resourceGroupName: string, accountName: string, keyspaceName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        accountName,
+        keyspaceName,
+        options
+      },
+      beginDeleteCassandraKeyspaceOperationSpec,
+      options);
+  }
+
+  /**
+   * Create or update an Azure Cosmos DB Cassandra Table
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param keyspaceName Cosmos DB keyspace name.
+   * @param tableName Cosmos DB table name.
+   * @param createUpdateCassandraTableParameters The parameters to provide for the current Cassandra
+   * Table.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginCreateUpdateCassandraTable(resourceGroupName: string, accountName: string, keyspaceName: string, tableName: string, createUpdateCassandraTableParameters: Models.CassandraTableCreateUpdateParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        accountName,
+        keyspaceName,
+        tableName,
+        createUpdateCassandraTableParameters,
+        options
+      },
+      beginCreateUpdateCassandraTableOperationSpec,
+      options);
+  }
+
+  /**
+   * Deletes an existing Azure Cosmos DB Cassandra table.
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param keyspaceName Cosmos DB keyspace name.
+   * @param tableName Cosmos DB table name.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginDeleteCassandraTable(resourceGroupName: string, accountName: string, keyspaceName: string, tableName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        accountName,
+        keyspaceName,
+        tableName,
+        options
+      },
+      beginDeleteCassandraTableOperationSpec,
+      options);
+  }
+
+  /**
+   * Create or update an Azure Cosmos DB Gremlin database
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param createUpdateGremlinDatabaseParameters The parameters to provide for the current Gremlin
+   * database.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginCreateUpdateGremlinDatabase(resourceGroupName: string, accountName: string, databaseName: string, createUpdateGremlinDatabaseParameters: Models.GremlinDatabaseCreateUpdateParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        accountName,
+        databaseName,
+        createUpdateGremlinDatabaseParameters,
+        options
+      },
+      beginCreateUpdateGremlinDatabaseOperationSpec,
+      options);
+  }
+
+  /**
+   * Deletes an existing Azure Cosmos DB Gremlin database.
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginDeleteGremlinDatabase(resourceGroupName: string, accountName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        accountName,
+        databaseName,
+        options
+      },
+      beginDeleteGremlinDatabaseOperationSpec,
+      options);
+  }
+
+  /**
+   * Create or update an Azure Cosmos DB Gremlin graph
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param graphName Cosmos DB graph name.
+   * @param createUpdateGremlinGraphParameters The parameters to provide for the current Gremlin
+   * graph.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginCreateUpdateGremlinGraph(resourceGroupName: string, accountName: string, databaseName: string, graphName: string, createUpdateGremlinGraphParameters: Models.GremlinGraphCreateUpdateParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        accountName,
+        databaseName,
+        graphName,
+        createUpdateGremlinGraphParameters,
+        options
+      },
+      beginCreateUpdateGremlinGraphOperationSpec,
+      options);
+  }
+
+  /**
+   * Deletes an existing Azure Cosmos DB Gremlin graph.
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param graphName Cosmos DB graph name.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginDeleteGremlinGraph(resourceGroupName: string, accountName: string, databaseName: string, graphName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        accountName,
+        databaseName,
+        graphName,
+        options
+      },
+      beginDeleteGremlinGraphOperationSpec,
       options);
   }
 }
@@ -882,6 +2189,473 @@ const listMetricDefinitionsOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
+const listSqlDatabasesOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/apis/sql/databases",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.SqlDatabaseListResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const getSqlDatabaseOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/apis/sql/databases/{databaseName}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.databaseName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.SqlDatabase
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const listSqlContainersOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/apis/sql/databases/{databaseName}/containers",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.databaseName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.SqlContainerListResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const getSqlContainerOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/apis/sql/databases/{databaseName}/containers/{containerName}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.databaseName,
+    Parameters.containerName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.SqlContainer
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const listMongoDBDatabasesOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/apis/mongodb/databases",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.MongoDBDatabaseListResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const getMongoDBDatabaseOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/apis/mongodb/databases/{databaseName}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.databaseName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.MongoDBDatabase
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const listMongoDBCollectionsOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/apis/mongodb/databases/{databaseName}/collections",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.databaseName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.MongoDBCollectionListResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const getMongoDBCollectionOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/apis/mongodb/databases/{databaseName}/collections/{collectionName}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.databaseName,
+    Parameters.collectionName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.MongoDBCollection
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const listTablesOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/apis/table/tables",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.TableListResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const getTableOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/apis/table/tables/{tableName}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.tableName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.Table
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const listCassandraKeyspacesOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/apis/cassandra/keyspaces",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.CassandraKeyspaceListResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const getCassandraKeyspaceOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/apis/cassandra/keyspaces/{keyspaceName}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.keyspaceName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.CassandraKeyspace
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const listCassandraTablesOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/apis/cassandra/keyspaces/{keyspaceName}/tables",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.keyspaceName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.CassandraTableListResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const getCassandraTableOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/apis/cassandra/keyspaces/{keyspaceName}/tables/{tableName}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.keyspaceName,
+    Parameters.tableName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.CassandraTable
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const listGremlinDatabasesOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/apis/gremlin/databases",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.GremlinDatabaseListResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const getGremlinDatabaseOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/apis/gremlin/databases/{databaseName}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.databaseName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.GremlinDatabase
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const listGremlinGraphsOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/apis/gremlin/databases/{databaseName}/graphs",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.databaseName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.GremlinGraphListResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const getGremlinGraphOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/apis/gremlin/databases/{databaseName}/graphs/{graphName}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.databaseName,
+    Parameters.graphName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.GremlinGraph
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
 const beginPatchOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}",
@@ -1087,6 +2861,545 @@ const beginRegenerateKeyOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {},
     202: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginCreateUpdateSqlDatabaseOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PUT",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/apis/sql/databases/{databaseName}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.databaseName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "createUpdateSqlDatabaseParameters",
+    mapper: {
+      ...Mappers.SqlDatabaseCreateUpdateParameters,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.SqlDatabase
+    },
+    202: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginDeleteSqlDatabaseOperationSpec: msRest.OperationSpec = {
+  httpMethod: "DELETE",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/apis/sql/databases/{databaseName}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.databaseName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginCreateUpdateSqlContainerOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PUT",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/apis/sql/databases/{databaseName}/containers/{containerName}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.databaseName,
+    Parameters.containerName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "createUpdateSqlContainerParameters",
+    mapper: {
+      ...Mappers.SqlContainerCreateUpdateParameters,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.SqlContainer
+    },
+    202: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginDeleteSqlContainerOperationSpec: msRest.OperationSpec = {
+  httpMethod: "DELETE",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/apis/sql/databases/{databaseName}/containers/{containerName}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.databaseName,
+    Parameters.containerName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginCreateUpdateMongoDBDatabaseOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PUT",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/apis/mongodb/databases/{databaseName}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.databaseName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "createUpdateMongoDBDatabaseParameters",
+    mapper: {
+      ...Mappers.MongoDBDatabaseCreateUpdateParameters,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.MongoDBDatabase
+    },
+    202: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginDeleteMongoDBDatabaseOperationSpec: msRest.OperationSpec = {
+  httpMethod: "DELETE",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/apis/mongodb/databases/{databaseName}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.databaseName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginCreateUpdateMongoDBCollectionOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PUT",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/apis/mongodb/databases/{databaseName}/collections/{collectionName}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.databaseName,
+    Parameters.collectionName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "createUpdateMongoDBCollectionParameters",
+    mapper: {
+      ...Mappers.MongoDBCollectionCreateUpdateParameters,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.MongoDBCollection
+    },
+    202: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginDeleteMongoDBCollectionOperationSpec: msRest.OperationSpec = {
+  httpMethod: "DELETE",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/apis/mongodb/databases/{databaseName}/collections/{collectionName}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.databaseName,
+    Parameters.collectionName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginCreateUpdateTableOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PUT",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/apis/table/tables/{tableName}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.tableName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "createUpdateTableParameters",
+    mapper: {
+      ...Mappers.TableCreateUpdateParameters,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.Table
+    },
+    202: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginDeleteTableOperationSpec: msRest.OperationSpec = {
+  httpMethod: "DELETE",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/apis/table/tables/{tableName}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.tableName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginCreateUpdateCassandraKeyspaceOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PUT",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/apis/cassandra/keyspaces/{keyspaceName}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.keyspaceName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "createUpdateCassandraKeyspaceParameters",
+    mapper: {
+      ...Mappers.CassandraKeyspaceCreateUpdateParameters,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.CassandraKeyspace
+    },
+    202: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginDeleteCassandraKeyspaceOperationSpec: msRest.OperationSpec = {
+  httpMethod: "DELETE",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/apis/cassandra/keyspaces/{keyspaceName}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.keyspaceName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginCreateUpdateCassandraTableOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PUT",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/apis/cassandra/keyspaces/{keyspaceName}/tables/{tableName}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.keyspaceName,
+    Parameters.tableName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "createUpdateCassandraTableParameters",
+    mapper: {
+      ...Mappers.CassandraTableCreateUpdateParameters,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.CassandraTable
+    },
+    202: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginDeleteCassandraTableOperationSpec: msRest.OperationSpec = {
+  httpMethod: "DELETE",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/apis/cassandra/keyspaces/{keyspaceName}/tables/{tableName}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.keyspaceName,
+    Parameters.tableName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginCreateUpdateGremlinDatabaseOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PUT",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/apis/gremlin/databases/{databaseName}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.databaseName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "createUpdateGremlinDatabaseParameters",
+    mapper: {
+      ...Mappers.GremlinDatabaseCreateUpdateParameters,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.GremlinDatabase
+    },
+    202: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginDeleteGremlinDatabaseOperationSpec: msRest.OperationSpec = {
+  httpMethod: "DELETE",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/apis/gremlin/databases/{databaseName}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.databaseName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginCreateUpdateGremlinGraphOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PUT",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/apis/gremlin/databases/{databaseName}/graphs/{graphName}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.databaseName,
+    Parameters.graphName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "createUpdateGremlinGraphParameters",
+    mapper: {
+      ...Mappers.GremlinGraphCreateUpdateParameters,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.GremlinGraph
+    },
+    202: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginDeleteGremlinGraphOperationSpec: msRest.OperationSpec = {
+  httpMethod: "DELETE",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/apis/gremlin/databases/{databaseName}/graphs/{graphName}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.databaseName,
+    Parameters.graphName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    202: {},
+    204: {},
     default: {
       bodyMapper: Mappers.CloudError
     }
