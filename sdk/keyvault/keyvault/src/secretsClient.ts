@@ -20,8 +20,8 @@ import {
 } from "@azure/ms-rest-js";
 
 import { AzureServiceClientOptions as Pipeline, getDefaultUserAgentValue } from "@azure/ms-rest-azure-js";
-
-import { RetryOptions, ProxyOptions, TelemetryOptions } from ".";
+import { NewPipelineOptions, isNewPipelineOptions } from "./pipeline";
+import { TelemetryOptions } from ".";
 import { SecretBundle } from "./models";
 import { KeyVaultClient } from "./keyVaultClient";
 import { RetryConstants, SDK_VERSION } from "./utils/constants";
@@ -35,47 +35,6 @@ import {
   SecretAttributes
 } from "./secretsModels";
 import { parseKeyvaultIdentifier as parseKeyvaultEntityIdentifier } from "./utils";
-
-export { Pipeline };
-/**
- * Option interface for Pipeline.newPipeline method.
- *
- * Properties of this interface should not overlap with properties of {@link Pipeline}
- * as we use them to differentiate instances of NewPipelineOptions from instances of Pipeline.
- * If this interface is modified, the method isNewPipelineOptions() should also be updated
- * to adapt the changes.
- *
- * @export
- * @interface NewPipelineOptions
- */
-export interface NewPipelineOptions {
-  /**
-   * Telemetry configures the built-in telemetry policy behavior.
-   *
-   * @type {TelemetryOptions}
-   * @memberof NewPipelineOptions
-   */
-  telemetry?: TelemetryOptions;
-  retryOptions?: RetryOptions;
-  proxyOptions?: ProxyOptions;
-
-  logger?: IHttpPipelineLogger;
-  HTTPClient?: IHttpClient;
-}
-
-function isNewPipelineOptions(
-  pipelineOrOptions: Pipeline | NewPipelineOptions
-): pipelineOrOptions is NewPipelineOptions {
-  // An empty object is consider options
-  function isEmptyObject(obj: Pipeline | NewPipelineOptions) {
-    return Object.keys(obj).length === 0 && obj.constructor === Object;
-  }
-  const options = pipelineOrOptions as NewPipelineOptions;
-  return (
-    isEmptyObject(pipelineOrOptions) ||
-    !!(options.retryOptions || options.proxyOptions || options.logger || options.HTTPClient)
-  );
-}
 
 export class SecretsClient {
   /**
@@ -192,11 +151,12 @@ export class SecretsClient {
     options?: SetSecretOptions
   ) {
     if (options) {
-      let unflattenedAttributes = {enabled: options.enabled, notBefore: options.notBefore, expires: options.expires};
-      let unflattenedOptions = {...options, secretAttributes: unflattenedAttributes};
+      let unflattenedAttributes = { enabled: options.enabled, notBefore: options.notBefore, expires: options.expires };
+      let unflattenedOptions = { ...options, ...(options.requestOptions ? options.requestOptions : {}), secretAttributes: unflattenedAttributes };
       delete unflattenedOptions.enabled;
       delete unflattenedOptions.notBefore;
       delete unflattenedOptions.expires;
+      delete unflattenedOptions.requestOptions;
 
       const response = await this.client.setSecret(this.vaultBaseUrl, secretName, value, unflattenedOptions);
       return this.getSecretFromSecretBundle(response);
@@ -239,11 +199,12 @@ export class SecretsClient {
     options?: UpdateSecretOptions
   ): Promise<Secret> {
     if (options) {
-      let unflattenedAttributes = {enabled: options.enabled, notBefore: options.notBefore, expires: options.expires};
-      let unflattenedOptions = {...options, secretAttributes: unflattenedAttributes};
+      let unflattenedAttributes = { enabled: options.enabled, notBefore: options.notBefore, expires: options.expires };
+      let unflattenedOptions = { ...options, ...(options.requestOptions ? options.requestOptions : {}), secretAttributes: unflattenedAttributes };
       delete unflattenedOptions.enabled;
       delete unflattenedOptions.notBefore;
       delete unflattenedOptions.expires;
+      delete unflattenedOptions.requestOptions;
 
       const response = await this.client.updateSecret(
         this.vaultBaseUrl,
@@ -279,7 +240,7 @@ export class SecretsClient {
       this.vaultBaseUrl,
       secretName,
       options && options.version ? options.version : "",
-      options
+      options ? options.requestOptions : undefined
     );
     return this.getSecretFromSecretBundle(response);
   }
@@ -374,7 +335,8 @@ export class SecretsClient {
       secretName,
       {
         maxresults: options ? options.maxPageSize : undefined,
-        ...options
+        maxPageSize: options ? options.maxPageSize : undefined,
+        ...(options && options.requestOptions ? options.requestOptions : {})
       }
     );
     yield* currentSetResponse.map(this.getSecretFromSecretBundle);
@@ -391,17 +353,17 @@ export class SecretsClient {
   /**
    * Iterates the latest version of all secrets in the vault.  The full secret identifier and attributes are provided
    * in the response. No values are returned for the secrets. This operations requires the secrets/list permission.
-   * @summary List all versions of the specified secret.
-   * @param secretName The name of the secret.
+   * @summary List all secrets in the vault
    * @param [options] The optional parameters
    * @returns AsyncIterableIterator<Secret>
    */
-  public async *getAllSecrets(options?: GetAllSecretsOptions): AsyncIterableIterator<Secret> {
+  public async *getAllSecrets(options?: GetAllSecretsOptions): AsyncIterableIterator<SecretAttributes> {
     let currentSetResponse = await this.client.getSecrets(
       this.vaultBaseUrl,
       {
         maxresults: options ? options.maxPageSize : undefined,
-        ...options
+        maxPageSize: options ? options.maxPageSize : undefined,
+        ...(options && options.requestOptions ? options.requestOptions : {})
       }
     );
     yield* currentSetResponse.map(this.getSecretFromSecretBundle);
@@ -428,7 +390,8 @@ export class SecretsClient {
       this.vaultBaseUrl,
       {
         maxresults: options ? options.maxPageSize : undefined,
-        ...options
+        maxPageSize: options ? options.maxPageSize : undefined,
+        ...(options && options.requestOptions ? options.requestOptions : {})
       }
     );
     yield* currentSetResponse.map(this.getSecretFromSecretBundle);
@@ -450,11 +413,9 @@ export class SecretsClient {
       resultObject = {
         ...secretBundle,
         ...parsedId,
-        enabled: secretBundle.attributes?secretBundle.attributes.enabled:undefined,
-        notBefore: secretBundle.attributes?secretBundle.attributes.notBefore:undefined,
-        expires: secretBundle.attributes?secretBundle.attributes.expires:undefined,
+        ...secretBundle.attributes
       }
-      delete(resultObject.attributes);
+      delete (resultObject.attributes);
     } else {
       resultObject = {
         ...secretBundle,
