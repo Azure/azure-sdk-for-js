@@ -4,8 +4,8 @@ import { DirectoryClient } from "./DirectoryClient";
 import { FileDownloadResponse } from "./FileDownloadResponse";
 import * as Models from "./generated/lib/models";
 import { File } from "./generated/lib/operations";
-import { IRange, rangeToString } from "./IRange";
-import { IFileHTTPHeaders, IMetadata } from "./models";
+import { Range, rangeToString } from "./Range";
+import { FileHTTPHeaders, Metadata } from "./models";
 import { Pipeline } from "./Pipeline";
 import { StorageClient } from "./StorageClient";
 import {
@@ -15,31 +15,31 @@ import {
 } from "./utils/constants";
 import { appendToURLPath } from "./utils/utils.common";
 
-export interface IFileCreateOptions {
+export interface FileCreateOptions {
   abortSignal?: Aborter;
   /**
    * File HTTP headers like Content-Type.
    *
-   * @type {IFileHTTPHeaders}
-   * @memberof IFileCreateOptions
+   * @type {FileHTTPHeaders}
+   * @memberof FileCreateOptions
    */
-  fileHTTPHeaders?: IFileHTTPHeaders;
+  fileHTTPHeaders?: FileHTTPHeaders;
 
   /**
    * A name-value pair
    * to associate with a file storage object.
    *
-   * @type {IMetadata}
-   * @memberof IFileCreateOptions
+   * @type {Metadata}
+   * @memberof FileCreateOptions
    */
-  metadata?: IMetadata;
+  metadata?: Metadata;
 }
 
-export interface IFileDeleteOptions {
+export interface FileDeleteOptions {
   abortSignal?: Aborter;
 }
 
-export interface IFileDownloadOptions {
+export interface FileDownloadOptions {
   abortSignal?: Aborter;
   /**
    * Optional. ONLY AVAILABLE IN NODE.JS.
@@ -54,7 +54,7 @@ export interface IFileDownloadOptions {
    * Default value is 5, please set a larger value when loading large files in poor network.
    *
    * @type {number}
-   * @memberof IFileDownloadOptions
+   * @memberof FileDownloadOptions
    */
   maxRetryRequests?: number;
 
@@ -64,19 +64,19 @@ export interface IFileDownloadOptions {
    * for the range, as long as the range is less than or equal to 4 MB in size.
    *
    * @type {boolean}
-   * @memberof IFileDownloadOptions
+   * @memberof FileDownloadOptions
    */
   rangeGetContentMD5?: boolean;
 
   /**
    * Download progress updating event handler.
    *
-   * @memberof IFileDownloadOptions
+   * @memberof FileDownloadOptions
    */
   progress?: (progress: TransferProgressEvent) => void;
 }
 
-export interface IFileUploadRangeOptions {
+export interface FileUploadRangeOptions {
   abortSignal?: Aborter;
   /**
    * An MD5 hash of the content. This hash is
@@ -87,30 +87,30 @@ export interface IFileUploadRangeOptions {
    * Request).
    *
    * @type {Uint8Array}
-   * @memberof IFileUploadRangeOptions
+   * @memberof FileUploadRangeOptions
    */
   contentMD5?: Uint8Array;
 
   /**
    * Progress updating event handler.
    *
-   * @memberof IFileUploadRangeOptions
+   * @memberof FileUploadRangeOptions
    */
   progress?: (progress: TransferProgressEvent) => void;
 }
 
-export interface IFileGetRangeListOptions {
+export interface FileGetRangeListOptions {
   abortSignal?: Aborter;
   /**
    * Optional. Specifies the range of bytes over which to list ranges, inclusively.
    *
-   * @type {IRange}
-   * @memberof IFileGetRangeListOptions
+   * @type {Range}
+   * @memberof FileGetRangeListOptions
    */
-  range?: IRange;
+  range?: Range;
 }
 
-export interface IFileGetPropertiesOptions {
+export interface FileGetPropertiesOptions {
   abortSignal?: Aborter;
 }
 
@@ -144,35 +144,35 @@ export type FileGetRangeListResponse = Models.FileGetRangeListHeaders & {
   };
 };
 
-export interface IFileStartCopyOptions {
+export interface FileStartCopyOptions {
   abortSignal?: Aborter;
   /**
    * A name-value pair
    * to associate with a file storage object.
    *
-   * @type {IMetadata}
-   * @memberof IFileCreateOptions
+   * @type {Metadata}
+   * @memberof FileCreateOptions
    */
-  metadata?: IMetadata;
+  metadata?: Metadata;
 }
 
-export interface IFileSetMetadataOptions {
+export interface FileSetMetadataOptions {
   abortSignal?: Aborter;
 }
 
-export interface IFileHTTPHeadersOptions {
+export interface FileHTTPHeadersOptions {
   abortSignal?: Aborter;
 }
 
-export interface IFileAbortCopyFromURLOptions {
+export interface FileAbortCopyFromURLOptions {
   abortSignal?: Aborter;
 }
 
-export interface IFileResizeOptions {
+export interface FileResizeOptions {
   abortSignal?: Aborter;
 }
 
-export interface IFileClearRangeOptions {
+export interface FileClearRangeOptions {
   abortSignal?: Aborter;
 }
 
@@ -246,13 +246,13 @@ export class FileClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-file
    *
    * @param {number} size Specifies the maximum size in bytes for the file, up to 1 TB.
-   * @param {IFileCreateOptions} [options]
+   * @param {FileCreateOptions} [options]
    * @returns {Promise<Models.FileCreateResponse>}
    * @memberof FileClient
    */
   public async create(
     size: number,
-    options: IFileCreateOptions = {}
+    options: FileCreateOptions = {}
   ): Promise<Models.FileCreateResponse> {
     const aborter = options.abortSignal || Aborter.none;
     if (size < 0 || size > FILE_MAX_SIZE_BYTES) {
@@ -277,14 +277,14 @@ export class FileClient extends StorageClient {
    *
    * @param {number} offset From which position of the file to download, >= 0
    * @param {number} [count] How much data to be downloaded, > 0. Will download to the end when undefined
-   * @param {IFileDownloadOptions} [options]
+   * @param {FileDownloadOptions} [options]
    * @returns {Promise<Models.FileDownloadResponse>}
    * @memberof FileClient
    */
   public async download(
     offset: number,
     count?: number,
-    options: IFileDownloadOptions = {}
+    options: FileDownloadOptions = {}
   ): Promise<Models.FileDownloadResponse> {
     const aborter = options.abortSignal || Aborter.none;
     if (options.rangeGetContentMD5 && offset === 0 && count === undefined) {
@@ -359,7 +359,7 @@ export class FileClient extends StorageClient {
    * @memberof FileClient
    */
   public async getProperties(
-    options: IFileGetPropertiesOptions = {}
+    options: FileGetPropertiesOptions = {}
   ): Promise<Models.FileGetPropertiesResponse> {
     const aborter = options.abortSignal || Aborter.none;
     return this.context.getProperties({
@@ -384,7 +384,7 @@ export class FileClient extends StorageClient {
    * @returns {Promise<Models.FileDeleteResponse>}
    * @memberof FileClient
    */
-  public async delete(options: IFileDeleteOptions = {}): Promise<Models.FileDeleteResponse> {
+  public async delete(options: FileDeleteOptions = {}): Promise<Models.FileDeleteResponse> {
     const aborter = options.abortSignal || Aborter.none;
     return this.context.deleteMethod({
       abortSignal: aborter
@@ -398,14 +398,14 @@ export class FileClient extends StorageClient {
    * these file HTTP headers without a value will be cleared.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-file-properties
    *
-   * @param {fileHTTPHeaders} [IFileHTTPHeaders] File HTTP headers like Content-Type.
+   * @param {fileHTTPHeaders} [FileHTTPHeaders] File HTTP headers like Content-Type.
    *                                             Provide undefined will remove existing HTTP headers.
    * @returns {Promise<Models.FileSetHTTPHeadersResponse>}
    * @memberof FileClient
    */
   public async setHTTPHeaders(
-    fileHTTPHeaders: IFileHTTPHeaders = {},
-    options: IFileHTTPHeadersOptions = {}
+    fileHTTPHeaders: FileHTTPHeaders = {},
+    options: FileHTTPHeadersOptions = {}
   ): Promise<Models.FileSetHTTPHeadersResponse> {
     const aborter = options.abortSignal || Aborter.none;
     return this.context.setHTTPHeaders({
@@ -427,7 +427,7 @@ export class FileClient extends StorageClient {
    */
   public async resize(
     length: number,
-    options: IFileResizeOptions = {}
+    options: FileResizeOptions = {}
   ): Promise<Models.FileSetHTTPHeadersResponse> {
     const aborter = options.abortSignal || Aborter.none;
     if (length < 0) {
@@ -446,13 +446,13 @@ export class FileClient extends StorageClient {
    * metadata will be removed.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-file-metadata
    *
-   * @param {IMetadata} [metadata] If no metadata provided, all existing directory metadata will be removed
+   * @param {Metadata} [metadata] If no metadata provided, all existing directory metadata will be removed
    * @returns {Promise<Models.FileSetMetadataResponse>}
    * @memberof FileClient
    */
   public async setMetadata(
-    metadata: IMetadata = {},
-    options: IFileSetMetadataOptions = {}
+    metadata: Metadata = {},
+    options: FileSetMetadataOptions = {}
   ): Promise<Models.FileSetMetadataResponse> {
     const aborter = options.abortSignal || Aborter.none;
     return this.context.setMetadata({
@@ -470,7 +470,7 @@ export class FileClient extends StorageClient {
    * @param {number} offset Offset position of the destination Azure File to upload.
    * @param {number} contentLength Length of body in bytes. Use Buffer.byteLength() to calculate body length for a
    *                               string including non non-Base64/Hex-encoded characters.
-   * @param {IFileUploadRangeOptions} [options]
+   * @param {FileUploadRangeOptions} [options]
    * @returns {Promise<Models.FileUploadRangeResponse>}
    * @memberof FileClient
    */
@@ -478,7 +478,7 @@ export class FileClient extends StorageClient {
     body: HttpRequestBody,
     offset: number,
     contentLength: number,
-    options: IFileUploadRangeOptions = {}
+    options: FileUploadRangeOptions = {}
   ): Promise<Models.FileUploadRangeResponse> {
     const aborter = options.abortSignal || Aborter.none;
     if (offset < 0 || contentLength <= 0) {
@@ -514,7 +514,7 @@ export class FileClient extends StorageClient {
   public async clearRange(
     offset: number,
     contentLength: number,
-    options: IFileClearRangeOptions = {}
+    options: FileClearRangeOptions = {}
   ): Promise<Models.FileUploadRangeResponse> {
     const aborter = options.abortSignal || Aborter.none;
     if (offset < 0 || contentLength <= 0) {
@@ -529,12 +529,12 @@ export class FileClient extends StorageClient {
   /**
    * Returns the list of valid ranges for a file.
    *
-   * @param {IFileGetRangeListOptions} [options]
+   * @param {FileGetRangeListOptions} [options]
    * @returns {Promise<FileGetRangeListResponse>}
    * @memberof FileClient
    */
   public async getRangeList(
-    options: IFileGetRangeListOptions = {}
+    options: FileGetRangeListOptions = {}
   ): Promise<FileGetRangeListResponse> {
     const aborter = options.abortSignal || Aborter.none;
     const originalResponse = await this.context.getRangeList({
@@ -566,13 +566,13 @@ export class FileClient extends StorageClient {
    * authenticate the source file or blob using a shared access signature. If the source is a public
    * blob, no authentication is required to perform the copy operation. A file in a share snapshot
    * can also be specified as a copy source.
-   * @param {IFileStartCopyOptions} [options]
+   * @param {FileStartCopyOptions} [options]
    * @returns {Promise<Models.FileStartCopyResponse>}
    * @memberof FileClient
    */
   public async startCopyFromURL(
     copySource: string,
-    options: IFileStartCopyOptions = {}
+    options: FileStartCopyOptions = {}
   ): Promise<Models.FileStartCopyResponse> {
     const aborter = options.abortSignal || Aborter.none;
     return this.context.startCopy(copySource, {
@@ -592,7 +592,7 @@ export class FileClient extends StorageClient {
    */
   public async abortCopyFromURL(
     copyId: string,
-    options: IFileAbortCopyFromURLOptions = {}
+    options: FileAbortCopyFromURLOptions = {}
   ): Promise<Models.FileAbortCopyResponse> {
     const aborter = options.abortSignal || Aborter.none;
     return this.context.abortCopy(copyId, {

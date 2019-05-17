@@ -3,8 +3,8 @@ import { TransferProgressEvent } from "@azure/ms-rest-js";
 import { Readable } from "stream";
 import { Aborter } from "./Aborter";
 import { FileClient } from "./FileClient";
-import { IDownloadFromAzureFileOptions, IUploadToAzureFileOptions } from "./highlevel.common";
-import { IFileHTTPHeaders, IMetadata } from "./models";
+import { DownloadFromAzureFileOptions, UploadToAzureFileOptions } from "./highlevel.common";
+import { FileHTTPHeaders, Metadata } from "./models";
 import { Batch } from "./utils/Batch";
 import { BufferScheduler } from "./utils/BufferScheduler";
 import { DEFAULT_HIGH_LEVEL_PARALLELISM, FILE_RANGE_MAX_SIZE_BYTES } from "./utils/constants";
@@ -18,13 +18,13 @@ import { streamToBuffer } from "./utils/utils.node";
  * @export
  * @param {string} filePath Full path of local file
  * @param {FileClient} fileClient FileClient
- * @param {IUploadToAzureFileOptions} [options]
+ * @param {UploadToAzureFileOptions} [options]
  * @returns {(Promise<void>)}
  */
 export async function uploadFileToAzureFile(
   filePath: string,
   fileClient: FileClient,
-  options?: IUploadToAzureFileOptions
+  options?: UploadToAzureFileOptions
 ): Promise<void> {
   const size = fs.statSync(filePath).size;
   return uploadResetableStreamToAzureFile(
@@ -52,14 +52,14 @@ export async function uploadFileToAzureFile(
  *                                                                  from the offset defined
  * @param {number} size Size of the Azure file
  * @param {FileClient} fileClient FileClient
- * @param {IUploadToAzureFileOptions} [options]
+ * @param {UploadToAzureFileOptions} [options]
  * @returns {(Promise<void>)}
  */
 async function uploadResetableStreamToAzureFile(
   streamFactory: (offset: number, count?: number) => NodeJS.ReadableStream,
   size: number,
   fileClient: FileClient,
-  options: IUploadToAzureFileOptions = {}
+  options: UploadToAzureFileOptions = {}
 ): Promise<void> {
   const aborter = options.abortSignal || Aborter.none;
   if (!options.rangeSize) {
@@ -127,7 +127,7 @@ async function uploadResetableStreamToAzureFile(
  * @param {FileClient} fileClient A FileClient object
  * @param {number} offset From which position of the Azure File to download
  * @param {number} [count] How much data to be downloaded. Will download to the end when passing undefined
- * @param {IDownloadFromAzureFileOptions} [options]
+ * @param {DownloadFromAzureFileOptions} [options]
  * @returns {Promise<void>}
  */
 export async function downloadAzureFileToBuffer(
@@ -135,7 +135,7 @@ export async function downloadAzureFileToBuffer(
   fileClient: FileClient,
   offset: number,
   count?: number,
-  options: IDownloadFromAzureFileOptions = {}
+  options: DownloadFromAzureFileOptions = {}
 ): Promise<void> {
   const aborter = options.abortSignal || Aborter.none;
   if (!options.rangeSize) {
@@ -204,30 +204,30 @@ export async function downloadAzureFileToBuffer(
  * Option interface for uploadStreamToAzureFile.
  *
  * @export
- * @interface IUploadStreamToAzureFileOptions
+ * @interface UploadStreamToAzureFileOptions
  */
-export interface IUploadStreamToAzureFileOptions {
+export interface UploadStreamToAzureFileOptions {
   abortSignal?: Aborter;
   /**
    * Azure File HTTP Headers.
    *
-   * @type {IFileHTTPHeaders}
-   * @memberof IUploadStreamToAzureFileOptions
+   * @type {FileHTTPHeaders}
+   * @memberof UploadStreamToAzureFileOptions
    */
-  fileHTTPHeaders?: IFileHTTPHeaders;
+  fileHTTPHeaders?: FileHTTPHeaders;
 
   /**
    * Metadata of the Azure file.
    *
-   * @type {IMetadata}
-   * @memberof IUploadStreamToAzureFileOptions
+   * @type {Metadata}
+   * @memberof UploadStreamToAzureFileOptions
    */
-  metadata?: IMetadata;
+  metadata?: Metadata;
 
   /**
    * Progress updater.
    *
-   * @memberof IUploadStreamToAzureFileOptions
+   * @memberof UploadStreamToAzureFileOptions
    */
   progress?: (progress: TransferProgressEvent) => void;
 }
@@ -253,7 +253,7 @@ export interface IUploadStreamToAzureFileOptions {
  *                            the uploaded file. Size must be > 0 and <= 4 * 1024 * 1024 (4MB)
  * @param {number} maxBuffers Max buffers will allocate during uploading, positive correlation
  *                            with max uploading concurrency
- * @param {IUploadStreamToAzureFileOptions} [options]
+ * @param {UploadStreamToAzureFileOptions} [options]
  * @returns {Promise<void>}
  */
 export async function uploadStreamToAzureFile(
@@ -262,7 +262,7 @@ export async function uploadStreamToAzureFile(
   fileClient: FileClient,
   bufferSize: number,
   maxBuffers: number,
-  options: IUploadStreamToAzureFileOptions = {}
+  options: UploadStreamToAzureFileOptions = {}
 ): Promise<void> {
   const aborter = options.abortSignal || Aborter.none;
   if (!options.fileHTTPHeaders) {

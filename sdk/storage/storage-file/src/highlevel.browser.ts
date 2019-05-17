@@ -1,6 +1,6 @@
 import { Aborter } from "./Aborter";
 import { FileClient } from "./FileClient";
-import { IUploadToAzureFileOptions } from "./highlevel.common";
+import { UploadToAzureFileOptions } from "./highlevel.common";
 import { Batch } from "./utils/Batch";
 import { FILE_RANGE_MAX_SIZE_BYTES, DEFAULT_HIGH_LEVEL_PARALLELISM } from "./utils/constants";
 
@@ -12,13 +12,13 @@ import { FILE_RANGE_MAX_SIZE_BYTES, DEFAULT_HIGH_LEVEL_PARALLELISM } from "./uti
  * @export
  * @param {Blob | ArrayBuffer | ArrayBufferView} browserData Blob, File, ArrayBuffer or ArrayBufferView
  * @param {FileClient} fileClient
- * @param {IUploadToAzureFileOptions} [options]
+ * @param {UploadToAzureFileOptions} [options]
  * @returns {Promise<void>}
  */
 export async function uploadBrowserDataToAzureFile(
   browserData: Blob | ArrayBuffer | ArrayBufferView,
   fileClient: FileClient,
-  options: IUploadToAzureFileOptions = {}
+  options: UploadToAzureFileOptions = {}
 ): Promise<void> {
   const browserBlob = new Blob([browserData]);
   return UploadSeekableBlobToAzureFile(
@@ -40,14 +40,14 @@ export async function uploadBrowserDataToAzureFile(
  * @param {(offset: number, size: number) => Blob} blobFactory
  * @param {number} size
  * @param {FileClient} fileClient
- * @param {IUploadToAzureFileOptions} [options]
+ * @param {UploadToAzureFileOptions} [options]
  * @returns {Promise<void>}
  */
 async function UploadSeekableBlobToAzureFile(
   blobFactory: (offset: number, size: number) => Blob,
   size: number,
   fileClient: FileClient,
-  options: IUploadToAzureFileOptions = {}
+  options: UploadToAzureFileOptions = {}
 ): Promise<void> {
   const aborter = options.abortSignal || Aborter.none;
   if (!options.rangeSize) {

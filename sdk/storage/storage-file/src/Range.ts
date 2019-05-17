@@ -4,14 +4,14 @@
  * @see https://docs.microsoft.com/en-us/rest/api/storageservices/specifying-the-range-header-for-file-service-operations
  *
  * @export
- * @interface IRange
+ * @interface Range
  */
-export interface IRange {
+export interface Range {
   /**
    * StartByte, larger than or equal 0.
    *
    * @type {string}
-   * @memberof IRange
+   * @memberof Range
    */
   offset: number;
   /**
@@ -19,7 +19,7 @@ export interface IRange {
    * If not provided, will return bytes from offset to the end.
    *
    * @type {string}
-   * @memberof IRange
+   * @memberof Range
    */
   count?: number;
 }
@@ -30,19 +30,19 @@ export interface IRange {
  * "bytes=255-" or "bytes=0-511"
  *
  * @export
- * @param {IRange} iRange
+ * @param {Range} range
  * @returns {string}
  */
-export function rangeToString(iRange: IRange): string {
-  if (iRange.offset < 0) {
-    throw new RangeError(`IRange.offset cannot be smaller than 0.`);
+export function rangeToString(range: Range): string {
+  if (range.offset < 0) {
+    throw new RangeError(`Range.offset cannot be smaller than 0.`);
   }
-  if (iRange.count && iRange.count <= 0) {
+  if (range.count && range.count <= 0) {
     throw new RangeError(
-      `IRange.count must be larger than 0. Leave it undefined if you want a range from offset to the end.`
+      `Range.count must be larger than 0. Leave it undefined if you want a range from offset to the end.`
     );
   }
-  return iRange.count
-    ? `bytes=${iRange.offset}-${iRange.offset + iRange.count - 1}`
-    : `bytes=${iRange.offset}-`;
+  return range.count
+    ? `bytes=${range.offset}-${range.offset + range.count - 1}`
+    : `bytes=${range.offset}-`;
 }

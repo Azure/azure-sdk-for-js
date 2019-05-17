@@ -3,20 +3,20 @@ import { HttpResponse } from "@azure/ms-rest-js";
 import { Aborter } from "./Aborter";
 import * as Models from "./generated/lib/models";
 import { Share } from "./generated/lib/operations";
-import { IMetadata } from "./models";
+import { Metadata } from "./models";
 import { Pipeline } from "./Pipeline";
 import { FileServiceClient } from "./FileServiceClient";
 import { StorageClient } from "./StorageClient";
 import { URLConstants } from "./utils/constants";
 import { appendToURLPath, setURLParameter, truncatedISO8061Date } from "./utils/utils.common";
 
-export interface IShareCreateOptions {
+export interface ShareCreateOptions {
   abortSignal?: Aborter;
   /**
    * A name-value pair to associate with a file storage object.
    *
    * @type {{ [propertyName: string]: string }}
-   * @memberof IShareCreateOptions
+   * @memberof ShareCreateOptions
    */
   metadata?: { [propertyName: string]: string };
 
@@ -25,12 +25,12 @@ export interface IShareCreateOptions {
    * gigabytes.
    *
    * @type {number}
-   * @memberof IShareCreateOptions
+   * @memberof ShareCreateOptions
    */
   quota?: number;
 }
 
-export interface IShareDeleteMethodOptions {
+export interface ShareDeleteMethodOptions {
   abortSignal?: Aborter;
   /**
    * Specifies the option
@@ -38,39 +38,39 @@ export interface IShareDeleteMethodOptions {
    * include: 'include'
    *
    * @type {Models.DeleteSnapshotsOptionType}
-   * @memberof IShareDeleteMethodOptions
+   * @memberof ShareDeleteMethodOptions
    */
   deleteSnapshots?: Models.DeleteSnapshotsOptionType;
 }
 
-export interface IShareSetMetadataOptions {
+export interface ShareSetMetadataOptions {
   abortSignal?: Aborter;
 }
 
-export interface IShareSetAccessPolicyOptions {
+export interface ShareSetAccessPolicyOptions {
   abortSignal?: Aborter;
 }
 
-export interface IShareGetAccessPolicyOptions {
+export interface ShareGetAccessPolicyOptions {
   abortSignal?: Aborter;
 }
 
-export interface IShareGetAccessPolicyOptions {
+export interface ShareGetAccessPolicyOptions {
   abortSignal?: Aborter;
 }
-export interface IShareGetPropertiesOptions {
-  abortSignal?: Aborter;
-}
-
-export interface IShareSetQuotaOptions {
+export interface ShareGetPropertiesOptions {
   abortSignal?: Aborter;
 }
 
-export interface IShareGetStatisticsOptions {
+export interface ShareSetQuotaOptions {
   abortSignal?: Aborter;
 }
 
-export interface ISignedIdentifier {
+export interface ShareGetStatisticsOptions {
+  abortSignal?: Aborter;
+}
+
+export interface SignedIdentifier {
   /**
    * @member {string} id a unique id
    */
@@ -96,7 +96,7 @@ export interface ISignedIdentifier {
 }
 
 export declare type ShareGetAccessPolicyResponse = {
-  signedIdentifiers: ISignedIdentifier[];
+  signedIdentifiers: SignedIdentifier[];
 } & Models.ShareGetAccessPolicyHeaders & {
     /**
      * The underlying HTTP response.
@@ -117,13 +117,13 @@ export declare type ShareGetAccessPolicyResponse = {
     };
   };
 
-export interface IShareCreateSnapshotOptions {
+export interface ShareCreateSnapshotOptions {
   abortSignal?: Aborter;
   /**
    * A name-value pair to associate with a file storage object.
    *
    * @type {{ [propertyName: string]: string }}
-   * @memberof IShareCreateOptions
+   * @memberof ShareCreateOptions
    */
   metadata?: { [propertyName: string]: string };
 }
@@ -210,11 +210,11 @@ export class ShareClient extends StorageClient {
    * the same name already exists, the operation fails.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-share
    *
-   * @param {IShareCreateOptions} [options]
+   * @param {ShareCreateOptions} [options]
    * @returns {Promise<Models.ShareCreateResponse>}
    * @memberof ShareClient
    */
-  public async create(options: IShareCreateOptions = {}): Promise<Models.ShareCreateResponse> {
+  public async create(options: ShareCreateOptions = {}): Promise<Models.ShareCreateResponse> {
     const aborter = options.abortSignal || Aborter.none;
     return this.context.create({
       ...options,
@@ -231,7 +231,7 @@ export class ShareClient extends StorageClient {
    * @memberof ShareClient
    */
   public async getProperties(
-    options: IShareGetPropertiesOptions = {}
+    options: ShareGetPropertiesOptions = {}
   ): Promise<Models.ShareGetPropertiesResponse> {
     const aborter = options.abortSignal || Aborter.none;
     return this.context.getProperties({
@@ -244,12 +244,12 @@ export class ShareClient extends StorageClient {
    * contained within it are later deleted during garbage collection.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-share
    *
-   * @param {Models.IShareDeleteMethodOptions} [options]
+   * @param {Models.ShareDeleteMethodOptions} [options]
    * @returns {Promise<Models.ShareDeleteResponse>}
    * @memberof ShareClient
    */
   public async delete(
-    options: IShareDeleteMethodOptions = {}
+    options: ShareDeleteMethodOptions = {}
   ): Promise<Models.ShareDeleteResponse> {
     const aborter = options.abortSignal || Aborter.none;
     return this.context.deleteMethod({
@@ -265,13 +265,13 @@ export class ShareClient extends StorageClient {
    * metadata will be removed.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-share-metadata
    *
-   * @param {IMetadata} [metadata] If no metadata provided, all existing directory metadata will be removed
+   * @param {Metadata} [metadata] If no metadata provided, all existing directory metadata will be removed
    * @returns {Promise<Models.ShareSetMetadataResponse>}
    * @memberof ShareClient
    */
   public async setMetadata(
-    metadata?: IMetadata,
-    options: IShareSetMetadataOptions = {}
+    metadata?: Metadata,
+    options: ShareSetMetadataOptions = {}
   ): Promise<Models.ShareSetMetadataResponse> {
     const aborter = options.abortSignal || Aborter.none;
     return this.context.setMetadata({
@@ -293,7 +293,7 @@ export class ShareClient extends StorageClient {
    * @memberof ShareClient
    */
   public async getAccessPolicy(
-    options: IShareGetAccessPolicyOptions = {}
+    options: ShareGetAccessPolicyOptions = {}
   ): Promise<ShareGetAccessPolicyResponse> {
     const aborter = options.abortSignal || Aborter.none;
     const response = await this.context.getAccessPolicy({
@@ -333,13 +333,13 @@ export class ShareClient extends StorageClient {
    * removed.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-share-acl
    *
-   * @param {ISignedIdentifier[]} [shareAcl]
+   * @param {SignedIdentifier[]} [shareAcl]
    * @returns {Promise<Models.ShareSetAccessPolicyResponse>}
    * @memberof ShareClient
    */
   public async setAccessPolicy(
-    shareAcl?: ISignedIdentifier[],
-    options: IShareSetAccessPolicyOptions = {}
+    shareAcl?: SignedIdentifier[],
+    options: ShareSetAccessPolicyOptions = {}
   ): Promise<Models.ShareSetAccessPolicyResponse> {
     const aborter = options.abortSignal || Aborter.none;
     const acl: Models.SignedIdentifier[] = [];
@@ -363,12 +363,12 @@ export class ShareClient extends StorageClient {
   /**
    * Creates a read-only snapshot of a share.
    *
-   * @param {IShareCreateSnapshotOptions} [options={}]
+   * @param {ShareCreateSnapshotOptions} [options={}]
    * @returns {Promise<Models.ShareCreateSnapshotResponse>}
    * @memberof ShareClient
    */
   public async createSnapshot(
-    options: IShareCreateSnapshotOptions = {}
+    options: ShareCreateSnapshotOptions = {}
   ): Promise<Models.ShareCreateSnapshotResponse> {
     const aborter = options.abortSignal || Aborter.none;
     return this.context.createSnapshot({
@@ -386,7 +386,7 @@ export class ShareClient extends StorageClient {
    */
   public async setQuota(
     quotaInGB: number,
-    options: IShareSetQuotaOptions = {}
+    options: ShareSetQuotaOptions = {}
   ): Promise<Models.ShareSetQuotaResponse> {
     const aborter = options.abortSignal || Aborter.none;
     if (quotaInGB <= 0 || quotaInGB > 5120) {
@@ -407,7 +407,7 @@ export class ShareClient extends StorageClient {
    * @memberof ShareClient
    */
   public async getStatistics(
-    options: IShareGetStatisticsOptions = {}
+    options: ShareGetStatisticsOptions = {}
   ): Promise<Models.ShareGetStatisticsResponse> {
     const aborter = options.abortSignal || Aborter.none;
     return this.context.getStatistics({

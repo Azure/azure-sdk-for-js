@@ -6,14 +6,14 @@ import { LoggingPolicy } from "./policies/LoggingPolicy";
  * RequestLogOptions configures the retry policy's behavior.
  *
  * @export
- * @interface IRequestLogOptions
+ * @interface RequestLogOptions
  */
-export interface IRequestLogOptions {
+export interface RequestLogOptions {
   /**
    * LogWarningIfTryOverThreshold logs a warning if a tried operation takes longer than the specified
    * duration in ms. Default is 3000ms.
    * @type {number}
-   * @memberof IRequestLogOptions
+   * @memberof RequestLogOptions
    */
   logWarningIfTryOverThreshold: number;
 }
@@ -26,9 +26,9 @@ export interface IRequestLogOptions {
  * @implements {RequestPolicyFactory}
  */
 export class LoggingPolicyFactory implements RequestPolicyFactory {
-  private readonly loggingOptions?: IRequestLogOptions;
+  private readonly loggingOptions?: RequestLogOptions;
 
-  constructor(loggingOptions?: IRequestLogOptions) {
+  constructor(loggingOptions?: RequestLogOptions) {
     this.loggingOptions = loggingOptions;
   }
 

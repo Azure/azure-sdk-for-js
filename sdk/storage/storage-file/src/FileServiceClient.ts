@@ -4,14 +4,14 @@ import { Service } from "./generated/lib/operations";
 import { Pipeline } from "./Pipeline";
 import { StorageClient } from "./StorageClient";
 
-export interface IServiceListSharesSegmentOptions {
+export interface ServiceListSharesSegmentOptions {
   abortSignal?: Aborter;
   /**
    * Filters the results to return only entries whose
    * name begins with the specified prefix.
    *
    * @type {string}
-   * @memberof IServiceListSharesSegmentOptions
+   * @memberof ServiceListSharesSegmentOptions
    */
   prefix?: string;
 
@@ -21,7 +21,7 @@ export interface IServiceListSharesSegmentOptions {
    * greater than 5,000, the server will return up to 5,000 items.
    *
    * @type {number}
-   * @memberof IServiceListSharesSegmentOptions
+   * @memberof ServiceListSharesSegmentOptions
    */
   maxresults?: number;
 
@@ -30,7 +30,7 @@ export interface IServiceListSharesSegmentOptions {
    * specify one or more datasets to include in the response.
    *
    * @type {Models.ListSharesIncludeType[]}
-   * @memberof IServiceListSharesSegmentOptions
+   * @memberof ServiceListSharesSegmentOptions
    */
   include?: Models.ListSharesIncludeType[];
 }
@@ -134,13 +134,13 @@ export class FileServiceClient extends StorageClient {
    *                          not complete. The marker value may then be used in a subsequent call to
    *                          request the next set of list items. The marker value is opaque to the
    *                          client.
-   * @param {IServiceListSharesSegmentOptions} [options={}]
+   * @param {ServiceListSharesSegmentOptions} [options={}]
    * @returns {Promise<Models.ServiceListSharesSegmentResponse>}
    * @memberof FileServiceClient
    */
   public async listSharesSegment(
     marker?: string,
-    options: IServiceListSharesSegmentOptions = {}
+    options: ServiceListSharesSegmentOptions = {}
   ): Promise<Models.ServiceListSharesSegmentResponse> {
     const aborter = options.abortSignal || Aborter.none;
     return this.serviceContext.listSharesSegment({

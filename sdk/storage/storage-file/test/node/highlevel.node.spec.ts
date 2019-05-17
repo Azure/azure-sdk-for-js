@@ -11,7 +11,7 @@ import {
   uploadStreamToAzureFile
 } from "../../src/highlevel.node";
 import { createRandomLocalFile, getBSU, getUniqueName, readStreamToLocalFile } from "../utils";
-import { IRetriableReadableStreamOptions } from "../../src/utils/RetriableReadableStream";
+import { RetriableReadableStreamOptions } from "../../src/utils/RetriableReadableStream";
 
 // tslint:disable:no-empty
 describe("Highlevel", () => {
@@ -261,7 +261,7 @@ describe("Highlevel", () => {
       parallelism: 20
     });
 
-    let retirableReadableStreamOptions: IRetriableReadableStreamOptions;
+    let retirableReadableStreamOptions: RetriableReadableStreamOptions;
     const downloadResponse = await fileClient.download(0, undefined, {
       maxRetryRequests: 1,
       progress: (ev) => {
@@ -289,7 +289,7 @@ describe("Highlevel", () => {
       parallelism: 20
     });
 
-    let retirableReadableStreamOptions: IRetriableReadableStreamOptions;
+    let retirableReadableStreamOptions: RetriableReadableStreamOptions;
     let injectedErrors = 0;
     const downloadResponse = await fileClient.download(0, undefined, {
       maxRetryRequests: 3,
@@ -320,7 +320,7 @@ describe("Highlevel", () => {
 
     const partialSize = 10 * 1024;
 
-    let retirableReadableStreamOptions: IRetriableReadableStreamOptions;
+    let retirableReadableStreamOptions: RetriableReadableStreamOptions;
     let injectedErrors = 0;
     const downloadResponse = await fileClient.download(1, partialSize, {
       maxRetryRequests: 3,
@@ -351,7 +351,7 @@ describe("Highlevel", () => {
 
     const downloadedFile = path.join(tempFolderPath, getUniqueName("downloadfile."));
 
-    let retirableReadableStreamOptions: IRetriableReadableStreamOptions;
+    let retirableReadableStreamOptions: RetriableReadableStreamOptions;
     let injectedErrors = 0;
     let expectedError = false;
 
@@ -382,7 +382,7 @@ describe("Highlevel", () => {
 
     const downloadedFile = path.join(tempFolderPath, getUniqueName("downloadfile."));
 
-    let retirableReadableStreamOptions: IRetriableReadableStreamOptions;
+    let retirableReadableStreamOptions: RetriableReadableStreamOptions;
     let injectedErrors = 0;
     let expectedError = false;
 

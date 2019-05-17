@@ -14,7 +14,7 @@ import {
 import { DirectoryClient } from "../../src/DirectoryClient";
 import { FileSASPermissions } from "../../src/FileSASPermissions";
 import { FileClient } from "../../src/FileClient";
-import { generateFileSASQueryParameters } from "../../src/IFileSASSignatureValues";
+import { generateFileSASQueryParameters } from "../../src/FileSASSignatureValues";
 import { ShareSASPermissions } from "../../src/ShareSASPermissions";
 import { ShareClient } from "../../src/ShareClient";
 import { getBSU, getUniqueName } from "../utils";

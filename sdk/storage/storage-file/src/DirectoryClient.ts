@@ -1,32 +1,32 @@
 import { Aborter } from "./Aborter";
 import * as Models from "./generated/lib/models";
 import { Directory } from "./generated/lib/operations";
-import { IMetadata } from "./models";
+import { Metadata } from "./models";
 import { Pipeline } from "./Pipeline";
 import { ShareClient } from "./ShareClient";
 import { StorageClient } from "./StorageClient";
 import { appendToURLPath } from "./utils/utils.common";
 
-export interface IDirectoryCreateOptions {
+export interface DirectoryCreateOptions {
   abortSignal?: Aborter;
   /**
    * A name-value pair
    * to associate with a file storage object.
    *
-   * @type {IMetadata}
-   * @memberof IDirectoryCreateOptions
+   * @type {Metadata}
+   * @memberof DirectoryCreateOptions
    */
-  metadata?: IMetadata;
+  metadata?: Metadata;
 }
 
-export interface IDirectoryListFilesAndDirectoriesSegmentOptions {
+export interface DirectoryListFilesAndDirectoriesSegmentOptions {
   abortSignal?: Aborter;
   /**
    * Filters the results to return only entries whose
    * name begins with the specified prefix.
    *
    * @type {string}
-   * @memberof IDirectoryListFilesAndDirectoriesSegmentOptions
+   * @memberof DirectoryListFilesAndDirectoriesSegmentOptions
    */
   prefix?: string;
 
@@ -36,20 +36,20 @@ export interface IDirectoryListFilesAndDirectoriesSegmentOptions {
    * greater than 5,000, the server will return up to 5,000 items.
    *
    * @type {number}
-   * @memberof IDirectoryListFilesAndDirectoriesSegmentOptions
+   * @memberof DirectoryListFilesAndDirectoriesSegmentOptions
    */
   maxresults?: number;
 }
 
-export interface IDirectoryDeleteOptions {
+export interface DirectoryDeleteOptions {
   abortSignal?: Aborter;
 }
 
-export interface IDirectoryGetPropertiesOptions {
+export interface DirectoryGetPropertiesOptions {
   abortSignal?: Aborter;
 }
 
-export interface IDirectorySetMetadataOptions {
+export interface DirectorySetMetadataOptions {
   abortSignal?: Aborter;
 }
 
@@ -135,12 +135,12 @@ export class DirectoryClient extends StorageClient {
    * Creates a new directory under the specified share or parent directory.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-directory
    *
-   * @param {IDirectoryCreateOptions} [options]
+   * @param {DirectoryCreateOptions} [options]
    * @returns {Promise<Models.DirectoryCreateResponse>}
    * @memberof DirectoryClient
    */
   public async create(
-    options: IDirectoryCreateOptions = {}
+    options: DirectoryCreateOptions = {}
   ): Promise<Models.DirectoryCreateResponse> {
     const aborter = options.abortSignal || Aborter.none;
     return this.context.create({
@@ -159,7 +159,7 @@ export class DirectoryClient extends StorageClient {
    * @memberof DirectoryClient
    */
   public async getProperties(
-    options: IDirectoryGetPropertiesOptions = {}
+    options: DirectoryGetPropertiesOptions = {}
   ): Promise<Models.DirectoryGetPropertiesResponse> {
     const aborter = options.abortSignal || Aborter.none;
     return this.context.getProperties({
@@ -176,7 +176,7 @@ export class DirectoryClient extends StorageClient {
    * @memberof DirectoryClient
    */
   public async delete(
-    options: IDirectoryDeleteOptions = {}
+    options: DirectoryDeleteOptions = {}
   ): Promise<Models.DirectoryDeleteResponse> {
     const aborter = options.abortSignal || Aborter.none;
     return this.context.deleteMethod({
@@ -188,13 +188,13 @@ export class DirectoryClient extends StorageClient {
    * Updates user defined metadata for the specified directory.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-directory-metadata
    *
-   * @param {IMetadata} [metadata] If no metadata provided, all existing directory metadata will be removed
+   * @param {Metadata} [metadata] If no metadata provided, all existing directory metadata will be removed
    * @returns {Promise<Models.DirectorySetMetadataResponse>}
    * @memberof DirectoryClient
    */
   public async setMetadata(
-    metadata?: IMetadata,
-    options: IDirectorySetMetadataOptions = {}
+    metadata?: Metadata,
+    options: DirectorySetMetadataOptions = {}
   ): Promise<Models.DirectorySetMetadataResponse> {
     const aborter = options.abortSignal || Aborter.none;
     return this.context.setMetadata({
@@ -209,13 +209,13 @@ export class DirectoryClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/list-directories-and-files
    *
    * @param {string} [marker]
-   * @param {IDirectoryListFilesAndDirectoriesSegmentOptions} [options]
+   * @param {DirectoryListFilesAndDirectoriesSegmentOptions} [options]
    * @returns {Promise<Models.DirectoryListFilesAndDirectoriesSegmentResponse>}
    * @memberof DirectoryClient
    */
   public async listFilesAndDirectoriesSegment(
     marker?: string,
-    options: IDirectoryListFilesAndDirectoriesSegmentOptions = {}
+    options: DirectoryListFilesAndDirectoriesSegmentOptions = {}
   ): Promise<Models.DirectoryListFilesAndDirectoriesSegmentResponse> {
     const aborter = options.abortSignal || Aborter.none;
     return this.context.listFilesAndDirectoriesSegment({
