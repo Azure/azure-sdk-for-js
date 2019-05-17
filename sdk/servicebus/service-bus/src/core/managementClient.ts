@@ -465,9 +465,9 @@ export class ManagementClient extends LinkEntity {
   ): Promise<Date> {
     throwErrorIfConnectionClosed(this._context.namespace);
     if (!options) options = {};
-    if (options.delayInSeconds == undefined) options.delayInSeconds = 1;
-    if (options.timeoutInSeconds == undefined) options.timeoutInSeconds = 5;
-    if (options.times == undefined) options.times = 5;
+    if (options.delayInSeconds == null) options.delayInSeconds = 1;
+    if (options.timeoutInSeconds == null) options.timeoutInSeconds = 5;
+    if (options.times == null) options.times = 5;
 
     try {
       const messageBody: any = {};
@@ -728,7 +728,7 @@ export class ManagementClient extends LinkEntity {
       );
       const receiverSettleMode: number = receiveMode === ReceiveMode.receiveAndDelete ? 0 : 1;
       messageBody[Constants.receiverSettleMode] = types.wrap_uint(receiverSettleMode);
-      if (sessionId != undefined) {
+      if (sessionId != null) {
         messageBody[Constants.sessionIdMapKey] = sessionId;
       }
       const request: AmqpMessage = {
@@ -813,16 +813,16 @@ export class ManagementClient extends LinkEntity {
       lockTokenBuffer.push(string_to_uuid(lockToken));
       messageBody[Constants.lockTokens] = types.wrap_array(lockTokenBuffer, 0x98, undefined);
       messageBody[Constants.dispositionStatus] = dispositionStatus;
-      if (options.deadLetterDescription != undefined) {
+      if (options.deadLetterDescription != null) {
         messageBody[Constants.deadLetterDescription] = options.deadLetterDescription;
       }
-      if (options.deadLetterReason != undefined) {
+      if (options.deadLetterReason != null) {
         messageBody[Constants.deadLetterReason] = options.deadLetterReason;
       }
-      if (options.propertiesToModify != undefined) {
+      if (options.propertiesToModify != null) {
         messageBody[Constants.propertiesToModify] = options.propertiesToModify;
       }
-      if (options.sessionId != undefined) {
+      if (options.sessionId != null) {
         messageBody[Constants.sessionIdMapKey] = options.sessionId;
       }
       const request: AmqpMessage = {
@@ -875,9 +875,9 @@ export class ManagementClient extends LinkEntity {
   ): Promise<Date> {
     throwErrorIfConnectionClosed(this._context.namespace);
     if (!options) options = {};
-    if (options.delayInSeconds == undefined) options.delayInSeconds = 1;
-    if (options.timeoutInSeconds == undefined) options.timeoutInSeconds = 5;
-    if (options.times == undefined) options.times = 5;
+    if (options.delayInSeconds == null) options.delayInSeconds = 1;
+    if (options.timeoutInSeconds == null) options.timeoutInSeconds = 5;
+    if (options.times == null) options.times = 5;
     try {
       const messageBody: any = {};
       messageBody[Constants.sessionIdMapKey] = sessionId;
