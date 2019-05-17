@@ -3,14 +3,13 @@
 */
 
 import {
-  Aborter,
   StorageClient,
   FileServiceClient,
+  SharedKeyCredential,
+  Models,
   ShareClient,
   DirectoryClient,
-  FileClient,
-  SharedKeyCredential,
-  Models
+  FileClient
 } from "../.."; // Change to "@azure/storage-file" in your package
 
 async function main() {
@@ -38,7 +37,6 @@ async function main() {
   let marker;
   do {
     const listSharesResponse: Models.ServiceListSharesSegmentResponse = await serviceClient.listSharesSegment(
-      Aborter.none,
       marker
     );
 
@@ -51,24 +49,24 @@ async function main() {
   // Create a share
   const shareName = `newshare${new Date().getTime()}`;
   const shareClient = ShareClient.fromFileServiceClient(serviceClient, shareName);
-  await shareClient.create(Aborter.none);
+  await shareClient.create();
   console.log(`Create share ${shareName} successfully`);
 
   // Create a directory
   const directoryName = `newdirectory${new Date().getTime()}`;
   const directoryClient = DirectoryClient.fromShareClient(shareClient, directoryName);
-  await directoryClient.create(Aborter.none);
+  await directoryClient.create();
   console.log(`Create directory ${directoryName} successfully`);
 
   // Create a file
   const content = "Hello World!";
   const fileName = "newfile" + new Date().getTime();
   const fileClient = FileClient.fromDirectoryClient(directoryClient, fileName);
-  await fileClient.create(Aborter.none, content.length);
+  await fileClient.create(content.length);
   console.log(`Create file ${fileName} successfully`);
 
   // Upload file range
-  await fileClient.uploadRange(Aborter.none, content, 0, content.length);
+  await fileClient.uploadRange(content, 0, content.length);
   console.log(`Upload file range "${content}" to ${fileName} successfully`);
 
   // List directories and files
@@ -76,7 +74,6 @@ async function main() {
   marker = undefined;
   do {
     const listFilesAndDirectoriesResponse: Models.DirectoryListFilesAndDirectoriesSegmentResponse = await directoryClient.listFilesAndDirectoriesSegment(
-      Aborter.none,
       marker
     );
 
@@ -84,8 +81,7 @@ async function main() {
     for (const file of listFilesAndDirectoriesResponse.segment.fileItems) {
       console.log(`\tFile: ${file.name}`);
     }
-    for (const directory of listFilesAndDirectoriesResponse.segment
-      .directoryItems) {
+    for (const directory of listFilesAndDirectoriesResponse.segment.directoryItems) {
       console.log(`\tDirectory: ${directory.name}`);
     }
   } while (marker);
@@ -93,15 +89,13 @@ async function main() {
   // Get file content from position 0 to the end
   // In Node.js, get downloaded data by accessing downloadFileResponse.readableStreamBody
   // In browsers, get downloaded data by accessing downloadFileResponse.blobBody
-  const downloadFileResponse = await fileClient.download(Aborter.none, 0);
+  const downloadFileResponse = await fileClient.download(0);
   console.log(
-    `Downloaded file content${await streamToString(
-      downloadFileResponse.readableStreamBody!
-    )}`
+    `Downloaded file content${await streamToString(downloadFileResponse.readableStreamBody!)}`
   );
 
   // Delete share
-  await shareClient.delete(Aborter.none);
+  await shareClient.delete();
   console.log(`deleted share ${shareName}`);
 }
 
@@ -109,7 +103,7 @@ async function main() {
 async function streamToString(readableStream: NodeJS.ReadableStream) {
   return new Promise((resolve, reject) => {
     const chunks: string[] = [];
-    readableStream.on("data", data => {
+    readableStream.on("data", (data) => {
       chunks.push(data.toString());
     });
     readableStream.on("end", () => {
@@ -124,6 +118,6 @@ main()
   .then(() => {
     console.log("Successfully executed sample.");
   })
-  .catch(err => {
+  .catch((err) => {
     console.log(err.message);
   });

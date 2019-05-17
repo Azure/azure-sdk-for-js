@@ -1,6 +1,4 @@
 import * as assert from "assert";
-
-import { Aborter } from "../src/Aborter";
 import { ShareClient } from "../src/ShareClient";
 import { getBSU, getUniqueName } from "./utils";
 import * as dotenv from "dotenv";
@@ -14,11 +12,11 @@ describe("ShareClient", () => {
   beforeEach(async () => {
     shareName = getUniqueName("share");
     shareClient = ShareClient.fromFileServiceClient(serviceClient, shareName);
-    await shareClient.create(Aborter.none);
+    await shareClient.create();
   });
 
   afterEach(async () => {
-    await shareClient.delete(Aborter.none);
+    await shareClient.delete();
   });
 
   it("setMetadata", async () => {
@@ -27,14 +25,14 @@ describe("ShareClient", () => {
       keya: "vala",
       keyb: "valb"
     };
-    await shareClient.setMetadata(Aborter.none, metadata);
+    await shareClient.setMetadata(metadata);
 
-    const result = await shareClient.getProperties(Aborter.none);
+    const result = await shareClient.getProperties();
     assert.deepEqual(result.metadata, metadata);
   });
 
   it("getProperties", async () => {
-    const result = await shareClient.getProperties(Aborter.none);
+    const result = await shareClient.getProperties();
     assert.ok(result.eTag!.length > 0);
     assert.ok(result.lastModified);
     assert.ok(result.requestId);
@@ -50,8 +48,8 @@ describe("ShareClient", () => {
   it("create with all parameters configured", async () => {
     const shareClient2 = ShareClient.fromFileServiceClient(serviceClient, getUniqueName(shareName));
     const metadata = { key: "value" };
-    await shareClient2.create(Aborter.none, { metadata });
-    const result = await shareClient2.getProperties(Aborter.none);
+    await shareClient2.create({ metadata });
+    const result = await shareClient2.getProperties();
     assert.deepEqual(result.metadata, metadata);
   });
 
@@ -62,19 +60,19 @@ describe("ShareClient", () => {
 
   it("setQuota", async () => {
     const quotaInGB = 20;
-    await shareClient.setQuota(Aborter.none, quotaInGB);
-    const propertiesResponse = await shareClient.getProperties(Aborter.none);
+    await shareClient.setQuota(quotaInGB);
+    const propertiesResponse = await shareClient.getProperties();
     assert.equal(propertiesResponse.quota, quotaInGB);
   });
 
   it("getStatistics", async () => {
-    const statisticsResponse = await shareClient.getStatistics(Aborter.none);
+    const statisticsResponse = await shareClient.getStatistics();
     assert.notEqual(statisticsResponse.shareUsage, undefined);
   });
 
   it("create snapshot", async () => {
     const metadata = { key1: "value1", key2: "value2" };
-    const createSnapshotResponse = await shareClient.createSnapshot(Aborter.none, {
+    const createSnapshotResponse = await shareClient.createSnapshot({
       metadata
     });
 
@@ -82,12 +80,12 @@ describe("ShareClient", () => {
     const sanpshot = createSnapshotResponse.snapshot!;
     const snapshotShareClient = shareClient.withSnapshot(sanpshot);
 
-    const snapshotProperties = await snapshotShareClient.getProperties(Aborter.none);
+    const snapshotProperties = await snapshotShareClient.getProperties();
     assert.deepStrictEqual(snapshotProperties.metadata, metadata);
 
-    const originProperties = await shareClient.getProperties(Aborter.none);
+    const originProperties = await shareClient.getProperties();
     assert.notDeepStrictEqual(originProperties.metadata, metadata);
 
-    await snapshotShareClient.delete(Aborter.none, {});
+    await snapshotShareClient.delete({});
   });
 });

@@ -1,4 +1,3 @@
-import { Aborter } from "../src/Aborter";
 import { FileClient } from "../src/FileClient";
 import { ShareClient } from "../src/ShareClient";
 import { getBSU, getUniqueName } from "./utils/index";
@@ -16,20 +15,20 @@ describe("Special Naming Tests", () => {
   const directoryClient = DirectoryClient.fromShareClient(shareClient, directoryName);
 
   before(async () => {
-    await shareClient.create(Aborter.none);
-    await directoryClient.create(Aborter.none);
+    await shareClient.create();
+    await directoryClient.create();
   });
 
   after(async () => {
-    await shareClient.delete(Aborter.none);
+    await shareClient.delete();
   });
 
   it("Should work with special container and file names with spaces", async () => {
     const fileName: string = getUniqueName("file empty");
     const fileClient = FileClient.fromDirectoryClient(directoryClient, fileName);
 
-    await fileClient.create(Aborter.none, 10);
-    const response = await directoryClient.listFilesAndDirectoriesSegment(Aborter.none, undefined, {
+    await fileClient.create(10);
+    const response = await directoryClient.listFilesAndDirectoriesSegment(undefined, {
       prefix: fileName
     });
     assert.notDeepEqual(response.segment.fileItems.length, 0);
@@ -42,8 +41,8 @@ describe("Special Naming Tests", () => {
       directoryClient.pipeline
     );
 
-    await fileClient.create(Aborter.none, 10);
-    const response = await directoryClient.listFilesAndDirectoriesSegment(Aborter.none, undefined, {
+    await fileClient.create(10);
+    const response = await directoryClient.listFilesAndDirectoriesSegment(undefined, {
       prefix: fileName
     });
     assert.notDeepEqual(response.segment.fileItems.length, 0);
@@ -53,9 +52,9 @@ describe("Special Naming Tests", () => {
     const fileName: string = getUniqueName("Upper file empty another");
     const fileClient = FileClient.fromDirectoryClient(directoryClient, fileName);
 
-    await fileClient.create(Aborter.none, 10);
-    await fileClient.getProperties(Aborter.none);
-    const response = await directoryClient.listFilesAndDirectoriesSegment(Aborter.none, undefined, {
+    await fileClient.create(10);
+    await fileClient.getProperties();
+    const response = await directoryClient.listFilesAndDirectoriesSegment(undefined, {
       prefix: fileName
     });
     assert.notDeepEqual(response.segment.fileItems.length, 0);
@@ -68,9 +67,9 @@ describe("Special Naming Tests", () => {
       directoryClient.pipeline
     );
 
-    await fileClient.create(Aborter.none, 10);
-    await fileClient.getProperties(Aborter.none);
-    const response = await directoryClient.listFilesAndDirectoriesSegment(Aborter.none, undefined, {
+    await fileClient.create(10);
+    await fileClient.getProperties();
+    const response = await directoryClient.listFilesAndDirectoriesSegment(undefined, {
       prefix: fileName
     });
     assert.notDeepEqual(response.segment.fileItems.length, 0);
@@ -80,9 +79,9 @@ describe("Special Naming Tests", () => {
     const fileName: string = getUniqueName("Upper file empty another 汉字");
     const fileClient = FileClient.fromDirectoryClient(directoryClient, fileName);
 
-    await fileClient.create(Aborter.none, 10);
-    await fileClient.getProperties(Aborter.none);
-    const response = await directoryClient.listFilesAndDirectoriesSegment(Aborter.none, undefined, {
+    await fileClient.create(10);
+    await fileClient.getProperties();
+    const response = await directoryClient.listFilesAndDirectoriesSegment(undefined, {
       prefix: fileName
     });
     assert.notDeepEqual(response.segment.fileItems.length, 0);
@@ -95,9 +94,9 @@ describe("Special Naming Tests", () => {
       directoryClient.pipeline
     );
 
-    await fileClient.create(Aborter.none, 10);
-    await fileClient.getProperties(Aborter.none);
-    const response = await directoryClient.listFilesAndDirectoriesSegment(Aborter.none, undefined, {
+    await fileClient.create(10);
+    await fileClient.getProperties();
+    const response = await directoryClient.listFilesAndDirectoriesSegment(undefined, {
       prefix: fileName
     });
     assert.notDeepEqual(response.segment.fileItems.length, 0);
@@ -107,9 +106,9 @@ describe("Special Naming Tests", () => {
     const fileName: string = getUniqueName("汉字. special ~!@#$%^&()_+`1234567890-={}[];','");
     const fileClient = FileClient.fromDirectoryClient(directoryClient, fileName);
 
-    await fileClient.create(Aborter.none, 10);
-    await fileClient.getProperties(Aborter.none);
-    const response = await directoryClient.listFilesAndDirectoriesSegment(Aborter.none, undefined, {
+    await fileClient.create(10);
+    await fileClient.getProperties();
+    const response = await directoryClient.listFilesAndDirectoriesSegment(undefined, {
       // NOTICE: Azure Storage Server will replace "\" with "/" in the file names
       prefix: fileName.replace(/\\/g, "/")
     });
@@ -126,9 +125,9 @@ describe("Special Naming Tests", () => {
       directoryClient.pipeline
     );
 
-    await fileClient.create(Aborter.none, 10);
-    await fileClient.getProperties(Aborter.none);
-    const response = await directoryClient.listFilesAndDirectoriesSegment(Aborter.none, undefined, {
+    await fileClient.create(10);
+    await fileClient.getProperties();
+    const response = await directoryClient.listFilesAndDirectoriesSegment(undefined, {
       // NOTICE: Azure Storage Server will replace "\" with "/" in the file names
       prefix: fileName.replace(/\\/g, "/")
     });
@@ -140,16 +139,12 @@ describe("Special Naming Tests", () => {
     const specialDirectoryClient = DirectoryClient.fromShareClient(shareClient, directoryName);
     const rootDirectoryClient = DirectoryClient.fromShareClient(shareClient, "");
 
-    await specialDirectoryClient.create(Aborter.none);
-    await specialDirectoryClient.getProperties(Aborter.none);
-    const response = await rootDirectoryClient.listFilesAndDirectoriesSegment(
-      Aborter.none,
-      undefined,
-      {
-        // NOTICE: Azure Storage Server will replace "\" with "/" in the file names
-        prefix: directoryName.replace(/\\/g, "/")
-      }
-    );
+    await specialDirectoryClient.create();
+    await specialDirectoryClient.getProperties();
+    const response = await rootDirectoryClient.listFilesAndDirectoriesSegment(undefined, {
+      // NOTICE: Azure Storage Server will replace "\" with "/" in the file names
+      prefix: directoryName.replace(/\\/g, "/")
+    });
     assert.notDeepEqual(response.segment.directoryItems.length, 0);
   });
 
@@ -163,18 +158,14 @@ describe("Special Naming Tests", () => {
       shareClient.pipeline
     );
 
-    await specialDirectoryClient.create(Aborter.none);
-    await specialDirectoryClient.getProperties(Aborter.none);
+    await specialDirectoryClient.create();
+    await specialDirectoryClient.getProperties();
 
     const rootDirectoryClient = DirectoryClient.fromShareClient(shareClient, "");
-    const response = await rootDirectoryClient.listFilesAndDirectoriesSegment(
-      Aborter.none,
-      undefined,
-      {
-        // NOTICE: Azure Storage Server will replace "\" with "/" in the file names
-        prefix: directoryName.replace(/\\/g, "/")
-      }
-    );
+    const response = await rootDirectoryClient.listFilesAndDirectoriesSegment(undefined, {
+      // NOTICE: Azure Storage Server will replace "\" with "/" in the file names
+      prefix: directoryName.replace(/\\/g, "/")
+    });
     assert.notDeepEqual(response.segment.directoryItems.length, 0);
   });
 
@@ -183,9 +174,9 @@ describe("Special Naming Tests", () => {
     const blobNameEncoded: string = encodeURIComponent(fileName);
     const fileClient = FileClient.fromDirectoryClient(directoryClient, blobNameEncoded);
 
-    await fileClient.create(Aborter.none, 10);
-    await fileClient.getProperties(Aborter.none);
-    const response = await directoryClient.listFilesAndDirectoriesSegment(Aborter.none, undefined, {
+    await fileClient.create(10);
+    await fileClient.getProperties();
+    const response = await directoryClient.listFilesAndDirectoriesSegment(undefined, {
       prefix: blobNameEncoded
     });
     assert.notDeepEqual(response.segment.fileItems.length, 0);
@@ -195,9 +186,9 @@ describe("Special Naming Tests", () => {
     const fileName: string = getUniqueName("ру́сский язы́к");
     const fileClient = FileClient.fromDirectoryClient(directoryClient, fileName);
 
-    await fileClient.create(Aborter.none, 10);
-    await fileClient.getProperties(Aborter.none);
-    const response = await directoryClient.listFilesAndDirectoriesSegment(Aborter.none, undefined, {
+    await fileClient.create(10);
+    await fileClient.getProperties();
+    const response = await directoryClient.listFilesAndDirectoriesSegment(undefined, {
       prefix: fileName
     });
     assert.notDeepEqual(response.segment.fileItems.length, 0);
@@ -210,9 +201,9 @@ describe("Special Naming Tests", () => {
       directoryClient.pipeline
     );
 
-    await fileClient.create(Aborter.none, 10);
-    await fileClient.getProperties(Aborter.none);
-    const response = await directoryClient.listFilesAndDirectoriesSegment(Aborter.none, undefined, {
+    await fileClient.create(10);
+    await fileClient.getProperties();
+    const response = await directoryClient.listFilesAndDirectoriesSegment(undefined, {
       prefix: fileName
     });
     assert.notDeepEqual(response.segment.fileItems.length, 0);
@@ -223,9 +214,9 @@ describe("Special Naming Tests", () => {
     const blobNameEncoded: string = encodeURIComponent(fileName);
     const fileClient = FileClient.fromDirectoryClient(directoryClient, blobNameEncoded);
 
-    await fileClient.create(Aborter.none, 10);
-    await fileClient.getProperties(Aborter.none);
-    const response = await directoryClient.listFilesAndDirectoriesSegment(Aborter.none, undefined, {
+    await fileClient.create(10);
+    await fileClient.getProperties();
+    const response = await directoryClient.listFilesAndDirectoriesSegment(undefined, {
       prefix: blobNameEncoded
     });
     assert.notDeepEqual(response.segment.fileItems.length, 0);
@@ -235,9 +226,9 @@ describe("Special Naming Tests", () => {
     const fileName: string = getUniqueName("عربيعربى");
     const fileClient = FileClient.fromDirectoryClient(directoryClient, fileName);
 
-    await fileClient.create(Aborter.none, 10);
-    await fileClient.getProperties(Aborter.none);
-    const response = await directoryClient.listFilesAndDirectoriesSegment(Aborter.none, undefined, {
+    await fileClient.create(10);
+    await fileClient.getProperties();
+    const response = await directoryClient.listFilesAndDirectoriesSegment(undefined, {
       prefix: fileName
     });
     assert.notDeepEqual(response.segment.fileItems.length, 0);
@@ -250,9 +241,9 @@ describe("Special Naming Tests", () => {
       directoryClient.pipeline
     );
 
-    await fileClient.create(Aborter.none, 10);
-    await fileClient.getProperties(Aborter.none);
-    const response = await directoryClient.listFilesAndDirectoriesSegment(Aborter.none, undefined, {
+    await fileClient.create(10);
+    await fileClient.getProperties();
+    const response = await directoryClient.listFilesAndDirectoriesSegment(undefined, {
       prefix: fileName
     });
     assert.notDeepEqual(response.segment.fileItems.length, 0);
@@ -263,9 +254,9 @@ describe("Special Naming Tests", () => {
     const blobNameEncoded: string = encodeURIComponent(fileName);
     const fileClient = FileClient.fromDirectoryClient(directoryClient, blobNameEncoded);
 
-    await fileClient.create(Aborter.none, 10);
-    await fileClient.getProperties(Aborter.none);
-    const response = await directoryClient.listFilesAndDirectoriesSegment(Aborter.none, undefined, {
+    await fileClient.create(10);
+    await fileClient.getProperties();
+    const response = await directoryClient.listFilesAndDirectoriesSegment(undefined, {
       prefix: blobNameEncoded
     });
     assert.notDeepEqual(response.segment.fileItems.length, 0);
@@ -275,9 +266,9 @@ describe("Special Naming Tests", () => {
     const fileName: string = getUniqueName("にっぽんごにほんご");
     const fileClient = FileClient.fromDirectoryClient(directoryClient, fileName);
 
-    await fileClient.create(Aborter.none, 10);
-    await fileClient.getProperties(Aborter.none);
-    const response = await directoryClient.listFilesAndDirectoriesSegment(Aborter.none, undefined, {
+    await fileClient.create(10);
+    await fileClient.getProperties();
+    const response = await directoryClient.listFilesAndDirectoriesSegment(undefined, {
       prefix: fileName
     });
     assert.notDeepEqual(response.segment.fileItems.length, 0);
@@ -290,9 +281,9 @@ describe("Special Naming Tests", () => {
       directoryClient.pipeline
     );
 
-    await fileClient.create(Aborter.none, 10);
-    await fileClient.getProperties(Aborter.none);
-    const response = await directoryClient.listFilesAndDirectoriesSegment(Aborter.none, undefined, {
+    await fileClient.create(10);
+    await fileClient.getProperties();
+    const response = await directoryClient.listFilesAndDirectoriesSegment(undefined, {
       prefix: fileName
     });
     assert.notDeepEqual(response.segment.fileItems.length, 0);

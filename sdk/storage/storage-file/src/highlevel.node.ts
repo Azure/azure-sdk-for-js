@@ -16,22 +16,18 @@ import { streamToBuffer } from "./utils/utils.node";
  * Uploads a local file to an Azure file.
  *
  * @export
- * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
- *                          goto documents of Aborter for more examples about request cancellation
  * @param {string} filePath Full path of local file
  * @param {FileClient} fileClient FileClient
  * @param {IUploadToAzureFileOptions} [options]
  * @returns {(Promise<void>)}
  */
 export async function uploadFileToAzureFile(
-  aborter: Aborter,
   filePath: string,
   fileClient: FileClient,
   options?: IUploadToAzureFileOptions
 ): Promise<void> {
   const size = fs.statSync(filePath).size;
   return uploadResetableStreamToAzureFile(
-    aborter,
     (offset, count) =>
       fs.createReadStream(filePath, {
         autoClose: true,
@@ -52,8 +48,6 @@ export async function uploadFileToAzureFile(
  * is the offset in the Azure file to be uploaded.
  *
  * @export
- * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
- *                          goto documents of Aborter for more examples about request cancellation
  * @param {(offset: number) => NodeJS.ReadableStream} streamFactory Returns a Node.js Readable stream starting
  *                                                                  from the offset defined
  * @param {number} size Size of the Azure file
@@ -62,12 +56,12 @@ export async function uploadFileToAzureFile(
  * @returns {(Promise<void>)}
  */
 async function uploadResetableStreamToAzureFile(
-  aborter: Aborter,
   streamFactory: (offset: number, count?: number) => NodeJS.ReadableStream,
   size: number,
   fileClient: FileClient,
   options: IUploadToAzureFileOptions = {}
 ): Promise<void> {
+  const aborter = options.abortSignal || Aborter.none;
   if (!options.rangeSize) {
     options.rangeSize = FILE_RANGE_MAX_SIZE_BYTES;
   }
@@ -87,7 +81,8 @@ async function uploadResetableStreamToAzureFile(
   }
 
   // Create the file
-  await fileClient.create(aborter, size, {
+  await fileClient.create(size, {
+    abortSignal: aborter,
     fileHTTPHeaders: options.fileHTTPHeaders,
     metadata: options.metadata
   });
@@ -103,10 +98,12 @@ async function uploadResetableStreamToAzureFile(
         const end = i === numBlocks - 1 ? size : start + options.rangeSize!;
         const contentLength = end - start;
         await fileClient.uploadRange(
-          aborter,
           () => streamFactory(start, contentLength),
           start,
-          contentLength
+          contentLength,
+          {
+            abortSignal: aborter
+          }
         );
         // Update progress after block is successfully uploaded to server, in case of block trying
         transferProgress += contentLength;
@@ -126,8 +123,6 @@ async function uploadResetableStreamToAzureFile(
  * Offset and count are optional, pass 0 for both to download the entire file.
  *
  * @export
- * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
- *                          goto documents of Aborter for more examples about request cancellation
  * @param {Buffer} buffer Buffer to be fill, must have length larger than count
  * @param {FileClient} fileClient A FileClient object
  * @param {number} offset From which position of the Azure File to download
@@ -136,13 +131,13 @@ async function uploadResetableStreamToAzureFile(
  * @returns {Promise<void>}
  */
 export async function downloadAzureFileToBuffer(
-  aborter: Aborter,
   buffer: Buffer,
   fileClient: FileClient,
   offset: number,
   count?: number,
   options: IDownloadFromAzureFileOptions = {}
 ): Promise<void> {
+  const aborter = options.abortSignal || Aborter.none;
   if (!options.rangeSize) {
     options.rangeSize = FILE_RANGE_MAX_SIZE_BYTES;
   }
@@ -167,7 +162,7 @@ export async function downloadAzureFileToBuffer(
 
   // Customer doesn't specify length, get it
   if (!count) {
-    const response = await fileClient.getProperties(aborter);
+    const response = await fileClient.getProperties({ abortSignal: aborter });
     count = response.contentLength! - offset;
     if (count < 0) {
       throw new RangeError(
@@ -187,7 +182,8 @@ export async function downloadAzureFileToBuffer(
   for (let off = offset; off < offset + count; off = off + options.rangeSize) {
     batch.addOperation(async () => {
       const chunkEnd = off + options.rangeSize! < count! ? off + options.rangeSize! : count!;
-      const response = await fileClient.download(aborter, off, chunkEnd - off + 1, {
+      const response = await fileClient.download(off, chunkEnd - off + 1, {
+        abortSignal: aborter,
         maxRetryRequests: options.maxRetryRequestsPerRange
       });
       const stream = response.readableStreamBody!;
@@ -211,6 +207,7 @@ export async function downloadAzureFileToBuffer(
  * @interface IUploadStreamToAzureFileOptions
  */
 export interface IUploadStreamToAzureFileOptions {
+  abortSignal?: Aborter;
   /**
    * Azure File HTTP Headers.
    *
@@ -248,8 +245,6 @@ export interface IUploadStreamToAzureFileOptions {
  *   parameter, which will avoid Buffer.concat() operations.
  *
  * @export
- * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
- *                          goto documents of Aborter for more examples about request cancellation
  * @param {Readable} stream Node.js Readable stream. Must be less or equal than file size.
  * @param {number} size Size of file to be created. Maxium size allowed is 1TB.
  *                      If this value is larger than stream size, there will be empty bytes in file tail.
@@ -262,7 +257,6 @@ export interface IUploadStreamToAzureFileOptions {
  * @returns {Promise<void>}
  */
 export async function uploadStreamToAzureFile(
-  aborter: Aborter,
   stream: Readable,
   size: number,
   fileClient: FileClient,
@@ -270,6 +264,7 @@ export async function uploadStreamToAzureFile(
   maxBuffers: number,
   options: IUploadStreamToAzureFileOptions = {}
 ): Promise<void> {
+  const aborter = options.abortSignal || Aborter.none;
   if (!options.fileHTTPHeaders) {
     options.fileHTTPHeaders = {};
   }
@@ -283,7 +278,8 @@ export async function uploadStreamToAzureFile(
   }
 
   // Create the file
-  await fileClient.create(aborter, size, {
+  await fileClient.create(size, {
+    abortSignal: aborter,
     fileHTTPHeaders: options.fileHTTPHeaders,
     metadata: options.metadata
   });
@@ -301,7 +297,7 @@ export async function uploadStreamToAzureFile(
         );
       }
 
-      await fileClient.uploadRange(aborter, buffer, offset!, buffer.length);
+      await fileClient.uploadRange(buffer, offset!, buffer.length, { abortSignal: aborter });
 
       // Update progress after block is successfully uploaded to server, in case of block trying
       transferProgress += buffer.length;
