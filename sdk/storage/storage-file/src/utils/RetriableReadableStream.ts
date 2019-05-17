@@ -5,6 +5,7 @@ import { Aborter } from "../Aborter";
 export type ReadableStreamGetter = (offset: number) => Promise<NodeJS.ReadableStream>;
 
 export interface RetriableReadableStreamOptions {
+  abortSignal?: Aborter;
   /**
    * Max retry count (>=0), undefined or invalid value means no retry
    *
@@ -58,8 +59,6 @@ export class RetriableReadableStream extends Readable {
   /**
    * Creates an instance of RetriableReadableStream.
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
    * @param {NodeJS.ReadableStream} source The current ReadableStream returned from getter
    * @param {ReadableStreamGetter} getter A method calling downloading request returning
    *                                      a new ReadableStream from specified offset
@@ -69,7 +68,6 @@ export class RetriableReadableStream extends Readable {
    * @memberof RetriableReadableStream
    */
   public constructor(
-    aborter: Aborter,
     source: NodeJS.ReadableStream,
     getter: ReadableStreamGetter,
     offset: number,
@@ -77,6 +75,7 @@ export class RetriableReadableStream extends Readable {
     options: RetriableReadableStreamOptions = {}
   ) {
     super();
+    const aborter = options.abortSignal || Aborter.none;
     this.aborter = aborter;
     this.getter = getter;
     this.source = source;

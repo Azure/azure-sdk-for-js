@@ -37,13 +37,13 @@ async function main() {
   // Create a share
   const shareName = `newshare${new Date().getTime()}`;
   const shareClient = ShareClient.fromFileServiceClient(serviceClient, shareName);
-  await shareClient.create(Aborter.none);
+  await shareClient.create();
   console.log(`Create share ${shareName} successfully`);
 
   // Create a directory
   const directoryName = `newdirectory${new Date().getTime()}`;
   const directoryClient = DirectoryClient.fromShareClient(shareClient, directoryName);
-  await directoryClient.create(Aborter.none);
+  await directoryClient.create();
   console.log(`Create directory ${directoryName} successfully`);
 
   // Upload local file to Azure file parallelly
@@ -53,24 +53,24 @@ async function main() {
 
   // Parallel uploading with uploadFileToAzureFile in Node.js runtime
   // uploadFileToAzureFile is only available in Node.js
-  await uploadFileToAzureFile(Aborter.none, localFilePath, fileClient, {
+  await uploadFileToAzureFile(localFilePath, fileClient, {
     rangeSize: 4 * 1024 * 1024, // 4MB range size
     parallelism: 20, // 20 concurrency
-    progress: ev => console.log(ev)
+    progress: (ev) => console.log(ev)
   });
   console.log("uploadFileToAzureFile success");
 
   // Parallel uploading a Readable stream with uploadStreamToAzureFile in Node.js runtime
   // uploadStreamToAzureFile is only available in Node.js
   await uploadStreamToAzureFile(
-    Aborter.timeout(30 * 60 * 1000), // Abort uploading with timeout in 30mins
     fs.createReadStream(localFilePath),
     fileSize,
     fileClient,
     4 * 1024 * 1024,
     20,
     {
-      progress: ev => console.log(ev)
+      abortSignal: Aborter.timeout(30 * 60 * 1000), // Abort uploading with timeout in 30mins
+      progress: (ev: any) => console.log(ev)
     }
   );
   console.log("uploadStreamToAzureFile success");
@@ -79,7 +79,7 @@ async function main() {
   // Uncomment following code in browsers because uploadBrowserDataToAzureFile is only available in browsers
   /*
   const browserFile = document.getElementById("fileinput").files[0];
-  await uploadBrowserDataToAzureFile(Aborter.none, browserFile, fileClient, {
+  await uploadBrowserDataToAzureFile(browserFile, fileClient, {
     rangeSize: 4 * 1024 * 1024, // 4MB range size
     parallelism: 20, // 20 concurrency
     progress: ev => console.log(ev)
@@ -89,22 +89,16 @@ async function main() {
   // Parallel downloading an Azure file into Node.js buffer
   // downloadAzureFileToBuffer is only available in Node.js
   const buffer = Buffer.alloc(fileSize);
-  await downloadAzureFileToBuffer(
-    Aborter.timeout(30 * 60 * 1000),
-    buffer,
-    fileClient,
-    0,
-    undefined,
-    {
-      rangeSize: 4 * 1024 * 1024, // 4MB range size
-      parallelism: 20, // 20 concurrency
-      progress: ev => console.log(ev)
-    }
-  );
+  await downloadAzureFileToBuffer(buffer, fileClient, 0, undefined, {
+    abortSignal: Aborter.timeout(30 * 60 * 1000),
+    rangeSize: 4 * 1024 * 1024, // 4MB range size
+    parallelism: 20, // 20 concurrency
+    progress: (ev) => console.log(ev)
+  });
   console.log("downloadAzureFileToBuffer success");
 
   // Delete share
-  await shareClient.delete(Aborter.none);
+  await shareClient.delete();
   console.log("deleted share");
 }
 
@@ -113,6 +107,6 @@ main()
   .then(() => {
     console.log("Successfully executed sample.");
   })
-  .catch(err => {
+  .catch((err) => {
     console.log(err.message);
   });

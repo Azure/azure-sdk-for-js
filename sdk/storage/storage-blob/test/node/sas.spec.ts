@@ -1,7 +1,6 @@
 import * as assert from "assert";
 
 import {
-  Aborter,
   AccountSASPermissions,
   AccountSASResourceTypes,
   AccountSASServices,
@@ -53,7 +52,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       StorageClient.newPipeline(new AnonymousCredential())
     );
 
-    await serviceClientWithSAS.getAccountInfo(Aborter.none);
+    await serviceClientWithSAS.getAccountInfo();
   });
 
   it("generateAccountSASQueryParameters should not work with invalid permission", async () => {
@@ -82,7 +81,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     let error;
     try {
-      await serviceClientWithSAS.getProperties(Aborter.none);
+      await serviceClientWithSAS.getProperties();
     } catch (err) {
       error = err;
     }
@@ -116,7 +115,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     let error;
     try {
-      await serviceClientWithSAS.getProperties(Aborter.none);
+      await serviceClientWithSAS.getProperties();
     } catch (err) {
       error = err;
     }
@@ -153,7 +152,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     let error;
     try {
-      await serviceClientWithSAS.getProperties(Aborter.none);
+      await serviceClientWithSAS.getProperties();
     } catch (err) {
       error = err;
     }
@@ -174,7 +173,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const containerName = getUniqueName("container");
     const containerClient = ContainerClient.fromBlobServiceClient(blobServiceClient, containerName);
-    await containerClient.create(Aborter.none);
+    await containerClient.create();
 
     const containerSAS = generateBlobSASQueryParameters(
       {
@@ -195,8 +194,8 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       StorageClient.newPipeline(new AnonymousCredential())
     );
 
-    await containerClientwithSAS.listBlobFlatSegment(Aborter.none);
-    await containerClient.delete(Aborter.none);
+    await containerClientwithSAS.listBlobFlatSegment();
+    await containerClient.delete();
   });
 
   it("generateBlobSASQueryParameters should work for blob", async () => {
@@ -212,11 +211,11 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const containerName = getUniqueName("container");
     const containerClient = ContainerClient.fromBlobServiceClient(blobServiceClient, containerName);
-    await containerClient.create(Aborter.none);
+    await containerClient.create();
 
     const blobName = getUniqueName("blob");
     const blobClient = PageBlobClient.fromContainerClient(containerClient, blobName);
-    await blobClient.create(Aborter.none, 1024, {
+    await blobClient.create(1024, {
       blobHTTPHeaders: {
         blobContentType: "content-type-original"
       }
@@ -247,14 +246,14 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       StorageClient.newPipeline(new AnonymousCredential())
     );
 
-    const properties = await blobClientwithSAS.getProperties(Aborter.none);
+    const properties = await blobClientwithSAS.getProperties();
     assert.equal(properties.cacheControl, "cache-control-override");
     assert.equal(properties.contentDisposition, "content-disposition-override");
     assert.equal(properties.contentEncoding, "content-encoding-override");
     assert.equal(properties.contentLanguage, "content-language-override");
     assert.equal(properties.contentType, "content-type-override");
 
-    await containerClient.delete(Aborter.none);
+    await containerClient.delete();
   });
 
   it("generateBlobSASQueryParameters should work for blob with special namings", async () => {
@@ -270,13 +269,13 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const containerName = getUniqueName("container-with-dash");
     const containerClient = ContainerClient.fromBlobServiceClient(blobServiceClient, containerName);
-    await containerClient.create(Aborter.none);
+    await containerClient.create();
 
     const blobName = getUniqueName(
       "////Upper/blob/empty /another 汉字 ру́сский язы́к ру́сский язы́к عربي/عربى にっぽんご/にほんご . special ~!@#$%^&*()_+`1234567890-={}|[]\\:\";'<>?,/'"
     );
     const blobClient = PageBlobClient.fromContainerClient(containerClient, blobName);
-    await blobClient.create(Aborter.none, 1024, {
+    await blobClient.create(1024, {
       blobHTTPHeaders: {
         blobContentType: "content-type-original"
       }
@@ -308,14 +307,14 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       StorageClient.newPipeline(new AnonymousCredential())
     );
 
-    const properties = await blobClientwithSAS.getProperties(Aborter.none);
+    const properties = await blobClientwithSAS.getProperties();
     assert.equal(properties.cacheControl, "cache-control-override");
     assert.equal(properties.contentDisposition, "content-disposition-override");
     assert.equal(properties.contentEncoding, "content-encoding-override");
     assert.equal(properties.contentLanguage, "content-language-override");
     assert.equal(properties.contentType, "content-type-override");
 
-    await containerClient.delete(Aborter.none);
+    await containerClient.delete();
   });
 
   it("generateBlobSASQueryParameters should work for blob with access policy", async () => {
@@ -331,14 +330,14 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const containerName = getUniqueName("container");
     const containerClient = ContainerClient.fromBlobServiceClient(blobServiceClient, containerName);
-    await containerClient.create(Aborter.none);
+    await containerClient.create();
 
     const blobName = getUniqueName("blob");
     const blobClient = PageBlobClient.fromContainerClient(containerClient, blobName);
-    await blobClient.create(Aborter.none, 1024);
+    await blobClient.create(1024);
 
     const id = "unique-id";
-    await containerClient.setAccessPolicy(Aborter.none, undefined, [
+    await containerClient.setAccessPolicy(undefined, [
       {
         accessPolicy: {
           expiry: tmr,
@@ -363,7 +362,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       StorageClient.newPipeline(new AnonymousCredential())
     );
 
-    await blobClientwithSAS.getProperties(Aborter.none);
-    await containerClient.delete(Aborter.none);
+    await blobClientwithSAS.getProperties();
+    await containerClient.delete();
   });
 });

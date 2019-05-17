@@ -1,6 +1,7 @@
 import { TransferProgressEvent } from "@azure/ms-rest-js";
 
 import { FileHTTPHeaders, Metadata } from "./models";
+import { Aborter } from "./Aborter";
 
 /**
  * Option interface for uploadFileToAzureFile and uploadSeekableStreamToAzureFile.
@@ -9,6 +10,7 @@ import { FileHTTPHeaders, Metadata } from "./models";
  * @interface UploadToAzureFileOptions
  */
 export interface UploadToAzureFileOptions {
+  abortSignal?: Aborter;
   /**
    * RangeSize specifies the range size to use in each parallel upload,
    * the default (and maximum size) is FILE_RANGE_MAX_SIZE_BYTES.
@@ -58,6 +60,7 @@ export interface UploadToAzureFileOptions {
  * @interface DownloadFromAzureFileOptions
  */
 export interface DownloadFromAzureFileOptions {
+  abortSignal?: Aborter;
   /**
    * When downloading Azure files, download method will try to split large file into small ranges.
    * Every small range will be downloaded via a separte request.

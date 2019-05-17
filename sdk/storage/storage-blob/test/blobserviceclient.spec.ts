@@ -1,6 +1,5 @@
 import * as assert from "assert";
 
-import { Aborter } from "../src/Aborter";
 import { ContainerClient } from "../src/ContainerClient";
 import { BlobServiceClient } from "../src/BlobServiceClient";
 import { getAlternateBSU, getBSU, getUniqueName, wait } from "./utils";
@@ -10,7 +9,7 @@ dotenv.config({ path: "../.env" });
 describe("BlobServiceClient", () => {
   it("ListContainers with default parameters", async () => {
     const blobServiceClient = getBSU();
-    const result = await blobServiceClient.listContainersSegment(Aborter.none);
+    const result = await blobServiceClient.listContainersSegment();
     assert.ok(typeof result.requestId);
     assert.ok(result.requestId!.length > 0);
     assert.ok(typeof result.version);
@@ -35,10 +34,10 @@ describe("BlobServiceClient", () => {
     const containerName2 = `${containerNamePrefix}x2`;
     const containerClient1 = ContainerClient.fromBlobServiceClient(blobServiceClient, containerName1);
     const containerClient2 = ContainerClient.fromBlobServiceClient(blobServiceClient, containerName2);
-    await containerClient1.create(Aborter.none, { metadata: { key: "val" } });
-    await containerClient2.create(Aborter.none, { metadata: { key: "val" } });
+    await containerClient1.create({ metadata: { key: "val" } });
+    await containerClient2.create({ metadata: { key: "val" } });
 
-    const result1 = await blobServiceClient.listContainersSegment(Aborter.none, undefined, {
+    const result1 = await blobServiceClient.listContainersSegment(undefined, {
       include: "metadata",
       maxresults: 1,
       prefix: containerNamePrefix
@@ -55,7 +54,7 @@ describe("BlobServiceClient", () => {
     assert.deepEqual(result1.containerItems![0].properties.leaseStatus, "unlocked");
     assert.deepEqual(result1.containerItems![0].metadata!.key, "val");
 
-    const result2 = await blobServiceClient.listContainersSegment(Aborter.none, result1.nextMarker, {
+    const result2 = await blobServiceClient.listContainersSegment(result1.nextMarker, {
       include: "metadata",
       maxresults: 1,
       prefix: containerNamePrefix
@@ -72,13 +71,13 @@ describe("BlobServiceClient", () => {
     assert.deepEqual(result2.containerItems![0].properties.leaseStatus, "unlocked");
     assert.deepEqual(result2.containerItems![0].metadata!.key, "val");
 
-    await containerClient1.delete(Aborter.none);
-    await containerClient2.delete(Aborter.none);
+    await containerClient1.delete();
+    await containerClient2.delete();
   });
 
   it("GetProperties", async () => {
     const blobServiceClient = getBSU();
-    const result = await blobServiceClient.getProperties(Aborter.none);
+    const result = await blobServiceClient.getProperties();
 
     assert.ok(typeof result.requestId);
     assert.ok(result.requestId!.length > 0);
@@ -97,7 +96,7 @@ describe("BlobServiceClient", () => {
   it("SetProperties", async () => {
     const blobServiceClient = getBSU();
 
-    const serviceProperties = await blobServiceClient.getProperties(Aborter.none);
+    const serviceProperties = await blobServiceClient.getProperties();
 
     serviceProperties.logging = {
       deleteProperty: true,
@@ -150,10 +149,10 @@ describe("BlobServiceClient", () => {
       };
     }
 
-    await blobServiceClient.setProperties(Aborter.none, serviceProperties);
+    await blobServiceClient.setProperties(serviceProperties);
     await wait(5 * 1000);
 
-    const result = await blobServiceClient.getProperties(Aborter.none);
+    const result = await blobServiceClient.getProperties();
     assert.ok(typeof result.requestId);
     assert.ok(result.requestId!.length > 0);
     assert.ok(typeof result.version);
@@ -171,7 +170,7 @@ describe("BlobServiceClient", () => {
     }
 
     blobServiceClient!
-      .getStatistics(Aborter.none)
+      .getStatistics()
       .then((result) => {
         assert.ok(result.geoReplication!.lastSyncTime);
         done();
@@ -182,7 +181,7 @@ describe("BlobServiceClient", () => {
   it("getAccountInfo", async () => {
     const blobServiceClient = getBSU();
 
-    const accountInfo = await blobServiceClient.getAccountInfo(Aborter.none);
+    const accountInfo = await blobServiceClient.getAccountInfo();
     assert.ok(accountInfo.accountKind);
     assert.ok(accountInfo.skuName);
   });

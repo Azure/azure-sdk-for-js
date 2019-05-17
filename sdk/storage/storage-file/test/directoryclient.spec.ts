@@ -1,6 +1,4 @@
 import * as assert from "assert";
-
-import { Aborter } from "../src/Aborter";
 import { DirectoryClient } from "../src/DirectoryClient";
 import { FileClient } from "../src/FileClient";
 import { ShareClient } from "../src/ShareClient";
@@ -18,16 +16,16 @@ describe("DirectoryClient", () => {
   beforeEach(async () => {
     shareName = getUniqueName("share");
     shareClient = ShareClient.fromFileServiceClient(serviceClient, shareName);
-    await shareClient.create(Aborter.none);
+    await shareClient.create();
 
     dirName = getUniqueName("dir");
     dirClient = DirectoryClient.fromShareClient(shareClient, dirName);
-    await dirClient.create(Aborter.none);
+    await dirClient.create();
   });
 
   afterEach(async () => {
-    await dirClient.delete(Aborter.none);
-    await shareClient.delete(Aborter.none);
+    await dirClient.delete();
+    await shareClient.delete();
   });
 
   it("setMetadata", async () => {
@@ -37,9 +35,9 @@ describe("DirectoryClient", () => {
       keyb: "valb"
     };
     try {
-      await dirClient.setMetadata(Aborter.none, metadata);
+      await dirClient.setMetadata(metadata);
 
-      const result = await dirClient.getProperties(Aborter.none);
+      const result = await dirClient.getProperties();
       assert.deepEqual(result.metadata, metadata);
     } catch (err) {
       console.log(err);
@@ -47,7 +45,7 @@ describe("DirectoryClient", () => {
   });
 
   it("getProperties", async () => {
-    const result = await dirClient.getProperties(Aborter.none);
+    const result = await dirClient.getProperties();
     assert.ok(result.eTag!.length > 0);
     assert.ok(result.lastModified);
     assert.ok(result.requestId);
@@ -63,8 +61,8 @@ describe("DirectoryClient", () => {
   it("create with all parameters configured", async () => {
     const cClient = ShareClient.fromFileServiceClient(serviceClient, getUniqueName(shareName));
     const metadata = { key: "value" };
-    await cClient.create(Aborter.none, { metadata });
-    const result = await cClient.getProperties(Aborter.none);
+    await cClient.create({ metadata });
+    const result = await cClient.getProperties();
     assert.deepStrictEqual(result.metadata, metadata);
   });
 
@@ -83,7 +81,7 @@ describe("DirectoryClient", () => {
         rootDirClient,
         getUniqueName(`${prefix}dir${i}`)
       );
-      await subDirClient.create(Aborter.none);
+      await subDirClient.create();
       subDirClients.push(subDirClient);
     }
 
@@ -93,11 +91,11 @@ describe("DirectoryClient", () => {
         rootDirClient,
         getUniqueName(`${prefix}file${i}`)
       );
-      await subFileClient.create(Aborter.none, 1024);
+      await subFileClient.create(1024);
       subFileClients.push(subFileClient);
     }
 
-    const result = await rootDirClient.listFilesAndDirectoriesSegment(Aborter.none, undefined, {
+    const result = await rootDirClient.listFilesAndDirectoriesSegment(undefined, {
       prefix
     });
     assert.ok(result.serviceEndpoint.length > 0);
@@ -117,10 +115,10 @@ describe("DirectoryClient", () => {
     }
 
     for (const subFile of subFileClients) {
-      await subFile.delete(Aborter.none);
+      await subFile.delete();
     }
     for (const subDir of subDirClients) {
-      await subDir.delete(Aborter.none);
+      await subDir.delete();
     }
   });
 
@@ -134,7 +132,7 @@ describe("DirectoryClient", () => {
         rootDirClient,
         getUniqueName(`${prefix}dir${i}`)
       );
-      await subDirClient.create(Aborter.none);
+      await subDirClient.create();
       subDirClients.push(subDirClient);
     }
 
@@ -144,21 +142,17 @@ describe("DirectoryClient", () => {
         rootDirClient,
         getUniqueName(`${prefix}file${i}`)
       );
-      await subFileClient.create(Aborter.none, 1024);
+      await subFileClient.create(1024);
       subFileClients.push(subFileClient);
     }
 
     const firstRequestSize = Math.ceil((subDirClients.length + subFileClients.length) / 2);
     const secondRequestSize = subDirClients.length + subFileClients.length - firstRequestSize;
 
-    const firstResult = await rootDirClient.listFilesAndDirectoriesSegment(
-      Aborter.none,
-      undefined,
-      {
-        prefix,
-        maxresults: firstRequestSize
-      }
-    );
+    const firstResult = await rootDirClient.listFilesAndDirectoriesSegment(undefined, {
+      prefix,
+      maxresults: firstRequestSize
+    });
 
     assert.deepStrictEqual(
       firstResult.segment.directoryItems.length + firstResult.segment.fileItems.length,
@@ -167,7 +161,6 @@ describe("DirectoryClient", () => {
     assert.notDeepEqual(firstResult.nextMarker, undefined);
 
     const secondResult = await rootDirClient.listFilesAndDirectoriesSegment(
-      Aborter.none,
       firstResult.nextMarker,
       { prefix, maxresults: firstRequestSize + secondRequestSize }
     );
@@ -177,10 +170,10 @@ describe("DirectoryClient", () => {
     );
 
     for (const subFile of subFileClients) {
-      await subFile.delete(Aborter.none);
+      await subFile.delete();
     }
     for (const subDir of subDirClients) {
-      await subDir.delete(Aborter.none);
+      await subDir.delete();
     }
   });
 });

@@ -33,22 +33,18 @@ import { streamToBuffer } from "./utils/utils.node";
  * to commit the block list.
  *
  * @export
- * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
- *                          goto documents of Aborter for more examples about request cancellation
  * @param {string} filePath Full path of local file
  * @param {BlockBlobClient} blockBlobClient BlockBlobClient
  * @param {IUploadToBlockBlobOptions} [options] IUploadToBlockBlobOptions
  * @returns {(Promise<BlobUploadCommonResponse>)} ICommonResponse
  */
 export async function uploadFileToBlockBlob(
-  aborter: Aborter,
   filePath: string,
   blockBlobClient: BlockBlobClient,
-  options?: IUploadToBlockBlobOptions
+  options: IUploadToBlockBlobOptions = {}
 ): Promise<BlobUploadCommonResponse> {
   const size = fs.statSync(filePath).size;
   return uploadResetableStreamToBlockBlob(
-    aborter,
     (offset, count) =>
       fs.createReadStream(filePath, {
         autoClose: true,
@@ -73,8 +69,6 @@ export async function uploadFileToBlockBlob(
  * to commit the block list.
  *
  * @export
- * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
- *                          goto documents of Aborter for more examples about request cancellation
  * @param {(offset: number) => NodeJS.ReadableStream} streamFactory Returns a Node.js Readable stream starting
  *                                                                  from the offset defined
  * @param {number} size Size of the block blob
@@ -83,7 +77,6 @@ export async function uploadFileToBlockBlob(
  * @returns {(Promise<BlobUploadCommonResponse>)} ICommonResponse
  */
 async function uploadResetableStreamToBlockBlob(
-  aborter: Aborter,
   streamFactory: (offset: number, count?: number) => NodeJS.ReadableStream,
   size: number,
   blockBlobClient: BlockBlobClient,
@@ -129,7 +122,7 @@ async function uploadResetableStreamToBlockBlob(
   }
 
   if (size <= options.maxSingleShotSize) {
-    return blockBlobClient.upload(aborter, () => streamFactory(0), size, options);
+    return blockBlobClient.upload(() => streamFactory(0), size, options);
   }
 
   const numBlocks: number = Math.floor((size - 1) / options.blockSize) + 1;
@@ -154,12 +147,13 @@ async function uploadResetableStreamToBlockBlob(
         const contentLength = end - start;
         blockList.push(blockID);
         await blockBlobClient.stageBlock(
-          aborter,
           blockID,
           () => streamFactory(start, contentLength),
           contentLength,
           {
-            leaseAccessConditions: options.blobAccessConditions!.leaseAccessConditions
+            abortSignal: options.abortSignal,
+            leaseAccessConditions: options.blobAccessConditions!
+              .leaseAccessConditions
           }
         );
         // Update progress after block is successfully uploaded to server, in case of block trying
@@ -172,7 +166,7 @@ async function uploadResetableStreamToBlockBlob(
   }
   await batch.do();
 
-  return blockBlobClient.commitBlockList(aborter, blockList, options);
+  return blockBlobClient.commitBlockList(blockList, options);
 }
 
 /**
@@ -182,8 +176,6 @@ async function uploadResetableStreamToBlockBlob(
  * Offset and count are optional, pass 0 for both to download the entire blob.
  *
  * @export
- * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
- *                          goto documents of Aborter for more examples about request cancellation
  * @param {Buffer} buffer Buffer to be fill, must have length larger than count
  * @param {BlobClient} blobClient A BlobClient object
  * @param {number} offset From which position of the block blob to download
@@ -192,7 +184,6 @@ async function uploadResetableStreamToBlockBlob(
  * @returns {Promise<void>}
  */
 export async function downloadBlobToBuffer(
-  aborter: Aborter,
   buffer: Buffer,
   blobClient: BlobClient,
   offset: number,
@@ -223,7 +214,7 @@ export async function downloadBlobToBuffer(
 
   // Customer doesn't specify length, get it
   if (!count) {
-    const response = await blobClient.getProperties(aborter, options);
+    const response = await blobClient.getProperties(options);
     count = response.contentLength! - offset;
     if (count < 0) {
       throw new RangeError(
@@ -243,7 +234,8 @@ export async function downloadBlobToBuffer(
   for (let off = offset; off < offset + count; off = off + options.blockSize) {
     batch.addOperation(async () => {
       const chunkEnd = off + options.blockSize! < count! ? off + options.blockSize! : count!;
-      const response = await blobClient.download(aborter, off, chunkEnd - off + 1, {
+      const response = await blobClient.download(off, chunkEnd - off + 1, {
+        abortSignal: options.abortSignal,
         blobAccessConditions: options.blobAccessConditions,
         maxRetryRequests: options.maxRetryRequestsPerBlock
       });
@@ -268,6 +260,16 @@ export async function downloadBlobToBuffer(
  * @interface IUploadStreamToBlockBlobOptions
  */
 export interface IUploadStreamToBlockBlobOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof IUploadToBlockBlobOptions
+   */
+  abortSignal?: Aborter;
+
   /**
    * Blob HTTP Headers.
    *
@@ -310,8 +312,6 @@ export interface IUploadStreamToBlockBlobOptions {
  *    parameter, which will avoid Buffer.concat() operations.
  *
  * @export
- * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
- *                          goto documents of Aborter for more examples about request cancellation
  * @param {Readable} stream Node.js Readable stream
  * @param {BlockBlobClient} blockBlobClient A BlockBlobClient instance
  * @param {number} bufferSize Size of every buffer allocated, also the block size in the uploaded block blob
@@ -321,7 +321,6 @@ export interface IUploadStreamToBlockBlobOptions {
  * @returns {Promise<BlobUploadCommonResponse>}
  */
 export async function uploadStreamToBlockBlob(
-  aborter: Aborter,
   stream: Readable,
   blockBlobClient: BlockBlobClient,
   bufferSize: number,
@@ -349,7 +348,7 @@ export async function uploadStreamToBlockBlob(
       blockList.push(blockID);
       blockNum++;
 
-      await blockBlobClient.stageBlock(aborter, blockID, buffer, buffer.length, {
+      await blockBlobClient.stageBlock(blockID, buffer, buffer.length, {
         leaseAccessConditions: options.accessConditions!.leaseAccessConditions
       });
 
@@ -367,5 +366,5 @@ export async function uploadStreamToBlockBlob(
   );
   await scheduler.do();
 
-  return blockBlobClient.commitBlockList(aborter, blockList, options);
+  return blockBlobClient.commitBlockList(blockList, options);
 }

@@ -16,6 +16,7 @@ import {
 import { appendToURLPath } from "./utils/utils.common";
 
 export interface FileCreateOptions {
+  abortSignal?: Aborter;
   /**
    * File HTTP headers like Content-Type.
    *
@@ -34,7 +35,12 @@ export interface FileCreateOptions {
   metadata?: Metadata;
 }
 
+export interface FileDeleteOptions {
+  abortSignal?: Aborter;
+}
+
 export interface FileDownloadOptions {
+  abortSignal?: Aborter;
   /**
    * Optional. ONLY AVAILABLE IN NODE.JS.
    *
@@ -71,6 +77,7 @@ export interface FileDownloadOptions {
 }
 
 export interface FileUploadRangeOptions {
+  abortSignal?: Aborter;
   /**
    * An MD5 hash of the content. This hash is
    * used to verify the integrity of the data during transport. When the
@@ -93,6 +100,7 @@ export interface FileUploadRangeOptions {
 }
 
 export interface FileGetRangeListOptions {
+  abortSignal?: Aborter;
   /**
    * Optional. Specifies the range of bytes over which to list ranges, inclusively.
    *
@@ -100,6 +108,10 @@ export interface FileGetRangeListOptions {
    * @memberof FileGetRangeListOptions
    */
   range?: Range;
+}
+
+export interface FileGetPropertiesOptions {
+  abortSignal?: Aborter;
 }
 
 /**
@@ -133,6 +145,7 @@ export type FileGetRangeListResponse = Models.FileGetRangeListHeaders & {
 };
 
 export interface FileStartCopyOptions {
+  abortSignal?: Aborter;
   /**
    * A name-value pair
    * to associate with a file storage object.
@@ -141,6 +154,26 @@ export interface FileStartCopyOptions {
    * @memberof FileCreateOptions
    */
   metadata?: Metadata;
+}
+
+export interface FileSetMetadataOptions {
+  abortSignal?: Aborter;
+}
+
+export interface FileHTTPHeadersOptions {
+  abortSignal?: Aborter;
+}
+
+export interface FileAbortCopyFromURLOptions {
+  abortSignal?: Aborter;
+}
+
+export interface FileResizeOptions {
+  abortSignal?: Aborter;
+}
+
+export interface FileClearRangeOptions {
+  abortSignal?: Aborter;
 }
 
 /**
@@ -212,18 +245,16 @@ export class FileClient extends StorageClient {
    * Creates a new file or replaces a file. Note it only initializes the file with no content.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-file
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
    * @param {number} size Specifies the maximum size in bytes for the file, up to 1 TB.
    * @param {FileCreateOptions} [options]
    * @returns {Promise<Models.FileCreateResponse>}
    * @memberof FileClient
    */
   public async create(
-    aborter: Aborter,
     size: number,
     options: FileCreateOptions = {}
   ): Promise<Models.FileCreateResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     if (size < 0 || size > FILE_MAX_SIZE_BYTES) {
       throw new RangeError(`File size must >= 0 and < ${FILE_MAX_SIZE_BYTES}.`);
     }
@@ -244,8 +275,6 @@ export class FileClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-file
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
    * @param {number} offset From which position of the file to download, >= 0
    * @param {number} [count] How much data to be downloaded, > 0. Will download to the end when undefined
    * @param {FileDownloadOptions} [options]
@@ -253,11 +282,11 @@ export class FileClient extends StorageClient {
    * @memberof FileClient
    */
   public async download(
-    aborter: Aborter,
     offset: number,
     count?: number,
     options: FileDownloadOptions = {}
   ): Promise<Models.FileDownloadResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     if (options.rangeGetContentMD5 && offset === 0 && count === undefined) {
       throw new RangeError(`rangeGetContentMD5 only works with partial data downloading`);
     }
@@ -290,7 +319,6 @@ export class FileClient extends StorageClient {
     }
 
     return new FileDownloadResponse(
-      aborter,
       res,
       async (start: number): Promise<NodeJS.ReadableStream> => {
         const updatedOptions: Models.FileDownloadOptionalParams = {
@@ -315,6 +343,7 @@ export class FileClient extends StorageClient {
       offset,
       res.contentLength!,
       {
+        abortSignal: aborter,
         maxRetryRequests: options.maxRetryRequests,
         progress: options.progress
       }
@@ -326,12 +355,13 @@ export class FileClient extends StorageClient {
    * for the file. It does not return the content of the file.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-file-properties
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
    * @returns {Promise<Models.FileGetPropertiesResponse>}
    * @memberof FileClient
    */
-  public async getProperties(aborter: Aborter): Promise<Models.FileGetPropertiesResponse> {
+  public async getProperties(
+    options: FileGetPropertiesOptions = {}
+  ): Promise<Models.FileGetPropertiesResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     return this.context.getProperties({
       abortSignal: aborter
     });
@@ -351,12 +381,11 @@ export class FileClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-file2
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
    * @returns {Promise<Models.FileDeleteResponse>}
    * @memberof FileClient
    */
-  public async delete(aborter: Aborter): Promise<Models.FileDeleteResponse> {
+  public async delete(options: FileDeleteOptions = {}): Promise<Models.FileDeleteResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     return this.context.deleteMethod({
       abortSignal: aborter
     });
@@ -369,17 +398,16 @@ export class FileClient extends StorageClient {
    * these file HTTP headers without a value will be cleared.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-file-properties
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
    * @param {fileHTTPHeaders} [FileHTTPHeaders] File HTTP headers like Content-Type.
    *                                             Provide undefined will remove existing HTTP headers.
    * @returns {Promise<Models.FileSetHTTPHeadersResponse>}
    * @memberof FileClient
    */
   public async setHTTPHeaders(
-    aborter: Aborter,
-    fileHTTPHeaders: FileHTTPHeaders = {}
+    fileHTTPHeaders: FileHTTPHeaders = {},
+    options: FileHTTPHeadersOptions = {}
   ): Promise<Models.FileSetHTTPHeadersResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     return this.context.setHTTPHeaders({
       abortSignal: aborter,
       ...fileHTTPHeaders
@@ -391,8 +419,6 @@ export class FileClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-file-properties
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
    * @param {number} length Resizes a file to the specified size in bytes.
    *                        If the specified byte value is less than the current size of the file,
    *                        then all ranges above the specified byte value are cleared.
@@ -400,9 +426,10 @@ export class FileClient extends StorageClient {
    * @memberof FileClient
    */
   public async resize(
-    aborter: Aborter,
-    length: number
+    length: number,
+    options: FileResizeOptions = {}
   ): Promise<Models.FileSetHTTPHeadersResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     if (length < 0) {
       throw new RangeError(`Size cannot less than 0 when resizing file.`);
     }
@@ -419,16 +446,15 @@ export class FileClient extends StorageClient {
    * metadata will be removed.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-file-metadata
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
    * @param {Metadata} [metadata] If no metadata provided, all existing directory metadata will be removed
    * @returns {Promise<Models.FileSetMetadataResponse>}
    * @memberof FileClient
    */
   public async setMetadata(
-    aborter: Aborter,
-    metadata: Metadata = {}
+    metadata: Metadata = {},
+    options: FileSetMetadataOptions = {}
   ): Promise<Models.FileSetMetadataResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     return this.context.setMetadata({
       abortSignal: aborter,
       metadata
@@ -439,8 +465,6 @@ export class FileClient extends StorageClient {
    * Upload a range of bytes to a file. Both the start and count of the
    * range must be specified. The range can be up to 4 MB in size.
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
    * @param {HttpRequestBody} body Blob, string, ArrayBuffer, ArrayBufferView or a function
    *                               which returns a new Readable stream whose offset is from data source beginning.
    * @param {number} offset Offset position of the destination Azure File to upload.
@@ -451,12 +475,12 @@ export class FileClient extends StorageClient {
    * @memberof FileClient
    */
   public async uploadRange(
-    aborter: Aborter,
     body: HttpRequestBody,
     offset: number,
     contentLength: number,
     options: FileUploadRangeOptions = {}
   ): Promise<Models.FileUploadRangeResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     if (offset < 0 || contentLength <= 0) {
       throw new RangeError(`offset must >= 0 and contentLength must be > 0`);
     }
@@ -482,18 +506,17 @@ export class FileClient extends StorageClient {
    * Clears the specified range and
    * releases the space used in storage for that range.
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
    * @param {number} offset
    * @param {number} contentLength
    * @returns {Promise<Models.FileUploadRangeResponse>}
    * @memberof FileClient
    */
   public async clearRange(
-    aborter: Aborter,
     offset: number,
-    contentLength: number
+    contentLength: number,
+    options: FileClearRangeOptions = {}
   ): Promise<Models.FileUploadRangeResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     if (offset < 0 || contentLength <= 0) {
       throw new RangeError(`offset must >= 0 and contentLength must be > 0`);
     }
@@ -506,16 +529,14 @@ export class FileClient extends StorageClient {
   /**
    * Returns the list of valid ranges for a file.
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
    * @param {FileGetRangeListOptions} [options]
    * @returns {Promise<FileGetRangeListResponse>}
    * @memberof FileClient
    */
   public async getRangeList(
-    aborter: Aborter,
     options: FileGetRangeListOptions = {}
   ): Promise<FileGetRangeListResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     const originalResponse = await this.context.getRangeList({
       abortSignal: aborter,
       range: options.range ? rangeToString(options.range) : undefined
@@ -538,8 +559,6 @@ export class FileClient extends StorageClient {
   /**
    * Copies a blob or file to a destination file within the storage account.
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
    * @param {string} copySource Specifies the URL of the source file or blob, up to 2 KB in length.
    * To copy a file to another file within the same storage account, you may use Shared Key to
    * authenticate the source file. If you are copying a file from another storage account, or if you
@@ -552,10 +571,10 @@ export class FileClient extends StorageClient {
    * @memberof FileClient
    */
   public async startCopyFromURL(
-    aborter: Aborter,
     copySource: string,
     options: FileStartCopyOptions = {}
   ): Promise<Models.FileStartCopyResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     return this.context.startCopy(copySource, {
       abortSignal: aborter,
       metadata: options.metadata
@@ -567,16 +586,15 @@ export class FileClient extends StorageClient {
    * metadata.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/abort-copy-file
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
    * @param {string} copyId
    * @returns {Promise<Models.FileAbortCopyResponse>}
    * @memberof FileClient
    */
   public async abortCopyFromURL(
-    aborter: Aborter,
-    copyId: string
+    copyId: string,
+    options: FileAbortCopyFromURLOptions = {}
   ): Promise<Models.FileAbortCopyResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     return this.context.abortCopy(copyId, {
       abortSignal: aborter
     });

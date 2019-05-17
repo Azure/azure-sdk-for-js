@@ -1,6 +1,4 @@
 import * as assert from "assert";
-
-import { Aborter } from "../../src/Aborter";
 import { SignedIdentifier, ShareClient } from "../../src/ShareClient";
 import { getBSU, getUniqueName } from "./../utils";
 
@@ -12,11 +10,11 @@ describe("ShareClient", () => {
   beforeEach(async () => {
     shareName = getUniqueName("share");
     shareClient = ShareClient.fromFileServiceClient(serviceClient, shareName);
-    await shareClient.create(Aborter.none);
+    await shareClient.create();
   });
 
   afterEach(async () => {
-    await shareClient.delete(Aborter.none);
+    await shareClient.delete();
   });
 
   it("setAccessPolicy", async () => {
@@ -36,8 +34,8 @@ describe("ShareClient", () => {
       }
     ];
 
-    await shareClient.setAccessPolicy(Aborter.none, identifiers);
-    const getAccessPolicyResponse = await shareClient.getAccessPolicy(Aborter.none);
+    await shareClient.setAccessPolicy(identifiers);
+    const getAccessPolicyResponse = await shareClient.getAccessPolicy();
 
     assert.equal(getAccessPolicyResponse.signedIdentifiers[0].id, identifiers[0].id);
     assert.equal(

@@ -3,7 +3,6 @@
 */
 
 import {
-  Aborter,
   BlobClient,
   BlockBlobClient,
   ContainerClient,
@@ -42,7 +41,6 @@ async function main() {
   let marker;
   do {
     const listContainersResponse: Models.ServiceListContainersSegmentResponse = await blobServiceClient.listContainersSegment(
-      Aborter.none,
       marker
     );
 
@@ -56,7 +54,7 @@ async function main() {
   const containerName = `newcontainer${new Date().getTime()}`;
   const containerClient = ContainerClient.fromBlobServiceClient(blobServiceClient, containerName);
 
-  const createContainerResponse = await containerClient.create(Aborter.none);
+  const createContainerResponse = await containerClient.create();
   console.log(
     `Create container ${containerName} successfully`,
     createContainerResponse.requestId
@@ -68,7 +66,6 @@ async function main() {
   const blobClient = BlobClient.fromContainerClient(containerClient, blobName);
   const blockBlobClient = BlockBlobClient.fromBlobClient(blobClient);
   const uploadBlobResponse = await blockBlobClient.upload(
-    Aborter.none,
     content,
     content.length
   );
@@ -81,7 +78,6 @@ async function main() {
   marker = undefined;
   do {
     const listBlobsResponse: Models.ContainerListBlobFlatSegmentResponse = await containerClient.listBlobFlatSegment(
-      Aborter.none,
       marker
     );
 
@@ -95,7 +91,6 @@ async function main() {
   // In Node.js, get downloaded data by accessing downloadBlockBlobResponse.readableStreamBody
   // In browsers, get downloaded data by accessing downloadBlockBlobResponse.blobBody
   const downloadBlockBlobResponse: Models.BlobDownloadResponse = await blobClient.download(
-    Aborter.none,
     0
   );
   console.log(
@@ -104,7 +99,7 @@ async function main() {
   );
 
   // Delete container
-  await containerClient.delete(Aborter.none);
+  await containerClient.delete();
 
   console.log("deleted container");
 }
