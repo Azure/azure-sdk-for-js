@@ -1,3 +1,8 @@
+# 2019-05-16 1.0.1
+
+- Readme updated to remove the status about this library being in preview. This library is now out
+of preview.
+
 # 2019-05-16 1.0.0
 
 - `receiveMessages()` now returns rejected promise when network connection is lost.
