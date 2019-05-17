@@ -83,7 +83,7 @@ export interface CognitiveServicesAccountUpdateParameters {
 /**
  * A rule governing the accessibility from a specific ip address or ip range.
  */
-export interface IPRule {
+export interface IpRule {
   /**
    * An IPv4 address range in CIDR notation, such as '124.56.78.91' (simple IP address) or
    * '124.56.78.0/24' (all addresses that start with 124.56.78).
@@ -104,6 +104,10 @@ export interface VirtualNetworkRule {
    * Gets the state of virtual network rule.
    */
   state?: string;
+  /**
+   * Ignore missing vnet service endpoint or not.
+   */
+  ignoreMissingVnetServiceEndpoint?: boolean;
 }
 
 /**
@@ -123,7 +127,7 @@ export interface NetworkRuleSet {
   /**
    * The list of IP address rules.
    */
-  ipRules?: IPRule[];
+  ipRules?: IpRule[];
   /**
    * The list of virtual network rules.
    */

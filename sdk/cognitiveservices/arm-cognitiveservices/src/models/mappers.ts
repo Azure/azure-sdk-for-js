@@ -125,11 +125,11 @@ export const CognitiveServicesAccountUpdateParameters: msRest.CompositeMapper = 
   }
 };
 
-export const IPRule: msRest.CompositeMapper = {
-  serializedName: "IPRule",
+export const IpRule: msRest.CompositeMapper = {
+  serializedName: "IpRule",
   type: {
     name: "Composite",
-    className: "IPRule",
+    className: "IpRule",
     modelProperties: {
       value: {
         required: true,
@@ -159,6 +159,12 @@ export const VirtualNetworkRule: msRest.CompositeMapper = {
         serializedName: "state",
         type: {
           name: "String"
+        }
+      },
+      ignoreMissingVnetServiceEndpoint: {
+        serializedName: "ignoreMissingVnetServiceEndpoint",
+        type: {
+          name: "Boolean"
         }
       }
     }
@@ -190,7 +196,7 @@ export const NetworkRuleSet: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "IPRule"
+              className: "IpRule"
             }
           }
         }

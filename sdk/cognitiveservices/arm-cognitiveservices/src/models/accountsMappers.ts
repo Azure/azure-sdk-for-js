@@ -17,7 +17,7 @@ export {
   CognitiveServicesResourceAndSku,
   ErrorBody,
   ErrorModel,
-  IPRule,
+  IpRule,
   MetricName,
   NetworkRuleSet,
   RegenerateKeyParameters,
