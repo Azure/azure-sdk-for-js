@@ -213,7 +213,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.managedClusterName
   ],
   queryParameters: [
-    Parameters.apiVersion3
+    Parameters.apiVersion2
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -239,7 +239,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.agentPoolName
   ],
   queryParameters: [
-    Parameters.apiVersion3
+    Parameters.apiVersion2
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -265,7 +265,7 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.agentPoolName
   ],
   queryParameters: [
-    Parameters.apiVersion3
+    Parameters.apiVersion2
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -301,7 +301,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.agentPoolName
   ],
   queryParameters: [
-    Parameters.apiVersion3
+    Parameters.apiVersion2
   ],
   headerParameters: [
     Parameters.acceptLanguage
