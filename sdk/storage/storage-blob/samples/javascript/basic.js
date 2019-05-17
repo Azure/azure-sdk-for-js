@@ -42,7 +42,6 @@ async function main() {
   let marker;
   do {
     const listContainersResponse = await blobServiceClient.listContainersSegment(
-      Aborter.none,
       marker
     );
 
@@ -56,7 +55,7 @@ async function main() {
   const containerName = `newcontainer${new Date().getTime()}`;
   const containerClient = ContainerClient.fromBlobServiceClient(blobServiceClient, containerName);
 
-  const createContainerResponse = await containerClient.create(Aborter.none);
+  const createContainerResponse = await containerClient.create();
   console.log(
     `Create container ${containerName} successfully`,
     createContainerResponse.requestId
@@ -68,7 +67,6 @@ async function main() {
   const blobClient = BlobClient.fromContainerClient(containerClient, blobName);
   const blockBlobClient = BlockBlobClient.fromBlobClient(blobClient);
   const uploadBlobResponse = await blockBlobClient.upload(
-    Aborter.none,
     content,
     content.length
   );
@@ -81,7 +79,6 @@ async function main() {
   marker = undefined;
   do {
     const listBlobsResponse = await containerClient.listBlobFlatSegment(
-      Aborter.none,
       marker
     );
 
@@ -94,14 +91,14 @@ async function main() {
   // Get blob content from position 0 to the end
   // In Node.js, get downloaded data by accessing downloadBlockBlobResponse.readableStreamBody
   // In browsers, get downloaded data by accessing downloadBlockBlobResponse.blobBody
-  const downloadBlockBlobResponse = await blobClient.download(Aborter.none, 0);
+  const downloadBlockBlobResponse = await blobClient.download(0);
   console.log(
     "Downloaded blob content",
     await streamToString(downloadBlockBlobResponse.readableStreamBody)
   );
 
   // Delete container
-  await containerClient.delete(Aborter.none);
+  await containerClient.delete();
 
   console.log("deleted container");
 }
