@@ -774,7 +774,7 @@ export interface DomainsListBySubscriptionOptionalParams extends msRest.RequestO
   filter?: string;
   /**
    * The number of results to return per page for the list operation. Valid range for top parameter
-   * is 1 to 100. If not specified, the default number of results to be returned is 20 iterms per
+   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
    * page.
    */
   top?: number;
@@ -795,7 +795,7 @@ export interface DomainsListByResourceGroupOptionalParams extends msRest.Request
   filter?: string;
   /**
    * The number of results to return per page for the list operation. Valid range for top parameter
-   * is 1 to 100. If not specified, the default number of results to be returned is 20 iterms per
+   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
    * page.
    */
   top?: number;
@@ -816,7 +816,7 @@ export interface DomainTopicsListByDomainOptionalParams extends msRest.RequestOp
   filter?: string;
   /**
    * The number of results to return per page for the list operation. Valid range for top parameter
-   * is 1 to 100. If not specified, the default number of results to be returned is 20 iterms per
+   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
    * page.
    */
   top?: number;
@@ -837,7 +837,7 @@ export interface EventSubscriptionsListGlobalBySubscriptionOptionalParams extend
   filter?: string;
   /**
    * The number of results to return per page for the list operation. Valid range for top parameter
-   * is 1 to 100. If not specified, the default number of results to be returned is 20 iterms per
+   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
    * page.
    */
   top?: number;
@@ -858,7 +858,7 @@ export interface EventSubscriptionsListGlobalBySubscriptionForTopicTypeOptionalP
   filter?: string;
   /**
    * The number of results to return per page for the list operation. Valid range for top parameter
-   * is 1 to 100. If not specified, the default number of results to be returned is 20 iterms per
+   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
    * page.
    */
   top?: number;
@@ -879,7 +879,7 @@ export interface EventSubscriptionsListGlobalByResourceGroupOptionalParams exten
   filter?: string;
   /**
    * The number of results to return per page for the list operation. Valid range for top parameter
-   * is 1 to 100. If not specified, the default number of results to be returned is 20 iterms per
+   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
    * page.
    */
   top?: number;
@@ -900,7 +900,7 @@ export interface EventSubscriptionsListGlobalByResourceGroupForTopicTypeOptional
   filter?: string;
   /**
    * The number of results to return per page for the list operation. Valid range for top parameter
-   * is 1 to 100. If not specified, the default number of results to be returned is 20 iterms per
+   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
    * page.
    */
   top?: number;
@@ -921,7 +921,7 @@ export interface EventSubscriptionsListRegionalBySubscriptionOptionalParams exte
   filter?: string;
   /**
    * The number of results to return per page for the list operation. Valid range for top parameter
-   * is 1 to 100. If not specified, the default number of results to be returned is 20 iterms per
+   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
    * page.
    */
   top?: number;
@@ -942,7 +942,7 @@ export interface EventSubscriptionsListRegionalByResourceGroupOptionalParams ext
   filter?: string;
   /**
    * The number of results to return per page for the list operation. Valid range for top parameter
-   * is 1 to 100. If not specified, the default number of results to be returned is 20 iterms per
+   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
    * page.
    */
   top?: number;
@@ -963,7 +963,7 @@ export interface EventSubscriptionsListRegionalBySubscriptionForTopicTypeOptiona
   filter?: string;
   /**
    * The number of results to return per page for the list operation. Valid range for top parameter
-   * is 1 to 100. If not specified, the default number of results to be returned is 20 iterms per
+   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
    * page.
    */
   top?: number;
@@ -984,7 +984,7 @@ export interface EventSubscriptionsListRegionalByResourceGroupForTopicTypeOption
   filter?: string;
   /**
    * The number of results to return per page for the list operation. Valid range for top parameter
-   * is 1 to 100. If not specified, the default number of results to be returned is 20 iterms per
+   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
    * page.
    */
   top?: number;
@@ -1005,7 +1005,7 @@ export interface EventSubscriptionsListByResourceOptionalParams extends msRest.R
   filter?: string;
   /**
    * The number of results to return per page for the list operation. Valid range for top parameter
-   * is 1 to 100. If not specified, the default number of results to be returned is 20 iterms per
+   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
    * page.
    */
   top?: number;
@@ -1026,7 +1026,7 @@ export interface EventSubscriptionsListByDomainTopicOptionalParams extends msRes
   filter?: string;
   /**
    * The number of results to return per page for the list operation. Valid range for top parameter
-   * is 1 to 100. If not specified, the default number of results to be returned is 20 iterms per
+   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
    * page.
    */
   top?: number;
@@ -1047,7 +1047,7 @@ export interface TopicsListBySubscriptionOptionalParams extends msRest.RequestOp
   filter?: string;
   /**
    * The number of results to return per page for the list operation. Valid range for top parameter
-   * is 1 to 100. If not specified, the default number of results to be returned is 20 iterms per
+   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
    * page.
    */
   top?: number;
@@ -1068,7 +1068,7 @@ export interface TopicsListByResourceGroupOptionalParams extends msRest.RequestO
   filter?: string;
   /**
    * The number of results to return per page for the list operation. Valid range for top parameter
-   * is 1 to 100. If not specified, the default number of results to be returned is 20 iterms per
+   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
    * page.
    */
   top?: number;
