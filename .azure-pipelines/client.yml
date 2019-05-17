@@ -8,7 +8,7 @@ trigger:
   - master
 
 variables:
-  NodeVersion: '11.x'
+  NodeVersion: '10.x'
 
 jobs:
   - job: 'Build'
@@ -21,6 +21,10 @@ jobs:
         inputs:
           versionSpec: '$(NodeVersion)'
         displayName: 'Install Node.js $(NodeVersion)'
+
+        -script: |
+          npm install -g npm
+        displayName: 'Install npm latest version'
 
       - script: |
           node common/scripts/install-run-rush.js install
