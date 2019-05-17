@@ -87,7 +87,7 @@
     "dist-esm/package.json",
     "dist-esm/src/",
     "src/",
-    "typings",
+    "typings/src",
     "tsconfig.json"
   ],
   "scripts": {
