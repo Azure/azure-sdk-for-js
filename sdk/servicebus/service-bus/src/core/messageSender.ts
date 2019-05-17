@@ -620,9 +620,11 @@ export class MessageSender extends LinkEntity {
           // rhea throws errors with name `TypeError` but not an instance of `TypeError`, so catch them too
           // Errors in such cases do not have user friendy message or call stack
           // So use `getMessagePropertyTypeMismatchError` to get a better error message
-          error = getMessagePropertyTypeMismatchError(data) || error;
+          const errObj = getMessagePropertyTypeMismatchError(data) || error;
+          throw errObj;
+        } else {
+          throw error;
         }
-        throw error;
       }
       log.sender(
         "[%s] Sender '%s', trying to send message: %O",
@@ -689,9 +691,10 @@ export class MessageSender extends LinkEntity {
             // rhea throws errors with name `TypeError` but not an instance of `TypeError`, so catch them too
             // Errors in such cases do not have user friendy message or call stack
             // So use `getMessagePropertyTypeMismatchError` to get a better error message
-            error = getMessagePropertyTypeMismatchError(inputMessages[i]) || error;
+            throw getMessagePropertyTypeMismatchError(inputMessages[i]) || error;
+          } else {
+            throw error;
           }
-          throw error;
         }
       }
 

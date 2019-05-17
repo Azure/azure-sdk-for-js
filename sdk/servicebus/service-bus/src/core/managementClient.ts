@@ -556,16 +556,23 @@ export class ManagementClient extends LinkEntity {
           // rhea throws errors with name `TypeError` but not an instance of `TypeError`, so catch them too
           // Errors in such cases do not have user friendy message or call stack
           // So use `getMessagePropertyTypeMismatchError` to get a better error message
-          err = getMessagePropertyTypeMismatchError(item) || err;
+          const errObj = getMessagePropertyTypeMismatchError(item) || err;
+          log.error(
+            "An error occurred while encoding the item at position %d in the messages array" +
+              ": %O",
+            i,
+            translate(errObj)
+          );
+          throw translate(errObj);
+        } else {
+          log.error(
+            "An error occurred while encoding the item at position %d in the messages array" +
+              ": %O",
+            i,
+            translate(err)
+          );
+          throw translate(err);
         }
-
-        const error = translate(err);
-        log.error(
-          "An error occurred while encoding the item at position %d in the messages array" + ": %O",
-          i,
-          error
-        );
-        throw error;
       }
     }
     try {
