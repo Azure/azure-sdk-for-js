@@ -29,6 +29,7 @@ import {
 import { EventData } from "./eventData";
 import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";
+import { SendOptions } from "./eventHubClient";
 
 interface CreateSenderOptions {
   newName?: boolean;
@@ -326,7 +327,7 @@ export class EventHubSender extends LinkEntity {
    * @param {any} data Message to send.  Will be sent as UTF8-encoded JSON string.
    * @returns {Promise<Delivery>} Promise<Delivery>
    */
-  async send(data: EventData): Promise<Delivery> {
+  async send(data: EventData, options?: SendOptions): Promise<Delivery> {
     try {
       if (!data || (data && typeof data !== "object")) {
         throw new Error("data is required and it must be of type object.");
@@ -347,7 +348,7 @@ export class EventHubSender extends LinkEntity {
       }
       const message = EventData.toAmqpMessage(data);
       message.body = this._context.dataTransformer.encode(data.body);
-      return await this._trySend(message, message.message_id);
+      return await this._trySend(message, message.message_id, options);
     } catch (err) {
       log.error("An error occurred while sending the message %O", err);
       throw err;
@@ -362,9 +363,9 @@ export class EventHubSender extends LinkEntity {
    * @param {Array<EventData>} datas  An array of EventData objects to be sent in a Batch message.
    * @return {Promise<Delivery>} Promise<Delivery>
    */
-  async sendBatch(datas: EventData[]): Promise<Delivery> {
+  async sendBatch(data: EventData[], options?: SendOptions): Promise<Delivery> {
     try {
-      if (!datas || (datas && !Array.isArray(datas))) {
+      if (!data || (data && !Array.isArray(data))) {
         throw new Error("data is required and it must be an Array.");
       }
 
@@ -380,9 +381,9 @@ export class EventHubSender extends LinkEntity {
       log.sender("[%s] Sender '%s', trying to send EventData[].", this._context.connectionId, this.name);
       const messages: AmqpMessage[] = [];
       // Convert EventData to AmqpMessage.
-      for (let i = 0; i < datas.length; i++) {
-        const message = EventData.toAmqpMessage(datas[i]);
-        message.body = this._context.dataTransformer.encode(datas[i].body);
+      for (let i = 0; i < data.length; i++) {
+        const message = EventData.toAmqpMessage(data[i]);
+        message.body = this._context.dataTransformer.encode(data[i].body);
         messages[i] = message;
       }
       // Encode every amqp message and then convert every encoded message to amqp data section
@@ -411,7 +412,7 @@ export class EventHubSender extends LinkEntity {
         this.name,
         encodedBatchMessage
       );
-      return await this._trySend(encodedBatchMessage, batchMessage.message_id, 0x80013700);
+      return await this._trySend(encodedBatchMessage, batchMessage.message_id, options, 0x80013700);
     } catch (err) {
       log.error("An error occurred while sending the batch message %O", err);
       throw err;
@@ -455,7 +456,7 @@ export class EventHubSender extends LinkEntity {
    * @param message The message to be sent to EventHub.
    * @return {Promise<Delivery>} Promise<Delivery>
    */
-  private _trySend(message: AmqpMessage | Buffer, tag: any, format?: number): Promise<Delivery> {
+  private _trySend(message: AmqpMessage | Buffer, tag: any, options?: SendOptions, format?: number): Promise<Delivery> {
     const sendEventPromise = () =>
       new Promise<Delivery>((resolve, reject) => {
         let waitTimer: any;
@@ -553,7 +554,7 @@ export class EventHubSender extends LinkEntity {
           this._sender!.on(SenderEvents.rejected, onRejected);
           this._sender!.on(SenderEvents.modified, onModified);
           this._sender!.on(SenderEvents.released, onReleased);
-          waitTimer = setTimeout(actionAfterTimeout, Constants.defaultOperationTimeoutInSeconds * 1000);
+          waitTimer = setTimeout(actionAfterTimeout, options && options.idleTimeout ? options.idleTimeout : Constants.defaultOperationTimeoutInSeconds * 1000);
           const delivery = this._sender!.send(message, tag, format);
           log.sender(
             "[%s] Sender '%s', sent message with delivery id: %d and tag: %s",
@@ -581,8 +582,8 @@ export class EventHubSender extends LinkEntity {
       operation: sendEventPromise,
       connectionId: this._context.connectionId,
       operationType: RetryOperationType.sendMessage,
-      times: Constants.defaultRetryAttempts,
-      delayInSeconds: Constants.defaultDelayBetweenOperationRetriesInSeconds + jitterInSeconds
+      times: options && options.retryAttempts ? options.retryAttempts : Constants.defaultRetryAttempts,
+      delayInSeconds:  options && options.delayBetweenRetries ? options.delayBetweenRetries : Constants.defaultDelayBetweenOperationRetriesInSeconds + jitterInSeconds
     };
     return retry<Delivery>(config);
   }
