@@ -81,6 +81,56 @@ export interface CognitiveServicesAccountUpdateParameters {
 }
 
 /**
+ * A rule governing the accessibility from a specific ip address or ip range.
+ */
+export interface IPRule {
+  /**
+   * An IPv4 address range in CIDR notation, such as '124.56.78.91' (simple IP address) or
+   * '124.56.78.0/24' (all addresses that start with 124.56.78).
+   */
+  value: string;
+}
+
+/**
+ * A rule governing the accessibility from a specific virtual network.
+ */
+export interface VirtualNetworkRule {
+  /**
+   * Full resource id of a vnet subnet, such as
+   * '/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet/subnets/subnet1'.
+   */
+  id: string;
+  /**
+   * Gets the state of virtual network rule.
+   */
+  state?: string;
+}
+
+/**
+ * A set of rules governing the network accessibility of a vault.
+ */
+export interface NetworkRuleSet {
+  /**
+   * Tells what traffic can bypass network rules. This can be 'AzureServices' or 'None'.  If not
+   * specified the default is 'AzureServices'. Possible values include: 'AzureServices', 'None'
+   */
+  bypass?: NetworkRuleBypassOptions;
+  /**
+   * The default action when no rule from ipRules and from virtualNetworkRules match. This is only
+   * used after the bypass property has been evaluated. Possible values include: 'Allow', 'Deny'
+   */
+  defaultAction?: NetworkRuleAction;
+  /**
+   * The list of IP address rules.
+   */
+  ipRules?: IPRule[];
+  /**
+   * The list of virtual network rules.
+   */
+  virtualNetworkRules?: VirtualNetworkRule[];
+}
+
+/**
  * Cognitive Services Account is an Azure resource representing the provisioned account, its type,
  * location and SKU.
  */
@@ -126,6 +176,10 @@ export interface CognitiveServicesAccount extends BaseResource {
    * Optional subdomain name used for token-based authentication.
    */
   customSubDomainName?: string;
+  /**
+   * A collection of rules governing the accessibility from specific network locations.
+   */
+  networkAcls?: NetworkRuleSet;
   /**
    * The SKU of Cognitive Services account.
    */
@@ -557,6 +611,22 @@ export type SkuTier = 'Free' | 'Standard' | 'Premium';
  * @enum {string}
  */
 export type ProvisioningState = 'Creating' | 'ResolvingDNS' | 'Moving' | 'Deleting' | 'Succeeded' | 'Failed';
+
+/**
+ * Defines values for NetworkRuleBypassOptions.
+ * Possible values include: 'AzureServices', 'None'
+ * @readonly
+ * @enum {string}
+ */
+export type NetworkRuleBypassOptions = 'AzureServices' | 'None';
+
+/**
+ * Defines values for NetworkRuleAction.
+ * Possible values include: 'Allow', 'Deny'
+ * @readonly
+ * @enum {string}
+ */
+export type NetworkRuleAction = 'Allow' | 'Deny';
 
 /**
  * Defines values for KeyName.
