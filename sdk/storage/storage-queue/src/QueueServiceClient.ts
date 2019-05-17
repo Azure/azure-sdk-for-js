@@ -5,7 +5,7 @@ import { Service } from "./generated/lib/operations";
 import { Pipeline } from "./Pipeline";
 import { StorageClient } from "./StorageClient";
 
-export interface IServiceListQueuesSegmentOptions {
+export interface ServiceListQueuesSegmentOptions {
   /**
    * @member {string} [prefix] Filters the results to return only queues
    * whose name begins with the specified prefix.
@@ -139,14 +139,14 @@ export class QueueServiceClient extends StorageClient {
    *                          with the current page. The NextMarker value can be used as the value for
    *                          the marker parameter in a subsequent call to request the next page of list
    *                          items. The marker value is opaque to the client.
-   * @param {IServiceListQueuesSegmentOptions} [options]
+   * @param {ServiceListQueuesSegmentOptions} [options]
    * @returns {Promise<Models.ServiceListQueuesSegmentResponse>}
    * @memberof QueueServiceClient
    */
   public async listQueuesSegment(
     aborter: Aborter,
     marker?: string,
-    options: IServiceListQueuesSegmentOptions = {}
+    options: ServiceListQueuesSegmentOptions = {}
   ): Promise<Models.ServiceListQueuesSegmentResponse> {
     return this.serviceContext.listQueuesSegment({
       abortSignal: aborter,
