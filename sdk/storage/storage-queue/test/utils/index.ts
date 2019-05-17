@@ -1,6 +1,6 @@
 import { SharedKeyCredential } from "../../src/credentials/SharedKeyCredential";
-import { ServiceURL } from "../../src/ServiceURL";
-import { StorageURL } from "../../src/StorageURL";
+import { QueueServiceClient } from "../../src/QueueServiceClient";
+import { StorageClient } from "../../src/StorageClient";
 // Uncomment if need to enable logger when debugging
 // import {HttpPipelineLogLevel} from "../../src"
 // import {ConsoleHttpPipelineLogger} from "./testutils.common"
@@ -10,7 +10,7 @@ export * from "./testutils.common";
 export function getGenericQSU(
   accountType: string,
   accountNameSuffix: string = ""
-): ServiceURL {
+): QueueServiceClient {
   const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
   const accountKeyEnvVar = `${accountType}ACCOUNT_KEY`;
 
@@ -27,18 +27,18 @@ export function getGenericQSU(
   }
 
   const credentials = new SharedKeyCredential(accountName, accountKey);
-  const pipeline = StorageURL.newPipeline(credentials, {
+  const pipeline = StorageClient.newPipeline(credentials, {
     // Enable logger when debugging
     // logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO)
   });
   const queuePrimaryURL = `https://${accountName}${accountNameSuffix}.queue.core.windows.net/`;
-  return new ServiceURL(queuePrimaryURL, pipeline);
+  return new QueueServiceClient(queuePrimaryURL, pipeline);
 }
 
-export function getQSU(): ServiceURL {
+export function getQSU(): QueueServiceClient {
   return getGenericQSU("");
 }
 
-export function getAlternateQSU(): ServiceURL {
+export function getAlternateQSU(): QueueServiceClient {
   return getGenericQSU("SECONDARY_", "-secondary");
 }

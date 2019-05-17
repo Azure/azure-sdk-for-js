@@ -1,4 +1,7 @@
 /*
+  Copyright (c) Microsoft Corporation. All rights reserved.
+  Licensed under the MIT Licence.
+
  This sample demonstrates how to use getHubRuntimeInformation() and
  getPartitionInformation() to get information about the Iot Hub instance.
 */

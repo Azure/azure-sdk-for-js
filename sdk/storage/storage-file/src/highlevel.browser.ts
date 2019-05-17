@@ -1,11 +1,8 @@
 import { Aborter } from "@azure/core-aborter";
-import { FileURL } from "./FileURL";
+import { FileClient } from "./FileClient";
 import { IUploadToAzureFileOptions } from "./highlevel.common";
 import { Batch } from "./utils/Batch";
-import {
-  FILE_RANGE_MAX_SIZE_BYTES,
-  DEFAULT_HIGH_LEVEL_PARALLELISM
-} from "./utils/constants";
+import { FILE_RANGE_MAX_SIZE_BYTES, DEFAULT_HIGH_LEVEL_PARALLELISM } from "./utils/constants";
 
 /**
  * ONLY AVAILABLE IN BROWSERS.
@@ -16,14 +13,14 @@ import {
  * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
  *                          goto documents of Aborter for more examples about request cancellation
  * @param {Blob | ArrayBuffer | ArrayBufferView} browserData Blob, File, ArrayBuffer or ArrayBufferView
- * @param {FileURL} fileURL
+ * @param {FileClient} fileClient
  * @param {IUploadToAzureFileOptions} [options]
  * @returns {Promise<void>}
  */
 export async function uploadBrowserDataToAzureFile(
   aborter: Aborter,
   browserData: Blob | ArrayBuffer | ArrayBufferView,
-  fileURL: FileURL,
+  fileClient: FileClient,
   options?: IUploadToAzureFileOptions
 ): Promise<void> {
   const browserBlob = new Blob([browserData]);
@@ -33,7 +30,7 @@ export async function uploadBrowserDataToAzureFile(
       return browserBlob.slice(offset, offset + size);
     },
     browserBlob.size,
-    fileURL,
+    fileClient,
     options
   );
 }
@@ -48,7 +45,7 @@ export async function uploadBrowserDataToAzureFile(
  *                          goto documents of Aborter for more examples about request cancellation
  * @param {(offset: number, size: number) => Blob} blobFactory
  * @param {number} size
- * @param {FileURL} fileURL
+ * @param {FileClient} fileClient
  * @param {IUploadToAzureFileOptions} [options]
  * @returns {Promise<void>}
  */
@@ -56,16 +53,14 @@ async function UploadSeekableBlobToAzureFile(
   aborter: Aborter,
   blobFactory: (offset: number, size: number) => Blob,
   size: number,
-  fileURL: FileURL,
+  fileClient: FileClient,
   options: IUploadToAzureFileOptions = {}
 ): Promise<void> {
   if (!options.rangeSize) {
     options.rangeSize = FILE_RANGE_MAX_SIZE_BYTES;
   }
   if (options.rangeSize < 0 || options.rangeSize > FILE_RANGE_MAX_SIZE_BYTES) {
-    throw new RangeError(
-      `options.rangeSize must be > 0 and <= ${FILE_RANGE_MAX_SIZE_BYTES}`
-    );
+    throw new RangeError(`options.rangeSize must be > 0 and <= ${FILE_RANGE_MAX_SIZE_BYTES}`);
   }
 
   if (!options.fileHTTPHeaders) {
@@ -80,7 +75,7 @@ async function UploadSeekableBlobToAzureFile(
   }
 
   // Create the file
-  await fileURL.create(aborter, size, {
+  await fileClient.create(aborter, size, {
     fileHTTPHeaders: options.fileHTTPHeaders,
     metadata: options.metadata
   });
@@ -95,7 +90,7 @@ async function UploadSeekableBlobToAzureFile(
         const start = options.rangeSize! * i;
         const end = i === numBlocks - 1 ? size : start + options.rangeSize!;
         const contentLength = end - start;
-        await fileURL.uploadRange(
+        await fileClient.uploadRange(
           aborter,
           blobFactory(start, contentLength),
           start,

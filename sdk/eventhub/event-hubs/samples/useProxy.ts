@@ -1,4 +1,7 @@
 /*
+  Copyright (c) Microsoft Corporation. All rights reserved.
+  Licensed under the MIT Licence.
+
   This sample demonstrates how to create a EventHubsClient meant to be used in an environment
   where outgoing network requests have to go through a proxy server
 */
@@ -26,7 +29,7 @@ async function main(): Promise<void> {
   });
   /*
    Refer to other samples, and place your code here
-   to send/receive messages
+   to send/receive events
   */
   await client.close();
 }

@@ -15,6 +15,7 @@ import {
 } from "./util/errors";
 import { generate_uuid } from "rhea-promise";
 import { ClientEntityContext } from "./clientEntityContext";
+import { getAssociatedReceiverName } from "../src/util/utils";
 
 /**
  * Describes the client that allows interacting with a Service Bus Subscription.
@@ -25,18 +26,18 @@ import { ClientEntityContext } from "./clientEntityContext";
 export class SubscriptionClient implements Client {
   /**
    * @readonly
-   * @property The topic name.
+   * @property The name of the Service Bus Topic for whose Subscription, this client is created.
    */
   readonly topicName: string;
   /**
    * @readonly
-   * @property The subscription name.
+   * @property The name of the Service Bus Subscription for which this client is created.
    */
   readonly subscriptionName: string;
 
   /**
    * @readonly
-   * @property defaultRuleName Name of the default rule on the subscription.
+   * @property The name of the default rule on the subscription.
    */
   readonly defaultRuleName: string = "$Default";
 
@@ -109,9 +110,9 @@ export class SubscriptionClient implements Client {
 
   /**
    * Creates a Receiver for receiving messages from a Subscription which does not have sessions enabled.
-   * Throws error if an open receiver already exists for this SubscriptionClient.
-   *
-   * Throws error if the Subscription has sessions enabled.
+   * - Throws error if an open receiver already exists for this SubscriptionClient.
+   * - Throws `InvalidOperationError` if the Subscription has sessions enabled (in which case, use the
+   * overload of this method which takes `sessionOptions` argument)
    *
    * @param receiveMode An enum indicating the mode in which messages should be received. Possible
    * values are:
@@ -129,7 +130,9 @@ export class SubscriptionClient implements Client {
    * Creates a Receiver for receiving messages from a session enabled Subscription. When no sessionId is
    * given, a random session among the available sessions is used.
    * - Throws error if an open receiver already exists for given sessionId.
-   * - Throws error if the Queue does not have sessions enabled.
+   * - Throws `SessionCannotBeLockedError` if the Subscription does not have sessions enabled (in which
+   * case do not pass the `sessionOptions` argument) or if Service Bus is not able to get a lock on
+   * the session (in which case try again after some time)
    *
    * @param receiveMode An enum indicating the mode in which messages should be received. Possible
    * values are:
@@ -201,14 +204,10 @@ export class SubscriptionClient implements Client {
       this._context.isClosed
     );
 
-    let receiverName;
-    if (this._context.batchingReceiver) {
-      receiverName = this._context.batchingReceiver.name;
-    } else if (this._context.streamingReceiver) {
-      receiverName = this._context.streamingReceiver.name;
-    }
-
-    return this._context.managementClient!.peek(maxMessageCount, receiverName);
+    return this._context.managementClient!.peek(
+      maxMessageCount,
+      getAssociatedReceiverName(this._context)
+    );
   }
 
   /**
@@ -231,25 +230,18 @@ export class SubscriptionClient implements Client {
       this._context.isClosed
     );
 
-    let receiverName;
-    if (this._context.batchingReceiver) {
-      receiverName = this._context.batchingReceiver.name;
-    } else if (this._context.streamingReceiver) {
-      receiverName = this._context.streamingReceiver.name;
-    }
-
     return this._context.managementClient!.peekBySequenceNumber(
       fromSequenceNumber,
       maxMessageCount,
       undefined,
-      receiverName
+      getAssociatedReceiverName(this._context)
     );
   }
 
   //#region topic-filters
 
   /**
-   * Get all the rules associated with the subscription
+   * Gets all rules associated with the subscription
    */
   async getRules(): Promise<RuleDescription[]> {
     throwErrorIfClientOrConnectionClosed(
@@ -262,7 +254,8 @@ export class SubscriptionClient implements Client {
 
   /**
    * Removes the rule on the subscription identified by the given rule name.
-   * **Note**: If all rules on a subscription are removed, then the subscription will not receive
+   *
+   * **Caution**: If all rules on a subscription are removed, then the subscription will not receive
    * any more messages.
    * @param ruleName
    */
@@ -277,8 +270,9 @@ export class SubscriptionClient implements Client {
 
   /**
    * Adds a rule on the subscription as defined by the given rule name, filter and action.
-   * **Note**: Remove the default true filter on the subscription before adding a rule,
-   * otherwise, the added rule will have no affect as the true filter will always result in
+   *
+   * **Note**: Remove the default true filter on the subscription before adding a rule.
+   * Otherwise, the added rule will have no affect as the true filter will always result in
    * the subscription receiving all messages.
    * @param ruleName Name of the rule
    * @param filter A Boolean, SQL expression or a Correlation filter. For SQL Filter syntax, see

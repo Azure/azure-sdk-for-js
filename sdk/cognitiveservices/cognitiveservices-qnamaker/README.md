@@ -17,12 +17,6 @@ npm install @azure/cognitiveservices-qnamaker
 
 #### nodejs - Authentication, client creation and getKeys endpointKeys as an example written in TypeScript.
 
-##### Install @azure/ms-rest-nodeauth
-
-```bash
-npm install @azure/ms-rest-nodeauth
-```
-
 ##### Sample code
 
 ```typescript
@@ -30,13 +24,12 @@ import * as msRest from "@azure/ms-rest-js";
 import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
 import { QnAMakerClient, QnAMakerModels, QnAMakerMappers } from "@azure/cognitiveservices-qnamaker";
 const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
-
-msRestNodeAuth.interactiveLogin().then((creds) => {
-  const client = new QnAMakerClient(creds, subscriptionId);
-  client.endpointKeys.getKeys().then((result) => {
-    console.log("The result is:");
-    console.log(result);
-  });
+const endpoint = "https://westus.api.cognitive.microsoft.com"; // OR some other endpoint.
+const creds = new msRest.ApiKeyCredentials({ inHeader: { 'Ocp-Apim-Subscription-Key': subscriptionId }});
+const client = new QnAMakerClient(creds, endpoint);
+client.endpointKeys.getKeys().then((result) => {
+  console.log("The result is:");
+  console.log(result);
 }).catch((err) => {
   console.error(err);
 });
@@ -44,15 +37,7 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
 
 #### browser - Authentication, client creation and getKeys endpointKeys as an example written in JavaScript.
 
-##### Install @azure/ms-rest-browserauth
-
-```bash
-npm install @azure/ms-rest-browserauth
-```
-
 ##### Sample code
-
-See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to Azure in the browser.
 
 - index.html
 ```html
@@ -65,23 +50,15 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
     <script src="node_modules/@azure/cognitiveservices-qnamaker/dist/cognitiveservices-qnamaker.js"></script>
     <script type="text/javascript">
       const subscriptionId = "<Subscription_Id>";
-      const authManager = new msAuth.AuthManager({
-        clientId: "<client id for your Azure AD app>",
-        tenant: "<optional tenant for your organization>"
-      });
-      authManager.finalizeLogin().then((res) => {
-        if (!res.isLoggedIn) {
-          // may cause redirects
-          authManager.login();
-        }
-        const client = new Azure.CognitiveservicesQnamaker.QnAMakerClient(res.creds, subscriptionId);
-        client.endpointKeys.getKeys().then((result) => {
-          console.log("The result is:");
-          console.log(result);
-        }).catch((err) => {
-          console.log("An error occurred:");
-          console.error(err);
-        });
+      const creds = new msRest.ApiKeyCredentials({ inHeader: { 'Ocp-Apim-Subscription-Key': subscriptionId }});
+      const endpoint = "https://westus.api.cognitive.microsoft.com"; // OR some other endpoint.
+      const client = new Azure.CognitiveservicesQnamaker.QnAMakerClient(creds, endpoint);
+      client.endpointKeys.getKeys().then((result) => {
+        console.log("The result is:");
+        console.log(result);
+      }).catch((err) => {
+        console.log("An error occurred:");
+        console.error(err);
       });
     </script>
   </head>
@@ -92,6 +69,3 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
 ## Related projects
 
 - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
-
-
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/cognitiveservices/cognitiveservices-qnamaker/README.png)

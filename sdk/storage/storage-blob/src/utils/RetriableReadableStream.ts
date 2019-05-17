@@ -3,9 +3,7 @@ import { Readable } from "stream";
 
 import { Aborter } from "@azure/core-aborter";
 
-export type ReadableStreamGetter = (
-  offset: number
-) => Promise<NodeJS.ReadableStream>;
+export type ReadableStreamGetter = (offset: number) => Promise<NodeJS.ReadableStream>;
 
 export interface IRetriableReadableStreamOptions {
   /**
@@ -87,21 +85,13 @@ export class RetriableReadableStream extends Readable {
     this.offset = offset;
     this.end = offset + count - 1;
     this.maxRetryRequests =
-      options.maxRetryRequests && options.maxRetryRequests >= 0
-        ? options.maxRetryRequests
-        : 0;
+      options.maxRetryRequests && options.maxRetryRequests >= 0 ? options.maxRetryRequests : 0;
     this.progress = options.progress;
     this.options = options;
 
     aborter.addEventListener("abort", () => {
       this.source.pause();
-      this.emit(
-        "error",
-        new RestError(
-          "The request was aborted",
-          RestError.REQUEST_ABORTED_ERROR
-        )
-      );
+      this.emit("error", new RestError("The request was aborted", RestError.REQUEST_ABORTED_ERROR));
     });
 
     this.setSourceDataHandler();
@@ -154,13 +144,13 @@ export class RetriableReadableStream extends Readable {
         if (this.retries < this.maxRetryRequests) {
           this.retries += 1;
           this.getter(this.offset)
-            .then(newSource => {
+            .then((newSource) => {
               this.source = newSource;
               this.setSourceDataHandler();
               this.setSourceEndHandler();
               this.setSourceErrorHandler();
             })
-            .catch(error => {
+            .catch((error) => {
               this.emit("error", error);
             });
         } else {
@@ -189,7 +179,7 @@ export class RetriableReadableStream extends Readable {
   }
 
   private setSourceErrorHandler() {
-    this.source.on("error", error => {
+    this.source.on("error", (error) => {
       this.emit("error", error);
     });
   }

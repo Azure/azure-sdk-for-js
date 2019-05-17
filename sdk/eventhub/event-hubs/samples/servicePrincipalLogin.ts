@@ -1,4 +1,7 @@
 /*
+  Copyright (c) Microsoft Corporation. All rights reserved.
+  Licensed under the MIT Licence.
+
   This sample demonstrates how to instantiate EventHubsClient using AAD token credentials
   obtained from using Service Principal Secrets.
 
@@ -33,7 +36,7 @@ async function main(): Promise<void> {
   const client = EventHubClient.createFromAadTokenCredentials(evenHubsEndpoint, eventHubsName, credentials);
   /*
    Refer to other samples, and place your code here
-   to send/receive messages
+   to send/receive events
   */
   await client.close();
 }

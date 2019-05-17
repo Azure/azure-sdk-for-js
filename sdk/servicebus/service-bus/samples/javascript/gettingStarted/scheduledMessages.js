@@ -1,4 +1,7 @@
 /*
+  Copyright (c) Microsoft Corporation. All rights reserved.
+  Licensed under the MIT Licence.
+  
   This sample demonstrates how the scheduleMessage() function can be used to schedule messages to
   appear on a Service Bus Queue/Subscription at a later time.
 
@@ -82,7 +85,7 @@ async function receiveMessages(ns) {
 
   await delay(5000);
   receiver = client.createReceiver(ReceiveMode.peekLock);
-  
+
   console.log(`\nStarting receiver at ${new Date(Date.now())}`);
 
   receiver.registerMessageHandler(onMessageHandler, onErrorHandler);

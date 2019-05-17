@@ -134,7 +134,7 @@ export function getReceiverClosedErrorMsg(
       `Please create a new client using an instance of ServiceBusClient.`
     );
   }
-  if (!sessionId) {
+  if (sessionId == undefined) {
     return (
       `The receiver for "${entityPath}" has been closed and can no longer be used. ` +
       `Please create a new receiver using the "createReceiver" function on the ${clientType}.`
@@ -152,7 +152,7 @@ export function getReceiverClosedErrorMsg(
  * @param sessionId If using session receiver, then the id of the session
  */
 export function getAlreadyReceivingErrorMsg(entityPath: string, sessionId?: string): string {
-  if (!sessionId) {
+  if (sessionId == undefined) {
     return `The receiver for "${entityPath}" is already receiving messages.`;
   }
   return `The receiver for session "${sessionId}" for "${entityPath}" is already receiving messages.`;
@@ -261,6 +261,7 @@ export function throwTypeErrorIfParameterIsEmptyString(
 }
 
 /**
+ * @internal
  * Gets error message for when an operation is not supported in ReceiveAndDelete mode
  * @param failedToDo A string to add to the placeholder in the error message. Denotes the action
  * that is not supported in ReceiveAndDelete mode

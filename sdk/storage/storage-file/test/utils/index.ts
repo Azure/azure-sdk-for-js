@@ -3,8 +3,8 @@ import * as fs from "fs";
 import * as path from "path";
 
 import { SharedKeyCredential } from "../../src/credentials/SharedKeyCredential";
-import { ServiceURL } from "../../src/ServiceURL";
-import { StorageURL } from "../../src/StorageURL";
+import { FileServiceClient } from "../../src/FileServiceClient";
+import { StorageClient } from "../../src/StorageClient";
 import { getUniqueName } from "./testutils.common";
 
 export * from "./testutils.common";
@@ -12,7 +12,7 @@ export * from "./testutils.common";
 export function getGenericBSU(
   accountType: string,
   accountNameSuffix: string = ""
-): ServiceURL {
+): FileServiceClient {
   const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
   const accountKeyEnvVar = `${accountType}ACCOUNT_KEY`;
 
@@ -29,19 +29,19 @@ export function getGenericBSU(
   }
 
   const credentials = new SharedKeyCredential(accountName, accountKey);
-  const pipeline = StorageURL.newPipeline(credentials, {
+  const pipeline = StorageClient.newPipeline(credentials, {
     // Enable logger when debugging
     // logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO)
   });
   const filePrimaryURL = `https://${accountName}${accountNameSuffix}.file.core.windows.net/`;
-  return new ServiceURL(filePrimaryURL, pipeline);
+  return new FileServiceClient(filePrimaryURL, pipeline);
 }
 
-export function getBSU(): ServiceURL {
+export function getBSU(): FileServiceClient {
   return getGenericBSU("");
 }
 
-export function getAlternateBSU(): ServiceURL {
+export function getAlternateBSU(): FileServiceClient {
   return getGenericBSU("SECONDARY_", "-secondary");
 }
 
@@ -112,10 +112,7 @@ export async function createRandomLocalFile(
 // Returns a Promise which is completed after the file handle is closed.
 // If Promise is rejected, the reason will be set to the first error raised by either the
 // ReadableStream or the fs.WriteStream.
-export async function readStreamToLocalFile(
-  rs: NodeJS.ReadableStream,
-  file: string
-) {
+export async function readStreamToLocalFile(rs: NodeJS.ReadableStream, file: string) {
   return new Promise<void>((resolve, reject) => {
     const ws = fs.createWriteStream(file);
 
@@ -134,7 +131,7 @@ export async function readStreamToLocalFile(
       ws.on("unpipe", () => console.log("ws.unpipe"));
     }
 
-    let error : Error;
+    let error: Error;
 
     rs.on("error", (err: Error) => {
       // First error wins
