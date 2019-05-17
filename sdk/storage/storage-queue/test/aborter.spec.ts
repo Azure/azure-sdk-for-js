@@ -23,14 +23,14 @@ describe("Aborter", () => {
   });
 
   it("should not abort after calling abort()", async () => {
-    const cResp = await queueClient.create(Aborter.none);
+    const cResp = await queueClient.create();
     assert.ok(cResp.date);
-    await queueClient.delete(Aborter.none);
+    await queueClient.delete();
   });
 
   it("should abort when calling abort() before request finishes", async () => {
     const aborter = Aborter.none;
-    const response = queueClient.create(aborter);
+    const response = queueClient.create({ abortSignal: aborter });
     aborter.abort();
     try {
       await response;
@@ -40,14 +40,14 @@ describe("Aborter", () => {
 
   it("should not abort when calling abort() after request finishes", async () => {
     const aborter = Aborter.none;
-    await queueClient.create(aborter);
+    await queueClient.create({ abortSignal: aborter });
     aborter.abort();
-    await queueClient.delete(Aborter.none);
+    await queueClient.delete();
   });
 
   it("should abort after aborter timeout", async () => {
     try {
-      await queueClient.create(Aborter.timeout(1));
+      await queueClient.create({ abortSignal: Aborter.timeout(1) });
       assert.fail();
     } catch (err) {}
   });
@@ -55,7 +55,7 @@ describe("Aborter", () => {
   it("should abort after parent aborter calls abort()", async () => {
     try {
       const aborter = Aborter.none;
-      const response = queueClient.create(aborter.withTimeout(10 * 60 * 1000));
+      const response = queueClient.create({ abortSignal: aborter.withTimeout(10 * 60 * 1000) });
       aborter.abort();
       await response;
       assert.fail();
@@ -65,7 +65,7 @@ describe("Aborter", () => {
   it("should abort after parent aborter timeout", async () => {
     try {
       const aborter = Aborter.timeout(1);
-      const response = queueClient.create(aborter.withTimeout(10 * 60 * 1000));
+      const response = queueClient.create({ abortSignal: aborter.withTimeout(10 * 60 * 1000) });
       await response;
       assert.fail();
     } catch (err) {}

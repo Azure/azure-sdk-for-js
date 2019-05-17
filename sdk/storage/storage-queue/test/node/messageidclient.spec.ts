@@ -1,6 +1,5 @@
 import * as assert from "assert";
 
-import { Aborter } from "../../src/Aborter";
 import { QueueClient } from "../../src/QueueClient";
 import { MessagesClient } from "../../src/MessagesClient";
 import { MessageIdClient } from "../../src/MessageIdClient";
@@ -15,16 +14,16 @@ describe("MessageIdClient Node", () => {
   beforeEach(async () => {
     queueName = getUniqueName("queue");
     queueClient = QueueClient.fromQueueServiceClient(queueServiceClient, queueName);
-    await queueClient.create(Aborter.none);
+    await queueClient.create();
   });
 
   afterEach(async () => {
-    await queueClient.delete(Aborter.none);
+    await queueClient.delete();
   });
 
   it("update message with 64KB characters including special char which is computed after encoding", async () => {
     let messagesClient = MessagesClient.fromQueueClient(queueClient);
-    let eResult = await messagesClient.enqueue(Aborter.none, messageContent);
+    let eResult = await messagesClient.enqueue(messageContent);
     assert.ok(eResult.date);
     assert.ok(eResult.expirationTime);
     assert.ok(eResult.insertionTime);
@@ -41,21 +40,21 @@ describe("MessageIdClient Node", () => {
     buffer.write(specialChars, 0);
     let newMessage = buffer.toString();
     let messageIdClient = MessageIdClient.fromMessagesClient(messagesClient, eResult.messageId);
-    let uResult = await messageIdClient.update(Aborter.none, eResult.popReceipt, 0, newMessage);
+    let uResult = await messageIdClient.update(eResult.popReceipt, 0, newMessage);
     assert.ok(uResult.version);
     assert.ok(uResult.timeNextVisible);
     assert.ok(uResult.date);
     assert.ok(uResult.requestId);
     assert.ok(uResult.popReceipt);
 
-    let pResult = await messagesClient.peek(Aborter.none);
+    let pResult = await messagesClient.peek();
     assert.equal(pResult.peekedMessageItems.length, 1);
     assert.deepStrictEqual(pResult.peekedMessageItems[0].messageText, newMessage);
   });
 
   it("update message negative with 65537B (64KB+1B) characters including special char which is computed after encoding", async () => {
     let messagesClient = MessagesClient.fromQueueClient(queueClient);
-    let eResult = await messagesClient.enqueue(Aborter.none, messageContent);
+    let eResult = await messagesClient.enqueue(messageContent);
     assert.ok(eResult.date);
     assert.ok(eResult.expirationTime);
     assert.ok(eResult.insertionTime);
@@ -75,7 +74,7 @@ describe("MessageIdClient Node", () => {
 
     let error;
     try {
-      await messageIdClient.update(Aborter.none, eResult.popReceipt, 0, newMessage);
+      await messageIdClient.update(eResult.popReceipt, 0, newMessage);
     } catch (err) {
       error = err;
     }

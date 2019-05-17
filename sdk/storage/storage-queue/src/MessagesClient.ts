@@ -7,6 +7,19 @@ import { QueueClient } from "./QueueClient";
 import { StorageClient } from "./StorageClient";
 import { appendToURLPath } from "./utils/utils.common";
 
+export interface MessagesClearOptions {
+  abortSignal?: Aborter;
+}
+
+export interface MessagesEnqueueOptions extends Models.MessagesEnqueueOptionalParams {
+}
+
+export interface MessagesDequeueOptions extends Models.MessagesDequeueOptionalParams {
+}
+
+export interface MessagesPeekOptions extends Models.MessagesPeekOptionalParams {
+}
+
 export declare type MessagesEnqueueResponse = {
   /**
    * @member {string} messageId The ID of the enqueued Message.
@@ -154,12 +167,14 @@ export class MessagesClient extends StorageClient {
    * Clear deletes all messages from a queue.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/clear-messages
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
+   * @param {MessagesClearOptions} [options] Optional options to Messages clear operation.
    * @returns {Promise<Models.MessageClearResponse>}
    * @memberof MessagesClient
    */
-  public async clear(aborter: Aborter): Promise<Models.MessagesClearResponse> {
+  public async clear(
+    options: MessagesClearOptions = {}
+  ): Promise<Models.MessagesClearResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     return this.messagesContext.clear({
       abortSignal: aborter
     });
@@ -172,18 +187,16 @@ export class MessagesClient extends StorageClient {
    * To include markup in the message, the contents of the message must either be XML-escaped or Base64-encode.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/put-message
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
    * @param {string} messageText
-   * @param {Models.MessagesEnqueueOptionalParams} [options]
+   * @param {MessagesEnqueueOptionas} [options] Optional optiosn to Messages enqueue operation.
    * @returns {Promise<Models.MessagesEnqueueResponse>}
    * @memberof MessagesClient
    */
   public async enqueue(
-    aborter: Aborter,
     messageText: string,
-    options: Models.MessagesEnqueueOptionalParams = {}
+    options: MessagesEnqueueOptions = {}
   ): Promise<MessagesEnqueueResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     const response = await this.messagesContext.enqueue(
       {
         messageText: messageText
@@ -214,14 +227,14 @@ export class MessagesClient extends StorageClient {
    *
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
-   * @param {Models.MessagesDequeueOptionalParams} [options]
+   * @param {MessagesDequeueOptionals} [options] Optional optiosn to Messages dequeue operation.
    * @returns {Promise<Models.MessagesDequeueResponse>}
    * @memberof MessagesClient
    */
   public async dequeue(
-    aborter: Aborter,
-    options: Models.MessagesDequeueOptionalParams = {}
+    options: MessagesDequeueOptions = {}
   ): Promise<MessagesDequeueResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     const response = await this.messagesContext.dequeue({
       abortSignal: aborter,
       ...options
@@ -249,14 +262,14 @@ export class MessagesClient extends StorageClient {
    *
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
-   * @param {Models.MessagesPeekOptionalParams} [options]
+   * @param {MessagesPeekOptions} [options] Optional optiosn to Messages peek operation.
    * @returns {Promise<Models.MessagesPeekResponse>}
    * @memberof MessagesClient
    */
   public async peek(
-    aborter: Aborter,
-    options: Models.MessagesPeekOptionalParams = {}
+    options: MessagesPeekOptions = {}
   ): Promise<MessagesPeekResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     const response = await this.messagesContext.peek({
       abortSignal: aborter,
       ...options

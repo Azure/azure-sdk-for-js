@@ -6,6 +6,14 @@ import { MessagesClient } from "./MessagesClient";
 import { StorageClient } from "./StorageClient";
 import { appendToURLPath } from "./utils/utils.common";
 
+export interface MessageIdDeleteOptions {
+  abortSignal?: Aborter;
+}
+
+export interface MessageIdUpdateOptions {
+  abortSignal?: Aborter;
+}
+
 /**
  * A MessageIdClient represents a URL to a specific Azure Storage Queue message allowing you to manipulate the message.
  *
@@ -69,16 +77,16 @@ export class MessageIdClient extends StorageClient {
    * Delete permanently removes the specified message from its queue.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-message2
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
    * @param {string} popReceipt A valid pop receipt value returned from an earlier call to the dequeue messages or update message operation.
+   * @param {MessageIdDeleteOptions} [options] Optional options to MessageId Delete operation.
    * @returns {Promise<Models.MessageIdDeleteResponse>}
    * @memberof MessageIdClient
    */
   public async delete(
-    aborter: Aborter,
-    popReceipt: string
+    popReceipt: string,
+    options: MessageIdDeleteOptions = {}
   ): Promise<Models.MessageIdDeleteResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     return this.messageIdContext.deleteMethod(popReceipt, {
       abortSignal: aborter
     });
@@ -90,8 +98,6 @@ export class MessageIdClient extends StorageClient {
    * To include markup in the message, the contents of the message must either be XML-escaped or Base64-encode.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/update-message
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
    * @param {string} popReceipt A valid pop receipt value returned from an earlier call to the dequeue messages or update message operation.
    * @param {number} visibilityTimeout Specifies the new visibility timeout value, in seconds,
    *                                   relative to server time. The new value must be larger than or equal to 0,
@@ -99,15 +105,17 @@ export class MessageIdClient extends StorageClient {
    *                                   be set to a value later than the expiry time.
    *                                   A message can be updated until it has been deleted or has expired.
    * @param {string} message Message to update.
+   * @param {MessageIdUpdateOptions} [options] Optional options to MessageId Update operation.
    * @returns {Promise<Models.MessageIdUpdateResponse>}
    * @memberof MessageIdClient
    */
   public async update(
-    aborter: Aborter,
     popReceipt: string,
     visibilityTimeout: number,
-    message: string
+    message: string,
+    options: MessageIdUpdateOptions = {}
   ): Promise<Models.MessageIdUpdateResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     return this.messageIdContext.update(
       {
         messageText: message

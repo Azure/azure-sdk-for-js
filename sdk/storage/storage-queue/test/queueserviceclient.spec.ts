@@ -1,6 +1,5 @@
 import * as assert from "assert";
 
-import { Aborter } from "../src/Aborter";
 import { QueueClient } from "../src/QueueClient";
 import { QueueServiceClient } from "../src/QueueServiceClient";
 import { getAlternateQSU, getQSU, getUniqueName, wait } from "./utils";
@@ -10,7 +9,7 @@ dotenv.config({ path: "../.env" });
 describe("QueueServiceClient", () => {
   it("listQueuesSegment with default parameters", async () => {
     const queueServiceClient = getQSU();
-    const result = await queueServiceClient.listQueuesSegment(Aborter.none);
+    const result = await queueServiceClient.listQueuesSegment();
     assert.ok(typeof result.requestId);
     assert.ok(result.requestId!.length > 0);
     assert.ok(typeof result.version);
@@ -33,10 +32,10 @@ describe("QueueServiceClient", () => {
     const queueName2 = `${queueNamePrefix}x2`;
     const queueClient1 = QueueClient.fromQueueServiceClient(queueServiceClient, queueName1);
     const queueClient2 = QueueClient.fromQueueServiceClient(queueServiceClient, queueName2);
-    await queueClient1.create(Aborter.none, { metadata: { key: "val" } });
-    await queueClient2.create(Aborter.none, { metadata: { key: "val" } });
+    await queueClient1.create({ metadata: { key: "val" } });
+    await queueClient2.create({ metadata: { key: "val" } });
 
-    const result1 = await queueServiceClient.listQueuesSegment(Aborter.none, undefined, {
+    const result1 = await queueServiceClient.listQueuesSegment(undefined, {
       include: "metadata",
       maxresults: 1,
       prefix: queueNamePrefix
@@ -47,7 +46,7 @@ describe("QueueServiceClient", () => {
     assert.ok(result1.queueItems![0].name.startsWith(queueNamePrefix));
     assert.deepEqual(result1.queueItems![0].metadata!.key, "val");
 
-    const result2 = await queueServiceClient.listQueuesSegment(Aborter.none, result1.nextMarker, {
+    const result2 = await queueServiceClient.listQueuesSegment(result1.nextMarker, {
       include: "metadata",
       maxresults: 1,
       prefix: queueNamePrefix
@@ -58,13 +57,13 @@ describe("QueueServiceClient", () => {
     assert.ok(result2.queueItems![0].name.startsWith(queueNamePrefix));
     assert.deepEqual(result2.queueItems![0].metadata!.key, "val");
 
-    await queueClient1.delete(Aborter.none);
-    await queueClient2.delete(Aborter.none);
+    await queueClient1.delete();
+    await queueClient2.delete();
   });
 
   it("getProperties with default/all parameters", async () => {
     const queueServiceClient = getQSU();
-    const result = await queueServiceClient.getProperties(Aborter.none);
+    const result = await queueServiceClient.getProperties();
 
     assert.ok(typeof result.requestId);
     assert.ok(result.requestId!.length > 0);
@@ -83,7 +82,7 @@ describe("QueueServiceClient", () => {
   it("setProperties with all parameters", async () => {
     const queueServiceClient = getQSU();
 
-    const serviceProperties = await queueServiceClient.getProperties(Aborter.none);
+    const serviceProperties = await queueServiceClient.getProperties();
 
     serviceProperties.logging = {
       deleteProperty: true,
@@ -129,10 +128,10 @@ describe("QueueServiceClient", () => {
       serviceProperties.cors.push(newCORS);
     }
 
-    await queueServiceClient.setProperties(Aborter.none, serviceProperties);
+    await queueServiceClient.setProperties(serviceProperties);
     await wait(5 * 1000);
 
-    const result = await queueServiceClient.getProperties(Aborter.none);
+    const result = await queueServiceClient.getProperties();
     assert.ok(typeof result.requestId);
     assert.ok(result.requestId!.length > 0);
     assert.ok(typeof result.version);
@@ -150,7 +149,7 @@ describe("QueueServiceClient", () => {
     }
 
     queueServiceClient!
-      .getStatistics(Aborter.none)
+      .getStatistics()
       .then((result) => {
         assert.ok(result.geoReplication!.lastSyncTime);
         done();
