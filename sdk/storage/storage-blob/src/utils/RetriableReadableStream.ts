@@ -7,6 +7,16 @@ export type ReadableStreamGetter = (offset: number) => Promise<NodeJS.ReadableSt
 
 export interface RetriableReadableStreamOptions {
   /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof IUploadToBlockBlobOptions
+   */
+  abortSignal?: Aborter;
+
+  /**
    * Max retry count (>=0), undefined or invalid value means no retry
    *
    * @type {number}
@@ -59,8 +69,6 @@ export class RetriableReadableStream extends Readable {
   /**
    * Creates an instance of RetriableReadableStream.
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
    * @param {NodeJS.ReadableStream} source The current ReadableStream returned from getter
    * @param {ReadableStreamGetter} getter A method calling downloading request returning
    *                                      a new ReadableStream from specified offset
@@ -70,7 +78,6 @@ export class RetriableReadableStream extends Readable {
    * @memberof RetriableReadableStream
    */
   public constructor(
-    aborter: Aborter,
     source: NodeJS.ReadableStream,
     getter: ReadableStreamGetter,
     offset: number,
@@ -78,7 +85,7 @@ export class RetriableReadableStream extends Readable {
     options: RetriableReadableStreamOptions = {}
   ) {
     super();
-    this.aborter = aborter;
+    this.aborter = options.abortSignal || Aborter.none;
     this.getter = getter;
     this.source = source;
     this.start = offset;
@@ -89,7 +96,7 @@ export class RetriableReadableStream extends Readable {
     this.progress = options.progress;
     this.options = options;
 
-    aborter.addEventListener("abort", () => {
+    this.aborter.addEventListener("abort", () => {
       this.source.pause();
       this.emit("error", new RestError("The request was aborted", RestError.REQUEST_ABORTED_ERROR));
     });

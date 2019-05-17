@@ -12,6 +12,7 @@ import { URLConstants } from "./utils/constants";
 import { appendToURLPath, setURLParameter } from "./utils/utils.common";
 
 export interface BlockBlobUploadOptions {
+  abortSignal?: Aborter;
   accessConditions?: BlobAccessConditions;
   blobHTTPHeaders?: Models.BlobHTTPHeaders;
   metadata?: Metadata;
@@ -19,24 +20,28 @@ export interface BlockBlobUploadOptions {
 }
 
 export interface BlockBlobStageBlockOptions {
+  abortSignal?: Aborter;
   leaseAccessConditions?: Models.LeaseAccessConditions;
   progress?: (progress: TransferProgressEvent) => void;
   transactionalContentMD5?: Uint8Array;
 }
 
 export interface BlockBlobStageBlockFromURLOptions {
+  abortSignal?: Aborter;
   range?: Range;
   leaseAccessConditions?: Models.LeaseAccessConditions;
   sourceContentMD5?: Uint8Array;
 }
 
 export interface BlockBlobCommitBlockListOptions {
+  abortSignal?: Aborter;
   accessConditions?: BlobAccessConditions;
   blobHTTPHeaders?: Models.BlobHTTPHeaders;
   metadata?: Metadata;
 }
 
 export interface BlockBlobGetBlockListOptions {
+  abortSignal?: Aborter;
   leaseAccessConditions?: Models.LeaseAccessConditions;
 }
 
@@ -156,8 +161,6 @@ export class BlockBlobClient extends BlobClient {
    *
    * @see https://docs.microsoft.com/rest/api/storageservices/put-blob
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
    * @param {HttpRequestBody} body Blob, string, ArrayBuffer, ArrayBufferView or a function
    *                               which returns a new Readable stream whose offset is from data source beginning.
    * @param {number} contentLength Length of body in bytes. Use Buffer.byteLength() to calculate body length for a
@@ -167,11 +170,11 @@ export class BlockBlobClient extends BlobClient {
    * @memberof BlockBlobClient
    */
   public async upload(
-    aborter: Aborter,
     body: HttpRequestBody,
     contentLength: number,
     options: BlockBlobUploadOptions = {}
   ): Promise<Models.BlockBlobUploadResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     options.accessConditions = options.accessConditions || {};
     return this.blockBlobContext.upload(body, contentLength, {
       abortSignal: aborter,
@@ -188,8 +191,6 @@ export class BlockBlobClient extends BlobClient {
    * committed by a call to commitBlockList.
    * @see https://docs.microsoft.com/rest/api/storageservices/put-block
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
    * @param {string} blockId A 64-byte value that is base64-encoded
    * @param {HttpRequestBody} body
    * @param {number} contentLength
@@ -198,12 +199,12 @@ export class BlockBlobClient extends BlobClient {
    * @memberof BlockBlobClient
    */
   public async stageBlock(
-    aborter: Aborter,
     blockId: string,
     body: HttpRequestBody,
     contentLength: number,
     options: BlockBlobStageBlockOptions = {}
   ): Promise<Models.BlockBlobStageBlockResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     return this.blockBlobContext.stageBlock(blockId, contentLength, body, {
       abortSignal: aborter,
       leaseAccessConditions: options.leaseAccessConditions,
@@ -218,8 +219,6 @@ export class BlockBlobClient extends BlobClient {
    * This API is available starting in version 2018-03-28.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/put-block-from-url
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
    * @param {string} blockId A 64-byte value that is base64-encoded
    * @param {string} sourceURL Specifies the URL of the blob. The value
    *                           may be a URL of up to 2 KB in length that specifies a blob.
@@ -237,13 +236,13 @@ export class BlockBlobClient extends BlobClient {
    * @memberof BlockBlobClient
    */
   public async stageBlockFromURL(
-    aborter: Aborter,
     blockId: string,
     sourceURL: string,
     offset: number,
     count?: number,
     options: BlockBlobStageBlockFromURLOptions = {}
   ): Promise<Models.BlockBlobStageBlockFromURLResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     return this.blockBlobContext.stageBlockFromURL(blockId, 0, sourceURL, {
       abortSignal: aborter,
       leaseAccessConditions: options.leaseAccessConditions,
@@ -260,18 +259,16 @@ export class BlockBlobClient extends BlobClient {
    * blocks together. Any blocks not specified in the block list and permanently deleted.
    * @see https://docs.microsoft.com/rest/api/storageservices/put-block-list
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
    * @param {string[]} blocks  Array of 64-byte value that is base64-encoded
    * @param {BlockBlobCommitBlockListOptions} [options]
    * @returns {Promise<Models.BlockBlobCommitBlockListResponse>}
    * @memberof BlockBlobClient
    */
   public async commitBlockList(
-    aborter: Aborter,
     blocks: string[],
     options: BlockBlobCommitBlockListOptions = {}
   ): Promise<Models.BlockBlobCommitBlockListResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     options.accessConditions = options.accessConditions || {};
     return this.blockBlobContext.commitBlockList(
       { latest: blocks },
@@ -290,18 +287,16 @@ export class BlockBlobClient extends BlobClient {
    * using the specified block list filter.
    * @see https://docs.microsoft.com/rest/api/storageservices/get-block-list
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
    * @param {Models.BlockListType} listType
    * @param {BlockBlobGetBlockListOptions} [options]
    * @returns {Promise<Models.BlockBlobGetBlockListResponse>}
    * @memberof BlockBlobClient
    */
   public async getBlockList(
-    aborter: Aborter,
     listType: Models.BlockListType,
     options: BlockBlobGetBlockListOptions = {}
   ): Promise<Models.BlockBlobGetBlockListResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     const res = await this.blockBlobContext.getBlockList(listType, {
       abortSignal: aborter,
       leaseAccessConditions: options.leaseAccessConditions

@@ -1,6 +1,5 @@
 import { HttpResponse, isNode } from "@azure/ms-rest-js";
 
-import { Aborter } from "./Aborter";
 import * as Models from "./generated/lib/models";
 import { Metadata } from "./models";
 import { RetriableReadableStreamOptions } from "./utils/RetriableReadableStream";
@@ -433,7 +432,6 @@ export class BlobDownloadResponse implements Models.BlobDownloadResponse {
   /**
    * Creates an instance of BlobDownloadResponse.
    *
-   * @param {Aborter} aborter
    * @param {Models.BlobDownloadResponse} originalResponse
    * @param {ReadableStreamGetter} getter
    * @param {number} offset
@@ -442,7 +440,6 @@ export class BlobDownloadResponse implements Models.BlobDownloadResponse {
    * @memberof BlobDownloadResponse
    */
   public constructor(
-    aborter: Aborter,
     originalResponse: Models.BlobDownloadResponse,
     getter: ReadableStreamGetter,
     offset: number,
@@ -451,7 +448,6 @@ export class BlobDownloadResponse implements Models.BlobDownloadResponse {
   ) {
     this.originalResponse = originalResponse;
     this.blobDownloadStream = new RetriableReadableStream(
-      aborter,
       this.originalResponse.readableStreamBody!,
       getter,
       offset,

@@ -1,6 +1,5 @@
 import * as assert from "assert";
 
-import { Aborter } from "../../src/Aborter";
 import { ContainerClient } from "../../src/ContainerClient";
 import { getBSU, getUniqueName } from "../utils";
 import { PublicAccessType } from "../../src/generated/lib/models/index";
@@ -13,15 +12,15 @@ describe("ContainerClient", () => {
   beforeEach(async () => {
     containerName = getUniqueName("container");
     containerClient = ContainerClient.fromBlobServiceClient(blobServiceClient, containerName);
-    await containerClient.create(Aborter.none);
+    await containerClient.create();
   });
 
   afterEach(async () => {
-    await containerClient.delete(Aborter.none);
+    await containerClient.delete();
   });
 
   it("getAccessPolicy", async () => {
-    const result = await containerClient.getAccessPolicy(Aborter.none);
+    const result = await containerClient.getAccessPolicy();
     assert.ok(result.eTag!.length > 0);
     assert.ok(result.lastModified);
     assert.ok(result.requestId);
@@ -42,8 +41,8 @@ describe("ContainerClient", () => {
       }
     ];
 
-    await containerClient.setAccessPolicy(Aborter.none, access, containerAcl);
-    const result = await containerClient.getAccessPolicy(Aborter.none);
+    await containerClient.setAccessPolicy(access, containerAcl);
+    const result = await containerClient.getAccessPolicy();
     assert.deepEqual(result.signedIdentifiers, containerAcl);
     assert.deepEqual(result.blobPublicAccess, access);
   });

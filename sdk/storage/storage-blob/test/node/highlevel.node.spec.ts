@@ -30,14 +30,14 @@ describe("Highlevel", () => {
   beforeEach(async () => {
     containerName = getUniqueName("container");
     containerClient = ContainerClient.fromBlobServiceClient(blobServiceClient, containerName);
-    await containerClient.create(Aborter.none);
+    await containerClient.create();
     blobName = getUniqueName("blob");
     blobClient = BlobClient.fromContainerClient(containerClient, blobName);
     blockBlobClient = BlockBlobClient.fromBlobClient(blobClient);
   });
 
   afterEach(async () => {
-    await containerClient.delete(Aborter.none);
+    await containerClient.delete();
   });
 
   before(async () => {
@@ -56,12 +56,12 @@ describe("Highlevel", () => {
   });
 
   it("uploadFileToBlockBlob should success when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
-    await uploadFileToBlockBlob(Aborter.none, tempFileLarge, blockBlobClient, {
+    await uploadFileToBlockBlob(tempFileLarge, blockBlobClient, {
       blockSize: 4 * 1024 * 1024,
       parallelism: 20
     });
 
-    const downloadResponse = await blockBlobClient.download(Aborter.none, 0);
+    const downloadResponse = await blockBlobClient.download(0);
     const downloadedFile = path.join(tempFolderPath, getUniqueName("downloadfile."));
     await readStreamToLocalFile(downloadResponse.readableStreamBody!, downloadedFile);
 
@@ -73,12 +73,12 @@ describe("Highlevel", () => {
   });
 
   it("uploadFileToBlockBlob should success when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
-    await uploadFileToBlockBlob(Aborter.none, tempFileSmall, blockBlobClient, {
+    await uploadFileToBlockBlob(tempFileSmall, blockBlobClient, {
       blockSize: 4 * 1024 * 1024,
       parallelism: 20
     });
 
-    const downloadResponse = await blockBlobClient.download(Aborter.none, 0);
+    const downloadResponse = await blockBlobClient.download(0);
     const downloadedFile = path.join(tempFolderPath, getUniqueName("downloadfile."));
     await readStreamToLocalFile(downloadResponse.readableStreamBody!, downloadedFile);
 
@@ -90,11 +90,11 @@ describe("Highlevel", () => {
   });
 
   it("uploadFileToBlockBlob should success when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES and configured maxSingleShotSize", async () => {
-    await uploadFileToBlockBlob(Aborter.none, tempFileSmall, blockBlobClient, {
+    await uploadFileToBlockBlob(tempFileSmall, blockBlobClient, {
       maxSingleShotSize: 0
     });
 
-    const downloadResponse = await blockBlobClient.download(Aborter.none, 0);
+    const downloadResponse = await blockBlobClient.download(0);
     const downloadedFile = path.join(tempFolderPath, getUniqueName("downloadfile."));
     await readStreamToLocalFile(downloadResponse.readableStreamBody!, downloadedFile);
 
@@ -109,7 +109,8 @@ describe("Highlevel", () => {
     const aborter = Aborter.timeout(1);
 
     try {
-      await uploadFileToBlockBlob(aborter, tempFileLarge, blockBlobClient, {
+      await uploadFileToBlockBlob(tempFileLarge, blockBlobClient, {
+        abortSignal: aborter,
         blockSize: 4 * 1024 * 1024,
         parallelism: 20
       });
@@ -123,7 +124,8 @@ describe("Highlevel", () => {
     const aborter = Aborter.timeout(1);
 
     try {
-      await uploadFileToBlockBlob(aborter, tempFileSmall, blockBlobClient, {
+      await uploadFileToBlockBlob(tempFileSmall, blockBlobClient, {
+        abortSignal: aborter,
         blockSize: 4 * 1024 * 1024,
         parallelism: 20
       });
@@ -138,7 +140,8 @@ describe("Highlevel", () => {
     const aborter = Aborter.none;
 
     try {
-      await uploadFileToBlockBlob(aborter, tempFileLarge, blockBlobClient, {
+      await uploadFileToBlockBlob(tempFileLarge, blockBlobClient, {
+        abortSignal: aborter,
         blockSize: 4 * 1024 * 1024,
         parallelism: 20,
         progress: (ev) => {
@@ -156,7 +159,8 @@ describe("Highlevel", () => {
     const aborter = Aborter.none;
 
     try {
-      await uploadFileToBlockBlob(aborter, tempFileSmall, blockBlobClient, {
+      await uploadFileToBlockBlob(tempFileSmall, blockBlobClient, {
+        abortSignal: aborter,
         blockSize: 4 * 1024 * 1024,
         parallelism: 20,
         progress: (ev) => {
@@ -171,9 +175,9 @@ describe("Highlevel", () => {
 
   it("uploadStreamToBlockBlob should success", async () => {
     const rs = fs.createReadStream(tempFileLarge);
-    await uploadStreamToBlockBlob(Aborter.none, rs, blockBlobClient, 4 * 1024 * 1024, 20);
+    await uploadStreamToBlockBlob(rs, blockBlobClient, 4 * 1024 * 1024, 20);
 
-    const downloadResponse = await blockBlobClient.download(Aborter.none, 0);
+    const downloadResponse = await blockBlobClient.download(0);
 
     const downloadFilePath = path.join(tempFolderPath, getUniqueName("downloadFile"));
     await readStreamToLocalFile(downloadResponse.readableStreamBody!, downloadFilePath);
@@ -190,9 +194,9 @@ describe("Highlevel", () => {
     const bufferStream = new PassThrough();
     bufferStream.end(buf);
 
-    await uploadStreamToBlockBlob(Aborter.none, bufferStream, blockBlobClient, 4 * 1024 * 1024, 20);
+    await uploadStreamToBlockBlob(bufferStream, blockBlobClient, 4 * 1024 * 1024, 20);
 
-    const downloadResponse = await blockBlobClient.download(Aborter.none, 0);
+    const downloadResponse = await blockBlobClient.download(0);
 
     const downloadFilePath = path.join(tempFolderPath, getUniqueName("downloadFile"));
     await readStreamToLocalFile(downloadResponse.readableStreamBody!, downloadFilePath);
@@ -208,7 +212,15 @@ describe("Highlevel", () => {
     const aborter = Aborter.timeout(1);
 
     try {
-      await uploadStreamToBlockBlob(aborter, rs, blockBlobClient, 4 * 1024 * 1024, 20);
+      await uploadStreamToBlockBlob(
+        rs,
+        blockBlobClient,
+        4 * 1024 * 1024,
+        20,
+        {
+          abortSignal: aborter
+        }
+      );
       assert.fail();
     } catch (err) {
       assert.ok((err.code as string).toLowerCase().includes("abort"));
@@ -219,7 +231,7 @@ describe("Highlevel", () => {
     const rs = fs.createReadStream(tempFileLarge);
     let eventTriggered = false;
 
-    await uploadStreamToBlockBlob(Aborter.none, rs, blockBlobClient, 4 * 1024 * 1024, 20, {
+    await uploadStreamToBlockBlob(rs, blockBlobClient, 4 * 1024 * 1024, 20, {
       progress: (ev) => {
         assert.ok(ev.loadedBytes);
         eventTriggered = true;
@@ -230,10 +242,10 @@ describe("Highlevel", () => {
 
   it("downloadBlobToBuffer should success", async () => {
     const rs = fs.createReadStream(tempFileLarge);
-    await uploadStreamToBlockBlob(Aborter.none, rs, blockBlobClient, 4 * 1024 * 1024, 20);
+    await uploadStreamToBlockBlob(rs, blockBlobClient, 4 * 1024 * 1024, 20);
 
     const buf = Buffer.alloc(tempFileLargeLength);
-    await downloadBlobToBuffer(Aborter.none, buf, blockBlobClient, 0, undefined, {
+    await downloadBlobToBuffer(buf, blockBlobClient, 0, undefined, {
       blockSize: 4 * 1024 * 1024,
       maxRetryRequestsPerBlock: 5,
       parallelism: 20
@@ -245,15 +257,22 @@ describe("Highlevel", () => {
 
   it("downloadBlobToBuffer should abort", async () => {
     const rs = fs.createReadStream(tempFileLarge);
-    await uploadStreamToBlockBlob(Aborter.none, rs, blockBlobClient, 4 * 1024 * 1024, 20);
+    await uploadStreamToBlockBlob(rs, blockBlobClient, 4 * 1024 * 1024, 20);
 
     try {
       const buf = Buffer.alloc(tempFileLargeLength);
-      await downloadBlobToBuffer(Aborter.timeout(1), buf, blockBlobClient, 0, undefined, {
-        blockSize: 4 * 1024 * 1024,
-        maxRetryRequestsPerBlock: 5,
-        parallelism: 20
-      });
+      await downloadBlobToBuffer(
+        buf,
+        blockBlobClient,
+        0,
+        undefined,
+        {
+          abortSignal: Aborter.timeout(1),
+          blockSize: 4 * 1024 * 1024,
+          maxRetryRequestsPerBlock: 5,
+          parallelism: 20
+        }
+      );
       assert.fail();
     } catch (err) {
       assert.ok((err.code as string).toLowerCase().includes("abort"));
@@ -262,13 +281,14 @@ describe("Highlevel", () => {
 
   it("downloadBlobToBuffer should update progress event", async () => {
     const rs = fs.createReadStream(tempFileSmall);
-    await uploadStreamToBlockBlob(Aborter.none, rs, blockBlobClient, 4 * 1024 * 1024, 10);
+    await uploadStreamToBlockBlob(rs, blockBlobClient, 4 * 1024 * 1024, 10);
 
     let eventTriggered = false;
     const buf = Buffer.alloc(tempFileSmallLength);
     const aborter = Aborter.none;
     try {
-      await downloadBlobToBuffer(aborter, buf, blockBlobClient, 0, undefined, {
+      await downloadBlobToBuffer(buf, blockBlobClient, 0, undefined, {
+        abortSignal: aborter,
         blockSize: 1 * 1024,
         maxRetryRequestsPerBlock: 5,
         parallelism: 1,
@@ -283,7 +303,6 @@ describe("Highlevel", () => {
 
   it("blobclient.download should success when internal stream unexcepted ends at the stream end", async () => {
     const uploadResponse = await uploadFileToBlockBlob(
-      Aborter.none,
       tempFileSmall,
       blockBlobClient,
       {
@@ -293,18 +312,21 @@ describe("Highlevel", () => {
     );
 
     let retirableReadableStreamOptions: RetriableReadableStreamOptions;
-    const downloadResponse = await blockBlobClient.download(Aborter.none, 0, undefined, {
-      blobAccessConditions: {
-        modifiedAccessConditions: {
-          ifMatch: uploadResponse.eTag
+    const downloadResponse = await blockBlobClient.download(
+      0,
+      undefined,
+      {
+        blobAccessConditions: {
+          modifiedAccessConditions: {
+            ifMatch: uploadResponse.eTag
+          }
+        },
+        maxRetryRequests: 1,
+        progress: ev => {
+          if (ev.loadedBytes >= tempFileSmallLength) {
+            retirableReadableStreamOptions.doInjectErrorOnce = true;
+          }
         }
-      },
-      maxRetryRequests: 1,
-      progress: (ev) => {
-        if (ev.loadedBytes >= tempFileSmallLength) {
-          retirableReadableStreamOptions.doInjectErrorOnce = true;
-        }
-      }
     });
 
     retirableReadableStreamOptions = (downloadResponse.readableStreamBody! as any).options;
@@ -321,7 +343,6 @@ describe("Highlevel", () => {
 
   it("blobclient.download should download full data successfully when internal stream unexcepted ends", async () => {
     const uploadResponse = await uploadFileToBlockBlob(
-      Aborter.none,
       tempFileSmall,
       blockBlobClient,
       {
@@ -332,18 +353,21 @@ describe("Highlevel", () => {
 
     let retirableReadableStreamOptions: RetriableReadableStreamOptions;
     let injectedErrors = 0;
-    const downloadResponse = await blockBlobClient.download(Aborter.none, 0, undefined, {
-      blobAccessConditions: {
-        modifiedAccessConditions: {
-          ifMatch: uploadResponse.eTag
+    const downloadResponse = await blockBlobClient.download(
+      0,
+      undefined,
+      {
+        blobAccessConditions: {
+          modifiedAccessConditions: {
+            ifMatch: uploadResponse.eTag
+          }
+        },
+        maxRetryRequests: 3,
+        progress: () => {
+          if (injectedErrors++ < 3) {
+            retirableReadableStreamOptions.doInjectErrorOnce = true;
+          }
         }
-      },
-      maxRetryRequests: 3,
-      progress: () => {
-        if (injectedErrors++ < 3) {
-          retirableReadableStreamOptions.doInjectErrorOnce = true;
-        }
-      }
     });
 
     retirableReadableStreamOptions = (downloadResponse.readableStreamBody! as any).options;
@@ -360,7 +384,6 @@ describe("Highlevel", () => {
 
   it("blobclient.download should download partial data when internal stream unexcepted ends", async () => {
     const uploadResponse = await uploadFileToBlockBlob(
-      Aborter.none,
       tempFileSmall,
       blockBlobClient,
       {
@@ -373,18 +396,21 @@ describe("Highlevel", () => {
 
     let retirableReadableStreamOptions: RetriableReadableStreamOptions;
     let injectedErrors = 0;
-    const downloadResponse = await blockBlobClient.download(Aborter.none, 0, partialSize, {
-      blobAccessConditions: {
-        modifiedAccessConditions: {
-          ifMatch: uploadResponse.eTag
+    const downloadResponse = await blockBlobClient.download(
+      0,
+      partialSize,
+      {
+        blobAccessConditions: {
+          modifiedAccessConditions: {
+            ifMatch: uploadResponse.eTag
+          }
+        },
+        maxRetryRequests: 3,
+        progress: () => {
+          if (injectedErrors++ < 3) {
+            retirableReadableStreamOptions.doInjectErrorOnce = true;
+          }
         }
-      },
-      maxRetryRequests: 3,
-      progress: () => {
-        if (injectedErrors++ < 3) {
-          retirableReadableStreamOptions.doInjectErrorOnce = true;
-        }
-      }
     });
 
     retirableReadableStreamOptions = (downloadResponse.readableStreamBody! as any).options;
@@ -401,7 +427,6 @@ describe("Highlevel", () => {
 
   it("blobclient.download should download data failed when exceeding max stream retry requests", async () => {
     const uploadResponse = await uploadFileToBlockBlob(
-      Aborter.none,
       tempFileSmall,
       blockBlobClient,
       {
@@ -417,7 +442,7 @@ describe("Highlevel", () => {
     let expectedError = false;
 
     try {
-      const downloadResponse = await blockBlobClient.download(Aborter.none, 0, undefined, {
+      const downloadResponse = await blockBlobClient.download(0, undefined, {
         blobAccessConditions: {
           modifiedAccessConditions: {
             ifMatch: uploadResponse.eTag
@@ -442,7 +467,6 @@ describe("Highlevel", () => {
 
   it("blobclient.download should abort after retrys", async () => {
     const uploadResponse = await uploadFileToBlockBlob(
-      Aborter.none,
       tempFileSmall,
       blockBlobClient,
       {
@@ -459,22 +483,26 @@ describe("Highlevel", () => {
 
     try {
       const aborter = Aborter.none;
-      const downloadResponse = await blockBlobClient.download(aborter, 0, undefined, {
-        blobAccessConditions: {
-          modifiedAccessConditions: {
-            ifMatch: uploadResponse.eTag
+      const downloadResponse = await blockBlobClient.download(
+        0,
+        undefined,
+        {
+          abortSignal: aborter,
+          blobAccessConditions: {
+            modifiedAccessConditions: {
+              ifMatch: uploadResponse.eTag
+            }
+          },
+          maxRetryRequests: 3,
+          progress: () => {
+            if (injectedErrors++ < 2) {
+              // Triger 2 times of retry
+              retirableReadableStreamOptions.doInjectErrorOnce = true;
+            } else {
+              // Trigger aborter
+              aborter.abort();
+            }
           }
-        },
-        maxRetryRequests: 3,
-        progress: () => {
-          if (injectedErrors++ < 2) {
-            // Triger 2 times of retry
-            retirableReadableStreamOptions.doInjectErrorOnce = true;
-          } else {
-            // Trigger aborter
-            aborter.abort();
-          }
-        }
       });
       retirableReadableStreamOptions = (downloadResponse.readableStreamBody! as any).options;
       await readStreamToLocalFile(downloadResponse.readableStreamBody!, downloadedFile);
