@@ -22,9 +22,9 @@ export * from "./LoggingPolicyFactory";
 export * from "./policies/SharedKeyCredentialPolicy";
 export * from "./TelemetryPolicyFactory";
 export * from "./policies/TokenCredentialPolicy";
-export * from "./QueueURL"
+export * from "./QueueURL";
 export * from "./QueueSASPermissions";
-export * from "./IQueueSASSignatureValues"
+export * from "./IQueueSASSignatureValues";
 export * from "./UniqueRequestIDPolicyFactory";
 export * from "./ServiceURL";
 export * from "./StorageURL";

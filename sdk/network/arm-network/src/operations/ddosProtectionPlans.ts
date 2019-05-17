@@ -85,6 +85,19 @@ export class DdosProtectionPlans {
   }
 
   /**
+   * Update a DDoS protection plan tags
+   * @param resourceGroupName The name of the resource group.
+   * @param ddosProtectionPlanName The name of the DDoS protection plan.
+   * @param parameters Parameters supplied to the update DDoS protection plan resource tags.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.DdosProtectionPlansUpdateTagsResponse>
+   */
+  updateTags(resourceGroupName: string, ddosProtectionPlanName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<Models.DdosProtectionPlansUpdateTagsResponse> {
+    return this.beginUpdateTags(resourceGroupName,ddosProtectionPlanName,parameters,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.DdosProtectionPlansUpdateTagsResponse>;
+  }
+
+  /**
    * Gets all DDoS protection plans in a subscription.
    * @param [options] The optional parameters
    * @returns Promise<Models.DdosProtectionPlansListResponse>
@@ -171,6 +184,26 @@ export class DdosProtectionPlans {
         options
       },
       beginCreateOrUpdateOperationSpec,
+      options);
+  }
+
+  /**
+   * Update a DDoS protection plan tags
+   * @param resourceGroupName The name of the resource group.
+   * @param ddosProtectionPlanName The name of the DDoS protection plan.
+   * @param parameters Parameters supplied to the update DDoS protection plan resource tags.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginUpdateTags(resourceGroupName: string, ddosProtectionPlanName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        ddosProtectionPlanName,
+        parameters,
+        options
+      },
+      beginUpdateTagsOperationSpec,
       options);
   }
 
@@ -356,6 +389,38 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.DdosProtectionPlan
     },
     201: {
+      bodyMapper: Mappers.DdosProtectionPlan
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginUpdateTagsOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PATCH",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ddosProtectionPlans/{ddosProtectionPlanName}",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.ddosProtectionPlanName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "parameters",
+    mapper: {
+      ...Mappers.TagsObject,
+      required: true
+    }
+  },
+  responses: {
+    200: {
       bodyMapper: Mappers.DdosProtectionPlan
     },
     default: {

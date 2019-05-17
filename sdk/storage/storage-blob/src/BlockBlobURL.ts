@@ -57,10 +57,7 @@ export class BlockBlobURL extends BlobURL {
    * @returns {BlockBlobURL}
    * @memberof BlockBlobURL
    */
-  public static fromContainerURL(
-    containerURL: ContainerURL,
-    blobName: string
-  ): BlockBlobURL {
+  public static fromContainerURL(containerURL: ContainerURL, blobName: string): BlockBlobURL {
     return new BlockBlobURL(
       appendToURLPath(containerURL.url, encodeURIComponent(blobName)),
       containerURL.pipeline
@@ -158,8 +155,10 @@ export class BlockBlobURL extends BlobURL {
    *
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
-   * @param {HttpRequestBody} body
-   * @param {number} contentLength
+   * @param {HttpRequestBody} body Blob, string, ArrayBuffer, ArrayBufferView or a function
+   *                               which returns a new Readable stream whose offset is from data source beginning.
+   * @param {number} contentLength Length of body in bytes. Use Buffer.byteLength() to calculate body length for a
+   *                               string including non non-Base64/Hex-encoded characters.
    * @param {IBlockBlobUploadOptions} [options]
    * @returns {Promise<Models.BlockBlobUploadResponse>}
    * @memberof BlockBlobURL
@@ -176,8 +175,7 @@ export class BlockBlobURL extends BlobURL {
       blobHTTPHeaders: options.blobHTTPHeaders,
       leaseAccessConditions: options.accessConditions.leaseAccessConditions,
       metadata: options.metadata,
-      modifiedAccessConditions:
-        options.accessConditions.modifiedAccessConditions,
+      modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
       onUploadProgress: options.progress
     });
   }
@@ -247,8 +245,7 @@ export class BlockBlobURL extends BlobURL {
       abortSignal: aborter,
       leaseAccessConditions: options.leaseAccessConditions,
       sourceContentMD5: options.sourceContentMD5,
-      sourceRange:
-        offset === 0 && !count ? undefined : rangeToString({ offset, count })
+      sourceRange: offset === 0 && !count ? undefined : rangeToString({ offset, count })
     });
   }
 
@@ -280,8 +277,7 @@ export class BlockBlobURL extends BlobURL {
         blobHTTPHeaders: options.blobHTTPHeaders,
         leaseAccessConditions: options.accessConditions.leaseAccessConditions,
         metadata: options.metadata,
-        modifiedAccessConditions:
-          options.accessConditions.modifiedAccessConditions
+        modifiedAccessConditions: options.accessConditions.modifiedAccessConditions
       }
     );
   }

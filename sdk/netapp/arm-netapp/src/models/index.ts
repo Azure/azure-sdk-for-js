@@ -122,6 +122,51 @@ export interface Operation {
 }
 
 /**
+ * Information regarding availability of a resource name.
+ */
+export interface ResourceNameAvailability {
+  /**
+   * <code>true</code> indicates name is valid and available. <code>false</code> indicates the name
+   * is invalid, unavailable, or both.
+   */
+  isAvailable?: boolean;
+  /**
+   * <code>Invalid</code> indicates the name provided does not match Azure App Service naming
+   * requirements. <code>AlreadyExists</code> indicates that the name is already in use and is
+   * therefore unavailable. Possible values include: 'Invalid', 'AlreadyExists'
+   */
+  reason?: InAvailabilityReasonType;
+  /**
+   * If reason == invalid, provide the user with the reason why the given name is invalid, and
+   * provide the resource naming requirements so that the user can select a valid name. If reason
+   * == AlreadyExists, explain that resource name is already in use, and direct them to select a
+   * different name.
+   */
+  message?: string;
+}
+
+/**
+ * Resource name availability request content.
+ */
+export interface ResourceNameAvailabilityRequest {
+  /**
+   * Resource name to verify.
+   */
+  name: string;
+  /**
+   * Resource type used for verification. Possible values include:
+   * 'Microsoft.NetApp/netAppAccount', 'Microsoft.NetApp/netAppAccount/capacityPools',
+   * 'Microsoft.NetApp/netAppAccount/capacityPools/volumes',
+   * 'Microsoft.NetApp/netAppAccount/capacityPools/volumes/snapshots'
+   */
+  type: CheckNameResourceTypes;
+  /**
+   * Resource group name.
+   */
+  resourceGroup: string;
+}
+
+/**
  * Active Directory
  */
 export interface ActiveDirectory {
@@ -144,7 +189,7 @@ export interface ActiveDirectory {
   /**
    * Comma separated list of DNS server IP addresses for the Active Directory domain
    */
-  dNS?: string;
+  dns?: string;
   /**
    * Status of the Active Directory
    */
@@ -153,7 +198,7 @@ export interface ActiveDirectory {
    * NetBIOS name of the SMB server. This name will be registered as a computer account in the AD
    * and used to mount volumes
    */
-  sMBServerName?: string;
+  smbServerName?: string;
   /**
    * The Organizational Unit (OU) within the Windows Active Directory
    */
@@ -360,9 +405,13 @@ export interface ExportPolicyRule {
 }
 
 /**
- * Export policy rule
+ * Set of export policy rules
+ * @summary exportPolicy
  */
 export interface VolumePropertiesExportPolicy {
+  /**
+   * Export policy rule. Export policy rule
+   */
   rules?: ExportPolicyRule[];
 }
 
@@ -415,7 +464,7 @@ export interface Volume extends BaseResource {
    */
   usageThreshold?: number;
   /**
-   * Export policy rule
+   * exportPolicy. Set of export policy rules
    */
   exportPolicy?: VolumePropertiesExportPolicy;
   /**
@@ -424,6 +473,15 @@ export interface Volume extends BaseResource {
    */
   readonly provisioningState?: string;
   /**
+   * Snapshot ID. UUID v4 used to identify the Snapshot
+   */
+  snapshotId?: string;
+  /**
+   * Baremetal Tenant ID. Unique Baremetal Tenant Identifier.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly baremetalTenantId?: string;
+  /**
    * The Azure Resource URI for a delegated subnet. Must have the delegation
    * Microsoft.NetApp/volumes
    */
@@ -431,9 +489,13 @@ export interface Volume extends BaseResource {
 }
 
 /**
- * Export policy rule
+ * Set of export policy rules
+ * @summary exportPolicy
  */
 export interface VolumePatchPropertiesExportPolicy {
+  /**
+   * Export policy rule. Export policy rule
+   */
   rules?: ExportPolicyRule[];
 }
 
@@ -476,7 +538,7 @@ export interface VolumePatch extends BaseResource {
    */
   usageThreshold?: number;
   /**
-   * Export policy rule
+   * exportPolicy. Set of export policy rules
    */
   exportPolicy?: VolumePatchPropertiesExportPolicy;
 }
@@ -583,7 +645,7 @@ export interface Snapshot extends BaseResource {
   /**
    * fileSystemId. UUID v4 used to identify the FileSystem
    */
-  fileSystemId: string;
+  fileSystemId?: string;
   /**
    * name. The creation date of the snapshot
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -604,20 +666,6 @@ export interface SnapshotPatch extends BaseResource {
    * Resource tags
    */
   tags?: any;
-}
-
-/**
- * Error response describing why the operation failed.
- */
-export interface ErrorModel {
-  /**
-   * Error code
-   */
-  code: string;
-  /**
-   * Detailed error message
-   */
-  message: string;
 }
 
 /**
@@ -687,6 +735,25 @@ export interface SnapshotsList extends Array<Snapshot> {
 }
 
 /**
+ * Defines values for InAvailabilityReasonType.
+ * Possible values include: 'Invalid', 'AlreadyExists'
+ * @readonly
+ * @enum {string}
+ */
+export type InAvailabilityReasonType = 'Invalid' | 'AlreadyExists';
+
+/**
+ * Defines values for CheckNameResourceTypes.
+ * Possible values include: 'Microsoft.NetApp/netAppAccount',
+ * 'Microsoft.NetApp/netAppAccount/capacityPools',
+ * 'Microsoft.NetApp/netAppAccount/capacityPools/volumes',
+ * 'Microsoft.NetApp/netAppAccount/capacityPools/volumes/snapshots'
+ * @readonly
+ * @enum {string}
+ */
+export type CheckNameResourceTypes = 'Microsoft.NetApp/netAppAccount' | 'Microsoft.NetApp/netAppAccount/capacityPools' | 'Microsoft.NetApp/netAppAccount/capacityPools/volumes' | 'Microsoft.NetApp/netAppAccount/capacityPools/volumes/snapshots';
+
+/**
  * Defines values for ServiceLevel.
  * Possible values include: 'Standard', 'Premium', 'Ultra'
  * @readonly
@@ -711,6 +778,46 @@ export type OperationsListResponse = OperationListResult & {
        * The response body as parsed JSON or XML
        */
       parsedBody: OperationListResult;
+    };
+};
+
+/**
+ * Contains response data for the checkNameAvailability operation.
+ */
+export type CheckNameAvailabilityResponse = ResourceNameAvailability & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ResourceNameAvailability;
+    };
+};
+
+/**
+ * Contains response data for the checkFilePathAvailability operation.
+ */
+export type CheckFilePathAvailabilityResponse = ResourceNameAvailability & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ResourceNameAvailability;
     };
 };
 

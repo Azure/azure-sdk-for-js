@@ -1,8 +1,4 @@
-import {
-  RequestPolicy,
-  RequestPolicyFactory,
-  RequestPolicyOptions
-} from "@azure/ms-rest-js";
+import { RequestPolicy, RequestPolicyFactory, RequestPolicyOptions } from "@azure/ms-rest-js";
 
 import { LoggingPolicy } from "./policies/LoggingPolicy";
 
@@ -36,10 +32,7 @@ export class LoggingPolicyFactory implements RequestPolicyFactory {
     this.loggingOptions = loggingOptions;
   }
 
-  public create(
-    nextPolicy: RequestPolicy,
-    options: RequestPolicyOptions
-  ): LoggingPolicy {
+  public create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): LoggingPolicy {
     return new LoggingPolicy(nextPolicy, options, this.loggingOptions);
   }
 }

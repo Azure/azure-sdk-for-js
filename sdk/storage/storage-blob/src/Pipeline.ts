@@ -5,6 +5,7 @@ import {
   HttpOperationResponse,
   HttpPipelineLogger as IHttpPipelineLogger,
   HttpPipelineLogLevel,
+  HttpRequestBody,
   RequestPolicy,
   RequestPolicyFactory,
   RequestPolicyOptions,
@@ -19,6 +20,7 @@ export {
   IHttpPipelineLogger,
   HttpHeaders,
   HttpPipelineLogLevel,
+  HttpRequestBody,
   HttpOperationResponse,
   WebResource,
   BaseRequestPolicy,
@@ -59,10 +61,7 @@ export class Pipeline {
    * @param {IPipelineOptions} [options={}]
    * @memberof Pipeline
    */
-  constructor(
-    factories: RequestPolicyFactory[],
-    options: IPipelineOptions = {}
-  ) {
+  constructor(factories: RequestPolicyFactory[], options: IPipelineOptions = {}) {
     this.factories = factories;
     this.options = options;
   }

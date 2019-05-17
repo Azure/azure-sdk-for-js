@@ -27,11 +27,7 @@ export class InjectorPolicy extends BaseRequestPolicy {
    * @param {RequestPolicyOptions} options
    * @memberof InjectorPolicy
    */
-  public constructor(
-    nextPolicy: RequestPolicy,
-    options: RequestPolicyOptions,
-    injector: Injector
-  ) {
+  public constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, injector: Injector) {
     super(nextPolicy, options);
     this.injector = injector;
   }
@@ -43,9 +39,7 @@ export class InjectorPolicy extends BaseRequestPolicy {
    * @returns {Promise<HttpOperationResponse>}
    * @memberof InjectorPolicy
    */
-  public async sendRequest(
-    request: WebResource
-  ): Promise<HttpOperationResponse> {
+  public async sendRequest(request: WebResource): Promise<HttpOperationResponse> {
     const error = this.injector();
     if (error) {
       throw error;

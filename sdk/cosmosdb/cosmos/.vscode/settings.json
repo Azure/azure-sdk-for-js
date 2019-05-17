@@ -1,0 +1,4 @@
+{
+    "mocha.files.glob":"test/legacy/**/*.js",
+    "editor.formatOnSave": true
+}

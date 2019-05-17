@@ -1,10 +1,10 @@
-# Contribution Guideline
+# Contribute Code or Provide Feedback
 
-Hello! Thank you for being interested in contributing to our project!
+This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
 
-Please make sure you've followed the instructions provided in the [Azure Projects Contribution Guidelines](http://azure.github.io/guidelines/).
+For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
 
-## Project Setup
+If you would like to become an active contributor to this project please follow the instructions provided in [Microsoft Azure Projects Contribution Guidelines](http://azure.github.io/guidelines/).
 
 The Azure Storage development team uses Visual Studio Code. However, any preferred IDE or other toolset should be usable.
 
@@ -62,7 +62,7 @@ Run tests in Browsers. After installed Chrome, the default testing browser:
 ```bash
 npm install
 npm run build
-npm test:browser
+npm run test:browser
 ```
 
 Browser testing is based on Karma, you can change default testing browser by modifying karma.conf.js file.

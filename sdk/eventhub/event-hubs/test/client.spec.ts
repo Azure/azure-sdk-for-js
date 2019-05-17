@@ -5,10 +5,12 @@ import chai from "chai";
 import os from "os";
 const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
+chai.use(chaiAsPromised);
+import chaiString from "chai-string";
+chai.use(chaiString);
 import debugModule from "debug";
 import dotenv from "dotenv";
 dotenv.config();
-chai.use(chaiAsPromised);
 const debug = debugModule("azure:event-hubs:client-spec");
 import { EventHubClient } from "../src";
 import { packageJsonInfo } from "../src/util/constants";
@@ -21,21 +23,6 @@ function testFalsyValues(testFn: Function): void {
 }
 
 describe("EventHubClient", function(): void {
-  describe("#constructor", function(): void {
-    ["endpoint", "entityPath", "sharedAccessKeyName", "sharedAccessKey"].forEach(function(prop: string): void {
-      it("throws if config." + prop + " is falsy", function(): void {
-        testFalsyValues(function(falsyVal: any): void {
-          const test = function(): EventHubClient {
-            const config: any = { endpoint: "a", entityPath: "b", sharedAccessKey: "c", sharedAccessKeyName: "d" };
-            config[prop] = falsyVal;
-            return new EventHubClient(config as any);
-          };
-          test.should.throw(Error, `'${prop}' is a required property of ConnectionConfig.`);
-        });
-      });
-    });
-  });
-
   describe(".fromConnectionString", function(): void {
     it("throws when there is no connection string", function(): void {
       testFalsyValues(function(value: any): void {
@@ -106,7 +93,7 @@ describe("EventHubClient on ", function(): void {
       client = EventHubClient.createFromConnectionString(service.connectionString!, service.path);
       const packageVersion = packageJsonInfo.version;
       const properties = client["_context"].connection.options.properties;
-      should.equal(properties!["user-agent"], "/js-event-hubs");
+      properties!["user-agent"].should.startWith(`azsdk-js-azureeventhubs/${packageVersion}`);
       should.equal(properties!.product, "MSJSClient");
       should.equal(properties!.version, packageVersion);
       should.equal(properties!.framework, `Node/${process.version}`);
@@ -121,25 +108,13 @@ describe("EventHubClient on ", function(): void {
       });
       const packageVersion = packageJsonInfo.version;
       const properties = client["_context"].connection.options.properties;
-      should.equal(properties!["user-agent"], `/js-event-hubs,${customua}`);
+      properties!["user-agent"].should.startWith(`azsdk-js-azureeventhubs/${packageVersion}`);
+      properties!["user-agent"].should.endWith(customua);
       should.equal(properties!.product, "MSJSClient");
       should.equal(properties!.version, packageVersion);
       should.equal(properties!.framework, `Node/${process.version}`);
       should.equal(properties!.platform, `(${os.arch()}-${os.type()}-${os.release()})`);
       done();
-    });
-
-    it("should throw an error if the user-agent string is greater than 128 characters in length", function(done: Mocha.Done): void {
-      const customua =
-        "/js-event-processor-host=0.2.0zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz";
-      try {
-        client = EventHubClient.createFromConnectionString(service.connectionString!, service.path, {
-          userAgent: customua
-        });
-      } catch (err) {
-        err.message.should.match(/The user-agent string cannot be more than 128 characters in length.*/gi);
-        done();
-      }
     });
   });
 

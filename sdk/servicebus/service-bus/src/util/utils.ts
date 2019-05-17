@@ -5,6 +5,7 @@ import Long from "long";
 import * as log from "../log";
 import { generate_uuid } from "rhea-promise";
 import { isBuffer } from "util";
+import { ClientEntityContext } from "../../src/clientEntityContext";
 
 // This is the only dependency we have on DOM types, so rather than require
 // the DOM lib we can just shim this in.
@@ -29,6 +30,7 @@ export function getUniqueName(name: string): string {
 }
 
 /**
+ * @internal
  * If you try to turn a Guid into a Buffer in .NET, the bytes of the first three groups get
  * flipped within the group, but the last two groups don't get flipped, so we end up with a
  * different byte order. This is the order of bytes needed to make Service Bus recognize the token.
@@ -142,7 +144,7 @@ export function toBuffer(input: any): Buffer {
     // string, undefined, null, boolean, array, object, number should end up here
     // coercing undefined to null as that will ensure that null value will be given to the
     // customer on receive.
-    if (input === undefined) input = null; // tslint:disable-line
+    if (input === undefined) input = null;
     try {
       const inputStr = JSON.stringify(input);
       result = Buffer.from(inputStr, "utf8");
@@ -157,4 +159,25 @@ export function toBuffer(input: any): Buffer {
   }
   log.utils("[utils.toBuffer] The converted buffer is: %O.", result);
   return result;
+}
+
+/**
+ * @internal
+ * Helper function to retrieve active receiver name, if it exists.
+ */
+export function getAssociatedReceiverName(
+  clientEntityContext: ClientEntityContext,
+  sessionId?: string
+): string | undefined {
+  let receiverName: string | undefined;
+  if (sessionId != undefined) {
+    if (clientEntityContext.messageSessions[sessionId]) {
+      receiverName = clientEntityContext.messageSessions[sessionId].name;
+    }
+  } else if (clientEntityContext.batchingReceiver) {
+    receiverName = clientEntityContext.batchingReceiver.name;
+  } else if (clientEntityContext.streamingReceiver) {
+    receiverName = clientEntityContext.streamingReceiver.name;
+  }
+  return receiverName;
 }

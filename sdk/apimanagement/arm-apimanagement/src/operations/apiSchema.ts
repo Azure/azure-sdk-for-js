@@ -169,7 +169,7 @@ export class ApiSchema {
    * @param [options] The optional parameters
    * @returns Promise<Models.ApiSchemaCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, serviceName: string, apiId: string, schemaId: string, parameters: Models.SchemaContract, options?: Models.ApiSchemaCreateOrUpdateOptionalParams): Promise<Models.ApiSchemaCreateOrUpdateResponse>;
+  createOrUpdate(resourceGroupName: string, serviceName: string, apiId: string, schemaId: string, parameters: Models.SchemaCreateOrUpdateContract, options?: Models.ApiSchemaCreateOrUpdateOptionalParams): Promise<Models.ApiSchemaCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -180,7 +180,7 @@ export class ApiSchema {
    * @param parameters The schema contents to apply.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, serviceName: string, apiId: string, schemaId: string, parameters: Models.SchemaContract, callback: msRest.ServiceCallback<Models.SchemaContract>): void;
+  createOrUpdate(resourceGroupName: string, serviceName: string, apiId: string, schemaId: string, parameters: Models.SchemaCreateOrUpdateContract, callback: msRest.ServiceCallback<Models.SchemaContract>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -192,8 +192,8 @@ export class ApiSchema {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, serviceName: string, apiId: string, schemaId: string, parameters: Models.SchemaContract, options: Models.ApiSchemaCreateOrUpdateOptionalParams, callback: msRest.ServiceCallback<Models.SchemaContract>): void;
-  createOrUpdate(resourceGroupName: string, serviceName: string, apiId: string, schemaId: string, parameters: Models.SchemaContract, options?: Models.ApiSchemaCreateOrUpdateOptionalParams | msRest.ServiceCallback<Models.SchemaContract>, callback?: msRest.ServiceCallback<Models.SchemaContract>): Promise<Models.ApiSchemaCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, serviceName: string, apiId: string, schemaId: string, parameters: Models.SchemaCreateOrUpdateContract, options: Models.ApiSchemaCreateOrUpdateOptionalParams, callback: msRest.ServiceCallback<Models.SchemaContract>): void;
+  createOrUpdate(resourceGroupName: string, serviceName: string, apiId: string, schemaId: string, parameters: Models.SchemaCreateOrUpdateContract, options?: Models.ApiSchemaCreateOrUpdateOptionalParams | msRest.ServiceCallback<Models.SchemaContract>, callback?: msRest.ServiceCallback<Models.SchemaContract>): Promise<Models.ApiSchemaCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -395,7 +395,7 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
   requestBody: {
     parameterPath: "parameters",
     mapper: {
-      ...Mappers.SchemaContract,
+      ...Mappers.SchemaCreateOrUpdateContract,
       required: true
     }
   },

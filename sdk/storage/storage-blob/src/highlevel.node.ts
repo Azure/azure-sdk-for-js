@@ -92,10 +92,7 @@ async function uploadResetableStreamToBlockBlob(
   if (!options.blockSize) {
     options.blockSize = 0;
   }
-  if (
-    options.blockSize < 0 ||
-    options.blockSize > BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES
-  ) {
+  if (options.blockSize < 0 || options.blockSize > BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES) {
     throw new RangeError(
       `blockSize option must be >= 0 and <= ${BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES}`
     );
@@ -162,8 +159,7 @@ async function uploadResetableStreamToBlockBlob(
           () => streamFactory(start, contentLength),
           contentLength,
           {
-            leaseAccessConditions: options.blobAccessConditions!
-              .leaseAccessConditions
+            leaseAccessConditions: options.blobAccessConditions!.leaseAccessConditions
           }
         );
         // Update progress after block is successfully uploaded to server, in case of block trying
@@ -246,17 +242,11 @@ export async function downloadBlobToBuffer(
   const batch = new Batch(options.parallelism);
   for (let off = offset; off < offset + count; off = off + options.blockSize) {
     batch.addOperation(async () => {
-      const chunkEnd =
-        off + options.blockSize! < count! ? off + options.blockSize! : count!;
-      const response = await blobURL.download(
-        aborter,
-        off,
-        chunkEnd - off + 1,
-        {
-          blobAccessConditions: options.blobAccessConditions,
-          maxRetryRequests: options.maxRetryRequestsPerBlock
-        }
-      );
+      const chunkEnd = off + options.blockSize! < count! ? off + options.blockSize! : count!;
+      const response = await blobURL.download(aborter, off, chunkEnd - off + 1, {
+        blobAccessConditions: options.blobAccessConditions,
+        maxRetryRequests: options.maxRetryRequestsPerBlock
+      });
       const stream = response.readableStreamBody!;
       await streamToBuffer(stream, buffer, off - offset, chunkEnd - offset);
       // Update progress after block is downloaded, in case of block trying

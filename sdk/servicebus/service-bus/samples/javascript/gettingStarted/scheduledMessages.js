@@ -1,4 +1,7 @@
 /*
+  Copyright (c) Microsoft Corporation. All rights reserved.
+  Licensed under the MIT Licence.
+  
   This sample demonstrates how the scheduleMessage() function can be used to schedule messages to
   appear on a Service Bus Queue/Subscription at a later time.
 
@@ -25,22 +28,22 @@ const listOfScientists = [
   { lastName: "Kopernikus", firstName: "Nikolaus" }
 ];
 
-async function main(){
-  const ns = ServiceBusClient.createFromConnectionString(connectionString);
+async function main() {
+  const sbClient = ServiceBusClient.createFromConnectionString(connectionString);
   try {
-    await sendScheduledMessages(ns);
+    await sendScheduledMessages(sbClient);
 
-    await receiveMessages(ns);
+    await receiveMessages(sbClient);
   } finally {
-    await ns.close();
+    await sbClient.close();
   }
 }
 
 // Scheduling messages to be sent after 10 seconds from now
-async function sendScheduledMessages(ns){
+async function sendScheduledMessages(sbClient) {
   // If sending to a Topic, use `createTopicClient` instead of `createQueueClient`
-  const client = ns.createQueueClient(queueName);
-  const sender = client.createSender();
+  const queueClient = sbClient.createQueueClient(queueName);
+  const sender = queueClient.createSender();
 
   const messages = listOfScientists.map((scientist) => ({
     body: `${scientist.firstName} ${scientist.lastName}`,
@@ -57,9 +60,9 @@ async function sendScheduledMessages(ns){
   await sender.scheduleMessages(scheduledEnqueueTimeUtc, messages);
 }
 
-async function receiveMessages(ns) {
+async function receiveMessages(sbClient) {
   // If receiving from a Subscription, use `createSubscriptionClient` instead of `createQueueClient`
-  const client = ns.createQueueClient(queueName);
+  const queueClient = ns.createQueueClient(queueName);
 
   let numOfMessagesReceived = 0;
   const onMessageHandler = async (brokeredMessage) => {
@@ -74,15 +77,15 @@ async function receiveMessages(ns) {
 
   console.log(`\nStarting receiver immediately at ${new Date(Date.now())}`);
 
-  let receiver = client.createReceiver(ReceiveMode.peekLock);
+  let receiver = queueClient.createReceiver(ReceiveMode.peekLock);
   receiver.registerMessageHandler(onMessageHandler, onErrorHandler);
   await delay(5000);
   await receiver.close();
   console.log(`Received ${numOfMessagesReceived} messages.`);
 
   await delay(5000);
-  receiver = client.createReceiver(ReceiveMode.peekLock);
-  
+  receiver = queueClient.createReceiver(ReceiveMode.peekLock);
+
   console.log(`\nStarting receiver at ${new Date(Date.now())}`);
 
   receiver.registerMessageHandler(onMessageHandler, onErrorHandler);
@@ -90,7 +93,7 @@ async function receiveMessages(ns) {
   await receiver.close();
   console.log(`Received ${numOfMessagesReceived} messages.`);
 
-  await client.close();
+  await queueClient.close();
 }
 
 main().catch((err) => {

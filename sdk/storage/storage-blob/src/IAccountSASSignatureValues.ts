@@ -117,9 +117,7 @@ export function generateAccountSASQueryParameters(
   const parsedPermissions = AccountSASPermissions.parse(
     accountSASSignatureValues.permissions
   ).toString();
-  const parsedServices = AccountSASServices.parse(
-    accountSASSignatureValues.services
-  ).toString();
+  const parsedServices = AccountSASServices.parse(accountSASSignatureValues.services).toString();
   const parsedResourceTypes = AccountSASResourceTypes.parse(
     accountSASSignatureValues.resourceTypes
   ).toString();
@@ -133,12 +131,8 @@ export function generateAccountSASQueryParameters(
       ? truncatedISO8061Date(accountSASSignatureValues.startTime, false)
       : "",
     truncatedISO8061Date(accountSASSignatureValues.expiryTime, false),
-    accountSASSignatureValues.ipRange
-      ? ipRangeToString(accountSASSignatureValues.ipRange)
-      : "",
-    accountSASSignatureValues.protocol
-      ? accountSASSignatureValues.protocol
-      : "",
+    accountSASSignatureValues.ipRange ? ipRangeToString(accountSASSignatureValues.ipRange) : "",
+    accountSASSignatureValues.protocol ? accountSASSignatureValues.protocol : "",
     version,
     "" // Account SAS requires an additional newline character
   ].join("\n");

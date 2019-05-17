@@ -1,4 +1,7 @@
 /*
+  Copyright (c) Microsoft Corporation. All rights reserved.
+  Licensed under the MIT Licence.
+  
   This sample demonstrates how the defer() function can be used to defer a message for later processing.
 
   In this sample, we have an application that gets cooking instructions out of order. It uses
@@ -21,10 +24,10 @@ async function main() {
 
 // Shuffle and send messages
 async function sendMessages() {
-  const nsSend = ServiceBusClient.createFromConnectionString(connectionString);
+  const sbClient = ServiceBusClient.createFromConnectionString(connectionString);
   // If sending to a Topic, use `createTopicClient` instead of `createQueueClient`
-  const sendClient = nsSend.createQueueClient(queueName);
-  const sender = sendClient.createSender();
+  const queueClient = sbClient.createQueueClient(queueName);
+  const sender = queueClient.createSender();
 
   const data = [
     { step: 1, title: "Shop" },
@@ -54,14 +57,15 @@ async function sendMessages() {
   }
   // wait until all the send tasks are complete
   await Promise.all(promises);
-  await nsSend.close();
+  await queueClient.close();
+  await sbClient.close();
 }
 
 async function receiveMessage() {
-  const nsRcv = ServiceBusClient.createFromConnectionString(connectionString);
+  const sbClient = ServiceBusClient.createFromConnectionString(connectionString);
 
   // If receiving from a Subscription, use `createSubscriptionClient` instead of `createQueueClient`
-  const receiveClient = nsRcv.createQueueClient(queueName);
+  const queueClient = sbClient.createQueueClient(queueName);
 
   const deferredSteps = new Map();
   let lastProcessedRecipeStep = 0;
@@ -98,13 +102,13 @@ async function receiveMessage() {
       console.log(">>>>> Error occurred: ", err);
     };
 
-    let receiver = receiveClient.createReceiver(ReceiveMode.peekLock);
+    let receiver = queueClient.createReceiver(ReceiveMode.peekLock);
     receiver.registerMessageHandler(onMessage, onError, { autoComplete: false }); // Disabling autoComplete so we can control when message can be completed, deferred or deadlettered
     await delay(10000);
     await receiver.close();
     console.log("Total number of deferred messages:", deferredSteps.size);
 
-    receiver = receiveClient.createReceiver(ReceiveMode.peekLock);
+    receiver = queueClient.createReceiver(ReceiveMode.peekLock);
     // Now we process the deferred messages
     while (deferredSteps.size > 0) {
       const step = lastProcessedRecipeStep + 1;
@@ -119,8 +123,9 @@ async function receiveMessage() {
       deferredSteps.delete(step);
       lastProcessedRecipeStep++;
     }
+    await queueClient.close();
   } finally {
-    await nsRcv.close();
+    await sbClient.close();
   }
 }
 

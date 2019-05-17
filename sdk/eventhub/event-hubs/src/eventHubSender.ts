@@ -455,7 +455,7 @@ export class EventHubSender extends LinkEntity {
    * @param message The message to be sent to EventHub.
    * @return {Promise<Delivery>} Promise<Delivery>
    */
-  private _trySend(message: AmqpMessage, tag: any, format?: number): Promise<Delivery> {
+  private _trySend(message: AmqpMessage | Buffer, tag: any, format?: number): Promise<Delivery> {
     const sendEventPromise = () =>
       new Promise<Delivery>((resolve, reject) => {
         let waitTimer: any;
@@ -471,18 +471,22 @@ export class EventHubSender extends LinkEntity {
             "[%s] Sender '%s', sending message with id '%s'.",
             this._context.connectionId,
             this.name,
-            message.message_id || tag || "<not specified>"
+            (Buffer.isBuffer(message) ? tag : message.message_id) || tag || "<not specified>"
           );
           let onRejected: Func<EventContext, void>;
           let onReleased: Func<EventContext, void>;
           let onModified: Func<EventContext, void>;
           let onAccepted: Func<EventContext, void>;
           const removeListeners = (): void => {
-            clearTimeout(waitTimer);
-            this._sender!.removeListener(SenderEvents.rejected, onRejected);
-            this._sender!.removeListener(SenderEvents.accepted, onAccepted);
-            this._sender!.removeListener(SenderEvents.released, onReleased);
-            this._sender!.removeListener(SenderEvents.modified, onModified);
+           clearTimeout(waitTimer);
+           // When `removeListeners` is called on timeout, the sender might be closed and cleared
+           // So, check if it exists, before removing listeners from it.
+           if (this._sender) {
+            this._sender.removeListener(SenderEvents.rejected, onRejected);
+            this._sender.removeListener(SenderEvents.accepted, onAccepted);
+            this._sender.removeListener(SenderEvents.released, onReleased);
+            this._sender.removeListener(SenderEvents.modified, onModified);
+           }
           };
 
           onAccepted = (context: EventContext) => {
