@@ -17,8 +17,9 @@
     "node": ">=6.0.0"
   },
   "dependencies": {
-    "events": "^3.0.0",
+    "@azure/core-aborter": "^1.0.0",
     "@azure/ms-rest-js": "^1.2.6",
+    "events": "^3.0.0",
     "tslib": "^1.9.3"
   },
   "devDependencies": {
