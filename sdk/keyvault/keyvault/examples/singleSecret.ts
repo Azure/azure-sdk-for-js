@@ -24,7 +24,7 @@ async function main(): Promise<void> {
 
   console.log("result: ", result);
 
-  await client.updateSecretAttributes("MySecretName", result.version, { attributes: { enabled: true } });
+  await client.updateSecretAttributes("MySecretName", result.version, { enabled: true });
 
   await client.setSecret("MySecretName", "My new SecretValue");
   for await (let version of client.getSecretVersions(secretName)) {
