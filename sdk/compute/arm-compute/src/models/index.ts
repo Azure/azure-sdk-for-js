@@ -906,7 +906,7 @@ export interface DataDisk {
    */
   managedDisk?: ManagedDiskParameters;
   /**
-   * Specifies whether the datadisk is in process of detachment from the
+   * Specifies whether the data disk is in process of detachment from the
    * VirtualMachine/VirtualMachineScaleset
    */
   toBeDetached?: boolean;
