@@ -571,7 +571,7 @@ export function fromAmqpMessage(
  * Describes the message received from Service Bus.
  * @interface ReceivedMessage
  */
-export interface ReceivedMessage extends ReceivedMessageInfo {
+interface ReceivedMessage extends ReceivedMessageInfo {
   /**
    * Removes the message from Service Bus.
    * @returns Promise<void>.
