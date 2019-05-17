@@ -1,7 +1,7 @@
 import { generateUuid } from "@azure/ms-rest-js";
 
 import { BlockBlobClient } from "./BlockBlobClient";
-import { BlobUploadCommonResponse, IUploadToBlockBlobOptions } from "./highlevel.common";
+import { BlobUploadCommonResponse, UploadToBlockBlobOptions } from "./highlevel.common";
 import { Batch } from "./utils/Batch";
 import {
   BLOCK_BLOB_MAX_BLOCKS,
@@ -23,13 +23,13 @@ import { generateBlockID } from "./utils/utils.common";
  * @export
  * @param {Blob | ArrayBuffer | ArrayBufferView} browserData Blob, File, ArrayBuffer or ArrayBufferView
  * @param {BlockBlobClient} blockBlobClient
- * @param {IUploadToBlockBlobOptions} [options]
+ * @param {UploadToBlockBlobOptions} [options]
  * @returns {Promise<BlobUploadCommonResponse>}
  */
 export async function uploadBrowserDataToBlockBlob(
   browserData: Blob | ArrayBuffer | ArrayBufferView,
   blockBlobClient: BlockBlobClient,
-  options: IUploadToBlockBlobOptions = {}
+  options?: UploadToBlockBlobOptions
 ): Promise<BlobUploadCommonResponse> {
   const browserBlob = new Blob([browserData]);
   return UploadSeekableBlobToBlockBlob(
@@ -55,14 +55,14 @@ export async function uploadBrowserDataToBlockBlob(
  * @param {(offset: number, size: number) => Blob} blobFactory
  * @param {number} size
  * @param {BlockBlobClient} blockBlobClient
- * @param {IUploadToBlockBlobOptions} [options]
+ * @param {UploadToBlockBlobOptions} [options]
  * @returns {Promise<BlobUploadCommonResponse>}
  */
 async function UploadSeekableBlobToBlockBlob(
   blobFactory: (offset: number, size: number) => Blob,
   size: number,
   blockBlobClient: BlockBlobClient,
-  options: IUploadToBlockBlobOptions = {}
+  options: UploadToBlockBlobOptions = {}
 ): Promise<BlobUploadCommonResponse> {
   if (!options.blockSize) {
     options.blockSize = 0;

@@ -10,7 +10,7 @@ import {
   uploadFileToBlockBlob,
   uploadStreamToBlockBlob
 } from "../../src/highlevel.node";
-import { IRetriableReadableStreamOptions } from "../../src/utils/RetriableReadableStream";
+import { RetriableReadableStreamOptions } from "../../src/utils/RetriableReadableStream";
 import { createRandomLocalFile, getBSU, getUniqueName, readStreamToLocalFile } from "../utils";
 
 // tslint:disable:no-empty
@@ -311,7 +311,7 @@ describe("Highlevel", () => {
       }
     );
 
-    let retirableReadableStreamOptions: IRetriableReadableStreamOptions;
+    let retirableReadableStreamOptions: RetriableReadableStreamOptions;
     const downloadResponse = await blockBlobClient.download(
       0,
       undefined,
@@ -351,7 +351,7 @@ describe("Highlevel", () => {
       }
     );
 
-    let retirableReadableStreamOptions: IRetriableReadableStreamOptions;
+    let retirableReadableStreamOptions: RetriableReadableStreamOptions;
     let injectedErrors = 0;
     const downloadResponse = await blockBlobClient.download(
       0,
@@ -394,7 +394,7 @@ describe("Highlevel", () => {
 
     const partialSize = 500 * 1024;
 
-    let retirableReadableStreamOptions: IRetriableReadableStreamOptions;
+    let retirableReadableStreamOptions: RetriableReadableStreamOptions;
     let injectedErrors = 0;
     const downloadResponse = await blockBlobClient.download(
       0,
@@ -437,7 +437,7 @@ describe("Highlevel", () => {
 
     const downloadedFile = path.join(tempFolderPath, getUniqueName("downloadfile."));
 
-    let retirableReadableStreamOptions: IRetriableReadableStreamOptions;
+    let retirableReadableStreamOptions: RetriableReadableStreamOptions;
     let injectedErrors = 0;
     let expectedError = false;
 
@@ -477,7 +477,7 @@ describe("Highlevel", () => {
 
     const downloadedFile = path.join(tempFolderPath, getUniqueName("downloadfile."));
 
-    let retirableReadableStreamOptions: IRetriableReadableStreamOptions;
+    let retirableReadableStreamOptions: RetriableReadableStreamOptions;
     let injectedErrors = 0;
     let expectedError = false;
 

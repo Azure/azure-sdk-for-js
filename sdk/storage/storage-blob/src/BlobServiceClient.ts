@@ -21,7 +21,7 @@ export interface ServiceGetStatisticsOptions {
   abortSignal?: Aborter;
 }
 
-export interface IServiceListContainersSegmentOptions {
+export interface ServiceListContainersSegmentOptions {
   abortSignal?: Aborter;
   /**
    * @member {string} [prefix] Filters the results to return only containers
@@ -183,13 +183,13 @@ export class BlobServiceClient extends StorageClient {
    *                          with the current page. The NextMarker value can be used as the value for
    *                          the marker parameter in a subsequent call to request the next page of list
    *                          items. The marker value is opaque to the client.
-   * @param {IServiceListContainersSegmentOptions} [options]
+   * @param {ServiceListContainersSegmentOptions} [options]
    * @returns {Promise<Models.ServiceListContainersSegmentResponse>}
    * @memberof BlobServiceClient
    */
   public async listContainersSegment(
     marker?: string,
-    options: IServiceListContainersSegmentOptions = {}
+    options: ServiceListContainersSegmentOptions = {}
   ): Promise<Models.ServiceListContainersSegmentResponse> {
     const aborter = options.abortSignal || Aborter.none;
     return this.serviceContext.listContainersSegment({

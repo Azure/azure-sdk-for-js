@@ -5,54 +5,54 @@ import { Aborter } from "./Aborter";
 import { BlobClient } from "./BlobClient";
 import { ContainerClient } from "./ContainerClient";
 import { PageBlob } from "./generated/lib/operations";
-import { rangeToString } from "./IRange";
-import { IBlobAccessConditions, IMetadata, IPageBlobAccessConditions } from "./models";
+import { rangeToString } from "./Range";
+import { BlobAccessConditions, Metadata, PageBlobAccessConditions } from "./models";
 import { Pipeline } from "./Pipeline";
 import { URLConstants } from "./utils/constants";
 import { appendToURLPath, setURLParameter } from "./utils/utils.common";
 
-export interface IPageBlobCreateOptions {
+export interface PageBlobCreateOptions {
   abortSignal?: Aborter;
-  accessConditions?: IBlobAccessConditions;
+  accessConditions?: BlobAccessConditions;
   blobSequenceNumber?: number;
   blobHTTPHeaders?: Models.BlobHTTPHeaders;
-  metadata?: IMetadata;
+  metadata?: Metadata;
 }
 
-export interface IPageBlobUploadPagesOptions {
+export interface PageBlobUploadPagesOptions {
   abortSignal?: Aborter;
-  accessConditions?: IPageBlobAccessConditions;
+  accessConditions?: PageBlobAccessConditions;
   progress?: (progress: TransferProgressEvent) => void;
   transactionalContentMD5?: Uint8Array;
 }
 
-export interface IPageBlobClearPagesOptions {
+export interface PageBlobClearPagesOptions {
   abortSignal?: Aborter;
-  accessConditions?: IPageBlobAccessConditions;
+  accessConditions?: PageBlobAccessConditions;
 }
 
-export interface IPageBlobGetPageRangesOptions {
+export interface PageBlobGetPageRangesOptions {
   abortSignal?: Aborter;
-  accessConditions?: IBlobAccessConditions;
+  accessConditions?: BlobAccessConditions;
 }
 
-export interface IPageBlobGetPageRangesDiffOptions {
+export interface PageBlobGetPageRangesDiffOptions {
   abortSignal?: Aborter;
-  accessConditions?: IBlobAccessConditions;
+  accessConditions?: BlobAccessConditions;
   range?: string;
 }
 
-export interface IPageBlobResizeOptions {
+export interface PageBlobResizeOptions {
   abortSignal?: Aborter;
-  accessConditions?: IBlobAccessConditions;
+  accessConditions?: BlobAccessConditions;
 }
 
-export interface IPageBlobUpdateSequenceNumberOptions {
+export interface PageBlobUpdateSequenceNumberOptions {
   abortSignal?: Aborter;
-  accessConditions?: IBlobAccessConditions;
+  accessConditions?: BlobAccessConditions;
 }
 
-export interface IPageBlobStartCopyIncrementalOptions {
+export interface PageBlobStartCopyIncrementalOptions {
   abortSignal?: Aborter;
   modifiedAccessConditions?: Models.ModifiedAccessConditions;
 }
@@ -166,13 +166,13 @@ export class PageBlobClient extends BlobClient {
    * @see https://docs.microsoft.com/rest/api/storageservices/put-blob
    *
    * @param {number} size
-   * @param {IPageBlobCreateOptions} [options]
+   * @param {PageBlobCreateOptions} [options]
    * @returns {Promise<Models.PageBlobCreateResponse>}
    * @memberof PageBlobClient
    */
   public async create(
     size: number,
-    options: IPageBlobCreateOptions = {}
+    options: PageBlobCreateOptions = {}
   ): Promise<Models.PageBlobCreateResponse> {
     const aborter = options.abortSignal || Aborter.none;
     options.accessConditions = options.accessConditions || {};
@@ -193,7 +193,7 @@ export class PageBlobClient extends BlobClient {
    * @param {HttpRequestBody} body
    * @param {number} offset Offset of destination page blob
    * @param {number} count Content length of body, also how many bytes to be uploaded
-   * @param {IPageBlobUploadPagesOptions} [options]
+   * @param {PageBlobUploadPagesOptions} [options]
    * @returns {Promise<Models.PageBlobsUploadPagesResponse>}
    * @memberof PageBlobClient
    */
@@ -201,7 +201,7 @@ export class PageBlobClient extends BlobClient {
     body: HttpRequestBody,
     offset: number,
     count: number,
-    options: IPageBlobUploadPagesOptions = {}
+    options: PageBlobUploadPagesOptions = {}
   ): Promise<Models.PageBlobUploadPagesResponse> {
     const aborter = options.abortSignal || Aborter.none;
     options.accessConditions = options.accessConditions || {};
@@ -222,14 +222,14 @@ export class PageBlobClient extends BlobClient {
    *
    * @param {number} offset
    * @param {number} count
-   * @param {IPageBlobClearPagesOptions} [options]
+   * @param {PageBlobClearPagesOptions} [options]
    * @returns {Promise<Models.PageBlobClearPagesResponse>}
    * @memberof PageBlobClient
    */
   public async clearPages(
     offset: number,
     count: number,
-    options: IPageBlobClearPagesOptions = {}
+    options: PageBlobClearPagesOptions = {}
   ): Promise<Models.PageBlobClearPagesResponse> {
     const aborter = options.abortSignal || Aborter.none;
     options.accessConditions = options.accessConditions || {};
@@ -248,14 +248,14 @@ export class PageBlobClient extends BlobClient {
    *
    * @param {number} offset
    * @param {number} count
-   * @param {IPageBlobGetPageRangesOptions} [options]
+   * @param {PageBlobGetPageRangesOptions} [options]
    * @returns {Promise<Models.PageBlobGetPageRangesResponse>}
    * @memberof PageBlobClient
    */
   public async getPageRanges(
     offset: number,
     count: number,
-    options: IPageBlobGetPageRangesOptions = {}
+    options: PageBlobGetPageRangesOptions = {}
   ): Promise<Models.PageBlobGetPageRangesResponse> {
     const aborter = options.abortSignal || Aborter.none;
     options.accessConditions = options.accessConditions || {};
@@ -274,7 +274,7 @@ export class PageBlobClient extends BlobClient {
    * @param {number} offset
    * @param {number} count
    * @param {string} prevSnapshot
-   * @param {IPageBlobGetPageRangesDiffOptions} [options]
+   * @param {PageBlobGetPageRangesDiffOptions} [options]
    * @returns {Promise<Models.PageBlobGetPageRangesDiffResponse>}
    * @memberof PageBlobClient
    */
@@ -282,7 +282,7 @@ export class PageBlobClient extends BlobClient {
     offset: number,
     count: number,
     prevSnapshot: string,
-    options: IPageBlobGetPageRangesDiffOptions = {}
+    options: PageBlobGetPageRangesDiffOptions = {}
   ): Promise<Models.PageBlobGetPageRangesDiffResponse> {
     const aborter = options.abortSignal || Aborter.none;
     options.accessConditions = options.accessConditions || {};
@@ -300,13 +300,13 @@ export class PageBlobClient extends BlobClient {
    * @see https://docs.microsoft.com/rest/api/storageservices/set-blob-properties
    *
    * @param {number} size
-   * @param {IPageBlobResizeOptions} [options]
+   * @param {PageBlobResizeOptions} [options]
    * @returns {Promise<Models.PageBlobResizeResponse>}
    * @memberof PageBlobClient
    */
   public async resize(
     size: number,
-    options: IPageBlobResizeOptions = {}
+    options: PageBlobResizeOptions = {}
   ): Promise<Models.PageBlobResizeResponse> {
     const aborter = options.abortSignal || Aborter.none;
     options.accessConditions = options.accessConditions || {};
@@ -323,14 +323,14 @@ export class PageBlobClient extends BlobClient {
    *
    * @param {Models.SequenceNumberActionType} sequenceNumberAction
    * @param {number} [sequenceNumber] Required if sequenceNumberAction is max or update
-   * @param {IPageBlobUpdateSequenceNumberOptions} [options]
+   * @param {PageBlobUpdateSequenceNumberOptions} [options]
    * @returns {Promise<Models.PageBlobUpdateSequenceNumberResponse>}
    * @memberof PageBlobClient
    */
   public async updateSequenceNumber(
     sequenceNumberAction: Models.SequenceNumberActionType,
     sequenceNumber?: number,
-    options: IPageBlobUpdateSequenceNumberOptions = {}
+    options: PageBlobUpdateSequenceNumberOptions = {}
   ): Promise<Models.PageBlobUpdateSequenceNumberResponse> {
     const aborter = options.abortSignal || Aborter.none;
     options.accessConditions = options.accessConditions || {};
@@ -352,13 +352,13 @@ export class PageBlobClient extends BlobClient {
    *
    * @param {string} copySource Specifies the name of the source page blob snapshot. For example,
    *                            https://myaccount.blob.core.windows.net/mycontainer/myblob?snapshot=<DateTime>
-   * @param {IPageBlobStartCopyIncrementalOptions} [options]
+   * @param {PageBlobStartCopyIncrementalOptions} [options]
    * @returns {Promise<Models.PageBlobCopyIncrementalResponse>}
    * @memberof PageBlobClient
    */
   public async startCopyIncremental(
     copySource: string,
-    options: IPageBlobStartCopyIncrementalOptions = {}
+    options: PageBlobStartCopyIncrementalOptions = {}
   ): Promise<Models.PageBlobCopyIncrementalResponse> {
     const aborter = options.abortSignal || Aborter.none;
     return this.pageBlobContext.copyIncremental(copySource, {

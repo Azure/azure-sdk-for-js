@@ -10,7 +10,7 @@ import {
   WebResource
 } from "@azure/ms-rest-js";
 
-import { IRetryOptions } from "../RetryPolicyFactory";
+import { RetryOptions } from "../RetryPolicyFactory";
 import { URLConstants } from "../utils/constants";
 import { setURLHost, setURLParameter } from "../utils/utils.common";
 
@@ -18,10 +18,10 @@ import { setURLHost, setURLParameter } from "../utils/utils.common";
  * A factory method used to generated a RetryPolicy factory.
  *
  * @export
- * @param {IRetryOptions} retryOptions
+ * @param {RetryOptions} retryOptions
  * @returns
  */
-export function NewRetryPolicyFactory(retryOptions?: IRetryOptions): RequestPolicyFactory {
+export function NewRetryPolicyFactory(retryOptions?: RetryOptions): RequestPolicyFactory {
   return {
     create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions): RetryPolicy => {
       return new RetryPolicy(nextPolicy, options, retryOptions);
@@ -46,8 +46,8 @@ export enum RetryPolicyType {
   FIXED
 }
 
-// Default values of IRetryOptions
-const DEFAULT_RETRY_OPTIONS: IRetryOptions = {
+// Default values of RetryOptions
+const DEFAULT_RETRY_OPTIONS: RetryOptions = {
   maxRetryDelayInMs: 120 * 1000,
   maxTries: 4,
   retryDelayInMs: 4 * 1000,
@@ -67,23 +67,23 @@ export class RetryPolicy extends BaseRequestPolicy {
    * RetryOptions.
    *
    * @private
-   * @type {IRetryOptions}
+   * @type {RetryOptions}
    * @memberof RetryPolicy
    */
-  private readonly retryOptions: IRetryOptions;
+  private readonly retryOptions: RetryOptions;
 
   /**
    * Creates an instance of RetryPolicy.
    *
    * @param {RequestPolicy} nextPolicy
    * @param {RequestPolicyOptions} options
-   * @param {IRetryOptions} [retryOptions=DEFAULT_RETRY_OPTIONS]
+   * @param {RetryOptions} [retryOptions=DEFAULT_RETRY_OPTIONS]
    * @memberof RetryPolicy
    */
   constructor(
     nextPolicy: RequestPolicy,
     options: RequestPolicyOptions,
-    retryOptions: IRetryOptions = DEFAULT_RETRY_OPTIONS
+    retryOptions: RetryOptions = DEFAULT_RETRY_OPTIONS
   ) {
     super(nextPolicy, options);
 

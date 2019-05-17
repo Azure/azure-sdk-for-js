@@ -5,21 +5,21 @@ import { Aborter } from "./Aborter";
 import { BlobClient } from "./BlobClient";
 import { ContainerClient } from "./ContainerClient";
 import { AppendBlob } from "./generated/lib/operations";
-import { IAppendBlobAccessConditions, IBlobAccessConditions, IMetadata } from "./models";
+import { AppendBlobAccessConditions, BlobAccessConditions, Metadata } from "./models";
 import { Pipeline } from "./Pipeline";
 import { URLConstants } from "./utils/constants";
 import { appendToURLPath, setURLParameter } from "./utils/utils.common";
 
-export interface IAppendBlobCreateOptions {
+export interface AppendBlobCreateOptions {
   abortSignal?: Aborter;
-  accessConditions?: IBlobAccessConditions;
+  accessConditions?: BlobAccessConditions;
   blobHTTPHeaders?: Models.BlobHTTPHeaders;
-  metadata?: IMetadata;
+  metadata?: Metadata;
 }
 
-export interface IAppendBlobAppendBlockOptions {
+export interface AppendBlobAppendBlockOptions {
   abortSignal?: Aborter;
-  accessConditions?: IAppendBlobAccessConditions;
+  accessConditions?: AppendBlobAccessConditions;
   progress?: (progress: TransferProgressEvent) => void;
   transactionalContentMD5?: Uint8Array;
 }
@@ -131,12 +131,12 @@ export class AppendBlobClient extends BlobClient {
    * Creates a 0-length append blob. Call AppendBlock to append data to an append blob.
    * @see https://docs.microsoft.com/rest/api/storageservices/put-blob
    *
-   * @param {IAppendBlobCreateOptions} [options]
+   * @param {AppendBlobCreateOptions} [options]
    * @returns {Promise<Models.AppendBlobsCreateResponse>}
    * @memberof AppendBlobClient
    */
   public async create(
-    options: IAppendBlobCreateOptions = {}
+    options: AppendBlobCreateOptions = {}
   ): Promise<Models.AppendBlobCreateResponse> {
     const aborter = options.abortSignal || Aborter.none;
     options.accessConditions = options.accessConditions || {};
@@ -155,14 +155,14 @@ export class AppendBlobClient extends BlobClient {
    *
    * @param {HttpRequestBody} body
    * @param {number} contentLength
-   * @param {IAppendBlobAppendBlockOptions} [options]
+   * @param {AppendBlobAppendBlockOptions} [options]
    * @returns {Promise<Models.AppendBlobsAppendBlockResponse>}
    * @memberof AppendBlobClient
    */
   public async appendBlock(
     body: HttpRequestBody,
     contentLength: number,
-    options: IAppendBlobAppendBlockOptions = {}
+    options: AppendBlobAppendBlockOptions = {}
   ): Promise<Models.AppendBlobAppendBlockResponse> {
     const aborter = options.abortSignal || Aborter.none;
     options.accessConditions = options.accessConditions || {};
