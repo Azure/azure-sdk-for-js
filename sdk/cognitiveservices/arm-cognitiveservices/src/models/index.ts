@@ -107,7 +107,7 @@ export interface VirtualNetworkRule {
 }
 
 /**
- * A set of rules governing the network accessibility of a vault.
+ * A set of rules governing the network accessibility.
  */
 export interface NetworkRuleSet {
   /**
