@@ -477,6 +477,104 @@ export const NetworkRuleSet: msRest.CompositeMapper = {
   }
 };
 
+export const QuarantinePolicy: msRest.CompositeMapper = {
+  serializedName: "QuarantinePolicy",
+  type: {
+    name: "Composite",
+    className: "QuarantinePolicy",
+    modelProperties: {
+      status: {
+        serializedName: "status",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const TrustPolicy: msRest.CompositeMapper = {
+  serializedName: "TrustPolicy",
+  type: {
+    name: "Composite",
+    className: "TrustPolicy",
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const RetentionPolicy: msRest.CompositeMapper = {
+  serializedName: "RetentionPolicy",
+  type: {
+    name: "Composite",
+    className: "RetentionPolicy",
+    modelProperties: {
+      days: {
+        serializedName: "days",
+        type: {
+          name: "Number"
+        }
+      },
+      lastUpdatedTime: {
+        readOnly: true,
+        serializedName: "lastUpdatedTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      status: {
+        serializedName: "status",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const Policies: msRest.CompositeMapper = {
+  serializedName: "Policies",
+  type: {
+    name: "Composite",
+    className: "Policies",
+    modelProperties: {
+      quarantinePolicy: {
+        serializedName: "quarantinePolicy",
+        type: {
+          name: "Composite",
+          className: "QuarantinePolicy"
+        }
+      },
+      trustPolicy: {
+        serializedName: "trustPolicy",
+        type: {
+          name: "Composite",
+          className: "TrustPolicy"
+        }
+      },
+      retentionPolicy: {
+        serializedName: "retentionPolicy",
+        type: {
+          name: "Composite",
+          className: "RetentionPolicy"
+        }
+      }
+    }
+  }
+};
+
 export const Resource: msRest.CompositeMapper = {
   serializedName: "Resource",
   type: {
@@ -590,6 +688,13 @@ export const Registry: msRest.CompositeMapper = {
           name: "Composite",
           className: "NetworkRuleSet"
         }
+      },
+      policies: {
+        serializedName: "properties.policies",
+        type: {
+          name: "Composite",
+          className: "Policies"
+        }
       }
     }
   }
@@ -625,18 +730,18 @@ export const RegistryUpdateParameters: msRest.CompositeMapper = {
           name: "Boolean"
         }
       },
-      storageAccount: {
-        serializedName: "properties.storageAccount",
-        type: {
-          name: "Composite",
-          className: "StorageAccountProperties"
-        }
-      },
       networkRuleSet: {
         serializedName: "properties.networkRuleSet",
         type: {
           name: "Composite",
           className: "NetworkRuleSet"
+        }
+      },
+      policies: {
+        serializedName: "properties.policies",
+        type: {
+          name: "Composite",
+          className: "Policies"
         }
       }
     }
@@ -768,68 +873,6 @@ export const RegistryUsageListResult: msRest.CompositeMapper = {
               className: "RegistryUsage"
             }
           }
-        }
-      }
-    }
-  }
-};
-
-export const QuarantinePolicy: msRest.CompositeMapper = {
-  serializedName: "QuarantinePolicy",
-  type: {
-    name: "Composite",
-    className: "QuarantinePolicy",
-    modelProperties: {
-      status: {
-        serializedName: "status",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const TrustPolicy: msRest.CompositeMapper = {
-  serializedName: "TrustPolicy",
-  type: {
-    name: "Composite",
-    className: "TrustPolicy",
-    modelProperties: {
-      type: {
-        serializedName: "type",
-        type: {
-          name: "String"
-        }
-      },
-      status: {
-        serializedName: "status",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const RegistryPolicies: msRest.CompositeMapper = {
-  serializedName: "RegistryPolicies",
-  type: {
-    name: "Composite",
-    className: "RegistryPolicies",
-    modelProperties: {
-      quarantinePolicy: {
-        serializedName: "quarantinePolicy",
-        type: {
-          name: "Composite",
-          className: "QuarantinePolicy"
-        }
-      },
-      trustPolicy: {
-        serializedName: "trustPolicy",
-        type: {
-          name: "Composite",
-          className: "TrustPolicy"
         }
       }
     }

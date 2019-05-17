@@ -295,52 +295,6 @@ export class Registries {
   }
 
   /**
-   * Lists the policies for the specified container registry.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.RegistriesListPoliciesResponse>
-   */
-  listPolicies(resourceGroupName: string, registryName: string, options?: msRest.RequestOptionsBase): Promise<Models.RegistriesListPoliciesResponse>;
-  /**
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
-   * @param callback The callback
-   */
-  listPolicies(resourceGroupName: string, registryName: string, callback: msRest.ServiceCallback<Models.RegistryPolicies>): void;
-  /**
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  listPolicies(resourceGroupName: string, registryName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RegistryPolicies>): void;
-  listPolicies(resourceGroupName: string, registryName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RegistryPolicies>, callback?: msRest.ServiceCallback<Models.RegistryPolicies>): Promise<Models.RegistriesListPoliciesResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        registryName,
-        options
-      },
-      listPoliciesOperationSpec,
-      callback) as Promise<Models.RegistriesListPoliciesResponse>;
-  }
-
-  /**
-   * Updates the policies for the specified container registry.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
-   * @param registryPoliciesUpdateParameters The parameters for updating policies of a container
-   * registry.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.RegistriesUpdatePoliciesResponse>
-   */
-  updatePolicies(resourceGroupName: string, registryName: string, registryPoliciesUpdateParameters: Models.RegistryPolicies, options?: msRest.RequestOptionsBase): Promise<Models.RegistriesUpdatePoliciesResponse> {
-    return this.beginUpdatePolicies(resourceGroupName,registryName,registryPoliciesUpdateParameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.RegistriesUpdatePoliciesResponse>;
-  }
-
-  /**
    * Schedules a new run based on the request parameters and add it to the run queue.
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
@@ -460,27 +414,6 @@ export class Registries {
         options
       },
       beginUpdateOperationSpec,
-      options);
-  }
-
-  /**
-   * Updates the policies for the specified container registry.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
-   * @param registryPoliciesUpdateParameters The parameters for updating policies of a container
-   * registry.
-   * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
-   */
-  beginUpdatePolicies(resourceGroupName: string, registryName: string, registryPoliciesUpdateParameters: Models.RegistryPolicies, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
-    return this.client.sendLRORequest(
-      {
-        resourceGroupName,
-        registryName,
-        registryPoliciesUpdateParameters,
-        options
-      },
-      beginUpdatePoliciesOperationSpec,
       options);
   }
 
@@ -747,31 +680,6 @@ const listUsagesOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listPoliciesOperationSpec: msRest.OperationSpec = {
-  httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/listPolicies",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.registryName
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.RegistryPolicies
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  serializer
-};
-
 const getBuildSourceUploadUrlOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/listBuildSourceUploadUrl",
@@ -916,39 +824,6 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
     201: {
       bodyMapper: Mappers.Registry
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  serializer
-};
-
-const beginUpdatePoliciesOperationSpec: msRest.OperationSpec = {
-  httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/updatePolicies",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.registryName
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  requestBody: {
-    parameterPath: "registryPoliciesUpdateParameters",
-    mapper: {
-      ...Mappers.RegistryPolicies,
-      required: true
-    }
-  },
-  responses: {
-    200: {
-      bodyMapper: Mappers.RegistryPolicies
-    },
-    202: {},
     default: {
       bodyMapper: Mappers.CloudError
     }

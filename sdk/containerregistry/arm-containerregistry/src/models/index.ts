@@ -285,6 +285,69 @@ export interface NetworkRuleSet {
 }
 
 /**
+ * The quarantine policy for a container registry.
+ */
+export interface QuarantinePolicy {
+  /**
+   * The value that indicates whether the policy is enabled or not. Possible values include:
+   * 'enabled', 'disabled'
+   */
+  status?: PolicyStatus;
+}
+
+/**
+ * The content trust policy for a container registry.
+ */
+export interface TrustPolicy {
+  /**
+   * The type of trust policy. Possible values include: 'Notary'
+   */
+  type?: TrustPolicyType;
+  /**
+   * The value that indicates whether the policy is enabled or not. Possible values include:
+   * 'enabled', 'disabled'
+   */
+  status?: PolicyStatus;
+}
+
+/**
+ * The retention policy for a container registry.
+ */
+export interface RetentionPolicy {
+  /**
+   * The number of days to retain manifest before it expires.
+   */
+  days?: number;
+  /**
+   * The timestamp when the the policy was last updated.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly lastUpdatedTime?: Date;
+  /**
+   * The value that indicates whether the policy is enabled or not.
+   */
+  status?: string;
+}
+
+/**
+ * The policies for a container registry.
+ */
+export interface Policies {
+  /**
+   * The quarantine policy for a container registry.
+   */
+  quarantinePolicy?: QuarantinePolicy;
+  /**
+   * The content trust policy for a container registry.
+   */
+  trustPolicy?: TrustPolicy;
+  /**
+   * The retention policy for a container registry.
+   */
+  retentionPolicy?: RetentionPolicy;
+}
+
+/**
  * An Azure resource.
  */
 export interface Resource extends BaseResource {
@@ -355,6 +418,10 @@ export interface Registry extends Resource {
    * The network rule set for a container registry.
    */
   networkRuleSet?: NetworkRuleSet;
+  /**
+   * The policies for a container registry.
+   */
+  policies?: Policies;
 }
 
 /**
@@ -374,15 +441,13 @@ export interface RegistryUpdateParameters {
    */
   adminUserEnabled?: boolean;
   /**
-   * The parameters of a storage account for the container registry. Only applicable to Classic
-   * SKU. If specified, the storage account must be in the same physical location as the container
-   * registry.
-   */
-  storageAccount?: StorageAccountProperties;
-  /**
    * The network rule set for a container registry.
    */
   networkRuleSet?: NetworkRuleSet;
+  /**
+   * The policies for a container registry.
+   */
+  policies?: Policies;
 }
 
 /**
@@ -454,46 +519,6 @@ export interface RegistryUsageListResult {
    * The list of container registry quota usages.
    */
   value?: RegistryUsage[];
-}
-
-/**
- * An object that represents quarantine policy for a container registry.
- */
-export interface QuarantinePolicy {
-  /**
-   * The value that indicates whether the policy is enabled or not. Possible values include:
-   * 'enabled', 'disabled'
-   */
-  status?: PolicyStatus;
-}
-
-/**
- * An object that represents content trust policy for a container registry.
- */
-export interface TrustPolicy {
-  /**
-   * The type of trust policy. Possible values include: 'Notary'
-   */
-  type?: TrustPolicyType;
-  /**
-   * The value that indicates whether the policy is enabled or not. Possible values include:
-   * 'enabled', 'disabled'
-   */
-  status?: PolicyStatus;
-}
-
-/**
- * An object that represents policies for a container registry.
- */
-export interface RegistryPolicies {
-  /**
-   * An object that represents quarantine policy for a container registry.
-   */
-  quarantinePolicy?: QuarantinePolicy;
-  /**
-   * An object that represents content trust policy for a container registry.
-   */
-  trustPolicy?: TrustPolicy;
 }
 
 /**
@@ -2311,22 +2336,6 @@ export type DefaultAction = 'Allow' | 'Deny';
 export type Action = 'Allow';
 
 /**
- * Defines values for PasswordName.
- * Possible values include: 'password', 'password2'
- * @readonly
- * @enum {string}
- */
-export type PasswordName = 'password' | 'password2';
-
-/**
- * Defines values for RegistryUsageUnit.
- * Possible values include: 'Count', 'Bytes'
- * @readonly
- * @enum {string}
- */
-export type RegistryUsageUnit = 'Count' | 'Bytes';
-
-/**
  * Defines values for PolicyStatus.
  * Possible values include: 'enabled', 'disabled'
  * @readonly
@@ -2341,6 +2350,22 @@ export type PolicyStatus = 'enabled' | 'disabled';
  * @enum {string}
  */
 export type TrustPolicyType = 'Notary';
+
+/**
+ * Defines values for PasswordName.
+ * Possible values include: 'password', 'password2'
+ * @readonly
+ * @enum {string}
+ */
+export type PasswordName = 'password' | 'password2';
+
+/**
+ * Defines values for RegistryUsageUnit.
+ * Possible values include: 'Count', 'Bytes'
+ * @readonly
+ * @enum {string}
+ */
+export type RegistryUsageUnit = 'Count' | 'Bytes';
 
 /**
  * Defines values for WebhookStatus.
@@ -2661,46 +2686,6 @@ export type RegistriesListUsagesResponse = RegistryUsageListResult & {
 };
 
 /**
- * Contains response data for the listPolicies operation.
- */
-export type RegistriesListPoliciesResponse = RegistryPolicies & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RegistryPolicies;
-    };
-};
-
-/**
- * Contains response data for the updatePolicies operation.
- */
-export type RegistriesUpdatePoliciesResponse = RegistryPolicies & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RegistryPolicies;
-    };
-};
-
-/**
  * Contains response data for the scheduleRun operation.
  */
 export type RegistriesScheduleRunResponse = Run & {
@@ -2777,26 +2762,6 @@ export type RegistriesBeginUpdateResponse = Registry & {
        * The response body as parsed JSON or XML
        */
       parsedBody: Registry;
-    };
-};
-
-/**
- * Contains response data for the beginUpdatePolicies operation.
- */
-export type RegistriesBeginUpdatePoliciesResponse = RegistryPolicies & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RegistryPolicies;
     };
 };
 
