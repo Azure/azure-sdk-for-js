@@ -17,10 +17,28 @@ import { BillingManagementClientContext } from "./billingManagementClientContext
 
 class BillingManagementClient extends BillingManagementClientContext {
   // Operation groups
+  billingAccounts: operations.BillingAccounts;
+  billingAccountsValidateAddress: operations.BillingAccountsValidateAddress;
+  availableBalances: operations.AvailableBalances;
+  paymentMethods: operations.PaymentMethods;
+  billingProfiles: operations.BillingProfiles;
+  invoiceSections: operations.InvoiceSections;
+  departments: operations.Departments;
   enrollmentAccounts: operations.EnrollmentAccounts;
-  billingPeriods: operations.BillingPeriods;
   invoices: operations.Invoices;
+  priceSheet: operations.PriceSheet;
+  billingSubscriptions: operations.BillingSubscriptions;
+  products: operations.Products;
+  transactions: operations.Transactions;
+  policies: operations.Policies;
+  billingProperty: operations.BillingPropertyOperations;
+  transfers: operations.Transfers;
+  recipientTransfers: operations.RecipientTransfers;
   operations: operations.Operations;
+  billingPermissions: operations.BillingPermissions;
+  billingRoleDefinitions: operations.BillingRoleDefinitions;
+  billingRoleAssignments: operations.BillingRoleAssignments;
+  agreements: operations.Agreements;
 
   /**
    * Initializes a new instance of the BillingManagementClient class.
@@ -30,10 +48,28 @@ class BillingManagementClient extends BillingManagementClientContext {
    */
   constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.BillingManagementClientOptions) {
     super(credentials, subscriptionId, options);
+    this.billingAccounts = new operations.BillingAccounts(this);
+    this.billingAccountsValidateAddress = new operations.BillingAccountsValidateAddress(this);
+    this.availableBalances = new operations.AvailableBalances(this);
+    this.paymentMethods = new operations.PaymentMethods(this);
+    this.billingProfiles = new operations.BillingProfiles(this);
+    this.invoiceSections = new operations.InvoiceSections(this);
+    this.departments = new operations.Departments(this);
     this.enrollmentAccounts = new operations.EnrollmentAccounts(this);
-    this.billingPeriods = new operations.BillingPeriods(this);
     this.invoices = new operations.Invoices(this);
+    this.priceSheet = new operations.PriceSheet(this);
+    this.billingSubscriptions = new operations.BillingSubscriptions(this);
+    this.products = new operations.Products(this);
+    this.transactions = new operations.Transactions(this);
+    this.policies = new operations.Policies(this);
+    this.billingProperty = new operations.BillingPropertyOperations(this);
+    this.transfers = new operations.Transfers(this);
+    this.recipientTransfers = new operations.RecipientTransfers(this);
     this.operations = new operations.Operations(this);
+    this.billingPermissions = new operations.BillingPermissions(this);
+    this.billingRoleDefinitions = new operations.BillingRoleDefinitions(this);
+    this.billingRoleAssignments = new operations.BillingRoleAssignments(this);
+    this.agreements = new operations.Agreements(this);
   }
 }
 
