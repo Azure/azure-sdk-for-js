@@ -23,8 +23,8 @@ jobs:
         displayName: 'Install Node.js $(NodeVersion)'
 
       - script: |
-          npm install -g npm
-        displayName: 'Install npm latest version'
+          npm install -g npm@6.9.0
+        displayName: 'Install npm version 6.9.0'
 
       - script: |
           node common/scripts/install-run-rush.js install
