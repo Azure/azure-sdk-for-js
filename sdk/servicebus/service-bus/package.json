@@ -20,7 +20,7 @@
   "browser": {
     "./dist/index.js": "./browser/service-bus.js"
   },
-  "types": "./typings/src/index.d.ts",
+  "types": "./typings/service-bus.d.ts",
   "engine": {
     "node": ">=6.0.0"
   },
