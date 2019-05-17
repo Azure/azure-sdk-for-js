@@ -9,10 +9,6 @@ Use the client library for Azure Service Bus in your Node.js application to
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus) | [Package (npm)](https://www.npmjs.com/package/@azure/service-bus) | [API Reference Documentation](https://docs.microsoft.com/en-us/javascript/api/%40azure/service-bus/) | [Product documentation](https://azure.microsoft.com/en-us/services/service-bus/)
 
-## Status
-
-This library is currently in preview and the APIs may change prior to release.
-
 ## Getting Started
 
 ### Install the package
