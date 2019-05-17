@@ -10,7 +10,7 @@
   },
   "dtsRollup": {
     "enabled": true,
-    "publicTrimmedFilePath": "./typings/servicebus.d.ts"
+    "publicTrimmedFilePath": "./typings/service-bus.d.ts"
   },
   "messages": {
     "tsdocMessageReporting": {

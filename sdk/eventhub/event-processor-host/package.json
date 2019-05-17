@@ -27,7 +27,7 @@
     "dist/",
     "dist-esm/src/",
     "src/",
-    "typings/src",
+    "typings/event-processor-host.d.ts",
     "tsconfig.json"
   ],
   "scripts": {

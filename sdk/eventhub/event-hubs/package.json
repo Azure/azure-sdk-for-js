@@ -30,7 +30,7 @@
     "dist-esm/package.json",
     "dist-esm/src/",
     "src/",
-    "typings/src",
+    "typings/event-hubs.d.ts",
     "tsconfig.json"
   ],
   "scripts": {
