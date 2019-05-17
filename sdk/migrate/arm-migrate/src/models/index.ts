@@ -12,1517 +12,2262 @@ import * as msRest from "@azure/ms-rest-js";
 export { BaseResource, CloudError };
 
 /**
- * Azure Migrate Project.
+ * Error contract returned when some exception occurs in Rest API.
  */
-export interface Project extends BaseResource {
+export interface HealthErrorDetails {
   /**
-   * Path reference to this project
-   * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/projects/{projectName}
+   * Gets the error ID.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: number;
+  /**
+   * Gets the error name.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly code?: string;
+  /**
+   * Gets the error message.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly message?: string;
+  /**
+   * Gets the possible causes of error.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly possibleCauses?: string;
+  /**
+   * Gets the recommended action to resolve error.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly recommendedAction?: string;
+  /**
+   * Gets the error severity.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly severity?: string;
+  /**
+   * Gets the error summary message.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly summaryMessage?: string;
+  /**
+   * Gets the message parameters.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly messageParameters?: { [propertyName: string]: string };
+}
+
+/**
+ * Class for cluster properties.
+ */
+export interface HyperVClusterProperties {
+  /**
+   * Gets the timestamp marking Hyper-V cluster creation.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly createdTimestamp?: string;
+  /**
+   * Gets the timestamp marking last updated on the Hyper-V cluster.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly updatedTimestamp?: string;
+  /**
+   * Gets or sets the FQDN/IPAddress of the Hyper-V cluster.
+   */
+  fqdn?: string;
+  /**
+   * Gets the functional level of the Hyper-V cluster.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly functionalLevel?: number;
+  /**
+   * Gets the status of the Hyper-V cluster.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly status?: string;
+  /**
+   * Gets or sets Run as account ID of the Hyper-V cluster.
+   */
+  runAsAccountId?: string;
+  /**
+   * Gets or sets list of hosts (FQDN) currently being tracked by the cluster.
+   */
+  hostFqdnList?: string[];
+  /**
+   * Gets the errors.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly errors?: HealthErrorDetails[];
+}
+
+/**
+ * Cluster REST Resource.
+ */
+export interface HyperVCluster {
+  /**
+   * Gets the relative URL to get this cluster.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly id?: string;
   /**
-   * Name of the project.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * Gets or sets the Name of the cluster.
    */
-  readonly name?: string;
+  name?: string;
   /**
-   * Type of the object = [Microsoft.Migrate/projects].
+   * Handled by resource provider. Type = Microsoft.VMWare/hyperVSites/clusters.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly type?: string;
   /**
-   * For optimistic concurrency control.
+   * Gets or sets nested properties.
    */
-  eTag?: string;
-  /**
-   * Azure location in which project is created.
-   */
-  location?: string;
-  /**
-   * Tags provided by Azure Tagging service.
-   */
-  tags?: any;
-  /**
-   * Time when this project was created. Date-Time represented in ISO-8601 format.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly createdTimestamp?: Date;
-  /**
-   * Time when this project was last updated. Date-Time represented in ISO-8601 format.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly updatedTimestamp?: Date;
-  /**
-   * Reports whether project is under discovery. Possible values include: 'Unknown', 'NotStarted',
-   * 'InProgress', 'Completed'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly discoveryStatus?: DiscoveryStatus;
-  /**
-   * ARM ID of the Service Map workspace created by user.
-   */
-  customerWorkspaceId?: string;
-  /**
-   * Location of the Service Map workspace created by user.
-   */
-  customerWorkspaceLocation?: string;
-  /**
-   * Time when this project was created. Date-Time represented in ISO-8601 format. This value will
-   * be null until discovery is complete.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly lastDiscoveryTimestamp?: Date;
-  /**
-   * Session id of the last discovery.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly lastDiscoverySessionId?: string;
-  /**
-   * Number of groups created in the project.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly numberOfGroups?: number;
-  /**
-   * Number of machines in the project.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly numberOfMachines?: number;
-  /**
-   * Number of assessments created in the project.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly numberOfAssessments?: number;
-  /**
-   * Time when last assessment was created. Date-Time represented in ISO-8601 format. This value
-   * will be null until assessment is created.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly lastAssessmentTimestamp?: Date;
-  /**
-   * Provisioning state of the project. Possible values include: 'Accepted', 'Creating',
-   * 'Deleting', 'Failed', 'Moving', 'Succeeded'
-   */
-  provisioningState?: ProvisioningState;
+  properties?: HyperVClusterProperties;
 }
 
 /**
- * A group created in a Migration project.
+ * Collection of Hyper-V clusters.
  */
-export interface Group extends BaseResource {
+export interface HyperVClusterCollection {
   /**
-   * Path reference to this group.
-   * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/projects/{projectName}/groups/{groupName}
+   * Gets the list of clusters.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly value?: HyperVCluster[];
+  /**
+   * Gets the value of next link.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * Class for host properties.
+ */
+export interface HyperVHostProperties {
+  /**
+   * Gets the timestamp marking Hyper-V host creation.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly createdTimestamp?: string;
+  /**
+   * Gets the timestamp marking last updated on the Hyper-V host.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly updatedTimestamp?: string;
+  /**
+   * Gets or sets the FQDN/IPAddress of the Hyper-V host.
+   */
+  fqdn?: string;
+  /**
+   * Gets or sets the run as account ID of the Hyper-V host.
+   */
+  runAsAccountId?: string;
+  /**
+   * Gets the version of the Hyper-V host.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly version?: string;
+  /**
+   * Gets the errors.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly errors?: HealthErrorDetails[];
+}
+
+/**
+ * Host REST Resource.
+ */
+export interface HyperVHost {
+  /**
+   * Gets the relative URL to get this host.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly id?: string;
   /**
-   * Name of the group.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * Gets or sets the name of the host.
    */
-  readonly name?: string;
+  name?: string;
   /**
-   * For optimistic concurrency control.
-   */
-  eTag?: string;
-  /**
-   * Type of the object = [Microsoft.Migrate/projects/groups].
+   * Handled by resource provider. Type = Microsoft.OffAzure/hyperVSites/hosts.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly type?: string;
   /**
-   * List of machine names that are part of this group.
+   * Gets or sets nested properties.
    */
-  machines: string[];
-  /**
-   * List of References to Assessments created on this group.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly assessments?: string[];
-  /**
-   * Time when this project was created. Date-Time represented in ISO-8601 format.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly createdTimestamp?: Date;
-  /**
-   * Time when this project was last updated. Date-Time represented in ISO-8601 format.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly updatedTimestamp?: Date;
+  properties?: HyperVHostProperties;
 }
 
 /**
- * An assessment created for a group in the Migration project.
+ * Collection of Hyper-V hosts.
  */
-export interface Assessment extends BaseResource {
+export interface HyperVHostCollection {
   /**
-   * Path reference to this assessment.
-   * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/projects/{projectName}/groups/{groupName}/assessment/{assessmentName}
+   * Gets the list of hosts.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly id?: string;
+  readonly value?: HyperVHost[];
   /**
-   * Unique name of an assessment.
+   * Gets the value of next link.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly name?: string;
-  /**
-   * For optimistic concurrency control.
-   */
-  eTag?: string;
-  /**
-   * Type of the object = [Microsoft.Migrate/projects/groups/assessments].
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly type?: string;
-  /**
-   * Target Azure location for which the machines should be assessed. These enums are the same as
-   * used by Compute API. Possible values include: 'Unknown', 'EastAsia', 'SoutheastAsia',
-   * 'AustraliaEast', 'AustraliaSoutheast', 'BrazilSouth', 'CanadaCentral', 'CanadaEast',
-   * 'WestEurope', 'NorthEurope', 'CentralIndia', 'SouthIndia', 'WestIndia', 'JapanEast',
-   * 'JapanWest', 'KoreaCentral', 'KoreaSouth', 'UkWest', 'UkSouth', 'NorthCentralUs', 'EastUs',
-   * 'WestUs2', 'SouthCentralUs', 'CentralUs', 'EastUs2', 'WestUs', 'WestCentralUs',
-   * 'GermanyCentral', 'GermanyNortheast', 'ChinaNorth', 'ChinaEast'
-   */
-  azureLocation: AzureLocation;
-  /**
-   * Offer code according to which cost estimation is done. Possible values include: 'Unknown',
-   * 'MSAZR0003P', 'MSAZR0044P', 'MSAZR0059P', 'MSAZR0060P', 'MSAZR0062P', 'MSAZR0063P',
-   * 'MSAZR0064P', 'MSAZR0029P', 'MSAZR0022P', 'MSAZR0023P', 'MSAZR0148P', 'MSAZR0025P',
-   * 'MSAZR0036P', 'MSAZR0120P', 'MSAZR0121P', 'MSAZR0122P', 'MSAZR0123P', 'MSAZR0124P',
-   * 'MSAZR0125P', 'MSAZR0126P', 'MSAZR0127P', 'MSAZR0128P', 'MSAZR0129P', 'MSAZR0130P',
-   * 'MSAZR0111P', 'MSAZR0144P', 'MSAZR0149P', 'MSMCAZR0044P', 'MSMCAZR0059P', 'MSMCAZR0060P',
-   * 'MSMCAZR0063P', 'MSMCAZR0120P', 'MSMCAZR0121P', 'MSMCAZR0125P', 'MSMCAZR0128P',
-   * 'MSAZRDE0003P', 'MSAZRDE0044P'
-   */
-  azureOfferCode: AzureOfferCode;
-  /**
-   * Pricing tier for Size evaluation. Possible values include: 'Standard', 'Basic'
-   */
-  azurePricingTier: AzurePricingTier;
-  /**
-   * Storage Redundancy type offered by Azure. Possible values include: 'Unknown',
-   * 'LocallyRedundant', 'ZoneRedundant', 'GeoRedundant', 'ReadAccessGeoRedundant'
-   */
-  azureStorageRedundancy: AzureStorageRedundancy;
-  /**
-   * Scaling factor used over utilization data to add a performance buffer for new machines to be
-   * created in Azure. Min Value = 1.0, Max value = 1.9, Default = 1.3.
-   */
-  scalingFactor: number;
-  /**
-   * Percentile of performance data used to recommend Azure size. Possible values include:
-   * 'Percentile50', 'Percentile90', 'Percentile95', 'Percentile99'
-   */
-  percentile: Percentile;
-  /**
-   * Time range of performance data used to recommend a size. Possible values include: 'Day',
-   * 'Week', 'Month'
-   */
-  timeRange: TimeRange;
-  /**
-   * User configurable setting that describes the status of the assessment. Possible values
-   * include: 'InProgress', 'UnderReview', 'Approved'
-   */
-  stage: AssessmentStage;
-  /**
-   * Currency to report prices in. Possible values include: 'Unknown', 'USD', 'DKK', 'CAD', 'IDR',
-   * 'JPY', 'KRW', 'NZD', 'NOK', 'RUB', 'SAR', 'ZAR', 'SEK', 'TRY', 'GBP', 'MXN', 'MYR', 'INR',
-   * 'HKD', 'BRL', 'TWD', 'EUR', 'CHF', 'ARS', 'AUD', 'CNY'
-   */
-  currency: Currency;
-  /**
-   * AHUB discount on windows virtual machines. Possible values include: 'Unknown', 'Yes', 'No'
-   */
-  azureHybridUseBenefit: AzureHybridUseBenefit;
-  /**
-   * Custom discount percentage to be applied on final costs. Can be in the range [0, 100].
-   */
-  discountPercentage: number;
-  /**
-   * Confidence rating percentage for assessment. Can be in the range [0, 100].
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly confidenceRatingInPercentage?: number;
-  /**
-   * Assessment sizing criterion. Possible values include: 'PerformanceBased', 'AsOnPremises'
-   */
-  sizingCriterion: AssessmentSizingCriterion;
-  /**
-   * Time when the Azure Prices were queried. Date-Time represented in ISO-8601 format.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly pricesTimestamp?: Date;
-  /**
-   * Time when this project was created. Date-Time represented in ISO-8601 format.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly createdTimestamp?: Date;
-  /**
-   * Time when this project was last updated. Date-Time represented in ISO-8601 format.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly updatedTimestamp?: Date;
-  /**
-   * Monthly compute cost estimate for the machines that are part of this assessment as a group,
-   * for a 31-day month.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly monthlyComputeCost?: number;
-  /**
-   * Monthly network cost estimate for the machines that are part of this assessment as a group,
-   * for a 31-day month.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly monthlyBandwidthCost?: number;
-  /**
-   * Monthly storage cost estimate for the machines that are part of this assessment as a group,
-   * for a 31-day month.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly monthlyStorageCost?: number;
-  /**
-   * Whether the assessment has been created and is valid. Possible values include: 'Created',
-   * 'Updated', 'Running', 'Completed', 'Invalid'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly status?: AssessmentStatus;
-  /**
-   * Number of assessed machines part of this assessment.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly numberOfMachines?: number;
+  readonly nextLink?: string;
 }
 
 /**
- * A disk discovered on a machine.
+ * Error contract returned when some exception occurs in Rest API.
  */
-export interface Disk {
+export interface ErrorDetails {
   /**
-   * Gigabytes of storage provisioned for this disk.
+   * Gets the error code.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly gigabytesAllocated?: number;
+  readonly code?: string;
   /**
-   * Gigabytes of storage consumed by this disk.
+   * Gets the error message.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly gigabytesConsumed?: number;
+  readonly message?: string;
+  /**
+   * Gets the possible causes of error.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly possibleCauses?: string;
+  /**
+   * Gets the recommended action to resolve error.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly recommendedAction?: string;
+  /**
+   * Gets the error severity.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly severity?: string;
+  /**
+   * Gets a value indicating whether the error originated from a agent or not.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly isAgentReportedError?: boolean;
+  /**
+   * Gets the agent error code.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly agentErrorCode?: string;
+  /**
+   * Gets the error message from the agent.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly agentErrorMessage?: string;
+  /**
+   * Gets possible causes for the agent error.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly agentErrorPossibleCauses?: string;
+  /**
+   * Gets the recommended action for the agent error.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly agentErrorRecommendedAction?: string;
 }
 
 /**
- * A network adapter discovered on a machine.
+ * Class for machine properties.
  */
-export interface NetworkAdapter {
+export interface JobProperties {
   /**
-   * MAC Address of the network adapter.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly macAddress?: string;
-  /**
-   * List of IP Addresses on the network adapter.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly ipAddresses?: string[];
-}
-
-/**
- * A machine in a migration project.
- */
-export interface Machine extends BaseResource {
-  /**
-   * Path reference to this machine.
-   * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/projects/{projectName}/machines/{machineName}
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly id?: string;
-  /**
-   * Name of the machine. It is a GUID which is unique identifier of machine in private data
-   * center. For user-readable name, we have a displayName property on this machine.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * For optimistic concurrency control.
-   */
-  eTag?: string;
-  /**
-   * Type of the object = [Microsoft.Migrate/projects/machines].
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly type?: string;
-  /**
-   * Boot type of the machine. Possible values include: 'Unknown', 'EFI', 'BIOS'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly bootType?: MachineBootType;
-  /**
-   * Container defined in the management solution that this machine is part of in the datacenter.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly datacenterContainer?: string;
-  /**
-   * Name of the server hosting the datacenter management solution.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly datacenterManagementServer?: string;
-  /**
-   * ID of the machine as tracked by the datacenter management solution.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly datacenterMachineId?: string;
-  /**
-   * ID of the server hosting the datacenter management solution.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly datacenterManagementServerId?: string;
-  /**
-   * Description of the machine
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly description?: string;
-  /**
-   * User readable name of the machine as defined by the user in their private datacenter.
+   * Gets or sets the display name of the Job.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly displayName?: string;
   /**
-   * Memory in Megabytes.
+   * Gets the client request Id used in the operation execution context.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly megabytesOfMemory?: number;
+  readonly clientRequestId?: string;
   /**
-   * Processor count.
+   * Gets the activity Id used in the operation execution context.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly numberOfCores?: number;
+  readonly activityId?: string;
   /**
-   * Operating System of the machine.
+   * Gets the errors.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly operatingSystem?: string;
-  /**
-   * List of references to the groups that the machine is member of.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly groups?: string[];
-  /**
-   * Time when this machine was created. Date-Time represented in ISO-8601 format.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly createdTimestamp?: Date;
-  /**
-   * Time when this machine was last updated. Date-Time represented in ISO-8601 format.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly updatedTimestamp?: Date;
-  /**
-   * Time when this machine was discovered by Azure Migrate agent. Date-Time represented in
-   * ISO-8601 format.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly discoveredTimestamp?: Date;
-  /**
-   * Dictionary of disks attached to the machine. Key is ID of disk. Value is a disk object
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly disks?: { [propertyName: string]: Disk };
-  /**
-   * Dictionary of network adapters attached to the machine. Key is ID of network adapter. Value is
-   * a network adapter object
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly networkAdapters?: { [propertyName: string]: NetworkAdapter };
+  readonly errors?: ErrorDetails[];
 }
 
 /**
- * A disk assessed for an assessment.
+ * Job REST Resource.
  */
-export interface AssessedDisk {
+export interface HyperVJob {
   /**
-   * Name of the assessed disk.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * Gigabytes of storage provisioned for this disk.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly gigabytesProvisioned?: number;
-  /**
-   * Gigabytes of storage consumed by this disk.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly gigabytesConsumed?: number;
-  /**
-   * Disk throughput in MegaBytes per second.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly megabytesPerSecondOfRead?: number;
-  /**
-   * Expected data points for MegaBytes per second of read.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly megabytesPerSecondOfReadDataPointsExpected?: number;
-  /**
-   * Received data points for MegaBytes per second of read.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly megabytesPerSecondOfReadDataPointsReceived?: number;
-  /**
-   * Disk throughput in MegaBytes per second.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly megabytesPerSecondOfWrite?: number;
-  /**
-   * Expected data points for MegaBytes per second of write.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly megabytesPerSecondOfWriteDataPointsExpected?: number;
-  /**
-   * Received data points for MegaBytes per second of write.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly megabytesPerSecondOfWriteDataPointsReceived?: number;
-  /**
-   * Number of read operations per second for the disk.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly numberOfReadOperationsPerSecond?: number;
-  /**
-   * Expected number of data points for read operations per second.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly numberOfReadOperationsPerSecondDataPointsExpected?: number;
-  /**
-   * Received number of data points for read operations per second.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly numberOfReadOperationsPerSecondDataPointsReceived?: number;
-  /**
-   * Number of read and write operations per second for the disk.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly numberOfWriteOperationsPerSecond?: number;
-  /**
-   * Expected number of data points for write operations per second.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly numberOfWriteOperationsPerSecondDataPointsExpected?: number;
-  /**
-   * Received number of data points for write operations per second.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly numberOfWriteOperationsPerSecondDataPointsReceived?: number;
-  /**
-   * Estimated aggregate storage cost for a 31-day month for this disk.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly monthlyStorageCost?: number;
-  /**
-   * Storage type selected for this disk. Possible values include: 'Unknown', 'Standard', 'Premium'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly recommendedDiskType?: AzureDiskType;
-  /**
-   * Recommended Azure size for the disk, given utilization data and preferences set on Assessment.
-   * Possible values include: 'Unknown', 'Standard_S4', 'Standard_S6', 'Standard_S10',
-   * 'Standard_S20', 'Standard_S30', 'Standard_S40', 'Standard_S50', 'Premium_P4', 'Premium_P6',
-   * 'Premium_P10', 'Premium_P20', 'Premium_P30', 'Premium_P40', 'Premium_P50'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly recommendedDiskSize?: AzureDiskSize;
-  /**
-   * Gigabytes of storage provided by the recommended Azure disk size.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly gigabytesForRecommendedDiskSize?: number;
-  /**
-   * Whether this disk is suitable for Azure. Possible values include: 'Unknown', 'NotSuitable',
-   * 'Suitable', 'ConditionallySuitable', 'ReadinessUnknown'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly suitability?: CloudSuitability;
-  /**
-   * If disk is suitable, this explains the reasons and mitigation steps. Possible values include:
-   * 'Unknown', 'NotApplicable', 'DiskSizeGreaterThanSupported', 'NoSuitableDiskSizeForIops',
-   * 'NoSuitableDiskSizeForThroughput', 'NoDiskSizeFoundInSelectedLocation',
-   * 'NoDiskSizeFoundForSelectedRedundancy', 'InternalErrorOccurredForDiskEvaluation'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly suitabilityExplanation?: AzureDiskSuitabilityExplanation;
-}
-
-/**
- * A network adapter assessed for an assessment.
- */
-export interface AssessedNetworkAdapter {
-  /**
-   * MAC Address of the network adapter.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly macAddress?: string;
-  /**
-   * List of IP Addresses on the network adapter.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly ipAddresses?: string[];
-  /**
-   * Monthly cost estimate for network bandwidth used by this network adapter.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly monthlyBandwidthCosts?: number;
-  /**
-   * Adapter throughput for incoming traffic in MegaBytes per second.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly megabytesPerSecondReceived?: number;
-  /**
-   * Expected data points for incoming traffic in MegaBytes per second.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly megabytesPerSecondReceivedDataPointsExpected?: number;
-  /**
-   * Received data points for incoming traffic in MegaBytes per second.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly megabytesPerSecondOfReadDataPointsReceived?: number;
-  /**
-   * Adapter throughput for outgoing traffic in MegaBytes per second.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly megabytesPerSecondTransmitted?: number;
-  /**
-   * Expected data points for outgoing traffic in MegaBytes per second.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly megabytesPerSecondTransmittedDataPointsExpected?: number;
-  /**
-   * Received data points for outgoing traffic in MegaBytes per second.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly megabytesPerSecondTransmittedDataPointsReceived?: number;
-  /**
-   * Gigabytes transmitted through this adapter each month.
-   */
-  netGigabytesTransmittedPerMonth?: number;
-  /**
-   * Whether this adapter is suitable for Azure. Possible values include: 'Unknown', 'NotSuitable',
-   * 'Suitable', 'ConditionallySuitable', 'ReadinessUnknown'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly suitability?: CloudSuitability;
-  /**
-   * If network adapter is suitable, this explains the reasons and mitigation steps. Possible
-   * values include: 'Unknown', 'NotApplicable', 'InternalErrorOccured'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly suitabilityExplanation?: AzureNetworkAdapterSuitabilityExplanation;
-}
-
-/**
- * A machine evaluated as part of an assessment.
- */
-export interface AssessedMachine extends BaseResource {
-  /**
-   * Path reference to this assessed machine.
-   * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/projects/{projectName}/groups/{groupName}/assessments/{assessmentName}/assessedMachines/{assessedMachineName}
+   * Relative URL to get this Sites.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly id?: string;
   /**
-   * Name of the machine.
+   * Gets the Name of the Sites.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly name?: string;
   /**
-   * For optimistic concurrency control.
-   */
-  eTag?: string;
-  /**
-   * Type of the object = [Microsoft.Migrate/projects/groups/assessments/assessedMachines].
+   * Handled by resource provider. Type = Microsoft.OffAzure/HyperVSites/Jobs.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly type?: string;
   /**
-   * List of references to the groups that the machine is member of.
+   * Gets nested properties.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly groups?: string[];
+  readonly properties?: JobProperties;
   /**
-   * Time when this machine was discovered by Azure Migrate agent. Date-Time represented in
-   * ISO-8601 format.
+   * Gets operation status.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly discoveredTimestamp?: Date;
+  readonly status?: string;
   /**
-   * Boot type of the machine. Possible values include: 'Unknown', 'EFI', 'BIOS'
+   * Gets operation start time.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly bootType?: MachineBootType;
+  readonly startTime?: string;
   /**
-   * Container defined in the management solution that this machine is part of in the datacenter.
+   * Gets operation end time.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly datacenterContainer?: string;
-  /**
-   * Name of the server hosting the datacenter management solution.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly datacenterManagementServer?: string;
-  /**
-   * ID of the machine as tracked by the datacenter management solution.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly datacenterMachineId?: string;
-  /**
-   * ID of the server hosting the datacenter management solution.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly datacenterManagementServerId?: string;
-  /**
-   * Description of the machine
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly description?: string;
-  /**
-   * User readable name of the machine as defined by the user in their private datacenter.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly displayName?: string;
-  /**
-   * Memory in Megabytes.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly megabytesOfMemory?: number;
-  /**
-   * Processor count.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly numberOfCores?: number;
-  /**
-   * Operating System of the machine.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly operatingSystem?: string;
-  /**
-   * Monthly network cost estimate for the network adapters that are attached to this machine as a
-   * group, for a 31-day month.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly monthlyBandwidthCost?: number;
-  /**
-   * Monthly storage cost estimate for the disks that are attached to this machine as a group, for
-   * a 31-day month.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly monthlyStorageCost?: number;
-  /**
-   * Dictionary of disks attached to the machine. Key is ID of disk. Value is a disk object.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly disks?: { [propertyName: string]: AssessedDisk };
-  /**
-   * Dictionary of network adapters attached to the machine. Key is name of the adapter. Value is a
-   * network adapter object.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly networkAdapters?: { [propertyName: string]: AssessedNetworkAdapter };
-  /**
-   * Recommended Azure size for this machine. Possible values include: 'Unknown', 'Basic_A0',
-   * 'Basic_A1', 'Basic_A2', 'Basic_A3', 'Basic_A4', 'Standard_A0', 'Standard_A1', 'Standard_A2',
-   * 'Standard_A3', 'Standard_A4', 'Standard_A5', 'Standard_A6', 'Standard_A7', 'Standard_A8',
-   * 'Standard_A9', 'Standard_A10', 'Standard_A11', 'Standard_A1_v2', 'Standard_A2_v2',
-   * 'Standard_A4_v2', 'Standard_A8_v2', 'Standard_A2m_v2', 'Standard_A4m_v2', 'Standard_A8m_v2',
-   * 'Standard_D1', 'Standard_D2', 'Standard_D3', 'Standard_D4', 'Standard_D11', 'Standard_D12',
-   * 'Standard_D13', 'Standard_D14', 'Standard_D1_v2', 'Standard_D2_v2', 'Standard_D3_v2',
-   * 'Standard_D4_v2', 'Standard_D5_v2', 'Standard_D11_v2', 'Standard_D12_v2', 'Standard_D13_v2',
-   * 'Standard_D14_v2', 'Standard_D15_v2', 'Standard_DS1', 'Standard_DS2', 'Standard_DS3',
-   * 'Standard_DS4', 'Standard_DS11', 'Standard_DS12', 'Standard_DS13', 'Standard_DS14',
-   * 'Standard_DS1_v2', 'Standard_DS2_v2', 'Standard_DS3_v2', 'Standard_DS4_v2', 'Standard_DS5_v2',
-   * 'Standard_DS11_v2', 'Standard_DS12_v2', 'Standard_DS13_v2', 'Standard_DS14_v2',
-   * 'Standard_DS15_v2', 'Standard_F1', 'Standard_F2', 'Standard_F4', 'Standard_F8',
-   * 'Standard_F16', 'Standard_F1s', 'Standard_F2s', 'Standard_F4s', 'Standard_F8s',
-   * 'Standard_F16s', 'Standard_G1', 'Standard_G2', 'Standard_G3', 'Standard_G4', 'Standard_G5',
-   * 'Standard_GS1', 'Standard_GS2', 'Standard_GS3', 'Standard_GS4', 'Standard_GS5', 'Standard_H8',
-   * 'Standard_H16', 'Standard_H8m', 'Standard_H16m', 'Standard_H16r', 'Standard_H16mr',
-   * 'Standard_L4s', 'Standard_L8s', 'Standard_L16s', 'Standard_L32s'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly recommendedSize?: AzureVmSize;
-  /**
-   * Number of CPU cores in the Recommended Azure VM Size.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly numberOfCoresForRecommendedSize?: number;
-  /**
-   * Megabytes of memory in the Recommended Azure VM Size.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly megabytesOfMemoryForRecommendedSize?: number;
-  /**
-   * Compute Cost for a 31-day month, if the machine is migrated to Azure with the Recommended
-   * Size.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly monthlyComputeCostForRecommendedSize?: number;
-  /**
-   * Utilization percentage of the processor core as observed in the private data center, in the
-   * Time Range selected on Assessment, reported as the Percentile value based on the percentile
-   * number selected in assessment.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly percentageCoresUtilization?: number;
-  /**
-   * Utilization percentage of the memory as observed in the private data center, in the Time Range
-   * selected on Assessment, reported as the Percentile value based on the percentile number
-   * selected in assessment.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly percentageMemoryUtilization?: number;
-  /**
-   * Expected data points for percentage of cores utilization.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly percentageCoresUtilizationDataPointsExpected?: number;
-  /**
-   * Received data points for percentage of cores utilization.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly percentageCoresUtilizationDataPointsReceived?: number;
-  /**
-   * Expected data points for percentage of memory utilization.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly percentageMemoryUtilizationDataPointsExpected?: number;
-  /**
-   * Received data points for percentage of memory utilization.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly percentageMemoryUtilizationDataPointsReceived?: number;
-  /**
-   * Whether machine is suitable for migration to Azure. Possible values include: 'Unknown',
-   * 'NotSuitable', 'Suitable', 'ConditionallySuitable', 'ReadinessUnknown'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly suitability?: CloudSuitability;
-  /**
-   * If machine is not ready to be migrated, this explains the reasons and mitigation steps.
-   * Possible values include: 'Unknown', 'NotApplicable',
-   * 'GuestOperatingSystemArchitectureNotSupported', 'GuestOperatingSystemNotSupported',
-   * 'BootTypeNotSupported', 'MoreDisksThanSupported', 'NoSuitableVmSizeFound',
-   * 'OneOrMoreDisksNotSuitable', 'OneOrMoreAdaptersNotSuitable',
-   * 'InternalErrorOccuredDuringComputeEvaluation', 'InternalErrorOccuredDuringStorageEvaluation',
-   * 'InternalErrorOccuredDuringNetworkEvaluation', 'NoVmSizeSupportsStoragePerformance',
-   * 'NoVmSizeSupportsNetworkPerformance', 'NoVmSizeForSelectedPricingTier',
-   * 'NoVmSizeForSelectedAzureLocation', 'CheckRedHatLinuxVersion', 'CheckOpenSuseLinuxVersion',
-   * 'CheckWindowsServer2008R2Version', 'CheckCentOsVersion', 'CheckDebianLinuxVersion',
-   * 'CheckSuseLinuxVersion', 'CheckOracleLinuxVersion', 'CheckUbuntuLinuxVersion',
-   * 'CheckCoreOsLinuxVersion', 'WindowsServerVersionConditionallySupported',
-   * 'NoGuestOperatingSystemConditionallySupported', 'WindowsClientVersionsConditionallySupported',
-   * 'BootTypeUnknown', 'GuestOperatingSystemUnknown', 'WindowsServerVersionsSupportedWithCaveat',
-   * 'WindowsOSNoLongerUnderMSSupport', 'EndorsedWithConditionsLinuxDistributions',
-   * 'UnendorsedLinuxDistributions', 'NoVmSizeForStandardPricingTier',
-   * 'NoVmSizeForBasicPricingTier'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly suitabilityExplanation?: AzureVmSuitabilityExplanation;
-  /**
-   * Time when this machine was created. Date-Time represented in ISO-8601 format.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly createdTimestamp?: Date;
-  /**
-   * Time when this machine was last updated. Date-Time represented in ISO-8601 format.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly updatedTimestamp?: Date;
+  readonly endTime?: string;
 }
 
 /**
- * ID and Key for Migration Project.
+ * Collection of Hyper-V jobs.
  */
-export interface ProjectKey extends BaseResource {
+export interface HyperVJobCollection {
   /**
-   * ID of Migration Project.
+   * Gets the list of jobs.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly workspaceId?: string;
+  readonly value?: HyperVJob[];
   /**
-   * Key of Migration Project.
+   * Gets the value of next link.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly workspaceKey?: string;
+  readonly nextLink?: string;
 }
 
 /**
- * Displayable properties of the operation.
+ * Second level object returned as part of Machine REST resource.
  */
-export interface OperationDisplay {
+export interface HyperVDisk {
   /**
-   * Provider of the operation.
+   * Id of the disk.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly provider?: string;
+  readonly instanceId?: string;
   /**
-   * Resource operated on by the operation.
+   * VHD Id of the disk.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly resource?: string;
+  readonly vhdId?: string;
   /**
-   * Operation Type.
+   * Bytes allocated for the disk.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly operation?: string;
+  readonly maxSizeInBytes?: number;
   /**
-   * Description of the operation.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly description?: string;
-}
-
-/**
- * A REST API operation supported by the provider.
- */
-export interface Operation {
-  /**
-   * Name of the operation.
+   * Name of the disk.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly name?: string;
   /**
-   * Displayable properties of the operation.
-   */
-  display?: OperationDisplay;
-  /**
-   * Origin of the operation.
+   * Type of the disk.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly origin?: string;
+  readonly diskType?: string;
+  /**
+   * LUN of the disk.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly lun?: number;
+  /**
+   * Path of the disk.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly path?: string;
 }
 
 /**
- * Download URL for assessment report.
+ * Second level object represented in responses as part of Machine REST resource.
  */
-export interface DownloadUrl {
+export interface HyperVNetworkAdapter {
   /**
-   * Hyperlink to download report.
+   * Network Id.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly assessmentReportUrl?: string;
+  readonly networkId?: string;
   /**
-   * Expiry date of download url.
+   * Name of the VM subnet within the virtual network the NIC is attached to.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly expirationTime?: Date;
+  readonly subnetName?: string;
+  /**
+   * Static IP address.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly staticIpAdress?: string;
+  /**
+   * Mac address of the NIC.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nicType?: string;
+  /**
+   * NIC Id.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nicId?: string;
+  /**
+   * Mac address of the NIC.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly macAddress?: string;
+  /**
+   * IP addresses for the machine.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly ipAddressList?: string[];
+  /**
+   * Network Name.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly networkName?: string;
+  /**
+   * Type of the IP address.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly ipAddressType?: string;
 }
 
 /**
- * VM family name, the list of targeted azure locations and the category of the family.
+ * Second level object returned as part of Machine REST resource.
  */
-export interface VmFamily {
+export interface OperatingSystem {
   /**
-   * Name of the VM family.
+   * Type of the operating system.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly familyName?: string;
+  readonly osType?: string;
   /**
-   * List of Azure regions.
+   * Name of the operating system.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly targetLocations?: string[];
+  readonly osName?: string;
   /**
-   * Category of the VM family.
+   * Version of the operating system.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly category?: string[];
+  readonly osVersion?: string;
 }
 
 /**
- * List of assessment options.
+ * Class for machine properties.
  */
-export interface AssessmentOptionsResultList {
+export interface HyperVMachineProperties {
   /**
-   * Dictionary of VM families grouped by vm family name describing the targeted azure locations of
-   * VM family and the category of the family.
+   * Host FQDN/IPAddress.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly vmFamilies?: VmFamily[];
+  readonly hostFqdn?: string;
   /**
-   * List of supported VM Families.
+   * Host ARM ID.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly reservedInstanceVmFamilies?: string[];
+  readonly hostId?: string;
+  /**
+   * Cluster FQDN/IPAddress.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly clusterFqdn?: string;
+  /**
+   * Cluster ARM ID.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly clusterId?: string;
+  /**
+   * Management server type captured as a string representation of the
+   * {HyperVMachine.HyperVMachineProperties.ManagementServerType} enumeration.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly managementServerType?: string;
+  /**
+   * Generation of the virtual machine.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly generation?: number;
+  /**
+   * VM version.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly version?: string;
+  /**
+   * Value indicating whether the VM is highly available. Possible values include: 'Unknown', 'No',
+   * 'Yes'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly highAvailability?: HighAvailability;
+  /**
+   * Max memory of the virtual machine in MB.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly maxMemoryMB?: number;
+  /**
+   * Firmware of the machine.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly firmware?: string;
+  /**
+   * Value indicating whether dynamic memory is enabled for the VM.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly isDynamicMemoryEnabled?: boolean;
+  /**
+   * Disks attached to the machine.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly disks?: HyperVDisk[];
+  /**
+   * Network adapters attached to the machine.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly networkAdapters?: HyperVNetworkAdapter[];
+  /**
+   * Display name of the machine.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly displayName?: string;
+  /**
+   * Number of Processor Cores allocated for the machine.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly numberOfProcessorCore?: number;
+  /**
+   * Allocated Memory in MB.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly allocatedMemoryInMB?: number;
+  /**
+   * Root location of the VM configuration file.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly vmConfigurationFileLocation?: string;
+  /**
+   * Operating System Details installed on the machine.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly operatingSystemDetails?: OperatingSystem;
+  /**
+   * Timestamp marking machine creation.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly createdTimestamp?: string;
+  /**
+   * Timestamp marking last updated on the machine.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly updatedTimestamp?: string;
+  /**
+   * On-premise Instance UUID of the machine.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly instanceUuid?: string;
+  /**
+   * Machine power status.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly powerStatus?: string;
+  /**
+   * Machine BIOS serial number.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly biosSerialNumber?: string;
+  /**
+   * Machine FQDN.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly vmFqdn?: string;
+  /**
+   * Value indicating whether VM is deleted.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly isDeleted?: boolean;
+  /**
+   * Errors for machine.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly errors?: HealthErrorDetails[];
 }
 
 /**
- * Parameters for a check name availability request.
+ * Machine REST Resource.
  */
-export interface CheckNameAvailabilityParameters {
+export interface HyperVMachine {
   /**
-   * The name to check for availability
+   * Relative URL to get this Sites.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  name: string;
+  readonly id?: string;
+  /**
+   * Gets the Name of the Sites.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * Handled by resource provider. Type = Microsoft.OffAzure/HyperVSites/Machines.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * Gets nested properties.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly properties?: HyperVMachineProperties;
 }
 
 /**
- * The CheckNameAvailability operation response.
+ * Collection of Hyper-V machines.
  */
-export interface CheckNameAvailabilityResult {
+export interface HyperVMachineCollection {
   /**
-   * Gets a boolean value that indicates whether the name is available for you to use. If true, the
-   * name is available. If false, the name has already been taken or invalid and cannot be used.
+   * Gets the list of machines.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly nameAvailable?: boolean;
+  readonly value?: HyperVMachine[];
   /**
-   * Gets the reason that a project name could not be used. The Reason element is only returned if
-   * NameAvailable is false. Possible values include: 'Available', 'Invalid', 'AlreadyExists'
+   * Gets the value of next link.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly reason?: NameAvailabilityReason;
+  readonly nextLink?: string;
+}
+
+/**
+ * Class for operation status errors.
+ */
+export interface OperationStatusError {
   /**
-   * Gets an error message explaining the Reason value in more detail.
+   * Gets the error code.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly code?: string;
+  /**
+   * Gets the error message.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly message?: string;
 }
 
 /**
- * Optional Parameters.
+ * Operation status REST resource.
  */
-export interface ProjectsCreateOptionalParams extends msRest.RequestOptionsBase {
+export interface OperationStatus {
   /**
-   * New or Updated project object.
+   * Gets the Id.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  project?: Project;
+  readonly id?: string;
+  /**
+   * Gets the operation name.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * Gets the status of the operation. ARM expects the terminal status to be one of
+   * Succeeded/ Failed/ Canceled. All other values imply that the operation is still running.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly status?: string;
+  /**
+   * Gets the start time.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly startTime?: string;
+  /**
+   * Gets the start time.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly endTime?: string;
+  /**
+   * Gets the error.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly error?: OperationStatusError;
+  /**
+   * Gets the custom data.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly properties?: any;
+}
+
+/**
+ * Class for run as account properties.
+ */
+export interface RunAsAccountProperties {
+  /**
+   * Display name of the run as account.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly displayName?: string;
+  /**
+   * Timestamp marking run as account creation.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly createdTimestamp?: string;
+  /**
+   * Timestamp marking last updated on the run as account.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly updatedTimestamp?: string;
+}
+
+/**
+ * Run as account REST Resource.
+ */
+export interface HyperVRunAsAccount {
+  /**
+   * Relative URL to get this run as account.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * Gets the Name of the Sites.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * Handled by resource provider. Type = Microsoft.OffAzure/HyperVSites/RunAsAccounts.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * Gets nested properties.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly properties?: RunAsAccountProperties;
+}
+
+/**
+ * Collection of Hyper-V run as accounts.
+ */
+export interface HyperVRunAsAccountCollection {
+  /**
+   * Gets the list of run as accounts.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly value?: HyperVRunAsAccount[];
+  /**
+   * Gets the value of next link.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * Class for site properties.
+ */
+export interface SiteSpnProperties {
+  /**
+   * Gets or sets the tenant Id for the service principal with which the on-premise
+   * management/data plane components would communicate with our Azure services.
+   */
+  tenantId?: string;
+  /**
+   * Gets or sets the application/client Id for the service principal with which the
+   * on-premise management/data plane components would communicate with our Azure
+   * services.
+   */
+  applicationId?: string;
+  /**
+   * Gets or sets the object Id of the service principal with which the on-premise
+   * management/data plane components would communicate with our Azure services.
+   */
+  objectId?: string;
+  /**
+   * Gets or sets the intended audience for the service principal.
+   */
+  audience?: string;
+  /**
+   * Gets or sets the AAD Authority URL which was used to request the token for the
+   * service principal.
+   */
+  aadAuthority?: string;
+  /**
+   * Gets or sets the raw certificate data for building certificate expiry flows.
+   */
+  rawCertData?: string;
+}
+
+/**
+ * Class for site agent properties.
+ */
+export interface SiteAgentProperties {
+  /**
+   * Gets the ID of the agent.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * Gets the version of the agent.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly version?: string;
+  /**
+   * Gets the last heartbeat time of the agent in UTC.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly lastHeartBeatUtc?: Date;
+  /**
+   * Gets or sets the key vault URI.
+   */
+  keyVaultUri?: string;
+  /**
+   * Gets or sets the key vault ARM Id.
+   */
+  keyVaultId?: string;
+}
+
+/**
+ * Class for site properties.
+ */
+export interface SiteProperties {
+  /**
+   * Gets or sets the service principal identity details used by agent for communication
+   * to the service.
+   */
+  servicePrincipalIdentityDetails?: SiteSpnProperties;
+  /**
+   * Gets or sets the on-premises agent details.
+   */
+  agentDetails?: SiteAgentProperties;
+  /**
+   * Gets the service endpoint.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly serviceEndpoint?: string;
+  /**
+   * Gets or sets the ARM ID of migration hub solution for SDS.
+   */
+  discoverySolutionId?: string;
+  /**
+   * Gets or sets the Appliance Name.
+   */
+  applianceName?: string;
+}
+
+/**
+ * Site REST Resource.
+ */
+export interface HyperVSite {
+  /**
+   * Gets the relative URL to get this Site.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * Gets or sets the name of the Hyper-V site.
+   */
+  name?: string;
+  /**
+   * Handled by resource provider. Type = Microsoft.OffAzure/HyperVSites.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * Gets or sets the eTag for concurrency control.
+   */
+  eTag?: string;
+  /**
+   * Gets or sets the Azure location in which Sites is created.
+   */
+  location?: string;
+  /**
+   * Gets or sets the nested properties.
+   */
+  properties?: SiteProperties;
+}
+
+/**
+ * Hyper-V site usage.
+ */
+export interface HyperVSiteUsage {
+  /**
+   * Gets or sets the number of machines discovered in the site.
+   */
+  machineCount?: number;
+  /**
+   * Gets or sets the number of run as accounts in the site.
+   */
+  runAsAccountCount?: number;
+  /**
+   * Gets or sets the number of hosts part of the site.
+   */
+  hostCount?: number;
+  /**
+   * Gets or sets the number of clusters part of the site.
+   */
+  clusterCount?: number;
+}
+
+/**
+ * The site health summary model.
+ */
+export interface SiteHealthSummary {
+  /**
+   * Gets the appliance name.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly applianceName?: string;
+  /**
+   * Gets the error message.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly errorMessage?: string;
+  /**
+   * Gets the summary message.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly summaryMessage?: string;
+  /**
+   * Gets the error Id.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly errorId?: number;
+  /**
+   * Gets the error code.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly errorCode?: string;
+  /**
+   * Gets or sets the count of affected objects.
+   */
+  affectedObjectsCount?: number;
+  /**
+   * Gets or sets the hit count of the error.
+   */
+  hitCount?: number;
+  /**
+   * Gets the severity of error.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly severity?: string;
+  /**
+   * Gets the remediation guidance.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly remediationGuidance?: string;
+  /**
+   * Gets the affected resource type.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly affectedResourceType?: string;
+  /**
+   * Gets or sets the affected resources.
+   */
+  affectedResources?: string[];
+}
+
+/**
+ * Collection of SiteHealthSummary.
+ */
+export interface SiteHealthSummaryCollection {
+  /**
+   * Gets the list of SiteHealthSummary.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly value?: SiteHealthSummary[];
+  /**
+   * Gets the value of next link.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * Job REST Resource.
+ */
+export interface VMwareJob {
+  /**
+   * Relative URL to get this Sites.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * Gets the Name of the Sites.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * Handled by resource provider. Type = Microsoft.OffAzure/VMWareSites/Jobs.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * Gets nested properties.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly properties?: JobProperties;
+  /**
+   * Gets operation status.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly status?: string;
+  /**
+   * Gets operation start time.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly startTime?: string;
+  /**
+   * Gets operation end time.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly endTime?: string;
+}
+
+/**
+ * Collection of VMware jobs.
+ */
+export interface VMwareJobCollection {
+  /**
+   * Gets the list of jobs.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly value?: VMwareJob[];
+  /**
+   * Gets the value of next link.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * Second level object returned as part of Machine REST resource.
+ */
+export interface VMwareDisk {
+  /**
+   * Disk UUID.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly uuid?: string;
+  /**
+   * Label of the disk.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly label?: string;
+  /**
+   * The provisioning policy of the disk.
+   * It is Thin or Thick or Unknown for the VMWare VMDK.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly diskProvisioningPolicy?: string;
+  /**
+   * The scrubbing policy of disks which can be
+   * eagerly zeroed or lazily zeroed.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly diskScrubbingPolicy?: string;
+  /**
+   * Bytes allocated for the disk.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly maxSizeInBytes?: number;
+  /**
+   * Name of the disk.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * Type of the disk.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly diskType?: string;
+  /**
+   * LUN of the disk.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly lun?: number;
+  /**
+   * Path of the disk.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly path?: string;
+}
+
+/**
+ * Second level object represented in responses as part of Machine REST resource.
+ */
+export interface VMwareNetworkAdapter {
+  /**
+   * Label of the NIC.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly label?: string;
+  /**
+   * NIC Id.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nicId?: string;
+  /**
+   * Mac address of the NIC.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly macAddress?: string;
+  /**
+   * IP addresses for the machine.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly ipAddressList?: string[];
+  /**
+   * Network Name.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly networkName?: string;
+  /**
+   * Type of the IP address.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly ipAddressType?: string;
+}
+
+/**
+ * Class for machine properties.
+ */
+export interface VMwareMachineProperties {
+  /**
+   * Scope of the data center.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly dataCenterScope?: string;
+  /**
+   * Firmware of the machine.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly firmware?: string;
+  /**
+   * User description of the machine.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly description?: string;
+  /**
+   * VCenter FQDN/IPAddress.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly vCenterFQDN?: string;
+  /**
+   * VCenter ARM ID.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly vCenterId?: string;
+  /**
+   * VMware tools status.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly vMwareToolsStatus?: string;
+  /**
+   * Value indicating whether change tracking is supported.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly changeTrackingSupported?: boolean;
+  /**
+   * Value indicating whether change tracking is enabled.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly changeTrackingEnabled?: boolean;
+  /**
+   * Maximum number of snapshots for the VM.
+   * Default value is -1.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly maxSnapshots?: number;
+  /**
+   * Disks attached to the machine.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly disks?: VMwareDisk[];
+  /**
+   * Indicates whether the host is in maintenance mode.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly hostInMaintenanceMode?: boolean;
+  /**
+   * The host name.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly hostName?: string;
+  /**
+   * The host power state.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly hostPowerState?: string;
+  /**
+   * The host version.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly hostVersion?: string;
+  /**
+   * Network adapters attached to the machine.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly networkAdapters?: VMwareNetworkAdapter[];
+  /**
+   * Display name of the machine.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly displayName?: string;
+  /**
+   * Number of Processor Cores allocated for the machine.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly numberOfProcessorCore?: number;
+  /**
+   * Allocated Memory in MB.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly allocatedMemoryInMB?: number;
+  /**
+   * Root location of the VM configuration file.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly vmConfigurationFileLocation?: string;
+  /**
+   * Operating System Details installed on the machine.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly operatingSystemDetails?: OperatingSystem;
+  /**
+   * Timestamp marking machine creation.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly createdTimestamp?: string;
+  /**
+   * Timestamp marking last updated on the machine.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly updatedTimestamp?: string;
+  /**
+   * On-premise Instance UUID of the machine.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly instanceUuid?: string;
+  /**
+   * Machine power status.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly powerStatus?: string;
+  /**
+   * Machine BIOS serial number.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly biosSerialNumber?: string;
+  /**
+   * Machine FQDN.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly vmFqdn?: string;
+  /**
+   * Value indicating whether VM is deleted.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly isDeleted?: boolean;
+  /**
+   * Errors for machine.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly errors?: HealthErrorDetails[];
+}
+
+/**
+ * Machine REST Resource.
+ */
+export interface VMwareMachine {
+  /**
+   * Relative URL to get this Sites.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * Gets the Name of the Sites.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * Handled by resource provider. Type = Microsoft.OffAzure/VMWareSites/Machines.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * Gets nested properties.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly properties?: VMwareMachineProperties;
+}
+
+/**
+ * Collection of VMware machines.
+ */
+export interface VMwareMachineCollection {
+  /**
+   * Gets the list of machines.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly value?: VMwareMachine[];
+  /**
+   * Gets the value of next link.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * Run as account REST Resource.
+ */
+export interface VMwareRunAsAccount {
+  /**
+   * Relative URL to get this run as account.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * Gets the Name of the Run as account.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * Handled by resource provider. Type = Microsoft.OffAzure/VMWareSites/RunAsAccounts.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * Gets nested properties.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly properties?: RunAsAccountProperties;
+}
+
+/**
+ * Collection of VMware run as accounts.
+ */
+export interface VMwareRunAsAccountCollection {
+  /**
+   * Gets the list of run as accounts.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly value?: VMwareRunAsAccount[];
+  /**
+   * Gets the value of next link.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * Site REST Resource.
+ */
+export interface VMwareSite {
+  /**
+   * Gets the relative URL to get this Site.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * Gets or sets the name of the VMware site.
+   */
+  name?: string;
+  /**
+   * Handled by resource provider. Type = Microsoft.OffAzure/VMWareSites.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * Gets or sets the eTag for concurrency control.
+   */
+  eTag?: string;
+  /**
+   * Gets or sets the Azure location in which Sites is created.
+   */
+  location?: string;
+  /**
+   * Gets or sets the nested properties.
+   */
+  properties?: SiteProperties;
+}
+
+/**
+ * VMware site usage.
+ */
+export interface VMwareSiteUsage {
+  /**
+   * Gets or sets the number of machines discovered in the site.
+   */
+  machineCount?: number;
+  /**
+   * Gets or sets the number of run as accounts in the site.
+   */
+  runAsAccountCount?: number;
+  /**
+   * Gets or sets the number of vCenters part of the site.
+   */
+  vCenterCount?: number;
+}
+
+/**
+ * Class for vCenter properties.
+ */
+export interface VCenterProperties {
+  /**
+   * Gets the timestamp marking vCenter creation.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly createdTimestamp?: string;
+  /**
+   * Gets the timestamp marking last updated on the vCenter.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly updatedTimestamp?: string;
+  /**
+   * Gets or sets the FQDN/IPAddress of the vCenter.
+   */
+  fqdn?: string;
+  /**
+   * Gets or sets the port of the vCenter.
+   */
+  port?: string;
+  /**
+   * Gets or sets the run as account ID of the vCenter.
+   */
+  runAsAccountId?: string;
+  /**
+   * Gets the version of the vCenter.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly version?: string;
+  /**
+   * Gets the performance statistics enabled on the vCenter.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly perfStatisticsLevel?: string;
+  /**
+   * Gets the instance UUID of the vCenter.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly instanceUuid?: string;
+  /**
+   * Gets the errors.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly errors?: HealthErrorDetails[];
+}
+
+/**
+ * VCenter REST Resource.
+ */
+export interface VCenter {
+  /**
+   * Gets the relative URL to get this vCenter.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * Gets or sets the name of the vCenter.
+   */
+  name?: string;
+  /**
+   * Handled by resource provider. Type = Microsoft.OffAzure/VMWareSites/VCenters.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * Gets or sets vCenter nested properties.
+   */
+  properties?: VCenterProperties;
+}
+
+/**
+ * Collection of vCenter.
+ */
+export interface VCenterCollection {
+  /**
+   * Gets the list of vCenter.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly value?: VCenter[];
+  /**
+   * Gets the value of next link.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * Job REST Resource.
+ */
+export interface ImportJob {
+  /**
+   * Relative URL to get this Sites.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * Gets the Name of the Sites.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * Handled by resource provider. Type = Microsoft.OffAzure/VMWareSites/Jobs.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * Gets nested properties.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly properties?: JobProperties;
+  /**
+   * Gets operation status.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly status?: string;
+  /**
+   * Gets operation start time.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly startTime?: string;
+  /**
+   * Gets operation end time.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly endTime?: string;
+}
+
+/**
+ * Collection of VMware jobs.
+ */
+export interface ImportJobCollection {
+  /**
+   * Gets the list of jobs.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly value?: ImportJob[];
+  /**
+   * Gets the value of next link.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * Class representing the imported machine web model.
+ */
+export interface ImportDisk {
+  /**
+   * Disk read throughput.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly megabytesPerSecondOfRead?: number;
+  /**
+   * Disk write throughput.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly megabytesPerSecondOfWrite?: number;
+  /**
+   * Disk read IOPS.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly numberOfReadOperationsPerSecond?: number;
+  /**
+   * Disk write IOPS.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly numberOfWriteOperationsPerSecond?: number;
+  /**
+   * Bytes allocated for the disk.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly maxSizeInBytes?: number;
+  /**
+   * Name of the disk.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * Type of the disk.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly diskType?: string;
+  /**
+   * LUN of the disk.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly lun?: number;
+  /**
+   * Path of the disk.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly path?: string;
+}
+
+/**
+ * Class for machine properties.
+ */
+export interface ImportMachineProperties {
+  /**
+   * Firmware of the machine.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly firmware?: string;
+  /**
+   * VCenter FQDN/IPAddress.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly vCenterFQDN?: string;
+  /**
+   * Disks attached to the machine.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly disks?: ImportDisk[];
+  /**
+   * Display name of the machine.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly displayName?: string;
+  /**
+   * Number of Processor Cores allocated for the machine.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly numberOfProcessorCore?: number;
+  /**
+   * Allocated Memory in MB.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly allocatedMemoryInMB?: number;
+  /**
+   * Root location of the VM configuration file.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly vmConfigurationFileLocation?: string;
+  /**
+   * Operating System Details installed on the machine.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly operatingSystemDetails?: OperatingSystem;
+  /**
+   * Timestamp marking machine creation.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly createdTimestamp?: string;
+  /**
+   * Timestamp marking last updated on the machine.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly updatedTimestamp?: string;
+  /**
+   * On-premise Instance UUID of the machine.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly instanceUuid?: string;
+  /**
+   * Machine power status.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly powerStatus?: string;
+  /**
+   * Machine BIOS serial number.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly biosSerialNumber?: string;
+  /**
+   * Machine FQDN.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly vmFqdn?: string;
+  /**
+   * Value indicating whether VM is deleted.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly isDeleted?: boolean;
+  /**
+   * Errors for machine.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly errors?: HealthErrorDetails[];
+}
+
+/**
+ * Machine REST Resource.
+ */
+export interface ImportMachine {
+  /**
+   * Relative URL to get this Sites.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * Gets the Name of the Sites.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * Handled by resource provider. Type = Microsoft.OffAzure/ImportSites/Machines.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * Gets nested properties.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly properties?: ImportMachineProperties;
+}
+
+/**
+ * Collection of Import machines.
+ */
+export interface ImportMachineCollection {
+  /**
+   * Gets the list of machines.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly value?: ImportMachine[];
+  /**
+   * Gets the value of next link.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * Class for site properties.
+ */
+export interface ImportSiteProperties {
+  /**
+   * Gets the service endpoint.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly serviceEndpoint?: string;
+  /**
+   * Gets or sets the ARM ID of migration hub solution for SDS.
+   */
+  discoverySolutionId?: string;
+}
+
+/**
+ * Site REST Resource.
+ */
+export interface ImportSite {
+  /**
+   * Gets the relative URL to get this Site.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * Gets or sets the name of the Hyper-V site.
+   */
+  name?: string;
+  /**
+   * Handled by resource provider. Type = Microsoft.OffAzure/Sites.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * Gets or sets the eTag for concurrency control.
+   */
+  eTag?: string;
+  /**
+   * Gets or sets the Azure location in which Sites is created.
+   */
+  location?: string;
+  /**
+   * Gets or sets the nested properties.
+   */
+  properties?: ImportSiteProperties;
+}
+
+/**
+ * Import URI response class.
+ */
+export interface SasUriResponse {
+  /**
+   * Gets or sets the operation status ID.
+   */
+  jobId?: string;
+  /**
+   * Gets or sets the SAS URI.
+   */
+  uri?: string;
+}
+
+/**
+ * Job class for server agent.
+ */
+export interface ServerJob {
+  /**
+   * Relative URL to get this Sites.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * Gets the Name of the job.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * Handled by resource provider. Type = Microsoft.OffAzure/serverSites/Jobs.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * Gets nested properties.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly properties?: JobProperties;
+  /**
+   * Gets operation status.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly status?: string;
+  /**
+   * Gets operation start time.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly startTime?: string;
+  /**
+   * Gets operation end time.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly endTime?: string;
+}
+
+/**
+ * Collection of Server jobs.
+ */
+export interface ServerJobCollection {
+  /**
+   * Gets the list of jobs.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly value?: ServerJob[];
+  /**
+   * Gets the value of next link.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * Run as account REST Resource.
+ */
+export interface ServerRunAsAccount {
+  /**
+   * Relative URL to get this run as account.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * Gets the Name of the Run as accounts.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * Handled by resource provider. Type = Microsoft.OffAzure/serverSites/RunAsAccounts.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * Gets nested properties.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly properties?: RunAsAccountProperties;
+}
+
+/**
+ * Collection of server run as accounts.
+ */
+export interface ServerRunAsAccountCollection {
+  /**
+   * Gets the list of run as accounts.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly value?: ServerRunAsAccount[];
+  /**
+   * Gets the value of next link.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * Class for server properties.
+ */
+export interface ServerProperties {
+  /**
+   * Gets the timestamp marking server creation.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly createdTimestamp?: string;
+  /**
+   * Gets the timestamp marking last updated on the server.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly updatedTimestamp?: string;
+  /**
+   * Gets or sets the FQDN/IPAddress of the server.
+   */
+  fqdn?: string;
+  /**
+   * Gets or sets the run as account ID of the server.
+   */
+  runAsAccountId?: string;
+  /**
+   * Gets or sets the unique IP of the server.
+   */
+  ip?: string[];
+  /**
+   * Gets or sets the Display name of the machine.
+   */
+  displayName?: string;
+  /**
+   * Gets or sets the Number of Processor Cores allocated for the machine.
+   */
+  numberOfProcessorCore?: number;
+  /**
+   * Gets or sets the Allocated Memory in MB.
+   */
+  allocatedMemoryInMB?: number;
+  /**
+   * Gets or sets the Operating System Details installed on the machine.
+   */
+  osType?: string;
+  /**
+   * Gets or sets the Operating System Details installed on the machine.
+   */
+  osName?: string;
+  /**
+   * Gets or sets the Operating System Details installed on the machine.
+   */
+  osVersion?: string;
+  /**
+   * Gets or sets the Machine power status.
+   */
+  powerStatus?: string;
+  /**
+   * Gets or sets the Machine BIOS serial number.
+   */
+  biosSerialNumber?: string;
+  /**
+   * Gets or sets the Bytes allocated for the disk.
+   */
+  diskSize?: number;
+  /**
+   * Gets or sets the Disk name.
+   */
+  diskName?: string;
+}
+
+/**
+ * server REST Resource.
+ */
+export interface Server {
+  /**
+   * Gets the relative URL to get this server.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * Gets or sets the name of the server.
+   */
+  name?: string;
+  /**
+   * Handled by resource provider. Type = Microsoft.OffAzure/serverSites/servers.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * Gets or sets nested properties.
+   */
+  properties?: ServerProperties;
+}
+
+/**
+ * Collection of servers.
+ */
+export interface ServerCollection {
+  /**
+   * Gets the list of servers.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly value?: Server[];
+  /**
+   * Gets the value of next link.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * Site REST Resource.
+ */
+export interface ServerSite {
+  /**
+   * Gets the relative URL to get this Site.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * Gets or sets the name of the Server site.
+   */
+  name?: string;
+  /**
+   * Handled by resource provider. Type = Microsoft.OffAzure/serverSites.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * Gets or sets the eTag for concurrency control.
+   */
+  eTag?: string;
+  /**
+   * Gets or sets the Azure location in which Sites is created.
+   */
+  location?: string;
+  /**
+   * Gets or sets the nested properties.
+   */
+  properties?: SiteProperties;
+}
+
+/**
+ * Server site usage.
+ */
+export interface ServerSiteUsage {
+  /**
+   * Gets or sets the number of run as accounts in the site.
+   */
+  runAsAccountCount?: number;
+  /**
+   * Gets or sets the number of servers part of the site.
+   */
+  serverCount?: number;
 }
 
 /**
  * Optional Parameters.
  */
-export interface ProjectsUpdateOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Updated project object.
-   */
-  project?: Project;
+export interface HyperVClusterGetAllClustersInSiteOptionalParams extends msRest.RequestOptionsBase {
+  filter?: string;
 }
 
 /**
  * Optional Parameters.
  */
-export interface GroupsCreateOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * New or Updated Group object.
-   */
-  group?: Group;
+export interface HyperVHostGetAllHostsInSiteOptionalParams extends msRest.RequestOptionsBase {
+  filter?: string;
 }
 
 /**
  * Optional Parameters.
  */
-export interface AssessmentsCreateOptionalParams extends msRest.RequestOptionsBase {
+export interface HyperVMachinesGetAllMachinesInSiteOptionalParams extends msRest.RequestOptionsBase {
+  filter?: string;
   /**
-   * New or Updated Assessment object.
+   * Optional parameter for page size.
    */
-  assessment?: Assessment;
+  pageSize?: number;
+  /**
+   * Optional parameter for continuation token.
+   */
+  continuationToken?: string;
+  /**
+   * Total record count.
+   */
+  totalRecordCount?: number;
 }
 
 /**
- * An interface representing AzureMigrateOptions.
+ * Optional Parameters.
  */
-export interface AzureMigrateOptions extends AzureServiceClientOptions {
+export interface MachinesGetAllMachinesInSiteOptionalParams extends msRest.RequestOptionsBase {
+  filter?: string;
+  /**
+   * Optional parameter for page size.
+   */
+  pageSize?: number;
+  /**
+   * Optional parameter for continuation token.
+   */
+  continuationToken?: string;
+  /**
+   * Total record count.
+   */
+  totalRecordCount?: number;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface VCenterGetAllVCentersInSiteOptionalParams extends msRest.RequestOptionsBase {
+  filter?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface ImportMachinesGetAllMachinesInSiteAsyncOptionalParams extends msRest.RequestOptionsBase {
+  filter?: string;
+  /**
+   * Optional parameter for page size.
+   */
+  pageSize?: number;
+  /**
+   * Optional parameter for continuation token.
+   */
+  continuationToken?: string;
+  /**
+   * Total record count.
+   */
+  totalRecordCount?: number;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface ServersGetAllMachinesInSiteOptionalParams extends msRest.RequestOptionsBase {
+  filter?: string;
+  /**
+   * Optional parameter for page size.
+   */
+  pageSize?: number;
+  /**
+   * Optional parameter for continuation token.
+   */
+  continuationToken?: string;
+  /**
+   * Total record count.
+   */
+  totalRecordCount?: number;
+}
+
+/**
+ * An interface representing MicrosoftAzureFDSWebRoleOptions.
+ */
+export interface MicrosoftAzureFDSWebRoleOptions extends AzureServiceClientOptions {
   baseUri?: string;
 }
 
 /**
- * Defines headers for ListBySubscription operation.
+ * Defines headers for PutCluster operation.
  */
-export interface ProjectsListBySubscriptionHeaders {
+export interface HyperVClusterPutClusterHeaders {
   /**
-   * Service generated Request ID.
+   * Tracking URL for long running operation.
    */
-  xMsRequestId: string;
+  azureAsyncOperation: string;
 }
 
 /**
- * Defines headers for ListByResourceGroup operation.
+ * Defines headers for PutHost operation.
  */
-export interface ProjectsListByResourceGroupHeaders {
+export interface HyperVHostPutHostHeaders {
   /**
-   * Service generated Request ID.
+   * Tracking URL for long running operation.
    */
-  xMsRequestId: string;
+  azureAsyncOperation: string;
 }
 
 /**
- * Defines headers for Get operation.
+ * Defines headers for StopMachine operation.
  */
-export interface ProjectsGetHeaders {
+export interface HyperVMachinesStopMachineHeaders {
   /**
-   * Service generated Request ID.
+   * Tracking URL for long running operation.
    */
-  xMsRequestId: string;
+  azureAsyncOperation: string;
 }
 
 /**
- * Defines headers for Create operation.
+ * Defines headers for RefreshSite operation.
  */
-export interface ProjectsCreateHeaders {
+export interface HyperVSitesRefreshSiteHeaders {
   /**
-   * Service generated Request ID.
+   * Tracking URL for long running operation.
    */
-  xMsRequestId: string;
+  azureAsyncOperation: string;
 }
 
 /**
- * Defines headers for Update operation.
+ * Defines headers for StopMachine operation.
  */
-export interface ProjectsUpdateHeaders {
+export interface MachinesStopMachineHeaders {
   /**
-   * Service generated Request ID.
+   * Tracking URL for long running operation.
    */
-  xMsRequestId: string;
+  azureAsyncOperation: string;
 }
 
 /**
- * Defines headers for Delete operation.
+ * Defines headers for StartMachine operation.
  */
-export interface ProjectsDeleteHeaders {
+export interface MachinesStartMachineHeaders {
   /**
-   * Service generated Request ID.
+   * Tracking URL for long running operation.
    */
-  xMsRequestId: string;
+  azureAsyncOperation: string;
 }
 
 /**
- * Defines headers for GetKeys operation.
+ * Defines headers for RefreshSite operation.
  */
-export interface ProjectsGetKeysHeaders {
+export interface SitesRefreshSiteHeaders {
   /**
-   * Service generated Request ID.
+   * Tracking URL for long running operation.
    */
-  xMsRequestId: string;
+  azureAsyncOperation: string;
 }
 
 /**
- * Defines headers for ListByProject operation.
+ * Defines headers for PutVCenter operation.
  */
-export interface MachinesListByProjectHeaders {
+export interface VCenterPutVCenterHeaders {
   /**
-   * Service generated Request ID.
+   * Tracking URL for long running operation.
    */
-  xMsRequestId: string;
+  azureAsyncOperation: string;
 }
 
 /**
- * Defines headers for Get operation.
+ * Defines headers for PutMachine operation.
  */
-export interface MachinesGetHeaders {
+export interface ServersPutMachineHeaders {
   /**
-   * Service generated Request ID.
+   * Tracking URL for long running operation.
    */
-  xMsRequestId: string;
+  azureAsyncOperation: string;
 }
 
 /**
- * Defines headers for ListByProject operation.
+ * Defines headers for RefreshSite operation.
  */
-export interface GroupsListByProjectHeaders {
+export interface ServerSitesRefreshSiteHeaders {
   /**
-   * Service generated Request ID.
+   * Tracking URL for long running operation.
    */
-  xMsRequestId: string;
+  azureAsyncOperation: string;
 }
 
 /**
- * Defines headers for Get operation.
- */
-export interface GroupsGetHeaders {
-  /**
-   * Service generated Request ID.
-   */
-  xMsRequestId: string;
-}
-
-/**
- * Defines headers for Create operation.
- */
-export interface GroupsCreateHeaders {
-  /**
-   * Service generated Request ID.
-   */
-  xMsRequestId: string;
-}
-
-/**
- * Defines headers for Delete operation.
- */
-export interface GroupsDeleteHeaders {
-  /**
-   * Service generated Request ID.
-   */
-  xMsRequestId: string;
-}
-
-/**
- * Defines headers for ListByGroup operation.
- */
-export interface AssessmentsListByGroupHeaders {
-  /**
-   * Service generated Request ID.
-   */
-  xMsRequestId: string;
-}
-
-/**
- * Defines headers for ListByProject operation.
- */
-export interface AssessmentsListByProjectHeaders {
-  /**
-   * Service generated Request ID.
-   */
-  xMsRequestId: string;
-}
-
-/**
- * Defines headers for Get operation.
- */
-export interface AssessmentsGetHeaders {
-  /**
-   * Service generated Request ID.
-   */
-  xMsRequestId: string;
-}
-
-/**
- * Defines headers for Create operation.
- */
-export interface AssessmentsCreateHeaders {
-  /**
-   * Service generated Request ID.
-   */
-  xMsRequestId: string;
-}
-
-/**
- * Defines headers for Delete operation.
- */
-export interface AssessmentsDeleteHeaders {
-  /**
-   * Service generated Request ID.
-   */
-  xMsRequestId: string;
-}
-
-/**
- * Defines headers for GetReportDownloadUrl operation.
- */
-export interface AssessmentsGetReportDownloadUrlHeaders {
-  /**
-   * Service generated Request ID.
-   */
-  xMsRequestId: string;
-}
-
-/**
- * Defines headers for ListByAssessment operation.
- */
-export interface AssessedMachinesListByAssessmentHeaders {
-  /**
-   * Service generated Request ID.
-   */
-  xMsRequestId: string;
-}
-
-/**
- * Defines headers for Get operation.
- */
-export interface AssessedMachinesGetHeaders {
-  /**
-   * Service generated Request ID.
-   */
-  xMsRequestId: string;
-}
-
-/**
- * @interface
- * List of projects.
- * @extends Array<Project>
- */
-export interface ProjectResultList extends Array<Project> {
-}
-
-/**
- * @interface
- * List of machines.
- * @extends Array<Machine>
- */
-export interface MachineResultList extends Array<Machine> {
-}
-
-/**
- * @interface
- * List of groups.
- * @extends Array<Group>
- */
-export interface GroupResultList extends Array<Group> {
-}
-
-/**
- * @interface
- * List of assessments.
- * @extends Array<Assessment>
- */
-export interface AssessmentResultList extends Array<Assessment> {
-}
-
-/**
- * @interface
- * List of assessed machines.
- * @extends Array<AssessedMachine>
- */
-export interface AssessedMachineResultList extends Array<AssessedMachine> {
-}
-
-/**
- * @interface
- * List of API operations.
- * @extends Array<Operation>
- */
-export interface OperationResultList extends Array<Operation> {
-}
-
-/**
- * Defines values for DiscoveryStatus.
- * Possible values include: 'Unknown', 'NotStarted', 'InProgress', 'Completed'
+ * Defines values for HighAvailability.
+ * Possible values include: 'Unknown', 'No', 'Yes'
  * @readonly
  * @enum {string}
  */
-export type DiscoveryStatus = 'Unknown' | 'NotStarted' | 'InProgress' | 'Completed';
+export type HighAvailability = 'Unknown' | 'No' | 'Yes';
 
 /**
- * Defines values for ProvisioningState.
- * Possible values include: 'Accepted', 'Creating', 'Deleting', 'Failed', 'Moving', 'Succeeded'
- * @readonly
- * @enum {string}
+ * Contains response data for the getCluster operation.
  */
-export type ProvisioningState = 'Accepted' | 'Creating' | 'Deleting' | 'Failed' | 'Moving' | 'Succeeded';
-
-/**
- * Defines values for AzureLocation.
- * Possible values include: 'Unknown', 'EastAsia', 'SoutheastAsia', 'AustraliaEast',
- * 'AustraliaSoutheast', 'BrazilSouth', 'CanadaCentral', 'CanadaEast', 'WestEurope', 'NorthEurope',
- * 'CentralIndia', 'SouthIndia', 'WestIndia', 'JapanEast', 'JapanWest', 'KoreaCentral',
- * 'KoreaSouth', 'UkWest', 'UkSouth', 'NorthCentralUs', 'EastUs', 'WestUs2', 'SouthCentralUs',
- * 'CentralUs', 'EastUs2', 'WestUs', 'WestCentralUs', 'GermanyCentral', 'GermanyNortheast',
- * 'ChinaNorth', 'ChinaEast'
- * @readonly
- * @enum {string}
- */
-export type AzureLocation = 'Unknown' | 'EastAsia' | 'SoutheastAsia' | 'AustraliaEast' | 'AustraliaSoutheast' | 'BrazilSouth' | 'CanadaCentral' | 'CanadaEast' | 'WestEurope' | 'NorthEurope' | 'CentralIndia' | 'SouthIndia' | 'WestIndia' | 'JapanEast' | 'JapanWest' | 'KoreaCentral' | 'KoreaSouth' | 'UkWest' | 'UkSouth' | 'NorthCentralUs' | 'EastUs' | 'WestUs2' | 'SouthCentralUs' | 'CentralUs' | 'EastUs2' | 'WestUs' | 'WestCentralUs' | 'GermanyCentral' | 'GermanyNortheast' | 'ChinaNorth' | 'ChinaEast';
-
-/**
- * Defines values for AzureOfferCode.
- * Possible values include: 'Unknown', 'MSAZR0003P', 'MSAZR0044P', 'MSAZR0059P', 'MSAZR0060P',
- * 'MSAZR0062P', 'MSAZR0063P', 'MSAZR0064P', 'MSAZR0029P', 'MSAZR0022P', 'MSAZR0023P',
- * 'MSAZR0148P', 'MSAZR0025P', 'MSAZR0036P', 'MSAZR0120P', 'MSAZR0121P', 'MSAZR0122P',
- * 'MSAZR0123P', 'MSAZR0124P', 'MSAZR0125P', 'MSAZR0126P', 'MSAZR0127P', 'MSAZR0128P',
- * 'MSAZR0129P', 'MSAZR0130P', 'MSAZR0111P', 'MSAZR0144P', 'MSAZR0149P', 'MSMCAZR0044P',
- * 'MSMCAZR0059P', 'MSMCAZR0060P', 'MSMCAZR0063P', 'MSMCAZR0120P', 'MSMCAZR0121P', 'MSMCAZR0125P',
- * 'MSMCAZR0128P', 'MSAZRDE0003P', 'MSAZRDE0044P'
- * @readonly
- * @enum {string}
- */
-export type AzureOfferCode = 'Unknown' | 'MSAZR0003P' | 'MSAZR0044P' | 'MSAZR0059P' | 'MSAZR0060P' | 'MSAZR0062P' | 'MSAZR0063P' | 'MSAZR0064P' | 'MSAZR0029P' | 'MSAZR0022P' | 'MSAZR0023P' | 'MSAZR0148P' | 'MSAZR0025P' | 'MSAZR0036P' | 'MSAZR0120P' | 'MSAZR0121P' | 'MSAZR0122P' | 'MSAZR0123P' | 'MSAZR0124P' | 'MSAZR0125P' | 'MSAZR0126P' | 'MSAZR0127P' | 'MSAZR0128P' | 'MSAZR0129P' | 'MSAZR0130P' | 'MSAZR0111P' | 'MSAZR0144P' | 'MSAZR0149P' | 'MSMCAZR0044P' | 'MSMCAZR0059P' | 'MSMCAZR0060P' | 'MSMCAZR0063P' | 'MSMCAZR0120P' | 'MSMCAZR0121P' | 'MSMCAZR0125P' | 'MSMCAZR0128P' | 'MSAZRDE0003P' | 'MSAZRDE0044P';
-
-/**
- * Defines values for AzurePricingTier.
- * Possible values include: 'Standard', 'Basic'
- * @readonly
- * @enum {string}
- */
-export type AzurePricingTier = 'Standard' | 'Basic';
-
-/**
- * Defines values for AzureStorageRedundancy.
- * Possible values include: 'Unknown', 'LocallyRedundant', 'ZoneRedundant', 'GeoRedundant',
- * 'ReadAccessGeoRedundant'
- * @readonly
- * @enum {string}
- */
-export type AzureStorageRedundancy = 'Unknown' | 'LocallyRedundant' | 'ZoneRedundant' | 'GeoRedundant' | 'ReadAccessGeoRedundant';
-
-/**
- * Defines values for Percentile.
- * Possible values include: 'Percentile50', 'Percentile90', 'Percentile95', 'Percentile99'
- * @readonly
- * @enum {string}
- */
-export type Percentile = 'Percentile50' | 'Percentile90' | 'Percentile95' | 'Percentile99';
-
-/**
- * Defines values for TimeRange.
- * Possible values include: 'Day', 'Week', 'Month'
- * @readonly
- * @enum {string}
- */
-export type TimeRange = 'Day' | 'Week' | 'Month';
-
-/**
- * Defines values for AssessmentStage.
- * Possible values include: 'InProgress', 'UnderReview', 'Approved'
- * @readonly
- * @enum {string}
- */
-export type AssessmentStage = 'InProgress' | 'UnderReview' | 'Approved';
-
-/**
- * Defines values for Currency.
- * Possible values include: 'Unknown', 'USD', 'DKK', 'CAD', 'IDR', 'JPY', 'KRW', 'NZD', 'NOK',
- * 'RUB', 'SAR', 'ZAR', 'SEK', 'TRY', 'GBP', 'MXN', 'MYR', 'INR', 'HKD', 'BRL', 'TWD', 'EUR',
- * 'CHF', 'ARS', 'AUD', 'CNY'
- * @readonly
- * @enum {string}
- */
-export type Currency = 'Unknown' | 'USD' | 'DKK' | 'CAD' | 'IDR' | 'JPY' | 'KRW' | 'NZD' | 'NOK' | 'RUB' | 'SAR' | 'ZAR' | 'SEK' | 'TRY' | 'GBP' | 'MXN' | 'MYR' | 'INR' | 'HKD' | 'BRL' | 'TWD' | 'EUR' | 'CHF' | 'ARS' | 'AUD' | 'CNY';
-
-/**
- * Defines values for AzureHybridUseBenefit.
- * Possible values include: 'Unknown', 'Yes', 'No'
- * @readonly
- * @enum {string}
- */
-export type AzureHybridUseBenefit = 'Unknown' | 'Yes' | 'No';
-
-/**
- * Defines values for AssessmentSizingCriterion.
- * Possible values include: 'PerformanceBased', 'AsOnPremises'
- * @readonly
- * @enum {string}
- */
-export type AssessmentSizingCriterion = 'PerformanceBased' | 'AsOnPremises';
-
-/**
- * Defines values for AssessmentStatus.
- * Possible values include: 'Created', 'Updated', 'Running', 'Completed', 'Invalid'
- * @readonly
- * @enum {string}
- */
-export type AssessmentStatus = 'Created' | 'Updated' | 'Running' | 'Completed' | 'Invalid';
-
-/**
- * Defines values for MachineBootType.
- * Possible values include: 'Unknown', 'EFI', 'BIOS'
- * @readonly
- * @enum {string}
- */
-export type MachineBootType = 'Unknown' | 'EFI' | 'BIOS';
-
-/**
- * Defines values for AzureDiskType.
- * Possible values include: 'Unknown', 'Standard', 'Premium'
- * @readonly
- * @enum {string}
- */
-export type AzureDiskType = 'Unknown' | 'Standard' | 'Premium';
-
-/**
- * Defines values for AzureDiskSize.
- * Possible values include: 'Unknown', 'Standard_S4', 'Standard_S6', 'Standard_S10',
- * 'Standard_S20', 'Standard_S30', 'Standard_S40', 'Standard_S50', 'Premium_P4', 'Premium_P6',
- * 'Premium_P10', 'Premium_P20', 'Premium_P30', 'Premium_P40', 'Premium_P50'
- * @readonly
- * @enum {string}
- */
-export type AzureDiskSize = 'Unknown' | 'Standard_S4' | 'Standard_S6' | 'Standard_S10' | 'Standard_S20' | 'Standard_S30' | 'Standard_S40' | 'Standard_S50' | 'Premium_P4' | 'Premium_P6' | 'Premium_P10' | 'Premium_P20' | 'Premium_P30' | 'Premium_P40' | 'Premium_P50';
-
-/**
- * Defines values for CloudSuitability.
- * Possible values include: 'Unknown', 'NotSuitable', 'Suitable', 'ConditionallySuitable',
- * 'ReadinessUnknown'
- * @readonly
- * @enum {string}
- */
-export type CloudSuitability = 'Unknown' | 'NotSuitable' | 'Suitable' | 'ConditionallySuitable' | 'ReadinessUnknown';
-
-/**
- * Defines values for AzureDiskSuitabilityExplanation.
- * Possible values include: 'Unknown', 'NotApplicable', 'DiskSizeGreaterThanSupported',
- * 'NoSuitableDiskSizeForIops', 'NoSuitableDiskSizeForThroughput',
- * 'NoDiskSizeFoundInSelectedLocation', 'NoDiskSizeFoundForSelectedRedundancy',
- * 'InternalErrorOccurredForDiskEvaluation'
- * @readonly
- * @enum {string}
- */
-export type AzureDiskSuitabilityExplanation = 'Unknown' | 'NotApplicable' | 'DiskSizeGreaterThanSupported' | 'NoSuitableDiskSizeForIops' | 'NoSuitableDiskSizeForThroughput' | 'NoDiskSizeFoundInSelectedLocation' | 'NoDiskSizeFoundForSelectedRedundancy' | 'InternalErrorOccurredForDiskEvaluation';
-
-/**
- * Defines values for AzureNetworkAdapterSuitabilityExplanation.
- * Possible values include: 'Unknown', 'NotApplicable', 'InternalErrorOccured'
- * @readonly
- * @enum {string}
- */
-export type AzureNetworkAdapterSuitabilityExplanation = 'Unknown' | 'NotApplicable' | 'InternalErrorOccured';
-
-/**
- * Defines values for AzureVmSize.
- * Possible values include: 'Unknown', 'Basic_A0', 'Basic_A1', 'Basic_A2', 'Basic_A3', 'Basic_A4',
- * 'Standard_A0', 'Standard_A1', 'Standard_A2', 'Standard_A3', 'Standard_A4', 'Standard_A5',
- * 'Standard_A6', 'Standard_A7', 'Standard_A8', 'Standard_A9', 'Standard_A10', 'Standard_A11',
- * 'Standard_A1_v2', 'Standard_A2_v2', 'Standard_A4_v2', 'Standard_A8_v2', 'Standard_A2m_v2',
- * 'Standard_A4m_v2', 'Standard_A8m_v2', 'Standard_D1', 'Standard_D2', 'Standard_D3',
- * 'Standard_D4', 'Standard_D11', 'Standard_D12', 'Standard_D13', 'Standard_D14', 'Standard_D1_v2',
- * 'Standard_D2_v2', 'Standard_D3_v2', 'Standard_D4_v2', 'Standard_D5_v2', 'Standard_D11_v2',
- * 'Standard_D12_v2', 'Standard_D13_v2', 'Standard_D14_v2', 'Standard_D15_v2', 'Standard_DS1',
- * 'Standard_DS2', 'Standard_DS3', 'Standard_DS4', 'Standard_DS11', 'Standard_DS12',
- * 'Standard_DS13', 'Standard_DS14', 'Standard_DS1_v2', 'Standard_DS2_v2', 'Standard_DS3_v2',
- * 'Standard_DS4_v2', 'Standard_DS5_v2', 'Standard_DS11_v2', 'Standard_DS12_v2',
- * 'Standard_DS13_v2', 'Standard_DS14_v2', 'Standard_DS15_v2', 'Standard_F1', 'Standard_F2',
- * 'Standard_F4', 'Standard_F8', 'Standard_F16', 'Standard_F1s', 'Standard_F2s', 'Standard_F4s',
- * 'Standard_F8s', 'Standard_F16s', 'Standard_G1', 'Standard_G2', 'Standard_G3', 'Standard_G4',
- * 'Standard_G5', 'Standard_GS1', 'Standard_GS2', 'Standard_GS3', 'Standard_GS4', 'Standard_GS5',
- * 'Standard_H8', 'Standard_H16', 'Standard_H8m', 'Standard_H16m', 'Standard_H16r',
- * 'Standard_H16mr', 'Standard_L4s', 'Standard_L8s', 'Standard_L16s', 'Standard_L32s'
- * @readonly
- * @enum {string}
- */
-export type AzureVmSize = 'Unknown' | 'Basic_A0' | 'Basic_A1' | 'Basic_A2' | 'Basic_A3' | 'Basic_A4' | 'Standard_A0' | 'Standard_A1' | 'Standard_A2' | 'Standard_A3' | 'Standard_A4' | 'Standard_A5' | 'Standard_A6' | 'Standard_A7' | 'Standard_A8' | 'Standard_A9' | 'Standard_A10' | 'Standard_A11' | 'Standard_A1_v2' | 'Standard_A2_v2' | 'Standard_A4_v2' | 'Standard_A8_v2' | 'Standard_A2m_v2' | 'Standard_A4m_v2' | 'Standard_A8m_v2' | 'Standard_D1' | 'Standard_D2' | 'Standard_D3' | 'Standard_D4' | 'Standard_D11' | 'Standard_D12' | 'Standard_D13' | 'Standard_D14' | 'Standard_D1_v2' | 'Standard_D2_v2' | 'Standard_D3_v2' | 'Standard_D4_v2' | 'Standard_D5_v2' | 'Standard_D11_v2' | 'Standard_D12_v2' | 'Standard_D13_v2' | 'Standard_D14_v2' | 'Standard_D15_v2' | 'Standard_DS1' | 'Standard_DS2' | 'Standard_DS3' | 'Standard_DS4' | 'Standard_DS11' | 'Standard_DS12' | 'Standard_DS13' | 'Standard_DS14' | 'Standard_DS1_v2' | 'Standard_DS2_v2' | 'Standard_DS3_v2' | 'Standard_DS4_v2' | 'Standard_DS5_v2' | 'Standard_DS11_v2' | 'Standard_DS12_v2' | 'Standard_DS13_v2' | 'Standard_DS14_v2' | 'Standard_DS15_v2' | 'Standard_F1' | 'Standard_F2' | 'Standard_F4' | 'Standard_F8' | 'Standard_F16' | 'Standard_F1s' | 'Standard_F2s' | 'Standard_F4s' | 'Standard_F8s' | 'Standard_F16s' | 'Standard_G1' | 'Standard_G2' | 'Standard_G3' | 'Standard_G4' | 'Standard_G5' | 'Standard_GS1' | 'Standard_GS2' | 'Standard_GS3' | 'Standard_GS4' | 'Standard_GS5' | 'Standard_H8' | 'Standard_H16' | 'Standard_H8m' | 'Standard_H16m' | 'Standard_H16r' | 'Standard_H16mr' | 'Standard_L4s' | 'Standard_L8s' | 'Standard_L16s' | 'Standard_L32s';
-
-/**
- * Defines values for AzureVmSuitabilityExplanation.
- * Possible values include: 'Unknown', 'NotApplicable',
- * 'GuestOperatingSystemArchitectureNotSupported', 'GuestOperatingSystemNotSupported',
- * 'BootTypeNotSupported', 'MoreDisksThanSupported', 'NoSuitableVmSizeFound',
- * 'OneOrMoreDisksNotSuitable', 'OneOrMoreAdaptersNotSuitable',
- * 'InternalErrorOccuredDuringComputeEvaluation', 'InternalErrorOccuredDuringStorageEvaluation',
- * 'InternalErrorOccuredDuringNetworkEvaluation', 'NoVmSizeSupportsStoragePerformance',
- * 'NoVmSizeSupportsNetworkPerformance', 'NoVmSizeForSelectedPricingTier',
- * 'NoVmSizeForSelectedAzureLocation', 'CheckRedHatLinuxVersion', 'CheckOpenSuseLinuxVersion',
- * 'CheckWindowsServer2008R2Version', 'CheckCentOsVersion', 'CheckDebianLinuxVersion',
- * 'CheckSuseLinuxVersion', 'CheckOracleLinuxVersion', 'CheckUbuntuLinuxVersion',
- * 'CheckCoreOsLinuxVersion', 'WindowsServerVersionConditionallySupported',
- * 'NoGuestOperatingSystemConditionallySupported', 'WindowsClientVersionsConditionallySupported',
- * 'BootTypeUnknown', 'GuestOperatingSystemUnknown', 'WindowsServerVersionsSupportedWithCaveat',
- * 'WindowsOSNoLongerUnderMSSupport', 'EndorsedWithConditionsLinuxDistributions',
- * 'UnendorsedLinuxDistributions', 'NoVmSizeForStandardPricingTier', 'NoVmSizeForBasicPricingTier'
- * @readonly
- * @enum {string}
- */
-export type AzureVmSuitabilityExplanation = 'Unknown' | 'NotApplicable' | 'GuestOperatingSystemArchitectureNotSupported' | 'GuestOperatingSystemNotSupported' | 'BootTypeNotSupported' | 'MoreDisksThanSupported' | 'NoSuitableVmSizeFound' | 'OneOrMoreDisksNotSuitable' | 'OneOrMoreAdaptersNotSuitable' | 'InternalErrorOccuredDuringComputeEvaluation' | 'InternalErrorOccuredDuringStorageEvaluation' | 'InternalErrorOccuredDuringNetworkEvaluation' | 'NoVmSizeSupportsStoragePerformance' | 'NoVmSizeSupportsNetworkPerformance' | 'NoVmSizeForSelectedPricingTier' | 'NoVmSizeForSelectedAzureLocation' | 'CheckRedHatLinuxVersion' | 'CheckOpenSuseLinuxVersion' | 'CheckWindowsServer2008R2Version' | 'CheckCentOsVersion' | 'CheckDebianLinuxVersion' | 'CheckSuseLinuxVersion' | 'CheckOracleLinuxVersion' | 'CheckUbuntuLinuxVersion' | 'CheckCoreOsLinuxVersion' | 'WindowsServerVersionConditionallySupported' | 'NoGuestOperatingSystemConditionallySupported' | 'WindowsClientVersionsConditionallySupported' | 'BootTypeUnknown' | 'GuestOperatingSystemUnknown' | 'WindowsServerVersionsSupportedWithCaveat' | 'WindowsOSNoLongerUnderMSSupport' | 'EndorsedWithConditionsLinuxDistributions' | 'UnendorsedLinuxDistributions' | 'NoVmSizeForStandardPricingTier' | 'NoVmSizeForBasicPricingTier';
-
-/**
- * Defines values for NameAvailabilityReason.
- * Possible values include: 'Available', 'Invalid', 'AlreadyExists'
- * @readonly
- * @enum {string}
- */
-export type NameAvailabilityReason = 'Available' | 'Invalid' | 'AlreadyExists';
-
-/**
- * Contains response data for the checkNameAvailability operation.
- */
-export type LocationCheckNameAvailabilityResponse = CheckNameAvailabilityResult & {
+export type HyperVClusterGetClusterResponse = HyperVCluster & {
   /**
    * The underlying HTTP response.
    */
@@ -1535,14 +2280,29 @@ export type LocationCheckNameAvailabilityResponse = CheckNameAvailabilityResult 
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: CheckNameAvailabilityResult;
+      parsedBody: HyperVCluster;
     };
 };
 
 /**
- * Contains response data for the get operation.
+ * Contains response data for the putCluster operation.
  */
-export type AssessmentOptionsGetResponse = AssessmentOptionsResultList & {
+export type HyperVClusterPutClusterResponse = HyperVClusterPutClusterHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: HyperVClusterPutClusterHeaders;
+    };
+};
+
+/**
+ * Contains response data for the getAllClustersInSite operation.
+ */
+export type HyperVClusterGetAllClustersInSiteResponse = HyperVClusterCollection & {
   /**
    * The underlying HTTP response.
    */
@@ -1555,509 +2315,14 @@ export type AssessmentOptionsGetResponse = AssessmentOptionsResultList & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: AssessmentOptionsResultList;
+      parsedBody: HyperVClusterCollection;
     };
 };
 
 /**
- * Contains response data for the listBySubscription operation.
+ * Contains response data for the getHost operation.
  */
-export type ProjectsListBySubscriptionResponse = ProjectResultList & ProjectsListBySubscriptionHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: ProjectsListBySubscriptionHeaders;
-
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ProjectResultList;
-    };
-};
-
-/**
- * Contains response data for the listByResourceGroup operation.
- */
-export type ProjectsListByResourceGroupResponse = ProjectResultList & ProjectsListByResourceGroupHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: ProjectsListByResourceGroupHeaders;
-
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ProjectResultList;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type ProjectsGetResponse = Project & ProjectsGetHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: ProjectsGetHeaders;
-
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Project;
-    };
-};
-
-/**
- * Contains response data for the create operation.
- */
-export type ProjectsCreateResponse = Project & ProjectsCreateHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: ProjectsCreateHeaders;
-
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Project;
-    };
-};
-
-/**
- * Contains response data for the update operation.
- */
-export type ProjectsUpdateResponse = Project & ProjectsUpdateHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: ProjectsUpdateHeaders;
-
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Project;
-    };
-};
-
-/**
- * Contains response data for the deleteMethod operation.
- */
-export type ProjectsDeleteResponse = ProjectsDeleteHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: ProjectsDeleteHeaders;
-    };
-};
-
-/**
- * Contains response data for the getKeys operation.
- */
-export type ProjectsGetKeysResponse = ProjectKey & ProjectsGetKeysHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: ProjectsGetKeysHeaders;
-
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ProjectKey;
-    };
-};
-
-/**
- * Contains response data for the listByProject operation.
- */
-export type MachinesListByProjectResponse = MachineResultList & MachinesListByProjectHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: MachinesListByProjectHeaders;
-
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MachineResultList;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type MachinesGetResponse = Machine & MachinesGetHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: MachinesGetHeaders;
-
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Machine;
-    };
-};
-
-/**
- * Contains response data for the listByProject operation.
- */
-export type GroupsListByProjectResponse = GroupResultList & GroupsListByProjectHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: GroupsListByProjectHeaders;
-
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: GroupResultList;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type GroupsGetResponse = Group & GroupsGetHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: GroupsGetHeaders;
-
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Group;
-    };
-};
-
-/**
- * Contains response data for the create operation.
- */
-export type GroupsCreateResponse = Group & GroupsCreateHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: GroupsCreateHeaders;
-
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Group;
-    };
-};
-
-/**
- * Contains response data for the deleteMethod operation.
- */
-export type GroupsDeleteResponse = GroupsDeleteHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: GroupsDeleteHeaders;
-    };
-};
-
-/**
- * Contains response data for the listByGroup operation.
- */
-export type AssessmentsListByGroupResponse = AssessmentResultList & AssessmentsListByGroupHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: AssessmentsListByGroupHeaders;
-
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AssessmentResultList;
-    };
-};
-
-/**
- * Contains response data for the listByProject operation.
- */
-export type AssessmentsListByProjectResponse = AssessmentResultList & AssessmentsListByProjectHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: AssessmentsListByProjectHeaders;
-
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AssessmentResultList;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type AssessmentsGetResponse = Assessment & AssessmentsGetHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: AssessmentsGetHeaders;
-
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Assessment;
-    };
-};
-
-/**
- * Contains response data for the create operation.
- */
-export type AssessmentsCreateResponse = Assessment & AssessmentsCreateHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: AssessmentsCreateHeaders;
-
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Assessment;
-    };
-};
-
-/**
- * Contains response data for the deleteMethod operation.
- */
-export type AssessmentsDeleteResponse = AssessmentsDeleteHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: AssessmentsDeleteHeaders;
-    };
-};
-
-/**
- * Contains response data for the getReportDownloadUrl operation.
- */
-export type AssessmentsGetReportDownloadUrlResponse = DownloadUrl & AssessmentsGetReportDownloadUrlHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: AssessmentsGetReportDownloadUrlHeaders;
-
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DownloadUrl;
-    };
-};
-
-/**
- * Contains response data for the listByAssessment operation.
- */
-export type AssessedMachinesListByAssessmentResponse = AssessedMachineResultList & AssessedMachinesListByAssessmentHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: AssessedMachinesListByAssessmentHeaders;
-
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AssessedMachineResultList;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type AssessedMachinesGetResponse = AssessedMachine & AssessedMachinesGetHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: AssessedMachinesGetHeaders;
-
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AssessedMachine;
-    };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type OperationsListResponse = OperationResultList & {
+export type HyperVHostGetHostResponse = HyperVHost & {
   /**
    * The underlying HTTP response.
    */
@@ -2070,6 +2335,1041 @@ export type OperationsListResponse = OperationResultList & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: OperationResultList;
+      parsedBody: HyperVHost;
+    };
+};
+
+/**
+ * Contains response data for the putHost operation.
+ */
+export type HyperVHostPutHostResponse = HyperVHostPutHostHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: HyperVHostPutHostHeaders;
+    };
+};
+
+/**
+ * Contains response data for the getAllHostsInSite operation.
+ */
+export type HyperVHostGetAllHostsInSiteResponse = HyperVHostCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: HyperVHostCollection;
+    };
+};
+
+/**
+ * Contains response data for the getJob operation.
+ */
+export type HyperVJobsGetJobResponse = HyperVJob & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: HyperVJob;
+    };
+};
+
+/**
+ * Contains response data for the getAllJobsInSite operation.
+ */
+export type HyperVJobsGetAllJobsInSiteResponse = HyperVJobCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: HyperVJobCollection;
+    };
+};
+
+/**
+ * Contains response data for the getMachine operation.
+ */
+export type HyperVMachinesGetMachineResponse = HyperVMachine & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: HyperVMachine;
+    };
+};
+
+/**
+ * Contains response data for the getAllMachinesInSite operation.
+ */
+export type HyperVMachinesGetAllMachinesInSiteResponse = HyperVMachineCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: HyperVMachineCollection;
+    };
+};
+
+/**
+ * Contains response data for the stopMachine operation.
+ */
+export type HyperVMachinesStopMachineResponse = HyperVMachinesStopMachineHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: HyperVMachinesStopMachineHeaders;
+    };
+};
+
+/**
+ * Contains response data for the getOperationStatus operation.
+ */
+export type HyperVOperationsStatusGetOperationStatusResponse = OperationStatus & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OperationStatus;
+    };
+};
+
+/**
+ * Contains response data for the getRunAsAccount operation.
+ */
+export type HyperVRunAsAccountsGetRunAsAccountResponse = HyperVRunAsAccount & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: HyperVRunAsAccount;
+    };
+};
+
+/**
+ * Contains response data for the getAllRunAsAccountsInSite operation.
+ */
+export type HyperVRunAsAccountsGetAllRunAsAccountsInSiteResponse = HyperVRunAsAccountCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: HyperVRunAsAccountCollection;
+    };
+};
+
+/**
+ * Contains response data for the getSite operation.
+ */
+export type HyperVSitesGetSiteResponse = HyperVSite & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: HyperVSite;
+    };
+};
+
+/**
+ * Contains response data for the putSite operation.
+ */
+export type HyperVSitesPutSiteResponse = HyperVSite & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: HyperVSite;
+    };
+};
+
+/**
+ * Contains response data for the patchSite operation.
+ */
+export type HyperVSitesPatchSiteResponse = HyperVSite & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: HyperVSite;
+    };
+};
+
+/**
+ * Contains response data for the refreshSite operation.
+ */
+export type HyperVSitesRefreshSiteResponse = HyperVSitesRefreshSiteHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: HyperVSitesRefreshSiteHeaders;
+    };
+};
+
+/**
+ * Contains response data for the getSiteUsage operation.
+ */
+export type HyperVSitesGetSiteUsageResponse = HyperVSiteUsage & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: HyperVSiteUsage;
+    };
+};
+
+/**
+ * Contains response data for the getSiteHealthSummary operation.
+ */
+export type HyperVSitesGetSiteHealthSummaryResponse = SiteHealthSummaryCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SiteHealthSummaryCollection;
+    };
+};
+
+/**
+ * Contains response data for the getJob operation.
+ */
+export type JobsGetJobResponse = VMwareJob & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VMwareJob;
+    };
+};
+
+/**
+ * Contains response data for the getAllJobsInSite operation.
+ */
+export type JobsGetAllJobsInSiteResponse = VMwareJobCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VMwareJobCollection;
+    };
+};
+
+/**
+ * Contains response data for the getMachine operation.
+ */
+export type MachinesGetMachineResponse = VMwareMachine & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VMwareMachine;
+    };
+};
+
+/**
+ * Contains response data for the getAllMachinesInSite operation.
+ */
+export type MachinesGetAllMachinesInSiteResponse = VMwareMachineCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VMwareMachineCollection;
+    };
+};
+
+/**
+ * Contains response data for the stopMachine operation.
+ */
+export type MachinesStopMachineResponse = MachinesStopMachineHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: MachinesStopMachineHeaders;
+    };
+};
+
+/**
+ * Contains response data for the startMachine operation.
+ */
+export type MachinesStartMachineResponse = MachinesStartMachineHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: MachinesStartMachineHeaders;
+    };
+};
+
+/**
+ * Contains response data for the getRunAsAccount operation.
+ */
+export type RunAsAccountsGetRunAsAccountResponse = VMwareRunAsAccount & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VMwareRunAsAccount;
+    };
+};
+
+/**
+ * Contains response data for the getAllRunAsAccountsInSite operation.
+ */
+export type RunAsAccountsGetAllRunAsAccountsInSiteResponse = VMwareRunAsAccountCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VMwareRunAsAccountCollection;
+    };
+};
+
+/**
+ * Contains response data for the getSite operation.
+ */
+export type SitesGetSiteResponse = VMwareSite & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VMwareSite;
+    };
+};
+
+/**
+ * Contains response data for the putSite operation.
+ */
+export type SitesPutSiteResponse = VMwareSite & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VMwareSite;
+    };
+};
+
+/**
+ * Contains response data for the patchSite operation.
+ */
+export type SitesPatchSiteResponse = VMwareSite & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VMwareSite;
+    };
+};
+
+/**
+ * Contains response data for the refreshSite operation.
+ */
+export type SitesRefreshSiteResponse = SitesRefreshSiteHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: SitesRefreshSiteHeaders;
+    };
+};
+
+/**
+ * Contains response data for the getSiteUsage operation.
+ */
+export type SitesGetSiteUsageResponse = VMwareSiteUsage & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VMwareSiteUsage;
+    };
+};
+
+/**
+ * Contains response data for the getSiteHealthSummary operation.
+ */
+export type SitesGetSiteHealthSummaryResponse = SiteHealthSummaryCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SiteHealthSummaryCollection;
+    };
+};
+
+/**
+ * Contains response data for the getVCenter operation.
+ */
+export type VCenterGetVCenterResponse = VCenter & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VCenter;
+    };
+};
+
+/**
+ * Contains response data for the putVCenter operation.
+ */
+export type VCenterPutVCenterResponse = VCenterPutVCenterHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: VCenterPutVCenterHeaders;
+    };
+};
+
+/**
+ * Contains response data for the getAllVCentersInSite operation.
+ */
+export type VCenterGetAllVCentersInSiteResponse = VCenterCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VCenterCollection;
+    };
+};
+
+/**
+ * Contains response data for the getOperationStatus operation.
+ */
+export type VMwareOperationsStatusGetOperationStatusResponse = OperationStatus & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OperationStatus;
+    };
+};
+
+/**
+ * Contains response data for the getJob operation.
+ */
+export type ImportJobsGetJobResponse = ImportJob & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ImportJob;
+    };
+};
+
+/**
+ * Contains response data for the getAllJobsInSite operation.
+ */
+export type ImportJobsGetAllJobsInSiteResponse = ImportJobCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ImportJobCollection;
+    };
+};
+
+/**
+ * Contains response data for the getMachineAsync operation.
+ */
+export type ImportMachinesGetMachineAsyncResponse = ImportMachine & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ImportMachine;
+    };
+};
+
+/**
+ * Contains response data for the getAllMachinesInSiteAsync operation.
+ */
+export type ImportMachinesGetAllMachinesInSiteAsyncResponse = ImportMachineCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ImportMachineCollection;
+    };
+};
+
+/**
+ * Contains response data for the getSiteAsync operation.
+ */
+export type ImportSitesGetSiteAsyncResponse = ImportSite & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ImportSite;
+    };
+};
+
+/**
+ * Contains response data for the putSiteAsync operation.
+ */
+export type ImportSitesPutSiteAsyncResponse = ImportSite & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ImportSite;
+    };
+};
+
+/**
+ * Contains response data for the getImportUriAsync operation.
+ */
+export type ImportSitesGetImportUriAsyncResponse = SasUriResponse & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SasUriResponse;
+    };
+};
+
+/**
+ * Contains response data for the getExportUriAsync operation.
+ */
+export type ImportSitesGetExportUriAsyncResponse = SasUriResponse & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SasUriResponse;
+    };
+};
+
+/**
+ * Contains response data for the getJob operation.
+ */
+export type ServerJobsGetJobResponse = ServerJob & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ServerJob;
+    };
+};
+
+/**
+ * Contains response data for the getAllJobsInSite operation.
+ */
+export type ServerJobsGetAllJobsInSiteResponse = ServerJobCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ServerJobCollection;
+    };
+};
+
+/**
+ * Contains response data for the getOperationStatus operation.
+ */
+export type ServerOperationsStatusGetOperationStatusResponse = OperationStatus & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OperationStatus;
+    };
+};
+
+/**
+ * Contains response data for the getRunAsAccount operation.
+ */
+export type ServerRunAsAccountsGetRunAsAccountResponse = ServerRunAsAccount & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ServerRunAsAccount;
+    };
+};
+
+/**
+ * Contains response data for the getAllRunAsAccountsInSite operation.
+ */
+export type ServerRunAsAccountsGetAllRunAsAccountsInSiteResponse = ServerRunAsAccountCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ServerRunAsAccountCollection;
+    };
+};
+
+/**
+ * Contains response data for the getMachine operation.
+ */
+export type ServersGetMachineResponse = Server & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Server;
+    };
+};
+
+/**
+ * Contains response data for the putMachine operation.
+ */
+export type ServersPutMachineResponse = ServersPutMachineHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ServersPutMachineHeaders;
+    };
+};
+
+/**
+ * Contains response data for the getAllMachinesInSite operation.
+ */
+export type ServersGetAllMachinesInSiteResponse = ServerCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ServerCollection;
+    };
+};
+
+/**
+ * Contains response data for the getSite operation.
+ */
+export type ServerSitesGetSiteResponse = ServerSite & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ServerSite;
+    };
+};
+
+/**
+ * Contains response data for the putSite operation.
+ */
+export type ServerSitesPutSiteResponse = ServerSite & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ServerSite;
+    };
+};
+
+/**
+ * Contains response data for the refreshSite operation.
+ */
+export type ServerSitesRefreshSiteResponse = ServerSitesRefreshSiteHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ServerSitesRefreshSiteHeaders;
+    };
+};
+
+/**
+ * Contains response data for the getSiteUsage operation.
+ */
+export type ServerSitesGetSiteUsageResponse = ServerSiteUsage & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ServerSiteUsage;
     };
 };

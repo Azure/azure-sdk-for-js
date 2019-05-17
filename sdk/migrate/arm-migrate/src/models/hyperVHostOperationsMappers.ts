@@ -9,12 +9,8 @@
 export {
   CloudError,
   HealthErrorDetails,
-  MachinesStartMachineHeaders,
-  MachinesStopMachineHeaders,
-  OperatingSystem,
-  VMwareDisk,
-  VMwareMachine,
-  VMwareMachineCollection,
-  VMwareMachineProperties,
-  VMwareNetworkAdapter
+  HyperVHost,
+  HyperVHostCollection,
+  HyperVHostProperties,
+  HyperVHostPutHostHeaders
 } from "../models/mappers";

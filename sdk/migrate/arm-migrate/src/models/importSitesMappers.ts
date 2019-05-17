@@ -8,13 +8,7 @@
 
 export {
   CloudError,
-  HealthErrorDetails,
-  MachinesStartMachineHeaders,
-  MachinesStopMachineHeaders,
-  OperatingSystem,
-  VMwareDisk,
-  VMwareMachine,
-  VMwareMachineCollection,
-  VMwareMachineProperties,
-  VMwareNetworkAdapter
+  ImportSite,
+  ImportSiteProperties,
+  SasUriResponse
 } from "../models/mappers";

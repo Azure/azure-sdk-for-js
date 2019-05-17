@@ -1,7 +1,7 @@
 {
   "name": "@azure/arm-migrate",
   "author": "Microsoft Corporation",
-  "description": "AzureMigrate Library with typescript type definitions for node.js and browser.",
+  "description": "MicrosoftAzureFDSWebRole Library with typescript type definitions for node.js and browser.",
   "version": "1.1.0",
   "dependencies": {
     "@azure/ms-rest-azure-js": "^1.3.2",
@@ -17,8 +17,8 @@
   ],
   "license": "MIT",
   "main": "./dist/arm-migrate.js",
-  "module": "./esm/azureMigrate.js",
-  "types": "./esm/azureMigrate.d.ts",
+  "module": "./esm/microsoftAzureFDSWebRole.js",
+  "types": "./esm/microsoftAzureFDSWebRole.d.ts",
   "devDependencies": {
     "typescript": "^3.1.1",
     "rollup": "^0.66.2",

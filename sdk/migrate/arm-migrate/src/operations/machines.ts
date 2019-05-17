@@ -12,128 +12,202 @@ import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/machinesMappers";
 import * as Parameters from "../models/parameters";
-import { AzureMigrateContext } from "../azureMigrateContext";
+import { MicrosoftAzureFDSWebRoleContext } from "../microsoftAzureFDSWebRoleContext";
 
 /** Class representing a Machines. */
 export class Machines {
-  private readonly client: AzureMigrateContext;
+  private readonly client: MicrosoftAzureFDSWebRoleContext;
 
   /**
    * Create a Machines.
-   * @param {AzureMigrateContext} client Reference to the service client.
+   * @param {MicrosoftAzureFDSWebRoleContext} client Reference to the service client.
    */
-  constructor(client: AzureMigrateContext) {
+  constructor(client: MicrosoftAzureFDSWebRoleContext) {
     this.client = client;
   }
 
   /**
-   * Get data of all the machines available in the project. Returns a json array of objects of type
-   * 'machine' defined in Models section.
-   * @summary Get all machines in the project
-   * @param resourceGroupName Name of the Azure Resource Group that project is part of.
-   * @param projectName Name of the Azure Migrate project.
+   * @summary Method to get machine.
+   * @param subscriptionId Subscription Id.
+   * @param resourceGroupName Resource group name.
+   * @param siteName Site name.
+   * @param machineName Machine ARM name.
+   * @param apiVersion
    * @param [options] The optional parameters
-   * @returns Promise<Models.MachinesListByProjectResponse>
+   * @returns Promise<Models.MachinesGetMachineResponse>
    */
-  listByProject(resourceGroupName: string, projectName: string, options?: msRest.RequestOptionsBase): Promise<Models.MachinesListByProjectResponse>;
+  getMachine(subscriptionId: string, resourceGroupName: string, siteName: string, machineName: string, apiVersion: string, options?: msRest.RequestOptionsBase): Promise<Models.MachinesGetMachineResponse>;
   /**
-   * @param resourceGroupName Name of the Azure Resource Group that project is part of.
-   * @param projectName Name of the Azure Migrate project.
+   * @param subscriptionId Subscription Id.
+   * @param resourceGroupName Resource group name.
+   * @param siteName Site name.
+   * @param machineName Machine ARM name.
+   * @param apiVersion
    * @param callback The callback
    */
-  listByProject(resourceGroupName: string, projectName: string, callback: msRest.ServiceCallback<Models.MachineResultList>): void;
+  getMachine(subscriptionId: string, resourceGroupName: string, siteName: string, machineName: string, apiVersion: string, callback: msRest.ServiceCallback<Models.VMwareMachine>): void;
   /**
-   * @param resourceGroupName Name of the Azure Resource Group that project is part of.
-   * @param projectName Name of the Azure Migrate project.
+   * @param subscriptionId Subscription Id.
+   * @param resourceGroupName Resource group name.
+   * @param siteName Site name.
+   * @param machineName Machine ARM name.
+   * @param apiVersion
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByProject(resourceGroupName: string, projectName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MachineResultList>): void;
-  listByProject(resourceGroupName: string, projectName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MachineResultList>, callback?: msRest.ServiceCallback<Models.MachineResultList>): Promise<Models.MachinesListByProjectResponse> {
+  getMachine(subscriptionId: string, resourceGroupName: string, siteName: string, machineName: string, apiVersion: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VMwareMachine>): void;
+  getMachine(subscriptionId: string, resourceGroupName: string, siteName: string, machineName: string, apiVersion: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VMwareMachine>, callback?: msRest.ServiceCallback<Models.VMwareMachine>): Promise<Models.MachinesGetMachineResponse> {
     return this.client.sendOperationRequest(
       {
+        subscriptionId,
         resourceGroupName,
-        projectName,
+        siteName,
+        machineName,
+        apiVersion,
         options
       },
-      listByProjectOperationSpec,
-      callback) as Promise<Models.MachinesListByProjectResponse>;
+      getMachineOperationSpec,
+      callback) as Promise<Models.MachinesGetMachineResponse>;
   }
 
   /**
-   * Get the machine with the specified name. Returns a json object of type 'machine' defined in
-   * Models section.
-   * @summary Get a specific machine.
-   * @param resourceGroupName Name of the Azure Resource Group that project is part of.
-   * @param projectName Name of the Azure Migrate project.
-   * @param machineName Unique name of a machine in private datacenter.
+   * @summary Method to get machine.
+   * @param subscriptionId Subscription Id.
+   * @param resourceGroupName Resource group name.
+   * @param siteName Site name.
+   * @param apiVersion
    * @param [options] The optional parameters
-   * @returns Promise<Models.MachinesGetResponse>
+   * @returns Promise<Models.MachinesGetAllMachinesInSiteResponse>
    */
-  get(resourceGroupName: string, projectName: string, machineName: string, options?: msRest.RequestOptionsBase): Promise<Models.MachinesGetResponse>;
+  getAllMachinesInSite(subscriptionId: string, resourceGroupName: string, siteName: string, apiVersion: string, options?: Models.MachinesGetAllMachinesInSiteOptionalParams): Promise<Models.MachinesGetAllMachinesInSiteResponse>;
   /**
-   * @param resourceGroupName Name of the Azure Resource Group that project is part of.
-   * @param projectName Name of the Azure Migrate project.
-   * @param machineName Unique name of a machine in private datacenter.
+   * @param subscriptionId Subscription Id.
+   * @param resourceGroupName Resource group name.
+   * @param siteName Site name.
+   * @param apiVersion
    * @param callback The callback
    */
-  get(resourceGroupName: string, projectName: string, machineName: string, callback: msRest.ServiceCallback<Models.Machine>): void;
+  getAllMachinesInSite(subscriptionId: string, resourceGroupName: string, siteName: string, apiVersion: string, callback: msRest.ServiceCallback<Models.VMwareMachineCollection>): void;
   /**
-   * @param resourceGroupName Name of the Azure Resource Group that project is part of.
-   * @param projectName Name of the Azure Migrate project.
-   * @param machineName Unique name of a machine in private datacenter.
+   * @param subscriptionId Subscription Id.
+   * @param resourceGroupName Resource group name.
+   * @param siteName Site name.
+   * @param apiVersion
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, projectName: string, machineName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Machine>): void;
-  get(resourceGroupName: string, projectName: string, machineName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Machine>, callback?: msRest.ServiceCallback<Models.Machine>): Promise<Models.MachinesGetResponse> {
+  getAllMachinesInSite(subscriptionId: string, resourceGroupName: string, siteName: string, apiVersion: string, options: Models.MachinesGetAllMachinesInSiteOptionalParams, callback: msRest.ServiceCallback<Models.VMwareMachineCollection>): void;
+  getAllMachinesInSite(subscriptionId: string, resourceGroupName: string, siteName: string, apiVersion: string, options?: Models.MachinesGetAllMachinesInSiteOptionalParams | msRest.ServiceCallback<Models.VMwareMachineCollection>, callback?: msRest.ServiceCallback<Models.VMwareMachineCollection>): Promise<Models.MachinesGetAllMachinesInSiteResponse> {
     return this.client.sendOperationRequest(
       {
+        subscriptionId,
         resourceGroupName,
-        projectName,
-        machineName,
+        siteName,
+        apiVersion,
         options
       },
-      getOperationSpec,
-      callback) as Promise<Models.MachinesGetResponse>;
+      getAllMachinesInSiteOperationSpec,
+      callback) as Promise<Models.MachinesGetAllMachinesInSiteResponse>;
+  }
+
+  /**
+   * @summary Method to stop a machine.
+   * @param subscriptionId Subscription Id.
+   * @param resourceGroupName Resource group name.
+   * @param siteName Site name.
+   * @param machineName Machine ARM name.
+   * @param apiVersion
+   * @param [options] The optional parameters
+   * @returns Promise<Models.MachinesStopMachineResponse>
+   */
+  stopMachine(subscriptionId: string, resourceGroupName: string, siteName: string, machineName: string, apiVersion: string, options?: msRest.RequestOptionsBase): Promise<Models.MachinesStopMachineResponse>;
+  /**
+   * @param subscriptionId Subscription Id.
+   * @param resourceGroupName Resource group name.
+   * @param siteName Site name.
+   * @param machineName Machine ARM name.
+   * @param apiVersion
+   * @param callback The callback
+   */
+  stopMachine(subscriptionId: string, resourceGroupName: string, siteName: string, machineName: string, apiVersion: string, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param subscriptionId Subscription Id.
+   * @param resourceGroupName Resource group name.
+   * @param siteName Site name.
+   * @param machineName Machine ARM name.
+   * @param apiVersion
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  stopMachine(subscriptionId: string, resourceGroupName: string, siteName: string, machineName: string, apiVersion: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  stopMachine(subscriptionId: string, resourceGroupName: string, siteName: string, machineName: string, apiVersion: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.MachinesStopMachineResponse> {
+    return this.client.sendOperationRequest(
+      {
+        subscriptionId,
+        resourceGroupName,
+        siteName,
+        machineName,
+        apiVersion,
+        options
+      },
+      stopMachineOperationSpec,
+      callback) as Promise<Models.MachinesStopMachineResponse>;
+  }
+
+  /**
+   * @summary Method to start a machine.
+   * @param subscriptionId Subscription Id.
+   * @param resourceGroupName Resource group name.
+   * @param siteName Site name.
+   * @param machineName Machine ARM name.
+   * @param apiVersion
+   * @param [options] The optional parameters
+   * @returns Promise<Models.MachinesStartMachineResponse>
+   */
+  startMachine(subscriptionId: string, resourceGroupName: string, siteName: string, machineName: string, apiVersion: string, options?: msRest.RequestOptionsBase): Promise<Models.MachinesStartMachineResponse>;
+  /**
+   * @param subscriptionId Subscription Id.
+   * @param resourceGroupName Resource group name.
+   * @param siteName Site name.
+   * @param machineName Machine ARM name.
+   * @param apiVersion
+   * @param callback The callback
+   */
+  startMachine(subscriptionId: string, resourceGroupName: string, siteName: string, machineName: string, apiVersion: string, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param subscriptionId Subscription Id.
+   * @param resourceGroupName Resource group name.
+   * @param siteName Site name.
+   * @param machineName Machine ARM name.
+   * @param apiVersion
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  startMachine(subscriptionId: string, resourceGroupName: string, siteName: string, machineName: string, apiVersion: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  startMachine(subscriptionId: string, resourceGroupName: string, siteName: string, machineName: string, apiVersion: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.MachinesStartMachineResponse> {
+    return this.client.sendOperationRequest(
+      {
+        subscriptionId,
+        resourceGroupName,
+        siteName,
+        machineName,
+        apiVersion,
+        options
+      },
+      startMachineOperationSpec,
+      callback) as Promise<Models.MachinesStartMachineResponse>;
   }
 }
 
 // Operation Specifications
 const serializer = new msRest.Serializer(Mappers);
-const listByProjectOperationSpec: msRest.OperationSpec = {
+const getMachineOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/projects/{projectName}/machines",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OffAzure/VMwareSites/{siteName}/machines/{machineName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.projectName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.MachineResultList,
-      headersMapper: Mappers.MachinesListByProjectHeaders
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  serializer
-};
-
-const getOperationSpec: msRest.OperationSpec = {
-  httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/projects/{projectName}/machines/{machineName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.projectName,
+    Parameters.siteName,
     Parameters.machineName
   ],
   queryParameters: [
@@ -144,8 +218,88 @@ const getOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.Machine,
-      headersMapper: Mappers.MachinesGetHeaders
+      bodyMapper: Mappers.VMwareMachine
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const getAllMachinesInSiteOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OffAzure/VMwareSites/{siteName}/machines",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.siteName
+  ],
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.filter,
+    Parameters.pageSize,
+    Parameters.continuationToken,
+    Parameters.totalRecordCount
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.VMwareMachineCollection
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const stopMachineOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OffAzure/VMwareSites/{siteName}/machines/{machineName}/stop",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.siteName,
+    Parameters.machineName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    202: {
+      headersMapper: Mappers.MachinesStopMachineHeaders
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const startMachineOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OffAzure/VMwareSites/{siteName}/machines/{machineName}/start",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.siteName,
+    Parameters.machineName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    202: {
+      headersMapper: Mappers.MachinesStartMachineHeaders
     },
     default: {
       bodyMapper: Mappers.CloudError

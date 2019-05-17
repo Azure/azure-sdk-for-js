@@ -8,13 +8,8 @@
 
 export {
   CloudError,
-  HealthErrorDetails,
-  MachinesStartMachineHeaders,
-  MachinesStopMachineHeaders,
-  OperatingSystem,
-  VMwareDisk,
-  VMwareMachine,
-  VMwareMachineCollection,
-  VMwareMachineProperties,
-  VMwareNetworkAdapter
+  ErrorDetails,
+  HyperVJob,
+  HyperVJobCollection,
+  JobProperties
 } from "../models/mappers";
