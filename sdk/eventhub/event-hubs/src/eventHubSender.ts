@@ -479,15 +479,15 @@ export class EventHubSender extends LinkEntity {
           let onModified: Func<EventContext, void>;
           let onAccepted: Func<EventContext, void>;
           const removeListeners = (): void => {
-           clearTimeout(waitTimer);
-           // When `removeListeners` is called on timeout, the sender might be closed and cleared
-           // So, check if it exists, before removing listeners from it.
-           if (this._sender) {
-            this._sender.removeListener(SenderEvents.rejected, onRejected);
-            this._sender.removeListener(SenderEvents.accepted, onAccepted);
-            this._sender.removeListener(SenderEvents.released, onReleased);
-            this._sender.removeListener(SenderEvents.modified, onModified);
-           }
+            clearTimeout(waitTimer);
+            // When `removeListeners` is called on timeout, the sender might be closed and cleared
+            // So, check if it exists, before removing listeners from it.
+            if (this._sender) {
+              this._sender.removeListener(SenderEvents.rejected, onRejected);
+              this._sender.removeListener(SenderEvents.accepted, onAccepted);
+              this._sender.removeListener(SenderEvents.released, onReleased);
+              this._sender.removeListener(SenderEvents.modified, onModified);
+            }
           };
 
           onAccepted = (context: EventContext) => {
@@ -554,7 +554,10 @@ export class EventHubSender extends LinkEntity {
           this._sender!.on(SenderEvents.rejected, onRejected);
           this._sender!.on(SenderEvents.modified, onModified);
           this._sender!.on(SenderEvents.released, onReleased);
-          waitTimer = setTimeout(actionAfterTimeout, options && options.idleTimeout ? options.idleTimeout : Constants.defaultOperationTimeoutInSeconds * 1000);
+          waitTimer = setTimeout(
+            actionAfterTimeout,
+            options && options.idleTimeout ? options.idleTimeout : Constants.defaultOperationTimeoutInSeconds * 1000
+          );
           const delivery = this._sender!.send(message, tag, format);
           log.sender(
             "[%s] Sender '%s', sent message with delivery id: %d and tag: %s",
@@ -583,7 +586,10 @@ export class EventHubSender extends LinkEntity {
       connectionId: this._context.connectionId,
       operationType: RetryOperationType.sendMessage,
       times: options && options.retryAttempts ? options.retryAttempts : Constants.defaultRetryAttempts,
-      delayInSeconds:  options && options.delayBetweenRetries ? options.delayBetweenRetries : Constants.defaultDelayBetweenOperationRetriesInSeconds + jitterInSeconds
+      delayInSeconds:
+        options && options.delayBetweenRetries
+          ? options.delayBetweenRetries
+          : Constants.defaultDelayBetweenOperationRetriesInSeconds + jitterInSeconds
     };
     return retry<Delivery>(config);
   }
