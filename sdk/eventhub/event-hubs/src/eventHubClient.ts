@@ -242,7 +242,7 @@ export class EventHubClient {
     let sendOptions: SendOptions = {};
     if (typeof partitionIdOrptions === "string" || typeof partitionIdOrptions === "number") {
       partitionId = partitionIdOrptions;
-    } else if (partitionIdOrptions && typeof partitionIdOrptions === "object") {
+    } else if (partitionIdOrptions) {
       partitionId = partitionIdOrptions.partitionId;
       sendOptions = partitionIdOrptions;
     }
@@ -268,7 +268,7 @@ export class EventHubClient {
     let sendOptions: SendOptions = {};
     if (typeof partitionIdOrptions === "string" || typeof partitionIdOrptions === "number") {
       partitionId = partitionIdOrptions;
-    } else if (partitionIdOrptions && partitionIdOrptions.hasOwnProperty("partitionId")) {
+    } else if (partitionIdOrptions) {
       partitionId = partitionIdOrptions.partitionId;
       sendOptions = partitionIdOrptions;
     }
