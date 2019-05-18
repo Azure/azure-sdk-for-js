@@ -6,7 +6,7 @@ import { ShareURL } from "../src/ShareURL";
 import { Pipeline } from "../src/Pipeline";
 import { getBSU } from "./utils";
 import { InjectorPolicyFactory } from "./utils/InjectorPolicyFactory";
-import { record } from "./utils/nock-recorder";
+import { record } from "./utils/recorder";
 import * as dotenv from "dotenv";
 dotenv.config({ path: "../.env" });
 

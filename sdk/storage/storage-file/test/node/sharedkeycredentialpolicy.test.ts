@@ -3,7 +3,7 @@ import { DirectoryURL } from "../../src/DirectoryURL";
 import { FileURL } from "../../src/FileURL";
 import { ShareURL } from "../../src/ShareURL";
 import { getBSU } from "../utils";
-import { record } from "../utils/nock-recorder";
+import { record } from "../utils/recorder";
 
 describe("SharedKeyCredentialPolicy Node.js only", function() {
   const serviceURL = getBSU();

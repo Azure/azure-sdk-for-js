@@ -19,7 +19,7 @@ import { generateFileSASQueryParameters } from "../../src/IFileSASSignatureValue
 import { ShareSASPermissions } from "../../src/ShareSASPermissions";
 import { ShareURL } from "../../src/ShareURL";
 import { getBSU } from "../utils";
-import { record } from "../utils/nock-recorder";
+import { record } from "../utils/recorder";
 
 describe("Shared Access Signature (SAS) generation Node.js only", function() {
   const serviceURL = getBSU();

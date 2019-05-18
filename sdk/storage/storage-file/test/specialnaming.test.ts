@@ -5,7 +5,7 @@ import { getBSU } from "./utils/index";
 import * as assert from "assert";
 import { appendToURLPath } from "../src/utils/utils.common";
 import { DirectoryURL } from "../src/DirectoryURL";
-import { record } from "./utils/nock-recorder";
+import { record } from "./utils/recorder";
 import * as dotenv from "dotenv";
 dotenv.config({ path: "../.env" });
 

@@ -3,7 +3,7 @@ import * as assert from "assert";
 import { Aborter } from "../../src/Aborter";
 import { ISignedIdentifier, ShareURL } from "../../src/ShareURL";
 import { getBSU } from "./../utils";
-import { record } from "../utils/nock-recorder";
+import { record } from "../utils/recorder";
 
 describe("ShareURL", function() {
   const serviceURL = getBSU();

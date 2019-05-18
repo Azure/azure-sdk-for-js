@@ -7,7 +7,7 @@ import { FileURL } from "../../src/FileURL";
 import { ShareURL } from "../../src/ShareURL";
 import { bodyToString, getBSU } from "../utils";
 import { Buffer } from "buffer";
-import { record } from "../utils/nock-recorder";
+import { record } from "../utils/recorder";
 
 describe("BlockBlobURL Node.js only", function() {
   const serviceURL = getBSU();
