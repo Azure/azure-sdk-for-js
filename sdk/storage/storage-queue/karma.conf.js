@@ -22,7 +22,8 @@ module.exports = function(config) {
       "karma-coverage",
       "karma-remap-coverage",
       "karma-junit-reporter",
-      "karma-json-to-file-reporter"
+      "karma-json-to-file-reporter",
+      "karma-json-preprocessor"
     ],
 
     // list of files / patterns to load in the browser
@@ -30,7 +31,8 @@ module.exports = function(config) {
       // polyfill service supporting IE11 missing features
       // Promise,String.prototype.startsWith,String.prototype.endsWith,String.prototype.repeat,String.prototype.includes,Array.prototype.includes,Object.keys
       "https://cdn.polyfill.io/v2/polyfill.js?features=Promise,String.prototype.startsWith,String.prototype.endsWith,String.prototype.repeat,String.prototype.includes,Array.prototype.includes,Object.keys|always",
-      "dist-test/index.browser.js"
+      "dist-test/index.browser.js",
+      "recordings/browsers/**/*.json"
     ],
 
     // list of files / patterns to exclude
@@ -42,7 +44,8 @@ module.exports = function(config) {
       "**/*.js": ["env"],
       // IMPORTANT: COMMENT following line if you want to debug in your browsers!!
       // Preprocess source file to calculate code coverage, however this will make source file unreadable
-      "dist-test/index.browser.js": ["coverage"]
+      "dist-test/index.browser.js": ["coverage"],
+      "recordings/browsers/**/*.json": ["json"]
     },
 
     // inject following environment values into browser testing with window.__env__

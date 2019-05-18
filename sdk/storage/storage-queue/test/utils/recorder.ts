@@ -10,15 +10,9 @@ if (!isBrowser()) {
   nock = require("nock");
 }
 
-function readFileInBrowser(_filename: string): any {
-  // TODO (testing only messagesurl.test.ts => enqueue, peek, dequeue and clear message with all parameters)
-  let recordings = [{"method":"PUT","url":"https://coolstorageaccount1234.queue.core.windows.net/queue155796466247502458","requestBody":null,"status":201,"response":"","responseHeaders":{"x-ms-request-id":"a4a34a74-a003-007c-6a79-0b006d000000","x-ms-version":"2018-03-28","server":"Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0","date":"Wed, 15 May 2019 23:57:42 GMT","content-length":"0"}},{"method":"POST","url":"https://coolstorageaccount1234.queue.core.windows.net/queue155796466247502458/messages","requestBody":"<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><QueueMessage><MessageText>Hello World</MessageText></QueueMessage>","status":201,"response":"<?xml version=\"1.0\" encoding=\"utf-8\"?><QueueMessagesList><QueueMessage><MessageId>776f1d33-bc57-4c87-b6d0-8a69609c9cc9</MessageId><InsertionTime>Wed, 15 May 2019 23:57:43 GMT</InsertionTime><ExpirationTime>Wed, 15 May 2019 23:58:23 GMT</ExpirationTime><PopReceipt>AgAAAAMAAAAAAAAApcCN/HkL1QE=</PopReceipt><TimeNextVisible>Wed, 15 May 2019 23:57:43 GMT</TimeNextVisible></QueueMessage></QueueMessagesList>","responseHeaders":{"date":"Wed, 15 May 2019 23:57:43 GMT","server":"Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0","transfer-encoding":"chunked","content-type":"application/xml","x-ms-request-id":"a4a34ab3-a003-007c-1b79-0b006d000000","x-ms-version":"2018-03-28"}},{"method":"POST","url":"https://coolstorageaccount1234.queue.core.windows.net/queue155796466247502458/messages","requestBody":"<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><QueueMessage><MessageText>Hello World</MessageText></QueueMessage>","status":201,"response":"<?xml version=\"1.0\" encoding=\"utf-8\"?><QueueMessagesList><QueueMessage><MessageId>35601b0e-c188-487e-9f30-896de4c84fcb</MessageId><InsertionTime>Wed, 15 May 2019 23:57:43 GMT</InsertionTime><ExpirationTime>Wed, 15 May 2019 23:58:23 GMT</ExpirationTime><PopReceipt>AgAAAAMAAAAAAAAA6yif/HkL1QE=</PopReceipt><TimeNextVisible>Wed, 15 May 2019 23:57:43 GMT</TimeNextVisible></QueueMessage></QueueMessagesList>","responseHeaders":{"date":"Wed, 15 May 2019 23:57:43 GMT","server":"Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0","transfer-encoding":"chunked","content-type":"application/xml","x-ms-request-id":"a4a34ac0-a003-007c-2879-0b006d000000","x-ms-version":"2018-03-28"}},{"method":"POST","url":"https://coolstorageaccount1234.queue.core.windows.net/queue155796466247502458/messages","requestBody":"<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><QueueMessage><MessageText>Hello World</MessageText></QueueMessage>","status":201,"response":"<?xml version=\"1.0\" encoding=\"utf-8\"?><QueueMessagesList><QueueMessage><MessageId>6752c125-bc6b-47ca-872f-1c88dc60ade9</MessageId><InsertionTime>Wed, 15 May 2019 23:57:43 GMT</InsertionTime><ExpirationTime>Wed, 15 May 2019 23:57:53 GMT</ExpirationTime><PopReceipt>AgAAAAMAAAAAAAAACIS0/3kL1QE=</PopReceipt><TimeNextVisible>Wed, 15 May 2019 23:57:48 GMT</TimeNextVisible></QueueMessage></QueueMessagesList>","responseHeaders":{"date":"Wed, 15 May 2019 23:57:43 GMT","server":"Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0","transfer-encoding":"chunked","content-type":"application/xml","x-ms-request-id":"a4a34ad4-a003-007c-3979-0b006d000000","x-ms-version":"2018-03-28"}},{"method":"POST","url":"https://coolstorageaccount1234.queue.core.windows.net/queue155796466247502458/messages","requestBody":"<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><QueueMessage><MessageText>Hello World</MessageText></QueueMessage>","status":201,"response":"<?xml version=\"1.0\" encoding=\"utf-8\"?><QueueMessagesList><QueueMessage><MessageId>61cc10eb-3fac-4c51-9e61-1955a8ac7aef</MessageId><InsertionTime>Wed, 15 May 2019 23:57:43 GMT</InsertionTime><ExpirationTime>Wed, 15 May 2019 23:58:03 GMT</ExpirationTime><PopReceipt>AgAAAAMAAAAAAAAAqiknCHoL1QE=</PopReceipt><TimeNextVisible>Wed, 15 May 2019 23:58:02 GMT</TimeNextVisible></QueueMessage></QueueMessagesList>","responseHeaders":{"date":"Wed, 15 May 2019 23:57:43 GMT","server":"Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0","transfer-encoding":"chunked","content-type":"application/xml","x-ms-request-id":"a4a34af7-a003-007c-5779-0b006d000000","x-ms-version":"2018-03-28"}},{"method":"GET","url":"https://coolstorageaccount1234.queue.core.windows.net/queue155796466247502458/messages","requestBody":null,"status":200,"response":"<?xml version=\"1.0\" encoding=\"utf-8\"?><QueueMessagesList><QueueMessage><MessageId>776f1d33-bc57-4c87-b6d0-8a69609c9cc9</MessageId><InsertionTime>Wed, 15 May 2019 23:57:43 GMT</InsertionTime><ExpirationTime>Wed, 15 May 2019 23:58:23 GMT</ExpirationTime><DequeueCount>0</DequeueCount><MessageText>Hello World</MessageText></QueueMessage><QueueMessage><MessageId>35601b0e-c188-487e-9f30-896de4c84fcb</MessageId><InsertionTime>Wed, 15 May 2019 23:57:43 GMT</InsertionTime><ExpirationTime>Wed, 15 May 2019 23:58:23 GMT</ExpirationTime><DequeueCount>0</DequeueCount><MessageText>Hello World</MessageText></QueueMessage></QueueMessagesList>","responseHeaders":{"date":"Wed, 15 May 2019 23:57:43 GMT","server":"Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0","transfer-encoding":"chunked","content-type":"application/xml","x-ms-request-id":"a4a34b3a-a003-007c-1679-0b006d000000","cache-control":"no-cache","x-ms-version":"2018-03-28"}},{"method":"GET","url":"https://coolstorageaccount1234.queue.core.windows.net/queue155796466247502458/messages","requestBody":null,"status":200,"response":"<?xml version=\"1.0\" encoding=\"utf-8\"?><QueueMessagesList><QueueMessage><MessageId>776f1d33-bc57-4c87-b6d0-8a69609c9cc9</MessageId><InsertionTime>Wed, 15 May 2019 23:57:43 GMT</InsertionTime><ExpirationTime>Wed, 15 May 2019 23:58:23 GMT</ExpirationTime><PopReceipt>AgAAAAMAAAAAAAAAfdv+AnoL1QE=</PopReceipt><TimeNextVisible>Wed, 15 May 2019 23:57:54 GMT</TimeNextVisible><DequeueCount>1</DequeueCount><MessageText>Hello World</MessageText></QueueMessage><QueueMessage><MessageId>35601b0e-c188-487e-9f30-896de4c84fcb</MessageId><InsertionTime>Wed, 15 May 2019 23:57:43 GMT</InsertionTime><ExpirationTime>Wed, 15 May 2019 23:58:23 GMT</ExpirationTime><PopReceipt>AgAAAAMAAAAAAAAAfdv+AnoL1QE=</PopReceipt><TimeNextVisible>Wed, 15 May 2019 23:57:54 GMT</TimeNextVisible><DequeueCount>1</DequeueCount><MessageText>Hello World</MessageText></QueueMessage></QueueMessagesList>","responseHeaders":{"date":"Wed, 15 May 2019 23:57:43 GMT","server":"Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0","transfer-encoding":"chunked","content-type":"application/xml","x-ms-request-id":"a4a34b71-a003-007c-4d79-0b006d000000","cache-control":"no-cache","x-ms-version":"2018-03-28"}},{"method":"GET","url":"https://coolstorageaccount1234.queue.core.windows.net/queue155796466247502458/messages","requestBody":null,"status":200,"response":"<?xml version=\"1.0\" encoding=\"utf-8\"?><QueueMessagesList />","responseHeaders":{"date":"Wed, 15 May 2019 23:57:44 GMT","server":"Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0","transfer-encoding":"chunked","content-type":"application/xml","x-ms-request-id":"a4a34b85-a003-007c-5f79-0b006d000000","cache-control":"no-cache","x-ms-version":"2018-03-28"}},{"method":"DELETE","url":"https://coolstorageaccount1234.queue.core.windows.net/queue155796466247502458","requestBody":null,"status":204,"response":"","responseHeaders":{"x-ms-request-id":"a4a34b9c-a003-007c-7579-0b006d000000","x-ms-version":"2018-03-28","server":"Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0","date":"Wed, 15 May 2019 23:57:44 GMT","content-length":"0"}}];
-  let uniqueTestInfo = {queue: 'queue155796466247502458'};
-  return [recordings, uniqueTestInfo];
-}
-
 /**
  * Possible reasons for skipping a test:
+ * * Abort: browser testing unexpectedly finishes when a request is aborted during playback (unknown reason; probably related to the way nise handles it)
  * * Character: there are characters in the message that are not supported in browser logging
  * * Progress: Nock does not record a request if it's aborted in a 'progress' callback
  * * Size: the generated recording file is too big and would considerably increase the size of the package
@@ -26,6 +20,14 @@ function readFileInBrowser(_filename: string): any {
  * * UUID: a UUID is randomly generated within the SDK and used in an HTTP request, resulting in Nock being unable to recognize it
 */
 const skip: any = [
+  // Abort
+  "browsers/aborter/recording_should_abort_after_aborter_timeout.json",
+  // Abort
+  "browsers/aborter/recording_should_abort_after_parent_aborter_calls_abort.json",
+  // Abort
+  "browsers/aborter/recording_should_abort_after_parent_aborter_timeout.json",
+  // Abort
+  "browsers/aborter/recording_should_abort_when_calling_abort_before_request_finishes.json",
   // Character
   "browsers/messagesurl/recording_enqueue_peek_dequeue_special_characters.json"
 ];
@@ -128,11 +130,12 @@ function niseRecorder(folderpath: string, testTitle: string) {
     },
     playback: function() {
       xhr = nise.fakeXhr.useFakeXMLHttpRequest();
-      [recordings, uniqueTestInfo] = readFileInBrowser("./recordings/" + fp);
+      recordings = (window as any).__json__["recordings/" + fp].recordings;
+      uniqueTestInfo = (window as any).__json__["recordings/" + fp].uniqueTestInfo;
 
       xhr.onCreate = function(req: any) {
         const reqSend = req.send;
-        req.send = function() {
+        req.send = function(data: any) {
           reqSend.apply(req, arguments);
 
           let recordingFound = false;
@@ -145,6 +148,14 @@ function niseRecorder(folderpath: string, testTitle: string) {
               recordings.splice(i, 1);
               recordingFound = true;
             }
+          }
+
+          if (!recordingFound) {
+            throw new Error("No match for request " + JSON.stringify({
+              method: req.method,
+              url: req.url.split("?")[0],
+              requestBody: data
+            }, null, " "));
           }
         }
       }
