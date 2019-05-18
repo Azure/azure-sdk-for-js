@@ -80,6 +80,86 @@ export class BatchingReceiver extends MessageReceiver {
     return new Promise<ServiceBusMessage[]>((resolve, reject) => {
       let firstMessageWaitTimer: NodeJS.Timer | undefined;
 
+      const onSessionError: OnAmqpEvent = (context: EventContext) => {
+        this.isReceivingMessages = false;
+        const receiver = this._receiver || context.receiver!;
+        receiver.removeListener(ReceiverEvents.receiverError, onReceiveError);
+        receiver.removeListener(ReceiverEvents.message, onReceiveMessage);
+        receiver.removeListener(ReceiverEvents.receiverDrained, onReceiveDrain);
+        receiver.session.removeListener(SessionEvents.sessionError, onSessionError);
+
+        const sessionError = context.session && context.session.error;
+        let error = new MessagingError("An error occuured while receiving messages.");
+        if (sessionError) {
+          error = translate(sessionError);
+          log.error(
+            "[%s] 'session_close' event occurred for Receiver '%s' received an error:\n%O",
+            this._context.namespace.connectionId,
+            this.name,
+            error
+          );
+        }
+        if (firstMessageWaitTimer) {
+          clearTimeout(firstMessageWaitTimer);
+        }
+        if (this._newMessageReceivedTimer) {
+          clearTimeout(this._newMessageReceivedTimer);
+        }
+        reject(error);
+      };
+
+      // Final action to be performed after maxMessageCount is reached or the maxWaitTime is over.
+      const finalAction = (): void => {
+        if (this._newMessageReceivedTimer) {
+          clearTimeout(this._newMessageReceivedTimer);
+        }
+        if (firstMessageWaitTimer) {
+          clearTimeout(firstMessageWaitTimer);
+        }
+
+        // Removing listeners, so that the next receiveMessages() call can set them again.
+        if (this._receiver) {
+          this._receiver.removeListener(ReceiverEvents.receiverError, onReceiveError);
+          this._receiver.removeListener(ReceiverEvents.message, onReceiveMessage);
+          this._receiver.session.removeListener(SessionEvents.sessionError, onSessionError);
+        }
+
+        if (this.detachedError) {
+          if (this._receiver) {
+            this._receiver.removeListener(ReceiverEvents.receiverDrained, onReceiveDrain);
+          }
+          this.isReceivingMessages = false;
+          const err = translate(this.detachedError);
+          return reject(err);
+        }
+
+        if (this._receiver && this._receiver.credit > 0) {
+          log.batching(
+            "[%s] Receiver '%s': Draining leftover credits(%d).",
+            this._context.namespace.connectionId,
+            this.name,
+            this._receiver.credit
+          );
+
+          // Setting drain must be accompanied by a flow call (aliased to addCredit in this case).
+          this._receiver.drain = true;
+          this._receiver.addCredit(1);
+        } else {
+          if (this._receiver) {
+            this._receiver.removeListener(ReceiverEvents.receiverDrained, onReceiveDrain);
+          }
+
+          this.isReceivingMessages = false;
+          log.batching(
+            "[%s] Receiver '%s': Resolving receiveMessages() with %d messages.",
+            this._context.namespace.connectionId,
+            this.name,
+            brokeredMessages.length
+          );
+          resolve(brokeredMessages);
+        }
+      };
+
       // Action to be performed on the "message" event.
       const onReceiveMessage: OnAmqpEventAsPromise = async (context: EventContext) => {
         if (firstMessageWaitTimer) {
@@ -201,86 +281,6 @@ export class BatchingReceiver extends MessageReceiver {
           clearTimeout(this._newMessageReceivedTimer);
         }
         reject(error);
-      };
-
-      const onSessionError: OnAmqpEvent = (context: EventContext) => {
-        this.isReceivingMessages = false;
-        const receiver = this._receiver || context.receiver!;
-        receiver.removeListener(ReceiverEvents.receiverError, onReceiveError);
-        receiver.removeListener(ReceiverEvents.message, onReceiveMessage);
-        receiver.removeListener(ReceiverEvents.receiverDrained, onReceiveDrain);
-        receiver.session.removeListener(SessionEvents.sessionError, onSessionError);
-
-        const sessionError = context.session && context.session.error;
-        let error = new MessagingError("An error occuured while receiving messages.");
-        if (sessionError) {
-          error = translate(sessionError);
-          log.error(
-            "[%s] 'session_close' event occurred for Receiver '%s' received an error:\n%O",
-            this._context.namespace.connectionId,
-            this.name,
-            error
-          );
-        }
-        if (firstMessageWaitTimer) {
-          clearTimeout(firstMessageWaitTimer);
-        }
-        if (this._newMessageReceivedTimer) {
-          clearTimeout(this._newMessageReceivedTimer);
-        }
-        reject(error);
-      };
-
-      // Final action to be performed after maxMessageCount is reached or the maxWaitTime is over.
-      const finalAction = (): void => {
-        if (this._newMessageReceivedTimer) {
-          clearTimeout(this._newMessageReceivedTimer);
-        }
-        if (firstMessageWaitTimer) {
-          clearTimeout(firstMessageWaitTimer);
-        }
-
-        // Removing listeners, so that the next receiveMessages() call can set them again.
-        if (this._receiver) {
-          this._receiver.removeListener(ReceiverEvents.receiverError, onReceiveError);
-          this._receiver.removeListener(ReceiverEvents.message, onReceiveMessage);
-          this._receiver.session.removeListener(SessionEvents.sessionError, onSessionError);
-        }
-
-        if (this.detachedError) {
-          if (this._receiver) {
-            this._receiver.removeListener(ReceiverEvents.receiverDrained, onReceiveDrain);
-          }
-          this.isReceivingMessages = false;
-          const err = translate(this.detachedError);
-          return reject(err);
-        }
-
-        if (this._receiver && this._receiver.credit > 0) {
-          log.batching(
-            "[%s] Receiver '%s': Draining leftover credits(%d).",
-            this._context.namespace.connectionId,
-            this.name,
-            this._receiver.credit
-          );
-
-          // Setting drain must be accompanied by a flow call (aliased to addCredit in this case).
-          this._receiver.drain = true;
-          this._receiver.addCredit(1);
-        } else {
-          if (this._receiver) {
-            this._receiver.removeListener(ReceiverEvents.receiverDrained, onReceiveDrain);
-          }
-
-          this.isReceivingMessages = false;
-          log.batching(
-            "[%s] Receiver '%s': Resolving receiveMessages() with %d messages.",
-            this._context.namespace.connectionId,
-            this.name,
-            brokeredMessages.length
-          );
-          resolve(brokeredMessages);
-        }
       };
 
       /**
