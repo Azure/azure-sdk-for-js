@@ -1164,16 +1164,78 @@ export class MessageSession extends LinkEntity {
     this.isReceivingMessages = true;
 
     return new Promise<ServiceBusMessage[]>((resolve, reject) => {
-      let onReceiveMessage: OnAmqpEventAsPromise;
-      let onReceiveDrain: OnAmqpEvent;
       let firstMessageWaitTimer: any;
-      let actionAfterWaitTimeout: Func<void, void>;
 
       const setnewMessageWaitTimeoutInSeconds = (value?: number): void => {
         this.newMessageWaitTimeoutInSeconds = value;
       };
 
       setnewMessageWaitTimeoutInSeconds(1);
+
+      // Action to be performed on the "receiver_drained" event.
+      const onReceiveDrain: OnAmqpEvent = () => {
+        this._receiver!.removeListener(ReceiverEvents.receiverDrained, onReceiveDrain);
+        this._receiver!.drain = false;
+
+        this.isReceivingMessages = false;
+
+        log.messageSession(
+          "[%s] Receiver '%s' drained. Resolving receiveMessages() with %d messages.",
+          this._context.namespace.connectionId,
+          this.name,
+          brokeredMessages.length
+        );
+
+        resolve(brokeredMessages);
+      };
+
+      // Action to be performed after the max wait time is over.
+      const actionAfterWaitTimeout: Func<void, void> = (): void => {
+        log.batching(
+          "[%s] Batching Receiver '%s'  max wait time in seconds %d over.",
+          this._context.namespace.connectionId,
+          this.name,
+          idleTimeoutInSeconds
+        );
+        return finalAction();
+      };
+
+      // Action to be performed on the "message" event.
+      const onReceiveMessage: OnAmqpEventAsPromise = async (context: EventContext) => {
+        if (firstMessageWaitTimer) {
+          clearTimeout(firstMessageWaitTimer);
+          firstMessageWaitTimer = undefined;
+        }
+        resetTimerOnNewMessageReceived();
+        try {
+          const data: ServiceBusMessage = new ServiceBusMessage(
+            this._context,
+            context.message!,
+            context.delivery!,
+            true
+          );
+          if (brokeredMessages.length < maxMessageCount) {
+            brokeredMessages.push(data);
+          }
+        } catch (err) {
+          // Removing listeners, so that the next receiveMessages() call can set them again.
+          if (this._receiver) {
+            this._receiver.removeListener(ReceiverEvents.message, onReceiveMessage);
+            this._receiver.removeListener(ReceiverEvents.receiverDrained, onReceiveDrain);
+          }
+
+          log.error(
+            "[%s] Receiver '%s' received an error while converting AmqpMessage to ServiceBusMessage:\n%O",
+            this._context.namespace.connectionId,
+            this.name,
+            err
+          );
+          reject(err instanceof Error ? err : new Error(JSON.stringify(err)));
+        }
+        if (brokeredMessages.length === maxMessageCount) {
+          finalAction();
+        }
+      };
 
       this._onError = (error: MessagingError | Error) => {
         this.isReceivingMessages = false;
@@ -1256,71 +1318,6 @@ export class MessageSession extends LinkEntity {
               await this.close();
             }
           }, this.newMessageWaitTimeoutInSeconds * 1000);
-        }
-      };
-
-      // Action to be performed after the max wait time is over.
-      actionAfterWaitTimeout = (): void => {
-        log.batching(
-          "[%s] Batching Receiver '%s'  max wait time in seconds %d over.",
-          this._context.namespace.connectionId,
-          this.name,
-          idleTimeoutInSeconds
-        );
-        return finalAction();
-      };
-
-      // Action to be performed on the "receiver_drained" event.
-      onReceiveDrain = () => {
-        this._receiver!.removeListener(ReceiverEvents.receiverDrained, onReceiveDrain);
-        this._receiver!.drain = false;
-
-        this.isReceivingMessages = false;
-
-        log.messageSession(
-          "[%s] Receiver '%s' drained. Resolving receiveMessages() with %d messages.",
-          this._context.namespace.connectionId,
-          this.name,
-          brokeredMessages.length
-        );
-
-        resolve(brokeredMessages);
-      };
-
-      // Action to be performed on the "message" event.
-      onReceiveMessage = async (context: EventContext) => {
-        if (firstMessageWaitTimer) {
-          clearTimeout(firstMessageWaitTimer);
-          firstMessageWaitTimer = undefined;
-        }
-        resetTimerOnNewMessageReceived();
-        try {
-          const data: ServiceBusMessage = new ServiceBusMessage(
-            this._context,
-            context.message!,
-            context.delivery!,
-            true
-          );
-          if (brokeredMessages.length < maxMessageCount) {
-            brokeredMessages.push(data);
-          }
-        } catch (err) {
-          // Removing listeners, so that the next receiveMessages() call can set them again.
-          if (this._receiver) {
-            this._receiver.removeListener(ReceiverEvents.message, onReceiveMessage);
-            this._receiver.removeListener(ReceiverEvents.receiverDrained, onReceiveDrain);
-          }
-
-          log.error(
-            "[%s] Receiver '%s' received an error while converting AmqpMessage to ServiceBusMessage:\n%O",
-            this._context.namespace.connectionId,
-            this.name,
-            err
-          );
-          reject(err instanceof Error ? err : new Error(JSON.stringify(err)));
-        }
-        if (brokeredMessages.length === maxMessageCount) {
-          finalAction();
         }
       };
 
