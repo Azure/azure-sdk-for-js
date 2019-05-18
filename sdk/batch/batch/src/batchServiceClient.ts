@@ -9,6 +9,7 @@
  */
 
 import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "./models";
 import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
@@ -30,10 +31,11 @@ class BatchServiceClient extends BatchServiceClientContext {
   /**
    * Initializes a new instance of the BatchServiceClient class.
    * @param credentials Credentials needed for the client to connect to Azure.
+   * @param batchUrl The base URL for all Azure Batch service requests.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, options?: Models.BatchServiceClientOptions) {
-    super(credentials, options);
+  constructor(credentials: msRest.ServiceClientCredentials, batchUrl: string, options?: msRestAzure.AzureServiceClientOptions) {
+    super(credentials, batchUrl, options);
     this.application = new operations.Application(this);
     this.pool = new operations.Pool(this);
     this.account = new operations.Account(this);
