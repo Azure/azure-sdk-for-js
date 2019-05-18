@@ -9,9 +9,8 @@
 export {
   discriminators,
   CloudError,
-  RunFilterParameters,
-  RunQueryFilter,
-  RunQueryOrderBy,
-  TriggerRun,
-  TriggerRunsQueryResponse
+  GetSsisObjectMetadataRequest,
+  SsisObjectMetadata,
+  SsisObjectMetadataListResponse,
+  SsisObjectMetadataStatusResponse
 } from "../models/mappers";

@@ -360,7 +360,9 @@ const createRunOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.referencePipelineRunId
+    Parameters.referencePipelineRunId,
+    Parameters.isRecovery,
+    Parameters.startActivityName
   ],
   headerParameters: [
     Parameters.acceptLanguage
