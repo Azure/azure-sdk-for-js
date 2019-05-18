@@ -78,13 +78,158 @@ export class BatchingReceiver extends MessageReceiver {
 
     this.isReceivingMessages = true;
     return new Promise<ServiceBusMessage[]>((resolve, reject) => {
-      let onReceiveMessage: OnAmqpEventAsPromise;
-      let onSessionClose: OnAmqpEventAsPromise;
-      let onReceiveClose: OnAmqpEventAsPromise;
-      let onReceiveDrain: OnAmqpEvent;
-      let onReceiveError: OnAmqpEvent;
-      let onSessionError: OnAmqpEvent;
       let firstMessageWaitTimer: NodeJS.Timer | undefined;
+
+      // Action to be performed on the "message" event.
+      const onReceiveMessage: OnAmqpEventAsPromise = async (context: EventContext) => {
+        if (firstMessageWaitTimer) {
+          clearTimeout(firstMessageWaitTimer);
+          firstMessageWaitTimer = undefined;
+        }
+        this.resetTimerOnNewMessageReceived();
+        try {
+          const data: ServiceBusMessage = new ServiceBusMessage(
+            this._context,
+            context.message!,
+            context.delivery!,
+            true
+          );
+          if (brokeredMessages.length < maxMessageCount) {
+            brokeredMessages.push(data);
+          }
+        } catch (err) {
+          const errObj = err instanceof Error ? err : new Error(JSON.stringify(err));
+          log.error(
+            "[%s] Receiver '%s' received an error while converting AmqpMessage to ServiceBusMessage:\n%O",
+            this._context.namespace.connectionId,
+            this.name,
+            errObj
+          );
+          reject(errObj);
+        }
+        if (brokeredMessages.length === maxMessageCount) {
+          finalAction();
+        }
+      };
+
+      const onSessionClose: OnAmqpEventAsPromise = async (context: EventContext) => {
+        try {
+          this.isReceivingMessages = false;
+          const sessionError = context.session && context.session.error;
+          if (sessionError) {
+            log.error(
+              "[%s] 'session_close' event occurred for receiver '%s'. The associated error is: %O",
+              this._context.namespace.connectionId,
+              this.name,
+              sessionError
+            );
+          }
+        } catch (err) {
+          log.error(
+            "[%s] Receiver '%s' error in onSessionClose handler:\n%O",
+            this._context.namespace.connectionId,
+            this.name,
+            translate(err)
+          );
+        }
+      };
+
+      // Action to be performed on the "receiver_drained" event.
+      const onReceiveDrain: OnAmqpEvent = () => {
+        if (this._receiver) {
+          this._receiver.removeListener(ReceiverEvents.receiverDrained, onReceiveDrain);
+          this._receiver.drain = false;
+        }
+
+        this.isReceivingMessages = false;
+
+        log.batching(
+          "[%s] Receiver '%s' drained. Resolving receiveMessages() with %d messages.",
+          this._context.namespace.connectionId,
+          this.name,
+          brokeredMessages.length
+        );
+
+        resolve(brokeredMessages);
+      };
+
+      const onReceiveClose: OnAmqpEventAsPromise = async (context: EventContext) => {
+        try {
+          this.isReceivingMessages = false;
+          const receiverError = context.receiver && context.receiver.error;
+          if (receiverError) {
+            log.error(
+              "[%s] 'receiver_close' event occurred. The associated error is: %O",
+              this._context.namespace.connectionId,
+              receiverError
+            );
+          }
+        } catch (err) {
+          log.error(
+            "[%s] Receiver '%s' error in onClose handler:\n%O",
+            this._context.namespace.connectionId,
+            this.name,
+            translate(err)
+          );
+        }
+      };
+
+      // Action to be taken when an error is received.
+      const onReceiveError: OnAmqpEvent = (context: EventContext) => {
+        this.isReceivingMessages = false;
+        const receiver = this._receiver || context.receiver!;
+        receiver.removeListener(ReceiverEvents.receiverError, onReceiveError);
+        receiver.removeListener(ReceiverEvents.message, onReceiveMessage);
+        receiver.removeListener(ReceiverEvents.receiverDrained, onReceiveDrain);
+        receiver.session.removeListener(SessionEvents.sessionError, onSessionError);
+
+        const receiverError = context.receiver && context.receiver.error;
+        let error = new MessagingError("An error occuured while receiving messages.");
+        if (receiverError) {
+          error = translate(receiverError);
+          log.error(
+            "[%s] Receiver '%s' received an error:\n%O",
+            this._context.namespace.connectionId,
+            this.name,
+            error
+          );
+        }
+        if (firstMessageWaitTimer) {
+          clearTimeout(firstMessageWaitTimer);
+        }
+        if (this._newMessageReceivedTimer) {
+          clearTimeout(this._newMessageReceivedTimer);
+        }
+        reject(error);
+      };
+
+      const onSessionError: OnAmqpEvent = (context: EventContext) => {
+        this.isReceivingMessages = false;
+        const receiver = this._receiver || context.receiver!;
+        receiver.removeListener(ReceiverEvents.receiverError, onReceiveError);
+        receiver.removeListener(ReceiverEvents.message, onReceiveMessage);
+        receiver.removeListener(ReceiverEvents.receiverDrained, onReceiveDrain);
+        receiver.session.removeListener(SessionEvents.sessionError, onSessionError);
+
+        const sessionError = context.session && context.session.error;
+        let error = new MessagingError("An error occuured while receiving messages.");
+        if (sessionError) {
+          error = translate(sessionError);
+          log.error(
+            "[%s] 'session_close' event occurred for Receiver '%s' received an error:\n%O",
+            this._context.namespace.connectionId,
+            this.name,
+            error
+          );
+        }
+        if (firstMessageWaitTimer) {
+          clearTimeout(firstMessageWaitTimer);
+        }
+        if (this._newMessageReceivedTimer) {
+          clearTimeout(this._newMessageReceivedTimer);
+        }
+        reject(error);
+      };
 
       // Final action to be performed after maxMessageCount is reached or the maxWaitTime is over.
       const finalAction = (): void => {
@@ -166,157 +311,6 @@ export class BatchingReceiver extends MessageReceiver {
           idleTimeoutInSeconds
         );
         return finalAction();
-      };
-
-      // Action to be performed on the "receiver_drained" event.
-      onReceiveDrain = () => {
-        if (this._receiver) {
-          this._receiver.removeListener(ReceiverEvents.receiverDrained, onReceiveDrain);
-          this._receiver.drain = false;
-        }
-
-        this.isReceivingMessages = false;
-
-        log.batching(
-          "[%s] Receiver '%s' drained. Resolving receiveMessages() with %d messages.",
-          this._context.namespace.connectionId,
-          this.name,
-          brokeredMessages.length
-        );
-
-        resolve(brokeredMessages);
-      };
-
-      // Action to be performed on the "message" event.
-      onReceiveMessage = async (context: EventContext) => {
-        if (firstMessageWaitTimer) {
-          clearTimeout(firstMessageWaitTimer);
-          firstMessageWaitTimer = undefined;
-        }
-        this.resetTimerOnNewMessageReceived();
-        try {
-          const data: ServiceBusMessage = new ServiceBusMessage(
-            this._context,
-            context.message!,
-            context.delivery!,
-            true
-          );
-          if (brokeredMessages.length < maxMessageCount) {
-            brokeredMessages.push(data);
-          }
-        } catch (err) {
-          const errObj = err instanceof Error ? err : new Error(JSON.stringify(err));
-          log.error(
-            "[%s] Receiver '%s' received an error while converting AmqpMessage to ServiceBusMessage:\n%O",
-            this._context.namespace.connectionId,
-            this.name,
-            errObj
-          );
-          reject(errObj);
-        }
-        if (brokeredMessages.length === maxMessageCount) {
-          finalAction();
-        }
-      };
-
-      // Action to be taken when an error is received.
-      onReceiveError = (context: EventContext) => {
-        this.isReceivingMessages = false;
-        const receiver = this._receiver || context.receiver!;
-        receiver.removeListener(ReceiverEvents.receiverError, onReceiveError);
-        receiver.removeListener(ReceiverEvents.message, onReceiveMessage);
-        receiver.removeListener(ReceiverEvents.receiverDrained, onReceiveDrain);
-        receiver.session.removeListener(SessionEvents.sessionError, onSessionError);
-
-        const receiverError = context.receiver && context.receiver.error;
-        let error = new MessagingError("An error occuured while receiving messages.");
-        if (receiverError) {
-          error = translate(receiverError);
-          log.error(
-            "[%s] Receiver '%s' received an error:\n%O",
-            this._context.namespace.connectionId,
-            this.name,
-            error
-          );
-        }
-        if (firstMessageWaitTimer) {
-          clearTimeout(firstMessageWaitTimer);
-        }
-        if (this._newMessageReceivedTimer) {
-          clearTimeout(this._newMessageReceivedTimer);
-        }
-        reject(error);
-      };
-
-      onReceiveClose = async (context: EventContext) => {
-        try {
-          this.isReceivingMessages = false;
-          const receiverError = context.receiver && context.receiver.error;
-          if (receiverError) {
-            log.error(
-              "[%s] 'receiver_close' event occurred. The associated error is: %O",
-              this._context.namespace.connectionId,
-              receiverError
-            );
-          }
-        } catch (err) {
-          log.error(
-            "[%s] Receiver '%s' error in onClose handler:\n%O",
-            this._context.namespace.connectionId,
-            this.name,
-            translate(err)
-          );
-        }
-      };
-
-      onSessionClose = async (context: EventContext) => {
-        try {
-          this.isReceivingMessages = false;
-          const sessionError = context.session && context.session.error;
-          if (sessionError) {
-            log.error(
-              "[%s] 'session_close' event occurred for receiver '%s'. The associated error is: %O",
-              this._context.namespace.connectionId,
-              this.name,
-              sessionError
-            );
-          }
-        } catch (err) {
-          log.error(
-            "[%s] Receiver '%s' error in onSessionClose handler:\n%O",
-            this._context.namespace.connectionId,
-            this.name,
-            translate(err)
-          );
-        }
-      };
-
-      onSessionError = (context: EventContext) => {
-        this.isReceivingMessages = false;
-        const receiver = this._receiver || context.receiver!;
-        receiver.removeListener(ReceiverEvents.receiverError, onReceiveError);
-        receiver.removeListener(ReceiverEvents.message, onReceiveMessage);
-        receiver.removeListener(ReceiverEvents.receiverDrained, onReceiveDrain);
-        receiver.session.removeListener(SessionEvents.sessionError, onSessionError);
-
-        const sessionError = context.session && context.session.error;
-        let error = new MessagingError("An error occuured while receiving messages.");
-        if (sessionError) {
-          error = translate(sessionError);
-          log.error(
-            "[%s] 'session_close' event occurred for Receiver '%s' received an error:\n%O",
-            this._context.namespace.connectionId,
-            this.name,
-            error
-          );
-        }
-        if (firstMessageWaitTimer) {
-          clearTimeout(firstMessageWaitTimer);
-        }
-        if (this._newMessageReceivedTimer) {
-          clearTimeout(this._newMessageReceivedTimer);
-        }
-        reject(error);
       };
 
       const onSettled: OnAmqpEvent = (context: EventContext) => {
