@@ -6,7 +6,7 @@ import { ServiceURL } from "../src/ServiceURL";
 import { getAlternateBSU, getBSU, wait } from "./utils";
 import { record } from "./utils/nock-recorder";
 import * as dotenv from "dotenv";
-dotenv.config({path:"../.env"});
+dotenv.config({ path: "../.env" });
 
 describe("ServiceURL", function() {
   const testSuiteTitle = this.fullTitle();
@@ -46,26 +46,16 @@ describe("ServiceURL", function() {
     const containerNamePrefix = recorder.getUniqueName("container");
     const containerName1 = `${containerNamePrefix}x1`;
     const containerName2 = `${containerNamePrefix}x2`;
-    const containerURL1 = ContainerURL.fromServiceURL(
-      serviceURL,
-      containerName1
-    );
-    const containerURL2 = ContainerURL.fromServiceURL(
-      serviceURL,
-      containerName2
-    );
+    const containerURL1 = ContainerURL.fromServiceURL(serviceURL, containerName1);
+    const containerURL2 = ContainerURL.fromServiceURL(serviceURL, containerName2);
     await containerURL1.create(Aborter.none, { metadata: { key: "val" } });
     await containerURL2.create(Aborter.none, { metadata: { key: "val" } });
 
-    const result1 = await serviceURL.listContainersSegment(
-      Aborter.none,
-      undefined,
-      {
-        include: "metadata",
-        maxresults: 1,
-        prefix: containerNamePrefix
-      }
-    );
+    const result1 = await serviceURL.listContainersSegment(Aborter.none, undefined, {
+      include: "metadata",
+      maxresults: 1,
+      prefix: containerNamePrefix
+    });
 
     assert.ok(result1.nextMarker);
     assert.equal(result1.containerItems!.length, 1);
@@ -74,25 +64,15 @@ describe("ServiceURL", function() {
     assert.ok(result1.containerItems![0].properties.lastModified);
     assert.ok(!result1.containerItems![0].properties.leaseDuration);
     assert.ok(!result1.containerItems![0].properties.publicAccess);
-    assert.deepEqual(
-      result1.containerItems![0].properties.leaseState,
-      "available"
-    );
-    assert.deepEqual(
-      result1.containerItems![0].properties.leaseStatus,
-      "unlocked"
-    );
+    assert.deepEqual(result1.containerItems![0].properties.leaseState, "available");
+    assert.deepEqual(result1.containerItems![0].properties.leaseStatus, "unlocked");
     assert.deepEqual(result1.containerItems![0].metadata!.key, "val");
 
-    const result2 = await serviceURL.listContainersSegment(
-      Aborter.none,
-      result1.nextMarker,
-      {
-        include: "metadata",
-        maxresults: 1,
-        prefix: containerNamePrefix
-      }
-    );
+    const result2 = await serviceURL.listContainersSegment(Aborter.none, result1.nextMarker, {
+      include: "metadata",
+      maxresults: 1,
+      prefix: containerNamePrefix
+    });
 
     assert.ok(!result2.nextMarker);
     assert.equal(result2.containerItems!.length, 1);
@@ -101,14 +81,8 @@ describe("ServiceURL", function() {
     assert.ok(result2.containerItems![0].properties.lastModified);
     assert.ok(!result2.containerItems![0].properties.leaseDuration);
     assert.ok(!result2.containerItems![0].properties.publicAccess);
-    assert.deepEqual(
-      result2.containerItems![0].properties.leaseState,
-      "available"
-    );
-    assert.deepEqual(
-      result2.containerItems![0].properties.leaseStatus,
-      "unlocked"
-    );
+    assert.deepEqual(result2.containerItems![0].properties.leaseState, "available");
+    assert.deepEqual(result2.containerItems![0].properties.leaseStatus, "unlocked");
     assert.deepEqual(result2.containerItems![0].metadata!.key, "val");
 
     await containerURL1.delete(Aborter.none);
@@ -200,7 +174,7 @@ describe("ServiceURL", function() {
     assert.deepEqual(result.hourMetrics, serviceProperties.hourMetrics);
   });
 
-  it("getStatistics", done => {
+  it("getStatistics", (done) => {
     let serviceURL: ServiceURL | undefined;
     try {
       serviceURL = getAlternateBSU();
@@ -211,7 +185,7 @@ describe("ServiceURL", function() {
 
     serviceURL!
       .getStatistics(Aborter.none)
-      .then(result => {
+      .then((result) => {
         assert.ok(result.geoReplication!.lastSyncTime);
         done();
       })

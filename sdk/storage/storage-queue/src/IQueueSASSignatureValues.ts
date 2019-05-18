@@ -122,9 +122,7 @@ export function generateQueueSASQueryParameters(
 
   // Calling parse and toString guarantees the proper ordering and throws on invalid characters.
   if (queueSASSignatureValues.permissions) {
-      verifiedPermissions = QueueSASPermissions.parse(
-        queueSASSignatureValues.permissions
-      ).toString();
+    verifiedPermissions = QueueSASPermissions.parse(queueSASSignatureValues.permissions).toString();
   }
 
   // Signature is generated on the un-url-encoded values.
@@ -136,14 +134,9 @@ export function generateQueueSASQueryParameters(
     queueSASSignatureValues.expiryTime
       ? truncatedISO8061Date(queueSASSignatureValues.expiryTime, false)
       : "",
-    getCanonicalName(
-      sharedKeyCredential.accountName,
-      queueSASSignatureValues.queueName
-    ),
+    getCanonicalName(sharedKeyCredential.accountName, queueSASSignatureValues.queueName),
     queueSASSignatureValues.identifier,
-    queueSASSignatureValues.ipRange
-      ? ipRangeToString(queueSASSignatureValues.ipRange)
-      : "",
+    queueSASSignatureValues.ipRange ? ipRangeToString(queueSASSignatureValues.ipRange) : "",
     queueSASSignatureValues.protocol ? queueSASSignatureValues.protocol : "",
     version
   ].join("\n");
@@ -164,10 +157,7 @@ export function generateQueueSASQueryParameters(
   );
 }
 
-function getCanonicalName(
-  accountName: string,
-  queueName: string
-): string {
+function getCanonicalName(accountName: string, queueName: string): string {
   // Queue: "/queue/account/queueName"
   return `/queue/${accountName}/${queueName}`;
 }

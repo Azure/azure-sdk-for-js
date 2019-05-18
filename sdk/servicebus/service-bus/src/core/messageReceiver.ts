@@ -253,7 +253,6 @@ export class MessageReceiver extends LinkEntity {
     if (typeof options.maxConcurrentCalls === "number" && options.maxConcurrentCalls > 0) {
       this.maxConcurrentCalls = options.maxConcurrentCalls;
     }
-    this.newMessageWaitTimeoutInSeconds = options.newMessageWaitTimeoutInSeconds;
     this.resetTimerOnNewMessageReceived = () => {
       /** */
     };
@@ -878,6 +877,7 @@ export class MessageReceiver extends LinkEntity {
       const delivery = message.delivery;
       const timer = setTimeout(() => {
         this._deliveryDispositionMap.delete(delivery.id);
+
         log.receiver(
           "[%s] Disposition for delivery id: %d, did not complete in %d milliseconds. " +
             "Hence resolving the promise.",

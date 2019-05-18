@@ -1,4 +1,7 @@
 /*
+  Copyright (c) Microsoft Corporation. All rights reserved.
+  Licensed under the MIT Licence.
+
   This sample demonstrates retrieving a message from a dead letter queue, editing it and
   sending it back to the main queue.
 

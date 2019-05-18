@@ -5,7 +5,7 @@ import { ContainerURL } from "../src/ContainerURL";
 import { getBSU } from "./utils";
 import { record } from "./utils/nock-recorder";
 import * as dotenv from "dotenv";
-dotenv.config({path:"../.env"});
+dotenv.config({ path: "../.env" });
 
 // tslint:disable:no-empty
 describe("Aborter", function() {

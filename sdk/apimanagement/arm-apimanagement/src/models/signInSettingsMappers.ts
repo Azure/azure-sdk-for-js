@@ -71,6 +71,7 @@ export {
   ResponseContract,
   SamplingSettings,
   SchemaContract,
+  SchemaCreateOrUpdateContract,
   SignInSettingsGetEntityTagHeaders,
   SignInSettingsGetHeaders,
   SubscriptionContract,

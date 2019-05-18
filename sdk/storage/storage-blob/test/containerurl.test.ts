@@ -7,7 +7,7 @@ import { ContainerURL } from "../src/ContainerURL";
 import { getBSU, sleep } from "./utils";
 import { record } from "./utils/nock-recorder";
 import * as dotenv from "dotenv";
-dotenv.config({path:"../.env"});
+dotenv.config({ path: "../.env" });
 
 describe("ContainerURL", function() {
   const serviceURL = getBSU();
@@ -54,16 +54,13 @@ describe("ContainerURL", function() {
     assert.ok(!result.blobPublicAccess);
   });
 
-  it("create with default parameters", done => {
+  it("create with default parameters", (done) => {
     // create() with default parameters has been tested in beforeEach
     done();
   });
 
   it("create with all parameters configured", async () => {
-    const cURL = ContainerURL.fromServiceURL(
-      serviceURL,
-      recorder.getUniqueName(containerName)
-    );
+    const cURL = ContainerURL.fromServiceURL(serviceURL, recorder.getUniqueName(containerName));
     const metadata = { key: "value" };
     const access = "container";
     await cURL.create(Aborter.none, { metadata, access });
@@ -72,7 +69,7 @@ describe("ContainerURL", function() {
     assert.deepEqual(result.metadata, metadata);
   });
 
-  it("delete", done => {
+  it("delete", (done) => {
     // delete() with default parameters has been tested in afterEach
     done();
   });
@@ -173,10 +170,7 @@ describe("ContainerURL", function() {
   it("listBlobFlatSegment with default parameters", async () => {
     const blobURLs = [];
     for (let i = 0; i < 3; i++) {
-      const blobURL = BlobURL.fromContainerURL(
-        containerURL,
-        recorder.getUniqueName(`blockblob/${i}`)
-      );
+      const blobURL = BlobURL.fromContainerURL(containerURL, recorder.getUniqueName(`blockblob/${i}`));
       const blockBlobURL = BlockBlobURL.fromBlobURL(blobURL);
       await blockBlobURL.upload(Aborter.none, "", 0);
       blobURLs.push(blobURL);
@@ -202,10 +196,7 @@ describe("ContainerURL", function() {
       keyb: "c"
     };
     for (let i = 0; i < 2; i++) {
-      const blobURL = BlobURL.fromContainerURL(
-        containerURL,
-        recorder.getUniqueName(`${prefix}/${i}`)
-      );
+      const blobURL = BlobURL.fromContainerURL(containerURL, recorder.getUniqueName(`${prefix}/${i}`));
       const blockBlobURL = BlockBlobURL.fromBlobURL(blobURL);
       await blockBlobURL.upload(Aborter.none, "", 0, {
         metadata
@@ -213,42 +204,22 @@ describe("ContainerURL", function() {
       blobURLs.push(blobURL);
     }
 
-    const result = await containerURL.listBlobFlatSegment(
-      Aborter.none,
-      undefined,
-      {
-        include: [
-          "snapshots",
-          "metadata",
-          "uncommittedblobs",
-          "copy",
-          "deleted"
-        ],
-        maxresults: 1,
-        prefix
-      }
-    );
+    const result = await containerURL.listBlobFlatSegment(Aborter.none, undefined, {
+      include: ["snapshots", "metadata", "uncommittedblobs", "copy", "deleted"],
+      maxresults: 1,
+      prefix
+    });
     assert.ok(result.serviceEndpoint.length > 0);
     assert.ok(containerURL.url.indexOf(result.containerName));
     assert.deepStrictEqual(result.segment.blobItems!.length, 1);
     assert.ok(blobURLs[0].url.indexOf(result.segment.blobItems![0].name));
     assert.deepStrictEqual(result.segment.blobItems![0].metadata, metadata);
 
-    const result2 = await containerURL.listBlobFlatSegment(
-      Aborter.none,
-      result.nextMarker,
-      {
-        include: [
-          "snapshots",
-          "metadata",
-          "uncommittedblobs",
-          "copy",
-          "deleted"
-        ],
-        maxresults: 2,
-        prefix
-      }
-    );
+    const result2 = await containerURL.listBlobFlatSegment(Aborter.none, result.nextMarker, {
+      include: ["snapshots", "metadata", "uncommittedblobs", "copy", "deleted"],
+      maxresults: 2,
+      prefix
+    });
 
     assert.ok(result2.serviceEndpoint.length > 0);
     assert.ok(containerURL.url.indexOf(result2.containerName));
@@ -264,28 +235,19 @@ describe("ContainerURL", function() {
   it("listBlobHierarchySegment with default parameters", async () => {
     const blobURLs = [];
     for (let i = 0; i < 3; i++) {
-      const blobURL = BlobURL.fromContainerURL(
-        containerURL,
-        recorder.getUniqueName(`blockblob${i}/${i}`)
-      );
+      const blobURL = BlobURL.fromContainerURL(containerURL, recorder.getUniqueName(`blockblob${i}/${i}`));
       const blockBlobURL = BlockBlobURL.fromBlobURL(blobURL);
       await blockBlobURL.upload(Aborter.none, "", 0);
       blobURLs.push(blobURL);
     }
 
     const delimiter = "/";
-    const result = await containerURL.listBlobHierarchySegment(
-      Aborter.none,
-      delimiter
-    );
+    const result = await containerURL.listBlobHierarchySegment(Aborter.none, delimiter);
     assert.ok(result.serviceEndpoint.length > 0);
     assert.ok(containerURL.url.indexOf(result.containerName));
     assert.deepStrictEqual(result.nextMarker, "");
     assert.deepStrictEqual(result.delimiter, delimiter);
-    assert.deepStrictEqual(
-      result.segment.blobPrefixes!.length,
-      blobURLs.length
-    );
+    assert.deepStrictEqual(result.segment.blobPrefixes!.length, blobURLs.length);
 
     for (const blob of blobURLs) {
       let i = 0;
@@ -317,16 +279,11 @@ describe("ContainerURL", function() {
       blobURLs.push(blobURL);
     }
 
-    const result = await containerURL.listBlobHierarchySegment(
-      Aborter.none,
-      delimiter,
-      undefined,
-      {
-        include: ["metadata", "uncommittedblobs", "copy", "deleted"],
-        maxresults: 1,
-        prefix
-      }
-    );
+    const result = await containerURL.listBlobHierarchySegment(Aborter.none, delimiter, undefined, {
+      include: ["metadata", "uncommittedblobs", "copy", "deleted"],
+      maxresults: 1,
+      prefix
+    });
     assert.ok(result.serviceEndpoint.length > 0);
     assert.ok(containerURL.url.indexOf(result.containerName));
     assert.deepStrictEqual(result.segment.blobPrefixes!.length, 1);

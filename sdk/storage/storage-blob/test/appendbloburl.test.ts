@@ -6,7 +6,7 @@ import { ContainerURL } from "../src/ContainerURL";
 import { bodyToString, getBSU } from "./utils";
 import { record } from "./utils/nock-recorder";
 import * as dotenv from "dotenv";
-dotenv.config({path:"../.env"});
+dotenv.config({ path: "../.env" });
 
 describe("AppendBlobURL", function() {
   const serviceURL = getBSU();
@@ -53,26 +53,11 @@ describe("AppendBlobURL", function() {
     };
     await appendBlobURL.create(Aborter.none, options);
     const properties = await appendBlobURL.getProperties(Aborter.none);
-    assert.equal(
-      properties.cacheControl,
-      options.blobHTTPHeaders.blobCacheControl
-    );
-    assert.equal(
-      properties.contentDisposition,
-      options.blobHTTPHeaders.blobContentDisposition
-    );
-    assert.equal(
-      properties.contentEncoding,
-      options.blobHTTPHeaders.blobContentEncoding
-    );
-    assert.equal(
-      properties.contentLanguage,
-      options.blobHTTPHeaders.blobContentLanguage
-    );
-    assert.equal(
-      properties.contentType,
-      options.blobHTTPHeaders.blobContentType
-    );
+    assert.equal(properties.cacheControl, options.blobHTTPHeaders.blobCacheControl);
+    assert.equal(properties.contentDisposition, options.blobHTTPHeaders.blobContentDisposition);
+    assert.equal(properties.contentEncoding, options.blobHTTPHeaders.blobContentEncoding);
+    assert.equal(properties.contentLanguage, options.blobHTTPHeaders.blobContentLanguage);
+    assert.equal(properties.contentType, options.blobHTTPHeaders.blobContentType);
     assert.equal(properties.metadata!.key1, options.metadata.key1);
     assert.equal(properties.metadata!.key2, options.metadata.key2);
   });

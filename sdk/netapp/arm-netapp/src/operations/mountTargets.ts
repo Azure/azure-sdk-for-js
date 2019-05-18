@@ -27,7 +27,8 @@ export class MountTargets {
   }
 
   /**
-   * List mount targets
+   * List all mount targets associated with the volume
+   * @summary Describe all mount targets
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
@@ -90,7 +91,7 @@ const listOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.MountTargetList
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer

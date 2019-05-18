@@ -58,9 +58,6 @@ describe("BlockBlobURL Node.js only", function() {
     const body: string = recorder.getUniqueName("randomstring你好");
     await blockBlobURL.upload(Aborter.none, body, Buffer.byteLength(body));
     const result = await blobURL.download(Aborter.none, 0);
-    assert.deepStrictEqual(
-      await bodyToString(result, Buffer.byteLength(body)),
-      body
-    );
+    assert.deepStrictEqual(await bodyToString(result, Buffer.byteLength(body)), body);
   });
 });
