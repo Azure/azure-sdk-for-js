@@ -22,11 +22,12 @@ const nodeRollupConfigFactory = () => {
       format: "cjs",
       sourcemap: true
     },
+    preserveSymlinks: false,
     plugins: [nodeResolve(), uglify()]
   };
 };
 
-const browserRollupConfigFactory = isProduction => {
+const browserRollupConfigFactory = (isProduction) => {
   const browserRollupConfig = {
     input: "dist-esm/src/index.browser.js",
     output: {
@@ -36,6 +37,7 @@ const browserRollupConfigFactory = isProduction => {
       name: "azfile",
       sourcemap: true
     },
+    preserveSymlinks: false,
     plugins: [
       replace({
         delimiters: ["", ""],
@@ -55,8 +57,7 @@ const browserRollupConfigFactory = isProduction => {
         `
       }),
       nodeResolve({
-        module: true,
-        browser: true,
+        mainFields: ["module", "browser"],
         preferBuiltins: false
       }),
       commonjs({

@@ -1,9 +1,4 @@
-import {
-  HttpHeaders,
-  RequestPolicy,
-  RequestPolicyOptions,
-  WebResource
-} from "@azure/ms-rest-js";
+import { HttpHeaders, RequestPolicy, RequestPolicyOptions, WebResource } from "@azure/ms-rest-js";
 
 import { TokenCredential } from "../credentials/TokenCredential";
 import { HeaderConstants } from "../utils/constants";

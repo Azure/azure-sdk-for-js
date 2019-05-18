@@ -5,9 +5,6 @@ import * as log from "../log";
 import Long from "long";
 import { ClientType } from "../client";
 import { ConnectionContext } from "../connectionContext";
-import { MessageReceiver } from "../core/messageReceiver";
-import { MessageSession } from "../session/messageSession";
-import { DispositionType, ReceiveMode } from "../serviceBusMessage";
 
 /**
  * @internal
@@ -137,7 +134,7 @@ export function getReceiverClosedErrorMsg(
       `Please create a new client using an instance of ServiceBusClient.`
     );
   }
-  if (!sessionId) {
+  if (sessionId == undefined) {
     return (
       `The receiver for "${entityPath}" has been closed and can no longer be used. ` +
       `Please create a new receiver using the "createReceiver" function on the ${clientType}.`
@@ -155,7 +152,7 @@ export function getReceiverClosedErrorMsg(
  * @param sessionId If using session receiver, then the id of the session
  */
 export function getAlreadyReceivingErrorMsg(entityPath: string, sessionId?: string): string {
-  if (!sessionId) {
+  if (sessionId == undefined) {
     return `The receiver for "${entityPath}" is already receiving messages.`;
   }
   return `The receiver for session "${sessionId}" for "${entityPath}" is already receiving messages.`;
@@ -264,42 +261,7 @@ export function throwTypeErrorIfParameterIsEmptyString(
 }
 
 /**
- * Logs and Throws an error if the given message cannot be settled.
- * @param receiver Receiver to be used to settle this message
- * @param operation Settle operation: complete, abandon, defer or deadLetter
- * @param isRemoteSettled Boolean indicating if the message has been settled at the remote
- */
-export function throwIfMessageCannotBeSettled(
-  receiver: MessageReceiver | MessageSession | undefined,
-  operation: DispositionType,
-  isRemoteSettled: boolean
-): void {
-  let errorMessage;
-  if (!receiver) {
-    errorMessage = `Failed to ${operation} the message as it's receiver has been closed.`;
-  } else if (receiver.receiveMode !== ReceiveMode.peekLock) {
-    errorMessage = getErrorMessageNotSupportedInReceiveAndDeleteMode(`${operation} the message`);
-  } else if (isRemoteSettled) {
-    errorMessage = `Failed to ${operation} the message as this message has been already settled.`;
-  }
-  if (!errorMessage) {
-    return;
-  }
-  const error = new Error(errorMessage);
-  if (receiver) {
-    log.error(
-      "An error occured when settling a message using the receiver %s: %O",
-      receiver.name,
-      error
-    );
-  } else {
-    log.error("An error occured when settling a message: %O", error);
-  }
-
-  throw error;
-}
-
-/**
+ * @internal
  * Gets error message for when an operation is not supported in ReceiveAndDelete mode
  * @param failedToDo A string to add to the placeholder in the error message. Denotes the action
  * that is not supported in ReceiveAndDelete mode

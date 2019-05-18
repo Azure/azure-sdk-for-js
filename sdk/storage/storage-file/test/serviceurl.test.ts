@@ -5,7 +5,7 @@ import { ShareURL } from "../src/ShareURL";
 import { getBSU, wait } from "./utils";
 import { record } from "./utils/nock-recorder";
 import * as dotenv from "dotenv";
-dotenv.config({ path:"../.env" });
+dotenv.config({ path: "../.env" });
 
 describe("ServiceURL", function() {
   const testSuiteTitle = this.fullTitle();
@@ -51,15 +51,11 @@ describe("ServiceURL", function() {
     await shareURL1.create(Aborter.none, { metadata: { key: "val" } });
     await shareURL2.create(Aborter.none, { metadata: { key: "val" } });
 
-    const result1 = await serviceURL.listSharesSegment(
-      Aborter.none,
-      undefined,
-      {
-        include: ["metadata", "snapshots"],
-        maxresults: 1,
-        prefix: shareNamePrefix
-      }
-    );
+    const result1 = await serviceURL.listSharesSegment(Aborter.none, undefined, {
+      include: ["metadata", "snapshots"],
+      maxresults: 1,
+      prefix: shareNamePrefix
+    });
 
     assert.ok(result1.nextMarker);
     assert.equal(result1.shareItems!.length, 1);
@@ -68,15 +64,11 @@ describe("ServiceURL", function() {
     assert.ok(result1.shareItems![0].properties.lastModified);
     assert.deepEqual(result1.shareItems![0].metadata!.key, "val");
 
-    const result2 = await serviceURL.listSharesSegment(
-      Aborter.none,
-      result1.nextMarker,
-      {
-        include: ["metadata", "snapshots"],
-        maxresults: 1,
-        prefix: shareNamePrefix
-      }
-    );
+    const result2 = await serviceURL.listSharesSegment(Aborter.none, result1.nextMarker, {
+      include: ["metadata", "snapshots"],
+      maxresults: 1,
+      prefix: shareNamePrefix
+    });
 
     assert.ok(!result2.nextMarker);
     assert.equal(result2.shareItems!.length, 1);

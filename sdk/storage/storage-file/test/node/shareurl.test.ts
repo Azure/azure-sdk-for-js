@@ -43,14 +43,9 @@ describe("ShareURL", function() {
     ];
 
     await shareURL.setAccessPolicy(Aborter.none, identifiers);
-    const getAccessPolicyResponse = await shareURL.getAccessPolicy(
-      Aborter.none
-    );
+    const getAccessPolicyResponse = await shareURL.getAccessPolicy(Aborter.none);
 
-    assert.equal(
-      getAccessPolicyResponse.signedIdentifiers[0].id,
-      identifiers[0].id
-    );
+    assert.equal(getAccessPolicyResponse.signedIdentifiers[0].id, identifiers[0].id);
     assert.equal(
       getAccessPolicyResponse.signedIdentifiers[0].accessPolicy.expiry.getTime(),
       identifiers[0].accessPolicy.expiry.getTime()
@@ -65,7 +60,7 @@ describe("ShareURL", function() {
     );
   });
 
-  it("getAccessPolicy", done => {
+  it("getAccessPolicy", (done) => {
     // create() with default parameters has been tested in setAccessPolicy
     done();
   });

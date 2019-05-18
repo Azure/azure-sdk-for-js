@@ -49,7 +49,8 @@ export class Receiver {
   }
 
   /**
-   * @property Returns `true` if either the receiver or the client that created it has been closed
+   * @property Returns `true` if the receiver is closed. This can happen either because the receiver
+   * itself has been closed or the client that created it has been closed.
    * @readonly
    */
   public get isClosed(): boolean {
@@ -70,8 +71,11 @@ export class Receiver {
   /**
    * Registers handlers to deal with the incoming stream of messages over an AMQP receiver link
    * from a Queue/Subscription.
-   * To stop receiving messages, call `close()` on the Receiver or set the property
-   * `newMessageWaitTimeoutInSeconds` in the options to provide a timeout.
+   * To stop receiving messages, call `close()` on the Receiver.
+   *
+   * Throws an error if there is another receive operation in progress on the same receiver. If you
+   * are not sure whether there is another receive operation running, check the `isReceivingMessages`
+   * property on the receiver.
    *
    * @param onMessage - Handler for processing each incoming message.
    * @param onError - Handler for any error that occurs while receiving or processing messages.
@@ -122,6 +126,10 @@ export class Receiver {
    * Returns a promise that resolves to an array of messages based on given count and timeout over
    * an AMQP receiver link from a Queue/Subscription.
    *
+   * Throws an error if there is another receive operation in progress on the same receiver. If you
+   * are not sure whether there is another receive operation running, check the `isReceivingMessages`
+   * property on the receiver.
+   *
    * @param maxMessageCount      The maximum number of messages to receive from Queue/Subscription.
    * @param idleTimeoutInSeconds The maximum wait time in seconds for which the Receiver
    * should wait to receive the first message. If no message is received by this time,
@@ -139,8 +147,7 @@ export class Receiver {
     if (!this._context.batchingReceiver || !this._context.batchingReceiver.isOpen()) {
       const options: ReceiveOptions = {
         maxConcurrentCalls: 0,
-        receiveMode: this._receiveMode,
-        newMessageWaitTimeoutInSeconds: 1
+        receiveMode: this._receiveMode
       };
       this._context.batchingReceiver = BatchingReceiver.create(this._context, options);
     }
@@ -150,8 +157,12 @@ export class Receiver {
 
   /**
    * Gets an async iterator over messages from the receiver.
-   * While iterating, you will get `undefined` instead of a message, if the iterator is not able to
-   * fetch a new message in over a minute.
+   *
+   * Throws an error if there is another receive operation in progress on the same receiver. If you
+   * are not sure whether there is another receive operation running, check the `isReceivingMessages`
+   * property on the receiver.
+   *
+   * If the iterator is not able to fetch a new message in over a minute, `undefined` will be returned.
    */
   async *getMessageIterator(): AsyncIterableIterator<ServiceBusMessage> {
     while (true) {
@@ -189,7 +200,7 @@ export class Receiver {
 
     let receiverName;
     if (this._context.batchingReceiver) {
-      receiverName = BatchingReceiver.name;
+      receiverName = this._context.batchingReceiver.name;
     } else if (this._context.streamingReceiver) {
       receiverName = this._context.streamingReceiver.name;
     }
@@ -220,9 +231,17 @@ export class Receiver {
       sequenceNumber
     );
 
+    let receiverName;
+    if (this._context.batchingReceiver) {
+      receiverName = this._context.batchingReceiver.name;
+    } else if (this._context.streamingReceiver) {
+      receiverName = this._context.streamingReceiver.name;
+    }
+
     const messages = await this._context.managementClient!.receiveDeferredMessages(
       [sequenceNumber],
-      this._receiveMode
+      this._receiveMode,
+      receiverName
     );
     return messages[0];
   }
@@ -251,9 +270,17 @@ export class Receiver {
       sequenceNumbers
     );
 
+    let receiverName;
+    if (this._context.batchingReceiver) {
+      receiverName = this._context.batchingReceiver.name;
+    } else if (this._context.streamingReceiver) {
+      receiverName = this._context.streamingReceiver.name;
+    }
+
     return this._context.managementClient!.receiveDeferredMessages(
       sequenceNumbers,
-      this._receiveMode
+      this._receiveMode,
+      receiverName
     );
   }
 
@@ -368,7 +395,8 @@ export class SessionReceiver {
   }
 
   /**
-   * @property Returns `true` if either the receiver or the client that created it has been closed
+   * @property Returns `true` if the receiver is closed. This can happen either because the receiver
+   * itself has been closed or the client that created it has been closed.
    * @readonly
    */
   public get isClosed(): boolean {
@@ -378,7 +406,7 @@ export class SessionReceiver {
   }
 
   /**
-   * @property The sessionId for the message session.
+   * @property The id of the session from which this receiver will receive messages.
    * Will return undefined until a AMQP receiver link has been successfully set up for the session.
    * @readonly
    */
@@ -413,7 +441,7 @@ export class SessionReceiver {
       receiveMode === ReceiveMode.receiveAndDelete ? receiveMode : ReceiveMode.peekLock;
     this._sessionOptions = sessionOptions;
 
-    if (sessionOptions.sessionId) {
+    if (sessionOptions.sessionId != undefined) {
       sessionOptions.sessionId = String(sessionOptions.sessionId);
 
       // Check if receiver for given session already exists
@@ -464,7 +492,11 @@ export class SessionReceiver {
   async setState(state: any): Promise<void> {
     this._throwIfReceiverOrConnectionClosed();
     await this._createMessageSessionIfDoesntExist();
-    return this._context.managementClient!.setSessionState(this.sessionId!, state);
+    return this._context.managementClient!.setSessionState(
+      this.sessionId!,
+      state,
+      this._messageSession!.name
+    );
   }
 
   /**
@@ -475,7 +507,10 @@ export class SessionReceiver {
   async getState(): Promise<any> {
     this._throwIfReceiverOrConnectionClosed();
     await this._createMessageSessionIfDoesntExist();
-    return this._context.managementClient!.getSessionState(this.sessionId!);
+    return this._context.managementClient!.getSessionState(
+      this.sessionId!,
+      this._messageSession!.name
+    );
   }
 
   /**
@@ -492,7 +527,11 @@ export class SessionReceiver {
   async peek(maxMessageCount?: number): Promise<ReceivedMessageInfo[]> {
     this._throwIfReceiverOrConnectionClosed();
     await this._createMessageSessionIfDoesntExist();
-    return this._context.managementClient!.peekMessagesBySession(this.sessionId!, maxMessageCount);
+    return this._context.managementClient!.peekMessagesBySession(
+      this.sessionId!,
+      this._messageSession!.name,
+      maxMessageCount
+    );
   }
 
   /**
@@ -514,7 +553,8 @@ export class SessionReceiver {
     return this._context.managementClient!.peekBySequenceNumber(
       fromSequenceNumber,
       maxMessageCount,
-      this.sessionId
+      this.sessionId,
+      this._messageSession!.name
     );
   }
 
@@ -543,6 +583,7 @@ export class SessionReceiver {
     const messages = await this._context.managementClient!.receiveDeferredMessages(
       [sequenceNumber],
       this._receiveMode,
+      this._messageSession!.name,
       this.sessionId
     );
     return messages[0];
@@ -576,6 +617,7 @@ export class SessionReceiver {
     return this._context.managementClient!.receiveDeferredMessages(
       sequenceNumbers,
       this._receiveMode,
+      this._messageSession!.name,
       this.sessionId
     );
   }
@@ -583,6 +625,10 @@ export class SessionReceiver {
   /**
    * Returns a promise that resolves to an array of messages based on given count and timeout over
    * an AMQP receiver link from a Queue/Subscription.
+   *
+   * Throws an error if there is another receive operation in progress on the same receiver. If you
+   * are not sure whether there is another receive operation running, check the `isReceivingMessages`
+   * property on the receiver.
    *
    * @param maxMessageCount      The maximum number of messages to receive from Queue/Subscription.
    * @param maxWaitTimeInSeconds The maximum wait time in seconds for which the Receiver
@@ -604,8 +650,11 @@ export class SessionReceiver {
   /**
    * Registers handlers to deal with the incoming stream of messages over an AMQP receiver link
    * from a Queue/Subscription.
-   * To stop receiving messages, call `close()` on the SessionReceiver or set the property
-   * `newMessageWaitTimeoutInSeconds` in the options to provide a timeout.
+   * To stop receiving messages, call `close()` on the SessionReceiver.
+   *
+   * Throws an error if there is another receive operation in progress on the same receiver. If you
+   * are not sure whether there is another receive operation running, check the `isReceivingMessages`
+   * property on the receiver.
    *
    * @param onMessage - Handler for processing each incoming message.
    * @param onError - Handler for any error that occurs while receiving or processing messages.
@@ -652,8 +701,12 @@ export class SessionReceiver {
 
   /**
    * Gets an async iterator over messages from the receiver.
-   * While iterating, you will get `undefined` instead of a message, if the iterator is not able to
-   * fetch a new message in over a minute.
+   *
+   * Throws an error if there is another receive operation in progress on the same receiver. If you
+   * are not sure whether there is another receive operation running, check the `isReceivingMessages`
+   * property on the receiver.
+   *
+   * If the iterator is not able to fetch a new message in over a minute, `undefined` will be returned
    */
   async *getMessageIterator(): AsyncIterableIterator<ServiceBusMessage> {
     while (true) {
@@ -724,15 +777,8 @@ export class SessionReceiver {
         .maxSessionAutoRenewLockDurationInSeconds,
       receiveMode: this._receiveMode
     });
-    // By this point, we should have a valid sessionId on the messageSession
-    // If not, the receiver cannot be used, so throw error.
-    if (!this._messageSession.sessionId) {
-      const error = new Error("Something went wrong. Cannot lock a session.");
-      log.error(`[${this._context.namespace.connectionId}] %O`, error);
-      throw error;
-    }
     this._sessionId = this._messageSession.sessionId;
-    delete this._context.expiredMessageSessions[this._messageSession.sessionId];
+    delete this._context.expiredMessageSessions[this._messageSession.sessionId!];
   }
 
   private _throwIfAlreadyReceiving(): void {

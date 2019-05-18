@@ -8,7 +8,7 @@ import { getBSU } from "./utils";
 import { InjectorPolicyFactory } from "./utils/InjectorPolicyFactory";
 import { record } from "./utils/nock-recorder";
 import * as dotenv from "dotenv";
-dotenv.config({ path:"../.env" });
+dotenv.config({ path: "../.env" });
 
 describe("RetryPolicy", function() {
   const serviceURL = getBSU();
@@ -35,11 +35,7 @@ describe("RetryPolicy", function() {
     const injector = new InjectorPolicyFactory(() => {
       if (injectCounter === 0) {
         injectCounter++;
-        return new RestError(
-          "Server Internal Error",
-          "ServerInternalError",
-          500
-        );
+        return new RestError("Server Internal Error", "ServerInternalError", 500);
       }
     });
     const factories = shareURL.pipeline.factories.slice(); // clone factories array
@@ -63,8 +59,7 @@ describe("RetryPolicy", function() {
       return new RestError("Server Internal Error", "ServerInternalError", 500);
     });
 
-    const credential =
-      shareURL.pipeline.factories[shareURL.pipeline.factories.length - 1];
+    const credential = shareURL.pipeline.factories[shareURL.pipeline.factories.length - 1];
     const factories = StorageURL.newPipeline(credential, {
       retryOptions: { maxTries: 3 }
     }).factories;

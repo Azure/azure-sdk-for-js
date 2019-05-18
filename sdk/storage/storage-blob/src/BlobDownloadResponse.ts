@@ -4,10 +4,7 @@ import { Aborter } from "./Aborter";
 import * as Models from "./generated/lib/models";
 import { IMetadata } from "./models";
 import { IRetriableReadableStreamOptions } from "./utils/RetriableReadableStream";
-import {
-  ReadableStreamGetter,
-  RetriableReadableStream
-} from "./utils/RetriableReadableStream";
+import { ReadableStreamGetter, RetriableReadableStream } from "./utils/RetriableReadableStream";
 
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.

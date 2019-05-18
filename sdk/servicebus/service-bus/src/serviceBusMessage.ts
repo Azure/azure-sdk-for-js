@@ -9,12 +9,13 @@ import {
   MessageAnnotations,
   DeliveryAnnotations
 } from "rhea-promise";
-import { Constants, AmqpMessage } from "@azure/amqp-common";
+import { Constants, AmqpMessage, translate, ErrorNameConditionMapper } from "@azure/amqp-common";
 import * as log from "./log";
 import { ClientEntityContext } from "./clientEntityContext";
 import { reorderLockToken } from "../src/util/utils";
-import { throwIfMessageCannotBeSettled } from "../src/util/errors";
-
+import { MessageReceiver } from "../src/core/messageReceiver";
+import { MessageSession } from "../src/session/messageSession";
+import { getErrorMessageNotSupportedInReceiveAndDeleteMode } from "./util/errors";
 /**
  * The mode in which messages should be received. The 2 modes are `peekLock` and `receiveAndDelete`.
  */
@@ -241,73 +242,35 @@ export interface SendableMessageInfo {
 
 /**
  * @internal
- * Validates the properties in the given SendableMessageInfo
+ * Gets the error message for when a property on given message is not of expected type
  */
-export function validateAmqpMessage(msg: SendableMessageInfo): void {
-  if (!msg) {
-    throw new Error("'msg' cannot be null or undefined.");
-  }
-
+export function getMessagePropertyTypeMismatchError(msg: SendableMessageInfo): Error | undefined {
   if (msg.contentType != undefined && typeof msg.contentType !== "string") {
-    throw new Error("'contentType' must be of type 'string'.");
+    return new TypeError("The property 'contentType' on the message must be of type 'string'");
   }
 
   if (msg.label != undefined && typeof msg.label !== "string") {
-    throw new Error("'label' must be of type 'string'.");
+    return new TypeError("The property 'label' on the message must be of type 'string'");
   }
 
   if (msg.to != undefined && typeof msg.to !== "string") {
-    throw new Error("'to' must be of type 'string'.");
+    return new TypeError("The property 'to' on the message must be of type 'string'");
+  }
+
+  if (msg.replyTo != undefined && typeof msg.replyTo !== "string") {
+    return new TypeError("The property 'replyTo' on the message must be of type 'string'");
   }
 
   if (msg.replyToSessionId != undefined && typeof msg.replyToSessionId !== "string") {
-    throw new Error("'replyToSessionId' must be of type 'string'.");
+    return new TypeError("The property 'replyToSessionId' on the message must be of type 'string'");
   }
 
   if (msg.timeToLive != undefined && typeof msg.timeToLive !== "number") {
-    throw new Error("'timeToLive' must be of type 'number'.");
-  }
-
-  if (
-    msg.scheduledEnqueueTimeUtc &&
-    (!(msg.scheduledEnqueueTimeUtc instanceof Date) ||
-      msg.scheduledEnqueueTimeUtc!.toString() === "Invalid Date")
-  ) {
-    throw new Error("'scheduledEnqueueTimeUtc' must be an instance of a valid 'Date'.");
-  }
-
-  if (
-    (msg.partitionKey != undefined && typeof msg.partitionKey !== "string") ||
-    (typeof msg.partitionKey === "string" &&
-      msg.partitionKey.length > Constants.maxPartitionKeyLength)
-  ) {
-    throw new Error(
-      "'partitionKey' must be of type 'string' with a length less than 128 characters."
-    );
-  }
-
-  if (
-    (msg.viaPartitionKey != undefined && typeof msg.viaPartitionKey !== "string") ||
-    (typeof msg.viaPartitionKey === "string" &&
-      msg.viaPartitionKey.length > Constants.maxPartitionKeyLength)
-  ) {
-    throw new Error(
-      "'viaPartitionKey' must be of type 'string' with a length less than 128 characters."
-    );
+    return new TypeError("The property 'timeToLive' on the message must be of type 'number'");
   }
 
   if (msg.sessionId != undefined && typeof msg.sessionId !== "string") {
-    throw new Error("'sessionId' must be of type 'string'.");
-  }
-
-  if (
-    msg.sessionId != undefined &&
-    typeof msg.sessionId === "string" &&
-    msg.sessionId.length > Constants.maxSessionIdLength
-  ) {
-    throw new Error(
-      "Length of 'sessionId' of type 'string' cannot be greater than 128 characters."
-    );
+    return new TypeError("The property 'sessionId' on the message must be of type 'string'");
   }
 
   if (
@@ -316,24 +279,8 @@ export function validateAmqpMessage(msg: SendableMessageInfo): void {
     typeof msg.messageId !== "number" &&
     !Buffer.isBuffer(msg.messageId)
   ) {
-    throw new Error("'messageId' must be of type 'string' | 'number' | Buffer.");
-  }
-
-  if (
-    msg.messageId &&
-    typeof msg.messageId === "number" &&
-    Math.floor(msg.messageId) !== msg.messageId
-  ) {
-    throw new Error("'messageId' must be a whole integer. Decimal points are not allowed.");
-  }
-
-  if (
-    msg.messageId != undefined &&
-    typeof msg.messageId === "string" &&
-    msg.messageId.length > Constants.maxMessageIdLength
-  ) {
-    throw new Error(
-      "Length of 'messageId' of type 'string' cannot be greater than 128 characters."
+    return new TypeError(
+      "The property 'messageId' on the message must be of type string, number or Buffer"
     );
   }
 
@@ -343,8 +290,11 @@ export function validateAmqpMessage(msg: SendableMessageInfo): void {
     typeof msg.correlationId !== "number" &&
     !Buffer.isBuffer(msg.correlationId)
   ) {
-    throw new Error("'correlationId' must be of type 'string' | 'number' | Buffer.");
+    return new TypeError(
+      "The property 'correlationId' on the message must be of type string, number or Buffer"
+    );
   }
+  return;
 }
 
 /**
@@ -352,7 +302,6 @@ export function validateAmqpMessage(msg: SendableMessageInfo): void {
  * Converts given SendableMessageInfo to AmqpMessage
  */
 export function toAmqpMessage(msg: SendableMessageInfo): AmqpMessage {
-  validateAmqpMessage(msg);
   const amqpMsg: AmqpMessage = {
     body: msg.body,
     message_annotations: {}
@@ -364,6 +313,11 @@ export function toAmqpMessage(msg: SendableMessageInfo): AmqpMessage {
     amqpMsg.content_type = msg.contentType;
   }
   if (msg.sessionId != undefined) {
+    if (msg.sessionId.length > Constants.maxSessionIdLength) {
+      throw new Error(
+        "Length of 'sessionId' property on the message cannot be greater than 128 characters."
+      );
+    }
     amqpMsg.group_id = msg.sessionId;
   }
   if (msg.replyTo != undefined) {
@@ -376,6 +330,11 @@ export function toAmqpMessage(msg: SendableMessageInfo): AmqpMessage {
     amqpMsg.subject = msg.label;
   }
   if (msg.messageId != undefined) {
+    if (typeof msg.messageId === "string" && msg.messageId.length > Constants.maxMessageIdLength) {
+      throw new Error(
+        "Length of 'messageId' property on the message cannot be greater than 128 characters."
+      );
+    }
     amqpMsg.message_id = msg.messageId;
   }
   if (msg.correlationId != undefined) {
@@ -394,9 +353,19 @@ export function toAmqpMessage(msg: SendableMessageInfo): AmqpMessage {
     }
   }
   if (msg.partitionKey != undefined) {
+    if (msg.partitionKey.length > Constants.maxPartitionKeyLength) {
+      throw new Error(
+        "Length of 'partitionKey' property on the message cannot be greater than 128 characters."
+      );
+    }
     amqpMsg.message_annotations![Constants.partitionKey] = msg.partitionKey;
   }
   if (msg.viaPartitionKey != undefined) {
+    if (msg.viaPartitionKey.length > Constants.maxPartitionKeyLength) {
+      throw new Error(
+        "Length of 'viaPartitionKey' property on the message cannot be greater than 128 characters."
+      );
+    }
     amqpMsg.message_annotations![Constants.viaPartitionKey] = msg.viaPartitionKey;
   }
   if (msg.scheduledEnqueueTimeUtc != undefined) {
@@ -407,7 +376,7 @@ export function toAmqpMessage(msg: SendableMessageInfo): AmqpMessage {
 }
 
 /**
- * Describes the message received from Service Bus.
+ * Describes the message received from Service Bus during peek operations and so cannot be settled.
  * @class ReceivedSBMessage
  */
 export interface ReceivedMessageInfo extends SendableMessageInfo {
@@ -492,7 +461,9 @@ export function fromAmqpMessage(
   shouldReorderLockToken?: boolean
 ): ReceivedMessageInfo {
   if (!msg) {
-    throw new Error("'msg' cannot be null or undefined.");
+    msg = {
+      body: undefined
+    };
   }
   const sbmsg: SendableMessageInfo = {
     body: msg.body
@@ -579,14 +550,14 @@ export function fromAmqpMessage(
     lockToken:
       delivery && delivery.tag && delivery.tag.length !== 0
         ? uuid_to_string(
-          shouldReorderLockToken === true
-            ? reorderLockToken(
-              typeof delivery.tag === "string" ? Buffer.from(delivery.tag) : delivery.tag
-            )
-            : typeof delivery.tag === "string"
+            shouldReorderLockToken === true
+              ? reorderLockToken(
+                  typeof delivery.tag === "string" ? Buffer.from(delivery.tag) : delivery.tag
+                )
+              : typeof delivery.tag === "string"
               ? Buffer.from(delivery.tag)
               : delivery.tag
-        )
+          )
         : undefined,
     ...sbmsg,
     ...props
@@ -814,6 +785,13 @@ export class ServiceBusMessage implements ReceivedMessage {
    */
   readonly _amqpMessage: AmqpMessage;
   /**
+   * @property Boolean denoting if the message has already been settled.
+   * @readonly
+   */
+  public get isSettled(): boolean {
+    return this.delivery.remote_settled;
+  }
+  /**
    * @property {ClientEntityContext} _context The client entity context.
    * @readonly
    */
@@ -839,6 +817,20 @@ export class ServiceBusMessage implements ReceivedMessage {
 
   /**
    * Removes the message from Service Bus.
+   *
+   * - Throws `SessionLockLostError` (for messages from a Queue/Subscription with sessions enabled)
+   * if the AMQP link with which the message was received is no longer alive. This can
+   * happen either because the lock on the session expired or the receiver was explicitly closed by
+   * the user or the AMQP link got closed by the library due to network loss or service error.
+   * - Throws `MessageLockLostError` (for messages from a Queue/Subscription with sessions not enabled)
+   * if the lock on the message has expired or the AMQP link with which the message was received is
+   * no longer alive. The latter can happen if the receiver was explicitly closed by the user or the
+   * AMQP link got closed by the library due to network loss or service error.
+   * - Throws an error if the message is already settled. To avoid this error check the `isSettled`
+   * property on the message if you are not sure whether the message is settled.
+   * - Throws an error if used in `ReceiveAndDelete` mode because all messages received in this mode
+   * are pre-settled.
+   *
    * @returns Promise<void>.
    */
   async complete(): Promise<void> {
@@ -861,13 +853,32 @@ export class ServiceBusMessage implements ReceivedMessage {
       return;
     }
     const receiver = this._context.getReceiver(this.delivery.link.name, this.sessionId);
-    throwIfMessageCannotBeSettled(receiver, DispositionType.complete, this.delivery.remote_settled);
+    throwIfMessageCannotBeSettled(
+      receiver,
+      DispositionType.complete,
+      this.delivery.remote_settled,
+      this.sessionId
+    );
 
     return receiver!.settleMessage(this, DispositionType.complete);
   }
   /**
    * The lock held on the message by the receiver is let go, making the message available again in
    * Service Bus for another receive operation.
+   *
+   * - Throws `SessionLockLostError` (for messages from a Queue/Subscription with sessions enabled)
+   * if the AMQP link with which the message was received is no longer alive. This can
+   * happen either because the lock on the session expired or the receiver was explicitly closed by
+   * the user or the AMQP link got closed by the library due to network loss or service error.
+   * - Throws `MessageLockLostError` (for messages from a Queue/Subscription with sessions not enabled)
+   * if the lock on the message has expired or the AMQP link with which the message was received is
+   * no longer alive. The latter can happen if the receiver was explicitly closed by the user or the
+   * AMQP link got closed by the library due to network loss or service error.
+   * - Throws an error if the message is already settled. To avoid this error check the `isSettled`
+   * property on the message if you are not sure whether the message is settled.
+   * - Throws an error if used in `ReceiveAndDelete` mode because all messages received in this mode
+   * are pre-settled.
+   *
    * @param propertiesToModify The properties of the message to modify while abandoning the message.
    *
    * @return Promise<void>.
@@ -891,7 +902,12 @@ export class ServiceBusMessage implements ReceivedMessage {
       return;
     }
     const receiver = this._context.getReceiver(this.delivery.link.name, this.sessionId);
-    throwIfMessageCannotBeSettled(receiver, DispositionType.abandon, this.delivery.remote_settled);
+    throwIfMessageCannotBeSettled(
+      receiver,
+      DispositionType.abandon,
+      this.delivery.remote_settled,
+      this.sessionId
+    );
 
     return receiver!.settleMessage(this, DispositionType.abandon, {
       propertiesToModify: propertiesToModify
@@ -901,6 +917,20 @@ export class ServiceBusMessage implements ReceivedMessage {
   /**
    * Defers the processing of the message. Save the `sequenceNumber` of the message, in order to
    * receive it message again in the future using the `receiveDeferredMessage` method.
+   *
+   * - Throws `SessionLockLostError` (for messages from a Queue/Subscription with sessions enabled)
+   * if the AMQP link with which the message was received is no longer alive. This can
+   * happen either because the lock on the session expired or the receiver was explicitly closed by
+   * the user or the AMQP link got closed by the library due to network loss or service error.
+   * - Throws `MessageLockLostError` (for messages from a Queue/Subscription with sessions not enabled)
+   * if the lock on the message has expired or the AMQP link with which the message was received is
+   * no longer alive. The latter can happen if the receiver was explicitly closed by the user or the
+   * AMQP link got closed by the library due to network loss or service error.
+   * - Throws an error if the message is already settled. To avoid this error check the `isSettled`
+   * property on the message if you are not sure whether the message is settled.
+   * - Throws an error if used in `ReceiveAndDelete` mode because all messages received in this mode
+   * are pre-settled.
+   *
    * @param propertiesToModify The properties of the message to modify while deferring the message
    *
    * @returns Promise<void>
@@ -923,7 +953,12 @@ export class ServiceBusMessage implements ReceivedMessage {
       return;
     }
     const receiver = this._context.getReceiver(this.delivery.link.name, this.sessionId);
-    throwIfMessageCannotBeSettled(receiver, DispositionType.defer, this.delivery.remote_settled);
+    throwIfMessageCannotBeSettled(
+      receiver,
+      DispositionType.defer,
+      this.delivery.remote_settled,
+      this.sessionId
+    );
 
     return receiver!.settleMessage(this, DispositionType.defer, {
       propertiesToModify: propertiesToModify
@@ -933,6 +968,20 @@ export class ServiceBusMessage implements ReceivedMessage {
   /**
    * Moves the message to the deadletter sub-queue. To receive a deadletted message, create a new
    * QueueClient/SubscriptionClient using the path for the deadletter sub-queue.
+   *
+   * - Throws `SessionLockLostError` (for messages from a Queue/Subscription with sessions enabled)
+   * if the AMQP link with which the message was received is no longer alive. This can
+   * happen either because the lock on the session expired or the receiver was explicitly closed by
+   * the user or the AMQP link got closed by the library due to network loss or service error.
+   * - Throws `MessageLockLostError` (for messages from a Queue/Subscription with sessions not enabled)
+   * if the lock on the message has expired or the AMQP link with which the message was received is
+   * no longer alive. The latter can happen if the receiver was explicitly closed by the user or the
+   * AMQP link got closed by the library due to network loss or service error.
+   * - Throws an error if the message is already settled. To avoid this error check the `isSettled`
+   * property on the message if you are not sure whether the message is settled.
+   * - Throws an error if used in `ReceiveAndDelete` mode because all messages received in this mode
+   * are pre-settled.
+   *
    * @param options The DeadLetter options that can be provided while
    * rejecting the message.
    *
@@ -972,7 +1021,8 @@ export class ServiceBusMessage implements ReceivedMessage {
     throwIfMessageCannotBeSettled(
       receiver,
       DispositionType.deadletter,
-      this.delivery.remote_settled
+      this.delivery.remote_settled,
+      this.sessionId
     );
 
     return receiver!.settleMessage(this, DispositionType.deadletter, {
@@ -1005,4 +1055,58 @@ export class ServiceBusMessage implements ReceivedMessage {
 
     return clone;
   }
+}
+
+/**
+ * @internal
+ * Logs and Throws an error if the given message cannot be settled.
+ * @param receiver Receiver to be used to settle this message
+ * @param operation Settle operation: complete, abandon, defer or deadLetter
+ * @param isRemoteSettled Boolean indicating if the message has been settled at the remote
+ * @param sessionId sessionId of the message if applicable
+ */
+export function throwIfMessageCannotBeSettled(
+  receiver: MessageReceiver | MessageSession | undefined,
+  operation: DispositionType,
+  isRemoteSettled: boolean,
+  sessionId?: string
+): void {
+  let error: Error | undefined;
+
+  if (receiver && receiver.receiveMode !== ReceiveMode.peekLock) {
+    error = new Error(
+      getErrorMessageNotSupportedInReceiveAndDeleteMode(`${operation} the message`)
+    );
+  } else if (isRemoteSettled) {
+    error = new Error(`Failed to ${operation} the message as this message is already settled.`);
+  } else if (!receiver || !receiver.isOpen()) {
+    const errorMessage =
+      `Failed to ${operation} the message as the AMQP link with which the message was ` +
+      `received is no longer alive.`;
+    if (sessionId != undefined) {
+      error = translate({
+        description: errorMessage,
+        condition: ErrorNameConditionMapper.SessionLockLostError
+      });
+    } else {
+      error = translate({
+        description: errorMessage,
+        condition: ErrorNameConditionMapper.MessageLockLostError
+      });
+    }
+  }
+  if (!error) {
+    return;
+  }
+  if (receiver) {
+    log.error(
+      "An error occured when settling a message using the receiver %s: %O",
+      receiver.name,
+      error
+    );
+  } else {
+    log.error("An error occured when settling a message: %O", error);
+  }
+
+  throw error;
 }

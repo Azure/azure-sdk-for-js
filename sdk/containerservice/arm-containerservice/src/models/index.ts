@@ -73,8 +73,9 @@ export interface OpenShiftRouterProfile {
   name?: string;
   /**
    * DNS subdomain for OpenShift router.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  publicSubdomain?: string;
+  readonly publicSubdomain?: string;
   /**
    * Auto-allocated FQDN for the OpenShift router.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -94,6 +95,10 @@ export interface NetworkProfile {
    * CIDR of the Vnet to peer.
    */
   peerVnetId?: string;
+  /**
+   * ID of the Vnet created for OSA cluster.
+   */
+  vnetId?: string;
 }
 
 /**
@@ -225,13 +230,20 @@ export interface OpenShiftManagedCluster extends Resource {
    */
   openShiftVersion: string;
   /**
-   * Optional user-specified FQDN for OpenShift API server.
+   * Version of OpenShift specified when creating the cluster.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  publicHostname?: string;
+  readonly clusterVersion?: string;
   /**
-   * User-specified FQDN for OpenShift API server loadbalancer internal hostname.
+   * Service generated FQDN for OpenShift API server.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  fqdn?: string;
+  readonly publicHostname?: string;
+  /**
+   * Service generated FQDN for OpenShift API server loadbalancer internal hostname.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly fqdn?: string;
   /**
    * Configuration for OpenShift networking.
    */

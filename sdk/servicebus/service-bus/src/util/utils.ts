@@ -143,7 +143,7 @@ export function toBuffer(input: any): Buffer {
     // string, undefined, null, boolean, array, object, number should end up here
     // coercing undefined to null as that will ensure that null value will be given to the
     // customer on receive.
-    if (input === undefined) input = null; // tslint:disable-line
+    if (input === undefined) input = null;
     try {
       const inputStr = JSON.stringify(input);
       result = Buffer.from(inputStr, "utf8");
@@ -159,3 +159,4 @@ export function toBuffer(input: any): Buffer {
   log.utils("[utils.toBuffer] The converted buffer is: %O.", result);
   return result;
 }
+
