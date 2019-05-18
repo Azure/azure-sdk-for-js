@@ -1,0 +1,72 @@
+{
+ "recordings": [
+  {
+   "method": "PUT",
+   "url": "https://coolstorageaccount1234.file.core.windows.net/share155816023162408522",
+   "requestBody": null,
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "date": "Sat, 18 May 2019 06:17:11 GMT",
+    "last-modified": "Sat, 18 May 2019 06:17:11 GMT",
+    "server": "Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0",
+    "etag": "\"0x8D6DB5876EFC57C\"",
+    "x-ms-request-id": "0f37ce5d-c01a-006c-7341-0d368b000000",
+    "x-ms-version": "2018-03-28",
+    "content-length": "0"
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "https://coolstorageaccount1234.file.core.windows.net/share155816023162408522",
+   "requestBody": null,
+   "status": 200,
+   "response": "",
+   "responseHeaders": {
+    "date": "Sat, 18 May 2019 06:17:11 GMT",
+    "last-modified": "Sat, 18 May 2019 06:17:12 GMT",
+    "server": "Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0",
+    "etag": "\"0x8D6DB587715861D\"",
+    "x-ms-request-id": "0f37ce61-c01a-006c-7541-0d368b000000",
+    "x-ms-version": "2018-03-28",
+    "content-length": "0"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://coolstorageaccount1234.file.core.windows.net/share155816023162408522",
+   "requestBody": null,
+   "status": 200,
+   "response": "",
+   "responseHeaders": {
+    "date": "Sat, 18 May 2019 06:17:12 GMT",
+    "x-ms-has-legal-hold": "false",
+    "last-modified": "Sat, 18 May 2019 06:17:12 GMT",
+    "server": "Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0",
+    "etag": "\"0x8D6DB587715861D\"",
+    "x-ms-request-id": "0f37ce64-c01a-006c-7741-0d368b000000",
+    "x-ms-share-quota": "20",
+    "x-ms-version": "2018-03-28",
+    "x-ms-has-immutability-policy": "false",
+    "content-length": "0"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://coolstorageaccount1234.file.core.windows.net/share155816023162408522",
+   "requestBody": null,
+   "status": 202,
+   "response": "",
+   "responseHeaders": {
+    "x-ms-request-id": "0f37ce66-c01a-006c-7941-0d368b000000",
+    "x-ms-version": "2018-03-28",
+    "server": "Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0",
+    "date": "Sat, 18 May 2019 06:17:12 GMT",
+    "content-length": "0"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "share": "share155816023162408522"
+ }
+}

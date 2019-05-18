@@ -1,0 +1,39 @@
+{
+ "recordings": [
+  {
+   "method": "PUT",
+   "url": "https://coolstorageaccount1234.file.core.windows.net/1share-with-dash155816042755305166/dir155816042755608615/file%20empty155816042891107912",
+   "requestBody": null,
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "date": "Sat, 18 May 2019 06:20:28 GMT",
+    "last-modified": "Sat, 18 May 2019 06:20:29 GMT",
+    "server": "Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0",
+    "etag": "\"0x8D6DB58EC8850A6\"",
+    "x-ms-request-id": "0039da2f-b01a-0063-4541-0ddb7d000000",
+    "x-ms-version": "2018-03-28",
+    "x-ms-request-server-encrypted": "true",
+    "content-length": "0"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://coolstorageaccount1234.file.core.windows.net/1share-with-dash155816042755305166/dir155816042755608615",
+   "requestBody": null,
+   "status": 200,
+   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><EnumerationResults ServiceEndpoint=\"https://coolstorageaccount1234.file.core.windows.net/\" ShareName=\"1share-with-dash155816042755305166\" DirectoryPath=\"dir155816042755608615\"><Prefix>file empty155816042891107912</Prefix><Entries><File><Name>file empty155816042891107912</Name><Properties><Content-Length>10</Content-Length></Properties></File></Entries><NextMarker /></EnumerationResults>",
+   "responseHeaders": {
+    "date": "Sat, 18 May 2019 06:20:28 GMT",
+    "server": "Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0",
+    "transfer-encoding": "chunked",
+    "content-type": "application/xml",
+    "x-ms-request-id": "0039da31-b01a-0063-4741-0ddb7d000000",
+    "x-ms-version": "2018-03-28"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "file empty": "file empty155816042891107912"
+ }
+}

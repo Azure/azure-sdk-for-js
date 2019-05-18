@@ -20,6 +20,14 @@ if (!isBrowser()) {
  * * UUID: a UUID is randomly generated within the SDK and used in an HTTP request, resulting in Nock being unable to recognize it
 */
 const skip: any = [
+  // Abort
+  "browsers/aborter/recording_should_abort_after_aborter_timeout.json",
+  // Abort
+  "browsers/aborter/recording_should_abort_after_parent_aborter_calls_abort.json",
+  // Abort
+  "browsers/aborter/recording_should_abort_after_parent_aborter_timeout.json",
+  // Abort
+  "browsers/aborter/recording_should_abort_when_calling_abort_before_request_finishes.json",
   // Progress
   "node/fileurl/recording_download_should_update_progress_and_abort_successfully.js",
   // Progress, Size (15MB), Tempfile
