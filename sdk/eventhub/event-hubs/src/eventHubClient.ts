@@ -239,13 +239,15 @@ export class EventHubClient {
   async send(data: EventData, options?: SendOptions): Promise<Delivery>;
   async send(data: EventData, partitionIdOrptions?: string | number | SendOptions): Promise<Delivery> {
     let partitionId: string | number | undefined;
+    let sendOptions: SendOptions = {};
     if (typeof partitionIdOrptions === "string" || typeof partitionIdOrptions === "number") {
       partitionId = partitionIdOrptions;
-    } else if (partitionIdOrptions && partitionIdOrptions.hasOwnProperty("partitionId")) {
+    } else if (partitionIdOrptions && typeof partitionIdOrptions === "object") {
       partitionId = partitionIdOrptions.partitionId;
+      sendOptions = partitionIdOrptions;
     }
     const sender = EventHubSender.create(this._context, partitionId);
-    return typeof partitionIdOrptions === "object" ? sender.send(data, partitionIdOrptions) :  sender.send(data);
+    return sender.send(data, sendOptions);
   }
 
   /**
@@ -263,13 +265,15 @@ export class EventHubClient {
   async sendBatch(data: EventData[], options?: SendOptions): Promise<Delivery>;
   async sendBatch(data: EventData[], partitionIdOrptions?: string | number | SendOptions): Promise<Delivery> {
     let partitionId: string | number | undefined;
+    let sendOptions: SendOptions = {};
     if (typeof partitionIdOrptions === "string" || typeof partitionIdOrptions === "number") {
       partitionId = partitionIdOrptions;
     } else if (partitionIdOrptions && partitionIdOrptions.hasOwnProperty("partitionId")) {
       partitionId = partitionIdOrptions.partitionId;
+      sendOptions = partitionIdOrptions;
     }
     const sender = EventHubSender.create(this._context, partitionId);
-    return typeof partitionIdOrptions === "object" ? sender.sendBatch(data, partitionIdOrptions) :  sender.sendBatch(data);
+    return sender.sendBatch(data, sendOptions);
   }
 
   /**
