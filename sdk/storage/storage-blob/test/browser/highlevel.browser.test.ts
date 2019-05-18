@@ -17,7 +17,7 @@ import {
 } from "../utils/index.browser";
 
 // tslint:disable:no-empty
-describe("Highelvel", () => {
+describe("Highlevel", () => {
   const serviceURL = getBSU();
   let containerName = getUniqueName("container");
   let containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
