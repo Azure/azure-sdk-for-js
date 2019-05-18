@@ -1,4 +1,4 @@
-# 2019-05-16 1.0.2
+# 2019-05-20 1.0.2
 
 - The build and packaging pipeline is updated to use npm version 6.9.0 which has the fix to allow nested
 json files in the bundle. This fixes the [bug 2857](https://github.com/Azure/azure-sdk-for-js/issues/2857)
