@@ -5,7 +5,7 @@ import { BlobURL } from "../src/BlobURL";
 import { BlockBlobURL } from "../src/BlockBlobURL";
 import { ContainerURL } from "../src/ContainerURL";
 import { base64encode, bodyToString, getBSU } from "./utils";
-import { record } from "./utils/nock-recorder";
+import { record } from "./utils/recorder";
 import * as dotenv from "dotenv";
 dotenv.config({ path: "../.env" });
 

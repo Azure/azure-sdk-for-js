@@ -5,7 +5,7 @@ import { Aborter } from "../src/Aborter";
 import { BlobURL } from "../src/BlobURL";
 import { ContainerURL } from "../src/ContainerURL";
 import { PageBlobURL } from "../src/PageBlobURL";
-import { record } from "./utils/nock-recorder";
+import { record } from "./utils/recorder";
 import * as dotenv from "dotenv";
 dotenv.config({ path: "../.env" });
 

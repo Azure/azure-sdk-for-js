@@ -4,7 +4,7 @@ import { Aborter } from "../../src/Aborter";
 import { BlobURL } from "../../src/BlobURL";
 import { BlockBlobURL } from "../../src/BlockBlobURL";
 import { ContainerURL } from "../../src/ContainerURL";
-import { record } from "../utils/nock-recorder";
+import { record } from "../utils/recorder";
 import { bodyToString, getBSU } from "../utils";
 
 describe("BlockBlobURL Node.js only", function() {

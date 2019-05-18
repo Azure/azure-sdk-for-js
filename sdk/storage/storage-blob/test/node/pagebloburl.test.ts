@@ -5,7 +5,7 @@ import { BlobURL } from "../../src/BlobURL";
 import { ContainerURL } from "../../src/ContainerURL";
 import { PageBlobURL } from "../../src/PageBlobURL";
 import { getBSU, sleep } from "../utils";
-import { record } from "../utils/nock-recorder";
+import { record } from "../utils/recorder";
 
 describe("PageBlobURL", function() {
   const serviceURL = getBSU();

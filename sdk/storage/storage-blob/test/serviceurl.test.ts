@@ -4,7 +4,7 @@ import { Aborter } from "../src/Aborter";
 import { ContainerURL } from "../src/ContainerURL";
 import { ServiceURL } from "../src/ServiceURL";
 import { getAlternateBSU, getBSU, wait } from "./utils";
-import { record } from "./utils/nock-recorder";
+import { record } from "./utils/recorder";
 import * as dotenv from "dotenv";
 dotenv.config({ path: "../.env" });
 

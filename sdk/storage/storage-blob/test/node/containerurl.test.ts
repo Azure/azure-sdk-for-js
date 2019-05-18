@@ -4,7 +4,7 @@ import { Aborter } from "../../src/Aborter";
 import { ContainerURL } from "../../src/ContainerURL";
 import { getBSU } from "../utils";
 import { PublicAccessType } from "../../src/generated/lib/models/index";
-import { record } from "../utils/nock-recorder";
+import { record } from "../utils/recorder";
 
 describe("ContainerURL", function() {
   const serviceURL = getBSU();

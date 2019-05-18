@@ -12,7 +12,7 @@ import {
 } from "../../src/highlevel.node";
 import { IRetriableReadableStreamOptions } from "../../src/utils/RetriableReadableStream";
 import { createRandomLocalFile, getBSU, readStreamToLocalFile } from "../utils";
-import { record } from "../utils/nock-recorder";
+import { record } from "../utils/recorder";
 
 // tslint:disable:no-empty
 describe("Highlevel", function() {
