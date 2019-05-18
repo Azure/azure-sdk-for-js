@@ -5,5 +5,5 @@ export { AzureServiceClient, AzureServiceClientOptions, getDefaultUserAgentValue
 export { BaseResource, BaseResourceMapper } from "./baseResource";
 export { CloudError, CloudErrorMapper } from "./cloudError";
 export { CognitiveServicesCredentials } from "./credentials/cognitiveServicesCredentials";
-export { LROPoller } from "./lroPoller";
+export { createLROPollerFromInitialResponse, createLROPollerFromPollState, LROPoller } from "./lroPoller";
 export { DEFAULT_LANGUAGE, LongRunningOperationStates, msRestAzureVersion } from "./util/constants";
