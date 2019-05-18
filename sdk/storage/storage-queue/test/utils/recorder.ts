@@ -19,12 +19,15 @@ function readFileInBrowser(_filename: string): any {
 
 /**
  * Possible reasons for skipping a test:
+ * * Character: there are characters in the message that are not supported in browser logging
  * * Progress: Nock does not record a request if it's aborted in a 'progress' callback
  * * Size: the generated recording file is too big and would considerably increase the size of the package
  * * Tempfile: the request makes use of a random tempfile created locally, and the recorder does not support recording it as unique information
  * * UUID: a UUID is randomly generated within the SDK and used in an HTTP request, resulting in Nock being unable to recognize it
 */
 const skip: any = [
+  // Character
+  "browsers/messagesurl/recording_enqueue_peek_dequeue_special_characters.json"
 ];
 
 function formatPath(path: string): string {
@@ -41,7 +44,7 @@ function formatPath(path: string): string {
 
 function nockRecorder(folderpath: string, testTitle: string) {
   const filename = "recording_" + testTitle;
-  const fp = formatPath(folderpath) + "/" + formatPath(filename) + ".js";
+  const fp = "node/" + formatPath(folderpath) + "/" + formatPath(filename) + ".js";
   const importNock = "let nock = require('nock');\n";
   let uniqueTestInfo: any = {};
 
@@ -54,11 +57,11 @@ function nockRecorder(folderpath: string, testTitle: string) {
       });
     },
     playback: function() {
-      uniqueTestInfo = require("../../recordings/node/" + fp).testInfo;
+      uniqueTestInfo = require("../../recordings/" + fp).testInfo;
     },
     stop: function() {
       let fixtures = nock.recorder.play();
-      let file = fs.createWriteStream("./recordings/node/" + fp, { flags: "w" });
+      let file = fs.createWriteStream("./recordings/" + fp, { flags: "w" });
       file.on("error", err => console.log(err));
       file.write(importNock + "\n" + "module.exports.testInfo = " + JSON.stringify(uniqueTestInfo) + "\n");
       for (let i = 0; i < fixtures.length; i++) {
@@ -73,7 +76,7 @@ function nockRecorder(folderpath: string, testTitle: string) {
 
 function niseRecorder(folderpath: string, testTitle: string) {
   const filename = "recording_" + testTitle;
-  const fp = formatPath(folderpath) + "/" + formatPath(filename) + ".json";
+  const fp = "browsers/" + formatPath(folderpath) + "/" + formatPath(filename) + ".json";
   let uniqueTestInfo: any = {};
   let recordings: any[] = [];
   let xhr: nise.FakeXMLHttpRequestStatic;
@@ -125,7 +128,7 @@ function niseRecorder(folderpath: string, testTitle: string) {
     },
     playback: function() {
       xhr = nise.fakeXhr.useFakeXMLHttpRequest();
-      [recordings, uniqueTestInfo] = readFileInBrowser("./recordings/browsers/" + fp);
+      [recordings, uniqueTestInfo] = readFileInBrowser("./recordings/" + fp);
 
       xhr.onCreate = function(req: any) {
         const reqSend = req.send;
@@ -158,7 +161,7 @@ function niseRecorder(folderpath: string, testTitle: string) {
     stop: function() {
       console.log(JSON.stringify({
         writeFile: true,
-        path: "./recordings/browsers/" + fp,
+        path: "./recordings/" + fp,
         content: { recordings: recordings, uniqueTestInfo: uniqueTestInfo }
       }));
       xhr.restore();

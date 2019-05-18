@@ -1,0 +1,51 @@
+{
+ "recordings": [
+  {
+   "method": "PUT",
+   "url": "https://coolstorageaccount1234.queue.core.windows.net/queue155814720347107076",
+   "requestBody": null,
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "x-ms-request-id": "17a55947-7003-003a-0622-0ddefb000000",
+    "x-ms-version": "2018-03-28",
+    "server": "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0",
+    "date": "Sat, 18 May 2019 02:40:03 GMT",
+    "content-length": "0"
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "https://coolstorageaccount1234.queue.core.windows.net/{queueName}",
+   "requestBody": null,
+   "status": 400,
+   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><Error><Code>InvalidResourceName</Code><Message>The specifed resource name contains invalid characters.\nRequestId:17a55955-7003-003a-1022-0ddefb000000\nTime:2019-05-18T02:40:03.8422841Z</Message></Error>",
+   "responseHeaders": {
+    "date": "Sat, 18 May 2019 02:40:03 GMT",
+    "server": "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0",
+    "x-ms-error-code": "InvalidResourceName",
+    "content-type": "application/xml",
+    "x-ms-request-id": "17a55955-7003-003a-1022-0ddefb000000",
+    "x-ms-version": "2018-03-28",
+    "content-length": "243"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://coolstorageaccount1234.queue.core.windows.net/queue155814720347107076",
+   "requestBody": null,
+   "status": 204,
+   "response": "",
+   "responseHeaders": {
+    "x-ms-request-id": "17a5595f-7003-003a-1922-0ddefb000000",
+    "x-ms-version": "2018-03-28",
+    "server": "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0",
+    "date": "Sat, 18 May 2019 02:40:03 GMT",
+    "content-length": "0"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "queue": "queue155814720347107076"
+ }
+}

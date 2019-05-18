@@ -1,0 +1,114 @@
+{
+ "recordings": [
+  {
+   "method": "PUT",
+   "url": "https://coolstorageaccount1234.queue.core.windows.net/queue155814778950208355",
+   "requestBody": null,
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "x-ms-request-id": "08cabbe7-5003-0026-3d24-0d06ec000000",
+    "x-ms-version": "2018-03-28",
+    "server": "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0",
+    "date": "Sat, 18 May 2019 02:49:48 GMT",
+    "content-length": "0"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://coolstorageaccount1234.queue.core.windows.net/queue155814778950208355/messages",
+   "requestBody": "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><QueueMessage><MessageText>Hello World</MessageText></QueueMessage>",
+   "status": 201,
+   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><QueueMessagesList><QueueMessage><MessageId>9ff38c52-1bf2-4bff-bfef-237efc8805f7</MessageId><InsertionTime>Sat, 18 May 2019 02:49:49 GMT</InsertionTime><ExpirationTime>Sat, 18 May 2019 02:50:29 GMT</ExpirationTime><PopReceipt>AgAAAAMAAAAAAAAAK/h5XCQN1QE=</PopReceipt><TimeNextVisible>Sat, 18 May 2019 02:49:49 GMT</TimeNextVisible></QueueMessage></QueueMessagesList>",
+   "responseHeaders": {
+    "date": "Sat, 18 May 2019 02:49:49 GMT",
+    "server": "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0",
+    "transfer-encoding": "chunked",
+    "content-type": "application/xml",
+    "x-ms-request-id": "08cabc24-5003-0026-7724-0d06ec000000",
+    "x-ms-version": "2018-03-28"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://coolstorageaccount1234.queue.core.windows.net/queue155814778950208355/messages",
+   "requestBody": "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><QueueMessage><MessageText>Hello World</MessageText></QueueMessage>",
+   "status": 400,
+   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><Error><Code>InvalidQueryParameterValue</Code><Message>Value for one of the query parameters specified in the request URI is invalid.\nRequestId:08cabc82-5003-0026-4f24-0d06ec000000\nTime:2019-05-18T02:49:50.0797536Z</Message><QueryParameterName>visibilitytimeout</QueryParameterName><QueryParameterValue>30</QueryParameterValue><Reason>messagettl must be greater than visibilitytimeout</Reason></Error>",
+   "responseHeaders": {
+    "date": "Sat, 18 May 2019 02:49:49 GMT",
+    "server": "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0",
+    "x-ms-error-code": "InvalidQueryParameterValue",
+    "content-type": "application/xml",
+    "x-ms-request-id": "08cabc82-5003-0026-4f24-0d06ec000000",
+    "x-ms-version": "2018-03-28",
+    "content-length": "442"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://coolstorageaccount1234.queue.core.windows.net/queue155814778950208355/messages",
+   "requestBody": null,
+   "status": 400,
+   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><Error><Code>OutOfRangeQueryParameterValue</Code><Message>One of the query parameters specified in the request URI is outside the permissible range.\nRequestId:08cabcbf-5003-0026-0824-0d06ec000000\nTime:2019-05-18T02:49:50.2949059Z</Message><QueryParameterName>numofmessages</QueryParameterName><QueryParameterValue>100</QueryParameterValue><MinimumAllowed>1</MinimumAllowed><MaximumAllowed>32</MaximumAllowed></Error>",
+   "responseHeaders": {
+    "date": "Sat, 18 May 2019 02:49:49 GMT",
+    "server": "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0",
+    "x-ms-error-code": "OutOfRangeQueryParameterValue",
+    "content-type": "application/xml",
+    "x-ms-request-id": "08cabcbf-5003-0026-0824-0d06ec000000",
+    "x-ms-version": "2018-03-28",
+    "content-length": "457"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://coolstorageaccount1234.queue.core.windows.net/queue155814778950208355/messages",
+   "requestBody": null,
+   "status": 200,
+   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><QueueMessagesList><QueueMessage><MessageId>9ff38c52-1bf2-4bff-bfef-237efc8805f7</MessageId><InsertionTime>Sat, 18 May 2019 02:49:49 GMT</InsertionTime><ExpirationTime>Sat, 18 May 2019 02:50:29 GMT</ExpirationTime><DequeueCount>0</DequeueCount><MessageText>Hello World</MessageText></QueueMessage></QueueMessagesList>",
+   "responseHeaders": {
+    "date": "Sat, 18 May 2019 02:49:49 GMT",
+    "server": "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0",
+    "transfer-encoding": "chunked",
+    "content-type": "application/xml",
+    "x-ms-request-id": "08cabd60-5003-0026-2124-0d06ec000000",
+    "cache-control": "no-cache",
+    "x-ms-version": "2018-03-28"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://coolstorageaccount1234.queue.core.windows.net/queue155814778950208355/messages",
+   "requestBody": null,
+   "status": 200,
+   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><QueueMessagesList><QueueMessage><MessageId>9ff38c52-1bf2-4bff-bfef-237efc8805f7</MessageId><InsertionTime>Sat, 18 May 2019 02:49:49 GMT</InsertionTime><ExpirationTime>Sat, 18 May 2019 02:50:29 GMT</ExpirationTime><PopReceipt>AgAAAAMAAAAAAAAADT/XdCQN1QE=</PopReceipt><TimeNextVisible>Sat, 18 May 2019 02:50:30 GMT</TimeNextVisible><DequeueCount>1</DequeueCount><MessageText>Hello World</MessageText></QueueMessage></QueueMessagesList>",
+   "responseHeaders": {
+    "date": "Sat, 18 May 2019 02:49:49 GMT",
+    "server": "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0",
+    "transfer-encoding": "chunked",
+    "content-type": "application/xml",
+    "x-ms-request-id": "08cabd9c-5003-0026-5724-0d06ec000000",
+    "cache-control": "no-cache",
+    "x-ms-version": "2018-03-28"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://coolstorageaccount1234.queue.core.windows.net/queue155814778950208355",
+   "requestBody": null,
+   "status": 204,
+   "response": "",
+   "responseHeaders": {
+    "x-ms-request-id": "08cabdf4-5003-0026-2824-0d06ec000000",
+    "x-ms-version": "2018-03-28",
+    "server": "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0",
+    "date": "Sat, 18 May 2019 02:49:50 GMT",
+    "content-length": "0"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "queue": "queue155814778950208355"
+ }
+}

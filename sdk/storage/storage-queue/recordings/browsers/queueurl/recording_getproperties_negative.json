@@ -1,0 +1,52 @@
+{
+ "recordings": [
+  {
+   "method": "PUT",
+   "url": "https://coolstorageaccount1234.queue.core.windows.net/queue155814720158602844",
+   "requestBody": null,
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "x-ms-request-id": "17a558aa-7003-003a-1422-0ddefb000000",
+    "x-ms-version": "2018-03-28",
+    "server": "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0",
+    "date": "Sat, 18 May 2019 02:40:01 GMT",
+    "content-length": "0"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://coolstorageaccount1234.queue.core.windows.net/queue155814720178709578",
+   "requestBody": null,
+   "status": 404,
+   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><Error><Code>QueueNotFound</Code><Message>The specified queue does not exist.\nRequestId:17a558ba-7003-003a-2122-0ddefb000000\nTime:2019-05-18T02:40:01.9450167Z</Message></Error>",
+   "responseHeaders": {
+    "date": "Sat, 18 May 2019 02:40:01 GMT",
+    "server": "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0",
+    "x-ms-error-code": "QueueNotFound",
+    "content-type": "application/xml",
+    "x-ms-request-id": "17a558ba-7003-003a-2122-0ddefb000000",
+    "x-ms-version": "2018-03-28",
+    "content-length": "217"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://coolstorageaccount1234.queue.core.windows.net/queue155814720158602844",
+   "requestBody": null,
+   "status": 204,
+   "response": "",
+   "responseHeaders": {
+    "x-ms-request-id": "17a558c8-7003-003a-2d22-0ddefb000000",
+    "x-ms-version": "2018-03-28",
+    "server": "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0",
+    "date": "Sat, 18 May 2019 02:40:02 GMT",
+    "content-length": "0"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "queue": "queue155814720158602844",
+  "queue2": "queue155814720178709578"
+ }
+}
