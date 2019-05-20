@@ -376,8 +376,6 @@ export class SecretsClient {
       this.vaultBaseUrl,
       secretName,
       {
-        maxresults: options ? options.maxPageSize : undefined,
-        maxPageSize: options ? options.maxPageSize : undefined,
         ...(options && options.requestOptions ? options.requestOptions : {})
       }
     );
@@ -403,8 +401,6 @@ export class SecretsClient {
     let currentSetResponse = await this.client.getSecrets(
       this.vaultBaseUrl,
       {
-        maxresults: options ? options.maxPageSize : undefined,
-        maxPageSize: options ? options.maxPageSize : undefined,
         ...(options && options.requestOptions ? options.requestOptions : {})
       }
     );
@@ -431,8 +427,6 @@ export class SecretsClient {
     let currentSetResponse = await this.client.getDeletedSecrets(
       this.vaultBaseUrl,
       {
-        maxresults: options ? options.maxPageSize : undefined,
-        maxPageSize: options ? options.maxPageSize : undefined,
         ...(options && options.requestOptions ? options.requestOptions : {})
       }
     );
