@@ -48,13 +48,13 @@ export class IotHubClient {
     const config = IotHubConnectionConfig.convertToEventHubConnectionConfig(iothubconfig);
     let result: string = "";
     if (!options) options = {};
-    options.tokenProvider = new IotSasTokenProvider(
+    const tokenProvider = new IotSasTokenProvider(
       config.endpoint,
       config.sharedAccessKeyName,
       config.sharedAccessKey
     );
     options.managementSessionAddress = `/messages/events/$management`;
-    const context = ConnectionContext.create(config, options);
+    const context = ConnectionContext.create(config, tokenProvider, options);
     try {
       log.iotClient("Getting the hub runtime info from the iothub connection string to get the redirect error.");
       await context.managementSession!.getHubRuntimeInformation();
