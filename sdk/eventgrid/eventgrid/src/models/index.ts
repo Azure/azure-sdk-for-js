@@ -1923,6 +1923,56 @@ export interface AppConfigurationKeyValueDeletedEventData {
 }
 
 /**
+ * Schema of the Data property of an EventGridEvent for a
+ * Microsoft.SignalRService.ClientConnectionConnected event.
+ */
+export interface SignalRServiceClientConnectionConnectedEventData {
+  /**
+   * The time at which the event occurred.
+   */
+  timestamp?: Date;
+  /**
+   * The hub of connected client connection.
+   */
+  hub?: string;
+  /**
+   * The connection Id of connected client connection.
+   */
+  connectionId?: string;
+  /**
+   * The user Id of connected client connection.
+   */
+  userId?: string;
+}
+
+/**
+ * Schema of the Data property of an EventGridEvent for a
+ * Microsoft.SignalRService.ClientConnectionDisconnected event.
+ */
+export interface SignalRServiceClientConnectionDisconnectedEventData {
+  /**
+   * The time at which the event occurred.
+   */
+  timestamp?: Date;
+  /**
+   * The hub of connected client connection.
+   */
+  hub?: string;
+  /**
+   * The connection Id of connected client connection.
+   */
+  connectionId?: string;
+  /**
+   * The user Id of connected client connection.
+   */
+  userId?: string;
+  /**
+   * The message of error that cause the client connection disconnected.
+   */
+  errorMessage?: string;
+}
+
+/**
  * Defines values for MediaJobState.
  * Possible values include: 'Canceled', 'Canceling', 'Error', 'Finished', 'Processing', 'Queued',
  * 'Scheduled'
