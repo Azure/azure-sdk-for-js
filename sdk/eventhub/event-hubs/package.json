@@ -18,7 +18,7 @@
   },
   "main": "./dist/index.js",
   "module": "dist-esm/src/index.js",
-  "types": "./typings/src/index.d.ts",
+  "types": "./typings/event-hubs.d.ts",
   "browser": {
     "./dist/index.js": "./browser/index.js"
   },
@@ -30,7 +30,7 @@
     "dist-esm/package.json",
     "dist-esm/src/",
     "src/",
-    "typings/src",
+    "typings/event-hubs.d.ts",
     "tsconfig.json"
   ],
   "scripts": {
@@ -39,7 +39,7 @@
     "build:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c 2>&1",
     "build:samples": "cd samples && tsc -p .",
     "build:test": "tsc -p . && cross-env ONLY_NODE=true rollup -c rollup.test.config.js 2>&1",
-    "build": "tsc -p . && rollup -c 2>&1",
+    "build": "tsc -p . && rollup -c 2>&1 && npm run extract-api",
     "check-format": "prettier --list-different --config .prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-esm test-dist typings *.tgz *.log",
     "coverage": "nyc --reporter=lcov --exclude-after-remap=false mocha -t 120000 test-dist/index.js --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=-",
@@ -71,7 +71,7 @@
     "uuid": "^3.3.2"
   },
   "devDependencies": {
-    "@microsoft/api-extractor": "^6.3.0",
+    "@microsoft/api-extractor": "^7.1.5",
     "@types/async-lock": "^1.1.0",
     "@types/chai": "^4.1.6",
     "@types/chai-as-promised": "^7.1.0",
