@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import * as Long from "long";
+import Long from "long";
 import * as log from "./log";
 import { MessageSender } from "./core/messageSender";
 import { SendableMessageInfo } from "./serviceBusMessage";
