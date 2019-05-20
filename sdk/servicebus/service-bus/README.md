@@ -7,7 +7,7 @@ Use the client library for Azure Service Bus in your Node.js application to
 - Send messages to a Queue or Topic
 - Receive messages from a Queue or Subscription
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus) | [Package (npm)](https://www.npmjs.com/package/@azure/service-bus) | [API Reference Documentation](https://docs.microsoft.com/en-us/javascript/api/%40azure/service-bus/) | [Product documentation](https://azure.microsoft.com/en-us/services/service-bus/)
+[Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus) | [Package (npm)](https://www.npmjs.com/package/@azure/service-bus) | [API Reference Documentation](https://docs.microsoft.com/en-us/javascript/api/%40azure/service-bus/) | [Product documentation](https://azure.microsoft.com/en-us/services/service-bus/) | [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples)
 
 ## Getting Started
 
@@ -38,14 +38,14 @@ this class using one of the 3 static methods on it
 
 - [createFromConnectionString](https://docs.microsoft.com/en-us/javascript/api/%40azure/service-bus/servicebusclient#createfromconnectionstring-string--servicebusclientoptions-)
   - This method takes the connection string to your Service Bus instance. You can get the connection string
-    from the Azure portal
+    from the Azure portal.
 - [createFromTokenProvider](https://docs.microsoft.com/en-us/javascript/api/%40azure/service-bus/servicebusclient#createfromtokenprovider-string--tokenprovider--servicebusclientoptions-)
-  - This method takes the host name of your Service Bus instance and your custom Token Provider. The
-    host name is of the format `name-of-service-bus-instance.servicebus.windows.net`.
+  - This method takes the host name of your Service Bus instance and your custom implementation of the [TokenProvider](https://github.com/Azure/amqp-common-js/blob/master/lib/auth/token.ts) interface.The host name is of the format `name-of-service-bus-instance.servicebus.windows.net`.
 - [createFromAADTokenCredentials](https://docs.microsoft.com/en-us/javascript/api/%40azure/service-bus/servicebusclient#createfromaadtokencredentials-string--applicationtokencredentials---usertokencredentials---devicetokencredentials---msitokencredentials--servicebusclientoptions-)
   - This method takes the host name of your Service Bus instance and a credentials object that you need
     to generate using the [@azure/ms-rest-nodeauth](https://www.npmjs.com/package/@azure/ms-rest-nodeauth)
     library. The host name is of the format `name-of-service-bus-instance.servicebus.windows.net`.
+  - Refer to the samples that use an [Azure account](https://github.com/Azure/azure-sdk-for-js/blob/%40azure/service-bus_1.0.0/sdk/servicebus/service-bus/samples/javascript/gettingStarted/loginWithAzureAccount.js), [interactive login](https://github.com/Azure/azure-sdk-for-js/blob/%40azure/service-bus_1.0.0/sdk/servicebus/service-bus/samples/javascript/gettingStarted/interactiveLogin.js) or [service principal](https://github.com/Azure/azure-sdk-for-js/blob/%40azure/service-bus_1.0.0/sdk/servicebus/service-bus/samples/javascript/gettingStarted/servicePrincipalLogin.js)
 
 ### Key concepts
 
