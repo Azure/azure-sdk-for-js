@@ -22,7 +22,7 @@ class EventGridClient extends EventGridClientContext {
    * @param credentials Credentials needed for the client to connect to Azure.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, options?: msRestAzure.AzureServiceClientOptions) {
+  constructor(credentials: msRest.ServiceClientCredentials, options?: msRest.AzureServiceClientOptions) {
     super(credentials, options);
   }
 
