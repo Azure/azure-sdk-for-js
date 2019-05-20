@@ -1,3 +1,23 @@
+# 2019-05-16 1.0.1
+
+- Readme updated to remove the status about this library being in preview. This library is now out
+of preview.
+
+# 2019-05-16 1.0.0
+
+- `receiveMessages()` now returns rejected promise when network connection is lost.
+- Receiving messages from a session whose id is an empty string is now allowed.
+- Errors thrown explicitly by the library for the user facing apis are documented in jsdocs.
+
+### Breaking changes
+- When Service Bus does not acknowledge a message settlement/disposition request in time, the error
+`ServiceUnavailbleError` is thrown. This is consistent with send requests and requests over the $management link.
+- The error `MessageLockLostError` or `SessionLockLostError` (based on whether the entity has sessions enabled
+or not) is thrown for a message settlement/disposition request when the AMQP receiver link that was used to receive
+the message has died.
+- User agent string which is passed as a AMQP connection property is updated to follow the new standard.
+For example: `azsdk-js-azureservicebus/1.0.0/(NODE-VERSION v10.15.0) Windows_NT 10.0.17763`
+
 # 2019-04-24 1.0.0-preview.3
 
 - Proxy support added. Please refer to the [useProxy](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/samples/javascript/gettingStarted/useProxy.js)
