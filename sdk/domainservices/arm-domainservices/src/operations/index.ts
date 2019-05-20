@@ -10,3 +10,4 @@
 
 export * from "./domainServiceOperations";
 export * from "./domainServices";
+export * from "./replicaSets";
