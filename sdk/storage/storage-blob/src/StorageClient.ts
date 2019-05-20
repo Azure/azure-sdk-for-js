@@ -5,8 +5,8 @@ import { Credential } from "./credentials/Credential";
 import { StorageClientContext } from "./generated/lib/storageClientContext";
 import { LoggingPolicyFactory } from "./LoggingPolicyFactory";
 import { IHttpClient, IHttpPipelineLogger, Pipeline } from "./Pipeline";
-import { IRetryOptions, RetryPolicyFactory } from "./RetryPolicyFactory";
-import { ITelemetryOptions, TelemetryPolicyFactory } from "./TelemetryPolicyFactory";
+import { RetryOptions, RetryPolicyFactory } from "./RetryPolicyFactory";
+import { TelemetryOptions, TelemetryPolicyFactory } from "./TelemetryPolicyFactory";
 import { UniqueRequestIDPolicyFactory } from "./UniqueRequestIDPolicyFactory";
 import { escapeURLPath } from "./utils/utils.common";
 
@@ -16,24 +16,24 @@ export { deserializationPolicy };
  * Option interface for Pipeline.newPipeline method.
  *
  * @export
- * @interface INewPipelineOptions
+ * @interface NewPipelineOptions
  */
-export interface INewPipelineOptions {
+export interface NewPipelineOptions {
   /**
    * Telemetry configures the built-in telemetry policy behavior.
    *
-   * @type {ITelemetryOptions}
-   * @memberof INewPipelineOptions
+   * @type {TelemetryOptions}
+   * @memberof NewPipelineOptions
    */
-  telemetry?: ITelemetryOptions;
-  retryOptions?: IRetryOptions;
+  telemetry?: TelemetryOptions;
+  retryOptions?: RetryOptions;
 
   logger?: IHttpPipelineLogger;
   httpClient?: IHttpClient;
 }
 
 /**
- * A ServiceClient represents a based URL class for ServiceClient, ContainerClient and etc.
+ * A StorageClient represents a based URL class for BlobServiceClient, ContainerClient and etc.
  *
  * @export
  * @class StorageClient
@@ -44,13 +44,13 @@ export abstract class StorageClient {
    *
    * @static
    * @param {Credential} credential Such as AnonymousCredential, SharedKeyCredential or TokenCredential.
-   * @param {INewPipelineOptions} [pipelineOptions] Optional. Options.
+   * @param {NewPipelineOptions} [pipelineOptions] Optional. Options.
    * @returns {Pipeline} A new Pipeline object.
    * @memberof Pipeline
    */
   public static newPipeline(
     credential: Credential,
-    pipelineOptions: INewPipelineOptions = {}
+    pipelineOptions: NewPipelineOptions = {}
   ): Pipeline {
     // Order is important. Closer to the API at the top & closer to the network at the bottom.
     // The credential's policy factory must appear close to the wire so it can sign any

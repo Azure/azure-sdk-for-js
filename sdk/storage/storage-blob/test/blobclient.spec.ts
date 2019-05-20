@@ -1,7 +1,6 @@
 import * as assert from "assert";
 
 import { isNode } from "@azure/ms-rest-js";
-import { Aborter } from "../src/Aborter";
 import { BlobClient } from "../src/BlobClient";
 import { BlockBlobClient } from "../src/BlockBlobClient";
 import { ContainerClient } from "../src/ContainerClient";
@@ -9,9 +8,9 @@ import { bodyToString, getBSU, getUniqueName, sleep } from "./utils";
 import * as dotenv from "dotenv";
 dotenv.config({ path: "../.env" });
 describe("BlobClient", () => {
-  const serviceClient = getBSU();
+  const blobServiceClient = getBSU();
   let containerName: string = getUniqueName("container");
-  let containerClient = ContainerClient.fromServiceClient(serviceClient, containerName);
+  let containerClient = ContainerClient.fromBlobServiceClient(blobServiceClient, containerName);
   let blobName: string = getUniqueName("blob");
   let blobClient = BlobClient.fromContainerClient(containerClient, blobName);
   let blockBlobClient = BlockBlobClient.fromBlobClient(blobClient);
@@ -19,25 +18,25 @@ describe("BlobClient", () => {
 
   beforeEach(async () => {
     containerName = getUniqueName("container");
-    containerClient = ContainerClient.fromServiceClient(serviceClient, containerName);
-    await containerClient.create(Aborter.none);
+    containerClient = ContainerClient.fromBlobServiceClient(blobServiceClient, containerName);
+    await containerClient.create();
     blobName = getUniqueName("blob");
     blobClient = BlobClient.fromContainerClient(containerClient, blobName);
     blockBlobClient = BlockBlobClient.fromBlobClient(blobClient);
-    await blockBlobClient.upload(Aborter.none, content, content.length);
+    await blockBlobClient.upload(content, content.length);
   });
 
   afterEach(async () => {
-    await containerClient.delete(Aborter.none);
+    await containerClient.delete();
   });
 
   it("download with with default parameters", async () => {
-    const result = await blobClient.download(Aborter.none, 0);
+    const result = await blobClient.download(0);
     assert.deepStrictEqual(await bodyToString(result, content.length), content);
   });
 
   it("download all parameters set", async () => {
-    const result = await blobClient.download(Aborter.none, 0, 1, {
+    const result = await blobClient.download(0, 1, {
       rangeGetContentMD5: true
     });
     assert.deepStrictEqual(await bodyToString(result, 1), content[0]);
@@ -48,8 +47,8 @@ describe("BlobClient", () => {
       a: "a",
       b: "b"
     };
-    await blobClient.setMetadata(Aborter.none, metadata);
-    const result = await blobClient.getProperties(Aborter.none);
+    await blobClient.setMetadata(metadata);
+    const result = await blobClient.getProperties();
     assert.deepStrictEqual(result.metadata, metadata);
   });
 
@@ -58,18 +57,18 @@ describe("BlobClient", () => {
       a: "a",
       b: "b"
     };
-    await blobClient.setMetadata(Aborter.none, metadata);
-    const result = await blobClient.getProperties(Aborter.none);
+    await blobClient.setMetadata(metadata);
+    const result = await blobClient.getProperties();
     assert.deepStrictEqual(result.metadata, metadata);
 
-    await blobClient.setMetadata(Aborter.none);
-    const result2 = await blobClient.getProperties(Aborter.none);
+    await blobClient.setMetadata();
+    const result2 = await blobClient.getProperties();
     assert.deepStrictEqual(result2.metadata, {});
   });
 
   it("setHTTPHeaders with default parameters", async () => {
-    await blobClient.setHTTPHeaders(Aborter.none, {});
-    const result = await blobClient.getProperties(Aborter.none);
+    await blobClient.setHTTPHeaders({});
+    const result = await blobClient.getProperties();
 
     assert.deepStrictEqual(result.blobType, "BlockBlob");
     assert.ok(result.lastModified);
@@ -91,8 +90,8 @@ describe("BlobClient", () => {
       blobContentMD5: isNode ? Buffer.from([1, 2, 3, 4]) : new Uint8Array([1, 2, 3, 4]),
       blobContentType: "blobContentType"
     };
-    await blobClient.setHTTPHeaders(Aborter.none, headers);
-    const result = await blobClient.getProperties(Aborter.none);
+    await blobClient.setHTTPHeaders(headers);
+    const result = await blobClient.getProperties();
     assert.ok(result.date);
     assert.deepStrictEqual(result.blobType, "BlockBlob");
     assert.ok(result.lastModified);
@@ -108,113 +107,113 @@ describe("BlobClient", () => {
   it("acquireLease", async () => {
     const guid = "ca761232ed4211cebacd00aa0057b223";
     const duration = 30;
-    await blobClient.acquireLease(Aborter.none, guid, duration);
+    await blobClient.acquireLease(guid, duration);
 
-    const result = await blobClient.getProperties(Aborter.none);
+    const result = await blobClient.getProperties();
     assert.equal(result.leaseDuration, "fixed");
     assert.equal(result.leaseState, "leased");
     assert.equal(result.leaseStatus, "locked");
 
-    await blobClient.releaseLease(Aborter.none, guid);
+    await blobClient.releaseLease(guid);
   });
 
   it("releaseLease", async () => {
     const guid = "ca761232ed4211cebacd00aa0057b223";
     const duration = -1;
-    await blobClient.acquireLease(Aborter.none, guid, duration);
+    await blobClient.acquireLease(guid, duration);
 
-    const result = await blobClient.getProperties(Aborter.none);
+    const result = await blobClient.getProperties();
     assert.equal(result.leaseDuration, "infinite");
     assert.equal(result.leaseState, "leased");
     assert.equal(result.leaseStatus, "locked");
 
-    await blobClient.releaseLease(Aborter.none, guid);
+    await blobClient.releaseLease(guid);
   });
 
   it("renewLease", async () => {
     const guid = "ca761232ed4211cebacd00aa0057b223";
     const duration = 15;
-    await blobClient.acquireLease(Aborter.none, guid, duration);
+    await blobClient.acquireLease(guid, duration);
 
-    const result = await blobClient.getProperties(Aborter.none);
+    const result = await blobClient.getProperties();
     assert.equal(result.leaseDuration, "fixed");
     assert.equal(result.leaseState, "leased");
     assert.equal(result.leaseStatus, "locked");
 
     await sleep(20 * 1000);
 
-    const result2 = await blobClient.getProperties(Aborter.none);
+    const result2 = await blobClient.getProperties();
     assert.ok(!result2.leaseDuration);
     assert.equal(result2.leaseState, "expired");
     assert.equal(result2.leaseStatus, "unlocked");
 
-    await blobClient.renewLease(Aborter.none, guid);
-    const result3 = await blobClient.getProperties(Aborter.none);
+    await blobClient.renewLease(guid);
+    const result3 = await blobClient.getProperties();
     assert.equal(result3.leaseDuration, "fixed");
     assert.equal(result3.leaseState, "leased");
     assert.equal(result3.leaseStatus, "locked");
 
-    await blobClient.releaseLease(Aborter.none, guid);
+    await blobClient.releaseLease(guid);
   });
 
   it("changeLease", async () => {
     const guid = "ca761232ed4211cebacd00aa0057b223";
     const duration = 15;
-    await blobClient.acquireLease(Aborter.none, guid, duration);
+    await blobClient.acquireLease(guid, duration);
 
-    const result = await blobClient.getProperties(Aborter.none);
+    const result = await blobClient.getProperties();
     assert.equal(result.leaseDuration, "fixed");
     assert.equal(result.leaseState, "leased");
     assert.equal(result.leaseStatus, "locked");
 
     const newGuid = "3c7e72ebb4304526bc53d8ecef03798f";
-    await blobClient.changeLease(Aborter.none, guid, newGuid);
+    await blobClient.changeLease(guid, newGuid);
 
-    await blobClient.getProperties(Aborter.none);
-    await blobClient.releaseLease(Aborter.none, newGuid);
+    await blobClient.getProperties();
+    await blobClient.releaseLease(newGuid);
   });
 
   it("breakLease", async () => {
     const guid = "ca761232ed4211cebacd00aa0057b223";
     const duration = 15;
-    await blobClient.acquireLease(Aborter.none, guid, duration);
+    await blobClient.acquireLease(guid, duration);
 
-    const result = await blobClient.getProperties(Aborter.none);
+    const result = await blobClient.getProperties();
     assert.equal(result.leaseDuration, "fixed");
     assert.equal(result.leaseState, "leased");
     assert.equal(result.leaseStatus, "locked");
 
-    await blobClient.breakLease(Aborter.none, 5);
+    await blobClient.breakLease(5);
 
-    const result2 = await blobClient.getProperties(Aborter.none);
+    const result2 = await blobClient.getProperties();
     assert.ok(!result2.leaseDuration);
     assert.equal(result2.leaseState, "breaking");
     assert.equal(result2.leaseStatus, "locked");
 
     await sleep(5 * 1000);
 
-    const result3 = await blobClient.getProperties(Aborter.none);
+    const result3 = await blobClient.getProperties();
     assert.ok(!result3.leaseDuration);
     assert.equal(result3.leaseState, "broken");
     assert.equal(result3.leaseStatus, "unlocked");
   });
 
   it("delete", async () => {
-    await blobClient.delete(Aborter.none);
+    await blobClient.delete();
   });
 
   // The following code illustrates deleting a snapshot after creating one
   it("delete snapshot", async () => {
-    const result = await blobClient.createSnapshot(Aborter.none);
+    const result = await blobClient.createSnapshot();
     assert.ok(result.snapshot);
 
     const blobSnapshotClient = blobClient.withSnapshot(result.snapshot!);
-    await blobSnapshotClient.getProperties(Aborter.none);
+    await blobSnapshotClient.getProperties();
 
-    await blobSnapshotClient.delete(Aborter.none);
-    await blobClient.delete(Aborter.none);
+    await blobSnapshotClient.delete();
+    await blobClient.delete();
 
-    const result2 = await containerClient.listBlobFlatSegment(Aborter.none, undefined, {
+    const result2 = await containerClient.listBlobFlatSegment(undefined, {
       include: ["snapshots"]
     });
 
@@ -223,13 +222,13 @@ describe("BlobClient", () => {
   });
 
   it("createSnapshot", async () => {
-    const result = await blobClient.createSnapshot(Aborter.none);
+    const result = await blobClient.createSnapshot();
     assert.ok(result.snapshot);
 
     const blobSnapshotClient = blobClient.withSnapshot(result.snapshot!);
-    await blobSnapshotClient.getProperties(Aborter.none);
+    await blobSnapshotClient.getProperties();
 
-    const result3 = await containerClient.listBlobFlatSegment(Aborter.none, undefined, {
+    const result3 = await containerClient.listBlobFlatSegment(undefined, {
       include: ["snapshots"]
     });
 
@@ -252,9 +251,9 @@ describe("BlobClient", () => {
   });
 
   it("undelete", async () => {
-    const properties = await serviceClient.getProperties(Aborter.none);
+    const properties = await blobServiceClient.getProperties();
     if (!properties.deleteRetentionPolicy!.enabled) {
-      await serviceClient.setProperties(Aborter.none, {
+      await blobServiceClient.setProperties({
         deleteRetentionPolicy: {
           days: 7,
           enabled: true
@@ -263,15 +262,15 @@ describe("BlobClient", () => {
       await sleep(15 * 1000);
     }
 
-    await blobClient.delete(Aborter.none);
+    await blobClient.delete();
 
-    const result = await containerClient.listBlobFlatSegment(Aborter.none, undefined, {
+    const result = await containerClient.listBlobFlatSegment(undefined, {
       include: ["deleted"]
     });
     assert.ok(result.segment.blobItems![0].deleted);
 
-    await blobClient.undelete(Aborter.none);
-    const result2 = await containerClient.listBlobFlatSegment(Aborter.none, undefined, {
+    await blobClient.undelete();
+    const result2 = await containerClient.listBlobFlatSegment(undefined, {
       include: ["deleted"]
     });
     assert.ok(!result2.segment.blobItems![0].deleted);
@@ -282,11 +281,11 @@ describe("BlobClient", () => {
       containerClient,
       getUniqueName("copiedblob")
     );
-    const result = await newBlobClient.startCopyFromURL(Aborter.none, blobClient.url);
+    const result = await newBlobClient.startCopyFromURL(blobClient.url);
     assert.ok(result.copyId);
 
-    const properties1 = await blobClient.getProperties(Aborter.none);
-    const properties2 = await newBlobClient.getProperties(Aborter.none);
+    const properties1 = await blobClient.getProperties();
+    const properties2 = await newBlobClient.getProperties();
     assert.deepStrictEqual(properties1.contentMD5, properties2.contentMD5);
     assert.deepStrictEqual(properties2.copyId, result.copyId);
     assert.deepStrictEqual(properties2.copySource, blobClient.url);
@@ -297,12 +296,12 @@ describe("BlobClient", () => {
       containerClient,
       getUniqueName("copiedblob")
     );
-    const result = await newBlobClient.startCopyFromURL(Aborter.none, blobClient.url);
+    const result = await newBlobClient.startCopyFromURL(blobClient.url);
     assert.ok(result.copyId);
     sleep(1 * 1000);
 
     try {
-      await newBlobClient.startCopyFromURL(Aborter.none, result.copyId!);
+      await newBlobClient.startCopyFromURL(result.copyId!);
       assert.fail(
         "AbortCopyFromClient should be failed and throw exception for an completed copy operation."
       );
@@ -312,18 +311,18 @@ describe("BlobClient", () => {
   });
 
   it("setTier set default to cool", async () => {
-    await blockBlobClient.setTier(Aborter.none, "Cool");
-    const properties = await blockBlobClient.getProperties(Aborter.none);
+    await blockBlobClient.setTier("Cool");
+    const properties = await blockBlobClient.getProperties();
     assert.equal(properties.accessTier!.toLowerCase(), "cool");
   });
 
   it("setTier set archive to hot", async () => {
-    await blockBlobClient.setTier(Aborter.none, "Archive");
-    let properties = await blockBlobClient.getProperties(Aborter.none);
+    await blockBlobClient.setTier("Archive");
+    let properties = await blockBlobClient.getProperties();
     assert.equal(properties.accessTier!.toLowerCase(), "archive");
 
-    await blockBlobClient.setTier(Aborter.none, "Hot");
-    properties = await blockBlobClient.getProperties(Aborter.none);
+    await blockBlobClient.setTier("Hot");
+    properties = await blockBlobClient.getProperties();
     if (properties.archiveStatus) {
       assert.equal(properties.archiveStatus.toLowerCase(), "rehydrate-pending-to-hot");
     }

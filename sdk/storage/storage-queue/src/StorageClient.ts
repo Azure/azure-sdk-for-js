@@ -5,8 +5,8 @@ import { Credential } from "./credentials/Credential";
 import { StorageClientContext } from "./generated/lib/storageClientContext";
 import { LoggingPolicyFactory } from "./LoggingPolicyFactory";
 import { IHttpClient, IHttpPipelineLogger, Pipeline } from "./Pipeline";
-import { IRetryOptions, RetryPolicyFactory } from "./RetryPolicyFactory";
-import { ITelemetryOptions, TelemetryPolicyFactory } from "./TelemetryPolicyFactory";
+import { RetryOptions, RetryPolicyFactory } from "./RetryPolicyFactory";
+import { TelemetryOptions, TelemetryPolicyFactory } from "./TelemetryPolicyFactory";
 import { UniqueRequestIDPolicyFactory } from "./UniqueRequestIDPolicyFactory";
 
 export { deserializationPolicy };
@@ -15,41 +15,41 @@ export { deserializationPolicy };
  * Option interface for Pipeline.newPipeline method.
  *
  * @export
- * @interface INewPipelineOptions
+ * @interface NewPipelineOptions
  */
-export interface INewPipelineOptions {
+export interface NewPipelineOptions {
   /**
    * Telemetry configures the built-in telemetry policy behavior.
    *
-   * @type {ITelemetryOptions}
-   * @memberof INewPipelineOptions
+   * @type {TelemetryOptions}
+   * @memberof NewPipelineOptions
    */
-  telemetry?: ITelemetryOptions;
-  retryOptions?: IRetryOptions;
+  telemetry?: TelemetryOptions;
+  retryOptions?: RetryOptions;
 
   logger?: IHttpPipelineLogger;
   httpClient?: IHttpClient;
 }
 
 /**
- * A ServiceURL represents a based URL class for ServiceURL, QueueURL and etc.
+ * A StorageClient represents a based client class for QueueServiceClient, QueueClient and etc.
  *
  * @export
- * @class StorageURL
+ * @class StorageClient
  */
-export abstract class StorageURL {
+export abstract class StorageClient {
   /**
    * A static method used to create a new Pipeline object with Credential provided.
    *
    * @static
    * @param {Credential} credential Such as AnonymousCredential, SharedKeyCredential or TokenCredential.
-   * @param {INewPipelineOptions} [pipelineOptions] Optional. Options.
+   * @param {NewPipelineOptions} [pipelineOptions] Optional. Options.
    * @returns {Pipeline} A new Pipeline object.
    * @memberof Pipeline
    */
   public static newPipeline(
     credential: Credential,
-    pipelineOptions: INewPipelineOptions = {}
+    pipelineOptions: NewPipelineOptions = {}
   ): Pipeline {
     // Order is important. Closer to the API at the top & closer to the network at the bottom.
     // The credential's policy factory must appear close to the wire so it can sign any
@@ -75,7 +75,7 @@ export abstract class StorageURL {
    *
    * @internal
    * @type {Pipeline}
-   * @memberof StorageURL
+   * @memberof StorageClient
    */
   public readonly pipeline: Pipeline;
 
@@ -83,7 +83,7 @@ export abstract class StorageURL {
    * URL string value.
    *
    * @type {string}
-   * @memberof StorageURL
+   * @memberof StorageClient
    */
   public readonly url: string;
 
@@ -93,15 +93,15 @@ export abstract class StorageURL {
    *
    * @protected
    * @type {StorageClient}
-   * @memberof StorageURL
+   * @memberof StorageClient
    */
   protected readonly storageClientContext: StorageClientContext;
 
   /**
-   * Creates an instance of StorageURL.
+   * Creates an instance of StorageClient.
    * @param {string} url
    * @param {Pipeline} pipeline
-   * @memberof StorageURL
+   * @memberof StorageClient
    */
   protected constructor(url: string, pipeline: Pipeline) {
     this.url = url;

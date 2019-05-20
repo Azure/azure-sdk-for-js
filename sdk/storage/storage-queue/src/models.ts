@@ -1,3 +1,3 @@
-export interface IMetadata {
+export interface Metadata {
   [propertyName: string]: string;
 }

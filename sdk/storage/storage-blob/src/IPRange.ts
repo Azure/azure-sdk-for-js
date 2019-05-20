@@ -2,9 +2,9 @@
  * Allowed IP range for a SAS.
  *
  * @export
- * @interface IIPRange
+ * @interface IPRange
  */
-export interface IIPRange {
+export interface IPRange {
   /**
    * Starting IP address in the IP range.
    * If end IP doesn't provide, start IP will the only IP allowed.
@@ -29,9 +29,9 @@ export interface IIPRange {
  * "8.8.8.8" or "1.1.1.1-255.255.255.255"
  *
  * @export
- * @param {IIPRange} ipRange
+ * @param {IPRange} ipRange
  * @returns {string}
  */
-export function ipRangeToString(ipRange: IIPRange): string {
+export function ipRangeToString(ipRange: IPRange): string {
   return ipRange.end ? `${ipRange.start}-${ipRange.end}` : ipRange.start;
 }

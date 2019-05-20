@@ -2,7 +2,7 @@ import { AccountSASPermissions } from "./AccountSASPermissions";
 import { AccountSASResourceTypes } from "./AccountSASResourceTypes";
 import { AccountSASServices } from "./AccountSASServices";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
-import { IIPRange, ipRangeToString } from "./IIPRange";
+import { IPRange, ipRangeToString } from "./IPRange";
 import { SASProtocol, SASQueryParameters } from "./SASQueryParameters";
 import { SERVICE_VERSION } from "./utils/constants";
 import { truncatedISO8061Date } from "./utils/utils.common";
@@ -10,9 +10,9 @@ import { truncatedISO8061Date } from "./utils/utils.common";
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
  *
- * IAccountSASSignatureValues is used to generate a Shared Access Signature (SAS) for an Azure Storage account. Once
+ * AccountSASSignatureValues is used to generate a Shared Access Signature (SAS) for an Azure Storage account. Once
  * all the values here are set appropriately, call generateSASQueryParameters() to obtain a representation of the SAS
- * which can actually be applied to blob urls. Note: that both this class and {@link SASQueryParameters} exist because
+ * which can actually be applied to queue urls. Note: that both this class and {@link SASQueryParameters} exist because
  * the former is mutable and a logical representation while the latter is immutable and used to generate actual REST
  * requests.
  *
@@ -23,14 +23,14 @@ import { truncatedISO8061Date } from "./utils/utils.common";
  * for descriptions of the parameters, including which are required
  *
  * @export
- * @class IAccountSASSignatureValues
+ * @class AccountSASSignatureValues
  */
-export interface IAccountSASSignatureValues {
+export interface AccountSASSignatureValues {
   /**
    * If not provided, this defaults to the service version targeted by this version of the library.
    *
    * @type {string}
-   * @memberof IAccountSASSignatureValues
+   * @memberof AccountSASSignatureValues
    */
   version?: string;
 
@@ -38,7 +38,7 @@ export interface IAccountSASSignatureValues {
    * Optional. SAS protocols allowed.
    *
    * @type {SASProtocol}
-   * @memberof IAccountSASSignatureValues
+   * @memberof AccountSASSignatureValues
    */
   protocol?: SASProtocol;
 
@@ -46,7 +46,7 @@ export interface IAccountSASSignatureValues {
    * Optional. When the SAS will take effect.
    *
    * @type {Date}
-   * @memberof IAccountSASSignatureValues
+   * @memberof AccountSASSignatureValues
    */
   startTime?: Date;
 
@@ -54,7 +54,7 @@ export interface IAccountSASSignatureValues {
    * The time after which the SAS will no longer work.
    *
    * @type {Date}
-   * @memberof IAccountSASSignatureValues
+   * @memberof AccountSASSignatureValues
    */
   expiryTime: Date;
 
@@ -63,24 +63,24 @@ export interface IAccountSASSignatureValues {
    * constructing the permissions string.
    *
    * @type {string}
-   * @memberof IAccountSASSignatureValues
+   * @memberof AccountSASSignatureValues
    */
   permissions: string;
 
   /**
    * Optional. IP range allowed.
    *
-   * @type {IIPRange}
-   * @memberof IAccountSASSignatureValues
+   * @type {IPRange}
+   * @memberof AccountSASSignatureValues
    */
-  ipRange?: IIPRange;
+  ipRange?: IPRange;
 
   /**
    * The values that indicate the services accessible with this SAS. Please refer to {@link AccountSASServices} to
    * construct this value.
    *
    * @type {string}
-   * @memberof IAccountSASSignatureValues
+   * @memberof AccountSASSignatureValues
    */
   services: string;
 
@@ -89,7 +89,7 @@ export interface IAccountSASSignatureValues {
    * to {@link AccountSASResourceTypes} to construct this value.
    *
    * @type {string}
-   * @memberof IAccountSASSignatureValues
+   * @memberof AccountSASSignatureValues
    */
   resourceTypes: string;
 }
@@ -104,10 +104,10 @@ export interface IAccountSASSignatureValues {
  *
  * @param {SharedKeyCredential} sharedKeyCredential
  * @returns {SASQueryParameters}
- * @memberof IAccountSASSignatureValues
+ * @memberof AccountSASSignatureValues
  */
 export function generateAccountSASQueryParameters(
-  accountSASSignatureValues: IAccountSASSignatureValues,
+  accountSASSignatureValues: AccountSASSignatureValues,
   sharedKeyCredential: SharedKeyCredential
 ): SASQueryParameters {
   const version = accountSASSignatureValues.version

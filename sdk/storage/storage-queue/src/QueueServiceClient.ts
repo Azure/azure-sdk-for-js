@@ -1,11 +1,24 @@
-import * as Models from "../src/generated/lib/models";
+import * as Models from "./generated/lib/models";
 import { Aborter } from "./Aborter";
 import { ListQueuesIncludeType } from "./generated/lib/models/index";
 import { Service } from "./generated/lib/operations";
 import { Pipeline } from "./Pipeline";
-import { StorageURL } from "./StorageURL";
+import { StorageClient } from "./StorageClient";
 
-export interface IServiceListQueuesSegmentOptions {
+export interface ServiceGetPropertiesOptions {
+  abortSignal?: Aborter;
+}
+
+export interface ServiceSetPropertiesOptions {
+  abortSignal?: Aborter;
+}
+
+export interface ServiceGetStatisticsOptions {
+  abortSignal?: Aborter;
+}
+
+export interface ServiceListQueuesSegmentOptions {
+  abortSignal?: Aborter;
   /**
    * @member {string} [prefix] Filters the results to return only queues
    * whose name begins with the specified prefix.
@@ -30,31 +43,31 @@ export interface IServiceListQueuesSegmentOptions {
 }
 
 /**
- * A ServiceURL represents a URL to the Azure Storage Queue service allowing you
+ * A QueueServiceClient represents a URL to the Azure Storage Queue service allowing you
  * to manipulate queues.
  *
  * @export
- * @class ServiceURL
- * @extends {StorageURL}
+ * @class QueueServiceClient
+ * @extends {StorageClient}
  */
-export class ServiceURL extends StorageURL {
+export class QueueServiceClient extends StorageClient {
   /**
    * serviceContext provided by protocol layer.
    *
    * @private
    * @type {Service}
-   * @memberof ServiceURL
+   * @memberof QueueServiceClient
    */
   private serviceContext: Service;
 
   /**
-   * Creates an instance of ServiceURL.
+   * Creates an instance of QueueServiceClient.
    * @param {string} url A URL string pointing to Azure Storage queue service, such as
    *                     "https://myaccount.queue.core.windows.net". You can append a SAS
    *                     if using AnonymousCredential, such as "https://myaccount.queue.core.windows.net?sasString".
-   * @param {Pipeline} pipeline Call StorageURL.newPipeline() to create a default
+   * @param {Pipeline} pipeline Call StorageClient.newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
-   * @memberof ServiceURL
+   * @memberof QueueServiceClient
    */
   constructor(url: string, pipeline: Pipeline) {
     super(url, pipeline);
@@ -62,15 +75,15 @@ export class ServiceURL extends StorageURL {
   }
 
   /**
-   * Creates a new ServiceURL object identical to the source but with the
+   * Creates a new QueueServiceClient object identical to the source but with the
    * specified request policy pipeline.
    *
    * @param {Pipeline} pipeline
-   * @returns {ServiceURL}
-   * @memberof ServiceURL
+   * @returns {QueueServiceClient}
+   * @memberof QueueServiceClient
    */
-  public withPipeline(pipeline: Pipeline): ServiceURL {
-    return new ServiceURL(this.url, pipeline);
+  public withPipeline(pipeline: Pipeline): QueueServiceClient {
+    return new QueueServiceClient(this.url, pipeline);
   }
 
   /**
@@ -78,12 +91,14 @@ export class ServiceURL extends StorageURL {
    * for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-queue-service-properties
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
+   * @param {ServiceGetPropertiesOptions} [options] Optional options to get properties operation.
    * @returns {Promise<Models.ServiceGetPropertiesResponse>}
-   * @memberof ServiceURL
+   * @memberof QueueServiceClient
    */
-  public async getProperties(aborter: Aborter): Promise<Models.ServiceGetPropertiesResponse> {
+  public async getProperties(
+    options: ServiceGetPropertiesOptions = {}
+  ): Promise<Models.ServiceGetPropertiesResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     return this.serviceContext.getProperties({
       abortSignal: aborter
     });
@@ -94,16 +109,16 @@ export class ServiceURL extends StorageURL {
    * for Storage Analytics, CORS (Cross-Origin Resource Sharing) rules and soft delete settings.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-queue-service-properties
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
    * @param {Models.StorageServiceProperties} properties
+   * @param {ServiceGetPropertiesOptions} [options] Optional options to set properties operation.
    * @returns {Promise<Models.ServiceSetPropertiesResponse>}
-   * @memberof ServiceURL
+   * @memberof QueueServiceClient
    */
   public async setProperties(
-    aborter: Aborter,
-    properties: Models.StorageServiceProperties
+    properties: Models.StorageServiceProperties,
+    options: ServiceGetPropertiesOptions = {}
   ): Promise<Models.ServiceSetPropertiesResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     return this.serviceContext.setProperties(properties, {
       abortSignal: aborter
     });
@@ -115,12 +130,14 @@ export class ServiceURL extends StorageURL {
    * replication is enabled for the storage account.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-queue-service-stats
    *
-   *  @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
+   * @param {ServiceGetStatisticsOptions} [options] Optional optiosn to get statistics operation.
    * @returns {Promise<Models.ServiceGetStatisticsResponse>}
-   * @memberof ServiceURL
+   * @memberof QueueServiceClient
    */
-  public async getStatistics(aborter: Aborter): Promise<Models.ServiceGetStatisticsResponse> {
+  public async getStatistics(
+    options: ServiceGetStatisticsOptions = {}
+  ): Promise<Models.ServiceGetStatisticsResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     return this.serviceContext.getStatistics({
       abortSignal: aborter
     });
@@ -130,8 +147,6 @@ export class ServiceURL extends StorageURL {
    * Returns a list of the queues under the specified account.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/list-queues1
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
    * @param {string} [marker] A string value that identifies the portion of
    *                          the list of queues to be returned with the next listing operation. The
    *                          operation returns the NextMarker value within the response body if the
@@ -139,15 +154,15 @@ export class ServiceURL extends StorageURL {
    *                          with the current page. The NextMarker value can be used as the value for
    *                          the marker parameter in a subsequent call to request the next page of list
    *                          items. The marker value is opaque to the client.
-   * @param {IServiceListQueuesSegmentOptions} [options]
+   * @param {ServiceListQueuesSegmentOptions} [options] Optional optiosn to list queues operation.
    * @returns {Promise<Models.ServiceListQueuesSegmentResponse>}
-   * @memberof ServiceURL
+   * @memberof QueueServiceClient
    */
   public async listQueuesSegment(
-    aborter: Aborter,
     marker?: string,
-    options: IServiceListQueuesSegmentOptions = {}
+    options: ServiceListQueuesSegmentOptions = {}
   ): Promise<Models.ServiceListQueuesSegmentResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     return this.serviceContext.listQueuesSegment({
       abortSignal: aborter,
       marker,

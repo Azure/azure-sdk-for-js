@@ -1,6 +1,6 @@
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 import { FileSASPermissions } from "./FileSASPermissions";
-import { IIPRange, ipRangeToString } from "./IIPRange";
+import { IPRange, ipRangeToString } from "./IPRange";
 import { SASProtocol, SASQueryParameters } from "./SASQueryParameters";
 import { ShareSASPermissions } from "./ShareSASPermissions";
 import { SERVICE_VERSION } from "./utils/constants";
@@ -9,19 +9,19 @@ import { truncatedISO8061Date } from "./utils/utils.common";
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
  *
- * IFileSASSignatureValues is used to help generating File service SAS tokens for shares or files.
+ * FileSASSignatureValues is used to help generating File service SAS tokens for shares or files.
  *
  * @export
- * @class IFileSASSignatureValues
+ * @class FileSASSignatureValues
  */
 
-export interface IFileSASSignatureValues {
+export interface FileSASSignatureValues {
   /**
    * The version of the service this SAS will target. If not specified, it will default to the version targeted by the
    * library.
    *
    * @type {string}
-   * @memberof IFileSASSignatureValues
+   * @memberof FileSASSignatureValues
    */
   version?: string;
 
@@ -29,7 +29,7 @@ export interface IFileSASSignatureValues {
    * Optional. SAS protocols, HTTPS only or HTTPSandHTTP
    *
    * @type {SASProtocol}
-   * @memberof IFileSASSignatureValues
+   * @memberof FileSASSignatureValues
    */
   protocol?: SASProtocol;
 
@@ -37,7 +37,7 @@ export interface IFileSASSignatureValues {
    * Optional. When the SAS will take effect.
    *
    * @type {Date}
-   * @memberof IFileSASSignatureValues
+   * @memberof FileSASSignatureValues
    */
   startTime?: Date;
 
@@ -45,7 +45,7 @@ export interface IFileSASSignatureValues {
    * Optional only when identifier is provided. The time after which the SAS will no longer work.
    *
    * @type {Date}
-   * @memberof IFileSASSignatureValues
+   * @memberof FileSASSignatureValues
    */
   expiryTime?: Date;
 
@@ -55,23 +55,23 @@ export interface IFileSASSignatureValues {
    * being accessed for help constructing the permissions string.
    *
    * @type {string}
-   * @memberof IFileSASSignatureValues
+   * @memberof FileSASSignatureValues
    */
   permissions?: string;
 
   /**
    * Optional. IP ranges allowed in this SAS.
    *
-   * @type {IIPRange}
-   * @memberof IFileSASSignatureValues
+   * @type {IPRange}
+   * @memberof FileSASSignatureValues
    */
-  ipRange?: IIPRange;
+  ipRange?: IPRange;
 
   /**
    * The name of the share the SAS user may access.
    *
    * @type {string}
-   * @memberof IFileSASSignatureValues
+   * @memberof FileSASSignatureValues
    */
   shareName: string;
 
@@ -79,7 +79,7 @@ export interface IFileSASSignatureValues {
    * Optional. The path of the file like, "directory/FileName" or "FileName".
    *
    * @type {string}
-   * @memberof IFileSASSignatureValues
+   * @memberof FileSASSignatureValues
    */
   filePath?: string;
 
@@ -89,7 +89,7 @@ export interface IFileSASSignatureValues {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/establishing-a-stored-access-policy
    *
    * @type {string}
-   * @memberof IFileSASSignatureValues
+   * @memberof FileSASSignatureValues
    */
   identifier?: string;
 
@@ -97,7 +97,7 @@ export interface IFileSASSignatureValues {
    * Optional. The cache-control header for the SAS.
    *
    * @type {string}
-   * @memberof IFileSASSignatureValues
+   * @memberof FileSASSignatureValues
    */
   cacheControl?: string;
 
@@ -105,7 +105,7 @@ export interface IFileSASSignatureValues {
    * Optional. The content-disposition header for the SAS.
    *
    * @type {string}
-   * @memberof IFileSASSignatureValues
+   * @memberof FileSASSignatureValues
    */
   contentDisposition?: string;
 
@@ -113,7 +113,7 @@ export interface IFileSASSignatureValues {
    * Optional. The content-encoding header for the SAS.
    *
    * @type {string}
-   * @memberof IFileSASSignatureValues
+   * @memberof FileSASSignatureValues
    */
   contentEncoding?: string;
 
@@ -121,7 +121,7 @@ export interface IFileSASSignatureValues {
    * Optional. The content-language header for the SAS.
    *
    * @type {string}
-   * @memberof IFileSASSignatureValues
+   * @memberof FileSASSignatureValues
    */
   contentLanguage?: string;
 
@@ -129,7 +129,7 @@ export interface IFileSASSignatureValues {
    * Optional. The content-type header for the SAS.
    *
    * @type {string}
-   * @memberof IFileSASSignatureValues
+   * @memberof FileSASSignatureValues
    */
   contentType?: string;
 }
@@ -147,12 +147,12 @@ export interface IFileSASSignatureValues {
  * this constructor.
  *
  * @export
- * @param {IFileSASSignatureValues} fileSASSignatureValues
+ * @param {FileSASSignatureValues} fileSASSignatureValues
  * @param {SharedKeyCredential} sharedKeyCredential
  * @returns {SASQueryParameters}
  */
 export function generateFileSASQueryParameters(
-  fileSASSignatureValues: IFileSASSignatureValues,
+  fileSASSignatureValues: FileSASSignatureValues,
   sharedKeyCredential: SharedKeyCredential
 ): SASQueryParameters {
   if (

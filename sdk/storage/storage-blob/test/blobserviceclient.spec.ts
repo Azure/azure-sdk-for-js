@@ -1,16 +1,15 @@
 import * as assert from "assert";
 
-import { Aborter } from "../src/Aborter";
 import { ContainerClient } from "../src/ContainerClient";
-import { ServiceClient } from "../src/ServiceClient";
+import { BlobServiceClient } from "../src/BlobServiceClient";
 import { getAlternateBSU, getBSU, getUniqueName, wait } from "./utils";
 import * as dotenv from "dotenv";
 dotenv.config({ path: "../.env" });
 
-describe("ServiceClient", () => {
+describe("BlobServiceClient", () => {
   it("ListContainers with default parameters", async () => {
-    const serviceClient = getBSU();
-    const result = await serviceClient.listContainersSegment(Aborter.none);
+    const blobServiceClient = getBSU();
+    const result = await blobServiceClient.listContainersSegment();
     assert.ok(typeof result.requestId);
     assert.ok(result.requestId!.length > 0);
     assert.ok(typeof result.version);
@@ -28,17 +27,17 @@ describe("ServiceClient", () => {
   });
 
   it("ListContainers with all parameters configured", async () => {
-    const serviceClient = getBSU();
+    const blobServiceClient = getBSU();
 
     const containerNamePrefix = getUniqueName("container");
     const containerName1 = `${containerNamePrefix}x1`;
     const containerName2 = `${containerNamePrefix}x2`;
-    const containerClient1 = ContainerClient.fromServiceClient(serviceClient, containerName1);
-    const containerClient2 = ContainerClient.fromServiceClient(serviceClient, containerName2);
-    await containerClient1.create(Aborter.none, { metadata: { key: "val" } });
-    await containerClient2.create(Aborter.none, { metadata: { key: "val" } });
+    const containerClient1 = ContainerClient.fromBlobServiceClient(blobServiceClient, containerName1);
+    const containerClient2 = ContainerClient.fromBlobServiceClient(blobServiceClient, containerName2);
+    await containerClient1.create({ metadata: { key: "val" } });
+    await containerClient2.create({ metadata: { key: "val" } });
 
-    const result1 = await serviceClient.listContainersSegment(Aborter.none, undefined, {
+    const result1 = await blobServiceClient.listContainersSegment(undefined, {
       include: "metadata",
       maxresults: 1,
       prefix: containerNamePrefix
@@ -55,7 +54,7 @@ describe("ServiceClient", () => {
     assert.deepEqual(result1.containerItems![0].properties.leaseStatus, "unlocked");
     assert.deepEqual(result1.containerItems![0].metadata!.key, "val");
 
-    const result2 = await serviceClient.listContainersSegment(Aborter.none, result1.nextMarker, {
+    const result2 = await blobServiceClient.listContainersSegment(result1.nextMarker, {
       include: "metadata",
       maxresults: 1,
       prefix: containerNamePrefix
@@ -72,13 +71,13 @@ describe("ServiceClient", () => {
     assert.deepEqual(result2.containerItems![0].properties.leaseStatus, "unlocked");
     assert.deepEqual(result2.containerItems![0].metadata!.key, "val");
 
-    await containerClient1.delete(Aborter.none);
-    await containerClient2.delete(Aborter.none);
+    await containerClient1.delete();
+    await containerClient2.delete();
   });
 
   it("GetProperties", async () => {
-    const serviceClient = getBSU();
-    const result = await serviceClient.getProperties(Aborter.none);
+    const blobServiceClient = getBSU();
+    const result = await blobServiceClient.getProperties();
 
     assert.ok(typeof result.requestId);
     assert.ok(result.requestId!.length > 0);
@@ -95,9 +94,9 @@ describe("ServiceClient", () => {
   });
 
   it("SetProperties", async () => {
-    const serviceClient = getBSU();
+    const blobServiceClient = getBSU();
 
-    const serviceProperties = await serviceClient.getProperties(Aborter.none);
+    const serviceProperties = await blobServiceClient.getProperties();
 
     serviceProperties.logging = {
       deleteProperty: true,
@@ -150,10 +149,10 @@ describe("ServiceClient", () => {
       };
     }
 
-    await serviceClient.setProperties(Aborter.none, serviceProperties);
+    await blobServiceClient.setProperties(serviceProperties);
     await wait(5 * 1000);
 
-    const result = await serviceClient.getProperties(Aborter.none);
+    const result = await blobServiceClient.getProperties();
     assert.ok(typeof result.requestId);
     assert.ok(result.requestId!.length > 0);
     assert.ok(typeof result.version);
@@ -162,16 +161,16 @@ describe("ServiceClient", () => {
   });
 
   it("getStatistics", (done) => {
-    let serviceClient: ServiceClient | undefined;
+    let blobServiceClient: BlobServiceClient | undefined;
     try {
-      serviceClient = getAlternateBSU();
+      blobServiceClient = getAlternateBSU();
     } catch (err) {
       done();
       return;
     }
 
-    serviceClient!
-      .getStatistics(Aborter.none)
+    blobServiceClient!
+      .getStatistics()
       .then((result) => {
         assert.ok(result.geoReplication!.lastSyncTime);
         done();
@@ -180,9 +179,9 @@ describe("ServiceClient", () => {
   });
 
   it("getAccountInfo", async () => {
-    const serviceClient = getBSU();
+    const blobServiceClient = getBSU();
 
-    const accountInfo = await serviceClient.getAccountInfo(Aborter.none);
+    const accountInfo = await blobServiceClient.getAccountInfo();
     assert.ok(accountInfo.accountKind);
     assert.ok(accountInfo.skuName);
   });

@@ -3,12 +3,11 @@
 */
 
 import {
-  Aborter,
-  QueueURL,
-  MessagesURL,
-  MessageIdURL,
-  ServiceURL,
-  StorageURL,
+  QueueClient,
+  MessagesClient,
+  MessageIdClient,
+  QueueServiceClient,
+  StorageClient,
   SharedKeyCredential,
   TokenCredential,
   Models
@@ -29,7 +28,7 @@ async function main() {
   //   const anonymousCredential = new AnonymousCredential();
 
   // Use sharedKeyCredential, tokenCredential or anonymousCredential to create a pipeline
-  const pipeline = StorageURL.newPipeline(sharedKeyCredential, {
+  const pipeline = StorageClient.newPipeline(sharedKeyCredential, {
     // httpClient: MyHTTPClient, // A customized HTTP client implementing IHttpClient interface
     // logger: MyLogger, // A customized logger implementing IHttpPipelineLogger interface
     retryOptions: {
@@ -41,7 +40,7 @@ async function main() {
   });
 
   // List queues
-  const serviceURL = new ServiceURL(
+  const queueServiceClient = new QueueServiceClient(
     // When using AnonymousCredential, following url should include a valid SAS or support public access
     `https://${account}.queue.core.windows.net`,
     pipeline
@@ -50,8 +49,7 @@ async function main() {
   console.log(`List queues`);
   let marker;
   do {
-    const listQueuesResponse: Models.ServiceListQueuesSegmentResponse = await serviceURL.listQueuesSegment(
-      Aborter.none,
+    const listQueuesResponse: Models.ServiceListQueuesSegmentResponse = await queueServiceClient.listQueuesSegment(
       marker
     );
 
@@ -63,8 +61,8 @@ async function main() {
 
   // Create a new queue
   const queueName = `newqueue${new Date().getTime()}`;
-  const queueURL = QueueURL.fromServiceURL(serviceURL, queueName);
-  const createQueueResponse = await queueURL.create(Aborter.none);
+  const queueClient = QueueClient.fromQueueServiceClient(queueServiceClient, queueName);
+  const createQueueResponse = await queueClient.create();
   console.log(
     `Create queue ${queueName} successfully, service assigned request Id: ${
       createQueueResponse.requestId
@@ -72,9 +70,8 @@ async function main() {
   );
 
   // Enqueue a message into the queue using the enqueue method.
-  const messagesURL = MessagesURL.fromQueueURL(queueURL);
-  const enqueueQueueResponse = await messagesURL.enqueue(
-    Aborter.none,
+  const messagesClient = MessagesClient.fromQueueClient(queueClient);
+  const enqueueQueueResponse = await messagesClient.enqueue(
     "Hello World!"
   );
   console.log(
@@ -84,7 +81,7 @@ async function main() {
   );
 
   // Peek a message using peek method.
-  const peekQueueResponse = await messagesURL.peek(Aborter.none);
+  const peekQueueResponse = await messagesClient.peek();
   console.log(
     `The peeked message is: ${
       peekQueueResponse.peekedMessageItems[0].messageText
@@ -95,7 +92,7 @@ async function main() {
   // from this queue for a default period of 30 seconds. To finish removing the message from the queue, you call DeleteMessage.
   // This two-step process ensures that if your code fails to process a message due to hardware or software failure, another instance
   // of your code can get the same message and try again.
-  const dequeueResponse = await messagesURL.dequeue(Aborter.none);
+  const dequeueResponse = await messagesClient.dequeue();
   if (dequeueResponse.dequeuedMessageItems.length == 1) {
     const dequeueMessageItem = dequeueResponse.dequeuedMessageItems[0];
     console.log(
@@ -103,12 +100,11 @@ async function main() {
         dequeueMessageItem.messageText
       }`
     );
-    const messageIdURL = MessageIdURL.fromMessagesURL(
-      messagesURL,
+    const messageIdClient = MessageIdClient.fromMessagesClient(
+      messagesClient,
       dequeueMessageItem.messageId
     );
-    const deleteMessageResponse = await messageIdURL.delete(
-      Aborter.none,
+    const deleteMessageResponse = await messageIdClient.delete(
       dequeueMessageItem.popReceipt
     );
     console.log(
@@ -119,7 +115,7 @@ async function main() {
   }
 
   // Delete the queue.
-  const deleteQueueResponse = await queueURL.delete(Aborter.none);
+  const deleteQueueResponse = await queueClient.delete();
   console.log(
     `Delete queue successfully, service assigned request Id: ${
       deleteQueueResponse.requestId

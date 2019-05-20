@@ -1,18 +1,39 @@
 import { HttpResponse } from "@azure/ms-rest-js";
-import * as Models from "../src/generated/lib/models";
+import * as Models from "./generated/lib/models";
 import { Aborter } from "./Aborter";
 import { Queue } from "./generated/lib/operations";
-import { IMetadata } from "./models";
+import { Metadata } from "./models";
 import { Pipeline } from "./Pipeline";
-import { ServiceURL } from "./ServiceURL";
-import { StorageURL } from "./StorageURL";
+import { QueueServiceClient } from "./QueueServiceClient";
+import { StorageClient } from "./StorageClient";
 import { appendToURLPath, truncatedISO8061Date } from "./utils/utils.common";
 
-export interface IQueueCreateOptions {
-  metadata?: IMetadata;
+export interface QueueCreateOptions {
+  abortSignal?: Aborter;
+  metadata?: Metadata;
 }
 
-export interface ISignedIdentifier {
+export interface QueueGetPropertiesOptions {
+  abortSignal?: Aborter;
+}
+
+export interface QueueDeleteOptions {
+  abortSignal?: Aborter;
+}
+
+export interface QueueGetAccessPolicyOptions {
+  abortSignal?: Aborter;
+}
+
+export interface QueueSetAccessPolicyOptions {
+  abortSignal?: Aborter;
+}
+
+export interface QueueSetMetadataOptions {
+  abortSignal?: Aborter;
+}
+
+export interface SignedIdentifier {
   /**
    * @member {string} id a unique id
    */
@@ -38,7 +59,7 @@ export interface ISignedIdentifier {
 }
 
 export declare type QueueGetAccessPolicyResponse = {
-  signedIdentifiers: ISignedIdentifier[];
+  signedIdentifiers: SignedIdentifier[];
 } & Models.QueueGetAccessPolicyHeaders & {
     /**
      * The underlying HTTP response.
@@ -64,16 +85,22 @@ export declare type QueueGetAccessPolicyResponse = {
  *
  * @export
  * @class QueueURL
- * @extends {StorageURL}
+ * @extends {StorageClient}
  */
-export class QueueURL extends StorageURL {
+export class QueueClient extends StorageClient {
   /**
-   * Creates a QueueURL object from ServiceURL
-   * @param serviceURL
+   * Creates a QueueURL object from QueueServiceClient
+   * @param queueServiceClient
    * @param queueName
    */
-  public static fromServiceURL(serviceURL: ServiceURL, queueName: string): QueueURL {
-    return new QueueURL(appendToURLPath(serviceURL.url, queueName), serviceURL.pipeline);
+  public static fromQueueServiceClient(
+    queueServiceClient: QueueServiceClient,
+    queueName: string
+  ): QueueClient {
+    return new QueueClient(
+      appendToURLPath(queueServiceClient.url, queueName),
+      queueServiceClient.pipeline
+    );
   }
 
   /**
@@ -91,7 +118,7 @@ export class QueueURL extends StorageURL {
    *                     "https://myaccount.queue.core.windows.net/myqueue". You can
    *                     append a SAS if using AnonymousCredential, such as
    *                     "https://myaccount.queue.core.windows.net/myqueue?sasString".
-   * @param {Pipeline} pipeline Call StorageURL.newPipeline() to create a default
+   * @param {Pipeline} pipeline Call StorageClient.newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
    * @memberof QueueURL
    */
@@ -105,27 +132,25 @@ export class QueueURL extends StorageURL {
    * specified request policy pipeline.
    *
    * @param {Pipeline} pipeline
-   * @returns {QueueURL}
+   * @returns {QueueClient}
    * @memberof QueueURL
    */
-  public withPipeline(pipeline: Pipeline): QueueURL {
-    return new QueueURL(this.url, pipeline);
+  public withPipeline(pipeline: Pipeline): QueueClient {
+    return new QueueClient(this.url, pipeline);
   }
 
   /**
    * Creates a new queue under the specified account.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-queue4
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
-   * @param {IQueueCreateOptions} [options]
+   * @param {QueueCreateOptions} [options] Optional options to Queue create operation.
    * @returns {Promise<Models.QueueCreateResponse>}
    * @memberof QueueURL
    */
   public async create(
-    aborter: Aborter,
-    options: IQueueCreateOptions = {}
+    options: QueueCreateOptions = {}
   ): Promise<Models.QueueCreateResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     return this.queueContext.create({
       ...options,
       abortSignal: aborter
@@ -137,12 +162,14 @@ export class QueueURL extends StorageURL {
    * queue. Metadata is associated with the queue as name-values pairs.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-queue-metadata
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
+   * @param {QueueGetPropertiesOptions} [options] Optional options to Queue get properties operation.
    * @returns {Promise<Models.QueueGetPropertiesResponse>}
    * @memberof QueueURL
    */
-  public async getProperties(aborter: Aborter): Promise<Models.QueueGetPropertiesResponse> {
+  public async getProperties(
+    options: QueueGetPropertiesOptions = {}
+  ): Promise<Models.QueueGetPropertiesResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     return this.queueContext.getProperties({
       abortSignal: aborter
     });
@@ -152,12 +179,14 @@ export class QueueURL extends StorageURL {
    * Deletes the specified queue permanently.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-queue3
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
+   * @param {QueueDeleteOptions} [options] Optional options to Queue delete operation.
    * @returns {Promise<Models.QueueDeleteResponse>}
    * @memberof QueueURL
    */
-  public async delete(aborter: Aborter): Promise<Models.QueueDeleteResponse> {
+  public async delete(
+    options: QueueDeleteOptions = {}
+  ): Promise<Models.QueueDeleteResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     return this.queueContext.deleteMethod({
       abortSignal: aborter
     });
@@ -170,16 +199,16 @@ export class QueueURL extends StorageURL {
    * metadata will be removed.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-queue-metadata
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
-   * @param {IMetadata} [metadata] If no metadata provided, all existing metadata will be removed.
+   * @param {Metadata} [metadata] If no metadata provided, all existing metadata will be removed.
+   * @param {QueueSetMetadataOptions} [options] Optional options to Queue set metadata operation.
    * @returns {Promise<Models.QueueSetMetadataResponse>}
    * @memberof QueueURL
    */
   public async setMetadata(
-    aborter: Aborter,
-    metadata?: IMetadata
+    metadata?: Metadata,
+    options: QueueSetMetadataOptions = {}
   ): Promise<Models.QueueSetMetadataResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     return this.queueContext.setMetadata({
       abortSignal: aborter,
       metadata
@@ -194,13 +223,14 @@ export class QueueURL extends StorageURL {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-queue-acl
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
-   * @param {IQueueGetAccessPolicyOptions} [options]
+   * @param {QueueGetAccessPolicyOptions} [options] Optional options to Queue get access policy operation.
    * @returns {Promise<QueueGetAccessPolicyResponse>}
    * @memberof QueueURL
    */
-  public async getAccessPolicy(aborter: Aborter): Promise<QueueGetAccessPolicyResponse> {
+  public async getAccessPolicy(
+    options: QueueGetAccessPolicyOptions = {}
+  ): Promise<QueueGetAccessPolicyResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     const response = await this.queueContext.getAccessPolicy({
       abortSignal: aborter
     });
@@ -232,18 +262,17 @@ export class QueueURL extends StorageURL {
    * Sets stored access policies for the queue that may be used with Shared Access Signatures.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-queue-acl
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
    * @param {PublicAccessType} [access]
-   * @param {ISignedIdentifier[]} [queueAcl]
-   * @param {IQueueSetAccessPolicyOptions} [options]
+   * @param {SignedIdentifier[]} [queueAcl]
+   * @param {QueueSetAccessPolicyOptions} [options] Optional options to Queue set access policy operation.
    * @returns {Promise<Models.QueueSetAccessPolicyResponse>}
    * @memberof QueueURL
    */
   public async setAccessPolicy(
-    aborter: Aborter,
-    queueAcl?: ISignedIdentifier[]
+    queueAcl?: SignedIdentifier[],
+    options: QueueSetAccessPolicyOptions = {}
   ): Promise<Models.QueueSetAccessPolicyResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     const acl: Models.SignedIdentifier[] = [];
     for (const identifier of queueAcl || []) {
       acl.push({

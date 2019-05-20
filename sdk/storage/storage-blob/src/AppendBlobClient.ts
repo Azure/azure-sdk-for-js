@@ -5,19 +5,21 @@ import { Aborter } from "./Aborter";
 import { BlobClient } from "./BlobClient";
 import { ContainerClient } from "./ContainerClient";
 import { AppendBlob } from "./generated/lib/operations";
-import { IAppendBlobAccessConditions, IBlobAccessConditions, IMetadata } from "./models";
+import { AppendBlobAccessConditions, BlobAccessConditions, Metadata } from "./models";
 import { Pipeline } from "./Pipeline";
 import { URLConstants } from "./utils/constants";
 import { appendToURLPath, setURLParameter } from "./utils/utils.common";
 
-export interface IAppendBlobCreateOptions {
-  accessConditions?: IBlobAccessConditions;
+export interface AppendBlobCreateOptions {
+  abortSignal?: Aborter;
+  accessConditions?: BlobAccessConditions;
   blobHTTPHeaders?: Models.BlobHTTPHeaders;
-  metadata?: IMetadata;
+  metadata?: Metadata;
 }
 
-export interface IAppendBlobAppendBlockOptions {
-  accessConditions?: IAppendBlobAccessConditions;
+export interface AppendBlobAppendBlockOptions {
+  abortSignal?: Aborter;
+  accessConditions?: AppendBlobAccessConditions;
   progress?: (progress: TransferProgressEvent) => void;
   transactionalContentMD5?: Uint8Array;
 }
@@ -129,16 +131,14 @@ export class AppendBlobClient extends BlobClient {
    * Creates a 0-length append blob. Call AppendBlock to append data to an append blob.
    * @see https://docs.microsoft.com/rest/api/storageservices/put-blob
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
-   * @param {IAppendBlobCreateOptions} [options]
+   * @param {AppendBlobCreateOptions} [options]
    * @returns {Promise<Models.AppendBlobsCreateResponse>}
    * @memberof AppendBlobClient
    */
   public async create(
-    aborter: Aborter,
-    options: IAppendBlobCreateOptions = {}
+    options: AppendBlobCreateOptions = {}
   ): Promise<Models.AppendBlobCreateResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     options.accessConditions = options.accessConditions || {};
     return this.appendBlobContext.create(0, {
       abortSignal: aborter,
@@ -153,20 +153,18 @@ export class AppendBlobClient extends BlobClient {
    * Commits a new block of data to the end of the existing append blob.
    * @see https://docs.microsoft.com/rest/api/storageservices/append-block
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
    * @param {HttpRequestBody} body
    * @param {number} contentLength
-   * @param {IAppendBlobAppendBlockOptions} [options]
+   * @param {AppendBlobAppendBlockOptions} [options]
    * @returns {Promise<Models.AppendBlobsAppendBlockResponse>}
    * @memberof AppendBlobClient
    */
   public async appendBlock(
-    aborter: Aborter,
     body: HttpRequestBody,
     contentLength: number,
-    options: IAppendBlobAppendBlockOptions = {}
+    options: AppendBlobAppendBlockOptions = {}
   ): Promise<Models.AppendBlobAppendBlockResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     options.accessConditions = options.accessConditions || {};
     return this.appendBlobContext.appendBlock(body, contentLength, {
       abortSignal: aborter,

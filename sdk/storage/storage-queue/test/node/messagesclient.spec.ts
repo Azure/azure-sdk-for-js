@@ -1,27 +1,26 @@
 import * as assert from "assert";
 
-import { Aborter } from "../../src/Aborter";
-import { QueueURL } from "../../src/QueueURL";
-import { MessagesURL } from "../../src/MessagesURL";
+import { QueueClient } from "../../src/QueueClient";
+import { MessagesClient } from "../../src/MessagesClient";
 import { getQSU, getUniqueName } from "../utils";
 
-describe("MessagesURL Node", () => {
-  const serviceURL = getQSU();
+describe("MessagesClient Node", () => {
+  const queueServiceClient = getQSU();
   let queueName = getUniqueName("queue");
-  let queueURL = QueueURL.fromServiceURL(serviceURL, queueName);
+  let queueClient = QueueClient.fromQueueServiceClient(queueServiceClient, queueName);
 
   beforeEach(async () => {
     queueName = getUniqueName("queue");
-    queueURL = QueueURL.fromServiceURL(serviceURL, queueName);
-    await queueURL.create(Aborter.none);
+    queueClient = QueueClient.fromQueueServiceClient(queueServiceClient, queueName);
+    await queueClient.create();
   });
 
   afterEach(async () => {
-    await queueURL.delete(Aborter.none);
+    await queueClient.delete();
   });
 
   it("enqueue, peek, dequeue with 64KB characters including special char which is computed after encoding", async () => {
-    let messagesURL = MessagesURL.fromQueueURL(queueURL);
+    let messagesClient = MessagesClient.fromQueueClient(queueClient);
     let specialChars =
       "!@#$%^&*()_+`-=[]|};'\":,./?><`~漢字㒈保ᨍ揫^p[뷁)׷񬓔7񈺝l鮍򧽶ͺ簣ڞ츊䈗㝯綞߫⯹?ÎᦡC왶żsmt㖩닡򈸱𕩣ОլFZ򃀮9tC榅ٻ컦驿Ϳ[𱿛봻烌󱰷򙥱Ռ򽒏򘤰δŊϜ췮㐦9ͽƙp퐂ʩ由巩KFÓ֮򨾭⨿󊻅aBm󶴂旨Ϣ񓙠򻐪񇧱򆋸ջ֨ipn򒷐ꝷՆ򆊙斡賆𒚑m˞𻆕󛿓򐞺Ӯ򡗺򴜍<񐸩԰Bu)򁉂񖨞á<џɏ嗂�⨣1PJ㬵┡ḸI򰱂ˮaࢸ۳i灛ȯɨb𹺪򕕱뿶uٔ䎴񷯆Φ륽󬃨س_NƵ¦";
     let buffer = Buffer.alloc(64 * 1024); //64KB
@@ -29,7 +28,7 @@ describe("MessagesURL Node", () => {
     buffer.write(specialChars, 0);
     let messageContent = buffer.toString();
 
-    let eResult = await messagesURL.enqueue(Aborter.none, messageContent, {
+    let eResult = await messagesClient.enqueue(messageContent, {
       messageTimeToLive: 40,
       visibilitytimeout: 0
     });
@@ -42,7 +41,7 @@ describe("MessagesURL Node", () => {
     assert.ok(eResult.timeNextVisible);
     assert.ok(eResult.version);
 
-    let pResult = await messagesURL.peek(Aborter.none, { numberOfMessages: 2 });
+    let pResult = await messagesClient.peek({ numberOfMessages: 2 });
     assert.ok(pResult.date);
     assert.ok(pResult.requestId);
     assert.ok(pResult.version);
@@ -53,7 +52,7 @@ describe("MessagesURL Node", () => {
     assert.deepStrictEqual(pResult.peekedMessageItems[0].insertionTime, eResult.insertionTime);
     assert.deepStrictEqual(pResult.peekedMessageItems[0].expirationTime, eResult.expirationTime);
 
-    let dResult = await messagesURL.dequeue(Aborter.none, {
+    let dResult = await messagesClient.dequeue({
       visibilitytimeout: 10,
       numberOfMessages: 2
     });
@@ -71,7 +70,7 @@ describe("MessagesURL Node", () => {
   });
 
   it("enqueue negative with 65537B(64KB+1B) characters including special char which is computed after encoding", async () => {
-    let messagesURL = MessagesURL.fromQueueURL(queueURL);
+    let messagesClient = MessagesClient.fromQueueClient(queueClient);
     let specialChars =
       "!@#$%^&*()_+`-=[]|};'\":,./?><`~漢字㒈保ᨍ揫^p[뷁)׷񬓔7񈺝l鮍򧽶ͺ簣ڞ츊䈗㝯綞߫⯹?ÎᦡC왶żsmt㖩닡򈸱𕩣ОլFZ򃀮9tC榅ٻ컦驿Ϳ[𱿛봻烌󱰷򙥱Ռ򽒏򘤰δŊϜ췮㐦9ͽƙp퐂ʩ由巩KFÓ֮򨾭⨿󊻅aBm󶴂旨Ϣ񓙠򻐪񇧱򆋸ջ֨ipn򒷐ꝷՆ򆊙斡賆𒚑m˞𻆕󛿓򐞺Ӯ򡗺򴜍<񐸩԰Bu)򁉂񖨞á<џɏ嗂�⨣1PJ㬵┡ḸI򰱂ˮaࢸ۳i灛ȯɨb𹺪򕕱뿶uٔ䎴񷯆Φ륽󬃨س_NƵ¦";
     let buffer = Buffer.alloc(64 * 1024 + 1);
@@ -81,7 +80,7 @@ describe("MessagesURL Node", () => {
 
     let error;
     try {
-      await messagesURL.enqueue(Aborter.none, messageContent, {});
+      await messagesClient.enqueue(messageContent, {});
     } catch (err) {
       error = err;
     }

@@ -5,7 +5,24 @@ import { Service } from "./generated/lib/operations";
 import { Pipeline } from "./Pipeline";
 import { StorageClient } from "./StorageClient";
 
-export interface IServiceListContainersSegmentOptions {
+export interface ServiceGetPropertiesOptions {
+  abortSignal?: Aborter;
+}
+
+export interface ServiceSetPropertiesOptions {
+  abortSignal?: Aborter;
+}
+
+export interface ServiceGetAccountInfoOptions {
+  abortSignal?: Aborter;
+}
+
+export interface ServiceGetStatisticsOptions {
+  abortSignal?: Aborter;
+}
+
+export interface ServiceListContainersSegmentOptions {
+  abortSignal?: Aborter;
   /**
    * @member {string} [prefix] Filters the results to return only containers
    * whose name begins with the specified prefix.
@@ -30,32 +47,32 @@ export interface IServiceListContainersSegmentOptions {
 }
 
 /**
- * A ServiceClient represents a Client to the Azure Storage Blob service allowing you
+ * A BlobServiceClient represents a Client to the Azure Storage Blob service allowing you
  * to manipulate blob containers.
  *
  * @export
- * @class ServiceClient
+ * @class BlobServiceClient
  * @extends {StorageClient}
  */
-export class ServiceClient extends StorageClient {
+export class BlobServiceClient extends StorageClient {
   /**
    * serviceContext provided by protocol layer.
    *
    * @private
    * @type {Service}
-   * @memberof ServiceClient
+   * @memberof BlobServiceClient
    */
   private serviceContext: Service;
 
   /**
-   * Creates an instance of ServiceClient.
+   * Creates an instance of BlobServiceClient.
    *
    * @param {string} url A Client string pointing to Azure Storage blob service, such as
    *                     "https://myaccount.blob.core.windows.net". You can append a SAS
    *                     if using AnonymousCredential, such as "https://myaccount.blob.core.windows.net?sasString".
    * @param {Pipeline} pipeline Call StorageClient.newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
-   * @memberof ServiceClient
+   * @memberof BlobServiceClient
    */
   constructor(url: string, pipeline: Pipeline) {
     super(url, pipeline);
@@ -63,15 +80,15 @@ export class ServiceClient extends StorageClient {
   }
 
   /**
-   * Creates a new ServiceClient object identical to the source but with the
+   * Creates a new BlobServiceClient object identical to the source but with the
    * specified request policy pipeline.
    *
    * @param {Pipeline} pipeline
-   * @returns {ServiceClient}
-   * @memberof ServiceClient
+   * @returns {BlobServiceClient}
+   * @memberof BlobServiceClient
    */
-  public withPipeline(pipeline: Pipeline): ServiceClient {
-    return new ServiceClient(this.url, pipeline);
+  public withPipeline(pipeline: Pipeline): BlobServiceClient {
+    return new BlobServiceClient(this.url, pipeline);
   }
 
   /**
@@ -79,14 +96,15 @@ export class ServiceClient extends StorageClient {
    * for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-blob-service-properties}
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
    * @returns {Promise<Models.ServiceGetPropertiesResponse>}
-   * @memberof ServiceClient
+   * @memberof BlobServiceClient
    */
-  public async getProperties(aborter: Aborter): Promise<Models.ServiceGetPropertiesResponse> {
+  public async getProperties(
+    options: ServiceGetPropertiesOptions = {}
+  ): Promise<Models.ServiceGetPropertiesResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     return this.serviceContext.getProperties({
-      abortSignal: aborter
+      abortSignal: aborter || Aborter.none
     });
   }
 
@@ -95,18 +113,19 @@ export class ServiceClient extends StorageClient {
    * for Storage Analytics, CORS (Cross-Origin Resource Sharing) rules and soft delete settings.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-blob-service-properties}
    *
+   * @param {Models.StorageServiceProperties} properties
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
-   * @param {Models.StorageServiceProperties} properties
    * @returns {Promise<Models.ServiceSetPropertiesResponse>}
-   * @memberof ServiceClient
+   * @memberof BlobServiceClient
    */
   public async setProperties(
-    aborter: Aborter,
-    properties: Models.StorageServiceProperties
+    properties: Models.StorageServiceProperties,
+    options: ServiceSetPropertiesOptions = {}
   ): Promise<Models.ServiceSetPropertiesResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     return this.serviceContext.setProperties(properties, {
-      abortSignal: aborter
+      abortSignal: aborter || Aborter.none
     });
   }
 
@@ -119,11 +138,14 @@ export class ServiceClient extends StorageClient {
    *  @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
    * @returns {Promise<Models.ServiceGetStatisticsResponse>}
-   * @memberof ServiceClient
+   * @memberof BlobServiceClient
    */
-  public async getStatistics(aborter: Aborter): Promise<Models.ServiceGetStatisticsResponse> {
+  public async getStatistics(
+    options: ServiceGetStatisticsOptions = {}
+  ): Promise<Models.ServiceGetStatisticsResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     return this.serviceContext.getStatistics({
-      abortSignal: aborter
+      abortSignal: aborter || Aborter.none
     });
   }
 
@@ -137,11 +159,14 @@ export class ServiceClient extends StorageClient {
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
    * @returns {Promise<Models.ServiceGetAccountInfoResponse>}
-   * @memberof ServiceClient
+   * @memberof BlobServiceClient
    */
-  public async getAccountInfo(aborter: Aborter): Promise<Models.ServiceGetAccountInfoResponse> {
+  public async getAccountInfo(
+    options: ServiceGetAccountInfoOptions = {}
+  ): Promise<Models.ServiceGetAccountInfoResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     return this.serviceContext.getAccountInfo({
-      abortSignal: aborter
+      abortSignal: aborter || Aborter.none
     });
   }
 
@@ -158,15 +183,15 @@ export class ServiceClient extends StorageClient {
    *                          with the current page. The NextMarker value can be used as the value for
    *                          the marker parameter in a subsequent call to request the next page of list
    *                          items. The marker value is opaque to the client.
-   * @param {IServiceListContainersSegmentOptions} [options]
+   * @param {ServiceListContainersSegmentOptions} [options]
    * @returns {Promise<Models.ServiceListContainersSegmentResponse>}
-   * @memberof ServiceClient
+   * @memberof BlobServiceClient
    */
   public async listContainersSegment(
-    aborter: Aborter,
     marker?: string,
-    options: IServiceListContainersSegmentOptions = {}
+    options: ServiceListContainersSegmentOptions = {}
   ): Promise<Models.ServiceListContainersSegmentResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     return this.serviceContext.listContainersSegment({
       abortSignal: aborter,
       marker,

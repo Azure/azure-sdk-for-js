@@ -3,19 +3,20 @@ import { HttpResponse } from "@azure/ms-rest-js";
 import { Aborter } from "./Aborter";
 import * as Models from "./generated/lib/models";
 import { Share } from "./generated/lib/operations";
-import { IMetadata } from "./models";
+import { Metadata } from "./models";
 import { Pipeline } from "./Pipeline";
 import { FileServiceClient } from "./FileServiceClient";
 import { StorageClient } from "./StorageClient";
 import { URLConstants } from "./utils/constants";
 import { appendToURLPath, setURLParameter, truncatedISO8061Date } from "./utils/utils.common";
 
-export interface IShareCreateOptions {
+export interface ShareCreateOptions {
+  abortSignal?: Aborter;
   /**
    * A name-value pair to associate with a file storage object.
    *
    * @type {{ [propertyName: string]: string }}
-   * @memberof IShareCreateOptions
+   * @memberof ShareCreateOptions
    */
   metadata?: { [propertyName: string]: string };
 
@@ -24,24 +25,52 @@ export interface IShareCreateOptions {
    * gigabytes.
    *
    * @type {number}
-   * @memberof IShareCreateOptions
+   * @memberof ShareCreateOptions
    */
   quota?: number;
 }
 
-export interface IShareDeleteMethodOptions {
+export interface ShareDeleteMethodOptions {
+  abortSignal?: Aborter;
   /**
    * Specifies the option
    * include to delete the base share and all of its snapshots. Possible values
    * include: 'include'
    *
    * @type {Models.DeleteSnapshotsOptionType}
-   * @memberof IShareDeleteMethodOptions
+   * @memberof ShareDeleteMethodOptions
    */
   deleteSnapshots?: Models.DeleteSnapshotsOptionType;
 }
 
-export interface ISignedIdentifier {
+export interface ShareSetMetadataOptions {
+  abortSignal?: Aborter;
+}
+
+export interface ShareSetAccessPolicyOptions {
+  abortSignal?: Aborter;
+}
+
+export interface ShareGetAccessPolicyOptions {
+  abortSignal?: Aborter;
+}
+
+export interface ShareGetAccessPolicyOptions {
+  abortSignal?: Aborter;
+}
+export interface ShareGetPropertiesOptions {
+  abortSignal?: Aborter;
+}
+
+export interface ShareSetQuotaOptions {
+  abortSignal?: Aborter;
+}
+
+export interface ShareGetStatisticsOptions {
+  abortSignal?: Aborter;
+}
+
+export interface SignedIdentifier {
   /**
    * @member {string} id a unique id
    */
@@ -67,7 +96,7 @@ export interface ISignedIdentifier {
 }
 
 export declare type ShareGetAccessPolicyResponse = {
-  signedIdentifiers: ISignedIdentifier[];
+  signedIdentifiers: SignedIdentifier[];
 } & Models.ShareGetAccessPolicyHeaders & {
     /**
      * The underlying HTTP response.
@@ -88,12 +117,13 @@ export declare type ShareGetAccessPolicyResponse = {
     };
   };
 
-export interface IShareCreateSnapshotOptions {
+export interface ShareCreateSnapshotOptions {
+  abortSignal?: Aborter;
   /**
    * A name-value pair to associate with a file storage object.
    *
    * @type {{ [propertyName: string]: string }}
-   * @memberof IShareCreateOptions
+   * @memberof ShareCreateOptions
    */
   metadata?: { [propertyName: string]: string };
 }
@@ -180,16 +210,12 @@ export class ShareClient extends StorageClient {
    * the same name already exists, the operation fails.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-share
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
-   * @param {IShareCreateOptions} [options]
+   * @param {ShareCreateOptions} [options]
    * @returns {Promise<Models.ShareCreateResponse>}
    * @memberof ShareClient
    */
-  public async create(
-    aborter: Aborter,
-    options: IShareCreateOptions = {}
-  ): Promise<Models.ShareCreateResponse> {
+  public async create(options: ShareCreateOptions = {}): Promise<Models.ShareCreateResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     return this.context.create({
       ...options,
       abortSignal: aborter
@@ -201,12 +227,13 @@ export class ShareClient extends StorageClient {
    * share.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-share-properties
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
    * @returns {Promise<Models.ShareGetPropertiesResponse>}
    * @memberof ShareClient
    */
-  public async getProperties(aborter: Aborter): Promise<Models.ShareGetPropertiesResponse> {
+  public async getProperties(
+    options: ShareGetPropertiesOptions = {}
+  ): Promise<Models.ShareGetPropertiesResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     return this.context.getProperties({
       abortSignal: aborter
     });
@@ -217,16 +244,14 @@ export class ShareClient extends StorageClient {
    * contained within it are later deleted during garbage collection.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-share
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
-   * @param {Models.IShareDeleteMethodOptions} [options]
+   * @param {Models.ShareDeleteMethodOptions} [options]
    * @returns {Promise<Models.ShareDeleteResponse>}
    * @memberof ShareClient
    */
   public async delete(
-    aborter: Aborter,
-    options: IShareDeleteMethodOptions = {}
+    options: ShareDeleteMethodOptions = {}
   ): Promise<Models.ShareDeleteResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     return this.context.deleteMethod({
       abortSignal: aborter,
       ...options
@@ -240,16 +265,15 @@ export class ShareClient extends StorageClient {
    * metadata will be removed.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-share-metadata
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
-   * @param {IMetadata} [metadata] If no metadata provided, all existing directory metadata will be removed
+   * @param {Metadata} [metadata] If no metadata provided, all existing directory metadata will be removed
    * @returns {Promise<Models.ShareSetMetadataResponse>}
    * @memberof ShareClient
    */
   public async setMetadata(
-    aborter: Aborter,
-    metadata?: IMetadata
+    metadata?: Metadata,
+    options: ShareSetMetadataOptions = {}
   ): Promise<Models.ShareSetMetadataResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     return this.context.setMetadata({
       abortSignal: aborter,
       metadata
@@ -265,12 +289,13 @@ export class ShareClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-share-acl
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
    * @returns {Promise<ShareGetAccessPolicyResponse>}
    * @memberof ShareClient
    */
-  public async getAccessPolicy(aborter: Aborter): Promise<ShareGetAccessPolicyResponse> {
+  public async getAccessPolicy(
+    options: ShareGetAccessPolicyOptions = {}
+  ): Promise<ShareGetAccessPolicyResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     const response = await this.context.getAccessPolicy({
       abortSignal: aborter
     });
@@ -308,16 +333,15 @@ export class ShareClient extends StorageClient {
    * removed.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-share-acl
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
-   * @param {ISignedIdentifier[]} [shareAcl]
+   * @param {SignedIdentifier[]} [shareAcl]
    * @returns {Promise<Models.ShareSetAccessPolicyResponse>}
    * @memberof ShareClient
    */
   public async setAccessPolicy(
-    aborter: Aborter,
-    shareAcl?: ISignedIdentifier[]
+    shareAcl?: SignedIdentifier[],
+    options: ShareSetAccessPolicyOptions = {}
   ): Promise<Models.ShareSetAccessPolicyResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     const acl: Models.SignedIdentifier[] = [];
     for (const identifier of shareAcl || []) {
       acl.push({
@@ -339,16 +363,14 @@ export class ShareClient extends StorageClient {
   /**
    * Creates a read-only snapshot of a share.
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
-   * @param {IShareCreateSnapshotOptions} [options={}]
+   * @param {ShareCreateSnapshotOptions} [options={}]
    * @returns {Promise<Models.ShareCreateSnapshotResponse>}
    * @memberof ShareClient
    */
   public async createSnapshot(
-    aborter: Aborter,
-    options: IShareCreateSnapshotOptions = {}
+    options: ShareCreateSnapshotOptions = {}
   ): Promise<Models.ShareCreateSnapshotResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     return this.context.createSnapshot({
       abortSignal: aborter,
       ...options
@@ -358,16 +380,15 @@ export class ShareClient extends StorageClient {
   /**
    * Sets quota for the specified share.
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
    * @param {number} quotaInGB Specifies the maximum size of the share in gigabytes
    * @returns {Promise<Models.ShareSetQuotaResponse>}
    * @memberof ShareClient
    */
   public async setQuota(
-    aborter: Aborter,
-    quotaInGB: number
+    quotaInGB: number,
+    options: ShareSetQuotaOptions = {}
   ): Promise<Models.ShareSetQuotaResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     if (quotaInGB <= 0 || quotaInGB > 5120) {
       throw new RangeError(
         `Share quota must be greater than 0, and less than or equal to 5Tib (5120GB)`
@@ -382,12 +403,13 @@ export class ShareClient extends StorageClient {
   /**
    * Retrieves statistics related to the share.
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
    * @returns {Promise<Models.ShareGetStatisticsResponse>}
    * @memberof ShareClient
    */
-  public async getStatistics(aborter: Aborter): Promise<Models.ShareGetStatisticsResponse> {
+  public async getStatistics(
+    options: ShareGetStatisticsOptions = {}
+  ): Promise<Models.ShareGetStatisticsResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     return this.context.getStatistics({
       abortSignal: aborter
     });

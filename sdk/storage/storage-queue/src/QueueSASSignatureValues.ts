@@ -1,6 +1,6 @@
 import { QueueSASPermissions } from "./QueueSASPermissions";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
-import { IIPRange, ipRangeToString } from "./IIPRange";
+import { IPRange, ipRangeToString } from "./IPRange";
 import { SASProtocol } from "./SASQueryParameters";
 import { SASQueryParameters } from "./SASQueryParameters";
 import { SERVICE_VERSION } from "./utils/constants";
@@ -9,18 +9,18 @@ import { truncatedISO8061Date } from "./utils/utils.common";
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
  *
- * IQueueSASSignatureValues is used to help generating Queue service SAS tokens for queues.
+ * QueueSASSignatureValues is used to help generating Queue service SAS tokens for queues.
  *
  * @export
- * @class IQueueSASSignatureValues
+ * @class QueueSASSignatureValues
  */
-export interface IQueueSASSignatureValues {
+export interface QueueSASSignatureValues {
   /**
    * The version of the service this SAS will target. If not specified, it will default to the version targeted by the
    * library.
    *
    * @type {string}
-   * @memberof IQueueSASSignatureValues
+   * @memberof QueueSASSignatureValues
    */
   version?: string;
 
@@ -28,7 +28,7 @@ export interface IQueueSASSignatureValues {
    * Optional. SAS protocols, HTTPS only or HTTPSandHTTP
    *
    * @type {SASProtocol}
-   * @memberof IQueueSASSignatureValues
+   * @memberof QueueSASSignatureValues
    */
   protocol?: SASProtocol;
 
@@ -36,7 +36,7 @@ export interface IQueueSASSignatureValues {
    * Optional. When the SAS will take effect.
    *
    * @type {Date}
-   * @memberof IQueueSASSignatureValues
+   * @memberof QueueSASSignatureValues
    */
   startTime?: Date;
 
@@ -44,7 +44,7 @@ export interface IQueueSASSignatureValues {
    * Optional only when identifier is provided. The time after which the SAS will no longer work.
    *
    * @type {Date}
-   * @memberof IQueueSASSignatureValues
+   * @memberof QueueSASSignatureValues
    */
   expiryTime?: Date;
 
@@ -54,23 +54,23 @@ export interface IQueueSASSignatureValues {
    * being accessed for help constructing the permissions string.
    *
    * @type {string}
-   * @memberof IQueueSASSignatureValues
+   * @memberof QueueSASSignatureValues
    */
   permissions?: string;
 
   /**
    * Optional. IP ranges allowed in this SAS.
    *
-   * @type {IIPRange}
-   * @memberof IQueueSASSignatureValues
+   * @type {IPRange}
+   * @memberof QueueSASSignatureValues
    */
-  ipRange?: IIPRange;
+  ipRange?: IPRange;
 
   /**
    * The name of the queue the SAS user may access.
    *
    * @type {string}
-   * @memberof IQueueSASSignatureValues
+   * @memberof QueueSASSignatureValues
    */
   queueName: string;
 
@@ -80,7 +80,7 @@ export interface IQueueSASSignatureValues {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/establishing-a-stored-access-policy
    *
    * @type {string}
-   * @memberof IQueueSASSignatureValues
+   * @memberof QueueSASSignatureValues
    */
   identifier?: string;
 }
@@ -98,12 +98,12 @@ export interface IQueueSASSignatureValues {
  * this constructor.
  *
  * @export
- * @param {IQueueSASSignatureValues} queueSASSignatureValues
+ * @param {QueueSASSignatureValues} queueSASSignatureValues
  * @param {SharedKeyCredential} sharedKeyCredential
  * @returns {SASQueryParameters}
  */
 export function generateQueueSASQueryParameters(
-  queueSASSignatureValues: IQueueSASSignatureValues,
+  queueSASSignatureValues: QueueSASSignatureValues,
   sharedKeyCredential: SharedKeyCredential
 ): SASQueryParameters {
   if (

@@ -1,4 +1,3 @@
-import { Aborter } from "../src/Aborter";
 import { BlockBlobClient } from "../src/BlockBlobClient";
 import { ContainerClient } from "../src/ContainerClient";
 import { getBSU, getUniqueName } from "./utils/index";
@@ -8,24 +7,24 @@ import * as dotenv from "dotenv";
 dotenv.config({ path: "../.env" });
 
 describe("Special Naming Tests", () => {
-  const serviceClient = getBSU();
+  const blobServiceClient = getBSU();
   const containerName: string = getUniqueName("1container-with-dash");
-  const containerClient = ContainerClient.fromServiceClient(serviceClient, containerName);
+  const containerClient = ContainerClient.fromBlobServiceClient(blobServiceClient, containerName);
 
   before(async () => {
-    await containerClient.create(Aborter.none);
+    await containerClient.create();
   });
 
   after(async () => {
-    await containerClient.delete(Aborter.none);
+    await containerClient.delete();
   });
 
   it("Should work with special container and blob names with spaces", async () => {
     const blobName: string = getUniqueName("blob empty");
     const blockBlobClient = BlockBlobClient.fromContainerClient(containerClient, blobName);
 
-    await blockBlobClient.upload(Aborter.none, "A", 1);
-    const response = await containerClient.listBlobFlatSegment(Aborter.none, undefined, {
+    await blockBlobClient.upload("A", 1);
+    const response = await containerClient.listBlobFlatSegment(undefined, {
       prefix: blobName
     });
     assert.notDeepEqual(response.segment.blobItems.length, 0);
@@ -38,8 +37,8 @@ describe("Special Naming Tests", () => {
       containerClient.pipeline
     );
 
-    await blockBlobClient.upload(Aborter.none, "A", 1);
-    const response = await containerClient.listBlobFlatSegment(Aborter.none, undefined, {
+    await blockBlobClient.upload("A", 1);
+    const response = await containerClient.listBlobFlatSegment(undefined, {
       prefix: blobName
     });
     assert.notDeepEqual(response.segment.blobItems.length, 0);
@@ -49,9 +48,9 @@ describe("Special Naming Tests", () => {
     const blobName: string = getUniqueName("////blob/empty /another");
     const blockBlobClient = BlockBlobClient.fromContainerClient(containerClient, blobName);
 
-    await blockBlobClient.upload(Aborter.none, "A", 1);
-    await blockBlobClient.getProperties(Aborter.none);
-    const response = await containerClient.listBlobFlatSegment(Aborter.none, undefined, {
+    await blockBlobClient.upload("A", 1);
+    await blockBlobClient.getProperties();
+    const response = await containerClient.listBlobFlatSegment(undefined, {
       prefix: blobName
     });
     assert.notDeepEqual(response.segment.blobItems.length, 0);
@@ -64,9 +63,9 @@ describe("Special Naming Tests", () => {
       containerClient.pipeline
     );
 
-    await blockBlobClient.upload(Aborter.none, "A", 1);
-    await blockBlobClient.getProperties(Aborter.none);
-    const response = await containerClient.listBlobFlatSegment(Aborter.none, undefined, {
+    await blockBlobClient.upload("A", 1);
+    await blockBlobClient.getProperties();
+    const response = await containerClient.listBlobFlatSegment(undefined, {
       prefix: blobName
     });
     assert.notDeepEqual(response.segment.blobItems.length, 0);
@@ -76,9 +75,9 @@ describe("Special Naming Tests", () => {
     const blobName: string = getUniqueName("////Upper/blob/empty /another");
     const blockBlobClient = BlockBlobClient.fromContainerClient(containerClient, blobName);
 
-    await blockBlobClient.upload(Aborter.none, "A", 1);
-    await blockBlobClient.getProperties(Aborter.none);
-    const response = await containerClient.listBlobFlatSegment(Aborter.none, undefined, {
+    await blockBlobClient.upload("A", 1);
+    await blockBlobClient.getProperties();
+    const response = await containerClient.listBlobFlatSegment(undefined, {
       prefix: blobName
     });
     assert.notDeepEqual(response.segment.blobItems.length, 0);
@@ -91,9 +90,9 @@ describe("Special Naming Tests", () => {
       containerClient.pipeline
     );
 
-    await blockBlobClient.upload(Aborter.none, "A", 1);
-    await blockBlobClient.getProperties(Aborter.none);
-    const response = await containerClient.listBlobFlatSegment(Aborter.none, undefined, {
+    await blockBlobClient.upload("A", 1);
+    await blockBlobClient.getProperties();
+    const response = await containerClient.listBlobFlatSegment(undefined, {
       prefix: blobName
     });
     assert.notDeepEqual(response.segment.blobItems.length, 0);
@@ -103,9 +102,9 @@ describe("Special Naming Tests", () => {
     const blobName: string = getUniqueName("////Upper/blob/empty /another 汉字");
     const blockBlobClient = BlockBlobClient.fromContainerClient(containerClient, blobName);
 
-    await blockBlobClient.upload(Aborter.none, "A", 1);
-    await blockBlobClient.getProperties(Aborter.none);
-    const response = await containerClient.listBlobFlatSegment(Aborter.none, undefined, {
+    await blockBlobClient.upload("A", 1);
+    await blockBlobClient.getProperties();
+    const response = await containerClient.listBlobFlatSegment(undefined, {
       prefix: blobName
     });
     assert.notDeepEqual(response.segment.blobItems.length, 0);
@@ -118,9 +117,9 @@ describe("Special Naming Tests", () => {
       containerClient.pipeline
     );
 
-    await blockBlobClient.upload(Aborter.none, "A", 1);
-    await blockBlobClient.getProperties(Aborter.none);
-    const response = await containerClient.listBlobFlatSegment(Aborter.none, undefined, {
+    await blockBlobClient.upload("A", 1);
+    await blockBlobClient.getProperties();
+    const response = await containerClient.listBlobFlatSegment(undefined, {
       prefix: blobName
     });
     assert.notDeepEqual(response.segment.blobItems.length, 0);
@@ -132,9 +131,9 @@ describe("Special Naming Tests", () => {
     );
     const blockBlobClient = BlockBlobClient.fromContainerClient(containerClient, blobName);
 
-    await blockBlobClient.upload(Aborter.none, "A", 1);
-    await blockBlobClient.getProperties(Aborter.none);
-    const response = await containerClient.listBlobFlatSegment(Aborter.none, undefined, {
+    await blockBlobClient.upload("A", 1);
+    await blockBlobClient.getProperties();
+    const response = await containerClient.listBlobFlatSegment(undefined, {
       // NOTICE: Azure Storage Server will replace "\" with "/" in the blob names
       prefix: blobName.replace(/\\/g, "/")
     });
@@ -153,9 +152,9 @@ describe("Special Naming Tests", () => {
       containerClient.pipeline
     );
 
-    await blockBlobClient.upload(Aborter.none, "A", 1);
-    await blockBlobClient.getProperties(Aborter.none);
-    const response = await containerClient.listBlobFlatSegment(Aborter.none, undefined, {
+    await blockBlobClient.upload("A", 1);
+    await blockBlobClient.getProperties();
+    const response = await containerClient.listBlobFlatSegment(undefined, {
       // NOTICE: Azure Storage Server will replace "\" with "/" in the blob names
       prefix: blobName.replace(/\\/g, "/")
     });
@@ -167,9 +166,9 @@ describe("Special Naming Tests", () => {
     const blobNameEncoded: string = encodeURIComponent(blobName);
     const blockBlobClient = BlockBlobClient.fromContainerClient(containerClient, blobNameEncoded);
 
-    await blockBlobClient.upload(Aborter.none, "A", 1);
-    await blockBlobClient.getProperties(Aborter.none);
-    const response = await containerClient.listBlobFlatSegment(Aborter.none, undefined, {
+    await blockBlobClient.upload("A", 1);
+    await blockBlobClient.getProperties();
+    const response = await containerClient.listBlobFlatSegment(undefined, {
       prefix: blobNameEncoded
     });
     assert.notDeepEqual(response.segment.blobItems.length, 0);
@@ -179,9 +178,9 @@ describe("Special Naming Tests", () => {
     const blobName: string = getUniqueName("ру́сский язы́к");
     const blockBlobClient = BlockBlobClient.fromContainerClient(containerClient, blobName);
 
-    await blockBlobClient.upload(Aborter.none, "A", 1);
-    await blockBlobClient.getProperties(Aborter.none);
-    const response = await containerClient.listBlobFlatSegment(Aborter.none, undefined, {
+    await blockBlobClient.upload("A", 1);
+    await blockBlobClient.getProperties();
+    const response = await containerClient.listBlobFlatSegment(undefined, {
       prefix: blobName
     });
     assert.notDeepEqual(response.segment.blobItems.length, 0);
@@ -194,9 +193,9 @@ describe("Special Naming Tests", () => {
       containerClient.pipeline
     );
 
-    await blockBlobClient.upload(Aborter.none, "A", 1);
-    await blockBlobClient.getProperties(Aborter.none);
-    const response = await containerClient.listBlobFlatSegment(Aborter.none, undefined, {
+    await blockBlobClient.upload("A", 1);
+    await blockBlobClient.getProperties();
+    const response = await containerClient.listBlobFlatSegment(undefined, {
       prefix: blobName
     });
     assert.notDeepEqual(response.segment.blobItems.length, 0);
@@ -207,9 +206,9 @@ describe("Special Naming Tests", () => {
     const blobNameEncoded: string = encodeURIComponent(blobName);
     const blockBlobClient = BlockBlobClient.fromContainerClient(containerClient, blobNameEncoded);
 
-    await blockBlobClient.upload(Aborter.none, "A", 1);
-    await blockBlobClient.getProperties(Aborter.none);
-    const response = await containerClient.listBlobFlatSegment(Aborter.none, undefined, {
+    await blockBlobClient.upload("A", 1);
+    await blockBlobClient.getProperties();
+    const response = await containerClient.listBlobFlatSegment(undefined, {
       prefix: blobNameEncoded
     });
     assert.notDeepEqual(response.segment.blobItems.length, 0);
@@ -219,9 +218,9 @@ describe("Special Naming Tests", () => {
     const blobName: string = getUniqueName("عربي/عربى");
     const blockBlobClient = BlockBlobClient.fromContainerClient(containerClient, blobName);
 
-    await blockBlobClient.upload(Aborter.none, "A", 1);
-    await blockBlobClient.getProperties(Aborter.none);
-    const response = await containerClient.listBlobFlatSegment(Aborter.none, undefined, {
+    await blockBlobClient.upload("A", 1);
+    await blockBlobClient.getProperties();
+    const response = await containerClient.listBlobFlatSegment(undefined, {
       prefix: blobName
     });
     assert.notDeepEqual(response.segment.blobItems.length, 0);
@@ -234,9 +233,9 @@ describe("Special Naming Tests", () => {
       containerClient.pipeline
     );
 
-    await blockBlobClient.upload(Aborter.none, "A", 1);
-    await blockBlobClient.getProperties(Aborter.none);
-    const response = await containerClient.listBlobFlatSegment(Aborter.none, undefined, {
+    await blockBlobClient.upload("A", 1);
+    await blockBlobClient.getProperties();
+    const response = await containerClient.listBlobFlatSegment(undefined, {
       prefix: blobName
     });
     assert.notDeepEqual(response.segment.blobItems.length, 0);
@@ -247,9 +246,9 @@ describe("Special Naming Tests", () => {
     const blobNameEncoded: string = encodeURIComponent(blobName);
     const blockBlobClient = BlockBlobClient.fromContainerClient(containerClient, blobNameEncoded);
 
-    await blockBlobClient.upload(Aborter.none, "A", 1);
-    await blockBlobClient.getProperties(Aborter.none);
-    const response = await containerClient.listBlobFlatSegment(Aborter.none, undefined, {
+    await blockBlobClient.upload("A", 1);
+    await blockBlobClient.getProperties();
+    const response = await containerClient.listBlobFlatSegment(undefined, {
       prefix: blobNameEncoded
     });
     assert.notDeepEqual(response.segment.blobItems.length, 0);
@@ -259,9 +258,9 @@ describe("Special Naming Tests", () => {
     const blobName: string = getUniqueName("にっぽんご/にほんご");
     const blockBlobClient = BlockBlobClient.fromContainerClient(containerClient, blobName);
 
-    await blockBlobClient.upload(Aborter.none, "A", 1);
-    await blockBlobClient.getProperties(Aborter.none);
-    const response = await containerClient.listBlobFlatSegment(Aborter.none, undefined, {
+    await blockBlobClient.upload("A", 1);
+    await blockBlobClient.getProperties();
+    const response = await containerClient.listBlobFlatSegment(undefined, {
       prefix: blobName
     });
     assert.notDeepEqual(response.segment.blobItems.length, 0);
@@ -274,9 +273,9 @@ describe("Special Naming Tests", () => {
       containerClient.pipeline
     );
 
-    await blockBlobClient.upload(Aborter.none, "A", 1);
-    await blockBlobClient.getProperties(Aborter.none);
-    const response = await containerClient.listBlobFlatSegment(Aborter.none, undefined, {
+    await blockBlobClient.upload("A", 1);
+    await blockBlobClient.getProperties();
+    const response = await containerClient.listBlobFlatSegment(undefined, {
       prefix: blobName
     });
     assert.notDeepEqual(response.segment.blobItems.length, 0);

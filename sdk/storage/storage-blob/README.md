@@ -164,7 +164,9 @@ async function main() {
 
   let marker;
   do {
-    const listContainersResponse = await blobServiceClient.listContainersSegment(marker);
+    const listContainersResponse = await blobServiceClient.listContainersSegment(
+      marker
+    );
 
     marker = listContainersResponse.nextMarker;
     for (const container of listContainersResponse.containerItems) {
@@ -177,20 +179,31 @@ async function main() {
   const containerClient = ContainerClient.fromBlobServiceClient(blobServiceClient, containerName);
 
   const createContainerResponse = await containerClient.create();
-  console.log(`Create container ${containerName} successfully`, createContainerResponse.requestId);
+  console.log(
+    `Create container ${containerName} successfully`,
+    createContainerResponse.requestId
+  );
 
   // Create a blob
   const content = "hello";
   const blobName = "newblob" + new Date().getTime();
   const blobClient = BlobClient.fromContainerClient(containerClient, blobName);
   const blockBlobClient = BlockBlobClient.fromBlobClient(blobClient);
-  const uploadBlobResponse = await blockBlobClient.upload(content, content.length);
-  console.log(`Upload block blob ${blobName} successfully`, uploadBlobResponse.requestId);
+  const uploadBlobResponse = await blockBlobClient.upload(
+    content,
+    content.length
+  );
+  console.log(
+    `Upload block blob ${blobName} successfully`,
+    uploadBlobResponse.requestId
+  );
 
   // List blobs
   marker = undefined;
   do {
-    const listBlobsResponse = await containerClient.listBlobFlatSegment(marker);
+    const listBlobsResponse = await containerClient.listBlobFlatSegment(
+      marker
+    );
 
     marker = listBlobsResponse.nextMarker;
     for (const blob of listBlobsResponse.segment.blobItems) {

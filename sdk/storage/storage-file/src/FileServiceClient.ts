@@ -4,13 +4,14 @@ import { Service } from "./generated/lib/operations";
 import { Pipeline } from "./Pipeline";
 import { StorageClient } from "./StorageClient";
 
-export interface IServiceListSharesSegmentOptions {
+export interface ServiceListSharesSegmentOptions {
+  abortSignal?: Aborter;
   /**
    * Filters the results to return only entries whose
    * name begins with the specified prefix.
    *
    * @type {string}
-   * @memberof IServiceListSharesSegmentOptions
+   * @memberof ServiceListSharesSegmentOptions
    */
   prefix?: string;
 
@@ -20,7 +21,7 @@ export interface IServiceListSharesSegmentOptions {
    * greater than 5,000, the server will return up to 5,000 items.
    *
    * @type {number}
-   * @memberof IServiceListSharesSegmentOptions
+   * @memberof ServiceListSharesSegmentOptions
    */
   maxresults?: number;
 
@@ -29,9 +30,17 @@ export interface IServiceListSharesSegmentOptions {
    * specify one or more datasets to include in the response.
    *
    * @type {Models.ListSharesIncludeType[]}
-   * @memberof IServiceListSharesSegmentOptions
+   * @memberof ServiceListSharesSegmentOptions
    */
   include?: Models.ListSharesIncludeType[];
+}
+
+export interface IServiceGetPropertiesOptions {
+  abortSignal?: Aborter;
+}
+
+export interface IServiceSetPropertiesOptions {
+  abortSignal?: Aborter;
 }
 
 /**
@@ -84,12 +93,13 @@ export class FileServiceClient extends StorageClient {
    * for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-file-service-properties}
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
    * @returns {Promise<Models.ServiceGetPropertiesResponse>}
    * @memberof FileServiceClient
    */
-  public async getProperties(aborter: Aborter): Promise<Models.ServiceGetPropertiesResponse> {
+  public async getProperties(
+    options: IServiceGetPropertiesOptions = {}
+  ): Promise<Models.ServiceGetPropertiesResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     return this.serviceContext.getProperties({
       abortSignal: aborter
     });
@@ -100,16 +110,15 @@ export class FileServiceClient extends StorageClient {
    * for Storage Analytics, CORS (Cross-Origin Resource Sharing) rules and soft delete settings.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-file-service-properties}
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
    * @param {Models.StorageServiceProperties} properties
    * @returns {Promise<Models.ServiceSetPropertiesResponse>}
    * @memberof FileServiceClient
    */
   public async setProperties(
-    aborter: Aborter,
-    properties: Models.StorageServiceProperties
+    properties: Models.StorageServiceProperties,
+    options: IServiceSetPropertiesOptions = {}
   ): Promise<Models.ServiceSetPropertiesResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     return this.serviceContext.setProperties(properties, {
       abortSignal: aborter
     });
@@ -119,23 +128,21 @@ export class FileServiceClient extends StorageClient {
    * Gets the properties of a storage account's File service, including properties for Storage
    * Analytics metrics and CORS (Cross-Origin Resource Sharing) rules.
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
    * @param {string} [marker] A string value that identifies the portion of
    *                          the list to be returned with the next list operation. The operation
    *                          returns a marker value within the response body if the list returned was
    *                          not complete. The marker value may then be used in a subsequent call to
    *                          request the next set of list items. The marker value is opaque to the
    *                          client.
-   * @param {IServiceListSharesSegmentOptions} [options={}]
+   * @param {ServiceListSharesSegmentOptions} [options={}]
    * @returns {Promise<Models.ServiceListSharesSegmentResponse>}
    * @memberof FileServiceClient
    */
   public async listSharesSegment(
-    aborter: Aborter,
     marker?: string,
-    options: IServiceListSharesSegmentOptions = {}
+    options: ServiceListSharesSegmentOptions = {}
   ): Promise<Models.ServiceListSharesSegmentResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     return this.serviceContext.listSharesSegment({
       abortSignal: aborter,
       marker,

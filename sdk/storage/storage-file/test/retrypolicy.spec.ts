@@ -1,7 +1,5 @@
 import * as assert from "assert";
-
 import { RestError, StorageClient } from "../src";
-import { Aborter } from "../src/Aborter";
 import { ShareClient } from "../src/ShareClient";
 import { Pipeline } from "../src/Pipeline";
 import { getBSU, getUniqueName } from "./utils";
@@ -17,11 +15,11 @@ describe("RetryPolicy", () => {
   beforeEach(async () => {
     shareName = getUniqueName("share");
     shareClient = ShareClient.fromFileServiceClient(serviceClient, shareName);
-    await shareClient.create(Aborter.none);
+    await shareClient.create();
   });
 
   afterEach(async () => {
-    await shareClient.delete(Aborter.none);
+    await shareClient.delete();
   });
 
   it("Retry Policy should work when first request fails with 500", async () => {
@@ -42,9 +40,9 @@ describe("RetryPolicy", () => {
       keya: "vala",
       keyb: "valb"
     };
-    await injectShareClient.setMetadata(Aborter.none, metadata);
+    await injectShareClient.setMetadata(metadata);
 
-    const result = await shareClient.getProperties(Aborter.none);
+    const result = await shareClient.getProperties();
     assert.deepEqual(result.metadata, metadata);
   });
 
@@ -68,7 +66,7 @@ describe("RetryPolicy", () => {
         keya: "vala",
         keyb: "valb"
       };
-      await injectShareClient.setMetadata(Aborter.none, metadata);
+      await injectShareClient.setMetadata(metadata);
     } catch (err) {
       hasError = true;
     }

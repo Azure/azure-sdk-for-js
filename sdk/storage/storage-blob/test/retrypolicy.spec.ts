@@ -2,7 +2,6 @@ import { URLBuilder } from "@azure/ms-rest-js";
 import * as assert from "assert";
 
 import { RestError, StorageClient } from "../src";
-import { Aborter } from "../src/Aborter";
 import { ContainerClient } from "../src/ContainerClient";
 import { Pipeline } from "../src/Pipeline";
 import { getBSU, getUniqueName } from "./utils";
@@ -11,18 +10,18 @@ import * as dotenv from "dotenv";
 dotenv.config({ path: "../.env" });
 
 describe("RetryPolicy", () => {
-  const serviceClient = getBSU();
+  const blobServiceClient = getBSU();
   let containerName: string = getUniqueName("container");
-  let containerClient = ContainerClient.fromServiceClient(serviceClient, containerName);
+  let containerClient = ContainerClient.fromBlobServiceClient(blobServiceClient, containerName);
 
   beforeEach(async () => {
     containerName = getUniqueName("container");
-    containerClient = ContainerClient.fromServiceClient(serviceClient, containerName);
-    await containerClient.create(Aborter.none);
+    containerClient = ContainerClient.fromBlobServiceClient(blobServiceClient, containerName);
+    await containerClient.create();
   });
 
   afterEach(async () => {
-    await containerClient.delete(Aborter.none);
+    await containerClient.delete();
   });
 
   it("Retry Policy should work when first request fails with 500", async () => {
@@ -43,9 +42,9 @@ describe("RetryPolicy", () => {
       keya: "vala",
       keyb: "valb"
     };
-    await injectContainerClient.setMetadata(Aborter.none, metadata);
+    await injectContainerClient.setMetadata(metadata);
 
-    const result = await containerClient.getProperties(Aborter.none);
+    const result = await containerClient.getProperties();
     assert.deepEqual(result.metadata, metadata);
   });
 
@@ -70,7 +69,7 @@ describe("RetryPolicy", () => {
         keya: "vala",
         keyb: "valb"
       };
-      await injectContainerClient.setMetadata(Aborter.none, metadata);
+      await injectContainerClient.setMetadata(metadata);
     } catch (err) {
       hasError = true;
     }
@@ -85,7 +84,7 @@ describe("RetryPolicy", () => {
       }
     });
 
-    const url = serviceClient.url;
+    const url = blobServiceClient.url;
     const urlParsed = URLBuilder.parse(url);
     const host = urlParsed.getHost()!;
     const hostParts = host.split(".");
@@ -105,7 +104,7 @@ describe("RetryPolicy", () => {
 
     let finalRequestURL = "";
     try {
-      const response = await injectContainerClient.getProperties(Aborter.none);
+      const response = await injectContainerClient.getProperties();
       finalRequestURL = response._response.request.url;
     } catch (err) {
       finalRequestURL = err.request ? err.request.url : "";
