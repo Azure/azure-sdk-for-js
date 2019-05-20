@@ -1,0 +1,26 @@
+parameters:
+  PackageName: ""
+  TestType: ""
+
+steps:
+  - task: NodeTool@0
+    inputs:
+      versionSpec: "$(NodeVersion)"
+    displayName: "Install Node.js $(NodeVersion)"
+
+  - script: |
+      node common/scripts/install-run-rush.js install
+    displayName: "Install dependencies"
+
+  - script: |
+      node common/scripts/install-run-rush.js build -t "${{parameters.PackageName}}" --verbose
+    displayName: 'rush build -t "${{parameters.PackageName}}"'
+
+  - script: |
+      node common/scripts/install-run-rush.js build:test -t "${{parameters.PackageName}}" --verbose
+    displayName: 'rush build:test -t "${{parameters.PackageName}}"'
+
+  - script: |
+      node common/scripts/install-run-rush.js integration-test:${{ parameters.TestType }} -t "${{parameters.PackageName}}" --verbose
+    displayName: 'rush integration-test:${{ parameters.TestType }} -t "${{parameters.PackageName}}"'
+    env: ${{ parameters.EnvVars }}
