@@ -2,11 +2,12 @@
 // Licensed under the MIT License.
 
 import uuid from "uuid/v4";
-import { RequestResponseLink, defaultLock, translate, Constants } from "@azure/amqp-common";
+import { RequestResponseLink, defaultLock, translate, Constants, SendRequestOptions } from "@azure/amqp-common";
 import { Message, EventContext, SenderEvents, ReceiverEvents, SenderOptions, ReceiverOptions } from "rhea-promise";
 import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";
 import * as log from "./log";
+import { RequestOptions } from "./eventHubClient";
 /**
  * Describes the runtime information of an EventHub.
  * @interface EventHubRuntimeInformation
@@ -120,8 +121,8 @@ export class ManagementClient extends LinkEntity {
    * @param {Connection} connection - The established amqp connection
    * @returns {Promise<EventHubRuntimeInformation>}
    */
-  async getHubRuntimeInformation(): Promise<EventHubRuntimeInformation> {
-    const info: any = await this._makeManagementRequest(Constants.eventHub);
+  async getHubRuntimeInformation(options?: RequestOptions): Promise<EventHubRuntimeInformation> {
+    const info: any = await this._makeManagementRequest(Constants.eventHub, options);
     const runtimeInfo: EventHubRuntimeInformation = {
       path: info.name,
       createdAt: new Date(info.created_at),
@@ -150,11 +151,14 @@ export class ManagementClient extends LinkEntity {
    * @param {Connection} connection - The established amqp connection
    * @param {(string|number)} partitionId Partition ID for which partition information is required.
    */
-  async getPartitionInformation(partitionId: string | number): Promise<EventHubPartitionRuntimeInformation> {
+  async getPartitionInformation(
+    partitionId: string | number,
+    options?: RequestOptions
+  ): Promise<EventHubPartitionRuntimeInformation> {
     if (typeof partitionId !== "string" && typeof partitionId !== "number") {
       throw new Error("'partitionId' is a required parameter and must be of " + "type: 'string' | 'number'.");
     }
-    const info: any = await this._makeManagementRequest(Constants.partition, partitionId);
+    const info: any = await this._makeManagementRequest(Constants.partition, options, partitionId);
     const partitionInfo: EventHubPartitionRuntimeInformation = {
       beginningSequenceNumber: info.begin_sequence_number,
       hubPath: info.name,
@@ -249,7 +253,11 @@ export class ManagementClient extends LinkEntity {
    * @param {string} type - The type of entity requested for. Valid values are "eventhub", "partition"
    * @param {string | number} [partitionId] - The partitionId. Required only when type is "partition".
    */
-  private async _makeManagementRequest(type: "eventhub" | "partition", partitionId?: string | number): Promise<any> {
+  private async _makeManagementRequest(
+    type: "eventhub" | "partition",
+    options?: RequestOptions,
+    partitionId?: string | number
+  ): Promise<any> {
     if (partitionId != undefined && (typeof partitionId !== "string" && typeof partitionId !== "number")) {
       throw new Error("'partitionId' is a required parameter and must be of type: 'string' | 'number'.");
     }
@@ -271,7 +279,13 @@ export class ManagementClient extends LinkEntity {
       await defaultLock.acquire(this.managementLock, () => {
         return this._init();
       });
-      return (await this._mgmtReqResLink!.sendRequest(request)).body;
+
+      const sendRequestOptions: SendRequestOptions = {
+        timeoutInSeconds: options && options.idleTimeoutInSeconds,
+        times: options && options.retryAttempts,
+        delayInSeconds: options && options.delayBetweenRetriesInSeconds
+      };
+      return (await this._mgmtReqResLink!.sendRequest(request, sendRequestOptions)).body;
     } catch (err) {
       err = translate(err);
       log.error("An error occurred while making the request to $management endpoint: %O", err);
