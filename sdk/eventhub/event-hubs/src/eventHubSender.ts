@@ -556,7 +556,9 @@ export class EventHubSender extends LinkEntity {
           this._sender!.on(SenderEvents.released, onReleased);
           waitTimer = setTimeout(
             actionAfterTimeout,
-            options && options.idleTimeout ? options.idleTimeout : Constants.defaultOperationTimeoutInSeconds * 1000
+            options && options.idleTimeout && options.idleTimeout > 0
+              ? options.idleTimeout
+              : Constants.defaultOperationTimeoutInSeconds * 1000
           );
           const delivery = this._sender!.send(message, tag, format);
           log.sender(
@@ -585,7 +587,10 @@ export class EventHubSender extends LinkEntity {
       operation: sendEventPromise,
       connectionId: this._context.connectionId,
       operationType: RetryOperationType.sendMessage,
-      times: options && options.retryAttempts ? options.retryAttempts : Constants.defaultRetryAttempts,
+      times:
+        options && options.retryAttempts && options.retryAttempts > 0
+          ? options.retryAttempts
+          : Constants.defaultRetryAttempts,
       delayInSeconds:
         options && options.delayBetweenRetries
           ? options.delayBetweenRetries

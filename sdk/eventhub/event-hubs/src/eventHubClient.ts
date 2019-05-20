@@ -237,14 +237,14 @@ export class EventHubClient {
    */
   async send(data: EventData, partitionId?: string | number): Promise<Delivery>;
   async send(data: EventData, options?: SendOptions): Promise<Delivery>;
-  async send(data: EventData, partitionIdOrptions?: string | number | SendOptions): Promise<Delivery> {
+  async send(data: EventData, partitionIdOrOptions?: string | number | SendOptions): Promise<Delivery> {
     let partitionId: string | number | undefined;
     let sendOptions: SendOptions = {};
-    if (typeof partitionIdOrptions === "string" || typeof partitionIdOrptions === "number") {
-      partitionId = partitionIdOrptions;
-    } else if (partitionIdOrptions) {
-      partitionId = partitionIdOrptions.partitionId;
-      sendOptions = partitionIdOrptions;
+    if (typeof partitionIdOrOptions === "string" || typeof partitionIdOrOptions === "number") {
+      partitionId = partitionIdOrOptions;
+    } else if (partitionIdOrOptions) {
+      partitionId = partitionIdOrOptions.partitionId;
+      sendOptions = partitionIdOrOptions;
     }
     const sender = EventHubSender.create(this._context, partitionId);
     return sender.send(data, sendOptions);
@@ -263,14 +263,14 @@ export class EventHubClient {
    */
   async sendBatch(data: EventData[], partitionId?: string | number): Promise<Delivery>;
   async sendBatch(data: EventData[], options?: SendOptions): Promise<Delivery>;
-  async sendBatch(data: EventData[], partitionIdOrptions?: string | number | SendOptions): Promise<Delivery> {
+  async sendBatch(data: EventData[], partitionIdOrOptions?: string | number | SendOptions): Promise<Delivery> {
     let partitionId: string | number | undefined;
     let sendOptions: SendOptions = {};
-    if (typeof partitionIdOrptions === "string" || typeof partitionIdOrptions === "number") {
-      partitionId = partitionIdOrptions;
-    } else if (partitionIdOrptions) {
-      partitionId = partitionIdOrptions.partitionId;
-      sendOptions = partitionIdOrptions;
+    if (typeof partitionIdOrOptions === "string" || typeof partitionIdOrOptions === "number") {
+      partitionId = partitionIdOrOptions;
+    } else if (partitionIdOrOptions) {
+      partitionId = partitionIdOrOptions.partitionId;
+      sendOptions = partitionIdOrOptions;
     }
     const sender = EventHubSender.create(this._context, partitionId);
     return sender.sendBatch(data, sendOptions);
