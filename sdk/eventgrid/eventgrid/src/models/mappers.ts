@@ -2921,6 +2921,80 @@ export const AppConfigurationKeyValueDeletedEventData: msRest.CompositeMapper = 
   }
 };
 
+export const SignalRServiceClientConnectionConnectedEventData: msRest.CompositeMapper = {
+  serializedName: "SignalRServiceClientConnectionConnectedEventData",
+  type: {
+    name: "Composite",
+    className: "SignalRServiceClientConnectionConnectedEventData",
+    modelProperties: {
+      timestamp: {
+        serializedName: "timestamp",
+        type: {
+          name: "DateTime"
+        }
+      },
+      hub: {
+        serializedName: "hub",
+        type: {
+          name: "String"
+        }
+      },
+      connectionId: {
+        serializedName: "connectionId",
+        type: {
+          name: "String"
+        }
+      },
+      userId: {
+        serializedName: "userId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SignalRServiceClientConnectionDisconnectedEventData: msRest.CompositeMapper = {
+  serializedName: "SignalRServiceClientConnectionDisconnectedEventData",
+  type: {
+    name: "Composite",
+    className: "SignalRServiceClientConnectionDisconnectedEventData",
+    modelProperties: {
+      timestamp: {
+        serializedName: "timestamp",
+        type: {
+          name: "DateTime"
+        }
+      },
+      hub: {
+        serializedName: "hub",
+        type: {
+          name: "String"
+        }
+      },
+      connectionId: {
+        serializedName: "connectionId",
+        type: {
+          name: "String"
+        }
+      },
+      userId: {
+        serializedName: "userId",
+        type: {
+          name: "String"
+        }
+      },
+      errorMessage: {
+        serializedName: "errorMessage",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const discriminators = {
   'MediaJobOutput' : MediaJobOutput,
   'MediaJobOutput.#Microsoft.Media.JobOutputAsset' : MediaJobOutputAsset
