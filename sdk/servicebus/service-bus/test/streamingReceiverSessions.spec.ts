@@ -3,7 +3,6 @@
 
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
-import dotenv from "dotenv";
 import {
   delay,
   QueueClient,
@@ -21,10 +20,10 @@ import {
   TestClientType,
   getSenderReceiverClients,
   purge,
-  TestMessage
-} from "./testUtils";
+  TestMessage,
+  getServiceBusClient
+} from "./common/testUtils";
 const should = chai.should();
-dotenv.config();
 chai.use(chaiAsPromised);
 
 async function testPeekMsgsLength(
@@ -60,16 +59,7 @@ async function beforeEachTest(
   receiverType: TestClientType,
   receiveMode?: ReceiveMode
 ): Promise<void> {
-  // The tests in this file expect the env variables to contain the connection string and
-  // the names of empty queue/topic/subscription that are to be tested
-
-  if (!process.env.SERVICEBUS_CONNECTION_STRING) {
-    throw new Error(
-      "Define SERVICEBUS_CONNECTION_STRING in your environment before running integration tests."
-    );
-  }
-
-  sbClient = ServiceBusClient.createFromConnectionString(process.env.SERVICEBUS_CONNECTION_STRING);
+  sbClient = getServiceBusClient();
 
   const clients = await getSenderReceiverClients(sbClient, senderType, receiverType);
   senderClient = clients.senderClient;
