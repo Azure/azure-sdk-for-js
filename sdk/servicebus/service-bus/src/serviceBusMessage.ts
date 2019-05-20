@@ -550,14 +550,14 @@ export function fromAmqpMessage(
     lockToken:
       delivery && delivery.tag && delivery.tag.length !== 0
         ? uuid_to_string(
-            shouldReorderLockToken === true
-              ? reorderLockToken(
-                  typeof delivery.tag === "string" ? Buffer.from(delivery.tag) : delivery.tag
-                )
-              : typeof delivery.tag === "string"
+          shouldReorderLockToken === true
+            ? reorderLockToken(
+              typeof delivery.tag === "string" ? Buffer.from(delivery.tag) : delivery.tag
+            )
+            : typeof delivery.tag === "string"
               ? Buffer.from(delivery.tag)
               : delivery.tag
-          )
+        )
         : undefined,
     ...sbmsg,
     ...props

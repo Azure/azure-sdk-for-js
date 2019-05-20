@@ -24,13 +24,13 @@ const { ServiceBusClient, ReceiveMode } = require("@azure/service-bus");
 // Define connection string and related Service Bus entity names here
 const connectionString = "";
 const userEventsQueueName = "";
-const ns = ServiceBusClient.createFromConnectionString(connectionString);
+const sbClient = ServiceBusClient.createFromConnectionString(connectionString);
 
 async function main() {
   try {
     await runScenario();
   } finally {
-    await ns.close();
+    await sbClient.close();
   }
 }
 
@@ -76,9 +76,9 @@ async function runScenario() {
 
 async function getSessionState(sessionId) {
   // If receiving from a Subscription, use `createSubscriptionClient` instead of `createQueueClient`
-  const client = ns.createQueueClient(userEventsQueueName);
+  const queueClient = sbClient.createQueueClient(userEventsQueueName);
 
-  const sessionReceiver = client.createReceiver(ReceiveMode.peekLock, {
+  const sessionReceiver = queueClient.createReceiver(ReceiveMode.peekLock, {
     sessionId: sessionId
   });
 
@@ -91,13 +91,13 @@ async function getSessionState(sessionId) {
   }
 
   await sessionReceiver.close();
-  await client.close();
+  await queueClient.close();
 }
 
 async function sendMessagesForSession(shoppingEvents, sessionId) {
   // If sending to a Topic, use `createTopicClient` instead of `createQueueClient`
-  const client = ns.createQueueClient(userEventsQueueName);
-  const sender = client.createSender();
+  const queueClient = sbClient.createQueueClient(userEventsQueueName);
+  const sender = queueClient.createSender();
 
   for (let index = 0; index < shoppingEvents.length; index++) {
     const message = {
@@ -107,14 +107,14 @@ async function sendMessagesForSession(shoppingEvents, sessionId) {
     };
     await sender.send(message);
   }
-  await client.close();
+  await queueClient.close();
 }
 
 async function processMessageFromSession(sessionId) {
   // If receiving from a Subscription, use `createSubscriptionClient` instead of `createQueueClient`
-  const client = ns.createQueueClient(userEventsQueueName);
+  const queueClient = sbClient.createQueueClient(userEventsQueueName);
 
-  const sessionReceiver = client.createReceiver(ReceiveMode.peekLock, {
+  const sessionReceiver = queueClient.createReceiver(ReceiveMode.peekLock, {
     sessionId: sessionId
   });
 
@@ -148,7 +148,7 @@ async function processMessageFromSession(sessionId) {
   }
 
   await sessionReceiver.close();
-  await client.close();
+  await queueClient.close();
 }
 
 main().catch((err) => {
