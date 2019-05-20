@@ -406,8 +406,8 @@ export const MonitoringDetails: msRest.CompositeMapper = {
     name: "Composite",
     className: "MonitoringDetails",
     modelProperties: {
-      hanaVnet: {
-        serializedName: "hanaVnet",
+      hanaSubnet: {
+        serializedName: "hanaSubnet",
         type: {
           name: "String"
         }
@@ -418,23 +418,16 @@ export const MonitoringDetails: msRest.CompositeMapper = {
           name: "String"
         }
       },
-      hanaInstanceNum: {
-        serializedName: "hanaInstanceNum",
+      hanaDbName: {
+        serializedName: "hanaDbName",
         type: {
           name: "String"
         }
       },
-      dbContainer: {
-        serializedName: "dbContainer",
-        defaultValue: 'single',
+      hanaDbSqlPort: {
+        serializedName: "hanaDbSqlPort",
         type: {
-          name: "String"
-        }
-      },
-      hanaDatabase: {
-        serializedName: "hanaDatabase",
-        type: {
-          name: "String"
+          name: "Number"
         }
       },
       hanaDbUsername: {

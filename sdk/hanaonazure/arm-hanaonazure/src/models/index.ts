@@ -55,7 +55,7 @@ export interface HardwareProfile {
   /**
    * Specifies the HANA instance SKU. Possible values include: 'S72m', 'S144m', 'S72', 'S144',
    * 'S192', 'S192m', 'S192xm', 'S96', 'S384', 'S384m', 'S384xm', 'S384xxm', 'S576m', 'S576xm',
-   * 'S768', 'S768m', 'S768xm', 'S960m'
+   * 'S768', 'S768m', 'S768xm', 'S960m', 'S224o', 'S224m', 'S224om', 'S224oxm', 'S224oxxm'
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly hanaInstanceSize?: HanaInstanceSizeNamesEnum;
@@ -270,26 +270,21 @@ export interface Tags {
  */
 export interface MonitoringDetails {
   /**
-   * ARM ID of an Azure Vnet with access to the HANA instance.
+   * ARM ID of an Azure Subnet with access to the HANA instance.
    */
-  hanaVnet?: string;
+  hanaSubnet?: string;
   /**
    * Hostname of the HANA Instance blade.
    */
   hanaHostname?: string;
   /**
-   * A number between 00 and 99, stored as a string to maintain leading zero.
+   * Name of the database itself.
    */
-  hanaInstanceNum?: string;
+  hanaDbName?: string;
   /**
-   * Either single or multiple depending on the use of MDC(Multiple Database Containers). Possible
-   * values include: 'single', 'multiple'. Default value: 'single'.
+   * The port number of the tenant DB. Used to connect to the DB.
    */
-  dbContainer?: HanaDatabaseContainersEnum;
-  /**
-   * Name of the database itself.  It only needs to be specified if using MDC
-   */
-  hanaDatabase?: string;
+  hanaDbSqlPort?: number;
   /**
    * Username for the HANA database to login to for monitoring
    */
@@ -338,11 +333,12 @@ export type HanaHardwareTypeNamesEnum = 'Cisco_UCS' | 'HPE';
 /**
  * Defines values for HanaInstanceSizeNamesEnum.
  * Possible values include: 'S72m', 'S144m', 'S72', 'S144', 'S192', 'S192m', 'S192xm', 'S96',
- * 'S384', 'S384m', 'S384xm', 'S384xxm', 'S576m', 'S576xm', 'S768', 'S768m', 'S768xm', 'S960m'
+ * 'S384', 'S384m', 'S384xm', 'S384xxm', 'S576m', 'S576xm', 'S768', 'S768m', 'S768xm', 'S960m',
+ * 'S224o', 'S224m', 'S224om', 'S224oxm', 'S224oxxm'
  * @readonly
  * @enum {string}
  */
-export type HanaInstanceSizeNamesEnum = 'S72m' | 'S144m' | 'S72' | 'S144' | 'S192' | 'S192m' | 'S192xm' | 'S96' | 'S384' | 'S384m' | 'S384xm' | 'S384xxm' | 'S576m' | 'S576xm' | 'S768' | 'S768m' | 'S768xm' | 'S960m';
+export type HanaInstanceSizeNamesEnum = 'S72m' | 'S144m' | 'S72' | 'S144' | 'S192' | 'S192m' | 'S192xm' | 'S96' | 'S384' | 'S384m' | 'S384xm' | 'S384xxm' | 'S576m' | 'S576xm' | 'S768' | 'S768m' | 'S768xm' | 'S960m' | 'S224o' | 'S224m' | 'S224om' | 'S224oxm' | 'S224oxxm';
 
 /**
  * Defines values for HanaInstancePowerStateEnum.
@@ -351,14 +347,6 @@ export type HanaInstanceSizeNamesEnum = 'S72m' | 'S144m' | 'S72' | 'S144' | 'S19
  * @enum {string}
  */
 export type HanaInstancePowerStateEnum = 'starting' | 'started' | 'stopping' | 'stopped' | 'restarting' | 'unknown';
-
-/**
- * Defines values for HanaDatabaseContainersEnum.
- * Possible values include: 'single', 'multiple'
- * @readonly
- * @enum {string}
- */
-export type HanaDatabaseContainersEnum = 'single' | 'multiple';
 
 /**
  * Contains response data for the list operation.
@@ -441,9 +429,49 @@ export type HanaInstancesGetResponse = HanaInstance & {
 };
 
 /**
+ * Contains response data for the deleteMethod operation.
+ */
+export type HanaInstancesDeleteMethodResponse = HanaInstance & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: HanaInstance;
+    };
+};
+
+/**
  * Contains response data for the update operation.
  */
 export type HanaInstancesUpdateResponse = HanaInstance & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: HanaInstance;
+    };
+};
+
+/**
+ * Contains response data for the beginDeleteMethod operation.
+ */
+export type HanaInstancesBeginDeleteMethodResponse = HanaInstance & {
   /**
    * The underlying HTTP response.
    */
