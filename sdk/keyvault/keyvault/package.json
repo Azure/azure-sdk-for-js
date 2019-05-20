@@ -59,7 +59,7 @@
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:minify": "uglifyjs -c -m --comments --source-map \"content='./dist/keyvault.js.map'\" -o ./dist/keyvault.min.js ./dist/keyvault.js 2>&1",
     "build:test": "npm run build",
-    "build": "tsc && rollup -c rollup.config.js 2>&1 && npm run build:minify",
+    "build": "tsc && rollup -c rollup.config.js 2>&1",
     "check-format": "prettier --list-different --config .prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist esm test-dist typings *.tgz *.log",
     "format": "prettier --write --config .prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
