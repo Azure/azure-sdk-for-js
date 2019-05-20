@@ -6,21 +6,21 @@
 trigger:
   branches:
     include:
-    - master
+      - master
   paths:
     include:
-    - sdk/cosmosdb/cosmos
+      - sdk/cosmosdb/cosmos
 
 pr:
   branches:
     include:
-    - master
+      - master
   paths:
     include:
-    - sdk/cosmosdb/cosmos
+      - sdk/cosmosdb/cosmos
 
 variables:
-  NodeVersion: '10.x'
+  NodeVersion: "6.x"
 
 jobs:
   - job: Emulator
@@ -29,12 +29,12 @@ jobs:
     steps:
       - task: NodeTool@0
         inputs:
-          versionSpec: '$(NodeVersion)'
-        displayName: 'Install Node.js $(NodeVersion)'
+          versionSpec: "$(NodeVersion)"
+        displayName: "Install Node.js $(NodeVersion)"
 
       - script: |
           node common/scripts/install-run-rush.js install
-        displayName: 'Install dependencies'
+        displayName: "Install dependencies"
 
       - script: |
           node common/scripts/install-run-rush.js build -t "@azure/cosmos" --verbose
@@ -60,7 +60,7 @@ jobs:
 
       - task: PublishTestResults@2
         inputs:
-          testResultsFiles: '**/test-results.xml'
-          testRunTitle: 'Cosmos Emulator Node $(NodeVersion)'
+          testResultsFiles: "**/test-results.xml"
+          testRunTitle: "Cosmos Emulator Node $(NodeVersion)"
         condition: succeededOrFailed()
-        displayName: 'Publish test results'
+        displayName: "Publish test results"
