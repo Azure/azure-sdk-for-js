@@ -173,7 +173,7 @@ async function recreateQueue(queueName: string, parameters: SBQueue): Promise<vo
       );
       await client.queues.deleteMethod(
         env[Constants.RESOURCE_GROUP],
-        _constructServiceBusNamespaceString(env[Constants.SERVICEBUS_CONNECTION_STRING]),
+        getNamespace(env[Constants.SERVICEBUS_CONNECTION_STRING]),
         queueName,
         function(error: any): void {
           if (error) throw error.message;
@@ -181,7 +181,7 @@ async function recreateQueue(queueName: string, parameters: SBQueue): Promise<vo
       );
       await client.queues.createOrUpdate(
         env[Constants.RESOURCE_GROUP],
-        _constructServiceBusNamespaceString(env[Constants.SERVICEBUS_CONNECTION_STRING]),
+        getNamespace(env[Constants.SERVICEBUS_CONNECTION_STRING]),
         queueName,
         parameters,
         function(error: any): void {
@@ -206,7 +206,7 @@ async function recreateTopic(topicName: string, parameters: SBTopic): Promise<vo
       );
       await client.topics.deleteMethod(
         env[Constants.RESOURCE_GROUP],
-        _constructServiceBusNamespaceString(env[Constants.SERVICEBUS_CONNECTION_STRING]),
+        getNamespace(env[Constants.SERVICEBUS_CONNECTION_STRING]),
         topicName,
         function(error: any): void {
           if (error) throw error.message;
@@ -214,7 +214,7 @@ async function recreateTopic(topicName: string, parameters: SBTopic): Promise<vo
       );
       await client.topics.createOrUpdate(
         env[Constants.RESOURCE_GROUP],
-        _constructServiceBusNamespaceString(env[Constants.SERVICEBUS_CONNECTION_STRING]),
+        getNamespace(env[Constants.SERVICEBUS_CONNECTION_STRING]),
         topicName,
         parameters,
         function(error: any): void {
@@ -248,7 +248,7 @@ async function recreateSubscription(
       */
       await client.subscriptions.createOrUpdate(
         env[Constants.RESOURCE_GROUP],
-        _constructServiceBusNamespaceString(env[Constants.SERVICEBUS_CONNECTION_STRING]),
+        getNamespace(env[Constants.SERVICEBUS_CONNECTION_STRING]),
         topicName,
         subscriptionName,
         parameters,
@@ -569,7 +569,11 @@ export async function checkWithTimeout(
   return false;
 }
 
-function _constructServiceBusNamespaceString(serviceBusConnectionString: string): string {
+/**
+ * Utility function to get namespace string from given connection string
+ * @param serviceBusConnectionString 
+ */
+function getNamespace(serviceBusConnectionString: string): string {
   return (serviceBusConnectionString.match("Endpoint=sb://(.*).servicebus.windows.net") || "")[1];
 }
 
