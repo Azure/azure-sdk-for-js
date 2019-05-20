@@ -240,7 +240,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.registryName
   ],
   queryParameters: [
-    Parameters.apiVersion1,
+    Parameters.apiVersion2,
     Parameters.filter,
     Parameters.top
   ],
@@ -268,7 +268,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.runId
   ],
   queryParameters: [
-    Parameters.apiVersion1
+    Parameters.apiVersion2
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -294,7 +294,7 @@ const getLogSasUrlOperationSpec: msRest.OperationSpec = {
     Parameters.runId
   ],
   queryParameters: [
-    Parameters.apiVersion1
+    Parameters.apiVersion2
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -320,7 +320,7 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.runId
   ],
   queryParameters: [
-    Parameters.apiVersion1
+    Parameters.apiVersion2
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -356,7 +356,7 @@ const beginCancelOperationSpec: msRest.OperationSpec = {
     Parameters.runId
   ],
   queryParameters: [
-    Parameters.apiVersion1
+    Parameters.apiVersion2
   ],
   headerParameters: [
     Parameters.acceptLanguage
