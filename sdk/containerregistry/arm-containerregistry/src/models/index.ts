@@ -676,6 +676,14 @@ export interface Target {
    * The tag name.
    */
   tag?: string;
+  /**
+   * The name of the artifact.
+   */
+  name?: string;
+  /**
+   * The version of the artifact.
+   */
+  version?: string;
 }
 
 /**
@@ -1031,10 +1039,6 @@ export interface Run extends ProxyResource {
    */
   sourceTrigger?: SourceTriggerDescriptor;
   /**
-   * The value that indicates whether archiving is enabled or not. Default value: false.
-   */
-  isArchiveEnabled?: boolean;
-  /**
    * The platform properties against which the run will happen.
    */
   platform?: PlatformProperties;
@@ -1043,10 +1047,27 @@ export interface Run extends ProxyResource {
    */
   agentConfiguration?: AgentProperties;
   /**
+   * The scope of the credentials that were used to login to the source registry during this run.
+   */
+  sourceRegistryAuth?: string;
+  /**
+   * The list of custom registries that were logged in during this run.
+   */
+  customRegistries?: string[];
+  /**
+   * The error message received from backend systems after the run is scheduled.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly runErrorMessage?: string;
+  /**
    * The provisioning state of a run. Possible values include: 'Creating', 'Updating', 'Deleting',
    * 'Succeeded', 'Failed', 'Canceled'
    */
   provisioningState?: ProvisioningState;
+  /**
+   * The value that indicates whether archiving is enabled or not. Default value: false.
+   */
+  isArchiveEnabled?: boolean;
 }
 
 /**
@@ -1125,6 +1146,46 @@ export interface RunGetLogResult {
 }
 
 /**
+ * An interface representing UserIdentityProperties.
+ */
+export interface UserIdentityProperties {
+  /**
+   * The principal id of user assigned identity.
+   */
+  principalId?: string;
+  /**
+   * The client id of user assigned identity.
+   */
+  clientId?: string;
+}
+
+/**
+ * Managed identity for the resource.
+ */
+export interface IdentityProperties {
+  /**
+   * The principal ID of resource identity.
+   */
+  principalId?: string;
+  /**
+   * The tenant ID of resource.
+   */
+  tenantId?: string;
+  /**
+   * The identity type. Possible values include: 'SystemAssigned', 'UserAssigned', 'SystemAssigned,
+   * UserAssigned', 'None'
+   */
+  type?: ResourceIdentityType;
+  /**
+   * The list of user identities associated with the resource. The user identity
+   * dictionary key references will be ARM resource ids in the form:
+   * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/
+   * providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
+   */
+  userAssignedIdentities?: { [propertyName: string]: UserIdentityProperties };
+}
+
+/**
  * Properties that describe a base image dependency.
  */
 export interface BaseImageDependency {
@@ -1177,6 +1238,25 @@ export interface TaskStepProperties {
    * step.
    */
   contextAccessToken?: string;
+}
+
+/**
+ * The properties of a timer trigger.
+ */
+export interface TimerTrigger {
+  /**
+   * The CRON expression for the task schedule
+   */
+  schedule: string;
+  /**
+   * The current status of trigger. Possible values include: 'Disabled', 'Enabled'. Default value:
+   * 'Enabled'.
+   */
+  status?: TriggerStatus;
+  /**
+   * The name of the trigger.
+   */
+  name: string;
 }
 
 /**
@@ -1242,7 +1322,8 @@ export interface SourceTrigger {
    */
   sourceTriggerEvents: SourceTriggerEvent[];
   /**
-   * The current status of trigger. Possible values include: 'Disabled', 'Enabled'
+   * The current status of trigger. Possible values include: 'Disabled', 'Enabled'. Default value:
+   * 'Enabled'.
    */
   status?: TriggerStatus;
   /**
@@ -1261,7 +1342,8 @@ export interface BaseImageTrigger {
    */
   baseImageTriggerType: BaseImageTriggerType;
   /**
-   * The current status of trigger. Possible values include: 'Disabled', 'Enabled'
+   * The current status of trigger. Possible values include: 'Disabled', 'Enabled'. Default value:
+   * 'Enabled'.
    */
   status?: TriggerStatus;
   /**
@@ -1275,6 +1357,10 @@ export interface BaseImageTrigger {
  */
 export interface TriggerProperties {
   /**
+   * The collection of timer triggers.
+   */
+  timerTriggers?: TimerTrigger[];
+  /**
    * The collection of triggers based on source code repository.
    */
   sourceTriggers?: SourceTrigger[];
@@ -1285,10 +1371,84 @@ export interface TriggerProperties {
 }
 
 /**
+ * Describes the credential parameters for accessing the source registry.
+ */
+export interface SourceRegistryCredentials {
+  /**
+   * The authentication mode which determines the source registry login scope. The credentials for
+   * the source registry
+   * will be generated using the given scope. These credentials will be used to login to
+   * the source registry during the run. Possible values include: 'None', 'Default'
+   */
+  loginMode?: SourceRegistryLoginMode;
+}
+
+/**
+ * Describes the properties of a secret object value.
+ */
+export interface SecretObject {
+  /**
+   * The value of the secret. The format of this value will be determined
+   * based on the type of the secret object. If the type is Opaque, the value will be
+   * used as is without any modification.
+   */
+  value?: string;
+  /**
+   * The type of the secret object which determines how the value of the secret object has to be
+   * interpreted. Possible values include: 'Opaque', 'Vaultsecret'
+   */
+  type?: SecretObjectType;
+}
+
+/**
+ * Describes the credentials that will be used to access a custom registry during a run.
+ */
+export interface CustomRegistryCredentials {
+  /**
+   * The username for logging into the custom registry.
+   */
+  userName?: SecretObject;
+  /**
+   * The password for logging into the custom registry. The password is a secret
+   * object that allows multiple ways of providing the value for it.
+   */
+  password?: SecretObject;
+  /**
+   * Indicates the managed identity assigned to the custom credential. If a user-assigned identity
+   * this value is the Client ID. If a system-assigned identity, the value will be `system`. In
+   * the case of a system-assigned identity, the Client ID will be determined by the runner. This
+   * identity may be used to authenticate to key vault to retrieve credentials or it may be the
+   * only
+   * source of authentication used for accessing the registry.
+   */
+  identity?: string;
+}
+
+/**
+ * The parameters that describes a set of credentials that will be used when a run is invoked.
+ */
+export interface Credentials {
+  /**
+   * Describes the credential parameters for accessing the source registry.
+   */
+  sourceRegistry?: SourceRegistryCredentials;
+  /**
+   * Describes the credential parameters for accessing other custom registries. The key
+   * for the dictionary item will be the registry login server (myregistry.azurecr.io) and
+   * the value of the item will be the registry credentials for accessing the registry.
+   */
+  customRegistries?: { [propertyName: string]: CustomRegistryCredentials };
+}
+
+/**
  * The task that has the ARM resource and task properties.
  * The task will have all information to schedule a run against it.
  */
 export interface Task extends Resource {
+  /**
+   * Identity for the resource.
+   */
+  identity?: IdentityProperties;
   /**
    * The provisioning state of the task. Possible values include: 'Creating', 'Updating',
    * 'Deleting', 'Succeeded', 'Failed', 'Canceled'
@@ -1324,6 +1484,10 @@ export interface Task extends Resource {
    * The properties that describe all triggers for the task.
    */
   trigger?: TriggerProperties;
+  /**
+   * The properties that describes a set of credentials that will be used when this run is invoked.
+   */
+  credentials?: Credentials;
 }
 
 /**
@@ -1366,6 +1530,25 @@ export interface TaskStepUpdateParameters {
    * step.
    */
   contextAccessToken?: string;
+}
+
+/**
+ * The properties for updating a timer trigger.
+ */
+export interface TimerTriggerUpdateParameters {
+  /**
+   * The CRON expression for the task schedule
+   */
+  schedule?: string;
+  /**
+   * The current status of trigger. Possible values include: 'Disabled', 'Enabled'. Default value:
+   * 'Enabled'.
+   */
+  status?: TriggerStatus;
+  /**
+   * The name of the trigger.
+   */
+  name: string;
 }
 
 /**
@@ -1431,7 +1614,8 @@ export interface SourceTriggerUpdateParameters {
    */
   sourceTriggerEvents?: SourceTriggerEvent[];
   /**
-   * The current status of trigger. Possible values include: 'Disabled', 'Enabled'
+   * The current status of trigger. Possible values include: 'Disabled', 'Enabled'. Default value:
+   * 'Enabled'.
    */
   status?: TriggerStatus;
   /**
@@ -1450,7 +1634,8 @@ export interface BaseImageTriggerUpdateParameters {
    */
   baseImageTriggerType?: BaseImageTriggerType;
   /**
-   * The current status of trigger. Possible values include: 'Disabled', 'Enabled'
+   * The current status of trigger. Possible values include: 'Disabled', 'Enabled'. Default value:
+   * 'Enabled'.
    */
   status?: TriggerStatus;
   /**
@@ -1463,6 +1648,10 @@ export interface BaseImageTriggerUpdateParameters {
  * The properties for updating triggers.
  */
 export interface TriggerUpdateParameters {
+  /**
+   * The collection of timer triggers.
+   */
+  timerTriggers?: TimerTriggerUpdateParameters[];
   /**
    * The collection of triggers based on source code repository.
    */
@@ -1477,6 +1666,10 @@ export interface TriggerUpdateParameters {
  * The parameters for updating a task.
  */
 export interface TaskUpdateParameters {
+  /**
+   * Identity for the resource.
+   */
+  identity?: IdentityProperties;
   /**
    * The current status of task. Possible values include: 'Disabled', 'Enabled'
    */
@@ -1501,6 +1694,10 @@ export interface TaskUpdateParameters {
    * The properties for updating trigger properties.
    */
   trigger?: TriggerUpdateParameters;
+  /**
+   * The parameters that describes a set of credentials that will be used when this run is invoked.
+   */
+  credentials?: Credentials;
   /**
    * The ARM resource tags.
    */
@@ -1558,6 +1755,10 @@ export interface DockerBuildRequest {
    */
   dockerFilePath: string;
   /**
+   * The name of the target build stage for the docker build.
+   */
+  target?: string;
+  /**
    * The collection of override arguments to be used when executing the run.
    */
   argumentsProperty?: Argument[];
@@ -1580,6 +1781,10 @@ export interface DockerBuildRequest {
    * listBuildSourceUploadUrl API.
    */
   sourceLocation?: string;
+  /**
+   * The properties that describes a set of credentials that will be used when this run is invoked.
+   */
+  credentials?: Credentials;
 }
 
 /**
@@ -1644,6 +1849,10 @@ export interface FileTaskRunRequest {
    * listBuildSourceUploadUrl API.
    */
   sourceLocation?: string;
+  /**
+   * The properties that describes a set of credentials that will be used when this run is invoked.
+   */
+  credentials?: Credentials;
 }
 
 /**
@@ -1713,6 +1922,10 @@ export interface EncodedTaskRunRequest {
    * listBuildSourceUploadUrl API.
    */
   sourceLocation?: string;
+  /**
+   * The properties that describes a set of credentials that will be used when this run is invoked.
+   */
+  credentials?: Credentials;
 }
 
 /**
@@ -1755,6 +1968,10 @@ export interface DockerBuildStep {
    * The Docker file path relative to the source context.
    */
   dockerFilePath: string;
+  /**
+   * The name of the target build stage for the docker build.
+   */
+  target?: string;
   /**
    * The collection of override arguments to be used when executing this build step.
    */
@@ -1871,6 +2088,10 @@ export interface DockerBuildStepUpdateParameters {
    * The collection of override arguments to be used when executing this build step.
    */
   argumentsProperty?: Argument[];
+  /**
+   * The name of the target build stage for the docker build.
+   */
+  target?: string;
 }
 
 /**
@@ -2179,6 +2400,15 @@ export type Architecture = 'amd64' | 'x86' | 'arm';
 export type Variant = 'v6' | 'v7' | 'v8';
 
 /**
+ * Defines values for ResourceIdentityType.
+ * Possible values include: 'SystemAssigned', 'UserAssigned', 'SystemAssigned, UserAssigned',
+ * 'None'
+ * @readonly
+ * @enum {string}
+ */
+export type ResourceIdentityType = 'SystemAssigned' | 'UserAssigned' | 'SystemAssigned, UserAssigned' | 'None';
+
+/**
  * Defines values for TaskStatus.
  * Possible values include: 'Disabled', 'Enabled'
  * @readonly
@@ -2193,6 +2423,14 @@ export type TaskStatus = 'Disabled' | 'Enabled';
  * @enum {string}
  */
 export type BaseImageDependencyType = 'BuildTime' | 'RunTime';
+
+/**
+ * Defines values for TriggerStatus.
+ * Possible values include: 'Disabled', 'Enabled'
+ * @readonly
+ * @enum {string}
+ */
+export type TriggerStatus = 'Disabled' | 'Enabled';
 
 /**
  * Defines values for SourceControlType.
@@ -2219,20 +2457,28 @@ export type TokenType = 'PAT' | 'OAuth';
 export type SourceTriggerEvent = 'commit' | 'pullrequest';
 
 /**
- * Defines values for TriggerStatus.
- * Possible values include: 'Disabled', 'Enabled'
- * @readonly
- * @enum {string}
- */
-export type TriggerStatus = 'Disabled' | 'Enabled';
-
-/**
  * Defines values for BaseImageTriggerType.
  * Possible values include: 'All', 'Runtime'
  * @readonly
  * @enum {string}
  */
 export type BaseImageTriggerType = 'All' | 'Runtime';
+
+/**
+ * Defines values for SourceRegistryLoginMode.
+ * Possible values include: 'None', 'Default'
+ * @readonly
+ * @enum {string}
+ */
+export type SourceRegistryLoginMode = 'None' | 'Default';
+
+/**
+ * Defines values for SecretObjectType.
+ * Possible values include: 'Opaque', 'Vaultsecret'
+ * @readonly
+ * @enum {string}
+ */
+export type SecretObjectType = 'Opaque' | 'Vaultsecret';
 
 /**
  * Contains response data for the checkNameAvailability operation.

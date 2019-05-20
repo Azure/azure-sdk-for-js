@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import chai from "chai";
-import * as Long from "long";
+import Long from "long";
 const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
 import dotenv from "dotenv";
@@ -777,6 +777,28 @@ describe("Invalid parameters in Sender", function(): void {
 
   after(async () => {
     await ns.close();
+  });
+
+  it("Send: Missing message in Sender", async function(): Promise<void> {
+    let caughtError: Error | undefined;
+    try {
+      await sender.send(undefined as any);
+    } catch (error) {
+      caughtError = error;
+    }
+    should.equal(caughtError && caughtError.name, "TypeError");
+    should.equal(caughtError && caughtError.message, `Missing parameter "message"`);
+  });
+
+  it("Sendbatch: Missing messages in Sender", async function(): Promise<void> {
+    let caughtError: Error | undefined;
+    try {
+      await sender.sendBatch(undefined as any);
+    } catch (error) {
+      caughtError = error;
+    }
+    should.equal(caughtError && caughtError.name, "TypeError");
+    should.equal(caughtError && caughtError.message, `Missing parameter "messages"`);
   });
 
   it("ScheduledMessage: Missing date in Sender", async function(): Promise<void> {

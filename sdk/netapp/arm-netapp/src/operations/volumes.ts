@@ -28,7 +28,8 @@ export class Volumes {
   }
 
   /**
-   * List volumes
+   * List all volumes within the capacity pool
+   * @summary Describe all volumes
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
@@ -64,7 +65,8 @@ export class Volumes {
   }
 
   /**
-   * Get a volume
+   * Get the details of the specified volume
+   * @summary Describe a volume
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
@@ -104,7 +106,8 @@ export class Volumes {
   }
 
   /**
-   * Create or update a volume
+   * Create or update the specified volume within the capacity pool
+   * @summary Create or Update a volume
    * @param body Volume object supplied in the body of the operation.
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
@@ -119,7 +122,8 @@ export class Volumes {
   }
 
   /**
-   * Patch a volume
+   * Patch the specified volume
+   * @summary Update a volume
    * @param body Volume object supplied in the body of the operation.
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
@@ -163,7 +167,8 @@ export class Volumes {
   }
 
   /**
-   * Delete a volume
+   * Delete the specified volume
+   * @summary Delete a volume
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
@@ -177,7 +182,8 @@ export class Volumes {
   }
 
   /**
-   * Create or update a volume
+   * Create or update the specified volume within the capacity pool
+   * @summary Create or Update a volume
    * @param body Volume object supplied in the body of the operation.
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
@@ -201,7 +207,8 @@ export class Volumes {
   }
 
   /**
-   * Delete a volume
+   * Delete the specified volume
+   * @summary Delete a volume
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
@@ -245,7 +252,7 @@ const listOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.VolumeList
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -272,7 +279,7 @@ const getOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.Volume
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -306,7 +313,7 @@ const updateOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.Volume
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -344,7 +351,7 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
     },
     202: {},
     default: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -370,7 +377,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer

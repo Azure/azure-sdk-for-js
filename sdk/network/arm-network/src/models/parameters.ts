@@ -26,7 +26,7 @@ export const apiVersion0: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '2018-12-01',
+    defaultValue: '2019-02-01',
     type: {
       name: "String"
     }
@@ -359,6 +359,16 @@ export const locationName: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "locationName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const natGatewayName: msRest.OperationURLParameter = {
+  parameterPath: "natGatewayName",
+  mapper: {
+    required: true,
+    serializedName: "natGatewayName",
     type: {
       name: "String"
     }

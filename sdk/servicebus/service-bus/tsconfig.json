@@ -7,7 +7,6 @@
     "declaration": true /* Generates corresponding '.d.ts' file. */,
     "declarationMap": true /* Generates a sourcemap for each corresponding '.d.ts' file. */,
     "sourceMap": true /* Generates corresponding '.map' file. */,
-
     "outDir": "./dist-esm" /* Redirect output structure to the directory. */,
     "stripInternal": true /* Do not emit declarations for code with @internal annotation*/,
     "declarationDir": "./typings" /* Output directory for generated declaration files.*/,
@@ -34,6 +33,14 @@
     "resolveJsonModule": true
   },
   "compileOnSave": true,
-  "exclude": ["node_modules", "typings/**", "./samples/**/*.ts"],
-  "include": ["./src/**/*.ts", "./test/**/*.ts"]
+  "exclude": [
+    "node_modules",
+    "typings/**",
+    "./samples/**/*.ts",
+    "./test/perf/azure-sb-package/*.ts"
+  ],
+  "include": [
+    "./src/**/*.ts",
+    "./test/**/*.ts"
+  ]
 }

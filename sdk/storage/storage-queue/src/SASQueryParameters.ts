@@ -192,19 +192,7 @@ export class SASQueryParameters {
    * @memberof SASQueryParameters
    */
   public toString(): string {
-    const params: string[] = [
-      "sv",
-      "ss",
-      "srt",
-      "spr",
-      "st",
-      "se",
-      "sip",
-      "si",
-      "sr",
-      "sp",
-      "sig"
-    ];
+    const params: string[] = ["sv", "ss", "srt", "spr", "st", "se", "sip", "si", "sr", "sp", "sig"];
     const queries: string[] = [];
 
     for (const param of params) {
@@ -225,18 +213,14 @@ export class SASQueryParameters {
           this.tryAppendQueryParameter(
             queries,
             param,
-            this.startTime
-              ? truncatedISO8061Date(this.startTime, false)
-              : undefined
+            this.startTime ? truncatedISO8061Date(this.startTime, false) : undefined
           );
           break;
         case "se":
           this.tryAppendQueryParameter(
             queries,
             param,
-            this.expiryTime
-              ? truncatedISO8061Date(this.expiryTime, false)
-              : undefined
+            this.expiryTime ? truncatedISO8061Date(this.expiryTime, false) : undefined
           );
           break;
         case "sip":
@@ -273,11 +257,7 @@ export class SASQueryParameters {
    * @returns {void}
    * @memberof SASQueryParameters
    */
-  private tryAppendQueryParameter(
-    queries: string[],
-    key: string,
-    value?: string
-  ): void {
+  private tryAppendQueryParameter(queries: string[], key: string, value?: string): void {
     if (!value) {
       return;
     }

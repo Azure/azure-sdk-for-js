@@ -16,19 +16,7 @@ export const appId: msRest.OperationURLParameter = {
     required: true,
     serializedName: "appId",
     type: {
-      name: "String"
-    }
-  }
-};
-export const bingSpellCheckSubscriptionKey: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "bingSpellCheckSubscriptionKey"
-  ],
-  mapper: {
-    serializedName: "bing-spell-check-subscription-key",
-    type: {
-      name: "String"
+      name: "Uuid"
     }
   }
 };
@@ -56,39 +44,25 @@ export const log: msRest.OperationQueryParameter = {
     }
   }
 };
-export const spellCheck: msRest.OperationQueryParameter = {
+export const showAllIntents: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "spellCheck"
+    "showAllIntents"
   ],
   mapper: {
-    serializedName: "spellCheck",
+    serializedName: "show-all-intents",
     type: {
       name: "Boolean"
     }
   }
 };
-export const staging: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "staging"
-  ],
+export const slotName: msRest.OperationURLParameter = {
+  parameterPath: "slotName",
   mapper: {
-    serializedName: "staging",
+    required: true,
+    serializedName: "slotName",
     type: {
-      name: "Boolean"
-    }
-  }
-};
-export const timezoneOffset: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "timezoneOffset"
-  ],
-  mapper: {
-    serializedName: "timezoneOffset",
-    type: {
-      name: "Number"
+      name: "String"
     }
   }
 };
@@ -101,6 +75,16 @@ export const verbose: msRest.OperationQueryParameter = {
     serializedName: "verbose",
     type: {
       name: "Boolean"
+    }
+  }
+};
+export const versionId: msRest.OperationURLParameter = {
+  parameterPath: "versionId",
+  mapper: {
+    required: true,
+    serializedName: "versionId",
+    type: {
+      name: "String"
     }
   }
 };

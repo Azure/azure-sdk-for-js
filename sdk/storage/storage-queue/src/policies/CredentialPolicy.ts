@@ -1,8 +1,4 @@
-import {
-  BaseRequestPolicy,
-  HttpOperationResponse,
-  WebResource
-} from "@azure/ms-rest-js";
+import { BaseRequestPolicy, HttpOperationResponse, WebResource } from "@azure/ms-rest-js";
 
 /**
  * Credential policy used to sign HTTP(S) requests before sending. This is an

@@ -14,7 +14,7 @@ export function getUniqueName(prefix: string): string {
 }
 
 export async function sleep(time: number): Promise<void> {
-  return new Promise<void>(resolve => {
+  return new Promise<void>((resolve) => {
     setTimeout(resolve, time);
   });
 }
@@ -24,17 +24,13 @@ export function base64encode(content: string): string {
 }
 
 export function base64decode(encodedString: string): string {
-  return isBrowser()
-    ? atob(encodedString)
-    : Buffer.from(encodedString, "base64").toString();
+  return isBrowser() ? atob(encodedString) : Buffer.from(encodedString, "base64").toString();
 }
 
 export class ConsoleHttpPipelineLogger implements IHttpPipelineLogger {
   constructor(public minimumLogLevel: HttpPipelineLogLevel) {}
   public log(logLevel: HttpPipelineLogLevel, message: string): void {
-    const logMessage = `${new Date().toISOString()} ${
-      HttpPipelineLogLevel[logLevel]
-    }: ${message}`;
+    const logMessage = `${new Date().toISOString()} ${HttpPipelineLogLevel[logLevel]}: ${message}`;
     switch (logLevel) {
       case HttpPipelineLogLevel.ERROR:
         // tslint:disable-next-line:no-console
@@ -53,7 +49,7 @@ export class ConsoleHttpPipelineLogger implements IHttpPipelineLogger {
 }
 
 export async function wait(time: number): Promise<void> {
-  return new Promise<void>(resolve => {
+  return new Promise<void>((resolve) => {
     setTimeout(resolve, time);
   });
 }

@@ -52,9 +52,7 @@ export class LoggingPolicy extends BaseRequestPolicy {
    * @returns {Promise<HttpOperationResponse>}
    * @memberof LoggingPolicy
    */
-  public async sendRequest(
-    request: WebResource
-  ): Promise<HttpOperationResponse> {
+  public async sendRequest(request: WebResource): Promise<HttpOperationResponse> {
     this.tryCount++;
     this.requestStartTime = new Date();
     if (this.tryCount === 1) {
@@ -63,11 +61,7 @@ export class LoggingPolicy extends BaseRequestPolicy {
 
     let safeURL: string = request.url;
     if (getURLParameter(safeURL, URLConstants.Parameters.SIGNATURE)) {
-      safeURL = setURLParameter(
-        safeURL,
-        URLConstants.Parameters.SIGNATURE,
-        "*****"
-      );
+      safeURL = setURLParameter(safeURL, URLConstants.Parameters.SIGNATURE, "*****");
     }
     this.log(
       HttpPipelineLogLevel.INFO,
@@ -78,10 +72,8 @@ export class LoggingPolicy extends BaseRequestPolicy {
       const response = await this._nextPolicy.sendRequest(request);
 
       const requestEndTime = new Date();
-      const requestCompletionTime =
-        requestEndTime.getTime() - this.requestStartTime.getTime();
-      const operationDuration =
-        requestEndTime.getTime() - this.operationStartTime.getTime();
+      const requestCompletionTime = requestEndTime.getTime() - this.requestStartTime.getTime();
+      const operationDuration = requestEndTime.getTime() - this.operationStartTime.getTime();
 
       let currentLevel: HttpPipelineLogLevel = HttpPipelineLogLevel.INFO;
       let logMessage: string = "";
@@ -91,10 +83,7 @@ export class LoggingPolicy extends BaseRequestPolicy {
       }
 
       // If the response took too long, we'll upgrade to warning.
-      if (
-        requestCompletionTime >=
-        this.loggingOptions.logWarningIfTryOverThreshold
-      ) {
+      if (requestCompletionTime >= this.loggingOptions.logWarningIfTryOverThreshold) {
         // Log a warning if the try duration exceeded the specified threshold.
         if (this.shouldLog(HttpPipelineLogLevel.WARNING)) {
           currentLevel = HttpPipelineLogLevel.WARNING;
@@ -110,8 +99,7 @@ export class LoggingPolicy extends BaseRequestPolicy {
           (response.status !== HTTPURLConnection.HTTP_NOT_FOUND &&
             response.status !== HTTPURLConnection.HTTP_CONFLICT &&
             response.status !== HTTPURLConnection.HTTP_PRECON_FAILED &&
-            response.status !==
-              HTTPURLConnection.HTTP_RANGE_NOT_SATISFIABLE)) ||
+            response.status !== HTTPURLConnection.HTTP_RANGE_NOT_SATISFIABLE)) ||
         (response.status >= 500 && response.status <= 509)
       ) {
         const errorString = `REQUEST ERROR: HTTP request failed with status code: ${
@@ -131,9 +119,7 @@ export class LoggingPolicy extends BaseRequestPolicy {
     } catch (err) {
       this.log(
         HttpPipelineLogLevel.ERROR,
-        `Unexpected failure attempting to make request. Error message: ${
-          err.message
-        }`
+        `Unexpected failure attempting to make request. Error message: ${err.message}`
       );
       throw err;
     }

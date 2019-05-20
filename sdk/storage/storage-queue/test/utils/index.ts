@@ -7,10 +7,7 @@ import { StorageURL } from "../../src/StorageURL";
 
 export * from "./testutils.common";
 
-export function getGenericQSU(
-  accountType: string,
-  accountNameSuffix: string = ""
-): ServiceURL {
+export function getGenericQSU(accountType: string, accountNameSuffix: string = ""): ServiceURL {
   const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
   const accountKeyEnvVar = `${accountType}ACCOUNT_KEY`;
 

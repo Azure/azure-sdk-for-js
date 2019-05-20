@@ -1,4 +1,7 @@
 /*
+  Copyright (c) Microsoft Corporation. All rights reserved.
+  Licensed under the MIT Licence.
+  
   This sample demonstrates how to create a namespace using AAD token credentials
   obtained from signing in through your Azure account.
 
@@ -24,12 +27,12 @@ async function main() {
     tokenAudience: "https://servicebus.azure.net/"
   });
 
-  const ns = ServiceBusClient.createFromAadTokenCredentials(serviceBusEndpoint, tokenCreds);
+  const sbClient = ServiceBusClient.createFromAadTokenCredentials(serviceBusEndpoint, tokenCreds);
   /*
    Refer to other samples, and place your code here
    to create queue clients, and to send/receive messages
   */
-  await ns.close();
+  await sbClient.close();
 }
 
 main().catch((err) => {

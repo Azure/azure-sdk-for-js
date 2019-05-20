@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+import os from "os";
 import uuid from "uuid/v4";
 import {
   EventHubClient,
@@ -33,7 +34,6 @@ import {
   defaultLeaseDurationInSeconds,
   defaultStartupScanDelayInSeconds,
   packageInfo,
-  userAgentPrefix,
   defaultFastScanIntervalInSeconds,
   defaultSlowScanIntervalInSeconds,
   defaultConsumerGroup
@@ -109,7 +109,7 @@ export namespace HostContext {
     if (duration > maxLeaseDurationInSeconds || duration < minLeaseDurationInSeconds) {
       throw new Error(
         `Lease duration needs to be between ${minLeaseDurationInSeconds} ` +
-          `seconds and ${maxLeaseDurationInSeconds} seconds. The given value is: ${duration} seconds.`
+        `seconds and ${maxLeaseDurationInSeconds} seconds. The given value is: ${duration} seconds.`
       );
     }
   }
@@ -118,7 +118,7 @@ export namespace HostContext {
     if (!name || name.match(/^[a-z0-9](([a-z0-9\-[^\-])){1,61}[a-z0-9]$/gi) === null) {
       throw new Error(
         `Azure Storage lease container name "${name}" is invalid. Please check ` +
-          `naming conventions at https://msdn.microsoft.com/en-us/library/azure/dd135715.aspx`
+        `naming conventions at https://msdn.microsoft.com/en-us/library/azure/dd135715.aspx`
       );
     }
   }
@@ -296,11 +296,18 @@ export namespace HostContext {
   }
 
   /**
+   * @property {string} userAgent The user agent string for the EventHubs client.
+   * See guideline at https://github.com/Azure/azure-sdk/blob/master/docs/design/Telemetry.mdk
+   */
+  const userAgent: string = `azsdk-js-azureeventprocessorhost/${packageInfo.version} (NODE-VERSION ${
+    process.version
+    }; ${os.type()} ${os.release()})`;
+
+  /**
    * @ignore
    */
   export function getUserAgent(options: EventProcessorHostOptions): string {
-    const userAgentForEPH = `${userAgentPrefix}=${packageInfo.version}`;
-    const finalUserAgent = options.userAgent ? `${userAgentForEPH},${options.userAgent}` : userAgentForEPH;
+    const finalUserAgent = options.userAgent ? `${userAgent},${options.userAgent}` : userAgent;
     return finalUserAgent;
   }
 

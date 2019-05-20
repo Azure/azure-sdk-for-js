@@ -86,7 +86,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.format,
+    Parameters.format1,
     Parameters.exportParameter,
     Parameters.apiVersion
   ],
