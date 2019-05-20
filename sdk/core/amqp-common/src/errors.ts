@@ -527,10 +527,13 @@ export function isSystemError(err: any): boolean {
 }
 
 /**
- * Utility to check if given object is an instance of a browser based WebSocket error
+ * @internal
+ * Since browser doesnt differentiate between the various kinds of service communication errors,
+ * this utility is used to look at the error target to identify such category of errors.
+ * For more information refer to - https://html.spec.whatwg.org/multipage/comms.html#feedback-from-the-protocol
  * @param err object that may contain error information
  */
-export function isWebsocketError(err: any): boolean {
+function isWebsocketError(err: any): boolean {
   let result: boolean = false;
   if (
     !isNode &&
@@ -603,8 +606,7 @@ export function translate(err: AmqpError | Error): MessagingError {
       error.retryable = false;
     }
   } else if (isWebsocketError(err)) {
-    // Translate to a generic Browser specific error for security reasons.
-    // For more information refer to - https://html.spec.whatwg.org/multipage/comms.html#feedback-from-the-protocol
+    // Translate browser communication errors during opening handshake to generic SeviceCommunicationError
     error = new MessagingError("Websocket connection failed.");
     error.name = ConditionErrorNameMapper[ErrorNameConditionMapper.ServiceCommunicationError];
   } else {
