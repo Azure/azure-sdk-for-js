@@ -14,7 +14,7 @@ import {
   ContainerClient,
   BlobServiceClient,
   StorageClient
-} from "../.."; // Change to "@azure/storage-blob" in your package
+} from "../../src"; // Change to "@azure/storage-blob" in your package
 
 async function main() {
   // Fill in following settings before running this sample
@@ -49,7 +49,7 @@ async function main() {
   await uploadFileToBlockBlob(localFilePath, blockBlobClient, {
     blockSize: 4 * 1024 * 1024, // 4MB block size
     parallelism: 20, // 20 concurrency
-    progress: ev => console.log(ev)
+    progress: (ev) => console.log(ev)
   });
   console.log("uploadFileToBlockBlob success");
 
@@ -62,7 +62,7 @@ async function main() {
     20,
     {
       abortSignal: Aborter.timeout(30 * 60 * 1000), // Abort uploading with timeout in 30mins
-      progress: ev => console.log(ev)
+      progress: (ev) => console.log(ev)
     }
   );
   console.log("uploadStreamToBlockBlob success");
@@ -82,18 +82,12 @@ async function main() {
   // downloadBlobToBuffer is only available in Node.js
   const fileSize = fs.statSync(localFilePath).size;
   const buffer = Buffer.alloc(fileSize);
-  await downloadBlobToBuffer(
-    buffer,
-    blockBlobClient,
-    0,
-    undefined,
-    {
-      abortSignal: Aborter.timeout(30 * 60 * 1000), // Abort uploading with timeout in 30mins
-      blockSize: 4 * 1024 * 1024, // 4MB block size
-      parallelism: 20, // 20 concurrency
-      progress: ev => console.log(ev)
-    }
-  );
+  await downloadBlobToBuffer(buffer, blockBlobClient, 0, undefined, {
+    abortSignal: Aborter.timeout(30 * 60 * 1000), // Abort uploading with timeout in 30mins
+    blockSize: 4 * 1024 * 1024, // 4MB block size
+    parallelism: 20, // 20 concurrency
+    progress: (ev) => console.log(ev)
+  });
   console.log("downloadBlobToBuffer success");
 
   // Delete container
@@ -106,6 +100,6 @@ main()
   .then(() => {
     console.log("Successfully executed sample.");
   })
-  .catch(err => {
+  .catch((err) => {
     console.log(err.message);
   });
