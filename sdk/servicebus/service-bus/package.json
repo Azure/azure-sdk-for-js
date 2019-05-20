@@ -137,5 +137,4 @@
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "sideEffects": false
-  }
 }

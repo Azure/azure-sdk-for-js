@@ -160,8 +160,6 @@ export function toBuffer(input: any): Buffer {
   log.utils("[utils.toBuffer] The converted buffer is: %O.", result);
   return result;
 }
-<<<<<<< HEAD
-
 /**
  * @internal
  * Helper function to retrieve active receiver name, if it exists.
@@ -182,5 +180,3 @@ export function getAssociatedReceiverName(
   }
   return receiverName;
 }
-=======
->>>>>>> 66071887... fixing eslint errors
