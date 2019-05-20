@@ -1,9 +1,7 @@
 import fs from "fs";
 import nise from "nise";
-import { getUniqueName } from "../utils";
-import { isBrowser } from "./testutils.common";
+import { bodyToString, getUniqueName, isBrowser } from "../utils";
 import * as dotenv from "dotenv";
-import { bodyToString } from './index.browser';
 dotenv.config({ path: "../../.env" });
 
 let nock: any;
