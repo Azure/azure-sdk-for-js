@@ -18,7 +18,7 @@ jobs:
       - template: ../variables/globals.yml
 
     strategy:
-      maxParallel: 1
+      maxParallel: ${{ parameters.MaxParallel }}
       matrix: ${{ parameters.Matrix }}
 
     pool:
