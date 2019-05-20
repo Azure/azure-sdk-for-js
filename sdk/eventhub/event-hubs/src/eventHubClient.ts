@@ -46,13 +46,13 @@ export interface RequestOptions {
    */
   retryAttempts?: number;
   /**
-   * Number of milliseconds to wait between retries
+   * Number of seconds to wait between retries
    */
-  delayBetweenRetries?: number;
+  delayBetweenRetriesInSeconds?: number;
   /**
-   * Number of milliseconds to wait before declaring an opetration to have timed out
+   * Number of seconds to wait before declaring an opetration to have timed out
    */
-  idleTimeout?: number;
+  idleTimeoutInSeconds?: number;
   /**
    * The cancellation token used to cancel the current request
    */

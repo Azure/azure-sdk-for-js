@@ -556,8 +556,8 @@ export class EventHubSender extends LinkEntity {
           this._sender!.on(SenderEvents.released, onReleased);
           waitTimer = setTimeout(
             actionAfterTimeout,
-            options && options.idleTimeout && options.idleTimeout > 0
-              ? options.idleTimeout
+            options && options.idleTimeoutInSeconds && options.idleTimeoutInSeconds > 0
+              ? options.idleTimeoutInSeconds
               : Constants.defaultOperationTimeoutInSeconds * 1000
           );
           const delivery = this._sender!.send(message, tag, format);
@@ -583,18 +583,20 @@ export class EventHubSender extends LinkEntity {
       });
 
     const jitterInSeconds = randomNumberFromInterval(1, 4);
+    const times =
+      options && options.retryAttempts && options.retryAttempts > 0
+        ? options.retryAttempts
+        : Constants.defaultRetryAttempts;
+    const delayInSeconds =
+      options && options.delayBetweenRetriesInSeconds && options.delayBetweenRetriesInSeconds > 0
+        ? options.delayBetweenRetriesInSeconds
+        : Constants.defaultDelayBetweenOperationRetriesInSeconds;
     const config: RetryConfig<Delivery> = {
       operation: sendEventPromise,
       connectionId: this._context.connectionId,
       operationType: RetryOperationType.sendMessage,
-      times:
-        options && options.retryAttempts && options.retryAttempts > 0
-          ? options.retryAttempts
-          : Constants.defaultRetryAttempts,
-      delayInSeconds:
-        options && options.delayBetweenRetries
-          ? options.delayBetweenRetries
-          : Constants.defaultDelayBetweenOperationRetriesInSeconds + jitterInSeconds
+      times: times,
+      delayInSeconds: delayInSeconds + jitterInSeconds
     };
     return retry<Delivery>(config);
   }
