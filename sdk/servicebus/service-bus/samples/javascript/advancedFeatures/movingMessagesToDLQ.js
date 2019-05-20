@@ -14,7 +14,7 @@ const { ServiceBusClient, ReceiveMode } = require("@azure/service-bus");
 // Define connection string and related Service Bus entity names here
 const connectionString = "";
 const queueName = "";
-const ns = ServiceBusClient.createFromConnectionString(connectionString);
+const sbClient = ServiceBusClient.createFromConnectionString(connectionString);
 
 async function main() {
   try {
@@ -23,14 +23,14 @@ async function main() {
 
     await receiveMessage();
   } finally {
-    await ns.close();
+    await sbClient.close();
   }
 }
 
 async function sendMessage() {
   // If sending to a Topic, use `createTopicClient` instead of `createQueueClient`
-  const client = ns.createQueueClient(queueName);
-  const sender = client.createSender();
+  const queueClient = sbClient.createQueueClient(queueName);
+  const sender = queueClient.createSender();
 
   const message = {
     body: { name: "Creamy Chicken Pasta", type: "Dinner" },
@@ -38,13 +38,13 @@ async function sendMessage() {
     label: "Recipe"
   };
   await sender.send(message);
-  await client.close();
+  await queueClient.close();
 }
 
 async function receiveMessage() {
   // If receiving from a Subscription, use `createSubscriptionClient` instead of `createQueueClient`
-  const client = ns.createQueueClient(queueName);
-  const receiver = client.createReceiver(ReceiveMode.peekLock);
+  const queueClient = sbClient.createQueueClient(queueName);
+  const receiver = queueClient.createReceiver(ReceiveMode.peekLock);
 
   const messages = await receiver.receiveMessages(1);
 
@@ -62,7 +62,7 @@ async function receiveMessage() {
     console.log(">>>> Error: No messages were received from the main queue.");
   }
 
-  await client.close();
+  await queueClient.close();
 }
 
 main().catch((err) => {
