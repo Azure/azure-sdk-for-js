@@ -19,6 +19,7 @@ import { Constants, getEnvVars } from "./environmentVariables";
 
 import * as dotenv from "dotenv";
 dotenv.config();
+const env = getEnvVars();
 
 const defaultLockDuration = "PT30S"; // 30 seconds in ISO 8601 FORMAT - equivalent to "P0Y0M0DT0H0M30S"
 
@@ -571,13 +572,12 @@ export async function checkWithTimeout(
 
 /**
  * Utility function to get namespace string from given connection string
- * @param serviceBusConnectionString 
+ * @param serviceBusConnectionString
  */
 function getNamespace(serviceBusConnectionString: string): string {
   return (serviceBusConnectionString.match("Endpoint=sb://(.*).servicebus.windows.net") || "")[1];
 }
 
 export function getServiceBusClient(): ServiceBusClient {
-  const env = getEnvVars();
   return ServiceBusClient.createFromConnectionString(env[Constants.SERVICEBUS_CONNECTION_STRING]);
 }
