@@ -9,7 +9,28 @@ import { StorageClient } from "./StorageClient";
 import { appendToURLPath, truncatedISO8061Date } from "./utils/utils.common";
 
 export interface QueueCreateOptions {
+  abortSignal?: Aborter;
   metadata?: Metadata;
+}
+
+export interface QueueGetPropertiesOptions {
+  abortSignal?: Aborter;
+}
+
+export interface QueueDeleteOptions {
+  abortSignal?: Aborter;
+}
+
+export interface QueueGetAccessPolicyOptions {
+  abortSignal?: Aborter;
+}
+
+export interface QueueSetAccessPolicyOptions {
+  abortSignal?: Aborter;
+}
+
+export interface QueueSetMetadataOptions {
+  abortSignal?: Aborter;
 }
 
 export interface SignedIdentifier {
@@ -122,16 +143,14 @@ export class QueueClient extends StorageClient {
    * Creates a new queue under the specified account.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-queue4
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
-   * @param {QueueCreateOptions} [options]
+   * @param {QueueCreateOptions} [options] Optional options to Queue create operation.
    * @returns {Promise<Models.QueueCreateResponse>}
    * @memberof QueueURL
    */
   public async create(
-    aborter: Aborter,
     options: QueueCreateOptions = {}
   ): Promise<Models.QueueCreateResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     return this.queueContext.create({
       ...options,
       abortSignal: aborter
@@ -143,12 +162,14 @@ export class QueueClient extends StorageClient {
    * queue. Metadata is associated with the queue as name-values pairs.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-queue-metadata
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
+   * @param {QueueGetPropertiesOptions} [options] Optional options to Queue get properties operation.
    * @returns {Promise<Models.QueueGetPropertiesResponse>}
    * @memberof QueueURL
    */
-  public async getProperties(aborter: Aborter): Promise<Models.QueueGetPropertiesResponse> {
+  public async getProperties(
+    options: QueueGetPropertiesOptions = {}
+  ): Promise<Models.QueueGetPropertiesResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     return this.queueContext.getProperties({
       abortSignal: aborter
     });
@@ -158,12 +179,14 @@ export class QueueClient extends StorageClient {
    * Deletes the specified queue permanently.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-queue3
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
+   * @param {QueueDeleteOptions} [options] Optional options to Queue delete operation.
    * @returns {Promise<Models.QueueDeleteResponse>}
    * @memberof QueueURL
    */
-  public async delete(aborter: Aborter): Promise<Models.QueueDeleteResponse> {
+  public async delete(
+    options: QueueDeleteOptions = {}
+  ): Promise<Models.QueueDeleteResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     return this.queueContext.deleteMethod({
       abortSignal: aborter
     });
@@ -176,16 +199,16 @@ export class QueueClient extends StorageClient {
    * metadata will be removed.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-queue-metadata
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
    * @param {Metadata} [metadata] If no metadata provided, all existing metadata will be removed.
+   * @param {QueueSetMetadataOptions} [options] Optional options to Queue set metadata operation.
    * @returns {Promise<Models.QueueSetMetadataResponse>}
    * @memberof QueueURL
    */
   public async setMetadata(
-    aborter: Aborter,
-    metadata?: Metadata
+    metadata?: Metadata,
+    options: QueueSetMetadataOptions = {}
   ): Promise<Models.QueueSetMetadataResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     return this.queueContext.setMetadata({
       abortSignal: aborter,
       metadata
@@ -200,13 +223,14 @@ export class QueueClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-queue-acl
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
-   * @param {QueueGetAccessPolicyOptions} [options]
+   * @param {QueueGetAccessPolicyOptions} [options] Optional options to Queue get access policy operation.
    * @returns {Promise<QueueGetAccessPolicyResponse>}
    * @memberof QueueURL
    */
-  public async getAccessPolicy(aborter: Aborter): Promise<QueueGetAccessPolicyResponse> {
+  public async getAccessPolicy(
+    options: QueueGetAccessPolicyOptions = {}
+  ): Promise<QueueGetAccessPolicyResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     const response = await this.queueContext.getAccessPolicy({
       abortSignal: aborter
     });
@@ -238,18 +262,17 @@ export class QueueClient extends StorageClient {
    * Sets stored access policies for the queue that may be used with Shared Access Signatures.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-queue-acl
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
    * @param {PublicAccessType} [access]
    * @param {SignedIdentifier[]} [queueAcl]
-   * @param {QueueSetAccessPolicyOptions} [options]
+   * @param {QueueSetAccessPolicyOptions} [options] Optional options to Queue set access policy operation.
    * @returns {Promise<Models.QueueSetAccessPolicyResponse>}
    * @memberof QueueURL
    */
   public async setAccessPolicy(
-    aborter: Aborter,
-    queueAcl?: SignedIdentifier[]
+    queueAcl?: SignedIdentifier[],
+    options: QueueSetAccessPolicyOptions = {}
   ): Promise<Models.QueueSetAccessPolicyResponse> {
+    const aborter = options.abortSignal || Aborter.none;
     const acl: Models.SignedIdentifier[] = [];
     for (const identifier of queueAcl || []) {
       acl.push({

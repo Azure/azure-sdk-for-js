@@ -1,6 +1,5 @@
 import * as assert from "assert";
 
-import { Aborter } from "../../src/Aborter";
 import { QueueClient } from "../../src/QueueClient";
 import { MessagesClient } from "../../src/MessagesClient";
 import { getQSU, getUniqueName } from "../utils";
@@ -13,11 +12,11 @@ describe("MessagesClient Node", () => {
   beforeEach(async () => {
     queueName = getUniqueName("queue");
     queueClient = QueueClient.fromQueueServiceClient(queueServiceClient, queueName);
-    await queueClient.create(Aborter.none);
+    await queueClient.create();
   });
 
   afterEach(async () => {
-    await queueClient.delete(Aborter.none);
+    await queueClient.delete();
   });
 
   it("enqueue, peek, dequeue with 64KB characters including special char which is computed after encoding", async () => {
@@ -29,7 +28,7 @@ describe("MessagesClient Node", () => {
     buffer.write(specialChars, 0);
     let messageContent = buffer.toString();
 
-    let eResult = await messagesClient.enqueue(Aborter.none, messageContent, {
+    let eResult = await messagesClient.enqueue(messageContent, {
       messageTimeToLive: 40,
       visibilitytimeout: 0
     });
@@ -42,7 +41,7 @@ describe("MessagesClient Node", () => {
     assert.ok(eResult.timeNextVisible);
     assert.ok(eResult.version);
 
-    let pResult = await messagesClient.peek(Aborter.none, { numberOfMessages: 2 });
+    let pResult = await messagesClient.peek({ numberOfMessages: 2 });
     assert.ok(pResult.date);
     assert.ok(pResult.requestId);
     assert.ok(pResult.version);
@@ -53,7 +52,7 @@ describe("MessagesClient Node", () => {
     assert.deepStrictEqual(pResult.peekedMessageItems[0].insertionTime, eResult.insertionTime);
     assert.deepStrictEqual(pResult.peekedMessageItems[0].expirationTime, eResult.expirationTime);
 
-    let dResult = await messagesClient.dequeue(Aborter.none, {
+    let dResult = await messagesClient.dequeue({
       visibilitytimeout: 10,
       numberOfMessages: 2
     });
@@ -81,7 +80,7 @@ describe("MessagesClient Node", () => {
 
     let error;
     try {
-      await messagesClient.enqueue(Aborter.none, messageContent, {});
+      await messagesClient.enqueue(messageContent, {});
     } catch (err) {
       error = err;
     }

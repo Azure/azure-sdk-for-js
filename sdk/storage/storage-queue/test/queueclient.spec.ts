@@ -1,6 +1,5 @@
 import * as assert from "assert";
 
-import { Aborter } from "../src/Aborter";
 import { QueueClient } from "../src/QueueClient";
 import { getQSU, getUniqueName } from "./utils";
 import * as dotenv from "dotenv";
@@ -14,11 +13,11 @@ describe("QueueClient", () => {
   beforeEach(async () => {
     queueName = getUniqueName("queue");
     queueClient = QueueClient.fromQueueServiceClient(queueServiceClient, queueName);
-    await queueClient.create(Aborter.none);
+    await queueClient.create();
   });
 
   afterEach(async () => {
-    await queueClient.delete(Aborter.none);
+    await queueClient.delete();
   });
 
   it("setMetadata", async () => {
@@ -27,14 +26,14 @@ describe("QueueClient", () => {
       keya: "vala",
       keyb: "valb"
     };
-    await queueClient.setMetadata(Aborter.none, metadata);
+    await queueClient.setMetadata(metadata);
 
-    const result = await queueClient.getProperties(Aborter.none);
+    const result = await queueClient.getProperties();
     assert.deepEqual(result.metadata, metadata);
   });
 
   it("getProperties with default/all parameters", async () => {
-    const result = await queueClient.getProperties(Aborter.none);
+    const result = await queueClient.getProperties();
     assert.ok(result.approximateMessagesCount! >= 0);
     assert.ok(result.requestId);
     assert.ok(result.version);
@@ -46,7 +45,7 @@ describe("QueueClient", () => {
     const queueClient2 = QueueClient.fromQueueServiceClient(queueServiceClient, queueName2);
     let error;
     try {
-      await queueClient2.getProperties(Aborter.none);
+      await queueClient2.getProperties();
     } catch (err) {
       error = err;
     }
@@ -66,8 +65,8 @@ describe("QueueClient", () => {
   it("create with all parameters", async () => {
     const qURL = QueueClient.fromQueueServiceClient(queueServiceClient, getUniqueName(queueName));
     const metadata = { key: "value" };
-    await qURL.create(Aborter.none, { metadata });
-    const result = await qURL.getProperties(Aborter.none);
+    await qURL.create({ metadata });
+    const result = await qURL.getProperties();
     assert.deepEqual(result.metadata, metadata);
   });
 
@@ -76,7 +75,7 @@ describe("QueueClient", () => {
     const qURL = QueueClient.fromQueueServiceClient(queueServiceClient, "");
     let error;
     try {
-      await qURL.create(Aborter.none);
+      await qURL.create();
     } catch (err) {
       error = err;
     }
@@ -108,7 +107,7 @@ describe("QueueClient", () => {
 
     let error;
     try {
-      await queueClient.setAccessPolicy(Aborter.none, queueAcl);
+      await queueClient.setAccessPolicy(queueAcl);
     } catch (err) {
       error = err;
     }

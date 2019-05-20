@@ -2,7 +2,6 @@ import { URLBuilder } from "@azure/ms-rest-js";
 import * as assert from "assert";
 
 import { RestError, StorageClient } from "../src";
-import { Aborter } from "../src/Aborter";
 import { QueueClient } from "../src/QueueClient";
 import { Pipeline } from "../src/Pipeline";
 import { getQSU, getUniqueName } from "./utils";
@@ -18,11 +17,11 @@ describe("RetryPolicy", () => {
   beforeEach(async () => {
     queueName = getUniqueName("queue");
     queueClient = QueueClient.fromQueueServiceClient(queueServiceClient, queueName);
-    await queueClient.create(Aborter.none);
+    await queueClient.create();
   });
 
   afterEach(async () => {
-    await queueClient.delete(Aborter.none);
+    await queueClient.delete();
   });
 
   it("Retry policy should work when first request fails with 500", async () => {
@@ -43,9 +42,9 @@ describe("RetryPolicy", () => {
       keya: "vala",
       keyb: "valb"
     };
-    await injectqueueClient.setMetadata(Aborter.none, metadata);
+    await injectqueueClient.setMetadata(metadata);
 
-    const result = await queueClient.getProperties(Aborter.none);
+    const result = await queueClient.getProperties();
     assert.deepEqual(result.metadata, metadata);
   });
 
@@ -69,7 +68,7 @@ describe("RetryPolicy", () => {
         keya: "vala",
         keyb: "valb"
       };
-      await injectqueueClient.setMetadata(Aborter.none, metadata);
+      await injectqueueClient.setMetadata(metadata);
     } catch (err) {
       hasError = true;
     }
@@ -103,7 +102,7 @@ describe("RetryPolicy", () => {
 
     let finalRequestURL = "";
     try {
-      const response = await injectqueueClient.getProperties(Aborter.none);
+      const response = await injectqueueClient.getProperties();
       finalRequestURL = response._response.request.url;
     } catch (err) {
       finalRequestURL = err.request ? err.request.url : "";

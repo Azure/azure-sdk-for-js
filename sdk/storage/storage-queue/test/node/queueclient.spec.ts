@@ -1,6 +1,5 @@
 import * as assert from "assert";
 
-import { Aborter } from "../../src/Aborter";
 import { QueueClient } from "../../src/QueueClient";
 import { getQSU, getUniqueName } from "../utils";
 
@@ -12,15 +11,15 @@ describe("QueueClient Node", () => {
   beforeEach(async () => {
     queueName = getUniqueName("queue");
     queueClient = QueueClient.fromQueueServiceClient(queueServiceClient, queueName);
-    await queueClient.create(Aborter.none);
+    await queueClient.create();
   });
 
   afterEach(async () => {
-    await queueClient.delete(Aborter.none);
+    await queueClient.delete();
   });
 
   it("getAccessPolicy", async () => {
-    const result = await queueClient.getAccessPolicy(Aborter.none);
+    const result = await queueClient.getAccessPolicy();
     assert.ok(result.requestId);
     assert.ok(result.version);
     assert.ok(result.date);
@@ -38,8 +37,8 @@ describe("QueueClient Node", () => {
       }
     ];
 
-    await queueClient.setAccessPolicy(Aborter.none, queueAcl);
-    const result = await queueClient.getAccessPolicy(Aborter.none);
+    await queueClient.setAccessPolicy(queueAcl);
+    const result = await queueClient.getAccessPolicy();
     assert.deepEqual(result.signedIdentifiers, queueAcl);
   });
 });

@@ -3,7 +3,6 @@
 */
 
 import {
-  Aborter,
   QueueClient,
   MessagesClient,
   MessageIdClient,
@@ -51,7 +50,6 @@ async function main() {
   let marker;
   do {
     const listQueuesResponse: Models.ServiceListQueuesSegmentResponse = await queueServiceClient.listQueuesSegment(
-      Aborter.none,
       marker
     );
 
@@ -64,7 +62,7 @@ async function main() {
   // Create a new queue
   const queueName = `newqueue${new Date().getTime()}`;
   const queueClient = QueueClient.fromQueueServiceClient(queueServiceClient, queueName);
-  const createQueueResponse = await queueClient.create(Aborter.none);
+  const createQueueResponse = await queueClient.create();
   console.log(
     `Create queue ${queueName} successfully, service assigned request Id: ${
       createQueueResponse.requestId
@@ -74,7 +72,6 @@ async function main() {
   // Enqueue a message into the queue using the enqueue method.
   const messagesClient = MessagesClient.fromQueueClient(queueClient);
   const enqueueQueueResponse = await messagesClient.enqueue(
-    Aborter.none,
     "Hello World!"
   );
   console.log(
@@ -84,7 +81,7 @@ async function main() {
   );
 
   // Peek a message using peek method.
-  const peekQueueResponse = await messagesClient.peek(Aborter.none);
+  const peekQueueResponse = await messagesClient.peek();
   console.log(
     `The peeked message is: ${
       peekQueueResponse.peekedMessageItems[0].messageText
@@ -95,7 +92,7 @@ async function main() {
   // from this queue for a default period of 30 seconds. To finish removing the message from the queue, you call DeleteMessage.
   // This two-step process ensures that if your code fails to process a message due to hardware or software failure, another instance
   // of your code can get the same message and try again.
-  const dequeueResponse = await messagesClient.dequeue(Aborter.none);
+  const dequeueResponse = await messagesClient.dequeue();
   if (dequeueResponse.dequeuedMessageItems.length == 1) {
     const dequeueMessageItem = dequeueResponse.dequeuedMessageItems[0];
     console.log(
@@ -108,7 +105,6 @@ async function main() {
       dequeueMessageItem.messageId
     );
     const deleteMessageResponse = await messageIdClient.delete(
-      Aborter.none,
       dequeueMessageItem.popReceipt
     );
     console.log(
@@ -119,7 +115,7 @@ async function main() {
   }
 
   // Delete the queue.
-  const deleteQueueResponse = await queueClient.delete(Aborter.none);
+  const deleteQueueResponse = await queueClient.delete();
   console.log(
     `Delete queue successfully, service assigned request Id: ${
       deleteQueueResponse.requestId

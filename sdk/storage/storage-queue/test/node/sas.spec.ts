@@ -15,7 +15,6 @@ import {
   SharedKeyCredential,
   StorageClient
 } from "../../src";
-import { Aborter } from "../../src/Aborter";
 import { SASProtocol } from "../../src/SASQueryParameters";
 import { getQSU, getUniqueName, sleep } from "../utils/index";
 
@@ -53,7 +52,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       StorageClient.newPipeline(new AnonymousCredential())
     );
 
-    await queueServiceClientwithSAS.getProperties(Aborter.none);
+    await queueServiceClientwithSAS.getProperties();
   });
 
   it("generateAccountSASQueryParameters should not work with invalid permission", async () => {
@@ -82,7 +81,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     let error;
     try {
-      await queueServiceClientwithSAS.getProperties(Aborter.none);
+      await queueServiceClientwithSAS.getProperties();
     } catch (err) {
       error = err;
     }
@@ -116,7 +115,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     let error;
     try {
-      await queueServiceClientwithSAS.getProperties(Aborter.none);
+      await queueServiceClientwithSAS.getProperties();
     } catch (err) {
       error = err;
     }
@@ -153,7 +152,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     let error;
     try {
-      await queueServiceClientwithSAS.getProperties(Aborter.none);
+      await queueServiceClientwithSAS.getProperties();
     } catch (err) {
       error = err;
     }
@@ -174,7 +173,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const queueName = getUniqueName("queue");
     const queueClient = QueueClient.fromQueueServiceClient(queueServiceClient, queueName);
-    await queueClient.create(Aborter.none);
+    await queueClient.create();
 
     const queueSAS = generateQueueSASQueryParameters(
       {
@@ -195,8 +194,8 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       StorageClient.newPipeline(new AnonymousCredential())
     );
 
-    await queueClientwithSAS.getProperties(Aborter.none);
-    await queueClient.delete(Aborter.none);
+    await queueClientwithSAS.getProperties();
+    await queueClient.delete();
   });
 
   it("generateQueueSASQueryParameters should work for messages", async () => {
@@ -212,7 +211,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const queueName = getUniqueName("queue");
     const queueClient = QueueClient.fromQueueServiceClient(queueServiceClient, queueName);
-    await queueClient.create(Aborter.none);
+    await queueClient.create();
 
     const queueSAS = generateQueueSASQueryParameters(
       {
@@ -235,9 +234,9 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       sasURLForMessages,
       StorageClient.newPipeline(new AnonymousCredential())
     );
-    const enqueueResult = await messagesClientWithSAS.enqueue(Aborter.none, messageContent);
+    const enqueueResult = await messagesClientWithSAS.enqueue(messageContent);
 
-    let pResult = await messagesClient.peek(Aborter.none);
+    let pResult = await messagesClient.peek();
     assert.deepStrictEqual(pResult.peekedMessageItems.length, 1);
 
     const messageIdClient = MessageIdClient.fromMessagesClient(
@@ -250,12 +249,12 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       StorageClient.newPipeline(new AnonymousCredential())
     );
 
-    await messageIdClientWithSAS.delete(Aborter.none, enqueueResult.popReceipt);
+    await messageIdClientWithSAS.delete(enqueueResult.popReceipt);
 
-    pResult = await messagesClient.peek(Aborter.none);
+    pResult = await messagesClient.peek();
     assert.deepStrictEqual(pResult.peekedMessageItems.length, 0);
 
-    await queueClient.delete(Aborter.none);
+    await queueClient.delete();
   });
 
   it("generateQueueSASQueryParameters should work for queue with access policy", async () => {
@@ -271,10 +270,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const queueName = getUniqueName("queue");
     const queueClient = QueueClient.fromQueueServiceClient(queueServiceClient, queueName);
-    await queueClient.create(Aborter.none);
+    await queueClient.create();
 
     const id = "unique-id";
-    await queueClient.setAccessPolicy(Aborter.none, [
+    await queueClient.setAccessPolicy([
       {
         accessPolicy: {
           expiry: tmr,
@@ -303,11 +302,11 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const messageContent = "hello";
 
-    const eResult = await messagesClientwithSAS.enqueue(Aborter.none, messageContent);
+    const eResult = await messagesClientwithSAS.enqueue(messageContent);
     assert.ok(eResult.messageId);
-    const pResult = await messagesClientwithSAS.peek(Aborter.none);
+    const pResult = await messagesClientwithSAS.peek();
     assert.deepStrictEqual(pResult.peekedMessageItems[0].messageText, messageContent);
-    const dResult = await messagesClientwithSAS.dequeue(Aborter.none, {
+    const dResult = await messagesClientwithSAS.dequeue({
       visibilitytimeout: 1
     });
     assert.deepStrictEqual(dResult.dequeuedMessageItems[0].messageText, messageContent);
@@ -325,11 +324,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       StorageClient.newPipeline(new AnonymousCredential())
     );
     const deleteResult = await messageIdClientwithSAS.delete(
-      Aborter.none,
       dResult.dequeuedMessageItems[0].popReceipt
     );
     assert.ok(deleteResult.requestId);
 
-    //const cResult = await messagesClientwithSAS.clear(Aborter.none); //This request is not authorized to perform this operation. As testing, this is service's current behavior.
+    //const cResult = await messagesClientwithSAS.clear(); //This request is not authorized to perform this operation. As testing, this is service's current behavior.
   });
 });
