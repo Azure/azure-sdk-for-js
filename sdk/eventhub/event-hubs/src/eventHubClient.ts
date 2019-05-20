@@ -46,13 +46,13 @@ export interface RequestOptions {
    */
   retryAttempts?: number;
   /**
-   * Number of milliseconds to wait between retries
+   * Number of seconds to wait between retries
    */
-  delayBetweenRetries?: number;
+  delayBetweenRetriesInSeconds?: number;
   /**
-   * Number of milliseconds to wait before declaring an opetration to have timed out
+   * Number of seconds to wait before declaring an opetration to have timed out
    */
-  idleTimeout?: number;
+  idleTimeoutInSeconds?: number;
   /**
    * The cancellation token used to cancel the current request
    */
@@ -237,15 +237,17 @@ export class EventHubClient {
    */
   async send(data: EventData, partitionId?: string | number): Promise<Delivery>;
   async send(data: EventData, options?: SendOptions): Promise<Delivery>;
-  async send(data: EventData, partitionIdOrptions?: string | number | SendOptions): Promise<Delivery> {
+  async send(data: EventData, partitionIdOrOptions?: string | number | SendOptions): Promise<Delivery> {
     let partitionId: string | number | undefined;
-    if (typeof partitionIdOrptions === "string" || typeof partitionIdOrptions === "number") {
-      partitionId = partitionIdOrptions;
-    } else if (partitionIdOrptions && partitionIdOrptions.hasOwnProperty("partitionId")) {
-      partitionId = partitionIdOrptions.partitionId;
+    let sendOptions: SendOptions = {};
+    if (typeof partitionIdOrOptions === "string" || typeof partitionIdOrOptions === "number") {
+      partitionId = partitionIdOrOptions;
+    } else if (partitionIdOrOptions) {
+      partitionId = partitionIdOrOptions.partitionId;
+      sendOptions = partitionIdOrOptions;
     }
     const sender = EventHubSender.create(this._context, partitionId);
-    return sender.send(data);
+    return sender.send(data, sendOptions);
   }
 
   /**
@@ -259,17 +261,19 @@ export class EventHubClient {
    *
    * @return {Promise<Delivery>} Promise<Delivery>
    */
-  async sendBatch(datas: EventData[], partitionId?: string | number): Promise<Delivery>;
-  async sendBatch(datas: EventData[], options?: SendOptions): Promise<Delivery>;
-  async sendBatch(datas: EventData[], partitionIdOrptions?: string | number | SendOptions): Promise<Delivery> {
+  async sendBatch(data: EventData[], partitionId?: string | number): Promise<Delivery>;
+  async sendBatch(data: EventData[], options?: SendOptions): Promise<Delivery>;
+  async sendBatch(data: EventData[], partitionIdOrOptions?: string | number | SendOptions): Promise<Delivery> {
     let partitionId: string | number | undefined;
-    if (typeof partitionIdOrptions === "string" || typeof partitionIdOrptions === "number") {
-      partitionId = partitionIdOrptions;
-    } else if (partitionIdOrptions && partitionIdOrptions.hasOwnProperty("partitionId")) {
-      partitionId = partitionIdOrptions.partitionId;
+    let sendOptions: SendOptions = {};
+    if (typeof partitionIdOrOptions === "string" || typeof partitionIdOrOptions === "number") {
+      partitionId = partitionIdOrOptions;
+    } else if (partitionIdOrOptions) {
+      partitionId = partitionIdOrOptions.partitionId;
+      sendOptions = partitionIdOrOptions;
     }
     const sender = EventHubSender.create(this._context, partitionId);
-    return sender.sendBatch(datas);
+    return sender.sendBatch(data, sendOptions);
   }
 
   /**
