@@ -533,11 +533,11 @@ export function isSystemError(err: any): boolean {
  * For more information refer to - https://html.spec.whatwg.org/multipage/comms.html#feedback-from-the-protocol
  * @param err object that may contain error information
  */
-function isWebsocketError(err: any): boolean {
+function isBrowserWebsocketError(err: any): boolean {
   let result: boolean = false;
   if (
     !isNode &&
-    typeof window !== undefined &&
+    window &&
     err.type === "error" &&
     err.target instanceof (window as any).WebSocket
   ) {
@@ -605,10 +605,11 @@ export function translate(err: AmqpError | Error): MessagingError {
       // not found
       error.retryable = false;
     }
-  } else if (isWebsocketError(err)) {
+  } else if (isBrowserWebsocketError(err)) {
     // Translate browser communication errors during opening handshake to generic SeviceCommunicationError
     error = new MessagingError("Websocket connection failed.");
     error.name = ConditionErrorNameMapper[ErrorNameConditionMapper.ServiceCommunicationError];
+    error.retryable = false;
   } else {
     // Translate a generic error into MessagingError.
     error = new MessagingError((err as Error).message);
