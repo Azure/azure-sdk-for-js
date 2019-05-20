@@ -2,50 +2,50 @@
  "recordings": [
   {
    "method": "PUT",
-   "url": "https://coolstorageaccount1234.queue.core.windows.net/queue155814720450000272",
+   "url": "https://coolstorageaccount1234.queue.core.windows.net/queue155838103721601327",
    "requestBody": null,
    "status": 201,
    "response": "",
    "responseHeaders": {
-    "x-ms-request-id": "17a55995-7003-003a-4a22-0ddefb000000",
+    "x-ms-request-id": "ab6d7f46-e003-0034-7943-0f32f0000000",
     "x-ms-version": "2018-03-28",
     "server": "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0",
-    "date": "Sat, 18 May 2019 02:40:04 GMT",
+    "date": "Mon, 20 May 2019 19:37:17 GMT",
     "content-length": "0"
    }
   },
   {
    "method": "PUT",
-   "url": "https://coolstorageaccount1234.queue.core.windows.net/queue155814720450000272",
+   "url": "https://coolstorageaccount1234.queue.core.windows.net/queue155838103721601327",
    "requestBody": "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><SignedIdentifiers><SignedIdentifier><Id>MTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTI=</Id><AccessPolicy><Start>2017-12-31T11:22:33.4560000Z</Start><Expiry>2018-12-31T11:22:33.4560000Z</Expiry><Permission>rwdl</Permission></AccessPolicy></SignedIdentifier></SignedIdentifiers>",
    "status": 400,
-   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><Error><Code>InvalidXmlDocument</Code><Message>XML specified is not syntactically valid.\nRequestId:17a559b1-7003-003a-5f22-0ddefb000000\nTime:2019-05-18T02:40:04.9440173Z</Message><LineNumber>0</LineNumber><LinePosition>0</LinePosition><Reason /></Error>",
+   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><Error><Code>InvalidXmlDocument</Code><Message>XML specified is not syntactically valid.\nRequestId:ab6d7f56-e003-0034-0843-0f32f0000000\nTime:2019-05-20T19:37:17.6215935Z</Message><LineNumber>0</LineNumber><LinePosition>0</LinePosition><Reason /></Error>",
    "responseHeaders": {
-    "date": "Sat, 18 May 2019 02:40:04 GMT",
+    "date": "Mon, 20 May 2019 19:37:17 GMT",
     "server": "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0",
     "x-ms-error-code": "InvalidXmlDocument",
     "content-type": "application/xml",
-    "x-ms-request-id": "17a559b1-7003-003a-5f22-0ddefb000000",
+    "x-ms-request-id": "ab6d7f56-e003-0034-0843-0f32f0000000",
     "x-ms-version": "2018-03-28",
     "content-length": "294"
    }
   },
   {
    "method": "DELETE",
-   "url": "https://coolstorageaccount1234.queue.core.windows.net/queue155814720450000272",
+   "url": "https://coolstorageaccount1234.queue.core.windows.net/queue155838103721601327",
    "requestBody": null,
    "status": 204,
    "response": "",
    "responseHeaders": {
-    "x-ms-request-id": "17a559c6-7003-003a-7122-0ddefb000000",
+    "x-ms-request-id": "ab6d7f6b-e003-0034-1c43-0f32f0000000",
     "x-ms-version": "2018-03-28",
     "server": "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0",
-    "date": "Sat, 18 May 2019 02:40:05 GMT",
+    "date": "Mon, 20 May 2019 19:37:17 GMT",
     "content-length": "0"
    }
   }
  ],
  "uniqueTestInfo": {
-  "queue": "queue155814720450000272"
+  "queue": "queue155838103721601327"
  }
 }

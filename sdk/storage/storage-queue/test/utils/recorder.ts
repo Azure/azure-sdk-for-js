@@ -1,7 +1,7 @@
 import fs from "fs";
 import nise from "nise";
-import { getUniqueName } from "../utils";
-import { isBrowser } from "./testutils.common";
+import { bodyToString } from './index.browser';
+import { getUniqueName, isBrowser } from "../utils";
 import * as dotenv from "dotenv";
 dotenv.config({ path: "../../.env" });
 
@@ -110,7 +110,15 @@ function niseRecorder(folderpath: string, testTitle: string) {
         }
       }
 
-      function recordRequest(req: any, requestBody: any) {
+      async function recordRequest(req: any, requestBody: any) {
+        let response: string;
+
+        if (req.responseType === "blob") {
+          response = await bodyToString({ blobBody: req.response });
+        } else {
+          response = req.response;
+        }
+
         const responseHeaders: any = {};
         const responseHeadersPairs = req.getAllResponseHeaders().split("\r\n");
         for (const pair of responseHeadersPairs) {
@@ -123,7 +131,7 @@ function niseRecorder(folderpath: string, testTitle: string) {
           url: req.url.split("?")[0],
           requestBody: requestBody,
           status: req.status,
-          response: req.response,
+          response: response,
           responseHeaders: responseHeaders
         });
       }

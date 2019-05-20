@@ -2,29 +2,29 @@
  "recordings": [
   {
    "method": "PUT",
-   "url": "https://coolstorageaccount1234.queue.core.windows.net/queue155814720098101829",
+   "url": "https://coolstorageaccount1234.queue.core.windows.net/queue155838103365000698",
    "requestBody": null,
    "status": 201,
    "response": "",
    "responseHeaders": {
-    "x-ms-request-id": "17a55877-7003-003a-7122-0ddefb000000",
+    "x-ms-request-id": "ab6d7d8c-e003-0034-7d43-0f32f0000000",
     "x-ms-version": "2018-03-28",
     "server": "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0",
-    "date": "Sat, 18 May 2019 02:40:01 GMT",
+    "date": "Mon, 20 May 2019 19:37:13 GMT",
     "content-length": "0"
    }
   },
   {
    "method": "GET",
-   "url": "https://coolstorageaccount1234.queue.core.windows.net/queue155814720098101829",
+   "url": "https://coolstorageaccount1234.queue.core.windows.net/queue155838103365000698",
    "requestBody": null,
    "status": 200,
    "response": "",
    "responseHeaders": {
-    "date": "Sat, 18 May 2019 02:40:01 GMT",
+    "date": "Mon, 20 May 2019 19:37:13 GMT",
     "server": "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0",
     "x-ms-approximate-messages-count": "0",
-    "x-ms-request-id": "17a55889-7003-003a-7c22-0ddefb000000",
+    "x-ms-request-id": "ab6d7da0-e003-0034-0c43-0f32f0000000",
     "cache-control": "no-cache",
     "x-ms-version": "2018-03-28",
     "content-length": "0"
@@ -32,20 +32,20 @@
   },
   {
    "method": "DELETE",
-   "url": "https://coolstorageaccount1234.queue.core.windows.net/queue155814720098101829",
+   "url": "https://coolstorageaccount1234.queue.core.windows.net/queue155838103365000698",
    "requestBody": null,
    "status": 204,
    "response": "",
    "responseHeaders": {
-    "x-ms-request-id": "17a55896-7003-003a-0622-0ddefb000000",
+    "x-ms-request-id": "ab6d7db1-e003-0034-1b43-0f32f0000000",
     "x-ms-version": "2018-03-28",
     "server": "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0",
-    "date": "Sat, 18 May 2019 02:40:01 GMT",
+    "date": "Mon, 20 May 2019 19:37:14 GMT",
     "content-length": "0"
    }
   }
  ],
  "uniqueTestInfo": {
-  "queue": "queue155814720098101829"
+  "queue": "queue155838103365000698"
  }
 }
