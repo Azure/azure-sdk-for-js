@@ -2,15 +2,15 @@
  "recordings": [
   {
    "method": "DELETE",
-   "url": "https://coolstorageaccount1234.file.core.windows.net/1share-with-dash155816042755305166",
+   "url": "https://coolstorageaccount1234.file.core.windows.net/1share-with-dash155837963149904785",
    "requestBody": null,
    "status": 202,
    "response": "",
    "responseHeaders": {
-    "x-ms-request-id": "0039daa8-b01a-0063-3341-0ddb7d000000",
+    "x-ms-request-id": "42e9a07a-f01a-0002-6a40-0f9fa2000000",
     "x-ms-version": "2018-03-28",
     "server": "Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0",
-    "date": "Sat, 18 May 2019 06:20:39 GMT",
+    "date": "Mon, 20 May 2019 19:14:03 GMT",
     "content-length": "0"
    }
   }

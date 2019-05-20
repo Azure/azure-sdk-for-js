@@ -2,16 +2,16 @@
  "recordings": [
   {
    "method": "PUT",
-   "url": "https://coolstorageaccount1234.file.core.windows.net/1share-with-dash155816042755305166/dir155816042755608615/Upper%20file%20empty%20another%20%E6%B1%89%E5%AD%97155816043119307043",
+   "url": "https://coolstorageaccount1234.file.core.windows.net/1share-with-dash155837963149904785/dir155837963150003189/Upper%20file%20empty%20another%20%E6%B1%89%E5%AD%97155837963484904602",
    "requestBody": null,
    "status": 201,
    "response": "",
    "responseHeaders": {
-    "date": "Sat, 18 May 2019 06:20:30 GMT",
-    "last-modified": "Sat, 18 May 2019 06:20:31 GMT",
+    "date": "Mon, 20 May 2019 19:13:54 GMT",
+    "last-modified": "Mon, 20 May 2019 19:13:55 GMT",
     "server": "Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0",
-    "etag": "\"0x8D6DB58EDE44EDC\"",
-    "x-ms-request-id": "0039da48-b01a-0063-5b41-0ddb7d000000",
+    "etag": "\"0x8D6DD574D6986EB\"",
+    "x-ms-request-id": "42e9a00f-f01a-0002-0a40-0f9fa2000000",
     "x-ms-version": "2018-03-28",
     "x-ms-request-server-encrypted": "true",
     "content-length": "0"
@@ -19,18 +19,18 @@
   },
   {
    "method": "HEAD",
-   "url": "https://coolstorageaccount1234.file.core.windows.net/1share-with-dash155816042755305166/dir155816042755608615/Upper%20file%20empty%20another%20%E6%B1%89%E5%AD%97155816043119307043",
+   "url": "https://coolstorageaccount1234.file.core.windows.net/1share-with-dash155837963149904785/dir155837963150003189/Upper%20file%20empty%20another%20%E6%B1%89%E5%AD%97155837963484904602",
    "requestBody": null,
    "status": 200,
    "response": "",
    "responseHeaders": {
-    "date": "Sat, 18 May 2019 06:20:30 GMT",
-    "last-modified": "Sat, 18 May 2019 06:20:31 GMT",
+    "date": "Mon, 20 May 2019 19:13:54 GMT",
+    "last-modified": "Mon, 20 May 2019 19:13:55 GMT",
     "server": "Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0",
-    "etag": "\"0x8D6DB58EDE44EDC\"",
+    "etag": "\"0x8D6DD574D6986EB\"",
     "x-ms-server-encrypted": "true",
     "content-type": "application/octet-stream",
-    "x-ms-request-id": "0039da4a-b01a-0063-5d41-0ddb7d000000",
+    "x-ms-request-id": "42e9a011-f01a-0002-0c40-0f9fa2000000",
     "x-ms-version": "2018-03-28",
     "x-ms-type": "File",
     "content-length": "10"
@@ -38,21 +38,21 @@
   },
   {
    "method": "GET",
-   "url": "https://coolstorageaccount1234.file.core.windows.net/1share-with-dash155816042755305166/dir155816042755608615",
+   "url": "https://coolstorageaccount1234.file.core.windows.net/1share-with-dash155837963149904785/dir155837963150003189",
    "requestBody": null,
    "status": 200,
-   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><EnumerationResults ServiceEndpoint=\"https://coolstorageaccount1234.file.core.windows.net/\" ShareName=\"1share-with-dash155816042755305166\" DirectoryPath=\"dir155816042755608615\"><Prefix>Upper file empty another 汉字155816043119307043</Prefix><Entries><File><Name>Upper file empty another 汉字155816043119307043</Name><Properties><Content-Length>10</Content-Length></Properties></File></Entries><NextMarker /></EnumerationResults>",
+   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><EnumerationResults ServiceEndpoint=\"https://coolstorageaccount1234.file.core.windows.net/\" ShareName=\"1share-with-dash155837963149904785\" DirectoryPath=\"dir155837963150003189\"><Prefix>Upper file empty another 汉字155837963484904602</Prefix><Entries><File><Name>Upper file empty another 汉字155837963484904602</Name><Properties><Content-Length>10</Content-Length></Properties></File></Entries><NextMarker /></EnumerationResults>",
    "responseHeaders": {
-    "date": "Sat, 18 May 2019 06:20:30 GMT",
+    "date": "Mon, 20 May 2019 19:13:54 GMT",
     "server": "Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0",
     "transfer-encoding": "chunked",
     "content-type": "application/xml",
-    "x-ms-request-id": "0039da4c-b01a-0063-5f41-0ddb7d000000",
+    "x-ms-request-id": "42e9a013-f01a-0002-0e40-0f9fa2000000",
     "x-ms-version": "2018-03-28"
    }
   }
  ],
  "uniqueTestInfo": {
-  "Upper file empty another 汉字": "Upper file empty another 汉字155816043119307043"
+  "Upper file empty another 汉字": "Upper file empty another 汉字155837963484904602"
  }
 }

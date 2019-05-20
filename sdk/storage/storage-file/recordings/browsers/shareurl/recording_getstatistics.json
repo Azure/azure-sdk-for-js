@@ -2,51 +2,51 @@
  "recordings": [
   {
    "method": "PUT",
-   "url": "https://coolstorageaccount1234.file.core.windows.net/share155816023247305966",
+   "url": "https://coolstorageaccount1234.file.core.windows.net/share155837962964008661",
    "requestBody": null,
    "status": 201,
    "response": "",
    "responseHeaders": {
-    "date": "Sat, 18 May 2019 06:17:12 GMT",
-    "last-modified": "Sat, 18 May 2019 06:17:12 GMT",
+    "date": "Mon, 20 May 2019 19:13:48 GMT",
+    "last-modified": "Mon, 20 May 2019 19:13:49 GMT",
     "server": "Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0",
-    "etag": "\"0x8D6DB5877719009\"",
-    "x-ms-request-id": "0f37ce68-c01a-006c-7b41-0d368b000000",
+    "etag": "\"0x8D6DD574A4EE032\"",
+    "x-ms-request-id": "42e99fb3-f01a-0002-3a40-0f9fa2000000",
     "x-ms-version": "2018-03-28",
     "content-length": "0"
    }
   },
   {
    "method": "GET",
-   "url": "https://coolstorageaccount1234.file.core.windows.net/share155816023247305966",
+   "url": "https://coolstorageaccount1234.file.core.windows.net/share155837962964008661",
    "requestBody": null,
    "status": 200,
    "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><ShareStats><ShareUsage>0</ShareUsage></ShareStats>",
    "responseHeaders": {
-    "date": "Sat, 18 May 2019 06:17:12 GMT",
+    "date": "Mon, 20 May 2019 19:13:49 GMT",
     "server": "Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0",
     "transfer-encoding": "chunked",
     "content-type": "application/xml",
-    "x-ms-request-id": "0f37ce6b-c01a-006c-7d41-0d368b000000",
+    "x-ms-request-id": "42e99fb6-f01a-0002-3c40-0f9fa2000000",
     "x-ms-version": "2018-03-28"
    }
   },
   {
    "method": "DELETE",
-   "url": "https://coolstorageaccount1234.file.core.windows.net/share155816023247305966",
+   "url": "https://coolstorageaccount1234.file.core.windows.net/share155837962964008661",
    "requestBody": null,
    "status": 202,
    "response": "",
    "responseHeaders": {
-    "x-ms-request-id": "0f37ce6d-c01a-006c-7f41-0d368b000000",
+    "x-ms-request-id": "42e99fc6-f01a-0002-4940-0f9fa2000000",
     "x-ms-version": "2018-03-28",
     "server": "Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0",
-    "date": "Sat, 18 May 2019 06:17:12 GMT",
+    "date": "Mon, 20 May 2019 19:13:49 GMT",
     "content-length": "0"
    }
   }
  ],
  "uniqueTestInfo": {
-  "share": "share155816023247305966"
+  "share": "share155837962964008661"
  }
 }
