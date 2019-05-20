@@ -38,7 +38,7 @@ describe("BlobURL", function() {
     recorder.stop();
   });
 
-  it("download with with default parameters", async () => {
+  it("download with default parameters", async () => {
     const result = await blobURL.download(Aborter.none, 0);
     assert.deepStrictEqual(await bodyToString(result, content.length), content);
   });
