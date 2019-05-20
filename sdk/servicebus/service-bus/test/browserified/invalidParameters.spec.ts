@@ -2,18 +2,18 @@
 // Licensed under the MIT License.
 
 import chai from "chai";
-import Long from "long";
+import * as Long from "long";
 const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
-import dotenv from "dotenv";
+import * as dotenv from "dotenv";
 dotenv.config();
 chai.use(chaiAsPromised);
-import { ServiceBusClient, QueueClient, SubscriptionClient, ReceiveMode } from "../src";
+import { ServiceBusClient, QueueClient, SubscriptionClient, ReceiveMode } from "../../src";
 
 import { TestMessage, getSenderReceiverClients, TestClientType } from "./testUtils";
 
-import { Receiver, SessionReceiver } from "../src/receiver";
-import { Sender } from "../src/sender";
+import { Receiver, SessionReceiver } from "../../src/receiver";
+import { Sender } from "../../src/sender";
 
 let ns: ServiceBusClient;
 
@@ -21,13 +21,15 @@ function createServiceBusClient(): void {
   // The tests in this file expect the env variables to contain the connection string and
   // the names of empty queue/topic/subscription that are to be tested
 
-  if (!process.env.SERVICEBUS_CONNECTION_STRING) {
+  // @ts-ignore
+  if (!window.__env__["SERVICEBUS_CONNECTION_STRING"]) {
     throw new Error(
       "Define SERVICEBUS_CONNECTION_STRING in your environment before running integration tests."
     );
   }
 
-  ns = ServiceBusClient.createFromConnectionString(process.env.SERVICEBUS_CONNECTION_STRING);
+  // @ts-ignore
+  ns = ServiceBusClient.createFromConnectionString(window.__env__["SERVICEBUS_CONNECTION_STRING"]);
 }
 
 describe("Invalid parameters in QueueClient", function(): void {
