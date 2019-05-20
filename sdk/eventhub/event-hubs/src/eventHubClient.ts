@@ -398,7 +398,7 @@ export class EventHubClient {
       config.sharedAccessKeyName,
       config.sharedAccessKey
     );
-    return new EventHubClient(config.host, config.entityPath || "", tokenProvider, options);
+    return new EventHubClient(config.host, config.entityPath, tokenProvider, options);
   }
 
   /**
