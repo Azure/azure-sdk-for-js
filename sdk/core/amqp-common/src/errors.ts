@@ -519,19 +519,22 @@ export function isSystemError(err: any): boolean {
     err.code &&
     typeof err.code === "string" &&
     (err.syscall && typeof err.syscall === "string") &&
-    (err.errno &&
-      (typeof err.errno === "string" || typeof err.errno === "number"))
+    (err.errno && (typeof err.errno === "string" || typeof err.errno === "number"))
   ) {
     result = true;
   }
   return result;
 }
 
+/**
+ * Utility to check if given object is an instance of a browser based WebSocket error
+ * @param err object that may contain error information
+ */
 export function isWebsocketError(err: any): boolean {
   let result: boolean = false;
   if (
     !isNode &&
-    window !== undefined &&
+    typeof window !== undefined &&
     err.type === "error" &&
     err.target instanceof (window as any).WebSocket
   ) {
@@ -576,8 +579,7 @@ export function translate(err: AmqpError | Error): MessagingError {
     if (
       description &&
       (description.includes("status-code: 404") ||
-        description.match(/The messaging entity .* could not be found.*/i) !==
-          null)
+        description.match(/The messaging entity .* could not be found.*/i) !== null)
     ) {
       error.name = "MessagingEntityNotFoundError";
     }
