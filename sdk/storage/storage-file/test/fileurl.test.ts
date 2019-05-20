@@ -256,7 +256,7 @@ describe("FileURL", function() {
     assert.deepStrictEqual(result.rangeList[0], { start: 0, end: 9 });
   });
 
-  it("download with with default parameters", async () => {
+  it("download with default parameters", async () => {
     await fileURL.create(Aborter.none, content.length);
     await fileURL.uploadRange(Aborter.none, content, 0, content.length);
     const result = await fileURL.download(Aborter.none, 0);
