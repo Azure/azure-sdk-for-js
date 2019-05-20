@@ -2,17 +2,17 @@
  "recordings": [
   {
    "method": "PUT",
-   "url": "https://coolstorageaccount1234.blob.core.windows.net/1container-with-dash155816799866707128/blob%20empty155816799978601978",
+   "url": "https://coolstorageaccount1234.blob.core.windows.net/1container-with-dash155838685206900752/blob%20empty155838685273007344",
    "requestBody": "A",
    "status": 201,
    "response": "",
    "responseHeaders": {
-    "date": "Sat, 18 May 2019 08:26:39 GMT",
-    "last-modified": "Sat, 18 May 2019 08:26:40 GMT",
+    "date": "Mon, 20 May 2019 21:14:12 GMT",
+    "last-modified": "Mon, 20 May 2019 21:14:12 GMT",
     "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
     "content-md5": "f8VicOenD6gaWTW3Lqy+KQ==",
-    "etag": "\"0x8D6DB6A8D25D9F4\"",
-    "x-ms-request-id": "88b5e99e-801e-0085-7e53-0dca8d000000",
+    "etag": "\"0x8D6DD681B97FA1D\"",
+    "x-ms-request-id": "a9f3995b-f01e-0002-4e50-0f9fa2000000",
     "x-ms-version": "2018-03-28",
     "x-ms-request-server-encrypted": "true",
     "content-length": "0"
@@ -20,21 +20,21 @@
   },
   {
    "method": "GET",
-   "url": "https://coolstorageaccount1234.blob.core.windows.net/1container-with-dash155816799866707128",
+   "url": "https://coolstorageaccount1234.blob.core.windows.net/1container-with-dash155838685206900752",
    "requestBody": null,
    "status": 200,
-   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><EnumerationResults ServiceEndpoint=\"https://coolstorageaccount1234.blob.core.windows.net/\" ContainerName=\"1container-with-dash155816799866707128\"><Prefix>blob empty155816799978601978</Prefix><Blobs><Blob><Name>blob empty155816799978601978</Name><Properties><Creation-Time>Sat, 18 May 2019 08:26:40 GMT</Creation-Time><Last-Modified>Sat, 18 May 2019 08:26:40 GMT</Last-Modified><Etag>0x8D6DB6A8D25D9F4</Etag><Content-Length>1</Content-Length><Content-Type>application/octet-stream</Content-Type><Content-Encoding /><Content-Language /><Content-MD5>f8VicOenD6gaWTW3Lqy+KQ==</Content-MD5><Cache-Control /><Content-Disposition /><BlobType>BlockBlob</BlobType><AccessTier>Hot</AccessTier><AccessTierInferred>true</AccessTierInferred><LeaseStatus>unlocked</LeaseStatus><LeaseState>available</LeaseState><ServerEncrypted>true</ServerEncrypted></Properties></Blob></Blobs><NextMarker /></EnumerationResults>",
+   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><EnumerationResults ServiceEndpoint=\"https://coolstorageaccount1234.blob.core.windows.net/\" ContainerName=\"1container-with-dash155838685206900752\"><Prefix>blob empty155838685273007344</Prefix><Blobs><Blob><Name>blob empty155838685273007344</Name><Properties><Creation-Time>Mon, 20 May 2019 21:14:12 GMT</Creation-Time><Last-Modified>Mon, 20 May 2019 21:14:12 GMT</Last-Modified><Etag>0x8D6DD681B97FA1D</Etag><Content-Length>1</Content-Length><Content-Type>application/octet-stream</Content-Type><Content-Encoding /><Content-Language /><Content-MD5>f8VicOenD6gaWTW3Lqy+KQ==</Content-MD5><Cache-Control /><Content-Disposition /><BlobType>BlockBlob</BlobType><AccessTier>Hot</AccessTier><AccessTierInferred>true</AccessTierInferred><LeaseStatus>unlocked</LeaseStatus><LeaseState>available</LeaseState><ServerEncrypted>true</ServerEncrypted></Properties></Blob></Blobs><NextMarker /></EnumerationResults>",
    "responseHeaders": {
-    "date": "Sat, 18 May 2019 08:26:40 GMT",
+    "date": "Mon, 20 May 2019 21:14:12 GMT",
     "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
     "transfer-encoding": "chunked",
     "content-type": "application/xml",
-    "x-ms-request-id": "88b5ea18-801e-0085-6f53-0dca8d000000",
+    "x-ms-request-id": "a9f399d4-f01e-0002-3350-0f9fa2000000",
     "x-ms-version": "2018-03-28"
    }
   }
  ],
  "uniqueTestInfo": {
-  "blob empty": "blob empty155816799978601978"
+  "blob empty": "blob empty155838685273007344"
  }
 }

@@ -2,33 +2,33 @@
  "recordings": [
   {
    "method": "PUT",
-   "url": "https://coolstorageaccount1234.blob.core.windows.net/container155816655544102323",
+   "url": "https://coolstorageaccount1234.blob.core.windows.net/container155838679039200424",
    "requestBody": null,
    "status": 201,
    "response": "",
    "responseHeaders": {
-    "date": "Sat, 18 May 2019 08:02:35 GMT",
-    "last-modified": "Sat, 18 May 2019 08:02:35 GMT",
+    "date": "Mon, 20 May 2019 21:13:10 GMT",
+    "last-modified": "Mon, 20 May 2019 21:13:10 GMT",
     "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
-    "etag": "\"0x8D6DB67303E96D6\"",
-    "x-ms-request-id": "f79163e5-e01e-003f-0650-0d2a84000000",
+    "etag": "\"0x8D6DD67F672A6E4\"",
+    "x-ms-request-id": "a9f2f26d-f01e-0002-2750-0f9fa2000000",
     "x-ms-version": "2018-03-28",
     "content-length": "0"
    }
   },
   {
    "method": "PUT",
-   "url": "https://coolstorageaccount1234.blob.core.windows.net/container155816655544102323/blob155816655564400140",
+   "url": "https://coolstorageaccount1234.blob.core.windows.net/container155838679039200424/blob155838679060508509",
    "requestBody": "Hello World",
    "status": 201,
    "response": "",
    "responseHeaders": {
-    "date": "Sat, 18 May 2019 08:02:35 GMT",
-    "last-modified": "Sat, 18 May 2019 08:02:35 GMT",
+    "date": "Mon, 20 May 2019 21:13:10 GMT",
+    "last-modified": "Mon, 20 May 2019 21:13:10 GMT",
     "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
     "content-md5": "sQqNsWTgdUEFt6mb5y4/5Q==",
-    "etag": "\"0x8D6DB67305DF0A5\"",
-    "x-ms-request-id": "f7916445-e01e-003f-4d50-0d2a84000000",
+    "etag": "\"0x8D6DD67F693FDF3\"",
+    "x-ms-request-id": "a9f2f2e2-f01e-0002-0750-0f9fa2000000",
     "x-ms-version": "2018-03-28",
     "x-ms-request-server-encrypted": "true",
     "content-length": "0"
@@ -36,36 +36,36 @@
   },
   {
    "method": "DELETE",
-   "url": "https://coolstorageaccount1234.blob.core.windows.net/container155816655544102323/blob155816655564400140",
+   "url": "https://coolstorageaccount1234.blob.core.windows.net/container155838679039200424/blob155838679060508509",
    "requestBody": null,
    "status": 202,
    "response": "",
    "responseHeaders": {
-    "date": "Sat, 18 May 2019 08:02:35 GMT",
+    "date": "Mon, 20 May 2019 21:13:10 GMT",
     "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
     "x-ms-delete-type-permanent": "false",
-    "x-ms-request-id": "f79164aa-e01e-003f-2550-0d2a84000000",
+    "x-ms-request-id": "a9f2f346-f01e-0002-5f50-0f9fa2000000",
     "x-ms-version": "2018-03-28",
     "content-length": "0"
    }
   },
   {
    "method": "DELETE",
-   "url": "https://coolstorageaccount1234.blob.core.windows.net/container155816655544102323",
+   "url": "https://coolstorageaccount1234.blob.core.windows.net/container155838679039200424",
    "requestBody": null,
    "status": 202,
    "response": "",
    "responseHeaders": {
-    "x-ms-request-id": "f79164e4-e01e-003f-5850-0d2a84000000",
+    "x-ms-request-id": "a9f2f3bc-f01e-0002-4850-0f9fa2000000",
     "x-ms-version": "2018-03-28",
     "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
-    "date": "Sat, 18 May 2019 08:02:35 GMT",
+    "date": "Mon, 20 May 2019 21:13:10 GMT",
     "content-length": "0"
    }
   }
  ],
  "uniqueTestInfo": {
-  "container": "container155816655544102323",
-  "blob": "blob155816655564400140"
+  "container": "container155838679039200424",
+  "blob": "blob155838679060508509"
  }
 }
