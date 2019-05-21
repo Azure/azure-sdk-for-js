@@ -9,97 +9,106 @@ This package contains an isomorphic SDK for KeyVaultClient.
 
 ### How to Install
 
-```
+```bash
 npm install @azure/keyvault
 ```
 
 ### How to use
 
-#### nodejs - Authentication, client creation and getKey  as an example written in TypeScript.
+#### nodejs - Authentication, client creation
 
 ##### Install @azure/ms-rest-nodeauth
 
-```
+```bash
 npm install @azure/ms-rest-nodeauth
 ```
 
-##### Sample code
+1. Use `AzureCliCredentials` exported from `@azure/ms-rest-nodeauth`.
+   **Please make sure to install Azure CLI and login using `az login`.**
 
-```ts
+```typescript
+import { AzureCliCredentials } from "@azure/ms-rest-nodeauth";
+import { KeyVaultClient } from "@azure/keyvault";
+
+async function main(): Promise<void> {
+  try {
+    const creds = await AzureCliCredentials.create({
+      resource: "https://batch.core.windows.net/"
+    });
+    const client = new KeyVaultClient(creds);
+  } catch (err) {
+    console.log(err);
+  }
+}
+```
+
+2. Use the `ApplicationTokenCredentials` exported from `@azure/ms-rest-nodeauth`.
+
+```typescript
+import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
+import { KeyVaultClient } from "@azure/keyvault";
+
+async function main(): Promise<void> {
+  try {
+    const creds = await msRestNodeAuth.loginWithServicePrincipalSecret(
+      "clientId",
+      "secret",
+      "tenantId"
+    );
+    const client = new KeyVaultClient(creds);
+  } catch (err) {
+    console.log(err);
+  }
+}
+```
+
+3. Use the `MSIVmTokenCredentials` exported from `@azure/ms-rest-nodeauth`.
+
+```typescript
+import { MSIVmTokenCredentials } from "@azure/ms-rest-nodeauth";
+import { KeyVaultClient } from "@azure/keyvault";
+
+async function main(): Promise<void> {
+  try {
+    const creds = await msRestNodeAuth.loginWithVmMSI({
+      resource: "https://vault.azure.net"
+    });
+    const client = new KeyVaultClient(creds);
+  } catch (err) {
+    console.log(err);
+  }
+}
+```
+
+##### Sample code for getting the key as an example written in TypeScript.
+
+```typescript
 import * as msRest from "@azure/ms-rest-js";
 import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
-import { KeyVaultClient, KeyVaultModels, KeyVaultMappers } from "@azure/keyvault";
-const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
+import { KeyVaultClient, KeyVaultModels } from "@azure/keyvault";
 
-msRestNodeAuth.interactiveLogin().then((creds) => {
-  const client = new KeyVaultClient(creds, subscriptionId);
-  const vaultBaseUrl = "testvaultBaseUrl";
-  const keyName = "testkeyName";
-  const keyVersion = "testkeyVersion";
-  client.getKey(vaultBaseUrl, keyName, keyVersion).then((result) => {
+async function main(): Promise<void> {
+  try {
+    const creds = await msRestNodeAuth.interactiveLogin();
+    // OR const creds = await msRestNodeAuth.AzureCliCredentials.create({resource: "https://vault.azure.net"});
+    // OR const creds = await msRestNodeAuth.loginWithServicePrincipalSecret("clientId", "secret", "domain");
+    // OR any other login method from msRestNodeAuth.
+    const client = new KeyVaultClient(creds);
+    const vaultBaseUrl = "http://testaccount.vault.azure.net";
+    const keyName = "testkeyName";
+    const keyVersion = "testkeyVersion";
+    const result = await client.getKey(vaultBaseUrl, keyName, keyVersion);
     console.log("The result is:");
     console.log(result);
-  });
-}).catch((err) => {
-  console.error(err);
-});
-```
-
-#### browser - Authentication, client creation and getKey  as an example written in JavaScript.
-
-##### Install @azure/ms-rest-browserauth
-
-```
-npm install @azure/ms-rest-browserauth
-```
-
-##### Sample code
-
-See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to Azure in the browser.
-
-- index.html
-```html
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title>@azure/keyvault sample</title>
-    <script src="node_modules/@azure/ms-rest-js/dist/msRest.browser.js"></script>
-    <script src="node_modules/@azure/ms-rest-azure-js/dist/msRestAzure.js"></script>
-    <script src="node_modules/@azure/ms-rest-browserauth/dist/msAuth.js"></script>
-    <script src="node_modules/@azure/keyvault/dist/keyvault.js"></script>
-    <script type="text/javascript">
-      const subscriptionId = "<Subscription_Id>";
-      const authManager = new msAuth.AuthManager({
-        clientId: "<client id for your Azure AD app>",
-        tenant: "<optional tenant for your organization>"
-      });
-      authManager.finalizeLogin().then((res) => {
-        if (!res.isLoggedIn) {
-          // may cause redirects
-          authManager.login();
-        }
-        const client = new Azure.Keyvault.KeyVaultClient(res.creds, subscriptionId);
-        const vaultBaseUrl = "testvaultBaseUrl";
-        const keyName = "testkeyName";
-        const keyVersion = "testkeyVersion";
-        client.getKey(vaultBaseUrl, keyName, keyVersion).then((result) => {
-          console.log("The result is:");
-          console.log(result);
-        }).catch((err) => {
-          console.log("An error occurred:");
-          console.error(err);
-        });
-      });
-    </script>
-  </head>
-  <body></body>
-</html>
+  } catch (err) {
+    console.error(err);
+  }
+}
 ```
 
 ## Related projects
 
 - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
-
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/keyvault/keyvault/README.png)

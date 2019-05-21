@@ -41,7 +41,7 @@ export class KeyVaultClientContext extends msRestAzure.AzureServiceClient {
     this.apiVersion = '7.0';
     this.acceptLanguage = 'en-US';
     this.longRunningOperationRetryTimeout = 30;
-    this.baseUri = '{vaultBaseUrl}';
+    this.baseUri = "{vaultBaseUrl}";
     this.requestContentType = "application/json; charset=utf-8";
     this.credentials = credentials;
 
