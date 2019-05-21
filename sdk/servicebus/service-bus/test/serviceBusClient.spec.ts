@@ -32,9 +32,8 @@ import {
 } from "./utils/testUtils";
 import { ClientType } from "../src/client";
 import { throwIfMessageCannotBeSettled, DispositionType } from "../src/serviceBusMessage";
-import { getEnvVars } from "./utils/envVarUtils";
+import { getEnvVars, isNode } from "./utils/envVarUtils";
 import { loginWithServicePrincipalSecret } from "./utils/aadUtils";
-import isNode from "@azure/amqp-common";
 
 const should = chai.should();
 chai.use(chaiAsPromised);
