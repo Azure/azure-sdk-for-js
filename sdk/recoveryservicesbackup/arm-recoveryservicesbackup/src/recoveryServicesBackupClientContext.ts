@@ -13,7 +13,7 @@ import * as msRest from "@azure/ms-rest-js";
 import * as msRestAzure from "@azure/ms-rest-azure-js";
 
 const packageName = "@azure/arm-recoveryservicesbackup";
-const packageVersion = "0.1.0";
+const packageVersion = "4.1.0";
 
 export class RecoveryServicesBackupClientContext extends msRestAzure.AzureServiceClient {
   credentials: msRest.ServiceClientCredentials;
