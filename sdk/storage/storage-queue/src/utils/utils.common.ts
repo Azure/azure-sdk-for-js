@@ -16,11 +16,7 @@ export function appendToURLPath(url: string, name: string): string {
   const urlParsed = URLBuilder.parse(url);
 
   let path = urlParsed.getPath();
-  path = path
-    ? path.endsWith("/")
-      ? `${path}${name}`
-      : `${path}/${name}`
-    : name;
+  path = path ? (path.endsWith("/") ? `${path}${name}` : `${path}/${name}`) : name;
   urlParsed.setPath(path);
 
   return urlParsed.toString();
@@ -36,11 +32,7 @@ export function appendToURLPath(url: string, name: string): string {
  * @param {string} [value] Parameter value
  * @returns {string} An updated URL string
  */
-export function setURLParameter(
-  url: string,
-  name: string,
-  value?: string
-): string {
+export function setURLParameter(url: string, name: string, value?: string): string {
   const urlParsed = URLBuilder.parse(url);
   urlParsed.setQueryParameter(name, value);
   return urlParsed.toString();
@@ -54,10 +46,7 @@ export function setURLParameter(
  * @param {string} name
  * @returns {(string | string[] | undefined)}
  */
-export function getURLParameter(
-  url: string,
-  name: string
-): string | string[] | undefined {
+export function getURLParameter(url: string, name: string): string | string[] | undefined {
   const urlParsed = URLBuilder.parse(url);
   return urlParsed.getQueryParameterValue(name);
 }
@@ -102,18 +91,14 @@ export function getURLQueries(url: string): { [key: string]: string } {
   }
 
   queryString = queryString.trim();
-  queryString = queryString.startsWith("?")
-    ? queryString.substr(1)
-    : queryString;
+  queryString = queryString.startsWith("?") ? queryString.substr(1) : queryString;
 
   let querySubStrings: string[] = queryString.split("&");
   querySubStrings = querySubStrings.filter((value: string) => {
     const indexOfEqual = value.indexOf("=");
     const lastIndexOfEqual = value.lastIndexOf("=");
     return (
-      indexOfEqual > 0 &&
-      indexOfEqual === lastIndexOfEqual &&
-      lastIndexOfEqual < value.length - 1
+      indexOfEqual > 0 && indexOfEqual === lastIndexOfEqual && lastIndexOfEqual < value.length - 1
     );
   });
 
@@ -137,10 +122,7 @@ export function getURLQueries(url: string): { [key: string]: string } {
  *                                          If false, YYYY-MM-DDThh:mm:ssZ will be returned.
  * @returns {string} Date string in ISO8061 format, with or without 7 milliseconds component
  */
-export function truncatedISO8061Date(
-  date: Date,
-  withMilliseconds: boolean = true
-): string {
+export function truncatedISO8061Date(date: Date, withMilliseconds: boolean = true): string {
   // Date.toISOString() will return like "2018-10-29T06:34:36.139Z"
   const dateString = date.toISOString();
 

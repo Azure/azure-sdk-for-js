@@ -13,7 +13,7 @@ import {
   WebResource
 } from "@azure/ms-rest-js";
 
-import { IRetryOptions } from "../RetryPolicyFactory";
+import { RetryOptions } from "../RetryPolicyFactory";
 import { URLConstants } from "../utils/constants";
 import { setURLHost, setURLParameter } from "../utils/utils.common";
 
@@ -21,17 +21,12 @@ import { setURLHost, setURLParameter } from "../utils/utils.common";
  * A factory method used to generated a RetryPolicy factory.
  *
  * @export
- * @param {IRetryOptions} retryOptions
+ * @param {RetryOptions} retryOptions
  * @returns
  */
-export function NewRetryPolicyFactory(
-  retryOptions?: IRetryOptions
-): RequestPolicyFactory {
+export function NewRetryPolicyFactory(retryOptions?: RetryOptions): RequestPolicyFactory {
   return {
-    create: (
-      nextPolicy: RequestPolicy,
-      options: RequestPolicyOptions
-    ): RetryPolicy => {
+    create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions): RetryPolicy => {
       return new RetryPolicy(nextPolicy, options, retryOptions);
     }
   };
@@ -54,8 +49,8 @@ export enum RetryPolicyType {
   FIXED
 }
 
-// Default values of IRetryOptions
-const DEFAULT_RETRY_OPTIONS: IRetryOptions = {
+// Default values of RetryOptions
+const DEFAULT_RETRY_OPTIONS: RetryOptions = {
   maxRetryDelayInMs: 120 * 1000,
   maxTries: 4,
   retryDelayInMs: 4 * 1000,
@@ -75,23 +70,23 @@ export class RetryPolicy extends BaseRequestPolicy {
    * RetryOptions.
    *
    * @private
-   * @type {IRetryOptions}
+   * @type {RetryOptions}
    * @memberof RetryPolicy
    */
-  private readonly retryOptions: IRetryOptions;
+  private readonly retryOptions: RetryOptions;
 
   /**
    * Creates an instance of RetryPolicy.
    *
    * @param {RequestPolicy} nextPolicy
    * @param {RequestPolicyOptions} options
-   * @param {IRetryOptions} [retryOptions=DEFAULT_RETRY_OPTIONS]
+   * @param {RetryOptions} [retryOptions=DEFAULT_RETRY_OPTIONS]
    * @memberof RetryPolicy
    */
   constructor(
     nextPolicy: RequestPolicy,
     options: RequestPolicyOptions,
-    retryOptions: IRetryOptions = DEFAULT_RETRY_OPTIONS
+    retryOptions: RetryOptions = DEFAULT_RETRY_OPTIONS
   ) {
     super(nextPolicy, options);
 
@@ -114,11 +109,11 @@ export class RetryPolicy extends BaseRequestPolicy {
       retryDelayInMs:
         retryOptions.retryDelayInMs && retryOptions.retryDelayInMs >= 0
           ? Math.min(
-            retryOptions.retryDelayInMs,
-            retryOptions.maxRetryDelayInMs
-              ? retryOptions.maxRetryDelayInMs
-              : DEFAULT_RETRY_OPTIONS.maxRetryDelayInMs!
-          )
+              retryOptions.retryDelayInMs,
+              retryOptions.maxRetryDelayInMs
+                ? retryOptions.maxRetryDelayInMs
+                : DEFAULT_RETRY_OPTIONS.maxRetryDelayInMs!
+            )
           : DEFAULT_RETRY_OPTIONS.retryDelayInMs,
 
       maxRetryDelayInMs:
@@ -139,9 +134,7 @@ export class RetryPolicy extends BaseRequestPolicy {
    * @returns {Promise<HttpOperationResponse>}
    * @memberof RetryPolicy
    */
-  public async sendRequest(
-    request: WebResource
-  ): Promise<HttpOperationResponse> {
+  public async sendRequest(request: WebResource): Promise<HttpOperationResponse> {
     return this.attemptSendRequest(request, false, 1);
   }
 
@@ -169,18 +162,11 @@ export class RetryPolicy extends BaseRequestPolicy {
     const isPrimaryRetry =
       secondaryHas404 ||
       !this.retryOptions.secondaryHost ||
-      !(
-        request.method === "GET" ||
-        request.method === "HEAD" ||
-        request.method === "OPTIONS"
-      ) ||
+      !(request.method === "GET" || request.method === "HEAD" || request.method === "OPTIONS") ||
       attempt % 2 === 1;
 
     if (!isPrimaryRetry) {
-      newRequest.url = setURLHost(
-        newRequest.url,
-        this.retryOptions.secondaryHost!
-      );
+      newRequest.url = setURLHost(newRequest.url, this.retryOptions.secondaryHost!);
     }
 
     // Set the server-side timeout query parameter "timeout=[seconds]"
@@ -194,17 +180,14 @@ export class RetryPolicy extends BaseRequestPolicy {
     try {
       this.logf(
         HttpPipelineLogLevel.INFO,
-        `RetryPolicy: =====> Try=${attempt} ${
-        isPrimaryRetry ? "Primary" : "Secondary"
-        }`
+        `RetryPolicy: =====> Try=${attempt} ${isPrimaryRetry ? "Primary" : "Secondary"}`
       );
       response = await this._nextPolicy.sendRequest(newRequest);
       if (!this.shouldRetry(isPrimaryRetry, attempt, response)) {
         return response;
       }
 
-      secondaryHas404 =
-        secondaryHas404 || (!isPrimaryRetry && response.status === 404);
+      secondaryHas404 = secondaryHas404 || (!isPrimaryRetry && response.status === 404);
     } catch (err) {
       this.logf(
         HttpPipelineLogLevel.ERROR,
@@ -279,10 +262,7 @@ export class RetryPolicy extends BaseRequestPolicy {
     if (response || err) {
       const statusCode = response ? response.status : err ? err.statusCode : 0;
       if (!isPrimaryRetry && statusCode === 404) {
-        this.logf(
-          HttpPipelineLogLevel.INFO,
-          `RetryPolicy: Secondary access with 404, will retry.`
-        );
+        this.logf(HttpPipelineLogLevel.INFO, `RetryPolicy: Secondary access with 404, will retry.`);
         return true;
       }
 
@@ -341,10 +321,7 @@ export class RetryPolicy extends BaseRequestPolicy {
       delayTimeInMs = Math.random() * 1000;
     }
 
-    this.logf(
-      HttpPipelineLogLevel.INFO,
-      `RetryPolicy: Delay for ${delayTimeInMs}ms`
-    );
+    this.logf(HttpPipelineLogLevel.INFO, `RetryPolicy: Delay for ${delayTimeInMs}ms`);
     return delay(delayTimeInMs);
   }
 }

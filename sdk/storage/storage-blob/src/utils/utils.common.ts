@@ -8,9 +8,9 @@ import { isNode, URLBuilder } from "@azure/ms-rest-js";
  *
  * ## URL encode and escape strategy for JSv10 SDKs
  *
- * When customers pass a URL string into XXXURL classes constrcutor, the URL string may already be URL encoded or not.
+ * When customers pass a URL string into XxxClient classes constrcutor, the URL string may already be URL encoded or not.
  * But before sending to Azure Storage server, the URL must be encoded. However, it's hard for a SDK to guess whether the URL
- * string has been encoded or not. We have 2 potential strategies, and chose strategy two for the XXXURL constructors.
+ * string has been encoded or not. We have 2 potential strategies, and chose strategy two for the XxxClient constructors.
  *
  * ### Strategy One: Assume the customer URL string is not encoded, and always encode URL string in SDK.
  *
@@ -46,7 +46,7 @@ import { isNode, URLBuilder } from "@azure/ms-rest-js";
  *
  * Another special character is "?", use "%2F" to represent a blob name with "?" in a URL string.
  *
- * ### Strategy for containerName, blobName or other specific XXXName parameters in methods such as `BlobURL.fromContainerURL(containerURL, blobName)`
+ * ### Strategy for containerName, blobName or other specific XXXName parameters in methods such as `BlobClient.fromContainerClient(containerURL, blobName)`
  *
  * We will apply strategy one, and call encodeURIComponent for these parameters like blobName. Because what customers passes in is a plain name instead of a URL.
  *
@@ -96,11 +96,7 @@ export function appendToURLPath(url: string, name: string): string {
   const urlParsed = URLBuilder.parse(url);
 
   let path = urlParsed.getPath();
-  path = path
-    ? path.endsWith("/")
-      ? `${path}${name}`
-      : `${path}/${name}`
-    : name;
+  path = path ? (path.endsWith("/") ? `${path}${name}` : `${path}/${name}`) : name;
   urlParsed.setPath(path);
 
   return urlParsed.toString();
@@ -116,11 +112,7 @@ export function appendToURLPath(url: string, name: string): string {
  * @param {string} [value] Parameter value
  * @returns {string} An updated URL string
  */
-export function setURLParameter(
-  url: string,
-  name: string,
-  value?: string
-): string {
+export function setURLParameter(url: string, name: string, value?: string): string {
   const urlParsed = URLBuilder.parse(url);
   urlParsed.setQueryParameter(name, value);
   return urlParsed.toString();
@@ -134,10 +126,7 @@ export function setURLParameter(
  * @param {string} name
  * @returns {(string | string[] | undefined)}
  */
-export function getURLParameter(
-  url: string,
-  name: string
-): string | string[] | undefined {
+export function getURLParameter(url: string, name: string): string | string[] | undefined {
   const urlParsed = URLBuilder.parse(url);
   return urlParsed.getQueryParameterValue(name);
 }
@@ -182,18 +171,14 @@ export function getURLQueries(url: string): { [key: string]: string } {
   }
 
   queryString = queryString.trim();
-  queryString = queryString.startsWith("?")
-    ? queryString.substr(1)
-    : queryString;
+  queryString = queryString.startsWith("?") ? queryString.substr(1) : queryString;
 
   let querySubStrings: string[] = queryString.split("&");
   querySubStrings = querySubStrings.filter((value: string) => {
     const indexOfEqual = value.indexOf("=");
     const lastIndexOfEqual = value.lastIndexOf("=");
     return (
-      indexOfEqual > 0 &&
-      indexOfEqual === lastIndexOfEqual &&
-      lastIndexOfEqual < value.length - 1
+      indexOfEqual > 0 && indexOfEqual === lastIndexOfEqual && lastIndexOfEqual < value.length - 1
     );
   });
 
@@ -217,10 +202,7 @@ export function getURLQueries(url: string): { [key: string]: string } {
  *                                          If false, YYYY-MM-DDThh:mm:ssZ will be returned.
  * @returns {string} Date string in ISO8061 format, with or without 7 milliseconds component
  */
-export function truncatedISO8061Date(
-  date: Date,
-  withMilliseconds: boolean = true
-): string {
+export function truncatedISO8061Date(date: Date, withMilliseconds: boolean = true): string {
   // Date.toISOString() will return like "2018-10-29T06:34:36.139Z"
   const dateString = date.toISOString();
 
@@ -248,9 +230,7 @@ export function base64encode(content: string): string {
  * @returns {string}
  */
 export function base64decode(encodedString: string): string {
-  return !isNode
-    ? atob(encodedString)
-    : Buffer.from(encodedString, "base64").toString();
+  return !isNode ? atob(encodedString) : Buffer.from(encodedString, "base64").toString();
 }
 
 /**
@@ -260,29 +240,21 @@ export function base64decode(encodedString: string): string {
  * @param {number} blockIndex
  * @returns {string}
  */
-export function generateBlockID(
-  blockIDPrefix: string,
-  blockIndex: number
-): string {
+export function generateBlockID(blockIDPrefix: string, blockIndex: number): string {
   // To generate a 64 bytes base64 string, source string should be 48
   const maxSourceStringLength = 48;
 
   // A blob can have a maximum of 100,000 uncommitted blocks at any given time
   const maxBlockIndexLength = 6;
 
-  const maxAllowedBlockIDPrefixLength =
-    maxSourceStringLength - maxBlockIndexLength;
+  const maxAllowedBlockIDPrefixLength = maxSourceStringLength - maxBlockIndexLength;
 
   if (blockIDPrefix.length > maxAllowedBlockIDPrefixLength) {
     blockIDPrefix = blockIDPrefix.slice(0, maxAllowedBlockIDPrefixLength);
   }
   const res =
     blockIDPrefix +
-    padStart(
-      blockIndex.toString(),
-      maxSourceStringLength - blockIDPrefix.length,
-      "0"
-    );
+    padStart(blockIndex.toString(), maxSourceStringLength - blockIDPrefix.length, "0");
   return base64encode(res);
 }
 

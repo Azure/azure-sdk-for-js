@@ -45,17 +45,12 @@ export class BrowserPolicy extends BaseRequestPolicy {
    * @returns {Promise<HttpOperationResponse>}
    * @memberof BrowserPolicy
    */
-  public async sendRequest(
-    request: WebResource
-  ): Promise<HttpOperationResponse> {
+  public async sendRequest(request: WebResource): Promise<HttpOperationResponse> {
     if (isNode) {
       return this._nextPolicy.sendRequest(request);
     }
 
-    if (
-      request.method.toUpperCase() === "GET" ||
-      request.method.toUpperCase() === "HEAD"
-    ) {
+    if (request.method.toUpperCase() === "GET" || request.method.toUpperCase() === "HEAD") {
       request.url = setURLParameter(
         request.url,
         URLConstants.Parameters.FORCE_BROWSER_NO_CACHE,

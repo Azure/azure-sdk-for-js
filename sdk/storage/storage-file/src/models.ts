@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-export interface IMetadata {
+export interface Metadata {
   [propertyName: string]: string;
 }
 
-export interface IFileHTTPHeaders {
+export interface FileHTTPHeaders {
   /**
    * @member {string} [fileCacheControl] Optional. Sets the file's cache
    * control. If specified, this property is stored with the file and returned

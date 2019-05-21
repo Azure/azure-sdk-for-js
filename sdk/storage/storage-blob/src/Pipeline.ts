@@ -36,18 +36,18 @@ export {
  * Option interface for Pipeline constructor.
  *
  * @export
- * @interface IPipelineOptions
+ * @interface PipelineOptions
  */
-export interface IPipelineOptions {
+export interface PipelineOptions {
   logger?: IHttpPipelineLogger;
   HTTPClient?: IHttpClient;
 }
 
 /**
  * A Pipeline class containing HTTP request policies.
- * You can create a default Pipeline by calling StorageURL.newPipeline().
+ * You can create a default Pipeline by calling StorageClient.newPipeline().
  * Or you can create a Pipeline with your own policies by the constructor of Pipeline.
- * Refer to StorageURL.newPipeline() and provided policies as reference before
+ * Refer to StorageClient.newPipeline() and provided policies as reference before
  * implementing your customized Pipeline.
  *
  * @export
@@ -55,19 +55,16 @@ export interface IPipelineOptions {
  */
 export class Pipeline {
   public readonly factories: RequestPolicyFactory[];
-  public readonly options: IPipelineOptions;
+  public readonly options: PipelineOptions;
 
   /**
    * Creates an instance of Pipeline. Customize HTTPClient by implementing IHttpClient interface.
    *
    * @param {RequestPolicyFactory[]} factories
-   * @param {IPipelineOptions} [options={}]
+   * @param {PipelineOptions} [options={}]
    * @memberof Pipeline
    */
-  constructor(
-    factories: RequestPolicyFactory[],
-    options: IPipelineOptions = {}
-  ) {
+  constructor(factories: RequestPolicyFactory[], options: PipelineOptions = {}) {
     this.factories = factories;
     this.options = options;
   }

@@ -1,11 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import {
-  BaseRequestPolicy,
-  HttpOperationResponse,
-  WebResource
-} from "@azure/ms-rest-js";
+import { BaseRequestPolicy, HttpOperationResponse, WebResource } from "@azure/ms-rest-js";
 
 /**
  * Credential policy used to sign HTTP(S) requests before sending. This is an

@@ -1,12 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import {
-  RequestPolicy,
-  RequestPolicyFactory,
-  RequestPolicyOptions
-} from "@azure/ms-rest-js";
-
+import { RequestPolicy, RequestPolicyFactory, RequestPolicyOptions } from "@azure/ms-rest-js";
 import { BrowserPolicy } from "./policies/BrowserPolicy";
 
 /**
@@ -17,10 +12,7 @@ import { BrowserPolicy } from "./policies/BrowserPolicy";
  * @implements {RequestPolicyFactory}
  */
 export class BrowserPolicyFactory implements RequestPolicyFactory {
-  public create(
-    nextPolicy: RequestPolicy,
-    options: RequestPolicyOptions
-  ): BrowserPolicy {
+  public create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): BrowserPolicy {
     return new BrowserPolicy(nextPolicy, options);
   }
 }

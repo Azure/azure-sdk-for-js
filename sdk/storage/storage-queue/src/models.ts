@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-export interface IMetadata {
+export interface Metadata {
   [propertyName: string]: string;
 }

@@ -12,10 +12,10 @@ import { TokenCredentialPolicy } from "../policies/TokenCredentialPolicy";
  *
  * @example
  *  const tokenCredential = new TokenCredential("token");
- *  const pipeline = StorageURL.newPipeline(tokenCredential);
+ *  const pipeline = StorageClient.newPipeline(tokenCredential);
  *
  *  // List containers
- *  const serviceURL = new ServiceURL("https://mystorageaccount.blob.core.windows.net", pipeline);
+ *  const blobServiceClient = new BlobServiceClient("https://mystorageaccount.blob.core.windows.net", pipeline);
  *
  *  // Set up a timer to refresh the token
  *  const timerID = setInterval(() => {
@@ -59,10 +59,7 @@ export class TokenCredential extends Credential {
    * @returns {TokenCredentialPolicy}
    * @memberof TokenCredential
    */
-  public create(
-    nextPolicy: RequestPolicy,
-    options: RequestPolicyOptions
-  ): TokenCredentialPolicy {
+  public create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): TokenCredentialPolicy {
     return new TokenCredentialPolicy(nextPolicy, options, this);
   }
 }

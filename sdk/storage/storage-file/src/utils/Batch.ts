@@ -137,7 +137,7 @@ export class Batch {
     return new Promise<void>((resolve, reject) => {
       this.emitter.on("finish", resolve);
 
-      this.emitter.on("error", error => {
+      this.emitter.on("error", (error) => {
         this.state = BatchStates.Error;
         reject(error);
       });
