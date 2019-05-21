@@ -3,11 +3,10 @@
 */
 
 import {
-  Aborter,
-  BlobURL,
-  BlockBlobURL,
-  ContainerURL,
-  ServiceURL,
+  BlobClient,
+  BlockBlobClient,
+  ContainerClient,
+  BlobServiceClient,
   TokenCredential,
   Models
 } from "../../src"; // Change to "@azure/storage-blob" in your package
@@ -28,9 +27,16 @@ async function main() {
   // const anonymousCredential = new AnonymousCredential();
 
   // Use sharedKeyCredential, tokenCredential or anonymousCredential to create a pipeline
-  // const pipeline = StorageURL.newPipeline(sharedKeyCredential);
 
   const CONNECTION_STRING = "";
+  // const pipeline = StorageClient.newPipeline(sharedKeyCredential);
+
+  // List containers
+  // const blobServiceClient = new BlobServiceClient(
+  //   // When using AnonymousCredential, following url should include a valid SAS or support public access
+  //   `https://${account}.blob.core.windows.net`,
+  //   pipeline
+  // );
 
   // List containers
   // const serviceURL = new ServiceURL(
@@ -39,11 +45,10 @@ async function main() {
   //   pipeline
   // );
   // List containers
-  const serviceURL = ServiceURL.fromConnectionString(CONNECTION_STRING);
+  const blobServiceClient = BlobServiceClient.fromConnectionString(CONNECTION_STRING);
   let marker;
   do {
-    const listContainersResponse: Models.ServiceListContainersSegmentResponse = await serviceURL.listContainersSegment(
-      Aborter.none,
+    const listContainersResponse: Models.ServiceListContainersSegmentResponse = await blobServiceClient.listContainersSegment(
       marker
     );
 
@@ -55,24 +60,23 @@ async function main() {
 
   // Create a container
   const containerName = `newcontainer${new Date().getTime()}`;
-  const containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
+  const containerClient = ContainerClient.fromBlobServiceClient(blobServiceClient, containerName);
 
-  const createContainerResponse = await containerURL.create(Aborter.none);
+  const createContainerResponse = await containerClient.create();
   console.log(`Create container ${containerName} successfully`, createContainerResponse.requestId);
 
   // Create a blob
   const content = "hello";
   const blobName = "newblob" + new Date().getTime();
-  const blobURL = BlobURL.fromContainerURL(containerURL, blobName);
-  const blockBlobURL = BlockBlobURL.fromBlobURL(blobURL);
-  const uploadBlobResponse = await blockBlobURL.upload(Aborter.none, content, content.length);
+  const blobClient = BlobClient.fromContainerClient(containerClient, blobName);
+  const blockBlobClient = BlockBlobClient.fromBlobClient(blobClient);
+  const uploadBlobResponse = await blockBlobClient.upload(content, content.length);
   console.log(`Upload block blob ${blobName} successfully`, uploadBlobResponse.requestId);
 
   // List blobs
   marker = undefined;
   do {
-    const listBlobsResponse: Models.ContainerListBlobFlatSegmentResponse = await containerURL.listBlobFlatSegment(
-      Aborter.none,
+    const listBlobsResponse: Models.ContainerListBlobFlatSegmentResponse = await containerClient.listBlobFlatSegment(
       marker
     );
 
@@ -85,17 +89,14 @@ async function main() {
   // Get blob content from position 0 to the end
   // In Node.js, get downloaded data by accessing downloadBlockBlobResponse.readableStreamBody
   // In browsers, get downloaded data by accessing downloadBlockBlobResponse.blobBody
-  const downloadBlockBlobResponse: Models.BlobDownloadResponse = await blobURL.download(
-    Aborter.none,
-    0
-  );
+  const downloadBlockBlobResponse: Models.BlobDownloadResponse = await blobClient.download(0);
   console.log(
     "Downloaded blob content",
     await streamToString(downloadBlockBlobResponse.readableStreamBody!)
   );
 
   // Delete container
-  await containerURL.delete(Aborter.none);
+  await containerClient.delete();
 
   console.log("deleted container");
 }

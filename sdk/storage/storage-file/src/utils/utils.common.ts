@@ -5,9 +5,9 @@ import { isNode, URLBuilder } from "@azure/ms-rest-js";
  *
  * ## URL encode and escape strategy for JSv10 SDKs
  *
- * When customers pass a URL string into XXXURL classes constructor, the URL string may already be URL encoded or not.
+ * When customers pass a URL string into XXXClient classes constructor, the URL string may already be URL encoded or not.
  * But before sending to Azure Storage server, the URL must be encoded. However, it's hard for a SDK to guess whether the URL
- * string has been encoded or not. We have 2 potential strategies, and chose strategy two for the XXXURL constructors.
+ * string has been encoded or not. We have 2 potential strategies, and chose strategy two for the XXXClient constructors.
  *
  * ### Strategy One: Assume the customer URL string is not encoded, and always encode URL string in SDK.
  *
@@ -43,7 +43,7 @@ import { isNode, URLBuilder } from "@azure/ms-rest-js";
  *
  * Another special character is "?", use "%2F" to represent a blob name with "?" in a URL string.
  *
- * ### Strategy for containerName, blobName or other specific XXXName parameters in methods such as `BlobURL.fromContainerURL(containerURL, blobName)`
+ * ### Strategy for containerName, blobName or other specific XXXName parameters in methods such as `BlobClient.fromContainerClient(containerClient, blobName)`
  *
  * We will apply strategy one, and call encodeURIComponent for these parameters like blobName. Because what customers passes in is a plain name instead of a URL.
  *

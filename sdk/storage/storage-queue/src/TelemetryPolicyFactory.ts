@@ -13,9 +13,9 @@ import { SDK_VERSION } from "./utils/constants";
  * Interface of TelemetryPolicy options.
  *
  * @export
- * @interface ITelemetryOptions
+ * @interface TelemetryOptions
  */
-export interface ITelemetryOptions {
+export interface TelemetryOptions {
   value: string;
 }
 
@@ -31,10 +31,10 @@ export class TelemetryPolicyFactory implements RequestPolicyFactory {
 
   /**
    * Creates an instance of TelemetryPolicyFactory.
-   * @param {ITelemetryOptions} [telemetry]
+   * @param {TelemetryOptions} [telemetry]
    * @memberof TelemetryPolicyFactory
    */
-  constructor(telemetry?: ITelemetryOptions) {
+  constructor(telemetry?: TelemetryOptions) {
     const userAgentInfo: string[] = [];
 
     if (isNode) {

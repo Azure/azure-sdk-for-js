@@ -3,14 +3,13 @@
 */
 
 import {
-  Aborter,
-  StorageURL,
-  ServiceURL,
-  ShareURL,
-  DirectoryURL,
-  FileURL,
+  StorageClient,
+  FileServiceClient,
   SharedKeyCredential,
-  Models
+  Models,
+  ShareClient,
+  DirectoryClient,
+  FileClient
 } from "../.."; // Change to "@azure/storage-file" in your package
 
 async function main() {
@@ -25,10 +24,10 @@ async function main() {
   // const anonymousCredential = new AnonymousCredential();
 
   // Use sharedKeyCredential or anonymousCredential to create a pipeline
-  const pipeline = StorageURL.newPipeline(sharedKeyCredential);
+  const pipeline = StorageClient.newPipeline(sharedKeyCredential);
 
   // List shares
-  const serviceURL = new ServiceURL(
+  const serviceClient = new FileServiceClient(
     // When using AnonymousCredential, following url should include a valid SAS
     `https://${account}.file.core.windows.net`,
     pipeline
@@ -37,8 +36,7 @@ async function main() {
   console.log(`List shares`);
   let marker;
   do {
-    const listSharesResponse: Models.ServiceListSharesSegmentResponse = await serviceURL.listSharesSegment(
-      Aborter.none,
+    const listSharesResponse: Models.ServiceListSharesSegmentResponse = await serviceClient.listSharesSegment(
       marker
     );
 
@@ -50,33 +48,32 @@ async function main() {
 
   // Create a share
   const shareName = `newshare${new Date().getTime()}`;
-  const shareURL = ShareURL.fromServiceURL(serviceURL, shareName);
-  await shareURL.create(Aborter.none);
+  const shareClient = ShareClient.fromFileServiceClient(serviceClient, shareName);
+  await shareClient.create();
   console.log(`Create share ${shareName} successfully`);
 
   // Create a directory
   const directoryName = `newdirectory${new Date().getTime()}`;
-  const directoryURL = DirectoryURL.fromShareURL(shareURL, directoryName);
-  await directoryURL.create(Aborter.none);
+  const directoryClient = DirectoryClient.fromShareClient(shareClient, directoryName);
+  await directoryClient.create();
   console.log(`Create directory ${directoryName} successfully`);
 
   // Create a file
   const content = "Hello World!";
   const fileName = "newfile" + new Date().getTime();
-  const fileURL = FileURL.fromDirectoryURL(directoryURL, fileName);
-  await fileURL.create(Aborter.none, content.length);
+  const fileClient = FileClient.fromDirectoryClient(directoryClient, fileName);
+  await fileClient.create(content.length);
   console.log(`Create file ${fileName} successfully`);
 
   // Upload file range
-  await fileURL.uploadRange(Aborter.none, content, 0, content.length);
+  await fileClient.uploadRange(content, 0, content.length);
   console.log(`Upload file range "${content}" to ${fileName} successfully`);
 
   // List directories and files
   console.log(`List directories and files under directory ${directoryName}`);
   marker = undefined;
   do {
-    const listFilesAndDirectoriesResponse: Models.DirectoryListFilesAndDirectoriesSegmentResponse = await directoryURL.listFilesAndDirectoriesSegment(
-      Aborter.none,
+    const listFilesAndDirectoriesResponse: Models.DirectoryListFilesAndDirectoriesSegmentResponse = await directoryClient.listFilesAndDirectoriesSegment(
       marker
     );
 
@@ -84,8 +81,7 @@ async function main() {
     for (const file of listFilesAndDirectoriesResponse.segment.fileItems) {
       console.log(`\tFile: ${file.name}`);
     }
-    for (const directory of listFilesAndDirectoriesResponse.segment
-      .directoryItems) {
+    for (const directory of listFilesAndDirectoriesResponse.segment.directoryItems) {
       console.log(`\tDirectory: ${directory.name}`);
     }
   } while (marker);
@@ -93,15 +89,13 @@ async function main() {
   // Get file content from position 0 to the end
   // In Node.js, get downloaded data by accessing downloadFileResponse.readableStreamBody
   // In browsers, get downloaded data by accessing downloadFileResponse.blobBody
-  const downloadFileResponse = await fileURL.download(Aborter.none, 0);
+  const downloadFileResponse = await fileClient.download(0);
   console.log(
-    `Downloaded file content${await streamToString(
-      downloadFileResponse.readableStreamBody!
-    )}`
+    `Downloaded file content${await streamToString(downloadFileResponse.readableStreamBody!)}`
   );
 
   // Delete share
-  await shareURL.delete(Aborter.none);
+  await shareClient.delete();
   console.log(`deleted share ${shareName}`);
 }
 
@@ -109,7 +103,7 @@ async function main() {
 async function streamToString(readableStream: NodeJS.ReadableStream) {
   return new Promise((resolve, reject) => {
     const chunks: string[] = [];
-    readableStream.on("data", data => {
+    readableStream.on("data", (data) => {
       chunks.push(data.toString());
     });
     readableStream.on("end", () => {
@@ -124,6 +118,6 @@ main()
   .then(() => {
     console.log("Successfully executed sample.");
   })
-  .catch(err => {
+  .catch((err) => {
     console.log(err.message);
   });

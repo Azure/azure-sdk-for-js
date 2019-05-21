@@ -4,19 +4,20 @@ import { Aborter } from "../Aborter";
 
 export type ReadableStreamGetter = (offset: number) => Promise<NodeJS.ReadableStream>;
 
-export interface IRetriableReadableStreamOptions {
+export interface RetriableReadableStreamOptions {
+  abortSignal?: Aborter;
   /**
    * Max retry count (>=0), undefined or invalid value means no retry
    *
    * @type {number}
-   * @memberof IRetriableReadableStreamOptions
+   * @memberof RetriableReadableStreamOptions
    */
   maxRetryRequests?: number;
 
   /**
    * Read progress event handler
    *
-   * @memberof IRetriableReadableStreamOptions
+   * @memberof RetriableReadableStreamOptions
    */
   progress?: (progress: TransferProgressEvent) => void;
 
@@ -30,7 +31,7 @@ export interface IRetriableReadableStreamOptions {
    * The value will then update to "undefined", once the injection works.
    *
    * @type {boolean}
-   * @memberof IRetriableReadableStreamOptions
+   * @memberof RetriableReadableStreamOptions
    */
   doInjectErrorOnce?: boolean;
 }
@@ -53,30 +54,28 @@ export class RetriableReadableStream extends Readable {
   private retries: number = 0;
   private maxRetryRequests: number;
   private progress?: (progress: TransferProgressEvent) => void;
-  private options: IRetriableReadableStreamOptions;
+  private options: RetriableReadableStreamOptions;
 
   /**
    * Creates an instance of RetriableReadableStream.
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
    * @param {NodeJS.ReadableStream} source The current ReadableStream returned from getter
    * @param {ReadableStreamGetter} getter A method calling downloading request returning
    *                                      a new ReadableStream from specified offset
    * @param {number} offset Offset position in original data source to read
    * @param {number} count How much data in original data source to read
-   * @param {IRetriableReadableStreamOptions} [options={}]
+   * @param {RetriableReadableStreamOptions} [options={}]
    * @memberof RetriableReadableStream
    */
   public constructor(
-    aborter: Aborter,
     source: NodeJS.ReadableStream,
     getter: ReadableStreamGetter,
     offset: number,
     count: number,
-    options: IRetriableReadableStreamOptions = {}
+    options: RetriableReadableStreamOptions = {}
   ) {
     super();
+    const aborter = options.abortSignal || Aborter.none;
     this.aborter = aborter;
     this.getter = getter;
     this.source = source;

@@ -12,7 +12,7 @@ import {
 import { Constants, AmqpMessage, translate, ErrorNameConditionMapper } from "@azure/amqp-common";
 import * as log from "./log";
 import { ClientEntityContext } from "./clientEntityContext";
-import { reorderLockToken } from "../src/util/utils";
+import { reorderLockToken, getAssociatedReceiverName } from "../src/util/utils";
 import { MessageReceiver } from "../src/core/messageReceiver";
 import { MessageSession } from "../src/session/messageSession";
 import { getErrorMessageNotSupportedInReceiveAndDeleteMode } from "./util/errors";
@@ -843,6 +843,7 @@ export class ServiceBusMessage implements ReceivedMessage {
       await this._context.managementClient!.updateDispositionStatus(
         this.lockToken!,
         DispositionStatus.completed,
+        getAssociatedReceiverName(this._context, this.sessionId),
         {
           sessionId: this.sessionId
         }
@@ -894,6 +895,7 @@ export class ServiceBusMessage implements ReceivedMessage {
       await this._context.managementClient!.updateDispositionStatus(
         this.lockToken!,
         DispositionStatus.abandoned,
+        getAssociatedReceiverName(this._context, this.sessionId),
         { propertiesToModify: propertiesToModify, sessionId: this.sessionId }
       );
 
@@ -945,6 +947,7 @@ export class ServiceBusMessage implements ReceivedMessage {
       await this._context.managementClient!.updateDispositionStatus(
         this.lockToken!,
         DispositionStatus.defered,
+        getAssociatedReceiverName(this._context, this.sessionId),
         { propertiesToModify: propertiesToModify, sessionId: this.sessionId }
       );
 
@@ -1006,6 +1009,7 @@ export class ServiceBusMessage implements ReceivedMessage {
       await this._context.managementClient!.updateDispositionStatus(
         this.lockToken!,
         DispositionStatus.suspended,
+        getAssociatedReceiverName(this._context, this.sessionId),
         {
           deadLetterReason: error.condition,
           deadLetterDescription: error.description,

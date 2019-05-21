@@ -1,23 +1,23 @@
 import * as Models from "./generated/lib/models";
 
-export interface IMetadata {
+export interface Metadata {
   [propertyName: string]: string;
 }
 
-export interface IContainerAccessConditions {
+export interface ContainerAccessConditions {
   modifiedAccessConditions?: Models.ModifiedAccessConditions;
   leaseAccessConditions?: Models.LeaseAccessConditions;
 }
 
-export interface IBlobAccessConditions {
+export interface BlobAccessConditions {
   modifiedAccessConditions?: Models.ModifiedAccessConditions;
   leaseAccessConditions?: Models.LeaseAccessConditions;
 }
 
-export interface IPageBlobAccessConditions extends IBlobAccessConditions {
+export interface PageBlobAccessConditions extends BlobAccessConditions {
   sequenceNumberAccessConditions?: Models.SequenceNumberAccessConditions;
 }
 
-export interface IAppendBlobAccessConditions extends IBlobAccessConditions {
+export interface AppendBlobAccessConditions extends BlobAccessConditions {
   appendPositionAccessConditions?: Models.AppendPositionAccessConditions;
 }

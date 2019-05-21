@@ -4,7 +4,7 @@
  * This is a helper class to construct a string representing the resources accessible by an AccountSAS. Setting a value
  * to true means that any SAS which uses these permissions will grant access to that resource type. Once all the
  * values are set, this should be serialized with toString and set as the resources field on an
- * {@link IAccountSASSignatureValues} object. It is possible to construct the resources string without this class, but
+ * {@link AccountSASSignatureValues} object. It is possible to construct the resources string without this class, but
  * the order of the resources is particular and this class guarantees correctness.
  *
  * @export
