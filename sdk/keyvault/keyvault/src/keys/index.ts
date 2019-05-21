@@ -21,10 +21,10 @@ import {
 
 import { AzureServiceClientOptions as Pipeline, getDefaultUserAgentValue } from "@azure/ms-rest-azure-js";
 
-import { RetryOptions, ProxyOptions, TelemetryOptions } from ".";
-import { KeyBundle, JsonWebKeyType, JsonWebKey, KeyItem, JsonWebKeySignatureAlgorithm, SignResponse, JsonWebKeyEncryptionAlgorithm } from "./models";
-import { KeyVaultClient } from "./keyVaultClient";
-import { RetryConstants, SDK_VERSION } from "./utils/constants";
+import { RetryOptions, ProxyOptions, TelemetryOptions } from "..";
+import { KeyBundle, JsonWebKeyType, JsonWebKey, KeyItem } from "../models";
+import { KeyVaultClient } from "../keyVaultClient";
+import { RetryConstants, SDK_VERSION } from "../utils/constants";
 import {
   Key,
   DeletedKey,
@@ -35,7 +35,7 @@ import {
   GetAllKeysOptions,
   KeyAttributes
 } from "./keysModels";
-import { parseKeyvaultIdentifier as parseKeyvaultEntityIdentifier } from "./utils";
+import { parseKeyvaultIdentifier as parseKeyvaultEntityIdentifier } from "../utils";
 
 export { Pipeline };
 /**

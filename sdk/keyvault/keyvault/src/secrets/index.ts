@@ -32,7 +32,6 @@ import {
 import { parseKeyvaultIdentifier as parseKeyvaultEntityIdentifier } from "../utils";
 import { NewPipelineOptions, isNewPipelineOptions, Pipeline } from "../keyVaultBase";
 import { TelemetryOptions } from "..";
-export { ParsedKeyVaultEntityIdentifier } from "./secretsModels";
 import { getDefaultUserAgentValue } from "@azure/ms-rest-azure-js";
 
 export class SecretsClient {

@@ -1,6 +1,6 @@
 import * as msRest from "@azure/ms-rest-js";
 import { ParsedKeyVaultEntityIdentifier } from "../keyVaultBase";
-import { KeyUsageType, JsonWebKeyType, JsonWebKey, JsonWebKeyOperation } from "../models";
+import { JsonWebKey, JsonWebKeyOperation } from "../models";
 
 export interface Key extends KeyAttributes {
   /**

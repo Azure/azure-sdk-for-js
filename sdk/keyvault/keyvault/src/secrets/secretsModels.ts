@@ -1,5 +1,6 @@
 import * as msRest from "@azure/ms-rest-js";
 import { DeletionRecoveryLevel } from "../models";
+import { ParsedKeyVaultEntityIdentifier } from "../keyVaultBase";
 
 export interface Secret extends SecretAttributes {
   /**
@@ -94,21 +95,6 @@ export interface DeletedSecret extends Secret {
    * the server.**
    */
   readonly deletedDate?: Date;
-}
-
-export interface ParsedKeyVaultEntityIdentifier {
-  /** 
-   * @member {string} [vaultUrl] The vault URI.
-   */
-  vaultUrl: string;
-  /** 
-   * @member {string} [version] The version of key/secret/certificate. May be undefined.
-   */
-  version?: string;
-  /** 
-   * @member {string} [name] The name of key/secret/certificate.
-   */
-  name: string;
 }
 
 /**
