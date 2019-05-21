@@ -155,7 +155,7 @@ describe("Simple Send", function(): void {
   });
 });
 
-describe.only("Simple Send Batch", function(): void {
+describe("Simple Send Batch", function(): void {
   afterEach(async () => {
     await afterEachTest();
   });

@@ -35,7 +35,7 @@ const aadRelatedEnvVars = [
   EnvVarKeys.RESOURCE_GROUP
 ];
 
-function throwErrorIfGivenEnvironmentVariablesAreMissing(envVars: EnvVarKeys[]): void {
+function throwMissingEnvironmentVariablesError(envVars: EnvVarKeys[]): void {
   envVars.forEach(function(key: string) {
     const name = key.valueOf();
     if (!getEnvVarValue(name)) {
@@ -52,13 +52,10 @@ function getEnvVarValue(name: string): string | undefined {
 export function getEnvVars(): { [key in EnvVarKeys]: any } {
   // Throw error only if mandatory env variable is missing
   // Or, if CLEAN_NAMESPACE is enabled and AAD related details are not provided
-  throwErrorIfGivenEnvironmentVariablesAreMissing(mandatoryEnvVars);
+  throwMissingEnvironmentVariablesError(mandatoryEnvVars);
 
-  if (
-    getEnvVarValue(EnvVarKeys.CLEAN_NAMESPACE) &&
-    getEnvVarValue(EnvVarKeys.CLEAN_NAMESPACE) === "true"
-  ) {
-    throwErrorIfGivenEnvironmentVariablesAreMissing(aadRelatedEnvVars);
+  if (getEnvVarValue(EnvVarKeys.CLEAN_NAMESPACE) === "true") {
+    throwMissingEnvironmentVariablesError(aadRelatedEnvVars);
   }
 
   return {
