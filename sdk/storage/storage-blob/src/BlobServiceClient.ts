@@ -3,7 +3,7 @@ import { Aborter } from "./Aborter";
 import { ListContainersIncludeType } from "./generated/lib/models/index";
 import { Service } from "./generated/lib/operations";
 import { Pipeline } from "./Pipeline";
-import { StorageClient } from "./StorageClient";
+import { StorageClient } from "./internal";
 import { ContainerClient } from "./ContainerClient";
 import { appendToURLPath } from "./utils/utils.common";
 

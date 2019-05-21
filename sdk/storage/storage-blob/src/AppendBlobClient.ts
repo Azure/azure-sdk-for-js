@@ -2,7 +2,7 @@ import { HttpRequestBody, TransferProgressEvent } from "@azure/ms-rest-js";
 
 import * as Models from "./generated/lib/models";
 import { Aborter } from "./Aborter";
-import { BlobClient } from "./BlobClient";
+import { BlobClient } from "./internal";
 import { AppendBlob } from "./generated/lib/operations";
 import { AppendBlobAccessConditions, BlobAccessConditions, Metadata } from "./models";
 import { Pipeline } from "./Pipeline";

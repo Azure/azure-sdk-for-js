@@ -4,13 +4,13 @@ import { Aborter } from "./Aborter";
 import { Container } from "./generated/lib/operations";
 import { ContainerAccessConditions, Metadata } from "./models";
 import { Pipeline } from "./Pipeline";
-import { StorageClient } from "./StorageClient";
+import { StorageClient } from "./internal";
 import { ETagNone } from "./utils/constants";
 import { appendToURLPath, truncatedISO8061Date } from "./utils/utils.common";
-import { AppendBlobClient } from "./AppendBlobClient";
-import { BlockBlobClient } from "./BlockBlobClient";
-import { PageBlobClient } from "./PageBlobClient";
-import { BlobClient } from './BlobClient';
+import { BlobClient } from "./internal";
+import { AppendBlobClient } from "./internal";
+import { BlockBlobClient } from "./internal";
+import { PageBlobClient } from "./internal";
 
 export interface ContainerCreateOptions {
   abortSignal?: Aborter;

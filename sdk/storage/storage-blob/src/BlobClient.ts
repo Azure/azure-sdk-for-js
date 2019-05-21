@@ -7,12 +7,12 @@ import { Blob } from "./generated/lib/operations";
 import { rangeToString } from "./Range";
 import { BlobAccessConditions, Metadata } from "./models";
 import { Pipeline } from "./Pipeline";
-import { StorageClient } from "./StorageClient";
+import { StorageClient } from "./internal";
 import { DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS, URLConstants } from "./utils/constants";
 import { setURLParameter } from "./utils/utils.common";
-import { AppendBlobClient } from "./AppendBlobClient";
-import { BlockBlobClient } from "./BlockBlobClient";
-import { PageBlobClient } from "./PageBlobClient";
+import { AppendBlobClient } from "./internal";
+import { BlockBlobClient } from "./internal";
+import { PageBlobClient } from "./internal";
 
 export interface BlobDownloadOptions {
   abortSignal?: Aborter;
