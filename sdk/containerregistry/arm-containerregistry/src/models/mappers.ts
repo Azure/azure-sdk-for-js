@@ -339,11 +339,11 @@ export const Sku: msRest.CompositeMapper = {
   }
 };
 
-export const Status: msRest.CompositeMapper = {
+export const Status1: msRest.CompositeMapper = {
   serializedName: "Status",
   type: {
     name: "Composite",
-    className: "Status",
+    className: "Status1",
     modelProperties: {
       displayStatus: {
         readOnly: true,
@@ -567,7 +567,7 @@ export const Registry: msRest.CompositeMapper = {
         serializedName: "properties.status",
         type: {
           name: "Composite",
-          className: "Status"
+          className: "Status1"
         }
       },
       adminUserEnabled: {
@@ -855,7 +855,7 @@ export const Replication: msRest.CompositeMapper = {
         serializedName: "properties.status",
         type: {
           name: "Composite",
-          className: "Status"
+          className: "Status1"
         }
       }
     }
@@ -2209,6 +2209,12 @@ export const BaseImageTrigger: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      updateTriggerEndpoint: {
+        serializedName: "updateTriggerEndpoint",
+        type: {
+          name: "String"
+        }
+      },
       status: {
         serializedName: "status",
         defaultValue: 'Enabled',
@@ -2672,6 +2678,12 @@ export const BaseImageTriggerUpdateParameters: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      updateTriggerEndpoint: {
+        serializedName: "updateTriggerEndpoint",
+        type: {
+          name: "String"
+        }
+      },
       status: {
         serializedName: "status",
         defaultValue: 'Enabled',
@@ -3047,18 +3059,38 @@ export const FileTaskRunRequest: msRest.CompositeMapper = {
   }
 };
 
-export const TaskRunRequest: msRest.CompositeMapper = {
-  serializedName: "TaskRunRequest",
+export const OverrideTaskStepProperties: msRest.CompositeMapper = {
+  serializedName: "OverrideTaskStepProperties",
   type: {
     name: "Composite",
-    polymorphicDiscriminator: RunRequest.type.polymorphicDiscriminator,
-    uberParent: "RunRequest",
-    className: "TaskRunRequest",
+    className: "OverrideTaskStepProperties",
     modelProperties: {
-      ...RunRequest.type.modelProperties,
-      taskName: {
-        required: true,
-        serializedName: "taskName",
+      contextPath: {
+        serializedName: "contextPath",
+        type: {
+          name: "String"
+        }
+      },
+      file: {
+        serializedName: "file",
+        type: {
+          name: "String"
+        }
+      },
+      argumentsProperty: {
+        serializedName: "arguments",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Argument"
+            }
+          }
+        }
+      },
+      target: {
+        serializedName: "target",
         type: {
           name: "String"
         }
@@ -3073,6 +3105,39 @@ export const TaskRunRequest: msRest.CompositeMapper = {
               className: "SetValue"
             }
           }
+        }
+      }
+    }
+  }
+};
+
+export const TaskRunRequest: msRest.CompositeMapper = {
+  serializedName: "TaskRunRequest",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: RunRequest.type.polymorphicDiscriminator,
+    uberParent: "RunRequest",
+    className: "TaskRunRequest",
+    modelProperties: {
+      ...RunRequest.type.modelProperties,
+      taskId: {
+        required: true,
+        serializedName: "taskId",
+        type: {
+          name: "String"
+        }
+      },
+      overrideTaskStepProperties: {
+        serializedName: "overrideTaskStepProperties",
+        type: {
+          name: "Composite",
+          className: "OverrideTaskStepProperties"
+        }
+      },
+      continuationToken: {
+        serializedName: "continuationToken",
+        type: {
+          name: "String"
         }
       }
     }
@@ -3429,6 +3494,322 @@ export const EncodedTaskStepUpdateParameters: msRest.CompositeMapper = {
   }
 };
 
+export const ScopeMap: msRest.CompositeMapper = {
+  serializedName: "ScopeMap",
+  type: {
+    name: "Composite",
+    className: "ScopeMap",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      description: {
+        serializedName: "properties.description",
+        type: {
+          name: "String"
+        }
+      },
+      scopeMapType: {
+        readOnly: true,
+        serializedName: "properties.type",
+        type: {
+          name: "String"
+        }
+      },
+      creationDate: {
+        readOnly: true,
+        serializedName: "properties.creationDate",
+        type: {
+          name: "DateTime"
+        }
+      },
+      provisioningState: {
+        readOnly: true,
+        serializedName: "properties.provisioningState",
+        type: {
+          name: "String"
+        }
+      },
+      actions: {
+        required: true,
+        serializedName: "properties.actions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ScopeMapUpdateParameters: msRest.CompositeMapper = {
+  serializedName: "ScopeMapUpdateParameters",
+  type: {
+    name: "Composite",
+    className: "ScopeMapUpdateParameters",
+    modelProperties: {
+      description: {
+        serializedName: "properties.description",
+        type: {
+          name: "String"
+        }
+      },
+      actions: {
+        serializedName: "properties.actions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const TokenCertificate: msRest.CompositeMapper = {
+  serializedName: "TokenCertificate",
+  type: {
+    name: "Composite",
+    className: "TokenCertificate",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      expiry: {
+        serializedName: "expiry",
+        type: {
+          name: "DateTime"
+        }
+      },
+      thumbprint: {
+        serializedName: "thumbprint",
+        type: {
+          name: "String"
+        }
+      },
+      encodedPemCertificate: {
+        serializedName: "encodedPemCertificate",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const TokenPassword: msRest.CompositeMapper = {
+  serializedName: "TokenPassword",
+  type: {
+    name: "Composite",
+    className: "TokenPassword",
+    modelProperties: {
+      creationTime: {
+        serializedName: "creationTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      expiry: {
+        serializedName: "expiry",
+        type: {
+          name: "DateTime"
+        }
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      value: {
+        readOnly: true,
+        serializedName: "value",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const TokenCredentialsProperties: msRest.CompositeMapper = {
+  serializedName: "TokenCredentialsProperties",
+  type: {
+    name: "Composite",
+    className: "TokenCredentialsProperties",
+    modelProperties: {
+      certificates: {
+        serializedName: "certificates",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "TokenCertificate"
+            }
+          }
+        }
+      },
+      passwords: {
+        serializedName: "passwords",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "TokenPassword"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const Token: msRest.CompositeMapper = {
+  serializedName: "Token",
+  type: {
+    name: "Composite",
+    className: "Token",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      creationDate: {
+        readOnly: true,
+        serializedName: "properties.creationDate",
+        type: {
+          name: "DateTime"
+        }
+      },
+      provisioningState: {
+        readOnly: true,
+        serializedName: "properties.provisioningState",
+        type: {
+          name: "String"
+        }
+      },
+      scopeMapId: {
+        serializedName: "properties.scopeMapId",
+        type: {
+          name: "String"
+        }
+      },
+      objectId: {
+        serializedName: "properties.objectId",
+        type: {
+          name: "String"
+        }
+      },
+      credentials: {
+        serializedName: "properties.credentials",
+        type: {
+          name: "Composite",
+          className: "TokenCredentialsProperties"
+        }
+      },
+      status: {
+        serializedName: "properties.status",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const TokenUpdateParameters: msRest.CompositeMapper = {
+  serializedName: "TokenUpdateParameters",
+  type: {
+    name: "Composite",
+    className: "TokenUpdateParameters",
+    modelProperties: {
+      scopeMapId: {
+        serializedName: "properties.scopeMapId",
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "properties.status",
+        type: {
+          name: "String"
+        }
+      },
+      credentials: {
+        serializedName: "properties.credentials",
+        type: {
+          name: "Composite",
+          className: "TokenCredentialsProperties"
+        }
+      }
+    }
+  }
+};
+
+export const GenerateCredentialsParameters: msRest.CompositeMapper = {
+  serializedName: "GenerateCredentialsParameters",
+  type: {
+    name: "Composite",
+    className: "GenerateCredentialsParameters",
+    modelProperties: {
+      tokenId: {
+        serializedName: "tokenId",
+        type: {
+          name: "String"
+        }
+      },
+      expiry: {
+        serializedName: "expiry",
+        defaultValue: new Date('9999-12-31T15:59:59.9999999-08:00'),
+        type: {
+          name: "DateTime"
+        }
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const GenerateCredentialsResult: msRest.CompositeMapper = {
+  serializedName: "GenerateCredentialsResult",
+  type: {
+    name: "Composite",
+    className: "GenerateCredentialsResult",
+    modelProperties: {
+      username: {
+        serializedName: "username",
+        type: {
+          name: "String"
+        }
+      },
+      passwords: {
+        serializedName: "passwords",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "TokenPassword"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const RegistryListResult: msRest.CompositeMapper = {
   serializedName: "RegistryListResult",
   type: {
@@ -3611,6 +3992,62 @@ export const TaskListResult: msRest.CompositeMapper = {
             type: {
               name: "Composite",
               className: "Task"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ScopeMapListResult: msRest.CompositeMapper = {
+  serializedName: "ScopeMapListResult",
+  type: {
+    name: "Composite",
+    className: "ScopeMapListResult",
+    modelProperties: {
+      value: {
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ScopeMap"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const TokenListResult: msRest.CompositeMapper = {
+  serializedName: "TokenListResult",
+  type: {
+    name: "Composite",
+    className: "TokenListResult",
+    modelProperties: {
+      value: {
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Token"
             }
           }
         }
