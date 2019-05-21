@@ -1,4 +1,4 @@
-const isNode = !!process && !!process.version && !!process.versions && !!process.versions.node;
+import isNode from "@azure/amqp-common";
 
 export enum EnvVarKeys {
   SERVICEBUS_CONNECTION_STRING = "SERVICEBUS_CONNECTION_STRING",

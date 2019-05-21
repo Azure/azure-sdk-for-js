@@ -28,13 +28,13 @@ import {
   getSenderReceiverClients,
   purge,
   TestMessage,
-  getServiceBusClient,
-  isNode
+  getServiceBusClient
 } from "./utils/testUtils";
 import { ClientType } from "../src/client";
 import { throwIfMessageCannotBeSettled, DispositionType } from "../src/serviceBusMessage";
 import { getEnvVars } from "./utils/envVarUtils";
 import { loginWithServicePrincipalSecret } from "./utils/aadUtils";
+import isNode from "@azure/amqp-common";
 
 const should = chai.should();
 chai.use(chaiAsPromised);
@@ -88,7 +88,7 @@ describe("Create ServiceBusClient and Queue/Topic/Subscription Clients #RunInBro
   });
 });
 
-describe("Errors with non existing Namespace #NotRunInBrowser", function(): void {
+describe("Errors with non existing Namespace #RunInBrowser", function(): void {
   let sbClient: ServiceBusClient;
   let errorWasThrown: boolean;
   beforeEach(() => {
@@ -103,11 +103,6 @@ describe("Errors with non existing Namespace #NotRunInBrowser", function(): void
 
   const testError = (err: Error) => {
     should.equal(err.name, "ServiceCommunicationError", "ErrorName is different than expected");
-    should.equal(
-      err.message,
-      "getaddrinfo ENOTFOUND a a:5671",
-      "ErrorMessage is different than expected"
-    );
     errorWasThrown = true;
   };
 

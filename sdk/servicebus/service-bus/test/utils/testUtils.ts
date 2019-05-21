@@ -15,8 +15,7 @@ import {
 import { EnvVarKeys, getEnvVars } from "./envVarUtils";
 import { recreateQueue, recreateSubscription, recreateTopic } from "./aadUtils";
 
-export const isNode =
-  !!process && !!process.version && !!process.versions && !!process.versions.node;
+import isNode from "@azure/amqp-common";
 
 import * as dotenv from "dotenv";
 dotenv.config();
