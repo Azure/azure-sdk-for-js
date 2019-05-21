@@ -4,10 +4,13 @@ import { Aborter } from "./Aborter";
 import { Container } from "./generated/lib/operations";
 import { ContainerAccessConditions, Metadata } from "./models";
 import { Pipeline } from "./Pipeline";
-import { BlobServiceClient } from "./BlobServiceClient";
 import { StorageClient } from "./StorageClient";
 import { ETagNone } from "./utils/constants";
 import { appendToURLPath, truncatedISO8061Date } from "./utils/utils.common";
+import { AppendBlobClient } from "./AppendBlobClient";
+import { BlockBlobClient } from "./BlockBlobClient";
+import { PageBlobClient } from "./PageBlobClient";
+import { BlobClient } from './BlobClient';
 
 export interface ContainerCreateOptions {
   abortSignal?: Aborter;
@@ -145,22 +148,6 @@ export interface ContainerListBlobsSegmentOptions {
  */
 export class ContainerClient extends StorageClient {
   /**
-   * Creates a ContainerClient object from BlobServiceClient
-   *
-   * @param blobServiceClient A BlobServiceClient object
-   * @param containerName A container name
-   */
-  public static fromBlobServiceClient(
-    blobServiceClient: BlobServiceClient,
-    containerName: string
-  ): ContainerClient {
-    return new ContainerClient(
-      appendToURLPath(blobServiceClient.url, encodeURIComponent(containerName)),
-      blobServiceClient.pipeline
-    );
-  }
-
-  /**
    * containerContext provided by protocol layer.
    *
    * @private
@@ -216,6 +203,68 @@ export class ContainerClient extends StorageClient {
     return this.containerContext.create({
       ...options
     });
+  }
+
+  /**
+   * Creates a BlobClient object.
+   *
+   * @param {string} blobName A blob name
+   * @returns
+   * @memberof BlobClient
+   */
+  public createBlobClient(blobName: string) {
+    return new BlobClient(
+      appendToURLPath(this.url, encodeURIComponent(blobName)),
+      this.pipeline
+    );
+  }
+
+  /**
+   * Creates a AppendBlobClient object.
+   *
+   * @param {string} blobName An append blob name
+   * @returns {AppendBlobClient}
+   * @memberof ContainerClient
+   */
+  public createAppendBlobClient(
+    blobName: string
+  ): AppendBlobClient {
+    return new AppendBlobClient(
+      appendToURLPath(this.url, encodeURIComponent(blobName)),
+      this.pipeline
+    );
+  }
+
+  /**
+   * Creates a BlockBlobClient object.
+   *
+   * @param {string} blobName A block blob name
+   * @returns {BlockBlobClient}
+   * @memberof ContainerClient
+   */
+  public createBlockBlobClient(
+    blobName: string
+  ): BlockBlobClient {
+    return new BlockBlobClient(
+      appendToURLPath(this.url, encodeURIComponent(blobName)),
+      this.pipeline
+    );
+  }
+
+  /**
+   * Creates a PageBlobClient object.
+   *
+   * @param {string} blobName A page blob name
+   * @returns {PageBlobClient}
+   * @memberof ContainerClient
+   */
+  public createPageBlobClient(
+    blobName: string
+  ): PageBlobClient {
+    return new PageBlobClient(
+      appendToURLPath(this.url, encodeURIComponent(blobName)),
+      this.pipeline
+    );
   }
 
   /**
