@@ -4,7 +4,8 @@
  * license information.
  */
 
-const jssha = require("jssha");
+import jssha from "jssha";
+import { Buffer } from "buffer";
 
 /**
  * Describes the HmacSHA256Sign object.

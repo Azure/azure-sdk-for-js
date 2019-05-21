@@ -23,6 +23,63 @@ npm install @azure/batch
 npm install @azure/ms-rest-nodeauth
 ```
 
+##### Authentication
+
+1. Use `AzureCliCredentials` exported from `@azure/ms-rest-nodeauth`.
+   **Please make sure to install Azure CLI and login using `az login`.**
+
+```typescript
+import { AzureCliCredentials } from "@azure/ms-rest-nodeauth";
+
+const batchEndpoint = process.env["AZURE_BATCH_ENDPOINT"] || "";
+async function main(): Promise<void> {
+  try {
+    const creds = await AzureCliCredentials.create({ resource: "https://batch.core.windows.net/" });
+    const client = new BatchServiceClient(creds, batchEndpoint);
+  } catch (err) {
+    console.log(err);
+  }
+}
+```
+
+2. Use the `BatchSharedKeyCredentials` exported from `@azure/batch`.
+
+```typescript
+import { BatchServiceClient, BatchSharedKeyCredentials } from "@azure/batch";
+
+const batchAccountName = process.env["AZURE_BATCH_ACCOUNT_NAME"] || "";
+const batchAccountKey = process.env["AZURE_BATCH_ACCOUNT_KEY"] || "";
+const batchEndpoint = process.env["AZURE_BATCH_ENDPOINT"] || "";
+
+async function main(): Promise<void> {
+  try {
+    const creds = new BatchSharedKeyCredentials(batchAccountName, batchAccountKey);
+    const client = new BatchServiceClient(creds, batchEndpoint);
+  } catch (err) {
+    console.log(err);
+  }
+}
+```
+
+3. Use the `MSIVmTokenCredentials` exported from `@azure/ms-rest-nodeauth`.
+
+```typescript
+import { MSIVmTokenCredentials } from "@azure/ms-rest-nodeauth";
+
+const batchEndpoint = process.env["AZURE_BATCH_ENDPOINT"] || "";
+
+async function main(): Promise<void> {
+  try {
+    const creds = await msRestNodeAuth.loginWithVmMSI({
+      resource: "https://batch.core.windows.net/"
+    });
+    const client = new BatchServiceClient(creds, batchEndpoint);
+  } catch (err) {
+    console.log(err);
+  }
+}
+```
+
 ##### Sample code
 
 ```typescript

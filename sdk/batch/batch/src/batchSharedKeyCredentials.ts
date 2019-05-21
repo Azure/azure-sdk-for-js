@@ -12,7 +12,8 @@ import {
   HttpMethods
 } from "@azure/ms-rest-js";
 import { HmacSha256Sign } from "./hmacSha256";
-const url = require("url-parse");
+import url from "url-parse";
+import { Buffer } from "buffer";
 
 /**
  * Creates a new BatchSharedKeyCredentials object.

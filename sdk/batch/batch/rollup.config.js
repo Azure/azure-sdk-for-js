@@ -1,6 +1,9 @@
 import rollup from "rollup";
 import nodeResolve from "rollup-plugin-node-resolve";
 import sourcemaps from "rollup-plugin-sourcemaps";
+import cjs from "rollup-plugin-commonjs";
+import inject from "rollup-plugin-inject";
+import json from "rollup-plugin-json";
 
 /**
  * @type {rollup.RollupFileOptions}
@@ -25,7 +28,25 @@ const config = {
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */`
   },
-  plugins: [nodeResolve({ module: true }), sourcemaps()]
+  plugins: [
+    nodeResolve({ module: true, preferBuiltins: false }),
+    sourcemaps(),
+    cjs({
+      namedExports: {
+        "url-parse": ["url"],
+        jssha: ["jssha"]
+      }
+    }),
+    inject({
+      modules: {
+        Buffer: ["buffer", "Buffer"],
+        process: "process"
+      },
+      exclude: ["./**/package.json"]
+    }),
+
+    json()
+  ]
 };
 
 export default config;
