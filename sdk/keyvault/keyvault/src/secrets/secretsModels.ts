@@ -1,5 +1,5 @@
 import * as msRest from "@azure/ms-rest-js";
-import {ParsedKeyVaultEntityIdentifier} from "./keyVaultBase";
+import { DeletionRecoveryLevel } from "../models";
 
 export interface Secret extends SecretAttributes {
   /**
@@ -49,6 +49,30 @@ export interface SecretAttributes extends ParsedKeyVaultEntityIdentifier {
    * the server.**
    */
   readonly managed?: boolean;
+  /**
+   * @member {Date} [created] Creation time in UTC.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly created?: Date;
+  /**
+   * @member {Date} [updated] Last updated time in UTC.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly updated?: Date;
+  /**
+   * @member {DeletionRecoveryLevel} [recoveryLevel] Reflects the deletion
+   * recovery level currently in effect for keys in the current vault. If it
+   * contains 'Purgeable' the key can be permanently deleted by a privileged
+   * user; otherwise, only the system can purge the key, at the end of the
+   * retention interval. Possible values include: 'Purgeable',
+   * 'Recoverable+Purgeable', 'Recoverable',
+   * 'Recoverable+ProtectedSubscription'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly recoveryLevel?: DeletionRecoveryLevel;
 }
 
 export interface DeletedSecret extends Secret {
@@ -70,6 +94,21 @@ export interface DeletedSecret extends Secret {
    * the server.**
    */
   readonly deletedDate?: Date;
+}
+
+export interface ParsedKeyVaultEntityIdentifier {
+  /** 
+   * @member {string} [vaultUrl] The vault URI.
+   */
+  vaultUrl: string;
+  /** 
+   * @member {string} [version] The version of key/secret/certificate. May be undefined.
+   */
+  version?: string;
+  /** 
+   * @member {string} [name] The name of key/secret/certificate.
+   */
+  name: string;
 }
 
 /**
@@ -172,15 +211,7 @@ export interface GetSecretOptions {
  */
 export interface GetAllSecretsOptions {
   /**
-   * @member {number} [maxPageSize] Maximum number of results to return in a
-   * page. If not specified, the service will return up to 25 results per page.
-   */
-  maxPageSize?: number;
-  /**
    * @member {msRest.RequestOptionsBase} [requestOptions] Options for this request
    */
   requestOptions?: msRest.RequestOptionsBase;
 }
-
-
-
