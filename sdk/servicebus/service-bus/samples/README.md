@@ -2,7 +2,7 @@
 
 ## Install the library
 
-Run the below in your samples folder to install the npm package for Azure Service Bus library.
+Copy at least one of these files into a folder outside of this repository, then run the command below to install the npm package for the Azure Service Bus library.
 ```bash
 npm install @azure/service-bus
 ```
