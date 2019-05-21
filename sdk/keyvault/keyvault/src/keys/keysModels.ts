@@ -1,6 +1,7 @@
 import * as msRest from "@azure/ms-rest-js";
 import { ParsedKeyVaultEntityIdentifier } from "../keyVaultBase";
 import { JsonWebKey, JsonWebKeyOperation } from "../models";
+import { DeletionRecoveryLevel } from "../models";
 
 export interface Key extends KeyAttributes {
   /**
@@ -35,7 +36,30 @@ export interface KeyAttributes extends ParsedKeyVaultEntityIdentifier {
    * metadata in the form of key-value pairs.
    */
   tags?: { [propertyName: string]: string };
-
+  /**
+   * @member {Date} [created] Creation time in UTC.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly created?: Date;
+  /**
+   * @member {Date} [updated] Last updated time in UTC.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly updated?: Date;
+  /**
+   * @member {DeletionRecoveryLevel} [recoveryLevel] Reflects the deletion
+   * recovery level currently in effect for keys in the current vault. If it
+   * contains 'Purgeable' the key can be permanently deleted by a privileged
+   * user; otherwise, only the system can purge the key, at the end of the
+   * retention interval. Possible values include: 'Purgeable',
+   * 'Recoverable+Purgeable', 'Recoverable',
+   * 'Recoverable+ProtectedSubscription'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly recoveryLevel?: DeletionRecoveryLevel;
 }
 
 export interface DeletedKey extends Key {
@@ -198,11 +222,6 @@ export interface GetKeyOptions {
  * @extends RequestOptionsBase
  */
 export interface GetAllKeysOptions {
-  /**
-   * @member {number} [maxPageSize] Maximum number of results to return in a
-   * page. If not specified, the service will return up to 25 results per page.
-   */
-  maxPageSize?: number;
   /**
    * @member {msRest.RequestOptionsBase} [requestOptions] Options for this request
    */

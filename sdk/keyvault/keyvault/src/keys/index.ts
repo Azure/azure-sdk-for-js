@@ -366,8 +366,6 @@ export class KeysClient {
       this.vaultBaseUrl,
       keyName,
       {
-        maxresults: options ? options.maxPageSize : undefined,
-        maxPageSize: options ? options.maxPageSize : undefined,
         ...(options && options.requestOptions ? options.requestOptions : {})
       }
     );
@@ -394,8 +392,6 @@ export class KeysClient {
     let currentSetResponse = await this.client.getKeys(
       this.vaultBaseUrl,
       {
-        maxresults: options ? options.maxPageSize : undefined,
-        maxPageSize: options ? options.maxPageSize : undefined,
         ...(options && options.requestOptions ? options.requestOptions : {})
       }
     );
@@ -422,8 +418,6 @@ export class KeysClient {
     let currentSetResponse = await this.client.getDeletedKeys(
       this.vaultBaseUrl,
       {
-        maxresults: options ? options.maxPageSize : undefined,
-        maxPageSize: options ? options.maxPageSize : undefined,
         ...(options && options.requestOptions ? options.requestOptions : {})
       }
     );
