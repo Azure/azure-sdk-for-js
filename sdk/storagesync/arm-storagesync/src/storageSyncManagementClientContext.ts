@@ -44,7 +44,7 @@ export class StorageSyncManagementClientContext extends msRestAzure.AzureService
 
     super(credentials, options);
 
-    this.apiVersion = '2019-02-01';
+    this.apiVersion = '2019-03-01';
     this.acceptLanguage = 'en-US';
     this.longRunningOperationRetryTimeout = 30;
     this.baseUri = options.baseUri || this.baseUri || "https://management.azure.com";

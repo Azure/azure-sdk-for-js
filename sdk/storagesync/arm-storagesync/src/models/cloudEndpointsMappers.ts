@@ -22,6 +22,7 @@ export {
   CloudEndpointsPreBackupHeaders,
   CloudEndpointsPreRestoreHeaders,
   CloudEndpointsRestoreheartbeatHeaders,
+  CloudEndpointsTriggerChangeDetectionHeaders,
   FilesNotSyncingError,
   PostBackupResponse,
   PostRestoreRequest,
@@ -43,5 +44,6 @@ export {
   SyncGroupCreateParameters,
   SyncSessionStatus,
   TrackedResource,
+  TriggerChangeDetectionParameters,
   Workflow
 } from "../models/mappers";
