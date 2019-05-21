@@ -7,10 +7,7 @@ import { Readable } from "stream";
 /**
  * OutgoingHandler is an async function triggered by BufferScheduler.
  */
-export declare type OutgoingHandler = (
-  buffer: Buffer,
-  offset?: number
-) => Promise<any>;
+export declare type OutgoingHandler = (buffer: Buffer, offset?: number) => Promise<any>;
 
 /**
  * This class accepts a Node.js Readable stream as input, and keeps reading data
@@ -209,21 +206,15 @@ export class BufferScheduler {
     encoding?: string
   ) {
     if (bufferSize <= 0) {
-      throw new RangeError(
-        `bufferSize must be larger than 0, current is ${bufferSize}`
-      );
+      throw new RangeError(`bufferSize must be larger than 0, current is ${bufferSize}`);
     }
 
     if (maxBuffers <= 0) {
-      throw new RangeError(
-        `maxBuffers must be larger than 0, current is ${maxBuffers}`
-      );
+      throw new RangeError(`maxBuffers must be larger than 0, current is ${maxBuffers}`);
     }
 
     if (parallelism <= 0) {
-      throw new RangeError(
-        `parallelism must be larger than 0, current is ${parallelism}`
-      );
+      throw new RangeError(`parallelism must be larger than 0, current is ${parallelism}`);
     }
 
     this.bufferSize = bufferSize;
@@ -243,9 +234,8 @@ export class BufferScheduler {
    */
   public async do(): Promise<void> {
     return new Promise<void>((resolve, reject) => {
-      this.readable.on("data", data => {
-        data =
-          typeof data === "string" ? Buffer.from(data, this.encoding) : data;
+      this.readable.on("data", (data) => {
+        data = typeof data === "string" ? Buffer.from(data, this.encoding) : data;
         this.appendUnresolvedData(data);
 
         if (!this.resolveData()) {
@@ -253,7 +243,7 @@ export class BufferScheduler {
         }
       });
 
-      this.readable.on("error", err => {
+      this.readable.on("error", (err) => {
         this.emitter.emit("error", err);
       });
 
@@ -262,7 +252,7 @@ export class BufferScheduler {
         this.emitter.emit("checkEnd");
       });
 
-      this.emitter.on("error", err => {
+      this.emitter.on("error", (err) => {
         this.isError = true;
         this.readable.pause();
         reject(err);
@@ -275,14 +265,8 @@ export class BufferScheduler {
         }
 
         if (this.isStreamEnd && this.executingOutgoingHandlers === 0) {
-          if (
-            this.unresolvedLength > 0 &&
-            this.unresolvedLength < this.bufferSize
-          ) {
-            this.outgoingHandler(
-              this.shiftBufferFromUnresolvedDataArray(),
-              this.offset
-            )
+          if (this.unresolvedLength > 0 && this.unresolvedLength < this.bufferSize) {
+            this.outgoingHandler(this.shiftBufferFromUnresolvedDataArray(), this.offset)
               .then(resolve)
               .catch(reject);
           } else if (this.unresolvedLength >= this.bufferSize) {
@@ -323,20 +307,14 @@ export class BufferScheduler {
       }
 
       // Lazy concat because Buffer.concat highly drops performance
-      let merged = Buffer.concat(
-        this.unresolvedDataArray,
-        this.unresolvedLength
-      );
+      let merged = Buffer.concat(this.unresolvedDataArray, this.unresolvedLength);
       const buffer = merged.slice(0, this.bufferSize);
       merged = merged.slice(this.bufferSize);
       this.unresolvedDataArray = [merged];
       this.unresolvedLength -= buffer.length;
       return buffer;
     } else if (this.unresolvedLength > 0) {
-      const merged = Buffer.concat(
-        this.unresolvedDataArray,
-        this.unresolvedLength
-      );
+      const merged = Buffer.concat(this.unresolvedDataArray, this.unresolvedLength);
       this.unresolvedDataArray = [];
       this.unresolvedLength = 0;
       return merged;

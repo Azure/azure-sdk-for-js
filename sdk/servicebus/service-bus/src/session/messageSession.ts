@@ -14,6 +14,7 @@ import {
   EventContext,
   ReceiverOptions,
   ReceiverEvents,
+  AmqpError,
   isAmqpError
 } from "rhea-promise";
 import * as log from "../log";
@@ -136,7 +137,7 @@ export class MessageSession extends LinkEntity {
    */
   sessionLockedUntilUtc?: Date;
   /**
-   * @property {string} [sessionId] The sessionId for the message session.
+   * @property {string} [sessionId] The sessionId for the message session. Empty string is valid sessionId
    */
   sessionId?: string;
   /**
@@ -937,12 +938,19 @@ export class MessageSession extends LinkEntity {
         this._deliveryDispositionMap.delete(delivery.id);
         log.receiver(
           "[%s] Disposition for delivery id: %d, did not complete in %d milliseconds. " +
-            "Hence resolving the promise.",
+            "Hence rejecting the promise with timeout error",
           this._context.namespace.connectionId,
           delivery.id,
           messageDispositionTimeout
         );
-        return resolve();
+
+        const e: AmqpError = {
+          condition: ErrorNameConditionMapper.ServiceUnavailableError,
+          description:
+            "Operation to settle the message has timed out. The disposition of the " +
+            "message may or may not be successful"
+        };
+        return reject(translate(e));
       }, messageDispositionTimeout);
       this._deliveryDispositionMap.set(delivery.id, {
         resolve: resolve,
@@ -1016,16 +1024,20 @@ export class MessageSession extends LinkEntity {
           this._receiver.source.filter &&
           this._receiver.source.filter[Constants.sessionFilterName];
         let errorMessage: string = "";
-        // SB allows a sessionId with empty string value :)
+        // Service Bus creates receiver successfully with no sessionId if it fails to get a lock on
+        // the session instead of throwing the SessionCannotBeLockedError. So, we throw it instead.
         if (receivedSessionId == undefined) {
-          errorMessage =
-            `Received an incorrect sessionId '${receivedSessionId}' while creating ` +
-            `the receiver '${this.name}'.`;
-        }
-        if (this.sessionId != undefined && receivedSessionId !== this.sessionId) {
-          errorMessage =
-            `Received sessionId '${receivedSessionId}' does not match the provided ` +
-            `sessionId '${this.sessionId}' while creating the receiver '${this.name}'.`;
+          if (this.sessionId == undefined) {
+            // User asked for a random session to be picked, but there are no sessions free to take
+            // a lock on or the Queue/Subscription doesnt have sessions enabled.
+            errorMessage = `There are no sessions available for receiving messages.`;
+          } else {
+            // User passed a sessionId, but cannot get a lock on it either because somebody else
+            // has a lock on it or the Queue/Subscription doesnt have sessions enabled.
+            errorMessage = `The session with id '${
+              this.sessionId
+            }' is not available for receiving messages.`;
+          }
         }
         if (errorMessage) {
           const error = translate({

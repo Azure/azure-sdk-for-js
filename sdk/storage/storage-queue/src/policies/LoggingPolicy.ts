@@ -10,12 +10,12 @@ import {
   WebResource
 } from "@azure/ms-rest-js";
 
-import { IRequestLogOptions } from "../LoggingPolicyFactory";
+import { RequestLogOptions } from "../LoggingPolicyFactory";
 import { HTTPURLConnection, URLConstants } from "../utils/constants";
 import { getURLParameter, setURLParameter } from "../utils/utils.common";
 
-// Default values of IRetryOptions
-const DEFAULT_REQUEST_LOG_OPTIONS: IRequestLogOptions = {
+// Default values of RetryOptions
+const DEFAULT_REQUEST_LOG_OPTIONS: RequestLogOptions = {
   logWarningIfTryOverThreshold: 3000
 };
 
@@ -30,19 +30,19 @@ export class LoggingPolicy extends BaseRequestPolicy {
   private operationStartTime: Date = new Date();
   private requestStartTime: Date = new Date();
 
-  private readonly loggingOptions: IRequestLogOptions;
+  private readonly loggingOptions: RequestLogOptions;
 
   /**
    * Creates an instance of LoggingPolicy.
    * @param {RequestPolicy} nextPolicy
    * @param {RequestPolicyOptions} options
-   * @param {IRequestLogOptions} [loggingOptions=DEFAULT_REQUEST_LOG_OPTIONS]
+   * @param {RequestLogOptions} [loggingOptions=DEFAULT_REQUEST_LOG_OPTIONS]
    * @memberof LoggingPolicy
    */
   constructor(
     nextPolicy: RequestPolicy,
     options: RequestPolicyOptions,
-    loggingOptions: IRequestLogOptions = DEFAULT_REQUEST_LOG_OPTIONS
+    loggingOptions: RequestLogOptions = DEFAULT_REQUEST_LOG_OPTIONS
   ) {
     super(nextPolicy, options);
     this.loggingOptions = loggingOptions;
@@ -55,9 +55,7 @@ export class LoggingPolicy extends BaseRequestPolicy {
    * @returns {Promise<HttpOperationResponse>}
    * @memberof LoggingPolicy
    */
-  public async sendRequest(
-    request: WebResource
-  ): Promise<HttpOperationResponse> {
+  public async sendRequest(request: WebResource): Promise<HttpOperationResponse> {
     this.tryCount++;
     this.requestStartTime = new Date();
     if (this.tryCount === 1) {
@@ -66,11 +64,7 @@ export class LoggingPolicy extends BaseRequestPolicy {
 
     let safeURL: string = request.url;
     if (getURLParameter(safeURL, URLConstants.Parameters.SIGNATURE)) {
-      safeURL = setURLParameter(
-        safeURL,
-        URLConstants.Parameters.SIGNATURE,
-        "*****"
-      );
+      safeURL = setURLParameter(safeURL, URLConstants.Parameters.SIGNATURE, "*****");
     }
     this.log(
       HttpPipelineLogLevel.INFO,
@@ -81,10 +75,8 @@ export class LoggingPolicy extends BaseRequestPolicy {
       const response = await this._nextPolicy.sendRequest(request);
 
       const requestEndTime = new Date();
-      const requestCompletionTime =
-        requestEndTime.getTime() - this.requestStartTime.getTime();
-      const operationDuration =
-        requestEndTime.getTime() - this.operationStartTime.getTime();
+      const requestCompletionTime = requestEndTime.getTime() - this.requestStartTime.getTime();
+      const operationDuration = requestEndTime.getTime() - this.operationStartTime.getTime();
 
       let currentLevel: HttpPipelineLogLevel = HttpPipelineLogLevel.INFO;
       let logMessage: string = "";
@@ -94,16 +86,13 @@ export class LoggingPolicy extends BaseRequestPolicy {
       }
 
       // If the response took too long, we'll upgrade to warning.
-      if (
-        requestCompletionTime >=
-        this.loggingOptions.logWarningIfTryOverThreshold
-      ) {
+      if (requestCompletionTime >= this.loggingOptions.logWarningIfTryOverThreshold) {
         // Log a warning if the try duration exceeded the specified threshold.
         if (this.shouldLog(HttpPipelineLogLevel.WARNING)) {
           currentLevel = HttpPipelineLogLevel.WARNING;
           logMessage = `SLOW OPERATION. Duration > ${
             this.loggingOptions.logWarningIfTryOverThreshold
-            } ms. `;
+          } ms. `;
         }
       }
 
@@ -113,13 +102,12 @@ export class LoggingPolicy extends BaseRequestPolicy {
           (response.status !== HTTPURLConnection.HTTP_NOT_FOUND &&
             response.status !== HTTPURLConnection.HTTP_CONFLICT &&
             response.status !== HTTPURLConnection.HTTP_PRECON_FAILED &&
-            response.status !==
-            HTTPURLConnection.HTTP_RANGE_NOT_SATISFIABLE)) ||
+            response.status !== HTTPURLConnection.HTTP_RANGE_NOT_SATISFIABLE)) ||
         (response.status >= 500 && response.status <= 509)
       ) {
         const errorString = `REQUEST ERROR: HTTP request failed with status code: ${
           response.status
-          }. `;
+        }. `;
         logMessage = errorString;
 
         currentLevel = HttpPipelineLogLevel.ERROR;
@@ -127,16 +115,14 @@ export class LoggingPolicy extends BaseRequestPolicy {
 
       const messageInfo = `Request try:${this.tryCount}, status:${
         response.status
-        } request duration:${requestCompletionTime} ms, operation duration:${operationDuration} ms\n`;
+      } request duration:${requestCompletionTime} ms, operation duration:${operationDuration} ms\n`;
       this.log(currentLevel, logMessage + messageInfo);
 
       return response;
     } catch (err) {
       this.log(
         HttpPipelineLogLevel.ERROR,
-        `Unexpected failure attempting to make request. Error message: ${
-        err.message
-        }`
+        `Unexpected failure attempting to make request. Error message: ${err.message}`
       );
       throw err;
     }
