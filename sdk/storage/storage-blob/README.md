@@ -230,7 +230,7 @@ async function main() {
 async function streamToString(readableStream) {
   return new Promise((resolve, reject) => {
     const chunks = [];
-    readableStream.on("data", data => {
+    readableStream.on("data", (data) => {
       chunks.push(data.toString());
     });
     readableStream.on("end", () => {
@@ -245,7 +245,7 @@ main()
   .then(() => {
     console.log("Successfully executed sample.");
   })
-  .catch(err => {
+  .catch((err) => {
     console.log(err.message);
   });
 ```
