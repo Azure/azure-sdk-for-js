@@ -1,12 +1,12 @@
-# 2019-05-20 1.0.2
+# 2019-05-21 1.0.2
 
 - Added missing package.json file to the npm package to fix issues bundling with webpack and other bundlers.
-This fixes the [bug 2857](https://github.com/Azure/azure-sdk-for-js/issues/2857).
+  This fixes the [bug 2857](https://github.com/Azure/azure-sdk-for-js/issues/2857).
 
 # 2019-05-16 1.0.1
 
 - Readme updated to remove the status about this library being in preview. This library is now out
-of preview.
+  of preview.
 
 # 2019-05-16 1.0.0
 
@@ -15,13 +15,14 @@ of preview.
 - Errors thrown explicitly by the library for the user facing apis are documented in jsdocs.
 
 ### Breaking changes
+
 - When Service Bus does not acknowledge a message settlement/disposition request in time, the error
-`ServiceUnavailbleError` is thrown. This is consistent with send requests and requests over the $management link.
+  `ServiceUnavailbleError` is thrown. This is consistent with send requests and requests over the \$management link.
 - The error `MessageLockLostError` or `SessionLockLostError` (based on whether the entity has sessions enabled
-or not) is thrown for a message settlement/disposition request when the AMQP receiver link that was used to receive
-the message has died.
+  or not) is thrown for a message settlement/disposition request when the AMQP receiver link that was used to receive
+  the message has died.
 - User agent string which is passed as a AMQP connection property is updated to follow the new standard.
-For example: `azsdk-js-azureservicebus/1.0.0/(NODE-VERSION v10.15.0) Windows_NT 10.0.17763`
+  For example: `azsdk-js-azureservicebus/1.0.0/(NODE-VERSION v10.15.0) Windows_NT 10.0.17763`
 
 # 2019-04-24 1.0.0-preview.3
 
