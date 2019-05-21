@@ -169,7 +169,7 @@ export interface QuotaBaseProperties {
    */
   vmFamily?: string;
   /**
-   * AML workspace Id. Fully qualified resource indentifier of the workspace.
+   * AML workspace Id. Fully qualified resource identifier of the workspace.
    */
   workspaceId?: string;
   /**
