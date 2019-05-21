@@ -26,6 +26,70 @@ export interface InitiateTransferRequest {
 }
 
 /**
+ * Address details.
+ */
+export interface Address {
+  /**
+   * First Name.
+   */
+  firstName?: string;
+  /**
+   * Last Name.
+   */
+  lastName?: string;
+  /**
+   * Company Name.
+   */
+  companyName?: string;
+  /**
+   * Address Line1.
+   */
+  addressLine1?: string;
+  /**
+   * Address Line2.
+   */
+  addressLine2?: string;
+  /**
+   * Address Line3.
+   */
+  addressLine3?: string;
+  /**
+   * Address City.
+   */
+  city?: string;
+  /**
+   * Address Region.
+   */
+  region?: string;
+  /**
+   * Country code uses ISO2, 2-digit format.
+   */
+  country?: string;
+  /**
+   * Address Postal Code.
+   */
+  postalCode?: string;
+}
+
+/**
+ * Result of the address validation
+ */
+export interface ValidateAddressResponse {
+  /**
+   * status of the address validation. Possible values include: 'Valid', 'Invalid'
+   */
+  status?: AddressValidationStatus;
+  /**
+   * list of suggested addresses.
+   */
+  suggestedAddresses?: Address[];
+  /**
+   * Validation error message.
+   */
+  validationMessage?: string;
+}
+
+/**
  * Details of the product to be transferred.
  */
 export interface ProductDetails {
@@ -249,52 +313,6 @@ export interface UpdateAutoRenewOperationSummary {
    * The end date of this asset
    */
   endDate?: Date;
-}
-
-/**
- * Address details.
- */
-export interface Address {
-  /**
-   * First Name.
-   */
-  firstName?: string;
-  /**
-   * Last Name.
-   */
-  lastName?: string;
-  /**
-   * Company Name.
-   */
-  companyName?: string;
-  /**
-   * Address Line1.
-   */
-  addressLine1?: string;
-  /**
-   * Address Line2.
-   */
-  addressLine2?: string;
-  /**
-   * Address Line3.
-   */
-  addressLine3?: string;
-  /**
-   * Address City.
-   */
-  city?: string;
-  /**
-   * Address Region.
-   */
-  region?: string;
-  /**
-   * Country code uses ISO2, 2-digit format.
-   */
-  country?: string;
-  /**
-   * Address Postal Code.
-   */
-  postalCode?: string;
 }
 
 /**
@@ -2073,6 +2091,14 @@ export interface OperationListResult extends Array<Operation> {
 }
 
 /**
+ * Defines values for AddressValidationStatus.
+ * Possible values include: 'Valid', 'Invalid'
+ * @readonly
+ * @enum {string}
+ */
+export type AddressValidationStatus = 'Valid' | 'Invalid';
+
+/**
  * Defines values for ProductType.
  * Possible values include: 'AzureSubscription', 'AzureReservation'
  * @readonly
@@ -2304,6 +2330,26 @@ export type PaymentMethodsListByBillingProfileNameNextResponse = PaymentMethodsL
        * The response body as parsed JSON or XML
        */
       parsedBody: PaymentMethodsListResult;
+    };
+};
+
+/**
+ * Contains response data for the post operation.
+ */
+export type BillingAccountsValidateAddressPostResponse = ValidateAddressResponse & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ValidateAddressResponse;
     };
 };
 
@@ -3820,7 +3866,7 @@ export type LineOfCreditsGetResponse = LineOfCredit & {
 /**
  * Contains response data for the increase operation.
  */
-export type LineOfCreditsIncreaseResponse = LineOfCreditsIncreaseHeaders & {
+export type LineOfCreditsIncreaseResponse = LineOfCredit & LineOfCreditsIncreaseHeaders & {
   /**
    * The underlying HTTP response.
    */
@@ -3829,5 +3875,15 @@ export type LineOfCreditsIncreaseResponse = LineOfCreditsIncreaseHeaders & {
        * The parsed HTTP response headers.
        */
       parsedHeaders: LineOfCreditsIncreaseHeaders;
+
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: LineOfCredit;
     };
 };

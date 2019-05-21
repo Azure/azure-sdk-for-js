@@ -126,6 +126,10 @@ const beginIncreaseOperationSpec: msRest.OperationSpec = {
     }
   },
   responses: {
+    200: {
+      bodyMapper: Mappers.LineOfCredit,
+      headersMapper: Mappers.LineOfCreditsIncreaseHeaders
+    },
     202: {
       headersMapper: Mappers.LineOfCreditsIncreaseHeaders
     },

@@ -34,6 +34,110 @@ export const InitiateTransferRequest: msRest.CompositeMapper = {
   }
 };
 
+export const Address: msRest.CompositeMapper = {
+  serializedName: "Address",
+  type: {
+    name: "Composite",
+    className: "Address",
+    modelProperties: {
+      firstName: {
+        serializedName: "firstName",
+        type: {
+          name: "String"
+        }
+      },
+      lastName: {
+        serializedName: "lastName",
+        type: {
+          name: "String"
+        }
+      },
+      companyName: {
+        serializedName: "companyName",
+        type: {
+          name: "String"
+        }
+      },
+      addressLine1: {
+        serializedName: "addressLine1",
+        type: {
+          name: "String"
+        }
+      },
+      addressLine2: {
+        serializedName: "addressLine2",
+        type: {
+          name: "String"
+        }
+      },
+      addressLine3: {
+        serializedName: "addressLine3",
+        type: {
+          name: "String"
+        }
+      },
+      city: {
+        serializedName: "city",
+        type: {
+          name: "String"
+        }
+      },
+      region: {
+        serializedName: "region",
+        type: {
+          name: "String"
+        }
+      },
+      country: {
+        serializedName: "country",
+        type: {
+          name: "String"
+        }
+      },
+      postalCode: {
+        serializedName: "postalCode",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ValidateAddressResponse: msRest.CompositeMapper = {
+  serializedName: "ValidateAddressResponse",
+  type: {
+    name: "Composite",
+    className: "ValidateAddressResponse",
+    modelProperties: {
+      status: {
+        serializedName: "status",
+        type: {
+          name: "String"
+        }
+      },
+      suggestedAddresses: {
+        serializedName: "suggestedAddresses",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Address"
+            }
+          }
+        }
+      },
+      validationMessage: {
+        serializedName: "validationMessage",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const ProductDetails: msRest.CompositeMapper = {
   serializedName: "ProductDetails",
   type: {
@@ -384,76 +488,6 @@ export const UpdateAutoRenewOperationSummary: msRest.CompositeMapper = {
         serializedName: "properties.endDate",
         type: {
           name: "DateTime"
-        }
-      }
-    }
-  }
-};
-
-export const Address: msRest.CompositeMapper = {
-  serializedName: "Address",
-  type: {
-    name: "Composite",
-    className: "Address",
-    modelProperties: {
-      firstName: {
-        serializedName: "firstName",
-        type: {
-          name: "String"
-        }
-      },
-      lastName: {
-        serializedName: "lastName",
-        type: {
-          name: "String"
-        }
-      },
-      companyName: {
-        serializedName: "companyName",
-        type: {
-          name: "String"
-        }
-      },
-      addressLine1: {
-        serializedName: "addressLine1",
-        type: {
-          name: "String"
-        }
-      },
-      addressLine2: {
-        serializedName: "addressLine2",
-        type: {
-          name: "String"
-        }
-      },
-      addressLine3: {
-        serializedName: "addressLine3",
-        type: {
-          name: "String"
-        }
-      },
-      city: {
-        serializedName: "city",
-        type: {
-          name: "String"
-        }
-      },
-      region: {
-        serializedName: "region",
-        type: {
-          name: "String"
-        }
-      },
-      country: {
-        serializedName: "country",
-        type: {
-          name: "String"
-        }
-      },
-      postalCode: {
-        serializedName: "postalCode",
-        type: {
-          name: "String"
         }
       }
     }
