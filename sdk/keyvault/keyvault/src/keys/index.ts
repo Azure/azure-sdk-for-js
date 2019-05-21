@@ -17,13 +17,13 @@ import {
   userAgentPolicy
 } from "@azure/ms-rest-js";
 
-import { AzureServiceClientOptions as Pipeline, getDefaultUserAgentValue } from "@azure/ms-rest-azure-js";
+import { getDefaultUserAgentValue } from "@azure/ms-rest-azure-js";
 
 import { TelemetryOptions } from "..";
 import { KeyBundle, JsonWebKeyType, JsonWebKey, KeyItem } from "../models";
 import { KeyVaultClient } from "../keyVaultClient";
 import { RetryConstants, SDK_VERSION } from "../utils/constants";
-import { NewPipelineOptions, isNewPipelineOptions } from "../keyVaultBase";
+import { NewPipelineOptions, isNewPipelineOptions, Pipeline } from "../keyVaultBase";
 import {
   Key,
   DeletedKey,
