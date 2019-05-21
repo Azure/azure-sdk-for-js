@@ -9,8 +9,7 @@
 import { ServiceBusClient } from "@azure/service-bus";
 import WebSocket from "ws";
 import url from "url";
-import httpsProxyAgent from "https-proxy-agent";
-import { HttpsProxyAgentOptions } from "https-proxy-agent";
+import httpsProxyAgent, { HttpsProxyAgentOptions } from "https-proxy-agent";
 
 // Define connection string for your Service Bus instance here
 const connectionString = "";
