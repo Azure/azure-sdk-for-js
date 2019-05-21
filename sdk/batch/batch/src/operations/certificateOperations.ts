@@ -231,15 +231,18 @@ const serializer = new msRest.Serializer(Mappers);
 const addOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "certificates",
+  urlParameters: [
+    Parameters.batchUrl
+  ],
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.timeout33
+    Parameters.timeout32
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId41,
-    Parameters.returnClientRequestId41,
-    Parameters.ocpDate41
+    Parameters.clientRequestId40,
+    Parameters.returnClientRequestId40,
+    Parameters.ocpDate40
   ],
   requestBody: {
     parameterPath: "certificate",
@@ -263,18 +266,21 @@ const addOperationSpec: msRest.OperationSpec = {
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "certificates",
+  urlParameters: [
+    Parameters.batchUrl
+  ],
   queryParameters: [
     Parameters.apiVersion,
     Parameters.filter7,
     Parameters.select6,
     Parameters.maxResults8,
-    Parameters.timeout34
+    Parameters.timeout33
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId42,
-    Parameters.returnClientRequestId42,
-    Parameters.ocpDate42
+    Parameters.clientRequestId41,
+    Parameters.returnClientRequestId41,
+    Parameters.ocpDate41
   ],
   responses: {
     200: {
@@ -292,18 +298,19 @@ const cancelDeletionOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "certificates(thumbprintAlgorithm={thumbprintAlgorithm},thumbprint={thumbprint})/canceldelete",
   urlParameters: [
+    Parameters.batchUrl,
     Parameters.thumbprintAlgorithm,
     Parameters.thumbprint
   ],
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.timeout35
+    Parameters.timeout34
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId43,
-    Parameters.returnClientRequestId43,
-    Parameters.ocpDate43
+    Parameters.clientRequestId42,
+    Parameters.returnClientRequestId42,
+    Parameters.ocpDate42
   ],
   responses: {
     204: {
@@ -320,18 +327,19 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "certificates(thumbprintAlgorithm={thumbprintAlgorithm},thumbprint={thumbprint})",
   urlParameters: [
+    Parameters.batchUrl,
     Parameters.thumbprintAlgorithm,
     Parameters.thumbprint
   ],
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.timeout36
+    Parameters.timeout35
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId44,
-    Parameters.returnClientRequestId44,
-    Parameters.ocpDate44
+    Parameters.clientRequestId43,
+    Parameters.returnClientRequestId43,
+    Parameters.ocpDate43
   ],
   responses: {
     202: {
@@ -348,19 +356,20 @@ const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "certificates(thumbprintAlgorithm={thumbprintAlgorithm},thumbprint={thumbprint})",
   urlParameters: [
+    Parameters.batchUrl,
     Parameters.thumbprintAlgorithm,
     Parameters.thumbprint
   ],
   queryParameters: [
     Parameters.apiVersion,
     Parameters.select7,
-    Parameters.timeout37
+    Parameters.timeout36
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId45,
-    Parameters.returnClientRequestId45,
-    Parameters.ocpDate45
+    Parameters.clientRequestId44,
+    Parameters.returnClientRequestId44,
+    Parameters.ocpDate44
   ],
   responses: {
     200: {
@@ -376,16 +385,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  baseUrl: "https://batch.core.windows.net",
+  baseUrl: "{batchUrl}",
   path: "{nextLink}",
   urlParameters: [
     Parameters.nextPageLink
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId46,
-    Parameters.returnClientRequestId46,
-    Parameters.ocpDate46
+    Parameters.clientRequestId45,
+    Parameters.returnClientRequestId45,
+    Parameters.ocpDate45
   ],
   responses: {
     200: {
