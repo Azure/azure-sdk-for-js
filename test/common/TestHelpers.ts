@@ -1,16 +1,13 @@
 import assert from "assert";
-import { Container, CosmosClient, Database, DatabaseDefinition, Item, RequestOptions, Response } from "../../dist-esm";
+import { Container, CosmosClient, Database, DatabaseDefinition, RequestOptions, Response } from "../../dist-esm";
 import {
   ContainerDefinition,
   ItemDefinition,
   ItemResponse,
   PermissionResponse,
   Resource,
-  TriggerResponse,
-  User,
-  UserDefinedFunctionResponse
+  User
 } from "../../dist-esm/client";
-import { StoredProcedureResponse } from "../../dist-esm/client/StoredProcedure/StoredProcedureResponse";
 import { UserResponse } from "../../dist-esm/client/User/UserResponse";
 import { endpoint, masterKey } from "./_testConfig";
 
@@ -79,25 +76,27 @@ export async function bulkInsertItems(
   );
 }
 
-export async function bulkReadItems(container: Container, documents: any[], partitionKey: string) {
+export async function bulkReadItems(container: Container, documents: any[], partitionKeyProperty: string) {
   return await Promise.all(
     documents.map(async document => {
-      const options =
-        partitionKey && document.hasOwnProperty(partitionKey)
-          ? { partitionKey: document[partitionKey] }
-          : { partitionKey: {} };
+      const partitionKey = document.hasOwnProperty(partitionKeyProperty) ? document[partitionKeyProperty] : undefined;
 
       // TODO: should we block or do all requests in parallel?
-      const { resource: doc } = await container.item(document.id).read(options);
+      const { resource: doc } = await container.item(document.id, partitionKey).read();
       assert.deepStrictEqual(doc, document);
     })
   );
 }
 
-export async function bulkReplaceItems(container: Container, documents: any[]): Promise<any[]> {
+export async function bulkReplaceItems(
+  container: Container,
+  documents: any[],
+  partitionKeyProperty: string
+): Promise<any[]> {
   return Promise.all(
     documents.map(async document => {
-      const { resource: doc } = await container.item(document.id).replace(document);
+      const partitionKey = document.hasOwnProperty(partitionKeyProperty) ? document[partitionKeyProperty] : undefined;
+      const { resource: doc } = await container.item(document.id, partitionKey).replace(document);
       const { _etag: _1, _ts: _2, ...expectedModifiedDocument } = document;
       const { _etag: _4, _ts: _3, ...actualModifiedDocument } = doc;
       assert.deepStrictEqual(expectedModifiedDocument, actualModifiedDocument);
@@ -106,15 +105,16 @@ export async function bulkReplaceItems(container: Container, documents: any[]): 
   );
 }
 
-export async function bulkDeleteItems(container: Container, documents: any[], partitionKey: string): Promise<void> {
+export async function bulkDeleteItems(
+  container: Container,
+  documents: any[],
+  partitionKeyProperty: string
+): Promise<void> {
   await Promise.all(
     documents.map(async document => {
-      const options =
-        partitionKey && document.hasOwnProperty(partitionKey)
-          ? { partitionKey: document[partitionKey] }
-          : { partitionKey: {} };
+      const partitionKey = document.hasOwnProperty(partitionKeyProperty) ? document[partitionKeyProperty] : undefined;
 
-      await container.item(document.id).delete(options);
+      await container.item(document.id, partitionKey).delete();
     })
   );
 }
@@ -172,7 +172,7 @@ export async function replaceOrUpsertItem(
   if (isUpsertTest) {
     return container.items.upsert(body, options);
   } else {
-    return container.item(body.id).replace(body, options);
+    return container.item(body.id, undefined).replace(body, options);
   }
 }
 
@@ -187,18 +187,6 @@ export function createOrUpsertUser(
     return database.users.upsert(body, options);
   } else {
     return database.users.create(body, options);
-  }
-}
-export function replaceOrUpsertUser(
-  database: Database,
-  body: any,
-  options: any,
-  isUpsertTest: boolean
-): Promise<UserResponse> {
-  if (isUpsertTest) {
-    return database.users.upsert(body, options);
-  } else {
-    return database.user(body.id).replace(body, options);
   }
 }
 
@@ -225,83 +213,5 @@ export function replaceOrUpsertPermission(
     return user.permissions.upsert(body, options);
   } else {
     return user.permission(body.id).replace(body, options);
-  }
-}
-
-// Trigger
-export function createOrUpsertTrigger(
-  container: Container,
-  body: any,
-  options: any,
-  isUpsertTest: boolean
-): Promise<TriggerResponse> {
-  if (isUpsertTest) {
-    return container.scripts.triggers.upsert(body, options);
-  } else {
-    return container.scripts.triggers.create(body, options);
-  }
-}
-export function replaceOrUpsertTrigger(
-  container: Container,
-  body: any,
-  options: any,
-  isUpsertTest: boolean
-): Promise<TriggerResponse> {
-  if (isUpsertTest) {
-    return container.scripts.triggers.upsert(body, options);
-  } else {
-    return container.scripts.trigger(body.id).replace(body, options);
-  }
-}
-
-// User Defined Function
-export function createOrUpsertUserDefinedFunction(
-  container: Container,
-  body: any,
-  options: any,
-  isUpsertTest: boolean
-): Promise<UserDefinedFunctionResponse> {
-  if (isUpsertTest) {
-    return container.scripts.userDefinedFunctions.upsert(body, options);
-  } else {
-    return container.scripts.userDefinedFunctions.create(body, options);
-  }
-}
-export function replaceOrUpsertUserDefinedFunction(
-  container: Container,
-  body: any,
-  options: any,
-  isUpsertTest: boolean
-): Promise<UserDefinedFunctionResponse> {
-  if (isUpsertTest) {
-    return container.scripts.userDefinedFunctions.upsert(body, options);
-  } else {
-    return container.scripts.userDefinedFunction(body.id).replace(body, options);
-  }
-}
-
-// Stored Procedure
-export function createOrUpsertStoredProcedure(
-  container: Container,
-  body: any,
-  options: any,
-  isUpsertTest: boolean
-): Promise<StoredProcedureResponse> {
-  if (isUpsertTest) {
-    return container.scripts.storedProcedures.upsert(body, options);
-  } else {
-    return container.scripts.storedProcedures.create(body, options);
-  }
-}
-export function replaceOrUpsertStoredProcedure(
-  container: Container,
-  body: any,
-  options: any,
-  isUpsertTest: boolean
-): Promise<StoredProcedureResponse> {
-  if (isUpsertTest) {
-    return container.scripts.storedProcedures.upsert(body, options);
-  } else {
-    return container.scripts.storedProcedure(body.id).replace(body, options);
   }
 }

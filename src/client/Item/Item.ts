@@ -1,6 +1,6 @@
 import { ClientContext } from "../../ClientContext";
 import { createDocumentUri, getIdFromLink, getPathFromLink, isResourceValid, ResourceType } from "../../common";
-import { extractPartitionKey } from "../../extractPartitionKey";
+import { extractPartitionKey, undefinedPartitionKey } from "../../extractPartitionKey";
 import { RequestOptions } from "../../request";
 import { Container } from "../Container";
 import { ItemDefinition } from "./ItemDefinition";
@@ -35,15 +35,6 @@ export class Item {
   /**
    * Read the item's definition.
    *
-   * There is no set schema for JSON items. They may contain any number of custom properties.
-   *
-   * @param options Additional options for the request, such as the partition key.
-   * Note, if you provide a partition key on the options object, it will override the primary key on `this.partitionKey`.
-   */
-  public read(options?: RequestOptions): Promise<ItemResponse<ItemDefinition>>;
-  /**
-   * Read the item's definition.
-   *
    * Any provided type, T, is not necessarily enforced by the SDK.
    * You may get more or less properties and it's up to your logic to enforce it.
    * If the type, T, is a class, it won't pass `typeof` comparisons, because it won't have a match prototype.
@@ -66,11 +57,15 @@ export class Item {
    * ({body: item} = await item.read<TodoItem>());
    * ```
    */
-  public read<T extends ItemDefinition>(options?: RequestOptions): Promise<ItemResponse<T>>;
-  public async read<T extends ItemDefinition>(options?: RequestOptions): Promise<ItemResponse<T>> {
+  public async read<T extends ItemDefinition = any>(options: RequestOptions = {}): Promise<ItemResponse<T>> {
     options = options || {};
-    if ((!options || !options.partitionKey) && this.partitionKey !== undefined) {
-      options.partitionKey = this.partitionKey;
+    if (!options.partitionKey) {
+      if (this.partitionKey !== undefined) {
+        options.partitionKey = this.partitionKey;
+      } else {
+        const { resource: partitionKeyDefinition } = await this.container.getPartitionKeyDefinition();
+        options.partitionKey = undefinedPartitionKey(partitionKeyDefinition);
+      }
     }
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
@@ -100,12 +95,11 @@ export class Item {
    * @param options Additional options for the request, such as the partition key.
    */
   public replace<T extends ItemDefinition>(body: T, options?: RequestOptions): Promise<ItemResponse<T>>;
-  public async replace<T extends ItemDefinition>(body: T, options?: RequestOptions): Promise<ItemResponse<T>> {
-    options = options || {};
+  public async replace<T extends ItemDefinition>(body: T, options: RequestOptions = {}): Promise<ItemResponse<T>> {
     if ((!options || !options.partitionKey) && this.partitionKey !== undefined) {
       options.partitionKey = this.partitionKey;
     }
-    if (options.partitionKey === undefined && options.skipGetPartitionKeyDefinition !== true) {
+    if (options.partitionKey === undefined) {
       const { resource: partitionKeyDefinition } = await this.container.getPartitionKeyDefinition();
       options.partitionKey = extractPartitionKey(body, partitionKeyDefinition);
     }
@@ -124,23 +118,22 @@ export class Item {
 
   /**
    * Delete the item.
-   * @param options Additional options for the request, such as the partition key.
-   */
-  public delete(options?: RequestOptions): Promise<ItemResponse<ItemDefinition>>;
-  /**
-   * Delete the item.
    *
    * Any provided type, T, is not necessarily enforced by the SDK.
    * You may get more or less properties and it's up to your logic to enforce it.
    *
    * @param options Additional options for the request, such as the partition key.
    */
-  public delete<T extends ItemDefinition>(options?: RequestOptions): Promise<ItemResponse<T>>;
-  public async delete<T extends ItemDefinition>(options?: RequestOptions): Promise<ItemResponse<T>> {
-    options = options || {};
-    if ((!options || !options.partitionKey) && this.partitionKey !== undefined) {
-      options.partitionKey = this.partitionKey;
+  public async delete<T extends ItemDefinition = any>(options: RequestOptions = {}): Promise<ItemResponse<T>> {
+    if (!options.partitionKey) {
+      if (this.partitionKey !== undefined) {
+        options.partitionKey = this.partitionKey;
+      } else {
+        const { resource: partitionKeyDefinition } = await this.container.getPartitionKeyDefinition();
+        options.partitionKey = undefinedPartitionKey(partitionKeyDefinition);
+      }
     }
+
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
 

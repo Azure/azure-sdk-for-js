@@ -193,7 +193,7 @@ export class Items {
    * @param options Used for modifying the request (for instance, specifying the partition key).
    */
   public async create<T extends ItemDefinition = any>(body: T, options: RequestOptions = {}): Promise<ItemResponse<T>> {
-    if (options.partitionKey === undefined && options.skipGetPartitionKeyDefinition !== true) {
+    if (options.partitionKey === undefined) {
       const { resource: partitionKeyDefinition } = await this.container.getPartitionKeyDefinition();
       options.partitionKey = extractPartitionKey(body, partitionKeyDefinition);
     }
@@ -245,7 +245,7 @@ export class Items {
    */
   public async upsert<T extends ItemDefinition>(body: T, options?: RequestOptions): Promise<ItemResponse<T>>;
   public async upsert<T extends ItemDefinition>(body: T, options: RequestOptions = {}): Promise<ItemResponse<T>> {
-    if (options.partitionKey === undefined && options.skipGetPartitionKeyDefinition !== true) {
+    if (options.partitionKey === undefined) {
       const { resource: partitionKeyDefinition } = await this.container.getPartitionKeyDefinition();
       options.partitionKey = extractPartitionKey(body, partitionKeyDefinition);
     }

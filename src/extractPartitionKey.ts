@@ -9,14 +9,24 @@ export function extractPartitionKey(document: any, partitionKeyDefinition: Parti
       let obj = document;
       for (const part of pathParts) {
         if (!(typeof obj === "object" && part in obj)) {
-          obj = {};
+          obj = undefined;
           break;
         }
         obj = obj[part];
       }
       partitionKey.push(obj);
     });
+    if (partitionKey.length === 1 && partitionKey[0] === undefined) {
+      return undefinedPartitionKey(partitionKeyDefinition);
+    }
     return partitionKey;
   }
-  return undefined;
+}
+
+export function undefinedPartitionKey(partitionKeyDefinition: PartitionKeyDefinition) {
+  if (partitionKeyDefinition.systemKey === true) {
+    return [];
+  } else {
+    return [{}];
+  }
 }

@@ -160,7 +160,7 @@ describe("NodeJS CRUD Tests", function() {
       const { resource: successDoc } = await col1Client
         .database(entities.database.id)
         .container(entities.coll1.id)
-        .item(entities.doc1.id)
+        .item(entities.doc1.id, undefined)
         .read();
       assert(successDoc !== undefined, "error reading document");
       assert.equal(successDoc.id, entities.doc1.id, "Expected to read children using parent permissions");

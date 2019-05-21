@@ -99,7 +99,7 @@ export class Container {
    * @example Replace an item
    * const {body: replacedItem} = await container.item("<item id>").replace({id: "<item id>", title: "Updated post", authorID: 5});
    */
-  public item(id: string, partitionKey?: string): Item {
+  public item(id: string, partitionKey: any): Item {
     return new Item(this, id, partitionKey, this.clientContext);
   }
 

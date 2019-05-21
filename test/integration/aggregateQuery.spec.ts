@@ -25,7 +25,7 @@ describe("NodeJS Aggregate Query Tests", async function() {
           path: "/",
           indexes: [
             {
-              kind: IndexKind.Hash,
+              kind: IndexKind.Range,
               dataType: DataType.String
             },
             {

@@ -116,7 +116,7 @@ describe("Authorization", function() {
     const { resource: readDoc } = await clientReadPermission
       .database(database.id)
       .container(container.id)
-      .item(createdDoc.id)
+      .item(createdDoc.id, undefined)
       .read<any>();
     assert.equal(readDoc.id, createdDoc.id, "invalid document read");
   });

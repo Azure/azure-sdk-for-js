@@ -1,5 +1,4 @@
 import assert from "assert";
-import { Container } from "../../dist-esm/client";
 import { PartitionKind } from "../../dist-esm/documents";
 import { extractPartitionKey } from "../../dist-esm/extractPartitionKey";
 
@@ -14,10 +13,17 @@ describe("extractPartitionKey", function() {
 
   describe("With a defined partitionKeyDefinition", function() {
     const partitionKeyDefinition = { paths: ["/a/b"], kind: PartitionKind.Hash };
+    const migratedPartitionKeyDefinition = { paths: ["/_partitionKey"], kind: PartitionKind.Hash, isSystemKey: true };
 
     it("should return [{}] when document has no partition key value", function() {
       const document = {};
       const result = extractPartitionKey(document, partitionKeyDefinition);
+      assert.deepEqual(result, [{}]);
+    });
+
+    it("should return [] when container is migrated from non-partitioned and document has no partition key value", function() {
+      const document = {};
+      const result = extractPartitionKey(document, migratedPartitionKeyDefinition);
       assert.deepEqual(result, [{}]);
     });
 

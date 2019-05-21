@@ -1,5 +1,5 @@
 import assert from "assert";
-import { Constants, FeedOptions } from "../../dist-esm";
+import { FeedOptions } from "../../dist-esm";
 import { PartitionKind } from "../../dist-esm/documents";
 import { getTestContainer, getTestDatabase, removeAllDatabases } from "../common/TestHelpers";
 
@@ -40,7 +40,7 @@ describe("ResourceLink Trimming of leading and trailing slashes", function() {
   });
 });
 
-describe("Test Query Metrics On Single Partition Collection", function() {
+describe("Test Query Metrics", function() {
   this.timeout(process.env.MOCHA_TIMEOUT || 20000);
   const collectionId = "testCollection2";
 
@@ -58,9 +58,8 @@ describe("Test Query Metrics On Single Partition Collection", function() {
       const createdContainer = database.container(createdCollectionDef.id);
 
       await createdContainer.items.create(document);
-      const collectionLink = "/dbs/" + database.id + "/colls/" + collectionId + "/";
       const query = "SELECT * from " + collectionId;
-      const queryOptions: FeedOptions = { populateQueryMetrics: true };
+      const queryOptions: FeedOptions = { populateQueryMetrics: true, enableCrossPartitionQuery: true };
       const queryIterator = createdContainer.items.query(query, queryOptions);
 
       while (queryIterator.hasMoreResults()) {

@@ -73,64 +73,6 @@ describe("NodeJS CRUD Tests", function() {
         assert.equal(err.code, notFoundErrorCode, "response should return error code 404");
       }
     });
-
-    it("nativeApi Should do sproc CRUD operations successfully name based with upsert", async function() {
-      // read sprocs
-      const { resources: sprocs } = await container.scripts.storedProcedures.readAll().fetchAll();
-      assert.equal(sprocs.constructor, Array, "Value should be an array");
-
-      // create a sproc
-      const beforeCreateSprocsCount = sprocs.length;
-      const sprocDefinition: StoredProcedureDefinition = {
-        id: "sample sproc",
-        // prettier-ignore
-        body: function () { const x = 10; } // tslint:disable-line:object-literal-shorthand
-      };
-
-      const { resource: sproc } = await container.scripts.storedProcedures.upsert(sprocDefinition);
-
-      assert.equal(sproc.id, sprocDefinition.id);
-      assert.equal(sproc.body, "function () { const x = 10; }");
-
-      // read sprocs after creation
-      const { resources: sprocsAfterCreation } = await container.scripts.storedProcedures.readAll().fetchAll();
-      assert.equal(
-        sprocsAfterCreation.length,
-        beforeCreateSprocsCount + 1,
-        "create should increase the number of sprocs"
-      );
-
-      // query sprocs
-      const querySpec = {
-        query: "SELECT * FROM root r"
-      };
-      const { resources: queriedSprocs } = await container.scripts.storedProcedures.query(querySpec).fetchAll();
-      assert(queriedSprocs.length > 0, "number of sprocs for the query should be > 0");
-
-      // replace sproc
-      // prettier-ignore
-      sproc.body = function () { const x = 20; };
-      const { resource: replacedSproc } = await container.scripts.storedProcedures.upsert(sproc);
-
-      assert.equal(replacedSproc.id, sproc.id);
-      assert.equal(replacedSproc.body, "function () { const x = 20; }");
-
-      // read sproc
-      const { resource: sprocAfterReplace } = await container.scripts.storedProcedure(replacedSproc.id).read();
-      assert.equal(replacedSproc.id, sprocAfterReplace.id);
-
-      // delete sproc
-      await container.scripts.storedProcedure(replacedSproc.id).delete();
-
-      // read sprocs after deletion
-      try {
-        await container.scripts.storedProcedure(replacedSproc.id).read();
-        assert.fail("Must fail to read sproc after deletion");
-      } catch (err) {
-        const notFoundErrorCode = 404;
-        assert.equal(err.code, notFoundErrorCode, "response should return error code 404");
-      }
-    });
   });
 
   describe("Validate stored procedure functionality", function() {
@@ -194,67 +136,6 @@ describe("NodeJS CRUD Tests", function() {
       const { resource: result2 } = await container.scripts.storedProcedure(retrievedSproc2.id).execute();
       assert.equal(result2, 123456789);
       const { resource: retrievedSproc3 } = await container.scripts.storedProcedures.create(sproc3);
-      const { resource: result3 } = await container.scripts
-        .storedProcedure(retrievedSproc3.id)
-        .execute([{ temp: "so" }]);
-      assert.equal(result3, "aso");
-    });
-
-    it("nativeApi Should do stored procedure operations successfully with upsert", async function() {
-      // tslint:disable:no-var-keyword
-      // tslint:disable:prefer-const
-      // tslint:disable:curly
-      // tslint:disable:no-string-throw
-      // tslint:disable:object-literal-shorthand
-      const sproc1: StoredProcedureDefinition = {
-        id: "storedProcedure1",
-        body: function() {
-          for (var i = 0; i < 1000; i++) {
-            const item = getContext()
-              .getResponse()
-              .getBody();
-            if (i > 0 && item !== i - 1) throw "body mismatch";
-            getContext()
-              .getResponse()
-              .setBody(i);
-          }
-        }
-      };
-
-      const sproc2: StoredProcedureDefinition = {
-        id: "storedProcedure2",
-        body: function() {
-          for (var i = 0; i < 10; i++)
-            getContext()
-              .getResponse()
-              .appendValue("Body", i);
-        }
-      };
-
-      const sproc3: StoredProcedureDefinition = {
-        id: "storedProcedure3",
-        // TODO: I put any in here, but not sure how this will work...
-        body: function(input: any) {
-          getContext()
-            .getResponse()
-            .setBody("a" + input.temp);
-        }
-      };
-
-      // tslint:enable:no-var-keyword
-      // tslint:enable:prefer-const
-      // tslint:enable:curly
-      // tslint:enable:no-string-throw
-      // tslint:enable:object-literal-shorthand
-
-      const { resource: retrievedSproc } = await container.scripts.storedProcedures.upsert(sproc1);
-      const { resource: result } = await container.scripts.storedProcedure(retrievedSproc.id).execute();
-      assert.equal(result, 999);
-
-      const { resource: retrievedSproc2 } = await container.scripts.storedProcedures.upsert(sproc2);
-      const { resource: result2 } = await container.scripts.storedProcedure(retrievedSproc2.id).execute();
-      assert.equal(result2, 123456789);
-      const { resource: retrievedSproc3 } = await container.scripts.storedProcedures.upsert(sproc3);
       const { resource: result3 } = await container.scripts
         .storedProcedure(retrievedSproc3.id)
         .execute([{ temp: "so" }]);

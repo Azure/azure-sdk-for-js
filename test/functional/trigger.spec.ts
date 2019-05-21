@@ -85,74 +85,6 @@ describe("NodeJS CRUD Tests", function() {
         assert.equal(err.code, notFoundErrorCode, "response should return error code 404");
       }
     });
-
-    it("nativeApi Should do trigger CRUD operations successfully name based with upsert", async function() {
-      // read triggers
-      const { resources: triggers } = await container.scripts.triggers.readAll().fetchAll();
-      assert.equal(Array.isArray(triggers), true);
-
-      // create a trigger
-      const beforeCreateTriggersCount = triggers.length;
-      // tslint:disable:no-var-keyword
-      // tslint:disable:prefer-const
-      const triggerDefinition: TriggerDefinition = {
-        id: "sample trigger",
-        body: "serverScript() { var x = 10; }",
-        triggerType: TriggerType.Pre,
-        triggerOperation: TriggerOperation.All
-      };
-      // tslint:enable:no-var-keyword
-      // tslint:enable:prefer-const
-
-      const { resource: trigger } = await container.scripts.triggers.upsert(triggerDefinition);
-
-      assert.equal(trigger.id, triggerDefinition.id);
-      assert.equal(trigger.body, "serverScript() { var x = 10; }");
-
-      // read triggers after creation
-      const { resources: triggersAfterCreation } = await container.scripts.triggers.readAll().fetchAll();
-      assert.equal(
-        triggersAfterCreation.length,
-        beforeCreateTriggersCount + 1,
-        "create should increase the number of triggers"
-      );
-
-      // query triggers
-      const querySpec = {
-        query: "SELECT * FROM root r WHERE r.id=@id",
-        parameters: [
-          {
-            name: "@id",
-            value: triggerDefinition.id
-          }
-        ]
-      };
-      const { resources: results } = await container.scripts.triggers.query(querySpec).fetchAll();
-      assert(results.length > 0, "number of results for the query should be > 0");
-
-      // replace trigger
-      // prettier-ignore
-      trigger.body = function () { const x = 20; };
-      const { resource: replacedTrigger } = await container.scripts.triggers.upsert(trigger);
-
-      assert.equal(replacedTrigger.id, trigger.id);
-      assert.equal(replacedTrigger.body, "function () { const x = 20; }");
-
-      // read trigger
-      const { resource: triggerAfterReplace } = await container.scripts.trigger(replacedTrigger.id).read();
-      assert.equal(replacedTrigger.id, triggerAfterReplace.id);
-
-      // delete trigger
-      await await container.scripts.trigger(replacedTrigger.id).delete();
-
-      // read triggers after deletion
-      try {
-        await container.scripts.trigger(replacedTrigger.id).read();
-        assert.fail("Must fail to read after deletion");
-      } catch (err) {
-        assert.equal(err.code, notFoundErrorCode, "response should return error code 404");
-      }
-    });
   });
 
   describe("validate trigger functionality", function() {
@@ -256,44 +188,6 @@ describe("NodeJS CRUD Tests", function() {
       assert.equal(document5.id, "RESPONSEHEADERSt1");
       try {
         await container.items.create({ id: "Docoptype" }, { postTriggerInclude: "triggerOpType" });
-        assert.fail("Must fail");
-      } catch (err) {
-        assert.equal(err.code, 400, "Must throw when using a DELETE trigger on a CREATE operation");
-      }
-    });
-
-    it("should do trigger operations successfully with upsert", async function() {
-      for (const trigger of triggers) {
-        await container.scripts.triggers.upsert(trigger);
-      }
-      // create document
-      const { resource: document } = await container.items.upsert(
-        { id: "doc1", key: "value" },
-        { preTriggerInclude: "t1" }
-      );
-      assert.equal(document.id, "DOC1t1", "name should be capitalized");
-      const { resource: document2 } = await container.items.upsert(
-        { id: "doc2", key2: "value2" },
-        { preTriggerInclude: "t2" }
-      );
-      assert.equal(document2.id, "doc2", "name shouldn't change");
-      const { resource: document3 } = await container.items.upsert(
-        { id: "Doc3", prop: "empty" },
-        { preTriggerInclude: "t3" }
-      );
-      assert.equal(document3.id, "doc3t3");
-      const { resource: document4 } = await container.items.upsert(
-        { id: "testing post trigger" },
-        { postTriggerInclude: "response1", preTriggerInclude: "t1" }
-      );
-      assert.equal(document4.id, "TESTING POST TRIGGERt1");
-      const { resource: document5, headers } = await container.items.upsert(
-        { id: "responseheaders" },
-        { preTriggerInclude: "t1" }
-      );
-      assert.equal(document5.id, "RESPONSEHEADERSt1");
-      try {
-        await container.items.upsert({ id: "Docoptype" }, { postTriggerInclude: "triggerOpType" });
         assert.fail("Must fail");
       } catch (err) {
         assert.equal(err.code, 400, "Must throw when using a DELETE trigger on a CREATE operation");

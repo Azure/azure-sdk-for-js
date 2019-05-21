@@ -11,7 +11,6 @@ import { Response as CosmosResponse } from "./Response";
 import { TimeoutError } from "./TimeoutError";
 
 /** @hidden */
-
 export async function executeRequest(requestContext: RequestContext) {
   return executePlugins(requestContext, httpRequest, PluginOn.request);
 }

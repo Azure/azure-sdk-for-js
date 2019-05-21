@@ -201,7 +201,7 @@ describe("Session Token", function() {
       resourceType: ResourceType.item,
       resourceId: "1"
     });
-    await container.item(document13.id).replace({ id: "1", operation: "replace" }, { partitionKey: "1" });
+    await container.item(document13.id, "1").replace({ id: "1", operation: "replace" });
     assert.equal(
       spy.lastCall.args[0].headers[Constants.HttpHeaders.SessionToken],
       replaceToken,
@@ -281,7 +281,7 @@ describe("Session Token", function() {
         for (const [pk, token] of tokens.entries()) {
           (token as any).globalLsn = (token as any).globalLsn + 200;
           const newToken = token.merge(token);
-          return `0:${newToken.toString()}`;
+          return `${pk}:${newToken.toString()}`;
         }
       }
       throw new Error("No valid token found to increase");
@@ -296,7 +296,7 @@ describe("Session Token", function() {
     });
     const applySessionTokenStub = sinon.stub(clientContext as any, "applySessionToken").callsFake(callbackSpy as any);
     try {
-      await container.item("1").read({ partitionKey: "1" });
+      const resp = await container.item("1", "1").read();
       assert.fail("readDocument must throw");
     } catch (err) {
       assert.equal(err.substatus, 1002, "Substatus should indicate the LSN didn't catchup.");
@@ -305,7 +305,7 @@ describe("Session Token", function() {
     } finally {
       applySessionTokenStub.restore();
     }
-    await container.item("1").read({ partitionKey: "1" });
+    await container.item("1", "1").read();
   });
 
   // TODO: chrande - looks like this might be broken by going name based?
@@ -349,16 +349,15 @@ describe("Session Token", function() {
     const { resource: createdDocument } = await createdContainer.items.create({
       id: "1"
     });
-    const requestOptions = { partitionKey: "1" };
     await client2
       .database(db.id)
       .container(createdContainerDef.id)
-      .item(createdDocument.id)
-      .delete(requestOptions);
+      .item(createdDocument.id, "1")
+      .delete();
     const setSessionTokenSpy = sinon.spy(sessionContainer, "set");
 
     try {
-      await createdContainer.item(createdDocument.id).read(requestOptions);
+      await createdContainer.item(createdDocument.id, "1").read();
       assert.fail("Must throw");
     } catch (err) {
       assert.equal(err.code, 404, "expecting 404 (Not found)");
