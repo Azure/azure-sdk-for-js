@@ -167,7 +167,8 @@ export class ContainerServices {
 
   /**
    * Gets a list of supported orchestrators in the specified subscription. The operation returns
-   * properties of each orchestrator including version and available upgrades.
+   * properties of each orchestrator including version, available upgrades and whether that version
+   * or upgrades are in preview.
    * @summary Gets a list of supported orchestrators in the specified subscription.
    * @param location The name of a supported Azure region.
    * @param [options] The optional parameters
