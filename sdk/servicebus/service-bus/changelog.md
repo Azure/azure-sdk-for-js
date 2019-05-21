@@ -1,4 +1,4 @@
-# 2019-05-20 1.0.2
+# 2019-05-21 1.0.2
 
 - Added missing package.json file to the npm package to fix issues bundling with webpack and other bundlers.
 This fixes the [bug 2857](https://github.com/Azure/azure-sdk-for-js/issues/2857).
