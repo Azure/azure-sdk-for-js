@@ -1,6 +1,6 @@
 const isNode = !!process && !!process.version && !!process.versions && !!process.versions.node;
 
-export enum Constants {
+export enum EnvVarKeys {
   SERVICEBUS_CONNECTION_STRING = "SERVICEBUS_CONNECTION_STRING",
   QUEUE_NAME = "QUEUE_NAME",
   QUEUE_NAME_NO_PARTITION = "QUEUE_NAME_NO_PARTITION",
@@ -25,74 +25,82 @@ export enum Constants {
   CLEAN_NAMESPACE = "CLEAN_NAMESPACE"
 }
 
-function _getMissingEnvironmentVariableError(envVar: any): Error {
-  return new Error(`Define ${envVar} in your environment before running integration tests.`);
-}
+const mandatoryEnvVars = [EnvVarKeys.SERVICEBUS_CONNECTION_STRING];
 
-function getEnv(name: string): string | undefined {
-  // @ts-ignore
-  const envValue = isNode ? process.env[name] : window.__env__[name];
+const aadRelatedEnvVars = [
+  EnvVarKeys.AAD_CLIENT_ID,
+  EnvVarKeys.AAD_CLIENT_SECRET,
+  EnvVarKeys.AAD_TENANT_ID,
+  EnvVarKeys.AZURE_SUBSCRIPTION_ID,
+  EnvVarKeys.RESOURCE_GROUP
+];
 
-  if (!envValue) {
-    const mandatoryEnvVars = [Constants.SERVICEBUS_CONNECTION_STRING.valueOf()];
-
-    const aadRelatedEnvVars = [
-      Constants.AAD_CLIENT_ID.valueOf(),
-      Constants.AAD_CLIENT_SECRET.valueOf(),
-      Constants.AAD_TENANT_ID.valueOf(),
-      Constants.AZURE_SUBSCRIPTION_ID.valueOf(),
-      Constants.RESOURCE_GROUP.valueOf()
-    ];
-
-    // Throw error only if mandatory env variable is missing
-    // Or, if CLEAN_NAMESPACE is enabled and AAD related details are not provided
-    if (
-      mandatoryEnvVars.indexOf(name) > -1 ||
-      (aadRelatedEnvVars.indexOf(name) > -1 && getEnv(Constants.CLEAN_NAMESPACE))
-    ) {
-      throw _getMissingEnvironmentVariableError(name);
+function throwErrorIfGivenEnvironmentVariablesAreMissing(envVars: EnvVarKeys[]): void {
+  envVars.forEach(function(key: string) {
+    const name = key.valueOf();
+    if (!getEnvVarValue(name)) {
+      throw new Error(`Define ${name} in your environment before running integration tests.`);
     }
-  }
-  return envValue;
+  });
 }
 
-export function getEnvVars(): { [key in Constants]: any } {
+function getEnvVarValue(name: string): string | undefined {
+  // @ts-ignore
+  return isNode ? process.env[name] : window.__env__[name];
+}
+
+export function getEnvVars(): { [key in EnvVarKeys]: any } {
+  // Throw error only if mandatory env variable is missing
+  // Or, if CLEAN_NAMESPACE is enabled and AAD related details are not provided
+  throwErrorIfGivenEnvironmentVariablesAreMissing(mandatoryEnvVars);
+
+  if (
+    getEnvVarValue(EnvVarKeys.CLEAN_NAMESPACE) &&
+    getEnvVarValue(EnvVarKeys.CLEAN_NAMESPACE) === "true"
+  ) {
+    throwErrorIfGivenEnvironmentVariablesAreMissing(aadRelatedEnvVars);
+  }
+
   return {
-    [Constants.SERVICEBUS_CONNECTION_STRING]: getEnv(Constants.SERVICEBUS_CONNECTION_STRING),
-    [Constants.QUEUE_NAME]: getEnv(Constants.QUEUE_NAME) || "partitioned-queue",
-    [Constants.QUEUE_NAME_NO_PARTITION]:
-      getEnv(Constants.QUEUE_NAME_NO_PARTITION) || "unpartitioned-queue",
-    [Constants.QUEUE_NAME_SESSION]:
-      getEnv(Constants.QUEUE_NAME_SESSION) || "partitioned-queue-sessions",
-    [Constants.QUEUE_NAME_NO_PARTITION_SESSION]:
-      getEnv(Constants.QUEUE_NAME_NO_PARTITION_SESSION) || "unpartitioned-queue-sessions",
-    [Constants.TOPIC_NAME]: getEnv(Constants.TOPIC_NAME) || "partitioned-topic",
-    [Constants.TOPIC_NAME_NO_PARTITION]:
-      getEnv(Constants.TOPIC_NAME_NO_PARTITION) || "unpartitioned-topic",
-    [Constants.TOPIC_NAME_SESSION]:
-      getEnv(Constants.TOPIC_NAME_SESSION) || "partitioned-topic-sessions",
-    [Constants.TOPIC_NAME_NO_PARTITION_SESSION]:
-      getEnv(Constants.TOPIC_NAME_NO_PARTITION_SESSION) || "unpartitioned-topic-sessions",
-    [Constants.SUBSCRIPTION_NAME]:
-      getEnv(Constants.SUBSCRIPTION_NAME) || "partitioned-topic-subscription",
-    [Constants.SUBSCRIPTION_NAME_NO_PARTITION]:
-      getEnv(Constants.SUBSCRIPTION_NAME_NO_PARTITION) || "unpartitioned-topic-subscription",
-    [Constants.SUBSCRIPTION_NAME_SESSION]:
-      getEnv(Constants.SUBSCRIPTION_NAME_SESSION) || "partitioned-topic-sessions-subscription",
-    [Constants.SUBSCRIPTION_NAME_NO_PARTITION_SESSION]:
-      getEnv(Constants.SUBSCRIPTION_NAME_NO_PARTITION_SESSION) ||
+    [EnvVarKeys.SERVICEBUS_CONNECTION_STRING]: getEnvVarValue(
+      EnvVarKeys.SERVICEBUS_CONNECTION_STRING
+    ),
+    [EnvVarKeys.QUEUE_NAME]: getEnvVarValue(EnvVarKeys.QUEUE_NAME) || "partitioned-queue",
+    [EnvVarKeys.QUEUE_NAME_NO_PARTITION]:
+      getEnvVarValue(EnvVarKeys.QUEUE_NAME_NO_PARTITION) || "unpartitioned-queue",
+    [EnvVarKeys.QUEUE_NAME_SESSION]:
+      getEnvVarValue(EnvVarKeys.QUEUE_NAME_SESSION) || "partitioned-queue-sessions",
+    [EnvVarKeys.QUEUE_NAME_NO_PARTITION_SESSION]:
+      getEnvVarValue(EnvVarKeys.QUEUE_NAME_NO_PARTITION_SESSION) || "unpartitioned-queue-sessions",
+    [EnvVarKeys.TOPIC_NAME]: getEnvVarValue(EnvVarKeys.TOPIC_NAME) || "partitioned-topic",
+    [EnvVarKeys.TOPIC_NAME_NO_PARTITION]:
+      getEnvVarValue(EnvVarKeys.TOPIC_NAME_NO_PARTITION) || "unpartitioned-topic",
+    [EnvVarKeys.TOPIC_NAME_SESSION]:
+      getEnvVarValue(EnvVarKeys.TOPIC_NAME_SESSION) || "partitioned-topic-sessions",
+    [EnvVarKeys.TOPIC_NAME_NO_PARTITION_SESSION]:
+      getEnvVarValue(EnvVarKeys.TOPIC_NAME_NO_PARTITION_SESSION) || "unpartitioned-topic-sessions",
+    [EnvVarKeys.SUBSCRIPTION_NAME]:
+      getEnvVarValue(EnvVarKeys.SUBSCRIPTION_NAME) || "partitioned-topic-subscription",
+    [EnvVarKeys.SUBSCRIPTION_NAME_NO_PARTITION]:
+      getEnvVarValue(EnvVarKeys.SUBSCRIPTION_NAME_NO_PARTITION) ||
+      "unpartitioned-topic-subscription",
+    [EnvVarKeys.SUBSCRIPTION_NAME_SESSION]:
+      getEnvVarValue(EnvVarKeys.SUBSCRIPTION_NAME_SESSION) ||
+      "partitioned-topic-sessions-subscription",
+    [EnvVarKeys.SUBSCRIPTION_NAME_NO_PARTITION_SESSION]:
+      getEnvVarValue(EnvVarKeys.SUBSCRIPTION_NAME_NO_PARTITION_SESSION) ||
       "unpartitioned-topic-sessions-subscription",
-    [Constants.TOPIC_FILTER_NAME]: getEnv(Constants.TOPIC_FILTER_NAME) || "topic-filter",
-    [Constants.TOPIC_FILTER_SUBSCRIPTION_NAME]:
-      getEnv(Constants.TOPIC_FILTER_SUBSCRIPTION_NAME) || "topic-filter-subscription",
-    [Constants.TOPIC_FILTER_DEFAULT_SUBSCRIPTION_NAME]:
-      getEnv(Constants.TOPIC_FILTER_DEFAULT_SUBSCRIPTION_NAME) ||
+    [EnvVarKeys.TOPIC_FILTER_NAME]: getEnvVarValue(EnvVarKeys.TOPIC_FILTER_NAME) || "topic-filter",
+    [EnvVarKeys.TOPIC_FILTER_SUBSCRIPTION_NAME]:
+      getEnvVarValue(EnvVarKeys.TOPIC_FILTER_SUBSCRIPTION_NAME) || "topic-filter-subscription",
+    [EnvVarKeys.TOPIC_FILTER_DEFAULT_SUBSCRIPTION_NAME]:
+      getEnvVarValue(EnvVarKeys.TOPIC_FILTER_DEFAULT_SUBSCRIPTION_NAME) ||
       "topic-filter-default-subscription",
-    [Constants.AAD_CLIENT_ID]: getEnv(Constants.AAD_CLIENT_ID),
-    [Constants.AAD_CLIENT_SECRET]: getEnv(Constants.AAD_CLIENT_SECRET),
-    [Constants.AAD_TENANT_ID]: getEnv(Constants.AAD_TENANT_ID),
-    [Constants.RESOURCE_GROUP]: getEnv(Constants.RESOURCE_GROUP),
-    [Constants.AZURE_SUBSCRIPTION_ID]: getEnv(Constants.AZURE_SUBSCRIPTION_ID),
-    [Constants.CLEAN_NAMESPACE]: getEnv(Constants.CLEAN_NAMESPACE) || false
+    [EnvVarKeys.AAD_CLIENT_ID]: getEnvVarValue(EnvVarKeys.AAD_CLIENT_ID),
+    [EnvVarKeys.AAD_CLIENT_SECRET]: getEnvVarValue(EnvVarKeys.AAD_CLIENT_SECRET),
+    [EnvVarKeys.AAD_TENANT_ID]: getEnvVarValue(EnvVarKeys.AAD_TENANT_ID),
+    [EnvVarKeys.RESOURCE_GROUP]: getEnvVarValue(EnvVarKeys.RESOURCE_GROUP),
+    [EnvVarKeys.AZURE_SUBSCRIPTION_ID]: getEnvVarValue(EnvVarKeys.AZURE_SUBSCRIPTION_ID),
+    [EnvVarKeys.CLEAN_NAMESPACE]: getEnvVarValue(EnvVarKeys.CLEAN_NAMESPACE) || false
   };
 }
