@@ -15,7 +15,8 @@ import {
   OnError,
   delay,
   ReceiveMode,
-  SessionReceiver
+  SessionReceiver,
+  OnMessage
 } from "../src";
 import {
   purge,
@@ -447,7 +448,7 @@ async function testStreamingReceiverManualLockRenewalHappyCase(
     maxSessionAutoRenewLockDurationInSeconds: 0
   });
 
-  const onSessionMessage = async (brokeredMessage: ServiceBusMessage): Promise<void> => {
+  const onSessionMessage: OnMessage = async (brokeredMessage: ServiceBusMessage) => {
     if (numOfMessagesReceived < 1) {
       numOfMessagesReceived++;
 

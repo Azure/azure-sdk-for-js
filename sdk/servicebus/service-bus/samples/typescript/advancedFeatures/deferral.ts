@@ -72,7 +72,7 @@ async function receiveMessage(): Promise<void> {
   const deferredSteps = new Map();
   let lastProcessedRecipeStep = 0;
   try {
-    const onMessage: OnMessage = async (brokeredMessage): Promise<void> => {
+    const onMessage: OnMessage = async (brokeredMessage) => {
       if (
         brokeredMessage.label === "RecipeStep" &&
         brokeredMessage.contentType === "application/json"
@@ -100,7 +100,7 @@ async function receiveMessage(): Promise<void> {
         await brokeredMessage.deadLetter();
       }
     };
-    const onError: OnError = (err): void => {
+    const onError: OnError = (err) => {
       console.log(">>>>> Error occurred: ", err);
     };
 

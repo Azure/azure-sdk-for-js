@@ -86,7 +86,7 @@ async function receiveMessages(ns: ServiceBusClient, sessionId: string): Promise
   const queueClient = ns.createQueueClient(queueName);
   const receiver = queueClient.createReceiver(ReceiveMode.peekLock, { sessionId: sessionId });
 
-  const onMessage = async (brokeredMessage: ServiceBusMessage): Promise<void> => {
+  const onMessage = async (brokeredMessage: ServiceBusMessage) => {
     console.log(`Received: ${brokeredMessage.sessionId} - ${brokeredMessage.body} `);
   };
   const onError: OnError = (err): void => {
