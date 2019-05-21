@@ -4,8 +4,6 @@
 import chai from "chai";
 const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
-import dotenv from "dotenv";
-dotenv.config();
 chai.use(chaiAsPromised);
 import {
   ServiceBusClient,
@@ -18,7 +16,13 @@ import {
   Sender
 } from "../src";
 
-import { TestMessage, getSenderReceiverClients, TestClientType, purge } from "./testUtils";
+import {
+  TestMessage,
+  getSenderReceiverClients,
+  TestClientType,
+  purge,
+  getServiceBusClient
+} from "./utils/testUtils";
 import { Receiver, SessionReceiver } from "../src/receiver";
 
 async function testPeekMsgsLength(
@@ -44,15 +48,7 @@ async function beforeEachTest(
   receiverType: TestClientType,
   useSessions?: boolean
 ): Promise<void> {
-  // The tests in this file expect the env variables to contain the connection string and
-  // the names of empty queue/topic/subscription that are to be tested
-
-  if (!process.env.SERVICEBUS_CONNECTION_STRING) {
-    throw new Error(
-      "Define SERVICEBUS_CONNECTION_STRING in your environment before running integration tests."
-    );
-  }
-  sbClient = ServiceBusClient.createFromConnectionString(process.env.SERVICEBUS_CONNECTION_STRING);
+  sbClient = getServiceBusClient();
 
   const clients = await getSenderReceiverClients(sbClient, senderType, receiverType);
   senderClient = clients.senderClient;
@@ -109,7 +105,7 @@ describe("Simple Send", function(): void {
     await testSimpleSend(false, true);
   });
 
-  it("Unpartitioned Queue: Simple Send", async function(): Promise<void> {
+  it("Unpartitioned Queue: Simple Send #RunInBrowser", async function(): Promise<void> {
     await beforeEachTest(TestClientType.UnpartitionedQueue, TestClientType.UnpartitionedQueue);
     await testSimpleSend(false, false);
   });
@@ -159,7 +155,7 @@ describe("Simple Send", function(): void {
   });
 });
 
-describe("Simple Send Batch", function(): void {
+describe.only("Simple Send Batch", function(): void {
   afterEach(async () => {
     await afterEachTest();
   });
@@ -199,7 +195,7 @@ describe("Simple Send Batch", function(): void {
     await testSimpleSendBatch(false, true);
   });
 
-  it("Unpartitioned Queue: Simple SendBatch", async function(): Promise<void> {
+  it("Unpartitioned Queue: Simple SendBatch #RunInBrowser", async function(): Promise<void> {
     await beforeEachTest(TestClientType.UnpartitionedQueue, TestClientType.UnpartitionedQueue);
     await testSimpleSendBatch(false, false);
   });
@@ -433,7 +429,9 @@ describe("Schedule multiple messages", function(): void {
     await testScheduleMessages();
   });
 
-  it("UnPartitioned Queue: Schedule multiple messages", async function(): Promise<void> {
+  it("UnPartitioned Queue: Schedule multiple messages #RunInBrowser", async function(): Promise<
+    void
+  > {
     await beforeEachTest(TestClientType.UnpartitionedQueue, TestClientType.UnpartitionedQueue);
     await testScheduleMessages();
   });
@@ -468,7 +466,7 @@ describe("Schedule multiple messages", function(): void {
     await testScheduleMessages(true);
   });
 
-  it("Unpartitioned Queue with Sessions: Schedule multiple messages", async function(): Promise<
+  it("Unpartitioned Queue with Sessions: Schedule multiple messages #RunInBrowser", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -611,7 +609,9 @@ describe("Cancel multiple Scheduled messages", function(): void {
     await testCancelScheduleMessages(false);
   });
 
-  it("Unpartitioned Queue: Cancel scheduled messages", async function(): Promise<void> {
+  it("Unpartitioned Queue: Cancel scheduled messages #RunInBrowser", async function(): Promise<
+    void
+  > {
     await beforeEachTest(TestClientType.UnpartitionedQueue, TestClientType.UnpartitionedQueue);
     await testCancelScheduleMessages(false);
   });
@@ -642,7 +642,7 @@ describe("Cancel multiple Scheduled messages", function(): void {
     await testCancelScheduleMessages(true);
   });
 
-  it("Unpartitioned Queue with Sessions: Cancel scheduled messages", async function(): Promise<
+  it("Unpartitioned Queue with Sessions: Cancel scheduled messages #RunInBrowser", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -665,7 +665,7 @@ describe("Cancel multiple Scheduled messages", function(): void {
   });
 });
 
-describe("SendableMessageInfo validations", function(): void {
+describe("SendableMessageInfo validations #RunInBrowser", function(): void {
   let sender: Sender;
   const longString =
     "A very very very very very very very very very very very very very very very very very very very very very very very very very long string.";

@@ -22,7 +22,7 @@ import {
   purge,
   TestMessage,
   getServiceBusClient
-} from "./common/testUtils";
+} from "./utils/testUtils";
 const should = chai.should();
 chai.use(chaiAsPromised);
 
@@ -155,7 +155,7 @@ describe("Sessions Streaming - Misc Tests", function(): void {
     await testAutoComplete();
   });
 
-  it("UnPartitioned Queue: AutoComplete removes the message(with sessions)", async function(): Promise<
+  it("UnPartitioned Queue: AutoComplete removes the message(with sessions) #RunInBrowser", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -223,7 +223,7 @@ describe("Sessions Streaming - Misc Tests", function(): void {
     await testManualComplete();
   });
 
-  it("UnPartitioned Queue: Disabled autoComplete, no manual complete retains the message(with sessions)", async function(): Promise<
+  it("UnPartitioned Queue: Disabled autoComplete, no manual complete retains the message(with sessions) #RunInBrowser", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -791,7 +791,7 @@ describe("Sessions Streaming - Multiple Receive Operations", function(): void {
     await testMultipleReceiveCalls();
   });
 
-  it("UnPartitioned Queue: Second receive operation should fail if the first streaming receiver is not stopped(with sessions)", async function(): Promise<
+  it("UnPartitioned Queue: Second receive operation should fail if the first streaming receiver is not stopped(with sessions) #RunInBrowser", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -889,7 +889,7 @@ describe("Sessions Streaming - Settle an already Settled message throws error", 
     await testSettlement(DispositionType.complete);
   });
 
-  it("UnPartitioned Queue: complete() throws error(with sessions)", async function(): Promise<
+  it("UnPartitioned Queue: complete() throws error(with sessions) #RunInBrowser", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -927,7 +927,9 @@ describe("Sessions Streaming - Settle an already Settled message throws error", 
     await testSettlement(DispositionType.abandon);
   });
 
-  it("UnPartitioned Queue: abandon() throws error(with sessions)", async function(): Promise<void> {
+  it("UnPartitioned Queue: abandon() throws error(with sessions) #RunInBrowser", async function(): Promise<
+    void
+  > {
     await beforeEachTest(
       TestClientType.UnpartitionedQueueWithSessions,
       TestClientType.UnpartitionedQueueWithSessions
@@ -963,7 +965,9 @@ describe("Sessions Streaming - Settle an already Settled message throws error", 
     await testSettlement(DispositionType.defer);
   });
 
-  it("UnPartitioned Queue: defer() throws error(with sessions)", async function(): Promise<void> {
+  it("UnPartitioned Queue: defer() throws error(with sessions) #RunInBrowser", async function(): Promise<
+    void
+  > {
     await beforeEachTest(
       TestClientType.UnpartitionedQueueWithSessions,
       TestClientType.UnpartitionedQueueWithSessions
@@ -1001,7 +1005,7 @@ describe("Sessions Streaming - Settle an already Settled message throws error", 
     await testSettlement(DispositionType.deadletter);
   });
 
-  it("UnPartitioned Queue: deadLetter() throws error(with sessions)", async function(): Promise<
+  it("UnPartitioned Queue: deadLetter() throws error(with sessions) #RunInBrowser", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -1073,7 +1077,7 @@ describe("Sessions Streaming - User Error", function(): void {
     await testUserError();
   });
 
-  it("UnPartitioned Queue: onError handler is called for user error(with sessions)", async function(): Promise<
+  it("UnPartitioned Queue: onError handler is called for user error(with sessions) #RunInBrowser", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -1178,7 +1182,7 @@ describe("Sessions Streaming - maxConcurrentCalls", function(): void {
     await testConcurrency();
   });
 
-  it("Unpartitioned Queue: no maxConcurrentCalls passed(with sessions)", async function(): Promise<
+  it("Unpartitioned Queue: no maxConcurrentCalls passed(with sessions) #RunInBrowser", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -1188,7 +1192,7 @@ describe("Sessions Streaming - maxConcurrentCalls", function(): void {
     await testConcurrency();
   });
 
-  it("Unpartitioned Queue: pass 1 for maxConcurrentCalls(with sessions)", async function(): Promise<
+  it("Unpartitioned Queue: pass 1 for maxConcurrentCalls(with sessions) #RunInBrowser", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -1198,7 +1202,7 @@ describe("Sessions Streaming - maxConcurrentCalls", function(): void {
     await testConcurrency();
   });
 
-  it("Unpartitioned Queue: pass 2 for maxConcurrentCalls(with sessions)", async function(): Promise<
+  it("Unpartitioned Queue: pass 2 for maxConcurrentCalls(with sessions) #RunInBrowser", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -1248,7 +1252,7 @@ describe("Sessions Streaming - maxConcurrentCalls", function(): void {
     await testConcurrency();
   });
 
-  it("Unpartitioned Queue: pass 1 for maxConcurrentCalls(with sessions)", async function(): Promise<
+  it("Unpartitioned Subscription: pass 1 for maxConcurrentCalls(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -1258,7 +1262,7 @@ describe("Sessions Streaming - maxConcurrentCalls", function(): void {
     await testConcurrency(1);
   });
 
-  it("Unpartitioned Queue: pass 2 for maxConcurrentCalls(with sessions)", async function(): Promise<
+  it("Unpartitioned Subscription: pass 2 for maxConcurrentCalls(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -1332,7 +1336,7 @@ describe("Sessions Streaming - Not receive messages after receiver is closed", f
     await testReceiveMessages();
   });
 
-  it("UnPartitioned Queue: Not receive messages after receiver is closed", async function(): Promise<
+  it("UnPartitioned Queue: Not receive messages after receiver is closed #RunInBrowser", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -1374,7 +1378,7 @@ describe("Sessions Streaming - Not receive messages after receiver is closed", f
     await testReceiveMessages();
   });
 
-  it("UnPartitioned Queue: (Receive And Delete mode) Not receive messages after receiver is closed", async function(): Promise<
+  it("UnPartitioned Queue: (Receive And Delete mode) Not receive messages after receiver is closed #RunInBrowser", async function(): Promise<
     void
   > {
     await beforeEachTest(

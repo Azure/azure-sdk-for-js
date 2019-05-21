@@ -12,10 +12,11 @@ import {
   ReceiveMode,
   ServiceBusMessage
 } from "../../src";
-import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
-import { ServiceBusManagementClient } from "@azure/arm-servicebus";
-import { SBQueue, SBTopic, SBSubscription } from "@azure/arm-servicebus/esm/models";
-import { Constants, getEnvVars } from "./environmentVariables";
+import { EnvVarKeys, getEnvVars } from "./envVarUtils";
+import { recreateQueue, recreateSubscription, recreateTopic } from "./aadUtils";
+
+export const isNode =
+  !!process && !!process.version && !!process.versions && !!process.versions.node;
 
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -159,107 +160,6 @@ export enum TestClientType {
   TopicFilterTestSubscription
 }
 
-async function recreateQueue(queueName: string, parameters: SBQueue): Promise<void> {
-  const env = getEnvVars();
-  await msRestNodeAuth
-    .loginWithServicePrincipalSecret(
-      env[Constants.AAD_CLIENT_ID],
-      env[Constants.AAD_CLIENT_SECRET],
-      env[Constants.AAD_TENANT_ID]
-    )
-    .then(async (creds) => {
-      const client = await new ServiceBusManagementClient(
-        creds,
-        env[Constants.AZURE_SUBSCRIPTION_ID]
-      );
-      await client.queues.deleteMethod(
-        env[Constants.RESOURCE_GROUP],
-        getNamespace(env[Constants.SERVICEBUS_CONNECTION_STRING]),
-        queueName,
-        function(error: any): void {
-          if (error) throw error.message;
-        }
-      );
-      await client.queues.createOrUpdate(
-        env[Constants.RESOURCE_GROUP],
-        getNamespace(env[Constants.SERVICEBUS_CONNECTION_STRING]),
-        queueName,
-        parameters,
-        function(error: any): void {
-          if (error) throw error.message;
-        }
-      );
-    });
-}
-
-async function recreateTopic(topicName: string, parameters: SBTopic): Promise<void> {
-  const env = getEnvVars();
-  await msRestNodeAuth
-    .loginWithServicePrincipalSecret(
-      env[Constants.AAD_CLIENT_ID],
-      env[Constants.AAD_CLIENT_SECRET],
-      env[Constants.AAD_TENANT_ID]
-    )
-    .then(async (creds) => {
-      const client = await new ServiceBusManagementClient(
-        creds,
-        env[Constants.AZURE_SUBSCRIPTION_ID]
-      );
-      await client.topics.deleteMethod(
-        env[Constants.RESOURCE_GROUP],
-        getNamespace(env[Constants.SERVICEBUS_CONNECTION_STRING]),
-        topicName,
-        function(error: any): void {
-          if (error) throw error.message;
-        }
-      );
-      await client.topics.createOrUpdate(
-        env[Constants.RESOURCE_GROUP],
-        getNamespace(env[Constants.SERVICEBUS_CONNECTION_STRING]),
-        topicName,
-        parameters,
-        function(error: any): void {
-          if (error) throw error.message;
-        }
-      );
-    });
-}
-
-async function recreateSubscription(
-  topicName: string,
-  subscriptionName: string,
-  parameters: SBSubscription
-): Promise<void> {
-  const env = getEnvVars();
-  await msRestNodeAuth
-    .loginWithServicePrincipalSecret(
-      env[Constants.AAD_CLIENT_ID],
-      env[Constants.AAD_CLIENT_SECRET],
-      env[Constants.AAD_TENANT_ID]
-    )
-    .then(async (creds) => {
-      const client = await new ServiceBusManagementClient(
-        creds,
-        env[Constants.AZURE_SUBSCRIPTION_ID]
-      );
-      /*
-        Unlike Queues/Topics, there is no need to delete the subscription because
-        `recreateTopic` is called before `recreateSubscription` which would
-        delete the topic and the subscriptions before creating a new topic.
-      */
-      await client.subscriptions.createOrUpdate(
-        env[Constants.RESOURCE_GROUP],
-        getNamespace(env[Constants.SERVICEBUS_CONNECTION_STRING]),
-        topicName,
-        subscriptionName,
-        parameters,
-        function(error: any): void {
-          if (error) throw error.message;
-        }
-      );
-    });
-}
-
 export async function getTopicClientWithTwoSubscriptionClients(
   namespace: ServiceBusClient
 ): Promise<{
@@ -268,22 +168,23 @@ export async function getTopicClientWithTwoSubscriptionClients(
 }> {
   const env = getEnvVars();
   const subscriptionClients: SubscriptionClient[] = [];
-
-  if (env[Constants.CLEAN_NAMESPACE]) {
-    await recreateTopic(env[Constants.TOPIC_FILTER_NAME], {
-      enableBatchedOperations: true
-    });
-    await recreateSubscription(
-      env[Constants.TOPIC_FILTER_NAME],
-      env[Constants.TOPIC_FILTER_SUBSCRIPTION_NAME],
-      {
-        lockDuration: defaultLockDuration,
+  if (isNode) {
+    if (env[EnvVarKeys.CLEAN_NAMESPACE]) {
+      await recreateTopic(env[EnvVarKeys.TOPIC_FILTER_NAME], {
         enableBatchedOperations: true
-      }
-    );
+      });
+      await recreateSubscription(
+        env[EnvVarKeys.TOPIC_FILTER_NAME],
+        env[EnvVarKeys.TOPIC_FILTER_SUBSCRIPTION_NAME],
+        {
+          lockDuration: defaultLockDuration,
+          enableBatchedOperations: true
+        }
+      );
+    }
     await recreateSubscription(
-      env[Constants.TOPIC_FILTER_NAME],
-      env[Constants.TOPIC_FILTER_DEFAULT_SUBSCRIPTION_NAME],
+      env[EnvVarKeys.TOPIC_FILTER_NAME],
+      env[EnvVarKeys.TOPIC_FILTER_DEFAULT_SUBSCRIPTION_NAME],
       {
         lockDuration: defaultLockDuration,
         enableBatchedOperations: true
@@ -293,19 +194,19 @@ export async function getTopicClientWithTwoSubscriptionClients(
 
   subscriptionClients.push(
     namespace.createSubscriptionClient(
-      env[Constants.TOPIC_FILTER_NAME],
-      env[Constants.TOPIC_FILTER_SUBSCRIPTION_NAME]
+      env[EnvVarKeys.TOPIC_FILTER_NAME],
+      env[EnvVarKeys.TOPIC_FILTER_SUBSCRIPTION_NAME]
     )
   );
   subscriptionClients.push(
     namespace.createSubscriptionClient(
-      env[Constants.TOPIC_FILTER_NAME],
-      env[Constants.TOPIC_FILTER_DEFAULT_SUBSCRIPTION_NAME]
+      env[EnvVarKeys.TOPIC_FILTER_NAME],
+      env[EnvVarKeys.TOPIC_FILTER_DEFAULT_SUBSCRIPTION_NAME]
     )
   );
 
   return {
-    topicClient: namespace.createTopicClient(env[Constants.TOPIC_FILTER_NAME]),
+    topicClient: namespace.createTopicClient(env[EnvVarKeys.TOPIC_FILTER_NAME]),
     subscriptionClients
   };
 }
@@ -322,122 +223,140 @@ export async function getSenderReceiverClients(
 
   switch (receiverClientType) {
     case TestClientType.PartitionedQueue: {
-      if (env[Constants.CLEAN_NAMESPACE]) {
-        await recreateQueue(env[Constants.QUEUE_NAME], {
-          lockDuration: defaultLockDuration,
-          enablePartitioning: true,
-          enableBatchedOperations: true
-        });
+      if (isNode) {
+        if (env[EnvVarKeys.CLEAN_NAMESPACE]) {
+          await recreateQueue(env[EnvVarKeys.QUEUE_NAME], {
+            lockDuration: defaultLockDuration,
+            enablePartitioning: true,
+            enableBatchedOperations: true
+          });
+        }
       }
-      const queueClient = namespace.createQueueClient(env[Constants.QUEUE_NAME]);
+      const queueClient = namespace.createQueueClient(env[EnvVarKeys.QUEUE_NAME]);
       return {
         senderClient: queueClient,
         receiverClient: queueClient
       };
     }
     case TestClientType.PartitionedSubscription: {
-      if (env[Constants.CLEAN_NAMESPACE]) {
-        await recreateTopic(env[Constants.TOPIC_NAME], {
-          enablePartitioning: true,
-          enableBatchedOperations: true
-        });
-        await recreateSubscription(env[Constants.TOPIC_NAME], env[Constants.SUBSCRIPTION_NAME], {
-          lockDuration: defaultLockDuration,
-          enableBatchedOperations: true
-        });
+      if (isNode) {
+        if (env[EnvVarKeys.CLEAN_NAMESPACE]) {
+          await recreateTopic(env[EnvVarKeys.TOPIC_NAME], {
+            enablePartitioning: true,
+            enableBatchedOperations: true
+          });
+          await recreateSubscription(
+            env[EnvVarKeys.TOPIC_NAME],
+            env[EnvVarKeys.SUBSCRIPTION_NAME],
+            {
+              lockDuration: defaultLockDuration,
+              enableBatchedOperations: true
+            }
+          );
+        }
       }
       return {
-        senderClient: namespace.createTopicClient(env[Constants.TOPIC_NAME]),
+        senderClient: namespace.createTopicClient(env[EnvVarKeys.TOPIC_NAME]),
         receiverClient: namespace.createSubscriptionClient(
-          env[Constants.TOPIC_NAME],
-          env[Constants.SUBSCRIPTION_NAME]
+          env[EnvVarKeys.TOPIC_NAME],
+          env[EnvVarKeys.SUBSCRIPTION_NAME]
         )
       };
     }
     case TestClientType.UnpartitionedQueue: {
-      if (env[Constants.CLEAN_NAMESPACE]) {
-        await recreateQueue(env[Constants.QUEUE_NAME_NO_PARTITION], {
-          lockDuration: defaultLockDuration,
-          enableBatchedOperations: true
-        });
+      if (isNode) {
+        if (env[EnvVarKeys.CLEAN_NAMESPACE]) {
+          await recreateQueue(env[EnvVarKeys.QUEUE_NAME_NO_PARTITION], {
+            lockDuration: defaultLockDuration,
+            enableBatchedOperations: true
+          });
+        }
       }
-      const queueClient = namespace.createQueueClient(env[Constants.QUEUE_NAME_NO_PARTITION]);
+      const queueClient = namespace.createQueueClient(env[EnvVarKeys.QUEUE_NAME_NO_PARTITION]);
       return {
         senderClient: queueClient,
         receiverClient: queueClient
       };
     }
     case TestClientType.UnpartitionedSubscription: {
-      if (env[Constants.CLEAN_NAMESPACE]) {
-        await recreateTopic(env[Constants.TOPIC_NAME_NO_PARTITION], {
-          enableBatchedOperations: true
-        });
-        await recreateSubscription(
-          env[Constants.TOPIC_NAME_NO_PARTITION],
-          env[Constants.SUBSCRIPTION_NAME_NO_PARTITION],
-          {
-            lockDuration: defaultLockDuration,
+      if (isNode) {
+        if (env[EnvVarKeys.CLEAN_NAMESPACE]) {
+          await recreateTopic(env[EnvVarKeys.TOPIC_NAME_NO_PARTITION], {
             enableBatchedOperations: true
-          }
-        );
+          });
+          await recreateSubscription(
+            env[EnvVarKeys.TOPIC_NAME_NO_PARTITION],
+            env[EnvVarKeys.SUBSCRIPTION_NAME_NO_PARTITION],
+            {
+              lockDuration: defaultLockDuration,
+              enableBatchedOperations: true
+            }
+          );
+        }
       }
       return {
-        senderClient: namespace.createTopicClient(env[Constants.TOPIC_NAME_NO_PARTITION]),
+        senderClient: namespace.createTopicClient(env[EnvVarKeys.TOPIC_NAME_NO_PARTITION]),
         receiverClient: namespace.createSubscriptionClient(
-          env[Constants.TOPIC_NAME_NO_PARTITION],
-          env[Constants.SUBSCRIPTION_NAME_NO_PARTITION]
+          env[EnvVarKeys.TOPIC_NAME_NO_PARTITION],
+          env[EnvVarKeys.SUBSCRIPTION_NAME_NO_PARTITION]
         )
       };
     }
     case TestClientType.PartitionedQueueWithSessions: {
-      if (env[Constants.CLEAN_NAMESPACE]) {
-        await recreateQueue(env[Constants.QUEUE_NAME_SESSION], {
-          lockDuration: defaultLockDuration,
-          enablePartitioning: true,
-          enableBatchedOperations: true,
-          requiresSession: true
-        });
+      if (isNode) {
+        if (env[EnvVarKeys.CLEAN_NAMESPACE]) {
+          await recreateQueue(env[EnvVarKeys.QUEUE_NAME_SESSION], {
+            lockDuration: defaultLockDuration,
+            enablePartitioning: true,
+            enableBatchedOperations: true,
+            requiresSession: true
+          });
+        }
       }
-      const queueClient = namespace.createQueueClient(env[Constants.QUEUE_NAME_SESSION]);
+      const queueClient = namespace.createQueueClient(env[EnvVarKeys.QUEUE_NAME_SESSION]);
       return {
         senderClient: queueClient,
         receiverClient: queueClient
       };
     }
     case TestClientType.PartitionedSubscriptionWithSessions: {
-      if (env[Constants.CLEAN_NAMESPACE]) {
-        await recreateTopic(env[Constants.TOPIC_NAME_SESSION], {
-          enablePartitioning: true,
-          enableBatchedOperations: true
-        });
-        await recreateSubscription(
-          env[Constants.TOPIC_NAME_SESSION],
-          env[Constants.SUBSCRIPTION_NAME_SESSION],
-          {
-            lockDuration: defaultLockDuration,
-            enableBatchedOperations: true,
-            requiresSession: true
-          }
-        );
+      if (isNode) {
+        if (env[EnvVarKeys.CLEAN_NAMESPACE]) {
+          await recreateTopic(env[EnvVarKeys.TOPIC_NAME_SESSION], {
+            enablePartitioning: true,
+            enableBatchedOperations: true
+          });
+          await recreateSubscription(
+            env[EnvVarKeys.TOPIC_NAME_SESSION],
+            env[EnvVarKeys.SUBSCRIPTION_NAME_SESSION],
+            {
+              lockDuration: defaultLockDuration,
+              enableBatchedOperations: true,
+              requiresSession: true
+            }
+          );
+        }
       }
       return {
-        senderClient: namespace.createTopicClient(env[Constants.TOPIC_NAME_SESSION]),
+        senderClient: namespace.createTopicClient(env[EnvVarKeys.TOPIC_NAME_SESSION]),
         receiverClient: namespace.createSubscriptionClient(
-          env[Constants.TOPIC_NAME_SESSION],
-          env[Constants.SUBSCRIPTION_NAME_SESSION]
+          env[EnvVarKeys.TOPIC_NAME_SESSION],
+          env[EnvVarKeys.SUBSCRIPTION_NAME_SESSION]
         )
       };
     }
     case TestClientType.UnpartitionedQueueWithSessions: {
-      if (env[Constants.CLEAN_NAMESPACE]) {
-        await recreateQueue(env[Constants.QUEUE_NAME_NO_PARTITION_SESSION], {
-          lockDuration: defaultLockDuration,
-          enableBatchedOperations: true,
-          requiresSession: true
-        });
+      if (isNode) {
+        if (env[EnvVarKeys.CLEAN_NAMESPACE]) {
+          await recreateQueue(env[EnvVarKeys.QUEUE_NAME_NO_PARTITION_SESSION], {
+            lockDuration: defaultLockDuration,
+            enableBatchedOperations: true,
+            requiresSession: true
+          });
+        }
       }
       const queueClient = namespace.createQueueClient(
-        env[Constants.QUEUE_NAME_NO_PARTITION_SESSION]
+        env[EnvVarKeys.QUEUE_NAME_NO_PARTITION_SESSION]
       );
       return {
         senderClient: queueClient,
@@ -445,69 +364,75 @@ export async function getSenderReceiverClients(
       };
     }
     case TestClientType.UnpartitionedSubscriptionWithSessions: {
-      if (env[Constants.CLEAN_NAMESPACE]) {
-        await recreateTopic(env[Constants.TOPIC_NAME_NO_PARTITION_SESSION], {
-          enableBatchedOperations: true
-        });
-        await recreateSubscription(
-          env[Constants.TOPIC_NAME_NO_PARTITION_SESSION],
-          env[Constants.SUBSCRIPTION_NAME_NO_PARTITION_SESSION],
-          {
-            lockDuration: defaultLockDuration,
-            enableBatchedOperations: true,
-            requiresSession: true
-          }
-        );
+      if (isNode) {
+        if (env[EnvVarKeys.CLEAN_NAMESPACE]) {
+          await recreateTopic(env[EnvVarKeys.TOPIC_NAME_NO_PARTITION_SESSION], {
+            enableBatchedOperations: true
+          });
+          await recreateSubscription(
+            env[EnvVarKeys.TOPIC_NAME_NO_PARTITION_SESSION],
+            env[EnvVarKeys.SUBSCRIPTION_NAME_NO_PARTITION_SESSION],
+            {
+              lockDuration: defaultLockDuration,
+              enableBatchedOperations: true,
+              requiresSession: true
+            }
+          );
+        }
       }
       return {
-        senderClient: namespace.createTopicClient(env[Constants.TOPIC_NAME_NO_PARTITION_SESSION]),
+        senderClient: namespace.createTopicClient(env[EnvVarKeys.TOPIC_NAME_NO_PARTITION_SESSION]),
         receiverClient: namespace.createSubscriptionClient(
-          env[Constants.TOPIC_NAME_NO_PARTITION_SESSION],
-          env[Constants.SUBSCRIPTION_NAME_NO_PARTITION_SESSION]
+          env[EnvVarKeys.TOPIC_NAME_NO_PARTITION_SESSION],
+          env[EnvVarKeys.SUBSCRIPTION_NAME_NO_PARTITION_SESSION]
         )
       };
     }
     case TestClientType.TopicFilterTestDefaultSubscription: {
-      if (env[Constants.CLEAN_NAMESPACE]) {
-        await recreateTopic(env[Constants.TOPIC_FILTER_NAME], {
-          enableBatchedOperations: true
-        });
-        await recreateSubscription(
-          env[Constants.TOPIC_FILTER_NAME],
-          env[Constants.TOPIC_FILTER_DEFAULT_SUBSCRIPTION_NAME],
-          {
-            lockDuration: defaultLockDuration,
+      if (isNode) {
+        if (env[EnvVarKeys.CLEAN_NAMESPACE]) {
+          await recreateTopic(env[EnvVarKeys.TOPIC_FILTER_NAME], {
             enableBatchedOperations: true
-          }
-        );
+          });
+          await recreateSubscription(
+            env[EnvVarKeys.TOPIC_FILTER_NAME],
+            env[EnvVarKeys.TOPIC_FILTER_DEFAULT_SUBSCRIPTION_NAME],
+            {
+              lockDuration: defaultLockDuration,
+              enableBatchedOperations: true
+            }
+          );
+        }
       }
       return {
-        senderClient: namespace.createTopicClient(env[Constants.TOPIC_FILTER_NAME]),
+        senderClient: namespace.createTopicClient(env[EnvVarKeys.TOPIC_FILTER_NAME]),
         receiverClient: namespace.createSubscriptionClient(
-          env[Constants.TOPIC_FILTER_NAME],
-          env[Constants.TOPIC_FILTER_DEFAULT_SUBSCRIPTION_NAME]
+          env[EnvVarKeys.TOPIC_FILTER_NAME],
+          env[EnvVarKeys.TOPIC_FILTER_DEFAULT_SUBSCRIPTION_NAME]
         )
       };
     }
     case TestClientType.TopicFilterTestSubscription: {
-      if (env[Constants.CLEAN_NAMESPACE]) {
-        await recreateTopic(env[Constants.TOPIC_FILTER_NAME], {
-          enableBatchedOperations: true
-        });
-        await recreateSubscription(
-          env[Constants.TOPIC_FILTER_NAME],
-          env[Constants.TOPIC_FILTER_SUBSCRIPTION_NAME],
-          {
-            lockDuration: defaultLockDuration,
+      if (isNode) {
+        if (env[EnvVarKeys.CLEAN_NAMESPACE]) {
+          await recreateTopic(env[EnvVarKeys.TOPIC_FILTER_NAME], {
             enableBatchedOperations: true
-          }
-        );
+          });
+          await recreateSubscription(
+            env[EnvVarKeys.TOPIC_FILTER_NAME],
+            env[EnvVarKeys.TOPIC_FILTER_SUBSCRIPTION_NAME],
+            {
+              lockDuration: defaultLockDuration,
+              enableBatchedOperations: true
+            }
+          );
+        }
       }
       return {
-        senderClient: namespace.createTopicClient(env[Constants.TOPIC_FILTER_NAME]),
+        senderClient: namespace.createTopicClient(env[EnvVarKeys.TOPIC_FILTER_NAME]),
         receiverClient: namespace.createSubscriptionClient(
-          env[Constants.TOPIC_FILTER_NAME],
-          env[Constants.TOPIC_FILTER_SUBSCRIPTION_NAME]
+          env[EnvVarKeys.TOPIC_FILTER_NAME],
+          env[EnvVarKeys.TOPIC_FILTER_SUBSCRIPTION_NAME]
         )
       };
     }
@@ -574,10 +499,10 @@ export async function checkWithTimeout(
  * Utility function to get namespace string from given connection string
  * @param serviceBusConnectionString
  */
-function getNamespace(serviceBusConnectionString: string): string {
+export function getNamespace(serviceBusConnectionString: string): string {
   return (serviceBusConnectionString.match("Endpoint=sb://(.*).servicebus.windows.net") || "")[1];
 }
 
 export function getServiceBusClient(): ServiceBusClient {
-  return ServiceBusClient.createFromConnectionString(env[Constants.SERVICEBUS_CONNECTION_STRING]);
+  return ServiceBusClient.createFromConnectionString(env[EnvVarKeys.SERVICEBUS_CONNECTION_STRING]);
 }

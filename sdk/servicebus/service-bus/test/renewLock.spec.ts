@@ -4,8 +4,6 @@
 import chai from "chai";
 const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
-import dotenv from "dotenv";
-dotenv.config();
 chai.use(chaiAsPromised);
 import {
   ServiceBusClient,
@@ -19,20 +17,23 @@ import {
   ReceiveMode
 } from "../src";
 import { delay } from "rhea-promise";
-import { purge, getSenderReceiverClients, TestClientType, TestMessage } from "./testUtils";
+import {
+  purge,
+  getSenderReceiverClients,
+  TestClientType,
+  TestMessage,
+  getServiceBusClient
+} from "./utils/testUtils";
 
 let sbClient: ServiceBusClient;
 let senderClient: QueueClient | TopicClient;
 let receiverClient: QueueClient | SubscriptionClient;
 
-async function beforeEachTest(senderType: TestClientType, receiverType: TestClientType): Promise<void> {
-  if (!process.env.SERVICEBUS_CONNECTION_STRING) {
-    throw new Error(
-      "Define SERVICEBUS_CONNECTION_STRING in your environment before running integration tests."
-    );
-  }
-
-  sbClient = ServiceBusClient.createFromConnectionString(process.env.SERVICEBUS_CONNECTION_STRING);
+async function beforeEachTest(
+  senderType: TestClientType,
+  receiverType: TestClientType
+): Promise<void> {
+  sbClient = getServiceBusClient();
   const clients = await getSenderReceiverClients(sbClient, senderType, receiverType);
   senderClient = clients.senderClient;
   receiverClient = clients.receiverClient;
@@ -49,7 +50,7 @@ async function afterEachTest(): Promise<void> {
   await sbClient.close();
 }
 
-describe("Unpartitioned Queue - Lock Renewal", function(): void {
+describe("Unpartitioned Queue - Lock Renewal #RunInBrowser", function(): void {
   beforeEach(async () => {
     await beforeEachTest(TestClientType.UnpartitionedQueue, TestClientType.UnpartitionedQueue);
   });
@@ -188,7 +189,10 @@ describe("Partitioned Queue - Lock Renewal", function(): void {
 
 describe("Unpartitioned Subscription - Lock Renewal", function(): void {
   beforeEach(async () => {
-    await beforeEachTest(TestClientType.UnpartitionedTopic, TestClientType.UnpartitionedSubscription);
+    await beforeEachTest(
+      TestClientType.UnpartitionedTopic,
+      TestClientType.UnpartitionedSubscription
+    );
   });
 
   afterEach(async () => {

@@ -3,7 +3,6 @@
 
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
-import dotenv from "dotenv";
 import {
   delay,
   QueueClient,
@@ -22,10 +21,10 @@ import {
   TestClientType,
   getSenderReceiverClients,
   purge,
-  TestMessage
-} from "./testUtils";
+  TestMessage,
+  getServiceBusClient
+} from "./utils/testUtils";
 const should = chai.should();
-dotenv.config();
 chai.use(chaiAsPromised);
 
 async function testPeekMsgsLength(
@@ -61,17 +60,7 @@ async function beforeEachTest(
   receiverType: TestClientType,
   receiveMode?: ReceiveMode
 ): Promise<void> {
-  // The tests in this file expect the env variables to contain the connection string and
-  // the names of empty queue/topic/subscription that are to be tested
-
-  if (!process.env.SERVICEBUS_CONNECTION_STRING) {
-    throw new Error(
-      "Define SERVICEBUS_CONNECTION_STRING in your environment before running integration tests."
-    );
-  }
-
-  sbClient = ServiceBusClient.createFromConnectionString(process.env.SERVICEBUS_CONNECTION_STRING);
-
+  sbClient = getServiceBusClient();
   const clients = await getSenderReceiverClients(sbClient, senderType, receiverType);
   senderClient = clients.senderClient;
   receiverClient = clients.receiverClient;
@@ -164,7 +153,9 @@ describe("Streaming - Misc Tests", function(): void {
     await testAutoComplete();
   });
 
-  it("UnPartitioned Queue: AutoComplete removes the message", async function(): Promise<void> {
+  it("UnPartitioned Queue: AutoComplete removes the message #RunInBrowser", async function(): Promise<
+    void
+  > {
     await beforeEachTest(TestClientType.UnpartitionedQueue, TestClientType.UnpartitionedQueue);
     await testAutoComplete();
   });
@@ -222,7 +213,7 @@ describe("Streaming - Misc Tests", function(): void {
     await testManualComplete();
   });
 
-  it("UnPartitioned Queue: Disabled autoComplete, no manual complete retains the message", async function(): Promise<
+  it("UnPartitioned Queue: Disabled autoComplete, no manual complete retains the message #RunInBrowser", async function(): Promise<
     void
   > {
     await beforeEachTest(TestClientType.UnpartitionedQueue, TestClientType.UnpartitionedQueue);
@@ -677,7 +668,7 @@ describe("Streaming - Multiple Receiver Operations", function(): void {
     await testMultipleReceiveCalls();
   });
 
-  it("UnPartitioned Queue: Second receive operation should fail if the first streaming receiver is not stopped", async function(): Promise<
+  it("UnPartitioned Queue: Second receive operation should fail if the first streaming receiver is not stopped #RunInBrowser", async function(): Promise<
     void
   > {
     await beforeEachTest(TestClientType.UnpartitionedQueue, TestClientType.UnpartitionedQueue);
@@ -764,7 +755,7 @@ describe("Streaming - Settle an already Settled message throws error", () => {
     await testSettlement(DispositionType.complete);
   });
 
-  it("UnPartitioned Queue: complete() throws error", async function(): Promise<void> {
+  it("UnPartitioned Queue: complete() throws error #RunInBrowser", async function(): Promise<void> {
     await beforeEachTest(TestClientType.UnpartitionedQueue, TestClientType.UnpartitionedQueue);
     await testSettlement(DispositionType.complete);
   });
@@ -787,7 +778,7 @@ describe("Streaming - Settle an already Settled message throws error", () => {
     await testSettlement(DispositionType.abandon);
   });
 
-  it("UnPartitioned Queue: abandon() throws error", async function(): Promise<void> {
+  it("UnPartitioned Queue: abandon() throws error #RunInBrowser", async function(): Promise<void> {
     await beforeEachTest(TestClientType.UnpartitionedQueue, TestClientType.UnpartitionedQueue);
     await testSettlement(DispositionType.abandon);
   });
@@ -810,7 +801,7 @@ describe("Streaming - Settle an already Settled message throws error", () => {
     await testSettlement(DispositionType.defer);
   });
 
-  it("UnPartitioned Queue: defer() throws error", async function(): Promise<void> {
+  it("UnPartitioned Queue: defer() throws error #RunInBrowser", async function(): Promise<void> {
     await beforeEachTest(TestClientType.UnpartitionedQueue, TestClientType.UnpartitionedQueue);
     await testSettlement(DispositionType.defer);
   });
@@ -833,7 +824,9 @@ describe("Streaming - Settle an already Settled message throws error", () => {
     await testSettlement(DispositionType.deadletter);
   });
 
-  it("UnPartitioned Queue: deadLetter() throws error", async function(): Promise<void> {
+  it("UnPartitioned Queue: deadLetter() throws error #RunInBrowser", async function(): Promise<
+    void
+  > {
     await beforeEachTest(TestClientType.UnpartitionedQueue, TestClientType.UnpartitionedQueue);
     await testSettlement(DispositionType.deadletter);
   });
@@ -891,7 +884,7 @@ describe("Streaming - User Error", function(): void {
     await testUserError();
   });
 
-  it("UnPartitioned Queue: onError handler is called for user error", async function(): Promise<
+  it("UnPartitioned Queue: onError handler is called for user error #RunInBrowser", async function(): Promise<
     void
   > {
     await beforeEachTest(TestClientType.UnpartitionedQueue, TestClientType.UnpartitionedQueue);
@@ -969,17 +962,23 @@ describe("Streaming - maxConcurrentCalls", function(): void {
     await testConcurrency(2);
   });
 
-  it("Unpartitioned Queue: no maxConcurrentCalls passed", async function(): Promise<void> {
+  it("Unpartitioned Queue: no maxConcurrentCalls passed #RunInBrowser", async function(): Promise<
+    void
+  > {
     await beforeEachTest(TestClientType.UnpartitionedQueue, TestClientType.UnpartitionedQueue);
     await testConcurrency();
   });
 
-  it("Unpartitioned Queue: pass 1 for maxConcurrentCalls", async function(): Promise<void> {
+  it("Unpartitioned Queue: pass 1 for maxConcurrentCalls #RunInBrowser", async function(): Promise<
+    void
+  > {
     await beforeEachTest(TestClientType.UnpartitionedQueue, TestClientType.UnpartitionedQueue);
     await testConcurrency(1);
   });
 
-  it("Unpartitioned Queue: pass 2 for maxConcurrentCalls", async function(): Promise<void> {
+  it("Unpartitioned Queue: pass 2 for maxConcurrentCalls #RunInBrowser", async function(): Promise<
+    void
+  > {
     await beforeEachTest(TestClientType.UnpartitionedQueue, TestClientType.UnpartitionedQueue);
     await testConcurrency(2);
   });
@@ -1007,7 +1006,7 @@ describe("Streaming - maxConcurrentCalls", function(): void {
     await testConcurrency();
   });
 
-  it("Unpartitioned Queue: pass 1 for maxConcurrentCalls", async function(): Promise<void> {
+  it("Unpartitioned Subscription: pass 1 for maxConcurrentCalls", async function(): Promise<void> {
     await beforeEachTest(
       TestClientType.UnpartitionedTopic,
       TestClientType.UnpartitionedSubscription
@@ -1015,7 +1014,7 @@ describe("Streaming - maxConcurrentCalls", function(): void {
     await testConcurrency(1);
   });
 
-  it("Unpartitioned Queue: pass 2 for maxConcurrentCalls", async function(): Promise<void> {
+  it("Unpartitioned Subscription: pass 2 for maxConcurrentCalls", async function(): Promise<void> {
     await beforeEachTest(
       TestClientType.UnpartitionedTopic,
       TestClientType.UnpartitionedSubscription
@@ -1080,7 +1079,7 @@ describe("Streaming - Not receive messages after receiver is closed", function()
     await testReceiveMessages();
   });
 
-  it("UnPartitioned Queue: Not receive messages after receiver is closed", async function(): Promise<
+  it("UnPartitioned Queue: Not receive messages after receiver is closed #RunInBrowser", async function(): Promise<
     void
   > {
     await beforeEachTest(TestClientType.UnpartitionedQueue, TestClientType.UnpartitionedQueue);
@@ -1119,7 +1118,7 @@ describe("Streaming - Not receive messages after receiver is closed", function()
     await testReceiveMessages();
   });
 
-  it("UnPartitioned Queue: (Receive And Delete mode) Not receive messages after receiver is closed", async function(): Promise<
+  it("UnPartitioned Queue: (Receive And Delete mode) Not receive messages after receiver is closed #RunInBrowser", async function(): Promise<
     void
   > {
     await beforeEachTest(
