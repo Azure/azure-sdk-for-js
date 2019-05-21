@@ -340,6 +340,19 @@ export class Registries {
   }
 
   /**
+   * Generate keys for a token of a specified container registry.
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param registryName The name of the container registry.
+   * @param generateCredentialsParameters The parameters for generating credentials.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.RegistriesGenerateCredentialsResponse>
+   */
+  generateCredentials(resourceGroupName: string, registryName: string, generateCredentialsParameters: Models.GenerateCredentialsParameters, options?: msRest.RequestOptionsBase): Promise<Models.RegistriesGenerateCredentialsResponse> {
+    return this.beginGenerateCredentials(resourceGroupName,registryName,generateCredentialsParameters,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.RegistriesGenerateCredentialsResponse>;
+  }
+
+  /**
    * Copies an image to this container registry from the specified container registry.
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
@@ -434,6 +447,26 @@ export class Registries {
         options
       },
       beginScheduleRunOperationSpec,
+      options);
+  }
+
+  /**
+   * Generate keys for a token of a specified container registry.
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param registryName The name of the container registry.
+   * @param generateCredentialsParameters The parameters for generating credentials.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginGenerateCredentials(resourceGroupName: string, registryName: string, generateCredentialsParameters: Models.GenerateCredentialsParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        registryName,
+        generateCredentialsParameters,
+        options
+      },
+      beginGenerateCredentialsOperationSpec,
       options);
   }
 
@@ -855,6 +888,39 @@ const beginScheduleRunOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.Run
+    },
+    202: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginGenerateCredentialsOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/generateCredentials",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.registryName
+  ],
+  queryParameters: [
+    Parameters.apiVersion2
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "generateCredentialsParameters",
+    mapper: {
+      ...Mappers.GenerateCredentialsParameters,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.GenerateCredentialsResult
     },
     202: {},
     default: {
