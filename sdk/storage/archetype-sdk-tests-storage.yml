@@ -1,6 +1,9 @@
 parameters:
-  EnvVars: []
   PackageName: ""
+  EnvVars:
+    ACCOUNT_NAME: $(js-storage-test-account-name)
+    ACCOUNT_KEY: $(js-storage-test-account-key)
+    ACCOUNT_SAS: $(js-storage-test-account-sas)
   Matrix:
     Linux_Node8X:
       OSName: "Linux"
@@ -40,13 +43,13 @@ parameters:
       NodeVersion: "12.x"
 
 jobs:
-  - template: ./archetype-sdk-tests-node.yml
+  - template: ../../eng/pipelines/templates/jobs/archetype-sdk-tests-node.yml
     parameters:
       EnvVars: ${{ parameters.EnvVars }}
       PackageName: ${{ parameters.PackageName }}
       Matrix: ${{ parameters.Matrix }}
 
-  - template: ./archetype-sdk-tests-browser.yml
+  - template: ../../eng/pipelines/templates/jobs/archetype-sdk-tests-browser.yml
     parameters:
       EnvVars: ${{ parameters.EnvVars }}
       PackageName: ${{ parameters.PackageName }}

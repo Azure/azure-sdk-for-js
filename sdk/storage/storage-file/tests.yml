@@ -1,10 +1,6 @@
 trigger: none
 
 jobs:
-  - template: ../../../eng/pipelines/templates/jobs/archetype-sdk-tests-storage.yml
+  - template: ../archetype-sdk-tests-storage.yml
     parameters:
       PackageName: "@azure/storage-file"
-      EnvVars:
-        ACCOUNT_NAME: $(js-storage-test-account-name)
-        ACCOUNT_KEY: $(js-storage-test-account-key)
-        ACCOUNT_SAS: $(js-storage-test-account-sas)
