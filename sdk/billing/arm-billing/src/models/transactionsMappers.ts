@@ -27,7 +27,6 @@ export {
   EnrollmentPolicies,
   ErrorDetails,
   ErrorResponse,
-  InvoiceListResult,
   InvoiceSection,
   InvoiceSummary,
   Participants,
@@ -36,5 +35,6 @@ export {
   Policy,
   ProductSummary,
   Resource,
+  TransactionsListResult,
   TransactionsSummary
 } from "../models/mappers";
