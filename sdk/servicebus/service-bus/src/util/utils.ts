@@ -12,7 +12,7 @@ import { ClientEntityContext } from "../../src/clientEntityContext";
 interface Navigator {
   hardwareConcurrency: number;
 }
-let navigator: Navigator;
+declare var navigator: Navigator;
 
 /**
  * A constant that indicates whether the environment is node.js or browser based.

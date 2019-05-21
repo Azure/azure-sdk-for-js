@@ -355,7 +355,7 @@
 	<div class="container">
 		<div id="summary">
 			<h2 class="page-header">Summary</h2>
-			<div>129 problems (71 errors, 58 warnings)</div>
+			<div>132 problems (71 errors, 61 warnings)</div>
 			<div class="row"><div class="column">
 	<h3 class="text-error">Top errors</h3>
 	<table class="summary-table"><thead>
@@ -396,7 +396,7 @@
 	</thead><tbody>
 		<tr>
 	<td><a href="http://eslint.org/docs/rules/@typescript-eslint/explicit-function-return-type" target="_blank">@typescript-eslint/explicit-function-return-type</a></td>
-	<td>28</td>
+	<td>30</td>
 </tr>
 <tr>
 	<td><a href="http://eslint.org/docs/rules/promise/no-promise-in-callback" target="_blank">promise/no-promise-in-callback</a></td>
@@ -408,7 +408,7 @@
 </tr>
 <tr>
 	<td><a href="http://eslint.org/docs/rules/@typescript-eslint/no-unused-vars" target="_blank">@typescript-eslint/no-unused-vars</a></td>
-	<td>3</td>
+	<td>4</td>
 </tr>
 	</tbody></table>
 </div>
@@ -430,7 +430,7 @@
 <tr>
 	<td><a href="#cCodeAzureSdkForJsSdkEventhubEventHubsTestReceiverSpecTs">\test\receiver.spec.ts</a></td>
 	<td>12</td>
-	<td>51</td>
+	<td>54</td>
 </tr>
 <tr>
 	<td><a href="#cCodeAzureSdkForJsSdkEventhubEventHubsSrcEventHubSenderTs">\src\eventHubSender.ts</a></td>
@@ -6892,25 +6892,25 @@
 </tr><tr class="issue">
 	<td><strong class="text-error">Error<strong></td>
 	<td>
-		Row 494, Column 3: "Member _deleteFromCache should be declared before all public instance method definitions."
+		Row 509, Column 3: "Member _deleteFromCache should be declared before all public instance method definitions."
 		<a href="http://eslint.org/docs/rules/@typescript-eslint/member-ordering" target="_blank">@typescript-eslint/member-ordering</a>
 	</td>
 </tr><tr class="issue">
 	<td><strong class="text-error">Error<strong></td>
 	<td>
-		Row 505, Column 3: "Member _init should be declared before all public instance method definitions."
+		Row 520, Column 3: "Member _init should be declared before all public instance method definitions."
 		<a href="http://eslint.org/docs/rules/@typescript-eslint/member-ordering" target="_blank">@typescript-eslint/member-ordering</a>
 	</td>
 </tr><tr class="issue">
 	<td><strong class="text-error">Error<strong></td>
 	<td>
-		Row 565, Column 7: "Do not assign to the exception parameter."
+		Row 580, Column 7: "Do not assign to the exception parameter."
 		<a href="http://eslint.org/docs/rules/no-ex-assign" target="_blank">no-ex-assign</a>
 	</td>
 </tr><tr class="issue">
 	<td><strong class="text-error">Error<strong></td>
 	<td>
-		Row 580, Column 3: "Member _createReceiverOptions should be declared before all public instance method definitions."
+		Row 595, Column 3: "Member _createReceiverOptions should be declared before all public instance method definitions."
 		<a href="http://eslint.org/docs/rules/@typescript-eslint/member-ordering" target="_blank">@typescript-eslint/member-ordering</a>
 	</td>
 </tr>
@@ -6954,7 +6954,7 @@
 
 <tr class="hit bg-success">
 	<td class="line">6</td>
-	<td class="source"><code>import { Receiver, OnAmqpEvent, EventContext, ReceiverOptions, types, AmqpError } from "rhea-promise";</code></td>
+	<td class="source"><code>import { Receiver, OnAmqpEvent, EventContext, ReceiverOptions, types, AmqpError, isAmqpError } from "rhea-promise";</code></td>
 </tr>
 
 <tr class="hit bg-success">
@@ -8020,522 +8020,522 @@
 
 <tr class="hit bg-success">
 	<td class="line">218</td>
-	<td class="source"><code>      this._onMessage!(evData);</code></td>
+	<td class="source"><code>      try {</code></td>
 </tr>
 
 <tr class="hit bg-success">
 	<td class="line">219</td>
-	<td class="source"><code>    };</code></td>
+	<td class="source"><code>        this._onMessage!(evData);</code></td>
 </tr>
 
 <tr class="hit bg-success">
 	<td class="line">220</td>
-	<td class="source"><code></code></td>
+	<td class="source"><code>      } catch (err) {</code></td>
 </tr>
 
 <tr class="hit bg-success">
 	<td class="line">221</td>
-	<td class="source"><code>    this._onAmqpError = (context: EventContext) =&#62; {</code></td>
+	<td class="source"><code>        // This ensures we call users' error handler when users' message handler throws.</code></td>
 </tr>
 
 <tr class="hit bg-success">
 	<td class="line">222</td>
-	<td class="source"><code>      const receiver = this._receiver || context.receiver!;</code></td>
+	<td class="source"><code>        if (!isAmqpError(err)) {</code></td>
 </tr>
 
 <tr class="hit bg-success">
 	<td class="line">223</td>
-	<td class="source"><code>      const receiverError = context.receiver && context.receiver.error;</code></td>
+	<td class="source"><code>          log.error(</code></td>
 </tr>
 
 <tr class="hit bg-success">
 	<td class="line">224</td>
-	<td class="source"><code>      if (receiverError) {</code></td>
+	<td class="source"><code>            "[%s] An error occurred while running user's message handler for the message " +</code></td>
 </tr>
 
 <tr class="hit bg-success">
 	<td class="line">225</td>
-	<td class="source"><code>        const ehError = translate(receiverError);</code></td>
+	<td class="source"><code>              "with sequence number '%s' on the receiver '%s': %O",</code></td>
 </tr>
 
 <tr class="hit bg-success">
 	<td class="line">226</td>
-	<td class="source"><code>        log.error("[%s] An error occurred for Receiver '%s': %O.", this._context.connectionId, this.name, ehError);</code></td>
+	<td class="source"><code>              this._context.connectionId,</code></td>
 </tr>
 
 <tr class="hit bg-success">
 	<td class="line">227</td>
-	<td class="source"><code>        if (!ehError.retryable) {</code></td>
+	<td class="source"><code>              evData.sequenceNumber,</code></td>
 </tr>
 
 <tr class="hit bg-success">
 	<td class="line">228</td>
-	<td class="source"><code>          if (receiver && !receiver.isItselfClosed()) {</code></td>
+	<td class="source"><code>              this.name,</code></td>
 </tr>
 
 <tr class="hit bg-success">
 	<td class="line">229</td>
-	<td class="source"><code>            log.error(</code></td>
+	<td class="source"><code>            err</code></td>
 </tr>
 
 <tr class="hit bg-success">
 	<td class="line">230</td>
-	<td class="source"><code>              "[%s] Since the user did not close the receiver and the error is not " +</code></td>
+	<td class="source"><code>          );</code></td>
 </tr>
 
 <tr class="hit bg-success">
 	<td class="line">231</td>
-	<td class="source"><code>                "retryable, we let the user know about it by calling the user's error handler.",</code></td>
+	<td class="source"><code>          this._onError!(err);</code></td>
 </tr>
 
 <tr class="hit bg-success">
 	<td class="line">232</td>
-	<td class="source"><code>              this._context.connectionId</code></td>
+	<td class="source"><code>        }</code></td>
 </tr>
 
 <tr class="hit bg-success">
 	<td class="line">233</td>
-	<td class="source"><code>            );</code></td>
+	<td class="source"><code>      }</code></td>
 </tr>
 
 <tr class="hit bg-success">
 	<td class="line">234</td>
-	<td class="source"><code>            this._onError!(ehError);</code></td>
+	<td class="source"><code>    };</code></td>
 </tr>
 
 <tr class="hit bg-success">
 	<td class="line">235</td>
-	<td class="source"><code>          } else {</code></td>
+	<td class="source"><code></code></td>
 </tr>
 
 <tr class="hit bg-success">
 	<td class="line">236</td>
-	<td class="source"><code>            log.error(</code></td>
+	<td class="source"><code>    this._onAmqpError = (context: EventContext) =&#62; {</code></td>
 </tr>
 
 <tr class="hit bg-success">
 	<td class="line">237</td>
-	<td class="source"><code>              "[%s] The received error is not retryable. However, the receiver was " +</code></td>
+	<td class="source"><code>      const receiver = this._receiver || context.receiver!;</code></td>
 </tr>
 
 <tr class="hit bg-success">
 	<td class="line">238</td>
-	<td class="source"><code>                "closed by the user. Hence not notifying the user's error handler.",</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">239</td>
-	<td class="source"><code>              this._context.connectionId</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">240</td>
-	<td class="source"><code>            );</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">241</td>
-	<td class="source"><code>          }</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">242</td>
-	<td class="source"><code>        } else {</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">243</td>
-	<td class="source"><code>          log.error(</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">244</td>
-	<td class="source"><code>            "[%s] Since received error is retryable, we will NOT notify the user's " + "error handler.",</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">245</td>
-	<td class="source"><code>            this._context.connectionId</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">246</td>
-	<td class="source"><code>          );</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">247</td>
-	<td class="source"><code>        }</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">248</td>
-	<td class="source"><code>      }</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">249</td>
-	<td class="source"><code>    };</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">250</td>
-	<td class="source"><code></code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">251</td>
-	<td class="source"><code>    this._onSessionError = (context: EventContext) =&#62; {</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">252</td>
-	<td class="source"><code>      const receiver = this._receiver || context.receiver!;</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">253</td>
-	<td class="source"><code>      const sessionError = context.session && context.session.error;</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">254</td>
-	<td class="source"><code>      if (sessionError) {</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">255</td>
-	<td class="source"><code>        const ehError = translate(sessionError);</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">256</td>
-	<td class="source"><code>        log.error(</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">257</td>
-	<td class="source"><code>          "[%s] An error occurred on the session for Receiver '%s': %O.",</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">258</td>
-	<td class="source"><code>          this._context.connectionId,</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">259</td>
-	<td class="source"><code>          this.name,</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">260</td>
-	<td class="source"><code>          ehError</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">261</td>
-	<td class="source"><code>        );</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">262</td>
-	<td class="source"><code>        if (receiver && !receiver.isSessionItselfClosed() && !ehError.retryable) {</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">263</td>
-	<td class="source"><code>          log.error(</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">264</td>
-	<td class="source"><code>            "[%s] Since the user did not close the receiver and the session error is not " +</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">265</td>
-	<td class="source"><code>              "retryable, we let the user know about it by calling the user's error handler.",</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">266</td>
-	<td class="source"><code>            this._context.connectionId</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">267</td>
-	<td class="source"><code>          );</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">268</td>
-	<td class="source"><code>          this._onError!(ehError);</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">269</td>
-	<td class="source"><code>        }</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">270</td>
-	<td class="source"><code>      }</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">271</td>
-	<td class="source"><code>    };</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">272</td>
-	<td class="source"><code></code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">273</td>
-	<td class="source"><code>    this._onAmqpClose = async (context: EventContext) =&#62; {</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">274</td>
 	<td class="source"><code>      const receiverError = context.receiver && context.receiver.error;</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">275</td>
-	<td class="source"><code>      const receiver = this._receiver || context.receiver!;</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">276</td>
+	<td class="line">239</td>
 	<td class="source"><code>      if (receiverError) {</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">277</td>
-	<td class="source"><code>        log.error(</code></td>
+	<td class="line">240</td>
+	<td class="source"><code>        const ehError = translate(receiverError);</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">278</td>
-	<td class="source"><code>          "[%s] 'receiver_close' event occurred for receiver '%s' with address '%s'. " + "The associated error is: %O",</code></td>
+	<td class="line">241</td>
+	<td class="source"><code>        log.error("[%s] An error occurred for Receiver '%s': %O.", this._context.connectionId, this.name, ehError);</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">279</td>
-	<td class="source"><code>          this._context.connectionId,</code></td>
+	<td class="line">242</td>
+	<td class="source"><code>        if (!ehError.retryable) {</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">280</td>
-	<td class="source"><code>          this.name,</code></td>
+	<td class="line">243</td>
+	<td class="source"><code>          if (receiver && !receiver.isItselfClosed()) {</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">281</td>
-	<td class="source"><code>          this.address,</code></td>
+	<td class="line">244</td>
+	<td class="source"><code>            log.error(</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">282</td>
-	<td class="source"><code>          receiverError</code></td>
+	<td class="line">245</td>
+	<td class="source"><code>              "[%s] Since the user did not close the receiver and the error is not " +</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">283</td>
-	<td class="source"><code>        );</code></td>
+	<td class="line">246</td>
+	<td class="source"><code>                "retryable, we let the user know about it by calling the user's error handler.",</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">284</td>
-	<td class="source"><code>      }</code></td>
+	<td class="line">247</td>
+	<td class="source"><code>              this._context.connectionId</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">285</td>
-	<td class="source"><code>      if (receiver && !receiver.isItselfClosed()) {</code></td>
+	<td class="line">248</td>
+	<td class="source"><code>            );</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">286</td>
-	<td class="source"><code>        if (!this.isConnecting) {</code></td>
+	<td class="line">249</td>
+	<td class="source"><code>            this._onError!(ehError);</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">287</td>
-	<td class="source"><code>          log.error(</code></td>
+	<td class="line">250</td>
+	<td class="source"><code>          } else {</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">288</td>
-	<td class="source"><code>            "[%s] 'receiver_close' event occurred on the receiver '%s' with address '%s' " +</code></td>
+	<td class="line">251</td>
+	<td class="source"><code>            log.error(</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">289</td>
-	<td class="source"><code>              "and the sdk did not initiate this. The receiver is not reconnecting. Hence, calling " +</code></td>
+	<td class="line">252</td>
+	<td class="source"><code>              "[%s] The received error is not retryable. However, the receiver was " +</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">290</td>
-	<td class="source"><code>              "detached from the _onAmqpClose() handler.",</code></td>
+	<td class="line">253</td>
+	<td class="source"><code>                "closed by the user. Hence not notifying the user's error handler.",</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">291</td>
-	<td class="source"><code>            this._context.connectionId,</code></td>
+	<td class="line">254</td>
+	<td class="source"><code>              this._context.connectionId</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">292</td>
-	<td class="source"><code>            this.name,</code></td>
+	<td class="line">255</td>
+	<td class="source"><code>            );</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">293</td>
-	<td class="source"><code>            this.address</code></td>
+	<td class="line">256</td>
+	<td class="source"><code>          }</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">294</td>
-	<td class="source"><code>          );</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">295</td>
-	<td class="source"><code>          await this.detached(receiverError);</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">296</td>
+	<td class="line">257</td>
 	<td class="source"><code>        } else {</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">297</td>
+	<td class="line">258</td>
 	<td class="source"><code>          log.error(</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">298</td>
-	<td class="source"><code>            "[%s] 'receiver_close' event occurred on the receiver '%s' with address '%s' " +</code></td>
+	<td class="line">259</td>
+	<td class="source"><code>            "[%s] Since received error is retryable, we will NOT notify the user's " + "error handler.",</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">299</td>
-	<td class="source"><code>              "and the sdk did not initate this. Moreover the receiver is already re-connecting. " +</code></td>
+	<td class="line">260</td>
+	<td class="source"><code>            this._context.connectionId</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">300</td>
-	<td class="source"><code>              "Hence not calling detached from the _onAmqpClose() handler.",</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">301</td>
-	<td class="source"><code>            this._context.connectionId,</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">302</td>
-	<td class="source"><code>            this.name,</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">303</td>
-	<td class="source"><code>            this.address</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">304</td>
+	<td class="line">261</td>
 	<td class="source"><code>          );</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">305</td>
+	<td class="line">262</td>
 	<td class="source"><code>        }</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">306</td>
-	<td class="source"><code>      } else {</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">307</td>
-	<td class="source"><code>        log.error(</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">308</td>
-	<td class="source"><code>          "[%s] 'receiver_close' event occurred on the receiver '%s' with address '%s' " +</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">309</td>
-	<td class="source"><code>            "because the sdk initiated it. Hence not calling detached from the _onAmqpClose" +</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">310</td>
-	<td class="source"><code>            "() handler.",</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">311</td>
-	<td class="source"><code>          this._context.connectionId,</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">312</td>
-	<td class="source"><code>          this.name,</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">313</td>
-	<td class="source"><code>          this.address</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">314</td>
-	<td class="source"><code>        );</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">315</td>
+	<td class="line">263</td>
 	<td class="source"><code>      }</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">316</td>
+	<td class="line">264</td>
 	<td class="source"><code>    };</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">317</td>
+	<td class="line">265</td>
 	<td class="source"><code></code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">318</td>
-	<td class="source"><code>    this._onSessionClose = async (context: EventContext) =&#62; {</code></td>
+	<td class="line">266</td>
+	<td class="source"><code>    this._onSessionError = (context: EventContext) =&#62; {</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">319</td>
+	<td class="line">267</td>
 	<td class="source"><code>      const receiver = this._receiver || context.receiver!;</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">320</td>
+	<td class="line">268</td>
 	<td class="source"><code>      const sessionError = context.session && context.session.error;</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">321</td>
+	<td class="line">269</td>
 	<td class="source"><code>      if (sessionError) {</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">270</td>
+	<td class="source"><code>        const ehError = translate(sessionError);</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">271</td>
+	<td class="source"><code>        log.error(</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">272</td>
+	<td class="source"><code>          "[%s] An error occurred on the session for Receiver '%s': %O.",</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">273</td>
+	<td class="source"><code>          this._context.connectionId,</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">274</td>
+	<td class="source"><code>          this.name,</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">275</td>
+	<td class="source"><code>          ehError</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">276</td>
+	<td class="source"><code>        );</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">277</td>
+	<td class="source"><code>        if (receiver && !receiver.isSessionItselfClosed() && !ehError.retryable) {</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">278</td>
+	<td class="source"><code>          log.error(</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">279</td>
+	<td class="source"><code>            "[%s] Since the user did not close the receiver and the session error is not " +</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">280</td>
+	<td class="source"><code>              "retryable, we let the user know about it by calling the user's error handler.",</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">281</td>
+	<td class="source"><code>            this._context.connectionId</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">282</td>
+	<td class="source"><code>          );</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">283</td>
+	<td class="source"><code>          this._onError!(ehError);</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">284</td>
+	<td class="source"><code>        }</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">285</td>
+	<td class="source"><code>      }</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">286</td>
+	<td class="source"><code>    };</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">287</td>
+	<td class="source"><code></code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">288</td>
+	<td class="source"><code>    this._onAmqpClose = async (context: EventContext) =&#62; {</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">289</td>
+	<td class="source"><code>      const receiverError = context.receiver && context.receiver.error;</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">290</td>
+	<td class="source"><code>      const receiver = this._receiver || context.receiver!;</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">291</td>
+	<td class="source"><code>      if (receiverError) {</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">292</td>
+	<td class="source"><code>        log.error(</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">293</td>
+	<td class="source"><code>          "[%s] 'receiver_close' event occurred for receiver '%s' with address '%s'. " + "The associated error is: %O",</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">294</td>
+	<td class="source"><code>          this._context.connectionId,</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">295</td>
+	<td class="source"><code>          this.name,</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">296</td>
+	<td class="source"><code>          this.address,</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">297</td>
+	<td class="source"><code>          receiverError</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">298</td>
+	<td class="source"><code>        );</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">299</td>
+	<td class="source"><code>      }</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">300</td>
+	<td class="source"><code>      if (receiver && !receiver.isItselfClosed()) {</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">301</td>
+	<td class="source"><code>        if (!this.isConnecting) {</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">302</td>
+	<td class="source"><code>          log.error(</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">303</td>
+	<td class="source"><code>            "[%s] 'receiver_close' event occurred on the receiver '%s' with address '%s' " +</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">304</td>
+	<td class="source"><code>              "and the sdk did not initiate this. The receiver is not reconnecting. Hence, calling " +</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">305</td>
+	<td class="source"><code>              "detached from the _onAmqpClose() handler.",</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">306</td>
+	<td class="source"><code>            this._context.connectionId,</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">307</td>
+	<td class="source"><code>            this.name,</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">308</td>
+	<td class="source"><code>            this.address</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">309</td>
+	<td class="source"><code>          );</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">310</td>
+	<td class="source"><code>          await this.detached(receiverError);</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">311</td>
+	<td class="source"><code>        } else {</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">312</td>
+	<td class="source"><code>          log.error(</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">313</td>
+	<td class="source"><code>            "[%s] 'receiver_close' event occurred on the receiver '%s' with address '%s' " +</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">314</td>
+	<td class="source"><code>              "and the sdk did not initate this. Moreover the receiver is already re-connecting. " +</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">315</td>
+	<td class="source"><code>              "Hence not calling detached from the _onAmqpClose() handler.",</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">316</td>
+	<td class="source"><code>            this._context.connectionId,</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">317</td>
+	<td class="source"><code>            this.name,</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">318</td>
+	<td class="source"><code>            this.address</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">319</td>
+	<td class="source"><code>          );</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">320</td>
+	<td class="source"><code>        }</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">321</td>
+	<td class="source"><code>      } else {</code></td>
 </tr>
 
 <tr class="hit bg-success">
@@ -8545,1510 +8545,1585 @@
 
 <tr class="hit bg-success">
 	<td class="line">323</td>
-	<td class="source"><code>          "[%s] 'session_close' event occurred for receiver '%s' with address '%s'. " + "The associated error is: %O",</code></td>
+	<td class="source"><code>          "[%s] 'receiver_close' event occurred on the receiver '%s' with address '%s' " +</code></td>
 </tr>
 
 <tr class="hit bg-success">
 	<td class="line">324</td>
-	<td class="source"><code>          this._context.connectionId,</code></td>
+	<td class="source"><code>            "because the sdk initiated it. Hence not calling detached from the _onAmqpClose" +</code></td>
 </tr>
 
 <tr class="hit bg-success">
 	<td class="line">325</td>
-	<td class="source"><code>          this.name,</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">326</td>
-	<td class="source"><code>          this.address,</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">327</td>
-	<td class="source"><code>          sessionError</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">328</td>
-	<td class="source"><code>        );</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">329</td>
-	<td class="source"><code>      }</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">330</td>
-	<td class="source"><code></code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">331</td>
-	<td class="source"><code>      if (receiver && !receiver.isSessionItselfClosed()) {</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">332</td>
-	<td class="source"><code>        if (!this.isConnecting) {</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">333</td>
-	<td class="source"><code>          log.error(</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">334</td>
-	<td class="source"><code>            "[%s] 'session_close' event occurred on the session of receiver '%s' with " +</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">335</td>
-	<td class="source"><code>              "address '%s' and the sdk did not initiate this. Hence calling detached from the " +</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">336</td>
-	<td class="source"><code>              "_onSessionClose() handler.",</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">337</td>
-	<td class="source"><code>            this._context.connectionId,</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">338</td>
-	<td class="source"><code>            this.name,</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">339</td>
-	<td class="source"><code>            this.address</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">340</td>
-	<td class="source"><code>          );</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">341</td>
-	<td class="source"><code>          await this.detached(sessionError);</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">342</td>
-	<td class="source"><code>        } else {</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">343</td>
-	<td class="source"><code>          log.error(</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">344</td>
-	<td class="source"><code>            "[%s] 'session_close' event occurred on the session of receiver '%s' with " +</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">345</td>
-	<td class="source"><code>              "address '%s' and the sdk did not initiate this. Moreover the receiver is already " +</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">346</td>
-	<td class="source"><code>              "re-connecting. Hence not calling detached from the _onSessionClose() handler.",</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">347</td>
-	<td class="source"><code>            this._context.connectionId,</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">348</td>
-	<td class="source"><code>            this.name,</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">349</td>
-	<td class="source"><code>            this.address</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">350</td>
-	<td class="source"><code>          );</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">351</td>
-	<td class="source"><code>        }</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">352</td>
-	<td class="source"><code>      } else {</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">353</td>
-	<td class="source"><code>        log.error(</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">354</td>
-	<td class="source"><code>          "[%s] 'session_close' event occurred on the session of receiver '%s' with address " +</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">355</td>
-	<td class="source"><code>            "'%s' because the sdk initiated it. Hence not calling detached from the _onSessionClose" +</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">356</td>
 	<td class="source"><code>            "() handler.",</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">357</td>
+	<td class="line">326</td>
 	<td class="source"><code>          this._context.connectionId,</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">358</td>
+	<td class="line">327</td>
 	<td class="source"><code>          this.name,</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">359</td>
+	<td class="line">328</td>
 	<td class="source"><code>          this.address</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">360</td>
+	<td class="line">329</td>
 	<td class="source"><code>        );</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">361</td>
+	<td class="line">330</td>
 	<td class="source"><code>      }</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">362</td>
+	<td class="line">331</td>
 	<td class="source"><code>    };</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">363</td>
-	<td class="source"><code>  }</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">364</td>
+	<td class="line">332</td>
 	<td class="source"><code></code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">365</td>
-	<td class="source"><code>  /**</code></td>
+	<td class="line">333</td>
+	<td class="source"><code>    this._onSessionClose = async (context: EventContext) =&#62; {</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">366</td>
-	<td class="source"><code>   * Will reconnect the receiver link if necessary.</code></td>
+	<td class="line">334</td>
+	<td class="source"><code>      const receiver = this._receiver || context.receiver!;</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">367</td>
-	<td class="source"><code>   * @ignore</code></td>
+	<td class="line">335</td>
+	<td class="source"><code>      const sessionError = context.session && context.session.error;</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">368</td>
-	<td class="source"><code>   * @param {AmqpError | Error} [receiverError] The receiver error if any.</code></td>
+	<td class="line">336</td>
+	<td class="source"><code>      if (sessionError) {</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">369</td>
-	<td class="source"><code>   * @returns {Promise&#60;void&#62;} Promise&#60;void&#62;.</code></td>
+	<td class="line">337</td>
+	<td class="source"><code>        log.error(</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">370</td>
-	<td class="source"><code>   */</code></td>
+	<td class="line">338</td>
+	<td class="source"><code>          "[%s] 'session_close' event occurred for receiver '%s' with address '%s'. " + "The associated error is: %O",</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">371</td>
-	<td class="source"><code>  async detached(receiverError?: AmqpError | Error): Promise&#60;void&#62; {</code></td>
+	<td class="line">339</td>
+	<td class="source"><code>          this._context.connectionId,</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">372</td>
-	<td class="source"><code>    try {</code></td>
+	<td class="line">340</td>
+	<td class="source"><code>          this.name,</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">373</td>
-	<td class="source"><code>      const wasCloseInitiated = this._receiver && this._receiver.isItselfClosed();</code></td>
+	<td class="line">341</td>
+	<td class="source"><code>          this.address,</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">374</td>
-	<td class="source"><code>      // Clears the token renewal timer. Closes the link and its session if they are open.</code></td>
+	<td class="line">342</td>
+	<td class="source"><code>          sessionError</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">375</td>
-	<td class="source"><code>      // Removes the link and its session if they are present in rhea's cache.</code></td>
+	<td class="line">343</td>
+	<td class="source"><code>        );</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">376</td>
-	<td class="source"><code>      await this._closeLink(this._receiver);</code></td>
+	<td class="line">344</td>
+	<td class="source"><code>      }</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">377</td>
-	<td class="source"><code>      // We should attempt to reopen only when the receiver(sdk) did not initiate the close</code></td>
+	<td class="line">345</td>
+	<td class="source"><code></code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">378</td>
-	<td class="source"><code>      let shouldReopen = false;</code></td>
+	<td class="line">346</td>
+	<td class="source"><code>      if (receiver && !receiver.isSessionItselfClosed()) {</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">379</td>
-	<td class="source"><code>      if (receiverError && !wasCloseInitiated) {</code></td>
+	<td class="line">347</td>
+	<td class="source"><code>        if (!this.isConnecting) {</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">380</td>
-	<td class="source"><code>        const translatedError = translate(receiverError);</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">381</td>
-	<td class="source"><code>        if (translatedError.retryable) {</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">382</td>
-	<td class="source"><code>          shouldReopen = true;</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">383</td>
+	<td class="line">348</td>
 	<td class="source"><code>          log.error(</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">384</td>
-	<td class="source"><code>            "[%s] close() method of Receiver '%s' with address '%s' was not called. There " +</code></td>
+	<td class="line">349</td>
+	<td class="source"><code>            "[%s] 'session_close' event occurred on the session of receiver '%s' with " +</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">385</td>
-	<td class="source"><code>              "was an accompanying error and it is retryable. This is a candidate for re-establishing " +</code></td>
+	<td class="line">350</td>
+	<td class="source"><code>              "address '%s' and the sdk did not initiate this. Hence calling detached from the " +</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">386</td>
-	<td class="source"><code>              "the receiver link.",</code></td>
+	<td class="line">351</td>
+	<td class="source"><code>              "_onSessionClose() handler.",</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">387</td>
+	<td class="line">352</td>
 	<td class="source"><code>            this._context.connectionId,</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">388</td>
+	<td class="line">353</td>
 	<td class="source"><code>            this.name,</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">389</td>
+	<td class="line">354</td>
 	<td class="source"><code>            this.address</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">390</td>
+	<td class="line">355</td>
 	<td class="source"><code>          );</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">391</td>
+	<td class="line">356</td>
+	<td class="source"><code>          await this.detached(sessionError);</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">357</td>
 	<td class="source"><code>        } else {</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">392</td>
+	<td class="line">358</td>
 	<td class="source"><code>          log.error(</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">393</td>
-	<td class="source"><code>            "[%s] close() method of Receiver '%s' with address '%s' was not called. There " +</code></td>
+	<td class="line">359</td>
+	<td class="source"><code>            "[%s] 'session_close' event occurred on the session of receiver '%s' with " +</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">394</td>
-	<td class="source"><code>              "was an accompanying error and it is NOT retryable. Hence NOT re-establishing " +</code></td>
+	<td class="line">360</td>
+	<td class="source"><code>              "address '%s' and the sdk did not initiate this. Moreover the receiver is already " +</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">395</td>
-	<td class="source"><code>              "the receiver link.",</code></td>
+	<td class="line">361</td>
+	<td class="source"><code>              "re-connecting. Hence not calling detached from the _onSessionClose() handler.",</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">396</td>
+	<td class="line">362</td>
 	<td class="source"><code>            this._context.connectionId,</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">397</td>
+	<td class="line">363</td>
 	<td class="source"><code>            this.name,</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">398</td>
+	<td class="line">364</td>
 	<td class="source"><code>            this.address</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">399</td>
+	<td class="line">365</td>
 	<td class="source"><code>          );</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">400</td>
+	<td class="line">366</td>
 	<td class="source"><code>        }</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">401</td>
-	<td class="source"><code>      } else if (!wasCloseInitiated) {</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">402</td>
-	<td class="source"><code>        shouldReopen = true;</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">403</td>
-	<td class="source"><code>        log.error(</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">404</td>
-	<td class="source"><code>          "[%s] close() method of Receiver '%s' with address '%s' was not called. " +</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">405</td>
-	<td class="source"><code>            "There was no accompanying error as well. This is a candidate for re-establishing " +</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">406</td>
-	<td class="source"><code>            "the receiver link.",</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">407</td>
-	<td class="source"><code>          this._context.connectionId,</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">408</td>
-	<td class="source"><code>          this.name,</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">409</td>
-	<td class="source"><code>          this.address</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">410</td>
-	<td class="source"><code>        );</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">411</td>
+	<td class="line">367</td>
 	<td class="source"><code>      } else {</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">412</td>
-	<td class="source"><code>        const state: any = {</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">413</td>
-	<td class="source"><code>          wasCloseInitiated: wasCloseInitiated,</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">414</td>
-	<td class="source"><code>          receiverError: receiverError,</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">415</td>
-	<td class="source"><code>          _receiver: this._receiver</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">416</td>
-	<td class="source"><code>        };</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">417</td>
+	<td class="line">368</td>
 	<td class="source"><code>        log.error(</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">418</td>
-	<td class="source"><code>          "[%s] Something went wrong. State of Receiver '%s' with address '%s' is: %O",</code></td>
+	<td class="line">369</td>
+	<td class="source"><code>          "[%s] 'session_close' event occurred on the session of receiver '%s' with address " +</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">419</td>
+	<td class="line">370</td>
+	<td class="source"><code>            "'%s' because the sdk initiated it. Hence not calling detached from the _onSessionClose" +</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">371</td>
+	<td class="source"><code>            "() handler.",</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">372</td>
 	<td class="source"><code>          this._context.connectionId,</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">420</td>
+	<td class="line">373</td>
 	<td class="source"><code>          this.name,</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">421</td>
-	<td class="source"><code>          this.address,</code></td>
+	<td class="line">374</td>
+	<td class="source"><code>          this.address</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">422</td>
-	<td class="source"><code>          state</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">423</td>
+	<td class="line">375</td>
 	<td class="source"><code>        );</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">424</td>
+	<td class="line">376</td>
 	<td class="source"><code>      }</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">425</td>
-	<td class="source"><code>      if (shouldReopen) {</code></td>
+	<td class="line">377</td>
+	<td class="source"><code>    };</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">426</td>
-	<td class="source"><code>        const rcvrOptions: CreateReceiverOptions = {</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">427</td>
-	<td class="source"><code>          onMessage: this._onAmqpMessage,</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">428</td>
-	<td class="source"><code>          onError: this._onAmqpError,</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">429</td>
-	<td class="source"><code>          onClose: this._onAmqpClose,</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">430</td>
-	<td class="source"><code>          onSessionError: this._onSessionError,</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">431</td>
-	<td class="source"><code>          onSessionClose: this._onSessionClose,</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">432</td>
-	<td class="source"><code>          newName: true // provide a new name to the link while re-connecting it. This ensures that</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">433</td>
-	<td class="source"><code>          // the service does not send an error stating that the link is still open.</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">434</td>
-	<td class="source"><code>        };</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">435</td>
-	<td class="source"><code>        // reconnect the receiver link with sequenceNumber of the last received message as the offset</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">436</td>
-	<td class="source"><code>        // if messages were received by the receiver before it got disconnected.</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">437</td>
-	<td class="source"><code>        if (this._checkpoint.sequenceNumber &#62; -1) {</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">438</td>
-	<td class="source"><code>          rcvrOptions.eventPosition = EventPosition.fromSequenceNumber(this._checkpoint.sequenceNumber);</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">439</td>
-	<td class="source"><code>        }</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">440</td>
-	<td class="source"><code>        const options: ReceiverOptions = this._createReceiverOptions(rcvrOptions);</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">441</td>
-	<td class="source"><code>        // shall retry forever at an interval of 15 seconds if the error is a retryable error</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">442</td>
-	<td class="source"><code>        // else bail out when the error is not retryable or the oepration succeeds.</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">443</td>
-	<td class="source"><code>        const config: RetryConfig&#60;void&#62; = {</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">444</td>
-	<td class="source"><code>          operation: () =&#62; this._init(options),</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">445</td>
-	<td class="source"><code>          connectionId: this._context.connectionId,</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">446</td>
-	<td class="source"><code>          operationType: RetryOperationType.receiverLink,</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">447</td>
-	<td class="source"><code>          times: Constants.defaultConnectionRetryAttempts,</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">448</td>
-	<td class="source"><code>          connectionHost: this._context.config.host,</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">449</td>
-	<td class="source"><code>          delayInSeconds: 15</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">450</td>
-	<td class="source"><code>        };</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">451</td>
-	<td class="source"><code>        await retry&#60;void&#62;(config);</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">452</td>
-	<td class="source"><code>      }</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">453</td>
-	<td class="source"><code>    } catch (err) {</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">454</td>
-	<td class="source"><code>      log.error(</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">455</td>
-	<td class="source"><code>        "[%s] An error occurred while processing detached() of Receiver '%s' with address " + "'%s': %O",</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">456</td>
-	<td class="source"><code>        this._context.connectionId,</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">457</td>
-	<td class="source"><code>        this.name,</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">458</td>
-	<td class="source"><code>        this.address,</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">459</td>
-	<td class="source"><code>        err</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">460</td>
-	<td class="source"><code>      );</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">461</td>
-	<td class="source"><code>    }</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">462</td>
+	<td class="line">378</td>
 	<td class="source"><code>  }</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">463</td>
+	<td class="line">379</td>
 	<td class="source"><code></code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">464</td>
+	<td class="line">380</td>
 	<td class="source"><code>  /**</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">465</td>
-	<td class="source"><code>   * Closes the underlying AMQP receiver.</code></td>
+	<td class="line">381</td>
+	<td class="source"><code>   * Will reconnect the receiver link if necessary.</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">466</td>
+	<td class="line">382</td>
 	<td class="source"><code>   * @ignore</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">467</td>
-	<td class="source"><code>   * @returns {Promise&#60;void&#62;}</code></td>
+	<td class="line">383</td>
+	<td class="source"><code>   * @param {AmqpError | Error} [receiverError] The receiver error if any.</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">468</td>
+	<td class="line">384</td>
+	<td class="source"><code>   * @returns {Promise&#60;void&#62;} Promise&#60;void&#62;.</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">385</td>
 	<td class="source"><code>   */</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">469</td>
-	<td class="source"><code>  async close(): Promise&#60;void&#62; {</code></td>
+	<td class="line">386</td>
+	<td class="source"><code>  async detached(receiverError?: AmqpError | Error): Promise&#60;void&#62; {</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">470</td>
-	<td class="source"><code>    if (this._receiver) {</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">471</td>
-	<td class="source"><code>      const receiverLink = this._receiver;</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">472</td>
-	<td class="source"><code>      this._deleteFromCache();</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">473</td>
-	<td class="source"><code>      await this._closeLink(receiverLink);</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">474</td>
-	<td class="source"><code>    }</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">475</td>
-	<td class="source"><code>  }</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">476</td>
-	<td class="source"><code></code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">477</td>
-	<td class="source"><code>  /**</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">478</td>
-	<td class="source"><code>   * Determines whether the AMQP receiver link is open. If open then returns true else returns false.</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">479</td>
-	<td class="source"><code>   * @ignore</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">480</td>
-	<td class="source"><code>   * @return {boolean} boolean</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">481</td>
-	<td class="source"><code>   */</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">482</td>
-	<td class="source"><code>  isOpen(): boolean {</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">483</td>
-	<td class="source"><code>    const result: boolean = this._receiver! && this._receiver!.isOpen();</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">484</td>
-	<td class="source"><code>    log.error(</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">485</td>
-	<td class="source"><code>      "[%s] Receiver '%s' with address '%s' is open? -&#62; %s",</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">486</td>
-	<td class="source"><code>      this._context.connectionId,</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">487</td>
-	<td class="source"><code>      this.name,</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">488</td>
-	<td class="source"><code>      this.address,</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">489</td>
-	<td class="source"><code>      result</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">490</td>
-	<td class="source"><code>    );</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">491</td>
-	<td class="source"><code>    return result;</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">492</td>
-	<td class="source"><code>  }</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">493</td>
-	<td class="source"><code></code></td>
-</tr>
-
-<tr class="issue">
-	<td><strong class="text-error">Error<strong></td>
-	<td>
-		Row 494, Column 3: "Member _deleteFromCache should be declared before all public instance method definitions."
-		<a href="http://eslint.org/docs/rules/@typescript-eslint/member-ordering" target="_blank">@typescript-eslint/member-ordering</a>
-	</td>
-</tr><tr class="hit bg-error">
-	<td class="line">494</td>
-	<td class="source"><code>  protected _deleteFromCache(): void {</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">495</td>
-	<td class="source"><code>    this._receiver = undefined;</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">496</td>
-	<td class="source"><code>    delete this._context.receivers[this.name];</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">497</td>
-	<td class="source"><code>    log.error("[%s] Deleted the receiver '%s' from the client cache.", this._context.connectionId, this.name);</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">498</td>
-	<td class="source"><code>  }</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">499</td>
-	<td class="source"><code></code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">500</td>
-	<td class="source"><code>  /**</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">501</td>
-	<td class="source"><code>   * Creates a new AMQP receiver under a new AMQP session.</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">502</td>
-	<td class="source"><code>   * @ignore</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">503</td>
-	<td class="source"><code>   * @returns {Promise&#60;void&#62;}</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">504</td>
-	<td class="source"><code>   */</code></td>
-</tr>
-
-<tr class="issue">
-	<td><strong class="text-error">Error<strong></td>
-	<td>
-		Row 505, Column 3: "Member _init should be declared before all public instance method definitions."
-		<a href="http://eslint.org/docs/rules/@typescript-eslint/member-ordering" target="_blank">@typescript-eslint/member-ordering</a>
-	</td>
-</tr><tr class="hit bg-error">
-	<td class="line">505</td>
-	<td class="source"><code>  protected async _init(options?: ReceiverOptions): Promise&#60;void&#62; {</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">506</td>
+	<td class="line">387</td>
 	<td class="source"><code>    try {</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">507</td>
-	<td class="source"><code>      if (!this.isOpen() && !this.isConnecting) {</code></td>
+	<td class="line">388</td>
+	<td class="source"><code>      const wasCloseInitiated = this._receiver && this._receiver.isItselfClosed();</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">508</td>
-	<td class="source"><code>        log.error(</code></td>
+	<td class="line">389</td>
+	<td class="source"><code>      // Clears the token renewal timer. Closes the link and its session if they are open.</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">509</td>
-	<td class="source"><code>          "[%s] The receiver '%s' with address '%s' is not open and is not currently " +</code></td>
+	<td class="line">390</td>
+	<td class="source"><code>      // Removes the link and its session if they are present in rhea's cache.</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">510</td>
-	<td class="source"><code>            "establishing itself. Hence let's try to connect.",</code></td>
+	<td class="line">391</td>
+	<td class="source"><code>      await this._closeLink(this._receiver);</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">511</td>
-	<td class="source"><code>          this._context.connectionId,</code></td>
+	<td class="line">392</td>
+	<td class="source"><code>      // We should attempt to reopen only when the receiver(sdk) did not initiate the close</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">512</td>
-	<td class="source"><code>          this.name,</code></td>
+	<td class="line">393</td>
+	<td class="source"><code>      let shouldReopen = false;</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">513</td>
-	<td class="source"><code>          this.address</code></td>
+	<td class="line">394</td>
+	<td class="source"><code>      if (receiverError && !wasCloseInitiated) {</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">514</td>
-	<td class="source"><code>        );</code></td>
+	<td class="line">395</td>
+	<td class="source"><code>        const translatedError = translate(receiverError);</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">515</td>
-	<td class="source"><code>        this.isConnecting = true;</code></td>
+	<td class="line">396</td>
+	<td class="source"><code>        if (translatedError.retryable) {</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">516</td>
-	<td class="source"><code>        await this._negotiateClaim();</code></td>
+	<td class="line">397</td>
+	<td class="source"><code>          shouldReopen = true;</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">517</td>
-	<td class="source"><code>        if (!options) {</code></td>
+	<td class="line">398</td>
+	<td class="source"><code>          log.error(</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">518</td>
-	<td class="source"><code>          options = this._createReceiverOptions({</code></td>
+	<td class="line">399</td>
+	<td class="source"><code>            "[%s] close() method of Receiver '%s' with address '%s' was not called. There " +</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">519</td>
-	<td class="source"><code>            onMessage: this._onAmqpMessage,</code></td>
+	<td class="line">400</td>
+	<td class="source"><code>              "was an accompanying error and it is retryable. This is a candidate for re-establishing " +</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">520</td>
-	<td class="source"><code>            onError: this._onAmqpError,</code></td>
+	<td class="line">401</td>
+	<td class="source"><code>              "the receiver link.",</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">521</td>
-	<td class="source"><code>            onClose: this._onAmqpClose,</code></td>
+	<td class="line">402</td>
+	<td class="source"><code>            this._context.connectionId,</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">522</td>
-	<td class="source"><code>            onSessionError: this._onSessionError,</code></td>
+	<td class="line">403</td>
+	<td class="source"><code>            this.name,</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">523</td>
-	<td class="source"><code>            onSessionClose: this._onSessionClose</code></td>
+	<td class="line">404</td>
+	<td class="source"><code>            this.address</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">524</td>
-	<td class="source"><code>          });</code></td>
+	<td class="line">405</td>
+	<td class="source"><code>          );</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">525</td>
+	<td class="line">406</td>
+	<td class="source"><code>        } else {</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">407</td>
+	<td class="source"><code>          log.error(</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">408</td>
+	<td class="source"><code>            "[%s] close() method of Receiver '%s' with address '%s' was not called. There " +</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">409</td>
+	<td class="source"><code>              "was an accompanying error and it is NOT retryable. Hence NOT re-establishing " +</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">410</td>
+	<td class="source"><code>              "the receiver link.",</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">411</td>
+	<td class="source"><code>            this._context.connectionId,</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">412</td>
+	<td class="source"><code>            this.name,</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">413</td>
+	<td class="source"><code>            this.address</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">414</td>
+	<td class="source"><code>          );</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">415</td>
 	<td class="source"><code>        }</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">526</td>
+	<td class="line">416</td>
+	<td class="source"><code>      } else if (!wasCloseInitiated) {</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">417</td>
+	<td class="source"><code>        shouldReopen = true;</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">418</td>
 	<td class="source"><code>        log.error(</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">527</td>
-	<td class="source"><code>          "[%s] Trying to create receiver '%s' with options %O",</code></td>
+	<td class="line">419</td>
+	<td class="source"><code>          "[%s] close() method of Receiver '%s' with address '%s' was not called. " +</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">528</td>
+	<td class="line">420</td>
+	<td class="source"><code>            "There was no accompanying error as well. This is a candidate for re-establishing " +</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">421</td>
+	<td class="source"><code>            "the receiver link.",</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">422</td>
 	<td class="source"><code>          this._context.connectionId,</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">529</td>
+	<td class="line">423</td>
 	<td class="source"><code>          this.name,</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">530</td>
-	<td class="source"><code>          options</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">531</td>
-	<td class="source"><code>        );</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">532</td>
-	<td class="source"><code></code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">533</td>
-	<td class="source"><code>        this._receiver = await this._context.connection.createReceiver(options);</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">534</td>
-	<td class="source"><code>        this.isConnecting = false;</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">535</td>
-	<td class="source"><code>        log.error(</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">536</td>
-	<td class="source"><code>          "[%s] Receiver '%s' with address '%s' has established itself.",</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">537</td>
-	<td class="source"><code>          this._context.connectionId,</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">538</td>
-	<td class="source"><code>          this.name,</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">539</td>
+	<td class="line">424</td>
 	<td class="source"><code>          this.address</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">540</td>
+	<td class="line">425</td>
 	<td class="source"><code>        );</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">541</td>
-	<td class="source"><code>        log.receiver("Promise to create the receiver resolved. Created receiver with name: ", this.name);</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">542</td>
-	<td class="source"><code>        log.receiver(</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">543</td>
-	<td class="source"><code>          "[%s] Receiver '%s' created with receiver options: %O",</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">544</td>
-	<td class="source"><code>          this._context.connectionId,</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">545</td>
-	<td class="source"><code>          this.name,</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">546</td>
-	<td class="source"><code>          options</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">547</td>
-	<td class="source"><code>        );</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">548</td>
-	<td class="source"><code>        // It is possible for someone to close the receiver and then start it again.</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">549</td>
-	<td class="source"><code>        // Thus make sure that the receiver is present in the client cache.</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">550</td>
-	<td class="source"><code>        if (!this._context.receivers[this.name]) this._context.receivers[this.name] = this;</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">551</td>
-	<td class="source"><code>        await this._ensureTokenRenewal();</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">552</td>
+	<td class="line">426</td>
 	<td class="source"><code>      } else {</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">553</td>
+	<td class="line">427</td>
+	<td class="source"><code>        const state: any = {</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">428</td>
+	<td class="source"><code>          wasCloseInitiated: wasCloseInitiated,</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">429</td>
+	<td class="source"><code>          receiverError: receiverError,</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">430</td>
+	<td class="source"><code>          _receiver: this._receiver</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">431</td>
+	<td class="source"><code>        };</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">432</td>
 	<td class="source"><code>        log.error(</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">554</td>
-	<td class="source"><code>          "[%s] The receiver '%s' with address '%s' is open -&#62; %s and is connecting " +</code></td>
+	<td class="line">433</td>
+	<td class="source"><code>          "[%s] Something went wrong. State of Receiver '%s' with address '%s' is: %O",</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">555</td>
-	<td class="source"><code>            "-&#62; %s. Hence not reconnecting.",</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">556</td>
+	<td class="line">434</td>
 	<td class="source"><code>          this._context.connectionId,</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">557</td>
+	<td class="line">435</td>
 	<td class="source"><code>          this.name,</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">558</td>
+	<td class="line">436</td>
 	<td class="source"><code>          this.address,</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">559</td>
-	<td class="source"><code>          this.isOpen(),</code></td>
+	<td class="line">437</td>
+	<td class="source"><code>          state</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">560</td>
-	<td class="source"><code>          this.isConnecting</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">561</td>
+	<td class="line">438</td>
 	<td class="source"><code>        );</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">562</td>
+	<td class="line">439</td>
 	<td class="source"><code>      }</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">563</td>
+	<td class="line">440</td>
+	<td class="source"><code>      if (shouldReopen) {</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">441</td>
+	<td class="source"><code>        const rcvrOptions: CreateReceiverOptions = {</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">442</td>
+	<td class="source"><code>          onMessage: this._onAmqpMessage,</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">443</td>
+	<td class="source"><code>          onError: this._onAmqpError,</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">444</td>
+	<td class="source"><code>          onClose: this._onAmqpClose,</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">445</td>
+	<td class="source"><code>          onSessionError: this._onSessionError,</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">446</td>
+	<td class="source"><code>          onSessionClose: this._onSessionClose,</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">447</td>
+	<td class="source"><code>          newName: true // provide a new name to the link while re-connecting it. This ensures that</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">448</td>
+	<td class="source"><code>          // the service does not send an error stating that the link is still open.</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">449</td>
+	<td class="source"><code>        };</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">450</td>
+	<td class="source"><code>        // reconnect the receiver link with sequenceNumber of the last received message as the offset</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">451</td>
+	<td class="source"><code>        // if messages were received by the receiver before it got disconnected.</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">452</td>
+	<td class="source"><code>        if (this._checkpoint.sequenceNumber &#62; -1) {</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">453</td>
+	<td class="source"><code>          rcvrOptions.eventPosition = EventPosition.fromSequenceNumber(this._checkpoint.sequenceNumber);</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">454</td>
+	<td class="source"><code>        }</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">455</td>
+	<td class="source"><code>        const options: ReceiverOptions = this._createReceiverOptions(rcvrOptions);</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">456</td>
+	<td class="source"><code>        // shall retry forever at an interval of 15 seconds if the error is a retryable error</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">457</td>
+	<td class="source"><code>        // else bail out when the error is not retryable or the oepration succeeds.</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">458</td>
+	<td class="source"><code>        const config: RetryConfig&#60;void&#62; = {</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">459</td>
+	<td class="source"><code>          operation: () =&#62; this._init(options),</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">460</td>
+	<td class="source"><code>          connectionId: this._context.connectionId,</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">461</td>
+	<td class="source"><code>          operationType: RetryOperationType.receiverLink,</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">462</td>
+	<td class="source"><code>          times: Constants.defaultConnectionRetryAttempts,</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">463</td>
+	<td class="source"><code>          connectionHost: this._context.config.host,</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">464</td>
+	<td class="source"><code>          delayInSeconds: 15</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">465</td>
+	<td class="source"><code>        };</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">466</td>
+	<td class="source"><code>        await retry&#60;void&#62;(config);</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">467</td>
+	<td class="source"><code>      }</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">468</td>
 	<td class="source"><code>    } catch (err) {</code></td>
 </tr>
 
 <tr class="hit bg-success">
+	<td class="line">469</td>
+	<td class="source"><code>      log.error(</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">470</td>
+	<td class="source"><code>        "[%s] An error occurred while processing detached() of Receiver '%s' with address " + "'%s': %O",</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">471</td>
+	<td class="source"><code>        this._context.connectionId,</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">472</td>
+	<td class="source"><code>        this.name,</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">473</td>
+	<td class="source"><code>        this.address,</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">474</td>
+	<td class="source"><code>        err</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">475</td>
+	<td class="source"><code>      );</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">476</td>
+	<td class="source"><code>    }</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">477</td>
+	<td class="source"><code>  }</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">478</td>
+	<td class="source"><code></code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">479</td>
+	<td class="source"><code>  /**</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">480</td>
+	<td class="source"><code>   * Closes the underlying AMQP receiver.</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">481</td>
+	<td class="source"><code>   * @ignore</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">482</td>
+	<td class="source"><code>   * @returns {Promise&#60;void&#62;}</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">483</td>
+	<td class="source"><code>   */</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">484</td>
+	<td class="source"><code>  async close(): Promise&#60;void&#62; {</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">485</td>
+	<td class="source"><code>    if (this._receiver) {</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">486</td>
+	<td class="source"><code>      const receiverLink = this._receiver;</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">487</td>
+	<td class="source"><code>      this._deleteFromCache();</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">488</td>
+	<td class="source"><code>      await this._closeLink(receiverLink);</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">489</td>
+	<td class="source"><code>    }</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">490</td>
+	<td class="source"><code>  }</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">491</td>
+	<td class="source"><code></code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">492</td>
+	<td class="source"><code>  /**</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">493</td>
+	<td class="source"><code>   * Determines whether the AMQP receiver link is open. If open then returns true else returns false.</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">494</td>
+	<td class="source"><code>   * @ignore</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">495</td>
+	<td class="source"><code>   * @return {boolean} boolean</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">496</td>
+	<td class="source"><code>   */</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">497</td>
+	<td class="source"><code>  isOpen(): boolean {</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">498</td>
+	<td class="source"><code>    const result: boolean = this._receiver! && this._receiver!.isOpen();</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">499</td>
+	<td class="source"><code>    log.error(</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">500</td>
+	<td class="source"><code>      "[%s] Receiver '%s' with address '%s' is open? -&#62; %s",</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">501</td>
+	<td class="source"><code>      this._context.connectionId,</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">502</td>
+	<td class="source"><code>      this.name,</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">503</td>
+	<td class="source"><code>      this.address,</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">504</td>
+	<td class="source"><code>      result</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">505</td>
+	<td class="source"><code>    );</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">506</td>
+	<td class="source"><code>    return result;</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">507</td>
+	<td class="source"><code>  }</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">508</td>
+	<td class="source"><code></code></td>
+</tr>
+
+<tr class="issue">
+	<td><strong class="text-error">Error<strong></td>
+	<td>
+		Row 509, Column 3: "Member _deleteFromCache should be declared before all public instance method definitions."
+		<a href="http://eslint.org/docs/rules/@typescript-eslint/member-ordering" target="_blank">@typescript-eslint/member-ordering</a>
+	</td>
+</tr><tr class="hit bg-error">
+	<td class="line">509</td>
+	<td class="source"><code>  protected _deleteFromCache(): void {</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">510</td>
+	<td class="source"><code>    this._receiver = undefined;</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">511</td>
+	<td class="source"><code>    delete this._context.receivers[this.name];</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">512</td>
+	<td class="source"><code>    log.error("[%s] Deleted the receiver '%s' from the client cache.", this._context.connectionId, this.name);</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">513</td>
+	<td class="source"><code>  }</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">514</td>
+	<td class="source"><code></code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">515</td>
+	<td class="source"><code>  /**</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">516</td>
+	<td class="source"><code>   * Creates a new AMQP receiver under a new AMQP session.</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">517</td>
+	<td class="source"><code>   * @ignore</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">518</td>
+	<td class="source"><code>   * @returns {Promise&#60;void&#62;}</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">519</td>
+	<td class="source"><code>   */</code></td>
+</tr>
+
+<tr class="issue">
+	<td><strong class="text-error">Error<strong></td>
+	<td>
+		Row 520, Column 3: "Member _init should be declared before all public instance method definitions."
+		<a href="http://eslint.org/docs/rules/@typescript-eslint/member-ordering" target="_blank">@typescript-eslint/member-ordering</a>
+	</td>
+</tr><tr class="hit bg-error">
+	<td class="line">520</td>
+	<td class="source"><code>  protected async _init(options?: ReceiverOptions): Promise&#60;void&#62; {</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">521</td>
+	<td class="source"><code>    try {</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">522</td>
+	<td class="source"><code>      if (!this.isOpen() && !this.isConnecting) {</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">523</td>
+	<td class="source"><code>        log.error(</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">524</td>
+	<td class="source"><code>          "[%s] The receiver '%s' with address '%s' is not open and is not currently " +</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">525</td>
+	<td class="source"><code>            "establishing itself. Hence let's try to connect.",</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">526</td>
+	<td class="source"><code>          this._context.connectionId,</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">527</td>
+	<td class="source"><code>          this.name,</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">528</td>
+	<td class="source"><code>          this.address</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">529</td>
+	<td class="source"><code>        );</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">530</td>
+	<td class="source"><code>        this.isConnecting = true;</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">531</td>
+	<td class="source"><code>        await this._negotiateClaim();</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">532</td>
+	<td class="source"><code>        if (!options) {</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">533</td>
+	<td class="source"><code>          options = this._createReceiverOptions({</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">534</td>
+	<td class="source"><code>            onMessage: this._onAmqpMessage,</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">535</td>
+	<td class="source"><code>            onError: this._onAmqpError,</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">536</td>
+	<td class="source"><code>            onClose: this._onAmqpClose,</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">537</td>
+	<td class="source"><code>            onSessionError: this._onSessionError,</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">538</td>
+	<td class="source"><code>            onSessionClose: this._onSessionClose</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">539</td>
+	<td class="source"><code>          });</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">540</td>
+	<td class="source"><code>        }</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">541</td>
+	<td class="source"><code>        log.error(</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">542</td>
+	<td class="source"><code>          "[%s] Trying to create receiver '%s' with options %O",</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">543</td>
+	<td class="source"><code>          this._context.connectionId,</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">544</td>
+	<td class="source"><code>          this.name,</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">545</td>
+	<td class="source"><code>          options</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">546</td>
+	<td class="source"><code>        );</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">547</td>
+	<td class="source"><code></code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">548</td>
+	<td class="source"><code>        this._receiver = await this._context.connection.createReceiver(options);</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">549</td>
+	<td class="source"><code>        this.isConnecting = false;</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">550</td>
+	<td class="source"><code>        log.error(</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">551</td>
+	<td class="source"><code>          "[%s] Receiver '%s' with address '%s' has established itself.",</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">552</td>
+	<td class="source"><code>          this._context.connectionId,</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">553</td>
+	<td class="source"><code>          this.name,</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">554</td>
+	<td class="source"><code>          this.address</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">555</td>
+	<td class="source"><code>        );</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">556</td>
+	<td class="source"><code>        log.receiver("Promise to create the receiver resolved. Created receiver with name: ", this.name);</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">557</td>
+	<td class="source"><code>        log.receiver(</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">558</td>
+	<td class="source"><code>          "[%s] Receiver '%s' created with receiver options: %O",</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">559</td>
+	<td class="source"><code>          this._context.connectionId,</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">560</td>
+	<td class="source"><code>          this.name,</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">561</td>
+	<td class="source"><code>          options</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">562</td>
+	<td class="source"><code>        );</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">563</td>
+	<td class="source"><code>        // It is possible for someone to close the receiver and then start it again.</code></td>
+</tr>
+
+<tr class="hit bg-success">
 	<td class="line">564</td>
+	<td class="source"><code>        // Thus make sure that the receiver is present in the client cache.</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">565</td>
+	<td class="source"><code>        if (!this._context.receivers[this.name]) this._context.receivers[this.name] = this;</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">566</td>
+	<td class="source"><code>        await this._ensureTokenRenewal();</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">567</td>
+	<td class="source"><code>      } else {</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">568</td>
+	<td class="source"><code>        log.error(</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">569</td>
+	<td class="source"><code>          "[%s] The receiver '%s' with address '%s' is open -&#62; %s and is connecting " +</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">570</td>
+	<td class="source"><code>            "-&#62; %s. Hence not reconnecting.",</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">571</td>
+	<td class="source"><code>          this._context.connectionId,</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">572</td>
+	<td class="source"><code>          this.name,</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">573</td>
+	<td class="source"><code>          this.address,</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">574</td>
+	<td class="source"><code>          this.isOpen(),</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">575</td>
+	<td class="source"><code>          this.isConnecting</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">576</td>
+	<td class="source"><code>        );</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">577</td>
+	<td class="source"><code>      }</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">578</td>
+	<td class="source"><code>    } catch (err) {</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">579</td>
 	<td class="source"><code>      this.isConnecting = false;</code></td>
 </tr>
 
 <tr class="issue">
 	<td><strong class="text-error">Error<strong></td>
 	<td>
-		Row 565, Column 7: "Do not assign to the exception parameter."
+		Row 580, Column 7: "Do not assign to the exception parameter."
 		<a href="http://eslint.org/docs/rules/no-ex-assign" target="_blank">no-ex-assign</a>
 	</td>
 </tr><tr class="hit bg-error">
-	<td class="line">565</td>
+	<td class="line">580</td>
 	<td class="source"><code>      err = translate(err);</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">566</td>
+	<td class="line">581</td>
 	<td class="source"><code>      log.error(</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">567</td>
+	<td class="line">582</td>
 	<td class="source"><code>        "[%s] An error occured while creating the receiver '%s': %O",</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">568</td>
+	<td class="line">583</td>
 	<td class="source"><code>        this._context.connectionId,</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">569</td>
+	<td class="line">584</td>
 	<td class="source"><code>        this.name,</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">570</td>
+	<td class="line">585</td>
 	<td class="source"><code>        err</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">571</td>
+	<td class="line">586</td>
 	<td class="source"><code>      );</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">572</td>
+	<td class="line">587</td>
 	<td class="source"><code>      throw err;</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">573</td>
+	<td class="line">588</td>
 	<td class="source"><code>    }</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">574</td>
+	<td class="line">589</td>
 	<td class="source"><code>  }</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">575</td>
+	<td class="line">590</td>
 	<td class="source"><code></code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">576</td>
+	<td class="line">591</td>
 	<td class="source"><code>  /**</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">577</td>
+	<td class="line">592</td>
 	<td class="source"><code>   * Creates the options that need to be specified while creating an AMQP receiver link.</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">578</td>
+	<td class="line">593</td>
 	<td class="source"><code>   * @ignore</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">579</td>
+	<td class="line">594</td>
 	<td class="source"><code>   */</code></td>
 </tr>
 
 <tr class="issue">
 	<td><strong class="text-error">Error<strong></td>
 	<td>
-		Row 580, Column 3: "Member _createReceiverOptions should be declared before all public instance method definitions."
+		Row 595, Column 3: "Member _createReceiverOptions should be declared before all public instance method definitions."
 		<a href="http://eslint.org/docs/rules/@typescript-eslint/member-ordering" target="_blank">@typescript-eslint/member-ordering</a>
 	</td>
 </tr><tr class="hit bg-error">
-	<td class="line">580</td>
+	<td class="line">595</td>
 	<td class="source"><code>  protected _createReceiverOptions(options: CreateReceiverOptions): ReceiverOptions {</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">581</td>
+	<td class="line">596</td>
 	<td class="source"><code>    if (options.newName) this.name = `${uuid()}`;</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">582</td>
+	<td class="line">597</td>
 	<td class="source"><code>    const rcvrOptions: ReceiverOptions = {</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">583</td>
+	<td class="line">598</td>
 	<td class="source"><code>      name: this.name,</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">584</td>
+	<td class="line">599</td>
 	<td class="source"><code>      autoaccept: true,</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">585</td>
+	<td class="line">600</td>
 	<td class="source"><code>      source: {</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">586</td>
+	<td class="line">601</td>
 	<td class="source"><code>        address: this.address</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">587</td>
+	<td class="line">602</td>
 	<td class="source"><code>      },</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">588</td>
+	<td class="line">603</td>
 	<td class="source"><code>      credit_window: this.prefetchCount,</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">589</td>
+	<td class="line">604</td>
 	<td class="source"><code>      onMessage: options.onMessage || this._onAmqpMessage,</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">590</td>
+	<td class="line">605</td>
 	<td class="source"><code>      onError: options.onError || this._onAmqpError,</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">591</td>
+	<td class="line">606</td>
 	<td class="source"><code>      onClose: options.onClose || this._onAmqpClose,</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">592</td>
+	<td class="line">607</td>
 	<td class="source"><code>      onSessionError: options.onSessionError || this._onSessionError,</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">593</td>
+	<td class="line">608</td>
 	<td class="source"><code>      onSessionClose: options.onSessionClose || this._onSessionClose</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">594</td>
+	<td class="line">609</td>
 	<td class="source"><code>    };</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">595</td>
+	<td class="line">610</td>
 	<td class="source"><code>    if (this.epoch !== undefined && this.epoch !== null) {</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">596</td>
-	<td class="source"><code>      if (!rcvrOptions.properties) rcvrOptions.properties = {};</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">597</td>
-	<td class="source"><code>      rcvrOptions.properties[Constants.attachEpoch] = types.wrap_long(this.epoch);</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">598</td>
-	<td class="source"><code>    }</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">599</td>
-	<td class="source"><code>    if (this.identifier) {</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">600</td>
-	<td class="source"><code>      if (!rcvrOptions.properties) rcvrOptions.properties = {};</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">601</td>
-	<td class="source"><code>      rcvrOptions.properties[Constants.receiverIdentifierName] = this.identifier;</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">602</td>
-	<td class="source"><code>    }</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">603</td>
-	<td class="source"><code>    if (this.receiverRuntimeMetricEnabled) {</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">604</td>
-	<td class="source"><code>      rcvrOptions.desired_capabilities = Constants.enableReceiverRuntimeMetricName;</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">605</td>
-	<td class="source"><code>    }</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">606</td>
-	<td class="source"><code>    const eventPosition = options.eventPosition || this.options.eventPosition;</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">607</td>
-	<td class="source"><code>    if (eventPosition) {</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">608</td>
-	<td class="source"><code>      // Set filter on the receiver if event position is specified.</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">609</td>
-	<td class="source"><code>      const filterClause = eventPosition.getExpression();</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">610</td>
-	<td class="source"><code>      if (filterClause) {</code></td>
-</tr>
-
-<tr class="hit bg-success">
 	<td class="line">611</td>
-	<td class="source"><code>        (rcvrOptions.source as any).filter = {</code></td>
+	<td class="source"><code>      if (!rcvrOptions.properties) rcvrOptions.properties = {};</code></td>
 </tr>
 
 <tr class="hit bg-success">
 	<td class="line">612</td>
-	<td class="source"><code>          "apache.org:selector-filter:string": types.wrap_described(filterClause, 0x468c00000004)</code></td>
+	<td class="source"><code>      rcvrOptions.properties[Constants.attachEpoch] = types.wrap_long(this.epoch);</code></td>
 </tr>
 
 <tr class="hit bg-success">
 	<td class="line">613</td>
-	<td class="source"><code>        };</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">614</td>
-	<td class="source"><code>      }</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">615</td>
 	<td class="source"><code>    }</code></td>
 </tr>
 
 <tr class="hit bg-success">
+	<td class="line">614</td>
+	<td class="source"><code>    if (this.identifier) {</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">615</td>
+	<td class="source"><code>      if (!rcvrOptions.properties) rcvrOptions.properties = {};</code></td>
+</tr>
+
+<tr class="hit bg-success">
 	<td class="line">616</td>
-	<td class="source"><code>    return rcvrOptions;</code></td>
+	<td class="source"><code>      rcvrOptions.properties[Constants.receiverIdentifierName] = this.identifier;</code></td>
 </tr>
 
 <tr class="hit bg-success">
 	<td class="line">617</td>
-	<td class="source"><code>  }</code></td>
+	<td class="source"><code>    }</code></td>
 </tr>
 
 <tr class="hit bg-success">
 	<td class="line">618</td>
-	<td class="source"><code>}</code></td>
+	<td class="source"><code>    if (this.receiverRuntimeMetricEnabled) {</code></td>
 </tr>
 
 <tr class="hit bg-success">
 	<td class="line">619</td>
+	<td class="source"><code>      rcvrOptions.desired_capabilities = Constants.enableReceiverRuntimeMetricName;</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">620</td>
+	<td class="source"><code>    }</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">621</td>
+	<td class="source"><code>    const eventPosition = options.eventPosition || this.options.eventPosition;</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">622</td>
+	<td class="source"><code>    if (eventPosition) {</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">623</td>
+	<td class="source"><code>      // Set filter on the receiver if event position is specified.</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">624</td>
+	<td class="source"><code>      const filterClause = eventPosition.getExpression();</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">625</td>
+	<td class="source"><code>      if (filterClause) {</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">626</td>
+	<td class="source"><code>        (rcvrOptions.source as any).filter = {</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">627</td>
+	<td class="source"><code>          "apache.org:selector-filter:string": types.wrap_described(filterClause, 0x468c00000004)</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">628</td>
+	<td class="source"><code>        };</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">629</td>
+	<td class="source"><code>      }</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">630</td>
+	<td class="source"><code>    }</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">631</td>
+	<td class="source"><code>    return rcvrOptions;</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">632</td>
+	<td class="source"><code>  }</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">633</td>
+	<td class="source"><code>}</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">634</td>
 	<td class="source"><code></code></td>
 </tr>
 
@@ -10194,19 +10269,19 @@
 </tr><tr class="issue">
 	<td><strong class="text-warning">Warning<strong></td>
 	<td>
-		Row 534, Column 38: "Missing return type on function."
+		Row 538, Column 38: "Missing return type on function."
 		<a href="http://eslint.org/docs/rules/@typescript-eslint/explicit-function-return-type" target="_blank">@typescript-eslint/explicit-function-return-type</a>
 	</td>
 </tr><tr class="issue">
 	<td><strong class="text-error">Error<strong></td>
 	<td>
-		Row 591, Column 3: "Member _init should be declared before all public instance method definitions."
+		Row 595, Column 3: "Member _init should be declared before all public instance method definitions."
 		<a href="http://eslint.org/docs/rules/@typescript-eslint/member-ordering" target="_blank">@typescript-eslint/member-ordering</a>
 	</td>
 </tr><tr class="issue">
 	<td><strong class="text-error">Error<strong></td>
 	<td>
-		Row 643, Column 7: "Do not assign to the exception parameter."
+		Row 647, Column 7: "Do not assign to the exception parameter."
 		<a href="http://eslint.org/docs/rules/no-ex-assign" target="_blank">no-ex-assign</a>
 	</td>
 </tr>
@@ -12673,964 +12748,984 @@
 
 <tr class="hit bg-success">
 	<td class="line">481</td>
-	<td class="source"><code>            clearTimeout(waitTimer);</code></td>
+	<td class="source"><code>           clearTimeout(waitTimer);</code></td>
 </tr>
 
 <tr class="hit bg-success">
 	<td class="line">482</td>
-	<td class="source"><code>            this._sender!.removeListener(SenderEvents.rejected, onRejected);</code></td>
+	<td class="source"><code>           // When `removeListeners` is called on timeout, the sender might be closed and cleared</code></td>
 </tr>
 
 <tr class="hit bg-success">
 	<td class="line">483</td>
-	<td class="source"><code>            this._sender!.removeListener(SenderEvents.accepted, onAccepted);</code></td>
+	<td class="source"><code>           // So, check if it exists, before removing listeners from it.</code></td>
 </tr>
 
 <tr class="hit bg-success">
 	<td class="line">484</td>
-	<td class="source"><code>            this._sender!.removeListener(SenderEvents.released, onReleased);</code></td>
+	<td class="source"><code>           if (this._sender) {</code></td>
 </tr>
 
 <tr class="hit bg-success">
 	<td class="line">485</td>
-	<td class="source"><code>            this._sender!.removeListener(SenderEvents.modified, onModified);</code></td>
+	<td class="source"><code>            this._sender.removeListener(SenderEvents.rejected, onRejected);</code></td>
 </tr>
 
 <tr class="hit bg-success">
 	<td class="line">486</td>
-	<td class="source"><code>          };</code></td>
+	<td class="source"><code>            this._sender.removeListener(SenderEvents.accepted, onAccepted);</code></td>
 </tr>
 
 <tr class="hit bg-success">
 	<td class="line">487</td>
-	<td class="source"><code></code></td>
+	<td class="source"><code>            this._sender.removeListener(SenderEvents.released, onReleased);</code></td>
 </tr>
 
 <tr class="hit bg-success">
 	<td class="line">488</td>
-	<td class="source"><code>          onAccepted = (context: EventContext) =&#62; {</code></td>
+	<td class="source"><code>            this._sender.removeListener(SenderEvents.modified, onModified);</code></td>
 </tr>
 
 <tr class="hit bg-success">
 	<td class="line">489</td>
-	<td class="source"><code>            // Since we will be adding listener for accepted and rejected event every time</code></td>
+	<td class="source"><code>           }</code></td>
 </tr>
 
 <tr class="hit bg-success">
 	<td class="line">490</td>
-	<td class="source"><code>            // we send a message, we need to remove listener for both the events.</code></td>
+	<td class="source"><code>          };</code></td>
 </tr>
 
 <tr class="hit bg-success">
 	<td class="line">491</td>
-	<td class="source"><code>            // This will ensure duplicate listeners are not added for the same event.</code></td>
+	<td class="source"><code></code></td>
 </tr>
 
 <tr class="hit bg-success">
 	<td class="line">492</td>
-	<td class="source"><code>            removeListeners();</code></td>
+	<td class="source"><code>          onAccepted = (context: EventContext) =&#62; {</code></td>
 </tr>
 
 <tr class="hit bg-success">
 	<td class="line">493</td>
-	<td class="source"><code>            log.sender("[%s] Sender '%s', got event accepted.", this._context.connectionId, this.name);</code></td>
+	<td class="source"><code>            // Since we will be adding listener for accepted and rejected event every time</code></td>
 </tr>
 
 <tr class="hit bg-success">
 	<td class="line">494</td>
-	<td class="source"><code>            resolve(context.delivery);</code></td>
+	<td class="source"><code>            // we send a message, we need to remove listener for both the events.</code></td>
 </tr>
 
 <tr class="hit bg-success">
 	<td class="line">495</td>
-	<td class="source"><code>          };</code></td>
+	<td class="source"><code>            // This will ensure duplicate listeners are not added for the same event.</code></td>
 </tr>
 
 <tr class="hit bg-success">
 	<td class="line">496</td>
-	<td class="source"><code>          onRejected = (context: EventContext) =&#62; {</code></td>
+	<td class="source"><code>            removeListeners();</code></td>
 </tr>
 
 <tr class="hit bg-success">
 	<td class="line">497</td>
-	<td class="source"><code>            removeListeners();</code></td>
+	<td class="source"><code>            log.sender("[%s] Sender '%s', got event accepted.", this._context.connectionId, this.name);</code></td>
 </tr>
 
 <tr class="hit bg-success">
 	<td class="line">498</td>
-	<td class="source"><code>            log.error("[%s] Sender '%s', got event rejected.", this._context.connectionId, this.name);</code></td>
+	<td class="source"><code>            resolve(context.delivery);</code></td>
 </tr>
 
 <tr class="hit bg-success">
 	<td class="line">499</td>
-	<td class="source"><code>            const err = translate(context!.delivery!.remote_state!.error);</code></td>
+	<td class="source"><code>          };</code></td>
 </tr>
 
 <tr class="hit bg-success">
 	<td class="line">500</td>
-	<td class="source"><code>            log.error(err);</code></td>
+	<td class="source"><code>          onRejected = (context: EventContext) =&#62; {</code></td>
 </tr>
 
 <tr class="hit bg-success">
 	<td class="line">501</td>
-	<td class="source"><code>            reject(err);</code></td>
+	<td class="source"><code>            removeListeners();</code></td>
 </tr>
 
 <tr class="hit bg-success">
 	<td class="line">502</td>
-	<td class="source"><code>          };</code></td>
+	<td class="source"><code>            log.error("[%s] Sender '%s', got event rejected.", this._context.connectionId, this.name);</code></td>
 </tr>
 
 <tr class="hit bg-success">
 	<td class="line">503</td>
-	<td class="source"><code>          onReleased = (context: EventContext) =&#62; {</code></td>
+	<td class="source"><code>            const err = translate(context!.delivery!.remote_state!.error);</code></td>
 </tr>
 
 <tr class="hit bg-success">
 	<td class="line">504</td>
-	<td class="source"><code>            removeListeners();</code></td>
+	<td class="source"><code>            log.error(err);</code></td>
 </tr>
 
 <tr class="hit bg-success">
 	<td class="line">505</td>
-	<td class="source"><code>            log.error("[%s] Sender '%s', got event released.", this._context.connectionId, this.name);</code></td>
+	<td class="source"><code>            reject(err);</code></td>
 </tr>
 
 <tr class="hit bg-success">
 	<td class="line">506</td>
-	<td class="source"><code>            let err: Error;</code></td>
+	<td class="source"><code>          };</code></td>
 </tr>
 
 <tr class="hit bg-success">
 	<td class="line">507</td>
-	<td class="source"><code>            if (context!.delivery!.remote_state!.error) {</code></td>
+	<td class="source"><code>          onReleased = (context: EventContext) =&#62; {</code></td>
 </tr>
 
 <tr class="hit bg-success">
 	<td class="line">508</td>
-	<td class="source"><code>              err = translate(context!.delivery!.remote_state!.error);</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">509</td>
-	<td class="source"><code>            } else {</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">510</td>
-	<td class="source"><code>              err = new Error(</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">511</td>
-	<td class="source"><code>                `[${this._context.connectionId}] Sender '${this.name}', ` +</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">512</td>
-	<td class="source"><code>                  `received a release disposition.Hence we are rejecting the promise.`</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">513</td>
-	<td class="source"><code>              );</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">514</td>
-	<td class="source"><code>            }</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">515</td>
-	<td class="source"><code>            log.error(err);</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">516</td>
-	<td class="source"><code>            reject(err);</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">517</td>
-	<td class="source"><code>          };</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">518</td>
-	<td class="source"><code>          onModified = (context: EventContext) =&#62; {</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">519</td>
 	<td class="source"><code>            removeListeners();</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">520</td>
-	<td class="source"><code>            log.error("[%s] Sender '%s', got event modified.", this._context.connectionId, this.name);</code></td>
+	<td class="line">509</td>
+	<td class="source"><code>            log.error("[%s] Sender '%s', got event released.", this._context.connectionId, this.name);</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">521</td>
+	<td class="line">510</td>
 	<td class="source"><code>            let err: Error;</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">522</td>
+	<td class="line">511</td>
 	<td class="source"><code>            if (context!.delivery!.remote_state!.error) {</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">523</td>
+	<td class="line">512</td>
 	<td class="source"><code>              err = translate(context!.delivery!.remote_state!.error);</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">524</td>
+	<td class="line">513</td>
 	<td class="source"><code>            } else {</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">525</td>
+	<td class="line">514</td>
 	<td class="source"><code>              err = new Error(</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">526</td>
-	<td class="source"><code>                `[${this._context.connectionId}] Sender "${this.name}", ` +</code></td>
+	<td class="line">515</td>
+	<td class="source"><code>                `[${this._context.connectionId}] Sender '${this.name}', ` +</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">527</td>
-	<td class="source"><code>                  `received a modified disposition.Hence we are rejecting the promise.`</code></td>
+	<td class="line">516</td>
+	<td class="source"><code>                  `received a release disposition.Hence we are rejecting the promise.`</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">528</td>
+	<td class="line">517</td>
 	<td class="source"><code>              );</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">529</td>
+	<td class="line">518</td>
 	<td class="source"><code>            }</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">530</td>
+	<td class="line">519</td>
 	<td class="source"><code>            log.error(err);</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">531</td>
+	<td class="line">520</td>
 	<td class="source"><code>            reject(err);</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">532</td>
+	<td class="line">521</td>
 	<td class="source"><code>          };</code></td>
 </tr>
 
 <tr class="hit bg-success">
+	<td class="line">522</td>
+	<td class="source"><code>          onModified = (context: EventContext) =&#62; {</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">523</td>
+	<td class="source"><code>            removeListeners();</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">524</td>
+	<td class="source"><code>            log.error("[%s] Sender '%s', got event modified.", this._context.connectionId, this.name);</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">525</td>
+	<td class="source"><code>            let err: Error;</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">526</td>
+	<td class="source"><code>            if (context!.delivery!.remote_state!.error) {</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">527</td>
+	<td class="source"><code>              err = translate(context!.delivery!.remote_state!.error);</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">528</td>
+	<td class="source"><code>            } else {</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">529</td>
+	<td class="source"><code>              err = new Error(</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">530</td>
+	<td class="source"><code>                `[${this._context.connectionId}] Sender "${this.name}", ` +</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">531</td>
+	<td class="source"><code>                  `received a modified disposition.Hence we are rejecting the promise.`</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">532</td>
+	<td class="source"><code>              );</code></td>
+</tr>
+
+<tr class="hit bg-success">
 	<td class="line">533</td>
+	<td class="source"><code>            }</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">534</td>
+	<td class="source"><code>            log.error(err);</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">535</td>
+	<td class="source"><code>            reject(err);</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">536</td>
+	<td class="source"><code>          };</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">537</td>
 	<td class="source"><code></code></td>
 </tr>
 
 <tr class="issue">
 	<td><strong class="text-warning">Warning<strong></td>
 	<td>
-		Row 534, Column 38: "Missing return type on function."
+		Row 538, Column 38: "Missing return type on function."
 		<a href="http://eslint.org/docs/rules/@typescript-eslint/explicit-function-return-type" target="_blank">@typescript-eslint/explicit-function-return-type</a>
 	</td>
 </tr><tr class="hit bg-warning">
-	<td class="line">534</td>
+	<td class="line">538</td>
 	<td class="source"><code>          const actionAfterTimeout = () =&#62; {</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">535</td>
+	<td class="line">539</td>
 	<td class="source"><code>            removeListeners();</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">536</td>
+	<td class="line">540</td>
 	<td class="source"><code>            const desc: string =</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">537</td>
+	<td class="line">541</td>
 	<td class="source"><code>              `[${this._context.connectionId}] Sender "${this.name}" with ` +</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">538</td>
+	<td class="line">542</td>
 	<td class="source"><code>              `address "${this.address}", was not able to send the message right now, due ` +</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">539</td>
+	<td class="line">543</td>
 	<td class="source"><code>              `to operation timeout.`;</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">540</td>
+	<td class="line">544</td>
 	<td class="source"><code>            log.error(desc);</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">541</td>
+	<td class="line">545</td>
 	<td class="source"><code>            const e: AmqpError = {</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">542</td>
+	<td class="line">546</td>
 	<td class="source"><code>              condition: ErrorNameConditionMapper.ServiceUnavailableError,</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">543</td>
+	<td class="line">547</td>
 	<td class="source"><code>              description: desc</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">544</td>
+	<td class="line">548</td>
 	<td class="source"><code>            };</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">545</td>
+	<td class="line">549</td>
 	<td class="source"><code>            return reject(translate(e));</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">546</td>
-	<td class="source"><code>          };</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">547</td>
-	<td class="source"><code></code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">548</td>
-	<td class="source"><code>          this._sender!.on(SenderEvents.accepted, onAccepted);</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">549</td>
-	<td class="source"><code>          this._sender!.on(SenderEvents.rejected, onRejected);</code></td>
-</tr>
-
-<tr class="hit bg-success">
 	<td class="line">550</td>
-	<td class="source"><code>          this._sender!.on(SenderEvents.modified, onModified);</code></td>
+	<td class="source"><code>          };</code></td>
 </tr>
 
 <tr class="hit bg-success">
 	<td class="line">551</td>
-	<td class="source"><code>          this._sender!.on(SenderEvents.released, onReleased);</code></td>
+	<td class="source"><code></code></td>
 </tr>
 
 <tr class="hit bg-success">
 	<td class="line">552</td>
-	<td class="source"><code>          waitTimer = setTimeout(actionAfterTimeout, Constants.defaultOperationTimeoutInSeconds * 1000);</code></td>
+	<td class="source"><code>          this._sender!.on(SenderEvents.accepted, onAccepted);</code></td>
 </tr>
 
 <tr class="hit bg-success">
 	<td class="line">553</td>
-	<td class="source"><code>          const delivery = this._sender!.send(message, tag, format);</code></td>
+	<td class="source"><code>          this._sender!.on(SenderEvents.rejected, onRejected);</code></td>
 </tr>
 
 <tr class="hit bg-success">
 	<td class="line">554</td>
-	<td class="source"><code>          log.sender(</code></td>
+	<td class="source"><code>          this._sender!.on(SenderEvents.modified, onModified);</code></td>
 </tr>
 
 <tr class="hit bg-success">
 	<td class="line">555</td>
-	<td class="source"><code>            "[%s] Sender '%s', sent message with delivery id: %d and tag: %s",</code></td>
+	<td class="source"><code>          this._sender!.on(SenderEvents.released, onReleased);</code></td>
 </tr>
 
 <tr class="hit bg-success">
 	<td class="line">556</td>
-	<td class="source"><code>            this._context.connectionId,</code></td>
+	<td class="source"><code>          waitTimer = setTimeout(actionAfterTimeout, Constants.defaultOperationTimeoutInSeconds * 1000);</code></td>
 </tr>
 
 <tr class="hit bg-success">
 	<td class="line">557</td>
-	<td class="source"><code>            this.name,</code></td>
+	<td class="source"><code>          const delivery = this._sender!.send(message, tag, format);</code></td>
 </tr>
 
 <tr class="hit bg-success">
 	<td class="line">558</td>
-	<td class="source"><code>            delivery.id,</code></td>
+	<td class="source"><code>          log.sender(</code></td>
 </tr>
 
 <tr class="hit bg-success">
 	<td class="line">559</td>
-	<td class="source"><code>            delivery.tag.toString()</code></td>
+	<td class="source"><code>            "[%s] Sender '%s', sent message with delivery id: %d and tag: %s",</code></td>
 </tr>
 
 <tr class="hit bg-success">
 	<td class="line">560</td>
-	<td class="source"><code>          );</code></td>
+	<td class="source"><code>            this._context.connectionId,</code></td>
 </tr>
 
 <tr class="hit bg-success">
 	<td class="line">561</td>
-	<td class="source"><code>        } else {</code></td>
+	<td class="source"><code>            this.name,</code></td>
 </tr>
 
 <tr class="hit bg-success">
 	<td class="line">562</td>
-	<td class="source"><code>          // let us retry to send the message after some time.</code></td>
+	<td class="source"><code>            delivery.id,</code></td>
 </tr>
 
 <tr class="hit bg-success">
 	<td class="line">563</td>
-	<td class="source"><code>          const msg =</code></td>
+	<td class="source"><code>            delivery.tag.toString()</code></td>
 </tr>
 
 <tr class="hit bg-success">
 	<td class="line">564</td>
-	<td class="source"><code>            `[${this._context.connectionId}] Sender "${this.name}", ` +</code></td>
+	<td class="source"><code>          );</code></td>
 </tr>
 
 <tr class="hit bg-success">
 	<td class="line">565</td>
-	<td class="source"><code>            `cannot send the message right now. Please try later.`;</code></td>
+	<td class="source"><code>        } else {</code></td>
 </tr>
 
 <tr class="hit bg-success">
 	<td class="line">566</td>
-	<td class="source"><code>          log.error(msg);</code></td>
+	<td class="source"><code>          // let us retry to send the message after some time.</code></td>
 </tr>
 
 <tr class="hit bg-success">
 	<td class="line">567</td>
-	<td class="source"><code>          const amqpError: AmqpError = {</code></td>
+	<td class="source"><code>          const msg =</code></td>
 </tr>
 
 <tr class="hit bg-success">
 	<td class="line">568</td>
-	<td class="source"><code>            condition: ErrorNameConditionMapper.SenderBusyError,</code></td>
+	<td class="source"><code>            `[${this._context.connectionId}] Sender "${this.name}", ` +</code></td>
 </tr>
 
 <tr class="hit bg-success">
 	<td class="line">569</td>
-	<td class="source"><code>            description: msg</code></td>
+	<td class="source"><code>            `cannot send the message right now. Please try later.`;</code></td>
 </tr>
 
 <tr class="hit bg-success">
 	<td class="line">570</td>
-	<td class="source"><code>          };</code></td>
+	<td class="source"><code>          log.error(msg);</code></td>
 </tr>
 
 <tr class="hit bg-success">
 	<td class="line">571</td>
-	<td class="source"><code>          reject(translate(amqpError));</code></td>
+	<td class="source"><code>          const amqpError: AmqpError = {</code></td>
 </tr>
 
 <tr class="hit bg-success">
 	<td class="line">572</td>
-	<td class="source"><code>        }</code></td>
+	<td class="source"><code>            condition: ErrorNameConditionMapper.SenderBusyError,</code></td>
 </tr>
 
 <tr class="hit bg-success">
 	<td class="line">573</td>
-	<td class="source"><code>      });</code></td>
+	<td class="source"><code>            description: msg</code></td>
 </tr>
 
 <tr class="hit bg-success">
 	<td class="line">574</td>
-	<td class="source"><code></code></td>
+	<td class="source"><code>          };</code></td>
 </tr>
 
 <tr class="hit bg-success">
 	<td class="line">575</td>
-	<td class="source"><code>    const jitterInSeconds = randomNumberFromInterval(1, 4);</code></td>
+	<td class="source"><code>          reject(translate(amqpError));</code></td>
 </tr>
 
 <tr class="hit bg-success">
 	<td class="line">576</td>
-	<td class="source"><code>    const config: RetryConfig&#60;Delivery&#62; = {</code></td>
+	<td class="source"><code>        }</code></td>
 </tr>
 
 <tr class="hit bg-success">
 	<td class="line">577</td>
-	<td class="source"><code>      operation: sendEventPromise,</code></td>
+	<td class="source"><code>      });</code></td>
 </tr>
 
 <tr class="hit bg-success">
 	<td class="line">578</td>
-	<td class="source"><code>      connectionId: this._context.connectionId,</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">579</td>
-	<td class="source"><code>      operationType: RetryOperationType.sendMessage,</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">580</td>
-	<td class="source"><code>      times: Constants.defaultRetryAttempts,</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">581</td>
-	<td class="source"><code>      delayInSeconds: Constants.defaultDelayBetweenOperationRetriesInSeconds + jitterInSeconds</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">582</td>
-	<td class="source"><code>    };</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">583</td>
-	<td class="source"><code>    return retry&#60;Delivery&#62;(config);</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">584</td>
-	<td class="source"><code>  }</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">585</td>
 	<td class="source"><code></code></td>
 </tr>
 
 <tr class="hit bg-success">
+	<td class="line">579</td>
+	<td class="source"><code>    const jitterInSeconds = randomNumberFromInterval(1, 4);</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">580</td>
+	<td class="source"><code>    const config: RetryConfig&#60;Delivery&#62; = {</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">581</td>
+	<td class="source"><code>      operation: sendEventPromise,</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">582</td>
+	<td class="source"><code>      connectionId: this._context.connectionId,</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">583</td>
+	<td class="source"><code>      operationType: RetryOperationType.sendMessage,</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">584</td>
+	<td class="source"><code>      times: Constants.defaultRetryAttempts,</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">585</td>
+	<td class="source"><code>      delayInSeconds: Constants.defaultDelayBetweenOperationRetriesInSeconds + jitterInSeconds</code></td>
+</tr>
+
+<tr class="hit bg-success">
 	<td class="line">586</td>
-	<td class="source"><code>  /**</code></td>
+	<td class="source"><code>    };</code></td>
 </tr>
 
 <tr class="hit bg-success">
 	<td class="line">587</td>
-	<td class="source"><code>   * Initializes the sender session on the connection.</code></td>
+	<td class="source"><code>    return retry&#60;Delivery&#62;(config);</code></td>
 </tr>
 
 <tr class="hit bg-success">
 	<td class="line">588</td>
-	<td class="source"><code>   * @ignore</code></td>
+	<td class="source"><code>  }</code></td>
 </tr>
 
 <tr class="hit bg-success">
 	<td class="line">589</td>
-	<td class="source"><code>   * @returns {Promise&#60;void&#62;}</code></td>
+	<td class="source"><code></code></td>
 </tr>
 
 <tr class="hit bg-success">
 	<td class="line">590</td>
+	<td class="source"><code>  /**</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">591</td>
+	<td class="source"><code>   * Initializes the sender session on the connection.</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">592</td>
+	<td class="source"><code>   * @ignore</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">593</td>
+	<td class="source"><code>   * @returns {Promise&#60;void&#62;}</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">594</td>
 	<td class="source"><code>   */</code></td>
 </tr>
 
 <tr class="issue">
 	<td><strong class="text-error">Error<strong></td>
 	<td>
-		Row 591, Column 3: "Member _init should be declared before all public instance method definitions."
+		Row 595, Column 3: "Member _init should be declared before all public instance method definitions."
 		<a href="http://eslint.org/docs/rules/@typescript-eslint/member-ordering" target="_blank">@typescript-eslint/member-ordering</a>
 	</td>
 </tr><tr class="hit bg-error">
-	<td class="line">591</td>
+	<td class="line">595</td>
 	<td class="source"><code>  private async _init(options?: SenderOptions): Promise&#60;void&#62; {</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">592</td>
+	<td class="line">596</td>
 	<td class="source"><code>    try {</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">593</td>
+	<td class="line">597</td>
 	<td class="source"><code>      // isOpen isConnecting  Should establish</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">594</td>
+	<td class="line">598</td>
 	<td class="source"><code>      // true     false          No</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">595</td>
+	<td class="line">599</td>
 	<td class="source"><code>      // true     true           No</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">596</td>
+	<td class="line">600</td>
 	<td class="source"><code>      // false    true           No</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">597</td>
+	<td class="line">601</td>
 	<td class="source"><code>      // false    false          Yes</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">598</td>
+	<td class="line">602</td>
 	<td class="source"><code>      if (!this.isOpen() && !this.isConnecting) {</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">599</td>
-	<td class="source"><code>        log.error(</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">600</td>
-	<td class="source"><code>          "[%s] The sender '%s' with address '%s' is not open and is not currently " +</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">601</td>
-	<td class="source"><code>            "establishing itself. Hence let's try to connect.",</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">602</td>
-	<td class="source"><code>          this._context.connectionId,</code></td>
-</tr>
-
-<tr class="hit bg-success">
 	<td class="line">603</td>
-	<td class="source"><code>          this.name,</code></td>
+	<td class="source"><code>        log.error(</code></td>
 </tr>
 
 <tr class="hit bg-success">
 	<td class="line">604</td>
-	<td class="source"><code>          this.address</code></td>
+	<td class="source"><code>          "[%s] The sender '%s' with address '%s' is not open and is not currently " +</code></td>
 </tr>
 
 <tr class="hit bg-success">
 	<td class="line">605</td>
-	<td class="source"><code>        );</code></td>
+	<td class="source"><code>            "establishing itself. Hence let's try to connect.",</code></td>
 </tr>
 
 <tr class="hit bg-success">
 	<td class="line">606</td>
-	<td class="source"><code>        this.isConnecting = true;</code></td>
+	<td class="source"><code>          this._context.connectionId,</code></td>
 </tr>
 
 <tr class="hit bg-success">
 	<td class="line">607</td>
-	<td class="source"><code>        await this._negotiateClaim();</code></td>
+	<td class="source"><code>          this.name,</code></td>
 </tr>
 
 <tr class="hit bg-success">
 	<td class="line">608</td>
-	<td class="source"><code>        log.error("[%s] Trying to create sender '%s'...", this._context.connectionId, this.name);</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">609</td>
-	<td class="source"><code>        if (!options) {</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">610</td>
-	<td class="source"><code>          options = this._createSenderOptions({});</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">611</td>
-	<td class="source"><code>        }</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">612</td>
-	<td class="source"><code>        this._sender = await this._context.connection.createSender(options);</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">613</td>
-	<td class="source"><code>        this.isConnecting = false;</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">614</td>
-	<td class="source"><code>        log.error(</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">615</td>
-	<td class="source"><code>          "[%s] Sender '%s' with address '%s' has established itself.",</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">616</td>
-	<td class="source"><code>          this._context.connectionId,</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">617</td>
-	<td class="source"><code>          this.name,</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">618</td>
 	<td class="source"><code>          this.address</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">619</td>
+	<td class="line">609</td>
 	<td class="source"><code>        );</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">610</td>
+	<td class="source"><code>        this.isConnecting = true;</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">611</td>
+	<td class="source"><code>        await this._negotiateClaim();</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">612</td>
+	<td class="source"><code>        log.error("[%s] Trying to create sender '%s'...", this._context.connectionId, this.name);</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">613</td>
+	<td class="source"><code>        if (!options) {</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">614</td>
+	<td class="source"><code>          options = this._createSenderOptions({});</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">615</td>
+	<td class="source"><code>        }</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">616</td>
+	<td class="source"><code>        this._sender = await this._context.connection.createSender(options);</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">617</td>
+	<td class="source"><code>        this.isConnecting = false;</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">618</td>
+	<td class="source"><code>        log.error(</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">619</td>
+	<td class="source"><code>          "[%s] Sender '%s' with address '%s' has established itself.",</code></td>
 </tr>
 
 <tr class="hit bg-success">
 	<td class="line">620</td>
-	<td class="source"><code>        this._sender.setMaxListeners(1000);</code></td>
+	<td class="source"><code>          this._context.connectionId,</code></td>
 </tr>
 
 <tr class="hit bg-success">
 	<td class="line">621</td>
-	<td class="source"><code>        log.error(</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">622</td>
-	<td class="source"><code>          "[%s] Promise to create the sender resolved. Created sender with name: %s",</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">623</td>
-	<td class="source"><code>          this._context.connectionId,</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">624</td>
-	<td class="source"><code>          this.name</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">625</td>
-	<td class="source"><code>        );</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">626</td>
-	<td class="source"><code>        log.error("[%s] Sender '%s' created with sender options: %O", this._context.connectionId, this.name, options);</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">627</td>
-	<td class="source"><code>        // It is possible for someone to close the sender and then start it again.</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">628</td>
-	<td class="source"><code>        // Thus make sure that the sender is present in the client cache.</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">629</td>
-	<td class="source"><code>        if (!this._context.senders[this.address]) this._context.senders[this.address] = this;</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">630</td>
-	<td class="source"><code>        await this._ensureTokenRenewal();</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">631</td>
-	<td class="source"><code>      } else {</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">632</td>
-	<td class="source"><code>        log.error(</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">633</td>
-	<td class="source"><code>          "[%s] The sender '%s' with address '%s' is open -&#62; %s and is connecting " + "-&#62; %s. Hence not reconnecting.",</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">634</td>
-	<td class="source"><code>          this._context.connectionId,</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">635</td>
 	<td class="source"><code>          this.name,</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">636</td>
-	<td class="source"><code>          this.address,</code></td>
+	<td class="line">622</td>
+	<td class="source"><code>          this.address</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">637</td>
-	<td class="source"><code>          this.isOpen(),</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">638</td>
-	<td class="source"><code>          this.isConnecting</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">639</td>
+	<td class="line">623</td>
 	<td class="source"><code>        );</code></td>
 </tr>
 
 <tr class="hit bg-success">
+	<td class="line">624</td>
+	<td class="source"><code>        this._sender.setMaxListeners(1000);</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">625</td>
+	<td class="source"><code>        log.error(</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">626</td>
+	<td class="source"><code>          "[%s] Promise to create the sender resolved. Created sender with name: %s",</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">627</td>
+	<td class="source"><code>          this._context.connectionId,</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">628</td>
+	<td class="source"><code>          this.name</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">629</td>
+	<td class="source"><code>        );</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">630</td>
+	<td class="source"><code>        log.error("[%s] Sender '%s' created with sender options: %O", this._context.connectionId, this.name, options);</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">631</td>
+	<td class="source"><code>        // It is possible for someone to close the sender and then start it again.</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">632</td>
+	<td class="source"><code>        // Thus make sure that the sender is present in the client cache.</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">633</td>
+	<td class="source"><code>        if (!this._context.senders[this.address]) this._context.senders[this.address] = this;</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">634</td>
+	<td class="source"><code>        await this._ensureTokenRenewal();</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">635</td>
+	<td class="source"><code>      } else {</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">636</td>
+	<td class="source"><code>        log.error(</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">637</td>
+	<td class="source"><code>          "[%s] The sender '%s' with address '%s' is open -&#62; %s and is connecting " + "-&#62; %s. Hence not reconnecting.",</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">638</td>
+	<td class="source"><code>          this._context.connectionId,</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">639</td>
+	<td class="source"><code>          this.name,</code></td>
+</tr>
+
+<tr class="hit bg-success">
 	<td class="line">640</td>
-	<td class="source"><code>      }</code></td>
+	<td class="source"><code>          this.address,</code></td>
 </tr>
 
 <tr class="hit bg-success">
 	<td class="line">641</td>
-	<td class="source"><code>    } catch (err) {</code></td>
+	<td class="source"><code>          this.isOpen(),</code></td>
 </tr>
 
 <tr class="hit bg-success">
 	<td class="line">642</td>
+	<td class="source"><code>          this.isConnecting</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">643</td>
+	<td class="source"><code>        );</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">644</td>
+	<td class="source"><code>      }</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">645</td>
+	<td class="source"><code>    } catch (err) {</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">646</td>
 	<td class="source"><code>      this.isConnecting = false;</code></td>
 </tr>
 
 <tr class="issue">
 	<td><strong class="text-error">Error<strong></td>
 	<td>
-		Row 643, Column 7: "Do not assign to the exception parameter."
+		Row 647, Column 7: "Do not assign to the exception parameter."
 		<a href="http://eslint.org/docs/rules/no-ex-assign" target="_blank">no-ex-assign</a>
 	</td>
 </tr><tr class="hit bg-error">
-	<td class="line">643</td>
+	<td class="line">647</td>
 	<td class="source"><code>      err = translate(err);</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">644</td>
+	<td class="line">648</td>
 	<td class="source"><code>      log.error("[%s] An error occurred while creating the sender %s", this._context.connectionId, this.name, err);</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">645</td>
+	<td class="line">649</td>
 	<td class="source"><code>      throw err;</code></td>
 </tr>
 
 <tr class="hit bg-success">
-	<td class="line">646</td>
-	<td class="source"><code>    }</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">647</td>
-	<td class="source"><code>  }</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">648</td>
-	<td class="source"><code></code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">649</td>
-	<td class="source"><code>  /**</code></td>
-</tr>
-
-<tr class="hit bg-success">
 	<td class="line">650</td>
-	<td class="source"><code>   * Creates a new sender to the given event hub, and optionally to a given partition if it is</code></td>
+	<td class="source"><code>    }</code></td>
 </tr>
 
 <tr class="hit bg-success">
 	<td class="line">651</td>
-	<td class="source"><code>   * not present in the context or returns the one present in the context.</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">652</td>
-	<td class="source"><code>   * @ignore</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">653</td>
-	<td class="source"><code>   * @static</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">654</td>
-	<td class="source"><code>   * @param {(string|number)} [partitionId] Partition ID to which it will send event data.</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">655</td>
-	<td class="source"><code>   * @returns {Promise&#60;EventHubSender&#62;}</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">656</td>
-	<td class="source"><code>   */</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">657</td>
-	<td class="source"><code>  static create(context: ConnectionContext, partitionId?: string | number): EventHubSender {</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">658</td>
-	<td class="source"><code>    if (partitionId && typeof partitionId !== "string" && typeof partitionId !== "number") {</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">659</td>
-	<td class="source"><code>      throw new Error("'partitionId' must be of type: 'string' | 'number'.");</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">660</td>
-	<td class="source"><code>    }</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">661</td>
-	<td class="source"><code></code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">662</td>
-	<td class="source"><code>    const ehSender: EventHubSender = new EventHubSender(context, partitionId);</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">663</td>
-	<td class="source"><code>    if (!context.senders[ehSender.address]) {</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">664</td>
-	<td class="source"><code>      context.senders[ehSender.address] = ehSender;</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">665</td>
-	<td class="source"><code>    }</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">666</td>
-	<td class="source"><code>    return context.senders[ehSender.address];</code></td>
-</tr>
-
-<tr class="hit bg-success">
-	<td class="line">667</td>
 	<td class="source"><code>  }</code></td>
 </tr>
 
 <tr class="hit bg-success">
+	<td class="line">652</td>
+	<td class="source"><code></code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">653</td>
+	<td class="source"><code>  /**</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">654</td>
+	<td class="source"><code>   * Creates a new sender to the given event hub, and optionally to a given partition if it is</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">655</td>
+	<td class="source"><code>   * not present in the context or returns the one present in the context.</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">656</td>
+	<td class="source"><code>   * @ignore</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">657</td>
+	<td class="source"><code>   * @static</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">658</td>
+	<td class="source"><code>   * @param {(string|number)} [partitionId] Partition ID to which it will send event data.</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">659</td>
+	<td class="source"><code>   * @returns {Promise&#60;EventHubSender&#62;}</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">660</td>
+	<td class="source"><code>   */</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">661</td>
+	<td class="source"><code>  static create(context: ConnectionContext, partitionId?: string | number): EventHubSender {</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">662</td>
+	<td class="source"><code>    if (partitionId && typeof partitionId !== "string" && typeof partitionId !== "number") {</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">663</td>
+	<td class="source"><code>      throw new Error("'partitionId' must be of type: 'string' | 'number'.");</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">664</td>
+	<td class="source"><code>    }</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">665</td>
+	<td class="source"><code></code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">666</td>
+	<td class="source"><code>    const ehSender: EventHubSender = new EventHubSender(context, partitionId);</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">667</td>
+	<td class="source"><code>    if (!context.senders[ehSender.address]) {</code></td>
+</tr>
+
+<tr class="hit bg-success">
 	<td class="line">668</td>
-	<td class="source"><code>}</code></td>
+	<td class="source"><code>      context.senders[ehSender.address] = ehSender;</code></td>
 </tr>
 
 <tr class="hit bg-success">
 	<td class="line">669</td>
+	<td class="source"><code>    }</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">670</td>
+	<td class="source"><code>    return context.senders[ehSender.address];</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">671</td>
+	<td class="source"><code>  }</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">672</td>
+	<td class="source"><code>}</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">673</td>
 	<td class="source"><code></code></td>
 </tr>
 
@@ -20498,7 +20593,7 @@
     </th>
 </tr>
 
-<tr id="cCodeAzureSdkForJsSdkEventhubEventHubsTestReceiverSpecTs" class="lint-result bg-error" data-group="f-20" data-problem-count="63" tabindex="0">
+<tr id="cCodeAzureSdkForJsSdkEventhubEventHubsTestReceiverSpecTs" class="lint-result bg-error" data-group="f-20" data-problem-count="66" tabindex="0">
     <th class="icon-box" colspan="1">
         <span class="caret"></span>
     </th>
@@ -20506,7 +20601,7 @@
         \test\receiver.spec.ts
     </th>
     <th class="result-summary">
-      63 problems (12 errors, 51 warnings)
+      66 problems (12 errors, 54 warnings)
     </th>
 </tr>
 <tr class="f-20 hidden">
@@ -20562,7 +20657,7 @@
 	</thead><tbody>
 		<tr>
 	<td><a href="http://eslint.org/docs/rules/@typescript-eslint/explicit-function-return-type" target="_blank">@typescript-eslint/explicit-function-return-type</a></td>
-	<td>22</td>
+	<td>24</td>
 </tr>
 <tr>
 	<td><a href="http://eslint.org/docs/rules/promise/no-promise-in-callback" target="_blank">promise/no-promise-in-callback</a></td>
@@ -20574,7 +20669,7 @@
 </tr>
 <tr>
 	<td><a href="http://eslint.org/docs/rules/@typescript-eslint/no-unused-vars" target="_blank">@typescript-eslint/no-unused-vars</a></td>
-	<td>2</td>
+	<td>3</td>
 </tr>
 	</tbody></table>
 </div>
@@ -20967,6 +21062,24 @@
 		Row 565, Column 15: "Avoid calling back inside of a promise."
 		<a href="http://eslint.org/docs/rules/promise/no-callback-in-promise" target="_blank">promise/no-callback-in-promise</a>
 	</td>
+</tr><tr class="issue">
+	<td><strong class="text-warning">Warning<strong></td>
+	<td>
+		Row 586, Column 30: "Missing return type on function."
+		<a href="http://eslint.org/docs/rules/@typescript-eslint/explicit-function-return-type" target="_blank">@typescript-eslint/explicit-function-return-type</a>
+	</td>
+</tr><tr class="issue">
+	<td><strong class="text-warning">Warning<strong></td>
+	<td>
+		Row 586, Column 31: "'brokeredMessage' is defined but never used."
+		<a href="http://eslint.org/docs/rules/@typescript-eslint/no-unused-vars" target="_blank">@typescript-eslint/no-unused-vars</a>
+	</td>
+</tr><tr class="issue">
+	<td><strong class="text-warning">Warning<strong></td>
+	<td>
+		Row 589, Column 28: "Missing return type on function."
+		<a href="http://eslint.org/docs/rules/@typescript-eslint/explicit-function-return-type" target="_blank">@typescript-eslint/explicit-function-return-type</a>
+	</td>
 </tr>
 		</tbody>
 	</table>
@@ -21033,7 +21146,7 @@
 
 <tr class="hit bg-success">
 	<td class="line">11</td>
-	<td class="source"><code>import { EventPosition, EventHubClient, EventData, EventHubRuntimeInformation, MessagingError } from "../src";</code></td>
+	<td class="source"><code>import { EventPosition, EventHubClient, EventData, EventHubRuntimeInformation, MessagingError, delay } from "../src";</code></td>
 </tr>
 
 <tr class="hit bg-success">
@@ -24236,11 +24349,174 @@
 
 <tr class="hit bg-success">
 	<td class="line">576</td>
-	<td class="source"><code>}).timeout(90000);</code></td>
+	<td class="source"><code>  describe("Streaming - User Error", function(): void {</code></td>
 </tr>
 
 <tr class="hit bg-success">
 	<td class="line">577</td>
+	<td class="source"><code>    it("onError handler is called for user error", async function(): Promise&#60;void&#62; {</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">578</td>
+	<td class="source"><code>    let caughtError: Error | undefined;</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">579</td>
+	<td class="source"><code>    const data: EventData = {</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">580</td>
+	<td class="source"><code>      body: "Hello World"</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">581</td>
+	<td class="source"><code>    };</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">582</td>
+	<td class="source"><code>    const partitionIds = await client.getPartitionIds();</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">583</td>
+	<td class="source"><code>    await client.send(data, partitionIds[0]);</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">584</td>
+	<td class="source"><code>    const errorMessage = "Will we see this error message?";</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">585</td>
+	<td class="source"><code></code></td>
+</tr>
+
+<tr class="issue">
+	<td><strong class="text-warning">Warning<strong></td>
+	<td>
+		Row 586, Column 30: "Missing return type on function."
+		<a href="http://eslint.org/docs/rules/@typescript-eslint/explicit-function-return-type" target="_blank">@typescript-eslint/explicit-function-return-type</a>
+	</td>
+</tr><tr class="issue">
+	<td><strong class="text-warning">Warning<strong></td>
+	<td>
+		Row 586, Column 31: "'brokeredMessage' is defined but never used."
+		<a href="http://eslint.org/docs/rules/@typescript-eslint/no-unused-vars" target="_blank">@typescript-eslint/no-unused-vars</a>
+	</td>
+</tr><tr class="hit bg-warning">
+	<td class="line">586</td>
+	<td class="source"><code>    const onMessageHandler = (brokeredMessage: EventData) =&#62; {</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">587</td>
+	<td class="source"><code>      throw new Error(errorMessage);</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">588</td>
+	<td class="source"><code>    };</code></td>
+</tr>
+
+<tr class="issue">
+	<td><strong class="text-warning">Warning<strong></td>
+	<td>
+		Row 589, Column 28: "Missing return type on function."
+		<a href="http://eslint.org/docs/rules/@typescript-eslint/explicit-function-return-type" target="_blank">@typescript-eslint/explicit-function-return-type</a>
+	</td>
+</tr><tr class="hit bg-warning">
+	<td class="line">589</td>
+	<td class="source"><code>    const onErrorHandler = (err: MessagingError | Error) =&#62; {</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">590</td>
+	<td class="source"><code>      caughtError  = err;</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">591</td>
+	<td class="source"><code>    };</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">592</td>
+	<td class="source"><code></code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">593</td>
+	<td class="source"><code>    client.receive(partitionIds[0], onMessageHandler, onErrorHandler, {</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">594</td>
+	<td class="source"><code>      eventPosition: EventPosition.fromStart()</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">595</td>
+	<td class="source"><code>    });</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">596</td>
+	<td class="source"><code>    await delay(5000);</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">597</td>
+	<td class="source"><code></code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">598</td>
+	<td class="source"><code>    should.equal(</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">599</td>
+	<td class="source"><code>      caughtError  && caughtError.message,</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">600</td>
+	<td class="source"><code>      errorMessage,</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">601</td>
+	<td class="source"><code>      "User error did not surface."</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">602</td>
+	<td class="source"><code>    );</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">603</td>
+	<td class="source"><code>    });</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">604</td>
+	<td class="source"><code>  });</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">605</td>
+	<td class="source"><code>}).timeout(90000);</code></td>
+</tr>
+
+<tr class="hit bg-success">
+	<td class="line">606</td>
 	<td class="source"><code></code></td>
 </tr>
 
@@ -24312,36 +24588,36 @@
     </th>
 </tr>
 
-<tr id="cCodeAzureSdkForJsSdkEventhubEventHubsSamplesReceiveMessagesLoopTs" class="lint-result bg-success" data-group="f-26" data-problem-count="0" tabindex="0">
+<tr id="cCodeAzureSdkForJsSdkEventhubEventHubsSamplesReceiveEventsLoopTs" class="lint-result bg-success" data-group="f-26" data-problem-count="0" tabindex="0">
     <th class="icon-box" colspan="1">
         <span class="caret"></span>
     </th>
     <th>
-        \samples\receiveMessagesLoop.ts
+        \samples\receiveEventsLoop.ts
     </th>
     <th class="result-summary">
       0 problems
     </th>
 </tr>
 
-<tr id="cCodeAzureSdkForJsSdkEventhubEventHubsSamplesReceiveMessagesStreamingTs" class="lint-result bg-success" data-group="f-27" data-problem-count="0" tabindex="0">
+<tr id="cCodeAzureSdkForJsSdkEventhubEventHubsSamplesReceiveEventsStreamingTs" class="lint-result bg-success" data-group="f-27" data-problem-count="0" tabindex="0">
     <th class="icon-box" colspan="1">
         <span class="caret"></span>
     </th>
     <th>
-        \samples\receiveMessagesStreaming.ts
+        \samples\receiveEventsStreaming.ts
     </th>
     <th class="result-summary">
       0 problems
     </th>
 </tr>
 
-<tr id="cCodeAzureSdkForJsSdkEventhubEventHubsSamplesSendMessagesTs" class="lint-result bg-success" data-group="f-28" data-problem-count="0" tabindex="0">
+<tr id="cCodeAzureSdkForJsSdkEventhubEventHubsSamplesSendEventsTs" class="lint-result bg-success" data-group="f-28" data-problem-count="0" tabindex="0">
     <th class="icon-box" colspan="1">
         <span class="caret"></span>
     </th>
     <th>
-        \samples\sendMessages.ts
+        \samples\sendEvents.ts
     </th>
     <th class="result-summary">
       0 problems
