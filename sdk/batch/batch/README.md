@@ -9,7 +9,7 @@ This package contains an isomorphic SDK for BatchServiceClient.
 
 ### How to Install
 
-```
+```bash
 npm install @azure/batch
 ```
 
@@ -19,91 +19,107 @@ npm install @azure/batch
 
 ##### Install @azure/ms-rest-nodeauth
 
-```
+```bash
 npm install @azure/ms-rest-nodeauth
 ```
 
+##### Authentication
+
+1. Use `AzureCliCredentials` exported from `@azure/ms-rest-nodeauth`.
+   **Please make sure to install Azure CLI and login using `az login`.**
+
+```typescript
+import { AzureCliCredentials } from "@azure/ms-rest-nodeauth";
+
+const batchEndpoint = process.env["AZURE_BATCH_ENDPOINT"] || "";
+async function main(): Promise<void> {
+  try {
+    const creds = await AzureCliCredentials.create({ resource: "https://batch.core.windows.net/" });
+    const client = new BatchServiceClient(creds, batchEndpoint);
+  } catch (err) {
+    console.log(err);
+  }
+}
+```
+
+2. Use the `BatchSharedKeyCredentials` exported from `@azure/batch`.
+
+```typescript
+import { BatchServiceClient, BatchSharedKeyCredentials } from "@azure/batch";
+
+const batchAccountName = process.env["AZURE_BATCH_ACCOUNT_NAME"] || "";
+const batchAccountKey = process.env["AZURE_BATCH_ACCOUNT_KEY"] || "";
+const batchEndpoint = process.env["AZURE_BATCH_ENDPOINT"] || "";
+
+async function main(): Promise<void> {
+  try {
+    const creds = new BatchSharedKeyCredentials(batchAccountName, batchAccountKey);
+    const client = new BatchServiceClient(creds, batchEndpoint);
+  } catch (err) {
+    console.log(err);
+  }
+}
+```
+
+3. Use the `MSIVmTokenCredentials` exported from `@azure/ms-rest-nodeauth`.
+
+```typescript
+import { MSIVmTokenCredentials } from "@azure/ms-rest-nodeauth";
+
+const batchEndpoint = process.env["AZURE_BATCH_ENDPOINT"] || "";
+
+async function main(): Promise<void> {
+  try {
+    const creds = await msRestNodeAuth.loginWithVmMSI({
+      resource: "https://batch.core.windows.net/"
+    });
+    const client = new BatchServiceClient(creds, batchEndpoint);
+  } catch (err) {
+    console.log(err);
+  }
+}
+```
+
 ##### Sample code
 
-```ts
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
-import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
-import { BatchServiceClient, BatchServiceModels, BatchServiceMappers } from "@azure/batch";
-const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
+```typescript
+import { BatchServiceClient, BatchServiceModels, BatchSharedKeyCredentials } from "@azure/batch";
 
-msRestNodeAuth.interactiveLogin().then((creds) => {
-  const client = new BatchServiceClient(creds, subscriptionId);
-  const maxResults = 1;
-  const timeout = 1;
-  const clientRequestId = ec7b1657-199d-4d8a-bbb2-89a11a42e02a;
-  const returnClientRequestId = true;
-  const ocpDate = new Date().toUTCString();
-  client.application.list(maxResults, timeout, clientRequestId, returnClientRequestId, ocpDate).then((result) => {
-    console.log("The result is:");
-    console.log(result);
-  });
-}).catch((err) => {
-  console.error(err);
-});
-```
+const batchAccountName = process.env["AZURE_BATCH_ACCOUNT_NAME"] || "";
+const batchAccountKey = process.env["AZURE_BATCH_ACCOUNT_KEY"] || "";
+const batchEndpoint = process.env["AZURE_BATCH_ENDPOINT"] || "";
 
-#### browser - Authentication, client creation and list application as an example written in JavaScript.
+const creds = new BatchSharedKeyCredentials(batchAccountName, batchAccountKey);
+const client = new BatchServiceClient(creds, batchEndpoint);
 
-##### Install @azure/ms-rest-browserauth
+const options: BatchServiceModels.JobListOptionalParams = {
+  jobListOptions: { maxResults: 10 }
+};
 
-```
-npm install @azure/ms-rest-browserauth
-```
+async function loop(res: BatchServiceModels.JobListResponse, nextLink?: string): Promise<void> {
+  if (nextLink !== undefined) {
+    const res1 = await client.job.listNext(nextLink);
+    if (res1.length) {
+      for (const item of res1) {
+        res.push(item);
+      }
+    }
+    return loop(res, res1.odatanextLink);
+  }
+  return Promise.resolve();
+}
 
-##### Sample code
+async function main(): Promise<void> {
+  const result = await client.job.list(options);
+  await loop(result, result.odatanextLink);
+  console.dir(result, { depth: null, colors: true });
+}
 
-See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to Azure in the browser.
-
-- index.html
-```html
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title>@azure/batch sample</title>
-    <script src="node_modules/@azure/ms-rest-js/dist/msRest.browser.js"></script>
-    <script src="node_modules/@azure/ms-rest-azure-js/dist/msRestAzure.js"></script>
-    <script src="node_modules/@azure/ms-rest-browserauth/dist/msAuth.js"></script>
-    <script src="node_modules/@azure/batch/dist/batch.js"></script>
-    <script type="text/javascript">
-      const subscriptionId = "<Subscription_Id>";
-      const authManager = new msAuth.AuthManager({
-        clientId: "<client id for your Azure AD app>",
-        tenant: "<optional tenant for your organization>"
-      });
-      authManager.finalizeLogin().then((res) => {
-        if (!res.isLoggedIn) {
-          // may cause redirects
-          authManager.login();
-        }
-        const client = new Azure.Batch.BatchServiceClient(res.creds, subscriptionId);
-        const maxResults = 1;
-        const timeout = 1;
-        const clientRequestId = ec7b1657-199d-4d8a-bbb2-89a11a42e02a;
-        const returnClientRequestId = true;
-        const ocpDate = new Date().toUTCString();
-        client.application.list(maxResults, timeout, clientRequestId, returnClientRequestId, ocpDate).then((result) => {
-          console.log("The result is:");
-          console.log(result);
-        }).catch((err) => {
-          console.log("An error occurred:");
-          console.error(err);
-        });
-      });
-    </script>
-  </head>
-  <body></body>
-</html>
+main().catch((err) => console.log("An error occurred: ", err));
 ```
 
 ## Related projects
 
 - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
-
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/batch/batch/README.png)
