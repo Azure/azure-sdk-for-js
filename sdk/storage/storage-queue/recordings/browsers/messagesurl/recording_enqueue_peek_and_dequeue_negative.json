@@ -2,113 +2,202 @@
  "recordings": [
   {
    "method": "PUT",
-   "url": "https://coolstorageaccount1234.queue.core.windows.net/queue155838103044600883",
+   "url": "https://coolstorageaccount1234.queue.core.windows.net/queue155848947845500809",
+   "query": {
+    "se": "2020-01-01T05:52:00Z",
+    "sig": "t2hhpMU5yO9pgbeBaS2noCeqvzg9W07StXjhoKxP+tk=",
+    "sp": "rwdlacup",
+    "spr": "https",
+    "srt": "sco",
+    "ss": "bfqt",
+    "st": "2019-05-07T20:52:00Z",
+    "sv": "2018-03-28",
+    "timeout": "30"
+   },
    "requestBody": null,
    "status": 201,
    "response": "",
    "responseHeaders": {
-    "x-ms-request-id": "ab6d7bae-e003-0034-7243-0f32f0000000",
+    "x-ms-request-id": "499ec46d-a003-007c-373f-10006d000000",
     "x-ms-version": "2018-03-28",
     "server": "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0",
-    "date": "Mon, 20 May 2019 19:37:10 GMT",
+    "date": "Wed, 22 May 2019 01:44:37 GMT",
     "content-length": "0"
    }
   },
   {
    "method": "POST",
-   "url": "https://coolstorageaccount1234.queue.core.windows.net/queue155838103044600883/messages",
+   "url": "https://coolstorageaccount1234.queue.core.windows.net/queue155848947845500809/messages",
+   "query": {
+    "messagettl": "40",
+    "se": "2020-01-01T05:52:00Z",
+    "sig": "t2hhpMU5yO9pgbeBaS2noCeqvzg9W07StXjhoKxP+tk=",
+    "sp": "rwdlacup",
+    "spr": "https",
+    "srt": "sco",
+    "ss": "bfqt",
+    "st": "2019-05-07T20:52:00Z",
+    "sv": "2018-03-28",
+    "timeout": "30"
+   },
    "requestBody": "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><QueueMessage><MessageText>Hello World</MessageText></QueueMessage>",
    "status": 201,
-   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><QueueMessagesList><QueueMessage><MessageId>31e91918-d26c-4d17-8707-f82cc5ea4018</MessageId><InsertionTime>Mon, 20 May 2019 19:37:10 GMT</InsertionTime><ExpirationTime>Mon, 20 May 2019 19:37:50 GMT</ExpirationTime><PopReceipt>AgAAAAMAAAAAAAAAjm/oakMP1QE=</PopReceipt><TimeNextVisible>Mon, 20 May 2019 19:37:10 GMT</TimeNextVisible></QueueMessage></QueueMessagesList>",
+   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><QueueMessagesList><QueueMessage><MessageId>e634aa3d-2faf-40c3-9257-0a67b89218ff</MessageId><InsertionTime>Wed, 22 May 2019 01:44:38 GMT</InsertionTime><ExpirationTime>Wed, 22 May 2019 01:45:18 GMT</ExpirationTime><PopReceipt>AgAAAAMAAAAAAAAAVGAD6z8Q1QE=</PopReceipt><TimeNextVisible>Wed, 22 May 2019 01:44:38 GMT</TimeNextVisible></QueueMessage></QueueMessagesList>",
    "responseHeaders": {
-    "date": "Mon, 20 May 2019 19:37:10 GMT",
+    "date": "Wed, 22 May 2019 01:44:38 GMT",
     "server": "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0",
     "transfer-encoding": "chunked",
     "content-type": "application/xml",
-    "x-ms-request-id": "ab6d7bc9-e003-0034-0c43-0f32f0000000",
+    "x-ms-request-id": "499ec487-a003-007c-4c3f-10006d000000",
     "x-ms-version": "2018-03-28"
    }
   },
   {
    "method": "POST",
-   "url": "https://coolstorageaccount1234.queue.core.windows.net/queue155838103044600883/messages",
+   "url": "https://coolstorageaccount1234.queue.core.windows.net/queue155848947845500809/messages",
+   "query": {
+    "messagettl": "30",
+    "se": "2020-01-01T05:52:00Z",
+    "sig": "t2hhpMU5yO9pgbeBaS2noCeqvzg9W07StXjhoKxP+tk=",
+    "sp": "rwdlacup",
+    "spr": "https",
+    "srt": "sco",
+    "ss": "bfqt",
+    "st": "2019-05-07T20:52:00Z",
+    "sv": "2018-03-28",
+    "timeout": "30",
+    "visibilitytimeout": "30"
+   },
    "requestBody": "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><QueueMessage><MessageText>Hello World</MessageText></QueueMessage>",
    "status": 400,
-   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><Error><Code>InvalidQueryParameterValue</Code><Message>Value for one of the query parameters specified in the request URI is invalid.\nRequestId:ab6d7bea-e003-0034-2a43-0f32f0000000\nTime:2019-05-20T19:37:11.0219032Z</Message><QueryParameterName>visibilitytimeout</QueryParameterName><QueryParameterValue>30</QueryParameterValue><Reason>messagettl must be greater than visibilitytimeout</Reason></Error>",
+   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><Error><Code>InvalidQueryParameterValue</Code><Message>Value for one of the query parameters specified in the request URI is invalid.\nRequestId:499ec4b7-a003-007c-763f-10006d000000\nTime:2019-05-22T01:44:39.1298270Z</Message><QueryParameterName>visibilitytimeout</QueryParameterName><QueryParameterValue>30</QueryParameterValue><Reason>messagettl must be greater than visibilitytimeout</Reason></Error>",
    "responseHeaders": {
-    "date": "Mon, 20 May 2019 19:37:10 GMT",
+    "date": "Wed, 22 May 2019 01:44:38 GMT",
     "server": "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0",
     "x-ms-error-code": "InvalidQueryParameterValue",
     "content-type": "application/xml",
-    "x-ms-request-id": "ab6d7bea-e003-0034-2a43-0f32f0000000",
+    "x-ms-request-id": "499ec4b7-a003-007c-763f-10006d000000",
     "x-ms-version": "2018-03-28",
     "content-length": "442"
    }
   },
   {
    "method": "GET",
-   "url": "https://coolstorageaccount1234.queue.core.windows.net/queue155838103044600883/messages",
+   "url": "https://coolstorageaccount1234.queue.core.windows.net/queue155848947845500809/messages",
+   "query": {
+    "_": "1558489479163",
+    "numofmessages": "100",
+    "peekonly": "true",
+    "se": "2020-01-01T05:52:00Z",
+    "sig": "t2hhpMU5yO9pgbeBaS2noCeqvzg9W07StXjhoKxP+tk=",
+    "sp": "rwdlacup",
+    "spr": "https",
+    "srt": "sco",
+    "ss": "bfqt",
+    "st": "2019-05-07T20:52:00Z",
+    "sv": "2018-03-28",
+    "timeout": "30"
+   },
    "requestBody": null,
    "status": 400,
-   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><Error><Code>OutOfRangeQueryParameterValue</Code><Message>One of the query parameters specified in the request URI is outside the permissible range.\nRequestId:ab6d7c1a-e003-0034-4d43-0f32f0000000\nTime:2019-05-20T19:37:11.2350547Z</Message><QueryParameterName>numofmessages</QueryParameterName><QueryParameterValue>100</QueryParameterValue><MinimumAllowed>1</MinimumAllowed><MaximumAllowed>32</MaximumAllowed></Error>",
+   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><Error><Code>OutOfRangeQueryParameterValue</Code><Message>One of the query parameters specified in the request URI is outside the permissible range.\nRequestId:499ec4ca-a003-007c-073f-10006d000000\nTime:2019-05-22T01:44:39.3409769Z</Message><QueryParameterName>numofmessages</QueryParameterName><QueryParameterValue>100</QueryParameterValue><MinimumAllowed>1</MinimumAllowed><MaximumAllowed>32</MaximumAllowed></Error>",
    "responseHeaders": {
-    "date": "Mon, 20 May 2019 19:37:11 GMT",
+    "date": "Wed, 22 May 2019 01:44:38 GMT",
     "server": "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0",
     "x-ms-error-code": "OutOfRangeQueryParameterValue",
     "content-type": "application/xml",
-    "x-ms-request-id": "ab6d7c1a-e003-0034-4d43-0f32f0000000",
+    "x-ms-request-id": "499ec4ca-a003-007c-073f-10006d000000",
     "x-ms-version": "2018-03-28",
     "content-length": "457"
    }
   },
   {
    "method": "GET",
-   "url": "https://coolstorageaccount1234.queue.core.windows.net/queue155838103044600883/messages",
+   "url": "https://coolstorageaccount1234.queue.core.windows.net/queue155848947845500809/messages",
+   "query": {
+    "_": "1558489479377",
+    "numofmessages": "2",
+    "peekonly": "true",
+    "se": "2020-01-01T05:52:00Z",
+    "sig": "t2hhpMU5yO9pgbeBaS2noCeqvzg9W07StXjhoKxP+tk=",
+    "sp": "rwdlacup",
+    "spr": "https",
+    "srt": "sco",
+    "ss": "bfqt",
+    "st": "2019-05-07T20:52:00Z",
+    "sv": "2018-03-28",
+    "timeout": "30"
+   },
    "requestBody": null,
    "status": 200,
-   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><QueueMessagesList><QueueMessage><MessageId>31e91918-d26c-4d17-8707-f82cc5ea4018</MessageId><InsertionTime>Mon, 20 May 2019 19:37:10 GMT</InsertionTime><ExpirationTime>Mon, 20 May 2019 19:37:50 GMT</ExpirationTime><DequeueCount>0</DequeueCount><MessageText>Hello World</MessageText></QueueMessage></QueueMessagesList>",
+   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><QueueMessagesList><QueueMessage><MessageId>e634aa3d-2faf-40c3-9257-0a67b89218ff</MessageId><InsertionTime>Wed, 22 May 2019 01:44:38 GMT</InsertionTime><ExpirationTime>Wed, 22 May 2019 01:45:18 GMT</ExpirationTime><DequeueCount>0</DequeueCount><MessageText>Hello World</MessageText></QueueMessage></QueueMessagesList>",
    "responseHeaders": {
-    "date": "Mon, 20 May 2019 19:37:11 GMT",
+    "date": "Wed, 22 May 2019 01:44:38 GMT",
     "server": "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0",
     "transfer-encoding": "chunked",
     "content-type": "application/xml",
-    "x-ms-request-id": "ab6d7c36-e003-0034-6543-0f32f0000000",
+    "x-ms-request-id": "499ec4f2-a003-007c-253f-10006d000000",
     "cache-control": "no-cache",
     "x-ms-version": "2018-03-28"
    }
   },
   {
    "method": "GET",
-   "url": "https://coolstorageaccount1234.queue.core.windows.net/queue155838103044600883/messages",
+   "url": "https://coolstorageaccount1234.queue.core.windows.net/queue155848947845500809/messages",
+   "query": {
+    "_": "1558489479602",
+    "numofmessages": "2",
+    "se": "2020-01-01T05:52:00Z",
+    "sig": "t2hhpMU5yO9pgbeBaS2noCeqvzg9W07StXjhoKxP+tk=",
+    "sp": "rwdlacup",
+    "spr": "https",
+    "srt": "sco",
+    "ss": "bfqt",
+    "st": "2019-05-07T20:52:00Z",
+    "sv": "2018-03-28",
+    "timeout": "30",
+    "visibilitytimeout": "40"
+   },
    "requestBody": null,
    "status": 200,
-   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><QueueMessagesList><QueueMessage><MessageId>31e91918-d26c-4d17-8707-f82cc5ea4018</MessageId><InsertionTime>Mon, 20 May 2019 19:37:10 GMT</InsertionTime><ExpirationTime>Mon, 20 May 2019 19:37:50 GMT</ExpirationTime><PopReceipt>AgAAAAMAAAAAAAAADVtCg0MP1QE=</PopReceipt><TimeNextVisible>Mon, 20 May 2019 19:37:51 GMT</TimeNextVisible><DequeueCount>1</DequeueCount><MessageText>Hello World</MessageText></QueueMessage></QueueMessagesList>",
+   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><QueueMessagesList><QueueMessage><MessageId>e634aa3d-2faf-40c3-9257-0a67b89218ff</MessageId><InsertionTime>Wed, 22 May 2019 01:44:38 GMT</InsertionTime><ExpirationTime>Wed, 22 May 2019 01:45:18 GMT</ExpirationTime><PopReceipt>AgAAAAMAAAAAAAAAyZVfA0AQ1QE=</PopReceipt><TimeNextVisible>Wed, 22 May 2019 01:45:19 GMT</TimeNextVisible><DequeueCount>1</DequeueCount><MessageText>Hello World</MessageText></QueueMessage></QueueMessagesList>",
    "responseHeaders": {
-    "date": "Mon, 20 May 2019 19:37:11 GMT",
+    "date": "Wed, 22 May 2019 01:44:38 GMT",
     "server": "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0",
     "transfer-encoding": "chunked",
     "content-type": "application/xml",
-    "x-ms-request-id": "ab6d7c46-e003-0034-7243-0f32f0000000",
+    "x-ms-request-id": "499ec502-a003-007c-303f-10006d000000",
     "cache-control": "no-cache",
     "x-ms-version": "2018-03-28"
    }
   },
   {
    "method": "DELETE",
-   "url": "https://coolstorageaccount1234.queue.core.windows.net/queue155838103044600883",
+   "url": "https://coolstorageaccount1234.queue.core.windows.net/queue155848947845500809",
+   "query": {
+    "se": "2020-01-01T05:52:00Z",
+    "sig": "t2hhpMU5yO9pgbeBaS2noCeqvzg9W07StXjhoKxP+tk=",
+    "sp": "rwdlacup",
+    "spr": "https",
+    "srt": "sco",
+    "ss": "bfqt",
+    "st": "2019-05-07T20:52:00Z",
+    "sv": "2018-03-28",
+    "timeout": "30"
+   },
    "requestBody": null,
    "status": 204,
    "response": "",
    "responseHeaders": {
-    "x-ms-request-id": "ab6d7c61-e003-0034-0743-0f32f0000000",
+    "x-ms-request-id": "499ec521-a003-007c-4e3f-10006d000000",
     "x-ms-version": "2018-03-28",
     "server": "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0",
-    "date": "Mon, 20 May 2019 19:37:11 GMT",
+    "date": "Wed, 22 May 2019 01:44:39 GMT",
     "content-length": "0"
    }
   }
  ],
  "uniqueTestInfo": {
-  "queue": "queue155838103044600883"
+  "queue": "queue155848947845500809"
  }
 }

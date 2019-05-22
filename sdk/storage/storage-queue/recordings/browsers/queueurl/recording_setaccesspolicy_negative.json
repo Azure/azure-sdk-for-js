@@ -2,50 +2,84 @@
  "recordings": [
   {
    "method": "PUT",
-   "url": "https://coolstorageaccount1234.queue.core.windows.net/queue155838103721601327",
+   "url": "https://coolstorageaccount1234.queue.core.windows.net/queue155848948538604458",
+   "query": {
+    "se": "2020-01-01T05:52:00Z",
+    "sig": "t2hhpMU5yO9pgbeBaS2noCeqvzg9W07StXjhoKxP+tk=",
+    "sp": "rwdlacup",
+    "spr": "https",
+    "srt": "sco",
+    "ss": "bfqt",
+    "st": "2019-05-07T20:52:00Z",
+    "sv": "2018-03-28",
+    "timeout": "30"
+   },
    "requestBody": null,
    "status": 201,
    "response": "",
    "responseHeaders": {
-    "x-ms-request-id": "ab6d7f46-e003-0034-7943-0f32f0000000",
+    "x-ms-request-id": "499ec771-a003-007c-2a3f-10006d000000",
     "x-ms-version": "2018-03-28",
     "server": "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0",
-    "date": "Mon, 20 May 2019 19:37:17 GMT",
+    "date": "Wed, 22 May 2019 01:44:44 GMT",
     "content-length": "0"
    }
   },
   {
    "method": "PUT",
-   "url": "https://coolstorageaccount1234.queue.core.windows.net/queue155838103721601327",
+   "url": "https://coolstorageaccount1234.queue.core.windows.net/queue155848948538604458",
+   "query": {
+    "comp": "acl",
+    "se": "2020-01-01T05:52:00Z",
+    "sig": "t2hhpMU5yO9pgbeBaS2noCeqvzg9W07StXjhoKxP+tk=",
+    "sp": "rwdlacup",
+    "spr": "https",
+    "srt": "sco",
+    "ss": "bfqt",
+    "st": "2019-05-07T20:52:00Z",
+    "sv": "2018-03-28",
+    "timeout": "30"
+   },
    "requestBody": "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><SignedIdentifiers><SignedIdentifier><Id>MTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTI=</Id><AccessPolicy><Start>2017-12-31T11:22:33.4560000Z</Start><Expiry>2018-12-31T11:22:33.4560000Z</Expiry><Permission>rwdl</Permission></AccessPolicy></SignedIdentifier></SignedIdentifiers>",
    "status": 400,
-   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><Error><Code>InvalidXmlDocument</Code><Message>XML specified is not syntactically valid.\nRequestId:ab6d7f56-e003-0034-0843-0f32f0000000\nTime:2019-05-20T19:37:17.6215935Z</Message><LineNumber>0</LineNumber><LinePosition>0</LinePosition><Reason /></Error>",
+   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><Error><Code>InvalidXmlDocument</Code><Message>XML specified is not syntactically valid.\nRequestId:499ec78e-a003-007c-433f-10006d000000\nTime:2019-05-22T01:44:46.0707654Z</Message><LineNumber>0</LineNumber><LinePosition>0</LinePosition><Reason /></Error>",
    "responseHeaders": {
-    "date": "Mon, 20 May 2019 19:37:17 GMT",
+    "date": "Wed, 22 May 2019 01:44:45 GMT",
     "server": "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0",
     "x-ms-error-code": "InvalidXmlDocument",
     "content-type": "application/xml",
-    "x-ms-request-id": "ab6d7f56-e003-0034-0843-0f32f0000000",
+    "x-ms-request-id": "499ec78e-a003-007c-433f-10006d000000",
     "x-ms-version": "2018-03-28",
     "content-length": "294"
    }
   },
   {
    "method": "DELETE",
-   "url": "https://coolstorageaccount1234.queue.core.windows.net/queue155838103721601327",
+   "url": "https://coolstorageaccount1234.queue.core.windows.net/queue155848948538604458",
+   "query": {
+    "se": "2020-01-01T05:52:00Z",
+    "sig": "t2hhpMU5yO9pgbeBaS2noCeqvzg9W07StXjhoKxP+tk=",
+    "sp": "rwdlacup",
+    "spr": "https",
+    "srt": "sco",
+    "ss": "bfqt",
+    "st": "2019-05-07T20:52:00Z",
+    "sv": "2018-03-28",
+    "timeout": "30"
+   },
    "requestBody": null,
    "status": 204,
    "response": "",
    "responseHeaders": {
-    "x-ms-request-id": "ab6d7f6b-e003-0034-1c43-0f32f0000000",
+    "x-ms-request-id": "499ec7ab-a003-007c-5c3f-10006d000000",
     "x-ms-version": "2018-03-28",
     "server": "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0",
-    "date": "Mon, 20 May 2019 19:37:17 GMT",
+    "date": "Wed, 22 May 2019 01:44:45 GMT",
     "content-length": "0"
    }
   }
  ],
  "uniqueTestInfo": {
-  "queue": "queue155838103721601327"
+  "queue": "queue155848948538604458"
  }
 }

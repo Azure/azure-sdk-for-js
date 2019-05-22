@@ -2,44 +2,79 @@
  "recordings": [
   {
    "method": "PUT",
-   "url": "https://coolstorageaccount1234.queue.core.windows.net/queue155838103533907945",
+   "url": "https://coolstorageaccount1234.queue.core.windows.net/queue155848948335401522",
+   "query": {
+    "se": "2020-01-01T05:52:00Z",
+    "sig": "t2hhpMU5yO9pgbeBaS2noCeqvzg9W07StXjhoKxP+tk=",
+    "sp": "rwdlacup",
+    "spr": "https",
+    "srt": "sco",
+    "ss": "bfqt",
+    "st": "2019-05-07T20:52:00Z",
+    "sv": "2018-03-28",
+    "timeout": "30"
+   },
    "requestBody": null,
    "status": 201,
    "response": "",
    "responseHeaders": {
-    "x-ms-request-id": "ab6d7e3f-e003-0034-1643-0f32f0000000",
+    "x-ms-request-id": "499ec676-a003-007c-733f-10006d000000",
     "x-ms-version": "2018-03-28",
     "server": "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0",
-    "date": "Mon, 20 May 2019 19:37:15 GMT",
+    "date": "Wed, 22 May 2019 01:44:42 GMT",
     "content-length": "0"
    }
   },
   {
    "method": "PUT",
-   "url": "https://coolstorageaccount1234.queue.core.windows.net/queue155838103533907945155838103555008850",
+   "url": "https://coolstorageaccount1234.queue.core.windows.net/queue155848948335401522155848948357208409",
+   "query": {
+    "se": "2020-01-01T05:52:00Z",
+    "sig": "t2hhpMU5yO9pgbeBaS2noCeqvzg9W07StXjhoKxP+tk=",
+    "sp": "rwdlacup",
+    "spr": "https",
+    "srt": "sco",
+    "ss": "bfqt",
+    "st": "2019-05-07T20:52:00Z",
+    "sv": "2018-03-28",
+    "timeout": "30"
+   },
    "requestBody": null,
    "status": 201,
    "response": "",
    "responseHeaders": {
-    "x-ms-request-id": "ab6d7e53-e003-0034-2843-0f32f0000000",
+    "x-ms-request-id": "499ec6a7-a003-007c-103f-10006d000000",
     "x-ms-version": "2018-03-28",
     "server": "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0",
-    "date": "Mon, 20 May 2019 19:37:15 GMT",
+    "date": "Wed, 22 May 2019 01:44:42 GMT",
     "content-length": "0"
    }
   },
   {
    "method": "GET",
-   "url": "https://coolstorageaccount1234.queue.core.windows.net/queue155838103533907945155838103555008850",
+   "url": "https://coolstorageaccount1234.queue.core.windows.net/queue155848948335401522155848948357208409",
+   "query": {
+    "_": "1558489483790",
+    "comp": "metadata",
+    "se": "2020-01-01T05:52:00Z",
+    "sig": "t2hhpMU5yO9pgbeBaS2noCeqvzg9W07StXjhoKxP+tk=",
+    "sp": "rwdlacup",
+    "spr": "https",
+    "srt": "sco",
+    "ss": "bfqt",
+    "st": "2019-05-07T20:52:00Z",
+    "sv": "2018-03-28",
+    "timeout": "30"
+   },
    "requestBody": null,
    "status": 200,
    "response": "",
    "responseHeaders": {
-    "date": "Mon, 20 May 2019 19:37:15 GMT",
+    "date": "Wed, 22 May 2019 01:44:43 GMT",
     "x-ms-meta-key": "value",
     "server": "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0",
     "x-ms-approximate-messages-count": "0",
-    "x-ms-request-id": "ab6d7e6f-e003-0034-3e43-0f32f0000000",
+    "x-ms-request-id": "499ec6b8-a003-007c-1c3f-10006d000000",
     "cache-control": "no-cache",
     "x-ms-version": "2018-03-28",
     "content-length": "0"
@@ -47,21 +82,32 @@
   },
   {
    "method": "DELETE",
-   "url": "https://coolstorageaccount1234.queue.core.windows.net/queue155838103533907945",
+   "url": "https://coolstorageaccount1234.queue.core.windows.net/queue155848948335401522",
+   "query": {
+    "se": "2020-01-01T05:52:00Z",
+    "sig": "t2hhpMU5yO9pgbeBaS2noCeqvzg9W07StXjhoKxP+tk=",
+    "sp": "rwdlacup",
+    "spr": "https",
+    "srt": "sco",
+    "ss": "bfqt",
+    "st": "2019-05-07T20:52:00Z",
+    "sv": "2018-03-28",
+    "timeout": "30"
+   },
    "requestBody": null,
    "status": 204,
    "response": "",
    "responseHeaders": {
-    "x-ms-request-id": "ab6d7e7f-e003-0034-4b43-0f32f0000000",
+    "x-ms-request-id": "499ec6da-a003-007c-363f-10006d000000",
     "x-ms-version": "2018-03-28",
     "server": "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0",
-    "date": "Mon, 20 May 2019 19:37:16 GMT",
+    "date": "Wed, 22 May 2019 01:44:43 GMT",
     "content-length": "0"
    }
   }
  ],
  "uniqueTestInfo": {
-  "queue": "queue155838103533907945",
-  "queue155838103533907945": "queue155838103533907945155838103555008850"
+  "queue": "queue155848948335401522",
+  "queue155848948335401522": "queue155848948335401522155848948357208409"
  }
 }
