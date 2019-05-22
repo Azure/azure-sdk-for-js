@@ -6,6 +6,8 @@ import { SharedKeyCredential } from "../../src/credentials/SharedKeyCredential";
 import { ServiceURL } from "../../src/ServiceURL";
 import { StorageURL } from "../../src/StorageURL";
 import { getUniqueName } from "./testutils.common";
+import * as dotenv from "dotenv";
+dotenv.config({ path: "../.env" });
 
 export * from "./testutils.common";
 
@@ -20,9 +22,7 @@ export function getGenericBSU(accountType: string, accountNameSuffix: string = "
   accountKey = process.env[accountKeyEnvVar];
 
   if (!accountName || !accountKey || accountName === "" || accountKey === "") {
-    throw new Error(
-      `${accountNameEnvVar} and/or ${accountKeyEnvVar} environment variables not specified.`
-    );
+    throw new Error(`${accountNameEnvVar} and/or ${accountKeyEnvVar} environment variables not specified.`);
   }
 
   const credentials = new SharedKeyCredential(accountName, accountKey);
@@ -69,11 +69,7 @@ export async function bodyToString(
   });
 }
 
-export async function createRandomLocalFile(
-  folder: string,
-  blockNumber: number,
-  blockSize: number
-): Promise<string> {
+export async function createRandomLocalFile(folder: string, blockNumber: number, blockSize: number): Promise<string> {
   return new Promise<string>((resolve, reject) => {
     const destFile = path.join(folder, getUniqueName("tempfile."));
     const ws = fs.createWriteStream(destFile);

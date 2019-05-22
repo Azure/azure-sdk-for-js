@@ -1,6 +1,6 @@
 # browser #
-browser/azure-storage.file.js
-browser/azure-storage.file.js.map
+browser/azure-storage-file.js
+browser/azure-storage-file.js.map
 
 # dist-test #
 dist-test/
