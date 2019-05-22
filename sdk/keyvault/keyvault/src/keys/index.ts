@@ -369,14 +369,14 @@ export class KeysClient {
         ...(options && options.requestOptions ? options.requestOptions : {})
       }
     );
-    yield* currentSetResponse.map(this.getKeyFromKeyItem);
+    yield* currentSetResponse.map(this.getKeyAttributesFromKeyItem);
 
     while (currentSetResponse.nextLink) {
       currentSetResponse = await this.client.getKeyVersionsNext(
         currentSetResponse.nextLink,
         options
       );
-      yield* currentSetResponse.map(this.getKeyFromKeyItem);
+      yield* currentSetResponse.map(this.getKeyAttributesFromKeyItem);
     }
   }
 
@@ -388,21 +388,21 @@ export class KeysClient {
    * @param [options] The optional parameters
    * @returns AsyncIterableIterator<Key>
    */
-  public async *getAllKeys(options?: GetAllKeysOptions): AsyncIterableIterator<Key> {
+  public async *getAllKeys(options?: GetAllKeysOptions): AsyncIterableIterator<KeyAttributes> {
     let currentSetResponse = await this.client.getKeys(
       this.vaultBaseUrl,
       {
         ...(options && options.requestOptions ? options.requestOptions : {})
       }
     );
-    yield* currentSetResponse.map(this.getKeyFromKeyItem);
+    yield* currentSetResponse.map(this.getKeyAttributesFromKeyItem);
 
     while (currentSetResponse.nextLink) {
       currentSetResponse = await this.client.getKeysNext(
         currentSetResponse.nextLink,
         options
       );
-      yield* currentSetResponse.map(this.getKeyFromKeyItem);
+      yield* currentSetResponse.map(this.getKeyAttributesFromKeyItem);
     }
   }
 
@@ -421,14 +421,14 @@ export class KeysClient {
         ...(options && options.requestOptions ? options.requestOptions : {})
       }
     );
-    yield* currentSetResponse.map(this.getKeyFromKeyItem);
+    yield* currentSetResponse.map(this.getKeyAttributesFromKeyItem);
 
     while (currentSetResponse.nextLink) {
       currentSetResponse = await this.client.getDeletedKeysNext(
         currentSetResponse.nextLink,
         options
       );
-      yield* currentSetResponse.map(this.getKeyFromKeyItem);
+      yield* currentSetResponse.map(this.getKeyAttributesFromKeyItem);
     }
   }
 
@@ -455,7 +455,7 @@ export class KeysClient {
     return resultObject;
   }
 
-  private getKeyFromKeyItem(keyItem: KeyItem): KeyAttributes {
+  private getKeyAttributesFromKeyItem(keyItem: KeyItem): KeyAttributes {
     const parsedId = parseKeyvaultEntityIdentifier("keys", keyItem.kid);
 
     let resultObject;
