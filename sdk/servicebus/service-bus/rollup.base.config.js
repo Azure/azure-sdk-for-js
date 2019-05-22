@@ -94,7 +94,7 @@ export function nodeConfig({ test = false, production = false } = {}) {
 export function browserConfig({ test = false, production = false } = {}) {
   const baseConfig = {
     input: input,
-    external: [],
+    external: ["@azure/ms-rest-nodeauth"],
     output: {
       file: "browser/service-bus.js",
       format: "umd",
@@ -160,7 +160,6 @@ export function browserConfig({ test = false, production = false } = {}) {
     baseConfig.input = "dist-esm/test/*.spec.js";
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
     baseConfig.output.file = "test-browser/index.js";
-    baseConfig.external = ["@azure/ms-rest-nodeauth"];
   } else if (production) {
     baseConfig.output.file = "browser/service-bus.min.js";
     baseConfig.plugins.push(
