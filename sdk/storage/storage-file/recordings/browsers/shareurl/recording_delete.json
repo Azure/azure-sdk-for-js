@@ -2,36 +2,58 @@
  "recordings": [
   {
    "method": "PUT",
-   "url": "https://coolstorageaccount1234.file.core.windows.net/share155837962837008768",
+   "url": "https://coolstorageaccount1234.file.core.windows.net/share155848892447508897",
+   "query": {
+    "restype": "share",
+    "se": "2020-01-01T05:52:00Z",
+    "sig": "t2hhpMU5yO9pgbeBaS2noCeqvzg9W07StXjhoKxP+tk=",
+    "sp": "rwdlacup",
+    "spr": "https",
+    "srt": "sco",
+    "ss": "bfqt",
+    "st": "2019-05-07T20:52:00Z",
+    "sv": "2018-03-28"
+   },
    "requestBody": null,
    "status": 201,
    "response": "",
    "responseHeaders": {
-    "date": "Mon, 20 May 2019 19:13:47 GMT",
-    "last-modified": "Mon, 20 May 2019 19:13:48 GMT",
+    "date": "Wed, 22 May 2019 01:35:24 GMT",
+    "last-modified": "Wed, 22 May 2019 01:35:24 GMT",
     "server": "Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0",
-    "etag": "\"0x8D6DD57498E53B0\"",
-    "x-ms-request-id": "42e99fa2-f01a-0002-2c40-0f9fa2000000",
+    "etag": "\"0x8D6DE55C31C2678\"",
+    "x-ms-request-id": "2f9c0179-901a-0056-7a3e-107528000000",
     "x-ms-version": "2018-03-28",
     "content-length": "0"
    }
   },
   {
    "method": "DELETE",
-   "url": "https://coolstorageaccount1234.file.core.windows.net/share155837962837008768",
+   "url": "https://coolstorageaccount1234.file.core.windows.net/share155848892447508897",
+   "query": {
+    "restype": "share",
+    "se": "2020-01-01T05:52:00Z",
+    "sig": "t2hhpMU5yO9pgbeBaS2noCeqvzg9W07StXjhoKxP+tk=",
+    "sp": "rwdlacup",
+    "spr": "https",
+    "srt": "sco",
+    "ss": "bfqt",
+    "st": "2019-05-07T20:52:00Z",
+    "sv": "2018-03-28"
+   },
    "requestBody": null,
    "status": 202,
    "response": "",
    "responseHeaders": {
-    "x-ms-request-id": "42e99fa6-f01a-0002-2e40-0f9fa2000000",
+    "x-ms-request-id": "2f9c017c-901a-0056-7c3e-107528000000",
     "x-ms-version": "2018-03-28",
     "server": "Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0",
-    "date": "Mon, 20 May 2019 19:13:47 GMT",
+    "date": "Wed, 22 May 2019 01:35:24 GMT",
     "content-length": "0"
    }
   }
  ],
  "uniqueTestInfo": {
-  "share": "share155837962837008768"
+  "share": "share155848892447508897"
  }
 }

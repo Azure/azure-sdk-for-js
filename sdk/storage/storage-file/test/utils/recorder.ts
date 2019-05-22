@@ -1,6 +1,8 @@
 import fs from "fs";
 import nise from "nise";
-import { bodyToString, getUniqueName, isBrowser } from "../utils";
+import queryString from "query-string";
+import { getUniqueName, isBrowser } from "../utils";
+import { blobToString } from "./index.browser"
 import * as dotenv from "dotenv";
 dotenv.config({ path: "../../.env" });
 
@@ -12,7 +14,7 @@ if (!isBrowser()) {
 /**
  * Possible reasons for skipping a test:
  * * Abort: browser testing unexpectedly finishes when a request is aborted during playback (unknown reason; probably related to the way nise handles it)
- * * Character: there are characters in the message that are not supported in browser logging
+ * * Character: there are characters in the message that are not supported in browser logging or in ECMAScript
  * * Progress: Nock does not record a request if it's aborted in a 'progress' callback
  * * Size: the generated recording file is too big and would considerably increase the size of the package
  * * Tempfile: the request makes use of a random tempfile created locally, and the recorder does not support recording it as unique information
@@ -141,15 +143,7 @@ function niseRecorder(folderpath: string, testTitle: string) {
         }
       }
 
-      async function recordRequest(req: any, requestBody: any) {
-        let response: string;
-
-        if (req.responseType === "blob") {
-          response = await bodyToString({ blobBody: req.response });
-        } else {
-          response = req.response;
-        }
-
+      async function recordRequest(req: any, data: any) {
         const responseHeaders: any = {};
         const responseHeadersPairs = req.getAllResponseHeaders().split("\r\n");
         for (const pair of responseHeadersPairs) {
@@ -157,12 +151,15 @@ function niseRecorder(folderpath: string, testTitle: string) {
           responseHeaders[key] = value;
         }
 
+        const parsedUrl = queryString.parseUrl(req.url);
+
         recordings.push({
           method: req.method,
-          url: req.url.split("?")[0],
-          requestBody: requestBody,
+          url: parsedUrl.url,
+          query: parsedUrl.query,
+          requestBody: (data instanceof Blob) ? await blobToString(data) : data,
           status: req.status,
-          response: response,
+          response: (req.response instanceof Blob) ? await blobToString(req.response) : req.response,
           responseHeaders: responseHeaders
         });
       }
@@ -174,12 +171,20 @@ function niseRecorder(folderpath: string, testTitle: string) {
 
       xhr.onCreate = function(req: any) {
         const reqSend = req.send;
-        req.send = function(data: any) {
-          reqSend.apply(req, arguments);
+        req.send = async function(data: any) {
+          reqSend.call(req, data);
+
+          const parsedUrl = queryString.parseUrl(req.url);
+          let formattedRequest = {
+            method: req.method,
+            url: parsedUrl.url,
+            query: parsedUrl.query,
+            requestBody: (data instanceof Blob) ? await blobToString(data) : data
+          };
 
           let recordingFound = false;
           for (let i = 0; !recordingFound && i < recordings.length; i++) {
-            if (matchRequest(recordings[i], req)) {
+            if (matchRequest(recordings[i], formattedRequest)) {
               let status = recordings[i].status;
               let responseHeaders = recordings[i].responseHeaders;
               let response = recordings[i].response;
@@ -190,21 +195,29 @@ function niseRecorder(folderpath: string, testTitle: string) {
           }
 
           if (!recordingFound) {
-            throw new Error("No match for request " + JSON.stringify({
-              method: req.method,
-              url: req.url.split("?")[0],
-              requestBody: data
-            }, null, " "));
+            throw new Error("No match for request " + JSON.stringify(formattedRequest, null, " "));
           }
         }
       }
 
-      // We're not matching request headers nor query string parameters
-      function matchRequest(recording: any, req: any): boolean {
+      // We're not matching request headers
+      function matchRequest(recording: any, request: any) {
+        for (let param in recording.query) {
+          if (recording.query[param] !== request.query[param] && param !== "_") {
+            return false;
+          }
+        }
+
+        for (let param in request.query) {
+          if (recording.query[param] === undefined) {
+            return false;
+          }
+        }
+
         return (
-          recording.method === req.method &&
-          recording.url === req.url.split("?")[0] &&
-          recording.requestBody === req.requestBody
+          recording.method === request.method &&
+          recording.url === request.url &&
+          recording.requestBody === request.requestBody
         );
       }
     },

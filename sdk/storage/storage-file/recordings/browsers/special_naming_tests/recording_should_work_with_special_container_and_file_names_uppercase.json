@@ -2,16 +2,26 @@
  "recordings": [
   {
    "method": "PUT",
-   "url": "https://coolstorageaccount1234.file.core.windows.net/1share-with-dash155837963149904785/dir155837963150003189/Upper%20file%20empty%20another155837963288509861",
+   "url": "https://coolstorageaccount1234.file.core.windows.net/1share-with-dash155848892774809130/dir155848892774908838/Upper%20file%20empty%20another155848892916908212",
+   "query": {
+    "se": "2020-01-01T05:52:00Z",
+    "sig": "t2hhpMU5yO9pgbeBaS2noCeqvzg9W07StXjhoKxP+tk=",
+    "sp": "rwdlacup",
+    "spr": "https",
+    "srt": "sco",
+    "ss": "bfqt",
+    "st": "2019-05-07T20:52:00Z",
+    "sv": "2018-03-28"
+   },
    "requestBody": null,
    "status": 201,
    "response": "",
    "responseHeaders": {
-    "date": "Mon, 20 May 2019 19:13:52 GMT",
-    "last-modified": "Mon, 20 May 2019 19:13:53 GMT",
+    "date": "Wed, 22 May 2019 01:35:29 GMT",
+    "last-modified": "Wed, 22 May 2019 01:35:29 GMT",
     "server": "Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0",
-    "etag": "\"0x8D6DD574C3F500E\"",
-    "x-ms-request-id": "42e99ff5-f01a-0002-7140-0f9fa2000000",
+    "etag": "\"0x8D6DE55C5E6AF06\"",
+    "x-ms-request-id": "2f9c01bc-901a-0056-313e-107528000000",
     "x-ms-version": "2018-03-28",
     "x-ms-request-server-encrypted": "true",
     "content-length": "0"
@@ -19,18 +29,29 @@
   },
   {
    "method": "HEAD",
-   "url": "https://coolstorageaccount1234.file.core.windows.net/1share-with-dash155837963149904785/dir155837963150003189/Upper%20file%20empty%20another155837963288509861",
+   "url": "https://coolstorageaccount1234.file.core.windows.net/1share-with-dash155848892774809130/dir155848892774908838/Upper%20file%20empty%20another155848892916908212",
+   "query": {
+    "_": "1558488929388",
+    "se": "2020-01-01T05:52:00Z",
+    "sig": "t2hhpMU5yO9pgbeBaS2noCeqvzg9W07StXjhoKxP+tk=",
+    "sp": "rwdlacup",
+    "spr": "https",
+    "srt": "sco",
+    "ss": "bfqt",
+    "st": "2019-05-07T20:52:00Z",
+    "sv": "2018-03-28"
+   },
    "requestBody": null,
    "status": 200,
    "response": "",
    "responseHeaders": {
-    "date": "Mon, 20 May 2019 19:13:52 GMT",
-    "last-modified": "Mon, 20 May 2019 19:13:53 GMT",
+    "date": "Wed, 22 May 2019 01:35:29 GMT",
+    "last-modified": "Wed, 22 May 2019 01:35:29 GMT",
     "server": "Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0",
-    "etag": "\"0x8D6DD574C3F500E\"",
+    "etag": "\"0x8D6DE55C5E6AF06\"",
     "x-ms-server-encrypted": "true",
     "content-type": "application/octet-stream",
-    "x-ms-request-id": "42e99ffc-f01a-0002-7840-0f9fa2000000",
+    "x-ms-request-id": "2f9c01be-901a-0056-333e-107528000000",
     "x-ms-version": "2018-03-28",
     "x-ms-type": "File",
     "content-length": "10"
@@ -38,21 +59,35 @@
   },
   {
    "method": "GET",
-   "url": "https://coolstorageaccount1234.file.core.windows.net/1share-with-dash155837963149904785/dir155837963150003189",
+   "url": "https://coolstorageaccount1234.file.core.windows.net/1share-with-dash155848892774809130/dir155848892774908838",
+   "query": {
+    "_": "1558488929594",
+    "comp": "list",
+    "prefix": "Upper file empty another155848892916908212",
+    "restype": "directory",
+    "se": "2020-01-01T05:52:00Z",
+    "sig": "t2hhpMU5yO9pgbeBaS2noCeqvzg9W07StXjhoKxP+tk=",
+    "sp": "rwdlacup",
+    "spr": "https",
+    "srt": "sco",
+    "ss": "bfqt",
+    "st": "2019-05-07T20:52:00Z",
+    "sv": "2018-03-28"
+   },
    "requestBody": null,
    "status": 200,
-   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><EnumerationResults ServiceEndpoint=\"https://coolstorageaccount1234.file.core.windows.net/\" ShareName=\"1share-with-dash155837963149904785\" DirectoryPath=\"dir155837963150003189\"><Prefix>Upper file empty another155837963288509861</Prefix><Entries><File><Name>Upper file empty another155837963288509861</Name><Properties><Content-Length>10</Content-Length></Properties></File></Entries><NextMarker /></EnumerationResults>",
+   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><EnumerationResults ServiceEndpoint=\"https://coolstorageaccount1234.file.core.windows.net/\" ShareName=\"1share-with-dash155848892774809130\" DirectoryPath=\"dir155848892774908838\"><Prefix>Upper file empty another155848892916908212</Prefix><Entries><File><Name>Upper file empty another155848892916908212</Name><Properties><Content-Length>10</Content-Length></Properties></File></Entries><NextMarker /></EnumerationResults>",
    "responseHeaders": {
-    "date": "Mon, 20 May 2019 19:13:52 GMT",
+    "date": "Wed, 22 May 2019 01:35:29 GMT",
     "server": "Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0",
     "transfer-encoding": "chunked",
     "content-type": "application/xml",
-    "x-ms-request-id": "42e99ffe-f01a-0002-7a40-0f9fa2000000",
+    "x-ms-request-id": "2f9c01c1-901a-0056-363e-107528000000",
     "x-ms-version": "2018-03-28"
    }
   }
  ],
  "uniqueTestInfo": {
-  "Upper file empty another": "Upper file empty another155837963288509861"
+  "Upper file empty another": "Upper file empty another155848892916908212"
  }
 }
