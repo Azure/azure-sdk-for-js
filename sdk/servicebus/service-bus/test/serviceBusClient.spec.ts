@@ -14,9 +14,7 @@ import {
   SessionReceiver,
   SubscriptionClient,
   TopicClient,
-  ServiceBusMessage,
-  OnError,
-  OnMessage
+  ServiceBusMessage
 } from "../src";
 import {
   getClientClosedErrorMsg,
@@ -102,7 +100,7 @@ describe("Errors with non existing Namespace #RunInBrowser", function(): void {
     return sbClient.close();
   });
 
-  const testError: OnError = (err: Error) => {
+  const testError = (err: Error): void => {
     should.equal(err.name, "ServiceCommunicationError", "ErrorName is different than expected");
     errorWasThrown = true;
   };
@@ -286,7 +284,7 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
   > {
     const client = sbClient.createQueueClient("some-name");
     const receiver = await client.createReceiver(ReceiveMode.peekLock);
-    const onMessage: OnMessage = async () => {
+    const onMessage = async (): Promise<never> => {
       throw "onMessage should not have been called when receive call is made from a non existing namespace";
     };
     receiver.registerMessageHandler(onMessage, (err) => testError(err, "some-name"));
@@ -301,7 +299,7 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
   > {
     const client = sbClient.createSubscriptionClient("some-topic-name", "some-subscription-name");
     const receiver = await client.createReceiver(ReceiveMode.peekLock);
-    const onMessage: OnMessage = async () => {
+    const onMessage = async (): Promise<never> => {
       throw "onMessage should not have been called when receive call is made from a non existing namespace";
     };
     receiver.registerMessageHandler(onMessage, (err) =>
