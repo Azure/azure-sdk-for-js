@@ -177,11 +177,10 @@ export class ManagementClient extends LinkEntity {
       application_properties: {
         operation: Constants.readOperation,
         name: this.entityPath as string,
-        type: `${Constants.vendorString}:${Constants.partition}`
+        type: `${Constants.vendorString}:${Constants.partition}`,
+        partition: `${partitionId}`
       }
     };
-
-    request.application_properties!.partition = `${partitionId}`;
 
     const info: any = await this._makeManagementRequest(request, options);
     const partitionInfo: EventHubPartitionRuntimeInformation = {
