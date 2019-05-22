@@ -46,10 +46,11 @@ async function main() {
     console.log(`Uploaded block blob ${blobName} successfully`, uploadBlobResponse.requestId);
   }
 
-  let iter1 = await containerClient.listBlobs();
+  // List blobs
+  let iter = await containerClient.listBlobs();
   let i = 1;
-  for await (const blob of iter1) {
-    console.log(`blob ${i}: ${blob.name}`);
+  for await (const blob of iter) {
+    console.log(`Blob ${i}: ${blob.name}`);
     i++;
   }
 }

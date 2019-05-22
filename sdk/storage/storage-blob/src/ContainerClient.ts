@@ -570,7 +570,7 @@ export class ContainerClient extends StorageClient {
    * @memberof ContainerClient
    */
   public async *listBlobs(
-    options?: ContainerListBlobsSegmentOptions
+    options: ContainerListBlobsSegmentOptions = {}
   ): AsyncIterableIterator<Models.BlobItem> {
     let marker = undefined;
     const serviceURL = this;
@@ -581,9 +581,7 @@ export class ContainerClient extends StorageClient {
         abortSignal: aborter
       });
       marker = listBlobsResponse.nextMarker;
-      for (const blob of listBlobsResponse.segment.blobItems) {
-        yield blob;
-      }
+      yield* listBlobsResponse.segment.blobItems;
     } while (marker);
   }
 
