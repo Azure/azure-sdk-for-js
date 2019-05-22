@@ -12,7 +12,7 @@ import {
 import { Constants, AmqpMessage, translate, ErrorNameConditionMapper } from "@azure/amqp-common";
 import * as log from "./log";
 import { ClientEntityContext } from "./clientEntityContext";
-import { reorderLockToken } from "../src/util/utils";
+import { reorderLockToken, getAssociatedReceiverName } from "../src/util/utils";
 import { MessageReceiver } from "../src/core/messageReceiver";
 import { MessageSession } from "../src/session/messageSession";
 import { getErrorMessageNotSupportedInReceiveAndDeleteMode } from "./util/errors";
@@ -550,14 +550,14 @@ export function fromAmqpMessage(
     lockToken:
       delivery && delivery.tag && delivery.tag.length !== 0
         ? uuid_to_string(
-            shouldReorderLockToken === true
-              ? reorderLockToken(
-                  typeof delivery.tag === "string" ? Buffer.from(delivery.tag) : delivery.tag
-                )
-              : typeof delivery.tag === "string"
+          shouldReorderLockToken === true
+            ? reorderLockToken(
+              typeof delivery.tag === "string" ? Buffer.from(delivery.tag) : delivery.tag
+            )
+            : typeof delivery.tag === "string"
               ? Buffer.from(delivery.tag)
               : delivery.tag
-          )
+        )
         : undefined,
     ...sbmsg,
     ...props
@@ -829,7 +829,10 @@ export class ServiceBusMessage implements ReceivedMessage {
    * - Throws an error if the message is already settled. To avoid this error check the `isSettled`
    * property on the message if you are not sure whether the message is settled.
    * - Throws an error if used in `ReceiveAndDelete` mode because all messages received in this mode
-   * are pre-settled.
+   * are pre-settled. To avoid this error, update your code to not settle a message which is received
+   * in this mode.
+   * - Throws `ServiceUnavailableError` if Service Bus does not acknowledge the request to settle
+   * the message in time. The message may or may not have been settled successfully.
    *
    * @returns Promise<void>.
    */
@@ -843,6 +846,7 @@ export class ServiceBusMessage implements ReceivedMessage {
       await this._context.managementClient!.updateDispositionStatus(
         this.lockToken!,
         DispositionStatus.completed,
+        getAssociatedReceiverName(this._context, this.sessionId),
         {
           sessionId: this.sessionId
         }
@@ -877,7 +881,10 @@ export class ServiceBusMessage implements ReceivedMessage {
    * - Throws an error if the message is already settled. To avoid this error check the `isSettled`
    * property on the message if you are not sure whether the message is settled.
    * - Throws an error if used in `ReceiveAndDelete` mode because all messages received in this mode
-   * are pre-settled.
+   * are pre-settled. To avoid this error, update your code to not settle a message which is received
+   * in this mode.
+   * - Throws `ServiceUnavailableError` if Service Bus does not acknowledge the request to settle
+   * the message in time. The message may or may not have been settled successfully.
    *
    * @param propertiesToModify The properties of the message to modify while abandoning the message.
    *
@@ -894,6 +901,7 @@ export class ServiceBusMessage implements ReceivedMessage {
       await this._context.managementClient!.updateDispositionStatus(
         this.lockToken!,
         DispositionStatus.abandoned,
+        getAssociatedReceiverName(this._context, this.sessionId),
         { propertiesToModify: propertiesToModify, sessionId: this.sessionId }
       );
 
@@ -929,7 +937,10 @@ export class ServiceBusMessage implements ReceivedMessage {
    * - Throws an error if the message is already settled. To avoid this error check the `isSettled`
    * property on the message if you are not sure whether the message is settled.
    * - Throws an error if used in `ReceiveAndDelete` mode because all messages received in this mode
-   * are pre-settled.
+   * are pre-settled. To avoid this error, update your code to not settle a message which is received
+   * in this mode.
+   * - Throws `ServiceUnavailableError` if Service Bus does not acknowledge the request to settle
+   * the message in time. The message may or may not have been settled successfully.
    *
    * @param propertiesToModify The properties of the message to modify while deferring the message
    *
@@ -945,6 +956,7 @@ export class ServiceBusMessage implements ReceivedMessage {
       await this._context.managementClient!.updateDispositionStatus(
         this.lockToken!,
         DispositionStatus.defered,
+        getAssociatedReceiverName(this._context, this.sessionId),
         { propertiesToModify: propertiesToModify, sessionId: this.sessionId }
       );
 
@@ -980,7 +992,10 @@ export class ServiceBusMessage implements ReceivedMessage {
    * - Throws an error if the message is already settled. To avoid this error check the `isSettled`
    * property on the message if you are not sure whether the message is settled.
    * - Throws an error if used in `ReceiveAndDelete` mode because all messages received in this mode
-   * are pre-settled.
+   * are pre-settled. To avoid this error, update your code to not settle a message which is received
+   * in this mode.
+   * - Throws `ServiceUnavailableError` if Service Bus does not acknowledge the request to settle
+   * the message in time. The message may or may not have been settled successfully.
    *
    * @param options The DeadLetter options that can be provided while
    * rejecting the message.
@@ -1006,6 +1021,7 @@ export class ServiceBusMessage implements ReceivedMessage {
       await this._context.managementClient!.updateDispositionStatus(
         this.lockToken!,
         DispositionStatus.suspended,
+        getAssociatedReceiverName(this._context, this.sessionId),
         {
           deadLetterReason: error.condition,
           deadLetterDescription: error.description,

@@ -1,6 +1,6 @@
 # browser #
-browser/azure-storage.queue.js
-browser/azure-storage.queue.js.map
+browser/azure-storage-queue.js
+browser/azure-storage-queue.js.map
 
 # dist-test #
 dist-test/
