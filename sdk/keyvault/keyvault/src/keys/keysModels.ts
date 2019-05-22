@@ -7,7 +7,7 @@ export interface Key extends KeyAttributes {
   /**
    * @member {string} [value] The key value.
    */
-  key?: JsonWebKey;
+  keyMaterial?: JsonWebKey;
 }
 
 export interface KeyAttributes extends ParsedKeyVaultEntityIdentifier {
@@ -15,10 +15,6 @@ export interface KeyAttributes extends ParsedKeyVaultEntityIdentifier {
    * @member {string} [id] The key id.
    */
   id?: string;
-  /**
-   * @member {string} [contentType] The content type of the key.
-   */
-  contentType?: string;
   /**
    * @member {boolean} [enabled] Determines whether the object is enabled.
    */
@@ -67,7 +63,7 @@ export interface DeletedKey extends Key {
    * @member {string} [recoveryId] The url of the recovery object, used to
    * identify and recover the deleted key.
    */
-  recoveryId?: string;
+  readonly recoveryId?: string;
   /**
    * @member {Date} [scheduledPurgeDate] The time when the key is scheduled
    * to be purged, in UTC
@@ -87,8 +83,6 @@ export interface DeletedKey extends Key {
  * @interface
  * An interface representing the optional parameters that can be
  * passed to createKey
- *
- * @extends RequestOptionsBase
  */
 export interface CreateKeyOptions {
   /**
@@ -127,8 +121,6 @@ export interface CreateKeyOptions {
  * @interface
  * An interface representing the optional parameters that can be
  * passed to createKey
- *
- * @extends RequestOptionsBase
  */
 export interface ImportKeyOptions {
   /**
@@ -163,8 +155,6 @@ export interface ImportKeyOptions {
  * @interface
  * An interface representing KeyVaultClientUpdateKeyOptionalParams.
  * Optional Parameters.
- *
- * @extends RequestOptionsBase
  */
 export interface UpdateKeyOptions {
   /**
@@ -199,8 +189,6 @@ export interface UpdateKeyOptions {
  * @interface
  * An interface representing KeyClientGetKeyOptionalParams.
  * Optional Parameters.
- *
- * @extends RequestOptionsBase
  */
 export interface GetKeyOptions {
   /**
@@ -218,10 +206,19 @@ export interface GetKeyOptions {
  * @interface
  * An interface representing optional parameters for KeyClient paged operations.
  * Optional Parameters.
- *
- * @extends RequestOptionsBase
  */
 export interface GetAllKeysOptions {
+  /**
+   * @member {msRest.RequestOptionsBase} [requestOptions] Options for this request
+   */
+  requestOptions?: msRest.RequestOptionsBase;
+}
+
+/**
+ * @interface
+ * An interface representing the most general set of request options.
+ */
+export interface RequestOptions {
   /**
    * @member {msRest.RequestOptionsBase} [requestOptions] Options for this request
    */

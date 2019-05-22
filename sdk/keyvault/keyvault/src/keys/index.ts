@@ -6,7 +6,6 @@ import {
   RequestPolicyFactory,
   deserializationPolicy,
   signingPolicy,
-  RequestOptionsBase,
   exponentialRetryPolicy,
   redirectPolicy,
   systemErrorRetryPolicy,
@@ -32,7 +31,8 @@ import {
   UpdateKeyOptions,
   GetKeyOptions,
   GetAllKeysOptions,
-  KeyAttributes
+  KeyAttributes,
+  RequestOptions
 } from "./keysModels";
 import { parseKeyvaultIdentifier as parseKeyvaultEntityIdentifier } from "../utils";
 
@@ -209,9 +209,9 @@ export class KeysClient {
    */
   public async deleteKey(
     keyName: string,
-    options?: RequestOptionsBase
+    options?: RequestOptions
   ): Promise<DeletedKey> {
-    const response = await this.client.deleteKey(this.vaultBaseUrl, keyName, options);
+    const response = await this.client.deleteKey(this.vaultBaseUrl, keyName, options ? options.requestOptions : {});
     return this.getKeyFromKeyBundle(response);
   }
 
@@ -287,9 +287,9 @@ export class KeysClient {
    */
   public async getDeletedKey(
     keyName: string,
-    options?: RequestOptionsBase
+    options?: RequestOptions
   ): Promise<DeletedKey> {
-    const response = await this.client.getDeletedKey(this.vaultBaseUrl, keyName, options);
+    const response = await this.client.getDeletedKey(this.vaultBaseUrl, keyName, options ? options.requestOptions : {});
     return this.getKeyFromKeyBundle(response);
   }
 
@@ -302,8 +302,8 @@ export class KeysClient {
    * @param [options] The optional parameters
    * @returns Promise<void>
    */
-  public async purgeDeletedKey(keyName: string, options?: RequestOptionsBase): Promise<void> {
-    await this.client.purgeDeletedKey(this.vaultBaseUrl, keyName, options);
+  public async purgeDeletedKey(keyName: string, options?: RequestOptions): Promise<void> {
+    await this.client.purgeDeletedKey(this.vaultBaseUrl, keyName, options ? options.requestOptions : {});
   }
 
   /**
@@ -316,9 +316,9 @@ export class KeysClient {
    */
   public async recoverDeletedKey(
     keyName: string,
-    options?: RequestOptionsBase
+    options?: RequestOptions
   ): Promise<Key> {
-    const response = await this.client.recoverDeletedKey(this.vaultBaseUrl, keyName, options);
+    const response = await this.client.recoverDeletedKey(this.vaultBaseUrl, keyName, options ? options.requestOptions : {});
     return this.getKeyFromKeyBundle(response);
   }
 
@@ -332,9 +332,9 @@ export class KeysClient {
    */
   public async backupKey(
     keyName: string,
-    options?: RequestOptionsBase
+    options?: RequestOptions
   ): Promise<Uint8Array | undefined> {
-    const response = await this.client.backupKey(this.vaultBaseUrl, keyName, options);
+    const response = await this.client.backupKey(this.vaultBaseUrl, keyName, options ? options.requestOptions : {});
     return response.value;
   }
 
@@ -348,12 +348,12 @@ export class KeysClient {
    */
   public async restoreKey(
     keyBundleBackup: Uint8Array,
-    options?: RequestOptionsBase
+    options?: RequestOptions
   ): Promise<Key> {
     const response = await this.client.restoreKey(
       this.vaultBaseUrl,
       keyBundleBackup,
-      options
+      options ? options.requestOptions : {}
     );
     return this.getKeyFromKeyBundle(response);
   }
@@ -438,6 +438,7 @@ export class KeysClient {
     let resultObject;
     if (keyBundle.attributes) {
       resultObject = {
+        keyMaterial: keyBundle.key,
         ...keyBundle,
         ...parsedId,
         ...keyBundle.attributes
@@ -445,6 +446,7 @@ export class KeysClient {
       delete (resultObject.attributes);
     } else {
       resultObject = {
+        keyMaterial: keyBundle.key,
         ...keyBundle,
         ...parsedId
       }
@@ -453,7 +455,7 @@ export class KeysClient {
     return resultObject;
   }
 
-  private getKeyFromKeyItem(keyItem: KeyItem): Key {
+  private getKeyFromKeyItem(keyItem: KeyItem): KeyAttributes {
     const parsedId = parseKeyvaultEntityIdentifier("keys", keyItem.kid);
 
     let resultObject;
