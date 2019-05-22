@@ -12,7 +12,7 @@ import * as msRest from "@azure/ms-rest-js";
 import * as msRestAzure from "@azure/ms-rest-azure-js";
 
 const packageName = "@azure/eventgrid";
-const packageVersion = "0.1.0";
+const packageVersion = "1.5.0";
 
 export class EventGridClientContext extends msRestAzure.AzureServiceClient {
   credentials: msRest.ServiceClientCredentials;
@@ -41,7 +41,7 @@ export class EventGridClientContext extends msRestAzure.AzureServiceClient {
     this.apiVersion = '2018-01-01';
     this.acceptLanguage = 'en-US';
     this.longRunningOperationRetryTimeout = 30;
-    this.baseUri = 'https://{topicHostname}';
+    this.baseUri = "https://{topicHostname}";
     this.requestContentType = "application/json; charset=utf-8";
     this.credentials = credentials;
 
