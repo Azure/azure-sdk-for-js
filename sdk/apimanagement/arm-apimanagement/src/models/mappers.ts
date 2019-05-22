@@ -1268,10 +1268,10 @@ export const SchemaContract: msRest.CompositeMapper = {
           name: "String"
         }
       },
-      document: {
-        serializedName: "properties.document",
+      value: {
+        serializedName: "properties.document.value",
         type: {
-          name: "Object"
+          name: "String"
         }
       }
     }

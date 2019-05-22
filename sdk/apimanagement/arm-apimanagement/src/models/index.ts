@@ -767,9 +767,9 @@ export interface SchemaContract extends Resource {
    */
   contentType: string;
   /**
-   * Properties of the Schema Document.
+   * Json escaped string defining the document representing the Schema.
    */
-  document?: any;
+  value?: string;
 }
 
 /**
