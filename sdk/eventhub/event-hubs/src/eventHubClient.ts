@@ -27,6 +27,7 @@ import { EventHubSender } from "./eventHubSender";
 import { StreamingReceiver, ReceiveHandler } from "./streamingReceiver";
 import { BatchingReceiver } from "./batchingReceiver";
 import { IotHubClient } from "./iothub/iothubClient";
+import { Aborter } from "./aborter";
 
 /**
  * LogLevel that defines the level of logging to be used
@@ -73,7 +74,7 @@ export interface RequestOptions {
   /**
    * The cancellation token used to cancel the current request
    */
-  cancellationToken?: any;
+  cancellationToken?: Aborter;
   /**
    * Log level to use for the current operation. This overrides the value set when creating the EventHubsClient
    */
