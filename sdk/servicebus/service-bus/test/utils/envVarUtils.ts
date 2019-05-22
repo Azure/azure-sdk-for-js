@@ -45,8 +45,12 @@ function throwMissingEnvironmentVariablesError(envVars: EnvVarKeys[]): void {
 }
 
 function getEnvVarValue(name: string): string | undefined {
-  // @ts-ignore
-  return isNode ? process.env[name] : window.__env__[name];
+  if (isNode) {
+    return process.env[name];
+  } else {
+    // @ts-ignore
+    return window.__env__[name];
+  }
 }
 
 export function getEnvVars(): { [key in EnvVarKeys]: any } {

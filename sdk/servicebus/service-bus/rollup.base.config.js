@@ -16,6 +16,14 @@ const pkg = require("./package.json");
 const depNames = Object.keys(pkg.dependencies);
 const input = "dist-esm/src/index.js";
 
+const version = require("./package.json").version;
+const banner = [
+  "/*!",
+  ` * Azure Service Bus SDK for JavaScript, ${version}`,
+  " * Copyright (c) Microsoft and contributors. All rights reserved.",
+  " */"
+].join("\n");
+
 const ignoreKnownWarnings = (warning) => {
   if (warning.code === "THIS_IS_UNDEFINED") {
     // This error happens frequently due to TypeScript emitting `this` at the
@@ -154,7 +162,13 @@ export function browserConfig({ test = false, production = false } = {}) {
     baseConfig.output.file = "test-browser/index.js";
   } else if (production) {
     baseConfig.output.file = "browser/service-bus.min.js";
-    baseConfig.plugins.push(terser());
+    baseConfig.plugins.push(
+      terser({
+        output: {
+          preamble: banner
+        }
+      })
+    );
   }
 
   return baseConfig;
