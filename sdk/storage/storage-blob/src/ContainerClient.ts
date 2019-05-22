@@ -549,6 +549,52 @@ export class ContainerClient extends StorageClient {
   }
 
   /**
+   * Iterates over blobs under the specified container.
+   *
+   * @example
+   * for await (const blob of containerClient.listBlobs()) {
+   *   console.log(`Container: ${blob.name}`);
+   * }
+   *
+   * @example
+   * let iter1 = containerClient.listBlobs();
+   * let i = 1;
+   * for await (const blob of iter1) {
+   *   console.log(`${i}: ${blob.name}`);
+   *   i++;
+   *   if (i > 5) {
+   *     break;1
+   *   }
+   * }
+   *
+   *
+   * @param {ContainerListBlobsSegmentOptions} [options]
+   * @returns {AsyncIterableIterator<Models.BlobItem>}
+   * @memberof ContainerClient
+   */
+  public async listBlobs(
+    options?: ContainerListBlobsSegmentOptions
+  ): Promise<AsyncIterableIterator<Models.BlobItem>> {
+    const serviceURL = this;
+    const aborter = !options || !options.abortSignal ? Aborter.none : options.abortSignal;
+
+    const iter: AsyncIterableIterator<
+      Models.BlobItem
+    > = (async function* items(): AsyncIterableIterator<Models.BlobItem> {
+      const listBlobsResponse = await serviceURL.listBlobFlatSegment(undefined, {
+        ...options,
+        abortSignal: aborter
+      });
+      const blobs = listBlobsResponse.segment.blobItems;
+      for (let i = 0; i < blobs.length; i++) {
+        yield blobs[i];
+      }
+    } as any)() as any;
+
+    return iter;
+  }
+
+  /**
    * listBlobFlatSegment returns a single segment of blobs starting from the
    * specified Marker. Use an empty Marker to start enumeration from the beginning.
    * After getting a segment, process it, and then call ListBlobsFlatSegment again
