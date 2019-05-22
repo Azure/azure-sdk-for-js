@@ -357,7 +357,7 @@ export class EventHubClient {
    */
   async getHubRuntimeInformation(options?: RequestOptions): Promise<EventHubRuntimeInformation> {
     try {
-      return await this._context.managementSession!.getHubRuntimeInformation();
+      return await this._context.managementSession!.getHubRuntimeInformation(options);
     } catch (err) {
       log.error("An error occurred while getting the hub runtime information: %O", err);
       throw err;
@@ -391,7 +391,7 @@ export class EventHubClient {
       throw new Error("'partitionId' is a required parameter and must be of type: 'string' | 'number'.");
     }
     try {
-      return await this._context.managementSession!.getPartitionInformation(partitionId);
+      return await this._context.managementSession!.getPartitionInformation(partitionId, options);
     } catch (err) {
       log.error("An error occurred while getting the partition information: %O", err);
       throw err;
