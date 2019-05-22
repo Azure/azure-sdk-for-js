@@ -1,0 +1,10 @@
+{
+  "name": "samples",
+  "version": "0.0.0",
+  "description": "@azure/service-bus samples",
+  "author": "Microsoft",
+  "license": "ISC",
+  "dependencies": {
+    "@azure/service-bus": "^1.0.2"
+  }
+}
