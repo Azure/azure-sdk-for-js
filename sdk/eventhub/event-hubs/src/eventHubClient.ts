@@ -172,6 +172,74 @@ export class EventHubClient {
   private _context: ConnectionContext;
 
   /**
+   * @constructor
+   * @param {string} host - Fully qualified domain name for Event Hubs. Most likely,
+   * <yournamespace>.servicebus.windows.net
+   * @param {string} entityPath - EventHub path of the form 'my-event-hub-name'
+   * @param {TokenProvider} tokenProvider - Your token provider that implements the TokenProvider interface.
+   * @param {ClientOptions} options - The options that can be provided during client creation.
+   */
+  constructor(host: string, entityPath: string, tokenProvider: TokenProvider, options?: ClientOptions);
+  constructor(
+    host: string,
+    entityPath: string,
+    credentials: ApplicationTokenCredentials | UserTokenCredentials | DeviceTokenCredentials | MSITokenCredentials,
+    options?: ClientOptions
+  );
+  constructor(
+    host: string,
+    entityPath: string,
+    tokenProviderOrCredentials:
+      | TokenProvider
+      | ApplicationTokenCredentials
+      | UserTokenCredentials
+      | DeviceTokenCredentials
+      | MSITokenCredentials,
+    options?: ClientOptions
+  ) {
+    if (!host) {
+      throw new Error(
+        "Please provide a fully qualified domain name of your Event Hub instance for the 'host' parameter."
+      );
+    }
+
+    if (!entityPath) {
+      throw new Error("Please provide a valid string for the 'entityPath' parameter.");
+    }
+
+    if (!tokenProviderOrCredentials) {
+      throw new Error(
+        "Please provide either a token provider or a valid credentials object to create an instance of EventHubsClient"
+      );
+    }
+
+    let tokenProvider: TokenProvider;
+    if (
+      tokenProviderOrCredentials instanceof ApplicationTokenCredentials ||
+      tokenProviderOrCredentials instanceof UserTokenCredentials ||
+      tokenProviderOrCredentials instanceof DeviceTokenCredentials ||
+      tokenProviderOrCredentials instanceof MSITokenCredentials
+    ) {
+      tokenProvider = new AadTokenProvider(tokenProviderOrCredentials);
+    } else {
+      tokenProvider = tokenProviderOrCredentials;
+    }
+
+    if (!host.endsWith("/")) host += "/";
+    if (!options) options = {};
+
+    let sharedAccessKeyName = "defaultKeyName";
+    let sharedAccessKey = "defaultKeyValue";
+    if (tokenProvider instanceof SasTokenProvider) {
+      sharedAccessKeyName = tokenProvider.keyName;
+      sharedAccessKey = tokenProvider.key;
+    }
+    const connectionString = `Endpoint=sb://${host};SharedAccessKeyName=${sharedAccessKeyName};SharedAccessKey=${sharedAccessKey}`;
+    const config = EventHubConnectionConfig.create(connectionString, entityPath);
+    this._context = ConnectionContext.create(config, tokenProvider, options);
+  }
+
+  /**
    * Closes the AMQP connection to the Event Hub for this client,
    * returning a promise that will be resolved when disconnection is completed.
    * @returns {Promise<void>} Promise<void>
@@ -393,11 +461,7 @@ export class EventHubClient {
           `must contain EntityPath="<path-to-the-entity>".`
       );
     }
-    const tokenProvider = new SasTokenProvider(
-      config.endpoint,
-      config.sharedAccessKeyName,
-      config.sharedAccessKey
-    );
+    const tokenProvider = new SasTokenProvider(config.endpoint, config.sharedAccessKeyName, config.sharedAccessKey);
     return new EventHubClient(config.host, config.entityPath, tokenProvider, options);
   }
 
@@ -416,72 +480,5 @@ export class EventHubClient {
     }
     const connectionString = await new IotHubClient(iothubConnectionString).getEventHubConnectionString();
     return EventHubClient.createFromConnectionString(connectionString, undefined, options);
-  }
-
-  /**
-   * @constructor
-   * @param {string} host - Fully qualified domain name for Event Hubs. Most likely,
-   * <yournamespace>.servicebus.windows.net
-   * @param {string} entityPath - EventHub path of the form 'my-event-hub-name'
-   * @param {TokenProvider} tokenProvider - Your token provider that implements the TokenProvider interface.
-   * @param {ClientOptions} options - The options that can be provided during client creation.
-   */
-  constructor(
-    host: string,
-    entityPath: string,
-    tokenProvider: TokenProvider,
-    options?: ClientOptions
-  ) {
-    if (!host || (host && typeof host !== "string")) {
-      throw new Error("'host' is a required parameter and must be of type: 'string'.");
-    }
-
-    if (!entityPath || (entityPath && typeof entityPath !== "string")) {
-      throw new Error("'entityPath' is a required parameter and must be of type: 'string'.");
-    }
-
-    if (!tokenProvider || (tokenProvider && typeof tokenProvider !== "object")) {
-      throw new Error("'tokenProvider' is a required parameter and must be of type: 'object'.");
-    }
-    if (!host.endsWith("/")) host += "/";
-    if (!options) options = {};
-
-    let sharedAccessKeyName = 'defaultKeyName';
-    let sharedAccessKey = 'defaultKeyValue';
-    if (tokenProvider instanceof SasTokenProvider) {
-      sharedAccessKeyName = tokenProvider.keyName;
-      sharedAccessKey = tokenProvider.key;
-    }
-    const connectionString =
-      `Endpoint=sb://${host};SharedAccessKeyName=${sharedAccessKeyName};SharedAccessKey=${sharedAccessKey}`;
-    const config = EventHubConnectionConfig.create(connectionString, entityPath);
-    this._context = ConnectionContext.create(config, tokenProvider, options);
-  }
-
-  /**
-   * Creates an EventHub Client from AADTokenCredentials.
-   * @param {string} host - Fully qualified domain name for Event Hubs. Most likely,
-   * <yournamespace>.servicebus.windows.net
-   * @param {string} entityPath - EventHub path of the form 'my-event-hub-name'
-   * @param {TokenCredentials} credentials - The AAD Token credentials. It can be one of the following:
-   * ApplicationTokenCredentials | UserTokenCredentials | DeviceTokenCredentials | MSITokenCredentials.
-   * @param {ClientOptions} options - The options that can be provided during client creation.
-   * @returns {EventHubClient} An instance of the Eventhub client.
-   */
-  static createFromAadTokenCredentials(
-    host: string,
-    entityPath: string,
-    credentials: ApplicationTokenCredentials | UserTokenCredentials | DeviceTokenCredentials | MSITokenCredentials,
-    options?: ClientOptions
-  ): EventHubClient {
-    if (!credentials || (credentials && typeof credentials !== "object")) {
-      throw new Error(
-        "'credentials' is a required parameter and must be an instance of " +
-        "ApplicationTokenCredentials | UserTokenCredentials | DeviceTokenCredentials | " +
-        "MSITokenCredentials."
-      );
-    }
-    const tokenProvider = new AadTokenProvider(credentials);
-    return new EventHubClient(host, entityPath, tokenProvider, options);
   }
 }
