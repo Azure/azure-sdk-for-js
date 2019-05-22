@@ -81,10 +81,18 @@ Next, get the code:
 #### Making the switch
 If you have previously worked in this repo using the `npm` workflow, the first time you switch to using Rush you should commit or stash any untracked files and then get back to a clean state by running `rush reset-workspace` before proceeding any further. This will get rid of any latent package-lock files, as well as your existing (incompatible) node_modules directories. You can then proceed down the path outlined below.
 
-#### Warning for VSCode users
+#### Warnings for VSCode users
 Visual Studio Code has a feature which will automatically fetch and install @types packages for you, using the standard npm package manager. This will cause problems with your node_modules directory, since Rush uses PNPM which lays out this directory quite differently. It's highly recommended that you ensure "Typescript: Disable Automatic Type Acquisition" is checked in your VSCode Workspace Settings (or ensure `typescript.disableAutomaticTypeAcquisition` is present in your .vscode/settings.json file).
 
-#### Warning for Windows users
+The current version of VSCode for Windows has a bug that may cause a "file locked" error when you run any Rush command that modifies your node_modules directory:
+```
+ERROR: Error: Error: EPERM: operation not permitted, mkdir 'C:\XXXXX\node_modules'
+Often this is caused by a file lock from a process such as your text editor, command prompt, or "gulp serve"
+```
+
+This bug is fixed in the Insiders build of VSCode (1.34), and will be included in the next release. Until then, you can resolve this by running the "Typescript: Restart TS server" command from the Command Palette to release the lock on the files.
+
+#### Warnings for Windows users
 Git for Windows has a bug where repository files may be unintentionally removed by `git clean -df` when a directory is locally linked. Because Rush creates local links between packages, you may encounter this. It's highly recommended to use the `rush reset-workspace` command to get your working directory back to a clean state instead. If you prefer to run `git clean -df` manually, you must first run `rush unlink` so that the operation can be performed safely.
 
 ### Inner loop developer workflow with Rush
@@ -93,7 +101,7 @@ Git for Windows has a bug where repository files may be unintentionally removed 
 
 Run `rush update` to install the current set of package dependencies in all projects inside the repo.
 
-To add a new dependency (assuming the dependency is published on the NPM registry), navigate to the project's directory and run `rush add -p "<packagename@^version>" [--dev]`. This will update the project's package.json and then automatically run `rush update` to install the package into the project's node_modules directory. Do not use `npm install [--save | --save-dev]`.
+To add a new dependency (assuming the dependency is published on the NPM registry), navigate to the project's directory and run `rush add -p "<packagename>" --caret [--dev]`. This will add the dependency at its latest version to the project's package.json, and then automatically run `rush update` to install the package into the project's node_modules directory. If you know the specific version of the package you want, you can instead run `rush add -p "<packagename@^version>"` - make sure to use the caret before the version number. Do not use `npm install [--save | --save-dev]`.
 
 To add a dependency on another library within the Azure SDK, you can follow the same procedure as above as long as the library is also published to the NPM registry. Additionally, as long as the local copy of that library satisfies the SemVer range you specify when you run `rush add`, that library will be locally linked rather than downloaded from the registry. If the library has not yet been published to the NPM registry, you can't use `rush add`. In this case, you must manually edit the package.json to add the dependency and then run `rush update` to locally link the library into the project's node_modules directory.
 
@@ -225,4 +233,4 @@ Currently, the tests for client libraries in this repository are running against
 | ----------- | -------------------- | ----------- | ------------------- |
 | **Node 8**  | x                    | x           | x                   |
 | **Node 10** | x                    | x           | x                   |
-| **Node 11** | x                    | x           | x                   |
+| **Node 12** | x                    | x           | x                   |

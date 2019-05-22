@@ -44,11 +44,41 @@ export const apiVersion: msRest.OperationQueryParameter = {
     }
   }
 };
+export const collectionName: msRest.OperationURLParameter = {
+  parameterPath: "collectionName",
+  mapper: {
+    required: true,
+    serializedName: "collectionName",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const collectionRid: msRest.OperationURLParameter = {
   parameterPath: "collectionRid",
   mapper: {
     required: true,
     serializedName: "collectionRid",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const containerName: msRest.OperationURLParameter = {
+  parameterPath: "containerName",
+  mapper: {
+    required: true,
+    serializedName: "containerName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const databaseName: msRest.OperationURLParameter = {
+  parameterPath: "databaseName",
+  mapper: {
+    required: true,
+    serializedName: "databaseName",
     type: {
       name: "String"
     }
@@ -81,6 +111,26 @@ export const filter1: msRest.OperationQueryParameter = {
   ],
   mapper: {
     serializedName: "$filter",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const graphName: msRest.OperationURLParameter = {
+  parameterPath: "graphName",
+  mapper: {
+    required: true,
+    serializedName: "graphName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const keyspaceName: msRest.OperationURLParameter = {
+  parameterPath: "keyspaceName",
+  mapper: {
+    required: true,
+    serializedName: "keyspaceName",
     type: {
       name: "String"
     }
@@ -147,6 +197,16 @@ export const subscriptionId: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "subscriptionId",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const tableName: msRest.OperationURLParameter = {
+  parameterPath: "tableName",
+  mapper: {
+    required: true,
+    serializedName: "tableName",
     type: {
       name: "String"
     }

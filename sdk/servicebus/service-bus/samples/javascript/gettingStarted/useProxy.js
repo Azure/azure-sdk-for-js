@@ -22,7 +22,7 @@ urlParts.auth = "username:password"; // Skip this if proxy server does not need 
 const proxyAgent = new httpsProxyAgent(urlParts);
 
 async function main() {
-  const ns = ServiceBusClient.createFromConnectionString(connectionString, {
+  const sbClient = ServiceBusClient.createFromConnectionString(connectionString, {
     webSocket: WebSocket,
     webSocketConstructorOptions: { agent: proxyAgent }
   });
@@ -31,7 +31,7 @@ async function main() {
    Refer to other samples, and place your code here
    to create queue clients, and to send/receive messages
   */
-  await ns.close();
+  await sbClient.close();
 }
 
 main().catch((err) => {
