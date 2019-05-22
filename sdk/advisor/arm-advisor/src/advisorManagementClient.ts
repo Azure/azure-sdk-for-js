@@ -17,6 +17,7 @@ import { AdvisorManagementClientContext } from "./advisorManagementClientContext
 
 class AdvisorManagementClient extends AdvisorManagementClientContext {
   // Operation groups
+  recommendationMetadata: operations.RecommendationMetadata;
   configurations: operations.Configurations;
   recommendations: operations.Recommendations;
   operations: operations.Operations;
@@ -30,6 +31,7 @@ class AdvisorManagementClient extends AdvisorManagementClientContext {
    */
   constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.AdvisorManagementClientOptions) {
     super(credentials, subscriptionId, options);
+    this.recommendationMetadata = new operations.RecommendationMetadata(this);
     this.configurations = new operations.Configurations(this);
     this.recommendations = new operations.Recommendations(this);
     this.operations = new operations.Operations(this);
