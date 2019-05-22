@@ -17,6 +17,18 @@ import { ServiceBusClientOptions } from "./serviceBusClient";
 import { ClientEntityContext } from "./clientEntityContext";
 import { OnAmqpEvent, EventContext, ConnectionEvents } from "rhea-promise";
 
+const isNode = !!process;
+
+const getProcessVersion = function(): string {
+  {
+    if (isNode) {
+      return process.version;
+    } else {
+      return "";
+    }
+  }
+};
+
 /**
  * @internal
  * @interface ConnectionContext
@@ -41,7 +53,7 @@ export namespace ConnectionContext {
    */
   export const userAgent: string = `azsdk-js-azureservicebus/${
     packageJsonInfo.version
-  } (NODE-VERSION ${process.version}; ${os.type()} ${os.release()})`;
+  } (NODE-VERSION ${getProcessVersion()}; ${os.type()} ${os.release()})`;
 
   export function create(
     config: ConnectionConfig,
