@@ -160,7 +160,7 @@ export function browserConfig({ test = false, production = false } = {}) {
     baseConfig.input = "dist-esm/test/*.spec.js";
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
     baseConfig.output.file = "test-browser/index.js";
-    baseConfig.external = ["./aadUtils", "./utils/aadUtils"];
+    baseConfig.external = ["@azure/ms-rest-nodeauth"];
   } else if (production) {
     baseConfig.output.file = "browser/service-bus.min.js";
     baseConfig.plugins.push(
