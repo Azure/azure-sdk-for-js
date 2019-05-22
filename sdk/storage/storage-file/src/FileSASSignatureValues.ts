@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 import { FileSASPermissions } from "./FileSASPermissions";
 import { IPRange, ipRangeToString } from "./IPRange";

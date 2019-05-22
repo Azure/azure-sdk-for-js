@@ -1,5 +1,7 @@
-import { RequestPolicy, RequestPolicyFactory, RequestPolicyOptions } from "@azure/ms-rest-js";
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
 
+import { RequestPolicy, RequestPolicyFactory, RequestPolicyOptions } from "@azure/ms-rest-js";
 import { CredentialPolicy } from "../policies/CredentialPolicy";
 
 /**

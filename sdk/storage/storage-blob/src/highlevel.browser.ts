@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 import { generateUuid } from "@azure/ms-rest-js";
 
 import { BlockBlobClient } from "./BlockBlobClient";

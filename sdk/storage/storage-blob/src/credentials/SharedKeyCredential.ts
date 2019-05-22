@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 import * as Crypto from "crypto";
 import { RequestPolicy, RequestPolicyOptions } from "@azure/ms-rest-js";
 

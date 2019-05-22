@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 import { HttpResponse } from "@azure/ms-rest-js";
 
 import { Aborter } from "./Aborter";
@@ -98,24 +101,24 @@ export interface SignedIdentifier {
 export declare type ShareGetAccessPolicyResponse = {
   signedIdentifiers: SignedIdentifier[];
 } & Models.ShareGetAccessPolicyHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpResponse & {
     /**
-     * The underlying HTTP response.
+     * The parsed HTTP response headers.
      */
-    _response: HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: Models.ShareGetAccessPolicyHeaders;
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Models.SignedIdentifier[];
-    };
+    parsedHeaders: Models.ShareGetAccessPolicyHeaders;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Models.SignedIdentifier[];
   };
+};
 
 export interface ShareCreateSnapshotOptions {
   abortSignal?: Aborter;

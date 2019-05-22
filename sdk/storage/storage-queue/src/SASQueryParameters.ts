@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 import { IPRange, ipRangeToString } from "./IPRange";
 import { truncatedISO8061Date } from "./utils/utils.common";
 

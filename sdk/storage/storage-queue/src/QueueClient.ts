@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 import { HttpResponse } from "@azure/ms-rest-js";
 import * as Models from "./generated/lib/models";
 import { Aborter } from "./Aborter";
@@ -61,24 +64,24 @@ export interface SignedIdentifier {
 export declare type QueueGetAccessPolicyResponse = {
   signedIdentifiers: SignedIdentifier[];
 } & Models.QueueGetAccessPolicyHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpResponse & {
     /**
-     * The underlying HTTP response.
+     * The parsed HTTP response headers.
      */
-    _response: HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: Models.QueueGetAccessPolicyHeaders;
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Models.SignedIdentifier[];
-    };
+    parsedHeaders: Models.QueueGetAccessPolicyHeaders;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Models.SignedIdentifier[];
   };
+};
 
 /**
  * A QueueURL represents a URL to the Azure Storage queue.

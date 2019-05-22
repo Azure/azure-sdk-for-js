@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 import { HttpRequestBody, HttpResponse, isNode, TransferProgressEvent } from "@azure/ms-rest-js";
 import { Aborter } from "./Aborter";
 import { DirectoryClient } from "./DirectoryClient";

@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 import { Aborter } from "./Aborter";
 import * as Models from "./generated/lib/models";
 import { Directory } from "./generated/lib/operations";

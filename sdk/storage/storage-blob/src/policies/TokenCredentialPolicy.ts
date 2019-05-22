@@ -1,5 +1,7 @@
-import { HttpHeaders, RequestPolicy, RequestPolicyOptions, WebResource } from "@azure/ms-rest-js";
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
 
+import { HttpHeaders, RequestPolicy, RequestPolicyOptions, WebResource } from "@azure/ms-rest-js";
 import { TokenCredential } from "../credentials/TokenCredential";
 import { HeaderConstants } from "../utils/constants";
 import { CredentialPolicy } from "./CredentialPolicy";
