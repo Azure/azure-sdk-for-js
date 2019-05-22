@@ -13,8 +13,8 @@ import {
 
 async function main() {
   // Enter your storage account name and shared key
-  const account = "";
-  const accountKey = "";
+  const account = process.env["ACCOUNT_NAME"] || "";
+  const accountKey = process.env["ACCOUNT_KEY"] || "";
 
   // Use SharedKeyCredential with storage account and account key
   const sharedKeyCredential = new SharedKeyCredential(account, accountKey);
