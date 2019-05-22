@@ -11,7 +11,8 @@ import {
   delay,
   ConnectionContextBase,
   CreateConnectionContextBaseParameters,
-  EventHubConnectionConfig
+  EventHubConnectionConfig,
+  TokenProvider
 } from "@azure/amqp-common";
 import { ManagementClient, ManagementClientOptions } from "./managementClient";
 import { ClientOptions } from "./eventHubClient";
@@ -74,12 +75,16 @@ export namespace ConnectionContext {
     return finalUserAgent;
   }
 
-  export function create(config: EventHubConnectionConfig, options?: ConnectionContextOptions): ConnectionContext {
+  export function create(config: EventHubConnectionConfig, tokenProvider: TokenProvider, options?: ConnectionContextOptions): ConnectionContext {
     if (!options) options = {};
+
+    config.webSocket = options.webSocket;
+    config.webSocketEndpointPath = "$servicebus/websocket";
+    config.webSocketConstructorOptions = options.webSocketConstructorOptions;
 
     const parameters: CreateConnectionContextBaseParameters = {
       config: config,
-      tokenProvider: options.tokenProvider,
+      tokenProvider: tokenProvider,
       dataTransformer: options.dataTransformer,
       isEntityPathRequired: true,
       connectionProperties: {
