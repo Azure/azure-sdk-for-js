@@ -1,0 +1,12 @@
+.git
+.vscode
+samples
+.gitattributes
+.gitignore
+*.code-workspace
+*.tgz
+tsdoc-metadata.json
+consumer-test/
+test/
+src/
+lib/
