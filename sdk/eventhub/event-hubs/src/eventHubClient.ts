@@ -173,13 +173,25 @@ export class EventHubClient {
 
   /**
    * @constructor
-   * @param {string} host - Fully qualified domain name for Event Hubs. Most likely,
+   * @param host - Fully qualified domain name for Event Hubs. Most likely,
    * <yournamespace>.servicebus.windows.net
-   * @param {string} entityPath - EventHub path of the form 'my-event-hub-name'
-   * @param {TokenProvider} tokenProvider - Your token provider that implements the TokenProvider interface.
-   * @param {ClientOptions} options - The options that can be provided during client creation.
+   * @param entityPath - EventHub path of the form 'my-event-hub-name'
+   * @param tokenProvider - Your token provider that implements the TokenProvider interface.
+   * @param options - The options that can be provided during client creation.
    */
   constructor(host: string, entityPath: string, tokenProvider: TokenProvider, options?: ClientOptions);
+  /**
+   * @constructor
+   * @param host - Fully qualified domain name for Event Hubs. Most likely,
+   * <yournamespace>.servicebus.windows.net
+   * @param entityPath - EventHub path of the form 'my-event-hub-name'
+   * @param credentials - The Token credentials as implemented in the `ms-rest-nodeauth` library. It can be one of the following:
+   *  - ApplicationTokenCredentials
+   *  - UserTokenCredentials
+   *  - DeviceTokenCredentials
+   *  - MSITokenCredentials.
+   * @param options - The options that can be provided during client creation.
+   */
   constructor(
     host: string,
     entityPath: string,
@@ -204,15 +216,15 @@ export class EventHubClient {
     }
 
     if (!entityPath) {
-      throw new Error("Please provide a valid string for the 'entityPath' parameter.");
+      throw new Error("Please provide a value for the 'entityPath' parameter.");
     }
 
     if (!tokenProviderOrCredentials) {
-      throw new Error(
-        "Please provide either a token provider or a valid credentials object to create an instance of EventHubsClient"
-      );
+      throw new Error("Please provide either a token provider or a valid credentials object.");
     }
 
+    let sharedAccessKeyName = "defaultKeyName";
+    let sharedAccessKey = "defaultKeyValue";
     let tokenProvider: TokenProvider;
     if (
       tokenProviderOrCredentials instanceof ApplicationTokenCredentials ||
@@ -223,17 +235,15 @@ export class EventHubClient {
       tokenProvider = new AadTokenProvider(tokenProviderOrCredentials);
     } else {
       tokenProvider = tokenProviderOrCredentials;
+      if (tokenProvider instanceof SasTokenProvider) {
+        sharedAccessKeyName = tokenProvider.keyName;
+        sharedAccessKey = tokenProvider.key;
+      }
     }
 
     if (!host.endsWith("/")) host += "/";
     if (!options) options = {};
 
-    let sharedAccessKeyName = "defaultKeyName";
-    let sharedAccessKey = "defaultKeyValue";
-    if (tokenProvider instanceof SasTokenProvider) {
-      sharedAccessKeyName = tokenProvider.keyName;
-      sharedAccessKey = tokenProvider.key;
-    }
     const connectionString = `Endpoint=sb://${host};SharedAccessKeyName=${sharedAccessKeyName};SharedAccessKey=${sharedAccessKey}`;
     const config = EventHubConnectionConfig.create(connectionString, entityPath);
     this._context = ConnectionContext.create(config, tokenProvider, options);
