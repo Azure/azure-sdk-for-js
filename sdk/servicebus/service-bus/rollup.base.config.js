@@ -129,7 +129,9 @@ export function browserConfig({ test = false, production = false } = {}) {
           export function release() { typeof navigator === 'undefined' ? '' : navigator.appVersion }
         `,
         path: `export default {}`,
-        dns: `export function resolve() { }`
+        dns: `export function resolve() { }`,
+        process: `export const version = '';`,
+        packageJsonInfo: `export const version = '';`
       }),
 
       nodeResolve({
