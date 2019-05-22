@@ -1,5 +1,5 @@
 {
-  "name": "samples",
+  "name": "@azure/service-bus-samples",
   "version": "0.0.0",
   "description": "@azure/service-bus samples",
   "author": "Microsoft",
