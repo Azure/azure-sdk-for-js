@@ -93,7 +93,6 @@ export interface BatchingOptions extends RequestOptions {
    * It guarantees that messages end up in a specific partition on the event hub.
    */
   batchLabel?: string | null;
-
 }
 
 /**
