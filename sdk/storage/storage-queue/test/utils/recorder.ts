@@ -60,7 +60,7 @@ function nockRecorder(folderpath: string, testTitle: string) {
       });
     },
     playback: function() {
-      uniqueTestInfo = require("../../recordings/" + fp).testInfo;
+      uniqueTestInfo = require("../recordings/" + fp).testInfo;
     },
     stop: function() {
       let fixtures = nock.recorder.play();
