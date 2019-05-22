@@ -1,5 +1,6 @@
 import fs from "fs";
 import nise from "nise";
+import queryString from "query-string";
 import { getUniqueName, isBrowser } from "../utils";
 import { blobToString } from "./index.browser"
 import * as dotenv from "dotenv";
@@ -164,9 +165,12 @@ function niseRecorder(folderpath: string, testTitle: string) {
           responseHeaders[key] = value;
         }
 
+        const parsedUrl = queryString.parseUrl(req.url);
+
         recordings.push({
           method: req.method,
-          url: req.url.split("?")[0],
+          url: parsedUrl.url,
+          query: parsedUrl.query,
           requestBody: (data instanceof Blob) ? await blobToString(data) : data,
           status: req.status,
           response: (req.response instanceof Blob) ? await blobToString(req.response) : req.response,
@@ -184,9 +188,11 @@ function niseRecorder(folderpath: string, testTitle: string) {
         req.send = async function(data: any) {
           reqSend.call(req, data);
 
+          const parsedUrl = queryString.parseUrl(req.url);
           let formattedRequest = {
             method: req.method,
-            url: req.url.split("?")[0],
+            url: parsedUrl.url,
+            query: parsedUrl.query,
             requestBody: (data instanceof Blob) ? await blobToString(data) : data
           };
 
@@ -208,8 +214,20 @@ function niseRecorder(folderpath: string, testTitle: string) {
         }
       }
 
-      // We're not matching request headers nor query string parameters
+      // We're not matching request headers
       function matchRequest(recording: any, request: any) {
+        for (let param in recording.query) {
+          if (recording.query[param] !== request.query[param] && param !== "_") {
+            return false;
+          }
+        }
+
+        for (let param in request.query) {
+          if (recording.query[param] === undefined) {
+            return false;
+          }
+        }
+
         return (
           recording.method === request.method &&
           recording.url === request.url &&

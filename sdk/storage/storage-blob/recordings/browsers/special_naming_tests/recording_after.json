@@ -2,15 +2,26 @@
  "recordings": [
   {
    "method": "DELETE",
-   "url": "https://coolstorageaccount1234.blob.core.windows.net/1container-with-dash155848210744602533",
+   "url": "https://coolstorageaccount1234.blob.core.windows.net/1container-with-dash155848713951209782",
+   "query": {
+    "restype": "container",
+    "se": "2020-01-01T05:52:00Z",
+    "sig": "t2hhpMU5yO9pgbeBaS2noCeqvzg9W07StXjhoKxP+tk=",
+    "sp": "rwdlacup",
+    "spr": "https",
+    "srt": "sco",
+    "ss": "bfqt",
+    "st": "2019-05-07T20:52:00Z",
+    "sv": "2018-03-28"
+   },
    "requestBody": null,
    "status": 202,
    "response": "",
    "responseHeaders": {
-    "x-ms-request-id": "105c2146-e01e-007b-6e2e-10f6e8000000",
+    "x-ms-request-id": "a63b2418-301e-005b-133a-109a24000000",
     "x-ms-version": "2018-03-28",
     "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
-    "date": "Tue, 21 May 2019 23:42:00 GMT",
+    "date": "Wed, 22 May 2019 01:05:52 GMT",
     "content-length": "0"
    }
   }
