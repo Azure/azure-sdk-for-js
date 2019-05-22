@@ -94,7 +94,7 @@ export function nodeConfig({ test = false, production = false } = {}) {
 export function browserConfig({ test = false, production = false } = {}) {
   const baseConfig = {
     input: input,
-    external: ["./aadUtils", "./utils/aadUtils"],
+    external: [],
     output: {
       file: "browser/service-bus.js",
       format: "umd",
@@ -157,7 +157,8 @@ export function browserConfig({ test = false, production = false } = {}) {
   baseConfig.onwarn = ignoreKnownWarnings;
 
   if (test) {
-    baseConfig.input = "dist-esm/test/*.spec.js";
+    (baseConfig.external = ["./aadUtils", "./utils/aadUtils"]),
+      (baseConfig.input = "dist-esm/test/*.spec.js");
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
     baseConfig.output.file = "test-browser/index.js";
   } else if (production) {
