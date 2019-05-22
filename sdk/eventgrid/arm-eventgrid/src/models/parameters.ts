@@ -72,18 +72,6 @@ export const filter: msRest.OperationQueryParameter = {
     }
   }
 };
-export const label: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "label"
-  ],
-  mapper: {
-    serializedName: "label",
-    type: {
-      name: "String"
-    }
-  }
-};
 export const location: msRest.OperationURLParameter = {
   parameterPath: "location",
   mapper: {
