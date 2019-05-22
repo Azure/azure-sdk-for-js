@@ -51,13 +51,9 @@ export { AadTokenProvider }
 export { AmqpError }
 
 // @public
-export interface ClientOptions extends ClientOptionsBase {
-    tokenProvider?: TokenProvider;
-}
-
-// @public
-export interface ClientOptionsBase {
+export interface ClientOptions {
     dataTransformer?: DataTransformer;
+    logLevel?: LogLevel;
     userAgent?: string;
     webSocket?: WebSocketImpl;
     webSocketConstructorOptions?: any;
@@ -107,21 +103,22 @@ export namespace EventData {
 
 // @public
 export class EventHubClient {
-    constructor(config: EventHubConnectionConfig, options?: ClientOptions);
+    constructor(host: string, entityPath: string, tokenProvider: TokenProvider, options?: ClientOptions);
+    constructor(host: string, entityPath: string, credentials: ApplicationTokenCredentials | UserTokenCredentials | DeviceTokenCredentials | MSITokenCredentials, options?: ClientOptions);
     close(): Promise<void>;
     connectionId?: string;
-    static createFromAadTokenCredentials(host: string, entityPath: string, credentials: ApplicationTokenCredentials | UserTokenCredentials | DeviceTokenCredentials | MSITokenCredentials, options?: ClientOptionsBase): EventHubClient;
     static createFromConnectionString(connectionString: string, path?: string, options?: ClientOptions): EventHubClient;
     static createFromIotHubConnectionString(iothubConnectionString: string, options?: ClientOptions): Promise<EventHubClient>;
-    static createFromTokenProvider(host: string, entityPath: string, tokenProvider: TokenProvider, options?: ClientOptionsBase): EventHubClient;
     readonly eventhubName: string;
-    getHubRuntimeInformation(): Promise<EventHubRuntimeInformation>;
-    getPartitionIds(): Promise<Array<string>>;
-    getPartitionInformation(partitionId: string | number): Promise<EventHubPartitionRuntimeInformation>;
+    getHubRuntimeInformation(options?: RequestOptions): Promise<EventHubRuntimeInformation>;
+    getPartitionIds(options?: RequestOptions): Promise<Array<string>>;
+    getPartitionInformation(partitionId: string | number, options?: RequestOptions): Promise<EventHubPartitionRuntimeInformation>;
     receive(partitionId: string | number, onMessage: OnMessage, onError: OnError, options?: ReceiveOptions): ReceiveHandler;
     receiveBatch(partitionId: string | number, maxMessageCount: number, maxWaitTimeInSeconds?: number, options?: ReceiveOptions): Promise<EventData[]>;
+    send(data: EventData, options?: SendOptions): Promise<Delivery>;
     send(data: EventData, partitionId?: string | number): Promise<Delivery>;
-    sendBatch(datas: EventData[], partitionId?: string | number): Promise<Delivery>;
+    sendBatch(data: EventData[], options?: SendOptions): Promise<Delivery>;
+    sendBatch(data: EventData[], partitionId?: string | number): Promise<Delivery>;
 }
 
 export { EventHubConnectionConfig }
@@ -190,6 +187,15 @@ export { IotHubConnectionStringModel }
 
 export { isIotHubConnectionString }
 
+// @public
+export enum LogLevel {
+    Error = 1,
+    Info = 3,
+    None = 0,
+    Verbose = 4,
+    Warning = 2
+}
+
 export { Message }
 
 export { MessageHeader }
@@ -222,7 +228,7 @@ export class ReceiveHandler {
 }
 
 // @public
-export interface ReceiveOptions {
+export interface ReceiveOptions extends RequestOptions {
     consumerGroup?: string;
     enableReceiverRuntimeMetric?: boolean;
     epoch?: number;
@@ -241,7 +247,21 @@ export interface ReceiverRuntimeInfo {
     retrievalTime?: Date;
 }
 
+// @public
+export interface RequestOptions {
+    cancellationToken?: any;
+    delayBetweenRetriesInSeconds?: number;
+    idleTimeoutInSeconds?: number;
+    logLevel?: LogLevel;
+    retryAttempts?: number;
+}
+
 export { SasTokenProvider }
+
+// @public
+export interface SendOptions extends RequestOptions {
+    partitionId?: string;
+}
 
 export { StorageConnectionStringModel }
 

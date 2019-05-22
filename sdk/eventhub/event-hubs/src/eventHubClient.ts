@@ -32,11 +32,26 @@ import { IotHubClient } from "./iothub/iothubClient";
  * LogLevel that defines the level of logging to be used
  */
 export enum LogLevel {
+  /**
+   * No logging will be done
+   */
   None,
-  Verbose,
-  Info,
+  /**
+   * Only logs pertaining to errors will be presented
+   */
+  Error,
+  /**
+   * Only logs pertaining to warnings and errors will be presented
+   */
   Warning,
-  Error
+  /**
+   * Only informational logs along with errors and warnings will be presented
+   */
+  Info,
+  /**
+   * All possible logs will be presented
+   */
+  Verbose
 }
 
 /**
@@ -283,14 +298,23 @@ export class EventHubClient {
   /**
    * Sends the given message to the EventHub.
    *
-   * @param {any} data                    Message to send.  Will be sent as UTF8-encoded JSON string.
-   * @param {string|number} [partitionId] Partition ID to which the event data needs to be sent. This should only be specified
+   * @param data   Message to send.  Will be sent as UTF8-encoded JSON string.
+   * @param partitionId Partition ID to which the event data needs to be sent. This should only be specified
    * if you intend to send the event to a specific partition. When not specified EventHub will store the messages in a round-robin
    * fashion amongst the different partitions in the EventHub.
    *
    * @returns {Promise<Delivery>} Promise<Delivery>
    */
   async send(data: EventData, partitionId?: string | number): Promise<Delivery>;
+  /**
+   * Sends the given message to the EventHub using the options provided.
+   *
+   * @param data  Message to send.  Will be sent as UTF8-encoded JSON string.
+   * @param options Options where you can specifiy the partition to send the message to along with controlling the send
+   * request via retry options, log level and cancellation token.
+   *
+   * @returns {Promise<Delivery>} Promise<Delivery>
+   */
   async send(data: EventData, options?: SendOptions): Promise<Delivery>;
   async send(data: EventData, partitionIdOrOptions?: string | number | SendOptions): Promise<Delivery> {
     let partitionId: string | number | undefined;
@@ -317,6 +341,16 @@ export class EventHubClient {
    * @return {Promise<Delivery>} Promise<Delivery>
    */
   async sendBatch(data: EventData[], partitionId?: string | number): Promise<Delivery>;
+  /**
+   * Send a batch of EventData to the EventHub using the options provided. The "message_annotations", "application_properties" and "properties"
+   * of the first message will be set as that of the envelope (batch message).
+   *
+   * @param data  An array of EventData objects to be sent in a Batch message.
+   * @param options Options where you can specifiy the partition to send the message to along with controlling the send
+   * request via retry options, log level and cancellation token.
+   *
+   * @return {Promise<Delivery>} Promise<Delivery>
+   */
   async sendBatch(data: EventData[], options?: SendOptions): Promise<Delivery>;
   async sendBatch(data: EventData[], partitionIdOrOptions?: string | number | SendOptions): Promise<Delivery> {
     let partitionId: string | number | undefined;
