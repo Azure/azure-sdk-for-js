@@ -3,7 +3,6 @@
 
 import { HttpRequestBody, HttpResponse, isNode, TransferProgressEvent } from "@azure/ms-rest-js";
 import { Aborter } from "./Aborter";
-import { DirectoryClient } from "./DirectoryClient";
 import { FileDownloadResponse } from "./FileDownloadResponse";
 import * as Models from "./generated/lib/models";
 import { File } from "./generated/lib/operations";
@@ -16,7 +15,6 @@ import {
   FILE_MAX_SIZE_BYTES,
   FILE_RANGE_MAX_SIZE_BYTES
 } from "./utils/constants";
-import { appendToURLPath } from "./utils/utils.common";
 
 export interface FileCreateOptions {
   abortSignal?: Aborter;
@@ -187,22 +185,6 @@ export interface FileClearRangeOptions {
  * @extends {StorageClient}
  */
 export class FileClient extends StorageClient {
-  /**
-   * Creates a FileClient object from a DirectoryClient object.
-   *
-   * @static
-   * @param {DirectoryClient} directoryClient A DirectoryClient object
-   * @param {string} fileName A file name
-   * @returns
-   * @memberof FileClient
-   */
-  public static fromDirectoryClient(directoryClient: DirectoryClient, fileName: string) {
-    return new FileClient(
-      appendToURLPath(directoryClient.url, encodeURIComponent(fileName)),
-      directoryClient.pipeline
-    );
-  }
-
   /**
    * context provided by protocol layer.
    *
