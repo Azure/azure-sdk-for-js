@@ -562,9 +562,6 @@ export class ContainerClient extends StorageClient {
    * for await (const blob of iter1) {
    *   console.log(`${i}: ${blob.name}`);
    *   i++;
-   *   if (i > 5) {
-   *     break;1
-   *   }
    * }
    *
    *
@@ -572,26 +569,19 @@ export class ContainerClient extends StorageClient {
    * @returns {AsyncIterableIterator<Models.BlobItem>}
    * @memberof ContainerClient
    */
-  public async listBlobs(
+  public async *listBlobs(
     options?: ContainerListBlobsSegmentOptions
-  ): Promise<AsyncIterableIterator<Models.BlobItem>> {
+  ): AsyncIterableIterator<Models.BlobItem> {
     const serviceURL = this;
     const aborter = !options || !options.abortSignal ? Aborter.none : options.abortSignal;
-
-    const iter: AsyncIterableIterator<
-      Models.BlobItem
-    > = (async function* items(): AsyncIterableIterator<Models.BlobItem> {
-      const listBlobsResponse = await serviceURL.listBlobFlatSegment(undefined, {
-        ...options,
-        abortSignal: aborter
-      });
-      const blobs = listBlobsResponse.segment.blobItems;
-      for (let i = 0; i < blobs.length; i++) {
-        yield blobs[i];
-      }
-    } as any)() as any;
-
-    return iter;
+    const listBlobsResponse = await serviceURL.listBlobFlatSegment(undefined, {
+      ...options,
+      abortSignal: aborter
+    });
+    const blobs = listBlobsResponse.segment.blobItems;
+    for (let i = 0; i < blobs.length; i++) {
+      yield blobs[i];
+    }
   }
 
   /**

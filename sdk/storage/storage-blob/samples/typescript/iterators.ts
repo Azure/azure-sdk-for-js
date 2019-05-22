@@ -51,9 +51,6 @@ async function main() {
   for await (const blob of iter1) {
     console.log(`blob ${i}: ${blob.name}`);
     i++;
-    if (i > 5) {
-      break;
-    }
   }
 }
 
