@@ -5,46 +5,53 @@
  */
 
 import { exec as execWithCallback } from "child_process";
-import { getAuthenticatedClient } from "./github";
-import { PullRequestsGetAllParams } from "@octokit/rest";
+import Octokit from "@octokit/rest";
 
-const _repositoryOwner = "Azure";
+export function getToken(): string {
+    const token: string = process.env.SDK_GEN_GITHUB_TOKEN || "";
+    _validatePersonalAccessToken(token);
+
+    return token;
+}
+
+function _validatePersonalAccessToken(token: string): void {
+    if (!token) {
+        const text =
+            `Github personal access token was not found as a script parameter or as an
+        environmental variable. Please visit https://github.com/settings/tokens,
+        generate new token with "repo" scope and pass it with -token switch or set
+        it as environmental variable named SDK_GEN_GITHUB_TOKEN.`
+
+        console.error(text);
+    }
+}
+
+export function getAuthenticatedClient(): Octokit {
+    const octokit = new Octokit({ auth: getToken()});
+    return octokit;
+}
 
 async function cleanBranches() {
     const octokit = getAuthenticatedClient();
-    const params: PullRequestsGetAllParams = {
-        owner: _repositoryOwner,
+    const params: Octokit.PullsListParams = {
+        owner: "Azure",
         repo: "azure-sdk-for-js",
-        state: "open"
+        state: "open",
+        per_page: 100
     }
 
-    let pullRequestsResponse = await octokit.pullRequests.getAll(params);
+    let pullRequestsResponse = await octokit.pulls.list(params);
+    const autoPullRequests = pullRequestsResponse.data.filter(pr => pr.title.startsWith("[AutoPR")).map(pr => pr.head.ref);
+    console.log(JSON.stringify(autoPullRequests, undefined, "  "));
+    console.log(`Found ${autoPullRequests.length} branches`);
 
-    do {
-        const autoPullRequests = pullRequestsResponse.data.filter(pr => pr.title.startsWith("[AutoPR")).map(pr => pr.head.ref);
-        console.log(JSON.stringify(autoPullRequests, undefined, "  "));
-        console.log(JSON.stringify(autoPullRequests.length, undefined, "  "));
-
-        for (const branch of autoPullRequests) {
-            try {
-                await exec(`git push origin :${branch}`);
-            } catch (err) {
-                console.log(`Branch ${branch} doesn't exist. Skipping. Error: [${err}]`);
-            }
+    for (const branch of autoPullRequests) {
+        try {
+            await exec(`git push origin :${branch}`);
+        } catch (err) {
+            console.log(`Branch ${branch} doesn't exist. Skipping. Error: [${err}]`);
         }
-
-        if (octokit.hasFirstPage(pullRequestsResponse)) {
-            pullRequestsResponse = await octokit.getNextPage(pullRequestsResponse);
-        } else {
-            break;
-        }
-    } while (true);
-}
-
-try {
-    cleanBranches();
-} catch (err) {
-    console.error(err);
+    }
 }
 
 async function exec(command: string): Promise<any> {
@@ -58,4 +65,10 @@ async function exec(command: string): Promise<any> {
             resolve(stdout);
         });
     });
+}
+
+try {
+    cleanBranches();
+} catch (err) {
+    console.error(err);
 }
