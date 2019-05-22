@@ -1,5 +1,4 @@
-export const isNode =
-  !!process && !!process.version && !!process.versions && !!process.versions.node;
+export const isNode = !!process;
 
 export enum EnvVarKeys {
   SERVICEBUS_CONNECTION_STRING = "SERVICEBUS_CONNECTION_STRING",
