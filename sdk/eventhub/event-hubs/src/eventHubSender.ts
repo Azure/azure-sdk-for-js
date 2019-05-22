@@ -9,7 +9,6 @@ import {
   EventContext,
   OnAmqpEvent,
   SenderOptions,
-  Delivery,
   SenderEvents,
   message,
   AmqpError
@@ -29,7 +28,7 @@ import {
 import { EventData } from "./eventData";
 import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";
-import { SendOptions } from "./eventHubClient";
+import { BatchingOptions } from "./eventHubClient";
 
 interface CreateSenderOptions {
   newName?: boolean;
@@ -322,48 +321,14 @@ export class EventHubSender extends LinkEntity {
   }
 
   /**
-   * Sends the given message, with the given options on this link
-   * @ignore
-   * @param {any} data Message to send.  Will be sent as UTF8-encoded JSON string.
-   * @returns {Promise<Delivery>} Promise<Delivery>
-   */
-  async send(data: EventData, options?: SendOptions): Promise<Delivery> {
-    try {
-      if (!data || (data && typeof data !== "object")) {
-        throw new Error("data is required and it must be of type object.");
-      }
-
-      if (data.partitionKey && typeof data.partitionKey !== "string") {
-        throw new Error("'partitionKey' must be of type 'string'.");
-      }
-
-      if (!this.isOpen()) {
-        log.sender(
-          "Acquiring lock %s for initializing the session, sender and " + "possibly the connection.",
-          this.senderLock
-        );
-        await defaultLock.acquire(this.senderLock, () => {
-          return this._init();
-        });
-      }
-      const message = EventData.toAmqpMessage(data);
-      message.body = this._context.dataTransformer.encode(data.body);
-      return await this._trySend(message, message.message_id, options);
-    } catch (err) {
-      log.error("An error occurred while sending the message %O", err);
-      throw err;
-    }
-  }
-
-  /**
    * Send a batch of EventData to the EventHub. The "message_annotations",
    * "application_properties" and "properties" of the first message will be set as that
    * of the envelope (batch message).
    * @ignore
    * @param {Array<EventData>} datas  An array of EventData objects to be sent in a Batch message.
-   * @return {Promise<Delivery>} Promise<Delivery>
+   * @return {Promise<void>} Promise<void>
    */
-  async sendBatch(data: EventData[], options?: SendOptions): Promise<Delivery> {
+  async send(data: EventData[], options?: BatchingOptions): Promise<void> {
     try {
       if (!data || (data && !Array.isArray(data))) {
         throw new Error("data is required and it must be an Array.");
@@ -454,11 +419,11 @@ export class EventHubSender extends LinkEntity {
    * for the message to be accepted or rejected and accordingly resolve or reject the promise.
    * @ignore
    * @param message The message to be sent to EventHub.
-   * @return {Promise<Delivery>} Promise<Delivery>
+   * @return {Promise<void>} Promise<void>
    */
-  private _trySend(message: AmqpMessage | Buffer, tag: any, options?: SendOptions, format?: number): Promise<Delivery> {
+  private _trySend(message: AmqpMessage | Buffer, tag: any, options?: BatchingOptions, format?: number): Promise<void> {
     const sendEventPromise = () =>
-      new Promise<Delivery>((resolve, reject) => {
+      new Promise<void>((resolve, reject) => {
         let waitTimer: any;
         log.sender(
           "[%s] Sender '%s', credit: %d available: %d",
@@ -496,7 +461,7 @@ export class EventHubSender extends LinkEntity {
             // This will ensure duplicate listeners are not added for the same event.
             removeListeners();
             log.sender("[%s] Sender '%s', got event accepted.", this._context.connectionId, this.name);
-            resolve(context.delivery);
+            resolve();
           };
           onRejected = (context: EventContext) => {
             removeListeners();
@@ -591,14 +556,14 @@ export class EventHubSender extends LinkEntity {
       options && options.delayBetweenRetriesInSeconds && options.delayBetweenRetriesInSeconds > 0
         ? options.delayBetweenRetriesInSeconds
         : Constants.defaultDelayBetweenOperationRetriesInSeconds;
-    const config: RetryConfig<Delivery> = {
+    const config: RetryConfig<void> = {
       operation: sendEventPromise,
       connectionId: this._context.connectionId,
       operationType: RetryOperationType.sendMessage,
       times: times,
       delayInSeconds: delayInSeconds + jitterInSeconds
     };
-    return retry<Delivery>(config);
+    return retry<void>(config);
   }
 
   /**

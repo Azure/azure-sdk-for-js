@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import * as log from "./log";
-import { Delivery, WebSocketImpl } from "rhea-promise";
+import { WebSocketImpl } from "rhea-promise";
 import {
   ApplicationTokenCredentials,
   DeviceTokenCredentials,
@@ -83,11 +83,17 @@ export interface RequestOptions {
 /**
  * Options that can be passed to the send operations on the EventHubsClient
  */
-export interface SendOptions extends RequestOptions {
+export interface BatchingOptions extends RequestOptions {
   /**
    * The id of the partition to which the event should be sent
    */
   partitionId?: string;
+  /**
+   * @property {string | null} [batchLabel] If specified EventHub will hash this to a partitionId.
+   * It guarantees that messages end up in a specific partition on the event hub.
+   */
+  batchLabel?: string | null;
+
 }
 
 /**
@@ -296,40 +302,6 @@ export class EventHubClient {
   }
 
   /**
-   * Sends the given message to the EventHub.
-   *
-   * @param data   Message to send.  Will be sent as UTF8-encoded JSON string.
-   * @param partitionId Partition ID to which the event data needs to be sent. This should only be specified
-   * if you intend to send the event to a specific partition. When not specified EventHub will store the messages in a round-robin
-   * fashion amongst the different partitions in the EventHub.
-   *
-   * @returns {Promise<Delivery>} Promise<Delivery>
-   */
-  async send(data: EventData, partitionId?: string | number): Promise<Delivery>;
-  /**
-   * Sends the given message to the EventHub using the options provided.
-   *
-   * @param data  Message to send.  Will be sent as UTF8-encoded JSON string.
-   * @param options Options where you can specifiy the partition to send the message to along with controlling the send
-   * request via retry options, log level and cancellation token.
-   *
-   * @returns {Promise<Delivery>} Promise<Delivery>
-   */
-  async send(data: EventData, options?: SendOptions): Promise<Delivery>;
-  async send(data: EventData, partitionIdOrOptions?: string | number | SendOptions): Promise<Delivery> {
-    let partitionId: string | number | undefined;
-    let sendOptions: SendOptions = {};
-    if (typeof partitionIdOrOptions === "string" || typeof partitionIdOrOptions === "number") {
-      partitionId = partitionIdOrOptions;
-    } else if (partitionIdOrOptions) {
-      partitionId = partitionIdOrOptions.partitionId;
-      sendOptions = partitionIdOrOptions;
-    }
-    const sender = EventHubSender.create(this._context, partitionId);
-    return sender.send(data, sendOptions);
-  }
-
-  /**
    * Send a batch of EventData to the EventHub. The "message_annotations", "application_properties" and "properties"
    * of the first message will be set as that of the envelope (batch message).
    *
@@ -338,9 +310,9 @@ export class EventHubClient {
    * if you intend to send the event to a specific partition. When not specified EventHub will store the messages in a round-robin
    * fashion amongst the different partitions in the EventHub.
    *
-   * @return {Promise<Delivery>} Promise<Delivery>
+   * @return {Promise<void>} Promise<void>
    */
-  async sendBatch(data: EventData[], partitionId?: string | number): Promise<Delivery>;
+  async send(data: EventData[], partitionId?: string | number): Promise<void>;
   /**
    * Send a batch of EventData to the EventHub using the options provided. The "message_annotations", "application_properties" and "properties"
    * of the first message will be set as that of the envelope (batch message).
@@ -349,20 +321,20 @@ export class EventHubClient {
    * @param options Options where you can specifiy the partition to send the message to along with controlling the send
    * request via retry options, log level and cancellation token.
    *
-   * @return {Promise<Delivery>} Promise<Delivery>
+   * @return {Promise<void>} Promise<void>
    */
-  async sendBatch(data: EventData[], options?: SendOptions): Promise<Delivery>;
-  async sendBatch(data: EventData[], partitionIdOrOptions?: string | number | SendOptions): Promise<Delivery> {
+  async send(data: EventData[], options?: BatchingOptions): Promise<void>;
+  async send(data: EventData[], partitionIdOrOptions?: string | number | BatchingOptions): Promise<void> {
     let partitionId: string | number | undefined;
-    let sendOptions: SendOptions = {};
+    let batchingOptions: BatchingOptions = {};
     if (typeof partitionIdOrOptions === "string" || typeof partitionIdOrOptions === "number") {
       partitionId = partitionIdOrOptions;
     } else if (partitionIdOrOptions) {
       partitionId = partitionIdOrOptions.partitionId;
-      sendOptions = partitionIdOrOptions;
+      batchingOptions = partitionIdOrOptions;
     }
     const sender = EventHubSender.create(this._context, partitionId);
-    return sender.sendBatch(data, sendOptions);
+    return sender.send(data, batchingOptions);
   }
 
   /**
