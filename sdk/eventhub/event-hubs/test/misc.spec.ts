@@ -49,7 +49,7 @@ describe("Misc tests", function(): void {
     });
     let data = await breceiver.receive(5, 10);
     data.length.should.equal(0, "Unexpected to receive message before client sends it");
-    await client.send(obj, partitionId);
+    await client.send([obj], partitionId);
     debug("Successfully sent the large message.");
     data = await breceiver.receive(5, 30);
     debug("Closing the receiver..");
@@ -82,7 +82,7 @@ describe("Misc tests", function(): void {
     breceiver = BatchingReceiver.create((client as any)._context, partitionId, {
       eventPosition: EventPosition.fromOffset(offset)
     });
-    await client.send(obj, partitionId);
+    await client.send([obj], partitionId);
     debug("Successfully sent the large message.");
     const data = await breceiver.receive(5, 30);
     await breceiver.close();
@@ -113,7 +113,7 @@ describe("Misc tests", function(): void {
     breceiver = BatchingReceiver.create((client as any)._context, partitionId, {
       eventPosition: EventPosition.fromOffset(offset)
     });
-    await client.send(obj, partitionId);
+    await client.send([obj], partitionId);
     debug("Successfully sent the large message.");
     const data = await breceiver.receive(5, 30);
     await breceiver.close();
@@ -135,7 +135,7 @@ describe("Misc tests", function(): void {
     breceiver = BatchingReceiver.create((client as any)._context, partitionId, {
       eventPosition: EventPosition.fromOffset(offset)
     });
-    await client.send(obj, partitionId);
+    await client.send([obj], partitionId);
     debug("Successfully sent the large message.");
     const data = await breceiver.receive(5, 30);
     await breceiver.close();
@@ -165,7 +165,7 @@ describe("Misc tests", function(): void {
       }
       d[0].partitionKey = "pk1234656";
 
-      await client.sendBatch(d, partitionId);
+      await client.send(d, partitionId);
       debug("Successfully sent 5 messages batched together.");
       data = await breceiver.receive(5, 30);
       await breceiver.close();
@@ -216,7 +216,7 @@ describe("Misc tests", function(): void {
       }
       d[0].partitionKey = "pk1234656";
 
-      await client.sendBatch(d, partitionId);
+      await client.send(d, partitionId);
       debug("Successfully sent 5 messages batched together.");
       data = await breceiver.receive(5, 30);
       await breceiver.close();
@@ -249,7 +249,7 @@ describe("Misc tests", function(): void {
     }
     for (let i = 0; i < msgToSendCount; i++) {
       const partitionKey = getRandomInt(10);
-      await client.send({ body: "Hello EventHub " + i, partitionKey: partitionKey.toString() });
+      await client.send([{ body: "Hello EventHub " + i, partitionKey: partitionKey.toString() }]);
     }
     debug("Starting to receive all messages from each partition.");
     const partitionMap: any = {};
