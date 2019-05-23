@@ -145,10 +145,18 @@ export class CertificatesClient {
     }
   }
 
-  public async *getAllCertificateVersions(name: string, options?: KeyVaultClientGetCertificateVersionsOptionalParams): AsyncIterableIterator<CertificateAttributes> {
+  /**
+   * The GetCertificateVersions operation returns the versions of a certificate in the specified key
+   * vault. This operation requires the certificates/list permission.
+   * @summary List the versions of a certificate.
+   * @param certificateName The name of the certificate.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.GetCertificateVersionsResponse>
+   */
+  public async *getAllCertificateVersions(certificateName: string, options?: KeyVaultClientGetCertificateVersionsOptionalParams): AsyncIterableIterator<CertificateAttributes> {
     let currentSetResponse = await this.client.getCertificateVersions(
       this.vaultBaseUrl,
-      name,
+      certificateName,
       {
         ...(options && options.requestOptions ? options.requestOptions : {})
       }
@@ -168,7 +176,6 @@ export class CertificatesClient {
    * The DELETE operation applies to any certificate stored in Azure Key Vault. DELETE cannot be applied
    * to an individual version of a certificate. This operation requires the certificates/delete permission.
    * @summary Deletes a certificate from a specified key vault.
-   * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param certificateName The name of the c.
    * @param [options] The optional parameters
    * @returns Promise<DeletedCertificate>
