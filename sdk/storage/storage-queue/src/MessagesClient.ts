@@ -6,9 +6,9 @@ import * as Models from "./generated/lib/models";
 import { Aborter } from "./Aborter";
 import { Messages } from "./generated/lib/operations";
 import { Pipeline } from "./Pipeline";
-import { QueueClient } from "./QueueClient";
 import { StorageClient } from "./StorageClient";
 import { appendToURLPath } from "./utils/utils.common";
+import { MessageIdClient } from "./MessageIdClient";
 
 export interface MessagesClearOptions {
   abortSignal?: Aborter;
@@ -122,15 +122,6 @@ export declare type MessagesPeekResponse = {
  */
 export class MessagesClient extends StorageClient {
   /**
-   * Creates a MessagesClient object from QueueClient
-   * @param queueClient
-   * @param queueName
-   */
-  public static fromQueueClient(queueClient: QueueClient): MessagesClient {
-    return new MessagesClient(appendToURLPath(queueClient.url, "messages"), queueClient.pipeline);
-  }
-
-  /**
    * messagesContext provided by protocol layer.
    *
    * @private
@@ -181,6 +172,19 @@ export class MessagesClient extends StorageClient {
     return this.messagesContext.clear({
       abortSignal: aborter
     });
+  }
+
+  /**
+   * Creates a MessageIdClient object.
+   * @param messageId
+   */
+  public createMessageIdClient(
+    messageId: string
+  ): MessageIdClient {
+    return new MessageIdClient(
+      appendToURLPath(this.url, messageId),
+      this.pipeline
+    );
   }
 
   /**

@@ -7,6 +7,8 @@ import { ListQueuesIncludeType } from "./generated/lib/models/index";
 import { Service } from "./generated/lib/operations";
 import { Pipeline } from "./Pipeline";
 import { StorageClient } from "./StorageClient";
+import { QueueClient } from "./QueueClient";
+import { appendToURLPath } from "./utils/utils.common";
 
 export interface ServiceGetPropertiesOptions {
   abortSignal?: Aborter;
@@ -87,6 +89,19 @@ export class QueueServiceClient extends StorageClient {
    */
   public withPipeline(pipeline: Pipeline): QueueServiceClient {
     return new QueueServiceClient(this.url, pipeline);
+  }
+
+  /**
+   * Creates a QueueClient object.
+   * @param queueName
+   */
+  public createQueueClient(
+    queueName: string
+  ): QueueClient {
+    return new QueueClient(
+      appendToURLPath(this.url, queueName),
+      this.pipeline
+    );
   }
 
   /**

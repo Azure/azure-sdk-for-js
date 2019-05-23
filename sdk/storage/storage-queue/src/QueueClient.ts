@@ -7,9 +7,9 @@ import { Aborter } from "./Aborter";
 import { Queue } from "./generated/lib/operations";
 import { Metadata } from "./models";
 import { Pipeline } from "./Pipeline";
-import { QueueServiceClient } from "./QueueServiceClient";
 import { StorageClient } from "./StorageClient";
 import { appendToURLPath, truncatedISO8061Date } from "./utils/utils.common";
+import { MessagesClient } from "./MessagesClient";
 
 export interface QueueCreateOptions {
   abortSignal?: Aborter;
@@ -92,21 +92,6 @@ export declare type QueueGetAccessPolicyResponse = {
  */
 export class QueueClient extends StorageClient {
   /**
-   * Creates a QueueURL object from QueueServiceClient
-   * @param queueServiceClient
-   * @param queueName
-   */
-  public static fromQueueServiceClient(
-    queueServiceClient: QueueServiceClient,
-    queueName: string
-  ): QueueClient {
-    return new QueueClient(
-      appendToURLPath(queueServiceClient.url, queueName),
-      queueServiceClient.pipeline
-    );
-  }
-
-  /**
    * queueContext provided by protocol layer.
    *
    * @private
@@ -158,6 +143,14 @@ export class QueueClient extends StorageClient {
       ...options,
       abortSignal: aborter
     });
+  }
+
+  /**
+   * Creates a MessagesClient object.
+   * @param queueName
+   */
+  public createMessagesClient(): MessagesClient {
+    return new MessagesClient(appendToURLPath(this.url, "messages"), this.pipeline);
   }
 
   /**
