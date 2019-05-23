@@ -303,20 +303,17 @@ export class EventHubClient {
   }
 
   /**
-   * Send a batch of EventData to the EventHub. The "message_annotations", "application_properties" and "properties"
-   * of the first message will be set as that of the envelope (batch message).
+   * Send a batch of EventData to the EventHub.
    *
-   * @param {Array<EventData>} datas  An array of EventData objects to be sent in a Batch message.
-   * @param {string|number} [partitionId] Partition ID to which the event data needs to be sent. This should only be specified
-   * if you intend to send the event to a specific partition. When not specified EventHub will store the messages in a round-robin
-   * fashion amongst the different partitions in the EventHub.
+   * @param data  An array of EventData objects to be sent in a Batch message.
+   * @param partitionId Partition ID to which the event data needs to be sent. When not specified EventHub will store
+   * the messages in a round-robin fashion amongst the different partitions in the EventHub.
    *
-   * @return {Promise<void>} Promise<void>
+   * @return Promise<void>
    */
   async send(data: EventData[], partitionId?: string | number): Promise<void>;
   /**
-   * Send a batch of EventData to the EventHub using the options provided. The "message_annotations", "application_properties" and "properties"
-   * of the first message will be set as that of the envelope (batch message).
+   * Send a batch of EventData to the EventHub using the options provided.
    *
    * @param data  An array of EventData objects to be sent in a Batch message.
    * @param options Options where you can specifiy the partition to send the message to along with controlling the send

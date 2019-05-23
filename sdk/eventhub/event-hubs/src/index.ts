@@ -5,7 +5,7 @@ export { EventData, EventHubDeliveryAnnotations, EventHubMessageAnnotations } fr
 export { Delivery, AmqpError, Message, MessageHeader, MessageProperties, Dictionary, WebSocketImpl } from "rhea-promise";
 export { ReceiverRuntimeInfo, OnMessage, OnError } from "./eventHubReceiver";
 export { ReceiveHandler } from "./streamingReceiver";
-export { EventHubClient, ReceiveOptions, ClientOptions, SendOptions, RequestOptions, LogLevel } from "./eventHubClient";
+export { EventHubClient, ReceiveOptions, ClientOptions, BatchingOptions, RequestOptions, LogLevel } from "./eventHubClient";
 export { EventPosition } from "./eventPosition";
 export { EventHubPartitionRuntimeInformation, EventHubRuntimeInformation } from "./managementClient";
 import { Constants } from "@azure/amqp-common";
