@@ -155,9 +155,9 @@ export interface ResourceNameAvailabilityRequest {
   name: string;
   /**
    * Resource type used for verification. Possible values include:
-   * 'Microsoft.NetApp/netAppAccount', 'Microsoft.NetApp/netAppAccount/capacityPools',
-   * 'Microsoft.NetApp/netAppAccount/capacityPools/volumes',
-   * 'Microsoft.NetApp/netAppAccount/capacityPools/volumes/snapshots'
+   * 'Microsoft.NetApp/netAppAccounts', 'Microsoft.NetApp/netAppAccounts/capacityPools',
+   * 'Microsoft.NetApp/netAppAccounts/capacityPools/volumes',
+   * 'Microsoft.NetApp/netAppAccounts/capacityPools/volumes/snapshots'
    */
   type: CheckNameResourceTypes;
   /**
@@ -322,7 +322,7 @@ export interface CapacityPool extends BaseResource {
    * serviceLevel. The service level of the file system. Possible values include: 'Standard',
    * 'Premium', 'Ultra'. Default value: 'Premium'.
    */
-  serviceLevel?: ServiceLevel;
+  serviceLevel: ServiceLevel;
   /**
    * Azure lifecycle management
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -456,17 +456,21 @@ export interface Volume extends BaseResource {
    * serviceLevel. The service level of the file system. Possible values include: 'Standard',
    * 'Premium', 'Ultra'. Default value: 'Premium'.
    */
-  serviceLevel: ServiceLevel;
+  serviceLevel?: ServiceLevel;
   /**
    * usageThreshold. Maximum storage quota allowed for a file system in bytes. This is a soft quota
-   * used for alerting only. Minimum size is 100 GiB. Upper limit is 100TiB. Default value:
-   * 107374182400.
+   * used for alerting only. Minimum size is 100 GiB. Upper limit is 100TiB. Specified in bytes.
+   * Default value: 107374182400.
    */
-  usageThreshold?: number;
+  usageThreshold: number;
   /**
    * exportPolicy. Set of export policy rules
    */
   exportPolicy?: VolumePropertiesExportPolicy;
+  /**
+   * protocolTypes. Set of protocol types
+   */
+  protocolTypes?: string[];
   /**
    * Azure lifecycle management
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -485,7 +489,11 @@ export interface Volume extends BaseResource {
    * The Azure Resource URI for a delegated subnet. Must have the delegation
    * Microsoft.NetApp/volumes
    */
-  subnetId?: string;
+  subnetId: string;
+  /**
+   * mountTargets. List of mount targets
+   */
+  mountTargets?: any;
 }
 
 /**
@@ -533,8 +541,8 @@ export interface VolumePatch extends BaseResource {
   serviceLevel?: ServiceLevel;
   /**
    * usageThreshold. Maximum storage quota allowed for a file system in bytes. This is a soft quota
-   * used for alerting only. Minimum size is 100 GiB. Upper limit is 100TiB. Default value:
-   * 107374182400.
+   * used for alerting only. Minimum size is 100 GiB. Upper limit is 100TiB. Specified in bytes.
+   * Default value: 107374182400.
    */
   usageThreshold?: number;
   /**
@@ -744,14 +752,14 @@ export type InAvailabilityReasonType = 'Invalid' | 'AlreadyExists';
 
 /**
  * Defines values for CheckNameResourceTypes.
- * Possible values include: 'Microsoft.NetApp/netAppAccount',
- * 'Microsoft.NetApp/netAppAccount/capacityPools',
- * 'Microsoft.NetApp/netAppAccount/capacityPools/volumes',
- * 'Microsoft.NetApp/netAppAccount/capacityPools/volumes/snapshots'
+ * Possible values include: 'Microsoft.NetApp/netAppAccounts',
+ * 'Microsoft.NetApp/netAppAccounts/capacityPools',
+ * 'Microsoft.NetApp/netAppAccounts/capacityPools/volumes',
+ * 'Microsoft.NetApp/netAppAccounts/capacityPools/volumes/snapshots'
  * @readonly
  * @enum {string}
  */
-export type CheckNameResourceTypes = 'Microsoft.NetApp/netAppAccount' | 'Microsoft.NetApp/netAppAccount/capacityPools' | 'Microsoft.NetApp/netAppAccount/capacityPools/volumes' | 'Microsoft.NetApp/netAppAccount/capacityPools/volumes/snapshots';
+export type CheckNameResourceTypes = 'Microsoft.NetApp/netAppAccounts' | 'Microsoft.NetApp/netAppAccounts/capacityPools' | 'Microsoft.NetApp/netAppAccounts/capacityPools/volumes' | 'Microsoft.NetApp/netAppAccounts/capacityPools/volumes/snapshots';
 
 /**
  * Defines values for ServiceLevel.
