@@ -203,7 +203,7 @@ export class BlobServiceClient extends StorageClient {
    * @memberof BlobServiceClient
    */
   public async *listContainers(
-    options?: ServiceListContainersSegmentOptions
+    options: ServiceListContainersSegmentOptions = {}
   ): AsyncIterableIterator<Models.ContainerItem> {
     let marker = undefined;
     const blobServiceClient = this;
