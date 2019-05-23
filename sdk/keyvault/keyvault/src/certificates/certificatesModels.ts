@@ -184,3 +184,14 @@ export interface GetAllCertificatesOptions {
    */
   requestOptions?: msRest.RequestOptionsBase;
 }
+
+export interface CertificateIssuer {
+  /**
+   * @member {string} [id] Certificate Identifier.
+   */
+  id?: string;
+  /**
+   * @member {string} [provider] The issuer provider.
+   */
+  provider?: string;
+}

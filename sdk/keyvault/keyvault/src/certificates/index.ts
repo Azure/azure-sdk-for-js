@@ -14,11 +14,15 @@ import {
   userAgentPolicy
 } from "@azure/ms-rest-js";
 
-import { GetAllCertificatesOptions, CertificateAttributes, Certificate, DeletedCertificate } from "./certificatesModels";
+import { GetAllCertificatesOptions, CertificateAttributes, Certificate, DeletedCertificate, CertificateIssuer } from "./certificatesModels";
 import { getDefaultUserAgentValue } from "@azure/ms-rest-azure-js";
 import { NewPipelineOptions, isNewPipelineOptions, Pipeline } from "../keyVaultBase";
 import { TelemetryOptions } from "..";
-import { CertificateBundle, Contacts, KeyVaultClientCreateCertificateOptionalParams, KeyVaultClientGetCertificateVersionsOptionalParams } from "../models";
+import {
+  CertificateBundle, Contacts, KeyVaultClientCreateCertificateOptionalParams,
+  KeyVaultClientGetCertificateVersionsOptionalParams, KeyVaultClientGetCertificateIssuersOptionalParams,
+  KeyVaultClientSetCertificateIssuerOptionalParams
+} from "../models";
 import { KeyVaultClient } from "../keyVaultClient";
 import { RetryConstants, SDK_VERSION } from "../utils/constants";
 import { parseKeyvaultIdentifier as parseKeyvaultEntityIdentifier } from "../utils";
@@ -188,19 +192,55 @@ export class CertificatesClient {
     return this.getCertificateFromCertificateBundle(response);
   }
 
+  public async deleteCertificateContacts(options?: RequestOptionsBase): Promise<Contacts> {
+    let result = await this.client.deleteCertificateContacts(this.vaultBaseUrl, options);
+
+    return result._response.parsedBody;
+  }
+
   public async setCertificateContacts(contacts: Contacts, options?: RequestOptionsBase): Promise<Contacts> {
     let result = await this.client.setCertificateContacts(this.vaultBaseUrl, contacts, options);
-    console.log(result);
-    //FIXME FIXME FIXME FIXME FIXME
-    return contacts;
+    return result._response.parsedBody;
   }
+
+  public async *getCertificateIssuers(options?: KeyVaultClientGetCertificateIssuersOptionalParams): AsyncIterableIterator<CertificateIssuer> {
+    let currentSetResponse = await this.client.getCertificateIssuers(
+      this.vaultBaseUrl,
+      {
+        ...(options && options.requestOptions ? options.requestOptions : {})
+      }
+    );
+    yield* currentSetResponse;
+
+    while (currentSetResponse.nextLink) {
+      currentSetResponse = await this.client.getCertificatesNext(
+        currentSetResponse.nextLink,
+        options
+      );
+      yield* currentSetResponse;
+    }
+  }
+
+  /**
+   * The SetCertificateIssuer operation adds or updates the specified certificate issuer. This
+   * operation requires the certificates/setissuers permission.
+   * @summary Sets the specified certificate issuer.
+   * @param issuerName The name of the issuer.
+   * @param provider The issuer provider.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.SetCertificateIssuerResponse>
+   */
+  setCertificateIssuer(issuerName: string, provider: string, options?: KeyVaultClientSetCertificateIssuerOptionalParams): Promise<CertificateIssuer> {
+
+  }
+
 
   public async createCertificate(name: string, options?: KeyVaultClientCreateCertificateOptionalParams): Promise<Certificate> {
     let result = await this.client.createCertificate(this.vaultBaseUrl, name, options);
 
     console.log(result);
-    //return result._response.parsedBody;
-    return <any>undefined;
+
+    return this.getCertificateFromCertificateBundle(result);
   }
 
   public async getCertificate(name: string, version: string, options?: RequestOptionsBase): Promise<Certificate> {
