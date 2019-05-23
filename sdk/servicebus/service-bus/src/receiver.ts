@@ -43,6 +43,40 @@ export class Receiver {
   private _isClosed: boolean = false;
 
   /**
+   * @internal
+   */
+  constructor(context: ClientEntityContext, receiveMode: ReceiveMode) {
+    throwErrorIfConnectionClosed(context.namespace);
+    this._context = context;
+
+    this._receiveMode =
+      receiveMode === ReceiveMode.receiveAndDelete ? receiveMode : ReceiveMode.peekLock;
+  }
+
+  private _throwIfAlreadyReceiving(): void {
+    if (this.isReceivingMessages()) {
+      const errorMessage = getAlreadyReceivingErrorMsg(this._context.entityPath);
+      const error = new Error(errorMessage);
+      log.error(`[${this._context.namespace.connectionId}] %O`, error);
+      throw error;
+    }
+  }
+
+  private _throwIfReceiverOrConnectionClosed(): void {
+    throwErrorIfConnectionClosed(this._context.namespace);
+    if (this.isClosed) {
+      const errorMessage = getReceiverClosedErrorMsg(
+        this._context.entityPath,
+        this._context.clientType,
+        this._context.isClosed
+      );
+      const error = new Error(errorMessage);
+      log.error(`[${this._context.namespace.connectionId}] %O`, error);
+      throw error;
+    }
+  }
+
+  /**
    * @property Denotes receiveMode of this receiver.
    * @readonly
    */
@@ -57,17 +91,6 @@ export class Receiver {
    */
   public get isClosed(): boolean {
     return this._isClosed || this._context.isClosed;
-  }
-
-  /**
-   * @internal
-   */
-  constructor(context: ClientEntityContext, receiveMode: ReceiveMode) {
-    throwErrorIfConnectionClosed(context.namespace);
-    this._context = context;
-
-    this._receiveMode =
-      receiveMode === ReceiveMode.receiveAndDelete ? receiveMode : ReceiveMode.peekLock;
   }
 
   /**
@@ -322,29 +345,6 @@ export class Receiver {
     }
     return false;
   }
-
-  private _throwIfAlreadyReceiving(): void {
-    if (this.isReceivingMessages()) {
-      const errorMessage = getAlreadyReceivingErrorMsg(this._context.entityPath);
-      const error = new Error(errorMessage);
-      log.error(`[${this._context.namespace.connectionId}] %O`, error);
-      throw error;
-    }
-  }
-
-  private _throwIfReceiverOrConnectionClosed(): void {
-    throwErrorIfConnectionClosed(this._context.namespace);
-    if (this.isClosed) {
-      const errorMessage = getReceiverClosedErrorMsg(
-        this._context.entityPath,
-        this._context.clientType,
-        this._context.isClosed
-      );
-      const error = new Error(errorMessage);
-      log.error(`[${this._context.namespace.connectionId}] %O`, error);
-      throw error;
-    }
-  }
 }
 
 /**
@@ -369,6 +369,86 @@ export class SessionReceiver {
    */
   private _isClosed: boolean = false;
   private _sessionId: string | undefined;
+
+  /**
+   * @internal
+   */
+  constructor(
+    context: ClientEntityContext,
+    receiveMode: ReceiveMode,
+    sessionOptions: SessionReceiverOptions
+  ) {
+    throwErrorIfConnectionClosed(context.namespace);
+    this._context = context;
+    this._receiveMode =
+      receiveMode === ReceiveMode.receiveAndDelete ? receiveMode : ReceiveMode.peekLock;
+    this._sessionOptions = sessionOptions;
+
+    if (sessionOptions.sessionId) {
+      sessionOptions.sessionId = String(sessionOptions.sessionId);
+
+      // Check if receiver for given session already exists
+      if (
+        this._context.messageSessions[sessionOptions.sessionId] &&
+        this._context.messageSessions[sessionOptions.sessionId].isOpen()
+      ) {
+        const errorMessage = getOpenReceiverErrorMsg(
+          this._context.clientType,
+          this._context.entityPath,
+          sessionOptions.sessionId
+        );
+        const error = new Error(errorMessage);
+        log.error(`[${this._context.namespace.connectionId}] %O`, error);
+        throw error;
+      }
+    }
+  }
+
+  private _throwIfReceiverOrConnectionClosed(): void {
+    throwErrorIfConnectionClosed(this._context.namespace);
+    if (this.isClosed) {
+      const errorMessage = getReceiverClosedErrorMsg(
+        this._context.entityPath,
+        this._context.clientType,
+        this._context.isClosed,
+        this.sessionId!
+      );
+      const error = new Error(errorMessage);
+      log.error(`[${this._context.namespace.connectionId}] %O`, error);
+      throw error;
+    }
+  }
+
+  private async _createMessageSessionIfDoesntExist(): Promise<void> {
+    if (this._messageSession) {
+      return;
+    }
+    this._context.isSessionEnabled = true;
+    this._messageSession = await MessageSession.create(this._context, {
+      sessionId: this._sessionOptions.sessionId,
+      maxSessionAutoRenewLockDurationInSeconds: this._sessionOptions
+        .maxSessionAutoRenewLockDurationInSeconds,
+      receiveMode: this._receiveMode
+    });
+    // By this point, we should have a valid sessionId on the messageSession
+    // If not, the receiver cannot be used, so throw error.
+    if (!this._messageSession.sessionId) {
+      const error = new Error("Something went wrong. Cannot lock a session.");
+      log.error(`[${this._context.namespace.connectionId}] %O`, error);
+      throw error;
+    }
+    this._sessionId = this._messageSession.sessionId;
+    delete this._context.expiredMessageSessions[this._messageSession.sessionId];
+  }
+
+  private _throwIfAlreadyReceiving(): void {
+    if (this.isReceivingMessages()) {
+      const errorMessage = getAlreadyReceivingErrorMsg(this._context.entityPath, this.sessionId);
+      const error = new Error(errorMessage);
+      log.error(`[${this._context.namespace.connectionId}] %O`, error);
+      throw error;
+    }
+  }
 
   /**
    * @property Denotes receiveMode of this receiver.
@@ -409,40 +489,6 @@ export class SessionReceiver {
    */
   public get sessionLockedUntilUtc(): Date | undefined {
     return this._messageSession ? this._messageSession.sessionLockedUntilUtc : undefined;
-  }
-
-  /**
-   * @internal
-   */
-  constructor(
-    context: ClientEntityContext,
-    receiveMode: ReceiveMode,
-    sessionOptions: SessionReceiverOptions
-  ) {
-    throwErrorIfConnectionClosed(context.namespace);
-    this._context = context;
-    this._receiveMode =
-      receiveMode === ReceiveMode.receiveAndDelete ? receiveMode : ReceiveMode.peekLock;
-    this._sessionOptions = sessionOptions;
-
-    if (sessionOptions.sessionId != undefined) {
-      sessionOptions.sessionId = String(sessionOptions.sessionId);
-
-      // Check if receiver for given session already exists
-      if (
-        this._context.messageSessions[sessionOptions.sessionId] &&
-        this._context.messageSessions[sessionOptions.sessionId].isOpen()
-      ) {
-        const errorMessage = getOpenReceiverErrorMsg(
-          this._context.clientType,
-          this._context.entityPath,
-          sessionOptions.sessionId
-        );
-        const error = new Error(errorMessage);
-        log.error(`[${this._context.namespace.connectionId}] %O`, error);
-        throw error;
-      }
-    }
   }
 
   /**
@@ -733,44 +779,5 @@ export class SessionReceiver {
    */
   isReceivingMessages(): boolean {
     return this._messageSession ? this._messageSession.isReceivingMessages : false;
-  }
-
-  private _throwIfReceiverOrConnectionClosed(): void {
-    throwErrorIfConnectionClosed(this._context.namespace);
-    if (this.isClosed) {
-      const errorMessage = getReceiverClosedErrorMsg(
-        this._context.entityPath,
-        this._context.clientType,
-        this._context.isClosed,
-        this.sessionId!
-      );
-      const error = new Error(errorMessage);
-      log.error(`[${this._context.namespace.connectionId}] %O`, error);
-      throw error;
-    }
-  }
-
-  private async _createMessageSessionIfDoesntExist(): Promise<void> {
-    if (this._messageSession) {
-      return;
-    }
-    this._context.isSessionEnabled = true;
-    this._messageSession = await MessageSession.create(this._context, {
-      sessionId: this._sessionOptions.sessionId,
-      maxSessionAutoRenewLockDurationInSeconds: this._sessionOptions
-        .maxSessionAutoRenewLockDurationInSeconds,
-      receiveMode: this._receiveMode
-    });
-    this._sessionId = this._messageSession.sessionId;
-    delete this._context.expiredMessageSessions[this._messageSession.sessionId!];
-  }
-
-  private _throwIfAlreadyReceiving(): void {
-    if (this.isReceivingMessages()) {
-      const errorMessage = getAlreadyReceivingErrorMsg(this._context.entityPath, this.sessionId);
-      const error = new Error(errorMessage);
-      log.error(`[${this._context.namespace.connectionId}] %O`, error);
-      throw error;
-    }
   }
 }
