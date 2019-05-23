@@ -71,8 +71,8 @@ export class EventHubClient {
     receive(partitionId: string, onMessage: OnMessage, onError: OnError, maxConcurrentCalls: number, options?: ReceiveOptions): ReceiveHandler;
     receiveBatch(partitionId: string, maxMessageCount: number, maxWaitTimeInSeconds: number, options?: ReceiveOptions): Promise<ReceivedEventData[]>;
     receiveBatch(partitionId: string, maxMessageCount: number, options?: ReceiveOptions): Promise<ReceivedEventData[]>;
+    send(data: EventData[], partitionId: string, options?: BatchingOptions): Promise<void>;
     send(data: EventData[], options?: BatchingOptions): Promise<void>;
-    send(data: EventData[], partitionId?: string): Promise<void>;
 }
 
 // @public

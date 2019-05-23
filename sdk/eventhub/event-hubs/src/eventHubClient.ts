@@ -296,16 +296,6 @@ export class EventHubClient {
   }
 
   /**
-   * Send a batch of EventData to the EventHub.
-   *
-   * @param data  An array of EventData objects to be sent in a Batch message.
-   * @param partitionId Partition ID to which the event data needs to be sent. When not specified EventHub will store
-   * the messages in a round-robin fashion amongst the different partitions in the EventHub.
-   *
-   * @return Promise<void>
-   */
-  async send(data: EventData[], partitionId?: string): Promise<void>;
-  /**
    * Send a batch of EventData to the EventHub using the options provided.
    *
    * @param data  An array of EventData objects to be sent in a Batch message.
@@ -315,17 +305,33 @@ export class EventHubClient {
    * @return {Promise<void>} Promise<void>
    */
   async send(data: EventData[], options?: BatchingOptions): Promise<void>;
-  async send(data: EventData[], partitionIdOrOptions?: string | BatchingOptions): Promise<void> {
+  /**
+   * Send a batch of EventData to specified partition of the EventHub using the options provided.
+   *
+   * @param data  An array of EventData objects to be sent in a Batch message.
+   * @param partitionId Partition ID to which the event data needs to be sent.
+   *
+   * @return Promise<void>
+   */
+  async send(data: EventData[], partitionId: string, options?: BatchingOptions): Promise<void>;
+  async send(
+    data: EventData[],
+    partitionIdOrOptions?: string | BatchingOptions,
+    options?: BatchingOptions
+  ): Promise<void> {
     let partitionId: string | undefined;
-    let batchingOptions: BatchingOptions = {};
-    if (typeof partitionIdOrOptions === "string" || typeof partitionIdOrOptions === "number") {
+    if (typeof partitionIdOrOptions === "string") {
       partitionId = partitionIdOrOptions;
-    } else if (partitionIdOrOptions) {
-      partitionId = partitionIdOrOptions.partitionId;
-      batchingOptions = partitionIdOrOptions;
+    } else {
+      options = partitionIdOrOptions;
     }
+
+    if (options) {
+      partitionId = options.partitionId;
+    }
+
     const sender = EventHubSender.create(this._context, partitionId);
-    return sender.send(data, batchingOptions);
+    return sender.send(data, options);
   }
 
   /**
@@ -353,8 +359,20 @@ export class EventHubClient {
    *
    * @returns {ReceiveHandler} ReceiveHandler - An object that provides a mechanism to stop receiving more messages.
    */
-  receive(partitionId: string, onMessage: OnMessage, onError: OnError, maxConcurrentCalls: number, options?: ReceiveOptions): ReceiveHandler;
-  receive(partitionId: string, onMessage: OnMessage, onError: OnError, maxConcurrentCallsOrOptions?: number | ReceiveOptions, options?: ReceiveOptions): ReceiveHandler {
+  receive(
+    partitionId: string,
+    onMessage: OnMessage,
+    onError: OnError,
+    maxConcurrentCalls: number,
+    options?: ReceiveOptions
+  ): ReceiveHandler;
+  receive(
+    partitionId: string,
+    onMessage: OnMessage,
+    onError: OnError,
+    maxConcurrentCallsOrOptions?: number | ReceiveOptions,
+    options?: ReceiveOptions
+  ): ReceiveHandler {
     if (typeof partitionId !== "string" && typeof partitionId !== "number") {
       throw new Error("'partitionId' is a required parameter and must be of type: 'string' | 'number'.");
     }
