@@ -7,6 +7,7 @@
 
 // Main EventHubClient class
 export class EventHubClient {
+    constructor(host: string, entityPath: string, options?: ClientOptions); // Waiting for Azure identity
     constructor(host: string, entityPath: string, tokenProvider: TokenProvider, options?: ClientOptions);
     constructor(
         host: string, 

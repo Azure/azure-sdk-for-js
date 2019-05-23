@@ -1,10 +1,13 @@
 const { EventHubClient, EventPosition, LogLevel } = require("../src");
 const { Aborter } = require("../src/aborter");
 
-// 3 Ways to create EventHubClient
+// 4 Ways to create EventHubClient
 var client = EventHubClient.createFromConnectionString("connection-string-here", "my-event-hub");
 client = new EventHubClient("my-namespace.servicebus.windows.net", "my-event-hub", customTokenProvider);
 client = new EventHubClient("my-namespace.servicebus.windows.net", "my-event-hub", credentials);
+
+// Once Azure Identity is ready, we can work without using credentials
+client = new EventHubClient("my-namespace.servicebus.windows.net", "my-event-hub"); 
 
 // Create sender
 var sender = client.createSender();
