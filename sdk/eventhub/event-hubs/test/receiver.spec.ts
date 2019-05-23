@@ -79,7 +79,7 @@ describe("EventHub Receiver", function(): void {
         const ed: EventData = {
           body: "Hello awesome world " + i
         };
-        await client.send(ed, partitionId);
+        await client.send([ed], partitionId);
         debug("sent message - " + i);
       }
       debug("Creating new receiver with offset EndOfStream");
@@ -96,7 +96,7 @@ describe("EventHub Receiver", function(): void {
           stamp: uid
         }
       };
-      await client.send(ed, partitionId);
+      await client.send([ed], partitionId);
       debug(">>>>>>> Sent the new message after creating the receiver. We should only receive this message.");
       const data2 = await breceiver.receive(10, 20);
       debug("received messages: ", data2);
@@ -125,7 +125,7 @@ describe("EventHub Receiver", function(): void {
           stamp: uid
         }
       };
-      await client.send(ed, "0");
+      await client.send([ed], "0");
       debug("Sent the new message after creating the receiver. We should only receive this message.");
       const data = await breceiver.receive(10, 20);
       debug("received messages: ", data);
@@ -147,7 +147,7 @@ describe("EventHub Receiver", function(): void {
           stamp: uid
         }
       };
-      await client.send(ed, partitionId);
+      await client.send([ed], partitionId);
       debug(`Sent message 1 with stamp: ${uid}.`);
       const pInfo = await client.getPartitionInformation(partitionId);
       const uid2 = uuid();
@@ -157,7 +157,7 @@ describe("EventHub Receiver", function(): void {
           stamp: uid2
         }
       };
-      await client.send(ed2, partitionId);
+      await client.send([ed2], partitionId);
       debug(`Sent message 2 with stamp: ${uid} after getting the enqueued offset.`);
       debug(`Creating new receiver with last enqueued offset: "${pInfo.lastEnqueuedOffset}".`);
       breceiver = BatchingReceiver.create((client as any)._context, partitionId, {
@@ -192,7 +192,7 @@ describe("EventHub Receiver", function(): void {
           stamp: uid
         }
       };
-      await client.send(ed, partitionId);
+      await client.send([ed], partitionId);
       debug("Sent the new message after creating the receiver. We should only receive this message.");
       const data = await breceiver.receive(10, 20);
       debug("received messages: ", data);
@@ -214,7 +214,7 @@ describe("EventHub Receiver", function(): void {
           stamp: uid
         }
       };
-      await client.send(ed, partitionId);
+      await client.send([ed], partitionId);
       debug(
         "Sent the new message after getting the partition runtime information. We should only receive this message."
       );
@@ -242,7 +242,7 @@ describe("EventHub Receiver", function(): void {
           stamp: uid
         }
       };
-      await client.send(ed, partitionId);
+      await client.send([ed], partitionId);
       debug(`Sent message 1 with stamp: ${uid}.`);
       const pInfo = await client.getPartitionInformation(partitionId);
       const uid2 = uuid();
@@ -252,7 +252,7 @@ describe("EventHub Receiver", function(): void {
           stamp: uid2
         }
       };
-      await client.send(ed2, partitionId);
+      await client.send([ed2], partitionId);
       debug(`Sent message 2 with stamp: ${uid}.`);
       debug(`Creating new receiver with last sequence number: "${pInfo.lastSequenceNumber}".`);
       breceiver = BatchingReceiver.create((client as any)._context, partitionId, {
@@ -580,7 +580,7 @@ describe("EventHub Receiver", function(): void {
       body: "Hello World"
     };
     const partitionIds = await client.getPartitionIds();
-    await client.send(data, partitionIds[0]);
+    await client.send([data], partitionIds[0]);
     const errorMessage = "Will we see this error message?";
 
     const onMessageHandler = (brokeredMessage: EventData) => {

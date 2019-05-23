@@ -35,32 +35,20 @@ describe("EventHub Sender", function(): void {
       const data: EventData = {
         body: "Hello World"
       };
-      const delivery = await client.send(data);
-      // debug(delivery);
-      delivery.format.should.equal(0);
-      delivery.settled.should.equal(true);
-      delivery.remote_settled.should.equal(true);
+      await client.send([data]);
     });
     it("with partition key should be sent successfully.", async function(): Promise<void> {
       const data: EventData = {
         body: "Hello World with partition key",
         partitionKey: "p1234"
       };
-      const delivery = await client.send(data);
-      // debug(delivery);
-      delivery.format.should.equal(0);
-      delivery.settled.should.equal(true);
-      delivery.remote_settled.should.equal(true);
+      await client.send([data]);
     });
     it("should be sent successfully to a specific partition.", async function(): Promise<void> {
       const data: EventData = {
         body: "Hello World"
       };
-      const delivery = await client.send(data, "0");
-      // debug(delivery);
-      delivery.format.should.equal(0);
-      delivery.settled.should.equal(true);
-      delivery.remote_settled.should.equal(true);
+      await client.send([data], "0");
     });
   });
 
@@ -74,11 +62,7 @@ describe("EventHub Sender", function(): void {
           body: "Hello World 2"
         }
       ];
-      const delivery = await client.sendBatch(data);
-      // debug(delivery);
-      delivery.format.should.equal(0x80013700);
-      delivery.settled.should.equal(true);
-      delivery.remote_settled.should.equal(true);
+      await client.send(data);
     });
     it("with partition key should be sent successfully.", async function(): Promise<void> {
       const data: EventData[] = [
@@ -90,11 +74,7 @@ describe("EventHub Sender", function(): void {
           body: "Hello World 2"
         }
       ];
-      const delivery = await client.sendBatch(data);
-      // debug(delivery);
-      delivery.format.should.equal(0x80013700);
-      delivery.settled.should.equal(true);
-      delivery.remote_settled.should.equal(true);
+      await client.send(data);
     });
     it("should be sent successfully to a specific partition.", async function(): Promise<void> {
       const data: EventData[] = [
@@ -105,11 +85,7 @@ describe("EventHub Sender", function(): void {
           body: "Hello World 2"
         }
       ];
-      const delivery = await client.sendBatch(data, "0");
-      // debug(delivery);
-      delivery.format.should.equal(0x80013700);
-      delivery.settled.should.equal(true);
-      delivery.remote_settled.should.equal(true);
+      await client.send(data, "0");
     });
   });
 
@@ -117,16 +93,9 @@ describe("EventHub Sender", function(): void {
     it("should be sent successfully in parallel", async function(): Promise<void> {
       const promises = [];
       for (let i = 0; i < 5; i++) {
-        promises.push(client.send({ body: `Hello World ${i}` }));
+        promises.push(client.send([{ body: `Hello World ${i}` }]));
       }
-      const result = await Promise.all(promises);
-      for (let i = 0; i < result.length; i++) {
-        const delivery = result[i];
-        // debug("delivery %d: %O", i, delivery);
-        delivery.format.should.equal(0);
-        delivery.settled.should.equal(true);
-        delivery.remote_settled.should.equal(true);
-      }
+      await Promise.all(promises);
     });
     it("should be sent successfully in parallel by multiple senders", async function(): Promise<void> {
       const senderCount = 3;
@@ -135,23 +104,16 @@ describe("EventHub Sender", function(): void {
         for (let i = 0; i < senderCount; i++) {
           if (i === 0) {
             debug(">>>>> Sending a message to partition %d", i);
-            promises.push(client.send({ body: `Hello World ${i}` }, i));
+            promises.push(client.send([{ body: `Hello World ${i}` }], i));
           } else if (i === 1) {
             debug(">>>>> Sending a message to partition %d", i);
-            promises.push(client.send({ body: `Hello World ${i}` }, i));
+            promises.push(client.send([{ body: `Hello World ${i}` }], i));
           } else {
             debug(">>>>> Sending a message to the hub when i == %d", i);
-            promises.push(client.send({ body: `Hello World ${i}` }));
+            promises.push(client.send([{ body: `Hello World ${i}` }]));
           }
         }
-        const result = await Promise.all(promises);
-        for (let i = 0; i < result.length; i++) {
-          const delivery = result[i];
-          // debug("delivery %d: %O", i, delivery);
-          delivery.format.should.equal(0);
-          delivery.settled.should.equal(true);
-          delivery.remote_settled.should.equal(true);
-        }
+        await Promise.all(promises);
       } catch (err) {
         debug("An error occurred while running the test: ", err);
         throw err;
@@ -166,7 +128,7 @@ describe("EventHub Sender", function(): void {
       };
       try {
         debug("Sendina message of 300KB...");
-        await client.send(data, "0");
+        await client.send([data], "0");
       } catch (err) {
         debug(err);
         should.exist(err);
@@ -175,11 +137,8 @@ describe("EventHub Sender", function(): void {
           /.*The received message \(delivery-id:(\d+), size:3000\d\d bytes\) exceeds the limit \(262144 bytes\) currently allowed on the link\..*/gi
         );
       }
-      const delivery = await client.send({ body: "Hello World EventHub!!" }, "0");
+      await client.send([{ body: "Hello World EventHub!!" }], "0");
       debug("Sent the message successfully on the same link..");
-      delivery.format.should.equal(0);
-      delivery.settled.should.equal(true);
-      delivery.remote_settled.should.equal(true);
     });
   });
 
@@ -189,7 +148,7 @@ describe("EventHub Sender", function(): void {
         body: Buffer.from("Z".repeat(300000))
       };
       try {
-        await client.send(data);
+        await client.send([data]);
       } catch (err) {
         debug(err);
         should.exist(err);
@@ -206,7 +165,7 @@ describe("EventHub Sender", function(): void {
         partitionKey: 1 as any
       };
       try {
-        await client.send(data, "0");
+        await client.send([data], "0");
       } catch (err) {
         debug(err);
         should.exist(err);
@@ -221,7 +180,7 @@ describe("EventHub Sender", function(): void {
         it(`"${id}" should throw an error`, async function(): Promise<void> {
           try {
             debug("Created sender and will be sending a message to partition id ...", id);
-            await client.send({ body: "Hello world!" }, id as any);
+            await client.send([{ body: "Hello world!" }], id as any);
             debug("sent the message.");
           } catch (err) {
             debug(`>>>> Received error for invalid partition id "${id}" - `, err);
@@ -238,7 +197,7 @@ describe("EventHub Sender", function(): void {
         it(`"${id}" should throw an invalid EventHub address error`, async function(): Promise<void> {
           try {
             debug("Created sender and will be sending a message to partition id ...", id);
-            await client.send({ body: "Hello world!" }, id as any);
+            await client.send([{ body: "Hello world!" }], id as any);
             debug("sent the message.");
           } catch (err) {
             debug(`>>>> Received invalid EventHub address error for partition id "${id}" - `, err);
