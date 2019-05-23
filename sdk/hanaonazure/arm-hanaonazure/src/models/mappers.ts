@@ -170,13 +170,6 @@ export const OSProfile: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
-      },
-      sshPublicKey: {
-        readOnly: true,
-        serializedName: "sshPublicKey",
-        type: {
-          name: "String"
-        }
       }
     }
   }
@@ -287,20 +280,6 @@ export const HanaInstance: msRest.CompositeMapper = {
       hwRevision: {
         readOnly: true,
         serializedName: "properties.hwRevision",
-        type: {
-          name: "String"
-        }
-      },
-      partnerNodeId: {
-        readOnly: true,
-        serializedName: "properties.partnerNodeId",
-        type: {
-          name: "String"
-        }
-      },
-      provisioningState: {
-        readOnly: true,
-        serializedName: "properties.provisioningState",
         type: {
           name: "String"
         }

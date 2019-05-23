@@ -118,17 +118,16 @@ export class HanaInstances {
   }
 
   /**
-   * Creates a SAP HANA instance for the specified subscription, resource group, and instance name.
-   * @summary Creates a SAP HANA instance.
+   * Deletes a SAP HANA instance with the specified subscription, resource group, and instance name.
+   * @summary Deletes a SAP HANA instance.
    * @param resourceGroupName Name of the resource group.
    * @param hanaInstanceName Name of the SAP HANA on Azure instance.
-   * @param hanaInstanceParameter Request body representing a HanaInstance
    * @param [options] The optional parameters
-   * @returns Promise<Models.HanaInstancesCreateResponse>
+   * @returns Promise<Models.HanaInstancesDeleteMethodResponse>
    */
-  create(resourceGroupName: string, hanaInstanceName: string, hanaInstanceParameter: Models.HanaInstance, options?: msRest.RequestOptionsBase): Promise<Models.HanaInstancesCreateResponse> {
-    return this.beginCreate(resourceGroupName,hanaInstanceName,hanaInstanceParameter,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.HanaInstancesCreateResponse>;
+  deleteMethod(resourceGroupName: string, hanaInstanceName: string, options?: msRest.RequestOptionsBase): Promise<Models.HanaInstancesDeleteMethodResponse> {
+    return this.beginDeleteMethod(resourceGroupName,hanaInstanceName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.HanaInstancesDeleteMethodResponse>;
   }
 
   /**
@@ -195,23 +194,21 @@ export class HanaInstances {
   }
 
   /**
-   * Creates a SAP HANA instance for the specified subscription, resource group, and instance name.
-   * @summary Creates a SAP HANA instance.
+   * Deletes a SAP HANA instance with the specified subscription, resource group, and instance name.
+   * @summary Deletes a SAP HANA instance.
    * @param resourceGroupName Name of the resource group.
    * @param hanaInstanceName Name of the SAP HANA on Azure instance.
-   * @param hanaInstanceParameter Request body representing a HanaInstance
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreate(resourceGroupName: string, hanaInstanceName: string, hanaInstanceParameter: Models.HanaInstance, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(resourceGroupName: string, hanaInstanceName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
         hanaInstanceName,
-        hanaInstanceParameter,
         options
       },
-      beginCreateOperationSpec,
+      beginDeleteMethodOperationSpec,
       options);
   }
 
@@ -420,8 +417,8 @@ const updateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginCreateOperationSpec: msRest.OperationSpec = {
-  httpMethod: "PUT",
+const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
+  httpMethod: "DELETE",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HanaOnAzure/hanaInstances/{hanaInstanceName}",
   urlParameters: [
     Parameters.subscriptionId,
@@ -434,20 +431,14 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
   headerParameters: [
     Parameters.acceptLanguage
   ],
-  requestBody: {
-    parameterPath: "hanaInstanceParameter",
-    mapper: {
-      ...Mappers.HanaInstance,
-      required: true
-    }
-  },
   responses: {
     200: {
       bodyMapper: Mappers.HanaInstance
     },
-    201: {
+    202: {
       bodyMapper: Mappers.HanaInstance
     },
+    204: {},
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
