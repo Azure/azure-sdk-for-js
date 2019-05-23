@@ -1,4 +1,4 @@
-const { EventHubClient, EventPosition } = require("../src");
+const { EventHubClient, EventPosition, LogLevel } = require("../src");
 const { Aborter } = require("../src/aborter");
 
 // 3 Ways to create EventHubClient
@@ -9,6 +9,9 @@ client = new EventHubClient("my-namespace.servicebus.windows.net", "my-event-hub
 // Create sender
 var sender = client.createSender();
 
+// Create sender with options
+sender = client.createSender({cancellationToken: Aborter.none, logLevel: LogLevel.Info});
+
 // Create receiver
 var receiver = client.createReceiver("my-partitionId");
 
@@ -17,6 +20,7 @@ receiver = client.createReceiver("my-partitionId", {
   eventPosition: EventPosition.fromOffset("123"),
   consumerGroup: "my-consumer-group"
 });
+
 // ======================================== Sending sample starts ======================================
 
 // Send events to a random partition
@@ -38,7 +42,12 @@ for await (let events of receiver.getEventIterator("my-partition-id", 25, 60)){
 }
 
 // Set up streaming receiver
-var handler = client.receive("my-partition-id", console.log, console.log);
+var handler = receiver.receive(
+  "my-partition-id", 
+  (event) => console.log(event.body, event.properties), 
+  (error) => console.log(error),
+  Aborter.none
+);
 // When you want to stop receiving
 await handler.stop();
 

@@ -94,10 +94,6 @@ export interface RequestOptions {
  */
 export interface BatchingOptions {
   /**
-   * The id of the partition to which the event should be sent
-   */
-  partitionId?: string;
-  /**
    * @property {string | null} [batchLabel] If specified EventHub will hash this string to a partitionId.
    * It guarantees that messages end up in the same partition on the event hub.
    * This will be ignored if `paritionId` is used when sending events.
@@ -299,8 +295,8 @@ export class EventHubClient {
   /**
   * Creates a Sender 
   */
-  createSender(): Sender {
-    return new Sender(this._context);
+  createSender(options?: RequestOptions): Sender {
+    return new Sender(this._context, options);
   }
 
   /**

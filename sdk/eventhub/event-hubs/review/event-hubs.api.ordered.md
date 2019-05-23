@@ -5,15 +5,18 @@
 // ======================================== Event Hub Client  ======================================
 
 
-// @public
+// Main EventHubClient class
 export class EventHubClient {
     constructor(host: string, entityPath: string, tokenProvider: TokenProvider, options?: ClientOptions);
-    constructor(host: string, entityPath: string, credentials: ApplicationTokenCredentials | UserTokenCredentials | DeviceTokenCredentials | MSITokenCredentials, options?: ClientOptions);
+    constructor(
+        host: string, 
+        entityPath: string, 
+        credentials: ApplicationTokenCredentials | UserTokenCredentials | DeviceTokenCredentials | MSITokenCredentials, 
+        options?: ClientOptions
+        );
+    static createFromConnectionString(connectionString: string, entityPath?: string, options?: ClientOptions): EventHubClient;
 
     close(): Promise<void>;
-
-    static createFromConnectionString(connectionString: string, entityPath?: string, options?: ClientOptions): EventHubClient;
-    static createFromIotHubConnectionString(iothubConnectionString: string, options?: ClientOptions): Promise<EventHubClient>;
 
     createSender(): Sender;
     createReceiver(partitionId: string, options?: ReceiveOptions): Receiver;
@@ -25,7 +28,7 @@ export class EventHubClient {
     readonly hubPath: string;
 }
 
-// @public
+// Options to pass when creating EventHubClient
 export interface ClientOptions {
     dataTransformer?: DataTransformer;
     logLevel?: LogLevel;
@@ -34,16 +37,16 @@ export interface ClientOptions {
     webSocketConstructorOptions?: any;
 }
 
-// @public
+// Various log levels that can be set at client or sender/receiver or metadata calls
 export enum LogLevel {
-    Error = 1,
-    Info = 3,
     None = 0,
-    Verbose = 4,
+    Error = 1,
     Warning = 2
+    Info = 3,
+    Verbose = 4
 }
 
-// @public
+// Options to pass to sender/receiver or metadata calls
 export interface RequestOptions {
     cancellationToken?: Aborter;
     logLevel?: LogLevel;
@@ -51,7 +54,7 @@ export interface RequestOptions {
     timeoutInSeconds?: number;
 }
 
-// @public
+// Flat list of retry options to support linear. Will change when supporting exponential after Preview 1
 export interface RetryOptions {
     delayBetweenRetriesInSeconds?: number;
     retryCount?: number;
@@ -59,7 +62,7 @@ export interface RetryOptions {
 
 // ======================================== Sending related API starts ======================================
 
-// @public
+// Each sender holds an AMQP sender link
 export class Sender {
     close(): Promise<void>;
     send(data: EventData[], options?: BatchingOptions): Promise<void>;
@@ -68,7 +71,7 @@ export class Sender {
     readonly isClosed: boolean;
 }
 
-// @public
+// Event Data to be sent
 export interface EventData {
     body: any;
     properties?: {
@@ -76,18 +79,17 @@ export interface EventData {
     };
 }
 
-// @public
+// Options to control how to batch. May include more when we support smart batching
 export interface BatchingOptions {
     batchLabel?: string | null;
     cancellationToken?: Aborter;
-    partitionId?: string;
 }
 
 // ======================================== Sending related API ends ======================================
 
 // ======================================== Receiving related API starts ======================================
 
-// @public
+// Each receiver holds an AMQP receiver link dedicated to 1 partition
 export class Receiver {
     close(): Promise<void>;
     getEventIterator(partitionId: string, batchSize: number, maxWaitTimeInSeconds: number, cancellationToken?: Aborter): AsyncIterableIterator<ReceivedEventData[]>;
@@ -101,7 +103,7 @@ export class Receiver {
     readonly partitionId: string;
 }
 
-// @public
+// Options to control the AMQP receiver link
 export interface ReceiveOptions extends RequestOptions {
     consumerGroup?: string;
     enableReceiverRuntimeMetric?: boolean;
@@ -109,7 +111,7 @@ export interface ReceiveOptions extends RequestOptions {
     eventPosition?: EventPosition;
 }
 
-// @public
+// Position in the stream, used to determine where to start a receiver from
 export class EventPosition {
     static fromEnqueuedTime(enqueuedTime: Date | number): EventPosition;
     static fromFirstAvailable(): EventPosition;
@@ -123,7 +125,7 @@ export class EventPosition {
     sequenceNumber?: number;
 }
 
-// @public
+// Event received from the service
 export interface ReceivedEventData {
     body: any;
     enqueuedTimeUtc?: Date;
@@ -135,19 +137,19 @@ export interface ReceivedEventData {
     sequenceNumber?: number;
 }
 
-// @public
+// Signature for error callback in streaming receiver
 export type OnError = (error: MessagingError | Error) => void;
 
-// @public
+// Signature for event data callback in streaming receiver
 export type OnMessage = (eventData: ReceivedEventData) => void;
 
-// @public
+// Handler returned by streaming receiver used for stopping it.
 export class ReceiveHandler {
     readonly isRunning: boolean;
     stop(): Promise<void>;
 }
 
-// @public
+// Info on the last enqueued data on the partition
 export interface LastEnqueuedInfo {
     lastEnqueuedOffset?: string;
     lastEnqueuedSequenceNumber?: number;

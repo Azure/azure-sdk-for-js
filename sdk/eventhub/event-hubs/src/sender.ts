@@ -73,10 +73,6 @@ export class Sender {
       options = partitionIdOrOptions;
     }
 
-    if (options) {
-      partitionId = options.partitionId;
-    }
-
     const sender = EventHubSender.create(this._context, partitionId);
     return sender.send(data, {...this._requestOptions, ...options});
   }

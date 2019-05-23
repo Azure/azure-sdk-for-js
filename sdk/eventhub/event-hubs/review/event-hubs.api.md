@@ -34,7 +34,6 @@ export interface BatchingOptions {
     batchLabel?: string | null;
     // Warning: (ae-forgotten-export) The symbol "Aborter" needs to be exported by the entry point index.d.ts
     cancellationToken?: Aborter;
-    partitionId?: string;
 }
 
 // @public
@@ -66,7 +65,7 @@ export class EventHubClient {
     static createFromConnectionString(connectionString: string, entityPath?: string, options?: ClientOptions): EventHubClient;
     static createFromIotHubConnectionString(iothubConnectionString: string, options?: ClientOptions): Promise<EventHubClient>;
     createReceiver(partitionId: string, options?: ReceiveOptions): Receiver;
-    createSender(): Sender;
+    createSender(options?: RequestOptions): Sender;
     getHubInformation(options?: RequestOptions): Promise<HubInformation>;
     getPartitionIds(options?: RequestOptions): Promise<Array<string>>;
     getPartitionInformation(partitionId: string, options?: RequestOptions): Promise<PartitionInformation>;
