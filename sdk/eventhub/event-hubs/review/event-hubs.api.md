@@ -32,6 +32,8 @@ export { AadTokenProvider }
 // @public
 export interface BatchingOptions {
     batchLabel?: string | null;
+    // Warning: (ae-forgotten-export) The symbol "Aborter" needs to be exported by the entry point index.d.ts
+    cancellationToken?: Aborter;
     partitionId?: string;
 }
 
@@ -173,7 +175,6 @@ export class Receiver {
     isReceivingMessages(): boolean;
     readonly lastEnqueuedInfo: LastEnqueuedInfo | undefined;
     readonly partitionId: string;
-    // Warning: (ae-forgotten-export) The symbol "Aborter" needs to be exported by the entry point index.d.ts
     receive(partitionId: string, onMessage: OnMessage, onError: OnError, cancellationToken?: Aborter): ReceiveHandler;
     }
 

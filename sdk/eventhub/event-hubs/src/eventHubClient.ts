@@ -103,6 +103,10 @@ export interface BatchingOptions {
    * This will be ignored if `paritionId` is used when sending events.
    */
   batchLabel?: string | null;
+  /**
+   * Cancel current operation
+   */
+  cancellationToken? : Aborter;
 }
 
 /**

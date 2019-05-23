@@ -1,4 +1,5 @@
 const { EventHubClient, EventPosition } = require("../src");
+const { Aborter } = require("../src/aborter");
 
 // 3 Ways to create EventHubClient
 var client = EventHubClient.createFromConnectionString("connection-string-here", "my-event-hub");
@@ -25,13 +26,13 @@ await sender.send(myEvents);
 await sender.send(myEvents, "my-partition-id");
 
 // Send events to the same partition, but don't care which exact partition
-await sender.send(myEvents, { batchLabel: "my-partition-key" });
+await sender.send(myEvents, { batchLabel: "my-partition-key", cancellationToken: Aborter.none });
 
 // ======================================== Sending sample ends ======================================
 
 // ======================================== Receiving sample starts ======================================
 
-// Receive at most 25 events but within 60 seconds in each iteration
+// In each iteration within 60 seconds, receive at most 25 events.
 for await (let events of receiver.getEventIterator("my-partition-id", 25, 60)){
   // your code here
 }
