@@ -119,8 +119,8 @@ export class InMemoryCollectionRoutingMap {
 
     const overlappingPartitionKeyRanges = Object.keys(minToPartitionRange).map(k => minToPartitionRange[k]);
 
-    return overlappingPartitionKeyRanges.sort(r => {
-      return r[Constants.PartitionKeyRange.MinInclusive];
+    return overlappingPartitionKeyRanges.sort((a, b) => {
+      return a[Constants.PartitionKeyRange.MinInclusive] - b[Constants.PartitionKeyRange.MinInclusive];
     });
   }
 }
