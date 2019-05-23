@@ -174,6 +174,54 @@ export class BlobServiceClient extends StorageClient {
   }
 
   /**
+   * Iterates over containers under the specified account.  The returned iterator is resumable.
+   *
+   * @example
+   * for await (const container of blobServiceClient.listContainers()) {
+   *   console.log(`Container: ${container.name}`);
+   * }
+   *
+   * @example
+   * let iter1 = blobServiceClient.listContainers();
+   * let i = 1;
+   * for await (const container of iter1) {
+   *   console.log(`${i}: ${container.name}`);
+   *   i++;
+   * }
+   *
+   * @example
+   *  let iter2 = await blobServiceClient.listContainers();
+   *  i = 1;
+   *  let containerItem = await iter2.next();
+   *  do {
+   *    console.log(`Container ${i++}: ${containerItem.value.name}`);
+   *   containerItem = await iter2.next();
+   * } while (containerItem.value);
+   *
+   * @param {ServiceListContainersSegmentOptions} [options]
+   * @returns {AsyncIterableIterator<Models.ContainerItem>}
+   * @memberof BlobServiceClient
+   */
+  public async *listContainers(
+    options?: ServiceListContainersSegmentOptions
+  ): AsyncIterableIterator<Models.ContainerItem> {
+    let marker = undefined;
+    const blobServiceClient = this;
+    const aborter = !options || !options.abortSignal ? Aborter.none : options.abortSignal;
+    do {
+      const listContainersResponse: Models.ServiceListContainersSegmentResponse = await blobServiceClient.listContainersSegment(
+        marker,
+        {
+          ...options,
+          abortSignal: aborter
+        }
+      );
+      marker = listContainersResponse.nextMarker;
+      yield* listContainersResponse.containerItems;
+    } while (marker);
+  }
+
+  /**
    * Returns a list of the containers under the specified account.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/list-containers2
    *

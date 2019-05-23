@@ -29,6 +29,22 @@ async function main() {
     pipeline
   );
 
+  // List Containers
+  let iter1 = await blobServiceClient.listContainers();
+  let i = 1;
+  for await (const container of iter1) {
+    console.log(`Container ${i++}: ${container.name}`);
+  }
+
+  // List containers - generator syntax
+  let iter2 = await blobServiceClient.listContainers();
+  i = 1;
+  let containerItem = await iter2.next();
+  do {
+    console.log(`Container ${i++}: ${containerItem.value.name}`);
+    containerItem = await iter2.next();
+  } while (containerItem.value);
+
   // Create a container
   const containerName = `newcontainer${new Date().getTime()}`;
   const containerClient = ContainerClient.fromBlobServiceClient(blobServiceClient, containerName);
@@ -47,13 +63,14 @@ async function main() {
   }
 
   // List blobs
-  let iter1 = await containerClient.listBlobs();
-  let i = 1;
+  iter1 = await containerClient.listBlobs();
+  i = 1;
   for await (const blob of iter1) {
     console.log(`Blob ${i++}: ${blob.name}`);
   }
 
-  let iter2 = await containerClient.listBlobs();
+  // List blobs - generator syntax
+  iter2 = await containerClient.listBlobs();
   i = 1;
   let blobItem = await iter2.next();
   do {

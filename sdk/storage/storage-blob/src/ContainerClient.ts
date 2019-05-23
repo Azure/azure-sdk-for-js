@@ -582,13 +582,16 @@ export class ContainerClient extends StorageClient {
     options: ContainerListBlobsSegmentOptions = {}
   ): AsyncIterableIterator<Models.BlobItem> {
     let marker = undefined;
-    const serviceURL = this;
+    const containerClient = this;
     const aborter = !options || !options.abortSignal ? Aborter.none : options.abortSignal;
     do {
-      const listBlobsResponse = await serviceURL.listBlobFlatSegment(undefined, {
-        ...options,
-        abortSignal: aborter
-      });
+      const listBlobsResponse: Models.ContainerListBlobFlatSegmentResponse = await containerClient.listBlobFlatSegment(
+        marker,
+        {
+          ...options,
+          abortSignal: aborter
+        }
+      );
       marker = listBlobsResponse.nextMarker;
       yield* listBlobsResponse.segment.blobItems;
     } while (marker);
