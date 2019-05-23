@@ -480,7 +480,6 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
     201: {
       bodyMapper: Mappers.HanaInstance
     },
-    204: {},
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
@@ -505,6 +504,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {},
     202: {},
+    204: {},
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
