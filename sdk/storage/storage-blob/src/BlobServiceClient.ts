@@ -174,7 +174,7 @@ export class BlobServiceClient extends StorageClient {
   }
 
   /**
-   * Iterates over containers under the specified account.  The returned iterator is resumable.
+   * Iterates over containers under the specified account.
    *
    * @example
    * for await (const container of blobServiceClient.listContainers()) {
