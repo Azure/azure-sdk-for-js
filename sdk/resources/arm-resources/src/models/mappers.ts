@@ -1353,6 +1353,13 @@ export const DeploymentOperationProperties: msRest.CompositeMapper = {
           name: "DateTime"
         }
       },
+      duration: {
+        readOnly: true,
+        serializedName: "duration",
+        type: {
+          name: "String"
+        }
+      },
       serviceRequestId: {
         readOnly: true,
         serializedName: "serviceRequestId",
