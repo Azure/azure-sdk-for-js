@@ -39,10 +39,9 @@ describe("EventHub Sender", function(): void {
     });
     it("with partition key should be sent successfully.", async function(): Promise<void> {
       const data: EventData = {
-        body: "Hello World with partition key",
-        partitionKey: "p1234"
+        body: "Hello World with partition key"
       };
-      await client.send([data]);
+      await client.send([data], {batchLabel: "p1234"});
     });
     it("should be sent successfully to a specific partition.", async function(): Promise<void> {
       const data: EventData = {
@@ -67,14 +66,13 @@ describe("EventHub Sender", function(): void {
     it("with partition key should be sent successfully.", async function(): Promise<void> {
       const data: EventData[] = [
         {
-          body: "Hello World 1",
-          partitionKey: "p1234"
+          body: "Hello World 1"
         },
         {
           body: "Hello World 2"
         }
       ];
-      await client.send(data);
+      await client.send(data, {batchLabel: "p1234"});
     });
     it("should be sent successfully to a specific partition.", async function(): Promise<void> {
       const data: EventData[] = [
@@ -104,10 +102,10 @@ describe("EventHub Sender", function(): void {
         for (let i = 0; i < senderCount; i++) {
           if (i === 0) {
             debug(">>>>> Sending a message to partition %d", i);
-            promises.push(client.send([{ body: `Hello World ${i}` }], i));
+            promises.push(client.send([{ body: `Hello World ${i}` }], i as any));
           } else if (i === 1) {
             debug(">>>>> Sending a message to partition %d", i);
-            promises.push(client.send([{ body: `Hello World ${i}` }], i));
+            promises.push(client.send([{ body: `Hello World ${i}` }], i as any));
           } else {
             debug(">>>>> Sending a message to the hub when i == %d", i);
             promises.push(client.send([{ body: `Hello World ${i}` }]));
@@ -159,19 +157,18 @@ describe("EventHub Sender", function(): void {
       }
     });
 
-    it("Error thrown when the 'partitionKey' is not of type 'string'", async function(): Promise<void> {
-      const data: EventData = {
-        body: "Hello World",
-        partitionKey: 1 as any
-      };
-      try {
-        await client.send([data], "0");
-      } catch (err) {
-        debug(err);
-        should.exist(err);
-        err.message.should.match(/.*'partitionKey' must be of type 'string'.*/gi);
-      }
-    });
+    // it("Error thrown when the 'partitionKey' is not of type 'string'", async function(): Promise<void> {
+    //   const data: EventData = {
+    //     body: "Hello World"
+    //   };
+    //   try {
+    //     await client.send([data], "0");
+    //   } catch (err) {
+    //     debug(err);
+    //     should.exist(err);
+    //     err.message.should.match(/.*'partitionKey' must be of type 'string'.*/gi);
+    //   }
+    // });
 
     describe("on invalid partition ids like", function(): void {
       // tslint:disable-next-line: no-null-keyword

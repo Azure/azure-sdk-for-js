@@ -4,7 +4,8 @@
 import chai from "chai";
 chai.should();
 
-import { EventData, Message } from "../src";
+import { Message } from "rhea-promise";
+import { EventDataInternal } from "../src/eventData";
 
 const testAnnotations = {
   "x-opt-enqueued-time": Date.now(),
@@ -29,8 +30,8 @@ const testMessage: Message = {
   message_id: "test_id",
   application_properties: applicationProperties
 };
-const testEventData = EventData.fromAmqpMessage(testMessage);
-const messageFromED = EventData.toAmqpMessage(testEventData);
+const testEventData = EventDataInternal.fromAmqpMessage(testMessage);
+const messageFromED = EventDataInternal.toAmqpMessage(testEventData);
 
 describe("EventData", function(): void {
   describe("fromAmqpMessage", function(): void {
@@ -75,22 +76,22 @@ describe("EventData", function(): void {
 
   describe("properties", function(): void {
     it("enqueuedTimeUtc gets the enqueued time from system properties", function(): void {
-      const testEventData = EventData.fromAmqpMessage(testMessage);
+      const testEventData = EventDataInternal.fromAmqpMessage(testMessage);
       testEventData.enqueuedTimeUtc!.getTime().should.equal(testAnnotations["x-opt-enqueued-time"]);
     });
 
     it("offset gets the offset from system properties", function(): void {
-      const testEventData = EventData.fromAmqpMessage(testMessage);
+      const testEventData = EventDataInternal.fromAmqpMessage(testMessage);
       testEventData.offset!.should.equal(testAnnotations["x-opt-offset"]);
     });
 
     it("sequenceNumber gets the sequence number from system properties", function(): void {
-      const testEventData = EventData.fromAmqpMessage(testMessage);
+      const testEventData = EventDataInternal.fromAmqpMessage(testMessage);
       testEventData.sequenceNumber!.should.equal(testAnnotations["x-opt-sequence-number"]);
     });
 
     it("partitionKey gets the sequence number from system properties", function(): void {
-      const testEventData = EventData.fromAmqpMessage(testMessage);
+      const testEventData = EventDataInternal.fromAmqpMessage(testMessage);
       testEventData.partitionKey!.should.equal(testAnnotations["x-opt-partition-key"]);
     });
   });

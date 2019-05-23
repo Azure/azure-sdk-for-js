@@ -137,7 +137,7 @@ describe("EventHubClient on ", function(): void {
     it("should throw MessagingEntityNotFoundError while getting hub runtime info", async function(): Promise<void> {
       try {
         client = EventHubClient.createFromConnectionString(service.connectionString!, "bad" + Math.random());
-        await client.getHubRuntimeInformation();
+        await client.getHubInformation();
       } catch (err) {
         debug(err);
         should.equal(err.name, "MessagingEntityNotFoundError");

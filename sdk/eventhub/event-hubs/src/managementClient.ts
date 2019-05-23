@@ -10,9 +10,9 @@ import * as log from "./log";
 import { RequestOptions } from "./eventHubClient";
 /**
  * Describes the runtime information of an EventHub.
- * @interface EventHubRuntimeInformation
+ * @interface HubRuntimeInformation
  */
-export interface EventHubRuntimeInformation {
+export interface HubInformation {
   /**
    * @property {string} path - The name of the event hub.
    */
@@ -29,17 +29,13 @@ export interface EventHubRuntimeInformation {
    * @property {string[]} partitionIds - The slice of string partition identifiers.
    */
   partitionIds: string[];
-  /**
-   * @property {string} type - The type of entity.
-   */
-  type: "com.microsoft:eventhub";
 }
 
 /**
  * Describes the runtime information of an EventHub Partition.
- * @interface EventHubPartitionRuntimeInformation
+ * @interface PartitionInformation
  */
-export interface EventHubPartitionRuntimeInformation {
+export interface PartitionInformation {
   /**
    * @property {string} hubPath - The name of the eventhub.
    */
@@ -55,7 +51,7 @@ export interface EventHubPartitionRuntimeInformation {
   /**
    * @property {number} lastSequenceNumber - The last sequence number of the partition's message log.
    */
-  lastSequenceNumber: number;
+  lastEnqueuedSequenceNumber: number;
   /**
    * @property {string} lastEnqueuedOffset - The offset of the last enqueued message in the partition's message log.
    */
@@ -64,10 +60,6 @@ export interface EventHubPartitionRuntimeInformation {
    * @property {Date} lastEnqueuedTimeUtc - The time of the last enqueued message in the partition's message log in UTC.
    */
   lastEnqueuedTimeUtc: Date;
-  /**
-   * @property {string} type - The type of entity.
-   */
-  type: "com.microsoft:partition";
 }
 
 export interface ManagementClientOptions {
@@ -119,9 +111,9 @@ export class ManagementClient extends LinkEntity {
    * Provides the eventhub runtime information.
    * @ignore
    * @param {Connection} connection - The established amqp connection
-   * @returns {Promise<EventHubRuntimeInformation>}
+   * @returns {Promise<HubInformation>}
    */
-  async getHubRuntimeInformation(options?: RequestOptions): Promise<EventHubRuntimeInformation> {
+  async getHubRuntimeInformation(options?: RequestOptions): Promise<HubInformation> {
     const request: Message = {
       body: Buffer.from(JSON.stringify([])),
       message_id: uuid(),
@@ -134,12 +126,11 @@ export class ManagementClient extends LinkEntity {
     };
 
     const info: any = await this._makeManagementRequest(request, options);
-    const runtimeInfo: EventHubRuntimeInformation = {
+    const runtimeInfo: HubInformation = {
       path: info.name,
       createdAt: new Date(info.created_at),
       partitionCount: info.partition_count,
-      partitionIds: info.partition_ids,
-      type: info.type
+      partitionIds: info.partition_ids
     };
     log.mgmt("[%s] The hub runtime info is: %O", this._context.connectionId, runtimeInfo);
     return runtimeInfo;
@@ -162,10 +153,7 @@ export class ManagementClient extends LinkEntity {
    * @param {Connection} connection - The established amqp connection
    * @param {(string|number)} partitionId Partition ID for which partition information is required.
    */
-  async getPartitionInformation(
-    partitionId: string | number,
-    options?: RequestOptions
-  ): Promise<EventHubPartitionRuntimeInformation> {
+  async getPartitionInformation(partitionId: string | number, options?: RequestOptions): Promise<PartitionInformation> {
     if (typeof partitionId !== "string" && typeof partitionId !== "number") {
       throw new Error("'partitionId' is a required parameter and must be of " + "type: 'string' | 'number'.");
     }
@@ -183,14 +171,13 @@ export class ManagementClient extends LinkEntity {
     };
 
     const info: any = await this._makeManagementRequest(request, options);
-    const partitionInfo: EventHubPartitionRuntimeInformation = {
+    const partitionInfo: PartitionInformation = {
       beginningSequenceNumber: info.begin_sequence_number,
       hubPath: info.name,
       lastEnqueuedOffset: info.last_enqueued_offset,
       lastEnqueuedTimeUtc: new Date(info.last_enqueued_time_utc),
-      lastSequenceNumber: info.last_enqueued_sequence_number,
-      partitionId: info.partition,
-      type: info.type
+      lastEnqueuedSequenceNumber: info.last_enqueued_sequence_number,
+      partitionId: info.partition
     };
     log.mgmt("[%s] The partition info is: %O.", this._context.connectionId, partitionInfo);
     return partitionInfo;
@@ -284,10 +271,14 @@ export class ManagementClient extends LinkEntity {
         return this._init();
       });
 
+      if (!options) {
+        options = {};
+      }
+
       const sendRequestOptions: SendRequestOptions = {
-        timeoutInSeconds: options && options.idleTimeoutInSeconds,
-        times: options && options.retryAttempts,
-        delayInSeconds: options && options.delayBetweenRetriesInSeconds
+        timeoutInSeconds: options.timeoutInSeconds,
+        times: options.retryOptions && options.retryOptions.retryCount,
+        delayInSeconds: options.retryOptions && options.retryOptions.delayBetweenRetriesInSeconds
       };
       return (await this._mgmtReqResLink!.sendRequest(request, sendRequestOptions)).body;
     } catch (err) {

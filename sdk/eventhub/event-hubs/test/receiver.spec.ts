@@ -8,9 +8,10 @@ import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 import debugModule from "debug";
 const debug = debugModule("azure:event-hubs:receiver-spec");
-import { EventPosition, EventHubClient, EventData, EventHubRuntimeInformation, MessagingError, delay } from "../src";
+import { EventPosition, EventHubClient, EventData, HubInformation, MessagingError } from "../src";
 import { BatchingReceiver } from "../src/batchingReceiver";
 import { ReceiveHandler } from "../src/streamingReceiver";
+import { delay } from "@azure/amqp-common";
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -18,7 +19,7 @@ describe("EventHub Receiver", function(): void {
   const service = { connectionString: process.env.EVENTHUB_CONNECTION_STRING, path: process.env.EVENTHUB_NAME };
   const client: EventHubClient = EventHubClient.createFromConnectionString(service.connectionString!, service.path);
   let breceiver: BatchingReceiver;
-  let hubInfo: EventHubRuntimeInformation;
+  let hubInfo: HubInformation;
   before("validate environment", async function(): Promise<void> {
     should.exist(
       process.env.EVENTHUB_CONNECTION_STRING,
@@ -28,7 +29,7 @@ describe("EventHub Receiver", function(): void {
       process.env.EVENTHUB_NAME,
       "define EVENTHUB_NAME in your environment before running integration tests."
     );
-    hubInfo = await client.getHubRuntimeInformation();
+    hubInfo = await client.getHubInformation();
   });
 
   after("close the connection", async function(): Promise<void> {
@@ -44,7 +45,7 @@ describe("EventHub Receiver", function(): void {
 
   describe("with partitionId 0 as number", function(): void {
     it("should work for receiveBatch", async function(): Promise<void> {
-      const result = await client.receiveBatch(0, 10, 20, { eventPosition: EventPosition.fromSequenceNumber(0) });
+      const result = await client.receiveBatch(0 as any, 10, 20, { eventPosition: EventPosition.fromSequenceNumber(0) });
       should.equal(true, Array.isArray(result));
     });
 
@@ -68,7 +69,7 @@ describe("EventHub Receiver", function(): void {
             });
         }
       };
-      rcvHandler = client.receive(0, onMsg, onError, { epoch: 1, eventPosition: EventPosition.fromOffset("0") });
+      rcvHandler = client.receive(0 as any, onMsg, onError, { epoch: 1, eventPosition: EventPosition.fromOffset("0") });
     });
   });
 
@@ -92,7 +93,7 @@ describe("EventHub Receiver", function(): void {
       const uid = uuid();
       const ed: EventData = {
         body: "New message",
-        applicationProperties: {
+        properties: {
           stamp: uid
         }
       };
@@ -101,7 +102,7 @@ describe("EventHub Receiver", function(): void {
       const data2 = await breceiver.receive(10, 20);
       debug("received messages: ", data2);
       data2.length.should.equal(1, "Failed to receive the expected one single message");
-      data2[0].applicationProperties!.stamp.should.equal(uid, "Message received with unexpected uid");
+      data2[0].properties!.stamp.should.equal(uid, "Message received with unexpected uid");
       debug("Next receive on this partition should not receive any messages.");
       const data3 = await breceiver.receive(10, 10);
       data3.length.should.equal(0, "Unexpected message received");
@@ -121,7 +122,7 @@ describe("EventHub Receiver", function(): void {
       const uid = uuid();
       const ed: EventData = {
         body: "New message after last enqueued offset",
-        applicationProperties: {
+        properties: {
           stamp: uid
         }
       };
@@ -130,7 +131,7 @@ describe("EventHub Receiver", function(): void {
       const data = await breceiver.receive(10, 20);
       debug("received messages: ", data);
       data.length.should.equal(1);
-      data[0].applicationProperties!.stamp.should.equal(uid);
+      data[0].properties!.stamp.should.equal(uid);
       debug("Next receive on this partition should not receive any messages.");
       const data2 = await breceiver.receive(10, 10);
       data2.length.should.equal(0);
@@ -143,7 +144,7 @@ describe("EventHub Receiver", function(): void {
       const uid = uuid();
       const ed: EventData = {
         body: "New message after last enqueued offset",
-        applicationProperties: {
+        properties: {
           stamp: uid
         }
       };
@@ -153,7 +154,7 @@ describe("EventHub Receiver", function(): void {
       const uid2 = uuid();
       const ed2: EventData = {
         body: "New message after last enqueued offset",
-        applicationProperties: {
+        properties: {
           stamp: uid2
         }
       };
@@ -167,8 +168,8 @@ describe("EventHub Receiver", function(): void {
       const data = await breceiver.receive(10, 30);
       debug("received messages: ", data);
       data.length.should.equal(2, "Failed to receive the two expected messages");
-      data[0].applicationProperties!.stamp.should.equal(uid, "First message has unexpected uid");
-      data[1].applicationProperties!.stamp.should.equal(uid2, "Second message has unexpected uid");
+      data[0].properties!.stamp.should.equal(uid, "First message has unexpected uid");
+      data[1].properties!.stamp.should.equal(uid2, "Second message has unexpected uid");
       debug("Next receive on this partition should not receive any messages.");
       const data2 = await breceiver.receive(10, 10);
       data2.length.should.equal(0, "Unexpected message received");
@@ -188,7 +189,7 @@ describe("EventHub Receiver", function(): void {
       const uid = uuid();
       const ed: EventData = {
         body: "New message after last enqueued time " + pInfo.lastEnqueuedTimeUtc,
-        applicationProperties: {
+        properties: {
           stamp: uid
         }
       };
@@ -197,7 +198,7 @@ describe("EventHub Receiver", function(): void {
       const data = await breceiver.receive(10, 20);
       debug("received messages: ", data);
       data.length.should.equal(1, "Failed to received the expected single message");
-      data[0].applicationProperties!.stamp.should.equal(uid);
+      data[0].properties!.stamp.should.equal(uid);
       debug("Next receive on this partition should not receive any messages.");
       const data2 = await breceiver.receive(10, 10);
       data2.length.should.equal(0, "Unexpected message received");
@@ -209,8 +210,8 @@ describe("EventHub Receiver", function(): void {
       // send a new message. We should only receive this new message.
       const uid = uuid();
       const ed: EventData = {
-        body: "New message after last enqueued sequence number " + pInfo.lastSequenceNumber,
-        applicationProperties: {
+        body: "New message after last enqueued sequence number " + pInfo.lastEnqueuedSequenceNumber,
+        properties: {
           stamp: uid
         }
       };
@@ -218,14 +219,14 @@ describe("EventHub Receiver", function(): void {
       debug(
         "Sent the new message after getting the partition runtime information. We should only receive this message."
       );
-      debug(`Creating new receiver with last enqueued sequence number: "${pInfo.lastSequenceNumber}".`);
+      debug(`Creating new receiver with last enqueued sequence number: "${pInfo.lastEnqueuedSequenceNumber}".`);
       breceiver = BatchingReceiver.create((client as any)._context, partitionId, {
-        eventPosition: EventPosition.fromSequenceNumber(pInfo.lastSequenceNumber)
+        eventPosition: EventPosition.fromSequenceNumber(pInfo.lastEnqueuedSequenceNumber)
       });
       const data = await breceiver.receive(10, 20);
       debug("received messages: ", data);
       data.length.should.equal(1, "Failed to receive the expected single message");
-      data[0].applicationProperties!.stamp.should.equal(uid, "Received message has unexpected uid");
+      data[0].properties!.stamp.should.equal(uid, "Received message has unexpected uid");
       debug("Next receive on this partition should not receive any messages.");
       const data2 = await breceiver.receive(10, 10);
       data2.length.should.equal(0, "Unexpected message received");
@@ -238,7 +239,7 @@ describe("EventHub Receiver", function(): void {
       const uid = uuid();
       const ed: EventData = {
         body: "New message before getting the last sequence number",
-        applicationProperties: {
+        properties: {
           stamp: uid
         }
       };
@@ -248,22 +249,22 @@ describe("EventHub Receiver", function(): void {
       const uid2 = uuid();
       const ed2: EventData = {
         body: "New message after the last enqueued offset",
-        applicationProperties: {
+        properties: {
           stamp: uid2
         }
       };
       await client.send([ed2], partitionId);
       debug(`Sent message 2 with stamp: ${uid}.`);
-      debug(`Creating new receiver with last sequence number: "${pInfo.lastSequenceNumber}".`);
+      debug(`Creating new receiver with last sequence number: "${pInfo.lastEnqueuedSequenceNumber}".`);
       breceiver = BatchingReceiver.create((client as any)._context, partitionId, {
-        eventPosition: EventPosition.fromSequenceNumber(pInfo.lastSequenceNumber, true)
+        eventPosition: EventPosition.fromSequenceNumber(pInfo.lastEnqueuedSequenceNumber, true)
       });
       debug("We should receive the last 2 messages.");
       const data = await breceiver.receive(10, 30);
       debug("received messages: ", data);
       data.length.should.equal(2, "Failed to received two expected messages");
-      data[0].applicationProperties!.stamp.should.equal(uid, "Message 1 has unexpected uid");
-      data[1].applicationProperties!.stamp.should.equal(uid2, "Message 2 has unexpected uid");
+      data[0].properties!.stamp.should.equal(uid, "Message 1 has unexpected uid");
+      data[1].properties!.stamp.should.equal(uid2, "Message 2 has unexpected uid");
       debug("Next receive on this partition should not receive any messages.");
       const data2 = await breceiver.receive(10, 10);
       data2.length.should.equal(0, "Unexpected message received");

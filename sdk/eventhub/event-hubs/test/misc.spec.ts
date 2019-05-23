@@ -9,7 +9,7 @@ import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 import debugModule from "debug";
 const debug = debugModule("azure:event-hubs:misc-spec");
-import { EventPosition, EventHubClient, EventData, EventHubRuntimeInformation } from "../src";
+import { EventPosition, EventHubClient, EventData, HubInformation } from "../src";
 import { BatchingReceiver } from "../src/batchingReceiver";
 import dotenv from "dotenv";
 dotenv.config();
@@ -18,7 +18,7 @@ describe("Misc tests", function(): void {
   const service = { connectionString: process.env.EVENTHUB_CONNECTION_STRING, path: process.env.EVENTHUB_NAME };
   const client: EventHubClient = EventHubClient.createFromConnectionString(service.connectionString!, service.path);
   let breceiver: BatchingReceiver;
-  let hubInfo: EventHubRuntimeInformation;
+  let hubInfo: HubInformation;
   before("validate environment", async function(): Promise<void> {
     should.exist(
       process.env.EVENTHUB_CONNECTION_STRING,
@@ -28,7 +28,7 @@ describe("Misc tests", function(): void {
       process.env.EVENTHUB_NAME,
       "define EVENTHUB_NAME in your environment before running integration tests."
     );
-    hubInfo = await client.getHubRuntimeInformation();
+    hubInfo = await client.getHubInformation();
   });
 
   after("close the connection", async function(): Promise<void> {
@@ -58,7 +58,6 @@ describe("Misc tests", function(): void {
     should.exist(data);
     data.length.should.equal(1);
     data[0].body.toString().should.equal(msgString);
-    should.not.exist((data[0].properties || {}).message_id);
   });
 
   it("should be able to send and receive a JSON object as a message correctly", async function(): Promise<void> {
@@ -91,7 +90,6 @@ describe("Misc tests", function(): void {
     data.length.should.equal(1);
     debug("Received message: %O", data);
     assert.deepEqual(data[0].body, msgBody);
-    should.not.exist((data[0].properties || {}).message_id);
   });
 
   it("should be able to send and receive an array as a message correctly", async function(): Promise<void> {
@@ -144,7 +142,6 @@ describe("Misc tests", function(): void {
     data.length.should.equal(1);
     debug("Received message: %O", data);
     assert.deepEqual(data[0].body, msgBody);
-    should.not.exist((data[0].properties || {}).message_id);
   });
 
   it("should be able to send and receive batched messages correctly", async function(): Promise<void> {
@@ -163,8 +160,6 @@ describe("Misc tests", function(): void {
         const obj: EventData = { body: `Hello EH ${i}` };
         d.push(obj);
       }
-      d[0].partitionKey = "pk1234656";
-
       await client.send(d, partitionId);
       debug("Successfully sent 5 messages batched together.");
       data = await breceiver.receive(5, 30);
@@ -172,9 +167,6 @@ describe("Misc tests", function(): void {
       debug("received message: ", data);
       should.exist(data);
       data.length.should.equal(5);
-      for (const message of data) {
-        should.not.exist((message.properties || {}).message_id);
-      }
     } catch (err) {
       debug("should not have happened, uber catch....", err);
       throw err;
@@ -214,8 +206,6 @@ describe("Misc tests", function(): void {
         };
         d.push(obj);
       }
-      d[0].partitionKey = "pk1234656";
-
       await client.send(d, partitionId);
       debug("Successfully sent 5 messages batched together.");
       data = await breceiver.receive(5, 30);
@@ -249,7 +239,7 @@ describe("Misc tests", function(): void {
     }
     for (let i = 0; i < msgToSendCount; i++) {
       const partitionKey = getRandomInt(10);
-      await client.send([{ body: "Hello EventHub " + i, partitionKey: partitionKey.toString() }]);
+      await client.send([{ body: "Hello EventHub " + i}], {batchLabel: partitionKey.toString()});
     }
     debug("Starting to receive all messages from each partition.");
     const partitionMap: any = {};
@@ -260,7 +250,6 @@ describe("Misc tests", function(): void {
       });
       debug(`Received ${data.length} messages from partition ${id}.`);
       for (const d of data) {
-        debug(">>>> _raw_amqp_mesage: ", d._raw_amqp_mesage);
         const pk = d.partitionKey as string;
         debug("pk: ", pk);
         if (partitionMap[pk] && partitionMap[pk] !== id) {

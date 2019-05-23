@@ -40,10 +40,9 @@ describe("RuntimeInformation", function(): void {
     client = EventHubClient.createFromConnectionString(service.connectionString!, service.path, {
       userAgent: "/js-event-processor-host=0.2.0"
     });
-    const hubRuntimeInfo = await client.getHubRuntimeInformation();
+    const hubRuntimeInfo = await client.getHubInformation();
     debug(hubRuntimeInfo);
     hubRuntimeInfo.path.should.equal(service.path);
-    hubRuntimeInfo.type.should.equal("com.microsoft:eventhub");
     hubRuntimeInfo.partitionIds.should.have.members(
       arrayOfIncreasingNumbersFromZero(hubRuntimeInfo.partitionIds.length)
     );
@@ -56,22 +55,20 @@ describe("RuntimeInformation", function(): void {
     const partitionRuntimeInfo = await client.getPartitionInformation("0");
     debug(partitionRuntimeInfo);
     partitionRuntimeInfo.partitionId.should.equal("0");
-    partitionRuntimeInfo.type.should.equal("com.microsoft:partition");
     partitionRuntimeInfo.hubPath.should.equal(service.path);
     partitionRuntimeInfo.lastEnqueuedTimeUtc.should.be.instanceof(Date);
-    should.exist(partitionRuntimeInfo.lastSequenceNumber);
+    should.exist(partitionRuntimeInfo.lastEnqueuedSequenceNumber);
     should.exist(partitionRuntimeInfo.lastEnqueuedOffset);
   });
 
   it("gets the partition runtime information with partitionId as a number", async function(): Promise<void> {
     client = EventHubClient.createFromConnectionString(service.connectionString!, service.path);
-    const partitionRuntimeInfo = await client.getPartitionInformation(0);
+    const partitionRuntimeInfo = await client.getPartitionInformation(0 as any);
     debug(partitionRuntimeInfo);
     partitionRuntimeInfo.partitionId.should.equal("0");
-    partitionRuntimeInfo.type.should.equal("com.microsoft:partition");
     partitionRuntimeInfo.hubPath.should.equal(service.path);
     partitionRuntimeInfo.lastEnqueuedTimeUtc.should.be.instanceof(Date);
-    should.exist(partitionRuntimeInfo.lastSequenceNumber);
+    should.exist(partitionRuntimeInfo.lastEnqueuedSequenceNumber);
     should.exist(partitionRuntimeInfo.lastEnqueuedOffset);
   });
 
@@ -100,7 +97,7 @@ describe("RuntimeInformation", function(): void {
   > {
     client = EventHubClient.createFromConnectionString(service.connectionString!, service.path);
     try {
-      await client.getPartitionInformation(-1);
+      await client.getPartitionInformation(-1 as any);
     } catch (err) {
       err.message.should.match(/.*The specified partition is invalid for an EventHub partition sender or receiver.*/gi);
     }

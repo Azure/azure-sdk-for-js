@@ -30,10 +30,9 @@ describe("EventHub Client with iothub connection string", function(): void {
 
   it("should be able to get hub runtime info", async function(): Promise<void> {
     client = await EventHubClient.createFromIotHubConnectionString(service.connectionString!);
-    const runtimeInfo = await client.getHubRuntimeInformation();
+    const runtimeInfo = await client.getHubInformation();
     debug(">>> RuntimeInfo: ", runtimeInfo);
     should.exist(runtimeInfo);
-    runtimeInfo.type.should.equal("com.microsoft:eventhub");
     runtimeInfo.partitionCount.should.be.greaterThan(0);
     runtimeInfo.partitionIds.length.should.be.greaterThan(0);
   });

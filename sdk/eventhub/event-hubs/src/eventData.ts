@@ -71,7 +71,7 @@ export interface EventHubMessageAnnotations extends MessageAnnotations {
  * Describes the structure of an event to be sent or received from the EventHub.
  * @interface EventData
  */
-export interface EventData {
+export interface EventDataInternal {
   /**
    * @property {MessageHeader} [header] - The message headers.
    */
@@ -135,13 +135,13 @@ export interface EventData {
  * Describes the methods on the EventData interface.
  * @module EventData
  */
-export namespace EventData {
+export namespace EventDataInternal {
   /**
    * Converts the AMQP message to an EventData.
    * @param {AmqpMessage} msg The AMQP message that needs to be converted to EventData.
    */
-  export function fromAmqpMessage(msg: Message): EventData {
-    const data: EventData = {
+  export function fromAmqpMessage(msg: Message): EventDataInternal {
+    const data: EventDataInternal = {
       body: msg.body,
       _raw_amqp_mesage: msg
     };
@@ -192,9 +192,9 @@ export namespace EventData {
 
   /**
    * Converts an EventData object to an AMQP message.
-   * @param {EventData} data The EventData object that needs to be converted to an AMQP message.
+   * @param {EventDataInternal} data The EventData object that needs to be converted to an AMQP message.
    */
-  export function toAmqpMessage(data: EventData): Message {
+  export function toAmqpMessage(data: EventDataInternal): Message {
     const msg: Message = {
       body: data.body
     };
@@ -252,4 +252,49 @@ export namespace EventData {
 
     return msg;
   }
+}
+
+/**
+ * Describes the structure of an event to be sent to Event Hub
+ */
+export interface EventData {
+  /**
+   * @property {any} body - The message body that needs to be sent or is received.
+   */
+  body: any;
+  /**
+   * @property {Dictionary<any>} [applicationProperties] The application specific properties.
+   */
+  properties?: { [key: string]: any };
+}
+
+/**
+ * Describes the structure of an event received from Event Hub.
+ */
+export interface ReceivedEventData {
+  /**
+   * @property {any} body - The message body that needs to be sent or is received.
+   */
+  body: any;
+  /**
+   * @property {Dictionary<any>} [applicationProperties] The application specific properties.
+   */
+  properties?: { [key: string]: any };
+  /**
+   * @property {Date} [enqueuedTimeUtc] The enqueued time of the event.
+   */
+  enqueuedTimeUtc?: Date;
+  /**
+   * @property {string | null} [partitionKey] If specified EventHub will hash this to a partitionId.
+   * It guarantees that messages end up in a specific partition on the event hub.
+   */
+  partitionKey?: string | null;
+  /**
+   * @property {string} [offset] The offset of the event.
+   */
+  offset?: string;
+  /**
+   * @property {number} [sequenceNumber] The sequence number of the event.
+   */
+  sequenceNumber?: number;
 }

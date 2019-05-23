@@ -25,7 +25,7 @@ import {
   Constants,
   randomNumberFromInterval
 } from "@azure/amqp-common";
-import { EventData } from "./eventData";
+import { EventData, EventDataInternal } from "./eventData";
 import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";
 import { BatchingOptions } from "./eventHubClient";
@@ -347,7 +347,7 @@ export class EventHubSender extends LinkEntity {
       const messages: AmqpMessage[] = [];
       // Convert EventData to AmqpMessage.
       for (let i = 0; i < data.length; i++) {
-        const message = EventData.toAmqpMessage(data[i]);
+        const message = EventDataInternal.toAmqpMessage(data[i]);
         message.body = this._context.dataTransformer.encode(data[i].body);
         messages[i] = message;
       }
@@ -422,6 +422,9 @@ export class EventHubSender extends LinkEntity {
    * @return {Promise<void>} Promise<void>
    */
   private _trySend(message: AmqpMessage | Buffer, tag: any, options?: BatchingOptions, format?: number): Promise<void> {
+    if (!options) {
+      options = {};
+    }
     const sendEventPromise = () =>
       new Promise<void>((resolve, reject) => {
         let waitTimer: any;
@@ -521,8 +524,8 @@ export class EventHubSender extends LinkEntity {
           this._sender!.on(SenderEvents.released, onReleased);
           waitTimer = setTimeout(
             actionAfterTimeout,
-            (options && options.idleTimeoutInSeconds && options.idleTimeoutInSeconds > 0
-              ? options.idleTimeoutInSeconds
+            (options && options.timeoutInSeconds && options.timeoutInSeconds > 0
+              ? options.timeoutInSeconds
               : Constants.defaultOperationTimeoutInSeconds) * 1000
           );
           const delivery = this._sender!.send(message, tag, format);
@@ -549,12 +552,12 @@ export class EventHubSender extends LinkEntity {
 
     const jitterInSeconds = randomNumberFromInterval(1, 4);
     const times =
-      options && options.retryAttempts && options.retryAttempts > 0
-        ? options.retryAttempts
+      options.retryOptions && options.retryOptions.retryCount && options.retryOptions.retryCount > 0
+        ? options.retryOptions.retryCount
         : Constants.defaultRetryAttempts;
     const delayInSeconds =
-      options && options.delayBetweenRetriesInSeconds && options.delayBetweenRetriesInSeconds > 0
-        ? options.delayBetweenRetriesInSeconds
+      options.retryOptions && options.retryOptions.delayBetweenRetriesInSeconds && options.retryOptions.delayBetweenRetriesInSeconds > 0
+        ? options.retryOptions.delayBetweenRetriesInSeconds
         : Constants.defaultDelayBetweenOperationRetriesInSeconds;
     const config: RetryConfig<void> = {
       operation: sendEventPromise,

@@ -3,7 +3,7 @@
 
 import { ReceiverEvents, EventContext, OnAmqpEvent, SessionEvents } from "rhea-promise";
 import { translate, Func, Constants, MessagingError } from "@azure/amqp-common";
-import { EventData } from "./eventData";
+import { ReceivedEventData, EventDataInternal } from "./eventData";
 import { ReceiveOptions } from "./eventHubClient";
 import { EventHubReceiver } from "./eventHubReceiver";
 import { ConnectionContext } from "./connectionContext";
@@ -38,7 +38,7 @@ export class BatchingReceiver extends EventHubReceiver {
    * should wait to receiver the said amount of messages. If not provided, it defaults to 60 seconds.
    * @returns {Promise<EventData[]>} A promise that resolves with an array of EventData objects.
    */
-  receive(maxMessageCount: number, maxWaitTimeInSeconds?: number): Promise<EventData[]> {
+  receive(maxMessageCount: number, maxWaitTimeInSeconds?: number): Promise<ReceivedEventData[]> {
     if (!maxMessageCount || (maxMessageCount && typeof maxMessageCount !== "number")) {
       throw new Error("'maxMessageCount' is a required parameter of type number with a value greater than 0.");
     }
@@ -47,9 +47,9 @@ export class BatchingReceiver extends EventHubReceiver {
       maxWaitTimeInSeconds = Constants.defaultOperationTimeoutInSeconds;
     }
 
-    const eventDatas: EventData[] = [];
+    const eventDatas: ReceivedEventData[] = [];
     let timeOver = false;
-    return new Promise<EventData[]>((resolve, reject) => {
+    return new Promise<ReceivedEventData[]>((resolve, reject) => {
       let onReceiveMessage: OnAmqpEvent;
       let onReceiveError: OnAmqpEvent;
       let onReceiveClose: OnAmqpEvent;
@@ -58,23 +58,14 @@ export class BatchingReceiver extends EventHubReceiver {
       let waitTimer: any;
       let actionAfterWaitTimeout: Func<void, void>;
       // Final action to be performed after maxMessageCount is reached or the maxWaitTime is over.
-      const finalAction = (timeOver: boolean, data?: EventData) => {
+      const finalAction = (timeOver: boolean) => {
         // Resetting the mode. Now anyone can call start() or receive() again.
         if (this._receiver) {
           this._receiver.removeListener(ReceiverEvents.receiverError, onReceiveError);
           this._receiver.removeListener(ReceiverEvents.message, onReceiveMessage);
         }
-        if (!data) {
-          data = eventDatas.length ? eventDatas[eventDatas.length - 1] : undefined;
-        }
         if (!timeOver) {
           clearTimeout(waitTimer);
-        }
-        if (this.receiverRuntimeMetricEnabled && data) {
-          this.runtimeInfo.lastSequenceNumber = data.lastSequenceNumber;
-          this.runtimeInfo.lastEnqueuedTimeUtc = data.lastEnqueuedTime;
-          this.runtimeInfo.lastEnqueuedOffset = data.lastEnqueuedOffset;
-          this.runtimeInfo.retrievalTime = data.retrievalTime;
         }
         resolve(eventDatas);
       };
@@ -94,10 +85,17 @@ export class BatchingReceiver extends EventHubReceiver {
 
       // Action to be performed on the "message" event.
       onReceiveMessage = (context: EventContext) => {
-        const data: EventData = EventData.fromAmqpMessage(context.message!);
-        data.body = this._context.dataTransformer.decode(context.message!.body);
+        const data: EventDataInternal = EventDataInternal.fromAmqpMessage(context.message!);
+        const receivedEventData: ReceivedEventData = {
+          body: this._context.dataTransformer.decode(context.message!.body),
+          properties: data.applicationProperties,
+          offset: data.offset,
+          sequenceNumber: data.sequenceNumber,
+          enqueuedTimeUtc: data.enqueuedTimeUtc,
+          partitionKey: data.partitionKey
+        };
         if (eventDatas.length <= maxMessageCount) {
-          eventDatas.push(data);
+          eventDatas.push(receivedEventData);
         }
         if (eventDatas.length === maxMessageCount) {
           log.batching(
@@ -107,7 +105,7 @@ export class BatchingReceiver extends EventHubReceiver {
             eventDatas.length,
             maxWaitTimeInSeconds
           );
-          finalAction(timeOver, data);
+          finalAction(timeOver);
         }
       };
 

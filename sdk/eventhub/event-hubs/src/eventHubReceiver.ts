@@ -5,7 +5,7 @@ import uuid from "uuid/v4";
 import * as log from "./log";
 import { Receiver, OnAmqpEvent, EventContext, ReceiverOptions, types, AmqpError, isAmqpError } from "rhea-promise";
 import { translate, Constants, MessagingError, retry, RetryOperationType, RetryConfig } from "@azure/amqp-common";
-import { EventData } from "./eventData";
+import { EventDataInternal, ReceivedEventData } from "./eventData";
 import { ReceiveOptions } from "./eventHubClient";
 import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";
@@ -70,7 +70,7 @@ export interface CheckpointData {
 /**
  * Describes the message handler signature.
  */
-export type OnMessage = (eventData: EventData) => void;
+export type OnMessage = (eventData: ReceivedEventData) => void;
 
 /**
  * Describes the error handler signature.
@@ -196,7 +196,7 @@ export class EventHubReceiver extends LinkEntity {
       sequenceNumber: -1
     };
     this._onAmqpMessage = (context: EventContext) => {
-      const evData = EventData.fromAmqpMessage(context.message!);
+      const evData = EventDataInternal.fromAmqpMessage(context.message!);
       evData.body = this._context.dataTransformer.decode(context.message!.body);
       this._checkpoint = {
         enqueuedTimeUtc: evData.enqueuedTimeUtc!,

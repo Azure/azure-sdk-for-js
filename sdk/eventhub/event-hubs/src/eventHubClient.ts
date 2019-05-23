@@ -19,9 +19,9 @@ import {
   ConnectionConfig
 } from "@azure/amqp-common";
 import { OnMessage, OnError } from "./eventHubReceiver";
-import { EventData } from "./eventData";
+import { EventData, ReceivedEventData } from "./eventData";
 import { ConnectionContext } from "./connectionContext";
-import { EventHubPartitionRuntimeInformation, EventHubRuntimeInformation } from "./managementClient";
+import { PartitionInformation, HubInformation } from "./managementClient";
 import { EventPosition } from "./eventPosition";
 import { EventHubSender } from "./eventHubSender";
 import { StreamingReceiver, ReceiveHandler } from "./streamingReceiver";
@@ -56,21 +56,31 @@ export enum LogLevel {
 }
 
 /**
- * Options that can be passed to each operation on the EventHubsClient
+ * Retry policy options for operations on the EventHubClient
  */
-export interface RequestOptions {
+export interface RetryOptions {
   /**
    * Number of times to attempt an operation on failure
    */
-  retryAttempts?: number;
+  retryCount?: number;
   /**
    * Number of seconds to wait between retries
    */
   delayBetweenRetriesInSeconds?: number;
+}
+
+/**
+ * Options that can be passed to each operation on the EventHubsClient
+ */
+export interface RequestOptions {
+  /**
+   * Retry policy options for operations on the EventHubClient
+   */
+  retryOptions?: RetryOptions;
   /**
    * Number of seconds to wait before declaring an opetration to have timed out
    */
-  idleTimeoutInSeconds?: number;
+  timeoutInSeconds?: number;
   /**
    * The cancellation token used to cancel the current request
    */
@@ -175,15 +185,10 @@ export interface ClientOptions {
  */
 export class EventHubClient {
   /**
-   * @property {string} [connectionId] The amqp connection id that uniquely identifies the connection within a process.
-   */
-  connectionId?: string;
-
-  /**
    * @property {string} eventhubName The name of the Eventhub.
    * @readonly
    */
-  get eventhubName(): string {
+  get hubPath(): string {
     return this._context.config.entityPath!;
   }
 
@@ -311,7 +316,7 @@ export class EventHubClient {
    *
    * @return Promise<void>
    */
-  async send(data: EventData[], partitionId?: string | number): Promise<void>;
+  async send(data: EventData[], partitionId?: string): Promise<void>;
   /**
    * Send a batch of EventData to the EventHub using the options provided.
    *
@@ -322,8 +327,8 @@ export class EventHubClient {
    * @return {Promise<void>} Promise<void>
    */
   async send(data: EventData[], options?: BatchingOptions): Promise<void>;
-  async send(data: EventData[], partitionIdOrOptions?: string | number | BatchingOptions): Promise<void> {
-    let partitionId: string | number | undefined;
+  async send(data: EventData[], partitionIdOrOptions?: string | BatchingOptions): Promise<void> {
+    let partitionId: string | undefined;
     let batchingOptions: BatchingOptions = {};
     if (typeof partitionIdOrOptions === "string" || typeof partitionIdOrOptions === "number") {
       partitionId = partitionIdOrOptions;
@@ -348,7 +353,7 @@ export class EventHubClient {
    * @returns {ReceiveHandler} ReceiveHandler - An object that provides a mechanism to stop receiving more messages.
    */
   receive(
-    partitionId: string | number,
+    partitionId: string,
     onMessage: OnMessage,
     onError: OnError,
     options?: ReceiveOptions
@@ -374,18 +379,18 @@ export class EventHubClient {
    * @returns {Promise<Array<EventData>>} Promise<Array<EventData>>.
    */
   async receiveBatch(
-    partitionId: string | number,
+    partitionId: string,
     maxMessageCount: number,
     maxWaitTimeInSeconds?: number,
     options?: ReceiveOptions
-  ): Promise<EventData[]> {
+  ): Promise<ReceivedEventData[]> {
     if (typeof partitionId !== "string" && typeof partitionId !== "number") {
       throw new Error("'partitionId' is a required parameter and must be of type: 'string' | 'number'.");
     }
     const bReceiver = BatchingReceiver.create(this._context, partitionId, options);
     this._context.receivers[bReceiver.name] = bReceiver;
     let error: MessagingError | undefined;
-    let result: EventData[] = [];
+    let result: ReceivedEventData[] = [];
     try {
       result = await bReceiver.receive(maxMessageCount, maxWaitTimeInSeconds);
     } catch (err) {
@@ -412,9 +417,9 @@ export class EventHubClient {
 
   /**
    * Provides the eventhub runtime information.
-   * @returns {Promise<EventHubRuntimeInformation>} A promise that resolves with EventHubRuntimeInformation.
+   * @returns {Promise<HubInformation>} A promise that resolves with HubInformation.
    */
-  async getHubRuntimeInformation(options?: RequestOptions): Promise<EventHubRuntimeInformation> {
+  async getHubInformation(options?: RequestOptions): Promise<HubInformation> {
     try {
       return await this._context.managementSession!.getHubRuntimeInformation(options);
     } catch (err) {
@@ -429,7 +434,7 @@ export class EventHubClient {
    */
   async getPartitionIds(options?: RequestOptions): Promise<Array<string>> {
     try {
-      const runtimeInfo = await this.getHubRuntimeInformation(options);
+      const runtimeInfo = await this.getHubInformation(options);
       return runtimeInfo.partitionIds;
     } catch (err) {
       log.error("An error occurred while getting the partition ids: %O", err);
@@ -440,12 +445,12 @@ export class EventHubClient {
   /**
    * Provides information about the specified partition.
    * @param {(string|number)} partitionId Partition ID for which partition information is required.
-   * @returns {Promise<EventHubPartitionRuntimeInformation>} A promise that resoloves with EventHubPartitionRuntimeInformation.
+   * @returns {Promise<PartitionInformation>} A promise that resoloves with EventHubPartitionRuntimeInformation.
    */
   async getPartitionInformation(
-    partitionId: string | number,
+    partitionId: string,
     options?: RequestOptions
-  ): Promise<EventHubPartitionRuntimeInformation> {
+  ): Promise<PartitionInformation> {
     if (typeof partitionId !== "string" && typeof partitionId !== "number") {
       throw new Error("'partitionId' is a required parameter and must be of type: 'string' | 'number'.");
     }
@@ -460,15 +465,15 @@ export class EventHubClient {
   /**
    * Creates an EventHub Client from connection string.
    * @param {string} connectionString - Connection string of the form 'Endpoint=sb://my-servicebus-namespace.servicebus.windows.net/;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key'
-   * @param {string} [path] - EventHub path of the form 'my-event-hub-name'
+   * @param {string} [entityPath] - EventHub path of the form 'my-event-hub-name'
    * @param {ClientOptions} [options] Options that can be provided during client creation.
    * @returns {EventHubClient} - An instance of the eventhub client.
    */
-  static createFromConnectionString(connectionString: string, path?: string, options?: ClientOptions): EventHubClient {
+  static createFromConnectionString(connectionString: string, entityPath?: string, options?: ClientOptions): EventHubClient {
     if (!connectionString || (connectionString && typeof connectionString !== "string")) {
       throw new Error("'connectionString' is a required parameter and must be of type: 'string'.");
     }
-    const config = ConnectionConfig.create(connectionString, path);
+    const config = ConnectionConfig.create(connectionString, entityPath);
     if (!config.entityPath) {
       throw new TypeError(
         `Either provide "path" or the "connectionString": "${connectionString}", ` +
