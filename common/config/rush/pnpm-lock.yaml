@@ -128,7 +128,7 @@ dependencies:
   tslib: 1.9.3
   tslint: 5.16.0
   tslint-config-prettier: 1.18.0
-  typedoc: 0.13.0
+  typedoc: 0.14.2
   typescript: 3.4.1
   uglify-js: 3.5.15
   url: 0.11.0
@@ -7549,29 +7549,6 @@ packages:
       typescript: '>=2.1.0 || >=2.1.0-dev || >=2.2.0-dev || >=2.3.0-dev || >=2.4.0-dev || >=2.5.0-dev || >=2.6.0-dev || >=2.7.0-dev || >=2.8.0-dev || >=2.9.0-dev || >=3.0.0-dev || >= 3.1.0-dev || >= 3.2.0-dev'
     resolution:
       integrity: sha512-UxG2yNxJ5pgGwmMzPMYh/CCnCnh0HfPgtlVRDs1ykZklufFBL1ZoTlWFRz2NQjcoEiDoRp+JyT0lhBbbH/obyA==
-  /tslint/5.16.0_typescript@3.4.5:
-    dependencies:
-      '@babel/code-frame': 7.0.0
-      builtin-modules: 1.1.1
-      chalk: 2.4.2
-      commander: 2.20.0
-      diff: 3.5.0
-      glob: 7.1.4
-      js-yaml: 3.13.1
-      minimatch: 3.0.4
-      mkdirp: 0.5.1
-      resolve: 1.11.0
-      semver: 5.7.0
-      tslib: 1.9.3
-      tsutils: 2.29.0_typescript@3.4.5
-    dev: false
-    engines:
-      node: '>=4.8.0'
-    hasBin: true
-    peerDependencies:
-      typescript: '>=2.1.0 || >=2.1.0-dev || >=2.2.0-dev || >=2.3.0-dev || >=2.4.0-dev || >=2.5.0-dev || >=2.6.0-dev || >=2.7.0-dev || >=2.8.0-dev || >=2.9.0-dev || >=3.0.0-dev || >= 3.1.0-dev || >= 3.2.0-dev'
-    resolution:
-      integrity: sha512-UxG2yNxJ5pgGwmMzPMYh/CCnCnh0HfPgtlVRDs1ykZklufFBL1ZoTlWFRz2NQjcoEiDoRp+JyT0lhBbbH/obyA==
   /tsutils/2.29.0:
     dependencies:
       tslib: 1.9.3
@@ -7584,15 +7561,6 @@ packages:
     dependencies:
       tslib: 1.9.3
       typescript: 3.4.1
-    dev: false
-    peerDependencies:
-      typescript: '>=2.1.0 || >=2.1.0-dev || >=2.2.0-dev || >=2.3.0-dev || >=2.4.0-dev || >=2.5.0-dev || >=2.6.0-dev || >=2.7.0-dev || >=2.8.0-dev || >=2.9.0-dev || >= 3.0.0-dev || >= 3.1.0-dev'
-    resolution:
-      integrity: sha512-g5JVHCIJwzfISaXpXE1qvNalca5Jwob6FjI4AoPlqMusJ6ftFE7IkkFoMhVLRgK+4Kx3gkzb8UZK5t5yTTvEmA==
-  /tsutils/2.29.0_typescript@3.4.5:
-    dependencies:
-      tslib: 1.9.3
-      typescript: 3.4.5
     dev: false
     peerDependencies:
       typescript: '>=2.1.0 || >=2.1.0-dev || >=2.2.0-dev || >=2.3.0-dev || >=2.4.0-dev || >=2.5.0-dev || >=2.6.0-dev || >=2.7.0-dev || >=2.8.0-dev || >=2.9.0-dev || >= 3.0.0-dev || >= 3.1.0-dev'
@@ -7678,7 +7646,7 @@ packages:
       node: '>= 4'
     resolution:
       integrity: sha1-bcJDPnjti+qOiHo6zeLzF4W9Yic=
-  /typedoc/0.13.0:
+  /typedoc/0.14.2:
     dependencies:
       '@types/fs-extra': 5.1.0
       '@types/handlebars': 4.1.0
@@ -7696,24 +7664,24 @@ packages:
       progress: 2.0.3
       shelljs: 0.8.3
       typedoc-default-themes: 0.5.0
-      typescript: 3.1.6
+      typescript: 3.2.4
     dev: false
     engines:
       node: '>= 6.0.0'
     hasBin: true
     resolution:
-      integrity: sha512-jQWtvPcV+0fiLZAXFEe70v5gqjDO6pJYJz4mlTtmGJeW2KRoIU/BEfktma6Uj8Xii7UakuZjbxFewl3UYOkU/w==
+      integrity: sha512-aEbgJXV8/KqaVhcedT7xG6d2r+mOvB5ep3eIz1KuB5sc4fDYXcepEEMdU7XSqLFO5hVPu0nllHi1QxX2h/QlpQ==
   /typeface-oswald/0.0.54:
     dev: false
     resolution:
       integrity: sha512-U1WMNp4qfy4/3khIfHMVAIKnNu941MXUfs3+H9R8PFgnoz42Hh9pboSFztWr86zut0eXC8byalmVhfkiKON/8Q==
-  /typescript/3.1.6:
+  /typescript/3.2.4:
     dev: false
     engines:
       node: '>=4.2.0'
     hasBin: true
     resolution:
-      integrity: sha512-tDMYfVtvpb96msS1lDX9MEdHrW4yOuZ4Kdc4Him9oU796XldPYF/t2+uKoX0BBa0hXXwDlqYQbXY5Rzjzc5hBA==
+      integrity: sha512-0RNDbSdEokBeEAkgNbxJ+BLwSManFy9TeXz8uW+48j/xhEXv1ePME60olyzw2XzUqUBNAYFeJadIqAgNqIACwg==
   /typescript/3.4.1:
     dev: false
     engines:
@@ -8475,14 +8443,14 @@ packages:
       tslint: 5.16.0_typescript@3.4.1
       tslint-config-prettier: 1.18.0
       tunnel: 0.0.5
-      typedoc: 0.13.0
+      typedoc: 0.14.2
       typescript: 3.4.1
       webpack: 4.31.0
       webpack-cli: 3.3.2_webpack@4.31.0
     dev: false
     name: '@rush-temp/cosmos'
     resolution:
-      integrity: sha512-JghD7vF2ylYDsJuFPLcP50o5CJm6cDI8CmceuU5GBtqjtxI2CjtORYWujvp8Y4DOE1U6xRKZPzrkVK2M6IfRIA==
+      integrity: sha512-jz/s3kPHlhxqydobDJjDwWXNZlfLfIaKPeNVXud5SMYl2lVmPN50/0XmtJ+vFwRI1QsyRX73fB7akuQ68BEO3w==
       tarball: 'file:projects/cosmos.tgz'
     version: 0.0.0
   'file:projects/event-hubs.tgz':
@@ -8671,7 +8639,7 @@ packages:
       rollup-plugin-terser: 4.0.4_rollup@1.12.3
       ts-node: 8.1.0_typescript@3.4.1
       tslib: 1.9.3
-      tslint: 5.16.0_typescript@3.4.5
+      tslint: 5.16.0_typescript@3.4.1
       typescript: 3.4.1
       ws: 6.2.1
     dev: false
@@ -9029,7 +8997,7 @@ specifiers:
   tslib: ^1.9.3
   tslint: ^5.15.0
   tslint-config-prettier: ^1.14.0
-  typedoc: 0.13.0
+  typedoc: 0.14.2
   typescript: 3.4.1
   uglify-js: ^3.4.9
   url: ^0.11.0
