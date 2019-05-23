@@ -346,66 +346,17 @@ export class EventHubClient {
    *
    * @returns {ReceiveHandler} ReceiveHandler - An object that provides a mechanism to stop receiving more messages.
    */
-  receive(partitionId: string, onMessage: OnMessage, onError: OnError, options?: ReceiveOptions): ReceiveHandler;
-  /**
-   * Starts the receiver by establishing an AMQP session and an AMQP receiver link on the session. Messages will be passed to
-   * the provided onMessage handler and error will be passed to the provided onError handler.
-   *
-   * @param {string|number} partitionId                        Partition ID from which to receive.
-   * @param {OnMessage} onMessage                              The message handler to receive event data objects.
-   * @param {OnError} onError                                  The error handler to receive an error that occurs
-   * while receiving messages.
-   * @param {ReceiveOptions} [options]                         Options for how you'd like to receive messages.
-   *
-   * @returns {ReceiveHandler} ReceiveHandler - An object that provides a mechanism to stop receiving more messages.
-   */
-  receive(
-    partitionId: string,
-    onMessage: OnMessage,
-    onError: OnError,
-    maxConcurrentCalls: number,
-    options?: ReceiveOptions
-  ): ReceiveHandler;
-  receive(
-    partitionId: string,
-    onMessage: OnMessage,
-    onError: OnError,
-    maxConcurrentCallsOrOptions?: number | ReceiveOptions,
-    options?: ReceiveOptions
-  ): ReceiveHandler {
+  receive(partitionId: string, onMessage: OnMessage, onError: OnError, options?: ReceiveOptions): ReceiveHandler {
     if (typeof partitionId !== "string" && typeof partitionId !== "number") {
       throw new Error("'partitionId' is a required parameter and must be of type: 'string' | 'number'.");
     }
-    let maxConcurrentCalls = Constants.defaultPrefetchCount;
-    if (typeof maxConcurrentCallsOrOptions === "number") {
-      // TODO: Enable manual credit management in this case
-      maxConcurrentCalls = maxConcurrentCallsOrOptions;
-    } else {
-      options = maxConcurrentCallsOrOptions;
-    }
     const sReceiver = StreamingReceiver.create(this._context, partitionId, options);
-    sReceiver.prefetchCount = maxConcurrentCalls;
+    sReceiver.prefetchCount = Constants.defaultPrefetchCount;
     this._context.receivers[sReceiver.name] = sReceiver;
     return sReceiver.receive(onMessage, onError);
   }
 
-  /**
-   * Receives a batch of EventData objects from an EventHub partition for a given count and a given max wait time in seconds, whichever
-   * happens first. This method can be used directly after creating the receiver object and **MUST NOT** be used along with the `start()` method.
-   *
-   * @param {string|number} partitionId                        Partition ID from which to receive.
-   * @param {number} maxMessageCount                           The maximum message count. Must be a value greater than 0.
-   * @param {number} [maxWaitTimeInSeconds]                    The maximum wait time in seconds for which the Receiver should wait
-   * to receiver the said amount of messages. If not provided, it defaults to 60 seconds.
-   * @param {ReceiveOptions} [options]                         Options for how you'd like to receive messages.
-   *
-   * @returns {Promise<Array<EventData>>} Promise<Array<EventData>>.
-   */
-  async receiveBatch(
-    partitionId: string,
-    maxMessageCount: number,
-    options?: ReceiveOptions
-  ): Promise<ReceivedEventData[]>;
+
   /**
    * Receives a batch of EventData objects from an EventHub partition for a given count and a given max wait time in seconds, whichever
    * happens first. This method can be used directly after creating the receiver object and **MUST NOT** be used along with the `start()` method.
@@ -423,21 +374,9 @@ export class EventHubClient {
     maxMessageCount: number,
     maxWaitTimeInSeconds: number,
     options?: ReceiveOptions
-  ): Promise<ReceivedEventData[]>;
-  async receiveBatch(
-    partitionId: string,
-    maxMessageCount: number,
-    maxWaitTimeInSecondsOrOptions?: number | ReceiveOptions,
-    options?: ReceiveOptions
   ): Promise<ReceivedEventData[]> {
     if (typeof partitionId !== "string" && typeof partitionId !== "number") {
       throw new Error("'partitionId' is a required parameter and must be of type: 'string' | 'number'.");
-    }
-    let maxWaitTimeInSeconds;
-    if (typeof maxWaitTimeInSecondsOrOptions === "number") {
-      maxWaitTimeInSeconds = maxWaitTimeInSecondsOrOptions;
-    } else {
-      options = maxWaitTimeInSecondsOrOptions;
     }
     const bReceiver = BatchingReceiver.create(this._context, partitionId, options);
     this._context.receivers[bReceiver.name] = bReceiver;
@@ -465,6 +404,24 @@ export class EventHubClient {
       throw error;
     }
     return result;
+  }
+
+  /**
+   * Gets an async iterator over events from the receiver.
+   */
+  async *getEventIterator(
+    partitionId: string, 
+    batchSize: number, 
+    maxWaitTimeInSeconds: number,
+    options?: ReceiveOptions
+    ): AsyncIterableIterator<ReceivedEventData[]> {
+    // TODO: Create batching receiver using the options here
+    // Update `receiveBatch` call to use the above receiver
+    // Don't export `receiveBatch` from user
+    while (true) {
+      const currentBatch = await this.receiveBatch(partitionId, batchSize, maxWaitTimeInSeconds, options);
+      yield currentBatch;
+    }
   }
 
   /**

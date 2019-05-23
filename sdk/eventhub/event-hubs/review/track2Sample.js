@@ -18,27 +18,23 @@ await client.send(myEvents, { batchLabel: "my-partition-key" });
 
 // ======================================== Sending sample ends ======================================
 
-// ======================================== Receiving sample starts ======================================
+// ======================================== Iterator sample starts ======================================
 
-// Receive 25 events at most
-var events = await client.receiveBatch("my-partition-id", 25);
+// Receive at most 25 events but within 60 seconds in each iteration, wait
+for await (let events of client.getEventIterator("my-partition-id", 25, 60)){
+  // your code here
+}
 
-// Receive 25 events at most from given event position and consumer group
-events = await client.receiveBatch("my-partition-id", 25, {
+// Receive at most 25 events but within 60 seconds in each iteration from given event position and consumer group
+var receiveOptions = {
   eventPosition: EventPosition.fromOffset("123"),
   consumerGroup: "my-consumer-group"
-});
+};
+for await (let events of client.getEventIterator("my-partition-id", 25, 60, receiveOptions)){
+  // your code here
+}
 
-// Overload: Receive 25 events at most, but within 60 seconds
-events = await client.receiveBatch("my-partition-id", 25, 60);
-
-// Overload: Receive 25 events at most, but within 60 seconds from given event position and consumer group
-events = await client.receiveBatch("my-partition-id", 25, 60, {
-  eventPosition: EventPosition.fromOffset("123"),
-  consumerGroup: "my-consumer-group"
-});
-
-// ======================================== Receiving sample ends ======================================
+// ======================================== Iterator sample ends ======================================
 
 // ======================================== Streaming sample starts ======================================
 
@@ -49,11 +45,12 @@ console.log(handler.consumerGroup, handler.partitionId);
 await handler.stop();
 
 // Set up streaming receiver for given event position and consumer group and opt in to get receiver info updated.
-handler = client.receive("my-partition-id", console.log, console.log, {
+var receiveOptions = {
   eventPosition: EventPosition.fromOffset("123"),
   consumerGroup: "my-consumer-group",
   enableReceiverRuntimeMetric: true
-});
+};
+handler = client.receive("my-partition-id", console.log, console.log, receiveOptions);
 console.log(
   handler.runtimeInfo.lastEnqueuedSequenceNumber,
   handler.runtimeInfo.lastEnqueuedOffset,

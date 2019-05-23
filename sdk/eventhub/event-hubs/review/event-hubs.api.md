@@ -63,14 +63,13 @@ export class EventHubClient {
     close(): Promise<void>;
     static createFromConnectionString(connectionString: string, entityPath?: string, options?: ClientOptions): EventHubClient;
     static createFromIotHubConnectionString(iothubConnectionString: string, options?: ClientOptions): Promise<EventHubClient>;
+    getEventIterator(partitionId: string, batchSize: number, maxWaitTimeInSeconds: number, options?: ReceiveOptions): AsyncIterableIterator<ReceivedEventData[]>;
     getHubInformation(options?: RequestOptions): Promise<HubInformation>;
     getPartitionIds(options?: RequestOptions): Promise<Array<string>>;
     getPartitionInformation(partitionId: string, options?: RequestOptions): Promise<PartitionInformation>;
     readonly hubPath: string;
     receive(partitionId: string, onMessage: OnMessage, onError: OnError, options?: ReceiveOptions): ReceiveHandler;
-    receive(partitionId: string, onMessage: OnMessage, onError: OnError, maxConcurrentCalls: number, options?: ReceiveOptions): ReceiveHandler;
     receiveBatch(partitionId: string, maxMessageCount: number, maxWaitTimeInSeconds: number, options?: ReceiveOptions): Promise<ReceivedEventData[]>;
-    receiveBatch(partitionId: string, maxMessageCount: number, options?: ReceiveOptions): Promise<ReceivedEventData[]>;
     send(data: EventData[], partitionId: string, options?: BatchingOptions): Promise<void>;
     send(data: EventData[], options?: BatchingOptions): Promise<void>;
 }
