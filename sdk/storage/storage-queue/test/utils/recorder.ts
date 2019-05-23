@@ -20,7 +20,7 @@ if (!isBrowser()) {
  * * Tempfile: the request makes use of a random tempfile created locally, and the recorder does not support recording it as unique information
  * * UUID: a UUID is randomly generated within the SDK and used in an HTTP request, resulting in Nock being unable to recognize it
 */
-const skip: any = [
+const skip = [
   // Abort
   "browsers/aborter/recording_should_abort_after_aborter_timeout.json",
   // Abort
@@ -33,189 +33,213 @@ const skip: any = [
   "browsers/messagesurl/recording_enqueue_peek_dequeue_special_characters.json"
 ];
 
-function formatPath(path: string): string {
-  return path
-    .toLowerCase()
-    .replace(/ /g, "_")
-    .replace(/<=/g, "lte")
-    .replace(/>=/g, "gte")
-    .replace(/</g, "lt")
-    .replace(/>/g, "gt")
-    .replace(/=/g, "eq")
-    .replace(/\W/g, "");
+abstract class Recorder {
+  protected filename: string;
+  protected fp!: string;
+  public uniqueTestInfo: any;
+
+  constructor(testTitle: string) {
+    this.filename = "recording_" + testTitle;
+    this.uniqueTestInfo = {};
+  }
+
+  protected formatPath(path: string): string {
+    return path
+      .toLowerCase()
+      .replace(/ /g, "_")
+      .replace(/<=/g, "lte")
+      .replace(/>=/g, "gte")
+      .replace(/</g, "lt")
+      .replace(/>/g, "gt")
+      .replace(/=/g, "eq")
+      .replace(/\W/g, "");
+  }
+
+  public skip(): boolean {
+    return skip.includes(this.fp);
+  }
+
+  public abstract record(): void;
+  public abstract playback(): void;
+  public abstract stop(): void;
 }
 
-function nockRecorder(folderpath: string, testTitle: string) {
-  const filename = "recording_" + testTitle;
-  const fp = "node/" + formatPath(folderpath) + "/" + formatPath(filename) + ".js";
-  const importNock = "let nock = require('nock');\n";
-  let uniqueTestInfo: any = {};
+class NockRecorder extends Recorder {
+  constructor(folderpath: string, testTitle: string) {
+    super(testTitle);
+    this.fp = "node/" + this.formatPath(folderpath) + "/" + this.formatPath(this.filename) + ".js";
+  }
 
-  return {
-    skip: skip.includes(fp),
-    getUniqueTestInfoHandle: () => uniqueTestInfo,
-    record: function() {
-      nock.recorder.rec({
-        dont_print: true
-      });
-    },
-    playback: function() {
-      uniqueTestInfo = require("../recordings/" + fp).testInfo;
-    },
-    stop: function() {
-      let fixtures = nock.recorder.play();
-      let file = fs.createWriteStream("./recordings/" + fp, { flags: "w" });
-      file.on("error", err => console.log(err));
-      file.write(importNock + "\n" + "module.exports.testInfo = " + JSON.stringify(uniqueTestInfo) + "\n");
-      for (let i = 0; i < fixtures.length; i++) {
-        file.write(fixtures[i] + "\n");
-      }
-      file.end();
-      nock.recorder.clear();
-      nock.restore();
+  public record(): void {
+    nock.recorder.rec({
+      dont_print: true
+    });
+  }
+
+  public playback(): void {
+    this.uniqueTestInfo = require("../recordings/" + this.fp).testInfo;
+  }
+
+  public stop(): void {
+    const importNock = "let nock = require('nock');\n";
+    const fixtures = nock.recorder.play();
+
+    const file = fs.createWriteStream("./recordings/" + this.fp, { flags: "w" });
+    file.on("error", err => console.log(err));
+    file.write(importNock + "\n" + "module.exports.testInfo = " + JSON.stringify(this.uniqueTestInfo) + "\n");
+    for (const fixture of fixtures) {
+      file.write(fixture + "\n");
     }
-  };
+    file.end();
+
+    nock.recorder.clear();
+    nock.restore();
+  }
 }
 
-function niseRecorder(folderpath: string, testTitle: string) {
-  const filename = "recording_" + testTitle;
-  const fp = "browsers/" + formatPath(folderpath) + "/" + formatPath(filename) + ".json";
-  let uniqueTestInfo: any = {};
-  let recordings: any[] = [];
-  let xhr: nise.FakeXMLHttpRequestStatic;
+class NiseRecorder extends Recorder {
+  private recordings: any[];
+  private xhr: nise.FakeXMLHttpRequestStatic;
 
-  return {
-    skip: skip.includes(fp),
-    getUniqueTestInfoHandle: () => uniqueTestInfo,
-    record: function() {
-      xhr = nise.fakeXhr.useFakeXMLHttpRequest();
-      xhr.useFilters = true;
-      xhr.addFilter(() => true);
+  constructor(folderpath: string, testTitle: string) {
+    super(testTitle);
+    this.fp = "browsers/" + this.formatPath(folderpath) + "/" + this.formatPath(this.filename) + ".json";
+    this.recordings = [];
+    this.xhr = nise.fakeXhr.useFakeXMLHttpRequest();
+  }
 
-      xhr.onCreate = function(req: any) {
-        const reqOpen = req.open;
-        req.open = function() {
-          reqOpen.apply(req, arguments);
+  private async recordRequest(req: any, data: any): Promise<void> {
+    const responseHeaders: any = {};
+    const responseHeadersPairs = req.getAllResponseHeaders().split("\r\n");
+    for (const pair of responseHeadersPairs) {
+      const [key, value] = pair.split(": ");
+      responseHeaders[key] = value;
+    }
 
-          const reqSend = req.send;
-          req.send = function(data: any) {
-            const reqStateChange = req.onreadystatechange;
-            req.onreadystatechange = function() {
-              if (req.readyState === 4) {
-                recordRequest(req, data);
-              }
-              reqStateChange && reqStateChange.apply(null, arguments);
+    const parsedUrl = queryString.parseUrl(req.url);
+
+    this.recordings.push({
+      method: req.method,
+      url: parsedUrl.url,
+      query: parsedUrl.query,
+      requestBody: (data instanceof Blob) ? await blobToString(data) : data,
+      status: req.status,
+      response: (req.response instanceof Blob) ? await blobToString(req.response) : req.response,
+      responseHeaders: responseHeaders
+    });
+  }
+
+  // We're not matching request headers
+  private matchRequest(recording: any, request: any): boolean {
+    for (const param in recording.query) {
+      if (recording.query[param] !== request.query[param] && param !== "_") {
+        return false;
+      }
+    }
+
+    for (const param in request.query) {
+      if (recording.query[param] === undefined) {
+        return false;
+      }
+    }
+
+    return (
+      recording.method === request.method &&
+      recording.url === request.url &&
+      recording.requestBody === request.requestBody
+    );
+  }
+
+  public record(): void {
+    const self = this;
+
+    this.xhr.useFilters = true;
+    this.xhr.addFilter(() => true);
+
+    this.xhr.onCreate = function(req: any) {
+      const reqOpen = req.open;
+      req.open = function() {
+        reqOpen.apply(req, arguments);
+
+        const reqSend = req.send;
+        req.send = function(data: any) {
+          const reqStateChange = req.onreadystatechange;
+          req.onreadystatechange = function() {
+            if (req.readyState === 4) {
+              self.recordRequest(req, data);
             }
-            reqSend.apply(req, arguments);
+            reqStateChange && reqStateChange.apply(null, arguments);
           }
+          reqSend.apply(req, arguments);
         }
       }
+    }
+  }
 
-      async function recordRequest(req: any, data: any) {
-        const responseHeaders: any = {};
-        const responseHeadersPairs = req.getAllResponseHeaders().split("\r\n");
-        for (const pair of responseHeadersPairs) {
-          const [key, value] = pair.split(": ");
-          responseHeaders[key] = value;
-        }
+  public playback(): void {
+    const self = this;
+
+    this.recordings = (window as any).__json__["recordings/" + this.fp].recordings;
+    this.uniqueTestInfo = (window as any).__json__["recordings/" + this.fp].uniqueTestInfo;
+
+    this.xhr.onCreate = function(req: any) {
+      const reqSend = req.send;
+      req.send = async function(data: any) {
+        reqSend.call(req, data);
 
         const parsedUrl = queryString.parseUrl(req.url);
-
-        recordings.push({
+        const formattedRequest = {
           method: req.method,
           url: parsedUrl.url,
           query: parsedUrl.query,
-          requestBody: (data instanceof Blob) ? await blobToString(data) : data,
-          status: req.status,
-          response: (req.response instanceof Blob) ? await blobToString(req.response) : req.response,
-          responseHeaders: responseHeaders
-        });
-      }
-    },
-    playback: function() {
-      xhr = nise.fakeXhr.useFakeXMLHttpRequest();
-      recordings = (window as any).__json__["recordings/" + fp].recordings;
-      uniqueTestInfo = (window as any).__json__["recordings/" + fp].uniqueTestInfo;
+          requestBody: (data instanceof Blob) ? await blobToString(data) : data
+        };
 
-      xhr.onCreate = function(req: any) {
-        const reqSend = req.send;
-        req.send = async function(data: any) {
-          reqSend.call(req, data);
-
-          const parsedUrl = queryString.parseUrl(req.url);
-          let formattedRequest = {
-            method: req.method,
-            url: parsedUrl.url,
-            query: parsedUrl.query,
-            requestBody: (data instanceof Blob) ? await blobToString(data) : data
-          };
-
-          let recordingFound = false;
-          for (let i = 0; !recordingFound && i < recordings.length; i++) {
-            if (matchRequest(recordings[i], formattedRequest)) {
-              let status = recordings[i].status;
-              let responseHeaders = recordings[i].responseHeaders;
-              let response = recordings[i].response;
-              setTimeout(() => req.respond(status, responseHeaders, response));
-              recordings.splice(i, 1);
-              recordingFound = true;
-            }
-          }
-
-          if (!recordingFound) {
-            throw new Error("No match for request " + JSON.stringify(formattedRequest, null, " "));
-          }
-        }
-      }
-
-      // We're not matching request headers
-      function matchRequest(recording: any, request: any) {
-        for (let param in recording.query) {
-          if (recording.query[param] !== request.query[param] && param !== "_") {
-            return false;
+        let recordingFound = false;
+        for (let i = 0; !recordingFound && i < self.recordings.length; i++) {
+          if (self.matchRequest(self.recordings[i], formattedRequest)) {
+            const status = self.recordings[i].status;
+            const responseHeaders = self.recordings[i].responseHeaders;
+            const response = self.recordings[i].response;
+            setTimeout(() => req.respond(status, responseHeaders, response));
+            self.recordings.splice(i, 1);
+            recordingFound = true;
           }
         }
 
-        for (let param in request.query) {
-          if (recording.query[param] === undefined) {
-            return false;
-          }
+        if (!recordingFound) {
+          throw new Error("No match for request " + JSON.stringify(formattedRequest, null, " "));
         }
-
-        return (
-          recording.method === request.method &&
-          recording.url === request.url &&
-          recording.requestBody === request.requestBody
-        );
       }
-    },
-    stop: function() {
-      console.log(JSON.stringify({
-        writeFile: true,
-        path: "./recordings/" + fp,
-        content: { recordings: recordings, uniqueTestInfo: uniqueTestInfo }
-      }));
-      xhr.restore();
     }
-  };
+  }
+
+  public stop(): void {
+    console.log(JSON.stringify({
+      writeFile: true,
+      path: "./recordings/" + this.fp,
+      content: { recordings: this.recordings, uniqueTestInfo: this.uniqueTestInfo }
+    }));
+    this.xhr.restore();
+  }
 }
 
 export function record(this: any, folderpath: string, testTitle?: string) {
-  let recorder: any;
+  let recorder: Recorder;
   let isRecording: boolean;
   let isPlayingBack: boolean;
 
   if (isBrowser()) {
-    recorder = niseRecorder(folderpath, testTitle || this.currentTest.title);
+    recorder = new NiseRecorder(folderpath, testTitle || this.currentTest.title);
     isRecording = ((window as any).__env__.TEST_MODE === "record");
     isPlayingBack = ((window as any).__env__.TEST_MODE === "playback");
   } else {
-    recorder = nockRecorder(folderpath, testTitle || this.currentTest.title);
+    recorder = new NockRecorder(folderpath, testTitle || this.currentTest.title);
     isRecording = (process.env.TEST_MODE === "record");
     isPlayingBack = (process.env.TEST_MODE === "playback");
   }
 
-  if (recorder.skip && (isRecording || isPlayingBack)) {
+  if (recorder.skip() && (isRecording || isPlayingBack)) {
     this.skip();
   }
 
@@ -224,8 +248,6 @@ export function record(this: any, folderpath: string, testTitle?: string) {
   } else if (isPlayingBack) {
     recorder.playback();
   }
-
-  const uniqueTestInfo = recorder.getUniqueTestInfoHandle();
 
   return {
     stop: function() {
@@ -240,10 +262,10 @@ export function record(this: any, folderpath: string, testTitle?: string) {
       }
       if (isRecording) {
         name = getUniqueName(prefix);
-        uniqueTestInfo[recorderId] = name;
+        recorder.uniqueTestInfo[recorderId] = name;
       }
       else if (isPlayingBack) {
-        name = uniqueTestInfo[recorderId];
+        name = recorder.uniqueTestInfo[recorderId];
       } else {
         name = getUniqueName(prefix);
       }
@@ -253,10 +275,10 @@ export function record(this: any, folderpath: string, testTitle?: string) {
       let date: Date;
       if (isRecording) {
         date = new Date();
-        uniqueTestInfo[recorderId] = date.toISOString();
+        recorder.uniqueTestInfo[recorderId] = date.toISOString();
       }
       else if (isPlayingBack) {
-        date = new Date(uniqueTestInfo[recorderId]);
+        date = new Date(recorder.uniqueTestInfo[recorderId]);
       } else {
         date = new Date();
       }
