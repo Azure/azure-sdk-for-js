@@ -77,10 +77,10 @@ export class EventPosition {
    */
   sequenceNumber?: number;
 
-  /**
-   * @property {string} [customFilter] The custom filter expression that needs to be set on the receiver.
-   */
-  customFilter?: string;
+  // /**
+  //  * @property {string} [customFilter] The custom filter expression that needs to be set on the receiver.
+  //  */
+  // customFilter?: string;
 
   /**
    * @private
@@ -92,11 +92,12 @@ export class EventPosition {
       this.enqueuedTime = options.enqueuedTime;
       this.sequenceNumber = options.sequenceNumber;
       this.isInclusive = options.isInclusive || false;
-      this.customFilter = options.customFilter;
+      // this.customFilter = options.customFilter;
     }
   }
 
   /**
+   * @internal
    * Gets the expression (filter clause) that needs to be set on the source.
    * @return {string} filterExpression
    */
@@ -114,8 +115,8 @@ export class EventPosition {
     } else if (this.enqueuedTime != undefined) {
       const time = this.enqueuedTime instanceof Date ? this.enqueuedTime.getTime() : this.enqueuedTime;
       result = `${Constants.enqueuedTimeAnnotation} > '${time}'`;
-    } else if (this.customFilter != undefined) {
-      result = this.customFilter;
+    // } else if (this.customFilter != undefined) {
+    //   result = this.customFilter;
     }
 
     if (!result) {
@@ -176,12 +177,12 @@ export class EventPosition {
    * only when one of the other methods `fromOffset()`, `fromSequenceNumber()`, `fromEnqueuedTime()` is not applicable for
    * your scenario.
    */
-  static withCustomFilter(customFilter: string): EventPosition {
-    if (!customFilter || typeof customFilter !== "string") {
-      throw new Error("'customFilter' is a required parameter and must be a non-empty string.");
-    }
-    return new EventPosition({ customFilter: customFilter });
-  }
+  // static withCustomFilter(customFilter: string): EventPosition {
+  //   if (!customFilter || typeof customFilter !== "string") {
+  //     throw new Error("'customFilter' is a required parameter and must be a non-empty string.");
+  //   }
+  //   return new EventPosition({ customFilter: customFilter });
+  // }
 
   /**
    * Returns the position for the start of a stream. Provide this position in receiver creation to

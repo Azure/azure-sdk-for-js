@@ -25,11 +25,7 @@ interface CreateReceiverOptions {
  * Represents the approximate receiver runtime information for a logical partition of an Event Hub.
  * @interface ReceiverRuntimeInfo
  */
-export interface ReceiverRuntimeInfo {
-  /**
-   * @property {string} partitionId The parition identifier.
-   */
-  partitionId: string;
+export interface LastEnqueuedInfo {
   /**
    * @property {number} lastSequenceNumber The logical sequence number of the event.
    */
@@ -91,7 +87,7 @@ export class EventHubReceiver extends LinkEntity {
   /**
    * @property {ReceiverRuntimeInfo} runtimeInfo The receiver runtime info.
    */
-  runtimeInfo: ReceiverRuntimeInfo;
+  runtimeInfo: LastEnqueuedInfo;
   /**
    * @property {number} [epoch] The Receiver epoch.
    */
@@ -186,7 +182,7 @@ export class EventHubReceiver extends LinkEntity {
     this.options = options;
     this.receiverRuntimeMetricEnabled = options.enableReceiverRuntimeMetric || false;
     this.runtimeInfo = {
-      partitionId: `${partitionId}`
+      
     };
     this._checkpoint = {
       enqueuedTimeUtc: new Date(),

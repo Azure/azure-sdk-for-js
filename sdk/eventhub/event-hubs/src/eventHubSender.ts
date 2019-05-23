@@ -28,7 +28,7 @@ import {
 import { EventData, EventDataInternal } from "./eventData";
 import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";
-import { BatchingOptions } from "./eventHubClient";
+import { BatchingOptions, RequestOptions } from "./eventHubClient";
 
 interface CreateSenderOptions {
   newName?: boolean;
@@ -129,8 +129,8 @@ export class EventHubSender extends LinkEntity {
         if (!this.isConnecting) {
           log.error(
             "[%s] 'sender_close' event occurred on the sender '%s' with address '%s' " +
-              "and the sdk did not initiate this. The sender is not reconnecting. Hence, calling " +
-              "detached from the _onAmqpClose() handler.",
+            "and the sdk did not initiate this. The sender is not reconnecting. Hence, calling " +
+            "detached from the _onAmqpClose() handler.",
             this._context.connectionId,
             this.name,
             this.address
@@ -139,8 +139,8 @@ export class EventHubSender extends LinkEntity {
         } else {
           log.error(
             "[%s] 'sender_close' event occurred on the sender '%s' with address '%s' " +
-              "and the sdk did not initate this. Moreover the sender is already re-connecting. " +
-              "Hence not calling detached from the _onAmqpClose() handler.",
+            "and the sdk did not initate this. Moreover the sender is already re-connecting. " +
+            "Hence not calling detached from the _onAmqpClose() handler.",
             this._context.connectionId,
             this.name,
             this.address
@@ -149,8 +149,8 @@ export class EventHubSender extends LinkEntity {
       } else {
         log.error(
           "[%s] 'sender_close' event occurred on the sender '%s' with address '%s' " +
-            "because the sdk initiated it. Hence not calling detached from the _onAmqpClose" +
-            "() handler.",
+          "because the sdk initiated it. Hence not calling detached from the _onAmqpClose" +
+          "() handler.",
           this._context.connectionId,
           this.name,
           this.address
@@ -174,8 +174,8 @@ export class EventHubSender extends LinkEntity {
         if (!this.isConnecting) {
           log.error(
             "[%s] 'session_close' event occurred on the session of sender '%s' with " +
-              "address '%s' and the sdk did not initiate this. Hence calling detached from the " +
-              "_onSessionClose() handler.",
+            "address '%s' and the sdk did not initiate this. Hence calling detached from the " +
+            "_onSessionClose() handler.",
             this._context.connectionId,
             this.name,
             this.address
@@ -184,8 +184,8 @@ export class EventHubSender extends LinkEntity {
         } else {
           log.error(
             "[%s] 'session_close' event occurred on the session of sender '%s' with " +
-              "address '%s' and the sdk did not initiate this. Moreover the sender is already " +
-              "re-connecting. Hence not calling detached from the _onSessionClose() handler.",
+            "address '%s' and the sdk did not initiate this. Moreover the sender is already " +
+            "re-connecting. Hence not calling detached from the _onSessionClose() handler.",
             this._context.connectionId,
             this.name,
             this.address
@@ -194,8 +194,8 @@ export class EventHubSender extends LinkEntity {
       } else {
         log.error(
           "[%s] 'session_close' event occurred on the session of sender '%s' with address " +
-            "'%s' because the sdk initiated it. Hence not calling detached from the _onSessionClose" +
-            "() handler.",
+          "'%s' because the sdk initiated it. Hence not calling detached from the _onSessionClose" +
+          "() handler.",
           this._context.connectionId,
           this.name,
           this.address
@@ -224,8 +224,8 @@ export class EventHubSender extends LinkEntity {
           shouldReopen = true;
           log.error(
             "[%s] close() method of Sender '%s' with address '%s' was not called. There " +
-              "was an accompanying error an it is retryable. This is a candidate for re-establishing " +
-              "the sender link.",
+            "was an accompanying error an it is retryable. This is a candidate for re-establishing " +
+            "the sender link.",
             this._context.connectionId,
             this.name,
             this.address
@@ -233,8 +233,8 @@ export class EventHubSender extends LinkEntity {
         } else {
           log.error(
             "[%s] close() method of Sender '%s' with address '%s' was not called. There " +
-              "was an accompanying error and it is NOT retryable. Hence NOT re-establishing " +
-              "the sender link.",
+            "was an accompanying error and it is NOT retryable. Hence NOT re-establishing " +
+            "the sender link.",
             this._context.connectionId,
             this.name,
             this.address
@@ -244,8 +244,8 @@ export class EventHubSender extends LinkEntity {
         shouldReopen = true;
         log.error(
           "[%s] close() method of Sender '%s' with address '%s' was not called. There " +
-            "was no accompanying error as well. This is a candidate for re-establishing " +
-            "the sender link.",
+          "was no accompanying error as well. This is a candidate for re-establishing " +
+          "the sender link.",
           this._context.connectionId,
           this.name,
           this.address
@@ -331,7 +331,7 @@ export class EventHubSender extends LinkEntity {
    * @param {Array<EventData>} datas  An array of EventData objects to be sent in a Batch message.
    * @return {Promise<void>} Promise<void>
    */
-  async send(data: EventData[], options?: BatchingOptions): Promise<void> {
+  async send(data: EventData[], options?: BatchingOptions & RequestOptions): Promise<void> {
     try {
       if (!data || (data && !Array.isArray(data))) {
         throw new Error("data is required and it must be an Array.");
@@ -424,7 +424,7 @@ export class EventHubSender extends LinkEntity {
    * @param message The message to be sent to EventHub.
    * @return {Promise<void>} Promise<void>
    */
-  private _trySend(message: AmqpMessage | Buffer, tag: any, options?: BatchingOptions, format?: number): Promise<void> {
+  private _trySend(message: AmqpMessage | Buffer, tag: any, options?: BatchingOptions & RequestOptions, format?: number): Promise<void> {
     if (!options) {
       options = {};
     }
@@ -485,7 +485,7 @@ export class EventHubSender extends LinkEntity {
             } else {
               err = new Error(
                 `[${this._context.connectionId}] Sender '${this.name}', ` +
-                  `received a release disposition.Hence we are rejecting the promise.`
+                `received a release disposition.Hence we are rejecting the promise.`
               );
             }
             log.error(err);
@@ -500,7 +500,7 @@ export class EventHubSender extends LinkEntity {
             } else {
               err = new Error(
                 `[${this._context.connectionId}] Sender "${this.name}", ` +
-                  `received a modified disposition.Hence we are rejecting the promise.`
+                `received a modified disposition.Hence we are rejecting the promise.`
               );
             }
             log.error(err);
@@ -560,8 +560,8 @@ export class EventHubSender extends LinkEntity {
         : Constants.defaultRetryAttempts;
     const delayInSeconds =
       options.retryOptions &&
-      options.retryOptions.delayBetweenRetriesInSeconds &&
-      options.retryOptions.delayBetweenRetriesInSeconds > 0
+        options.retryOptions.delayBetweenRetriesInSeconds &&
+        options.retryOptions.delayBetweenRetriesInSeconds > 0
         ? options.retryOptions.delayBetweenRetriesInSeconds
         : Constants.defaultDelayBetweenOperationRetriesInSeconds;
     const config: RetryConfig<void> = {
@@ -589,7 +589,7 @@ export class EventHubSender extends LinkEntity {
       if (!this.isOpen() && !this.isConnecting) {
         log.error(
           "[%s] The sender '%s' with address '%s' is not open and is not currently " +
-            "establishing itself. Hence let's try to connect.",
+          "establishing itself. Hence let's try to connect.",
           this._context.connectionId,
           this.name,
           this.address

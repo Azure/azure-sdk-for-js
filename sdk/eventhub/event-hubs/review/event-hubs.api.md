@@ -17,10 +17,10 @@ import { EventHubConnectionConfig } from '@azure/amqp-common';
 import { MessagingError } from '@azure/amqp-common';
 import { MSITokenCredentials } from '@azure/ms-rest-nodeauth';
 import { OnAmqpEvent } from 'rhea-promise';
-import { Receiver } from 'rhea-promise';
+import { Receiver as Receiver_2 } from 'rhea-promise';
 import { ReceiverOptions } from 'rhea-promise';
 import { SasTokenProvider } from '@azure/amqp-common';
-import { Sender } from 'rhea-promise';
+import { Sender as Sender_2 } from 'rhea-promise';
 import { TokenInfo } from '@azure/amqp-common';
 import { TokenProvider } from '@azure/amqp-common';
 import { TokenType } from '@azure/amqp-common';
@@ -30,7 +30,7 @@ import { WebSocketImpl } from 'rhea-promise';
 export { AadTokenProvider }
 
 // @public
-export interface BatchingOptions extends RequestOptions {
+export interface BatchingOptions {
     batchLabel?: string | null;
     partitionId?: string;
 }
@@ -63,34 +63,30 @@ export class EventHubClient {
     close(): Promise<void>;
     static createFromConnectionString(connectionString: string, entityPath?: string, options?: ClientOptions): EventHubClient;
     static createFromIotHubConnectionString(iothubConnectionString: string, options?: ClientOptions): Promise<EventHubClient>;
-    getEventIterator(partitionId: string, batchSize: number, maxWaitTimeInSeconds: number, options?: ReceiveOptions): AsyncIterableIterator<ReceivedEventData[]>;
+    createReceiver(partitionId: string, options?: ReceiveOptions): Receiver;
+    createSender(): Sender;
     getHubInformation(options?: RequestOptions): Promise<HubInformation>;
     getPartitionIds(options?: RequestOptions): Promise<Array<string>>;
     getPartitionInformation(partitionId: string, options?: RequestOptions): Promise<PartitionInformation>;
     readonly hubPath: string;
-    receive(partitionId: string, onMessage: OnMessage, onError: OnError, options?: ReceiveOptions): ReceiveHandler;
-    receiveBatch(partitionId: string, maxMessageCount: number, maxWaitTimeInSeconds: number, options?: ReceiveOptions): Promise<ReceivedEventData[]>;
-    send(data: EventData[], partitionId: string, options?: BatchingOptions): Promise<void>;
-    send(data: EventData[], options?: BatchingOptions): Promise<void>;
 }
 
 // @public
 export class EventPosition {
     // Warning: (ae-forgotten-export) The symbol "EventPositionOptions" needs to be exported by the entry point index.d.ts
     constructor(options?: EventPositionOptions);
-    customFilter?: string;
     enqueuedTime?: Date | number;
     static fromEnqueuedTime(enqueuedTime: Date | number): EventPosition;
     static fromFirstAvailable(): EventPosition;
     static fromLastAvailable(): EventPosition;
     static fromOffset(offset: string, isInclusive?: boolean): EventPosition;
     static fromSequenceNumber(sequenceNumber: number, isInclusive?: boolean): EventPosition;
+    // @internal
     getExpression(): string;
     isInclusive: boolean;
     offset?: string;
     sequenceNumber?: number;
-    static withCustomFilter(customFilter: string): EventPosition;
-}
+    }
 
 // @public
 export interface HubInformation {
@@ -98,6 +94,14 @@ export interface HubInformation {
     partitionCount: number;
     partitionIds: string[];
     path: string;
+}
+
+// @public
+export interface LastEnqueuedInfo {
+    lastEnqueuedOffset?: string;
+    lastEnqueuedSequenceNumber?: number;
+    lastEnqueuedTimeUtc?: Date;
+    retrievalTime?: Date;
 }
 
 // @public
@@ -143,13 +147,7 @@ export interface ReceivedEventData {
 export class ReceiveHandler {
     // Warning: (ae-forgotten-export) The symbol "EventHubReceiver" needs to be exported by the entry point index.d.ts
     constructor(receiver: EventHubReceiver);
-    readonly address: string | undefined;
-    readonly consumerGroup: string | undefined;
-    readonly epoch: number | undefined;
-    readonly isReceiverOpen: boolean;
-    readonly name: string;
-    readonly partitionId: string | number | undefined;
-    readonly runtimeInfo: ReceiverRuntimeInfo | undefined;
+    readonly isRunning: boolean;
     stop(): Promise<void>;
 }
 
@@ -162,17 +160,25 @@ export interface ReceiveOptions extends RequestOptions {
 }
 
 // @public
-export interface ReceiverRuntimeInfo {
-    lastEnqueuedOffset?: string;
-    lastEnqueuedSequenceNumber?: number;
-    lastEnqueuedTimeUtc?: Date;
-    partitionId: string;
-    retrievalTime?: Date;
-}
+export class Receiver {
+    // Warning: (ae-forgotten-export) The symbol "ConnectionContext" needs to be exported by the entry point index.d.ts
+    // 
+    // @internal
+    constructor(context: ConnectionContext, partitionId: string, options?: ReceiveOptions);
+    close(): Promise<void>;
+    readonly consumerGroup: string | undefined;
+    readonly epoch: number | undefined;
+    getEventIterator(partitionId: string, batchSize: number, maxWaitTimeInSeconds: number, cancellationToken?: Aborter): AsyncIterableIterator<ReceivedEventData[]>;
+    readonly isClosed: boolean;
+    isReceivingMessages(): boolean;
+    readonly lastEnqueuedInfo: LastEnqueuedInfo | undefined;
+    readonly partitionId: string;
+    // Warning: (ae-forgotten-export) The symbol "Aborter" needs to be exported by the entry point index.d.ts
+    receive(partitionId: string, onMessage: OnMessage, onError: OnError, cancellationToken?: Aborter): ReceiveHandler;
+    }
 
 // @public
 export interface RequestOptions {
-    // Warning: (ae-forgotten-export) The symbol "Aborter" needs to be exported by the entry point index.d.ts
     cancellationToken?: Aborter;
     logLevel?: LogLevel;
     retryOptions?: RetryOptions;
@@ -186,6 +192,16 @@ export interface RetryOptions {
 }
 
 export { SasTokenProvider }
+
+// @public
+export class Sender {
+    // @internal
+    constructor(context: ConnectionContext, options?: RequestOptions);
+    close(): Promise<void>;
+    readonly isClosed: boolean;
+    send(data: EventData[], options?: BatchingOptions): Promise<void>;
+    send(data: EventData[], partitionId: string, options?: BatchingOptions): Promise<void>;
+}
 
 export { TokenInfo }
 

@@ -4,7 +4,7 @@
 import { Constants } from "@azure/amqp-common";
 import { ReceiverEvents } from "rhea-promise";
 import { ReceiveOptions } from "./eventHubClient";
-import { EventHubReceiver, ReceiverRuntimeInfo, OnMessage, OnError } from "./eventHubReceiver";
+import { EventHubReceiver, OnMessage, OnError } from "./eventHubReceiver";
 import { ConnectionContext } from "./connectionContext";
 import * as log from "./log";
 
@@ -14,12 +14,7 @@ import * as log from "./log";
  * @class ReceiveHandler
  */
 export class ReceiveHandler {
-  /**
-   * @property {string} name The Receiver handler name.
-   * @readonly
-   */
-  readonly name: string;
-
+ 
   /**
    * @property {EventHubReceiver} _receiver  The underlying EventHubReceiver.
    * @private
@@ -34,51 +29,6 @@ export class ReceiveHandler {
    */
   constructor(receiver: EventHubReceiver) {
     this._receiver = receiver;
-    this.name = receiver ? receiver.name : "ReceiveHandler";
-  }
-
-  /**
-   * @property {string | number} [partitionId] The partitionId from which the handler is receiving
-   * events from.
-   * @readonly
-   */
-  get partitionId(): string | number | undefined {
-    return this._receiver ? this._receiver.partitionId : undefined;
-  }
-
-  /**
-   * @property {string} [consumerGroup] The consumer group from which the handler is receiving
-   * events from.
-   * @readonly
-   */
-  get consumerGroup(): string | undefined {
-    return this._receiver ? this._receiver.consumerGroup : undefined;
-  }
-
-  /**
-   * @property {string} [address] The address of the underlying receiver.
-   * @readonly
-   */
-  get address(): string | undefined {
-    return this._receiver ? this._receiver.address : undefined;
-  }
-
-  /**
-   * @property {number} [epoch] The epoch value of the underlying receiver, if present.
-   * @readonly
-   */
-  get epoch(): number | undefined {
-    return this._receiver ? this._receiver.epoch : undefined;
-  }
-
-  /**
-   * @property {ReceiverRuntimeInfo} [runtimeInfo] The receiver runtime info. This property will only
-   * be enabled when `enableReceiverRuntimeMetric` option is set to true in the
-   * `client.receive()` method.
-   * @readonly
-   */
-  get runtimeInfo(): ReceiverRuntimeInfo | undefined {
-    return this._receiver ? this._receiver.runtimeInfo : undefined;
   }
 
   /**
@@ -86,7 +36,7 @@ export class ReceiveHandler {
    * `true` - is open; `false` otherwise.
    * @readonly
    */
-  get isReceiverOpen(): boolean {
+  get isRunning(): boolean {
     return this._receiver ? this._receiver.isOpen() : false;
   }
 

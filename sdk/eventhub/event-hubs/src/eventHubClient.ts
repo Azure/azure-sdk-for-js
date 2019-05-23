@@ -10,25 +10,22 @@ import {
   MSITokenCredentials
 } from "@azure/ms-rest-nodeauth";
 import {
-  MessagingError,
   DataTransformer,
   TokenProvider,
   EventHubConnectionConfig,
   AadTokenProvider,
   SasTokenProvider,
-  ConnectionConfig,
-  Constants
+  ConnectionConfig
 } from "@azure/amqp-common";
-import { OnMessage, OnError } from "./eventHubReceiver";
-import { EventData, ReceivedEventData } from "./eventData";
+
 import { ConnectionContext } from "./connectionContext";
 import { PartitionInformation, HubInformation } from "./managementClient";
 import { EventPosition } from "./eventPosition";
-import { EventHubSender } from "./eventHubSender";
-import { StreamingReceiver, ReceiveHandler } from "./streamingReceiver";
-import { BatchingReceiver } from "./batchingReceiver";
+
 import { IotHubClient } from "./iothub/iothubClient";
 import { Aborter } from "./aborter";
+import { Sender } from './sender';
+import { Receiver } from './receiver';
 
 /**
  * LogLevel that defines the level of logging to be used
@@ -95,7 +92,7 @@ export interface RequestOptions {
 /**
  * Options that can be passed when sending a batch of events using the EventHubsClient
  */
-export interface BatchingOptions extends RequestOptions {
+export interface BatchingOptions {
   /**
    * The id of the partition to which the event should be sent
    */
@@ -296,132 +293,17 @@ export class EventHubClient {
   }
 
   /**
-   * Send a batch of EventData to the EventHub using the options provided.
-   *
-   * @param data  An array of EventData objects to be sent in a Batch message.
-   * @param options Options where you can specifiy the partition to send the message to along with controlling the send
-   * request via retry options, log level and cancellation token.
-   *
-   * @return {Promise<void>} Promise<void>
-   */
-  async send(data: EventData[], options?: BatchingOptions): Promise<void>;
-  /**
-   * Send a batch of EventData to specified partition of the EventHub using the options provided.
-   *
-   * @param data  An array of EventData objects to be sent in a Batch message.
-   * @param partitionId Partition ID to which the event data needs to be sent.
-   *
-   * @return Promise<void>
-   */
-  async send(data: EventData[], partitionId: string, options?: BatchingOptions): Promise<void>;
-  async send(
-    data: EventData[],
-    partitionIdOrOptions?: string | BatchingOptions,
-    options?: BatchingOptions
-  ): Promise<void> {
-    let partitionId: string | undefined;
-    if (typeof partitionIdOrOptions === "string") {
-      partitionId = partitionIdOrOptions;
-    } else {
-      options = partitionIdOrOptions;
-    }
-
-    if (options) {
-      partitionId = options.partitionId;
-    }
-
-    const sender = EventHubSender.create(this._context, partitionId);
-    return sender.send(data, options);
+  * Creates a Sender 
+  */
+  createSender(): Sender {
+    return new Sender(this._context);
   }
 
   /**
-   * Starts the receiver by establishing an AMQP session and an AMQP receiver link on the session. Messages will be passed to
-   * the provided onMessage handler and error will be passed to the provided onError handler.
-   *
-   * @param {string|number} partitionId                        Partition ID from which to receive.
-   * @param {OnMessage} onMessage                              The message handler to receive event data objects.
-   * @param {OnError} onError                                  The error handler to receive an error that occurs
-   * while receiving messages.
-   * @param {ReceiveOptions} [options]                         Options for how you'd like to receive messages.
-   *
-   * @returns {ReceiveHandler} ReceiveHandler - An object that provides a mechanism to stop receiving more messages.
-   */
-  receive(partitionId: string, onMessage: OnMessage, onError: OnError, options?: ReceiveOptions): ReceiveHandler {
-    if (typeof partitionId !== "string" && typeof partitionId !== "number") {
-      throw new Error("'partitionId' is a required parameter and must be of type: 'string' | 'number'.");
-    }
-    const sReceiver = StreamingReceiver.create(this._context, partitionId, options);
-    sReceiver.prefetchCount = Constants.defaultPrefetchCount;
-    this._context.receivers[sReceiver.name] = sReceiver;
-    return sReceiver.receive(onMessage, onError);
-  }
-
-
-  /**
-   * Receives a batch of EventData objects from an EventHub partition for a given count and a given max wait time in seconds, whichever
-   * happens first. This method can be used directly after creating the receiver object and **MUST NOT** be used along with the `start()` method.
-   *
-   * @param {string|number} partitionId                        Partition ID from which to receive.
-   * @param {number} maxMessageCount                           The maximum message count. Must be a value greater than 0.
-   * @param {number} [maxWaitTimeInSeconds]                    The maximum wait time in seconds for which the Receiver should wait
-   * to receiver the said amount of messages. If not provided, it defaults to 60 seconds.
-   * @param {ReceiveOptions} [options]                         Options for how you'd like to receive messages.
-   *
-   * @returns {Promise<Array<EventData>>} Promise<Array<EventData>>.
-   */
-  async receiveBatch(
-    partitionId: string,
-    maxMessageCount: number,
-    maxWaitTimeInSeconds: number,
-    options?: ReceiveOptions
-  ): Promise<ReceivedEventData[]> {
-    if (typeof partitionId !== "string" && typeof partitionId !== "number") {
-      throw new Error("'partitionId' is a required parameter and must be of type: 'string' | 'number'.");
-    }
-    const bReceiver = BatchingReceiver.create(this._context, partitionId, options);
-    this._context.receivers[bReceiver.name] = bReceiver;
-    let error: MessagingError | undefined;
-    let result: ReceivedEventData[] = [];
-    try {
-      result = await bReceiver.receive(maxMessageCount, maxWaitTimeInSeconds);
-    } catch (err) {
-      error = err;
-      log.error(
-        "[%s] Receiver '%s', an error occurred while receiving %d messages for %d max time:\n %O",
-        this._context.connectionId,
-        bReceiver.name,
-        maxMessageCount,
-        maxWaitTimeInSeconds,
-        err
-      );
-    }
-    try {
-      await bReceiver.close();
-    } catch (err) {
-      // do nothing about it.
-    }
-    if (error) {
-      throw error;
-    }
-    return result;
-  }
-
-  /**
-   * Gets an async iterator over events from the receiver.
-   */
-  async *getEventIterator(
-    partitionId: string, 
-    batchSize: number, 
-    maxWaitTimeInSeconds: number,
-    options?: ReceiveOptions
-    ): AsyncIterableIterator<ReceivedEventData[]> {
-    // TODO: Create batching receiver using the options here
-    // Update `receiveBatch` call to use the above receiver
-    // Don't export `receiveBatch` from user
-    while (true) {
-      const currentBatch = await this.receiveBatch(partitionId, batchSize, maxWaitTimeInSeconds, options);
-      yield currentBatch;
-    }
+  * Creates a Receiver 
+  */
+  createReceiver(partitionId: string, options?: ReceiveOptions): Receiver {
+    return new Receiver(this._context, partitionId, options);
   }
 
   /**
@@ -487,7 +369,7 @@ export class EventHubClient {
     if (!config.entityPath) {
       throw new TypeError(
         `Either provide "path" or the "connectionString": "${connectionString}", ` +
-          `must contain EntityPath="<path-to-the-entity>".`
+        `must contain EntityPath="<path-to-the-entity>".`
       );
     }
     const tokenProvider = new SasTokenProvider(config.endpoint, config.sharedAccessKeyName, config.sharedAccessKey);
