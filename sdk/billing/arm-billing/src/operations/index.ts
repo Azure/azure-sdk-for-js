@@ -8,7 +8,25 @@
  * regenerated.
  */
 
+export * from "./billingAccounts";
+export * from "./paymentMethods";
+export * from "./validateAddress";
+export * from "./availableBalances";
+export * from "./billingProfiles";
+export * from "./invoiceSections";
+export * from "./departments";
 export * from "./enrollmentAccounts";
-export * from "./billingPeriods";
 export * from "./invoices";
+export * from "./priceSheet";
+export * from "./billingSubscriptions";
+export * from "./products";
+export * from "./transactions";
+export * from "./policies";
+export * from "./billingPropertyOperations";
+export * from "./transfers";
+export * from "./recipientTransfers";
 export * from "./operations";
+export * from "./billingPermissions";
+export * from "./billingRoleDefinitions";
+export * from "./billingRoleAssignments";
+export * from "./agreements";
