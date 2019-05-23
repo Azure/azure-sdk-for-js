@@ -1,5 +1,5 @@
 import { ClientContext } from "../../ClientContext";
-import { Helper } from "../../common";
+import { getIdFromLink, getPathFromLink, isResourceValid, ResourceType } from "../../common";
 import { SqlQuerySpec } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
 import { FeedOptions, RequestOptions } from "../../request";
@@ -34,11 +34,18 @@ export class UserDefinedFunctions {
    */
   public query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T>;
   public query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T> {
-    const path = Helper.getPathFromLink(this.container.url, "udfs");
-    const id = Helper.getIdFromLink(this.container.url);
+    const path = getPathFromLink(this.container.url, ResourceType.udf);
+    const id = getIdFromLink(this.container.url);
 
     return new QueryIterator(this.clientContext, query, options, innerOptions => {
-      return this.clientContext.queryFeed(path, "udfs", id, result => result.UserDefinedFunctions, query, innerOptions);
+      return this.clientContext.queryFeed(
+        path,
+        ResourceType.udf,
+        id,
+        result => result.UserDefinedFunctions,
+        query,
+        innerOptions
+      );
     });
   }
 
@@ -71,23 +78,22 @@ export class UserDefinedFunctions {
     }
 
     const err = {};
-    if (!Helper.isResourceValid(body, err)) {
+    if (!isResourceValid(body, err)) {
       throw err;
     }
 
-    const path = Helper.getPathFromLink(this.container.url, "udfs");
-    const id = Helper.getIdFromLink(this.container.url);
+    const path = getPathFromLink(this.container.url, ResourceType.udf);
+    const id = getIdFromLink(this.container.url);
 
     const response = await this.clientContext.create<UserDefinedFunctionDefinition>(
       body,
       path,
-      "udfs",
+      ResourceType.udf,
       id,
-      undefined,
       options
     );
     const ref = new UserDefinedFunction(this.container, response.result.id, this.clientContext);
-    return { body: response.result, headers: response.headers, ref, userDefinedFunction: ref, udf: ref };
+    return new UserDefinedFunctionResponse(response.result, response.headers, response.statusCode, ref);
   }
 
   /**
@@ -107,22 +113,21 @@ export class UserDefinedFunctions {
     }
 
     const err = {};
-    if (!Helper.isResourceValid(body, err)) {
+    if (!isResourceValid(body, err)) {
       throw err;
     }
 
-    const path = Helper.getPathFromLink(this.container.url, "udfs");
-    const id = Helper.getIdFromLink(this.container.url);
+    const path = getPathFromLink(this.container.url, ResourceType.udf);
+    const id = getIdFromLink(this.container.url);
 
     const response = await this.clientContext.upsert<UserDefinedFunctionDefinition>(
       body,
       path,
-      "udfs",
+      ResourceType.udf,
       id,
-      undefined,
       options
     );
     const ref = new UserDefinedFunction(this.container, response.result.id, this.clientContext);
-    return { body: response.result, headers: response.headers, ref, userDefinedFunction: ref, udf: ref };
+    return new UserDefinedFunctionResponse(response.result, response.headers, response.statusCode, ref);
   }
 }

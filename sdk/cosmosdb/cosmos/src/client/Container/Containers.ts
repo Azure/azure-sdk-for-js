@@ -1,12 +1,15 @@
 import { ClientContext } from "../../ClientContext";
-import { Helper, StatusCodes } from "../../common";
-import { HeaderUtils, SqlQuerySpec } from "../../queryExecutionContext";
+import { Constants, getIdFromLink, getPathFromLink, isResourceValid, ResourceType, StatusCodes } from "../../common";
+import { DEFAULT_PARTITION_KEY_PATH } from "../../common/partitionKeys";
+import { PartitionKind } from "../../documents";
+import { mergeHeaders, SqlQuerySpec } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
 import { FeedOptions, RequestOptions } from "../../request";
 import { Database } from "../Database";
 import { Resource } from "../Resource";
 import { Container } from "./Container";
 import { ContainerDefinition } from "./ContainerDefinition";
+import { ContainerRequest } from "./ContainerRequest";
 import { ContainerResponse } from "./ContainerResponse";
 
 /**
@@ -57,13 +60,13 @@ export class Containers {
    */
   public query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T>;
   public query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T> {
-    const path = Helper.getPathFromLink(this.database.url, "colls");
-    const id = Helper.getIdFromLink(this.database.url);
+    const path = getPathFromLink(this.database.url, ResourceType.container);
+    const id = getIdFromLink(this.database.url);
 
     return new QueryIterator(this.clientContext, query, options, innerOptions => {
       return this.clientContext.queryFeed<ContainerDefinition>(
         path,
-        "colls",
+        ResourceType.container,
         id,
         result => result.DocumentCollections,
         query,
@@ -89,22 +92,32 @@ export class Containers {
    * @param body Represents the body of the container.
    * @param options Use to set options like response page size, continuation tokens, etc.
    */
-  public async create(body: ContainerDefinition, options?: RequestOptions): Promise<ContainerResponse> {
+  public async create(body: ContainerRequest, options: RequestOptions = {}): Promise<ContainerResponse> {
     const err = {};
-    if (!Helper.isResourceValid(body, err)) {
+    if (!isResourceValid(body, err)) {
       throw err;
     }
-    const path = Helper.getPathFromLink(this.database.url, "colls");
-    const id = Helper.getIdFromLink(this.database.url);
+    const path = getPathFromLink(this.database.url, ResourceType.container);
+    const id = getIdFromLink(this.database.url);
 
-    const response = await this.clientContext.create<ContainerDefinition>(body, path, "colls", id, undefined, options);
+    if (body.throughput) {
+      options.initialHeaders = Object.assign({}, options.initialHeaders, {
+        [Constants.HttpHeaders.OfferThroughput]: body.throughput
+      });
+      delete body.throughput;
+    }
+
+    // If they don't specify a partition key, use the default path
+    if (!body.partitionKey || !body.partitionKey.paths) {
+      body.partitionKey = {
+        kind: PartitionKind.Hash,
+        paths: [DEFAULT_PARTITION_KEY_PATH]
+      };
+    }
+
+    const response = await this.clientContext.create<ContainerRequest>(body, path, ResourceType.container, id, options);
     const ref = new Container(this.database, response.result.id, this.clientContext);
-    return {
-      body: response.result,
-      headers: response.headers,
-      ref,
-      container: ref
-    };
+    return new ContainerResponse(response.result, response.headers, response.statusCode, ref);
   }
 
   /**
@@ -126,7 +139,7 @@ export class Containers {
    * @param body Represents the body of the container.
    * @param options Use to set options like response page size, continuation tokens, etc.
    */
-  public async createIfNotExists(body: ContainerDefinition, options?: RequestOptions): Promise<ContainerResponse> {
+  public async createIfNotExists(body: ContainerRequest, options?: RequestOptions): Promise<ContainerResponse> {
     if (!body || body.id === null || body.id === undefined) {
       throw new Error("body parameter must be an object with an id property");
     }
@@ -141,7 +154,7 @@ export class Containers {
       if (err.code === StatusCodes.NotFound) {
         const createResponse = await this.create(body, options);
         // Must merge the headers to capture RU costskaty
-        HeaderUtils.mergeHeaders(createResponse.headers, err.headers);
+        mergeHeaders(createResponse.headers, err.headers);
         return createResponse;
       } else {
         throw err;

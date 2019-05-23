@@ -1,14 +1,16 @@
 /// <reference lib="esnext.asynciterable" />
 import { ClientContext } from "./ClientContext";
 import {
+  CosmosHeaders,
+  ExecutionContext,
   FetchFunctionCallback,
-  IExecutionContext,
-  IHeaders,
+  getInitialHeader,
+  mergeHeaders,
   ProxyQueryExecutionContext,
   SqlQuerySpec
 } from "./queryExecutionContext";
 import { FeedOptions } from "./request/FeedOptions";
-import { Response } from "./request/request";
+import { FeedResponse } from "./request/FeedResponse";
 
 /**
  * Represents a QueryIterator Object, an implmenetation of feed or query response that enables
@@ -16,9 +18,9 @@ import { Response } from "./request/request";
  * in the Azure Cosmos DB database service.
  */
 export class QueryIterator<T> {
-  private toArrayTempResources: T[]; // TODO
-  private toArrayLastResHeaders: IHeaders;
-  private queryExecutionContext: IExecutionContext;
+  private fetchAllTempResources: T[]; // TODO
+  private fetchAllLastResHeaders: CosmosHeaders;
+  private queryExecutionContext: ExecutionContext;
   /**
    * @hidden
    */
@@ -27,48 +29,14 @@ export class QueryIterator<T> {
     private query: SqlQuerySpec | string,
     private options: FeedOptions,
     private fetchFunctions: FetchFunctionCallback | FetchFunctionCallback[],
-    private resourceLink?: string | string[]
+    private resourceLink?: string
   ) {
     this.query = query;
     this.fetchFunctions = fetchFunctions;
     this.options = options;
     this.resourceLink = resourceLink;
-    this.queryExecutionContext = this._createQueryExecutionContext();
-  }
-
-  /**
-   * Calls a specified callback for each item returned from the query.
-   * Runs serially; each callback blocks the next.
-   *
-   * @param callback Specified callback.
-   * First param is the result,
-   * second param (optional) is the current headers object state,
-   * third param (optional) is current index.
-   * No more callbacks will be called if one of them results false.
-   *
-   * @returns Promise<void> - you should await or .catch the Promise in case there are any errors
-   *
-   * @example Iterate over all databases
-   * ```typescript
-   * await client.databases.readAll().forEach((db, headers, index) => {
-   *   console.log(`Got ${db.id} from forEach`);
-   * })
-   * ```
-   */
-  public async forEach(callback: (result: T, headers?: IHeaders, index?: number) => boolean | void): Promise<void> {
-    this.reset();
-    let index = 0;
-    while (this.queryExecutionContext.hasMoreResults()) {
-      const result = await this.queryExecutionContext.nextItem();
-      if (result.result === undefined) {
-        return;
-      }
-      if (callback(result.result, result.headers, index) === false) {
-        return;
-      } else {
-        ++index;
-      }
-    }
+    this.queryExecutionContext = this.createQueryExecutionContext();
+    this.fetchAllLastResHeaders = getInitialHeader();
   }
 
   /**
@@ -86,8 +54,6 @@ export class QueryIterator<T> {
    * }
    * ```
    *
-   * @see QueryIterator.forEach for very similar functionality.
-   *
    * @example Iterate over all databases
    * ```typescript
    * for await(const {result: db} in client.databases.readAll().getAsyncIterator()) {
@@ -95,35 +61,22 @@ export class QueryIterator<T> {
    * }
    * ```
    */
-  public async *getAsyncIterator(): AsyncIterable<Response<T>> {
+  public async *getAsyncIterator(): AsyncIterable<FeedResponse<T>> {
     this.reset();
     while (this.queryExecutionContext.hasMoreResults()) {
-      const result = await this.queryExecutionContext.nextItem();
-      if (result.result === undefined) {
-        return;
+      const result = await this.queryExecutionContext.fetchMore();
+      const feedResponse = new FeedResponse<T>(
+        result.result,
+        result.headers,
+        this.queryExecutionContext.hasMoreResults()
+      );
+      if (result.result !== undefined) {
+        yield feedResponse;
       }
-      yield result;
     }
   }
 
   /**
-   * Execute a provided function on the next element in the QueryIterator.
-   */
-  public async nextItem(): Promise<Response<T>> {
-    return this.queryExecutionContext.nextItem();
-  }
-
-  /**
-   * Retrieve the current element on the QueryIterator.
-   */
-  public async current(): Promise<Response<T>> {
-    return this.queryExecutionContext.current();
-  }
-
-  // TODO: why is has more results deprecated?
-  /**
-   * @deprecated Instead check if nextItem() or current() returns undefined.
-   *
    * Determine if there are still remaining resources to processs based on the value of the continuation token or the\
    * elements remaining on the current batch in the QueryIterator.
    * @returns {Boolean} true if there is other elements to process in the QueryIterator.
@@ -133,51 +86,52 @@ export class QueryIterator<T> {
   }
 
   /**
-   * Retrieve all the elements of the feed and pass them as an array to a function
+   * Fetch all pages for the query and return a single FeedResponse.
    */
-  public async toArray(): Promise<Response<T[]>> {
-    if (arguments.length !== 0) {
-      throw new Error("toArray takes no arguments");
-    }
+
+  public async fetchAll(): Promise<FeedResponse<T>> {
     this.reset();
-    this.toArrayTempResources = [];
-    return this._toArrayImplementation();
+    this.fetchAllTempResources = [];
+    return this.toArrayImplementation();
   }
 
   /**
-   * Retrieve the next batch of the feed and pass them as an array to a function
+   * Retrieve the next batch from the feed.
+   *
+   * This may or may not fetch more pages from the backend depending on your settings
+   * and the type of query. Aggregate queries will generally fetch all backend pages
+   * before returning the first batch of responses.
    */
-  public async executeNext(): Promise<Response<T[]>> {
-    return this.queryExecutionContext.fetchMore();
+  public async fetchNext(): Promise<FeedResponse<T>> {
+    const response = await this.queryExecutionContext.fetchMore();
+    return new FeedResponse<T>(response.result, response.headers, this.queryExecutionContext.hasMoreResults());
   }
 
   /**
    * Reset the QueryIterator to the beginning and clear all the resources inside it
    */
   public reset() {
-    this.queryExecutionContext = this._createQueryExecutionContext();
+    this.queryExecutionContext = this.createQueryExecutionContext();
   }
 
-  private async _toArrayImplementation(): Promise<Response<T[]>> {
+  private async toArrayImplementation(): Promise<FeedResponse<T>> {
     while (this.queryExecutionContext.hasMoreResults()) {
       const { result, headers } = await this.queryExecutionContext.nextItem();
-      // concatinate the results and fetch more
-      this.toArrayLastResHeaders = headers;
+      // concatenate the results and fetch more
+      mergeHeaders(this.fetchAllLastResHeaders, headers);
 
-      if (result === undefined) {
-        // no more results
-        break;
+      if (result !== undefined) {
+        this.fetchAllTempResources.push(result);
       }
-
-      this.toArrayTempResources.push(result);
     }
-    return {
-      result: this.toArrayTempResources,
-      headers: this.toArrayLastResHeaders
-    };
+    return new FeedResponse(
+      this.fetchAllTempResources,
+      this.fetchAllLastResHeaders,
+      this.queryExecutionContext.hasMoreResults()
+    );
   }
 
-  private _createQueryExecutionContext() {
+  private createQueryExecutionContext() {
     return new ProxyQueryExecutionContext(
       this.clientContext,
       this.query,

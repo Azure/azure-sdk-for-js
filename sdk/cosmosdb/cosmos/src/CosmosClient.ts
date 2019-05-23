@@ -1,15 +1,12 @@
-import { Agent, AgentOptions } from "https";
-import * as tunnel from "tunnel";
-import * as url from "url";
-import { Constants, RequestOptions } from ".";
 import { Database, Databases } from "./client/Database";
 import { Offer, Offers } from "./client/Offer";
 import { ClientContext } from "./ClientContext";
-import { Helper, Platform } from "./common";
+import { Constants } from "./common/constants";
+import { getPlatformDefaultHeaders, getUserAgent } from "./common/platform";
 import { CosmosClientOptions } from "./CosmosClientOptions";
-import { DatabaseAccount } from "./documents";
+import { DatabaseAccount, defaultConnectionPolicy } from "./documents";
 import { GlobalEndpointManager } from "./globalEndpointManager";
-import { CosmosResponse } from "./request";
+import { RequestOptions, ResourceResponse } from "./request";
 
 /**
  * Provides a client-side logical representation of the Azure Cosmos DB database account.
@@ -38,7 +35,7 @@ export class CosmosClient {
    *
    * @example Create a new database
    * ```typescript
-   * const {body: databaseDefinition, database} = await client.databases.create({id: "<name here>"});
+   * const {resource: databaseDefinition, database} = await client.databases.create({id: "<name here>"});
    * ```
    */
   public readonly databases: Databases;
@@ -60,7 +57,7 @@ export class CosmosClient {
       options.auth.key = options.key;
     }
 
-    options.connectionPolicy = Helper.parseConnectionPolicy(options.connectionPolicy);
+    options.connectionPolicy = Object.assign({}, defaultConnectionPolicy, options.connectionPolicy);
 
     options.defaultHeaders = options.defaultHeaders || {};
     options.defaultHeaders[Constants.HttpHeaders.CacheControl] = "no-cache";
@@ -69,39 +66,12 @@ export class CosmosClient {
       options.defaultHeaders[Constants.HttpHeaders.ConsistencyLevel] = options.consistencyLevel;
     }
 
-    const platformDefaultHeaders = Platform.getPlatformDefaultHeaders() || {};
+    const platformDefaultHeaders = getPlatformDefaultHeaders() || {};
     for (const platformDefaultHeader of Object.keys(platformDefaultHeaders)) {
       options.defaultHeaders[platformDefaultHeader] = platformDefaultHeaders[platformDefaultHeader];
     }
 
-    options.defaultHeaders[Constants.HttpHeaders.UserAgent] = Platform.getUserAgent();
-
-    if (!this.options.agent) {
-      // Initialize request agent
-      const requestAgentOptions: AgentOptions & tunnel.HttpsOverHttpsOptions & tunnel.HttpsOverHttpOptions = {
-        keepAlive: true
-      };
-      if (!!this.options.connectionPolicy.ProxyUrl) {
-        const proxyUrl = url.parse(this.options.connectionPolicy.ProxyUrl);
-        const port = parseInt(proxyUrl.port, 10);
-        requestAgentOptions.proxy = {
-          host: proxyUrl.hostname,
-          port,
-          headers: {}
-        };
-
-        if (!!proxyUrl.auth) {
-          requestAgentOptions.proxy.proxyAuth = proxyUrl.auth;
-        }
-
-        this.options.agent =
-          proxyUrl.protocol.toLowerCase() === "https:"
-            ? tunnel.httpsOverHttps(requestAgentOptions)
-            : tunnel.httpsOverHttp(requestAgentOptions); // TODO: type coersion
-      } else {
-        this.options.agent = new Agent(requestAgentOptions); // TODO: Move to request?
-      }
-    }
+    options.defaultHeaders[Constants.HttpHeaders.UserAgent] = getUserAgent();
 
     const globalEndpointManager = new GlobalEndpointManager(this.options, async (opts: RequestOptions) =>
       this.getDatabaseAccount(opts)
@@ -115,9 +85,9 @@ export class CosmosClient {
   /**
    * Get information about the current {@link DatabaseAccount} (including which regions are supported, etc.)
    */
-  public async getDatabaseAccount(options?: RequestOptions): Promise<CosmosResponse<DatabaseAccount, CosmosClient>> {
+  public async getDatabaseAccount(options?: RequestOptions): Promise<ResourceResponse<DatabaseAccount>> {
     const response = await this.clientContext.getDatabaseAccount(options);
-    return { body: response.result, headers: response.headers, ref: this };
+    return new ResourceResponse<DatabaseAccount>(response.result, response.headers, response.statusCode);
   }
 
   /**

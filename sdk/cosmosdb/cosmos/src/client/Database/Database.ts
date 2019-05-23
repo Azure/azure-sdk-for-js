@@ -1,5 +1,5 @@
 import { ClientContext } from "../../ClientContext";
-import { Helper, UriFactory } from "../../common";
+import { createDatabaseUri, getIdFromLink, getPathFromLink, ResourceType } from "../../common";
 import { CosmosClient } from "../../CosmosClient";
 import { RequestOptions } from "../../request";
 import { Container, Containers } from "../Container";
@@ -40,7 +40,7 @@ export class Database {
    * Returns a reference URL to the resource. Used for linking in Permissions.
    */
   public get url() {
-    return UriFactory.createDatabaseUri(this.id);
+    return createDatabaseUri(this.id);
   }
 
   /** Returns a new {@link Database} instance.
@@ -77,27 +77,17 @@ export class Database {
 
   /** Read the definition of the given Database. */
   public async read(options?: RequestOptions): Promise<DatabaseResponse> {
-    const path = Helper.getPathFromLink(this.url);
-    const id = Helper.getIdFromLink(this.url);
-    const response = await this.clientContext.read<DatabaseDefinition>(path, "dbs", id, undefined, options);
-    return {
-      body: response.result,
-      headers: response.headers,
-      ref: this,
-      database: this
-    };
+    const path = getPathFromLink(this.url);
+    const id = getIdFromLink(this.url);
+    const response = await this.clientContext.read<DatabaseDefinition>(path, ResourceType.database, id, options);
+    return new DatabaseResponse(response.result, response.headers, response.statusCode, this);
   }
 
   /** Delete the given Database. */
   public async delete(options?: RequestOptions): Promise<DatabaseResponse> {
-    const path = Helper.getPathFromLink(this.url);
-    const id = Helper.getIdFromLink(this.url);
-    const response = await this.clientContext.delete<DatabaseDefinition>(path, "dbs", id, undefined, options);
-    return {
-      body: response.result,
-      headers: response.headers,
-      ref: this,
-      database: this
-    };
+    const path = getPathFromLink(this.url);
+    const id = getIdFromLink(this.url);
+    const response = await this.clientContext.delete<DatabaseDefinition>(path, ResourceType.database, id, options);
+    return new DatabaseResponse(response.result, response.headers, response.statusCode, this);
   }
 }

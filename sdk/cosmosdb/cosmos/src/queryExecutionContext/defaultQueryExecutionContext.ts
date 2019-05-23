@@ -1,9 +1,8 @@
-import { IExecutionContext } from ".";
-import { ClientContext } from "../ClientContext";
 import { Constants } from "../common";
 import { ClientSideMetrics, QueryMetrics } from "../queryMetrics";
 import { Response } from "../request";
-import { SqlQuerySpec } from "./SqlQuerySpec";
+import { getInitialHeader } from "./headerUtils";
+import { ExecutionContext } from "./index";
 
 /** @hidden */
 export type FetchFunctionCallback = (options: any) => Promise<Response<any>>;
@@ -16,9 +15,8 @@ enum STATES {
 }
 
 /** @hidden */
-export class DefaultQueryExecutionContext implements IExecutionContext {
+export class DefaultQueryExecutionContext implements ExecutionContext {
   private static readonly STATES = STATES;
-  private query: string | SqlQuerySpec;
   private resources: any; // TODO: any resources
   private currentIndex: number;
   private currentPartitionIndex: number;
@@ -37,14 +35,8 @@ export class DefaultQueryExecutionContext implements IExecutionContext {
    *                          An array of functions may be used to query more than one partition.
    * @ignore
    */
-  constructor(
-    private clientContext: ClientContext,
-    query: string | SqlQuerySpec,
-    options: any,
-    fetchFunctions: FetchFunctionCallback | FetchFunctionCallback[]
-  ) {
+  constructor(options: any, fetchFunctions: FetchFunctionCallback | FetchFunctionCallback[]) {
     // TODO: any options
-    this.query = query;
     this.resources = [];
     this.currentIndex = 0;
     this.currentPartitionIndex = 0;
@@ -74,7 +66,7 @@ export class DefaultQueryExecutionContext implements IExecutionContext {
     if (this.currentIndex < this.resources.length) {
       return {
         result: this.resources[this.currentIndex],
-        headers: undefined
+        headers: getInitialHeader()
       };
     }
 
@@ -97,7 +89,7 @@ export class DefaultQueryExecutionContext implements IExecutionContext {
       return { result: this.resources[this.currentIndex], headers };
     } else {
       this.state = DefaultQueryExecutionContext.STATES.ended;
-      return { result: undefined, headers: undefined };
+      return { result: undefined, headers: getInitialHeader() };
     }
   }
 
@@ -124,7 +116,7 @@ export class DefaultQueryExecutionContext implements IExecutionContext {
    */
   public async fetchMore(): Promise<Response<any>> {
     if (this.currentPartitionIndex >= this.fetchFunctions.length) {
-      return { headers: undefined, result: undefined };
+      return { headers: getInitialHeader(), result: undefined };
     }
 
     // Keep to the original continuation and to restore the value after fetchFunction call
@@ -133,7 +125,7 @@ export class DefaultQueryExecutionContext implements IExecutionContext {
 
     // Return undefined if there is no more results
     if (this.currentPartitionIndex >= this.fetchFunctions.length) {
-      return { headers: undefined, result: undefined };
+      return { headers: getInitialHeader(), result: undefined };
     }
 
     const fetchFunction = this.fetchFunctions[this.currentPartitionIndex];

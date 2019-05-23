@@ -1,9 +1,9 @@
-import { IHeaders } from "..";
+import { SharedOptions } from "./SharedOptions";
 
 /**
  * The feed options and query methods.
  */
-export interface FeedOptions {
+export interface FeedOptions extends SharedOptions {
   /** Opaque token for continuing the enumeration. */
   continuation?: string;
   /**
@@ -27,14 +27,8 @@ export interface FeedOptions {
   maxDegreeOfParallelism?: number;
   /** Max number of items to be returned in the enumeration operation. */
   maxItemCount?: number;
-  /** Specifies a partition key definition for a particular path in the Azure Cosmos DB database service. */
-  partitionKey?: string;
-  /** Token for use with Session consistency. */
-  sessionToken?: string;
-  /** (Advanced use case) Initial headers to start with when sending requests to Cosmos */
-  initialHeaders?: IHeaders;
   /** Indicates a change feed request. Must be set to "Incremental feed", or omitted otherwise. */
-  a_im?: string;
+  useIncrementalFeed?: boolean;
   /** Conditions Associated with the request. */
   accessCondition?: {
     /** Conditional HTTP method header type (IfMatch or IfNoneMatch). */

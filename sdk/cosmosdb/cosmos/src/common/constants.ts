@@ -1,5 +1,3 @@
-import { version } from "../../package.json";
-
 export const Constants = {
   MediaTypes: {
     Any: "*/*",
@@ -13,15 +11,6 @@ export const Constants = {
     TextHtml: "text/html",
     TextPlain: "text/plain",
     Xml: "application/xml"
-  },
-
-  HttpMethods: {
-    Get: "GET",
-    Post: "POST",
-    Put: "PUT",
-    Delete: "DELETE",
-    Head: "HEAD",
-    Options: "OPTIONS"
   },
 
   HttpHeaders: {
@@ -175,10 +164,10 @@ export const Constants = {
   ThrottleRetryCount: "x-ms-throttle-retry-count",
   ThrottleRetryWaitTimeInMs: "x-ms-throttle-retry-wait-time-ms",
 
-  CurrentVersion: "2018-06-18",
+  CurrentVersion: "2018-12-31",
 
   SDKName: "azure-cosmos-js",
-  SDKVersion: version,
+  SDKVersion: "REPLACE_SDK_VERSION",
 
   DefaultPrecisions: {
     DefaultNumberHashPrecision: 3,
@@ -219,16 +208,6 @@ export const Constants = {
     DatabaseAccountPathSegment: "databaseaccount"
   },
 
-  OperationTypes: {
-    Create: "create",
-    Replace: "replace",
-    Upsert: "upsert",
-    Delete: "delete",
-    Read: "read",
-    Query: "query",
-    Execute: "execute"
-  },
-
   PartitionKeyRange: {
     // Partition Key Range Constants
     MinInclusive: "minInclusive",
@@ -250,6 +229,7 @@ export const Constants = {
 };
 
 export enum ResourceType {
+  none = "",
   database = "dbs",
   offer = "offers",
   user = "users",
@@ -259,5 +239,23 @@ export enum ResourceType {
   sproc = "sprocs",
   udf = "udfs",
   trigger = "triggers",
-  item = "docs"
+  item = "docs",
+  pkranges = "pkranges"
+}
+
+export enum HTTPMethod {
+  get = "GET",
+  post = "POST",
+  put = "PUT",
+  delete = "DELETE"
+}
+
+export enum OperationType {
+  Create = "create",
+  Replace = "replace",
+  Upsert = "upsert",
+  Delete = "delete",
+  Read = "read",
+  Query = "query",
+  Execute = "execute"
 }

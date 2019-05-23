@@ -1,11 +1,20 @@
-import { CosmosResponse } from "../../request";
+import { CosmosHeaders } from "../../queryExecutionContext";
+import { ResourceResponse } from "../../request";
 import { Resource } from "../Resource";
 import { Permission } from "./Permission";
 import { PermissionBody } from "./PermissionBody";
 import { PermissionDefinition } from "./PermissionDefinition";
 
-export interface PermissionResponse
-  extends CosmosResponse<PermissionDefinition & PermissionBody & Resource, Permission> {
+export class PermissionResponse extends ResourceResponse<PermissionDefinition & PermissionBody & Resource> {
+  constructor(
+    resource: PermissionDefinition & PermissionBody & Resource,
+    headers: CosmosHeaders,
+    statusCode: number,
+    permission: Permission
+  ) {
+    super(resource, headers, statusCode);
+    this.permission = permission;
+  }
   /** A reference to the {@link Permission} corresponding to the returned {@link PermissionDefinition}. */
-  permission: Permission;
+  public readonly permission: Permission;
 }

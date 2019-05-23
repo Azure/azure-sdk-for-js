@@ -1,4 +1,5 @@
 {
     "mocha.files.glob":"test/legacy/**/*.js",
-    "editor.formatOnSave": true
+    "editor.formatOnSave": true,
+    "typescript.tsdk": "node_modules/typescript/lib"
 }

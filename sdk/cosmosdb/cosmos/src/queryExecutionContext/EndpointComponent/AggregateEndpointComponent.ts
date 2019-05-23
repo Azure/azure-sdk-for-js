@@ -1,11 +1,11 @@
-import { IHeaders } from "..";
-import { Response } from "../../request/request";
+import { Response } from "../../request";
 import { AverageAggregator, CountAggregator, MaxAggregator, MinAggregator, SumAggregator } from "../Aggregators";
-import { IExecutionContext } from "../IExecutionContext";
-import { IEndpointComponent } from "./IEndpointComponent";
+import { ExecutionContext } from "../ExecutionContext";
+import { getInitialHeader } from "../headerUtils";
+import { CosmosHeaders } from "../index";
 
 /** @hidden */
-export class AggregateEndpointComponent implements IEndpointComponent {
+export class AggregateEndpointComponent implements ExecutionContext {
   private toArrayTempResources: any[];
   private aggregateValues: any[];
   private aggregateValuesIndex: number;
@@ -17,7 +17,7 @@ export class AggregateEndpointComponent implements IEndpointComponent {
    * @param { object } executionContext - Underlying Execution Context
    * @ignore
    */
-  constructor(private executionContext: IExecutionContext, aggregateOperators: string[]) {
+  constructor(private executionContext: ExecutionContext, aggregateOperators: string[]) {
     // TODO: any
     this.executionContext = executionContext;
     this.localAggregators = [];
@@ -105,10 +105,9 @@ export class AggregateEndpointComponent implements IEndpointComponent {
    */
   public async nextItem(): Promise<Response<any>> {
     try {
-      let resHeaders: IHeaders;
-      let resources: any;
+      let resHeaders: CosmosHeaders;
       if (this.aggregateValues === undefined) {
-        ({ result: resources, headers: resHeaders } = await this._getAggregateResult());
+        ({ headers: resHeaders } = await this._getAggregateResult());
       }
       const resource =
         this.aggregateValuesIndex < this.aggregateValues.length
@@ -130,7 +129,7 @@ export class AggregateEndpointComponent implements IEndpointComponent {
    */
   public async current(): Promise<Response<any>> {
     if (this.aggregateValues === undefined) {
-      const { result: resouces, headers } = await this._getAggregateResult();
+      const { headers } = await this._getAggregateResult();
       return {
         result: this.aggregateValues[this.aggregateValuesIndex],
         headers
@@ -138,7 +137,7 @@ export class AggregateEndpointComponent implements IEndpointComponent {
     } else {
       return {
         result: this.aggregateValues[this.aggregateValuesIndex],
-        headers: undefined
+        headers: getInitialHeader()
       };
     }
   }

@@ -261,9 +261,14 @@ lib/**
 
 *.tgz
 
+dist-esm/
+dist-test/
+dist-commonjs/
+temp/
 ts-test/package-lock.json
 ts-test/package.json
 ts-test/*.js
-
-dist-esm
-dist-test
+test/**/*.js
+test/**/*.js.map
+test/**/*.d.ts
+tsconfig.tsbuildinfo

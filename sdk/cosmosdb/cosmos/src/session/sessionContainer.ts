@@ -1,5 +1,5 @@
-﻿import { Constants, Helper } from "../common";
-import { IHeaders } from "../queryExecutionContext";
+import { Constants, getContainerLink, OperationType, ResourceType, trimSlashes } from "../common";
+import { CosmosHeaders } from "../queryExecutionContext";
 import { SessionContext } from "./SessionContext";
 import { VectorSessionToken } from "./VectorSessionToken";
 
@@ -17,15 +17,15 @@ export class SessionContainer {
     if (!request) {
       throw new Error("request cannot be null");
     }
-    const collectionName = Helper.getContainerLink(Helper.trimSlashes(request.resourceAddress));
+    const collectionName = getContainerLink(trimSlashes(request.resourceAddress));
     const rangeIdToTokenMap = this.getPartitionKeyRangeIdToTokenMap(collectionName);
     return SessionContainer.getCombinedSessionTokenString(rangeIdToTokenMap);
   }
 
   public remove(request: SessionContext) {
     let collectionResourceId: string;
-    const resourceAddress = Helper.trimSlashes(request.resourceAddress);
-    const collectionName = Helper.getContainerLink(resourceAddress);
+    const resourceAddress = trimSlashes(request.resourceAddress);
+    const collectionName = getContainerLink(resourceAddress);
     if (collectionName) {
       collectionResourceId = this.collectionNameToCollectionResourceId.get(collectionName);
       this.collectionNameToCollectionResourceId.delete(collectionName);
@@ -35,7 +35,7 @@ export class SessionContainer {
     }
   }
 
-  public set(request: SessionContext, resHeaders: IHeaders) {
+  public set(request: SessionContext, resHeaders: CosmosHeaders) {
     // TODO: we check the master logic a few different places. Might not need it.
     if (!resHeaders || SessionContainer.isReadingFromMaster(request.resourceType, request.operationType)) {
       return;
@@ -129,7 +129,7 @@ export class SessionContainer {
   }
 
   // TODO: have a assert if the type doesn't mastch known types
-  private static isReadingFromMaster(resourceType: string, operationType: string): boolean {
+  private static isReadingFromMaster(resourceType: ResourceType, operationType: OperationType): boolean {
     if (
       resourceType === Constants.Path.OffersPathSegment ||
       resourceType === Constants.Path.DatabasesPathSegment ||
@@ -138,7 +138,7 @@ export class SessionContainer {
       resourceType === Constants.Path.TopologyPathSegment ||
       resourceType === Constants.Path.DatabaseAccountPathSegment ||
       resourceType === Constants.Path.PartitionKeyRangesPathSegment ||
-      (resourceType === Constants.Path.CollectionsPathSegment && operationType === Constants.OperationTypes.Query)
+      (resourceType === Constants.Path.CollectionsPathSegment && operationType === OperationType.Query)
     ) {
       return true;
     }
@@ -146,12 +146,12 @@ export class SessionContainer {
     return false;
   }
 
-  private getContainerName(request: SessionContext, headers: IHeaders) {
+  private getContainerName(request: SessionContext, headers: CosmosHeaders) {
     let ownerFullName = headers[Constants.HttpHeaders.OwnerFullName];
     if (!ownerFullName) {
-      ownerFullName = Helper.trimSlashes(request.resourceAddress);
+      ownerFullName = trimSlashes(request.resourceAddress);
     }
 
-    return Helper.getContainerLink(ownerFullName as string);
+    return getContainerLink(ownerFullName as string);
   }
 }

@@ -5,4 +5,8 @@ samples
 .gitignore
 *.code-workspace
 *.tgz
-ts-test/
+tsdoc-metadata.json
+consumer-test/
+test/
+src/
+lib/

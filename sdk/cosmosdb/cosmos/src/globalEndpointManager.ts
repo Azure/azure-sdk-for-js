@@ -1,11 +1,10 @@
-﻿import * as url from "url";
-import { RequestOptions } from ".";
-import { Constants, Helper } from "./common";
-import { CosmosClient } from "./CosmosClient";
+import * as url from "url";
+import { Constants, OperationType, ResourceType, sleep } from "./common";
 import { CosmosClientOptions } from "./CosmosClientOptions";
 import { DatabaseAccount } from "./documents";
+import { RequestOptions } from "./index";
 import { LocationCache } from "./LocationCache";
-import { CosmosResponse } from "./request";
+import { ResourceResponse } from "./request";
 import { RequestContext } from "./request/RequestContext";
 
 /**
@@ -33,10 +32,10 @@ export class GlobalEndpointManager {
    */
   constructor(
     options: CosmosClientOptions,
-    private readDatabaseAccount: (opts: RequestOptions) => Promise<CosmosResponse<DatabaseAccount, CosmosClient>>
+    private readDatabaseAccount: (opts: RequestOptions) => Promise<ResourceResponse<DatabaseAccount>>
   ) {
     this.defaultEndpoint = options.endpoint;
-    this.enableEndpointDiscovery = options.connectionPolicy.EnableEndpointDiscovery;
+    this.enableEndpointDiscovery = options.connectionPolicy.enableEndpointDiscovery;
     this.isEndpointCacheInitialized = false;
     this.locationCache = new LocationCache(options);
     this.isRefreshing = false;
@@ -85,8 +84,8 @@ export class GlobalEndpointManager {
     this.locationCache.markCurrentLocationUnavailableForWrite(endpoint);
   }
 
-  public canUseMultipleWriteLocations(request: RequestContext) {
-    return this.locationCache.canUseMultipleWriteLocations(request);
+  public canUseMultipleWriteLocations(resourceType?: ResourceType, operationType?: OperationType) {
+    return this.locationCache.canUseMultipleWriteLocations(resourceType, operationType);
   }
 
   public async resolveServiceEndpoint(request: RequestContext) {
@@ -99,10 +98,10 @@ export class GlobalEndpointManager {
   /**
    * Refreshes the endpoint list by retrieving the writable and readable locations
    *  from the geo-replicated database account and then updating the locations cache.
-   *   We skip the refreshing if EnableEndpointDiscovery is set to False
+   *   We skip the refreshing if enableEndpointDiscovery is set to False
    */
   public async refreshEndpointList(): Promise<void> {
-    if (!this.isRefreshing) {
+    if (!this.isRefreshing && this.enableEndpointDiscovery) {
       this.isRefreshing = true;
       let shouldRefresh = false;
       const databaseAccount = await this.getDatabaseAccountFromAnyEndpoint();
@@ -136,7 +135,7 @@ export class GlobalEndpointManager {
           if (!shouldRefresh) {
             break;
           }
-          await Helper.sleep(this.backgroundRefreshTimeIntervalInMS);
+          await sleep(this.backgroundRefreshTimeIntervalInMS);
         } while (shouldRefresh);
       } catch (err) {
         /* swallow error */
@@ -158,7 +157,7 @@ export class GlobalEndpointManager {
   private async getDatabaseAccountFromAnyEndpoint(): Promise<DatabaseAccount> {
     try {
       const options = { urlConnection: this.defaultEndpoint };
-      const { body: databaseAccount } = await this.readDatabaseAccount(options);
+      const { resource: databaseAccount } = await this.readDatabaseAccount(options);
       return databaseAccount;
       // If for any reason(non - globaldb related), we are not able to get the database
       // account from the above call to readDatabaseAccount,
@@ -175,7 +174,7 @@ export class GlobalEndpointManager {
         try {
           const locationalEndpoint = GlobalEndpointManager.getLocationalEndpoint(this.defaultEndpoint, location);
           const options = { urlConnection: locationalEndpoint };
-          const { body: databaseAccount } = await this.readDatabaseAccount(options);
+          const { resource: databaseAccount } = await this.readDatabaseAccount(options);
           if (databaseAccount) {
             return databaseAccount;
           }

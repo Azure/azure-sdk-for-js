@@ -1,12 +1,12 @@
 import { ChangeFeedIterator } from "../../ChangeFeedIterator";
 import { ChangeFeedOptions } from "../../ChangeFeedOptions";
 import { ClientContext } from "../../ClientContext";
-import { Helper } from "../../common";
+import { generateGuidId, getIdFromLink, getPathFromLink, isResourceValid, ResourceType } from "../../common";
+import { extractPartitionKey } from "../../extractPartitionKey";
 import { FetchFunctionCallback, SqlQuerySpec } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
 import { FeedOptions, RequestOptions } from "../../request";
 import { Container } from "../Container";
-import { Resource } from "../Resource";
 import { Item } from "./Item";
 import { ItemDefinition } from "./ItemDefinition";
 import { ItemResponse } from "./ItemResponse";
@@ -62,13 +62,13 @@ export class Items {
    */
   public query<T>(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<T>;
   public query<T>(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<T> {
-    const path = Helper.getPathFromLink(this.container.url, "docs");
-    const id = Helper.getIdFromLink(this.container.url);
+    const path = getPathFromLink(this.container.url, ResourceType.item);
+    const id = getIdFromLink(this.container.url);
 
     const fetchFunction: FetchFunctionCallback = (innerOptions: FeedOptions) => {
       return this.clientContext.queryFeed(
         path,
-        "docs",
+        ResourceType.item,
         id,
         result => (result ? result.Documents : []),
         query,
@@ -135,15 +135,15 @@ export class Items {
       throw new Error("changeFeedOptions must be a valid object");
     }
 
-    const path = Helper.getPathFromLink(this.container.url, "docs");
-    const id = Helper.getIdFromLink(this.container.url);
+    const path = getPathFromLink(this.container.url, ResourceType.item);
+    const id = getIdFromLink(this.container.url);
     return new ChangeFeedIterator<T>(
       this.clientContext,
       id,
       path,
       partitionKey,
       async () => {
-        const bodyWillBeTruthyIfPartitioned = (await this.container.getPartitionKeyDefinition()).body;
+        const bodyWillBeTruthyIfPartitioned = (await this.container.getPartitionKeyDefinition()).resource;
         return !!bodyWillBeTruthyIfPartitioned;
       },
       changeFeedOptions
@@ -184,15 +184,6 @@ export class Items {
   /**
    * Create a item.
    *
-   * There is no set schema for JSON items. They may contain any number of custom properties..
-   *
-   * @param body Represents the body of the item. Can contain any number of user defined properties.
-   * @param options Used for modifying the request (for instance, specifying the partition key).
-   */
-  public async create(body: any, options?: RequestOptions): Promise<ItemResponse<ItemDefinition>>;
-  /**
-   * Create a item.
-   *
    * Any provided type, T, is not necessarily enforced by the SDK.
    * You may get more or less properties and it's up to your logic to enforce it.
    *
@@ -201,28 +192,27 @@ export class Items {
    * @param body Represents the body of the item. Can contain any number of user defined properties.
    * @param options Used for modifying the request (for instance, specifying the partition key).
    */
-  public async create<T extends ItemDefinition>(body: T, options?: RequestOptions): Promise<ItemResponse<T>>;
-  public async create<T extends ItemDefinition>(body: T, options: RequestOptions = {}): Promise<ItemResponse<T>> {
-    if (options.partitionKey === undefined && options.skipGetPartitionKeyDefinition !== true) {
-      const { body: partitionKeyDefinition } = await this.container.getPartitionKeyDefinition();
-      options.partitionKey = this.container.extractPartitionKey(body, partitionKeyDefinition);
+  public async create<T extends ItemDefinition = any>(body: T, options: RequestOptions = {}): Promise<ItemResponse<T>> {
+    if (options.partitionKey === undefined) {
+      const { resource: partitionKeyDefinition } = await this.container.getPartitionKeyDefinition();
+      options.partitionKey = extractPartitionKey(body, partitionKeyDefinition);
     }
 
     // Generate random document id if the id is missing in the payload and
     // options.disableAutomaticIdGeneration != true
     if ((body.id === undefined || body.id === "") && !options.disableAutomaticIdGeneration) {
-      body.id = Helper.generateGuidId();
+      body.id = generateGuidId();
     }
 
     const err = {};
-    if (!Helper.isResourceValid(body, err)) {
+    if (!isResourceValid(body, err)) {
       throw err;
     }
 
-    const path = Helper.getPathFromLink(this.container.url, "docs");
-    const id = Helper.getIdFromLink(this.container.url);
+    const path = getPathFromLink(this.container.url, ResourceType.item);
+    const id = getIdFromLink(this.container.url);
 
-    const response = await this.clientContext.create<T>(body, path, "docs", id, undefined, options);
+    const response = await this.clientContext.create<T>(body, path, ResourceType.item, id, options);
 
     const ref = new Item(
       this.container,
@@ -230,12 +220,7 @@ export class Items {
       (options && options.partitionKey) as string,
       this.clientContext
     );
-    return {
-      body: response.result,
-      headers: response.headers,
-      ref,
-      item: ref
-    };
+    return new ItemResponse(response.result, response.headers, response.statusCode, ref);
   }
 
   /**
@@ -260,26 +245,26 @@ export class Items {
    */
   public async upsert<T extends ItemDefinition>(body: T, options?: RequestOptions): Promise<ItemResponse<T>>;
   public async upsert<T extends ItemDefinition>(body: T, options: RequestOptions = {}): Promise<ItemResponse<T>> {
-    if (options.partitionKey === undefined && options.skipGetPartitionKeyDefinition !== true) {
-      const { body: partitionKeyDefinition } = await this.container.getPartitionKeyDefinition();
-      options.partitionKey = this.container.extractPartitionKey(body, partitionKeyDefinition);
+    if (options.partitionKey === undefined) {
+      const { resource: partitionKeyDefinition } = await this.container.getPartitionKeyDefinition();
+      options.partitionKey = extractPartitionKey(body, partitionKeyDefinition);
     }
 
     // Generate random document id if the id is missing in the payload and
     // options.disableAutomaticIdGeneration != true
     if ((body.id === undefined || body.id === "") && !options.disableAutomaticIdGeneration) {
-      body.id = Helper.generateGuidId();
+      body.id = generateGuidId();
     }
 
     const err = {};
-    if (!Helper.isResourceValid(body, err)) {
+    if (!isResourceValid(body, err)) {
       throw err;
     }
 
-    const path = Helper.getPathFromLink(this.container.url, "docs");
-    const id = Helper.getIdFromLink(this.container.url);
+    const path = getPathFromLink(this.container.url, ResourceType.item);
+    const id = getIdFromLink(this.container.url);
 
-    const response = (await this.clientContext.upsert<T>(body, path, "docs", id, undefined, options)) as T & Resource;
+    const response = await this.clientContext.upsert<T>(body, path, ResourceType.item, id, options);
 
     const ref = new Item(
       this.container,
@@ -287,11 +272,6 @@ export class Items {
       (options && options.partitionKey) as string,
       this.clientContext
     );
-    return {
-      body: response.result,
-      headers: response.headers,
-      ref,
-      item: ref
-    };
+    return new ItemResponse(response.result, response.headers, response.statusCode, ref);
   }
 }

@@ -1,197 +1,114 @@
-import { Agent, OutgoingHttpHeaders } from "http";
-import { RequestOptions } from "https"; // TYPES ONLY
-import * as querystring from "querystring";
-import { Constants, IHeaders } from "..";
-import { ConnectionPolicy } from "../documents";
-import { GlobalEndpointManager } from "../globalEndpointManager";
-import { RetryUtility } from "../retry";
-import { bodyFromData, createRequestObject, parse, Response } from "./request";
+import AbortController from "node-abort-controller";
+import fetch, { RequestInit, Response } from "node-fetch";
+import { trimSlashes } from "../common";
+import { Constants } from "../common/constants";
+import { executePlugins, PluginOn } from "../plugins/Plugin";
+import * as RetryUtility from "../retry/retryUtility";
+import { ErrorResponse } from "./ErrorResponse";
+import { bodyFromData } from "./request";
 import { RequestContext } from "./RequestContext";
+import { Response as CosmosResponse } from "./Response";
+import { TimeoutError } from "./TimeoutError";
 
 /** @hidden */
-export class RequestHandler {
-  public constructor(
-    private globalEndpointManager: GlobalEndpointManager,
-    private connectionPolicy: ConnectionPolicy,
-    private requestAgent: Agent
-  ) {}
-  public static async createRequestObjectStub(
-    connectionPolicy: ConnectionPolicy,
-    requestOptions: RequestOptions,
-    body: Buffer
-  ) {
-    return createRequestObject(connectionPolicy, requestOptions, body);
-  }
+export async function executeRequest(requestContext: RequestContext) {
+  return executePlugins(requestContext, httpRequest, PluginOn.request);
+}
 
-  /**
-   *  Creates the request object, call the passed callback when the response is retrieved.
-   * @param {object} globalEndpointManager - an instance of GlobalEndpointManager class.
-   * @param {object} connectionPolicy - an instance of ConnectionPolicy that has the connection configs.
-   * @param {object} requestAgent - the https agent used for send request
-   * @param {string} method - the http request method ( 'get', 'post', 'put', .. etc ).
-   * @param {String} hostname - The base url for the endpoint.
-   * @param {string} path - the path of the requesed resource.
-   * @param {Object} data - the request body. It can be either string, buffer, or undefined.
-   * @param {Object} queryParams - query parameters for the request.
-   * @param {Object} headers - specific headers for the request.
-   * @param {function} callback - the callback that will be called when the response is retrieved and processed.
-   */
-  public static async request(
-    globalEndpointManager: GlobalEndpointManager,
-    connectionPolicy: ConnectionPolicy,
-    requestAgent: Agent,
-    method: string,
-    hostname: string,
-    request: RequestContext,
-    data: string | Buffer,
-    queryParams: any, // TODO: any query params types
-    headers: IHeaders
-  ): Promise<Response<any>> {
-    // TODO: any
-    const path = (request as { path: string }).path === undefined ? request : (request as { path: string }).path;
-    let body: any; // TODO: any
+async function httpRequest(requestContext: RequestContext) {
+  const controller = new AbortController();
+  const signal = controller.signal;
 
-    if (data) {
-      body = bodyFromData(data);
-      if (!body) {
-        return {
-          result: {
-            message: "parameter data must be a javascript object, string, or Buffer"
-          },
-          headers: undefined
-        };
-      }
-    }
-
-    let buffer;
-    if (body) {
-      if (Buffer.isBuffer(body)) {
-        buffer = body;
-      } else if (typeof body === "string") {
-        buffer = Buffer.from(body, "utf8");
-      } else {
-        return {
-          result: {
-            message: "body must be string or Buffer"
-          },
-          headers: undefined
-        };
-      }
-    }
-
-    const requestOptions: RequestOptions = parse(hostname);
-    requestOptions.method = method;
-    requestOptions.path += path;
-    requestOptions.headers = headers as OutgoingHttpHeaders;
-    requestOptions.agent = requestAgent;
-    requestOptions.secureProtocol = "TLSv1_client_method"; // TODO: Should be a constant
-
-    if (connectionPolicy.DisableSSLVerification === true) {
-      requestOptions.rejectUnauthorized = false;
-    }
-
-    if (queryParams) {
-      requestOptions.path += "?" + querystring.stringify(queryParams);
-    }
-
-    if (buffer) {
-      requestOptions.headers[Constants.HttpHeaders.ContentLength] = buffer.length;
-      return RetryUtility.execute(
-        globalEndpointManager,
-        buffer,
-        this.createRequestObjectStub,
-        connectionPolicy,
-        requestOptions,
-        request
-      );
+  // Wrap users passed abort events and call our own internal abort()
+  const userSignal = requestContext.options && requestContext.options.abortSignal;
+  if (userSignal) {
+    if (userSignal) {
+      controller.abort();
     } else {
-      return RetryUtility.execute(
-        globalEndpointManager,
-        null,
-        this.createRequestObjectStub,
-        connectionPolicy,
-        requestOptions,
-        request
-      );
+      userSignal.addEventListener("abort", () => {
+        controller.abort();
+      });
     }
   }
 
-  /** @ignore */
-  public get(urlString: string, request: RequestContext, headers: IHeaders) {
-    // TODO: any
-    return RequestHandler.request(
-      this.globalEndpointManager,
-      this.connectionPolicy,
-      this.requestAgent,
-      "GET",
-      urlString,
-      request,
-      undefined,
-      "",
-      headers
-    );
+  const timeout = setTimeout(() => {
+    controller.abort();
+  }, requestContext.connectionPolicy.requestTimeout);
+
+  let response: Response;
+
+  if (requestContext.body) {
+    requestContext.body = bodyFromData(requestContext.body);
   }
 
-  /** @ignore */
-  public post(urlString: string, request: RequestContext, body: any, headers: IHeaders) {
-    // TODO: any
-    return RequestHandler.request(
-      this.globalEndpointManager,
-      this.connectionPolicy,
-      this.requestAgent,
-      "POST",
-      urlString,
-      request,
-      body,
-      "",
-      headers
-    );
+  try {
+    response = await fetch(trimSlashes(requestContext.endpoint) + requestContext.path, {
+      method: requestContext.method,
+      headers: requestContext.headers as any,
+      agent: requestContext.requestAgent,
+      signal,
+      body: requestContext.body
+    } as RequestInit);
+  } catch (error) {
+    if (error.name === "AbortError") {
+      // If the user passed signal caused the abort, cancel the timeout and rethrow the error
+      if (userSignal && userSignal.aborted === true) {
+        clearTimeout(timeout);
+        throw error;
+      }
+      // If the user didn't cancel, it must be an abort we called due to timeout
+      throw new TimeoutError();
+    }
+    throw error;
   }
 
-  /** @ignore */
-  public put(urlString: string, request: RequestContext, body: any, headers: IHeaders) {
-    // TODO: any
-    return RequestHandler.request(
-      this.globalEndpointManager,
-      this.connectionPolicy,
-      this.requestAgent,
-      "PUT",
-      urlString,
-      request,
-      body,
-      "",
+  clearTimeout(timeout);
+
+  const result = response.status === 204 || response.status === 304 ? null : await response.json();
+  const headers = {} as any;
+  response.headers.forEach((value: string, key: string) => {
+    headers[key] = value;
+  });
+
+  if (response.status >= 400) {
+    const errorResponse: ErrorResponse = {
+      code: response.status,
+      body: result,
       headers
-    );
+    };
+    if (result.additionalErrorInfo) {
+      errorResponse.body.additionalErrorInfo = JSON.parse(result.additionalErrorInfo);
+    }
+    if (Constants.HttpHeaders.ActivityId in headers) {
+      errorResponse.activityId = headers[Constants.HttpHeaders.ActivityId];
+    }
+
+    if (Constants.HttpHeaders.SubStatus in headers) {
+      errorResponse.substatus = parseInt(headers[Constants.HttpHeaders.SubStatus], 10);
+    }
+
+    if (Constants.HttpHeaders.RetryAfterInMilliseconds in headers) {
+      errorResponse.retryAfterInMilliseconds = parseInt(headers[Constants.HttpHeaders.RetryAfterInMilliseconds], 10);
+    }
+
+    throw errorResponse;
+  }
+  return {
+    headers,
+    result,
+    statusCode: response.status
+  };
+}
+
+export async function request<T>(requestContext: RequestContext): Promise<CosmosResponse<T>> {
+  if (requestContext.body) {
+    requestContext.body = bodyFromData(requestContext.body);
+    if (!requestContext.body) {
+      throw new Error("parameter data must be a javascript object, string, or Buffer");
+    }
   }
 
-  /** @ignore */
-  public head(urlString: string, request: any, headers: IHeaders) {
-    // TODO: any
-    return RequestHandler.request(
-      this.globalEndpointManager,
-      this.connectionPolicy,
-      this.requestAgent,
-      "HEAD",
-      urlString,
-      request,
-      undefined,
-      "",
-      headers
-    );
-  }
-
-  /** @ignore */
-  public delete(urlString: string, request: RequestContext, headers: IHeaders) {
-    return RequestHandler.request(
-      this.globalEndpointManager,
-      this.connectionPolicy,
-      this.requestAgent,
-      "DELETE",
-      urlString,
-      request,
-      undefined,
-      "",
-      headers
-    );
-  }
+  return RetryUtility.execute({
+    requestContext
+  });
 }

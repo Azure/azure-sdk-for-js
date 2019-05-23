@@ -1,7 +1,7 @@
-import { IHeaders } from "..";
+import { CosmosHeaders } from "../index";
 
 export interface Response<T> {
-  headers?: IHeaders;
+  headers: CosmosHeaders;
   result?: T;
   statusCode?: number;
 }
