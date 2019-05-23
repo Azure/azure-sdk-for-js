@@ -176,6 +176,10 @@ export class BlobServiceClient extends StorageClient {
   /**
    * Iterates over containers under the specified account.
    *
+   * @param {ServiceListContainersSegmentOptions} [options={}] Options to list containers(optional)
+   * @returns {AsyncIterableIterator<Models.ContainerItem>}
+   * @memberof BlobServiceClient
+   *
    * @example
    * for await (const container of blobServiceClient.listContainers()) {
    *   console.log(`Container: ${container.name}`);
@@ -198,9 +202,6 @@ export class BlobServiceClient extends StorageClient {
    *   containerItem = await iter2.next();
    * } while (containerItem.value);
    *
-   * @param {ServiceListContainersSegmentOptions} [options]
-   * @returns {AsyncIterableIterator<Models.ContainerItem>}
-   * @memberof BlobServiceClient
    */
   public async *listContainers(
     options: ServiceListContainersSegmentOptions = {}
