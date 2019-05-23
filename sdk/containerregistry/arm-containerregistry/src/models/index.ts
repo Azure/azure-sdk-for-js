@@ -208,7 +208,7 @@ export interface Sku {
 /**
  * The status of an Azure resource at the time the operation was called.
  */
-export interface Status {
+export interface Status1 {
   /**
    * The short label for the status.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -341,7 +341,7 @@ export interface Registry extends Resource {
    * The status of the container registry at the time the operation was called.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly status?: Status;
+  readonly status?: Status1;
   /**
    * The value that indicates whether the admin user is enabled. Default value: false.
    */
@@ -510,7 +510,7 @@ export interface Replication extends Resource {
    * The status of the replication at the time the operation was called.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly status?: Status;
+  readonly status?: Status1;
 }
 
 /**
@@ -946,7 +946,7 @@ export interface PlatformProperties {
    */
   os: OS;
   /**
-   * The OS architecture. Possible values include: 'amd64', 'x86', 'arm'
+   * The OS architecture. Possible values include: 'amd64', 'x86', 'arm', 'arm64'
    */
   architecture?: Architecture;
   /**
@@ -1342,6 +1342,14 @@ export interface BaseImageTrigger {
    */
   baseImageTriggerType: BaseImageTriggerType;
   /**
+   * The endpoint URL for receiving update triggers.
+   */
+  updateTriggerEndpoint?: string;
+  /**
+   * Include Trigger metadata on Base image update triggers. Default value: true.
+   */
+  includeTriggerMetadata?: boolean;
+  /**
    * The current status of trigger. Possible values include: 'Disabled', 'Enabled'. Default value:
    * 'Enabled'.
    */
@@ -1499,7 +1507,7 @@ export interface PlatformUpdateParameters {
    */
   os?: OS;
   /**
-   * The OS architecture. Possible values include: 'amd64', 'x86', 'arm'
+   * The OS architecture. Possible values include: 'amd64', 'x86', 'arm', 'arm64'
    */
   architecture?: Architecture;
   /**
@@ -1633,6 +1641,14 @@ export interface BaseImageTriggerUpdateParameters {
    * 'All', 'Runtime'
    */
   baseImageTriggerType?: BaseImageTriggerType;
+  /**
+   * The endpoint URL for receiving update triggers.
+   */
+  updateTriggerEndpoint?: string;
+  /**
+   * Include Trigger metadata on Base image update triggers.
+   */
+  includeTriggerMetadata?: boolean;
   /**
    * The current status of trigger. Possible values include: 'Disabled', 'Enabled'. Default value:
    * 'Enabled'.
@@ -1856,6 +1872,33 @@ export interface FileTaskRunRequest {
 }
 
 /**
+ * An interface representing OverrideTaskStepProperties.
+ */
+export interface OverrideTaskStepProperties {
+  /**
+   * The source context against which run has to be queued.
+   */
+  contextPath?: string;
+  /**
+   * The file against which run has to be queued.
+   */
+  file?: string;
+  /**
+   * Gets or sets the collection of override arguments to be used when
+   * executing a build step.
+   */
+  argumentsProperty?: Argument[];
+  /**
+   * The name of the target build stage for the docker build.
+   */
+  target?: string;
+  /**
+   * The collection of overridable values that can be passed when running a Task.
+   */
+  values?: SetValue[];
+}
+
+/**
  * The parameters for a task run request.
  */
 export interface TaskRunRequest {
@@ -1869,13 +1912,17 @@ export interface TaskRunRequest {
    */
   isArchiveEnabled?: boolean;
   /**
-   * The name of task against which run has to be queued.
+   * The resource ID of task against which run has to be queued.
    */
-  taskName: string;
+  taskId: string;
   /**
-   * The collection of overridable values that can be passed when running a task.
+   * Set of overridable parameters that can be passed when running a Task.
    */
-  values?: SetValue[];
+  overrideTaskStepProperties?: OverrideTaskStepProperties;
+  /**
+   * Base64 encoded continuation token that will be attached with the base image trigger webhook.
+   */
+  continuationToken?: string;
 }
 
 /**
@@ -2157,6 +2204,196 @@ export interface EncodedTaskStepUpdateParameters {
 }
 
 /**
+ * An object that represents a scope map for a container registry.
+ */
+export interface ScopeMap extends ProxyResource {
+  /**
+   * The user friendly description of the scope map.
+   */
+  description?: string;
+  /**
+   * The type of the scope map. E.g. BuildIn scope map.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly scopeMapType?: string;
+  /**
+   * The creation date of scope map.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly creationDate?: Date;
+  /**
+   * Provisioning state of the resource. Possible values include: 'Creating', 'Updating',
+   * 'Deleting', 'Succeeded', 'Failed', 'Canceled'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * The list of scoped permissions for registry artifacts.
+   * E.g. repositories/repository-name/pull,
+   * repositories/repository-name/delete
+   */
+  actions: string[];
+}
+
+/**
+ * The properties for updating the scope map.
+ */
+export interface ScopeMapUpdateParameters {
+  /**
+   * The user friendly description of the scope map.
+   */
+  description?: string;
+  /**
+   * The list of scope permissions for registry artifacts.
+   * E.g. repositories/repository-name/pull,
+   * repositories/repository-name/delete
+   */
+  actions?: string[];
+}
+
+/**
+ * The properties of a certificate used for authenticating a token.
+ */
+export interface TokenCertificate {
+  /**
+   * Possible values include: 'certificate1', 'certificate2'
+   */
+  name?: TokenCertificateName;
+  /**
+   * The expiry datetime of the certificate.
+   */
+  expiry?: Date;
+  /**
+   * The thumbprint of the certificate.
+   */
+  thumbprint?: string;
+  /**
+   * Base 64 encoded string of the public certificate1 in PEM format that will be used for
+   * authenticating the token.
+   */
+  encodedPemCertificate?: string;
+}
+
+/**
+ * The password that will be used for authenticating the token of a container registry.
+ */
+export interface TokenPassword {
+  /**
+   * The password created datetime of the password.
+   */
+  creationTime?: Date;
+  /**
+   * The expiry datetime of the password.
+   */
+  expiry?: Date;
+  /**
+   * The password name "password" or "password2". Possible values include: 'password1', 'password2'
+   */
+  name?: TokenPasswordName;
+  /**
+   * The password value.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly value?: string;
+}
+
+/**
+ * The properties of the credentials that can be used for authenticating the token.
+ */
+export interface TokenCredentialsProperties {
+  certificates?: TokenCertificate[];
+  passwords?: TokenPassword[];
+}
+
+/**
+ * An object that represents a token for a container registry.
+ */
+export interface Token extends ProxyResource {
+  /**
+   * The creation date of scope map.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly creationDate?: Date;
+  /**
+   * Provisioning state of the resource. Possible values include: 'Creating', 'Updating',
+   * 'Deleting', 'Succeeded', 'Failed', 'Canceled'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * The resource ID of the scope map to which the token will be associated with.
+   */
+  scopeMapId?: string;
+  /**
+   * The user/group/application object ID for which the token has to be created.
+   */
+  objectId?: string;
+  /**
+   * The credentials that can be used for authenticating the token.
+   */
+  credentials?: TokenCredentialsProperties;
+  /**
+   * The status of the token example enabled or disabled. Possible values include: 'enabled',
+   * 'disabled'
+   */
+  status?: Status;
+}
+
+/**
+ * The parameters for updating a token.
+ */
+export interface TokenUpdateParameters {
+  /**
+   * The resource ID of the scope map to which the token will be associated with.
+   */
+  scopeMapId?: string;
+  /**
+   * The status of the token example enabled or disabled. Possible values include: 'enabled',
+   * 'disabled'
+   */
+  status?: Status;
+  /**
+   * The credentials that can be used for authenticating the token.
+   */
+  credentials?: TokenCredentialsProperties;
+}
+
+/**
+ * The parameters used to generate credentials for a specified token or user of a container
+ * registry.
+ */
+export interface GenerateCredentialsParameters {
+  /**
+   * The resource ID of the token for which credentials have to be generated.
+   */
+  tokenId?: string;
+  /**
+   * The expiry date of the generated credentials after which the credentials become invalid.
+   * Default value: new Date('9999-12-31T15:59:59.9999999-08:00').
+   */
+  expiry?: Date;
+  /**
+   * Specifies name of the password which should be regenerated if any -- password or password2.
+   * Possible values include: 'password1', 'password2'
+   */
+  name?: TokenPasswordName;
+}
+
+/**
+ * The response from the GenerateCredentials operation.
+ */
+export interface GenerateCredentialsResult {
+  /**
+   * The username for a container registry.
+   */
+  username?: string;
+  /**
+   * The list of passwords for a container registry.
+   */
+  passwords?: TokenPassword[];
+}
+
+/**
  * Optional Parameters.
  */
 export interface RunsListOptionalParams extends msRest.RequestOptionsBase {
@@ -2258,6 +2495,30 @@ export interface RunListResult extends Array<Run> {
 export interface TaskListResult extends Array<Task> {
   /**
    * The URI that can be used to request the next set of paged results.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
+ * The result of a request to list scope maps for a container registry.
+ * @extends Array<ScopeMap>
+ */
+export interface ScopeMapListResult extends Array<ScopeMap> {
+  /**
+   * The URI that can be used to request the next list of scope maps.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
+ * The result of a request to list tokens for a container registry.
+ * @extends Array<Token>
+ */
+export interface TokenListResult extends Array<Token> {
+  /**
+   * The URI that can be used to request the next list of tokens.
    */
   nextLink?: string;
 }
@@ -2385,11 +2646,11 @@ export type OS = 'Windows' | 'Linux';
 
 /**
  * Defines values for Architecture.
- * Possible values include: 'amd64', 'x86', 'arm'
+ * Possible values include: 'amd64', 'x86', 'arm', 'arm64'
  * @readonly
  * @enum {string}
  */
-export type Architecture = 'amd64' | 'x86' | 'arm';
+export type Architecture = 'amd64' | 'x86' | 'arm' | 'arm64';
 
 /**
  * Defines values for Variant.
@@ -2479,6 +2740,30 @@ export type SourceRegistryLoginMode = 'None' | 'Default';
  * @enum {string}
  */
 export type SecretObjectType = 'Opaque' | 'Vaultsecret';
+
+/**
+ * Defines values for TokenCertificateName.
+ * Possible values include: 'certificate1', 'certificate2'
+ * @readonly
+ * @enum {string}
+ */
+export type TokenCertificateName = 'certificate1' | 'certificate2';
+
+/**
+ * Defines values for TokenPasswordName.
+ * Possible values include: 'password1', 'password2'
+ * @readonly
+ * @enum {string}
+ */
+export type TokenPasswordName = 'password1' | 'password2';
+
+/**
+ * Defines values for Status.
+ * Possible values include: 'enabled', 'disabled'
+ * @readonly
+ * @enum {string}
+ */
+export type Status = 'enabled' | 'disabled';
 
 /**
  * Contains response data for the checkNameAvailability operation.
@@ -2741,6 +3026,26 @@ export type RegistriesGetBuildSourceUploadUrlResponse = SourceUploadDefinition &
 };
 
 /**
+ * Contains response data for the generateCredentials operation.
+ */
+export type RegistriesGenerateCredentialsResponse = GenerateCredentialsResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: GenerateCredentialsResult;
+    };
+};
+
+/**
  * Contains response data for the beginCreate operation.
  */
 export type RegistriesBeginCreateResponse = Registry & {
@@ -2817,6 +3122,26 @@ export type RegistriesBeginScheduleRunResponse = Run & {
        * The response body as parsed JSON or XML
        */
       parsedBody: Run;
+    };
+};
+
+/**
+ * Contains response data for the beginGenerateCredentials operation.
+ */
+export type RegistriesBeginGenerateCredentialsResponse = GenerateCredentialsResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: GenerateCredentialsResult;
     };
 };
 
@@ -3537,5 +3862,285 @@ export type TasksListNextResponse = TaskListResult & {
        * The response body as parsed JSON or XML
        */
       parsedBody: TaskListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type ScopeMapsGetResponse = ScopeMap & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ScopeMap;
+    };
+};
+
+/**
+ * Contains response data for the create operation.
+ */
+export type ScopeMapsCreateResponse = ScopeMap & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ScopeMap;
+    };
+};
+
+/**
+ * Contains response data for the update operation.
+ */
+export type ScopeMapsUpdateResponse = ScopeMap & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ScopeMap;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type ScopeMapsListResponse = ScopeMapListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ScopeMapListResult;
+    };
+};
+
+/**
+ * Contains response data for the beginCreate operation.
+ */
+export type ScopeMapsBeginCreateResponse = ScopeMap & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ScopeMap;
+    };
+};
+
+/**
+ * Contains response data for the beginUpdate operation.
+ */
+export type ScopeMapsBeginUpdateResponse = ScopeMap & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ScopeMap;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type ScopeMapsListNextResponse = ScopeMapListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ScopeMapListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type TokensGetResponse = Token & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Token;
+    };
+};
+
+/**
+ * Contains response data for the create operation.
+ */
+export type TokensCreateResponse = Token & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Token;
+    };
+};
+
+/**
+ * Contains response data for the update operation.
+ */
+export type TokensUpdateResponse = Token & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Token;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type TokensListResponse = TokenListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TokenListResult;
+    };
+};
+
+/**
+ * Contains response data for the beginCreate operation.
+ */
+export type TokensBeginCreateResponse = Token & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Token;
+    };
+};
+
+/**
+ * Contains response data for the beginUpdate operation.
+ */
+export type TokensBeginUpdateResponse = Token & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Token;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type TokensListNextResponse = TokenListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TokenListResult;
     };
 };
