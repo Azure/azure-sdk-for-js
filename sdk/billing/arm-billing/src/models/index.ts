@@ -2262,7 +2262,7 @@ export type PaymentMethodsListByBillingProfileNameNextResponse = PaymentMethodsL
 /**
  * Contains response data for the validate operation.
  */
-export type ValidateAddressValidateResponse = ValidateAddressResponse & {
+export type AddressValidateResponse = ValidateAddressResponse & {
   /**
    * The underlying HTTP response.
    */

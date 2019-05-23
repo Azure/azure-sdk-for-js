@@ -10,7 +10,7 @@
 
 export * from "./billingAccounts";
 export * from "./paymentMethods";
-export * from "./validateAddress";
+export * from "./addressOperations";
 export * from "./availableBalances";
 export * from "./billingProfiles";
 export * from "./invoiceSections";
