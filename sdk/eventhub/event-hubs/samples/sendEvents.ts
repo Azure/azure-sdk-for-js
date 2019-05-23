@@ -12,7 +12,7 @@ import { EventHubClient, EventData } from "@azure/event-hubs";
 
 // Define connection string and related Event Hubs entity name here
 const connectionString = "";
-const eventHubsName = "";
+const eventHubName = "";
 
 const listOfScientists = [
   { name: "Einstein", firstName: "Albert" },
@@ -28,20 +28,24 @@ const listOfScientists = [
 ];
 
 async function main(): Promise<void> {
-  const client = EventHubClient.createFromConnectionString(connectionString, eventHubsName);
+  const client = EventHubClient.createFromConnectionString(connectionString, eventHubName);
   const partitionIds = await client.getPartitionIds();
-
+  const sender = client.createSender();
+  const events: EventData[] = [];
+  // NOTE: For receiving events from Azure Stream Analytics, please send Events to an EventHub
+  // where the body is a JSON object/array.
+  // const events = [
+  //   { body: { "message": "Hello World 1" }, applicationProperties: { id: "Some id" }, partitionKey: "pk786" },
+  //   { body: { "message": "Hello World 2" } },
+  //   { body: { "message": "Hello World 3" } }
+  // ];
   for (let index = 0; index < listOfScientists.length; index++) {
     const scientist = listOfScientists[index];
-    const eventData: EventData = {
-      body: `${scientist.firstName} ${scientist.name}`
-    };
-    // NOTE: For receiving events from Azure Stream Analytics, please send Events to an EventHub
-    // where the body is a JSON object/array.
-    // const eventData = { body: { "message": `${scientist.firstName} ${scientist.name}` } };
-    console.log(`Sending event: ${eventData.body}`);
-    await client.send(eventData, partitionIds[0]);
+    events.push({ body: `${scientist.firstName} ${scientist.name}` });
   }
+  console.log("Sending batch events...");
+
+  await sender.send(events, partitionIds[0]);
 
   await client.close();
 }

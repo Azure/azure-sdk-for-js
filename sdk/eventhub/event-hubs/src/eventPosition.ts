@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { translate, Constants, ErrorNameConditionMapper } from "@azure/amqp-common";
-
 /**
  * Describes the options that can be set while creating an EventPosition.
  * @ignore
@@ -44,17 +42,17 @@ export interface EventPositionOptions {
  */
 export class EventPosition {
   /**
-   * @property {string} startOfStream The offset from which events would be received: `"-1"`.
+   * @property {string} firstAvailableEvent The offset from which events would be received: `"-1"`.
    * @static
    * @readonly
    */
-  private static readonly startOfStream: string = "-1";
+  private static readonly firstAvailableEvent: string = "-1";
   /**
-   * @property {string} endOfStream The offset from which events would be received: `"@latest"`.
+   * @property {string} newEventsOnly The offset from which events would be received: `"@latest"`.
    * @static
    * @readonly
    */
-  private static readonly endOfStream: string = "@latest";
+  private static readonly newEventsOnly: string = "@latest";
   /**
    * @property {string} [offset] The offset of the event at the position. It can be undefined
    * if the position is just created from a sequence number or an enqueued time.
@@ -94,38 +92,6 @@ export class EventPosition {
       this.isInclusive = options.isInclusive || false;
       // this.customFilter = options.customFilter;
     }
-  }
-
-  /**
-   * @internal
-   * Gets the expression (filter clause) that needs to be set on the source.
-   * @return {string} filterExpression
-   */
-  getExpression(): string {
-    let result;
-    // order of preference
-    if (this.offset != undefined) {
-      result = this.isInclusive
-        ? `${Constants.offsetAnnotation} >= '${this.offset}'`
-        : `${Constants.offsetAnnotation} > '${this.offset}'`;
-    } else if (this.sequenceNumber != undefined) {
-      result = this.isInclusive
-        ? `${Constants.sequenceNumberAnnotation} >= '${this.sequenceNumber}'`
-        : `${Constants.sequenceNumberAnnotation} > '${this.sequenceNumber}'`;
-    } else if (this.enqueuedTime != undefined) {
-      const time = this.enqueuedTime instanceof Date ? this.enqueuedTime.getTime() : this.enqueuedTime;
-      result = `${Constants.enqueuedTimeAnnotation} > '${time}'`;
-    // } else if (this.customFilter != undefined) {
-    //   result = this.customFilter;
-    }
-
-    if (!result) {
-      throw translate({
-        condition: ErrorNameConditionMapper.ArgumentError,
-        description: "No starting position was set in the EventPosition."
-      });
-    }
-    return result;
   }
 
   /**
@@ -189,8 +155,8 @@ export class EventPosition {
    * start receiving from the first available event in the partition.
    * @return {EventPosition} EventPosition
    */
-  static fromFirstAvailable(): EventPosition {
-    return EventPosition.fromOffset(EventPosition.startOfStream);
+  static fromFirstAvailableEvent(): EventPosition {
+    return EventPosition.fromOffset(EventPosition.firstAvailableEvent);
   }
 
   /**
@@ -198,7 +164,7 @@ export class EventPosition {
    * start receiving from the next available event in the partition after the receiver is created.
    * @return {EventPosition} EventPosition
    */
-  static fromLastAvailable(): EventPosition {
-    return EventPosition.fromOffset(EventPosition.endOfStream);
+  static fromNewEventsOnly(): EventPosition {
+    return EventPosition.fromOffset(EventPosition.newEventsOnly);
   }
 }
