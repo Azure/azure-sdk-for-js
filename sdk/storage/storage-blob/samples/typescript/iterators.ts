@@ -47,12 +47,19 @@ async function main() {
   }
 
   // List blobs
-  let iter = await containerClient.listBlobs();
+  let iter1 = await containerClient.listBlobs();
   let i = 1;
-  for await (const blob of iter) {
-    console.log(`Blob ${i}: ${blob.name}`);
-    i++;
+  for await (const blob of iter1) {
+    console.log(`Blob ${i++}: ${blob.name}`);
   }
+
+  let iter2 = await containerClient.listBlobs();
+  i = 1;
+  let blobItem = await iter2.next();
+  do {
+    console.log(`Blob ${i++}: ${blobItem.value.name}`);
+    blobItem = await iter2.next();
+  } while (blobItem.value);
 }
 
 // An async method returns a Promise object, which is compatible with then().catch() coding style.
