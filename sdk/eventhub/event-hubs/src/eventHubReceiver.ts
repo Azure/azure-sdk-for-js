@@ -97,10 +97,6 @@ export class EventHubReceiver extends LinkEntity {
    */
   epoch?: number;
   /**
-   * @property {string} [identifier] The Receiver identifier
-   */
-  identifier?: string;
-  /**
    * @property {ReceiveOptions} [options] Optional properties that can be set while creating
    * the EventHubReceiver.
    */
@@ -177,14 +173,16 @@ export class EventHubReceiver extends LinkEntity {
    * @param {ReceiveOptions} [options]                         Receiver options.
    */
   constructor(context: ConnectionContext, partitionId: string | number, options?: ReceiveOptions) {
-    super(context, { partitionId: partitionId, name: options ? options.name : undefined });
+    super(context, {
+      partitionId: partitionId,
+      name: `${context.config.host}/${context.config.entityPath}/${(options && options.consumerGroup) ||
+        Constants.defaultConsumerGroup}/${partitionId}`
+    });
     if (!options) options = {};
     this.consumerGroup = options.consumerGroup ? options.consumerGroup : Constants.defaultConsumerGroup;
     this.address = context.config.getReceiverAddress(partitionId, this.consumerGroup);
     this.audience = context.config.getReceiverAudience(partitionId, this.consumerGroup);
-    this.prefetchCount = options.prefetchCount != undefined ? options.prefetchCount : Constants.defaultPrefetchCount;
     this.epoch = options.epoch;
-    this.identifier = options.identifier;
     this.options = options;
     this.receiverRuntimeMetricEnabled = options.enableReceiverRuntimeMetric || false;
     this.runtimeInfo = {
@@ -223,9 +221,9 @@ export class EventHubReceiver extends LinkEntity {
           log.error(
             "[%s] An error occurred while running user's message handler for the message " +
               "with sequence number '%s' on the receiver '%s': %O",
-              this._context.connectionId,
-              evData.sequenceNumber,
-              this.name,
+            this._context.connectionId,
+            evData.sequenceNumber,
+            this.name,
             err
           );
           this._onError!(err);
@@ -610,10 +608,6 @@ export class EventHubReceiver extends LinkEntity {
     if (this.epoch !== undefined && this.epoch !== null) {
       if (!rcvrOptions.properties) rcvrOptions.properties = {};
       rcvrOptions.properties[Constants.attachEpoch] = types.wrap_long(this.epoch);
-    }
-    if (this.identifier) {
-      if (!rcvrOptions.properties) rcvrOptions.properties = {};
-      rcvrOptions.properties[Constants.receiverIdentifierName] = this.identifier;
     }
     if (this.receiverRuntimeMetricEnabled) {
       rcvrOptions.desired_capabilities = Constants.enableReceiverRuntimeMetricName;

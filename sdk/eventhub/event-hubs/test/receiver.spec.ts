@@ -85,7 +85,7 @@ describe("EventHub Receiver", function(): void {
       }
       debug("Creating new receiver with offset EndOfStream");
       breceiver = BatchingReceiver.create((client as any)._context, partitionId, {
-        eventPosition: EventPosition.fromEnd()
+        eventPosition: EventPosition.fromLastAvailable()
       });
       const data1 = await breceiver.receive(10, 10);
       data1.length.should.equal(0, "Unexpected message received when using EventPosition.fromEnd()");
@@ -320,7 +320,7 @@ describe("EventHub Receiver", function(): void {
       const onMsg = (data: EventData) => {
         debug(">>>> epoch Receiver 1", data);
       };
-      epochRcvr1 = client.receive(partitionId, onMsg, onError, { epoch: 2, eventPosition: EventPosition.fromEnd() });
+      epochRcvr1 = client.receive(partitionId, onMsg, onError, { epoch: 2, eventPosition: EventPosition.fromLastAvailable() });
       debug("Created epoch receiver 1 %s", epochRcvr1.name);
       setTimeout(() => {
         const onError2 = (error: MessagingError | Error) => {
@@ -344,7 +344,7 @@ describe("EventHub Receiver", function(): void {
         };
         epochRcvr2 = client.receive(partitionId, onMsg2, onError2, {
           epoch: 1,
-          eventPosition: EventPosition.fromEnd()
+          eventPosition: EventPosition.fromLastAvailable()
         });
         debug("Created epoch receiver 2 %s", epochRcvr2.name);
       }, 3000);
@@ -373,7 +373,7 @@ describe("EventHub Receiver", function(): void {
       const onMsg = (data: EventData) => {
         debug(">>>> epoch Receiver 1", data);
       };
-      epochRcvr1 = client.receive(partitionId, onMsg, onError, { epoch: 1, eventPosition: EventPosition.fromEnd() });
+      epochRcvr1 = client.receive(partitionId, onMsg, onError, { epoch: 1, eventPosition: EventPosition.fromLastAvailable() });
       debug("Created epoch receiver 1 %s", epochRcvr1.name);
       setTimeout(() => {
         const onError2 = (error: MessagingError | Error) => {
@@ -385,7 +385,7 @@ describe("EventHub Receiver", function(): void {
         };
         epochRcvr2 = client.receive(partitionId, onMsg2, onError2, {
           epoch: 2,
-          eventPosition: EventPosition.fromEnd()
+          eventPosition: EventPosition.fromLastAvailable()
         });
         debug("Created epoch receiver 2 %s", epochRcvr2.name);
       }, 3000);
@@ -402,7 +402,7 @@ describe("EventHub Receiver", function(): void {
       const onmsg1 = (data: EventData) => {
         debug(">>>> epoch Receiver ", data);
       };
-      epochRcvr = client.receive(partitionId, onmsg1, onerr1, { epoch: 1, eventPosition: EventPosition.fromEnd() });
+      epochRcvr = client.receive(partitionId, onmsg1, onerr1, { epoch: 1, eventPosition: EventPosition.fromLastAvailable() });
       debug("Created epoch receiver %s", epochRcvr.name);
       const onerr2 = (error: MessagingError | Error) => {
         debug(">>>> non epoch Receiver", error);
@@ -423,7 +423,7 @@ describe("EventHub Receiver", function(): void {
       const onmsg2 = (data: EventData) => {
         debug(">>>> non epoch Receiver", data);
       };
-      nonEpochRcvr = client.receive(partitionId, onmsg2, onerr2, { eventPosition: EventPosition.fromEnd() });
+      nonEpochRcvr = client.receive(partitionId, onmsg2, onerr2, { eventPosition: EventPosition.fromLastAvailable() });
       debug("Created non epoch receiver %s", nonEpochRcvr.name);
     });
 
@@ -450,7 +450,7 @@ describe("EventHub Receiver", function(): void {
       const onmsg3 = (data: EventData) => {
         debug(">>>> non epoch Receiver", data);
       };
-      nonEpochRcvr = client.receive(partitionId, onmsg3, onerr3, { eventPosition: EventPosition.fromEnd() });
+      nonEpochRcvr = client.receive(partitionId, onmsg3, onerr3, { eventPosition: EventPosition.fromLastAvailable() });
       debug("Created non epoch receiver %s", nonEpochRcvr.name);
       setTimeout(() => {
         const onerr4 = (error: MessagingError | Error) => {
@@ -460,7 +460,7 @@ describe("EventHub Receiver", function(): void {
         const onmsg4 = (data: EventData) => {
           debug(">>>> epoch Receiver ", data);
         };
-        epochRcvr = client.receive(partitionId, onmsg4, onerr4, { epoch: 1, eventPosition: EventPosition.fromEnd() });
+        epochRcvr = client.receive(partitionId, onmsg4, onerr4, { epoch: 1, eventPosition: EventPosition.fromLastAvailable() });
         debug("Created epoch receiver %s", epochRcvr.name);
       }, 3000);
     });
@@ -520,7 +520,7 @@ describe("EventHub Receiver", function(): void {
       // onerr2() to be called with QuotaExceededError.  So it's fastest to use EventPosition.fromEnd().
       // Using EventPosition.fromStart() can cause timeouts or ServiceUnavailableException if the EventHub has
       // a large number of messages.
-      const eventPosition = EventPosition.fromEnd();
+      const eventPosition = EventPosition.fromLastAvailable();
 
       debug(">>> Receivers length: ", rcvHndlrs.length);
       for (let i = 1; i <= 5; i++) {
@@ -537,8 +537,7 @@ describe("EventHub Receiver", function(): void {
           debug(err);
         };
         const rcvHndlr = client.receive(partitionId, onMsg, onError, {
-          eventPosition: eventPosition,
-          identifier: rcvrId
+          eventPosition: eventPosition
         });
         rcvHndlrs.push(rcvHndlr);
       }
@@ -567,8 +566,7 @@ describe("EventHub Receiver", function(): void {
             });
         };
         const failedRcvHandler = client.receive(partitionId, onmsg2, onerr2, {
-          eventPosition: eventPosition,
-          identifier: "rcvr-6"
+          eventPosition: eventPosition
         });
         rcvHndlrs.push(failedRcvHandler);
       }, 5000);
@@ -592,7 +590,7 @@ describe("EventHub Receiver", function(): void {
     };
 
     client.receive(partitionIds[0], onMessageHandler, onErrorHandler, {
-      eventPosition: EventPosition.fromStart()
+      eventPosition: EventPosition.fromFirstAvailable()
     });
     await delay(5000);
 

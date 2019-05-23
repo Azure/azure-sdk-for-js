@@ -16,7 +16,8 @@ import {
   EventHubConnectionConfig,
   AadTokenProvider,
   SasTokenProvider,
-  ConnectionConfig
+  ConnectionConfig,
+  Constants
 } from "@azure/amqp-common";
 import { OnMessage, OnError } from "./eventHubReceiver";
 import { EventData, ReceivedEventData } from "./eventData";
@@ -113,10 +114,6 @@ export interface BatchingOptions extends RequestOptions {
  */
 export interface ReceiveOptions extends RequestOptions {
   /**
-   * @property {string} [name] The name of the receiver. If not provided then we will set a GUID by default.
-   */
-  name?: string;
-  /**
    * @property {object} [eventPosition] The starting event position at which to start receiving messages.
    * This is used to filter messages for the EventHub Receiver.
    */
@@ -127,18 +124,9 @@ export interface ReceiveOptions extends RequestOptions {
    */
   consumerGroup?: string;
   /**
-   * @property {number} [prefetchCount] The upper limit of events this receiver will actively receive
-   * regardless of whether a receive operation is pending. Defaults to 1000.
-   */
-  prefetchCount?: number;
-  /**
    * @property {number} [epoch] The epoch value that this receiver is currently using for partition ownership.
    */
   epoch?: number;
-  /**
-   * @property {string} [identifier] The receiver identifier that uniqely identifies the receiver.
-   */
-  identifier?: string;
   /**
    * @property {boolean} [enableReceiverRuntimeMetric] A value indicating whether the runtime metric of a receiver is enabled.
    */
@@ -352,16 +340,33 @@ export class EventHubClient {
    *
    * @returns {ReceiveHandler} ReceiveHandler - An object that provides a mechanism to stop receiving more messages.
    */
-  receive(
-    partitionId: string,
-    onMessage: OnMessage,
-    onError: OnError,
-    options?: ReceiveOptions
-  ): ReceiveHandler {
+  receive(partitionId: string, onMessage: OnMessage, onError: OnError, options?: ReceiveOptions): ReceiveHandler;
+  /**
+   * Starts the receiver by establishing an AMQP session and an AMQP receiver link on the session. Messages will be passed to
+   * the provided onMessage handler and error will be passed to the provided onError handler.
+   *
+   * @param {string|number} partitionId                        Partition ID from which to receive.
+   * @param {OnMessage} onMessage                              The message handler to receive event data objects.
+   * @param {OnError} onError                                  The error handler to receive an error that occurs
+   * while receiving messages.
+   * @param {ReceiveOptions} [options]                         Options for how you'd like to receive messages.
+   *
+   * @returns {ReceiveHandler} ReceiveHandler - An object that provides a mechanism to stop receiving more messages.
+   */
+  receive(partitionId: string, onMessage: OnMessage, onError: OnError, maxConcurrentCalls: number, options?: ReceiveOptions): ReceiveHandler;
+  receive(partitionId: string, onMessage: OnMessage, onError: OnError, maxConcurrentCallsOrOptions?: number | ReceiveOptions, options?: ReceiveOptions): ReceiveHandler {
     if (typeof partitionId !== "string" && typeof partitionId !== "number") {
       throw new Error("'partitionId' is a required parameter and must be of type: 'string' | 'number'.");
     }
+    let maxConcurrentCalls = Constants.defaultPrefetchCount;
+    if (typeof maxConcurrentCallsOrOptions === "number") {
+      // TODO: Enable manual credit management in this case
+      maxConcurrentCalls = maxConcurrentCallsOrOptions;
+    } else {
+      options = maxConcurrentCallsOrOptions;
+    }
     const sReceiver = StreamingReceiver.create(this._context, partitionId, options);
+    sReceiver.prefetchCount = maxConcurrentCalls;
     this._context.receivers[sReceiver.name] = sReceiver;
     return sReceiver.receive(onMessage, onError);
   }
@@ -381,11 +386,40 @@ export class EventHubClient {
   async receiveBatch(
     partitionId: string,
     maxMessageCount: number,
-    maxWaitTimeInSeconds?: number,
+    options?: ReceiveOptions
+  ): Promise<ReceivedEventData[]>;
+  /**
+   * Receives a batch of EventData objects from an EventHub partition for a given count and a given max wait time in seconds, whichever
+   * happens first. This method can be used directly after creating the receiver object and **MUST NOT** be used along with the `start()` method.
+   *
+   * @param {string|number} partitionId                        Partition ID from which to receive.
+   * @param {number} maxMessageCount                           The maximum message count. Must be a value greater than 0.
+   * @param {number} [maxWaitTimeInSeconds]                    The maximum wait time in seconds for which the Receiver should wait
+   * to receiver the said amount of messages. If not provided, it defaults to 60 seconds.
+   * @param {ReceiveOptions} [options]                         Options for how you'd like to receive messages.
+   *
+   * @returns {Promise<Array<EventData>>} Promise<Array<EventData>>.
+   */
+  async receiveBatch(
+    partitionId: string,
+    maxMessageCount: number,
+    maxWaitTimeInSeconds: number,
+    options?: ReceiveOptions
+  ): Promise<ReceivedEventData[]>;
+  async receiveBatch(
+    partitionId: string,
+    maxMessageCount: number,
+    maxWaitTimeInSecondsOrOptions?: number | ReceiveOptions,
     options?: ReceiveOptions
   ): Promise<ReceivedEventData[]> {
     if (typeof partitionId !== "string" && typeof partitionId !== "number") {
       throw new Error("'partitionId' is a required parameter and must be of type: 'string' | 'number'.");
+    }
+    let maxWaitTimeInSeconds;
+    if (typeof maxWaitTimeInSecondsOrOptions === "number") {
+      maxWaitTimeInSeconds = maxWaitTimeInSecondsOrOptions;
+    } else {
+      options = maxWaitTimeInSecondsOrOptions;
     }
     const bReceiver = BatchingReceiver.create(this._context, partitionId, options);
     this._context.receivers[bReceiver.name] = bReceiver;
@@ -447,10 +481,7 @@ export class EventHubClient {
    * @param {(string|number)} partitionId Partition ID for which partition information is required.
    * @returns {Promise<PartitionInformation>} A promise that resoloves with EventHubPartitionRuntimeInformation.
    */
-  async getPartitionInformation(
-    partitionId: string,
-    options?: RequestOptions
-  ): Promise<PartitionInformation> {
+  async getPartitionInformation(partitionId: string, options?: RequestOptions): Promise<PartitionInformation> {
     if (typeof partitionId !== "string" && typeof partitionId !== "number") {
       throw new Error("'partitionId' is a required parameter and must be of type: 'string' | 'number'.");
     }
@@ -469,7 +500,11 @@ export class EventHubClient {
    * @param {ClientOptions} [options] Options that can be provided during client creation.
    * @returns {EventHubClient} - An instance of the eventhub client.
    */
-  static createFromConnectionString(connectionString: string, entityPath?: string, options?: ClientOptions): EventHubClient {
+  static createFromConnectionString(
+    connectionString: string,
+    entityPath?: string,
+    options?: ClientOptions
+  ): EventHubClient {
     if (!connectionString || (connectionString && typeof connectionString !== "string")) {
       throw new Error("'connectionString' is a required parameter and must be of type: 'string'.");
     }

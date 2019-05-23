@@ -188,7 +188,7 @@ export class EventPosition {
    * start receiving from the first available event in the partition.
    * @return {EventPosition} EventPosition
    */
-  static fromStart(): EventPosition {
+  static fromFirstAvailable(): EventPosition {
     return EventPosition.fromOffset(EventPosition.startOfStream);
   }
 
@@ -197,7 +197,7 @@ export class EventPosition {
    * start receiving from the next available event in the partition after the receiver is created.
    * @return {EventPosition} EventPosition
    */
-  static fromEnd(): EventPosition {
+  static fromLastAvailable(): EventPosition {
     return EventPosition.fromOffset(EventPosition.endOfStream);
   }
 }

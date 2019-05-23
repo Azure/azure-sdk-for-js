@@ -68,7 +68,9 @@ export class EventHubClient {
     getPartitionInformation(partitionId: string, options?: RequestOptions): Promise<PartitionInformation>;
     readonly hubPath: string;
     receive(partitionId: string, onMessage: OnMessage, onError: OnError, options?: ReceiveOptions): ReceiveHandler;
-    receiveBatch(partitionId: string, maxMessageCount: number, maxWaitTimeInSeconds?: number, options?: ReceiveOptions): Promise<ReceivedEventData[]>;
+    receive(partitionId: string, onMessage: OnMessage, onError: OnError, maxConcurrentCalls: number, options?: ReceiveOptions): ReceiveHandler;
+    receiveBatch(partitionId: string, maxMessageCount: number, maxWaitTimeInSeconds: number, options?: ReceiveOptions): Promise<ReceivedEventData[]>;
+    receiveBatch(partitionId: string, maxMessageCount: number, options?: ReceiveOptions): Promise<ReceivedEventData[]>;
     send(data: EventData[], options?: BatchingOptions): Promise<void>;
     send(data: EventData[], partitionId?: string): Promise<void>;
 }
@@ -79,11 +81,11 @@ export class EventPosition {
     constructor(options?: EventPositionOptions);
     customFilter?: string;
     enqueuedTime?: Date | number;
-    static fromEnd(): EventPosition;
     static fromEnqueuedTime(enqueuedTime: Date | number): EventPosition;
+    static fromFirstAvailable(): EventPosition;
+    static fromLastAvailable(): EventPosition;
     static fromOffset(offset: string, isInclusive?: boolean): EventPosition;
     static fromSequenceNumber(sequenceNumber: number, isInclusive?: boolean): EventPosition;
-    static fromStart(): EventPosition;
     getExpression(): string;
     isInclusive: boolean;
     offset?: string;
@@ -145,7 +147,6 @@ export class ReceiveHandler {
     readonly address: string | undefined;
     readonly consumerGroup: string | undefined;
     readonly epoch: number | undefined;
-    readonly identifier: string | undefined;
     readonly isReceiverOpen: boolean;
     readonly name: string;
     readonly partitionId: string | number | undefined;
@@ -159,9 +160,6 @@ export interface ReceiveOptions extends RequestOptions {
     enableReceiverRuntimeMetric?: boolean;
     epoch?: number;
     eventPosition?: EventPosition;
-    identifier?: string;
-    name?: string;
-    prefetchCount?: number;
 }
 
 // @public

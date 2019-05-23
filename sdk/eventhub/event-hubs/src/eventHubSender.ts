@@ -85,7 +85,10 @@ export class EventHubSender extends LinkEntity {
    * wants to send the event data.
    */
   constructor(context: ConnectionContext, partitionId?: string | number, name?: string) {
-    super(context, { name: name, partitionId: partitionId });
+    super(context, {
+      name: `${context.config.host}/${context.config.entityPath}/${partitionId}`,
+      partitionId: partitionId
+    });
     this.address = context.config.getSenderAddress(partitionId);
     this.audience = context.config.getSenderAudience(partitionId);
 
@@ -556,7 +559,9 @@ export class EventHubSender extends LinkEntity {
         ? options.retryOptions.retryCount
         : Constants.defaultRetryAttempts;
     const delayInSeconds =
-      options.retryOptions && options.retryOptions.delayBetweenRetriesInSeconds && options.retryOptions.delayBetweenRetriesInSeconds > 0
+      options.retryOptions &&
+      options.retryOptions.delayBetweenRetriesInSeconds &&
+      options.retryOptions.delayBetweenRetriesInSeconds > 0
         ? options.retryOptions.delayBetweenRetriesInSeconds
         : Constants.defaultDelayBetweenOperationRetriesInSeconds;
     const config: RetryConfig<void> = {

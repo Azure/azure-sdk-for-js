@@ -72,14 +72,6 @@ export class ReceiveHandler {
   }
 
   /**
-   * @property {string} [identifier] The identifier of the underlying receiver, if present.
-   * @readonly
-   */
-  get identifier(): string | undefined {
-    return this._receiver ? this._receiver.identifier : undefined;
-  }
-
-  /**
    * @property {ReceiverRuntimeInfo} [runtimeInfo] The receiver runtime info. This property will only
    * be enabled when `enableReceiverRuntimeMetric` option is set to true in the
    * `client.receive()` method.

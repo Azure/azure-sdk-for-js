@@ -61,14 +61,14 @@ describe("EventPosition", function(): void {
 
     it("should create from an offset from start", function(done: Mocha.Done): void {
       const result = "amqp.annotation.x-opt-offset > '-1'";
-      const pos = EventPosition.fromStart();
+      const pos = EventPosition.fromFirstAvailable();
       result.should.equal(pos.getExpression());
       done();
     });
 
     it("should create from an offset from end", function(done: Mocha.Done): void {
       const result = "amqp.annotation.x-opt-offset > '@latest'";
-      const pos = EventPosition.fromEnd();
+      const pos = EventPosition.fromLastAvailable();
       result.should.equal(pos.getExpression());
       done();
     });
