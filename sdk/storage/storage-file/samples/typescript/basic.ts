@@ -7,9 +7,6 @@ import {
   FileServiceClient,
   SharedKeyCredential,
   Models,
-  ShareClient,
-  DirectoryClient,
-  FileClient
 } from "../.."; // Change to "@azure/storage-file" in your package
 
 async function main() {
@@ -48,20 +45,20 @@ async function main() {
 
   // Create a share
   const shareName = `newshare${new Date().getTime()}`;
-  const shareClient = ShareClient.fromFileServiceClient(serviceClient, shareName);
+  const shareClient = serviceClient.createShareClient(shareName);
   await shareClient.create();
   console.log(`Create share ${shareName} successfully`);
 
   // Create a directory
   const directoryName = `newdirectory${new Date().getTime()}`;
-  const directoryClient = DirectoryClient.fromShareClient(shareClient, directoryName);
+  const directoryClient = shareClient.createDirectoryClient(directoryName);
   await directoryClient.create();
   console.log(`Create directory ${directoryName} successfully`);
 
   // Create a file
   const content = "Hello World!";
   const fileName = "newfile" + new Date().getTime();
-  const fileClient = FileClient.fromDirectoryClient(directoryClient, fileName);
+  const fileClient = directoryClient.createFileClient(fileName);
   await fileClient.create(content.length);
   console.log(`Create file ${fileName} successfully`);
 
