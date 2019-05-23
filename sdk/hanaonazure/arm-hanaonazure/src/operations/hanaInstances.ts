@@ -118,16 +118,30 @@ export class HanaInstances {
   }
 
   /**
+   * Creates a SAP HANA instance for the specified subscription, resource group, and instance name.
+   * @summary Creates a SAP HANA instance.
+   * @param resourceGroupName Name of the resource group.
+   * @param hanaInstanceName Name of the SAP HANA on Azure instance.
+   * @param hanaInstanceParameter Request body representing a HanaInstance
+   * @param [options] The optional parameters
+   * @returns Promise<Models.HanaInstancesCreateResponse>
+   */
+  create(resourceGroupName: string, hanaInstanceName: string, hanaInstanceParameter: Models.HanaInstance, options?: msRest.RequestOptionsBase): Promise<Models.HanaInstancesCreateResponse> {
+    return this.beginCreate(resourceGroupName,hanaInstanceName,hanaInstanceParameter,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.HanaInstancesCreateResponse>;
+  }
+
+  /**
    * Deletes a SAP HANA instance with the specified subscription, resource group, and instance name.
    * @summary Deletes a SAP HANA instance.
    * @param resourceGroupName Name of the resource group.
    * @param hanaInstanceName Name of the SAP HANA on Azure instance.
    * @param [options] The optional parameters
-   * @returns Promise<Models.HanaInstancesDeleteMethodResponse>
+   * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, hanaInstanceName: string, options?: msRest.RequestOptionsBase): Promise<Models.HanaInstancesDeleteMethodResponse> {
+  deleteMethod(resourceGroupName: string, hanaInstanceName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
     return this.beginDeleteMethod(resourceGroupName,hanaInstanceName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.HanaInstancesDeleteMethodResponse>;
+      .then(lroPoller => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -191,6 +205,27 @@ export class HanaInstances {
   enableMonitoring(resourceGroupName: string, hanaInstanceName: string, monitoringParameter: Models.MonitoringDetails, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
     return this.beginEnableMonitoring(resourceGroupName,hanaInstanceName,monitoringParameter,options)
       .then(lroPoller => lroPoller.pollUntilFinished());
+  }
+
+  /**
+   * Creates a SAP HANA instance for the specified subscription, resource group, and instance name.
+   * @summary Creates a SAP HANA instance.
+   * @param resourceGroupName Name of the resource group.
+   * @param hanaInstanceName Name of the SAP HANA on Azure instance.
+   * @param hanaInstanceParameter Request body representing a HanaInstance
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginCreate(resourceGroupName: string, hanaInstanceName: string, hanaInstanceParameter: Models.HanaInstance, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        hanaInstanceName,
+        hanaInstanceParameter,
+        options
+      },
+      beginCreateOperationSpec,
+      options);
   }
 
   /**
@@ -417,6 +452,42 @@ const updateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
+const beginCreateOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PUT",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HanaOnAzure/hanaInstances/{hanaInstanceName}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.hanaInstanceName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "hanaInstanceParameter",
+    mapper: {
+      ...Mappers.HanaInstance,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.HanaInstance
+    },
+    201: {
+      bodyMapper: Mappers.HanaInstance
+    },
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HanaOnAzure/hanaInstances/{hanaInstanceName}",
@@ -432,13 +503,8 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.acceptLanguage
   ],
   responses: {
-    200: {
-      bodyMapper: Mappers.HanaInstance
-    },
-    202: {
-      bodyMapper: Mappers.HanaInstance
-    },
-    204: {},
+    200: {},
+    202: {},
     default: {
       bodyMapper: Mappers.ErrorResponse
     }

@@ -115,6 +115,11 @@ export interface OSProfile {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly version?: string;
+  /**
+   * Specifies the SSH public key used to access the operating system.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly sshPublicKey?: string;
 }
 
 /**
@@ -184,6 +189,17 @@ export interface HanaInstance extends Resource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly hwRevision?: string;
+  /**
+   * ARM ID of another HanaInstance that will share a network with this HanaInstance
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly partnerNodeId?: string;
+  /**
+   * State of provisioning of the HanaInstance. Possible values include: 'Accepted', 'Creating',
+   * 'Updating', 'Failed', 'Succeeded', 'Deleting', 'Migrating'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: HanaProvisioningStatesEnum;
 }
 
 /**
@@ -349,6 +365,15 @@ export type HanaInstanceSizeNamesEnum = 'S72m' | 'S144m' | 'S72' | 'S144' | 'S19
 export type HanaInstancePowerStateEnum = 'starting' | 'started' | 'stopping' | 'stopped' | 'restarting' | 'unknown';
 
 /**
+ * Defines values for HanaProvisioningStatesEnum.
+ * Possible values include: 'Accepted', 'Creating', 'Updating', 'Failed', 'Succeeded', 'Deleting',
+ * 'Migrating'
+ * @readonly
+ * @enum {string}
+ */
+export type HanaProvisioningStatesEnum = 'Accepted' | 'Creating' | 'Updating' | 'Failed' | 'Succeeded' | 'Deleting' | 'Migrating';
+
+/**
  * Contains response data for the list operation.
  */
 export type OperationsListResponse = OperationList & {
@@ -429,9 +454,9 @@ export type HanaInstancesGetResponse = HanaInstance & {
 };
 
 /**
- * Contains response data for the deleteMethod operation.
+ * Contains response data for the create operation.
  */
-export type HanaInstancesDeleteMethodResponse = HanaInstance & {
+export type HanaInstancesCreateResponse = HanaInstance & {
   /**
    * The underlying HTTP response.
    */
@@ -469,9 +494,9 @@ export type HanaInstancesUpdateResponse = HanaInstance & {
 };
 
 /**
- * Contains response data for the beginDeleteMethod operation.
+ * Contains response data for the beginCreate operation.
  */
-export type HanaInstancesBeginDeleteMethodResponse = HanaInstance & {
+export type HanaInstancesBeginCreateResponse = HanaInstance & {
   /**
    * The underlying HTTP response.
    */
