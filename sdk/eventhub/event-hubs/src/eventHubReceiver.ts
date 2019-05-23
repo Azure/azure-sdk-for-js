@@ -181,9 +181,7 @@ export class EventHubReceiver extends LinkEntity {
     this.epoch = options.epoch;
     this.options = options;
     this.receiverRuntimeMetricEnabled = options.enableReceiverRuntimeMetric || false;
-    this.runtimeInfo = {
-      
-    };
+    this.runtimeInfo = {};
     this._checkpoint = {
       enqueuedTimeUtc: new Date(),
       offset: "0",

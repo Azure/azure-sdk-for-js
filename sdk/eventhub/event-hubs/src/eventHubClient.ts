@@ -24,34 +24,8 @@ import { EventPosition } from "./eventPosition";
 
 import { IotHubClient } from "./iothub/iothubClient";
 import { Aborter } from "./aborter";
-import { Sender } from './sender';
-import { Receiver } from './receiver';
-
-/**
- * LogLevel that defines the level of logging to be used
- */
-export enum LogLevel {
-  /**
-   * No logging will be done
-   */
-  None,
-  /**
-   * Only logs pertaining to errors will be presented
-   */
-  Error,
-  /**
-   * Only logs pertaining to warnings and errors will be presented
-   */
-  Warning,
-  /**
-   * Only informational logs along with errors and warnings will be presented
-   */
-  Info,
-  /**
-   * All possible logs will be presented
-   */
-  Verbose
-}
+import { Sender } from "./sender";
+import { Receiver } from "./receiver";
 
 /**
  * Retry policy options for operations on the EventHubClient
@@ -83,10 +57,6 @@ export interface RequestOptions {
    * The cancellation token used to cancel the current request
    */
   cancellationToken?: Aborter;
-  /**
-   * Log level to use for the current operation. This overrides the value set when creating the EventHubsClient
-   */
-  logLevel?: LogLevel;
 }
 
 /**
@@ -102,7 +72,7 @@ export interface BatchingOptions {
   /**
    * Cancel current operation
    */
-  cancellationToken? : Aborter;
+  cancellationToken?: Aborter;
 }
 
 /**
@@ -157,11 +127,6 @@ export interface ClientOptions {
    * @property {webSocketConstructorOptions} - Options to be passed to the WebSocket constructor
    */
   webSocketConstructorOptions?: any;
-  /**
-   * LogLevel that defines the level of logging to be used. The logLevel set on each operation of the
-   * EventHubsClient will override this value
-   */
-  logLevel?: LogLevel;
 }
 
 /**
@@ -293,15 +258,15 @@ export class EventHubClient {
   }
 
   /**
-  * Creates a Sender 
-  */
+   * Creates a Sender
+   */
   createSender(options?: RequestOptions): Sender {
     return new Sender(this._context, options);
   }
 
   /**
-  * Creates a Receiver 
-  */
+   * Creates a Receiver
+   */
   createReceiver(partitionId: string, options?: ReceiveOptions): Receiver {
     return new Receiver(this._context, partitionId, options);
   }
@@ -369,7 +334,7 @@ export class EventHubClient {
     if (!config.entityPath) {
       throw new TypeError(
         `Either provide "path" or the "connectionString": "${connectionString}", ` +
-        `must contain EntityPath="<path-to-the-entity>".`
+          `must contain EntityPath="<path-to-the-entity>".`
       );
     }
     const tokenProvider = new SasTokenProvider(config.endpoint, config.sharedAccessKeyName, config.sharedAccessKey);

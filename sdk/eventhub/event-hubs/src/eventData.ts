@@ -194,7 +194,7 @@ export namespace EventDataInternal {
    * Converts an EventData object to an AMQP message.
    * @param {EventDataInternal} data The EventData object that needs to be converted to an AMQP message.
    */
-  export function toAmqpMessage(data: EventDataInternal): Message {
+  export function toAmqpMessage(data: EventDataInternal, batchLabel?: string): Message {
     const msg: Message = {
       body: data.body
     };
@@ -214,8 +214,8 @@ export namespace EventDataInternal {
     if (data.applicationProperties) {
       msg.application_properties = data.applicationProperties;
     }
-    if (data.partitionKey != undefined) {
-      msg.message_annotations[Constants.partitionKey] = data.partitionKey;
+    if (batchLabel != undefined) {
+      msg.message_annotations[Constants.partitionKey] = batchLabel;
       // Event Hub service cannot route messages to a specific partition based on the partition key
       // if AMQP message header is an empty object. Hence we make sure that header is always present
       // with atleast one property. Setting durable to true, helps us achieve that.
