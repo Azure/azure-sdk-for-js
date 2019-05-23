@@ -33,7 +33,7 @@ export interface ReceiverRuntimeInfo {
   /**
    * @property {number} lastSequenceNumber The logical sequence number of the event.
    */
-  lastSequenceNumber?: number;
+  lastEnqueuedSequenceNumber?: number;
   /**
    * @property {Date} lastEnqueuedTimeUtc The enqueued time of the last event.
    */
@@ -202,7 +202,7 @@ export class EventHubReceiver extends LinkEntity {
         sequenceNumber: evData.sequenceNumber!
       };
       if (this.receiverRuntimeMetricEnabled && evData) {
-        this.runtimeInfo.lastSequenceNumber = evData.lastSequenceNumber;
+        this.runtimeInfo.lastEnqueuedSequenceNumber = evData.lastSequenceNumber;
         this.runtimeInfo.lastEnqueuedTimeUtc = evData.lastEnqueuedTime;
         this.runtimeInfo.lastEnqueuedOffset = evData.lastEnqueuedOffset;
         this.runtimeInfo.retrievalTime = evData.retrievalTime;

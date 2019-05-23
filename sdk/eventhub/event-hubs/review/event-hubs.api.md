@@ -165,8 +165,8 @@ export interface ReceiveOptions extends RequestOptions {
 // @public
 export interface ReceiverRuntimeInfo {
     lastEnqueuedOffset?: string;
+    lastEnqueuedSequenceNumber?: number;
     lastEnqueuedTimeUtc?: Date;
-    lastSequenceNumber?: number;
     partitionId: string;
     retrievalTime?: Date;
 }
