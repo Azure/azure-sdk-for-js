@@ -7,13 +7,13 @@ client = new EventHubClient("my-namespace.servicebus.windows.net", "my-event-hub
 
 // ======================================== Sending sample starts ======================================
 
-// Send events to random partitions
+// Send events to a random partition
 await client.send(myEvents);
 
-// Overload: Send events to particular partitionId
+// Overload: Send events to particular partition as specified by the id
 await client.send(myEvents, "my-partition-id");
 
-// Send events to the same parititon, but don't care which partition
+// Send events to the same partition, but don't care which exact partition
 await client.send(myEvents, { batchLabel: "my-partition-key" });
 
 // ======================================== Sending sample ends ======================================
