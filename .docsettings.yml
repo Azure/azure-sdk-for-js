@@ -52,6 +52,7 @@ known_content_issues:
   - ['sdk/cosmosdb/cosmos/samples/ItemManagement/README.md', '#1583']
   - ['sdk/cosmosdb/cosmos/samples/DatabaseManagement/README.md', '#1583']
   - ['sdk/cosmosdb/cosmos/samples/ContainerManagement/README.md', '#1583']
+  - ['sdk/cosmosdb/cosmos/test/readme.md', '#1583']
   - ['sdk/eventhub/README.md', '#1583']
   - ['sdk/eventhub/event-hubs/README.md', '#1583']
   - ['sdk/eventhub/event-hubs/samples/README.md', '#1583']
