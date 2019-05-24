@@ -194,11 +194,11 @@ export class BlobServiceClient extends StorageClient {
    * }
    *
    * @example
-   *  let iter2 = await blobServiceClient.listContainers();
-   *  i = 1;
-   *  let containerItem = await iter2.next();
-   *  do {
-   *    console.log(`Container ${i++}: ${containerItem.value.name}`);
+   * let iter2 = await blobServiceClient.listContainers();
+   * i = 1;
+   * let containerItem = await iter2.next();
+   * do {
+   *   console.log(`Container ${i++}: ${containerItem.value.name}`);
    *   containerItem = await iter2.next();
    * } while (containerItem.value);
    *
