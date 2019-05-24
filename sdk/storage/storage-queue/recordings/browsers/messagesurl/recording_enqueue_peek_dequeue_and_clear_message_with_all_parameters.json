@@ -2,257 +2,185 @@
  "recordings": [
   {
    "method": "PUT",
-   "url": "https://coolstorageaccount1234.queue.core.windows.net/queue155848947413009005",
+   "url": "https://coolstorageaccount1234.queue.core.windows.net/queue155866320097505286",
    "query": {
-    "se": "2020-01-01T05:52:00Z",
-    "sig": "t2hhpMU5yO9pgbeBaS2noCeqvzg9W07StXjhoKxP+tk=",
-    "sp": "rwdlacup",
-    "spr": "https",
-    "srt": "sco",
-    "ss": "bfqt",
-    "st": "2019-05-07T20:52:00Z",
-    "sv": "2018-03-28",
     "timeout": "30"
    },
    "requestBody": null,
    "status": 201,
    "response": "",
    "responseHeaders": {
-    "x-ms-request-id": "499ec18f-a003-007c-3b3f-10006d000000",
+    "x-ms-request-id": "8645fb42-2003-0088-6ad4-112581000000",
     "x-ms-version": "2018-03-28",
     "server": "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0",
-    "date": "Wed, 22 May 2019 01:44:33 GMT",
+    "date": "Fri, 24 May 2019 02:00:00 GMT",
     "content-length": "0"
    }
   },
   {
    "method": "POST",
-   "url": "https://coolstorageaccount1234.queue.core.windows.net/queue155848947413009005/messages",
+   "url": "https://coolstorageaccount1234.queue.core.windows.net/queue155866320097505286/messages",
    "query": {
     "messagettl": "40",
-    "se": "2020-01-01T05:52:00Z",
-    "sig": "t2hhpMU5yO9pgbeBaS2noCeqvzg9W07StXjhoKxP+tk=",
-    "sp": "rwdlacup",
-    "spr": "https",
-    "srt": "sco",
-    "ss": "bfqt",
-    "st": "2019-05-07T20:52:00Z",
-    "sv": "2018-03-28",
     "timeout": "30",
     "visibilitytimeout": "0"
    },
    "requestBody": "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><QueueMessage><MessageText>Hello World</MessageText></QueueMessage>",
    "status": 201,
-   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><QueueMessagesList><QueueMessage><MessageId>39addd0f-e4c8-41fd-abc4-b687c257fa95</MessageId><InsertionTime>Wed, 22 May 2019 01:44:34 GMT</InsertionTime><ExpirationTime>Wed, 22 May 2019 01:45:14 GMT</ExpirationTime><PopReceipt>AgAAAAMAAAAAAAAA/wll6D8Q1QE=</PopReceipt><TimeNextVisible>Wed, 22 May 2019 01:44:34 GMT</TimeNextVisible></QueueMessage></QueueMessagesList>",
+   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><QueueMessagesList><QueueMessage><MessageId>24f0a526-625f-45f0-b216-f4013bdd1422</MessageId><InsertionTime>Fri, 24 May 2019 02:00:01 GMT</InsertionTime><ExpirationTime>Fri, 24 May 2019 02:00:41 GMT</ExpirationTime><PopReceipt>AgAAAAMAAAAAAAAAVO2jZdQR1QE=</PopReceipt><TimeNextVisible>Fri, 24 May 2019 02:00:01 GMT</TimeNextVisible></QueueMessage></QueueMessagesList>",
    "responseHeaders": {
-    "date": "Wed, 22 May 2019 01:44:33 GMT",
+    "date": "Fri, 24 May 2019 02:00:00 GMT",
     "server": "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0",
     "transfer-encoding": "chunked",
     "content-type": "application/xml",
-    "x-ms-request-id": "499ec1ad-a003-007c-503f-10006d000000",
+    "x-ms-request-id": "8645fb60-2003-0088-02d4-112581000000",
     "x-ms-version": "2018-03-28"
    }
   },
   {
    "method": "POST",
-   "url": "https://coolstorageaccount1234.queue.core.windows.net/queue155848947413009005/messages",
+   "url": "https://coolstorageaccount1234.queue.core.windows.net/queue155866320097505286/messages",
    "query": {
     "messagettl": "40",
-    "se": "2020-01-01T05:52:00Z",
-    "sig": "t2hhpMU5yO9pgbeBaS2noCeqvzg9W07StXjhoKxP+tk=",
-    "sp": "rwdlacup",
-    "spr": "https",
-    "srt": "sco",
-    "ss": "bfqt",
-    "st": "2019-05-07T20:52:00Z",
-    "sv": "2018-03-28",
     "timeout": "30",
     "visibilitytimeout": "0"
    },
    "requestBody": "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><QueueMessage><MessageText>Hello World</MessageText></QueueMessage>",
    "status": 201,
-   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><QueueMessagesList><QueueMessage><MessageId>fd2feb96-d0eb-441c-b501-26912127716b</MessageId><InsertionTime>Wed, 22 May 2019 01:44:34 GMT</InsertionTime><ExpirationTime>Wed, 22 May 2019 01:45:14 GMT</ExpirationTime><PopReceipt>AgAAAAMAAAAAAAAASnJ26D8Q1QE=</PopReceipt><TimeNextVisible>Wed, 22 May 2019 01:44:34 GMT</TimeNextVisible></QueueMessage></QueueMessagesList>",
+   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><QueueMessagesList><QueueMessage><MessageId>5141b49f-2126-47ee-b472-c56d28e2ff79</MessageId><InsertionTime>Fri, 24 May 2019 02:00:01 GMT</InsertionTime><ExpirationTime>Fri, 24 May 2019 02:00:41 GMT</ExpirationTime><PopReceipt>AgAAAAMAAAAAAAAAjICzZdQR1QE=</PopReceipt><TimeNextVisible>Fri, 24 May 2019 02:00:01 GMT</TimeNextVisible></QueueMessage></QueueMessagesList>",
    "responseHeaders": {
-    "date": "Wed, 22 May 2019 01:44:33 GMT",
+    "date": "Fri, 24 May 2019 02:00:01 GMT",
     "server": "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0",
     "transfer-encoding": "chunked",
     "content-type": "application/xml",
-    "x-ms-request-id": "499ec1bb-a003-007c-5c3f-10006d000000",
+    "x-ms-request-id": "8645fb6f-2003-0088-0fd4-112581000000",
     "x-ms-version": "2018-03-28"
    }
   },
   {
    "method": "POST",
-   "url": "https://coolstorageaccount1234.queue.core.windows.net/queue155848947413009005/messages",
+   "url": "https://coolstorageaccount1234.queue.core.windows.net/queue155866320097505286/messages",
    "query": {
     "messagettl": "10",
-    "se": "2020-01-01T05:52:00Z",
-    "sig": "t2hhpMU5yO9pgbeBaS2noCeqvzg9W07StXjhoKxP+tk=",
-    "sp": "rwdlacup",
-    "spr": "https",
-    "srt": "sco",
-    "ss": "bfqt",
-    "st": "2019-05-07T20:52:00Z",
-    "sv": "2018-03-28",
     "timeout": "30",
     "visibilitytimeout": "5"
    },
    "requestBody": "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><QueueMessage><MessageText>Hello World</MessageText></QueueMessage>",
    "status": 201,
-   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><QueueMessagesList><QueueMessage><MessageId>67df0144-4bb0-47d8-a1c8-1e000f82ab1e</MessageId><InsertionTime>Wed, 22 May 2019 01:44:34 GMT</InsertionTime><ExpirationTime>Wed, 22 May 2019 01:44:44 GMT</ExpirationTime><PopReceipt>AgAAAAMAAAAAAAAAlSWR6z8Q1QE=</PopReceipt><TimeNextVisible>Wed, 22 May 2019 01:44:39 GMT</TimeNextVisible></QueueMessage></QueueMessagesList>",
+   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><QueueMessagesList><QueueMessage><MessageId>eca3b2ee-920d-4a92-9176-0597a0c6469a</MessageId><InsertionTime>Fri, 24 May 2019 02:00:01 GMT</InsertionTime><ExpirationTime>Fri, 24 May 2019 02:00:11 GMT</ExpirationTime><PopReceipt>AgAAAAMAAAAAAAAAAa3MaNQR1QE=</PopReceipt><TimeNextVisible>Fri, 24 May 2019 02:00:06 GMT</TimeNextVisible></QueueMessage></QueueMessagesList>",
    "responseHeaders": {
-    "date": "Wed, 22 May 2019 01:44:33 GMT",
+    "date": "Fri, 24 May 2019 02:00:01 GMT",
     "server": "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0",
     "transfer-encoding": "chunked",
     "content-type": "application/xml",
-    "x-ms-request-id": "499ec1ef-a003-007c-0b3f-10006d000000",
+    "x-ms-request-id": "8645fb85-2003-0088-1fd4-112581000000",
     "x-ms-version": "2018-03-28"
    }
   },
   {
    "method": "POST",
-   "url": "https://coolstorageaccount1234.queue.core.windows.net/queue155848947413009005/messages",
+   "url": "https://coolstorageaccount1234.queue.core.windows.net/queue155866320097505286/messages",
    "query": {
     "messagettl": "20",
-    "se": "2020-01-01T05:52:00Z",
-    "sig": "t2hhpMU5yO9pgbeBaS2noCeqvzg9W07StXjhoKxP+tk=",
-    "sp": "rwdlacup",
-    "spr": "https",
-    "srt": "sco",
-    "ss": "bfqt",
-    "st": "2019-05-07T20:52:00Z",
-    "sv": "2018-03-28",
     "timeout": "30",
     "visibilitytimeout": "19"
    },
    "requestBody": "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><QueueMessage><MessageText>Hello World</MessageText></QueueMessage>",
    "status": 201,
-   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><QueueMessagesList><QueueMessage><MessageId>586ebcf5-c0db-41df-b3e1-3936df3fc926</MessageId><InsertionTime>Wed, 22 May 2019 01:44:35 GMT</InsertionTime><ExpirationTime>Wed, 22 May 2019 01:44:55 GMT</ExpirationTime><PopReceipt>AgAAAAMAAAAAAAAAgCkQ9D8Q1QE=</PopReceipt><TimeNextVisible>Wed, 22 May 2019 01:44:54 GMT</TimeNextVisible></QueueMessage></QueueMessagesList>",
+   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><QueueMessagesList><QueueMessage><MessageId>7d3642ed-171e-4d6b-b1b5-6cc439b43ff2</MessageId><InsertionTime>Fri, 24 May 2019 02:00:01 GMT</InsertionTime><ExpirationTime>Fri, 24 May 2019 02:00:21 GMT</ExpirationTime><PopReceipt>AgAAAAMAAAAAAAAAtTFGcdQR1QE=</PopReceipt><TimeNextVisible>Fri, 24 May 2019 02:00:20 GMT</TimeNextVisible></QueueMessage></QueueMessagesList>",
    "responseHeaders": {
-    "date": "Wed, 22 May 2019 01:44:34 GMT",
+    "date": "Fri, 24 May 2019 02:00:01 GMT",
     "server": "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0",
     "transfer-encoding": "chunked",
     "content-type": "application/xml",
-    "x-ms-request-id": "499ec205-a003-007c-1d3f-10006d000000",
+    "x-ms-request-id": "8645fbb9-2003-0088-4ad4-112581000000",
     "x-ms-version": "2018-03-28"
    }
   },
   {
    "method": "GET",
-   "url": "https://coolstorageaccount1234.queue.core.windows.net/queue155848947413009005/messages",
+   "url": "https://coolstorageaccount1234.queue.core.windows.net/queue155866320097505286/messages",
    "query": {
-    "_": "1558489475136",
+    "_": "1558663201897",
     "numofmessages": "2",
     "peekonly": "true",
-    "se": "2020-01-01T05:52:00Z",
-    "sig": "t2hhpMU5yO9pgbeBaS2noCeqvzg9W07StXjhoKxP+tk=",
-    "sp": "rwdlacup",
-    "spr": "https",
-    "srt": "sco",
-    "ss": "bfqt",
-    "st": "2019-05-07T20:52:00Z",
-    "sv": "2018-03-28",
     "timeout": "30"
    },
    "requestBody": null,
    "status": 200,
-   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><QueueMessagesList><QueueMessage><MessageId>39addd0f-e4c8-41fd-abc4-b687c257fa95</MessageId><InsertionTime>Wed, 22 May 2019 01:44:34 GMT</InsertionTime><ExpirationTime>Wed, 22 May 2019 01:45:14 GMT</ExpirationTime><DequeueCount>0</DequeueCount><MessageText>Hello World</MessageText></QueueMessage><QueueMessage><MessageId>fd2feb96-d0eb-441c-b501-26912127716b</MessageId><InsertionTime>Wed, 22 May 2019 01:44:34 GMT</InsertionTime><ExpirationTime>Wed, 22 May 2019 01:45:14 GMT</ExpirationTime><DequeueCount>0</DequeueCount><MessageText>Hello World</MessageText></QueueMessage></QueueMessagesList>",
+   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><QueueMessagesList><QueueMessage><MessageId>24f0a526-625f-45f0-b216-f4013bdd1422</MessageId><InsertionTime>Fri, 24 May 2019 02:00:01 GMT</InsertionTime><ExpirationTime>Fri, 24 May 2019 02:00:41 GMT</ExpirationTime><DequeueCount>0</DequeueCount><MessageText>Hello World</MessageText></QueueMessage><QueueMessage><MessageId>5141b49f-2126-47ee-b472-c56d28e2ff79</MessageId><InsertionTime>Fri, 24 May 2019 02:00:01 GMT</InsertionTime><ExpirationTime>Fri, 24 May 2019 02:00:41 GMT</ExpirationTime><DequeueCount>0</DequeueCount><MessageText>Hello World</MessageText></QueueMessage></QueueMessagesList>",
    "responseHeaders": {
-    "date": "Wed, 22 May 2019 01:44:34 GMT",
+    "date": "Fri, 24 May 2019 02:00:01 GMT",
     "server": "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0",
     "transfer-encoding": "chunked",
     "content-type": "application/xml",
-    "x-ms-request-id": "499ec230-a003-007c-453f-10006d000000",
+    "x-ms-request-id": "8645fbf5-2003-0088-7dd4-112581000000",
     "cache-control": "no-cache",
     "x-ms-version": "2018-03-28"
    }
   },
   {
    "method": "GET",
-   "url": "https://coolstorageaccount1234.queue.core.windows.net/queue155848947413009005/messages",
+   "url": "https://coolstorageaccount1234.queue.core.windows.net/queue155866320097505286/messages",
    "query": {
-    "_": "1558489475353",
+    "_": "1558663202116",
     "numofmessages": "2",
-    "se": "2020-01-01T05:52:00Z",
-    "sig": "t2hhpMU5yO9pgbeBaS2noCeqvzg9W07StXjhoKxP+tk=",
-    "sp": "rwdlacup",
-    "spr": "https",
-    "srt": "sco",
-    "ss": "bfqt",
-    "st": "2019-05-07T20:52:00Z",
-    "sv": "2018-03-28",
     "timeout": "30",
     "visibilitytimeout": "10"
    },
    "requestBody": null,
    "status": 200,
-   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><QueueMessagesList><QueueMessage><MessageId>39addd0f-e4c8-41fd-abc4-b687c257fa95</MessageId><InsertionTime>Wed, 22 May 2019 01:44:34 GMT</InsertionTime><ExpirationTime>Wed, 22 May 2019 01:45:14 GMT</ExpirationTime><PopReceipt>AgAAAAMAAAAAAAAA/NX07j8Q1QE=</PopReceipt><TimeNextVisible>Wed, 22 May 2019 01:44:45 GMT</TimeNextVisible><DequeueCount>1</DequeueCount><MessageText>Hello World</MessageText></QueueMessage><QueueMessage><MessageId>fd2feb96-d0eb-441c-b501-26912127716b</MessageId><InsertionTime>Wed, 22 May 2019 01:44:34 GMT</InsertionTime><ExpirationTime>Wed, 22 May 2019 01:45:14 GMT</ExpirationTime><PopReceipt>AgAAAAMAAAAAAAAA/NX07j8Q1QE=</PopReceipt><TimeNextVisible>Wed, 22 May 2019 01:44:45 GMT</TimeNextVisible><DequeueCount>1</DequeueCount><MessageText>Hello World</MessageText></QueueMessage></QueueMessagesList>",
+   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><QueueMessagesList><QueueMessage><MessageId>24f0a526-625f-45f0-b216-f4013bdd1422</MessageId><InsertionTime>Fri, 24 May 2019 02:00:01 GMT</InsertionTime><ExpirationTime>Fri, 24 May 2019 02:00:41 GMT</ExpirationTime><PopReceipt>AgAAAAMAAAAAAAAARTApbNQR1QE=</PopReceipt><TimeNextVisible>Fri, 24 May 2019 02:00:12 GMT</TimeNextVisible><DequeueCount>1</DequeueCount><MessageText>Hello World</MessageText></QueueMessage><QueueMessage><MessageId>5141b49f-2126-47ee-b472-c56d28e2ff79</MessageId><InsertionTime>Fri, 24 May 2019 02:00:01 GMT</InsertionTime><ExpirationTime>Fri, 24 May 2019 02:00:41 GMT</ExpirationTime><PopReceipt>AgAAAAMAAAAAAAAARTApbNQR1QE=</PopReceipt><TimeNextVisible>Fri, 24 May 2019 02:00:12 GMT</TimeNextVisible><DequeueCount>1</DequeueCount><MessageText>Hello World</MessageText></QueueMessage></QueueMessagesList>",
    "responseHeaders": {
-    "date": "Wed, 22 May 2019 01:44:34 GMT",
+    "date": "Fri, 24 May 2019 02:00:01 GMT",
     "server": "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0",
     "transfer-encoding": "chunked",
     "content-type": "application/xml",
-    "x-ms-request-id": "499ec24c-a003-007c-603f-10006d000000",
+    "x-ms-request-id": "8645fc42-2003-0088-3fd4-112581000000",
     "cache-control": "no-cache",
     "x-ms-version": "2018-03-28"
    }
   },
   {
    "method": "GET",
-   "url": "https://coolstorageaccount1234.queue.core.windows.net/queue155848947413009005/messages",
+   "url": "https://coolstorageaccount1234.queue.core.windows.net/queue155866320097505286/messages",
    "query": {
-    "_": "1558489475567",
+    "_": "1558663202334",
     "peekonly": "true",
-    "se": "2020-01-01T05:52:00Z",
-    "sig": "t2hhpMU5yO9pgbeBaS2noCeqvzg9W07StXjhoKxP+tk=",
-    "sp": "rwdlacup",
-    "spr": "https",
-    "srt": "sco",
-    "ss": "bfqt",
-    "st": "2019-05-07T20:52:00Z",
-    "sv": "2018-03-28",
     "timeout": "30"
    },
    "requestBody": null,
    "status": 200,
    "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><QueueMessagesList />",
    "responseHeaders": {
-    "date": "Wed, 22 May 2019 01:44:34 GMT",
+    "date": "Fri, 24 May 2019 02:00:02 GMT",
     "server": "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0",
     "transfer-encoding": "chunked",
     "content-type": "application/xml",
-    "x-ms-request-id": "499ec26e-a003-007c-7d3f-10006d000000",
+    "x-ms-request-id": "8645fc5b-2003-0088-55d4-112581000000",
     "cache-control": "no-cache",
     "x-ms-version": "2018-03-28"
    }
   },
   {
    "method": "DELETE",
-   "url": "https://coolstorageaccount1234.queue.core.windows.net/queue155848947413009005",
+   "url": "https://coolstorageaccount1234.queue.core.windows.net/queue155866320097505286",
    "query": {
-    "se": "2020-01-01T05:52:00Z",
-    "sig": "t2hhpMU5yO9pgbeBaS2noCeqvzg9W07StXjhoKxP+tk=",
-    "sp": "rwdlacup",
-    "spr": "https",
-    "srt": "sco",
-    "ss": "bfqt",
-    "st": "2019-05-07T20:52:00Z",
-    "sv": "2018-03-28",
     "timeout": "30"
    },
    "requestBody": null,
    "status": 204,
    "response": "",
    "responseHeaders": {
-    "x-ms-request-id": "499ec29b-a003-007c-283f-10006d000000",
+    "x-ms-request-id": "8645fc70-2003-0088-66d4-112581000000",
     "x-ms-version": "2018-03-28",
     "server": "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0",
-    "date": "Wed, 22 May 2019 01:44:35 GMT",
+    "date": "Fri, 24 May 2019 02:00:02 GMT",
     "content-length": "0"
    }
   }
  ],
  "uniqueTestInfo": {
-  "queue": "queue155848947413009005"
+  "queue": "queue155866320097505286"
  }
 }

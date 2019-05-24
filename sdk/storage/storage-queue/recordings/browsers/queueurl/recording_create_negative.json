@@ -2,26 +2,18 @@
  "recordings": [
   {
    "method": "PUT",
-   "url": "https://coolstorageaccount1234.queue.core.windows.net/queue155848948422503549",
+   "url": "https://coolstorageaccount1234.queue.core.windows.net/queue155866321032905568",
    "query": {
-    "se": "2020-01-01T05:52:00Z",
-    "sig": "t2hhpMU5yO9pgbeBaS2noCeqvzg9W07StXjhoKxP+tk=",
-    "sp": "rwdlacup",
-    "spr": "https",
-    "srt": "sco",
-    "ss": "bfqt",
-    "st": "2019-05-07T20:52:00Z",
-    "sv": "2018-03-28",
     "timeout": "30"
    },
    "requestBody": null,
    "status": 201,
    "response": "",
    "responseHeaders": {
-    "x-ms-request-id": "499ec6e8-a003-007c-403f-10006d000000",
+    "x-ms-request-id": "8646003d-2003-0088-21d4-112581000000",
     "x-ms-version": "2018-03-28",
     "server": "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0",
-    "date": "Wed, 22 May 2019 01:44:43 GMT",
+    "date": "Fri, 24 May 2019 02:00:10 GMT",
     "content-length": "0"
    }
   },
@@ -29,56 +21,40 @@
    "method": "PUT",
    "url": "https://coolstorageaccount1234.queue.core.windows.net/{queueName}",
    "query": {
-    "se": "2020-01-01T05:52:00Z",
-    "sig": "t2hhpMU5yO9pgbeBaS2noCeqvzg9W07StXjhoKxP+tk=",
-    "sp": "rwdlacup",
-    "spr": "https",
-    "srt": "sco",
-    "ss": "bfqt",
-    "st": "2019-05-07T20:52:00Z",
-    "sv": "2018-03-28",
     "timeout": "30"
    },
    "requestBody": null,
    "status": 400,
-   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><Error><Code>InvalidResourceName</Code><Message>The specifed resource name contains invalid characters.\nRequestId:499ec708-a003-007c-5c3f-10006d000000\nTime:2019-05-22T01:44:44.6217343Z</Message></Error>",
+   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><Error><Code>InvalidResourceName</Code><Message>The specifed resource name contains invalid characters.\nRequestId:86460063-2003-0088-3cd4-112581000000\nTime:2019-05-24T02:00:10.6821834Z</Message></Error>",
    "responseHeaders": {
-    "date": "Wed, 22 May 2019 01:44:43 GMT",
+    "date": "Fri, 24 May 2019 02:00:10 GMT",
     "server": "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0",
     "x-ms-error-code": "InvalidResourceName",
     "content-type": "application/xml",
-    "x-ms-request-id": "499ec708-a003-007c-5c3f-10006d000000",
+    "x-ms-request-id": "86460063-2003-0088-3cd4-112581000000",
     "x-ms-version": "2018-03-28",
     "content-length": "243"
    }
   },
   {
    "method": "DELETE",
-   "url": "https://coolstorageaccount1234.queue.core.windows.net/queue155848948422503549",
+   "url": "https://coolstorageaccount1234.queue.core.windows.net/queue155866321032905568",
    "query": {
-    "se": "2020-01-01T05:52:00Z",
-    "sig": "t2hhpMU5yO9pgbeBaS2noCeqvzg9W07StXjhoKxP+tk=",
-    "sp": "rwdlacup",
-    "spr": "https",
-    "srt": "sco",
-    "ss": "bfqt",
-    "st": "2019-05-07T20:52:00Z",
-    "sv": "2018-03-28",
     "timeout": "30"
    },
    "requestBody": null,
    "status": 204,
    "response": "",
    "responseHeaders": {
-    "x-ms-request-id": "499ec72d-a003-007c-783f-10006d000000",
+    "x-ms-request-id": "8646007f-2003-0088-54d4-112581000000",
     "x-ms-version": "2018-03-28",
     "server": "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0",
-    "date": "Wed, 22 May 2019 01:44:43 GMT",
+    "date": "Fri, 24 May 2019 02:00:10 GMT",
     "content-length": "0"
    }
   }
  ],
  "uniqueTestInfo": {
-  "queue": "queue155848948422503549"
+  "queue": "queue155866321032905568"
  }
 }

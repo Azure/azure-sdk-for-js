@@ -34,12 +34,11 @@ const skip = [
 ];
 
 abstract class Recorder {
-  protected filepath: string;
-  public uniqueTestInfo: any;
+  protected readonly filepath: string;
+  public uniqueTestInfo: any = {};
 
   constructor(env: string, testHierarchy: string, testTitle: string, ext: string) {
     this.filepath = env + "/" + this.formatPath(testHierarchy) + "/recording_" + this.formatPath(testTitle) + "." + ext;
-    this.uniqueTestInfo = {};
   }
 
   protected formatPath(path: string): string {
@@ -96,13 +95,12 @@ class NockRecorder extends Recorder {
 }
 
 class NiseRecorder extends Recorder {
-  private recordings: any[];
-  private xhr: nise.FakeXMLHttpRequestStatic;
+  private readonly sasQueryParameters = ["se", "sig", "sp", "spr", "srt", "ss", "st", "sv"];
+  private readonly xhr = nise.fakeXhr.useFakeXMLHttpRequest();
+  private recordings: any[] = [];
 
   constructor(testHierarchy: string, testTitle: string) {
     super("browsers", testHierarchy, testTitle, "json");
-    this.recordings = [];
-    this.xhr = nise.fakeXhr.useFakeXMLHttpRequest();
   }
 
   private async recordRequest(req: any, data: any): Promise<void> {
@@ -113,12 +111,19 @@ class NiseRecorder extends Recorder {
       responseHeaders[key] = value;
     }
 
+    // We're not storing SAS Query Parameters because they may contain sensitive information
     const parsedUrl = queryString.parseUrl(req.url);
+    const query: any = {};
+    for (const param in parsedUrl.query) {
+      if (!this.sasQueryParameters.includes(param)) {
+        query[param] = parsedUrl.query[param];
+      }
+    }
 
     this.recordings.push({
       method: req.method,
       url: parsedUrl.url,
-      query: parsedUrl.query,
+      query: query,
       requestBody: (data instanceof Blob) ? await blobToString(data) : data,
       status: req.status,
       response: (req.response instanceof Blob) ? await blobToString(req.response) : req.response,
@@ -135,7 +140,7 @@ class NiseRecorder extends Recorder {
     }
 
     for (const param in request.query) {
-      if (recording.query[param] === undefined) {
+      if (recording.query[param] === undefined && !this.sasQueryParameters.includes(param)) {
         return false;
       }
     }
@@ -204,8 +209,11 @@ class NiseRecorder extends Recorder {
           }
         }
 
+        // It's important to print matching errors because some tests end up catching them
         if (!recordingFound) {
-          throw new Error("No match for request " + JSON.stringify(formattedRequest, null, " "));
+          const err = new Error("No match for request " + JSON.stringify(formattedRequest, null, " "));
+          console.log(err);
+          throw err;
         }
       }
     }
