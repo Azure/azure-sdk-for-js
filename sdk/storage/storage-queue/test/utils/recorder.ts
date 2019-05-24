@@ -100,7 +100,6 @@ class NockRecorder extends Recorder {
 
 class NiseRecorder extends Recorder {
   private readonly sasQueryParameters = ["se", "sig", "sp", "spr", "srt", "ss", "st", "sv"];
-  private readonly xhr = nise.fakeXhr.useFakeXMLHttpRequest();
   private recordings: any[] = [];
 
   constructor(testHierarchy: string, testTitle: string) {
@@ -160,11 +159,12 @@ class NiseRecorder extends Recorder {
 
   public record(): void {
     const self = this;
+    const xhr = nise.fakeXhr.useFakeXMLHttpRequest();
 
-    this.xhr.useFilters = true;
-    this.xhr.addFilter(() => true);
+    xhr.useFilters = true;
+    xhr.addFilter(() => true);
 
-    this.xhr.onCreate = function(req: any) {
+    xhr.onCreate = function(req: any) {
       const reqOpen = req.open;
       req.open = function() {
         reqOpen.apply(req, arguments);
@@ -186,11 +186,12 @@ class NiseRecorder extends Recorder {
 
   public playback(): void {
     const self = this;
+    const xhr = nise.fakeXhr.useFakeXMLHttpRequest();
 
     this.recordings = (window as any).__json__["recordings/" + this.filepath].recordings;
     this.uniqueTestInfo = (window as any).__json__["recordings/" + this.filepath].uniqueTestInfo;
 
-    this.xhr.onCreate = function(req: any) {
+    xhr.onCreate = function(req: any) {
       const reqSend = req.send;
       req.send = async function(data: any) {
         reqSend.call(req, data);
