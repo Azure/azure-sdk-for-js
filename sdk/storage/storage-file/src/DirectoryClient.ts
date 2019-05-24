@@ -201,6 +201,57 @@ export class DirectoryClient extends StorageClient {
   }
 
   /**
+   * Iterates over containers under the specified account.
+   *
+   * @param {ServiceListContainersSegmentOptions} [options={}] Options to list containers(optional)
+   * @returns {AsyncIterableIterator<Models.ContainerItem>}
+   * @memberof BlobServiceClient
+   *
+   * @example
+   * for await (const container of blobServiceClient.listContainers()) {
+   * console.log(`Container: ${container.name}`);
+   * }
+   *
+   * @example
+   * let iter1 = blobServiceClient.listContainers();
+   * let i = 1;
+   * for await (const container of iter1) {
+   * console.log(`${i}: ${container.name}`);
+   * i++;
+   * }
+   *
+   * @example
+   * let iter2 = await blobServiceClient.listContainers();
+   * i = 1;
+   * let containerItem = await iter2.next();
+   * do {
+   * console.log(`Container ${i++}: ${containerItem.value.name}`);
+   * containerItem = await iter2.next();
+   * } while (containerItem.value);
+   *
+   */
+  public async *listFilesAndDirectories(
+    options: DirectoryListFilesAndDirectoriesSegmentOptions = {}
+  ): AsyncIterableIterator<Models.FileItem | Models.DirectoryItem> {
+    let marker = undefined;
+    const directoryClient = this;
+    const aborter = !options.abortSignal ? Aborter.none : options.abortSignal;
+    let listFilesAndDirectoriesResponse;
+    do {
+      listFilesAndDirectoriesResponse = await directoryClient.listFilesAndDirectoriesSegment(
+        marker,
+        {
+          ...options,
+          abortSignal: aborter
+        }
+      );
+      marker = listFilesAndDirectoriesResponse.nextMarker;
+      yield* listFilesAndDirectoriesResponse.segment.fileItems;
+      yield* listFilesAndDirectoriesResponse.segment.directoryItems;
+    } while (marker);
+  }
+
+  /**
    * Returns a list of files or directories under the specified share or directory. It lists the
    * contents only for a single level of the directory hierarchy.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/list-directories-and-files
