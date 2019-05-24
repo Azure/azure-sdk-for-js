@@ -1,4 +1,6 @@
-import resolve from "rollup-plugin-local-resolve";
+import nodeResolve from "rollup-plugin-node-resolve";
+import cjs from "rollup-plugin-commonjs";
+
 export default [
   {
     input: "dist-esm/index.js",
@@ -8,6 +10,13 @@ export default [
       name: "Microsoft.Azure.Cosmos",
       sourcemap: true
     },
-    plugins: [resolve()]
+    preserveSymlinks: false,
+    plugins: [
+      cjs(),
+      nodeResolve({
+        mainFields: ["module", "browser"],
+        preferBuiltins: false
+      }),
+    ]
   }
 ];
