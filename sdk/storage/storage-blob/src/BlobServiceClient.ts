@@ -208,7 +208,7 @@ export class BlobServiceClient extends StorageClient {
   ): AsyncIterableIterator<Models.ContainerItem> {
     let marker = undefined;
     const blobServiceClient = this;
-    const aborter = !options || !options.abortSignal ? Aborter.none : options.abortSignal;
+    const aborter = !options.abortSignal ? Aborter.none : options.abortSignal;
     let listContainersResponse;
     do {
       listContainersResponse = await blobServiceClient.listContainersSegment(marker, {
