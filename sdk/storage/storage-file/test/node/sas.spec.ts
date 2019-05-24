@@ -21,16 +21,16 @@ import { ShareURL } from "../../src/ShareURL";
 import { getBSU } from "../utils";
 import { record } from "../utils/recorder";
 
-describe("Shared Access Signature (SAS) generation Node.js only", function() {
+describe("Shared Access Signature (SAS) generation Node.js only", () => {
   const serviceURL = getBSU();
 
   let recorder: any;
 
-  beforeEach(async function() {
+  beforeEach(function() {
     recorder = record(this);
   });
 
-  afterEach(async () => {
+  afterEach(() => {
     recorder.stop();
   });
 

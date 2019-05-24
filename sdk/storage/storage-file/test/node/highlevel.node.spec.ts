@@ -17,7 +17,7 @@ import * as dotenv from "dotenv";
 dotenv.config({ path:"../.env" });
 
 // tslint:disable:no-empty
-describe("Highlevel", function() {
+describe("Highlevel", () => {
   const serviceURL = getBSU();
   let shareName: string;
   let shareURL: ShareURL;

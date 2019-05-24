@@ -7,14 +7,14 @@ import { record } from "./utils/recorder";
 import * as dotenv from "dotenv";
 dotenv.config({ path: "../.env" });
 
-describe("ServiceURL", function() {
+describe("ServiceURL", () => {
   let recorder: any;
 
-  beforeEach(async function() {
+  beforeEach(function() {
     recorder = record(this);
   });
 
-  afterEach(async () => {
+  afterEach(() => {
     recorder.stop();
   })
 

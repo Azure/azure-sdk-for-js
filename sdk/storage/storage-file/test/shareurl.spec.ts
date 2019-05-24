@@ -7,7 +7,7 @@ import { record } from "./utils/recorder";
 import * as dotenv from "dotenv";
 dotenv.config({ path: "../.env" });
 
-describe("ShareURL", function() {
+describe("ShareURL", () => {
   const serviceURL = getBSU();
   let shareName: string;
   let shareURL: ShareURL;

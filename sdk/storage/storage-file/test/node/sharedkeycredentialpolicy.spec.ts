@@ -5,7 +5,7 @@ import { ShareURL } from "../../src/ShareURL";
 import { getBSU } from "../utils";
 import { record } from "../utils/recorder";
 
-describe("SharedKeyCredentialPolicy Node.js only", function() {
+describe("SharedKeyCredentialPolicy Node.js only", () => {
   const serviceURL = getBSU();
   let shareName: string;
   let shareURL: ShareURL;
@@ -26,11 +26,11 @@ describe("SharedKeyCredentialPolicy Node.js only", function() {
     recorder.stop();
   });
 
-  beforeEach(async function() {
+  beforeEach(function() {
     recorder = record(this);
   });
 
-  afterEach(async () => {
+  afterEach(() => {
     recorder.stop();
   });
 

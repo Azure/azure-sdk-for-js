@@ -9,7 +9,7 @@ import { bodyToString, getBSU } from "../utils";
 import { Buffer } from "buffer";
 import { record } from "../utils/recorder";
 
-describe("BlockBlobURL Node.js only", function() {
+describe("BlockBlobURL Node.js only", () => {
   const serviceURL = getBSU();
   let shareName: string;
   let shareURL: ShareURL;
