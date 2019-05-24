@@ -8,6 +8,8 @@ import json from "rollup-plugin-json";
 import replace from "rollup-plugin-replace";
 import { uglify } from "rollup-plugin-uglify";
 import sourcemaps from "rollup-plugin-sourcemaps";
+import shim from "rollup-plugin-shim";
+import inject from "rollup-plugin-inject";
 
 import path from "path";
 
@@ -17,7 +19,7 @@ const input = "dist-esm/src/index.js";
 const production = process.env.NODE_ENV === "production";
 
 export function nodeConfig(test = false) {
-  const externalNodeBuiltins = ["events", "util"];
+  const externalNodeBuiltins = ["events", "util", "os"];
   const baseConfig = {
     input: input,
     external: depNames.concat(externalNodeBuiltins),
@@ -75,9 +77,9 @@ export function browserConfig(test = false) {
     input: input,
     external: ["ms-rest-js"],
     output: {
-      file: "browser/index.js",
+      file: "browser/event-hub.js",
       format: "umd",
-      name: "ExampleClient",
+      name: "Azure.Messaging.EventHub",
       sourcemap: true,
       globals: { "ms-rest-js": "msRest" }
     },
@@ -96,13 +98,39 @@ export function browserConfig(test = false) {
           }
         }
       ),
+
+      shim({
+        fs: `export default {}`,
+        net: `export default {}`,
+        tls: `export default {}`,
+        dotenv: `export function config() { }`,
+        os: `
+          export function arch() { return "javascript" }
+          export function type() { return "Browser" }
+          export function release() { typeof navigator === 'undefined' ? '' : navigator.appVersion }
+        `,
+        path: `export default {}`,
+        dns: `export function resolve() { }`
+      }),
+
       nodeResolve({
-        mainFields: ['module', 'browser'],
+        mainFields: ["module", "browser"],
         preferBuiltins: false
       }),
       cjs({
-        namedExports: { events: ["EventEmitter"] }
+        namedExports: { events: ["EventEmitter"], long: ["ZERO"] }
       }),
+
+      // rhea and rhea-promise use the Buffer global which requires
+      // injection to shim properly
+      inject({
+        modules: {
+          Buffer: ["buffer", "Buffer"],
+          process: "process"
+        },
+        exclude: ["./**/package.json"]
+      }),
+
       json()
     ]
   };
