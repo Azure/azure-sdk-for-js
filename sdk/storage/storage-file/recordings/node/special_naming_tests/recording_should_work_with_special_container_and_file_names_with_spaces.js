@@ -1,40 +1,40 @@
 let nock = require('nock');
 
-module.exports.testInfo = {"file empty":"file empty155623276557007738"}
+module.exports.testInfo = {"file empty":"file empty155873390821603980"}
 
 nock('https://coolstorageaccount1234.file.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/1share-with-dash155623276433906629/dir155623276433902629/file%20empty155623276557007738')
+  .put('/1share-with-dash155873390737006370/dir155873390737008456/file%20empty155873390821603980')
   .reply(201, "", [ 'Content-Length',
   '0',
   'Last-Modified',
-  'Thu, 25 Apr 2019 22:52:45 GMT',
+  'Fri, 24 May 2019 21:38:28 GMT',
   'ETag',
-  '"0x8D6C9D0BBB95BC3"',
+  '"0x8D6E09028B60022"',
   'Server',
   'Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'e92502d6-c01a-0089-3ab9-fb247c000000',
+  '7ec771fe-d01a-0037-3f79-1231f7000000',
   'x-ms-version',
   '2018-03-28',
   'x-ms-request-server-encrypted',
   'true',
   'Date',
-  'Thu, 25 Apr 2019 22:52:45 GMT',
+  'Fri, 24 May 2019 21:38:27 GMT',
   'Connection',
   'close' ]);
 
 
 nock('https://coolstorageaccount1234.file.core.windows.net:443', {"encodedQueryParams":true})
-  .get('/1share-with-dash155623276433906629/dir155623276433902629')
-  .query({"prefix":"file%20empty155623276557007738","restype":"directory","comp":"list"})
-  .reply(200, "﻿<?xml version=\"1.0\" encoding=\"utf-8\"?><EnumerationResults ServiceEndpoint=\"https://coolstorageaccount1234.file.core.windows.net/\" ShareName=\"1share-with-dash155623276433906629\" DirectoryPath=\"dir155623276433902629\"><Prefix>file empty155623276557007738</Prefix><Entries><File><Name>file empty155623276557007738</Name><Properties><Content-Length>10</Content-Length></Properties></File></Entries><NextMarker /></EnumerationResults>", [ 'Transfer-Encoding',
+  .get('/1share-with-dash155873390737006370/dir155873390737008456')
+  .query({"prefix":"file%20empty155873390821603980","restype":"directory","comp":"list"})
+  .reply(200, "﻿<?xml version=\"1.0\" encoding=\"utf-8\"?><EnumerationResults ServiceEndpoint=\"https://coolstorageaccount1234.file.core.windows.net/\" ShareName=\"1share-with-dash155873390737006370\" DirectoryPath=\"dir155873390737008456\"><Prefix>file empty155873390821603980</Prefix><Entries><File><Name>file empty155873390821603980</Name><Properties><Content-Length>10</Content-Length></Properties></File></Entries><NextMarker /></EnumerationResults>", [ 'Transfer-Encoding',
   'chunked',
   'Content-Type',
   'application/xml',
   'Server',
   'Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '6a179095-801a-0049-50b9-fbae38000000',
+  'a8e2319f-501a-0087-5579-12c877000000',
   'x-ms-version',
   '2018-03-28',
   'Access-Control-Expose-Headers',
@@ -42,6 +42,7 @@ nock('https://coolstorageaccount1234.file.core.windows.net:443', {"encodedQueryP
   'Access-Control-Allow-Origin',
   '*',
   'Date',
-  'Thu, 25 Apr 2019 22:52:45 GMT',
+  'Fri, 24 May 2019 21:38:28 GMT',
   'Connection',
   'close' ]);
+

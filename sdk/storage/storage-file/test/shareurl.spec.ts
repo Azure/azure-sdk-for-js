@@ -11,12 +11,11 @@ describe("ShareURL", function() {
   const serviceURL = getBSU();
   let shareName: string;
   let shareURL: ShareURL;
-  const testSuiteTitle = this.fullTitle();
 
   let recorder: any;
 
   beforeEach(async function() {
-    recorder = record.call(this, testSuiteTitle);
+    recorder = record(this);
     shareName = recorder.getUniqueName("share");
     shareURL = ShareURL.fromServiceURL(serviceURL, shareName);
     await shareURL.create(Aborter.none);

@@ -88,7 +88,7 @@ module.exports = function(config) {
           const fs = require("fs");
           fs.writeFile(obj.path, JSON.stringify(obj.content, null, " "), err => {
             if (err) {
-              console.log(err);
+              throw err;
             }
           });
         }

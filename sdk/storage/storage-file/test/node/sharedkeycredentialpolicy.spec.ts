@@ -9,12 +9,11 @@ describe("SharedKeyCredentialPolicy Node.js only", function() {
   const serviceURL = getBSU();
   let shareName: string;
   let shareURL: ShareURL;
-  const testSuiteTitle = this.fullTitle();
 
   let recorder: any;
 
   before(async function() {
-    recorder = record.call(this, testSuiteTitle, "before");
+    recorder = record(this);
     shareName = recorder.getUniqueName("1share-with-dash");
     shareURL = ShareURL.fromServiceURL(serviceURL, shareName);
     await shareURL.create(Aborter.none);
@@ -22,13 +21,13 @@ describe("SharedKeyCredentialPolicy Node.js only", function() {
   });
 
   after(async function() {
-    recorder = record.call(this, testSuiteTitle, "after");
+    recorder = record(this);
     await shareURL.delete(Aborter.none);
     recorder.stop();
   });
 
   beforeEach(async function() {
-    recorder = record.call(this, testSuiteTitle);
+    recorder = record(this);
   });
 
   afterEach(async () => {

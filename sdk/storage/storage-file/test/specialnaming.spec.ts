@@ -15,12 +15,11 @@ describe("Special Naming Tests", function() {
   let shareURL: ShareURL;
   let directoryName: string;
   let directoryURL: DirectoryURL;
-  const testSuiteTitle = this.fullTitle();
 
   let recorder: any;
 
   before(async function() {
-    recorder = record.call(this, testSuiteTitle, "before");
+    recorder = record(this);
 
     shareName = recorder.getUniqueName("1share-with-dash");
     shareURL = ShareURL.fromServiceURL(serviceURL, shareName);
@@ -35,13 +34,13 @@ describe("Special Naming Tests", function() {
   });
 
   after(async function() {
-    recorder = record.call(this, testSuiteTitle, "after");
+    recorder = record(this);
     await shareURL.delete(Aborter.none);
     recorder.stop();
   });
 
   beforeEach(async function() {
-    recorder = record.call(this, testSuiteTitle);
+    recorder = record(this);
   });
 
   afterEach(async () => {

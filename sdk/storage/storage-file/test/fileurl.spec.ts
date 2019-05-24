@@ -19,12 +19,11 @@ describe("FileURL", function() {
   let fileName: string;
   let fileURL: FileURL;
   const content = "Hello World";
-  const testSuiteTitle = this.fullTitle();
 
   let recorder: any;
 
   beforeEach(async function() {
-    recorder = record.call(this, testSuiteTitle);
+    recorder = record(this);
 
     shareName = recorder.getUniqueName("share");
     shareURL = ShareURL.fromServiceURL(serviceURL, shareName);

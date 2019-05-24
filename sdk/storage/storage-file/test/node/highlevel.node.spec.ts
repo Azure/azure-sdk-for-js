@@ -30,12 +30,11 @@ describe("Highlevel", function() {
   let tempFileLarge: string;
   let tempFileLargeLength: number;
   const tempFolderPath = "temp";
-  const testSuiteTitle = this.fullTitle();
 
   let recorder: any;
 
   beforeEach(async function() {
-    recorder = record.call(this, testSuiteTitle);
+    recorder = record(this);
     shareName = recorder.getUniqueName("share");
     shareURL = ShareURL.fromServiceURL(serviceURL, shareName);
     await shareURL.create(Aborter.none);

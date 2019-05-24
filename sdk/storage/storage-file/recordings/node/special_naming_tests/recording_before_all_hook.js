@@ -1,46 +1,47 @@
 let nock = require('nock');
 
-module.exports.testInfo = {"1share-with-dash":"1share-with-dash155623276433906629","dir":"dir155623276433902629"}
+module.exports.testInfo = {"1share-with-dash":"1share-with-dash155873390737006370","dir":"dir155873390737008456"}
 
 nock('https://coolstorageaccount1234.file.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/1share-with-dash155623276433906629')
+  .put('/1share-with-dash155873390737006370')
   .query({"restype":"share"})
   .reply(201, "", [ 'Content-Length',
   '0',
   'Last-Modified',
-  'Thu, 25 Apr 2019 22:52:44 GMT',
+  'Fri, 24 May 2019 21:38:27 GMT',
   'ETag',
-  '"0x8D6C9D0BB1A5E33"',
+  '"0x8D6E0902832974D"',
   'Server',
   'Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '1dbe97b3-c01a-006c-73b9-fb368b000000',
+  '3afd0e9c-501a-004b-5379-12acc2000000',
   'x-ms-version',
   '2018-03-28',
   'Date',
-  'Thu, 25 Apr 2019 22:52:44 GMT',
+  'Fri, 24 May 2019 21:38:26 GMT',
   'Connection',
   'close' ]);
 
 
 nock('https://coolstorageaccount1234.file.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/1share-with-dash155623276433906629/dir155623276433902629')
+  .put('/1share-with-dash155873390737006370/dir155873390737008456')
   .query({"restype":"directory"})
   .reply(201, "", [ 'Content-Length',
   '0',
   'Last-Modified',
-  'Thu, 25 Apr 2019 22:52:45 GMT',
+  'Fri, 24 May 2019 21:38:27 GMT',
   'ETag',
-  '"0x8D6C9D0BB7281BC"',
+  '"0x8D6E09028758FEC"',
   'Server',
   'Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'b17684fa-a01a-005e-55b9-fb6e5b000000',
+  '0f7d8a98-d01a-0073-3579-12ed9b000000',
   'x-ms-version',
   '2018-03-28',
   'x-ms-request-server-encrypted',
   'true',
   'Date',
-  'Thu, 25 Apr 2019 22:52:45 GMT',
+  'Fri, 24 May 2019 21:38:27 GMT',
   'Connection',
   'close' ]);
+

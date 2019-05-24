@@ -15,12 +15,11 @@ describe("DirectoryURL", function() {
   let shareURL: ShareURL;
   let dirName: string;
   let dirURL: DirectoryURL;
-  const testSuiteTitle = this.fullTitle();
 
   let recorder: any;
 
   beforeEach(async function() {
-    recorder = record.call(this, testSuiteTitle);
+    recorder = record(this);
 
     shareName = recorder.getUniqueName("share");
     shareURL = ShareURL.fromServiceURL(serviceURL, shareName);
