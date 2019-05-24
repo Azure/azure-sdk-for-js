@@ -209,14 +209,12 @@ export class BlobServiceClient extends StorageClient {
     let marker = undefined;
     const blobServiceClient = this;
     const aborter = !options || !options.abortSignal ? Aborter.none : options.abortSignal;
+    let listContainersResponse;
     do {
-      const listContainersResponse: Models.ServiceListContainersSegmentResponse = await blobServiceClient.listContainersSegment(
-        marker,
-        {
-          ...options,
-          abortSignal: aborter
-        }
-      );
+      listContainersResponse = await blobServiceClient.listContainersSegment(marker, {
+        ...options,
+        abortSignal: aborter
+      });
       marker = listContainersResponse.nextMarker;
       yield* listContainersResponse.containerItems;
     } while (marker);
