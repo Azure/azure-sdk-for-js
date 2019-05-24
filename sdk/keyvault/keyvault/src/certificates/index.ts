@@ -21,7 +21,8 @@ import { TelemetryOptions } from "..";
 import {
   CertificateBundle, Contacts, KeyVaultClientCreateCertificateOptionalParams,
   KeyVaultClientGetCertificateVersionsOptionalParams, KeyVaultClientGetCertificateIssuersOptionalParams,
-  KeyVaultClientSetCertificateIssuerOptionalParams
+  KeyVaultClientSetCertificateIssuerOptionalParams,
+  KeyVaultClientUpdateCertificateIssuerOptionalParams
 } from "../models";
 import { KeyVaultClient } from "../keyVaultClient";
 import { RetryConstants, SDK_VERSION } from "../utils/constants";
@@ -230,15 +231,58 @@ export class CertificatesClient {
    * @param [options] The optional parameters
    * @returns Promise<Models.SetCertificateIssuerResponse>
    */
-  setCertificateIssuer(issuerName: string, provider: string, options?: KeyVaultClientSetCertificateIssuerOptionalParams): Promise<CertificateIssuer> {
+  public async setCertificateIssuer(issuerName: string, provider: string, options?: KeyVaultClientSetCertificateIssuerOptionalParams): Promise<CertificateIssuer> {
+    let result = await this.client.setCertificateIssuer(this.vaultBaseUrl, issuerName, provider, options);
+
+    return result._response.parsedBody;
+  }
+
+  /**
+   * The UpdateCertificateIssuer operation performs an update on the specified certificate issuer
+   * entity. This operation requires the certificates/setissuers permission.
+   * @summary Updates the specified certificate issuer.
+   * @param issuerName The name of the issuer.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.UpdateCertificateIssuerResponse>
+   */
+  public async updateCertificateIssuer(issuerName: string, options?: KeyVaultClientUpdateCertificateIssuerOptionalParams): Promise<CertificateIssuer> {
+    let result = await this.client.updateCertificateIssuer(this.vaultBaseUrl, issuerName, options);
+
+    return result._response.parsedBody;
+  }
+
+  /**
+   * The GetCertificateIssuer operation returns the specified certificate issuer resources in the
+   * specified key vault. This operation requires the certificates/manageissuers/getissuers
+   * permission.
+   * @summary Lists the specified certificate issuer.
+   * @param issuerName The name of the issuer.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.GetCertificateIssuerResponse>
+   */
+  public async getCertificateIssuer(issuerName: string, options?: RequestOptionsBase): Promise<CertificateIssuer> {
+    let result = await this.client.getCertificateIssuer(this.vaultBaseUrl, issuerName, options);
+
+    return result._response.parsedBody;
+  }
+
+  /**
+   * The DeleteCertificateIssuer operation permanently removes the specified certificate issuer from
+   * the vault. This operation requires the certificates/manageissuers/deleteissuers permission.
+   * @summary Deletes the specified certificate issuer.
+   * @param issuerName The name of the issuer.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.DeleteCertificateIssuerResponse>
+   */
+  public async deleteCertificateIssuer(issuerName: string, options?: RequestOptionsBase): Promise<CertificateIssuer> {
+    let result = await this.client.deleteCertificateIssuer(this.vaultBaseUrl, issuerName, options);
+
+    return result._response.parsedBody;
 
   }
 
-
   public async createCertificate(name: string, options?: KeyVaultClientCreateCertificateOptionalParams): Promise<Certificate> {
     let result = await this.client.createCertificate(this.vaultBaseUrl, name, options);
-
-    console.log(result);
 
     return this.getCertificateFromCertificateBundle(result);
   }
