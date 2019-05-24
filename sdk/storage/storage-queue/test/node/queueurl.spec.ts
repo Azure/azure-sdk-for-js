@@ -5,7 +5,7 @@ import { QueueURL } from "../../src/QueueURL";
 import { getQSU } from "../utils";
 import { record } from "../utils/recorder";
 
-describe("QueueURL Node", function() {
+describe("QueueURL Node", () => {
   const serviceURL = getQSU();
   let queueName: string;
   let queueURL: QueueURL;

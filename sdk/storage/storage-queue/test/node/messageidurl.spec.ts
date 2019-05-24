@@ -7,7 +7,7 @@ import { MessageIdURL } from "../../src/MessageIdURL";
 import { getQSU } from "../utils";
 import { record } from "../utils/recorder";
 
-describe("MessageIdURL Node", function() {
+describe("MessageIdURL Node", () => {
   const serviceURL = getQSU();
   let queueName: string;
   let queueURL: QueueURL;

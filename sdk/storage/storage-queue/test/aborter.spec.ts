@@ -7,7 +7,7 @@ import * as dotenv from "dotenv";
 dotenv.config({ path: "../.env" });
 
 // tslint:disable:no-empty
-describe("Aborter", function() {
+describe("Aborter", () => {
   const serviceURL = getQSU();
   let queueName: string;
   let queueURL: QueueURL;

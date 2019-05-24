@@ -8,7 +8,7 @@ import { record } from "./utils/recorder";
 import * as dotenv from "dotenv";
 dotenv.config({ path: "../.env" });
 
-describe("MessagesURL", function() {
+describe("MessagesURL", () => {
   const serviceURL = getQSU();
   let queueName: string;
   let queueURL: QueueURL;

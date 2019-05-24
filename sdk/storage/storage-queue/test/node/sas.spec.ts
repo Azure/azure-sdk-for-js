@@ -20,16 +20,16 @@ import { SASProtocol } from "../../src/SASQueryParameters";
 import { getQSU, sleep } from "../utils/index";
 import { record } from "../utils/recorder";
 
-describe("Shared Access Signature (SAS) generation Node.js only", function() {
+describe("Shared Access Signature (SAS) generation Node.js only", () => {
   const serviceURL = getQSU();
 
   let recorder: any;
 
-  beforeEach(async function() {
+  beforeEach(function() {
     recorder = record(this);
   });
 
-  afterEach(async () => {
+  afterEach(() => {
     recorder.stop();
   });
 
