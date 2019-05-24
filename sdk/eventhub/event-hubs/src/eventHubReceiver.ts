@@ -10,7 +10,7 @@ import { ReceiveOptions } from "./eventHubClient";
 import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";
 import { EventPosition } from "./eventPosition";
-import { getExpression } from "./util/utils";
+import { getEventPositionFilter } from "./util/utils";
 
 interface CreateReceiverOptions {
   onMessage: OnAmqpEvent;
@@ -610,7 +610,7 @@ export class EventHubReceiver extends LinkEntity {
     const eventPosition = options.eventPosition || this.options.eventPosition;
     if (eventPosition) {
       // Set filter on the receiver if event position is specified.
-      const filterClause = getExpression(eventPosition);
+      const filterClause = getEventPositionFilter(eventPosition);
       if (filterClause) {
         (rcvrOptions.source as any).filter = {
           "apache.org:selector-filter:string": types.wrap_described(filterClause, 0x468c00000004)

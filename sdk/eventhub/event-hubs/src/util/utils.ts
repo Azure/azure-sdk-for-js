@@ -3,10 +3,10 @@ import { translate, Constants, ErrorNameConditionMapper } from "@azure/amqp-comm
 
 /**
  * @internal
- * Gets the expression (filter clause) that needs to be set on the source.
+ * Gets the expression to be set as the filter clause when creating the receiver
  * @return {string} filterExpression
  */
-export function getExpression(eventPosition: EventPosition): string {
+export function getEventPositionFilter(eventPosition: EventPosition): string {
   let result;
   // order of preference
   if (eventPosition.offset != undefined) {
