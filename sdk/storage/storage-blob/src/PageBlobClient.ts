@@ -102,18 +102,6 @@ export class PageBlobClient extends BlobClient {
 
   /**
    * Creates a new PageBlobClient object identical to the source but with the
-   * specified request policy pipeline.
-   *
-   * @param {Pipeline} pipeline
-   * @returns {PageBlobClient}
-   * @memberof PageBlobClient
-   */
-  public withPipeline(pipeline: Pipeline): PageBlobClient {
-    return new PageBlobClient(this.url, pipeline);
-  }
-
-  /**
-   * Creates a new PageBlobClient object identical to the source but with the
    * specified snapshot timestamp.
    * Provide "" will remove the snapshot and return a Client to the base blob.
    *

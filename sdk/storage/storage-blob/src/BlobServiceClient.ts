@@ -85,18 +85,6 @@ export class BlobServiceClient extends StorageClient {
   }
 
   /**
-   * Creates a new BlobServiceClient object identical to the source but with the
-   * specified request policy pipeline.
-   *
-   * @param {Pipeline} pipeline
-   * @returns {BlobServiceClient}
-   * @memberof BlobServiceClient
-   */
-  public withPipeline(pipeline: Pipeline): BlobServiceClient {
-    return new BlobServiceClient(this.url, pipeline);
-  }
-
-  /**
    * Creates a ContainerClient object
    *
    * @param containerName A container name

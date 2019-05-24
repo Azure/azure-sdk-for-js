@@ -1,5 +1,5 @@
 import * as assert from "assert";
-import { RestError, StorageClient } from "../src";
+import { RestError, ShareClient, StorageClient } from "../src";
 import { Pipeline } from "../src/Pipeline";
 import { getBSU, getUniqueName } from "./utils";
 import { InjectorPolicyFactory } from "./utils/InjectorPolicyFactory";
@@ -32,7 +32,7 @@ describe("RetryPolicy", () => {
     const factories = shareClient.pipeline.factories.slice(); // clone factories array
     factories.push(injector);
     const pipeline = new Pipeline(factories);
-    const injectShareClient = shareClient.withPipeline(pipeline);
+    const injectShareClient = new ShareClient(shareClient.url, pipeline);
 
     const metadata = {
       key0: "val0",
@@ -56,7 +56,7 @@ describe("RetryPolicy", () => {
     }).factories;
     factories.push(injector);
     const pipeline = new Pipeline(factories);
-    const injectShareClient = shareClient.withPipeline(pipeline);
+    const injectShareClient = new ShareClient(shareClient.url, pipeline);
 
     let hasError = false;
     try {

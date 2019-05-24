@@ -215,18 +215,6 @@ export class FileClient extends StorageClient {
   }
 
   /**
-   * Creates a new FileClient object identical to the source but with the
-   * specified request policy pipeline.
-   *
-   * @param {Pipeline} pipeline
-   * @returns {FileClient}
-   * @memberof FileClient
-   */
-  public withPipeline(pipeline: Pipeline): FileClient {
-    return new FileClient(this.url, pipeline);
-  }
-
-  /**
    * Creates a new file or replaces a file. Note it only initializes the file with no content.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-file
    *

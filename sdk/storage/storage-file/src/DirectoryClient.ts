@@ -94,18 +94,6 @@ export class DirectoryClient extends StorageClient {
   }
 
   /**
-   * Creates a new DirectoryClient object identical to the source but with the
-   * specified request policy pipeline.
-   *
-   * @param {Pipeline} pipeline
-   * @returns {DirectoryClient}
-   * @memberof DirectoryClient
-   */
-  public withPipeline(pipeline: Pipeline): DirectoryClient {
-    return new DirectoryClient(this.url, pipeline);
-  }
-
-  /**
    * Creates a new directory under the specified share or parent directory.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-directory
    *

@@ -146,18 +146,6 @@ export class MessagesClient extends StorageClient {
   }
 
   /**
-   * Creates a new MessagesClient object identical to the source but with the
-   * specified request policy pipeline.
-   *
-   * @param {Pipeline} pipeline
-   * @returns {MessagesClient}
-   * @memberof MessagesClient
-   */
-  public withPipeline(pipeline: Pipeline): MessagesClient {
-    return new MessagesClient(this.url, pipeline);
-  }
-
-  /**
    * Clear deletes all messages from a queue.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/clear-messages
    *
