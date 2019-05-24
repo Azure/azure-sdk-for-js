@@ -75,10 +75,15 @@ export const MetadataEntity: msRest.CompositeMapper = {
           }
         }
       },
-      isAlertable: {
-        serializedName: "properties.isAlertable",
+      applicableScenarios: {
+        serializedName: "properties.applicableScenarios",
         type: {
-          name: "Boolean"
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       },
       supportedValues: {

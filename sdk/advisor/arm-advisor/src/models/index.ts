@@ -50,9 +50,9 @@ export interface MetadataEntity {
    */
   dependsOn?: string[];
   /**
-   * The flag to know if metadata entity can be used in alert condition.
+   * The list of scenarios applicable to this metadata entity.
    */
-  isAlertable?: boolean;
+  applicableScenarios?: Scenario[];
   /**
    * The list of supported values.
    */
@@ -365,6 +365,14 @@ export interface SuppressionContractListResult extends Array<SuppressionContract
    */
   nextLink?: string;
 }
+
+/**
+ * Defines values for Scenario.
+ * Possible values include: 'Alerts'
+ * @readonly
+ * @enum {string}
+ */
+export type Scenario = 'Alerts';
 
 /**
  * Defines values for Category.
