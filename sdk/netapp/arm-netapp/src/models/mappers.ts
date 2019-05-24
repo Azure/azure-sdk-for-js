@@ -491,6 +491,7 @@ export const CapacityPool: msRest.CompositeMapper = {
         }
       },
       size: {
+        required: true,
         serializedName: "properties.size",
         defaultValue: 4398046511104,
         constraints: {

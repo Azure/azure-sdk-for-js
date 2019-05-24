@@ -317,7 +317,7 @@ export interface CapacityPool extends BaseResource {
    * size. Provisioned size of the pool (in bytes). Allowed values are in 4TiB chunks (value must
    * be multiply of 4398046511104). Default value: 4398046511104.
    */
-  size?: number;
+  size: number;
   /**
    * serviceLevel. The service level of the file system. Possible values include: 'Standard',
    * 'Premium', 'Ultra'. Default value: 'Premium'.
