@@ -149,7 +149,7 @@ export class KeysClient {
     keyName: string,
     keyType: JsonWebKeyType,
     options?: CreateKeyOptions
-  ) {
+  ): Promise<Key> {
     if (options) {
       let unflattenedAttributes = { enabled: options.enabled, notBefore: options.notBefore, expires: options.expires };
       let unflattenedOptions = { ...options, ...(options.requestOptions ? options.requestOptions : {}), keyAttributes: unflattenedAttributes };
@@ -181,7 +181,7 @@ export class KeysClient {
     keyName: string,
     key: JsonWebKey,
     options?: ImportKeyOptions
-  ) {
+  ): Promise<Key> {
     if (options) {
       let unflattenedAttributes = { enabled: options.enabled, notBefore: options.notBefore, expires: options.expires };
       let unflattenedOptions = { ...options, ...(options.requestOptions ? options.requestOptions : {}), keyAttributes: unflattenedAttributes };
@@ -225,7 +225,7 @@ export class KeysClient {
    * @param [options] The optional parameters
    * @returns Promise<Key>
    */
-  public async updateKeyAttributes(
+  public async updateKey(
     keyName: string,
     keyVersion: string,
     options?: UpdateKeyOptions
@@ -342,17 +342,17 @@ export class KeysClient {
    * Restores a backed up key, and all its versions, to a vault. This operation requires the
    * keys/restore permission.
    * @summary Restores a backed up key to a vault.
-   * @param keyBundleBackup The backup blob associated with a key bundle.
+   * @param backup The backup blob associated with a key bundle.
    * @param [options] The optional parameters
    * @returns Promise<Key>
    */
   public async restoreKey(
-    keyBundleBackup: Uint8Array,
+    backup: Uint8Array,
     options?: RequestOptions
   ): Promise<Key> {
     const response = await this.client.restoreKey(
       this.vaultBaseUrl,
-      keyBundleBackup,
+      backup,
       options ? options.requestOptions : {}
     );
     return this.getKeyFromKeyBundle(response);
