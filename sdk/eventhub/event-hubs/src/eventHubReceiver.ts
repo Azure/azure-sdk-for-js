@@ -10,6 +10,7 @@ import { ReceiveOptions } from "./eventHubClient";
 import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";
 import { EventPosition } from "./eventPosition";
+import { getExpression } from "./util/utils";
 
 interface CreateReceiverOptions {
   onMessage: OnAmqpEvent;
@@ -181,9 +182,7 @@ export class EventHubReceiver extends LinkEntity {
     this.epoch = options.epoch;
     this.options = options;
     this.receiverRuntimeMetricEnabled = options.enableReceiverRuntimeMetric || false;
-    this.runtimeInfo = {
-      
-    };
+    this.runtimeInfo = {};
     this._checkpoint = {
       enqueuedTimeUtc: new Date(),
       offset: "0",
@@ -611,7 +610,7 @@ export class EventHubReceiver extends LinkEntity {
     const eventPosition = options.eventPosition || this.options.eventPosition;
     if (eventPosition) {
       // Set filter on the receiver if event position is specified.
-      const filterClause = eventPosition.getExpression();
+      const filterClause = getExpression(eventPosition);
       if (filterClause) {
         (rcvrOptions.source as any).filter = {
           "apache.org:selector-filter:string": types.wrap_described(filterClause, 0x468c00000004)
