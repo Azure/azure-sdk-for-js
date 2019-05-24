@@ -35,7 +35,7 @@
     "ci": "npm run build && npm run test -- --forbid-only && node consumer-test.js"
   },
   "devDependencies": {
-    "@microsoft/api-extractor": "6.3.0",
+    "@microsoft/api-extractor": "^7.1.5",
     "@types/fast-json-stable-stringify": "2.0.0",
     "@types/mocha": "^5.2.5",
     "@types/node": "^10.5.8",
