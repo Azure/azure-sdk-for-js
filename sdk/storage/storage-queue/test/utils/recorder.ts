@@ -116,10 +116,12 @@ class NiseRecorder extends Recorder {
     }
 
     // We're not storing SAS Query Parameters because they may contain sensitive information
+    // We're ignoring the "_" parameter as well because it's not being added by our code
+    // More info on "_": https://stackoverflow.com/questions/3687729/who-add-single-underscore-query-parameter
     const parsedUrl = queryString.parseUrl(request.url);
     const query: any = {};
     for (const param in parsedUrl.query) {
-      if (!this.sasQueryParameters.includes(param)) {
+      if (!this.sasQueryParameters.includes(param) && param !== "_") {
         query[param] = parsedUrl.query[param];
       }
     }
@@ -138,13 +140,13 @@ class NiseRecorder extends Recorder {
   // We're not matching request headers
   private matchRequest(recording: any, request: any): boolean {
     for (const param in recording.query) {
-      if (recording.query[param] !== request.query[param] && param !== "_") {
+      if (recording.query[param] !== request.query[param]) {
         return false;
       }
     }
 
     for (const param in request.query) {
-      if (recording.query[param] === undefined && !this.sasQueryParameters.includes(param)) {
+      if (recording.query[param] === undefined && !this.sasQueryParameters.includes(param) && param !== "_") {
         return false;
       }
     }
@@ -204,6 +206,14 @@ class NiseRecorder extends Recorder {
         let recordingFound = false;
         for (let i = 0; !recordingFound && i < self.recordings.length; i++) {
           if (self.matchRequest(self.recordings[i], formattedRequest)) {
+            if (self.recordings[i].query._ && self.recordings[i].method !== "GET") {
+              console.log("FOUND UNDERSCORE WITHOUT GET");
+            }
+            if (self.recordings[i].method === "GET" && !self.recordings[i].query._) {
+              console.log("FOUND GET WITHOUT UNDERSCORE");
+            }
+            //console.log(self.recordings[i].method);
+            //console.log(JSON.stringify(self.recordings[i].query, null, " "));
             const status = self.recordings[i].status;
             const responseHeaders = self.recordings[i].responseHeaders;
             const response = self.recordings[i].response;

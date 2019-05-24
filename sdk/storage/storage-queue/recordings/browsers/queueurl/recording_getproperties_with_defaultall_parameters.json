@@ -2,7 +2,7 @@
  "recordings": [
   {
    "method": "PUT",
-   "url": "https://coolstorageaccount1234.queue.core.windows.net/queue155866320787806638",
+   "url": "https://coolstorageaccount1234.queue.core.windows.net/queue155866985907208212",
    "query": {
     "timeout": "30"
    },
@@ -10,18 +10,17 @@
    "status": 201,
    "response": "",
    "responseHeaders": {
-    "x-ms-request-id": "8645ff12-2003-0088-24d4-112581000000",
+    "x-ms-request-id": "0bb20dcf-d003-0073-5de3-11ed9b000000",
     "x-ms-version": "2018-03-28",
     "server": "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0",
-    "date": "Fri, 24 May 2019 02:00:07 GMT",
+    "date": "Fri, 24 May 2019 03:50:58 GMT",
     "content-length": "0"
    }
   },
   {
    "method": "GET",
-   "url": "https://coolstorageaccount1234.queue.core.windows.net/queue155866320787806638",
+   "url": "https://coolstorageaccount1234.queue.core.windows.net/queue155866985907208212",
    "query": {
-    "_": "1558663208081",
     "comp": "metadata",
     "timeout": "30"
    },
@@ -29,10 +28,10 @@
    "status": 200,
    "response": "",
    "responseHeaders": {
-    "date": "Fri, 24 May 2019 02:00:07 GMT",
+    "date": "Fri, 24 May 2019 03:50:59 GMT",
     "server": "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0",
     "x-ms-approximate-messages-count": "0",
-    "x-ms-request-id": "8645ff2d-2003-0088-37d4-112581000000",
+    "x-ms-request-id": "0bb20e56-d003-0073-59e3-11ed9b000000",
     "cache-control": "no-cache",
     "x-ms-version": "2018-03-28",
     "content-length": "0"
@@ -40,7 +39,7 @@
   },
   {
    "method": "DELETE",
-   "url": "https://coolstorageaccount1234.queue.core.windows.net/queue155866320787806638",
+   "url": "https://coolstorageaccount1234.queue.core.windows.net/queue155866985907208212",
    "query": {
     "timeout": "30"
    },
@@ -48,15 +47,15 @@
    "status": 204,
    "response": "",
    "responseHeaders": {
-    "x-ms-request-id": "8645ff42-2003-0088-49d4-112581000000",
+    "x-ms-request-id": "0bb20ec7-d003-0073-42e3-11ed9b000000",
     "x-ms-version": "2018-03-28",
     "server": "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0",
-    "date": "Fri, 24 May 2019 02:00:08 GMT",
+    "date": "Fri, 24 May 2019 03:50:59 GMT",
     "content-length": "0"
    }
   }
  ],
  "uniqueTestInfo": {
-  "queue": "queue155866320787806638"
+  "queue": "queue155866985907208212"
  }
 }
