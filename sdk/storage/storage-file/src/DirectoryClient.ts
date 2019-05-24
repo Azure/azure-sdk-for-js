@@ -127,7 +127,7 @@ export class DirectoryClient extends StorageClient {
    * Creates a DirectoryClient object for a sub directory.
    *
    * @param subDirectoryName A subdirectory name
-   * @returns
+   * @returns {DirectoryClient}
    * @memberof DirectoryClient
    */
   public createDirectoryClient(subDirectoryName: string): DirectoryClient {
