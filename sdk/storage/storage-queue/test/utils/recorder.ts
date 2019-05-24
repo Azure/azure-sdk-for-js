@@ -206,14 +206,6 @@ class NiseRecorder extends Recorder {
         let recordingFound = false;
         for (let i = 0; !recordingFound && i < self.recordings.length; i++) {
           if (self.matchRequest(self.recordings[i], formattedRequest)) {
-            if (self.recordings[i].query._ && self.recordings[i].method !== "GET") {
-              console.log("FOUND UNDERSCORE WITHOUT GET");
-            }
-            if (self.recordings[i].method === "GET" && !self.recordings[i].query._) {
-              console.log("FOUND GET WITHOUT UNDERSCORE");
-            }
-            //console.log(self.recordings[i].method);
-            //console.log(JSON.stringify(self.recordings[i].query, null, " "));
             const status = self.recordings[i].status;
             const responseHeaders = self.recordings[i].responseHeaders;
             const response = self.recordings[i].response;
