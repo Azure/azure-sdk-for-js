@@ -328,8 +328,9 @@ export class EventHubSender extends LinkEntity {
    * "application_properties" and "properties" of the first message will be set as that
    * of the envelope (batch message).
    * @ignore
-   * @param {Array<EventData>} events  An array of EventData objects to be sent in a Batch message.
-   * @return {Promise<void>} Promise<void>
+   * @param events  An array of EventData objects to be sent in a Batch message.
+   * @param options Options to control the way the events are batched along with request options
+   * @return Promise<void>
    */
   async send(events: EventData[], options?: BatchingOptions & RequestOptions): Promise<void> {
     try {
@@ -347,10 +348,10 @@ export class EventHubSender extends LinkEntity {
         });
       }
       log.sender("[%s] Sender '%s', trying to send EventData[].", this._context.connectionId, this.name);
+      const batchLabel = (options && options.batchLabel) || undefined;
       const messages: AmqpMessage[] = [];
       // Convert EventData to AmqpMessage.
       for (let i = 0; i < events.length; i++) {
-        const batchLabel = options && options.batchLabel!;
         const message = EventDataInternal.toAmqpMessage(events[i], batchLabel);
         message.body = this._context.dataTransformer.encode(events[i].body);
         messages[i] = message;
