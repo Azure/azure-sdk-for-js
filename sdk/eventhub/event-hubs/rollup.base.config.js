@@ -117,8 +117,9 @@ export function browserConfig(test = false) {
         mainFields: ["module", "browser"],
         preferBuiltins: false
       }),
+
       cjs({
-        namedExports: { events: ["EventEmitter"], long: ["ZERO"] }
+        namedExports: { events: ["EventEmitter"] }
       }),
 
       // rhea and rhea-promise use the Buffer global which requires
