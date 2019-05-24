@@ -1,0 +1,22 @@
+{
+ "recordings": [
+  {
+   "method": "DELETE",
+   "url": "https://coolstorageaccount1234.blob.core.windows.net/1container-with-dash155873910307003894",
+   "query": {
+    "restype": "container"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "",
+   "responseHeaders": {
+    "x-ms-request-id": "05303ae4-d01e-009d-3685-12e718000000",
+    "x-ms-version": "2018-03-28",
+    "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
+    "date": "Fri, 24 May 2019 23:05:11 GMT",
+    "content-length": "0"
+   }
+  }
+ ],
+ "uniqueTestInfo": {}
+}

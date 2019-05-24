@@ -22,12 +22,11 @@ import { record } from "../utils/recorder";
 
 describe("Shared Access Signature (SAS) generation Node.js only", function() {
   const serviceURL = getBSU();
-  const testSuiteTitle = this.fullTitle();
 
   let recorder: any;
 
   beforeEach(async function() {
-    recorder = record.call(this, testSuiteTitle);
+    recorder = record(this);
   });
 
   afterEach(async () => {

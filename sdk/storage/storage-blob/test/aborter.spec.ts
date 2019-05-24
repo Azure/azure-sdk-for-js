@@ -12,12 +12,11 @@ describe("Aborter", function() {
   const serviceURL = getBSU();
   let containerName: string;
   let containerURL: ContainerURL;
-  const testSuiteTitle = this.fullTitle();
 
   let recorder: any;
 
   beforeEach(async function() {
-    recorder = record.call(this, testSuiteTitle);
+    recorder = record(this);
     containerName = recorder.getUniqueName("container");
     containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
   });

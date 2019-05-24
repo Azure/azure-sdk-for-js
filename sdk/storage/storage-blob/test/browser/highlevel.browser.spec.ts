@@ -28,12 +28,11 @@ describe("Highlevel", function() {
   const tempFile1Length: number = 257 * 1024 * 1024 - 1;
   let tempFile2: File;
   const tempFile2Length: number = 1 * 1024 * 1024 - 1;
-  const testSuiteTitle = this.fullTitle();
 
   let recorder: any;
 
   beforeEach(async function() {
-    recorder = record.call(this, testSuiteTitle);
+    recorder = record(this);
     containerName = recorder.getUniqueName("container");
     containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
     await containerURL.create(Aborter.none);
@@ -48,7 +47,7 @@ describe("Highlevel", function() {
   });
 
   before(async function() {
-    recorder = record.call(this, testSuiteTitle, "before");
+    recorder = record(this);
     tempFile1 = getBrowserFile(recorder.getUniqueName("browserfile"), tempFile1Length);
     tempFile2 = getBrowserFile(recorder.getUniqueName("browserfile"), tempFile2Length);
     recorder.stop();

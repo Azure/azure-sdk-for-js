@@ -10,7 +10,7 @@ nock('https://coolstorageaccount1234.blob.core.windows.net:443', {"encodedQueryP
   'Server',
   'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '50ad28f2-f01e-0046-269f-ff43ce000000',
+  '384e8f56-901e-0012-7784-12a944000000',
   'x-ms-version',
   '2018-03-28',
   'x-ms-sku-name',
@@ -22,7 +22,7 @@ nock('https://coolstorageaccount1234.blob.core.windows.net:443', {"encodedQueryP
   'Access-Control-Allow-Origin',
   '*',
   'Date',
-  'Tue, 30 Apr 2019 21:57:52 GMT',
+  'Fri, 24 May 2019 23:02:03 GMT',
   'Connection',
   'close' ]);
 

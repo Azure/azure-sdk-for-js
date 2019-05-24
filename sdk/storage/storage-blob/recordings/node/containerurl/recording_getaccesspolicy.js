@@ -1,43 +1,43 @@
 let nock = require('nock');
 
-module.exports.testInfo = {"container":"container155666349341303436"}
+module.exports.testInfo = {"container":"container155873894967607558"}
 
 nock('https://coolstorageaccount1234.blob.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/container155666349341303436')
+  .put('/container155873894967607558')
   .query({"restype":"container"})
   .reply(201, "", [ 'Content-Length',
   '0',
   'Last-Modified',
-  'Tue, 30 Apr 2019 22:31:33 GMT',
+  'Fri, 24 May 2019 23:02:29 GMT',
   'ETag',
-  '"0x8D6CDBB99A0D689"',
+  '"0x8D6E09BE59A3C6D"',
   'Server',
   'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'd431c712-301e-0072-37a4-ffec66000000',
+  '6d76cc28-801e-0060-0b84-12d87a000000',
   'x-ms-version',
   '2018-03-28',
   'Date',
-  'Tue, 30 Apr 2019 22:31:33 GMT',
+  'Fri, 24 May 2019 23:02:28 GMT',
   'Connection',
   'close' ]);
 
 
 nock('https://coolstorageaccount1234.blob.core.windows.net:443', {"encodedQueryParams":true})
-  .get('/container155666349341303436')
+  .get('/container155873894967607558')
   .query({"restype":"container","comp":"acl"})
   .reply(200, "﻿<?xml version=\"1.0\" encoding=\"utf-8\"?><SignedIdentifiers />", [ 'Transfer-Encoding',
   'chunked',
   'Content-Type',
   'application/xml',
   'Last-Modified',
-  'Tue, 30 Apr 2019 22:31:33 GMT',
+  'Fri, 24 May 2019 23:02:29 GMT',
   'ETag',
-  '"0x8D6CDBB99A0D689"',
+  '"0x8D6E09BE59A3C6D"',
   'Server',
   'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '971c4a02-701e-0090-0aa4-ff0814000000',
+  '71254d1e-801e-0085-6084-12ca8d000000',
   'x-ms-version',
   '2018-03-28',
   'Access-Control-Expose-Headers',
@@ -45,24 +45,24 @@ nock('https://coolstorageaccount1234.blob.core.windows.net:443', {"encodedQueryP
   'Access-Control-Allow-Origin',
   '*',
   'Date',
-  'Tue, 30 Apr 2019 22:31:34 GMT',
+  'Fri, 24 May 2019 23:02:29 GMT',
   'Connection',
   'close' ]);
 
 
 nock('https://coolstorageaccount1234.blob.core.windows.net:443', {"encodedQueryParams":true})
-  .delete('/container155666349341303436')
+  .delete('/container155873894967607558')
   .query({"restype":"container"})
   .reply(202, "", [ 'Content-Length',
   '0',
   'Server',
   'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'd70485ec-201e-006d-33a4-ff3776000000',
+  '275357c2-701e-0031-0784-12c68f000000',
   'x-ms-version',
   '2018-03-28',
   'Date',
-  'Tue, 30 Apr 2019 22:31:33 GMT',
+  'Fri, 24 May 2019 23:02:30 GMT',
   'Connection',
   'close' ]);
 

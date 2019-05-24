@@ -12,26 +12,25 @@ describe("Special Naming Tests", function() {
   const serviceURL = getBSU();
   let containerName: string;
   let containerURL: ContainerURL;
-  const testSuiteTitle = this.fullTitle();
 
   let recorder: any;
 
-  before(async () => {
-    recorder = record.call(this, testSuiteTitle, "before");
+  before(async function() {
+    recorder = record(this);
     containerName = recorder.getUniqueName("1container-with-dash");
     containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
     await containerURL.create(Aborter.none);
     recorder.stop();
   });
 
-  after(async () => {
-    recorder = record.call(this, testSuiteTitle, "after");
+  after(async function() {
+    recorder = record(this);
     await containerURL.delete(Aborter.none);
     recorder.stop();
   });
 
   beforeEach(async function() {
-    recorder = record.call(this, testSuiteTitle);
+    recorder = record(this);
   });
 
   afterEach(async () => {

@@ -18,12 +18,11 @@ describe("BlobURL", function() {
   let blobURL: BlobURL;
   let blockBlobURL: BlockBlobURL;
   const content = "Hello World";
-  const testSuiteTitle = this.fullTitle();
 
   let recorder: any;
 
   beforeEach(async function() {
-    recorder = record.call(this, testSuiteTitle);
+    recorder = record(this);
     containerName = recorder.getUniqueName("container");
     containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
     await containerURL.create(Aborter.none);

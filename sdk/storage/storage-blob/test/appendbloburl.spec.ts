@@ -14,12 +14,11 @@ describe("AppendBlobURL", function() {
   let containerURL: ContainerURL;
   let blobName: string;
   let appendBlobURL: AppendBlobURL;
-  const testSuiteTitle = this.fullTitle();
 
   let recorder: any;
 
   beforeEach(async function() {
-    recorder = record.call(this, testSuiteTitle);
+    recorder = record(this);
     containerName = recorder.getUniqueName("container");
     containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
     await containerURL.create(Aborter.none);
