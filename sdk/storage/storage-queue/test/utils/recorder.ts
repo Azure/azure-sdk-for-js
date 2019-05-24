@@ -81,8 +81,12 @@ class NockRecorder extends Recorder {
     const importNock = "let nock = require('nock');\n";
     const fixtures = nock.recorder.play();
 
+    // It's important to print writing errors because some tests end up catching them
     const file = fs.createWriteStream("./recordings/" + this.filepath, { flags: "w" });
-    file.on("error", err => console.log(err));
+    file.on("error", err => {
+      console.log(err);
+      throw err;
+    });
     file.write(importNock + "\n" + "module.exports.testInfo = " + JSON.stringify(this.uniqueTestInfo) + "\n");
     for (const fixture of fixtures) {
       file.write(fixture + "\n");
@@ -103,16 +107,16 @@ class NiseRecorder extends Recorder {
     super("browsers", testHierarchy, testTitle, "json");
   }
 
-  private async recordRequest(req: any, data: any): Promise<void> {
+  private async recordRequest(request: any, data: any): Promise<void> {
     const responseHeaders: any = {};
-    const responseHeadersPairs = req.getAllResponseHeaders().split("\r\n");
+    const responseHeadersPairs = request.getAllResponseHeaders().split("\r\n");
     for (const pair of responseHeadersPairs) {
       const [key, value] = pair.split(": ");
       responseHeaders[key] = value;
     }
 
     // We're not storing SAS Query Parameters because they may contain sensitive information
-    const parsedUrl = queryString.parseUrl(req.url);
+    const parsedUrl = queryString.parseUrl(request.url);
     const query: any = {};
     for (const param in parsedUrl.query) {
       if (!this.sasQueryParameters.includes(param)) {
@@ -121,12 +125,12 @@ class NiseRecorder extends Recorder {
     }
 
     this.recordings.push({
-      method: req.method,
+      method: request.method,
       url: parsedUrl.url,
       query: query,
       requestBody: (data instanceof Blob) ? await blobToString(data) : data,
-      status: req.status,
-      response: (req.response instanceof Blob) ? await blobToString(req.response) : req.response,
+      status: request.status,
+      response: (request.response instanceof Blob) ? await blobToString(request.response) : request.response,
       responseHeaders: responseHeaders
     });
   }
@@ -225,7 +229,6 @@ class NiseRecorder extends Recorder {
       path: "./recordings/" + this.filepath,
       content: { recordings: this.recordings, uniqueTestInfo: this.uniqueTestInfo }
     }));
-    this.xhr.restore();
   }
 }
 
