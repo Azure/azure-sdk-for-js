@@ -97,6 +97,8 @@ export class FileServiceClient extends StorageClient {
    * Creates a ShareClient object.
    *
    * @param shareName
+   * @returns {ShareClient}
+   * @memberof FileServiceClient
    */
   public createShareClient(shareName: string): ShareClient {
     return new ShareClient(appendToURLPath(this.url, shareName), this.pipeline);
