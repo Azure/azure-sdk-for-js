@@ -4,8 +4,7 @@
 import { EventData } from "./eventData";
 import { EventHubSender } from "./eventHubSender";
 import { BatchingOptions, RequestOptions } from "./eventHubClient";
-import { ConnectionContext } from './connectionContext';
-
+import { ConnectionContext } from "./connectionContext";
 
 /**
  * The Sender class can be used to send messages, schedule messages to be sent at a later time
@@ -41,28 +40,28 @@ export class Sender {
     this._context = context;
     this._requestOptions = options || {};
   }
-  
-    /**
+
+  /**
    * Send a batch of EventData to the EventHub using the options provided.
    *
-   * @param data  An array of EventData objects to be sent in a Batch message.
+   * @param events  An array of EventData objects to be sent in a Batch message.
    * @param options Options where you can specifiy the partition to send the message to along with controlling the send
    * request via retry options, log level and cancellation token.
    *
    * @return {Promise<void>} Promise<void>
    */
-  async send(data: EventData[], options?: BatchingOptions): Promise<void>;
+  async send(events: EventData[], options?: BatchingOptions): Promise<void>;
   /**
    * Send a batch of EventData to specified partition of the EventHub using the options provided.
    *
-   * @param data  An array of EventData objects to be sent in a Batch message.
+   * @param events  An array of EventData objects to be sent in a Batch message.
    * @param partitionId Partition ID to which the event data needs to be sent.
    *
    * @return Promise<void>
    */
-  async send(data: EventData[], partitionId: string, options?: BatchingOptions): Promise<void>;
+  async send(events: EventData[], partitionId: string, options?: BatchingOptions): Promise<void>;
   async send(
-    data: EventData[],
+    events: EventData[],
     partitionIdOrOptions?: string | BatchingOptions,
     options?: BatchingOptions
   ): Promise<void> {
@@ -72,9 +71,12 @@ export class Sender {
     } else {
       options = partitionIdOrOptions;
     }
+    if (!Array.isArray(events)) {
+      events = [events];
+    }
 
     const sender = EventHubSender.create(this._context, partitionId);
-    return sender.send(data, {...this._requestOptions, ...options});
+    return sender.send(events, { ...this._requestOptions, ...options });
   }
 
   /**
@@ -87,6 +89,4 @@ export class Sender {
   async close(): Promise<void> {
     this._isClosed = true;
   }
-
- 
 }
