@@ -46,13 +46,12 @@ describe("EventHub Sender", function(): void {
       const data: EventData[] = [
         {
           body: "Hello World 1"
-          // partitionKey: "p1234"
         },
         {
           body: "Hello World 2"
         }
       ];
-      await client.createSender().send(data);
+      await client.createSender().send(data, { batchLabel: 1 as any });
     });
     it("should be sent successfully to a specific partition.", async function(): Promise<void> {
       const data: EventData[] = [
@@ -140,10 +139,9 @@ describe("EventHub Sender", function(): void {
     it("Error thrown when the 'partitionKey' is not of type 'string'", async function(): Promise<void> {
       const data: EventData = {
         body: "Hello World"
-        // partitionKey: 1 as any
       };
       try {
-        await client.createSender().send([data], "0");
+        await client.createSender().send([data], "0", { batchLabel: 1 as any });
       } catch (err) {
         debug(err);
         should.exist(err);
