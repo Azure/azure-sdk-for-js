@@ -34,12 +34,11 @@ const skip = [
 ];
 
 abstract class Recorder {
-  protected filename: string;
-  protected fp!: string;
+  protected filepath: string;
   public uniqueTestInfo: any;
 
-  constructor(testTitle: string) {
-    this.filename = "recording_" + testTitle;
+  constructor(env: string, testHierarchy: string, testTitle: string, ext: string) {
+    this.filepath = env + "/" + this.formatPath(testHierarchy) + "/recording_" + this.formatPath(testTitle) + "." + ext;
     this.uniqueTestInfo = {};
   }
 
@@ -56,7 +55,7 @@ abstract class Recorder {
   }
 
   public skip(): boolean {
-    return skip.includes(this.fp);
+    return skip.includes(this.filepath);
   }
 
   public abstract record(): void;
@@ -65,9 +64,8 @@ abstract class Recorder {
 }
 
 class NockRecorder extends Recorder {
-  constructor(folderpath: string, testTitle: string) {
-    super(testTitle);
-    this.fp = "node/" + this.formatPath(folderpath) + "/" + this.formatPath(this.filename) + ".js";
+  constructor(testHierarchy: string, testTitle: string) {
+    super("node", testHierarchy, testTitle, "js");
   }
 
   public record(): void {
@@ -77,14 +75,14 @@ class NockRecorder extends Recorder {
   }
 
   public playback(): void {
-    this.uniqueTestInfo = require("../recordings/" + this.fp).testInfo;
+    this.uniqueTestInfo = require("../recordings/" + this.filepath).testInfo;
   }
 
   public stop(): void {
     const importNock = "let nock = require('nock');\n";
     const fixtures = nock.recorder.play();
 
-    const file = fs.createWriteStream("./recordings/" + this.fp, { flags: "w" });
+    const file = fs.createWriteStream("./recordings/" + this.filepath, { flags: "w" });
     file.on("error", err => console.log(err));
     file.write(importNock + "\n" + "module.exports.testInfo = " + JSON.stringify(this.uniqueTestInfo) + "\n");
     for (const fixture of fixtures) {
@@ -101,9 +99,8 @@ class NiseRecorder extends Recorder {
   private recordings: any[];
   private xhr: nise.FakeXMLHttpRequestStatic;
 
-  constructor(folderpath: string, testTitle: string) {
-    super(testTitle);
-    this.fp = "browsers/" + this.formatPath(folderpath) + "/" + this.formatPath(this.filename) + ".json";
+  constructor(testHierarchy: string, testTitle: string) {
+    super("browsers", testHierarchy, testTitle, "json");
     this.recordings = [];
     this.xhr = nise.fakeXhr.useFakeXMLHttpRequest();
   }
@@ -179,8 +176,8 @@ class NiseRecorder extends Recorder {
   public playback(): void {
     const self = this;
 
-    this.recordings = (window as any).__json__["recordings/" + this.fp].recordings;
-    this.uniqueTestInfo = (window as any).__json__["recordings/" + this.fp].uniqueTestInfo;
+    this.recordings = (window as any).__json__["recordings/" + this.filepath].recordings;
+    this.uniqueTestInfo = (window as any).__json__["recordings/" + this.filepath].uniqueTestInfo;
 
     this.xhr.onCreate = function(req: any) {
       const reqSend = req.send;
@@ -217,32 +214,43 @@ class NiseRecorder extends Recorder {
   public stop(): void {
     console.log(JSON.stringify({
       writeFile: true,
-      path: "./recordings/" + this.fp,
+      path: "./recordings/" + this.filepath,
       content: { recordings: this.recordings, uniqueTestInfo: this.uniqueTestInfo }
     }));
     this.xhr.restore();
   }
 }
 
-export function record(this: any, folderpath: string, testTitle?: string) {
+export function record(testContext: any) {
   let recorder: Recorder;
   let isRecording: boolean;
   let isPlayingBack: boolean;
+  let testHierarchy: string;
+  let testTitle: string;
+
+  if (testContext.currentTest) {
+    testHierarchy = testContext.currentTest.parent.fullTitle();
+    testTitle = testContext.currentTest.title;
+  } else {
+    testHierarchy = testContext.test.parent.fullTitle();
+    testTitle = testContext.test.title;
+  }
 
   if (isBrowser()) {
-    recorder = new NiseRecorder(folderpath, testTitle || this.currentTest.title);
+    recorder = new NiseRecorder(testHierarchy, testTitle);
     isRecording = ((window as any).__env__.TEST_MODE === "record");
     isPlayingBack = ((window as any).__env__.TEST_MODE === "playback");
   } else {
-    recorder = new NockRecorder(folderpath, testTitle || this.currentTest.title);
+    recorder = new NockRecorder(testHierarchy, testTitle);
     isRecording = (process.env.TEST_MODE === "record");
     isPlayingBack = (process.env.TEST_MODE === "playback");
   }
 
   if (recorder.skip() && (isRecording || isPlayingBack)) {
-    this.skip();
+    testContext.skip();
   }
 
+  // If neither recording nor playback is enabled, requests hit the live-service and no recordings are generated
   if (isRecording) {
     recorder.record();
   } else if (isPlayingBack) {

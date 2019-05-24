@@ -9,12 +9,10 @@ import * as dotenv from "dotenv";
 dotenv.config({ path: "../.env" });
 
 describe("ServiceURL", function() {
-  const testSuiteTitle = this.fullTitle();
-
   let recorder: any;
 
   beforeEach(async function() {
-    recorder = record.call(this, testSuiteTitle);
+    recorder = record(this);
   });
 
   afterEach(async () => {

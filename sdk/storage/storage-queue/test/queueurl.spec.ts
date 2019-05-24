@@ -11,12 +11,11 @@ describe("QueueURL", function() {
   const serviceURL = getQSU();
   let queueName: string;
   let queueURL: QueueURL;
-  const testSuiteTitle = this.fullTitle();
 
   let recorder: any;
 
   beforeEach(async function() {
-    recorder = record.call(this, testSuiteTitle);
+    recorder = record(this);
     queueName = recorder.getUniqueName("queue");
     queueURL = QueueURL.fromServiceURL(serviceURL, queueName);
     await queueURL.create(Aborter.none);
