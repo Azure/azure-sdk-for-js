@@ -97,37 +97,63 @@ export const ImageReference: msRest.CompositeMapper = {
   }
 };
 
-export const NodeAgentSku: msRest.CompositeMapper = {
-  serializedName: "NodeAgentSku",
+export const ImageInformation: msRest.CompositeMapper = {
+  serializedName: "ImageInformation",
   type: {
     name: "Composite",
-    className: "NodeAgentSku",
+    className: "ImageInformation",
     modelProperties: {
-      id: {
-        serializedName: "id",
+      nodeAgentSKUId: {
+        required: true,
+        serializedName: "nodeAgentSKUId",
         type: {
           name: "String"
         }
       },
-      verifiedImageReferences: {
-        serializedName: "verifiedImageReferences",
+      imageReference: {
+        required: true,
+        serializedName: "imageReference",
         type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ImageReference"
-            }
-          }
+          name: "Composite",
+          className: "ImageReference"
         }
       },
       osType: {
+        required: true,
         serializedName: "osType",
         type: {
           name: "Enum",
           allowedValues: [
             "linux",
             "windows"
+          ]
+        }
+      },
+      capabilities: {
+        serializedName: "capabilities",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      batchSupportEndOfLife: {
+        serializedName: "batchSupportEndOfLife",
+        type: {
+          name: "DateTime"
+        }
+      },
+      verificationType: {
+        required: true,
+        serializedName: "verificationType",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "verified",
+            "unverified"
           ]
         }
       }
@@ -885,6 +911,16 @@ export const TaskContainerSettings: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ContainerRegistry"
+        }
+      },
+      workingDirectory: {
+        serializedName: "workingDirectory",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "taskWorkingDirectory",
+            "containerImageDefault"
+          ]
         }
       }
     }
@@ -2032,6 +2068,17 @@ export const NetworkSecurityGroupRule: msRest.CompositeMapper = {
         serializedName: "sourceAddressPrefix",
         type: {
           name: "String"
+        }
+      },
+      sourcePortRanges: {
+        serializedName: "sourcePortRanges",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       }
     }
@@ -7081,10 +7128,10 @@ export const PoolRemoveNodesOptions: msRest.CompositeMapper = {
   }
 };
 
-export const AccountListNodeAgentSkusOptions: msRest.CompositeMapper = {
+export const AccountListSupportedImagesOptions: msRest.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "AccountListNodeAgentSkusOptions",
+    className: "AccountListSupportedImagesOptions",
     modelProperties: {
       filter: {
         type: {
@@ -9656,10 +9703,10 @@ export const PoolListNextOptions: msRest.CompositeMapper = {
   }
 };
 
-export const AccountListNodeAgentSkusNextOptions: msRest.CompositeMapper = {
+export const AccountListSupportedImagesNextOptions: msRest.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "AccountListNodeAgentSkusNextOptions",
+    className: "AccountListSupportedImagesNextOptions",
     modelProperties: {
       clientRequestId: {
         type: {
@@ -10033,11 +10080,11 @@ export const PoolListUsageMetricsHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const AccountListNodeAgentSkusHeaders: msRest.CompositeMapper = {
-  serializedName: "account-listnodeagentskus-headers",
+export const AccountListSupportedImagesHeaders: msRest.CompositeMapper = {
+  serializedName: "account-listsupportedimages-headers",
   type: {
     name: "Composite",
-    className: "AccountListNodeAgentSkusHeaders",
+    className: "AccountListSupportedImagesHeaders",
     modelProperties: {
       clientRequestId: {
         serializedName: "client-request-id",
@@ -12815,11 +12862,11 @@ export const CloudPoolListResult: msRest.CompositeMapper = {
   }
 };
 
-export const AccountListNodeAgentSkusResult: msRest.CompositeMapper = {
-  serializedName: "AccountListNodeAgentSkusResult",
+export const AccountListSupportedImagesResult: msRest.CompositeMapper = {
+  serializedName: "AccountListSupportedImagesResult",
   type: {
     name: "Composite",
-    className: "AccountListNodeAgentSkusResult",
+    className: "AccountListSupportedImagesResult",
     modelProperties: {
       value: {
         serializedName: "",
@@ -12828,7 +12875,7 @@ export const AccountListNodeAgentSkusResult: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "NodeAgentSku"
+              className: "ImageInformation"
             }
           }
         }
