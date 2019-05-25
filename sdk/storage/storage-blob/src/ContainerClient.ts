@@ -15,32 +15,150 @@ import { AppendBlobClient } from "./internal";
 import { BlockBlobClient } from "./internal";
 import { PageBlobClient } from "./internal";
 
+/**
+ * Options to configure Container - Create operation.
+ *
+ * @export
+ * @interface ContainerCreateOptions
+ */
 export interface ContainerCreateOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof ContainerCreateOptions
+   */
   abortSignal?: Aborter;
+  /**
+   * A collection of key-value string pair to associate with the container.
+   * The keys need to be lower-case.
+   *
+   * @type {Metadata}
+   * @memberof ContainerCreateOptions
+   */
   metadata?: Metadata;
+  /**
+   * Specifies whether data in the container may be accessed publicly and the level of access. Possible values include:
+   * - `container`: Specifies full public read access for container and blob data. Clients can enumerate blobs within the container via anonymous request, but cannot enumerate containers within the storage account.
+   * - `blob`: Specifies public read access for blobs. Blob data within this container can be read via anonymous request, but container data is not available. Clients cannot enumerate blobs within the container via anonymous request.
+   *
+   * @type {Models.PublicAccessType}
+   * @memberof ContainerCreateOptions
+   */
   access?: Models.PublicAccessType;
 }
 
+/**
+ * Options to configure Container - Get Properties operation.
+ *
+ * @export
+ * @interface ContainerGetPropertiesOptions
+ */
 export interface ContainerGetPropertiesOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof ContainerGetPropertiesOptions
+   */
   abortSignal?: Aborter;
+  /**
+   * If specified, contains the lease id that must be matched and lease with this id
+   * must be active in order for the operation to succeed.
+   *
+   * @type {Models.LeaseAccessConditions}
+   * @memberof ContainerGetPropertiesOptions
+   */
   leaseAccessConditions?: Models.LeaseAccessConditions;
 }
 
+/**
+ * Options to configure Container - Delete operation.
+ *
+ * @export
+ * @interface ContainerDeleteMethodOptions
+ */
 export interface ContainerDeleteMethodOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof ContainerDeleteMethodOptions
+   */
   abortSignal?: Aborter;
+  /**
+   * Conditions to meet when deleting the container.
+   *
+   * @type {ContainerAccessConditions}
+   * @memberof ContainerDeleteMethodOptions
+   */
   containerAccessConditions?: ContainerAccessConditions;
 }
 
+/**
+ * Options to configure Container - Set Metadata operation.
+ *
+ * @export
+ * @interface ContainerSetMetadataOptions
+ */
 export interface ContainerSetMetadataOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof ContainerSetMetadataOptions
+   */
   abortSignal?: Aborter;
+  /**
+   * If specified, contains the lease id that must be matched and lease with this id
+   * must be active in order for the operation to succeed.
+   *
+   * @type {ContainerAccessConditions}
+   * @memberof ContainerSetMetadataOptions
+   */
   containerAccessConditions?: ContainerAccessConditions;
 }
 
+/**
+ * Options to configure Container - Get Access Policy operation.
+ *
+ * @export
+ * @interface ContainerGetAccessPolicyOptions
+ */
 export interface ContainerGetAccessPolicyOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof ContainerGetAccessPolicyOptions
+   */
   abortSignal?: Aborter;
+  /**
+   * If specified, contains the lease id that must be matched and lease with this id
+   * must be active in order for the operation to succeed.
+   *
+   * @type {Models.LeaseAccessConditions}
+   * @memberof ContainerGetAccessPolicyOptions
+   */
   leaseAccessConditions?: Models.LeaseAccessConditions;
 }
 
+/**
+ * Signed identifier.
+ *
+ * @export
+ * @interface SignedIdentifier
+ */
 export interface SignedIdentifier {
   /**
    * @member {string} id a unique id
@@ -88,37 +206,171 @@ export declare type ContainerGetAccessPolicyResponse = {
     };
   };
 
+/**
+ * Options to configure Container - Set Access Policy operation.
+ *
+ * @export
+ * @interface ContainerSetAccessPolicyOptions
+ */
 export interface ContainerSetAccessPolicyOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof ContainerSetAccessPolicyOptions
+   */
   abortSignal?: Aborter;
+  /**
+   * Conditions to meet when setting the access policy.
+   *
+   * @type {ContainerAccessConditions}
+   * @memberof ContainerSetAccessPolicyOptions
+   */
   containerAccessConditions?: ContainerAccessConditions;
 }
 
+/**
+ * Options to configure Container - Acquire Lease operation.
+ *
+ * @export
+ * @interface ContainerAcquireLeaseOptions
+ */
 export interface ContainerAcquireLeaseOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof ContainerAcquireLeaseOptions
+   */
   abortSignal?: Aborter;
+  /**
+   * Conditions to meet when acquiring the lease.
+   *
+   * @type {Models.ModifiedAccessConditions}
+   * @memberof ContainerAcquireLeaseOptions
+   */
   modifiedAccessConditions?: Models.ModifiedAccessConditions;
 }
 
+/**
+ * Options to configure Container - Release Lease operation.
+ *
+ * @export
+ * @interface ContainerReleaseLeaseOptions
+ */
 export interface ContainerReleaseLeaseOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof ContainerReleaseLeaseOptions
+   */
   abortSignal?: Aborter;
+  /**
+   * Conditions to meet when releasing the lease.
+   *
+   * @type {Models.ModifiedAccessConditions}
+   * @memberof ContainerReleaseLeaseOptions
+   */
   modifiedAccessConditions?: Models.ModifiedAccessConditions;
 }
 
+/**
+ * Options to configure Container - Renew Lease operation.
+ *
+ * @export
+ * @interface ContainerRenewLeaseOptions
+ */
 export interface ContainerRenewLeaseOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof ContainerRenewLeaseOptions
+   */
   abortSignal?: Aborter;
+  /**
+   * Conditions to meet when renewing the lease.
+   *
+   * @type {Models.ModifiedAccessConditions}
+   * @memberof ContainerRenewLeaseOptions
+   */
   modifiedAccessConditions?: Models.ModifiedAccessConditions;
 }
 
+/**
+ * Options to configure Container - Break Lease operation.
+ *
+ * @export
+ * @interface ContainerBreakLeaseOptions
+ */
 export interface ContainerBreakLeaseOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof ContainerBreakLeaseOptions
+   */
   abortSignal?: Aborter;
+  /**
+   * Conditions to meet when breaking the lease.
+   *
+   * @type {Models.ModifiedAccessConditions}
+   * @memberof ContainerBreakLeaseOptions
+   */
   modifiedAccessConditions?: Models.ModifiedAccessConditions;
 }
 
+/**
+ * Options to configure Container - Change Lease operation.
+ *
+ * @export
+ * @interface ContainerChangeLeaseOptions
+ */
 export interface ContainerChangeLeaseOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof ContainerChangeLeaseOptions
+   */
   abortSignal?: Aborter;
+  /**
+   * Conditions to meet when changing the lease.
+   *
+   * @type {Models.ModifiedAccessConditions}
+   * @memberof ContainerChangeLeaseOptions
+   */
   modifiedAccessConditions?: Models.ModifiedAccessConditions;
 }
 
+/**
+ * Options to configure Container - List Blobs Segment operation.
+ *
+ * @export
+ * @interface ContainerListBlobsSegmentOptions
+ */
 export interface ContainerListBlobsSegmentOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof ContainerListBlobsSegmentOptions
+   */
   abortSignal?: Aborter;
   /**
    * @member {string} [prefix] Filters the results to return only containers
@@ -299,7 +551,7 @@ export class ContainerClient extends StorageClient {
    * contained within it are later deleted during garbage collection.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-container
    *
-   * @param {Models.ContainersDeleteMethodOptionalParams} [options]
+   * @param {ContainerDeleteMethodOptions} [options]
    * @returns {Promise<Models.ContainerDeleteResponse>}
    * @memberof ContainerClient
    */

@@ -5,7 +5,7 @@ import * as path from "path";
 import { SharedKeyCredential } from "../../src/credentials/SharedKeyCredential";
 import { BlobServiceClient } from "../../src/BlobServiceClient";
 import { StorageClient } from "../../src/StorageClient";
-import { getUniqueName } from "./testutils.common";
+import { getUniqueName, ConsoleHttpPipelineLogger } from "./testutils.common";
 import * as dotenv from "dotenv";
 dotenv.config({ path: "../.env" });
 
@@ -28,7 +28,7 @@ export function getGenericBSU(accountType: string, accountNameSuffix: string = "
   const credentials = new SharedKeyCredential(accountName, accountKey);
   const pipeline = StorageClient.newPipeline(credentials, {
     // Enable logger when debugging
-    // logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO)
+     logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO)
   });
   const blobPrimaryURL = `https://${accountName}${accountNameSuffix}.blob.core.windows.net/`;
   return new BlobServiceClient(blobPrimaryURL, pipeline);

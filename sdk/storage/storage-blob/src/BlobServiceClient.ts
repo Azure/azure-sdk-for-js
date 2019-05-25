@@ -10,23 +10,93 @@ import { StorageClient } from "./internal";
 import { ContainerClient } from "./ContainerClient";
 import { appendToURLPath } from "./utils/utils.common";
 
+/**
+ * Options to configure the Service - Get Properties operation.
+ *
+ * @export
+ * @interface ServiceGetPropertiesOptions
+ */
 export interface ServiceGetPropertiesOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof ServiceGetPropertiesOptions
+   */
   abortSignal?: Aborter;
 }
 
+/**
+ * Options to configure the Service - Set Properties operation.
+ *
+ * @export
+ * @interface ServiceSetPropertiesOptions
+ */
 export interface ServiceSetPropertiesOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof ServiceSetPropertiesOptions
+   */
   abortSignal?: Aborter;
 }
 
+/**
+ * Options to configure the Service - Get Account Info operation.
+ *
+ * @export
+ * @interface ServiceGetAccountInfoOptions
+ */
 export interface ServiceGetAccountInfoOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof ServiceGetAccountInfoOptions
+   */
   abortSignal?: Aborter;
 }
 
+/**
+ * Options to configure the Service - Get Statistics operation.
+ *
+ * @export
+ * @interface ServiceGetStatisticsOptions
+ */
 export interface ServiceGetStatisticsOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof ServiceGetStatisticsOptions
+   */
   abortSignal?: Aborter;
 }
 
+/**
+ * Options to configure the Service - List Container Segment operation.
+ *
+ * @export
+ * @interface ServiceListContainersSegmentOptions
+ */
 export interface ServiceListContainersSegmentOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof ServiceListContainersSegmentOptions
+   */
   abortSignal?: Aborter;
   /**
    * @member {string} [prefix] Filters the results to return only containers

@@ -17,11 +17,48 @@ import { AppendBlobClient } from "./internal";
 import { BlockBlobClient } from "./internal";
 import { PageBlobClient } from "./internal";
 
+/**
+ * Options to configure Blob - Download operation.
+ *
+ * @export
+ * @interface BlobDownloadOptions
+ */
 export interface BlobDownloadOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof BlobDownloadOptions
+   */
   abortSignal?: Aborter;
+  /**
+   * Optional. The version string of the snapshot to download.
+   *
+   * @type {string}
+   * @memberof BlobDownloadOptions
+   */
   snapshot?: string;
+  /**
+   * Specifies whether to retrieve the MD5 hash of the range when downloading a range of bytes.
+   *
+   * @type {boolean}
+   * @memberof BlobDownloadOptions
+   */
   rangeGetContentMD5?: boolean;
+  /**
+   * Conditions to meet when downloading blobs.
+   *
+   * @type {BlobAccessConditions}
+   * @memberof BlobDownloadOptions
+   */
   blobAccessConditions?: BlobAccessConditions;
+  /**
+   * Call back to receive events on the progress of download operation.
+   *
+   * @memberof BlobDownloadOptions
+   */
   progress?: (progress: TransferProgressEvent) => void;
 
   /**
@@ -42,76 +79,380 @@ export interface BlobDownloadOptions {
   maxRetryRequests?: number;
 }
 
+/**
+ * Options to configure Blob - Get Properties operation.
+ *
+ * @export
+ * @interface BlobGetPropertiesOptions
+ */
 export interface BlobGetPropertiesOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof BlobGetPropertiesOptions
+   */
   abortSignal?: Aborter;
+  /**
+   * Conditions to meet when getting blob properties.
+   *
+   * @type {BlobAccessConditions}
+   * @memberof BlobGetPropertiesOptions
+   */
   blobAccessConditions?: BlobAccessConditions;
 }
 
+/**
+ * Options to configure the Blob - Delete operation.
+ *
+ * @export
+ * @interface BlobDeleteOptions
+ */
 export interface BlobDeleteOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof BlobDeleteOptions
+   */
   abortSignal?: Aborter;
+  /**
+   * Conditions to meet when deleting blobs.
+   *
+   * @type {BlobAccessConditions}
+   * @memberof BlobDeleteOptions
+   */
   blobAccessConditions?: BlobAccessConditions;
+  /**
+   * Specifies options to delete blobs that have associated snapshots.
+   * - `include`: Delete the base blob and all of its snapshots.
+   * - `only`: Delete only the blob's snapshots and not the blob itself.
+   *
+   * @type {Models.DeleteSnapshotsOptionType}
+   * @memberof BlobDeleteOptions
+   */
   deleteSnapshots?: Models.DeleteSnapshotsOptionType;
 }
 
+/**
+ * Options to confgiure Blob - Undelete operation.
+ *
+ * @export
+ * @interface BlobUndeleteOptions
+ */
 export interface BlobUndeleteOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof BlobUndeleteOptions
+   */
   abortSignal?: Aborter;
 }
 
+/**
+ * Options to configure Blob - Set Http Headers operation.
+ *
+ * @export
+ * @interface BlobSetHTTPHeadersOptions
+ */
 export interface BlobSetHTTPHeadersOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof BlobSetHTTPHeadersOptions
+   */
   abortSignal?: Aborter;
+  /**
+   * Conditions to meet when setting blob HTTP headers.
+   *
+   * @type {BlobAccessConditions}
+   * @memberof BlobSetHTTPHeadersOptions
+   */
   blobAccessConditions?: BlobAccessConditions;
 }
 
+/**
+ * Options to configure Blob - Set Metadata operation.
+ *
+ * @export
+ * @interface BlobSetMetadataOptions
+ */
 export interface BlobSetMetadataOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof BlobSetMetadataOptions
+   */
   abortSignal?: Aborter;
+  /**
+   * Conditions to meet when setting blob metadata.
+   *
+   * @type {BlobAccessConditions}
+   * @memberof BlobSetMetadataOptions
+   */
   blobAccessConditions?: BlobAccessConditions;
 }
 
+/**
+ * Options to configure Blob - Acquire Lease operation.
+ *
+ * @export
+ * @interface BlobAcquireLeaseOptions
+ */
 export interface BlobAcquireLeaseOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof BlobAcquireLeaseOptions
+   */
   abortSignal?: Aborter;
+  /**
+   * Conditions to meet when acquiring the lease of a blob.
+   *
+   * @type {Models.ModifiedAccessConditions}
+   * @memberof BlobAcquireLeaseOptions
+   */
   modifiedAccessConditions?: Models.ModifiedAccessConditions;
 }
 
+/**
+ * Options to configure Blob - Release Lease operation.
+ *
+ * @export
+ * @interface BlobReleaseLeaseOptions
+ */
 export interface BlobReleaseLeaseOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof BlobReleaseLeaseOptions
+   */
   abortSignal?: Aborter;
+  /**
+   * Conditions to meet when releasing the lease of a blob.
+   *
+   * @type {Models.ModifiedAccessConditions}
+   * @memberof BlobReleaseLeaseOptions
+   */
   modifiedAccessConditions?: Models.ModifiedAccessConditions;
 }
 
+/**
+ * Options to configure Blob - Renew Lease operation.
+ *
+ * @export
+ * @interface BlobRenewLeaseOptions
+ */
 export interface BlobRenewLeaseOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof BlobRenewLeaseOptions
+   */
   abortSignal?: Aborter;
+  /**
+   * Conditions to meet when renewing the lease of a blob.
+   *
+   * @type {Models.ModifiedAccessConditions}
+   * @memberof BlobRenewLeaseOptions
+   */
   modifiedAccessConditions?: Models.ModifiedAccessConditions;
 }
 
+/**
+ * Options to configure Blob - Change Lease operation.
+ *
+ * @export
+ * @interface BlobChangeLeaseOptions
+ */
 export interface BlobChangeLeaseOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof BlobChangeLeaseOptions
+   */
   abortSignal?: Aborter;
+  /**
+   * Conditions to meet when changing the lease of a blob.
+   *
+   * @type {Models.ModifiedAccessConditions}
+   * @memberof BlobChangeLeaseOptions
+   */
   modifiedAccessConditions?: Models.ModifiedAccessConditions;
 }
 
+/**
+ * Options to configure Blob - Break Lease operation.
+ *
+ * @export
+ * @interface BlobBreakLeaseOptions
+ */
 export interface BlobBreakLeaseOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof BlobBreakLeaseOptions
+   */
   abortSignal?: Aborter;
+  /**
+   * Conditions to meet when breaking the lease of a blob.
+   *
+   * @type {Models.ModifiedAccessConditions}
+   * @memberof BlobBreakLeaseOptions
+   */
   modifiedAccessConditions?: Models.ModifiedAccessConditions;
 }
 
+/**
+ * Options to configure Blob - Create Snapshot operation.
+ *
+ * @export
+ * @interface BlobCreateSnapshotOptions
+ */
 export interface BlobCreateSnapshotOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof BlobCreateSnapshotOptions
+   */
   abortSignal?: Aborter;
+  /**
+   * A collection of key-value string pair to associate with the snapshot.
+   * The keys need to be lower-case.
+   *
+   * @type {Metadata}
+   * @memberof BlobCreateSnapshotOptions
+   */
   metadata?: Metadata;
+  /**
+   * Conditions to meet when creating blob snapshots.
+   *
+   * @type {BlobAccessConditions}
+   * @memberof BlobCreateSnapshotOptions
+   */
   blobAccessConditions?: BlobAccessConditions;
 }
 
+/**
+ * Options to configure Blob - Start Copy from URL operation.
+ *
+ * @export
+ * @interface BlobStartCopyFromURLOptions
+ */
 export interface BlobStartCopyFromURLOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof BlobStartCopyFromURLOptions
+   */
   abortSignal?: Aborter;
+  /**
+   * A collection of key-value string pair to associate with the blob that are being copied.
+   * The keys need to be lower-case.
+   *
+   * @type {Metadata}
+   * @memberof BlobStartCopyFromURLOptions
+   */
   metadata?: Metadata;
+  /**
+   * Conditions to meet for the destination blob when copying from a URL to the blob.
+   *
+   * @type {BlobAccessConditions}
+   * @memberof BlobStartCopyFromURLOptions
+   */
   blobAccessConditions?: BlobAccessConditions;
+  /**
+   * Conditions to meet for the source Azure Blob/File when copying from a URL to the blob.
+   *
+   * @type {Models.ModifiedAccessConditions}
+   * @memberof BlobStartCopyFromURLOptions
+   */
   sourceModifiedAccessConditions?: Models.ModifiedAccessConditions;
 }
 
+/**
+ * Options to configure Blob - Abort Copy from URL operation.
+ *
+ * @export
+ * @interface BlobAbortCopyFromURLOptions
+ */
 export interface BlobAbortCopyFromURLOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof BlobAbortCopyFromURLOptions
+   */
   abortSignal?: Aborter;
+  /**
+   * If specified, contains the lease id that must be matched and lease with this id
+   * must be active in order for the operation to succeed.
+   *
+   * @type {Models.LeaseAccessConditions}
+   * @memberof BlobAbortCopyFromURLOptions
+   */
   leaseAccessConditions?: Models.LeaseAccessConditions;
 }
 
+/**
+ * Options to configure Blob - Set Tier operation.
+ *
+ * @export
+ * @interface BlobSetTierOptions
+ */
 export interface BlobSetTierOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof BlobSetTierOptions
+   */
   abortSignal?: Aborter;
+  /**
+   * If specified, contains the lease id that must be matched and lease with this id
+   * must be active in order for the operation to succeed.
+   *
+   * @type {Models.LeaseAccessConditions}
+   * @memberof BlobSetTierOptions
+   */
   leaseAccessConditions?: Models.LeaseAccessConditions;
 }
 

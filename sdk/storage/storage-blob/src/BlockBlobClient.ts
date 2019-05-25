@@ -13,37 +13,205 @@ import { Pipeline } from "./Pipeline";
 import { URLConstants } from "./utils/constants";
 import { setURLParameter } from "./utils/utils.common";
 
+/**
+ * Options to configure Block Blob - Upload operation.
+ *
+ * @export
+ * @interface BlockBlobUploadOptions
+ */
 export interface BlockBlobUploadOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof BlockBlobUploadOptions
+   */
   abortSignal?: Aborter;
+  /**
+   * Conditions to meet when uploading to the block blob.
+   *
+   * @type {BlobAccessConditions}
+   * @memberof BlockBlobUploadOptions
+   */
   accessConditions?: BlobAccessConditions;
+  /**
+   * HTTP headers to set when uploading to a block blob.
+   *
+   * @type {Models.BlobHTTPHeaders}
+   * @memberof BlockBlobUploadOptions
+   */
   blobHTTPHeaders?: Models.BlobHTTPHeaders;
+  /**
+   * A collection of key-value string pair to associate with the blob when uploading to a block blob.
+   * The keys need to be lower-case.
+   *
+   * @type {Metadata}
+   * @memberof BlockBlobUploadOptions
+   */
   metadata?: Metadata;
+  /**
+   * Callback to receive events on the progress of upload operation.
+   *
+   * @memberof BlockBlobUploadOptions
+   */
   progress?: (progress: TransferProgressEvent) => void;
 }
 
+/**
+ * Options to configure Block Blob - Stage Block operation.
+ *
+ * @export
+ * @interface BlockBlobStageBlockOptions
+ */
 export interface BlockBlobStageBlockOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof BlockBlobStageBlockOptions
+   */
   abortSignal?: Aborter;
+  /**
+   * If specified, contains the lease id that must be matched and lease with this id
+   * must be active in order for the operation to succeed.
+   *
+   * @type {Models.LeaseAccessConditions}
+   * @memberof BlockBlobStageBlockOptions
+   */
   leaseAccessConditions?: Models.LeaseAccessConditions;
+  /**
+   * Callback to receive events on the progress of stage block operation.
+   *
+   * @memberof BlockBlobStageBlockOptions
+   */
   progress?: (progress: TransferProgressEvent) => void;
+  /**
+   * {@link Uint8} array holding the MD5 hash of the block content.
+   * It is only used to verify the integrity of the block during transport.
+   * It is not stored in with the blob.
+   *
+   * @type {Uint8Array}
+   * @memberof BlockBlobStageBlockOptions
+   */
   transactionalContentMD5?: Uint8Array;
 }
 
+/**
+ * Options to configure Block Blob - Stage Block from URL operation.
+ *
+ * @export
+ * @interface BlockBlobStageBlockFromURLOptions
+ */
 export interface BlockBlobStageBlockFromURLOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof BlockBlobStageBlockFromURLOptions
+   */
   abortSignal?: Aborter;
+  /**
+   * Specifies the bytes of the source Blob/File to upload.
+   * If not specified, the entire content is uploaded as a single block.
+   *
+   * @type {Range}
+   * @memberof BlockBlobStageBlockFromURLOptions
+   */
   range?: Range;
+  /**
+   * If specified, contains the lease id that must be matched and lease with this id
+   * must be active in order for the operation to succeed.
+   *
+   * @type {Models.LeaseAccessConditions}
+   * @memberof BlockBlobStageBlockFromURLOptions
+   */
   leaseAccessConditions?: Models.LeaseAccessConditions;
+  /**
+   * {@link Uint8} array holding the MD5 hash of the source block content.
+   * It is only used to verify the integrity of the block during transport.
+   * It is not stored in with the blob.
+   *
+   * @type {Uint8Array}
+   * @memberof BlockBlobStageBlockFromURLOptions
+   */
   sourceContentMD5?: Uint8Array;
 }
 
+/**
+ * Options to configure Block Blob - Commit Block List operation.
+ *
+ * @export
+ * @interface BlockBlobCommitBlockListOptions
+ */
 export interface BlockBlobCommitBlockListOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof BlockBlobCommitBlockListOptions
+   */
   abortSignal?: Aborter;
+  /**
+   * Conditions to meet when committing the block list.
+   *
+   * @type {BlobAccessConditions}
+   * @memberof BlockBlobCommitBlockListOptions
+   */
+  /**
+   * Conditions to meet when committing block list.
+   *
+   * @type {BlobAccessConditions}
+   * @memberof BlockBlobCommitBlockListOptions
+   */
   accessConditions?: BlobAccessConditions;
+  /**
+   * HTTP headers to set when committing block list.
+   *
+   * @type {Models.BlobHTTPHeaders}
+   * @memberof BlockBlobCommitBlockListOptions
+   */
   blobHTTPHeaders?: Models.BlobHTTPHeaders;
+  /**
+   * A collection of key-value string pair to associate with the blob when committing block list.
+   * The keys need to be lower-case.
+   *
+   * @type {Metadata}
+   * @memberof BlockBlobCommitBlockListOptions
+   */
   metadata?: Metadata;
 }
 
+/**
+ * Options to configure Block Blob - Get Block List operation.
+ *
+ * @export
+ * @interface BlockBlobGetBlockListOptions
+ */
 export interface BlockBlobGetBlockListOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof BlockBlobGetBlockListOptions
+   */
   abortSignal?: Aborter;
+  /**
+   * If specified, contains the lease id that must be matched and lease with this id
+   * must be active in order for the operation to succeed.
+   *
+   * @type {Models.LeaseAccessConditions}
+   * @memberof BlockBlobGetBlockListOptions
+   */
   leaseAccessConditions?: Models.LeaseAccessConditions;
 }
 

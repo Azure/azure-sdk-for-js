@@ -13,49 +13,248 @@ import { Pipeline } from "./Pipeline";
 import { URLConstants } from "./utils/constants";
 import { setURLParameter } from "./utils/utils.common";
 
+/**
+ * Options to configure Page Blob - Create operation.
+ *
+ * @export
+ * @interface PageBlobCreateOptions
+ */
 export interface PageBlobCreateOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof PageBlobCreateOptions
+   */
   abortSignal?: Aborter;
+  /**
+   * Conditions to meet when creating a page blob.
+   *
+   * @type {BlobAccessConditions}
+   * @memberof PageBlobCreateOptions
+   */
   accessConditions?: BlobAccessConditions;
+  /**
+   * A user-controlled value that can be used to track requests.
+   * The value must be between 0 and 2^63 - 1. The default value is 0.
+   *
+   * @type {number}
+   * @memberof PageBlobCreateOptions
+   */
   blobSequenceNumber?: number;
+  /**
+   * HTTP headers to set when creating a page blob.
+   *
+   * @type {Models.BlobHTTPHeaders}
+   * @memberof PageBlobCreateOptions
+   */
   blobHTTPHeaders?: Models.BlobHTTPHeaders;
+  /**
+   * A collection of key-value string pair to associate with the blob when creating append blobs.
+   * The keys need to be lower-case.
+   *
+   * @type {Metadata}
+   * @memberof PageBlobCreateOptions
+   */
   metadata?: Metadata;
 }
 
+/**
+ * Options to configure Page Blob - Upload Pages operation.
+ *
+ * @export
+ * @interface PageBlobUploadPagesOptions
+ */
 export interface PageBlobUploadPagesOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof PageBlobUploadPagesOptions
+   */
   abortSignal?: Aborter;
+  /**
+   * Conditions to meet when uploading pages.
+   *
+   * @type {PageBlobAccessConditions}
+   * @memberof PageBlobUploadPagesOptions
+   */
   accessConditions?: PageBlobAccessConditions;
+  /**
+   * Callback to receive events on the progress of upload pages operation.
+   *
+   * @memberof PageBlobUploadPagesOptions
+   */
   progress?: (progress: TransferProgressEvent) => void;
+  /**
+   * {@link Uint8} array holding the MD5 hash of the blob content.
+   * It is only used to verify the integrity of the block during transport.
+   * It is not stored in with the blob.
+   *
+   * @type {Uint8Array}
+   * @memberof PageBlobUploadPagesOptions
+   */
   transactionalContentMD5?: Uint8Array;
 }
 
+/**
+ * Options to configure Page Blob - Clear Pages operation.
+ *
+ * @export
+ * @interface PageBlobClearPagesOptions
+ */
 export interface PageBlobClearPagesOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof PageBlobClearPagesOptions
+   */
   abortSignal?: Aborter;
+  /**
+   * Conditions to meet when clearing pages.
+   *
+   * @type {PageBlobAccessConditions}
+   * @memberof PageBlobClearPagesOptions
+   */
   accessConditions?: PageBlobAccessConditions;
 }
 
+/**
+ * Options to configure Page Blob - Get Page Ranges operation.
+ *
+ * @export
+ * @interface PageBlobGetPageRangesOptions
+ */
 export interface PageBlobGetPageRangesOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof PageBlobGetPageRangesOptions
+   */
   abortSignal?: Aborter;
+  /**
+   * Conditions to meet when getting page ranges.
+   *
+   * @type {BlobAccessConditions}
+   * @memberof PageBlobGetPageRangesOptions
+   */
   accessConditions?: BlobAccessConditions;
 }
 
+/**
+ * Options to configure Page Blob - Get Ranges Diff operation.
+ *
+ * @export
+ * @interface PageBlobGetPageRangesDiffOptions
+ */
 export interface PageBlobGetPageRangesDiffOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof PageBlobGetPageRangesDiffOptions
+   */
   abortSignal?: Aborter;
+  /**
+   * Conditions to meet when getting page ranges diff.
+   *
+   * @type {BlobAccessConditions}
+   * @memberof PageBlobGetPageRangesDiffOptions
+   */
   accessConditions?: BlobAccessConditions;
+  /**
+   * (unused)
+   *
+   * @type {string}
+   * @memberof PageBlobGetPageRangesDiffOptions
+   */
   range?: string;
 }
 
+/**
+ * Options to configure Page Blob - Resize operation.
+ *
+ * @export
+ * @interface PageBlobResizeOptions
+ */
 export interface PageBlobResizeOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof PageBlobResizeOptions
+   */
   abortSignal?: Aborter;
+  /**
+   * Conditions to meet when resizing a page blob.
+   *
+   * @type {BlobAccessConditions}
+   * @memberof PageBlobResizeOptions
+   */
   accessConditions?: BlobAccessConditions;
 }
 
+/**
+ * Options to configure Page Blob - Update Sequence Number operation.
+ *
+ * @export
+ * @interface PageBlobUpdateSequenceNumberOptions
+ */
 export interface PageBlobUpdateSequenceNumberOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof PageBlobUpdateSequenceNumberOptions
+   */
   abortSignal?: Aborter;
+  /**
+   * Conditions to meet when updating sequence number.
+   *
+   * @type {BlobAccessConditions}
+   * @memberof PageBlobUpdateSequenceNumberOptions
+   */
   accessConditions?: BlobAccessConditions;
 }
 
+/**
+ * Options to configure Page Blob - Start Copy Incremental operation.
+ *
+ * @export
+ * @interface PageBlobStartCopyIncrementalOptions
+ */
 export interface PageBlobStartCopyIncrementalOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof PageBlobStartCopyIncrementalOptions
+   */
   abortSignal?: Aborter;
+  /**
+   * Conditions to meet when startting copy incremental operation.
+   *
+   * @type {Models.ModifiedAccessConditions}
+   * @memberof PageBlobStartCopyIncrementalOptions
+   */
   modifiedAccessConditions?: Models.ModifiedAccessConditions;
 }
 

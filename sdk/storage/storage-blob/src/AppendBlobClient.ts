@@ -12,17 +12,84 @@ import { Pipeline } from "./Pipeline";
 import { URLConstants } from "./utils/constants";
 import { setURLParameter } from "./utils/utils.common";
 
+/**
+ * Options to configure Append Blob - Create operation.
+ *
+ * @export
+ * @interface AppendBlobCreateOptions
+ */
 export interface AppendBlobCreateOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof AppendBlobCreateOptions
+   */
   abortSignal?: Aborter;
+
+  /**
+   * Conditions to meet when creating append blobs.
+   *
+   * @type {BlobAccessConditions}
+   * @memberof AppendBlobCreateOptions
+   */
   accessConditions?: BlobAccessConditions;
+  /**
+   * HTTP headers to set when creating append blobs.
+   *
+   * @type {Models.BlobHTTPHeaders}
+   * @memberof AppendBlobCreateOptions
+   */
   blobHTTPHeaders?: Models.BlobHTTPHeaders;
+  /**
+   * A collection of key-value string pair to associate with the blob when creating append blobs.
+   * The keys need to be lower-case.
+   *
+   * @type {Metadata}
+   * @memberof AppendBlobCreateOptions
+   */
   metadata?: Metadata;
 }
 
+/**
+ * Optiosn to confgiure the Append Blob - Append Block operation.
+ *
+ * @export
+ * @interface AppendBlobAppendBlockOptions
+ */
 export interface AppendBlobAppendBlockOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof AppendBlobAppendBlockOptions
+   */
   abortSignal?: Aborter;
+  /**
+   * Conditions to meet when appending append blob blocks.
+   *
+   * @type {AppendBlobAccessConditions}
+   * @memberof AppendBlobAppendBlockOptions
+   */
   accessConditions?: AppendBlobAccessConditions;
+  /**
+   * Callback to receive events on the progress of append block operation.
+   *
+   * @memberof AppendBlobAppendBlockOptions
+   */
   progress?: (progress: TransferProgressEvent) => void;
+  /**
+   * {@link Uint8} array holding the MD5 hash of the blob content.
+   * It is only used to verify the integrity of the block during transport.
+   * It is not stored in with the blob.
+   *
+   * @type {Uint8Array}
+   * @memberof AppendBlobAppendBlockOptions
+   */
   transactionalContentMD5?: Uint8Array;
 }
 
