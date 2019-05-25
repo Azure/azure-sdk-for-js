@@ -391,7 +391,7 @@ export class EventHubSender extends LinkEntity {
 
   private _deleteFromCache(): void {
     this._sender = undefined;
-    delete this._context.senders[this.address];
+    delete this._context.senders[this.name];
     log.error(
       "[%s] Deleted the sender '%s' with address '%s' from the client cache.",
       this._context.connectionId,
@@ -624,7 +624,7 @@ export class EventHubSender extends LinkEntity {
         log.error("[%s] Sender '%s' created with sender options: %O", this._context.connectionId, this.name, options);
         // It is possible for someone to close the sender and then start it again.
         // Thus make sure that the sender is present in the client cache.
-        if (!this._context.senders[this.address]) this._context.senders[this.address] = this;
+        if (!this._context.senders[this.name]) this._context.senders[this.name] = this;
         await this._ensureTokenRenewal();
       } else {
         log.error(
@@ -658,9 +658,9 @@ export class EventHubSender extends LinkEntity {
     }
 
     const ehSender: EventHubSender = new EventHubSender(context, partitionId);
-    if (!context.senders[ehSender.address]) {
-      context.senders[ehSender.address] = ehSender;
+    if (!context.senders[ehSender.name]) {
+      context.senders[ehSender.name] = ehSender;
     }
-    return context.senders[ehSender.address];
+    return context.senders[ehSender.name];
   }
 }

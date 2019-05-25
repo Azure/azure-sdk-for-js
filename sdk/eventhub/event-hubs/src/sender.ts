@@ -7,9 +7,8 @@ import { BatchingOptions, RequestOptions } from "./eventHubClient";
 import { ConnectionContext } from "./connectionContext";
 
 /**
- * The Sender class can be used to send messages, schedule messages to be sent at a later time
- * and cancel such scheduled messages.
- * Use the `createSender` function on the QueueClient or TopicClient to instantiate a Sender.
+ * The Sender class can be used to send messages.
+ * Use the `createSender` function on the EventHubClient to instantiate a Sender.
  * The Sender class is an abstraction over the underlying AMQP sender link.
  * @class Sender
  */
@@ -25,6 +24,8 @@ export class Sender {
 
   private _requestOptions: RequestOptions;
 
+  private _eventHubSender: EventHubSender;
+
   /**
    * @property Returns `true` if either the sender or the client that created it has been closed
    * @readonly
@@ -36,9 +37,10 @@ export class Sender {
   /**
    * @internal
    */
-  constructor(context: ConnectionContext, options?: RequestOptions) {
+  constructor(context: ConnectionContext, partitionId?: string | number, options?: RequestOptions) {
     this._context = context;
     this._requestOptions = options || {};
+    this._eventHubSender = EventHubSender.create(this._context, partitionId);
   }
 
   /**
@@ -50,33 +52,11 @@ export class Sender {
    *
    * @return {Promise<void>} Promise<void>
    */
-  async send(events: EventData[], options?: BatchingOptions): Promise<void>;
-  /**
-   * Send a batch of EventData to specified partition of the EventHub using the options provided.
-   *
-   * @param events  An array of EventData objects to be sent in a Batch message.
-   * @param partitionId Partition ID to which the event data needs to be sent.
-   *
-   * @return Promise<void>
-   */
-  async send(events: EventData[], partitionId: string, options?: BatchingOptions): Promise<void>;
-  async send(
-    events: EventData[],
-    partitionIdOrOptions?: string | BatchingOptions,
-    options?: BatchingOptions
-  ): Promise<void> {
-    let partitionId: string | undefined;
-    if (typeof partitionIdOrOptions === "string") {
-      partitionId = partitionIdOrOptions;
-    } else {
-      options = partitionIdOrOptions;
-    }
+  async send(events: EventData[], options?: BatchingOptions): Promise<void> {
     if (!Array.isArray(events)) {
       events = [events];
     }
-
-    const sender = EventHubSender.create(this._context, partitionId);
-    return sender.send(events, { ...this._requestOptions, ...options });
+    return this._eventHubSender.send(events, { ...this._requestOptions, ...options });
   }
 
   /**

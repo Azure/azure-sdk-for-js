@@ -259,9 +259,32 @@ export class EventHubClient {
 
   /**
    * Creates a Sender
+   *
+   * @param options Options to create a Sender where you can control the send request via
+   * retry options and cancellation token.
+   *
+   * @return {Promise<void>} Promise<void>
    */
-  createSender(options?: RequestOptions): Sender {
-    return new Sender(this._context, options);
+  createSender(options?: RequestOptions): Sender;
+  /**
+   * Creates a Sender
+   *
+   * @param partitionId Partition ID to which the event data needs to be sent.
+   * @param options Options to create a Sender where you can control the send request via
+   * retry options and cancellation token.
+   *
+   * @return {Promise<void>} Promise<void>
+   */
+  createSender(partitionId: string, options?: RequestOptions): Sender;
+  createSender(partitionIdOrOptions?: string | RequestOptions, options?: RequestOptions): Sender {
+    let partitionId: string | undefined;
+    if (typeof partitionIdOrOptions === "string") {
+      partitionId = partitionIdOrOptions;
+    } else {
+      options = partitionIdOrOptions;
+    }
+
+    return new Sender(this._context, partitionId, options);
   }
 
   /**
