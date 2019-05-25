@@ -60,7 +60,7 @@
     "build": "run-p build:lib",
     "build:lib": "run-s build:tsc build:rollup build:minify-browser",
     "build:scripts": "tsc -p ./.scripts/",
-    "build:test": "npm run build",
+    "build:test": "run-s build build:test-browser",
     "build:tsc": "tsc -p tsconfig.es.json",
     "build:rollup": "rollup -c rollup.config.ts",
     "build:minify-browser": "uglifyjs -c -m --comments --source-map \"content='./dist/msRest.browser.js.map'\" -o ./dist/msRest.browser.min.js ./dist/msRest.browser.js",
