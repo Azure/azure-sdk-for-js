@@ -1038,11 +1038,102 @@ export const BillingAccountUpdateProperties: msRest.CompositeMapper = {
     name: "Composite",
     className: "BillingAccountUpdateProperties",
     modelProperties: {
+      displayName: {
+        readOnly: true,
+        serializedName: "properties.displayName",
+        type: {
+          name: "String"
+        }
+      },
+      accountType: {
+        readOnly: true,
+        serializedName: "properties.accountType",
+        type: {
+          name: "String"
+        }
+      },
       address: {
-        serializedName: "address",
+        serializedName: "properties.address",
         type: {
           name: "Composite",
           className: "Address"
+        }
+      },
+      company: {
+        readOnly: true,
+        serializedName: "properties.company",
+        type: {
+          name: "String"
+        }
+      },
+      country: {
+        readOnly: true,
+        serializedName: "properties.country",
+        type: {
+          name: "String"
+        }
+      },
+      invoiceSections: {
+        serializedName: "properties.invoiceSections",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "InvoiceSection"
+            }
+          }
+        }
+      },
+      billingProfiles: {
+        serializedName: "properties.billingProfiles",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "BillingProfile"
+            }
+          }
+        }
+      },
+      enrollmentDetails: {
+        readOnly: true,
+        serializedName: "properties.enrollmentDetails",
+        type: {
+          name: "Composite",
+          className: "Enrollment"
+        }
+      },
+      departments: {
+        serializedName: "properties.departments",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Department"
+            }
+          }
+        }
+      },
+      enrollmentAccounts: {
+        serializedName: "properties.enrollmentAccounts",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "EnrollmentAccount"
+            }
+          }
+        }
+      },
+      hasReadAccess: {
+        readOnly: true,
+        serializedName: "properties.hasReadAccess",
+        type: {
+          name: "Boolean"
         }
       }
     }

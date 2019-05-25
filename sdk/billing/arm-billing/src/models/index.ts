@@ -638,9 +638,58 @@ export interface BillingAccountListResult {
  */
 export interface BillingAccountUpdateProperties {
   /**
+   * The billing account name.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly displayName?: string;
+  /**
+   * The billing account Type. Possible values include: 'Organization', 'Enrollment'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly accountType?: AccountType;
+  /**
    * The address associated with billing account.
    */
   address?: Address;
+  /**
+   * Company Name.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly company?: string;
+  /**
+   * Country Name.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly country?: string;
+  /**
+   * The invoice sections associated to the billing account. By default this is not populated,
+   * unless it's specified in $expand.
+   */
+  invoiceSections?: InvoiceSection[];
+  /**
+   * The billing profiles associated to the billing account. By default this is not populated,
+   * unless it's specified in $expand.
+   */
+  billingProfiles?: BillingProfile[];
+  /**
+   * The details about the associated legacy enrollment. By default this is not populated, unless
+   * it's specified in $expand.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly enrollmentDetails?: Enrollment;
+  /**
+   * The departments associated to the enrollment.
+   */
+  departments?: Department[];
+  /**
+   * The accounts associated to the enrollment.
+   */
+  enrollmentAccounts?: EnrollmentAccount[];
+  /**
+   * Specifies whether the user has read access on billing account.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly hasReadAccess?: boolean;
 }
 
 /**
@@ -1560,26 +1609,6 @@ export interface BillingAccountsGetOptionalParams extends msRest.RequestOptionsB
    * May be used to expand the invoiceSections and billingProfiles.
    */
   expand?: string;
-}
-
-/**
- * Optional Parameters.
- */
-export interface BillingAccountsUpdateOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The address associated with billing account.
-   */
-  address?: Address;
-}
-
-/**
- * Optional Parameters.
- */
-export interface BillingAccountsBeginUpdateOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The address associated with billing account.
-   */
-  address?: Address;
 }
 
 /**

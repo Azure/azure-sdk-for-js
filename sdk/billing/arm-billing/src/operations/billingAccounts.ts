@@ -82,24 +82,27 @@ export class BillingAccounts {
   /**
    * The operation to update a billing account.
    * @param billingAccountName billing Account Id.
+   * @param parameters Parameters supplied to the update billing account operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.BillingAccountsUpdateResponse>
    */
-  update(billingAccountName: string, options?: Models.BillingAccountsUpdateOptionalParams): Promise<Models.BillingAccountsUpdateResponse> {
-    return this.beginUpdate(billingAccountName,options)
+  update(billingAccountName: string, parameters: Models.BillingAccountUpdateProperties, options?: msRest.RequestOptionsBase): Promise<Models.BillingAccountsUpdateResponse> {
+    return this.beginUpdate(billingAccountName,parameters,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.BillingAccountsUpdateResponse>;
   }
 
   /**
    * The operation to update a billing account.
    * @param billingAccountName billing Account Id.
+   * @param parameters Parameters supplied to the update billing account operation.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUpdate(billingAccountName: string, options?: Models.BillingAccountsBeginUpdateOptionalParams): Promise<msRestAzure.LROPoller> {
+  beginUpdate(billingAccountName: string, parameters: Models.BillingAccountUpdateProperties, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         billingAccountName,
+        parameters,
         options
       },
       beginUpdateOperationSpec,
@@ -167,12 +170,7 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.acceptLanguage
   ],
   requestBody: {
-    parameterPath: {
-      address: [
-        "options",
-        "address"
-      ]
-    },
+    parameterPath: "parameters",
     mapper: {
       ...Mappers.BillingAccountUpdateProperties,
       required: true
