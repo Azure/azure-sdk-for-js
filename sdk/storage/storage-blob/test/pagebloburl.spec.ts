@@ -9,7 +9,7 @@ import { record } from "./utils/recorder";
 import * as dotenv from "dotenv";
 dotenv.config({ path: "../.env" });
 
-describe("PageBlobURL", function() {
+describe("PageBlobURL", () => {
   const serviceURL = getBSU();
   let containerName: string;
   let containerURL: ContainerURL;

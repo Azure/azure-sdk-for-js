@@ -7,7 +7,7 @@ import { PageBlobURL } from "../../src/PageBlobURL";
 import { getBSU, sleep } from "../utils";
 import { record } from "../utils/recorder";
 
-describe("PageBlobURL", function() {
+describe("PageBlobURL", () => {
   const serviceURL = getBSU();
   let containerName: string;
   let containerURL: ContainerURL;

@@ -6,7 +6,7 @@ import { getBSU } from "../utils";
 import { PublicAccessType } from "../../src/generated/lib/models/index";
 import { record } from "../utils/recorder";
 
-describe("ContainerURL", function() {
+describe("ContainerURL", () => {
   const serviceURL = getBSU();
   let containerName: string;
   let containerURL: ContainerURL;

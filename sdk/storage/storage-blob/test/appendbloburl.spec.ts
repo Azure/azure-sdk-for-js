@@ -8,7 +8,7 @@ import { record } from "./utils/recorder";
 import * as dotenv from "dotenv";
 dotenv.config({ path: "../.env" });
 
-describe("AppendBlobURL", function() {
+describe("AppendBlobURL", () => {
   const serviceURL = getBSU();
   let containerName: string;
   let containerURL: ContainerURL;

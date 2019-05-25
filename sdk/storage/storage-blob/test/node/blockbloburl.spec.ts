@@ -7,7 +7,7 @@ import { ContainerURL } from "../../src/ContainerURL";
 import { record } from "../utils/recorder";
 import { bodyToString, getBSU } from "../utils";
 
-describe("BlockBlobURL Node.js only", function() {
+describe("BlockBlobURL Node.js only", () => {
   const serviceURL = getBSU();
   let containerName: string;
   let containerURL: ContainerURL;

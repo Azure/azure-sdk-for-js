@@ -17,7 +17,7 @@ import {
 import { record } from "../utils/recorder";
 
 // tslint:disable:no-empty
-describe("Highlevel", function() {
+describe("Highlevel", () => {
   const serviceURL = getBSU();
   let containerName: string;
   let containerURL: ContainerURL;

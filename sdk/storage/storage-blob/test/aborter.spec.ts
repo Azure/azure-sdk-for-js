@@ -8,7 +8,7 @@ import * as dotenv from "dotenv";
 dotenv.config({ path: "../.env" });
 
 // tslint:disable:no-empty
-describe("Aborter", function() {
+describe("Aborter", () => {
   const serviceURL = getBSU();
   let containerName: string;
   let containerURL: ContainerURL;
@@ -21,7 +21,7 @@ describe("Aborter", function() {
     containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
   });
 
-  afterEach(async () => {
+  afterEach(() => {
     recorder.stop();
   });
 

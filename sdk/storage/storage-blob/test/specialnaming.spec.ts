@@ -8,7 +8,7 @@ import { record } from "./utils/recorder";
 import * as dotenv from "dotenv";
 dotenv.config({ path: "../.env" });
 
-describe("Special Naming Tests", function() {
+describe("Special Naming Tests", () => {
   const serviceURL = getBSU();
   let containerName: string;
   let containerURL: ContainerURL;
@@ -29,11 +29,11 @@ describe("Special Naming Tests", function() {
     recorder.stop();
   });
 
-  beforeEach(async function() {
+  beforeEach(function() {
     recorder = record(this);
   });
 
-  afterEach(async () => {
+  afterEach(() => {
     recorder.stop();
   });
 
