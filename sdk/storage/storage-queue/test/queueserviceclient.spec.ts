@@ -1,6 +1,5 @@
 import * as assert from "assert";
 
-import { QueueClient } from "../src/QueueClient";
 import { QueueServiceClient } from "../src/QueueServiceClient";
 import { getAlternateQSU, getQSU, getUniqueName, wait } from "./utils";
 import * as dotenv from "dotenv";
@@ -30,8 +29,8 @@ describe("QueueServiceClient", () => {
     const queueNamePrefix = getUniqueName("queue");
     const queueName1 = `${queueNamePrefix}x1`;
     const queueName2 = `${queueNamePrefix}x2`;
-    const queueClient1 = QueueClient.fromQueueServiceClient(queueServiceClient, queueName1);
-    const queueClient2 = QueueClient.fromQueueServiceClient(queueServiceClient, queueName2);
+    const queueClient1 = queueServiceClient.createQueueClient(queueName1);
+    const queueClient2 = queueServiceClient.createQueueClient(queueName2);
     await queueClient1.create({ metadata: { key: "val" } });
     await queueClient2.create({ metadata: { key: "val" } });
 
