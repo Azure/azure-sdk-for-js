@@ -1,17 +1,27 @@
-# ms-rest-js
+# Azure Core HTTP client library for JavaScript
 
 [![Build Status](https://dev.azure.com/azure-public/adx/_apis/build/status/public.Azure.ms-rest-js)](https://dev.azure.com/azure-public/adx/_build/latest?definitionId=6)
 
 Runtime for isomorphic javascript libraries (that work in the browser and node.js environemnt) generated via [Autorest](https://github.com/Azure/Autorest).
 
-## Requirements
+## Getting Started
+
+### Requirements
 - node.js version > 6.x
 - npm install -g typescript
 
-## Installation
+### Installation
 - After cloning the repo, execute `npm install`
 
-## Execution
+## Key concepts
+
+You can find an explanation of how this repository's code works by going to our [architecture overview](https://github.com/Azure/ms-rest-js/blob/master/docs/architectureOverview.md).
+
+## Examples
+
+Examples can be found in the `samples` folder.
+
+## Next steps
 
 ### node.js
 - Set the subscriptionId and token
@@ -21,9 +31,9 @@ Runtime for isomorphic javascript libraries (that work in the browser and node.j
 - Set the subscriptionId and token and then run
 - Open index.html file in the browser. It should show the response from GET request on the storage account. From Chrome type Ctrl + Shift + I and you can see the logs in console.
 
-## Architecture Overview
+## Troubleshooting
 
-You can find an explanation of how this repository's code works by going to our [architecture overview](https://github.com/Azure/ms-rest-js/blob/master/docs/architectureOverview.md).
+To be added later.
 
 # Contributing
 
