@@ -39,6 +39,7 @@ known_content_issues:
   - ['sdk/cognitiveservices/cognitiveservices-visualsearch/README.md', '#1583']
   - ['sdk/cognitiveservices/cognitiveservices-websearch/README.md', '#1583']
   - ['sdk/eventgrid/eventgrid/README.md', '#1583']
+  - ['sdk/core/http/README.md', '#1583']
   - ['sdk/cosmosdb/cosmos/README.md', '#1583']
   - ['sdk/cosmosdb/cosmos/src/test/readme.md', '#1583']
   - ['sdk/cosmosdb/cosmos/samples/readme.md', '#1583']
@@ -86,4 +87,3 @@ package_indexing_exclusion_list:
   - 'azure-sp'
   - 'testhub'
   - 'azure-sdk-for-js'
-
