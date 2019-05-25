@@ -16,7 +16,7 @@ import { escapeURLPath } from "./utils/utils.common";
 export { deserializationPolicy };
 
 /**
- * Option interface for Pipeline.newPipeline method.
+ * Option interface for newPipeline() method.
  *
  * @export
  * @interface NewPipelineOptions

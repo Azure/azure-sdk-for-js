@@ -16,7 +16,21 @@ import {
   FILE_RANGE_MAX_SIZE_BYTES
 } from "./utils/constants";
 
+/**
+ * Options to configure File - Create operation.
+ *
+ * @export
+ * @interface FileCreateOptions
+ */
 export interface FileCreateOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof AppendBlobCreateOptions
+   */
   abortSignal?: Aborter;
   /**
    * File HTTP headers like Content-Type.
@@ -27,8 +41,7 @@ export interface FileCreateOptions {
   fileHTTPHeaders?: FileHTTPHeaders;
 
   /**
-   * A name-value pair
-   * to associate with a file storage object.
+   * A collection of key-value string pair to associate with the file storage object.
    *
    * @type {Metadata}
    * @memberof FileCreateOptions
@@ -36,11 +49,39 @@ export interface FileCreateOptions {
   metadata?: Metadata;
 }
 
+/**
+ * Options to configure File - Delete operation.
+ *
+ * @export
+ * @interface FileDeleteOptions
+ */
 export interface FileDeleteOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof AppendBlobCreateOptions
+   */
   abortSignal?: Aborter;
 }
 
+/**
+ * Options to configure File - Download operation.
+ *
+ * @export
+ * @interface FileDownloadOptions
+ */
 export interface FileDownloadOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof AppendBlobCreateOptions
+   */
   abortSignal?: Aborter;
   /**
    * Optional. ONLY AVAILABLE IN NODE.JS.
@@ -77,7 +118,21 @@ export interface FileDownloadOptions {
   progress?: (progress: TransferProgressEvent) => void;
 }
 
+/**
+ * Options to configure File - Upload Range operation.
+ *
+ * @export
+ * @interface FileUploadRangeOptions
+ */
 export interface FileUploadRangeOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof AppendBlobCreateOptions
+   */
   abortSignal?: Aborter;
   /**
    * An MD5 hash of the content. This hash is
@@ -100,7 +155,21 @@ export interface FileUploadRangeOptions {
   progress?: (progress: TransferProgressEvent) => void;
 }
 
+/**
+ * Options to configure File - Get Range List operation.
+ *
+ * @export
+ * @interface FileGetRangeListOptions
+ */
 export interface FileGetRangeListOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof AppendBlobCreateOptions
+   */
   abortSignal?: Aborter;
   /**
    * Optional. Specifies the range of bytes over which to list ranges, inclusively.
@@ -111,7 +180,21 @@ export interface FileGetRangeListOptions {
   range?: Range;
 }
 
+/**
+ * Options to configure File - Get Properties operation.
+ *
+ * @export
+ * @interface FileGetPropertiesOptions
+ */
 export interface FileGetPropertiesOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof AppendBlobCreateOptions
+   */
   abortSignal?: Aborter;
 }
 
@@ -145,11 +228,16 @@ export type FileGetRangeListResponse = Models.FileGetRangeListHeaders & {
   };
 };
 
+/**
+ * Options to configure File - Start Copy operation.
+ *
+ * @export
+ * @interface FileStartCopyOptions
+ */
 export interface FileStartCopyOptions {
   abortSignal?: Aborter;
   /**
-   * A name-value pair
-   * to associate with a file storage object.
+   * A collection of key-value string pair to associate with the file storage object.
    *
    * @type {Metadata}
    * @memberof FileCreateOptions
@@ -157,23 +245,93 @@ export interface FileStartCopyOptions {
   metadata?: Metadata;
 }
 
+/**
+ * Options to configure File - Set Metadata operation.
+ *
+ * @export
+ * @interface FileSetMetadataOptions
+ */
 export interface FileSetMetadataOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof AppendBlobCreateOptions
+   */
   abortSignal?: Aborter;
 }
 
+/**
+ * Options to configure File - HTTP Headers operation.
+ *
+ * @export
+ * @interface FileHTTPHeadersOptions
+ */
 export interface FileHTTPHeadersOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof AppendBlobCreateOptions
+   */
   abortSignal?: Aborter;
 }
 
+/**
+ * Options to configure File - Abort Copy From URL operation.
+ *
+ * @export
+ * @interface FileAbortCopyFromURLOptions
+ */
 export interface FileAbortCopyFromURLOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof AppendBlobCreateOptions
+   */
   abortSignal?: Aborter;
 }
 
+/**
+ * Options to configure File - Resize operation.
+ *
+ * @export
+ * @interface FileResizeOptions
+ */
 export interface FileResizeOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof AppendBlobCreateOptions
+   */
   abortSignal?: Aborter;
 }
 
+/**
+ * Options to configure File - Clear Range operation.
+ *
+ * @export
+ * @interface FileClearRangeOptions
+ */
 export interface FileClearRangeOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof AppendBlobCreateOptions
+   */
   abortSignal?: Aborter;
 }
 

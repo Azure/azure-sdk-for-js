@@ -33,7 +33,6 @@ export interface ContainerCreateOptions {
   abortSignal?: Aborter;
   /**
    * A collection of key-value string pair to associate with the container.
-   * The keys need to be lower-case.
    *
    * @type {Metadata}
    * @memberof ContainerCreateOptions

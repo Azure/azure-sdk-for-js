@@ -45,7 +45,6 @@ export interface BlockBlobUploadOptions {
   blobHTTPHeaders?: Models.BlobHTTPHeaders;
   /**
    * A collection of key-value string pair to associate with the blob when uploading to a block blob.
-   * The keys need to be lower-case.
    *
    * @type {Metadata}
    * @memberof BlockBlobUploadOptions
@@ -181,7 +180,6 @@ export interface BlockBlobCommitBlockListOptions {
   blobHTTPHeaders?: Models.BlobHTTPHeaders;
   /**
    * A collection of key-value string pair to associate with the blob when committing block list.
-   * The keys need to be lower-case.
    *
    * @type {Metadata}
    * @memberof BlockBlobCommitBlockListOptions

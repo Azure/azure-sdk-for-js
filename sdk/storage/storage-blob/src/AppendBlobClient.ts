@@ -45,7 +45,6 @@ export interface AppendBlobCreateOptions {
   blobHTTPHeaders?: Models.BlobHTTPHeaders;
   /**
    * A collection of key-value string pair to associate with the blob when creating append blobs.
-   * The keys need to be lower-case.
    *
    * @type {Metadata}
    * @memberof AppendBlobCreateOptions

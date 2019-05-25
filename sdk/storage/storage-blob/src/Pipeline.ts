@@ -40,14 +40,14 @@ export {
  */
 export interface PipelineOptions {
   /**
-   * Configures the HTTP pipeline logger.
+   * Optional. Configures the HTTP pipeline logger.
    *
    * @type {IHttpPipelineLogger}
    * @memberof PipelineOptions
    */
   logger?: IHttpPipelineLogger;
   /**
-   * Configures the HTTP client to send requests and receive responses.
+   * Optional. Configures the HTTP client to send requests and receive responses.
    *
    * @type {IHttpClient}
    * @memberof PipelineOptions

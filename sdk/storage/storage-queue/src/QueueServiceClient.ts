@@ -8,19 +8,75 @@ import { Service } from "./generated/lib/operations";
 import { Pipeline } from "./Pipeline";
 import { StorageClient } from "./StorageClient";
 
+/**
+ * Options to configure Queue Service - Get Properties operation
+ *
+ * @export
+ * @interface ServiceGetPropertiesOptions
+ */
 export interface ServiceGetPropertiesOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof AppendBlobCreateOptions
+   */
   abortSignal?: Aborter;
 }
 
+/**
+ * Options to configure Queue Service - Set Properties operation
+ *
+ * @export
+ * @interface ServiceSetPropertiesOptions
+ */
 export interface ServiceSetPropertiesOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof AppendBlobCreateOptions
+   */
   abortSignal?: Aborter;
 }
 
+/**
+ * Options to configure Queue Service - Get Statistics operation
+ *
+ * @export
+ * @interface ServiceGetStatisticsOptions
+ */
 export interface ServiceGetStatisticsOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof AppendBlobCreateOptions
+   */
   abortSignal?: Aborter;
 }
 
+/**
+ * Options to configure Queue Service - List Queues Segment operation
+ *
+ * @export
+ * @interface ServiceListQueuesSegmentOptions
+ */
 export interface ServiceListQueuesSegmentOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof AppendBlobCreateOptions
+   */
   abortSignal?: Aborter;
   /**
    * @member {string} [prefix] Filters the results to return only queues

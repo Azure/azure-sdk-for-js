@@ -13,7 +13,21 @@ import { URLConstants } from "./utils/constants";
 import { appendToURLPath, setURLParameter, truncatedISO8061Date } from "./utils/utils.common";
 import { DirectoryClient } from "./DirectoryClient";
 
+/**
+ * Options to configure Share - Create operation.
+ *
+ * @export
+ * @interface ShareCreateOptions
+ */
 export interface ShareCreateOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof AppendBlobCreateOptions
+   */
   abortSignal?: Aborter;
   /**
    * A name-value pair to associate with a file storage object.
@@ -33,7 +47,21 @@ export interface ShareCreateOptions {
   quota?: number;
 }
 
+/**
+ * Options to configure Share - Delete operation.
+ *
+ * @export
+ * @interface ShareDeleteMethodOptions
+ */
 export interface ShareDeleteMethodOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof AppendBlobCreateOptions
+   */
   abortSignal?: Aborter;
   /**
    * Specifies the option
@@ -46,33 +74,120 @@ export interface ShareDeleteMethodOptions {
   deleteSnapshots?: Models.DeleteSnapshotsOptionType;
 }
 
+/**
+ * Options to configure Share - Set Metadata operation.
+ *
+ * @export
+ * @interface ShareSetMetadataOptions
+ */
 export interface ShareSetMetadataOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof AppendBlobCreateOptions
+   */
   abortSignal?: Aborter;
 }
 
+/**
+ * Options to configure Share - Set Access Policy operation.
+ *
+ * @export
+ * @interface ShareSetAccessPolicyOptions
+ */
 export interface ShareSetAccessPolicyOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof AppendBlobCreateOptions
+   */
   abortSignal?: Aborter;
 }
 
+/**
+ * Options to configure Share - Get Access Policy operation.
+ *
+ * @export
+ * @interface ShareGetAccessPolicyOptions
+ */
 export interface ShareGetAccessPolicyOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof AppendBlobCreateOptions
+   */
   abortSignal?: Aborter;
 }
 
-export interface ShareGetAccessPolicyOptions {
-  abortSignal?: Aborter;
-}
+/**
+ * Options to configure Share - Get Properties operation.
+ *
+ * @export
+ * @interface ShareGetPropertiesOptions
+ */
 export interface ShareGetPropertiesOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof AppendBlobCreateOptions
+   */
   abortSignal?: Aborter;
 }
 
+/**
+ * Options to configure Share - Set Quota operation.
+ *
+ * @export
+ * @interface ShareSetQuotaOptions
+ */
 export interface ShareSetQuotaOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof AppendBlobCreateOptions
+   */
   abortSignal?: Aborter;
 }
 
+/**
+ * Options to configure Share - Get Statistics operation.
+ *
+ * @export
+ * @interface ShareGetStatisticsOptions
+ */
 export interface ShareGetStatisticsOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof AppendBlobCreateOptions
+   */
   abortSignal?: Aborter;
 }
 
+/**
+ * Signed Identifier
+ *
+ * @export
+ * @interface SignedIdentifier
+ */
 export interface SignedIdentifier {
   /**
    * @member {string} id a unique id
@@ -120,7 +235,21 @@ export declare type ShareGetAccessPolicyResponse = {
   };
 };
 
+/**
+ * Options to configure Share - Create Snapshot operation.
+ *
+ * @export
+ * @interface ShareCreateSnapshotOptions
+ */
 export interface ShareCreateSnapshotOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof AppendBlobCreateOptions
+   */
   abortSignal?: Aborter;
   /**
    * A name-value pair to associate with a file storage object.

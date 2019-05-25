@@ -349,7 +349,6 @@ export interface BlobCreateSnapshotOptions {
   abortSignal?: Aborter;
   /**
    * A collection of key-value string pair to associate with the snapshot.
-   * The keys need to be lower-case.
    *
    * @type {Metadata}
    * @memberof BlobCreateSnapshotOptions
@@ -382,7 +381,6 @@ export interface BlobStartCopyFromURLOptions {
   abortSignal?: Aborter;
   /**
    * A collection of key-value string pair to associate with the blob that are being copied.
-   * The keys need to be lower-case.
    *
    * @type {Metadata}
    * @memberof BlobStartCopyFromURLOptions
@@ -569,7 +567,7 @@ export class BlobClient extends StorageClient {
    *
    * @param {number} offset From which position of the blob to download, >= 0
    * @param {number} [count] How much data to be downloaded, > 0. Will download to the end when undefined
-   * @param {BlobDownloadOptions} [options]
+   * @param {BlobDownloadOptions} [options] Optional options to Blob Download operation.
    * @returns {Promise<Models.BlobDownloadResponse>}
    * @memberof BlobClient
    */
@@ -663,7 +661,7 @@ export class BlobClient extends StorageClient {
    * for the blob. It does not return the content of the blob.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-blob-properties
    *
-   * @param {BlobGetPropertiesOptions} [options]
+   * @param {BlobGetPropertiesOptions} [options] Optional options to Get Properties operation.
    * @returns {Promise<Models.BlobGetPropertiesResponse>}
    * @memberof BlobClient
    */
@@ -686,7 +684,7 @@ export class BlobClient extends StorageClient {
    * Blob operation.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-blob
    *
-   * @param {BlobDeleteOptions} [options]
+   * @param {BlobDeleteOptions} [options] Optional options to Blob Delete operation.
    * @returns {Promise<Models.BlobDeleteResponse>}
    * @memberof BlobClient
    */
@@ -709,6 +707,7 @@ export class BlobClient extends StorageClient {
    * or later.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/undelete-blob
    *
+   * @param {BlobUndeleteOptions} [options] Optional options to Blob Undelete operation.
    * @returns {Promise<Models.BlobUndeleteResponse>}
    * @memberof BlobClient
    */
@@ -731,7 +730,7 @@ export class BlobClient extends StorageClient {
    * @param {Models.BlobHTTPHeaders} [blobHTTPHeaders] If no value provided, or no value provided for
    *                                                   the specificed blob HTTP headers, these blob HTTP
    *                                                   headers without a value will be cleared.
-   * @param {BlobSetHTTPHeadersOptions} [options]
+   * @param {BlobSetHTTPHeadersOptions} [options] Optional options to Blob Set HTTP Headers operation.
    * @returns {Promise<Models.BlobSetHTTPHeadersResponse>}
    * @memberof BlobClient
    */
@@ -758,7 +757,7 @@ export class BlobClient extends StorageClient {
    *
    * @param {Metadata} [metadata] Replace existing metadata with this value.
    *                               If no value provided the existing metadata will be removed.
-   * @param {BlobSetMetadataOptions} [options]
+   * @param {BlobSetMetadataOptions} [options] Optional options to Set Metadata operation.
    * @returns {Promise<Models.BlobSetMetadataResponse>}
    * @memberof BlobClient
    */
@@ -784,7 +783,7 @@ export class BlobClient extends StorageClient {
    *
    * @param {string} proposedLeaseId Can be specified in any valid GUID string format
    * @param {number} duration The lock duration can be 15 to 60 seconds, or can be infinite
-   * @param {BlobAcquireLeaseOptions} [options]
+   * @param {BlobAcquireLeaseOptions} [options] Optional options to Blob Acquire Lease operation.
    * @returns {Promise<Models.BlobAcquireLeaseResponse>}
    * @memberof BlobClient
    */
@@ -807,8 +806,8 @@ export class BlobClient extends StorageClient {
    * acquire a lease against the blob.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/lease-blob
    *
-   * @param {string} leaseId
-   * @param {BlobReleaseLeaseOptions} [options]
+   * @param {string} leaseId Id of the lease to release
+   * @param {BlobReleaseLeaseOptions} [options] Optional options to Blob Release Lease operation.
    * @returns {Promise<Models.BlobReleaseLeaseResponse>}
    * @memberof BlobClient
    */
@@ -827,8 +826,8 @@ export class BlobClient extends StorageClient {
    * To renew an existing lease.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/lease-blob
    *
-   * @param {string} leaseId
-   * @param {BlobRenewLeaseOptions} [options]
+   * @param {string} leaseId Id of the lease to renew.
+   * @param {BlobRenewLeaseOptions} [options] Optional options to Blob Renew Lease operation.
    * @returns {Promise<Models.BlobRenewLeaseResponse>}
    * @memberof BlobClient
    */

@@ -34,6 +34,14 @@ export class LoggingPolicyFactory implements RequestPolicyFactory {
     this.loggingOptions = loggingOptions;
   }
 
+  /**
+   * Creates a LoggingPolicy object.
+   *
+   * @param {RequestPolicy} nextPolicy
+   * @param {RequestPolicyOptions} options
+   * @returns {LoggingPolicy}
+   * @memberof LoggingPolicyFactory
+   */
   public create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): LoggingPolicy {
     return new LoggingPolicy(nextPolicy, options, this.loggingOptions);
   }
