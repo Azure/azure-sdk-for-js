@@ -136,7 +136,7 @@ export class AppendBlobClient extends BlobClient {
    * Creates a new AppendBlobClient object identical to the source but with the
    * specified request policy pipeline.
    *
-   * @param {Pipeline} pipeline
+   * @param {Pipeline} pipeline The request pipeline.
    * @returns {AppendBlobClient}
    * @memberof AppendBlobClient
    */
@@ -149,7 +149,7 @@ export class AppendBlobClient extends BlobClient {
    * specified snapshot timestamp.
    * Provide "" will remove the snapshot and return a Client to the base blob.
    *
-   * @param {string} snapshot
+   * @param {string} snapshot The snapshot timestamp.
    * @returns {AppendBlobClient}
    * @memberof AppendBlobClient
    */
@@ -168,7 +168,7 @@ export class AppendBlobClient extends BlobClient {
    * Creates a 0-length append blob. Call AppendBlock to append data to an append blob.
    * @see https://docs.microsoft.com/rest/api/storageservices/put-blob
    *
-   * @param {AppendBlobCreateOptions} [options]
+   * @param {AppendBlobCreateOptions} [options] Optional options to the Append Block Create operation.
    * @returns {Promise<Models.AppendBlobsCreateResponse>}
    * @memberof AppendBlobClient
    */
@@ -190,9 +190,9 @@ export class AppendBlobClient extends BlobClient {
    * Commits a new block of data to the end of the existing append blob.
    * @see https://docs.microsoft.com/rest/api/storageservices/append-block
    *
-   * @param {HttpRequestBody} body
-   * @param {number} contentLength
-   * @param {AppendBlobAppendBlockOptions} [options]
+   * @param {HttpRequestBody} body Data to be appended.
+   * @param {number} contentLength Number of bytes to be appended.
+   * @param {AppendBlobAppendBlockOptions} [options] Optional options to the Append Block operation.
    * @returns {Promise<Models.AppendBlobsAppendBlockResponse>}
    * @memberof AppendBlobClient
    */

@@ -178,7 +178,7 @@ export class DirectoryClient extends StorageClient {
    * Creates a new directory under the specified share or parent directory.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-directory
    *
-   * @param {DirectoryCreateOptions} [options]
+   * @param {DirectoryCreateOptions} [options] Optional options to Directory Create operation.
    * @returns {Promise<Models.DirectoryCreateResponse>}
    * @memberof DirectoryClient
    */
@@ -221,6 +221,7 @@ export class DirectoryClient extends StorageClient {
    * subdirectories.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-directory-properties
    *
+   * @param {DirectoryGetPropertiesOptions} [options] Optional options to Directory Get Properties operation.
    * @returns {Promise<Models.DirectoryGetPropertiesResponse>}
    * @memberof DirectoryClient
    */
@@ -238,6 +239,7 @@ export class DirectoryClient extends StorageClient {
    * deleted.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-directory
    *
+   * @param {DirectoryDeleteOptions} [options] Optional options to Directory Delete operation.
    * @returns {Promise<Models.DirectoryDeleteResponse>}
    * @memberof DirectoryClient
    */
@@ -255,6 +257,7 @@ export class DirectoryClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-directory-metadata
    *
    * @param {Metadata} [metadata] If no metadata provided, all existing directory metadata will be removed
+   * @param {DirectorySetMetadataOptions} [options] Optional options to Directory Set Metadata operation.
    * @returns {Promise<Models.DirectorySetMetadataResponse>}
    * @memberof DirectoryClient
    */
@@ -274,8 +277,8 @@ export class DirectoryClient extends StorageClient {
    * contents only for a single level of the directory hierarchy.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/list-directories-and-files
    *
-   * @param {string} [marker]
-   * @param {DirectoryListFilesAndDirectoriesSegmentOptions} [options]
+   * @param {string} [marker] A string value that identifies the portion of the list to be returned with the next list operation.
+   * @param {DirectoryListFilesAndDirectoriesSegmentOptions} [options] Optional options to Directory List Files and Directories Segment operation.
    * @returns {Promise<Models.DirectoryListFilesAndDirectoriesSegmentResponse>}
    * @memberof DirectoryClient
    */

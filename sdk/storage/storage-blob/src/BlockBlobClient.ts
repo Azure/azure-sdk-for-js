@@ -271,7 +271,7 @@ export class BlockBlobClient extends BlobClient {
    * specified snapshot timestamp.
    * Provide "" will remove the snapshot and return a URL to the base blob.
    *
-   * @param {string} snapshot
+   * @param {string} snapshot The snapshot timestamp.
    * @returns {BlockBlobClient}
    * @memberof BlockBlobClient
    */
@@ -303,7 +303,7 @@ export class BlockBlobClient extends BlobClient {
    *                               which returns a new Readable stream whose offset is from data source beginning.
    * @param {number} contentLength Length of body in bytes. Use Buffer.byteLength() to calculate body length for a
    *                               string including non non-Base64/Hex-encoded characters.
-   * @param {BlockBlobUploadOptions} [options]
+   * @param {BlockBlobUploadOptions} [options] Optional options to the Block Blob Upload operation.
    * @returns {Promise<Models.BlockBlobUploadResponse>}
    * @memberof BlockBlobClient
    */
@@ -330,9 +330,9 @@ export class BlockBlobClient extends BlobClient {
    * @see https://docs.microsoft.com/rest/api/storageservices/put-block
    *
    * @param {string} blockId A 64-byte value that is base64-encoded
-   * @param {HttpRequestBody} body
-   * @param {number} contentLength
-   * @param {BlockBlobStageBlockOptions} [options]
+   * @param {HttpRequestBody} body Data to upload to the staging area.
+   * @param {number} contentLength Number of bytes to upload.
+   * @param {BlockBlobStageBlockOptions} [options] Optional options to the Block Blob Stage Block operation.
    * @returns {Promise<Models.BlockBlobStageBlockResponse>}
    * @memberof BlockBlobClient
    */
@@ -369,7 +369,7 @@ export class BlockBlobClient extends BlobClient {
    *                           - https://myaccount.blob.core.windows.net/mycontainer/myblob?snapshot=<DateTime>
    * @param {number} offset From which position of the blob to download, >= 0
    * @param {number} [count] How much data to be downloaded, > 0. Will download to the end when undefined
-   * @param {BlockBlobStageBlockFromURLOptions} [options={}]
+   * @param {BlockBlobStageBlockFromURLOptions} [options={}] Optional options to the Block Blob Stage Block From URL operation.
    * @returns {Promise<Models.BlockBlobStageBlockFromURLResponse>}
    * @memberof BlockBlobClient
    */
@@ -398,7 +398,7 @@ export class BlockBlobClient extends BlobClient {
    * @see https://docs.microsoft.com/rest/api/storageservices/put-block-list
    *
    * @param {string[]} blocks  Array of 64-byte value that is base64-encoded
-   * @param {BlockBlobCommitBlockListOptions} [options]
+   * @param {BlockBlobCommitBlockListOptions} [options] Optional options to the Block Blob Commit Block List operation.
    * @returns {Promise<Models.BlockBlobCommitBlockListResponse>}
    * @memberof BlockBlobClient
    */
@@ -425,8 +425,9 @@ export class BlockBlobClient extends BlobClient {
    * using the specified block list filter.
    * @see https://docs.microsoft.com/rest/api/storageservices/get-block-list
    *
-   * @param {Models.BlockListType} listType
-   * @param {BlockBlobGetBlockListOptions} [options]
+   * @param {Models.BlockListType} listType Specifies whether to return the list of committed blocks,
+   *                                        the list of uncommitted blocks, or both lists together.
+   * @param {BlockBlobGetBlockListOptions} [options] Optional options to the Block Blob Get Block List operation.
    * @returns {Promise<Models.BlockBlobGetBlockListResponse>}
    * @memberof BlockBlobClient
    */

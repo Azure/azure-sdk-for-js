@@ -315,7 +315,7 @@ export class PageBlobClient extends BlobClient {
    * specified snapshot timestamp.
    * Provide "" will remove the snapshot and return a Client to the base blob.
    *
-   * @param {string} snapshot
+   * @param {string} snapshot The snapshot timestamp.
    * @returns {PageBlobClient}
    * @memberof PageBlobClient
    */
@@ -335,8 +335,8 @@ export class PageBlobClient extends BlobClient {
    * data to a page blob.
    * @see https://docs.microsoft.com/rest/api/storageservices/put-blob
    *
-   * @param {number} size
-   * @param {PageBlobCreateOptions} [options]
+   * @param {number} size size of the page blob.
+   * @param {PageBlobCreateOptions} [options] Optional options to the Page Blob Create operation.
    * @returns {Promise<Models.PageBlobCreateResponse>}
    * @memberof PageBlobClient
    */
@@ -360,10 +360,10 @@ export class PageBlobClient extends BlobClient {
    * Writes 1 or more pages to the page blob. The start and end offsets must be a multiple of 512.
    * @see https://docs.microsoft.com/rest/api/storageservices/put-page
    *
-   * @param {HttpRequestBody} body
+   * @param {HttpRequestBody} body Data to upload
    * @param {number} offset Offset of destination page blob
    * @param {number} count Content length of body, also how many bytes to be uploaded
-   * @param {PageBlobUploadPagesOptions} [options]
+   * @param {PageBlobUploadPagesOptions} [options] Optional options to the Page Blob Upload Pages operation.
    * @returns {Promise<Models.PageBlobsUploadPagesResponse>}
    * @memberof PageBlobClient
    */
@@ -390,9 +390,9 @@ export class PageBlobClient extends BlobClient {
    * Frees the specified pages from the page blob.
    * @see https://docs.microsoft.com/rest/api/storageservices/put-page
    *
-   * @param {number} offset
-   * @param {number} count
-   * @param {PageBlobClearPagesOptions} [options]
+   * @param {number} offset Starting byte position of the pages to clear.
+   * @param {number} count Number of bytes to clear.
+   * @param {PageBlobClearPagesOptions} [options] Optional options to the Page Blob Clear Pages operation.
    * @returns {Promise<Models.PageBlobClearPagesResponse>}
    * @memberof PageBlobClient
    */
@@ -416,9 +416,9 @@ export class PageBlobClient extends BlobClient {
    * Returns the list of valid page ranges for a page blob or snapshot of a page blob.
    * @see https://docs.microsoft.com/rest/api/storageservices/get-page-ranges
    *
-   * @param {number} offset
-   * @param {number} count
-   * @param {PageBlobGetPageRangesOptions} [options]
+   * @param {number} offset Starting byte position of the page ranges.
+   * @param {number} count Number of bytes to get.
+   * @param {PageBlobGetPageRangesOptions} [options] Optional options to the Page Blob Get Ranges operation.
    * @returns {Promise<Models.PageBlobGetPageRangesResponse>}
    * @memberof PageBlobClient
    */
@@ -441,10 +441,10 @@ export class PageBlobClient extends BlobClient {
    * Gets the collection of page ranges that differ between a specified snapshot and this page blob.
    * @see https://docs.microsoft.com/rest/api/storageservices/get-page-ranges
    *
-   * @param {number} offset
-   * @param {number} count
-   * @param {string} prevSnapshot
-   * @param {PageBlobGetPageRangesDiffOptions} [options]
+   * @param {number} offset Starting byte position of the page blob
+   * @param {number} count Number of bytes to get ranges diff.
+   * @param {string} prevSnapshot Timestamp of snapshot to retrive the difference.
+   * @param {PageBlobGetPageRangesDiffOptions} [options] Optional options to the Page Blob Get Page Ranges Diff operation.
    * @returns {Promise<Models.PageBlobGetPageRangesDiffResponse>}
    * @memberof PageBlobClient
    */
@@ -469,8 +469,8 @@ export class PageBlobClient extends BlobClient {
    * Resizes the page blob to the specified size (which must be a multiple of 512).
    * @see https://docs.microsoft.com/rest/api/storageservices/set-blob-properties
    *
-   * @param {number} size
-   * @param {PageBlobResizeOptions} [options]
+   * @param {number} size Target size
+   * @param {PageBlobResizeOptions} [options] Optional options to the Page Blob Resize operation.
    * @returns {Promise<Models.PageBlobResizeResponse>}
    * @memberof PageBlobClient
    */
@@ -491,9 +491,9 @@ export class PageBlobClient extends BlobClient {
    * Sets a page blob's sequence number.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-blob-properties
    *
-   * @param {Models.SequenceNumberActionType} sequenceNumberAction
+   * @param {Models.SequenceNumberActionType} sequenceNumberAction Indicates how the service should modify the blob's sequence number.
    * @param {number} [sequenceNumber] Required if sequenceNumberAction is max or update
-   * @param {PageBlobUpdateSequenceNumberOptions} [options]
+   * @param {PageBlobUpdateSequenceNumberOptions} [options] Optional options to the Page Blob Update Sequence Number operation.
    * @returns {Promise<Models.PageBlobUpdateSequenceNumberResponse>}
    * @memberof PageBlobClient
    */
@@ -522,7 +522,7 @@ export class PageBlobClient extends BlobClient {
    *
    * @param {string} copySource Specifies the name of the source page blob snapshot. For example,
    *                            https://myaccount.blob.core.windows.net/mycontainer/myblob?snapshot=<DateTime>
-   * @param {PageBlobStartCopyIncrementalOptions} [options]
+   * @param {PageBlobStartCopyIncrementalOptions} [options] Optional options to the Page Blob Copy Incremental operation.
    * @returns {Promise<Models.PageBlobCopyIncrementalResponse>}
    * @memberof PageBlobClient
    */
