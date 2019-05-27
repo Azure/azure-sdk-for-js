@@ -3,7 +3,7 @@
   "author": {
     "name": "Microsoft Corporation",
     "email": "azsdkteam@microsoft.com",
-    "url": "https://github.com/Azure/ms-rest-js"
+    "url": "https://github.com/Azure/azure-sdk-for-js"
   },
   "version": "1.8.7",
   "description": "Isomorphic client Runtime for Typescript/node.js/browser javascript client libraries generated using AutoRest",
@@ -47,13 +47,13 @@
     "./es/lib/defaultHttpClient.js": "./es/lib/defaultHttpClient.browser.js"
   },
   "license": "MIT",
-  "homepage": "https://github.com/Azure/ms-rest-js",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/http",
   "repository": {
     "type": "git",
-    "url": "git@github.com:Azure/ms-rest-js.git"
+    "url": "git@github.com:Azure/azure-sdk-for-js.git"
   },
   "bugs": {
-    "url": "http://github.com/Azure/ms-rest-js/issues"
+    "url": "http://github.com/Azure/azure-sdk-for-js/issues"
   },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
