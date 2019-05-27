@@ -2,7 +2,7 @@
 process.env.CHROME_BIN = require("puppeteer").executablePath();
 require("dotenv").config({ path: "../.env" });
 
-module.exports = function (config) {
+module.exports = function(config) {
   config.set({
     // base path that will be used to resolve all patterns (eg. files, exclude)
     basePath: "./",
@@ -85,8 +85,15 @@ module.exports = function (config) {
     jsonToFileReporter: {
       filter: function(obj) {
         if (obj.writeFile) {
-          const fs = require("fs");
-          fs.writeFile(obj.path, JSON.stringify(obj.content, null, " "), err => {
+          const fs = require("fs-extra");
+          // Create the directories recursively incase they don't exist
+          try {
+            // Stripping away the filename from the file path and retaining the directory structure
+            fs.ensureDirSync(obj.path.substring(0, obj.path.lastIndexOf("/") + 1));
+          } catch (err) {
+            if (err.code !== "EEXIST") throw err;
+          }
+          fs.writeFile(obj.path, JSON.stringify(obj.content, null, " "), (err) => {
             if (err) {
               throw err;
             }
