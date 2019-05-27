@@ -2,7 +2,7 @@ import fs from "fs";
 import nise from "nise";
 import queryString from "query-string";
 import { getUniqueName, isBrowser } from "../utils";
-import { blobToString } from "./index.browser"
+import { blobToString } from "./index.browser";
 import * as dotenv from "dotenv";
 dotenv.config({ path: "../../.env" });
 
@@ -19,7 +19,7 @@ if (!isBrowser()) {
  * * Size: the generated recording file is too big and would considerably increase the size of the package
  * * Tempfile: the request makes use of a random tempfile created locally, and the recorder does not support recording it as unique information
  * * UUID: a UUID is randomly generated within the SDK and used in an HTTP request, resulting in Nock being unable to recognize it
-*/
+ */
 const skip = [
   // Abort
   "browsers/aborter/recording_should_abort_after_aborter_timeout.json",
@@ -38,7 +38,14 @@ abstract class Recorder {
   public uniqueTestInfo: any = {};
 
   constructor(env: string, testHierarchy: string, testTitle: string, ext: string) {
-    this.filepath = env + "/" + this.formatPath(testHierarchy) + "/recording_" + this.formatPath(testTitle) + "." + ext;
+    this.filepath =
+      env +
+      "/" +
+      this.formatPath(testHierarchy) +
+      "/recording_" +
+      this.formatPath(testTitle) +
+      "." +
+      ext;
   }
 
   protected formatPath(path: string): string {
@@ -83,11 +90,13 @@ class NockRecorder extends Recorder {
 
     // It's important to print writing errors because some tests end up catching them
     const file = fs.createWriteStream("./recordings/" + this.filepath, { flags: "w" });
-    file.on("error", err => {
+    file.on("error", (err) => {
       console.log(err);
       throw err;
     });
-    file.write(importNock + "\n" + "module.exports.testInfo = " + JSON.stringify(this.uniqueTestInfo) + "\n");
+    file.write(
+      importNock + "\n" + "module.exports.testInfo = " + JSON.stringify(this.uniqueTestInfo) + "\n"
+    );
     for (const fixture of fixtures) {
       file.write(fixture + "\n");
     }
@@ -129,9 +138,10 @@ class NiseRecorder extends Recorder {
       method: request.method,
       url: parsedUrl.url,
       query: query,
-      requestBody: (data instanceof Blob) ? await blobToString(data) : data,
+      requestBody: data instanceof Blob ? await blobToString(data) : data,
       status: request.status,
-      response: (request.response instanceof Blob) ? await blobToString(request.response) : request.response,
+      response:
+        request.response instanceof Blob ? await blobToString(request.response) : request.response,
       responseHeaders: responseHeaders
     });
   }
@@ -145,7 +155,11 @@ class NiseRecorder extends Recorder {
     }
 
     for (const param in request.query) {
-      if (recording.query[param] === undefined && !this.sasQueryParameters.includes(param) && param !== "_") {
+      if (
+        recording.query[param] === undefined &&
+        !this.sasQueryParameters.includes(param) &&
+        param !== "_"
+      ) {
         return false;
       }
     }
@@ -177,11 +191,11 @@ class NiseRecorder extends Recorder {
               self.recordRequest(req, data);
             }
             reqStateChange && reqStateChange.apply(null, arguments);
-          }
+          };
           reqSend.apply(req, arguments);
-        }
-      }
-    }
+        };
+      };
+    };
   }
 
   public playback(): void {
@@ -201,7 +215,7 @@ class NiseRecorder extends Recorder {
           method: req.method,
           url: parsedUrl.url,
           query: parsedUrl.query,
-          requestBody: (data instanceof Blob) ? await blobToString(data) : data
+          requestBody: data instanceof Blob ? await blobToString(data) : data
         };
 
         let recordingFound = false;
@@ -218,20 +232,24 @@ class NiseRecorder extends Recorder {
 
         // It's important to print matching errors because some tests end up catching them
         if (!recordingFound) {
-          const err = new Error("No match for request " + JSON.stringify(formattedRequest, null, " "));
+          const err = new Error(
+            "No match for request " + JSON.stringify(formattedRequest, null, " ")
+          );
           console.log(err);
           throw err;
         }
-      }
-    }
+      };
+    };
   }
 
   public stop(): void {
-    console.log(JSON.stringify({
-      writeFile: true,
-      path: "./recordings/" + this.filepath,
-      content: { recordings: this.recordings, uniqueTestInfo: this.uniqueTestInfo }
-    }));
+    console.log(
+      JSON.stringify({
+        writeFile: true,
+        path: "./recordings/" + this.filepath,
+        content: { recordings: this.recordings, uniqueTestInfo: this.uniqueTestInfo }
+      })
+    );
   }
 }
 
@@ -252,12 +270,12 @@ export function record(testContext: any) {
 
   if (isBrowser()) {
     recorder = new NiseRecorder(testHierarchy, testTitle);
-    isRecording = ((window as any).__env__.TEST_MODE === "record");
-    isPlayingBack = ((window as any).__env__.TEST_MODE === "playback");
+    isRecording = (window as any).__env__.TEST_MODE === "record";
+    isPlayingBack = (window as any).__env__.TEST_MODE === "playback";
   } else {
     recorder = new NockRecorder(testHierarchy, testTitle);
-    isRecording = (process.env.TEST_MODE === "record");
-    isPlayingBack = (process.env.TEST_MODE === "playback");
+    isRecording = process.env.TEST_MODE === "record";
+    isPlayingBack = process.env.TEST_MODE === "playback";
   }
 
   if (recorder.skip() && (isRecording || isPlayingBack)) {
@@ -285,8 +303,7 @@ export function record(testContext: any) {
       if (isRecording) {
         name = getUniqueName(prefix);
         recorder.uniqueTestInfo[recorderId] = name;
-      }
-      else if (isPlayingBack) {
+      } else if (isPlayingBack) {
         name = recorder.uniqueTestInfo[recorderId];
       } else {
         name = getUniqueName(prefix);
@@ -298,8 +315,7 @@ export function record(testContext: any) {
       if (isRecording) {
         date = new Date();
         recorder.uniqueTestInfo[recorderId] = date.toISOString();
-      }
-      else if (isPlayingBack) {
+      } else if (isPlayingBack) {
         date = new Date(recorder.uniqueTestInfo[recorderId]);
       } else {
         date = new Date();
