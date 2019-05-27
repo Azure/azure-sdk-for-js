@@ -28,29 +28,22 @@ export class RegulatoryComplianceStandards {
 
   /**
    * Supported regulatory compliance standards details and state
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name
-   * is case insensitive.
    * @param [options] The optional parameters
    * @returns Promise<Models.RegulatoryComplianceStandardsListResponse>
    */
-  list(resourceGroupName: string, options?: Models.RegulatoryComplianceStandardsListOptionalParams): Promise<Models.RegulatoryComplianceStandardsListResponse>;
+  list(options?: Models.RegulatoryComplianceStandardsListOptionalParams): Promise<Models.RegulatoryComplianceStandardsListResponse>;
   /**
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name
-   * is case insensitive.
    * @param callback The callback
    */
-  list(resourceGroupName: string, callback: msRest.ServiceCallback<Models.RegulatoryComplianceStandardList>): void;
+  list(callback: msRest.ServiceCallback<Models.RegulatoryComplianceStandardList>): void;
   /**
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name
-   * is case insensitive.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, options: Models.RegulatoryComplianceStandardsListOptionalParams, callback: msRest.ServiceCallback<Models.RegulatoryComplianceStandardList>): void;
-  list(resourceGroupName: string, options?: Models.RegulatoryComplianceStandardsListOptionalParams | msRest.ServiceCallback<Models.RegulatoryComplianceStandardList>, callback?: msRest.ServiceCallback<Models.RegulatoryComplianceStandardList>): Promise<Models.RegulatoryComplianceStandardsListResponse> {
+  list(options: Models.RegulatoryComplianceStandardsListOptionalParams, callback: msRest.ServiceCallback<Models.RegulatoryComplianceStandardList>): void;
+  list(options?: Models.RegulatoryComplianceStandardsListOptionalParams | msRest.ServiceCallback<Models.RegulatoryComplianceStandardList>, callback?: msRest.ServiceCallback<Models.RegulatoryComplianceStandardList>): Promise<Models.RegulatoryComplianceStandardsListResponse> {
     return this.client.sendOperationRequest(
       {
-        resourceGroupName,
         options
       },
       listOperationSpec,
@@ -59,32 +52,25 @@ export class RegulatoryComplianceStandards {
 
   /**
    * Supported regulatory compliance details state for selected standard
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name
-   * is case insensitive.
    * @param regulatoryComplianceStandardName Name of the regulatory compliance standard object
    * @param [options] The optional parameters
    * @returns Promise<Models.RegulatoryComplianceStandardsGetResponse>
    */
-  get(resourceGroupName: string, regulatoryComplianceStandardName: string, options?: msRest.RequestOptionsBase): Promise<Models.RegulatoryComplianceStandardsGetResponse>;
+  get(regulatoryComplianceStandardName: string, options?: msRest.RequestOptionsBase): Promise<Models.RegulatoryComplianceStandardsGetResponse>;
   /**
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name
-   * is case insensitive.
    * @param regulatoryComplianceStandardName Name of the regulatory compliance standard object
    * @param callback The callback
    */
-  get(resourceGroupName: string, regulatoryComplianceStandardName: string, callback: msRest.ServiceCallback<Models.RegulatoryComplianceStandard>): void;
+  get(regulatoryComplianceStandardName: string, callback: msRest.ServiceCallback<Models.RegulatoryComplianceStandard>): void;
   /**
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name
-   * is case insensitive.
    * @param regulatoryComplianceStandardName Name of the regulatory compliance standard object
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, regulatoryComplianceStandardName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RegulatoryComplianceStandard>): void;
-  get(resourceGroupName: string, regulatoryComplianceStandardName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RegulatoryComplianceStandard>, callback?: msRest.ServiceCallback<Models.RegulatoryComplianceStandard>): Promise<Models.RegulatoryComplianceStandardsGetResponse> {
+  get(regulatoryComplianceStandardName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RegulatoryComplianceStandard>): void;
+  get(regulatoryComplianceStandardName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RegulatoryComplianceStandard>, callback?: msRest.ServiceCallback<Models.RegulatoryComplianceStandard>): Promise<Models.RegulatoryComplianceStandardsGetResponse> {
     return this.client.sendOperationRequest(
       {
-        resourceGroupName,
         regulatoryComplianceStandardName,
         options
       },
@@ -127,8 +113,7 @@ const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Security/regulatoryComplianceStandards",
   urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.subscriptionId
   ],
   queryParameters: [
     Parameters.apiVersion5,
@@ -153,7 +138,6 @@ const getOperationSpec: msRest.OperationSpec = {
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Security/regulatoryComplianceStandards/{regulatoryComplianceStandardName}",
   urlParameters: [
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
     Parameters.regulatoryComplianceStandardName
   ],
   queryParameters: [

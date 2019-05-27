@@ -28,32 +28,25 @@ export class RegulatoryComplianceControls {
 
   /**
    * All supported regulatory compliance controls details and state for selected standard
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name
-   * is case insensitive.
    * @param regulatoryComplianceStandardName Name of the regulatory compliance standard object
    * @param [options] The optional parameters
    * @returns Promise<Models.RegulatoryComplianceControlsListResponse>
    */
-  list(resourceGroupName: string, regulatoryComplianceStandardName: string, options?: Models.RegulatoryComplianceControlsListOptionalParams): Promise<Models.RegulatoryComplianceControlsListResponse>;
+  list(regulatoryComplianceStandardName: string, options?: Models.RegulatoryComplianceControlsListOptionalParams): Promise<Models.RegulatoryComplianceControlsListResponse>;
   /**
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name
-   * is case insensitive.
    * @param regulatoryComplianceStandardName Name of the regulatory compliance standard object
    * @param callback The callback
    */
-  list(resourceGroupName: string, regulatoryComplianceStandardName: string, callback: msRest.ServiceCallback<Models.RegulatoryComplianceControlList>): void;
+  list(regulatoryComplianceStandardName: string, callback: msRest.ServiceCallback<Models.RegulatoryComplianceControlList>): void;
   /**
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name
-   * is case insensitive.
    * @param regulatoryComplianceStandardName Name of the regulatory compliance standard object
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, regulatoryComplianceStandardName: string, options: Models.RegulatoryComplianceControlsListOptionalParams, callback: msRest.ServiceCallback<Models.RegulatoryComplianceControlList>): void;
-  list(resourceGroupName: string, regulatoryComplianceStandardName: string, options?: Models.RegulatoryComplianceControlsListOptionalParams | msRest.ServiceCallback<Models.RegulatoryComplianceControlList>, callback?: msRest.ServiceCallback<Models.RegulatoryComplianceControlList>): Promise<Models.RegulatoryComplianceControlsListResponse> {
+  list(regulatoryComplianceStandardName: string, options: Models.RegulatoryComplianceControlsListOptionalParams, callback: msRest.ServiceCallback<Models.RegulatoryComplianceControlList>): void;
+  list(regulatoryComplianceStandardName: string, options?: Models.RegulatoryComplianceControlsListOptionalParams | msRest.ServiceCallback<Models.RegulatoryComplianceControlList>, callback?: msRest.ServiceCallback<Models.RegulatoryComplianceControlList>): Promise<Models.RegulatoryComplianceControlsListResponse> {
     return this.client.sendOperationRequest(
       {
-        resourceGroupName,
         regulatoryComplianceStandardName,
         options
       },
@@ -63,35 +56,28 @@ export class RegulatoryComplianceControls {
 
   /**
    * Selected regulatory compliance control details and state
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name
-   * is case insensitive.
    * @param regulatoryComplianceStandardName Name of the regulatory compliance standard object
    * @param regulatoryComplianceControlName Name of the regulatory compliance control object
    * @param [options] The optional parameters
    * @returns Promise<Models.RegulatoryComplianceControlsGetResponse>
    */
-  get(resourceGroupName: string, regulatoryComplianceStandardName: string, regulatoryComplianceControlName: string, options?: msRest.RequestOptionsBase): Promise<Models.RegulatoryComplianceControlsGetResponse>;
+  get(regulatoryComplianceStandardName: string, regulatoryComplianceControlName: string, options?: msRest.RequestOptionsBase): Promise<Models.RegulatoryComplianceControlsGetResponse>;
   /**
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name
-   * is case insensitive.
    * @param regulatoryComplianceStandardName Name of the regulatory compliance standard object
    * @param regulatoryComplianceControlName Name of the regulatory compliance control object
    * @param callback The callback
    */
-  get(resourceGroupName: string, regulatoryComplianceStandardName: string, regulatoryComplianceControlName: string, callback: msRest.ServiceCallback<Models.RegulatoryComplianceControl>): void;
+  get(regulatoryComplianceStandardName: string, regulatoryComplianceControlName: string, callback: msRest.ServiceCallback<Models.RegulatoryComplianceControl>): void;
   /**
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name
-   * is case insensitive.
    * @param regulatoryComplianceStandardName Name of the regulatory compliance standard object
    * @param regulatoryComplianceControlName Name of the regulatory compliance control object
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, regulatoryComplianceStandardName: string, regulatoryComplianceControlName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RegulatoryComplianceControl>): void;
-  get(resourceGroupName: string, regulatoryComplianceStandardName: string, regulatoryComplianceControlName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RegulatoryComplianceControl>, callback?: msRest.ServiceCallback<Models.RegulatoryComplianceControl>): Promise<Models.RegulatoryComplianceControlsGetResponse> {
+  get(regulatoryComplianceStandardName: string, regulatoryComplianceControlName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RegulatoryComplianceControl>): void;
+  get(regulatoryComplianceStandardName: string, regulatoryComplianceControlName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RegulatoryComplianceControl>, callback?: msRest.ServiceCallback<Models.RegulatoryComplianceControl>): Promise<Models.RegulatoryComplianceControlsGetResponse> {
     return this.client.sendOperationRequest(
       {
-        resourceGroupName,
         regulatoryComplianceStandardName,
         regulatoryComplianceControlName,
         options
@@ -136,7 +122,6 @@ const listOperationSpec: msRest.OperationSpec = {
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Security/regulatoryComplianceStandards/{regulatoryComplianceStandardName}/regulatoryComplianceControls",
   urlParameters: [
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
     Parameters.regulatoryComplianceStandardName
   ],
   queryParameters: [
@@ -162,7 +147,6 @@ const getOperationSpec: msRest.OperationSpec = {
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Security/regulatoryComplianceStandards/{regulatoryComplianceStandardName}/regulatoryComplianceControls/{regulatoryComplianceControlName}",
   urlParameters: [
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
     Parameters.regulatoryComplianceStandardName,
     Parameters.regulatoryComplianceControlName
   ],
