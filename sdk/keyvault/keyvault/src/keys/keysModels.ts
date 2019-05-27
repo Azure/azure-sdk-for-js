@@ -1,6 +1,6 @@
 import * as msRest from "@azure/ms-rest-js";
 import { ParsedKeyVaultEntityIdentifier } from "../keyVaultBase";
-import { JsonWebKey, JsonWebKeyOperation } from "../models";
+import { JsonWebKey, JsonWebKeyOperation, JsonWebKeyCurveName } from "../models";
 import { DeletionRecoveryLevel } from "../models";
 
 export interface Key extends KeyAttributes {
@@ -91,11 +91,6 @@ export interface CreateKeyOptions {
    */
   tags?: { [propertyName: string]: string };
   /**
-   * @member {number} [keySize] The key size in bits. For example: 2048, 3072,
-   * or 4096 for RSA.
-   */
-  keySize?: number;
-  /**
    * @member {JsonWebKeyOperation[]} [keyOps]
    */
   keyOps?: JsonWebKeyOperation[];
@@ -115,6 +110,43 @@ export interface CreateKeyOptions {
    * @member {msRest.RequestOptionsBase} [requestOptions] Options for this request
    */
   requestOptions?: msRest.RequestOptionsBase;
+}
+
+/**
+ * @interface
+ * An interface representing the optional parameters that can be
+ * passed to createEcKey
+ */
+export interface CreateEcKeyOptions extends CreateKeyOptions {
+  /**
+   * @member {JsonWebKeyCurveName} [curve] Elliptic curve name. For valid
+   * values, see JsonWebKeyCurveName. Possible values include: 'P-256',
+   * 'P-384', 'P-521', 'P-256K'
+   */
+  curve?: JsonWebKeyCurveName;
+  /**
+   * @member {boolean} [hsm] Whether to import as a hardware key (HSM) or
+   * software key.
+   */
+  hsm?: boolean;
+}
+
+/**
+ * @interface
+ * An interface representing the optional parameters that can be
+ * passed to createEcKey
+ */
+export interface CreateRsaKeyOptions extends CreateKeyOptions {
+  /**
+   * @member {number} [keySize] The key size in bits. For example: 2048, 3072,
+   * or 4096 for RSA.
+   */
+  keySize?: number;
+  /**
+   * @member {boolean} [hsm] Whether to import as a hardware key (HSM) or
+   * software key.
+   */
+  hsm?: boolean;
 }
 
 /**
