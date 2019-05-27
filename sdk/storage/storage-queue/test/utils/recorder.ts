@@ -1,4 +1,4 @@
-import fs from "fs";
+import fs from "fs-extra";
 import nise from "nise";
 import queryString from "query-string";
 import { getUniqueName, isBrowser } from "../utils";
@@ -34,18 +34,13 @@ const skip = [
 ];
 
 abstract class Recorder {
-  protected readonly filepath: string;
+  protected readonly dirPath: string;
+  protected readonly fileName: string;
   public uniqueTestInfo: any = {};
 
   constructor(env: string, testHierarchy: string, testTitle: string, ext: string) {
-    this.filepath =
-      env +
-      "/" +
-      this.formatPath(testHierarchy) +
-      "/recording_" +
-      this.formatPath(testTitle) +
-      "." +
-      ext;
+    this.dirPath = env + "/" + this.formatPath(testHierarchy);
+    this.fileName = "/recording_" + this.formatPath(testTitle) + "." + ext;
   }
 
   protected formatPath(path: string): string {
@@ -61,7 +56,7 @@ abstract class Recorder {
   }
 
   public skip(): boolean {
-    return skip.includes(this.filepath);
+    return skip.includes(this.dirPath + this.fileName);
   }
 
   public abstract record(): void;
@@ -81,16 +76,25 @@ class NockRecorder extends Recorder {
   }
 
   public playback(): void {
-    this.uniqueTestInfo = require("../recordings/" + this.filepath).testInfo;
+    this.uniqueTestInfo = require("../recordings/" + this.dirPath + this.fileName).testInfo;
   }
 
   public stop(): void {
     const importNock = "let nock = require('nock');\n";
     const fixtures = nock.recorder.play();
 
+    // Create the directories recursively incase they don't exist
+    try {
+      fs.ensureDirSync("./recordings/" + this.dirPath);
+    } catch (err) {
+      if (err.code !== "EEXIST") throw err;
+    }
+
     // It's important to print writing errors because some tests end up catching them
-    const file = fs.createWriteStream("./recordings/" + this.filepath, { flags: "w" });
-    file.on("error", (err) => {
+    const file = fs.createWriteStream("./recordings/" + this.dirPath + this.fileName, {
+      flags: "w"
+    });
+    file.on("error", (err: any) => {
       console.log(err);
       throw err;
     });
@@ -202,8 +206,12 @@ class NiseRecorder extends Recorder {
     const self = this;
     const xhr = nise.fakeXhr.useFakeXMLHttpRequest();
 
-    this.recordings = (window as any).__json__["recordings/" + this.filepath].recordings;
-    this.uniqueTestInfo = (window as any).__json__["recordings/" + this.filepath].uniqueTestInfo;
+    this.recordings = (window as any).__json__[
+      "recordings/" + this.dirPath + this.fileName
+    ].recordings;
+    this.uniqueTestInfo = (window as any).__json__[
+      "recordings/" + this.dirPath + this.fileName
+    ].uniqueTestInfo;
 
     xhr.onCreate = function(req: any) {
       const reqSend = req.send;
@@ -246,7 +254,7 @@ class NiseRecorder extends Recorder {
     console.log(
       JSON.stringify({
         writeFile: true,
-        path: "./recordings/" + this.filepath,
+        path: "./recordings/" + this.dirPath + this.fileName,
         content: { recordings: this.recordings, uniqueTestInfo: this.uniqueTestInfo }
       })
     );
