@@ -1,13 +1,13 @@
 import * as msRest from "@azure/ms-rest-js";
 import { ParsedKeyVaultEntityIdentifier } from "../keyVaultBase";
-import { JsonWebKey, JsonWebKeyOperation } from "../models";
+import { JsonWebKey, JsonWebKeyOperation, JsonWebKeyCurveName } from "../models";
 import { DeletionRecoveryLevel } from "../models";
 
 export interface Key extends KeyAttributes {
   /**
    * @member {string} [value] The key value.
    */
-  key?: JsonWebKey;
+  keyMaterial?: JsonWebKey;
 }
 
 export interface KeyAttributes extends ParsedKeyVaultEntityIdentifier {
@@ -15,10 +15,6 @@ export interface KeyAttributes extends ParsedKeyVaultEntityIdentifier {
    * @member {string} [id] The key id.
    */
   id?: string;
-  /**
-   * @member {string} [contentType] The content type of the key.
-   */
-  contentType?: string;
   /**
    * @member {boolean} [enabled] Determines whether the object is enabled.
    */
@@ -67,7 +63,7 @@ export interface DeletedKey extends Key {
    * @member {string} [recoveryId] The url of the recovery object, used to
    * identify and recover the deleted key.
    */
-  recoveryId?: string;
+  readonly recoveryId?: string;
   /**
    * @member {Date} [scheduledPurgeDate] The time when the key is scheduled
    * to be purged, in UTC
@@ -87,8 +83,6 @@ export interface DeletedKey extends Key {
  * @interface
  * An interface representing the optional parameters that can be
  * passed to createKey
- *
- * @extends RequestOptionsBase
  */
 export interface CreateKeyOptions {
   /**
@@ -96,11 +90,6 @@ export interface CreateKeyOptions {
    * metadata in the form of key-value pairs.
    */
   tags?: { [propertyName: string]: string };
-  /**
-   * @member {number} [keySize] The key size in bits. For example: 2048, 3072,
-   * or 4096 for RSA.
-   */
-  keySize?: number;
   /**
    * @member {JsonWebKeyOperation[]} [keyOps]
    */
@@ -126,9 +115,44 @@ export interface CreateKeyOptions {
 /**
  * @interface
  * An interface representing the optional parameters that can be
+ * passed to createEcKey
+ */
+export interface CreateEcKeyOptions extends CreateKeyOptions {
+  /**
+   * @member {JsonWebKeyCurveName} [curve] Elliptic curve name. For valid
+   * values, see JsonWebKeyCurveName. Possible values include: 'P-256',
+   * 'P-384', 'P-521', 'P-256K'
+   */
+  curve?: JsonWebKeyCurveName;
+  /**
+   * @member {boolean} [hsm] Whether to import as a hardware key (HSM) or
+   * software key.
+   */
+  hsm?: boolean;
+}
+
+/**
+ * @interface
+ * An interface representing the optional parameters that can be
+ * passed to createEcKey
+ */
+export interface CreateRsaKeyOptions extends CreateKeyOptions {
+  /**
+   * @member {number} [keySize] The key size in bits. For example: 2048, 3072,
+   * or 4096 for RSA.
+   */
+  keySize?: number;
+  /**
+   * @member {boolean} [hsm] Whether to import as a hardware key (HSM) or
+   * software key.
+   */
+  hsm?: boolean;
+}
+
+/**
+ * @interface
+ * An interface representing the optional parameters that can be
  * passed to createKey
- *
- * @extends RequestOptionsBase
  */
 export interface ImportKeyOptions {
   /**
@@ -163,8 +187,6 @@ export interface ImportKeyOptions {
  * @interface
  * An interface representing KeyVaultClientUpdateKeyOptionalParams.
  * Optional Parameters.
- *
- * @extends RequestOptionsBase
  */
 export interface UpdateKeyOptions {
   /**
@@ -199,8 +221,6 @@ export interface UpdateKeyOptions {
  * @interface
  * An interface representing KeyClientGetKeyOptionalParams.
  * Optional Parameters.
- *
- * @extends RequestOptionsBase
  */
 export interface GetKeyOptions {
   /**
@@ -218,10 +238,19 @@ export interface GetKeyOptions {
  * @interface
  * An interface representing optional parameters for KeyClient paged operations.
  * Optional Parameters.
- *
- * @extends RequestOptionsBase
  */
 export interface GetAllKeysOptions {
+  /**
+   * @member {msRest.RequestOptionsBase} [requestOptions] Options for this request
+   */
+  requestOptions?: msRest.RequestOptionsBase;
+}
+
+/**
+ * @interface
+ * An interface representing the most general set of request options.
+ */
+export interface RequestOptions {
   /**
    * @member {msRest.RequestOptionsBase} [requestOptions] Options for this request
    */

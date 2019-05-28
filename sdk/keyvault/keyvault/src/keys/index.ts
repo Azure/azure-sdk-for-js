@@ -6,7 +6,6 @@ import {
   RequestPolicyFactory,
   deserializationPolicy,
   signingPolicy,
-  RequestOptionsBase,
   exponentialRetryPolicy,
   redirectPolicy,
   systemErrorRetryPolicy,
@@ -28,10 +27,13 @@ import {
   Key,
   DeletedKey,
   CreateKeyOptions,
+  CreateEcKeyOptions,
+  CreateRsaKeyOptions,
   ImportKeyOptions,
   UpdateKeyOptions,
   GetKeyOptions,
   GetAllKeysOptions,
+  RequestOptions,
   KeyAttributes
 } from "./keysModels";
 import { parseKeyvaultIdentifier as parseKeyvaultEntityIdentifier } from "../utils";
@@ -140,16 +142,16 @@ export class KeysClient {
    * already exists, Azure Key Vault creates a new version of the key. It requires the keys/create
    * permission.
    * @summary Creates a new key, stores it, then returns key parameters and attributes to the client.
-   * @param keyName The name of the key.
+   * @param name The name of the key.
    * @param keyType The type of the key.
    * @param [options] The optional parameters
    * @returns Promise<Key>
    */
   public async createKey(
-    keyName: string,
+    name: string,
     keyType: JsonWebKeyType,
     options?: CreateKeyOptions
-  ) {
+  ): Promise<Key> {
     if (options) {
       let unflattenedAttributes = { enabled: options.enabled, notBefore: options.notBefore, expires: options.expires };
       let unflattenedOptions = { ...options, ...(options.requestOptions ? options.requestOptions : {}), keyAttributes: unflattenedAttributes };
@@ -159,10 +161,72 @@ export class KeysClient {
       delete unflattenedOptions.expires;
       delete unflattenedOptions.requestOptions;
 
-      const response = await this.client.createKey(this.vaultBaseUrl, keyName, keyType, unflattenedOptions);
+      const response = await this.client.createKey(this.vaultBaseUrl, name, keyType, unflattenedOptions);
       return this.getKeyFromKeyBundle(response);
     } else {
-      const response = await this.client.createKey(this.vaultBaseUrl, keyName, keyType, options);
+      const response = await this.client.createKey(this.vaultBaseUrl, name, keyType, options);
+      return this.getKeyFromKeyBundle(response);
+    }
+  }
+
+  /**
+   * The create key operation can be used to create any key type in Azure Key Vault. If the named key
+   * already exists, Azure Key Vault creates a new version of the key. It requires the keys/create
+   * permission.
+   * @summary Creates a new key, stores it, then returns key parameters and attributes to the client.
+   * @param name The name of the key.
+   * @param keyType The type of the key.
+   * @param [options] The optional parameters
+   * @returns Promise<Key>
+   */
+  public async createEcKey(
+    name: string,
+    options?: CreateEcKeyOptions
+  ): Promise<Key> {
+    if (options) {
+      let unflattenedAttributes = { enabled: options.enabled, notBefore: options.notBefore, expires: options.expires };
+      let unflattenedOptions = { ...options, ...(options.requestOptions ? options.requestOptions : {}), keyAttributes: unflattenedAttributes };
+
+      delete unflattenedOptions.enabled;
+      delete unflattenedOptions.notBefore;
+      delete unflattenedOptions.expires;
+      delete unflattenedOptions.requestOptions;
+
+      const response = await this.client.createKey(this.vaultBaseUrl, name, options.hsm ? "EC-HSM" : "EC", unflattenedOptions);
+      return this.getKeyFromKeyBundle(response);
+    } else {
+      const response = await this.client.createKey(this.vaultBaseUrl, name, "EC", options);
+      return this.getKeyFromKeyBundle(response);
+    }
+  }
+
+  /**
+   * The create key operation can be used to create any key type in Azure Key Vault. If the named key
+   * already exists, Azure Key Vault creates a new version of the key. It requires the keys/create
+   * permission.
+   * @summary Creates a new key, stores it, then returns key parameters and attributes to the client.
+   * @param name The name of the key.
+   * @param keyType The type of the key.
+   * @param [options] The optional parameters
+   * @returns Promise<Key>
+   */
+  public async createRsaKey(
+    name: string,
+    options?: CreateRsaKeyOptions
+  ): Promise<Key> {
+    if (options) {
+      let unflattenedAttributes = { enabled: options.enabled, notBefore: options.notBefore, expires: options.expires };
+      let unflattenedOptions = { ...options, ...(options.requestOptions ? options.requestOptions : {}), keyAttributes: unflattenedAttributes };
+
+      delete unflattenedOptions.enabled;
+      delete unflattenedOptions.notBefore;
+      delete unflattenedOptions.expires;
+      delete unflattenedOptions.requestOptions;
+
+      const response = await this.client.createKey(this.vaultBaseUrl, name, options.hsm ? "RSA-HSM" : "RSA", unflattenedOptions);
+      return this.getKeyFromKeyBundle(response);
+    } else {
+      const response = await this.client.createKey(this.vaultBaseUrl, name, "RSA", options);
       return this.getKeyFromKeyBundle(response);
     }
   }
@@ -173,15 +237,15 @@ export class KeysClient {
    * requires the keys/import permission.
    * @summary Imports an externally created key, stores it, and returns key parameters and attributes
    * to the client.
-   * @param keyName Name for the imported key.
+   * @param name Name for the imported key.
    * @param key The Json web key
    * @param [options] The optional parameters
    */
   public async importKey(
-    keyName: string,
+    name: string,
     key: JsonWebKey,
     options?: ImportKeyOptions
-  ) {
+  ): Promise<Key> {
     if (options) {
       let unflattenedAttributes = { enabled: options.enabled, notBefore: options.notBefore, expires: options.expires };
       let unflattenedOptions = { ...options, ...(options.requestOptions ? options.requestOptions : {}), keyAttributes: unflattenedAttributes };
@@ -190,10 +254,10 @@ export class KeysClient {
       delete unflattenedOptions.expires;
       delete unflattenedOptions.requestOptions;
 
-      const response = await this.client.importKey(this.vaultBaseUrl, keyName, key, unflattenedOptions);
+      const response = await this.client.importKey(this.vaultBaseUrl, name, key, unflattenedOptions);
       return this.getKeyFromKeyBundle(response);
     } else {
-      const response = await this.client.importKey(this.vaultBaseUrl, keyName, key, options);
+      const response = await this.client.importKey(this.vaultBaseUrl, name, key, options);
       return this.getKeyFromKeyBundle(response);
     }
   }
@@ -203,15 +267,15 @@ export class KeysClient {
    * to an individual version of a key. This operation requires the keys/delete permission.
    * @summary Deletes a key from a specified key vault.
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
-   * @param keyName The name of the key.
+   * @param name The name of the key.
    * @param [options] The optional parameters
    * @returns Promise<DeletedKey>
    */
   public async deleteKey(
-    keyName: string,
-    options?: RequestOptionsBase
+    name: string,
+    options?: RequestOptions
   ): Promise<DeletedKey> {
-    const response = await this.client.deleteKey(this.vaultBaseUrl, keyName, options);
+    const response = await this.client.deleteKey(this.vaultBaseUrl, name, options ? options.requestOptions : {});
     return this.getKeyFromKeyBundle(response);
   }
 
@@ -220,13 +284,13 @@ export class KeysClient {
    * are not specified in the request are left unchanged. The value of a key itself cannot be
    * changed. This operation requires the keys/set permission.
    * @summary Updates the attributes associated with a specified key in a given key vault.
-   * @param keyName The name of the key.
+   * @param name The name of the key.
    * @param keyVersion The version of the key.
    * @param [options] The optional parameters
    * @returns Promise<Key>
    */
-  public async updateKeyAttributes(
-    keyName: string,
+  public async updateKey(
+    name: string,
     keyVersion: string,
     options?: UpdateKeyOptions
   ): Promise<Key> {
@@ -240,7 +304,7 @@ export class KeysClient {
 
       const response = await this.client.updateKey(
         this.vaultBaseUrl,
-        keyName,
+        name,
         keyVersion,
         unflattenedOptions
       );
@@ -248,7 +312,7 @@ export class KeysClient {
     } else {
       const response = await this.client.updateKey(
         this.vaultBaseUrl,
-        keyName,
+        name,
         keyVersion,
         options
       );
@@ -260,17 +324,17 @@ export class KeysClient {
    * The GET operation is applicable to any key stored in Azure Key Vault. This operation requires
    * the keys/get permission.
    * @summary Get a specified key from a given key vault.
-   * @param keyName The name of the key.
+   * @param name The name of the key.
    * @param [options] The optional parameters
    * @returns Promise<Key>
    */
   public async getKey(
-    keyName: string,
+    name: string,
     options?: GetKeyOptions
   ): Promise<Key> {
     const response = await this.client.getKey(
       this.vaultBaseUrl,
-      keyName,
+      name,
       options && options.version ? options.version : "",
       options
     );
@@ -281,15 +345,15 @@ export class KeysClient {
    * The Get Deleted Key operation returns the specified deleted key along with its attributes.
    * This operation requires the keys/get permission.
    * @summary Gets the specified deleted key.
-   * @param keyName The name of the key.
+   * @param name The name of the key.
    * @param [options] The optional parameters
    * @returns Promise<DeletedKey>
    */
   public async getDeletedKey(
-    keyName: string,
-    options?: RequestOptionsBase
+    name: string,
+    options?: RequestOptions
   ): Promise<DeletedKey> {
-    const response = await this.client.getDeletedKey(this.vaultBaseUrl, keyName, options);
+    const response = await this.client.getDeletedKey(this.vaultBaseUrl, name, options ? options.requestOptions : {});
     return this.getKeyFromKeyBundle(response);
   }
 
@@ -298,27 +362,27 @@ export class KeysClient {
    * recovery. This operation can only be enabled on a soft-delete enabled vault. This operation
    * requires the keys/purge permission.
    * @summary Permanently deletes the specified key.
-   * @param keyName The name of the key.
+   * @param name The name of the key.
    * @param [options] The optional parameters
    * @returns Promise<void>
    */
-  public async purgeDeletedKey(keyName: string, options?: RequestOptionsBase): Promise<void> {
-    await this.client.purgeDeletedKey(this.vaultBaseUrl, keyName, options);
+  public async purgeDeletedKey(name: string, options?: RequestOptions): Promise<void> {
+    await this.client.purgeDeletedKey(this.vaultBaseUrl, name, options ? options.requestOptions : {});
   }
 
   /**
    * Recovers the deleted key in the specified vault. This operation can only be performed on a
    * soft-delete enabled vault. This operation requires the keys/recover permission.
    * @summary Recovers the deleted key to the latest version.
-   * @param keyName The name of the deleted key.
+   * @param name The name of the deleted key.
    * @param [options] The optional parameters
    * @returns Promise<Key>
    */
   public async recoverDeletedKey(
-    keyName: string,
-    options?: RequestOptionsBase
+    name: string,
+    options?: RequestOptions
   ): Promise<Key> {
-    const response = await this.client.recoverDeletedKey(this.vaultBaseUrl, keyName, options);
+    const response = await this.client.recoverDeletedKey(this.vaultBaseUrl, name, options ? options.requestOptions : {});
     return this.getKeyFromKeyBundle(response);
   }
 
@@ -326,15 +390,15 @@ export class KeysClient {
    * Requests that a backup of the specified key be downloaded to the client. All versions of the
    * key will be downloaded. This operation requires the keys/backup permission.
    * @summary Backs up the specified key.
-   * @param keyName The name of the key.
+   * @param name The name of the key.
    * @param [options] The optional parameters
    * @returns Promise<Uint8Array | undefined>
    */
   public async backupKey(
-    keyName: string,
-    options?: RequestOptionsBase
+    name: string,
+    options?: RequestOptions
   ): Promise<Uint8Array | undefined> {
-    const response = await this.client.backupKey(this.vaultBaseUrl, keyName, options);
+    const response = await this.client.backupKey(this.vaultBaseUrl, name, options ? options.requestOptions : {});
     return response.value;
   }
 
@@ -342,41 +406,41 @@ export class KeysClient {
    * Restores a backed up key, and all its versions, to a vault. This operation requires the
    * keys/restore permission.
    * @summary Restores a backed up key to a vault.
-   * @param keyBundleBackup The backup blob associated with a key bundle.
+   * @param backup The backup blob associated with a key bundle.
    * @param [options] The optional parameters
    * @returns Promise<Key>
    */
   public async restoreKey(
-    keyBundleBackup: Uint8Array,
-    options?: RequestOptionsBase
+    backup: Uint8Array,
+    options?: RequestOptions
   ): Promise<Key> {
     const response = await this.client.restoreKey(
       this.vaultBaseUrl,
-      keyBundleBackup,
-      options
+      backup,
+      options ? options.requestOptions : {}
     );
     return this.getKeyFromKeyBundle(response);
   }
 
   public async *getKeyVersions(
-    keyName: string,
+    name: string,
     options?: GetAllKeysOptions
   ): AsyncIterableIterator<KeyAttributes> {
     let currentSetResponse = await this.client.getKeyVersions(
       this.vaultBaseUrl,
-      keyName,
+      name,
       {
         ...(options && options.requestOptions ? options.requestOptions : {})
       }
     );
-    yield* currentSetResponse.map(this.getKeyFromKeyItem);
+    yield* currentSetResponse.map(this.getKeyAttributesFromKeyItem);
 
     while (currentSetResponse.nextLink) {
       currentSetResponse = await this.client.getKeyVersionsNext(
         currentSetResponse.nextLink,
         options
       );
-      yield* currentSetResponse.map(this.getKeyFromKeyItem);
+      yield* currentSetResponse.map(this.getKeyAttributesFromKeyItem);
     }
   }
 
@@ -384,25 +448,25 @@ export class KeysClient {
    * Iterates the latest version of all keys in the vault.  The full key identifier and attributes are provided
    * in the response. No values are returned for the keys. This operations requires the keys/list permission.
    * @summary List all versions of the specified key.
-   * @param keyName The name of the key.
+   * @param name The name of the key.
    * @param [options] The optional parameters
    * @returns AsyncIterableIterator<Key>
    */
-  public async *getAllKeys(options?: GetAllKeysOptions): AsyncIterableIterator<Key> {
+  public async *getAllKeys(options?: GetAllKeysOptions): AsyncIterableIterator<KeyAttributes> {
     let currentSetResponse = await this.client.getKeys(
       this.vaultBaseUrl,
       {
         ...(options && options.requestOptions ? options.requestOptions : {})
       }
     );
-    yield* currentSetResponse.map(this.getKeyFromKeyItem);
+    yield* currentSetResponse.map(this.getKeyAttributesFromKeyItem);
 
     while (currentSetResponse.nextLink) {
       currentSetResponse = await this.client.getKeysNext(
         currentSetResponse.nextLink,
         options
       );
-      yield* currentSetResponse.map(this.getKeyFromKeyItem);
+      yield* currentSetResponse.map(this.getKeyAttributesFromKeyItem);
     }
   }
 
@@ -410,7 +474,7 @@ export class KeysClient {
    * Iterates the latest version of all keys in the vault.  The full key identifier and attributes are provided
    * in the response. No values are returned for the keys. This operations requires the keys/list permission.
    * @summary List all versions of the specified key.
-   * @param keyName The name of the key.
+   * @param name The name of the key.
    * @param [options] The optional parameters
    * @returns AsyncIterableIterator<Key>
    */
@@ -421,14 +485,14 @@ export class KeysClient {
         ...(options && options.requestOptions ? options.requestOptions : {})
       }
     );
-    yield* currentSetResponse.map(this.getKeyFromKeyItem);
+    yield* currentSetResponse.map(this.getKeyAttributesFromKeyItem);
 
     while (currentSetResponse.nextLink) {
       currentSetResponse = await this.client.getDeletedKeysNext(
         currentSetResponse.nextLink,
         options
       );
-      yield* currentSetResponse.map(this.getKeyFromKeyItem);
+      yield* currentSetResponse.map(this.getKeyAttributesFromKeyItem);
     }
   }
 
@@ -438,6 +502,7 @@ export class KeysClient {
     let resultObject;
     if (keyBundle.attributes) {
       resultObject = {
+        keyMaterial: keyBundle.key,
         ...keyBundle,
         ...parsedId,
         ...keyBundle.attributes
@@ -445,6 +510,7 @@ export class KeysClient {
       delete (resultObject.attributes);
     } else {
       resultObject = {
+        keyMaterial: keyBundle.key,
         ...keyBundle,
         ...parsedId
       }
@@ -453,7 +519,7 @@ export class KeysClient {
     return resultObject;
   }
 
-  private getKeyFromKeyItem(keyItem: KeyItem): Key {
+  private getKeyAttributesFromKeyItem(keyItem: KeyItem): KeyAttributes {
     const parsedId = parseKeyvaultEntityIdentifier("keys", keyItem.kid);
 
     let resultObject;

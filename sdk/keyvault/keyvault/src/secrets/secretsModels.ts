@@ -101,8 +101,6 @@ export interface DeletedSecret extends Secret {
  * @interface
  * An interface representing KeyVaultClientSetSecretOptionalParams.
  * Optional Parameters.
- *
- * @extends RequestOptionsBase
  */
 export interface SetSecretOptions {
   /**
@@ -137,8 +135,6 @@ export interface SetSecretOptions {
  * @interface
  * An interface representing KeyVaultClientUpdateSecretOptionalParams.
  * Optional Parameters.
- *
- * @extends RequestOptionsBase
  */
 export interface UpdateSecretOptions {
   /**
@@ -173,8 +169,6 @@ export interface UpdateSecretOptions {
  * @interface
  * An interface representing SecretClientGetSecretOptionalParams.
  * Optional Parameters.
- *
- * @extends RequestOptionsBase
  */
 export interface GetSecretOptions {
   /**
@@ -192,8 +186,6 @@ export interface GetSecretOptions {
  * @interface
  * An interface representing optional parameters for SecretClient paged operations.
  * Optional Parameters.
- *
- * @extends RequestOptionsBase
  */
 export interface GetAllSecretsOptions {
   /**

@@ -79,7 +79,6 @@ describe("Create ServiceBusClient and Queue/Topic/Subscription Clients", functio
   });
 });
 
-/*
 describe("Errors with non existing Namespace", function(): void {
   let namespace: ServiceBusClient;
   let errorWasThrown: boolean;
@@ -94,12 +93,7 @@ describe("Errors with non existing Namespace", function(): void {
   });
 
   const testError = (err: Error) => {
-    // should.equal(err.name, "ServiceCommunicationError", "ErrorName is different than expected");
-    should.equal(
-      err.message,
-      "getaddrinfo ENOTFOUND a a:5671",
-      "ErrorMessage is different than expected"
-    );
+    should.equal(err.name, "ServiceCommunicationError", "ErrorName is different than expected");
     errorWasThrown = true;
   };
 
@@ -186,7 +180,6 @@ describe("Errors with non existing Namespace", function(): void {
     should.equal(errorWasThrown, true, "Error thrown flag must be true");
   });
 });
-*/
 
 describe("Errors with non existing Queue/Topic/Subscription", async function(): Promise<void> {
   let namespace: ServiceBusClient;
