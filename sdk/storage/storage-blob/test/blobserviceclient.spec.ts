@@ -81,7 +81,7 @@ describe("BlobServiceClient", () => {
     await containerClient2.delete();
   });
 
-  it.only("Verify AsyncIterator for ListContainers", async () => {
+  it("Verify AsyncIterator for ListContainers", async () => {
     const blobServiceClient = getBSU();
 
     const containerNamePrefix = getUniqueName("container");
