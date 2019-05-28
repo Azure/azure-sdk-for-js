@@ -2,23 +2,23 @@
 Copyright (c) Microsoft Corporation. All rights reserved.
 Licensed under the MIT Licence.
   
-This sample demonstrates a simple send message operation.  
+This sample demonstrates a simple send event operation.  
 Refer to other samples and replace code in main() to try them out -->
 
 <!-- Line that imports the SDK source script for use in browser -->
-<script src="../browser/event-hub.js"></script>
+<script src="../browser/event-hubs.js"></script>
 
 <script>
-  // ServiceBusClient holds reference to the EventHubClient global object exposed by the imported script
+  // EventHubClient holds reference to the EventHubClient global object exposed by the imported script
   const EventHubClient = Azure.Messaging.EventHub.EventHubClient;
 
   const connectionString = "";
-  const eventHubsName = "";
+  const eventHubName = "";
 
   async function main() {
     // Creates the instance of EventHubClient using input connection string
     // Refer to SDK documentation and other samples for more usage related information
-    const client = EventHubClient.createFromConnectionString(connectionString, eventHubsName);
+    const client = EventHubClient.createFromConnectionString(connectionString, eventHubName);
 
     const partitionIds = await client.getPartitionIds();
 

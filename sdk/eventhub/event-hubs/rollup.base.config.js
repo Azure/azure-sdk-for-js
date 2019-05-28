@@ -77,9 +77,9 @@ export function browserConfig(test = false) {
     input: input,
     external: ["ms-rest-js"],
     output: {
-      file: "browser/event-hub.js",
+      file: "browser/event-hubs.js",
       format: "umd",
-      name: "Azure.Messaging.EventHub",
+      name: "Azure.Messaging.EventHubs",
       sourcemap: true,
       globals: { "ms-rest-js": "msRest" }
     },
@@ -99,6 +99,8 @@ export function browserConfig(test = false) {
         }
       ),
 
+      // fs, net, and tls are used by rhea and need to be shimmed
+      // dotenv doesn't work in the browser, so replace it with a no-op function
       shim({
         fs: `export default {}`,
         net: `export default {}`,
