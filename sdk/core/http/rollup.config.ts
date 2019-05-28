@@ -41,7 +41,7 @@
    },
    plugins: [
      nodeResolve({
-       module: true
+      mainFields: ['module']
      }),
      commonjs(),
      sourcemaps(),
@@ -75,7 +75,7 @@
        "./util/base64": "./util/base64.browser",
      }),
      nodeResolve({
-       module: true,
+      mainFields: ['module'],
        browser: true
      }),
      commonjs(),
