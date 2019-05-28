@@ -203,6 +203,59 @@ export class DirectoryClient extends StorageClient {
   }
 
   /**
+   * Iterates over containers under the specified account.
+   *
+   * @param {DirectoryListFilesAndDirectoriesSegmentOptions} [options={}] Options to list files and directories(optional)
+   * @returns {AsyncIterableIterator<Models.FileItem | Models.DirectoryItem>}
+   * @memberof DirectoryClient
+   *
+   * @example
+   * let i = 1;
+   * for await (const item of directoryClient.listFilesAndDirectories()) {
+   *   console.log(`${i}: ${item.name}`);
+   *   i++;
+   * }
+   *
+   * @example
+   * let iter1 = directoryClient.listFilesAndDirectories();
+   * let i = 1;
+   * for await (const item of iter1) {
+   *   console.log(`${i}: ${item.name}`);
+   *   i++;
+   * }
+   *
+   * @example
+   * let iter2 = await directoryClient.listFilesAndDirectories();
+   * i = 1;
+   * let item = await iter2.next();
+   * do {
+   *   console.log(`${i++}: ${item.value.name}`);
+   *   item = await iter2.next();
+   * } while (item.value);
+   *
+   */
+  public async *listFilesAndDirectories(
+    options: DirectoryListFilesAndDirectoriesSegmentOptions = {}
+  ): AsyncIterableIterator<Models.FileItem | Models.DirectoryItem> {
+    let marker = undefined;
+    const directoryClient = this;
+    const aborter = !options.abortSignal ? Aborter.none : options.abortSignal;
+    let listFilesAndDirectoriesResponse;
+    do {
+      listFilesAndDirectoriesResponse = await directoryClient.listFilesAndDirectoriesSegment(
+        marker,
+        {
+          ...options,
+          abortSignal: aborter
+        }
+      );
+      marker = listFilesAndDirectoriesResponse.nextMarker;
+      yield* listFilesAndDirectoriesResponse.segment.fileItems;
+      yield* listFilesAndDirectoriesResponse.segment.directoryItems;
+    } while (marker);
+  }
+
+  /**
    * Returns a list of files or directories under the specified share or directory. It lists the
    * contents only for a single level of the directory hierarchy.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/list-directories-and-files

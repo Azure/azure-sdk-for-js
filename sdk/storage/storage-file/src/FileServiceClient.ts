@@ -141,6 +141,56 @@ export class FileServiceClient extends StorageClient {
   }
 
   /**
+   * Iterates over containers under the specified account.
+   *
+   * @param {ServiceListSharesSegmentOptions} [options={}] Options to list shares(optional)
+   * @returns {AsyncIterableIterator<Models.ShareItem>}
+   * @memberof FileServiceClient
+   *
+   * @example
+   * let i = 1;
+   * for await (const item of serviceClient.listShares()) {
+   *   console.log(`${i}: ${item.name}`);
+   *   i++;
+   * }
+   *
+   * @example
+   * let iter1 = serviceClient.listShares();
+   * let i = 1;
+   * for await (const item of iter1) {
+   *   console.log(`${i}: ${item.name}`);
+   *   i++;
+   * }
+   *
+   * @example
+   * let iter2 = await serviceClient.listShares();
+   * i = 1;
+   * let item = await iter2.next();
+   * do {
+   *   console.log(`${i++}: ${item.value.name}`);
+   *   item = await iter2.next();
+   * } while (item.value);
+   *
+   */
+  public async *listShares(
+    options: ServiceListSharesSegmentOptions = {}
+  ): AsyncIterableIterator<Models.ShareItem> {
+    let marker = undefined;
+    const serviceClient = this;
+    const aborter = !options.abortSignal ? Aborter.none : options.abortSignal;
+    let listSharesResponse;
+    do {
+      listSharesResponse = await serviceClient.listSharesSegment(marker, {
+        ...options,
+        abortSignal: aborter
+      });
+
+      marker = listSharesResponse.nextMarker;
+      yield* listSharesResponse.shareItems;
+    } while (marker);
+  }
+
+  /**
    * Gets the properties of a storage account's File service, including properties for Storage
    * Analytics metrics and CORS (Cross-Origin Resource Sharing) rules.
    *
