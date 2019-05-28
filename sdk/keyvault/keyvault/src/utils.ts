@@ -1,4 +1,4 @@
-import { ParsedKeyVaultEntityIdentifier } from "./secrets";
+import { ParsedKeyVaultEntityIdentifier } from "./keyVaultBase";
 import * as url from "url";
 
 export function parseKeyvaultIdentifier(
