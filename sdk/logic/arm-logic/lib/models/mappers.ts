@@ -1915,9 +1915,9 @@ export const AS2MdnSettings: msRest.CompositeMapper = {
           name: "String"
         }
       },
-      signOutboundMDNIfOptional: {
+      signOutboundMdnIfOptional: {
         required: true,
-        serializedName: "signOutboundMDNIfOptional",
+        serializedName: "signOutboundMdnIfOptional",
         type: {
           name: "Boolean"
         }
@@ -1928,9 +1928,9 @@ export const AS2MdnSettings: msRest.CompositeMapper = {
           name: "String"
         }
       },
-      sendInboundMDNToMessageBox: {
+      sendInboundMdnToMessageBox: {
         required: true,
-        serializedName: "sendInboundMDNToMessageBox",
+        serializedName: "sendInboundMdnToMessageBox",
         type: {
           name: "Boolean"
         }

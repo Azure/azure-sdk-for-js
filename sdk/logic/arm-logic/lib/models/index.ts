@@ -1512,19 +1512,19 @@ export interface AS2MdnSettings {
    */
   dispositionNotificationTo?: string;
   /**
-   * @member {boolean} signOutboundMDNIfOptional The value indicating whether
+   * @member {boolean} signOutboundMdnIfOptional The value indicating whether
    * to sign the outbound MDN if optional.
    */
-  signOutboundMDNIfOptional: boolean;
+  signOutboundMdnIfOptional: boolean;
   /**
    * @member {string} [mdnText] The MDN text.
    */
   mdnText?: string;
   /**
-   * @member {boolean} sendInboundMDNToMessageBox The value indicating whether
+   * @member {boolean} sendInboundMdnToMessageBox The value indicating whether
    * to send inbound MDN to message box.
    */
-  sendInboundMDNToMessageBox: boolean;
+  sendInboundMdnToMessageBox: boolean;
   /**
    * @member {HashingAlgorithm} micHashingAlgorithm The signing or hashing
    * algorithm. Possible values include: 'NotSpecified', 'None', 'MD5', 'SHA1',
