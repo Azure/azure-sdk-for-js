@@ -63,14 +63,14 @@ async function main() {
   }
 
   // List blobs
-  iter1 = await containerClient.listBlobs();
+  iter1 = await containerClient.listBlobsFlat();
   i = 1;
   for await (const blob of iter1) {
     console.log(`Blob ${i++}: ${blob.name}`);
   }
 
   // List blobs - generator syntax
-  iter2 = await containerClient.listBlobs();
+  iter2 = await containerClient.listBlobsFlat();
   i = 1;
   let blobItem = await iter2.next();
   do {

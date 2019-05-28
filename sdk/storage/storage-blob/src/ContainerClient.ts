@@ -578,7 +578,7 @@ export class ContainerClient extends StorageClient {
    * } while (blobItem.value);
    *
    */
-  public async *listBlobs(
+  public async *listBlobsFlat(
     options: ContainerListBlobsSegmentOptions = {}
   ): AsyncIterableIterator<Models.BlobItem> {
     let marker = undefined;
