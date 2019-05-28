@@ -716,22 +716,6 @@ export const TIDataConnector: msRest.CompositeMapper = {
   }
 };
 
-export const DataConnectorAwsRoleArn: msRest.CompositeMapper = {
-  serializedName: "DataConnectorAwsRoleArn",
-  type: {
-    name: "Composite",
-    className: "DataConnectorAwsRoleArn",
-    modelProperties: {
-      awsRoleArn: {
-        serializedName: "AwsRoleArn",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const AwsCloudTrailDataConnectorDataTypesLogs: msRest.CompositeMapper = {
   serializedName: "AwsCloudTrailDataConnectorDataTypes_logs",
   type: {

@@ -620,20 +620,6 @@ export interface TIDataConnector {
 
 /**
  * @interface
- * An interface representing DataConnectorAwsRoleArn.
- * The Aws Role Arn that is used to access the Aws account.
- *
- */
-export interface DataConnectorAwsRoleArn {
-  /**
-   * @member {string} [awsRoleArn] The Aws Role Arn (with CloudTrailReadOnly
-   * policy) that is used to access the Aws account.
-   */
-  awsRoleArn?: string;
-}
-
-/**
- * @interface
  * An interface representing AwsCloudTrailDataConnectorDataTypesLogs.
  * Logs data type.
  *
