@@ -1,4 +1,4 @@
-import fs from "fs";
+import fs from "fs-extra";
 import nise from "nise";
 import queryString from "query-string";
 import { getUniqueName, isBrowser } from "../utils";
@@ -88,9 +88,21 @@ class NockRecorder extends Recorder {
     const importNock = "let nock = require('nock');\n";
     const fixtures = nock.recorder.play();
 
+    // Create the directories recursively incase they don't exist
+    try {
+      // Stripping away the filename from the filepath and retaining the directory structure
+      fs.ensureDirSync(
+        "./recordings/" + this.filepath.substring(0, this.filepath.lastIndexOf("/") + 1)
+      );
+    } catch (err) {
+      if (err.code !== "EEXIST") throw err;
+    }
+
     // It's important to print writing errors because some tests end up catching them
-    const file = fs.createWriteStream("./recordings/" + this.filepath, { flags: "w" });
-    file.on("error", (err) => {
+    const file = fs.createWriteStream("./recordings/" + this.filepath, {
+      flags: "w"
+    });
+    file.on("error", (err: any) => {
       console.log(err);
       throw err;
     });

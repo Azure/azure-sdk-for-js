@@ -22,6 +22,7 @@
   "devDependencies": {
     "@microsoft/api-extractor": "^7.1.5",
     "@types/dotenv": "^6.1.0",
+    "@types/fs-extra": "~7.0.0",
     "@types/mocha": "^5.2.5",
     "@types/nise": "^1.4.0",
     "@types/nock": "^10.0.1",
@@ -30,6 +31,7 @@
     "cross-env": "^5.2.0",
     "dotenv": "^7.0.0",
     "es6-promise": "^4.2.5",
+    "fs-extra": "~8.0.1",
     "gulp": "^4.0.0",
     "gulp-zip": "^4.2.0",
     "inherits": "^2.0.3",
