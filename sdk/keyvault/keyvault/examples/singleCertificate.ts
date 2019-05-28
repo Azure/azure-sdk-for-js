@@ -61,7 +61,8 @@ async function main(): Promise<void> {
     console.log(result);
   */
   //let result = await cc.createCertificate("MyCert", { certificatePolicy: { issuerParameters: { name: "Self" }, x509CertificateProperties: { subject: "cn=MyCert" } } })
-  let result = await cc.createCertificate("MyCert2", { issuerName: "Self", x509Subject: "cn=MyCert", })
+  let result = await cc.createCertificate("MyCert2", { issuerName: "Self", x509Subject: "cn=MyCert2", })
+  let result = await cc.createCertificate("MyCert2", { certificatePolicy: { issuerName: "Self", subjectName: "cn=MyCert2" } });
   //console.log(result);
 
   /*

@@ -20,7 +20,7 @@ import {
 import { getDefaultUserAgentValue } from "@azure/ms-rest-azure-js";
 
 import { TelemetryOptions } from "..";
-import { KeyBundle, JsonWebKeyType, JsonWebKey, KeyItem } from "../models";
+import { KeyBundle, JsonWebKeyType, JsonWebKey, KeyItem, KeyVaultClientUpdateKeyOptionalParams } from "../models";
 import { KeyVaultClient } from "../keyVaultClient";
 import { RetryConstants, SDK_VERSION } from "../utils/constants";
 import { NewPipelineOptions, isNewPipelineOptions, Pipeline } from "../keyVaultBase";
