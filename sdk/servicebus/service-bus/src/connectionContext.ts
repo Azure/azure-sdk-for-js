@@ -66,7 +66,7 @@ export namespace ConnectionContext {
 
     // Define listeners to be added to the connection object for
     // "connection_open" and "connection_error" events.
-    const onConnectionOpen: OnAmqpEvent = () => {
+    const onConnectionOpen: OnAmqpEvent = (context: EventContext) => {
       connectionContext.wasConnectionCloseCalled = false;
       log.connectionCtxt(
         "[%s] setting 'wasConnectionCloseCalled' property of connection context to %s.",
