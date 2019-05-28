@@ -32,8 +32,14 @@ describe("BlobServiceClient", () => {
     const containerNamePrefix = getUniqueName("container");
     const containerName1 = `${containerNamePrefix}x1`;
     const containerName2 = `${containerNamePrefix}x2`;
-    const containerClient1 = ContainerClient.fromBlobServiceClient(blobServiceClient, containerName1);
-    const containerClient2 = ContainerClient.fromBlobServiceClient(blobServiceClient, containerName2);
+    const containerClient1 = ContainerClient.fromBlobServiceClient(
+      blobServiceClient,
+      containerName1
+    );
+    const containerClient2 = ContainerClient.fromBlobServiceClient(
+      blobServiceClient,
+      containerName2
+    );
     await containerClient1.create({ metadata: { key: "val" } });
     await containerClient2.create({ metadata: { key: "val" } });
 
@@ -70,6 +76,52 @@ describe("BlobServiceClient", () => {
     assert.deepEqual(result2.containerItems![0].properties.leaseState, "available");
     assert.deepEqual(result2.containerItems![0].properties.leaseStatus, "unlocked");
     assert.deepEqual(result2.containerItems![0].metadata!.key, "val");
+
+    await containerClient1.delete();
+    await containerClient2.delete();
+  });
+
+  it.only("Verify AsyncIterator for ListContainers", async () => {
+    const blobServiceClient = getBSU();
+
+    const containerNamePrefix = getUniqueName("container");
+    const containerName1 = `${containerNamePrefix}x1`;
+    const containerName2 = `${containerNamePrefix}x2`;
+    const containerClient1 = ContainerClient.fromBlobServiceClient(
+      blobServiceClient,
+      containerName1
+    );
+    const containerClient2 = ContainerClient.fromBlobServiceClient(
+      blobServiceClient,
+      containerName2
+    );
+    await containerClient1.create({ metadata: { key: "val" } });
+    await containerClient2.create({ metadata: { key: "val" } });
+
+    const iterator = await blobServiceClient.listContainers({
+      include: "metadata",
+      prefix: containerNamePrefix
+    });
+
+    let containerItem = await iterator.next();
+    assert.ok(containerItem.value.name.startsWith(containerNamePrefix));
+    assert.ok(containerItem.value.properties.etag.length > 0);
+    assert.ok(containerItem.value.properties.lastModified);
+    assert.ok(!containerItem.value.properties.leaseDuration);
+    assert.ok(!containerItem.value.properties.publicAccess);
+    assert.deepEqual(containerItem.value.properties.leaseState, "available");
+    assert.deepEqual(containerItem.value.properties.leaseStatus, "unlocked");
+    assert.deepEqual(containerItem.value.metadata!.key, "val");
+
+    containerItem = await iterator.next();
+    assert.ok(containerItem.value.name.startsWith(containerNamePrefix));
+    assert.ok(containerItem.value.properties.etag.length > 0);
+    assert.ok(containerItem.value.properties.lastModified);
+    assert.ok(!containerItem.value.properties.leaseDuration);
+    assert.ok(!containerItem.value.properties.publicAccess);
+    assert.deepEqual(containerItem.value.properties.leaseState, "available");
+    assert.deepEqual(containerItem.value.properties.leaseStatus, "unlocked");
+    assert.deepEqual(containerItem.value.metadata!.key, "val");
 
     await containerClient1.delete();
     await containerClient2.delete();
