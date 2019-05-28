@@ -23,7 +23,7 @@ const config: webpack.Configuration = {
     publicPath: false
   },
   output: {
-    filename: "msRest.browser.test.js",
+    filename: "coreHttp.browser.test.js",
     path: path.resolve(__dirname, "test")
   },
   plugins: [

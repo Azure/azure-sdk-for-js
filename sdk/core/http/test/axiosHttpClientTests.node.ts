@@ -6,7 +6,7 @@ import { should } from "chai";
 import tunnel from "tunnel";
 import https from "https";
 
-import { HttpHeaders } from "../lib/msRest";
+import { HttpHeaders } from "../lib/coreHttp";
 import { createTunnel, createProxyAgent } from "../lib/axiosHttpClient";
 
 describe("AxiosHttpClient", () => {
@@ -20,11 +20,11 @@ describe("AxiosHttpClient", () => {
     };
 
     [
-            { proxy: "http", request: "ftp", port: undefined, isProxyHttps: false },
-            { proxy: "http", request: "http", port: undefined, isProxyHttps: false },
-            { proxy: "hTtp", request: "https", port: 443, isProxyHttps: true },
-            { proxy: "HTTPS", request: "http", port: undefined, isProxyHttps: false },
-            { proxy: "https", request: "hTTps", port: 443, isProxyHttps: true }
+      { proxy: "http", request: "ftp", port: undefined, isProxyHttps: false },
+      { proxy: "http", request: "http", port: undefined, isProxyHttps: false },
+      { proxy: "hTtp", request: "https", port: 443, isProxyHttps: true },
+      { proxy: "HTTPS", request: "http", port: undefined, isProxyHttps: false },
+      { proxy: "https", request: "hTTps", port: 443, isProxyHttps: true }
     ].forEach(testCase => {
       it(`should return ${testCase.isProxyHttps ? "HTTPS" : "HTTP"} proxy for ${testCase.proxy.toUpperCase()} proxy server and ${testCase.request.toUpperCase()} request`, function (done) {
         const urlHost = "proxy.microsoft.com";

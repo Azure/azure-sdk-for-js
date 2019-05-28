@@ -2,7 +2,7 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import "chai/register-should";
-import * as msRest from "../lib/msRest";
+import * as msRest from "../lib/coreHttp";
 import * as base64 from "../lib/util/base64";
 const TokenCredentials = msRest.TokenCredentials;
 const BasicAuthenticationCredentials = msRest.BasicAuthenticationCredentials;
@@ -94,7 +94,7 @@ describe("Basic Authentication credentials", () => {
   describe("ApiKey credentials", () => {
     describe("usage", function () {
       it("should set header parameters properly in request", async function () {
-        const creds = new ApiKeyCredentials({inHeader: {"key1": "value1", "key2": "value2"}});
+        const creds = new ApiKeyCredentials({ inHeader: { "key1": "value1", "key2": "value2" } });
         const request = new msRest.WebResource();
         request.headers = new msRest.HttpHeaders();
 
@@ -107,7 +107,7 @@ describe("Basic Authentication credentials", () => {
       });
 
       it("should set query parameters properly in the request url without any query parameters", async function () {
-        const creds = new ApiKeyCredentials({inQuery: {"key1": "value1", "key2": "value2"}});
+        const creds = new ApiKeyCredentials({ inQuery: { "key1": "value1", "key2": "value2" } });
         const request = {
           headers: {},
           url: "https://example.com"
@@ -118,7 +118,7 @@ describe("Basic Authentication credentials", () => {
       });
 
       it("should set query parameters properly in the request url with existing query parameters", async function () {
-        const creds = new ApiKeyCredentials({inQuery: {"key1": "value1", "key2": "value2"}});
+        const creds = new ApiKeyCredentials({ inQuery: { "key1": "value1", "key2": "value2" } });
         const request = {
           headers: {},
           url: "https://example.com?q1=v2"

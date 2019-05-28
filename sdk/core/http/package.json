@@ -25,9 +25,9 @@
     "autorest",
     "clientruntime"
   ],
-  "main": "./dist/msRest.node.js",
-  "module": "./es/lib/msRest.js",
-  "types": "./es/lib/msRest.d.ts",
+  "main": "./dist/coreHttp.node.js",
+  "module": "./es/lib/coreHttp.js",
+  "types": "./es/lib/coreHttp.d.ts",
   "files": [
     "dist/**/*.js",
     "dist/**/*.js.map",
@@ -63,7 +63,7 @@
     "build:test": "run-s build build:test-browser",
     "build:tsc": "tsc -p tsconfig.es.json",
     "build:rollup": "rollup -c rollup.config.ts",
-    "build:minify-browser": "uglifyjs -c -m --comments --source-map \"content='./dist/msRest.browser.js.map'\" -o ./dist/msRest.browser.min.js ./dist/msRest.browser.js",
+    "build:minify-browser": "uglifyjs -c -m --comments --source-map \"content='./dist/coreHttp.browser.js.map'\" -o ./dist/coreHttp.browser.min.js ./dist/coreHttp.browser.js",
     "build:test-browser": "webpack --config webpack.testconfig.ts",
     "check-format": "prettier --list-different --config .prettierrc.json \"src/**/*.ts\"",
     "clean": "rimraf ./es ./dist",

@@ -6,7 +6,7 @@ import sinon from "sinon";
 import { ThrottlingRetryPolicy } from "../../lib/policies/throttlingRetryPolicy";
 import { WebResource } from "../../lib/webResource";
 import { HttpOperationResponse } from "../../lib/httpOperationResponse";
-import { HttpHeaders, RequestPolicyOptions } from "../../lib/msRest";
+import { HttpHeaders, RequestPolicyOptions } from "../../lib/coreHttp";
 
 describe("ThrottlingRetryPolicy", () => {
   class PassThroughPolicy {

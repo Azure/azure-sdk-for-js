@@ -1,6 +1,6 @@
 "use strict";
 
-import * as msRest from "../lib/msRest";
+import * as msRest from "../lib/coreHttp";
 const clientOptions: msRest.ServiceClientOptions = {
   requestPolicyFactories: [msRest.logPolicy()]
 };
