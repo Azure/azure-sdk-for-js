@@ -202,7 +202,9 @@ class NiseRecorder extends Recorder {
             if (req.readyState === 4) {
               self.recordRequest(req, data);
             }
-            reqStateChange && reqStateChange.apply(null, arguments);
+            if (reqStateChange) {
+              reqStateChange.apply(null, arguments);
+            }
           };
           reqSend.apply(req, arguments);
         };
