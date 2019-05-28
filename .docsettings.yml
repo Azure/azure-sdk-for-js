@@ -5,7 +5,7 @@ omitted_paths:
 language: js
 root_check_enabled: True
 required_readme_sections:
-  - "Azure .+ client library for JS"
+  - ^Azure .+ client library for (JS|AMQP operations)
   - ^Getting started$
   - ^Key concepts$
   - ^Examples$
@@ -80,7 +80,6 @@ known_content_issues:
   - ['sdk/storage/storage-queue/samples/README.md', '#1583']
   - ['sdk/storage/storage-queue/test/README.md', '#1583']
   - ['sdk/storage/storage-datalake/README.md', '#1583']
-  - ['sdk/core/amqp-common/README.md', '#1583']
 
 package_indexing_exclusion_list:
   - '@azure/template'
