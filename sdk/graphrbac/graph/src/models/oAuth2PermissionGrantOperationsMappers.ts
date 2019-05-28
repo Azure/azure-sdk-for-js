@@ -9,6 +9,7 @@
 export {
   discriminators,
   CloudError,
-  Domain,
-  DomainListResult
+  GraphError,
+  OAuth2PermissionGrant,
+  OAuth2PermissionGrantListResult
 } from "../models/mappers";
