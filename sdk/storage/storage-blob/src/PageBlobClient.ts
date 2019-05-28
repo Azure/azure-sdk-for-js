@@ -90,7 +90,7 @@ export interface PageBlobUploadPagesOptions {
    */
   progress?: (progress: TransferProgressEvent) => void;
   /**
-   * {@link Uint8} array holding the MD5 hash of the blob content.
+   * A Uint8Array holding the MD5 hash of the blob content.
    * It is only used to verify the integrity of the block during transport.
    * It is not stored in with the blob.
    *
