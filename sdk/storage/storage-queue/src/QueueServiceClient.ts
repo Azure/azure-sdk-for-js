@@ -95,13 +95,8 @@ export class QueueServiceClient extends StorageClient {
    * Creates a QueueClient object.
    * @param queueName
    */
-  public createQueueClient(
-    queueName: string
-  ): QueueClient {
-    return new QueueClient(
-      appendToURLPath(this.url, queueName),
-      this.pipeline
-    );
+  public createQueueClient(queueName: string): QueueClient {
+    return new QueueClient(appendToURLPath(this.url, queueName), this.pipeline);
   }
 
   /**
@@ -159,6 +154,56 @@ export class QueueServiceClient extends StorageClient {
     return this.serviceContext.getStatistics({
       abortSignal: aborter
     });
+  }
+
+  /**
+   * Iterates over queues under the specified account.
+   *
+   * @param {ServiceListQueuesSegmentOptions} [options={}] Options to list queues(optional)
+   * @returns {AsyncIterableIterator<Models.QueueItem>}
+   * @memberof QueueServiceClient
+   *
+   * @example
+   * let i = 1;
+   * for await (const item of queueServiceClient.listQueues()) {
+   *   console.log(`Queue${i}: ${item.name}`);
+   *   i++;
+   * }
+   *
+   * @example
+   * let iter1 = queueServiceClient.listQueues();
+   * let i = 1;
+   * for await (const item of iter1) {
+   *   console.log(`Queue${i}: ${item.name}`);
+   *   i++;
+   * }
+   *
+   * @example
+   * let iter2 = await queueServiceClient.listQueues();
+   * i = 1;
+   * let item = await iter2.next();
+   * do {
+   *   console.log(`Queue${i++}: ${item.value.name}`);
+   *   item = await iter2.next();
+   * } while (item.value);
+   *
+   */
+  public async *listQueues(
+    options: ServiceListQueuesSegmentOptions = {}
+  ): AsyncIterableIterator<Models.QueueItem> {
+    let marker = undefined;
+    const queueServiceClient = this;
+    const aborter = !options.abortSignal ? Aborter.none : options.abortSignal;
+    let listQueuesResponse;
+    do {
+      listQueuesResponse = await queueServiceClient.listQueuesSegment(marker, {
+        ...options,
+        abortSignal: aborter
+      });
+
+      marker = listQueuesResponse.nextMarker;
+      yield* listQueuesResponse.queueItems;
+    } while (marker);
   }
 
   /**
