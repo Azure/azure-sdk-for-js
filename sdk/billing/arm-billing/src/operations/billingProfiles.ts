@@ -173,7 +173,7 @@ const getOperationSpec: msRest.OperationSpec = {
 };
 
 const beginUpdateOperationSpec: msRest.OperationSpec = {
-  httpMethod: "PATCH",
+  httpMethod: "PUT",
   path: "providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}",
   urlParameters: [
     Parameters.billingAccountName,

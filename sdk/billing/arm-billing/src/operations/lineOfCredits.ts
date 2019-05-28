@@ -102,7 +102,7 @@ const getOperationSpec: msRest.OperationSpec = {
 };
 
 const beginIncreaseOperationSpec: msRest.OperationSpec = {
-  httpMethod: "POST",
+  httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Billing/billingAccounts/default/lineOfCredit/default/increase",
   urlParameters: [
     Parameters.subscriptionId
