@@ -1,22 +1,30 @@
 import * as assert from "assert";
-import chai from "chai"
-const expect = chai.expect;
+import { expect } from "chai"
 import { getKeyvaultName, getCredentialWithServicePrincipalSecret, getUniqueName } from "./utils/utils.common";
 import { SecretsClient } from "../src";
-import { ServiceClientCredentials, RestError } from "@azure/ms-rest-js";
+import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
 
 describe("Secret client", () => {
-  let credential: ServiceClientCredentials;
-  let keyVaultName: string;
-  let keyVaultUrl: string;
+  const clientId = process.env["CLIENT_ID"] || "";
+  const clientSecret = process.env["CLIENT_SECRET"] || "";
+  const tenantId = process.env["TENANT_ID"] || "";
+  const vaultName = process.env["KEYVAULT_NAME"] || "<keyvault-name>"
+
   let client: SecretsClient;
   let version: string;
 
   before(async () => {
-    credential = await getCredentialWithServicePrincipalSecret()
-    keyVaultName = getKeyvaultName();
-    keyVaultUrl = `https://${keyVaultName}.vault.azure.net`;
-    client = new SecretsClient(keyVaultUrl, credential);
+    const url = `https://${vaultName}.vault.azure.net`;
+    const credential = await msRestNodeAuth.loginWithServicePrincipalSecret(
+      clientId,
+      clientSecret,
+      tenantId,
+      {
+        tokenAudience: 'https://vault.azure.net'
+      }
+    );
+
+    client = new SecretsClient(url, credential);
     version = "";
   });
 
@@ -102,7 +110,7 @@ describe("Secret client", () => {
       await client.getSecret(secretName);
       throw Error("Expecting an error but not catching one.")
     } catch (e) {
-      if (e instanceof RestError) {
+      if (e.statusCode === 404) {
         assert.equal(e.message, `Secret not found: ${secretName}`);
       } else {
         throw e;
@@ -110,7 +118,9 @@ describe("Secret client", () => {
     }
   });
 
-  it("can retrieve all versions of a secret", async () => {
+  it("can retrieve all versions of a secret", async function() {
+		this.timeout(5000);
+
     const secretName = getUniqueName("secret");
     const secretValue1 = getUniqueName("value");
     const secretValue2 = getUniqueName("value");
