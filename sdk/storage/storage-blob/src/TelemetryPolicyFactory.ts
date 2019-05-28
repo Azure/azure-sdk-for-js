@@ -42,14 +42,14 @@ export class TelemetryPolicyFactory implements RequestPolicyFactory {
 
     if (isNode) {
       if (telemetry) {
-        const telemetryString = telemetry.value;
+        const telemetryString = telemetry.value.replace(" ", "");
         if (telemetryString.length > 0 && userAgentInfo.indexOf(telemetryString) === -1) {
           userAgentInfo.push(telemetryString);
         }
       }
 
-      // e.g. Azure-Storage/10.0.0
-      const libInfo = `Azure-Storage/${SDK_VERSION}`;
+      // e.g. azsdk-js-storageblob/10.0.0
+      const libInfo = `azsdk-js-storageblob/${SDK_VERSION}`;
       if (userAgentInfo.indexOf(libInfo) === -1) {
         userAgentInfo.push(libInfo);
       }
