@@ -14562,6 +14562,88 @@ export const BlobSink: msRest.CompositeMapper = {
   }
 };
 
+export const ConnectorWriteSetting: msRest.CompositeMapper = {
+  serializedName: "ConnectorWriteSetting",
+  type: {
+    name: "Composite",
+    className: "ConnectorWriteSetting",
+    modelProperties: {
+      type: {
+        required: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      maxConcurrentConnections: {
+        serializedName: "maxConcurrentConnections",
+        type: {
+          name: "Object"
+        }
+      },
+      copyBehavior: {
+        serializedName: "copyBehavior",
+        type: {
+          name: "Object"
+        }
+      }
+    },
+    additionalProperties: {
+      type: {
+        name: "Object"
+      }
+    }
+  }
+};
+
+export const FileServerWriteSetting: msRest.CompositeMapper = {
+  serializedName: "FileServerWriteSetting",
+  type: {
+    name: "Composite",
+    className: "FileServerWriteSetting",
+    modelProperties: {
+      ...ConnectorWriteSetting.type.modelProperties
+    },
+    additionalProperties: ConnectorWriteSetting.type.additionalProperties
+  }
+};
+
+export const AzureDataLakeStoreWriteSetting: msRest.CompositeMapper = {
+  serializedName: "AzureDataLakeStoreWriteSetting",
+  type: {
+    name: "Composite",
+    className: "AzureDataLakeStoreWriteSetting",
+    modelProperties: {
+      ...ConnectorWriteSetting.type.modelProperties
+    },
+    additionalProperties: ConnectorWriteSetting.type.additionalProperties
+  }
+};
+
+export const AzureBlobFSWriteSetting: msRest.CompositeMapper = {
+  serializedName: "AzureBlobFSWriteSetting",
+  type: {
+    name: "Composite",
+    className: "AzureBlobFSWriteSetting",
+    modelProperties: {
+      ...ConnectorWriteSetting.type.modelProperties
+    },
+    additionalProperties: ConnectorWriteSetting.type.additionalProperties
+  }
+};
+
+export const AzureBlobStorageWriteSetting: msRest.CompositeMapper = {
+  serializedName: "AzureBlobStorageWriteSetting",
+  type: {
+    name: "Composite",
+    className: "AzureBlobStorageWriteSetting",
+    modelProperties: {
+      ...ConnectorWriteSetting.type.modelProperties
+    },
+    additionalProperties: ConnectorWriteSetting.type.additionalProperties
+  }
+};
+
 export const ParquetSink: msRest.CompositeMapper = {
   serializedName: "ParquetSink",
   type: {
@@ -14570,7 +14652,19 @@ export const ParquetSink: msRest.CompositeMapper = {
     uberParent: "CopySink",
     className: "ParquetSink",
     modelProperties: {
-      ...CopySink.type.modelProperties
+      ...CopySink.type.modelProperties,
+      storeSettings: {
+        serializedName: "storeSettings",
+        type: {
+          name: "Composite",
+          className: "ConnectorWriteSetting",
+          additionalProperties: {
+            type: {
+              name: "Object"
+            }
+          }
+        }
+      }
     },
     additionalProperties: CopySink.type.additionalProperties
   }
@@ -14692,88 +14786,6 @@ export const DelimitedTextWriteSetting: msRest.CompositeMapper = {
       }
     },
     additionalProperties: FormatWriteSetting.type.additionalProperties
-  }
-};
-
-export const ConnectorWriteSetting: msRest.CompositeMapper = {
-  serializedName: "ConnectorWriteSetting",
-  type: {
-    name: "Composite",
-    className: "ConnectorWriteSetting",
-    modelProperties: {
-      type: {
-        required: true,
-        serializedName: "type",
-        type: {
-          name: "String"
-        }
-      },
-      maxConcurrentConnections: {
-        serializedName: "maxConcurrentConnections",
-        type: {
-          name: "Object"
-        }
-      },
-      copyBehavior: {
-        serializedName: "copyBehavior",
-        type: {
-          name: "Object"
-        }
-      }
-    },
-    additionalProperties: {
-      type: {
-        name: "Object"
-      }
-    }
-  }
-};
-
-export const FileServerWriteSetting: msRest.CompositeMapper = {
-  serializedName: "FileServerWriteSetting",
-  type: {
-    name: "Composite",
-    className: "FileServerWriteSetting",
-    modelProperties: {
-      ...ConnectorWriteSetting.type.modelProperties
-    },
-    additionalProperties: ConnectorWriteSetting.type.additionalProperties
-  }
-};
-
-export const AzureDataLakeStoreWriteSetting: msRest.CompositeMapper = {
-  serializedName: "AzureDataLakeStoreWriteSetting",
-  type: {
-    name: "Composite",
-    className: "AzureDataLakeStoreWriteSetting",
-    modelProperties: {
-      ...ConnectorWriteSetting.type.modelProperties
-    },
-    additionalProperties: ConnectorWriteSetting.type.additionalProperties
-  }
-};
-
-export const AzureBlobFSWriteSetting: msRest.CompositeMapper = {
-  serializedName: "AzureBlobFSWriteSetting",
-  type: {
-    name: "Composite",
-    className: "AzureBlobFSWriteSetting",
-    modelProperties: {
-      ...ConnectorWriteSetting.type.modelProperties
-    },
-    additionalProperties: ConnectorWriteSetting.type.additionalProperties
-  }
-};
-
-export const AzureBlobStorageWriteSetting: msRest.CompositeMapper = {
-  serializedName: "AzureBlobStorageWriteSetting",
-  type: {
-    name: "Composite",
-    className: "AzureBlobStorageWriteSetting",
-    modelProperties: {
-      ...ConnectorWriteSetting.type.modelProperties
-    },
-    additionalProperties: ConnectorWriteSetting.type.additionalProperties
   }
 };
 

@@ -14812,6 +14812,53 @@ export interface BlobSink {
 }
 
 /**
+ * Connector write settings.
+ */
+export interface ConnectorWriteSetting {
+  /**
+   * The write setting type.
+   */
+  type: string;
+  /**
+   * The maximum concurrent connection count for the source data store. Type: integer (or
+   * Expression with resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
+   * The type of copy behavior for copy sink.
+   */
+  copyBehavior?: any;
+  /**
+   * Describes unknown properties. The value of an unknown property can be of "any" type.
+   */
+  [property: string]: any;
+}
+
+/**
+ * File server write settings.
+ */
+export interface FileServerWriteSetting extends ConnectorWriteSetting {
+}
+
+/**
+ * Azure data lake store write settings.
+ */
+export interface AzureDataLakeStoreWriteSetting extends ConnectorWriteSetting {
+}
+
+/**
+ * Azure blobFS write settings.
+ */
+export interface AzureBlobFSWriteSetting extends ConnectorWriteSetting {
+}
+
+/**
+ * Azure blob write settings.
+ */
+export interface AzureBlobStorageWriteSetting extends ConnectorWriteSetting {
+}
+
+/**
  * A copy activity Parquet sink.
  */
 export interface ParquetSink {
@@ -14842,6 +14889,10 @@ export interface ParquetSink {
    * with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * Parquet store settings.
+   */
+  storeSettings?: ConnectorWriteSetting;
 }
 
 /**
@@ -14991,53 +15042,6 @@ export interface DelimitedTextWriteSetting extends FormatWriteSetting {
    * string).
    */
   fileExtension: any;
-}
-
-/**
- * Connector write settings.
- */
-export interface ConnectorWriteSetting {
-  /**
-   * The write setting type.
-   */
-  type: string;
-  /**
-   * The maximum concurrent connection count for the source data store. Type: integer (or
-   * Expression with resultType integer).
-   */
-  maxConcurrentConnections?: any;
-  /**
-   * The type of copy behavior for copy sink.
-   */
-  copyBehavior?: any;
-  /**
-   * Describes unknown properties. The value of an unknown property can be of "any" type.
-   */
-  [property: string]: any;
-}
-
-/**
- * File server write settings.
- */
-export interface FileServerWriteSetting extends ConnectorWriteSetting {
-}
-
-/**
- * Azure data lake store write settings.
- */
-export interface AzureDataLakeStoreWriteSetting extends ConnectorWriteSetting {
-}
-
-/**
- * Azure blobFS write settings.
- */
-export interface AzureBlobFSWriteSetting extends ConnectorWriteSetting {
-}
-
-/**
- * Azure blob write settings.
- */
-export interface AzureBlobStorageWriteSetting extends ConnectorWriteSetting {
 }
 
 /**
