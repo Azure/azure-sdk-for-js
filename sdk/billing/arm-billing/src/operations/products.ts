@@ -166,35 +166,35 @@ export class Products {
    * Validates the transfer of products across invoice sections.
    * @param billingAccountName billing Account Id.
    * @param invoiceSectionName InvoiceSection Id.
-   * @param billingSubscriptionName Billing Subscription Id.
+   * @param productName Invoice Id.
    * @param parameters Parameters supplied to the Transfer Products operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.ProductsValidateTransferResponse>
    */
-  validateTransfer(billingAccountName: string, invoiceSectionName: string, billingSubscriptionName: string, parameters: Models.TransferProductRequestProperties, options?: msRest.RequestOptionsBase): Promise<Models.ProductsValidateTransferResponse>;
+  validateTransfer(billingAccountName: string, invoiceSectionName: string, productName: string, parameters: Models.TransferProductRequestProperties, options?: msRest.RequestOptionsBase): Promise<Models.ProductsValidateTransferResponse>;
   /**
    * @param billingAccountName billing Account Id.
    * @param invoiceSectionName InvoiceSection Id.
-   * @param billingSubscriptionName Billing Subscription Id.
+   * @param productName Invoice Id.
    * @param parameters Parameters supplied to the Transfer Products operation.
    * @param callback The callback
    */
-  validateTransfer(billingAccountName: string, invoiceSectionName: string, billingSubscriptionName: string, parameters: Models.TransferProductRequestProperties, callback: msRest.ServiceCallback<Models.ValidateProductTransferEligibilityResult>): void;
+  validateTransfer(billingAccountName: string, invoiceSectionName: string, productName: string, parameters: Models.TransferProductRequestProperties, callback: msRest.ServiceCallback<Models.ValidateProductTransferEligibilityResult>): void;
   /**
    * @param billingAccountName billing Account Id.
    * @param invoiceSectionName InvoiceSection Id.
-   * @param billingSubscriptionName Billing Subscription Id.
+   * @param productName Invoice Id.
    * @param parameters Parameters supplied to the Transfer Products operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  validateTransfer(billingAccountName: string, invoiceSectionName: string, billingSubscriptionName: string, parameters: Models.TransferProductRequestProperties, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ValidateProductTransferEligibilityResult>): void;
-  validateTransfer(billingAccountName: string, invoiceSectionName: string, billingSubscriptionName: string, parameters: Models.TransferProductRequestProperties, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ValidateProductTransferEligibilityResult>, callback?: msRest.ServiceCallback<Models.ValidateProductTransferEligibilityResult>): Promise<Models.ProductsValidateTransferResponse> {
+  validateTransfer(billingAccountName: string, invoiceSectionName: string, productName: string, parameters: Models.TransferProductRequestProperties, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ValidateProductTransferEligibilityResult>): void;
+  validateTransfer(billingAccountName: string, invoiceSectionName: string, productName: string, parameters: Models.TransferProductRequestProperties, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ValidateProductTransferEligibilityResult>, callback?: msRest.ServiceCallback<Models.ValidateProductTransferEligibilityResult>): Promise<Models.ProductsValidateTransferResponse> {
     return this.client.sendOperationRequest(
       {
         billingAccountName,
         invoiceSectionName,
-        billingSubscriptionName,
+        productName,
         parameters,
         options
       },
@@ -417,7 +417,7 @@ const validateTransferOperationSpec: msRest.OperationSpec = {
   urlParameters: [
     Parameters.billingAccountName,
     Parameters.invoiceSectionName,
-    Parameters.billingSubscriptionName
+    Parameters.productName
   ],
   headerParameters: [
     Parameters.acceptLanguage
