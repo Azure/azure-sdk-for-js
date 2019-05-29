@@ -22,7 +22,15 @@ import {
   CertificateBundle, Contacts, KeyVaultClientCreateCertificateOptionalParams,
   KeyVaultClientGetCertificateVersionsOptionalParams, KeyVaultClientGetCertificateIssuersOptionalParams,
   KeyVaultClientSetCertificateIssuerOptionalParams,
-  KeyVaultClientUpdateCertificateIssuerOptionalParams
+  KeyVaultClientUpdateCertificateIssuerOptionalParams,
+  KeyVaultClientImportCertificateOptionalParams,
+  KeyVaultClientUpdateCertificateOptionalParams,
+  CertificateOperation,
+  CertificatePolicy,
+  BackupCertificateResult,
+  KeyVaultClientGetDeletedCertificatesOptionalParams,
+  DeletedCertificateItem,
+  DeletedCertificateBundle
 } from "../models";
 import { KeyVaultClient } from "../keyVaultClient";
 import { RetryConstants, SDK_VERSION } from "../utils/constants";
@@ -132,7 +140,7 @@ export class CertificatesClient {
    * @param [options] The optional parameters
    * @returns AsyncIterableIterator<Certificate>
    */
-  public async *getAllCertificates(options?: GetAllCertificatesOptions): AsyncIterableIterator<CertificateAttributes> {
+  public async *getCertificates(options?: GetAllCertificatesOptions): AsyncIterableIterator<CertificateAttributes> {
     let currentSetResponse = await this.client.getCertificates(
       this.vaultBaseUrl,
       {
@@ -158,7 +166,7 @@ export class CertificatesClient {
    * @param [options] The optional parameters
    * @returns Promise<Models.GetCertificateVersionsResponse>
    */
-  public async *getAllCertificateVersions(certificateName: string, options?: KeyVaultClientGetCertificateVersionsOptionalParams): AsyncIterableIterator<CertificateAttributes> {
+  public async *getCertificateVersions(certificateName: string, options?: KeyVaultClientGetCertificateVersionsOptionalParams): AsyncIterableIterator<CertificateAttributes> {
     let currentSetResponse = await this.client.getCertificateVersions(
       this.vaultBaseUrl,
       certificateName,
@@ -201,6 +209,12 @@ export class CertificatesClient {
 
   public async setCertificateContacts(contacts: Contacts, options?: RequestOptionsBase): Promise<Contacts> {
     let result = await this.client.setCertificateContacts(this.vaultBaseUrl, contacts, options);
+    return result._response.parsedBody;
+  }
+
+  public async getCertificateContacts(options?: RequestOptionsBase): Promise<Contacts> {
+    let result = await this.client.getCertificateContacts(this.vaultBaseUrl, options);
+
     return result._response.parsedBody;
   }
 
@@ -293,10 +307,99 @@ export class CertificatesClient {
     return this.getCertificateFromCertificateBundle(result);
   }
 
+  public async importCertificate(name: string, base64EncodedCertificate: string, options?: KeyVaultClientImportCertificateOptionalParams): Promise<Certificate> {
+    let result = await this.client.importCertificate(this.vaultBaseUrl, name, base64EncodedCertificate, options);
+
+    return this.getCertificateFromCertificateBundle(result);
+  }
+
+  public async getCertificatePolicy(name: string, options?: RequestOptionsBase): Promise<CertificatePolicy> {
+    let result = await this.client.getCertificatePolicy(this.vaultBaseUrl, name, options);
+
+    return result._response.parsedBody;
+  }
+
+  public async updateCertificatePolicy(name: string, policy: CertificatePolicy, options?: RequestOptionsBase): Promise<CertificatePolicy> {
+    let result = await this.client.updateCertificatePolicy(this.vaultBaseUrl, name, policy, options);
+
+    return result._response.parsedBody;
+  }
+
+  public async updateCertificate(name: string, version: string, options?: KeyVaultClientUpdateCertificateOptionalParams): Promise<Certificate> {
+    let result = await this.client.updateCertificate(this.vaultBaseUrl, name, version, options);
+
+    return this.getCertificateFromCertificateBundle(result._response.parsedBody);
+  }
+
+  public async updateCertificateOperation(name: string, cancel: boolean, options: RequestOptionsBase): Promise<CertificateOperation> {
+    let result = await this.client.updateCertificateOperation(this.vaultBaseUrl, name, cancel, options);
+
+    return result._response.parsedBody;
+  }
+
+  public async getCertificateOperation(name: string, options: RequestOptionsBase): Promise<CertificateOperation> {
+    let result = await this.client.getCertificateOperation(this.vaultBaseUrl, name, options);
+
+    return result._response.parsedBody;
+  }
+
+  public async deleteCertificateOperation(name: string, options: RequestOptionsBase): Promise<CertificateOperation> {
+    let result = await this.client.deleteCertificateOperation(this.vaultBaseUrl, name, options);
+
+    return result._response.parsedBody;
+  }
+
+  public async mergeCertificate(name: string, x509Certificates: Uint8Array[], options: RequestOptionsBase): Promise<Certificate> {
+    let result = await this.client.mergeCertificate(this.vaultBaseUrl, name, x509Certificates, options);
+
+    return this.getCertificateFromCertificateBundle(result._response.parsedBody);
+  }
+
+  public async backupCertificate(name: string, options: RequestOptionsBase): Promise<BackupCertificateResult> {
+    let result = await this.client.backupCertificate(this.vaultBaseUrl, name, options);
+
+    return result._response.parsedBody;
+  }
+
+  public async restoreCertificate(certificateBackup: Uint8Array, options: RequestOptionsBase): Promise<Certificate> {
+    let result = await this.client.restoreCertificate(this.vaultBaseUrl, certificateBackup, options);
+
+    return this.getCertificateFromCertificateBundle(result._response.parsedBody);
+  }
+
+  public async *getDeletedCertificates(options?: KeyVaultClientGetDeletedCertificatesOptionalParams): AsyncIterableIterator<DeletedCertificate> {
+    let currentSetResponse = await this.client.getDeletedCertificates(this.vaultBaseUrl, options);
+    yield* currentSetResponse.map(this.getDeletedCertificateFromItem);
+
+    while (currentSetResponse.nextLink) {
+      currentSetResponse = await this.client.getCertificatesNext(
+        currentSetResponse.nextLink,
+        options
+      );
+      yield* currentSetResponse.map(this.getDeletedCertificateFromItem);
+    }
+  }
+
+  public async getDeletedCertificate(name: string, options?: RequestOptionsBase): Promise<DeletedCertificate> {
+    let result = await this.client.getDeletedCertificate(this.vaultBaseUrl, name, options);
+
+    return this.getDeletedCertificateFromDeletedCertificateBundle(result._response.parsedBody);
+  }
+
+  public async purgeDeletedCertificate(name: string, options?: RequestOptionsBase): Promise<null> {
+    await this.client.purgeDeletedCertificate(this.vaultBaseUrl, name, options);
+
+    return null;
+  }
+
+  public async recoverDeletedCertificate(name: string, options?: RequestOptionsBase): Promise<Certificate> {
+    let result = await this.client.recoverDeletedCertificate(this.vaultBaseUrl, name, options);
+
+    return this.getCertificateFromCertificateBundle(result._response.parsedBody);
+  }
+
   private getCertificateFromCertificateBundle(certificateBundle: CertificateBundle): Certificate {
     const parsedId = parseKeyvaultEntityIdentifier("certificates", certificateBundle.id);
-
-    console.log("bundle:", certificateBundle);
 
     let resultObject;
     if (certificateBundle.attributes) {
@@ -309,6 +412,48 @@ export class CertificatesClient {
     } else {
       resultObject = {
         ...certificateBundle,
+        ...parsedId
+      }
+    }
+
+    return resultObject;
+  }
+
+  private getDeletedCertificateFromDeletedCertificateBundle(certificateBundle: DeletedCertificateBundle): DeletedCertificate {
+    const parsedId = parseKeyvaultEntityIdentifier("certificates", certificateBundle.id);
+
+    let resultObject;
+    if (certificateBundle.attributes) {
+      resultObject = {
+        ...certificateBundle,
+        ...parsedId,
+        ...certificateBundle.attributes
+      }
+      delete (resultObject.attributes);
+    } else {
+      resultObject = {
+        ...certificateBundle,
+        ...parsedId
+      }
+    }
+
+    return resultObject;
+  }
+
+  private getDeletedCertificateFromItem(item: DeletedCertificateItem): DeletedCertificate {
+    const parsedId = parseKeyvaultEntityIdentifier("certificates", item.id);
+
+    let resultObject;
+    if (item.attributes) {
+      resultObject = {
+        ...item,
+        ...parsedId,
+        ...item.attributes
+      }
+      delete (resultObject.attributes);
+    } else {
+      resultObject = {
+        ...item,
         ...parsedId
       }
     }
