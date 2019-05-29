@@ -1131,7 +1131,7 @@ export const LabelRequest: msRest.CompositeMapper = {
           name: "Enum",
           allowedValues: [
             "changePoint",
-            "Anomaly"
+            "anomaly"
           ]
         }
       },

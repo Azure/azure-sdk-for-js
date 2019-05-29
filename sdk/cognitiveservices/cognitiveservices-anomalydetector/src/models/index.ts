@@ -612,7 +612,7 @@ export interface LabelRequest {
    */
   end: Date;
   /**
-   * Possible values include: 'changePoint', 'Anomaly'
+   * Possible values include: 'changePoint', 'anomaly'
    */
   type: LabelType;
   /**
@@ -680,11 +680,11 @@ export type TimeSeriesField = 'isAnomaly' | 'isChangePoint' | 'isPositiveAnomaly
 
 /**
  * Defines values for LabelType.
- * Possible values include: 'changePoint', 'Anomaly'
+ * Possible values include: 'changePoint', 'anomaly'
  * @readonly
  * @enum {string}
  */
-export type LabelType = 'changePoint' | 'Anomaly';
+export type LabelType = 'changePoint' | 'anomaly';
 
 /**
  * Defines values for LabelValue.
