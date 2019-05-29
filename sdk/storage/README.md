@@ -69,15 +69,15 @@ There are differences between Node.js and browsers runtime. When getting start w
   - `BlockBlobClient.uploadFile()`
   - `BlockBlobClient.uploadStream()`
   - `BlobClient.downloadToBuffer()`
-  - `uploadFileToAzureFile()`
-  - `uploadStreamToAzureFile()`
-  - `downloadAzureFileToBuffer()`
+  - `FileClient.uploadFile()`
+  - `FileClient.uploadStream()`
+  - `FileClient.downloadToBuffer()`
 
 ##### Following features, interfaces, classes or functions are only available in browsers
 
 - Parallel uploading and downloading
   - `BlockBlobClient.uploadBrowserData()`
-  - `uploadBrowserDataToAzureFile()`
+  - `FileClient.uploadBrowserData()`
 
 ## Getting Started
 

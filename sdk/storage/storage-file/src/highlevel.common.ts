@@ -7,7 +7,7 @@ import { FileHTTPHeaders, Metadata } from "./models";
 import { Aborter } from "./Aborter";
 
 /**
- * Option interface for uploadFileToAzureFile and uploadSeekableStreamToAzureFile.
+ * Option interface for FileClient.uploadFile() and FileClient.uploadSeekableStream().
  *
  * @export
  * @interface UploadToAzureFileOptions
