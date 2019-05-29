@@ -19,7 +19,7 @@
   },
   "main": "./dist/index.js",
   "module": "dist-esm/src/index.js",
-  "types": "./typings/core-keyvault.d.ts",
+  "types": "./types/src/index.d.ts",
   "engine": {
     "node": ">=6.0.0"
   },
@@ -37,8 +37,7 @@
     "rollup": "^1.0.0",
     "rollup-plugin-commonjs": "^9.2.0",
     "rollup-plugin-node-resolve": "^4.2.0",
-    "typescript": "^3.2.2",
-    "uglify-js": "^3.4.9"
+    "typescript": "^3.2.2"
   },
   "files": [
     "LICENSE.txt",
@@ -59,9 +58,7 @@
   ],
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
-    "build:minify": "uglifyjs -c -m --comments --source-map \"content='./dist/keyvault.js.map'\" -o ./dist/keyvault.min.js ./dist/keyvault.js 2>&1",
     "build:test": "npm run build",
-    "build": "tsc -p . && rollup -c 2>&1",
     "build": "tsc && rollup -c rollup.config.js 2>&1",
     "check-format": "prettier --list-different --config .prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist esm test-dist typings *.tgz *.log",
