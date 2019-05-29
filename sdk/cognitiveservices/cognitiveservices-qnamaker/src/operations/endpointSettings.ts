@@ -52,22 +52,26 @@ export class EndpointSettings {
 
   /**
    * @summary Updates endpoint settings for an endpoint.
+   * @param endpointSettingsPayload Post body of the request.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  updateSettings(options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  updateSettings(endpointSettingsPayload: Models.EndpointSettingsDTO, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
   /**
+   * @param endpointSettingsPayload Post body of the request.
    * @param callback The callback
    */
-  updateSettings(callback: msRest.ServiceCallback<void>): void;
+  updateSettings(endpointSettingsPayload: Models.EndpointSettingsDTO, callback: msRest.ServiceCallback<void>): void;
   /**
+   * @param endpointSettingsPayload Post body of the request.
    * @param options The optional parameters
    * @param callback The callback
    */
-  updateSettings(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  updateSettings(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  updateSettings(endpointSettingsPayload: Models.EndpointSettingsDTO, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  updateSettings(endpointSettingsPayload: Models.EndpointSettingsDTO, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
+        endpointSettingsPayload,
         options
       },
       updateSettingsOperationSpec,
@@ -100,6 +104,13 @@ const updateSettingsOperationSpec: msRest.OperationSpec = {
   urlParameters: [
     Parameters.endpoint
   ],
+  requestBody: {
+    parameterPath: "endpointSettingsPayload",
+    mapper: {
+      ...Mappers.EndpointSettingsDTO,
+      required: true
+    }
+  },
   responses: {
     200: {},
     default: {
