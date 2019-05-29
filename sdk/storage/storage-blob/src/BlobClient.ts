@@ -10,12 +10,14 @@ import { Blob } from "./generated/lib/operations";
 import { rangeToString } from "./Range";
 import { BlobAccessConditions, Metadata } from "./models";
 import { Pipeline } from "./Pipeline";
-import { StorageClient } from "./internal";
+import { StorageClient, NewPipelineOptions } from "./internal";
 import { DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS, URLConstants } from "./utils/constants";
 import { setURLParameter } from "./utils/utils.common";
 import { AppendBlobClient } from "./internal";
 import { BlockBlobClient } from "./internal";
 import { PageBlobClient } from "./internal";
+import { Credential } from "./credentials/Credential";
+import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 
 export interface BlobDownloadOptions {
   abortSignal?: Aborter;
@@ -135,6 +137,30 @@ export class BlobClient extends StorageClient {
 
   /**
    * Creates an instance of BlobClient.
+   *
+   * @param {string} connectionString Connection string for an Azure storage account.
+   * @param {string} containerName Container name.
+   * @param {string} blobName Blob name.
+   * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
+   * @memberof BlobClient
+   */
+  constructor(connectionString: string, containerName: string, blobName: string,  options?: NewPipelineOptions)
+  /**
+   * Creates an instance of BlobClient.
+   * This method accepts an encoded URL or non-encoded URL pointing to a blob.
+   * Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
+   * If a blob name includes ? or %, blob name must be encoded in the URL.
+   *
+   * @param {string} url A Client string pointing to Azure Storage blob service, such as
+   *                     "https://myaccount.blob.core.windows.net". You can append a SAS
+   *                     if using AnonymousCredential, such as "https://myaccount.blob.core.windows.net?sasString".
+   * @param {Credential} credential Such as AnonymousCredential, SharedKeyCredential or TokenCredential.
+   * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
+   * @memberof BlobClient
+   */
+  constructor(url: string, credential: Credential, options?: NewPipelineOptions)
+  /**
+   * Creates an instance of BlobClient.
    * This method accepts an encoded URL or non-encoded URL pointing to a blob.
    * Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
    * If a blob name includes ? or %, blob name must be encoded in the URL.
@@ -151,8 +177,29 @@ export class BlobClient extends StorageClient {
    *                            pipeline, or provide a customized pipeline.
    * @memberof BlobClient
    */
-  constructor(url: string, pipeline: Pipeline) {
-    super(url, pipeline);
+  constructor(url: string, pipeline: Pipeline)
+  constructor(
+    s: string,
+    credentialOrPipelineOrContainerName: string | Credential | Pipeline,
+    blobNameOrOptions?: string | NewPipelineOptions,
+    options?: NewPipelineOptions) {
+    let pipeline: Pipeline;
+    if (credentialOrPipelineOrContainerName instanceof Pipeline) {
+      pipeline = credentialOrPipelineOrContainerName;
+    } else if (credentialOrPipelineOrContainerName instanceof Credential) {
+      pipeline = StorageClient.newPipeline(credentialOrPipelineOrContainerName, options);
+    } else if (credentialOrPipelineOrContainerName && typeof credentialOrPipelineOrContainerName === "string"
+               && blobNameOrOptions && typeof blobNameOrOptions === "string") {
+      const containerName = credentialOrPipelineOrContainerName;
+      const blobName = blobNameOrOptions;
+      // TODO: extract parts from connection string
+      const sharedKeyCredential = new SharedKeyCredential("name", "key");
+      s = "endpoint from connection string" + containerName + "/" + blobName;
+      pipeline = StorageClient.newPipeline(sharedKeyCredential, options);
+    } else {
+      throw new Error("Expecting non-empty strings for containerName and blobName parameters");
+    }
+    super(s, pipeline);
     this.blobContext = new Blob(this.storageClientContext);
   }
 
