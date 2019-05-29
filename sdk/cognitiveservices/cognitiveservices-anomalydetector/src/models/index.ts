@@ -48,9 +48,7 @@ export interface Request {
    */
   series: Point[];
   /**
-   * Can only be one of yearly, monthly, weekly, daily, hourly or minutely. Granularity is used for
-   * verify whether input series is valid. Possible values include: 'yearly', 'monthly', 'weekly',
-   * 'daily', 'hourly', 'minutely'
+   * Possible values include: 'yearly', 'monthly', 'weekly', 'daily', 'hourly', 'minutely'
    */
   granularity: Granularity;
   /**
@@ -170,12 +168,531 @@ export interface LastDetectResponse {
 }
 
 /**
+ * An interface representing TimeSeries.
+ */
+export interface TimeSeries {
+  /**
+   * Unique id for time series.
+   */
+  seriesId: string;
+  /**
+   * Can only be one of yearly, monthly, weekly, daily, hourly or minutely. Granularity is used for
+   * verify whether input series is valid. Possible values include: 'yearly', 'monthly', 'weekly',
+   * 'daily', 'hourly', 'minutely'
+   */
+  granularity: Granularity;
+  /**
+   * Property of a time series
+   */
+  dimensions?: { [propertyName: string]: string };
+  /**
+   * Custom Interval is used to set non-standard time interval, for example, if the series is 5
+   * minutes, request can be set as {"granularity":"minutely", "customInterval":5}.
+   */
+  customInterval?: number;
+  /**
+   * Hours that the data is kept.
+   */
+  retentionDurationInHours?: number;
+  /**
+   * Description for the time series.
+   */
+  description?: string;
+  /**
+   * Name of the time series.
+   */
+  name?: string;
+}
+
+/**
+ * An interface representing TimeSeriesCreateRequest.
+ */
+export interface TimeSeriesCreateRequest {
+  /**
+   * Can only be one of yearly, monthly, weekly, daily, hourly or minutely. Granularity is used for
+   * verify whether input series is valid. Possible values include: 'yearly', 'monthly', 'weekly',
+   * 'daily', 'hourly', 'minutely'
+   */
+  granularity: Granularity;
+  /**
+   * Property of a time series
+   */
+  dimensions?: { [propertyName: string]: string };
+  /**
+   * Custom Interval is used to set non-standard time interval, for example, if the series is 5
+   * minutes, request can be set as {"granularity":"minutely", "customInterval":5}.
+   */
+  customInterval?: number;
+  /**
+   * Hours that the data is kept.
+   */
+  retentionDurationInHours?: number;
+  /**
+   * Description for the time series.
+   */
+  description?: string;
+  /**
+   * Name of the time series.
+   */
+  name?: string;
+}
+
+/**
+ * An interface representing TimeSeriesList.
+ */
+export interface TimeSeriesList {
+  /**
+   * Array of TimeSeries objects.
+   */
+  series: TimeSeries[];
+  next?: string;
+}
+
+/**
+ * An interface representing TimeSeriesGroup.
+ */
+export interface TimeSeriesGroup {
+  /**
+   * Unique id for time series group.
+   */
+  groupId: string;
+  /**
+   * Description of the time series group
+   */
+  description?: string;
+  /**
+   * Name of the time series group
+   */
+  name?: string;
+  /**
+   * Can only be one of yearly, monthly, weekly, daily, hourly or minutely. Granularity is used for
+   * verify whether input series is valid. Possible values include: 'yearly', 'monthly', 'weekly',
+   * 'daily', 'hourly', 'minutely'
+   */
+  granularity: Granularity;
+  /**
+   * Custom Interval is used to set non-standard time interval, for example, if the series is 5
+   * minutes, request can be set as {"granularity":"minutely", "customInterval":5}.
+   */
+  customInterval?: number;
+}
+
+/**
+ * An interface representing TimeSeriesGroupCreateRequest.
+ */
+export interface TimeSeriesGroupCreateRequest {
+  /**
+   * Description of the time series group
+   */
+  description?: string;
+  /**
+   * Name of the time series group
+   */
+  name?: string;
+  /**
+   * Can only be one of yearly, monthly, weekly, daily, hourly or minutely. Granularity is used for
+   * verify whether input series is valid. Possible values include: 'yearly', 'monthly', 'weekly',
+   * 'daily', 'hourly', 'minutely'
+   */
+  granularity: Granularity;
+  /**
+   * Custom Interval is used to set non-standard time interval, for example, if the series is 5
+   * minutes, request can be set as {"granularity":"minutely", "customInterval":5}.
+   */
+  customInterval?: number;
+}
+
+/**
+ * An interface representing TimeSeriesGroupList.
+ */
+export interface TimeSeriesGroupList {
+  /**
+   * A list of TimeSeriesGroup.
+   */
+  groups: TimeSeriesGroup[];
+  next?: string;
+}
+
+/**
+ * An interface representing InconsistencyDetectRequest.
+ */
+export interface InconsistencyDetectRequest {
+  /**
+   * Start time of the time series group.
+   */
+  begin: Date;
+  /**
+   * End time of the time series group.
+   */
+  end: Date;
+  /**
+   * Parameter to be tuned to get inconsistency.
+   */
+  epsilon?: number;
+}
+
+/**
+ * An interface representing Inconsistency.
+ */
+export interface Inconsistency {
+  /**
+   * IDs of inconsistent series in the time series group.
+   */
+  inconsistentSeriesIds: string[];
+  /**
+   * Scores of inconsistent series in the time series group.
+   */
+  confidenceScores: number[];
+  /**
+   * Start time of the time series group.
+   */
+  begin: Date;
+  /**
+   * End time of the time series group.
+   */
+  end: Date;
+  /**
+   * Parameter to be tuned to get inconsistency.
+   */
+  epsilon?: number;
+}
+
+/**
+ * An interface representing InconsistencyQueryRequest.
+ */
+export interface InconsistencyQueryRequest {
+  /**
+   * Start time of the time series group.
+   */
+  begin: Date;
+  /**
+   * End time of the time series group.
+   */
+  end: Date;
+}
+
+/**
+ * An interface representing ChangePointDetectRequest.
+ */
+export interface ChangePointDetectRequest {
+  /**
+   * Time series data points. Points should be sorted by timestamp in ascending order to match the
+   * change point detection result.
+   */
+  series: Point[];
+  /**
+   * Can only be one of yearly, monthly, weekly, daily, hourly or minutely. Granularity is used for
+   * verify whether input series is valid. Possible values include: 'yearly', 'monthly', 'weekly',
+   * 'daily', 'hourly', 'minutely'
+   */
+  granularity: Granularity;
+  /**
+   * Custom Interval is used to set non-standard time interval, for example, if the series is 5
+   * minutes, request can be set as {"granularity":"minutely", "customInterval":5}.
+   */
+  customInterval?: number;
+  /**
+   * Optional argument, periodic value of a time series. If the value is null or does not present,
+   * the API will determine the period automatically.
+   */
+  period?: number;
+  /**
+   * Optional argument, advanced model parameter, a default stableTrendWindow will be used in
+   * detection.
+   */
+  stableTrendWindow?: number;
+  /**
+   * Optional argument, advanced model parameter, between 0.0-1.0, the lower the value is, the
+   * larger the trend error will be which means less change point will be accepted.
+   */
+  threshold?: number;
+}
+
+/**
+ * An interface representing ChangePointDetectResponse.
+ */
+export interface ChangePointDetectResponse {
+  /**
+   * Frequency extracted from the series, zero means no recurrent pattern has been found.
+   */
+  period: number;
+  /**
+   * isChangePoint contains change point properties for each input point. True means an anomaly
+   * either negative or positive has been detected. The index of the array is consistent with the
+   * input series.
+   */
+  isChangePoint: boolean[];
+  /**
+   * the change point confidence of each point
+   */
+  confidenceScores: number[];
+}
+
+/**
+ * An interface representing ChangePointDetectInTimeRangeRequest.
+ */
+export interface ChangePointDetectInTimeRangeRequest {
+  /**
+   * The begin timestamp of you want to detect.
+   */
+  begin: Date;
+  /**
+   * The end timestamp of you want to detect.
+   */
+  end: Date;
+  /**
+   * Optional argument, periodic value of a time series. If the value is null or does not present,
+   * the API will determine the period automatically.
+   */
+  period?: number;
+  /**
+   * Optional argument, advanced model parameter, a default stableTrendWindow will be used in
+   * detection.
+   */
+  stableTrendWindow?: number;
+  /**
+   * Optional argument, advanced model parameter, between 0.0-1.0, the lower the value is, the
+   * larger the trend error will be which means less change point will be accepted.
+   */
+  threshold?: number;
+}
+
+/**
+ * An interface representing ChangePointDetectInTimeRangeResponse.
+ */
+export interface ChangePointDetectInTimeRangeResponse {
+  /**
+   * Frequency extracted from the series, zero means no recurrent pattern has been found.
+   */
+  period: number;
+  /**
+   * ChangePoints contains change point properties for each input point. True means an anomaly
+   * either negative or positive has been detected. The index of the array is consistent with the
+   * input series.
+   */
+  isChangePoint: boolean[];
+  /**
+   * the change point confidence of each point
+   */
+  confidenceScores: number[];
+  /**
+   * All timestamps in range
+   */
+  timestamps: Date[] | string[];
+}
+
+/**
+ * An interface representing TimeSeriesQueryRequest.
+ */
+export interface TimeSeriesQueryRequest {
+  /**
+   * Timestamp of begin time (ISO8601 format).
+   */
+  begin: Date;
+  /**
+   * Timestamp of end time (ISO8601 format).
+   */
+  end: Date;
+  /**
+   * Array of timeseries field.
+   */
+  fields: TimeSeriesField[];
+}
+
+/**
+ * An interface representing TimeSeriesQueryResponse.
+ */
+export interface TimeSeriesQueryResponse {
+  /**
+   * Timestamps of data points (ISO8601 format).
+   */
+  timestamps: Date[] | string[];
+  /**
+   * Values of queried timeseries field.
+   */
+  fieldValues: any[][];
+}
+
+/**
+ * An interface representing AnomalyDetectInTimeRangeRequest.
+ */
+export interface AnomalyDetectInTimeRangeRequest {
+  /**
+   * begin of a detection time range
+   */
+  begin: Date;
+  /**
+   * end of a detection time range
+   */
+  end: Date;
+  /**
+   * Optional argument, periodic value of a time series. If the value is null or does not present,
+   * the API will determine the period automatically.
+   */
+  period?: number;
+  /**
+   * Optional argument, advanced model parameter, max anomaly ratio in a time series.
+   */
+  maxAnomalyRatio?: number;
+  /**
+   * Optional argument, advanced model parameter, between 0-99, the lower the value is, the larger
+   * the margin value will be which means less anomalies will be accepted.
+   */
+  sensitivity?: number;
+}
+
+/**
+ * An interface representing AnomalyDetectInTimeRangeReponse.
+ */
+export interface AnomalyDetectInTimeRangeReponse {
+  /**
+   * Frequency extracted from the series, zero means no recurrent pattern has been found.
+   */
+  period: number;
+  /**
+   * timestamps contain timestamp for each point in the range.
+   */
+  timestamps: Date[] | string[];
+  /**
+   * values contain value for each point in the range. The index of the array is consistent with
+   * timestamps array.
+   */
+  values: number[];
+  /**
+   * ExpectedValues contain expected value for each point in the range. The index of the array is
+   * consistent with timestamps array.
+   */
+  expectedValues: number[];
+  /**
+   * UpperMargins contain upper margin of each point in the range. UpperMargin is used to calculate
+   * upperBoundary, which equals to expectedValue + (100 - marginScale)*upperMargin. Anomalies in
+   * response can be filtered by upperBoundary and lowerBoundary. By adjusting marginScale value,
+   * less significant anomalies can be filtered in client side. The index of the array is
+   * consistent with timestamps.
+   */
+  upperMargins: number[];
+  /**
+   * LowerMargins contain lower margin of each point in the range. LowerMargin is used to calculate
+   * lowerBoundary, which equals to expectedValue - (100 - marginScale)*lowerMargin. Points between
+   * the boundary can be marked as normal ones in client side. The index of the array is consistent
+   * with timestamps.
+   */
+  lowerMargins: number[];
+  /**
+   * IsAnomaly contain anomaly properties each point in the range. True means an anomaly either
+   * negative or positive has been detected. The index of the array is consistent with timestamps.
+   */
+  isAnomaly: boolean[];
+  /**
+   * IsNegativeAnomaly contain anomaly status in negative direction in the range. True means a
+   * negative anomaly has been detected. A negative anomaly means the point is detected as an
+   * anomaly and its real value is smaller than the expected one. The index of the array is
+   * consistent with timestamps.
+   */
+  isNegativeAnomaly: boolean[];
+  /**
+   * IsPositiveAnomaly contain anomaly status in positive direction in the range. True means a
+   * positive anomaly has been detected. A positive anomaly means the point is detected as an
+   * anomaly and its real value is larger than the expected one. The index of the array is
+   * consistent with timestamps.
+   */
+  isPositiveAnomaly: boolean[];
+}
+
+/**
+ * An interface representing LabelRequest.
+ */
+export interface LabelRequest {
+  /**
+   * begin of a detection time range
+   */
+  begin: Date;
+  /**
+   * end of a detection time range
+   */
+  end: Date;
+  /**
+   * Possible values include: 'changePoint', 'Anomaly'
+   */
+  type: LabelType;
+  /**
+   * Possible values include: 'true', 'false'
+   */
+  value: LabelValue;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface TimeSeriesListOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Use "next" as query parameter to get next page data.
+   */
+  next?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface TimeSeriesListGroupsOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Use "next" as query parameter to get next page data.
+   */
+  next?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface TimeSeriesGroupListOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Use "next" as query parameter to get next page data.
+   */
+  next?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface TimeSeriesGroupListSeriesOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Use "next" as query parameter to get next page data.
+   */
+  next?: string;
+}
+
+/**
  * Defines values for Granularity.
  * Possible values include: 'yearly', 'monthly', 'weekly', 'daily', 'hourly', 'minutely'
  * @readonly
  * @enum {string}
  */
 export type Granularity = 'yearly' | 'monthly' | 'weekly' | 'daily' | 'hourly' | 'minutely';
+
+/**
+ * Defines values for TimeSeriesField.
+ * Possible values include: 'isAnomaly', 'isChangePoint', 'isPositiveAnomaly', 'isNegativeAnomaly',
+ * 'value', 'expectedValue', 'upperMargin', 'lowerMargin', 'period'
+ * @readonly
+ * @enum {string}
+ */
+export type TimeSeriesField = 'isAnomaly' | 'isChangePoint' | 'isPositiveAnomaly' | 'isNegativeAnomaly' | 'value' | 'expectedValue' | 'upperMargin' | 'lowerMargin' | 'period';
+
+/**
+ * Defines values for LabelType.
+ * Possible values include: 'changePoint', 'Anomaly'
+ * @readonly
+ * @enum {string}
+ */
+export type LabelType = 'changePoint' | 'Anomaly';
+
+/**
+ * Defines values for LabelValue.
+ * Possible values include: 'true', 'false'
+ * @readonly
+ * @enum {string}
+ */
+export type LabelValue = 'true' | 'false';
 
 /**
  * Contains response data for the entireDetect operation.
@@ -214,5 +731,265 @@ export type LastDetectResponse2 = LastDetectResponse & {
        * The response body as parsed JSON or XML
        */
       parsedBody: LastDetectResponse;
+    };
+};
+
+/**
+ * Contains response data for the changePointDetect operation.
+ */
+export type ChangePointDetectResponse2 = ChangePointDetectResponse & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ChangePointDetectResponse;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type TimeSeriesGetResponse = TimeSeries & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TimeSeries;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type TimeSeriesListResponse = TimeSeriesList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TimeSeriesList;
+    };
+};
+
+/**
+ * Contains response data for the entireDetectInTimeRange operation.
+ */
+export type TimeSeriesEntireDetectInTimeRangeResponse = AnomalyDetectInTimeRangeReponse & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AnomalyDetectInTimeRangeReponse;
+    };
+};
+
+/**
+ * Contains response data for the lastDetectInTimeRange operation.
+ */
+export type TimeSeriesLastDetectInTimeRangeResponse = AnomalyDetectInTimeRangeReponse & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AnomalyDetectInTimeRangeReponse;
+    };
+};
+
+/**
+ * Contains response data for the changePointDetectInTimeRange operation.
+ */
+export type TimeSeriesChangePointDetectInTimeRangeResponse = ChangePointDetectInTimeRangeResponse & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ChangePointDetectInTimeRangeResponse;
+    };
+};
+
+/**
+ * Contains response data for the query operation.
+ */
+export type TimeSeriesQueryResponse2 = TimeSeriesQueryResponse & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TimeSeriesQueryResponse;
+    };
+};
+
+/**
+ * Contains response data for the listGroups operation.
+ */
+export type TimeSeriesListGroupsResponse = TimeSeriesGroupList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TimeSeriesGroupList;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type TimeSeriesGroupGetResponse = TimeSeriesGroup & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TimeSeriesGroup;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type TimeSeriesGroupListResponse = TimeSeriesGroupList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TimeSeriesGroupList;
+    };
+};
+
+/**
+ * Contains response data for the inconsistencyDetect operation.
+ */
+export type TimeSeriesGroupInconsistencyDetectResponse = Inconsistency & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Inconsistency;
+    };
+};
+
+/**
+ * Contains response data for the inconsistencyQuery operation.
+ */
+export type TimeSeriesGroupInconsistencyQueryResponse = Array<Inconsistency> & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Inconsistency[];
+    };
+};
+
+/**
+ * Contains response data for the listSeries operation.
+ */
+export type TimeSeriesGroupListSeriesResponse = TimeSeriesList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TimeSeriesList;
     };
 };

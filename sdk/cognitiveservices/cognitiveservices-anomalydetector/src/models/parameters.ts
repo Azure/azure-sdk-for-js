@@ -22,3 +22,43 @@ export const endpoint: msRest.OperationURLParameter = {
   },
   skipEncoding: true
 };
+export const next: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "next"
+  ],
+  mapper: {
+    serializedName: "next",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const timeSeriesGroupId: msRest.OperationURLParameter = {
+  parameterPath: "timeSeriesGroupId",
+  mapper: {
+    required: true,
+    serializedName: "timeSeriesGroupId",
+    constraints: {
+      MaxLength: 64,
+      Pattern: /^[a-z0-9-_]+$/
+    },
+    type: {
+      name: "String"
+    }
+  }
+};
+export const timeSeriesId: msRest.OperationURLParameter = {
+  parameterPath: "timeSeriesId",
+  mapper: {
+    required: true,
+    serializedName: "timeSeriesId",
+    constraints: {
+      MaxLength: 64,
+      Pattern: /^[a-z0-9-_]+$/
+    },
+    type: {
+      name: "String"
+    }
+  }
+};
