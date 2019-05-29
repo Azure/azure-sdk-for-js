@@ -18,7 +18,10 @@
   "main": "./dist/index.js",
   "module": "dist-esm/src/index.js",
   "browser": {
-    "./dist/index.js": "./browser/service-bus.js"
+    "./dist/index.js": "./browser/service-bus.js",
+    "./dist-esm/test/utils/aadUtils.js": "./dist-esm/test/utils/aadUtils.browser.js",
+    "buffer": "buffer",
+    "stream": "stream-browserify"
   },
   "types": "./typings/service-bus.d.ts",
   "engine": {
@@ -26,11 +29,13 @@
   },
   "dependencies": {
     "@azure/amqp-common": "^1.0.0-preview.5",
+    "@types/is-buffer": "^2.0.0",
     "@azure/ms-rest-nodeauth": "^0.9.2",
     "@types/long": "^4.0.0",
     "debug": "^3.1.0",
     "is-buffer": "^2.0.3",
     "long": "^4.0.0",
+    "process": "^0.11.10",
     "rhea": "^1.0.4",
     "rhea-promise": "^0.1.15",
     "tslib": "^1.9.3"
@@ -108,9 +113,9 @@
     "build:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1",
     "build:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c 2>&1",
     "build:samples": "node .scripts/prepSamples.js && cd samples && tsc -p .",
-    "build:test:browser": "tsc -p . && cross-env BROWSER_TEST=true rollup -c 2>&1",
-    "build:test:node": "tsc -p . && rollup -c rollup.test.config.js 2>&1",
-    "build:test": "tsc -p . && cross-env ONLY_NODE=true rollup -c rollup.test.config.js 2>&1",
+    "build:test:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c rollup.test.config.js 2>&1",
+    "build:test:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c rollup.test.config.js 2>&1",
+    "build:test": "npm run build:test:node && npm run build:test:browser",
     "build": "tsc -p . && rollup -c 2>&1 && npm run extract-api",
     "check-format": "prettier --list-different --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-esm test-dist typings *.tgz *.log coverage coverage-browser .nyc_output",
@@ -124,7 +129,7 @@
     "lint-fix": "eslint -c ../../.eslintrc.json src test samples --ext .ts --fix --fix-type [problem,suggestion]",
     "pack": "npm pack 2>&1",
     "prebuild": "npm run clean",
-    "test:browser": "npm run build:test:browser && karma start --single-run",
+    "test:browser": "npm run build:test:browser && npm run integration-test:browser",
     "test:node": "npm run build:test:node && npm run integration-test:node",
     "test": "npm run test:node && npm run test:browser",
     "unit-test:browser": "echo skipped",
