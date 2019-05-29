@@ -192,15 +192,15 @@ export class PageBlobClient extends BlobClient {
    * Frees the specified pages from the page blob.
    * @see https://docs.microsoft.com/rest/api/storageservices/put-page
    *
-   * @param {number} offset
-   * @param {number} count
+   * @param {number} [offset]
+   * @param {number} [count]
    * @param {PageBlobClearPagesOptions} [options]
    * @returns {Promise<Models.PageBlobClearPagesResponse>}
    * @memberof PageBlobClient
    */
   public async clearPages(
-    offset: number,
-    count: number,
+    offset: number = 0,
+    count?: number,
     options: PageBlobClearPagesOptions = {}
   ): Promise<Models.PageBlobClearPagesResponse> {
     const aborter = options.abortSignal || Aborter.none;
@@ -218,15 +218,15 @@ export class PageBlobClient extends BlobClient {
    * Returns the list of valid page ranges for a page blob or snapshot of a page blob.
    * @see https://docs.microsoft.com/rest/api/storageservices/get-page-ranges
    *
-   * @param {number} offset
-   * @param {number} count
+   * @param {number} [offset]
+   * @param {number} [count]
    * @param {PageBlobGetPageRangesOptions} [options]
    * @returns {Promise<Models.PageBlobGetPageRangesResponse>}
    * @memberof PageBlobClient
    */
   public async getPageRanges(
-    offset: number,
-    count: number,
+    offset: number = 0,
+    count?: number,
     options: PageBlobGetPageRangesOptions = {}
   ): Promise<Models.PageBlobGetPageRangesResponse> {
     const aborter = options.abortSignal || Aborter.none;

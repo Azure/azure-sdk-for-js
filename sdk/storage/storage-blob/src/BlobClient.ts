@@ -226,14 +226,14 @@ export class BlobClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-blob
    *
-   * @param {number} offset From which position of the blob to download, >= 0
+   * @param {number} [offset] From which position of the blob to download, >= 0
    * @param {number} [count] How much data to be downloaded, > 0. Will download to the end when undefined
    * @param {BlobDownloadOptions} [options]
    * @returns {Promise<Models.BlobDownloadResponse>}
    * @memberof BlobClient
    */
   public async download(
-    offset: number,
+    offset: number = 0,
     count?: number,
     options: BlobDownloadOptions = {}
   ): Promise<Models.BlobDownloadResponse> {
