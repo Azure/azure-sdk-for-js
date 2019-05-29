@@ -39,5 +39,7 @@ export {
   Resource,
   TransactionsSummary,
   TransferBillingSubscriptionRequestProperties,
-  TransferBillingSubscriptionResult
+  TransferBillingSubscriptionResult,
+  ValidateSubscriptionTransferEligibilityError,
+  ValidateSubscriptionTransferEligibilityResult
 } from "../models/mappers";

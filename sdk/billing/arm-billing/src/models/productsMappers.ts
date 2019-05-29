@@ -40,5 +40,7 @@ export {
   TransactionsSummary,
   TransferProductRequestProperties,
   UpdateAutoRenewOperationSummary,
-  UpdateAutoRenewRequest
+  UpdateAutoRenewRequest,
+  ValidateProductTransferEligibilityError,
+  ValidateProductTransferEligibilityResult
 } from "../models/mappers";

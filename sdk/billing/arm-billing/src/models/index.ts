@@ -323,8 +323,8 @@ export interface TransferBillingSubscriptionRequest {
 export interface ValidateSubscriptionTransferEligibilityError {
   /**
    * Error code for the product transfer validation. Possible values include: 'InvalidSource',
-   * 'SubscriptionNotActive', 'InsufficienctPermissionOnSource',
-   * 'InsufficienctPermissionOnDestination', 'DestinationBillingProfilePastDue',
+   * 'SubscriptionNotActive', 'InsufficientPermissionOnSource',
+   * 'InsufficientPermissionOnDestination', 'DestinationBillingProfilePastDue',
    * 'SubscriptionTypeNotSupported', 'CrossBillingAccountNotAllowed',
    * 'NotAvailableForDestinationMarket'
    */
@@ -2117,13 +2117,13 @@ export type EligibleProductType = 'DevTestAzureSubscription' | 'StandardAzureSub
 /**
  * Defines values for SubscriptionTransferValidationErrorCode.
  * Possible values include: 'InvalidSource', 'SubscriptionNotActive',
- * 'InsufficienctPermissionOnSource', 'InsufficienctPermissionOnDestination',
+ * 'InsufficientPermissionOnSource', 'InsufficientPermissionOnDestination',
  * 'DestinationBillingProfilePastDue', 'SubscriptionTypeNotSupported',
  * 'CrossBillingAccountNotAllowed', 'NotAvailableForDestinationMarket'
  * @readonly
  * @enum {string}
  */
-export type SubscriptionTransferValidationErrorCode = 'InvalidSource' | 'SubscriptionNotActive' | 'InsufficienctPermissionOnSource' | 'InsufficienctPermissionOnDestination' | 'DestinationBillingProfilePastDue' | 'SubscriptionTypeNotSupported' | 'CrossBillingAccountNotAllowed' | 'NotAvailableForDestinationMarket';
+export type SubscriptionTransferValidationErrorCode = 'InvalidSource' | 'SubscriptionNotActive' | 'InsufficientPermissionOnSource' | 'InsufficientPermissionOnDestination' | 'DestinationBillingProfilePastDue' | 'SubscriptionTypeNotSupported' | 'CrossBillingAccountNotAllowed' | 'NotAvailableForDestinationMarket';
 
 /**
  * Defines values for ProductStatusType.
@@ -2843,6 +2843,26 @@ export type BillingSubscriptionsTransferResponse = TransferBillingSubscriptionRe
 };
 
 /**
+ * Contains response data for the validateTransfer operation.
+ */
+export type BillingSubscriptionsValidateTransferResponse = ValidateSubscriptionTransferEligibilityResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ValidateSubscriptionTransferEligibilityResult;
+    };
+};
+
+/**
  * Contains response data for the listByBillingAccountNameNext operation.
  */
 export type BillingSubscriptionsListByBillingAccountNameNextResponse = BillingSubscriptionsListResult & {
@@ -2944,6 +2964,26 @@ export type ProductsTransferResponse = ProductSummary & ProductsTransferHeaders 
        * The response body as parsed JSON or XML
        */
       parsedBody: ProductSummary;
+    };
+};
+
+/**
+ * Contains response data for the validateTransfer operation.
+ */
+export type ProductsValidateTransferResponse = ValidateProductTransferEligibilityResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ValidateProductTransferEligibilityResult;
     };
 };
 

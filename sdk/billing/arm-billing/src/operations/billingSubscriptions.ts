@@ -170,6 +170,46 @@ export class BillingSubscriptions {
   }
 
   /**
+   * Validates the transfer of billing subscriptions across invoice sections.
+   * @param billingAccountName billing Account Id.
+   * @param invoiceSectionName InvoiceSection Id.
+   * @param billingSubscriptionName Billing Subscription Id.
+   * @param parameters Parameters supplied to the Transfer Billing Subscription operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.BillingSubscriptionsValidateTransferResponse>
+   */
+  validateTransfer(billingAccountName: string, invoiceSectionName: string, billingSubscriptionName: string, parameters: Models.TransferBillingSubscriptionRequestProperties, options?: msRest.RequestOptionsBase): Promise<Models.BillingSubscriptionsValidateTransferResponse>;
+  /**
+   * @param billingAccountName billing Account Id.
+   * @param invoiceSectionName InvoiceSection Id.
+   * @param billingSubscriptionName Billing Subscription Id.
+   * @param parameters Parameters supplied to the Transfer Billing Subscription operation.
+   * @param callback The callback
+   */
+  validateTransfer(billingAccountName: string, invoiceSectionName: string, billingSubscriptionName: string, parameters: Models.TransferBillingSubscriptionRequestProperties, callback: msRest.ServiceCallback<Models.ValidateSubscriptionTransferEligibilityResult>): void;
+  /**
+   * @param billingAccountName billing Account Id.
+   * @param invoiceSectionName InvoiceSection Id.
+   * @param billingSubscriptionName Billing Subscription Id.
+   * @param parameters Parameters supplied to the Transfer Billing Subscription operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  validateTransfer(billingAccountName: string, invoiceSectionName: string, billingSubscriptionName: string, parameters: Models.TransferBillingSubscriptionRequestProperties, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ValidateSubscriptionTransferEligibilityResult>): void;
+  validateTransfer(billingAccountName: string, invoiceSectionName: string, billingSubscriptionName: string, parameters: Models.TransferBillingSubscriptionRequestProperties, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ValidateSubscriptionTransferEligibilityResult>, callback?: msRest.ServiceCallback<Models.ValidateSubscriptionTransferEligibilityResult>): Promise<Models.BillingSubscriptionsValidateTransferResponse> {
+    return this.client.sendOperationRequest(
+      {
+        billingAccountName,
+        invoiceSectionName,
+        billingSubscriptionName,
+        parameters,
+        options
+      },
+      validateTransferOperationSpec,
+      callback) as Promise<Models.BillingSubscriptionsValidateTransferResponse>;
+  }
+
+  /**
    * Transfers the subscription from one invoice section to another within a billing account.
    * @param billingAccountName billing Account Id.
    * @param invoiceSectionName InvoiceSection Id.
@@ -310,6 +350,35 @@ const getOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.BillingSubscriptionSummary
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const validateTransferOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "providers/Microsoft.Billing/billingAccounts/{billingAccountName}/invoiceSections/{invoiceSectionName}/billingSubscriptions/{billingSubscriptionName}/validateTransferEligibility",
+  urlParameters: [
+    Parameters.billingAccountName,
+    Parameters.invoiceSectionName,
+    Parameters.billingSubscriptionName
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "parameters",
+    mapper: {
+      ...Mappers.TransferBillingSubscriptionRequestProperties,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.ValidateSubscriptionTransferEligibilityResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
