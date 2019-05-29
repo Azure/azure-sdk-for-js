@@ -4,11 +4,6 @@ import * as path from "path";
 import { PassThrough } from "stream";
 
 import { Aborter } from "../../src/Aborter";
-import {
-  downloadBlobToBuffer,
-  uploadFileToBlockBlob,
-  uploadStreamToBlockBlob
-} from "../../src/highlevel.node";
 import { RetriableReadableStreamOptions } from "../../src/utils/RetriableReadableStream";
 import { createRandomLocalFile, getBSU, getUniqueName, readStreamToLocalFile } from "../utils";
 
@@ -55,7 +50,7 @@ describe("Highlevel", () => {
   });
 
   it("uploadFileToBlockBlob should success when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
-    await uploadFileToBlockBlob(tempFileLarge, blockBlobClient, {
+    await blockBlobClient.uploadFileToBlockBlob(tempFileLarge, {
       blockSize: 4 * 1024 * 1024,
       parallelism: 20
     });
@@ -72,7 +67,7 @@ describe("Highlevel", () => {
   });
 
   it("uploadFileToBlockBlob should success when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
-    await uploadFileToBlockBlob(tempFileSmall, blockBlobClient, {
+    await blockBlobClient.uploadFileToBlockBlob(tempFileSmall, {
       blockSize: 4 * 1024 * 1024,
       parallelism: 20
     });
@@ -89,7 +84,7 @@ describe("Highlevel", () => {
   });
 
   it("uploadFileToBlockBlob should success when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES and configured maxSingleShotSize", async () => {
-    await uploadFileToBlockBlob(tempFileSmall, blockBlobClient, {
+    await blockBlobClient.uploadFileToBlockBlob(tempFileSmall, {
       maxSingleShotSize: 0
     });
 
@@ -108,7 +103,7 @@ describe("Highlevel", () => {
     const aborter = Aborter.timeout(1);
 
     try {
-      await uploadFileToBlockBlob(tempFileLarge, blockBlobClient, {
+      await blockBlobClient.uploadFileToBlockBlob(tempFileLarge, {
         abortSignal: aborter,
         blockSize: 4 * 1024 * 1024,
         parallelism: 20
@@ -123,7 +118,7 @@ describe("Highlevel", () => {
     const aborter = Aborter.timeout(1);
 
     try {
-      await uploadFileToBlockBlob(tempFileSmall, blockBlobClient, {
+      await blockBlobClient.uploadFileToBlockBlob(tempFileSmall, {
         abortSignal: aborter,
         blockSize: 4 * 1024 * 1024,
         parallelism: 20
@@ -139,7 +134,7 @@ describe("Highlevel", () => {
     const aborter = Aborter.none;
 
     try {
-      await uploadFileToBlockBlob(tempFileLarge, blockBlobClient, {
+      await blockBlobClient.uploadFileToBlockBlob(tempFileLarge, {
         abortSignal: aborter,
         blockSize: 4 * 1024 * 1024,
         parallelism: 20,
@@ -158,7 +153,7 @@ describe("Highlevel", () => {
     const aborter = Aborter.none;
 
     try {
-      await uploadFileToBlockBlob(tempFileSmall, blockBlobClient, {
+      await blockBlobClient.uploadFileToBlockBlob(tempFileSmall, {
         abortSignal: aborter,
         blockSize: 4 * 1024 * 1024,
         parallelism: 20,
@@ -174,7 +169,7 @@ describe("Highlevel", () => {
 
   it("uploadStreamToBlockBlob should success", async () => {
     const rs = fs.createReadStream(tempFileLarge);
-    await uploadStreamToBlockBlob(rs, blockBlobClient, 4 * 1024 * 1024, 20);
+    await blockBlobClient.uploadStreamToBlockBlob(rs, 4 * 1024 * 1024, 20);
 
     const downloadResponse = await blockBlobClient.download(0);
 
@@ -193,7 +188,7 @@ describe("Highlevel", () => {
     const bufferStream = new PassThrough();
     bufferStream.end(buf);
 
-    await uploadStreamToBlockBlob(bufferStream, blockBlobClient, 4 * 1024 * 1024, 20);
+    await blockBlobClient.uploadStreamToBlockBlob(bufferStream, 4 * 1024 * 1024, 20);
 
     const downloadResponse = await blockBlobClient.download(0);
 
@@ -211,9 +206,8 @@ describe("Highlevel", () => {
     const aborter = Aborter.timeout(1);
 
     try {
-      await uploadStreamToBlockBlob(
+      await blockBlobClient.uploadStreamToBlockBlob(
         rs,
-        blockBlobClient,
         4 * 1024 * 1024,
         20,
         {
@@ -230,7 +224,7 @@ describe("Highlevel", () => {
     const rs = fs.createReadStream(tempFileLarge);
     let eventTriggered = false;
 
-    await uploadStreamToBlockBlob(rs, blockBlobClient, 4 * 1024 * 1024, 20, {
+    await blockBlobClient.uploadStreamToBlockBlob(rs, 4 * 1024 * 1024, 20, {
       progress: (ev) => {
         assert.ok(ev.loadedBytes);
         eventTriggered = true;
@@ -241,10 +235,10 @@ describe("Highlevel", () => {
 
   it("downloadBlobToBuffer should success", async () => {
     const rs = fs.createReadStream(tempFileLarge);
-    await uploadStreamToBlockBlob(rs, blockBlobClient, 4 * 1024 * 1024, 20);
+    await blockBlobClient.uploadStreamToBlockBlob(rs, 4 * 1024 * 1024, 20);
 
     const buf = Buffer.alloc(tempFileLargeLength);
-    await downloadBlobToBuffer(buf, blockBlobClient, 0, undefined, {
+    await blockBlobClient.downloadBlobToBuffer(buf, 0, undefined, {
       blockSize: 4 * 1024 * 1024,
       maxRetryRequestsPerBlock: 5,
       parallelism: 20
@@ -256,13 +250,12 @@ describe("Highlevel", () => {
 
   it("downloadBlobToBuffer should abort", async () => {
     const rs = fs.createReadStream(tempFileLarge);
-    await uploadStreamToBlockBlob(rs, blockBlobClient, 4 * 1024 * 1024, 20);
+    await blockBlobClient.uploadStreamToBlockBlob(rs, 4 * 1024 * 1024, 20);
 
     try {
       const buf = Buffer.alloc(tempFileLargeLength);
-      await downloadBlobToBuffer(
+      await blockBlobClient.downloadBlobToBuffer(
         buf,
-        blockBlobClient,
         0,
         undefined,
         {
@@ -280,13 +273,13 @@ describe("Highlevel", () => {
 
   it("downloadBlobToBuffer should update progress event", async () => {
     const rs = fs.createReadStream(tempFileSmall);
-    await uploadStreamToBlockBlob(rs, blockBlobClient, 4 * 1024 * 1024, 10);
+    await blockBlobClient.uploadStreamToBlockBlob(rs, 4 * 1024 * 1024, 10);
 
     let eventTriggered = false;
     const buf = Buffer.alloc(tempFileSmallLength);
     const aborter = Aborter.none;
     try {
-      await downloadBlobToBuffer(buf, blockBlobClient, 0, undefined, {
+      await blockBlobClient.downloadBlobToBuffer(buf, 0, undefined, {
         abortSignal: aborter,
         blockSize: 1 * 1024,
         maxRetryRequestsPerBlock: 5,
@@ -301,9 +294,8 @@ describe("Highlevel", () => {
   });
 
   it("blobclient.download should success when internal stream unexcepted ends at the stream end", async () => {
-    const uploadResponse = await uploadFileToBlockBlob(
+    const uploadResponse = await blockBlobClient.uploadFileToBlockBlob(
       tempFileSmall,
-      blockBlobClient,
       {
         blockSize: 4 * 1024 * 1024,
         parallelism: 20
@@ -341,9 +333,8 @@ describe("Highlevel", () => {
   });
 
   it("blobclient.download should download full data successfully when internal stream unexcepted ends", async () => {
-    const uploadResponse = await uploadFileToBlockBlob(
+    const uploadResponse = await blockBlobClient.uploadFileToBlockBlob(
       tempFileSmall,
-      blockBlobClient,
       {
         blockSize: 4 * 1024 * 1024,
         parallelism: 20
@@ -382,9 +373,8 @@ describe("Highlevel", () => {
   });
 
   it("blobclient.download should download partial data when internal stream unexcepted ends", async () => {
-    const uploadResponse = await uploadFileToBlockBlob(
+    const uploadResponse = await blockBlobClient.uploadFileToBlockBlob(
       tempFileSmall,
-      blockBlobClient,
       {
         blockSize: 4 * 1024 * 1024,
         parallelism: 20
@@ -425,9 +415,8 @@ describe("Highlevel", () => {
   });
 
   it("blobclient.download should download data failed when exceeding max stream retry requests", async () => {
-    const uploadResponse = await uploadFileToBlockBlob(
+    const uploadResponse = await blockBlobClient.uploadFileToBlockBlob(
       tempFileSmall,
-      blockBlobClient,
       {
         blockSize: 4 * 1024 * 1024,
         parallelism: 20
@@ -465,9 +454,8 @@ describe("Highlevel", () => {
   });
 
   it("blobclient.download should abort after retrys", async () => {
-    const uploadResponse = await uploadFileToBlockBlob(
+    const uploadResponse = await blockBlobClient.uploadFileToBlockBlob(
       tempFileSmall,
-      blockBlobClient,
       {
         blockSize: 4 * 1024 * 1024,
         parallelism: 20

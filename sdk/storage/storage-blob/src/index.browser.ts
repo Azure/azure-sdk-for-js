@@ -20,7 +20,6 @@ export * from "./BrowserPolicyFactory";
 export * from "./credentials/AnonymousCredential";
 export * from "./credentials/Credential";
 export * from "./credentials/TokenCredential";
-export * from "./highlevel.browser";
 export * from "./highlevel.common";
 export { IPRange } from "./IPRange";
 export { Range } from "./Range";

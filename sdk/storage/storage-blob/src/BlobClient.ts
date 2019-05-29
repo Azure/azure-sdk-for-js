@@ -11,11 +11,14 @@ import { rangeToString } from "./Range";
 import { BlobAccessConditions, Metadata } from "./models";
 import { Pipeline } from "./Pipeline";
 import { StorageClient } from "./internal";
-import { DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS, URLConstants } from "./utils/constants";
+import { DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS, URLConstants, DEFAULT_BLOB_DOWNLOAD_BLOCK_BYTES } from "./utils/constants";
 import { setURLParameter } from "./utils/utils.common";
 import { AppendBlobClient } from "./internal";
 import { BlockBlobClient } from "./internal";
 import { PageBlobClient } from "./internal";
+import { DownloadFromBlobOptions } from "./highlevel.common";
+import { Batch } from './utils/Batch';
+import { streamToBuffer } from './utils/utils.node';
 
 export interface BlobDownloadOptions {
   abortSignal?: Aborter;
@@ -647,5 +650,90 @@ export class BlobClient extends StorageClient {
       abortSignal: aborter,
       leaseAccessConditions: options.leaseAccessConditions
     });
+  }
+
+  // High level function
+
+  /**
+   * ONLY AVAILABLE IN NODE.JS RUNTIME.
+   *
+   * Downloads an Azure Blob in parallel to a buffer.
+   * Offset and count are optional, pass 0 for both to download the entire blob.
+   *
+   * @export
+   * @param {Buffer} buffer Buffer to be fill, must have length larger than count
+   * @param {BlobClient} blobClient A BlobClient object
+   * @param {number} offset From which position of the block blob to download
+   * @param {number} [count] How much data to be downloaded. Will download to the end when passing undefined
+   * @param {DownloadFromBlobOptions} [options] DownloadFromBlobOptions
+   * @returns {Promise<void>}
+   */
+  public async downloadBlobToBuffer(
+    buffer: Buffer,
+    offset: number,
+    count?: number,
+    options: DownloadFromBlobOptions = {}
+  ): Promise<void> {
+    if (!options.blockSize) {
+      options.blockSize = 0;
+    }
+    if (options.blockSize < 0) {
+      throw new RangeError("blockSize option must be >= 0");
+    }
+    if (options.blockSize === 0) {
+      options.blockSize = DEFAULT_BLOB_DOWNLOAD_BLOCK_BYTES;
+    }
+
+    if (offset < 0) {
+      throw new RangeError("offset option must be >= 0");
+    }
+
+    if (count && count <= 0) {
+      throw new RangeError("count option must be > 0");
+    }
+
+    if (!options.blobAccessConditions) {
+      options.blobAccessConditions = {};
+    }
+
+    // Customer doesn't specify length, get it
+    if (!count) {
+      const response = await this.getProperties(options);
+      count = response.contentLength! - offset;
+      if (count < 0) {
+        throw new RangeError(
+          `offset ${offset} shouldn't be larger than blob size ${response.contentLength!}`
+        );
+      }
+    }
+
+    if (buffer.length < count) {
+      throw new RangeError(
+        `The buffer's size should be equal to or larger than the request count of bytes: ${count}`
+      );
+    }
+
+    let transferProgress: number = 0;
+    const batch = new Batch(options.parallelism);
+    for (let off = offset; off < offset + count; off = off + options.blockSize) {
+      batch.addOperation(async () => {
+        const chunkEnd = off + options.blockSize! < count! ? off + options.blockSize! : count!;
+        const response = await this.download(off, chunkEnd - off + 1, {
+          abortSignal: options.abortSignal,
+          blobAccessConditions: options.blobAccessConditions,
+          maxRetryRequests: options.maxRetryRequestsPerBlock
+        });
+        const stream = response.readableStreamBody!;
+        await streamToBuffer(stream, buffer, off - offset, chunkEnd - offset);
+        // Update progress after block is downloaded, in case of block trying
+        // Could provide finer grained progress updating inside HTTP requests,
+        // only if convenience layer download try is enabled
+        transferProgress += chunkEnd - off;
+        if (options.progress) {
+          options.progress({ loadedBytes: transferProgress });
+        }
+      });
+    }
+    await batch.do();
   }
 }
