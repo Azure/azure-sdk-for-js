@@ -551,28 +551,22 @@ export class ManagementClient extends LinkEntity {
         const wrappedEntry = types.wrap_map(entry);
         messageBody.push(wrappedEntry);
       } catch (err) {
+        let error: Error;
         if (err instanceof TypeError || err.name === "TypeError") {
           // `RheaMessageUtil.encode` can fail if message properties are of invalid type
           // rhea throws errors with name `TypeError` but not an instance of `TypeError`, so catch them too
           // Errors in such cases do not have user friendy message or call stack
           // So use `getMessagePropertyTypeMismatchError` to get a better error message
-          const errObj = getMessagePropertyTypeMismatchError(item) || err;
-          log.error(
-            "An error occurred while encoding the item at position %d in the messages array" +
-              ": %O",
-            i,
-            translate(errObj)
-          );
-          throw translate(errObj);
+          error = translate(getMessagePropertyTypeMismatchError(item) || err);
         } else {
-          log.error(
-            "An error occurred while encoding the item at position %d in the messages array" +
-              ": %O",
-            i,
-            translate(err)
-          );
-          throw translate(err);
+          error = translate(err);
         }
+        log.error(
+          "An error occurred while encoding the item at position %d in the messages array" + ": %O",
+          i,
+          error
+        );
+        throw error;
       }
     }
     try {
