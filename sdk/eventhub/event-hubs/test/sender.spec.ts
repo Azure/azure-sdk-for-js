@@ -62,7 +62,7 @@ describe("EventHub Sender", function(): void {
           body: "Hello World 2"
         }
       ];
-      await client.createSender().send(data, "0");
+      await client.createSender("0").send(data);
     });
   });
 
@@ -81,10 +81,10 @@ describe("EventHub Sender", function(): void {
         for (let i = 0; i < senderCount; i++) {
           if (i === 0) {
             debug(">>>>> Sending a message to partition %d", i);
-            promises.push(client.createSender().send([{ body: `Hello World ${i}` }], "0"));
+            promises.push(client.createSender("0").send([{ body: `Hello World ${i}` }]));
           } else if (i === 1) {
             debug(">>>>> Sending a message to partition %d", i);
-            promises.push(client.createSender().send([{ body: `Hello World ${i}` }], "1"));
+            promises.push(client.createSender("1").send([{ body: `Hello World ${i}` }]));
           } else {
             debug(">>>>> Sending a message to the hub when i == %d", i);
             promises.push(client.createSender().send([{ body: `Hello World ${i}` }]));
@@ -105,7 +105,7 @@ describe("EventHub Sender", function(): void {
       };
       try {
         debug("Sendina message of 300KB...");
-        await client.createSender().send([data], "0");
+        await client.createSender("0").send([data]);
       } catch (err) {
         debug(err);
         should.exist(err);
@@ -114,7 +114,7 @@ describe("EventHub Sender", function(): void {
           /.*The received message \(delivery-id:(\d+), size:3000\d\d bytes\) exceeds the limit \(262144 bytes\) currently allowed on the link\..*/gi
         );
       }
-      await client.createSender().send([{ body: "Hello World EventHub!!" }], "0");
+      await client.createSender("0").send([{ body: "Hello World EventHub!!" }]);
       debug("Sent the message successfully on the same link..");
     });
   });
@@ -141,7 +141,7 @@ describe("EventHub Sender", function(): void {
         body: "Hello World"
       };
       try {
-        await client.createSender().send([data], "0", { batchLabel: 1 as any });
+        await client.createSender("0").send([data], { batchLabel: 1 as any });
       } catch (err) {
         debug(err);
         should.exist(err);
