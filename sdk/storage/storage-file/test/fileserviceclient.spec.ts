@@ -1,5 +1,4 @@
 import * as assert from "assert";
-import { ShareClient } from "../src/ShareClient";
 import { getBSU, getUniqueName, wait } from "./utils";
 import * as dotenv from "dotenv";
 dotenv.config({ path: "../.env" });
@@ -31,8 +30,8 @@ describe("FileServiceClient", () => {
     const shareNamePrefix = getUniqueName("share");
     const shareName1 = `${shareNamePrefix}x1`;
     const shareName2 = `${shareNamePrefix}x2`;
-    const shareClient1 = ShareClient.fromFileServiceClient(serviceClient, shareName1);
-    const shareClient2 = ShareClient.fromFileServiceClient(serviceClient, shareName2);
+    const shareClient1 = serviceClient.createShareClient(shareName1);
+    const shareClient2 = serviceClient.createShareClient(shareName2);
     await shareClient1.create({ metadata: { key: "val" } });
     await shareClient2.create({ metadata: { key: "val" } });
 

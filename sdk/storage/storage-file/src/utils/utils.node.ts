@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 /**
  * Reads a readable stream into buffer. Fill the buffer from offset to end.
  *

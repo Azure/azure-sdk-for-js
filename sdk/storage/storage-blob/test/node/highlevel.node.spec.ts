@@ -3,7 +3,6 @@ import * as fs from "fs";
 import * as path from "path";
 import { PassThrough } from "stream";
 
-import { BlobClient, BlockBlobClient, ContainerClient } from "../../src";
 import { Aborter } from "../../src/Aborter";
 import {
   downloadBlobToBuffer,
@@ -17,10 +16,10 @@ import { createRandomLocalFile, getBSU, getUniqueName, readStreamToLocalFile } f
 describe("Highlevel", () => {
   const blobServiceClient = getBSU();
   let containerName = getUniqueName("container");
-  let containerClient = ContainerClient.fromBlobServiceClient(blobServiceClient, containerName);
+  let containerClient = blobServiceClient.createContainerClient(containerName);
   let blobName = getUniqueName("blob");
-  let blobClient = BlobClient.fromContainerClient(containerClient, blobName);
-  let blockBlobClient = BlockBlobClient.fromBlobClient(blobClient);
+  let blobClient = containerClient.createBlobClient(blobName);
+  let blockBlobClient = blobClient.createBlockBlobClient();
   let tempFileSmall: string;
   let tempFileSmallLength: number;
   let tempFileLarge: string;
@@ -29,11 +28,11 @@ describe("Highlevel", () => {
 
   beforeEach(async () => {
     containerName = getUniqueName("container");
-    containerClient = ContainerClient.fromBlobServiceClient(blobServiceClient, containerName);
+    containerClient = blobServiceClient.createContainerClient(containerName);
     await containerClient.create();
     blobName = getUniqueName("blob");
-    blobClient = BlobClient.fromContainerClient(containerClient, blobName);
-    blockBlobClient = BlockBlobClient.fromBlobClient(blobClient);
+    blobClient = containerClient.createBlobClient(blobName);
+    blockBlobClient = blobClient.createBlockBlobClient();
   });
 
   afterEach(async () => {

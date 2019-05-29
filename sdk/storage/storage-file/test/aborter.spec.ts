@@ -1,7 +1,6 @@
 import * as assert from "assert";
 
 import { Aborter } from "../src/Aborter";
-import { ShareClient } from "../src/ShareClient";
 import { getBSU, getUniqueName } from "./utils";
 import * as dotenv from "dotenv";
 dotenv.config({ path: "../.env" });
@@ -10,11 +9,11 @@ dotenv.config({ path: "../.env" });
 describe("Aborter", () => {
   const serviceClient = getBSU();
   let shareName: string = getUniqueName("share");
-  let shareClient = ShareClient.fromFileServiceClient(serviceClient, shareName);
+  let shareClient = serviceClient.createShareClient(shareName);
 
   beforeEach(async () => {
     shareName = getUniqueName("share");
-    shareClient = ShareClient.fromFileServiceClient(serviceClient, shareName);
+    shareClient = serviceClient.createShareClient(shareName);
   });
 
   it("should set value and get value successfully", async () => {

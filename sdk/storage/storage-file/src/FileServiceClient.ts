@@ -1,8 +1,13 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 import * as Models from "./generated/lib/models";
 import { Aborter } from "./Aborter";
 import { Service } from "./generated/lib/operations";
 import { Pipeline } from "./Pipeline";
 import { StorageClient } from "./StorageClient";
+import { ShareClient } from "./ShareClient";
+import { appendToURLPath } from "./utils/utils.common";
 
 export interface ServiceListSharesSegmentOptions {
   abortSignal?: Aborter;
@@ -86,6 +91,17 @@ export class FileServiceClient extends StorageClient {
    */
   public withPipeline(pipeline: Pipeline): FileServiceClient {
     return new FileServiceClient(this.url, pipeline);
+  }
+
+  /**
+   * Creates a ShareClient object.
+   *
+   * @param shareName
+   * @returns {ShareClient}
+   * @memberof FileServiceClient
+   */
+  public createShareClient(shareName: string): ShareClient {
+    return new ShareClient(appendToURLPath(this.url, shareName), this.pipeline);
   }
 
   /**

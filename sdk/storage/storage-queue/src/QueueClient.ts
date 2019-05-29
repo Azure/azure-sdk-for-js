@@ -1,12 +1,15 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 import { HttpResponse } from "@azure/ms-rest-js";
 import * as Models from "./generated/lib/models";
 import { Aborter } from "./Aborter";
 import { Queue } from "./generated/lib/operations";
 import { Metadata } from "./models";
 import { Pipeline } from "./Pipeline";
-import { QueueServiceClient } from "./QueueServiceClient";
 import { StorageClient } from "./StorageClient";
 import { appendToURLPath, truncatedISO8061Date } from "./utils/utils.common";
+import { MessagesClient } from "./MessagesClient";
 
 export interface QueueCreateOptions {
   abortSignal?: Aborter;
@@ -61,24 +64,24 @@ export interface SignedIdentifier {
 export declare type QueueGetAccessPolicyResponse = {
   signedIdentifiers: SignedIdentifier[];
 } & Models.QueueGetAccessPolicyHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpResponse & {
     /**
-     * The underlying HTTP response.
+     * The parsed HTTP response headers.
      */
-    _response: HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: Models.QueueGetAccessPolicyHeaders;
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Models.SignedIdentifier[];
-    };
+    parsedHeaders: Models.QueueGetAccessPolicyHeaders;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Models.SignedIdentifier[];
   };
+};
 
 /**
  * A QueueURL represents a URL to the Azure Storage queue.
@@ -88,21 +91,6 @@ export declare type QueueGetAccessPolicyResponse = {
  * @extends {StorageClient}
  */
 export class QueueClient extends StorageClient {
-  /**
-   * Creates a QueueURL object from QueueServiceClient
-   * @param queueServiceClient
-   * @param queueName
-   */
-  public static fromQueueServiceClient(
-    queueServiceClient: QueueServiceClient,
-    queueName: string
-  ): QueueClient {
-    return new QueueClient(
-      appendToURLPath(queueServiceClient.url, queueName),
-      queueServiceClient.pipeline
-    );
-  }
-
   /**
    * queueContext provided by protocol layer.
    *
@@ -155,6 +143,14 @@ export class QueueClient extends StorageClient {
       ...options,
       abortSignal: aborter
     });
+  }
+
+  /**
+   * Creates a MessagesClient object.
+   * @param queueName
+   */
+  public createMessagesClient(): MessagesClient {
+    return new MessagesClient(appendToURLPath(this.url, "messages"), this.pipeline);
   }
 
   /**

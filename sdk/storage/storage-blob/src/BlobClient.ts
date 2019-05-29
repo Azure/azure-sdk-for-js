@@ -1,16 +1,22 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 import { isNode, TransferProgressEvent } from "@azure/ms-rest-js";
 
 import * as Models from "./generated/lib/models";
 import { Aborter } from "./Aborter";
 import { BlobDownloadResponse } from "./BlobDownloadResponse";
-import { ContainerClient } from "./ContainerClient";
 import { Blob } from "./generated/lib/operations";
 import { rangeToString } from "./Range";
 import { BlobAccessConditions, Metadata } from "./models";
 import { Pipeline } from "./Pipeline";
 import { StorageClient, NewPipelineOptions } from "./StorageClient";
 import { DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS, URLConstants } from "./utils/constants";
-import { appendToURLPath, setURLParameter, extractPartsWithValidation } from "./utils/utils.common";
+import { setURLParameter, extractPartsWithValidation } from "./utils/utils.common";
+import { AppendBlobClient } from "./internal";
+import { BlockBlobClient } from "./internal";
+import { PageBlobClient } from "./internal";
+import { Credential } from "./credentials/Credential";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 
 export interface BlobDownloadOptions {
@@ -121,22 +127,6 @@ export interface BlobSetTierOptions {
  */
 export class BlobClient extends StorageClient {
   /**
-   * Creates a BlobClient object from an ContainerClient object.
-   *
-   * @static
-   * @param {ContainerClient} containerClient A ContainerClient object
-   * @param {string} blobName A blob name
-   * @returns
-   * @memberof BlobClient
-   */
-  public static fromContainerClient(containerClient: ContainerClient, blobName: string) {
-    return new BlobClient(
-      appendToURLPath(containerClient.url, encodeURIComponent(blobName)),
-      containerClient.pipeline
-    );
-  }
-
-  /**
    * blobContext provided by protocol layer.
    *
    * @private
@@ -145,6 +135,35 @@ export class BlobClient extends StorageClient {
    */
   private blobContext: Blob;
 
+  /**
+   * Creates an instance of BlobClient.
+   *
+   * @param {string} connectionString Connection string for an Azure storage account.
+   * @param {string} containerName Container name.
+   * @param {string} blobName Blob name.
+   * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
+   * @memberof BlobClient
+   */
+  constructor(
+    connectionString: string,
+    containerName: string,
+    blobName: string,
+    options?: NewPipelineOptions
+  );
+  /**
+   * Creates an instance of BlobClient.
+   * This method accepts an encoded URL or non-encoded URL pointing to a blob.
+   * Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
+   * If a blob name includes ? or %, blob name must be encoded in the URL.
+   *
+   * @param {string} url A Client string pointing to Azure Storage blob service, such as
+   *                     "https://myaccount.blob.core.windows.net". You can append a SAS
+   *                     if using AnonymousCredential, such as "https://myaccount.blob.core.windows.net?sasString".
+   * @param {Credential} credential Such as AnonymousCredential, SharedKeyCredential or TokenCredential.
+   * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
+   * @memberof BlobClient
+   */
+  constructor(url: string, credential: Credential, options?: NewPipelineOptions);
   /**
    * Creates an instance of BlobClient.
    * This method accepts an encoded URL or non-encoded URL pointing to a blob.
@@ -163,8 +182,34 @@ export class BlobClient extends StorageClient {
    *                            pipeline, or provide a customized pipeline.
    * @memberof BlobClient
    */
-  constructor(url: string, pipeline: Pipeline) {
-    super(url, pipeline);
+  constructor(url: string, pipeline: Pipeline);
+  constructor(
+    s: string,
+    credentialOrPipelineOrContainerName: string | Credential | Pipeline,
+    blobNameOrOptions?: string | NewPipelineOptions,
+    options?: NewPipelineOptions
+  ) {
+    let pipeline: Pipeline;
+    if (credentialOrPipelineOrContainerName instanceof Pipeline) {
+      pipeline = credentialOrPipelineOrContainerName;
+    } else if (credentialOrPipelineOrContainerName instanceof Credential) {
+      pipeline = StorageClient.newPipeline(credentialOrPipelineOrContainerName, options);
+    } else if (
+      credentialOrPipelineOrContainerName &&
+      typeof credentialOrPipelineOrContainerName === "string" &&
+      blobNameOrOptions &&
+      typeof blobNameOrOptions === "string"
+    ) {
+      const containerName = credentialOrPipelineOrContainerName;
+      const blobName = blobNameOrOptions;
+      // TODO: extract parts from connection string
+      const sharedKeyCredential = new SharedKeyCredential("name", "key");
+      s = "endpoint from connection string" + containerName + "/" + blobName;
+      pipeline = StorageClient.newPipeline(sharedKeyCredential, options);
+    } else {
+      throw new Error("Expecting non-empty strings for containerName and blobName parameters");
+    }
+    super(s, pipeline);
     this.blobContext = new Blob(this.storageClientContext);
   }
 
@@ -220,6 +265,36 @@ export class BlobClient extends StorageClient {
       ),
       this.pipeline
     );
+  }
+
+  /**
+   * Creates a AppendBlobClient object.
+   *
+   * @returns {AppendBlobClient}
+   * @memberof BlobClient
+   */
+  public createAppendBlobClient(): AppendBlobClient {
+    return new AppendBlobClient(this.url, this.pipeline);
+  }
+
+  /**
+   * Creates a BlockBlobClient object.
+   *
+   * @returns {BlockBlobClient}
+   * @memberof BlobClient
+   */
+  public createBlockBlobClient(): BlockBlobClient {
+    return new BlockBlobClient(this.url, this.pipeline);
+  }
+
+  /**
+   * Creates a PageBlobClient object.
+   *
+   * @returns {PageBlobClient}
+   * @memberof BlobClient
+   */
+  public createPageBlobClient(): PageBlobClient {
+    return new PageBlobClient(this.url, this.pipeline);
   }
 
   /**

@@ -2,7 +2,6 @@ import { URLBuilder } from "@azure/ms-rest-js";
 import * as assert from "assert";
 
 import { RestError, StorageClient } from "../src";
-import { ContainerClient } from "../src/ContainerClient";
 import { Pipeline } from "../src/Pipeline";
 import { getBSU, getUniqueName } from "./utils";
 import { InjectorPolicyFactory } from "./utils/InjectorPolicyFactory";
@@ -12,11 +11,11 @@ dotenv.config({ path: "../.env" });
 describe("RetryPolicy", () => {
   const blobServiceClient = getBSU();
   let containerName: string = getUniqueName("container");
-  let containerClient = ContainerClient.fromBlobServiceClient(blobServiceClient, containerName);
+  let containerClient = blobServiceClient.createContainerClient(containerName);
 
   beforeEach(async () => {
     containerName = getUniqueName("container");
-    containerClient = ContainerClient.fromBlobServiceClient(blobServiceClient, containerName);
+    containerClient = blobServiceClient.createContainerClient(containerName);
     await containerClient.create();
   });
 

@@ -1,8 +1,5 @@
 import * as assert from "assert";
 
-import { BlobClient } from "../src/BlobClient";
-import { BlockBlobClient } from "../src/BlockBlobClient";
-import { ContainerClient } from "../src/ContainerClient";
 import { base64encode, bodyToString, getBSU, getUniqueName } from "./utils";
 import * as dotenv from "dotenv";
 dotenv.config({ path: "../.env" });
@@ -10,18 +7,18 @@ dotenv.config({ path: "../.env" });
 describe("BlockBlobClient", () => {
   const blobServiceClient = getBSU();
   let containerName: string = getUniqueName("container");
-  let containerClient = ContainerClient.fromBlobServiceClient(blobServiceClient, containerName);
+  let containerClient = blobServiceClient.createContainerClient(containerName);
   let blobName: string = getUniqueName("blob");
-  let blobClient = BlobClient.fromContainerClient(containerClient, blobName);
-  let blockBlobClient = BlockBlobClient.fromBlobClient(blobClient);
+  let blobClient = containerClient.createBlobClient(blobName);
+  let blockBlobClient = blobClient.createBlockBlobClient();
 
   beforeEach(async () => {
     containerName = getUniqueName("container");
-    containerClient = ContainerClient.fromBlobServiceClient(blobServiceClient, containerName);
+    containerClient = blobServiceClient.createContainerClient(containerName);
     await containerClient.create();
     blobName = getUniqueName("blob");
-    blobClient = BlobClient.fromContainerClient(containerClient, blobName);
-    blockBlobClient = BlockBlobClient.fromBlobClient(blobClient);
+    blobClient = containerClient.createBlobClient(blobName);
+    blockBlobClient = blobClient.createBlockBlobClient();
   });
 
   afterEach(async () => {
@@ -85,8 +82,7 @@ describe("BlockBlobClient", () => {
       // tslint:disable-next-line:no-empty
     } catch (err) {}
 
-    const newBlockBlobClient = BlockBlobClient.fromContainerClient(
-      containerClient,
+    const newBlockBlobClient = containerClient.createBlockBlobClient(
       getUniqueName("newblockblob")
     );
     await newBlockBlobClient.stageBlockFromURL(
@@ -112,8 +108,7 @@ describe("BlockBlobClient", () => {
       // tslint:disable-next-line:no-empty
     } catch (err) {}
 
-    const newBlockBlobClient = BlockBlobClient.fromContainerClient(
-      containerClient,
+    const newBlockBlobClient = containerClient.createBlockBlobClient(
       getUniqueName("newblockblob")
     );
     await newBlockBlobClient.stageBlockFromURL(

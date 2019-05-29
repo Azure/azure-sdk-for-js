@@ -1,10 +1,13 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 import * as fs from "fs";
 import { generateUuid, TransferProgressEvent } from "@azure/ms-rest-js";
 import { Readable } from "stream";
 
 import { Aborter } from "./Aborter";
-import { BlobClient } from "./BlobClient";
-import { BlockBlobClient } from "./BlockBlobClient";
+import { BlobClient } from "./internal";
+import { BlockBlobClient } from "./internal";
 import { BlobHTTPHeaders } from "./generated/lib/models";
 import {
   BlobUploadCommonResponse,
