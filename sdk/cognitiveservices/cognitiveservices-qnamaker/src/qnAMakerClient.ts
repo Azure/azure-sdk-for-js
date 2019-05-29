@@ -16,6 +16,7 @@ import { QnAMakerClientContext } from "./qnAMakerClientContext";
 
 class QnAMakerClient extends QnAMakerClientContext {
   // Operation groups
+  endpointSettings: operations.EndpointSettings;
   endpointKeys: operations.EndpointKeys;
   alterations: operations.Alterations;
   knowledgebase: operations.Knowledgebase;
@@ -30,6 +31,7 @@ class QnAMakerClient extends QnAMakerClientContext {
    */
   constructor(credentials: msRest.ServiceClientCredentials, endpoint: string, options?: msRest.ServiceClientOptions) {
     super(credentials, endpoint, options);
+    this.endpointSettings = new operations.EndpointSettings(this);
     this.endpointKeys = new operations.EndpointKeys(this);
     this.alterations = new operations.Alterations(this);
     this.knowledgebase = new operations.Knowledgebase(this);
