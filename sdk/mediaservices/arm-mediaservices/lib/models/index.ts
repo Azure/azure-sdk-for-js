@@ -44,7 +44,7 @@ export interface PresentationTimeRange {
    */
   timescale?: number;
   /**
-   * @member {boolean} [forceEndTimestamp] The indicator of forcing exsiting of
+   * @member {boolean} [forceEndTimestamp] The indicator of forcing existing of
    * end time stamp.
    */
   forceEndTimestamp?: boolean;
@@ -64,7 +64,7 @@ export interface FilterTrackPropertyCondition {
    */
   property: FilterTrackPropertyType;
   /**
-   * @member {string} value The track proprty value.
+   * @member {string} value The track property value.
    */
   value: string;
   /**
@@ -2903,7 +2903,7 @@ export interface AbsoluteClipTime {
   odatatype: "#Microsoft.Media.AbsoluteClipTime";
   /**
    * @member {string} time The time position on the timeline of the input
-   * media. It is usually speicified as an ISO8601 period. e.g PT30S for 30
+   * media. It is usually specified as an ISO8601 period. e.g PT30S for 30
    * seconds.
    */
   time: string;
@@ -4348,7 +4348,7 @@ export interface AssetsListOptionalParams extends msRest.RequestOptionsBase {
    */
   top?: number;
   /**
-   * @member {string} [orderby] Specifies the the key by which the result
+   * @member {string} [orderby] Specifies the key by which the result
    * collection should be ordered.
    */
   orderby?: string;
@@ -4373,7 +4373,7 @@ export interface ContentKeyPoliciesListOptionalParams extends msRest.RequestOpti
    */
   top?: number;
   /**
-   * @member {string} [orderby] Specifies the the key by which the result
+   * @member {string} [orderby] Specifies the key by which the result
    * collection should be ordered.
    */
   orderby?: string;
@@ -4392,7 +4392,7 @@ export interface TransformsListOptionalParams extends msRest.RequestOptionsBase 
    */
   filter?: string;
   /**
-   * @member {string} [orderby] Specifies the the key by which the result
+   * @member {string} [orderby] Specifies the key by which the result
    * collection should be ordered.
    */
   orderby?: string;
@@ -4411,7 +4411,7 @@ export interface JobsListOptionalParams extends msRest.RequestOptionsBase {
    */
   filter?: string;
   /**
-   * @member {string} [orderby] Specifies the the key by which the result
+   * @member {string} [orderby] Specifies the key by which the result
    * collection should be ordered.
    */
   orderby?: string;
