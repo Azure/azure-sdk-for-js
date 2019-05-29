@@ -8,7 +8,7 @@ import * as Models from "./generated/lib/models";
 import { BlobAccessConditions } from "./models";
 
 /**
- * Option interface for uploadFileToBlockBlob and uploadSeekableStreamToBlockBlob.
+ * Option interface for BlockBlobClient.uploadFile() and BlockBlobClient.uploadSeekableStream().
  *
  * @export
  * @interface UploadToBlockBlobOptions
@@ -84,7 +84,7 @@ export interface UploadToBlockBlobOptions {
 }
 
 /**
- * Type for uploadFileToBlockBlob, uploadStreamToBlockBlob and uploadBrowserDateToBlockBlob.
+ * Type for BlockBlobClient.uploadFile(), BlockBlobClient.uploadStream() and BlockBlobClient.uploadBrowserDate().
  *
  * @export
  */

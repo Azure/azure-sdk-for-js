@@ -66,9 +66,9 @@ There are differences between Node.js and browsers runtime. When getting start w
   - `generateFileSASQueryParameters()`
   - `generateQueueSASQueryParameters()`
 - Parallel uploading and downloading
-  - `uploadFileToBlockBlob()`
-  - `uploadStreamToBlockBlob()`
-  - `downloadBlobToBuffer()`
+  - `BlockBlobClient.uploadFile()`
+  - `BlockBlobClient.uploadStream()`
+  - `BlobClient.downloadToBuffer()`
   - `uploadFileToAzureFile()`
   - `uploadStreamToAzureFile()`
   - `downloadAzureFileToBuffer()`
@@ -76,7 +76,7 @@ There are differences between Node.js and browsers runtime. When getting start w
 ##### Following features, interfaces, classes or functions are only available in browsers
 
 - Parallel uploading and downloading
-  - `uploadBrowserDataToBlockBlob()`
+  - `BlockBlobClient.uploadBrowserData()`
   - `uploadBrowserDataToAzureFile()`
 
 ## Getting Started
