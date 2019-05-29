@@ -1282,7 +1282,58 @@ export const EntityQuery: msRest.CompositeMapper = {
     name: "Composite",
     className: "EntityQuery",
     modelProperties: {
-      ...Resource.type.modelProperties
+      ...Resource.type.modelProperties,
+      queryTemplate: {
+        serializedName: "properties.queryTemplate",
+        type: {
+          name: "String"
+        }
+      },
+      inputEntityType: {
+        serializedName: "properties.inputEntityType",
+        type: {
+          name: "String"
+        }
+      },
+      inputFields: {
+        serializedName: "properties.inputFields",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      outputEntityTypes: {
+        serializedName: "properties.outputEntityTypes",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      dataSources: {
+        serializedName: "properties.dataSources",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      displayName: {
+        serializedName: "properties.displayName",
+        type: {
+          name: "String"
+        }
+      }
     }
   }
 };

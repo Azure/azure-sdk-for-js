@@ -1277,6 +1277,34 @@ export interface AggregationsKind1 {
  * @extends Resource
  */
 export interface EntityQuery extends Resource {
+  /**
+   * @member {string} [queryTemplate] The template query string to be parsed
+   * and formatted
+   */
+  queryTemplate?: string;
+  /**
+   * @member {string} [inputEntityType] The type of the query's source entity
+   */
+  inputEntityType?: string;
+  /**
+   * @member {string[]} [inputFields] List of the fields of the source entity
+   * that are required to run the query
+   */
+  inputFields?: string[];
+  /**
+   * @member {string[]} [outputEntityTypes] List of the desired output types to
+   * be constructed from the result
+   */
+  outputEntityTypes?: string[];
+  /**
+   * @member {string[]} [dataSources] List of the data sources that are
+   * required to run the query
+   */
+  dataSources?: string[];
+  /**
+   * @member {string} [displayName] The query display name
+   */
+  displayName?: string;
 }
 
 /**
