@@ -14,10 +14,10 @@ import { BlobAccessConditions, Metadata } from "./models";
 import { Pipeline } from "./Pipeline";
 import { URLConstants, BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES, BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES, BLOCK_BLOB_MAX_BLOCKS, DEFAULT_BLOB_DOWNLOAD_BLOCK_BYTES } from "./utils/constants";
 import { setURLParameter, generateBlockID } from "./utils/utils.common";
-import { UploadToBlockBlobOptions, BlobUploadCommonResponse } from './highlevel.common';
-import { BufferScheduler } from './utils/BufferScheduler';
-import { Readable } from 'stream';
-import { Batch } from './utils/Batch';
+import { UploadToBlockBlobOptions, BlobUploadCommonResponse } from "./highlevel.common";
+import { BufferScheduler } from "./utils/BufferScheduler";
+import { Readable } from "stream";
+import { Batch } from "./utils/Batch";
 
 /**
  * Options to configure Block Blob - Upload operation.
@@ -221,7 +221,7 @@ export interface BlockBlobGetBlockListOptions {
 
 
 /**
- * Option interface for uploadStreamToBlockBlob.
+ * Option interface for uploadStream().
  *
  * @export
  * @interface UploadStreamToBlockBlobOptions
@@ -337,8 +337,8 @@ export class BlockBlobClient extends BlobClient {
    * overwritten with the new content. To perform a partial update of a block blob's,
    * use stageBlock and commitBlockList.
    *
-   * This is a non-parallel uploading method, please use uploadFileToBlockBlob(),
-   * uploadStreamToBlockBlob() or uploadBrowserDataToBlockBlob() for better performance
+   * This is a non-parallel uploading method, please use uploadFile(),
+   * uploadStream() or uploadBrowserData() for better performance
    * with concurrency uploading.
    *
    * @see https://docs.microsoft.com/rest/api/storageservices/put-blob
@@ -512,12 +512,12 @@ export class BlockBlobClient extends BlobClient {
    * @param {UploadToBlockBlobOptions} [options]
    * @returns {Promise<BlobUploadCommonResponse>}
    */
-  public async uploadBrowserDataToBlockBlob(
+  public async uploadBrowserData(
     browserData: Blob | ArrayBuffer | ArrayBufferView,
     options?: UploadToBlockBlobOptions
   ): Promise<BlobUploadCommonResponse> {
     const browserBlob = new Blob([browserData]);
-    return this.UploadSeekableBlobToBlockBlob(
+    return this.UploadSeekableBlob(
       (offset: number, size: number): Blob => {
         return browserBlob.slice(offset, offset + size);
       },
@@ -541,7 +541,7 @@ export class BlockBlobClient extends BlobClient {
    * @param {UploadToBlockBlobOptions} [options]
    * @returns {Promise<BlobUploadCommonResponse>}
    */
-  private async UploadSeekableBlobToBlockBlob(
+  private async UploadSeekableBlob(
     blobFactory: (offset: number, size: number) => Blob,
     size: number,
     options: UploadToBlockBlobOptions = {}
@@ -649,12 +649,12 @@ export class BlockBlobClient extends BlobClient {
    * @param {UploadToBlockBlobOptions} [options] UploadToBlockBlobOptions
    * @returns {(Promise<BlobUploadCommonResponse>)} ICommonResponse
    */
-  public async uploadFileToBlockBlob(
+  public async uploadFile(
     filePath: string,
     options?: UploadToBlockBlobOptions
   ): Promise<BlobUploadCommonResponse> {
     const size = fs.statSync(filePath).size;
-    return this.uploadResetableStreamToBlockBlob(
+    return this.uploadResetableStream(
       (offset, count) =>
         fs.createReadStream(filePath, {
           autoClose: true,
@@ -683,7 +683,7 @@ export class BlockBlobClient extends BlobClient {
    * @param {UploadStreamToBlockBlobOptions} [options]
    * @returns {Promise<BlobUploadCommonResponse>}
    */
-  public async uploadStreamToBlockBlob(
+  public async uploadStream(
     stream: Readable,
     bufferSize: number,
     maxBuffers: number,
@@ -749,7 +749,7 @@ export class BlockBlobClient extends BlobClient {
    * @param {UploadToBlockBlobOptions} [options] UploadToBlockBlobOptions
    * @returns {(Promise<BlobUploadCommonResponse>)} ICommonResponse
    */
-  private async uploadResetableStreamToBlockBlob(
+  private async uploadResetableStream(
     streamFactory: (offset: number, count?: number) => NodeJS.ReadableStream,
     size: number,
     options: UploadToBlockBlobOptions = {}

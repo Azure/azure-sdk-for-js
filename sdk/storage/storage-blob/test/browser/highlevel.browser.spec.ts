@@ -49,7 +49,7 @@ describe("Highelvel", () => {
     const aborter = Aborter.timeout(1);
 
     try {
-      await blockBlobClient.uploadBrowserDataToBlockBlob(tempFile1, {
+      await blockBlobClient.uploadBrowserData(tempFile1, {
         abortSignal: aborter
       });
       assert.fail();
@@ -62,7 +62,7 @@ describe("Highelvel", () => {
     const aborter = Aborter.timeout(1);
 
     try {
-      await blockBlobClient.uploadBrowserDataToBlockBlob(tempFile2, {
+      await blockBlobClient.uploadBrowserData(tempFile2, {
         abortSignal: aborter,
         blockSize: 4 * 1024 * 1024,
         parallelism: 2
@@ -78,7 +78,7 @@ describe("Highelvel", () => {
     const aborter = Aborter.none;
 
     try {
-      await blockBlobClient.uploadBrowserDataToBlockBlob(tempFile1, {
+      await blockBlobClient.uploadBrowserData(tempFile1, {
         abortSignal: aborter,
         blockSize: 4 * 1024 * 1024,
         parallelism: 2,
@@ -97,7 +97,7 @@ describe("Highelvel", () => {
     const aborter = Aborter.none;
 
     try {
-      await blockBlobClient.uploadBrowserDataToBlockBlob(tempFile2, {
+      await blockBlobClient.uploadBrowserData(tempFile2, {
         abortSignal: aborter,
         blockSize: 4 * 1024 * 1024,
         parallelism: 2,
@@ -112,7 +112,7 @@ describe("Highelvel", () => {
   });
 
   it("uploadBrowserDataToBlockBlob should success when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
-    await blockBlobClient.uploadBrowserDataToBlockBlob(tempFile2, {
+    await blockBlobClient.uploadBrowserData(tempFile2, {
       blockSize: 4 * 1024 * 1024,
       parallelism: 2
     });
@@ -125,7 +125,7 @@ describe("Highelvel", () => {
   });
 
   it("uploadBrowserDataToBlockBlob should success when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES and configured maxSingleShotSize", async () => {
-    await blockBlobClient.uploadBrowserDataToBlockBlob(tempFile2, {
+    await blockBlobClient.uploadBrowserData(tempFile2, {
       blockSize: 512 * 1024,
       maxSingleShotSize: 0
     });
@@ -146,7 +146,7 @@ describe("Highelvel", () => {
       return;
     }
 
-    await blockBlobClient.uploadBrowserDataToBlockBlob(tempFile1, {
+    await blockBlobClient.uploadBrowserData(tempFile1, {
       blockSize: 4 * 1024 * 1024,
       parallelism: 2
     });

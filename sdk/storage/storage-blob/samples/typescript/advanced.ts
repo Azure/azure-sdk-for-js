@@ -4,14 +4,8 @@
 
 import fs from "fs";
 import {
-  AnonymousCredential,
-  downloadBlobToBuffer,
-  uploadFileToBlockBlob,
-  uploadStreamToBlockBlob,
   Aborter,
-  BlobClient,
-  BlockBlobClient,
-  ContainerClient,
+  AnonymousCredential,
   BlobServiceClient,
   StorageClient
 } from "../.."; // Change to "@azure/storage-blob" in your package
@@ -36,28 +30,26 @@ async function main() {
 
   // Create a container
   const containerName = `newcontainer${new Date().getTime()}`;
-  const containerClient = ContainerClient.fromBlobServiceClient(blobServiceClient, containerName);
+  const containerClient = blobServiceClient.createContainerClient(containerName);
   await containerClient.create();
 
   // Create a blob
   const blobName = "newblob" + new Date().getTime();
-  const blobClient = BlobClient.fromContainerClient(containerClient, blobName);
-  const blockBlobClient = BlockBlobClient.fromBlobClient(blobClient);
+  const blockBlobClient = containerClient.createBlockBlobClient(blobName);
 
-  // Parallel uploading with uploadFileToBlockBlob in Node.js runtime
-  // uploadFileToBlockBlob is only available in Node.js
-  await uploadFileToBlockBlob(localFilePath, blockBlobClient, {
+  // Parallel uploading with BlockBlobClient.uploadFile() in Node.js runtime
+  // BlockBlobClient.uploadFile() is only available in Node.js
+  await blockBlobClient.uploadFile(localFilePath, {
     blockSize: 4 * 1024 * 1024, // 4MB block size
     parallelism: 20, // 20 concurrency
     progress: ev => console.log(ev)
   });
-  console.log("uploadFileToBlockBlob success");
+  console.log("uploadFile success");
 
-  // Parallel uploading a Readable stream with uploadStreamToBlockBlob in Node.js runtime
-  // uploadStreamToBlockBlob is only available in Node.js
-  await uploadStreamToBlockBlob(
+  // Parallel uploading a Readable stream with BlockBlobClient.uploadStream() in Node.js runtime
+  // BlockBlobClient.uploadStream() is only available in Node.js
+  await blockBlobClient.uploadStream(
     fs.createReadStream(localFilePath),
-    blockBlobClient,
     4 * 1024 * 1024,
     20,
     {
@@ -65,13 +57,13 @@ async function main() {
       progress: ev => console.log(ev)
     }
   );
-  console.log("uploadStreamToBlockBlob success");
+  console.log("uploadStream success");
 
-  // Parallel uploading a browser File/Blob/ArrayBuffer in browsers with uploadBrowserDataToBlockBlob
-  // Uncomment following code in browsers because uploadBrowserDataToBlockBlob is only available in browsers
+  // Parallel uploading a browser File/Blob/ArrayBuffer in browsers with BlockBlobClient.uploadBrowserData()
+  // Uncomment following code in browsers because BlockBlobClient.uploadBrowserData() is only available in browsers
   /*
   const browserFile = document.getElementById("fileinput").files[0];
-  await uploadBrowserDataToBlockBlob(browserFile, blockBlobClient, {
+  await blockBlobClient.uploadBrowserData(browserFile, {
     blockSize: 4 * 1024 * 1024, // 4MB block size
     parallelism: 20, // 20 concurrency
     progress: ev => console.log(ev)
@@ -79,12 +71,11 @@ async function main() {
   */
 
   // Parallel downloading a block blob into Node.js buffer
-  // downloadBlobToBuffer is only available in Node.js
+  // downloadToBuffer is only available in Node.js
   const fileSize = fs.statSync(localFilePath).size;
   const buffer = Buffer.alloc(fileSize);
-  await downloadBlobToBuffer(
+  await blockBlobClient.downloadToBuffer(
     buffer,
-    blockBlobClient,
     0,
     undefined,
     {
@@ -94,7 +85,7 @@ async function main() {
       progress: ev => console.log(ev)
     }
   );
-  console.log("downloadBlobToBuffer success");
+  console.log("downloadToBuffer success");
 
   // Delete container
   await containerClient.delete();

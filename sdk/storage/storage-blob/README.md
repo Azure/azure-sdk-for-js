@@ -53,14 +53,14 @@ There are differences between Node.js and browsers runtime. When getting start w
   - `generateAccountSASQueryParameters()`
   - `generateBlobSASQueryParameters()`
 - Parallel uploading and downloading
-  - `uploadFileToBlockBlob()`
-  - `uploadStreamToBlockBlob()`
-  - `downloadBlobToBuffer()`
+  - `BlockBlobClient.uploadFile()`
+  - `BlockBlobClient.uploadStream()`
+  - `BlobClient.downloadToBuffer()`
 
 ##### Following features, interfaces, classes or functions are only available in browsers
 
 - Parallel uploading and downloading
-  - `uploadBrowserDataToBlockBlob()`
+  - `BlockBlobClient.uploadBrowserData()`
 
 ## Getting Started
 
@@ -176,7 +176,7 @@ async function main() {
 
   // Create a container
   const containerName = `newcontainer${new Date().getTime()}`;
-  const containerClient = ContainerClient.fromBlobServiceClient(blobServiceClient, containerName);
+  const containerClient = blobServiceClient.createContainerClient(containerName);
 
   const createContainerResponse = await containerClient.create();
   console.log(
@@ -187,8 +187,7 @@ async function main() {
   // Create a blob
   const content = "hello";
   const blobName = "newblob" + new Date().getTime();
-  const blobClient = BlobClient.fromContainerClient(containerClient, blobName);
-  const blockBlobClient = BlockBlobClient.fromBlobClient(blobClient);
+  const blockBlobClient = containerClient.createBlockBlobClient(blobName);
   const uploadBlobResponse = await blockBlobClient.upload(
     content,
     content.length

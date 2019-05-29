@@ -17,8 +17,8 @@ import { AppendBlobClient } from "./internal";
 import { BlockBlobClient } from "./internal";
 import { PageBlobClient } from "./internal";
 import { DownloadFromBlobOptions } from "./highlevel.common";
-import { Batch } from './utils/Batch';
-import { streamToBuffer } from './utils/utils.node';
+import { Batch } from "./utils/Batch";
+import { streamToBuffer } from "./utils/utils.node";
 
 /**
  * Options to configure Blob - Download operation.
@@ -997,7 +997,7 @@ export class BlobClient extends StorageClient {
    * @param {DownloadFromBlobOptions} [options] DownloadFromBlobOptions
    * @returns {Promise<void>}
    */
-  public async downloadBlobToBuffer(
+  public async downloadToBuffer(
     buffer: Buffer,
     offset: number,
     count?: number,
