@@ -18,7 +18,10 @@
   "main": "./dist/index.js",
   "module": "dist-esm/src/index.js",
   "browser": {
-    "./dist/index.js": "./browser/service-bus.js"
+    "./dist/index.js": "./browser/service-bus.js",
+    "./dist-esm/test/utils/aadUtils.js": "./dist-esm/test/utils/aadUtils.browser.js",
+    "buffer": "buffer",
+    "stream": "stream-browserify"
   },
   "types": "./typings/service-bus.d.ts",
   "engine": {

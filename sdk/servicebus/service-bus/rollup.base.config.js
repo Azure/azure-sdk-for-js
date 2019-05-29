@@ -94,7 +94,7 @@ export function nodeConfig({ test = false, production = false } = {}) {
 export function browserConfig({ test = false, production = false } = {}) {
   const baseConfig = {
     input: input,
-    external: ["@azure/ms-rest-nodeauth"],
+    external: [],
     output: {
       file: "browser/service-bus.js",
       format: "umd",
