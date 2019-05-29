@@ -350,6 +350,10 @@
       "projectFolder": "sdk/keyvault/keyvault"
     },
     {
+      "packageName": "@azure/core-keyvault",
+      "projectFolder": "sdk/keyvault/core-keyvault"
+    },
+    {
       "packageName": "@azure/service-bus",
       "projectFolder": "sdk/servicebus/service-bus"
     },
