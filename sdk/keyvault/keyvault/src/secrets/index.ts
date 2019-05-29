@@ -2,8 +2,6 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import {
-  HttpClient as IHttpClient,
-  HttpPipelineLogger as IHttpPipelineLogger,
   ServiceClientCredentials,
   RequestPolicyFactory,
   deserializationPolicy,
@@ -19,8 +17,6 @@ import {
   userAgentPolicy
 } from "@azure/ms-rest-js";
 
-import { AzureServiceClientOptions as Pipeline, getDefaultUserAgentValue } from "@azure/ms-rest-azure-js";
-import { RetryOptions, ProxyOptions, TelemetryOptions } from "..";
 import { SecretBundle } from "../models";
 import { KeyVaultClient } from "../keyVaultClient";
 import { RetryConstants, SDK_VERSION } from "../utils/constants";
@@ -34,49 +30,9 @@ import {
   SecretAttributes
 } from "./secretsModels";
 import { parseKeyvaultIdentifier as parseKeyvaultEntityIdentifier } from "../utils";
-
-export { ParsedKeyVaultEntityIdentifier } from "./secretsModels";
-export { Pipeline };
-
-/**
- * Option interface for Pipeline.newPipeline method.
- *
- * Properties of this interface should not overlap with properties of {@link Pipeline}
- * as we use them to differentiate instances of NewPipelineOptions from instances of Pipeline.
- * If this interface is modified, the method isNewPipelineOptions() should also be updated
- * to adapt the changes.
- *
- * @export
- * @interface NewPipelineOptions
- */
-export interface NewPipelineOptions {
-  /**
-   * Telemetry configures the built-in telemetry policy behavior.
-   *
-   * @type {TelemetryOptions}
-   * @memberof NewPipelineOptions
-   */
-  telemetry?: TelemetryOptions;
-  retryOptions?: RetryOptions;
-  proxyOptions?: ProxyOptions;
-
-  logger?: IHttpPipelineLogger;
-  HTTPClient?: IHttpClient;
-}
-
-function isNewPipelineOptions(
-  pipelineOrOptions: Pipeline | NewPipelineOptions
-): pipelineOrOptions is NewPipelineOptions {
-  // An empty object is consider options
-  function isEmptyObject(obj: Pipeline | NewPipelineOptions) {
-    return Object.keys(obj).length === 0 && obj.constructor === Object;
-  }
-  const options = pipelineOrOptions as NewPipelineOptions;
-  return (
-    isEmptyObject(pipelineOrOptions) ||
-    !!(options.retryOptions || options.proxyOptions || options.logger || options.HTTPClient)
-  );
-}
+import { NewPipelineOptions, isNewPipelineOptions, Pipeline } from "../keyVaultBase";
+import { TelemetryOptions } from "..";
+import { getDefaultUserAgentValue } from "@azure/ms-rest-azure-js";
 
 export class SecretsClient {
   /**
