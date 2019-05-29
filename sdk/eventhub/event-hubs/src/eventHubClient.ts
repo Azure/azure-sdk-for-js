@@ -181,8 +181,7 @@ export class EventHubClient {
     eventHubPath: string,
     credentials: ApplicationTokenCredentials | UserTokenCredentials | DeviceTokenCredentials | MSITokenCredentials,
     options?: ClientOptions
-  ); // Endpoint=sb://shivangieventhubs.servicebus.windows.net/;SharedAccessKeyName=sharedAccessKeyName;SharedAccessKey=IasfZoE47fTvQhEW7wyE1EWmVu+19zs7ZzDPOdbfkS8=;EntityPath=test
-
+  );
   constructor(
     hostOrConnectionString: string,
     eventHubPathOrOptions?: string | ClientOptions,
