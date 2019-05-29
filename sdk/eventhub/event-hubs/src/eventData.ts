@@ -188,7 +188,6 @@ export namespace EventDataInternal {
         (msg as any)[prop] = (data.properties as any)[prop];
       }
     }
-
     if (partitionKey != undefined) {
       msg.message_annotations[Constants.partitionKey] = partitionKey;
       // Event Hub service cannot route messages to a specific partition based on the partition key
