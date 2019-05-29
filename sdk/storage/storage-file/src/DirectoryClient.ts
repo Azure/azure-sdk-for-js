@@ -6,9 +6,9 @@ import * as Models from "./generated/lib/models";
 import { Directory } from "./generated/lib/operations";
 import { Metadata } from "./models";
 import { Pipeline } from "./Pipeline";
-import { ShareClient } from "./ShareClient";
 import { StorageClient } from "./StorageClient";
 import { appendToURLPath } from "./utils/utils.common";
+import { FileClient } from "./FileClient";
 
 export interface DirectoryCreateOptions {
   abortSignal?: Aborter;
@@ -64,35 +64,6 @@ export interface DirectorySetMetadataOptions {
  * @extends {StorageClient}
  */
 export class DirectoryClient extends StorageClient {
-  /**
-   * Creates a DirectoryClient object from ShareClient.
-   *
-   * @param shareClient A ShareClient object
-   * @param directoryName A directory name
-   */
-  public static fromShareClient(shareClient: ShareClient, directoryName: string): DirectoryClient {
-    return new DirectoryClient(
-      appendToURLPath(shareClient.url, encodeURIComponent(directoryName)),
-      shareClient.pipeline
-    );
-  }
-
-  /**
-   * Creates a DirectoryClient object from an existing DirectoryClient.
-   *
-   * @param directoryClient A DirectoryClient object
-   * @param directoryName A subdirectory name
-   */
-  public static fromDirectoryClient(
-    directoryClient: DirectoryClient,
-    directoryName: string
-  ): DirectoryClient {
-    return new DirectoryClient(
-      appendToURLPath(directoryClient.url, encodeURIComponent(directoryName)),
-      directoryClient.pipeline
-    );
-  }
-
   /**
    * context provided by protocol layer.
    *
@@ -150,6 +121,31 @@ export class DirectoryClient extends StorageClient {
       ...options,
       abortSignal: aborter
     });
+  }
+
+  /**
+   * Creates a DirectoryClient object for a sub directory.
+   *
+   * @param subDirectoryName A subdirectory name
+   * @returns {DirectoryClient}
+   * @memberof DirectoryClient
+   */
+  public createDirectoryClient(subDirectoryName: string): DirectoryClient {
+    return new DirectoryClient(
+      appendToURLPath(this.url, encodeURIComponent(subDirectoryName)),
+      this.pipeline
+    );
+  }
+
+  /**
+   * Creates a FileClient object.
+   *
+   * @param {string} fileName A file name
+   * @returns
+   * @memberof FileClient
+   */
+  public createFileClient(fileName: string) {
+    return new FileClient(appendToURLPath(this.url, encodeURIComponent(fileName)), this.pipeline);
   }
 
   /**

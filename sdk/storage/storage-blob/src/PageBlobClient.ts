@@ -5,14 +5,13 @@ import { HttpRequestBody, TransferProgressEvent } from "@azure/ms-rest-js";
 
 import * as Models from "./generated/lib/models";
 import { Aborter } from "./Aborter";
-import { BlobClient } from "./BlobClient";
-import { ContainerClient } from "./ContainerClient";
+import { BlobClient } from "./internal";
 import { PageBlob } from "./generated/lib/operations";
 import { rangeToString } from "./Range";
 import { BlobAccessConditions, Metadata, PageBlobAccessConditions } from "./models";
 import { Pipeline } from "./Pipeline";
 import { URLConstants } from "./utils/constants";
-import { appendToURLPath, setURLParameter } from "./utils/utils.common";
+import { setURLParameter } from "./utils/utils.common";
 
 export interface PageBlobCreateOptions {
   abortSignal?: Aborter;
@@ -68,36 +67,6 @@ export interface PageBlobStartCopyIncrementalOptions {
  * @extends {StorageClient}
  */
 export class PageBlobClient extends BlobClient {
-  /**
-   * Creates a PageBlobClient object from ContainerClient instance.
-   *
-   * @static
-   * @param {ContainerClient} containerClient A ContainerClient object
-   * @param {string} blobName A page blob name
-   * @returns {PageBlobClient}
-   * @memberof PageBlobClient
-   */
-  public static fromContainerClient(
-    containerClient: ContainerClient,
-    blobName: string
-  ): PageBlobClient {
-    return new PageBlobClient(
-      appendToURLPath(containerClient.url, encodeURIComponent(blobName)),
-      containerClient.pipeline
-    );
-  }
-
-  /**
-   * Creates a PageBlobClient object from BlobClient instance.
-   *
-   * @static
-   * @param {BlobClient} blobClient
-   * @returns {PageBlobClient}
-   * @memberof PageBlobClient
-   */
-  public static fromBlobClient(blobClient: BlobClient): PageBlobClient {
-    return new PageBlobClient(blobClient.url, blobClient.pipeline);
-  }
 
   /**
    * pageBlobsContext provided by protocol layer.

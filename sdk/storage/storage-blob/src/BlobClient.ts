@@ -6,14 +6,16 @@ import { isNode, TransferProgressEvent } from "@azure/ms-rest-js";
 import * as Models from "./generated/lib/models";
 import { Aborter } from "./Aborter";
 import { BlobDownloadResponse } from "./BlobDownloadResponse";
-import { ContainerClient } from "./ContainerClient";
 import { Blob } from "./generated/lib/operations";
 import { rangeToString } from "./Range";
 import { BlobAccessConditions, Metadata } from "./models";
 import { Pipeline } from "./Pipeline";
-import { StorageClient } from "./StorageClient";
+import { StorageClient } from "./internal";
 import { DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS, URLConstants } from "./utils/constants";
-import { appendToURLPath, setURLParameter } from "./utils/utils.common";
+import { setURLParameter } from "./utils/utils.common";
+import { AppendBlobClient } from "./internal";
+import { BlockBlobClient } from "./internal";
+import { PageBlobClient } from "./internal";
 
 export interface BlobDownloadOptions {
   abortSignal?: Aborter;
@@ -123,22 +125,6 @@ export interface BlobSetTierOptions {
  */
 export class BlobClient extends StorageClient {
   /**
-   * Creates a BlobClient object from an ContainerClient object.
-   *
-   * @static
-   * @param {ContainerClient} containerClient A ContainerClient object
-   * @param {string} blobName A blob name
-   * @returns
-   * @memberof BlobClient
-   */
-  public static fromContainerClient(containerClient: ContainerClient, blobName: string) {
-    return new BlobClient(
-      appendToURLPath(containerClient.url, encodeURIComponent(blobName)),
-      containerClient.pipeline
-    );
-  }
-
-  /**
    * blobContext provided by protocol layer.
    *
    * @private
@@ -199,6 +185,36 @@ export class BlobClient extends StorageClient {
       ),
       this.pipeline
     );
+  }
+
+  /**
+   * Creates a AppendBlobClient object.
+   *
+   * @returns {AppendBlobClient}
+   * @memberof BlobClient
+   */
+  public createAppendBlobClient(): AppendBlobClient {
+    return new AppendBlobClient(this.url, this.pipeline);
+  }
+
+  /**
+   * Creates a BlockBlobClient object.
+   *
+   * @returns {BlockBlobClient}
+   * @memberof BlobClient
+   */
+  public createBlockBlobClient(): BlockBlobClient {
+    return new BlockBlobClient(this.url, this.pipeline);
+  }
+
+  /**
+   * Creates a PageBlobClient object.
+   *
+   * @returns {PageBlobClient}
+   * @memberof BlobClient
+   */
+  public createPageBlobClient(): PageBlobClient {
+    return new PageBlobClient(this.url, this.pipeline);
   }
 
   /**

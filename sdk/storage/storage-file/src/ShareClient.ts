@@ -8,10 +8,10 @@ import * as Models from "./generated/lib/models";
 import { Share } from "./generated/lib/operations";
 import { Metadata } from "./models";
 import { Pipeline } from "./Pipeline";
-import { FileServiceClient } from "./FileServiceClient";
 import { StorageClient } from "./StorageClient";
 import { URLConstants } from "./utils/constants";
 import { appendToURLPath, setURLParameter, truncatedISO8061Date } from "./utils/utils.common";
+import { DirectoryClient } from "./DirectoryClient";
 
 export interface ShareCreateOptions {
   abortSignal?: Aborter;
@@ -101,24 +101,24 @@ export interface SignedIdentifier {
 export declare type ShareGetAccessPolicyResponse = {
   signedIdentifiers: SignedIdentifier[];
 } & Models.ShareGetAccessPolicyHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpResponse & {
     /**
-     * The parsed HTTP response headers.
+     * The underlying HTTP response.
      */
-    parsedHeaders: Models.ShareGetAccessPolicyHeaders;
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: Models.SignedIdentifier[];
+    _response: HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: Models.ShareGetAccessPolicyHeaders;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Models.SignedIdentifier[];
+    };
   };
-};
 
 export interface ShareCreateSnapshotOptions {
   abortSignal?: Aborter;
@@ -139,19 +139,6 @@ export interface ShareCreateSnapshotOptions {
  * @extends {StorageClient}
  */
 export class ShareClient extends StorageClient {
-  /**
-   * Creates a ShareClient object from ServiceClient
-   *
-   * @param serviceClient
-   * @param shareName
-   */
-  public static fromFileServiceClient(
-    serviceClient: FileServiceClient,
-    shareName: string
-  ): ShareClient {
-    return new ShareClient(appendToURLPath(serviceClient.url, shareName), serviceClient.pipeline);
-  }
-
   /**
    * Share operation context provided by protocol layer.
    *
@@ -226,6 +213,20 @@ export class ShareClient extends StorageClient {
   }
 
   /**
+   * Creates a DirectoryClient object.
+   *
+   * @param directoryName A directory name
+   * @returns {DirectoryClient}
+   * @memberof ShareClient
+   */
+  public createDirectoryClient(directoryName: string): DirectoryClient {
+    return new DirectoryClient(
+      appendToURLPath(this.url, encodeURIComponent(directoryName)),
+      this.pipeline
+    );
+  }
+
+  /**
    * Returns all user-defined metadata and system properties for the specified
    * share.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-share-properties
@@ -251,9 +252,7 @@ export class ShareClient extends StorageClient {
    * @returns {Promise<Models.ShareDeleteResponse>}
    * @memberof ShareClient
    */
-  public async delete(
-    options: ShareDeleteMethodOptions = {}
-  ): Promise<Models.ShareDeleteResponse> {
+  public async delete(options: ShareDeleteMethodOptions = {}): Promise<Models.ShareDeleteResponse> {
     const aborter = options.abortSignal || Aborter.none;
     return this.context.deleteMethod({
       abortSignal: aborter,

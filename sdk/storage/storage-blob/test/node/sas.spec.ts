@@ -172,7 +172,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const sharedKeyCredential = factories[factories.length - 1];
 
     const containerName = getUniqueName("container");
-    const containerClient = ContainerClient.fromBlobServiceClient(blobServiceClient, containerName);
+    const containerClient = blobServiceClient.createContainerClient(containerName);
     await containerClient.create();
 
     const containerSAS = generateBlobSASQueryParameters(
@@ -210,11 +210,11 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const sharedKeyCredential = factories[factories.length - 1];
 
     const containerName = getUniqueName("container");
-    const containerClient = ContainerClient.fromBlobServiceClient(blobServiceClient, containerName);
+    const containerClient = blobServiceClient.createContainerClient(containerName);
     await containerClient.create();
 
     const blobName = getUniqueName("blob");
-    const blobClient = PageBlobClient.fromContainerClient(containerClient, blobName);
+    const blobClient = containerClient.createPageBlobClient(blobName);
     await blobClient.create(1024, {
       blobHTTPHeaders: {
         blobContentType: "content-type-original"
@@ -268,13 +268,13 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const sharedKeyCredential = factories[factories.length - 1];
 
     const containerName = getUniqueName("container-with-dash");
-    const containerClient = ContainerClient.fromBlobServiceClient(blobServiceClient, containerName);
+    const containerClient = blobServiceClient.createContainerClient(containerName);
     await containerClient.create();
 
     const blobName = getUniqueName(
       "////Upper/blob/empty /another 汉字 ру́сский язы́к ру́сский язы́к عربي/عربى にっぽんご/にほんご . special ~!@#$%^&*()_+`1234567890-={}|[]\\:\";'<>?,/'"
     );
-    const blobClient = PageBlobClient.fromContainerClient(containerClient, blobName);
+    const blobClient = containerClient.createPageBlobClient(blobName);
     await blobClient.create(1024, {
       blobHTTPHeaders: {
         blobContentType: "content-type-original"
@@ -329,11 +329,11 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const sharedKeyCredential = factories[factories.length - 1];
 
     const containerName = getUniqueName("container");
-    const containerClient = ContainerClient.fromBlobServiceClient(blobServiceClient, containerName);
+    const containerClient = blobServiceClient.createContainerClient(containerName);
     await containerClient.create();
 
     const blobName = getUniqueName("blob");
-    const blobClient = PageBlobClient.fromContainerClient(containerClient, blobName);
+    const blobClient = containerClient.createPageBlobClient(blobName);
     await blobClient.create(1024);
 
     const id = "unique-id";

@@ -5,14 +5,13 @@ import { HttpRequestBody, TransferProgressEvent } from "@azure/ms-rest-js";
 
 import * as Models from "./generated/lib/models";
 import { Aborter } from "./Aborter";
-import { BlobClient } from "./BlobClient";
-import { ContainerClient } from "./ContainerClient";
+import { BlobClient } from "./internal";
 import { BlockBlob } from "./generated/lib/operations";
 import { Range, rangeToString } from "./Range";
 import { BlobAccessConditions, Metadata } from "./models";
 import { Pipeline } from "./Pipeline";
 import { URLConstants } from "./utils/constants";
-import { appendToURLPath, setURLParameter } from "./utils/utils.common";
+import { setURLParameter } from "./utils/utils.common";
 
 export interface BlockBlobUploadOptions {
   abortSignal?: Aborter;
@@ -56,36 +55,6 @@ export interface BlockBlobGetBlockListOptions {
  * @extends {StorageClient}
  */
 export class BlockBlobClient extends BlobClient {
-  /**
-   * Creates a BlockBlobClient object from ContainerClient instance.
-   *
-   * @static
-   * @param {ContainerClient} containerClient A ContainerClient object
-   * @param {string} blobName A block blob name
-   * @returns {BlockBlobClient}
-   * @memberof BlockBlobClient
-   */
-  public static fromContainerClient(
-    containerClient: ContainerClient,
-    blobName: string
-  ): BlockBlobClient {
-    return new BlockBlobClient(
-      appendToURLPath(containerClient.url, encodeURIComponent(blobName)),
-      containerClient.pipeline
-    );
-  }
-
-  /**
-   * Creates a BlockBlobClient object from BlobClient instance.
-   *
-   * @static
-   * @param {BlobClient} blobClient
-   * @returns {BlockBlobClient}
-   * @memberof BlockBlobClient
-   */
-  public static fromBlobClient(blobClient: BlobClient): BlockBlobClient {
-    return new BlockBlobClient(blobClient.url, blobClient.pipeline);
-  }
 
   /**
    * blockBlobContext provided by protocol layer.

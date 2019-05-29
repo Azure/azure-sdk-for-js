@@ -5,13 +5,12 @@ import { HttpRequestBody, TransferProgressEvent } from "@azure/ms-rest-js";
 
 import * as Models from "./generated/lib/models";
 import { Aborter } from "./Aborter";
-import { BlobClient } from "./BlobClient";
-import { ContainerClient } from "./ContainerClient";
+import { BlobClient } from "./internal";
 import { AppendBlob } from "./generated/lib/operations";
 import { AppendBlobAccessConditions, BlobAccessConditions, Metadata } from "./models";
 import { Pipeline } from "./Pipeline";
 import { URLConstants } from "./utils/constants";
-import { appendToURLPath, setURLParameter } from "./utils/utils.common";
+import { setURLParameter } from "./utils/utils.common";
 
 export interface AppendBlobCreateOptions {
   abortSignal?: Aborter;
@@ -35,37 +34,6 @@ export interface AppendBlobAppendBlockOptions {
  * @extends {StorageClient}
  */
 export class AppendBlobClient extends BlobClient {
-  /**
-   * Creates a AppendBlobClient object from ContainerClient instance.
-   *
-   * @static
-   * @param {ContainerClient} containerClient A ContainerClient object
-   * @param {string} blobName An append blob name
-   * @returns {AppendBlobClient}
-   * @memberof AppendBlobClient
-   */
-  public static fromContainerClient(
-    containerClient: ContainerClient,
-    blobName: string
-  ): AppendBlobClient {
-    return new AppendBlobClient(
-      appendToURLPath(containerClient.url, encodeURIComponent(blobName)),
-      containerClient.pipeline
-    );
-  }
-
-  /**
-   * Creates a AppendBlobClient object from BlobClient instance.
-   *
-   * @static
-   * @param {BlobClient} blobClient
-   * @returns {AppendBlobClient}
-   * @memberof AppendBlobClient
-   */
-  public static fromBlobClient(blobClient: BlobClient): AppendBlobClient {
-    return new AppendBlobClient(blobClient.url, blobClient.pipeline);
-  }
-
   /**
    * appendBlobsContext provided by protocol layer.
    *

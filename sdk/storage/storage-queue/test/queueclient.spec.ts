@@ -1,6 +1,5 @@
 import * as assert from "assert";
 
-import { QueueClient } from "../src/QueueClient";
 import { getQSU, getUniqueName } from "./utils";
 import * as dotenv from "dotenv";
 dotenv.config({ path: "../.env" });
@@ -8,11 +7,11 @@ dotenv.config({ path: "../.env" });
 describe("QueueClient", () => {
   const queueServiceClient = getQSU();
   let queueName = getUniqueName("queue");
-  let queueClient = QueueClient.fromQueueServiceClient(queueServiceClient, queueName);
+  let queueClient = queueServiceClient.createQueueClient(queueName);
 
   beforeEach(async () => {
     queueName = getUniqueName("queue");
-    queueClient = QueueClient.fromQueueServiceClient(queueServiceClient, queueName);
+    queueClient = queueServiceClient.createQueueClient(queueName);
     await queueClient.create();
   });
 
@@ -42,7 +41,7 @@ describe("QueueClient", () => {
 
   it("getPropertis negative", async () => {
     const queueName2 = getUniqueName("queue");
-    const queueClient2 = QueueClient.fromQueueServiceClient(queueServiceClient, queueName2);
+    const queueClient2 = queueServiceClient.createQueueClient(queueName2);
     let error;
     try {
       await queueClient2.getProperties();
@@ -63,7 +62,7 @@ describe("QueueClient", () => {
   });
 
   it("create with all parameters", async () => {
-    const qURL = QueueClient.fromQueueServiceClient(queueServiceClient, getUniqueName(queueName));
+    const qURL = queueServiceClient.createQueueClient(getUniqueName(queueName));
     const metadata = { key: "value" };
     await qURL.create({ metadata });
     const result = await qURL.getProperties();
@@ -72,7 +71,7 @@ describe("QueueClient", () => {
 
   // create with invalid queue name
   it("create negative", async () => {
-    const qURL = QueueClient.fromQueueServiceClient(queueServiceClient, "");
+    const qURL = queueServiceClient.createQueueClient("");
     let error;
     try {
       await qURL.create();

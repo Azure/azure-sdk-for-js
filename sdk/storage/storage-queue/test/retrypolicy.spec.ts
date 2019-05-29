@@ -2,7 +2,6 @@ import { URLBuilder } from "@azure/ms-rest-js";
 import * as assert from "assert";
 
 import { RestError, StorageClient } from "../src";
-import { QueueClient } from "../src/QueueClient";
 import { Pipeline } from "../src/Pipeline";
 import { getQSU, getUniqueName } from "./utils";
 import { InjectorPolicyFactory } from "./utils/InjectorPolicyFactory";
@@ -12,11 +11,11 @@ dotenv.config({ path: "../.env" });
 describe("RetryPolicy", () => {
   const queueServiceClient = getQSU();
   let queueName: string = getUniqueName("queue");
-  let queueClient = QueueClient.fromQueueServiceClient(queueServiceClient, queueName);
+  let queueClient = queueServiceClient.createQueueClient(queueName);
 
   beforeEach(async () => {
     queueName = getUniqueName("queue");
-    queueClient = QueueClient.fromQueueServiceClient(queueServiceClient, queueName);
+    queueClient = queueServiceClient.createQueueClient(queueName);
     await queueClient.create();
   });
 

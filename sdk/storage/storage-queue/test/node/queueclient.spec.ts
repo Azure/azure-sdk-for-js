@@ -1,16 +1,15 @@
 import * as assert from "assert";
 
-import { QueueClient } from "../../src/QueueClient";
 import { getQSU, getUniqueName } from "../utils";
 
 describe("QueueClient Node", () => {
   const queueServiceClient = getQSU();
   let queueName: string = getUniqueName("queue");
-  let queueClient = QueueClient.fromQueueServiceClient(queueServiceClient, queueName);
+  let queueClient = queueServiceClient.createQueueClient(queueName);
 
   beforeEach(async () => {
     queueName = getUniqueName("queue");
-    queueClient = QueueClient.fromQueueServiceClient(queueServiceClient, queueName);
+    queueClient = queueServiceClient.createQueueClient(queueName);
     await queueClient.create();
   });
 

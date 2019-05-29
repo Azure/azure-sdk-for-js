@@ -1,6 +1,5 @@
 import * as assert from "assert";
 import { RestError, StorageClient } from "../src";
-import { ShareClient } from "../src/ShareClient";
 import { Pipeline } from "../src/Pipeline";
 import { getBSU, getUniqueName } from "./utils";
 import { InjectorPolicyFactory } from "./utils/InjectorPolicyFactory";
@@ -10,11 +9,11 @@ dotenv.config({ path: "../.env" });
 describe("RetryPolicy", () => {
   const serviceClient = getBSU();
   let shareName: string = getUniqueName("share");
-  let shareClient = ShareClient.fromFileServiceClient(serviceClient, shareName);
+  let shareClient = serviceClient.createShareClient(shareName);
 
   beforeEach(async () => {
     shareName = getUniqueName("share");
-    shareClient = ShareClient.fromFileServiceClient(serviceClient, shareName);
+    shareClient = serviceClient.createShareClient(shareName);
     await shareClient.create();
   });
 

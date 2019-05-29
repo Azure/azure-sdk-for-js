@@ -1,9 +1,6 @@
 import * as assert from "assert";
 
 import { Aborter } from "../../src/Aborter";
-import { BlobClient } from "../../src/BlobClient";
-import { BlockBlobClient } from "../../src/BlockBlobClient";
-import { ContainerClient } from "../../src/ContainerClient";
 import { uploadBrowserDataToBlockBlob } from "../../src/highlevel.browser";
 import {
   arrayBufferEqual,
@@ -18,12 +15,12 @@ import {
 
 // tslint:disable:no-empty
 describe("Highelvel", () => {
-  const serviceClient = getBSU();
+  const blobServiceClient = getBSU();
   let containerName = getUniqueName("container");
-  let containerClient = ContainerClient.fromBlobServiceClient(serviceClient, containerName);
+  let containerClient = blobServiceClient.createContainerClient(containerName);
   let blobName = getUniqueName("blob");
-  let blobClient = BlobClient.fromContainerClient(containerClient, blobName);
-  let blockBlobClient = BlockBlobClient.fromBlobClient(blobClient);
+  let blobClient = containerClient.createBlobClient(blobName);
+  let blockBlobClient = blobClient.createBlockBlobClient();
   let tempFile1: File;
   const tempFile1Length: number = 257 * 1024 * 1024 - 1;
   let tempFile2: File;
@@ -31,11 +28,11 @@ describe("Highelvel", () => {
 
   beforeEach(async () => {
     containerName = getUniqueName("container");
-    containerClient = ContainerClient.fromBlobServiceClient(serviceClient, containerName);
+    containerClient = blobServiceClient.createContainerClient(containerName);
     await containerClient.create();
     blobName = getUniqueName("blob");
-    blobClient = BlobClient.fromContainerClient(containerClient, blobName);
-    blockBlobClient = BlockBlobClient.fromBlobClient(blobClient);
+    blobClient = containerClient.createBlobClient(blobName);
+    blockBlobClient = blobClient.createBlockBlobClient();
   });
 
   afterEach(async () => {

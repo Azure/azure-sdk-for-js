@@ -1,15 +1,15 @@
 import * as assert from "assert";
-import { SignedIdentifier, ShareClient } from "../../src/ShareClient";
+import { SignedIdentifier } from "../../src/ShareClient";
 import { getBSU, getUniqueName } from "./../utils";
 
 describe("ShareClient", () => {
   const serviceClient = getBSU();
   let shareName: string = getUniqueName("share");
-  let shareClient = ShareClient.fromFileServiceClient(serviceClient, shareName);
+  let shareClient = serviceClient.createShareClient(shareName);
 
   beforeEach(async () => {
     shareName = getUniqueName("share");
-    shareClient = ShareClient.fromFileServiceClient(serviceClient, shareName);
+    shareClient = serviceClient.createShareClient(shareName);
     await shareClient.create();
   });
 

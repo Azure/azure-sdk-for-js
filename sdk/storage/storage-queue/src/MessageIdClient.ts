@@ -5,9 +5,7 @@ import * as Models from "./generated/lib/models";
 import { Aborter } from "./Aborter";
 import { MessageId } from "./generated/lib/operations";
 import { Pipeline } from "./Pipeline";
-import { MessagesClient } from "./MessagesClient";
 import { StorageClient } from "./StorageClient";
-import { appendToURLPath } from "./utils/utils.common";
 
 export interface MessageIdDeleteOptions {
   abortSignal?: Aborter;
@@ -25,21 +23,6 @@ export interface MessageIdUpdateOptions {
  * @extends {StorageClient}
  */
 export class MessageIdClient extends StorageClient {
-  /**
-   * Creates a MessageIdClient object from MessagesClient
-   * @param messagesClient
-   * @param messageId
-   */
-  public static fromMessagesClient(
-    messagesClient: MessagesClient,
-    messageId: string
-  ): MessageIdClient {
-    return new MessageIdClient(
-      appendToURLPath(messagesClient.url, messageId),
-      messagesClient.pipeline
-    );
-  }
-
   /**
    * messageIdContext provided by protocol layer.
    *

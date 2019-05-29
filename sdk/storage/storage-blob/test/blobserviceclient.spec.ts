@@ -1,6 +1,5 @@
 import * as assert from "assert";
 
-import { ContainerClient } from "../src/ContainerClient";
 import { BlobServiceClient } from "../src/BlobServiceClient";
 import { getAlternateBSU, getBSU, getUniqueName, wait } from "./utils";
 import * as dotenv from "dotenv";
@@ -32,14 +31,8 @@ describe("BlobServiceClient", () => {
     const containerNamePrefix = getUniqueName("container");
     const containerName1 = `${containerNamePrefix}x1`;
     const containerName2 = `${containerNamePrefix}x2`;
-    const containerClient1 = ContainerClient.fromBlobServiceClient(
-      blobServiceClient,
-      containerName1
-    );
-    const containerClient2 = ContainerClient.fromBlobServiceClient(
-      blobServiceClient,
-      containerName2
-    );
+    const containerClient1 = blobServiceClient.createContainerClient(containerName1);
+    const containerClient2 = blobServiceClient.createContainerClient(containerName2);
     await containerClient1.create({ metadata: { key: "val" } });
     await containerClient2.create({ metadata: { key: "val" } });
 
@@ -87,14 +80,8 @@ describe("BlobServiceClient", () => {
     const containerNamePrefix = getUniqueName("container");
     const containerName1 = `${containerNamePrefix}x1`;
     const containerName2 = `${containerNamePrefix}x2`;
-    const containerClient1 = ContainerClient.fromBlobServiceClient(
-      blobServiceClient,
-      containerName1
-    );
-    const containerClient2 = ContainerClient.fromBlobServiceClient(
-      blobServiceClient,
-      containerName2
-    );
+    const containerClient1 = blobServiceClient.createContainerClient(containerName1);
+    const containerClient2 = blobServiceClient.createContainerClient(containerName2);
     await containerClient1.create({ metadata: { key: "val" } });
     await containerClient2.create({ metadata: { key: "val" } });
 

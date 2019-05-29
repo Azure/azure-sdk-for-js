@@ -6,7 +6,9 @@ import { Aborter } from "./Aborter";
 import { ListContainersIncludeType } from "./generated/lib/models/index";
 import { Service } from "./generated/lib/operations";
 import { Pipeline } from "./Pipeline";
-import { StorageClient } from "./StorageClient";
+import { StorageClient } from "./internal";
+import { ContainerClient } from "./ContainerClient";
+import { appendToURLPath } from "./utils/utils.common";
 
 export interface ServiceGetPropertiesOptions {
   abortSignal?: Aborter;
@@ -92,6 +94,22 @@ export class BlobServiceClient extends StorageClient {
    */
   public withPipeline(pipeline: Pipeline): BlobServiceClient {
     return new BlobServiceClient(this.url, pipeline);
+  }
+
+  /**
+   * Creates a ContainerClient object
+   *
+   * @param containerName A container name
+   * @returns {ContainerClient}
+   * @memberof BlobServiceClient
+   */
+  public createContainerClient(
+    containerName: string
+  ): ContainerClient {
+    return new ContainerClient(
+      appendToURLPath(this.url, encodeURIComponent(containerName)),
+      this.pipeline
+    );
   }
 
   /**
