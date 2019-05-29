@@ -5,6 +5,10 @@ import { EventData } from "./eventData";
 import { EventHubSender } from "./eventHubSender";
 import { BatchingOptions, RequestOptions } from "./eventHubClient";
 import { ConnectionContext } from "./connectionContext";
+import * as log from "./log";
+import {
+  throwErrorIfConnectionClosed,
+} from "./util/error";
 
 /**
  * The Sender class can be used to send messages.
@@ -53,6 +57,7 @@ export class Sender {
    * @return {Promise<void>} Promise<void>
    */
   async send(events: EventData[], options?: BatchingOptions): Promise<void> {
+    this._throwIfSenderOrConnectionClosed();
     if (!Array.isArray(events)) {
       events = [events];
     }
@@ -62,11 +67,36 @@ export class Sender {
   /**
    * Closes the underlying AMQP sender link.
    * Once closed, the sender cannot be used for any further operations.
-   * Use the `createSender` function on the QueueClient or TopicClient to instantiate a new Sender
+   * Use the `createSender` function on the EventHubClient to instantiate a new Sender
    *
    * @returns {Promise<void>}
    */
   async close(): Promise<void> {
-    this._isClosed = true;
+    try {
+      if (this._context.connection && this._context.connection.isOpen() && this._eventHubSender) {
+        await this._context.senders[this._eventHubSender.name].close();
+      }
+      this._isClosed = true;
+    } catch (err) {
+      log.error(
+        "[%s] An error occurred while closing the Sender for %s: %O",
+        this._context.connectionId,
+        this._context.config.entityPath,
+        err
+      );
+      throw err;
+    }
+  }
+
+  private _throwIfSenderOrConnectionClosed(): void {
+    throwErrorIfConnectionClosed(this._context);
+    if (this.isClosed) {
+      const errorMessage =
+        `The sender for "${this._context.config.entityPath}" has been closed and can no longer be used. ` +
+        `Please create a new sender using the "createSender" function on the EventHubClient.`;
+      const error = new Error(errorMessage);
+      log.error(`[${this._context.connectionId}] %O`, error);
+      throw error;
+    }
   }
 }

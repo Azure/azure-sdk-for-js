@@ -30,7 +30,7 @@ const listOfScientists = [
 async function main(): Promise<void> {
   const client = EventHubClient.createFromConnectionString(connectionString, eventHubName);
   const partitionIds = await client.getPartitionIds();
-  const sender = client.createSender();
+  const sender = client.createSender(partitionIds[0]);
   const events: EventData[] = [];
   // NOTE: For receiving events from Azure Stream Analytics, please send Events to an EventHub
   // where the body is a JSON object/array.
@@ -45,7 +45,7 @@ async function main(): Promise<void> {
   }
   console.log("Sending batch events...");
 
-  await sender.send(events, partitionIds[0]);
+  await sender.send(events);
 
   await client.close();
 }
