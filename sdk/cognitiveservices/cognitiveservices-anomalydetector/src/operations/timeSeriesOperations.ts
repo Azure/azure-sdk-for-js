@@ -193,7 +193,7 @@ export class TimeSeriesOperations {
    * sensitivity, maxAnomalyRatio) can also be set in the request.
    * @param callback The callback
    */
-  entireDetectInTimeRange(timeSeriesId: string, body: Models.AnomalyDetectInTimeRangeRequest, callback: msRest.ServiceCallback<Models.AnomalyDetectInTimeRangeReponse>): void;
+  entireDetectInTimeRange(timeSeriesId: string, body: Models.AnomalyDetectInTimeRangeRequest, callback: msRest.ServiceCallback<Models.AnomalyDetectInTimeRangeResponse>): void;
   /**
    * @param timeSeriesId Unique id for time series.
    * @param body Begin and end is required in the request. Advanced model parameters (period,
@@ -201,8 +201,8 @@ export class TimeSeriesOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  entireDetectInTimeRange(timeSeriesId: string, body: Models.AnomalyDetectInTimeRangeRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AnomalyDetectInTimeRangeReponse>): void;
-  entireDetectInTimeRange(timeSeriesId: string, body: Models.AnomalyDetectInTimeRangeRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AnomalyDetectInTimeRangeReponse>, callback?: msRest.ServiceCallback<Models.AnomalyDetectInTimeRangeReponse>): Promise<Models.TimeSeriesEntireDetectInTimeRangeResponse> {
+  entireDetectInTimeRange(timeSeriesId: string, body: Models.AnomalyDetectInTimeRangeRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AnomalyDetectInTimeRangeResponse>): void;
+  entireDetectInTimeRange(timeSeriesId: string, body: Models.AnomalyDetectInTimeRangeRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AnomalyDetectInTimeRangeResponse>, callback?: msRest.ServiceCallback<Models.AnomalyDetectInTimeRangeResponse>): Promise<Models.TimeSeriesEntireDetectInTimeRangeResponse> {
     return this.client.sendOperationRequest(
       {
         timeSeriesId,
@@ -232,7 +232,7 @@ export class TimeSeriesOperations {
    * sensitivity, maxAnomalyRatio) can also be set in the request.
    * @param callback The callback
    */
-  lastDetectInTimeRange(timeSeriesId: string, body: Models.AnomalyDetectInTimeRangeRequest, callback: msRest.ServiceCallback<Models.AnomalyDetectInTimeRangeReponse>): void;
+  lastDetectInTimeRange(timeSeriesId: string, body: Models.AnomalyDetectInTimeRangeRequest, callback: msRest.ServiceCallback<Models.AnomalyDetectInTimeRangeResponse>): void;
   /**
    * @param timeSeriesId Unique id for time series.
    * @param body Begin and end is required in the request. Advanced model parameters (period,
@@ -240,8 +240,8 @@ export class TimeSeriesOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  lastDetectInTimeRange(timeSeriesId: string, body: Models.AnomalyDetectInTimeRangeRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AnomalyDetectInTimeRangeReponse>): void;
-  lastDetectInTimeRange(timeSeriesId: string, body: Models.AnomalyDetectInTimeRangeRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AnomalyDetectInTimeRangeReponse>, callback?: msRest.ServiceCallback<Models.AnomalyDetectInTimeRangeReponse>): Promise<Models.TimeSeriesLastDetectInTimeRangeResponse> {
+  lastDetectInTimeRange(timeSeriesId: string, body: Models.AnomalyDetectInTimeRangeRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AnomalyDetectInTimeRangeResponse>): void;
+  lastDetectInTimeRange(timeSeriesId: string, body: Models.AnomalyDetectInTimeRangeRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AnomalyDetectInTimeRangeResponse>, callback?: msRest.ServiceCallback<Models.AnomalyDetectInTimeRangeResponse>): Promise<Models.TimeSeriesLastDetectInTimeRangeResponse> {
     return this.client.sendOperationRequest(
       {
         timeSeriesId,
@@ -360,7 +360,7 @@ export class TimeSeriesOperations {
 
   /**
    * List TimeSeriesGroups that a TimeSeries belongs to. One TimeSeries could belong to multiple
-   * TimeSereiesGroups.
+   * TimeSeriesGroups.
    * @summary List TimeSeriesGroups that a TimeSeries belongs to.
    * @param timeSeriesId Unique id for time series.
    * @param [options] The optional parameters
@@ -516,7 +516,7 @@ const entireDetectInTimeRangeOperationSpec: msRest.OperationSpec = {
   },
   responses: {
     200: {
-      bodyMapper: Mappers.AnomalyDetectInTimeRangeReponse
+      bodyMapper: Mappers.AnomalyDetectInTimeRangeResponse
     },
     default: {
       bodyMapper: Mappers.APIError
@@ -541,7 +541,7 @@ const lastDetectInTimeRangeOperationSpec: msRest.OperationSpec = {
   },
   responses: {
     200: {
-      bodyMapper: Mappers.AnomalyDetectInTimeRangeReponse
+      bodyMapper: Mappers.AnomalyDetectInTimeRangeResponse
     },
     default: {
       bodyMapper: Mappers.APIError

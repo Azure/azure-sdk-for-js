@@ -990,11 +990,11 @@ export const AnomalyDetectInTimeRangeRequest: msRest.CompositeMapper = {
   }
 };
 
-export const AnomalyDetectInTimeRangeReponse: msRest.CompositeMapper = {
-  serializedName: "AnomalyDetectInTimeRangeReponse",
+export const AnomalyDetectInTimeRangeResponse: msRest.CompositeMapper = {
+  serializedName: "AnomalyDetectInTimeRangeResponse",
   type: {
     name: "Composite",
-    className: "AnomalyDetectInTimeRangeReponse",
+    className: "AnomalyDetectInTimeRangeResponse",
     modelProperties: {
       period: {
         required: true,

@@ -542,9 +542,9 @@ export interface AnomalyDetectInTimeRangeRequest {
 }
 
 /**
- * An interface representing AnomalyDetectInTimeRangeReponse.
+ * An interface representing AnomalyDetectInTimeRangeResponse.
  */
-export interface AnomalyDetectInTimeRangeReponse {
+export interface AnomalyDetectInTimeRangeResponse {
   /**
    * Frequency extracted from the series, zero means no recurrent pattern has been found.
    */
@@ -797,7 +797,7 @@ export type TimeSeriesListResponse = TimeSeriesList & {
 /**
  * Contains response data for the entireDetectInTimeRange operation.
  */
-export type TimeSeriesEntireDetectInTimeRangeResponse = AnomalyDetectInTimeRangeReponse & {
+export type TimeSeriesEntireDetectInTimeRangeResponse = AnomalyDetectInTimeRangeResponse & {
   /**
    * The underlying HTTP response.
    */
@@ -810,14 +810,14 @@ export type TimeSeriesEntireDetectInTimeRangeResponse = AnomalyDetectInTimeRange
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: AnomalyDetectInTimeRangeReponse;
+      parsedBody: AnomalyDetectInTimeRangeResponse;
     };
 };
 
 /**
  * Contains response data for the lastDetectInTimeRange operation.
  */
-export type TimeSeriesLastDetectInTimeRangeResponse = AnomalyDetectInTimeRangeReponse & {
+export type TimeSeriesLastDetectInTimeRangeResponse = AnomalyDetectInTimeRangeResponse & {
   /**
    * The underlying HTTP response.
    */
@@ -830,7 +830,7 @@ export type TimeSeriesLastDetectInTimeRangeResponse = AnomalyDetectInTimeRangeRe
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: AnomalyDetectInTimeRangeReponse;
+      parsedBody: AnomalyDetectInTimeRangeResponse;
     };
 };
 

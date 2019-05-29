@@ -7,8 +7,8 @@
  */
 
 export {
-  AnomalyDetectInTimeRangeReponse,
   AnomalyDetectInTimeRangeRequest,
+  AnomalyDetectInTimeRangeResponse,
   APIError,
   ChangePointDetectInTimeRangeRequest,
   ChangePointDetectInTimeRangeResponse,

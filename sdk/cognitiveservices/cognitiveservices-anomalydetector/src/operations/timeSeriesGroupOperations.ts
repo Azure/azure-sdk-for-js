@@ -27,8 +27,8 @@ export class TimeSeriesGroupOperations {
   }
 
   /**
-   * This operation fetches detailed infomation about the specified time series group.
-   * @summary Get meta infomation of the specified time series group.
+   * This operation fetches detailed information about the specified time series group.
+   * @summary Get meta information of the specified time series group.
    * @param timeSeriesGroupId Unique id for time series group.
    * @param [options] The optional parameters
    * @returns Promise<Models.TimeSeriesGroupGetResponse>
@@ -144,8 +144,8 @@ export class TimeSeriesGroupOperations {
   }
 
   /**
-   * This operation helps detect the inconsistent series among a group series with similiar trend.
-   * @summary Detect inconsistent time series from a group of similiar time series.
+   * This operation helps detect the inconsistent series among a group series with similar trend.
+   * @summary Detect inconsistent time series from a group of similar time series.
    * @param timeSeriesGroupId Unique id for time series group.
    * @param body Start time and end time is necessary, and a parameter called epsilon is needed to
    * tune the result. Epsilon should be within 0 and 1.
@@ -181,8 +181,8 @@ export class TimeSeriesGroupOperations {
 
   /**
    * This operation helps query properties of one group, for example the inconsistent series among a
-   * group series with similiar trend.
-   * @summary Query time series properties from a group of similiar time series.
+   * group series with similar trend.
+   * @summary Query time series properties from a group of similar time series.
    * @param timeSeriesGroupId Unique id for time series group.
    * @param body Start time and end time is necessary.
    * @param [options] The optional parameters
