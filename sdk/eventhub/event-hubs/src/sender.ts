@@ -6,9 +6,7 @@ import { EventHubSender } from "./eventHubSender";
 import { BatchingOptions, RequestOptions } from "./eventHubClient";
 import { ConnectionContext } from "./connectionContext";
 import * as log from "./log";
-import {
-  throwErrorIfConnectionClosed,
-} from "./util/error";
+import { throwErrorIfConnectionClosed } from "./util/error";
 
 /**
  * The Sender class can be used to send messages.
@@ -73,7 +71,12 @@ export class Sender {
    */
   async close(): Promise<void> {
     try {
-      if (this._context.connection && this._context.connection.isOpen() && this._eventHubSender) {
+      if (
+        this._context.connection &&
+        this._context.connection.isOpen() &&
+        this._eventHubSender &&
+        this._context.senders[this._eventHubSender.name]
+      ) {
         await this._context.senders[this._eventHubSender.name].close();
       }
       this._isClosed = true;
