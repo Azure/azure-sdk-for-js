@@ -10,9 +10,8 @@
 
 import { EventHubClient, EventData } from "@azure/event-hubs";
 
-// Define connection string and related Event Hubs entity name here
+// Define connection string here
 const connectionString = "";
-const eventHubName = "";
 
 const listOfScientists = [
   { name: "Einstein", firstName: "Albert" },
@@ -28,7 +27,7 @@ const listOfScientists = [
 ];
 
 async function main(): Promise<void> {
-  const client = EventHubClient.createFromConnectionString(connectionString, eventHubName);
+  const client = new EventHubClient(connectionString);
   const partitionIds = await client.getPartitionIds();
   const sender = client.createSender(partitionIds[0]);
   const events: EventData[] = [];

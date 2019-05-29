@@ -15,7 +15,9 @@ import {
   EventHubConnectionConfig,
   AadTokenProvider,
   SasTokenProvider,
-  ConnectionConfig
+  ConnectionConfig,
+  parseConnectionString,
+  ServiceBusConnectionStringModel
 } from "@azure/amqp-common";
 
 import { ConnectionContext } from "./connectionContext";
@@ -202,6 +204,15 @@ export class EventHubClient {
 
     if (hostOrConnectionString.startsWith("Endpoint")) {
       connectionString = hostOrConnectionString;
+      const parsedCS = parseConnectionString<ServiceBusConnectionStringModel>(
+        connectionString
+      );
+      if (!parsedCS.EntityPath){
+        throw new TypeError(
+          `"connectionString": "${connectionString}", ` +
+            `must contain EntityPath="<path-to-the-entity>".`
+        );
+      }
     } else {
       let host = hostOrConnectionString;
       if (!host) {
