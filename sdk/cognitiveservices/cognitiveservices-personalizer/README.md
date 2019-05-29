@@ -1,6 +1,6 @@
-## Azure EventGridManagementClient SDK for JavaScript
+## An isomorphic javascript sdk for - PersonalizerClient
 
-This package contains an isomorphic SDK for EventGridManagementClient.
+This package contains an isomorphic SDK for PersonalizerClient.
 
 ### Currently supported environments
 
@@ -10,12 +10,12 @@ This package contains an isomorphic SDK for EventGridManagementClient.
 ### How to Install
 
 ```bash
-npm install @azure/arm-eventgrid
+npm install @azure/cognitiveservices-personalizer
 ```
 
 ### How to use
 
-#### nodejs - Authentication, client creation and get domains as an example written in TypeScript.
+#### nodejs - Authentication, client creation and reward events as an example written in TypeScript.
 
 ##### Install @azure/ms-rest-nodeauth
 
@@ -27,16 +27,17 @@ npm install @azure/ms-rest-nodeauth
 
 ```typescript
 import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
-import { EventGridManagementClient, EventGridManagementModels, EventGridManagementMappers } from "@azure/arm-eventgrid";
+import { PersonalizerClient, PersonalizerModels, PersonalizerMappers } from "@azure/cognitiveservices-personalizer";
 const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
 msRestNodeAuth.interactiveLogin().then((creds) => {
-  const client = new EventGridManagementClient(creds, subscriptionId);
-  const resourceGroupName = "testresourceGroupName";
-  const domainName = "testdomainName";
-  client.domains.get(resourceGroupName, domainName).then((result) => {
+  const client = new PersonalizerClient(creds, subscriptionId);
+  const eventId = "testeventId";
+  const rewardParameter: PersonalizerModels.RewardRequest = {
+    value: 1.01
+  };
+  client.events.reward(eventId, rewardParameter).then((result) => {
     console.log("The result is:");
     console.log(result);
   });
@@ -45,7 +46,7 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
 });
 ```
 
-#### browser - Authentication, client creation and get domains as an example written in JavaScript.
+#### browser - Authentication, client creation and reward events as an example written in JavaScript.
 
 ##### Install @azure/ms-rest-browserauth
 
@@ -62,11 +63,10 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>@azure/arm-eventgrid sample</title>
+    <title>@azure/cognitiveservices-personalizer sample</title>
     <script src="node_modules/@azure/ms-rest-js/dist/msRest.browser.js"></script>
-    <script src="node_modules/@azure/ms-rest-azure-js/dist/msRestAzure.js"></script>
     <script src="node_modules/@azure/ms-rest-browserauth/dist/msAuth.js"></script>
-    <script src="node_modules/@azure/arm-eventgrid/dist/arm-eventgrid.js"></script>
+    <script src="node_modules/@azure/cognitiveservices-personalizer/dist/cognitiveservices-personalizer.js"></script>
     <script type="text/javascript">
       const subscriptionId = "<Subscription_Id>";
       const authManager = new msAuth.AuthManager({
@@ -78,10 +78,12 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
           // may cause redirects
           authManager.login();
         }
-        const client = new Azure.ArmEventgrid.EventGridManagementClient(res.creds, subscriptionId);
-        const resourceGroupName = "testresourceGroupName";
-        const domainName = "testdomainName";
-        client.domains.get(resourceGroupName, domainName).then((result) => {
+        const client = new Azure.CognitiveservicesPersonalizer.PersonalizerClient(res.creds, subscriptionId);
+        const eventId = "testeventId";
+        const rewardParameter = {
+          value: 1.01
+        };
+        client.events.reward(eventId, rewardParameter).then((result) => {
           console.log("The result is:");
           console.log(result);
         }).catch((err) => {
@@ -99,4 +101,4 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
 
 - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/eventgrid/arm-eventgrid/README.png)
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/cognitiveservices/cognitiveservices-personalizer/README.png)
