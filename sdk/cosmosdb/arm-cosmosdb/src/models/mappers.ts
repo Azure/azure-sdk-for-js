@@ -112,6 +112,12 @@ export const Location: msRest.CompositeMapper = {
         type: {
           name: "Number"
         }
+      },
+      isZoneRedundant: {
+        serializedName: "isZoneRedundant",
+        type: {
+          name: "Boolean"
+        }
       }
     }
   }
