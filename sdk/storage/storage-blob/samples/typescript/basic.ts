@@ -7,17 +7,19 @@ import {
   BlockBlobClient,
   ContainerClient,
   BlobServiceClient,
+  StorageClient,
+  SharedKeyCredential,
   TokenCredential,
   Models
-} from "../../src"; // Change to "@azure/storage-blob" in your package
+} from "../.."; // Change to "@azure/storage-blob" in your package
 
 async function main() {
   // Enter your storage account name and shared key
-  // const account = "";
-  // const accountKey = "";
+  const account = "";
+  const accountKey = "";
 
   // Use SharedKeyCredential with storage account and account key
-  // const sharedKeyCredential = new SharedKeyCredential(account, accountKey);
+  const sharedKeyCredential = new SharedKeyCredential(account, accountKey);
 
   // Use TokenCredential with OAuth token
   const tokenCredential = new TokenCredential("token");
@@ -27,25 +29,19 @@ async function main() {
   // const anonymousCredential = new AnonymousCredential();
 
   // Use sharedKeyCredential, tokenCredential or anonymousCredential to create a pipeline
+  const pipeline = StorageClient.newPipeline(sharedKeyCredential);
 
-  const CONNECTION_STRING = "";
-  // const pipeline = StorageClient.newPipeline(sharedKeyCredential);
-
-  // List containers
-  // const blobServiceClient = new BlobServiceClient(
-  //   // When using AnonymousCredential, following url should include a valid SAS or support public access
-  //   `https://${account}.blob.core.windows.net`,
-  //   pipeline
-  // );
+  // Create Blob Service Client from Connection String
+  // const CONNECTION_STRING = "";
+  // const blobServiceClient = new BlobServiceClient(CONNECTION_STRING);
 
   // List containers
-  // const serviceURL = new ServiceURL(
-  //   // When using AnonymousCredential, following url should include a valid SAS or support public access
-  //   `https://${account}.blob.core.windows.net`,
-  //   pipeline
-  // );
-  // List containers
-  const blobServiceClient = BlobServiceClient.fromConnectionString(CONNECTION_STRING);
+  const blobServiceClient = new BlobServiceClient(
+    // When using AnonymousCredential, following url should include a valid SAS or support public access
+    `https://${account}.blob.core.windows.net`,
+    pipeline
+  );
+
   let marker;
   do {
     const listContainersResponse: Models.ServiceListContainersSegmentResponse = await blobServiceClient.listContainersSegment(
