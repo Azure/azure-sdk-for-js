@@ -1115,7 +1115,7 @@ export interface ProductSummary extends Resource {
 export interface ValidateProductTransferEligibilityError {
   /**
    * Error code for the product transfer validation. Possible values include: 'InvalidSource',
-   * 'ProductNotActive', 'InsufficienctPermissionOnSource', 'InsufficienctPermissionOnDestination',
+   * 'ProductNotActive', 'InsufficientPermissionOnSource', 'InsufficientPermissionOnDestination',
    * 'DestinationBillingProfilePastDue', 'ProductTypeNotSupported',
    * 'CrossBillingAccountNotAllowed', 'NotAvailableForDestinationMarket',
    * 'OneTimePurchaseProductTransferNotAllowed'
@@ -2144,14 +2144,14 @@ export type BillingFrequency = 'OneTime' | 'Monthly' | 'UsageBased';
 
 /**
  * Defines values for ProductTransferValidationErrorCode.
- * Possible values include: 'InvalidSource', 'ProductNotActive', 'InsufficienctPermissionOnSource',
- * 'InsufficienctPermissionOnDestination', 'DestinationBillingProfilePastDue',
+ * Possible values include: 'InvalidSource', 'ProductNotActive', 'InsufficientPermissionOnSource',
+ * 'InsufficientPermissionOnDestination', 'DestinationBillingProfilePastDue',
  * 'ProductTypeNotSupported', 'CrossBillingAccountNotAllowed', 'NotAvailableForDestinationMarket',
  * 'OneTimePurchaseProductTransferNotAllowed'
  * @readonly
  * @enum {string}
  */
-export type ProductTransferValidationErrorCode = 'InvalidSource' | 'ProductNotActive' | 'InsufficienctPermissionOnSource' | 'InsufficienctPermissionOnDestination' | 'DestinationBillingProfilePastDue' | 'ProductTypeNotSupported' | 'CrossBillingAccountNotAllowed' | 'NotAvailableForDestinationMarket' | 'OneTimePurchaseProductTransferNotAllowed';
+export type ProductTransferValidationErrorCode = 'InvalidSource' | 'ProductNotActive' | 'InsufficientPermissionOnSource' | 'InsufficientPermissionOnDestination' | 'DestinationBillingProfilePastDue' | 'ProductTypeNotSupported' | 'CrossBillingAccountNotAllowed' | 'NotAvailableForDestinationMarket' | 'OneTimePurchaseProductTransferNotAllowed';
 
 /**
  * Defines values for BillingSubscriptionStatusType.
