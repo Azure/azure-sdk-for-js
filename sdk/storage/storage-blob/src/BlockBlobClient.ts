@@ -5,15 +5,16 @@ import { HttpRequestBody, TransferProgressEvent } from "@azure/ms-rest-js";
 
 import * as Models from "./generated/lib/models";
 import { Aborter } from "./Aborter";
-import { BlobClient, NewPipelineOptions, StorageClient } from "./internal";
+import { BlobClient } from "./internal";
 import { BlockBlob } from "./generated/lib/operations";
 import { Range, rangeToString } from "./Range";
 import { BlobAccessConditions, Metadata } from "./models";
 import { Pipeline } from "./Pipeline";
 import { URLConstants } from "./utils/constants";
-import { setURLParameter } from "./utils/utils.common";
-import { Credential } from "./credentials/Credential";
+import { setURLParameter, extractPartsWithValidation } from "./utils/utils.common";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
+import { StorageClient, NewPipelineOptions } from "./StorageClient";
+import { Credential } from "./credentials/Credential";
 
 export interface BlockBlobUploadOptions {
   abortSignal?: Aborter;
@@ -57,7 +58,6 @@ export interface BlockBlobGetBlockListOptions {
  * @extends {StorageClient}
  */
 export class BlockBlobClient extends BlobClient {
-
   /**
    * blockBlobContext provided by protocol layer.
    *
@@ -76,7 +76,12 @@ export class BlockBlobClient extends BlobClient {
    * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof BlockBlobClient
    */
-  constructor(connectionString: string, containerName: string, blobName: string,  options?: NewPipelineOptions)
+  constructor(
+    connectionString: string,
+    containerName: string,
+    blobName: string,
+    options?: NewPipelineOptions
+  );
   /**
    * Creates an instance of BlockBlobClient.
    * This method accepts an encoded URL or non-encoded URL pointing to a block blob.
@@ -95,7 +100,7 @@ export class BlockBlobClient extends BlobClient {
    * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof BlockBlobClient
    */
-  constructor(url: string, credential: Credential, options?: NewPipelineOptions)
+  constructor(url: string, credential: Credential, options?: NewPipelineOptions);
   /**
    * Creates an instance of BlockBlobClient.
    * This method accepts an encoded URL or non-encoded URL pointing to a block blob.
@@ -114,12 +119,13 @@ export class BlockBlobClient extends BlobClient {
    *                            pipeline, or provide a customized pipeline.
    * @memberof BlockBlobClient
    */
-  constructor(url: string, pipeline: Pipeline)
+  constructor(url: string, pipeline: Pipeline);
   constructor(
     s: string,
     credentialOrPipelineOrContainerName: string | Credential | Pipeline,
     blobNameOrOptions?: string | NewPipelineOptions,
-    options?: NewPipelineOptions) {
+    options?: NewPipelineOptions
+  ) {
     // In TypeScript we cannot simply pass all parameters to super() like below so have to duplicate the code instead.
     //   super(s, credentialOrPipelineOrContainerNameOrOptions, blobNameOrOptions, options);
     let pipeline: Pipeline;
@@ -127,8 +133,12 @@ export class BlockBlobClient extends BlobClient {
       pipeline = credentialOrPipelineOrContainerName;
     } else if (credentialOrPipelineOrContainerName instanceof Credential) {
       pipeline = StorageClient.newPipeline(credentialOrPipelineOrContainerName, options);
-    } else if (credentialOrPipelineOrContainerName && typeof credentialOrPipelineOrContainerName === "string"
-               && blobNameOrOptions && typeof blobNameOrOptions === "string") {
+    } else if (
+      credentialOrPipelineOrContainerName &&
+      typeof credentialOrPipelineOrContainerName === "string" &&
+      blobNameOrOptions &&
+      typeof blobNameOrOptions === "string"
+    ) {
       const containerName = credentialOrPipelineOrContainerName;
       const blobName = blobNameOrOptions;
       // TODO: extract parts from connection string
@@ -140,6 +150,28 @@ export class BlockBlobClient extends BlobClient {
     }
     super(s, pipeline);
     this.blockBlobContext = new BlockBlob(this.storageClientContext);
+  }
+
+  /**
+   * Creates a new BlockBlobClient object from ConnectionString
+   *
+   * @param {string} connectionString
+   * @param {INewPipelineOptions} pipelineOptions
+   * @returns {BlockBlobClient}
+   * @memberof BlockBlobClient
+   */
+  static fromConnectionString(
+    connectionString: string,
+    pipelineOptions?: NewPipelineOptions
+  ): BlockBlobClient {
+    const extractedCreds = extractPartsWithValidation(connectionString);
+    const sharedKeyCredential = new SharedKeyCredential(
+      extractedCreds.accountName,
+      extractedCreds.accountKey
+    );
+    const pipeline = StorageClient.newPipeline(sharedKeyCredential, pipelineOptions);
+    // using the new constructor that takes BlobConnectionOptions
+    return new BlockBlobClient(extractedCreds.url, pipeline);
   }
 
   /**

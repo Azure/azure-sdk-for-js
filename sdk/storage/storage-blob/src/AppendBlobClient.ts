@@ -5,14 +5,15 @@ import { HttpRequestBody, TransferProgressEvent } from "@azure/ms-rest-js";
 
 import * as Models from "./generated/lib/models";
 import { Aborter } from "./Aborter";
-import { BlobClient, StorageClient, NewPipelineOptions } from "./internal";
+import { BlobClient } from "./internal";
 import { AppendBlob } from "./generated/lib/operations";
 import { AppendBlobAccessConditions, BlobAccessConditions, Metadata } from "./models";
 import { Pipeline } from "./Pipeline";
 import { URLConstants } from "./utils/constants";
-import { setURLParameter } from "./utils/utils.common";
-import { Credential } from "./credentials/Credential";
+import { setURLParameter, extractPartsWithValidation } from "./utils/utils.common";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
+import { StorageClient, NewPipelineOptions } from "./StorageClient";
+import { Credential } from "./credentials/Credential";
 
 export interface AppendBlobCreateOptions {
   abortSignal?: Aborter;
@@ -54,7 +55,12 @@ export class AppendBlobClient extends BlobClient {
    * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof AppendBlobClient
    */
-  constructor(connectionString: string, containerName: string, blobName: string,  options?: NewPipelineOptions)
+  constructor(
+    connectionString: string,
+    containerName: string,
+    blobName: string,
+    options?: NewPipelineOptions
+  );
   /**
    * Creates an instance of AppendBlobClient.
    * This method accepts an encoded URL or non-encoded URL pointing to an append blob.
@@ -73,7 +79,7 @@ export class AppendBlobClient extends BlobClient {
    * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof AppendBlobClient
    */
-  constructor(url: string, credential: Credential, options?: NewPipelineOptions)
+  constructor(url: string, credential: Credential, options?: NewPipelineOptions);
   /**
    * Creates an instance of AppendBlobClient.
    * This method accepts an encoded URL or non-encoded URL pointing to an append blob.
@@ -92,12 +98,13 @@ export class AppendBlobClient extends BlobClient {
    *                            pipeline, or provide a customized pipeline.
    * @memberof AppendBlobClient
    */
-  constructor(url: string, pipeline: Pipeline)
+  constructor(url: string, pipeline: Pipeline);
   constructor(
     s: string,
     credentialOrPipelineOrContainerName: string | Credential | Pipeline,
     blobNameOrOptions?: string | NewPipelineOptions,
-    options?: NewPipelineOptions) {
+    options?: NewPipelineOptions
+  ) {
     // In TypeScript we cannot simply pass all parameters to super() like below so have to duplicate the code instead.
     //   super(s, credentialOrPipelineOrContainerNameOrOptions, blobNameOrOptions, options);
     let pipeline: Pipeline;
@@ -105,12 +112,20 @@ export class AppendBlobClient extends BlobClient {
       pipeline = credentialOrPipelineOrContainerName;
     } else if (credentialOrPipelineOrContainerName instanceof Credential) {
       pipeline = StorageClient.newPipeline(credentialOrPipelineOrContainerName, options);
-    } else if (credentialOrPipelineOrContainerName && typeof credentialOrPipelineOrContainerName === "string"
-               && blobNameOrOptions && typeof blobNameOrOptions === "string") {
+    } else if (
+      credentialOrPipelineOrContainerName &&
+      typeof credentialOrPipelineOrContainerName === "string" &&
+      blobNameOrOptions &&
+      typeof blobNameOrOptions === "string"
+    ) {
       const containerName = credentialOrPipelineOrContainerName;
       const blobName = blobNameOrOptions;
       // TODO: extract parts from connection string
-      const sharedKeyCredential = new SharedKeyCredential("name", "key");
+      const extractedCreds = extractPartsWithValidation(s);
+      const sharedKeyCredential = new SharedKeyCredential(
+        extractedCreds.accountName,
+        extractedCreds.accountKey
+      );
       s = "endpoint from connection string" + containerName + "/" + blobName;
       pipeline = StorageClient.newPipeline(sharedKeyCredential, options);
     } else {
@@ -118,6 +133,28 @@ export class AppendBlobClient extends BlobClient {
     }
     super(s, pipeline);
     this.appendBlobContext = new AppendBlob(this.storageClientContext);
+  }
+
+  /**
+   * Creates a new AppendBlobClient object from ConnectionString
+   *
+   * @param {string} connectionString
+   * @param {INewPipelineOptions} pipelineOptions
+   * @returns {AppendBlobClient}
+   * @memberof AppendBlobClient
+   */
+  static fromConnectionString(
+    connectionString: string,
+    pipelineOptions?: NewPipelineOptions
+  ): AppendBlobClient {
+    const extractedCreds = extractPartsWithValidation(connectionString);
+    const sharedKeyCredential = new SharedKeyCredential(
+      extractedCreds.accountName,
+      extractedCreds.accountKey
+    );
+    const pipeline = StorageClient.newPipeline(sharedKeyCredential, pipelineOptions);
+    // using the new constructor that takes BlobConnectionOptions
+    return new AppendBlobClient(extractedCreds.url, pipeline);
   }
 
   /**

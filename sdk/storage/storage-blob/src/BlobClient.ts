@@ -10,9 +10,9 @@ import { Blob } from "./generated/lib/operations";
 import { rangeToString } from "./Range";
 import { BlobAccessConditions, Metadata } from "./models";
 import { Pipeline } from "./Pipeline";
-import { StorageClient, NewPipelineOptions } from "./internal";
+import { StorageClient, NewPipelineOptions } from "./StorageClient";
 import { DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS, URLConstants } from "./utils/constants";
-import { setURLParameter } from "./utils/utils.common";
+import { setURLParameter, extractPartsWithValidation } from "./utils/utils.common";
 import { AppendBlobClient } from "./internal";
 import { BlockBlobClient } from "./internal";
 import { PageBlobClient } from "./internal";
@@ -144,7 +144,12 @@ export class BlobClient extends StorageClient {
    * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof BlobClient
    */
-  constructor(connectionString: string, containerName: string, blobName: string,  options?: NewPipelineOptions)
+  constructor(
+    connectionString: string,
+    containerName: string,
+    blobName: string,
+    options?: NewPipelineOptions
+  );
   /**
    * Creates an instance of BlobClient.
    * This method accepts an encoded URL or non-encoded URL pointing to a blob.
@@ -158,7 +163,7 @@ export class BlobClient extends StorageClient {
    * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof BlobClient
    */
-  constructor(url: string, credential: Credential, options?: NewPipelineOptions)
+  constructor(url: string, credential: Credential, options?: NewPipelineOptions);
   /**
    * Creates an instance of BlobClient.
    * This method accepts an encoded URL or non-encoded URL pointing to a blob.
@@ -177,19 +182,24 @@ export class BlobClient extends StorageClient {
    *                            pipeline, or provide a customized pipeline.
    * @memberof BlobClient
    */
-  constructor(url: string, pipeline: Pipeline)
+  constructor(url: string, pipeline: Pipeline);
   constructor(
     s: string,
     credentialOrPipelineOrContainerName: string | Credential | Pipeline,
     blobNameOrOptions?: string | NewPipelineOptions,
-    options?: NewPipelineOptions) {
+    options?: NewPipelineOptions
+  ) {
     let pipeline: Pipeline;
     if (credentialOrPipelineOrContainerName instanceof Pipeline) {
       pipeline = credentialOrPipelineOrContainerName;
     } else if (credentialOrPipelineOrContainerName instanceof Credential) {
       pipeline = StorageClient.newPipeline(credentialOrPipelineOrContainerName, options);
-    } else if (credentialOrPipelineOrContainerName && typeof credentialOrPipelineOrContainerName === "string"
-               && blobNameOrOptions && typeof blobNameOrOptions === "string") {
+    } else if (
+      credentialOrPipelineOrContainerName &&
+      typeof credentialOrPipelineOrContainerName === "string" &&
+      blobNameOrOptions &&
+      typeof blobNameOrOptions === "string"
+    ) {
       const containerName = credentialOrPipelineOrContainerName;
       const blobName = blobNameOrOptions;
       // TODO: extract parts from connection string
@@ -204,6 +214,29 @@ export class BlobClient extends StorageClient {
   }
 
   /**
+   * Creates a new BlobURL object from ConnectionString
+   *
+   * @param {string} connectionString
+   * @param {INewPipelineOptions} pipelineOptions
+   * @returns {BlobURL}
+   * @memberof BlobURL
+   */
+  static fromConnectionString(
+    connectionString: string,
+    pipelineOptions?: NewPipelineOptions
+  ): BlobClient {
+    const extractedCreds = extractPartsWithValidation(connectionString);
+    const sharedKeyCredential = new SharedKeyCredential(
+      extractedCreds.accountName,
+      extractedCreds.accountKey
+    );
+    const pipeline = StorageClient.newPipeline(sharedKeyCredential, pipelineOptions);
+    // using the new constructor that takes BlobConnectionOptions
+    return new BlobClient(extractedCreds.url, pipeline);
+  }
+
+  /**
+   * Creates a new BlobURL object identical to the source but with the
    * Creates a new BlobClient object identical to the source but with the
    * specified request policy pipeline.
    *
@@ -396,9 +429,7 @@ export class BlobClient extends StorageClient {
    * @returns {Promise<Models.BlobDeleteResponse>}
    * @memberof BlobClient
    */
-  public async delete(
-    options: BlobDeleteOptions = {}
-  ): Promise<Models.BlobDeleteResponse> {
+  public async delete(options: BlobDeleteOptions = {}): Promise<Models.BlobDeleteResponse> {
     const aborter = options.abortSignal || Aborter.none;
     options.blobAccessConditions = options.blobAccessConditions || {};
     return this.blobContext.deleteMethod({
@@ -418,9 +449,7 @@ export class BlobClient extends StorageClient {
    * @returns {Promise<Models.BlobUndeleteResponse>}
    * @memberof BlobClient
    */
-  public async undelete(
-    options: BlobUndeleteOptions = {}
-  ): Promise<Models.BlobUndeleteResponse> {
+  public async undelete(options: BlobUndeleteOptions = {}): Promise<Models.BlobUndeleteResponse> {
     const aborter = options.abortSignal || Aborter.none;
     return this.blobContext.undelete({
       abortSignal: aborter || Aborter.none

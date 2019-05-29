@@ -7,9 +7,13 @@ import { Aborter } from "./Aborter";
 import { Container } from "./generated/lib/operations";
 import { ContainerAccessConditions, Metadata } from "./models";
 import { Pipeline } from "./Pipeline";
-import { StorageClient, NewPipelineOptions } from "./internal";
+import { StorageClient, NewPipelineOptions } from "./StorageClient";
 import { ETagNone } from "./utils/constants";
-import { appendToURLPath, truncatedISO8061Date } from "./utils/utils.common";
+import {
+  appendToURLPath,
+  truncatedISO8061Date,
+  extractPartsWithValidation
+} from "./utils/utils.common";
 import { BlobClient } from "./internal";
 import { AppendBlobClient } from "./internal";
 import { BlockBlobClient } from "./internal";
@@ -169,7 +173,7 @@ export class ContainerClient extends StorageClient {
    * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof ContainerClient
    */
-  constructor(connectionString: string, containerName: string, options?: NewPipelineOptions)
+  constructor(connectionString: string, containerName: string, options?: NewPipelineOptions);
   /**
    * Creates an instance of PageBlobClient.
    * This method accepts an encoded URL or non-encoded URL pointing to a page blob.
@@ -188,7 +192,7 @@ export class ContainerClient extends StorageClient {
    * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof ContainerClient
    */
-  constructor(url: string, credential: Credential, options?: NewPipelineOptions)
+  constructor(url: string, credential: Credential, options?: NewPipelineOptions);
   /**
    * Creates an instance of PageBlobClient.
    * This method accepts an encoded URL or non-encoded URL pointing to a page blob.
@@ -207,17 +211,21 @@ export class ContainerClient extends StorageClient {
    *                            pipeline, or provide a customized pipeline.
    * @memberof ContainerClient
    */
-  constructor(url: string, pipeline: Pipeline)
+  constructor(url: string, pipeline: Pipeline);
   constructor(
     s: string,
     credentialOrPipelineOrContainerName: string | Credential | Pipeline,
-    options?: NewPipelineOptions) {
+    options?: NewPipelineOptions
+  ) {
     let pipeline: Pipeline;
     if (credentialOrPipelineOrContainerName instanceof Pipeline) {
       pipeline = credentialOrPipelineOrContainerName;
     } else if (credentialOrPipelineOrContainerName instanceof Credential) {
       pipeline = StorageClient.newPipeline(credentialOrPipelineOrContainerName, options);
-    } else if (credentialOrPipelineOrContainerName && typeof credentialOrPipelineOrContainerName === "string") {
+    } else if (
+      credentialOrPipelineOrContainerName &&
+      typeof credentialOrPipelineOrContainerName === "string"
+    ) {
       const containerName = credentialOrPipelineOrContainerName;
       // TODO: extract parts from connection string
       const sharedKeyCredential = new SharedKeyCredential("name", "key");
@@ -228,6 +236,28 @@ export class ContainerClient extends StorageClient {
     }
     super(s, pipeline);
     this.containerContext = new Container(this.storageClientContext);
+  }
+
+  /**
+   * Creates a new ContainerClient object from ConnectionString
+   *
+   * @param {string} connectionString
+   * @param {INewPipelineOptions} pipelineOptions
+   * @returns {ContainerClient}
+   * @memberof ContainerClient
+   */
+  static fromConnectionString(
+    connectionString: string,
+    pipelineOptions?: NewPipelineOptions
+  ): ContainerClient {
+    const extractedCreds = extractPartsWithValidation(connectionString);
+    const sharedKeyCredential = new SharedKeyCredential(
+      extractedCreds.accountName,
+      extractedCreds.accountKey
+    );
+    const pipeline = StorageClient.newPipeline(sharedKeyCredential, pipelineOptions);
+    // using the new constructor that takes BlobConnectionOptions
+    return new ContainerClient(extractedCreds.url, pipeline);
   }
 
   /**
@@ -272,10 +302,7 @@ export class ContainerClient extends StorageClient {
    * @memberof BlobClient
    */
   public createBlobClient(blobName: string) {
-    return new BlobClient(
-      appendToURLPath(this.url, encodeURIComponent(blobName)),
-      this.pipeline
-    );
+    return new BlobClient(appendToURLPath(this.url, encodeURIComponent(blobName)), this.pipeline);
   }
 
   /**
@@ -285,9 +312,7 @@ export class ContainerClient extends StorageClient {
    * @returns {AppendBlobClient}
    * @memberof ContainerClient
    */
-  public createAppendBlobClient(
-    blobName: string
-  ): AppendBlobClient {
+  public createAppendBlobClient(blobName: string): AppendBlobClient {
     return new AppendBlobClient(
       appendToURLPath(this.url, encodeURIComponent(blobName)),
       this.pipeline
@@ -301,9 +326,7 @@ export class ContainerClient extends StorageClient {
    * @returns {BlockBlobClient}
    * @memberof ContainerClient
    */
-  public createBlockBlobClient(
-    blobName: string
-  ): BlockBlobClient {
+  public createBlockBlobClient(blobName: string): BlockBlobClient {
     return new BlockBlobClient(
       appendToURLPath(this.url, encodeURIComponent(blobName)),
       this.pipeline
@@ -317,9 +340,7 @@ export class ContainerClient extends StorageClient {
    * @returns {PageBlobClient}
    * @memberof ContainerClient
    */
-  public createPageBlobClient(
-    blobName: string
-  ): PageBlobClient {
+  public createPageBlobClient(blobName: string): PageBlobClient {
     return new PageBlobClient(
       appendToURLPath(this.url, encodeURIComponent(blobName)),
       this.pipeline

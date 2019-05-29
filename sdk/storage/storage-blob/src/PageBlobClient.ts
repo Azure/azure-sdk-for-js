@@ -5,15 +5,16 @@ import { HttpRequestBody, TransferProgressEvent } from "@azure/ms-rest-js";
 
 import * as Models from "./generated/lib/models";
 import { Aborter } from "./Aborter";
-import { BlobClient, NewPipelineOptions, StorageClient } from "./internal";
+import { BlobClient } from "./internal";
 import { PageBlob } from "./generated/lib/operations";
 import { rangeToString } from "./Range";
 import { BlobAccessConditions, Metadata, PageBlobAccessConditions } from "./models";
 import { Pipeline } from "./Pipeline";
 import { URLConstants } from "./utils/constants";
-import { setURLParameter } from "./utils/utils.common";
-import { Credential } from "./credentials/Credential";
+import { setURLParameter, extractPartsWithValidation } from "./utils/utils.common";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
+import { StorageClient, NewPipelineOptions } from "./StorageClient";
+import { Credential } from "./credentials/Credential";
 
 export interface PageBlobCreateOptions {
   abortSignal?: Aborter;
@@ -69,7 +70,6 @@ export interface PageBlobStartCopyIncrementalOptions {
  * @extends {StorageClient}
  */
 export class PageBlobClient extends BlobClient {
-
   /**
    * pageBlobsContext provided by protocol layer.
    *
@@ -88,7 +88,12 @@ export class PageBlobClient extends BlobClient {
    * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof PageBlobClient
    */
-  constructor(connectionString: string, containerName: string, blobName: string,  options?: NewPipelineOptions)
+  constructor(
+    connectionString: string,
+    containerName: string,
+    blobName: string,
+    options?: NewPipelineOptions
+  );
   /**
    * Creates an instance of PageBlobClient.
    * This method accepts an encoded URL or non-encoded URL pointing to a blob.
@@ -102,7 +107,7 @@ export class PageBlobClient extends BlobClient {
    * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof PageBlobClient
    */
-  constructor(url: string, credential: Credential, options?: NewPipelineOptions)
+  constructor(url: string, credential: Credential, options?: NewPipelineOptions);
   /**
    * Creates an instance of PageBlobClient.
    *
@@ -118,12 +123,13 @@ export class PageBlobClient extends BlobClient {
    *                            pipeline, or provide a customized pipeline.
    * @memberof PageBlobClient
    */
-  constructor(url: string, pipeline: Pipeline)
+  constructor(url: string, pipeline: Pipeline);
   constructor(
     s: string,
     credentialOrPipelineOrContainerName: string | Credential | Pipeline,
     blobNameOrOptions?: string | NewPipelineOptions,
-    options?: NewPipelineOptions) {
+    options?: NewPipelineOptions
+  ) {
     // In TypeScript we cannot simply pass all parameters to super() like below so have to duplicate the code instead.
     //   super(s, credentialOrPipelineOrContainerNameOrOptions, blobNameOrOptions, options);
     let pipeline: Pipeline;
@@ -131,8 +137,12 @@ export class PageBlobClient extends BlobClient {
       pipeline = credentialOrPipelineOrContainerName;
     } else if (credentialOrPipelineOrContainerName instanceof Credential) {
       pipeline = StorageClient.newPipeline(credentialOrPipelineOrContainerName, options);
-    } else if (credentialOrPipelineOrContainerName && typeof credentialOrPipelineOrContainerName === "string"
-               && blobNameOrOptions && typeof blobNameOrOptions === "string") {
+    } else if (
+      credentialOrPipelineOrContainerName &&
+      typeof credentialOrPipelineOrContainerName === "string" &&
+      blobNameOrOptions &&
+      typeof blobNameOrOptions === "string"
+    ) {
       const containerName = credentialOrPipelineOrContainerName;
       const blobName = blobNameOrOptions;
       // TODO: extract parts from connection string
@@ -147,6 +157,29 @@ export class PageBlobClient extends BlobClient {
   }
 
   /**
+   * Creates a new PageBlobURL object from ConnectionString
+   *
+   * @param {string} connectionString
+   * @param {INewPipelineOptions} pipelineOptions
+   * @returns {PageBlobURL}
+   * @memberof PageBlobURL
+   */
+  static fromConnectionString(
+    connectionString: string,
+    pipelineOptions?: NewPipelineOptions
+  ): PageBlobClient {
+    const extractedCreds = extractPartsWithValidation(connectionString);
+    const sharedKeyCredential = new SharedKeyCredential(
+      extractedCreds.accountName,
+      extractedCreds.accountKey
+    );
+    const pipeline = StorageClient.newPipeline(sharedKeyCredential, pipelineOptions);
+    // using the new constructor that takes BlobConnectionOptions
+    return new PageBlobClient(extractedCreds.url, pipeline);
+  }
+
+  /**
+   * Creates a new PageBlobURL object identical to the source but with the
    * Creates a new PageBlobClient object identical to the source but with the
    * specified request policy pipeline.
    *

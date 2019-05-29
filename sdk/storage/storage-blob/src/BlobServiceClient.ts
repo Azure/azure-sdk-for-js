@@ -6,7 +6,8 @@ import { Aborter } from "./Aborter";
 import { ListContainersIncludeType } from "./generated/lib/models/index";
 import { Service } from "./generated/lib/operations";
 import { Pipeline } from "./Pipeline";
-import { NewPipelineOptions, StorageClient } from "./internal";
+import { StorageClient, NewPipelineOptions } from "./StorageClient";
+import { extractPartsWithValidation } from "./utils/utils.common";
 import { ContainerClient } from "./ContainerClient";
 import { appendToURLPath } from "./utils/utils.common";
 import { Credential } from "./credentials/Credential";
@@ -78,7 +79,7 @@ export class BlobServiceClient extends StorageClient {
    * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof BlobServiceClient
    */
-  constructor(connectionString: string, options?: NewPipelineOptions)
+  constructor(connectionString: string, options?: NewPipelineOptions);
   /**
    * Creates an instance of BlobServiceClient.
    *
@@ -89,7 +90,7 @@ export class BlobServiceClient extends StorageClient {
    * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof BlobServiceClient
    */
-  constructor(url: string, credential: Credential, options?: NewPipelineOptions)
+  constructor(url: string, credential: Credential, options?: NewPipelineOptions);
   /**
    * Creates an instance of BlobServiceClient.
    *
@@ -100,11 +101,12 @@ export class BlobServiceClient extends StorageClient {
    *                            pipeline, or provide a customized pipeline.
    * @memberof BlobServiceClient
    */
-  constructor(url: string, pipeline: Pipeline)
+  constructor(url: string, pipeline: Pipeline);
   constructor(
     s: string,
     credentialOrPipelineOrOptions?: Credential | Pipeline | NewPipelineOptions,
-    options?: NewPipelineOptions) {
+    options?: NewPipelineOptions
+  ) {
     let pipeline: Pipeline;
     if (credentialOrPipelineOrOptions instanceof Pipeline) {
       pipeline = credentialOrPipelineOrOptions;
@@ -120,6 +122,29 @@ export class BlobServiceClient extends StorageClient {
     this.serviceContext = new Service(this.storageClientContext);
   }
   /**
+   * Creates a new BlobServiceClient object from ConnectionString
+   *
+   * @param {string} connectionString
+   * @param {INewPipelineOptions} pipelineOptions
+   * @returns {BlobServiceClient}
+   * @memberof BlobServiceClient
+   */
+  static fromConnectionString(
+    connectionString: string,
+    pipelineOptions?: NewPipelineOptions
+  ): BlobServiceClient {
+    const extractedCreds = extractPartsWithValidation(connectionString);
+    const sharedKeyCredential = new SharedKeyCredential(
+      extractedCreds.accountName,
+      extractedCreds.accountKey
+    );
+    const pipeline = StorageClient.newPipeline(sharedKeyCredential, pipelineOptions);
+    // using the new constructor that takes BlobConnectionOptions
+    return new BlobServiceClient(extractedCreds.url, pipeline);
+  }
+
+  /**
+   * Creates a new ServiceURL object identical to the source but with the
    * Creates a new BlobServiceClient object identical to the source but with the
    * specified request policy pipeline.
    *
@@ -138,9 +163,7 @@ export class BlobServiceClient extends StorageClient {
    * @returns {ContainerClient}
    * @memberof BlobServiceClient
    */
-  public createContainerClient(
-    containerName: string
-  ): ContainerClient {
+  public createContainerClient(containerName: string): ContainerClient {
     return new ContainerClient(
       appendToURLPath(this.url, encodeURIComponent(containerName)),
       this.pipeline

@@ -7,19 +7,17 @@ import {
   BlockBlobClient,
   ContainerClient,
   BlobServiceClient,
-  StorageClient,
-  SharedKeyCredential,
   TokenCredential,
   Models
-} from "../.."; // Change to "@azure/storage-blob" in your package
+} from "../../src"; // Change to "@azure/storage-blob" in your package
 
 async function main() {
   // Enter your storage account name and shared key
-  const account = "";
-  const accountKey = "";
+  // const account = "";
+  // const accountKey = "";
 
   // Use SharedKeyCredential with storage account and account key
-  const sharedKeyCredential = new SharedKeyCredential(account, accountKey);
+  // const sharedKeyCredential = new SharedKeyCredential(account, accountKey);
 
   // Use TokenCredential with OAuth token
   const tokenCredential = new TokenCredential("token");
@@ -29,15 +27,25 @@ async function main() {
   // const anonymousCredential = new AnonymousCredential();
 
   // Use sharedKeyCredential, tokenCredential or anonymousCredential to create a pipeline
-  const pipeline = StorageClient.newPipeline(sharedKeyCredential);
+
+  const CONNECTION_STRING = "";
+  // const pipeline = StorageClient.newPipeline(sharedKeyCredential);
 
   // List containers
-  const blobServiceClient = new BlobServiceClient(
-    // When using AnonymousCredential, following url should include a valid SAS or support public access
-    `https://${account}.blob.core.windows.net`,
-    pipeline
-  );
+  // const blobServiceClient = new BlobServiceClient(
+  //   // When using AnonymousCredential, following url should include a valid SAS or support public access
+  //   `https://${account}.blob.core.windows.net`,
+  //   pipeline
+  // );
 
+  // List containers
+  // const serviceURL = new ServiceURL(
+  //   // When using AnonymousCredential, following url should include a valid SAS or support public access
+  //   `https://${account}.blob.core.windows.net`,
+  //   pipeline
+  // );
+  // List containers
+  const blobServiceClient = BlobServiceClient.fromConnectionString(CONNECTION_STRING);
   let marker;
   do {
     const listContainersResponse: Models.ServiceListContainersSegmentResponse = await blobServiceClient.listContainersSegment(
@@ -55,24 +63,15 @@ async function main() {
   const containerClient = ContainerClient.fromBlobServiceClient(blobServiceClient, containerName);
 
   const createContainerResponse = await containerClient.create();
-  console.log(
-    `Create container ${containerName} successfully`,
-    createContainerResponse.requestId
-  );
+  console.log(`Create container ${containerName} successfully`, createContainerResponse.requestId);
 
   // Create a blob
   const content = "hello";
   const blobName = "newblob" + new Date().getTime();
   const blobClient = BlobClient.fromContainerClient(containerClient, blobName);
   const blockBlobClient = BlockBlobClient.fromBlobClient(blobClient);
-  const uploadBlobResponse = await blockBlobClient.upload(
-    content,
-    content.length
-  );
-  console.log(
-    `Upload block blob ${blobName} successfully`,
-    uploadBlobResponse.requestId
-  );
+  const uploadBlobResponse = await blockBlobClient.upload(content, content.length);
+  console.log(`Upload block blob ${blobName} successfully`, uploadBlobResponse.requestId);
 
   // List blobs
   marker = undefined;
@@ -90,9 +89,7 @@ async function main() {
   // Get blob content from position 0 to the end
   // In Node.js, get downloaded data by accessing downloadBlockBlobResponse.readableStreamBody
   // In browsers, get downloaded data by accessing downloadBlockBlobResponse.blobBody
-  const downloadBlockBlobResponse: Models.BlobDownloadResponse = await blobClient.download(
-    0
-  );
+  const downloadBlockBlobResponse: Models.BlobDownloadResponse = await blobClient.download(0);
   console.log(
     "Downloaded blob content",
     await streamToString(downloadBlockBlobResponse.readableStreamBody!)
@@ -108,7 +105,7 @@ async function main() {
 async function streamToString(readableStream: NodeJS.ReadableStream) {
   return new Promise((resolve, reject) => {
     const chunks: string[] = [];
-    readableStream.on("data", data => {
+    readableStream.on("data", (data) => {
       chunks.push(data.toString());
     });
     readableStream.on("end", () => {
@@ -123,6 +120,6 @@ main()
   .then(() => {
     console.log("Successfully executed sample.");
   })
-  .catch(err => {
+  .catch((err) => {
     console.log(err.message);
   });
