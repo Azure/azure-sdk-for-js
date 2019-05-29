@@ -157,28 +157,6 @@ export class PageBlobClient extends BlobClient {
   }
 
   /**
-   * Creates a new PageBlobURL object from ConnectionString
-   *
-   * @param {string} connectionString
-   * @param {INewPipelineOptions} pipelineOptions
-   * @returns {PageBlobURL}
-   * @memberof PageBlobURL
-   */
-  static fromConnectionString(
-    connectionString: string,
-    pipelineOptions?: NewPipelineOptions
-  ): PageBlobClient {
-    const extractedCreds = extractPartsWithValidation(connectionString);
-    const sharedKeyCredential = new SharedKeyCredential(
-      extractedCreds.accountName,
-      extractedCreds.accountKey
-    );
-    const pipeline = StorageClient.newPipeline(sharedKeyCredential, pipelineOptions);
-    // using the new constructor that takes BlobConnectionOptions
-    return new PageBlobClient(extractedCreds.url, pipeline);
-  }
-
-  /**
    * Creates a new PageBlobURL object identical to the source but with the
    * Creates a new PageBlobClient object identical to the source but with the
    * specified request policy pipeline.

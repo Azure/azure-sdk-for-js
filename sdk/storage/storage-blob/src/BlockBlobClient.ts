@@ -153,28 +153,6 @@ export class BlockBlobClient extends BlobClient {
   }
 
   /**
-   * Creates a new BlockBlobClient object from ConnectionString
-   *
-   * @param {string} connectionString
-   * @param {INewPipelineOptions} pipelineOptions
-   * @returns {BlockBlobClient}
-   * @memberof BlockBlobClient
-   */
-  static fromConnectionString(
-    connectionString: string,
-    pipelineOptions?: NewPipelineOptions
-  ): BlockBlobClient {
-    const extractedCreds = extractPartsWithValidation(connectionString);
-    const sharedKeyCredential = new SharedKeyCredential(
-      extractedCreds.accountName,
-      extractedCreds.accountKey
-    );
-    const pipeline = StorageClient.newPipeline(sharedKeyCredential, pipelineOptions);
-    // using the new constructor that takes BlobConnectionOptions
-    return new BlockBlobClient(extractedCreds.url, pipeline);
-  }
-
-  /**
    * Creates a new BlockBlobClient object identical to the source but with the
    * specified request policy pipeline.
    *

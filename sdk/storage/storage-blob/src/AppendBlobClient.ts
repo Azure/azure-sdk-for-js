@@ -136,28 +136,6 @@ export class AppendBlobClient extends BlobClient {
   }
 
   /**
-   * Creates a new AppendBlobClient object from ConnectionString
-   *
-   * @param {string} connectionString
-   * @param {INewPipelineOptions} pipelineOptions
-   * @returns {AppendBlobClient}
-   * @memberof AppendBlobClient
-   */
-  static fromConnectionString(
-    connectionString: string,
-    pipelineOptions?: NewPipelineOptions
-  ): AppendBlobClient {
-    const extractedCreds = extractPartsWithValidation(connectionString);
-    const sharedKeyCredential = new SharedKeyCredential(
-      extractedCreds.accountName,
-      extractedCreds.accountKey
-    );
-    const pipeline = StorageClient.newPipeline(sharedKeyCredential, pipelineOptions);
-    // using the new constructor that takes BlobConnectionOptions
-    return new AppendBlobClient(extractedCreds.url, pipeline);
-  }
-
-  /**
    * Creates a new AppendBlobClient object identical to the source but with the
    * specified request policy pipeline.
    *

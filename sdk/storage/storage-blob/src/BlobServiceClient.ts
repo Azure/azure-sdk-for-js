@@ -121,27 +121,6 @@ export class BlobServiceClient extends StorageClient {
     super(s, pipeline);
     this.serviceContext = new Service(this.storageClientContext);
   }
-  /**
-   * Creates a new BlobServiceClient object from ConnectionString
-   *
-   * @param {string} connectionString
-   * @param {INewPipelineOptions} pipelineOptions
-   * @returns {BlobServiceClient}
-   * @memberof BlobServiceClient
-   */
-  static fromConnectionString(
-    connectionString: string,
-    pipelineOptions?: NewPipelineOptions
-  ): BlobServiceClient {
-    const extractedCreds = extractPartsWithValidation(connectionString);
-    const sharedKeyCredential = new SharedKeyCredential(
-      extractedCreds.accountName,
-      extractedCreds.accountKey
-    );
-    const pipeline = StorageClient.newPipeline(sharedKeyCredential, pipelineOptions);
-    // using the new constructor that takes BlobConnectionOptions
-    return new BlobServiceClient(extractedCreds.url, pipeline);
-  }
 
   /**
    * Creates a new ServiceURL object identical to the source but with the
