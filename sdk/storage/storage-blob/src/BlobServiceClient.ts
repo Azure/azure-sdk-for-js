@@ -114,8 +114,12 @@ export class BlobServiceClient extends StorageClient {
       pipeline = StorageClient.newPipeline(credentialOrPipelineOrOptions, options);
     } else {
       options = credentialOrPipelineOrOptions || {};
-      // TODO: extract parts from connection string
-      const sharedKeyCredential = new SharedKeyCredential("name", "key");
+
+      const extractedCreds = extractPartsWithValidation(s);
+      const sharedKeyCredential = new SharedKeyCredential(
+        extractedCreds.accountName,
+        extractedCreds.accountKey
+      );
       pipeline = StorageClient.newPipeline(sharedKeyCredential, options);
     }
     super(s, pipeline);

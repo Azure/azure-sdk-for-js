@@ -141,9 +141,13 @@ export class BlockBlobClient extends BlobClient {
     ) {
       const containerName = credentialOrPipelineOrContainerName;
       const blobName = blobNameOrOptions;
-      // TODO: extract parts from connection string
-      const sharedKeyCredential = new SharedKeyCredential("name", "key");
-      s = "endpoint from connection string" + containerName + "/" + blobName;
+
+      const extractedCreds = extractPartsWithValidation(s);
+      const sharedKeyCredential = new SharedKeyCredential(
+        extractedCreds.accountName,
+        extractedCreds.accountKey
+      );
+      s = extractedCreds.url + "/" + containerName + "/" + blobName;
       pipeline = StorageClient.newPipeline(sharedKeyCredential, options);
     } else {
       throw new Error("Expecting non-empty strings for containerName and blobName parameters");

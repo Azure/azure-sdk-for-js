@@ -227,9 +227,13 @@ export class ContainerClient extends StorageClient {
       typeof credentialOrPipelineOrContainerName === "string"
     ) {
       const containerName = credentialOrPipelineOrContainerName;
-      // TODO: extract parts from connection string
-      const sharedKeyCredential = new SharedKeyCredential("name", "key");
-      s = "endpoint from connection string" + containerName + "/";
+
+      const extractedCreds = extractPartsWithValidation(s);
+      const sharedKeyCredential = new SharedKeyCredential(
+        extractedCreds.accountName,
+        extractedCreds.accountKey
+      );
+      s = extractedCreds.url + "/" + containerName + "/";
       pipeline = StorageClient.newPipeline(sharedKeyCredential, options);
     } else {
       throw new Error("Expecting non-empty strings for containerName parameter");
