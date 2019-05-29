@@ -12498,12 +12498,6 @@ export const DelimitedTextReadSetting: msRest.CompositeMapper = {
         type: {
           name: "Object"
         }
-      },
-      treatEmptyAsNull: {
-        serializedName: "treatEmptyAsNull",
-        type: {
-          name: "Boolean"
-        }
       }
     },
     additionalProperties: FormatReadSetting.type.additionalProperties

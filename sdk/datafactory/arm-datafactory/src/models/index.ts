@@ -12923,11 +12923,6 @@ export interface DelimitedTextReadSetting extends FormatReadSetting {
    * integer (or Expression with resultType integer).
    */
   skipLineCount?: any;
-  /**
-   * Specify whether to treat null or empty string as a null value when reading data from an input
-   * file.
-   */
-  treatEmptyAsNull?: boolean;
 }
 
 /**
