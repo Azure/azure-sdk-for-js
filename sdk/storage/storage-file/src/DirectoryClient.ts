@@ -56,6 +56,17 @@ export interface DirectorySetMetadataOptions {
   abortSignal?: Aborter;
 }
 
+interface AzureDirectoryItem {
+  kind: "directory";
+  name: string;
+}
+
+interface AzureFileItem {
+  kind: "file";
+  name: string;
+  properties: Models.FileProperty;
+}
+
 /**
  * A DirectoryClient represents a URL to the Azure Storage directory allowing you to manipulate its files and directories.
  *
@@ -236,7 +247,7 @@ export class DirectoryClient extends StorageClient {
    */
   public async *listFilesAndDirectories(
     options: DirectoryListFilesAndDirectoriesSegmentOptions = {}
-  ): AsyncIterableIterator<Models.FileItem | Models.DirectoryItem> {
+  ): AsyncIterableIterator<AzureFileItem | AzureDirectoryItem> {
     let marker = undefined;
     const directoryClient = this;
     const aborter = !options.abortSignal ? Aborter.none : options.abortSignal;
@@ -250,8 +261,13 @@ export class DirectoryClient extends StorageClient {
         }
       );
       marker = listFilesAndDirectoriesResponse.nextMarker;
-      yield* listFilesAndDirectoriesResponse.segment.fileItems;
-      yield* listFilesAndDirectoriesResponse.segment.directoryItems;
+
+      for (const file of listFilesAndDirectoriesResponse.segment.fileItems) {
+        yield { kind: "file", name: file.name, properties: file.properties };
+      }
+      for (const directory of listFilesAndDirectoriesResponse.segment.directoryItems) {
+        yield { kind: "directory", name: directory.name };
+      }
     } while (marker);
   }
 

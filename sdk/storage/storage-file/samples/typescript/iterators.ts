@@ -71,7 +71,11 @@ async function main() {
   let dirIter1 = directoryClient.listFilesAndDirectories();
   i = 1;
   for await (const item of dirIter1) {
-    console.log(`${i}: ${item.name}`);
+    if (item.kind === "directory") {
+      console.log(`${i} - directory\t: ${item.name}`);
+    } else {
+      console.log(`${i} - file\t: ${item.name}`);
+    }
     i++;
   }
 
@@ -80,7 +84,11 @@ async function main() {
   i = 1;
   let item = await dirIter2.next();
   do {
-    console.log(`${i++}: ${item.value.name}`);
+    if (item.value.kind === "directory") {
+      console.log(`${i} - directory\t: ${item.value.name}`);
+    } else {
+      console.log(`${i} - file\t: ${item.value.name}`);
+    }
     item = await dirIter2.next();
   } while (item.value);
 
