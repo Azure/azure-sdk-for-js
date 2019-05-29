@@ -1,17 +1,23 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { HttpRequestBody, TransferProgressEvent } from "@azure/ms-rest-js";
+import * as fs from "fs";
 
+import { generateUuid, HttpRequestBody, TransferProgressEvent } from "@azure/ms-rest-js";
 import * as Models from "./generated/lib/models";
 import { Aborter } from "./Aborter";
 import { BlobClient } from "./internal";
 import { BlockBlob } from "./generated/lib/operations";
+import { BlobHTTPHeaders } from "./generated/lib/models";
 import { Range, rangeToString } from "./Range";
 import { BlobAccessConditions, Metadata } from "./models";
 import { Pipeline } from "./Pipeline";
-import { URLConstants } from "./utils/constants";
-import { setURLParameter } from "./utils/utils.common";
+import { URLConstants, BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES, BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES, BLOCK_BLOB_MAX_BLOCKS, DEFAULT_BLOB_DOWNLOAD_BLOCK_BYTES } from "./utils/constants";
+import { setURLParameter, generateBlockID } from "./utils/utils.common";
+import { UploadToBlockBlobOptions, BlobUploadCommonResponse } from './highlevel.common';
+import { BufferScheduler } from './utils/BufferScheduler';
+import { Readable } from 'stream';
+import { Batch } from './utils/Batch';
 
 /**
  * Options to configure Block Blob - Upload operation.
@@ -211,6 +217,56 @@ export interface BlockBlobGetBlockListOptions {
    * @memberof BlockBlobGetBlockListOptions
    */
   leaseAccessConditions?: Models.LeaseAccessConditions;
+}
+
+
+/**
+ * Option interface for uploadStreamToBlockBlob.
+ *
+ * @export
+ * @interface UploadStreamToBlockBlobOptions
+ */
+export interface UploadStreamToBlockBlobOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof IUploadToBlockBlobOptions
+   */
+  abortSignal?: Aborter;
+
+  /**
+   * Blob HTTP Headers.
+   *
+   * @type {BlobHTTPHeaders}
+   * @memberof UploadStreamToBlockBlobOptions
+   */
+  blobHTTPHeaders?: BlobHTTPHeaders;
+
+  /**
+   * Metadata of block blob.
+   *
+   * @type {{ [propertyName: string]: string }}
+   * @memberof UploadStreamToBlockBlobOptions
+   */
+  metadata?: { [propertyName: string]: string };
+
+  /**
+   * Access conditions headers.
+   *
+   * @type {BlobAccessConditions}
+   * @memberof UploadStreamToBlockBlobOptions
+   */
+  accessConditions?: BlobAccessConditions;
+
+  /**
+   * Progress updater.
+   *
+   * @memberof UploadStreamToBlockBlobOptions
+   */
+  progress?: (progress: TransferProgressEvent) => void;
 }
 
 /**
@@ -438,5 +494,350 @@ export class BlockBlobClient extends BlobClient {
     }
 
     return res;
+  }
+
+  // High level functions
+
+  /**
+   * ONLY AVAILABLE IN BROWSERS.
+   *
+   * Uploads a browser Blob/File/ArrayBuffer/ArrayBufferView object to block blob.
+   *
+   * When buffer length <= 256MB, this method will use 1 upload call to finish the upload.
+   * Otherwise, this method will call stageBlock to upload blocks, and finally call commitBlockList
+   * to commit the block list.
+   *
+   * @export
+   * @param {Blob | ArrayBuffer | ArrayBufferView} browserData Blob, File, ArrayBuffer or ArrayBufferView
+   * @param {UploadToBlockBlobOptions} [options]
+   * @returns {Promise<BlobUploadCommonResponse>}
+   */
+  public async uploadBrowserDataToBlockBlob(
+    browserData: Blob | ArrayBuffer | ArrayBufferView,
+    options?: UploadToBlockBlobOptions
+  ): Promise<BlobUploadCommonResponse> {
+    const browserBlob = new Blob([browserData]);
+    return this.UploadSeekableBlobToBlockBlob(
+      (offset: number, size: number): Blob => {
+        return browserBlob.slice(offset, offset + size);
+      },
+      browserBlob.size,
+      options
+    );
+  }
+
+  /**
+   * ONLY AVAILABLE IN BROWSERS.
+   *
+   * Uploads a browser Blob object to block blob. Requires a blobFactory as the data source,
+   * which need to return a Blob object with the offset and size provided.
+   *
+   * When buffer length <= 256MB, this method will use 1 upload call to finish the upload.
+   * Otherwise, this method will call stageBlock to upload blocks, and finally call commitBlockList
+   * to commit the block list.
+   *
+   * @param {(offset: number, size: number) => Blob} blobFactory
+   * @param {number} size
+   * @param {UploadToBlockBlobOptions} [options]
+   * @returns {Promise<BlobUploadCommonResponse>}
+   */
+  private async UploadSeekableBlobToBlockBlob(
+    blobFactory: (offset: number, size: number) => Blob,
+    size: number,
+    options: UploadToBlockBlobOptions = {}
+  ): Promise<BlobUploadCommonResponse> {
+    if (!options.blockSize) {
+      options.blockSize = 0;
+    }
+    if (options.blockSize < 0 || options.blockSize > BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES) {
+      throw new RangeError(
+        `blockSize option must be >= 0 and <= ${BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES}`
+      );
+    }
+
+    if (options.maxSingleShotSize !== 0 && !options.maxSingleShotSize) {
+      options.maxSingleShotSize = BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES;
+    }
+    if (
+      options.maxSingleShotSize < 0 ||
+      options.maxSingleShotSize > BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES
+    ) {
+      throw new RangeError(
+        `maxSingleShotSize option must be >= 0 and <= ${BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES}`
+      );
+    }
+
+    if (options.blockSize === 0) {
+      if (size > BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES * BLOCK_BLOB_MAX_BLOCKS) {
+        throw new RangeError(`${size} is too larger to upload to a block blob.`);
+      }
+      if (size > options.maxSingleShotSize) {
+        options.blockSize = Math.ceil(size / BLOCK_BLOB_MAX_BLOCKS);
+        if (options.blockSize < DEFAULT_BLOB_DOWNLOAD_BLOCK_BYTES) {
+          options.blockSize = DEFAULT_BLOB_DOWNLOAD_BLOCK_BYTES;
+        }
+      }
+    }
+    if (!options.blobHTTPHeaders) {
+      options.blobHTTPHeaders = {};
+    }
+    if (!options.blobAccessConditions) {
+      options.blobAccessConditions = {};
+    }
+
+    if (size <= options.maxSingleShotSize) {
+      return this.upload(blobFactory(0, size), size, options);
+    }
+
+    const numBlocks: number = Math.floor((size - 1) / options.blockSize) + 1;
+    if (numBlocks > BLOCK_BLOB_MAX_BLOCKS) {
+      throw new RangeError(
+        `The buffer's size is too big or the BlockSize is too small;` +
+          `the number of blocks must be <= ${BLOCK_BLOB_MAX_BLOCKS}`
+      );
+    }
+
+    const blockList: string[] = [];
+    const blockIDPrefix = generateUuid();
+    let transferProgress: number = 0;
+
+    const batch = new Batch(options.parallelism);
+    for (let i = 0; i < numBlocks; i++) {
+      batch.addOperation(
+        async (): Promise<any> => {
+          const blockID = generateBlockID(blockIDPrefix, i);
+          const start = options.blockSize! * i;
+          const end = i === numBlocks - 1 ? size : start + options.blockSize!;
+          const contentLength = end - start;
+          blockList.push(blockID);
+          await this.stageBlock(
+            blockID,
+            blobFactory(start, contentLength),
+            contentLength,
+            {
+              abortSignal: options.abortSignal,
+              leaseAccessConditions: options.blobAccessConditions!
+                .leaseAccessConditions
+            }
+          );
+          // Update progress after block is successfully uploaded to server, in case of block trying
+          // TODO: Hook with convenience layer progress event in finer level
+          transferProgress += contentLength;
+          if (options.progress) {
+            options.progress!({
+              loadedBytes: transferProgress
+            });
+          }
+        }
+      );
+    }
+    await batch.do();
+
+    return this.commitBlockList(blockList, options);
+  }
+
+  /**
+   * ONLY AVAILABLE IN NODE.JS RUNTIME.
+   *
+   * Uploads a local file in blocks to a block blob.
+   *
+   * When file size <= 256MB, this method will use 1 upload call to finish the upload.
+   * Otherwise, this method will call stageBlock to upload blocks, and finally call commitBlockList
+   * to commit the block list.
+   *
+   * @param {string} filePath Full path of local file
+   * @param {UploadToBlockBlobOptions} [options] UploadToBlockBlobOptions
+   * @returns {(Promise<BlobUploadCommonResponse>)} ICommonResponse
+   */
+  public async uploadFileToBlockBlob(
+    filePath: string,
+    options?: UploadToBlockBlobOptions
+  ): Promise<BlobUploadCommonResponse> {
+    const size = fs.statSync(filePath).size;
+    return this.uploadResetableStreamToBlockBlob(
+      (offset, count) =>
+        fs.createReadStream(filePath, {
+          autoClose: true,
+          end: count ? offset + count - 1 : Infinity,
+          start: offset
+        }),
+      size,
+      options
+    );
+  }
+
+  /**
+   * ONLY AVAILABLE IN NODE.JS RUNTIME.
+   *
+   * Uploads a Node.js Readable stream into block blob.
+   *
+   * PERFORMANCE IMPROVEMENT TIPS:
+   * * Input stream highWaterMark is better to set a same value with bufferSize
+   *    parameter, which will avoid Buffer.concat() operations.
+   *
+   * @param {Readable} stream Node.js Readable stream
+   * @param {BlockBlobClient} blockBlobClient A BlockBlobClient instance
+   * @param {number} bufferSize Size of every buffer allocated, also the block size in the uploaded block blob
+   * @param {number} maxBuffers Max buffers will allocate during uploading, positive correlation
+   *                            with max uploading concurrency
+   * @param {UploadStreamToBlockBlobOptions} [options]
+   * @returns {Promise<BlobUploadCommonResponse>}
+   */
+  public async uploadStreamToBlockBlob(
+    stream: Readable,
+    bufferSize: number,
+    maxBuffers: number,
+    options: UploadStreamToBlockBlobOptions = {}
+  ): Promise<BlobUploadCommonResponse> {
+    if (!options.blobHTTPHeaders) {
+      options.blobHTTPHeaders = {};
+    }
+    if (!options.accessConditions) {
+      options.accessConditions = {};
+    }
+
+    let blockNum = 0;
+    const blockIDPrefix = generateUuid();
+    let transferProgress: number = 0;
+    const blockList: string[] = [];
+
+    const scheduler = new BufferScheduler(
+      stream,
+      bufferSize,
+      maxBuffers,
+      async (buffer: Buffer) => {
+        const blockID = generateBlockID(blockIDPrefix, blockNum);
+        blockList.push(blockID);
+        blockNum++;
+
+        await this.stageBlock(blockID, buffer, buffer.length, {
+          leaseAccessConditions: options.accessConditions!.leaseAccessConditions
+        });
+
+        // Update progress after block is successfully uploaded to server, in case of block trying
+        transferProgress += buffer.length;
+        if (options.progress) {
+          options.progress({ loadedBytes: transferProgress });
+        }
+      },
+      // Parallelism should set a smaller value than maxBuffers, which is helpful to
+      // reduce the possibility when a outgoing handler waits for stream data, in
+      // this situation, outgoing handlers are blocked.
+      // Outgoing queue shouldn't be empty.
+      Math.ceil((maxBuffers / 4) * 3)
+    );
+    await scheduler.do();
+
+    return this.commitBlockList(blockList, options);
+  }
+
+  /**
+   * ONLY AVAILABLE IN NODE.JS RUNTIME.
+   *
+   * Accepts a Node.js Readable stream factory, and uploads in blocks to a block blob.
+   * The Readable stream factory must returns a Node.js Readable stream starting from the offset defined. The offset
+   * is the offset in the block blob to be uploaded.
+   *
+   * When buffer length <= 256MB, this method will use 1 upload call to finish the upload.
+   * Otherwise, this method will call stageBlock to upload blocks, and finally call commitBlockList
+   * to commit the block list.
+   *
+   * @export
+   * @param {(offset: number) => NodeJS.ReadableStream} streamFactory Returns a Node.js Readable stream starting
+   *                                                                  from the offset defined
+   * @param {number} size Size of the block blob
+   * @param {UploadToBlockBlobOptions} [options] UploadToBlockBlobOptions
+   * @returns {(Promise<BlobUploadCommonResponse>)} ICommonResponse
+   */
+  private async uploadResetableStreamToBlockBlob(
+    streamFactory: (offset: number, count?: number) => NodeJS.ReadableStream,
+    size: number,
+    options: UploadToBlockBlobOptions = {}
+  ): Promise<BlobUploadCommonResponse> {
+    if (!options.blockSize) {
+      options.blockSize = 0;
+    }
+    if (options.blockSize < 0 || options.blockSize > BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES) {
+      throw new RangeError(
+        `blockSize option must be >= 0 and <= ${BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES}`
+      );
+    }
+
+    if (options.maxSingleShotSize !== 0 && !options.maxSingleShotSize) {
+      options.maxSingleShotSize = BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES;
+    }
+    if (
+      options.maxSingleShotSize < 0 ||
+      options.maxSingleShotSize > BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES
+    ) {
+      throw new RangeError(
+        `maxSingleShotSize option must be >= 0 and <= ${BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES}`
+      );
+    }
+
+    if (options.blockSize === 0) {
+      if (size > BLOCK_BLOB_MAX_BLOCKS * BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES) {
+        throw new RangeError(`${size} is too larger to upload to a block blob.`);
+      }
+      if (size > options.maxSingleShotSize) {
+        options.blockSize = Math.ceil(size / BLOCK_BLOB_MAX_BLOCKS);
+        if (options.blockSize < DEFAULT_BLOB_DOWNLOAD_BLOCK_BYTES) {
+          options.blockSize = DEFAULT_BLOB_DOWNLOAD_BLOCK_BYTES;
+        }
+      }
+    }
+    if (!options.blobHTTPHeaders) {
+      options.blobHTTPHeaders = {};
+    }
+    if (!options.blobAccessConditions) {
+      options.blobAccessConditions = {};
+    }
+
+    if (size <= options.maxSingleShotSize) {
+      return this.upload(() => streamFactory(0), size, options);
+    }
+
+    const numBlocks: number = Math.floor((size - 1) / options.blockSize) + 1;
+    if (numBlocks > BLOCK_BLOB_MAX_BLOCKS) {
+      throw new RangeError(
+        `The buffer's size is too big or the BlockSize is too small;` +
+          `the number of blocks must be <= ${BLOCK_BLOB_MAX_BLOCKS}`
+      );
+    }
+
+    const blockList: string[] = [];
+    const blockIDPrefix = generateUuid();
+    let transferProgress: number = 0;
+
+    const batch = new Batch(options.parallelism);
+    for (let i = 0; i < numBlocks; i++) {
+      batch.addOperation(
+        async (): Promise<any> => {
+          const blockID = generateBlockID(blockIDPrefix, i);
+          const start = options.blockSize! * i;
+          const end = i === numBlocks - 1 ? size : start + options.blockSize!;
+          const contentLength = end - start;
+          blockList.push(blockID);
+          await this.stageBlock(
+            blockID,
+            () => streamFactory(start, contentLength),
+            contentLength,
+            {
+              abortSignal: options.abortSignal,
+              leaseAccessConditions: options.blobAccessConditions!
+                .leaseAccessConditions
+            }
+          );
+          // Update progress after block is successfully uploaded to server, in case of block trying
+          transferProgress += contentLength;
+          if (options.progress) {
+            options.progress({ loadedBytes: transferProgress });
+          }
+        }
+      );
+    }
+    await batch.do();
+
+    return this.commitBlockList(blockList, options);
   }
 }
