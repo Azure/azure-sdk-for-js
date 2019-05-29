@@ -6,7 +6,6 @@ import {
   MessageProperties,
   MessageHeader,
   Dictionary,
-  messageHeader,
   messageProperties,
   MessageAnnotations,
   DeliveryAnnotations
@@ -142,11 +141,9 @@ export namespace EventDataInternal {
    */
   export function fromAmqpMessage(msg: Message): EventDataInternal {
     const data: EventDataInternal = {
-      body: msg.body,
-      _raw_amqp_mesage: msg
+      body: msg.body
     };
     if (msg.message_annotations) {
-      data.annotations = msg.message_annotations;
       if (msg.message_annotations[Constants.partitionKey] != undefined) {
         data.partitionKey = msg.message_annotations[Constants.partitionKey];
       }
@@ -169,24 +166,7 @@ export namespace EventDataInternal {
         (data.properties as any)[prop] = (msg as any)[prop];
       }
     }
-    // Since rhea expects message headers as top level properties we will look for them and unflatten them inside header.
-    for (const prop of messageHeader) {
-      if ((msg as any)[prop] != undefined) {
-        if (!data.header) {
-          data.header = {};
-        }
-        (data.header as any)[prop] = (msg as any)[prop];
-      }
-    }
-    if (msg.application_properties) {
-      data.applicationProperties = msg.application_properties;
-    }
-    if (msg.delivery_annotations) {
-      data.lastEnqueuedOffset = msg.delivery_annotations.last_enqueued_offset;
-      data.lastSequenceNumber = msg.delivery_annotations.last_enqueued_sequence_number;
-      data.lastEnqueuedTime = new Date(msg.delivery_annotations.last_enqueued_time_utc as number);
-      data.retrievalTime = new Date(msg.delivery_annotations.runtime_info_retrieval_time_utc as number);
-    }
+
     return data;
   }
 
@@ -202,53 +182,19 @@ export namespace EventDataInternal {
     // As per the AMQP 1.0 spec If the message-annotations or delivery-annotations section is omitted,
     // it is equivalent to a message-annotations section containing anempty map of annotations.
     msg.message_annotations = {};
-    msg.delivery_annotations = {};
-    if (data.annotations) {
-      msg.message_annotations = data.annotations;
-    }
     if (data.properties) {
       // Set amqp message properties as top level properties, since rhea sends them as top level properties.
       for (const prop in data.properties) {
         (msg as any)[prop] = (data.properties as any)[prop];
       }
     }
-    if (data.applicationProperties) {
-      msg.application_properties = data.applicationProperties;
-    }
+
     if (partitionKey != undefined) {
       msg.message_annotations[Constants.partitionKey] = partitionKey;
       // Event Hub service cannot route messages to a specific partition based on the partition key
       // if AMQP message header is an empty object. Hence we make sure that header is always present
       // with atleast one property. Setting durable to true, helps us achieve that.
       msg.durable = true;
-    }
-    if (data.sequenceNumber != undefined) {
-      msg.message_annotations[Constants.sequenceNumber] = data.sequenceNumber;
-    }
-    if (data.enqueuedTimeUtc != undefined) {
-      msg.message_annotations[Constants.enqueuedTime] = data.enqueuedTimeUtc.getTime();
-    }
-    if (data.offset != undefined) {
-      msg.message_annotations[Constants.offset] = data.offset;
-    }
-    if (data.lastEnqueuedOffset != undefined) {
-      msg.delivery_annotations.last_enqueued_offset = data.lastEnqueuedOffset;
-    }
-    if (data.lastSequenceNumber != undefined) {
-      msg.delivery_annotations.last_enqueued_sequence_number = data.lastSequenceNumber;
-    }
-    if (data.lastEnqueuedTime != undefined) {
-      msg.delivery_annotations.last_enqueued_time_utc = data.lastEnqueuedTime.getTime();
-    }
-    if (data.retrievalTime != undefined) {
-      msg.delivery_annotations.runtime_info_retrieval_time_utc = data.retrievalTime.getTime();
-    }
-
-    if (data.header) {
-      // Set amqp message header as top level properties, since rhea expects them as top level properties.
-      for (const prop in data.header) {
-        (msg as any)[prop] = (data.header as any)[prop];
-      }
     }
 
     return msg;
