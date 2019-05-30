@@ -350,10 +350,6 @@
       "projectFolder": "sdk/eventhub/event-processor-host"
     },
     {
-      "packageName": "@azure/keyvault",
-      "projectFolder": "sdk/keyvault/keyvault"
-    },
-    {
       "packageName": "@azure/keyvault-secrets",
       "projectFolder": "sdk/keyvault/keyvault-secrets"
     },
