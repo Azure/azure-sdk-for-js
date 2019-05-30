@@ -35,14 +35,15 @@ async function main() {
 
   // Create a blob
   const blobName = "newblob" + new Date().getTime();
-  const blockBlobClient = containerClient.createBlockBlobClient(blobName);
+  const blobClient = containerClient.createBlobClient(blobName);
+  const blockBlobClient = blobClient.createBlockBlobClient();
 
   // Parallel uploading with BlockBlobClient.uploadFile() in Node.js runtime
   // BlockBlobClient.uploadFile() is only available in Node.js
   await blockBlobClient.uploadFile(localFilePath, {
     blockSize: 4 * 1024 * 1024, // 4MB block size
     parallelism: 20, // 20 concurrency
-    progress: ev => console.log(ev)
+    progress: (ev) => console.log(ev)
   });
   console.log("uploadFile success");
 
@@ -54,7 +55,7 @@ async function main() {
     20,
     {
       abortSignal: Aborter.timeout(30 * 60 * 1000), // Abort uploading with timeout in 30mins
-      progress: ev => console.log(ev)
+      progress: (ev) => console.log(ev)
     }
   );
   console.log("uploadStream success");
@@ -79,7 +80,7 @@ async function main() {
     0,
     undefined,
     {
-      abortSignal: Aborter.timeout(30 * 60 * 1000),
+      abortSignal: Aborter.timeout(30 * 60 * 1000), // Abort uploading with timeout in 30mins
       blockSize: 4 * 1024 * 1024, // 4MB block size
       parallelism: 20, // 20 concurrency
       progress: ev => console.log(ev)
@@ -97,6 +98,6 @@ main()
   .then(() => {
     console.log("Successfully executed sample.");
   })
-  .catch(err => {
+  .catch((err) => {
     console.log(err.message);
   });
