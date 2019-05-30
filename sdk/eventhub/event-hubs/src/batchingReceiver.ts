@@ -3,7 +3,7 @@
 
 import { ReceiverEvents, EventContext, OnAmqpEvent, SessionEvents } from "rhea-promise";
 import { translate, Func, Constants, MessagingError } from "@azure/amqp-common";
-import { ReceivedEventData, EventDataInternal } from "./eventData";
+import { ReceivedEventData, EventDataInternal, fromAmqpMessage } from "./eventData";
 import { ReceiveOptions } from "./eventHubClient";
 import { EventHubReceiver } from "./eventHubReceiver";
 import { ConnectionContext } from "./connectionContext";
@@ -85,10 +85,10 @@ export class BatchingReceiver extends EventHubReceiver {
 
       // Action to be performed on the "message" event.
       onReceiveMessage = (context: EventContext) => {
-        const data: EventDataInternal = EventDataInternal.fromAmqpMessage(context.message!);
+        const data: EventDataInternal = fromAmqpMessage(context.message!);
         const receivedEventData: ReceivedEventData = {
           body: this._context.dataTransformer.decode(context.message!.body),
-          properties: data.applicationProperties,
+          properties: data.properties,
           offset: data.offset,
           sequenceNumber: data.sequenceNumber,
           enqueuedTimeUtc: data.enqueuedTimeUtc,

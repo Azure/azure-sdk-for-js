@@ -3,8 +3,6 @@
 
 import {
   Message,
-  MessageProperties,
-  MessageHeader,
   Dictionary,
   MessageAnnotations,
   DeliveryAnnotations
@@ -71,10 +69,6 @@ export interface EventHubMessageAnnotations extends MessageAnnotations {
  */
 export interface EventDataInternal {
   /**
-   * @property {MessageHeader} [header] - The message headers.
-   */
-  header?: MessageHeader;
-  /**
    * @property {any} body - The message body that needs to be sent or is received.
    */
   body: any;
@@ -96,17 +90,9 @@ export interface EventDataInternal {
    */
   sequenceNumber?: number;
   /**
-   * @property {AmqpMessageAnnotations} [annotations] The amqp message attributes.
+   * @property {Dictionary<any>} [properties] The application specific properties.
    */
-  annotations?: EventHubMessageAnnotations;
-  /**
-   * @property {AmqpMessageProperties} [properties] The predefined AMQP properties like message_id, correlation_id, reply_to, etc.
-   */
-  properties?: MessageProperties;
-  /**
-   * @property {Dictionary<any>} [applicationProperties] The application specific properties.
-   */
-  applicationProperties?: Dictionary<any>;
+  properties?: Dictionary<any>;
   /**
    * @property {number} [lastSequenceNumber] The last sequence number of the event within the partition stream of the Event Hub.
    */
@@ -123,17 +109,8 @@ export interface EventDataInternal {
    * @property {Date} [retrievalTime] The time when the runtime info was retrieved
    */
   retrievalTime?: Date;
-  /**
-   * @property {AmqpMessage} _raw_amqp_mesage The underlying raw amqp message.
-   */
-  _raw_amqp_mesage?: Message;
 }
 
-/**
- * Describes the methods on the EventData interface.
- * @module EventData
- */
-export namespace EventDataInternal {
   /**
    * Converts the AMQP message to an EventData.
    * @param {AmqpMessage} msg The AMQP message that needs to be converted to EventData.
@@ -194,7 +171,6 @@ export namespace EventDataInternal {
 
     return msg;
   }
-}
 
 /**
  * Describes the structure of an event to be sent to Event Hub
