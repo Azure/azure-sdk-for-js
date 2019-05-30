@@ -136,10 +136,7 @@ describe("Session Token", function() {
       resourceType: ResourceType.item,
       resourceId: "1"
     });
-    const { resource: document13 } = await container.items.upsert(
-      { id: "1", operation: "upsert" },
-      { partitionKey: "1" }
-    );
+    const { resource: document13 } = await container.items.upsert({ id: "1", operation: "upsert" });
     assert.equal(
       spy.lastCall.args[0].headers[Constants.HttpHeaders.SessionToken],
       upsertToken,

@@ -64,14 +64,14 @@ export class Containers {
     const id = getIdFromLink(this.database.url);
 
     return new QueryIterator(this.clientContext, query, options, innerOptions => {
-      return this.clientContext.queryFeed<ContainerDefinition>(
+      return this.clientContext.queryFeed<ContainerDefinition>({
         path,
-        ResourceType.container,
-        id,
-        result => result.DocumentCollections,
+        resourceType: ResourceType.container,
+        resourceId: id,
+        resultFn: result => result.DocumentCollections,
         query,
-        innerOptions
-      );
+        options: innerOptions
+      });
     });
   }
 
@@ -115,7 +115,13 @@ export class Containers {
       };
     }
 
-    const response = await this.clientContext.create<ContainerRequest>(body, path, ResourceType.container, id, options);
+    const response = await this.clientContext.create<ContainerRequest>({
+      body,
+      path,
+      resourceType: ResourceType.container,
+      resourceId: id,
+      options
+    });
     const ref = new Container(this.database, response.result.id, this.clientContext);
     return new ContainerResponse(response.result, response.headers, response.statusCode, ref);
   }

@@ -34,7 +34,6 @@ export class ChangeFeedIterator<T> {
     private resourceId: string,
     private resourceLink: string,
     private partitionKey: string | number | boolean,
-    private isPartitionedContainer: () => Promise<boolean>,
     private changeFeedOptions: ChangeFeedOptions
   ) {
     // partition key XOR partition key range id
@@ -94,8 +93,7 @@ export class ChangeFeedIterator<T> {
   }
 
   private async getFeedResponse(): Promise<ChangeFeedResponse<Array<T & Resource>>> {
-    const isParittionedContainer = await this.isPartitionedContainer();
-    if (!this.isPartitionSpecified && isParittionedContainer) {
+    if (!this.isPartitionSpecified) {
       throw new Error("Container is partitioned, but no partition key or partition key range id was specified.");
     }
     const feedOptions: FeedOptions = { initialHeaders: {}, useIncrementalFeed: true };
@@ -123,14 +121,14 @@ export class ChangeFeedIterator<T> {
       feedOptions.partitionKey = this.partitionKey as any; // TODO: our partition key is too restrictive on the main object
     }
 
-    const response: Response<Array<T & Resource>> = await (this.clientContext.queryFeed<T>(
-      this.resourceLink,
-      ResourceType.item,
-      this.resourceId,
-      result => (result ? result.Documents : []),
-      undefined,
-      feedOptions
-    ) as Promise<any>); // TODO: some funky issues with query feed. Probably need to change it up.
+    const response: Response<Array<T & Resource>> = await (this.clientContext.queryFeed<T>({
+      path: this.resourceLink,
+      resourceType: ResourceType.item,
+      resourceId: this.resourceId,
+      resultFn: result => (result ? result.Documents : []),
+      query: undefined,
+      options: feedOptions
+    }) as Promise<any>); // TODO: some funky issues with query feed. Probably need to change it up.
 
     return new ChangeFeedResponse(
       response.result,

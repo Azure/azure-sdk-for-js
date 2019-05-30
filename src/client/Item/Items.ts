@@ -66,14 +66,14 @@ export class Items {
     const id = getIdFromLink(this.container.url);
 
     const fetchFunction: FetchFunctionCallback = (innerOptions: FeedOptions) => {
-      return this.clientContext.queryFeed(
+      return this.clientContext.queryFeed({
         path,
-        ResourceType.item,
-        id,
-        result => (result ? result.Documents : []),
+        resourceType: ResourceType.item,
+        resourceId: id,
+        resultFn: result => (result ? result.Documents : []),
         query,
-        innerOptions
-      );
+        options: innerOptions
+      });
     };
 
     return new QueryIterator(this.clientContext, query, options, fetchFunction, this.container.url);
@@ -137,17 +137,7 @@ export class Items {
 
     const path = getPathFromLink(this.container.url, ResourceType.item);
     const id = getIdFromLink(this.container.url);
-    return new ChangeFeedIterator<T>(
-      this.clientContext,
-      id,
-      path,
-      partitionKey,
-      async () => {
-        const bodyWillBeTruthyIfPartitioned = (await this.container.getPartitionKeyDefinition()).resource;
-        return !!bodyWillBeTruthyIfPartitioned;
-      },
-      changeFeedOptions
-    );
+    return new ChangeFeedIterator<T>(this.clientContext, id, path, partitionKey, changeFeedOptions);
   }
 
   /**
@@ -193,10 +183,8 @@ export class Items {
    * @param options Used for modifying the request (for instance, specifying the partition key).
    */
   public async create<T extends ItemDefinition = any>(body: T, options: RequestOptions = {}): Promise<ItemResponse<T>> {
-    if (options.partitionKey === undefined) {
-      const { resource: partitionKeyDefinition } = await this.container.getPartitionKeyDefinition();
-      options.partitionKey = extractPartitionKey(body, partitionKeyDefinition);
-    }
+    const { resource: partitionKeyDefinition } = await this.container.getPartitionKeyDefinition();
+    const partitionKey = extractPartitionKey(body, partitionKeyDefinition);
 
     // Generate random document id if the id is missing in the payload and
     // options.disableAutomaticIdGeneration != true
@@ -212,14 +200,16 @@ export class Items {
     const path = getPathFromLink(this.container.url, ResourceType.item);
     const id = getIdFromLink(this.container.url);
 
-    const response = await this.clientContext.create<T>(body, path, ResourceType.item, id, options);
+    const response = await this.clientContext.create<T>({
+      body,
+      path,
+      resourceType: ResourceType.item,
+      resourceId: id,
+      options,
+      partitionKey
+    });
 
-    const ref = new Item(
-      this.container,
-      (response.result as any).id,
-      (options && options.partitionKey) as string,
-      this.clientContext
-    );
+    const ref = new Item(this.container, (response.result as any).id, partitionKey, this.clientContext);
     return new ItemResponse(response.result, response.headers, response.statusCode, ref);
   }
 
@@ -245,10 +235,8 @@ export class Items {
    */
   public async upsert<T extends ItemDefinition>(body: T, options?: RequestOptions): Promise<ItemResponse<T>>;
   public async upsert<T extends ItemDefinition>(body: T, options: RequestOptions = {}): Promise<ItemResponse<T>> {
-    if (options.partitionKey === undefined) {
-      const { resource: partitionKeyDefinition } = await this.container.getPartitionKeyDefinition();
-      options.partitionKey = extractPartitionKey(body, partitionKeyDefinition);
-    }
+    const { resource: partitionKeyDefinition } = await this.container.getPartitionKeyDefinition();
+    const partitionKey = extractPartitionKey(body, partitionKeyDefinition);
 
     // Generate random document id if the id is missing in the payload and
     // options.disableAutomaticIdGeneration != true
@@ -264,14 +252,16 @@ export class Items {
     const path = getPathFromLink(this.container.url, ResourceType.item);
     const id = getIdFromLink(this.container.url);
 
-    const response = await this.clientContext.upsert<T>(body, path, ResourceType.item, id, options);
+    const response = await this.clientContext.upsert<T>({
+      body,
+      path,
+      resourceType: ResourceType.item,
+      resourceId: id,
+      options,
+      partitionKey
+    });
 
-    const ref = new Item(
-      this.container,
-      (response.result as any).id,
-      (options && options.partitionKey) as string,
-      this.clientContext
-    );
+    const ref = new Item(this.container, (response.result as any).id, partitionKey, this.clientContext);
     return new ItemResponse(response.result, response.headers, response.statusCode, ref);
   }
 }

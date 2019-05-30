@@ -1,5 +1,6 @@
 import { AuthOptions, setAuthorizationHeader } from "../auth";
 import { Constants, HTTPMethod, jsonStringifyAndEscapeNonASCII, ResourceType } from "../common";
+import { PartitionKey } from "../documents";
 import { CosmosHeaders } from "../queryExecutionContext";
 import { FeedOptions, RequestOptions } from "./index";
 
@@ -34,6 +35,7 @@ interface GetHeadersOptions {
   options: RequestOptions & FeedOptions;
   partitionKeyRangeId?: string;
   useMultipleWriteLocations?: boolean;
+  partitionKey?: PartitionKey;
 }
 
 export async function getHeaders({
@@ -45,7 +47,8 @@ export async function getHeaders({
   resourceType,
   options,
   partitionKeyRangeId,
-  useMultipleWriteLocations
+  useMultipleWriteLocations,
+  partitionKey
 }: GetHeadersOptions): Promise<CosmosHeaders> {
   const headers: CosmosHeaders = { ...defaultHeaders };
 
@@ -135,11 +138,11 @@ export async function getHeaders({
     headers[Constants.HttpHeaders.PopulateQuotaInfo] = true;
   }
 
-  if (options.partitionKey !== undefined) {
-    if (options.partitionKey === null || !Array.isArray(options.partitionKey)) {
-      options.partitionKey = [options.partitionKey as string];
+  if (partitionKey !== undefined) {
+    if (partitionKey === null || !Array.isArray(partitionKey)) {
+      partitionKey = [partitionKey as string];
     }
-    headers[Constants.HttpHeaders.PartitionKey] = jsonStringifyAndEscapeNonASCII(options.partitionKey);
+    headers[Constants.HttpHeaders.PartitionKey] = jsonStringifyAndEscapeNonASCII(partitionKey);
   }
 
   if (authOptions.masterKey || authOptions.key || authOptions.tokenProvider) {

@@ -63,14 +63,14 @@ export class Databases {
   public query<T>(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<T>;
   public query<T>(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<T> {
     const cb: FetchFunctionCallback = innerOptions => {
-      return this.clientContext.queryFeed(
-        "/dbs",
-        ResourceType.database,
-        "",
-        result => result.Databases,
+      return this.clientContext.queryFeed({
+        path: "/dbs",
+        resourceType: ResourceType.database,
+        resourceId: "",
+        resultFn: result => result.Databases,
         query,
-        innerOptions
-      );
+        options: innerOptions
+      });
     };
     return new QueryIterator(this.clientContext, query, options, cb);
   }
@@ -103,13 +103,13 @@ export class Databases {
     }
 
     const path = "/dbs"; // TODO: constant
-    const response = await this.clientContext.create<DatabaseRequest>(
+    const response = await this.clientContext.create<DatabaseRequest>({
       body,
       path,
-      ResourceType.database,
-      undefined,
+      resourceType: ResourceType.database,
+      resourceId: undefined,
       options
-    );
+    });
     const ref = new Database(this.client, body.id, this.clientContext);
     return new DatabaseResponse(response.result, response.headers, response.statusCode, ref);
   }

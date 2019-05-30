@@ -34,14 +34,14 @@ export class Conflicts {
     const id = getIdFromLink(this.container.url);
 
     return new QueryIterator(this.clientContext, query, options, innerOptions => {
-      return this.clientContext.queryFeed(
+      return this.clientContext.queryFeed({
         path,
-        ResourceType.conflicts,
-        id,
-        result => result.Conflicts,
+        resourceType: ResourceType.conflicts,
+        resourceId: id,
+        resultFn: result => result.Conflicts,
         query,
-        innerOptions
-      );
+        options: innerOptions
+      });
     });
   }
 

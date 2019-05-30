@@ -38,14 +38,14 @@ export class UserDefinedFunctions {
     const id = getIdFromLink(this.container.url);
 
     return new QueryIterator(this.clientContext, query, options, innerOptions => {
-      return this.clientContext.queryFeed(
+      return this.clientContext.queryFeed({
         path,
-        ResourceType.udf,
-        id,
-        result => result.UserDefinedFunctions,
+        resourceType: ResourceType.udf,
+        resourceId: id,
+        resultFn: result => result.UserDefinedFunctions,
         query,
-        innerOptions
-      );
+        options: innerOptions
+      });
     });
   }
 
@@ -85,13 +85,13 @@ export class UserDefinedFunctions {
     const path = getPathFromLink(this.container.url, ResourceType.udf);
     const id = getIdFromLink(this.container.url);
 
-    const response = await this.clientContext.create<UserDefinedFunctionDefinition>(
+    const response = await this.clientContext.create<UserDefinedFunctionDefinition>({
       body,
       path,
-      ResourceType.udf,
-      id,
+      resourceType: ResourceType.udf,
+      resourceId: id,
       options
-    );
+    });
     const ref = new UserDefinedFunction(this.container, response.result.id, this.clientContext);
     return new UserDefinedFunctionResponse(response.result, response.headers, response.statusCode, ref);
   }
@@ -120,13 +120,13 @@ export class UserDefinedFunctions {
     const path = getPathFromLink(this.container.url, ResourceType.udf);
     const id = getIdFromLink(this.container.url);
 
-    const response = await this.clientContext.upsert<UserDefinedFunctionDefinition>(
+    const response = await this.clientContext.upsert<UserDefinedFunctionDefinition>({
       body,
       path,
-      ResourceType.udf,
-      id,
+      resourceType: ResourceType.udf,
+      resourceId: id,
       options
-    );
+    });
     const ref = new UserDefinedFunction(this.container, response.result.id, this.clientContext);
     return new UserDefinedFunctionResponse(response.result, response.headers, response.statusCode, ref);
   }

@@ -39,14 +39,14 @@ export class Permissions {
     const id = getIdFromLink(this.user.url);
 
     return new QueryIterator(this.clientContext, query, options, innerOptions => {
-      return this.clientContext.queryFeed(
+      return this.clientContext.queryFeed({
         path,
-        ResourceType.permission,
-        id,
-        result => result.Permissions,
+        resourceType: ResourceType.permission,
+        resourceId: id,
+        resultFn: result => result.Permissions,
         query,
-        innerOptions
-      );
+        options: innerOptions
+      });
     });
   }
 
@@ -78,13 +78,13 @@ export class Permissions {
     const path = getPathFromLink(this.user.url, ResourceType.permission);
     const id = getIdFromLink(this.user.url);
 
-    const response = await this.clientContext.create<PermissionDefinition, PermissionBody>(
+    const response = await this.clientContext.create<PermissionDefinition, PermissionBody>({
       body,
       path,
-      ResourceType.permission,
-      id,
+      resourceType: ResourceType.permission,
+      resourceId: id,
       options
-    );
+    });
     const ref = new Permission(this.user, response.result.id, this.clientContext);
     return new PermissionResponse(response.result, response.headers, response.statusCode, ref);
   }
@@ -104,13 +104,13 @@ export class Permissions {
     const path = getPathFromLink(this.user.url, ResourceType.permission);
     const id = getIdFromLink(this.user.url);
 
-    const response = await this.clientContext.upsert<PermissionDefinition, PermissionBody>(
+    const response = await this.clientContext.upsert<PermissionDefinition, PermissionBody>({
       body,
       path,
-      ResourceType.permission,
-      id,
+      resourceType: ResourceType.permission,
+      resourceId: id,
       options
-    );
+    });
     const ref = new Permission(this.user, response.result.id, this.clientContext);
     return new PermissionResponse(response.result, response.headers, response.statusCode, ref);
   }

@@ -95,7 +95,7 @@ export class Container {
    * Use `.items` for creating new items, or querying/reading all items.
    *
    * @param id The id of the {@link Item}.
-   * @param partitionKey The partition key of the {@link Item}. (Required for partitioned containers).
+   * @param partitionKey The partition key of the {@link Item}
    * @example Replace an item
    * const {body: replacedItem} = await container.item("<item id>").replace({id: "<item id>", title: "Updated post", authorID: 5});
    */
@@ -118,7 +118,12 @@ export class Container {
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
 
-    const response = await this.clientContext.read<ContainerDefinition>(path, ResourceType.container, id, options);
+    const response = await this.clientContext.read<ContainerDefinition>({
+      path,
+      resourceType: ResourceType.container,
+      resourceId: id,
+      options
+    });
     this.clientContext.partitionKeyDefinitionCache[this.url] = response.result.partitionKey;
     return new ContainerResponse(response.result, response.headers, response.statusCode, this);
   }
@@ -133,13 +138,13 @@ export class Container {
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
 
-    const response = await this.clientContext.replace<ContainerDefinition>(
+    const response = await this.clientContext.replace<ContainerDefinition>({
       body,
       path,
-      ResourceType.container,
-      id,
+      resourceType: ResourceType.container,
+      resourceId: id,
       options
-    );
+    });
     return new ContainerResponse(response.result, response.headers, response.statusCode, this);
   }
 
@@ -148,7 +153,12 @@ export class Container {
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
 
-    const response = await this.clientContext.delete<ContainerDefinition>(path, ResourceType.container, id, options);
+    const response = await this.clientContext.delete<ContainerDefinition>({
+      path,
+      resourceType: ResourceType.container,
+      resourceId: id,
+      options
+    });
     return new ContainerResponse(response.result, response.headers, response.statusCode, this);
   }
 

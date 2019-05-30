@@ -129,16 +129,16 @@ describe("NodeJS CRUD Tests", function() {
       // tslint:enable:object-literal-shorthand
 
       const { resource: retrievedSproc } = await container.scripts.storedProcedures.create(sproc1);
-      const { resource: result } = await container.scripts.storedProcedure(retrievedSproc.id).execute();
+      const { resource: result } = await container.scripts.storedProcedure(retrievedSproc.id).execute(undefined);
       assert.equal(result, 999);
 
       const { resource: retrievedSproc2 } = await container.scripts.storedProcedures.create(sproc2);
-      const { resource: result2 } = await container.scripts.storedProcedure(retrievedSproc2.id).execute();
+      const { resource: result2 } = await container.scripts.storedProcedure(retrievedSproc2.id).execute(undefined);
       assert.equal(result2, 123456789);
       const { resource: retrievedSproc3 } = await container.scripts.storedProcedures.create(sproc3);
       const { resource: result3 } = await container.scripts
         .storedProcedure(retrievedSproc3.id)
-        .execute([{ temp: "so" }]);
+        .execute(undefined, [{ temp: "so" }]);
       assert.equal(result3, "aso");
     });
   });
@@ -203,12 +203,12 @@ describe("NodeJS CRUD Tests", function() {
 
     const returnedDocuments = await bulkInsertItems(container, documents);
     const { resource: sproc } = await container.scripts.storedProcedures.create(querySproc);
-    const { resource: result } = await container.scripts.storedProcedure(sproc.id).execute([], { partitionKey: null });
+    const { resource: result } = await container.scripts.storedProcedure(sproc.id).execute(null, []);
     assert(result !== undefined);
     assert.equal(result.length, 1);
     assert.equal(JSON.stringify(result[0]), JSON.stringify(documents[1]));
 
-    const { resource: result2 } = await container.scripts.storedProcedure(sproc.id).execute(null, { partitionKey: 1 });
+    const { resource: result2 } = await container.scripts.storedProcedure(sproc.id).execute(1, null);
     assert(result2 !== undefined);
     assert.equal(result2.length, 1);
     assert.equal(JSON.stringify(result2[0]), JSON.stringify(documents[4]));
@@ -254,21 +254,21 @@ describe("NodeJS CRUD Tests", function() {
     const { resource: retrievedSproc } = await container.scripts.storedProcedures.create(sproc1);
     const { resource: result1, headers: headers1 } = await container.scripts
       .storedProcedure(retrievedSproc.id)
-      .execute();
+      .execute(undefined);
     assert.equal(result1, "Success!");
     assert.equal(headers1[Constants.HttpHeaders.ScriptLogResults], undefined);
 
     let requestOptions = { enableScriptLogging: true };
     const { resource: result2, headers: headers2 } = await container.scripts
       .storedProcedure(retrievedSproc.id)
-      .execute([], requestOptions);
+      .execute(undefined, [], requestOptions);
     assert.equal(result2, "Success!");
     assert.equal(headers2[Constants.HttpHeaders.ScriptLogResults], encodeURIComponent("The value of x is 1."));
 
     requestOptions = { enableScriptLogging: false };
     const { resource: result3, headers: headers3 } = await container.scripts
       .storedProcedure(retrievedSproc.id)
-      .execute([], requestOptions);
+      .execute(undefined, [], requestOptions);
     assert.equal(result3, "Success!");
     assert.equal(headers3[Constants.HttpHeaders.ScriptLogResults], undefined);
   });

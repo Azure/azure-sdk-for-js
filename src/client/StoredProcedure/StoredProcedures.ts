@@ -58,14 +58,14 @@ export class StoredProcedures {
     const id = getIdFromLink(this.container.url);
 
     return new QueryIterator(this.clientContext, query, options, innerOptions => {
-      return this.clientContext.queryFeed(
+      return this.clientContext.queryFeed({
         path,
-        ResourceType.sproc,
-        id,
-        result => result.StoredProcedures,
+        resourceType: ResourceType.sproc,
+        resourceId: id,
+        resultFn: result => result.StoredProcedures,
         query,
-        innerOptions
-      );
+        options: innerOptions
+      });
     });
   }
 
@@ -103,13 +103,13 @@ export class StoredProcedures {
     const path = getPathFromLink(this.container.url, ResourceType.sproc);
     const id = getIdFromLink(this.container.url);
 
-    const response = await this.clientContext.create<StoredProcedureDefinition>(
+    const response = await this.clientContext.create<StoredProcedureDefinition>({
       body,
       path,
-      ResourceType.sproc,
-      id,
+      resourceType: ResourceType.sproc,
+      resourceId: id,
       options
-    );
+    });
     const ref = new StoredProcedure(this.container, response.result.id, this.clientContext);
     return new StoredProcedureResponse(response.result, response.headers, response.statusCode, ref);
   }
@@ -137,13 +137,13 @@ export class StoredProcedures {
     const path = getPathFromLink(this.container.url, ResourceType.sproc);
     const id = getIdFromLink(this.container.url);
 
-    const response = await this.clientContext.upsert<StoredProcedureDefinition>(
+    const response = await this.clientContext.upsert<StoredProcedureDefinition>({
       body,
       path,
-      ResourceType.sproc,
-      id,
+      resourceType: ResourceType.sproc,
+      resourceId: id,
       options
-    );
+    });
     const ref = new StoredProcedure(this.container, response.result.id, this.clientContext);
     return new StoredProcedureResponse(response.result, response.headers, response.statusCode, ref);
   }

@@ -80,15 +80,15 @@ export class DocumentProducer {
     const path = getPathFromLink(this.collectionLink, ResourceType.item);
     const id = getIdFromLink(this.collectionLink);
 
-    return this.clientContext.queryFeed(
+    return this.clientContext.queryFeed({
       path,
-      ResourceType.item,
-      id,
-      (result: any) => result.Documents, // TODO: any
-      this.query,
+      resourceType: ResourceType.item,
+      resourceId: id,
+      resultFn: (result: any) => result.Documents,
+      query: this.query,
       options,
-      this.targetPartitionKeyRange["id"]
-    );
+      partitionKeyRangeId: this.targetPartitionKeyRange["id"]
+    });
   };
 
   public hasMoreResults() {

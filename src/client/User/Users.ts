@@ -38,7 +38,14 @@ export class Users {
     const id = getIdFromLink(this.database.url);
 
     return new QueryIterator(this.clientContext, query, options, innerOptions => {
-      return this.clientContext.queryFeed(path, ResourceType.user, id, result => result.Users, query, innerOptions);
+      return this.clientContext.queryFeed({
+        path,
+        resourceType: ResourceType.user,
+        resourceId: id,
+        resultFn: result => result.Users,
+        query,
+        options: innerOptions
+      });
     });
   }
 
@@ -67,7 +74,13 @@ export class Users {
 
     const path = getPathFromLink(this.database.url, ResourceType.user);
     const id = getIdFromLink(this.database.url);
-    const response = await this.clientContext.create<UserDefinition>(body, path, ResourceType.user, id, options);
+    const response = await this.clientContext.create<UserDefinition>({
+      body,
+      path,
+      resourceType: ResourceType.user,
+      resourceId: id,
+      options
+    });
     const ref = new User(this.database, response.result.id, this.clientContext);
     return new UserResponse(response.result, response.headers, response.statusCode, ref);
   }
@@ -86,7 +99,13 @@ export class Users {
     const path = getPathFromLink(this.database.url, ResourceType.user);
     const id = getIdFromLink(this.database.url);
 
-    const response = await this.clientContext.upsert<UserDefinition>(body, path, ResourceType.user, id, options);
+    const response = await this.clientContext.upsert<UserDefinition>({
+      body,
+      path,
+      resourceType: ResourceType.user,
+      resourceId: id,
+      options
+    });
     const ref = new User(this.database, response.result.id, this.clientContext);
     return new UserResponse(response.result, response.headers, response.statusCode, ref);
   }

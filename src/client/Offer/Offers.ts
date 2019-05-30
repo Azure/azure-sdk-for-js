@@ -33,14 +33,14 @@ export class Offers {
   public query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T>;
   public query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T> {
     return new QueryIterator(this.clientContext, query, options, innerOptions => {
-      return this.clientContext.queryFeed<T>(
-        "/offers",
-        ResourceType.offer,
-        "",
-        result => result.Offers,
+      return this.clientContext.queryFeed<T>({
+        path: "/offers",
+        resourceType: ResourceType.offer,
+        resourceId: "",
+        resultFn: result => result.Offers,
         query,
-        innerOptions
-      );
+        options: innerOptions
+      });
     });
   }
 

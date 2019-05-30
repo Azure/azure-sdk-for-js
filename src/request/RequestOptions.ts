@@ -40,8 +40,6 @@ export interface RequestOptions extends SharedOptions {
   resourceTokenExpirySeconds?: number;
   /** (Advanced use case) The url to connect to. */
   urlConnection?: string;
-  /** (Advanced use case) Skip getting info on the parititon key from the container. */
-  skipGetPartitionKeyDefinition?: boolean;
   /** Disable automatic id generation (will cause creates to fail if id isn't on the definition) */
   disableAutomaticIdGeneration?: boolean;
 }

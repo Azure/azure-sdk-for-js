@@ -1,7 +1,7 @@
 import { ClientContext } from "../ClientContext";
 import { HTTPMethod, OperationType, ResourceType } from "../common";
 import { Agent } from "../CosmosClientOptions";
-import { ConnectionPolicy } from "../documents";
+import { ConnectionPolicy, PartitionKey } from "../documents";
 import { GlobalEndpointManager } from "../globalEndpointManager";
 import { PluginConfig } from "../plugins/Plugin";
 import { CosmosHeaders } from "../queryExecutionContext/CosmosHeaders";
@@ -27,4 +27,5 @@ export interface RequestContext {
   partitionKeyRangeId?: string;
   options: FeedOptions | RequestOptions;
   plugins: PluginConfig[];
+  partitionKey?: PartitionKey;
 }

@@ -1,3 +1,4 @@
+import { PartitionKey } from "../documents";
 import { SharedOptions } from "./SharedOptions";
 
 /**
@@ -6,11 +7,8 @@ import { SharedOptions } from "./SharedOptions";
 export interface FeedOptions extends SharedOptions {
   /** Opaque token for continuing the enumeration. */
   continuation?: string;
-  /**
-   * DisableRUPerMinuteUsage is used to enable/disable Request Units(RUs)/minute capacity to serve
-   * the request if regular provisioned RUs/second is exhausted.
-   */
-  disableRUPerMinuteUsage?: boolean;
+  /** Specifies a partition key definition for a particular path in the Azure Cosmos DB database service. */
+  partitionKey?: PartitionKey | PartitionKey[];
   /**
    * A value indicating whether users are enabled to send more than one request to execute the query in the Azure Cosmos DB database service.
    *

@@ -36,7 +36,12 @@ export class StoredProcedure {
   public async read(options?: RequestOptions): Promise<StoredProcedureResponse> {
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
-    const response = await this.clientContext.read<StoredProcedureDefinition>(path, ResourceType.sproc, id, options);
+    const response = await this.clientContext.read<StoredProcedureDefinition>({
+      path,
+      resourceType: ResourceType.sproc,
+      resourceId: id,
+      options
+    });
     return new StoredProcedureResponse(response.result, response.headers, response.statusCode, this);
   }
 
@@ -58,13 +63,13 @@ export class StoredProcedure {
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
 
-    const response = await this.clientContext.replace<StoredProcedureDefinition>(
+    const response = await this.clientContext.replace<StoredProcedureDefinition>({
       body,
       path,
-      ResourceType.sproc,
-      id,
+      resourceType: ResourceType.sproc,
+      resourceId: id,
       options
-    );
+    });
     return new StoredProcedureResponse(response.result, response.headers, response.statusCode, this);
   }
 
@@ -76,28 +81,31 @@ export class StoredProcedure {
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
 
-    const response = await this.clientContext.delete<StoredProcedureDefinition>(path, ResourceType.sproc, id, options);
+    const response = await this.clientContext.delete<StoredProcedureDefinition>({
+      path,
+      resourceType: ResourceType.sproc,
+      resourceId: id,
+      options
+    });
     return new StoredProcedureResponse(response.result, response.headers, response.statusCode, this);
   }
 
-  /**
-   * Execute the given {@link StoredProcedure}.
-   * @param params Array of parameters to pass as arguments to the given {@link StoredProcedure}.
-   * @param options Additional options, such as the partition key to invoke the {@link StoredProcedure} on.
-   */
-  public async execute(params?: any[], options?: RequestOptions): Promise<ResourceResponse<any>>;
   /**
    * Execute the given {@link StoredProcedure}.
    *
    * The specified type, T, is not enforced by the client.
    * Be sure to validate the response from the stored procedure matches the type, T, you provide.
    *
+   * @param partitionKey The partition key to use when executing the stored procedure
    * @param params Array of parameters to pass as arguments to the given {@link StoredProcedure}.
    * @param options Additional options, such as the partition key to invoke the {@link StoredProcedure} on.
    */
-  public async execute<T>(params?: any[], options?: RequestOptions): Promise<ResourceResponse<T>>;
-  public async execute<T>(params?: any[], options?: RequestOptions): Promise<ResourceResponse<T>> {
-    const response = await this.clientContext.execute<T>(this.url, params, options);
+  public async execute<T = any>(
+    partitionKey: any,
+    params?: any[],
+    options?: RequestOptions
+  ): Promise<ResourceResponse<T>> {
+    const response = await this.clientContext.execute<T>({ sprocLink: this.url, params, options, partitionKey });
     return new ResourceResponse<T>(response.result, response.headers, response.statusCode);
   }
 }

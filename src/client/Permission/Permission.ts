@@ -33,12 +33,12 @@ export class Permission {
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
 
-    const response = await this.clientContext.read<PermissionDefinition & PermissionBody>(
+    const response = await this.clientContext.read<PermissionDefinition & PermissionBody>({
       path,
-      ResourceType.permission,
-      id,
+      resourceType: ResourceType.permission,
+      resourceId: id,
       options
-    );
+    });
     return new PermissionResponse(response.result, response.headers, response.statusCode, this);
   }
 
@@ -56,13 +56,13 @@ export class Permission {
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
 
-    const response = await this.clientContext.replace<PermissionDefinition & PermissionBody>(
+    const response = await this.clientContext.replace<PermissionDefinition & PermissionBody>({
       body,
       path,
-      ResourceType.permission,
-      id,
+      resourceType: ResourceType.permission,
+      resourceId: id,
       options
-    );
+    });
     return new PermissionResponse(response.result, response.headers, response.statusCode, this);
   }
 
@@ -74,12 +74,12 @@ export class Permission {
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
 
-    const response = await this.clientContext.delete<PermissionDefinition & PermissionBody>(
+    const response = await this.clientContext.delete<PermissionDefinition & PermissionBody>({
       path,
-      ResourceType.permission,
-      id,
+      resourceType: ResourceType.permission,
+      resourceId: id,
       options
-    );
+    });
     return new PermissionResponse(response.result, response.headers, response.statusCode, this);
   }
 }

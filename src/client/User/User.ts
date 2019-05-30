@@ -56,7 +56,12 @@ export class User {
   public async read(options?: RequestOptions): Promise<UserResponse> {
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
-    const response = await this.clientContext.read<UserDefinition>(path, ResourceType.user, id, options);
+    const response = await this.clientContext.read<UserDefinition>({
+      path,
+      resourceType: ResourceType.user,
+      resourceId: id,
+      options
+    });
     return new UserResponse(response.result, response.headers, response.statusCode, this);
   }
 
@@ -74,7 +79,13 @@ export class User {
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
 
-    const response = await this.clientContext.replace<UserDefinition>(body, path, ResourceType.user, id, options);
+    const response = await this.clientContext.replace<UserDefinition>({
+      body,
+      path,
+      resourceType: ResourceType.user,
+      resourceId: id,
+      options
+    });
     return new UserResponse(response.result, response.headers, response.statusCode, this);
   }
 
@@ -86,7 +97,12 @@ export class User {
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
 
-    const response = await this.clientContext.delete<UserDefinition>(path, ResourceType.user, id, options);
+    const response = await this.clientContext.delete<UserDefinition>({
+      path,
+      resourceType: ResourceType.user,
+      resourceId: id,
+      options
+    });
     return new UserResponse(response.result, response.headers, response.statusCode, this);
   }
 }

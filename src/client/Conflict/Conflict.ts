@@ -36,7 +36,12 @@ export class Conflict {
     const path = getPathFromLink(this.url, ResourceType.conflicts);
     const id = getIdFromLink(this.url);
 
-    const response = await this.clientContext.read<ConflictDefinition>(path, ResourceType.user, id, options);
+    const response = await this.clientContext.read<ConflictDefinition>({
+      path,
+      resourceType: ResourceType.user,
+      resourceId: id,
+      options
+    });
     return new ConflictResponse(response.result, response.headers, response.statusCode, this);
   }
 
@@ -48,7 +53,12 @@ export class Conflict {
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
 
-    const response = await this.clientContext.delete<ConflictDefinition>(path, ResourceType.conflicts, id, options);
+    const response = await this.clientContext.delete<ConflictDefinition>({
+      path,
+      resourceType: ResourceType.conflicts,
+      resourceId: id,
+      options
+    });
     return new ConflictResponse(response.result, response.headers, response.statusCode, this);
   }
 }

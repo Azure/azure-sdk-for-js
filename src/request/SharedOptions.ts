@@ -1,12 +1,9 @@
-import { PartitionKey } from "../documents";
 import { CosmosHeaders } from "../index";
 
 /**
  * Options that can be specified for a requested issued to the Azure Cosmos DB servers.=
  */
 export interface SharedOptions {
-  /** Specifies a partition key definition for a particular path in the Azure Cosmos DB database service. */
-  partitionKey?: PartitionKey | PartitionKey[];
   /** Enables/disables getting document container quota related stats for document container read requests. */
   sessionToken?: string;
   /** (Advanced use case) Initial headers to start with when sending requests to Cosmos */

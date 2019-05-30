@@ -6,143 +6,141 @@ import { getTestContainer, removeAllDatabases } from "../common/TestHelpers";
 describe("Change Feed Iterator", function() {
   this.timeout(process.env.MOCHA_TIMEOUT || 20000);
 
-  describe("Partition Key", function() {
-    // delete all databases and create sample database
+  // delete all databases and create sample database
+  before(async function() {
+    await removeAllDatabases();
+  });
+
+  describe("Newly updated items should be fetched incrementally", function() {
+    let container: Container;
+
+    // create container and two items
     before(async function() {
-      await removeAllDatabases();
-    });
-
-    describe("Newly updated items should be fetched incrementally", function() {
-      let container: Container;
-
-      // create container and two items
-      before(async function() {
-        const containerDef: ContainerDefinition = {
-          partitionKey: {
-            kind: "Hash",
-            paths: ["/key"]
-          }
-        };
-        const throughput: RequestOptions = { offerThroughput: 25100 };
-        container = await getTestContainer(
-          "Newly updated items should be fetched incrementally",
-          undefined,
-          containerDef,
-          throughput
-        );
-        await container.items.create({ id: "item1", key: "0" });
-        await container.items.create({ id: "item2", key: "0" });
-        await container.items.create({ id: "item1", key: "1" });
-        await container.items.create({ id: "item2", key: "1" });
-      });
-
-      after(async function() {
-        await container.delete();
-      });
-
-      it("should throw if used with no partition key or partition key range id", async function() {
-        const iterator = container.items.readChangeFeed({ startFromBeginning: true });
-
-        try {
-          await iterator.executeNext();
-        } catch (err) {
-          assert.equal(
-            err.message,
-            "Container is partitioned, but no partition key or partition key range id was specified."
-          );
-          return;
+      const containerDef: ContainerDefinition = {
+        partitionKey: {
+          kind: "Hash",
+          paths: ["/key"]
         }
-        assert.fail("Should have failed");
-      });
-
-      it("should fetch updated items only", async function() {
-        const iterator = container.items.readChangeFeed("0", { startFromBeginning: true });
-
-        const { result: items, headers } = await iterator.executeNext();
-        assert(headers.etag, "change feed response should have etag header");
-
-        assert.equal(items.length, 2, "initial number of items should be equal 2");
-
-        const item = items[1];
-        item.name = "xyz";
-
-        const { resource: replaced } = await container.items.upsert(item);
-        assert.deepEqual(replaced.name, "xyz", "replaced item should be valid");
-
-        const { result: itemsAfterUpdate } = await iterator.executeNext();
-        assert.equal(itemsAfterUpdate.length, 1, "initial number of items should be equal 1");
-        assert.equal(itemsAfterUpdate[0].name, "xyz", "fetched item should have 'name: xyz'");
-        assert.equal(itemsAfterUpdate[0].id, item.id, "fetched item should be valid");
-
-        const { result: shouldHaveNoItems } = await iterator.executeNext();
-        assert.equal(shouldHaveNoItems.length, 0, "there should be 0 results");
-        const hasMoreResults = iterator.hasMoreResults;
-        assert.equal(hasMoreResults, false, "hasMoreResults should be false when we read the whole page");
-      });
+      };
+      const throughput: RequestOptions = { offerThroughput: 25100 };
+      container = await getTestContainer(
+        "Newly updated items should be fetched incrementally",
+        undefined,
+        containerDef,
+        throughput
+      );
+      await container.items.create({ id: "item1", key: "0" });
+      await container.items.create({ id: "item2", key: "0" });
+      await container.items.create({ id: "item1", key: "1" });
+      await container.items.create({ id: "item2", key: "1" });
     });
 
-    describe("Newly created items should be fetched incrementally", async function() {
-      let container: Container;
+    after(async function() {
+      await container.delete();
+    });
 
-      // create container and one item
-      before(async function() {
-        const containerDef: ContainerDefinition = {
-          partitionKey: {
-            kind: "Hash",
-            paths: ["/key"]
-          }
-        };
-        const throughput: RequestOptions = { offerThroughput: 25100 };
-        container = await getTestContainer(
-          "Newly updated items should be fetched incrementally",
-          undefined,
-          containerDef,
-          throughput
+    it("should throw if used with no partition key or partition key range id", async function() {
+      const iterator = container.items.readChangeFeed({ startFromBeginning: true });
+
+      try {
+        await iterator.executeNext();
+      } catch (err) {
+        assert.equal(
+          err.message,
+          "Container is partitioned, but no partition key or partition key range id was specified."
         );
-        await container.items.create({ id: "item1", key: "0" });
-        await container.items.create({ id: "item1", key: "1" });
+        return;
+      }
+      assert.fail("Should have failed");
+    });
+
+    it("should fetch updated items only", async function() {
+      const iterator = container.items.readChangeFeed("0", { startFromBeginning: true });
+
+      const { result: items, headers } = await iterator.executeNext();
+      assert(headers.etag, "change feed response should have etag header");
+
+      assert.equal(items.length, 2, "initial number of items should be equal 2");
+
+      const item = items[1];
+      item.name = "xyz";
+
+      const { resource: replaced } = await container.items.upsert(item);
+      assert.deepEqual(replaced.name, "xyz", "replaced item should be valid");
+
+      const { result: itemsAfterUpdate } = await iterator.executeNext();
+      assert.equal(itemsAfterUpdate.length, 1, "initial number of items should be equal 1");
+      assert.equal(itemsAfterUpdate[0].name, "xyz", "fetched item should have 'name: xyz'");
+      assert.equal(itemsAfterUpdate[0].id, item.id, "fetched item should be valid");
+
+      const { result: shouldHaveNoItems } = await iterator.executeNext();
+      assert.equal(shouldHaveNoItems.length, 0, "there should be 0 results");
+      const hasMoreResults = iterator.hasMoreResults;
+      assert.equal(hasMoreResults, false, "hasMoreResults should be false when we read the whole page");
+    });
+  });
+
+  describe("Newly created items should be fetched incrementally", async function() {
+    let container: Container;
+
+    // create container and one item
+    before(async function() {
+      const containerDef: ContainerDefinition = {
+        partitionKey: {
+          kind: "Hash",
+          paths: ["/key"]
+        }
+      };
+      const throughput: RequestOptions = { offerThroughput: 25100 };
+      container = await getTestContainer(
+        "Newly updated items should be fetched incrementally",
+        undefined,
+        containerDef,
+        throughput
+      );
+      await container.items.create({ id: "item1", key: "0" });
+      await container.items.create({ id: "item1", key: "1" });
+    });
+
+    after(async function() {
+      await container.delete();
+    });
+
+    it("should fetch new items only", async function() {
+      const iterator = container.items.readChangeFeed("0", {});
+
+      const { result: items, headers } = await iterator.executeNext();
+      assert(headers.etag, "change feed response should have etag header");
+      assert.equal(items.length, 0, "change feed response should have no items on it initially");
+
+      const { resource: itemThatWasCreated, headers: createHeaders } = await container.items.create({
+        id: "item2",
+        prop: 1,
+        key: "0"
       });
 
-      after(async function() {
-        await container.delete();
-      });
+      const { result: itemsAfterCreate } = await iterator.executeNext();
+      assert.equal(itemsAfterCreate.length, 1, "should have 1 item from create");
+      const itemThatWasFound = itemsAfterCreate[0];
 
-      it("should fetch new items only", async function() {
-        const iterator = container.items.readChangeFeed("0", {});
+      assert.notDeepEqual(itemThatWasFound, itemThatWasCreated, "actual should not match with expected value.");
+      delete itemThatWasFound._lsn;
+      delete itemThatWasFound._metadata;
+      assert.deepEqual(itemThatWasFound, itemThatWasCreated, "actual value doesn't match with expected value.");
 
-        const { result: items, headers } = await iterator.executeNext();
-        assert(headers.etag, "change feed response should have etag header");
-        assert.equal(items.length, 0, "change feed response should have no items on it initially");
+      const { result: itemsShouldBeEmptyWithNoNewCreates } = await iterator.executeNext();
+      assert.equal(itemsShouldBeEmptyWithNoNewCreates.length, 0, "should be nothing new");
 
-        const { resource: itemThatWasCreated, headers: createHeaders } = await container.items.create({
-          id: "item2",
-          prop: 1,
-          key: "0"
-        });
-
-        const { result: itemsAfterCreate } = await iterator.executeNext();
-        assert.equal(itemsAfterCreate.length, 1, "should have 1 item from create");
-        const itemThatWasFound = itemsAfterCreate[0];
-
-        assert.notDeepEqual(itemThatWasFound, itemThatWasCreated, "actual should not match with expected value.");
-        delete itemThatWasFound._lsn;
-        delete itemThatWasFound._metadata;
-        assert.deepEqual(itemThatWasFound, itemThatWasCreated, "actual value doesn't match with expected value.");
-
-        const { result: itemsShouldBeEmptyWithNoNewCreates } = await iterator.executeNext();
-        assert.equal(itemsShouldBeEmptyWithNoNewCreates.length, 0, "should be nothing new");
-
-        await container.items.create({ id: "item3", key: "0" });
-        await container.items.create({ id: "item4", key: "0" });
-        await container.items.create({ id: "item3", key: "1" });
-        await container.items.create({ id: "item4", key: "1" });
-        const { result: itemsShouldHave2NewItems } = await iterator.executeNext();
-        assert.equal(itemsShouldHave2NewItems.length, 2, "there should be 2 results");
-        const { result: shouldHaveNoItems } = await iterator.executeNext();
-        assert.equal(shouldHaveNoItems.length, 0, "there should be 0 results");
-        const hasMoreResults = iterator.hasMoreResults;
-        assert.equal(hasMoreResults, false, "hasMoreResults should be false when we read the whole page");
-      });
+      await container.items.create({ id: "item3", key: "0" });
+      await container.items.create({ id: "item4", key: "0" });
+      await container.items.create({ id: "item3", key: "1" });
+      await container.items.create({ id: "item4", key: "1" });
+      const { result: itemsShouldHave2NewItems } = await iterator.executeNext();
+      assert.equal(itemsShouldHave2NewItems.length, 2, "there should be 2 results");
+      const { result: shouldHaveNoItems } = await iterator.executeNext();
+      assert.equal(shouldHaveNoItems.length, 0, "there should be 0 results");
+      const hasMoreResults = iterator.hasMoreResults;
+      assert.equal(hasMoreResults, false, "hasMoreResults should be false when we read the whole page");
     });
   });
 });

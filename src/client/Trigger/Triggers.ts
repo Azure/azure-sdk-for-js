@@ -38,14 +38,14 @@ export class Triggers {
     const id = getIdFromLink(this.container.url);
 
     return new QueryIterator(this.clientContext, query, options, innerOptions => {
-      return this.clientContext.queryFeed(
+      return this.clientContext.queryFeed({
         path,
-        ResourceType.trigger,
-        id,
-        result => result.Triggers,
+        resourceType: ResourceType.trigger,
+        resourceId: id,
+        resultFn: result => result.Triggers,
         query,
-        innerOptions
-      );
+        options: innerOptions
+      });
     });
   }
 
@@ -83,7 +83,13 @@ export class Triggers {
     const path = getPathFromLink(this.container.url, ResourceType.trigger);
     const id = getIdFromLink(this.container.url);
 
-    const response = await this.clientContext.create<TriggerDefinition>(body, path, ResourceType.trigger, id, options);
+    const response = await this.clientContext.create<TriggerDefinition>({
+      body,
+      path,
+      resourceType: ResourceType.trigger,
+      resourceId: id,
+      options
+    });
     const ref = new Trigger(this.container, response.result.id, this.clientContext);
     return new TriggerResponse(response.result, response.headers, response.statusCode, ref);
   }
@@ -111,7 +117,13 @@ export class Triggers {
     const path = getPathFromLink(this.container.url, ResourceType.trigger);
     const id = getIdFromLink(this.container.url);
 
-    const response = await this.clientContext.upsert<TriggerDefinition>(body, path, ResourceType.trigger, id, options);
+    const response = await this.clientContext.upsert<TriggerDefinition>({
+      body,
+      path,
+      resourceType: ResourceType.trigger,
+      resourceId: id,
+      options
+    });
     const ref = new Trigger(this.container, response.result.id, this.clientContext);
     return new TriggerResponse(response.result, response.headers, response.statusCode, ref);
   }

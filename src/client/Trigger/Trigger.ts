@@ -37,7 +37,12 @@ export class Trigger {
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
 
-    const response = await this.clientContext.read<TriggerDefinition>(path, ResourceType.trigger, id, options);
+    const response = await this.clientContext.read<TriggerDefinition>({
+      path,
+      resourceType: ResourceType.trigger,
+      resourceId: id,
+      options
+    });
     return new TriggerResponse(response.result, response.headers, response.statusCode, this);
   }
 
@@ -59,7 +64,13 @@ export class Trigger {
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
 
-    const response = await this.clientContext.replace<TriggerDefinition>(body, path, ResourceType.trigger, id, options);
+    const response = await this.clientContext.replace<TriggerDefinition>({
+      body,
+      path,
+      resourceType: ResourceType.trigger,
+      resourceId: id,
+      options
+    });
     return new TriggerResponse(response.result, response.headers, response.statusCode, this);
   }
 
@@ -71,7 +82,12 @@ export class Trigger {
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
 
-    const response = await this.clientContext.delete<TriggerDefinition>(path, ResourceType.trigger, id, options);
+    const response = await this.clientContext.delete<TriggerDefinition>({
+      path,
+      resourceType: ResourceType.trigger,
+      resourceId: id,
+      options
+    });
     return new TriggerResponse(response.result, response.headers, response.statusCode, this);
   }
 }
