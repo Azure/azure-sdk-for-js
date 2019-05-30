@@ -29,7 +29,7 @@
     "bundle": "rollup -c",
     "bundle-types": "node bundle-types.js",
     "build": "npm run clean && npm run check-format && npm run lint && npm run compile && node writeSDKVersion.js && npm run docs && npm run bundle && npm run bundle-types",
-    "test": "tsc -b --verbose && mocha -r esm -r ./test/common/setup.js \"./test/**/*.spec.js\" --timeout 100000",
+    "test": "tsc -b --verbose && mocha -r esm -r dotenv/config -r ./test/common/setup.js \"./test/**/*.spec.js\" --timeout 100000",
     "prepack": "npm install && npm run build",
     "test-browser": "karma start ./karma.config.js --single-run",
     "ci": "npm run build && npm run test -- --forbid-only && node consumer-test.js"
@@ -47,6 +47,7 @@
     "@types/underscore": "^1.8.8",
     "abort-controller": "3.0.0",
     "cross-env": "5.2.0",
+    "dotenv": "8.0.0",
     "esm": "3.2.18",
     "execa": "1.0.0",
     "karma": "^4.0.1",

@@ -272,3 +272,4 @@ test/**/*.js
 test/**/*.js.map
 test/**/*.d.ts
 tsconfig.tsbuildinfo
+.env
