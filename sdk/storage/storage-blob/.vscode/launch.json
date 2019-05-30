@@ -15,6 +15,25 @@
     {
       "type": "node",
       "request": "launch",
+      "name": "Debug Mocha Test [Without Rollup]",
+      "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
+      "args": [
+        "-r",
+        "ts-node/register",
+        "--timeout",
+        "999999",
+        "--colors",
+        "${workspaceFolder}/test/*.spec.ts"
+      ],
+      "env": { "TS_NODE_COMPILER_OPTIONS": "{\"module\": \"commonjs\"}" },
+      "envFile": "${workspaceFolder}/../.env",
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "protocol": "inspector"
+    },
+    {
+      "type": "node",
+      "request": "launch",
       "name": "Debug Unit Tests",
       "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
       "args": [
