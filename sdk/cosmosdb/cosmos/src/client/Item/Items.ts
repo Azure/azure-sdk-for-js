@@ -211,7 +211,7 @@ export class Items {
     // Generate random document id if the id is missing in the payload and
     // options.disableAutomaticIdGeneration != true
     if ((body.id === undefined || body.id === "") && !options.disableAutomaticIdGeneration) {
-      (body as ItemDefinition).id = Helper.generateGuidId();
+      body.id = Helper.generateGuidId();
     }
 
     const err = {};
@@ -268,7 +268,7 @@ export class Items {
     // Generate random document id if the id is missing in the payload and
     // options.disableAutomaticIdGeneration != true
     if ((body.id === undefined || body.id === "") && !options.disableAutomaticIdGeneration) {
-      (body as ItemDefinition).id = Helper.generateGuidId();
+      body.id = Helper.generateGuidId();
     }
 
     const err = {};
