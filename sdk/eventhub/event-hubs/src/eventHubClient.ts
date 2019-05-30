@@ -194,21 +194,25 @@ export class EventHubClient {
     options?: ClientOptions
   ) {
     let connectionString;
-    let sharedAccessKeyName = "defaultKeyName";
-    let sharedAccessKey = "defaultKeyValue";
-    let eventHubPath: string | undefined;
     let tokenProvider = {} as TokenProvider;
-
     hostOrConnectionString = String(hostOrConnectionString);
+
     if (typeof eventHubPathOrOptions === "string") {
-      eventHubPath = eventHubPathOrOptions;
+      let host = hostOrConnectionString;
+      const eventHubPath = eventHubPathOrOptions;
+      let sharedAccessKeyName = "defaultKeyName";
+      let sharedAccessKey = "defaultKeyValue";
+      if (!host) {
+        throw new Error(
+          "Please provide a fully qualified domain name of your Event Hub instance for the 'host' parameter."
+        );
+      }
       if (!eventHubPath) {
         throw new Error("Please provide a value for the 'entityPath' parameter.");
       }
-      if (!tokenProviderOrCredentials || typeof {}) {
+      if (!tokenProviderOrCredentials) {
         throw new Error("Please provide either a token provider or a valid credentials object.");
       }
-
       if (
         tokenProviderOrCredentials instanceof ApplicationTokenCredentials ||
         tokenProviderOrCredentials instanceof UserTokenCredentials ||
@@ -224,14 +228,8 @@ export class EventHubClient {
         }
       }
 
-      let host = hostOrConnectionString;
-      if (!host) {
-        throw new Error(
-          "Please provide a fully qualified domain name of your Event Hub instance for the 'host' parameter."
-        );
-      }
       if (!host.endsWith("/")) host += "/";
-      connectionString = `Endpoint=sb://${host};SharedAccessKeyName=${sharedAccessKeyName};SharedAccessKey=${sharedAccessKey};`;
+      connectionString = `Endpoint=sb://${host};SharedAccessKeyName=${sharedAccessKeyName};SharedAccessKey=${sharedAccessKey};EntityPath=${eventHubPath}`;
     } else {
       connectionString = hostOrConnectionString;
       options = eventHubPathOrOptions;
@@ -244,7 +242,7 @@ export class EventHubClient {
       tokenProvider = new SasTokenProvider(parsedCS.Endpoint, parsedCS.SharedAccessKeyName, parsedCS.SharedAccessKey);
     }
 
-    const config = EventHubConnectionConfig.create(connectionString, eventHubPath);
+    const config = EventHubConnectionConfig.create(connectionString);
     ConnectionConfig.validate(config);
 
     if (!options) options = {};
@@ -364,7 +362,8 @@ export class EventHubClient {
   }
 
   /**
-   * Creates an EventHub Client from connection string.
+   * Creates an EventHubClient from connection string. If the connection string doesnt have
+   * the EntityPath set in it, then use the entityPath parameter to pass the event hub name
    * @param {string} connectionString - Connection string of the form 'Endpoint=sb://my-servicebus-namespace.servicebus.windows.net/;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key'
    * @param {string} [entityPath] - EventHub path of the form 'my-event-hub-name'
    * @param {ClientOptions} [options] Options that can be provided during client creation.
