@@ -5,7 +5,7 @@ import uuid from "uuid/v4";
 import * as log from "./log";
 import { Receiver, OnAmqpEvent, EventContext, ReceiverOptions, types, AmqpError, isAmqpError } from "rhea-promise";
 import { translate, Constants, MessagingError, retry, RetryOperationType, RetryConfig } from "@azure/amqp-common";
-import { ReceivedEventData, fromAmqpMessage } from "./eventData";
+import { ReceivedEventData, EventDataInternal, fromAmqpMessage } from "./eventData";
 import { ReceiveOptions } from "./eventHubClient";
 import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";
@@ -189,7 +189,7 @@ export class EventHubReceiver extends LinkEntity {
       sequenceNumber: -1
     };
     this._onAmqpMessage = (context: EventContext) => {
-      const data = fromAmqpMessage(context.message!);
+      const data: EventDataInternal = fromAmqpMessage(context.message!);
       const receivedEventData: ReceivedEventData = {
         body: this._context.dataTransformer.decode(context.message!.body),
         properties: data.properties,
@@ -203,7 +203,7 @@ export class EventHubReceiver extends LinkEntity {
         offset: receivedEventData.offset!,
         sequenceNumber: receivedEventData.sequenceNumber!
       };
-      if (this.receiverRuntimeMetricEnabled && receivedEventData) {
+      if (this.receiverRuntimeMetricEnabled && data) {
         this.runtimeInfo.lastEnqueuedSequenceNumber = data.lastSequenceNumber;
         this.runtimeInfo.lastEnqueuedTimeUtc = data.lastEnqueuedTime;
         this.runtimeInfo.lastEnqueuedOffset = data.lastEnqueuedOffset;
