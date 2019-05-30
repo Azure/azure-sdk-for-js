@@ -8,10 +8,12 @@ import * as Models from "./generated/lib/models";
 import { Share } from "./generated/lib/operations";
 import { Metadata } from "./models";
 import { Pipeline } from "./Pipeline";
-import { StorageClient } from "./StorageClient";
+import { StorageClient, NewPipelineOptions } from "./StorageClient";
 import { URLConstants } from "./utils/constants";
 import { appendToURLPath, setURLParameter, truncatedISO8061Date } from "./utils/utils.common";
 import { DirectoryClient } from "./DirectoryClient";
+import { Credential } from './credentials/Credential';
+import { SharedKeyCredential } from './credentials/SharedKeyCredential';
 
 /**
  * Options to configure Share - Create operation.
@@ -280,6 +282,27 @@ export class ShareClient extends StorageClient {
   /**
    * Creates an instance of ShareClient.
    *
+   * @param {string} connectionString Connection string for an Azure storage account.
+   * @param {string} shareName Share name.
+   * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
+   * @memberof ShareClient
+   */
+  constructor(connectionString: string, shareName: string, options?: NewPipelineOptions)
+  /**
+   * Creates an instance of ShareClient.
+   *
+   * @param {string} url A URL string pointing to Azure Storage file share, such as
+   *                     "https://myaccount.file.core.windows.net/share". You can
+   *                     append a SAS if using AnonymousCredential, such as
+   *                     "https://myaccount.file.core.windows.net/share?sasString".
+   * @param {Credential} credential Such as AnonymousCredential, SharedKeyCredential or TokenCredential.
+   * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
+   * @memberof ShareClient
+   */
+  constructor(url: string, credential: Credential, options?: NewPipelineOptions)
+  /**
+   * Creates an instance of ShareClient.
+   *
    * @param {string} url A URL string pointing to Azure Storage file share, such as
    *                     "https://myaccount.file.core.windows.net/share". You can
    *                     append a SAS if using AnonymousCredential, such as
@@ -288,8 +311,24 @@ export class ShareClient extends StorageClient {
    *                            pipeline, or provide a customized pipeline.
    * @memberof ShareClient
    */
-  constructor(url: string, pipeline: Pipeline) {
-    super(url, pipeline);
+  constructor(url: string, pipeline: Pipeline)
+  constructor(
+    urlOrConnectionString: string,
+    credentialOrPipelineOrShareName?: Credential | Pipeline | string,
+    options?: NewPipelineOptions) {
+    let pipeline: Pipeline;
+    if (credentialOrPipelineOrShareName instanceof Pipeline) {
+      pipeline = credentialOrPipelineOrShareName;
+    } else if (credentialOrPipelineOrShareName && typeof credentialOrPipelineOrShareName === "string") {
+      const shareName = credentialOrPipelineOrShareName;
+      // TODO: extract parts from connection string
+      const sharedKeyCredential = new SharedKeyCredential("name", "key");
+      urlOrConnectionString = "endpoint from connection string" + shareName;
+      pipeline = StorageClient.newPipeline(sharedKeyCredential, options);
+    } else {
+      throw new Error("Expecting non-empty strings for shareName parameter");
+    }
+    super(urlOrConnectionString, pipeline);
     this.context = new Share(this.storageClientContext);
   }
 

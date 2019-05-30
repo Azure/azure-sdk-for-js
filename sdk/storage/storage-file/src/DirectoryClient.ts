@@ -6,9 +6,11 @@ import * as Models from "./generated/lib/models";
 import { Directory } from "./generated/lib/operations";
 import { Metadata } from "./models";
 import { Pipeline } from "./Pipeline";
-import { StorageClient } from "./StorageClient";
+import { StorageClient, NewPipelineOptions } from "./StorageClient";
 import { appendToURLPath } from "./utils/utils.common";
 import { FileClient } from "./FileClient";
+import { Credential } from './credentials/Credential';
+import { SharedKeyCredential } from './credentials/SharedKeyCredential';
 
 /**
  * Options to configure Directory - Create operation.
@@ -145,6 +147,32 @@ export class DirectoryClient extends StorageClient {
   /**
    * Creates an instance of DirectoryClient.
    *
+   * @param {string} connectionString Connection string for an Azure storage account.
+   * @param {string} shareName Share name.
+   * @param {string} directoryName Directory name.
+   * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
+   * @memberof DirectoryClient
+   */
+  constructor(connectionString: string, shareName: string, directoryName: string, options?: NewPipelineOptions)
+  /**
+   * Creates an instance of DirectoryClient.
+   *
+   * @param {string} url A URL string pointing to Azure Storage file directory, such as
+   *                     "https://myaccount.file.core.windows.net/myshare/mydirectory". You can
+   *                     append a SAS if using AnonymousCredential, such as
+   *                     "https://myaccount.file.core.windows.net/myshare/mydirectory?sasString".
+   *                     This method accepts an encoded URL or non-encoded URL pointing to a directory.
+   *                     Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
+   *                     However, if a directory name includes %, directory name must be encoded in the URL.
+   *                     Such as a directory named "mydir%", the URL should be "https://myaccount.file.core.windows.net/myshare/mydir%25".
+   * @param {Credential} credential Such as AnonymousCredential, SharedKeyCredential or TokenCredential.
+   * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
+   * @memberof DirectoryClient
+   */
+  constructor(url: string, credential: Credential, options?: NewPipelineOptions)
+  /**
+   * Creates an instance of DirectoryClient.
+   *
    * @param {string} url A URL string pointing to Azure Storage file directory, such as
    *                     "https://myaccount.file.core.windows.net/myshare/mydirectory". You can
    *                     append a SAS if using AnonymousCredential, such as
@@ -157,8 +185,30 @@ export class DirectoryClient extends StorageClient {
    *                            pipeline, or provide a customized pipeline.
    * @memberof DirectoryClient
    */
-  constructor(url: string, pipeline: Pipeline) {
-    super(url, pipeline);
+  constructor(url: string, pipeline: Pipeline)
+  constructor(
+    urlOrConnectionString: string,
+    credentialOrPipelineOrShareName?: Credential | Pipeline | string,
+    directoryNameOrOptions?: string | NewPipelineOptions,
+    options: NewPipelineOptions = {}) {
+    let pipeline: Pipeline;
+    if (credentialOrPipelineOrShareName instanceof Pipeline) {
+      pipeline = credentialOrPipelineOrShareName;
+    } else if (credentialOrPipelineOrShareName instanceof Credential) {
+      options = directoryNameOrOptions as NewPipelineOptions;
+      pipeline = StorageClient.newPipeline(credentialOrPipelineOrShareName, options);
+    } else if (credentialOrPipelineOrShareName && typeof credentialOrPipelineOrShareName === "string"
+               && directoryNameOrOptions && typeof directoryNameOrOptions === "string") {
+      const shareName = credentialOrPipelineOrShareName;
+      const directoryName = directoryNameOrOptions;
+      // TODO: extract parts from connection string
+      const sharedKeyCredential = new SharedKeyCredential("name", "key");
+      urlOrConnectionString = "endpoint from connection string" + shareName + "/" + directoryName;
+      pipeline = StorageClient.newPipeline(sharedKeyCredential, options);
+    } else {
+      throw new Error("Expecting non-empty strings for shareName and directoryName parameters");
+    }
+    super(urlOrConnectionString, pipeline);
     this.context = new Directory(this.storageClientContext);
   }
 

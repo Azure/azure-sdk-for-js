@@ -5,9 +5,11 @@ import * as Models from "./generated/lib/models";
 import { Aborter } from "./Aborter";
 import { Service } from "./generated/lib/operations";
 import { Pipeline } from "./Pipeline";
-import { StorageClient } from "./StorageClient";
+import { StorageClient, NewPipelineOptions } from "./StorageClient";
 import { ShareClient } from "./ShareClient";
 import { appendToURLPath } from "./utils/utils.common";
+import { Credential } from './credentials/Credential';
+import { SharedKeyCredential } from './credentials/SharedKeyCredential';
 
 /**
  * Options to configure List Shares Segment operation.
@@ -22,7 +24,7 @@ export interface ServiceListSharesSegmentOptions {
    * about request cancellation.
    *
    * @type {Aborter}
-   * @memberof AppendBlobCreateOptions
+   * @memberof ServiceListSharesSegmentOptions
    */
   abortSignal?: Aborter;
   /**
@@ -111,6 +113,25 @@ export class FileServiceClient extends StorageClient {
   /**
    * Creates an instance of FileServiceClient.
    *
+   * @param {string} connectionString Connection string for an Azure storage account.
+   * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
+   * @memberof FileServiceClient
+   */
+  constructor(connectionString: string, options?: NewPipelineOptions)
+  /**
+   * Creates an instance of FileServiceClient.
+   *
+   * @param {string} url A URL string pointing to Azure Storage file service, such as
+   *                     "https://myaccount.file.core.windows.net". You can Append a SAS
+   *                     if using AnonymousCredential, such as "https://myaccount.file.core.windows.net?sasString".
+   * @param {Credential} credential Such as AnonymousCredential, SharedKeyCredential or TokenCredential.
+   * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
+   * @memberof FileServiceClient
+   */
+  constructor(url: string, credential: Credential, options?: NewPipelineOptions)
+  /**
+   * Creates an instance of FileServiceClient.
+   *
    * @param {string} url A URL string pointing to Azure Storage file service, such as
    *                     "https://myaccount.file.core.windows.net". You can Append a SAS
    *                     if using AnonymousCredential, such as "https://myaccount.file.core.windows.net?sasString".
@@ -118,8 +139,24 @@ export class FileServiceClient extends StorageClient {
    *                            pipeline, or provide a customized pipeline.
    * @memberof FileServiceClient
    */
-  constructor(url: string, pipeline: Pipeline) {
-    super(url, pipeline);
+  constructor(url: string, pipeline: Pipeline)
+  constructor(
+    urlOrConnectionString: string,
+    credentialOrPipelineOrOptions?: Credential | Pipeline | NewPipelineOptions,
+    options?: NewPipelineOptions) {
+    let pipeline: Pipeline;
+    if (credentialOrPipelineOrOptions instanceof Pipeline) {
+      pipeline = credentialOrPipelineOrOptions;
+    } else if (credentialOrPipelineOrOptions instanceof Credential) {
+      pipeline = StorageClient.newPipeline(credentialOrPipelineOrOptions, options);
+    } else {
+      options = credentialOrPipelineOrOptions || {};
+      // TODO: extract parts from connection string
+      const sharedKeyCredential = new SharedKeyCredential("name", "key");
+      pipeline = StorageClient.newPipeline(sharedKeyCredential, options);
+      urlOrConnectionString = "endpoint from connection string";
+    }
+    super(urlOrConnectionString, pipeline);
     this.serviceContext = new Service(this.storageClientContext);
   }
 
