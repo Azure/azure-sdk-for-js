@@ -25,8 +25,8 @@ import { generateBlockID } from "./utils/utils.common";
  *
  * @export
  * @param {Blob | ArrayBuffer | ArrayBufferView} browserData Blob, File, ArrayBuffer or ArrayBufferView
- * @param {BlockBlobClient} blockBlobClient
- * @param {UploadToBlockBlobOptions} [options]
+ * @param {BlockBlobClient} blockBlobClient BlockBlobClient
+ * @param {UploadToBlockBlobOptions} [options] UploadToBlockBlobOptions
  * @returns {Promise<BlobUploadCommonResponse>}
  */
 export async function uploadBrowserDataToBlockBlob(
@@ -55,10 +55,10 @@ export async function uploadBrowserDataToBlockBlob(
  * Otherwise, this method will call stageBlock to upload blocks, and finally call commitBlockList
  * to commit the block list.
  *
- * @param {(offset: number, size: number) => Blob} blobFactory
- * @param {number} size
- * @param {BlockBlobClient} blockBlobClient
- * @param {UploadToBlockBlobOptions} [options]
+ * @param {(offset: number, size: number) => Blob} blobFactory Factory method to generate data.
+ * @param {number} size Number of bytes to upload.
+ * @param {BlockBlobClient} blockBlobClient BlockBlobClient
+ * @param {UploadToBlockBlobOptions} [options] UploadToBlockBlobOptions
  * @returns {Promise<BlobUploadCommonResponse>}
  */
 async function UploadSeekableBlobToBlockBlob(

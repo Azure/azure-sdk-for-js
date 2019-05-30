@@ -29,9 +29,27 @@ export interface NewPipelineOptions {
    * @memberof NewPipelineOptions
    */
   telemetry?: TelemetryOptions;
+  /**
+   * Configures the built-in retry policy behavior.
+   *
+   * @type {RetryOptions}
+   * @memberof NewPipelineOptions
+   */
   retryOptions?: RetryOptions;
 
+  /**
+   * Configures the HTTP pipeline logger.
+   *
+   * @type {IHttpPipelineLogger}
+   * @memberof NewPipelineOptions
+   */
   logger?: IHttpPipelineLogger;
+  /**
+   * Configures the HTTP client to send requests and receive responses.
+   *
+   * @type {IHttpClient}
+   * @memberof NewPipelineOptions
+   */
   httpClient?: IHttpClient;
 }
 
