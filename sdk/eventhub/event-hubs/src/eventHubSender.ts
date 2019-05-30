@@ -533,11 +533,23 @@ export class EventHubSender extends LinkEntity {
             return reject(translate(e));
           };
 
+          if (options && options.cancellationToken) {
+            options.cancellationToken.onabort = () => {
+              removeListeners();
+              const desc: string =
+                `[${this._context.connectionId}] Sender "${this.name}" with ` +
+                `address "${this.address}", is not able to send the message because the opreation is ` +
+                `aborted.`;
+              log.error(desc);
+              throw new Error(desc);
+            };
+          }
+
           this._sender!.on(SenderEvents.accepted, onAccepted);
           this._sender!.on(SenderEvents.rejected, onRejected);
           this._sender!.on(SenderEvents.modified, onModified);
           this._sender!.on(SenderEvents.released, onReleased);
-          waitTimer = setTimeout(actionAfterTimeout, Constants.defaultOperationTimeoutInSeconds * 1000);
+          waitTimer = setTimeout(actionAfterTimeout, 10 * 1000);
           const delivery = this._sender!.send(message, tag, format);
           log.sender(
             "[%s] Sender '%s', sent message with delivery id: %d and tag: %s",
@@ -561,7 +573,6 @@ export class EventHubSender extends LinkEntity {
       });
 
     const jitterInSeconds = randomNumberFromInterval(1, 4);
-    options;
     const times =
       options.retryOptions && options.retryOptions.retryCount && options.retryOptions.retryCount > 0
         ? options.retryOptions.retryCount
