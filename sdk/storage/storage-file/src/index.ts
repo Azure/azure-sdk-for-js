@@ -19,7 +19,6 @@ export * from "./ShareClient";
 export * from "./credentials/AnonymousCredential";
 export * from "./credentials/Credential";
 export * from "./credentials/SharedKeyCredential";
-export * from "./highlevel.common";
 export { IPRange as IPRange } from "./IPRange";
 export { Range } from "./Range";
 export * from "./Pipeline";

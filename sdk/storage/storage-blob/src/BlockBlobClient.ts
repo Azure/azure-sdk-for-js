@@ -3,7 +3,7 @@
 
 import * as fs from "fs";
 
-import { generateUuid, HttpRequestBody, TransferProgressEvent } from "@azure/ms-rest-js";
+import { generateUuid, HttpRequestBody, HttpResponse, TransferProgressEvent } from "@azure/ms-rest-js";
 import * as Models from "./generated/lib/models";
 import { Aborter } from "./Aborter";
 import { BlobClient } from "./internal";
@@ -14,7 +14,6 @@ import { BlobAccessConditions, Metadata } from "./models";
 import { Pipeline } from "./Pipeline";
 import { URLConstants, BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES, BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES, BLOCK_BLOB_MAX_BLOCKS, DEFAULT_BLOB_DOWNLOAD_BLOCK_BYTES } from "./utils/constants";
 import { setURLParameter, generateBlockID } from "./utils/utils.common";
-import { UploadToBlockBlobOptions, BlobUploadCommonResponse } from "./highlevel.common";
 import { BufferScheduler } from "./utils/BufferScheduler";
 import { Readable } from "stream";
 import { Batch } from "./utils/Batch";
@@ -219,7 +218,6 @@ export interface BlockBlobGetBlockListOptions {
   leaseAccessConditions?: Models.LeaseAccessConditions;
 }
 
-
 /**
  * Option interface for uploadStream().
  *
@@ -268,6 +266,96 @@ export interface UploadStreamToBlockBlobOptions {
    */
   progress?: (progress: TransferProgressEvent) => void;
 }
+/**
+ * Option interface for BlockBlobClient.uploadFile() and BlockBlobClient.uploadSeekableStream().
+ *
+ * @export
+ * @interface UploadToBlockBlobOptions
+ */
+export interface UploadToBlockBlobOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof IUploadToBlockBlobOptions
+   */
+  abortSignal?: Aborter;
+
+  /**
+   * Destination block blob size in bytes.
+   *
+   * @type {number}
+   * @memberof UploadToBlockBlobOptions
+   */
+  blockSize?: number;
+
+  /**
+   * Blob size threshold in bytes to start concurrency uploading.
+   * Default value is 256MB, blob size less than this option will
+   * be uploaded via one I/O operation without concurrency.
+   * You can customize a value less equal than the default value.
+   *
+   * @type {number}
+   * @memberof UploadToBlockBlobOptions
+   */
+  maxSingleShotSize?: number;
+
+  /**
+   * Progress updater.
+   *
+   * @memberof UploadToBlockBlobOptions
+   */
+  progress?: (progress: TransferProgressEvent) => void;
+
+  /**
+   * Blob HTTP Headers.
+   *
+   * @type {IBlobHTTPHeaders}
+   * @memberof UploadToBlockBlobOptions
+   */
+  blobHTTPHeaders?: Models.BlobHTTPHeaders;
+
+  /**
+   * Metadata of block blob.
+   *
+   * @type {{ [propertyName: string]: string }}
+   * @memberof UploadToBlockBlobOptions
+   */
+  metadata?: { [propertyName: string]: string };
+
+  /**
+   * Access conditions headers.
+   *
+   * @type {BlobAccessConditions}
+   * @memberof UploadToBlockBlobOptions
+   */
+  blobAccessConditions?: BlobAccessConditions;
+
+  /**
+   * Concurrency of parallel uploading. Must be >= 0.
+   *
+   * @type {number}
+   * @memberof UploadToBlockBlobOptions
+   */
+  parallelism?: number;
+}
+
+/**
+ * Type for BlockBlobClient.uploadFile(), BlockBlobClient.uploadStream() and BlockBlobClient.uploadBrowserDate().
+ *
+ * @export
+ */
+export type BlobUploadCommonResponse = Models.BlockBlobUploadHeaders & {
+  /**
+   * The underlying HTTP response.
+   *
+   * @type {HttpResponse}
+   * @memberof IBlobUploadCommonResponse
+   */
+  _response: HttpResponse;
+};
 
 /**
  * BlockBlobClient defines a set of operations applicable to block blobs.
