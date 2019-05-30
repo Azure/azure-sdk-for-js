@@ -3,7 +3,7 @@
 
 import { EventData } from "./eventData";
 import { EventHubSender } from "./eventHubSender";
-import { BatchingOptions, RequestOptions } from "./eventHubClient";
+import { BatchingOptions, SenderOptions } from "./eventHubClient";
 import { ConnectionContext } from "./connectionContext";
 import * as log from "./log";
 import { throwErrorIfConnectionClosed } from "./util/error";
@@ -24,7 +24,7 @@ export class Sender {
    */
   private _isClosed: boolean = false;
 
-  private _requestOptions: RequestOptions;
+  private _senderOptions: SenderOptions;
 
   private _eventHubSender: EventHubSender;
 
@@ -39,9 +39,9 @@ export class Sender {
   /**
    * @internal
    */
-  constructor(context: ConnectionContext, partitionId?: string | number, options?: RequestOptions) {
+  constructor(context: ConnectionContext, partitionId?: string | number, options?: SenderOptions) {
     this._context = context;
-    this._requestOptions = options || {};
+    this._senderOptions = options || {};
     this._eventHubSender = EventHubSender.create(this._context, partitionId);
   }
 
@@ -59,7 +59,7 @@ export class Sender {
     if (!Array.isArray(events)) {
       events = [events];
     }
-    return this._eventHubSender.send(events, { ...this._requestOptions, ...options });
+    return this._eventHubSender.send(events, { ...this._senderOptions, ...options });
   }
 
   /**

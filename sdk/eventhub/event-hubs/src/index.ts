@@ -7,9 +7,16 @@ export { EventData, ReceivedEventData } from "./eventData";
 export { WebSocketImpl } from "rhea-promise";
 export { LastEnqueuedInfo, OnMessage, OnError } from "./eventHubReceiver";
 export { ReceiveHandler } from "./streamingReceiver";
-export { EventHubClient, ReceiveOptions, ClientOptions, BatchingOptions, RequestOptions, RetryOptions } from "./eventHubClient";
+export {
+  EventHubClient,
+  ReceiverOptions,
+  EventHubClientOptions,
+  BatchingOptions,
+  RetryOptions,
+  SenderOptions
+} from "./eventHubClient";
 export { EventPosition } from "./eventPosition";
-export { PartitionInformation, HubInformation } from "./managementClient";
+export { PartitionProperties, EventHubProperties } from "./managementClient";
 export { Sender } from "./sender";
 export { Receiver } from "./receiver";
 export {
@@ -22,4 +29,3 @@ export {
   AadTokenProvider,
   SasTokenProvider
 } from "@azure/amqp-common";
-
