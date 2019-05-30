@@ -1,4 +1,4 @@
-# Azure KeyVaultSecrets client library for JS
+# Azure KeyVault Secrets client library for JS
 
 Azure KeyVault is a service that allows you to encrypt authentication
 keys, storage account keys, data encryption keys, .pfx files, and
