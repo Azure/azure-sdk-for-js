@@ -194,10 +194,20 @@ export class EventHubClient {
     options?: ClientOptions
   ) {
     let connectionString;
-    let tokenProvider = {} as TokenProvider;
+    let tokenProvider: TokenProvider;
     hostOrConnectionString = String(hostOrConnectionString);
 
-    if (typeof eventHubPathOrOptions === "string") {
+    if (typeof eventHubPathOrOptions !== "string") {
+      connectionString = hostOrConnectionString;
+      options = eventHubPathOrOptions;
+      const parsedCS = parseConnectionString<ServiceBusConnectionStringModel>(connectionString);
+      if (!parsedCS.EntityPath) {
+        throw new TypeError(
+          `"connectionString": "${connectionString}", ` + `must contain EntityPath="<path-to-the-entity>".`
+        );
+      }
+      tokenProvider = new SasTokenProvider(parsedCS.Endpoint, parsedCS.SharedAccessKeyName, parsedCS.SharedAccessKey);
+    } else {
       let host = hostOrConnectionString;
       const eventHubPath = eventHubPathOrOptions;
       let sharedAccessKeyName = "defaultKeyName";
@@ -227,19 +237,8 @@ export class EventHubClient {
           sharedAccessKey = tokenProvider.key;
         }
       }
-
       if (!host.endsWith("/")) host += "/";
       connectionString = `Endpoint=sb://${host};SharedAccessKeyName=${sharedAccessKeyName};SharedAccessKey=${sharedAccessKey};EntityPath=${eventHubPath}`;
-    } else {
-      connectionString = hostOrConnectionString;
-      options = eventHubPathOrOptions;
-      const parsedCS = parseConnectionString<ServiceBusConnectionStringModel>(connectionString);
-      if (!parsedCS.EntityPath) {
-        throw new TypeError(
-          `"connectionString": "${connectionString}", ` + `must contain EntityPath="<path-to-the-entity>".`
-        );
-      }
-      tokenProvider = new SasTokenProvider(parsedCS.Endpoint, parsedCS.SharedAccessKeyName, parsedCS.SharedAccessKey);
     }
 
     const config = EventHubConnectionConfig.create(connectionString);
