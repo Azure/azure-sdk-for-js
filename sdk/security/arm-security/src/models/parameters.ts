@@ -46,7 +46,7 @@ export const apiVersion0: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '2017-08-01-preview',
+    defaultValue: '2017-08-01',
     type: {
       name: "String"
     }
@@ -58,7 +58,55 @@ export const apiVersion1: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
+    defaultValue: '2018-06-01',
+    type: {
+      name: "String"
+    }
+  }
+};
+export const apiVersion2: msRest.OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    required: true,
+    isConstant: true,
+    serializedName: "api-version",
+    defaultValue: '2019-01-01',
+    type: {
+      name: "String"
+    }
+  }
+};
+export const apiVersion3: msRest.OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    required: true,
+    isConstant: true,
+    serializedName: "api-version",
     defaultValue: '2015-06-01-preview',
+    type: {
+      name: "String"
+    }
+  }
+};
+export const apiVersion4: msRest.OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    required: true,
+    isConstant: true,
+    serializedName: "api-version",
+    defaultValue: '2017-08-01-preview',
+    type: {
+      name: "String"
+    }
+  }
+};
+export const apiVersion5: msRest.OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    required: true,
+    isConstant: true,
+    serializedName: "api-version",
+    defaultValue: '2019-01-01-preview',
     type: {
       name: "String"
     }
@@ -79,6 +127,16 @@ export const complianceName: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "complianceName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const complianceResultName: msRest.OperationURLParameter = {
+  parameterPath: "complianceResultName",
+  mapper: {
+    required: true,
+    serializedName: "complianceResultName",
     type: {
       name: "String"
     }
@@ -191,6 +249,36 @@ export const pricingName: msRest.OperationURLParameter = {
     }
   }
 };
+export const regulatoryComplianceAssessmentName: msRest.OperationURLParameter = {
+  parameterPath: "regulatoryComplianceAssessmentName",
+  mapper: {
+    required: true,
+    serializedName: "regulatoryComplianceAssessmentName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const regulatoryComplianceControlName: msRest.OperationURLParameter = {
+  parameterPath: "regulatoryComplianceControlName",
+  mapper: {
+    required: true,
+    serializedName: "regulatoryComplianceControlName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const regulatoryComplianceStandardName: msRest.OperationURLParameter = {
+  parameterPath: "regulatoryComplianceStandardName",
+  mapper: {
+    required: true,
+    serializedName: "regulatoryComplianceStandardName",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const resourceGroupName: msRest.OperationURLParameter = {
   parameterPath: "resourceGroupName",
   mapper: {
@@ -265,6 +353,16 @@ export const settingName1: msRest.OperationURLParameter = {
     isConstant: true,
     serializedName: "settingName",
     defaultValue: 'current',
+    type: {
+      name: "String"
+    }
+  }
+};
+export const solutionName: msRest.OperationURLParameter = {
+  parameterPath: "solutionName",
+  mapper: {
+    required: true,
+    serializedName: "solutionName",
     type: {
       name: "String"
     }

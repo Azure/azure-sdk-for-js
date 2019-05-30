@@ -10,16 +10,16 @@
 
 import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
-import * as Mappers from "../models/operationsMappers";
+import * as Mappers from "../models/ioTSecuritySolutionsMappers";
 import * as Parameters from "../models/parameters";
 import { SecurityCenterContext } from "../securityCenterContext";
 
-/** Class representing a Operations. */
-export class Operations {
+/** Class representing a IoTSecuritySolutions. */
+export class IoTSecuritySolutions {
   private readonly client: SecurityCenterContext;
 
   /**
-   * Create a Operations.
+   * Create a IoTSecuritySolutions.
    * @param {SecurityCenterContext} client Reference to the service client.
    */
   constructor(client: SecurityCenterContext) {
@@ -27,55 +27,55 @@ export class Operations {
   }
 
   /**
-   * Exposes all available operations for discovery purposes.
+   * List of security solutions
    * @param [options] The optional parameters
-   * @returns Promise<Models.OperationsListResponse>
+   * @returns Promise<Models.IoTSecuritySolutionsListResponse>
    */
-  list(options?: msRest.RequestOptionsBase): Promise<Models.OperationsListResponse>;
+  list(options?: Models.IoTSecuritySolutionsListOptionalParams): Promise<Models.IoTSecuritySolutionsListResponse>;
   /**
    * @param callback The callback
    */
-  list(callback: msRest.ServiceCallback<Models.OperationList>): void;
+  list(callback: msRest.ServiceCallback<Models.IoTSecuritySolutionsList>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationList>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationList>, callback?: msRest.ServiceCallback<Models.OperationList>): Promise<Models.OperationsListResponse> {
+  list(options: Models.IoTSecuritySolutionsListOptionalParams, callback: msRest.ServiceCallback<Models.IoTSecuritySolutionsList>): void;
+  list(options?: Models.IoTSecuritySolutionsListOptionalParams | msRest.ServiceCallback<Models.IoTSecuritySolutionsList>, callback?: msRest.ServiceCallback<Models.IoTSecuritySolutionsList>): Promise<Models.IoTSecuritySolutionsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.OperationsListResponse>;
+      callback) as Promise<Models.IoTSecuritySolutionsListResponse>;
   }
 
   /**
-   * Exposes all available operations for discovery purposes.
+   * List of security solutions
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
-   * @returns Promise<Models.OperationsListNextResponse>
+   * @returns Promise<Models.IoTSecuritySolutionsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.OperationsListNextResponse>;
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.IoTSecuritySolutionsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.OperationList>): void;
+  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.IoTSecuritySolutionsList>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationList>, callback?: msRest.ServiceCallback<Models.OperationList>): Promise<Models.OperationsListNextResponse> {
+  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IoTSecuritySolutionsList>): void;
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IoTSecuritySolutionsList>, callback?: msRest.ServiceCallback<Models.IoTSecuritySolutionsList>): Promise<Models.IoTSecuritySolutionsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.OperationsListNextResponse>;
+      callback) as Promise<Models.IoTSecuritySolutionsListNextResponse>;
   }
 }
 
@@ -83,16 +83,20 @@ export class Operations {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "providers/Microsoft.Security/operations",
+  path: "subscriptions/{subscriptionId}/providers/Microsoft.Security/iotSecuritySolutions",
+  urlParameters: [
+    Parameters.subscriptionId
+  ],
   queryParameters: [
-    Parameters.apiVersion3
+    Parameters.apiVersion4,
+    Parameters.filter
   ],
   headerParameters: [
     Parameters.acceptLanguage
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.OperationList
+      bodyMapper: Mappers.IoTSecuritySolutionsList
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -113,7 +117,7 @@ const listNextOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.OperationList
+      bodyMapper: Mappers.IoTSecuritySolutionsList
     },
     default: {
       bodyMapper: Mappers.CloudError
