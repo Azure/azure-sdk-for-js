@@ -153,7 +153,7 @@ export DEBUG=azure:keyvault-secrets:error,azure-amqp-common:error,rhea-promise:e
       node your-test-script.js &> out.log
     ```
     
-## Next Steps
+## Next steps
 
 Please take a look at the
 [samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-secrets/samples)
