@@ -7,7 +7,7 @@
 import { execSync } from "child_process";
 import fs from "fs";
 import * as path from "path";
-import { contains, npmInstall } from "./common";
+import { contains, npmInstall, npmRunTest } from "./common";
 import { Logger } from "./logger";
 import { getPackageInformationFromPackageJsons, PackageInfo } from "./packages";
 import { findReadmeTypeScriptMdFilePaths, getAbsolutePackageFolderPathFromReadmeFileContents, getPackageNamesFromReadmeTypeScriptMdFileContents } from "./readme";
@@ -72,6 +72,7 @@ export async function generateSdk(azureRestAPISpecsRoot: string, azureSDKForJSRe
                     _logger.log(`Could not determine the generated package folder's path from ${typeScriptReadmeFilePath}.`);
                 } else {
                     npmInstall(packageFolderPath);
+                    npmRunTest(packageFolderPath);
                 }
             } catch (err) {
                 _logger.log('Error:');
