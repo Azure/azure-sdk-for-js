@@ -114,7 +114,7 @@ This function takes an optional parameter called `options` of type [ReceiveOptio
 which you can use to specify the Consumer Group you want to target or the position from where you want to start receiving events.
 
 ```javascript
-const myEventHandler = event => {
+const myEventHandler = async event => {
   // your code here
 };
 const myErrorHandler = error => {

@@ -18,7 +18,7 @@ async function main(): Promise<void> {
   const client = EventHubClient.createFromConnectionString(connectionString, eventHubsName);
   const partitionIds = await client.getPartitionIds();
 
-  const onMessageHandler: OnMessage = (brokeredMessage: EventData) => {
+  const onMessageHandler: OnMessage = async (brokeredMessage: EventData) => {
     console.log(`Received event: ${brokeredMessage.body}`);
   };
   const onErrorHandler: OnError = (err: MessagingError | Error) => {
