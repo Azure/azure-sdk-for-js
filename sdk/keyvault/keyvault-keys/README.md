@@ -1,4 +1,4 @@
-﻿# Azure KeyVault Keys client library for JS
+﻿# Azure KeyVault client library for JS - Keys
 
 Azure KeyVault is a service that allows you to encrypt authentication
 keys, storage account keys, data encryption keys, .pfx files, and
@@ -71,7 +71,12 @@ const credential = await msRestNodeAuth.loginWithServicePrincipalSecret(
 const client = new KeysClient(url, credential);
 ```
 
-### Examples
+## Key concepts
+
+> Soon.
+
+ 
+## Examples
 
 The following sections provide code snippets that cover some of the
 common tasks using Azure KeyVault Keys
@@ -149,10 +154,24 @@ export DEBUG=azure:keyvault-keys:error,azure-amqp-common:error,rhea-promise:erro
       node your-test-script.js &> out.log
     ```
     
-## Next Steps
+## Next steps
 
 Please take a look at the
 [samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-keys/samples)
 directory for detailed examples on how to use this library.
+
+## Contributing
+
+This project welcomes contributions and suggestions. Most contributions require you to agree to a
+Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
+the rights to use your contribution. For details, visit <https://cla.microsoft.com.>
+
+When you submit a pull request, a CLA-bot will automatically determine whether you need to provide
+a CLA and decorate the PR appropriately (e.g., label, comment). Simply follow the instructions
+provided by the bot. You will only need to do this once across all repos using our CLA.
+
+This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
+For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
+contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/keyvault/keyvault-keys/README.png)
