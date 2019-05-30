@@ -4,7 +4,7 @@
 import { ReceiverEvents, EventContext, OnAmqpEvent, SessionEvents } from "rhea-promise";
 import { translate, Func, Constants, MessagingError } from "@azure/amqp-common";
 import { ReceivedEventData, EventDataInternal, fromAmqpMessage } from "./eventData";
-import { ReceiveOptions } from "./eventHubClient";
+import { ReceiverOptions } from "./eventHubClient";
 import { EventHubReceiver } from "./eventHubReceiver";
 import { ConnectionContext } from "./connectionContext";
 import * as log from "./log";
