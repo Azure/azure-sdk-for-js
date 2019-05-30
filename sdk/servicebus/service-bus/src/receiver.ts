@@ -432,7 +432,7 @@ export class SessionReceiver {
     });
     // By this point, we should have a valid sessionId on the messageSession
     // If not, the receiver cannot be used, so throw error.
-    if (!this._messageSession.sessionId) {
+    if (this._messageSession.sessionId == null) {
       const error = new Error("Something went wrong. Cannot lock a session.");
       log.error(`[${this._context.namespace.connectionId}] %O`, error);
       throw error;
