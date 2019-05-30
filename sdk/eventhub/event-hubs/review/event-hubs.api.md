@@ -50,6 +50,7 @@ export interface EventData {
 
 // @public
 export class EventHubClient {
+    constructor(connectionString: string, options?: EventHubClientOptions);
     constructor(host: string, eventHubPath: string, tokenProvider: TokenProvider, options?: EventHubClientOptions);
     constructor(host: string, eventHubPath: string, credentials: ApplicationTokenCredentials | UserTokenCredentials | DeviceTokenCredentials | MSITokenCredentials, options?: EventHubClientOptions);
     close(): Promise<void>;
@@ -149,11 +150,13 @@ export class Receiver {
     close(): Promise<void>;
     readonly consumerGroup: string | undefined;
     readonly exclusiveReceiverPriority: number | undefined;
-    getEventIterator(partitionId: string, batchSize: number, maxWaitTimeInSeconds: number, cancellationToken?: Aborter): AsyncIterableIterator<ReceivedEventData[]>;
+    // Warning: (ae-forgotten-export) The symbol "AsycnIteratorOptions" needs to be exported by the entry point index.d.ts
+    getEventIterator(options: AsycnIteratorOptions): AsyncIterableIterator<ReceivedEventData>;
     readonly isClosed: boolean;
     isReceivingMessages(): boolean;
     readonly partitionId: string;
-    receive(partitionId: string, onMessage: OnMessage, onError: OnError, cancellationToken?: Aborter): ReceiveHandler;
+    receive(onMessage: OnMessage, onError: OnError, cancellationToken?: Aborter): ReceiveHandler;
+    receiveBatch(maxMessageCount: number, maxWaitTimeInSeconds: number, cancellationToken?: Aborter): Promise<ReceivedEventData[]>;
     }
 
 // @public
