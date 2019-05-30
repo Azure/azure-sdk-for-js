@@ -622,6 +622,7 @@ export class MessageSender extends LinkEntity {
           // So use `getMessagePropertyTypeMismatchError` to get a better error message
           throw getMessagePropertyTypeMismatchError(data) || error;
         }
+        throw error;
       }
       log.sender(
         "[%s] Sender '%s', trying to send message: %O",
@@ -685,8 +686,8 @@ export class MessageSender extends LinkEntity {
         } catch (error) {
           if (error instanceof TypeError || error.name === "TypeError") {
             throw getMessagePropertyTypeMismatchError(inputMessages[i]) || error;
-         }
-         throw error;
+          }
+          throw error;
         }
       }
 
