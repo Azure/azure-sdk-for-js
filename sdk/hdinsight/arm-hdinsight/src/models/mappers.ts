@@ -128,6 +128,145 @@ export const SecurityProfile: msRest.CompositeMapper = {
   }
 };
 
+export const AutoscaleTimeAndCapacity: msRest.CompositeMapper = {
+  serializedName: "AutoscaleTimeAndCapacity",
+  type: {
+    name: "Composite",
+    className: "AutoscaleTimeAndCapacity",
+    modelProperties: {
+      time: {
+        serializedName: "time",
+        type: {
+          name: "String"
+        }
+      },
+      minInstanceCount: {
+        serializedName: "minInstanceCount",
+        type: {
+          name: "Number"
+        }
+      },
+      maxInstanceCount: {
+        serializedName: "maxInstanceCount",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const AutoscaleSchedule: msRest.CompositeMapper = {
+  serializedName: "AutoscaleSchedule",
+  type: {
+    name: "Composite",
+    className: "AutoscaleSchedule",
+    modelProperties: {
+      days: {
+        serializedName: "days",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Enum",
+              allowedValues: [
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday",
+                "Saturday",
+                "Sunday"
+              ]
+            }
+          }
+        }
+      },
+      timeAndCapacity: {
+        serializedName: "timeAndCapacity",
+        type: {
+          name: "Composite",
+          className: "AutoscaleTimeAndCapacity"
+        }
+      }
+    }
+  }
+};
+
+export const AutoscaleCapacity: msRest.CompositeMapper = {
+  serializedName: "AutoscaleCapacity",
+  type: {
+    name: "Composite",
+    className: "AutoscaleCapacity",
+    modelProperties: {
+      minInstanceCount: {
+        serializedName: "minInstanceCount",
+        type: {
+          name: "Number"
+        }
+      },
+      maxInstanceCount: {
+        serializedName: "maxInstanceCount",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const AutoscaleRecurrence: msRest.CompositeMapper = {
+  serializedName: "AutoscaleRecurrence",
+  type: {
+    name: "Composite",
+    className: "AutoscaleRecurrence",
+    modelProperties: {
+      timeZone: {
+        serializedName: "timeZone",
+        type: {
+          name: "String"
+        }
+      },
+      schedule: {
+        serializedName: "schedule",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AutoscaleSchedule"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const Autoscale: msRest.CompositeMapper = {
+  serializedName: "Autoscale",
+  type: {
+    name: "Composite",
+    className: "Autoscale",
+    modelProperties: {
+      capacity: {
+        serializedName: "capacity",
+        type: {
+          name: "Composite",
+          className: "AutoscaleCapacity"
+        }
+      },
+      recurrence: {
+        serializedName: "recurrence",
+        type: {
+          name: "Composite",
+          className: "AutoscaleRecurrence"
+        }
+      }
+    }
+  }
+};
+
 export const HardwareProfile: msRest.CompositeMapper = {
   serializedName: "HardwareProfile",
   type: {
@@ -333,6 +472,13 @@ export const Role: msRest.CompositeMapper = {
         serializedName: "targetInstanceCount",
         type: {
           name: "Number"
+        }
+      },
+      autoscaleConfiguration: {
+        serializedName: "autoscale",
+        type: {
+          name: "Composite",
+          className: "Autoscale"
         }
       },
       hardwareProfile: {
