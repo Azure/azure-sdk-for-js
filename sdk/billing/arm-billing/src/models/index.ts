@@ -1343,14 +1343,12 @@ export interface Operation {
 export interface BillingRoleAssignmentPayload {
   /**
    * The user's principal id that the role gets assigned to
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly principalId?: string;
+  principalId?: string;
   /**
    * The role definition id
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly billingRoleDefinitionName?: string;
+  billingRoleDefinitionId?: string;
 }
 
 /**

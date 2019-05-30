@@ -265,25 +265,29 @@ export class BillingRoleAssignments {
   /**
    * The operation to add a role assignment to a billing account.
    * @param billingAccountName billing Account Id.
+   * @param parameters Parameters supplied to add a role assignment.
    * @param [options] The optional parameters
    * @returns Promise<Models.BillingRoleAssignmentsAddByBillingAccountNameResponse>
    */
-  addByBillingAccountName(billingAccountName: string, options?: msRest.RequestOptionsBase): Promise<Models.BillingRoleAssignmentsAddByBillingAccountNameResponse>;
+  addByBillingAccountName(billingAccountName: string, parameters: Models.BillingRoleAssignmentPayload, options?: msRest.RequestOptionsBase): Promise<Models.BillingRoleAssignmentsAddByBillingAccountNameResponse>;
   /**
    * @param billingAccountName billing Account Id.
+   * @param parameters Parameters supplied to add a role assignment.
    * @param callback The callback
    */
-  addByBillingAccountName(billingAccountName: string, callback: msRest.ServiceCallback<Models.BillingRoleAssignmentListResult>): void;
+  addByBillingAccountName(billingAccountName: string, parameters: Models.BillingRoleAssignmentPayload, callback: msRest.ServiceCallback<Models.BillingRoleAssignmentListResult>): void;
   /**
    * @param billingAccountName billing Account Id.
+   * @param parameters Parameters supplied to add a role assignment.
    * @param options The optional parameters
    * @param callback The callback
    */
-  addByBillingAccountName(billingAccountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BillingRoleAssignmentListResult>): void;
-  addByBillingAccountName(billingAccountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BillingRoleAssignmentListResult>, callback?: msRest.ServiceCallback<Models.BillingRoleAssignmentListResult>): Promise<Models.BillingRoleAssignmentsAddByBillingAccountNameResponse> {
+  addByBillingAccountName(billingAccountName: string, parameters: Models.BillingRoleAssignmentPayload, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BillingRoleAssignmentListResult>): void;
+  addByBillingAccountName(billingAccountName: string, parameters: Models.BillingRoleAssignmentPayload, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BillingRoleAssignmentListResult>, callback?: msRest.ServiceCallback<Models.BillingRoleAssignmentListResult>): Promise<Models.BillingRoleAssignmentsAddByBillingAccountNameResponse> {
     return this.client.sendOperationRequest(
       {
         billingAccountName,
+        parameters,
         options
       },
       addByBillingAccountNameOperationSpec,
@@ -326,28 +330,32 @@ export class BillingRoleAssignments {
    * The operation to add a role assignment to a invoice Section.
    * @param billingAccountName billing Account Id.
    * @param invoiceSectionName InvoiceSection Id.
+   * @param parameters Parameters supplied to add a role assignment.
    * @param [options] The optional parameters
    * @returns Promise<Models.BillingRoleAssignmentsAddByInvoiceSectionNameResponse>
    */
-  addByInvoiceSectionName(billingAccountName: string, invoiceSectionName: string, options?: msRest.RequestOptionsBase): Promise<Models.BillingRoleAssignmentsAddByInvoiceSectionNameResponse>;
+  addByInvoiceSectionName(billingAccountName: string, invoiceSectionName: string, parameters: Models.BillingRoleAssignmentPayload, options?: msRest.RequestOptionsBase): Promise<Models.BillingRoleAssignmentsAddByInvoiceSectionNameResponse>;
   /**
    * @param billingAccountName billing Account Id.
    * @param invoiceSectionName InvoiceSection Id.
+   * @param parameters Parameters supplied to add a role assignment.
    * @param callback The callback
    */
-  addByInvoiceSectionName(billingAccountName: string, invoiceSectionName: string, callback: msRest.ServiceCallback<Models.BillingRoleAssignmentListResult>): void;
+  addByInvoiceSectionName(billingAccountName: string, invoiceSectionName: string, parameters: Models.BillingRoleAssignmentPayload, callback: msRest.ServiceCallback<Models.BillingRoleAssignmentListResult>): void;
   /**
    * @param billingAccountName billing Account Id.
    * @param invoiceSectionName InvoiceSection Id.
+   * @param parameters Parameters supplied to add a role assignment.
    * @param options The optional parameters
    * @param callback The callback
    */
-  addByInvoiceSectionName(billingAccountName: string, invoiceSectionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BillingRoleAssignmentListResult>): void;
-  addByInvoiceSectionName(billingAccountName: string, invoiceSectionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BillingRoleAssignmentListResult>, callback?: msRest.ServiceCallback<Models.BillingRoleAssignmentListResult>): Promise<Models.BillingRoleAssignmentsAddByInvoiceSectionNameResponse> {
+  addByInvoiceSectionName(billingAccountName: string, invoiceSectionName: string, parameters: Models.BillingRoleAssignmentPayload, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BillingRoleAssignmentListResult>): void;
+  addByInvoiceSectionName(billingAccountName: string, invoiceSectionName: string, parameters: Models.BillingRoleAssignmentPayload, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BillingRoleAssignmentListResult>, callback?: msRest.ServiceCallback<Models.BillingRoleAssignmentListResult>): Promise<Models.BillingRoleAssignmentsAddByInvoiceSectionNameResponse> {
     return this.client.sendOperationRequest(
       {
         billingAccountName,
         invoiceSectionName,
+        parameters,
         options
       },
       addByInvoiceSectionNameOperationSpec,
@@ -390,28 +398,32 @@ export class BillingRoleAssignments {
    * The operation to add a role assignment to a billing profile.
    * @param billingAccountName billing Account Id.
    * @param billingProfileName Billing Profile Id.
+   * @param parameters Parameters supplied to add a role assignment.
    * @param [options] The optional parameters
    * @returns Promise<Models.BillingRoleAssignmentsAddByBillingProfileNameResponse>
    */
-  addByBillingProfileName(billingAccountName: string, billingProfileName: string, options?: msRest.RequestOptionsBase): Promise<Models.BillingRoleAssignmentsAddByBillingProfileNameResponse>;
+  addByBillingProfileName(billingAccountName: string, billingProfileName: string, parameters: Models.BillingRoleAssignmentPayload, options?: msRest.RequestOptionsBase): Promise<Models.BillingRoleAssignmentsAddByBillingProfileNameResponse>;
   /**
    * @param billingAccountName billing Account Id.
    * @param billingProfileName Billing Profile Id.
+   * @param parameters Parameters supplied to add a role assignment.
    * @param callback The callback
    */
-  addByBillingProfileName(billingAccountName: string, billingProfileName: string, callback: msRest.ServiceCallback<Models.BillingRoleAssignmentListResult>): void;
+  addByBillingProfileName(billingAccountName: string, billingProfileName: string, parameters: Models.BillingRoleAssignmentPayload, callback: msRest.ServiceCallback<Models.BillingRoleAssignmentListResult>): void;
   /**
    * @param billingAccountName billing Account Id.
    * @param billingProfileName Billing Profile Id.
+   * @param parameters Parameters supplied to add a role assignment.
    * @param options The optional parameters
    * @param callback The callback
    */
-  addByBillingProfileName(billingAccountName: string, billingProfileName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BillingRoleAssignmentListResult>): void;
-  addByBillingProfileName(billingAccountName: string, billingProfileName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BillingRoleAssignmentListResult>, callback?: msRest.ServiceCallback<Models.BillingRoleAssignmentListResult>): Promise<Models.BillingRoleAssignmentsAddByBillingProfileNameResponse> {
+  addByBillingProfileName(billingAccountName: string, billingProfileName: string, parameters: Models.BillingRoleAssignmentPayload, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BillingRoleAssignmentListResult>): void;
+  addByBillingProfileName(billingAccountName: string, billingProfileName: string, parameters: Models.BillingRoleAssignmentPayload, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BillingRoleAssignmentListResult>, callback?: msRest.ServiceCallback<Models.BillingRoleAssignmentListResult>): Promise<Models.BillingRoleAssignmentsAddByBillingProfileNameResponse> {
     return this.client.sendOperationRequest(
       {
         billingAccountName,
         billingProfileName,
+        parameters,
         options
       },
       addByBillingProfileNameOperationSpec,

@@ -2118,15 +2118,13 @@ export const BillingRoleAssignmentPayload: msRest.CompositeMapper = {
     className: "BillingRoleAssignmentPayload",
     modelProperties: {
       principalId: {
-        readOnly: true,
         serializedName: "principalId",
         type: {
           name: "String"
         }
       },
-      billingRoleDefinitionName: {
-        readOnly: true,
-        serializedName: "billingRoleDefinitionName",
+      billingRoleDefinitionId: {
+        serializedName: "billingRoleDefinitionId",
         type: {
           name: "String"
         }
