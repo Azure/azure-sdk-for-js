@@ -1372,9 +1372,10 @@ export interface BaseImageTrigger {
    */
   updateTriggerEndpoint?: string;
   /**
-   * Include Trigger metadata on Base image update triggers. Default value: true.
+   * Type of Payload body for Base image update triggers. Possible values include: 'Default',
+   * 'Token'
    */
-  includeTriggerMetadata?: boolean;
+  updateTriggerPayloadType?: UpdateTriggerPayloadType;
   /**
    * The current status of trigger. Possible values include: 'Disabled', 'Enabled'. Default value:
    * 'Enabled'.
@@ -1672,9 +1673,10 @@ export interface BaseImageTriggerUpdateParameters {
    */
   updateTriggerEndpoint?: string;
   /**
-   * Include Trigger metadata on Base image update triggers.
+   * Type of Payload body for Base image update triggers. Possible values include: 'Default',
+   * 'Token'
    */
-  includeTriggerMetadata?: boolean;
+  updateTriggerPayloadType?: UpdateTriggerPayloadType;
   /**
    * The current status of trigger. Possible values include: 'Disabled', 'Enabled'. Default value:
    * 'Enabled'.
@@ -1922,6 +1924,10 @@ export interface OverrideTaskStepProperties {
    * The collection of overridable values that can be passed when running a Task.
    */
   values?: SetValue[];
+  /**
+   * Base64 encoded update trigger token that will be attached with the base image trigger webhook.
+   */
+  updateTriggerToken?: string;
 }
 
 /**
@@ -1945,10 +1951,6 @@ export interface TaskRunRequest {
    * Set of overridable parameters that can be passed when running a Task.
    */
   overrideTaskStepProperties?: OverrideTaskStepProperties;
-  /**
-   * Base64 encoded continuation token that will be attached with the base image trigger webhook.
-   */
-  continuationToken?: string;
 }
 
 /**
@@ -2750,6 +2752,14 @@ export type SourceTriggerEvent = 'commit' | 'pullrequest';
  * @enum {string}
  */
 export type BaseImageTriggerType = 'All' | 'Runtime';
+
+/**
+ * Defines values for UpdateTriggerPayloadType.
+ * Possible values include: 'Default', 'Token'
+ * @readonly
+ * @enum {string}
+ */
+export type UpdateTriggerPayloadType = 'Default' | 'Token';
 
 /**
  * Defines values for SourceRegistryLoginMode.

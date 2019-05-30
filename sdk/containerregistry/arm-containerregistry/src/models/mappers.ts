@@ -2258,11 +2258,10 @@ export const BaseImageTrigger: msRest.CompositeMapper = {
           name: "String"
         }
       },
-      includeTriggerMetadata: {
-        serializedName: "includeTriggerMetadata",
-        defaultValue: true,
+      updateTriggerPayloadType: {
+        serializedName: "updateTriggerPayloadType",
         type: {
-          name: "Boolean"
+          name: "String"
         }
       },
       status: {
@@ -2734,10 +2733,10 @@ export const BaseImageTriggerUpdateParameters: msRest.CompositeMapper = {
           name: "String"
         }
       },
-      includeTriggerMetadata: {
-        serializedName: "includeTriggerMetadata",
+      updateTriggerPayloadType: {
+        serializedName: "updateTriggerPayloadType",
         type: {
-          name: "Boolean"
+          name: "String"
         }
       },
       status: {
@@ -3162,6 +3161,12 @@ export const OverrideTaskStepProperties: msRest.CompositeMapper = {
             }
           }
         }
+      },
+      updateTriggerToken: {
+        serializedName: "updateTriggerToken",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -3188,12 +3193,6 @@ export const TaskRunRequest: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "OverrideTaskStepProperties"
-        }
-      },
-      continuationToken: {
-        serializedName: "continuationToken",
-        type: {
-          name: "String"
         }
       }
     }
