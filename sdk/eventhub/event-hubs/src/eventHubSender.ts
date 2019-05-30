@@ -538,7 +538,7 @@ export class EventHubSender extends LinkEntity {
               removeListeners();
               const desc: string =
                 `[${this._context.connectionId}] Sender "${this.name}" with ` +
-                `address "${this.address}", is not able to send the message because the opreation is ` +
+                `address "${this.address}", cannot send the message. opreation ` +
                 `aborted.`;
               log.error(desc);
               throw new Error(desc);
