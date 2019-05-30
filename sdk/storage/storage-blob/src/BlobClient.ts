@@ -20,11 +20,48 @@ import { DownloadFromBlobOptions } from "./highlevel.common";
 import { Batch } from "./utils/Batch";
 import { streamToBuffer } from "./utils/utils.node";
 
+/**
+ * Options to configure Blob - Download operation.
+ *
+ * @export
+ * @interface BlobDownloadOptions
+ */
 export interface BlobDownloadOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof BlobDownloadOptions
+   */
   abortSignal?: Aborter;
+  /**
+   * Optional. The version string of the snapshot to download.
+   *
+   * @type {string}
+   * @memberof BlobDownloadOptions
+   */
   snapshot?: string;
+  /**
+   * Specifies whether to retrieve the MD5 hash of the range when downloading a range of bytes.
+   *
+   * @type {boolean}
+   * @memberof BlobDownloadOptions
+   */
   rangeGetContentMD5?: boolean;
+  /**
+   * Conditions to meet when downloading blobs.
+   *
+   * @type {BlobAccessConditions}
+   * @memberof BlobDownloadOptions
+   */
   blobAccessConditions?: BlobAccessConditions;
+  /**
+   * Call back to receive events on the progress of download operation.
+   *
+   * @memberof BlobDownloadOptions
+   */
   progress?: (progress: TransferProgressEvent) => void;
 
   /**
@@ -45,76 +82,378 @@ export interface BlobDownloadOptions {
   maxRetryRequests?: number;
 }
 
+/**
+ * Options to configure Blob - Get Properties operation.
+ *
+ * @export
+ * @interface BlobGetPropertiesOptions
+ */
 export interface BlobGetPropertiesOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof BlobGetPropertiesOptions
+   */
   abortSignal?: Aborter;
+  /**
+   * Conditions to meet when getting blob properties.
+   *
+   * @type {BlobAccessConditions}
+   * @memberof BlobGetPropertiesOptions
+   */
   blobAccessConditions?: BlobAccessConditions;
 }
 
+/**
+ * Options to configure the Blob - Delete operation.
+ *
+ * @export
+ * @interface BlobDeleteOptions
+ */
 export interface BlobDeleteOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof BlobDeleteOptions
+   */
   abortSignal?: Aborter;
+  /**
+   * Conditions to meet when deleting blobs.
+   *
+   * @type {BlobAccessConditions}
+   * @memberof BlobDeleteOptions
+   */
   blobAccessConditions?: BlobAccessConditions;
+  /**
+   * Specifies options to delete blobs that have associated snapshots.
+   * - `include`: Delete the base blob and all of its snapshots.
+   * - `only`: Delete only the blob's snapshots and not the blob itself.
+   *
+   * @type {Models.DeleteSnapshotsOptionType}
+   * @memberof BlobDeleteOptions
+   */
   deleteSnapshots?: Models.DeleteSnapshotsOptionType;
 }
 
+/**
+ * Options to confgiure Blob - Undelete operation.
+ *
+ * @export
+ * @interface BlobUndeleteOptions
+ */
 export interface BlobUndeleteOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof BlobUndeleteOptions
+   */
   abortSignal?: Aborter;
 }
 
+/**
+ * Options to configure Blob - Set Http Headers operation.
+ *
+ * @export
+ * @interface BlobSetHTTPHeadersOptions
+ */
 export interface BlobSetHTTPHeadersOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof BlobSetHTTPHeadersOptions
+   */
   abortSignal?: Aborter;
+  /**
+   * Conditions to meet when setting blob HTTP headers.
+   *
+   * @type {BlobAccessConditions}
+   * @memberof BlobSetHTTPHeadersOptions
+   */
   blobAccessConditions?: BlobAccessConditions;
 }
 
+/**
+ * Options to configure Blob - Set Metadata operation.
+ *
+ * @export
+ * @interface BlobSetMetadataOptions
+ */
 export interface BlobSetMetadataOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof BlobSetMetadataOptions
+   */
   abortSignal?: Aborter;
+  /**
+   * Conditions to meet when setting blob metadata.
+   *
+   * @type {BlobAccessConditions}
+   * @memberof BlobSetMetadataOptions
+   */
   blobAccessConditions?: BlobAccessConditions;
 }
 
+/**
+ * Options to configure Blob - Acquire Lease operation.
+ *
+ * @export
+ * @interface BlobAcquireLeaseOptions
+ */
 export interface BlobAcquireLeaseOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof BlobAcquireLeaseOptions
+   */
   abortSignal?: Aborter;
+  /**
+   * Conditions to meet when acquiring the lease of a blob.
+   *
+   * @type {Models.ModifiedAccessConditions}
+   * @memberof BlobAcquireLeaseOptions
+   */
   modifiedAccessConditions?: Models.ModifiedAccessConditions;
 }
 
+/**
+ * Options to configure Blob - Release Lease operation.
+ *
+ * @export
+ * @interface BlobReleaseLeaseOptions
+ */
 export interface BlobReleaseLeaseOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof BlobReleaseLeaseOptions
+   */
   abortSignal?: Aborter;
+  /**
+   * Conditions to meet when releasing the lease of a blob.
+   *
+   * @type {Models.ModifiedAccessConditions}
+   * @memberof BlobReleaseLeaseOptions
+   */
   modifiedAccessConditions?: Models.ModifiedAccessConditions;
 }
 
+/**
+ * Options to configure Blob - Renew Lease operation.
+ *
+ * @export
+ * @interface BlobRenewLeaseOptions
+ */
 export interface BlobRenewLeaseOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof BlobRenewLeaseOptions
+   */
   abortSignal?: Aborter;
+  /**
+   * Conditions to meet when renewing the lease of a blob.
+   *
+   * @type {Models.ModifiedAccessConditions}
+   * @memberof BlobRenewLeaseOptions
+   */
   modifiedAccessConditions?: Models.ModifiedAccessConditions;
 }
 
+/**
+ * Options to configure Blob - Change Lease operation.
+ *
+ * @export
+ * @interface BlobChangeLeaseOptions
+ */
 export interface BlobChangeLeaseOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof BlobChangeLeaseOptions
+   */
   abortSignal?: Aborter;
+  /**
+   * Conditions to meet when changing the lease of a blob.
+   *
+   * @type {Models.ModifiedAccessConditions}
+   * @memberof BlobChangeLeaseOptions
+   */
   modifiedAccessConditions?: Models.ModifiedAccessConditions;
 }
 
+/**
+ * Options to configure Blob - Break Lease operation.
+ *
+ * @export
+ * @interface BlobBreakLeaseOptions
+ */
 export interface BlobBreakLeaseOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof BlobBreakLeaseOptions
+   */
   abortSignal?: Aborter;
+  /**
+   * Conditions to meet when breaking the lease of a blob.
+   *
+   * @type {Models.ModifiedAccessConditions}
+   * @memberof BlobBreakLeaseOptions
+   */
   modifiedAccessConditions?: Models.ModifiedAccessConditions;
 }
 
+/**
+ * Options to configure Blob - Create Snapshot operation.
+ *
+ * @export
+ * @interface BlobCreateSnapshotOptions
+ */
 export interface BlobCreateSnapshotOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof BlobCreateSnapshotOptions
+   */
   abortSignal?: Aborter;
+  /**
+   * A collection of key-value string pair to associate with the snapshot.
+   *
+   * @type {Metadata}
+   * @memberof BlobCreateSnapshotOptions
+   */
   metadata?: Metadata;
+  /**
+   * Conditions to meet when creating blob snapshots.
+   *
+   * @type {BlobAccessConditions}
+   * @memberof BlobCreateSnapshotOptions
+   */
   blobAccessConditions?: BlobAccessConditions;
 }
 
+/**
+ * Options to configure Blob - Start Copy from URL operation.
+ *
+ * @export
+ * @interface BlobStartCopyFromURLOptions
+ */
 export interface BlobStartCopyFromURLOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof BlobStartCopyFromURLOptions
+   */
   abortSignal?: Aborter;
+  /**
+   * A collection of key-value string pair to associate with the blob that are being copied.
+   *
+   * @type {Metadata}
+   * @memberof BlobStartCopyFromURLOptions
+   */
   metadata?: Metadata;
+  /**
+   * Conditions to meet for the destination blob when copying from a URL to the blob.
+   *
+   * @type {BlobAccessConditions}
+   * @memberof BlobStartCopyFromURLOptions
+   */
   blobAccessConditions?: BlobAccessConditions;
+  /**
+   * Conditions to meet for the source Azure Blob/File when copying from a URL to the blob.
+   *
+   * @type {Models.ModifiedAccessConditions}
+   * @memberof BlobStartCopyFromURLOptions
+   */
   sourceModifiedAccessConditions?: Models.ModifiedAccessConditions;
 }
 
+/**
+ * Options to configure Blob - Abort Copy from URL operation.
+ *
+ * @export
+ * @interface BlobAbortCopyFromURLOptions
+ */
 export interface BlobAbortCopyFromURLOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof BlobAbortCopyFromURLOptions
+   */
   abortSignal?: Aborter;
+  /**
+   * If specified, contains the lease id that must be matched and lease with this id
+   * must be active in order for the operation to succeed.
+   *
+   * @type {Models.LeaseAccessConditions}
+   * @memberof BlobAbortCopyFromURLOptions
+   */
   leaseAccessConditions?: Models.LeaseAccessConditions;
 }
 
+/**
+ * Options to configure Blob - Set Tier operation.
+ *
+ * @export
+ * @interface BlobSetTierOptions
+ */
 export interface BlobSetTierOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof BlobSetTierOptions
+   */
   abortSignal?: Aborter;
+  /**
+   * If specified, contains the lease id that must be matched and lease with this id
+   * must be active in order for the operation to succeed.
+   *
+   * @type {Models.LeaseAccessConditions}
+   * @memberof BlobSetTierOptions
+   */
   leaseAccessConditions?: Models.LeaseAccessConditions;
 }
 
@@ -160,22 +499,10 @@ export class BlobClient extends StorageClient {
   }
 
   /**
-   * Creates a new BlobClient object identical to the source but with the
-   * specified request policy pipeline.
-   *
-   * @param {Pipeline} pipeline
-   * @returns {BlobClient}
-   * @memberof BlobClient
-   */
-  public withPipeline(pipeline: Pipeline): BlobClient {
-    return new BlobClient(this.url, pipeline);
-  }
-
-  /**
    * Creates a new BlobClient object identical to the source but with the specified snapshot timestamp.
    * Provide "" will remove the snapshot and return a Client to the base blob.
    *
-   * @param {string} snapshot
+   * @param {string} snapshot The snapshot timestamp.
    * @returns {BlobClient} A new BlobClient object identical to the source but with the specified snapshot timestamp
    * @memberof BlobClient
    */
@@ -229,14 +556,14 @@ export class BlobClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-blob
    *
-   * @param {number} offset From which position of the blob to download, >= 0
+   * @param {number} [offset] From which position of the blob to download, >= 0
    * @param {number} [count] How much data to be downloaded, > 0. Will download to the end when undefined
-   * @param {BlobDownloadOptions} [options]
+   * @param {BlobDownloadOptions} [options] Optional options to Blob Download operation.
    * @returns {Promise<Models.BlobDownloadResponse>}
    * @memberof BlobClient
    */
   public async download(
-    offset: number,
+    offset: number = 0,
     count?: number,
     options: BlobDownloadOptions = {}
   ): Promise<Models.BlobDownloadResponse> {
@@ -325,7 +652,7 @@ export class BlobClient extends StorageClient {
    * for the blob. It does not return the content of the blob.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-blob-properties
    *
-   * @param {BlobGetPropertiesOptions} [options]
+   * @param {BlobGetPropertiesOptions} [options] Optional options to Get Properties operation.
    * @returns {Promise<Models.BlobGetPropertiesResponse>}
    * @memberof BlobClient
    */
@@ -348,7 +675,7 @@ export class BlobClient extends StorageClient {
    * Blob operation.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-blob
    *
-   * @param {BlobDeleteOptions} [options]
+   * @param {BlobDeleteOptions} [options] Optional options to Blob Delete operation.
    * @returns {Promise<Models.BlobDeleteResponse>}
    * @memberof BlobClient
    */
@@ -371,6 +698,7 @@ export class BlobClient extends StorageClient {
    * or later.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/undelete-blob
    *
+   * @param {BlobUndeleteOptions} [options] Optional options to Blob Undelete operation.
    * @returns {Promise<Models.BlobUndeleteResponse>}
    * @memberof BlobClient
    */
@@ -393,7 +721,7 @@ export class BlobClient extends StorageClient {
    * @param {Models.BlobHTTPHeaders} [blobHTTPHeaders] If no value provided, or no value provided for
    *                                                   the specificed blob HTTP headers, these blob HTTP
    *                                                   headers without a value will be cleared.
-   * @param {BlobSetHTTPHeadersOptions} [options]
+   * @param {BlobSetHTTPHeadersOptions} [options] Optional options to Blob Set HTTP Headers operation.
    * @returns {Promise<Models.BlobSetHTTPHeadersResponse>}
    * @memberof BlobClient
    */
@@ -420,7 +748,7 @@ export class BlobClient extends StorageClient {
    *
    * @param {Metadata} [metadata] Replace existing metadata with this value.
    *                               If no value provided the existing metadata will be removed.
-   * @param {BlobSetMetadataOptions} [options]
+   * @param {BlobSetMetadataOptions} [options] Optional options to Set Metadata operation.
    * @returns {Promise<Models.BlobSetMetadataResponse>}
    * @memberof BlobClient
    */
@@ -446,7 +774,7 @@ export class BlobClient extends StorageClient {
    *
    * @param {string} proposedLeaseId Can be specified in any valid GUID string format
    * @param {number} duration The lock duration can be 15 to 60 seconds, or can be infinite
-   * @param {BlobAcquireLeaseOptions} [options]
+   * @param {BlobAcquireLeaseOptions} [options] Optional options to Blob Acquire Lease operation.
    * @returns {Promise<Models.BlobAcquireLeaseResponse>}
    * @memberof BlobClient
    */
@@ -469,8 +797,8 @@ export class BlobClient extends StorageClient {
    * acquire a lease against the blob.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/lease-blob
    *
-   * @param {string} leaseId
-   * @param {BlobReleaseLeaseOptions} [options]
+   * @param {string} leaseId Id of the lease to release
+   * @param {BlobReleaseLeaseOptions} [options] Optional options to Blob Release Lease operation.
    * @returns {Promise<Models.BlobReleaseLeaseResponse>}
    * @memberof BlobClient
    */
@@ -489,8 +817,8 @@ export class BlobClient extends StorageClient {
    * To renew an existing lease.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/lease-blob
    *
-   * @param {string} leaseId
-   * @param {BlobRenewLeaseOptions} [options]
+   * @param {string} leaseId Id of the lease to renew.
+   * @param {BlobRenewLeaseOptions} [options] Optional options to Blob Renew Lease operation.
    * @returns {Promise<Models.BlobRenewLeaseResponse>}
    * @memberof BlobClient
    */
@@ -509,9 +837,9 @@ export class BlobClient extends StorageClient {
    * To change the ID of an existing lease.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/lease-blob
    *
-   * @param {string} leaseId
-   * @param {string} proposedLeaseId
-   * @param {BlobChangeLeaseOptions} [options]
+   * @param {string} leaseId Id of the existing lease.
+   * @param {string} proposedLeaseId The proposed new Id.
+   * @param {BlobChangeLeaseOptions} [options] Optional options to the Blob Change Lease operation.
    * @returns {Promise<Models.BlobChangeLeaseResponse>}
    * @memberof BlobClient
    */
@@ -532,8 +860,9 @@ export class BlobClient extends StorageClient {
    * until the current lease period has expired.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/lease-blob
    *
-   * @param {number} [breakPeriod]
-   * @param {BlobBreakLeaseOptions} [options]
+   * @param {number} [breakPeriod] The proposed duration of seconds that the lease should continue
+   *                               before it is broken, between 0 and 60 seconds.
+   * @param {BlobBreakLeaseOptions} [options] Optional options to the Blob Break Lease operation.
    * @returns {Promise<Models.BlobBreakLeaseResponse>}
    * @memberof BlobClient
    */
@@ -553,7 +882,7 @@ export class BlobClient extends StorageClient {
    * Creates a read-only snapshot of a blob.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/snapshot-blob
    *
-   * @param {BlobCreateSnapshotOptions} [options]
+   * @param {BlobCreateSnapshotOptions} [options] Optional options to the Blob Create Snapshot operation.
    * @returns {Promise<Models.BlobCreateSnapshotResponse>}
    * @memberof BlobClient
    */
@@ -580,8 +909,8 @@ export class BlobClient extends StorageClient {
    * operation to copy from another storage account.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/copy-blob
    *
-   * @param {string} copySource
-   * @param {BlobStartCopyFromURLOptions} [options]
+   * @param {string} copySource url to the ource Azure Blob/File.
+   * @param {BlobStartCopyFromURLOptions} [options] Optional options to the Blob Start Copy From URL operation.
    * @returns {Promise<Models.BlobStartCopyFromURLResponse>}
    * @memberof BlobClient
    */
@@ -612,8 +941,8 @@ export class BlobClient extends StorageClient {
    * length and full metadata. Version 2012-02-12 and newer.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/abort-copy-blob
    *
-   * @param {string} copyId
-   * @param {BlobAbortCopyFromURLOptions} [options]
+   * @param {string} copyId Id of the Copy From URL operation.
+   * @param {BlobAbortCopyFromURLOptions} [options] Optional options to the Blob Abort Copy From URL operation.
    * @returns {Promise<Models.BlobAbortCopyFromURLResponse>}
    * @memberof BlobClient
    */
@@ -636,8 +965,8 @@ export class BlobClient extends StorageClient {
    * storage type. This operation does not update the blob's ETag.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-blob-tier
    *
-   * @param {Models.AccessTier} tier
-   * @param {BlobSetTierOptions} [options]
+   * @param {Models.AccessTier} tier The tier to be set on the blob. Valid values are Hot, Cool, or Archive.
+   * @param {BlobSetTierOptions} [options] Optional options to the Blob Set Tier operation.
    * @returns {Promise<Models.BlobsSetTierResponse>}
    * @memberof BlobClient
    */

@@ -92,6 +92,14 @@ export class RetryPolicyFactory implements RequestPolicyFactory {
     this.retryOptions = retryOptions;
   }
 
+  /**
+   * Creates a RetryPolicy object.
+   *
+   * @param {RequestPolicy} nextPolicy
+   * @param {RequestPolicyOptions} options
+   * @returns {RetryPolicy}
+   * @memberof RetryPolicyFactory
+   */
   public create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): RetryPolicy {
     return new RetryPolicy(nextPolicy, options, this.retryOptions);
   }

@@ -35,7 +35,7 @@ npm install @azure/amqp-common
 This sdk has been developed in [TypeScript](https://typescriptlang.org) and has good source code documentation. It is highly recommended to use [vscode](https://code.visualstudio.com)
 or any other IDE that provides better intellisense and exposes the full power of source code documentation.
 
-### Key concepts
+## Key concepts
 
 This SDK houses core AMQP common related functionality in use bu Azure SDKs that use the protocol.
 

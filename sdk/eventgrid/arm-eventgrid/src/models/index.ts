@@ -12,125 +12,42 @@ import * as msRest from "@azure/ms-rest-js";
 export { BaseResource, CloudError };
 
 /**
- * Contains the possible cases for InputSchemaMapping.
- */
-export type InputSchemaMappingUnion = InputSchemaMapping | JsonInputSchemaMapping;
-
-/**
- * By default, Event Grid expects events to be in the Event Grid event schema. Specifying an input
- * schema mapping enables publishing to Event Grid using a custom input schema. Currently, the only
- * supported type of InputSchemaMapping is 'JsonInputSchemaMapping'.
- */
-export interface InputSchemaMapping {
-  /**
-   * Polymorphic Discriminator
-   */
-  inputSchemaMappingType: "InputSchemaMapping";
-}
-
-/**
- * Definition of a Resource
+ * Definition of a Resource.
  */
 export interface Resource extends BaseResource {
   /**
-   * Fully qualified identifier of the resource
+   * Fully qualified identifier of the resource.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly id?: string;
   /**
-   * Name of the resource
+   * Name of the resource.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly name?: string;
   /**
-   * Type of the resource
+   * Type of the resource.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly type?: string;
 }
 
 /**
- * This is used to express the source of an input schema mapping for a single target field in the
- * Event Grid Event schema. This is currently used in the mappings for the 'id', 'topic' and
- * 'eventtime' properties. This represents a field in the input event schema.
- */
-export interface JsonField {
-  /**
-   * Name of a field in the input event schema that's to be used as the source of a mapping.
-   */
-  sourceField?: string;
-}
-
-/**
- * This is used to express the source of an input schema mapping for a single target field
- * in the Event Grid Event schema. This is currently used in the mappings for the 'subject',
- * 'eventtype' and 'dataversion' properties. This represents a field in the input event schema
- * along with a default value to be used, and at least one of these two properties should be
- * provided.
- */
-export interface JsonFieldWithDefault {
-  /**
-   * Name of a field in the input event schema that's to be used as the source of a mapping.
-   */
-  sourceField?: string;
-  /**
-   * The default value to be used for mapping when a SourceField is not provided or if there's no
-   * property with the specified name in the published JSON event payload.
-   */
-  defaultValue?: string;
-}
-
-/**
- * This enables publishing to Event Grid using a custom input schema. This can be used to map
- * properties from a custom input JSON schema to the Event Grid event schema.
- */
-export interface JsonInputSchemaMapping {
-  /**
-   * Polymorphic Discriminator
-   */
-  inputSchemaMappingType: "Json";
-  /**
-   * The mapping information for the Id property of the Event Grid Event.
-   */
-  id?: JsonField;
-  /**
-   * The mapping information for the Topic property of the Event Grid Event.
-   */
-  topic?: JsonField;
-  /**
-   * The mapping information for the EventTime property of the Event Grid Event.
-   */
-  eventTime?: JsonField;
-  /**
-   * The mapping information for the EventType property of the Event Grid Event.
-   */
-  eventType?: JsonFieldWithDefault;
-  /**
-   * The mapping information for the Subject property of the Event Grid Event.
-   */
-  subject?: JsonFieldWithDefault;
-  /**
-   * The mapping information for the DataVersion property of the Event Grid Event.
-   */
-  dataVersion?: JsonFieldWithDefault;
-}
-
-/**
- * Definition of a Tracked Resource
+ * Definition of a Tracked Resource.
  */
 export interface TrackedResource extends Resource {
   /**
-   * Location of the resource
+   * Location of the resource.
    */
   location: string;
   /**
-   * Tags of the resource
+   * Tags of the resource.
    */
   tags?: { [propertyName: string]: string };
 }
 
 /**
- * EventGrid Domain
+ * EventGrid Domain.
  */
 export interface Domain extends TrackedResource {
   /**
@@ -144,30 +61,20 @@ export interface Domain extends TrackedResource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly endpoint?: string;
-  /**
-   * This determines the format that Event Grid should expect for incoming events published to the
-   * domain. Possible values include: 'EventGridSchema', 'CustomEventSchema',
-   * 'CloudEventV01Schema'. Default value: 'EventGridSchema'.
-   */
-  inputSchema?: InputSchema;
-  /**
-   * Information about the InputSchemaMapping which specified the info about mapping event payload.
-   */
-  inputSchemaMapping?: InputSchemaMappingUnion;
 }
 
 /**
- * Properties of the Domain update
+ * Properties of the Domain update.
  */
 export interface DomainUpdateParameters {
   /**
-   * Tags of the domains resource
+   * Tags of the domains resource.
    */
   tags?: { [propertyName: string]: string };
 }
 
 /**
- * Shared access keys of the Domain
+ * Shared access keys of the Domain.
  */
 export interface DomainSharedAccessKeys {
   /**
@@ -181,17 +88,17 @@ export interface DomainSharedAccessKeys {
 }
 
 /**
- * Domain regenerate share access key request
+ * Domain regenerate share access key request.
  */
 export interface DomainRegenerateKeyRequest {
   /**
-   * Key name to regenerate key1 or key2
+   * Key name to regenerate key1 or key2.
    */
   keyName: string;
 }
 
 /**
- * Domain Topic
+ * Domain Topic.
  */
 export interface DomainTopic extends Resource {
   /**
@@ -239,7 +146,7 @@ export interface AdvancedFilter {
 }
 
 /**
- * Filter for the Event Subscription
+ * Filter for the Event Subscription.
  */
 export interface EventSubscriptionFilter {
   /**
@@ -270,7 +177,7 @@ export interface EventSubscriptionFilter {
 }
 
 /**
- * Information about the retry policy for an event subscription
+ * Information about the retry policy for an event subscription.
  */
 export interface RetryPolicy {
   /**
@@ -652,11 +559,6 @@ export interface EventSubscription extends Resource {
    */
   expirationTimeUtc?: Date;
   /**
-   * The event delivery schema for the event subscription. Possible values include:
-   * 'EventGridSchema', 'CloudEventV01Schema', 'CustomInputSchema'
-   */
-  eventDeliverySchema?: EventDeliverySchema;
-  /**
    * The retry policy for events. This can be used to configure maximum number of delivery attempts
    * and time to live for events.
    */
@@ -688,11 +590,6 @@ export interface EventSubscriptionUpdateParameters {
    * Information about the expiration time for the event subscription.
    */
   expirationTimeUtc?: Date;
-  /**
-   * The event delivery schema for the event subscription. Possible values include:
-   * 'EventGridSchema', 'CloudEventV01Schema', 'CustomInputSchema'
-   */
-  eventDeliverySchema?: EventDeliverySchema;
   /**
    * The retry policy for events. This can be used to configure maximum number of delivery attempts
    * and time to live for events.
@@ -773,18 +670,6 @@ export interface Topic extends TrackedResource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly endpoint?: string;
-  /**
-   * This determines the format that Event Grid should expect for incoming events published to the
-   * topic. Possible values include: 'EventGridSchema', 'CustomEventSchema', 'CloudEventV01Schema'.
-   * Default value: 'EventGridSchema'.
-   */
-  inputSchema?: InputSchema;
-  /**
-   * This enables publishing using custom event schemas. An InputSchemaMapping can be specified to
-   * map various properties of a source schema to various required properties of the EventGridEvent
-   * schema.
-   */
-  inputSchemaMapping?: InputSchemaMappingUnion;
 }
 
 /**
@@ -879,11 +764,18 @@ export interface TopicTypeInfo extends Resource {
  */
 export interface DomainsListBySubscriptionOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * Filter the results using OData syntax.
+   * The query used to filter the search results using OData syntax. Filtering is permitted on the
+   * 'name' property only and with limited number of OData operations. These operations are: the
+   * 'contains' function as well as the following logical operations: not, and, or, eq (for equal),
+   * and ne (for not equal). No arithmetic operations are supported. The following is a valid
+   * filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is
+   * not a valid filter example: $filter=location eq 'westus'.
    */
   filter?: string;
   /**
-   * The number of results to return.
+   * The number of results to return per page for the list operation. Valid range for top parameter
+   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
+   * page.
    */
   top?: number;
 }
@@ -893,11 +785,18 @@ export interface DomainsListBySubscriptionOptionalParams extends msRest.RequestO
  */
 export interface DomainsListByResourceGroupOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * Filter the results using OData syntax.
+   * The query used to filter the search results using OData syntax. Filtering is permitted on the
+   * 'name' property only and with limited number of OData operations. These operations are: the
+   * 'contains' function as well as the following logical operations: not, and, or, eq (for equal),
+   * and ne (for not equal). No arithmetic operations are supported. The following is a valid
+   * filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is
+   * not a valid filter example: $filter=location eq 'westus'.
    */
   filter?: string;
   /**
-   * The number of results to return.
+   * The number of results to return per page for the list operation. Valid range for top parameter
+   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
+   * page.
    */
   top?: number;
 }
@@ -907,11 +806,18 @@ export interface DomainsListByResourceGroupOptionalParams extends msRest.Request
  */
 export interface DomainTopicsListByDomainOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * Filter the results using OData syntax.
+   * The query used to filter the search results using OData syntax. Filtering is permitted on the
+   * 'name' property only and with limited number of OData operations. These operations are: the
+   * 'contains' function as well as the following logical operations: not, and, or, eq (for equal),
+   * and ne (for not equal). No arithmetic operations are supported. The following is a valid
+   * filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is
+   * not a valid filter example: $filter=location eq 'westus'.
    */
   filter?: string;
   /**
-   * The number of results to return.
+   * The number of results to return per page for the list operation. Valid range for top parameter
+   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
+   * page.
    */
   top?: number;
 }
@@ -921,17 +827,20 @@ export interface DomainTopicsListByDomainOptionalParams extends msRest.RequestOp
  */
 export interface EventSubscriptionsListGlobalBySubscriptionOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * Filter the results using OData syntax.
+   * The query used to filter the search results using OData syntax. Filtering is permitted on the
+   * 'name' property only and with limited number of OData operations. These operations are: the
+   * 'contains' function as well as the following logical operations: not, and, or, eq (for equal),
+   * and ne (for not equal). No arithmetic operations are supported. The following is a valid
+   * filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is
+   * not a valid filter example: $filter=location eq 'westus'.
    */
   filter?: string;
   /**
-   * The number of results to return.
+   * The number of results to return per page for the list operation. Valid range for top parameter
+   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
+   * page.
    */
   top?: number;
-  /**
-   * The label used to filter the results for event subscriptions list.
-   */
-  label?: string;
 }
 
 /**
@@ -939,17 +848,20 @@ export interface EventSubscriptionsListGlobalBySubscriptionOptionalParams extend
  */
 export interface EventSubscriptionsListGlobalBySubscriptionForTopicTypeOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * Filter the results using OData syntax.
+   * The query used to filter the search results using OData syntax. Filtering is permitted on the
+   * 'name' property only and with limited number of OData operations. These operations are: the
+   * 'contains' function as well as the following logical operations: not, and, or, eq (for equal),
+   * and ne (for not equal). No arithmetic operations are supported. The following is a valid
+   * filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is
+   * not a valid filter example: $filter=location eq 'westus'.
    */
   filter?: string;
   /**
-   * The number of results to return.
+   * The number of results to return per page for the list operation. Valid range for top parameter
+   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
+   * page.
    */
   top?: number;
-  /**
-   * The label used to filter the results for event subscriptions list.
-   */
-  label?: string;
 }
 
 /**
@@ -957,17 +869,20 @@ export interface EventSubscriptionsListGlobalBySubscriptionForTopicTypeOptionalP
  */
 export interface EventSubscriptionsListGlobalByResourceGroupOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * Filter the results using OData syntax.
+   * The query used to filter the search results using OData syntax. Filtering is permitted on the
+   * 'name' property only and with limited number of OData operations. These operations are: the
+   * 'contains' function as well as the following logical operations: not, and, or, eq (for equal),
+   * and ne (for not equal). No arithmetic operations are supported. The following is a valid
+   * filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is
+   * not a valid filter example: $filter=location eq 'westus'.
    */
   filter?: string;
   /**
-   * The number of results to return.
+   * The number of results to return per page for the list operation. Valid range for top parameter
+   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
+   * page.
    */
   top?: number;
-  /**
-   * The label used to filter the results for event subscriptions list.
-   */
-  label?: string;
 }
 
 /**
@@ -975,17 +890,20 @@ export interface EventSubscriptionsListGlobalByResourceGroupOptionalParams exten
  */
 export interface EventSubscriptionsListGlobalByResourceGroupForTopicTypeOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * Filter the results using OData syntax.
+   * The query used to filter the search results using OData syntax. Filtering is permitted on the
+   * 'name' property only and with limited number of OData operations. These operations are: the
+   * 'contains' function as well as the following logical operations: not, and, or, eq (for equal),
+   * and ne (for not equal). No arithmetic operations are supported. The following is a valid
+   * filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is
+   * not a valid filter example: $filter=location eq 'westus'.
    */
   filter?: string;
   /**
-   * The number of results to return.
+   * The number of results to return per page for the list operation. Valid range for top parameter
+   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
+   * page.
    */
   top?: number;
-  /**
-   * The label used to filter the results for event subscriptions list.
-   */
-  label?: string;
 }
 
 /**
@@ -993,17 +911,20 @@ export interface EventSubscriptionsListGlobalByResourceGroupForTopicTypeOptional
  */
 export interface EventSubscriptionsListRegionalBySubscriptionOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * Filter the results using OData syntax.
+   * The query used to filter the search results using OData syntax. Filtering is permitted on the
+   * 'name' property only and with limited number of OData operations. These operations are: the
+   * 'contains' function as well as the following logical operations: not, and, or, eq (for equal),
+   * and ne (for not equal). No arithmetic operations are supported. The following is a valid
+   * filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is
+   * not a valid filter example: $filter=location eq 'westus'.
    */
   filter?: string;
   /**
-   * The number of results to return.
+   * The number of results to return per page for the list operation. Valid range for top parameter
+   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
+   * page.
    */
   top?: number;
-  /**
-   * The label used to filter the results for event subscriptions list.
-   */
-  label?: string;
 }
 
 /**
@@ -1011,17 +932,20 @@ export interface EventSubscriptionsListRegionalBySubscriptionOptionalParams exte
  */
 export interface EventSubscriptionsListRegionalByResourceGroupOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * Filter the results using OData syntax.
+   * The query used to filter the search results using OData syntax. Filtering is permitted on the
+   * 'name' property only and with limited number of OData operations. These operations are: the
+   * 'contains' function as well as the following logical operations: not, and, or, eq (for equal),
+   * and ne (for not equal). No arithmetic operations are supported. The following is a valid
+   * filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is
+   * not a valid filter example: $filter=location eq 'westus'.
    */
   filter?: string;
   /**
-   * The number of results to return.
+   * The number of results to return per page for the list operation. Valid range for top parameter
+   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
+   * page.
    */
   top?: number;
-  /**
-   * The label used to filter the results for event subscriptions list.
-   */
-  label?: string;
 }
 
 /**
@@ -1029,17 +953,20 @@ export interface EventSubscriptionsListRegionalByResourceGroupOptionalParams ext
  */
 export interface EventSubscriptionsListRegionalBySubscriptionForTopicTypeOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * Filter the results using OData syntax.
+   * The query used to filter the search results using OData syntax. Filtering is permitted on the
+   * 'name' property only and with limited number of OData operations. These operations are: the
+   * 'contains' function as well as the following logical operations: not, and, or, eq (for equal),
+   * and ne (for not equal). No arithmetic operations are supported. The following is a valid
+   * filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is
+   * not a valid filter example: $filter=location eq 'westus'.
    */
   filter?: string;
   /**
-   * The number of results to return.
+   * The number of results to return per page for the list operation. Valid range for top parameter
+   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
+   * page.
    */
   top?: number;
-  /**
-   * The label used to filter the results for event subscriptions list.
-   */
-  label?: string;
 }
 
 /**
@@ -1047,17 +974,20 @@ export interface EventSubscriptionsListRegionalBySubscriptionForTopicTypeOptiona
  */
 export interface EventSubscriptionsListRegionalByResourceGroupForTopicTypeOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * Filter the results using OData syntax.
+   * The query used to filter the search results using OData syntax. Filtering is permitted on the
+   * 'name' property only and with limited number of OData operations. These operations are: the
+   * 'contains' function as well as the following logical operations: not, and, or, eq (for equal),
+   * and ne (for not equal). No arithmetic operations are supported. The following is a valid
+   * filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is
+   * not a valid filter example: $filter=location eq 'westus'.
    */
   filter?: string;
   /**
-   * The number of results to return.
+   * The number of results to return per page for the list operation. Valid range for top parameter
+   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
+   * page.
    */
   top?: number;
-  /**
-   * The label used to filter the results for event subscriptions list.
-   */
-  label?: string;
 }
 
 /**
@@ -1065,17 +995,20 @@ export interface EventSubscriptionsListRegionalByResourceGroupForTopicTypeOption
  */
 export interface EventSubscriptionsListByResourceOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * Filter the results using OData syntax.
+   * The query used to filter the search results using OData syntax. Filtering is permitted on the
+   * 'name' property only and with limited number of OData operations. These operations are: the
+   * 'contains' function as well as the following logical operations: not, and, or, eq (for equal),
+   * and ne (for not equal). No arithmetic operations are supported. The following is a valid
+   * filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is
+   * not a valid filter example: $filter=location eq 'westus'.
    */
   filter?: string;
   /**
-   * The number of results to return.
+   * The number of results to return per page for the list operation. Valid range for top parameter
+   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
+   * page.
    */
   top?: number;
-  /**
-   * The label used to filter the results for event subscriptions list.
-   */
-  label?: string;
 }
 
 /**
@@ -1083,17 +1016,20 @@ export interface EventSubscriptionsListByResourceOptionalParams extends msRest.R
  */
 export interface EventSubscriptionsListByDomainTopicOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * Filter the results using OData syntax.
+   * The query used to filter the search results using OData syntax. Filtering is permitted on the
+   * 'name' property only and with limited number of OData operations. These operations are: the
+   * 'contains' function as well as the following logical operations: not, and, or, eq (for equal),
+   * and ne (for not equal). No arithmetic operations are supported. The following is a valid
+   * filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is
+   * not a valid filter example: $filter=location eq 'westus'.
    */
   filter?: string;
   /**
-   * The number of results to return.
+   * The number of results to return per page for the list operation. Valid range for top parameter
+   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
+   * page.
    */
   top?: number;
-  /**
-   * The label used to filter the results for event subscriptions list.
-   */
-  label?: string;
 }
 
 /**
@@ -1101,11 +1037,18 @@ export interface EventSubscriptionsListByDomainTopicOptionalParams extends msRes
  */
 export interface TopicsListBySubscriptionOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * Filter the results using OData syntax.
+   * The query used to filter the search results using OData syntax. Filtering is permitted on the
+   * 'name' property only and with limited number of OData operations. These operations are: the
+   * 'contains' function as well as the following logical operations: not, and, or, eq (for equal),
+   * and ne (for not equal). No arithmetic operations are supported. The following is a valid
+   * filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is
+   * not a valid filter example: $filter=location eq 'westus'.
    */
   filter?: string;
   /**
-   * The number of results to return.
+   * The number of results to return per page for the list operation. Valid range for top parameter
+   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
+   * page.
    */
   top?: number;
 }
@@ -1115,11 +1058,18 @@ export interface TopicsListBySubscriptionOptionalParams extends msRest.RequestOp
  */
 export interface TopicsListByResourceGroupOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * Filter the results using OData syntax.
+   * The query used to filter the search results using OData syntax. Filtering is permitted on the
+   * 'name' property only and with limited number of OData operations. These operations are: the
+   * 'contains' function as well as the following logical operations: not, and, or, eq (for equal),
+   * and ne (for not equal). No arithmetic operations are supported. The following is a valid
+   * filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is
+   * not a valid filter example: $filter=location eq 'westus'.
    */
   filter?: string;
   /**
-   * The number of results to return.
+   * The number of results to return per page for the list operation. Valid range for top parameter
+   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
+   * page.
    */
   top?: number;
 }
@@ -1133,24 +1083,24 @@ export interface EventGridManagementClientOptions extends AzureServiceClientOpti
 
 /**
  * @interface
- * Result of the List Domains operation
+ * Result of the List Domains operation.
  * @extends Array<Domain>
  */
 export interface DomainsListResult extends Array<Domain> {
   /**
-   * A link for the next page of domains
+   * A link for the next page of domains.
    */
   nextLink?: string;
 }
 
 /**
  * @interface
- * Result of the List Domain Topics operation
+ * Result of the List Domain Topics operation.
  * @extends Array<DomainTopic>
  */
 export interface DomainTopicsListResult extends Array<DomainTopic> {
   /**
-   * A link for the next page of domain topics
+   * A link for the next page of domain topics.
    */
   nextLink?: string;
 }
@@ -1212,14 +1162,6 @@ export interface TopicTypesListResult extends Array<TopicTypeInfo> {
 export type DomainProvisioningState = 'Creating' | 'Updating' | 'Deleting' | 'Succeeded' | 'Canceled' | 'Failed';
 
 /**
- * Defines values for InputSchema.
- * Possible values include: 'EventGridSchema', 'CustomEventSchema', 'CloudEventV01Schema'
- * @readonly
- * @enum {string}
- */
-export type InputSchema = 'EventGridSchema' | 'CustomEventSchema' | 'CloudEventV01Schema';
-
-/**
  * Defines values for DomainTopicProvisioningState.
  * Possible values include: 'Creating', 'Updating', 'Deleting', 'Succeeded', 'Canceled', 'Failed'
  * @readonly
@@ -1235,14 +1177,6 @@ export type DomainTopicProvisioningState = 'Creating' | 'Updating' | 'Deleting' 
  * @enum {string}
  */
 export type EventSubscriptionProvisioningState = 'Creating' | 'Updating' | 'Deleting' | 'Succeeded' | 'Canceled' | 'Failed' | 'AwaitingManualAction';
-
-/**
- * Defines values for EventDeliverySchema.
- * Possible values include: 'EventGridSchema', 'CloudEventV01Schema', 'CustomInputSchema'
- * @readonly
- * @enum {string}
- */
-export type EventDeliverySchema = 'EventGridSchema' | 'CloudEventV01Schema' | 'CustomInputSchema';
 
 /**
  * Defines values for TopicProvisioningState.

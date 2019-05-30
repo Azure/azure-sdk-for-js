@@ -13,6 +13,14 @@ import { UniqueRequestIDPolicy } from "./policies/UniqueRequestIDPolicy";
  * @implements {RequestPolicyFactory}
  */
 export class UniqueRequestIDPolicyFactory implements RequestPolicyFactory {
+  /**
+   * Creates a UniqueRequestIDPolicyFactory object.
+   *
+   * @param {RequestPolicy} nextPolicy
+   * @param {RequestPolicyOptions} options
+   * @returns {UniqueRequestIDPolicy}
+   * @memberof UniqueRequestIDPolicyFactory
+   */
   public create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): UniqueRequestIDPolicy {
     return new UniqueRequestIDPolicy(nextPolicy, options);
   }

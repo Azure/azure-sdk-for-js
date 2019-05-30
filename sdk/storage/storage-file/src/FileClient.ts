@@ -23,7 +23,21 @@ import { BufferScheduler } from "./utils/BufferScheduler";
 import { Readable } from "stream";
 import { streamToBuffer } from "./utils/utils.node";
 
+/**
+ * Options to configure File - Create operation.
+ *
+ * @export
+ * @interface FileCreateOptions
+ */
 export interface FileCreateOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof AppendBlobCreateOptions
+   */
   abortSignal?: Aborter;
   /**
    * File HTTP headers like Content-Type.
@@ -34,8 +48,7 @@ export interface FileCreateOptions {
   fileHTTPHeaders?: FileHTTPHeaders;
 
   /**
-   * A name-value pair
-   * to associate with a file storage object.
+   * A collection of key-value string pair to associate with the file storage object.
    *
    * @type {Metadata}
    * @memberof FileCreateOptions
@@ -43,11 +56,39 @@ export interface FileCreateOptions {
   metadata?: Metadata;
 }
 
+/**
+ * Options to configure File - Delete operation.
+ *
+ * @export
+ * @interface FileDeleteOptions
+ */
 export interface FileDeleteOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof AppendBlobCreateOptions
+   */
   abortSignal?: Aborter;
 }
 
+/**
+ * Options to configure File - Download operation.
+ *
+ * @export
+ * @interface FileDownloadOptions
+ */
 export interface FileDownloadOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof AppendBlobCreateOptions
+   */
   abortSignal?: Aborter;
   /**
    * Optional. ONLY AVAILABLE IN NODE.JS.
@@ -84,7 +125,21 @@ export interface FileDownloadOptions {
   progress?: (progress: TransferProgressEvent) => void;
 }
 
+/**
+ * Options to configure File - Upload Range operation.
+ *
+ * @export
+ * @interface FileUploadRangeOptions
+ */
 export interface FileUploadRangeOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof AppendBlobCreateOptions
+   */
   abortSignal?: Aborter;
   /**
    * An MD5 hash of the content. This hash is
@@ -107,7 +162,21 @@ export interface FileUploadRangeOptions {
   progress?: (progress: TransferProgressEvent) => void;
 }
 
+/**
+ * Options to configure File - Get Range List operation.
+ *
+ * @export
+ * @interface FileGetRangeListOptions
+ */
 export interface FileGetRangeListOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof AppendBlobCreateOptions
+   */
   abortSignal?: Aborter;
   /**
    * Optional. Specifies the range of bytes over which to list ranges, inclusively.
@@ -118,7 +187,21 @@ export interface FileGetRangeListOptions {
   range?: Range;
 }
 
+/**
+ * Options to configure File - Get Properties operation.
+ *
+ * @export
+ * @interface FileGetPropertiesOptions
+ */
 export interface FileGetPropertiesOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof AppendBlobCreateOptions
+   */
   abortSignal?: Aborter;
 }
 
@@ -152,11 +235,16 @@ export type FileGetRangeListResponse = Models.FileGetRangeListHeaders & {
   };
 };
 
+/**
+ * Options to configure File - Start Copy operation.
+ *
+ * @export
+ * @interface FileStartCopyOptions
+ */
 export interface FileStartCopyOptions {
   abortSignal?: Aborter;
   /**
-   * A name-value pair
-   * to associate with a file storage object.
+   * A collection of key-value string pair to associate with the file storage object.
    *
    * @type {Metadata}
    * @memberof FileCreateOptions
@@ -164,23 +252,93 @@ export interface FileStartCopyOptions {
   metadata?: Metadata;
 }
 
+/**
+ * Options to configure File - Set Metadata operation.
+ *
+ * @export
+ * @interface FileSetMetadataOptions
+ */
 export interface FileSetMetadataOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof AppendBlobCreateOptions
+   */
   abortSignal?: Aborter;
 }
 
-export interface FileHTTPHeadersOptions {
+/**
+ * Options to configure File - HTTP Headers operation.
+ *
+ * @export
+ * @interface FileHTTPHeadersOptions
+ */
+export interface FileSetHTTPHeadersOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof AppendBlobCreateOptions
+   */
   abortSignal?: Aborter;
 }
 
+/**
+ * Options to configure File - Abort Copy From URL operation.
+ *
+ * @export
+ * @interface FileAbortCopyFromURLOptions
+ */
 export interface FileAbortCopyFromURLOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof AppendBlobCreateOptions
+   */
   abortSignal?: Aborter;
 }
 
+/**
+ * Options to configure File - Resize operation.
+ *
+ * @export
+ * @interface FileResizeOptions
+ */
 export interface FileResizeOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof AppendBlobCreateOptions
+   */
   abortSignal?: Aborter;
 }
 
+/**
+ * Options to configure File - Clear Range operation.
+ *
+ * @export
+ * @interface FileClearRangeOptions
+ */
 export interface FileClearRangeOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof AppendBlobCreateOptions
+   */
   abortSignal?: Aborter;
 }
 
@@ -254,23 +412,11 @@ export class FileClient extends StorageClient {
   }
 
   /**
-   * Creates a new FileClient object identical to the source but with the
-   * specified request policy pipeline.
-   *
-   * @param {Pipeline} pipeline
-   * @returns {FileClient}
-   * @memberof FileClient
-   */
-  public withPipeline(pipeline: Pipeline): FileClient {
-    return new FileClient(this.url, pipeline);
-  }
-
-  /**
    * Creates a new file or replaces a file. Note it only initializes the file with no content.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-file
    *
    * @param {number} size Specifies the maximum size in bytes for the file, up to 1 TB.
-   * @param {FileCreateOptions} [options]
+   * @param {FileCreateOptions} [options] Optional options to File Create operation.
    * @returns {Promise<Models.FileCreateResponse>}
    * @memberof FileClient
    */
@@ -299,14 +445,14 @@ export class FileClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-file
    *
-   * @param {number} offset From which position of the file to download, >= 0
+   * @param {number} [offset] From which position of the file to download, >= 0
    * @param {number} [count] How much data to be downloaded, > 0. Will download to the end when undefined
-   * @param {FileDownloadOptions} [options]
+   * @param {FileDownloadOptions} [options] Optional options to File Download operation.
    * @returns {Promise<Models.FileDownloadResponse>}
    * @memberof FileClient
    */
   public async download(
-    offset: number,
+    offset: number = 0,
     count?: number,
     options: FileDownloadOptions = {}
   ): Promise<Models.FileDownloadResponse> {
@@ -379,6 +525,7 @@ export class FileClient extends StorageClient {
    * for the file. It does not return the content of the file.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-file-properties
    *
+   * @param {FileGetPropertiesOptions} [options] Optional options to File Get Properties operation.
    * @returns {Promise<Models.FileGetPropertiesResponse>}
    * @memberof FileClient
    */
@@ -405,6 +552,7 @@ export class FileClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-file2
    *
+   * @param {FileDeleteOptions} [options] Optional options to File Delete operation.
    * @returns {Promise<Models.FileDeleteResponse>}
    * @memberof FileClient
    */
@@ -424,12 +572,13 @@ export class FileClient extends StorageClient {
    *
    * @param {fileHTTPHeaders} [FileHTTPHeaders] File HTTP headers like Content-Type.
    *                                             Provide undefined will remove existing HTTP headers.
+   * @param {FileSetHTTPHeadersOptions} [options] Optional options to File Set HTTP Headers operation.
    * @returns {Promise<Models.FileSetHTTPHeadersResponse>}
    * @memberof FileClient
    */
   public async setHTTPHeaders(
     fileHTTPHeaders: FileHTTPHeaders = {},
-    options: FileHTTPHeadersOptions = {}
+    options: FileSetHTTPHeadersOptions = {}
   ): Promise<Models.FileSetHTTPHeadersResponse> {
     const aborter = options.abortSignal || Aborter.none;
     return this.context.setHTTPHeaders({
@@ -446,6 +595,7 @@ export class FileClient extends StorageClient {
    * @param {number} length Resizes a file to the specified size in bytes.
    *                        If the specified byte value is less than the current size of the file,
    *                        then all ranges above the specified byte value are cleared.
+   * @param {FileResizeOptions} [options] Optional options to File Resize operation.
    * @returns {Promise<Models.FileSetHTTPHeadersResponse>}
    * @memberof FileClient
    */
@@ -471,6 +621,7 @@ export class FileClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-file-metadata
    *
    * @param {Metadata} [metadata] If no metadata provided, all existing directory metadata will be removed
+   * @param {FileSetMetadataOptions} [options] Optional options to File Set Metadata operation.
    * @returns {Promise<Models.FileSetMetadataResponse>}
    * @memberof FileClient
    */
@@ -494,7 +645,7 @@ export class FileClient extends StorageClient {
    * @param {number} offset Offset position of the destination Azure File to upload.
    * @param {number} contentLength Length of body in bytes. Use Buffer.byteLength() to calculate body length for a
    *                               string including non non-Base64/Hex-encoded characters.
-   * @param {FileUploadRangeOptions} [options]
+   * @param {FileUploadRangeOptions} [options] Optional options to File Upload Range operation.
    * @returns {Promise<Models.FileUploadRangeResponse>}
    * @memberof FileClient
    */
@@ -532,6 +683,7 @@ export class FileClient extends StorageClient {
    *
    * @param {number} offset
    * @param {number} contentLength
+   * @param {FileClearRangeOptions} [options] Optional options to File Clear Range operation.
    * @returns {Promise<Models.FileUploadRangeResponse>}
    * @memberof FileClient
    */
@@ -553,7 +705,7 @@ export class FileClient extends StorageClient {
   /**
    * Returns the list of valid ranges for a file.
    *
-   * @param {FileGetRangeListOptions} [options]
+   * @param {FileGetRangeListOptions} [options] Optional options to File Get range List operation.
    * @returns {Promise<FileGetRangeListResponse>}
    * @memberof FileClient
    */
@@ -590,7 +742,7 @@ export class FileClient extends StorageClient {
    * authenticate the source file or blob using a shared access signature. If the source is a public
    * blob, no authentication is required to perform the copy operation. A file in a share snapshot
    * can also be specified as a copy source.
-   * @param {FileStartCopyOptions} [options]
+   * @param {FileStartCopyOptions} [options] Optional options to File Start Copy operation.
    * @returns {Promise<Models.FileStartCopyResponse>}
    * @memberof FileClient
    */
@@ -610,7 +762,8 @@ export class FileClient extends StorageClient {
    * metadata.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/abort-copy-file
    *
-   * @param {string} copyId
+   * @param {string} copyId Id of the Copy File operation to abort.
+   * @param {FileAbortCopyFromURLOptions} [options] Optional options to File Abort Copy From URL operation.
    * @returns {Promise<Models.FileAbortCopyResponse>}
    * @memberof FileClient
    */

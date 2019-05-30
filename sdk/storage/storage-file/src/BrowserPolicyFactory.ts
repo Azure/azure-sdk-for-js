@@ -12,6 +12,14 @@ import { BrowserPolicy } from "./policies/BrowserPolicy";
  * @implements {RequestPolicyFactory}
  */
 export class BrowserPolicyFactory implements RequestPolicyFactory {
+  /**
+   * Creates a BrowserPolicyFactory object.
+   *
+   * @param {RequestPolicy} nextPolicy
+   * @param {RequestPolicyOptions} options
+   * @returns {BrowserPolicy}
+   * @memberof BrowserPolicyFactory
+   */
   public create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): BrowserPolicy {
     return new BrowserPolicy(nextPolicy, options);
   }
