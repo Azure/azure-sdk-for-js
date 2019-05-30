@@ -155,7 +155,16 @@ export declare type MessagesPeekResponse = {
  * @class MessagesClient
  * @extends {StorageClient}
  */
-export class MessagesClient extends StorageClient {
+export class MessagesClient {
+  /**
+   * storageClient
+   *
+   * @private
+   * @type {StorageClient}
+   * @memberof QueueServiceClient
+   */
+  private _storageClient: StorageClient;
+
   /**
    * messagesContext provided by protocol layer.
    *
@@ -176,8 +185,18 @@ export class MessagesClient extends StorageClient {
    * @memberof MessagesClient
    */
   constructor(url: string, pipeline: Pipeline) {
-    super(url, pipeline);
-    this.messagesContext = new Messages(this.storageClientContext);
+    this._storageClient = new StorageClient(url, pipeline);
+    this.messagesContext = new Messages(this._storageClient.storageClientContext);
+  }
+
+  /**
+   * Encoded URL string value.
+   *
+   * @readonly
+   * @memberof BlobClient
+   */
+  public get url() {
+    return this._storageClient.url;
   }
 
   /**
@@ -205,8 +224,8 @@ export class MessagesClient extends StorageClient {
     messageId: string
   ): MessageIdClient {
     return new MessageIdClient(
-      appendToURLPath(this.url, messageId),
-      this.pipeline
+      appendToURLPath(this._storageClient.url, messageId),
+      this._storageClient.pipeline
     );
   }
 

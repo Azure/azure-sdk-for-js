@@ -29,7 +29,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     tmr.setDate(tmr.getDate() + 1);
 
     // By default, credential is always the last element of pipeline factories
-    const factories = serviceClient.pipeline.factories;
+    const factories = (serviceClient as any).pipeline.factories;
     const sharedKeyCredential = factories[factories.length - 1];
 
     const sas = generateAccountSASQueryParameters(
@@ -60,7 +60,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     tmr.setDate(tmr.getDate() + 1);
 
     // By default, credential is always the last element of pipeline factories
-    const factories = serviceClient.pipeline.factories;
+    const factories = (serviceClient as any).pipeline.factories;
     const sharedKeyCredential = factories[factories.length - 1];
 
     const sas = generateAccountSASQueryParameters(
@@ -94,7 +94,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     tmr.setDate(tmr.getDate() + 1);
 
     // By default, credential is always the last element of pipeline factories
-    const factories = serviceClient.pipeline.factories;
+    const factories = (serviceClient as any).pipeline.factories;
     const sharedKeyCredential = factories[factories.length - 1];
 
     const sas = generateAccountSASQueryParameters(
@@ -128,7 +128,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     tmr.setDate(tmr.getDate() + 1);
 
     // By default, credential is always the last element of pipeline factories
-    const factories = serviceClient.pipeline.factories;
+    const factories = (serviceClient as any).pipeline.factories;
     const sharedKeyCredential = factories[factories.length - 1];
 
     const sas = generateAccountSASQueryParameters(
@@ -168,7 +168,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     tmr.setDate(tmr.getDate() + 1);
 
     // By default, credential is always the last element of pipeline factories
-    const factories = serviceClient.pipeline.factories;
+    const factories = (serviceClient as any).pipeline.factories;
     const sharedKeyCredential = factories[factories.length - 1];
 
     const shareName = getUniqueName("share");
@@ -208,7 +208,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     tmr.setDate(tmr.getDate() + 1);
 
     // By default, credential is always the last element of pipeline factories
-    const factories = serviceClient.pipeline.factories;
+    const factories = (serviceClient as any).pipeline.factories;
     const sharedKeyCredential = factories[factories.length - 1];
 
     const shareName = getUniqueName("share");
@@ -270,7 +270,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     tmr.setDate(tmr.getDate() + 1);
 
     // By default, credential is always the last element of pipeline factories
-    const factories = serviceClient.pipeline.factories;
+    const factories = (serviceClient as any).pipeline.factories;
     const sharedKeyCredential = factories[factories.length - 1];
 
     const shareName = getUniqueName("share");

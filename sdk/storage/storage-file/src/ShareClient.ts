@@ -267,7 +267,16 @@ export interface ShareCreateSnapshotOptions {
  * @class ShareClient
  * @extends {StorageClient}
  */
-export class ShareClient extends StorageClient {
+export class ShareClient {
+  /**
+   * storageClient
+   *
+   * @private
+   * @type {StorageClient}
+   * @memberof QueueServiceClient
+   */
+  private _storageClient: StorageClient;
+
   /**
    * Share operation context provided by protocol layer.
    *
@@ -289,8 +298,29 @@ export class ShareClient extends StorageClient {
    * @memberof ShareClient
    */
   constructor(url: string, pipeline: Pipeline) {
-    super(url, pipeline);
-    this.context = new Share(this.storageClientContext);
+    this._storageClient = new StorageClient(url, pipeline);
+    this.context = new Share(this._storageClient.storageClientContext);
+  }
+
+  /**
+   * Encoded URL string value.
+   *
+   * @readonly
+   * @memberof BlobClient
+   */
+  public get url() {
+    return this._storageClient.url;
+  }
+
+  /**
+   * Internal for testing only.
+   *
+   * @readonly
+   * @protected
+   * @memberof QueueClient
+   */
+  protected get pipeline() {
+    return this._storageClient.pipeline;
   }
 
   /**
@@ -308,7 +338,7 @@ export class ShareClient extends StorageClient {
         URLConstants.Parameters.SHARE_SNAPSHOT,
         snapshot.length === 0 ? undefined : snapshot
       ),
-      this.pipeline
+      this._storageClient.pipeline
     );
   }
 
@@ -339,7 +369,7 @@ export class ShareClient extends StorageClient {
   public createDirectoryClient(directoryName: string): DirectoryClient {
     return new DirectoryClient(
       appendToURLPath(this.url, encodeURIComponent(directoryName)),
-      this.pipeline
+      this._storageClient.pipeline
     );
   }
 

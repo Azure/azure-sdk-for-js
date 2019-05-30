@@ -132,7 +132,16 @@ export interface DirectorySetMetadataOptions {
  * @class DirectoryClient
  * @extends {StorageClient}
  */
-export class DirectoryClient extends StorageClient {
+export class DirectoryClient {
+  /**
+   * storageClient
+   *
+   * @private
+   * @type {StorageClient}
+   * @memberof QueueServiceClient
+   */
+  private _storageClient: StorageClient;
+
   /**
    * context provided by protocol layer.
    *
@@ -158,8 +167,23 @@ export class DirectoryClient extends StorageClient {
    * @memberof DirectoryClient
    */
   constructor(url: string, pipeline: Pipeline) {
-    super(url, pipeline);
-    this.context = new Directory(this.storageClientContext);
+    this._storageClient = new StorageClient(url, pipeline);
+    this.context = new Directory(this._storageClient.storageClientContext);
+  }
+
+  public get url() {
+    return this._storageClient.url;
+  }
+
+  /**
+   * Internal for testing only.
+   *
+   * @readonly
+   * @protected
+   * @memberof QueueClient
+   */
+  protected get pipeline() {
+    return this._storageClient.pipeline;
   }
 
   /**
@@ -190,7 +214,7 @@ export class DirectoryClient extends StorageClient {
   public createDirectoryClient(subDirectoryName: string): DirectoryClient {
     return new DirectoryClient(
       appendToURLPath(this.url, encodeURIComponent(subDirectoryName)),
-      this.pipeline
+      this._storageClient.pipeline
     );
   }
 
@@ -202,7 +226,7 @@ export class DirectoryClient extends StorageClient {
    * @memberof FileClient
    */
   public createFileClient(fileName: string) {
-    return new FileClient(appendToURLPath(this.url, encodeURIComponent(fileName)), this.pipeline);
+    return new FileClient(appendToURLPath(this.url, encodeURIComponent(fileName)), this._storageClient.pipeline);
   }
 
   /**

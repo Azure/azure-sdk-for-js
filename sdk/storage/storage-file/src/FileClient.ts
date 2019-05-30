@@ -342,7 +342,16 @@ export interface FileClearRangeOptions {
  * @class FileClient
  * @extends {StorageClient}
  */
-export class FileClient extends StorageClient {
+export class FileClient {
+  /**
+   * storageClient
+   *
+   * @private
+   * @type {StorageClient}
+   * @memberof QueueServiceClient
+   */
+  private _storageClient: StorageClient;
+
   /**
    * context provided by protocol layer.
    *
@@ -368,8 +377,18 @@ export class FileClient extends StorageClient {
    * @memberof FileClient
    */
   constructor(url: string, pipeline: Pipeline) {
-    super(url, pipeline);
-    this.context = new File(this.storageClientContext);
+    this._storageClient = new StorageClient(url, pipeline);
+    this.context = new File(this._storageClient.storageClientContext);
+  }
+
+  /**
+   * Encoded URL string value.
+   *
+   * @readonly
+   * @memberof BlobClient
+   */
+  public get url() {
+    return this._storageClient.url;
   }
 
   /**

@@ -111,7 +111,16 @@ export interface ServiceListQueuesSegmentOptions {
  * @class QueueServiceClient
  * @extends {StorageClient}
  */
-export class QueueServiceClient extends StorageClient {
+export class QueueServiceClient {
+  /**
+   * storageClient
+   *
+   * @private
+   * @type {StorageClient}
+   * @memberof QueueServiceClient
+   */
+  private _storageClient: StorageClient;
+
   /**
    * serviceContext provided by protocol layer.
    *
@@ -131,8 +140,29 @@ export class QueueServiceClient extends StorageClient {
    * @memberof QueueServiceClient
    */
   constructor(url: string, pipeline: Pipeline) {
-    super(url, pipeline);
-    this.serviceContext = new Service(this.storageClientContext);
+    this._storageClient = new StorageClient(url, pipeline);
+    this.serviceContext = new Service(this._storageClient.storageClientContext);
+  }
+
+  /**
+   * Encoded URL string value.
+   *
+   * @readonly
+   * @memberof BlobClient
+   */
+  public get url() {
+    return this._storageClient.url;
+  }
+
+  /**
+   * Internal for testing only.
+   *
+   * @readonly
+   * @protected
+   * @memberof QueueClient
+   */
+  protected get pipeline() {
+    return this._storageClient.pipeline;
   }
 
   /**
@@ -143,8 +173,8 @@ export class QueueServiceClient extends StorageClient {
     queueName: string
   ): QueueClient {
     return new QueueClient(
-      appendToURLPath(this.url, queueName),
-      this.pipeline
+      appendToURLPath(this._storageClient.url, queueName),
+      this._storageClient.pipeline
     );
   }
 

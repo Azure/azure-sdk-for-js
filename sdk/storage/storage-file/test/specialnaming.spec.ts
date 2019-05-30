@@ -37,7 +37,7 @@ describe("Special Naming Tests", () => {
     const fileName: string = getUniqueName("file empty");
     const fileClient = new FileClient(
       appendToURLPath(directoryClient.url, fileName),
-      directoryClient.pipeline
+      (directoryClient as any).pipeline
     );
 
     await fileClient.create(10);
@@ -63,7 +63,7 @@ describe("Special Naming Tests", () => {
     const fileName: string = getUniqueName("Upper file empty another");
     const fileClient = new FileClient(
       appendToURLPath(directoryClient.url, fileName),
-      directoryClient.pipeline
+      (directoryClient as any).pipeline
     );
 
     await fileClient.create(10);
@@ -90,7 +90,7 @@ describe("Special Naming Tests", () => {
     const fileName: string = getUniqueName("Upper file empty another 汉字");
     const fileClient = new FileClient(
       appendToURLPath(directoryClient.url, fileName),
-      directoryClient.pipeline
+      (directoryClient as any).pipeline
     );
 
     await fileClient.create(10);
@@ -121,7 +121,7 @@ describe("Special Naming Tests", () => {
       // Escape "%" when creating XXXURL object with URL strings
       // Escape "?" otherwise string after "?" will be treated as URL parameters
       appendToURLPath(directoryClient.url, fileName.replace(/%/g, "%25").replace(/\?/g, "%3F")),
-      directoryClient.pipeline
+      (directoryClient as any).pipeline
     );
 
     await fileClient.create(10);
@@ -154,7 +154,7 @@ describe("Special Naming Tests", () => {
       // Escape "%" when creating XXXURL object with URL strings
       // Escape "?" otherwise string after "?" will be treated as URL parameters
       appendToURLPath(shareClient.url, directoryName.replace(/%/g, "%25").replace(/\?/g, "%3F")),
-      shareClient.pipeline
+      (shareClient as any).pipeline
     );
 
     await specialDirectoryClient.create();
@@ -197,7 +197,7 @@ describe("Special Naming Tests", () => {
     const fileName: string = getUniqueName("ру́сский язы́к");
     const fileClient = new FileClient(
       appendToURLPath(directoryClient.url, fileName),
-      directoryClient.pipeline
+      (directoryClient as any).pipeline
     );
 
     await fileClient.create(10);
@@ -237,7 +237,7 @@ describe("Special Naming Tests", () => {
     const fileName: string = getUniqueName("عربيعربى");
     const fileClient = new FileClient(
       appendToURLPath(directoryClient.url, fileName),
-      directoryClient.pipeline
+      (directoryClient as any).pipeline
     );
 
     await fileClient.create(10);
@@ -277,7 +277,7 @@ describe("Special Naming Tests", () => {
     const fileName: string = getUniqueName("にっぽんごにほんご");
     const fileClient = new FileClient(
       appendToURLPath(directoryClient.url, fileName),
-      directoryClient.pipeline
+      (directoryClient as any).pipeline
     );
 
     await fileClient.create(10);

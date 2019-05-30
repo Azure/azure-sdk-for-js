@@ -129,7 +129,16 @@ export interface ServiceListContainersSegmentOptions {
  * @class BlobServiceClient
  * @extends {StorageClient}
  */
-export class BlobServiceClient extends StorageClient {
+export class BlobServiceClient {
+  /**
+   * storageClient
+   *
+   * @private
+   * @type {StorageClient}
+   * @memberof QueueServiceClient
+   */
+  private _storageClient: StorageClient;
+
   /**
    * serviceContext provided by protocol layer.
    *
@@ -150,8 +159,29 @@ export class BlobServiceClient extends StorageClient {
    * @memberof BlobServiceClient
    */
   constructor(url: string, pipeline: Pipeline) {
-    super(url, pipeline);
-    this.serviceContext = new Service(this.storageClientContext);
+    this._storageClient = new StorageClient(url, pipeline);
+    this.serviceContext = new Service(this._storageClient.storageClientContext);
+  }
+
+  /**
+   * Encoded URL string value.
+   *
+   * @readonly
+   * @memberof BlobClient
+   */
+  public get url() {
+    return this._storageClient.url;
+  }
+
+  /**
+   * Internal for testing only.
+   *
+   * @readonly
+   * @protected
+   * @memberof QueueClient
+   */
+  protected get pipeline() {
+    return this._storageClient.pipeline;
   }
 
   /**
@@ -165,8 +195,8 @@ export class BlobServiceClient extends StorageClient {
     containerName: string
   ): ContainerClient {
     return new ContainerClient(
-      appendToURLPath(this.url, encodeURIComponent(containerName)),
-      this.pipeline
+      appendToURLPath(this._storageClient.url, encodeURIComponent(containerName)),
+      this._storageClient.pipeline
     );
   }
 

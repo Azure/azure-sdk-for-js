@@ -50,7 +50,16 @@ export interface MessageIdUpdateOptions {
  * @class MessageIdClient
  * @extends {StorageClient}
  */
-export class MessageIdClient extends StorageClient {
+export class MessageIdClient {
+  /**
+   * storageClient
+   *
+   * @private
+   * @type {StorageClient}
+   * @memberof QueueServiceClient
+   */
+  private _storageClient: StorageClient;
+
   /**
    * messageIdContext provided by protocol layer.
    *
@@ -71,8 +80,18 @@ export class MessageIdClient extends StorageClient {
    * @memberof MessageIdClient
    */
   constructor(url: string, pipeline: Pipeline) {
-    super(url, pipeline);
-    this.messageIdContext = new MessageId(this.storageClientContext);
+    this._storageClient = new StorageClient(url, pipeline);
+    this.messageIdContext = new MessageId(this._storageClient.storageClientContext);
+  }
+
+  /**
+   * Encoded URL string value.
+   *
+   * @readonly
+   * @memberof BlobClient
+   */
+  public get url() {
+    return this._storageClient.url;
   }
 
   /**

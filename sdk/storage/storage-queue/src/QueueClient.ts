@@ -187,7 +187,16 @@ export declare type QueueGetAccessPolicyResponse = {
  * @class QueueURL
  * @extends {StorageClient}
  */
-export class QueueClient extends StorageClient {
+export class QueueClient {
+  /**
+   * storageClient
+   *
+   * @private
+   * @type {StorageClient}
+   * @memberof QueueServiceClient
+   */
+  private _storageClient: StorageClient;
+
   /**
    * queueContext provided by protocol layer.
    *
@@ -208,8 +217,29 @@ export class QueueClient extends StorageClient {
    * @memberof QueueURL
    */
   constructor(url: string, pipeline: Pipeline) {
-    super(url, pipeline);
-    this.queueContext = new Queue(this.storageClientContext);
+    this._storageClient = new StorageClient(url, pipeline);
+    this.queueContext = new Queue(this._storageClient.storageClientContext);
+  }
+
+  /**
+   * Encoded URL string value.
+   *
+   * @readonly
+   * @memberof BlobClient
+   */
+  public get url() {
+    return this._storageClient.url;
+  }
+
+  /**
+   * Internal for testing only.
+   *
+   * @readonly
+   * @protected
+   * @memberof QueueClient
+   */
+  protected get pipeline() {
+    return this._storageClient.pipeline;
   }
 
   /**
@@ -235,7 +265,7 @@ export class QueueClient extends StorageClient {
    * @param queueName
    */
   public createMessagesClient(): MessagesClient {
-    return new MessagesClient(appendToURLPath(this.url, "messages"), this.pipeline);
+    return new MessagesClient(appendToURLPath(this._storageClient.url, "messages"), this._storageClient.pipeline);
   }
 
   /**

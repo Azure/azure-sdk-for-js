@@ -462,7 +462,16 @@ export interface BlobSetTierOptions {
  * @class BlobClient
  * @extends {StorageClient}
  */
-export class BlobClient extends StorageClient {
+export class BlobClient {
+  /**
+   * storageClient
+   *
+   * @private
+   * @type {StorageClient}
+   * @memberof QueueServiceClient
+   */
+  private _storageClient: StorageClient;
+
   /**
    * blobContext provided by protocol layer.
    *
@@ -491,8 +500,25 @@ export class BlobClient extends StorageClient {
    * @memberof BlobClient
    */
   constructor(url: string, pipeline: Pipeline) {
-    super(url, pipeline);
+    this._storageClient = new StorageClient(url, pipeline);
     this.blobContext = new Blob(this.storageClientContext);
+  }
+
+  /**
+   * Encoded URL string value.
+   *
+   * @readonly
+   * @memberof BlobClient
+   */
+  public get url() {
+    return this._storageClient.url;
+  }
+
+  protected get pipeline() {
+    return this._storageClient.pipeline;
+  }
+  protected get storageClientContext() {
+    return this._storageClient.storageClientContext;
   }
 
   /**
@@ -506,11 +532,11 @@ export class BlobClient extends StorageClient {
   public withSnapshot(snapshot: string): BlobClient {
     return new BlobClient(
       setURLParameter(
-        this.url,
+        this._storageClient.url,
         URLConstants.Parameters.SNAPSHOT,
         snapshot.length === 0 ? undefined : snapshot
       ),
-      this.pipeline
+      this._storageClient.pipeline
     );
   }
 
@@ -521,7 +547,7 @@ export class BlobClient extends StorageClient {
    * @memberof BlobClient
    */
   public createAppendBlobClient(): AppendBlobClient {
-    return new AppendBlobClient(this.url, this.pipeline);
+    return new AppendBlobClient(this._storageClient.url, this._storageClient.pipeline);
   }
 
   /**
@@ -531,7 +557,7 @@ export class BlobClient extends StorageClient {
    * @memberof BlobClient
    */
   public createBlockBlobClient(): BlockBlobClient {
-    return new BlockBlobClient(this.url, this.pipeline);
+    return new BlockBlobClient(this._storageClient.url, this._storageClient.pipeline);
   }
 
   /**
@@ -541,7 +567,7 @@ export class BlobClient extends StorageClient {
    * @memberof BlobClient
    */
   public createPageBlobClient(): PageBlobClient {
-    return new PageBlobClient(this.url, this.pipeline);
+    return new PageBlobClient(this._storageClient.url, this._storageClient.pipeline);
   }
 
   /**

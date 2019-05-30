@@ -400,7 +400,16 @@ export interface ContainerListBlobsSegmentOptions {
  * @class ContainerClient
  * @extends {StorageClient}
  */
-export class ContainerClient extends StorageClient {
+export class ContainerClient {
+  /**
+   * storageClient
+   *
+   * @private
+   * @type {StorageClient}
+   * @memberof QueueServiceClient
+   */
+  private _storageClient: StorageClient;
+
   /**
    * containerContext provided by protocol layer.
    *
@@ -421,8 +430,29 @@ export class ContainerClient extends StorageClient {
    * @memberof ContainerClient
    */
   constructor(url: string, pipeline: Pipeline) {
-    super(url, pipeline);
-    this.containerContext = new Container(this.storageClientContext);
+    this._storageClient = new StorageClient(url, pipeline);
+    this.containerContext = new Container(this._storageClient.storageClientContext);
+  }
+
+  /**
+   * Encoded URL string value.
+   *
+   * @readonly
+   * @memberof BlobClient
+   */
+  public get url() {
+    return this._storageClient.url;
+  }
+
+  /**
+   * Internal for testing only.
+   *
+   * @readonly
+   * @protected
+   * @memberof QueueClient
+   */
+  protected get pipeline() {
+    return this._storageClient.pipeline;
   }
 
   /**
@@ -456,8 +486,8 @@ export class ContainerClient extends StorageClient {
    */
   public createBlobClient(blobName: string) {
     return new BlobClient(
-      appendToURLPath(this.url, encodeURIComponent(blobName)),
-      this.pipeline
+      appendToURLPath(this._storageClient.url, encodeURIComponent(blobName)),
+      this._storageClient.pipeline
     );
   }
 
@@ -472,8 +502,8 @@ export class ContainerClient extends StorageClient {
     blobName: string
   ): AppendBlobClient {
     return new AppendBlobClient(
-      appendToURLPath(this.url, encodeURIComponent(blobName)),
-      this.pipeline
+      appendToURLPath(this._storageClient.url, encodeURIComponent(blobName)),
+      this._storageClient.pipeline
     );
   }
 
@@ -488,8 +518,8 @@ export class ContainerClient extends StorageClient {
     blobName: string
   ): BlockBlobClient {
     return new BlockBlobClient(
-      appendToURLPath(this.url, encodeURIComponent(blobName)),
-      this.pipeline
+      appendToURLPath(this._storageClient.url, encodeURIComponent(blobName)),
+      this._storageClient.pipeline
     );
   }
 
@@ -504,8 +534,8 @@ export class ContainerClient extends StorageClient {
     blobName: string
   ): PageBlobClient {
     return new PageBlobClient(
-      appendToURLPath(this.url, encodeURIComponent(blobName)),
-      this.pipeline
+      appendToURLPath(this._storageClient.url, encodeURIComponent(blobName)),
+      this._storageClient.pipeline
     );
   }
 

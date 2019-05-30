@@ -98,7 +98,16 @@ export interface ServiceSetPropertiesOptions {
  * @class FileServiceClient
  * @extends {StorageClient}
  */
-export class FileServiceClient extends StorageClient {
+export class FileServiceClient {
+  /**
+   * storageClient
+   *
+   * @private
+   * @type {StorageClient}
+   * @memberof QueueServiceClient
+   */
+  private _storageClient: StorageClient;
+
   /**
    * serviceContext provided by protocol layer.
    *
@@ -119,8 +128,29 @@ export class FileServiceClient extends StorageClient {
    * @memberof FileServiceClient
    */
   constructor(url: string, pipeline: Pipeline) {
-    super(url, pipeline);
-    this.serviceContext = new Service(this.storageClientContext);
+    this._storageClient = new StorageClient(url, pipeline);
+    this.serviceContext = new Service(this._storageClient.storageClientContext);
+  }
+
+  /**
+   * Encoded URL string value.
+   *
+   * @readonly
+   * @memberof BlobClient
+   */
+  public get url() {
+    return this._storageClient.url;
+  }
+
+  /**
+   * Internal for testing only.
+   *
+   * @readonly
+   * @protected
+   * @memberof QueueClient
+   */
+  protected get pipeline() {
+    return this._storageClient.pipeline;
   }
 
   /**
@@ -131,7 +161,7 @@ export class FileServiceClient extends StorageClient {
    * @memberof FileServiceClient
    */
   public createShareClient(shareName: string): ShareClient {
-    return new ShareClient(appendToURLPath(this.url, shareName), this.pipeline);
+    return new ShareClient(appendToURLPath(this.url, shareName), this._storageClient.pipeline);
   }
 
   /**
