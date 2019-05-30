@@ -34,7 +34,7 @@ describe("FileClient", () => {
 
   it("create with default parameters", async () => {
     await fileClient.create(content.length);
-    const result = await fileClient.download(0);
+    const result = await fileClient.download();
     assert.deepStrictEqual(
       await bodyToString(result, content.length),
       "\u0000".repeat(content.length)
@@ -230,7 +230,7 @@ describe("FileClient", () => {
     await fileClient.uploadRange("World", 5, 5);
     await fileClient.clearRange(1, 8);
 
-    const result = await fileClient.download(0);
+    const result = await fileClient.download();
     assert.deepStrictEqual(await bodyToString(result, 10), "H" + "\u0000".repeat(8) + "d");
   });
 
@@ -248,7 +248,7 @@ describe("FileClient", () => {
   it("download with with default parameters", async () => {
     await fileClient.create(content.length);
     await fileClient.uploadRange(content, 0, content.length);
-    const result = await fileClient.download(0);
+    const result = await fileClient.download();
     assert.deepStrictEqual(await bodyToString(result, content.length), content);
   });
 

@@ -3,7 +3,7 @@
 
 import uuid from "uuid/v4";
 import * as log from "./log";
-import { Receiver, OnAmqpEvent, EventContext, ReceiverOptions, types, AmqpError } from "rhea-promise";
+import { Receiver, OnAmqpEvent, EventContext, ReceiverOptions, types, AmqpError, isAmqpError } from "rhea-promise";
 import { translate, Constants, MessagingError, retry, RetryOperationType, RetryConfig } from "@azure/amqp-common";
 import { EventData } from "./eventData";
 import { ReceiveOptions } from "./eventHubClient";
@@ -215,7 +215,22 @@ export class EventHubReceiver extends LinkEntity {
           this.runtimeInfo
         );
       }
-      this._onMessage!(evData);
+      try {
+        this._onMessage!(evData);
+      } catch (err) {
+        // This ensures we call users' error handler when users' message handler throws.
+        if (!isAmqpError(err)) {
+          log.error(
+            "[%s] An error occurred while running user's message handler for the message " +
+              "with sequence number '%s' on the receiver '%s': %O",
+              this._context.connectionId,
+              evData.sequenceNumber,
+              this.name,
+            err
+          );
+          this._onError!(err);
+        }
+      }
     };
 
     this._onAmqpError = (context: EventContext) => {

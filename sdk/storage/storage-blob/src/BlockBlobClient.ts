@@ -16,37 +16,203 @@ import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 import { StorageClient, NewPipelineOptions } from "./StorageClient";
 import { Credential } from "./credentials/Credential";
 
+/**
+ * Options to configure Block Blob - Upload operation.
+ *
+ * @export
+ * @interface BlockBlobUploadOptions
+ */
 export interface BlockBlobUploadOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof BlockBlobUploadOptions
+   */
   abortSignal?: Aborter;
+  /**
+   * Conditions to meet when uploading to the block blob.
+   *
+   * @type {BlobAccessConditions}
+   * @memberof BlockBlobUploadOptions
+   */
   accessConditions?: BlobAccessConditions;
+  /**
+   * HTTP headers to set when uploading to a block blob.
+   *
+   * @type {Models.BlobHTTPHeaders}
+   * @memberof BlockBlobUploadOptions
+   */
   blobHTTPHeaders?: Models.BlobHTTPHeaders;
+  /**
+   * A collection of key-value string pair to associate with the blob when uploading to a block blob.
+   *
+   * @type {Metadata}
+   * @memberof BlockBlobUploadOptions
+   */
   metadata?: Metadata;
+  /**
+   * Callback to receive events on the progress of upload operation.
+   *
+   * @memberof BlockBlobUploadOptions
+   */
   progress?: (progress: TransferProgressEvent) => void;
 }
 
+/**
+ * Options to configure Block Blob - Stage Block operation.
+ *
+ * @export
+ * @interface BlockBlobStageBlockOptions
+ */
 export interface BlockBlobStageBlockOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof BlockBlobStageBlockOptions
+   */
   abortSignal?: Aborter;
+  /**
+   * If specified, contains the lease id that must be matched and lease with this id
+   * must be active in order for the operation to succeed.
+   *
+   * @type {Models.LeaseAccessConditions}
+   * @memberof BlockBlobStageBlockOptions
+   */
   leaseAccessConditions?: Models.LeaseAccessConditions;
+  /**
+   * Callback to receive events on the progress of stage block operation.
+   *
+   * @memberof BlockBlobStageBlockOptions
+   */
   progress?: (progress: TransferProgressEvent) => void;
+  /**
+   * A Uint8Array holding the MD5 hash of the block content.
+   * It is only used to verify the integrity of the block during transport.
+   * It is not stored in with the blob.
+   *
+   * @type {Uint8Array}
+   * @memberof BlockBlobStageBlockOptions
+   */
   transactionalContentMD5?: Uint8Array;
 }
 
+/**
+ * Options to configure Block Blob - Stage Block from URL operation.
+ *
+ * @export
+ * @interface BlockBlobStageBlockFromURLOptions
+ */
 export interface BlockBlobStageBlockFromURLOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof BlockBlobStageBlockFromURLOptions
+   */
   abortSignal?: Aborter;
+  /**
+   * Specifies the bytes of the source Blob/File to upload.
+   * If not specified, the entire content is uploaded as a single block.
+   *
+   * @type {Range}
+   * @memberof BlockBlobStageBlockFromURLOptions
+   */
   range?: Range;
+  /**
+   * If specified, contains the lease id that must be matched and lease with this id
+   * must be active in order for the operation to succeed.
+   *
+   * @type {Models.LeaseAccessConditions}
+   * @memberof BlockBlobStageBlockFromURLOptions
+   */
   leaseAccessConditions?: Models.LeaseAccessConditions;
+  /**
+   * A Uint8Array holding the MD5 hash of the source block content.
+   * It is only used to verify the integrity of the block during transport.
+   * It is not stored in with the blob.
+   *
+   * @type {Uint8Array}
+   * @memberof BlockBlobStageBlockFromURLOptions
+   */
   sourceContentMD5?: Uint8Array;
 }
 
+/**
+ * Options to configure Block Blob - Commit Block List operation.
+ *
+ * @export
+ * @interface BlockBlobCommitBlockListOptions
+ */
 export interface BlockBlobCommitBlockListOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof BlockBlobCommitBlockListOptions
+   */
   abortSignal?: Aborter;
+  /**
+   * Conditions to meet when committing the block list.
+   *
+   * @type {BlobAccessConditions}
+   * @memberof BlockBlobCommitBlockListOptions
+   */
+  /**
+   * Conditions to meet when committing block list.
+   *
+   * @type {BlobAccessConditions}
+   * @memberof BlockBlobCommitBlockListOptions
+   */
   accessConditions?: BlobAccessConditions;
+  /**
+   * HTTP headers to set when committing block list.
+   *
+   * @type {Models.BlobHTTPHeaders}
+   * @memberof BlockBlobCommitBlockListOptions
+   */
   blobHTTPHeaders?: Models.BlobHTTPHeaders;
+  /**
+   * A collection of key-value string pair to associate with the blob when committing block list.
+   *
+   * @type {Metadata}
+   * @memberof BlockBlobCommitBlockListOptions
+   */
   metadata?: Metadata;
 }
 
+/**
+ * Options to configure Block Blob - Get Block List operation.
+ *
+ * @export
+ * @interface BlockBlobGetBlockListOptions
+ */
 export interface BlockBlobGetBlockListOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof BlockBlobGetBlockListOptions
+   */
   abortSignal?: Aborter;
+  /**
+   * If specified, contains the lease id that must be matched and lease with this id
+   * must be active in order for the operation to succeed.
+   *
+   * @type {Models.LeaseAccessConditions}
+   * @memberof BlockBlobGetBlockListOptions
+   */
   leaseAccessConditions?: Models.LeaseAccessConditions;
 }
 
@@ -158,22 +324,10 @@ export class BlockBlobClient extends BlobClient {
 
   /**
    * Creates a new BlockBlobClient object identical to the source but with the
-   * specified request policy pipeline.
-   *
-   * @param {Pipeline} pipeline
-   * @returns {BlockBlobClient}
-   * @memberof BlockBlobClient
-   */
-  public withPipeline(pipeline: Pipeline): BlockBlobClient {
-    return new BlockBlobClient(this.url, pipeline);
-  }
-
-  /**
-   * Creates a new BlockBlobClient object identical to the source but with the
    * specified snapshot timestamp.
    * Provide "" will remove the snapshot and return a URL to the base blob.
    *
-   * @param {string} snapshot
+   * @param {string} snapshot The snapshot timestamp.
    * @returns {BlockBlobClient}
    * @memberof BlockBlobClient
    */
@@ -205,7 +359,7 @@ export class BlockBlobClient extends BlobClient {
    *                               which returns a new Readable stream whose offset is from data source beginning.
    * @param {number} contentLength Length of body in bytes. Use Buffer.byteLength() to calculate body length for a
    *                               string including non non-Base64/Hex-encoded characters.
-   * @param {BlockBlobUploadOptions} [options]
+   * @param {BlockBlobUploadOptions} [options] Optional options to the Block Blob Upload operation.
    * @returns {Promise<Models.BlockBlobUploadResponse>}
    * @memberof BlockBlobClient
    */
@@ -232,9 +386,9 @@ export class BlockBlobClient extends BlobClient {
    * @see https://docs.microsoft.com/rest/api/storageservices/put-block
    *
    * @param {string} blockId A 64-byte value that is base64-encoded
-   * @param {HttpRequestBody} body
-   * @param {number} contentLength
-   * @param {BlockBlobStageBlockOptions} [options]
+   * @param {HttpRequestBody} body Data to upload to the staging area.
+   * @param {number} contentLength Number of bytes to upload.
+   * @param {BlockBlobStageBlockOptions} [options] Optional options to the Block Blob Stage Block operation.
    * @returns {Promise<Models.BlockBlobStageBlockResponse>}
    * @memberof BlockBlobClient
    */
@@ -269,16 +423,16 @@ export class BlockBlobClient extends BlobClient {
    *                           to perform the operation. Here are some examples of source object URLs:
    *                           - https://myaccount.blob.core.windows.net/mycontainer/myblob
    *                           - https://myaccount.blob.core.windows.net/mycontainer/myblob?snapshot=<DateTime>
-   * @param {number} offset From which position of the blob to download, >= 0
+   * @param {number} [offset] From which position of the blob to download, >= 0
    * @param {number} [count] How much data to be downloaded, > 0. Will download to the end when undefined
-   * @param {BlockBlobStageBlockFromURLOptions} [options={}]
+   * @param {BlockBlobStageBlockFromURLOptions} [options={}] Optional options to the Block Blob Stage Block From URL operation.
    * @returns {Promise<Models.BlockBlobStageBlockFromURLResponse>}
    * @memberof BlockBlobClient
    */
   public async stageBlockFromURL(
     blockId: string,
     sourceURL: string,
-    offset: number,
+    offset: number = 0,
     count?: number,
     options: BlockBlobStageBlockFromURLOptions = {}
   ): Promise<Models.BlockBlobStageBlockFromURLResponse> {
@@ -300,7 +454,7 @@ export class BlockBlobClient extends BlobClient {
    * @see https://docs.microsoft.com/rest/api/storageservices/put-block-list
    *
    * @param {string[]} blocks  Array of 64-byte value that is base64-encoded
-   * @param {BlockBlobCommitBlockListOptions} [options]
+   * @param {BlockBlobCommitBlockListOptions} [options] Optional options to the Block Blob Commit Block List operation.
    * @returns {Promise<Models.BlockBlobCommitBlockListResponse>}
    * @memberof BlockBlobClient
    */
@@ -327,8 +481,9 @@ export class BlockBlobClient extends BlobClient {
    * using the specified block list filter.
    * @see https://docs.microsoft.com/rest/api/storageservices/get-block-list
    *
-   * @param {Models.BlockListType} listType
-   * @param {BlockBlobGetBlockListOptions} [options]
+   * @param {Models.BlockListType} listType Specifies whether to return the list of committed blocks,
+   *                                        the list of uncommitted blocks, or both lists together.
+   * @param {BlockBlobGetBlockListOptions} [options] Optional options to the Block Blob Get Block List operation.
    * @returns {Promise<Models.BlockBlobGetBlockListResponse>}
    * @memberof BlockBlobClient
    */

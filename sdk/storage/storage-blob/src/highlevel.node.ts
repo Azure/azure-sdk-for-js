@@ -320,7 +320,7 @@ export interface UploadStreamToBlockBlobOptions {
  * @param {number} bufferSize Size of every buffer allocated, also the block size in the uploaded block blob
  * @param {number} maxBuffers Max buffers will allocate during uploading, positive correlation
  *                            with max uploading concurrency
- * @param {UploadStreamToBlockBlobOptions} [options]
+ * @param {UploadStreamToBlockBlobOptions} [options] UploadStreamToBlockBlobOptions
  * @returns {Promise<BlobUploadCommonResponse>}
  */
 export async function uploadStreamToBlockBlob(

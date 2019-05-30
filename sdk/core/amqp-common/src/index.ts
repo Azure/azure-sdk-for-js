@@ -60,5 +60,6 @@ export {
   ServiceBusConnectionStringModel,
   isIotHubConnectionString,
   randomNumberFromInterval,
-  AsyncLock
+  AsyncLock,
+  isNode
 } from "./util/utils";

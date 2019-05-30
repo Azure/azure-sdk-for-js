@@ -15,14 +15,14 @@ const connectionString = "";
 const queueName = "";
 
 async function main(): Promise<void> {
-  const ns = ServiceBusClient.createFromConnectionString(connectionString);
+  const sbClient = ServiceBusClient.createFromConnectionString(connectionString);
 
   // If receiving from a Subscription, use `createSubscriptionClient` instead of `createQueueClient`
-  const client = ns.createQueueClient(queueName);
+  const queueClient = sbClient.createQueueClient(queueName);
 
   // To receive messages from sessions, use getSessionReceiver instead of getReceiver or look at
   // the sample in sessions.ts file
-  const receiver = client.createReceiver(ReceiveMode.peekLock);
+  const receiver = queueClient.createReceiver(ReceiveMode.peekLock);
 
   const onMessageHandler: OnMessage = async (brokeredMessage) => {
     console.log(`Received message: ${brokeredMessage.body}`);
@@ -39,9 +39,9 @@ async function main(): Promise<void> {
     await delay(5000);
 
     await receiver.close();
-    await client.close();
+    await queueClient.close();
   } finally {
-    await ns.close();
+    await sbClient.close();
   }
 }
 

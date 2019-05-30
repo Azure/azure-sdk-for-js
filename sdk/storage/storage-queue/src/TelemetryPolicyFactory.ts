@@ -19,6 +19,12 @@ import { SDK_VERSION } from "./utils/constants";
  * @interface TelemetryOptions
  */
 export interface TelemetryOptions {
+  /**
+   * Configues the costom string that is pre-pended to the user agent string.
+   *
+   * @type {string}
+   * @memberof TelemetryOptions
+   */
   value: string;
 }
 
@@ -64,6 +70,14 @@ export class TelemetryPolicyFactory implements RequestPolicyFactory {
     this.telemetryString = userAgentInfo.join(" ");
   }
 
+  /**
+   * Creates a TelemetryPolicy object.
+   *
+   * @param {RequestPolicy} nextPolicy
+   * @param {RequestPolicyOptions} options
+   * @returns {TelemetryPolicy}
+   * @memberof TelemetryPolicyFactory
+   */
   public create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): TelemetryPolicy {
     return new TelemetryPolicy(nextPolicy, options, this.telemetryString);
   }

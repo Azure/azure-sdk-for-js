@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import { AmqpResponseStatusCode, isAmqpError, AmqpError } from "rhea-promise";
+import { isNode } from "../src/util/utils";
 
 /**
  * Maps the conditions to the numeric AMQP Response status codes.
@@ -518,8 +519,27 @@ export function isSystemError(err: any): boolean {
     err.code &&
     typeof err.code === "string" &&
     (err.syscall && typeof err.syscall === "string") &&
-    (err.errno &&
-      (typeof err.errno === "string" || typeof err.errno === "number"))
+    (err.errno && (typeof err.errno === "string" || typeof err.errno === "number"))
+  ) {
+    result = true;
+  }
+  return result;
+}
+
+/**
+ * @internal
+ * Since browser doesnt differentiate between the various kinds of service communication errors,
+ * this utility is used to look at the error target to identify such category of errors.
+ * For more information refer to - https://html.spec.whatwg.org/multipage/comms.html#feedback-from-the-protocol
+ * @param err object that may contain error information
+ */
+function isBrowserWebsocketError(err: any): boolean {
+  let result: boolean = false;
+  if (
+    !isNode &&
+    window &&
+    err.type === "error" &&
+    err.target instanceof (window as any).WebSocket
   ) {
     result = true;
   }
@@ -562,8 +582,7 @@ export function translate(err: AmqpError | Error): MessagingError {
     if (
       description &&
       (description.includes("status-code: 404") ||
-        description.match(/The messaging entity .* could not be found.*/i) !==
-          null)
+        description.match(/The messaging entity .* could not be found.*/i) !== null)
     ) {
       error.name = "MessagingEntityNotFoundError";
     }
@@ -586,6 +605,11 @@ export function translate(err: AmqpError | Error): MessagingError {
       // not found
       error.retryable = false;
     }
+  } else if (isBrowserWebsocketError(err)) {
+    // Translate browser communication errors during opening handshake to generic SeviceCommunicationError
+    error = new MessagingError("Websocket connection failed.");
+    error.name = ConditionErrorNameMapper[ErrorNameConditionMapper.ServiceCommunicationError];
+    error.retryable = false;
   } else {
     // Translate a generic error into MessagingError.
     error = new MessagingError((err as Error).message);

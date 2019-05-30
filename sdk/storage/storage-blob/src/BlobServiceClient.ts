@@ -13,23 +13,93 @@ import { appendToURLPath } from "./utils/utils.common";
 import { Credential } from "./credentials/Credential";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 
+/**
+ * Options to configure the Service - Get Properties operation.
+ *
+ * @export
+ * @interface ServiceGetPropertiesOptions
+ */
 export interface ServiceGetPropertiesOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof ServiceGetPropertiesOptions
+   */
   abortSignal?: Aborter;
 }
 
+/**
+ * Options to configure the Service - Set Properties operation.
+ *
+ * @export
+ * @interface ServiceSetPropertiesOptions
+ */
 export interface ServiceSetPropertiesOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof ServiceSetPropertiesOptions
+   */
   abortSignal?: Aborter;
 }
 
+/**
+ * Options to configure the Service - Get Account Info operation.
+ *
+ * @export
+ * @interface ServiceGetAccountInfoOptions
+ */
 export interface ServiceGetAccountInfoOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof ServiceGetAccountInfoOptions
+   */
   abortSignal?: Aborter;
 }
 
+/**
+ * Options to configure the Service - Get Statistics operation.
+ *
+ * @export
+ * @interface ServiceGetStatisticsOptions
+ */
 export interface ServiceGetStatisticsOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof ServiceGetStatisticsOptions
+   */
   abortSignal?: Aborter;
 }
 
+/**
+ * Options to configure the Service - List Container Segment operation.
+ *
+ * @export
+ * @interface ServiceListContainersSegmentOptions
+ */
 export interface ServiceListContainersSegmentOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof ServiceListContainersSegmentOptions
+   */
   abortSignal?: Aborter;
   /**
    * @member {string} [prefix] Filters the results to return only containers
@@ -128,19 +198,6 @@ export class BlobServiceClient extends StorageClient {
   }
 
   /**
-   * Creates a new ServiceURL object identical to the source but with the
-   * Creates a new BlobServiceClient object identical to the source but with the
-   * specified request policy pipeline.
-   *
-   * @param {Pipeline} pipeline
-   * @returns {BlobServiceClient}
-   * @memberof BlobServiceClient
-   */
-  public withPipeline(pipeline: Pipeline): BlobServiceClient {
-    return new BlobServiceClient(this.url, pipeline);
-  }
-
-  /**
    * Creates a ContainerClient object
    *
    * @param containerName A container name
@@ -159,6 +216,7 @@ export class BlobServiceClient extends StorageClient {
    * for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-blob-service-properties}
    *
+   * @param {ServiceGetPropertiesOptions} [options] Optional options to the Service Get Properties operation.
    * @returns {Promise<Models.ServiceGetPropertiesResponse>}
    * @memberof BlobServiceClient
    */
@@ -177,8 +235,7 @@ export class BlobServiceClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-blob-service-properties}
    *
    * @param {Models.StorageServiceProperties} properties
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
+   * @param {ServiceSetPropertiesOptions} [options] Optional options to the Service Set Properties operation.
    * @returns {Promise<Models.ServiceSetPropertiesResponse>}
    * @memberof BlobServiceClient
    */
@@ -198,8 +255,7 @@ export class BlobServiceClient extends StorageClient {
    * replication is enabled for the storage account.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-blob-service-stats}
    *
-   *  @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
+   * @param {ServiceGetStatisticsOptions} [options] Optional options to the Service Get Statistics operation.
    * @returns {Promise<Models.ServiceGetStatisticsResponse>}
    * @memberof BlobServiceClient
    */
@@ -219,8 +275,7 @@ export class BlobServiceClient extends StorageClient {
    * with version 2018-03-28.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-account-information
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
+   * @param {ServiceGetAccountInfoOptions} [options] Optional options to the Service Get Account Info operation.
    * @returns {Promise<Models.ServiceGetAccountInfoResponse>}
    * @memberof BlobServiceClient
    */
@@ -246,7 +301,7 @@ export class BlobServiceClient extends StorageClient {
    *                          with the current page. The NextMarker value can be used as the value for
    *                          the marker parameter in a subsequent call to request the next page of list
    *                          items. The marker value is opaque to the client.
-   * @param {ServiceListContainersSegmentOptions} [options]
+   * @param {ServiceListContainersSegmentOptions} [options] Optional options to the Service List Container Segment operation.
    * @returns {Promise<Models.ServiceListContainersSegmentResponse>}
    * @memberof BlobServiceClient
    */
