@@ -17,7 +17,7 @@ import {
   SasTokenProvider,
   ConnectionConfig,
   parseConnectionString,
-  ServiceBusConnectionStringModel
+  EventHubConnectionStringModel
 } from "@azure/amqp-common";
 
 import { ConnectionContext } from "./connectionContext";
@@ -200,7 +200,7 @@ export class EventHubClient {
     if (typeof eventHubPathOrOptions !== "string") {
       connectionString = hostOrConnectionString;
       options = eventHubPathOrOptions;
-      const parsedCS = parseConnectionString<ServiceBusConnectionStringModel>(connectionString);
+      const parsedCS = parseConnectionString<EventHubConnectionStringModel>(connectionString);
       if (!parsedCS.EntityPath) {
         throw new TypeError(
           `"connectionString": "${connectionString}", ` + `must contain EntityPath="<path-to-the-entity>".`
