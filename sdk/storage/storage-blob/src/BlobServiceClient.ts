@@ -120,6 +120,7 @@ export class BlobServiceClient extends StorageClient {
         extractedCreds.accountName,
         extractedCreds.accountKey
       );
+      s = extractedCreds.url;
       pipeline = StorageClient.newPipeline(sharedKeyCredential, options);
     }
     super(s, pipeline);
