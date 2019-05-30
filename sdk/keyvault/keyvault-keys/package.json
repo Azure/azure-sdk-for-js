@@ -35,6 +35,7 @@
     "prettier": "^1.16.4",
     "rimraf": "^2.6.2",
     "rollup": "^1.0.0",
+    "rollup-plugin-commonjs": "^9.2.0",
     "rollup-plugin-node-resolve": "^4.2.0",
     "typescript": "^3.2.2",
     "uglify-js": "^3.4.9"
