@@ -172,7 +172,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const sharedKeyCredential = factories[factories.length - 1];
 
     const queueName = getUniqueName("queue");
-    const queueClient = QueueClient.fromQueueServiceClient(queueServiceClient, queueName);
+    const queueClient = queueServiceClient.createQueueClient(queueName);
     await queueClient.create();
 
     const queueSAS = generateQueueSASQueryParameters(
@@ -210,7 +210,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const sharedKeyCredential = factories[factories.length - 1];
 
     const queueName = getUniqueName("queue");
-    const queueClient = QueueClient.fromQueueServiceClient(queueServiceClient, queueName);
+    const queueClient = queueServiceClient.createQueueClient(queueName);
     await queueClient.create();
 
     const queueSAS = generateQueueSASQueryParameters(
@@ -228,7 +228,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const messageContent = "Hello World!";
 
-    const messagesClient = MessagesClient.fromQueueClient(queueClient);
+    const messagesClient = queueClient.createMessagesClient();
     const sasURLForMessages = `${messagesClient.url}?${queueSAS}`;
     const messagesClientWithSAS = new MessagesClient(
       sasURLForMessages,
@@ -239,8 +239,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     let pResult = await messagesClient.peek();
     assert.deepStrictEqual(pResult.peekedMessageItems.length, 1);
 
-    const messageIdClient = MessageIdClient.fromMessagesClient(
-      messagesClient,
+    const messageIdClient = messagesClient.createMessageIdClient(
       enqueueResult.messageId
     );
     const sasURLForMessageId = `${messageIdClient.url}?${queueSAS}`;
@@ -269,7 +268,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const sharedKeyCredential = factories[factories.length - 1];
 
     const queueName = getUniqueName("queue");
-    const queueClient = QueueClient.fromQueueServiceClient(queueServiceClient, queueName);
+    const queueClient = queueServiceClient.createQueueClient(queueName);
     await queueClient.create();
 
     const id = "unique-id";
@@ -292,7 +291,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       sharedKeyCredential as SharedKeyCredential
     );
 
-    const messagesClient = MessagesClient.fromQueueClient(queueClient);
+    const messagesClient = queueClient.createMessagesClient();
 
     const sasURL = `${messagesClient.url}?${queueSAS}`;
     const messagesClientwithSAS = new MessagesClient(
@@ -313,8 +312,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     await sleep(2 * 1000);
 
-    const messageIdClient = MessageIdClient.fromMessagesClient(
-      messagesClient,
+    const messageIdClient = messagesClient.createMessageIdClient(
       dResult.dequeuedMessageItems[0].messageId
     );
 

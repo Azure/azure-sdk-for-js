@@ -5,9 +5,7 @@ import * as Models from "./generated/lib/models";
 import { Aborter } from "./Aborter";
 import { MessageId } from "./generated/lib/operations";
 import { Pipeline } from "./Pipeline";
-import { MessagesClient } from "./MessagesClient";
 import { StorageClient } from "./StorageClient";
-import { appendToURLPath } from "./utils/utils.common";
 
 /**
  * Options to configure MessageId - Delete operation
@@ -54,21 +52,6 @@ export interface MessageIdUpdateOptions {
  */
 export class MessageIdClient extends StorageClient {
   /**
-   * Creates a MessageIdClient object from MessagesClient
-   * @param messagesClient
-   * @param messageId
-   */
-  public static fromMessagesClient(
-    messagesClient: MessagesClient,
-    messageId: string
-  ): MessageIdClient {
-    return new MessageIdClient(
-      appendToURLPath(messagesClient.url, messageId),
-      messagesClient.pipeline
-    );
-  }
-
-  /**
    * messageIdContext provided by protocol layer.
    *
    * @private
@@ -90,18 +73,6 @@ export class MessageIdClient extends StorageClient {
   constructor(url: string, pipeline: Pipeline) {
     super(url, pipeline);
     this.messageIdContext = new MessageId(this.storageClientContext);
-  }
-
-  /**
-   * Creates a new MessageIdClient object identical to the source but with the
-   * specified request policy pipeline.
-   *
-   * @param {Pipeline} pipeline
-   * @returns {MessageIdClient}
-   * @memberof MessageIdClient
-   */
-  public withPipeline(pipeline: Pipeline): MessageIdClient {
-    return new MessageIdClient(this.url, pipeline);
   }
 
   /**

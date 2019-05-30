@@ -124,21 +124,11 @@ export class FileServiceClient extends StorageClient {
   }
 
   /**
-   * Creates a new FileServiceClient object identical to the source but with the
-   * specified request policy pipeline.
-   *
-   * @param {Pipeline} pipeline
-   * @returns {FileServiceClient}
-   * @memberof FileServiceClient
-   */
-  public withPipeline(pipeline: Pipeline): FileServiceClient {
-    return new FileServiceClient(this.url, pipeline);
-  }
-
-  /**
    * Creates a ShareClient object.
    *
    * @param shareName
+   * @returns {ShareClient}
+   * @memberof FileServiceClient
    */
   public createShareClient(shareName: string): ShareClient {
     return new ShareClient(appendToURLPath(this.url, shareName), this.pipeline);

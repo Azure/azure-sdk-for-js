@@ -256,18 +256,6 @@ export class BlockBlobClient extends BlobClient {
 
   /**
    * Creates a new BlockBlobClient object identical to the source but with the
-   * specified request policy pipeline.
-   *
-   * @param {Pipeline} pipeline
-   * @returns {BlockBlobClient}
-   * @memberof BlockBlobClient
-   */
-  public withPipeline(pipeline: Pipeline): BlockBlobClient {
-    return new BlockBlobClient(this.url, pipeline);
-  }
-
-  /**
-   * Creates a new BlockBlobClient object identical to the source but with the
    * specified snapshot timestamp.
    * Provide "" will remove the snapshot and return a URL to the base blob.
    *

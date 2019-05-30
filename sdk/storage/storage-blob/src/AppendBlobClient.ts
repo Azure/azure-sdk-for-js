@@ -134,18 +134,6 @@ export class AppendBlobClient extends BlobClient {
 
   /**
    * Creates a new AppendBlobClient object identical to the source but with the
-   * specified request policy pipeline.
-   *
-   * @param {Pipeline} pipeline The request pipeline.
-   * @returns {AppendBlobClient}
-   * @memberof AppendBlobClient
-   */
-  public withPipeline(pipeline: Pipeline): AppendBlobClient {
-    return new AppendBlobClient(this.url, pipeline);
-  }
-
-  /**
-   * Creates a new AppendBlobClient object identical to the source but with the
    * specified snapshot timestamp.
    * Provide "" will remove the snapshot and return a Client to the base blob.
    *

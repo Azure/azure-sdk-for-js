@@ -496,18 +496,6 @@ export class BlobClient extends StorageClient {
   }
 
   /**
-   * Creates a new BlobClient object identical to the source but with the
-   * specified request policy pipeline.
-   *
-   * @param {Pipeline} pipeline
-   * @returns {BlobClient}
-   * @memberof BlobClient
-   */
-  public withPipeline(pipeline: Pipeline): BlobClient {
-    return new BlobClient(this.url, pipeline);
-  }
-
-  /**
    * Creates a new BlobClient object identical to the source but with the specified snapshot timestamp.
    * Provide "" will remove the snapshot and return a Client to the base blob.
    *

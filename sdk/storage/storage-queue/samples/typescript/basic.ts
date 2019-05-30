@@ -3,9 +3,6 @@
 */
 
 import {
-  QueueClient,
-  MessagesClient,
-  MessageIdClient,
   QueueServiceClient,
   StorageClient,
   SharedKeyCredential,
@@ -61,7 +58,7 @@ async function main() {
 
   // Create a new queue
   const queueName = `newqueue${new Date().getTime()}`;
-  const queueClient = QueueClient.fromQueueServiceClient(queueServiceClient, queueName);
+  const queueClient = queueServiceClient.createQueueClient(queueName);
   const createQueueResponse = await queueClient.create();
   console.log(
     `Create queue ${queueName} successfully, service assigned request Id: ${
@@ -70,7 +67,7 @@ async function main() {
   );
 
   // Enqueue a message into the queue using the enqueue method.
-  const messagesClient = MessagesClient.fromQueueClient(queueClient);
+  const messagesClient = queueClient.createMessagesClient();
   const enqueueQueueResponse = await messagesClient.enqueue(
     "Hello World!"
   );
@@ -100,8 +97,7 @@ async function main() {
         dequeueMessageItem.messageText
       }`
     );
-    const messageIdClient = MessageIdClient.fromMessagesClient(
-      messagesClient,
+    const messageIdClient = messagesClient.createMessageIdClient(
       dequeueMessageItem.messageId
     );
     const deleteMessageResponse = await messageIdClient.delete(

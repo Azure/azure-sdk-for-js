@@ -7,6 +7,8 @@ import { ListQueuesIncludeType } from "./generated/lib/models/index";
 import { Service } from "./generated/lib/operations";
 import { Pipeline } from "./Pipeline";
 import { StorageClient } from "./StorageClient";
+import { QueueClient } from "./QueueClient";
+import { appendToURLPath } from "./utils/utils.common";
 
 /**
  * Options to configure Queue Service - Get Properties operation
@@ -134,15 +136,16 @@ export class QueueServiceClient extends StorageClient {
   }
 
   /**
-   * Creates a new QueueServiceClient object identical to the source but with the
-   * specified request policy pipeline.
-   *
-   * @param {Pipeline} pipeline
-   * @returns {QueueServiceClient}
-   * @memberof QueueServiceClient
+   * Creates a QueueClient object.
+   * @param queueName
    */
-  public withPipeline(pipeline: Pipeline): QueueServiceClient {
-    return new QueueServiceClient(this.url, pipeline);
+  public createQueueClient(
+    queueName: string
+  ): QueueClient {
+    return new QueueClient(
+      appendToURLPath(this.url, queueName),
+      this.pipeline
+    );
   }
 
   /**

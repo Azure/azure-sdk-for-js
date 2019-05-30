@@ -216,24 +216,24 @@ export interface SignedIdentifier {
 export declare type ShareGetAccessPolicyResponse = {
   signedIdentifiers: SignedIdentifier[];
 } & Models.ShareGetAccessPolicyHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpResponse & {
     /**
-     * The parsed HTTP response headers.
+     * The underlying HTTP response.
      */
-    parsedHeaders: Models.ShareGetAccessPolicyHeaders;
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: Models.SignedIdentifier[];
+    _response: HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: Models.ShareGetAccessPolicyHeaders;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Models.SignedIdentifier[];
+    };
   };
-};
 
 /**
  * Options to configure Share - Create Snapshot operation.
@@ -294,18 +294,6 @@ export class ShareClient extends StorageClient {
   }
 
   /**
-   * Creates a new ShareClient object identical to the source but with the
-   * specified request policy pipeline.
-   *
-   * @param {Pipeline} pipeline
-   * @returns {ShareClient}
-   * @memberof ShareClient
-   */
-  public withPipeline(pipeline: Pipeline): ShareClient {
-    return new ShareClient(this.url, pipeline);
-  }
-
-  /**
    * Creates a new ShareClient object identical to the source but with the specified snapshot timestamp.
    * Provide "" will remove the snapshot and return a URL to the base share.
    *
@@ -345,6 +333,8 @@ export class ShareClient extends StorageClient {
    * Creates a DirectoryClient object.
    *
    * @param directoryName A directory name
+   * @returns {DirectoryClient}
+   * @memberof ShareClient
    */
   public createDirectoryClient(directoryName: string): DirectoryClient {
     return new DirectoryClient(
@@ -379,9 +369,7 @@ export class ShareClient extends StorageClient {
    * @returns {Promise<Models.ShareDeleteResponse>}
    * @memberof ShareClient
    */
-  public async delete(
-    options: ShareDeleteMethodOptions = {}
-  ): Promise<Models.ShareDeleteResponse> {
+  public async delete(options: ShareDeleteMethodOptions = {}): Promise<Models.ShareDeleteResponse> {
     const aborter = options.abortSignal || Aborter.none;
     return this.context.deleteMethod({
       abortSignal: aborter,
