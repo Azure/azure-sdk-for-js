@@ -135,7 +135,7 @@ describe("Batch Receiver - Settle message", function(): void {
     await testComplete();
   });
 
-  it("Unpartitioned Queue: complete() removes message #RunInBrowser ", async function(): Promise<
+  it.only("Unpartitioned Queue: complete() removes message #RunInBrowser ", async function(): Promise<
     void
   > {
     await beforeEachTest(TestClientType.UnpartitionedQueue, TestClientType.UnpartitionedQueue);
