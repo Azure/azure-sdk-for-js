@@ -549,7 +549,7 @@ export class EventHubSender extends LinkEntity {
           this._sender!.on(SenderEvents.rejected, onRejected);
           this._sender!.on(SenderEvents.modified, onModified);
           this._sender!.on(SenderEvents.released, onReleased);
-          waitTimer = setTimeout(actionAfterTimeout, 10 * 1000);
+          waitTimer = setTimeout(actionAfterTimeout, Constants.defaultOperationTimeoutInSeconds * 1000);
           const delivery = this._sender!.send(message, tag, format);
           log.sender(
             "[%s] Sender '%s', sent message with delivery id: %d and tag: %s",
