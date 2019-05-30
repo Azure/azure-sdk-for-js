@@ -175,18 +175,6 @@ export class ContainerClient extends StorageClient {
   }
 
   /**
-   * Creates a new ContainerClient object identical to the source but with the
-   * specified request policy pipeline.
-   *
-   * @param {Pipeline} pipeline
-   * @returns {ContainerClient}
-   * @memberof ContainerClient
-   */
-  public withPipeline(pipeline: Pipeline): ContainerClient {
-    return new ContainerClient(this.url, pipeline);
-  }
-
-  /**
    * Creates a new container under the specified account. If the container with
    * the same name already exists, the operation fails.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-container

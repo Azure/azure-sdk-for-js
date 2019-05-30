@@ -116,18 +116,6 @@ export class QueueClient extends StorageClient {
   }
 
   /**
-   * Creates a new QueueURL object identical to the source but with the
-   * specified request policy pipeline.
-   *
-   * @param {Pipeline} pipeline
-   * @returns {QueueClient}
-   * @memberof QueueURL
-   */
-  public withPipeline(pipeline: Pipeline): QueueClient {
-    return new QueueClient(this.url, pipeline);
-  }
-
-  /**
    * Creates a new queue under the specified account.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-queue4
    *

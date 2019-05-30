@@ -48,18 +48,6 @@ export class MessageIdClient extends StorageClient {
   }
 
   /**
-   * Creates a new MessageIdClient object identical to the source but with the
-   * specified request policy pipeline.
-   *
-   * @param {Pipeline} pipeline
-   * @returns {MessageIdClient}
-   * @memberof MessageIdClient
-   */
-  public withPipeline(pipeline: Pipeline): MessageIdClient {
-    return new MessageIdClient(this.url, pipeline);
-  }
-
-  /**
    * Delete permanently removes the specified message from its queue.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-message2
    *

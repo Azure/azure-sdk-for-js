@@ -165,18 +165,6 @@ export class ShareClient extends StorageClient {
   }
 
   /**
-   * Creates a new ShareClient object identical to the source but with the
-   * specified request policy pipeline.
-   *
-   * @param {Pipeline} pipeline
-   * @returns {ShareClient}
-   * @memberof ShareClient
-   */
-  public withPipeline(pipeline: Pipeline): ShareClient {
-    return new ShareClient(this.url, pipeline);
-  }
-
-  /**
    * Creates a new ShareClient object identical to the source but with the specified snapshot timestamp.
    * Provide "" will remove the snapshot and return a URL to the base share.
    *

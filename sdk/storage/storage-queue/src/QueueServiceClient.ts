@@ -80,18 +80,6 @@ export class QueueServiceClient extends StorageClient {
   }
 
   /**
-   * Creates a new QueueServiceClient object identical to the source but with the
-   * specified request policy pipeline.
-   *
-   * @param {Pipeline} pipeline
-   * @returns {QueueServiceClient}
-   * @memberof QueueServiceClient
-   */
-  public withPipeline(pipeline: Pipeline): QueueServiceClient {
-    return new QueueServiceClient(this.url, pipeline);
-  }
-
-  /**
    * Creates a QueueClient object.
    * @param queueName
    */
