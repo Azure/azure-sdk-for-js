@@ -3,9 +3,6 @@
 */
 
 import {
-  BlobClient,
-  BlockBlobClient,
-  ContainerClient,
   BlobServiceClient,
   StorageClient,
   SharedKeyCredential,
@@ -56,7 +53,7 @@ async function main() {
 
   // Create a container
   const containerName = `newcontainer${new Date().getTime()}`;
-  const containerClient = ContainerClient.fromBlobServiceClient(blobServiceClient, containerName);
+  const containerClient = blobServiceClient.createContainerClient(containerName);
 
   const createContainerResponse = await containerClient.create();
   console.log(`Create container ${containerName} successfully`, createContainerResponse.requestId);
@@ -64,8 +61,8 @@ async function main() {
   // Create a blob
   const content = "hello";
   const blobName = "newblob" + new Date().getTime();
-  const blobClient = BlobClient.fromContainerClient(containerClient, blobName);
-  const blockBlobClient = BlockBlobClient.fromBlobClient(blobClient);
+  const blobClient = containerClient.createBlobClient(blobName);
+  const blockBlobClient = blobClient.createBlockBlobClient();
   const uploadBlobResponse = await blockBlobClient.upload(content, content.length);
   console.log(`Upload block blob ${blobName} successfully`, uploadBlobResponse.requestId);
 
