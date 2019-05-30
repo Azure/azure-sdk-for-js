@@ -631,34 +631,6 @@ export const BillingProfile: msRest.CompositeMapper = {
   }
 };
 
-export const InvoiceSectionProperties: msRest.CompositeMapper = {
-  serializedName: "InvoiceSectionProperties",
-  type: {
-    name: "Composite",
-    className: "InvoiceSectionProperties",
-    modelProperties: {
-      displayName: {
-        serializedName: "displayName",
-        type: {
-          name: "String"
-        }
-      },
-      billingProfiles: {
-        serializedName: "billingProfiles",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "BillingProfile"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
 export const InvoiceSection: msRest.CompositeMapper = {
   serializedName: "InvoiceSection",
   type: {
@@ -1209,6 +1181,28 @@ export const BillingProfileListResult: msRest.CompositeMapper = {
       nextLink: {
         readOnly: true,
         serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const InvoiceSectionCreationRequest: msRest.CompositeMapper = {
+  serializedName: "InvoiceSectionCreationRequest",
+  type: {
+    name: "Composite",
+    className: "InvoiceSectionCreationRequest",
+    modelProperties: {
+      displayName: {
+        serializedName: "displayName",
+        type: {
+          name: "String"
+        }
+      },
+      billingProfileId: {
+        serializedName: "billingProfileId",
         type: {
           name: "String"
         }

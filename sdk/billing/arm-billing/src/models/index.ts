@@ -399,20 +399,6 @@ export interface BillingProfile extends Resource {
 }
 
 /**
- * The properties of an InvoiceSection.
- */
-export interface InvoiceSectionProperties {
-  /**
-   * The name of the InvoiceSection.
-   */
-  displayName?: string;
-  /**
-   * The billing profiles associated to the billing account.
-   */
-  billingProfiles?: BillingProfile[];
-}
-
-/**
  * An InvoiceSection resource.
  */
 export interface InvoiceSection extends Resource {
@@ -745,6 +731,20 @@ export interface BillingProfileListResult {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly nextLink?: string;
+}
+
+/**
+ * The properties of an InvoiceSection.
+ */
+export interface InvoiceSectionCreationRequest {
+  /**
+   * The name of the InvoiceSection.
+   */
+  displayName?: string;
+  /**
+   * The billing profile id.
+   */
+  billingProfileId?: string;
 }
 
 /**

@@ -62,7 +62,7 @@ export class InvoiceSections {
    * @param [options] The optional parameters
    * @returns Promise<Models.InvoiceSectionsCreateResponse>
    */
-  create(billingAccountName: string, parameters: Models.InvoiceSectionProperties, options?: msRest.RequestOptionsBase): Promise<Models.InvoiceSectionsCreateResponse> {
+  create(billingAccountName: string, parameters: Models.InvoiceSectionCreationRequest, options?: msRest.RequestOptionsBase): Promise<Models.InvoiceSectionsCreateResponse> {
     return this.beginCreate(billingAccountName,parameters,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.InvoiceSectionsCreateResponse>;
   }
@@ -211,7 +211,7 @@ export class InvoiceSections {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreate(billingAccountName: string, parameters: Models.InvoiceSectionProperties, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreate(billingAccountName: string, parameters: Models.InvoiceSectionCreationRequest, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         billingAccountName,
@@ -376,7 +376,7 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
   requestBody: {
     parameterPath: "parameters",
     mapper: {
-      ...Mappers.InvoiceSectionProperties,
+      ...Mappers.InvoiceSectionCreationRequest,
       required: true
     }
   },
