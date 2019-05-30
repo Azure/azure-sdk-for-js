@@ -103,7 +103,6 @@
   },
   "files": [
     "dist/",
-    "dist-esm/package.json",
     "dist-esm/src/",
     "src/",
     "typings/service-bus.d.ts",
