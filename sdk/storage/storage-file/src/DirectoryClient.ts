@@ -56,12 +56,12 @@ export interface DirectorySetMetadataOptions {
   abortSignal?: Aborter;
 }
 
-interface AzureDirectoryItem {
+export interface AzureDirectoryItem {
   kind: "directory";
   name: string;
 }
 
-interface AzureFileItem {
+export interface AzureFileItem {
   kind: "file";
   name: string;
   properties: Models.FileProperty;
