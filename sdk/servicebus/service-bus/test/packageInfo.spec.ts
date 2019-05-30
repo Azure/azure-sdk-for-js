@@ -9,12 +9,11 @@ import { packageJsonInfo } from "../src/util/constants";
 describe("Ensure package name and version are consistent in SDK and package.json", function(): void {
   it("Ensure constants.ts file is consistent with package.json", () => {
     const packageJsonFilePath = path.join(__dirname, "../package.json");
-    console.log("path : ", packageJsonFilePath);
-    const fileContents = fs.readFileSync(packageJsonFilePath, { encoding: "utf-8" });
-    const packageJson = JSON.parse(fileContents);
+    const rawFileContents = fs.readFileSync(packageJsonFilePath, { encoding: "utf-8" });
+    const packageJsonContents = JSON.parse(rawFileContents);
 
-    const name = packageJson.name;
-    const version = packageJson.version;
+    const name = packageJsonContents.name;
+    const version = packageJsonContents.version;
 
     should.equal(
       packageJsonInfo.name,
