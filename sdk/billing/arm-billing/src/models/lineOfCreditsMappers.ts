@@ -30,7 +30,7 @@ export {
   InvoiceSection,
   InvoiceSummary,
   LineOfCredit,
-  LineOfCreditsIncreaseHeaders,
+  LineOfCreditsUpdateHeaders,
   Participants,
   PaymentMethod,
   PaymentProperties,

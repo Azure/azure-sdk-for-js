@@ -2656,11 +2656,11 @@ export const ProductsTransferHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const LineOfCreditsIncreaseHeaders: msRest.CompositeMapper = {
-  serializedName: "lineofcredits-increase-headers",
+export const LineOfCreditsUpdateHeaders: msRest.CompositeMapper = {
+  serializedName: "lineofcredits-update-headers",
   type: {
     name: "Composite",
-    className: "LineOfCreditsIncreaseHeaders",
+    className: "LineOfCreditsUpdateHeaders",
     modelProperties: {
       location: {
         serializedName: "location",

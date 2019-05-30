@@ -1948,9 +1948,9 @@ export interface ProductsTransferHeaders {
 }
 
 /**
- * Defines headers for Increase operation.
+ * Defines headers for Update operation.
  */
-export interface LineOfCreditsIncreaseHeaders {
+export interface LineOfCreditsUpdateHeaders {
   /**
    * Location URI to poll for result.
    */
@@ -3840,9 +3840,9 @@ export type LineOfCreditsGetResponse = LineOfCredit & {
 };
 
 /**
- * Contains response data for the increase operation.
+ * Contains response data for the update operation.
  */
-export type LineOfCreditsIncreaseResponse = LineOfCredit & LineOfCreditsIncreaseHeaders & {
+export type LineOfCreditsUpdateResponse = LineOfCredit & LineOfCreditsUpdateHeaders & {
   /**
    * The underlying HTTP response.
    */
@@ -3850,7 +3850,7 @@ export type LineOfCreditsIncreaseResponse = LineOfCredit & LineOfCreditsIncrease
       /**
        * The parsed HTTP response headers.
        */
-      parsedHeaders: LineOfCreditsIncreaseHeaders;
+      parsedHeaders: LineOfCreditsUpdateHeaders;
 
       /**
        * The response body as text (string format)

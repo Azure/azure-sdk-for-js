@@ -55,11 +55,11 @@ export class LineOfCredits {
    * Increase the current line of credit.
    * @param parameters Parameters supplied to the increase line of credit operation.
    * @param [options] The optional parameters
-   * @returns Promise<Models.LineOfCreditsIncreaseResponse>
+   * @returns Promise<Models.LineOfCreditsUpdateResponse>
    */
-  increase(parameters: Models.LineOfCredit, options?: msRest.RequestOptionsBase): Promise<Models.LineOfCreditsIncreaseResponse> {
-    return this.beginIncrease(parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.LineOfCreditsIncreaseResponse>;
+  update(parameters: Models.LineOfCredit, options?: msRest.RequestOptionsBase): Promise<Models.LineOfCreditsUpdateResponse> {
+    return this.beginUpdate(parameters,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.LineOfCreditsUpdateResponse>;
   }
 
   /**
@@ -68,13 +68,13 @@ export class LineOfCredits {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginIncrease(parameters: Models.LineOfCredit, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpdate(parameters: Models.LineOfCredit, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         parameters,
         options
       },
-      beginIncreaseOperationSpec,
+      beginUpdateOperationSpec,
       options);
   }
 }
@@ -104,7 +104,7 @@ const getOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginIncreaseOperationSpec: msRest.OperationSpec = {
+const beginUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Billing/billingAccounts/default/lineOfCredit/default",
   urlParameters: [
@@ -126,10 +126,10 @@ const beginIncreaseOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.LineOfCredit,
-      headersMapper: Mappers.LineOfCreditsIncreaseHeaders
+      headersMapper: Mappers.LineOfCreditsUpdateHeaders
     },
     202: {
-      headersMapper: Mappers.LineOfCreditsIncreaseHeaders
+      headersMapper: Mappers.LineOfCreditsUpdateHeaders
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
