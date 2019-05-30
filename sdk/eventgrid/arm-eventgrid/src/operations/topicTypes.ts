@@ -27,8 +27,8 @@ export class TopicTypes {
   }
 
   /**
-   * List all registered topic types
-   * @summary List topic types
+   * List all registered topic types.
+   * @summary List topic types.
    * @param [options] The optional parameters
    * @returns Promise<Models.TopicTypesListResponse>
    */
@@ -52,20 +52,20 @@ export class TopicTypes {
   }
 
   /**
-   * Get information about a topic type
-   * @summary Get a topic type
-   * @param topicTypeName Name of the topic type
+   * Get information about a topic type.
+   * @summary Get a topic type.
+   * @param topicTypeName Name of the topic type.
    * @param [options] The optional parameters
    * @returns Promise<Models.TopicTypesGetResponse>
    */
   get(topicTypeName: string, options?: msRest.RequestOptionsBase): Promise<Models.TopicTypesGetResponse>;
   /**
-   * @param topicTypeName Name of the topic type
+   * @param topicTypeName Name of the topic type.
    * @param callback The callback
    */
   get(topicTypeName: string, callback: msRest.ServiceCallback<Models.TopicTypeInfo>): void;
   /**
-   * @param topicTypeName Name of the topic type
+   * @param topicTypeName Name of the topic type.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -81,20 +81,20 @@ export class TopicTypes {
   }
 
   /**
-   * List event types for a topic type
-   * @summary List event types
-   * @param topicTypeName Name of the topic type
+   * List event types for a topic type.
+   * @summary List event types.
+   * @param topicTypeName Name of the topic type.
    * @param [options] The optional parameters
    * @returns Promise<Models.TopicTypesListEventTypesResponse>
    */
   listEventTypes(topicTypeName: string, options?: msRest.RequestOptionsBase): Promise<Models.TopicTypesListEventTypesResponse>;
   /**
-   * @param topicTypeName Name of the topic type
+   * @param topicTypeName Name of the topic type.
    * @param callback The callback
    */
   listEventTypes(topicTypeName: string, callback: msRest.ServiceCallback<Models.EventTypesListResult>): void;
   /**
-   * @param topicTypeName Name of the topic type
+   * @param topicTypeName Name of the topic type.
    * @param options The optional parameters
    * @param callback The callback
    */

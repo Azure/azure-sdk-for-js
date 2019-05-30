@@ -4,8 +4,6 @@
 import chai from "chai";
 const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
-import dotenv from "dotenv";
-dotenv.config();
 chai.use(chaiAsPromised);
 import {
   ServiceBusClient,
@@ -19,9 +17,15 @@ import {
   ReceiveMode,
   SessionReceiver
 } from "../src";
-import { purge, getSenderReceiverClients, TestClientType, TestMessage } from "./testUtils";
+import {
+  purge,
+  getSenderReceiverClients,
+  TestClientType,
+  TestMessage,
+  getServiceBusClient
+} from "./utils/testUtils";
 
-let ns: ServiceBusClient;
+let sbClient: ServiceBusClient;
 let senderClient: QueueClient | TopicClient;
 let receiverClient: QueueClient | SubscriptionClient;
 
@@ -29,14 +33,8 @@ async function beforeEachTest(
   senderType: TestClientType,
   receiverType: TestClientType
 ): Promise<void> {
-  if (!process.env.SERVICEBUS_CONNECTION_STRING) {
-    throw new Error(
-      "Define SERVICEBUS_CONNECTION_STRING in your environment before running integration tests."
-    );
-  }
-
-  ns = ServiceBusClient.createFromConnectionString(process.env.SERVICEBUS_CONNECTION_STRING);
-  const clients = await getSenderReceiverClients(ns, senderType, receiverType);
+  sbClient = getServiceBusClient();
+  const clients = await getSenderReceiverClients(sbClient, senderType, receiverType);
   senderClient = clients.senderClient;
   receiverClient = clients.receiverClient;
 
@@ -49,10 +47,10 @@ async function beforeEachTest(
 }
 
 async function afterEachTest(): Promise<void> {
-  await ns.close();
+  await sbClient.close();
 }
 
-describe("Unpartitioned Queue - Lock Renewal for Sessions", function(): void {
+describe("Unpartitioned Queue - Lock Renewal for Sessions #RunInBrowser", function(): void {
   beforeEach(async () => {
     await beforeEachTest(
       TestClientType.UnpartitionedQueueWithSessions,
