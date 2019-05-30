@@ -5,7 +5,9 @@ import * as Models from "./generated/lib/models";
 import { Aborter } from "./Aborter";
 import { MessageId } from "./generated/lib/operations";
 import { Pipeline } from "./Pipeline";
-import { StorageClient } from "./StorageClient";
+import { StorageClient, NewPipelineOptions } from "./StorageClient";
+import { Credential } from "./credentials/Credential";
+import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 
 /**
  * Options to configure MessageId - Delete operation
@@ -62,6 +64,29 @@ export class MessageIdClient extends StorageClient {
 
   /**
    * Creates an instance of MessageIdClient.
+   *
+   * @param {string} connectionString Connection string for an Azure storage account.
+   * @param {string} queueName Queue name.
+   * @param {string} messageId Message Id.
+   * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
+   * @memberof MessageIdClient
+   */
+  constructor(connectionString: string, queueName: string, messageId: string, options?: NewPipelineOptions)
+  /**
+   * Creates an instance of MessageIdClient.
+   *
+   * @param {string} url A URL string pointing to Azure Storage queue's message, such as
+   *                     "https://myaccount.queue.core.windows.net/myqueue/messages/messageid". You can
+   *                     append a SAS if using AnonymousCredential, such as
+   *                     "https://myaccount.queue.core.windows.net/myqueue/messages/messageid?sasString".
+   * @param {Credential} credential Such as AnonymousCredential, SharedKeyCredential or TokenCredential.
+   * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
+   * @memberof MessageIdClient
+   */
+  constructor(url: string, credential: Credential, options?: NewPipelineOptions)
+  /**
+   * Creates an instance of MessageIdClient.
+   *
    * @param {string} url A URL string pointing to Azure Storage queue's message, such as
    *                     "https://myaccount.queue.core.windows.net/myqueue/messages/messageid". You can
    *                     append a SAS if using AnonymousCredential, such as
@@ -70,8 +95,30 @@ export class MessageIdClient extends StorageClient {
    *                            pipeline, or provide a customized pipeline.
    * @memberof MessageIdClient
    */
-  constructor(url: string, pipeline: Pipeline) {
-    super(url, pipeline);
+  constructor(url: string, pipeline: Pipeline)
+  constructor(
+    urlOrConnectionString: string,
+    credentialOrPipelineOrQueueName?: Credential | Pipeline | string,
+    messageIdOrOptions?: string | NewPipelineOptions,
+    options: NewPipelineOptions = {}) {
+    let pipeline: Pipeline;
+    if (credentialOrPipelineOrQueueName instanceof Pipeline) {
+      pipeline = credentialOrPipelineOrQueueName;
+    } else if (credentialOrPipelineOrQueueName instanceof Credential) {
+      options = messageIdOrOptions as NewPipelineOptions;
+      pipeline = StorageClient.newPipeline(credentialOrPipelineOrQueueName, options);
+    } else if (credentialOrPipelineOrQueueName && typeof credentialOrPipelineOrQueueName === "string"
+               && messageIdOrOptions && typeof messageIdOrOptions === "string") {
+      const queueName = credentialOrPipelineOrQueueName;
+      const messageId = messageIdOrOptions;
+      // TODO: extract parts from connection string
+      const sharedKeyCredential = new SharedKeyCredential("name", "key");
+      urlOrConnectionString = "endpoint from connection string" + queueName + "/" + messageId;
+      pipeline = StorageClient.newPipeline(sharedKeyCredential, options);
+    } else {
+      throw new Error("Expecting non-empty strings for queueName and messageId parameters");
+    }
+    super(urlOrConnectionString, pipeline);
     this.messageIdContext = new MessageId(this.storageClientContext);
   }
 

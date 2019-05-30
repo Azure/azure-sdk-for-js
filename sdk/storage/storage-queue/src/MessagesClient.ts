@@ -6,9 +6,11 @@ import * as Models from "./generated/lib/models";
 import { Aborter } from "./Aborter";
 import { Messages } from "./generated/lib/operations";
 import { Pipeline } from "./Pipeline";
-import { StorageClient } from "./StorageClient";
+import { StorageClient, NewPipelineOptions } from "./StorageClient";
 import { appendToURLPath } from "./utils/utils.common";
 import { MessageIdClient } from "./MessageIdClient";
+import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
+import { Credential } from "./credentials/Credential";
 
 /**
  * Options to configure Messages - Clear operation
@@ -167,6 +169,28 @@ export class MessagesClient extends StorageClient {
 
   /**
    * Creates an instance of MessagesClient.
+   *
+   * @param {string} connectionString Connection string for an Azure storage account.
+   * @param {string} queueName Queue name.
+   * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
+   * @memberof MessagesClient
+   */
+  constructor(connectionString: string, queueName: string, options?: NewPipelineOptions)
+  /**
+   * Creates an instance of MessagesClient.
+   *
+   * @param {string} url A URL string pointing to Azure Storage queue's messages, such as
+   *                     "https://myaccount.queue.core.windows.net/myqueue/messages". You can
+   *                     append a SAS if using AnonymousCredential, such as
+   *                     "https://myaccount.queue.core.windows.net/myqueue/messages?sasString".
+   * @param {Credential} credential Such as AnonymousCredential, SharedKeyCredential or TokenCredential.
+   * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
+   * @memberof MessagesClient
+   */
+  constructor(url: string, credential: Credential, options?: NewPipelineOptions)
+  /**
+   * Creates an instance of MessagesClient.
+   *
    * @param {string} url A URL string pointing to Azure Storage queue's messages, such as
    *                     "https://myaccount.queue.core.windows.net/myqueue/messages". You can
    *                     append a SAS if using AnonymousCredential, such as
@@ -175,8 +199,24 @@ export class MessagesClient extends StorageClient {
    *                            pipeline, or provide a customized pipeline.
    * @memberof MessagesClient
    */
-  constructor(url: string, pipeline: Pipeline) {
-    super(url, pipeline);
+  constructor(url: string, pipeline: Pipeline)
+  constructor(
+    urlOrConnectionString: string,
+    credentialOrPipelineOrQueueName?: Credential | Pipeline | string,
+    options?: NewPipelineOptions) {
+    let pipeline: Pipeline;
+    if (credentialOrPipelineOrQueueName instanceof Pipeline) {
+      pipeline = credentialOrPipelineOrQueueName;
+    } else if (credentialOrPipelineOrQueueName && typeof credentialOrPipelineOrQueueName === "string") {
+      const queueName = credentialOrPipelineOrQueueName;
+      // TODO: extract parts from connection string
+      const sharedKeyCredential = new SharedKeyCredential("name", "key");
+      urlOrConnectionString = "endpoint from connection string" + queueName + "/messages";
+      pipeline = StorageClient.newPipeline(sharedKeyCredential, options);
+    } else {
+      throw new Error("Expecting non-empty strings for queueName parameter");
+    }
+    super(urlOrConnectionString, pipeline);
     this.messagesContext = new Messages(this.storageClientContext);
   }
 
