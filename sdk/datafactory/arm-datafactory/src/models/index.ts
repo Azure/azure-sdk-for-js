@@ -8859,7 +8859,7 @@ export interface SqlServerTableDataset {
   /**
    * The table name of the SQL Server dataset. Type: string (or Expression with resultType string).
    */
-  tableName: any;
+  tableName?: any;
 }
 
 /**
@@ -9819,7 +9819,7 @@ export interface AzureSqlDWTableDataset {
    * The table name of the Azure SQL Data Warehouse. Type: string (or Expression with resultType
    * string).
    */
-  tableName: any;
+  tableName?: any;
 }
 
 /**
@@ -9863,7 +9863,7 @@ export interface AzureSqlTableDataset {
   /**
    * The table name of the Azure SQL database. Type: string (or Expression with resultType string).
    */
-  tableName: any;
+  tableName?: any;
 }
 
 /**

@@ -9213,7 +9213,6 @@ export const SqlServerTableDataset: msRest.CompositeMapper = {
     modelProperties: {
       ...Dataset.type.modelProperties,
       tableName: {
-        required: true,
         serializedName: "typeProperties.tableName",
         type: {
           name: "Object"
@@ -9754,7 +9753,6 @@ export const AzureSqlDWTableDataset: msRest.CompositeMapper = {
     modelProperties: {
       ...Dataset.type.modelProperties,
       tableName: {
-        required: true,
         serializedName: "typeProperties.tableName",
         type: {
           name: "Object"
@@ -9775,7 +9773,6 @@ export const AzureSqlTableDataset: msRest.CompositeMapper = {
     modelProperties: {
       ...Dataset.type.modelProperties,
       tableName: {
-        required: true,
         serializedName: "typeProperties.tableName",
         type: {
           name: "Object"
