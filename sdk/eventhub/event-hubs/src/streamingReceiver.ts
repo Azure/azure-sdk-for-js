@@ -3,7 +3,7 @@
 
 import { Constants } from "@azure/amqp-common";
 import { ReceiverEvents } from "rhea-promise";
-import { ReceiveOptions } from "./eventHubClient";
+import { ReceiverOptions } from "./eventHubClient";
 import { EventHubReceiver, OnMessage, OnError } from "./eventHubReceiver";
 import { ConnectionContext } from "./connectionContext";
 import * as log from "./log";
@@ -14,7 +14,6 @@ import * as log from "./log";
  * @class ReceiveHandler
  */
 export class ReceiveHandler {
- 
   /**
    * @property {EventHubReceiver} _receiver  The underlying EventHubReceiver.
    * @private
@@ -75,9 +74,9 @@ export class StreamingReceiver extends EventHubReceiver {
    * @constructor
    * @param {EventHubClient} client          The EventHub client.
    * @param {string} partitionId             Partition ID from which to receive.
-   * @param {ReceiveOptions} [options]       Options for how you'd like to connect.
+   * @param {ReceiverOptions} [options]       Options for how you'd like to connect.
    */
-  constructor(context: ConnectionContext, partitionId: string | number, options?: ReceiveOptions) {
+  constructor(context: ConnectionContext, partitionId: string | number, options?: ReceiverOptions) {
     super(context, partitionId, options);
     this.receiveHandler = new ReceiveHandler(this);
   }
@@ -130,9 +129,13 @@ export class StreamingReceiver extends EventHubReceiver {
    * @ignore
    * @param {ConnectionContext} context    The connection context.
    * @param {string | number} partitionId  The partitionId to receive events from.
-   * @param {ReceiveOptions} [options]     Receive options.
+   * @param {ReceiverOptions} [options]     Receive options.
    */
-  static create(context: ConnectionContext, partitionId: string | number, options?: ReceiveOptions): StreamingReceiver {
+  static create(
+    context: ConnectionContext,
+    partitionId: string | number,
+    options?: ReceiverOptions
+  ): StreamingReceiver {
     const sReceiver = new StreamingReceiver(context, partitionId, options);
     context.receivers[sReceiver.name] = sReceiver;
     return sReceiver;

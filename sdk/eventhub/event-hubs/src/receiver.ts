@@ -3,8 +3,8 @@
 
 import * as log from "./log";
 import { ConnectionContext } from "./connectionContext";
-import { ReceiveOptions } from "./eventHubClient";
-import { OnMessage, OnError, LastEnqueuedInfo } from "./eventHubReceiver";
+import { ReceiverOptions } from "./eventHubClient";
+import { OnMessage, OnError } from "./eventHubReceiver";
 import { ReceivedEventData } from "./eventData";
 import { MessagingError, Constants } from "@azure/amqp-common";
 import { StreamingReceiver, ReceiveHandler } from "./streamingReceiver";
@@ -28,7 +28,7 @@ export class Receiver {
   private _isClosed: boolean = false;
 
   private _partitionId: string;
-  private _receiveOptions: ReceiveOptions;
+  private _receiverOptions: ReceiverOptions;
 
   /**
    * @property Returns `true` if the receiver is closed. This can happen either because the receiver
@@ -54,34 +54,24 @@ export class Receiver {
    * @readonly
    */
   get consumerGroup(): string | undefined {
-    return this._receiveOptions && this._receiveOptions.consumerGroup;
+    return this._receiverOptions && this._receiverOptions.consumerGroup;
   }
 
   /**
    * @property {number} [epoch] The epoch value of the underlying receiver, if present.
    * @readonly
    */
-  get epoch(): number | undefined {
-    return this._receiveOptions && this._receiveOptions.epoch;
-  }
-
-  /**
-   * @property {ReceiverRuntimeInfo} [runtimeInfo] The receiver runtime info. This property will only
-   * be enabled when `enableReceiverRuntimeMetric` option is set to true in the
-   * `client.receive()` method.
-   * @readonly
-   */
-  get lastEnqueuedInfo(): LastEnqueuedInfo | undefined {
-    return undefined;
+  get exclusiveReceiverPriority(): number | undefined {
+    return this._receiverOptions && this._receiverOptions.exclusiveReceiverPriority;
   }
 
   /**
    * @internal
    */
-  constructor(context: ConnectionContext, partitionId: string, options?: ReceiveOptions) {
+  constructor(context: ConnectionContext, partitionId: string, options?: ReceiverOptions) {
     this._context = context;
     this._partitionId = partitionId;
-    this._receiveOptions = options || {};
+    this._receiverOptions = options || {};
   }
   /**
    * Starts the receiver by establishing an AMQP session and an AMQP receiver link on the session. Messages will be passed to
@@ -91,7 +81,7 @@ export class Receiver {
    * @param {OnMessage} onMessage                              The message handler to receive event data objects.
    * @param {OnError} onError                                  The error handler to receive an error that occurs
    * while receiving messages.
-   * @param {ReceiveOptions} [options]                         Options for how you'd like to receive messages.
+   * @param {ReceiverOptions} [options]                         Options for how you'd like to receive messages.
    *
    * @returns {ReceiveHandler} ReceiveHandler - An object that provides a mechanism to stop receiving more messages.
    */
@@ -99,7 +89,7 @@ export class Receiver {
     if (typeof partitionId !== "string" && typeof partitionId !== "number") {
       throw new Error("'partitionId' is a required parameter and must be of type: 'string' | 'number'.");
     }
-    const sReceiver = StreamingReceiver.create(this._context, partitionId, this._receiveOptions);
+    const sReceiver = StreamingReceiver.create(this._context, partitionId, this._receiverOptions);
     sReceiver.prefetchCount = Constants.defaultPrefetchCount;
     this._context.receivers[sReceiver.name] = sReceiver;
     return sReceiver.receive(onMessage, onError);
@@ -151,7 +141,7 @@ export class Receiver {
    * @param {number} maxMessageCount                           The maximum message count. Must be a value greater than 0.
    * @param {number} [maxWaitTimeInSeconds]                    The maximum wait time in seconds for which the Receiver should wait
    * to receiver the said amount of messages. If not provided, it defaults to 60 seconds.
-   * @param {ReceiveOptions} [options]                         Options for how you'd like to receive messages.
+   * @param {ReceiverOptions} [options]                         Options for how you'd like to receive messages.
    *
    * @returns {Promise<Array<EventData>>} Promise<Array<EventData>>.
    */
@@ -164,7 +154,7 @@ export class Receiver {
     if (typeof partitionId !== "string" && typeof partitionId !== "number") {
       throw new Error("'partitionId' is a required parameter and must be of type: 'string' | 'number'.");
     }
-    const bReceiver = BatchingReceiver.create(this._context, partitionId, this._receiveOptions);
+    const bReceiver = BatchingReceiver.create(this._context, partitionId, this._receiverOptions);
     this._context.receivers[bReceiver.name] = bReceiver;
     let error: MessagingError | undefined;
     let result: ReceivedEventData[] = [];

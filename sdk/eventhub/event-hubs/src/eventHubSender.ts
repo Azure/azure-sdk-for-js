@@ -8,7 +8,7 @@ import {
   Sender,
   EventContext,
   OnAmqpEvent,
-  SenderOptions,
+  SenderOptions as RheaSenderOptions,
   SenderEvents,
   message,
   AmqpError
@@ -28,7 +28,7 @@ import {
 import { EventData, EventDataInternal } from "./eventData";
 import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";
-import { BatchingOptions, RequestOptions } from "./eventHubClient";
+import { BatchingOptions, SenderOptions } from "./eventHubClient";
 
 interface CreateSenderOptions {
   newName?: boolean;
@@ -266,7 +266,7 @@ export class EventHubSender extends LinkEntity {
       }
       if (shouldReopen) {
         await defaultLock.acquire(this.senderLock, () => {
-          const options: SenderOptions = this._createSenderOptions({
+          const options: RheaSenderOptions = this._createSenderOptions({
             newName: true
           });
           // shall retry forever at an interval of 15 seconds if the error is a retryable error
@@ -337,7 +337,7 @@ export class EventHubSender extends LinkEntity {
    * @param options Options to control the way the events are batched along with request options
    * @return Promise<void>
    */
-  async send(events: EventData[], options?: BatchingOptions & RequestOptions): Promise<void> {
+  async send(events: EventData[], options?: BatchingOptions & SenderOptions): Promise<void> {
     try {
       if (!events || (events && !Array.isArray(events))) {
         throw new Error("data is required and it must be an Array.");
@@ -405,9 +405,9 @@ export class EventHubSender extends LinkEntity {
     );
   }
 
-  private _createSenderOptions(options: CreateSenderOptions): SenderOptions {
+  private _createSenderOptions(options: CreateSenderOptions): RheaSenderOptions {
     if (options.newName) this.name = `${uuid()}`;
-    const srOptions: SenderOptions = {
+    const srOptions: RheaSenderOptions = {
       name: this.name,
       target: {
         address: this.address
@@ -434,7 +434,7 @@ export class EventHubSender extends LinkEntity {
   private _trySend(
     message: AmqpMessage | Buffer,
     tag: any,
-    options?: BatchingOptions & RequestOptions,
+    options?: BatchingOptions & SenderOptions,
     format?: number
   ): Promise<void> {
     if (!options) {
@@ -537,12 +537,7 @@ export class EventHubSender extends LinkEntity {
           this._sender!.on(SenderEvents.rejected, onRejected);
           this._sender!.on(SenderEvents.modified, onModified);
           this._sender!.on(SenderEvents.released, onReleased);
-          waitTimer = setTimeout(
-            actionAfterTimeout,
-            (options && options.timeoutInSeconds && options.timeoutInSeconds > 0
-              ? options.timeoutInSeconds
-              : Constants.defaultOperationTimeoutInSeconds) * 1000
-          );
+          waitTimer = setTimeout(actionAfterTimeout, Constants.defaultOperationTimeoutInSeconds * 1000);
           const delivery = this._sender!.send(message, tag, format);
           log.sender(
             "[%s] Sender '%s', sent message with delivery id: %d and tag: %s",
@@ -566,15 +561,14 @@ export class EventHubSender extends LinkEntity {
       });
 
     const jitterInSeconds = randomNumberFromInterval(1, 4);
+    options;
     const times =
       options.retryOptions && options.retryOptions.retryCount && options.retryOptions.retryCount > 0
         ? options.retryOptions.retryCount
         : Constants.defaultRetryAttempts;
     const delayInSeconds =
-      options.retryOptions &&
-      options.retryOptions.delayBetweenRetriesInSeconds &&
-      options.retryOptions.delayBetweenRetriesInSeconds > 0
-        ? options.retryOptions.delayBetweenRetriesInSeconds
+      options.retryOptions && options.retryOptions.retryInterval && options.retryOptions.retryInterval > 0
+        ? options.retryOptions.retryInterval
         : Constants.defaultDelayBetweenOperationRetriesInSeconds;
     const config: RetryConfig<void> = {
       operation: sendEventPromise,
@@ -591,7 +585,7 @@ export class EventHubSender extends LinkEntity {
    * @ignore
    * @returns {Promise<void>}
    */
-  private async _init(options?: SenderOptions): Promise<void> {
+  private async _init(options?: RheaSenderOptions): Promise<void> {
     try {
       // isOpen isConnecting  Should establish
       // true     false          No

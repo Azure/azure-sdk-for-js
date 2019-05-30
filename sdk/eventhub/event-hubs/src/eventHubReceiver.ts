@@ -3,10 +3,18 @@
 
 import uuid from "uuid/v4";
 import * as log from "./log";
-import { Receiver, OnAmqpEvent, EventContext, ReceiverOptions, types, AmqpError, isAmqpError } from "rhea-promise";
+import {
+  Receiver,
+  OnAmqpEvent,
+  EventContext,
+  ReceiverOptions as RheaReceiverOptions,
+  types,
+  AmqpError,
+  isAmqpError
+} from "rhea-promise";
 import { translate, Constants, MessagingError, retry, RetryOperationType, RetryConfig } from "@azure/amqp-common";
 import { EventDataInternal, ReceivedEventData } from "./eventData";
-import { ReceiveOptions } from "./eventHubClient";
+import { ReceiverOptions } from "./eventHubClient";
 import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";
 import { EventPosition } from "./eventPosition";
@@ -97,7 +105,7 @@ export class EventHubReceiver extends LinkEntity {
    * @property {ReceiveOptions} [options] Optional properties that can be set while creating
    * the EventHubReceiver.
    */
-  options: ReceiveOptions;
+  options: ReceiverOptions;
   /**
    * @property {number} [prefetchCount] The number of messages that the receiver can fetch/receive
    * initially. Defaults to 1000.
@@ -167,9 +175,9 @@ export class EventHubReceiver extends LinkEntity {
    * @constructor
    * @param {EventHubClient} client                            The EventHub client.
    * @param {string} partitionId                               Partition ID from which to receive.
-   * @param {ReceiveOptions} [options]                         Receiver options.
+   * @param {ReceiverOptions} [options]                         Receiver options.
    */
-  constructor(context: ConnectionContext, partitionId: string | number, options?: ReceiveOptions) {
+  constructor(context: ConnectionContext, partitionId: string | number, options?: ReceiverOptions) {
     super(context, {
       partitionId: partitionId,
       name: `${context.config.host}/${context.config.entityPath}/${(options && options.consumerGroup) ||
@@ -179,9 +187,9 @@ export class EventHubReceiver extends LinkEntity {
     this.consumerGroup = options.consumerGroup ? options.consumerGroup : Constants.defaultConsumerGroup;
     this.address = context.config.getReceiverAddress(partitionId, this.consumerGroup);
     this.audience = context.config.getReceiverAudience(partitionId, this.consumerGroup);
-    this.epoch = options.epoch;
+    this.epoch = options.exclusiveReceiverPriority;
     this.options = options;
-    this.receiverRuntimeMetricEnabled = options.enableReceiverRuntimeMetric || false;
+    this.receiverRuntimeMetricEnabled = false;
     this.runtimeInfo = {};
     this._checkpoint = {
       enqueuedTimeUtc: new Date(),
@@ -445,7 +453,7 @@ export class EventHubReceiver extends LinkEntity {
         if (this._checkpoint.sequenceNumber > -1) {
           rcvrOptions.eventPosition = EventPosition.fromSequenceNumber(this._checkpoint.sequenceNumber);
         }
-        const options: ReceiverOptions = this._createReceiverOptions(rcvrOptions);
+        const options: RheaReceiverOptions = this._createReceiverOptions(rcvrOptions);
         // shall retry forever at an interval of 15 seconds if the error is a retryable error
         // else bail out when the error is not retryable or the oepration succeeds.
         const config: RetryConfig<void> = {
@@ -510,7 +518,7 @@ export class EventHubReceiver extends LinkEntity {
    * @ignore
    * @returns {Promise<void>}
    */
-  protected async _init(options?: ReceiverOptions): Promise<void> {
+  protected async _init(options?: RheaReceiverOptions): Promise<void> {
     try {
       if (!this.isOpen() && !this.isConnecting) {
         log.error(
@@ -585,9 +593,9 @@ export class EventHubReceiver extends LinkEntity {
    * Creates the options that need to be specified while creating an AMQP receiver link.
    * @ignore
    */
-  protected _createReceiverOptions(options: CreateReceiverOptions): ReceiverOptions {
+  protected _createReceiverOptions(options: CreateReceiverOptions): RheaReceiverOptions {
     if (options.newName) this.name = `${uuid()}`;
-    const rcvrOptions: ReceiverOptions = {
+    const rcvrOptions: RheaReceiverOptions = {
       name: this.name,
       autoaccept: true,
       source: {

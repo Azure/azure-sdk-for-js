@@ -15,7 +15,7 @@ import {
   TokenProvider
 } from "@azure/amqp-common";
 import { ManagementClient, ManagementClientOptions } from "./managementClient";
-import { ClientOptions } from "./eventHubClient";
+import { EventHubClientOptions } from "./eventHubClient";
 import { Dictionary, OnAmqpEvent, EventContext, ConnectionEvents } from "rhea-promise";
 
 /**
@@ -50,7 +50,7 @@ export interface ConnectionContext extends ConnectionContextBase {
   managementSession?: ManagementClient;
 }
 
-export interface ConnectionContextOptions extends ClientOptions {
+export interface ConnectionContextOptions extends EventHubClientOptions {
   managementSessionAddress?: string;
   managementSessionAudience?: string;
 }
@@ -75,7 +75,11 @@ export namespace ConnectionContext {
     return finalUserAgent;
   }
 
-  export function create(config: EventHubConnectionConfig, tokenProvider: TokenProvider, options?: ConnectionContextOptions): ConnectionContext {
+  export function create(
+    config: EventHubConnectionConfig,
+    tokenProvider: TokenProvider,
+    options?: ConnectionContextOptions
+  ): ConnectionContext {
     if (!options) options = {};
 
     config.webSocket = options.webSocket;
