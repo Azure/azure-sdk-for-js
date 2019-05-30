@@ -6,7 +6,6 @@ import {
   MessageProperties,
   MessageHeader,
   Dictionary,
-  messageProperties,
   MessageAnnotations,
   DeliveryAnnotations
 } from "rhea-promise";
@@ -157,14 +156,14 @@ export namespace EventDataInternal {
         data.offset = msg.message_annotations[Constants.offset];
       }
     }
-    // Since rhea expects message properties as top level properties we will look for them and unflatten them inside properties.
-    for (const prop of messageProperties) {
-      if ((msg as any)[prop] != undefined) {
-        if (!data.properties) {
-          data.properties = {};
-        }
-        (data.properties as any)[prop] = (msg as any)[prop];
-      }
+    if (msg.application_properties) {
+      data.properties = msg.application_properties;
+    }
+    if (msg.delivery_annotations) {
+      data.lastEnqueuedOffset = msg.delivery_annotations.last_enqueued_offset;
+      data.lastSequenceNumber = msg.delivery_annotations.last_enqueued_sequence_number;
+      data.lastEnqueuedTime = new Date(msg.delivery_annotations.last_enqueued_time_utc as number);
+      data.retrievalTime = new Date(msg.delivery_annotations.runtime_info_retrieval_time_utc as number);
     }
 
     return data;
@@ -183,10 +182,7 @@ export namespace EventDataInternal {
     // it is equivalent to a message-annotations section containing anempty map of annotations.
     msg.message_annotations = {};
     if (data.properties) {
-      // Set amqp message properties as top level properties, since rhea sends them as top level properties.
-      for (const prop in data.properties) {
-        (msg as any)[prop] = (data.properties as any)[prop];
-      }
+      msg.application_properties = data.properties;
     }
     if (partitionKey != undefined) {
       msg.message_annotations[Constants.partitionKey] = partitionKey;
