@@ -3,4 +3,14 @@
 
 import * as base from "./rollup.base.config";
 
-export default [base.nodeConfig({ test: true }) /*, base.browserConfig({ test: true })*/];
+const inputs = [];
+
+if (!process.env.ONLY_BROWSER) {
+  inputs.push(base.nodeConfig({ test: true }));
+}
+
+if (!process.env.ONLY_NODE) {
+  inputs.push(base.browserConfig({ test: true }));
+}
+
+export default inputs;
