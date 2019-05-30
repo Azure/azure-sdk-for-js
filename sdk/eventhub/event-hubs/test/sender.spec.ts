@@ -12,12 +12,16 @@ import dotenv from "dotenv";
 dotenv.config();
 
 describe("EventHub Sender", function(): void {
-  const connectionString = process.env.EVENTHUB_CONNECTION_STRING;
-  const client: EventHubClient = new EventHubClient(connectionString!);
+  const service = { connectionString: process.env.EVENTHUB_CONNECTION_STRING, path: process.env.EVENTHUB_NAME };
+  const client: EventHubClient = EventHubClient.createFromConnectionString(service.connectionString!, service.path);
   before("validate environment", function(): void {
     should.exist(
       process.env.EVENTHUB_CONNECTION_STRING,
       "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests."
+    );
+    should.exist(
+      process.env.EVENTHUB_NAME,
+      "define EVENTHUB_NAME in your environment before running integration tests."
     );
   });
 
