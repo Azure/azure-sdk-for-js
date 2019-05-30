@@ -355,7 +355,7 @@ export class BlockBlobClient extends BlobClient {
    *                           to perform the operation. Here are some examples of source object URLs:
    *                           - https://myaccount.blob.core.windows.net/mycontainer/myblob
    *                           - https://myaccount.blob.core.windows.net/mycontainer/myblob?snapshot=<DateTime>
-   * @param {number} offset From which position of the blob to download, >= 0
+   * @param {number} [offset] From which position of the blob to download, >= 0
    * @param {number} [count] How much data to be downloaded, > 0. Will download to the end when undefined
    * @param {BlockBlobStageBlockFromURLOptions} [options={}] Optional options to the Block Blob Stage Block From URL operation.
    * @returns {Promise<Models.BlockBlobStageBlockFromURLResponse>}
@@ -364,7 +364,7 @@ export class BlockBlobClient extends BlobClient {
   public async stageBlockFromURL(
     blockId: string,
     sourceURL: string,
-    offset: number,
+    offset: number = 0,
     count?: number,
     options: BlockBlobStageBlockFromURLOptions = {}
   ): Promise<Models.BlockBlobStageBlockFromURLResponse> {
