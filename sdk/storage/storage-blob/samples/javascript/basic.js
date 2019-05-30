@@ -2,17 +2,7 @@
  Setup: Enter your storage account name and shared key in main()
 */
 
-const {
-  Aborter,
-  BlobClient,
-  BlockBlobClient,
-  ContainerClient,
-  BlobServiceClient,
-  StorageClient,
-  SharedKeyCredential,
-  AnonymousCredential,
-  TokenCredential
-} = require("../.."); // Change to "@azure/storage-blob" in your package
+const { BlobServiceClient, StorageClient, SharedKeyCredential, TokenCredential } = require("../.."); // Change to "@azure/storage-blob" in your package
 
 async function main() {
   // Enter your storage account name and shared key
@@ -27,7 +17,7 @@ async function main() {
   tokenCredential.token = "renewedToken"; // Renew the token by updating token field of token credential
 
   // Use AnonymousCredential when url already includes a SAS signature
-  const anonymousCredential = new AnonymousCredential();
+  // const anonymousCredential = new AnonymousCredential();
 
   // Use sharedKeyCredential, tokenCredential or anonymousCredential to create a pipeline
   const pipeline = StorageClient.newPipeline(sharedKeyCredential);
@@ -41,9 +31,7 @@ async function main() {
 
   let marker;
   do {
-    const listContainersResponse = await blobServiceClient.listContainersSegment(
-      marker
-    );
+    const listContainersResponse = await blobServiceClient.listContainersSegment(marker);
 
     marker = listContainersResponse.nextMarker;
     for (const container of listContainersResponse.containerItems) {
@@ -53,34 +41,23 @@ async function main() {
 
   // Create a container
   const containerName = `newcontainer${new Date().getTime()}`;
-  const containerClient = ContainerClient.fromBlobServiceClient(blobServiceClient, containerName);
+  const containerClient = blobServiceClient.createContainerClient(containerName);
 
   const createContainerResponse = await containerClient.create();
-  console.log(
-    `Create container ${containerName} successfully`,
-    createContainerResponse.requestId
-  );
+  console.log(`Create container ${containerName} successfully`, createContainerResponse.requestId);
 
   // Create a blob
   const content = "hello";
   const blobName = "newblob" + new Date().getTime();
-  const blobClient = BlobClient.fromContainerClient(containerClient, blobName);
-  const blockBlobClient = BlockBlobClient.fromBlobClient(blobClient);
-  const uploadBlobResponse = await blockBlobClient.upload(
-    content,
-    content.length
-  );
-  console.log(
-    `Upload block blob ${blobName} successfully`,
-    uploadBlobResponse.requestId
-  );
+  const blobClient = containerClient.createBlobClient(blobName);
+  const blockBlobClient = blobClient.createBlockBlobClient();
+  const uploadBlobResponse = await blockBlobClient.upload(content, content.length);
+  console.log(`Upload block blob ${blobName} successfully`, uploadBlobResponse.requestId);
 
   // List blobs
   marker = undefined;
   do {
-    const listBlobsResponse = await containerClient.listBlobFlatSegment(
-      marker
-    );
+    const listBlobsResponse = await containerClient.listBlobFlatSegment(marker);
 
     marker = listBlobsResponse.nextMarker;
     for (const blob of listBlobsResponse.segment.blobItems) {
@@ -107,7 +84,7 @@ async function main() {
 async function streamToString(readableStream) {
   return new Promise((resolve, reject) => {
     const chunks = [];
-    readableStream.on("data", data => {
+    readableStream.on("data", (data) => {
       chunks.push(data.toString());
     });
     readableStream.on("end", () => {
@@ -122,6 +99,6 @@ main()
   .then(() => {
     console.log("Successfully executed sample.");
   })
-  .catch(err => {
+  .catch((err) => {
     console.log(err.message);
   });

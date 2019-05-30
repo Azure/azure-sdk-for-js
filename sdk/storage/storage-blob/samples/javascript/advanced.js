@@ -5,15 +5,11 @@
 const fs = require("fs");
 const {
   AnonymousCredential,
-  uploadBrowserDataToBlockBlob,
   downloadBlobToBuffer,
   uploadFileToBlockBlob,
   uploadStreamToBlockBlob,
   Aborter,
-  BlobClient,
   BlobServiceClient,
-  BlockBlobClient,
-  ContainerClient,
   StorageClient
 } = require("../.."); // Change to "@azure/storage-blob" in your package
 
@@ -37,20 +33,20 @@ async function main() {
 
   // Create a container
   const containerName = `newcontainer${new Date().getTime()}`;
-  const containerClient = ContainerClient.fromBlobServiceClient(blobServiceClient, containerName);
+  const containerClient = blobServiceClient.createContainerClient(containerName);
   await containerClient.create();
 
   // Create a blob
   const blobName = "newblob" + new Date().getTime();
-  const blobClient = BlobClient.fromContainerClient(containerClient, blobName);
-  const blockBlobClient = BlockBlobClient.fromBlobClient(blobClient);
+  const blobClient = containerClient.createBlobClient(blobName);
+  const blockBlobClient = blobClient.createBlockBlobClient();
 
   // Parallel uploading with uploadFileToBlockBlob in Node.js runtime
   // uploadFileToBlockBlob is only available in Node.js
   await uploadFileToBlockBlob(localFilePath, blockBlobClient, {
     blockSize: 4 * 1024 * 1024, // 4MB block size
     parallelism: 20, // 20 concurrency
-    progress: ev => console.log(ev)
+    progress: (ev) => console.log(ev)
   });
   console.log("uploadFileToBlockBlob success");
 
@@ -63,7 +59,7 @@ async function main() {
     20,
     {
       abortSignal: Aborter.timeout(30 * 60 * 1000), // Abort uploading with timeout in 30mins
-      progress: ev => console.log(ev)
+      progress: (ev) => console.log(ev)
     }
   );
   console.log("uploadStreamToBlockBlob success");
@@ -83,18 +79,12 @@ async function main() {
   // downloadBlobToBuffer is only available in Node.js
   const fileSize = fs.statSync(localFilePath).size;
   const buffer = Buffer.alloc(fileSize);
-  await downloadBlobToBuffer(
-    buffer,
-    blockBlobClient,
-    0,
-    undefined,
-    {
-      abortSignal: Aborter.timeout(30 * 60 * 1000),
-      blockSize: 4 * 1024 * 1024, // 4MB block size
-      parallelism: 20, // 20 concurrency
-      progress: ev => console.log(ev)
-    }
-  );
+  await downloadBlobToBuffer(buffer, blockBlobClient, 0, undefined, {
+    abortSignal: Aborter.timeout(30 * 60 * 1000), // Abort uploading with timeout in 30mins
+    blockSize: 4 * 1024 * 1024, // 4MB block size
+    parallelism: 20, // 20 concurrency
+    progress: (ev) => console.log(ev)
+  });
   console.log("downloadBlobToBuffer success");
 
   // Delete container
@@ -107,6 +97,6 @@ main()
   .then(() => {
     console.log("Successfully executed sample.");
   })
-  .catch(err => {
+  .catch((err) => {
     console.log(err.message);
   });
