@@ -10,11 +10,24 @@ import { StorageClient } from "./StorageClient";
 import { appendToURLPath } from "./utils/utils.common";
 import { FileClient } from "./FileClient";
 
+/**
+ * Options to configure Directory - Create operation.
+ *
+ * @export
+ * @interface DirectoryCreateOptions
+ */
 export interface DirectoryCreateOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof AppendBlobCreateOptions
+   */
   abortSignal?: Aborter;
   /**
-   * A name-value pair
-   * to associate with a file storage object.
+   * A collection of key-value string pair to associate with the file storage object.
    *
    * @type {Metadata}
    * @memberof DirectoryCreateOptions
@@ -22,7 +35,21 @@ export interface DirectoryCreateOptions {
   metadata?: Metadata;
 }
 
+/**
+ * Options to configure Directory - List Files and Directories Segment operation.
+ *
+ * @export
+ * @interface DirectoryListFilesAndDirectoriesSegmentOptions
+ */
 export interface DirectoryListFilesAndDirectoriesSegmentOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof AppendBlobCreateOptions
+   */
   abortSignal?: Aborter;
   /**
    * Filters the results to return only entries whose
@@ -44,15 +71,57 @@ export interface DirectoryListFilesAndDirectoriesSegmentOptions {
   maxresults?: number;
 }
 
+/**
+ * Options to configure Directory - Delete operation.
+ *
+ * @export
+ * @interface DirectoryDeleteOptions
+ */
 export interface DirectoryDeleteOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof AppendBlobCreateOptions
+   */
   abortSignal?: Aborter;
 }
 
+/**
+ * Options to configure Directory - Get Properties operation.
+ *
+ * @export
+ * @interface DirectoryGetPropertiesOptions
+ */
 export interface DirectoryGetPropertiesOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof AppendBlobCreateOptions
+   */
   abortSignal?: Aborter;
 }
 
+/**
+ * Options to configure Directory - Set Metadata operation.
+ *
+ * @export
+ * @interface DirectorySetMetadataOptions
+ */
 export interface DirectorySetMetadataOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof AppendBlobCreateOptions
+   */
   abortSignal?: Aborter;
 }
 
@@ -97,7 +166,7 @@ export class DirectoryClient extends StorageClient {
    * Creates a new directory under the specified share or parent directory.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-directory
    *
-   * @param {DirectoryCreateOptions} [options]
+   * @param {DirectoryCreateOptions} [options] Optional options to Directory Create operation.
    * @returns {Promise<Models.DirectoryCreateResponse>}
    * @memberof DirectoryClient
    */
@@ -142,6 +211,7 @@ export class DirectoryClient extends StorageClient {
    * subdirectories.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-directory-properties
    *
+   * @param {DirectoryGetPropertiesOptions} [options] Optional options to Directory Get Properties operation.
    * @returns {Promise<Models.DirectoryGetPropertiesResponse>}
    * @memberof DirectoryClient
    */
@@ -159,6 +229,7 @@ export class DirectoryClient extends StorageClient {
    * deleted.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-directory
    *
+   * @param {DirectoryDeleteOptions} [options] Optional options to Directory Delete operation.
    * @returns {Promise<Models.DirectoryDeleteResponse>}
    * @memberof DirectoryClient
    */
@@ -176,6 +247,7 @@ export class DirectoryClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-directory-metadata
    *
    * @param {Metadata} [metadata] If no metadata provided, all existing directory metadata will be removed
+   * @param {DirectorySetMetadataOptions} [options] Optional options to Directory Set Metadata operation.
    * @returns {Promise<Models.DirectorySetMetadataResponse>}
    * @memberof DirectoryClient
    */
@@ -195,8 +267,8 @@ export class DirectoryClient extends StorageClient {
    * contents only for a single level of the directory hierarchy.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/list-directories-and-files
    *
-   * @param {string} [marker]
-   * @param {DirectoryListFilesAndDirectoriesSegmentOptions} [options]
+   * @param {string} [marker] A string value that identifies the portion of the list to be returned with the next list operation.
+   * @param {DirectoryListFilesAndDirectoriesSegmentOptions} [options] Optional options to Directory List Files and Directories Segment operation.
    * @returns {Promise<Models.DirectoryListFilesAndDirectoriesSegmentResponse>}
    * @memberof DirectoryClient
    */

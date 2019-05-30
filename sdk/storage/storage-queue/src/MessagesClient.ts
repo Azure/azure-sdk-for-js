@@ -10,16 +10,51 @@ import { StorageClient } from "./StorageClient";
 import { appendToURLPath } from "./utils/utils.common";
 import { MessageIdClient } from "./MessageIdClient";
 
+/**
+ * Options to configure Messages - Clear operation
+ *
+ * @export
+ * @interface MessagesClearOptions
+ */
 export interface MessagesClearOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof AppendBlobCreateOptions
+   */
   abortSignal?: Aborter;
 }
 
+/**
+ * Options to configure Messages - Enqueue operation
+ *
+ * @export
+ * @interface MessagesEnqueueOptions
+ * @extends {Models.MessagesEnqueueOptionalParams}
+ */
 export interface MessagesEnqueueOptions extends Models.MessagesEnqueueOptionalParams {
 }
 
+/**
+ * Options to configure Messages - Dequeue operation
+ *
+ * @export
+ * @interface MessagesDequeueOptions
+ * @extends {Models.MessagesDequeueOptionalParams}
+ */
 export interface MessagesDequeueOptions extends Models.MessagesDequeueOptionalParams {
 }
 
+/**
+ * Options to configure Messages - Peek operation
+ *
+ * @export
+ * @interface MessagesPeekOptions
+ * @extends {Models.MessagesPeekOptionalParams}
+ */
 export interface MessagesPeekOptions extends Models.MessagesPeekOptionalParams {
 }
 

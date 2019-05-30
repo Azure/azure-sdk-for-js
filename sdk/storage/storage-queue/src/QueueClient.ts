@@ -11,31 +11,128 @@ import { StorageClient } from "./StorageClient";
 import { appendToURLPath, truncatedISO8061Date } from "./utils/utils.common";
 import { MessagesClient } from "./MessagesClient";
 
+/**
+ * Options to configure Queue - Create operation
+ *
+ * @export
+ * @interface QueueCreateOptions
+ */
 export interface QueueCreateOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof AppendBlobCreateOptions
+   */
   abortSignal?: Aborter;
+  /**
+   * A collection of key-value string pair to associate with the queue object.
+   * The keys need to be lower-case.
+   *
+   * @type {Metadata}
+   * @memberof QueueCreateOptions
+   */
   metadata?: Metadata;
 }
 
+/**
+ * Options to configure Queue - Get Properties operation
+ *
+ * @export
+ * @interface QueueGetPropertiesOptions
+ */
 export interface QueueGetPropertiesOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof AppendBlobCreateOptions
+   */
   abortSignal?: Aborter;
 }
 
+/**
+ * Options to configure Queue - Delete operation
+ *
+ * @export
+ * @interface QueueDeleteOptions
+ */
 export interface QueueDeleteOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof AppendBlobCreateOptions
+   */
   abortSignal?: Aborter;
 }
 
+/**
+ * Options to configure Queue - Get Access Policy operation
+ *
+ * @export
+ * @interface QueueGetAccessPolicyOptions
+ */
 export interface QueueGetAccessPolicyOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof AppendBlobCreateOptions
+   */
   abortSignal?: Aborter;
 }
 
+/**
+ * Options to configure Queue - Set Access Policy operation
+ *
+ * @export
+ * @interface QueueSetAccessPolicyOptions
+ */
 export interface QueueSetAccessPolicyOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof AppendBlobCreateOptions
+   */
   abortSignal?: Aborter;
 }
 
+/**
+ * Options to configure Queue - Set Metadata operation
+ *
+ * @export
+ * @interface QueueSetMetadataOptions
+ */
 export interface QueueSetMetadataOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof AppendBlobCreateOptions
+   */
   abortSignal?: Aborter;
 }
 
+/**
+ * Signed identifier.
+ *
+ * @export
+ * @interface SignedIdentifier
+ */
 export interface SignedIdentifier {
   /**
    * @member {string} id a unique id

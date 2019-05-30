@@ -7,11 +7,39 @@ import { MessageId } from "./generated/lib/operations";
 import { Pipeline } from "./Pipeline";
 import { StorageClient } from "./StorageClient";
 
+/**
+ * Options to configure MessageId - Delete operation
+ *
+ * @export
+ * @interface MessageIdDeleteOptions
+ */
 export interface MessageIdDeleteOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof AppendBlobCreateOptions
+   */
   abortSignal?: Aborter;
 }
 
+/**
+ * Options to configure MessageId - Update operation
+ *
+ * @export
+ * @interface MessageIdUpdateOptions
+ */
 export interface MessageIdUpdateOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof AppendBlobCreateOptions
+   */
   abortSignal?: Aborter;
 }
 

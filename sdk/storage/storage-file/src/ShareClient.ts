@@ -13,7 +13,21 @@ import { URLConstants } from "./utils/constants";
 import { appendToURLPath, setURLParameter, truncatedISO8061Date } from "./utils/utils.common";
 import { DirectoryClient } from "./DirectoryClient";
 
+/**
+ * Options to configure Share - Create operation.
+ *
+ * @export
+ * @interface ShareCreateOptions
+ */
 export interface ShareCreateOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof AppendBlobCreateOptions
+   */
   abortSignal?: Aborter;
   /**
    * A name-value pair to associate with a file storage object.
@@ -33,7 +47,21 @@ export interface ShareCreateOptions {
   quota?: number;
 }
 
+/**
+ * Options to configure Share - Delete operation.
+ *
+ * @export
+ * @interface ShareDeleteMethodOptions
+ */
 export interface ShareDeleteMethodOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof AppendBlobCreateOptions
+   */
   abortSignal?: Aborter;
   /**
    * Specifies the option
@@ -46,33 +74,120 @@ export interface ShareDeleteMethodOptions {
   deleteSnapshots?: Models.DeleteSnapshotsOptionType;
 }
 
+/**
+ * Options to configure Share - Set Metadata operation.
+ *
+ * @export
+ * @interface ShareSetMetadataOptions
+ */
 export interface ShareSetMetadataOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof AppendBlobCreateOptions
+   */
   abortSignal?: Aborter;
 }
 
+/**
+ * Options to configure Share - Set Access Policy operation.
+ *
+ * @export
+ * @interface ShareSetAccessPolicyOptions
+ */
 export interface ShareSetAccessPolicyOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof AppendBlobCreateOptions
+   */
   abortSignal?: Aborter;
 }
 
+/**
+ * Options to configure Share - Get Access Policy operation.
+ *
+ * @export
+ * @interface ShareGetAccessPolicyOptions
+ */
 export interface ShareGetAccessPolicyOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof AppendBlobCreateOptions
+   */
   abortSignal?: Aborter;
 }
 
-export interface ShareGetAccessPolicyOptions {
-  abortSignal?: Aborter;
-}
+/**
+ * Options to configure Share - Get Properties operation.
+ *
+ * @export
+ * @interface ShareGetPropertiesOptions
+ */
 export interface ShareGetPropertiesOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof AppendBlobCreateOptions
+   */
   abortSignal?: Aborter;
 }
 
+/**
+ * Options to configure Share - Set Quota operation.
+ *
+ * @export
+ * @interface ShareSetQuotaOptions
+ */
 export interface ShareSetQuotaOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof AppendBlobCreateOptions
+   */
   abortSignal?: Aborter;
 }
 
+/**
+ * Options to configure Share - Get Statistics operation.
+ *
+ * @export
+ * @interface ShareGetStatisticsOptions
+ */
 export interface ShareGetStatisticsOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof AppendBlobCreateOptions
+   */
   abortSignal?: Aborter;
 }
 
+/**
+ * Signed Identifier
+ *
+ * @export
+ * @interface SignedIdentifier
+ */
 export interface SignedIdentifier {
   /**
    * @member {string} id a unique id
@@ -120,7 +235,21 @@ export declare type ShareGetAccessPolicyResponse = {
     };
   };
 
+/**
+ * Options to configure Share - Create Snapshot operation.
+ *
+ * @export
+ * @interface ShareCreateSnapshotOptions
+ */
 export interface ShareCreateSnapshotOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof AppendBlobCreateOptions
+   */
   abortSignal?: Aborter;
   /**
    * A name-value pair to associate with a file storage object.
@@ -168,7 +297,7 @@ export class ShareClient extends StorageClient {
    * Creates a new ShareClient object identical to the source but with the specified snapshot timestamp.
    * Provide "" will remove the snapshot and return a URL to the base share.
    *
-   * @param {string} snapshot
+   * @param {string} snapshot The snapshot timestamp.
    * @returns {ShareClient} A new ShareClient object identical to the source but with the specified snapshot timestamp
    * @memberof ShareClient
    */
@@ -188,7 +317,7 @@ export class ShareClient extends StorageClient {
    * the same name already exists, the operation fails.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-share
    *
-   * @param {ShareCreateOptions} [options]
+   * @param {ShareCreateOptions} [options] Optional options to Share Create operation.
    * @returns {Promise<Models.ShareCreateResponse>}
    * @memberof ShareClient
    */
@@ -236,7 +365,7 @@ export class ShareClient extends StorageClient {
    * contained within it are later deleted during garbage collection.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-share
    *
-   * @param {Models.ShareDeleteMethodOptions} [options]
+   * @param {Models.ShareDeleteMethodOptions} [options] Optional options to Share Delete operation.
    * @returns {Promise<Models.ShareDeleteResponse>}
    * @memberof ShareClient
    */
@@ -255,7 +384,8 @@ export class ShareClient extends StorageClient {
    * metadata will be removed.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-share-metadata
    *
-   * @param {Metadata} [metadata] If no metadata provided, all existing directory metadata will be removed
+   * @param {Metadata} [metadata] If no metadata provided, all existing directory metadata will be removed.
+   * @param {ShareSetMetadataOptions} [option] Optional options to Share Set Metadata operation.
    * @returns {Promise<Models.ShareSetMetadataResponse>}
    * @memberof ShareClient
    */
@@ -279,6 +409,7 @@ export class ShareClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-share-acl
    *
+   * @param {ShareGetAccessPolicyOptions} [option] Optional options to Share Get Access Policy operation.
    * @returns {Promise<ShareGetAccessPolicyResponse>}
    * @memberof ShareClient
    */
@@ -323,7 +454,8 @@ export class ShareClient extends StorageClient {
    * removed.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-share-acl
    *
-   * @param {SignedIdentifier[]} [shareAcl]
+   * @param {SignedIdentifier[]} [shareAcl] Array of signed identifiers, each having a unique Id and details of access policy.
+   * @param {ShareSetAccessPolicyOptions} [option] Optional options to Share Set Access Policy operation.
    * @returns {Promise<Models.ShareSetAccessPolicyResponse>}
    * @memberof ShareClient
    */
@@ -353,7 +485,7 @@ export class ShareClient extends StorageClient {
   /**
    * Creates a read-only snapshot of a share.
    *
-   * @param {ShareCreateSnapshotOptions} [options={}]
+   * @param {ShareCreateSnapshotOptions} [options={}] Optional options to Share Create Snapshot operation.
    * @returns {Promise<Models.ShareCreateSnapshotResponse>}
    * @memberof ShareClient
    */
@@ -371,6 +503,7 @@ export class ShareClient extends StorageClient {
    * Sets quota for the specified share.
    *
    * @param {number} quotaInGB Specifies the maximum size of the share in gigabytes
+   * @param {ShareSetQuotaOptions} [option] Optional options to Share Set Quota operation.
    * @returns {Promise<Models.ShareSetQuotaResponse>}
    * @memberof ShareClient
    */
@@ -394,6 +527,7 @@ export class ShareClient extends StorageClient {
    * Retrieves statistics related to the share.
    *
    * @returns {Promise<Models.ShareGetStatisticsResponse>}
+   * @param {ShareGetStatisticsOptions} [option] Optional options to Share Get Statistics operation.
    * @memberof ShareClient
    */
   public async getStatistics(

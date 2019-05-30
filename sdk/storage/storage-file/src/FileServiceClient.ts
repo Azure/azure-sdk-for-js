@@ -9,7 +9,21 @@ import { StorageClient } from "./StorageClient";
 import { ShareClient } from "./ShareClient";
 import { appendToURLPath } from "./utils/utils.common";
 
+/**
+ * Options to configure List Shares Segment operation.
+ *
+ * @export
+ * @interface ServiceListSharesSegmentOptions
+ */
 export interface ServiceListSharesSegmentOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof AppendBlobCreateOptions
+   */
   abortSignal?: Aborter;
   /**
    * Filters the results to return only entries whose
@@ -40,11 +54,39 @@ export interface ServiceListSharesSegmentOptions {
   include?: Models.ListSharesIncludeType[];
 }
 
-export interface IServiceGetPropertiesOptions {
+/**
+ * Options to configure File Service - Get Properties operation.
+ *
+ * @export
+ * @interface ServiceGetPropertiesOptions
+ */
+export interface ServiceGetPropertiesOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof AppendBlobCreateOptions
+   */
   abortSignal?: Aborter;
 }
 
-export interface IServiceSetPropertiesOptions {
+/**
+ * Options to configure File Service - Set Properties operation.
+ *
+ * @export
+ * @interface ServiceSetPropertiesOptions
+ */
+export interface ServiceSetPropertiesOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof AppendBlobCreateOptions
+   */
   abortSignal?: Aborter;
 }
 
@@ -97,11 +139,12 @@ export class FileServiceClient extends StorageClient {
    * for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-file-service-properties}
    *
+   * @param {ServiceGetPropertiesOptions} [options={}] Optional options to Get Properties operation.
    * @returns {Promise<Models.ServiceGetPropertiesResponse>}
    * @memberof FileServiceClient
    */
   public async getProperties(
-    options: IServiceGetPropertiesOptions = {}
+    options: ServiceGetPropertiesOptions = {}
   ): Promise<Models.ServiceGetPropertiesResponse> {
     const aborter = options.abortSignal || Aborter.none;
     return this.serviceContext.getProperties({
@@ -115,12 +158,13 @@ export class FileServiceClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-file-service-properties}
    *
    * @param {Models.StorageServiceProperties} properties
+   * @param {ServiceSetPropertiesOptions} [options={}] Optional options to Set Properties operation.
    * @returns {Promise<Models.ServiceSetPropertiesResponse>}
    * @memberof FileServiceClient
    */
   public async setProperties(
     properties: Models.StorageServiceProperties,
-    options: IServiceSetPropertiesOptions = {}
+    options: ServiceSetPropertiesOptions = {}
   ): Promise<Models.ServiceSetPropertiesResponse> {
     const aborter = options.abortSignal || Aborter.none;
     return this.serviceContext.setProperties(properties, {
@@ -138,7 +182,7 @@ export class FileServiceClient extends StorageClient {
    *                          not complete. The marker value may then be used in a subsequent call to
    *                          request the next set of list items. The marker value is opaque to the
    *                          client.
-   * @param {ServiceListSharesSegmentOptions} [options={}]
+   * @param {ServiceListSharesSegmentOptions} [options={}] Optional options to List Shares Segment operation.
    * @returns {Promise<Models.ServiceListSharesSegmentResponse>}
    * @memberof FileServiceClient
    */
