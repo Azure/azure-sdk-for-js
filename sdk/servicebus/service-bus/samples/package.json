@@ -1,7 +1,21 @@
 {
   "name": "@azure/service-bus-samples",
-  "version": "0.0.0",
-  "description": "@azure/service-bus samples",
+  "version": "0.0.1",
+  "description": "@0azure/service-bus samples",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js#readme",
+  "repository": "github:Azure/azure-sdk-for-js",
   "author": "Microsoft",
-  "license": "ISC"
+  "license": "MIT",
+  "dependencies": {
+    "@azure/ms-rest-nodeauth": "^2.0.1",
+    "@azure/service-bus": "^1.0.2",
+    "https-proxy-agent": "^2.2.1",
+    "rhea-promise": "^0.2.0",
+    "ws": "^7.0.0"
+  },
+  "devDependencies": {
+    "@azure/arm-servicebus": "^0.1.0",
+    "@types/node": "^8.0.0",
+    "@types/ws": "^6.0.1"
+  }
 }
