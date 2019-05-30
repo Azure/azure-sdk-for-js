@@ -1,4 +1,4 @@
-# Getting started with samples #
+﻿# Getting started with samples #
 
 ## Install the library
 
@@ -19,13 +19,15 @@ Before running any of the samples, update it with the connection string and the 
 
 ## Initializing the samples folder
 
-Once you clone this repository, make sure you're in this samples folder. If you're already in this folder you might ignore this step, otherwise do as follows:
-```bash
-git clone https://github.com/Azure/azure-sdk-for-js
-cd azure-sdk-for-js/sdk/servicebus/service-bus/samples/
-```
+Copy the samples folder somewhere in your computer, then run `npm
+install` inside of it.
 
-Inside of this folder, run `npm install`.
+If you want to run just a specific sample, copy that file into a
+separate folder and continue with the steps below. Remember to
+install the library with `npm install @azure/service-bus`. Read the
+sample's source code to verify any other dependency that you might
+need (dependencies will be visible within the first lines of each
+sample file).
 
 ## Running a Javascript sample
 
