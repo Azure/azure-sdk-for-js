@@ -950,6 +950,50 @@ export const KnowledgebasesDTO: msRest.CompositeMapper = {
   }
 };
 
+export const ActiveLearningSettingsDTO: msRest.CompositeMapper = {
+  serializedName: "ActiveLearningSettingsDTO",
+  type: {
+    name: "Composite",
+    className: "ActiveLearningSettingsDTO",
+    modelProperties: {
+      enable: {
+        serializedName: "enable",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const EndpointSettingsDTOActiveLearning: msRest.CompositeMapper = {
+  serializedName: "EndpointSettingsDTO_activeLearning",
+  type: {
+    name: "Composite",
+    className: "EndpointSettingsDTOActiveLearning",
+    modelProperties: {
+      ...ActiveLearningSettingsDTO.type.modelProperties
+    }
+  }
+};
+
+export const EndpointSettingsDTO: msRest.CompositeMapper = {
+  serializedName: "EndpointSettingsDTO",
+  type: {
+    name: "Composite",
+    className: "EndpointSettingsDTO",
+    modelProperties: {
+      activeLearning: {
+        serializedName: "activeLearning",
+        type: {
+          name: "Composite",
+          className: "EndpointSettingsDTOActiveLearning"
+        }
+      }
+    }
+  }
+};
+
 export const AlterationsDTO: msRest.CompositeMapper = {
   serializedName: "AlterationsDTO",
   type: {
