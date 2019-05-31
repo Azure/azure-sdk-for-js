@@ -416,7 +416,7 @@ export interface ParameterSpecification {
 /**
  * Contains the possible cases for LinkedService.
  */
-export type LinkedServiceUnion = LinkedService | AzureFunctionLinkedService | AzureDataExplorerLinkedService | SapTableLinkedService | GoogleAdWordsLinkedService | OracleServiceCloudLinkedService | DynamicsAXLinkedService | ResponsysLinkedService | AzureDatabricksLinkedService | AzureDataLakeAnalyticsLinkedService | HDInsightOnDemandLinkedService | SalesforceMarketingCloudLinkedService | NetezzaLinkedService | VerticaLinkedService | ZohoLinkedService | XeroLinkedService | SquareLinkedService | SparkLinkedService | ShopifyLinkedService | ServiceNowLinkedService | QuickBooksLinkedService | PrestoLinkedService | PhoenixLinkedService | PaypalLinkedService | MarketoLinkedService | MariaDBLinkedService | MagentoLinkedService | JiraLinkedService | ImpalaLinkedService | HubspotLinkedService | HiveLinkedService | HBaseLinkedService | GreenplumLinkedService | GoogleBigQueryLinkedService | EloquaLinkedService | DrillLinkedService | CouchbaseLinkedService | ConcurLinkedService | AzurePostgreSqlLinkedService | AmazonMWSLinkedService | SapHanaLinkedService | SapBWLinkedService | SftpServerLinkedService | FtpServerLinkedService | HttpLinkedService | AzureSearchLinkedService | CustomDataSourceLinkedService | AmazonRedshiftLinkedService | AmazonS3LinkedService | RestServiceLinkedService | SapOpenHubLinkedService | SapEccLinkedService | SapCloudForCustomerLinkedService | SalesforceLinkedService | Office365LinkedService | AzureBlobFSLinkedService | AzureDataLakeStoreLinkedService | CosmosDbMongoDbApiLinkedService | MongoDbV2LinkedService | MongoDbLinkedService | CassandraLinkedService | WebLinkedService | ODataLinkedService | HdfsLinkedService | OdbcLinkedService | AzureMLLinkedService | TeradataLinkedService | Db2LinkedService | SybaseLinkedService | PostgreSqlLinkedService | MySqlLinkedService | AzureMySqlLinkedService | OracleLinkedService | FileServerLinkedService | HDInsightLinkedService | DynamicsLinkedService | CosmosDbLinkedService | AzureKeyVaultLinkedService | AzureBatchLinkedService | AzureSqlDatabaseLinkedService | SqlServerLinkedService | AzureSqlDWLinkedService | AzureTableStorageLinkedService | AzureBlobStorageLinkedService | AzureStorageLinkedService;
+export type LinkedServiceUnion = LinkedService | AzureFunctionLinkedService | AzureDataExplorerLinkedService | SapTable | GoogleAdWordsLinkedService | OracleServiceCloudLinkedService | DynamicsAXLinkedService | ResponsysLinkedService | AzureDatabricksLinkedService | AzureDataLakeAnalyticsLinkedService | HDInsightOnDemandLinkedService | SalesforceMarketingCloudLinkedService | NetezzaLinkedService | VerticaLinkedService | ZohoLinkedService | XeroLinkedService | SquareLinkedService | SparkLinkedService | ShopifyLinkedService | ServiceNowLinkedService | QuickBooksLinkedService | PrestoLinkedService | PhoenixLinkedService | PaypalLinkedService | MarketoLinkedService | MariaDBLinkedService | MagentoLinkedService | JiraLinkedService | ImpalaLinkedService | HubspotLinkedService | HiveLinkedService | HBaseLinkedService | GreenplumLinkedService | GoogleBigQueryLinkedService | EloquaLinkedService | DrillLinkedService | CouchbaseLinkedService | ConcurLinkedService | AzurePostgreSqlLinkedService | AmazonMWSLinkedService | SapHanaLinkedService | SapBWLinkedService | SftpServerLinkedService | FtpServerLinkedService | HttpLinkedService | AzureSearchLinkedService | CustomDataSourceLinkedService | AmazonRedshiftLinkedService | AmazonS3LinkedService | RestServiceLinkedService | SapOpenHubLinkedService | SapEccLinkedService | SapCloudForCustomerLinkedService | SalesforceLinkedService | Office365LinkedService | AzureBlobFSLinkedService | AzureDataLakeStoreLinkedService | CosmosDbMongoDbApiLinkedService | MongoDbV2LinkedService | MongoDbLinkedService | CassandraLinkedService | WebLinkedService | ODataLinkedService | HdfsLinkedService | OdbcLinkedService | AzureMLLinkedService | TeradataLinkedService | Db2LinkedService | SybaseLinkedService | PostgreSqlLinkedService | MySqlLinkedService | AzureMySqlLinkedService | OracleLinkedService | FileServerLinkedService | HDInsightLinkedService | DynamicsLinkedService | CosmosDbLinkedService | AzureKeyVaultLinkedService | AzureBatchLinkedService | AzureSqlDatabaseLinkedService | SqlServerLinkedService | AzureSqlDWLinkedService | AzureTableStorageLinkedService | AzureBlobStorageLinkedService | AzureStorageLinkedService;
 
 /**
  * The Azure Data Factory nested object which contains the information and credential which can be
@@ -472,7 +472,7 @@ export interface DatasetFolder {
 /**
  * Contains the possible cases for Dataset.
  */
-export type DatasetUnion = Dataset | GoogleAdWordsObjectDataset | AzureDataExplorerTableDataset | OracleServiceCloudObjectDataset | DynamicsAXResourceDataset | ResponsysObjectDataset | SalesforceMarketingCloudObjectDataset | VerticaTableDataset | NetezzaTableDataset | ZohoObjectDataset | XeroObjectDataset | SquareObjectDataset | SparkObjectDataset | ShopifyObjectDataset | ServiceNowObjectDataset | QuickBooksObjectDataset | PrestoObjectDataset | PhoenixObjectDataset | PaypalObjectDataset | MarketoObjectDataset | MariaDBTableDataset | MagentoObjectDataset | JiraObjectDataset | ImpalaObjectDataset | HubspotObjectDataset | HiveObjectDataset | HBaseObjectDataset | GreenplumTableDataset | GoogleBigQueryObjectDataset | EloquaObjectDataset | DrillTableDataset | CouchbaseTableDataset | ConcurObjectDataset | AzurePostgreSqlTableDataset | AmazonMWSObjectDataset | HttpDataset | AzureSearchIndexDataset | WebTableDataset | RestResourceDataset | SqlServerTableDataset | SapOpenHubTableDataset | SapEccResourceDataset | SapCloudForCustomerResourceDataset | SalesforceObjectDataset | RelationalTableDataset | AzureMySqlTableDataset | OracleTableDataset | ODataResourceDataset | CosmosDbMongoDbApiCollectionDataset | MongoDbV2CollectionDataset | MongoDbCollectionDataset | FileShareDataset | Office365Dataset | AzureBlobFSDataset | AzureDataLakeStoreDataset | DynamicsEntityDataset | DocumentDbCollectionDataset | CustomDataset | CassandraTableDataset | AzureSqlDWTableDataset | AzureSqlTableDataset | AzureTableDataset | AzureBlobDataset | DelimitedTextDataset | ParquetDataset | AmazonS3Dataset;
+export type DatasetUnion = Dataset | GoogleAdWordsObjectDataset | AzureDataExplorerTableDataset | OracleServiceCloudObjectDataset | DynamicsAXResourceDataset | ResponsysObjectDataset | SalesforceMarketingCloudObjectDataset | VerticaTableDataset | NetezzaTableDataset | ZohoObjectDataset | XeroObjectDataset | SquareObjectDataset | SparkObjectDataset | ShopifyObjectDataset | ServiceNowObjectDataset | QuickBooksObjectDataset | PrestoObjectDataset | PhoenixObjectDataset | PaypalObjectDataset | MarketoObjectDataset | MariaDBTableDataset | MagentoObjectDataset | JiraObjectDataset | ImpalaObjectDataset | HubspotObjectDataset | HiveObjectDataset | HBaseObjectDataset | GreenplumTableDataset | GoogleBigQueryObjectDataset | EloquaObjectDataset | DrillTableDataset | CouchbaseTableDataset | ConcurObjectDataset | AzurePostgreSqlTableDataset | AmazonMWSObjectDataset | HttpDataset | AzureSearchIndexDataset | WebTableDataset | SapTableResourceDataset | RestResourceDataset | SqlServerTableDataset | SapOpenHubTableDataset | SapEccResourceDataset | SapCloudForCustomerResourceDataset | SalesforceObjectDataset | RelationalTableDataset | AzureMySqlTableDataset | OracleTableDataset | ODataResourceDataset | CosmosDbMongoDbApiCollectionDataset | MongoDbV2CollectionDataset | MongoDbCollectionDataset | FileShareDataset | Office365Dataset | AzureBlobFSDataset | AzureDataLakeStoreDataset | DynamicsEntityDataset | DocumentDbCollectionDataset | CustomDataset | CassandraTableDataset | AzureSqlDWTableDataset | AzureSqlTableDataset | AzureTableDataset | AzureBlobDataset | DelimitedTextDataset | ParquetDataset | AmazonS3Dataset;
 
 /**
  * The Azure Data Factory nested object which identifies data within different data stores, such as
@@ -2044,9 +2044,9 @@ export interface AzureDataExplorerLinkedService {
 }
 
 /**
- * SAP Business Warehouse Open Hub Destination Linked Service.
+ * SAP Table Linked Service.
  */
-export interface SapTableLinkedService {
+export interface SapTable {
   /**
    * Polymorphic Discriminator
    */
@@ -2068,35 +2068,77 @@ export interface SapTableLinkedService {
    */
   annotations?: any[];
   /**
-   * Host name of the SAP BW instance where the open hub destination is located. Type: string (or
-   * Expression with resultType string).
-   */
-  server: any;
-  /**
-   * System number of the BW system where the open hub destination is located. (Usually a two-digit
-   * decimal number represented as a string.) Type: string (or Expression with resultType string).
-   */
-  systemNumber: any;
-  /**
-   * Client ID of the client on the BW system where the open hub destination is located. (Usually a
-   * three-digit decimal number represented as a string) Type: string (or Expression with
+   * Host name of the SAP instance where the table is located. Type: string (or Expression with
    * resultType string).
    */
-  clientId: any;
+  server?: any;
   /**
-   * Language of the BW system where the open hub destination is located. The default value is EN.
-   * Type: string (or Expression with resultType string).
+   * System number of the SAP system where the table is located. (Usually a two-digit decimal
+   * number represented as a string.) Type: string (or Expression with resultType string).
+   */
+  systemNumber?: any;
+  /**
+   * Client ID of the client on the SAP system where the table is located. (Usually a three-digit
+   * decimal number represented as a string) Type: string (or Expression with resultType string).
+   */
+  clientId?: any;
+  /**
+   * Language of the SAP system where the table is located. The default value is EN. Type: string
+   * (or Expression with resultType string).
    */
   language?: any;
   /**
-   * Username to access the SAP BW server where the open hub destination is located. Type: string
-   * (or Expression with resultType string).
+   * SystemID of the SAP system where the table is located. Type: string (or Expression with
+   * resultType string).
+   */
+  systemId?: any;
+  /**
+   * Username to access the SAP server where the table is located. Type: string (or Expression with
+   * resultType string).
    */
   userName?: any;
   /**
-   * Password to access the SAP BW server where the open hub destination is located.
+   * Password to access the SAP server where the table is located.
    */
   password?: SecretBaseUnion;
+  /**
+   * The hostname of the SAP Message Server. Type: string (or Expression with resultType string).
+   */
+  messageServer?: any;
+  /**
+   * The service name or port number of the Message Server. Type: string (or Expression with
+   * resultType string).
+   */
+  messageServerService?: any;
+  /**
+   * SNC activation indicator to access the SAP server where the table is located. Must be either 0
+   * (off) or 1 (on). Type: string (or Expression with resultType string).
+   */
+  sncMode?: any;
+  /**
+   * Initiator's SNC name to access the SAP server where the table is located. Type: string (or
+   * Expression with resultType string).
+   */
+  sncMyName?: any;
+  /**
+   * Communication partner's SNC name to access the SAP server where the table is located. Type:
+   * string (or Expression with resultType string).
+   */
+  sncPartnerName?: any;
+  /**
+   * External security product's library to access the SAP server where the table is located. Type:
+   * string (or Expression with resultType string).
+   */
+  sncLibraryPath?: any;
+  /**
+   * SNC Quality of Protection. Allowed value include: 1, 2, 3, 8, 9. Type: string (or Expression
+   * with resultType string).
+   */
+  sncQop?: any;
+  /**
+   * The Logon Group for the SAP System. Type: string (or Expression with resultType string).
+   */
+  logonGroup?: any;
   /**
    * The encrypted credential used for authentication. Credentials are encrypted using the
    * integration runtime credential manager. Type: string (or Expression with resultType string).
@@ -8815,6 +8857,50 @@ export interface WebTableDataset {
 }
 
 /**
+ * SAP Table Resource properties.
+ */
+export interface SapTableResourceDataset {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "SapTableResource";
+  /**
+   * Dataset description.
+   */
+  description?: string;
+  /**
+   * Columns that define the structure of the dataset. Type: array (or Expression with resultType
+   * array), itemType: DatasetDataElement.
+   */
+  structure?: any;
+  /**
+   * Columns that define the physical type schema of the dataset. Type: array (or Expression with
+   * resultType array), itemType: DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
+   * Linked service reference.
+   */
+  linkedServiceName: LinkedServiceReference;
+  /**
+   * Parameters for dataset.
+   */
+  parameters?: { [propertyName: string]: ParameterSpecification };
+  /**
+   * List of tags that can be used for describing the Dataset.
+   */
+  annotations?: any[];
+  /**
+   * The folder that this Dataset is in. If not specified, Dataset will appear at the root level.
+   */
+  folder?: DatasetFolder;
+  /**
+   * The name of the SAP Table. Type: string (or Expression with resultType string).
+   */
+  tableName: any;
+}
+
+/**
  * A Rest service dataset.
  */
 export interface RestResourceDataset {
@@ -12697,17 +12783,17 @@ export interface SapTablePartitionSettings {
    */
   partitionColumnName?: any;
   /**
-   * The maximum value of column specificed in partitionColumnName that will be used for proceeding
+   * The maximum value of column specified in partitionColumnName that will be used for proceeding
    * range partitioning. Type: string (or Expression with resultType string).
    */
   partitionUpperBound?: any;
   /**
-   * The minimum value of column specificed in partitionColumnName that will be used for proceeding
+   * The minimum value of column specified in partitionColumnName that will be used for proceeding
    * range partitioning. Type: string (or Expression with resultType string).
    */
   partitionLowerBound?: any;
   /**
-   * The maximum value of partitions the table will be splitted into. Type: integer (or Expression
+   * The maximum value of partitions the table will be split into. Type: integer (or Expression
    * with resultType string).
    */
   maxPartitionsNumber?: any;

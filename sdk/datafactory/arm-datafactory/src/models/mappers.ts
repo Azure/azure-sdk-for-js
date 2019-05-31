@@ -3212,31 +3212,28 @@ export const AzureDataExplorerLinkedService: msRest.CompositeMapper = {
   }
 };
 
-export const SapTableLinkedService: msRest.CompositeMapper = {
+export const SapTable: msRest.CompositeMapper = {
   serializedName: "SapOpenHub",
   type: {
     name: "Composite",
     polymorphicDiscriminator: LinkedService.type.polymorphicDiscriminator,
     uberParent: "LinkedService",
-    className: "SapTableLinkedService",
+    className: "SapTable",
     modelProperties: {
       ...LinkedService.type.modelProperties,
       server: {
-        required: true,
         serializedName: "typeProperties.server",
         type: {
           name: "Object"
         }
       },
       systemNumber: {
-        required: true,
         serializedName: "typeProperties.systemNumber",
         type: {
           name: "Object"
         }
       },
       clientId: {
-        required: true,
         serializedName: "typeProperties.clientId",
         type: {
           name: "Object"
@@ -3244,6 +3241,12 @@ export const SapTableLinkedService: msRest.CompositeMapper = {
       },
       language: {
         serializedName: "typeProperties.language",
+        type: {
+          name: "Object"
+        }
+      },
+      systemId: {
+        serializedName: "typeProperties.systemId",
         type: {
           name: "Object"
         }
@@ -3259,6 +3262,54 @@ export const SapTableLinkedService: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "SecretBase"
+        }
+      },
+      messageServer: {
+        serializedName: "typeProperties.messageServer",
+        type: {
+          name: "Object"
+        }
+      },
+      messageServerService: {
+        serializedName: "typeProperties.messageServerService",
+        type: {
+          name: "Object"
+        }
+      },
+      sncMode: {
+        serializedName: "typeProperties.sncMode",
+        type: {
+          name: "Object"
+        }
+      },
+      sncMyName: {
+        serializedName: "typeProperties.sncMyName",
+        type: {
+          name: "Object"
+        }
+      },
+      sncPartnerName: {
+        serializedName: "typeProperties.sncPartnerName",
+        type: {
+          name: "Object"
+        }
+      },
+      sncLibraryPath: {
+        serializedName: "typeProperties.sncLibraryPath",
+        type: {
+          name: "Object"
+        }
+      },
+      sncQop: {
+        serializedName: "typeProperties.sncQop",
+        type: {
+          name: "Object"
+        }
+      },
+      logonGroup: {
+        serializedName: "typeProperties.logonGroup",
+        type: {
+          name: "Object"
         }
       },
       encryptedCredential: {
@@ -9210,6 +9261,27 @@ export const WebTableDataset: msRest.CompositeMapper = {
       },
       path: {
         serializedName: "typeProperties.path",
+        type: {
+          name: "Object"
+        }
+      }
+    },
+    additionalProperties: Dataset.type.additionalProperties
+  }
+};
+
+export const SapTableResourceDataset: msRest.CompositeMapper = {
+  serializedName: "SapTableResource",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: Dataset.type.polymorphicDiscriminator,
+    uberParent: "Dataset",
+    className: "SapTableResourceDataset",
+    modelProperties: {
+      ...Dataset.type.modelProperties,
+      tableName: {
+        required: true,
+        serializedName: "typeProperties.tableName",
         type: {
           name: "Object"
         }
@@ -17335,7 +17407,7 @@ export const discriminators = {
   'Trigger.MultiplePipelineTrigger' : MultiplePipelineTrigger,
   'LinkedService.AzureFunction' : AzureFunctionLinkedService,
   'LinkedService.AzureDataExplorer' : AzureDataExplorerLinkedService,
-  'LinkedService.SapOpenHub' : SapTableLinkedService,
+  'LinkedService.SapOpenHub' : SapTable,
   'LinkedService.GoogleAdWords' : GoogleAdWordsLinkedService,
   'LinkedService.OracleServiceCloud' : OracleServiceCloudLinkedService,
   'LinkedService.DynamicsAX' : DynamicsAXLinkedService,
@@ -17469,6 +17541,7 @@ export const discriminators = {
   'Dataset.HttpFile' : HttpDataset,
   'Dataset.AzureSearchIndex' : AzureSearchIndexDataset,
   'Dataset.WebTable' : WebTableDataset,
+  'Dataset.SapTableResource' : SapTableResourceDataset,
   'Dataset.RestResource' : RestResourceDataset,
   'Dataset.SqlServerTable' : SqlServerTableDataset,
   'Dataset.SapOpenHubTable' : SapOpenHubTableDataset,
