@@ -36,7 +36,7 @@ jobs:
         inputs:
           pathtoPublish: $(Build.SourcesDirectory)/drop
 
-  - job: 'Check everything'
+  - job: 'Check_everything'
     steps:
       - task: NodeTool@0
         inputs:
