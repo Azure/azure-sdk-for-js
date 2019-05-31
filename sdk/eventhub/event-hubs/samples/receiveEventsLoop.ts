@@ -33,11 +33,11 @@ async function main(): Promise<void> {
       console.log(`Received events: ${events.map(event => event.body)}`);
     }
 
-    let receivedIteratorEvent = 0;
+    let iteratorCount = 0;
     for await (const events of receiver.getEventIterator({ preFetchCount: 5 })) {
-      receivedIteratorEvent++;
+      iteratorCount++;
       console.log(`Received event: ${events.body}`);
-      if (receivedIteratorEvent === 5) {
+      if (iteratorCount === 5) {
         break;
       }
     }
