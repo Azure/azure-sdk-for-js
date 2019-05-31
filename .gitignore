@@ -138,6 +138,7 @@ browser
 test-browser
 typings
 typedoc
+types
 
 # autorest generated files
 swagger/*.json
