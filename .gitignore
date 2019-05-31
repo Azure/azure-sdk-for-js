@@ -265,9 +265,9 @@ dist-esm/
 dist-test/
 dist-commonjs/
 temp/
-ts-test/package-lock.json
-ts-test/package.json
-ts-test/*.js
+consumer-test/package-lock.json
+consumer-test/package.json
+consumer-test/*.js
 test/**/*.js
 test/**/*.js.map
 test/**/*.d.ts

@@ -32,7 +32,7 @@
     "test": "tsc -b --verbose && mocha -r esm -r dotenv/config -r ./test/common/setup.js \"./test/**/*.spec.js\" --timeout 100000",
     "prepack": "npm install && npm run build",
     "test-browser": "karma start ./karma.config.js --single-run",
-    "ci": "npm run build && npm run test -- --forbid-only && node consumer-test.js"
+    "test-consumer": "node consumer-test.js"
   },
   "devDependencies": {
     "@microsoft/api-extractor": "6.3.0",
@@ -86,7 +86,8 @@
     "node-fetch": "2.3.0",
     "priorityqueuejs": "1.0.0",
     "semaphore": "1.0.5",
-    "tslib": "^1.9.3"
+    "tslib": "^1.9.3",
+    "universal-user-agent": "2.1.0"
   },
   "repository": {
     "type": "git",

@@ -1,7 +1,7 @@
 ﻿import * as http from "http";
 import * as net from "net";
+import { URL } from "url";
 import ProxyAgent from "proxy-agent";
-import * as url from "url";
 import { CosmosClient } from "../../dist-esm/index";
 import { endpoint, masterKey } from "../common/_testConfig";
 import { addEntropy } from "../common/TestHelpers";
@@ -15,7 +15,7 @@ if (!isBrowser()) {
     });
 
     proxy.on("connect", (req, clientSocket, head) => {
-      const serverUrl = url.parse(`http://${req.url}`);
+      const serverUrl = new URL(`http://${req.url}`);
       const serverSocket = net.connect(
         parseInt(serverUrl.port, 10),
         serverUrl.hostname,

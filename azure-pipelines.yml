@@ -60,11 +60,12 @@ jobs:
       - script: npm run build
         displayName: "npm run build"
 
-      - bash: ACCOUNT_HOST=$COSMOSDBEMULATOR_ENDPOINT NODE_TLS_REJECT_UNAUTHORIZED="0" npm run test
-        failOnStderr: true
+      - bash: npm run test -- --forbid-only
         displayName: "npm test"
         env:
           MOCHA_TIMEOUT: 100000
+      - bash: npm run test-consumer
+        displayName: "TypeScript consumer tests"
   # - job: NightlyEmulator
   #   pool:
   #     vmImage: vs2017-win2016

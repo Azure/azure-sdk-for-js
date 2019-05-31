@@ -1,4 +1,3 @@
-import * as url from "url";
 import { Constants, OperationType, ResourceType, sleep } from "./common";
 import { CosmosClientOptions } from "./CosmosClientOptions";
 import { DatabaseAccount } from "./documents";
@@ -196,7 +195,7 @@ export class GlobalEndpointManager {
     // For defaultEndpoint like 'https://contoso.documents.azure.com:443/' parse it to generate URL format
     // This defaultEndpoint should be global endpoint(and cannot be a locational endpoint)
     // and we agreed to document that
-    const endpointUrl = url.parse(defaultEndpoint, true, true);
+    const endpointUrl = new URL(defaultEndpoint);
 
     // hostname attribute in endpointUrl will return 'contoso.documents.azure.com'
     if (endpointUrl.hostname) {
