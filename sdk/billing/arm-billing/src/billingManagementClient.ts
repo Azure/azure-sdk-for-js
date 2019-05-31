@@ -19,7 +19,7 @@ class BillingManagementClient extends BillingManagementClientContext {
   // Operation groups
   billingAccounts: operations.BillingAccounts;
   paymentMethods: operations.PaymentMethods;
-  billingAccountsValidateAddress: operations.BillingAccountsValidateAddress;
+  addresses: operations.Addresses;
   availableBalances: operations.AvailableBalances;
   billingProfiles: operations.BillingProfiles;
   invoiceSections: operations.InvoiceSections;
@@ -51,7 +51,7 @@ class BillingManagementClient extends BillingManagementClientContext {
     super(credentials, subscriptionId, options);
     this.billingAccounts = new operations.BillingAccounts(this);
     this.paymentMethods = new operations.PaymentMethods(this);
-    this.billingAccountsValidateAddress = new operations.BillingAccountsValidateAddress(this);
+    this.addresses = new operations.Addresses(this);
     this.availableBalances = new operations.AvailableBalances(this);
     this.billingProfiles = new operations.BillingProfiles(this);
     this.invoiceSections = new operations.InvoiceSections(this);

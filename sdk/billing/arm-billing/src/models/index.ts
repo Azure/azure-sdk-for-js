@@ -2406,9 +2406,9 @@ export type PaymentMethodsListByBillingProfileNameNextResponse = PaymentMethodsL
 };
 
 /**
- * Contains response data for the post operation.
+ * Contains response data for the validate operation.
  */
-export type BillingAccountsValidateAddressPostResponse = ValidateAddressResponse & {
+export type AddressesValidateResponse = ValidateAddressResponse & {
   /**
    * The underlying HTTP response.
    */
