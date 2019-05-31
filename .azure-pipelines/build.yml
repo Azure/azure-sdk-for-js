@@ -26,13 +26,6 @@ jobs:
           verbose: false
 
       - task: Npm@1
-        displayName: 'npm run check:everything'
-        inputs:
-          command: custom
-          verbose: false
-          customCommand: 'run check:everything -- --head-reference=origin/$(System.PullRequest.SourceBranch) --base-reference=origin/$(System.PullRequest.TargetBranch) --azure-devops --verbose'
-
-      - task: Npm@1
         displayName: 'npm run build'
         inputs:
           command: custom
@@ -42,3 +35,22 @@ jobs:
       - task: PublishBuildArtifacts@1
         inputs:
           pathtoPublish: $(Build.SourcesDirectory)/drop
+
+  - job: 'Check everything'
+    steps:
+      - task: NodeTool@0
+        inputs:
+          versionSpec: '$(NodeVersion)'
+        displayName: 'Install Node.js $(NodeVersion)'
+
+      - task: Npm@1
+        displayName: 'npm install'
+        inputs:
+          verbose: false
+
+      - task: Npm@1
+        displayName: 'npm run check:everything'
+        inputs:
+          command: custom
+          verbose: false
+          customCommand: 'run check:everything -- --head-reference=origin/$(System.PullRequest.SourceBranch) --base-reference=origin/$(System.PullRequest.TargetBranch) --azure-devops --verbose'
