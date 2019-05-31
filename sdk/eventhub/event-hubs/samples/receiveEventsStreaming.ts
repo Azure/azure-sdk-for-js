@@ -8,15 +8,19 @@
   to populate Event Hubs before running this sample.
 */
 
-import { EventHubClient, EventPosition, OnMessage, OnError, MessagingError, delay, EventData } from "@azure/event-hubs";
+import { EventHubClient, OnMessage, OnError, MessagingError, delay, EventData, EventPosition } from "../SRC";
 
 // Define connection string and related Event Hubs entity name here
 const connectionString = "";
-const eventHubsName = "";
+const eventHubName = "";
 
 async function main(): Promise<void> {
-  const client = EventHubClient.createFromConnectionString(connectionString, eventHubsName);
+  const client = EventHubClient.createFromConnectionString(connectionString, eventHubName);
   const partitionIds = await client.getPartitionIds();
+  const receiver = client.createReceiver(partitionIds[0], {
+    eventPosition: EventPosition.fromFirstAvailableEvent(),
+    consumerGroup: "$Default"
+  });
 
   const onMessageHandler: OnMessage = (brokeredMessage: EventData) => {
     console.log(`Received event: ${brokeredMessage.body}`);
@@ -25,15 +29,15 @@ async function main(): Promise<void> {
     console.log("Error occurred: ", err);
   };
 
-  const rcvHandler = client.receive(partitionIds[0], onMessageHandler, onErrorHandler, {
-    eventPosition: EventPosition.fromStart(),
-    consumerGroup: "$Default"
-  });
+  try {
+    const rcvHandler = receiver.receive(onMessageHandler, onErrorHandler);
 
-  // Waiting long enough before closing the receiver to receive event
-  await delay(5000);
-  await rcvHandler.stop();
-  await client.close();
+    // Waiting long enough before closing the receiver to receive event
+    await delay(5000);
+    await rcvHandler.stop();
+  } finally {
+    await client.close();
+  }
 }
 
 main().catch(err => {

@@ -10,6 +10,7 @@ import { MessagingError, Constants } from "@azure/amqp-common";
 import { StreamingReceiver, ReceiveHandler } from "./streamingReceiver";
 import { BatchingReceiver } from "./batchingReceiver";
 import { Aborter } from "./aborter";
+import { throwErrorIfConnectionClosed } from "./util/error";
 
 /**
  * Options to pass when creating an iterator to iterate over events
@@ -47,6 +48,8 @@ export class Receiver {
 
   private _partitionId: string;
   private _receiverOptions: ReceiverOptions;
+  private _streamingReceiver: StreamingReceiver | undefined;
+  private _batchingReceiver: BatchingReceiver | undefined;
 
   /**
    * @property Returns `true` if the receiver is closed. This can happen either because the receiver
@@ -103,10 +106,10 @@ export class Receiver {
    * @returns {ReceiveHandler} ReceiveHandler - An object that provides a mechanism to stop receiving more messages.
    */
   receive(onMessage: OnMessage, onError: OnError, cancellationToken?: Aborter): ReceiveHandler {
-    const sReceiver = StreamingReceiver.create(this._context, this.partitionId, this._receiverOptions);
-    sReceiver.prefetchCount = Constants.defaultPrefetchCount;
-    this._context.receivers[sReceiver.name] = sReceiver;
-    return sReceiver.receive(onMessage, onError);
+    this._throwIfReceiverOrConnectionClosed();
+    this._streamingReceiver = StreamingReceiver.create(this._context, this.partitionId, this._receiverOptions);
+    this._streamingReceiver.prefetchCount = Constants.defaultPrefetchCount;
+    return this._streamingReceiver.receive(onMessage, onError);
   }
 
   /**
@@ -122,14 +125,37 @@ export class Receiver {
   /**
    * Closes the underlying AMQP receiver link.
    * Once closed, the receiver cannot be used for any further operations.
-   * Use the `createReceiver` function on the QueueClient or SubscriptionClient to instantiate
+   * Use the `createReceiver` function on the EventHubClient to instantiate
    * a new Receiver
    *
    * @returns {Promise<void>}
    */
   async close(): Promise<void> {
-    this._isClosed = true;
+    try {
+      if (this._context.connection && this._context.connection.isOpen()) {
+        // Close the streaming receiver.
+        if (this._streamingReceiver) {
+          await this._streamingReceiver.close();
+        }
+
+        // Close the batching receiver.
+        if (this._batchingReceiver) {
+          await this._batchingReceiver.close();
+        }
+      }
+    } catch (err) {
+      log.error(
+        "[%s] An error occurred while closing the Receiver for %s: %O",
+        this._context.connectionId,
+        this._context.config.entityPath,
+        err
+      );
+      throw err;
+    } finally {
+      this._isClosed = true;
+    }
   }
+
   /**
    * Indicates whether the receiver is currently receiving messages or not.
    * When this returns true, new `registerMessageHandler()` or `receiveMessages()` calls cannot be made.
@@ -154,25 +180,25 @@ export class Receiver {
     maxWaitTimeInSeconds?: number,
     cancellationToken?: Aborter
   ): Promise<ReceivedEventData[]> {
-    const bReceiver = BatchingReceiver.create(this._context, this.partitionId, this._receiverOptions);
-    this._context.receivers[bReceiver.name] = bReceiver;
+    this._throwIfReceiverOrConnectionClosed();
+    this._batchingReceiver = BatchingReceiver.create(this._context, this.partitionId, this._receiverOptions);
     let error: MessagingError | undefined;
     let result: ReceivedEventData[] = [];
     try {
-      result = await bReceiver.receive(maxMessageCount, maxWaitTimeInSeconds);
+      result = await this._batchingReceiver.receive(maxMessageCount, maxWaitTimeInSeconds);
     } catch (err) {
       error = err;
       log.error(
         "[%s] Receiver '%s', an error occurred while receiving %d messages for %d max time:\n %O",
         this._context.connectionId,
-        bReceiver.name,
+        this._batchingReceiver.name,
         maxMessageCount,
         maxWaitTimeInSeconds,
         err
       );
     }
     try {
-      await bReceiver.close();
+      await this._batchingReceiver.close();
     } catch (err) {
       // do nothing about it.
     }
@@ -180,5 +206,17 @@ export class Receiver {
       throw error;
     }
     return result;
+  }
+
+  private _throwIfReceiverOrConnectionClosed(): void {
+    throwErrorIfConnectionClosed(this._context);
+    if (this.isClosed) {
+      const errorMessage =
+        `The receiver for "${this._context.config.entityPath}" has been closed and can no longer be used. ` +
+        `Please create a new receiver using the "createReceiver" function on the EventHubClient.`;
+      const error = new Error(errorMessage);
+      log.error(`[${this._context.connectionId}] %O`, error);
+      throw error;
+    }
   }
 }

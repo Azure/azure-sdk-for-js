@@ -12,27 +12,40 @@ import { EventHubClient, EventPosition } from "@azure/event-hubs";
 
 // Define connection string and related Event Hubs entity name here
 const connectionString = "";
-const eventHubsName = "";
+const eventHubName = "";
 
 async function main(): Promise<void> {
-  const client = EventHubClient.createFromConnectionString(connectionString, eventHubsName);
+  const client = EventHubClient.createFromConnectionString(connectionString, eventHubName);
   const partitionIds = await client.getPartitionIds();
-  let eventPosition = EventPosition.fromStart();
+  const receiver = client.createReceiver(partitionIds[0], {
+    eventPosition: EventPosition.fromFirstAvailableEvent(),
+    consumerGroup: "$Default"
+  });
   const batchSize = 1;
 
-  for (let i = 0; i < 10; i++) {
-    const events = await client.receiveBatch(partitionIds[0], batchSize, 5, {
-      eventPosition: eventPosition,
-      consumerGroup: "$Default"
-    });
-    if (!events.length) {
-      console.log("No more events to receive");
-      break;
+  try {
+    for (let i = 0; i < 5; i++) {
+      const events = await receiver.receiveBatch(batchSize, 5);
+      if (!events.length) {
+        console.log("No more events to receive");
+        break;
+      }
+      console.log(`Received events: ${events.map(event => event.body)}`);
     }
-    eventPosition = EventPosition.fromSequenceNumber(events[events.length - 1].sequenceNumber!);
-    console.log(`Received events #${i}: ${events.map(event => event.body)}`);
+
+    let iteratorCount = 0;
+    for await (const events of receiver.getEventIterator({ preFetchCount: 5 })) {
+      iteratorCount++;
+      console.log(`Received event: ${events.body}`);
+      if (iteratorCount === 5) {
+        break;
+      }
+    }
+
+    await receiver.close();
+  } finally {
+    await client.close();
   }
-  await client.close();
 }
 
 main().catch(err => {
