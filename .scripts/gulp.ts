@@ -4,6 +4,7 @@
  * license information.
  */
 
+import { npmView, NPMViewResult } from "@ts-common/azure-js-dev-tools";
 import { execSync } from "child_process";
 import fs from "fs";
 import * as path from "path";
@@ -11,7 +12,6 @@ import { contains, npmInstall } from "./common";
 import { Logger } from "./logger";
 import { getPackageInformationFromPackageJsons, PackageInfo } from "./packages";
 import { findReadmeTypeScriptMdFilePaths, getAbsolutePackageFolderPathFromReadmeFileContents, getPackageNamesFromReadmeTypeScriptMdFileContents } from "./readme";
-import { NPMViewResult, NPMScope } from "@ts-common/azure-js-dev-tools";
 
 const _logger = Logger.get();
 
@@ -139,8 +139,7 @@ export async function setVersion(azureSdkForJsRoot: string, include?: RegExp, ex
         }
 
         const nodeName = packageInfo.name!.replace("@", "").replace("/", "-");
-        const npm = new NPMScope({});
-        const npmViewResult: NPMViewResult = npm.view({ packageName: nodeName });
+        const npmViewResult: NPMViewResult = await npmView({ packageName: nodeName });
 
         if (!npmViewResult.version) {
             continue;
