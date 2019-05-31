@@ -85,7 +85,7 @@ export function browserConfig(test = false) {
         }
       ),
       nodeResolve({
-        mainFields: ['module', 'browser'],
+        mainFields: ["module", "browser"],
         preferBuiltins: false
       }),
       cjs({
@@ -96,10 +96,10 @@ export function browserConfig(test = false) {
       })
     ]
   };
-  console.log('browser build');
+  console.log("browser build");
 
   if (test) {
-    console.log('yes test')
+    console.log("yes test");
     baseConfig.input = "dist-esm/test/**/*.spec.js";
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
     baseConfig.output.file = "test-browser/index.js";
