@@ -500,8 +500,7 @@ export class DatabaseAccounts {
   }
 
   /**
-   * Gets the SQL databases under an existing Azure Cosmos DB database account with the provided
-   * name.
+   * Gets the SQL database under an existing Azure Cosmos DB database account with the provided name.
    * @param resourceGroupName Name of an Azure resource group.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
@@ -561,6 +560,58 @@ export class DatabaseAccounts {
   deleteSqlDatabase(resourceGroupName: string, accountName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
     return this.beginDeleteSqlDatabase(resourceGroupName,accountName,databaseName,options)
       .then(lroPoller => lroPoller.pollUntilFinished());
+  }
+
+  /**
+   * Gets the SQL database throughput under an existing Azure Cosmos DB database account with the
+   * provided name.
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.DatabaseAccountsGetSqlDatabaseThroughputResponse>
+   */
+  getSqlDatabaseThroughput(resourceGroupName: string, accountName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<Models.DatabaseAccountsGetSqlDatabaseThroughputResponse>;
+  /**
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param callback The callback
+   */
+  getSqlDatabaseThroughput(resourceGroupName: string, accountName: string, databaseName: string, callback: msRest.ServiceCallback<Models.Throughput>): void;
+  /**
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getSqlDatabaseThroughput(resourceGroupName: string, accountName: string, databaseName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Throughput>): void;
+  getSqlDatabaseThroughput(resourceGroupName: string, accountName: string, databaseName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Throughput>, callback?: msRest.ServiceCallback<Models.Throughput>): Promise<Models.DatabaseAccountsGetSqlDatabaseThroughputResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        accountName,
+        databaseName,
+        options
+      },
+      getSqlDatabaseThroughputOperationSpec,
+      callback) as Promise<Models.DatabaseAccountsGetSqlDatabaseThroughputResponse>;
+  }
+
+  /**
+   * Update an Azure Cosmos DB SQL database throughput
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param updateThroughputParameters The parameters to provide for the current SQL database
+   * throughput.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.DatabaseAccountsUpdateSqlDatabaseThroughputResponse>
+   */
+  updateSqlDatabaseThroughput(resourceGroupName: string, accountName: string, databaseName: string, updateThroughputParameters: Models.ThroughputUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.DatabaseAccountsUpdateSqlDatabaseThroughputResponse> {
+    return this.beginUpdateSqlDatabaseThroughput(resourceGroupName,accountName,databaseName,updateThroughputParameters,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.DatabaseAccountsUpdateSqlDatabaseThroughputResponse>;
   }
 
   /**
@@ -670,6 +721,62 @@ export class DatabaseAccounts {
   }
 
   /**
+   * Gets the SQL container throughput under an existing Azure Cosmos DB database account.
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param containerName Cosmos DB container name.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.DatabaseAccountsGetSqlContainerThroughputResponse>
+   */
+  getSqlContainerThroughput(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, options?: msRest.RequestOptionsBase): Promise<Models.DatabaseAccountsGetSqlContainerThroughputResponse>;
+  /**
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param containerName Cosmos DB container name.
+   * @param callback The callback
+   */
+  getSqlContainerThroughput(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, callback: msRest.ServiceCallback<Models.Throughput>): void;
+  /**
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param containerName Cosmos DB container name.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getSqlContainerThroughput(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Throughput>): void;
+  getSqlContainerThroughput(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Throughput>, callback?: msRest.ServiceCallback<Models.Throughput>): Promise<Models.DatabaseAccountsGetSqlContainerThroughputResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        accountName,
+        databaseName,
+        containerName,
+        options
+      },
+      getSqlContainerThroughputOperationSpec,
+      callback) as Promise<Models.DatabaseAccountsGetSqlContainerThroughputResponse>;
+  }
+
+  /**
+   * Update an Azure Cosmos DB SQL container throughput
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param containerName Cosmos DB container name.
+   * @param updateThroughputParameters The parameters to provide for the current SQL container
+   * throughput.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.DatabaseAccountsUpdateSqlContainerThroughputResponse>
+   */
+  updateSqlContainerThroughput(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, updateThroughputParameters: Models.ThroughputUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.DatabaseAccountsUpdateSqlContainerThroughputResponse> {
+    return this.beginUpdateSqlContainerThroughput(resourceGroupName,accountName,databaseName,containerName,updateThroughputParameters,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.DatabaseAccountsUpdateSqlContainerThroughputResponse>;
+  }
+
+  /**
    * Lists the MongoDB databases under an existing Azure Cosmos DB database account.
    * @param resourceGroupName Name of an Azure resource group.
    * @param accountName Cosmos DB database account name.
@@ -764,6 +871,58 @@ export class DatabaseAccounts {
   deleteMongoDBDatabase(resourceGroupName: string, accountName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
     return this.beginDeleteMongoDBDatabase(resourceGroupName,accountName,databaseName,options)
       .then(lroPoller => lroPoller.pollUntilFinished());
+  }
+
+  /**
+   * Gets the MongoDB database throughput under an existing Azure Cosmos DB database account with the
+   * provided name.
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.DatabaseAccountsGetMongoDBDatabaseThroughputResponse>
+   */
+  getMongoDBDatabaseThroughput(resourceGroupName: string, accountName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<Models.DatabaseAccountsGetMongoDBDatabaseThroughputResponse>;
+  /**
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param callback The callback
+   */
+  getMongoDBDatabaseThroughput(resourceGroupName: string, accountName: string, databaseName: string, callback: msRest.ServiceCallback<Models.Throughput>): void;
+  /**
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getMongoDBDatabaseThroughput(resourceGroupName: string, accountName: string, databaseName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Throughput>): void;
+  getMongoDBDatabaseThroughput(resourceGroupName: string, accountName: string, databaseName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Throughput>, callback?: msRest.ServiceCallback<Models.Throughput>): Promise<Models.DatabaseAccountsGetMongoDBDatabaseThroughputResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        accountName,
+        databaseName,
+        options
+      },
+      getMongoDBDatabaseThroughputOperationSpec,
+      callback) as Promise<Models.DatabaseAccountsGetMongoDBDatabaseThroughputResponse>;
+  }
+
+  /**
+   * Update an Azure Cosmos DB MongoDB database throughput
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param updateThroughputParameters The parameters to provide for the current MongoDB database
+   * throughput.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.DatabaseAccountsUpdateMongoDBDatabaseThroughputResponse>
+   */
+  updateMongoDBDatabaseThroughput(resourceGroupName: string, accountName: string, databaseName: string, updateThroughputParameters: Models.ThroughputUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.DatabaseAccountsUpdateMongoDBDatabaseThroughputResponse> {
+    return this.beginUpdateMongoDBDatabaseThroughput(resourceGroupName,accountName,databaseName,updateThroughputParameters,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.DatabaseAccountsUpdateMongoDBDatabaseThroughputResponse>;
   }
 
   /**
@@ -873,6 +1032,63 @@ export class DatabaseAccounts {
   }
 
   /**
+   * Gets the MongoDB collection throughput under an existing Azure Cosmos DB database account with
+   * the provided name.
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param collectionName Cosmos DB collection name.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.DatabaseAccountsGetMongoDBCollectionThroughputResponse>
+   */
+  getMongoDBCollectionThroughput(resourceGroupName: string, accountName: string, databaseName: string, collectionName: string, options?: msRest.RequestOptionsBase): Promise<Models.DatabaseAccountsGetMongoDBCollectionThroughputResponse>;
+  /**
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param collectionName Cosmos DB collection name.
+   * @param callback The callback
+   */
+  getMongoDBCollectionThroughput(resourceGroupName: string, accountName: string, databaseName: string, collectionName: string, callback: msRest.ServiceCallback<Models.Throughput>): void;
+  /**
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param collectionName Cosmos DB collection name.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getMongoDBCollectionThroughput(resourceGroupName: string, accountName: string, databaseName: string, collectionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Throughput>): void;
+  getMongoDBCollectionThroughput(resourceGroupName: string, accountName: string, databaseName: string, collectionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Throughput>, callback?: msRest.ServiceCallback<Models.Throughput>): Promise<Models.DatabaseAccountsGetMongoDBCollectionThroughputResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        accountName,
+        databaseName,
+        collectionName,
+        options
+      },
+      getMongoDBCollectionThroughputOperationSpec,
+      callback) as Promise<Models.DatabaseAccountsGetMongoDBCollectionThroughputResponse>;
+  }
+
+  /**
+   * Update an Azure Cosmos DB MongoDB collection throughput
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param collectionName Cosmos DB collection name.
+   * @param updateThroughputParameters The parameters to provide for the current MongoDB collection
+   * throughput.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.DatabaseAccountsUpdateMongoDBCollectionThroughputResponse>
+   */
+  updateMongoDBCollectionThroughput(resourceGroupName: string, accountName: string, databaseName: string, collectionName: string, updateThroughputParameters: Models.ThroughputUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.DatabaseAccountsUpdateMongoDBCollectionThroughputResponse> {
+    return this.beginUpdateMongoDBCollectionThroughput(resourceGroupName,accountName,databaseName,collectionName,updateThroughputParameters,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.DatabaseAccountsUpdateMongoDBCollectionThroughputResponse>;
+  }
+
+  /**
    * Lists the Tables under an existing Azure Cosmos DB database account.
    * @param resourceGroupName Name of an Azure resource group.
    * @param accountName Cosmos DB database account name.
@@ -965,6 +1181,57 @@ export class DatabaseAccounts {
   deleteTable(resourceGroupName: string, accountName: string, tableName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
     return this.beginDeleteTable(resourceGroupName,accountName,tableName,options)
       .then(lroPoller => lroPoller.pollUntilFinished());
+  }
+
+  /**
+   * Gets the Table throughput under an existing Azure Cosmos DB database account with the provided
+   * name.
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param tableName Cosmos DB table name.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.DatabaseAccountsGetTableThroughputResponse>
+   */
+  getTableThroughput(resourceGroupName: string, accountName: string, tableName: string, options?: msRest.RequestOptionsBase): Promise<Models.DatabaseAccountsGetTableThroughputResponse>;
+  /**
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param tableName Cosmos DB table name.
+   * @param callback The callback
+   */
+  getTableThroughput(resourceGroupName: string, accountName: string, tableName: string, callback: msRest.ServiceCallback<Models.Throughput>): void;
+  /**
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param tableName Cosmos DB table name.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getTableThroughput(resourceGroupName: string, accountName: string, tableName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Throughput>): void;
+  getTableThroughput(resourceGroupName: string, accountName: string, tableName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Throughput>, callback?: msRest.ServiceCallback<Models.Throughput>): Promise<Models.DatabaseAccountsGetTableThroughputResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        accountName,
+        tableName,
+        options
+      },
+      getTableThroughputOperationSpec,
+      callback) as Promise<Models.DatabaseAccountsGetTableThroughputResponse>;
+  }
+
+  /**
+   * Update an Azure Cosmos DB Table throughput
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param tableName Cosmos DB table name.
+   * @param updateThroughputParameters The parameters to provide for the current Table throughput.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.DatabaseAccountsUpdateTableThroughputResponse>
+   */
+  updateTableThroughput(resourceGroupName: string, accountName: string, tableName: string, updateThroughputParameters: Models.ThroughputUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.DatabaseAccountsUpdateTableThroughputResponse> {
+    return this.beginUpdateTableThroughput(resourceGroupName,accountName,tableName,updateThroughputParameters,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.DatabaseAccountsUpdateTableThroughputResponse>;
   }
 
   /**
@@ -1062,6 +1329,58 @@ export class DatabaseAccounts {
   deleteCassandraKeyspace(resourceGroupName: string, accountName: string, keyspaceName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
     return this.beginDeleteCassandraKeyspace(resourceGroupName,accountName,keyspaceName,options)
       .then(lroPoller => lroPoller.pollUntilFinished());
+  }
+
+  /**
+   * Gets the Cassandra Keyspace throughput under an existing Azure Cosmos DB database account with
+   * the provided name.
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param keyspaceName Cosmos DB keyspace name.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.DatabaseAccountsGetCassandraKeyspaceThroughputResponse>
+   */
+  getCassandraKeyspaceThroughput(resourceGroupName: string, accountName: string, keyspaceName: string, options?: msRest.RequestOptionsBase): Promise<Models.DatabaseAccountsGetCassandraKeyspaceThroughputResponse>;
+  /**
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param keyspaceName Cosmos DB keyspace name.
+   * @param callback The callback
+   */
+  getCassandraKeyspaceThroughput(resourceGroupName: string, accountName: string, keyspaceName: string, callback: msRest.ServiceCallback<Models.Throughput>): void;
+  /**
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param keyspaceName Cosmos DB keyspace name.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getCassandraKeyspaceThroughput(resourceGroupName: string, accountName: string, keyspaceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Throughput>): void;
+  getCassandraKeyspaceThroughput(resourceGroupName: string, accountName: string, keyspaceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Throughput>, callback?: msRest.ServiceCallback<Models.Throughput>): Promise<Models.DatabaseAccountsGetCassandraKeyspaceThroughputResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        accountName,
+        keyspaceName,
+        options
+      },
+      getCassandraKeyspaceThroughputOperationSpec,
+      callback) as Promise<Models.DatabaseAccountsGetCassandraKeyspaceThroughputResponse>;
+  }
+
+  /**
+   * Update an Azure Cosmos DB Cassandra Keyspace throughput
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param keyspaceName Cosmos DB keyspace name.
+   * @param updateThroughputParameters The parameters to provide for the current Cassandra Keyspace
+   * throughput.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.DatabaseAccountsUpdateCassandraKeyspaceThroughputResponse>
+   */
+  updateCassandraKeyspaceThroughput(resourceGroupName: string, accountName: string, keyspaceName: string, updateThroughputParameters: Models.ThroughputUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.DatabaseAccountsUpdateCassandraKeyspaceThroughputResponse> {
+    return this.beginUpdateCassandraKeyspaceThroughput(resourceGroupName,accountName,keyspaceName,updateThroughputParameters,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.DatabaseAccountsUpdateCassandraKeyspaceThroughputResponse>;
   }
 
   /**
@@ -1268,6 +1587,58 @@ export class DatabaseAccounts {
   }
 
   /**
+   * Gets the Gremlin database throughput under an existing Azure Cosmos DB database account with the
+   * provided name.
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.DatabaseAccountsGetGremlinDatabaseThroughputResponse>
+   */
+  getGremlinDatabaseThroughput(resourceGroupName: string, accountName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<Models.DatabaseAccountsGetGremlinDatabaseThroughputResponse>;
+  /**
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param callback The callback
+   */
+  getGremlinDatabaseThroughput(resourceGroupName: string, accountName: string, databaseName: string, callback: msRest.ServiceCallback<Models.Throughput>): void;
+  /**
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getGremlinDatabaseThroughput(resourceGroupName: string, accountName: string, databaseName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Throughput>): void;
+  getGremlinDatabaseThroughput(resourceGroupName: string, accountName: string, databaseName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Throughput>, callback?: msRest.ServiceCallback<Models.Throughput>): Promise<Models.DatabaseAccountsGetGremlinDatabaseThroughputResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        accountName,
+        databaseName,
+        options
+      },
+      getGremlinDatabaseThroughputOperationSpec,
+      callback) as Promise<Models.DatabaseAccountsGetGremlinDatabaseThroughputResponse>;
+  }
+
+  /**
+   * Update an Azure Cosmos DB Gremlin database throughput
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param updateThroughputParameters The parameters to provide for the current Gremlin database
+   * throughput.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.DatabaseAccountsUpdateGremlinDatabaseThroughputResponse>
+   */
+  updateGremlinDatabaseThroughput(resourceGroupName: string, accountName: string, databaseName: string, updateThroughputParameters: Models.ThroughputUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.DatabaseAccountsUpdateGremlinDatabaseThroughputResponse> {
+    return this.beginUpdateGremlinDatabaseThroughput(resourceGroupName,accountName,databaseName,updateThroughputParameters,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.DatabaseAccountsUpdateGremlinDatabaseThroughputResponse>;
+  }
+
+  /**
    * Lists the Gremlin graph under an existing Azure Cosmos DB database account.
    * @param resourceGroupName Name of an Azure resource group.
    * @param accountName Cosmos DB database account name.
@@ -1371,6 +1742,63 @@ export class DatabaseAccounts {
   deleteGremlinGraph(resourceGroupName: string, accountName: string, databaseName: string, graphName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
     return this.beginDeleteGremlinGraph(resourceGroupName,accountName,databaseName,graphName,options)
       .then(lroPoller => lroPoller.pollUntilFinished());
+  }
+
+  /**
+   * Gets the Gremlin graph throughput under an existing Azure Cosmos DB database account with the
+   * provided name.
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param graphName Cosmos DB graph name.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.DatabaseAccountsGetGremlinGraphThroughputResponse>
+   */
+  getGremlinGraphThroughput(resourceGroupName: string, accountName: string, databaseName: string, graphName: string, options?: msRest.RequestOptionsBase): Promise<Models.DatabaseAccountsGetGremlinGraphThroughputResponse>;
+  /**
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param graphName Cosmos DB graph name.
+   * @param callback The callback
+   */
+  getGremlinGraphThroughput(resourceGroupName: string, accountName: string, databaseName: string, graphName: string, callback: msRest.ServiceCallback<Models.Throughput>): void;
+  /**
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param graphName Cosmos DB graph name.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getGremlinGraphThroughput(resourceGroupName: string, accountName: string, databaseName: string, graphName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Throughput>): void;
+  getGremlinGraphThroughput(resourceGroupName: string, accountName: string, databaseName: string, graphName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Throughput>, callback?: msRest.ServiceCallback<Models.Throughput>): Promise<Models.DatabaseAccountsGetGremlinGraphThroughputResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        accountName,
+        databaseName,
+        graphName,
+        options
+      },
+      getGremlinGraphThroughputOperationSpec,
+      callback) as Promise<Models.DatabaseAccountsGetGremlinGraphThroughputResponse>;
+  }
+
+  /**
+   * Update an Azure Cosmos DB Gremlin graph throughput
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param graphName Cosmos DB graph name.
+   * @param updateThroughputParameters The parameters to provide for the current Gremlin graph
+   * throughput.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.DatabaseAccountsUpdateGremlinGraphThroughputResponse>
+   */
+  updateGremlinGraphThroughput(resourceGroupName: string, accountName: string, databaseName: string, graphName: string, updateThroughputParameters: Models.ThroughputUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.DatabaseAccountsUpdateGremlinGraphThroughputResponse> {
+    return this.beginUpdateGremlinGraphThroughput(resourceGroupName,accountName,databaseName,graphName,updateThroughputParameters,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.DatabaseAccountsUpdateGremlinGraphThroughputResponse>;
   }
 
   /**
@@ -1557,6 +1985,29 @@ export class DatabaseAccounts {
   }
 
   /**
+   * Update an Azure Cosmos DB SQL database throughput
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param updateThroughputParameters The parameters to provide for the current SQL database
+   * throughput.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginUpdateSqlDatabaseThroughput(resourceGroupName: string, accountName: string, databaseName: string, updateThroughputParameters: Models.ThroughputUpdateParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        accountName,
+        databaseName,
+        updateThroughputParameters,
+        options
+      },
+      beginUpdateSqlDatabaseThroughputOperationSpec,
+      options);
+  }
+
+  /**
    * Create or update an Azure Cosmos DB SQL container
    * @param resourceGroupName Name of an Azure resource group.
    * @param accountName Cosmos DB database account name.
@@ -1604,6 +2055,31 @@ export class DatabaseAccounts {
   }
 
   /**
+   * Update an Azure Cosmos DB SQL container throughput
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param containerName Cosmos DB container name.
+   * @param updateThroughputParameters The parameters to provide for the current SQL container
+   * throughput.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginUpdateSqlContainerThroughput(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, updateThroughputParameters: Models.ThroughputUpdateParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        accountName,
+        databaseName,
+        containerName,
+        updateThroughputParameters,
+        options
+      },
+      beginUpdateSqlContainerThroughputOperationSpec,
+      options);
+  }
+
+  /**
    * Create or updates Azure Cosmos DB MongoDB database
    * @param resourceGroupName Name of an Azure resource group.
    * @param accountName Cosmos DB database account name.
@@ -1643,6 +2119,29 @@ export class DatabaseAccounts {
         options
       },
       beginDeleteMongoDBDatabaseOperationSpec,
+      options);
+  }
+
+  /**
+   * Update an Azure Cosmos DB MongoDB database throughput
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param updateThroughputParameters The parameters to provide for the current MongoDB database
+   * throughput.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginUpdateMongoDBDatabaseThroughput(resourceGroupName: string, accountName: string, databaseName: string, updateThroughputParameters: Models.ThroughputUpdateParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        accountName,
+        databaseName,
+        updateThroughputParameters,
+        options
+      },
+      beginUpdateMongoDBDatabaseThroughputOperationSpec,
       options);
   }
 
@@ -1694,6 +2193,31 @@ export class DatabaseAccounts {
   }
 
   /**
+   * Update an Azure Cosmos DB MongoDB collection throughput
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param collectionName Cosmos DB collection name.
+   * @param updateThroughputParameters The parameters to provide for the current MongoDB collection
+   * throughput.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginUpdateMongoDBCollectionThroughput(resourceGroupName: string, accountName: string, databaseName: string, collectionName: string, updateThroughputParameters: Models.ThroughputUpdateParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        accountName,
+        databaseName,
+        collectionName,
+        updateThroughputParameters,
+        options
+      },
+      beginUpdateMongoDBCollectionThroughputOperationSpec,
+      options);
+  }
+
+  /**
    * Create or update an Azure Cosmos DB Table
    * @param resourceGroupName Name of an Azure resource group.
    * @param accountName Cosmos DB database account name.
@@ -1732,6 +2256,28 @@ export class DatabaseAccounts {
         options
       },
       beginDeleteTableOperationSpec,
+      options);
+  }
+
+  /**
+   * Update an Azure Cosmos DB Table throughput
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param tableName Cosmos DB table name.
+   * @param updateThroughputParameters The parameters to provide for the current Table throughput.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginUpdateTableThroughput(resourceGroupName: string, accountName: string, tableName: string, updateThroughputParameters: Models.ThroughputUpdateParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        accountName,
+        tableName,
+        updateThroughputParameters,
+        options
+      },
+      beginUpdateTableThroughputOperationSpec,
       options);
   }
 
@@ -1775,6 +2321,29 @@ export class DatabaseAccounts {
         options
       },
       beginDeleteCassandraKeyspaceOperationSpec,
+      options);
+  }
+
+  /**
+   * Update an Azure Cosmos DB Cassandra Keyspace throughput
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param keyspaceName Cosmos DB keyspace name.
+   * @param updateThroughputParameters The parameters to provide for the current Cassandra Keyspace
+   * throughput.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginUpdateCassandraKeyspaceThroughput(resourceGroupName: string, accountName: string, keyspaceName: string, updateThroughputParameters: Models.ThroughputUpdateParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        accountName,
+        keyspaceName,
+        updateThroughputParameters,
+        options
+      },
+      beginUpdateCassandraKeyspaceThroughputOperationSpec,
       options);
   }
 
@@ -1869,6 +2438,29 @@ export class DatabaseAccounts {
   }
 
   /**
+   * Update an Azure Cosmos DB Gremlin database throughput
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param updateThroughputParameters The parameters to provide for the current Gremlin database
+   * throughput.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginUpdateGremlinDatabaseThroughput(resourceGroupName: string, accountName: string, databaseName: string, updateThroughputParameters: Models.ThroughputUpdateParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        accountName,
+        databaseName,
+        updateThroughputParameters,
+        options
+      },
+      beginUpdateGremlinDatabaseThroughputOperationSpec,
+      options);
+  }
+
+  /**
    * Create or update an Azure Cosmos DB Gremlin graph
    * @param resourceGroupName Name of an Azure resource group.
    * @param accountName Cosmos DB database account name.
@@ -1912,6 +2504,31 @@ export class DatabaseAccounts {
         options
       },
       beginDeleteGremlinGraphOperationSpec,
+      options);
+  }
+
+  /**
+   * Update an Azure Cosmos DB Gremlin graph throughput
+   * @param resourceGroupName Name of an Azure resource group.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param graphName Cosmos DB graph name.
+   * @param updateThroughputParameters The parameters to provide for the current Gremlin graph
+   * throughput.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginUpdateGremlinGraphThroughput(resourceGroupName: string, accountName: string, databaseName: string, graphName: string, updateThroughputParameters: Models.ThroughputUpdateParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        accountName,
+        databaseName,
+        graphName,
+        updateThroughputParameters,
+        options
+      },
+      beginUpdateGremlinGraphThroughputOperationSpec,
       options);
   }
 }
@@ -2240,6 +2857,32 @@ const getSqlDatabaseOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
+const getSqlDatabaseThroughputOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/apis/sql/databases/{databaseName}/settings/throughput",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.databaseName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.Throughput
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
 const listSqlContainersOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/apis/sql/databases/{databaseName}/containers",
@@ -2293,6 +2936,33 @@ const getSqlContainerOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
+const getSqlContainerThroughputOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/apis/sql/databases/{databaseName}/containers/{containerName}/settings/throughput",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.databaseName,
+    Parameters.containerName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.Throughput
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
 const listMongoDBDatabasesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/apis/mongodb/databases",
@@ -2336,6 +3006,32 @@ const getMongoDBDatabaseOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.MongoDBDatabase
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const getMongoDBDatabaseThroughputOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/apis/mongodb/databases/{databaseName}/settings/throughput",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.databaseName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.Throughput
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -2397,6 +3093,33 @@ const getMongoDBCollectionOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
+const getMongoDBCollectionThroughputOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/apis/mongodb/databases/{databaseName}/collections/{collectionName}/settings/throughput",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.databaseName,
+    Parameters.collectionName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.Throughput
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
 const listTablesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/apis/table/tables",
@@ -2448,6 +3171,32 @@ const getTableOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
+const getTableThroughputOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/apis/table/tables/{tableName}/settings/throughput",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.tableName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.Throughput
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
 const listCassandraKeyspacesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/apis/cassandra/keyspaces",
@@ -2491,6 +3240,32 @@ const getCassandraKeyspaceOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.CassandraKeyspace
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const getCassandraKeyspaceThroughputOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/apis/cassandra/keyspaces/{keyspaceName}/settings/throughput",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.keyspaceName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.Throughput
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -2603,6 +3378,32 @@ const getGremlinDatabaseOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
+const getGremlinDatabaseThroughputOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/apis/gremlin/databases/{databaseName}/settings/throughput",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.databaseName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.Throughput
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
 const listGremlinGraphsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/apis/gremlin/databases/{databaseName}/graphs",
@@ -2648,6 +3449,33 @@ const getGremlinGraphOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.GremlinGraph
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const getGremlinGraphThroughputOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/apis/gremlin/databases/{databaseName}/graphs/{graphName}/settings/throughput",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.databaseName,
+    Parameters.graphName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.Throughput
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -2927,6 +3755,40 @@ const beginDeleteSqlDatabaseOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
+const beginUpdateSqlDatabaseThroughputOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PUT",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/apis/sql/databases/{databaseName}/settings/throughput",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.databaseName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "updateThroughputParameters",
+    mapper: {
+      ...Mappers.ThroughputUpdateParameters,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.Throughput
+    },
+    202: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
 const beginCreateUpdateSqlContainerOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/apis/sql/databases/{databaseName}/containers/{containerName}",
@@ -2988,6 +3850,41 @@ const beginDeleteSqlContainerOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
+const beginUpdateSqlContainerThroughputOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PUT",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/apis/sql/databases/{databaseName}/containers/{containerName}/settings/throughput",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.databaseName,
+    Parameters.containerName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "updateThroughputParameters",
+    mapper: {
+      ...Mappers.ThroughputUpdateParameters,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.Throughput
+    },
+    202: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
 const beginCreateUpdateMongoDBDatabaseOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/apis/mongodb/databases/{databaseName}",
@@ -3040,6 +3937,40 @@ const beginDeleteMongoDBDatabaseOperationSpec: msRest.OperationSpec = {
   responses: {
     202: {},
     204: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginUpdateMongoDBDatabaseThroughputOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PUT",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/apis/mongodb/databases/{databaseName}/settings/throughput",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.databaseName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "updateThroughputParameters",
+    mapper: {
+      ...Mappers.ThroughputUpdateParameters,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.Throughput
+    },
+    202: {},
     default: {
       bodyMapper: Mappers.CloudError
     }
@@ -3108,6 +4039,41 @@ const beginDeleteMongoDBCollectionOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
+const beginUpdateMongoDBCollectionThroughputOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PUT",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/apis/mongodb/databases/{databaseName}/collections/{collectionName}/settings/throughput",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.databaseName,
+    Parameters.collectionName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "updateThroughputParameters",
+    mapper: {
+      ...Mappers.ThroughputUpdateParameters,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.Throughput
+    },
+    202: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
 const beginCreateUpdateTableOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/apis/table/tables/{tableName}",
@@ -3167,6 +4133,40 @@ const beginDeleteTableOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
+const beginUpdateTableThroughputOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PUT",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/apis/table/tables/{tableName}/settings/throughput",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.tableName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "updateThroughputParameters",
+    mapper: {
+      ...Mappers.ThroughputUpdateParameters,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.Throughput
+    },
+    202: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
 const beginCreateUpdateCassandraKeyspaceOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/apis/cassandra/keyspaces/{keyspaceName}",
@@ -3219,6 +4219,40 @@ const beginDeleteCassandraKeyspaceOperationSpec: msRest.OperationSpec = {
   responses: {
     202: {},
     204: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginUpdateCassandraKeyspaceThroughputOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PUT",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/apis/cassandra/keyspaces/{keyspaceName}/settings/throughput",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.keyspaceName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "updateThroughputParameters",
+    mapper: {
+      ...Mappers.ThroughputUpdateParameters,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.Throughput
+    },
+    202: {},
     default: {
       bodyMapper: Mappers.CloudError
     }
@@ -3346,6 +4380,40 @@ const beginDeleteGremlinDatabaseOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
+const beginUpdateGremlinDatabaseThroughputOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PUT",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/apis/gremlin/databases/{databaseName}/settings/throughput",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.databaseName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "updateThroughputParameters",
+    mapper: {
+      ...Mappers.ThroughputUpdateParameters,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.Throughput
+    },
+    202: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
 const beginCreateUpdateGremlinGraphOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/apis/gremlin/databases/{databaseName}/graphs/{graphName}",
@@ -3400,6 +4468,41 @@ const beginDeleteGremlinGraphOperationSpec: msRest.OperationSpec = {
   responses: {
     202: {},
     204: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginUpdateGremlinGraphThroughputOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PUT",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/apis/gremlin/databases/{databaseName}/graphs/{graphName}/settings/throughput",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.databaseName,
+    Parameters.graphName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "updateThroughputParameters",
+    mapper: {
+      ...Mappers.ThroughputUpdateParameters,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.Throughput
+    },
+    202: {},
     default: {
       bodyMapper: Mappers.CloudError
     }
