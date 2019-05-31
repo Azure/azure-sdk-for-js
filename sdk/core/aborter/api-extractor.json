@@ -1,6 +1,6 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/api-extractor/v7/api-extractor.schema.json",
-  "mainEntryPointFilePath": "typings/src/aborter.d.ts",
+  "mainEntryPointFilePath": "types/src/aborter.d.ts",
   "docModel": {
     "enabled": false
   },
@@ -10,7 +10,7 @@
   },
   "dtsRollup": {
     "enabled": true,
-    "publicTrimmedFilePath": "./typings/aborter.d.ts"
+    "publicTrimmedFilePath": "./types/aborter.d.ts"
   },
   "messages": {
     "tsdocMessageReporting": {
