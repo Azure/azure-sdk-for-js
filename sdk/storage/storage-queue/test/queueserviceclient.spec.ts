@@ -60,7 +60,7 @@ describe("QueueServiceClient", () => {
     await queueClient2.delete();
   });
 
-  it.only("Verify AsyncIterator(generator .next() syntax) for listQueues", async () => {
+  it("Verify AsyncIterator(generator .next() syntax) for listQueues", async () => {
     const queueServiceClient = getQSU();
 
     const queueNamePrefix = getUniqueName("queue");
@@ -88,7 +88,7 @@ describe("QueueServiceClient", () => {
     await queueClient2.delete();
   });
 
-  it.only("Verify AsyncIterator(for-loop syntax) for listQueues", async () => {
+  it("Verify AsyncIterator(for-loop syntax) for listQueues", async () => {
     const queueClients = [];
     const queueServiceClient = getQSU();
     const queueNamePrefix = getUniqueName("queue");
