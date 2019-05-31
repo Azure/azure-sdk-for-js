@@ -832,6 +832,14 @@ export interface ApplicationGetHttpsEndpoint {
    * The public port to connect to.
    */
   publicPort?: number;
+  /**
+   * The subDomainSuffix of the application and can not greater than 3 characters.
+   */
+  subDomainSuffix?: string;
+  /**
+   * The value indicates whether to disable GatewayAuth.
+   */
+  disableGatewayAuth?: boolean;
 }
 
 /**
