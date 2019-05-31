@@ -17,18 +17,18 @@ import { AbortSignalLike, isNode } from "@azure/ms-rest-js";
  *
  * @example
  * // Abort without timeout
- * await blockBlobClient.upload(Aborter.none, buf, buf.length);
+ * await doAsyncWork(Aborter.none);
  *
  * @example
  * // Abort container create in 1000ms
- * await blockBlobClient.upload(Aborter.timeout(1000), buf, buf.length);
+ * await doAsyncWork(Aborter.timeout(1000));
  *
  * @example
  * // Share aborter cross multiple operations in 30s
  * // Upload the same data to 2 different data centers at the same time, abort another when any of them is finished
  * const aborter = Aborter.timeout(30 * 1000);
- * blockBlobClient1.upload(aborter, buf, buf.length).then(aborter.abort);
- * blockBlobClient2.upload(aborter, buf, buf.length).then(aborter.abort);
+ * doAsyncWork(aborter).then(aborter.abort);
+ * doAsyncWork(aborter).then(aborter.abort);
  *
  * @example
  * // Cascaded aborting
@@ -36,8 +36,8 @@ import { AbortSignalLike, isNode } from "@azure/ms-rest-js";
  * const aborter = Aborter.timeout(30 * 1000);
  *
  * // Following 2 operations can't take more than 25 seconds
- * await blockBlobClient.upload(aborter.withTimeout(25 * 1000), buf, buf.length);
- * await blockBlobClient.upload(aborter.withTimeout(25 * 1000), buf, buf.length);
+ * await doAsyncWork(aborter.withTimeout(25 * 1000));
+ * await doAsyncWork(aborter.withTimeout(25 * 1000));
  *
  * @export
  * @class Aborter
