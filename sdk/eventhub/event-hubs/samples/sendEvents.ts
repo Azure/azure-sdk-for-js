@@ -30,24 +30,26 @@ const listOfScientists = [
 async function main(): Promise<void> {
   const client = EventHubClient.createFromConnectionString(connectionString, eventHubName);
   const partitionIds = await client.getPartitionIds();
-  const sender = client.createSender(partitionIds[0]);
+  const sender = client.createSender({ partitionId: partitionIds[0] });
   const events: EventData[] = [];
-  // NOTE: For receiving events from Azure Stream Analytics, please send Events to an EventHub
-  // where the body is a JSON object/array.
-  // const events = [
-  //   { body: { "message": "Hello World 1" }, applicationProperties: { id: "Some id" }, partitionKey: "pk786" },
-  //   { body: { "message": "Hello World 2" } },
-  //   { body: { "message": "Hello World 3" } }
-  // ];
-  for (let index = 0; index < listOfScientists.length; index++) {
-    const scientist = listOfScientists[index];
-    events.push({ body: `${scientist.firstName} ${scientist.name}` });
+  try {
+    // NOTE: For receiving events from Azure Stream Analytics, please send Events to an EventHub
+    // where the body is a JSON object/array.
+    // const events = [
+    //   { body: { "message": "Hello World 1" }, applicationProperties: { id: "Some id" }, partitionKey: "pk786" },
+    //   { body: { "message": "Hello World 2" } },
+    //   { body: { "message": "Hello World 3" } }
+    // ];
+    for (let index = 0; index < listOfScientists.length; index++) {
+      const scientist = listOfScientists[index];
+      events.push({ body: `${scientist.firstName} ${scientist.name}` });
+    }
+    console.log("Sending batch events...");
+
+    await sender.send(events);
+  } finally {
+    await client.close();
   }
-  console.log("Sending batch events...");
-
-  await sender.send(events);
-
-  await client.close();
 }
 
 main().catch(err => {

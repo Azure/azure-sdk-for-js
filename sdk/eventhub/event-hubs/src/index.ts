@@ -27,5 +27,6 @@ export {
   TokenProvider,
   TokenInfo,
   AadTokenProvider,
-  SasTokenProvider
+  SasTokenProvider,
+  delay
 } from "@azure/amqp-common";
