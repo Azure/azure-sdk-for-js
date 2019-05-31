@@ -4,7 +4,7 @@
  * license information.
  */
 
-import { contains, getArgument, gitDiff, GitDiffResult, gitStatus, GitStatusResult, joinPath, normalize, npmInstall, npmRun, NPMScope, NPMViewResult, RunOptions, StringMap } from "@ts-common/azure-js-dev-tools";
+import { contains, getArgument, gitDiff, GitDiffResult, gitStatus, GitStatusResult, joinPath, normalizePath, npmInstall, npmRun, NPMScope, NPMViewResult, RunOptions, StringMap } from "@ts-common/azure-js-dev-tools";
 import * as fs from "fs";
 import gulp from "gulp";
 import * as path from "path";
@@ -120,7 +120,7 @@ gulp.task("build", async () => {
     argv.azureSDKForJSRepoRoot,
   );
   if (packageFolderPath) {
-    npmRun("build", { executionFolderPath: packageFolderPath });
+    await npmRun(["build"], { executionFolderPath: packageFolderPath });
   }
 });
 
@@ -151,11 +151,12 @@ gulp.task('codegen', async () => {
   await generateSdk(argv.azureRestAPISpecsRoot, argv.azureSDKForJSRepoRoot, argv.package, argv.use, argv.debugger);
 });
 
-function pack(): void {
+async function pack(): Promise<void> {
   const runOptions: RunOptions = {
     log: (text: string) => _logger.logTrace(text),
+    captureOutput: true,
+    captureError: true,
     showCommand: true,
-    showOutput: true
   };
 
   let errorPackages = 0;
@@ -174,7 +175,7 @@ function pack(): void {
 
     let packHeadReference: string | undefined = headReference;
     if (!packHeadReference) {
-      const statusResult: GitStatusResult = gitStatus(runOptions);
+      const statusResult: GitStatusResult = await gitStatus(runOptions);
       packHeadReference = statusResult.localBranch!;
       _logger.log(`No head-reference argument specified on command line or in environment variables. Defaulting to "${packHeadReference}".`);
 
@@ -192,7 +193,7 @@ function pack(): void {
         _logger.log(`The base-reference "${packBaseReference}" is equal to the head-reference "${packHeadReference}" which means there won't be any changes to pack. Switching "to-pack" to be "${PackagesToPack[toPack]}".`);
       }
     } else {
-      const diffResult: GitDiffResult = gitDiff(packBaseReference, packHeadReference, runOptions);
+      const diffResult: GitDiffResult = await gitDiff({ commit1: packBaseReference, commit2: packHeadReference, ...runOptions });
       changedFiles.push(...diffResult.filesChanged);
       if (!changedFiles || changedFiles.length === 0) {
         _logger.logTrace(`Found no changes between "${packBaseReference}" and "${packHeadReference}".`);
@@ -207,7 +208,7 @@ function pack(): void {
 
   const packageFolderRoot: string = path.resolve(__dirname, "sdk");
   _logger.logTrace(`INFO: Searching for package folders in ${packageFolderRoot}`);
-  const packageFolderPaths: string[] | undefined = getPackageFolderPaths(packageFolderRoot);
+  const packageFolderPaths: string[] | undefined = await getPackageFolderPaths(packageFolderRoot);
   if (!packageFolderPaths) {
     _logger.logTrace(`INFO: The folder ${packageFolderPaths} doesn't exist.`);
   } else {
@@ -236,7 +237,7 @@ function pack(): void {
           } else if (toPack === PackagesToPack.DifferentVersion) {
             let npmPackageVersion: string | undefined;
             try {
-              const npmViewResult: NPMViewResult = npm.view({ packageName, ...runOptions, showCommand: false, showOutput: false });
+              const npmViewResult: NPMViewResult = await npm.view({ packageName, ...runOptions, showCommand: false, captureOutput: false });
               const distTags: StringMap<string> | undefined = npmViewResult["dist-tags"];
               npmPackageVersion = distTags && distTags["latest"];
             }
@@ -247,8 +248,8 @@ function pack(): void {
             _logger.logTrace(`Local version: ${localPackageVersion}, NPM version: ${npmPackageVersion}`);
             shouldPack = localPackageVersion !== npmPackageVersion;
           } else if (toPack === PackagesToPack.BranchHasChanges) {
-            const packageFolderPathWithSep: string = normalize(packageFolderPath + path.posix.sep);
-            shouldPack = !!changedFiles && contains(changedFiles, (changedFilePath: string) => normalize(changedFilePath).startsWith(packageFolderPathWithSep));
+            const packageFolderPathWithSep: string = normalizePath(packageFolderPath + path.posix.sep);
+            shouldPack = !!changedFiles && contains(changedFiles, (changedFilePath: string) => normalizePath(changedFilePath).startsWith(packageFolderPathWithSep));
           }
 
           if (!shouldPack) {

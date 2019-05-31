@@ -115,7 +115,7 @@ export const packagesToIgnore: string[] = [
 ];
 export const folderNamesToIgnore: string[] = ["node_modules"];
 
-export function getPackageFolderPaths(packagesFolderPath: string): string[] | undefined {
+export function getPackageFolderPaths(packagesFolderPath: string): Promise<string[] | undefined> {
   return getChildFolderPaths(packagesFolderPath, {
     recursive: true,
     condition: (folderPath: string) => isPackageFolderPath(folderPath, packagesToIgnore),
