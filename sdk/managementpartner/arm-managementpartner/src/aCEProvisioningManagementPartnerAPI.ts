@@ -19,6 +19,7 @@ class ACEProvisioningManagementPartnerAPI extends ACEProvisioningManagementPartn
   // Operation groups
   partner: operations.Partner;
   operation: operations.Operation;
+  partners: operations.Partners;
 
   /**
    * Initializes a new instance of the ACEProvisioningManagementPartnerAPI class.
@@ -29,6 +30,7 @@ class ACEProvisioningManagementPartnerAPI extends ACEProvisioningManagementPartn
     super(credentials, options);
     this.partner = new operations.Partner(this);
     this.operation = new operations.Operation(this);
+    this.partners = new operations.Partners(this);
   }
 }
 
