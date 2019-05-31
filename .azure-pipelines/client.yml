@@ -78,7 +78,7 @@ jobs:
         displayName: 'Install dependencies'
 
       - script: |
-          node common/scripts/install-run-rush.js lint
+          node common/scripts/install-run-rush.js lint $(rushFlags)
         displayName: 'Run lint'
 
       - task: CopyFiles@2
