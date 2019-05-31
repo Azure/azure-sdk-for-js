@@ -1,6 +1,8 @@
 import * as assert from "assert";
 import { getBSU, getUniqueName, wait } from "./utils";
 import * as dotenv from "dotenv";
+import { FileServiceClient } from '../src/FileServiceClient';
+import { SharedKeyCredential, StorageClient } from '../src';
 dotenv.config({ path: "../.env" });
 
 describe("FileServiceClient", () => {
@@ -130,5 +132,34 @@ describe("FileServiceClient", () => {
     assert.ok(typeof result.version);
     assert.ok(result.version!.length > 0);
     assert.deepEqual(result.hourMetrics, serviceProperties.hourMetrics);
+  });
+
+  it("can be created with a url and a credential", async () => {
+    const serviceClient = getBSU();
+    const factories = serviceClient.pipeline.factories;
+    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const newClient = new FileServiceClient(serviceClient.url, credential);
+
+    const result = await newClient.getProperties();
+
+    assert.ok(typeof result.requestId);
+    assert.ok(result.requestId!.length > 0);
+    assert.ok(typeof result.version);
+    assert.ok(result.version!.length > 0);
+  });
+
+  it("can be created with a url and a pipeline", async () => {
+    const serviceClient = getBSU();
+    const factories = serviceClient.pipeline.factories;
+    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const pipeline = StorageClient.newPipeline(credential);
+    const newClient = new FileServiceClient(serviceClient.url, pipeline);
+
+    const result = await newClient.getProperties();
+
+    assert.ok(typeof result.requestId);
+    assert.ok(result.requestId!.length > 0);
+    assert.ok(typeof result.version);
+    assert.ok(result.version!.length > 0);
   });
 });

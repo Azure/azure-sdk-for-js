@@ -319,6 +319,8 @@ export class ShareClient extends StorageClient {
     let pipeline: Pipeline;
     if (credentialOrPipelineOrShareName instanceof Pipeline) {
       pipeline = credentialOrPipelineOrShareName;
+    } else if (credentialOrPipelineOrShareName instanceof Credential) {
+      pipeline = StorageClient.newPipeline(credentialOrPipelineOrShareName, options);
     } else if (credentialOrPipelineOrShareName && typeof credentialOrPipelineOrShareName === "string") {
       const shareName = credentialOrPipelineOrShareName;
       // TODO: extract parts from connection string

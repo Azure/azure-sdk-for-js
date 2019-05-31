@@ -1,6 +1,7 @@
 import * as assert from "assert";
 import { getBSU, getUniqueName } from "./utils";
 import * as dotenv from "dotenv";
+import { ShareClient, SharedKeyCredential, StorageClient } from '../src';
 dotenv.config({ path: "../.env" });
 
 describe("ShareClient", () => {
@@ -86,5 +87,34 @@ describe("ShareClient", () => {
     assert.notDeepStrictEqual(originProperties.metadata, metadata);
 
     await snapshotShareClient.delete({});
+  });
+
+  it("can be created with a url and a credential", async () => {
+    const factories = shareClient.pipeline.factories;
+    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const newClient = new ShareClient(shareClient.url, credential);
+
+    const result = await newClient.getProperties();
+
+    assert.ok(result.eTag!.length > 0);
+    assert.ok(result.lastModified);
+    assert.ok(result.requestId);
+    assert.ok(result.version);
+    assert.ok(result.date);
+  });
+
+  it("can be created with a url and a pipeline", async () => {
+    const factories = shareClient.pipeline.factories;
+    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const pipeline = StorageClient.newPipeline(credential);
+    const newClient = new ShareClient(shareClient.url, pipeline);
+
+    const result = await newClient.getProperties();
+
+    assert.ok(result.eTag!.length > 0);
+    assert.ok(result.lastModified);
+    assert.ok(result.requestId);
+    assert.ok(result.version);
+    assert.ok(result.date);
   });
 });

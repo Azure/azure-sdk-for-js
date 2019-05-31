@@ -2,7 +2,7 @@ import * as assert from "assert";
 import { isNode } from "@azure/ms-rest-js";
 import { bodyToString, getBSU, getUniqueName, sleep } from "./utils";
 import * as dotenv from "dotenv";
-import { Aborter } from "../src";
+import { Aborter, FileClient, SharedKeyCredential, StorageClient } from "../src";
 dotenv.config({ path: "../.env" });
 
 describe("FileClient", () => {
@@ -300,5 +300,48 @@ describe("FileClient", () => {
       // tslint:disable-next-line:no-empty
     } catch (err) {}
     assert.ok(eventTriggered);
+  });
+
+  it("can be created with a url and a credential", async () => {
+    await fileClient.create(content.length);
+    const metadata = {
+      a: "a",
+      b: "b"
+    };
+    await fileClient.setMetadata(metadata);
+
+    const factories = fileClient.pipeline.factories;
+    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const newClient = new FileClient(fileClient.url, credential);
+
+    const result = await newClient.getProperties();
+
+    assert.ok(result.eTag!.length > 0);
+    assert.ok(result.lastModified);
+    assert.ok(result.requestId);
+    assert.ok(result.version);
+    assert.ok(result.date);
+  });
+
+  it("can be created with a url and a pipeline", async () => {
+    await fileClient.create(content.length);
+    const metadata = {
+      a: "a",
+      b: "b"
+    };
+    await fileClient.setMetadata(metadata);
+
+    const factories = fileClient.pipeline.factories;
+    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const pipeline = StorageClient.newPipeline(credential);
+    const newClient = new FileClient(fileClient.url, pipeline);
+
+    const result = await newClient.getProperties();
+
+    assert.ok(result.eTag!.length > 0);
+    assert.ok(result.lastModified);
+    assert.ok(result.requestId);
+    assert.ok(result.version);
+    assert.ok(result.date);
   });
 });
