@@ -86,6 +86,13 @@ export class BatchingReceiver extends EventHubReceiver {
       // Action to be performed on the "message" event.
       onReceiveMessage = (context: EventContext) => {
         const data: EventDataInternal = fromAmqpMessage(context.message!);
+        if (this.receiverRuntimeMetricEnabled) {
+          this.runtimeInfo.lastEnqueuedSequenceNumber = data.lastSequenceNumber;
+          this.runtimeInfo.lastEnqueuedTimeUtc = data.lastEnqueuedTime;
+          this.runtimeInfo.lastEnqueuedOffset = data.lastEnqueuedOffset;
+          this.runtimeInfo.retrievalTime = data.retrievalTime;
+        }
+
         const receivedEventData: ReceivedEventData = {
           body: this._context.dataTransformer.decode(context.message!.body),
           properties: data.properties,

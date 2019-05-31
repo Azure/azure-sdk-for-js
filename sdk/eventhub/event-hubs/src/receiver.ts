@@ -14,7 +14,7 @@ import { Aborter } from "./aborter";
 /**
  * Options to pass when creating an iterator to iterate over events
  */
-export interface AsycnIteratorOptions {
+export interface EventIteratorOptions {
   /**
    * Number of events to fetch at a time in the background
    */
@@ -112,7 +112,7 @@ export class Receiver {
   /**
    * Gets an async iterator over events from the receiver.
    */
-  async *getEventIterator(options: AsycnIteratorOptions): AsyncIterableIterator<ReceivedEventData> {
+  async *getEventIterator(options: EventIteratorOptions): AsyncIterableIterator<ReceivedEventData> {
     while (true) {
       const currentBatch = await this.receiveBatch(1, options.maxWaitTimePerIteration || 60, options.cancellationToken);
       yield currentBatch[0];
@@ -151,7 +151,7 @@ export class Receiver {
    */
   async receiveBatch(
     maxMessageCount: number,
-    maxWaitTimeInSeconds: number,
+    maxWaitTimeInSeconds?: number,
     cancellationToken?: Aborter
   ): Promise<ReceivedEventData[]> {
     const bReceiver = BatchingReceiver.create(this._context, this.partitionId, this._receiverOptions);

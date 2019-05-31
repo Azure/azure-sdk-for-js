@@ -34,7 +34,7 @@ interface CreateReceiverOptions {
  * Represents the approximate receiver runtime information for a logical partition of an Event Hub.
  * @interface ReceiverRuntimeInfo
  */
-export interface LastEnqueuedInfo {
+export interface ReceiverRuntimeInfo {
   /**
    * @property {number} lastSequenceNumber The logical sequence number of the event.
    */
@@ -96,7 +96,7 @@ export class EventHubReceiver extends LinkEntity {
   /**
    * @property {ReceiverRuntimeInfo} runtimeInfo The receiver runtime info.
    */
-  runtimeInfo: LastEnqueuedInfo;
+  runtimeInfo: ReceiverRuntimeInfo;
   /**
    * @property {number} [epoch] The Receiver epoch.
    */
@@ -180,8 +180,7 @@ export class EventHubReceiver extends LinkEntity {
   constructor(context: ConnectionContext, partitionId: string | number, options?: ReceiverOptions) {
     super(context, {
       partitionId: partitionId,
-      name: `${context.config.host}/${context.config.entityPath}/${(options && options.consumerGroup) ||
-        Constants.defaultConsumerGroup}/${partitionId}`
+      name: context.config.getReceiverAddress(partitionId, options && options.consumerGroup)
     });
     if (!options) options = {};
     this.consumerGroup = options.consumerGroup ? options.consumerGroup : Constants.defaultConsumerGroup;

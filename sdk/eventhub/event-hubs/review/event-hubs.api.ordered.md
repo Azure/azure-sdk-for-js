@@ -7,67 +7,58 @@
 
 // Main EventHubClient class
 export class EventHubClient {
-    constructor(host: string, entityPath: string, options?: ClientOptions); // Waiting for Azure identity
-    constructor(host: string, entityPath: string, tokenProvider: TokenProvider, options?: ClientOptions);
+    constructor(connectionString: string, options?: EventHubClientOptions);
+    constructor(host: string, entityPath: string, tokenProvider: TokenProvider, options?: EventHubClientOptions);
     constructor(
         host: string, 
         entityPath: string, 
         credentials: ApplicationTokenCredentials | UserTokenCredentials | DeviceTokenCredentials | MSITokenCredentials, 
-        options?: ClientOptions
+        options?: EventHubClientOptions
         );
-    static createFromConnectionString(connectionString: string, entityPath?: string, options?: ClientOptions): EventHubClient;
+    static createFromConnectionString(connectionString: string, entityPath?: string, options?: EventHubClientOptions): EventHubClient;
 
     close(): Promise<void>;
 
-    createSender(): Sender;
-    createReceiver(partitionId: string, options?: ReceiveOptions): Receiver;
+    createSender(options?: SenderOptions): Sender;
+    createReceiver(partitionId: string, options?: ReceiverOptions): Receiver;
 
-    getHubInformation(options?: RequestOptions): Promise<HubInformation>;
-    getPartitionIds(options?: RequestOptions): Promise<Array<string>>;
-    getPartitionInformation(partitionId: string, options?: RequestOptions): Promise<PartitionInformation>;
+    getProperties(cancellationToken?: Aborter): Promise<EventHubProperties>;
+    getPartitionIds(cancellationToken?: Aborter): Promise<Array<string>>;
+    getPartitionProperties(partitionId: string, cancellationToken?: Aborter): Promise<PartitionProperties>;
 
-    readonly hubPath: string;
+    readonly eventHubName: string;
 }
 
 // Options to pass when creating EventHubClient
-export interface ClientOptions {
+export interface EventHubClientOptions {
     dataTransformer?: DataTransformer;
-    logLevel?: LogLevel;
     userAgent?: string;
     webSocket?: WebSocketImpl;
     webSocketConstructorOptions?: any;
-}
-
-// Various log levels that can be set at client or sender/receiver or metadata calls
-export enum LogLevel {
-    None = 0,
-    Error = 1,
-    Warning = 2
-    Info = 3,
-    Verbose = 4
-}
-
-// Options to pass to sender/receiver or metadata calls
-export interface RequestOptions {
-    cancellationToken?: Aborter;
-    logLevel?: LogLevel;
     retryOptions?: RetryOptions;
     timeoutInSeconds?: number;
 }
 
-// Flat list of retry options to support linear. Will change when supporting exponential after Preview 1
+// Retry options passed to client, sender and receiver
+// Will have maxRetryInterval and isExponential once we support exponential retries
 export interface RetryOptions {
-    delayBetweenRetriesInSeconds?: number;
     retryCount?: number;
+    retryInterval?: number;
 }
 
 // ======================================== Sending related API starts ======================================
+
+// Options passed to createSender()
+export interface SenderOptions {
+    partitionId?: string;
+    retryOptions?: RetryOptions;
+    timeoutInSeconds?: number;
+}
 
 // Each sender holds an AMQP sender link
 export class Sender {
     close(): Promise<void>;
     send(data: EventData[], options?: BatchingOptions): Promise<void>;
-    send(data: EventData[], partitionId: string, options?: BatchingOptions): Promise<void>;
 
     readonly isClosed: boolean;
 }
@@ -90,36 +81,51 @@ export interface BatchingOptions {
 
 // ======================================== Receiving related API starts ======================================
 
+// Options passed to createReceiver()
+export interface ReceiverOptions {
+    consumerGroup?: string;
+    eventPosition?: EventPosition;
+    exclusiveReceiverPriority?: number;
+    retryOptions?: RetryOptions;
+    timeoutInSeconds?: number;
+}
+
+// Options to create async iterator for events
+export interface EventIteratorOptions {
+    cancellationToken?: Aborter;
+    maxWaitTimePerIteration?: number;
+    preFetchCount?: number;
+}
+
 // Each receiver holds an AMQP receiver link dedicated to 1 partition
 export class Receiver {
     close(): Promise<void>;
-    getEventIterator(partitionId: string, batchSize: number, maxWaitTimeInSeconds: number, cancellationToken?: Aborter): AsyncIterableIterator<ReceivedEventData[]>;
+    getEventIterator(options: EventIteratorOptions): AsyncIterableIterator<ReceivedEventData>;
     isReceivingMessages(): boolean;
-    receive(partitionId: string, onMessage: OnMessage, onError: OnError, cancellationToken?: Aborter): ReceiveHandler;
+    receive(onMessage: OnMessage, onError: OnError, cancellationToken?: Aborter): ReceiveHandler;
+    receiveBatch(maxMessageCount: number, maxWaitTimeInSeconds?: number, cancellationToken?: Aborter): 
 
     readonly consumerGroup: string | undefined;
-    readonly epoch: number | undefined;
+    readonly exclusiveReceiverPriority: number | undefined;
     readonly isClosed: boolean;
-    readonly lastEnqueuedInfo: LastEnqueuedInfo | undefined;
     readonly partitionId: string;
 }
 
-// Options to control the AMQP receiver link
-export interface ReceiveOptions extends RequestOptions {
-    consumerGroup?: string;
-    enableReceiverRuntimeMetric?: boolean;
-    epoch?: number;
-    eventPosition?: EventPosition;
-}
+
 
 // Position in the stream, used to determine where to start a receiver from
 export class EventPosition {
+    constructor(options?: EventPositionOptions);
+
     static fromEnqueuedTime(enqueuedTime: Date | number): EventPosition;
-    static fromFirstAvailable(): EventPosition;
-    static fromLastAvailable(): EventPosition;
+    static fromFirstAvailableEvent(): EventPosition;
+    static fromNewEventsOnly(): EventPosition;
     static fromOffset(offset: string, isInclusive?: boolean): EventPosition;
     static fromSequenceNumber(sequenceNumber: number, isInclusive?: boolean): EventPosition;
    
+    static readonly endOfStream: string;
+    static readonly startOfStream: string;
+
     enqueuedTime?: Date | number;
     isInclusive: boolean;
     offset?: string;
@@ -146,39 +152,33 @@ export type OnMessage = (eventData: ReceivedEventData) => void;
 
 // Handler returned by streaming receiver used for stopping it.
 export class ReceiveHandler {
-    readonly isRunning: boolean;
+    readonly consumerGroup: string | undefined;
+    readonly isReceiverOpen: boolean;
+    readonly partitionId: string | number | undefined;
     stop(): Promise<void>;
 }
 
-// Info on the last enqueued data on the partition
-export interface LastEnqueuedInfo {
-    lastEnqueuedOffset?: string;
-    lastEnqueuedSequenceNumber?: number;
-    lastEnqueuedTimeUtc?: Date;
-    retrievalTime?: Date;
-}
 
 // ======================================== Receiving related API ends ======================================
 
 
 
 // @public
-export interface HubInformation {
+export interface EventHubProperties {
     createdAt: Date;
-    partitionCount: number;
     partitionIds: string[];
     path: string;
 }
 
 
 // @public
-export interface PartitionInformation {
+export interface PartitionProperties {
     beginningSequenceNumber: number;
-    hubPath: string;
+    eventHubPath: string;
+    id: string;
     lastEnqueuedOffset: string;
     lastEnqueuedSequenceNumber: number;
     lastEnqueuedTimeUtc: Date;
-    partitionId: string;
 }
 
 ```

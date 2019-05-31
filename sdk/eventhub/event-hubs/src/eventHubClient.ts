@@ -41,16 +41,16 @@ export interface RetryOptions {
    * Number of seconds to wait between retries
    */
   retryInterval?: number;
-  /**
-   * The maximum value the `retryInterval` gets incremented exponentially between retries.
-   * Not applicable, when `isExponential` is set to `false`.
-   */
-  maxRetryInterval?: number;
-  /**
-   * Boolean denoting if the `retryInterval` should be incremented exponentially between
-   * retries or kept the same.
-   */
-  isExponential?: boolean;
+  // /**
+  //  * The maximum value the `retryInterval` gets incremented exponentially between retries.
+  //  * Not applicable, when `isExponential` is set to `false`.
+  //  */
+  // maxRetryInterval?: number;
+  // /**
+  //  * Boolean denoting if the `retryInterval` should be incremented exponentially between
+  //  * retries or kept the same.
+  //  */
+  // isExponential?: boolean;
 }
 
 /**
@@ -174,6 +174,13 @@ export class EventHubClient {
   private _context: ConnectionContext;
 
   private _clientOptions: EventHubClientOptions;
+
+  /**
+   * @property The name of the Event Hub instance for which this client is created
+   */
+  get eventHubName(): string {
+    return this._context.config.entityPath;
+  }
 
   /**
    * @constructor
@@ -314,10 +321,7 @@ export class EventHubClient {
    * @return {Promise<void>} Promise<void>
    */
   createSender(options?: SenderOptions): Sender {
-    if (!options) {
-      options = {};
-    }
-    return new Sender(this._context, options.partitionId, options);
+    return new Sender(this._context, options);
   }
 
   /**

@@ -86,7 +86,7 @@ export class EventHubSender extends LinkEntity {
    */
   constructor(context: ConnectionContext, partitionId?: string | number, name?: string) {
     super(context, {
-      name: `${context.config.host}/${context.config.entityPath}/${partitionId}`,
+      name: context.config.getSenderAddress(partitionId),
       partitionId: partitionId
     });
     this.address = context.config.getSenderAddress(partitionId);
@@ -387,7 +387,7 @@ export class EventHubSender extends LinkEntity {
         this.name,
         encodedBatchMessage
       );
-      return await this._trySend(encodedBatchMessage, batchMessage.message_id, options, 0x80013700);
+      return await this._trySendBatch(encodedBatchMessage, batchMessage.message_id, options);
     } catch (err) {
       log.error("An error occurred while sending the batch message %O", err);
       throw err;
@@ -431,7 +431,7 @@ export class EventHubSender extends LinkEntity {
    * @param message The message to be sent to EventHub.
    * @return {Promise<void>} Promise<void>
    */
-  private _trySend(
+  private _trySendBatch(
     message: AmqpMessage | Buffer,
     tag: any,
     options?: BatchingOptions & SenderOptions,
@@ -538,7 +538,7 @@ export class EventHubSender extends LinkEntity {
           this._sender!.on(SenderEvents.modified, onModified);
           this._sender!.on(SenderEvents.released, onReleased);
           waitTimer = setTimeout(actionAfterTimeout, Constants.defaultOperationTimeoutInSeconds * 1000);
-          const delivery = this._sender!.send(message, tag, format);
+          const delivery = this._sender!.send(message, tag, 0x80013700);
           log.sender(
             "[%s] Sender '%s', sent message with delivery id: %d and tag: %s",
             this._context.connectionId,
@@ -561,7 +561,6 @@ export class EventHubSender extends LinkEntity {
       });
 
     const jitterInSeconds = randomNumberFromInterval(1, 4);
-    options;
     const times =
       options.retryOptions && options.retryOptions.retryCount && options.retryOptions.retryCount > 0
         ? options.retryOptions.retryCount

@@ -5,7 +5,7 @@
 
 export { EventData, ReceivedEventData } from "./eventData";
 export { WebSocketImpl } from "rhea-promise";
-export { LastEnqueuedInfo, OnMessage, OnError } from "./eventHubReceiver";
+export { OnMessage, OnError } from "./eventHubReceiver";
 export { ReceiveHandler } from "./streamingReceiver";
 export {
   EventHubClient,
@@ -15,10 +15,10 @@ export {
   RetryOptions,
   SenderOptions
 } from "./eventHubClient";
-export { EventPosition } from "./eventPosition";
+export { EventPosition, EventPositionOptions } from "./eventPosition";
 export { PartitionProperties, EventHubProperties } from "./managementClient";
 export { Sender } from "./sender";
-export { Receiver } from "./receiver";
+export { Receiver, EventIteratorOptions } from "./receiver";
 export {
   MessagingError,
   DataTransformer,

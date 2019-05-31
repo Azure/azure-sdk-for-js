@@ -28,11 +28,6 @@ export interface EventPositionOptions {
    * if the position is just created from an enqueued time or an offset.
    */
   sequenceNumber?: number;
-
-  /**
-   * @property {string} [customFilter] The custom filter expression that needs to be set on the receiver.
-   */
-  customFilter?: string;
 }
 
 /**
@@ -42,20 +37,20 @@ export interface EventPositionOptions {
  */
 export class EventPosition {
   /**
-   * @property {EventPosition} firstAvailableEvent Returns the position for the start of a stream.
-   * Provide this position in receiver creation to start receiving from the first available event in the partition.
+   * @property {string} startOfStream The offset from which events would be received: `"-1"`.
+   *
    * @static
    * @readonly
    */
-  static readonly firstAvailableEvent: EventPosition = EventPosition.fromOffset("-1");
+  static readonly startOfStream: string = "-1";
+
   /**
-   * @property {EventPosition} newEventsOnly Returns the position for the end of a stream.
-   * Provide this position in receiver creation to start receiving from the next available event in the partition
-   * after the receiver is created.
+   * @property {string} endOfStream The offset from which events would be received: `"@latest"`.
+   *
    * @static
    * @readonly
    */
-  static readonly newEventsOnly: EventPosition = EventPosition.fromOffset("@latest");
+  static readonly endOfStream: string = "@latest";
   /**
    * @property {string} [offset] The offset of the event at the position. It can be undefined
    * if the position is just created from a sequence number or an enqueued time.
@@ -78,22 +73,12 @@ export class EventPosition {
    */
   sequenceNumber?: number;
 
-  // /**
-  //  * @property {string} [customFilter] The custom filter expression that needs to be set on the receiver.
-  //  */
-  // customFilter?: string;
-
-  /**
-   * @private
-   * @constructor
-   */
   constructor(options?: EventPositionOptions) {
     if (options) {
       this.offset = options.offset;
       this.enqueuedTime = options.enqueuedTime;
       this.sequenceNumber = options.sequenceNumber;
       this.isInclusive = options.isInclusive || false;
-      // this.customFilter = options.customFilter;
     }
   }
 
@@ -141,15 +126,22 @@ export class EventPosition {
   }
 
   /**
-   * Creates a position based on the given custom filter.
-   * @param {string} customFilter The cutom filter expression that needs to be applied on the receiver. This should be used
-   * only when one of the other methods `fromOffset()`, `fromSequenceNumber()`, `fromEnqueuedTime()` is not applicable for
-   * your scenario.
+   * Returns the position for the start of a stream. Provide this position in receiver creation to
+   * start receiving from the first available event in the partition.
+   * @return {EventPosition} EventPosition
    */
-  // static withCustomFilter(customFilter: string): EventPosition {
-  //   if (!customFilter || typeof customFilter !== "string") {
-  //     throw new Error("'customFilter' is a required parameter and must be a non-empty string.");
-  //   }
-  //   return new EventPosition({ customFilter: customFilter });
-  // }
+
+  static fromFirstAvailableEvent(): EventPosition {
+    return EventPosition.fromOffset(EventPosition.startOfStream);
+  }
+
+  /**
+   * Returns the position for the end of a stream. Provide this position in receiver creation to
+   * start receiving from the next available event in the partition after the receiver is created.
+   * @return {EventPosition} EventPosition
+   */
+
+  static fromNewEventsOnly(): EventPosition {
+    return EventPosition.fromOffset(EventPosition.endOfStream);
+  }
 }

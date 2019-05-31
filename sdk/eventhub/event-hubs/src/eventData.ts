@@ -151,7 +151,7 @@ export interface EventDataInternal {
    * @param data The EventData object that needs to be converted to an AMQP message.
    * @param partitionKey An optional key to determine the partition that this event should land in.
    */
-  export function toAmqpMessage(data: EventDataInternal, partitionKey?: string): Message {
+  export function toAmqpMessage(data: EventData, partitionKey?: string): Message {
     const msg: Message = {
       body: data.body
     };

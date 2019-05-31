@@ -58,6 +58,7 @@ export class EventHubClient {
     static createFromIotHubConnectionString(iothubConnectionString: string, options?: EventHubClientOptions): Promise<EventHubClient>;
     createReceiver(partitionId: string, options?: ReceiverOptions): Receiver;
     createSender(options?: SenderOptions): Sender;
+    readonly eventHubName: string;
     getPartitionIds(cancellationToken?: Aborter): Promise<Array<string>>;
     getPartitionInformation(partitionId: string, cancellationToken?: Aborter): Promise<PartitionProperties>;
     getProperties(cancellationToken?: Aborter): Promise<EventHubProperties>;
@@ -81,26 +82,34 @@ export interface EventHubProperties {
 }
 
 // @public
-export class EventPosition {
-    // Warning: (ae-forgotten-export) The symbol "EventPositionOptions" needs to be exported by the entry point index.d.ts
-    constructor(options?: EventPositionOptions);
-    enqueuedTime?: Date | number;
-    static readonly firstAvailableEvent: EventPosition;
-    static fromEnqueuedTime(enqueuedTime: Date | number): EventPosition;
-    static fromOffset(offset: string, isInclusive?: boolean): EventPosition;
-    static fromSequenceNumber(sequenceNumber: number, isInclusive?: boolean): EventPosition;
-    isInclusive: boolean;
-    static readonly newEventsOnly: EventPosition;
-    offset?: string;
-    sequenceNumber?: number;
+export interface EventIteratorOptions {
+    cancellationToken?: Aborter;
+    maxWaitTimePerIteration?: number;
+    preFetchCount?: number;
 }
 
 // @public
-export interface LastEnqueuedInfo {
-    lastEnqueuedOffset?: string;
-    lastEnqueuedSequenceNumber?: number;
-    lastEnqueuedTimeUtc?: Date;
-    retrievalTime?: Date;
+export class EventPosition {
+    constructor(options?: EventPositionOptions);
+    static readonly endOfStream: string;
+    enqueuedTime?: Date | number;
+    static fromEnqueuedTime(enqueuedTime: Date | number): EventPosition;
+    static fromFirstAvailableEvent(): EventPosition;
+    static fromNewEventsOnly(): EventPosition;
+    static fromOffset(offset: string, isInclusive?: boolean): EventPosition;
+    static fromSequenceNumber(sequenceNumber: number, isInclusive?: boolean): EventPosition;
+    isInclusive: boolean;
+    offset?: string;
+    sequenceNumber?: number;
+    static readonly startOfStream: string;
+}
+
+// @public
+export interface EventPositionOptions {
+    enqueuedTime?: Date | number;
+    isInclusive?: boolean;
+    offset?: string;
+    sequenceNumber?: number;
 }
 
 export { MessagingError }
@@ -137,7 +146,9 @@ export interface ReceivedEventData {
 export class ReceiveHandler {
     // Warning: (ae-forgotten-export) The symbol "EventHubReceiver" needs to be exported by the entry point index.d.ts
     constructor(receiver: EventHubReceiver);
-    readonly isRunning: boolean;
+    readonly consumerGroup: string | undefined;
+    readonly isReceiverOpen: boolean;
+    readonly partitionId: string | number | undefined;
     stop(): Promise<void>;
 }
 
@@ -150,13 +161,12 @@ export class Receiver {
     close(): Promise<void>;
     readonly consumerGroup: string | undefined;
     readonly exclusiveReceiverPriority: number | undefined;
-    // Warning: (ae-forgotten-export) The symbol "AsycnIteratorOptions" needs to be exported by the entry point index.d.ts
-    getEventIterator(options: AsycnIteratorOptions): AsyncIterableIterator<ReceivedEventData>;
+    getEventIterator(options: EventIteratorOptions): AsyncIterableIterator<ReceivedEventData>;
     readonly isClosed: boolean;
     isReceivingMessages(): boolean;
     readonly partitionId: string;
     receive(onMessage: OnMessage, onError: OnError, cancellationToken?: Aborter): ReceiveHandler;
-    receiveBatch(maxMessageCount: number, maxWaitTimeInSeconds: number, cancellationToken?: Aborter): Promise<ReceivedEventData[]>;
+    receiveBatch(maxMessageCount: number, maxWaitTimeInSeconds?: number, cancellationToken?: Aborter): Promise<ReceivedEventData[]>;
     }
 
 // @public
@@ -170,8 +180,6 @@ export interface ReceiverOptions {
 
 // @public
 export interface RetryOptions {
-    isExponential?: boolean;
-    maxRetryInterval?: number;
     retryCount?: number;
     retryInterval?: number;
 }
@@ -181,7 +189,7 @@ export { SasTokenProvider }
 // @public
 export class Sender {
     // @internal
-    constructor(context: ConnectionContext, partitionId?: string | number, options?: SenderOptions);
+    constructor(context: ConnectionContext, options?: SenderOptions);
     close(): Promise<void>;
     readonly isClosed: boolean;
     send(events: EventData[], options?: BatchingOptions): Promise<void>;
