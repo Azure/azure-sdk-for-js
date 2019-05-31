@@ -39,10 +39,10 @@ export class Sender {
   /**
    * @internal
    */
-  constructor(context: ConnectionContext, partitionId?: string | number, options?: SenderOptions) {
+  constructor(context: ConnectionContext, options?: SenderOptions) {
     this._context = context;
     this._senderOptions = options || {};
-    this._eventHubSender = EventHubSender.create(this._context, partitionId);
+    this._eventHubSender = EventHubSender.create(this._context, this._senderOptions.partitionId);
   }
 
   /**

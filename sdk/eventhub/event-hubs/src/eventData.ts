@@ -3,11 +3,7 @@
 
 import {
   Message,
-  MessageProperties,
-  MessageHeader,
   Dictionary,
-  messageHeader,
-  messageProperties,
   MessageAnnotations,
   DeliveryAnnotations
 } from "rhea-promise";
@@ -73,10 +69,6 @@ export interface EventHubMessageAnnotations extends MessageAnnotations {
  */
 export interface EventDataInternal {
   /**
-   * @property {MessageHeader} [header] - The message headers.
-   */
-  header?: MessageHeader;
-  /**
    * @property {any} body - The message body that needs to be sent or is received.
    */
   body: any;
@@ -98,17 +90,9 @@ export interface EventDataInternal {
    */
   sequenceNumber?: number;
   /**
-   * @property {AmqpMessageAnnotations} [annotations] The amqp message attributes.
+   * @property {Dictionary<any>} [properties] The application specific properties.
    */
-  annotations?: EventHubMessageAnnotations;
-  /**
-   * @property {AmqpMessageProperties} [properties] The predefined AMQP properties like message_id, correlation_id, reply_to, etc.
-   */
-  properties?: MessageProperties;
-  /**
-   * @property {Dictionary<any>} [applicationProperties] The application specific properties.
-   */
-  applicationProperties?: Dictionary<any>;
+  properties?: Dictionary<any>;
   /**
    * @property {number} [lastSequenceNumber] The last sequence number of the event within the partition stream of the Event Hub.
    */
@@ -125,28 +109,17 @@ export interface EventDataInternal {
    * @property {Date} [retrievalTime] The time when the runtime info was retrieved
    */
   retrievalTime?: Date;
-  /**
-   * @property {AmqpMessage} _raw_amqp_mesage The underlying raw amqp message.
-   */
-  _raw_amqp_mesage?: Message;
 }
 
-/**
- * Describes the methods on the EventData interface.
- * @module EventData
- */
-export namespace EventDataInternal {
   /**
    * Converts the AMQP message to an EventData.
    * @param {AmqpMessage} msg The AMQP message that needs to be converted to EventData.
    */
   export function fromAmqpMessage(msg: Message): EventDataInternal {
     const data: EventDataInternal = {
-      body: msg.body,
-      _raw_amqp_mesage: msg
+      body: msg.body
     };
     if (msg.message_annotations) {
-      data.annotations = msg.message_annotations;
       if (msg.message_annotations[Constants.partitionKey] != undefined) {
         data.partitionKey = msg.message_annotations[Constants.partitionKey];
       }
@@ -160,26 +133,8 @@ export namespace EventDataInternal {
         data.offset = msg.message_annotations[Constants.offset];
       }
     }
-    // Since rhea expects message properties as top level properties we will look for them and unflatten them inside properties.
-    for (const prop of messageProperties) {
-      if ((msg as any)[prop] != undefined) {
-        if (!data.properties) {
-          data.properties = {};
-        }
-        (data.properties as any)[prop] = (msg as any)[prop];
-      }
-    }
-    // Since rhea expects message headers as top level properties we will look for them and unflatten them inside header.
-    for (const prop of messageHeader) {
-      if ((msg as any)[prop] != undefined) {
-        if (!data.header) {
-          data.header = {};
-        }
-        (data.header as any)[prop] = (msg as any)[prop];
-      }
-    }
     if (msg.application_properties) {
-      data.applicationProperties = msg.application_properties;
+      data.properties = msg.application_properties;
     }
     if (msg.delivery_annotations) {
       data.lastEnqueuedOffset = msg.delivery_annotations.last_enqueued_offset;
@@ -187,6 +142,7 @@ export namespace EventDataInternal {
       data.lastEnqueuedTime = new Date(msg.delivery_annotations.last_enqueued_time_utc as number);
       data.retrievalTime = new Date(msg.delivery_annotations.runtime_info_retrieval_time_utc as number);
     }
+
     return data;
   }
 
@@ -195,25 +151,15 @@ export namespace EventDataInternal {
    * @param data The EventData object that needs to be converted to an AMQP message.
    * @param partitionKey An optional key to determine the partition that this event should land in.
    */
-  export function toAmqpMessage(data: EventDataInternal, partitionKey?: string): Message {
+  export function toAmqpMessage(data: EventData, partitionKey?: string): Message {
     const msg: Message = {
       body: data.body
     };
     // As per the AMQP 1.0 spec If the message-annotations or delivery-annotations section is omitted,
     // it is equivalent to a message-annotations section containing anempty map of annotations.
     msg.message_annotations = {};
-    msg.delivery_annotations = {};
-    if (data.annotations) {
-      msg.message_annotations = data.annotations;
-    }
     if (data.properties) {
-      // Set amqp message properties as top level properties, since rhea sends them as top level properties.
-      for (const prop in data.properties) {
-        (msg as any)[prop] = (data.properties as any)[prop];
-      }
-    }
-    if (data.applicationProperties) {
-      msg.application_properties = data.applicationProperties;
+      msg.application_properties = data.properties;
     }
     if (partitionKey != undefined) {
       msg.message_annotations[Constants.partitionKey] = partitionKey;
@@ -222,38 +168,9 @@ export namespace EventDataInternal {
       // with atleast one property. Setting durable to true, helps us achieve that.
       msg.durable = true;
     }
-    if (data.sequenceNumber != undefined) {
-      msg.message_annotations[Constants.sequenceNumber] = data.sequenceNumber;
-    }
-    if (data.enqueuedTimeUtc != undefined) {
-      msg.message_annotations[Constants.enqueuedTime] = data.enqueuedTimeUtc.getTime();
-    }
-    if (data.offset != undefined) {
-      msg.message_annotations[Constants.offset] = data.offset;
-    }
-    if (data.lastEnqueuedOffset != undefined) {
-      msg.delivery_annotations.last_enqueued_offset = data.lastEnqueuedOffset;
-    }
-    if (data.lastSequenceNumber != undefined) {
-      msg.delivery_annotations.last_enqueued_sequence_number = data.lastSequenceNumber;
-    }
-    if (data.lastEnqueuedTime != undefined) {
-      msg.delivery_annotations.last_enqueued_time_utc = data.lastEnqueuedTime.getTime();
-    }
-    if (data.retrievalTime != undefined) {
-      msg.delivery_annotations.runtime_info_retrieval_time_utc = data.retrievalTime.getTime();
-    }
-
-    if (data.header) {
-      // Set amqp message header as top level properties, since rhea expects them as top level properties.
-      for (const prop in data.header) {
-        (msg as any)[prop] = (data.header as any)[prop];
-      }
-    }
 
     return msg;
   }
-}
 
 /**
  * Describes the structure of an event to be sent to Event Hub

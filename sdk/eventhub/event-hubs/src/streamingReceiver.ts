@@ -31,11 +31,31 @@ export class ReceiveHandler {
   }
 
   /**
+   * @property {string | number} [partitionId] The partitionId from which the handler is receiving
+   * events from.
+   * @readonly
+   */
+
+  get partitionId(): string | number | undefined {
+    return this._receiver ? this._receiver.partitionId : undefined;
+  }
+
+  /**
+   * @property {string} [consumerGroup] The consumer group from which the handler is receiving
+   * events from.
+   * @readonly
+   */
+
+  get consumerGroup(): string | undefined {
+    return this._receiver ? this._receiver.consumerGroup : undefined;
+  }
+
+  /**
    * @property {boolean} isReceiverOpen Indicates whether the receiver is connected/open.
    * `true` - is open; `false` otherwise.
    * @readonly
    */
-  get isRunning(): boolean {
+  get isReceiverOpen(): boolean {
     return this._receiver ? this._receiver.isOpen() : false;
   }
 

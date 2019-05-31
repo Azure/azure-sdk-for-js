@@ -1,13 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import {
-  ApplicationTokenCredentials,
-  loginWithServicePrincipalSecret
-} from "@azure/ms-rest-nodeauth";
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
-import dotenv from "dotenv";
 import long from "long";
 import {
   delay,
@@ -30,53 +25,55 @@ import {
 } from "../src/util/errors";
 import {
   TestClientType,
-  getEnvVars,
   getSenderReceiverClients,
   purge,
-  TestMessage
-} from "./testUtils";
+  TestMessage,
+  getServiceBusClient
+} from "./utils/testUtils";
 import { ClientType } from "../src/client";
 import { throwIfMessageCannotBeSettled, DispositionType } from "../src/serviceBusMessage";
+import { getEnvVars } from "./utils/envVarUtils";
+import { loginWithServicePrincipalSecret } from "./utils/aadUtils";
+
 const should = chai.should();
-dotenv.config();
 chai.use(chaiAsPromised);
 const aadServiceBusAudience = "https://servicebus.azure.net/";
 
-describe("Create ServiceBusClient and Queue/Topic/Subscription Clients", function(): void {
-  let namespace: ServiceBusClient;
+describe("Create ServiceBusClient and Queue/Topic/Subscription Clients #RunInBrowser", function(): void {
+  let sbClient: ServiceBusClient;
 
   afterEach(async () => {
-    if (namespace) {
-      await namespace.close();
+    if (sbClient) {
+      await sbClient.close();
     }
   });
 
   it("Creates an Namespace from a connection string", function(): void {
-    namespace = ServiceBusClient.createFromConnectionString(
+    sbClient = ServiceBusClient.createFromConnectionString(
       "Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c;EntityPath=d"
     );
-    namespace.should.be.an.instanceof(ServiceBusClient);
-    should.equal(namespace.name, "sb://a/", "Name of the namespace is different than expected");
+    sbClient.should.be.an.instanceof(ServiceBusClient);
+    should.equal(sbClient.name, "sb://a/", "Name of the namespace is different than expected");
   });
 
   it("Creates clients after coercing name to string", function(): void {
-    namespace = ServiceBusClient.createFromConnectionString(
+    sbClient = ServiceBusClient.createFromConnectionString(
       "Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c;EntityPath=d"
     );
-    const queueClient = namespace.createQueueClient(1 as any);
+    const queueClient = sbClient.createQueueClient(1 as any);
     should.equal(queueClient.entityPath, "1");
 
-    const topicClient = namespace.createTopicClient(1 as any);
+    const topicClient = sbClient.createTopicClient(1 as any);
     should.equal(topicClient.entityPath, "1");
 
-    const subscriptionClient = namespace.createSubscriptionClient(1 as any, 2 as any);
+    const subscriptionClient = sbClient.createSubscriptionClient(1 as any, 2 as any);
     should.equal(subscriptionClient.entityPath, "1/Subscriptions/2");
   });
 
   it("Missing tokenProvider in createFromTokenProvider", function(): void {
     let caughtError: Error | undefined;
     try {
-      namespace = ServiceBusClient.createFromTokenProvider("somestring", undefined as any);
+      sbClient = ServiceBusClient.createFromTokenProvider("somestring", undefined as any);
     } catch (error) {
       caughtError = error;
     }
@@ -85,22 +82,22 @@ describe("Create ServiceBusClient and Queue/Topic/Subscription Clients", functio
   });
 
   it("Coerces input to string for host in createFromTokenProvider", function(): void {
-    namespace = ServiceBusClient.createFromTokenProvider(123 as any, {} as any);
-    should.equal(namespace.name, "sb://123/", "Name of the namespace is different than expected");
+    sbClient = ServiceBusClient.createFromTokenProvider(123 as any, {} as any);
+    should.equal(sbClient.name, "sb://123/", "Name of the namespace is different than expected");
   });
 });
 
-describe("Errors with non existing Namespace", function(): void {
-  let namespace: ServiceBusClient;
+describe("Errors with non existing Namespace #RunInBrowser", function(): void {
+  let sbClient: ServiceBusClient;
   let errorWasThrown: boolean;
   beforeEach(() => {
-    namespace = ServiceBusClient.createFromConnectionString(
+    sbClient = ServiceBusClient.createFromConnectionString(
       "Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c;EntityPath=d"
     );
     errorWasThrown = false;
   });
   afterEach(() => {
-    return namespace.close();
+    return sbClient.close();
   });
 
   const testError = (err: Error) => {
@@ -111,7 +108,7 @@ describe("Errors with non existing Namespace", function(): void {
   it("throws error when sending data via a queueClient to a non existing namespace", async function(): Promise<
     void
   > {
-    const client = namespace.createQueueClient("some-name");
+    const client = sbClient.createQueueClient("some-name");
     await client
       .createSender()
       .send({ body: "hello" })
@@ -123,7 +120,7 @@ describe("Errors with non existing Namespace", function(): void {
   it("throws error when sending data via a topicClient to a non existing namespace", async function(): Promise<
     void
   > {
-    const client = namespace.createTopicClient("some-name");
+    const client = sbClient.createTopicClient("some-name");
     await client
       .createSender()
       .send({ body: "hello" })
@@ -135,7 +132,7 @@ describe("Errors with non existing Namespace", function(): void {
   it("throws error when sending batch data via a queueClient to a non existing namespace", async function(): Promise<
     void
   > {
-    const client = namespace.createQueueClient("some-name");
+    const client = sbClient.createQueueClient("some-name");
     await client
       .createSender()
       .send({ body: "hello" })
@@ -146,7 +143,7 @@ describe("Errors with non existing Namespace", function(): void {
   it("throws error when sending batch data via a topicClient to a non existing namespace", async function(): Promise<
     void
   > {
-    const client = namespace.createTopicClient("some-name");
+    const client = sbClient.createTopicClient("some-name");
     await client
       .createSender()
       .send({ body: "hello" })
@@ -158,7 +155,7 @@ describe("Errors with non existing Namespace", function(): void {
   it("throws error when receving batch data via a queueClient from a non existing namespace", async function(): Promise<
     void
   > {
-    const client = namespace.createQueueClient("some-name");
+    const client = sbClient.createQueueClient("some-name");
     const receiver = await client.createReceiver(ReceiveMode.peekLock);
     await receiver.receiveMessages(10).catch(testError);
 
@@ -168,7 +165,7 @@ describe("Errors with non existing Namespace", function(): void {
   it("throws error when receving batch data via a subscriptionClient from a non existing namespace", async function(): Promise<
     void
   > {
-    const client = namespace.createSubscriptionClient("some-topic-name", "some-subscription-name");
+    const client = sbClient.createSubscriptionClient("some-topic-name", "some-subscription-name");
     const receiver = await client.createReceiver(ReceiveMode.peekLock);
     await receiver.receiveMessages(10).catch(testError);
 
@@ -178,7 +175,7 @@ describe("Errors with non existing Namespace", function(): void {
   it("throws error when receving streaming data via a queueClient from a non existing namespace", async function(): Promise<
     void
   > {
-    const client = namespace.createQueueClient("some-name");
+    const client = sbClient.createQueueClient("some-name");
     const onMessage = async () => {
       throw "onMessage should not have been called when receive call is made from a non existing namespace";
     };
@@ -193,34 +190,31 @@ describe("Errors with non existing Namespace", function(): void {
 });
 
 describe("Errors with non existing Queue/Topic/Subscription", async function(): Promise<void> {
-  let namespace: ServiceBusClient;
+  let sbClient: ServiceBusClient;
   let errorWasThrown: boolean;
   beforeEach(() => {
-    if (!process.env.SERVICEBUS_CONNECTION_STRING) {
-      throw "define SERVICEBUS_CONNECTION_STRING in your environment before running integration tests.";
-    }
-    namespace = ServiceBusClient.createFromConnectionString(
-      process.env.SERVICEBUS_CONNECTION_STRING
-    );
+    sbClient = getServiceBusClient();
     errorWasThrown = false;
   });
   afterEach(() => {
-    return namespace.close();
+    return sbClient.close();
   });
 
   const testError = (err: Error, entityPath: string) => {
     should.equal(err.name, "MessagingEntityNotFoundError", "ErrorName is different than expected");
     should.equal(
       err.message.startsWith(
-        `The messaging entity '${namespace.name}${entityPath}' could not be found.`
+        `The messaging entity '${sbClient.name}${entityPath}' could not be found.`
       ),
       true
     );
     errorWasThrown = true;
   };
 
-  it("throws error when sending data to a non existing queue", async function(): Promise<void> {
-    const client = namespace.createQueueClient("some-name");
+  it("throws error when sending data to a non existing queue #RunInBrowser", async function(): Promise<
+    void
+  > {
+    const client = sbClient.createQueueClient("some-name");
     await client
       .createSender()
       .send({ body: "hello" })
@@ -230,7 +224,7 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
   });
 
   it("throws error when sending data to a non existing topic", async function(): Promise<void> {
-    const client = namespace.createTopicClient("some-name");
+    const client = sbClient.createTopicClient("some-name");
     await client
       .createSender()
       .send({ body: "hello" })
@@ -239,10 +233,10 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
     should.equal(errorWasThrown, true, "Error thrown flag must be true");
   });
 
-  it("throws error when sending batch data to a non existing queue", async function(): Promise<
+  it("throws error when sending batch data to a non existing queue #RunInBrowser", async function(): Promise<
     void
   > {
-    const client = namespace.createQueueClient("some-name");
+    const client = sbClient.createQueueClient("some-name");
     await client
       .createSender()
       .send({ body: "hello" })
@@ -254,7 +248,7 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
   it("throws error when sending batch data to a non existing topic", async function(): Promise<
     void
   > {
-    const client = namespace.createTopicClient("some-name");
+    const client = sbClient.createTopicClient("some-name");
     await client
       .createSender()
       .send({ body: "hello" })
@@ -263,10 +257,10 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
     should.equal(errorWasThrown, true, "Error thrown flag must be true");
   });
 
-  it("throws error when receiving batch data from a non existing queue", async function(): Promise<
+  it("throws error when receiving batch data from a non existing queue #RunInBrowser", async function(): Promise<
     void
   > {
-    const client = namespace.createQueueClient("some-name");
+    const client = sbClient.createQueueClient("some-name");
     const receiver = await client.createReceiver(ReceiveMode.peekLock);
     await receiver.receiveMessages(1).catch((err) => testError(err, "some-name"));
 
@@ -276,7 +270,7 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
   it("throws error when receiving batch data from a non existing subscription", async function(): Promise<
     void
   > {
-    const client = namespace.createSubscriptionClient("some-topic-name", "some-subscription-name");
+    const client = sbClient.createSubscriptionClient("some-topic-name", "some-subscription-name");
     const receiver = await client.createReceiver(ReceiveMode.peekLock);
     await receiver
       .receiveMessages(1)
@@ -285,10 +279,10 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
     should.equal(errorWasThrown, true, "Error thrown flag must be true");
   });
 
-  it("throws error when receving streaming data from a non existing queue", async function(): Promise<
+  it("throws error when receving streaming data from a non existing queue #RunInBrowser", async function(): Promise<
     void
   > {
-    const client = namespace.createQueueClient("some-name");
+    const client = sbClient.createQueueClient("some-name");
     const receiver = await client.createReceiver(ReceiveMode.peekLock);
     const onMessage = async () => {
       throw "onMessage should not have been called when receive call is made from a non existing namespace";
@@ -303,7 +297,7 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
   it("throws error when receving streaming data from a non existing subscription", async function(): Promise<
     void
   > {
-    const client = namespace.createSubscriptionClient("some-topic-name", "some-subscription-name");
+    const client = sbClient.createSubscriptionClient("some-topic-name", "some-subscription-name");
     const receiver = await client.createReceiver(ReceiveMode.peekLock);
     const onMessage = async () => {
       throw "onMessage should not have been called when receive call is made from a non existing namespace";
@@ -319,24 +313,20 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
 });
 
 describe("Test createFromAadTokenCredentials", function(): void {
-  let namespace: ServiceBusClient;
-  let tokenCreds: ApplicationTokenCredentials;
+  let sbClient: ServiceBusClient;
   let errorWasThrown: boolean = false;
-  if (!process.env.SERVICEBUS_CONNECTION_STRING) {
-    throw new Error(
-      "Define SERVICEBUS_CONNECTION_STRING in your environment before running integration tests."
-    );
-  }
-  const serviceBusEndpoint = (process.env.SERVICEBUS_CONNECTION_STRING.match(
+
+  const env = getEnvVars();
+  const serviceBusEndpoint = (env.SERVICEBUS_CONNECTION_STRING.match(
     "Endpoint=sb://((.*).servicebus.windows.net)"
   ) || "")[1];
 
   async function testCreateFromAadTokenCredentials(host: string, tokenCreds: any): Promise<void> {
     const testMessages = TestMessage.getSample();
-    namespace = ServiceBusClient.createFromAadTokenCredentials(host, tokenCreds);
-    namespace.should.be.an.instanceof(ServiceBusClient);
+    sbClient = ServiceBusClient.createFromAadTokenCredentials(host, tokenCreds);
+    sbClient.should.be.an.instanceof(ServiceBusClient);
     const clients = await getSenderReceiverClients(
-      namespace,
+      sbClient,
       TestClientType.UnpartitionedQueue,
       TestClientType.UnpartitionedQueue
     );
@@ -367,35 +357,37 @@ describe("Test createFromAadTokenCredentials", function(): void {
     void
   > {
     const env = getEnvVars();
-    tokenCreds = await loginWithServicePrincipalSecret(
-      env.clientId,
-      env.clientSecret,
-      env.tenantId,
+
+    let tokenCreds = await loginWithServicePrincipalSecret(
+      env.AAD_CLIENT_ID,
+      env.AAD_CLIENT_SECRET,
+      env.AAD_TENANT_ID,
       {
         tokenAudience: aadServiceBusAudience
       }
     );
-    namespace = ServiceBusClient.createFromAadTokenCredentials(123 as any, tokenCreds);
-    should.equal(namespace.name, "sb://123/", "Name of the namespace is different than expected");
+    sbClient = ServiceBusClient.createFromAadTokenCredentials(123 as any, tokenCreds);
+    should.equal(sbClient.name, "sb://123/", "Name of the namespace is different than expected");
   });
 
   it("sends a message to the ServiceBus entity", async function(): Promise<void> {
     const env = getEnvVars();
-    tokenCreds = await loginWithServicePrincipalSecret(
-      env.clientId,
-      env.clientSecret,
-      env.tenantId,
+
+    let tokenCreds = await loginWithServicePrincipalSecret(
+      env.AAD_CLIENT_ID,
+      env.AAD_CLIENT_SECRET,
+      env.AAD_TENANT_ID,
       {
         tokenAudience: aadServiceBusAudience
       }
     );
     await testCreateFromAadTokenCredentials(serviceBusEndpoint, tokenCreds);
-    await namespace.close();
+    await sbClient.close();
   });
 });
 
 describe("Errors after close()", function(): void {
-  let namespace: ServiceBusClient;
+  let sbClient: ServiceBusClient;
   let senderClient: QueueClient | TopicClient;
   let receiverClient: QueueClient | SubscriptionClient;
   let sender: Sender;
@@ -403,7 +395,7 @@ describe("Errors after close()", function(): void {
   let receivedMessage: ServiceBusMessage;
 
   afterEach(() => {
-    return namespace.close();
+    return sbClient.close();
   });
 
   async function beforeEachTest(
@@ -412,17 +404,8 @@ describe("Errors after close()", function(): void {
     entityToClose: string,
     useSessions?: boolean
   ): Promise<void> {
-    if (!process.env.SERVICEBUS_CONNECTION_STRING) {
-      throw new Error(
-        "Define SERVICEBUS_CONNECTION_STRING in your environment before running integration tests."
-      );
-    }
-
-    namespace = ServiceBusClient.createFromConnectionString(
-      process.env.SERVICEBUS_CONNECTION_STRING
-    );
-
-    const clients = await getSenderReceiverClients(namespace, senderType, receiverType);
+    sbClient = getServiceBusClient();
+    const clients = await getSenderReceiverClients(sbClient, senderType, receiverType);
     senderClient = clients.senderClient;
     receiverClient = clients.receiverClient;
 
@@ -452,7 +435,7 @@ describe("Errors after close()", function(): void {
     // close(), so that we can then test the resulting error.
     switch (entityToClose) {
       case "namespace":
-        await namespace.close();
+        await sbClient.close();
         break;
       case "senderClient":
         await senderClient.close();
@@ -838,7 +821,9 @@ describe("Errors after close()", function(): void {
       await testRules(expectedErrorMsg);
     });
 
-    it("Unpartitioned Queue: errors after close() on namespace", async function(): Promise<void> {
+    it("Unpartitioned Queue: errors after close() on namespace #RunInBrowser", async function(): Promise<
+      void
+    > {
       await beforeEachTest(
         TestClientType.UnpartitionedQueue,
         TestClientType.UnpartitionedQueue,
@@ -851,7 +836,7 @@ describe("Errors after close()", function(): void {
       await testReceiverClient(expectedErrorMsg);
     });
 
-    it("Unpartitioned Queue with sessions: errors after close() on namespace", async function(): Promise<
+    it("Unpartitioned Queue with sessions: errors after close() on namespace #RunInBrowser", async function(): Promise<
       void
     > {
       await beforeEachTest(
@@ -913,7 +898,7 @@ describe("Errors after close()", function(): void {
 
       let errorCreateQueueClient: string = "";
       try {
-        namespace.createQueueClient("random-name");
+        sbClient.createQueueClient("random-name");
       } catch (err) {
         errorCreateQueueClient = err.message;
       }
@@ -925,7 +910,7 @@ describe("Errors after close()", function(): void {
 
       let errorCreateTopicClient: string = "";
       try {
-        namespace.createTopicClient("random-name");
+        sbClient.createTopicClient("random-name");
       } catch (err) {
         errorCreateTopicClient = err.message;
       }
@@ -937,7 +922,7 @@ describe("Errors after close()", function(): void {
 
       let errorCreateSubscriptionClient: string = "";
       try {
-        namespace.createSubscriptionClient("random-name", "random-name");
+        sbClient.createSubscriptionClient("random-name", "random-name");
       } catch (err) {
         errorCreateSubscriptionClient = err.message;
       }
@@ -1009,7 +994,7 @@ describe("Errors after close()", function(): void {
       await testCreateSender(getClientClosedErrorMsg(senderClient.entityPath));
     });
 
-    it("Unpartitioned Queue: errors after close() on senderClient", async function(): Promise<
+    it("Unpartitioned Queue: errors after close() on senderClient #RunInBrowser", async function(): Promise<
       void
     > {
       await beforeEachTest(
@@ -1024,7 +1009,7 @@ describe("Errors after close()", function(): void {
       await testCreateSender(getClientClosedErrorMsg(senderClient.entityPath));
     });
 
-    it("Unpartitioned Queue with sessions: errors after close() on senderClient", async function(): Promise<
+    it("Unpartitioned Queue with sessions: errors after close() on senderClient #RunInBrowser", async function(): Promise<
       void
     > {
       await beforeEachTest(
@@ -1149,7 +1134,7 @@ describe("Errors after close()", function(): void {
       await testRules(getClientClosedErrorMsg(receiverClient.entityPath));
     });
 
-    it("Unpartitioned Queue: errors after close() on receiverClient", async function(): Promise<
+    it("Unpartitioned Queue: errors after close() on receiverClient #RunInBrowser", async function(): Promise<
       void
     > {
       await beforeEachTest(
@@ -1164,7 +1149,7 @@ describe("Errors after close()", function(): void {
       await testReceiverClient(getClientClosedErrorMsg(receiverClient.entityPath));
     });
 
-    it("Unpartitioned Queue with sessions: errors after close() on receiverClient", async function(): Promise<
+    it("Unpartitioned Queue with sessions: errors after close() on receiverClient #RunInBrowser", async function(): Promise<
       void
     > {
       await beforeEachTest(
@@ -1281,7 +1266,9 @@ describe("Errors after close()", function(): void {
       );
     });
 
-    it("Unpartitioned Queue: errors after close() on sender", async function(): Promise<void> {
+    it("Unpartitioned Queue: errors after close() on sender #RunInBrowser", async function(): Promise<
+      void
+    > {
       await beforeEachTest(
         TestClientType.UnpartitionedQueue,
         TestClientType.UnpartitionedQueue,
@@ -1293,7 +1280,7 @@ describe("Errors after close()", function(): void {
       );
     });
 
-    it("Unpartitioned Queue with sessions: errors after close() on sender", async function(): Promise<
+    it("Unpartitioned Queue with sessions: errors after close() on sender #RunInBrowser", async function(): Promise<
       void
     > {
       await beforeEachTest(
@@ -1409,7 +1396,9 @@ describe("Errors after close()", function(): void {
       await testAllDispositions();
     });
 
-    it("Unpartitioned Queue: errors after close() on receiver", async function(): Promise<void> {
+    it("Unpartitioned Queue: errors after close() on receiver #RunInBrowser", async function(): Promise<
+      void
+    > {
       await beforeEachTest(
         TestClientType.UnpartitionedQueue,
         TestClientType.UnpartitionedQueue,
@@ -1422,7 +1411,7 @@ describe("Errors after close()", function(): void {
       await testAllDispositions();
     });
 
-    it("Unpartitioned Queue with sessions: errors after close() on receiver", async function(): Promise<
+    it("Unpartitioned Queue with sessions: errors after close() on receiver #RunInBrowser", async function(): Promise<
       void
     > {
       await beforeEachTest(
@@ -1499,7 +1488,7 @@ describe("Errors after close()", function(): void {
       await testCreateSender(getOpenSenderErrorMsg("TopicClient", senderClient.entityPath));
     });
 
-    it("Open receiver exists on QueueClient", async function(): Promise<void> {
+    it("Open receiver exists on QueueClient #RunInBrowser", async function(): Promise<void> {
       await beforeEachTest(TestClientType.PartitionedQueue, TestClientType.PartitionedQueue, "");
 
       await testCreateReceiver(
@@ -1519,7 +1508,9 @@ describe("Errors after close()", function(): void {
       );
     });
 
-    it("Open receiver exists for session on QueueClient", async function(): Promise<void> {
+    it("Open receiver exists for session on QueueClient #RunInBrowser", async function(): Promise<
+      void
+    > {
       await beforeEachTest(
         TestClientType.PartitionedQueueWithSessions,
         TestClientType.PartitionedQueueWithSessions,

@@ -12,6 +12,24 @@ import { BatchingReceiver } from "./batchingReceiver";
 import { Aborter } from "./aborter";
 
 /**
+ * Options to pass when creating an iterator to iterate over events
+ */
+export interface EventIteratorOptions {
+  /**
+   * Number of events to fetch at a time in the background
+   */
+  preFetchCount?: number;
+  /**
+   * The time to wait in seconds in each iteration for an event
+   */
+  maxWaitTimePerIteration?: number;
+  /**
+   * Cancellation token to cancel the operation
+   */
+  cancellationToken?: Aborter;
+}
+
+/**
  * The Receiver class can be used to receive messages in a batch or by registering handlers.
  * Use the `createReceiver` function on the QueueClient or SubscriptionClient to instantiate a Receiver.
  * The Receiver class is an abstraction over the underlying AMQP receiver link.
@@ -77,7 +95,6 @@ export class Receiver {
    * Starts the receiver by establishing an AMQP session and an AMQP receiver link on the session. Messages will be passed to
    * the provided onMessage handler and error will be passed to the provided onError handler.
    *
-   * @param {string|number} partitionId                        Partition ID from which to receive.
    * @param {OnMessage} onMessage                              The message handler to receive event data objects.
    * @param {OnError} onError                                  The error handler to receive an error that occurs
    * while receiving messages.
@@ -85,11 +102,8 @@ export class Receiver {
    *
    * @returns {ReceiveHandler} ReceiveHandler - An object that provides a mechanism to stop receiving more messages.
    */
-  receive(partitionId: string, onMessage: OnMessage, onError: OnError, cancellationToken?: Aborter): ReceiveHandler {
-    if (typeof partitionId !== "string" && typeof partitionId !== "number") {
-      throw new Error("'partitionId' is a required parameter and must be of type: 'string' | 'number'.");
-    }
-    const sReceiver = StreamingReceiver.create(this._context, partitionId, this._receiverOptions);
+  receive(onMessage: OnMessage, onError: OnError, cancellationToken?: Aborter): ReceiveHandler {
+    const sReceiver = StreamingReceiver.create(this._context, this.partitionId, this._receiverOptions);
     sReceiver.prefetchCount = Constants.defaultPrefetchCount;
     this._context.receivers[sReceiver.name] = sReceiver;
     return sReceiver.receive(onMessage, onError);
@@ -98,18 +112,10 @@ export class Receiver {
   /**
    * Gets an async iterator over events from the receiver.
    */
-  async *getEventIterator(
-    partitionId: string,
-    batchSize: number,
-    maxWaitTimeInSeconds: number,
-    cancellationToken?: Aborter
-  ): AsyncIterableIterator<ReceivedEventData[]> {
-    // TODO: Create batching receiver using the options here
-    // Update `receiveBatch` call to use the above receiver
-    // Don't export `receiveBatch` from user
+  async *getEventIterator(options: EventIteratorOptions): AsyncIterableIterator<ReceivedEventData> {
     while (true) {
-      const currentBatch = await this.receiveBatch(partitionId, batchSize, maxWaitTimeInSeconds, cancellationToken);
-      yield currentBatch;
+      const currentBatch = await this.receiveBatch(1, options.maxWaitTimePerIteration || 60, options.cancellationToken);
+      yield currentBatch[0];
     }
   }
 
@@ -136,8 +142,6 @@ export class Receiver {
    * Receives a batch of EventData objects from an EventHub partition for a given count and a given max wait time in seconds, whichever
    * happens first. This method can be used directly after creating the receiver object and **MUST NOT** be used along with the `start()` method.
    *
-   * @private
-   * @param {string|number} partitionId                        Partition ID from which to receive.
    * @param {number} maxMessageCount                           The maximum message count. Must be a value greater than 0.
    * @param {number} [maxWaitTimeInSeconds]                    The maximum wait time in seconds for which the Receiver should wait
    * to receiver the said amount of messages. If not provided, it defaults to 60 seconds.
@@ -145,16 +149,12 @@ export class Receiver {
    *
    * @returns {Promise<Array<EventData>>} Promise<Array<EventData>>.
    */
-  private async receiveBatch(
-    partitionId: string,
+  async receiveBatch(
     maxMessageCount: number,
-    maxWaitTimeInSeconds: number,
+    maxWaitTimeInSeconds?: number,
     cancellationToken?: Aborter
   ): Promise<ReceivedEventData[]> {
-    if (typeof partitionId !== "string" && typeof partitionId !== "number") {
-      throw new Error("'partitionId' is a required parameter and must be of type: 'string' | 'number'.");
-    }
-    const bReceiver = BatchingReceiver.create(this._context, partitionId, this._receiverOptions);
+    const bReceiver = BatchingReceiver.create(this._context, this.partitionId, this._receiverOptions);
     this._context.receivers[bReceiver.name] = bReceiver;
     let error: MessagingError | undefined;
     let result: ReceivedEventData[] = [];
