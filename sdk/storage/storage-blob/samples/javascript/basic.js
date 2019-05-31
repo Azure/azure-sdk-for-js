@@ -2,7 +2,12 @@
  Setup: Enter your storage account name and shared key in main()
 */
 
-const { BlobServiceClient, StorageClient, SharedKeyCredential, TokenCredential } = require("../.."); // Change to "@azure/storage-blob" in your package
+const {
+  BlobServiceClient,
+  StorageClient,
+  SharedKeyCredential,
+  TokenCredential
+} = require("../../dist-esm/src"); // Change to "@azure/storage-blob" in your package
 
 async function main() {
   // Enter your storage account name and shared key

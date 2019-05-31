@@ -11,7 +11,7 @@ const {
   Aborter,
   BlobServiceClient,
   StorageClient
-} = require("../.."); // Change to "@azure/storage-blob" in your package
+} = require("../../dist-esm/src"); // Change to "@azure/storage-blob" in your package
 
 async function main() {
   // Fill in following settings before running this sample
