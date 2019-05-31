@@ -10,7 +10,8 @@ import {
   ServiceBusClient,
   ServiceBusMessage,
   SubscriptionClient,
-  TopicClient
+  TopicClient,
+  OnMessage
 } from "../src";
 import { Receiver } from "../src/receiver";
 import { Sender } from "../src/sender";
@@ -242,12 +243,11 @@ describe("Streaming - Complete message", function(): void {
 
     const receivedMsgs: ServiceBusMessage[] = [];
     receiver.registerMessageHandler(
-      (msg: ServiceBusMessage) => {
+      async (msg: ServiceBusMessage) => {
         should.equal(msg.body, testMessage.body, "MessageBody is different than expected");
         should.equal(msg.messageId, testMessage.messageId, "MessageId is different than expected");
-        return msg.complete().then(() => {
-          receivedMsgs.push(msg);
-        });
+        await msg.complete();
+        receivedMsgs.push(msg);
       },
       unExpectedErrorHandler,
       { autoComplete }
@@ -327,15 +327,14 @@ describe("Streaming - Abandon message", function(): void {
     let checkDeliveryCount = 0;
 
     receiver.registerMessageHandler(
-      (msg: ServiceBusMessage) => {
+      async (msg: ServiceBusMessage) => {
         should.equal(
           msg.deliveryCount,
           checkDeliveryCount,
           "DeliveryCount is different than expected"
         );
-        return msg.abandon().then(() => {
-          checkDeliveryCount++;
-        });
+        await msg.abandon();
+        checkDeliveryCount++;
       },
       unExpectedErrorHandler,
       { autoComplete: false }
@@ -411,10 +410,9 @@ describe("Streaming - Defer message", function(): void {
     await sender.send(testMessage);
     let sequenceNum: any = 0;
     receiver.registerMessageHandler(
-      (msg: ServiceBusMessage) => {
-        return msg.defer().then(() => {
-          sequenceNum = msg.sequenceNumber;
-        });
+      async (msg: ServiceBusMessage) => {
+        await msg.defer();
+        sequenceNum = msg.sequenceNumber;
       },
       unExpectedErrorHandler,
       { autoComplete }
@@ -520,10 +518,9 @@ describe("Streaming - Deadletter message", function(): void {
 
     const receivedMsgs: ServiceBusMessage[] = [];
     receiver.registerMessageHandler(
-      (msg: ServiceBusMessage) => {
-        return msg.deadLetter().then(() => {
-          receivedMsgs.push(msg);
-        });
+      async (msg: ServiceBusMessage) => {
+        await msg.deadLetter();
+        receivedMsgs.push(msg);
       },
       unExpectedErrorHandler,
       { autoComplete }
@@ -628,7 +625,7 @@ describe("Streaming - Multiple Receiver Operations", function(): void {
     }, unExpectedErrorHandler);
     await delay(5000);
     try {
-      receiver.registerMessageHandler((msg: ServiceBusMessage) => {
+      receiver.registerMessageHandler(() => {
         return Promise.resolve();
       }, unExpectedErrorHandler);
     } catch (err) {
@@ -691,7 +688,7 @@ describe("Streaming - Settle an already Settled message throws error", () => {
     await afterEachTest();
   });
 
-  const testError = (err: Error, operation: DispositionType) => {
+  const testError = (err: Error, operation: DispositionType): void => {
     should.equal(
       err.message,
       `Failed to ${operation} the message as this message is already settled.`,
@@ -851,9 +848,8 @@ describe("Streaming - User Error", function(): void {
 
     const receivedMsgs: ServiceBusMessage[] = [];
     receiver.registerMessageHandler(async (msg: ServiceBusMessage) => {
-      await msg.complete().then(() => {
-        receivedMsgs.push(msg);
-      });
+      await msg.complete();
+      receivedMsgs.push(msg);
       throw new Error(errorMessage);
     }, unExpectedErrorHandler);
 
@@ -932,9 +928,8 @@ describe("Streaming - maxConcurrentCalls", function(): void {
 
         receivedMsgs.push(msg);
         await delay(2000);
-        await msg.complete().then(() => {
-          settledMsgs.push(msg);
-        });
+        await msg.complete();
+        settledMsgs.push(msg);
       },
       unExpectedErrorHandler,
       maxConcurrentCalls ? { maxConcurrentCalls } : {}
@@ -1046,7 +1041,7 @@ describe("Streaming - Not receive messages after receiver is closed", function()
 
     const receivedMsgs: ServiceBusMessage[] = [];
 
-    const onMessageHandler = async (brokeredMessage: ServiceBusMessage) => {
+    const onMessageHandler: OnMessage = async (brokeredMessage: ServiceBusMessage) => {
       receivedMsgs.push(brokeredMessage);
       await brokeredMessage.complete();
     };
