@@ -13,7 +13,7 @@ import {
   isAmqpError
 } from "rhea-promise";
 import { translate, Constants, MessagingError, retry, RetryOperationType, RetryConfig } from "@azure/amqp-common";
-import { EventDataInternal, ReceivedEventData } from "./eventData";
+import { ReceivedEventData, EventDataInternal, fromAmqpMessage } from "./eventData";
 import { ReceiverOptions } from "./eventHubClient";
 import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";
@@ -197,18 +197,25 @@ export class EventHubReceiver extends LinkEntity {
       sequenceNumber: -1
     };
     this._onAmqpMessage = (context: EventContext) => {
-      const evData = EventDataInternal.fromAmqpMessage(context.message!);
-      evData.body = this._context.dataTransformer.decode(context.message!.body);
-      this._checkpoint = {
-        enqueuedTimeUtc: evData.enqueuedTimeUtc!,
-        offset: evData.offset!,
-        sequenceNumber: evData.sequenceNumber!
+      const data: EventDataInternal = fromAmqpMessage(context.message!);
+      const receivedEventData: ReceivedEventData = {
+        body: this._context.dataTransformer.decode(context.message!.body),
+        properties: data.properties,
+        offset: data.offset,
+        sequenceNumber: data.sequenceNumber,
+        enqueuedTimeUtc: data.enqueuedTimeUtc,
+        partitionKey: data.partitionKey
       };
-      if (this.receiverRuntimeMetricEnabled && evData) {
-        this.runtimeInfo.lastEnqueuedSequenceNumber = evData.lastSequenceNumber;
-        this.runtimeInfo.lastEnqueuedTimeUtc = evData.lastEnqueuedTime;
-        this.runtimeInfo.lastEnqueuedOffset = evData.lastEnqueuedOffset;
-        this.runtimeInfo.retrievalTime = evData.retrievalTime;
+      this._checkpoint = {
+        enqueuedTimeUtc: receivedEventData.enqueuedTimeUtc!,
+        offset: receivedEventData.offset!,
+        sequenceNumber: receivedEventData.sequenceNumber!
+      };
+      if (this.receiverRuntimeMetricEnabled && data) {
+        this.runtimeInfo.lastEnqueuedSequenceNumber = data.lastSequenceNumber;
+        this.runtimeInfo.lastEnqueuedTimeUtc = data.lastEnqueuedTime;
+        this.runtimeInfo.lastEnqueuedOffset = data.lastEnqueuedOffset;
+        this.runtimeInfo.retrievalTime = data.retrievalTime;
         log.receiver(
           "[%s] RuntimeInfo of Receiver '%s' is %O",
           this._context.connectionId,
@@ -217,7 +224,7 @@ export class EventHubReceiver extends LinkEntity {
         );
       }
       try {
-        this._onMessage!(evData);
+        this._onMessage!(receivedEventData);
       } catch (err) {
         // This ensures we call users' error handler when users' message handler throws.
         if (!isAmqpError(err)) {
@@ -225,7 +232,7 @@ export class EventHubReceiver extends LinkEntity {
             "[%s] An error occurred while running user's message handler for the message " +
               "with sequence number '%s' on the receiver '%s': %O",
             this._context.connectionId,
-            evData.sequenceNumber,
+            receivedEventData.sequenceNumber,
             this.name,
             err
           );

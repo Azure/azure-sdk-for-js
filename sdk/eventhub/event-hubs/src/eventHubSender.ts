@@ -25,7 +25,7 @@ import {
   Constants,
   randomNumberFromInterval
 } from "@azure/amqp-common";
-import { EventData, EventDataInternal } from "./eventData";
+import { EventData, toAmqpMessage } from "./eventData";
 import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";
 import { BatchingOptions, SenderOptions } from "./eventHubClient";
@@ -357,7 +357,7 @@ export class EventHubSender extends LinkEntity {
       const messages: AmqpMessage[] = [];
       // Convert EventData to AmqpMessage.
       for (let i = 0; i < events.length; i++) {
-        const message = EventDataInternal.toAmqpMessage(events[i], batchLabel);
+        const message = toAmqpMessage(events[i], batchLabel);
         message.body = this._context.dataTransformer.encode(events[i].body);
         messages[i] = message;
       }
