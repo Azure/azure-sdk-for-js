@@ -15,3 +15,7 @@ jobs:
   - template: ../../../eng/pipelines/templates/jobs/archetype-sdk-client.yml
     parameters:
       PackageName: "@azure/cosmos"
+
+  - template: ../../../eng/pipelines/templates/jobs/node6-test-sdk-client.yml
+    parameters:
+      PackagePath: "sdk/cosmosdb/cosmos/"

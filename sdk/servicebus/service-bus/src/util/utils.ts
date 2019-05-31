@@ -4,7 +4,7 @@
 import Long from "long";
 import * as log from "../log";
 import { generate_uuid } from "rhea-promise";
-import { isBuffer } from "util";
+import isBuffer from "is-buffer";
 import { ClientEntityContext } from "../../src/clientEntityContext";
 
 // This is the only dependency we have on DOM types, so rather than require
