@@ -29,6 +29,7 @@ import { EventData, toAmqpMessage } from "./eventData";
 import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";
 import { BatchingOptions, SenderOptions } from "./eventHubClient";
+import { Aborter } from "./aborter";
 
 interface CreateSenderOptions {
   newName?: boolean;
@@ -461,10 +462,16 @@ export class EventHubSender extends LinkEntity {
           let onReleased: Func<EventContext, void>;
           let onModified: Func<EventContext, void>;
           let onAccepted: Func<EventContext, void>;
+          let aborter: Aborter;
+          let onAborted: () => {};
+
           const removeListeners = (): void => {
             clearTimeout(waitTimer);
             // When `removeListeners` is called on timeout, the sender might be closed and cleared
             // So, check if it exists, before removing listeners from it.
+            if (aborter) {
+              aborter.removeEventListener("abort", onAborted);
+            }
             if (this._sender) {
               this._sender.removeListener(SenderEvents.rejected, onRejected);
               this._sender.removeListener(SenderEvents.accepted, onAccepted);
@@ -473,6 +480,14 @@ export class EventHubSender extends LinkEntity {
             }
           };
 
+          onAborted = () => {
+            removeListeners();
+            const desc: string =
+              `[${this._context.connectionId}] The send operation on the Sender "${this.name}" with ` +
+              `address "${this.address}" has been cancelled by the user.`;
+            log.error(desc);
+            throw new Error(desc);
+          };
           onAccepted = (context: EventContext) => {
             // Since we will be adding listener for accepted and rejected event every time
             // we send a message, we need to remove listener for both the events.
@@ -533,6 +548,10 @@ export class EventHubSender extends LinkEntity {
             return reject(translate(e));
           };
 
+          if (options && options.cancellationToken) {
+            aborter = options.cancellationToken;
+            aborter.addEventListener("abort", onAborted);
+          }
           this._sender!.on(SenderEvents.accepted, onAccepted);
           this._sender!.on(SenderEvents.rejected, onRejected);
           this._sender!.on(SenderEvents.modified, onModified);
