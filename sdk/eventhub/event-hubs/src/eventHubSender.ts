@@ -463,10 +463,15 @@ export class EventHubSender extends LinkEntity {
           let onModified: Func<EventContext, void>;
           let onAccepted: Func<EventContext, void>;
           let aborter: Aborter;
+          let onAborted: () => {};
+
           const removeListeners = (): void => {
             clearTimeout(waitTimer);
             // When `removeListeners` is called on timeout, the sender might be closed and cleared
             // So, check if it exists, before removing listeners from it.
+            if (aborter) {
+              aborter.removeEventListener("abort", onAborted);
+            }
             if (this._sender) {
               this._sender.removeListener(SenderEvents.rejected, onRejected);
               this._sender.removeListener(SenderEvents.accepted, onAccepted);
@@ -475,7 +480,7 @@ export class EventHubSender extends LinkEntity {
             }
           };
 
-          const onAborted: any = () => {
+          onAborted = () => {
             removeListeners();
             const desc: string =
               `[${this._context.connectionId}] The send operation on the Sender "${this.name}" with ` +
@@ -489,9 +494,6 @@ export class EventHubSender extends LinkEntity {
             // This will ensure duplicate listeners are not added for the same event.
             removeListeners();
             log.sender("[%s] Sender '%s', got event accepted.", this._context.connectionId, this.name);
-            if (aborter) {
-              aborter.removeEventListener("abort", onAborted);
-            }
             resolve();
           };
           onRejected = (context: EventContext) => {
