@@ -22,7 +22,6 @@ async function main(): Promise<void> {
     consumerGroup: "$Default"
   });
   const batchSize = 1;
-  let messageLength = 0;
 
   try {
     for (let i = 0; i < 5; i++) {
@@ -34,10 +33,11 @@ async function main(): Promise<void> {
       console.log(`Received events: ${events.map(event => event.body)}`);
     }
 
+    let receivedIteratorEvent = 0;
     for await (const events of receiver.getEventIterator({ preFetchCount: 5 })) {
-      messageLength++;
+      receivedIteratorEvent++;
       console.log(`Received event: ${events.body}`);
-      if (messageLength === 5) {
+      if (receivedIteratorEvent === 5) {
         break;
       }
     }

@@ -48,8 +48,8 @@ export class Receiver {
 
   private _partitionId: string;
   private _receiverOptions: ReceiverOptions;
-  private _streamingReceiver: StreamingReceiver;
-  private _batchingReceiver: BatchingReceiver;
+  private _streamingReceiver: StreamingReceiver | undefined;
+  private _batchingReceiver: BatchingReceiver | undefined;
 
   /**
    * @property Returns `true` if the receiver is closed. This can happen either because the receiver
@@ -93,8 +93,6 @@ export class Receiver {
     this._context = context;
     this._partitionId = partitionId;
     this._receiverOptions = options || {};
-    this._streamingReceiver = {} as StreamingReceiver;
-    this._batchingReceiver = {} as BatchingReceiver;
   }
   /**
    * Starts the receiver by establishing an AMQP session and an AMQP receiver link on the session. Messages will be passed to
@@ -111,7 +109,6 @@ export class Receiver {
     this._throwIfReceiverOrConnectionClosed();
     this._streamingReceiver = StreamingReceiver.create(this._context, this.partitionId, this._receiverOptions);
     this._streamingReceiver.prefetchCount = Constants.defaultPrefetchCount;
-    this._context.receivers[this._streamingReceiver.name] = this._streamingReceiver;
     return this._streamingReceiver.receive(onMessage, onError);
   }
 
@@ -185,7 +182,6 @@ export class Receiver {
   ): Promise<ReceivedEventData[]> {
     this._throwIfReceiverOrConnectionClosed();
     this._batchingReceiver = BatchingReceiver.create(this._context, this.partitionId, this._receiverOptions);
-    this._context.receivers[this._batchingReceiver.name] = this._batchingReceiver;
     let error: MessagingError | undefined;
     let result: ReceivedEventData[] = [];
     try {
