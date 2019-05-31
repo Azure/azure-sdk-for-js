@@ -7,7 +7,14 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Debug Samples",
+      "name": "Debug Javascript Samples",
+      "program": "${workspaceFolder}/samples/javascript/basic.js",
+      "preLaunchTask": "npm: build:samples"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug Typescript Samples",
       "program": "${workspaceFolder}/samples/typescript/basic.ts",
       "preLaunchTask": "npm: build:samples",
       "outFiles": ["${workspaceFolder}/dist-esm/samples/typescript/*.js"]
