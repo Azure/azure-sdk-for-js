@@ -537,11 +537,10 @@ export class EventHubSender extends LinkEntity {
             options.cancellationToken.onabort = () => {
               removeListeners();
               const desc: string =
-                `[${this._context.connectionId}] Sender "${this.name}" with ` +
-                `address "${this.address}", cannot send the message. opreation ` +
-                `aborted.`;
+                `[${this._context.connectionId}] The send operation on the Sender "${this.name}" with ` +
+                `address "${this.address}" has been cancelled by the user.`;
               log.error(desc);
-              throw new Error(desc);
+              return reject(new Error(desc));
             };
           }
 
