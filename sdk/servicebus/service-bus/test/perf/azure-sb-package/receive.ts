@@ -41,18 +41,17 @@ function RunTest(
   entityPath: string,
   maxConcurrentCalls: number,
   messages: number
-) {
+): void {
   const sbService: ServiceBusService = createServiceBusService(connectionString);
   let credits = maxConcurrentCalls;
-  function receiveMessages() {
+  function receiveMessages(): void {
     while (_messages < messages && credits > 0) {
       credits--;
       sbService.receiveQueueMessage(entityPath, { isPeekLock: false }, function(err) {
         if (err) {
           console.log(err.message);
         } else {
-          if (_messages === messages) {
-          } else {
+          if (_messages !== messages) {
             credits++;
             _messages++;
             receiveMessages();

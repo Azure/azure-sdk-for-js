@@ -856,7 +856,7 @@ describe("Batch Receiver - Multiple Receiver Operations", function(): void {
     let unexpectedError;
     try {
       receiver.registerMessageHandler(
-        (msg: ServiceBusMessage) => {
+        () => {
           return Promise.resolve();
         },
         (err) => {

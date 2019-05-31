@@ -260,7 +260,7 @@ export class MessageReceiver extends LinkEntity {
     // If explicitly set to false then autoComplete is false else true (default).
     this.autoComplete = options.autoComplete === false ? options.autoComplete : true;
     this.maxAutoRenewDurationInSeconds =
-      options.maxMessageAutoRenewLockDurationInSeconds != undefined
+      options.maxMessageAutoRenewLockDurationInSeconds != null
         ? options.maxMessageAutoRenewLockDurationInSeconds
         : 300;
     this.autoRenewLock =
@@ -951,6 +951,7 @@ export class MessageReceiver extends LinkEntity {
                   this._receiver.addCredit(this.maxConcurrentCalls);
                 }
               }
+              return;
             }),
           connectionId: connectionId,
           operationType: RetryOperationType.receiverLink,
@@ -1007,7 +1008,7 @@ export class MessageReceiver extends LinkEntity {
   ): Promise<any> {
     return new Promise((resolve, reject) => {
       if (!options) options = {};
-      if (operation.match(/^(complete|abandon|defer|deadletter)$/) == undefined) {
+      if (operation.match(/^(complete|abandon|defer|deadletter)$/) == null) {
         return reject(new Error(`operation: '${operation}' is not a valid operation.`));
       }
       this._clearMessageLockRenewTimer(message.messageId as string);
