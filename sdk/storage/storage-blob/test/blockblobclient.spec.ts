@@ -87,8 +87,7 @@ describe("BlockBlobClient", () => {
     );
     await newBlockBlobClient.stageBlockFromURL(
       base64encode("1"),
-      blockBlobClient.url,
-      0
+      blockBlobClient.url
     );
 
     const listResponse = await newBlockBlobClient.getBlockList("uncommitted");

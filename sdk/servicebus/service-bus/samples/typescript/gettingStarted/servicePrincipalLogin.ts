@@ -34,12 +34,12 @@ async function main(): Promise<void> {
     tokenAudience: "https://servicebus.azure.net/"
   });
 
-  const ns = ServiceBusClient.createFromAadTokenCredentials(serviceBusEndpoint, tokenCreds);
+  const sbClient = ServiceBusClient.createFromAadTokenCredentials(serviceBusEndpoint, tokenCreds);
   /*
    Refer to other samples, and place your code here
    to create queue clients, and send/receive messages
   */
-  await ns.close();
+  await sbClient.close();
 }
 
 main().catch((err) => {

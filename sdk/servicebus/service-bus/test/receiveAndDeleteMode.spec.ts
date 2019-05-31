@@ -4,8 +4,6 @@
 import chai from "chai";
 const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
-import dotenv from "dotenv";
-dotenv.config();
 chai.use(chaiAsPromised);
 import {
   ServiceBusClient,
@@ -25,8 +23,9 @@ import {
   getSenderReceiverClients,
   TestClientType,
   purge,
-  checkWithTimeout
-} from "./testUtils";
+  checkWithTimeout,
+  getServiceBusClient
+} from "./utils/testUtils";
 
 import { Receiver, SessionReceiver } from "../src/receiver";
 import { getErrorMessageNotSupportedInReceiveAndDeleteMode } from "../src/util/errors";
@@ -43,7 +42,7 @@ async function testPeekMsgsLength(
   );
 }
 
-let ns: ServiceBusClient;
+let sbClient: ServiceBusClient;
 
 let errorWasThrown: boolean;
 
@@ -58,18 +57,9 @@ async function beforeEachTest(
   useSessions?: boolean,
   receiveMode?: ReceiveMode
 ): Promise<void> {
-  // The tests in this file expect the env variables to contain the connection string and
-  // the names of empty queue/topic/subscription that are to be tested
+  sbClient = getServiceBusClient();
 
-  if (!process.env.SERVICEBUS_CONNECTION_STRING) {
-    throw new Error(
-      "Define SERVICEBUS_CONNECTION_STRING in your environment before running integration tests."
-    );
-  }
-
-  ns = ServiceBusClient.createFromConnectionString(process.env.SERVICEBUS_CONNECTION_STRING);
-
-  const clients = await getSenderReceiverClients(ns, senderType, receiverType);
+  const clients = await getSenderReceiverClients(sbClient, senderType, receiverType);
   senderClient = clients.senderClient;
   receiverClient = clients.receiverClient;
 
@@ -99,7 +89,7 @@ async function beforeEachTest(
 async function afterEachTest(): Promise<void> {
   await receiver.close();
   await sender.close();
-  await ns.close();
+  await sbClient.close();
 }
 
 describe("Batch Receiver in ReceiveAndDelete mode", function(): void {
@@ -125,7 +115,7 @@ describe("Batch Receiver in ReceiveAndDelete mode", function(): void {
     await testPeekMsgsLength(receiverClient, 0);
   }
 
-  it("Partitioned Queue: No settlement of the message removes message", async function(): Promise<
+  it("Partitioned Queue: No settlement of the message removes message #RunInBrowser", async function(): Promise<
     void
   > {
     await beforeEachTest(TestClientType.PartitionedQueue, TestClientType.PartitionedQueue);
@@ -153,7 +143,7 @@ describe("Batch Receiver in ReceiveAndDelete mode", function(): void {
     await testNoSettlement();
   });*/
 
-  it("Partitioned Queue with Sessions: No settlement of the message removes message", async function(): Promise<
+  it("Partitioned Queue with Sessions: No settlement of the message removes message #RunInBrowser", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -464,7 +454,9 @@ describe("Unsupported features in ReceiveAndDelete mode", function(): void {
     await testSettlement(DispositionType.complete);
   });*/
 
-  it("Partitioned Queue with Sessions: complete() throws error", async function(): Promise<void> {
+  it("Partitioned Queue with Sessions: complete() throws error #RunInBrowser", async function(): Promise<
+    void
+  > {
     await beforeEachTest(
       TestClientType.PartitionedQueueWithSessions,
       TestClientType.PartitionedQueueWithSessions,
@@ -526,7 +518,9 @@ describe("Unsupported features in ReceiveAndDelete mode", function(): void {
     await testSettlement(DispositionType.abandon);
   });*/
 
-  it("Partitioned Queue with Sessions: abandon() throws error", async function(): Promise<void> {
+  it("Partitioned Queue with Sessions: abandon() throws error #RunInBrowser", async function(): Promise<
+    void
+  > {
     await beforeEachTest(
       TestClientType.PartitionedQueueWithSessions,
       TestClientType.PartitionedQueueWithSessions,
@@ -588,7 +582,9 @@ describe("Unsupported features in ReceiveAndDelete mode", function(): void {
     await testSettlement(DispositionType.defer);
   });*/
 
-  it("Partitioned Queue with Sessions: defer() throws error", async function(): Promise<void> {
+  it("Partitioned Queue with Sessions: defer() throws error #RunInBrowser", async function(): Promise<
+    void
+  > {
     await beforeEachTest(
       TestClientType.PartitionedQueueWithSessions,
       TestClientType.PartitionedQueueWithSessions,
@@ -650,7 +646,9 @@ describe("Unsupported features in ReceiveAndDelete mode", function(): void {
     await testSettlement(DispositionType.deadletter);
   });*/
 
-  it("Partitioned Queue with Sessions: deadLetter() throws error", async function(): Promise<void> {
+  it("Partitioned Queue with Sessions: deadLetter() throws error #RunInBrowser", async function(): Promise<
+    void
+  > {
     await beforeEachTest(
       TestClientType.PartitionedQueueWithSessions,
       TestClientType.PartitionedQueueWithSessions,
@@ -707,7 +705,9 @@ describe("Unsupported features in ReceiveAndDelete mode", function(): void {
     should.equal(errorWasThrown, true, "Error thrown flag must be true");
   }
 
-  it("Partitioned Queue: Renew message lock throws error", async function(): Promise<void> {
+  it("Partitioned Queue: Renew message lock throws error #RunInBrowser", async function(): Promise<
+    void
+  > {
     await beforeEachTest(TestClientType.PartitionedQueue, TestClientType.PartitionedQueue);
     await testRenewLock();
   });
@@ -793,7 +793,7 @@ describe("Receive Deferred messages in ReceiveAndDelete mode", function(): void 
     await receiveDeferredMessage();
   }); */
 
-  it("Unpartitioned Queue: No settlement of the message removes message", async function(): Promise<
+  it("Unpartitioned Queue: No settlement of the message removes message #RunInBrowser", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -857,7 +857,7 @@ describe("Receive Deferred messages in ReceiveAndDelete mode", function(): void 
     await receiveDeferredMessage();
   });
 
-  it("Unpartitioned Queue with Sessions: No settlement of the message removes message", async function(): Promise<
+  it("Unpartitioned Queue with Sessions: No settlement of the message removes message #RunInBrowser", async function(): Promise<
     void
   > {
     await beforeEachTest(

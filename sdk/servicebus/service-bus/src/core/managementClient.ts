@@ -206,6 +206,81 @@ export class ManagementClient extends LinkEntity {
     this.entityPath = context.namespace.config.entityPath as string;
   }
 
+  private async _init(): Promise<void> {
+    throwErrorIfConnectionClosed(this._context.namespace);
+    try {
+      if (!this._isMgmtRequestResponseLinkOpen()) {
+        await this._negotiateClaim();
+        const rxopt: ReceiverOptions = {
+          source: { address: this.address },
+          name: this.replyTo,
+          target: { address: this.replyTo },
+          onSessionError: (context: EventContext) => {
+            const id = context.connection.options.id;
+            const ehError = translate(context.session!.error!);
+            log.error(
+              "[%s] An error occurred on the session for request/response links for " +
+                "$management: %O",
+              id,
+              ehError
+            );
+          }
+        };
+        const sropt: SenderOptions = { target: { address: this.address } };
+        log.mgmt(
+          "[%s] Creating sender/receiver links on a session for $management endpoint with " +
+            "srOpts: %o, receiverOpts: %O.",
+          this._context.namespace.connectionId,
+          sropt,
+          rxopt
+        );
+        this._mgmtReqResLink = await RequestResponseLink.create(
+          this._context.namespace.connection,
+          sropt,
+          rxopt
+        );
+        this._mgmtReqResLink.sender.on(SenderEvents.senderError, (context: EventContext) => {
+          const id = context.connection.options.id;
+          const ehError = translate(context.sender!.error!);
+          log.error("[%s] An error occurred on the $management sender link.. %O", id, ehError);
+        });
+        this._mgmtReqResLink.receiver.on(ReceiverEvents.receiverError, (context: EventContext) => {
+          const id = context.connection.options.id;
+          const ehError = translate(context.receiver!.error!);
+          log.error("[%s] An error occurred on the $management receiver link.. %O", id, ehError);
+        });
+        log.mgmt(
+          "[%s] Created sender '%s' and receiver '%s' links for $management endpoint.",
+          this._context.namespace.connectionId,
+          this._mgmtReqResLink.sender.name,
+          this._mgmtReqResLink.receiver.name
+        );
+        await this._ensureTokenRenewal();
+      }
+    } catch (err) {
+      err = translate(err);
+      log.error(
+        "[%s] An error occured while establishing the $management links: %O",
+        this._context.namespace.connectionId,
+        err
+      );
+      throw err;
+    }
+  }
+
+  private _isMgmtRequestResponseLinkOpen(): boolean {
+    return this._mgmtReqResLink! && this._mgmtReqResLink!.isOpen();
+  }
+
+  /**
+   * Given array of typed values, returns the element in given index
+   */
+  private _safelyGetTypedValueFromArray(data: Typed[], index: number): any {
+    return Array.isArray(data) && data.length > index && data[index]
+      ? data[index].value
+      : undefined;
+  }
+
   /**
    * Closes the AMQP management session to the ServiceBus namespace for this client,
    * returning a promise that will be resolved when disconnection is completed.
@@ -1267,80 +1342,5 @@ export class ManagementClient extends LinkEntity {
       );
       throw error;
     }
-  }
-
-  private async _init(): Promise<void> {
-    throwErrorIfConnectionClosed(this._context.namespace);
-    try {
-      if (!this._isMgmtRequestResponseLinkOpen()) {
-        await this._negotiateClaim();
-        const rxopt: ReceiverOptions = {
-          source: { address: this.address },
-          name: this.replyTo,
-          target: { address: this.replyTo },
-          onSessionError: (context: EventContext) => {
-            const id = context.connection.options.id;
-            const ehError = translate(context.session!.error!);
-            log.error(
-              "[%s] An error occurred on the session for request/response links for " +
-                "$management: %O",
-              id,
-              ehError
-            );
-          }
-        };
-        const sropt: SenderOptions = { target: { address: this.address } };
-        log.mgmt(
-          "[%s] Creating sender/receiver links on a session for $management endpoint with " +
-            "srOpts: %o, receiverOpts: %O.",
-          this._context.namespace.connectionId,
-          sropt,
-          rxopt
-        );
-        this._mgmtReqResLink = await RequestResponseLink.create(
-          this._context.namespace.connection,
-          sropt,
-          rxopt
-        );
-        this._mgmtReqResLink.sender.on(SenderEvents.senderError, (context: EventContext) => {
-          const id = context.connection.options.id;
-          const ehError = translate(context.sender!.error!);
-          log.error("[%s] An error occurred on the $management sender link.. %O", id, ehError);
-        });
-        this._mgmtReqResLink.receiver.on(ReceiverEvents.receiverError, (context: EventContext) => {
-          const id = context.connection.options.id;
-          const ehError = translate(context.receiver!.error!);
-          log.error("[%s] An error occurred on the $management receiver link.. %O", id, ehError);
-        });
-        log.mgmt(
-          "[%s] Created sender '%s' and receiver '%s' links for $management endpoint.",
-          this._context.namespace.connectionId,
-          this._mgmtReqResLink.sender.name,
-          this._mgmtReqResLink.receiver.name
-        );
-        await this._ensureTokenRenewal();
-      }
-    } catch (err) {
-      err = translate(err);
-      log.error(
-        "[%s] An error occured while establishing the $management links: %O",
-        this._context.namespace.connectionId,
-        err
-      );
-      throw err;
-    }
-  }
-
-  private _isMgmtRequestResponseLinkOpen(): boolean {
-    return this._mgmtReqResLink! && this._mgmtReqResLink!.isOpen();
-  }
-
-  /**
-   * Given array of typed values, returns the element in given index
-   */
-  private _safelyGetTypedValueFromArray(data: Typed[], index: number): any {
-    return Array.isArray(data) && data.length > index && data[index]
-      ? data[index].value
-      : undefined;
   }
 }
