@@ -2,6 +2,7 @@ import * as assert from "assert";
 
 import { getQSU, getUniqueName } from "./utils";
 import * as dotenv from "dotenv";
+import { SharedKeyCredential, QueueClient, StorageClient } from '../src';
 dotenv.config({ path: "../.env" });
 
 describe("QueueClient", () => {
@@ -111,5 +112,32 @@ describe("QueueClient", () => {
       error = err;
     }
     assert.ok(error); // For browser, permission denied; For node, invalid permission
+  });
+
+  it("can be created with a url and a credential", async () => {
+    const factories = queueClient.pipeline.factories;
+    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const newClient = new QueueClient(queueClient.url, credential);
+
+    const result = await newClient.getProperties();
+
+    assert.ok(result.approximateMessagesCount! >= 0);
+    assert.ok(result.requestId);
+    assert.ok(result.version);
+    assert.ok(result.date);
+  });
+
+  it("can be created with a url and a pipeline", async () => {
+    const factories = queueClient.pipeline.factories;
+    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const pipeline = StorageClient.newPipeline(credential);
+    const newClient = new QueueClient(queueClient.url, pipeline);
+
+    const result = await newClient.getProperties();
+
+    assert.ok(result.approximateMessagesCount! >= 0);
+    assert.ok(result.requestId);
+    assert.ok(result.version);
+    assert.ok(result.date);
   });
 });

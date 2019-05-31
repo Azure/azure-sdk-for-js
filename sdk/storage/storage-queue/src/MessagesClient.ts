@@ -207,6 +207,8 @@ export class MessagesClient extends StorageClient {
     let pipeline: Pipeline;
     if (credentialOrPipelineOrQueueName instanceof Pipeline) {
       pipeline = credentialOrPipelineOrQueueName;
+    } else if (credentialOrPipelineOrQueueName instanceof Credential) {
+      pipeline = StorageClient.newPipeline(credentialOrPipelineOrQueueName, options);
     } else if (credentialOrPipelineOrQueueName && typeof credentialOrPipelineOrQueueName === "string") {
       const queueName = credentialOrPipelineOrQueueName;
       // TODO: extract parts from connection string

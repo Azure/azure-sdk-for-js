@@ -2,6 +2,7 @@ import * as assert from "assert";
 
 import { getQSU, getUniqueName, sleep } from "./utils";
 import * as dotenv from "dotenv";
+import { SharedKeyCredential, MessageIdClient, StorageClient } from '../src';
 dotenv.config({ path: "../.env" });
 
 describe("MessageIdClient", () => {
@@ -154,5 +155,37 @@ describe("MessageIdClient", () => {
       error = err;
     }
     assert.ok(error);
+  });
+  it("can be created with a url and a credential", async () => {
+    const messagesClient = queueClient.createMessagesClient();
+
+    const eResult = await messagesClient.enqueue(messageContent);
+    assert.ok(eResult.date);
+
+    const newMessage = "";
+    const messageIdClient = messagesClient.createMessageIdClient(eResult.messageId);
+    const factories = messagesClient.pipeline.factories;
+    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const newClient = new MessageIdClient(messageIdClient.url, credential);
+    const uResult = await newClient.update(eResult.popReceipt, 0, newMessage);
+
+    assert.ok(uResult.version);
+  });
+
+  it("can be created with a url and a pipeline", async () => {
+    const messagesClient = queueClient.createMessagesClient();
+
+    const eResult = await messagesClient.enqueue(messageContent);
+    assert.ok(eResult.date);
+
+    const newMessage = "";
+    const messageIdClient = messagesClient.createMessageIdClient(eResult.messageId);
+    const factories = messagesClient.pipeline.factories;
+    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const pipeline = StorageClient.newPipeline(credential);
+    const newClient = new MessageIdClient(messageIdClient.url, pipeline);
+    const uResult = await newClient.update(eResult.popReceipt, 0, newMessage);
+
+    assert.ok(uResult.version);
   });
 });
