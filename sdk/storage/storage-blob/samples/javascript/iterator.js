@@ -47,11 +47,11 @@ async function main() {
 
   for (let index = 0; index < 4; index++) {
     // Create a blob
-    let content = "hello";
-    let blobName = "newblob" + new Date().getTime();
-    let blobClient = containerClient.createBlobClient(blobName);
+    const content = "hello";
+    const blobName = "newblob" + new Date().getTime();
+    const blobClient = containerClient.createBlobClient(blobName);
     const blockBlobClient = blobClient.createBlockBlobClient();
-    let uploadBlobResponse = await blockBlobClient.upload(content, content.length);
+    const uploadBlobResponse = await blockBlobClient.upload(content, content.length);
     console.log(`Uploaded block blob ${blobName} successfully`, uploadBlobResponse.requestId);
   }
 

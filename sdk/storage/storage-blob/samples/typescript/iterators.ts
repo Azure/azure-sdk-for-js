@@ -2,7 +2,7 @@
  Setup: Enter your storage account name and shared key in main()
 */
 
-import { BlobServiceClient, StorageClient, SharedKeyCredential } from "../.."; // Change to "@azure/storage-blob" in your package
+import { BlobServiceClient, StorageClient, SharedKeyCredential } from "../../src"; // Change to "@azure/storage-blob" in your package
 
 async function main() {
   // Enter your storage account name and shared key
@@ -47,11 +47,11 @@ async function main() {
 
   for (let index = 0; index < 4; index++) {
     // Create a blob
-    let content = "hello";
-    let blobName = "newblob" + new Date().getTime();
-    let blobClient = containerClient.createBlobClient(blobName);
+    const content = "hello";
+    const blobName = "newblob" + new Date().getTime();
+    const blobClient = containerClient.createBlobClient(blobName);
     const blockBlobClient = blobClient.createBlockBlobClient();
-    let uploadBlobResponse = await blockBlobClient.upload(content, content.length);
+    const uploadBlobResponse = await blockBlobClient.upload(content, content.length);
     console.log(`Uploaded block blob ${blobName} successfully`, uploadBlobResponse.requestId);
   }
 
