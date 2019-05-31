@@ -8,7 +8,7 @@ import {
   SharedKeyCredential,
   TokenCredential,
   Models
-} from "../.."; // Change to "@azure/storage-blob" in your package
+} from "../../src"; // Change to "@azure/storage-blob" in your package
 
 async function main() {
   // Enter your storage account name and shared key
