@@ -837,6 +837,53 @@ export class ContainerClient extends StorageClient {
   }
 
   /**
+   * Iterates over blobs under the specified container.
+   *
+   * @param {ContainerListBlobsSegmentOptions} [options={}] Options to list blobs(optional)
+   * @returns {AsyncIterableIterator<Models.BlobItem>}
+   * @memberof ContainerClient
+   *
+   * @example
+   * for await (const blob of containerClient.listBlobs()) {
+   *   console.log(`Container: ${blob.name}`);
+   * }
+   *
+   * @example
+   * let iter1 = containerClient.listBlobs();
+   * let i = 1;
+   * for await (const blob of iter1) {
+   *   console.log(`${i}: ${blob.name}`);
+   *   i++;
+   * }
+   *
+   * @example
+   * let iter2 = await containerClient.listBlobs();
+   * i = 1;
+   * let blobItem = await iter2.next();
+   * do {
+   *  console.log(`Blob ${i++}: ${blobItem.value.name}`);
+   *  blobItem = await iter2.next();
+   * } while (blobItem.value);
+   *
+   */
+  public async *listBlobsFlat(
+    options: ContainerListBlobsSegmentOptions = {}
+  ): AsyncIterableIterator<Models.BlobItem> {
+    let marker = undefined;
+    const containerClient = this;
+    const aborter = !options.abortSignal ? Aborter.none : options.abortSignal;
+    let listBlobsResponse;
+    do {
+      listBlobsResponse = await containerClient.listBlobFlatSegment(marker, {
+        ...options,
+        abortSignal: aborter
+      });
+      marker = listBlobsResponse.nextMarker;
+      yield* listBlobsResponse.segment.blobItems;
+    } while (marker);
+  }
+
+  /**
    * listBlobFlatSegment returns a single segment of blobs starting from the
    * specified Marker. Use an empty Marker to start enumeration from the beginning.
    * After getting a segment, process it, and then call ListBlobsFlatSegment again
