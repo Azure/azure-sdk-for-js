@@ -1435,6 +1435,18 @@ export const ApplicationGetHttpsEndpoint: msRest.CompositeMapper = {
         type: {
           name: "Number"
         }
+      },
+      subDomainSuffix: {
+        serializedName: "subDomainSuffix",
+        type: {
+          name: "String"
+        }
+      },
+      disableGatewayAuth: {
+        serializedName: "disableGatewayAuth",
+        type: {
+          name: "Boolean"
+        }
       }
     }
   }
