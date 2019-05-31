@@ -1,6 +1,8 @@
 import * as assert from "assert";
 
+import { AppendBlobClient } from "../src/AppendBlobClient";
 import { bodyToString, getBSU, getUniqueName } from "./utils";
+import { SharedKeyCredential, StorageClient } from "../src";
 import * as dotenv from "dotenv";
 dotenv.config({ path: "../.env" });
 
@@ -62,5 +64,24 @@ describe("AppendBlobClient", () => {
     const downloadResponse = await appendBlobClient.download(0);
     assert.equal(await bodyToString(downloadResponse, content.length), content);
     assert.equal(downloadResponse.contentLength!, content.length);
+  });
+
+  it.only("can be created with a url and a credential", async () => {
+    const factories = appendBlobClient.pipeline.factories;
+    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const newClient = new AppendBlobClient(appendBlobClient.url, credential, { telemetry: { value : "test/1.0"}});
+
+    await newClient.create();
+    await newClient.download();
+  });
+
+  it("can be created with a url and a pipeline", async () => {
+    const factories = appendBlobClient.pipeline.factories;
+    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const pipeline = StorageClient.newPipeline(credential);
+    const newClient = new AppendBlobClient(appendBlobClient.url, pipeline);
+
+    await newClient.create();
+    await newClient.download();
   });
 });

@@ -1,6 +1,8 @@
 import * as assert from "assert";
 
+import { BlockBlobClient } from "../src/BlockBlobClient";
 import { base64encode, bodyToString, getBSU, getUniqueName } from "./utils";
+import { SharedKeyCredential, StorageClient } from "../src";
 import * as dotenv from "dotenv";
 dotenv.config({ path: "../.env" });
 
@@ -209,5 +211,28 @@ describe("BlockBlobClient", () => {
     assert.equal(listResponse.uncommittedBlocks!.length, 0);
     assert.equal(listResponse.committedBlocks![0].name, base64encode("2"));
     assert.equal(listResponse.committedBlocks![0].size, body.length);
+  });
+
+  it("can be created with a url and a credential", async () => {
+    const factories = blockBlobClient.pipeline.factories;
+    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const newClient = new BlockBlobClient(blockBlobClient.url, credential);
+
+    const body: string = getUniqueName("randomstring");
+    await newClient.upload(body, body.length);
+    const result = await newClient.download(0);
+    assert.deepStrictEqual(await bodyToString(result, body.length), body);
+  });
+
+  it("can be created with a url and a pipeline", async () => {
+    const factories = blockBlobClient.pipeline.factories;
+    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const pipeline = StorageClient.newPipeline(credential);
+    const newClient = new BlockBlobClient(blockBlobClient.url, pipeline);
+
+    const body: string = getUniqueName("randomstring");
+    await newClient.upload(body, body.length);
+    const result = await newClient.download(0);
+    assert.deepStrictEqual(await bodyToString(result, body.length), body);
   });
 });

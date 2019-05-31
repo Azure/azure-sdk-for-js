@@ -287,7 +287,7 @@ export class BlockBlobClient extends BlobClient {
    */
   constructor(url: string, pipeline: Pipeline);
   constructor(
-    s: string,
+    urlOrConnectionString: string,
     credentialOrPipelineOrContainerName: string | Credential | Pipeline,
     blobNameOrOptions?: string | NewPipelineOptions,
     options?: NewPipelineOptions
@@ -298,6 +298,7 @@ export class BlockBlobClient extends BlobClient {
     if (credentialOrPipelineOrContainerName instanceof Pipeline) {
       pipeline = credentialOrPipelineOrContainerName;
     } else if (credentialOrPipelineOrContainerName instanceof Credential) {
+      options = blobNameOrOptions as NewPipelineOptions;
       pipeline = StorageClient.newPipeline(credentialOrPipelineOrContainerName, options);
     } else if (
       credentialOrPipelineOrContainerName &&
@@ -308,17 +309,17 @@ export class BlockBlobClient extends BlobClient {
       const containerName = credentialOrPipelineOrContainerName;
       const blobName = blobNameOrOptions;
 
-      const extractedCreds = extractPartsWithValidation(s);
+      const extractedCreds = extractPartsWithValidation(urlOrConnectionString);
       const sharedKeyCredential = new SharedKeyCredential(
         extractedCreds.accountName,
         extractedCreds.accountKey
       );
-      s = extractedCreds.url + "/" + containerName + "/" + blobName;
+      urlOrConnectionString = extractedCreds.url + "/" + containerName + "/" + blobName;
       pipeline = StorageClient.newPipeline(sharedKeyCredential, options);
     } else {
       throw new Error("Expecting non-empty strings for containerName and blobName parameters");
     }
-    super(s, pipeline);
+    super(urlOrConnectionString, pipeline);
     this.blockBlobContext = new BlockBlob(this.storageClientContext);
   }
 

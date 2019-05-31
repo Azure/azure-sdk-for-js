@@ -177,6 +177,7 @@ export class AppendBlobClient extends BlobClient {
     if (credentialOrPipelineOrContainerName instanceof Pipeline) {
       pipeline = credentialOrPipelineOrContainerName;
     } else if (credentialOrPipelineOrContainerName instanceof Credential) {
+      options = blobNameOrOptions as NewPipelineOptions;
       pipeline = StorageClient.newPipeline(credentialOrPipelineOrContainerName, options);
     } else if (
       credentialOrPipelineOrContainerName &&

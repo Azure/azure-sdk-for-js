@@ -464,7 +464,7 @@ export class ContainerClient extends StorageClient {
    */
   constructor(url: string, pipeline: Pipeline);
   constructor(
-    s: string,
+    urlOrConnectionString: string,
     credentialOrPipelineOrContainerName: string | Credential | Pipeline,
     options?: NewPipelineOptions
   ) {
@@ -479,17 +479,17 @@ export class ContainerClient extends StorageClient {
     ) {
       const containerName = credentialOrPipelineOrContainerName;
 
-      const extractedCreds = extractPartsWithValidation(s);
+      const extractedCreds = extractPartsWithValidation(urlOrConnectionString);
       const sharedKeyCredential = new SharedKeyCredential(
         extractedCreds.accountName,
         extractedCreds.accountKey
       );
-      s = extractedCreds.url + "/" + containerName + "/";
+      urlOrConnectionString = extractedCreds.url + "/" + containerName + "/";
       pipeline = StorageClient.newPipeline(sharedKeyCredential, options);
     } else {
       throw new Error("Expecting non-empty strings for containerName parameter");
     }
-    super(s, pipeline);
+    super(urlOrConnectionString, pipeline);
     this.containerContext = new Container(this.storageClientContext);
   }
 

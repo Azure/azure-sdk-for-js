@@ -1,9 +1,12 @@
 import * as assert from "assert";
 
+import { BlobClient } from "../src/BlobClient";
 import { isNode } from "@azure/ms-rest-js";
 import { bodyToString, getBSU, getUniqueName, sleep } from "./utils";
+import { SharedKeyCredential, StorageClient } from "../src";
 import * as dotenv from "dotenv";
 dotenv.config({ path: "../.env" });
+
 describe("BlobClient", () => {
   const blobServiceClient = getBSU();
   let containerName: string = getUniqueName("container");
@@ -321,5 +324,34 @@ describe("BlobClient", () => {
     if (properties.archiveStatus) {
       assert.equal(properties.archiveStatus.toLowerCase(), "rehydrate-pending-to-hot");
     }
+  });
+
+  it("can be created with a url and a credential", async () => {
+    const factories = blobClient.pipeline.factories;
+    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const newClient = new BlobClient(blobClient.url, credential);
+
+    const metadata = {
+      a: "a",
+      b: "b"
+    };
+    await newClient.setMetadata(metadata);
+    const result = await newClient.getProperties();
+    assert.deepStrictEqual(result.metadata, metadata);
+  });
+
+  it("can be created with a url and a pipeline", async () => {
+    const factories = blobClient.pipeline.factories;
+    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const pipeline = StorageClient.newPipeline(credential);
+    const newClient = new BlobClient(blobClient.url, pipeline);
+
+    const metadata = {
+      a: "a",
+      b: "b"
+    };
+    await newClient.setMetadata(metadata);
+    const result = await newClient.getProperties();
+    assert.deepStrictEqual(result.metadata, metadata);
   });
 });

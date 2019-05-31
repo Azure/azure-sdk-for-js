@@ -1,7 +1,8 @@
 import * as assert from "assert";
-import { bodyToString, getBSU, getUniqueName } from "./utils";
-
 import * as dotenv from "dotenv";
+import { SharedKeyCredential, StorageClient } from "../src";
+import { PageBlobClient } from "../src/PageBlobClient";
+import { bodyToString, getBSU, getUniqueName } from "./utils";
 dotenv.config({ path: "../.env" });
 
 describe("PageBlobClient", () => {
@@ -147,5 +148,26 @@ describe("PageBlobClient", () => {
     await pageBlobClient.updateSequenceNumber("max", 100);
     propertiesResponse = await pageBlobClient.getProperties();
     assert.equal(propertiesResponse.blobSequenceNumber!, 100);
+  });
+
+  it("can be created with a url and a credential", async () => {
+    const factories = pageBlobClient.pipeline.factories;
+    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const newClient = new PageBlobClient(pageBlobClient.url, credential);
+
+    await newClient.create(512);
+    const result = await newClient.download(0);
+    assert.deepStrictEqual(await bodyToString(result, 512), "\u0000".repeat(512));
+  });
+
+  it("can be created with a url and a pipeline", async () => {
+    const factories = pageBlobClient.pipeline.factories;
+    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const pipeline = StorageClient.newPipeline(credential);
+    const newClient = new PageBlobClient(pageBlobClient.url, pipeline);
+
+    await newClient.create(512);
+    const result = await newClient.download(0);
+    assert.deepStrictEqual(await bodyToString(result, 512), "\u0000".repeat(512));
   });
 });

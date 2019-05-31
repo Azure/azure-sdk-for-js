@@ -173,7 +173,7 @@ export class BlobServiceClient extends StorageClient {
    */
   constructor(url: string, pipeline: Pipeline);
   constructor(
-    s: string,
+    urlOrConnectionString: string,
     credentialOrPipelineOrOptions?: Credential | Pipeline | NewPipelineOptions,
     options?: NewPipelineOptions
   ) {
@@ -185,15 +185,15 @@ export class BlobServiceClient extends StorageClient {
     } else {
       options = credentialOrPipelineOrOptions || {};
 
-      const extractedCreds = extractPartsWithValidation(s);
+      const extractedCreds = extractPartsWithValidation(urlOrConnectionString);
       const sharedKeyCredential = new SharedKeyCredential(
         extractedCreds.accountName,
         extractedCreds.accountKey
       );
-      s = extractedCreds.url;
+      urlOrConnectionString = extractedCreds.url;
       pipeline = StorageClient.newPipeline(sharedKeyCredential, options);
     }
-    super(s, pipeline);
+    super(urlOrConnectionString, pipeline);
     this.serviceContext = new Service(this.storageClientContext);
   }
 

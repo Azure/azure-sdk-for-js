@@ -1,7 +1,9 @@
 import * as assert from "assert";
 
+import { ContainerClient } from "../src/ContainerClient";
 import { getBSU, getUniqueName, sleep } from "./utils";
 import * as dotenv from "dotenv";
+import { SharedKeyCredential, StorageClient } from "../src";
 dotenv.config({ path: "../.env" });
 
 describe("ContainerClient", () => {
@@ -324,5 +326,42 @@ describe("ContainerClient", () => {
     for (const blob of blobClients) {
       await blob.delete();
     }
+  });
+
+  it("can be created with a url and a credential", async () => {
+    const factories = containerClient.pipeline.factories;
+    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const newClient = new ContainerClient(containerClient.url, credential);
+
+    const result = await newClient.getProperties();
+
+    assert.ok(result.eTag!.length > 0);
+    assert.ok(result.lastModified);
+    assert.ok(!result.leaseDuration);
+    assert.equal(result.leaseState, "available");
+    assert.equal(result.leaseStatus, "unlocked");
+    assert.ok(result.requestId);
+    assert.ok(result.version);
+    assert.ok(result.date);
+    assert.ok(!result.blobPublicAccess);
+  });
+
+  it("can be created with a url and a pipeline", async () => {
+    const factories = containerClient.pipeline.factories;
+    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const pipeline = StorageClient.newPipeline(credential);
+    const newClient = new ContainerClient(containerClient.url, pipeline);
+
+    const result = await newClient.getProperties();
+
+    assert.ok(result.eTag!.length > 0);
+    assert.ok(result.lastModified);
+    assert.ok(!result.leaseDuration);
+    assert.equal(result.leaseState, "available");
+    assert.equal(result.leaseStatus, "unlocked");
+    assert.ok(result.requestId);
+    assert.ok(result.version);
+    assert.ok(result.date);
+    assert.ok(!result.blobPublicAccess);
   });
 });
