@@ -11,10 +11,9 @@ import * as path from "path";
 import PluginError from "plugin-error";
 import { Argv, CommandLineOptions, getCommandLineOptions } from "./.scripts/commandLine";
 import { endsWith, getPackageFolderPaths, packagesToIgnore } from "./.scripts/common";
-import { getDataFromPullRequest } from "./.scripts/github";
-import { generateAllMissingSdks, generateMissingSdk, generateSdk, generateTsReadme, regenerate, setAutoPublish, setVersion } from "./.scripts/gulp";
+import { generateSdk, setAutoPublish, setVersion } from "./.scripts/gulp";
 import { Logger } from "./.scripts/logger";
-import { findMissingSdks, findWrongPackages } from "./.scripts/packages";
+import { findMissingSdks } from "./.scripts/packages";
 import { getPackageFolderPathFromPackageArgument } from "./.scripts/readme";
 
 enum PackagesToPack {
@@ -313,148 +312,6 @@ gulp.task("find-missing-sdks", async () => {
     await findMissingSdks(azureRestApiSpecsRepositoryPath);
   } catch (error) {
     _logger.logError(error);
-  }
-});
-
-gulp.task("generate-readme", async () => {
-  interface GenerateReadmeOptions {
-    dir: string | undefined;
-  };
-
-  try {
-    _logger.log(`Passed arguments: ${Argv.print()}`);
-    const argv: (GenerateReadmeOptions & Argv.PackageOptions & Argv.RepositoryOptions)
-      = Argv.construct(Argv.Options.Package, Argv.Options.Repository)
-        .options({
-          "spec-directory": {
-            alias: "dir",
-            description: "Forces generating readme in the specified directory"
-          }
-        })
-        .usage("Example: gulp generate-readme --package @azure/arm-mariadb --type rm")
-        .argv as any;
-
-    await generateTsReadme(argv.package, argv.type, argv.azureRestAPISpecsRoot, argv.dir);
-  }
-  catch (error) {
-    _logger.logError(error);
-  }
-});
-
-gulp.task("generate-missing-sdk", async () => {
-  try {
-    _logger.log(`Passed arguments: ${Argv.print()}`);
-    const argv: (Argv.PackageOptions & Argv.RepositoryOptions & Argv.GenerateOptions)
-      = Argv.construct(Argv.Options.Package, Argv.Options.Repository, Argv.Options.Generate)
-        .usage("gulp generate-missing-sdk --package @azure/arm-mariadb --type rm")
-        .argv as any;
-
-    await generateMissingSdk(argv.azureSDKForJSRepoRoot, argv.package, argv.type, argv.azureRestAPISpecsRoot, argv["skip-spec"], argv["skip-sdk"]);
-  }
-  catch (error) {
-    _logger.logError(error);
-  }
-});
-
-gulp.task("generate-all-missing-sdks", async () => {
-  try {
-    _logger.log(`Passed arguments: ${Argv.print()}`);
-    const argv: (Argv.RepositoryOptions & Argv.GenerateOptions)
-      = Argv.construct(Argv.Options.Repository, Argv.Options.Generate)
-        .usage("Example: gulp find-missing-sdks")
-        .argv as any;
-
-    await generateAllMissingSdks(argv.azureSDKForJSRepoRoot, argv.azureRestAPISpecsRoot, argv["skip-spec"], argv["skip-sdk"]);
-  } catch (error) {
-    _logger.logError(error);
-  }
-});
-
-gulp.task("regenerate", async () => {
-  interface RegenerateOptions {
-    branch: string | undefined;
-    package: string | undefined;
-    "pull-request": string | undefined;
-    "skip-version-bump": boolean | undefined;
-    "request-review": boolean | undefined;
-  };
-
-  const argv: (RegenerateOptions & Argv.RepositoryOptions)
-    = Argv.construct(Argv.Options.Repository)
-      .options({
-        "branch": {
-          alias: "b",
-          string: true,
-          description: "Name of the AutoPR branch",
-          implies: "package"
-        },
-        "package": {
-          alias: "p",
-          string: true,
-          description: "Name of the regenerated package"
-        },
-        "pull-request": {
-          alias: "pr",
-          string: true,
-          description: "URL to GitHub pull request",
-          conflicts: ["branch"]
-        },
-        "skip-version-bump": {
-          boolean: true,
-          description: "Determines if version bumping should be skipped"
-        },
-        "request-review": {
-          boolean: true,
-          description: "Determines if review should be automatically requested on matching pull request"
-        }
-      })
-      .usage("Example: gulp regenerate --branch 'restapi_auto_daschult/sql'")
-      .argv as any;
-
-  try {
-    const pullRequestUrl: string | undefined = argv["pull-request"];
-
-    let pullRequestData: { packageName: string | undefined; branchName: string; prId: number; } | undefined;
-    if (pullRequestUrl) {
-      pullRequestData = await getDataFromPullRequest(pullRequestUrl);
-    }
-
-    if (!pullRequestData) {
-      throw new Error(`Could not get pull request data for pull request "${pullRequestUrl}".`);
-    }
-
-    const branchName = argv.branch || pullRequestData.branchName;
-    if (!branchName) {
-      throw new Error("Unable to find the name of the branch. Please specify the --branch parameter");
-    }
-
-    const packageName: string | undefined = argv.package || pullRequestData.packageName;
-    if (!packageName) {
-      throw new Error("Unable to find the name of the package. Please specify the --package parameter");
-    }
-
-    regenerate(branchName, packageName, argv.azureSDKForJSRepoRoot, argv.azureRestAPISpecsRoot, pullRequestData.prId, argv["skip-version-bump"], argv["request-review"])
-  } catch (error) {
-    _logger.logError(error);
-  }
-});
-
-gulp.task("find-wrong-packages", async () => {
-  _logger.log(`Passed arguments: ${Argv.print()}`);
-  const argv: (Argv.RepositoryOptions & Argv.GenerateOptions)
-    = Argv.construct(Argv.Options.Repository, Argv.Options.Generate)
-      .usage("Example: gulp find-missing-sdks")
-      .argv as any;
-
-  const incorrectPackages = await findWrongPackages(argv.azureRestAPISpecsRoot, argv.azureSDKForJSRepoRoot);
-
-  _logger.log(`Found ${incorrectPackages.length} incorrect packages`.red);
-  for (const incorrectPackage of incorrectPackages) {
-    _logger.log(`${incorrectPackage.package.name}`.bgRed);
-    _logger.log(`  Reason:      ${incorrectPackage.message}`);
-    _logger.log(`  Output path: ${incorrectPackage.package.outputPath}`.gray);
-    _logger.log(`  Readme path: ${incorrectPackage.package.readmePath}`.gray);
-    _logger.log();
   }
 });
 
