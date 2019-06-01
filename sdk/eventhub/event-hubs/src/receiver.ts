@@ -173,7 +173,7 @@ export class Receiver {
    * to receiver the said amount of messages. If not provided, it defaults to 60 seconds.
    * @property {Aborter} cancellationToken Cancel current operation.
    *
-   * @returns {Promise<Array<EventData>>} Promise<Array<EventData>>.
+   * @returns {Promise<ReceivedEventData[]>} Promise<ReceivedEventData[]>.
    */
   async receiveBatch(
     maxMessageCount: number,

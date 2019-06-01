@@ -38,7 +38,7 @@ export class BatchingReceiver extends EventHubReceiver {
    * @param {number} [maxWaitTimeInSeconds] The maximum wait time in seconds for which the Receiver
    * should wait to receiver the said amount of messages. If not provided, it defaults to 60 seconds.
    * @property {Aborter} cancellationToken Cancel current operation.
-   * @returns {Promise<EventData[]>} A promise that resolves with an array of EventData objects.
+   * @returns {Promise<ReceivedEventData[]>} A promise that resolves with an array of ReceivedEventData objects.
    */
   receive(
     maxMessageCount: number,
