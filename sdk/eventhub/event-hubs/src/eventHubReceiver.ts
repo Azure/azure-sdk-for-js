@@ -438,6 +438,9 @@ export class EventHubReceiver extends LinkEntity {
             this.address
           );
         } else {
+          if (this._aborter) {
+            this._aborter.removeEventListener("abort", this._onAbort);
+          }
           log.error(
             "[%s] close() method of Receiver '%s' with address '%s' was not called. There " +
               "was an accompanying error and it is NOT retryable. Hence NOT re-establishing " +
@@ -458,6 +461,9 @@ export class EventHubReceiver extends LinkEntity {
           this.address
         );
       } else {
+        if (this._aborter) {
+          this._aborter.removeEventListener("abort", this._onAbort);
+        }
         const state: any = {
           wasCloseInitiated: wasCloseInitiated,
           receiverError: receiverError,
