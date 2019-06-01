@@ -19,6 +19,7 @@ import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";
 import { EventPosition } from "./eventPosition";
 import { getEventPositionFilter } from "./util/utils";
+import { Aborter } from "./aborter";
 
 interface CreateReceiverOptions {
   onMessage: OnAmqpEvent;
@@ -134,6 +135,12 @@ export class EventHubReceiver extends LinkEntity {
    */
   protected _onError?: OnError;
   /**
+   * @property {() => void} onAbort The aborter handler that will be invoked when user will call Aborter.abort()
+   * to cancel the receive request.
+   * @protected
+   */
+  protected _onAbort: () => void;
+  /**
    * @property {OnAmqpEvent} _onAmqpError The message handler that will be set as the handler on the
    * underlying rhea receiver for the "message" event.
    * @protected
@@ -168,6 +175,11 @@ export class EventHubReceiver extends LinkEntity {
    * This is used as the offset to receive messages from incase of recovery.
    */
   protected _checkpoint: CheckpointData;
+  /**
+   * @property {Aborter | undefined} _aborter Describes Aborter instance that will be set by the user
+   * to cancel the request.
+   */
+  protected _aborter: Aborter | undefined;
 
   /**
    * Instantiate a new receiver from the AMQP `Receiver`. Used by `EventHubClient`.
@@ -238,6 +250,15 @@ export class EventHubReceiver extends LinkEntity {
           this._onError!(err);
         }
       }
+    };
+
+    this._onAbort = async () => {
+      const desc: string =
+        `[${this._context.connectionId}] The receive operation on the Receiver "${this.name}" with ` +
+        `address "${this.address}" has been cancelled by the user.`;
+      log.error(desc);
+      await this.close();
+      this._onError!(new Error(desc));
     };
 
     this._onAmqpError = (context: EventContext) => {
@@ -326,6 +347,9 @@ export class EventHubReceiver extends LinkEntity {
           );
         }
       } else {
+        if (this._aborter) {
+          this._aborter.removeEventListener("abort", this._onAbort);
+        }
         log.error(
           "[%s] 'receiver_close' event occurred on the receiver '%s' with address '%s' " +
             "because the sdk initiated it. Hence not calling detached from the _onAmqpClose" +
@@ -372,6 +396,9 @@ export class EventHubReceiver extends LinkEntity {
           );
         }
       } else {
+        if (this._aborter) {
+          this._aborter.removeEventListener("abort", this._onAbort);
+        }
         log.error(
           "[%s] 'session_close' event occurred on the session of receiver '%s' with address " +
             "'%s' because the sdk initiated it. Hence not calling detached from the _onSessionClose" +
@@ -471,6 +498,10 @@ export class EventHubReceiver extends LinkEntity {
           delayInSeconds: 15
         };
         await retry<void>(config);
+      } else {
+        if (this._aborter) {
+          this._aborter.removeEventListener("abort", this._onAbort);
+        }
       }
     } catch (err) {
       log.error(
@@ -490,6 +521,9 @@ export class EventHubReceiver extends LinkEntity {
    */
   async close(): Promise<void> {
     if (this._receiver) {
+      if (this._aborter) {
+        this._aborter.removeEventListener("abort", this._onAbort);
+      }
       const receiverLink = this._receiver;
       this._deleteFromCache();
       await this._closeLink(receiverLink);

@@ -7,6 +7,7 @@ import { ReceivedEventData, EventDataInternal, fromAmqpMessage } from "./eventDa
 import { ReceiverOptions } from "./eventHubClient";
 import { EventHubReceiver } from "./eventHubReceiver";
 import { ConnectionContext } from "./connectionContext";
+import { Aborter } from "./aborter";
 import * as log from "./log";
 
 /**
@@ -36,9 +37,14 @@ export class BatchingReceiver extends EventHubReceiver {
    * @param {number} maxMessageCount The maximum message count. Must be a value greater than 0.
    * @param {number} [maxWaitTimeInSeconds] The maximum wait time in seconds for which the Receiver
    * should wait to receiver the said amount of messages. If not provided, it defaults to 60 seconds.
-   * @returns {Promise<EventData[]>} A promise that resolves with an array of EventData objects.
+   * @param {Aborter} cancellationToken Cancel current operation.
+   * @returns {Promise<ReceivedEventData[]>} A promise that resolves with an array of ReceivedEventData objects.
    */
-  receive(maxMessageCount: number, maxWaitTimeInSeconds?: number): Promise<ReceivedEventData[]> {
+  receive(
+    maxMessageCount: number,
+    maxWaitTimeInSeconds?: number,
+    cancellationToken?: Aborter
+  ): Promise<ReceivedEventData[]> {
     if (!maxMessageCount || (maxMessageCount && typeof maxMessageCount !== "number")) {
       throw new Error("'maxMessageCount' is a required parameter of type number with a value greater than 0.");
     }
@@ -59,6 +65,9 @@ export class BatchingReceiver extends EventHubReceiver {
       let actionAfterWaitTimeout: Func<void, void>;
       // Final action to be performed after maxMessageCount is reached or the maxWaitTime is over.
       const finalAction = (timeOver: boolean) => {
+        if (this._aborter) {
+          this._aborter.removeEventListener("abort", this._onAbort);
+        }
         // Resetting the mode. Now anyone can call start() or receive() again.
         if (this._receiver) {
           this._receiver.removeListener(ReceiverEvents.receiverError, onReceiveError);
@@ -116,12 +125,34 @@ export class BatchingReceiver extends EventHubReceiver {
         }
       };
 
+      this._onAbort = () => {
+        if (this._receiver) {
+          this._receiver.removeListener(ReceiverEvents.receiverError, onReceiveError);
+          this._receiver.removeListener(ReceiverEvents.message, onReceiveMessage);
+        }
+        if (waitTimer) {
+          clearTimeout(waitTimer);
+        }
+        if (this._aborter) {
+          this._aborter.removeEventListener("abort", this._onAbort);
+        }
+        const desc: string =
+          `[${this._context.connectionId}] The receive operation on the Receiver "${this.name}" with ` +
+          `address "${this.address}" has been cancelled by the user.`;
+        log.error(desc);
+        throw new Error(desc);
+      };
+
       // Action to be taken when an error is received.
       onReceiveError = (context: EventContext) => {
         const receiver = this._receiver || context.receiver!;
         receiver.removeListener(ReceiverEvents.receiverError, onReceiveError);
         receiver.removeListener(ReceiverEvents.message, onReceiveMessage);
         receiver.session.removeListener(SessionEvents.sessionError, onSessionError);
+
+        if (this._aborter) {
+          this._aborter.removeEventListener("abort", this._onAbort);
+        }
 
         const receiverError = context.receiver && context.receiver.error;
         let error = new MessagingError("An error occuured while receiving messages.");
@@ -163,6 +194,9 @@ export class BatchingReceiver extends EventHubReceiver {
         receiver.removeListener(ReceiverEvents.receiverError, onReceiveError);
         receiver.removeListener(ReceiverEvents.message, onReceiveMessage);
         receiver.session.removeListener(SessionEvents.sessionError, onReceiveError);
+        if (this._aborter) {
+          this._aborter.removeEventListener("abort", this._onAbort);
+        }
         const sessionError = context.session && context.session.error;
         let error = new MessagingError("An error occuured while receiving messages.");
         if (sessionError) {
@@ -193,6 +227,11 @@ export class BatchingReceiver extends EventHubReceiver {
         log.batching(msg, this._context.connectionId, maxWaitTimeInSeconds, this.name);
         waitTimer = setTimeout(actionAfterWaitTimeout, (maxWaitTimeInSeconds as number) * 1000);
       };
+
+      if (cancellationToken) {
+        this._aborter = cancellationToken;
+        this._aborter.addEventListener("abort", this._onAbort);
+      }
 
       if (!this.isOpen()) {
         log.batching("[%s] Receiver '%s', setting the prefetch count to 0.", this._context.connectionId, this.name);

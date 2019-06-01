@@ -7,6 +7,7 @@ import { ReceiverOptions } from "./eventHubClient";
 import { EventHubReceiver, OnMessage, OnError } from "./eventHubReceiver";
 import { ConnectionContext } from "./connectionContext";
 import * as log from "./log";
+import { Aborter } from "./aborter";
 
 /**
  * Describes the receive handler object that is returned from the receive() method with handlers is
@@ -106,8 +107,9 @@ export class StreamingReceiver extends EventHubReceiver {
    * @ignore
    * @param {OnMessage} onMessage The message handler to receive event data objects.
    * @param {OnError} onError The error handler to receive an error that occurs while receivin messages.
+   * @param {Aborter} cancellationToken Cancel current operation.
    */
-  receive(onMessage: OnMessage, onError: OnError): ReceiveHandler {
+  receive(onMessage: OnMessage, onError: OnError, cancellationToken?: Aborter): ReceiveHandler {
     if (!onMessage || typeof onMessage !== "function") {
       throw new Error("'onMessage' is a required parameter and must be of type 'function'.");
     }
@@ -116,6 +118,10 @@ export class StreamingReceiver extends EventHubReceiver {
     }
     this._onMessage = onMessage;
     this._onError = onError;
+    if (cancellationToken) {
+      this._aborter = cancellationToken;
+      this._aborter.addEventListener("abort", this._onAbort);
+    }
     if (!this.isOpen()) {
       this._init().catch(err => {
         this._onError!(err);
