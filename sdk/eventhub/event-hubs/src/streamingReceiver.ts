@@ -107,6 +107,7 @@ export class StreamingReceiver extends EventHubReceiver {
    * @ignore
    * @param {OnMessage} onMessage The message handler to receive event data objects.
    * @param {OnError} onError The error handler to receive an error that occurs while receivin messages.
+   * @property {Aborter} cancellationToken Cancel current operation.
    */
   receive(onMessage: OnMessage, onError: OnError, cancellationToken?: Aborter): ReceiveHandler {
     if (!onMessage || typeof onMessage !== "function") {

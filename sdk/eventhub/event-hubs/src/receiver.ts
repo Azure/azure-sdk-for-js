@@ -98,10 +98,10 @@ export class Receiver {
    * Starts the receiver by establishing an AMQP session and an AMQP receiver link on the session. Messages will be passed to
    * the provided onMessage handler and error will be passed to the provided onError handler.
    *
-   * @param {OnMessage} onMessage                              The message handler to receive event data objects.
-   * @param {OnError} onError                                  The error handler to receive an error that occurs
+   * @param {OnMessage} onMessage The message handler to receive event data objects.
+   * @param {OnError} onError The error handler to receive an error that occurs
    * while receiving messages.
-   * @param {ReceiverOptions} [options]                         Options for how you'd like to receive messages.
+   * @property {Aborter} cancellationToken Cancel current operation.
    *
    * @returns {ReceiveHandler} ReceiveHandler - An object that provides a mechanism to stop receiving more messages.
    */
@@ -168,10 +168,10 @@ export class Receiver {
    * Receives a batch of EventData objects from an EventHub partition for a given count and a given max wait time in seconds, whichever
    * happens first. This method can be used directly after creating the receiver object and **MUST NOT** be used along with the `start()` method.
    *
-   * @param {number} maxMessageCount                           The maximum message count. Must be a value greater than 0.
-   * @param {number} [maxWaitTimeInSeconds]                    The maximum wait time in seconds for which the Receiver should wait
+   * @param {number} maxMessageCount The maximum message count. Must be a value greater than 0.
+   * @param {number} [maxWaitTimeInSeconds] The maximum wait time in seconds for which the Receiver should wait
    * to receiver the said amount of messages. If not provided, it defaults to 60 seconds.
-   * @param {ReceiverOptions} [options]                         Options for how you'd like to receive messages.
+   * @property {Aborter} cancellationToken Cancel current operation.
    *
    * @returns {Promise<Array<EventData>>} Promise<Array<EventData>>.
    */

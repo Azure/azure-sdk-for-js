@@ -337,9 +337,6 @@ export class EventHubReceiver extends LinkEntity {
           );
           await this.detached(receiverError);
         } else {
-          if (this._aborter) {
-            this._aborter.removeEventListener("abort", this._onAbort);
-          }
           log.error(
             "[%s] 'receiver_close' event occurred on the receiver '%s' with address '%s' " +
               "and the sdk did not initate this. Moreover the receiver is already re-connecting. " +
@@ -389,9 +386,6 @@ export class EventHubReceiver extends LinkEntity {
           );
           await this.detached(sessionError);
         } else {
-          if (this._aborter) {
-            this._aborter.removeEventListener("abort", this._onAbort);
-          }
           log.error(
             "[%s] 'session_close' event occurred on the session of receiver '%s' with " +
               "address '%s' and the sdk did not initiate this. Moreover the receiver is already " +
