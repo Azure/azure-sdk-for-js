@@ -237,9 +237,6 @@ export class EventHubReceiver extends LinkEntity {
       try {
         this._onMessage!(receivedEventData);
       } catch (err) {
-        if (this._aborter) {
-          this._aborter.removeEventListener("abort", this._onAbort);
-        }
         // This ensures we call users' error handler when users' message handler throws.
         if (!isAmqpError(err)) {
           log.error(
@@ -255,20 +252,18 @@ export class EventHubReceiver extends LinkEntity {
       }
     };
 
-    this._onAbort = () => {
+    this._onAbort = async () => {
       const desc: string =
         `[${this._context.connectionId}] The receive operation on the Receiver "${this.name}" with ` +
         `address "${this.address}" has been cancelled by the user.`;
       log.error(desc);
-      this._onError!(new Error(desc));
+     await this.close();
+     throw new Error(desc);
     };
 
     this._onAmqpError = (context: EventContext) => {
       const receiver = this._receiver || context.receiver!;
       const receiverError = context.receiver && context.receiver.error;
-      if (this._aborter) {
-        this._aborter.removeEventListener("abort", this._onAbort);
-      }
       if (receiverError) {
         const ehError = translate(receiverError);
         log.error("[%s] An error occurred for Receiver '%s': %O.", this._context.connectionId, this.name, ehError);
@@ -297,9 +292,6 @@ export class EventHubReceiver extends LinkEntity {
     };
 
     this._onSessionError = (context: EventContext) => {
-      if (this._aborter) {
-        this._aborter.removeEventListener("abort", this._onAbort);
-      }
       const receiver = this._receiver || context.receiver!;
       const sessionError = context.session && context.session.error;
       if (sessionError) {
@@ -325,9 +317,6 @@ export class EventHubReceiver extends LinkEntity {
       const receiverError = context.receiver && context.receiver.error;
       const receiver = this._receiver || context.receiver!;
       if (receiverError) {
-        if (this._aborter) {
-          this._aborter.removeEventListener("abort", this._onAbort);
-        }
         log.error(
           "[%s] 'receiver_close' event occurred for receiver '%s' with address '%s'. " + "The associated error is: %O",
           this._context.connectionId,
@@ -379,9 +368,6 @@ export class EventHubReceiver extends LinkEntity {
       const receiver = this._receiver || context.receiver!;
       const sessionError = context.session && context.session.error;
       if (sessionError) {
-        if (this._aborter) {
-          this._aborter.removeEventListener("abort", this._onAbort);
-        }
         log.error(
           "[%s] 'session_close' event occurred for receiver '%s' with address '%s'. " + "The associated error is: %O",
           this._context.connectionId,
