@@ -2,6 +2,7 @@ import * as assert from "assert";
 
 import { getQSU, getUniqueName } from "./utils";
 import * as dotenv from "dotenv";
+import { SharedKeyCredential, MessagesClient } from '../src';
 dotenv.config({ path: "../.env" });
 
 describe("MessagesClient", () => {
@@ -335,5 +336,39 @@ describe("MessagesClient", () => {
         "The request body is too large and exceeds the maximum permissible limit."
       )
     );
+  });
+
+  it("can be created with a url and a credential", async () => {
+    const messagesClient = queueClient.createMessagesClient();
+    const factories = messagesClient.pipeline.factories;
+    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const newClient = new MessagesClient(messagesClient.url, credential);
+
+    const eResult = await newClient.enqueue(messageContent);
+    assert.ok(eResult.date);
+    assert.ok(eResult.expirationTime);
+    assert.ok(eResult.insertionTime);
+    assert.ok(eResult.messageId);
+    assert.ok(eResult.popReceipt);
+    assert.ok(eResult.requestId);
+    assert.ok(eResult.timeNextVisible);
+    assert.ok(eResult.version);
+  });
+
+  it("can be created with a url and a pipeline", async () => {
+    const messagesClient = queueClient.createMessagesClient();
+    const factories = messagesClient.pipeline.factories;
+    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const newClient = new MessagesClient(messagesClient.url, credential);
+
+    const eResult = await newClient.enqueue(messageContent);
+    assert.ok(eResult.date);
+    assert.ok(eResult.expirationTime);
+    assert.ok(eResult.insertionTime);
+    assert.ok(eResult.messageId);
+    assert.ok(eResult.popReceipt);
+    assert.ok(eResult.requestId);
+    assert.ok(eResult.timeNextVisible);
+    assert.ok(eResult.version);
   });
 });
