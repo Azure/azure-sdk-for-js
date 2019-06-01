@@ -89,7 +89,7 @@ async function receiveMessages(ns: ServiceBusClient, sessionId: string): Promise
   const onMessage = async (brokeredMessage: ServiceBusMessage) => {
     console.log(`Received: ${brokeredMessage.sessionId} - ${brokeredMessage.body} `);
   };
-  const onError: OnError = (err) => {
+  const onError: OnError = (err): void => {
     console.log(">>>>> Error occurred: ", err);
   };
   receiver.registerMessageHandler(onMessage, onError);

@@ -137,10 +137,11 @@ export class Receiver {
           return;
         }
         if (!this.isClosed) {
-          return sReceiver.receive(onMessage, onError);
+          sReceiver.receive(onMessage, onError);
         } else {
           await sReceiver.close();
         }
+        return;
       })
       .catch((err) => {
         onError(err);
@@ -723,6 +724,7 @@ export class SessionReceiver {
         } else {
           await this._messageSession.close();
         }
+        return;
       })
       .catch((err) => {
         onError(err);

@@ -102,7 +102,7 @@ async function RunTest(
     receiver.addCredit(maxConcurrentCalls);
   }
 
-  receiver.on(ReceiverEvents.message, async (context: any) => {
+  receiver.on(ReceiverEvents.message, async () => {
     // console.log("Received message: %O", context.message.body);
     _messages++;
 
