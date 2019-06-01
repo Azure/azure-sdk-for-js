@@ -113,6 +113,32 @@ export function getURLQueries(url: string): { [key: string]: string } {
   return queries;
 }
 
+export function extractPartsWithValidation(connectionString: string): { [key: string]: any } {
+  const matchCredentials = connectionString.match(
+    "DefaultEndpointsProtocol=(.*);AccountName=(.*);AccountKey=(.*);EndpointSuffix=(.*)"
+  );
+  const defaultEndpointsProtocol = matchCredentials![1] || "";
+  const accountName = matchCredentials![2] || "";
+  const accountKey = Buffer.from(matchCredentials![3], "base64");
+  const endpointSuffix = matchCredentials![4] || "";
+  if (!accountName) {
+    throw new Error("Invalid AccountName in the provided Connection String");
+  } else if (!accountKey) {
+    throw new Error("Invalid AccountKey in the provided Connection String");
+  } else if (!endpointSuffix) {
+    throw new Error("Invalid EndpointSuffix in the provided Connection String");
+  } else if (!defaultEndpointsProtocol) {
+    throw new Error("Invalid DefaultEndpointsProtocol in the provided Connection String");
+  }
+  const url = `${defaultEndpointsProtocol}://${accountName}.queue.${endpointSuffix}`;
+
+  return {
+    url: url,
+    accountName: accountName,
+    accountKey: accountKey
+  };
+}
+
 /**
  * Rounds a date off to seconds.
  *

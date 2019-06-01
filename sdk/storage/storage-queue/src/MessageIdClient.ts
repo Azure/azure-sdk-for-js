@@ -8,6 +8,7 @@ import { Pipeline } from "./Pipeline";
 import { StorageClient, NewPipelineOptions } from "./StorageClient";
 import { Credential } from "./credentials/Credential";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
+import { extractPartsWithValidation } from "./utils/utils.common";
 
 /**
  * Options to configure MessageId - Delete operation
@@ -71,7 +72,12 @@ export class MessageIdClient extends StorageClient {
    * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof MessageIdClient
    */
-  constructor(connectionString: string, queueName: string, messageId: string, options?: NewPipelineOptions)
+  constructor(
+    connectionString: string,
+    queueName: string,
+    messageId: string,
+    options?: NewPipelineOptions
+  );
   /**
    * Creates an instance of MessageIdClient.
    *
@@ -83,7 +89,7 @@ export class MessageIdClient extends StorageClient {
    * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof MessageIdClient
    */
-  constructor(url: string, credential: Credential, options?: NewPipelineOptions)
+  constructor(url: string, credential: Credential, options?: NewPipelineOptions);
   /**
    * Creates an instance of MessageIdClient.
    *
@@ -95,25 +101,34 @@ export class MessageIdClient extends StorageClient {
    *                            pipeline, or provide a customized pipeline.
    * @memberof MessageIdClient
    */
-  constructor(url: string, pipeline: Pipeline)
+  constructor(url: string, pipeline: Pipeline);
   constructor(
     urlOrConnectionString: string,
     credentialOrPipelineOrQueueName?: Credential | Pipeline | string,
     messageIdOrOptions?: string | NewPipelineOptions,
-    options: NewPipelineOptions = {}) {
+    options: NewPipelineOptions = {}
+  ) {
     let pipeline: Pipeline;
     if (credentialOrPipelineOrQueueName instanceof Pipeline) {
       pipeline = credentialOrPipelineOrQueueName;
     } else if (credentialOrPipelineOrQueueName instanceof Credential) {
       options = messageIdOrOptions as NewPipelineOptions;
       pipeline = StorageClient.newPipeline(credentialOrPipelineOrQueueName, options);
-    } else if (credentialOrPipelineOrQueueName && typeof credentialOrPipelineOrQueueName === "string"
-               && messageIdOrOptions && typeof messageIdOrOptions === "string") {
+    } else if (
+      credentialOrPipelineOrQueueName &&
+      typeof credentialOrPipelineOrQueueName === "string" &&
+      messageIdOrOptions &&
+      typeof messageIdOrOptions === "string"
+    ) {
       const queueName = credentialOrPipelineOrQueueName;
       const messageId = messageIdOrOptions;
-      // TODO: extract parts from connection string
-      const sharedKeyCredential = new SharedKeyCredential("name", "key");
-      urlOrConnectionString = "endpoint from connection string" + queueName + "/" + messageId;
+
+      const extractedCreds = extractPartsWithValidation(urlOrConnectionString);
+      const sharedKeyCredential = new SharedKeyCredential(
+        extractedCreds.accountName,
+        extractedCreds.accountKey
+      );
+      urlOrConnectionString = extractedCreds.url + "/" + queueName + "/" + messageId;
       pipeline = StorageClient.newPipeline(sharedKeyCredential, options);
     } else {
       throw new Error("Expecting non-empty strings for queueName and messageId parameters");

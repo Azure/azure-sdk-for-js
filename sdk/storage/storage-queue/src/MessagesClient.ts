@@ -7,7 +7,7 @@ import { Aborter } from "./Aborter";
 import { Messages } from "./generated/lib/operations";
 import { Pipeline } from "./Pipeline";
 import { StorageClient, NewPipelineOptions } from "./StorageClient";
-import { appendToURLPath } from "./utils/utils.common";
+import { appendToURLPath, extractPartsWithValidation } from "./utils/utils.common";
 import { MessageIdClient } from "./MessageIdClient";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 import { Credential } from "./credentials/Credential";
@@ -37,8 +37,7 @@ export interface MessagesClearOptions {
  * @interface MessagesEnqueueOptions
  * @extends {Models.MessagesEnqueueOptionalParams}
  */
-export interface MessagesEnqueueOptions extends Models.MessagesEnqueueOptionalParams {
-}
+export interface MessagesEnqueueOptions extends Models.MessagesEnqueueOptionalParams {}
 
 /**
  * Options to configure Messages - Dequeue operation
@@ -47,8 +46,7 @@ export interface MessagesEnqueueOptions extends Models.MessagesEnqueueOptionalPa
  * @interface MessagesDequeueOptions
  * @extends {Models.MessagesDequeueOptionalParams}
  */
-export interface MessagesDequeueOptions extends Models.MessagesDequeueOptionalParams {
-}
+export interface MessagesDequeueOptions extends Models.MessagesDequeueOptionalParams {}
 
 /**
  * Options to configure Messages - Peek operation
@@ -57,8 +55,7 @@ export interface MessagesDequeueOptions extends Models.MessagesDequeueOptionalPa
  * @interface MessagesPeekOptions
  * @extends {Models.MessagesPeekOptionalParams}
  */
-export interface MessagesPeekOptions extends Models.MessagesPeekOptionalParams {
-}
+export interface MessagesPeekOptions extends Models.MessagesPeekOptionalParams {}
 
 export declare type MessagesEnqueueResponse = {
   /**
@@ -87,68 +84,68 @@ export declare type MessagesEnqueueResponse = {
    */
   timeNextVisible: Date;
 } & Models.MessagesEnqueueHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpResponse & {
     /**
-     * The parsed HTTP response headers.
+     * The underlying HTTP response.
      */
-    parsedHeaders: Models.MessagesEnqueueHeaders;
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: Models.EnqueuedMessage[];
+    _response: HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: Models.MessagesEnqueueHeaders;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Models.EnqueuedMessage[];
+    };
   };
-};
 
 export declare type MessagesDequeueResponse = {
   dequeuedMessageItems: Models.DequeuedMessageItem[];
 } & Models.MessagesDequeueHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpResponse & {
     /**
-     * The parsed HTTP response headers.
+     * The underlying HTTP response.
      */
-    parsedHeaders: Models.MessagesDequeueHeaders;
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: Models.DequeuedMessageItem[];
+    _response: HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: Models.MessagesDequeueHeaders;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Models.DequeuedMessageItem[];
+    };
   };
-};
 
 export declare type MessagesPeekResponse = {
   peekedMessageItems: Models.PeekedMessageItem[];
 } & Models.MessagesPeekHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpResponse & {
     /**
-     * The parsed HTTP response headers.
+     * The underlying HTTP response.
      */
-    parsedHeaders: Models.MessagesPeekHeaders;
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: Models.PeekedMessageItem[];
+    _response: HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: Models.MessagesPeekHeaders;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Models.PeekedMessageItem[];
+    };
   };
-};
 
 /**
  * A MessagesClient represents a URL to an Azure Storage Queue's messages allowing you to manipulate its messages.
@@ -175,7 +172,7 @@ export class MessagesClient extends StorageClient {
    * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof MessagesClient
    */
-  constructor(connectionString: string, queueName: string, options?: NewPipelineOptions)
+  constructor(connectionString: string, queueName: string, options?: NewPipelineOptions);
   /**
    * Creates an instance of MessagesClient.
    *
@@ -187,7 +184,7 @@ export class MessagesClient extends StorageClient {
    * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof MessagesClient
    */
-  constructor(url: string, credential: Credential, options?: NewPipelineOptions)
+  constructor(url: string, credential: Credential, options?: NewPipelineOptions);
   /**
    * Creates an instance of MessagesClient.
    *
@@ -199,21 +196,28 @@ export class MessagesClient extends StorageClient {
    *                            pipeline, or provide a customized pipeline.
    * @memberof MessagesClient
    */
-  constructor(url: string, pipeline: Pipeline)
+  constructor(url: string, pipeline: Pipeline);
   constructor(
     urlOrConnectionString: string,
     credentialOrPipelineOrQueueName?: Credential | Pipeline | string,
-    options?: NewPipelineOptions) {
+    options?: NewPipelineOptions
+  ) {
     let pipeline: Pipeline;
     if (credentialOrPipelineOrQueueName instanceof Pipeline) {
       pipeline = credentialOrPipelineOrQueueName;
     } else if (credentialOrPipelineOrQueueName instanceof Credential) {
       pipeline = StorageClient.newPipeline(credentialOrPipelineOrQueueName, options);
-    } else if (credentialOrPipelineOrQueueName && typeof credentialOrPipelineOrQueueName === "string") {
+    } else if (
+      credentialOrPipelineOrQueueName &&
+      typeof credentialOrPipelineOrQueueName === "string"
+    ) {
       const queueName = credentialOrPipelineOrQueueName;
-      // TODO: extract parts from connection string
-      const sharedKeyCredential = new SharedKeyCredential("name", "key");
-      urlOrConnectionString = "endpoint from connection string" + queueName + "/messages";
+      const extractedCreds = extractPartsWithValidation(urlOrConnectionString);
+      const sharedKeyCredential = new SharedKeyCredential(
+        extractedCreds.accountName,
+        extractedCreds.accountKey
+      );
+      urlOrConnectionString = extractedCreds.url + "/" + queueName + "/messages";
       pipeline = StorageClient.newPipeline(sharedKeyCredential, options);
     } else {
       throw new Error("Expecting non-empty strings for queueName parameter");
@@ -230,9 +234,7 @@ export class MessagesClient extends StorageClient {
    * @returns {Promise<Models.MessageClearResponse>}
    * @memberof MessagesClient
    */
-  public async clear(
-    options: MessagesClearOptions = {}
-  ): Promise<Models.MessagesClearResponse> {
+  public async clear(options: MessagesClearOptions = {}): Promise<Models.MessagesClearResponse> {
     const aborter = options.abortSignal || Aborter.none;
     return this.messagesContext.clear({
       abortSignal: aborter
@@ -243,13 +245,8 @@ export class MessagesClient extends StorageClient {
    * Creates a MessageIdClient object.
    * @param messageId
    */
-  public createMessageIdClient(
-    messageId: string
-  ): MessageIdClient {
-    return new MessageIdClient(
-      appendToURLPath(this.url, messageId),
-      this.pipeline
-    );
+  public createMessageIdClient(messageId: string): MessageIdClient {
+    return new MessageIdClient(appendToURLPath(this.url, messageId), this.pipeline);
   }
 
   /**
@@ -303,9 +300,7 @@ export class MessagesClient extends StorageClient {
    * @returns {Promise<Models.MessagesDequeueResponse>}
    * @memberof MessagesClient
    */
-  public async dequeue(
-    options: MessagesDequeueOptions = {}
-  ): Promise<MessagesDequeueResponse> {
+  public async dequeue(options: MessagesDequeueOptions = {}): Promise<MessagesDequeueResponse> {
     const aborter = options.abortSignal || Aborter.none;
     const response = await this.messagesContext.dequeue({
       abortSignal: aborter,
@@ -338,9 +333,7 @@ export class MessagesClient extends StorageClient {
    * @returns {Promise<Models.MessagesPeekResponse>}
    * @memberof MessagesClient
    */
-  public async peek(
-    options: MessagesPeekOptions = {}
-  ): Promise<MessagesPeekResponse> {
+  public async peek(options: MessagesPeekOptions = {}): Promise<MessagesPeekResponse> {
     const aborter = options.abortSignal || Aborter.none;
     const response = await this.messagesContext.peek({
       abortSignal: aborter,
