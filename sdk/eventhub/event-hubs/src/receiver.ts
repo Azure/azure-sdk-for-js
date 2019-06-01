@@ -171,7 +171,7 @@ export class Receiver {
    * @param {number} maxMessageCount The maximum message count. Must be a value greater than 0.
    * @param {number} [maxWaitTimeInSeconds] The maximum wait time in seconds for which the Receiver should wait
    * to receiver the said amount of messages. If not provided, it defaults to 60 seconds.
-   * @property {Aborter} cancellationToken Cancel current operation.
+   * @param {Aborter} cancellationToken Cancel current operation.
    *
    * @returns {Promise<ReceivedEventData[]>} Promise<ReceivedEventData[]>.
    */
