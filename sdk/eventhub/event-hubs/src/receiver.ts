@@ -101,7 +101,7 @@ export class Receiver {
    * @param {OnMessage} onMessage The message handler to receive event data objects.
    * @param {OnError} onError The error handler to receive an error that occurs
    * while receiving messages.
-   * @property {Aborter} cancellationToken Cancel current operation.
+   * @param {Aborter} cancellationToken Cancel current operation.
    *
    * @returns {ReceiveHandler} ReceiveHandler - An object that provides a mechanism to stop receiving more messages.
    */
