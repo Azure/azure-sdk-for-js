@@ -46,7 +46,7 @@ async function RunTest(
   const client = ns.createQueueClient(entityPath);
   const receiver = client.createReceiver(ReceiveMode.receiveAndDelete);
 
-  const onMessageHandler: OnMessage = async (msg) => {
+  const onMessageHandler: OnMessage = async () => {
     _messages++;
     if (_messages === messages) {
       await receiver.close();

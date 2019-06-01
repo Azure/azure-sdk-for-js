@@ -160,7 +160,6 @@ export function toBuffer(input: any): Buffer {
   log.utils("[utils.toBuffer] The converted buffer is: %O.", result);
   return result;
 }
-
 /**
  * @internal
  * Helper function to retrieve active receiver name, if it exists.
