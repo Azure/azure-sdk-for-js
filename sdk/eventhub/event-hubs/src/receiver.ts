@@ -19,11 +19,7 @@ export interface EventIteratorOptions {
   /**
    * Number of events to fetch at a time in the background
    */
-  preFetchCount?: number;
-  /**
-   * The time to wait in seconds in each iteration for an event
-   */
-  maxWaitTimePerIteration?: number;
+  prefetchCount?: number;
   /**
    * Cancellation token to cancel the operation
    */
@@ -115,9 +111,12 @@ export class Receiver {
   /**
    * Gets an async iterator over events from the receiver.
    */
-  async *getEventIterator(options: EventIteratorOptions): AsyncIterableIterator<ReceivedEventData> {
+  async *getEventIterator(options?: EventIteratorOptions): AsyncIterableIterator<ReceivedEventData> {
+    if (!options) {
+      options = {};
+    }
     while (true) {
-      const currentBatch = await this.receiveBatch(1, options.maxWaitTimePerIteration || 60, options.cancellationToken);
+      const currentBatch = await this.receiveBatch(options.prefetchCount || 1, 60, options.cancellationToken);
       yield currentBatch[0];
     }
   }

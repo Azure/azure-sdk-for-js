@@ -86,8 +86,7 @@ export interface EventHubProperties {
 // @public
 export interface EventIteratorOptions {
     cancellationToken?: Aborter;
-    maxWaitTimePerIteration?: number;
-    preFetchCount?: number;
+    prefetchCount?: number;
 }
 
 // @public
@@ -163,7 +162,7 @@ export class Receiver {
     close(): Promise<void>;
     readonly consumerGroup: string | undefined;
     readonly exclusiveReceiverPriority: number | undefined;
-    getEventIterator(options: EventIteratorOptions): AsyncIterableIterator<ReceivedEventData>;
+    getEventIterator(options?: EventIteratorOptions): AsyncIterableIterator<ReceivedEventData>;
     readonly isClosed: boolean;
     isReceivingMessages(): boolean;
     readonly partitionId: string;
