@@ -8,7 +8,7 @@
   to populate Event Hubs before running this sample.
 */
 
-import { EventHubClient, OnMessage, OnError, MessagingError, delay, EventData, EventPosition } from "../SRC";
+import { EventHubClient, OnMessage, OnError, MessagingError, delay, EventData, EventPosition } from "@azure/event-hubs";
 
 // Define connection string and related Event Hubs entity name here
 const connectionString = "";

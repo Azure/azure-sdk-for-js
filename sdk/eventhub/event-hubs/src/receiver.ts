@@ -109,7 +109,7 @@ export class Receiver {
     this._throwIfReceiverOrConnectionClosed();
     this._streamingReceiver = StreamingReceiver.create(this._context, this.partitionId, this._receiverOptions);
     this._streamingReceiver.prefetchCount = Constants.defaultPrefetchCount;
-    return this._streamingReceiver.receive(onMessage, onError);
+    return this._streamingReceiver.receive(onMessage, onError, cancellationToken);
   }
 
   /**

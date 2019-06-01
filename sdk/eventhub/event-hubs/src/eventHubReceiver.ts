@@ -19,6 +19,7 @@ import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";
 import { EventPosition } from "./eventPosition";
 import { getEventPositionFilter } from "./util/utils";
+import { Aborter } from "./aborter";
 
 interface CreateReceiverOptions {
   onMessage: OnAmqpEvent;
@@ -134,6 +135,12 @@ export class EventHubReceiver extends LinkEntity {
    */
   protected _onError?: OnError;
   /**
+   * @property {() => void} onAbort The aborter handler that will be invoked when user will call Aborter.abort()
+   * to cancel the receive request.
+   * @protected
+   */
+  protected _onAbort: () => void;
+  /**
    * @property {OnAmqpEvent} _onAmqpError The message handler that will be set as the handler on the
    * underlying rhea receiver for the "message" event.
    * @protected
@@ -168,6 +175,11 @@ export class EventHubReceiver extends LinkEntity {
    * This is used as the offset to receive messages from incase of recovery.
    */
   protected _checkpoint: CheckpointData;
+  /**
+   * @property {Aborter | undefined} _aborter Describes Aborter instance that will be set by the user
+   * to cancel the request.
+   */
+  protected _aborter: Aborter | undefined;
 
   /**
    * Instantiate a new receiver from the AMQP `Receiver`. Used by `EventHubClient`.
@@ -225,6 +237,9 @@ export class EventHubReceiver extends LinkEntity {
       try {
         this._onMessage!(receivedEventData);
       } catch (err) {
+        if (this._aborter) {
+          this._aborter.removeEventListener("abort", this._onAbort);
+        }
         // This ensures we call users' error handler when users' message handler throws.
         if (!isAmqpError(err)) {
           log.error(
@@ -240,9 +255,20 @@ export class EventHubReceiver extends LinkEntity {
       }
     };
 
+    this._onAbort = () => {
+      const desc: string =
+        `[${this._context.connectionId}] The receive operation on the Receiver "${this.name}" with ` +
+        `address "${this.address}" has been cancelled by the user.`;
+      log.error(desc);
+      this._onError!(new Error(desc));
+    };
+
     this._onAmqpError = (context: EventContext) => {
       const receiver = this._receiver || context.receiver!;
       const receiverError = context.receiver && context.receiver.error;
+      if (this._aborter) {
+        this._aborter.removeEventListener("abort", this._onAbort);
+      }
       if (receiverError) {
         const ehError = translate(receiverError);
         log.error("[%s] An error occurred for Receiver '%s': %O.", this._context.connectionId, this.name, ehError);
@@ -271,6 +297,9 @@ export class EventHubReceiver extends LinkEntity {
     };
 
     this._onSessionError = (context: EventContext) => {
+      if (this._aborter) {
+        this._aborter.removeEventListener("abort", this._onAbort);
+      }
       const receiver = this._receiver || context.receiver!;
       const sessionError = context.session && context.session.error;
       if (sessionError) {
@@ -296,6 +325,9 @@ export class EventHubReceiver extends LinkEntity {
       const receiverError = context.receiver && context.receiver.error;
       const receiver = this._receiver || context.receiver!;
       if (receiverError) {
+        if (this._aborter) {
+          this._aborter.removeEventListener("abort", this._onAbort);
+        }
         log.error(
           "[%s] 'receiver_close' event occurred for receiver '%s' with address '%s'. " + "The associated error is: %O",
           this._context.connectionId,
@@ -316,6 +348,9 @@ export class EventHubReceiver extends LinkEntity {
           );
           await this.detached(receiverError);
         } else {
+          if (this._aborter) {
+            this._aborter.removeEventListener("abort", this._onAbort);
+          }
           log.error(
             "[%s] 'receiver_close' event occurred on the receiver '%s' with address '%s' " +
               "and the sdk did not initate this. Moreover the receiver is already re-connecting. " +
@@ -326,6 +361,9 @@ export class EventHubReceiver extends LinkEntity {
           );
         }
       } else {
+        if (this._aborter) {
+          this._aborter.removeEventListener("abort", this._onAbort);
+        }
         log.error(
           "[%s] 'receiver_close' event occurred on the receiver '%s' with address '%s' " +
             "because the sdk initiated it. Hence not calling detached from the _onAmqpClose" +
@@ -341,6 +379,9 @@ export class EventHubReceiver extends LinkEntity {
       const receiver = this._receiver || context.receiver!;
       const sessionError = context.session && context.session.error;
       if (sessionError) {
+        if (this._aborter) {
+          this._aborter.removeEventListener("abort", this._onAbort);
+        }
         log.error(
           "[%s] 'session_close' event occurred for receiver '%s' with address '%s'. " + "The associated error is: %O",
           this._context.connectionId,
@@ -362,6 +403,9 @@ export class EventHubReceiver extends LinkEntity {
           );
           await this.detached(sessionError);
         } else {
+          if (this._aborter) {
+            this._aborter.removeEventListener("abort", this._onAbort);
+          }
           log.error(
             "[%s] 'session_close' event occurred on the session of receiver '%s' with " +
               "address '%s' and the sdk did not initiate this. Moreover the receiver is already " +
@@ -372,6 +416,9 @@ export class EventHubReceiver extends LinkEntity {
           );
         }
       } else {
+        if (this._aborter) {
+          this._aborter.removeEventListener("abort", this._onAbort);
+        }
         log.error(
           "[%s] 'session_close' event occurred on the session of receiver '%s' with address " +
             "'%s' because the sdk initiated it. Hence not calling detached from the _onSessionClose" +
@@ -490,6 +537,9 @@ export class EventHubReceiver extends LinkEntity {
    */
   async close(): Promise<void> {
     if (this._receiver) {
+      if (this._aborter) {
+        this._aborter.removeEventListener("abort", this._onAbort);
+      }
       const receiverLink = this._receiver;
       this._deleteFromCache();
       await this._closeLink(receiverLink);
