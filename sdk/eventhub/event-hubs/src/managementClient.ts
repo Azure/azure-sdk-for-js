@@ -112,7 +112,6 @@ export class ManagementClient extends LinkEntity {
    */
   async getHubRuntimeInformation(options?: {
     retryOptions?: RetryOptions;
-    timeout?: number;
     cancellationToken?: Aborter;
   }): Promise<EventHubProperties> {
     const request: Message = {
@@ -155,7 +154,7 @@ export class ManagementClient extends LinkEntity {
    */
   async getPartitionInformation(
     partitionId: string | number,
-    options?: { retryOptions?: RetryOptions; timeout?: number; cancellationToken?: Aborter }
+    options?: { retryOptions?: RetryOptions; cancellationToken?: Aborter }
   ): Promise<PartitionProperties> {
     if (typeof partitionId !== "string" && typeof partitionId !== "number") {
       throw new Error("'partitionId' is a required parameter and must be of " + "type: 'string' | 'number'.");

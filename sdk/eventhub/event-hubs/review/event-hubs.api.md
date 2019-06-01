@@ -11,6 +11,7 @@ import { ApplicationTokenCredentials } from '@azure/ms-rest-nodeauth';
 import { ConnectionContextBase } from '@azure/amqp-common';
 import { DataTransformer } from '@azure/amqp-common';
 import { DefaultDataTransformer } from '@azure/amqp-common';
+import { delay } from '@azure/amqp-common';
 import { DeviceTokenCredentials } from '@azure/ms-rest-nodeauth';
 import { Dictionary } from 'rhea-promise';
 import { EventHubConnectionConfig } from '@azure/amqp-common';
@@ -40,6 +41,8 @@ export { DataTransformer }
 
 export { DefaultDataTransformer }
 
+export { delay }
+
 // @public
 export interface EventData {
     body: any;
@@ -68,7 +71,6 @@ export class EventHubClient {
 export interface EventHubClientOptions {
     dataTransformer?: DataTransformer;
     retryOptions?: RetryOptions;
-    timeoutInSeconds?: number;
     userAgent?: string;
     webSocket?: WebSocketImpl;
     webSocketConstructorOptions?: any;
@@ -175,7 +177,6 @@ export interface ReceiverOptions {
     eventPosition?: EventPosition;
     exclusiveReceiverPriority?: number;
     retryOptions?: RetryOptions;
-    timeoutInSeconds?: number;
 }
 
 // @public
@@ -199,7 +200,6 @@ export class Sender {
 export interface SenderOptions {
     partitionId?: string;
     retryOptions?: RetryOptions;
-    timeoutInSeconds?: number;
 }
 
 export { TokenInfo }

@@ -38,7 +38,7 @@ export interface RetryOptions {
    */
   retryCount?: number;
   /**
-   * Number of seconds to wait between retries
+   * Number of milliseconds to wait between retries
    */
   retryInterval?: number;
   // /**
@@ -67,11 +67,6 @@ export interface SenderOptions {
    * retry options set when creating the `EventHubClient` is used.
    */
   retryOptions?: RetryOptions;
-  /**
-   * Number of seconds to wait before declaring the send operation on the sender to have timed out.
-   * If no value is provided here, the timeout set when creating the `EventHubclient` is used.
-   */
-  timeoutInSeconds?: number;
 }
 
 /**
@@ -114,13 +109,6 @@ export interface ReceiverOptions {
    * retry options set when creating the `EventHubClient` is used.
    */
   retryOptions?: RetryOptions;
-  /**
-   * Number of seconds to wait before declaring the receive operations on the receiver to have timed out.
-   * If no value is provided here, the timeout set when creating the `EventHubclient` is used.
-   * - When using the `getEventIterator()` function, this timeout applies for each iteration
-   * - When using the `receive()` function, this timeout doesnt apply.
-   */
-  timeoutInSeconds?: number;
 }
 
 /**
@@ -155,11 +143,6 @@ export interface EventHubClientOptions {
    * This can be overridden by the retry options set on the sender and receiver.
    */
   retryOptions?: RetryOptions;
-  /**
-   * Number of seconds to wait before declaring an operation on the client/sender/receiver to have timed out.
-   * This can be overriden by the timeout option set on the sender and receiver
-   */
-  timeoutInSeconds?: number;
 }
 
 /**
@@ -339,7 +322,6 @@ export class EventHubClient {
     try {
       return await this._context.managementSession!.getHubRuntimeInformation({
         retryOptions: this._clientOptions.retryOptions,
-        timeout: this._clientOptions.timeoutInSeconds,
         cancellationToken
       });
     } catch (err) {
@@ -374,7 +356,6 @@ export class EventHubClient {
     try {
       return await this._context.managementSession!.getPartitionInformation(partitionId, {
         retryOptions: this._clientOptions.retryOptions,
-        timeout: this._clientOptions.timeoutInSeconds,
         cancellationToken
       });
     } catch (err) {
