@@ -10,10 +10,15 @@ import { Metadata } from "./models";
 import { Pipeline } from "./Pipeline";
 import { StorageClient, NewPipelineOptions } from "./StorageClient";
 import { URLConstants } from "./utils/constants";
-import { appendToURLPath, setURLParameter, truncatedISO8061Date } from "./utils/utils.common";
+import {
+  appendToURLPath,
+  setURLParameter,
+  truncatedISO8061Date,
+  extractPartsWithValidation
+} from "./utils/utils.common";
 import { DirectoryClient } from "./DirectoryClient";
-import { Credential } from './credentials/Credential';
-import { SharedKeyCredential } from './credentials/SharedKeyCredential';
+import { Credential } from "./credentials/Credential";
+import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 
 /**
  * Options to configure Share - Create operation.
@@ -287,7 +292,7 @@ export class ShareClient extends StorageClient {
    * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof ShareClient
    */
-  constructor(connectionString: string, shareName: string, options?: NewPipelineOptions)
+  constructor(connectionString: string, shareName: string, options?: NewPipelineOptions);
   /**
    * Creates an instance of ShareClient.
    *
@@ -299,7 +304,7 @@ export class ShareClient extends StorageClient {
    * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof ShareClient
    */
-  constructor(url: string, credential: Credential, options?: NewPipelineOptions)
+  constructor(url: string, credential: Credential, options?: NewPipelineOptions);
   /**
    * Creates an instance of ShareClient.
    *
@@ -311,21 +316,29 @@ export class ShareClient extends StorageClient {
    *                            pipeline, or provide a customized pipeline.
    * @memberof ShareClient
    */
-  constructor(url: string, pipeline: Pipeline)
+  constructor(url: string, pipeline: Pipeline);
   constructor(
     urlOrConnectionString: string,
     credentialOrPipelineOrShareName?: Credential | Pipeline | string,
-    options?: NewPipelineOptions) {
+    options?: NewPipelineOptions
+  ) {
     let pipeline: Pipeline;
     if (credentialOrPipelineOrShareName instanceof Pipeline) {
       pipeline = credentialOrPipelineOrShareName;
     } else if (credentialOrPipelineOrShareName instanceof Credential) {
       pipeline = StorageClient.newPipeline(credentialOrPipelineOrShareName, options);
-    } else if (credentialOrPipelineOrShareName && typeof credentialOrPipelineOrShareName === "string") {
+    } else if (
+      credentialOrPipelineOrShareName &&
+      typeof credentialOrPipelineOrShareName === "string"
+    ) {
       const shareName = credentialOrPipelineOrShareName;
-      // TODO: extract parts from connection string
-      const sharedKeyCredential = new SharedKeyCredential("name", "key");
-      urlOrConnectionString = "endpoint from connection string" + shareName;
+      const extractedCreds = extractPartsWithValidation(urlOrConnectionString);
+      const sharedKeyCredential = new SharedKeyCredential(
+        extractedCreds.accountName,
+        extractedCreds.accountKey
+      );
+      pipeline = StorageClient.newPipeline(sharedKeyCredential, options);
+      urlOrConnectionString = extractedCreds.url + "/" + shareName;
       pipeline = StorageClient.newPipeline(sharedKeyCredential, options);
     } else {
       throw new Error("Expecting non-empty strings for shareName parameter");

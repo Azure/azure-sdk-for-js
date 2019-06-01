@@ -15,8 +15,9 @@ import {
   FILE_MAX_SIZE_BYTES,
   FILE_RANGE_MAX_SIZE_BYTES
 } from "./utils/constants";
-import { Credential } from './credentials/Credential';
-import { SharedKeyCredential } from './credentials/SharedKeyCredential';
+import { Credential } from "./credentials/Credential";
+import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
+import { extractPartsWithValidation } from "./utils/utils.common";
 
 /**
  * Options to configure File - Create operation.
@@ -380,7 +381,13 @@ export class FileClient extends StorageClient {
    * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof FileClient
    */
-  constructor(connectionString: string, shareName: string, directoryName: string, fileName: string, options?: NewPipelineOptions)
+  constructor(
+    connectionString: string,
+    shareName: string,
+    directoryName: string,
+    fileName: string,
+    options?: NewPipelineOptions
+  );
   /**
    * Creates an instance of FileClient.
    *
@@ -396,7 +403,7 @@ export class FileClient extends StorageClient {
    * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof FileClient
    */
-  constructor(url: string, credential: Credential, options?: NewPipelineOptions)
+  constructor(url: string, credential: Credential, options?: NewPipelineOptions);
   /**
    * Creates an instance of FileClient.
    *
@@ -412,30 +419,42 @@ export class FileClient extends StorageClient {
    *                            pipeline, or provide a customized pipeline.
    * @memberof FileClient
    */
-  constructor(url: string, pipeline: Pipeline)
+  constructor(url: string, pipeline: Pipeline);
   constructor(
     urlOrConnectionString: string,
     credentialOrPipelineOrShareName?: Credential | Pipeline | string,
     directoryNameOrOptions?: string | NewPipelineOptions,
     fileName?: string,
-    options?: NewPipelineOptions) {
+    options?: NewPipelineOptions
+  ) {
     let pipeline: Pipeline;
     if (credentialOrPipelineOrShareName instanceof Pipeline) {
       pipeline = credentialOrPipelineOrShareName;
     } else if (credentialOrPipelineOrShareName instanceof Credential) {
       options = directoryNameOrOptions as NewPipelineOptions;
       pipeline = StorageClient.newPipeline(credentialOrPipelineOrShareName, options);
-    } else if (credentialOrPipelineOrShareName && typeof credentialOrPipelineOrShareName === "string"
-               && directoryNameOrOptions && typeof directoryNameOrOptions === "string"
-               && fileName && typeof fileName === "string") {
+    } else if (
+      credentialOrPipelineOrShareName &&
+      typeof credentialOrPipelineOrShareName === "string" &&
+      directoryNameOrOptions &&
+      typeof directoryNameOrOptions === "string" &&
+      fileName &&
+      typeof fileName === "string"
+    ) {
       const shareName = credentialOrPipelineOrShareName;
       const directoryName = directoryNameOrOptions;
-      // TODO: extract parts from connection string
-      const sharedKeyCredential = new SharedKeyCredential("name", "key");
-      urlOrConnectionString = "endpoint from connection string" + shareName + "/" + directoryName + "/" + fileName;
+      const extractedCreds = extractPartsWithValidation(urlOrConnectionString);
+      const sharedKeyCredential = new SharedKeyCredential(
+        extractedCreds.accountName,
+        extractedCreds.accountKey
+      );
+      urlOrConnectionString =
+        extractedCreds.url + "/" + shareName + "/" + directoryName + "/" + fileName;
       pipeline = StorageClient.newPipeline(sharedKeyCredential, options);
     } else {
-      throw new Error("Expecting non-empty strings for shareName, directoryName, and fileName parameters");
+      throw new Error(
+        "Expecting non-empty strings for shareName, directoryName, and fileName parameters"
+      );
     }
     super(urlOrConnectionString, pipeline);
     this.context = new File(this.storageClientContext);

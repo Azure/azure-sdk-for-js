@@ -7,9 +7,9 @@ import { Service } from "./generated/lib/operations";
 import { Pipeline } from "./Pipeline";
 import { StorageClient, NewPipelineOptions } from "./StorageClient";
 import { ShareClient } from "./ShareClient";
-import { appendToURLPath } from "./utils/utils.common";
-import { Credential } from './credentials/Credential';
-import { SharedKeyCredential } from './credentials/SharedKeyCredential';
+import { appendToURLPath, extractPartsWithValidation } from "./utils/utils.common";
+import { Credential } from "./credentials/Credential";
+import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 
 /**
  * Options to configure List Shares Segment operation.
@@ -117,7 +117,7 @@ export class FileServiceClient extends StorageClient {
    * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof FileServiceClient
    */
-  constructor(connectionString: string, options?: NewPipelineOptions)
+  constructor(connectionString: string, options?: NewPipelineOptions);
   /**
    * Creates an instance of FileServiceClient.
    *
@@ -128,7 +128,7 @@ export class FileServiceClient extends StorageClient {
    * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof FileServiceClient
    */
-  constructor(url: string, credential: Credential, options?: NewPipelineOptions)
+  constructor(url: string, credential: Credential, options?: NewPipelineOptions);
   /**
    * Creates an instance of FileServiceClient.
    *
@@ -139,11 +139,12 @@ export class FileServiceClient extends StorageClient {
    *                            pipeline, or provide a customized pipeline.
    * @memberof FileServiceClient
    */
-  constructor(url: string, pipeline: Pipeline)
+  constructor(url: string, pipeline: Pipeline);
   constructor(
     urlOrConnectionString: string,
     credentialOrPipelineOrOptions?: Credential | Pipeline | NewPipelineOptions,
-    options?: NewPipelineOptions) {
+    options?: NewPipelineOptions
+  ) {
     let pipeline: Pipeline;
     if (credentialOrPipelineOrOptions instanceof Pipeline) {
       pipeline = credentialOrPipelineOrOptions;
@@ -151,10 +152,14 @@ export class FileServiceClient extends StorageClient {
       pipeline = StorageClient.newPipeline(credentialOrPipelineOrOptions, options);
     } else {
       options = credentialOrPipelineOrOptions || {};
-      // TODO: extract parts from connection string
-      const sharedKeyCredential = new SharedKeyCredential("name", "key");
+
+      const extractedCreds = extractPartsWithValidation(urlOrConnectionString);
+      const sharedKeyCredential = new SharedKeyCredential(
+        extractedCreds.accountName,
+        extractedCreds.accountKey
+      );
       pipeline = StorageClient.newPipeline(sharedKeyCredential, options);
-      urlOrConnectionString = "endpoint from connection string";
+      urlOrConnectionString = extractedCreds.url;
     }
     super(urlOrConnectionString, pipeline);
     this.serviceContext = new Service(this.storageClientContext);
