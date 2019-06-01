@@ -36,14 +36,13 @@ export interface EventHubClientOptions {
     webSocket?: WebSocketImpl;
     webSocketConstructorOptions?: any;
     retryOptions?: RetryOptions;
-    timeoutInSeconds?: number;
 }
 
 // Retry options passed to client, sender and receiver
 // Will have maxRetryInterval and isExponential once we support exponential retries
 export interface RetryOptions {
     retryCount?: number;
-    retryInterval?: number;
+    retryInterval?: number; // milliseconds
 }
 
 // ======================================== Sending related API starts ======================================
@@ -52,7 +51,6 @@ export interface RetryOptions {
 export interface SenderOptions {
     partitionId?: string;
     retryOptions?: RetryOptions;
-    timeoutInSeconds?: number;
 }
 
 // Each sender holds an AMQP sender link
@@ -87,20 +85,18 @@ export interface ReceiverOptions {
     eventPosition?: EventPosition;
     exclusiveReceiverPriority?: number;
     retryOptions?: RetryOptions;
-    timeoutInSeconds?: number;
 }
 
 // Options to create async iterator for events
 export interface EventIteratorOptions {
     cancellationToken?: Aborter;
-    maxWaitTimePerIteration?: number;
-    preFetchCount?: number;
+    prefetchCount?: number;
 }
 
 // Each receiver holds an AMQP receiver link dedicated to 1 partition
 export class Receiver {
     close(): Promise<void>;
-    getEventIterator(options: EventIteratorOptions): AsyncIterableIterator<ReceivedEventData>;
+    getAsyncIterator(options?: EventIteratorOptions): AsyncIterableIterator<ReceivedEventData>;
     isReceivingMessages(): boolean;
     receive(onMessage: OnMessage, onError: OnError, cancellationToken?: Aborter): ReceiveHandler;
     receiveBatch(maxMessageCount: number, maxWaitTimeInSeconds?: number, cancellationToken?: Aborter): 
