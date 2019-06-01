@@ -64,4 +64,8 @@ if (!packageFolderPaths) {
     }
   }
 }
-process.exitCode = exitCode;
+if (exitCode !== 0) {
+  logger.logWarning(`##vso[task.logissue]warning Found ${exitCode} packages with not updated package.json version`);
+}
+
+process.exitCode = 0;
