@@ -258,7 +258,7 @@ export class EventHubReceiver extends LinkEntity {
         `address "${this.address}" has been cancelled by the user.`;
       log.error(desc);
      await this.close();
-     throw new Error(desc);
+     this._onError!(new Error(desc));
     };
 
     this._onAmqpError = (context: EventContext) => {
