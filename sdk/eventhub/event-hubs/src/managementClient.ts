@@ -282,7 +282,10 @@ export class ManagementClient extends LinkEntity {
 
       const sendRequestOptions: SendRequestOptions = {
         times: options.retryOptions && options.retryOptions.retryCount,
-        delayInSeconds: options.retryOptions && options.retryOptions.retryInterval
+        delayInSeconds:
+          options.retryOptions && options.retryOptions.retryInterval
+            ? options.retryOptions.retryInterval / 1000
+            : undefined
       };
       return (await this._mgmtReqResLink!.sendRequest(request, sendRequestOptions)).body;
     } catch (err) {

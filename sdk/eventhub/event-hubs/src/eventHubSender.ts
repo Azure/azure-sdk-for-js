@@ -586,7 +586,7 @@ export class EventHubSender extends LinkEntity {
         : Constants.defaultRetryAttempts;
     const delayInSeconds =
       options.retryOptions && options.retryOptions.retryInterval && options.retryOptions.retryInterval > 0
-        ? options.retryOptions.retryInterval
+        ? (options.retryOptions.retryInterval / 1000)
         : Constants.defaultDelayBetweenOperationRetriesInSeconds;
     const config: RetryConfig<void> = {
       operation: sendEventPromise,
