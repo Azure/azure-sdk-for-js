@@ -257,8 +257,8 @@ export class EventHubReceiver extends LinkEntity {
         `[${this._context.connectionId}] The receive operation on the Receiver "${this.name}" with ` +
         `address "${this.address}" has been cancelled by the user.`;
       log.error(desc);
-     await this.close();
-     this._onError!(new Error(desc));
+      await this.close();
+      this._onError!(new Error(desc));
     };
 
     this._onAmqpError = (context: EventContext) => {
@@ -438,9 +438,6 @@ export class EventHubReceiver extends LinkEntity {
             this.address
           );
         } else {
-          if (this._aborter) {
-            this._aborter.removeEventListener("abort", this._onAbort);
-          }
           log.error(
             "[%s] close() method of Receiver '%s' with address '%s' was not called. There " +
               "was an accompanying error and it is NOT retryable. Hence NOT re-establishing " +
@@ -461,9 +458,6 @@ export class EventHubReceiver extends LinkEntity {
           this.address
         );
       } else {
-        if (this._aborter) {
-          this._aborter.removeEventListener("abort", this._onAbort);
-        }
         const state: any = {
           wasCloseInitiated: wasCloseInitiated,
           receiverError: receiverError,
@@ -504,6 +498,10 @@ export class EventHubReceiver extends LinkEntity {
           delayInSeconds: 15
         };
         await retry<void>(config);
+      } else {
+        if (this._aborter) {
+          this._aborter.removeEventListener("abort", this._onAbort);
+        }
       }
     } catch (err) {
       log.error(
