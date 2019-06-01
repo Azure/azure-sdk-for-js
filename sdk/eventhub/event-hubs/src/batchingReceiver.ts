@@ -7,6 +7,7 @@ import { ReceivedEventData, EventDataInternal, fromAmqpMessage } from "./eventDa
 import { ReceiverOptions } from "./eventHubClient";
 import { EventHubReceiver } from "./eventHubReceiver";
 import { ConnectionContext } from "./connectionContext";
+import { Aborter } from "./aborter";
 import * as log from "./log";
 
 /**
@@ -38,7 +39,11 @@ export class BatchingReceiver extends EventHubReceiver {
    * should wait to receiver the said amount of messages. If not provided, it defaults to 60 seconds.
    * @returns {Promise<EventData[]>} A promise that resolves with an array of EventData objects.
    */
-  receive(maxMessageCount: number, maxWaitTimeInSeconds?: number): Promise<ReceivedEventData[]> {
+  receive(
+    maxMessageCount: number,
+    maxWaitTimeInSeconds?: number,
+    cancellationToken?: Aborter
+  ): Promise<ReceivedEventData[]> {
     if (!maxMessageCount || (maxMessageCount && typeof maxMessageCount !== "number")) {
       throw new Error("'maxMessageCount' is a required parameter of type number with a value greater than 0.");
     }
@@ -57,8 +62,13 @@ export class BatchingReceiver extends EventHubReceiver {
       let onSessionClose: OnAmqpEvent;
       let waitTimer: any;
       let actionAfterWaitTimeout: Func<void, void>;
+      let aborter: Aborter;
+      let onAborted: () => {};
       // Final action to be performed after maxMessageCount is reached or the maxWaitTime is over.
       const finalAction = (timeOver: boolean) => {
+        if (aborter) {
+          aborter.removeEventListener("abort", onAborted);
+        }
         // Resetting the mode. Now anyone can call start() or receive() again.
         if (this._receiver) {
           this._receiver.removeListener(ReceiverEvents.receiverError, onReceiveError);
@@ -114,6 +124,15 @@ export class BatchingReceiver extends EventHubReceiver {
           );
           finalAction(timeOver);
         }
+      };
+
+      onAborted = () => {
+        finalAction(timeOver);
+        const desc: string =
+          `[${this._context.connectionId}] The send operation on the Sender "${this.name}" with ` +
+          `address "${this.address}" has been cancelled by the user.`;
+        log.error(desc);
+        throw new Error(desc);
       };
 
       // Action to be taken when an error is received.
@@ -193,6 +212,11 @@ export class BatchingReceiver extends EventHubReceiver {
         log.batching(msg, this._context.connectionId, maxWaitTimeInSeconds, this.name);
         waitTimer = setTimeout(actionAfterWaitTimeout, (maxWaitTimeInSeconds as number) * 1000);
       };
+
+      if (cancellationToken) {
+        aborter = cancellationToken;
+        aborter.addEventListener("abort", onAborted);
+      }
 
       if (!this.isOpen()) {
         log.batching("[%s] Receiver '%s', setting the prefetch count to 0.", this._context.connectionId, this.name);

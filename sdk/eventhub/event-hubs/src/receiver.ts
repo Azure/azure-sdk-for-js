@@ -185,7 +185,7 @@ export class Receiver {
     let error: MessagingError | undefined;
     let result: ReceivedEventData[] = [];
     try {
-      result = await this._batchingReceiver.receive(maxMessageCount, maxWaitTimeInSeconds);
+      result = await this._batchingReceiver.receive(maxMessageCount, maxWaitTimeInSeconds, cancellationToken);
     } catch (err) {
       error = err;
       log.error(
