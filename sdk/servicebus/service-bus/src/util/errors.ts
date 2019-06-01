@@ -230,7 +230,7 @@ export function throwTypeErrorIfParameterNotLong(
 export function throwTypeErrorIfParameterNotLongArray(
   connectionId: string,
   parameterName: string,
-  parameterValue: Array<any>
+  parameterValue: any[]
 ): TypeError | undefined {
   if (parameterValue.every((item) => Long.isLong(item))) {
     return;
