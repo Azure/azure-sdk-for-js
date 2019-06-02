@@ -180,13 +180,13 @@ export class Receiver {
     cancellationToken?: Aborter
   ): Promise<ReceivedEventData[]> {
     this._throwIfReceiverOrConnectionClosed();
+    if (!this._batchingReceiver){
     this._batchingReceiver = BatchingReceiver.create(this._context, this.partitionId, this._receiverOptions);
-    let error: MessagingError | undefined;
+    }
     let result: ReceivedEventData[] = [];
     try {
       result = await this._batchingReceiver.receive(maxMessageCount, maxWaitTimeInSeconds, cancellationToken);
     } catch (err) {
-      error = err;
       log.error(
         "[%s] Receiver '%s', an error occurred while receiving %d messages for %d max time:\n %O",
         this._context.connectionId,
@@ -195,14 +195,7 @@ export class Receiver {
         maxWaitTimeInSeconds,
         err
       );
-    }
-    try {
-      await this._batchingReceiver.close();
-    } catch (err) {
-      // do nothing about it.
-    }
-    if (error) {
-      throw error;
+      throw err;
     }
     return result;
   }
