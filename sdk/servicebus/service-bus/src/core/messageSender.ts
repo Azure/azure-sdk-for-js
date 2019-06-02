@@ -620,7 +620,7 @@ export class MessageSender extends LinkEntity {
           // rhea throws errors with name `TypeError` but not an instance of `TypeError`, so catch them too
           // Errors in such cases do not have user friendy message or call stack
           // So use `getMessagePropertyTypeMismatchError` to get a better error message
-          error = getMessagePropertyTypeMismatchError(data) || error;
+          throw getMessagePropertyTypeMismatchError(data) || error;
         }
         throw error;
       }
@@ -685,11 +685,7 @@ export class MessageSender extends LinkEntity {
           encodedMessages[i] = RheaMessageUtil.encode(amqpMessage);
         } catch (error) {
           if (error instanceof TypeError || error.name === "TypeError") {
-            // `RheaMessageUtil.encode` can fail if message properties are of invalid type
-            // rhea throws errors with name `TypeError` but not an instance of `TypeError`, so catch them too
-            // Errors in such cases do not have user friendy message or call stack
-            // So use `getMessagePropertyTypeMismatchError` to get a better error message
-            error = getMessagePropertyTypeMismatchError(inputMessages[i]) || error;
+            throw getMessagePropertyTypeMismatchError(inputMessages[i]) || error;
           }
           throw error;
         }
