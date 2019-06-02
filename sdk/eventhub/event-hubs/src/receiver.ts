@@ -6,7 +6,7 @@ import { ConnectionContext } from "./connectionContext";
 import { ReceiverOptions } from "./eventHubClient";
 import { OnMessage, OnError } from "./eventHubReceiver";
 import { ReceivedEventData } from "./eventData";
-import { MessagingError, Constants } from "@azure/amqp-common";
+import { Constants } from "@azure/amqp-common";
 import { StreamingReceiver, ReceiveHandler } from "./streamingReceiver";
 import { BatchingReceiver } from "./batchingReceiver";
 import { Aborter } from "./aborter";
@@ -180,8 +180,8 @@ export class Receiver {
     cancellationToken?: Aborter
   ): Promise<ReceivedEventData[]> {
     this._throwIfReceiverOrConnectionClosed();
-    if (!this._batchingReceiver){
-    this._batchingReceiver = BatchingReceiver.create(this._context, this.partitionId, this._receiverOptions);
+    if (!this._batchingReceiver) {
+      this._batchingReceiver = BatchingReceiver.create(this._context, this.partitionId, this._receiverOptions);
     }
     let result: ReceivedEventData[] = [];
     try {
