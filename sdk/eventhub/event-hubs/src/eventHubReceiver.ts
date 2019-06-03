@@ -530,6 +530,10 @@ export class EventHubReceiver extends LinkEntity {
     }
   }
 
+  getSequenceNumber(): number {
+    return this._checkpoint.sequenceNumber;
+  }
+
   /**
    * Determines whether the AMQP receiver link is open. If open then returns true else returns false.
    * @ignore

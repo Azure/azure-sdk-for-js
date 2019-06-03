@@ -18,6 +18,11 @@ import * as log from "./log";
  */
 export class BatchingReceiver extends EventHubReceiver {
   /**
+   * @property {boolean} isReceivingMessages Indicates whether the link is actively receiving
+   * messages. Default: false.
+   */
+  isReceivingMessages: boolean = false;
+  /**
    * Instantiate a new receiver from the AMQP `Receiver`. Used by `EventHubClient`.
    * @ignore
    * @constructor
@@ -53,6 +58,8 @@ export class BatchingReceiver extends EventHubReceiver {
       maxWaitTimeInSeconds = Constants.defaultOperationTimeoutInSeconds;
     }
 
+    this.isReceivingMessages = true;
+
     const eventDatas: ReceivedEventData[] = [];
     let timeOver = false;
     return new Promise<ReceivedEventData[]>((resolve, reject) => {
@@ -73,6 +80,8 @@ export class BatchingReceiver extends EventHubReceiver {
           this._receiver.removeListener(ReceiverEvents.receiverError, onReceiveError);
           this._receiver.removeListener(ReceiverEvents.message, onReceiveMessage);
         }
+
+        this.isReceivingMessages = false;
         if (!timeOver) {
           clearTimeout(waitTimer);
         }
@@ -110,6 +119,11 @@ export class BatchingReceiver extends EventHubReceiver {
           enqueuedTimeUtc: data.enqueuedTimeUtc,
           partitionKey: data.partitionKey
         };
+        this._checkpoint = {
+          enqueuedTimeUtc: receivedEventData.enqueuedTimeUtc!,
+          offset: receivedEventData.offset!,
+          sequenceNumber: receivedEventData.sequenceNumber!
+        };
         if (eventDatas.length <= maxMessageCount) {
           eventDatas.push(receivedEventData);
         }
@@ -126,6 +140,7 @@ export class BatchingReceiver extends EventHubReceiver {
       };
 
       this._onAbort = () => {
+        this.isReceivingMessages = false;
         if (this._receiver) {
           this._receiver.removeListener(ReceiverEvents.receiverError, onReceiveError);
           this._receiver.removeListener(ReceiverEvents.message, onReceiveMessage);
@@ -167,6 +182,7 @@ export class BatchingReceiver extends EventHubReceiver {
       };
 
       onReceiveClose = async (context: EventContext) => {
+        this.isReceivingMessages = false;
         const receiverError = context.receiver && context.receiver.error;
         if (receiverError) {
           log.error(
@@ -178,6 +194,7 @@ export class BatchingReceiver extends EventHubReceiver {
       };
 
       onSessionClose = async (context: EventContext) => {
+        this.isReceivingMessages = false;
         const sessionError = context.session && context.session.error;
         if (sessionError) {
           log.error(
