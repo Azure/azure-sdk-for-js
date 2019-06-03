@@ -11,6 +11,9 @@
 export {
   discriminators,
   Aggregations,
-  CloudError
+  CloudError,
+  CasesAggregation,
+  CasesAggregationBySeverityProperties,
+  CasesAggregationByStatusProperties
 } from "../models/mappers";
 

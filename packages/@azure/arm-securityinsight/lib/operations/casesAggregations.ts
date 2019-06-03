@@ -47,7 +47,7 @@ export class CasesAggregations {
    * @param aggregationsName The aggregation name. Supports - Cases
    * @param callback The callback
    */
-  get(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, aggregationsName: string, callback: msRest.ServiceCallback<Models.Aggregations>): void;
+  get(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, aggregationsName: string, callback: msRest.ServiceCallback<Models.AggregationsUnion>): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -58,8 +58,8 @@ export class CasesAggregations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, aggregationsName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Aggregations>): void;
-  get(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, aggregationsName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Aggregations>, callback?: msRest.ServiceCallback<Models.Aggregations>): Promise<Models.CasesAggregationsGetResponse> {
+  get(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, aggregationsName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AggregationsUnion>): void;
+  get(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, aggregationsName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AggregationsUnion>, callback?: msRest.ServiceCallback<Models.AggregationsUnion>): Promise<Models.CasesAggregationsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

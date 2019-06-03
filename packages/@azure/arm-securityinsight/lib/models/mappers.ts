@@ -1282,6 +1282,116 @@ export const AggregationsKind1: msRest.CompositeMapper = {
   }
 };
 
+export const CasesAggregationBySeverityProperties: msRest.CompositeMapper = {
+  serializedName: "CasesAggregationBySeverityProperties",
+  type: {
+    name: "Composite",
+    className: "CasesAggregationBySeverityProperties",
+    modelProperties: {
+      totalCriticalSeverity: {
+        readOnly: true,
+        serializedName: "totalCriticalSeverity",
+        type: {
+          name: "Number"
+        }
+      },
+      totalHighSeverity: {
+        readOnly: true,
+        serializedName: "totalHighSeverity",
+        type: {
+          name: "Number"
+        }
+      },
+      totalMediumSeverity: {
+        readOnly: true,
+        serializedName: "totalMediumSeverity",
+        type: {
+          name: "Number"
+        }
+      },
+      totalLowSeverity: {
+        readOnly: true,
+        serializedName: "totalLowSeverity",
+        type: {
+          name: "Number"
+        }
+      },
+      totalInformationalSeverity: {
+        readOnly: true,
+        serializedName: "totalInformationalSeverity",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const CasesAggregationByStatusProperties: msRest.CompositeMapper = {
+  serializedName: "CasesAggregationByStatusProperties",
+  type: {
+    name: "Composite",
+    className: "CasesAggregationByStatusProperties",
+    modelProperties: {
+      totalNewStatus: {
+        readOnly: true,
+        serializedName: "totalNewStatus",
+        type: {
+          name: "Number"
+        }
+      },
+      totalInProgressStatus: {
+        readOnly: true,
+        serializedName: "totalInProgressStatus",
+        type: {
+          name: "Number"
+        }
+      },
+      totalResolvedStatus: {
+        readOnly: true,
+        serializedName: "totalResolvedStatus",
+        type: {
+          name: "Number"
+        }
+      },
+      totalDismissedStatus: {
+        readOnly: true,
+        serializedName: "totalDismissedStatus",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const CasesAggregation: msRest.CompositeMapper = {
+  serializedName: "CasesAggregation",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: Aggregations.type.polymorphicDiscriminator,
+    uberParent: "Aggregations",
+    className: "CasesAggregation",
+    modelProperties: {
+      ...Aggregations.type.modelProperties,
+      aggregationBySeverity: {
+        serializedName: "properties.aggregationBySeverity",
+        type: {
+          name: "Composite",
+          className: "CasesAggregationBySeverityProperties"
+        }
+      },
+      aggregationByStatus: {
+        serializedName: "properties.aggregationByStatus",
+        type: {
+          name: "Composite",
+          className: "CasesAggregationByStatusProperties"
+        }
+      }
+    }
+  }
+};
+
 export const EntityQuery: msRest.CompositeMapper = {
   serializedName: "EntityQuery",
   type: {
@@ -1629,5 +1739,6 @@ export const discriminators = {
   'Settings' : Settings,
   'Settings.UebaSettings' : UebaSettings,
   'Settings.ToggleSettings' : ToggleSettings,
-  'Aggregations' : Aggregations
+  'Aggregations' : Aggregations,
+  'Aggregations.CasesAggregation' : CasesAggregation
 };

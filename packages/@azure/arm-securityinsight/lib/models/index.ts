@@ -325,7 +325,7 @@ export interface CaseModel extends Resource {
   severity: CaseSeverity;
   /**
    * @member {CaseStatus} status The status of the case. Possible values
-   * include: 'Draft', 'Open', 'InProgress', 'Closed'
+   * include: 'Draft', 'New', 'InProgress', 'Closed'
    */
   status: CaseStatus;
   /**
@@ -1238,6 +1238,11 @@ export interface ToggleSettings {
 }
 
 /**
+ * Contains the possible cases for Aggregations.
+ */
+export type AggregationsUnion = Aggregations | CasesAggregation;
+
+/**
  * @interface
  * An interface representing Aggregations.
  * The aggregation.
@@ -1280,6 +1285,128 @@ export interface AggregationsKind1 {
    * include: 'CasesAggregation'
    */
   kind?: AggregationsKind;
+}
+
+/**
+ * @interface
+ * An interface representing CasesAggregationBySeverityProperties.
+ * Aggregative results of cases by severity property bag.
+ *
+ */
+export interface CasesAggregationBySeverityProperties {
+  /**
+   * @member {number} [totalCriticalSeverity] Total amount of open cases with
+   * severity Critical
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly totalCriticalSeverity?: number;
+  /**
+   * @member {number} [totalHighSeverity] Total amount of open cases with
+   * severity High
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly totalHighSeverity?: number;
+  /**
+   * @member {number} [totalMediumSeverity] Total amount of open cases with
+   * severity medium
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly totalMediumSeverity?: number;
+  /**
+   * @member {number} [totalLowSeverity] Total amount of open cases with
+   * severity Low
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly totalLowSeverity?: number;
+  /**
+   * @member {number} [totalInformationalSeverity] Total amount of open cases
+   * with severity Informational
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly totalInformationalSeverity?: number;
+}
+
+/**
+ * @interface
+ * An interface representing CasesAggregationByStatusProperties.
+ * Aggregative results of cases by status property bag.
+ *
+ */
+export interface CasesAggregationByStatusProperties {
+  /**
+   * @member {number} [totalNewStatus] Total amount of open cases with status
+   * New
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly totalNewStatus?: number;
+  /**
+   * @member {number} [totalInProgressStatus] Total amount of open cases with
+   * status InProgress
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly totalInProgressStatus?: number;
+  /**
+   * @member {number} [totalResolvedStatus] Total amount of open cases with
+   * status Resolved
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly totalResolvedStatus?: number;
+  /**
+   * @member {number} [totalDismissedStatus] Total amount of open cases with
+   * status Dismissed
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly totalDismissedStatus?: number;
+}
+
+/**
+ * @interface
+ * An interface representing CasesAggregation.
+ * Represents aggregations results for cases.
+ *
+ */
+export interface CasesAggregation {
+  /**
+   * @member {string} kind Polymorphic Discriminator
+   */
+  kind: "CasesAggregation";
+  /**
+   * @member {string} [id] Azure resource Id
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly id?: string;
+  /**
+   * @member {string} [type] Azure resource type
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly type?: string;
+  /**
+   * @member {string} [name] Azure resource name
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly name?: string;
+  /**
+   * @member {CasesAggregationBySeverityProperties} [aggregationBySeverity]
+   * Aggregations results by case severity.
+   */
+  aggregationBySeverity?: CasesAggregationBySeverityProperties;
+  /**
+   * @member {CasesAggregationByStatusProperties} [aggregationByStatus]
+   * Aggregations results by case status.
+   */
+  aggregationByStatus?: CasesAggregationByStatusProperties;
 }
 
 /**
@@ -1509,11 +1636,11 @@ export type CaseSeverity = 'Critical' | 'High' | 'Medium' | 'Low' | 'Information
 
 /**
  * Defines values for CaseStatus.
- * Possible values include: 'Draft', 'Open', 'InProgress', 'Closed'
+ * Possible values include: 'Draft', 'New', 'InProgress', 'Closed'
  * @readonly
  * @enum {string}
  */
-export type CaseStatus = 'Draft' | 'Open' | 'InProgress' | 'Closed';
+export type CaseStatus = 'Draft' | 'New' | 'InProgress' | 'Closed';
 
 /**
  * Defines values for CloseReason.
@@ -2161,7 +2288,7 @@ export type ProductSettingsUpdateResponse = SettingsUnion & {
 /**
  * Contains response data for the get operation.
  */
-export type CasesAggregationsGetResponse = Aggregations & {
+export type CasesAggregationsGetResponse = AggregationsUnion & {
   /**
    * The underlying HTTP response.
    */
@@ -2173,7 +2300,7 @@ export type CasesAggregationsGetResponse = Aggregations & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: Aggregations;
+      parsedBody: AggregationsUnion;
     };
 };
 
