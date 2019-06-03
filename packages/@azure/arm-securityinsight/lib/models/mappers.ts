@@ -1138,6 +1138,12 @@ export const Settings: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      etag: {
+        serializedName: "etag",
+        type: {
+          name: "String"
+        }
+      },
       kind: {
         required: true,
         serializedName: "kind",
@@ -1191,7 +1197,7 @@ export const UebaSettings: msRest.CompositeMapper = {
         readOnly: true,
         serializedName: "properties.atpLicenseStatus",
         type: {
-          name: "Boolean"
+          name: "String"
         }
       }
     }

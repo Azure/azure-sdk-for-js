@@ -1121,6 +1121,10 @@ export interface Settings {
    * the server.**
    */
   readonly name?: string;
+  /**
+   * @member {string} [etag] Etag of the alert rule.
+   */
+  etag?: string;
 }
 
 /**
@@ -1167,6 +1171,10 @@ export interface UebaSettings {
    */
   readonly name?: string;
   /**
+   * @member {string} [etag] Etag of the alert rule.
+   */
+  etag?: string;
+  /**
    * @member {boolean} [isEnabled] Determines whether User and Entity Behavior
    * Analytics is enabled for this workspace.
    */
@@ -1180,12 +1188,13 @@ export interface UebaSettings {
    */
   readonly statusInMcas?: StatusInMcas;
   /**
-   * @member {boolean} [atpLicenseStatus] Determines whether the tenant has ATP
-   * (Advanced Threat Protection) license.
+   * @member {LicenseStatus} [atpLicenseStatus] Determines whether the tenant
+   * has ATP (Advanced Threat Protection) license. Possible values include:
+   * 'Enabled', 'Disabled'
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly atpLicenseStatus?: boolean;
+  readonly atpLicenseStatus?: LicenseStatus;
 }
 
 /**
@@ -1217,6 +1226,10 @@ export interface ToggleSettings {
    * the server.**
    */
   readonly name?: string;
+  /**
+   * @member {string} [etag] Etag of the alert rule.
+   */
+  etag?: string;
   /**
    * @member {boolean} [isEnabled] Determines whether the setting is enable or
    * disabled.
@@ -1558,6 +1571,14 @@ export type SettingKind = 'UebaSettings' | 'ToggleSettings';
  * @enum {string}
  */
 export type StatusInMcas = 'Enabled' | 'Disabled';
+
+/**
+ * Defines values for LicenseStatus.
+ * Possible values include: 'Enabled', 'Disabled'
+ * @readonly
+ * @enum {string}
+ */
+export type LicenseStatus = 'Enabled' | 'Disabled';
 
 /**
  * Defines values for AggregationsKind.
