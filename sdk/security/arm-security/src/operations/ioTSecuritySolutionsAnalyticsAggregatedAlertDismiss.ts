@@ -63,34 +63,6 @@ export class IoTSecuritySolutionsAnalyticsAggregatedAlertDismiss {
       putOperationSpec,
       callback);
   }
-
-  /**
-   * Security Analytics of a security solution
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
-   */
-  putNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
-  /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param callback The callback
-   */
-  putNext(nextPageLink: string, callback: msRest.ServiceCallback<void>): void;
-  /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  putNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  putNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
-    return this.client.sendOperationRequest(
-      {
-        nextPageLink,
-        options
-      },
-      putNextOperationSpec,
-      callback);
-  }
 }
 
 // Operation Specifications
@@ -106,25 +78,6 @@ const putOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.apiVersion5
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {},
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  serializer
-};
-
-const putNextOperationSpec: msRest.OperationSpec = {
-  httpMethod: "PUT",
-  baseUrl: "https://management.azure.com",
-  path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
   ],
   headerParameters: [
     Parameters.acceptLanguage

@@ -1267,6 +1267,34 @@ export interface IoTSecurityDeviceAlerts {
 }
 
 /**
+ * Security Analytics of a security solution
+ */
+export interface IoTSecuritySolutionAnalyticsModel {
+  /**
+   * Security Analytics of a security solution
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly metrics?: IoTSeverityMetrics;
+  /**
+   * number of unhealthy devices
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly unhealthyDevices?: number;
+  /**
+   * The list of devices metrics by the aggregated date.
+   */
+  devicesMetrics?: IoTSecuritySolutionAnalyticsModelDevicesMetricsItem[];
+  /**
+   * The list of devices with the most attacked.
+   */
+  topAlertedDevices?: IoTSecurityDeviceAlerts[];
+  /**
+   * The list of most prevalent devices.
+   */
+  mostPrevalentDevices?: IoTSecurityDeviceAlerts[];
+}
+
+/**
  * Security Solution
  */
 export interface IoTSecurityAggregatedAlert extends Resource {
@@ -1943,36 +1971,6 @@ export interface IoTSecuritySolutionsList extends Array<IoTSecuritySolutionModel
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly nextLink?: string;
-}
-
-/**
- * @interface
- * Security Analytics of a security solution
- * @extends Array<IoTSecuritySolutionAnalyticsModelDevicesMetricsItem>
- */
-export interface IoTSecuritySolutionAnalyticsModel extends Array<IoTSecuritySolutionAnalyticsModelDevicesMetricsItem> {
-  /**
-   * Security Analytics of a security solution
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly metrics?: IoTSeverityMetrics;
-  /**
-   * number of unhealthy devices
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly unhealthyDevices?: number;
-  /**
-   * The list of devices metrics by the aggregated date.
-   */
-  devicesMetrics?: IoTSecuritySolutionAnalyticsModelDevicesMetricsItem[];
-  /**
-   * The list of devices with the most attacked.
-   */
-  topAlertedDevices?: IoTSecurityDeviceAlerts[];
-  /**
-   * The list of most prevalent devices.
-   */
-  mostPrevalentDevices?: IoTSecurityDeviceAlerts[];
 }
 
 /**
@@ -4106,26 +4104,6 @@ export type IotSecuritySolutionUpdateResponse = IoTSecuritySolutionModel & {
  * Contains response data for the get operation.
  */
 export type IoTSecuritySolutionsAnalyticsGetResponse = IoTSecuritySolutionAnalyticsModel & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IoTSecuritySolutionAnalyticsModel;
-    };
-};
-
-/**
- * Contains response data for the getNext operation.
- */
-export type IoTSecuritySolutionsAnalyticsGetNextResponse = IoTSecuritySolutionAnalyticsModel & {
   /**
    * The underlying HTTP response.
    */

@@ -2108,6 +2108,67 @@ export const IoTSecurityDeviceAlerts: msRest.CompositeMapper = {
   }
 };
 
+export const IoTSecuritySolutionAnalyticsModel: msRest.CompositeMapper = {
+  serializedName: "IoTSecuritySolutionAnalyticsModel",
+  type: {
+    name: "Composite",
+    className: "IoTSecuritySolutionAnalyticsModel",
+    modelProperties: {
+      metrics: {
+        readOnly: true,
+        serializedName: "metrics",
+        type: {
+          name: "Composite",
+          className: "IoTSeverityMetrics"
+        }
+      },
+      unhealthyDevices: {
+        readOnly: true,
+        serializedName: "unhealthyDevices",
+        type: {
+          name: "Number"
+        }
+      },
+      devicesMetrics: {
+        serializedName: "devicesMetrics",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "IoTSecuritySolutionAnalyticsModelDevicesMetricsItem"
+            }
+          }
+        }
+      },
+      topAlertedDevices: {
+        serializedName: "topAlertedDevices",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "IoTSecurityDeviceAlerts"
+            }
+          }
+        }
+      },
+      mostPrevalentDevices: {
+        serializedName: "mostPrevalentDevices",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "IoTSecurityDeviceAlerts"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const IoTSecurityAggregatedAlert: msRest.CompositeMapper = {
   serializedName: "IoTSecurityAggregatedAlert",
   type: {
@@ -3017,67 +3078,6 @@ export const IoTSecuritySolutionsList: msRest.CompositeMapper = {
         serializedName: "nextLink",
         type: {
           name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const IoTSecuritySolutionAnalyticsModel: msRest.CompositeMapper = {
-  serializedName: "IoTSecuritySolutionAnalyticsModel",
-  type: {
-    name: "Composite",
-    className: "IoTSecuritySolutionAnalyticsModel",
-    modelProperties: {
-      metrics: {
-        readOnly: true,
-        serializedName: "metrics",
-        type: {
-          name: "Composite",
-          className: "IoTSeverityMetrics"
-        }
-      },
-      unhealthyDevices: {
-        readOnly: true,
-        serializedName: "unhealthyDevices",
-        type: {
-          name: "Number"
-        }
-      },
-      devicesMetrics: {
-        serializedName: "devicesMetrics",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "IoTSecuritySolutionAnalyticsModelDevicesMetricsItem"
-            }
-          }
-        }
-      },
-      topAlertedDevices: {
-        serializedName: "topAlertedDevices",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "IoTSecurityDeviceAlerts"
-            }
-          }
-        }
-      },
-      mostPrevalentDevices: {
-        serializedName: "mostPrevalentDevices",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "IoTSecurityDeviceAlerts"
-            }
-          }
         }
       }
     }

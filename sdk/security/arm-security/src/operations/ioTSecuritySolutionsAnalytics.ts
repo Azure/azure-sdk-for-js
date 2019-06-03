@@ -60,34 +60,6 @@ export class IoTSecuritySolutionsAnalytics {
       getOperationSpec,
       callback) as Promise<Models.IoTSecuritySolutionsAnalyticsGetResponse>;
   }
-
-  /**
-   * Security Analytics of a security solution
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.IoTSecuritySolutionsAnalyticsGetNextResponse>
-   */
-  getNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.IoTSecuritySolutionsAnalyticsGetNextResponse>;
-  /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param callback The callback
-   */
-  getNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.IoTSecuritySolutionAnalyticsModel>): void;
-  /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  getNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IoTSecuritySolutionAnalyticsModel>): void;
-  getNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IoTSecuritySolutionAnalyticsModel>, callback?: msRest.ServiceCallback<Models.IoTSecuritySolutionAnalyticsModel>): Promise<Models.IoTSecuritySolutionsAnalyticsGetNextResponse> {
-    return this.client.sendOperationRequest(
-      {
-        nextPageLink,
-        options
-      },
-      getNextOperationSpec,
-      callback) as Promise<Models.IoTSecuritySolutionsAnalyticsGetNextResponse>;
-  }
 }
 
 // Operation Specifications
@@ -102,27 +74,6 @@ const getOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.apiVersion5
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.IoTSecuritySolutionAnalyticsModel
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  serializer
-};
-
-const getNextOperationSpec: msRest.OperationSpec = {
-  httpMethod: "GET",
-  baseUrl: "https://management.azure.com",
-  path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
   ],
   headerParameters: [
     Parameters.acceptLanguage
