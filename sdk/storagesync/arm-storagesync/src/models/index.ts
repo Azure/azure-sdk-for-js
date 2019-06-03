@@ -204,6 +204,26 @@ export interface CloudEndpoint extends ProxyResource {
 }
 
 /**
+ * The parameters used when calling trigger change detection action on cloud endpoint.
+ */
+export interface TriggerChangeDetectionParameters {
+  /**
+   * Relative path to a directory Azure File share for which change detection is to be performed.
+   */
+  directoryPath?: string;
+  /**
+   * Change Detection Mode. Applies to a directory specified in directoryPath parameter. Possible
+   * values include: 'Default', 'Recursive'
+   */
+  changeDetectionMode?: ChangeDetectionMode;
+  /**
+   * Array of relative paths on the Azure File share to be included in the change detection. Can be
+   * files and directories.
+   */
+  paths?: string[];
+}
+
+/**
  * The parameters used when calling recall action on server endpoint.
  */
 export interface RecallActionParameters {
@@ -264,6 +284,10 @@ export interface CloudEndpointCreateParameters extends ProxyResource {
    * Storage Account Tenant Id
    */
   storageAccountTenantId?: string;
+  /**
+   * Friendly Name
+   */
+  friendlyName?: string;
 }
 
 /**
@@ -963,6 +987,37 @@ export interface StorageSyncServiceUpdateParameters {
 }
 
 /**
+ * Operation status object
+ */
+export interface OperationStatus {
+  /**
+   * Operation Id
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * Operation status
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly status?: string;
+  /**
+   * Start time of the operation
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly startTime?: Date;
+  /**
+   * End time of the operation
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly endTime?: Date;
+  /**
+   * Error details.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly error?: StorageSyncApiError;
+}
+
+/**
  * The resource model definition for a Azure Resource Manager resource with an etag.
  */
 export interface AzureEntityResource extends Resource {
@@ -1317,6 +1372,24 @@ export interface CloudEndpointsPostRestoreHeaders {
 }
 
 /**
+ * Defines headers for TriggerChangeDetection operation.
+ */
+export interface CloudEndpointsTriggerChangeDetectionHeaders {
+  /**
+   * Operation Status Location URI
+   */
+  location: string;
+  /**
+   * request id.
+   */
+  xMsRequestId: string;
+  /**
+   * correlation request id.
+   */
+  xMsCorrelationRequestId: string;
+}
+
+/**
  * Defines headers for Create operation.
  */
 export interface ServerEndpointsCreateHeaders {
@@ -1557,6 +1630,20 @@ export interface WorkflowsAbortHeaders {
 }
 
 /**
+ * Defines headers for Get operation.
+ */
+export interface OperationStatusGetHeaders {
+  /**
+   * request id.
+   */
+  xMsRequestId: string;
+  /**
+   * correlation request id.
+   */
+  xMsCorrelationRequestId: string;
+}
+
+/**
  * @interface
  * The list of storage sync operations.
  * @extends Array<OperationEntity>
@@ -1623,6 +1710,14 @@ export interface WorkflowArray extends Array<Workflow> {
  * @enum {string}
  */
 export type Reason = 'Registered' | 'Unregistered' | 'Warned' | 'Suspended' | 'Deleted';
+
+/**
+ * Defines values for ChangeDetectionMode.
+ * Possible values include: 'Default', 'Recursive'
+ * @readonly
+ * @enum {string}
+ */
+export type ChangeDetectionMode = 'Default' | 'Recursive';
 
 /**
  * Defines values for NameAvailabilityReason.
@@ -2185,6 +2280,21 @@ export type CloudEndpointsPostRestoreResponse = CloudEndpointsPostRestoreHeaders
 };
 
 /**
+ * Contains response data for the triggerChangeDetection operation.
+ */
+export type CloudEndpointsTriggerChangeDetectionResponse = CloudEndpointsTriggerChangeDetectionHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: CloudEndpointsTriggerChangeDetectionHeaders;
+    };
+};
+
+/**
  * Contains response data for the create operation.
  */
 export type ServerEndpointsCreateResponse = ServerEndpoint & ServerEndpointsCreateHeaders & {
@@ -2481,5 +2591,30 @@ export type WorkflowsAbortResponse = WorkflowsAbortHeaders & {
        * The parsed HTTP response headers.
        */
       parsedHeaders: WorkflowsAbortHeaders;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type OperationStatusGetResponse = OperationStatus & OperationStatusGetHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: OperationStatusGetHeaders;
+
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OperationStatus;
     };
 };

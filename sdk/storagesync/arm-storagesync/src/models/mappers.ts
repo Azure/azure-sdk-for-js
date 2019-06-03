@@ -314,6 +314,39 @@ export const CloudEndpoint: msRest.CompositeMapper = {
   }
 };
 
+export const TriggerChangeDetectionParameters: msRest.CompositeMapper = {
+  serializedName: "TriggerChangeDetectionParameters",
+  type: {
+    name: "Composite",
+    className: "TriggerChangeDetectionParameters",
+    modelProperties: {
+      directoryPath: {
+        serializedName: "directoryPath",
+        type: {
+          name: "String"
+        }
+      },
+      changeDetectionMode: {
+        serializedName: "changeDetectionMode",
+        type: {
+          name: "String"
+        }
+      },
+      paths: {
+        serializedName: "paths",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const RecallActionParameters: msRest.CompositeMapper = {
   serializedName: "RecallActionParameters",
   type: {
@@ -408,6 +441,12 @@ export const CloudEndpointCreateParameters: msRest.CompositeMapper = {
       },
       storageAccountTenantId: {
         serializedName: "properties.storageAccountTenantId",
+        type: {
+          name: "String"
+        }
+      },
+      friendlyName: {
+        serializedName: "properties.friendlyName",
         type: {
           name: "String"
         }
@@ -1529,6 +1568,52 @@ export const StorageSyncServiceUpdateParameters: msRest.CompositeMapper = {
   }
 };
 
+export const OperationStatus: msRest.CompositeMapper = {
+  serializedName: "OperationStatus",
+  type: {
+    name: "Composite",
+    className: "OperationStatus",
+    modelProperties: {
+      name: {
+        readOnly: true,
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        readOnly: true,
+        serializedName: "status",
+        type: {
+          name: "String"
+        }
+      },
+      startTime: {
+        readOnly: true,
+        serializedName: "startTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      endTime: {
+        readOnly: true,
+        serializedName: "endTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      error: {
+        readOnly: true,
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "StorageSyncApiError"
+        }
+      }
+    }
+  }
+};
+
 export const AzureEntityResource: msRest.CompositeMapper = {
   serializedName: "AzureEntityResource",
   type: {
@@ -2025,6 +2110,34 @@ export const CloudEndpointsPostRestoreHeaders: msRest.CompositeMapper = {
   }
 };
 
+export const CloudEndpointsTriggerChangeDetectionHeaders: msRest.CompositeMapper = {
+  serializedName: "cloudendpoints-triggerchangedetection-headers",
+  type: {
+    name: "Composite",
+    className: "CloudEndpointsTriggerChangeDetectionHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      xMsRequestId: {
+        serializedName: "x-ms-request-id",
+        type: {
+          name: "String"
+        }
+      },
+      xMsCorrelationRequestId: {
+        serializedName: "x-ms-correlation-request-id",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const ServerEndpointsCreateHeaders: msRest.CompositeMapper = {
   serializedName: "serverendpoints-create-headers",
   type: {
@@ -2382,6 +2495,28 @@ export const WorkflowsAbortHeaders: msRest.CompositeMapper = {
   type: {
     name: "Composite",
     className: "WorkflowsAbortHeaders",
+    modelProperties: {
+      xMsRequestId: {
+        serializedName: "x-ms-request-id",
+        type: {
+          name: "String"
+        }
+      },
+      xMsCorrelationRequestId: {
+        serializedName: "x-ms-correlation-request-id",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const OperationStatusGetHeaders: msRest.CompositeMapper = {
+  serializedName: "operationstatus-get-headers",
+  type: {
+    name: "Composite",
+    className: "OperationStatusGetHeaders",
     modelProperties: {
       xMsRequestId: {
         serializedName: "x-ms-request-id",
