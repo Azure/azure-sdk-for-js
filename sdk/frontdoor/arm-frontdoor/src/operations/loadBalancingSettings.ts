@@ -211,11 +211,11 @@ const listByFrontDoorOperationSpec: msRest.OperationSpec = {
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}/loadBalancingSettings",
   urlParameters: [
     Parameters.subscriptionId,
-    Parameters.resourceGroupName0,
+    Parameters.resourceGroupName,
     Parameters.frontDoorName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -236,12 +236,12 @@ const getOperationSpec: msRest.OperationSpec = {
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}/loadBalancingSettings/{loadBalancingSettingsName}",
   urlParameters: [
     Parameters.subscriptionId,
-    Parameters.resourceGroupName0,
+    Parameters.resourceGroupName,
     Parameters.frontDoorName,
     Parameters.loadBalancingSettingsName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -262,12 +262,12 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}/loadBalancingSettings/{loadBalancingSettingsName}",
   urlParameters: [
     Parameters.subscriptionId,
-    Parameters.resourceGroupName0,
+    Parameters.resourceGroupName,
     Parameters.frontDoorName,
     Parameters.loadBalancingSettingsName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -301,12 +301,12 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}/loadBalancingSettings/{loadBalancingSettingsName}",
   urlParameters: [
     Parameters.subscriptionId,
-    Parameters.resourceGroupName0,
+    Parameters.resourceGroupName,
     Parameters.frontDoorName,
     Parameters.loadBalancingSettingsName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage

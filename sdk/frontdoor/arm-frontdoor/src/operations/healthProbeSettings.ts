@@ -209,11 +209,11 @@ const listByFrontDoorOperationSpec: msRest.OperationSpec = {
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}/healthProbeSettings",
   urlParameters: [
     Parameters.subscriptionId,
-    Parameters.resourceGroupName0,
+    Parameters.resourceGroupName,
     Parameters.frontDoorName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -234,12 +234,12 @@ const getOperationSpec: msRest.OperationSpec = {
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}/healthProbeSettings/{healthProbeSettingsName}",
   urlParameters: [
     Parameters.subscriptionId,
-    Parameters.resourceGroupName0,
+    Parameters.resourceGroupName,
     Parameters.frontDoorName,
     Parameters.healthProbeSettingsName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -260,12 +260,12 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}/healthProbeSettings/{healthProbeSettingsName}",
   urlParameters: [
     Parameters.subscriptionId,
-    Parameters.resourceGroupName0,
+    Parameters.resourceGroupName,
     Parameters.frontDoorName,
     Parameters.healthProbeSettingsName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -299,12 +299,12 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}/healthProbeSettings/{healthProbeSettingsName}",
   urlParameters: [
     Parameters.subscriptionId,
-    Parameters.resourceGroupName0,
+    Parameters.resourceGroupName,
     Parameters.frontDoorName,
     Parameters.healthProbeSettingsName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
