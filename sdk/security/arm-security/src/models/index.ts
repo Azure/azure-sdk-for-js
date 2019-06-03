@@ -1325,7 +1325,7 @@ export interface IoTSecurityAggregatedAlert extends Resource {
    */
   readonly reportedSeverity?: ReportedSeverity;
   /**
-   * Recommended steps to reradiate the incident
+   * Recommended steps for remediation
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly remediationSteps?: string;
