@@ -83,7 +83,7 @@ export class EndpointSettings {
 const serializer = new msRest.Serializer(Mappers);
 const getSettingsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "endpointsettings",
+  path: "endpointSettings",
   urlParameters: [
     Parameters.endpoint
   ],
@@ -100,7 +100,7 @@ const getSettingsOperationSpec: msRest.OperationSpec = {
 
 const updateSettingsOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "endpointsettings",
+  path: "endpointSettings",
   urlParameters: [
     Parameters.endpoint
   ],
