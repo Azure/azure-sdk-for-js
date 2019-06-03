@@ -8,9 +8,5 @@
 
 export {
   discriminators,
-  AllowedConnectionsList,
-  AllowedConnectionsResource,
-  CloudError,
-  ConnectableResource,
-  ConnectedResource
+  CloudError
 } from "../models/mappers";

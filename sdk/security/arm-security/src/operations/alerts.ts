@@ -51,7 +51,7 @@ export class Alerts {
   }
 
   /**
-   * List all the alerts alerts that are associated with the resource group
+   * List all the alerts that are associated with the resource group
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
    * @param [options] The optional parameters
@@ -307,7 +307,7 @@ export class Alerts {
   }
 
   /**
-   * List all the alerts alerts that are associated with the resource group
+   * List all the alerts that are associated with the resource group
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.AlertsListByResourceGroupNextResponse>
@@ -402,7 +402,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion1,
+    Parameters.apiVersion2,
     Parameters.filter,
     Parameters.select,
     Parameters.expand
@@ -429,7 +429,7 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
     Parameters.resourceGroupName
   ],
   queryParameters: [
-    Parameters.apiVersion1,
+    Parameters.apiVersion2,
     Parameters.filter,
     Parameters.select,
     Parameters.expand
@@ -456,7 +456,7 @@ const listSubscriptionLevelAlertsByRegionOperationSpec: msRest.OperationSpec = {
     Parameters.ascLocation
   ],
   queryParameters: [
-    Parameters.apiVersion1,
+    Parameters.apiVersion2,
     Parameters.filter,
     Parameters.select,
     Parameters.expand
@@ -484,7 +484,7 @@ const listResourceGroupLevelAlertsByRegionOperationSpec: msRest.OperationSpec = 
     Parameters.resourceGroupName
   ],
   queryParameters: [
-    Parameters.apiVersion1,
+    Parameters.apiVersion2,
     Parameters.filter,
     Parameters.select,
     Parameters.expand
@@ -512,7 +512,7 @@ const getSubscriptionLevelAlertOperationSpec: msRest.OperationSpec = {
     Parameters.alertName
   ],
   queryParameters: [
-    Parameters.apiVersion1
+    Parameters.apiVersion2
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -538,7 +538,7 @@ const getResourceGroupLevelAlertsOperationSpec: msRest.OperationSpec = {
     Parameters.resourceGroupName
   ],
   queryParameters: [
-    Parameters.apiVersion1
+    Parameters.apiVersion2
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -564,7 +564,7 @@ const updateSubscriptionLevelAlertStateOperationSpec: msRest.OperationSpec = {
     Parameters.alertUpdateActionType
   ],
   queryParameters: [
-    Parameters.apiVersion1
+    Parameters.apiVersion2
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -589,7 +589,7 @@ const updateResourceGroupLevelAlertStateOperationSpec: msRest.OperationSpec = {
     Parameters.resourceGroupName
   ],
   queryParameters: [
-    Parameters.apiVersion1
+    Parameters.apiVersion2
   ],
   headerParameters: [
     Parameters.acceptLanguage

@@ -8,9 +8,9 @@
 
 export {
   discriminators,
-  AllowedConnectionsList,
-  AllowedConnectionsResource,
   CloudError,
-  ConnectableResource,
-  ConnectedResource
+  IoTSecurityDeviceAlerts,
+  IoTSecuritySolutionAnalyticsModel,
+  IoTSecuritySolutionAnalyticsModelDevicesMetricsItem,
+  IoTSeverityMetrics
 } from "../models/mappers";
