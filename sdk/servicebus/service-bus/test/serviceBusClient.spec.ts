@@ -100,7 +100,7 @@ describe("Errors with non existing Namespace #RunInBrowser", function(): void {
     return sbClient.close();
   });
 
-  const testError = (err: Error) => {
+  const testError = (err: Error): void => {
     should.equal(err.name, "ServiceCommunicationError", "ErrorName is different than expected");
     errorWasThrown = true;
   };
@@ -176,7 +176,7 @@ describe("Errors with non existing Namespace #RunInBrowser", function(): void {
     void
   > {
     const client = sbClient.createQueueClient("some-name");
-    const onMessage = async () => {
+    const onMessage = async (): Promise<never> => {
       throw "onMessage should not have been called when receive call is made from a non existing namespace";
     };
 
@@ -200,7 +200,7 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
     return sbClient.close();
   });
 
-  const testError = (err: Error, entityPath: string) => {
+  const testError = (err: Error, entityPath: string): void => {
     should.equal(err.name, "MessagingEntityNotFoundError", "ErrorName is different than expected");
     should.equal(
       err.message.startsWith(
@@ -284,7 +284,7 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
   > {
     const client = sbClient.createQueueClient("some-name");
     const receiver = await client.createReceiver(ReceiveMode.peekLock);
-    const onMessage = async () => {
+    const onMessage = async (): Promise<never> => {
       throw "onMessage should not have been called when receive call is made from a non existing namespace";
     };
     receiver.registerMessageHandler(onMessage, (err) => testError(err, "some-name"));
@@ -299,7 +299,7 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
   > {
     const client = sbClient.createSubscriptionClient("some-topic-name", "some-subscription-name");
     const receiver = await client.createReceiver(ReceiveMode.peekLock);
-    const onMessage = async () => {
+    const onMessage = async (): Promise<never> => {
       throw "onMessage should not have been called when receive call is made from a non existing namespace";
     };
     receiver.registerMessageHandler(onMessage, (err) =>
