@@ -2,10 +2,12 @@
 
 ## Install the library
 
-Run the below in your samples folder to install the npm package for Azure Service Bus library.
-```bash
-npm install @azure/service-bus
-```
+There are 2 ways you can work with the samples.
+- Copy the sample file you want to a folder of your choice and run `npm install @azure/service-bus`
+to install the library
+- Or, in case you have cloned this repo, then run `npm install` in the `samples` folder to install the
+library. This will install the library as well as other dependencies that are required by some of the
+samples.
 
 ## Get connection string for Service Bus & names for Queues/Topics/Subscriptions
 - In the [Azure Portal](https://portal.azure.com), go to **Dashboard > Service Bus > _your-servicebus-namespace_**.
