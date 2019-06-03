@@ -105,12 +105,12 @@ export class Receiver {
   receive(onMessage: OnMessage, onError: OnError, cancellationToken?: Aborter): ReceiveHandler {
     this._throwIfReceiverOrConnectionClosed();
     this._throwIfAlreadyReceiving();
-    let lastBatchingSequenceNumber: number | undefined;
+    let lastBatchingReceiverSequenceNum: number | undefined;
     if (this._batchingReceiver) {
-      lastBatchingSequenceNumber = this._batchingReceiver.getSequenceNumber();
+      lastBatchingReceiverSequenceNum = this._batchingReceiver.getSequenceNumber();
     }
-    if (lastBatchingSequenceNumber && lastBatchingSequenceNumber > -1 && this._receiverOptions) {
-      this._receiverOptions.eventPosition = EventPosition.fromSequenceNumber(lastBatchingSequenceNumber);
+    if (lastBatchingReceiverSequenceNum && lastBatchingReceiverSequenceNum > -1 && this._receiverOptions) {
+      this._receiverOptions.eventPosition = EventPosition.fromSequenceNumber(lastBatchingReceiverSequenceNum);
     }
     this._streamingReceiver = StreamingReceiver.create(this._context, this.partitionId, this._receiverOptions);
     this._streamingReceiver.prefetchCount = Constants.defaultPrefetchCount;
