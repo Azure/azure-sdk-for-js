@@ -119,14 +119,16 @@ export abstract class LROPollStrategy {
       this._pollState.state = getProvisioningState(result.parsedBody) || "Succeeded";
       this._pollState.mostRecentResponse = result;
       this._pollState.mostRecentRequest = result.request;
-      try {
-        this._pollState.resource = getResponseBody(result);
-      } catch (error) {
-        this._pollState.resource = undefined;
-        const resultStatus: number = result.status;
-        if (this._pollState.initialResponse.request.method !== "DELETE" || resultStatus < 400 || 499 < resultStatus) {
+      this._pollState.resource = getResponseBody(result);
+    }).catch((error) => {
+      let resultStatus: number | undefined;
+      if (error.response && error.response.status) {
+        resultStatus = error.response.status;
+        if (this._pollState.initialResponse.request.method !== "DELETE" || resultStatus! < 400 || 499 < resultStatus!) {
           throw error;
         }
+      } else {
+        throw error;
       }
     });
   }
