@@ -42,63 +42,77 @@ export interface PoolUsageMetrics {
 
 /**
  * An interface representing ImageReference.
- * @summary A reference to an Azure Virtual Machines Marketplace image or a custom Azure Virtual
- * Machine image. To get the list of all Azure Marketplace image references verified by Azure
- * Batch, see the 'List node agent SKUs' operation.
+ * @summary A reference to an Azure Virtual Machines Marketplace Image or a custom Azure Virtual
+ * Machine Image. To get the list of all Azure Marketplace Image references verified by Azure
+ * Batch, see the 'List supported Images' operation.
  */
 export interface ImageReference {
   /**
-   * The publisher of the Azure Virtual Machines Marketplace image. For example, Canonical or
+   * The publisher of the Azure Virtual Machines Marketplace Image. For example, Canonical or
    * MicrosoftWindowsServer.
    */
   publisher?: string;
   /**
-   * The offer type of the Azure Virtual Machines Marketplace image. For example, UbuntuServer or
+   * The offer type of the Azure Virtual Machines Marketplace Image. For example, UbuntuServer or
    * WindowsServer.
    */
   offer?: string;
   /**
-   * The SKU of the Azure Virtual Machines Marketplace image. For example, 14.04.0-LTS or
+   * The SKU of the Azure Virtual Machines Marketplace Image. For example, 14.04.0-LTS or
    * 2012-R2-Datacenter.
    */
   sku?: string;
   /**
-   * The version of the Azure Virtual Machines Marketplace image. A value of 'latest' can be
-   * specified to select the latest version of an image. If omitted, the default is 'latest'.
+   * The version of the Azure Virtual Machines Marketplace Image. A value of 'latest' can be
+   * specified to select the latest version of an Image. If omitted, the default is 'latest'.
    */
   version?: string;
   /**
-   * The ARM resource identifier of the virtual machine image. Computes nodes of the pool will be
+   * The ARM resource identifier of the Virtual Machine Image. Computes nodes of the pool will be
    * created using this custom image. This is of the form
    * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/images/{imageName}.
-   * This property is mutually exclusive with other ImageReference properties. The virtual machine
-   * image must be in the same region and subscription as the Azure Batch account. For more
-   * details, see https://docs.microsoft.com/azure/batch/batch-custom-images.
+   * This property is mutually exclusive with other ImageReference properties. The Virtual Machine
+   * Image must be in the same region and subscription as the Azure Batch account. For information
+   * about the firewall settings for the Batch node agent to communicate with the Batch service see
+   * https://docs.microsoft.com/en-us/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration.
    */
   virtualMachineImageId?: string;
 }
 
 /**
- * The Batch node agent is a program that runs on each node in the pool, and provides the
- * command-and-control interface between the node and the Batch service. There are different
- * implementations of the node agent, known as SKUs, for different operating systems.
- * @summary A node agent SKU supported by the Batch service.
+ * An interface representing ImageInformation.
+ * @summary A reference to the Azure Virtual Machines Marketplace Image and additional information
+ * about the Image.
  */
-export interface NodeAgentSku {
+export interface ImageInformation {
   /**
-   * The ID of the node agent SKU.
+   * The ID of the node agent SKU which the Image supports.
    */
-  id?: string;
+  nodeAgentSKUId: string;
   /**
-   * The list of Azure Marketplace images verified to be compatible with this node agent SKU. This
-   * collection is not exhaustive (the node agent may be compatible with other images).
+   * The reference to the Azure Virtual Machine's Marketplace Image.
    */
-  verifiedImageReferences?: ImageReference[];
+  imageReference: ImageReference;
   /**
-   * The type of operating system (e.g. Windows or Linux) compatible with the node agent SKU.
-   * Possible values include: 'linux', 'windows'
+   * The type of operating system (e.g. Windows or Linux) of the Image. Possible values include:
+   * 'linux', 'windows'
    */
-  osType?: OSType;
+  osType: OSType;
+  /**
+   * The capabilities or features which the Image supports. Not every capability of the Image is
+   * listed. Capabilities in this list are considered of special interest and are generally related
+   * to integration with other features in the Azure Batch service.
+   */
+  capabilities?: string[];
+  /**
+   * The time when the Azure Batch service will stop accepting create pool requests for the Image.
+   */
+  batchSupportEndOfLife?: Date;
+  /**
+   * Whether the Azure Batch service actively verifies that the Image is compatible with the
+   * associated node agent SKU. Possible values include: 'verified', 'unverified'
+   */
+  verificationType: VerificationType;
 }
 
 /**
@@ -583,13 +597,23 @@ export interface JobConstraints {
 export interface JobNetworkConfiguration {
   /**
    * The ARM resource identifier of the virtual network subnet which nodes running tasks from the
-   * job will join for the duration of the task. This is only supported for jobs running on
-   * VirtualMachineConfiguration pools. This is of the form
+   * job will join for the duration of the task. This will only work with a
+   * VirtualMachineConfiguration pool. The virtual network must be in the same region and
+   * subscription as the Azure Batch account. The specified subnet should have enough free IP
+   * addresses to accommodate the number of nodes which will run tasks from the job. This can be up
+   * to the number of nodes in the pool. The 'MicrosoftAzureBatch' service principal must have the
+   * 'Classic Virtual Machine Contributor' Role-Based Access Control (RBAC) role for the specified
+   * VNet so that Azure Batch service can schedule tasks on the compute nodes. This can be verified
+   * by checking if the specified VNet has any associated Network Security Groups (NSG). If
+   * communication to the compute nodes in the specified subnet is denied by an NSG, then the Batch
+   * service will set the state of the compute nodes to unusable. This is of the form
    * /subscriptions/{subscription}/resourceGroups/{group}/providers/{provider}/virtualNetworks/{network}/subnets/{subnet}.
-   * The virtual network must be in the same region and subscription as the Azure Batch account.
-   * The specified subnet should have enough free IP addresses to accommodate the number of nodes
-   * which will run tasks from the job. For more details, see
-   * https://docs.microsoft.com/en-us/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration.
+   * If the specified VNet has any associated Network Security Groups (NSG), then a few reserved
+   * system ports must be enabled for inbound communication from the Azure Batch service. For pools
+   * created with a Virtual Machine configuration, enable ports 29876 and 29877, as well as port 22
+   * for Linux and port 3389 for Windows. Port 443 is also required to be open for outbound
+   * connections for communications to Azure Storage. For more details see:
+   * https://docs.microsoft.com/en-us/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration
    */
   subnetId: string;
 }
@@ -615,7 +639,7 @@ export interface ContainerRegistry {
 
 /**
  * An interface representing TaskContainerSettings.
- * @summary The container settings for a task.
+ * @summary The container settings for a Task.
  */
 export interface TaskContainerSettings {
   /**
@@ -635,6 +659,11 @@ export interface TaskContainerSettings {
    * already provided at pool creation.
    */
   registry?: ContainerRegistry;
+  /**
+   * The location of the container task working directory. The default is 'taskWorkingDirectory'.
+   * Possible values include: 'taskWorkingDirectory', 'containerImageDefault'
+   */
+  workingDirectory?: ContainerWorkingDirectory;
 }
 
 /**
@@ -871,9 +900,9 @@ export interface LinuxUserConfiguration {
  */
 export interface WindowsUserConfiguration {
   /**
-   * The login mode for the user. The default value for VirtualMachineConfiguration pools is batch
-   * and for CloudServiceConfiguration pools is interactive. Possible values include: 'batch',
-   * 'interactive'
+   * The login mode for the user. The default value for VirtualMachineConfiguration pools is
+   * 'batch' and for CloudServiceConfiguration pools is 'interactive'. Possible values include:
+   * 'batch', 'interactive'
    */
   loginMode?: LoginMode;
 }
@@ -1067,7 +1096,9 @@ export interface JobManagerTask {
    * run this task doesn't have containerConfiguration set, this must not be set. When this is
    * specified, all directories recursively below the AZ_BATCH_NODE_ROOT_DIR (the root of Azure
    * Batch directories on the node) are mapped into the container, all task environment variables
-   * are mapped into the container, and the task command line is executed in the container.
+   * are mapped into the container, and the task command line is executed in the container. Files
+   * produced in the container outside of AZ_BATCH_NODE_ROOT_DIR might not be reflected to the host
+   * disk, meaning that Batch file APIs will not be able to access those files.
    */
   containerSettings?: TaskContainerSettings;
   /**
@@ -1194,7 +1225,9 @@ export interface JobPreparationTask {
    * The settings for the container under which the Job Preparation task runs. When this is
    * specified, all directories recursively below the AZ_BATCH_NODE_ROOT_DIR (the root of Azure
    * Batch directories on the node) are mapped into the container, all task environment variables
-   * are mapped into the container, and the task command line is executed in the container.
+   * are mapped into the container, and the task command line is executed in the container. Files
+   * produced in the container outside of AZ_BATCH_NODE_ROOT_DIR might not be reflected to the host
+   * disk, meaning that Batch file APIs will not be able to access those files.
    */
   containerSettings?: TaskContainerSettings;
   /**
@@ -1285,7 +1318,9 @@ export interface JobReleaseTask {
    * The settings for the container under which the Job Release task runs. When this is specified,
    * all directories recursively below the AZ_BATCH_NODE_ROOT_DIR (the root of Azure Batch
    * directories on the node) are mapped into the container, all task environment variables are
-   * mapped into the container, and the task command line is executed in the container.
+   * mapped into the container, and the task command line is executed in the container. Files
+   * produced in the container outside of AZ_BATCH_NODE_ROOT_DIR might not be reflected to the host
+   * disk, meaning that Batch file APIs will not be able to access those files.
    */
   containerSettings?: TaskContainerSettings;
   /**
@@ -1365,7 +1400,9 @@ export interface StartTask {
    * The settings for the container under which the start task runs. When this is specified, all
    * directories recursively below the AZ_BATCH_NODE_ROOT_DIR (the root of Azure Batch directories
    * on the node) are mapped into the container, all task environment variables are mapped into the
-   * container, and the task command line is executed in the container.
+   * container, and the task command line is executed in the container. Files produced in the
+   * container outside of AZ_BATCH_NODE_ROOT_DIR might not be reflected to the host disk, meaning
+   * that Batch file APIs will not be able to access those files.
    */
   containerSettings?: TaskContainerSettings;
   /**
@@ -1558,7 +1595,7 @@ export interface ContainerConfiguration {
 export interface VirtualMachineConfiguration {
   /**
    * A reference to the Azure Virtual Machines Marketplace image or the custom Virtual Machine
-   * image to use.
+   * Image to use.
    */
   imageReference: ImageReference;
   /**
@@ -1630,6 +1667,14 @@ export interface NetworkSecurityGroupRule {
    * If any other values are provided the request fails with HTTP status code 400.
    */
   sourceAddressPrefix: string;
+  /**
+   * The source port ranges to match for the rule. Valid values are '*' (for all ports 0 - 65535),
+   * a specific port (i.e. 22), or a port range (i.e. 100-200). The ports must be in the range of 0
+   * to 65535. Each entry in this collection must not overlap any other entry (either a range or an
+   * individual port). If any other values are provided the request fails with HTTP status code
+   * 400. The default value is '*'.
+   */
+  sourcePortRanges?: string[];
 }
 
 /**
@@ -1706,10 +1751,21 @@ export interface NetworkConfiguration {
    * The virtual network must be in the same region and subscription as the Azure Batch account.
    * The specified subnet should have enough free IP addresses to accommodate the number of nodes
    * in the pool. If the subnet doesn't have enough free IP addresses, the pool will partially
-   * allocate compute nodes, and a resize error will occur. For pools created with
+   * allocate compute nodes, and a resize error will occur. The 'MicrosoftAzureBatch' service
+   * principal must have the 'Classic Virtual Machine Contributor' Role-Based Access Control (RBAC)
+   * role for the specified VNet. The specified subnet must allow communication from the Azure
+   * Batch service to be able to schedule tasks on the compute nodes. This can be verified by
+   * checking if the specified VNet has any associated Network Security Groups (NSG). If
+   * communication to the compute nodes in the specified subnet is denied by an NSG, then the Batch
+   * service will set the state of the compute nodes to unusable. For pools created with
    * virtualMachineConfiguration only ARM virtual networks ('Microsoft.Network/virtualNetworks')
    * are supported, but for pools created with cloudServiceConfiguration both ARM and classic
-   * virtual networks are supported. For more details, see:
+   * virtual networks are supported. If the specified VNet has any associated Network Security
+   * Groups (NSG), then a few reserved system ports must be enabled for inbound communication. For
+   * pools created with a virtual machine configuration, enable ports 29876 and 29877, as well as
+   * port 22 for Linux and port 3389 for Windows. For pools created with a cloud service
+   * configuration, enable ports 10100, 20100, and 30100. Also enable outbound connections to Azure
+   * Storage on port 443. For more details see:
    * https://docs.microsoft.com/en-us/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration
    */
   subnetId?: string;
@@ -3515,7 +3571,9 @@ export interface CloudTask {
    * doesn't have containerConfiguration set, this must not be set. When this is specified, all
    * directories recursively below the AZ_BATCH_NODE_ROOT_DIR (the root of Azure Batch directories
    * on the node) are mapped into the container, all task environment variables are mapped into the
-   * container, and the task command line is executed in the container.
+   * container, and the task command line is executed in the container. Files produced in the
+   * container outside of AZ_BATCH_NODE_ROOT_DIR might not be reflected to the host disk, meaning
+   * that Batch file APIs will not be able to access those files.
    */
   containerSettings?: TaskContainerSettings;
   /**
@@ -3638,7 +3696,9 @@ export interface TaskAddParameter {
    * doesn't have containerConfiguration set, this must not be set. When this is specified, all
    * directories recursively below the AZ_BATCH_NODE_ROOT_DIR (the root of Azure Batch directories
    * on the node) are mapped into the container, all task environment variables are mapped into the
-   * container, and the task command line is executed in the container.
+   * container, and the task command line is executed in the container. Files produced in the
+   * container outside of AZ_BATCH_NODE_ROOT_DIR might not be reflected to the host disk, meaning
+   * that Batch file APIs will not be able to access those files.
    */
   containerSettings?: TaskContainerSettings;
   /**
@@ -4482,7 +4542,8 @@ export interface PoolUpdatePropertiesParameter {
    * package references affect all new compute nodes joining the pool, but do not affect compute
    * nodes that are already in the pool until they are rebooted or reimaged. There is a maximum of
    * 10 application package references on any given pool. If omitted, or if you specify an empty
-   * collection, any existing application packages references are removed from the pool.
+   * collection, any existing application packages references are removed from the pool. A maximum
+   * of 10 references may be specified on a given pool.
    */
   applicationPackageReferences: ApplicationPackageReference[];
   /**
@@ -4517,12 +4578,12 @@ export interface PoolPatchParameter {
    */
   certificateReferences?: CertificateReference[];
   /**
-   * The list of application packages to be installed on each compute node in the pool. The list
-   * replaces any existing application package references on the pool. Changes to application
-   * package references affect all new compute nodes joining the pool, but do not affect compute
-   * nodes that are already in the pool until they are rebooted or reimaged. There is a maximum of
-   * 10 application package references on any given pool. If omitted, any existing application
-   * package references are left unchanged.
+   * A list of application packages to be installed on each compute node in the pool. Changes to
+   * application package references affect all new compute nodes joining the pool, but do not
+   * affect compute nodes that are already in the pool until they are rebooted or reimaged. If this
+   * element is present, it replaces any existing application package references. If you specify an
+   * empty collection, then all application package references are removed from the pool. If
+   * omitted, any existing application package references are left unchanged.
    */
   applicationPackageReferences?: ApplicationPackageReference[];
   /**
@@ -5434,12 +5495,12 @@ export interface PoolRemoveNodesOptions {
 }
 
 /**
- * Additional parameters for listNodeAgentSkus operation.
+ * Additional parameters for listSupportedImages operation.
  */
-export interface AccountListNodeAgentSkusOptions {
+export interface AccountListSupportedImagesOptions {
   /**
    * An OData $filter clause. For more information on constructing this filter, see
-   * https://docs.microsoft.com/en-us/rest/api/batchservice/odata-filters-in-batch#list-node-agent-skus.
+   * https://docs.microsoft.com/en-us/rest/api/batchservice/odata-filters-in-batch#list-support-images.
    */
   filter?: string;
   /**
@@ -7696,9 +7757,9 @@ export interface PoolListNextOptions {
 }
 
 /**
- * Additional parameters for listNodeAgentSkusNext operation.
+ * Additional parameters for listSupportedImagesNext operation.
  */
-export interface AccountListNodeAgentSkusNextOptions {
+export interface AccountListSupportedImagesNextOptions {
   /**
    * The caller-generated request identity, in the form of a GUID with no decoration such as curly
    * braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
@@ -8118,11 +8179,11 @@ export interface PoolListNextOptionalParams extends msRest.RequestOptionsBase {
 /**
  * Optional Parameters.
  */
-export interface AccountListNodeAgentSkusOptionalParams extends msRest.RequestOptionsBase {
+export interface AccountListSupportedImagesOptionalParams extends msRest.RequestOptionsBase {
   /**
    * Additional parameters for the operation
    */
-  accountListNodeAgentSkusOptions?: AccountListNodeAgentSkusOptions;
+  accountListSupportedImagesOptions?: AccountListSupportedImagesOptions;
 }
 
 /**
@@ -8138,11 +8199,11 @@ export interface AccountListPoolNodeCountsOptionalParams extends msRest.RequestO
 /**
  * Optional Parameters.
  */
-export interface AccountListNodeAgentSkusNextOptionalParams extends msRest.RequestOptionsBase {
+export interface AccountListSupportedImagesNextOptionalParams extends msRest.RequestOptionsBase {
   /**
    * Additional parameters for the operation
    */
-  accountListNodeAgentSkusNextOptions?: AccountListNodeAgentSkusNextOptions;
+  accountListSupportedImagesNextOptions?: AccountListSupportedImagesNextOptions;
 }
 
 /**
@@ -8953,9 +9014,9 @@ export interface PoolListUsageMetricsHeaders {
 }
 
 /**
- * Defines headers for ListNodeAgentSkus operation.
+ * Defines headers for ListSupportedImages operation.
  */
-export interface AccountListNodeAgentSkusHeaders {
+export interface AccountListSupportedImagesHeaders {
   /**
    * The client-request-id provided by the client during the request. This will be returned only if
    * the return-client-request-id parameter was set to true.
@@ -11223,11 +11284,11 @@ export interface CloudPoolListResult extends Array<CloudPool> {
 
 /**
  * @interface
- * An interface representing the AccountListNodeAgentSkusResult.
- * @summary The result of listing the supported node agent SKUs.
- * @extends Array<NodeAgentSku>
+ * An interface representing the AccountListSupportedImagesResult.
+ * @summary The result of listing the supported Virtual Machine Images.
+ * @extends Array<ImageInformation>
  */
-export interface AccountListNodeAgentSkusResult extends Array<NodeAgentSku> {
+export interface AccountListSupportedImagesResult extends Array<ImageInformation> {
   odatanextLink?: string;
 }
 
@@ -11322,6 +11383,14 @@ export interface ComputeNodeListResult extends Array<ComputeNode> {
 export type OSType = 'linux' | 'windows';
 
 /**
+ * Defines values for VerificationType.
+ * Possible values include: 'verified', 'unverified'
+ * @readonly
+ * @enum {string}
+ */
+export type VerificationType = 'verified' | 'unverified';
+
+/**
  * Defines values for AccessScope.
  * Possible values include: 'job'
  * @readonly
@@ -11344,6 +11413,14 @@ export type CertificateState = 'active' | 'deleting' | 'deletefailed';
  * @enum {string}
  */
 export type CertificateFormat = 'pfx' | 'cer';
+
+/**
+ * Defines values for ContainerWorkingDirectory.
+ * Possible values include: 'taskWorkingDirectory', 'containerImageDefault'
+ * @readonly
+ * @enum {string}
+ */
+export type ContainerWorkingDirectory = 'taskWorkingDirectory' | 'containerImageDefault';
 
 /**
  * Defines values for JobAction.
@@ -11977,9 +12054,9 @@ export type PoolRemoveNodesResponse = PoolRemoveNodesHeaders & {
 };
 
 /**
- * Contains response data for the listNodeAgentSkus operation.
+ * Contains response data for the listSupportedImages operation.
  */
-export type AccountListNodeAgentSkusResponse = AccountListNodeAgentSkusResult & AccountListNodeAgentSkusHeaders & {
+export type AccountListSupportedImagesResponse = AccountListSupportedImagesResult & AccountListSupportedImagesHeaders & {
   /**
    * The underlying HTTP response.
    */
@@ -11987,7 +12064,7 @@ export type AccountListNodeAgentSkusResponse = AccountListNodeAgentSkusResult & 
       /**
        * The parsed HTTP response headers.
        */
-      parsedHeaders: AccountListNodeAgentSkusHeaders;
+      parsedHeaders: AccountListSupportedImagesHeaders;
 
       /**
        * The response body as text (string format)
@@ -11997,7 +12074,7 @@ export type AccountListNodeAgentSkusResponse = AccountListNodeAgentSkusResult & 
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: AccountListNodeAgentSkusResult;
+      parsedBody: AccountListSupportedImagesResult;
     };
 };
 
