@@ -4,8 +4,6 @@
 import chai from "chai";
 const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
-import dotenv from "dotenv";
-dotenv.config();
 chai.use(chaiAsPromised);
 import {
   ServiceBusClient,
@@ -24,8 +22,9 @@ import {
   getSenderReceiverClients,
   TestClientType,
   purge,
-  checkWithTimeout
-} from "./testUtils";
+  checkWithTimeout,
+  getServiceBusClient
+} from "./utils/testUtils";
 
 async function testPeekMsgsLength(
   client: QueueClient | SubscriptionClient,
@@ -39,7 +38,7 @@ async function testPeekMsgsLength(
   );
 }
 
-let ns: ServiceBusClient;
+let sbClient: ServiceBusClient;
 
 let senderClient: QueueClient | TopicClient;
 let receiverClient: QueueClient | SubscriptionClient;
@@ -58,18 +57,8 @@ async function beforeEachTest(
   senderType: TestClientType,
   sessionType: TestClientType
 ): Promise<void> {
-  // The tests in this file expect the env variables to contain the connection string and
-  // the names of empty queue/topic/subscription that are to be tested
-
-  if (!process.env.SERVICEBUS_CONNECTION_STRING) {
-    throw new Error(
-      "Define SERVICEBUS_CONNECTION_STRING in your environment before running integration tests."
-    );
-  }
-
-  ns = ServiceBusClient.createFromConnectionString(process.env.SERVICEBUS_CONNECTION_STRING);
-
-  const clients = await getSenderReceiverClients(ns, senderType, sessionType);
+  sbClient = getServiceBusClient();
+  const clients = await getSenderReceiverClients(sbClient, senderType, sessionType);
   senderClient = clients.senderClient;
   receiverClient = clients.receiverClient;
 
@@ -82,7 +71,7 @@ async function beforeEachTest(
 }
 
 async function afterEachTest(): Promise<void> {
-  await ns.close();
+  await sbClient.close();
 }
 
 describe("SessionReceiver with invalid sessionId", function(): void {
@@ -170,12 +159,11 @@ describe("SessionReceiver with invalid sessionId", function(): void {
     receiver = receiverClient.createReceiver(ReceiveMode.peekLock, { sessionId: undefined });
     receivedMsgs = [];
     receiver.registerMessageHandler(
-      (msg: ServiceBusMessage) => {
+      async (msg: ServiceBusMessage) => {
         should.equal(msg.body, testMessage.body, "MessageBody is different than expected");
         should.equal(msg.messageId, testMessage.messageId, "MessageId is different than expected");
-        return msg.complete().then(() => {
-          receivedMsgs.push(msg);
-        });
+        await msg.complete();
+        receivedMsgs.push(msg);
       },
       unExpectedErrorHandler,
       { autoComplete: false }
@@ -315,7 +303,7 @@ describe("SessionReceiver with no sessionId", function(): void {
     await testComplete_batching();
   });
 
-  it("Unpartitioned Queue: complete() removes message from random session", async function(): Promise<
+  it("Unpartitioned Queue: complete() removes message from random session #RunInBrowser", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -491,7 +479,9 @@ describe("Session State", function(): void {
     await purge(receiverClient, testSessionId2);
     await testGetSetState();
   });
-  it("Unpartitioned Queue - Testing getState and setState", async function(): Promise<void> {
+  it("Unpartitioned Queue - Testing getState and setState #RunInBrowser", async function(): Promise<
+    void
+  > {
     await beforeEachTest(
       TestClientType.UnpartitionedQueueWithSessions,
       TestClientType.UnpartitionedQueueWithSessions
@@ -562,7 +552,9 @@ describe("Peek session", function(): void {
     );
     await peekSession(true);
   });
-  it("Unpartitioned Queue - Peek Session with sessionId", async function(): Promise<void> {
+  it("Unpartitioned Queue - Peek Session with sessionId #RunInBrowser", async function(): Promise<
+    void
+  > {
     await beforeEachTest(
       TestClientType.UnpartitionedQueueWithSessions,
       TestClientType.UnpartitionedQueueWithSessions
@@ -591,7 +583,9 @@ describe("Peek session", function(): void {
     );
     await peekSession(false);
   });
-  it("Unpartitioned Queue - Peek Session without sessionId", async function(): Promise<void> {
+  it("Unpartitioned Queue - Peek Session without sessionId #RunInBrowser", async function(): Promise<
+    void
+  > {
     await beforeEachTest(
       TestClientType.UnpartitionedQueueWithSessions,
       TestClientType.UnpartitionedQueueWithSessions
