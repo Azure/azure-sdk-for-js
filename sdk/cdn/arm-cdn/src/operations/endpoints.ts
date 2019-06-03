@@ -13,17 +13,17 @@ import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/endpointsMappers";
 import * as Parameters from "../models/parameters";
-import { CdnManagementClientContext } from "../cdnManagementClientContext";
+import { CdnManagementClientDONTMERGEContext } from "../cdnManagementClientDONTMERGEContext";
 
 /** Class representing a Endpoints. */
 export class Endpoints {
-  private readonly client: CdnManagementClientContext;
+  private readonly client: CdnManagementClientDONTMERGEContext;
 
   /**
    * Create a Endpoints.
-   * @param {CdnManagementClientContext} client Reference to the service client.
+   * @param {CdnManagementClientDONTMERGEContext} client Reference to the service client.
    */
-  constructor(client: CdnManagementClientContext) {
+  constructor(client: CdnManagementClientDONTMERGEContext) {
     this.client = client;
   }
 
