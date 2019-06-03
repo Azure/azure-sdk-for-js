@@ -4,6 +4,22 @@ trigger:
 pr: none
 
 jobs:
+- job: Build
+  pool:
+    vmImage: 'Ubuntu 16.04'
+  steps:
+  - task: Npm@1
+    displayName: 'npm install'
+    inputs:
+      command: custom
+      verbose: false
+      customCommand: install
+  - task: Npm@1
+    displayName: 'npm run build'
+    inputs:
+      command: custom
+      verbose: false
+      customCommand: run build
 - job: Pack
   pool:
     vmImage: 'Ubuntu 16.04'
@@ -30,9 +46,6 @@ jobs:
     inputs:
       pathtoPublish: $(Build.SourcesDirectory)/dist
       artifactName: dist
-- template: azure-pipelines-test.yml
-  parameters:
-    nodeVersion: '8'
 - template: azure-pipelines-test.yml
   parameters:
     nodeVersion: '10'
