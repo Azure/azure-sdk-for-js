@@ -2,13 +2,12 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 export const Constants = {
-
   /**
    * The ms-rest version
    * @const
    * @type {string}
    */
-  msRestVersion: "1.8.7",
+  msRestVersion: "1.8.8",
 
   /**
    * Specifies HTTP.
