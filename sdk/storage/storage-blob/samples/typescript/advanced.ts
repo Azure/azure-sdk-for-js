@@ -6,7 +6,7 @@ import fs from "fs";
 import {
   Aborter,
   BlobServiceClient,
-  StorageClient
+  newPipeline
 } from "../../src"; // Change to "@azure/storage-blob" in your package
 
 async function main() {
@@ -15,7 +15,7 @@ async function main() {
   const accountSas = "";
   const localFilePath = "";
 
-  const pipeline = StorageClient.newPipeline(new AnonymousCredential(), {
+  const pipeline = newPipeline(new AnonymousCredential(), {
     // httpClient: MyHTTPClient, // A customized HTTP client implementing IHttpClient interface
     // logger: MyLogger, // A customized logger implementing IHttpPipelineLogger interface
     retryOptions: { maxTries: 4 }, // Retry options

@@ -1,8 +1,8 @@
 import { URLBuilder } from "@azure/ms-rest-js";
 import * as assert from "assert";
 
-import { ContainerClient, RestError, StorageClient } from "../src";
-import { Pipeline } from "../src/Pipeline";
+import { ContainerClient, RestError } from "../src";
+import { Pipeline, newPipeline } from "../src/Pipeline";
 import { getBSU, getUniqueName } from "./utils";
 import { InjectorPolicyFactory } from "./utils/InjectorPolicyFactory";
 import * as dotenv from "dotenv";
@@ -54,7 +54,7 @@ describe("RetryPolicy", () => {
 
     const credential =
       containerClient.pipeline.factories[containerClient.pipeline.factories.length - 1];
-    const factories = StorageClient.newPipeline(credential, {
+    const factories = newPipeline(credential, {
       retryOptions: { maxTries: 3 }
     }).factories;
     factories.push(injector);
@@ -94,7 +94,7 @@ describe("RetryPolicy", () => {
 
     const credential =
       containerClient.pipeline.factories[containerClient.pipeline.factories.length - 1];
-    const factories = StorageClient.newPipeline(credential, {
+    const factories = newPipeline(credential, {
       retryOptions: { maxTries: 2, secondaryHost }
     }).factories;
     factories.push(injector);

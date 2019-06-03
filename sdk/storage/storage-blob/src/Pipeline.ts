@@ -3,6 +3,7 @@
 
 import {
   BaseRequestPolicy,
+  deserializationPolicy,
   HttpClient as IHttpClient,
   HttpHeaders,
   HttpOperationResponse,
@@ -15,6 +16,13 @@ import {
   ServiceClientOptions,
   WebResource
 } from "@azure/ms-rest-js";
+
+import { BrowserPolicyFactory } from "./BrowserPolicyFactory";
+import { Credential } from "./credentials/Credential";
+import { LoggingPolicyFactory } from "./LoggingPolicyFactory";
+import { RetryOptions, RetryPolicyFactory } from "./RetryPolicyFactory";
+import { TelemetryOptions, TelemetryPolicyFactory } from "./TelemetryPolicyFactory";
+import { UniqueRequestIDPolicyFactory } from "./UniqueRequestIDPolicyFactory";
 
 // Export following interfaces and types for customers who want to implement their
 // own RequestPolicy or HTTPClient
@@ -57,9 +65,9 @@ export interface PipelineOptions {
 
 /**
  * A Pipeline class containing HTTP request policies.
- * You can create a default Pipeline by calling StorageClient.newPipeline().
+ * You can create a default Pipeline by calling newPipeline().
  * Or you can create a Pipeline with your own policies by the constructor of Pipeline.
- * Refer to StorageClient.newPipeline() and provided policies as reference before
+ * Refer to newPipeline() and provided policies as reference before
  * implementing your customized Pipeline.
  *
  * @export
@@ -107,4 +115,75 @@ export class Pipeline {
       requestPolicyFactories: this.factories
     };
   }
+}
+
+export { deserializationPolicy };
+
+/**
+ * Option interface for newPipeline() method.
+ *
+ * @export
+ * @interface NewPipelineOptions
+ */
+export interface NewPipelineOptions {
+  /**
+   * Telemetry configures the built-in telemetry policy behavior.
+   *
+   * @type {TelemetryOptions}
+   * @memberof NewPipelineOptions
+   */
+  telemetry?: TelemetryOptions;
+  /**
+   * Configures the built-in retry policy behavior.
+   *
+   * @type {RetryOptions}
+   * @memberof NewPipelineOptions
+   */
+  retryOptions?: RetryOptions;
+
+  /**
+   * Configures the HTTP pipeline logger.
+   *
+   * @type {IHttpPipelineLogger}
+   * @memberof NewPipelineOptions
+   */
+  logger?: IHttpPipelineLogger;
+  /**
+   * Configures the HTTP client to send requests and receive responses.
+   *
+   * @type {IHttpClient}
+   * @memberof NewPipelineOptions
+   */
+  httpClient?: IHttpClient;
+}
+
+/**
+ * A static method used to create a new Pipeline object with Credential provided.
+ *
+ * @export
+ * @param {Credential} credential Such as AnonymousCredential, SharedKeyCredential or TokenCredential.
+ * @param {NewPipelineOptions} [pipelineOptions] Optional. Options.
+ * @returns {Pipeline} A new Pipeline object.
+ */
+export function newPipeline(
+ credential: Credential,
+ pipelineOptions: NewPipelineOptions = {}
+): Pipeline {
+ // Order is important. Closer to the API at the top & closer to the network at the bottom.
+ // The credential's policy factory must appear close to the wire so it can sign any
+ // changes made by other factories (like UniqueRequestIDPolicyFactory)
+ const factories: RequestPolicyFactory[] = [
+   new TelemetryPolicyFactory(pipelineOptions.telemetry),
+   new UniqueRequestIDPolicyFactory(),
+   new BrowserPolicyFactory(),
+   deserializationPolicy(), // Default deserializationPolicy is provided by protocol layer
+   new RetryPolicyFactory(pipelineOptions.retryOptions),
+   new LoggingPolicyFactory(),
+   credential
+ ];
+
+ return new Pipeline(factories, {
+   HTTPClient: pipelineOptions.httpClient,
+   logger: pipelineOptions.logger
+ });
 }
