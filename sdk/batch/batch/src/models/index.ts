@@ -1364,8 +1364,8 @@ export interface JobReleaseTask {
  */
 export interface TaskSchedulingPolicy {
   /**
-   * How tasks are distributed across compute nodes in a pool. Possible values include: 'spread',
-   * 'pack'
+   * How tasks are distributed across compute nodes in a pool. If not specified, the default is
+   * spread. Possible values include: 'spread', 'pack'
    */
   nodeFillType: ComputeNodeFillType;
 }
@@ -1821,8 +1821,7 @@ export interface PoolSpecification {
    */
   maxTasksPerNode?: number;
   /**
-   * How tasks are distributed across compute nodes in a pool. If not specified, the default is
-   * spread.
+   * How tasks are distributed across compute nodes in a pool.
    */
   taskSchedulingPolicy?: TaskSchedulingPolicy;
   /**
@@ -3052,8 +3051,7 @@ export interface CloudPool {
    */
   maxTasksPerNode?: number;
   /**
-   * How tasks are distributed across compute nodes in a pool. If not specified, the default is
-   * spread.
+   * How tasks are distributed across compute nodes in a pool.
    */
   taskSchedulingPolicy?: TaskSchedulingPolicy;
   /**
@@ -3207,8 +3205,7 @@ export interface PoolAddParameter {
    */
   maxTasksPerNode?: number;
   /**
-   * How tasks are distributed across compute nodes in a pool. If not specified, the default is
-   * spread.
+   * How tasks are distributed across compute nodes in a pool.
    */
   taskSchedulingPolicy?: TaskSchedulingPolicy;
   /**
