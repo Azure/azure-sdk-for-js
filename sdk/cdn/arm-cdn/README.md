@@ -1,6 +1,6 @@
-## Azure CdnManagementClient SDK for JavaScript
+## Azure CdnManagementClientDONTMERGE SDK for JavaScript
 
-This package contains an isomorphic SDK for CdnManagementClient.
+This package contains an isomorphic SDK for CdnManagementClientDONTMERGE.
 
 ### Currently supported environments
 
@@ -29,11 +29,11 @@ npm install @azure/ms-rest-nodeauth
 import * as msRest from "@azure/ms-rest-js";
 import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
-import { CdnManagementClient, CdnManagementModels, CdnManagementMappers } from "@azure/arm-cdn";
+import { CdnManagementClientDONTMERGE, CdnManagementModels, CdnManagementMappers } from "@azure/arm-cdn";
 const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
 msRestNodeAuth.interactiveLogin().then((creds) => {
-  const client = new CdnManagementClient(creds, subscriptionId);
+  const client = new CdnManagementClientDONTMERGE(creds, subscriptionId);
   client.profiles.list().then((result) => {
     console.log("The result is:");
     console.log(result);
@@ -76,7 +76,7 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
           // may cause redirects
           authManager.login();
         }
-        const client = new Azure.ArmCdn.CdnManagementClient(res.creds, subscriptionId);
+        const client = new Azure.ArmCdn.CdnManagementClientDONTMERGE(res.creds, subscriptionId);
         client.profiles.list().then((result) => {
           console.log("The result is:");
           console.log(result);
@@ -94,6 +94,3 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
 ## Related projects
 
 - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
-
-
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/cdn/arm-cdn/README.png)
