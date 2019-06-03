@@ -1335,7 +1335,7 @@ export interface IoTSecurityAggregatedAlert extends Resource {
    */
   readonly description?: string;
   /**
-   * Occurance number of the alert within the aggregated date
+   * Occurrence number of the alert within the aggregated date
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly count?: number;
@@ -1362,7 +1362,7 @@ export interface IoTSecurityAggregatedAlert extends Resource {
 }
 
 /**
- * List of iot aggregated security alerts
+ * List of IoT aggregated security alerts
  */
 export interface IoTSecurityAggregatedAlertList {
   /**
@@ -1428,7 +1428,7 @@ export interface IoTSecurityAggregatedRecommendation extends Resource {
 }
 
 /**
- * List of iot aggregated security recommendations
+ * List of IoT aggregated security recommendations
  */
 export interface IoTSecurityAggregatedRecommendationList {
   /**
