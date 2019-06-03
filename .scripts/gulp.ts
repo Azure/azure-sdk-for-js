@@ -71,8 +71,8 @@ export async function generateSdk(azureRestAPISpecsRoot: string, azureSDKForJSRe
                     _logger.log('Error:');
                     _logger.log(`Could not determine the generated package folder's path from ${typeScriptReadmeFilePath}.`);
                 } else {
-                    npmInstall(packageFolderPath);
-                    npmRunTest(packageFolderPath);
+                    await npmInstall(packageFolderPath);
+                    await npmRunTest(packageFolderPath);
                 }
             } catch (err) {
                 _logger.log('Error:');
