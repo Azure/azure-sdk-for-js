@@ -4,10 +4,10 @@
 
 import {
   BlobServiceClient,
-  StorageClient,
+  Models,
   SharedKeyCredential,
+  StorageClient,
   TokenCredential,
-  Models
 } from "../.."; // Change to "@azure/storage-blob" in your package
 
 async function main() {
@@ -59,8 +59,14 @@ async function main() {
   const blobName = "newblob" + new Date().getTime();
   const blobClient = containerClient.createBlobClient(blobName);
   const blockBlobClient = blobClient.createBlockBlobClient();
-  const uploadBlobResponse = await blockBlobClient.upload(content, content.length);
-  console.log(`Upload block blob ${blobName} successfully`, uploadBlobResponse.requestId);
+  const uploadBlobResponse = await blockBlobClient.upload(
+    content,
+    content.length
+  );
+  console.log(
+    `Upload block blob ${blobName} successfully`,
+    uploadBlobResponse.requestId
+  );
 
   // List blobs
   marker = undefined;
