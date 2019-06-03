@@ -12,17 +12,17 @@ import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/resourceUsageOperationsMappers";
 import * as Parameters from "../models/parameters";
-import { CdnManagementClientContext } from "../cdnManagementClientContext";
+import { CdnManagementClientDONTMERGEContext } from "../cdnManagementClientDONTMERGEContext";
 
 /** Class representing a ResourceUsageOperations. */
 export class ResourceUsageOperations {
-  private readonly client: CdnManagementClientContext;
+  private readonly client: CdnManagementClientDONTMERGEContext;
 
   /**
    * Create a ResourceUsageOperations.
-   * @param {CdnManagementClientContext} client Reference to the service client.
+   * @param {CdnManagementClientDONTMERGEContext} client Reference to the service client.
    */
-  constructor(client: CdnManagementClientContext) {
+  constructor(client: CdnManagementClientDONTMERGEContext) {
     this.client = client;
   }
 
