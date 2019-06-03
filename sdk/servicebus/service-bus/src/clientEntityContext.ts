@@ -59,7 +59,7 @@ export interface ClientEntityContextBase {
   /**
    * @property {Dictionary<MessageSession>} expiredMessageSessions A dictionary that stores expired message sessions IDs.
    */
-  expiredMessageSessions: Dictionary<Boolean>;
+  expiredMessageSessions: Dictionary<boolean>;
   /**
    * @property {MessageSender} [sender] The ServiceBus sender associated with the client entity.
    */
@@ -157,7 +157,7 @@ export namespace ClientEntityContext {
 
       let receiver: MessageReceiver | MessageSession | undefined = undefined;
       if (
-        sessionId != undefined &&
+        sessionId != null &&
         entityContext.messageSessions[sessionId] &&
         entityContext.messageSessions[sessionId].name === name
       ) {
