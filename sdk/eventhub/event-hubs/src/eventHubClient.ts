@@ -82,9 +82,12 @@ export interface ClientOptionsBase {
    */
   userAgent?: string;
   /**
-   * @property {WebSocketImpl} [webSocket] - The WebSocket constructor used to create an AMQP connection
-   * over a WebSocket. In browsers, the built-in WebSocket will be  used by default. In Node, a
-   * TCP socket will be used if a WebSocket constructor is not provided.
+   * @property The WebSocket constructor used to create an AMQP connection over a WebSocket.
+   * This option should be provided in the below scenarios
+   * - The TCP port 5671 which is what is used by the AMQP connection to Event Hubs is blocked in your environment.
+   * - Your application needs to be run behind a proxy server
+   * - Your application needs to run in the browser and you want to provide your own choice of Websocket implementation
+   * instead of the built-in WebSocket in the browser.
    */
    webSocket?: WebSocketImpl;
   /**
