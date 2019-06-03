@@ -39,9 +39,11 @@ class SecurityCenter extends SecurityCenterContext {
   ioTSecuritySolutionsResourceGroup: operations.IoTSecuritySolutionsResourceGroup;
   iotSecuritySolution: operations.IotSecuritySolution;
   ioTSecuritySolutionsAnalytics: operations.IoTSecuritySolutionsAnalytics;
+  ioTSecuritySolutionsAnalyticsAggregatedAlerts: operations.IoTSecuritySolutionsAnalyticsAggregatedAlerts;
   ioTSecuritySolutionsAnalyticsAggregatedAlert: operations.IoTSecuritySolutionsAnalyticsAggregatedAlert;
   ioTSecuritySolutionsAnalyticsAggregatedAlertDismiss: operations.IoTSecuritySolutionsAnalyticsAggregatedAlertDismiss;
   ioTSecuritySolutionsAnalyticsRecommendation: operations.IoTSecuritySolutionsAnalyticsRecommendation;
+  ioTSecuritySolutionsAnalyticsRecommendations: operations.IoTSecuritySolutionsAnalyticsRecommendations;
   regulatoryComplianceStandards: operations.RegulatoryComplianceStandards;
   regulatoryComplianceControls: operations.RegulatoryComplianceControls;
   regulatoryComplianceAssessments: operations.RegulatoryComplianceAssessments;
@@ -78,9 +80,11 @@ class SecurityCenter extends SecurityCenterContext {
     this.ioTSecuritySolutionsResourceGroup = new operations.IoTSecuritySolutionsResourceGroup(this);
     this.iotSecuritySolution = new operations.IotSecuritySolution(this);
     this.ioTSecuritySolutionsAnalytics = new operations.IoTSecuritySolutionsAnalytics(this);
+    this.ioTSecuritySolutionsAnalyticsAggregatedAlerts = new operations.IoTSecuritySolutionsAnalyticsAggregatedAlerts(this);
     this.ioTSecuritySolutionsAnalyticsAggregatedAlert = new operations.IoTSecuritySolutionsAnalyticsAggregatedAlert(this);
     this.ioTSecuritySolutionsAnalyticsAggregatedAlertDismiss = new operations.IoTSecuritySolutionsAnalyticsAggregatedAlertDismiss(this);
     this.ioTSecuritySolutionsAnalyticsRecommendation = new operations.IoTSecuritySolutionsAnalyticsRecommendation(this);
+    this.ioTSecuritySolutionsAnalyticsRecommendations = new operations.IoTSecuritySolutionsAnalyticsRecommendations(this);
     this.regulatoryComplianceStandards = new operations.RegulatoryComplianceStandards(this);
     this.regulatoryComplianceControls = new operations.RegulatoryComplianceControls(this);
     this.regulatoryComplianceAssessments = new operations.RegulatoryComplianceAssessments(this);

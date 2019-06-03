@@ -2264,36 +2264,6 @@ export const IoTSecurityAggregatedAlert: msRest.CompositeMapper = {
   }
 };
 
-export const IoTSecurityAggregatedAlertList: msRest.CompositeMapper = {
-  serializedName: "IoTSecurityAggregatedAlertList",
-  type: {
-    name: "Composite",
-    className: "IoTSecurityAggregatedAlertList",
-    modelProperties: {
-      value: {
-        required: true,
-        serializedName: "value",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "IoTSecurityAggregatedAlert"
-            }
-          }
-        }
-      },
-      nextLink: {
-        readOnly: true,
-        serializedName: "nextLink",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const IoTSecurityAggregatedRecommendation: msRest.CompositeMapper = {
   serializedName: "IoTSecurityAggregatedRecommendation",
   type: {
@@ -2359,36 +2329,6 @@ export const IoTSecurityAggregatedRecommendation: msRest.CompositeMapper = {
       logAnalyticsQuery: {
         readOnly: true,
         serializedName: "logAnalyticsQuery",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const IoTSecurityAggregatedRecommendationList: msRest.CompositeMapper = {
-  serializedName: "IoTSecurityAggregatedRecommendationList",
-  type: {
-    name: "Composite",
-    className: "IoTSecurityAggregatedRecommendationList",
-    modelProperties: {
-      value: {
-        required: true,
-        serializedName: "value",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "IoTSecurityAggregatedRecommendation"
-            }
-          }
-        }
-      },
-      nextLink: {
-        readOnly: true,
-        serializedName: "nextLink",
         type: {
           name: "String"
         }
@@ -3069,6 +3009,66 @@ export const IoTSecuritySolutionsList: msRest.CompositeMapper = {
             type: {
               name: "Composite",
               className: "IoTSecuritySolutionModel"
+            }
+          }
+        }
+      },
+      nextLink: {
+        readOnly: true,
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const IoTSecurityAggregatedAlertList: msRest.CompositeMapper = {
+  serializedName: "IoTSecurityAggregatedAlertList",
+  type: {
+    name: "Composite",
+    className: "IoTSecurityAggregatedAlertList",
+    modelProperties: {
+      value: {
+        required: true,
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "IoTSecurityAggregatedAlert"
+            }
+          }
+        }
+      },
+      nextLink: {
+        readOnly: true,
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const IoTSecurityAggregatedRecommendationList: msRest.CompositeMapper = {
+  serializedName: "IoTSecurityAggregatedRecommendationList",
+  type: {
+    name: "Composite",
+    className: "IoTSecurityAggregatedRecommendationList",
+    modelProperties: {
+      value: {
+        required: true,
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "IoTSecurityAggregatedRecommendation"
             }
           }
         }

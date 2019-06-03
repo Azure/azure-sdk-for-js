@@ -66,7 +66,7 @@ export class IoTSecuritySolutionsAnalytics {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/iotSecuritySolutions/{solutionName}/Analytics",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/iotSecuritySolutions/{solutionName}/Analytics/current",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,

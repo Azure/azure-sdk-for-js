@@ -69,7 +69,7 @@ export class IoTSecuritySolutionsAnalyticsAggregatedAlertDismiss {
 const serializer = new msRest.Serializer(Mappers);
 const putOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/iotSecuritySolutions/{solutionName}/Analytics/AggregatedAlert/{aggregatedAlertName}/Dismiss",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/iotSecuritySolutions/{solutionName}/Analytics/current/AggregatedAlert/{aggregatedAlertName}/Dismiss",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,

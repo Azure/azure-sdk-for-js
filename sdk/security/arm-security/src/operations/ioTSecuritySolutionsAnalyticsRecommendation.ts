@@ -35,7 +35,7 @@ export class IoTSecuritySolutionsAnalyticsRecommendation {
    * @param [options] The optional parameters
    * @returns Promise<Models.IoTSecuritySolutionsAnalyticsRecommendationGetResponse>
    */
-  get(resourceGroupName: string, solutionName: string, aggregatedRecommendationName: string, options?: Models.IoTSecuritySolutionsAnalyticsRecommendationGetOptionalParams): Promise<Models.IoTSecuritySolutionsAnalyticsRecommendationGetResponse>;
+  get(resourceGroupName: string, solutionName: string, aggregatedRecommendationName: string, options?: msRest.RequestOptionsBase): Promise<Models.IoTSecuritySolutionsAnalyticsRecommendationGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -52,8 +52,8 @@ export class IoTSecuritySolutionsAnalyticsRecommendation {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, solutionName: string, aggregatedRecommendationName: string, options: Models.IoTSecuritySolutionsAnalyticsRecommendationGetOptionalParams, callback: msRest.ServiceCallback<Models.IoTSecurityAggregatedRecommendation>): void;
-  get(resourceGroupName: string, solutionName: string, aggregatedRecommendationName: string, options?: Models.IoTSecuritySolutionsAnalyticsRecommendationGetOptionalParams | msRest.ServiceCallback<Models.IoTSecurityAggregatedRecommendation>, callback?: msRest.ServiceCallback<Models.IoTSecurityAggregatedRecommendation>): Promise<Models.IoTSecuritySolutionsAnalyticsRecommendationGetResponse> {
+  get(resourceGroupName: string, solutionName: string, aggregatedRecommendationName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IoTSecurityAggregatedRecommendation>): void;
+  get(resourceGroupName: string, solutionName: string, aggregatedRecommendationName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IoTSecurityAggregatedRecommendation>, callback?: msRest.ServiceCallback<Models.IoTSecurityAggregatedRecommendation>): Promise<Models.IoTSecuritySolutionsAnalyticsRecommendationGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -64,41 +64,13 @@ export class IoTSecuritySolutionsAnalyticsRecommendation {
       getOperationSpec,
       callback) as Promise<Models.IoTSecuritySolutionsAnalyticsRecommendationGetResponse>;
   }
-
-  /**
-   * Security Analytics of a security solution
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.IoTSecuritySolutionsAnalyticsRecommendationGetNextResponse>
-   */
-  getNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.IoTSecuritySolutionsAnalyticsRecommendationGetNextResponse>;
-  /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param callback The callback
-   */
-  getNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.IoTSecurityAggregatedRecommendation>): void;
-  /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  getNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IoTSecurityAggregatedRecommendation>): void;
-  getNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IoTSecurityAggregatedRecommendation>, callback?: msRest.ServiceCallback<Models.IoTSecurityAggregatedRecommendation>): Promise<Models.IoTSecuritySolutionsAnalyticsRecommendationGetNextResponse> {
-    return this.client.sendOperationRequest(
-      {
-        nextPageLink,
-        options
-      },
-      getNextOperationSpec,
-      callback) as Promise<Models.IoTSecuritySolutionsAnalyticsRecommendationGetNextResponse>;
-  }
 }
 
 // Operation Specifications
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/iotSecuritySolutions/{solutionName}/Analytics/AggregatedRecommendation/{aggregatedRecommendationName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/iotSecuritySolutions/{solutionName}/Analytics/current/AggregatedRecommendation/{aggregatedRecommendationName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -106,29 +78,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.aggregatedRecommendationName
   ],
   queryParameters: [
-    Parameters.apiVersion5,
-    Parameters.top
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.IoTSecurityAggregatedRecommendation
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  serializer
-};
-
-const getNextOperationSpec: msRest.OperationSpec = {
-  httpMethod: "GET",
-  baseUrl: "https://management.azure.com",
-  path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
+    Parameters.apiVersion5
   ],
   headerParameters: [
     Parameters.acceptLanguage

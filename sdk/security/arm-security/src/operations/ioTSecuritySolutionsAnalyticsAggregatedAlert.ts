@@ -35,7 +35,7 @@ export class IoTSecuritySolutionsAnalyticsAggregatedAlert {
    * @param [options] The optional parameters
    * @returns Promise<Models.IoTSecuritySolutionsAnalyticsAggregatedAlertGetResponse>
    */
-  get(resourceGroupName: string, solutionName: string, aggregatedAlertName: string, options?: Models.IoTSecuritySolutionsAnalyticsAggregatedAlertGetOptionalParams): Promise<Models.IoTSecuritySolutionsAnalyticsAggregatedAlertGetResponse>;
+  get(resourceGroupName: string, solutionName: string, aggregatedAlertName: string, options?: msRest.RequestOptionsBase): Promise<Models.IoTSecuritySolutionsAnalyticsAggregatedAlertGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -52,8 +52,8 @@ export class IoTSecuritySolutionsAnalyticsAggregatedAlert {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, solutionName: string, aggregatedAlertName: string, options: Models.IoTSecuritySolutionsAnalyticsAggregatedAlertGetOptionalParams, callback: msRest.ServiceCallback<Models.IoTSecurityAggregatedAlert>): void;
-  get(resourceGroupName: string, solutionName: string, aggregatedAlertName: string, options?: Models.IoTSecuritySolutionsAnalyticsAggregatedAlertGetOptionalParams | msRest.ServiceCallback<Models.IoTSecurityAggregatedAlert>, callback?: msRest.ServiceCallback<Models.IoTSecurityAggregatedAlert>): Promise<Models.IoTSecuritySolutionsAnalyticsAggregatedAlertGetResponse> {
+  get(resourceGroupName: string, solutionName: string, aggregatedAlertName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IoTSecurityAggregatedAlert>): void;
+  get(resourceGroupName: string, solutionName: string, aggregatedAlertName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IoTSecurityAggregatedAlert>, callback?: msRest.ServiceCallback<Models.IoTSecurityAggregatedAlert>): Promise<Models.IoTSecuritySolutionsAnalyticsAggregatedAlertGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -64,41 +64,13 @@ export class IoTSecuritySolutionsAnalyticsAggregatedAlert {
       getOperationSpec,
       callback) as Promise<Models.IoTSecuritySolutionsAnalyticsAggregatedAlertGetResponse>;
   }
-
-  /**
-   * Security Analytics of a security solution
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.IoTSecuritySolutionsAnalyticsAggregatedAlertGetNextResponse>
-   */
-  getNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.IoTSecuritySolutionsAnalyticsAggregatedAlertGetNextResponse>;
-  /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param callback The callback
-   */
-  getNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.IoTSecurityAggregatedAlert>): void;
-  /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  getNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IoTSecurityAggregatedAlert>): void;
-  getNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IoTSecurityAggregatedAlert>, callback?: msRest.ServiceCallback<Models.IoTSecurityAggregatedAlert>): Promise<Models.IoTSecuritySolutionsAnalyticsAggregatedAlertGetNextResponse> {
-    return this.client.sendOperationRequest(
-      {
-        nextPageLink,
-        options
-      },
-      getNextOperationSpec,
-      callback) as Promise<Models.IoTSecuritySolutionsAnalyticsAggregatedAlertGetNextResponse>;
-  }
 }
 
 // Operation Specifications
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/iotSecuritySolutions/{solutionName}/Analytics/AggregatedAlert/{aggregatedAlertName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/iotSecuritySolutions/{solutionName}/Analytics/current/AggregatedAlert/{aggregatedAlertName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -106,29 +78,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.aggregatedAlertName
   ],
   queryParameters: [
-    Parameters.apiVersion5,
-    Parameters.top
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.IoTSecurityAggregatedAlert
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  serializer
-};
-
-const getNextOperationSpec: msRest.OperationSpec = {
-  httpMethod: "GET",
-  baseUrl: "https://management.azure.com",
-  path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
+    Parameters.apiVersion5
   ],
   headerParameters: [
     Parameters.acceptLanguage

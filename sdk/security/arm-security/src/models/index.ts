@@ -1362,21 +1362,6 @@ export interface IoTSecurityAggregatedAlert extends Resource {
 }
 
 /**
- * List of IoT aggregated security alerts
- */
-export interface IoTSecurityAggregatedAlertList {
-  /**
-   * List of aggregated alerts data
-   */
-  value: IoTSecurityAggregatedAlert[];
-  /**
-   * The URI to fetch the next page.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly nextLink?: string;
-}
-
-/**
  * Security Solution
  */
 export interface IoTSecurityAggregatedRecommendation extends Resource {
@@ -1425,21 +1410,6 @@ export interface IoTSecurityAggregatedRecommendation extends Resource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly logAnalyticsQuery?: string;
-}
-
-/**
- * List of IoT aggregated security recommendations
- */
-export interface IoTSecurityAggregatedRecommendationList {
-  /**
-   * List of aggregated alerts data
-   */
-  value: IoTSecurityAggregatedRecommendation[];
-  /**
-   * The URI to fetch the next page.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly nextLink?: string;
 }
 
 /**
@@ -1698,7 +1668,7 @@ export interface IoTSecuritySolutionsResourceGroupListOptionalParams extends msR
 /**
  * Optional Parameters.
  */
-export interface IoTSecuritySolutionsAnalyticsAggregatedAlertGetOptionalParams extends msRest.RequestOptionsBase {
+export interface IoTSecuritySolutionsAnalyticsAggregatedAlertsListOptionalParams extends msRest.RequestOptionsBase {
   /**
    * The number of results to retrieve.
    */
@@ -1708,7 +1678,7 @@ export interface IoTSecuritySolutionsAnalyticsAggregatedAlertGetOptionalParams e
 /**
  * Optional Parameters.
  */
-export interface IoTSecuritySolutionsAnalyticsRecommendationGetOptionalParams extends msRest.RequestOptionsBase {
+export interface IoTSecuritySolutionsAnalyticsRecommendationsListOptionalParams extends msRest.RequestOptionsBase {
   /**
    * The number of results to retrieve.
    */
@@ -1966,6 +1936,32 @@ export interface WorkspaceSettingList extends Array<WorkspaceSetting> {
  * @extends Array<IoTSecuritySolutionModel>
  */
 export interface IoTSecuritySolutionsList extends Array<IoTSecuritySolutionModel> {
+  /**
+   * The URI to fetch the next page.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * List of IoT aggregated security alerts
+ * @extends Array<IoTSecurityAggregatedAlert>
+ */
+export interface IoTSecurityAggregatedAlertList extends Array<IoTSecurityAggregatedAlert> {
+  /**
+   * The URI to fetch the next page.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * List of IoT aggregated security recommendations
+ * @extends Array<IoTSecurityAggregatedRecommendation>
+ */
+export interface IoTSecurityAggregatedRecommendationList extends Array<IoTSecurityAggregatedRecommendation> {
   /**
    * The URI to fetch the next page.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -4121,9 +4117,9 @@ export type IoTSecuritySolutionsAnalyticsGetResponse = IoTSecuritySolutionAnalyt
 };
 
 /**
- * Contains response data for the get operation.
+ * Contains response data for the list operation.
  */
-export type IoTSecuritySolutionsAnalyticsAggregatedAlertGetResponse = IoTSecurityAggregatedAlert & {
+export type IoTSecuritySolutionsAnalyticsAggregatedAlertsListResponse = IoTSecurityAggregatedAlertList & {
   /**
    * The underlying HTTP response.
    */
@@ -4136,14 +4132,34 @@ export type IoTSecuritySolutionsAnalyticsAggregatedAlertGetResponse = IoTSecurit
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: IoTSecurityAggregatedAlert;
+      parsedBody: IoTSecurityAggregatedAlertList;
     };
 };
 
 /**
- * Contains response data for the getNext operation.
+ * Contains response data for the listNext operation.
  */
-export type IoTSecuritySolutionsAnalyticsAggregatedAlertGetNextResponse = IoTSecurityAggregatedAlert & {
+export type IoTSecuritySolutionsAnalyticsAggregatedAlertsListNextResponse = IoTSecurityAggregatedAlertList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IoTSecurityAggregatedAlertList;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type IoTSecuritySolutionsAnalyticsAggregatedAlertGetResponse = IoTSecurityAggregatedAlert & {
   /**
    * The underlying HTTP response.
    */
@@ -4181,9 +4197,9 @@ export type IoTSecuritySolutionsAnalyticsRecommendationGetResponse = IoTSecurity
 };
 
 /**
- * Contains response data for the getNext operation.
+ * Contains response data for the list operation.
  */
-export type IoTSecuritySolutionsAnalyticsRecommendationGetNextResponse = IoTSecurityAggregatedRecommendation & {
+export type IoTSecuritySolutionsAnalyticsRecommendationsListResponse = IoTSecurityAggregatedRecommendationList & {
   /**
    * The underlying HTTP response.
    */
@@ -4196,7 +4212,27 @@ export type IoTSecuritySolutionsAnalyticsRecommendationGetNextResponse = IoTSecu
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: IoTSecurityAggregatedRecommendation;
+      parsedBody: IoTSecurityAggregatedRecommendationList;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type IoTSecuritySolutionsAnalyticsRecommendationsListNextResponse = IoTSecurityAggregatedRecommendationList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IoTSecurityAggregatedRecommendationList;
     };
 };
 
