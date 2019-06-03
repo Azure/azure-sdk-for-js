@@ -30,12 +30,12 @@ jobs:
     inputs:
       pathtoPublish: $(Build.SourcesDirectory)/dist
       artifactName: dist
-- template: azure-pipelines-job.yml
+- template: azure-pipelines-test.yml
   parameters:
     nodeVersion: '8'
-- template: azure-pipelines-job.yml
+- template: azure-pipelines-test.yml
   parameters:
     nodeVersion: '10'
-- template: azure-pipelines-job.yml
+- template: azure-pipelines-test.yml
   parameters:
     nodeVersion: '12'
