@@ -98,7 +98,7 @@ export function browserConfig(test = false, production = false) {
         `
       }),
       nodeResolve({
-        mainFields: ["module", "browser"],
+        mainFields: ["browser", "module", "main"],
         preferBuiltins: false
       }),
       cjs({
