@@ -1333,7 +1333,7 @@ export const TextOperationResult: msRest.CompositeMapper = {
         type: {
           name: "Enum",
           allowedValues: [
-            "Not Started",
+            "NotStarted",
             "Running",
             "Failed",
             "Succeeded"
@@ -1363,7 +1363,7 @@ export const ReadOperationResult: msRest.CompositeMapper = {
         type: {
           name: "Enum",
           allowedValues: [
-            "Not Started",
+            "NotStarted",
             "Running",
             "Failed",
             "Succeeded"
