@@ -3321,6 +3321,225 @@ export const CalculateBaselineResponse: msRest.CompositeMapper = {
   }
 };
 
+export const MetricSingleDimension: msRest.CompositeMapper = {
+  serializedName: "MetricSingleDimension",
+  type: {
+    name: "Composite",
+    className: "MetricSingleDimension",
+    modelProperties: {
+      name: {
+        required: true,
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      value: {
+        required: true,
+        serializedName: "value",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SingleBaseline: msRest.CompositeMapper = {
+  serializedName: "SingleBaseline",
+  type: {
+    name: "Composite",
+    className: "SingleBaseline",
+    modelProperties: {
+      sensitivity: {
+        required: true,
+        serializedName: "sensitivity",
+        type: {
+          name: "String"
+        }
+      },
+      lowThresholds: {
+        required: true,
+        serializedName: "lowThresholds",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Number"
+            }
+          }
+        }
+      },
+      highThresholds: {
+        required: true,
+        serializedName: "highThresholds",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Number"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const BaselineMetadata: msRest.CompositeMapper = {
+  serializedName: "BaselineMetadata",
+  type: {
+    name: "Composite",
+    className: "BaselineMetadata",
+    modelProperties: {
+      name: {
+        required: true,
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      value: {
+        required: true,
+        serializedName: "value",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const TimeSeriesBaseline: msRest.CompositeMapper = {
+  serializedName: "TimeSeriesBaseline",
+  type: {
+    name: "Composite",
+    className: "TimeSeriesBaseline",
+    modelProperties: {
+      aggregation: {
+        required: true,
+        serializedName: "aggregation",
+        type: {
+          name: "String"
+        }
+      },
+      dimensions: {
+        serializedName: "dimensions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "MetricSingleDimension"
+            }
+          }
+        }
+      },
+      timestamps: {
+        required: true,
+        serializedName: "timestamps",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "DateTime"
+            }
+          }
+        }
+      },
+      data: {
+        required: true,
+        serializedName: "data",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SingleBaseline"
+            }
+          }
+        }
+      },
+      metadata: {
+        serializedName: "metadata",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "BaselineMetadata"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const SingleMetricBaseline: msRest.CompositeMapper = {
+  serializedName: "SingleMetricBaseline",
+  type: {
+    name: "Composite",
+    className: "SingleMetricBaseline",
+    modelProperties: {
+      id: {
+        required: true,
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        required: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        required: true,
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      timespan: {
+        required: true,
+        serializedName: "properties.timespan",
+        type: {
+          name: "String"
+        }
+      },
+      interval: {
+        required: true,
+        serializedName: "properties.interval",
+        type: {
+          name: "TimeSpan"
+        }
+      },
+      namespace: {
+        serializedName: "properties.namespace",
+        type: {
+          name: "String"
+        }
+      },
+      baselines: {
+        required: true,
+        serializedName: "properties.baselines",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "TimeSeriesBaseline"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const MetricAlertAction: msRest.CompositeMapper = {
   serializedName: "MetricAlertAction",
   type: {
@@ -3689,6 +3908,127 @@ export const MetricAlertStatusCollection: msRest.CompositeMapper = {
   }
 };
 
+export const MultiMetricCriteria: msRest.CompositeMapper = {
+  serializedName: "MultiMetricCriteria",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: {
+      serializedName: "criterionType",
+      clientName: "criterionType"
+    },
+    uberParent: "MultiMetricCriteria",
+    className: "MultiMetricCriteria",
+    modelProperties: {
+      name: {
+        required: true,
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      metricName: {
+        required: true,
+        serializedName: "metricName",
+        type: {
+          name: "String"
+        }
+      },
+      metricNamespace: {
+        serializedName: "metricNamespace",
+        type: {
+          name: "String"
+        }
+      },
+      timeAggregation: {
+        required: true,
+        serializedName: "timeAggregation",
+        type: {
+          name: "Object"
+        }
+      },
+      dimensions: {
+        serializedName: "dimensions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "MetricDimension"
+            }
+          }
+        }
+      },
+      criterionType: {
+        required: true,
+        serializedName: "criterionType",
+        type: {
+          name: "String"
+        }
+      }
+    },
+    additionalProperties: {
+      type: {
+        name: "Object"
+      }
+    }
+  }
+};
+
+export const MetricCriteria: msRest.CompositeMapper = {
+  serializedName: "StaticThresholdCriterion",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: MultiMetricCriteria.type.polymorphicDiscriminator,
+    uberParent: "MultiMetricCriteria",
+    className: "MetricCriteria",
+    modelProperties: {
+      ...MultiMetricCriteria.type.modelProperties,
+      operator: {
+        required: true,
+        serializedName: "operator",
+        type: {
+          name: "Object"
+        }
+      },
+      threshold: {
+        required: true,
+        serializedName: "threshold",
+        type: {
+          name: "Number"
+        }
+      }
+    },
+    additionalProperties: MultiMetricCriteria.type.additionalProperties
+  }
+};
+
+export const MetricAlertSingleResourceMultipleMetricCriteria: msRest.CompositeMapper = {
+  serializedName: "Microsoft.Azure.Monitor.SingleResourceMultipleMetricCriteria",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: MetricAlertCriteria.type.polymorphicDiscriminator,
+    uberParent: "MetricAlertCriteria",
+    className: "MetricAlertSingleResourceMultipleMetricCriteria",
+    modelProperties: {
+      ...MetricAlertCriteria.type.modelProperties,
+      allOf: {
+        serializedName: "allOf",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "MetricCriteria",
+              additionalProperties: MultiMetricCriteria.type.additionalProperties
+            }
+          }
+        }
+      }
+    },
+    additionalProperties: MetricAlertCriteria.type.additionalProperties
+  }
+};
+
 export const MetricDimension: msRest.CompositeMapper = {
   serializedName: "MetricDimension",
   type: {
@@ -3725,127 +4065,6 @@ export const MetricDimension: msRest.CompositeMapper = {
   }
 };
 
-export const MultiMetricCriteria: msRest.CompositeMapper = {
-  serializedName: "MultiMetricCriteria",
-  type: {
-    name: "Composite",
-    polymorphicDiscriminator: {
-      serializedName: "criterionType",
-      clientName: "criterionType"
-    },
-    uberParent: "MultiMetricCriteria",
-    className: "MultiMetricCriteria",
-    modelProperties: {
-      criterionType: {
-        required: true,
-        serializedName: "criterionType",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    additionalProperties: {
-      type: {
-        name: "Object"
-      }
-    }
-  }
-};
-
-export const MetricCriteria: msRest.CompositeMapper = {
-  serializedName: "StaticThresholdCriterion",
-  type: {
-    name: "Composite",
-    polymorphicDiscriminator: MultiMetricCriteria.type.polymorphicDiscriminator,
-    uberParent: "MultiMetricCriteria",
-    className: "MetricCriteria",
-    modelProperties: {
-      ...MultiMetricCriteria.type.modelProperties,
-      name: {
-        required: true,
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      },
-      metricName: {
-        required: true,
-        serializedName: "metricName",
-        type: {
-          name: "String"
-        }
-      },
-      metricNamespace: {
-        serializedName: "metricNamespace",
-        type: {
-          name: "String"
-        }
-      },
-      operator: {
-        required: true,
-        serializedName: "operator",
-        type: {
-          name: "Object"
-        }
-      },
-      timeAggregation: {
-        required: true,
-        serializedName: "timeAggregation",
-        type: {
-          name: "Object"
-        }
-      },
-      threshold: {
-        required: true,
-        serializedName: "threshold",
-        type: {
-          name: "Number"
-        }
-      },
-      dimensions: {
-        serializedName: "dimensions",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "MetricDimension"
-            }
-          }
-        }
-      }
-    },
-    additionalProperties: MultiMetricCriteria.type.additionalProperties
-  }
-};
-
-export const MetricAlertSingleResourceMultipleMetricCriteria: msRest.CompositeMapper = {
-  serializedName: "Microsoft.Azure.Monitor.SingleResourceMultipleMetricCriteria",
-  type: {
-    name: "Composite",
-    polymorphicDiscriminator: MetricAlertCriteria.type.polymorphicDiscriminator,
-    uberParent: "MetricAlertCriteria",
-    className: "MetricAlertSingleResourceMultipleMetricCriteria",
-    modelProperties: {
-      ...MetricAlertCriteria.type.modelProperties,
-      allOf: {
-        serializedName: "allOf",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "MetricCriteria",
-              additionalProperties: MultiMetricCriteria.type.additionalProperties
-            }
-          }
-        }
-      }
-    },
-    additionalProperties: MetricAlertCriteria.type.additionalProperties
-  }
-};
-
 export const MetricAlertMultipleResourceMultipleMetricCriteria: msRest.CompositeMapper = {
   serializedName: "Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria",
   type: {
@@ -3874,6 +4093,72 @@ export const MetricAlertMultipleResourceMultipleMetricCriteria: msRest.Composite
       }
     },
     additionalProperties: MetricAlertCriteria.type.additionalProperties
+  }
+};
+
+export const DynamicThresholdFailingPeriods: msRest.CompositeMapper = {
+  serializedName: "DynamicThresholdFailingPeriods",
+  type: {
+    name: "Composite",
+    className: "DynamicThresholdFailingPeriods",
+    modelProperties: {
+      numberOfEvaluationPeriods: {
+        required: true,
+        serializedName: "numberOfEvaluationPeriods",
+        type: {
+          name: "Number"
+        }
+      },
+      minFailingPeriodsToAlert: {
+        required: true,
+        serializedName: "minFailingPeriodsToAlert",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const DynamicMetricCriteria: msRest.CompositeMapper = {
+  serializedName: "DynamicThresholdCriterion",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: MultiMetricCriteria.type.polymorphicDiscriminator,
+    uberParent: "MultiMetricCriteria",
+    className: "DynamicMetricCriteria",
+    modelProperties: {
+      ...MultiMetricCriteria.type.modelProperties,
+      operator: {
+        required: true,
+        serializedName: "operator",
+        type: {
+          name: "Object"
+        }
+      },
+      alertSensitivity: {
+        required: true,
+        serializedName: "alertSensitivity",
+        type: {
+          name: "Object"
+        }
+      },
+      failingPeriods: {
+        required: true,
+        serializedName: "failingPeriods",
+        type: {
+          name: "Composite",
+          className: "DynamicThresholdFailingPeriods"
+        }
+      },
+      ignoreDataBefore: {
+        serializedName: "ignoreDataBefore",
+        type: {
+          name: "DateTime"
+        }
+      }
+    },
+    additionalProperties: MultiMetricCriteria.type.additionalProperties
   }
 };
 
@@ -4269,8 +4554,13 @@ export const LogToMetricAction: msRest.CompositeMapper = {
         required: true,
         serializedName: "criteria",
         type: {
-          name: "Composite",
-          className: "Criteria"
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Criteria"
+            }
+          }
         }
       }
     }
@@ -4708,6 +4998,28 @@ export const MetricDefinitionCollection: msRest.CompositeMapper = {
   }
 };
 
+export const MetricBaselinesResponse: msRest.CompositeMapper = {
+  serializedName: "MetricBaselinesResponse",
+  type: {
+    name: "Composite",
+    className: "MetricBaselinesResponse",
+    modelProperties: {
+      value: {
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SingleMetricBaseline"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const MetricAlertResourceCollection: msRest.CompositeMapper = {
   serializedName: "MetricAlertResourceCollection",
   type: {
@@ -4791,6 +5103,7 @@ export const discriminators = {
   'MetricAlertCriteria.Microsoft.Azure.Monitor.SingleResourceMultipleMetricCriteria' : MetricAlertSingleResourceMultipleMetricCriteria,
   'MultiMetricCriteria' : MultiMetricCriteria,
   'MetricAlertCriteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria' : MetricAlertMultipleResourceMultipleMetricCriteria,
+  'MultiMetricCriteria.DynamicThresholdCriterion' : DynamicMetricCriteria,
   'Action' : Action,
   'Action.Microsoft.WindowsAzure.Management.Monitoring.Alerts.Models.Microsoft.AppInsights.Nexus.DataContracts.Resources.ScheduledQueryRules.AlertingAction' : AlertingAction,
   'Action.Microsoft.WindowsAzure.Management.Monitoring.Alerts.Models.Microsoft.AppInsights.Nexus.DataContracts.Resources.ScheduledQueryRules.LogToMetricAction' : LogToMetricAction
