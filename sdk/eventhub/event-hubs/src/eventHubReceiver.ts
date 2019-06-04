@@ -171,8 +171,8 @@ export class EventHubReceiver extends LinkEntity {
    */
   protected _onSessionClose: OnAmqpEvent;
   /**
-   * @property {CheckpointData} _checkpoint Describes metadata about the last message received.
-   * This is used as the offset to receive messages from incase of recovery.
+   * @property {number} _checkpoint Describes sequenceNumber of the last message received.
+   * This is used as the sequenceNumber to receive messages from incase of recovery.
    */
   protected _checkpoint: number;
   /**
@@ -215,11 +215,11 @@ export class EventHubReceiver extends LinkEntity {
       const data: EventDataInternal = fromAmqpMessage(context.message!);
       const receivedEventData: ReceivedEventData = {
         body: this._context.dataTransformer.decode(context.message!.body),
-        properties: data.properties,
-        offset: data.offset,
-        sequenceNumber: data.sequenceNumber,
-        enqueuedTimeUtc: data.enqueuedTimeUtc,
-        partitionKey: data.partitionKey
+        properties: data.properties!,
+        offset: data.offset!,
+        sequenceNumber: data.sequenceNumber!,
+        enqueuedTimeUtc: data.enqueuedTimeUtc!,
+        partitionKey: data.partitionKey!
       };
       this._checkpoint = receivedEventData.sequenceNumber!;
 

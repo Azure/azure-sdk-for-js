@@ -220,18 +220,23 @@ export class Receiver {
   }
 
   private getCheckpoint(): number | undefined {
-    if (this._streamingReceiver || this._batchingReceiver) {
-      let lastBatchingReceiverSequenceNum: number = -1;
-      let lastStreamingReceiverSequenceNum: number = -1;
-      if (this._batchingReceiver) {
-        lastBatchingReceiverSequenceNum = this._batchingReceiver.checkpoint;
-      }
-      if (this._streamingReceiver) {
-        lastStreamingReceiverSequenceNum = this._streamingReceiver.checkpoint;
-      }
-      return Math.max(lastStreamingReceiverSequenceNum, lastBatchingReceiverSequenceNum);
+    if (!this._streamingReceiver && !this._batchingReceiver) {
+      return;
     }
-    return;
+    let lastBatchingReceiverSequenceNum: number = -1;
+    let lastStreamingReceiverSequenceNum: number = -1;
+    if (this._batchingReceiver) {
+      lastBatchingReceiverSequenceNum = this._batchingReceiver.checkpoint;
+    }
+    if (this._streamingReceiver) {
+      lastStreamingReceiverSequenceNum = this._streamingReceiver.checkpoint;
+    }
+
+    const checkpoint = Math.max(lastStreamingReceiverSequenceNum, lastBatchingReceiverSequenceNum);
+    if (checkpoint === -1) {
+      return;
+    }
+    return checkpoint;
   }
 
   private _throwIfAlreadyReceiving(): void {
