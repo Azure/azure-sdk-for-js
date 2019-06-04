@@ -10,7 +10,7 @@ export class IdentityClient extends ServiceClient {
   constructor(options?: IdentityClientOptions) {
     super(undefined, options)
 
-    if (options != undefined) {
+    if (options !== undefined) {
       this.baseUri = options.authorityHost
     }
   }
@@ -25,11 +25,16 @@ export class IdentityClient extends ServiceClient {
         client_id: clientId,
         client_secret: clientSecret,
         scope: (typeof scopes === 'string') ? scopes : scopes.join(' ')
-      }
+      },
+      headers: requestOptions && requestOptions.customHeaders,
+      abortSignal: requestOptions && requestOptions.abortSignal,
+      timeout: requestOptions && requestOptions.timeout,
+      onUploadProgress: requestOptions && requestOptions.onUploadProgress,
+      onDownloadProgress: requestOptions && requestOptions.onDownloadProgress
     })
 
-    if (response.status == 200 || response.status == 201) {
-      let expiresOn = new Date()
+    if (response.status === 200 || response.status === 201) {
+      const expiresOn = new Date()
       expiresOn.setSeconds(expiresOn.getSeconds() + response.parsedBody.expires_in)
 
       return {

@@ -2,15 +2,15 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import { TokenCredential, CredentialScopes } from "../credentials/tokenCredential";
-import { BaseRequestPolicy, RequestPolicy, RequestPolicyOptions, RequestPolicyFactory } from '../policies/requestPolicy'
-import { Constants } from '../util/constants'
-import { HttpOperationResponse } from '../httpOperationResponse'
-import { HttpHeaders, } from '../httpHeaders'
+import { BaseRequestPolicy, RequestPolicy, RequestPolicyOptions, RequestPolicyFactory } from "../policies/requestPolicy";
+import { Constants } from "../util/constants";
+import { HttpOperationResponse } from "../httpOperationResponse";
+import { HttpHeaders, } from "../httpHeaders";
 import { WebResource } from "../webResource";
 
 /**
  * Creates a new BearerTokenAuthenticationPolicy factory.
- * 
+ *
  * @param credential The TokenCredential implementation that can supply the bearer token.
  * @param scopes The scopes for which the bearer token applies.
  */

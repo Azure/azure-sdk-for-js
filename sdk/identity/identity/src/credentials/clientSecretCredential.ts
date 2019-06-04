@@ -7,19 +7,27 @@ import { AzureCredential } from './azureCredential';
 import { IdentityClientOptions } from '../client/identityClient';
 
 export class ClientSecretCredential extends AzureCredential {
+  private _tenantId: string;
+  private _clientId: string;
+  private _clientSecret: string;
+
   constructor(
-    private tenantId: string,
-    private clientId: string,
-    private clientSecret: string,
+    tenantId: string,
+    clientId: string,
+    clientSecret: string,
     options?: IdentityClientOptions) {
     super(options)
+    
+    this._tenantId = tenantId;
+    this._clientId = clientId;
+    this._clientSecret = clientSecret;
   }
 
   protected getTokenCore(scopes: CredentialScopes, requestOptions?: RequestOptionsBase): Promise<AccessToken | null> {
     return this.identityClient.authenticate(
-      this.tenantId,
-      this.clientId,
-      this.clientSecret,
+      this._tenantId,
+      this._clientId,
+      this._clientSecret,
       scopes,
       requestOptions)
   }

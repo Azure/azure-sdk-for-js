@@ -19,15 +19,15 @@ export class EnvironmentCredential implements TokenCredential {
       clientSecret = process.env.AZURE_CLIENT_SECRET;
 
     if (tenantId && clientId && clientSecret) {
-      this._credential = new ClientSecretCredential(tenantId, clientId, clientSecret)
+      this._credential = new ClientSecretCredential(tenantId, clientId, clientSecret, options)
     }
   }
 
-  async getToken(scopes: CredentialScopes, requestOptions?: RequestOptionsBase): Promise<string | null> {
+  getToken(scopes: CredentialScopes, requestOptions?: RequestOptionsBase): Promise<string | null> {
     if (this._credential) {
-      return await this._credential.getToken(scopes, requestOptions)
+      return this._credential.getToken(scopes, requestOptions)
     }
 
-    return null;
+    return Promise.resolve(null);
   }
 }

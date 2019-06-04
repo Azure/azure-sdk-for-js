@@ -16,7 +16,7 @@ export { OperationSpec } from "./operationSpec";
 export { ServiceClient, ServiceClientOptions, flattenResponse } from "./serviceClient";
 export { QueryCollectionFormat } from "./queryCollectionFormat";
 export { Constants } from "./util/constants";
-export { BearerTokenAuthenticationPolicy } from './policies/bearerTokenAuthenticationPolicy';
+export { BearerTokenAuthenticationPolicy } from "./policies/bearerTokenAuthenticationPolicy";
 export { logPolicy } from "./policies/logPolicy";
 export { BaseRequestPolicy, RequestPolicy, RequestPolicyFactory, RequestPolicyOptions } from "./policies/requestPolicy";
 export { generateClientRequestIdPolicy } from "./policies/generateClientRequestIdPolicy";

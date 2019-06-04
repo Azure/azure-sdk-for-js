@@ -5,10 +5,10 @@ import { assert } from "chai";
 import { fake } from "sinon";
 import { OperationSpec } from "../../lib/operationSpec";
 import { TokenCredential } from "../../lib/credentials/tokenCredential";
-import { RequestPolicy, RequestPolicyOptions, } from '../../lib/policies/requestPolicy'
-import { Constants } from '../../lib/util/constants'
-import { HttpOperationResponse } from '../../lib/httpOperationResponse'
-import { HttpHeaders, } from '../../lib/httpHeaders'
+import { RequestPolicy, RequestPolicyOptions, } from "../../lib/policies/requestPolicy";
+import { Constants } from "../../lib/util/constants";
+import { HttpOperationResponse } from "../../lib/httpOperationResponse";
+import { HttpHeaders, } from "../../lib/httpHeaders";
 import { WebResource } from "../../lib/webResource";
 import { BearerTokenAuthenticationPolicy } from "../../lib/policies/bearerTokenAuthenticationPolicy";
 

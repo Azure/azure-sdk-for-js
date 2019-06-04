@@ -7,7 +7,7 @@ import { RequestOptionsBase } from "../webResource";
  * Defines a type for credential scopes that can either be a string
  * or a list of strings.
  */
-export type CredentialScopes = string | string[]
+export type CredentialScopes = string | string[];
 
 /**
  * Represents a credential capable of providing an authentication token.
