@@ -119,11 +119,7 @@ export class BatchingReceiver extends EventHubReceiver {
           enqueuedTimeUtc: data.enqueuedTimeUtc,
           partitionKey: data.partitionKey
         };
-        this._checkpoint = {
-          enqueuedTimeUtc: receivedEventData.enqueuedTimeUtc!,
-          offset: receivedEventData.offset!,
-          sequenceNumber: receivedEventData.sequenceNumber!
-        };
+        this._checkpoint = receivedEventData.sequenceNumber!;
         if (eventDatas.length <= maxMessageCount) {
           eventDatas.push(receivedEventData);
         }
@@ -169,6 +165,7 @@ export class BatchingReceiver extends EventHubReceiver {
           this._aborter.removeEventListener("abort", this._onAbort);
         }
 
+        this.isReceivingMessages = false;
         const receiverError = context.receiver && context.receiver.error;
         let error = new MessagingError("An error occuured while receiving messages.");
         if (receiverError) {
@@ -214,6 +211,7 @@ export class BatchingReceiver extends EventHubReceiver {
         if (this._aborter) {
           this._aborter.removeEventListener("abort", this._onAbort);
         }
+        this.isReceivingMessages = false;
         const sessionError = context.session && context.session.error;
         let error = new MessagingError("An error occuured while receiving messages.");
         if (sessionError) {
