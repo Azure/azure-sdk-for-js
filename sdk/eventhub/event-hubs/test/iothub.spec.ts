@@ -8,10 +8,10 @@ chai.use(chaiAsPromised);
 import debugModule from "debug";
 const debug = debugModule("azure:event-hubs:iothub-spec");
 import { EventHubClient } from "../src";
-import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
+import { EnvVarKeys, getEnvVars, notYetRunnableInBrowserMarker } from "./utils/testUtils";
 const env = getEnvVars();
 
-describe("EventHub Client with iothub connection string", function(): void {
+describe(`EventHub Client with iothub connection string ${notYetRunnableInBrowserMarker}`, function(): void {
   const service = { connectionString: env[EnvVarKeys.IOTHUB_CONNECTION_STRING] };
   let client: EventHubClient;
   before("validate environment", async function(): Promise<void> {
@@ -29,13 +29,22 @@ describe("EventHub Client with iothub connection string", function(): void {
   });
 
   it("should be able to get hub runtime info", async function(): Promise<void> {
+
     client = await EventHubClient.createFromIotHubConnectionString(service.connectionString!);
     const runtimeInfo = await client.getHubRuntimeInformation();
     debug(">>> RuntimeInfo: ", runtimeInfo);
-    should.exist(runtimeInfo);
-    runtimeInfo.type.should.equal("com.microsoft:eventhub");
-    runtimeInfo.partitionCount.should.be.greaterThan(0);
-    runtimeInfo.partitionIds.length.should.be.greaterThan(0);
+    should.exist(runtimeInfo, `RuntimeIno does not exist. Found ${runtimeInfo}`);
+    should.equal(runtimeInfo.type, "com.microsoft:eventhub", `Runtime Type is not equal and found ${runtimeInfo.type}`);
+    should.equal(
+      runtimeInfo.partitionCount > 0,
+      true,
+      `partitionCount is not > 0 and found ${runtimeInfo.partitionCount}`
+    );
+    should.equal(
+      runtimeInfo.partitionIds.length > 0,
+      true,
+      `partitionIds.length is not > 0 and found ${runtimeInfo.partitionIds.length}`
+    );
   });
 
   it("should be able to receive messages from the event hub", async function(): Promise<void> {
