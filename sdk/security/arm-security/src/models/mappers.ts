@@ -2177,7 +2177,6 @@ export const IoTSecurityAggregatedAlert: msRest.CompositeMapper = {
     modelProperties: {
       ...Resource.type.modelProperties,
       alertType: {
-        required: true,
         serializedName: "alertType",
         type: {
           name: "String"
@@ -2272,7 +2271,6 @@ export const IoTSecurityAggregatedRecommendation: msRest.CompositeMapper = {
     modelProperties: {
       ...Resource.type.modelProperties,
       recommendationName: {
-        required: true,
         serializedName: "recommendationName",
         type: {
           name: "String"

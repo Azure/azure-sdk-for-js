@@ -1301,7 +1301,7 @@ export interface IoTSecurityAggregatedAlert extends Resource {
   /**
    * Name of the alert type
    */
-  alertType: string;
+  alertType?: string;
   /**
    * Display name of the alert type
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -1367,7 +1367,7 @@ export interface IoTSecurityAggregatedRecommendation extends Resource {
   /**
    * Name of the alert type
    */
-  recommendationName: string;
+  recommendationName?: string;
   /**
    * Display name of the alert type
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
