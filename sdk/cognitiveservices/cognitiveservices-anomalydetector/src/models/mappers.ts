@@ -609,6 +609,7 @@ export const Inconsistency: msRest.CompositeMapper = {
         }
       },
       timestamp: {
+        required: true,
         serializedName: "timestamp",
         type: {
           name: "DateTime"
@@ -759,6 +760,7 @@ export const ChangePointDetectOnTimestampRequest: msRest.CompositeMapper = {
     className: "ChangePointDetectOnTimestampRequest",
     modelProperties: {
       timestamp: {
+        required: true,
         serializedName: "timestamp",
         type: {
           name: "DateTime"

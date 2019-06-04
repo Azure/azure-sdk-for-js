@@ -342,7 +342,7 @@ export interface Inconsistency {
   /**
    * Inconsistency detect timestamp.
    */
-  timestamp?: Date;
+  timestamp: Date;
   /**
    * Parameter to be tuned to get inconsistency.
    */
@@ -427,7 +427,7 @@ export interface ChangePointDetectOnTimestampRequest {
   /**
    * The timestamp of a data point.
    */
-  timestamp?: Date;
+  timestamp: Date;
   /**
    * Optional argument, periodic value of a time series. If the value is null or does not present,
    * the API will determine the period automatically.
