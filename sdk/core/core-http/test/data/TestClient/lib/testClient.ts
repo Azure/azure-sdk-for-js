@@ -14,7 +14,7 @@
 
 "use strict";
 
-import * as msRest from "../../../../lib/msRest";
+import * as msRest from "../../../../lib/coreHttp";
 import { Mappers } from "./models/mappers";
 
 /**

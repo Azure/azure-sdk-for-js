@@ -1,7 +1,0 @@
-language: node_js
-sudo: true
-addons:
-  chrome: stable
-node_js:
-  - "6"
-  - "8"

@@ -4,7 +4,7 @@
 import { assert } from "chai";
 import "chai/register-should";
 
-import * as msRest from "../lib/msRest";
+import * as msRest from "../lib/coreHttp";
 import { TestClient } from "./data/TestClient/lib/testClient";
 import { Mappers } from "./data/TestClient/lib/models/mappers";
 

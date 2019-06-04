@@ -4,7 +4,7 @@
 import { assert } from "chai";
 import { HttpHeaders } from "../../lib/httpHeaders";
 import { HttpOperationResponse } from "../../lib/httpOperationResponse";
-import { HttpClient, OperationSpec, Serializer } from "../../lib/msRest";
+import { HttpClient, OperationSpec, Serializer } from "../../lib/coreHttp";
 import { DeserializationPolicy, deserializationPolicy, deserializeResponseBody, defaultJsonContentTypes, defaultXmlContentTypes } from "../../lib/policies/deserializationPolicy";
 import { RequestPolicy, RequestPolicyOptions } from "../../lib/policies/requestPolicy";
 import { WebResource } from "../../lib/webResource";

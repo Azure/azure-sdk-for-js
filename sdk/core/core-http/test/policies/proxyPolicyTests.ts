@@ -8,7 +8,7 @@ import { RequestPolicyOptions } from "../../lib/policies/requestPolicy";
 import { WebResource } from "../../lib/webResource";
 import { HttpHeaders } from "../../lib/httpHeaders";
 import { proxyPolicy, ProxyPolicy, getDefaultProxySettings } from "../../lib/policies/proxyPolicy";
-import { Constants } from "../../lib/msRest";
+import { Constants } from "../../lib/coreHttp";
 import { nodeDescribe, browserDescribe } from "../msAssert";
 
 describe("ProxyPolicy", function () {
@@ -122,8 +122,8 @@ describe("getDefaultProxySettings", () => {
 
       describe("should prefer HTTPS proxy over HTTP proxy", () => {
         [
-                    { name: "lower case", func: (envVar: string) => envVar.toLowerCase() },
-                    { name: "upper case", func: (envVar: string) => envVar.toUpperCase() }
+          { name: "lower case", func: (envVar: string) => envVar.toLowerCase() },
+          { name: "upper case", func: (envVar: string) => envVar.toUpperCase() }
         ].forEach(testCase => {
           it(`with ${testCase.name}`, () => {
             const httpProxy = "http://proxy.microsoft.com";

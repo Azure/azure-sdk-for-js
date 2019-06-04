@@ -3,7 +3,7 @@
 
 import xhrMock, { proxy } from "xhr-mock";
 import MockAdapter from "axios-mock-adapter";
-import { isNode, HttpMethods } from "../lib/msRest";
+import { isNode, HttpMethods } from "../lib/coreHttp";
 import { AxiosRequestConfig, AxiosInstance } from "axios";
 
 export type UrlFilter = string | RegExp;
@@ -133,4 +133,3 @@ class BrowserHttpMock implements HttpMockFacade {
     return this.mockHttpMethod(method, url, () => new Promise(() => { }));
   }
 }
-

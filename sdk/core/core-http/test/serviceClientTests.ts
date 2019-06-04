@@ -7,7 +7,7 @@ import { QueryCollectionFormat } from "../lib/queryCollectionFormat";
 import { DictionaryMapper, MapperType, Serializer, Mapper } from "../lib/serializer";
 import { serializeRequestBody, ServiceClient, getOperationArgumentValueFromParameterPath } from "../lib/serviceClient";
 import { WebResource } from "../lib/webResource";
-import { OperationArguments, HttpHeaders, deserializationPolicy, RestResponse, isNode } from "../lib/msRest";
+import { OperationArguments, HttpHeaders, deserializationPolicy, RestResponse, isNode } from "../lib/coreHttp";
 import { ParameterPath } from "../lib/operationParameter";
 
 describe("ServiceClient", function () {

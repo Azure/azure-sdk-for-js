@@ -2,6 +2,8 @@ const defaults = {
   port: 9876
 };
 
+process.env.CHROME_BIN = require("puppeteer").executablePath();
+
 module.exports = function (config: any) {
   config.set({
     plugins: [
@@ -15,10 +17,10 @@ module.exports = function (config: any) {
 
     // list of files / patterns to load in the browser
     files: [
-      { pattern: "dist/msRest.browser.js" },
-      { pattern: "dist/msRest.browser.js.map", included: false },
-      { pattern: "test/msRest.browser.test.js" },
-      { pattern: "test/msRest.browser.test.js.map", included: false }
+      { pattern: "dist/coreHttp.browser.js" },
+      { pattern: "dist/coreHttp.browser.js.map", included: false },
+      { pattern: "test/coreHttp.browser.test.js" },
+      { pattern: "test/coreHttp.browser.test.js.map", included: false }
     ],
 
     // test results reporter to use
