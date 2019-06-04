@@ -28,12 +28,12 @@ export class Pool {
 
   /**
    * If you do not specify a $filter clause including a poolId, the response includes all pools that
-   * existed in the account in the time range of the returned aggregation intervals. If you do not
+   * existed in the Account in the time range of the returned aggregation intervals. If you do not
    * specify a $filter clause including a startTime or endTime these filters default to the start and
    * end times of the last aggregation interval currently available; that is, only the last
    * aggregation interval is returned.
    * @summary Lists the usage metrics, aggregated by pool across individual time intervals, for the
-   * specified account.
+   * specified Account.
    * @param [options] The optional parameters
    * @returns Promise<Models.PoolListUsageMetricsResponse>
    */
@@ -57,11 +57,11 @@ export class Pool {
   }
 
   /**
-   * Statistics are aggregated across all pools that have ever existed in the account, from account
+   * Statistics are aggregated across all pools that have ever existed in the Account, from Account
    * creation to the last update time of the statistics. The statistics may not be immediately
    * available. The Batch service performs periodic roll-up of statistics. The typical delay is about
    * 30 minutes.
-   * @summary Gets lifetime summary statistics for all of the pools in the specified account.
+   * @summary Gets lifetime summary statistics for all of the pools in the specified Account.
    * @param [options] The optional parameters
    * @returns Promise<Models.PoolGetAllLifetimeStatisticsResponse>
    */
@@ -87,7 +87,7 @@ export class Pool {
   /**
    * When naming pools, avoid including sensitive information such as user names or secret project
    * names. This information may appear in telemetry logs accessible to Microsoft Support engineers.
-   * @summary Adds a pool to the specified account.
+   * @summary Adds a pool to the specified Account.
    * @param pool The pool to be added.
    * @param [options] The optional parameters
    * @returns Promise<Models.PoolAddResponse>
@@ -115,7 +115,7 @@ export class Pool {
   }
 
   /**
-   * @summary Lists all of the pools in the specified account.
+   * @summary Lists all of the pools in the specified Account.
    * @param [options] The optional parameters
    * @returns Promise<Models.PoolListResponse>
    */
@@ -141,15 +141,15 @@ export class Pool {
   /**
    * When you request that a pool be deleted, the following actions occur: the pool state is set to
    * deleting; any ongoing resize operation on the pool are stopped; the Batch service starts
-   * resizing the pool to zero nodes; any tasks running on existing nodes are terminated and requeued
+   * resizing the pool to zero nodes; any Tasks running on existing nodes are terminated and requeued
    * (as if a resize pool operation had been requested with the default requeue option); finally, the
-   * pool is removed from the system. Because running tasks are requeued, the user can rerun these
-   * tasks by updating their job to target a different pool. The tasks can then run on the new pool.
+   * pool is removed from the system. Because running Tasks are requeued, the user can rerun these
+   * Tasks by updating their Job to target a different pool. The Tasks can then run on the new pool.
    * If you want to override the requeue behavior, then you should call resize pool explicitly to
    * shrink the pool to zero size before deleting the pool. If you call an Update, Patch or Delete
    * API on a pool in the deleting state, it will fail with HTTP status code 409 with error code
    * PoolBeingDeleted.
-   * @summary Deletes a pool from the specified account.
+   * @summary Deletes a pool from the specified Account.
    * @param poolId The ID of the pool to delete.
    * @param [options] The optional parameters
    * @returns Promise<Models.PoolDeleteResponse>
@@ -234,8 +234,8 @@ export class Pool {
 
   /**
    * This only replaces the pool properties specified in the request. For example, if the pool has a
-   * start task associated with it, and a request does not specify a start task element, then the
-   * pool keeps the existing start task.
+   * start Task associated with it, and a request does not specify a start Task element, then the
+   * pool keeps the existing start Task.
    * @summary Updates the properties of the specified pool.
    * @param poolId The ID of the pool to update.
    * @param poolPatchParameter The parameters for the request.
@@ -338,10 +338,10 @@ export class Pool {
    * evaluate a formula.
    * @summary Gets the result of evaluating an automatic scaling formula on the pool.
    * @param poolId The ID of the pool on which to evaluate the automatic scaling formula.
-   * @param autoScaleFormula The formula for the desired number of compute nodes in the pool. The
-   * formula is validated and its results calculated, but it is not applied to the pool. To apply the
-   * formula to the pool, 'Enable automatic scaling on a pool'. For more information about specifying
-   * this formula, see Automatically scale compute nodes in an Azure Batch pool
+   * @param autoScaleFormula The formula for the desired number of Nodes in the pool. The formula is
+   * validated and its results calculated, but it is not applied to the pool. To apply the formula to
+   * the pool, 'Enable automatic scaling on a pool'. For more information about specifying this
+   * formula, see Automatically scale Nodes in an Azure Batch pool
    * (https://azure.microsoft.com/en-us/documentation/articles/batch-automatic-scaling).
    * @param [options] The optional parameters
    * @returns Promise<Models.PoolEvaluateAutoScaleResponse>
@@ -349,20 +349,20 @@ export class Pool {
   evaluateAutoScale(poolId: string, autoScaleFormula: string, options?: Models.PoolEvaluateAutoScaleOptionalParams): Promise<Models.PoolEvaluateAutoScaleResponse>;
   /**
    * @param poolId The ID of the pool on which to evaluate the automatic scaling formula.
-   * @param autoScaleFormula The formula for the desired number of compute nodes in the pool. The
-   * formula is validated and its results calculated, but it is not applied to the pool. To apply the
-   * formula to the pool, 'Enable automatic scaling on a pool'. For more information about specifying
-   * this formula, see Automatically scale compute nodes in an Azure Batch pool
+   * @param autoScaleFormula The formula for the desired number of Nodes in the pool. The formula is
+   * validated and its results calculated, but it is not applied to the pool. To apply the formula to
+   * the pool, 'Enable automatic scaling on a pool'. For more information about specifying this
+   * formula, see Automatically scale Nodes in an Azure Batch pool
    * (https://azure.microsoft.com/en-us/documentation/articles/batch-automatic-scaling).
    * @param callback The callback
    */
   evaluateAutoScale(poolId: string, autoScaleFormula: string, callback: msRest.ServiceCallback<Models.AutoScaleRun>): void;
   /**
    * @param poolId The ID of the pool on which to evaluate the automatic scaling formula.
-   * @param autoScaleFormula The formula for the desired number of compute nodes in the pool. The
-   * formula is validated and its results calculated, but it is not applied to the pool. To apply the
-   * formula to the pool, 'Enable automatic scaling on a pool'. For more information about specifying
-   * this formula, see Automatically scale compute nodes in an Azure Batch pool
+   * @param autoScaleFormula The formula for the desired number of Nodes in the pool. The formula is
+   * validated and its results calculated, but it is not applied to the pool. To apply the formula to
+   * the pool, 'Enable automatic scaling on a pool'. For more information about specifying this
+   * formula, see Automatically scale Nodes in an Azure Batch pool
    * (https://azure.microsoft.com/en-us/documentation/articles/batch-automatic-scaling).
    * @param options The optional parameters
    * @param callback The callback
@@ -386,7 +386,7 @@ export class Pool {
    * scaling. If you try to do this, the Batch service returns an error 409. If you resize a pool
    * downwards, the Batch service chooses which nodes to remove. To remove specific nodes, use the
    * pool remove nodes API instead.
-   * @summary Changes the number of compute nodes that are assigned to a pool.
+   * @summary Changes the number of Nodes that are assigned to a pool.
    * @param poolId The ID of the pool to resize.
    * @param poolResizeParameter The parameters for the request.
    * @param [options] The optional parameters
@@ -453,8 +453,8 @@ export class Pool {
 
   /**
    * This fully replaces all the updatable properties of the pool. For example, if the pool has a
-   * start task associated with it and if start task is not specified with this request, then the
-   * Batch service will remove the existing start task.
+   * start Task associated with it and if start Task is not specified with this request, then the
+   * Batch service will remove the existing start Task.
    * @summary Updates the properties of the specified pool.
    * @param poolId The ID of the pool to update.
    * @param poolUpdatePropertiesParameter The parameters for the request.
@@ -489,7 +489,7 @@ export class Pool {
   /**
    * This operation can only run when the allocation state of the pool is steady. When this operation
    * runs, the allocation state changes from steady to resizing.
-   * @summary Removes compute nodes from the specified pool.
+   * @summary Removes Nodes from the specified pool.
    * @param poolId The ID of the pool from which you want to remove nodes.
    * @param nodeRemoveParameter The parameters for the request.
    * @param [options] The optional parameters
@@ -522,12 +522,12 @@ export class Pool {
 
   /**
    * If you do not specify a $filter clause including a poolId, the response includes all pools that
-   * existed in the account in the time range of the returned aggregation intervals. If you do not
+   * existed in the Account in the time range of the returned aggregation intervals. If you do not
    * specify a $filter clause including a startTime or endTime these filters default to the start and
    * end times of the last aggregation interval currently available; that is, only the last
    * aggregation interval is returned.
    * @summary Lists the usage metrics, aggregated by pool across individual time intervals, for the
-   * specified account.
+   * specified Account.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.PoolListUsageMetricsResponse>
@@ -555,7 +555,7 @@ export class Pool {
   }
 
   /**
-   * @summary Lists all of the pools in the specified account.
+   * @summary Lists all of the pools in the specified Account.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.PoolListResponse>
