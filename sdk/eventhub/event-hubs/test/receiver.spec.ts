@@ -11,21 +11,24 @@ const debug = debugModule("azure:event-hubs:receiver-spec");
 import { EventPosition, EventHubClient, EventData, EventHubRuntimeInformation, MessagingError } from "../src";
 import { BatchingReceiver } from "../src/batchingReceiver";
 import { ReceiveHandler } from "../src/streamingReceiver";
-import dotenv from "dotenv";
-dotenv.config();
+import { EnvVarKeys, getEnvVars } from "./utils/envVarUtils";
+const env = getEnvVars();
 
 describe("EventHub Receiver", function(): void {
-  const service = { connectionString: process.env.EVENTHUB_CONNECTION_STRING, path: process.env.EVENTHUB_NAME };
+  const service = {
+    connectionString: env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
+    path: env[EnvVarKeys.EVENTHUB_NAME]
+  };
   const client: EventHubClient = EventHubClient.createFromConnectionString(service.connectionString!, service.path);
   let breceiver: BatchingReceiver;
   let hubInfo: EventHubRuntimeInformation;
   before("validate environment", async function(): Promise<void> {
     should.exist(
-      process.env.EVENTHUB_CONNECTION_STRING,
+      env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
       "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests."
     );
     should.exist(
-      process.env.EVENTHUB_NAME,
+      env[EnvVarKeys.EVENTHUB_NAME],
       "define EVENTHUB_NAME in your environment before running integration tests."
     );
     hubInfo = await client.getHubRuntimeInformation();

@@ -117,11 +117,15 @@ export function browserConfig(test = false) {
 
       nodeResolve({
         mainFields: ["module", "browser"],
-        preferBuiltins: false
+        preferBuiltins: false,
+        dedupe: ["buffer", "events", "util", "process"]
       }),
 
       cjs({
-        namedExports: { events: ["EventEmitter"] }
+        namedExports: {
+          events: ["EventEmitter"],
+          assert: ["ok", "deepEqual", "equal", "fail", "deepStrictEqual", "notDeepEqual"]
+        }
       }),
 
       // rhea and rhea-promise use the Buffer global which requires

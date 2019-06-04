@@ -7,21 +7,23 @@ import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 import debugModule from "debug";
 const debug = debugModule("azure:event-hubs:hubruntime-spec");
-import dotenv from "dotenv";
-dotenv.config();
+import { EnvVarKeys, getEnvVars } from "./utils/envVarUtils";
+const env = getEnvVars();
 
 import { EventHubClient } from "../src";
 describe("RuntimeInformation", function(): void {
   let client: EventHubClient;
-  const service = { connectionString: process.env.EVENTHUB_CONNECTION_STRING, path: process.env.EVENTHUB_NAME };
-
+  const service = {
+    connectionString: env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
+    path: env[EnvVarKeys.EVENTHUB_NAME]
+  };
   before("validate environment", function(): void {
     should.exist(
-      process.env.EVENTHUB_CONNECTION_STRING,
+      env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
       "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests."
     );
     should.exist(
-      process.env.EVENTHUB_NAME,
+      env[EnvVarKeys.EVENTHUB_NAME],
       "define EVENTHUB_NAME in your environment before running integration tests."
     );
   });

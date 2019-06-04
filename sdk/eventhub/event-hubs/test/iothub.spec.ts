@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import dotenv from "dotenv";
 import chai from "chai";
 const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
@@ -9,14 +8,15 @@ chai.use(chaiAsPromised);
 import debugModule from "debug";
 const debug = debugModule("azure:event-hubs:iothub-spec");
 import { EventHubClient } from "../src";
-dotenv.config();
+import { EnvVarKeys, getEnvVars } from "./utils/envVarUtils";
+const env = getEnvVars();
 
 describe("EventHub Client with iothub connection string", function(): void {
-  const service = { connectionString: process.env.IOTHUB_CONNECTION_STRING };
+  const service = { connectionString: env[EnvVarKeys.IOTHUB_CONNECTION_STRING] };
   let client: EventHubClient;
   before("validate environment", async function(): Promise<void> {
     should.exist(
-      process.env.IOTHUB_CONNECTION_STRING,
+      env[EnvVarKeys.IOTHUB_CONNECTION_STRING],
       "define IOTHUB_CONNECTION_STRING in your environment before running integration tests."
     );
   });
