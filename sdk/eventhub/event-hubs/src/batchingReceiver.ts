@@ -113,7 +113,7 @@ export class BatchingReceiver extends EventHubReceiver {
 
         const receivedEventData: ReceivedEventData = {
           body: this._context.dataTransformer.decode(context.message!.body),
-          properties: data.properties!,
+          properties: data.properties,
           offset: data.offset!,
           sequenceNumber: data.sequenceNumber!,
           enqueuedTimeUtc: data.enqueuedTimeUtc!,

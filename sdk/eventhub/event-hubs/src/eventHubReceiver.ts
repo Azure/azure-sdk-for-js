@@ -185,7 +185,7 @@ export class EventHubReceiver extends LinkEntity {
    * @property {number} Returns sequenceNumber of the last event received.
    * @readonly
    */
-   get checkpoint(): number {
+  get checkpoint(): number {
     return this._checkpoint;
   }
 
@@ -210,12 +210,12 @@ export class EventHubReceiver extends LinkEntity {
     this.options = options;
     this.receiverRuntimeMetricEnabled = false;
     this.runtimeInfo = {};
-    this._checkpoint =  -1;
+    this._checkpoint = -1;
     this._onAmqpMessage = (context: EventContext) => {
       const data: EventDataInternal = fromAmqpMessage(context.message!);
       const receivedEventData: ReceivedEventData = {
         body: this._context.dataTransformer.decode(context.message!.body),
-        properties: data.properties!,
+        properties: data.properties,
         offset: data.offset!,
         sequenceNumber: data.sequenceNumber!,
         enqueuedTimeUtc: data.enqueuedTimeUtc!,

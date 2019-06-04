@@ -197,7 +197,7 @@ export interface ReceivedEventData {
   /**
    * @property {Dictionary<any>} [applicationProperties] The application specific properties.
    */
-  properties: { [key: string]: any };
+  properties?: { [key: string]: any };
   /**
    * @property {Date} [enqueuedTimeUtc] The enqueued time of the event.
    */

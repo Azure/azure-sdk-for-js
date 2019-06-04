@@ -105,8 +105,9 @@ export class Receiver {
   receive(onMessage: OnMessage, onError: OnError, cancellationToken?: Aborter): ReceiveHandler {
     this._throwIfReceiverOrConnectionClosed();
     this._throwIfAlreadyReceiving();
-    if (this.getCheckpoint()) {
-      this._receiverOptions.eventPosition = EventPosition.fromSequenceNumber(this.getCheckpoint()!);
+    const checkpoint = this.getCheckpoint();
+    if (checkpoint) {
+      this._receiverOptions.eventPosition = EventPosition.fromSequenceNumber(checkpoint);
     }
     this._streamingReceiver = StreamingReceiver.create(this._context, this.partitionId, this._receiverOptions);
     this._streamingReceiver.prefetchCount = Constants.defaultPrefetchCount;
@@ -192,12 +193,13 @@ export class Receiver {
   ): Promise<ReceivedEventData[]> {
     this._throwIfReceiverOrConnectionClosed();
     this._throwIfAlreadyReceiving();
-    if (this.getCheckpoint()) {
-      this._receiverOptions.eventPosition = EventPosition.fromSequenceNumber(this.getCheckpoint()!);
+    const checkpoint = this.getCheckpoint();
+    if (checkpoint) {
+      this._receiverOptions.eventPosition = EventPosition.fromSequenceNumber(checkpoint);
     }
     if (!this._batchingReceiver) {
       this._batchingReceiver = BatchingReceiver.create(this._context, this.partitionId, this._receiverOptions);
-    } else if (this._batchingReceiver.checkpoint < this.getCheckpoint()!) {
+    } else if (this._batchingReceiver.checkpoint < checkpoint!) {
       await this._batchingReceiver.close();
       this._batchingReceiver = BatchingReceiver.create(this._context, this.partitionId, this._receiverOptions);
     }
