@@ -124,7 +124,7 @@ export function browserConfig(test = false) {
       }),
 
       nodeResolve({
-        mainFields: ["module", "browser"],
+        mainFields: ["browser", "module", "main"],
         preferBuiltins: false
       }),
 
