@@ -16,7 +16,6 @@ export const details: msRest.OperationQueryParameter = {
     "details"
   ],
   mapper: {
-    nullable: true,
     serializedName: "details",
     type: {
       name: "Sequence",
@@ -60,7 +59,6 @@ export const height: msRest.OperationQueryParameter = {
   parameterPath: "height",
   mapper: {
     required: true,
-    nullable: false,
     serializedName: "height",
     constraints: {
       InclusiveMaximum: 1024,
@@ -77,7 +75,6 @@ export const language0: msRest.OperationQueryParameter = {
     "language"
   ],
   mapper: {
-    nullable: false,
     serializedName: "language",
     defaultValue: 'en',
     type: {
@@ -91,7 +88,6 @@ export const language1: msRest.OperationQueryParameter = {
     "language"
   ],
   mapper: {
-    nullable: false,
     serializedName: "language",
     defaultValue: 'unk',
     type: {
@@ -134,7 +130,6 @@ export const maxCandidates: msRest.OperationQueryParameter = {
     "maxCandidates"
   ],
   mapper: {
-    nullable: true,
     serializedName: "maxCandidates",
     defaultValue: 1,
     type: {
@@ -160,7 +155,6 @@ export const model: msRest.OperationURLParameter = {
   parameterPath: "model",
   mapper: {
     required: true,
-    nullable: true,
     serializedName: "model",
     type: {
       name: "String"
@@ -183,7 +177,6 @@ export const smartCropping: msRest.OperationQueryParameter = {
     "smartCropping"
   ],
   mapper: {
-    nullable: true,
     serializedName: "smartCropping",
     defaultValue: false,
     type: {
@@ -224,7 +217,6 @@ export const width: msRest.OperationQueryParameter = {
   parameterPath: "width",
   mapper: {
     required: true,
-    nullable: false,
     serializedName: "width",
     constraints: {
       InclusiveMaximum: 1024,
