@@ -5,13 +5,14 @@ dependencies:
   '@azure/ms-rest-azure-js': 1.3.7
   '@azure/ms-rest-js': 1.8.10
   '@azure/ms-rest-nodeauth': 0.9.3
-  '@microsoft/api-extractor': 7.1.7
+  '@microsoft/api-extractor': 7.1.8
   '@rush-temp/amqp-common': 'file:projects/amqp-common.tgz'
   '@rush-temp/core-aborter': 'file:projects/core-aborter.tgz'
   '@rush-temp/core-http': 'file:projects/core-http.tgz'
   '@rush-temp/cosmos': 'file:projects/cosmos.tgz'
   '@rush-temp/event-hubs': 'file:projects/event-hubs.tgz'
   '@rush-temp/event-processor-host': 'file:projects/event-processor-host.tgz'
+  '@rush-temp/identity': 'file:projects/identity.tgz'
   '@rush-temp/keyvault-keys': 'file:projects/keyvault-keys.tgz'
   '@rush-temp/keyvault-secrets': 'file:projects/keyvault-secrets.tgz'
   '@rush-temp/service-bus': 'file:projects/service-bus.tgz'
@@ -324,17 +325,17 @@ packages:
     dev: false
     resolution:
       integrity: sha512-dOllgYdnEFOebhkKCjzSVFqw/PmmB8pH6RGOWkY4GsboQNd47b1fBThBSwlHAq9alF9vc1M3+6oqR47R50L0tQ==
-  /@microsoft/api-extractor-model/7.1.2:
+  /@microsoft/api-extractor-model/7.1.3:
     dependencies:
       '@microsoft/node-core-library': 3.13.0
       '@microsoft/tsdoc': 0.12.9
       '@types/node': 8.5.8
     dev: false
     resolution:
-      integrity: sha512-cbB4lSEF1UjG2+IiEfsQusAVmpqpGAy9zNDsB+xW4RE+yS5FzdxPgXjO1Q7xmMKGHuJHnny7t8GBgX5lNxOHng==
-  /@microsoft/api-extractor/7.1.7:
+      integrity: sha512-DjagaoMFY1XyLjjo/x4lp7LoyjyMg4ntDY5+RE8g2zvt61m2dKm9CtxW0lxaQI4Xilw+n+Z4exjcGaQJeRcMyw==
+  /@microsoft/api-extractor/7.1.8:
     dependencies:
-      '@microsoft/api-extractor-model': 7.1.2
+      '@microsoft/api-extractor-model': 7.1.3
       '@microsoft/node-core-library': 3.13.0
       '@microsoft/ts-command-line': 4.2.5
       '@microsoft/tsdoc': 0.12.9
@@ -346,7 +347,7 @@ packages:
     dev: false
     hasBin: true
     resolution:
-      integrity: sha512-eWOAju0tjHWpQAeAB+gByUFf+OhNeX+7YZuTFbqb/cxwNm7qpIMwmCIv3dsfSQuRTeYu22EGb+5mSAeSXJOnKw==
+      integrity: sha512-7fcGbnOp7bmQe4p1b123K6gJ/qyaLWhufSt5OF3DMMK1JbmdfEGWf7AwyFFSS4QQzPvSxqs8Woehye4Ytf1uAA==
   /@microsoft/node-core-library/3.13.0:
     dependencies:
       '@types/fs-extra': 5.0.4
@@ -544,10 +545,10 @@ packages:
     dev: false
     resolution:
       integrity: sha512-NYrtPht0wGzhwe9+/idPaBB+TqkY9AhTvOLMkThm0IoEfLaiVQZwBwyJ5puCkO3AUCWrmcoePjp2mbFocKy4SQ==
-  /@types/node/12.0.4:
+  /@types/node/12.0.5:
     dev: false
     resolution:
-      integrity: sha512-j8YL2C0fXq7IONwl/Ud5Kt0PeXw22zGERt+HSSnwbKOJVsAGkEz3sFCYwaF9IOuoG1HOtE0vKCj6sXF7Q0+Vaw==
+      integrity: sha512-CFLSALoE+93+Hcb5pFjp0J1uMrrbLRe+L1+gFwerJ776R3TACSF0kTVRQ7AvRa7aFx70nqYHAc7wQPlt9kY2Mg==
   /@types/node/8.10.49:
     dev: false
     resolution:
@@ -967,14 +968,14 @@ packages:
     dev: false
     resolution:
       integrity: sha1-/ts5T58OAqqXaOcCvaI7UF+ufh8=
-  /agent-base/4.2.1:
+  /agent-base/4.3.0:
     dependencies:
       es6-promisify: 5.0.0
     dev: false
     engines:
       node: '>= 4.0.0'
     resolution:
-      integrity: sha512-JVwXMr9nHYTUXsBFKUqhJwvlcYU/blreOEUkhNR2eXZIvwd+c+o5V4MgDPKWnMS/56awN3TRzIP+KoPn+roQtg==
+      integrity: sha512-salcGninV0nPrwpGNn4VTXBb1SOuXQBiqbrNXoeizJsHrsL6ERFM2Ne3JUSBWRE6aeNJI2ROP/WEEIDUiDe3cg==
   /ajv-errors/1.0.1_ajv@6.10.0:
     dependencies:
       ajv: 6.10.0
@@ -2094,7 +2095,7 @@ packages:
   /browserslist/3.2.8:
     dependencies:
       caniuse-lite: 1.0.30000973
-      electron-to-chromium: 1.3.146
+      electron-to-chromium: 1.3.148
     dev: false
     hasBin: true
     resolution:
@@ -3132,10 +3133,10 @@ packages:
     dev: false
     resolution:
       integrity: sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=
-  /electron-to-chromium/1.3.146:
+  /electron-to-chromium/1.3.148:
     dev: false
     resolution:
-      integrity: sha512-BrUq08sx7eR4PCwLbjFxXmjcbDro6DSoc1pN8VCxq76U+o9JQzJlWH/NVtcpAqcktwpE5CVvMyqHqTQfCETNoQ==
+      integrity: sha512-nuCOlXNlGMQmdzihIPGm2K3Yf3H1hke/1rK381i02pH8wNliJU9hVNnOi/xjmxt+mjABd/BzufP5nPHWKshLWA==
   /elliptic/6.4.1:
     dependencies:
       bn.js: 4.11.8
@@ -4484,7 +4485,7 @@ packages:
       integrity: sha1-7AbBDgo0wPL68Zn3/X/Hj//QPHM=
   /https-proxy-agent/2.2.1:
     dependencies:
-      agent-base: 4.2.1
+      agent-base: 4.3.0
       debug: 3.2.6
     dev: false
     engines:
@@ -7827,7 +7828,7 @@ packages:
   /rollup/1.14.2:
     dependencies:
       '@types/estree': 0.0.39
-      '@types/node': 12.0.4
+      '@types/node': 12.0.5
       acorn: 6.1.1
     dev: false
     hasBin: true
@@ -9822,7 +9823,7 @@ packages:
   'file:projects/core-aborter.tgz':
     dependencies:
       '@azure/ms-rest-js': 1.8.10
-      '@microsoft/api-extractor': 7.1.7
+      '@microsoft/api-extractor': 7.1.8
       '@types/mocha': 5.2.7
       '@types/node': 8.10.49
       assert: 1.5.0
@@ -9975,7 +9976,7 @@ packages:
   'file:projects/event-hubs.tgz':
     dependencies:
       '@azure/ms-rest-nodeauth': 0.9.3
-      '@microsoft/api-extractor': 7.1.7
+      '@microsoft/api-extractor': 7.1.8
       '@types/async-lock': 1.1.1
       '@types/chai': 4.1.7
       '@types/chai-as-promised': 7.1.0
@@ -10037,7 +10038,7 @@ packages:
   'file:projects/event-processor-host.tgz':
     dependencies:
       '@azure/event-hubs': 1.0.8
-      '@microsoft/api-extractor': 7.1.7
+      '@microsoft/api-extractor': 7.1.8
       '@types/async-lock': 1.1.1
       '@types/chai': 4.1.7
       '@types/chai-as-promised': 7.1.0
@@ -10090,6 +10091,40 @@ packages:
       integrity: sha512-QDRNiNUiUb14TZvNnffJR54IzpRoRlBXoLFq+TGsJpuiuuLF3SGoFzI+jnd0drCMwTZr3rRskm1z8BL9mXnwqg==
       tarball: 'file:projects/event-processor-host.tgz'
     version: 0.0.0
+  'file:projects/identity.tgz':
+    dependencies:
+      '@types/mocha': 5.2.7
+      '@types/node': 8.10.49
+      '@typescript-eslint/eslint-plugin': 1.9.0_eslint@5.16.0+typescript@3.5.1
+      '@typescript-eslint/parser': 1.9.0_eslint@5.16.0+typescript@3.5.1
+      assert: 1.5.0
+      cross-env: 5.2.0
+      eslint: 5.16.0
+      events: 3.0.0
+      inherits: 2.0.3
+      mocha: 5.2.0
+      mocha-junit-reporter: 1.22.0_mocha@5.2.0
+      mocha-multi: 1.1.0_mocha@5.2.0
+      prettier: 1.17.1
+      rimraf: 2.6.3
+      rollup: 1.14.2
+      rollup-plugin-commonjs: 9.3.4_rollup@1.14.2
+      rollup-plugin-json: 3.1.0
+      rollup-plugin-multi-entry: 2.1.0
+      rollup-plugin-node-resolve: 4.2.4
+      rollup-plugin-replace: 2.2.0
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.14.2
+      rollup-plugin-uglify: 6.0.2_rollup@1.14.2
+      rollup-plugin-visualizer: 1.1.1_rollup@1.14.2
+      tslib: 1.9.3
+      typescript: 3.5.1
+      util: 0.11.1
+    dev: false
+    name: '@rush-temp/identity'
+    resolution:
+      integrity: sha512-xPl4FisURNL6zNE5CM2YlaK9Bke0Ij9qkQIHhajnka1PToDsCUGrn/K0+UBRo+fzDXrqRXgZ6fTnpR6os/ClMw==
+      tarball: 'file:projects/identity.tgz'
+    version: 0.0.0
   'file:projects/keyvault-keys.tgz':
     dependencies:
       '@azure/ms-rest-azure-js': 1.3.7
@@ -10136,7 +10171,7 @@ packages:
     dependencies:
       '@azure/arm-servicebus': 0.1.0
       '@azure/ms-rest-nodeauth': 0.9.3
-      '@microsoft/api-extractor': 7.1.7
+      '@microsoft/api-extractor': 7.1.8
       '@types/async-lock': 1.1.1
       '@types/chai': 4.1.7
       '@types/chai-as-promised': 7.1.0
@@ -10213,7 +10248,7 @@ packages:
   'file:projects/storage-blob.tgz':
     dependencies:
       '@azure/ms-rest-js': 1.8.10
-      '@microsoft/api-extractor': 7.1.7
+      '@microsoft/api-extractor': 7.1.8
       '@types/dotenv': 6.1.1
       '@types/mocha': 5.2.7
       '@types/node': 8.10.49
@@ -10274,7 +10309,7 @@ packages:
   'file:projects/storage-file.tgz':
     dependencies:
       '@azure/ms-rest-js': 1.8.10
-      '@microsoft/api-extractor': 7.1.7
+      '@microsoft/api-extractor': 7.1.8
       '@types/dotenv': 6.1.1
       '@types/mocha': 5.2.7
       '@types/node': 8.10.49
@@ -10335,7 +10370,7 @@ packages:
   'file:projects/storage-queue.tgz':
     dependencies:
       '@azure/ms-rest-js': 1.8.10
-      '@microsoft/api-extractor': 7.1.7
+      '@microsoft/api-extractor': 7.1.8
       '@types/dotenv': 6.1.1
       '@types/mocha': 5.2.7
       '@types/node': 8.10.49
@@ -10395,6 +10430,7 @@ packages:
   'file:projects/template.tgz':
     dependencies:
       '@azure/ms-rest-js': 1.8.10
+      '@microsoft/api-extractor': 7.1.8
       '@types/mocha': 5.2.7
       '@types/node': 8.10.49
       '@typescript-eslint/eslint-plugin': 1.9.0_eslint@5.16.0+typescript@3.5.1
@@ -10429,7 +10465,7 @@ packages:
     dev: false
     name: '@rush-temp/template'
     resolution:
-      integrity: sha512-lW73pJFOdcpLI5d2G2ueKQW9FPJTzB4Lh1nJphQaEooylwwp4D/cr0qaoDm37H7ovBU/24wD9OSkczTrHAmSkg==
+      integrity: sha512-VfpsZicO31cRwhD5XfBhjW34/u980XZt/ncu9cI6X08WNrGaicxiF4D0b28/kgs+PE4fGp21MCOSHvff7rGqvQ==
       tarball: 'file:projects/template.tgz'
     version: 0.0.0
   'file:projects/testhub.tgz':
@@ -10472,6 +10508,7 @@ specifiers:
   '@rush-temp/cosmos': 'file:./projects/cosmos.tgz'
   '@rush-temp/event-hubs': 'file:./projects/event-hubs.tgz'
   '@rush-temp/event-processor-host': 'file:./projects/event-processor-host.tgz'
+  '@rush-temp/identity': 'file:./projects/identity.tgz'
   '@rush-temp/keyvault-keys': 'file:./projects/keyvault-keys.tgz'
   '@rush-temp/keyvault-secrets': 'file:./projects/keyvault-secrets.tgz'
   '@rush-temp/service-bus': 'file:./projects/service-bus.tgz'
