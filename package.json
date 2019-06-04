@@ -79,6 +79,7 @@
   },
   "dependencies": {
     "@azure/cosmos-sign": "1.0.2",
+    "atob": "2.1.2",
     "binary-search-bounds": "2.0.3",
     "crypto-hash": "1.1.0",
     "fast-json-stable-stringify": "2.0.0",
