@@ -4,8 +4,8 @@
   "description": "ResourceManagementClient Library with typescript type definitions for node.js and browser.",
   "version": "1.0.1",
   "dependencies": {
-    "@azure/ms-rest-azure-js": "^1.2.0",
-    "@azure/ms-rest-js": "^1.2.0",
+    "@azure/ms-rest-azure-js": "^1.3.2",
+    "@azure/ms-rest-js": "^1.8.1",
     "tslib": "^1.9.3"
   },
   "keywords": [
@@ -26,13 +26,13 @@
     "rollup-plugin-sourcemaps": "^0.4.2",
     "uglify-js": "^3.4.9"
   },
-  "homepage": "https://github.com/azure/azure-sdk-for-js/tree/master/sdk/resources/arm-resources",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/resources/arm-resources",
   "repository": {
     "type": "git",
-    "url": "https://github.com/azure/azure-sdk-for-js.git"
+    "url": "https://github.com/Azure/azure-sdk-for-js.git"
   },
   "bugs": {
-    "url": "https://github.com/azure/azure-sdk-for-js/issues"
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "files": [
     "dist/**/*.js",
@@ -54,5 +54,5 @@
     "prepack": "npm install && npm run build"
   },
   "sideEffects": false,
-  "authPublish": true
+  "autoPublish": true
 }
