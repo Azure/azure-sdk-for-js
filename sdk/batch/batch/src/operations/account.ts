@@ -51,7 +51,7 @@ export class Account {
   }
 
   /**
-   * Gets the number of nodes in each state, grouped by pool.
+   * Gets the number of Compute Nodes in each state, grouped by Pool.
    * @param [options] The optional parameters
    * @returns Promise<Models.AccountListPoolNodeCountsResponse>
    */
@@ -103,7 +103,7 @@ export class Account {
   }
 
   /**
-   * Gets the number of nodes in each state, grouped by pool.
+   * Gets the number of Compute Nodes in each state, grouped by Pool.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.AccountListPoolNodeCountsResponse>
