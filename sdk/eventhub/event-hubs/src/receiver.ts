@@ -105,7 +105,9 @@ export class Receiver {
   receive(onMessage: OnMessage, onError: OnError, cancellationToken?: Aborter): ReceiveHandler {
     this._throwIfReceiverOrConnectionClosed();
     this._throwIfAlreadyReceiving();
-    this._receiverOptions.eventPosition = EventPosition.fromSequenceNumber(this.getCheckpoint());
+    if (this.getCheckpoint()) {
+      this._receiverOptions.eventPosition = EventPosition.fromSequenceNumber(this.getCheckpoint()!);
+    }
     this._streamingReceiver = StreamingReceiver.create(this._context, this.partitionId, this._receiverOptions);
     this._streamingReceiver.prefetchCount = Constants.defaultPrefetchCount;
     return this._streamingReceiver.receive(onMessage, onError, cancellationToken);
@@ -190,11 +192,12 @@ export class Receiver {
   ): Promise<ReceivedEventData[]> {
     this._throwIfReceiverOrConnectionClosed();
     this._throwIfAlreadyReceiving();
-
-    this._receiverOptions.eventPosition = EventPosition.fromSequenceNumber(this.getCheckpoint());
+    if (this.getCheckpoint()) {
+      this._receiverOptions.eventPosition = EventPosition.fromSequenceNumber(this.getCheckpoint()!);
+    }
     if (!this._batchingReceiver) {
       this._batchingReceiver = BatchingReceiver.create(this._context, this.partitionId, this._receiverOptions);
-    } else if (this._batchingReceiver.checkpoint < this.getCheckpoint()) {
+    } else if (this._batchingReceiver.checkpoint < this.getCheckpoint()!) {
       await this._batchingReceiver.close();
       this._batchingReceiver = BatchingReceiver.create(this._context, this.partitionId, this._receiverOptions);
     }
@@ -216,16 +219,19 @@ export class Receiver {
     return result;
   }
 
-  private getCheckpoint(): number {
-    let lastBatchingReceiverSequenceNum: number = -1;
-    let lastStreamingReceiverSequenceNum: number = -1;
-    if (this._batchingReceiver) {
-      lastBatchingReceiverSequenceNum = this._batchingReceiver.checkpoint;
+  private getCheckpoint(): number | undefined {
+    if (this._streamingReceiver || this._batchingReceiver) {
+      let lastBatchingReceiverSequenceNum: number = -1;
+      let lastStreamingReceiverSequenceNum: number = -1;
+      if (this._batchingReceiver) {
+        lastBatchingReceiverSequenceNum = this._batchingReceiver.checkpoint;
+      }
+      if (this._streamingReceiver) {
+        lastStreamingReceiverSequenceNum = this._streamingReceiver.checkpoint;
+      }
+      return Math.max(lastStreamingReceiverSequenceNum, lastBatchingReceiverSequenceNum);
     }
-    if (this._streamingReceiver) {
-      lastStreamingReceiverSequenceNum = this._streamingReceiver.checkpoint;
-    }
-    return Math.max(lastStreamingReceiverSequenceNum, lastBatchingReceiverSequenceNum);
+    return;
   }
 
   private _throwIfAlreadyReceiving(): void {
