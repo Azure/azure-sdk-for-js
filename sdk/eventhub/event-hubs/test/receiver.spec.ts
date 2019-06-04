@@ -14,7 +14,7 @@ import { ReceiveHandler } from "../src/streamingReceiver";
 import { EnvVarKeys, getEnvVars } from "./utils/envVarUtils";
 const env = getEnvVars();
 
-describe("EventHub Receiver", function(): void {
+describe("EventHub Receiver #NotYetRunInBrowser", function(): void {
   const service = {
     connectionString: env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
     path: env[EnvVarKeys.EVENTHUB_NAME]

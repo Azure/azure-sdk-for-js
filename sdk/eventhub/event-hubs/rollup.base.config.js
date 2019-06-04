@@ -118,13 +118,12 @@ export function browserConfig(test = false) {
       nodeResolve({
         mainFields: ["module", "browser"],
         preferBuiltins: false,
-        dedupe: ["buffer", "events", "util", "process"]
+        dedupe: ["buffer", "events", "util", "process", "assert"]
       }),
 
       cjs({
         namedExports: {
-          events: ["EventEmitter"],
-          assert: ["ok", "deepEqual", "equal", "fail", "deepStrictEqual", "notDeepEqual"]
+          events: ["EventEmitter"]
         }
       }),
 

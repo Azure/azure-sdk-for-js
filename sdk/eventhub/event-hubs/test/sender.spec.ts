@@ -11,7 +11,7 @@ import { EventHubClient, EventData } from "../src";
 import { EnvVarKeys, getEnvVars } from "./utils/envVarUtils";
 const env = getEnvVars();
 
-describe("EventHub Sender", function(): void {
+describe("EventHub Sender #RunInBrowser", function(): void {
   const service = {
     connectionString: env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
     path: env[EnvVarKeys.EVENTHUB_NAME]

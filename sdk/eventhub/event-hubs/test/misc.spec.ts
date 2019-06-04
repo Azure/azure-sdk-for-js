@@ -14,7 +14,7 @@ import { BatchingReceiver } from "../src/batchingReceiver";
 import { EnvVarKeys, getEnvVars } from "./utils/envVarUtils";
 const env = getEnvVars();
 
-describe("Misc tests", function(): void {
+describe("Misc tests #NotYetRunInBrowser", function(): void {
   const service = {
     connectionString: env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
     path: env[EnvVarKeys.EVENTHUB_NAME]
