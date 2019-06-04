@@ -7,7 +7,5 @@
  */
 
 export {
-  CloudError,
-  Permission,
-  PermissionGetResult
+  CloudError
 } from "../models/mappers";

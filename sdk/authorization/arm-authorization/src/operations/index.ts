@@ -9,6 +9,7 @@
  */
 
 export * from "./classicAdministrators";
+export * from "./elevateAccess";
 export * from "./providerOperationsMetadataOperations";
 export * from "./roleAssignments";
 export * from "./permissions";
