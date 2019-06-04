@@ -72,7 +72,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.sensitivities,
     Parameters.filter,
     Parameters.resultType,
-    Parameters.apiVersion3
+    Parameters.apiVersion7
   ],
   headerParameters: [
     Parameters.acceptLanguage

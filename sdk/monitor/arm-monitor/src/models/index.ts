@@ -1118,6 +1118,22 @@ export interface WebhookReceiver {
    * Indicates whether to use common alert schema.
    */
   useCommonAlertSchema: boolean;
+  /**
+   * Indicates whether or not use AAD authentication. Default value: false.
+   */
+  useAadAuth?: boolean;
+  /**
+   * Indicates the webhook app object Id for aad auth.
+   */
+  objectId?: string;
+  /**
+   * Indicates the identifier uri for aad auth.
+   */
+  identifierUri?: string;
+  /**
+   * Indicates the tenant id for aad auth.
+   */
+  tenantId?: string;
 }
 
 /**

@@ -1784,6 +1784,31 @@ export const WebhookReceiver: msRest.CompositeMapper = {
         type: {
           name: "Boolean"
         }
+      },
+      useAadAuth: {
+        serializedName: "useAadAuth",
+        defaultValue: false,
+        type: {
+          name: "Boolean"
+        }
+      },
+      objectId: {
+        serializedName: "objectId",
+        type: {
+          name: "String"
+        }
+      },
+      identifierUri: {
+        serializedName: "identifierUri",
+        type: {
+          name: "String"
+        }
+      },
+      tenantId: {
+        serializedName: "tenantId",
+        type: {
+          name: "String"
+        }
       }
     }
   }
