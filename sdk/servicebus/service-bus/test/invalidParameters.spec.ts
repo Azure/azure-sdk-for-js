@@ -5,32 +5,26 @@ import chai from "chai";
 import Long from "long";
 const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
-import dotenv from "dotenv";
-dotenv.config();
 chai.use(chaiAsPromised);
 import { ServiceBusClient, QueueClient, SubscriptionClient, ReceiveMode } from "../src";
 
-import { TestMessage, getSenderReceiverClients, TestClientType } from "./testUtils";
+import {
+  TestMessage,
+  getSenderReceiverClients,
+  TestClientType,
+  getServiceBusClient
+} from "./utils/testUtils";
 
 import { Receiver, SessionReceiver } from "../src/receiver";
 import { Sender } from "../src/sender";
 
-let ns: ServiceBusClient;
+let sbClient: ServiceBusClient;
 
 function createServiceBusClient(): void {
-  // The tests in this file expect the env variables to contain the connection string and
-  // the names of empty queue/topic/subscription that are to be tested
-
-  if (!process.env.SERVICEBUS_CONNECTION_STRING) {
-    throw new Error(
-      "Define SERVICEBUS_CONNECTION_STRING in your environment before running integration tests."
-    );
-  }
-
-  ns = ServiceBusClient.createFromConnectionString(process.env.SERVICEBUS_CONNECTION_STRING);
+  sbClient = getServiceBusClient();
 }
 
-describe("Invalid parameters in QueueClient", function(): void {
+describe("Invalid parameters in QueueClient #RunInBrowser", function(): void {
   let queueClient: QueueClient;
 
   // Since, the below tests never actually make use of any AMQP links, there is no need to create
@@ -38,7 +32,7 @@ describe("Invalid parameters in QueueClient", function(): void {
   before(async () => {
     createServiceBusClient();
     const clients = await getSenderReceiverClients(
-      ns,
+      sbClient,
       TestClientType.PartitionedQueue,
       TestClientType.PartitionedQueue
     );
@@ -46,7 +40,7 @@ describe("Invalid parameters in QueueClient", function(): void {
   });
 
   after(async () => {
-    await ns.close();
+    await sbClient.close();
   });
 
   it("Peek: Invalid maxMessageCount in QueueClient", async function(): Promise<void> {
@@ -121,7 +115,7 @@ describe("Invalid parameters in QueueClient", function(): void {
   });
 });
 
-describe("Invalid parameters in SubscriptionClient", function(): void {
+describe("Invalid parameters in SubscriptionClient #RunInBrowser", function(): void {
   let subscriptionClient: SubscriptionClient;
 
   // Since, the below tests never actually make use of any AMQP links, there is no need to create
@@ -129,7 +123,7 @@ describe("Invalid parameters in SubscriptionClient", function(): void {
   before(async () => {
     createServiceBusClient();
     const clients = await getSenderReceiverClients(
-      ns,
+      sbClient,
       TestClientType.PartitionedTopic,
       TestClientType.PartitionedSubscription
     );
@@ -137,7 +131,7 @@ describe("Invalid parameters in SubscriptionClient", function(): void {
   });
 
   after(async () => {
-    await ns.close();
+    await sbClient.close();
   });
 
   it("Peek: Invalid maxMessageCount in SubscriptionClient", async function(): Promise<void> {
@@ -306,7 +300,7 @@ describe("Invalid parameters in SubscriptionClient", function(): void {
   });
 });
 
-describe("Invalid parameters in SessionReceiver", function(): void {
+describe("Invalid parameters in SessionReceiver #RunInBrowser", function(): void {
   let sessionReceiver: SessionReceiver;
   let receiverClient: QueueClient;
 
@@ -315,7 +309,7 @@ describe("Invalid parameters in SessionReceiver", function(): void {
   before(async () => {
     createServiceBusClient();
     const clients = await getSenderReceiverClients(
-      ns,
+      sbClient,
       TestClientType.PartitionedQueueWithSessions,
       TestClientType.PartitionedQueueWithSessions
     );
@@ -330,7 +324,7 @@ describe("Invalid parameters in SessionReceiver", function(): void {
   });
 
   after(async () => {
-    await ns.close();
+    await sbClient.close();
   });
 
   it("SessionReceiver: Missing ReceiveMode", async function(): Promise<void> {
@@ -553,7 +547,7 @@ describe("Invalid parameters in SessionReceiver", function(): void {
   });
 });
 
-describe("Invalid parameters in Receiver", function(): void {
+describe("Invalid parameters in Receiver #RunInBrowser", function(): void {
   let receiver: Receiver;
   let receiverClient: QueueClient;
 
@@ -562,7 +556,7 @@ describe("Invalid parameters in Receiver", function(): void {
   before(async () => {
     createServiceBusClient();
     const clients = await getSenderReceiverClients(
-      ns,
+      sbClient,
       TestClientType.PartitionedQueue,
       TestClientType.PartitionedQueue
     );
@@ -575,7 +569,7 @@ describe("Invalid parameters in Receiver", function(): void {
   });
 
   after(async () => {
-    await ns.close();
+    await sbClient.close();
   });
 
   it("Receiver: Missing ReceiveMode", async function(): Promise<void> {
@@ -759,7 +753,7 @@ describe("Invalid parameters in Receiver", function(): void {
   });
 });
 
-describe("Invalid parameters in Sender", function(): void {
+describe("Invalid parameters in Sender #RunInBrowser", function(): void {
   let sender: Sender;
 
   // Since, the below tests never actually make use of any AMQP links, there is no need to create
@@ -767,7 +761,7 @@ describe("Invalid parameters in Sender", function(): void {
   before(async () => {
     createServiceBusClient();
     const clients = await getSenderReceiverClients(
-      ns,
+      sbClient,
       TestClientType.PartitionedQueue,
       TestClientType.PartitionedQueue
     );
@@ -776,7 +770,7 @@ describe("Invalid parameters in Sender", function(): void {
   });
 
   after(async () => {
-    await ns.close();
+    await sbClient.close();
   });
 
   it("Send: Missing message in Sender", async function(): Promise<void> {

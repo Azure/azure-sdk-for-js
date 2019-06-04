@@ -72,6 +72,10 @@ export interface Location {
    * values must be unique for each of the regions in which the database account exists.
    */
   failoverPriority?: number;
+  /**
+   * Flag to indicate whether or not this region is an AvailabilityZone region
+   */
+  isZoneRedundant?: boolean;
 }
 
 /**

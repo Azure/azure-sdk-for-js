@@ -22,6 +22,40 @@ export class ConcurrentExpiringMap<TKey> {
     this._delayBetweenCleanupInSeconds = options.delayBetweenCleanupInSeconds || 30;
   }
 
+  private async _scheduleCleanup(): Promise<void> {
+    if (this._cleanupScheduled || this._map.size === 0) {
+      return;
+    }
+
+    await this._lockStore.acquire(this._lockId, () => {
+      this._cleanupScheduled = true;
+      this._collectExpiredEntries().catch((err) => {
+        log.error("An error occurred while collecting expired entries: %O", err);
+      });
+    });
+  }
+
+  private async _collectExpiredEntries(): Promise<void> {
+    if (this._map.size === 0) {
+      return;
+    }
+
+    await delay(this._delayBetweenCleanupInSeconds);
+    this._cleanupScheduled = false;
+    for (const key of this._map.keys()) {
+      if (Date.now() > this._map.get(key)!.getTime()) {
+        this._map.delete(key);
+        log.map("Deleted the key '%s' from the map.", key);
+      }
+    }
+    this._scheduleCleanup().catch((err) => {
+      log.error(
+        "An error occurred while scheduling the cleanup, after " + "collecting expired entries: %O",
+        err
+      );
+    });
+  }
+
   /**
    * Sets the key and it's expiration time as the value in the map.
    * @param key The key to be set.
@@ -67,39 +101,5 @@ export class ConcurrentExpiringMap<TKey> {
   clear(): void {
     log.map("Clearing the map of all the entries");
     this._map.clear();
-  }
-
-  private async _scheduleCleanup(): Promise<void> {
-    if (this._cleanupScheduled || this._map.size === 0) {
-      return;
-    }
-
-    await this._lockStore.acquire(this._lockId, () => {
-      this._cleanupScheduled = true;
-      this._collectExpiredEntries().catch((err) => {
-        log.error("An error occurred while collecting expired entries: %O", err);
-      });
-    });
-  }
-
-  private async _collectExpiredEntries(): Promise<void> {
-    if (this._map.size === 0) {
-      return;
-    }
-
-    await delay(this._delayBetweenCleanupInSeconds);
-    this._cleanupScheduled = false;
-    for (const key of this._map.keys()) {
-      if (Date.now() > this._map.get(key)!.getTime()) {
-        this._map.delete(key);
-        log.map("Deleted the key '%s' from the map.", key);
-      }
-    }
-    this._scheduleCleanup().catch((err) => {
-      log.error(
-        "An error occurred while scheduling the cleanup, after " + "collecting expired entries: %O",
-        err
-      );
-    });
   }
 }
