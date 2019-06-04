@@ -12,9 +12,14 @@ import * as msRest from "@azure/ms-rest-js";
 import * as Models from "./models";
 import * as Mappers from "./models/mappers";
 import * as Parameters from "./models/parameters";
+import * as operations from "./operations";
 import { AnomalyDetectorClientContext } from "./anomalyDetectorClientContext";
 
 class AnomalyDetectorClient extends AnomalyDetectorClientContext {
+  // Operation groups
+  timeSeries: operations.TimeSeriesOperations;
+  timeSeriesGroup: operations.TimeSeriesGroupOperations;
+
   /**
    * Initializes a new instance of the AnomalyDetectorClient class.
    * @param endpoint Supported Cognitive Services endpoints (protocol and hostname, for example:
@@ -24,6 +29,8 @@ class AnomalyDetectorClient extends AnomalyDetectorClientContext {
    */
   constructor(credentials: msRest.ServiceClientCredentials, endpoint: string, options?: msRest.ServiceClientOptions) {
     super(credentials, endpoint, options);
+    this.timeSeries = new operations.TimeSeriesOperations(this);
+    this.timeSeriesGroup = new operations.TimeSeriesGroupOperations(this);
   }
 
   /**
@@ -93,6 +100,38 @@ class AnomalyDetectorClient extends AnomalyDetectorClientContext {
       lastDetectOperationSpec,
       callback) as Promise<Models.LastDetectResponse2>;
   }
+
+  /**
+   * Evaluate change point score of every series point
+   * @summary Detect change point for the entire series
+   * @param body Time series points and granularity is needed. Advanced model parameters can also be
+   * set in the request if needed.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ChangePointDetectResponse2>
+   */
+  changePointDetect(body: Models.ChangePointDetectRequest, options?: msRest.RequestOptionsBase): Promise<Models.ChangePointDetectResponse2>;
+  /**
+   * @param body Time series points and granularity is needed. Advanced model parameters can also be
+   * set in the request if needed.
+   * @param callback The callback
+   */
+  changePointDetect(body: Models.ChangePointDetectRequest, callback: msRest.ServiceCallback<Models.ChangePointDetectResponse>): void;
+  /**
+   * @param body Time series points and granularity is needed. Advanced model parameters can also be
+   * set in the request if needed.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  changePointDetect(body: Models.ChangePointDetectRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ChangePointDetectResponse>): void;
+  changePointDetect(body: Models.ChangePointDetectRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ChangePointDetectResponse>, callback?: msRest.ServiceCallback<Models.ChangePointDetectResponse>): Promise<Models.ChangePointDetectResponse2> {
+    return this.sendOperationRequest(
+      {
+        body,
+        options
+      },
+      changePointDetectOperationSpec,
+      callback) as Promise<Models.ChangePointDetectResponse2>;
+  }
 }
 
 // Operation Specifications
@@ -145,9 +184,34 @@ const lastDetectOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
+const changePointDetectOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "timeseries/changepoint/detect",
+  urlParameters: [
+    Parameters.endpoint
+  ],
+  requestBody: {
+    parameterPath: "body",
+    mapper: {
+      ...Mappers.ChangePointDetectRequest,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.ChangePointDetectResponse
+    },
+    default: {
+      bodyMapper: Mappers.APIError
+    }
+  },
+  serializer
+};
+
 export {
   AnomalyDetectorClient,
   AnomalyDetectorClientContext,
   Models as AnomalyDetectorModels,
   Mappers as AnomalyDetectorMappers
 };
+export * from "./operations";

@@ -15,7 +15,7 @@ npm install @azure/cognitiveservices-anomalydetector
 
 ### How to use
 
-#### nodejs - Authentication, client creation and entireDetect  as an example written in TypeScript.
+#### nodejs - Authentication, client creation and get timeSeries as an example written in TypeScript.
 
 ##### Install @azure/ms-rest-nodeauth
 
@@ -33,18 +33,8 @@ const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
 msRestNodeAuth.interactiveLogin().then((creds) => {
   const client = new AnomalyDetectorClient(creds, subscriptionId);
-  const body: AnomalyDetectorModels.Request = {
-    series: [{
-      timestamp: new Date().toISOString(),
-      value: 1.01
-    }],
-    granularity: "yearly",
-    customInterval: 1,
-    period: 1,
-    maxAnomalyRatio: 1.01,
-    sensitivity: 1
-  };
-  client.entireDetect(body).then((result) => {
+  const timeSeriesId = "testtimeSeriesId";
+  client.timeSeries.get(timeSeriesId).then((result) => {
     console.log("The result is:");
     console.log(result);
   });
@@ -53,7 +43,7 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
 });
 ```
 
-#### browser - Authentication, client creation and entireDetect  as an example written in JavaScript.
+#### browser - Authentication, client creation and get timeSeries as an example written in JavaScript.
 
 ##### Install @azure/ms-rest-browserauth
 
@@ -86,18 +76,8 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
           authManager.login();
         }
         const client = new Azure.CognitiveservicesAnomalydetector.AnomalyDetectorClient(res.creds, subscriptionId);
-        const body = {
-          series: [{
-            timestamp: new Date().toISOString(),
-            value: 1.01
-          }],
-          granularity: "yearly",
-          customInterval: 1,
-          period: 1,
-          maxAnomalyRatio: 1.01,
-          sensitivity: 1
-        };
-        client.entireDetect(body).then((result) => {
+        const timeSeriesId = "testtimeSeriesId";
+        client.timeSeries.get(timeSeriesId).then((result) => {
           console.log("The result is:");
           console.log(result);
         }).catch((err) => {

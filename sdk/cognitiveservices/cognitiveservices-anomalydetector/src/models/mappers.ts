@@ -76,6 +76,7 @@ export const Request: msRest.CompositeMapper = {
       },
       granularity: {
         required: true,
+        nullable: false,
         serializedName: "granularity",
         type: {
           name: "Enum",
@@ -266,6 +267,810 @@ export const LastDetectResponse: msRest.CompositeMapper = {
         serializedName: "isPositiveAnomaly",
         type: {
           name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const TimeSeries: msRest.CompositeMapper = {
+  serializedName: "TimeSeries",
+  type: {
+    name: "Composite",
+    className: "TimeSeries",
+    modelProperties: {
+      seriesId: {
+        required: true,
+        serializedName: "seriesId",
+        type: {
+          name: "String"
+        }
+      },
+      granularity: {
+        required: true,
+        nullable: false,
+        serializedName: "granularity",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "yearly",
+            "monthly",
+            "weekly",
+            "daily",
+            "hourly",
+            "minutely"
+          ]
+        }
+      },
+      dimensions: {
+        serializedName: "dimensions",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      customInterval: {
+        serializedName: "customInterval",
+        type: {
+          name: "Number"
+        }
+      },
+      retentionDurationInHours: {
+        serializedName: "retentionDurationInHours",
+        type: {
+          name: "Number"
+        }
+      },
+      description: {
+        serializedName: "description",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const TimeSeriesCreateRequest: msRest.CompositeMapper = {
+  serializedName: "TimeSeriesCreateRequest",
+  type: {
+    name: "Composite",
+    className: "TimeSeriesCreateRequest",
+    modelProperties: {
+      granularity: {
+        required: true,
+        nullable: false,
+        serializedName: "granularity",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "yearly",
+            "monthly",
+            "weekly",
+            "daily",
+            "hourly",
+            "minutely"
+          ]
+        }
+      },
+      dimensions: {
+        serializedName: "dimensions",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      customInterval: {
+        serializedName: "customInterval",
+        type: {
+          name: "Number"
+        }
+      },
+      retentionDurationInHours: {
+        serializedName: "retentionDurationInHours",
+        type: {
+          name: "Number"
+        }
+      },
+      description: {
+        serializedName: "description",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const TimeSeriesList: msRest.CompositeMapper = {
+  serializedName: "TimeSeriesList",
+  type: {
+    name: "Composite",
+    className: "TimeSeriesList",
+    modelProperties: {
+      series: {
+        required: true,
+        serializedName: "series",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "TimeSeries"
+            }
+          }
+        }
+      },
+      next: {
+        serializedName: "next",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const TimeSeriesGroup: msRest.CompositeMapper = {
+  serializedName: "TimeSeriesGroup",
+  type: {
+    name: "Composite",
+    className: "TimeSeriesGroup",
+    modelProperties: {
+      groupId: {
+        required: true,
+        serializedName: "groupId",
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      granularity: {
+        required: true,
+        nullable: false,
+        serializedName: "granularity",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "yearly",
+            "monthly",
+            "weekly",
+            "daily",
+            "hourly",
+            "minutely"
+          ]
+        }
+      },
+      customInterval: {
+        serializedName: "customInterval",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const TimeSeriesGroupCreateRequest: msRest.CompositeMapper = {
+  serializedName: "TimeSeriesGroupCreateRequest",
+  type: {
+    name: "Composite",
+    className: "TimeSeriesGroupCreateRequest",
+    modelProperties: {
+      description: {
+        serializedName: "description",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      granularity: {
+        required: true,
+        nullable: false,
+        serializedName: "granularity",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "yearly",
+            "monthly",
+            "weekly",
+            "daily",
+            "hourly",
+            "minutely"
+          ]
+        }
+      },
+      customInterval: {
+        serializedName: "customInterval",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const TimeSeriesGroupList: msRest.CompositeMapper = {
+  serializedName: "TimeSeriesGroupList",
+  type: {
+    name: "Composite",
+    className: "TimeSeriesGroupList",
+    modelProperties: {
+      groups: {
+        required: true,
+        serializedName: "groups",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "TimeSeriesGroup"
+            }
+          }
+        }
+      },
+      next: {
+        serializedName: "next",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const InconsistencyDetectRequest: msRest.CompositeMapper = {
+  serializedName: "InconsistencyDetectRequest",
+  type: {
+    name: "Composite",
+    className: "InconsistencyDetectRequest",
+    modelProperties: {
+      timestamp: {
+        required: true,
+        serializedName: "timestamp",
+        type: {
+          name: "DateTime"
+        }
+      },
+      epsilon: {
+        serializedName: "epsilon",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const Inconsistency: msRest.CompositeMapper = {
+  serializedName: "Inconsistency",
+  type: {
+    name: "Composite",
+    className: "Inconsistency",
+    modelProperties: {
+      inconsistentSeriesIds: {
+        required: true,
+        serializedName: "inconsistentSeriesIds",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      confidenceScores: {
+        required: true,
+        serializedName: "confidenceScores",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Number"
+            }
+          }
+        }
+      },
+      timestamp: {
+        serializedName: "timestamp",
+        type: {
+          name: "DateTime"
+        }
+      },
+      epsilon: {
+        serializedName: "epsilon",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const InconsistencyQueryRequest: msRest.CompositeMapper = {
+  serializedName: "InconsistencyQueryRequest",
+  type: {
+    name: "Composite",
+    className: "InconsistencyQueryRequest",
+    modelProperties: {
+      begin: {
+        required: true,
+        serializedName: "begin",
+        type: {
+          name: "DateTime"
+        }
+      },
+      end: {
+        required: true,
+        serializedName: "end",
+        type: {
+          name: "DateTime"
+        }
+      }
+    }
+  }
+};
+
+export const ChangePointDetectRequest: msRest.CompositeMapper = {
+  serializedName: "ChangePointDetectRequest",
+  type: {
+    name: "Composite",
+    className: "ChangePointDetectRequest",
+    modelProperties: {
+      series: {
+        required: true,
+        serializedName: "series",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Point"
+            }
+          }
+        }
+      },
+      granularity: {
+        required: true,
+        nullable: false,
+        serializedName: "granularity",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "yearly",
+            "monthly",
+            "weekly",
+            "daily",
+            "hourly",
+            "minutely"
+          ]
+        }
+      },
+      customInterval: {
+        serializedName: "customInterval",
+        type: {
+          name: "Number"
+        }
+      },
+      period: {
+        serializedName: "period",
+        type: {
+          name: "Number"
+        }
+      },
+      stableTrendWindow: {
+        serializedName: "stableTrendWindow",
+        type: {
+          name: "Number"
+        }
+      },
+      threshold: {
+        serializedName: "threshold",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const ChangePointDetectResponse: msRest.CompositeMapper = {
+  serializedName: "ChangePointDetectResponse",
+  type: {
+    name: "Composite",
+    className: "ChangePointDetectResponse",
+    modelProperties: {
+      period: {
+        required: true,
+        serializedName: "period",
+        type: {
+          name: "Number"
+        }
+      },
+      isChangePoint: {
+        required: true,
+        serializedName: "isChangePoint",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Boolean"
+            }
+          }
+        }
+      },
+      confidenceScores: {
+        required: true,
+        serializedName: "confidenceScores",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Number"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ChangePointDetectOnTimestampRequest: msRest.CompositeMapper = {
+  serializedName: "ChangePointDetectOnTimestampRequest",
+  type: {
+    name: "Composite",
+    className: "ChangePointDetectOnTimestampRequest",
+    modelProperties: {
+      timestamp: {
+        serializedName: "timestamp",
+        type: {
+          name: "DateTime"
+        }
+      },
+      period: {
+        serializedName: "period",
+        type: {
+          name: "Number"
+        }
+      },
+      stableTrendWindow: {
+        serializedName: "stableTrendWindow",
+        type: {
+          name: "Number"
+        }
+      },
+      threshold: {
+        serializedName: "threshold",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const ChangePointDetectOnTimestampResponse: msRest.CompositeMapper = {
+  serializedName: "ChangePointDetectOnTimestampResponse",
+  type: {
+    name: "Composite",
+    className: "ChangePointDetectOnTimestampResponse",
+    modelProperties: {
+      period: {
+        required: true,
+        serializedName: "period",
+        type: {
+          name: "Number"
+        }
+      },
+      isChangePoint: {
+        required: true,
+        nullable: false,
+        serializedName: "isChangePoint",
+        type: {
+          name: "Boolean"
+        }
+      },
+      confidenceScore: {
+        required: true,
+        nullable: false,
+        serializedName: "confidenceScore",
+        type: {
+          name: "Number"
+        }
+      },
+      timestamp: {
+        required: true,
+        nullable: false,
+        serializedName: "timestamp",
+        type: {
+          name: "DateTime"
+        }
+      }
+    }
+  }
+};
+
+export const TimeSeriesQueryRequest: msRest.CompositeMapper = {
+  serializedName: "TimeSeriesQueryRequest",
+  type: {
+    name: "Composite",
+    className: "TimeSeriesQueryRequest",
+    modelProperties: {
+      begin: {
+        required: true,
+        serializedName: "begin",
+        type: {
+          name: "DateTime"
+        }
+      },
+      end: {
+        required: true,
+        serializedName: "end",
+        type: {
+          name: "DateTime"
+        }
+      },
+      fields: {
+        required: true,
+        serializedName: "fields",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Enum",
+              allowedValues: [
+                "isAnomaly",
+                "isChangePoint",
+                "isPositiveAnomaly",
+                "isNegativeAnomaly",
+                "value",
+                "expectedValue",
+                "upperMargin",
+                "lowerMargin",
+                "period"
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const TimeSeriesQueryResponse: msRest.CompositeMapper = {
+  serializedName: "TimeSeriesQueryResponse",
+  type: {
+    name: "Composite",
+    className: "TimeSeriesQueryResponse",
+    modelProperties: {
+      timestamps: {
+        required: true,
+        serializedName: "timestamps",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "DateTime"
+            }
+          }
+        }
+      },
+      fieldValues: {
+        required: true,
+        serializedName: "fieldValues",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Sequence",
+              element: {
+                type: {
+                  name: "Object"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const AnomalyDetectOnTimestampRequest: msRest.CompositeMapper = {
+  serializedName: "AnomalyDetectOnTimestampRequest",
+  type: {
+    name: "Composite",
+    className: "AnomalyDetectOnTimestampRequest",
+    modelProperties: {
+      timestamp: {
+        required: true,
+        serializedName: "timestamp",
+        type: {
+          name: "DateTime"
+        }
+      },
+      period: {
+        serializedName: "period",
+        type: {
+          name: "Number"
+        }
+      },
+      maxAnomalyRatio: {
+        serializedName: "maxAnomalyRatio",
+        type: {
+          name: "Number"
+        }
+      },
+      sensitivity: {
+        serializedName: "sensitivity",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const AnomalyDetectOnTimestampResponse: msRest.CompositeMapper = {
+  serializedName: "AnomalyDetectOnTimestampResponse",
+  type: {
+    name: "Composite",
+    className: "AnomalyDetectOnTimestampResponse",
+    modelProperties: {
+      period: {
+        required: true,
+        serializedName: "period",
+        type: {
+          name: "Number"
+        }
+      },
+      timestamp: {
+        required: true,
+        nullable: false,
+        serializedName: "timestamp",
+        type: {
+          name: "DateTime"
+        }
+      },
+      value: {
+        required: true,
+        nullable: false,
+        serializedName: "value",
+        type: {
+          name: "Number"
+        }
+      },
+      expectedValue: {
+        required: true,
+        nullable: false,
+        serializedName: "expectedValue",
+        type: {
+          name: "Number"
+        }
+      },
+      upperMargin: {
+        required: true,
+        nullable: false,
+        serializedName: "upperMargin",
+        type: {
+          name: "Number"
+        }
+      },
+      lowerMargin: {
+        required: true,
+        nullable: false,
+        serializedName: "lowerMargin",
+        type: {
+          name: "Number"
+        }
+      },
+      isAnomaly: {
+        required: true,
+        nullable: false,
+        serializedName: "isAnomaly",
+        type: {
+          name: "Boolean"
+        }
+      },
+      isNegativeAnomaly: {
+        required: true,
+        nullable: false,
+        serializedName: "isNegativeAnomaly",
+        type: {
+          name: "Boolean"
+        }
+      },
+      isPositiveAnomaly: {
+        required: true,
+        nullable: false,
+        serializedName: "isPositiveAnomaly",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const LabelRequest: msRest.CompositeMapper = {
+  serializedName: "LabelRequest",
+  type: {
+    name: "Composite",
+    className: "LabelRequest",
+    modelProperties: {
+      begin: {
+        required: true,
+        serializedName: "begin",
+        type: {
+          name: "DateTime"
+        }
+      },
+      end: {
+        required: true,
+        serializedName: "end",
+        type: {
+          name: "DateTime"
+        }
+      },
+      type: {
+        required: true,
+        nullable: false,
+        serializedName: "type",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "changePoint",
+            "anomaly"
+          ]
+        }
+      },
+      value: {
+        required: true,
+        nullable: false,
+        serializedName: "value",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "true",
+            "false"
+          ]
         }
       }
     }
