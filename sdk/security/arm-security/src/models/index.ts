@@ -1300,116 +1300,114 @@ export interface IoTSecuritySolutionAnalyticsModel {
 export interface IoTSecurityAggregatedAlert extends Resource {
   /**
    * Name of the alert type
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly alertType: string;
+  alertType: string;
   /**
    * Display name of the alert type
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly alertDisplayName: string;
+  readonly alertDisplayName?: string;
   /**
    * The date the incidents were detected by the vendor
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly aggregatedDateUtc: Date;
+  readonly aggregatedDateUtc?: Date;
   /**
    * Name of the vendor that discovered the incident
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly vendorName: string;
+  readonly vendorName?: string;
   /**
    * Estimated severity of this alert. Possible values include: 'Informational', 'Low', 'Medium',
    * 'High'
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly reportedSeverity: ReportedSeverity;
+  readonly reportedSeverity?: ReportedSeverity;
   /**
    * Recommended steps for remediation
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly remediationSteps: string;
+  readonly remediationSteps?: string;
   /**
    * Description of the incident and what it means
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly description: string;
+  readonly description?: string;
   /**
    * Occurrence number of the alert within the aggregated date
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly count: number;
+  readonly count?: number;
   /**
    * Azure resource ID of the resource that got the alerts
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly effectedResourceType: string;
+  readonly effectedResourceType?: string;
   /**
    * The type of the alerted resource (Azure, Non-Azure)
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly systemSource: string;
+  readonly systemSource?: string;
   /**
    * The action that was taken as a response to the alert (Active, Blocked etc.)
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly actionTaken: string;
+  readonly actionTaken?: string;
   /**
    * query in log analytics to get the list of affected devices/alerts
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly logAnalyticsQuery: string;
+  readonly logAnalyticsQuery?: string;
 }
 
 /**
- * Security Solution
+ * Security Solution Recommendation Information
  */
 export interface IoTSecurityAggregatedRecommendation extends Resource {
   /**
    * Name of the alert type
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly recommendationName: string;
+  recommendationName: string;
   /**
    * Display name of the alert type
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly recommendationDisplayName: string;
+  readonly recommendationDisplayName?: string;
   /**
    * Description of the incident and what it means
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly description: string;
+  readonly description?: string;
   /**
    * The recommendation-type GUID.
    */
-  recommendationTypeId: string;
+  recommendationTypeId?: string;
   /**
    * Name of the vendor that discovered the incident
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly detectedBy: string;
+  readonly detectedBy?: string;
   /**
    * Estimated severity of this alert. Possible values include: 'Informational', 'Low', 'Medium',
    * 'High'
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly reportedSeverity: ReportedSeverity;
+  readonly reportedSeverity?: ReportedSeverity;
   /**
    * the number of the healthy devices within the solution
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly healthyDevices: number;
+  readonly healthyDevices?: number;
   /**
    * the number of the unhealthy devices within the solution
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly unhealthyDevices: number;
+  readonly unhealthyDevices?: number;
   /**
    * query in log analytics to get the list of affected devices/alerts
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly logAnalyticsQuery: string;
+  readonly logAnalyticsQuery?: string;
 }
 
 /**

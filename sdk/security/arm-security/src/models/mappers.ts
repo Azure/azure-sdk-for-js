@@ -2178,14 +2178,12 @@ export const IoTSecurityAggregatedAlert: msRest.CompositeMapper = {
       ...Resource.type.modelProperties,
       alertType: {
         required: true,
-        readOnly: true,
         serializedName: "alertType",
         type: {
           name: "String"
         }
       },
       alertDisplayName: {
-        required: true,
         readOnly: true,
         serializedName: "alertDisplayName",
         type: {
@@ -2193,7 +2191,6 @@ export const IoTSecurityAggregatedAlert: msRest.CompositeMapper = {
         }
       },
       aggregatedDateUtc: {
-        required: true,
         readOnly: true,
         serializedName: "aggregatedDateUtc",
         type: {
@@ -2201,7 +2198,6 @@ export const IoTSecurityAggregatedAlert: msRest.CompositeMapper = {
         }
       },
       vendorName: {
-        required: true,
         readOnly: true,
         serializedName: "vendorName",
         type: {
@@ -2209,7 +2205,6 @@ export const IoTSecurityAggregatedAlert: msRest.CompositeMapper = {
         }
       },
       reportedSeverity: {
-        required: true,
         readOnly: true,
         serializedName: "reportedSeverity",
         type: {
@@ -2217,7 +2212,6 @@ export const IoTSecurityAggregatedAlert: msRest.CompositeMapper = {
         }
       },
       remediationSteps: {
-        required: true,
         readOnly: true,
         serializedName: "remediationSteps",
         type: {
@@ -2225,7 +2219,6 @@ export const IoTSecurityAggregatedAlert: msRest.CompositeMapper = {
         }
       },
       description: {
-        required: true,
         readOnly: true,
         serializedName: "description",
         type: {
@@ -2233,7 +2226,6 @@ export const IoTSecurityAggregatedAlert: msRest.CompositeMapper = {
         }
       },
       count: {
-        required: true,
         readOnly: true,
         serializedName: "count",
         type: {
@@ -2241,7 +2233,6 @@ export const IoTSecurityAggregatedAlert: msRest.CompositeMapper = {
         }
       },
       effectedResourceType: {
-        required: true,
         readOnly: true,
         serializedName: "effectedResourceType",
         type: {
@@ -2249,7 +2240,6 @@ export const IoTSecurityAggregatedAlert: msRest.CompositeMapper = {
         }
       },
       systemSource: {
-        required: true,
         readOnly: true,
         serializedName: "systemSource",
         type: {
@@ -2257,7 +2247,6 @@ export const IoTSecurityAggregatedAlert: msRest.CompositeMapper = {
         }
       },
       actionTaken: {
-        required: true,
         readOnly: true,
         serializedName: "actionTaken",
         type: {
@@ -2265,7 +2254,6 @@ export const IoTSecurityAggregatedAlert: msRest.CompositeMapper = {
         }
       },
       logAnalyticsQuery: {
-        required: true,
         readOnly: true,
         serializedName: "logAnalyticsQuery",
         type: {
@@ -2285,14 +2273,12 @@ export const IoTSecurityAggregatedRecommendation: msRest.CompositeMapper = {
       ...Resource.type.modelProperties,
       recommendationName: {
         required: true,
-        readOnly: true,
         serializedName: "recommendationName",
         type: {
           name: "String"
         }
       },
       recommendationDisplayName: {
-        required: true,
         readOnly: true,
         serializedName: "recommendationDisplayName",
         type: {
@@ -2300,7 +2286,6 @@ export const IoTSecurityAggregatedRecommendation: msRest.CompositeMapper = {
         }
       },
       description: {
-        required: true,
         readOnly: true,
         serializedName: "description",
         type: {
@@ -2308,14 +2293,12 @@ export const IoTSecurityAggregatedRecommendation: msRest.CompositeMapper = {
         }
       },
       recommendationTypeId: {
-        required: true,
         serializedName: "recommendationTypeId",
         type: {
           name: "String"
         }
       },
       detectedBy: {
-        required: true,
         readOnly: true,
         serializedName: "detectedBy",
         type: {
@@ -2323,7 +2306,6 @@ export const IoTSecurityAggregatedRecommendation: msRest.CompositeMapper = {
         }
       },
       reportedSeverity: {
-        required: true,
         readOnly: true,
         serializedName: "reportedSeverity",
         type: {
@@ -2331,7 +2313,6 @@ export const IoTSecurityAggregatedRecommendation: msRest.CompositeMapper = {
         }
       },
       healthyDevices: {
-        required: true,
         readOnly: true,
         serializedName: "healthyDevices",
         type: {
@@ -2339,7 +2320,6 @@ export const IoTSecurityAggregatedRecommendation: msRest.CompositeMapper = {
         }
       },
       unhealthyDevices: {
-        required: true,
         readOnly: true,
         serializedName: "unhealthyDevices",
         type: {
@@ -2347,7 +2327,6 @@ export const IoTSecurityAggregatedRecommendation: msRest.CompositeMapper = {
         }
       },
       logAnalyticsQuery: {
-        required: true,
         readOnly: true,
         serializedName: "logAnalyticsQuery",
         type: {
