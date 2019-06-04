@@ -923,6 +923,12 @@ export interface FaceDetectWithUrlOptionalParams extends msRest.RequestOptionsBa
    * value: false.
    */
   returnRecognitionModel?: boolean;
+  /**
+   * The 'detectionModel' associated with the detected faceIds. Supported 'detectionModel' values
+   * include "detection_01" or "detection_02". Possible values include: 'detection_01',
+   * 'detection_02'. Default value: 'detection_01'.
+   */
+  detectionModel?: DetectionModel;
 }
 
 /**
@@ -978,6 +984,12 @@ export interface FaceDetectWithStreamOptionalParams extends msRest.RequestOption
    * value: false.
    */
   returnRecognitionModel?: boolean;
+  /**
+   * The 'detectionModel' associated with the detected faceIds. Supported 'detectionModel' values
+   * include "detection_01" or "detection_02". Possible values include: 'detection_01',
+   * 'detection_02'. Default value: 'detection_01'.
+   */
+  detectionModel?: DetectionModel;
 }
 
 /**
@@ -1047,6 +1059,12 @@ export interface PersonGroupPersonAddFaceFromUrlOptionalParams extends msRest.Re
    * there is only one face detected in the entire image.
    */
   targetFace?: number[];
+  /**
+   * The 'detectionModel' associated with the detected faceIds. Supported 'detectionModel' values
+   * include "detection_01" or "detection_02". Possible values include: 'detection_01',
+   * 'detection_02'. Default value: 'detection_01'.
+   */
+  detectionModel?: DetectionModel;
 }
 
 /**
@@ -1064,6 +1082,12 @@ export interface PersonGroupPersonAddFaceFromStreamOptionalParams extends msRest
    * there is only one face detected in the entire image.
    */
   targetFace?: number[];
+  /**
+   * The 'detectionModel' associated with the detected faceIds. Supported 'detectionModel' values
+   * include "detection_01" or "detection_02". Possible values include: 'detection_01',
+   * 'detection_02'. Default value: 'detection_01'.
+   */
+  detectionModel?: DetectionModel;
 }
 
 /**
@@ -1197,6 +1221,12 @@ export interface FaceListAddFaceFromUrlOptionalParams extends msRest.RequestOpti
    * there is only one face detected in the entire image.
    */
   targetFace?: number[];
+  /**
+   * The 'detectionModel' associated with the detected faceIds. Supported 'detectionModel' values
+   * include "detection_01" or "detection_02". Possible values include: 'detection_01',
+   * 'detection_02'. Default value: 'detection_01'.
+   */
+  detectionModel?: DetectionModel;
 }
 
 /**
@@ -1214,6 +1244,12 @@ export interface FaceListAddFaceFromStreamOptionalParams extends msRest.RequestO
    * there is only one face detected in the entire image.
    */
   targetFace?: number[];
+  /**
+   * The 'detectionModel' associated with the detected faceIds. Supported 'detectionModel' values
+   * include "detection_01" or "detection_02". Possible values include: 'detection_01',
+   * 'detection_02'. Default value: 'detection_01'.
+   */
+  detectionModel?: DetectionModel;
 }
 
 /**
@@ -1283,6 +1319,12 @@ export interface LargePersonGroupPersonAddFaceFromUrlOptionalParams extends msRe
    * there is only one face detected in the entire image.
    */
   targetFace?: number[];
+  /**
+   * The 'detectionModel' associated with the detected faceIds. Supported 'detectionModel' values
+   * include "detection_01" or "detection_02". Possible values include: 'detection_01',
+   * 'detection_02'. Default value: 'detection_01'.
+   */
+  detectionModel?: DetectionModel;
 }
 
 /**
@@ -1300,6 +1342,12 @@ export interface LargePersonGroupPersonAddFaceFromStreamOptionalParams extends m
    * there is only one face detected in the entire image.
    */
   targetFace?: number[];
+  /**
+   * The 'detectionModel' associated with the detected faceIds. Supported 'detectionModel' values
+   * include "detection_01" or "detection_02". Possible values include: 'detection_01',
+   * 'detection_02'. Default value: 'detection_01'.
+   */
+  detectionModel?: DetectionModel;
 }
 
 /**
@@ -1443,6 +1491,12 @@ export interface LargeFaceListAddFaceFromUrlOptionalParams extends msRest.Reques
    * there is only one face detected in the entire image.
    */
   targetFace?: number[];
+  /**
+   * The 'detectionModel' associated with the detected faceIds. Supported 'detectionModel' values
+   * include "detection_01" or "detection_02". Possible values include: 'detection_01',
+   * 'detection_02'. Default value: 'detection_01'.
+   */
+  detectionModel?: DetectionModel;
 }
 
 /**
@@ -1474,6 +1528,12 @@ export interface LargeFaceListAddFaceFromStreamOptionalParams extends msRest.Req
    * there is only one face detected in the entire image.
    */
   targetFace?: number[];
+  /**
+   * The 'detectionModel' associated with the detected faceIds. Supported 'detectionModel' values
+   * include "detection_01" or "detection_02". Possible values include: 'detection_01',
+   * 'detection_02'. Default value: 'detection_01'.
+   */
+  detectionModel?: DetectionModel;
 }
 
 /**
@@ -1667,6 +1727,14 @@ export type OperationStatusType = 'notstarted' | 'running' | 'succeeded' | 'fail
  * @enum {string}
  */
 export type FaceAttributeType = 'age' | 'gender' | 'headPose' | 'smile' | 'facialHair' | 'glasses' | 'emotion' | 'hair' | 'makeup' | 'occlusion' | 'accessories' | 'blur' | 'exposure' | 'noise';
+
+/**
+ * Defines values for DetectionModel.
+ * Possible values include: 'detection_01', 'detection_02'
+ * @readonly
+ * @enum {string}
+ */
+export type DetectionModel = 'detection_01' | 'detection_02';
 
 /**
  * Contains response data for the findSimilar operation.
