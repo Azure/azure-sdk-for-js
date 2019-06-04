@@ -113,7 +113,7 @@ module.exports = function(config) {
         // change Karma's debug.html to the mocha web reporter
         reporter: "html",
         timeout: "600000",
-        grep: " #RunInBrowser"
+        grep: " #RunnableInBrowser"
       }
     }
   });

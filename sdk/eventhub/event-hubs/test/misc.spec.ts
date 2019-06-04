@@ -11,10 +11,10 @@ import debugModule from "debug";
 const debug = debugModule("azure:event-hubs:misc-spec");
 import { EventPosition, EventHubClient, EventData, EventHubRuntimeInformation } from "../src";
 import { BatchingReceiver } from "../src/batchingReceiver";
-import { EnvVarKeys, getEnvVars } from "./utils/envVarUtils";
+import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 const env = getEnvVars();
 
-describe("Misc tests #NotYetRunInBrowser", function(): void {
+describe("Misc tests", function(): void {
   const service = {
     connectionString: env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
     path: env[EnvVarKeys.EVENTHUB_NAME]

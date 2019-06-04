@@ -11,10 +11,10 @@ const debug = debugModule("azure:event-hubs:receiver-spec");
 import { EventPosition, EventHubClient, EventData, EventHubRuntimeInformation, MessagingError } from "../src";
 import { BatchingReceiver } from "../src/batchingReceiver";
 import { ReceiveHandler } from "../src/streamingReceiver";
-import { EnvVarKeys, getEnvVars } from "./utils/envVarUtils";
+import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 const env = getEnvVars();
 
-describe("EventHub Receiver #NotYetRunInBrowser", function(): void {
+describe("EventHub Receiver", function(): void {
   const service = {
     connectionString: env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
     path: env[EnvVarKeys.EVENTHUB_NAME]

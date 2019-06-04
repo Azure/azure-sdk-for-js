@@ -1,6 +1,8 @@
 import * as dotenv from "dotenv";
 dotenv.config();
 
+export const runnableInBrowserMarker = "#RunnableInBrowser";
+
 export const isNode = !!process && !!process.version && !!process.versions && !!process.versions.node;
 
 export enum EnvVarKeys {
