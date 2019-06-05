@@ -5,7 +5,6 @@ import { TokenCredential } from '@azure/core-http';
 import { EnvironmentCredential } from './credentials/environmentCredential'
 
 export { AccessToken } from './credentials/accessToken'
-export { AzureCredential } from './credentials/azureCredential'
 export { AggregateCredential } from './credentials/aggregateCredential'
 export { IdentityClientOptions } from './client/identityClient'
 export { EnvironmentCredential } from './credentials/environmentCredential'
