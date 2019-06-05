@@ -38,7 +38,7 @@ export const apiVersion1: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '2018-01-01-preview',
+    defaultValue: '2015-07-01',
     type: {
       name: "String"
     }
@@ -50,13 +50,25 @@ export const apiVersion2: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '2018-09-01-preview',
+    defaultValue: '2018-01-01-preview',
     type: {
       name: "String"
     }
   }
 };
 export const apiVersion3: msRest.OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    required: true,
+    isConstant: true,
+    serializedName: "api-version",
+    defaultValue: '2018-09-01-preview',
+    type: {
+      name: "String"
+    }
+  }
+};
+export const apiVersion4: msRest.OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     required: true,
