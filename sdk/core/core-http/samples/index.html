@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>My Todos</title>
+  <script type="text/javascript" src="../msRestBundle.js"></script>
+  <script type="text/javascript">
+    document.write('hello world');
+    const msRest = className;
+    const subscriptionId = "00977cdb-163f-435f-9c32-39ec8ae61f4d";
+    const token = "token";
+    const creds = new msRest.TokenCredentials(token);
+    const client = new msRest.ServiceClient(creds);
+    const req = {
+      url: `https://management.azure.com/subscriptions/${subscriptionId}/providers/Microsoft.Storage/storageAccounts?api-version=2015-06-15`,
+      method: "GET"
+    };
+    client.sendRequest(req).then((res) => { document.write(res.bodyAsText); }).catch((err) => { console.log(err); });
+  </script>
+</head>
+
+<body>
+</body>
+
+</html>

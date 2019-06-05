@@ -108,7 +108,7 @@ export class StreamingReceiver extends MessageReceiver {
   ): Promise<StreamingReceiver> {
     throwErrorIfConnectionClosed(context.namespace);
     if (!options) options = {};
-    if (options.autoComplete == undefined) options.autoComplete = true;
+    if (options.autoComplete == null) options.autoComplete = true;
     const sReceiver = new StreamingReceiver(context, options);
     context.streamingReceiver = sReceiver;
     await sReceiver._init();
