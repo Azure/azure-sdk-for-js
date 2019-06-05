@@ -2,9 +2,9 @@ import * as msRest from "@azure/ms-rest-js";
 import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
 
 export function getCredentialWithServicePrincipalSecret() : Promise<msRest.ServiceClientCredentials> {
-  const clientIdEnvVarName = "CLIENT_ID";
-  const clientSecretEnvVarName = "CLIENT_SECRET";
-  const tenantIdEnvVarName = "TENANT_ID";
+  const clientIdEnvVarName = "AAD_CLIENT_ID";
+  const clientSecretEnvVarName = "AAD_CLIENT_SECRET";
+  const tenantIdEnvVarName = "AAD_TENANT_ID";
 
   let clientId: string | undefined = process.env[clientIdEnvVarName];
   let clientSecret: string | undefined = process.env[clientSecretEnvVarName];

@@ -5,10 +5,10 @@ import { SecretsClient } from "../src";
 import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
 
 describe("Secret client", () => {
-  const clientId = process.env["CLIENT_ID"] || "";
-  const clientSecret = process.env["CLIENT_SECRET"] || "";
-  const tenantId = process.env["TENANT_ID"] || "";
-  const vaultName = process.env["KEYVAULT_NAME"] || "<keyvault-name>"
+  const clientId = process.env["AAD_CLIENT_ID"] || "";
+  const clientSecret = process.env["AAD_CLIENT_SECRET"] || "";
+  const tenantId = process.env["AAD_TENANT_ID"] || "";
+  const vaultName = process.env["AAD_KEYVAULT_NAME"] || "<keyvault-name>"
 
   let client: SecretsClient;
   let version: string;
