@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import { AccessToken } from './accessToken';
-import { EnvironmentCredential } from './environmentCredential';
 import { TokenCredential, CredentialScopes, RequestOptionsBase } from '@azure/core-http'
 import { IdentityClient, IdentityClientOptions } from '../client/identityClient'
 
@@ -21,9 +20,4 @@ export abstract class AzureCredential implements TokenCredential {
   }
 
   protected abstract getTokenCore(scopes: CredentialScopes, requestOptions?: RequestOptionsBase): Promise<AccessToken | null>;
-}
-
-
-export function getDefaultAzureCredential(): TokenCredential {
-  return new EnvironmentCredential()
 }
