@@ -10,7 +10,7 @@
   },
   "dtsRollup": {
     "enabled": true,
-    "untrimmedFilePath": "./types/azure-template-dev.d.ts",
+    "untrimmedFilePath": "",
     "publicTrimmedFilePath": "./types/azure-template.d.ts"
   },
   "messages": {
