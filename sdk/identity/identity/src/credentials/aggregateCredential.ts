@@ -1,22 +1,25 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import { TokenCredential, RequestOptionsBase } from '@azure/core-http';
+import { TokenCredential, RequestOptionsBase } from "@azure/core-http";
 
 export class AggregateCredential implements TokenCredential {
-  private _sources: TokenCredential[] = []
+  private _sources: TokenCredential[] = [];
 
   constructor(...sources: TokenCredential[]) {
-    this._sources = sources
+    this._sources = sources;
   }
 
-  async getToken(scopes: string | string[], requestOptions?: RequestOptionsBase): Promise<string | null> {
-    let token = null
+  async getToken(
+    scopes: string | string[],
+    requestOptions?: RequestOptionsBase
+  ): Promise<string | null> {
+    let token = null;
 
     for (let i = 0; i < this._sources.length && token === null; i++) {
-      token = await this._sources[i].getToken(scopes, requestOptions)
+      token = await this._sources[i].getToken(scopes, requestOptions);
     }
 
-    return token
+    return token;
   }
 }

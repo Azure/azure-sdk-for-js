@@ -2,6 +2,6 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 export interface AccessToken {
-  token: string,
-  expiresOn: Date
+  token: string;
+  expiresOn: Date;
 }
