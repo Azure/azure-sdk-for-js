@@ -331,7 +331,7 @@ const getOperationSpec: msRest.OperationSpec = {
 };
 
 const createOperationSpec: msRest.OperationSpec = {
-  httpMethod: "PUT",
+  httpMethod: "POST",
   path: "timeseriesgroups/{timeSeriesGroupId}",
   urlParameters: [
     Parameters.endpoint,
@@ -472,7 +472,7 @@ const listSeriesOperationSpec: msRest.OperationSpec = {
 };
 
 const addTimeSeriesOperationSpec: msRest.OperationSpec = {
-  httpMethod: "PUT",
+  httpMethod: "POST",
   path: "timeseriesgroups/{timeSeriesGroupId}/timeseries/{timeSeriesId}",
   urlParameters: [
     Parameters.endpoint,
