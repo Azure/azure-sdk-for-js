@@ -58,6 +58,7 @@ export {
   TaskStepUpdateParameters,
   TaskUpdateParameters,
   TimerTrigger,
+  TimerTriggerDescriptor,
   TimerTriggerUpdateParameters,
   Token,
   TokenCertificate,

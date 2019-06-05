@@ -964,6 +964,20 @@ export interface SourceTriggerDescriptor {
 }
 
 /**
+ * An interface representing TimerTriggerDescriptor.
+ */
+export interface TimerTriggerDescriptor {
+  /**
+   * The timer trigger name that caused the run.
+   */
+  timerTriggerName?: string;
+  /**
+   * The occurrence that triggered the run.
+   */
+  scheduleOccurrence?: string;
+}
+
+/**
  * The platform properties against which the run has to happen.
  */
 export interface PlatformProperties {
@@ -972,7 +986,7 @@ export interface PlatformProperties {
    */
   os: OS;
   /**
-   * The OS architecture. Possible values include: 'amd64', 'x86', 'arm'
+   * The OS architecture. Possible values include: 'amd64', 'x86', 'arm', 'arm64'
    */
   architecture?: Architecture;
   /**
@@ -1065,6 +1079,10 @@ export interface Run extends ProxyResource {
    */
   sourceTrigger?: SourceTriggerDescriptor;
   /**
+   * The timer trigger that caused the run.
+   */
+  timerTrigger?: TimerTriggerDescriptor;
+  /**
    * The platform properties against which the run will happen.
    */
   platform?: PlatformProperties;
@@ -1085,6 +1103,10 @@ export interface Run extends ProxyResource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly runErrorMessage?: string;
+  /**
+   * The update trigger token passed for the Run.
+   */
+  updateTriggerToken?: string;
   /**
    * The provisioning state of a run. Possible values include: 'Creating', 'Updating', 'Deleting',
    * 'Succeeded', 'Failed', 'Canceled'
@@ -1525,7 +1547,7 @@ export interface PlatformUpdateParameters {
    */
   os?: OS;
   /**
-   * The OS architecture. Possible values include: 'amd64', 'x86', 'arm'
+   * The OS architecture. Possible values include: 'amd64', 'x86', 'arm', 'arm64'
    */
   architecture?: Architecture;
   /**
@@ -2625,11 +2647,11 @@ export type OS = 'Windows' | 'Linux';
 
 /**
  * Defines values for Architecture.
- * Possible values include: 'amd64', 'x86', 'arm'
+ * Possible values include: 'amd64', 'x86', 'arm', 'arm64'
  * @readonly
  * @enum {string}
  */
-export type Architecture = 'amd64' | 'x86' | 'arm';
+export type Architecture = 'amd64' | 'x86' | 'arm' | 'arm64';
 
 /**
  * Defines values for Variant.

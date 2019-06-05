@@ -49,6 +49,7 @@ export {
   Task,
   TaskStepProperties,
   TimerTrigger,
+  TimerTriggerDescriptor,
   Token,
   TokenCertificate,
   TokenCredentialsProperties,
