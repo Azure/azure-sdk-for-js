@@ -334,6 +334,10 @@
       "projectFolder": "sdk/core/amqp-common"
     },
     {
+      "packageName": "@azure/core-http",
+      "projectFolder": "sdk/core/core-http"
+    },
+    {
       "packageName": "@azure/cosmos",
       "projectFolder": "sdk/cosmosdb/cosmos"
     },
