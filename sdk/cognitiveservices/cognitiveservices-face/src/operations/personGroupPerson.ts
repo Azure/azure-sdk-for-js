@@ -316,11 +316,10 @@ export class PersonGroupPerson {
   }
 
   /**
-   * Add a face to a person into a large person group for face identification or verification. To
-   * deal with an image contains multiple faces, input face can be specified as an image with a
-   * targetFace rectangle. It returns a persistedFaceId representing the added face. No image will be
-   * stored. Only the extracted face feature will be stored on server until [LargePersonGroup
-   * PersonFace -
+   * Add a face to a person into a person group for face identification or verification. To deal with
+   * an image contains multiple faces, input face can be specified as an image with a targetFace
+   * rectangle. It returns a persistedFaceId representing the added face. No image will be stored.
+   * Only the extracted face feature will be stored on server until [LargePersonGroup PersonFace -
    * Delete](/docs/services/563879b61984550e40cbbe8d/operations/599ae2966ac60f11b48b5aa3),
    * [LargePersonGroup Person -
    * Delete](/docs/services/563879b61984550e40cbbe8d/operations/599ade5c6ac60f11b48b5aa2) or
@@ -390,11 +389,10 @@ export class PersonGroupPerson {
   }
 
   /**
-   * Add a face to a person into a large person group for face identification or verification. To
-   * deal with an image contains multiple faces, input face can be specified as an image with a
-   * targetFace rectangle. It returns a persistedFaceId representing the added face. No image will be
-   * stored. Only the extracted face feature will be stored on server until [LargePersonGroup
-   * PersonFace -
+   * Add a face to a person into a person group for face identification or verification. To deal with
+   * an image contains multiple faces, input face can be specified as an image with a targetFace
+   * rectangle. It returns a persistedFaceId representing the added face. No image will be stored.
+   * Only the extracted face feature will be stored on server until [LargePersonGroup PersonFace -
    * Delete](/docs/services/563879b61984550e40cbbe8d/operations/599ae2966ac60f11b48b5aa3),
    * [LargePersonGroup Person -
    * Delete](/docs/services/563879b61984550e40cbbe8d/operations/599ade5c6ac60f11b48b5aa2) or
