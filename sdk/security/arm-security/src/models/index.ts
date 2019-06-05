@@ -1299,9 +1299,25 @@ export interface IoTSecuritySolutionAnalyticsModel {
  */
 export interface IoTSecurityAggregatedAlert extends Resource {
   /**
-   * Name of the alert type
+   * Resource Id
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  alertType?: string;
+  readonly ioTSecurityAggregatedAlertId?: string;
+  /**
+   * Resource name
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly ioTSecurityAggregatedAlertName?: string;
+  /**
+   * Resource type
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly ioTSecurityAggregatedAlertType?: string;
+  /**
+   * Name of the alert type
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly alertType?: string;
   /**
    * Display name of the alert type
    * **NOTE: This property will not be serialized. It can only be populated by the server.**

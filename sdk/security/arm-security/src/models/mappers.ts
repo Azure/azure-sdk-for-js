@@ -2176,85 +2176,107 @@ export const IoTSecurityAggregatedAlert: msRest.CompositeMapper = {
     className: "IoTSecurityAggregatedAlert",
     modelProperties: {
       ...Resource.type.modelProperties,
+      ioTSecurityAggregatedAlertId: {
+        readOnly: true,
+        serializedName: "properties.id",
+        type: {
+          name: "String"
+        }
+      },
+      ioTSecurityAggregatedAlertName: {
+        readOnly: true,
+        serializedName: "properties.name",
+        type: {
+          name: "String"
+        }
+      },
+      ioTSecurityAggregatedAlertType: {
+        readOnly: true,
+        serializedName: "properties.type",
+        type: {
+          name: "String"
+        }
+      },
       alertType: {
-        serializedName: "alertType",
+        readOnly: true,
+        serializedName: "properties.alertType",
         type: {
           name: "String"
         }
       },
       alertDisplayName: {
         readOnly: true,
-        serializedName: "alertDisplayName",
+        serializedName: "properties.alertDisplayName",
         type: {
           name: "String"
         }
       },
       aggregatedDateUtc: {
         readOnly: true,
-        serializedName: "aggregatedDateUtc",
+        serializedName: "properties.aggregatedDateUtc",
         type: {
           name: "Date"
         }
       },
       vendorName: {
         readOnly: true,
-        serializedName: "vendorName",
+        serializedName: "properties.vendorName",
         type: {
           name: "String"
         }
       },
       reportedSeverity: {
         readOnly: true,
-        serializedName: "reportedSeverity",
+        serializedName: "properties.reportedSeverity",
         type: {
           name: "String"
         }
       },
       remediationSteps: {
         readOnly: true,
-        serializedName: "remediationSteps",
+        serializedName: "properties.remediationSteps",
         type: {
           name: "String"
         }
       },
       description: {
         readOnly: true,
-        serializedName: "description",
+        serializedName: "properties.description",
         type: {
           name: "String"
         }
       },
       count: {
         readOnly: true,
-        serializedName: "count",
+        serializedName: "properties.count",
         type: {
           name: "Number"
         }
       },
       effectedResourceType: {
         readOnly: true,
-        serializedName: "effectedResourceType",
+        serializedName: "properties.effectedResourceType",
         type: {
           name: "String"
         }
       },
       systemSource: {
         readOnly: true,
-        serializedName: "systemSource",
+        serializedName: "properties.systemSource",
         type: {
           name: "String"
         }
       },
       actionTaken: {
         readOnly: true,
-        serializedName: "actionTaken",
+        serializedName: "properties.actionTaken",
         type: {
           name: "String"
         }
       },
       logAnalyticsQuery: {
         readOnly: true,
-        serializedName: "logAnalyticsQuery",
+        serializedName: "properties.logAnalyticsQuery",
         type: {
           name: "String"
         }
