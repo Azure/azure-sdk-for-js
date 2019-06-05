@@ -11,7 +11,8 @@ export interface TokenCredential {
    * Gets the token provided by this credential.
    *
    * @param scopes The list of scopes for which the token will have access.
-   * @param aborter The AbortSignalLike used for aborting the token request.
+   * @param requestOptions The RequestOptionsBase used to configure any requests
+   *                       this TokenCredential implementation might make.
    */
   getToken(
     scopes: string | string[],
