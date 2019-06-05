@@ -12,7 +12,7 @@ class MockRefreshAzureCredential extends AzureCredential {
     this._expiresOn = expiresOn;
   }
 
-  protected getTokenCore(_scopes: string | string[], _requestOptions?: RequestOptionsBase): Promise<AccessToken | null> {
+  protected getAccessToken(_scopes: string | string[], _requestOptions?: RequestOptionsBase): Promise<AccessToken | null> {
     this.authCount++
     return Promise.resolve({ token: 'mocktoken', expiresOn: this._expiresOn})
   }

@@ -21,9 +21,9 @@ export abstract class AzureCredential implements TokenCredential {
       return this.cachedToken.token
     }
 
-    this.cachedToken = await this.getTokenCore(scopes, requestOptions)
+    this.cachedToken = await this.getAccessToken(scopes, requestOptions)
     return this.cachedToken != null ? this.cachedToken.token : null;
   }
 
-  protected abstract getTokenCore(scopes: string | string[], requestOptions?: RequestOptionsBase): Promise<AccessToken | null>;
+  protected abstract getAccessToken(scopes: string | string[], requestOptions?: RequestOptionsBase): Promise<AccessToken | null>;
 }

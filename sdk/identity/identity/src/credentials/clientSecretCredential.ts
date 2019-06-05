@@ -23,7 +23,7 @@ export class ClientSecretCredential extends AzureCredential {
     this._clientSecret = clientSecret;
   }
 
-  protected getTokenCore(scopes: string | string[], requestOptions?: RequestOptionsBase): Promise<AccessToken | null> {
+  protected getAccessToken(scopes: string | string[], requestOptions?: RequestOptionsBase): Promise<AccessToken | null> {
     return this.identityClient.authenticate(
       this._tenantId,
       this._clientId,
