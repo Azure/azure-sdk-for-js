@@ -22,7 +22,7 @@ function testFalsyValues(testFn: Function): void {
   });
 }
 
-describe("EventHubClient #RunInBrowser", function(): void {
+describe(`EventHubClient ${runnableInBrowserMarker}`, function(): void {
   describe(".fromConnectionString", function(): void {
     it("throws when there is no connection string", function(): void {
       testFalsyValues(function(value: any): void {
