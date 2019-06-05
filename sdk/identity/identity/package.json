@@ -57,6 +57,7 @@
   "devDependencies": {
     "@types/mocha": "^5.2.5",
     "@types/node": "^8.0.0",
+    "@types/qs": "~6.5.3",
     "@typescript-eslint/eslint-plugin": "^1.7.0",
     "@typescript-eslint/parser": "^1.7.0",
     "assert": "^1.4.1",
@@ -84,6 +85,7 @@
   "dependencies": {
     "@azure/core-http": "^1.2.6",
     "events": "^3.0.0",
+    "qs": "6.7.0",
     "tslib": "^1.9.3"
   },
   "private": true

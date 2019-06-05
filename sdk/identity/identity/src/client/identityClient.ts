@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
+import qs from 'qs';
 import { AccessToken } from '../credentials/accessToken';
 import { RequestOptionsBase, ServiceClient, ServiceClientOptions, CredentialScopes } from '@azure/core-http';
 
@@ -18,15 +19,21 @@ export class IdentityClient extends ServiceClient {
   async authenticate(tenantId: string, clientId: string, clientSecret: string, scopes: CredentialScopes, requestOptions?: RequestOptionsBase): Promise<AccessToken | null> {
     const response = await this.sendRequest({
       url: `${this.baseUri}/${tenantId}/oauth2/v2.0/token`,
-      method: 'GET',
-      formData: {
+      method: 'POST',
+      disableJsonStringifyOnBody: true,
+      deserializationMapper: undefined,
+      body: qs.stringify({
         response_type: 'token',
         grant_type: 'client_credentials',
         client_id: clientId,
         client_secret: clientSecret,
         scope: (typeof scopes === 'string') ? scopes : scopes.join(' ')
+      }),
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/x-www-form-urlencoded',
+        ...(requestOptions ? requestOptions.customHeaders : {})
       },
-      headers: requestOptions && requestOptions.customHeaders,
       abortSignal: requestOptions && requestOptions.abortSignal,
       timeout: requestOptions && requestOptions.timeout,
       onUploadProgress: requestOptions && requestOptions.onUploadProgress,

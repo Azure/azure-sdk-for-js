@@ -37,6 +37,7 @@ dependencies:
   '@types/mocha': 5.2.7
   '@types/node': 8.10.49
   '@types/priorityqueuejs': 1.0.1
+  '@types/qs': 6.5.3
   '@types/semaphore': 1.1.0
   '@types/semver': 5.5.0
   '@types/sinon': 5.0.7
@@ -120,6 +121,7 @@ dependencies:
   process: 0.11.10
   promise: 8.0.3
   puppeteer: 1.17.0
+  qs: 6.7.0
   requirejs: 2.3.6
   resolve: 1.11.0
   rhea: 1.0.7
@@ -561,6 +563,10 @@ packages:
     dev: false
     resolution:
       integrity: sha1-bqrDJHpMXO/JRILl2Hw3MLNfUFM=
+  /@types/qs/6.5.3:
+    dev: false
+    resolution:
+      integrity: sha512-Jugo5V/1bS0fRhy2z8+cUAHEyWOATaz4rbyLVvcFs7+dXp5HfwpEwzF1Q11bB10ApUqHf+yTauxI0UXQDwGrbA==
   /@types/range-parser/1.2.3:
     dev: false
     resolution:
@@ -10095,6 +10101,7 @@ packages:
     dependencies:
       '@types/mocha': 5.2.7
       '@types/node': 8.10.49
+      '@types/qs': 6.5.3
       '@typescript-eslint/eslint-plugin': 1.9.0_eslint@5.16.0+typescript@3.5.1
       '@typescript-eslint/parser': 1.9.0_eslint@5.16.0+typescript@3.5.1
       assert: 1.5.0
@@ -10106,6 +10113,7 @@ packages:
       mocha-junit-reporter: 1.22.0_mocha@5.2.0
       mocha-multi: 1.1.0_mocha@5.2.0
       prettier: 1.17.1
+      qs: 6.7.0
       rimraf: 2.6.3
       rollup: 1.14.2
       rollup-plugin-commonjs: 9.3.4_rollup@1.14.2
@@ -10122,7 +10130,7 @@ packages:
     dev: false
     name: '@rush-temp/identity'
     resolution:
-      integrity: sha512-xPl4FisURNL6zNE5CM2YlaK9Bke0Ij9qkQIHhajnka1PToDsCUGrn/K0+UBRo+fzDXrqRXgZ6fTnpR6os/ClMw==
+      integrity: sha512-xD2HaHKVW5M79YZ3bNvCXIdBoEVgBnoSRIjhLKWR0af+IBRMAwZPCczQSjuGxtSSg8nhSoavm/zOIWqGWTfNsw==
       tarball: 'file:projects/identity.tgz'
     version: 0.0.0
   'file:projects/keyvault-keys.tgz':
@@ -10533,6 +10541,7 @@ specifiers:
   '@types/mocha': ^5.2.5
   '@types/node': ^8.0.0
   '@types/priorityqueuejs': ^1.0.1
+  '@types/qs': ~6.5.3
   '@types/semaphore': ^1.1.0
   '@types/semver': ^5.5.0
   '@types/sinon': ^5.0.5
@@ -10616,6 +10625,7 @@ specifiers:
   process: ^0.11.10
   promise: ^8.0.3
   puppeteer: ^1.11.0
+  qs: 6.7.0
   requirejs: ^2.3.5
   resolve: 1.11.0
   rhea: ^1.0.4
