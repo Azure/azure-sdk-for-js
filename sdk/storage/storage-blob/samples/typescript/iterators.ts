@@ -2,7 +2,11 @@
  Setup: Enter your storage account name and shared key in main()
 */
 
-import { BlobServiceClient, SharedKeyCredential } from "../../src"; // Change to "@azure/storage-blob" in your package
+import {
+  BlobServiceClient,
+  newPipeline,
+  SharedKeyCredential
+} from "../../src"; // Change to "@azure/storage-blob" in your package
 
 async function main() {
   // Enter your storage account name and shared key

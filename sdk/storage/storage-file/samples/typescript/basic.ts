@@ -2,7 +2,12 @@
  Setup: Enter your storage account name and shared key in main()
 */
 
-import { StorageClient, FileServiceClient, SharedKeyCredential, Models } from "../../src"; // Change to "@azure/storage-file" in your package
+import {
+  newPipeline,
+  FileServiceClient,
+  SharedKeyCredential,
+  Models,
+} from "../../src"; // Change to "@azure/storage-file" in your package
 
 async function main() {
   // Enter your storage account name and shared key
@@ -16,7 +21,7 @@ async function main() {
   // const anonymousCredential = new AnonymousCredential();
 
   // Use sharedKeyCredential or anonymousCredential to create a pipeline
-  const pipeline = StorageClient.newPipeline(sharedKeyCredential);
+  const pipeline = newPipeline(sharedKeyCredential);
 
   // List shares
   const serviceClient = new FileServiceClient(

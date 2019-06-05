@@ -109,7 +109,6 @@ export interface ServiceListQueuesSegmentOptions {
  *
  * @export
  * @class QueueServiceClient
- * @extends {StorageClient}
  */
 export class QueueServiceClient extends StorageClient {
   /**
@@ -126,7 +125,7 @@ export class QueueServiceClient extends StorageClient {
    * @param {string} url A URL string pointing to Azure Storage queue service, such as
    *                     "https://myaccount.queue.core.windows.net". You can append a SAS
    *                     if using AnonymousCredential, such as "https://myaccount.queue.core.windows.net?sasString".
-   * @param {Pipeline} pipeline Call StorageClient.newPipeline() to create a default
+   * @param {Pipeline} pipeline Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
    * @memberof QueueServiceClient
    */

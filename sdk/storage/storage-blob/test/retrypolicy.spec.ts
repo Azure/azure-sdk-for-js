@@ -2,7 +2,7 @@ import { URLBuilder } from "@azure/ms-rest-js";
 import * as assert from "assert";
 
 import { ContainerClient, RestError } from "../src";
-import { Pipeline, newPipeline } from "../src/Pipeline";
+import { newPipeline, Pipeline  } from "../src/Pipeline";
 import { getBSU, getUniqueName } from "./utils";
 import { InjectorPolicyFactory } from "./utils/InjectorPolicyFactory";
 import * as dotenv from "dotenv";

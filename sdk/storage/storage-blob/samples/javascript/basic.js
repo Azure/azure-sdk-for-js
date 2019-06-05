@@ -4,7 +4,7 @@
 
 const {
   BlobServiceClient,
-  StorageClient,
+  newPipeline,
   SharedKeyCredential,
   AnonymousCredential,
   TokenCredential

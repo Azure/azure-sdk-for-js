@@ -27,6 +27,8 @@ import { UniqueRequestIDPolicyFactory } from "./UniqueRequestIDPolicyFactory";
 // Export following interfaces and types for customers who want to implement their
 // own RequestPolicy or HTTPClient
 export {
+  BaseRequestPolicy,
+  deserializationPolicy,
   IHttpClient,
   IHttpPipelineLogger,
   HttpHeaders,
@@ -34,7 +36,6 @@ export {
   HttpRequestBody,
   HttpOperationResponse,
   WebResource,
-  BaseRequestPolicy,
   RequestPolicyFactory,
   RequestPolicy,
   RequestPolicyOptions
@@ -117,8 +118,6 @@ export class Pipeline {
   }
 }
 
-export { deserializationPolicy };
-
 /**
  * Option interface for newPipeline() method.
  *
@@ -158,7 +157,7 @@ export interface NewPipelineOptions {
 }
 
 /**
- * A static method used to create a new Pipeline object with Credential provided.
+ * Creates a new Pipeline object with Credential provided.
  *
  * @export
  * @param {Credential} credential Such as AnonymousCredential, SharedKeyCredential or TokenCredential.

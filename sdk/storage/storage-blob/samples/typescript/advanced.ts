@@ -5,6 +5,7 @@
 import fs from "fs";
 import {
   Aborter,
+  AnonymousCredential,
   BlobServiceClient,
   newPipeline
 } from "../../src"; // Change to "@azure/storage-blob" in your package

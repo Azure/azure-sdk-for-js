@@ -7,7 +7,7 @@ const {
   AnonymousCredential,
   Aborter,
   BlobServiceClient,
-  StorageClient
+  newPipeline
 } = require("../.."); // Change to "@azure/storage-blob" in your package
 
 async function main() {

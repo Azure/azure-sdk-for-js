@@ -127,7 +127,7 @@ The Azure Storage SDK for JavaScript provides low-level and high-level APIs.
 ```javascript
 const {
   BlobServiceClient,
-  StorageClient,
+  newPipeline,
   SharedKeyCredential,
   AnonymousCredential,
   TokenCredential

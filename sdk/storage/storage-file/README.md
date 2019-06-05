@@ -124,7 +124,7 @@ The Azure Storage SDK for JavaScript provides low-level and high-level APIs.
 
 ```javascript
 const {
-  StorageClient,
+  newPipeline,
   FileServiceClient,
   SharedKeyCredential,
   AnonymousCredential
@@ -143,7 +143,7 @@ async function main() {
   const anonymousCredential = new AnonymousCredential();
 
   // Use sharedKeyCredential or anonymousCredential to create a pipeline
-  const pipeline = StorageClient.newPipeline(sharedKeyCredential);
+  const pipeline = newPipeline(sharedKeyCredential);
 
   // List shares
   const serviceClient = new FileServiceClient(
