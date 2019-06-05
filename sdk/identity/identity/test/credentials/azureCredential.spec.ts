@@ -1,18 +1,14 @@
 import assert from "assert";
-import { AzureCredential, AccessToken, IdentityClientOptions } from '../../src';
+import { AccessToken } from '../../src';
+import { AzureCredential, TokenRefreshBufferMs } from '../../src/credentials/azureCredential'
 import { RequestOptionsBase } from '@azure/core-http';
-
-const identityClientOptions: IdentityClientOptions = {
-  authorityHost: "https://authority",
-  refreshBufferMs: 5000
-}
 
 class MockRefreshAzureCredential extends AzureCredential {
   private _expiresOn: Date;
   public authCount: number = 0;
 
   constructor(expiresOn: Date) {
-    super(identityClientOptions)
+    super()
     this._expiresOn = expiresOn;
   }
 
@@ -26,8 +22,8 @@ describe('AzureCredential', function() {
   it('refreshes access tokens when they expire', async () => {
     const now = Date.now()
     const refreshCred1 = new MockRefreshAzureCredential(new Date(now))
-    const refreshCred2 = new MockRefreshAzureCredential(new Date(now + identityClientOptions.refreshBufferMs))
-    const notRefreshCred1 = new MockRefreshAzureCredential(new Date(now + identityClientOptions.refreshBufferMs + 5000))
+    const refreshCred2 = new MockRefreshAzureCredential(new Date(now + TokenRefreshBufferMs))
+    const notRefreshCred1 = new MockRefreshAzureCredential(new Date(now + TokenRefreshBufferMs + 5000))
 
     const credentialsToTest: [MockRefreshAzureCredential, number][] = [
       [refreshCred1, 2],

@@ -5,19 +5,19 @@ import { AccessToken } from './accessToken';
 import { TokenCredential, RequestOptionsBase } from '@azure/core-http'
 import { IdentityClient, IdentityClientOptions } from '../client/identityClient'
 
+export const TokenRefreshBufferMs = 2 * 60 * 1000 // 2 Minutes
+
 export abstract class AzureCredential implements TokenCredential {
   private cachedToken: AccessToken | null = null;
-  private refreshBufferMs: number;
   protected identityClient: IdentityClient;
 
   constructor(options?: IdentityClientOptions) {
     options = options || IdentityClient.getDefaultOptions()
     this.identityClient = new IdentityClient(options)
-    this.refreshBufferMs = options.refreshBufferMs
   }
 
   public async getToken(scopes: string | string[], requestOptions?: RequestOptionsBase): Promise<string | null> {
-    if (this.cachedToken && new Date(Date.now() + this.refreshBufferMs) < this.cachedToken.expiresOn) {
+    if (this.cachedToken && new Date(Date.now() + TokenRefreshBufferMs) < this.cachedToken.expiresOn) {
       return this.cachedToken.token
     }
 
