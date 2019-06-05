@@ -25,7 +25,7 @@ class GraphRbacManagementClient extends GraphRbacManagementClientContext {
   users: operations.Users;
   objects: operations.Objects;
   domains: operations.Domains;
-  oAuth2PermissionGrant: operations.OAuth2PermissionGrantOperations;
+  oAuth2: operations.OAuth2;
 
   /**
    * Initializes a new instance of the GraphRbacManagementClient class.
@@ -43,7 +43,7 @@ class GraphRbacManagementClient extends GraphRbacManagementClientContext {
     this.users = new operations.Users(this);
     this.objects = new operations.Objects(this);
     this.domains = new operations.Domains(this);
-    this.oAuth2PermissionGrant = new operations.OAuth2PermissionGrantOperations(this);
+    this.oAuth2 = new operations.OAuth2(this);
   }
 }
 
