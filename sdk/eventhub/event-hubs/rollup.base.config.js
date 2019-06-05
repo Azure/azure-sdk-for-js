@@ -123,8 +123,7 @@ export function browserConfig(test = false) {
 
       cjs({
         namedExports: {
-          events: ["EventEmitter"],
-          assert: ["ok", "deepEqual", "equal", "fail", "deepStrictEqual", "notDeepEqual"]
+          events: ["EventEmitter"]
         }
       }),
 

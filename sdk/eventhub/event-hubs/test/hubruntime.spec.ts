@@ -7,11 +7,11 @@ import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 import debugModule from "debug";
 const debug = debugModule("azure:event-hubs:hubruntime-spec");
-import { EnvVarKeys, getEnvVars, runnableInBrowserMarker } from "./utils/testUtils";
+import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 const env = getEnvVars();
 
 import { EventHubClient } from "../src";
-describe(`RuntimeInformation ${runnableInBrowserMarker}`, function(): void {
+describe(`RuntimeInformation #RunnableInBrowser`, function(): void {
   let client: EventHubClient;
   const service = {
     connectionString: env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],

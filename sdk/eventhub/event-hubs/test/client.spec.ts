@@ -12,7 +12,7 @@ import debugModule from "debug";
 const debug = debugModule("azure:event-hubs:client-spec");
 import { EventHubClient } from "../src";
 import { packageJsonInfo } from "../src/util/constants";
-import { EnvVarKeys, getEnvVars, runnableInBrowserMarker } from "./utils/testUtils";
+import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 const env = getEnvVars();
 
 function testFalsyValues(testFn: Function): void {
@@ -22,7 +22,7 @@ function testFalsyValues(testFn: Function): void {
   });
 }
 
-describe(`EventHubClient ${runnableInBrowserMarker}`, function(): void {
+describe(`EventHubClient #RunnableInBrowser`, function(): void {
   describe(".fromConnectionString", function(): void {
     it("throws when there is no connection string", function(): void {
       testFalsyValues(function(value: any): void {
@@ -84,7 +84,7 @@ const service = {
   path: env[EnvVarKeys.EVENTHUB_NAME]
 };
 
-describe(`EventHubClient on ${runnableInBrowserMarker}`, function(): void {
+describe(`EventHubClient on #RunnableInBrowser`, function(): void {
   let client: EventHubClient;
 
   afterEach("close the connection", async function(): Promise<void> {

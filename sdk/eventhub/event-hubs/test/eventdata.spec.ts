@@ -3,7 +3,6 @@
 
 import chai from "chai";
 chai.should();
-import { runnableInBrowserMarker } from "./utils/testUtils";
 
 import { EventData, Message } from "../src";
 
@@ -33,7 +32,7 @@ const testMessage: Message = {
 const testEventData = EventData.fromAmqpMessage(testMessage);
 const messageFromED = EventData.toAmqpMessage(testEventData);
 
-describe(`EventData ${runnableInBrowserMarker}`, function(): void {
+describe(`EventData #RunnableInBrowser`, function(): void {
   describe("fromAmqpMessage", function(): void {
     it("populates annotations with the message annotations", function(): void {
       testEventData.annotations!.should.equal(testAnnotations);

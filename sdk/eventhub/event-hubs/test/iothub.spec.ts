@@ -8,10 +8,10 @@ chai.use(chaiAsPromised);
 import debugModule from "debug";
 const debug = debugModule("azure:event-hubs:iothub-spec");
 import { EventHubClient } from "../src";
-import { EnvVarKeys, getEnvVars, notYetRunnableInBrowserMarker } from "./utils/testUtils";
+import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 const env = getEnvVars();
 
-describe(`EventHub Client with iothub connection string ${notYetRunnableInBrowserMarker}`, function(): void {
+describe(`EventHub Client with iothub connection string `, function(): void {
   const service = { connectionString: env[EnvVarKeys.IOTHUB_CONNECTION_STRING] };
   let client: EventHubClient;
   before("validate environment", async function(): Promise<void> {
@@ -29,7 +29,6 @@ describe(`EventHub Client with iothub connection string ${notYetRunnableInBrowse
   });
 
   it("should be able to get hub runtime info", async function(): Promise<void> {
-
     client = await EventHubClient.createFromIotHubConnectionString(service.connectionString!);
     const runtimeInfo = await client.getHubRuntimeInformation();
     debug(">>> RuntimeInfo: ", runtimeInfo);
