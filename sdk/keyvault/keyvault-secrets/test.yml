@@ -9,5 +9,5 @@ jobs:
         AAD_TENANT_ID: $(aad-azure-sdk-test-tenant-id)
         AAD_CLIENT_SECRET: $(aad-azure-sdk-test-client-secret)
         KEYVAULT_NAME: $(js-keyvault-secrets-test-name)
-      # Service Bus tests do not support concurrent execution
+      # KeyVault Secrets tests do not support concurrent execution
       MaxParallel: 1
