@@ -25,6 +25,8 @@ class SiteRecoveryManagementClient extends SiteRecoveryManagementClientContext {
   replicationNetworks: operations.ReplicationNetworks;
   replicationNetworkMappings: operations.ReplicationNetworkMappings;
   replicationProtectionContainers: operations.ReplicationProtectionContainers;
+  replicationMigrationItems: operations.ReplicationMigrationItems;
+  migrationRecoveryPoints: operations.MigrationRecoveryPoints;
   replicationProtectableItems: operations.ReplicationProtectableItems;
   replicationProtectedItems: operations.ReplicationProtectedItems;
   recoveryPoints: operations.RecoveryPoints;
@@ -37,7 +39,9 @@ class SiteRecoveryManagementClient extends SiteRecoveryManagementClientContext {
   replicationJobs: operations.ReplicationJobs;
   replicationPolicies: operations.ReplicationPolicies;
   replicationRecoveryPlans: operations.ReplicationRecoveryPlans;
+  supportedOperatingSystems: operations.SupportedOperatingSystemsOperations;
   replicationVaultHealth: operations.ReplicationVaultHealth;
+  replicationVaultSetting: operations.ReplicationVaultSetting;
 
   /**
    * Initializes a new instance of the SiteRecoveryManagementClient class.
@@ -58,6 +62,8 @@ class SiteRecoveryManagementClient extends SiteRecoveryManagementClientContext {
     this.replicationNetworks = new operations.ReplicationNetworks(this);
     this.replicationNetworkMappings = new operations.ReplicationNetworkMappings(this);
     this.replicationProtectionContainers = new operations.ReplicationProtectionContainers(this);
+    this.replicationMigrationItems = new operations.ReplicationMigrationItems(this);
+    this.migrationRecoveryPoints = new operations.MigrationRecoveryPoints(this);
     this.replicationProtectableItems = new operations.ReplicationProtectableItems(this);
     this.replicationProtectedItems = new operations.ReplicationProtectedItems(this);
     this.recoveryPoints = new operations.RecoveryPoints(this);
@@ -70,7 +76,9 @@ class SiteRecoveryManagementClient extends SiteRecoveryManagementClientContext {
     this.replicationJobs = new operations.ReplicationJobs(this);
     this.replicationPolicies = new operations.ReplicationPolicies(this);
     this.replicationRecoveryPlans = new operations.ReplicationRecoveryPlans(this);
+    this.supportedOperatingSystems = new operations.SupportedOperatingSystemsOperations(this);
     this.replicationVaultHealth = new operations.ReplicationVaultHealth(this);
+    this.replicationVaultSetting = new operations.ReplicationVaultSetting(this);
   }
 }
 
