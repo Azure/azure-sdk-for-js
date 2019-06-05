@@ -9,7 +9,7 @@ This package contains an isomorphic SDK for GraphRbacManagementClient.
 
 ### How to Install
 
-```
+```bash
 npm install @azure/graph
 ```
 
@@ -19,35 +19,41 @@ npm install @azure/graph
 
 ##### Install @azure/ms-rest-nodeauth
 
-```
+```bash
 npm install @azure/ms-rest-nodeauth
 ```
 
 ##### Sample code
 
-```ts
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+```typescript
 import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
-import { GraphRbacManagementClient, GraphRbacManagementModels, GraphRbacManagementMappers } from "@azure/graph";
-const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
+import { GraphRbacManagementClient } from "@azure/graph";
+const tenantId = process.env["TENANT_ID"] || "";
 
-msRestNodeAuth.interactiveLogin().then((creds) => {
-  const client = new GraphRbacManagementClient(creds, subscriptionId);
-  client.signedInUser.get().then((result) => {
-    console.log("The result is:");
-    console.log(result);
+msRestNodeAuth
+  .interactiveLogin({
+    tokenAudience: "https://graph.windows.net",
+    domain: tenantId
+  })
+  .then((creds) => {
+    const client = new GraphRbacManagementClient(creds, tenantId, {
+      baseUri: "https://graph.windows.net"
+    });
+    client.signedInUser.get().then((result) => {
+      console.log("The result is:");
+      console.log(result);
+    });
+  })
+  .catch((err) => {
+    console.error(err);
   });
-}).catch((err) => {
-  console.error(err);
-});
 ```
 
 #### browser - Authentication, client creation and get signedInUser as an example written in JavaScript.
 
 ##### Install @azure/ms-rest-browserauth
 
-```
+```bash
 npm install @azure/ms-rest-browserauth
 ```
 
@@ -56,6 +62,7 @@ npm install @azure/ms-rest-browserauth
 See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to Azure in the browser.
 
 - index.html
+
 ```html
 <!DOCTYPE html>
 <html lang="en">
@@ -66,24 +73,29 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
     <script src="node_modules/@azure/ms-rest-browserauth/dist/msAuth.js"></script>
     <script src="node_modules/@azure/graph/dist/graph.js"></script>
     <script type="text/javascript">
-      const subscriptionId = "<Subscription_Id>";
+      const tenantId = "<optional tenant for your organization>";
       const authManager = new msAuth.AuthManager({
         clientId: "<client id for your Azure AD app>",
-        tenant: "<optional tenant for your organization>"
+        tenant: tenantId
       });
       authManager.finalizeLogin().then((res) => {
         if (!res.isLoggedIn) {
           // may cause redirects
           authManager.login();
         }
-        const client = new Azure.Graph.GraphRbacManagementClient(res.creds, subscriptionId);
-        client.signedInUser.get().then((result) => {
-          console.log("The result is:");
-          console.log(result);
-        }).catch((err) => {
-          console.log("An error occurred:");
-          console.error(err);
+        const client = new Azure.Graph.GraphRbacManagementClient(res.creds, tenantId, {
+          baseUri: "https://graph.windows.net"
         });
+        client.signedInUser
+          .get()
+          .then((result) => {
+            console.log("The result is:");
+            console.log(result);
+          })
+          .catch((err) => {
+            console.log("An error occurred:");
+            console.error(err);
+          });
       });
     </script>
   </head>
@@ -94,6 +106,5 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
 ## Related projects
 
 - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
-
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/graphrbac/graph/README.png)
