@@ -2,8 +2,8 @@ dependencies:
   '@azure/arm-servicebus': 0.1.0
   '@azure/event-hubs': 1.0.8
   '@azure/logger-js': 1.1.0
-  '@azure/ms-rest-azure-js': 1.3.6
-  '@azure/ms-rest-js': 1.8.8
+  '@azure/ms-rest-azure-js': 1.3.7
+  '@azure/ms-rest-js': 1.8.10
   '@azure/ms-rest-nodeauth': 0.9.3
   '@microsoft/api-extractor': 7.1.7
   '@rush-temp/amqp-common': 'file:projects/amqp-common.tgz'
@@ -11,7 +11,7 @@ dependencies:
   '@rush-temp/cosmos': 'file:projects/cosmos.tgz'
   '@rush-temp/event-hubs': 'file:projects/event-hubs.tgz'
   '@rush-temp/event-processor-host': 'file:projects/event-processor-host.tgz'
-  '@rush-temp/keyvault': 'file:projects/keyvault.tgz'
+  '@rush-temp/keyvault-secrets': 'file:projects/keyvault-secrets.tgz'
   '@rush-temp/service-bus': 'file:projects/service-bus.tgz'
   '@rush-temp/storage-blob': 'file:projects/storage-blob.tgz'
   '@rush-temp/storage-file': 'file:projects/storage-file.tgz'
@@ -183,8 +183,8 @@ packages:
       integrity: sha512-B/HFWNbqAjFjhj8x/zlHcpuYtsr92l3ZVArJdumi2kpN2Di/h4g6GIa2JeQEDD+rkLa3oAR6zHKfJbGnybOmvg==
   /@azure/arm-servicebus/0.1.0:
     dependencies:
-      '@azure/ms-rest-azure-js': 1.3.6
-      '@azure/ms-rest-js': 1.8.8
+      '@azure/ms-rest-azure-js': 1.3.7
+      '@azure/ms-rest-js': 1.8.10
       tslib: 1.9.3
     dev: false
     resolution:
@@ -213,14 +213,14 @@ packages:
     dev: false
     resolution:
       integrity: sha512-l7z0DPCi2Hp88w12JhDTtx5d0Y3+vhfE7JKJb9O7sEz71Cwp053N8piTtTnnk/tUor9oZHgEKi/p3tQQmLPjvA==
-  /@azure/ms-rest-azure-js/1.3.6:
+  /@azure/ms-rest-azure-js/1.3.7:
     dependencies:
-      '@azure/ms-rest-js': 1.8.8
+      '@azure/ms-rest-js': 1.8.10
       tslib: 1.9.3
     dev: false
     resolution:
-      integrity: sha512-9vkAr9Bim4D00rlNOdwTTxaUXRsGkuqecAgkbM1CtsGPQnHmvRZ9DFAMUbkAsM5g2W2saXsHjjbLuLB6eI8VvQ==
-  /@azure/ms-rest-js/1.8.8:
+      integrity: sha512-Q5mm5eb1aVNrOwmkZ9c5JtnZOnEUBlZ/6XKYMjuELKLZwuk7vtdgTi7nMza24YE8WDSOawrsT6r9ZkKiNoD6Zw==
+  /@azure/ms-rest-js/1.8.10:
     dependencies:
       '@types/tunnel': 0.0.0
       axios: 0.19.0
@@ -232,11 +232,11 @@ packages:
       xml2js: 0.4.19
     dev: false
     resolution:
-      integrity: sha512-Ty+8yccn2bE4UO/nRHBhsPyF7E3l84TX+NLSy4eJD1EO2X8ML3FE09Yj+36PElfYjuf64tho4hsEFcRqqyYjIw==
+      integrity: sha512-6c5IWh1bU+0J/B52QOGJPo4v895ZDvPlI0qCWJ6t2h+zsRoZW3V64xIyaUuvJ4eCbkvHw6eHq6F2wigMyngR9g==
   /@azure/ms-rest-nodeauth/0.9.3:
     dependencies:
       '@azure/ms-rest-azure-env': 1.1.2
-      '@azure/ms-rest-js': 1.8.8
+      '@azure/ms-rest-js': 1.8.10
       adal-node: 0.1.28
     dev: false
     resolution:
@@ -9814,7 +9814,7 @@ packages:
     dev: false
     name: '@rush-temp/amqp-common'
     resolution:
-      integrity: sha512-cdbsazKIofkVaz5jg/h/M58wteJ7sNZdRqBiEGI4rO5xd26cJxOnjik2kF0S0LmXs9M2yxTodV5DUaDasP8wXQ==
+      integrity: sha512-6/TjvEwJ0nNRfQOLu9FCRORtACz2FSaP2BLMekbSGycTXETwLgcYXTPrQPxApYvWQf52jML2coAD1+b2gbMe/Q==
       tarball: 'file:projects/amqp-common.tgz'
     version: 0.0.0
   'file:projects/core-http.tgz':
@@ -9890,7 +9890,7 @@ packages:
     dev: false
     name: '@rush-temp/core-http'
     resolution:
-      integrity: sha512-+ApLrXFwg/225MXuIvCmg8vg8W3bEt8S5ZoGRv56Ffb2GeqDvI+YEkP2ZppMUTQIm08+Vx77wNpL79Wwwue52w==
+      integrity: sha512-E9dUWK/fMKVHAhCK7Z848WsZOErJDTV531+SUyeJ5YvAQyiD0D4+oEzaU8xb/fXDD2vGmzd/ttfXbsW7cimNLw==
       tarball: 'file:projects/core-http.tgz'
     version: 0.0.0
   'file:projects/cosmos.tgz':
@@ -9926,7 +9926,7 @@ packages:
     dev: false
     name: '@rush-temp/cosmos'
     resolution:
-      integrity: sha512-hDPu35nMHd5kOJ1usQVlocG4FLNMv6kB2iBAZmjBUdu4+3fPqZs/Ix05f7n6hrMD94QnPIgaxoDv27IEI/SiQg==
+      integrity: sha512-YQgXDVnkcyIiUgCN2IXIG9LcD5C8+v8oBJ3hu11GMAazLEZEAPP0Qu3ko3cnIXsQj6l+3GJb6p3MkauHxKZZnA==
       tarball: 'file:projects/cosmos.tgz'
     version: 0.0.0
   'file:projects/event-hubs.tgz':
@@ -9988,7 +9988,7 @@ packages:
     dev: false
     name: '@rush-temp/event-hubs'
     resolution:
-      integrity: sha512-WGHt6l0fyjM1VQuREBXQbS8tIfywWHpRtn8JOO6/7nL0LCL8/ZEdFjwxw4zeHfO4C4ss75/KlKGoSlZI4AM3JA==
+      integrity: sha512-cG4Z5gFK5dVSig4PGGsRfEgBwUxT8gPLqbNJZEkahGiXBSZVqy8EEzFoy3hM/4dxrF2pehz5ja7zRoZT1WDRlA==
       tarball: 'file:projects/event-hubs.tgz'
     version: 0.0.0
   'file:projects/event-processor-host.tgz':
@@ -10044,28 +10044,29 @@ packages:
     dev: false
     name: '@rush-temp/event-processor-host'
     resolution:
-      integrity: sha512-q72AohsiME+OL9dY9XBaj8kjrjt7xFaZjCXAkYhF0GpIsokjU6cZh0JnH/petpgB6FzCDJ/IgBIWjtE1VDSYsQ==
+      integrity: sha512-6LOgcg0Uz7i3zndSQ+a19fVlecwkezWT/J0XWL+aPszyT5JBcSBdxVNZA4NOjawIXRiy3vOX6c45xU50OjPNTA==
       tarball: 'file:projects/event-processor-host.tgz'
     version: 0.0.0
-  'file:projects/keyvault.tgz':
+  'file:projects/keyvault-secrets.tgz':
     dependencies:
-      '@azure/ms-rest-azure-js': 1.3.6
-      '@azure/ms-rest-js': 1.8.8
+      '@azure/ms-rest-azure-js': 1.3.7
+      '@azure/ms-rest-js': 1.8.10
       '@azure/ms-rest-nodeauth': 0.9.3
       '@types/chai': 4.1.7
       chai: 4.2.0
       prettier: 1.17.1
       rimraf: 2.6.3
       rollup: 1.13.1
+      rollup-plugin-commonjs: 9.3.4_rollup@1.13.1
       rollup-plugin-node-resolve: 4.2.4
       tslib: 1.9.3
       typescript: 3.5.1
       uglify-js: 3.6.0
     dev: false
-    name: '@rush-temp/keyvault'
+    name: '@rush-temp/keyvault-secrets'
     resolution:
-      integrity: sha512-szgPrk5EHDYddyDFcexahhDOKqMJqtoVur9DSVfeDHWCWmXrwgcoWJH+RfN0AFy01Wsi5HGkECPdSgishIDRCg==
-      tarball: 'file:projects/keyvault.tgz'
+      integrity: sha512-PC3oNCKcjyQhHGRKoQF2zjtRnxkdM5aof3yBu3wRJf60NxyveVY5aPlmQnv3kW6nIGACjWuOg7jtarciTG4l1Q==
+      tarball: 'file:projects/keyvault-secrets.tgz'
     version: 0.0.0
   'file:projects/service-bus.tgz':
     dependencies:
@@ -10142,12 +10143,12 @@ packages:
     dev: false
     name: '@rush-temp/service-bus'
     resolution:
-      integrity: sha512-DX1JTjFJbt2koOXhHGoAZGQVupYDoldvgR6LCKQCK6D9eUmX3EcJtLW7DQvgJG73Stk3m+382HDlE8ASpGaO8A==
+      integrity: sha512-scfR34SyQYHqDwiOkIVnK/GSYNHNqql73bKjsO3cwMARBnkb/MsllwOnj9o0S81KP88ZtOD2pnkrQN7mcjR5bg==
       tarball: 'file:projects/service-bus.tgz'
     version: 0.0.0
   'file:projects/storage-blob.tgz':
     dependencies:
-      '@azure/ms-rest-js': 1.8.8
+      '@azure/ms-rest-js': 1.8.10
       '@microsoft/api-extractor': 7.1.7
       '@types/dotenv': 6.1.1
       '@types/mocha': 5.2.7
@@ -10203,12 +10204,12 @@ packages:
     dev: false
     name: '@rush-temp/storage-blob'
     resolution:
-      integrity: sha512-Hm+scPp+d3io069Lu5W2BpiYtg/n5V1Rfwvc280yRviAGAyZ3OB+8k8akHvdJ9c4uPPMMHetD+agswelpKkfCQ==
+      integrity: sha512-W2RMqiAgipexCGkPRRY6cG8uL6WWdx4wuJZOPTUjQfXZb8Dzw7cgKdV3OhWqJJZIh4LyHnc8xLidzw7bmZ2+fg==
       tarball: 'file:projects/storage-blob.tgz'
     version: 0.0.0
   'file:projects/storage-file.tgz':
     dependencies:
-      '@azure/ms-rest-js': 1.8.8
+      '@azure/ms-rest-js': 1.8.10
       '@microsoft/api-extractor': 7.1.7
       '@types/dotenv': 6.1.1
       '@types/mocha': 5.2.7
@@ -10264,12 +10265,12 @@ packages:
     dev: false
     name: '@rush-temp/storage-file'
     resolution:
-      integrity: sha512-cB+vLvusvRPm3Qnx1uCaymohX68JVvirLk1kRGMHdeXgDD+2Q1RsJpeiJDCi0F00ymGL0RVs43BbqFSsxd/hcA==
+      integrity: sha512-IggwmF9FMAoNRoePe8hFn6NocobTvIrGU+jBfEe/Ba+CrNzdN0jIKyjXTg6P9ofKvD1RUKkCXChQR6dVWhuHwQ==
       tarball: 'file:projects/storage-file.tgz'
     version: 0.0.0
   'file:projects/storage-queue.tgz':
     dependencies:
-      '@azure/ms-rest-js': 1.8.8
+      '@azure/ms-rest-js': 1.8.10
       '@microsoft/api-extractor': 7.1.7
       '@types/dotenv': 6.1.1
       '@types/mocha': 5.2.7
@@ -10324,12 +10325,12 @@ packages:
     dev: false
     name: '@rush-temp/storage-queue'
     resolution:
-      integrity: sha512-9HdvfSTnbo0UuLH2pmGyq4C0c65HgTRCkbcF+w4dja9/fdcfNusyvbTXHFeVVHgvFG4TY/tsk60mVP1ZQQcpNA==
+      integrity: sha512-3uiXLFzFdHRLcTjagTminJ9Lne4klR2QTI3szXdQQo0etG2pawPwm+W6+NGwxLhq+SaPOi7AVPRS/Fh6pYLTUg==
       tarball: 'file:projects/storage-queue.tgz'
     version: 0.0.0
   'file:projects/template.tgz':
     dependencies:
-      '@azure/ms-rest-js': 1.8.8
+      '@azure/ms-rest-js': 1.8.10
       '@types/mocha': 5.2.7
       '@types/node': 8.10.49
       '@typescript-eslint/eslint-plugin': 1.9.0_eslint@5.16.0+typescript@3.5.1
@@ -10364,7 +10365,7 @@ packages:
     dev: false
     name: '@rush-temp/template'
     resolution:
-      integrity: sha512-OpYRFbGBLqAbuREYPNFLnpfVKqoabIlNccbsuOWC8Xw6gtpMNwR8oB73pDjTYexn1chSU2OKC7eTidC6vic8QQ==
+      integrity: sha512-M4lKSJH4L7LqMkIyYttlPEyPoVDhmEpBCLcU7erMsgE1yOac8BZeV4UBGz/vg9iiEH6ByUZZwhk9l1VRywIBiw==
       tarball: 'file:projects/template.tgz'
     version: 0.0.0
   'file:projects/testhub.tgz':
@@ -10389,7 +10390,7 @@ packages:
     dev: false
     name: '@rush-temp/testhub'
     resolution:
-      integrity: sha512-+7/S5QILzUUjTQx8iAqLnUHRABhgKs/lVmB5/+F0s9n2n+MZZ7hHhzW3B/efbVCXv6xt+7eFwVT4g0mmX5lGyw==
+      integrity: sha512-zbODslMIEBAdmUsDIlwLbxG1R2sPMry3/X/1rpHF0+ahxw0rTbSoolEXBli+WR8Omnes5/O/EcdnDpFCaw6xKQ==
       tarball: 'file:projects/testhub.tgz'
     version: 0.0.0
 registry: ''
@@ -10406,7 +10407,7 @@ specifiers:
   '@rush-temp/cosmos': 'file:./projects/cosmos.tgz'
   '@rush-temp/event-hubs': 'file:./projects/event-hubs.tgz'
   '@rush-temp/event-processor-host': 'file:./projects/event-processor-host.tgz'
-  '@rush-temp/keyvault': 'file:./projects/keyvault.tgz'
+  '@rush-temp/keyvault-secrets': 'file:./projects/keyvault-secrets.tgz'
   '@rush-temp/service-bus': 'file:./projects/service-bus.tgz'
   '@rush-temp/storage-blob': 'file:./projects/storage-blob.tgz'
   '@rush-temp/storage-file': 'file:./projects/storage-file.tgz'
