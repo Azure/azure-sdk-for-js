@@ -28,6 +28,74 @@ export class DeploymentOperations {
 
   /**
    * Gets a deployments operation.
+   * @param groupId The management group ID.
+   * @param deploymentName The name of the deployment.
+   * @param operationId The ID of the operation to get.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.DeploymentOperationsGetAtManagementGroupScopeResponse>
+   */
+  getAtManagementGroupScope(groupId: string, deploymentName: string, operationId: string, options?: msRest.RequestOptionsBase): Promise<Models.DeploymentOperationsGetAtManagementGroupScopeResponse>;
+  /**
+   * @param groupId The management group ID.
+   * @param deploymentName The name of the deployment.
+   * @param operationId The ID of the operation to get.
+   * @param callback The callback
+   */
+  getAtManagementGroupScope(groupId: string, deploymentName: string, operationId: string, callback: msRest.ServiceCallback<Models.DeploymentOperation>): void;
+  /**
+   * @param groupId The management group ID.
+   * @param deploymentName The name of the deployment.
+   * @param operationId The ID of the operation to get.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getAtManagementGroupScope(groupId: string, deploymentName: string, operationId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DeploymentOperation>): void;
+  getAtManagementGroupScope(groupId: string, deploymentName: string, operationId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DeploymentOperation>, callback?: msRest.ServiceCallback<Models.DeploymentOperation>): Promise<Models.DeploymentOperationsGetAtManagementGroupScopeResponse> {
+    return this.client.sendOperationRequest(
+      {
+        groupId,
+        deploymentName,
+        operationId,
+        options
+      },
+      getAtManagementGroupScopeOperationSpec,
+      callback) as Promise<Models.DeploymentOperationsGetAtManagementGroupScopeResponse>;
+  }
+
+  /**
+   * Gets all deployments operations for a deployment.
+   * @param groupId The management group ID.
+   * @param deploymentName The name of the deployment.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.DeploymentOperationsListAtManagementGroupScopeResponse>
+   */
+  listAtManagementGroupScope(groupId: string, deploymentName: string, options?: Models.DeploymentOperationsListAtManagementGroupScopeOptionalParams): Promise<Models.DeploymentOperationsListAtManagementGroupScopeResponse>;
+  /**
+   * @param groupId The management group ID.
+   * @param deploymentName The name of the deployment.
+   * @param callback The callback
+   */
+  listAtManagementGroupScope(groupId: string, deploymentName: string, callback: msRest.ServiceCallback<Models.DeploymentOperationsListResult>): void;
+  /**
+   * @param groupId The management group ID.
+   * @param deploymentName The name of the deployment.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listAtManagementGroupScope(groupId: string, deploymentName: string, options: Models.DeploymentOperationsListAtManagementGroupScopeOptionalParams, callback: msRest.ServiceCallback<Models.DeploymentOperationsListResult>): void;
+  listAtManagementGroupScope(groupId: string, deploymentName: string, options?: Models.DeploymentOperationsListAtManagementGroupScopeOptionalParams | msRest.ServiceCallback<Models.DeploymentOperationsListResult>, callback?: msRest.ServiceCallback<Models.DeploymentOperationsListResult>): Promise<Models.DeploymentOperationsListAtManagementGroupScopeResponse> {
+    return this.client.sendOperationRequest(
+      {
+        groupId,
+        deploymentName,
+        options
+      },
+      listAtManagementGroupScopeOperationSpec,
+      callback) as Promise<Models.DeploymentOperationsListAtManagementGroupScopeResponse>;
+  }
+
+  /**
+   * Gets a deployments operation.
    * @param deploymentName The name of the deployment.
    * @param operationId The ID of the operation to get.
    * @param [options] The optional parameters
@@ -60,18 +128,18 @@ export class DeploymentOperations {
 
   /**
    * Gets all deployments operations for a deployment.
-   * @param deploymentName The name of the deployment with the operation to get.
+   * @param deploymentName The name of the deployment.
    * @param [options] The optional parameters
    * @returns Promise<Models.DeploymentOperationsListAtSubscriptionScopeResponse>
    */
   listAtSubscriptionScope(deploymentName: string, options?: Models.DeploymentOperationsListAtSubscriptionScopeOptionalParams): Promise<Models.DeploymentOperationsListAtSubscriptionScopeResponse>;
   /**
-   * @param deploymentName The name of the deployment with the operation to get.
+   * @param deploymentName The name of the deployment.
    * @param callback The callback
    */
   listAtSubscriptionScope(deploymentName: string, callback: msRest.ServiceCallback<Models.DeploymentOperationsListResult>): void;
   /**
-   * @param deploymentName The name of the deployment with the operation to get.
+   * @param deploymentName The name of the deployment.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -125,20 +193,20 @@ export class DeploymentOperations {
   /**
    * Gets all deployments operations for a deployment.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param deploymentName The name of the deployment with the operation to get.
+   * @param deploymentName The name of the deployment.
    * @param [options] The optional parameters
    * @returns Promise<Models.DeploymentOperationsListResponse>
    */
   list(resourceGroupName: string, deploymentName: string, options?: Models.DeploymentOperationsListOptionalParams): Promise<Models.DeploymentOperationsListResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param deploymentName The name of the deployment with the operation to get.
+   * @param deploymentName The name of the deployment.
    * @param callback The callback
    */
   list(resourceGroupName: string, deploymentName: string, callback: msRest.ServiceCallback<Models.DeploymentOperationsListResult>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param deploymentName The name of the deployment with the operation to get.
+   * @param deploymentName The name of the deployment.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -152,6 +220,34 @@ export class DeploymentOperations {
       },
       listOperationSpec,
       callback) as Promise<Models.DeploymentOperationsListResponse>;
+  }
+
+  /**
+   * Gets all deployments operations for a deployment.
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.DeploymentOperationsListAtManagementGroupScopeNextResponse>
+   */
+  listAtManagementGroupScopeNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.DeploymentOperationsListAtManagementGroupScopeNextResponse>;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param callback The callback
+   */
+  listAtManagementGroupScopeNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.DeploymentOperationsListResult>): void;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listAtManagementGroupScopeNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DeploymentOperationsListResult>): void;
+  listAtManagementGroupScopeNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DeploymentOperationsListResult>, callback?: msRest.ServiceCallback<Models.DeploymentOperationsListResult>): Promise<Models.DeploymentOperationsListAtManagementGroupScopeNextResponse> {
+    return this.client.sendOperationRequest(
+      {
+        nextPageLink,
+        options
+      },
+      listAtManagementGroupScopeNextOperationSpec,
+      callback) as Promise<Models.DeploymentOperationsListAtManagementGroupScopeNextResponse>;
   }
 
   /**
@@ -213,6 +309,56 @@ export class DeploymentOperations {
 
 // Operation Specifications
 const serializer = new msRest.Serializer(Mappers);
+const getAtManagementGroupScopeOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "providers/Microsoft.Management/managementGroups/{groupId}/providers/Microsoft.Resources/deployments/{deploymentName}/operations/{operationId}",
+  urlParameters: [
+    Parameters.groupId,
+    Parameters.deploymentName,
+    Parameters.operationId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.DeploymentOperation
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const listAtManagementGroupScopeOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "providers/Microsoft.Management/managementGroups/{groupId}/providers/Microsoft.Resources/deployments/{deploymentName}/operations",
+  urlParameters: [
+    Parameters.groupId,
+    Parameters.deploymentName
+  ],
+  queryParameters: [
+    Parameters.top,
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.DeploymentOperationsListResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
 const getAtSubscriptionScopeOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Resources/deployments/{deploymentName}/operations/{operationId}",
@@ -300,6 +446,27 @@ const listOperationSpec: msRest.OperationSpec = {
   queryParameters: [
     Parameters.top,
     Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.DeploymentOperationsListResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const listAtManagementGroupScopeNextOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  baseUrl: "https://management.azure.com",
+  path: "{nextLink}",
+  urlParameters: [
+    Parameters.nextPageLink
   ],
   headerParameters: [
     Parameters.acceptLanguage

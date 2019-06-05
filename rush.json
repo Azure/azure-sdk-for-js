@@ -334,6 +334,10 @@
       "projectFolder": "sdk/core/amqp-common"
     },
     {
+      "packageName": "@azure/core-http",
+      "projectFolder": "sdk/core/core-http"
+    },
+    {
       "packageName": "@azure/cosmos",
       "projectFolder": "sdk/cosmosdb/cosmos"
     },
@@ -346,8 +350,12 @@
       "projectFolder": "sdk/eventhub/event-processor-host"
     },
     {
-      "packageName": "@azure/keyvault",
-      "projectFolder": "sdk/keyvault/keyvault"
+      "packageName": "@azure/keyvault-secrets",
+      "projectFolder": "sdk/keyvault/keyvault-secrets"
+    },
+    {
+      "packageName": "@azure/keyvault-keys",
+      "projectFolder": "sdk/keyvault/keyvault-keys"
     },
     {
       "packageName": "@azure/service-bus",
