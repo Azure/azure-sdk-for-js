@@ -13,7 +13,7 @@ import * as msRest from "@azure/ms-rest-js";
 import * as msRestAzure from "@azure/ms-rest-azure-js";
 
 const packageName = "@azure/arm-links";
-const packageVersion = "1.0.1";
+const packageVersion = "1.0.2";
 
 export class ManagementLinkClientContext extends msRestAzure.AzureServiceClient {
   credentials: msRest.ServiceClientCredentials;

@@ -1,0 +1,38 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "sourceMap": true,
+    "newLine": "LF",
+    "target": "es5",
+    "moduleResolution": "node",
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "outDir": "dist",
+    "strict": true,
+    "declaration": true,
+    "declarationMap": true,
+    "importHelpers": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "es5",
+      "es6",
+      "es7",
+      "esnext",
+      "esnext.asynciterable",
+      "es2015.iterable"
+    ]
+  },
+  "compileOnSave": true,
+  "exclude": [
+    "node_modules"
+  ],
+  "include": [
+    "./lib/**/*.ts",
+    "./samples/**/*.ts",
+    "./test/**/*.ts"
+  ]
+}

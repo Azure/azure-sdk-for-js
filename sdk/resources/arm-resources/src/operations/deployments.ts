@@ -36,7 +36,237 @@ export class Deployments {
    * process finishes, the URI in the Location header returns a status of 204 on success. If the
    * asynchronous request failed, the URI in the Location header returns an error-level status code.
    * @summary Deletes a deployment from the deployment history.
-   * @param deploymentName The name of the deployment to delete.
+   * @param groupId The management group ID.
+   * @param deploymentName The name of the deployment.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  deleteAtManagementGroupScope(groupId: string, deploymentName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginDeleteAtManagementGroupScope(groupId,deploymentName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
+  }
+
+  /**
+   * Checks whether the deployment exists.
+   * @param groupId The management group ID.
+   * @param deploymentName The name of the deployment.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.DeploymentsCheckExistenceAtManagementGroupScopeResponse>
+   */
+  checkExistenceAtManagementGroupScope(groupId: string, deploymentName: string, options?: msRest.RequestOptionsBase): Promise<Models.DeploymentsCheckExistenceAtManagementGroupScopeResponse>;
+  /**
+   * @param groupId The management group ID.
+   * @param deploymentName The name of the deployment.
+   * @param callback The callback
+   */
+  checkExistenceAtManagementGroupScope(groupId: string, deploymentName: string, callback: msRest.ServiceCallback<boolean>): void;
+  /**
+   * @param groupId The management group ID.
+   * @param deploymentName The name of the deployment.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  checkExistenceAtManagementGroupScope(groupId: string, deploymentName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<boolean>): void;
+  checkExistenceAtManagementGroupScope(groupId: string, deploymentName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<boolean>, callback?: msRest.ServiceCallback<boolean>): Promise<Models.DeploymentsCheckExistenceAtManagementGroupScopeResponse> {
+    return this.client.sendOperationRequest(
+      {
+        groupId,
+        deploymentName,
+        options
+      },
+      checkExistenceAtManagementGroupScopeOperationSpec,
+      callback) as Promise<Models.DeploymentsCheckExistenceAtManagementGroupScopeResponse>;
+  }
+
+  /**
+   * You can provide the template and parameters directly in the request or link to JSON files.
+   * @summary Deploys resources at management group scope.
+   * @param groupId The management group ID.
+   * @param deploymentName The name of the deployment.
+   * @param parameters Additional parameters supplied to the operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.DeploymentsCreateOrUpdateAtManagementGroupScopeResponse>
+   */
+  createOrUpdateAtManagementGroupScope(groupId: string, deploymentName: string, parameters: Models.Deployment, options?: msRest.RequestOptionsBase): Promise<Models.DeploymentsCreateOrUpdateAtManagementGroupScopeResponse> {
+    return this.beginCreateOrUpdateAtManagementGroupScope(groupId,deploymentName,parameters,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.DeploymentsCreateOrUpdateAtManagementGroupScopeResponse>;
+  }
+
+  /**
+   * Gets a deployment.
+   * @param groupId The management group ID.
+   * @param deploymentName The name of the deployment.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.DeploymentsGetAtManagementGroupScopeResponse>
+   */
+  getAtManagementGroupScope(groupId: string, deploymentName: string, options?: msRest.RequestOptionsBase): Promise<Models.DeploymentsGetAtManagementGroupScopeResponse>;
+  /**
+   * @param groupId The management group ID.
+   * @param deploymentName The name of the deployment.
+   * @param callback The callback
+   */
+  getAtManagementGroupScope(groupId: string, deploymentName: string, callback: msRest.ServiceCallback<Models.DeploymentExtended>): void;
+  /**
+   * @param groupId The management group ID.
+   * @param deploymentName The name of the deployment.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getAtManagementGroupScope(groupId: string, deploymentName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DeploymentExtended>): void;
+  getAtManagementGroupScope(groupId: string, deploymentName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DeploymentExtended>, callback?: msRest.ServiceCallback<Models.DeploymentExtended>): Promise<Models.DeploymentsGetAtManagementGroupScopeResponse> {
+    return this.client.sendOperationRequest(
+      {
+        groupId,
+        deploymentName,
+        options
+      },
+      getAtManagementGroupScopeOperationSpec,
+      callback) as Promise<Models.DeploymentsGetAtManagementGroupScopeResponse>;
+  }
+
+  /**
+   * You can cancel a deployment only if the provisioningState is Accepted or Running. After the
+   * deployment is canceled, the provisioningState is set to Canceled. Canceling a template
+   * deployment stops the currently running template deployment and leaves the resources partially
+   * deployed.
+   * @summary Cancels a currently running template deployment.
+   * @param groupId The management group ID.
+   * @param deploymentName The name of the deployment.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  cancelAtManagementGroupScope(groupId: string, deploymentName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  /**
+   * @param groupId The management group ID.
+   * @param deploymentName The name of the deployment.
+   * @param callback The callback
+   */
+  cancelAtManagementGroupScope(groupId: string, deploymentName: string, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param groupId The management group ID.
+   * @param deploymentName The name of the deployment.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  cancelAtManagementGroupScope(groupId: string, deploymentName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  cancelAtManagementGroupScope(groupId: string, deploymentName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+    return this.client.sendOperationRequest(
+      {
+        groupId,
+        deploymentName,
+        options
+      },
+      cancelAtManagementGroupScopeOperationSpec,
+      callback);
+  }
+
+  /**
+   * Validates whether the specified template is syntactically correct and will be accepted by Azure
+   * Resource Manager..
+   * @param groupId The management group ID.
+   * @param deploymentName The name of the deployment.
+   * @param parameters Parameters to validate.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.DeploymentsValidateAtManagementGroupScopeResponse>
+   */
+  validateAtManagementGroupScope(groupId: string, deploymentName: string, parameters: Models.Deployment, options?: msRest.RequestOptionsBase): Promise<Models.DeploymentsValidateAtManagementGroupScopeResponse>;
+  /**
+   * @param groupId The management group ID.
+   * @param deploymentName The name of the deployment.
+   * @param parameters Parameters to validate.
+   * @param callback The callback
+   */
+  validateAtManagementGroupScope(groupId: string, deploymentName: string, parameters: Models.Deployment, callback: msRest.ServiceCallback<Models.DeploymentValidateResult>): void;
+  /**
+   * @param groupId The management group ID.
+   * @param deploymentName The name of the deployment.
+   * @param parameters Parameters to validate.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  validateAtManagementGroupScope(groupId: string, deploymentName: string, parameters: Models.Deployment, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DeploymentValidateResult>): void;
+  validateAtManagementGroupScope(groupId: string, deploymentName: string, parameters: Models.Deployment, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DeploymentValidateResult>, callback?: msRest.ServiceCallback<Models.DeploymentValidateResult>): Promise<Models.DeploymentsValidateAtManagementGroupScopeResponse> {
+    return this.client.sendOperationRequest(
+      {
+        groupId,
+        deploymentName,
+        parameters,
+        options
+      },
+      validateAtManagementGroupScopeOperationSpec,
+      callback) as Promise<Models.DeploymentsValidateAtManagementGroupScopeResponse>;
+  }
+
+  /**
+   * Exports the template used for specified deployment.
+   * @param groupId The management group ID.
+   * @param deploymentName The name of the deployment.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.DeploymentsExportTemplateAtManagementGroupScopeResponse>
+   */
+  exportTemplateAtManagementGroupScope(groupId: string, deploymentName: string, options?: msRest.RequestOptionsBase): Promise<Models.DeploymentsExportTemplateAtManagementGroupScopeResponse>;
+  /**
+   * @param groupId The management group ID.
+   * @param deploymentName The name of the deployment.
+   * @param callback The callback
+   */
+  exportTemplateAtManagementGroupScope(groupId: string, deploymentName: string, callback: msRest.ServiceCallback<Models.DeploymentExportResult>): void;
+  /**
+   * @param groupId The management group ID.
+   * @param deploymentName The name of the deployment.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  exportTemplateAtManagementGroupScope(groupId: string, deploymentName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DeploymentExportResult>): void;
+  exportTemplateAtManagementGroupScope(groupId: string, deploymentName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DeploymentExportResult>, callback?: msRest.ServiceCallback<Models.DeploymentExportResult>): Promise<Models.DeploymentsExportTemplateAtManagementGroupScopeResponse> {
+    return this.client.sendOperationRequest(
+      {
+        groupId,
+        deploymentName,
+        options
+      },
+      exportTemplateAtManagementGroupScopeOperationSpec,
+      callback) as Promise<Models.DeploymentsExportTemplateAtManagementGroupScopeResponse>;
+  }
+
+  /**
+   * Get all the deployments for a management group.
+   * @param groupId The management group ID.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.DeploymentsListAtManagementGroupScopeResponse>
+   */
+  listAtManagementGroupScope(groupId: string, options?: Models.DeploymentsListAtManagementGroupScopeOptionalParams): Promise<Models.DeploymentsListAtManagementGroupScopeResponse>;
+  /**
+   * @param groupId The management group ID.
+   * @param callback The callback
+   */
+  listAtManagementGroupScope(groupId: string, callback: msRest.ServiceCallback<Models.DeploymentListResult>): void;
+  /**
+   * @param groupId The management group ID.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listAtManagementGroupScope(groupId: string, options: Models.DeploymentsListAtManagementGroupScopeOptionalParams, callback: msRest.ServiceCallback<Models.DeploymentListResult>): void;
+  listAtManagementGroupScope(groupId: string, options?: Models.DeploymentsListAtManagementGroupScopeOptionalParams | msRest.ServiceCallback<Models.DeploymentListResult>, callback?: msRest.ServiceCallback<Models.DeploymentListResult>): Promise<Models.DeploymentsListAtManagementGroupScopeResponse> {
+    return this.client.sendOperationRequest(
+      {
+        groupId,
+        options
+      },
+      listAtManagementGroupScopeOperationSpec,
+      callback) as Promise<Models.DeploymentsListAtManagementGroupScopeResponse>;
+  }
+
+  /**
+   * A template deployment that is currently running cannot be deleted. Deleting a template
+   * deployment removes the associated deployment operations. This is an asynchronous operation that
+   * returns a status of 202 until the template deployment is successfully deleted. The Location
+   * response header contains the URI that is used to obtain the status of the process. While the
+   * process is running, a call to the URI in the Location header returns a status of 202. When the
+   * process finishes, the URI in the Location header returns a status of 204 on success. If the
+   * asynchronous request failed, the URI in the Location header returns an error-level status code.
+   * @summary Deletes a deployment from the deployment history.
+   * @param deploymentName The name of the deployment.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
@@ -47,18 +277,18 @@ export class Deployments {
 
   /**
    * Checks whether the deployment exists.
-   * @param deploymentName The name of the deployment to check.
+   * @param deploymentName The name of the deployment.
    * @param [options] The optional parameters
    * @returns Promise<Models.DeploymentsCheckExistenceAtSubscriptionScopeResponse>
    */
   checkExistenceAtSubscriptionScope(deploymentName: string, options?: msRest.RequestOptionsBase): Promise<Models.DeploymentsCheckExistenceAtSubscriptionScopeResponse>;
   /**
-   * @param deploymentName The name of the deployment to check.
+   * @param deploymentName The name of the deployment.
    * @param callback The callback
    */
   checkExistenceAtSubscriptionScope(deploymentName: string, callback: msRest.ServiceCallback<boolean>): void;
   /**
-   * @param deploymentName The name of the deployment to check.
+   * @param deploymentName The name of the deployment.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -88,18 +318,18 @@ export class Deployments {
 
   /**
    * Gets a deployment.
-   * @param deploymentName The name of the deployment to get.
+   * @param deploymentName The name of the deployment.
    * @param [options] The optional parameters
    * @returns Promise<Models.DeploymentsGetAtSubscriptionScopeResponse>
    */
   getAtSubscriptionScope(deploymentName: string, options?: msRest.RequestOptionsBase): Promise<Models.DeploymentsGetAtSubscriptionScopeResponse>;
   /**
-   * @param deploymentName The name of the deployment to get.
+   * @param deploymentName The name of the deployment.
    * @param callback The callback
    */
   getAtSubscriptionScope(deploymentName: string, callback: msRest.ServiceCallback<Models.DeploymentExtended>): void;
   /**
-   * @param deploymentName The name of the deployment to get.
+   * @param deploymentName The name of the deployment.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -120,18 +350,18 @@ export class Deployments {
    * deployment stops the currently running template deployment and leaves the resources partially
    * deployed.
    * @summary Cancels a currently running template deployment.
-   * @param deploymentName The name of the deployment to cancel.
+   * @param deploymentName The name of the deployment.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
   cancelAtSubscriptionScope(deploymentName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
   /**
-   * @param deploymentName The name of the deployment to cancel.
+   * @param deploymentName The name of the deployment.
    * @param callback The callback
    */
   cancelAtSubscriptionScope(deploymentName: string, callback: msRest.ServiceCallback<void>): void;
   /**
-   * @param deploymentName The name of the deployment to cancel.
+   * @param deploymentName The name of the deployment.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -181,18 +411,18 @@ export class Deployments {
 
   /**
    * Exports the template used for specified deployment.
-   * @param deploymentName The name of the deployment from which to get the template.
+   * @param deploymentName The name of the deployment.
    * @param [options] The optional parameters
    * @returns Promise<Models.DeploymentsExportTemplateAtSubscriptionScopeResponse>
    */
   exportTemplateAtSubscriptionScope(deploymentName: string, options?: msRest.RequestOptionsBase): Promise<Models.DeploymentsExportTemplateAtSubscriptionScopeResponse>;
   /**
-   * @param deploymentName The name of the deployment from which to get the template.
+   * @param deploymentName The name of the deployment.
    * @param callback The callback
    */
   exportTemplateAtSubscriptionScope(deploymentName: string, callback: msRest.ServiceCallback<Models.DeploymentExportResult>): void;
   /**
-   * @param deploymentName The name of the deployment from which to get the template.
+   * @param deploymentName The name of the deployment.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -243,7 +473,7 @@ export class Deployments {
    * @summary Deletes a deployment from the deployment history.
    * @param resourceGroupName The name of the resource group with the deployment to delete. The name
    * is case insensitive.
-   * @param deploymentName The name of the deployment to delete.
+   * @param deploymentName The name of the deployment.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
@@ -256,7 +486,7 @@ export class Deployments {
    * Checks whether the deployment exists.
    * @param resourceGroupName The name of the resource group with the deployment to check. The name
    * is case insensitive.
-   * @param deploymentName The name of the deployment to check.
+   * @param deploymentName The name of the deployment.
    * @param [options] The optional parameters
    * @returns Promise<Models.DeploymentsCheckExistenceResponse>
    */
@@ -264,14 +494,14 @@ export class Deployments {
   /**
    * @param resourceGroupName The name of the resource group with the deployment to check. The name
    * is case insensitive.
-   * @param deploymentName The name of the deployment to check.
+   * @param deploymentName The name of the deployment.
    * @param callback The callback
    */
   checkExistence(resourceGroupName: string, deploymentName: string, callback: msRest.ServiceCallback<boolean>): void;
   /**
    * @param resourceGroupName The name of the resource group with the deployment to check. The name
    * is case insensitive.
-   * @param deploymentName The name of the deployment to check.
+   * @param deploymentName The name of the deployment.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -305,20 +535,20 @@ export class Deployments {
   /**
    * Gets a deployment.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param deploymentName The name of the deployment to get.
+   * @param deploymentName The name of the deployment.
    * @param [options] The optional parameters
    * @returns Promise<Models.DeploymentsGetResponse>
    */
   get(resourceGroupName: string, deploymentName: string, options?: msRest.RequestOptionsBase): Promise<Models.DeploymentsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param deploymentName The name of the deployment to get.
+   * @param deploymentName The name of the deployment.
    * @param callback The callback
    */
   get(resourceGroupName: string, deploymentName: string, callback: msRest.ServiceCallback<Models.DeploymentExtended>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param deploymentName The name of the deployment to get.
+   * @param deploymentName The name of the deployment.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -341,20 +571,20 @@ export class Deployments {
    * partially deployed.
    * @summary Cancels a currently running template deployment.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param deploymentName The name of the deployment to cancel.
+   * @param deploymentName The name of the deployment.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
   cancel(resourceGroupName: string, deploymentName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param deploymentName The name of the deployment to cancel.
+   * @param deploymentName The name of the deployment.
    * @param callback The callback
    */
   cancel(resourceGroupName: string, deploymentName: string, callback: msRest.ServiceCallback<void>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param deploymentName The name of the deployment to cancel.
+   * @param deploymentName The name of the deployment.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -413,20 +643,20 @@ export class Deployments {
   /**
    * Exports the template used for specified deployment.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param deploymentName The name of the deployment from which to get the template.
+   * @param deploymentName The name of the deployment.
    * @param [options] The optional parameters
    * @returns Promise<Models.DeploymentsExportTemplateResponse>
    */
   exportTemplate(resourceGroupName: string, deploymentName: string, options?: msRest.RequestOptionsBase): Promise<Models.DeploymentsExportTemplateResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param deploymentName The name of the deployment from which to get the template.
+   * @param deploymentName The name of the deployment.
    * @param callback The callback
    */
   exportTemplate(resourceGroupName: string, deploymentName: string, callback: msRest.ServiceCallback<Models.DeploymentExportResult>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param deploymentName The name of the deployment from which to get the template.
+   * @param deploymentName The name of the deployment.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -482,7 +712,53 @@ export class Deployments {
    * process finishes, the URI in the Location header returns a status of 204 on success. If the
    * asynchronous request failed, the URI in the Location header returns an error-level status code.
    * @summary Deletes a deployment from the deployment history.
-   * @param deploymentName The name of the deployment to delete.
+   * @param groupId The management group ID.
+   * @param deploymentName The name of the deployment.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginDeleteAtManagementGroupScope(groupId: string, deploymentName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        groupId,
+        deploymentName,
+        options
+      },
+      beginDeleteAtManagementGroupScopeOperationSpec,
+      options);
+  }
+
+  /**
+   * You can provide the template and parameters directly in the request or link to JSON files.
+   * @summary Deploys resources at management group scope.
+   * @param groupId The management group ID.
+   * @param deploymentName The name of the deployment.
+   * @param parameters Additional parameters supplied to the operation.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginCreateOrUpdateAtManagementGroupScope(groupId: string, deploymentName: string, parameters: Models.Deployment, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        groupId,
+        deploymentName,
+        parameters,
+        options
+      },
+      beginCreateOrUpdateAtManagementGroupScopeOperationSpec,
+      options);
+  }
+
+  /**
+   * A template deployment that is currently running cannot be deleted. Deleting a template
+   * deployment removes the associated deployment operations. This is an asynchronous operation that
+   * returns a status of 202 until the template deployment is successfully deleted. The Location
+   * response header contains the URI that is used to obtain the status of the process. While the
+   * process is running, a call to the URI in the Location header returns a status of 202. When the
+   * process finishes, the URI in the Location header returns a status of 204 on success. If the
+   * asynchronous request failed, the URI in the Location header returns an error-level status code.
+   * @summary Deletes a deployment from the deployment history.
+   * @param deploymentName The name of the deployment.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
@@ -527,7 +803,7 @@ export class Deployments {
    * @summary Deletes a deployment from the deployment history.
    * @param resourceGroupName The name of the resource group with the deployment to delete. The name
    * is case insensitive.
-   * @param deploymentName The name of the deployment to delete.
+   * @param deploymentName The name of the deployment.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
@@ -562,6 +838,34 @@ export class Deployments {
       },
       beginCreateOrUpdateOperationSpec,
       options);
+  }
+
+  /**
+   * Get all the deployments for a management group.
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.DeploymentsListAtManagementGroupScopeNextResponse>
+   */
+  listAtManagementGroupScopeNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.DeploymentsListAtManagementGroupScopeNextResponse>;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param callback The callback
+   */
+  listAtManagementGroupScopeNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.DeploymentListResult>): void;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listAtManagementGroupScopeNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DeploymentListResult>): void;
+  listAtManagementGroupScopeNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DeploymentListResult>, callback?: msRest.ServiceCallback<Models.DeploymentListResult>): Promise<Models.DeploymentsListAtManagementGroupScopeNextResponse> {
+    return this.client.sendOperationRequest(
+      {
+        nextPageLink,
+        options
+      },
+      listAtManagementGroupScopeNextOperationSpec,
+      callback) as Promise<Models.DeploymentsListAtManagementGroupScopeNextResponse>;
   }
 
   /**
@@ -623,6 +927,158 @@ export class Deployments {
 
 // Operation Specifications
 const serializer = new msRest.Serializer(Mappers);
+const checkExistenceAtManagementGroupScopeOperationSpec: msRest.OperationSpec = {
+  httpMethod: "HEAD",
+  path: "providers/Microsoft.Management/managementGroups/{groupId}/providers/Microsoft.Resources/deployments/{deploymentName}",
+  urlParameters: [
+    Parameters.groupId,
+    Parameters.deploymentName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    204: {},
+    404: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const getAtManagementGroupScopeOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "providers/Microsoft.Management/managementGroups/{groupId}/providers/Microsoft.Resources/deployments/{deploymentName}",
+  urlParameters: [
+    Parameters.groupId,
+    Parameters.deploymentName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.DeploymentExtended
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const cancelAtManagementGroupScopeOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "providers/Microsoft.Management/managementGroups/{groupId}/providers/Microsoft.Resources/deployments/{deploymentName}/cancel",
+  urlParameters: [
+    Parameters.groupId,
+    Parameters.deploymentName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    204: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const validateAtManagementGroupScopeOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "providers/Microsoft.Management/managementGroups/{groupId}/providers/Microsoft.Resources/deployments/{deploymentName}/validate",
+  urlParameters: [
+    Parameters.groupId,
+    Parameters.deploymentName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "parameters",
+    mapper: {
+      ...Mappers.Deployment,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.DeploymentValidateResult
+    },
+    400: {
+      bodyMapper: Mappers.DeploymentValidateResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const exportTemplateAtManagementGroupScopeOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "providers/Microsoft.Management/managementGroups/{groupId}/providers/Microsoft.Resources/deployments/{deploymentName}/exportTemplate",
+  urlParameters: [
+    Parameters.groupId,
+    Parameters.deploymentName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.DeploymentExportResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const listAtManagementGroupScopeOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "providers/Microsoft.Management/managementGroups/{groupId}/providers/Microsoft.Resources/deployments/",
+  urlParameters: [
+    Parameters.groupId
+  ],
+  queryParameters: [
+    Parameters.filter,
+    Parameters.top,
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.DeploymentListResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
 const checkExistenceAtSubscriptionScopeOperationSpec: msRest.OperationSpec = {
   httpMethod: "HEAD",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Resources/deployments/{deploymentName}",
@@ -933,6 +1389,63 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
+const beginDeleteAtManagementGroupScopeOperationSpec: msRest.OperationSpec = {
+  httpMethod: "DELETE",
+  path: "providers/Microsoft.Management/managementGroups/{groupId}/providers/Microsoft.Resources/deployments/{deploymentName}",
+  urlParameters: [
+    Parameters.groupId,
+    Parameters.deploymentName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginCreateOrUpdateAtManagementGroupScopeOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PUT",
+  path: "providers/Microsoft.Management/managementGroups/{groupId}/providers/Microsoft.Resources/deployments/{deploymentName}",
+  urlParameters: [
+    Parameters.groupId,
+    Parameters.deploymentName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "parameters",
+    mapper: {
+      ...Mappers.Deployment,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.DeploymentExtended
+    },
+    201: {
+      bodyMapper: Mappers.DeploymentExtended
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
 const beginDeleteAtSubscriptionScopeOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Resources/deployments/{deploymentName}",
@@ -1041,6 +1554,27 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
     },
     201: {
       bodyMapper: Mappers.DeploymentExtended
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const listAtManagementGroupScopeNextOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  baseUrl: "https://management.azure.com",
+  path: "{nextLink}",
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.DeploymentListResult
     },
     default: {
       bodyMapper: Mappers.CloudError
