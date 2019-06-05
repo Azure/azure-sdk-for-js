@@ -18,6 +18,11 @@ import * as log from "./log";
  */
 export class BatchingReceiver extends EventHubReceiver {
   /**
+   * @property {boolean} isReceivingMessages Indicates whether the link is actively receiving
+   * messages. Default: false.
+   */
+  isReceivingMessages: boolean = false;
+  /**
    * Instantiate a new receiver from the AMQP `Receiver`. Used by `EventHubClient`.
    * @ignore
    * @constructor
@@ -53,6 +58,8 @@ export class BatchingReceiver extends EventHubReceiver {
       maxWaitTimeInSeconds = Constants.defaultOperationTimeoutInSeconds;
     }
 
+    this.isReceivingMessages = true;
+
     const eventDatas: ReceivedEventData[] = [];
     let timeOver = false;
     return new Promise<ReceivedEventData[]>((resolve, reject) => {
@@ -73,6 +80,8 @@ export class BatchingReceiver extends EventHubReceiver {
           this._receiver.removeListener(ReceiverEvents.receiverError, onReceiveError);
           this._receiver.removeListener(ReceiverEvents.message, onReceiveMessage);
         }
+
+        this.isReceivingMessages = false;
         if (!timeOver) {
           clearTimeout(waitTimer);
         }
@@ -105,11 +114,12 @@ export class BatchingReceiver extends EventHubReceiver {
         const receivedEventData: ReceivedEventData = {
           body: this._context.dataTransformer.decode(context.message!.body),
           properties: data.properties,
-          offset: data.offset,
-          sequenceNumber: data.sequenceNumber,
-          enqueuedTimeUtc: data.enqueuedTimeUtc,
-          partitionKey: data.partitionKey
+          offset: data.offset!,
+          sequenceNumber: data.sequenceNumber!,
+          enqueuedTimeUtc: data.enqueuedTimeUtc!,
+          partitionKey: data.partitionKey!
         };
+        this._checkpoint = receivedEventData.sequenceNumber;
         if (eventDatas.length <= maxMessageCount) {
           eventDatas.push(receivedEventData);
         }
@@ -126,6 +136,7 @@ export class BatchingReceiver extends EventHubReceiver {
       };
 
       this._onAbort = () => {
+        this.isReceivingMessages = false;
         if (this._receiver) {
           this._receiver.removeListener(ReceiverEvents.receiverError, onReceiveError);
           this._receiver.removeListener(ReceiverEvents.message, onReceiveMessage);
@@ -154,6 +165,7 @@ export class BatchingReceiver extends EventHubReceiver {
           this._aborter.removeEventListener("abort", this._onAbort);
         }
 
+        this.isReceivingMessages = false;
         const receiverError = context.receiver && context.receiver.error;
         let error = new MessagingError("An error occuured while receiving messages.");
         if (receiverError) {
@@ -167,6 +179,7 @@ export class BatchingReceiver extends EventHubReceiver {
       };
 
       onReceiveClose = async (context: EventContext) => {
+        this.isReceivingMessages = false;
         const receiverError = context.receiver && context.receiver.error;
         if (receiverError) {
           log.error(
@@ -178,6 +191,7 @@ export class BatchingReceiver extends EventHubReceiver {
       };
 
       onSessionClose = async (context: EventContext) => {
+        this.isReceivingMessages = false;
         const sessionError = context.session && context.session.error;
         if (sessionError) {
           log.error(
@@ -197,6 +211,7 @@ export class BatchingReceiver extends EventHubReceiver {
         if (this._aborter) {
           this._aborter.removeEventListener("abort", this._onAbort);
         }
+        this.isReceivingMessages = false;
         const sessionError = context.session && context.session.error;
         let error = new MessagingError("An error occuured while receiving messages.");
         if (sessionError) {

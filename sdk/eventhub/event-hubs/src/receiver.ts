@@ -11,6 +11,7 @@ import { StreamingReceiver, ReceiveHandler } from "./streamingReceiver";
 import { BatchingReceiver } from "./batchingReceiver";
 import { Aborter } from "./aborter";
 import { throwErrorIfConnectionClosed } from "./util/error";
+import { EventPosition } from "./eventPosition";
 
 /**
  * Options to pass when creating an iterator to iterate over events
@@ -103,6 +104,11 @@ export class Receiver {
    */
   receive(onMessage: OnMessage, onError: OnError, cancellationToken?: Aborter): ReceiveHandler {
     this._throwIfReceiverOrConnectionClosed();
+    this._throwIfAlreadyReceiving();
+    const checkpoint = this.getCheckpoint();
+    if (checkpoint) {
+      this._receiverOptions.eventPosition = EventPosition.fromSequenceNumber(checkpoint);
+    }
     this._streamingReceiver = StreamingReceiver.create(this._context, this.partitionId, this._receiverOptions);
     this._streamingReceiver.prefetchCount = Constants.defaultPrefetchCount;
     return this._streamingReceiver.receive(onMessage, onError, cancellationToken);
@@ -157,9 +163,15 @@ export class Receiver {
 
   /**
    * Indicates whether the receiver is currently receiving messages or not.
-   * When this returns true, new `registerMessageHandler()` or `receiveMessages()` calls cannot be made.
+   * When this returns true, new `receive()` or `receiveBatch()` calls cannot be made.
    */
   isReceivingMessages(): boolean {
+    if (this._streamingReceiver && this._streamingReceiver.isOpen()) {
+      return true;
+    }
+    if (this._batchingReceiver && this._batchingReceiver.isOpen() && this._batchingReceiver.isReceivingMessages) {
+      return true;
+    }
     return false;
   }
 
@@ -180,9 +192,18 @@ export class Receiver {
     cancellationToken?: Aborter
   ): Promise<ReceivedEventData[]> {
     this._throwIfReceiverOrConnectionClosed();
+    this._throwIfAlreadyReceiving();
+    const checkpoint = this.getCheckpoint();
+    if (checkpoint) {
+      this._receiverOptions.eventPosition = EventPosition.fromSequenceNumber(checkpoint);
+    }
     if (!this._batchingReceiver) {
       this._batchingReceiver = BatchingReceiver.create(this._context, this.partitionId, this._receiverOptions);
+    } else if (this._batchingReceiver.checkpoint < checkpoint!) {
+      await this._batchingReceiver.close();
+      this._batchingReceiver = BatchingReceiver.create(this._context, this.partitionId, this._receiverOptions);
     }
+
     let result: ReceivedEventData[] = [];
     try {
       result = await this._batchingReceiver.receive(maxMessageCount, maxWaitTimeInSeconds, cancellationToken);
@@ -198,6 +219,35 @@ export class Receiver {
       throw err;
     }
     return result;
+  }
+
+  private getCheckpoint(): number | undefined {
+    if (!this._streamingReceiver && !this._batchingReceiver) {
+      return;
+    }
+    let lastBatchingReceiverSequenceNum: number = -1;
+    let lastStreamingReceiverSequenceNum: number = -1;
+    if (this._batchingReceiver) {
+      lastBatchingReceiverSequenceNum = this._batchingReceiver.checkpoint;
+    }
+    if (this._streamingReceiver) {
+      lastStreamingReceiverSequenceNum = this._streamingReceiver.checkpoint;
+    }
+
+    const checkpoint = Math.max(lastStreamingReceiverSequenceNum, lastBatchingReceiverSequenceNum);
+    if (checkpoint === -1) {
+      return;
+    }
+    return checkpoint;
+  }
+
+  private _throwIfAlreadyReceiving(): void {
+    if (this.isReceivingMessages()) {
+      const errorMessage = `The receiver for "${this._context.config.entityPath}" is already receiving messages.`;
+      const error = new Error(errorMessage);
+      log.error(`[${this._context.connectionId}] %O`, error);
+      throw error;
+    }
   }
 
   private _throwIfReceiverOrConnectionClosed(): void {

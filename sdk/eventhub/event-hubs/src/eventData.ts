@@ -201,18 +201,18 @@ export interface ReceivedEventData {
   /**
    * @property {Date} [enqueuedTimeUtc] The enqueued time of the event.
    */
-  enqueuedTimeUtc?: Date;
+  enqueuedTimeUtc: Date;
   /**
    * @property {string | null} [partitionKey] If specified EventHub will hash this to a partitionId.
    * It guarantees that messages end up in a specific partition on the event hub.
    */
-  partitionKey?: string | null;
+  partitionKey: string | null;
   /**
    * @property {string} [offset] The offset of the event.
    */
-  offset?: string;
+  offset: string;
   /**
    * @property {number} [sequenceNumber] The sequence number of the event.
    */
-  sequenceNumber?: number;
+  sequenceNumber: number;
 }

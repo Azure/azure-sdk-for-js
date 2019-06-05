@@ -163,15 +163,23 @@ export class EventHubReceiver extends LinkEntity {
    */
   protected _onSessionClose: OnAmqpEvent;
   /**
-   * @property {CheckpointData} _checkpoint Describes metadata about the last message received.
-   * This is used as the offset to receive messages from incase of recovery.
+   * @property {number} _checkpoint Describes sequenceNumber of the last message received.
+   * This is used as the sequenceNumber to receive messages from incase of recovery.
    */
-  protected _checkpoint: CheckpointData;
+  protected _checkpoint: number;
   /**
    * @property {Aborter | undefined} _aborter Describes Aborter instance that will be set by the user
    * to cancel the request.
    */
   protected _aborter: Aborter | undefined;
+
+  /**
+   * @property {number} Returns sequenceNumber of the last event received.
+   * @readonly
+   */
+  get checkpoint(): number {
+    return this._checkpoint;
+  }
 
   /**
    * Instantiate a new receiver from the AMQP `Receiver`. Used by `EventHubClient`.
@@ -194,26 +202,19 @@ export class EventHubReceiver extends LinkEntity {
     this.options = options;
     this.receiverRuntimeMetricEnabled = false;
     this.runtimeInfo = {};
-    this._checkpoint = {
-      enqueuedTimeUtc: new Date(),
-      offset: "0",
-      sequenceNumber: -1
-    };
+    this._checkpoint = -1;
     this._onAmqpMessage = (context: EventContext) => {
       const data: EventDataInternal = fromAmqpMessage(context.message!);
       const receivedEventData: ReceivedEventData = {
         body: this._context.dataTransformer.decode(context.message!.body),
         properties: data.properties,
-        offset: data.offset,
-        sequenceNumber: data.sequenceNumber,
-        enqueuedTimeUtc: data.enqueuedTimeUtc,
-        partitionKey: data.partitionKey
+        offset: data.offset!,
+        sequenceNumber: data.sequenceNumber!,
+        enqueuedTimeUtc: data.enqueuedTimeUtc!,
+        partitionKey: data.partitionKey!
       };
-      this._checkpoint = {
-        enqueuedTimeUtc: receivedEventData.enqueuedTimeUtc!,
-        offset: receivedEventData.offset!,
-        sequenceNumber: receivedEventData.sequenceNumber!
-      };
+      this._checkpoint = receivedEventData.sequenceNumber!;
+
       if (this.receiverRuntimeMetricEnabled && data) {
         this.runtimeInfo.lastEnqueuedSequenceNumber = data.lastSequenceNumber;
         this.runtimeInfo.lastEnqueuedTimeUtc = data.lastEnqueuedTime;
@@ -460,8 +461,8 @@ export class EventHubReceiver extends LinkEntity {
         };
         // reconnect the receiver link with sequenceNumber of the last received message as the offset
         // if messages were received by the receiver before it got disconnected.
-        if (this._checkpoint.sequenceNumber > -1) {
-          rcvrOptions.eventPosition = EventPosition.fromSequenceNumber(this._checkpoint.sequenceNumber);
+        if (this._checkpoint > -1) {
+          rcvrOptions.eventPosition = EventPosition.fromSequenceNumber(this._checkpoint);
         }
         const options: RheaReceiverOptions = this._createReceiverOptions(rcvrOptions);
         // shall retry forever at an interval of 15 seconds if the error is a retryable error
