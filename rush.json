@@ -315,6 +315,10 @@
       "projectFolder": "sdk/core/amqp-common"
     },
     {
+      "packageName": "@azure/core-aborter",
+      "projectFolder": "sdk/core/core-aborter"
+    },
+    {
       "packageName": "@azure/core-http",
       "projectFolder": "sdk/core/core-http"
     },
