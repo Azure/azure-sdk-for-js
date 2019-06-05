@@ -78,7 +78,7 @@ export class BatchingReceiver extends EventHubReceiver {
           clearTimeout(waitTimer);
         }
 
-        if (this._receiver && this._receiver.credit === 0) {
+        if (this._receiver && this._receiver.credit === 0 || eventData.length === 0) {
           this.isReceivingMessages = false;
           if (this._aborter) {
             this._aborter.removeEventListener("abort", this._onAbort);
