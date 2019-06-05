@@ -9,7 +9,7 @@ pr:
       - master
   paths:
     include:
-      - sdk/core/http/
+      - sdk/identity/identity/
 
 jobs:
   - template: ../../../eng/pipelines/templates/jobs/archetype-sdk-client.yml
