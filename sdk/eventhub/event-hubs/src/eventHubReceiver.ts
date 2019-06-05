@@ -172,6 +172,10 @@ export class EventHubReceiver extends LinkEntity {
    * to cancel the request.
    */
   protected _aborter: Aborter | undefined;
+  /**
+   * @property {number| undefined} _messageRecoveryCount This is used to add credits from incase of recovery.
+   */
+  protected _messageRecoveryCount: number | undefined;
 
   /**
    * @property {number} Returns sequenceNumber of the last event received.
@@ -468,7 +472,12 @@ export class EventHubReceiver extends LinkEntity {
         // shall retry forever at an interval of 15 seconds if the error is a retryable error
         // else bail out when the error is not retryable or the oepration succeeds.
         const config: RetryConfig<void> = {
-          operation: () => this._init(options),
+          operation: () =>
+            this._init(options).then(async () => {
+              if (this._receiver && this._type === "BatchingReceiver") {
+                this._receiver.addCredit(this._maxMessageCount!);
+              }
+            }),
           connectionId: this._context.connectionId,
           operationType: RetryOperationType.receiverLink,
           times: Constants.defaultConnectionRetryAttempts,

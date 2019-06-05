@@ -228,7 +228,7 @@ export class LinkEntity {
    * Provides the current type of the LinkEntity.
    * @return {string} The entity type.
    */
-  private get _type(): string {
+  protected get _type(): string {
     let result = "LinkEntity";
     if ((this as any).constructor && (this as any).constructor.name) {
       result = (this as any).constructor.name;
