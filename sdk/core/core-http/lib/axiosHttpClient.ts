@@ -125,7 +125,7 @@ export class AxiosHttpClient implements HttpClient {
         url: httpRequest.url,
         headers: rawHeaders,
         data: axiosBody,
-        transformResponse: undefined,
+        transformResponse: (data) => { return data; },
         validateStatus: () => true,
         // Workaround for https://github.com/axios/axios/issues/1362
         maxContentLength: Infinity,
