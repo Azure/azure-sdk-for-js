@@ -8,10 +8,14 @@
 
 export {
   discriminators,
+  CloudError,
   ErrorDetail,
   ErrorResponse,
+  ListWorkspaceQuotas,
   MachineLearningServiceError,
-  Operation,
-  OperationDisplay,
-  OperationListResult
+  QuotaBaseProperties,
+  QuotaUpdateParameters,
+  ResourceName,
+  ResourceQuota,
+  UpdateWorkspaceQuotas
 } from "../models/mappers";
