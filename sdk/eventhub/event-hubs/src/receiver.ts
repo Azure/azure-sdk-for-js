@@ -116,14 +116,23 @@ export class Receiver {
 
   /**
    * Gets an async iterator over events from the receiver.
+   *
+   * @param options Options when creating an iterator to iterate over events
+   *
+   * @returns {AsyncIterableIterator<ReceivedEventData>} AsyncIterableIterator<ReceivedEventData>
    */
   async *getEventIterator(options?: EventIteratorOptions): AsyncIterableIterator<ReceivedEventData> {
     if (!options) {
       options = {};
     }
+    let nextBatch: Promise<ReceivedEventData[]> | undefined;
+    let currentBatch = await this.receiveBatch(options.prefetchCount || 1, 60, options.cancellationToken);
     while (true) {
-      const currentBatch = await this.receiveBatch(options.prefetchCount || 1, 60, options.cancellationToken);
-      yield currentBatch[0];
+      nextBatch = this.receiveBatch(options.prefetchCount || 1, 60, options.cancellationToken);
+      for (const event of currentBatch) {
+        yield event;
+      }
+      currentBatch = await nextBatch!;
     }
   }
 
