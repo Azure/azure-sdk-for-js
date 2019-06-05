@@ -126,9 +126,11 @@ export class Receiver {
       options = {};
     }
     let nextBatch: Promise<ReceivedEventData[]> | undefined;
-    let currentBatch = await this.receiveBatch(options.prefetchCount || 1, 60, options.cancellationToken);
+    const prefetchCount = options.prefetchCount || 1;
+    const maxWaitTimeInSeconds = 60;
+    let currentBatch = await this.receiveBatch( prefetchCount, maxWaitTimeInSeconds, options.cancellationToken);
     while (true) {
-      nextBatch = this.receiveBatch(options.prefetchCount || 1, 60, options.cancellationToken);
+      nextBatch = this.receiveBatch(prefetchCount, maxWaitTimeInSeconds, options.cancellationToken);
       for (const event of currentBatch) {
         yield event;
       }
