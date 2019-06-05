@@ -11,6 +11,7 @@ dependencies:
   '@rush-temp/cosmos': 'file:projects/cosmos.tgz'
   '@rush-temp/event-hubs': 'file:projects/event-hubs.tgz'
   '@rush-temp/event-processor-host': 'file:projects/event-processor-host.tgz'
+  '@rush-temp/keyvault-keys': 'file:projects/keyvault-keys.tgz'
   '@rush-temp/keyvault-secrets': 'file:projects/keyvault-secrets.tgz'
   '@rush-temp/service-bus': 'file:projects/service-bus.tgz'
   '@rush-temp/storage-blob': 'file:projects/storage-blob.tgz'
@@ -10047,6 +10048,27 @@ packages:
       integrity: sha512-6LOgcg0Uz7i3zndSQ+a19fVlecwkezWT/J0XWL+aPszyT5JBcSBdxVNZA4NOjawIXRiy3vOX6c45xU50OjPNTA==
       tarball: 'file:projects/event-processor-host.tgz'
     version: 0.0.0
+  'file:projects/keyvault-keys.tgz':
+    dependencies:
+      '@azure/ms-rest-azure-js': 1.3.7
+      '@azure/ms-rest-js': 1.8.10
+      '@azure/ms-rest-nodeauth': 0.9.3
+      '@types/chai': 4.1.7
+      chai: 4.2.0
+      prettier: 1.17.1
+      rimraf: 2.6.3
+      rollup: 1.13.1
+      rollup-plugin-commonjs: 9.3.4_rollup@1.13.1
+      rollup-plugin-node-resolve: 4.2.4
+      tslib: 1.9.3
+      typescript: 3.5.1
+      uglify-js: 3.6.0
+    dev: false
+    name: '@rush-temp/keyvault-keys'
+    resolution:
+      integrity: sha512-3le7qEz7hoCxCK+BEoDPg1EtnqE4FnZxgS9Iy+yE4NksyD/1SHPTd0zN2F/JrKPxJIWPh78ZRuwEc1fNYzcItA==
+      tarball: 'file:projects/keyvault-keys.tgz'
+    version: 0.0.0
   'file:projects/keyvault-secrets.tgz':
     dependencies:
       '@azure/ms-rest-azure-js': 1.3.7
@@ -10407,6 +10429,7 @@ specifiers:
   '@rush-temp/cosmos': 'file:./projects/cosmos.tgz'
   '@rush-temp/event-hubs': 'file:./projects/event-hubs.tgz'
   '@rush-temp/event-processor-host': 'file:./projects/event-processor-host.tgz'
+  '@rush-temp/keyvault-keys': 'file:./projects/keyvault-keys.tgz'
   '@rush-temp/keyvault-secrets': 'file:./projects/keyvault-secrets.tgz'
   '@rush-temp/service-bus': 'file:./projects/service-bus.tgz'
   '@rush-temp/storage-blob': 'file:./projects/storage-blob.tgz'
