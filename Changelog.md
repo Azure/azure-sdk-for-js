@@ -1,4 +1,7 @@
 # Changelog
+## 1.3.7 - 2019-06-04
+- Updated `@azure/ms-rest-js` to `^1.8.10`
+
 ## 1.3.6 - 2019-06-03
 - Fixed a bug where we were throwing an Error if the final GET on the resource while polling a long running DELETE operation would return a 404. [#azure-sdk-for-js/issues/2842](https://github.com/Azure/azure-sdk-for-js/issues/2842)
 - Fixed vulnerabilities by updating package version of `nyc`.
