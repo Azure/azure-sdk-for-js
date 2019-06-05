@@ -112,7 +112,7 @@ describe(`EventHub Receiver`, function(): void {
       data3.length.should.equal(0, "Unexpected message received");
     });
 
-    it(`'after a particular offset' should receive messages correctly ${runnableInBrowserMarker}`, async function(): Promise<
+    it(`'after a particular offset' should receive messages correctly ${notYetRunnableInBrowserMarker}`, async function(): Promise<
       void
     > {
       const partitionId = hubInfo.partitionIds[0];
@@ -181,7 +181,7 @@ describe(`EventHub Receiver`, function(): void {
       data2.length.should.equal(0, "Unexpected message received");
     });
 
-    it(`'from a particular enqueued time' should receive messages correctly ${runnableInBrowserMarker}`, async function(): Promise<
+    it(`'from a particular enqueued time' should receive messages correctly ${notYetRunnableInBrowserMarker}`, async function(): Promise<
       void
     > {
       const partitionId = hubInfo.partitionIds[0];
