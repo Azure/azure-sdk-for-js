@@ -8,7 +8,7 @@ import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 import debugModule from "debug";
 const debug = debugModule("azure:event-hubs:receiver-spec");
-import { EventPosition, EventHubClient, EventData, MessagingError, delay, ReceivedEventData } from "../src";
+import { EventPosition, EventHubClient, EventData, MessagingError, ReceivedEventData } from "../src";
 import { BatchingReceiver } from "../src/batchingReceiver";
 import { ReceiveHandler } from "../src/streamingReceiver";
 import dotenv from "dotenv";
@@ -601,31 +601,6 @@ describe("EventHub Receiver", function(): void {
           .receive(onmsg2, onerr2);
         rcvHndlrs.push(failedRcvHandler);
       }, 5000);
-    });
-  });
-  describe("Streaming - User Error", function(): void {
-    it("onError handler is called for user error", async function(): Promise<void> {
-      let caughtError: Error | undefined;
-      const data: EventData = {
-        body: "Hello World"
-      };
-      const partitionIds = await client.getPartitionIds();
-      await client.createSender({ partitionId: partitionIds[0] }).send([data]);
-      const errorMessage = "Will we see this error message?";
-
-      const onMessageHandler = (brokeredMessage: ReceivedEventData) => {
-        throw new Error(errorMessage);
-      };
-      const onErrorHandler = (err: MessagingError | Error) => {
-        caughtError = err;
-      };
-
-      client
-        .createReceiver(partitionIds[0], { eventPosition: EventPosition.fromFirstAvailableEvent() })
-        .receive(onMessageHandler, onErrorHandler);
-      await delay(5000);
-
-      should.equal(caughtError && caughtError.message, errorMessage, "User error did not surface.");
     });
   });
 }).timeout(90000);

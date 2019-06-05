@@ -1,3 +1,11 @@
+### Coming Soon 2.1.0
+
+- Use of Websockets and support for proxy environment added. 
+   - Please refer to the [useProxy](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/samples/useProxy.ts) sample to see how you can use Websockets to run this library with a proxy server
+   - If the TCP port 5671 (which is what is used by the AMQP connection to Event Hubs) is blocked in your environment, you can now use the Websockets to connect to Event Hubs. This will result in the library creating a tunnel over TCP port 443 which is equivalent to AMQP 5671 connections. Refer to the same sample as above and ignore the proxy related details in it to learn how to use Websosckets when creating the
+   `EventHubClient`
+- `@types/async-lock` has been moved to being a dependency from a dev-dependency. This fixes the [bug 3240](https://github.com/Azure/azure-sdk-for-js/issues/3240) 
+
 ### 2019-03-26 2.0.0
 
 #### Breaking Changes
