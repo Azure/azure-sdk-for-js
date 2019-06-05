@@ -62,6 +62,10 @@ export interface StorageProfile {
    * Max storage allowed for a server.
    */
   storageMB?: number;
+  /**
+   * Enable Storage Auto Grow. Possible values include: 'Enabled', 'Disabled'
+   */
+  storageAutogrow?: StorageAutogrow;
 }
 
 /**
@@ -78,7 +82,7 @@ export interface ServerPropertiesForCreate {
    */
   createMode: "ServerPropertiesForCreate";
   /**
-   * Server version. Possible values include: '9.5', '9.6', '10', '10.0', '10.2'
+   * Server version. Possible values include: '9.5', '9.6', '10', '10.0', '10.2', '11'
    */
   version?: ServerVersion;
   /**
@@ -101,7 +105,7 @@ export interface ServerPropertiesForDefaultCreate {
    */
   createMode: "Default";
   /**
-   * Server version. Possible values include: '9.5', '9.6', '10', '10.0', '10.2'
+   * Server version. Possible values include: '9.5', '9.6', '10', '10.0', '10.2', '11'
    */
   version?: ServerVersion;
   /**
@@ -133,7 +137,7 @@ export interface ServerPropertiesForRestore {
    */
   createMode: "PointInTimeRestore";
   /**
-   * Server version. Possible values include: '9.5', '9.6', '10', '10.0', '10.2'
+   * Server version. Possible values include: '9.5', '9.6', '10', '10.0', '10.2', '11'
    */
   version?: ServerVersion;
   /**
@@ -165,7 +169,7 @@ export interface ServerPropertiesForGeoRestore {
    */
   createMode: "GeoRestore";
   /**
-   * Server version. Possible values include: '9.5', '9.6', '10', '10.0', '10.2'
+   * Server version. Possible values include: '9.5', '9.6', '10', '10.0', '10.2', '11'
    */
   version?: ServerVersion;
   /**
@@ -192,7 +196,7 @@ export interface ServerPropertiesForReplica {
    */
   createMode: "Replica";
   /**
-   * Server version. Possible values include: '9.5', '9.6', '10', '10.0', '10.2'
+   * Server version. Possible values include: '9.5', '9.6', '10', '10.0', '10.2', '11'
    */
   version?: ServerVersion;
   /**
@@ -251,7 +255,7 @@ export interface Server extends TrackedResource {
    */
   administratorLogin?: string;
   /**
-   * Server version. Possible values include: '9.5', '9.6', '10', '10.0', '10.2'
+   * Server version. Possible values include: '9.5', '9.6', '10', '10.0', '10.2', '11'
    */
   version?: ServerVersion;
   /**
@@ -329,7 +333,7 @@ export interface ServerUpdateParameters {
    */
   administratorLoginPassword?: string;
   /**
-   * The version of a server. Possible values include: '9.5', '9.6', '10', '10.0', '10.2'
+   * The version of a server. Possible values include: '9.5', '9.6', '10', '10.0', '10.2', '11'
    */
   version?: ServerVersion;
   /**
@@ -711,11 +715,11 @@ export interface PerformanceTierListResult extends Array<PerformanceTierProperti
 
 /**
  * Defines values for ServerVersion.
- * Possible values include: '9.5', '9.6', '10', '10.0', '10.2'
+ * Possible values include: '9.5', '9.6', '10', '10.0', '10.2', '11'
  * @readonly
  * @enum {string}
  */
-export type ServerVersion = '9.5' | '9.6' | '10' | '10.0' | '10.2';
+export type ServerVersion = '9.5' | '9.6' | '10' | '10.0' | '10.2' | '11';
 
 /**
  * Defines values for SslEnforcementEnum.
@@ -740,6 +744,14 @@ export type ServerState = 'Ready' | 'Dropping' | 'Disabled';
  * @enum {string}
  */
 export type GeoRedundantBackup = 'Enabled' | 'Disabled';
+
+/**
+ * Defines values for StorageAutogrow.
+ * Possible values include: 'Enabled', 'Disabled'
+ * @readonly
+ * @enum {string}
+ */
+export type StorageAutogrow = 'Enabled' | 'Disabled';
 
 /**
  * Defines values for SkuTier.
