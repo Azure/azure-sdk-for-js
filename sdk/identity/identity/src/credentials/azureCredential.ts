@@ -7,14 +7,20 @@ import { IdentityClient, IdentityClientOptions } from '../client/identityClient'
 
 export abstract class AzureCredential implements TokenCredential {
   private cachedToken: AccessToken | null = null;
+  private refreshBufferMs: number;
   protected identityClient: IdentityClient;
 
   constructor(options?: IdentityClientOptions) {
-    this.identityClient = new IdentityClient(options || IdentityClient.getDefaultOptions())
+    options = options || IdentityClient.getDefaultOptions()
+    this.identityClient = new IdentityClient(options)
+    this.refreshBufferMs = options.refreshBufferMs
   }
 
   public async getToken(scopes: string | string[], requestOptions?: RequestOptionsBase): Promise<string | null> {
-    // TODO: Implement token refresh logic
+    if (this.cachedToken && new Date(Date.now() + this.refreshBufferMs) < this.cachedToken.expiresOn) {
+      return this.cachedToken.token
+    }
+
     this.cachedToken = await this.getTokenCore(scopes, requestOptions)
     return this.cachedToken != null ? this.cachedToken.token : null;
   }

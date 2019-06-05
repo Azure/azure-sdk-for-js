@@ -56,10 +56,12 @@ export class IdentityClient extends ServiceClient {
   static getDefaultOptions(): IdentityClientOptions {
     return {
       authorityHost: IdentityClient.DefaultAuthorityHost,
+      refreshBufferMs: 2 * 60 * 1000 // 2 Minutes
     }
   }
 }
 
 export interface IdentityClientOptions extends ServiceClientOptions {
-  authorityHost: string
+  authorityHost: string,
+  refreshBufferMs: number
 }
