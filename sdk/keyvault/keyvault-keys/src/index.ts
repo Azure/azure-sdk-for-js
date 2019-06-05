@@ -22,7 +22,11 @@ import { TelemetryOptions } from "./core";
 import { KeyBundle, JsonWebKeyType, JsonWebKey, KeyItem } from "./core/models";
 import { KeyVaultClient } from "./core/keyVaultClient";
 import { RetryConstants, SDK_VERSION } from "./core/utils/constants";
-import { NewPipelineOptions, isNewPipelineOptions, Pipeline } from "./core/keyVaultBase";
+import {
+  NewPipelineOptions,
+  isNewPipelineOptions,
+  Pipeline
+} from "./core/keyVaultBase";
 import {
   Key,
   DeletedKey,
@@ -57,10 +61,16 @@ export class KeysClient {
     // changes made by other factories (like UniqueRequestIDPolicyFactory)
     const retryOptions = pipelineOptions.retryOptions || {};
 
-    const userAgentString: string = KeysClient.getUserAgentString(pipelineOptions.telemetry);
+    const userAgentString: string = KeysClient.getUserAgentString(
+      pipelineOptions.telemetry
+    );
 
     const requestPolicyFactories: RequestPolicyFactory[] = [
-      proxyPolicy(getDefaultProxySettings((pipelineOptions.proxyOptions || {}).proxySettings)),
+      proxyPolicy(
+        getDefaultProxySettings(
+          (pipelineOptions.proxyOptions || {}).proxySettings
+        )
+      ),
       userAgentPolicy({ value: userAgentString }),
       generateClientRequestIdPolicy(),
       deserializationPolicy(), // Default deserializationPolicy is provided by protocol layer
@@ -153,18 +163,36 @@ export class KeysClient {
     options?: CreateKeyOptions
   ): Promise<Key> {
     if (options) {
-      let unflattenedAttributes = { enabled: options.enabled, notBefore: options.notBefore, expires: options.expires };
-      let unflattenedOptions = { ...options, ...(options.requestOptions ? options.requestOptions : {}), keyAttributes: unflattenedAttributes };
+      let unflattenedAttributes = {
+        enabled: options.enabled,
+        notBefore: options.notBefore,
+        expires: options.expires
+      };
+      let unflattenedOptions = {
+        ...options,
+        ...(options.requestOptions ? options.requestOptions : {}),
+        keyAttributes: unflattenedAttributes
+      };
 
       delete unflattenedOptions.enabled;
       delete unflattenedOptions.notBefore;
       delete unflattenedOptions.expires;
       delete unflattenedOptions.requestOptions;
 
-      const response = await this.client.createKey(this.vaultBaseUrl, name, keyType, unflattenedOptions);
+      const response = await this.client.createKey(
+        this.vaultBaseUrl,
+        name,
+        keyType,
+        unflattenedOptions
+      );
       return this.getKeyFromKeyBundle(response);
     } else {
-      const response = await this.client.createKey(this.vaultBaseUrl, name, keyType, options);
+      const response = await this.client.createKey(
+        this.vaultBaseUrl,
+        name,
+        keyType,
+        options
+      );
       return this.getKeyFromKeyBundle(response);
     }
   }
@@ -184,18 +212,36 @@ export class KeysClient {
     options?: CreateEcKeyOptions
   ): Promise<Key> {
     if (options) {
-      let unflattenedAttributes = { enabled: options.enabled, notBefore: options.notBefore, expires: options.expires };
-      let unflattenedOptions = { ...options, ...(options.requestOptions ? options.requestOptions : {}), keyAttributes: unflattenedAttributes };
+      let unflattenedAttributes = {
+        enabled: options.enabled,
+        notBefore: options.notBefore,
+        expires: options.expires
+      };
+      let unflattenedOptions = {
+        ...options,
+        ...(options.requestOptions ? options.requestOptions : {}),
+        keyAttributes: unflattenedAttributes
+      };
 
       delete unflattenedOptions.enabled;
       delete unflattenedOptions.notBefore;
       delete unflattenedOptions.expires;
       delete unflattenedOptions.requestOptions;
 
-      const response = await this.client.createKey(this.vaultBaseUrl, name, options.hsm ? "EC-HSM" : "EC", unflattenedOptions);
+      const response = await this.client.createKey(
+        this.vaultBaseUrl,
+        name,
+        options.hsm ? "EC-HSM" : "EC",
+        unflattenedOptions
+      );
       return this.getKeyFromKeyBundle(response);
     } else {
-      const response = await this.client.createKey(this.vaultBaseUrl, name, "EC", options);
+      const response = await this.client.createKey(
+        this.vaultBaseUrl,
+        name,
+        "EC",
+        options
+      );
       return this.getKeyFromKeyBundle(response);
     }
   }
@@ -215,18 +261,36 @@ export class KeysClient {
     options?: CreateRsaKeyOptions
   ): Promise<Key> {
     if (options) {
-      let unflattenedAttributes = { enabled: options.enabled, notBefore: options.notBefore, expires: options.expires };
-      let unflattenedOptions = { ...options, ...(options.requestOptions ? options.requestOptions : {}), keyAttributes: unflattenedAttributes };
+      let unflattenedAttributes = {
+        enabled: options.enabled,
+        notBefore: options.notBefore,
+        expires: options.expires
+      };
+      let unflattenedOptions = {
+        ...options,
+        ...(options.requestOptions ? options.requestOptions : {}),
+        keyAttributes: unflattenedAttributes
+      };
 
       delete unflattenedOptions.enabled;
       delete unflattenedOptions.notBefore;
       delete unflattenedOptions.expires;
       delete unflattenedOptions.requestOptions;
 
-      const response = await this.client.createKey(this.vaultBaseUrl, name, options.hsm ? "RSA-HSM" : "RSA", unflattenedOptions);
+      const response = await this.client.createKey(
+        this.vaultBaseUrl,
+        name,
+        options.hsm ? "RSA-HSM" : "RSA",
+        unflattenedOptions
+      );
       return this.getKeyFromKeyBundle(response);
     } else {
-      const response = await this.client.createKey(this.vaultBaseUrl, name, "RSA", options);
+      const response = await this.client.createKey(
+        this.vaultBaseUrl,
+        name,
+        "RSA",
+        options
+      );
       return this.getKeyFromKeyBundle(response);
     }
   }
@@ -247,17 +311,35 @@ export class KeysClient {
     options?: ImportKeyOptions
   ): Promise<Key> {
     if (options) {
-      let unflattenedAttributes = { enabled: options.enabled, notBefore: options.notBefore, expires: options.expires };
-      let unflattenedOptions = { ...options, ...(options.requestOptions ? options.requestOptions : {}), keyAttributes: unflattenedAttributes };
+      let unflattenedAttributes = {
+        enabled: options.enabled,
+        notBefore: options.notBefore,
+        expires: options.expires
+      };
+      let unflattenedOptions = {
+        ...options,
+        ...(options.requestOptions ? options.requestOptions : {}),
+        keyAttributes: unflattenedAttributes
+      };
       delete unflattenedOptions.enabled;
       delete unflattenedOptions.notBefore;
       delete unflattenedOptions.expires;
       delete unflattenedOptions.requestOptions;
 
-      const response = await this.client.importKey(this.vaultBaseUrl, name, key, unflattenedOptions);
+      const response = await this.client.importKey(
+        this.vaultBaseUrl,
+        name,
+        key,
+        unflattenedOptions
+      );
       return this.getKeyFromKeyBundle(response);
     } else {
-      const response = await this.client.importKey(this.vaultBaseUrl, name, key, options);
+      const response = await this.client.importKey(
+        this.vaultBaseUrl,
+        name,
+        key,
+        options
+      );
       return this.getKeyFromKeyBundle(response);
     }
   }
@@ -275,7 +357,11 @@ export class KeysClient {
     name: string,
     options?: RequestOptions
   ): Promise<DeletedKey> {
-    const response = await this.client.deleteKey(this.vaultBaseUrl, name, options ? options.requestOptions : {});
+    const response = await this.client.deleteKey(
+      this.vaultBaseUrl,
+      name,
+      options ? options.requestOptions : {}
+    );
     return this.getKeyFromKeyBundle(response);
   }
 
@@ -295,8 +381,16 @@ export class KeysClient {
     options?: UpdateKeyOptions
   ): Promise<Key> {
     if (options) {
-      let unflattenedAttributes = { enabled: options.enabled, notBefore: options.notBefore, expires: options.expires };
-      let unflattenedOptions = { ...options, ...(options.requestOptions ? options.requestOptions : {}), keyAttributes: unflattenedAttributes };
+      let unflattenedAttributes = {
+        enabled: options.enabled,
+        notBefore: options.notBefore,
+        expires: options.expires
+      };
+      let unflattenedOptions = {
+        ...options,
+        ...(options.requestOptions ? options.requestOptions : {}),
+        keyAttributes: unflattenedAttributes
+      };
       delete unflattenedOptions.enabled;
       delete unflattenedOptions.notBefore;
       delete unflattenedOptions.expires;
@@ -328,10 +422,7 @@ export class KeysClient {
    * @param [options] The optional parameters
    * @returns Promise<Key>
    */
-  public async getKey(
-    name: string,
-    options?: GetKeyOptions
-  ): Promise<Key> {
+  public async getKey(name: string, options?: GetKeyOptions): Promise<Key> {
     const response = await this.client.getKey(
       this.vaultBaseUrl,
       name,
@@ -353,7 +444,11 @@ export class KeysClient {
     name: string,
     options?: RequestOptions
   ): Promise<DeletedKey> {
-    const response = await this.client.getDeletedKey(this.vaultBaseUrl, name, options ? options.requestOptions : {});
+    const response = await this.client.getDeletedKey(
+      this.vaultBaseUrl,
+      name,
+      options ? options.requestOptions : {}
+    );
     return this.getKeyFromKeyBundle(response);
   }
 
@@ -366,8 +461,15 @@ export class KeysClient {
    * @param [options] The optional parameters
    * @returns Promise<void>
    */
-  public async purgeDeletedKey(name: string, options?: RequestOptions): Promise<void> {
-    await this.client.purgeDeletedKey(this.vaultBaseUrl, name, options ? options.requestOptions : {});
+  public async purgeDeletedKey(
+    name: string,
+    options?: RequestOptions
+  ): Promise<void> {
+    await this.client.purgeDeletedKey(
+      this.vaultBaseUrl,
+      name,
+      options ? options.requestOptions : {}
+    );
   }
 
   /**
@@ -382,7 +484,11 @@ export class KeysClient {
     name: string,
     options?: RequestOptions
   ): Promise<Key> {
-    const response = await this.client.recoverDeletedKey(this.vaultBaseUrl, name, options ? options.requestOptions : {});
+    const response = await this.client.recoverDeletedKey(
+      this.vaultBaseUrl,
+      name,
+      options ? options.requestOptions : {}
+    );
     return this.getKeyFromKeyBundle(response);
   }
 
@@ -398,7 +504,11 @@ export class KeysClient {
     name: string,
     options?: RequestOptions
   ): Promise<Uint8Array | undefined> {
-    const response = await this.client.backupKey(this.vaultBaseUrl, name, options ? options.requestOptions : {});
+    const response = await this.client.backupKey(
+      this.vaultBaseUrl,
+      name,
+      options ? options.requestOptions : {}
+    );
     return response.value;
   }
 
@@ -452,13 +562,12 @@ export class KeysClient {
    * @param [options] The optional parameters
    * @returns AsyncIterableIterator<Key>
    */
-  public async *getAllKeys(options?: GetAllKeysOptions): AsyncIterableIterator<KeyAttributes> {
-    let currentSetResponse = await this.client.getKeys(
-      this.vaultBaseUrl,
-      {
-        ...(options && options.requestOptions ? options.requestOptions : {})
-      }
-    );
+  public async *getAllKeys(
+    options?: GetAllKeysOptions
+  ): AsyncIterableIterator<KeyAttributes> {
+    let currentSetResponse = await this.client.getKeys(this.vaultBaseUrl, {
+      ...(options && options.requestOptions ? options.requestOptions : {})
+    });
     yield* currentSetResponse.map(this.getKeyAttributesFromKeyItem);
 
     while (currentSetResponse.nextLink) {
@@ -478,7 +587,9 @@ export class KeysClient {
    * @param [options] The optional parameters
    * @returns AsyncIterableIterator<Key>
    */
-  public async *getAllDeletedKeys(options?: GetAllKeysOptions): AsyncIterableIterator<Key> {
+  public async *getAllDeletedKeys(
+    options?: GetAllKeysOptions
+  ): AsyncIterableIterator<Key> {
     let currentSetResponse = await this.client.getDeletedKeys(
       this.vaultBaseUrl,
       {
@@ -497,7 +608,10 @@ export class KeysClient {
   }
 
   private getKeyFromKeyBundle(keyBundle: KeyBundle): Key {
-    const parsedId = parseKeyvaultEntityIdentifier("keys", keyBundle.key ? keyBundle.key.kid : undefined);
+    const parsedId = parseKeyvaultEntityIdentifier(
+      "keys",
+      keyBundle.key ? keyBundle.key.kid : undefined
+    );
 
     let resultObject;
     if (keyBundle.attributes) {
@@ -506,14 +620,14 @@ export class KeysClient {
         ...keyBundle,
         ...parsedId,
         ...keyBundle.attributes
-      }
-      delete (resultObject.attributes);
+      };
+      delete resultObject.attributes;
     } else {
       resultObject = {
         keyMaterial: keyBundle.key,
         ...keyBundle,
         ...parsedId
-      }
+      };
     }
 
     return resultObject;
@@ -528,13 +642,13 @@ export class KeysClient {
         ...keyItem,
         ...parsedId,
         ...keyItem.attributes
-      }
-      delete (resultObject.attributes);
+      };
+      delete resultObject.attributes;
     } else {
       resultObject = {
         ...keyItem,
         ...parsedId
-      }
+      };
     }
 
     return resultObject;

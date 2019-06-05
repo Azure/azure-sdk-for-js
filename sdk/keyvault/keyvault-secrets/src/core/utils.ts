@@ -26,13 +26,17 @@ export function parseKeyvaultIdentifier(
   var segments = (baseUri.pathname || "").split("/");
   if (segments.length !== 3 && segments.length !== 4) {
     throw new Error(
-      `Invalid ${collection} identifier: ${identifier}. Bad number of segments: ${segments.length}`
+      `Invalid ${collection} identifier: ${identifier}. Bad number of segments: ${
+        segments.length
+      }`
     );
   }
 
   if (collection !== segments[1]) {
     throw new Error(
-      `Invalid ${collection} identifier: ${identifier}. segment [1] should be "${collection}", found "${segments[1]}"`,
+      `Invalid ${collection} identifier: ${identifier}. segment [1] should be "${collection}", found "${
+        segments[1]
+      }"`
     );
   }
 
@@ -42,6 +46,6 @@ export function parseKeyvaultIdentifier(
   return {
     vaultUrl,
     name,
-    version,
+    version
   };
 }

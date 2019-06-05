@@ -21,7 +21,10 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param credentials Credentials needed for the client to connect to Azure.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, options?: msRestAzure.AzureServiceClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    options?: msRestAzure.AzureServiceClientOptions
+  ) {
     super(credentials, options);
   }
 
@@ -38,7 +41,12 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.CreateKeyResponse>
    */
-  createKey(vaultBaseUrl: string, keyName: string, kty: Models.JsonWebKeyType, options?: Models.KeyVaultClientCreateKeyOptionalParams): Promise<Models.CreateKeyResponse>;
+  createKey(
+    vaultBaseUrl: string,
+    keyName: string,
+    kty: Models.JsonWebKeyType,
+    options?: Models.KeyVaultClientCreateKeyOptionalParams
+  ): Promise<Models.CreateKeyResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param keyName The name for the new key. The system will generate the version name for the new
@@ -47,7 +55,12 @@ class KeyVaultClient extends KeyVaultClientContext {
    * include: 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct'
    * @param callback The callback
    */
-  createKey(vaultBaseUrl: string, keyName: string, kty: Models.JsonWebKeyType, callback: msRest.ServiceCallback<Models.KeyBundle>): void;
+  createKey(
+    vaultBaseUrl: string,
+    keyName: string,
+    kty: Models.JsonWebKeyType,
+    callback: msRest.ServiceCallback<Models.KeyBundle>
+  ): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param keyName The name for the new key. The system will generate the version name for the new
@@ -57,8 +70,22 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createKey(vaultBaseUrl: string, keyName: string, kty: Models.JsonWebKeyType, options: Models.KeyVaultClientCreateKeyOptionalParams, callback: msRest.ServiceCallback<Models.KeyBundle>): void;
-  createKey(vaultBaseUrl: string, keyName: string, kty: Models.JsonWebKeyType, options?: Models.KeyVaultClientCreateKeyOptionalParams | msRest.ServiceCallback<Models.KeyBundle>, callback?: msRest.ServiceCallback<Models.KeyBundle>): Promise<Models.CreateKeyResponse> {
+  createKey(
+    vaultBaseUrl: string,
+    keyName: string,
+    kty: Models.JsonWebKeyType,
+    options: Models.KeyVaultClientCreateKeyOptionalParams,
+    callback: msRest.ServiceCallback<Models.KeyBundle>
+  ): void;
+  createKey(
+    vaultBaseUrl: string,
+    keyName: string,
+    kty: Models.JsonWebKeyType,
+    options?:
+      | Models.KeyVaultClientCreateKeyOptionalParams
+      | msRest.ServiceCallback<Models.KeyBundle>,
+    callback?: msRest.ServiceCallback<Models.KeyBundle>
+  ): Promise<Models.CreateKeyResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -67,7 +94,8 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       createKeyOperationSpec,
-      callback) as Promise<Models.CreateKeyResponse>;
+      callback
+    ) as Promise<Models.CreateKeyResponse>;
   }
 
   /**
@@ -82,14 +110,24 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.ImportKeyResponse>
    */
-  importKey(vaultBaseUrl: string, keyName: string, key: Models.JsonWebKey, options?: Models.KeyVaultClientImportKeyOptionalParams): Promise<Models.ImportKeyResponse>;
+  importKey(
+    vaultBaseUrl: string,
+    keyName: string,
+    key: Models.JsonWebKey,
+    options?: Models.KeyVaultClientImportKeyOptionalParams
+  ): Promise<Models.ImportKeyResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param keyName Name for the imported key.
    * @param key The Json web key
    * @param callback The callback
    */
-  importKey(vaultBaseUrl: string, keyName: string, key: Models.JsonWebKey, callback: msRest.ServiceCallback<Models.KeyBundle>): void;
+  importKey(
+    vaultBaseUrl: string,
+    keyName: string,
+    key: Models.JsonWebKey,
+    callback: msRest.ServiceCallback<Models.KeyBundle>
+  ): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param keyName Name for the imported key.
@@ -97,8 +135,22 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  importKey(vaultBaseUrl: string, keyName: string, key: Models.JsonWebKey, options: Models.KeyVaultClientImportKeyOptionalParams, callback: msRest.ServiceCallback<Models.KeyBundle>): void;
-  importKey(vaultBaseUrl: string, keyName: string, key: Models.JsonWebKey, options?: Models.KeyVaultClientImportKeyOptionalParams | msRest.ServiceCallback<Models.KeyBundle>, callback?: msRest.ServiceCallback<Models.KeyBundle>): Promise<Models.ImportKeyResponse> {
+  importKey(
+    vaultBaseUrl: string,
+    keyName: string,
+    key: Models.JsonWebKey,
+    options: Models.KeyVaultClientImportKeyOptionalParams,
+    callback: msRest.ServiceCallback<Models.KeyBundle>
+  ): void;
+  importKey(
+    vaultBaseUrl: string,
+    keyName: string,
+    key: Models.JsonWebKey,
+    options?:
+      | Models.KeyVaultClientImportKeyOptionalParams
+      | msRest.ServiceCallback<Models.KeyBundle>,
+    callback?: msRest.ServiceCallback<Models.KeyBundle>
+  ): Promise<Models.ImportKeyResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -107,7 +159,8 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       importKeyOperationSpec,
-      callback) as Promise<Models.ImportKeyResponse>;
+      callback
+    ) as Promise<Models.ImportKeyResponse>;
   }
 
   /**
@@ -121,21 +174,41 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.DeleteKeyResponse>
    */
-  deleteKey(vaultBaseUrl: string, keyName: string, options?: msRest.RequestOptionsBase): Promise<Models.DeleteKeyResponse>;
+  deleteKey(
+    vaultBaseUrl: string,
+    keyName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DeleteKeyResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param keyName The name of the key to delete.
    * @param callback The callback
    */
-  deleteKey(vaultBaseUrl: string, keyName: string, callback: msRest.ServiceCallback<Models.DeletedKeyBundle>): void;
+  deleteKey(
+    vaultBaseUrl: string,
+    keyName: string,
+    callback: msRest.ServiceCallback<Models.DeletedKeyBundle>
+  ): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param keyName The name of the key to delete.
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteKey(vaultBaseUrl: string, keyName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DeletedKeyBundle>): void;
-  deleteKey(vaultBaseUrl: string, keyName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DeletedKeyBundle>, callback?: msRest.ServiceCallback<Models.DeletedKeyBundle>): Promise<Models.DeleteKeyResponse> {
+  deleteKey(
+    vaultBaseUrl: string,
+    keyName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DeletedKeyBundle>
+  ): void;
+  deleteKey(
+    vaultBaseUrl: string,
+    keyName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.DeletedKeyBundle>,
+    callback?: msRest.ServiceCallback<Models.DeletedKeyBundle>
+  ): Promise<Models.DeleteKeyResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -143,7 +216,8 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       deleteKeyOperationSpec,
-      callback) as Promise<Models.DeleteKeyResponse>;
+      callback
+    ) as Promise<Models.DeleteKeyResponse>;
   }
 
   /**
@@ -158,14 +232,24 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.UpdateKeyResponse>
    */
-  updateKey(vaultBaseUrl: string, keyName: string, keyVersion: string, options?: Models.KeyVaultClientUpdateKeyOptionalParams): Promise<Models.UpdateKeyResponse>;
+  updateKey(
+    vaultBaseUrl: string,
+    keyName: string,
+    keyVersion: string,
+    options?: Models.KeyVaultClientUpdateKeyOptionalParams
+  ): Promise<Models.UpdateKeyResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param keyName The name of key to update.
    * @param keyVersion The version of the key to update.
    * @param callback The callback
    */
-  updateKey(vaultBaseUrl: string, keyName: string, keyVersion: string, callback: msRest.ServiceCallback<Models.KeyBundle>): void;
+  updateKey(
+    vaultBaseUrl: string,
+    keyName: string,
+    keyVersion: string,
+    callback: msRest.ServiceCallback<Models.KeyBundle>
+  ): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param keyName The name of key to update.
@@ -173,8 +257,22 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  updateKey(vaultBaseUrl: string, keyName: string, keyVersion: string, options: Models.KeyVaultClientUpdateKeyOptionalParams, callback: msRest.ServiceCallback<Models.KeyBundle>): void;
-  updateKey(vaultBaseUrl: string, keyName: string, keyVersion: string, options?: Models.KeyVaultClientUpdateKeyOptionalParams | msRest.ServiceCallback<Models.KeyBundle>, callback?: msRest.ServiceCallback<Models.KeyBundle>): Promise<Models.UpdateKeyResponse> {
+  updateKey(
+    vaultBaseUrl: string,
+    keyName: string,
+    keyVersion: string,
+    options: Models.KeyVaultClientUpdateKeyOptionalParams,
+    callback: msRest.ServiceCallback<Models.KeyBundle>
+  ): void;
+  updateKey(
+    vaultBaseUrl: string,
+    keyName: string,
+    keyVersion: string,
+    options?:
+      | Models.KeyVaultClientUpdateKeyOptionalParams
+      | msRest.ServiceCallback<Models.KeyBundle>,
+    callback?: msRest.ServiceCallback<Models.KeyBundle>
+  ): Promise<Models.UpdateKeyResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -183,7 +281,8 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       updateKeyOperationSpec,
-      callback) as Promise<Models.UpdateKeyResponse>;
+      callback
+    ) as Promise<Models.UpdateKeyResponse>;
   }
 
   /**
@@ -196,14 +295,24 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.GetKeyResponse>
    */
-  getKey(vaultBaseUrl: string, keyName: string, keyVersion: string, options?: msRest.RequestOptionsBase): Promise<Models.GetKeyResponse>;
+  getKey(
+    vaultBaseUrl: string,
+    keyName: string,
+    keyVersion: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GetKeyResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param keyName The name of the key to get.
    * @param keyVersion Adding the version parameter retrieves a specific version of a key.
    * @param callback The callback
    */
-  getKey(vaultBaseUrl: string, keyName: string, keyVersion: string, callback: msRest.ServiceCallback<Models.KeyBundle>): void;
+  getKey(
+    vaultBaseUrl: string,
+    keyName: string,
+    keyVersion: string,
+    callback: msRest.ServiceCallback<Models.KeyBundle>
+  ): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param keyName The name of the key to get.
@@ -211,8 +320,22 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getKey(vaultBaseUrl: string, keyName: string, keyVersion: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.KeyBundle>): void;
-  getKey(vaultBaseUrl: string, keyName: string, keyVersion: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.KeyBundle>, callback?: msRest.ServiceCallback<Models.KeyBundle>): Promise<Models.GetKeyResponse> {
+  getKey(
+    vaultBaseUrl: string,
+    keyName: string,
+    keyVersion: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.KeyBundle>
+  ): void;
+  getKey(
+    vaultBaseUrl: string,
+    keyName: string,
+    keyVersion: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.KeyBundle>,
+    callback?: msRest.ServiceCallback<Models.KeyBundle>
+  ): Promise<Models.GetKeyResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -221,7 +344,8 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       getKeyOperationSpec,
-      callback) as Promise<Models.GetKeyResponse>;
+      callback
+    ) as Promise<Models.GetKeyResponse>;
   }
 
   /**
@@ -233,21 +357,41 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.GetKeyVersionsResponse>
    */
-  getKeyVersions(vaultBaseUrl: string, keyName: string, options?: Models.KeyVaultClientGetKeyVersionsOptionalParams): Promise<Models.GetKeyVersionsResponse>;
+  getKeyVersions(
+    vaultBaseUrl: string,
+    keyName: string,
+    options?: Models.KeyVaultClientGetKeyVersionsOptionalParams
+  ): Promise<Models.GetKeyVersionsResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param keyName The name of the key.
    * @param callback The callback
    */
-  getKeyVersions(vaultBaseUrl: string, keyName: string, callback: msRest.ServiceCallback<Models.KeyListResult>): void;
+  getKeyVersions(
+    vaultBaseUrl: string,
+    keyName: string,
+    callback: msRest.ServiceCallback<Models.KeyListResult>
+  ): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param keyName The name of the key.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getKeyVersions(vaultBaseUrl: string, keyName: string, options: Models.KeyVaultClientGetKeyVersionsOptionalParams, callback: msRest.ServiceCallback<Models.KeyListResult>): void;
-  getKeyVersions(vaultBaseUrl: string, keyName: string, options?: Models.KeyVaultClientGetKeyVersionsOptionalParams | msRest.ServiceCallback<Models.KeyListResult>, callback?: msRest.ServiceCallback<Models.KeyListResult>): Promise<Models.GetKeyVersionsResponse> {
+  getKeyVersions(
+    vaultBaseUrl: string,
+    keyName: string,
+    options: Models.KeyVaultClientGetKeyVersionsOptionalParams,
+    callback: msRest.ServiceCallback<Models.KeyListResult>
+  ): void;
+  getKeyVersions(
+    vaultBaseUrl: string,
+    keyName: string,
+    options?:
+      | Models.KeyVaultClientGetKeyVersionsOptionalParams
+      | msRest.ServiceCallback<Models.KeyListResult>,
+    callback?: msRest.ServiceCallback<Models.KeyListResult>
+  ): Promise<Models.GetKeyVersionsResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -255,7 +399,8 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       getKeyVersionsOperationSpec,
-      callback) as Promise<Models.GetKeyVersionsResponse>;
+      callback
+    ) as Promise<Models.GetKeyVersionsResponse>;
   }
 
   /**
@@ -268,26 +413,43 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.GetKeysResponse>
    */
-  getKeys(vaultBaseUrl: string, options?: Models.KeyVaultClientGetKeysOptionalParams): Promise<Models.GetKeysResponse>;
+  getKeys(
+    vaultBaseUrl: string,
+    options?: Models.KeyVaultClientGetKeysOptionalParams
+  ): Promise<Models.GetKeysResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param callback The callback
    */
-  getKeys(vaultBaseUrl: string, callback: msRest.ServiceCallback<Models.KeyListResult>): void;
+  getKeys(
+    vaultBaseUrl: string,
+    callback: msRest.ServiceCallback<Models.KeyListResult>
+  ): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getKeys(vaultBaseUrl: string, options: Models.KeyVaultClientGetKeysOptionalParams, callback: msRest.ServiceCallback<Models.KeyListResult>): void;
-  getKeys(vaultBaseUrl: string, options?: Models.KeyVaultClientGetKeysOptionalParams | msRest.ServiceCallback<Models.KeyListResult>, callback?: msRest.ServiceCallback<Models.KeyListResult>): Promise<Models.GetKeysResponse> {
+  getKeys(
+    vaultBaseUrl: string,
+    options: Models.KeyVaultClientGetKeysOptionalParams,
+    callback: msRest.ServiceCallback<Models.KeyListResult>
+  ): void;
+  getKeys(
+    vaultBaseUrl: string,
+    options?:
+      | Models.KeyVaultClientGetKeysOptionalParams
+      | msRest.ServiceCallback<Models.KeyListResult>,
+    callback?: msRest.ServiceCallback<Models.KeyListResult>
+  ): Promise<Models.GetKeysResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
         options
       },
       getKeysOperationSpec,
-      callback) as Promise<Models.GetKeysResponse>;
+      callback
+    ) as Promise<Models.GetKeysResponse>;
   }
 
   /**
@@ -308,21 +470,41 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.BackupKeyResponse>
    */
-  backupKey(vaultBaseUrl: string, keyName: string, options?: msRest.RequestOptionsBase): Promise<Models.BackupKeyResponse>;
+  backupKey(
+    vaultBaseUrl: string,
+    keyName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.BackupKeyResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param keyName The name of the key.
    * @param callback The callback
    */
-  backupKey(vaultBaseUrl: string, keyName: string, callback: msRest.ServiceCallback<Models.BackupKeyResult>): void;
+  backupKey(
+    vaultBaseUrl: string,
+    keyName: string,
+    callback: msRest.ServiceCallback<Models.BackupKeyResult>
+  ): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param keyName The name of the key.
    * @param options The optional parameters
    * @param callback The callback
    */
-  backupKey(vaultBaseUrl: string, keyName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BackupKeyResult>): void;
-  backupKey(vaultBaseUrl: string, keyName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BackupKeyResult>, callback?: msRest.ServiceCallback<Models.BackupKeyResult>): Promise<Models.BackupKeyResponse> {
+  backupKey(
+    vaultBaseUrl: string,
+    keyName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.BackupKeyResult>
+  ): void;
+  backupKey(
+    vaultBaseUrl: string,
+    keyName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.BackupKeyResult>,
+    callback?: msRest.ServiceCallback<Models.BackupKeyResult>
+  ): Promise<Models.BackupKeyResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -330,7 +512,8 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       backupKeyOperationSpec,
-      callback) as Promise<Models.BackupKeyResponse>;
+      callback
+    ) as Promise<Models.BackupKeyResponse>;
   }
 
   /**
@@ -350,21 +533,41 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.RestoreKeyResponse>
    */
-  restoreKey(vaultBaseUrl: string, keyBundleBackup: Uint8Array, options?: msRest.RequestOptionsBase): Promise<Models.RestoreKeyResponse>;
+  restoreKey(
+    vaultBaseUrl: string,
+    keyBundleBackup: Uint8Array,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RestoreKeyResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param keyBundleBackup The backup blob associated with a key bundle.
    * @param callback The callback
    */
-  restoreKey(vaultBaseUrl: string, keyBundleBackup: Uint8Array, callback: msRest.ServiceCallback<Models.KeyBundle>): void;
+  restoreKey(
+    vaultBaseUrl: string,
+    keyBundleBackup: Uint8Array,
+    callback: msRest.ServiceCallback<Models.KeyBundle>
+  ): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param keyBundleBackup The backup blob associated with a key bundle.
    * @param options The optional parameters
    * @param callback The callback
    */
-  restoreKey(vaultBaseUrl: string, keyBundleBackup: Uint8Array, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.KeyBundle>): void;
-  restoreKey(vaultBaseUrl: string, keyBundleBackup: Uint8Array, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.KeyBundle>, callback?: msRest.ServiceCallback<Models.KeyBundle>): Promise<Models.RestoreKeyResponse> {
+  restoreKey(
+    vaultBaseUrl: string,
+    keyBundleBackup: Uint8Array,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.KeyBundle>
+  ): void;
+  restoreKey(
+    vaultBaseUrl: string,
+    keyBundleBackup: Uint8Array,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.KeyBundle>,
+    callback?: msRest.ServiceCallback<Models.KeyBundle>
+  ): Promise<Models.RestoreKeyResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -372,7 +575,8 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       restoreKeyOperationSpec,
-      callback) as Promise<Models.RestoreKeyResponse>;
+      callback
+    ) as Promise<Models.RestoreKeyResponse>;
   }
 
   /**
@@ -395,7 +599,14 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.EncryptResponse>
    */
-  encrypt(vaultBaseUrl: string, keyName: string, keyVersion: string, algorithm: Models.JsonWebKeyEncryptionAlgorithm, value: Uint8Array, options?: msRest.RequestOptionsBase): Promise<Models.EncryptResponse>;
+  encrypt(
+    vaultBaseUrl: string,
+    keyName: string,
+    keyVersion: string,
+    algorithm: Models.JsonWebKeyEncryptionAlgorithm,
+    value: Uint8Array,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.EncryptResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param keyName The name of the key.
@@ -405,7 +616,14 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param value
    * @param callback The callback
    */
-  encrypt(vaultBaseUrl: string, keyName: string, keyVersion: string, algorithm: Models.JsonWebKeyEncryptionAlgorithm, value: Uint8Array, callback: msRest.ServiceCallback<Models.KeyOperationResult>): void;
+  encrypt(
+    vaultBaseUrl: string,
+    keyName: string,
+    keyVersion: string,
+    algorithm: Models.JsonWebKeyEncryptionAlgorithm,
+    value: Uint8Array,
+    callback: msRest.ServiceCallback<Models.KeyOperationResult>
+  ): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param keyName The name of the key.
@@ -416,8 +634,26 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  encrypt(vaultBaseUrl: string, keyName: string, keyVersion: string, algorithm: Models.JsonWebKeyEncryptionAlgorithm, value: Uint8Array, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.KeyOperationResult>): void;
-  encrypt(vaultBaseUrl: string, keyName: string, keyVersion: string, algorithm: Models.JsonWebKeyEncryptionAlgorithm, value: Uint8Array, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.KeyOperationResult>, callback?: msRest.ServiceCallback<Models.KeyOperationResult>): Promise<Models.EncryptResponse> {
+  encrypt(
+    vaultBaseUrl: string,
+    keyName: string,
+    keyVersion: string,
+    algorithm: Models.JsonWebKeyEncryptionAlgorithm,
+    value: Uint8Array,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.KeyOperationResult>
+  ): void;
+  encrypt(
+    vaultBaseUrl: string,
+    keyName: string,
+    keyVersion: string,
+    algorithm: Models.JsonWebKeyEncryptionAlgorithm,
+    value: Uint8Array,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.KeyOperationResult>,
+    callback?: msRest.ServiceCallback<Models.KeyOperationResult>
+  ): Promise<Models.EncryptResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -428,7 +664,8 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       encryptOperationSpec,
-      callback) as Promise<Models.EncryptResponse>;
+      callback
+    ) as Promise<Models.EncryptResponse>;
   }
 
   /**
@@ -448,7 +685,14 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.DecryptResponse>
    */
-  decrypt(vaultBaseUrl: string, keyName: string, keyVersion: string, algorithm: Models.JsonWebKeyEncryptionAlgorithm, value: Uint8Array, options?: msRest.RequestOptionsBase): Promise<Models.DecryptResponse>;
+  decrypt(
+    vaultBaseUrl: string,
+    keyName: string,
+    keyVersion: string,
+    algorithm: Models.JsonWebKeyEncryptionAlgorithm,
+    value: Uint8Array,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DecryptResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param keyName The name of the key.
@@ -458,7 +702,14 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param value
    * @param callback The callback
    */
-  decrypt(vaultBaseUrl: string, keyName: string, keyVersion: string, algorithm: Models.JsonWebKeyEncryptionAlgorithm, value: Uint8Array, callback: msRest.ServiceCallback<Models.KeyOperationResult>): void;
+  decrypt(
+    vaultBaseUrl: string,
+    keyName: string,
+    keyVersion: string,
+    algorithm: Models.JsonWebKeyEncryptionAlgorithm,
+    value: Uint8Array,
+    callback: msRest.ServiceCallback<Models.KeyOperationResult>
+  ): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param keyName The name of the key.
@@ -469,8 +720,26 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  decrypt(vaultBaseUrl: string, keyName: string, keyVersion: string, algorithm: Models.JsonWebKeyEncryptionAlgorithm, value: Uint8Array, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.KeyOperationResult>): void;
-  decrypt(vaultBaseUrl: string, keyName: string, keyVersion: string, algorithm: Models.JsonWebKeyEncryptionAlgorithm, value: Uint8Array, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.KeyOperationResult>, callback?: msRest.ServiceCallback<Models.KeyOperationResult>): Promise<Models.DecryptResponse> {
+  decrypt(
+    vaultBaseUrl: string,
+    keyName: string,
+    keyVersion: string,
+    algorithm: Models.JsonWebKeyEncryptionAlgorithm,
+    value: Uint8Array,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.KeyOperationResult>
+  ): void;
+  decrypt(
+    vaultBaseUrl: string,
+    keyName: string,
+    keyVersion: string,
+    algorithm: Models.JsonWebKeyEncryptionAlgorithm,
+    value: Uint8Array,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.KeyOperationResult>,
+    callback?: msRest.ServiceCallback<Models.KeyOperationResult>
+  ): Promise<Models.DecryptResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -481,7 +750,8 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       decryptOperationSpec,
-      callback) as Promise<Models.DecryptResponse>;
+      callback
+    ) as Promise<Models.DecryptResponse>;
   }
 
   /**
@@ -499,7 +769,14 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.SignResponse>
    */
-  sign(vaultBaseUrl: string, keyName: string, keyVersion: string, algorithm: Models.JsonWebKeySignatureAlgorithm, value: Uint8Array, options?: msRest.RequestOptionsBase): Promise<Models.SignResponse>;
+  sign(
+    vaultBaseUrl: string,
+    keyName: string,
+    keyVersion: string,
+    algorithm: Models.JsonWebKeySignatureAlgorithm,
+    value: Uint8Array,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SignResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param keyName The name of the key.
@@ -510,7 +787,14 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param value
    * @param callback The callback
    */
-  sign(vaultBaseUrl: string, keyName: string, keyVersion: string, algorithm: Models.JsonWebKeySignatureAlgorithm, value: Uint8Array, callback: msRest.ServiceCallback<Models.KeyOperationResult>): void;
+  sign(
+    vaultBaseUrl: string,
+    keyName: string,
+    keyVersion: string,
+    algorithm: Models.JsonWebKeySignatureAlgorithm,
+    value: Uint8Array,
+    callback: msRest.ServiceCallback<Models.KeyOperationResult>
+  ): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param keyName The name of the key.
@@ -522,8 +806,26 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  sign(vaultBaseUrl: string, keyName: string, keyVersion: string, algorithm: Models.JsonWebKeySignatureAlgorithm, value: Uint8Array, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.KeyOperationResult>): void;
-  sign(vaultBaseUrl: string, keyName: string, keyVersion: string, algorithm: Models.JsonWebKeySignatureAlgorithm, value: Uint8Array, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.KeyOperationResult>, callback?: msRest.ServiceCallback<Models.KeyOperationResult>): Promise<Models.SignResponse> {
+  sign(
+    vaultBaseUrl: string,
+    keyName: string,
+    keyVersion: string,
+    algorithm: Models.JsonWebKeySignatureAlgorithm,
+    value: Uint8Array,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.KeyOperationResult>
+  ): void;
+  sign(
+    vaultBaseUrl: string,
+    keyName: string,
+    keyVersion: string,
+    algorithm: Models.JsonWebKeySignatureAlgorithm,
+    value: Uint8Array,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.KeyOperationResult>,
+    callback?: msRest.ServiceCallback<Models.KeyOperationResult>
+  ): Promise<Models.SignResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -534,7 +836,8 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       signOperationSpec,
-      callback) as Promise<Models.SignResponse>;
+      callback
+    ) as Promise<Models.SignResponse>;
   }
 
   /**
@@ -555,7 +858,15 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.VerifyResponse>
    */
-  verify(vaultBaseUrl: string, keyName: string, keyVersion: string, algorithm: Models.JsonWebKeySignatureAlgorithm, digest: Uint8Array, signature: Uint8Array, options?: msRest.RequestOptionsBase): Promise<Models.VerifyResponse>;
+  verify(
+    vaultBaseUrl: string,
+    keyName: string,
+    keyVersion: string,
+    algorithm: Models.JsonWebKeySignatureAlgorithm,
+    digest: Uint8Array,
+    signature: Uint8Array,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.VerifyResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param keyName The name of the key.
@@ -567,7 +878,15 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param signature The signature to be verified.
    * @param callback The callback
    */
-  verify(vaultBaseUrl: string, keyName: string, keyVersion: string, algorithm: Models.JsonWebKeySignatureAlgorithm, digest: Uint8Array, signature: Uint8Array, callback: msRest.ServiceCallback<Models.KeyVerifyResult>): void;
+  verify(
+    vaultBaseUrl: string,
+    keyName: string,
+    keyVersion: string,
+    algorithm: Models.JsonWebKeySignatureAlgorithm,
+    digest: Uint8Array,
+    signature: Uint8Array,
+    callback: msRest.ServiceCallback<Models.KeyVerifyResult>
+  ): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param keyName The name of the key.
@@ -580,8 +899,28 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  verify(vaultBaseUrl: string, keyName: string, keyVersion: string, algorithm: Models.JsonWebKeySignatureAlgorithm, digest: Uint8Array, signature: Uint8Array, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.KeyVerifyResult>): void;
-  verify(vaultBaseUrl: string, keyName: string, keyVersion: string, algorithm: Models.JsonWebKeySignatureAlgorithm, digest: Uint8Array, signature: Uint8Array, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.KeyVerifyResult>, callback?: msRest.ServiceCallback<Models.KeyVerifyResult>): Promise<Models.VerifyResponse> {
+  verify(
+    vaultBaseUrl: string,
+    keyName: string,
+    keyVersion: string,
+    algorithm: Models.JsonWebKeySignatureAlgorithm,
+    digest: Uint8Array,
+    signature: Uint8Array,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.KeyVerifyResult>
+  ): void;
+  verify(
+    vaultBaseUrl: string,
+    keyName: string,
+    keyVersion: string,
+    algorithm: Models.JsonWebKeySignatureAlgorithm,
+    digest: Uint8Array,
+    signature: Uint8Array,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.KeyVerifyResult>,
+    callback?: msRest.ServiceCallback<Models.KeyVerifyResult>
+  ): Promise<Models.VerifyResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -593,7 +932,8 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       verifyOperationSpec,
-      callback) as Promise<Models.VerifyResponse>;
+      callback
+    ) as Promise<Models.VerifyResponse>;
   }
 
   /**
@@ -613,7 +953,14 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.WrapKeyResponse>
    */
-  wrapKey(vaultBaseUrl: string, keyName: string, keyVersion: string, algorithm: Models.JsonWebKeyEncryptionAlgorithm, value: Uint8Array, options?: msRest.RequestOptionsBase): Promise<Models.WrapKeyResponse>;
+  wrapKey(
+    vaultBaseUrl: string,
+    keyName: string,
+    keyVersion: string,
+    algorithm: Models.JsonWebKeyEncryptionAlgorithm,
+    value: Uint8Array,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.WrapKeyResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param keyName The name of the key.
@@ -623,7 +970,14 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param value
    * @param callback The callback
    */
-  wrapKey(vaultBaseUrl: string, keyName: string, keyVersion: string, algorithm: Models.JsonWebKeyEncryptionAlgorithm, value: Uint8Array, callback: msRest.ServiceCallback<Models.KeyOperationResult>): void;
+  wrapKey(
+    vaultBaseUrl: string,
+    keyName: string,
+    keyVersion: string,
+    algorithm: Models.JsonWebKeyEncryptionAlgorithm,
+    value: Uint8Array,
+    callback: msRest.ServiceCallback<Models.KeyOperationResult>
+  ): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param keyName The name of the key.
@@ -634,8 +988,26 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  wrapKey(vaultBaseUrl: string, keyName: string, keyVersion: string, algorithm: Models.JsonWebKeyEncryptionAlgorithm, value: Uint8Array, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.KeyOperationResult>): void;
-  wrapKey(vaultBaseUrl: string, keyName: string, keyVersion: string, algorithm: Models.JsonWebKeyEncryptionAlgorithm, value: Uint8Array, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.KeyOperationResult>, callback?: msRest.ServiceCallback<Models.KeyOperationResult>): Promise<Models.WrapKeyResponse> {
+  wrapKey(
+    vaultBaseUrl: string,
+    keyName: string,
+    keyVersion: string,
+    algorithm: Models.JsonWebKeyEncryptionAlgorithm,
+    value: Uint8Array,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.KeyOperationResult>
+  ): void;
+  wrapKey(
+    vaultBaseUrl: string,
+    keyName: string,
+    keyVersion: string,
+    algorithm: Models.JsonWebKeyEncryptionAlgorithm,
+    value: Uint8Array,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.KeyOperationResult>,
+    callback?: msRest.ServiceCallback<Models.KeyOperationResult>
+  ): Promise<Models.WrapKeyResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -646,7 +1018,8 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       wrapKeyOperationSpec,
-      callback) as Promise<Models.WrapKeyResponse>;
+      callback
+    ) as Promise<Models.WrapKeyResponse>;
   }
 
   /**
@@ -665,7 +1038,14 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.UnwrapKeyResponse>
    */
-  unwrapKey(vaultBaseUrl: string, keyName: string, keyVersion: string, algorithm: Models.JsonWebKeyEncryptionAlgorithm, value: Uint8Array, options?: msRest.RequestOptionsBase): Promise<Models.UnwrapKeyResponse>;
+  unwrapKey(
+    vaultBaseUrl: string,
+    keyName: string,
+    keyVersion: string,
+    algorithm: Models.JsonWebKeyEncryptionAlgorithm,
+    value: Uint8Array,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.UnwrapKeyResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param keyName The name of the key.
@@ -675,7 +1055,14 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param value
    * @param callback The callback
    */
-  unwrapKey(vaultBaseUrl: string, keyName: string, keyVersion: string, algorithm: Models.JsonWebKeyEncryptionAlgorithm, value: Uint8Array, callback: msRest.ServiceCallback<Models.KeyOperationResult>): void;
+  unwrapKey(
+    vaultBaseUrl: string,
+    keyName: string,
+    keyVersion: string,
+    algorithm: Models.JsonWebKeyEncryptionAlgorithm,
+    value: Uint8Array,
+    callback: msRest.ServiceCallback<Models.KeyOperationResult>
+  ): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param keyName The name of the key.
@@ -686,8 +1073,26 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  unwrapKey(vaultBaseUrl: string, keyName: string, keyVersion: string, algorithm: Models.JsonWebKeyEncryptionAlgorithm, value: Uint8Array, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.KeyOperationResult>): void;
-  unwrapKey(vaultBaseUrl: string, keyName: string, keyVersion: string, algorithm: Models.JsonWebKeyEncryptionAlgorithm, value: Uint8Array, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.KeyOperationResult>, callback?: msRest.ServiceCallback<Models.KeyOperationResult>): Promise<Models.UnwrapKeyResponse> {
+  unwrapKey(
+    vaultBaseUrl: string,
+    keyName: string,
+    keyVersion: string,
+    algorithm: Models.JsonWebKeyEncryptionAlgorithm,
+    value: Uint8Array,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.KeyOperationResult>
+  ): void;
+  unwrapKey(
+    vaultBaseUrl: string,
+    keyName: string,
+    keyVersion: string,
+    algorithm: Models.JsonWebKeyEncryptionAlgorithm,
+    value: Uint8Array,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.KeyOperationResult>,
+    callback?: msRest.ServiceCallback<Models.KeyOperationResult>
+  ): Promise<Models.UnwrapKeyResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -698,7 +1103,8 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       unwrapKeyOperationSpec,
-      callback) as Promise<Models.UnwrapKeyResponse>;
+      callback
+    ) as Promise<Models.UnwrapKeyResponse>;
   }
 
   /**
@@ -712,26 +1118,43 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.GetDeletedKeysResponse>
    */
-  getDeletedKeys(vaultBaseUrl: string, options?: Models.KeyVaultClientGetDeletedKeysOptionalParams): Promise<Models.GetDeletedKeysResponse>;
+  getDeletedKeys(
+    vaultBaseUrl: string,
+    options?: Models.KeyVaultClientGetDeletedKeysOptionalParams
+  ): Promise<Models.GetDeletedKeysResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param callback The callback
    */
-  getDeletedKeys(vaultBaseUrl: string, callback: msRest.ServiceCallback<Models.DeletedKeyListResult>): void;
+  getDeletedKeys(
+    vaultBaseUrl: string,
+    callback: msRest.ServiceCallback<Models.DeletedKeyListResult>
+  ): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getDeletedKeys(vaultBaseUrl: string, options: Models.KeyVaultClientGetDeletedKeysOptionalParams, callback: msRest.ServiceCallback<Models.DeletedKeyListResult>): void;
-  getDeletedKeys(vaultBaseUrl: string, options?: Models.KeyVaultClientGetDeletedKeysOptionalParams | msRest.ServiceCallback<Models.DeletedKeyListResult>, callback?: msRest.ServiceCallback<Models.DeletedKeyListResult>): Promise<Models.GetDeletedKeysResponse> {
+  getDeletedKeys(
+    vaultBaseUrl: string,
+    options: Models.KeyVaultClientGetDeletedKeysOptionalParams,
+    callback: msRest.ServiceCallback<Models.DeletedKeyListResult>
+  ): void;
+  getDeletedKeys(
+    vaultBaseUrl: string,
+    options?:
+      | Models.KeyVaultClientGetDeletedKeysOptionalParams
+      | msRest.ServiceCallback<Models.DeletedKeyListResult>,
+    callback?: msRest.ServiceCallback<Models.DeletedKeyListResult>
+  ): Promise<Models.GetDeletedKeysResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
         options
       },
       getDeletedKeysOperationSpec,
-      callback) as Promise<Models.GetDeletedKeysResponse>;
+      callback
+    ) as Promise<Models.GetDeletedKeysResponse>;
   }
 
   /**
@@ -744,21 +1167,41 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.GetDeletedKeyResponse>
    */
-  getDeletedKey(vaultBaseUrl: string, keyName: string, options?: msRest.RequestOptionsBase): Promise<Models.GetDeletedKeyResponse>;
+  getDeletedKey(
+    vaultBaseUrl: string,
+    keyName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GetDeletedKeyResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param keyName The name of the key.
    * @param callback The callback
    */
-  getDeletedKey(vaultBaseUrl: string, keyName: string, callback: msRest.ServiceCallback<Models.DeletedKeyBundle>): void;
+  getDeletedKey(
+    vaultBaseUrl: string,
+    keyName: string,
+    callback: msRest.ServiceCallback<Models.DeletedKeyBundle>
+  ): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param keyName The name of the key.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getDeletedKey(vaultBaseUrl: string, keyName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DeletedKeyBundle>): void;
-  getDeletedKey(vaultBaseUrl: string, keyName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DeletedKeyBundle>, callback?: msRest.ServiceCallback<Models.DeletedKeyBundle>): Promise<Models.GetDeletedKeyResponse> {
+  getDeletedKey(
+    vaultBaseUrl: string,
+    keyName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DeletedKeyBundle>
+  ): void;
+  getDeletedKey(
+    vaultBaseUrl: string,
+    keyName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.DeletedKeyBundle>,
+    callback?: msRest.ServiceCallback<Models.DeletedKeyBundle>
+  ): Promise<Models.GetDeletedKeyResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -766,7 +1209,8 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       getDeletedKeyOperationSpec,
-      callback) as Promise<Models.GetDeletedKeyResponse>;
+      callback
+    ) as Promise<Models.GetDeletedKeyResponse>;
   }
 
   /**
@@ -779,21 +1223,39 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  purgeDeletedKey(vaultBaseUrl: string, keyName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  purgeDeletedKey(
+    vaultBaseUrl: string,
+    keyName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param keyName The name of the key
    * @param callback The callback
    */
-  purgeDeletedKey(vaultBaseUrl: string, keyName: string, callback: msRest.ServiceCallback<void>): void;
+  purgeDeletedKey(
+    vaultBaseUrl: string,
+    keyName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param keyName The name of the key
    * @param options The optional parameters
    * @param callback The callback
    */
-  purgeDeletedKey(vaultBaseUrl: string, keyName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  purgeDeletedKey(vaultBaseUrl: string, keyName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  purgeDeletedKey(
+    vaultBaseUrl: string,
+    keyName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  purgeDeletedKey(
+    vaultBaseUrl: string,
+    keyName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -801,7 +1263,8 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       purgeDeletedKeyOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -815,21 +1278,41 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.RecoverDeletedKeyResponse>
    */
-  recoverDeletedKey(vaultBaseUrl: string, keyName: string, options?: msRest.RequestOptionsBase): Promise<Models.RecoverDeletedKeyResponse>;
+  recoverDeletedKey(
+    vaultBaseUrl: string,
+    keyName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RecoverDeletedKeyResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param keyName The name of the deleted key.
    * @param callback The callback
    */
-  recoverDeletedKey(vaultBaseUrl: string, keyName: string, callback: msRest.ServiceCallback<Models.KeyBundle>): void;
+  recoverDeletedKey(
+    vaultBaseUrl: string,
+    keyName: string,
+    callback: msRest.ServiceCallback<Models.KeyBundle>
+  ): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param keyName The name of the deleted key.
    * @param options The optional parameters
    * @param callback The callback
    */
-  recoverDeletedKey(vaultBaseUrl: string, keyName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.KeyBundle>): void;
-  recoverDeletedKey(vaultBaseUrl: string, keyName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.KeyBundle>, callback?: msRest.ServiceCallback<Models.KeyBundle>): Promise<Models.RecoverDeletedKeyResponse> {
+  recoverDeletedKey(
+    vaultBaseUrl: string,
+    keyName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.KeyBundle>
+  ): void;
+  recoverDeletedKey(
+    vaultBaseUrl: string,
+    keyName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.KeyBundle>,
+    callback?: msRest.ServiceCallback<Models.KeyBundle>
+  ): Promise<Models.RecoverDeletedKeyResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -837,7 +1320,8 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       recoverDeletedKeyOperationSpec,
-      callback) as Promise<Models.RecoverDeletedKeyResponse>;
+      callback
+    ) as Promise<Models.RecoverDeletedKeyResponse>;
   }
 
   /**
@@ -851,14 +1335,24 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.SetSecretResponse>
    */
-  setSecret(vaultBaseUrl: string, secretName: string, value: string, options?: Models.KeyVaultClientSetSecretOptionalParams): Promise<Models.SetSecretResponse>;
+  setSecret(
+    vaultBaseUrl: string,
+    secretName: string,
+    value: string,
+    options?: Models.KeyVaultClientSetSecretOptionalParams
+  ): Promise<Models.SetSecretResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param secretName The name of the secret.
    * @param value The value of the secret.
    * @param callback The callback
    */
-  setSecret(vaultBaseUrl: string, secretName: string, value: string, callback: msRest.ServiceCallback<Models.SecretBundle>): void;
+  setSecret(
+    vaultBaseUrl: string,
+    secretName: string,
+    value: string,
+    callback: msRest.ServiceCallback<Models.SecretBundle>
+  ): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param secretName The name of the secret.
@@ -866,8 +1360,22 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  setSecret(vaultBaseUrl: string, secretName: string, value: string, options: Models.KeyVaultClientSetSecretOptionalParams, callback: msRest.ServiceCallback<Models.SecretBundle>): void;
-  setSecret(vaultBaseUrl: string, secretName: string, value: string, options?: Models.KeyVaultClientSetSecretOptionalParams | msRest.ServiceCallback<Models.SecretBundle>, callback?: msRest.ServiceCallback<Models.SecretBundle>): Promise<Models.SetSecretResponse> {
+  setSecret(
+    vaultBaseUrl: string,
+    secretName: string,
+    value: string,
+    options: Models.KeyVaultClientSetSecretOptionalParams,
+    callback: msRest.ServiceCallback<Models.SecretBundle>
+  ): void;
+  setSecret(
+    vaultBaseUrl: string,
+    secretName: string,
+    value: string,
+    options?:
+      | Models.KeyVaultClientSetSecretOptionalParams
+      | msRest.ServiceCallback<Models.SecretBundle>,
+    callback?: msRest.ServiceCallback<Models.SecretBundle>
+  ): Promise<Models.SetSecretResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -876,7 +1384,8 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       setSecretOperationSpec,
-      callback) as Promise<Models.SetSecretResponse>;
+      callback
+    ) as Promise<Models.SetSecretResponse>;
   }
 
   /**
@@ -888,21 +1397,41 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.DeleteSecretResponse>
    */
-  deleteSecret(vaultBaseUrl: string, secretName: string, options?: msRest.RequestOptionsBase): Promise<Models.DeleteSecretResponse>;
+  deleteSecret(
+    vaultBaseUrl: string,
+    secretName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DeleteSecretResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param secretName The name of the secret.
    * @param callback The callback
    */
-  deleteSecret(vaultBaseUrl: string, secretName: string, callback: msRest.ServiceCallback<Models.DeletedSecretBundle>): void;
+  deleteSecret(
+    vaultBaseUrl: string,
+    secretName: string,
+    callback: msRest.ServiceCallback<Models.DeletedSecretBundle>
+  ): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param secretName The name of the secret.
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteSecret(vaultBaseUrl: string, secretName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DeletedSecretBundle>): void;
-  deleteSecret(vaultBaseUrl: string, secretName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DeletedSecretBundle>, callback?: msRest.ServiceCallback<Models.DeletedSecretBundle>): Promise<Models.DeleteSecretResponse> {
+  deleteSecret(
+    vaultBaseUrl: string,
+    secretName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DeletedSecretBundle>
+  ): void;
+  deleteSecret(
+    vaultBaseUrl: string,
+    secretName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.DeletedSecretBundle>,
+    callback?: msRest.ServiceCallback<Models.DeletedSecretBundle>
+  ): Promise<Models.DeleteSecretResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -910,7 +1439,8 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       deleteSecretOperationSpec,
-      callback) as Promise<Models.DeleteSecretResponse>;
+      callback
+    ) as Promise<Models.DeleteSecretResponse>;
   }
 
   /**
@@ -924,14 +1454,24 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.UpdateSecretResponse>
    */
-  updateSecret(vaultBaseUrl: string, secretName: string, secretVersion: string, options?: Models.KeyVaultClientUpdateSecretOptionalParams): Promise<Models.UpdateSecretResponse>;
+  updateSecret(
+    vaultBaseUrl: string,
+    secretName: string,
+    secretVersion: string,
+    options?: Models.KeyVaultClientUpdateSecretOptionalParams
+  ): Promise<Models.UpdateSecretResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param secretName The name of the secret.
    * @param secretVersion The version of the secret.
    * @param callback The callback
    */
-  updateSecret(vaultBaseUrl: string, secretName: string, secretVersion: string, callback: msRest.ServiceCallback<Models.SecretBundle>): void;
+  updateSecret(
+    vaultBaseUrl: string,
+    secretName: string,
+    secretVersion: string,
+    callback: msRest.ServiceCallback<Models.SecretBundle>
+  ): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param secretName The name of the secret.
@@ -939,8 +1479,22 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  updateSecret(vaultBaseUrl: string, secretName: string, secretVersion: string, options: Models.KeyVaultClientUpdateSecretOptionalParams, callback: msRest.ServiceCallback<Models.SecretBundle>): void;
-  updateSecret(vaultBaseUrl: string, secretName: string, secretVersion: string, options?: Models.KeyVaultClientUpdateSecretOptionalParams | msRest.ServiceCallback<Models.SecretBundle>, callback?: msRest.ServiceCallback<Models.SecretBundle>): Promise<Models.UpdateSecretResponse> {
+  updateSecret(
+    vaultBaseUrl: string,
+    secretName: string,
+    secretVersion: string,
+    options: Models.KeyVaultClientUpdateSecretOptionalParams,
+    callback: msRest.ServiceCallback<Models.SecretBundle>
+  ): void;
+  updateSecret(
+    vaultBaseUrl: string,
+    secretName: string,
+    secretVersion: string,
+    options?:
+      | Models.KeyVaultClientUpdateSecretOptionalParams
+      | msRest.ServiceCallback<Models.SecretBundle>,
+    callback?: msRest.ServiceCallback<Models.SecretBundle>
+  ): Promise<Models.UpdateSecretResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -949,7 +1503,8 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       updateSecretOperationSpec,
-      callback) as Promise<Models.UpdateSecretResponse>;
+      callback
+    ) as Promise<Models.UpdateSecretResponse>;
   }
 
   /**
@@ -962,14 +1517,24 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.GetSecretResponse>
    */
-  getSecret(vaultBaseUrl: string, secretName: string, secretVersion: string, options?: msRest.RequestOptionsBase): Promise<Models.GetSecretResponse>;
+  getSecret(
+    vaultBaseUrl: string,
+    secretName: string,
+    secretVersion: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GetSecretResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param secretName The name of the secret.
    * @param secretVersion The version of the secret.
    * @param callback The callback
    */
-  getSecret(vaultBaseUrl: string, secretName: string, secretVersion: string, callback: msRest.ServiceCallback<Models.SecretBundle>): void;
+  getSecret(
+    vaultBaseUrl: string,
+    secretName: string,
+    secretVersion: string,
+    callback: msRest.ServiceCallback<Models.SecretBundle>
+  ): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param secretName The name of the secret.
@@ -977,8 +1542,22 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getSecret(vaultBaseUrl: string, secretName: string, secretVersion: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SecretBundle>): void;
-  getSecret(vaultBaseUrl: string, secretName: string, secretVersion: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecretBundle>, callback?: msRest.ServiceCallback<Models.SecretBundle>): Promise<Models.GetSecretResponse> {
+  getSecret(
+    vaultBaseUrl: string,
+    secretName: string,
+    secretVersion: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SecretBundle>
+  ): void;
+  getSecret(
+    vaultBaseUrl: string,
+    secretName: string,
+    secretVersion: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.SecretBundle>,
+    callback?: msRest.ServiceCallback<Models.SecretBundle>
+  ): Promise<Models.GetSecretResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -987,7 +1566,8 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       getSecretOperationSpec,
-      callback) as Promise<Models.GetSecretResponse>;
+      callback
+    ) as Promise<Models.GetSecretResponse>;
   }
 
   /**
@@ -999,26 +1579,43 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.GetSecretsResponse>
    */
-  getSecrets(vaultBaseUrl: string, options?: Models.KeyVaultClientGetSecretsOptionalParams): Promise<Models.GetSecretsResponse>;
+  getSecrets(
+    vaultBaseUrl: string,
+    options?: Models.KeyVaultClientGetSecretsOptionalParams
+  ): Promise<Models.GetSecretsResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param callback The callback
    */
-  getSecrets(vaultBaseUrl: string, callback: msRest.ServiceCallback<Models.SecretListResult>): void;
+  getSecrets(
+    vaultBaseUrl: string,
+    callback: msRest.ServiceCallback<Models.SecretListResult>
+  ): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getSecrets(vaultBaseUrl: string, options: Models.KeyVaultClientGetSecretsOptionalParams, callback: msRest.ServiceCallback<Models.SecretListResult>): void;
-  getSecrets(vaultBaseUrl: string, options?: Models.KeyVaultClientGetSecretsOptionalParams | msRest.ServiceCallback<Models.SecretListResult>, callback?: msRest.ServiceCallback<Models.SecretListResult>): Promise<Models.GetSecretsResponse> {
+  getSecrets(
+    vaultBaseUrl: string,
+    options: Models.KeyVaultClientGetSecretsOptionalParams,
+    callback: msRest.ServiceCallback<Models.SecretListResult>
+  ): void;
+  getSecrets(
+    vaultBaseUrl: string,
+    options?:
+      | Models.KeyVaultClientGetSecretsOptionalParams
+      | msRest.ServiceCallback<Models.SecretListResult>,
+    callback?: msRest.ServiceCallback<Models.SecretListResult>
+  ): Promise<Models.GetSecretsResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
         options
       },
       getSecretsOperationSpec,
-      callback) as Promise<Models.GetSecretsResponse>;
+      callback
+    ) as Promise<Models.GetSecretsResponse>;
   }
 
   /**
@@ -1030,21 +1627,41 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.GetSecretVersionsResponse>
    */
-  getSecretVersions(vaultBaseUrl: string, secretName: string, options?: Models.KeyVaultClientGetSecretVersionsOptionalParams): Promise<Models.GetSecretVersionsResponse>;
+  getSecretVersions(
+    vaultBaseUrl: string,
+    secretName: string,
+    options?: Models.KeyVaultClientGetSecretVersionsOptionalParams
+  ): Promise<Models.GetSecretVersionsResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param secretName The name of the secret.
    * @param callback The callback
    */
-  getSecretVersions(vaultBaseUrl: string, secretName: string, callback: msRest.ServiceCallback<Models.SecretListResult>): void;
+  getSecretVersions(
+    vaultBaseUrl: string,
+    secretName: string,
+    callback: msRest.ServiceCallback<Models.SecretListResult>
+  ): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param secretName The name of the secret.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getSecretVersions(vaultBaseUrl: string, secretName: string, options: Models.KeyVaultClientGetSecretVersionsOptionalParams, callback: msRest.ServiceCallback<Models.SecretListResult>): void;
-  getSecretVersions(vaultBaseUrl: string, secretName: string, options?: Models.KeyVaultClientGetSecretVersionsOptionalParams | msRest.ServiceCallback<Models.SecretListResult>, callback?: msRest.ServiceCallback<Models.SecretListResult>): Promise<Models.GetSecretVersionsResponse> {
+  getSecretVersions(
+    vaultBaseUrl: string,
+    secretName: string,
+    options: Models.KeyVaultClientGetSecretVersionsOptionalParams,
+    callback: msRest.ServiceCallback<Models.SecretListResult>
+  ): void;
+  getSecretVersions(
+    vaultBaseUrl: string,
+    secretName: string,
+    options?:
+      | Models.KeyVaultClientGetSecretVersionsOptionalParams
+      | msRest.ServiceCallback<Models.SecretListResult>,
+    callback?: msRest.ServiceCallback<Models.SecretListResult>
+  ): Promise<Models.GetSecretVersionsResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -1052,7 +1669,8 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       getSecretVersionsOperationSpec,
-      callback) as Promise<Models.GetSecretVersionsResponse>;
+      callback
+    ) as Promise<Models.GetSecretVersionsResponse>;
   }
 
   /**
@@ -1063,26 +1681,43 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.GetDeletedSecretsResponse>
    */
-  getDeletedSecrets(vaultBaseUrl: string, options?: Models.KeyVaultClientGetDeletedSecretsOptionalParams): Promise<Models.GetDeletedSecretsResponse>;
+  getDeletedSecrets(
+    vaultBaseUrl: string,
+    options?: Models.KeyVaultClientGetDeletedSecretsOptionalParams
+  ): Promise<Models.GetDeletedSecretsResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param callback The callback
    */
-  getDeletedSecrets(vaultBaseUrl: string, callback: msRest.ServiceCallback<Models.DeletedSecretListResult>): void;
+  getDeletedSecrets(
+    vaultBaseUrl: string,
+    callback: msRest.ServiceCallback<Models.DeletedSecretListResult>
+  ): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getDeletedSecrets(vaultBaseUrl: string, options: Models.KeyVaultClientGetDeletedSecretsOptionalParams, callback: msRest.ServiceCallback<Models.DeletedSecretListResult>): void;
-  getDeletedSecrets(vaultBaseUrl: string, options?: Models.KeyVaultClientGetDeletedSecretsOptionalParams | msRest.ServiceCallback<Models.DeletedSecretListResult>, callback?: msRest.ServiceCallback<Models.DeletedSecretListResult>): Promise<Models.GetDeletedSecretsResponse> {
+  getDeletedSecrets(
+    vaultBaseUrl: string,
+    options: Models.KeyVaultClientGetDeletedSecretsOptionalParams,
+    callback: msRest.ServiceCallback<Models.DeletedSecretListResult>
+  ): void;
+  getDeletedSecrets(
+    vaultBaseUrl: string,
+    options?:
+      | Models.KeyVaultClientGetDeletedSecretsOptionalParams
+      | msRest.ServiceCallback<Models.DeletedSecretListResult>,
+    callback?: msRest.ServiceCallback<Models.DeletedSecretListResult>
+  ): Promise<Models.GetDeletedSecretsResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
         options
       },
       getDeletedSecretsOperationSpec,
-      callback) as Promise<Models.GetDeletedSecretsResponse>;
+      callback
+    ) as Promise<Models.GetDeletedSecretsResponse>;
   }
 
   /**
@@ -1094,21 +1729,41 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.GetDeletedSecretResponse>
    */
-  getDeletedSecret(vaultBaseUrl: string, secretName: string, options?: msRest.RequestOptionsBase): Promise<Models.GetDeletedSecretResponse>;
+  getDeletedSecret(
+    vaultBaseUrl: string,
+    secretName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GetDeletedSecretResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param secretName The name of the secret.
    * @param callback The callback
    */
-  getDeletedSecret(vaultBaseUrl: string, secretName: string, callback: msRest.ServiceCallback<Models.DeletedSecretBundle>): void;
+  getDeletedSecret(
+    vaultBaseUrl: string,
+    secretName: string,
+    callback: msRest.ServiceCallback<Models.DeletedSecretBundle>
+  ): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param secretName The name of the secret.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getDeletedSecret(vaultBaseUrl: string, secretName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DeletedSecretBundle>): void;
-  getDeletedSecret(vaultBaseUrl: string, secretName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DeletedSecretBundle>, callback?: msRest.ServiceCallback<Models.DeletedSecretBundle>): Promise<Models.GetDeletedSecretResponse> {
+  getDeletedSecret(
+    vaultBaseUrl: string,
+    secretName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DeletedSecretBundle>
+  ): void;
+  getDeletedSecret(
+    vaultBaseUrl: string,
+    secretName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.DeletedSecretBundle>,
+    callback?: msRest.ServiceCallback<Models.DeletedSecretBundle>
+  ): Promise<Models.GetDeletedSecretResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -1116,7 +1771,8 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       getDeletedSecretOperationSpec,
-      callback) as Promise<Models.GetDeletedSecretResponse>;
+      callback
+    ) as Promise<Models.GetDeletedSecretResponse>;
   }
 
   /**
@@ -1129,21 +1785,39 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  purgeDeletedSecret(vaultBaseUrl: string, secretName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  purgeDeletedSecret(
+    vaultBaseUrl: string,
+    secretName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param secretName The name of the secret.
    * @param callback The callback
    */
-  purgeDeletedSecret(vaultBaseUrl: string, secretName: string, callback: msRest.ServiceCallback<void>): void;
+  purgeDeletedSecret(
+    vaultBaseUrl: string,
+    secretName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param secretName The name of the secret.
    * @param options The optional parameters
    * @param callback The callback
    */
-  purgeDeletedSecret(vaultBaseUrl: string, secretName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  purgeDeletedSecret(vaultBaseUrl: string, secretName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  purgeDeletedSecret(
+    vaultBaseUrl: string,
+    secretName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  purgeDeletedSecret(
+    vaultBaseUrl: string,
+    secretName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -1151,7 +1825,8 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       purgeDeletedSecretOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -1163,21 +1838,41 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.RecoverDeletedSecretResponse>
    */
-  recoverDeletedSecret(vaultBaseUrl: string, secretName: string, options?: msRest.RequestOptionsBase): Promise<Models.RecoverDeletedSecretResponse>;
+  recoverDeletedSecret(
+    vaultBaseUrl: string,
+    secretName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RecoverDeletedSecretResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param secretName The name of the deleted secret.
    * @param callback The callback
    */
-  recoverDeletedSecret(vaultBaseUrl: string, secretName: string, callback: msRest.ServiceCallback<Models.SecretBundle>): void;
+  recoverDeletedSecret(
+    vaultBaseUrl: string,
+    secretName: string,
+    callback: msRest.ServiceCallback<Models.SecretBundle>
+  ): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param secretName The name of the deleted secret.
    * @param options The optional parameters
    * @param callback The callback
    */
-  recoverDeletedSecret(vaultBaseUrl: string, secretName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SecretBundle>): void;
-  recoverDeletedSecret(vaultBaseUrl: string, secretName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecretBundle>, callback?: msRest.ServiceCallback<Models.SecretBundle>): Promise<Models.RecoverDeletedSecretResponse> {
+  recoverDeletedSecret(
+    vaultBaseUrl: string,
+    secretName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SecretBundle>
+  ): void;
+  recoverDeletedSecret(
+    vaultBaseUrl: string,
+    secretName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.SecretBundle>,
+    callback?: msRest.ServiceCallback<Models.SecretBundle>
+  ): Promise<Models.RecoverDeletedSecretResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -1185,7 +1880,8 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       recoverDeletedSecretOperationSpec,
-      callback) as Promise<Models.RecoverDeletedSecretResponse>;
+      callback
+    ) as Promise<Models.RecoverDeletedSecretResponse>;
   }
 
   /**
@@ -1197,21 +1893,41 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.BackupSecretResponse>
    */
-  backupSecret(vaultBaseUrl: string, secretName: string, options?: msRest.RequestOptionsBase): Promise<Models.BackupSecretResponse>;
+  backupSecret(
+    vaultBaseUrl: string,
+    secretName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.BackupSecretResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param secretName The name of the secret.
    * @param callback The callback
    */
-  backupSecret(vaultBaseUrl: string, secretName: string, callback: msRest.ServiceCallback<Models.BackupSecretResult>): void;
+  backupSecret(
+    vaultBaseUrl: string,
+    secretName: string,
+    callback: msRest.ServiceCallback<Models.BackupSecretResult>
+  ): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param secretName The name of the secret.
    * @param options The optional parameters
    * @param callback The callback
    */
-  backupSecret(vaultBaseUrl: string, secretName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BackupSecretResult>): void;
-  backupSecret(vaultBaseUrl: string, secretName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BackupSecretResult>, callback?: msRest.ServiceCallback<Models.BackupSecretResult>): Promise<Models.BackupSecretResponse> {
+  backupSecret(
+    vaultBaseUrl: string,
+    secretName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.BackupSecretResult>
+  ): void;
+  backupSecret(
+    vaultBaseUrl: string,
+    secretName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.BackupSecretResult>,
+    callback?: msRest.ServiceCallback<Models.BackupSecretResult>
+  ): Promise<Models.BackupSecretResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -1219,7 +1935,8 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       backupSecretOperationSpec,
-      callback) as Promise<Models.BackupSecretResponse>;
+      callback
+    ) as Promise<Models.BackupSecretResponse>;
   }
 
   /**
@@ -1231,21 +1948,41 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.RestoreSecretResponse>
    */
-  restoreSecret(vaultBaseUrl: string, secretBundleBackup: Uint8Array, options?: msRest.RequestOptionsBase): Promise<Models.RestoreSecretResponse>;
+  restoreSecret(
+    vaultBaseUrl: string,
+    secretBundleBackup: Uint8Array,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RestoreSecretResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param secretBundleBackup The backup blob associated with a secret bundle.
    * @param callback The callback
    */
-  restoreSecret(vaultBaseUrl: string, secretBundleBackup: Uint8Array, callback: msRest.ServiceCallback<Models.SecretBundle>): void;
+  restoreSecret(
+    vaultBaseUrl: string,
+    secretBundleBackup: Uint8Array,
+    callback: msRest.ServiceCallback<Models.SecretBundle>
+  ): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param secretBundleBackup The backup blob associated with a secret bundle.
    * @param options The optional parameters
    * @param callback The callback
    */
-  restoreSecret(vaultBaseUrl: string, secretBundleBackup: Uint8Array, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SecretBundle>): void;
-  restoreSecret(vaultBaseUrl: string, secretBundleBackup: Uint8Array, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecretBundle>, callback?: msRest.ServiceCallback<Models.SecretBundle>): Promise<Models.RestoreSecretResponse> {
+  restoreSecret(
+    vaultBaseUrl: string,
+    secretBundleBackup: Uint8Array,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SecretBundle>
+  ): void;
+  restoreSecret(
+    vaultBaseUrl: string,
+    secretBundleBackup: Uint8Array,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.SecretBundle>,
+    callback?: msRest.ServiceCallback<Models.SecretBundle>
+  ): Promise<Models.RestoreSecretResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -1253,7 +1990,8 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       restoreSecretOperationSpec,
-      callback) as Promise<Models.RestoreSecretResponse>;
+      callback
+    ) as Promise<Models.RestoreSecretResponse>;
   }
 
   /**
@@ -1264,26 +2002,43 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.GetCertificatesResponse>
    */
-  getCertificates(vaultBaseUrl: string, options?: Models.KeyVaultClientGetCertificatesOptionalParams): Promise<Models.GetCertificatesResponse>;
+  getCertificates(
+    vaultBaseUrl: string,
+    options?: Models.KeyVaultClientGetCertificatesOptionalParams
+  ): Promise<Models.GetCertificatesResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param callback The callback
    */
-  getCertificates(vaultBaseUrl: string, callback: msRest.ServiceCallback<Models.CertificateListResult>): void;
+  getCertificates(
+    vaultBaseUrl: string,
+    callback: msRest.ServiceCallback<Models.CertificateListResult>
+  ): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getCertificates(vaultBaseUrl: string, options: Models.KeyVaultClientGetCertificatesOptionalParams, callback: msRest.ServiceCallback<Models.CertificateListResult>): void;
-  getCertificates(vaultBaseUrl: string, options?: Models.KeyVaultClientGetCertificatesOptionalParams | msRest.ServiceCallback<Models.CertificateListResult>, callback?: msRest.ServiceCallback<Models.CertificateListResult>): Promise<Models.GetCertificatesResponse> {
+  getCertificates(
+    vaultBaseUrl: string,
+    options: Models.KeyVaultClientGetCertificatesOptionalParams,
+    callback: msRest.ServiceCallback<Models.CertificateListResult>
+  ): void;
+  getCertificates(
+    vaultBaseUrl: string,
+    options?:
+      | Models.KeyVaultClientGetCertificatesOptionalParams
+      | msRest.ServiceCallback<Models.CertificateListResult>,
+    callback?: msRest.ServiceCallback<Models.CertificateListResult>
+  ): Promise<Models.GetCertificatesResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
         options
       },
       getCertificatesOperationSpec,
-      callback) as Promise<Models.GetCertificatesResponse>;
+      callback
+    ) as Promise<Models.GetCertificatesResponse>;
   }
 
   /**
@@ -1296,21 +2051,41 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.DeleteCertificateResponse>
    */
-  deleteCertificate(vaultBaseUrl: string, certificateName: string, options?: msRest.RequestOptionsBase): Promise<Models.DeleteCertificateResponse>;
+  deleteCertificate(
+    vaultBaseUrl: string,
+    certificateName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DeleteCertificateResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param certificateName The name of the certificate.
    * @param callback The callback
    */
-  deleteCertificate(vaultBaseUrl: string, certificateName: string, callback: msRest.ServiceCallback<Models.DeletedCertificateBundle>): void;
+  deleteCertificate(
+    vaultBaseUrl: string,
+    certificateName: string,
+    callback: msRest.ServiceCallback<Models.DeletedCertificateBundle>
+  ): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param certificateName The name of the certificate.
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteCertificate(vaultBaseUrl: string, certificateName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DeletedCertificateBundle>): void;
-  deleteCertificate(vaultBaseUrl: string, certificateName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DeletedCertificateBundle>, callback?: msRest.ServiceCallback<Models.DeletedCertificateBundle>): Promise<Models.DeleteCertificateResponse> {
+  deleteCertificate(
+    vaultBaseUrl: string,
+    certificateName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DeletedCertificateBundle>
+  ): void;
+  deleteCertificate(
+    vaultBaseUrl: string,
+    certificateName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.DeletedCertificateBundle>,
+    callback?: msRest.ServiceCallback<Models.DeletedCertificateBundle>
+  ): Promise<Models.DeleteCertificateResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -1318,7 +2093,8 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       deleteCertificateOperationSpec,
-      callback) as Promise<Models.DeleteCertificateResponse>;
+      callback
+    ) as Promise<Models.DeleteCertificateResponse>;
   }
 
   /**
@@ -1330,21 +2106,41 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.SetCertificateContactsResponse>
    */
-  setCertificateContacts(vaultBaseUrl: string, contacts: Models.Contacts, options?: msRest.RequestOptionsBase): Promise<Models.SetCertificateContactsResponse>;
+  setCertificateContacts(
+    vaultBaseUrl: string,
+    contacts: Models.Contacts,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SetCertificateContactsResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param contacts The contacts for the key vault certificate.
    * @param callback The callback
    */
-  setCertificateContacts(vaultBaseUrl: string, contacts: Models.Contacts, callback: msRest.ServiceCallback<Models.Contacts>): void;
+  setCertificateContacts(
+    vaultBaseUrl: string,
+    contacts: Models.Contacts,
+    callback: msRest.ServiceCallback<Models.Contacts>
+  ): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param contacts The contacts for the key vault certificate.
    * @param options The optional parameters
    * @param callback The callback
    */
-  setCertificateContacts(vaultBaseUrl: string, contacts: Models.Contacts, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Contacts>): void;
-  setCertificateContacts(vaultBaseUrl: string, contacts: Models.Contacts, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Contacts>, callback?: msRest.ServiceCallback<Models.Contacts>): Promise<Models.SetCertificateContactsResponse> {
+  setCertificateContacts(
+    vaultBaseUrl: string,
+    contacts: Models.Contacts,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Contacts>
+  ): void;
+  setCertificateContacts(
+    vaultBaseUrl: string,
+    contacts: Models.Contacts,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.Contacts>,
+    callback?: msRest.ServiceCallback<Models.Contacts>
+  ): Promise<Models.SetCertificateContactsResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -1352,7 +2148,8 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       setCertificateContactsOperationSpec,
-      callback) as Promise<Models.SetCertificateContactsResponse>;
+      callback
+    ) as Promise<Models.SetCertificateContactsResponse>;
   }
 
   /**
@@ -1363,26 +2160,43 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.GetCertificateContactsResponse>
    */
-  getCertificateContacts(vaultBaseUrl: string, options?: msRest.RequestOptionsBase): Promise<Models.GetCertificateContactsResponse>;
+  getCertificateContacts(
+    vaultBaseUrl: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GetCertificateContactsResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param callback The callback
    */
-  getCertificateContacts(vaultBaseUrl: string, callback: msRest.ServiceCallback<Models.Contacts>): void;
+  getCertificateContacts(
+    vaultBaseUrl: string,
+    callback: msRest.ServiceCallback<Models.Contacts>
+  ): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getCertificateContacts(vaultBaseUrl: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Contacts>): void;
-  getCertificateContacts(vaultBaseUrl: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Contacts>, callback?: msRest.ServiceCallback<Models.Contacts>): Promise<Models.GetCertificateContactsResponse> {
+  getCertificateContacts(
+    vaultBaseUrl: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Contacts>
+  ): void;
+  getCertificateContacts(
+    vaultBaseUrl: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.Contacts>,
+    callback?: msRest.ServiceCallback<Models.Contacts>
+  ): Promise<Models.GetCertificateContactsResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
         options
       },
       getCertificateContactsOperationSpec,
-      callback) as Promise<Models.GetCertificateContactsResponse>;
+      callback
+    ) as Promise<Models.GetCertificateContactsResponse>;
   }
 
   /**
@@ -1393,26 +2207,43 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.DeleteCertificateContactsResponse>
    */
-  deleteCertificateContacts(vaultBaseUrl: string, options?: msRest.RequestOptionsBase): Promise<Models.DeleteCertificateContactsResponse>;
+  deleteCertificateContacts(
+    vaultBaseUrl: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DeleteCertificateContactsResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param callback The callback
    */
-  deleteCertificateContacts(vaultBaseUrl: string, callback: msRest.ServiceCallback<Models.Contacts>): void;
+  deleteCertificateContacts(
+    vaultBaseUrl: string,
+    callback: msRest.ServiceCallback<Models.Contacts>
+  ): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteCertificateContacts(vaultBaseUrl: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Contacts>): void;
-  deleteCertificateContacts(vaultBaseUrl: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Contacts>, callback?: msRest.ServiceCallback<Models.Contacts>): Promise<Models.DeleteCertificateContactsResponse> {
+  deleteCertificateContacts(
+    vaultBaseUrl: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Contacts>
+  ): void;
+  deleteCertificateContacts(
+    vaultBaseUrl: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.Contacts>,
+    callback?: msRest.ServiceCallback<Models.Contacts>
+  ): Promise<Models.DeleteCertificateContactsResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
         options
       },
       deleteCertificateContactsOperationSpec,
-      callback) as Promise<Models.DeleteCertificateContactsResponse>;
+      callback
+    ) as Promise<Models.DeleteCertificateContactsResponse>;
   }
 
   /**
@@ -1424,26 +2255,43 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.GetCertificateIssuersResponse>
    */
-  getCertificateIssuers(vaultBaseUrl: string, options?: Models.KeyVaultClientGetCertificateIssuersOptionalParams): Promise<Models.GetCertificateIssuersResponse>;
+  getCertificateIssuers(
+    vaultBaseUrl: string,
+    options?: Models.KeyVaultClientGetCertificateIssuersOptionalParams
+  ): Promise<Models.GetCertificateIssuersResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param callback The callback
    */
-  getCertificateIssuers(vaultBaseUrl: string, callback: msRest.ServiceCallback<Models.CertificateIssuerListResult>): void;
+  getCertificateIssuers(
+    vaultBaseUrl: string,
+    callback: msRest.ServiceCallback<Models.CertificateIssuerListResult>
+  ): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getCertificateIssuers(vaultBaseUrl: string, options: Models.KeyVaultClientGetCertificateIssuersOptionalParams, callback: msRest.ServiceCallback<Models.CertificateIssuerListResult>): void;
-  getCertificateIssuers(vaultBaseUrl: string, options?: Models.KeyVaultClientGetCertificateIssuersOptionalParams | msRest.ServiceCallback<Models.CertificateIssuerListResult>, callback?: msRest.ServiceCallback<Models.CertificateIssuerListResult>): Promise<Models.GetCertificateIssuersResponse> {
+  getCertificateIssuers(
+    vaultBaseUrl: string,
+    options: Models.KeyVaultClientGetCertificateIssuersOptionalParams,
+    callback: msRest.ServiceCallback<Models.CertificateIssuerListResult>
+  ): void;
+  getCertificateIssuers(
+    vaultBaseUrl: string,
+    options?:
+      | Models.KeyVaultClientGetCertificateIssuersOptionalParams
+      | msRest.ServiceCallback<Models.CertificateIssuerListResult>,
+    callback?: msRest.ServiceCallback<Models.CertificateIssuerListResult>
+  ): Promise<Models.GetCertificateIssuersResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
         options
       },
       getCertificateIssuersOperationSpec,
-      callback) as Promise<Models.GetCertificateIssuersResponse>;
+      callback
+    ) as Promise<Models.GetCertificateIssuersResponse>;
   }
 
   /**
@@ -1456,14 +2304,24 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.SetCertificateIssuerResponse>
    */
-  setCertificateIssuer(vaultBaseUrl: string, issuerName: string, provider: string, options?: Models.KeyVaultClientSetCertificateIssuerOptionalParams): Promise<Models.SetCertificateIssuerResponse>;
+  setCertificateIssuer(
+    vaultBaseUrl: string,
+    issuerName: string,
+    provider: string,
+    options?: Models.KeyVaultClientSetCertificateIssuerOptionalParams
+  ): Promise<Models.SetCertificateIssuerResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param issuerName The name of the issuer.
    * @param provider The issuer provider.
    * @param callback The callback
    */
-  setCertificateIssuer(vaultBaseUrl: string, issuerName: string, provider: string, callback: msRest.ServiceCallback<Models.IssuerBundle>): void;
+  setCertificateIssuer(
+    vaultBaseUrl: string,
+    issuerName: string,
+    provider: string,
+    callback: msRest.ServiceCallback<Models.IssuerBundle>
+  ): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param issuerName The name of the issuer.
@@ -1471,8 +2329,22 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  setCertificateIssuer(vaultBaseUrl: string, issuerName: string, provider: string, options: Models.KeyVaultClientSetCertificateIssuerOptionalParams, callback: msRest.ServiceCallback<Models.IssuerBundle>): void;
-  setCertificateIssuer(vaultBaseUrl: string, issuerName: string, provider: string, options?: Models.KeyVaultClientSetCertificateIssuerOptionalParams | msRest.ServiceCallback<Models.IssuerBundle>, callback?: msRest.ServiceCallback<Models.IssuerBundle>): Promise<Models.SetCertificateIssuerResponse> {
+  setCertificateIssuer(
+    vaultBaseUrl: string,
+    issuerName: string,
+    provider: string,
+    options: Models.KeyVaultClientSetCertificateIssuerOptionalParams,
+    callback: msRest.ServiceCallback<Models.IssuerBundle>
+  ): void;
+  setCertificateIssuer(
+    vaultBaseUrl: string,
+    issuerName: string,
+    provider: string,
+    options?:
+      | Models.KeyVaultClientSetCertificateIssuerOptionalParams
+      | msRest.ServiceCallback<Models.IssuerBundle>,
+    callback?: msRest.ServiceCallback<Models.IssuerBundle>
+  ): Promise<Models.SetCertificateIssuerResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -1481,7 +2353,8 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       setCertificateIssuerOperationSpec,
-      callback) as Promise<Models.SetCertificateIssuerResponse>;
+      callback
+    ) as Promise<Models.SetCertificateIssuerResponse>;
   }
 
   /**
@@ -1493,21 +2366,41 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.UpdateCertificateIssuerResponse>
    */
-  updateCertificateIssuer(vaultBaseUrl: string, issuerName: string, options?: Models.KeyVaultClientUpdateCertificateIssuerOptionalParams): Promise<Models.UpdateCertificateIssuerResponse>;
+  updateCertificateIssuer(
+    vaultBaseUrl: string,
+    issuerName: string,
+    options?: Models.KeyVaultClientUpdateCertificateIssuerOptionalParams
+  ): Promise<Models.UpdateCertificateIssuerResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param issuerName The name of the issuer.
    * @param callback The callback
    */
-  updateCertificateIssuer(vaultBaseUrl: string, issuerName: string, callback: msRest.ServiceCallback<Models.IssuerBundle>): void;
+  updateCertificateIssuer(
+    vaultBaseUrl: string,
+    issuerName: string,
+    callback: msRest.ServiceCallback<Models.IssuerBundle>
+  ): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param issuerName The name of the issuer.
    * @param options The optional parameters
    * @param callback The callback
    */
-  updateCertificateIssuer(vaultBaseUrl: string, issuerName: string, options: Models.KeyVaultClientUpdateCertificateIssuerOptionalParams, callback: msRest.ServiceCallback<Models.IssuerBundle>): void;
-  updateCertificateIssuer(vaultBaseUrl: string, issuerName: string, options?: Models.KeyVaultClientUpdateCertificateIssuerOptionalParams | msRest.ServiceCallback<Models.IssuerBundle>, callback?: msRest.ServiceCallback<Models.IssuerBundle>): Promise<Models.UpdateCertificateIssuerResponse> {
+  updateCertificateIssuer(
+    vaultBaseUrl: string,
+    issuerName: string,
+    options: Models.KeyVaultClientUpdateCertificateIssuerOptionalParams,
+    callback: msRest.ServiceCallback<Models.IssuerBundle>
+  ): void;
+  updateCertificateIssuer(
+    vaultBaseUrl: string,
+    issuerName: string,
+    options?:
+      | Models.KeyVaultClientUpdateCertificateIssuerOptionalParams
+      | msRest.ServiceCallback<Models.IssuerBundle>,
+    callback?: msRest.ServiceCallback<Models.IssuerBundle>
+  ): Promise<Models.UpdateCertificateIssuerResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -1515,7 +2408,8 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       updateCertificateIssuerOperationSpec,
-      callback) as Promise<Models.UpdateCertificateIssuerResponse>;
+      callback
+    ) as Promise<Models.UpdateCertificateIssuerResponse>;
   }
 
   /**
@@ -1528,21 +2422,41 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.GetCertificateIssuerResponse>
    */
-  getCertificateIssuer(vaultBaseUrl: string, issuerName: string, options?: msRest.RequestOptionsBase): Promise<Models.GetCertificateIssuerResponse>;
+  getCertificateIssuer(
+    vaultBaseUrl: string,
+    issuerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GetCertificateIssuerResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param issuerName The name of the issuer.
    * @param callback The callback
    */
-  getCertificateIssuer(vaultBaseUrl: string, issuerName: string, callback: msRest.ServiceCallback<Models.IssuerBundle>): void;
+  getCertificateIssuer(
+    vaultBaseUrl: string,
+    issuerName: string,
+    callback: msRest.ServiceCallback<Models.IssuerBundle>
+  ): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param issuerName The name of the issuer.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getCertificateIssuer(vaultBaseUrl: string, issuerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IssuerBundle>): void;
-  getCertificateIssuer(vaultBaseUrl: string, issuerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IssuerBundle>, callback?: msRest.ServiceCallback<Models.IssuerBundle>): Promise<Models.GetCertificateIssuerResponse> {
+  getCertificateIssuer(
+    vaultBaseUrl: string,
+    issuerName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.IssuerBundle>
+  ): void;
+  getCertificateIssuer(
+    vaultBaseUrl: string,
+    issuerName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.IssuerBundle>,
+    callback?: msRest.ServiceCallback<Models.IssuerBundle>
+  ): Promise<Models.GetCertificateIssuerResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -1550,7 +2464,8 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       getCertificateIssuerOperationSpec,
-      callback) as Promise<Models.GetCertificateIssuerResponse>;
+      callback
+    ) as Promise<Models.GetCertificateIssuerResponse>;
   }
 
   /**
@@ -1562,21 +2477,41 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.DeleteCertificateIssuerResponse>
    */
-  deleteCertificateIssuer(vaultBaseUrl: string, issuerName: string, options?: msRest.RequestOptionsBase): Promise<Models.DeleteCertificateIssuerResponse>;
+  deleteCertificateIssuer(
+    vaultBaseUrl: string,
+    issuerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DeleteCertificateIssuerResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param issuerName The name of the issuer.
    * @param callback The callback
    */
-  deleteCertificateIssuer(vaultBaseUrl: string, issuerName: string, callback: msRest.ServiceCallback<Models.IssuerBundle>): void;
+  deleteCertificateIssuer(
+    vaultBaseUrl: string,
+    issuerName: string,
+    callback: msRest.ServiceCallback<Models.IssuerBundle>
+  ): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param issuerName The name of the issuer.
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteCertificateIssuer(vaultBaseUrl: string, issuerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IssuerBundle>): void;
-  deleteCertificateIssuer(vaultBaseUrl: string, issuerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IssuerBundle>, callback?: msRest.ServiceCallback<Models.IssuerBundle>): Promise<Models.DeleteCertificateIssuerResponse> {
+  deleteCertificateIssuer(
+    vaultBaseUrl: string,
+    issuerName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.IssuerBundle>
+  ): void;
+  deleteCertificateIssuer(
+    vaultBaseUrl: string,
+    issuerName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.IssuerBundle>,
+    callback?: msRest.ServiceCallback<Models.IssuerBundle>
+  ): Promise<Models.DeleteCertificateIssuerResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -1584,7 +2519,8 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       deleteCertificateIssuerOperationSpec,
-      callback) as Promise<Models.DeleteCertificateIssuerResponse>;
+      callback
+    ) as Promise<Models.DeleteCertificateIssuerResponse>;
   }
 
   /**
@@ -1596,21 +2532,41 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.CreateCertificateResponse>
    */
-  createCertificate(vaultBaseUrl: string, certificateName: string, options?: Models.KeyVaultClientCreateCertificateOptionalParams): Promise<Models.CreateCertificateResponse>;
+  createCertificate(
+    vaultBaseUrl: string,
+    certificateName: string,
+    options?: Models.KeyVaultClientCreateCertificateOptionalParams
+  ): Promise<Models.CreateCertificateResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param certificateName The name of the certificate.
    * @param callback The callback
    */
-  createCertificate(vaultBaseUrl: string, certificateName: string, callback: msRest.ServiceCallback<Models.CertificateOperation>): void;
+  createCertificate(
+    vaultBaseUrl: string,
+    certificateName: string,
+    callback: msRest.ServiceCallback<Models.CertificateOperation>
+  ): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param certificateName The name of the certificate.
    * @param options The optional parameters
    * @param callback The callback
    */
-  createCertificate(vaultBaseUrl: string, certificateName: string, options: Models.KeyVaultClientCreateCertificateOptionalParams, callback: msRest.ServiceCallback<Models.CertificateOperation>): void;
-  createCertificate(vaultBaseUrl: string, certificateName: string, options?: Models.KeyVaultClientCreateCertificateOptionalParams | msRest.ServiceCallback<Models.CertificateOperation>, callback?: msRest.ServiceCallback<Models.CertificateOperation>): Promise<Models.CreateCertificateResponse> {
+  createCertificate(
+    vaultBaseUrl: string,
+    certificateName: string,
+    options: Models.KeyVaultClientCreateCertificateOptionalParams,
+    callback: msRest.ServiceCallback<Models.CertificateOperation>
+  ): void;
+  createCertificate(
+    vaultBaseUrl: string,
+    certificateName: string,
+    options?:
+      | Models.KeyVaultClientCreateCertificateOptionalParams
+      | msRest.ServiceCallback<Models.CertificateOperation>,
+    callback?: msRest.ServiceCallback<Models.CertificateOperation>
+  ): Promise<Models.CreateCertificateResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -1618,7 +2574,8 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       createCertificateOperationSpec,
-      callback) as Promise<Models.CreateCertificateResponse>;
+      callback
+    ) as Promise<Models.CreateCertificateResponse>;
   }
 
   /**
@@ -1634,7 +2591,12 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.ImportCertificateResponse>
    */
-  importCertificate(vaultBaseUrl: string, certificateName: string, base64EncodedCertificate: string, options?: Models.KeyVaultClientImportCertificateOptionalParams): Promise<Models.ImportCertificateResponse>;
+  importCertificate(
+    vaultBaseUrl: string,
+    certificateName: string,
+    base64EncodedCertificate: string,
+    options?: Models.KeyVaultClientImportCertificateOptionalParams
+  ): Promise<Models.ImportCertificateResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param certificateName The name of the certificate.
@@ -1642,7 +2604,12 @@ class KeyVaultClient extends KeyVaultClientContext {
    * import. This certificate needs to contain the private key.
    * @param callback The callback
    */
-  importCertificate(vaultBaseUrl: string, certificateName: string, base64EncodedCertificate: string, callback: msRest.ServiceCallback<Models.CertificateBundle>): void;
+  importCertificate(
+    vaultBaseUrl: string,
+    certificateName: string,
+    base64EncodedCertificate: string,
+    callback: msRest.ServiceCallback<Models.CertificateBundle>
+  ): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param certificateName The name of the certificate.
@@ -1651,8 +2618,22 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  importCertificate(vaultBaseUrl: string, certificateName: string, base64EncodedCertificate: string, options: Models.KeyVaultClientImportCertificateOptionalParams, callback: msRest.ServiceCallback<Models.CertificateBundle>): void;
-  importCertificate(vaultBaseUrl: string, certificateName: string, base64EncodedCertificate: string, options?: Models.KeyVaultClientImportCertificateOptionalParams | msRest.ServiceCallback<Models.CertificateBundle>, callback?: msRest.ServiceCallback<Models.CertificateBundle>): Promise<Models.ImportCertificateResponse> {
+  importCertificate(
+    vaultBaseUrl: string,
+    certificateName: string,
+    base64EncodedCertificate: string,
+    options: Models.KeyVaultClientImportCertificateOptionalParams,
+    callback: msRest.ServiceCallback<Models.CertificateBundle>
+  ): void;
+  importCertificate(
+    vaultBaseUrl: string,
+    certificateName: string,
+    base64EncodedCertificate: string,
+    options?:
+      | Models.KeyVaultClientImportCertificateOptionalParams
+      | msRest.ServiceCallback<Models.CertificateBundle>,
+    callback?: msRest.ServiceCallback<Models.CertificateBundle>
+  ): Promise<Models.ImportCertificateResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -1661,7 +2642,8 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       importCertificateOperationSpec,
-      callback) as Promise<Models.ImportCertificateResponse>;
+      callback
+    ) as Promise<Models.ImportCertificateResponse>;
   }
 
   /**
@@ -1673,21 +2655,41 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.GetCertificateVersionsResponse>
    */
-  getCertificateVersions(vaultBaseUrl: string, certificateName: string, options?: Models.KeyVaultClientGetCertificateVersionsOptionalParams): Promise<Models.GetCertificateVersionsResponse>;
+  getCertificateVersions(
+    vaultBaseUrl: string,
+    certificateName: string,
+    options?: Models.KeyVaultClientGetCertificateVersionsOptionalParams
+  ): Promise<Models.GetCertificateVersionsResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param certificateName The name of the certificate.
    * @param callback The callback
    */
-  getCertificateVersions(vaultBaseUrl: string, certificateName: string, callback: msRest.ServiceCallback<Models.CertificateListResult>): void;
+  getCertificateVersions(
+    vaultBaseUrl: string,
+    certificateName: string,
+    callback: msRest.ServiceCallback<Models.CertificateListResult>
+  ): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param certificateName The name of the certificate.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getCertificateVersions(vaultBaseUrl: string, certificateName: string, options: Models.KeyVaultClientGetCertificateVersionsOptionalParams, callback: msRest.ServiceCallback<Models.CertificateListResult>): void;
-  getCertificateVersions(vaultBaseUrl: string, certificateName: string, options?: Models.KeyVaultClientGetCertificateVersionsOptionalParams | msRest.ServiceCallback<Models.CertificateListResult>, callback?: msRest.ServiceCallback<Models.CertificateListResult>): Promise<Models.GetCertificateVersionsResponse> {
+  getCertificateVersions(
+    vaultBaseUrl: string,
+    certificateName: string,
+    options: Models.KeyVaultClientGetCertificateVersionsOptionalParams,
+    callback: msRest.ServiceCallback<Models.CertificateListResult>
+  ): void;
+  getCertificateVersions(
+    vaultBaseUrl: string,
+    certificateName: string,
+    options?:
+      | Models.KeyVaultClientGetCertificateVersionsOptionalParams
+      | msRest.ServiceCallback<Models.CertificateListResult>,
+    callback?: msRest.ServiceCallback<Models.CertificateListResult>
+  ): Promise<Models.GetCertificateVersionsResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -1695,7 +2697,8 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       getCertificateVersionsOperationSpec,
-      callback) as Promise<Models.GetCertificateVersionsResponse>;
+      callback
+    ) as Promise<Models.GetCertificateVersionsResponse>;
   }
 
   /**
@@ -1707,21 +2710,41 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.GetCertificatePolicyResponse>
    */
-  getCertificatePolicy(vaultBaseUrl: string, certificateName: string, options?: msRest.RequestOptionsBase): Promise<Models.GetCertificatePolicyResponse>;
+  getCertificatePolicy(
+    vaultBaseUrl: string,
+    certificateName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GetCertificatePolicyResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param certificateName The name of the certificate in a given key vault.
    * @param callback The callback
    */
-  getCertificatePolicy(vaultBaseUrl: string, certificateName: string, callback: msRest.ServiceCallback<Models.CertificatePolicy>): void;
+  getCertificatePolicy(
+    vaultBaseUrl: string,
+    certificateName: string,
+    callback: msRest.ServiceCallback<Models.CertificatePolicy>
+  ): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param certificateName The name of the certificate in a given key vault.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getCertificatePolicy(vaultBaseUrl: string, certificateName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CertificatePolicy>): void;
-  getCertificatePolicy(vaultBaseUrl: string, certificateName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CertificatePolicy>, callback?: msRest.ServiceCallback<Models.CertificatePolicy>): Promise<Models.GetCertificatePolicyResponse> {
+  getCertificatePolicy(
+    vaultBaseUrl: string,
+    certificateName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.CertificatePolicy>
+  ): void;
+  getCertificatePolicy(
+    vaultBaseUrl: string,
+    certificateName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.CertificatePolicy>,
+    callback?: msRest.ServiceCallback<Models.CertificatePolicy>
+  ): Promise<Models.GetCertificatePolicyResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -1729,7 +2752,8 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       getCertificatePolicyOperationSpec,
-      callback) as Promise<Models.GetCertificatePolicyResponse>;
+      callback
+    ) as Promise<Models.GetCertificatePolicyResponse>;
   }
 
   /**
@@ -1742,14 +2766,24 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.UpdateCertificatePolicyResponse>
    */
-  updateCertificatePolicy(vaultBaseUrl: string, certificateName: string, certificatePolicy: Models.CertificatePolicy, options?: msRest.RequestOptionsBase): Promise<Models.UpdateCertificatePolicyResponse>;
+  updateCertificatePolicy(
+    vaultBaseUrl: string,
+    certificateName: string,
+    certificatePolicy: Models.CertificatePolicy,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.UpdateCertificatePolicyResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param certificateName The name of the certificate in the given vault.
    * @param certificatePolicy The policy for the certificate.
    * @param callback The callback
    */
-  updateCertificatePolicy(vaultBaseUrl: string, certificateName: string, certificatePolicy: Models.CertificatePolicy, callback: msRest.ServiceCallback<Models.CertificatePolicy>): void;
+  updateCertificatePolicy(
+    vaultBaseUrl: string,
+    certificateName: string,
+    certificatePolicy: Models.CertificatePolicy,
+    callback: msRest.ServiceCallback<Models.CertificatePolicy>
+  ): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param certificateName The name of the certificate in the given vault.
@@ -1757,8 +2791,22 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  updateCertificatePolicy(vaultBaseUrl: string, certificateName: string, certificatePolicy: Models.CertificatePolicy, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CertificatePolicy>): void;
-  updateCertificatePolicy(vaultBaseUrl: string, certificateName: string, certificatePolicy: Models.CertificatePolicy, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CertificatePolicy>, callback?: msRest.ServiceCallback<Models.CertificatePolicy>): Promise<Models.UpdateCertificatePolicyResponse> {
+  updateCertificatePolicy(
+    vaultBaseUrl: string,
+    certificateName: string,
+    certificatePolicy: Models.CertificatePolicy,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.CertificatePolicy>
+  ): void;
+  updateCertificatePolicy(
+    vaultBaseUrl: string,
+    certificateName: string,
+    certificatePolicy: Models.CertificatePolicy,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.CertificatePolicy>,
+    callback?: msRest.ServiceCallback<Models.CertificatePolicy>
+  ): Promise<Models.UpdateCertificatePolicyResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -1767,7 +2815,8 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       updateCertificatePolicyOperationSpec,
-      callback) as Promise<Models.UpdateCertificatePolicyResponse>;
+      callback
+    ) as Promise<Models.UpdateCertificatePolicyResponse>;
   }
 
   /**
@@ -1781,14 +2830,24 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.UpdateCertificateResponse>
    */
-  updateCertificate(vaultBaseUrl: string, certificateName: string, certificateVersion: string, options?: Models.KeyVaultClientUpdateCertificateOptionalParams): Promise<Models.UpdateCertificateResponse>;
+  updateCertificate(
+    vaultBaseUrl: string,
+    certificateName: string,
+    certificateVersion: string,
+    options?: Models.KeyVaultClientUpdateCertificateOptionalParams
+  ): Promise<Models.UpdateCertificateResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param certificateName The name of the certificate in the given key vault.
    * @param certificateVersion The version of the certificate.
    * @param callback The callback
    */
-  updateCertificate(vaultBaseUrl: string, certificateName: string, certificateVersion: string, callback: msRest.ServiceCallback<Models.CertificateBundle>): void;
+  updateCertificate(
+    vaultBaseUrl: string,
+    certificateName: string,
+    certificateVersion: string,
+    callback: msRest.ServiceCallback<Models.CertificateBundle>
+  ): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param certificateName The name of the certificate in the given key vault.
@@ -1796,8 +2855,22 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  updateCertificate(vaultBaseUrl: string, certificateName: string, certificateVersion: string, options: Models.KeyVaultClientUpdateCertificateOptionalParams, callback: msRest.ServiceCallback<Models.CertificateBundle>): void;
-  updateCertificate(vaultBaseUrl: string, certificateName: string, certificateVersion: string, options?: Models.KeyVaultClientUpdateCertificateOptionalParams | msRest.ServiceCallback<Models.CertificateBundle>, callback?: msRest.ServiceCallback<Models.CertificateBundle>): Promise<Models.UpdateCertificateResponse> {
+  updateCertificate(
+    vaultBaseUrl: string,
+    certificateName: string,
+    certificateVersion: string,
+    options: Models.KeyVaultClientUpdateCertificateOptionalParams,
+    callback: msRest.ServiceCallback<Models.CertificateBundle>
+  ): void;
+  updateCertificate(
+    vaultBaseUrl: string,
+    certificateName: string,
+    certificateVersion: string,
+    options?:
+      | Models.KeyVaultClientUpdateCertificateOptionalParams
+      | msRest.ServiceCallback<Models.CertificateBundle>,
+    callback?: msRest.ServiceCallback<Models.CertificateBundle>
+  ): Promise<Models.UpdateCertificateResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -1806,7 +2879,8 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       updateCertificateOperationSpec,
-      callback) as Promise<Models.UpdateCertificateResponse>;
+      callback
+    ) as Promise<Models.UpdateCertificateResponse>;
   }
 
   /**
@@ -1819,14 +2893,24 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.GetCertificateResponse>
    */
-  getCertificate(vaultBaseUrl: string, certificateName: string, certificateVersion: string, options?: msRest.RequestOptionsBase): Promise<Models.GetCertificateResponse>;
+  getCertificate(
+    vaultBaseUrl: string,
+    certificateName: string,
+    certificateVersion: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GetCertificateResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param certificateName The name of the certificate in the given vault.
    * @param certificateVersion The version of the certificate.
    * @param callback The callback
    */
-  getCertificate(vaultBaseUrl: string, certificateName: string, certificateVersion: string, callback: msRest.ServiceCallback<Models.CertificateBundle>): void;
+  getCertificate(
+    vaultBaseUrl: string,
+    certificateName: string,
+    certificateVersion: string,
+    callback: msRest.ServiceCallback<Models.CertificateBundle>
+  ): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param certificateName The name of the certificate in the given vault.
@@ -1834,8 +2918,22 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getCertificate(vaultBaseUrl: string, certificateName: string, certificateVersion: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CertificateBundle>): void;
-  getCertificate(vaultBaseUrl: string, certificateName: string, certificateVersion: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CertificateBundle>, callback?: msRest.ServiceCallback<Models.CertificateBundle>): Promise<Models.GetCertificateResponse> {
+  getCertificate(
+    vaultBaseUrl: string,
+    certificateName: string,
+    certificateVersion: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.CertificateBundle>
+  ): void;
+  getCertificate(
+    vaultBaseUrl: string,
+    certificateName: string,
+    certificateVersion: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.CertificateBundle>,
+    callback?: msRest.ServiceCallback<Models.CertificateBundle>
+  ): Promise<Models.GetCertificateResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -1844,7 +2942,8 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       getCertificateOperationSpec,
-      callback) as Promise<Models.GetCertificateResponse>;
+      callback
+    ) as Promise<Models.GetCertificateResponse>;
   }
 
   /**
@@ -1858,7 +2957,12 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.UpdateCertificateOperationResponse>
    */
-  updateCertificateOperation(vaultBaseUrl: string, certificateName: string, cancellationRequested: boolean, options?: msRest.RequestOptionsBase): Promise<Models.UpdateCertificateOperationResponse>;
+  updateCertificateOperation(
+    vaultBaseUrl: string,
+    certificateName: string,
+    cancellationRequested: boolean,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.UpdateCertificateOperationResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param certificateName The name of the certificate.
@@ -1866,7 +2970,12 @@ class KeyVaultClient extends KeyVaultClientContext {
    * operation.
    * @param callback The callback
    */
-  updateCertificateOperation(vaultBaseUrl: string, certificateName: string, cancellationRequested: boolean, callback: msRest.ServiceCallback<Models.CertificateOperation>): void;
+  updateCertificateOperation(
+    vaultBaseUrl: string,
+    certificateName: string,
+    cancellationRequested: boolean,
+    callback: msRest.ServiceCallback<Models.CertificateOperation>
+  ): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param certificateName The name of the certificate.
@@ -1875,8 +2984,22 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  updateCertificateOperation(vaultBaseUrl: string, certificateName: string, cancellationRequested: boolean, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CertificateOperation>): void;
-  updateCertificateOperation(vaultBaseUrl: string, certificateName: string, cancellationRequested: boolean, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CertificateOperation>, callback?: msRest.ServiceCallback<Models.CertificateOperation>): Promise<Models.UpdateCertificateOperationResponse> {
+  updateCertificateOperation(
+    vaultBaseUrl: string,
+    certificateName: string,
+    cancellationRequested: boolean,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.CertificateOperation>
+  ): void;
+  updateCertificateOperation(
+    vaultBaseUrl: string,
+    certificateName: string,
+    cancellationRequested: boolean,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.CertificateOperation>,
+    callback?: msRest.ServiceCallback<Models.CertificateOperation>
+  ): Promise<Models.UpdateCertificateOperationResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -1885,7 +3008,8 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       updateCertificateOperationOperationSpec,
-      callback) as Promise<Models.UpdateCertificateOperationResponse>;
+      callback
+    ) as Promise<Models.UpdateCertificateOperationResponse>;
   }
 
   /**
@@ -1897,21 +3021,41 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.GetCertificateOperationResponse>
    */
-  getCertificateOperation(vaultBaseUrl: string, certificateName: string, options?: msRest.RequestOptionsBase): Promise<Models.GetCertificateOperationResponse>;
+  getCertificateOperation(
+    vaultBaseUrl: string,
+    certificateName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GetCertificateOperationResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param certificateName The name of the certificate.
    * @param callback The callback
    */
-  getCertificateOperation(vaultBaseUrl: string, certificateName: string, callback: msRest.ServiceCallback<Models.CertificateOperation>): void;
+  getCertificateOperation(
+    vaultBaseUrl: string,
+    certificateName: string,
+    callback: msRest.ServiceCallback<Models.CertificateOperation>
+  ): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param certificateName The name of the certificate.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getCertificateOperation(vaultBaseUrl: string, certificateName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CertificateOperation>): void;
-  getCertificateOperation(vaultBaseUrl: string, certificateName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CertificateOperation>, callback?: msRest.ServiceCallback<Models.CertificateOperation>): Promise<Models.GetCertificateOperationResponse> {
+  getCertificateOperation(
+    vaultBaseUrl: string,
+    certificateName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.CertificateOperation>
+  ): void;
+  getCertificateOperation(
+    vaultBaseUrl: string,
+    certificateName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.CertificateOperation>,
+    callback?: msRest.ServiceCallback<Models.CertificateOperation>
+  ): Promise<Models.GetCertificateOperationResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -1919,7 +3063,8 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       getCertificateOperationOperationSpec,
-      callback) as Promise<Models.GetCertificateOperationResponse>;
+      callback
+    ) as Promise<Models.GetCertificateOperationResponse>;
   }
 
   /**
@@ -1932,21 +3077,41 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.DeleteCertificateOperationResponse>
    */
-  deleteCertificateOperation(vaultBaseUrl: string, certificateName: string, options?: msRest.RequestOptionsBase): Promise<Models.DeleteCertificateOperationResponse>;
+  deleteCertificateOperation(
+    vaultBaseUrl: string,
+    certificateName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DeleteCertificateOperationResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param certificateName The name of the certificate.
    * @param callback The callback
    */
-  deleteCertificateOperation(vaultBaseUrl: string, certificateName: string, callback: msRest.ServiceCallback<Models.CertificateOperation>): void;
+  deleteCertificateOperation(
+    vaultBaseUrl: string,
+    certificateName: string,
+    callback: msRest.ServiceCallback<Models.CertificateOperation>
+  ): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param certificateName The name of the certificate.
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteCertificateOperation(vaultBaseUrl: string, certificateName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CertificateOperation>): void;
-  deleteCertificateOperation(vaultBaseUrl: string, certificateName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CertificateOperation>, callback?: msRest.ServiceCallback<Models.CertificateOperation>): Promise<Models.DeleteCertificateOperationResponse> {
+  deleteCertificateOperation(
+    vaultBaseUrl: string,
+    certificateName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.CertificateOperation>
+  ): void;
+  deleteCertificateOperation(
+    vaultBaseUrl: string,
+    certificateName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.CertificateOperation>,
+    callback?: msRest.ServiceCallback<Models.CertificateOperation>
+  ): Promise<Models.DeleteCertificateOperationResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -1954,7 +3119,8 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       deleteCertificateOperationOperationSpec,
-      callback) as Promise<Models.DeleteCertificateOperationResponse>;
+      callback
+    ) as Promise<Models.DeleteCertificateOperationResponse>;
   }
 
   /**
@@ -1968,14 +3134,24 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.MergeCertificateResponse>
    */
-  mergeCertificate(vaultBaseUrl: string, certificateName: string, x509Certificates: Uint8Array[], options?: Models.KeyVaultClientMergeCertificateOptionalParams): Promise<Models.MergeCertificateResponse>;
+  mergeCertificate(
+    vaultBaseUrl: string,
+    certificateName: string,
+    x509Certificates: Uint8Array[],
+    options?: Models.KeyVaultClientMergeCertificateOptionalParams
+  ): Promise<Models.MergeCertificateResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param certificateName The name of the certificate.
    * @param x509Certificates The certificate or the certificate chain to merge.
    * @param callback The callback
    */
-  mergeCertificate(vaultBaseUrl: string, certificateName: string, x509Certificates: Uint8Array[], callback: msRest.ServiceCallback<Models.CertificateBundle>): void;
+  mergeCertificate(
+    vaultBaseUrl: string,
+    certificateName: string,
+    x509Certificates: Uint8Array[],
+    callback: msRest.ServiceCallback<Models.CertificateBundle>
+  ): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param certificateName The name of the certificate.
@@ -1983,8 +3159,22 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  mergeCertificate(vaultBaseUrl: string, certificateName: string, x509Certificates: Uint8Array[], options: Models.KeyVaultClientMergeCertificateOptionalParams, callback: msRest.ServiceCallback<Models.CertificateBundle>): void;
-  mergeCertificate(vaultBaseUrl: string, certificateName: string, x509Certificates: Uint8Array[], options?: Models.KeyVaultClientMergeCertificateOptionalParams | msRest.ServiceCallback<Models.CertificateBundle>, callback?: msRest.ServiceCallback<Models.CertificateBundle>): Promise<Models.MergeCertificateResponse> {
+  mergeCertificate(
+    vaultBaseUrl: string,
+    certificateName: string,
+    x509Certificates: Uint8Array[],
+    options: Models.KeyVaultClientMergeCertificateOptionalParams,
+    callback: msRest.ServiceCallback<Models.CertificateBundle>
+  ): void;
+  mergeCertificate(
+    vaultBaseUrl: string,
+    certificateName: string,
+    x509Certificates: Uint8Array[],
+    options?:
+      | Models.KeyVaultClientMergeCertificateOptionalParams
+      | msRest.ServiceCallback<Models.CertificateBundle>,
+    callback?: msRest.ServiceCallback<Models.CertificateBundle>
+  ): Promise<Models.MergeCertificateResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -1993,7 +3183,8 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       mergeCertificateOperationSpec,
-      callback) as Promise<Models.MergeCertificateResponse>;
+      callback
+    ) as Promise<Models.MergeCertificateResponse>;
   }
 
   /**
@@ -2005,21 +3196,41 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.BackupCertificateResponse>
    */
-  backupCertificate(vaultBaseUrl: string, certificateName: string, options?: msRest.RequestOptionsBase): Promise<Models.BackupCertificateResponse>;
+  backupCertificate(
+    vaultBaseUrl: string,
+    certificateName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.BackupCertificateResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param certificateName The name of the certificate.
    * @param callback The callback
    */
-  backupCertificate(vaultBaseUrl: string, certificateName: string, callback: msRest.ServiceCallback<Models.BackupCertificateResult>): void;
+  backupCertificate(
+    vaultBaseUrl: string,
+    certificateName: string,
+    callback: msRest.ServiceCallback<Models.BackupCertificateResult>
+  ): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param certificateName The name of the certificate.
    * @param options The optional parameters
    * @param callback The callback
    */
-  backupCertificate(vaultBaseUrl: string, certificateName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BackupCertificateResult>): void;
-  backupCertificate(vaultBaseUrl: string, certificateName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BackupCertificateResult>, callback?: msRest.ServiceCallback<Models.BackupCertificateResult>): Promise<Models.BackupCertificateResponse> {
+  backupCertificate(
+    vaultBaseUrl: string,
+    certificateName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.BackupCertificateResult>
+  ): void;
+  backupCertificate(
+    vaultBaseUrl: string,
+    certificateName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.BackupCertificateResult>,
+    callback?: msRest.ServiceCallback<Models.BackupCertificateResult>
+  ): Promise<Models.BackupCertificateResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -2027,7 +3238,8 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       backupCertificateOperationSpec,
-      callback) as Promise<Models.BackupCertificateResponse>;
+      callback
+    ) as Promise<Models.BackupCertificateResponse>;
   }
 
   /**
@@ -2039,21 +3251,41 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.RestoreCertificateResponse>
    */
-  restoreCertificate(vaultBaseUrl: string, certificateBundleBackup: Uint8Array, options?: msRest.RequestOptionsBase): Promise<Models.RestoreCertificateResponse>;
+  restoreCertificate(
+    vaultBaseUrl: string,
+    certificateBundleBackup: Uint8Array,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RestoreCertificateResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param certificateBundleBackup The backup blob associated with a certificate bundle.
    * @param callback The callback
    */
-  restoreCertificate(vaultBaseUrl: string, certificateBundleBackup: Uint8Array, callback: msRest.ServiceCallback<Models.CertificateBundle>): void;
+  restoreCertificate(
+    vaultBaseUrl: string,
+    certificateBundleBackup: Uint8Array,
+    callback: msRest.ServiceCallback<Models.CertificateBundle>
+  ): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param certificateBundleBackup The backup blob associated with a certificate bundle.
    * @param options The optional parameters
    * @param callback The callback
    */
-  restoreCertificate(vaultBaseUrl: string, certificateBundleBackup: Uint8Array, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CertificateBundle>): void;
-  restoreCertificate(vaultBaseUrl: string, certificateBundleBackup: Uint8Array, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CertificateBundle>, callback?: msRest.ServiceCallback<Models.CertificateBundle>): Promise<Models.RestoreCertificateResponse> {
+  restoreCertificate(
+    vaultBaseUrl: string,
+    certificateBundleBackup: Uint8Array,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.CertificateBundle>
+  ): void;
+  restoreCertificate(
+    vaultBaseUrl: string,
+    certificateBundleBackup: Uint8Array,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.CertificateBundle>,
+    callback?: msRest.ServiceCallback<Models.CertificateBundle>
+  ): Promise<Models.RestoreCertificateResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -2061,7 +3293,8 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       restoreCertificateOperationSpec,
-      callback) as Promise<Models.RestoreCertificateResponse>;
+      callback
+    ) as Promise<Models.RestoreCertificateResponse>;
   }
 
   /**
@@ -2074,26 +3307,43 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.GetDeletedCertificatesResponse>
    */
-  getDeletedCertificates(vaultBaseUrl: string, options?: Models.KeyVaultClientGetDeletedCertificatesOptionalParams): Promise<Models.GetDeletedCertificatesResponse>;
+  getDeletedCertificates(
+    vaultBaseUrl: string,
+    options?: Models.KeyVaultClientGetDeletedCertificatesOptionalParams
+  ): Promise<Models.GetDeletedCertificatesResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param callback The callback
    */
-  getDeletedCertificates(vaultBaseUrl: string, callback: msRest.ServiceCallback<Models.DeletedCertificateListResult>): void;
+  getDeletedCertificates(
+    vaultBaseUrl: string,
+    callback: msRest.ServiceCallback<Models.DeletedCertificateListResult>
+  ): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getDeletedCertificates(vaultBaseUrl: string, options: Models.KeyVaultClientGetDeletedCertificatesOptionalParams, callback: msRest.ServiceCallback<Models.DeletedCertificateListResult>): void;
-  getDeletedCertificates(vaultBaseUrl: string, options?: Models.KeyVaultClientGetDeletedCertificatesOptionalParams | msRest.ServiceCallback<Models.DeletedCertificateListResult>, callback?: msRest.ServiceCallback<Models.DeletedCertificateListResult>): Promise<Models.GetDeletedCertificatesResponse> {
+  getDeletedCertificates(
+    vaultBaseUrl: string,
+    options: Models.KeyVaultClientGetDeletedCertificatesOptionalParams,
+    callback: msRest.ServiceCallback<Models.DeletedCertificateListResult>
+  ): void;
+  getDeletedCertificates(
+    vaultBaseUrl: string,
+    options?:
+      | Models.KeyVaultClientGetDeletedCertificatesOptionalParams
+      | msRest.ServiceCallback<Models.DeletedCertificateListResult>,
+    callback?: msRest.ServiceCallback<Models.DeletedCertificateListResult>
+  ): Promise<Models.GetDeletedCertificatesResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
         options
       },
       getDeletedCertificatesOperationSpec,
-      callback) as Promise<Models.GetDeletedCertificatesResponse>;
+      callback
+    ) as Promise<Models.GetDeletedCertificatesResponse>;
   }
 
   /**
@@ -2106,21 +3356,41 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.GetDeletedCertificateResponse>
    */
-  getDeletedCertificate(vaultBaseUrl: string, certificateName: string, options?: msRest.RequestOptionsBase): Promise<Models.GetDeletedCertificateResponse>;
+  getDeletedCertificate(
+    vaultBaseUrl: string,
+    certificateName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GetDeletedCertificateResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param certificateName The name of the certificate
    * @param callback The callback
    */
-  getDeletedCertificate(vaultBaseUrl: string, certificateName: string, callback: msRest.ServiceCallback<Models.DeletedCertificateBundle>): void;
+  getDeletedCertificate(
+    vaultBaseUrl: string,
+    certificateName: string,
+    callback: msRest.ServiceCallback<Models.DeletedCertificateBundle>
+  ): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param certificateName The name of the certificate
    * @param options The optional parameters
    * @param callback The callback
    */
-  getDeletedCertificate(vaultBaseUrl: string, certificateName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DeletedCertificateBundle>): void;
-  getDeletedCertificate(vaultBaseUrl: string, certificateName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DeletedCertificateBundle>, callback?: msRest.ServiceCallback<Models.DeletedCertificateBundle>): Promise<Models.GetDeletedCertificateResponse> {
+  getDeletedCertificate(
+    vaultBaseUrl: string,
+    certificateName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DeletedCertificateBundle>
+  ): void;
+  getDeletedCertificate(
+    vaultBaseUrl: string,
+    certificateName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.DeletedCertificateBundle>,
+    callback?: msRest.ServiceCallback<Models.DeletedCertificateBundle>
+  ): Promise<Models.GetDeletedCertificateResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -2128,7 +3398,8 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       getDeletedCertificateOperationSpec,
-      callback) as Promise<Models.GetDeletedCertificateResponse>;
+      callback
+    ) as Promise<Models.GetDeletedCertificateResponse>;
   }
 
   /**
@@ -2141,21 +3412,39 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  purgeDeletedCertificate(vaultBaseUrl: string, certificateName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  purgeDeletedCertificate(
+    vaultBaseUrl: string,
+    certificateName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param certificateName The name of the certificate
    * @param callback The callback
    */
-  purgeDeletedCertificate(vaultBaseUrl: string, certificateName: string, callback: msRest.ServiceCallback<void>): void;
+  purgeDeletedCertificate(
+    vaultBaseUrl: string,
+    certificateName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param certificateName The name of the certificate
    * @param options The optional parameters
    * @param callback The callback
    */
-  purgeDeletedCertificate(vaultBaseUrl: string, certificateName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  purgeDeletedCertificate(vaultBaseUrl: string, certificateName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  purgeDeletedCertificate(
+    vaultBaseUrl: string,
+    certificateName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  purgeDeletedCertificate(
+    vaultBaseUrl: string,
+    certificateName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -2163,7 +3452,8 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       purgeDeletedCertificateOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -2177,21 +3467,41 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.RecoverDeletedCertificateResponse>
    */
-  recoverDeletedCertificate(vaultBaseUrl: string, certificateName: string, options?: msRest.RequestOptionsBase): Promise<Models.RecoverDeletedCertificateResponse>;
+  recoverDeletedCertificate(
+    vaultBaseUrl: string,
+    certificateName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RecoverDeletedCertificateResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param certificateName The name of the deleted certificate
    * @param callback The callback
    */
-  recoverDeletedCertificate(vaultBaseUrl: string, certificateName: string, callback: msRest.ServiceCallback<Models.CertificateBundle>): void;
+  recoverDeletedCertificate(
+    vaultBaseUrl: string,
+    certificateName: string,
+    callback: msRest.ServiceCallback<Models.CertificateBundle>
+  ): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param certificateName The name of the deleted certificate
    * @param options The optional parameters
    * @param callback The callback
    */
-  recoverDeletedCertificate(vaultBaseUrl: string, certificateName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CertificateBundle>): void;
-  recoverDeletedCertificate(vaultBaseUrl: string, certificateName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CertificateBundle>, callback?: msRest.ServiceCallback<Models.CertificateBundle>): Promise<Models.RecoverDeletedCertificateResponse> {
+  recoverDeletedCertificate(
+    vaultBaseUrl: string,
+    certificateName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.CertificateBundle>
+  ): void;
+  recoverDeletedCertificate(
+    vaultBaseUrl: string,
+    certificateName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.CertificateBundle>,
+    callback?: msRest.ServiceCallback<Models.CertificateBundle>
+  ): Promise<Models.RecoverDeletedCertificateResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -2199,7 +3509,8 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       recoverDeletedCertificateOperationSpec,
-      callback) as Promise<Models.RecoverDeletedCertificateResponse>;
+      callback
+    ) as Promise<Models.RecoverDeletedCertificateResponse>;
   }
 
   /**
@@ -2209,26 +3520,43 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.GetStorageAccountsResponse>
    */
-  getStorageAccounts(vaultBaseUrl: string, options?: Models.KeyVaultClientGetStorageAccountsOptionalParams): Promise<Models.GetStorageAccountsResponse>;
+  getStorageAccounts(
+    vaultBaseUrl: string,
+    options?: Models.KeyVaultClientGetStorageAccountsOptionalParams
+  ): Promise<Models.GetStorageAccountsResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param callback The callback
    */
-  getStorageAccounts(vaultBaseUrl: string, callback: msRest.ServiceCallback<Models.StorageListResult>): void;
+  getStorageAccounts(
+    vaultBaseUrl: string,
+    callback: msRest.ServiceCallback<Models.StorageListResult>
+  ): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getStorageAccounts(vaultBaseUrl: string, options: Models.KeyVaultClientGetStorageAccountsOptionalParams, callback: msRest.ServiceCallback<Models.StorageListResult>): void;
-  getStorageAccounts(vaultBaseUrl: string, options?: Models.KeyVaultClientGetStorageAccountsOptionalParams | msRest.ServiceCallback<Models.StorageListResult>, callback?: msRest.ServiceCallback<Models.StorageListResult>): Promise<Models.GetStorageAccountsResponse> {
+  getStorageAccounts(
+    vaultBaseUrl: string,
+    options: Models.KeyVaultClientGetStorageAccountsOptionalParams,
+    callback: msRest.ServiceCallback<Models.StorageListResult>
+  ): void;
+  getStorageAccounts(
+    vaultBaseUrl: string,
+    options?:
+      | Models.KeyVaultClientGetStorageAccountsOptionalParams
+      | msRest.ServiceCallback<Models.StorageListResult>,
+    callback?: msRest.ServiceCallback<Models.StorageListResult>
+  ): Promise<Models.GetStorageAccountsResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
         options
       },
       getStorageAccountsOperationSpec,
-      callback) as Promise<Models.GetStorageAccountsResponse>;
+      callback
+    ) as Promise<Models.GetStorageAccountsResponse>;
   }
 
   /**
@@ -2239,26 +3567,43 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.GetDeletedStorageAccountsResponse>
    */
-  getDeletedStorageAccounts(vaultBaseUrl: string, options?: Models.KeyVaultClientGetDeletedStorageAccountsOptionalParams): Promise<Models.GetDeletedStorageAccountsResponse>;
+  getDeletedStorageAccounts(
+    vaultBaseUrl: string,
+    options?: Models.KeyVaultClientGetDeletedStorageAccountsOptionalParams
+  ): Promise<Models.GetDeletedStorageAccountsResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param callback The callback
    */
-  getDeletedStorageAccounts(vaultBaseUrl: string, callback: msRest.ServiceCallback<Models.DeletedStorageListResult>): void;
+  getDeletedStorageAccounts(
+    vaultBaseUrl: string,
+    callback: msRest.ServiceCallback<Models.DeletedStorageListResult>
+  ): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getDeletedStorageAccounts(vaultBaseUrl: string, options: Models.KeyVaultClientGetDeletedStorageAccountsOptionalParams, callback: msRest.ServiceCallback<Models.DeletedStorageListResult>): void;
-  getDeletedStorageAccounts(vaultBaseUrl: string, options?: Models.KeyVaultClientGetDeletedStorageAccountsOptionalParams | msRest.ServiceCallback<Models.DeletedStorageListResult>, callback?: msRest.ServiceCallback<Models.DeletedStorageListResult>): Promise<Models.GetDeletedStorageAccountsResponse> {
+  getDeletedStorageAccounts(
+    vaultBaseUrl: string,
+    options: Models.KeyVaultClientGetDeletedStorageAccountsOptionalParams,
+    callback: msRest.ServiceCallback<Models.DeletedStorageListResult>
+  ): void;
+  getDeletedStorageAccounts(
+    vaultBaseUrl: string,
+    options?:
+      | Models.KeyVaultClientGetDeletedStorageAccountsOptionalParams
+      | msRest.ServiceCallback<Models.DeletedStorageListResult>,
+    callback?: msRest.ServiceCallback<Models.DeletedStorageListResult>
+  ): Promise<Models.GetDeletedStorageAccountsResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
         options
       },
       getDeletedStorageAccountsOperationSpec,
-      callback) as Promise<Models.GetDeletedStorageAccountsResponse>;
+      callback
+    ) as Promise<Models.GetDeletedStorageAccountsResponse>;
   }
 
   /**
@@ -2270,21 +3615,41 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.GetDeletedStorageAccountResponse>
    */
-  getDeletedStorageAccount(vaultBaseUrl: string, storageAccountName: string, options?: msRest.RequestOptionsBase): Promise<Models.GetDeletedStorageAccountResponse>;
+  getDeletedStorageAccount(
+    vaultBaseUrl: string,
+    storageAccountName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GetDeletedStorageAccountResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param storageAccountName The name of the storage account.
    * @param callback The callback
    */
-  getDeletedStorageAccount(vaultBaseUrl: string, storageAccountName: string, callback: msRest.ServiceCallback<Models.DeletedStorageBundle>): void;
+  getDeletedStorageAccount(
+    vaultBaseUrl: string,
+    storageAccountName: string,
+    callback: msRest.ServiceCallback<Models.DeletedStorageBundle>
+  ): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param storageAccountName The name of the storage account.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getDeletedStorageAccount(vaultBaseUrl: string, storageAccountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DeletedStorageBundle>): void;
-  getDeletedStorageAccount(vaultBaseUrl: string, storageAccountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DeletedStorageBundle>, callback?: msRest.ServiceCallback<Models.DeletedStorageBundle>): Promise<Models.GetDeletedStorageAccountResponse> {
+  getDeletedStorageAccount(
+    vaultBaseUrl: string,
+    storageAccountName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DeletedStorageBundle>
+  ): void;
+  getDeletedStorageAccount(
+    vaultBaseUrl: string,
+    storageAccountName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.DeletedStorageBundle>,
+    callback?: msRest.ServiceCallback<Models.DeletedStorageBundle>
+  ): Promise<Models.GetDeletedStorageAccountResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -2292,7 +3657,8 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       getDeletedStorageAccountOperationSpec,
-      callback) as Promise<Models.GetDeletedStorageAccountResponse>;
+      callback
+    ) as Promise<Models.GetDeletedStorageAccountResponse>;
   }
 
   /**
@@ -2305,21 +3671,39 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  purgeDeletedStorageAccount(vaultBaseUrl: string, storageAccountName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  purgeDeletedStorageAccount(
+    vaultBaseUrl: string,
+    storageAccountName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param storageAccountName The name of the storage account.
    * @param callback The callback
    */
-  purgeDeletedStorageAccount(vaultBaseUrl: string, storageAccountName: string, callback: msRest.ServiceCallback<void>): void;
+  purgeDeletedStorageAccount(
+    vaultBaseUrl: string,
+    storageAccountName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param storageAccountName The name of the storage account.
    * @param options The optional parameters
    * @param callback The callback
    */
-  purgeDeletedStorageAccount(vaultBaseUrl: string, storageAccountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  purgeDeletedStorageAccount(vaultBaseUrl: string, storageAccountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  purgeDeletedStorageAccount(
+    vaultBaseUrl: string,
+    storageAccountName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  purgeDeletedStorageAccount(
+    vaultBaseUrl: string,
+    storageAccountName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -2327,7 +3711,8 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       purgeDeletedStorageAccountOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -2340,21 +3725,41 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.RecoverDeletedStorageAccountResponse>
    */
-  recoverDeletedStorageAccount(vaultBaseUrl: string, storageAccountName: string, options?: msRest.RequestOptionsBase): Promise<Models.RecoverDeletedStorageAccountResponse>;
+  recoverDeletedStorageAccount(
+    vaultBaseUrl: string,
+    storageAccountName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RecoverDeletedStorageAccountResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param storageAccountName The name of the storage account.
    * @param callback The callback
    */
-  recoverDeletedStorageAccount(vaultBaseUrl: string, storageAccountName: string, callback: msRest.ServiceCallback<Models.StorageBundle>): void;
+  recoverDeletedStorageAccount(
+    vaultBaseUrl: string,
+    storageAccountName: string,
+    callback: msRest.ServiceCallback<Models.StorageBundle>
+  ): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param storageAccountName The name of the storage account.
    * @param options The optional parameters
    * @param callback The callback
    */
-  recoverDeletedStorageAccount(vaultBaseUrl: string, storageAccountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StorageBundle>): void;
-  recoverDeletedStorageAccount(vaultBaseUrl: string, storageAccountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StorageBundle>, callback?: msRest.ServiceCallback<Models.StorageBundle>): Promise<Models.RecoverDeletedStorageAccountResponse> {
+  recoverDeletedStorageAccount(
+    vaultBaseUrl: string,
+    storageAccountName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.StorageBundle>
+  ): void;
+  recoverDeletedStorageAccount(
+    vaultBaseUrl: string,
+    storageAccountName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.StorageBundle>,
+    callback?: msRest.ServiceCallback<Models.StorageBundle>
+  ): Promise<Models.RecoverDeletedStorageAccountResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -2362,7 +3767,8 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       recoverDeletedStorageAccountOperationSpec,
-      callback) as Promise<Models.RecoverDeletedStorageAccountResponse>;
+      callback
+    ) as Promise<Models.RecoverDeletedStorageAccountResponse>;
   }
 
   /**
@@ -2374,21 +3780,41 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.BackupStorageAccountResponse>
    */
-  backupStorageAccount(vaultBaseUrl: string, storageAccountName: string, options?: msRest.RequestOptionsBase): Promise<Models.BackupStorageAccountResponse>;
+  backupStorageAccount(
+    vaultBaseUrl: string,
+    storageAccountName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.BackupStorageAccountResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param storageAccountName The name of the storage account.
    * @param callback The callback
    */
-  backupStorageAccount(vaultBaseUrl: string, storageAccountName: string, callback: msRest.ServiceCallback<Models.BackupStorageResult>): void;
+  backupStorageAccount(
+    vaultBaseUrl: string,
+    storageAccountName: string,
+    callback: msRest.ServiceCallback<Models.BackupStorageResult>
+  ): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param storageAccountName The name of the storage account.
    * @param options The optional parameters
    * @param callback The callback
    */
-  backupStorageAccount(vaultBaseUrl: string, storageAccountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BackupStorageResult>): void;
-  backupStorageAccount(vaultBaseUrl: string, storageAccountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BackupStorageResult>, callback?: msRest.ServiceCallback<Models.BackupStorageResult>): Promise<Models.BackupStorageAccountResponse> {
+  backupStorageAccount(
+    vaultBaseUrl: string,
+    storageAccountName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.BackupStorageResult>
+  ): void;
+  backupStorageAccount(
+    vaultBaseUrl: string,
+    storageAccountName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.BackupStorageResult>,
+    callback?: msRest.ServiceCallback<Models.BackupStorageResult>
+  ): Promise<Models.BackupStorageAccountResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -2396,7 +3822,8 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       backupStorageAccountOperationSpec,
-      callback) as Promise<Models.BackupStorageAccountResponse>;
+      callback
+    ) as Promise<Models.BackupStorageAccountResponse>;
   }
 
   /**
@@ -2408,21 +3835,41 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.RestoreStorageAccountResponse>
    */
-  restoreStorageAccount(vaultBaseUrl: string, storageBundleBackup: Uint8Array, options?: msRest.RequestOptionsBase): Promise<Models.RestoreStorageAccountResponse>;
+  restoreStorageAccount(
+    vaultBaseUrl: string,
+    storageBundleBackup: Uint8Array,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RestoreStorageAccountResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param storageBundleBackup The backup blob associated with a storage account.
    * @param callback The callback
    */
-  restoreStorageAccount(vaultBaseUrl: string, storageBundleBackup: Uint8Array, callback: msRest.ServiceCallback<Models.StorageBundle>): void;
+  restoreStorageAccount(
+    vaultBaseUrl: string,
+    storageBundleBackup: Uint8Array,
+    callback: msRest.ServiceCallback<Models.StorageBundle>
+  ): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param storageBundleBackup The backup blob associated with a storage account.
    * @param options The optional parameters
    * @param callback The callback
    */
-  restoreStorageAccount(vaultBaseUrl: string, storageBundleBackup: Uint8Array, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StorageBundle>): void;
-  restoreStorageAccount(vaultBaseUrl: string, storageBundleBackup: Uint8Array, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StorageBundle>, callback?: msRest.ServiceCallback<Models.StorageBundle>): Promise<Models.RestoreStorageAccountResponse> {
+  restoreStorageAccount(
+    vaultBaseUrl: string,
+    storageBundleBackup: Uint8Array,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.StorageBundle>
+  ): void;
+  restoreStorageAccount(
+    vaultBaseUrl: string,
+    storageBundleBackup: Uint8Array,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.StorageBundle>,
+    callback?: msRest.ServiceCallback<Models.StorageBundle>
+  ): Promise<Models.RestoreStorageAccountResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -2430,7 +3877,8 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       restoreStorageAccountOperationSpec,
-      callback) as Promise<Models.RestoreStorageAccountResponse>;
+      callback
+    ) as Promise<Models.RestoreStorageAccountResponse>;
   }
 
   /**
@@ -2440,21 +3888,41 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.DeleteStorageAccountResponse>
    */
-  deleteStorageAccount(vaultBaseUrl: string, storageAccountName: string, options?: msRest.RequestOptionsBase): Promise<Models.DeleteStorageAccountResponse>;
+  deleteStorageAccount(
+    vaultBaseUrl: string,
+    storageAccountName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DeleteStorageAccountResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param storageAccountName The name of the storage account.
    * @param callback The callback
    */
-  deleteStorageAccount(vaultBaseUrl: string, storageAccountName: string, callback: msRest.ServiceCallback<Models.DeletedStorageBundle>): void;
+  deleteStorageAccount(
+    vaultBaseUrl: string,
+    storageAccountName: string,
+    callback: msRest.ServiceCallback<Models.DeletedStorageBundle>
+  ): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param storageAccountName The name of the storage account.
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteStorageAccount(vaultBaseUrl: string, storageAccountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DeletedStorageBundle>): void;
-  deleteStorageAccount(vaultBaseUrl: string, storageAccountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DeletedStorageBundle>, callback?: msRest.ServiceCallback<Models.DeletedStorageBundle>): Promise<Models.DeleteStorageAccountResponse> {
+  deleteStorageAccount(
+    vaultBaseUrl: string,
+    storageAccountName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DeletedStorageBundle>
+  ): void;
+  deleteStorageAccount(
+    vaultBaseUrl: string,
+    storageAccountName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.DeletedStorageBundle>,
+    callback?: msRest.ServiceCallback<Models.DeletedStorageBundle>
+  ): Promise<Models.DeleteStorageAccountResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -2462,7 +3930,8 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       deleteStorageAccountOperationSpec,
-      callback) as Promise<Models.DeleteStorageAccountResponse>;
+      callback
+    ) as Promise<Models.DeleteStorageAccountResponse>;
   }
 
   /**
@@ -2473,21 +3942,41 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.GetStorageAccountResponse>
    */
-  getStorageAccount(vaultBaseUrl: string, storageAccountName: string, options?: msRest.RequestOptionsBase): Promise<Models.GetStorageAccountResponse>;
+  getStorageAccount(
+    vaultBaseUrl: string,
+    storageAccountName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GetStorageAccountResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param storageAccountName The name of the storage account.
    * @param callback The callback
    */
-  getStorageAccount(vaultBaseUrl: string, storageAccountName: string, callback: msRest.ServiceCallback<Models.StorageBundle>): void;
+  getStorageAccount(
+    vaultBaseUrl: string,
+    storageAccountName: string,
+    callback: msRest.ServiceCallback<Models.StorageBundle>
+  ): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param storageAccountName The name of the storage account.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getStorageAccount(vaultBaseUrl: string, storageAccountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StorageBundle>): void;
-  getStorageAccount(vaultBaseUrl: string, storageAccountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StorageBundle>, callback?: msRest.ServiceCallback<Models.StorageBundle>): Promise<Models.GetStorageAccountResponse> {
+  getStorageAccount(
+    vaultBaseUrl: string,
+    storageAccountName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.StorageBundle>
+  ): void;
+  getStorageAccount(
+    vaultBaseUrl: string,
+    storageAccountName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.StorageBundle>,
+    callback?: msRest.ServiceCallback<Models.StorageBundle>
+  ): Promise<Models.GetStorageAccountResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -2495,7 +3984,8 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       getStorageAccountOperationSpec,
-      callback) as Promise<Models.GetStorageAccountResponse>;
+      callback
+    ) as Promise<Models.GetStorageAccountResponse>;
   }
 
   /**
@@ -2508,7 +3998,14 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.SetStorageAccountResponse>
    */
-  setStorageAccount(vaultBaseUrl: string, storageAccountName: string, resourceId: string, activeKeyName: string, autoRegenerateKey: boolean, options?: Models.KeyVaultClientSetStorageAccountOptionalParams): Promise<Models.SetStorageAccountResponse>;
+  setStorageAccount(
+    vaultBaseUrl: string,
+    storageAccountName: string,
+    resourceId: string,
+    activeKeyName: string,
+    autoRegenerateKey: boolean,
+    options?: Models.KeyVaultClientSetStorageAccountOptionalParams
+  ): Promise<Models.SetStorageAccountResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param storageAccountName The name of the storage account.
@@ -2517,7 +4014,14 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param autoRegenerateKey whether keyvault should manage the storage account for the user.
    * @param callback The callback
    */
-  setStorageAccount(vaultBaseUrl: string, storageAccountName: string, resourceId: string, activeKeyName: string, autoRegenerateKey: boolean, callback: msRest.ServiceCallback<Models.StorageBundle>): void;
+  setStorageAccount(
+    vaultBaseUrl: string,
+    storageAccountName: string,
+    resourceId: string,
+    activeKeyName: string,
+    autoRegenerateKey: boolean,
+    callback: msRest.ServiceCallback<Models.StorageBundle>
+  ): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param storageAccountName The name of the storage account.
@@ -2527,8 +4031,26 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  setStorageAccount(vaultBaseUrl: string, storageAccountName: string, resourceId: string, activeKeyName: string, autoRegenerateKey: boolean, options: Models.KeyVaultClientSetStorageAccountOptionalParams, callback: msRest.ServiceCallback<Models.StorageBundle>): void;
-  setStorageAccount(vaultBaseUrl: string, storageAccountName: string, resourceId: string, activeKeyName: string, autoRegenerateKey: boolean, options?: Models.KeyVaultClientSetStorageAccountOptionalParams | msRest.ServiceCallback<Models.StorageBundle>, callback?: msRest.ServiceCallback<Models.StorageBundle>): Promise<Models.SetStorageAccountResponse> {
+  setStorageAccount(
+    vaultBaseUrl: string,
+    storageAccountName: string,
+    resourceId: string,
+    activeKeyName: string,
+    autoRegenerateKey: boolean,
+    options: Models.KeyVaultClientSetStorageAccountOptionalParams,
+    callback: msRest.ServiceCallback<Models.StorageBundle>
+  ): void;
+  setStorageAccount(
+    vaultBaseUrl: string,
+    storageAccountName: string,
+    resourceId: string,
+    activeKeyName: string,
+    autoRegenerateKey: boolean,
+    options?:
+      | Models.KeyVaultClientSetStorageAccountOptionalParams
+      | msRest.ServiceCallback<Models.StorageBundle>,
+    callback?: msRest.ServiceCallback<Models.StorageBundle>
+  ): Promise<Models.SetStorageAccountResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -2539,7 +4061,8 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       setStorageAccountOperationSpec,
-      callback) as Promise<Models.SetStorageAccountResponse>;
+      callback
+    ) as Promise<Models.SetStorageAccountResponse>;
   }
 
   /**
@@ -2550,21 +4073,41 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.UpdateStorageAccountResponse>
    */
-  updateStorageAccount(vaultBaseUrl: string, storageAccountName: string, options?: Models.KeyVaultClientUpdateStorageAccountOptionalParams): Promise<Models.UpdateStorageAccountResponse>;
+  updateStorageAccount(
+    vaultBaseUrl: string,
+    storageAccountName: string,
+    options?: Models.KeyVaultClientUpdateStorageAccountOptionalParams
+  ): Promise<Models.UpdateStorageAccountResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param storageAccountName The name of the storage account.
    * @param callback The callback
    */
-  updateStorageAccount(vaultBaseUrl: string, storageAccountName: string, callback: msRest.ServiceCallback<Models.StorageBundle>): void;
+  updateStorageAccount(
+    vaultBaseUrl: string,
+    storageAccountName: string,
+    callback: msRest.ServiceCallback<Models.StorageBundle>
+  ): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param storageAccountName The name of the storage account.
    * @param options The optional parameters
    * @param callback The callback
    */
-  updateStorageAccount(vaultBaseUrl: string, storageAccountName: string, options: Models.KeyVaultClientUpdateStorageAccountOptionalParams, callback: msRest.ServiceCallback<Models.StorageBundle>): void;
-  updateStorageAccount(vaultBaseUrl: string, storageAccountName: string, options?: Models.KeyVaultClientUpdateStorageAccountOptionalParams | msRest.ServiceCallback<Models.StorageBundle>, callback?: msRest.ServiceCallback<Models.StorageBundle>): Promise<Models.UpdateStorageAccountResponse> {
+  updateStorageAccount(
+    vaultBaseUrl: string,
+    storageAccountName: string,
+    options: Models.KeyVaultClientUpdateStorageAccountOptionalParams,
+    callback: msRest.ServiceCallback<Models.StorageBundle>
+  ): void;
+  updateStorageAccount(
+    vaultBaseUrl: string,
+    storageAccountName: string,
+    options?:
+      | Models.KeyVaultClientUpdateStorageAccountOptionalParams
+      | msRest.ServiceCallback<Models.StorageBundle>,
+    callback?: msRest.ServiceCallback<Models.StorageBundle>
+  ): Promise<Models.UpdateStorageAccountResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -2572,7 +4115,8 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       updateStorageAccountOperationSpec,
-      callback) as Promise<Models.UpdateStorageAccountResponse>;
+      callback
+    ) as Promise<Models.UpdateStorageAccountResponse>;
   }
 
   /**
@@ -2584,14 +4128,24 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.RegenerateStorageAccountKeyResponse>
    */
-  regenerateStorageAccountKey(vaultBaseUrl: string, storageAccountName: string, keyName: string, options?: msRest.RequestOptionsBase): Promise<Models.RegenerateStorageAccountKeyResponse>;
+  regenerateStorageAccountKey(
+    vaultBaseUrl: string,
+    storageAccountName: string,
+    keyName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RegenerateStorageAccountKeyResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param storageAccountName The name of the storage account.
    * @param keyName The storage account key name.
    * @param callback The callback
    */
-  regenerateStorageAccountKey(vaultBaseUrl: string, storageAccountName: string, keyName: string, callback: msRest.ServiceCallback<Models.StorageBundle>): void;
+  regenerateStorageAccountKey(
+    vaultBaseUrl: string,
+    storageAccountName: string,
+    keyName: string,
+    callback: msRest.ServiceCallback<Models.StorageBundle>
+  ): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param storageAccountName The name of the storage account.
@@ -2599,8 +4153,22 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  regenerateStorageAccountKey(vaultBaseUrl: string, storageAccountName: string, keyName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StorageBundle>): void;
-  regenerateStorageAccountKey(vaultBaseUrl: string, storageAccountName: string, keyName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StorageBundle>, callback?: msRest.ServiceCallback<Models.StorageBundle>): Promise<Models.RegenerateStorageAccountKeyResponse> {
+  regenerateStorageAccountKey(
+    vaultBaseUrl: string,
+    storageAccountName: string,
+    keyName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.StorageBundle>
+  ): void;
+  regenerateStorageAccountKey(
+    vaultBaseUrl: string,
+    storageAccountName: string,
+    keyName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.StorageBundle>,
+    callback?: msRest.ServiceCallback<Models.StorageBundle>
+  ): Promise<Models.RegenerateStorageAccountKeyResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -2609,7 +4177,8 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       regenerateStorageAccountKeyOperationSpec,
-      callback) as Promise<Models.RegenerateStorageAccountKeyResponse>;
+      callback
+    ) as Promise<Models.RegenerateStorageAccountKeyResponse>;
   }
 
   /**
@@ -2620,21 +4189,41 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.GetSasDefinitionsResponse>
    */
-  getSasDefinitions(vaultBaseUrl: string, storageAccountName: string, options?: Models.KeyVaultClientGetSasDefinitionsOptionalParams): Promise<Models.GetSasDefinitionsResponse>;
+  getSasDefinitions(
+    vaultBaseUrl: string,
+    storageAccountName: string,
+    options?: Models.KeyVaultClientGetSasDefinitionsOptionalParams
+  ): Promise<Models.GetSasDefinitionsResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param storageAccountName The name of the storage account.
    * @param callback The callback
    */
-  getSasDefinitions(vaultBaseUrl: string, storageAccountName: string, callback: msRest.ServiceCallback<Models.SasDefinitionListResult>): void;
+  getSasDefinitions(
+    vaultBaseUrl: string,
+    storageAccountName: string,
+    callback: msRest.ServiceCallback<Models.SasDefinitionListResult>
+  ): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param storageAccountName The name of the storage account.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getSasDefinitions(vaultBaseUrl: string, storageAccountName: string, options: Models.KeyVaultClientGetSasDefinitionsOptionalParams, callback: msRest.ServiceCallback<Models.SasDefinitionListResult>): void;
-  getSasDefinitions(vaultBaseUrl: string, storageAccountName: string, options?: Models.KeyVaultClientGetSasDefinitionsOptionalParams | msRest.ServiceCallback<Models.SasDefinitionListResult>, callback?: msRest.ServiceCallback<Models.SasDefinitionListResult>): Promise<Models.GetSasDefinitionsResponse> {
+  getSasDefinitions(
+    vaultBaseUrl: string,
+    storageAccountName: string,
+    options: Models.KeyVaultClientGetSasDefinitionsOptionalParams,
+    callback: msRest.ServiceCallback<Models.SasDefinitionListResult>
+  ): void;
+  getSasDefinitions(
+    vaultBaseUrl: string,
+    storageAccountName: string,
+    options?:
+      | Models.KeyVaultClientGetSasDefinitionsOptionalParams
+      | msRest.ServiceCallback<Models.SasDefinitionListResult>,
+    callback?: msRest.ServiceCallback<Models.SasDefinitionListResult>
+  ): Promise<Models.GetSasDefinitionsResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -2642,7 +4231,8 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       getSasDefinitionsOperationSpec,
-      callback) as Promise<Models.GetSasDefinitionsResponse>;
+      callback
+    ) as Promise<Models.GetSasDefinitionsResponse>;
   }
 
   /**
@@ -2654,21 +4244,41 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.GetDeletedSasDefinitionsResponse>
    */
-  getDeletedSasDefinitions(vaultBaseUrl: string, storageAccountName: string, options?: Models.KeyVaultClientGetDeletedSasDefinitionsOptionalParams): Promise<Models.GetDeletedSasDefinitionsResponse>;
+  getDeletedSasDefinitions(
+    vaultBaseUrl: string,
+    storageAccountName: string,
+    options?: Models.KeyVaultClientGetDeletedSasDefinitionsOptionalParams
+  ): Promise<Models.GetDeletedSasDefinitionsResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param storageAccountName The name of the storage account.
    * @param callback The callback
    */
-  getDeletedSasDefinitions(vaultBaseUrl: string, storageAccountName: string, callback: msRest.ServiceCallback<Models.DeletedSasDefinitionListResult>): void;
+  getDeletedSasDefinitions(
+    vaultBaseUrl: string,
+    storageAccountName: string,
+    callback: msRest.ServiceCallback<Models.DeletedSasDefinitionListResult>
+  ): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param storageAccountName The name of the storage account.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getDeletedSasDefinitions(vaultBaseUrl: string, storageAccountName: string, options: Models.KeyVaultClientGetDeletedSasDefinitionsOptionalParams, callback: msRest.ServiceCallback<Models.DeletedSasDefinitionListResult>): void;
-  getDeletedSasDefinitions(vaultBaseUrl: string, storageAccountName: string, options?: Models.KeyVaultClientGetDeletedSasDefinitionsOptionalParams | msRest.ServiceCallback<Models.DeletedSasDefinitionListResult>, callback?: msRest.ServiceCallback<Models.DeletedSasDefinitionListResult>): Promise<Models.GetDeletedSasDefinitionsResponse> {
+  getDeletedSasDefinitions(
+    vaultBaseUrl: string,
+    storageAccountName: string,
+    options: Models.KeyVaultClientGetDeletedSasDefinitionsOptionalParams,
+    callback: msRest.ServiceCallback<Models.DeletedSasDefinitionListResult>
+  ): void;
+  getDeletedSasDefinitions(
+    vaultBaseUrl: string,
+    storageAccountName: string,
+    options?:
+      | Models.KeyVaultClientGetDeletedSasDefinitionsOptionalParams
+      | msRest.ServiceCallback<Models.DeletedSasDefinitionListResult>,
+    callback?: msRest.ServiceCallback<Models.DeletedSasDefinitionListResult>
+  ): Promise<Models.GetDeletedSasDefinitionsResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -2676,7 +4286,8 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       getDeletedSasDefinitionsOperationSpec,
-      callback) as Promise<Models.GetDeletedSasDefinitionsResponse>;
+      callback
+    ) as Promise<Models.GetDeletedSasDefinitionsResponse>;
   }
 
   /**
@@ -2689,14 +4300,24 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.GetDeletedSasDefinitionResponse>
    */
-  getDeletedSasDefinition(vaultBaseUrl: string, storageAccountName: string, sasDefinitionName: string, options?: msRest.RequestOptionsBase): Promise<Models.GetDeletedSasDefinitionResponse>;
+  getDeletedSasDefinition(
+    vaultBaseUrl: string,
+    storageAccountName: string,
+    sasDefinitionName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GetDeletedSasDefinitionResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param storageAccountName The name of the storage account.
    * @param sasDefinitionName The name of the SAS definition.
    * @param callback The callback
    */
-  getDeletedSasDefinition(vaultBaseUrl: string, storageAccountName: string, sasDefinitionName: string, callback: msRest.ServiceCallback<Models.DeletedSasDefinitionBundle>): void;
+  getDeletedSasDefinition(
+    vaultBaseUrl: string,
+    storageAccountName: string,
+    sasDefinitionName: string,
+    callback: msRest.ServiceCallback<Models.DeletedSasDefinitionBundle>
+  ): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param storageAccountName The name of the storage account.
@@ -2704,8 +4325,22 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getDeletedSasDefinition(vaultBaseUrl: string, storageAccountName: string, sasDefinitionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DeletedSasDefinitionBundle>): void;
-  getDeletedSasDefinition(vaultBaseUrl: string, storageAccountName: string, sasDefinitionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DeletedSasDefinitionBundle>, callback?: msRest.ServiceCallback<Models.DeletedSasDefinitionBundle>): Promise<Models.GetDeletedSasDefinitionResponse> {
+  getDeletedSasDefinition(
+    vaultBaseUrl: string,
+    storageAccountName: string,
+    sasDefinitionName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DeletedSasDefinitionBundle>
+  ): void;
+  getDeletedSasDefinition(
+    vaultBaseUrl: string,
+    storageAccountName: string,
+    sasDefinitionName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.DeletedSasDefinitionBundle>,
+    callback?: msRest.ServiceCallback<Models.DeletedSasDefinitionBundle>
+  ): Promise<Models.GetDeletedSasDefinitionResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -2714,7 +4349,8 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       getDeletedSasDefinitionOperationSpec,
-      callback) as Promise<Models.GetDeletedSasDefinitionResponse>;
+      callback
+    ) as Promise<Models.GetDeletedSasDefinitionResponse>;
   }
 
   /**
@@ -2728,14 +4364,24 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.RecoverDeletedSasDefinitionResponse>
    */
-  recoverDeletedSasDefinition(vaultBaseUrl: string, storageAccountName: string, sasDefinitionName: string, options?: msRest.RequestOptionsBase): Promise<Models.RecoverDeletedSasDefinitionResponse>;
+  recoverDeletedSasDefinition(
+    vaultBaseUrl: string,
+    storageAccountName: string,
+    sasDefinitionName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RecoverDeletedSasDefinitionResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param storageAccountName The name of the storage account.
    * @param sasDefinitionName The name of the SAS definition.
    * @param callback The callback
    */
-  recoverDeletedSasDefinition(vaultBaseUrl: string, storageAccountName: string, sasDefinitionName: string, callback: msRest.ServiceCallback<Models.SasDefinitionBundle>): void;
+  recoverDeletedSasDefinition(
+    vaultBaseUrl: string,
+    storageAccountName: string,
+    sasDefinitionName: string,
+    callback: msRest.ServiceCallback<Models.SasDefinitionBundle>
+  ): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param storageAccountName The name of the storage account.
@@ -2743,8 +4389,22 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  recoverDeletedSasDefinition(vaultBaseUrl: string, storageAccountName: string, sasDefinitionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SasDefinitionBundle>): void;
-  recoverDeletedSasDefinition(vaultBaseUrl: string, storageAccountName: string, sasDefinitionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SasDefinitionBundle>, callback?: msRest.ServiceCallback<Models.SasDefinitionBundle>): Promise<Models.RecoverDeletedSasDefinitionResponse> {
+  recoverDeletedSasDefinition(
+    vaultBaseUrl: string,
+    storageAccountName: string,
+    sasDefinitionName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SasDefinitionBundle>
+  ): void;
+  recoverDeletedSasDefinition(
+    vaultBaseUrl: string,
+    storageAccountName: string,
+    sasDefinitionName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.SasDefinitionBundle>,
+    callback?: msRest.ServiceCallback<Models.SasDefinitionBundle>
+  ): Promise<Models.RecoverDeletedSasDefinitionResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -2753,7 +4413,8 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       recoverDeletedSasDefinitionOperationSpec,
-      callback) as Promise<Models.RecoverDeletedSasDefinitionResponse>;
+      callback
+    ) as Promise<Models.RecoverDeletedSasDefinitionResponse>;
   }
 
   /**
@@ -2765,14 +4426,24 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.DeleteSasDefinitionResponse>
    */
-  deleteSasDefinition(vaultBaseUrl: string, storageAccountName: string, sasDefinitionName: string, options?: msRest.RequestOptionsBase): Promise<Models.DeleteSasDefinitionResponse>;
+  deleteSasDefinition(
+    vaultBaseUrl: string,
+    storageAccountName: string,
+    sasDefinitionName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DeleteSasDefinitionResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param storageAccountName The name of the storage account.
    * @param sasDefinitionName The name of the SAS definition.
    * @param callback The callback
    */
-  deleteSasDefinition(vaultBaseUrl: string, storageAccountName: string, sasDefinitionName: string, callback: msRest.ServiceCallback<Models.DeletedSasDefinitionBundle>): void;
+  deleteSasDefinition(
+    vaultBaseUrl: string,
+    storageAccountName: string,
+    sasDefinitionName: string,
+    callback: msRest.ServiceCallback<Models.DeletedSasDefinitionBundle>
+  ): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param storageAccountName The name of the storage account.
@@ -2780,8 +4451,22 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteSasDefinition(vaultBaseUrl: string, storageAccountName: string, sasDefinitionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DeletedSasDefinitionBundle>): void;
-  deleteSasDefinition(vaultBaseUrl: string, storageAccountName: string, sasDefinitionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DeletedSasDefinitionBundle>, callback?: msRest.ServiceCallback<Models.DeletedSasDefinitionBundle>): Promise<Models.DeleteSasDefinitionResponse> {
+  deleteSasDefinition(
+    vaultBaseUrl: string,
+    storageAccountName: string,
+    sasDefinitionName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DeletedSasDefinitionBundle>
+  ): void;
+  deleteSasDefinition(
+    vaultBaseUrl: string,
+    storageAccountName: string,
+    sasDefinitionName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.DeletedSasDefinitionBundle>,
+    callback?: msRest.ServiceCallback<Models.DeletedSasDefinitionBundle>
+  ): Promise<Models.DeleteSasDefinitionResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -2790,7 +4475,8 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       deleteSasDefinitionOperationSpec,
-      callback) as Promise<Models.DeleteSasDefinitionResponse>;
+      callback
+    ) as Promise<Models.DeleteSasDefinitionResponse>;
   }
 
   /**
@@ -2802,14 +4488,24 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.GetSasDefinitionResponse>
    */
-  getSasDefinition(vaultBaseUrl: string, storageAccountName: string, sasDefinitionName: string, options?: msRest.RequestOptionsBase): Promise<Models.GetSasDefinitionResponse>;
+  getSasDefinition(
+    vaultBaseUrl: string,
+    storageAccountName: string,
+    sasDefinitionName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GetSasDefinitionResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param storageAccountName The name of the storage account.
    * @param sasDefinitionName The name of the SAS definition.
    * @param callback The callback
    */
-  getSasDefinition(vaultBaseUrl: string, storageAccountName: string, sasDefinitionName: string, callback: msRest.ServiceCallback<Models.SasDefinitionBundle>): void;
+  getSasDefinition(
+    vaultBaseUrl: string,
+    storageAccountName: string,
+    sasDefinitionName: string,
+    callback: msRest.ServiceCallback<Models.SasDefinitionBundle>
+  ): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param storageAccountName The name of the storage account.
@@ -2817,8 +4513,22 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getSasDefinition(vaultBaseUrl: string, storageAccountName: string, sasDefinitionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SasDefinitionBundle>): void;
-  getSasDefinition(vaultBaseUrl: string, storageAccountName: string, sasDefinitionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SasDefinitionBundle>, callback?: msRest.ServiceCallback<Models.SasDefinitionBundle>): Promise<Models.GetSasDefinitionResponse> {
+  getSasDefinition(
+    vaultBaseUrl: string,
+    storageAccountName: string,
+    sasDefinitionName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SasDefinitionBundle>
+  ): void;
+  getSasDefinition(
+    vaultBaseUrl: string,
+    storageAccountName: string,
+    sasDefinitionName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.SasDefinitionBundle>,
+    callback?: msRest.ServiceCallback<Models.SasDefinitionBundle>
+  ): Promise<Models.GetSasDefinitionResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -2827,7 +4537,8 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       getSasDefinitionOperationSpec,
-      callback) as Promise<Models.GetSasDefinitionResponse>;
+      callback
+    ) as Promise<Models.GetSasDefinitionResponse>;
   }
 
   /**
@@ -2844,7 +4555,15 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.SetSasDefinitionResponse>
    */
-  setSasDefinition(vaultBaseUrl: string, storageAccountName: string, sasDefinitionName: string, templateUri: string, sasType: Models.SasTokenType, validityPeriod: string, options?: Models.KeyVaultClientSetSasDefinitionOptionalParams): Promise<Models.SetSasDefinitionResponse>;
+  setSasDefinition(
+    vaultBaseUrl: string,
+    storageAccountName: string,
+    sasDefinitionName: string,
+    templateUri: string,
+    sasType: Models.SasTokenType,
+    validityPeriod: string,
+    options?: Models.KeyVaultClientSetSasDefinitionOptionalParams
+  ): Promise<Models.SetSasDefinitionResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param storageAccountName The name of the storage account.
@@ -2856,7 +4575,15 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param validityPeriod The validity period of SAS tokens created according to the SAS definition.
    * @param callback The callback
    */
-  setSasDefinition(vaultBaseUrl: string, storageAccountName: string, sasDefinitionName: string, templateUri: string, sasType: Models.SasTokenType, validityPeriod: string, callback: msRest.ServiceCallback<Models.SasDefinitionBundle>): void;
+  setSasDefinition(
+    vaultBaseUrl: string,
+    storageAccountName: string,
+    sasDefinitionName: string,
+    templateUri: string,
+    sasType: Models.SasTokenType,
+    validityPeriod: string,
+    callback: msRest.ServiceCallback<Models.SasDefinitionBundle>
+  ): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param storageAccountName The name of the storage account.
@@ -2869,8 +4596,28 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  setSasDefinition(vaultBaseUrl: string, storageAccountName: string, sasDefinitionName: string, templateUri: string, sasType: Models.SasTokenType, validityPeriod: string, options: Models.KeyVaultClientSetSasDefinitionOptionalParams, callback: msRest.ServiceCallback<Models.SasDefinitionBundle>): void;
-  setSasDefinition(vaultBaseUrl: string, storageAccountName: string, sasDefinitionName: string, templateUri: string, sasType: Models.SasTokenType, validityPeriod: string, options?: Models.KeyVaultClientSetSasDefinitionOptionalParams | msRest.ServiceCallback<Models.SasDefinitionBundle>, callback?: msRest.ServiceCallback<Models.SasDefinitionBundle>): Promise<Models.SetSasDefinitionResponse> {
+  setSasDefinition(
+    vaultBaseUrl: string,
+    storageAccountName: string,
+    sasDefinitionName: string,
+    templateUri: string,
+    sasType: Models.SasTokenType,
+    validityPeriod: string,
+    options: Models.KeyVaultClientSetSasDefinitionOptionalParams,
+    callback: msRest.ServiceCallback<Models.SasDefinitionBundle>
+  ): void;
+  setSasDefinition(
+    vaultBaseUrl: string,
+    storageAccountName: string,
+    sasDefinitionName: string,
+    templateUri: string,
+    sasType: Models.SasTokenType,
+    validityPeriod: string,
+    options?:
+      | Models.KeyVaultClientSetSasDefinitionOptionalParams
+      | msRest.ServiceCallback<Models.SasDefinitionBundle>,
+    callback?: msRest.ServiceCallback<Models.SasDefinitionBundle>
+  ): Promise<Models.SetSasDefinitionResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -2882,7 +4629,8 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       setSasDefinitionOperationSpec,
-      callback) as Promise<Models.SetSasDefinitionResponse>;
+      callback
+    ) as Promise<Models.SetSasDefinitionResponse>;
   }
 
   /**
@@ -2894,14 +4642,24 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.UpdateSasDefinitionResponse>
    */
-  updateSasDefinition(vaultBaseUrl: string, storageAccountName: string, sasDefinitionName: string, options?: Models.KeyVaultClientUpdateSasDefinitionOptionalParams): Promise<Models.UpdateSasDefinitionResponse>;
+  updateSasDefinition(
+    vaultBaseUrl: string,
+    storageAccountName: string,
+    sasDefinitionName: string,
+    options?: Models.KeyVaultClientUpdateSasDefinitionOptionalParams
+  ): Promise<Models.UpdateSasDefinitionResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param storageAccountName The name of the storage account.
    * @param sasDefinitionName The name of the SAS definition.
    * @param callback The callback
    */
-  updateSasDefinition(vaultBaseUrl: string, storageAccountName: string, sasDefinitionName: string, callback: msRest.ServiceCallback<Models.SasDefinitionBundle>): void;
+  updateSasDefinition(
+    vaultBaseUrl: string,
+    storageAccountName: string,
+    sasDefinitionName: string,
+    callback: msRest.ServiceCallback<Models.SasDefinitionBundle>
+  ): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param storageAccountName The name of the storage account.
@@ -2909,8 +4667,22 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  updateSasDefinition(vaultBaseUrl: string, storageAccountName: string, sasDefinitionName: string, options: Models.KeyVaultClientUpdateSasDefinitionOptionalParams, callback: msRest.ServiceCallback<Models.SasDefinitionBundle>): void;
-  updateSasDefinition(vaultBaseUrl: string, storageAccountName: string, sasDefinitionName: string, options?: Models.KeyVaultClientUpdateSasDefinitionOptionalParams | msRest.ServiceCallback<Models.SasDefinitionBundle>, callback?: msRest.ServiceCallback<Models.SasDefinitionBundle>): Promise<Models.UpdateSasDefinitionResponse> {
+  updateSasDefinition(
+    vaultBaseUrl: string,
+    storageAccountName: string,
+    sasDefinitionName: string,
+    options: Models.KeyVaultClientUpdateSasDefinitionOptionalParams,
+    callback: msRest.ServiceCallback<Models.SasDefinitionBundle>
+  ): void;
+  updateSasDefinition(
+    vaultBaseUrl: string,
+    storageAccountName: string,
+    sasDefinitionName: string,
+    options?:
+      | Models.KeyVaultClientUpdateSasDefinitionOptionalParams
+      | msRest.ServiceCallback<Models.SasDefinitionBundle>,
+    callback?: msRest.ServiceCallback<Models.SasDefinitionBundle>
+  ): Promise<Models.UpdateSasDefinitionResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -2919,7 +4691,8 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       updateSasDefinitionOperationSpec,
-      callback) as Promise<Models.UpdateSasDefinitionResponse>;
+      callback
+    ) as Promise<Models.UpdateSasDefinitionResponse>;
   }
 
   /**
@@ -2930,26 +4703,43 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.GetKeyVersionsNextResponse>
    */
-  getKeyVersionsNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.GetKeyVersionsNextResponse>;
+  getKeyVersionsNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GetKeyVersionsNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  getKeyVersionsNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.KeyListResult>): void;
+  getKeyVersionsNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.KeyListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getKeyVersionsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.KeyListResult>): void;
-  getKeyVersionsNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.KeyListResult>, callback?: msRest.ServiceCallback<Models.KeyListResult>): Promise<Models.GetKeyVersionsNextResponse> {
+  getKeyVersionsNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.KeyListResult>
+  ): void;
+  getKeyVersionsNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.KeyListResult>,
+    callback?: msRest.ServiceCallback<Models.KeyListResult>
+  ): Promise<Models.GetKeyVersionsNextResponse> {
     return this.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       getKeyVersionsNextOperationSpec,
-      callback) as Promise<Models.GetKeyVersionsNextResponse>;
+      callback
+    ) as Promise<Models.GetKeyVersionsNextResponse>;
   }
 
   /**
@@ -2962,26 +4752,43 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.GetKeysNextResponse>
    */
-  getKeysNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.GetKeysNextResponse>;
+  getKeysNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GetKeysNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  getKeysNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.KeyListResult>): void;
+  getKeysNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.KeyListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getKeysNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.KeyListResult>): void;
-  getKeysNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.KeyListResult>, callback?: msRest.ServiceCallback<Models.KeyListResult>): Promise<Models.GetKeysNextResponse> {
+  getKeysNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.KeyListResult>
+  ): void;
+  getKeysNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.KeyListResult>,
+    callback?: msRest.ServiceCallback<Models.KeyListResult>
+  ): Promise<Models.GetKeysNextResponse> {
     return this.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       getKeysNextOperationSpec,
-      callback) as Promise<Models.GetKeysNextResponse>;
+      callback
+    ) as Promise<Models.GetKeysNextResponse>;
   }
 
   /**
@@ -2995,26 +4802,43 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.GetDeletedKeysNextResponse>
    */
-  getDeletedKeysNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.GetDeletedKeysNextResponse>;
+  getDeletedKeysNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GetDeletedKeysNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  getDeletedKeysNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.DeletedKeyListResult>): void;
+  getDeletedKeysNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.DeletedKeyListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getDeletedKeysNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DeletedKeyListResult>): void;
-  getDeletedKeysNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DeletedKeyListResult>, callback?: msRest.ServiceCallback<Models.DeletedKeyListResult>): Promise<Models.GetDeletedKeysNextResponse> {
+  getDeletedKeysNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DeletedKeyListResult>
+  ): void;
+  getDeletedKeysNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.DeletedKeyListResult>,
+    callback?: msRest.ServiceCallback<Models.DeletedKeyListResult>
+  ): Promise<Models.GetDeletedKeysNextResponse> {
     return this.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       getDeletedKeysNextOperationSpec,
-      callback) as Promise<Models.GetDeletedKeysNextResponse>;
+      callback
+    ) as Promise<Models.GetDeletedKeysNextResponse>;
   }
 
   /**
@@ -3026,26 +4850,43 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.GetSecretsNextResponse>
    */
-  getSecretsNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.GetSecretsNextResponse>;
+  getSecretsNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GetSecretsNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  getSecretsNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.SecretListResult>): void;
+  getSecretsNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.SecretListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getSecretsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SecretListResult>): void;
-  getSecretsNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecretListResult>, callback?: msRest.ServiceCallback<Models.SecretListResult>): Promise<Models.GetSecretsNextResponse> {
+  getSecretsNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SecretListResult>
+  ): void;
+  getSecretsNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.SecretListResult>,
+    callback?: msRest.ServiceCallback<Models.SecretListResult>
+  ): Promise<Models.GetSecretsNextResponse> {
     return this.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       getSecretsNextOperationSpec,
-      callback) as Promise<Models.GetSecretsNextResponse>;
+      callback
+    ) as Promise<Models.GetSecretsNextResponse>;
   }
 
   /**
@@ -3056,26 +4897,43 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.GetSecretVersionsNextResponse>
    */
-  getSecretVersionsNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.GetSecretVersionsNextResponse>;
+  getSecretVersionsNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GetSecretVersionsNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  getSecretVersionsNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.SecretListResult>): void;
+  getSecretVersionsNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.SecretListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getSecretVersionsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SecretListResult>): void;
-  getSecretVersionsNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecretListResult>, callback?: msRest.ServiceCallback<Models.SecretListResult>): Promise<Models.GetSecretVersionsNextResponse> {
+  getSecretVersionsNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SecretListResult>
+  ): void;
+  getSecretVersionsNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.SecretListResult>,
+    callback?: msRest.ServiceCallback<Models.SecretListResult>
+  ): Promise<Models.GetSecretVersionsNextResponse> {
     return this.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       getSecretVersionsNextOperationSpec,
-      callback) as Promise<Models.GetSecretVersionsNextResponse>;
+      callback
+    ) as Promise<Models.GetSecretVersionsNextResponse>;
   }
 
   /**
@@ -3086,26 +4944,43 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.GetDeletedSecretsNextResponse>
    */
-  getDeletedSecretsNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.GetDeletedSecretsNextResponse>;
+  getDeletedSecretsNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GetDeletedSecretsNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  getDeletedSecretsNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.DeletedSecretListResult>): void;
+  getDeletedSecretsNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.DeletedSecretListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getDeletedSecretsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DeletedSecretListResult>): void;
-  getDeletedSecretsNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DeletedSecretListResult>, callback?: msRest.ServiceCallback<Models.DeletedSecretListResult>): Promise<Models.GetDeletedSecretsNextResponse> {
+  getDeletedSecretsNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DeletedSecretListResult>
+  ): void;
+  getDeletedSecretsNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.DeletedSecretListResult>,
+    callback?: msRest.ServiceCallback<Models.DeletedSecretListResult>
+  ): Promise<Models.GetDeletedSecretsNextResponse> {
     return this.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       getDeletedSecretsNextOperationSpec,
-      callback) as Promise<Models.GetDeletedSecretsNextResponse>;
+      callback
+    ) as Promise<Models.GetDeletedSecretsNextResponse>;
   }
 
   /**
@@ -3116,26 +4991,43 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.GetCertificatesNextResponse>
    */
-  getCertificatesNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.GetCertificatesNextResponse>;
+  getCertificatesNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GetCertificatesNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  getCertificatesNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.CertificateListResult>): void;
+  getCertificatesNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.CertificateListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getCertificatesNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CertificateListResult>): void;
-  getCertificatesNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CertificateListResult>, callback?: msRest.ServiceCallback<Models.CertificateListResult>): Promise<Models.GetCertificatesNextResponse> {
+  getCertificatesNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.CertificateListResult>
+  ): void;
+  getCertificatesNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.CertificateListResult>,
+    callback?: msRest.ServiceCallback<Models.CertificateListResult>
+  ): Promise<Models.GetCertificatesNextResponse> {
     return this.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       getCertificatesNextOperationSpec,
-      callback) as Promise<Models.GetCertificatesNextResponse>;
+      callback
+    ) as Promise<Models.GetCertificatesNextResponse>;
   }
 
   /**
@@ -3147,26 +5039,43 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.GetCertificateIssuersNextResponse>
    */
-  getCertificateIssuersNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.GetCertificateIssuersNextResponse>;
+  getCertificateIssuersNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GetCertificateIssuersNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  getCertificateIssuersNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.CertificateIssuerListResult>): void;
+  getCertificateIssuersNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.CertificateIssuerListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getCertificateIssuersNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CertificateIssuerListResult>): void;
-  getCertificateIssuersNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CertificateIssuerListResult>, callback?: msRest.ServiceCallback<Models.CertificateIssuerListResult>): Promise<Models.GetCertificateIssuersNextResponse> {
+  getCertificateIssuersNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.CertificateIssuerListResult>
+  ): void;
+  getCertificateIssuersNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.CertificateIssuerListResult>,
+    callback?: msRest.ServiceCallback<Models.CertificateIssuerListResult>
+  ): Promise<Models.GetCertificateIssuersNextResponse> {
     return this.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       getCertificateIssuersNextOperationSpec,
-      callback) as Promise<Models.GetCertificateIssuersNextResponse>;
+      callback
+    ) as Promise<Models.GetCertificateIssuersNextResponse>;
   }
 
   /**
@@ -3177,26 +5086,43 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.GetCertificateVersionsNextResponse>
    */
-  getCertificateVersionsNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.GetCertificateVersionsNextResponse>;
+  getCertificateVersionsNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GetCertificateVersionsNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  getCertificateVersionsNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.CertificateListResult>): void;
+  getCertificateVersionsNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.CertificateListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getCertificateVersionsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CertificateListResult>): void;
-  getCertificateVersionsNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CertificateListResult>, callback?: msRest.ServiceCallback<Models.CertificateListResult>): Promise<Models.GetCertificateVersionsNextResponse> {
+  getCertificateVersionsNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.CertificateListResult>
+  ): void;
+  getCertificateVersionsNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.CertificateListResult>,
+    callback?: msRest.ServiceCallback<Models.CertificateListResult>
+  ): Promise<Models.GetCertificateVersionsNextResponse> {
     return this.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       getCertificateVersionsNextOperationSpec,
-      callback) as Promise<Models.GetCertificateVersionsNextResponse>;
+      callback
+    ) as Promise<Models.GetCertificateVersionsNextResponse>;
   }
 
   /**
@@ -3209,26 +5135,43 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.GetDeletedCertificatesNextResponse>
    */
-  getDeletedCertificatesNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.GetDeletedCertificatesNextResponse>;
+  getDeletedCertificatesNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GetDeletedCertificatesNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  getDeletedCertificatesNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.DeletedCertificateListResult>): void;
+  getDeletedCertificatesNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.DeletedCertificateListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getDeletedCertificatesNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DeletedCertificateListResult>): void;
-  getDeletedCertificatesNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DeletedCertificateListResult>, callback?: msRest.ServiceCallback<Models.DeletedCertificateListResult>): Promise<Models.GetDeletedCertificatesNextResponse> {
+  getDeletedCertificatesNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DeletedCertificateListResult>
+  ): void;
+  getDeletedCertificatesNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.DeletedCertificateListResult>,
+    callback?: msRest.ServiceCallback<Models.DeletedCertificateListResult>
+  ): Promise<Models.GetDeletedCertificatesNextResponse> {
     return this.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       getDeletedCertificatesNextOperationSpec,
-      callback) as Promise<Models.GetDeletedCertificatesNextResponse>;
+      callback
+    ) as Promise<Models.GetDeletedCertificatesNextResponse>;
   }
 
   /**
@@ -3238,26 +5181,43 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.GetStorageAccountsNextResponse>
    */
-  getStorageAccountsNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.GetStorageAccountsNextResponse>;
+  getStorageAccountsNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GetStorageAccountsNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  getStorageAccountsNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.StorageListResult>): void;
+  getStorageAccountsNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.StorageListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getStorageAccountsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StorageListResult>): void;
-  getStorageAccountsNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StorageListResult>, callback?: msRest.ServiceCallback<Models.StorageListResult>): Promise<Models.GetStorageAccountsNextResponse> {
+  getStorageAccountsNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.StorageListResult>
+  ): void;
+  getStorageAccountsNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.StorageListResult>,
+    callback?: msRest.ServiceCallback<Models.StorageListResult>
+  ): Promise<Models.GetStorageAccountsNextResponse> {
     return this.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       getStorageAccountsNextOperationSpec,
-      callback) as Promise<Models.GetStorageAccountsNextResponse>;
+      callback
+    ) as Promise<Models.GetStorageAccountsNextResponse>;
   }
 
   /**
@@ -3268,26 +5228,43 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.GetDeletedStorageAccountsNextResponse>
    */
-  getDeletedStorageAccountsNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.GetDeletedStorageAccountsNextResponse>;
+  getDeletedStorageAccountsNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GetDeletedStorageAccountsNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  getDeletedStorageAccountsNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.DeletedStorageListResult>): void;
+  getDeletedStorageAccountsNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.DeletedStorageListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getDeletedStorageAccountsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DeletedStorageListResult>): void;
-  getDeletedStorageAccountsNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DeletedStorageListResult>, callback?: msRest.ServiceCallback<Models.DeletedStorageListResult>): Promise<Models.GetDeletedStorageAccountsNextResponse> {
+  getDeletedStorageAccountsNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DeletedStorageListResult>
+  ): void;
+  getDeletedStorageAccountsNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.DeletedStorageListResult>,
+    callback?: msRest.ServiceCallback<Models.DeletedStorageListResult>
+  ): Promise<Models.GetDeletedStorageAccountsNextResponse> {
     return this.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       getDeletedStorageAccountsNextOperationSpec,
-      callback) as Promise<Models.GetDeletedStorageAccountsNextResponse>;
+      callback
+    ) as Promise<Models.GetDeletedStorageAccountsNextResponse>;
   }
 
   /**
@@ -3297,26 +5274,43 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.GetSasDefinitionsNextResponse>
    */
-  getSasDefinitionsNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.GetSasDefinitionsNextResponse>;
+  getSasDefinitionsNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GetSasDefinitionsNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  getSasDefinitionsNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.SasDefinitionListResult>): void;
+  getSasDefinitionsNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.SasDefinitionListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getSasDefinitionsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SasDefinitionListResult>): void;
-  getSasDefinitionsNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SasDefinitionListResult>, callback?: msRest.ServiceCallback<Models.SasDefinitionListResult>): Promise<Models.GetSasDefinitionsNextResponse> {
+  getSasDefinitionsNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SasDefinitionListResult>
+  ): void;
+  getSasDefinitionsNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.SasDefinitionListResult>,
+    callback?: msRest.ServiceCallback<Models.SasDefinitionListResult>
+  ): Promise<Models.GetSasDefinitionsNextResponse> {
     return this.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       getSasDefinitionsNextOperationSpec,
-      callback) as Promise<Models.GetSasDefinitionsNextResponse>;
+      callback
+    ) as Promise<Models.GetSasDefinitionsNextResponse>;
   }
 
   /**
@@ -3327,26 +5321,43 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.GetDeletedSasDefinitionsNextResponse>
    */
-  getDeletedSasDefinitionsNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.GetDeletedSasDefinitionsNextResponse>;
+  getDeletedSasDefinitionsNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GetDeletedSasDefinitionsNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  getDeletedSasDefinitionsNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.DeletedSasDefinitionListResult>): void;
+  getDeletedSasDefinitionsNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.DeletedSasDefinitionListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getDeletedSasDefinitionsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DeletedSasDefinitionListResult>): void;
-  getDeletedSasDefinitionsNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DeletedSasDefinitionListResult>, callback?: msRest.ServiceCallback<Models.DeletedSasDefinitionListResult>): Promise<Models.GetDeletedSasDefinitionsNextResponse> {
+  getDeletedSasDefinitionsNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DeletedSasDefinitionListResult>
+  ): void;
+  getDeletedSasDefinitionsNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.DeletedSasDefinitionListResult>,
+    callback?: msRest.ServiceCallback<Models.DeletedSasDefinitionListResult>
+  ): Promise<Models.GetDeletedSasDefinitionsNextResponse> {
     return this.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       getDeletedSasDefinitionsNextOperationSpec,
-      callback) as Promise<Models.GetDeletedSasDefinitionsNextResponse>;
+      callback
+    ) as Promise<Models.GetDeletedSasDefinitionsNextResponse>;
   }
 }
 
@@ -3355,39 +5366,17 @@ const serializer = new msRest.Serializer(Mappers);
 const createKeyOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "keys/{key-name}/create",
-  urlParameters: [
-    Parameters.vaultBaseUrl,
-    Parameters.keyName0
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.vaultBaseUrl, Parameters.keyName0],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
       kty: "kty",
-      keySize: [
-        "options",
-        "keySize"
-      ],
-      keyOps: [
-        "options",
-        "keyOps"
-      ],
-      keyAttributes: [
-        "options",
-        "keyAttributes"
-      ],
-      tags: [
-        "options",
-        "tags"
-      ],
-      curve: [
-        "options",
-        "curve"
-      ]
+      keySize: ["options", "keySize"],
+      keyOps: ["options", "keyOps"],
+      keyAttributes: ["options", "keyAttributes"],
+      tags: ["options", "tags"],
+      curve: ["options", "curve"]
     },
     mapper: {
       ...Mappers.KeyCreateParameters,
@@ -3408,31 +5397,15 @@ const createKeyOperationSpec: msRest.OperationSpec = {
 const importKeyOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "keys/{key-name}",
-  urlParameters: [
-    Parameters.vaultBaseUrl,
-    Parameters.keyName0
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.vaultBaseUrl, Parameters.keyName0],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
-      hsm: [
-        "options",
-        "hsm"
-      ],
+      hsm: ["options", "hsm"],
       key: "key",
-      keyAttributes: [
-        "options",
-        "keyAttributes"
-      ],
-      tags: [
-        "options",
-        "tags"
-      ]
+      keyAttributes: ["options", "keyAttributes"],
+      tags: ["options", "tags"]
     },
     mapper: {
       ...Mappers.KeyImportParameters,
@@ -3453,16 +5426,9 @@ const importKeyOperationSpec: msRest.OperationSpec = {
 const deleteKeyOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "keys/{key-name}",
-  urlParameters: [
-    Parameters.vaultBaseUrl,
-    Parameters.keyName1
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.vaultBaseUrl, Parameters.keyName1],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DeletedKeyBundle
@@ -3482,26 +5448,13 @@ const updateKeyOperationSpec: msRest.OperationSpec = {
     Parameters.keyName1,
     Parameters.keyVersion
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
-      keyOps: [
-        "options",
-        "keyOps"
-      ],
-      keyAttributes: [
-        "options",
-        "keyAttributes"
-      ],
-      tags: [
-        "options",
-        "tags"
-      ]
+      keyOps: ["options", "keyOps"],
+      keyAttributes: ["options", "keyAttributes"],
+      tags: ["options", "tags"]
     },
     mapper: {
       ...Mappers.KeyUpdateParameters,
@@ -3527,12 +5480,8 @@ const getKeyOperationSpec: msRest.OperationSpec = {
     Parameters.keyName1,
     Parameters.keyVersion
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.KeyBundle
@@ -3547,17 +5496,9 @@ const getKeyOperationSpec: msRest.OperationSpec = {
 const getKeyVersionsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "keys/{key-name}/versions",
-  urlParameters: [
-    Parameters.vaultBaseUrl,
-    Parameters.keyName1
-  ],
-  queryParameters: [
-    Parameters.maxresults,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.vaultBaseUrl, Parameters.keyName1],
+  queryParameters: [Parameters.maxresults, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.KeyListResult
@@ -3572,16 +5513,9 @@ const getKeyVersionsOperationSpec: msRest.OperationSpec = {
 const getKeysOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "keys",
-  urlParameters: [
-    Parameters.vaultBaseUrl
-  ],
-  queryParameters: [
-    Parameters.maxresults,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.vaultBaseUrl],
+  queryParameters: [Parameters.maxresults, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.KeyListResult
@@ -3596,16 +5530,9 @@ const getKeysOperationSpec: msRest.OperationSpec = {
 const backupKeyOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "keys/{key-name}/backup",
-  urlParameters: [
-    Parameters.vaultBaseUrl,
-    Parameters.keyName1
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.vaultBaseUrl, Parameters.keyName1],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.BackupKeyResult
@@ -3620,15 +5547,9 @@ const backupKeyOperationSpec: msRest.OperationSpec = {
 const restoreKeyOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "keys/restore",
-  urlParameters: [
-    Parameters.vaultBaseUrl
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.vaultBaseUrl],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
       keyBundleBackup: "keyBundleBackup"
@@ -3657,12 +5578,8 @@ const encryptOperationSpec: msRest.OperationSpec = {
     Parameters.keyName1,
     Parameters.keyVersion
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
       algorithm: "algorithm",
@@ -3692,12 +5609,8 @@ const decryptOperationSpec: msRest.OperationSpec = {
     Parameters.keyName1,
     Parameters.keyVersion
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
       algorithm: "algorithm",
@@ -3727,12 +5640,8 @@ const signOperationSpec: msRest.OperationSpec = {
     Parameters.keyName1,
     Parameters.keyVersion
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
       algorithm: "algorithm",
@@ -3762,12 +5671,8 @@ const verifyOperationSpec: msRest.OperationSpec = {
     Parameters.keyName1,
     Parameters.keyVersion
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
       algorithm: "algorithm",
@@ -3798,12 +5703,8 @@ const wrapKeyOperationSpec: msRest.OperationSpec = {
     Parameters.keyName1,
     Parameters.keyVersion
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
       algorithm: "algorithm",
@@ -3833,12 +5734,8 @@ const unwrapKeyOperationSpec: msRest.OperationSpec = {
     Parameters.keyName1,
     Parameters.keyVersion
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
       algorithm: "algorithm",
@@ -3863,16 +5760,9 @@ const unwrapKeyOperationSpec: msRest.OperationSpec = {
 const getDeletedKeysOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "deletedkeys",
-  urlParameters: [
-    Parameters.vaultBaseUrl
-  ],
-  queryParameters: [
-    Parameters.maxresults,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.vaultBaseUrl],
+  queryParameters: [Parameters.maxresults, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DeletedKeyListResult
@@ -3887,16 +5777,9 @@ const getDeletedKeysOperationSpec: msRest.OperationSpec = {
 const getDeletedKeyOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "deletedkeys/{key-name}",
-  urlParameters: [
-    Parameters.vaultBaseUrl,
-    Parameters.keyName1
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.vaultBaseUrl, Parameters.keyName1],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DeletedKeyBundle
@@ -3911,16 +5794,9 @@ const getDeletedKeyOperationSpec: msRest.OperationSpec = {
 const purgeDeletedKeyOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "deletedkeys/{key-name}",
-  urlParameters: [
-    Parameters.vaultBaseUrl,
-    Parameters.keyName1
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.vaultBaseUrl, Parameters.keyName1],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     204: {},
     default: {
@@ -3933,16 +5809,9 @@ const purgeDeletedKeyOperationSpec: msRest.OperationSpec = {
 const recoverDeletedKeyOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "deletedkeys/{key-name}/recover",
-  urlParameters: [
-    Parameters.vaultBaseUrl,
-    Parameters.keyName1
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.vaultBaseUrl, Parameters.keyName1],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.KeyBundle
@@ -3957,31 +5826,15 @@ const recoverDeletedKeyOperationSpec: msRest.OperationSpec = {
 const setSecretOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "secrets/{secret-name}",
-  urlParameters: [
-    Parameters.vaultBaseUrl,
-    Parameters.secretName0
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.vaultBaseUrl, Parameters.secretName0],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
       value: "value",
-      tags: [
-        "options",
-        "tags"
-      ],
-      contentType: [
-        "options",
-        "contentType"
-      ],
-      secretAttributes: [
-        "options",
-        "secretAttributes"
-      ]
+      tags: ["options", "tags"],
+      contentType: ["options", "contentType"],
+      secretAttributes: ["options", "secretAttributes"]
     },
     mapper: {
       ...Mappers.SecretSetParameters,
@@ -4002,16 +5855,9 @@ const setSecretOperationSpec: msRest.OperationSpec = {
 const deleteSecretOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "secrets/{secret-name}",
-  urlParameters: [
-    Parameters.vaultBaseUrl,
-    Parameters.secretName1
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.vaultBaseUrl, Parameters.secretName1],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DeletedSecretBundle
@@ -4031,26 +5877,13 @@ const updateSecretOperationSpec: msRest.OperationSpec = {
     Parameters.secretName1,
     Parameters.secretVersion
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
-      contentType: [
-        "options",
-        "contentType"
-      ],
-      secretAttributes: [
-        "options",
-        "secretAttributes"
-      ],
-      tags: [
-        "options",
-        "tags"
-      ]
+      contentType: ["options", "contentType"],
+      secretAttributes: ["options", "secretAttributes"],
+      tags: ["options", "tags"]
     },
     mapper: {
       ...Mappers.SecretUpdateParameters,
@@ -4076,12 +5909,8 @@ const getSecretOperationSpec: msRest.OperationSpec = {
     Parameters.secretName1,
     Parameters.secretVersion
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SecretBundle
@@ -4096,16 +5925,9 @@ const getSecretOperationSpec: msRest.OperationSpec = {
 const getSecretsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "secrets",
-  urlParameters: [
-    Parameters.vaultBaseUrl
-  ],
-  queryParameters: [
-    Parameters.maxresults,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.vaultBaseUrl],
+  queryParameters: [Parameters.maxresults, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SecretListResult
@@ -4120,17 +5942,9 @@ const getSecretsOperationSpec: msRest.OperationSpec = {
 const getSecretVersionsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "secrets/{secret-name}/versions",
-  urlParameters: [
-    Parameters.vaultBaseUrl,
-    Parameters.secretName1
-  ],
-  queryParameters: [
-    Parameters.maxresults,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.vaultBaseUrl, Parameters.secretName1],
+  queryParameters: [Parameters.maxresults, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SecretListResult
@@ -4145,16 +5959,9 @@ const getSecretVersionsOperationSpec: msRest.OperationSpec = {
 const getDeletedSecretsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "deletedsecrets",
-  urlParameters: [
-    Parameters.vaultBaseUrl
-  ],
-  queryParameters: [
-    Parameters.maxresults,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.vaultBaseUrl],
+  queryParameters: [Parameters.maxresults, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DeletedSecretListResult
@@ -4169,16 +5976,9 @@ const getDeletedSecretsOperationSpec: msRest.OperationSpec = {
 const getDeletedSecretOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "deletedsecrets/{secret-name}",
-  urlParameters: [
-    Parameters.vaultBaseUrl,
-    Parameters.secretName1
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.vaultBaseUrl, Parameters.secretName1],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DeletedSecretBundle
@@ -4193,16 +5993,9 @@ const getDeletedSecretOperationSpec: msRest.OperationSpec = {
 const purgeDeletedSecretOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "deletedsecrets/{secret-name}",
-  urlParameters: [
-    Parameters.vaultBaseUrl,
-    Parameters.secretName1
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.vaultBaseUrl, Parameters.secretName1],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     204: {},
     default: {
@@ -4215,16 +6008,9 @@ const purgeDeletedSecretOperationSpec: msRest.OperationSpec = {
 const recoverDeletedSecretOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "deletedsecrets/{secret-name}/recover",
-  urlParameters: [
-    Parameters.vaultBaseUrl,
-    Parameters.secretName1
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.vaultBaseUrl, Parameters.secretName1],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SecretBundle
@@ -4239,16 +6025,9 @@ const recoverDeletedSecretOperationSpec: msRest.OperationSpec = {
 const backupSecretOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "secrets/{secret-name}/backup",
-  urlParameters: [
-    Parameters.vaultBaseUrl,
-    Parameters.secretName1
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.vaultBaseUrl, Parameters.secretName1],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.BackupSecretResult
@@ -4263,15 +6042,9 @@ const backupSecretOperationSpec: msRest.OperationSpec = {
 const restoreSecretOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "secrets/restore",
-  urlParameters: [
-    Parameters.vaultBaseUrl
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.vaultBaseUrl],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
       secretBundleBackup: "secretBundleBackup"
@@ -4295,17 +6068,13 @@ const restoreSecretOperationSpec: msRest.OperationSpec = {
 const getCertificatesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "certificates",
-  urlParameters: [
-    Parameters.vaultBaseUrl
-  ],
+  urlParameters: [Parameters.vaultBaseUrl],
   queryParameters: [
     Parameters.maxresults,
     Parameters.includePending,
     Parameters.apiVersion
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.CertificateListResult
@@ -4320,16 +6089,9 @@ const getCertificatesOperationSpec: msRest.OperationSpec = {
 const deleteCertificateOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "certificates/{certificate-name}",
-  urlParameters: [
-    Parameters.vaultBaseUrl,
-    Parameters.certificateName0
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.vaultBaseUrl, Parameters.certificateName0],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DeletedCertificateBundle
@@ -4344,15 +6106,9 @@ const deleteCertificateOperationSpec: msRest.OperationSpec = {
 const setCertificateContactsOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "certificates/contacts",
-  urlParameters: [
-    Parameters.vaultBaseUrl
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.vaultBaseUrl],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "contacts",
     mapper: {
@@ -4374,15 +6130,9 @@ const setCertificateContactsOperationSpec: msRest.OperationSpec = {
 const getCertificateContactsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "certificates/contacts",
-  urlParameters: [
-    Parameters.vaultBaseUrl
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.vaultBaseUrl],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Contacts
@@ -4397,15 +6147,9 @@ const getCertificateContactsOperationSpec: msRest.OperationSpec = {
 const deleteCertificateContactsOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "certificates/contacts",
-  urlParameters: [
-    Parameters.vaultBaseUrl
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.vaultBaseUrl],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Contacts
@@ -4420,16 +6164,9 @@ const deleteCertificateContactsOperationSpec: msRest.OperationSpec = {
 const getCertificateIssuersOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "certificates/issuers",
-  urlParameters: [
-    Parameters.vaultBaseUrl
-  ],
-  queryParameters: [
-    Parameters.maxresults,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.vaultBaseUrl],
+  queryParameters: [Parameters.maxresults, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.CertificateIssuerListResult
@@ -4444,31 +6181,15 @@ const getCertificateIssuersOperationSpec: msRest.OperationSpec = {
 const setCertificateIssuerOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "certificates/issuers/{issuer-name}",
-  urlParameters: [
-    Parameters.vaultBaseUrl,
-    Parameters.issuerName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.vaultBaseUrl, Parameters.issuerName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
       provider: "provider",
-      credentials: [
-        "options",
-        "credentials"
-      ],
-      organizationDetails: [
-        "options",
-        "organizationDetails"
-      ],
-      attributes: [
-        "options",
-        "attributes"
-      ]
+      credentials: ["options", "credentials"],
+      organizationDetails: ["options", "organizationDetails"],
+      attributes: ["options", "attributes"]
     },
     mapper: {
       ...Mappers.CertificateIssuerSetParameters,
@@ -4489,34 +6210,15 @@ const setCertificateIssuerOperationSpec: msRest.OperationSpec = {
 const updateCertificateIssuerOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
   path: "certificates/issuers/{issuer-name}",
-  urlParameters: [
-    Parameters.vaultBaseUrl,
-    Parameters.issuerName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.vaultBaseUrl, Parameters.issuerName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
-      provider: [
-        "options",
-        "provider"
-      ],
-      credentials: [
-        "options",
-        "credentials"
-      ],
-      organizationDetails: [
-        "options",
-        "organizationDetails"
-      ],
-      attributes: [
-        "options",
-        "attributes"
-      ]
+      provider: ["options", "provider"],
+      credentials: ["options", "credentials"],
+      organizationDetails: ["options", "organizationDetails"],
+      attributes: ["options", "attributes"]
     },
     mapper: {
       ...Mappers.CertificateIssuerUpdateParameters,
@@ -4537,16 +6239,9 @@ const updateCertificateIssuerOperationSpec: msRest.OperationSpec = {
 const getCertificateIssuerOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "certificates/issuers/{issuer-name}",
-  urlParameters: [
-    Parameters.vaultBaseUrl,
-    Parameters.issuerName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.vaultBaseUrl, Parameters.issuerName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.IssuerBundle
@@ -4561,16 +6256,9 @@ const getCertificateIssuerOperationSpec: msRest.OperationSpec = {
 const deleteCertificateIssuerOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "certificates/issuers/{issuer-name}",
-  urlParameters: [
-    Parameters.vaultBaseUrl,
-    Parameters.issuerName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.vaultBaseUrl, Parameters.issuerName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.IssuerBundle
@@ -4585,30 +6273,14 @@ const deleteCertificateIssuerOperationSpec: msRest.OperationSpec = {
 const createCertificateOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "certificates/{certificate-name}/create",
-  urlParameters: [
-    Parameters.vaultBaseUrl,
-    Parameters.certificateName1
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.vaultBaseUrl, Parameters.certificateName1],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
-      certificatePolicy: [
-        "options",
-        "certificatePolicy"
-      ],
-      certificateAttributes: [
-        "options",
-        "certificateAttributes"
-      ],
-      tags: [
-        "options",
-        "tags"
-      ]
+      certificatePolicy: ["options", "certificatePolicy"],
+      certificateAttributes: ["options", "certificateAttributes"],
+      tags: ["options", "tags"]
     },
     mapper: {
       ...Mappers.CertificateCreateParameters,
@@ -4629,35 +6301,16 @@ const createCertificateOperationSpec: msRest.OperationSpec = {
 const importCertificateOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "certificates/{certificate-name}/import",
-  urlParameters: [
-    Parameters.vaultBaseUrl,
-    Parameters.certificateName1
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.vaultBaseUrl, Parameters.certificateName1],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
       base64EncodedCertificate: "base64EncodedCertificate",
-      password: [
-        "options",
-        "password"
-      ],
-      certificatePolicy: [
-        "options",
-        "certificatePolicy"
-      ],
-      certificateAttributes: [
-        "options",
-        "certificateAttributes"
-      ],
-      tags: [
-        "options",
-        "tags"
-      ]
+      password: ["options", "password"],
+      certificatePolicy: ["options", "certificatePolicy"],
+      certificateAttributes: ["options", "certificateAttributes"],
+      tags: ["options", "tags"]
     },
     mapper: {
       ...Mappers.CertificateImportParameters,
@@ -4678,17 +6331,9 @@ const importCertificateOperationSpec: msRest.OperationSpec = {
 const getCertificateVersionsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "certificates/{certificate-name}/versions",
-  urlParameters: [
-    Parameters.vaultBaseUrl,
-    Parameters.certificateName0
-  ],
-  queryParameters: [
-    Parameters.maxresults,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.vaultBaseUrl, Parameters.certificateName0],
+  queryParameters: [Parameters.maxresults, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.CertificateListResult
@@ -4703,16 +6348,9 @@ const getCertificateVersionsOperationSpec: msRest.OperationSpec = {
 const getCertificatePolicyOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "certificates/{certificate-name}/policy",
-  urlParameters: [
-    Parameters.vaultBaseUrl,
-    Parameters.certificateName0
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.vaultBaseUrl, Parameters.certificateName0],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.CertificatePolicy
@@ -4727,16 +6365,9 @@ const getCertificatePolicyOperationSpec: msRest.OperationSpec = {
 const updateCertificatePolicyOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
   path: "certificates/{certificate-name}/policy",
-  urlParameters: [
-    Parameters.vaultBaseUrl,
-    Parameters.certificateName0
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.vaultBaseUrl, Parameters.certificateName0],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "certificatePolicy",
     mapper: {
@@ -4763,26 +6394,13 @@ const updateCertificateOperationSpec: msRest.OperationSpec = {
     Parameters.certificateName0,
     Parameters.certificateVersion
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
-      certificatePolicy: [
-        "options",
-        "certificatePolicy"
-      ],
-      certificateAttributes: [
-        "options",
-        "certificateAttributes"
-      ],
-      tags: [
-        "options",
-        "tags"
-      ]
+      certificatePolicy: ["options", "certificatePolicy"],
+      certificateAttributes: ["options", "certificateAttributes"],
+      tags: ["options", "tags"]
     },
     mapper: {
       ...Mappers.CertificateUpdateParameters,
@@ -4808,12 +6426,8 @@ const getCertificateOperationSpec: msRest.OperationSpec = {
     Parameters.certificateName0,
     Parameters.certificateVersion
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.CertificateBundle
@@ -4828,16 +6442,9 @@ const getCertificateOperationSpec: msRest.OperationSpec = {
 const updateCertificateOperationOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
   path: "certificates/{certificate-name}/pending",
-  urlParameters: [
-    Parameters.vaultBaseUrl,
-    Parameters.certificateName0
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.vaultBaseUrl, Parameters.certificateName0],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
       cancellationRequested: "cancellationRequested"
@@ -4861,16 +6468,9 @@ const updateCertificateOperationOperationSpec: msRest.OperationSpec = {
 const getCertificateOperationOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "certificates/{certificate-name}/pending",
-  urlParameters: [
-    Parameters.vaultBaseUrl,
-    Parameters.certificateName0
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.vaultBaseUrl, Parameters.certificateName0],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.CertificateOperation
@@ -4885,16 +6485,9 @@ const getCertificateOperationOperationSpec: msRest.OperationSpec = {
 const deleteCertificateOperationOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "certificates/{certificate-name}/pending",
-  urlParameters: [
-    Parameters.vaultBaseUrl,
-    Parameters.certificateName0
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.vaultBaseUrl, Parameters.certificateName0],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.CertificateOperation
@@ -4909,27 +6502,14 @@ const deleteCertificateOperationOperationSpec: msRest.OperationSpec = {
 const mergeCertificateOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "certificates/{certificate-name}/pending/merge",
-  urlParameters: [
-    Parameters.vaultBaseUrl,
-    Parameters.certificateName0
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.vaultBaseUrl, Parameters.certificateName0],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
       x509Certificates: "x509Certificates",
-      certificateAttributes: [
-        "options",
-        "certificateAttributes"
-      ],
-      tags: [
-        "options",
-        "tags"
-      ]
+      certificateAttributes: ["options", "certificateAttributes"],
+      tags: ["options", "tags"]
     },
     mapper: {
       ...Mappers.CertificateMergeParameters,
@@ -4950,16 +6530,9 @@ const mergeCertificateOperationSpec: msRest.OperationSpec = {
 const backupCertificateOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "certificates/{certificate-name}/backup",
-  urlParameters: [
-    Parameters.vaultBaseUrl,
-    Parameters.certificateName0
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.vaultBaseUrl, Parameters.certificateName0],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.BackupCertificateResult
@@ -4974,15 +6547,9 @@ const backupCertificateOperationSpec: msRest.OperationSpec = {
 const restoreCertificateOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "certificates/restore",
-  urlParameters: [
-    Parameters.vaultBaseUrl
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.vaultBaseUrl],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
       certificateBundleBackup: "certificateBundleBackup"
@@ -5006,17 +6573,13 @@ const restoreCertificateOperationSpec: msRest.OperationSpec = {
 const getDeletedCertificatesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "deletedcertificates",
-  urlParameters: [
-    Parameters.vaultBaseUrl
-  ],
+  urlParameters: [Parameters.vaultBaseUrl],
   queryParameters: [
     Parameters.maxresults,
     Parameters.includePending,
     Parameters.apiVersion
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DeletedCertificateListResult
@@ -5031,16 +6594,9 @@ const getDeletedCertificatesOperationSpec: msRest.OperationSpec = {
 const getDeletedCertificateOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "deletedcertificates/{certificate-name}",
-  urlParameters: [
-    Parameters.vaultBaseUrl,
-    Parameters.certificateName0
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.vaultBaseUrl, Parameters.certificateName0],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DeletedCertificateBundle
@@ -5055,16 +6611,9 @@ const getDeletedCertificateOperationSpec: msRest.OperationSpec = {
 const purgeDeletedCertificateOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "deletedcertificates/{certificate-name}",
-  urlParameters: [
-    Parameters.vaultBaseUrl,
-    Parameters.certificateName0
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.vaultBaseUrl, Parameters.certificateName0],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     204: {},
     default: {
@@ -5077,16 +6626,9 @@ const purgeDeletedCertificateOperationSpec: msRest.OperationSpec = {
 const recoverDeletedCertificateOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "deletedcertificates/{certificate-name}/recover",
-  urlParameters: [
-    Parameters.vaultBaseUrl,
-    Parameters.certificateName0
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.vaultBaseUrl, Parameters.certificateName0],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.CertificateBundle
@@ -5101,16 +6643,9 @@ const recoverDeletedCertificateOperationSpec: msRest.OperationSpec = {
 const getStorageAccountsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "storage",
-  urlParameters: [
-    Parameters.vaultBaseUrl
-  ],
-  queryParameters: [
-    Parameters.maxresults,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.vaultBaseUrl],
+  queryParameters: [Parameters.maxresults, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.StorageListResult
@@ -5125,16 +6660,9 @@ const getStorageAccountsOperationSpec: msRest.OperationSpec = {
 const getDeletedStorageAccountsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "deletedstorage",
-  urlParameters: [
-    Parameters.vaultBaseUrl
-  ],
-  queryParameters: [
-    Parameters.maxresults,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.vaultBaseUrl],
+  queryParameters: [Parameters.maxresults, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DeletedStorageListResult
@@ -5149,16 +6677,9 @@ const getDeletedStorageAccountsOperationSpec: msRest.OperationSpec = {
 const getDeletedStorageAccountOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "deletedstorage/{storage-account-name}",
-  urlParameters: [
-    Parameters.vaultBaseUrl,
-    Parameters.storageAccountName0
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.vaultBaseUrl, Parameters.storageAccountName0],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DeletedStorageBundle
@@ -5173,16 +6694,9 @@ const getDeletedStorageAccountOperationSpec: msRest.OperationSpec = {
 const purgeDeletedStorageAccountOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "deletedstorage/{storage-account-name}",
-  urlParameters: [
-    Parameters.vaultBaseUrl,
-    Parameters.storageAccountName0
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.vaultBaseUrl, Parameters.storageAccountName0],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     204: {},
     default: {
@@ -5195,16 +6709,9 @@ const purgeDeletedStorageAccountOperationSpec: msRest.OperationSpec = {
 const recoverDeletedStorageAccountOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "deletedstorage/{storage-account-name}/recover",
-  urlParameters: [
-    Parameters.vaultBaseUrl,
-    Parameters.storageAccountName0
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.vaultBaseUrl, Parameters.storageAccountName0],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.StorageBundle
@@ -5219,16 +6726,9 @@ const recoverDeletedStorageAccountOperationSpec: msRest.OperationSpec = {
 const backupStorageAccountOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "storage/{storage-account-name}/backup",
-  urlParameters: [
-    Parameters.vaultBaseUrl,
-    Parameters.storageAccountName1
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.vaultBaseUrl, Parameters.storageAccountName1],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.BackupStorageResult
@@ -5243,15 +6743,9 @@ const backupStorageAccountOperationSpec: msRest.OperationSpec = {
 const restoreStorageAccountOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "storage/restore",
-  urlParameters: [
-    Parameters.vaultBaseUrl
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.vaultBaseUrl],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
       storageBundleBackup: "storageBundleBackup"
@@ -5275,16 +6769,9 @@ const restoreStorageAccountOperationSpec: msRest.OperationSpec = {
 const deleteStorageAccountOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "storage/{storage-account-name}",
-  urlParameters: [
-    Parameters.vaultBaseUrl,
-    Parameters.storageAccountName0
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.vaultBaseUrl, Parameters.storageAccountName0],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DeletedStorageBundle
@@ -5299,16 +6786,9 @@ const deleteStorageAccountOperationSpec: msRest.OperationSpec = {
 const getStorageAccountOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "storage/{storage-account-name}",
-  urlParameters: [
-    Parameters.vaultBaseUrl,
-    Parameters.storageAccountName0
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.vaultBaseUrl, Parameters.storageAccountName0],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.StorageBundle
@@ -5323,33 +6803,17 @@ const getStorageAccountOperationSpec: msRest.OperationSpec = {
 const setStorageAccountOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "storage/{storage-account-name}",
-  urlParameters: [
-    Parameters.vaultBaseUrl,
-    Parameters.storageAccountName0
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.vaultBaseUrl, Parameters.storageAccountName0],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
       resourceId: "resourceId",
       activeKeyName: "activeKeyName",
       autoRegenerateKey: "autoRegenerateKey",
-      regenerationPeriod: [
-        "options",
-        "regenerationPeriod"
-      ],
-      storageAccountAttributes: [
-        "options",
-        "storageAccountAttributes"
-      ],
-      tags: [
-        "options",
-        "tags"
-      ]
+      regenerationPeriod: ["options", "regenerationPeriod"],
+      storageAccountAttributes: ["options", "storageAccountAttributes"],
+      tags: ["options", "tags"]
     },
     mapper: {
       ...Mappers.StorageAccountCreateParameters,
@@ -5370,38 +6834,16 @@ const setStorageAccountOperationSpec: msRest.OperationSpec = {
 const updateStorageAccountOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
   path: "storage/{storage-account-name}",
-  urlParameters: [
-    Parameters.vaultBaseUrl,
-    Parameters.storageAccountName0
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.vaultBaseUrl, Parameters.storageAccountName0],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
-      activeKeyName: [
-        "options",
-        "activeKeyName"
-      ],
-      autoRegenerateKey: [
-        "options",
-        "autoRegenerateKey"
-      ],
-      regenerationPeriod: [
-        "options",
-        "regenerationPeriod"
-      ],
-      storageAccountAttributes: [
-        "options",
-        "storageAccountAttributes"
-      ],
-      tags: [
-        "options",
-        "tags"
-      ]
+      activeKeyName: ["options", "activeKeyName"],
+      autoRegenerateKey: ["options", "autoRegenerateKey"],
+      regenerationPeriod: ["options", "regenerationPeriod"],
+      storageAccountAttributes: ["options", "storageAccountAttributes"],
+      tags: ["options", "tags"]
     },
     mapper: {
       ...Mappers.StorageAccountUpdateParameters,
@@ -5422,16 +6864,9 @@ const updateStorageAccountOperationSpec: msRest.OperationSpec = {
 const regenerateStorageAccountKeyOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "storage/{storage-account-name}/regeneratekey",
-  urlParameters: [
-    Parameters.vaultBaseUrl,
-    Parameters.storageAccountName0
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.vaultBaseUrl, Parameters.storageAccountName0],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
       keyName: "keyName"
@@ -5455,17 +6890,9 @@ const regenerateStorageAccountKeyOperationSpec: msRest.OperationSpec = {
 const getSasDefinitionsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "storage/{storage-account-name}/sas",
-  urlParameters: [
-    Parameters.vaultBaseUrl,
-    Parameters.storageAccountName0
-  ],
-  queryParameters: [
-    Parameters.maxresults,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.vaultBaseUrl, Parameters.storageAccountName0],
+  queryParameters: [Parameters.maxresults, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SasDefinitionListResult
@@ -5480,17 +6907,9 @@ const getSasDefinitionsOperationSpec: msRest.OperationSpec = {
 const getDeletedSasDefinitionsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "deletedstorage/{storage-account-name}/sas",
-  urlParameters: [
-    Parameters.vaultBaseUrl,
-    Parameters.storageAccountName0
-  ],
-  queryParameters: [
-    Parameters.maxresults,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.vaultBaseUrl, Parameters.storageAccountName0],
+  queryParameters: [Parameters.maxresults, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DeletedSasDefinitionListResult
@@ -5510,12 +6929,8 @@ const getDeletedSasDefinitionOperationSpec: msRest.OperationSpec = {
     Parameters.storageAccountName0,
     Parameters.sasDefinitionName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DeletedSasDefinitionBundle
@@ -5529,18 +6944,15 @@ const getDeletedSasDefinitionOperationSpec: msRest.OperationSpec = {
 
 const recoverDeletedSasDefinitionOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "deletedstorage/{storage-account-name}/sas/{sas-definition-name}/recover",
+  path:
+    "deletedstorage/{storage-account-name}/sas/{sas-definition-name}/recover",
   urlParameters: [
     Parameters.vaultBaseUrl,
     Parameters.storageAccountName0,
     Parameters.sasDefinitionName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SasDefinitionBundle
@@ -5560,12 +6972,8 @@ const deleteSasDefinitionOperationSpec: msRest.OperationSpec = {
     Parameters.storageAccountName0,
     Parameters.sasDefinitionName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DeletedSasDefinitionBundle
@@ -5585,12 +6993,8 @@ const getSasDefinitionOperationSpec: msRest.OperationSpec = {
     Parameters.storageAccountName0,
     Parameters.sasDefinitionName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SasDefinitionBundle
@@ -5610,25 +7014,15 @@ const setSasDefinitionOperationSpec: msRest.OperationSpec = {
     Parameters.storageAccountName0,
     Parameters.sasDefinitionName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
       templateUri: "templateUri",
       sasType: "sasType",
       validityPeriod: "validityPeriod",
-      sasDefinitionAttributes: [
-        "options",
-        "sasDefinitionAttributes"
-      ],
-      tags: [
-        "options",
-        "tags"
-      ]
+      sasDefinitionAttributes: ["options", "sasDefinitionAttributes"],
+      tags: ["options", "tags"]
     },
     mapper: {
       ...Mappers.SasDefinitionCreateParameters,
@@ -5654,34 +7048,15 @@ const updateSasDefinitionOperationSpec: msRest.OperationSpec = {
     Parameters.storageAccountName0,
     Parameters.sasDefinitionName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
-      templateUri: [
-        "options",
-        "templateUri"
-      ],
-      sasType: [
-        "options",
-        "sasType"
-      ],
-      validityPeriod: [
-        "options",
-        "validityPeriod"
-      ],
-      sasDefinitionAttributes: [
-        "options",
-        "sasDefinitionAttributes"
-      ],
-      tags: [
-        "options",
-        "tags"
-      ]
+      templateUri: ["options", "templateUri"],
+      sasType: ["options", "sasType"],
+      validityPeriod: ["options", "validityPeriod"],
+      sasDefinitionAttributes: ["options", "sasDefinitionAttributes"],
+      tags: ["options", "tags"]
     },
     mapper: {
       ...Mappers.SasDefinitionUpdateParameters,
@@ -5703,12 +7078,8 @@ const getKeyVersionsNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "{vaultBaseUrl}",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.KeyListResult
@@ -5724,12 +7095,8 @@ const getKeysNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "{vaultBaseUrl}",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.KeyListResult
@@ -5745,12 +7112,8 @@ const getDeletedKeysNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "{vaultBaseUrl}",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DeletedKeyListResult
@@ -5766,12 +7129,8 @@ const getSecretsNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "{vaultBaseUrl}",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SecretListResult
@@ -5787,12 +7146,8 @@ const getSecretVersionsNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "{vaultBaseUrl}",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SecretListResult
@@ -5808,12 +7163,8 @@ const getDeletedSecretsNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "{vaultBaseUrl}",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DeletedSecretListResult
@@ -5829,12 +7180,8 @@ const getCertificatesNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "{vaultBaseUrl}",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.CertificateListResult
@@ -5850,12 +7197,8 @@ const getCertificateIssuersNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "{vaultBaseUrl}",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.CertificateIssuerListResult
@@ -5871,12 +7214,8 @@ const getCertificateVersionsNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "{vaultBaseUrl}",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.CertificateListResult
@@ -5892,12 +7231,8 @@ const getDeletedCertificatesNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "{vaultBaseUrl}",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DeletedCertificateListResult
@@ -5913,12 +7248,8 @@ const getStorageAccountsNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "{vaultBaseUrl}",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.StorageListResult
@@ -5934,12 +7265,8 @@ const getDeletedStorageAccountsNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "{vaultBaseUrl}",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DeletedStorageListResult
@@ -5955,12 +7282,8 @@ const getSasDefinitionsNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "{vaultBaseUrl}",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SasDefinitionListResult
@@ -5976,12 +7299,8 @@ const getDeletedSasDefinitionsNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "{vaultBaseUrl}",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DeletedSasDefinitionListResult

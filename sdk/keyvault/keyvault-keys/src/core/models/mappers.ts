@@ -823,10 +823,7 @@ export const Action: msRest.CompositeMapper = {
         serializedName: "action_type",
         type: {
           name: "Enum",
-          allowedValues: [
-            "EmailContacts",
-            "AutoRenew"
-          ]
+          allowedValues: ["EmailContacts", "AutoRenew"]
         }
       }
     }
