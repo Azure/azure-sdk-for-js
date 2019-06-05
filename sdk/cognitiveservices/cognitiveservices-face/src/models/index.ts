@@ -924,11 +924,11 @@ export interface FaceDetectWithUrlOptionalParams extends msRest.RequestOptionsBa
    */
   returnRecognitionModel?: boolean;
   /**
-   * Name of detection model. Detection model' is used to detect faces in the submitted image. A
-   * detection model name can be provided when performing Face - Detect or (Large)FaceList - Create
-   * or (Large)PersonGroup - Create. The default value is 'detection_01', if another model is
-   * needed, please explicitly specify it. Possible values include: 'detection_01', 'detection_02'.
-   * Default value: 'detection_01'.
+   * Name of detection model. Detection model is used to detect faces in the submitted image. A
+   * detection model name can be provided when performing Face - Detect or (Large)FaceList - Add
+   * Face or (Large)PersonGroup - Add Face. The default value is 'detection_01', if another model
+   * is needed, please explicitly specify it. Possible values include: 'detection_01',
+   * 'detection_02'. Default value: 'detection_01'.
    */
   detectionModel?: DetectionModel;
 }
@@ -987,11 +987,11 @@ export interface FaceDetectWithStreamOptionalParams extends msRest.RequestOption
    */
   returnRecognitionModel?: boolean;
   /**
-   * Name of detection model. Detection model' is used to detect faces in the submitted image. A
-   * detection model name can be provided when performing Face - Detect or (Large)FaceList - Create
-   * or (Large)PersonGroup - Create. The default value is 'detection_01', if another model is
-   * needed, please explicitly specify it. Possible values include: 'detection_01', 'detection_02'.
-   * Default value: 'detection_01'.
+   * Name of detection model. Detection model is used to detect faces in the submitted image. A
+   * detection model name can be provided when performing Face - Detect or (Large)FaceList - Add
+   * Face or (Large)PersonGroup - Add Face. The default value is 'detection_01', if another model
+   * is needed, please explicitly specify it. Possible values include: 'detection_01',
+   * 'detection_02'. Default value: 'detection_01'.
    */
   detectionModel?: DetectionModel;
 }
@@ -1064,11 +1064,11 @@ export interface PersonGroupPersonAddFaceFromUrlOptionalParams extends msRest.Re
    */
   targetFace?: number[];
   /**
-   * Name of detection model. Detection model' is used to detect faces in the submitted image. A
-   * detection model name can be provided when performing Face - Detect or (Large)FaceList - Create
-   * or (Large)PersonGroup - Create. The default value is 'detection_01', if another model is
-   * needed, please explicitly specify it. Possible values include: 'detection_01', 'detection_02'.
-   * Default value: 'detection_01'.
+   * Name of detection model. Detection model is used to detect faces in the submitted image. A
+   * detection model name can be provided when performing Face - Detect or (Large)FaceList - Add
+   * Face or (Large)PersonGroup - Add Face. The default value is 'detection_01', if another model
+   * is needed, please explicitly specify it. Possible values include: 'detection_01',
+   * 'detection_02'. Default value: 'detection_01'.
    */
   detectionModel?: DetectionModel;
 }
@@ -1089,11 +1089,11 @@ export interface PersonGroupPersonAddFaceFromStreamOptionalParams extends msRest
    */
   targetFace?: number[];
   /**
-   * Name of detection model. Detection model' is used to detect faces in the submitted image. A
-   * detection model name can be provided when performing Face - Detect or (Large)FaceList - Create
-   * or (Large)PersonGroup - Create. The default value is 'detection_01', if another model is
-   * needed, please explicitly specify it. Possible values include: 'detection_01', 'detection_02'.
-   * Default value: 'detection_01'.
+   * Name of detection model. Detection model is used to detect faces in the submitted image. A
+   * detection model name can be provided when performing Face - Detect or (Large)FaceList - Add
+   * Face or (Large)PersonGroup - Add Face. The default value is 'detection_01', if another model
+   * is needed, please explicitly specify it. Possible values include: 'detection_01',
+   * 'detection_02'. Default value: 'detection_01'.
    */
   detectionModel?: DetectionModel;
 }
@@ -1230,11 +1230,11 @@ export interface FaceListAddFaceFromUrlOptionalParams extends msRest.RequestOpti
    */
   targetFace?: number[];
   /**
-   * Name of detection model. Detection model' is used to detect faces in the submitted image. A
-   * detection model name can be provided when performing Face - Detect or (Large)FaceList - Create
-   * or (Large)PersonGroup - Create. The default value is 'detection_01', if another model is
-   * needed, please explicitly specify it. Possible values include: 'detection_01', 'detection_02'.
-   * Default value: 'detection_01'.
+   * Name of detection model. Detection model is used to detect faces in the submitted image. A
+   * detection model name can be provided when performing Face - Detect or (Large)FaceList - Add
+   * Face or (Large)PersonGroup - Add Face. The default value is 'detection_01', if another model
+   * is needed, please explicitly specify it. Possible values include: 'detection_01',
+   * 'detection_02'. Default value: 'detection_01'.
    */
   detectionModel?: DetectionModel;
 }
@@ -1255,11 +1255,11 @@ export interface FaceListAddFaceFromStreamOptionalParams extends msRest.RequestO
    */
   targetFace?: number[];
   /**
-   * Name of detection model. Detection model' is used to detect faces in the submitted image. A
-   * detection model name can be provided when performing Face - Detect or (Large)FaceList - Create
-   * or (Large)PersonGroup - Create. The default value is 'detection_01', if another model is
-   * needed, please explicitly specify it. Possible values include: 'detection_01', 'detection_02'.
-   * Default value: 'detection_01'.
+   * Name of detection model. Detection model is used to detect faces in the submitted image. A
+   * detection model name can be provided when performing Face - Detect or (Large)FaceList - Add
+   * Face or (Large)PersonGroup - Add Face. The default value is 'detection_01', if another model
+   * is needed, please explicitly specify it. Possible values include: 'detection_01',
+   * 'detection_02'. Default value: 'detection_01'.
    */
   detectionModel?: DetectionModel;
 }
@@ -1332,11 +1332,11 @@ export interface LargePersonGroupPersonAddFaceFromUrlOptionalParams extends msRe
    */
   targetFace?: number[];
   /**
-   * Name of detection model. Detection model' is used to detect faces in the submitted image. A
-   * detection model name can be provided when performing Face - Detect or (Large)FaceList - Create
-   * or (Large)PersonGroup - Create. The default value is 'detection_01', if another model is
-   * needed, please explicitly specify it. Possible values include: 'detection_01', 'detection_02'.
-   * Default value: 'detection_01'.
+   * Name of detection model. Detection model is used to detect faces in the submitted image. A
+   * detection model name can be provided when performing Face - Detect or (Large)FaceList - Add
+   * Face or (Large)PersonGroup - Add Face. The default value is 'detection_01', if another model
+   * is needed, please explicitly specify it. Possible values include: 'detection_01',
+   * 'detection_02'. Default value: 'detection_01'.
    */
   detectionModel?: DetectionModel;
 }
@@ -1357,11 +1357,11 @@ export interface LargePersonGroupPersonAddFaceFromStreamOptionalParams extends m
    */
   targetFace?: number[];
   /**
-   * Name of detection model. Detection model' is used to detect faces in the submitted image. A
-   * detection model name can be provided when performing Face - Detect or (Large)FaceList - Create
-   * or (Large)PersonGroup - Create. The default value is 'detection_01', if another model is
-   * needed, please explicitly specify it. Possible values include: 'detection_01', 'detection_02'.
-   * Default value: 'detection_01'.
+   * Name of detection model. Detection model is used to detect faces in the submitted image. A
+   * detection model name can be provided when performing Face - Detect or (Large)FaceList - Add
+   * Face or (Large)PersonGroup - Add Face. The default value is 'detection_01', if another model
+   * is needed, please explicitly specify it. Possible values include: 'detection_01',
+   * 'detection_02'. Default value: 'detection_01'.
    */
   detectionModel?: DetectionModel;
 }
@@ -1508,11 +1508,11 @@ export interface LargeFaceListAddFaceFromUrlOptionalParams extends msRest.Reques
    */
   targetFace?: number[];
   /**
-   * Name of detection model. Detection model' is used to detect faces in the submitted image. A
-   * detection model name can be provided when performing Face - Detect or (Large)FaceList - Create
-   * or (Large)PersonGroup - Create. The default value is 'detection_01', if another model is
-   * needed, please explicitly specify it. Possible values include: 'detection_01', 'detection_02'.
-   * Default value: 'detection_01'.
+   * Name of detection model. Detection model is used to detect faces in the submitted image. A
+   * detection model name can be provided when performing Face - Detect or (Large)FaceList - Add
+   * Face or (Large)PersonGroup - Add Face. The default value is 'detection_01', if another model
+   * is needed, please explicitly specify it. Possible values include: 'detection_01',
+   * 'detection_02'. Default value: 'detection_01'.
    */
   detectionModel?: DetectionModel;
 }
@@ -1547,11 +1547,11 @@ export interface LargeFaceListAddFaceFromStreamOptionalParams extends msRest.Req
    */
   targetFace?: number[];
   /**
-   * Name of detection model. Detection model' is used to detect faces in the submitted image. A
-   * detection model name can be provided when performing Face - Detect or (Large)FaceList - Create
-   * or (Large)PersonGroup - Create. The default value is 'detection_01', if another model is
-   * needed, please explicitly specify it. Possible values include: 'detection_01', 'detection_02'.
-   * Default value: 'detection_01'.
+   * Name of detection model. Detection model is used to detect faces in the submitted image. A
+   * detection model name can be provided when performing Face - Detect or (Large)FaceList - Add
+   * Face or (Large)PersonGroup - Add Face. The default value is 'detection_01', if another model
+   * is needed, please explicitly specify it. Possible values include: 'detection_01',
+   * 'detection_02'. Default value: 'detection_01'.
    */
   detectionModel?: DetectionModel;
 }
