@@ -3,7 +3,7 @@
 
 import qs from 'qs';
 import { AccessToken } from '../credentials/accessToken';
-import { RequestOptionsBase, ServiceClient, ServiceClientOptions, CredentialScopes } from '@azure/core-http';
+import { RequestOptionsBase, ServiceClient, ServiceClientOptions } from '@azure/core-http';
 
 export class IdentityClient extends ServiceClient {
   private static readonly DefaultAuthorityHost = "https://login.microsoftonline.com/"
@@ -16,7 +16,7 @@ export class IdentityClient extends ServiceClient {
     }
   }
 
-  async authenticate(tenantId: string, clientId: string, clientSecret: string, scopes: CredentialScopes, requestOptions?: RequestOptionsBase): Promise<AccessToken | null> {
+  async authenticate(tenantId: string, clientId: string, clientSecret: string, scopes: string | string[], requestOptions?: RequestOptionsBase): Promise<AccessToken | null> {
     const response = await this.sendRequest({
       url: `${this.baseUri}/${tenantId}/oauth2/v2.0/token`,
       method: 'POST',

@@ -2,7 +2,7 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import { AccessToken } from './accessToken';
-import { CredentialScopes, RequestOptionsBase } from '@azure/core-http';
+import { RequestOptionsBase } from '@azure/core-http';
 import { AzureCredential } from './azureCredential';
 import { IdentityClientOptions } from '../client/identityClient';
 
@@ -23,7 +23,7 @@ export class ClientSecretCredential extends AzureCredential {
     this._clientSecret = clientSecret;
   }
 
-  protected getTokenCore(scopes: CredentialScopes, requestOptions?: RequestOptionsBase): Promise<AccessToken | null> {
+  protected getTokenCore(scopes: string | string[], requestOptions?: RequestOptionsBase): Promise<AccessToken | null> {
     return this.identityClient.authenticate(
       this._tenantId,
       this._clientId,

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import { TokenCredential, CredentialScopes } from "../credentials/tokenCredential";
+import { TokenCredential } from "../credentials/tokenCredential";
 import { BaseRequestPolicy, RequestPolicy, RequestPolicyOptions, RequestPolicyFactory } from "../policies/requestPolicy";
 import { Constants } from "../util/constants";
 import { HttpOperationResponse } from "../httpOperationResponse";
@@ -42,7 +42,7 @@ export class BearerTokenAuthenticationPolicy extends BaseRequestPolicy {
     nextPolicy: RequestPolicy,
     options: RequestPolicyOptions,
     private credential: TokenCredential,
-    private scopes: CredentialScopes
+    private scopes: string | string[],
   ) {
     super(nextPolicy, options);
   }
