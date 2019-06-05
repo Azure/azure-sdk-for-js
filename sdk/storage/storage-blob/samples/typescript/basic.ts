@@ -4,10 +4,10 @@
 
 import {
   BlobServiceClient,
-  StorageClient,
+  Models,
   SharedKeyCredential,
-  TokenCredential,
-  Models
+  StorageClient,
+  TokenCredential
 } from "../../src"; // Change to "@azure/storage-blob" in your package
 
 async function main() {

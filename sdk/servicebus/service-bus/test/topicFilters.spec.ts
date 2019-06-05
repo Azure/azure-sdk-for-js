@@ -126,10 +126,9 @@ async function receiveOrders(
   const receivedMsgs: ServiceBusMessage[] = [];
   const receiver = await client.createReceiver(ReceiveMode.peekLock);
   receiver.registerMessageHandler(
-    (msg: ServiceBusMessage) => {
-      return msg.complete().then(() => {
-        receivedMsgs.push(msg);
-      });
+    async (msg: ServiceBusMessage) => {
+      await msg.complete();
+      receivedMsgs.push(msg);
     },
     (err: Error) => {
       if (err) {

@@ -5,14 +5,10 @@
 const fs = require("fs");
 const {
   AnonymousCredential,
-  uploadBrowserDataToAzureFile,
-  downloadAzureFileToBuffer,
-  uploadFileToAzureFile,
-  uploadStreamToAzureFile,
   Aborter,
   FileServiceClient,
   StorageClient
-} = require(".."); // Change to "@azure/storage-file" in your package
+} = require("../.."); // Change to "@azure/storage-file" in your package
 
 async function main() {
   // Fill in following settings before running this sample
@@ -49,21 +45,20 @@ async function main() {
   const fileClient = directoryClient.createFileClient(fileName);
   const fileSize = fs.statSync(localFilePath).size;
 
-  // Parallel uploading with uploadFileToAzureFile in Node.js runtime
-  // uploadFileToAzureFile is only available in Node.js
-  await uploadFileToAzureFile(localFilePath, fileClient, {
+  // Parallel uploading with FileClient.uploadFile() in Node.js runtime
+  // FileClient.uploadFile() is only available in Node.js
+  await fileClient.uploadFile(localFilePath, {
     rangeSize: 4 * 1024 * 1024, // 4MB range size
     parallelism: 20, // 20 concurrency
     progress: ev => console.log(ev)
   });
-  console.log("uploadFileToAzureFile success");
+  console.log("uploadFile success");
 
-  // Parallel uploading a Readable stream with uploadStreamToAzureFile in Node.js runtime
-  // uploadStreamToAzureFile is only available in Node.js
-  await uploadStreamToAzureFile(
+  // Parallel uploading a Readable stream with FileClient.uploadStream() in Node.js runtime
+  // FileClient.uploadStream() is only available in Node.js
+  await fileClient.uploadStream(
     fs.createReadStream(localFilePath),
     fileSize,
-    fileClient,
     4 * 1024 * 1024,
     20,
     {
@@ -71,13 +66,13 @@ async function main() {
       progress: ev => console.log(ev)
     }
   );
-  console.log("uploadStreamToAzureFile success");
+  console.log("uploadStream success");
 
-  // Parallel uploading a browser File/Blob/ArrayBuffer in browsers with uploadBrowserDataToAzureFile
-  // Uncomment following code in browsers because uploadBrowserDataToAzureFile is only available in browsers
+  // Parallel uploading a browser File/Blob/ArrayBuffer in browsers with FileClient.uploadBrowserData()
+  // Uncomment following code in browsers because FileClient.uploadBrowserData() is only available in browsers
   /*
   const browserFile = document.getElementById("fileinput").files[0];
-  await uploadBrowserDataToAzureFile(browserFile, fileClient, {
+  await fileClient.uploadBrowserData(browserFile, {
     rangeSize: 4 * 1024 * 1024, // 4MB range size
     parallelism: 20, // 20 concurrency
     progress: ev => console.log(ev)
@@ -85,11 +80,10 @@ async function main() {
   */
 
   // Parallel downloading an Azure file into Node.js buffer
-  // downloadAzureFileToBuffer is only available in Node.js
+  // FileClient.downloadToBuffer() is only available in Node.js
   const buffer = Buffer.alloc(fileSize);
-  await downloadAzureFileToBuffer(
+  await fileClient.downloadToBuffer(
     buffer,
-    fileClient,
     0,
     undefined,
     {
@@ -99,7 +93,7 @@ async function main() {
       progress: ev => console.log(ev)
     }
   );
-  console.log("downloadAzureFileToBuffer success");
+  console.log("downloadToBuffer success");
 
   // Delete share
   await shareClient.delete();

@@ -11,8 +11,6 @@ export * from "./DirectoryClient";
 export * from "./FileClient";
 export * from "./credentials/AnonymousCredential";
 export * from "./credentials/Credential";
-export * from "./highlevel.browser";
-export * from "./highlevel.common";
 export { IPRange as IPRange } from "./IPRange";
 export { Range } from "./Range";
 export * from "./Pipeline";
