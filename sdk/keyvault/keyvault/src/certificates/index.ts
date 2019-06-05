@@ -3,7 +3,6 @@ import {
   RequestPolicyFactory,
   deserializationPolicy,
   signingPolicy,
-  RequestOptionsBase,
   exponentialRetryPolicy,
   redirectPolicy,
   systemErrorRetryPolicy,
@@ -14,7 +13,7 @@ import {
   userAgentPolicy
 } from "@azure/ms-rest-js";
 
-import { GetAllCertificatesOptions, CertificateAttributes, Certificate, DeletedCertificate, CertificateIssuer } from "./certificatesModels";
+import { RequestOptions, CertificateAttributes, Certificate, DeletedCertificate, CertificateIssuer } from "./certificatesModels";
 import { getDefaultUserAgentValue } from "@azure/ms-rest-azure-js";
 import { NewPipelineOptions, isNewPipelineOptions, Pipeline } from "../keyVaultBase";
 import { TelemetryOptions } from "..";
@@ -30,7 +29,8 @@ import {
   BackupCertificateResult,
   KeyVaultClientGetDeletedCertificatesOptionalParams,
   DeletedCertificateItem,
-  DeletedCertificateBundle
+  DeletedCertificateBundle,
+  Contact
 } from "../models";
 import { KeyVaultClient } from "../keyVaultClient";
 import { RetryConstants, SDK_VERSION } from "../utils/constants";
@@ -140,7 +140,7 @@ export class CertificatesClient {
    * @param [options] The optional parameters
    * @returns AsyncIterableIterator<Certificate>
    */
-  public async *getCertificates(options?: GetAllCertificatesOptions): AsyncIterableIterator<CertificateAttributes> {
+  public async *getCertificates(options?: RequestOptions): AsyncIterableIterator<CertificateAttributes> {
     let currentSetResponse = await this.client.getCertificates(
       this.vaultBaseUrl,
       {
@@ -195,24 +195,24 @@ export class CertificatesClient {
    */
   public async deleteCertificate(
     certificateName: string,
-    options?: RequestOptionsBase
+    options?: RequestOptions
   ): Promise<DeletedCertificate> {
     const response = await this.client.deleteCertificate(this.vaultBaseUrl, certificateName, options);
     return this.getCertificateFromCertificateBundle(response);
   }
 
-  public async deleteCertificateContacts(options?: RequestOptionsBase): Promise<Contacts> {
+  public async deleteCertificateContacts(options?: RequestOptions): Promise<Contacts> {
     let result = await this.client.deleteCertificateContacts(this.vaultBaseUrl, options);
 
     return result._response.parsedBody;
   }
 
-  public async setCertificateContacts(contacts: Contacts, options?: RequestOptionsBase): Promise<Contacts> {
-    let result = await this.client.setCertificateContacts(this.vaultBaseUrl, contacts, options);
+  public async setCertificateContacts(contacts: Contact[], options?: RequestOptions): Promise<Contacts> {
+    let result = await this.client.setCertificateContacts(this.vaultBaseUrl, { contactList: contacts }, options);
     return result._response.parsedBody;
   }
 
-  public async getCertificateContacts(options?: RequestOptionsBase): Promise<Contacts> {
+  public async getCertificateContacts(options?: RequestOptions): Promise<Contacts> {
     let result = await this.client.getCertificateContacts(this.vaultBaseUrl, options);
 
     return result._response.parsedBody;
@@ -274,7 +274,7 @@ export class CertificatesClient {
    * @param [options] The optional parameters
    * @returns Promise<Models.GetCertificateIssuerResponse>
    */
-  public async getCertificateIssuer(issuerName: string, options?: RequestOptionsBase): Promise<CertificateIssuer> {
+  public async getCertificateIssuer(issuerName: string, options?: RequestOptions): Promise<CertificateIssuer> {
     let result = await this.client.getCertificateIssuer(this.vaultBaseUrl, issuerName, options);
 
     return result._response.parsedBody;
@@ -288,7 +288,7 @@ export class CertificatesClient {
    * @param [options] The optional parameters
    * @returns Promise<Models.DeleteCertificateIssuerResponse>
    */
-  public async deleteCertificateIssuer(issuerName: string, options?: RequestOptionsBase): Promise<CertificateIssuer> {
+  public async deleteCertificateIssuer(issuerName: string, options?: RequestOptions): Promise<CertificateIssuer> {
     let result = await this.client.deleteCertificateIssuer(this.vaultBaseUrl, issuerName, options);
 
     return result._response.parsedBody;
@@ -301,7 +301,7 @@ export class CertificatesClient {
     return this.getCertificateFromCertificateBundle(result);
   }
 
-  public async getCertificate(name: string, version: string, options?: RequestOptionsBase): Promise<Certificate> {
+  public async getCertificate(name: string, version: string, options?: RequestOptions): Promise<Certificate> {
     let result = await this.client.getCertificate(this.vaultBaseUrl, name, version, options);
 
     return this.getCertificateFromCertificateBundle(result);
@@ -313,13 +313,13 @@ export class CertificatesClient {
     return this.getCertificateFromCertificateBundle(result);
   }
 
-  public async getCertificatePolicy(name: string, options?: RequestOptionsBase): Promise<CertificatePolicy> {
+  public async getCertificatePolicy(name: string, options?: RequestOptions): Promise<CertificatePolicy> {
     let result = await this.client.getCertificatePolicy(this.vaultBaseUrl, name, options);
 
     return result._response.parsedBody;
   }
 
-  public async updateCertificatePolicy(name: string, policy: CertificatePolicy, options?: RequestOptionsBase): Promise<CertificatePolicy> {
+  public async updateCertificatePolicy(name: string, policy: CertificatePolicy, options?: RequestOptions): Promise<CertificatePolicy> {
     let result = await this.client.updateCertificatePolicy(this.vaultBaseUrl, name, policy, options);
 
     return result._response.parsedBody;
@@ -331,37 +331,37 @@ export class CertificatesClient {
     return this.getCertificateFromCertificateBundle(result._response.parsedBody);
   }
 
-  public async updateCertificateOperation(name: string, cancel: boolean, options: RequestOptionsBase): Promise<CertificateOperation> {
+  public async updateCertificateOperation(name: string, cancel: boolean, options: RequestOptions): Promise<CertificateOperation> {
     let result = await this.client.updateCertificateOperation(this.vaultBaseUrl, name, cancel, options);
 
     return result._response.parsedBody;
   }
 
-  public async getCertificateOperation(name: string, options: RequestOptionsBase): Promise<CertificateOperation> {
+  public async getCertificateOperation(name: string, options: RequestOptions): Promise<CertificateOperation> {
     let result = await this.client.getCertificateOperation(this.vaultBaseUrl, name, options);
 
     return result._response.parsedBody;
   }
 
-  public async deleteCertificateOperation(name: string, options: RequestOptionsBase): Promise<CertificateOperation> {
+  public async deleteCertificateOperation(name: string, options: RequestOptions): Promise<CertificateOperation> {
     let result = await this.client.deleteCertificateOperation(this.vaultBaseUrl, name, options);
 
     return result._response.parsedBody;
   }
 
-  public async mergeCertificate(name: string, x509Certificates: Uint8Array[], options: RequestOptionsBase): Promise<Certificate> {
+  public async mergeCertificate(name: string, x509Certificates: Uint8Array[], options: RequestOptions): Promise<Certificate> {
     let result = await this.client.mergeCertificate(this.vaultBaseUrl, name, x509Certificates, options);
 
     return this.getCertificateFromCertificateBundle(result._response.parsedBody);
   }
 
-  public async backupCertificate(name: string, options: RequestOptionsBase): Promise<BackupCertificateResult> {
+  public async backupCertificate(name: string, options: RequestOptions): Promise<BackupCertificateResult> {
     let result = await this.client.backupCertificate(this.vaultBaseUrl, name, options);
 
     return result._response.parsedBody;
   }
 
-  public async restoreCertificate(certificateBackup: Uint8Array, options: RequestOptionsBase): Promise<Certificate> {
+  public async restoreCertificate(certificateBackup: Uint8Array, options: RequestOptions): Promise<Certificate> {
     let result = await this.client.restoreCertificate(this.vaultBaseUrl, certificateBackup, options);
 
     return this.getCertificateFromCertificateBundle(result._response.parsedBody);
@@ -380,19 +380,19 @@ export class CertificatesClient {
     }
   }
 
-  public async getDeletedCertificate(name: string, options?: RequestOptionsBase): Promise<DeletedCertificate> {
+  public async getDeletedCertificate(name: string, options?: RequestOptions): Promise<DeletedCertificate> {
     let result = await this.client.getDeletedCertificate(this.vaultBaseUrl, name, options);
 
     return this.getDeletedCertificateFromDeletedCertificateBundle(result._response.parsedBody);
   }
 
-  public async purgeDeletedCertificate(name: string, options?: RequestOptionsBase): Promise<null> {
+  public async purgeDeletedCertificate(name: string, options?: RequestOptions): Promise<null> {
     await this.client.purgeDeletedCertificate(this.vaultBaseUrl, name, options);
 
     return null;
   }
 
-  public async recoverDeletedCertificate(name: string, options?: RequestOptionsBase): Promise<Certificate> {
+  public async recoverDeletedCertificate(name: string, options?: RequestOptions): Promise<Certificate> {
     let result = await this.client.recoverDeletedCertificate(this.vaultBaseUrl, name, options);
 
     return this.getCertificateFromCertificateBundle(result._response.parsedBody);

@@ -1,6 +1,5 @@
 import * as msRest from "@azure/ms-rest-js";
 import { ParsedKeyVaultEntityIdentifier } from "../keyVaultBase";
-import { CertificatePolicy } from "../models";
 
 export interface Certificate extends CertificateAttributes {
   /**
@@ -44,6 +43,14 @@ export interface CertificateAttributes extends ParsedKeyVaultEntityIdentifier {
    * @member {Date} [notBefore] Not before date in UTC.
    */
   notBefore?: Date;
+  /**
+   * @member {boolean} [created] Determines whether the object is created.
+   */
+  created?: boolean;
+  /**
+   * @member {boolean} [updated] Determines whether the object is updated.
+   */
+  updated?: boolean;
   /**
    * @member {Date} [expires] Expiry date in UTC.
    */
@@ -178,7 +185,7 @@ export interface GetCertificateOptions {
  *
  * @extends RequestOptionsBase
  */
-export interface GetAllCertificatesOptions {
+export interface RequestOptions {
   /**
    * @member {msRest.RequestOptionsBase} [requestOptions] Options for this request
    */
@@ -194,4 +201,38 @@ export interface CertificateIssuer {
    * @member {string} [provider] The issuer provider.
    */
   provider?: string;
+}
+
+export interface IssuerAttributes {
+  /**
+   * @member {string} [id] Certificate Identifier.
+   */
+  id?: string;
+  /**
+   * @member {string} [provider] The issuer provider.
+   */
+  provider?: string;
+  /**
+   * @member {boolean} [enabled] Determines whether the object is enabled.
+   */
+  enabled?: boolean;
+  /**
+   * @member {boolean} [created] Determines whether the object is created.
+   */
+  created?: boolean;
+  /**
+   * @member {boolean} [updated] Determines whether the object is updated.
+   */
+  updated?: boolean;
+  /**
+   * @member {string} [name] Name of the issuer
+   */
+  name?: string;
+}
+
+export interface Issuer extends IssuerAttributes {
+  accountId?: string;
+  password?: string;
+  organizationId?: string;
+  adminDetails?: string;
 }
