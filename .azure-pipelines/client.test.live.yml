@@ -3,25 +3,40 @@
 #   The package to build and test. Defined in pipeline web ui because multiple pipelines use this YAML with different packages.
 #   Example: @azure/event-hubs
 
+variables:
+  NodeVersion: '10.x'
+
 jobs:
-  - job: 'Test_Node'
+  - job: 'LiveTest'
     strategy:
-      # Service Bus and Event Hubs currently lack support for running multiple test suites in parallel,
+      # Live tests currently lack support for running multiple test suites in parallel,
       # since the tests would attempt to use the same resources which causes conflicts.
       maxParallel: 1
       matrix:
-        Linux_Node10X:
+        Linux_Node10:
           OSName: 'Linux'
           OSVmImage: 'ubuntu-16.04'
-          NodeVersion: '10.x'
-        Windows_Node10X:
+          TestTarget: 'node'
+        Linux_Browser:
+          OSName: 'Linux'
+          OSVmImage: 'ubuntu-16.04'
+          TestTarget: 'browser'
+        Windows_Node10:
           OSName: 'Windows'
           OSVmImage: 'vs2017-win2016'
-          NodeVersion: '10.x'
-        Mac_Node10X:
+          TestTarget: 'node'
+        Windows_Browser:
+          OSName: 'Windows'
+          OSVmImage: 'vs2017-win2016'
+          TestTarget: 'browser'
+        Mac_Node10:
           OSName: 'Mac'
           OSVmImage: 'macOS-10.13'
-          NodeVersion: '10.x'
+          TestTarget: 'node'
+        Mac_Browser:
+          OSName: 'Mac'
+          OSVmImage: 'macOS-10.13'
+          TestTarget: 'browser'
 
     pool:
       vmImage: '$(OSVmImage)'
@@ -47,8 +62,8 @@ jobs:
         displayName: 'rush build:test -t "$(Package)"'
 
       - script: |
-          node common/scripts/install-run-rush.js integration-test:node -t "$(Package)" --verbose
-        displayName: 'rush integration-test:node -t "$(Package)"'
+          node common/scripts/install-run-rush.js integration-test:$(TestTarget) -t "$(Package)" --verbose
+        displayName: 'rush integration-test:$(TestTarget) -t "$(Package)"'
         env:
           # Service Bus
           AAD_CLIENT_ID: $(aad-azure-sdk-test-client-id)
@@ -67,75 +82,6 @@ jobs:
       - task: PublishTestResults@2
         inputs:
           testResultsFiles: '**/test-results.xml'
-          testRunTitle: '$(OSName) Node $(NodeVersion) - Node'
+          testRunTitle: '$(OSName) Live Tests - $(TestTarget) [Node $(NodeVersion)]'
         condition: succeededOrFailed()
-        displayName: 'Publish node test results'
-
-  - job: 'Test_Browser'
-    strategy:
-      # Service Bus and Event Hubs currently lack support for running multiple test suites in parallel,
-      # since the tests would attempt to use the same resources which causes conflicts.
-      maxParallel: 1
-      matrix:
-        Linux_Node10X:
-          OSName: 'Linux'
-          OSVmImage: 'ubuntu-16.04'
-          NodeVersion: '10.x'
-        Windows_Node10X:
-          OSName: 'Windows'
-          OSVmImage: 'vs2017-win2016'
-          NodeVersion: '10.x'
-        Mac_Node10X:
-          OSName: 'Mac'
-          OSVmImage: 'macOS-10.13'
-          NodeVersion: '10.x'
-
-    pool:
-      vmImage: '$(OSVmImage)'
-
-    timeoutInMinutes: 240
-
-    steps:
-      - task: NodeTool@0
-        inputs:
-          versionSpec: '$(NodeVersion)'
-        displayName: 'Install Node.js $(NodeVersion)'
-
-      - script: |
-          node common/scripts/install-run-rush.js install
-        displayName: 'Install dependencies'
-
-      - script: |
-          node common/scripts/install-run-rush.js build -t "$(Package)" --verbose
-        displayName: 'rush build -t "$(Package)"'
-
-      - script: |
-          node common/scripts/install-run-rush.js build:test -t "$(Package)" --verbose
-        displayName: 'rush build:test -t "$(Package)"'
-
-      - script: |
-          node common/scripts/install-run-rush.js integration-test:browser -t "$(Package)" --verbose
-        condition: succeededOrFailed()
-        displayName: 'rush integration-test:browser -t "$(Package)"'
-        env:
-          # Service Bus
-          AAD_CLIENT_ID: $(aad-azure-sdk-test-client-id)
-          AAD_TENANT_ID: $(aad-azure-sdk-test-tenant-id)
-          AAD_CLIENT_SECRET: $(aad-azure-sdk-test-client-secret)
-          AZURE_SUBSCRIPTION_ID: $(test-subscription-id)
-          CLEAN_NAMESPACE: 'true'
-          RESOURCE_GROUP: $(service-bus-test-resource-group)
-          SERVICEBUS_CONNECTION_STRING: $(service-bus-test-connection-string)
-          # Event Hubs
-          EVENTHUB_CONNECTION_STRING: $(js-event-hubs-test-connection-string)
-          EVENTHUB_NAME: $(js-event-hubs-test-name)
-          IOTHUB_CONNECTION_STRING: $(js-event-hubs-test-iothub-connection-string)
-          STORAGE_CONNECTION_STRING: $(js-event-hubs-test-storage-connection-string)
-
-      - task: PublishTestResults@2
-        inputs:
-          testRunner: JUnit
-          testResultsFiles: "**/test-results.browser.xml"
-          testRunTitle: '$(OSName) Node $(NodeVersion) - Browser'
-        condition: succeededOrFailed()
-        displayName: 'Publish browser test results'
+        displayName: 'Publish test results'
