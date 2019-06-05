@@ -22,7 +22,7 @@ function testFalsyValues(testFn: Function): void {
   });
 }
 
-describe(`EventHubClient #RunnableInBrowser`, function(): void {
+describe("EventHubClient #RunnableInBrowser", function(): void {
   describe(".fromConnectionString", function(): void {
     it("throws when there is no connection string", function(): void {
       testFalsyValues(function(value: any): void {
@@ -84,7 +84,7 @@ const service = {
   path: env[EnvVarKeys.EVENTHUB_NAME]
 };
 
-describe(`EventHubClient on #RunnableInBrowser`, function(): void {
+describe("EventHubClient on #RunnableInBrowser", function(): void {
   let client: EventHubClient;
 
   afterEach("close the connection", async function(): Promise<void> {

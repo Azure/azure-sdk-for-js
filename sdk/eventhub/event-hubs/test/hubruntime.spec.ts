@@ -11,7 +11,7 @@ import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 const env = getEnvVars();
 
 import { EventHubClient } from "../src";
-describe(`RuntimeInformation #RunnableInBrowser`, function(): void {
+describe("RuntimeInformation #RunnableInBrowser", function(): void {
   let client: EventHubClient;
   const service = {
     connectionString: env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],

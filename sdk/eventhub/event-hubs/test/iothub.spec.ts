@@ -11,7 +11,7 @@ import { EventHubClient } from "../src";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 const env = getEnvVars();
 
-describe(`EventHub Client with iothub connection string `, function(): void {
+describe("EventHub Client with iothub connection string ", function(): void {
   const service = { connectionString: env[EnvVarKeys.IOTHUB_CONNECTION_STRING] };
   let client: EventHubClient;
   before("validate environment", async function(): Promise<void> {
