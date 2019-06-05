@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 import { TransferProgressEvent } from "@azure/ms-rest-js";
 
 import { FileHTTPHeaders, Metadata } from "./models";
@@ -10,6 +13,14 @@ import { Aborter } from "./Aborter";
  * @interface UploadToAzureFileOptions
  */
 export interface UploadToAzureFileOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof AppendBlobCreateOptions
+   */
   abortSignal?: Aborter;
   /**
    * RangeSize specifies the range size to use in each parallel upload,
@@ -60,6 +71,14 @@ export interface UploadToAzureFileOptions {
  * @interface DownloadFromAzureFileOptions
  */
 export interface DownloadFromAzureFileOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof AppendBlobCreateOptions
+   */
   abortSignal?: Aborter;
   /**
    * When downloading Azure files, download method will try to split large file into small ranges.

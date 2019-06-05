@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 import { QueueSASPermissions } from "./QueueSASPermissions";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 import { IPRange, ipRangeToString } from "./IPRange";

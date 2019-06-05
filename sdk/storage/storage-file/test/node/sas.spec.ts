@@ -11,7 +11,6 @@ import {
   StorageClient,
   SASProtocol
 } from "../../src";
-import { DirectoryClient } from "../../src/DirectoryClient";
 import { FileSASPermissions } from "../../src/FileSASPermissions";
 import { FileClient } from "../../src/FileClient";
 import { generateFileSASQueryParameters } from "../../src/FileSASSignatureValues";
@@ -173,7 +172,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const sharedKeyCredential = factories[factories.length - 1];
 
     const shareName = getUniqueName("share");
-    const shareClient = ShareClient.fromFileServiceClient(serviceClient, shareName);
+    const shareClient = serviceClient.createShareClient(shareName);
     await shareClient.create();
 
     const shareSAS = generateFileSASQueryParameters(
@@ -195,7 +194,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       StorageClient.newPipeline(new AnonymousCredential())
     );
 
-    const dirURLwithSAS = DirectoryClient.fromShareClient(shareClientwithSAS, "");
+    const dirURLwithSAS = shareClientwithSAS.createDirectoryClient("");
     await dirURLwithSAS.listFilesAndDirectoriesSegment();
 
     await shareClient.delete();
@@ -213,15 +212,15 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const sharedKeyCredential = factories[factories.length - 1];
 
     const shareName = getUniqueName("share");
-    const shareClient = ShareClient.fromFileServiceClient(serviceClient, shareName);
+    const shareClient = serviceClient.createShareClient(shareName);
     await shareClient.create();
 
     const dirName = getUniqueName("dir");
-    const dirClient = DirectoryClient.fromShareClient(shareClient, dirName);
+    const dirClient = shareClient.createDirectoryClient(dirName);
     await dirClient.create();
 
     const fileName = getUniqueName("file");
-    const fileClient = FileClient.fromDirectoryClient(dirClient, fileName);
+    const fileClient = dirClient.createFileClient(fileName);
     await fileClient.create(1024, {
       fileHTTPHeaders: {
         fileContentType: "content-type-original"
@@ -275,15 +274,15 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const sharedKeyCredential = factories[factories.length - 1];
 
     const shareName = getUniqueName("share");
-    const shareClient = ShareClient.fromFileServiceClient(serviceClient, shareName);
+    const shareClient = serviceClient.createShareClient(shareName);
     await shareClient.create();
 
     const dirName = getUniqueName("dir");
-    const dirClient = DirectoryClient.fromShareClient(shareClient, dirName);
+    const dirClient = shareClient.createDirectoryClient(dirName);
     await dirClient.create();
 
     const fileName = getUniqueName("file");
-    const fileClient = FileClient.fromDirectoryClient(dirClient, fileName);
+    const fileClient = dirClient.createFileClient(fileName);
     await fileClient.create(1024, {
       fileHTTPHeaders: {
         fileContentType: "content-type-original"
@@ -316,7 +315,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       StorageClient.newPipeline(new AnonymousCredential())
     );
 
-    const dirURLwithSAS = DirectoryClient.fromShareClient(shareClientwithSAS, "");
+    const dirURLwithSAS = shareClientwithSAS.createDirectoryClient("");
     await dirURLwithSAS.listFilesAndDirectoriesSegment();
     await shareClient.delete();
   });

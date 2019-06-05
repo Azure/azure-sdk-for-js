@@ -1,8 +1,5 @@
 import * as assert from "assert";
 import { isNode } from "@azure/ms-rest-js";
-import { DirectoryClient } from "../src/DirectoryClient";
-import { FileClient } from "../src/FileClient";
-import { ShareClient } from "../src/ShareClient";
 import { bodyToString, getBSU, getUniqueName, sleep } from "./utils";
 import * as dotenv from "dotenv";
 import { Aborter } from "../src";
@@ -11,24 +8,24 @@ dotenv.config({ path: "../.env" });
 describe("FileClient", () => {
   const serviceClient = getBSU();
   let shareName = getUniqueName("share");
-  let shareClient = ShareClient.fromFileServiceClient(serviceClient, shareName);
+  let shareClient = serviceClient.createShareClient(shareName);
   let dirName = getUniqueName("dir");
-  let dirClient = DirectoryClient.fromShareClient(shareClient, dirName);
+  let dirClient = shareClient.createDirectoryClient(dirName);
   let fileName = getUniqueName("file");
-  let fileClient = FileClient.fromDirectoryClient(dirClient, fileName);
+  let fileClient = dirClient.createFileClient(fileName);
   const content = "Hello World";
 
   beforeEach(async () => {
     shareName = getUniqueName("share");
-    shareClient = ShareClient.fromFileServiceClient(serviceClient, shareName);
+    shareClient = serviceClient.createShareClient(shareName);
     await shareClient.create();
 
     dirName = getUniqueName("dir");
-    dirClient = DirectoryClient.fromShareClient(shareClient, dirName);
+    dirClient = shareClient.createDirectoryClient(dirName);
     await dirClient.create();
 
     fileName = getUniqueName("file");
-    fileClient = FileClient.fromDirectoryClient(dirClient, fileName);
+    fileClient = dirClient.createFileClient(fileName);
   });
 
   afterEach(async () => {
@@ -37,7 +34,7 @@ describe("FileClient", () => {
 
   it("create with default parameters", async () => {
     await fileClient.create(content.length);
-    const result = await fileClient.download(0);
+    const result = await fileClient.download();
     assert.deepStrictEqual(
       await bodyToString(result, content.length),
       "\u0000".repeat(content.length)
@@ -143,7 +140,7 @@ describe("FileClient", () => {
 
   it("startCopyFromURL", async () => {
     await fileClient.create(1024);
-    const newFileClient = FileClient.fromDirectoryClient(dirClient, getUniqueName("copiedfile"));
+    const newFileClient = dirClient.createFileClient(getUniqueName("copiedfile"));
     const result = await newFileClient.startCopyFromURL(fileClient.url);
     assert.ok(result.copyId);
 
@@ -156,7 +153,7 @@ describe("FileClient", () => {
 
   it("abortCopyFromURL should failed for a completed copy operation", async () => {
     await fileClient.create(content.length);
-    const newFileClient = FileClient.fromDirectoryClient(dirClient, getUniqueName("copiedfile"));
+    const newFileClient = dirClient.createFileClient(getUniqueName("copiedfile"));
     const result = await newFileClient.startCopyFromURL(fileClient.url);
     assert.ok(result.copyId);
     sleep(1 * 1000);
@@ -233,7 +230,7 @@ describe("FileClient", () => {
     await fileClient.uploadRange("World", 5, 5);
     await fileClient.clearRange(1, 8);
 
-    const result = await fileClient.download(0);
+    const result = await fileClient.download();
     assert.deepStrictEqual(await bodyToString(result, 10), "H" + "\u0000".repeat(8) + "d");
   });
 
@@ -251,7 +248,7 @@ describe("FileClient", () => {
   it("download with with default parameters", async () => {
     await fileClient.create(content.length);
     await fileClient.uploadRange(content, 0, content.length);
-    const result = await fileClient.download(0);
+    const result = await fileClient.download();
     assert.deepStrictEqual(await bodyToString(result, content.length), content);
   });
 

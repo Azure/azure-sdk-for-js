@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 import {
   isNode,
   RequestPolicy,
@@ -16,6 +19,12 @@ import { SDK_VERSION } from "./utils/constants";
  * @interface TelemetryOptions
  */
 export interface TelemetryOptions {
+  /**
+   * Configues the costom string that is pre-pended to the user agent string.
+   *
+   * @type {string}
+   * @memberof TelemetryOptions
+   */
   value: string;
 }
 
@@ -39,14 +48,14 @@ export class TelemetryPolicyFactory implements RequestPolicyFactory {
 
     if (isNode) {
       if (telemetry) {
-        const telemetryString = telemetry.value;
+        const telemetryString = telemetry.value.replace(" ", "");
         if (telemetryString.length > 0 && userAgentInfo.indexOf(telemetryString) === -1) {
           userAgentInfo.push(telemetryString);
         }
       }
 
-      // e.g. Azure-Storage/10.0.0
-      const libInfo = `Azure-Storage/${SDK_VERSION}`;
+      // e.g. azsdk-js-storagefile/10.0.0
+      const libInfo = `azsdk-js-storagefile/${SDK_VERSION}`;
       if (userAgentInfo.indexOf(libInfo) === -1) {
         userAgentInfo.push(libInfo);
       }
@@ -61,6 +70,14 @@ export class TelemetryPolicyFactory implements RequestPolicyFactory {
     this.telemetryString = userAgentInfo.join(" ");
   }
 
+  /**
+   * Creates a RequestPolicy object.
+   *
+   * @param {RequestPolicy} nextPolicy
+   * @param {RequestPolicyOptions} options
+   * @returns {TelemetryPolicy}
+   * @memberof TelemetryPolicyFactory
+   */
   public create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): TelemetryPolicy {
     return new TelemetryPolicy(nextPolicy, options, this.telemetryString);
   }

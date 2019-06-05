@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 import {
   BaseRequestPolicy,
   HttpClient as IHttpClient,
@@ -36,7 +39,19 @@ export {
  * @interface PipelineOptions
  */
 export interface PipelineOptions {
+  /**
+   * Optional. Configures the HTTP pipeline logger.
+   *
+   * @type {IHttpPipelineLogger}
+   * @memberof PipelineOptions
+   */
   logger?: IHttpPipelineLogger;
+  /**
+   * Optional. Configures the HTTP client to send requests and receive responses.
+   *
+   * @type {IHttpClient}
+   * @memberof PipelineOptions
+   */
   HTTPClient?: IHttpClient;
 }
 
@@ -51,7 +66,19 @@ export interface PipelineOptions {
  * @class Pipeline
  */
 export class Pipeline {
+  /**
+   * A list of chained request policy factories.
+   *
+   * @type {RequestPolicyFactory[]}
+   * @memberof Pipeline
+   */
   public readonly factories: RequestPolicyFactory[];
+  /**
+   * Configures pipeline logger and HTTP client.
+   *
+   * @type {PipelineOptions}
+   * @memberof Pipeline
+   */
   public readonly options: PipelineOptions;
 
   /**

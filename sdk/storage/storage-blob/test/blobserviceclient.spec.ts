@@ -1,6 +1,5 @@
 import * as assert from "assert";
 
-import { ContainerClient } from "../src/ContainerClient";
 import { BlobServiceClient } from "../src/BlobServiceClient";
 import { getAlternateBSU, getBSU, getUniqueName, wait } from "./utils";
 import * as dotenv from "dotenv";
@@ -32,8 +31,8 @@ describe("BlobServiceClient", () => {
     const containerNamePrefix = getUniqueName("container");
     const containerName1 = `${containerNamePrefix}x1`;
     const containerName2 = `${containerNamePrefix}x2`;
-    const containerClient1 = ContainerClient.fromBlobServiceClient(blobServiceClient, containerName1);
-    const containerClient2 = ContainerClient.fromBlobServiceClient(blobServiceClient, containerName2);
+    const containerClient1 = blobServiceClient.createContainerClient(containerName1);
+    const containerClient2 = blobServiceClient.createContainerClient(containerName2);
     await containerClient1.create({ metadata: { key: "val" } });
     await containerClient2.create({ metadata: { key: "val" } });
 
@@ -73,6 +72,79 @@ describe("BlobServiceClient", () => {
 
     await containerClient1.delete();
     await containerClient2.delete();
+  });
+
+  it("Verify AsyncIterator(generator .next() syntax) for ListContainers", async () => {
+    const blobServiceClient = getBSU();
+
+    const containerNamePrefix = getUniqueName("container");
+    const containerName1 = `${containerNamePrefix}x1`;
+    const containerName2 = `${containerNamePrefix}x2`;
+    const containerClient1 = blobServiceClient.createContainerClient(containerName1);
+    const containerClient2 = blobServiceClient.createContainerClient(containerName2);
+    await containerClient1.create({ metadata: { key: "val" } });
+    await containerClient2.create({ metadata: { key: "val" } });
+
+    const iterator = await blobServiceClient.listContainers({
+      include: "metadata",
+      prefix: containerNamePrefix
+    });
+
+    let containerItem = await iterator.next();
+    assert.ok(containerItem.value.name.startsWith(containerNamePrefix));
+    assert.ok(containerItem.value.properties.etag.length > 0);
+    assert.ok(containerItem.value.properties.lastModified);
+    assert.ok(!containerItem.value.properties.leaseDuration);
+    assert.ok(!containerItem.value.properties.publicAccess);
+    assert.deepEqual(containerItem.value.properties.leaseState, "available");
+    assert.deepEqual(containerItem.value.properties.leaseStatus, "unlocked");
+    assert.deepEqual(containerItem.value.metadata!.key, "val");
+
+    containerItem = await iterator.next();
+    assert.ok(containerItem.value.name.startsWith(containerNamePrefix));
+    assert.ok(containerItem.value.properties.etag.length > 0);
+    assert.ok(containerItem.value.properties.lastModified);
+    assert.ok(!containerItem.value.properties.leaseDuration);
+    assert.ok(!containerItem.value.properties.publicAccess);
+    assert.deepEqual(containerItem.value.properties.leaseState, "available");
+    assert.deepEqual(containerItem.value.properties.leaseStatus, "unlocked");
+    assert.deepEqual(containerItem.value.metadata!.key, "val");
+
+    await containerClient1.delete();
+    await containerClient2.delete();
+  });
+
+  it("Verify AsyncIterator(for-loop syntax) for ListContainers", async () => {
+    const containerClients = [];
+    const blobServiceClient = getBSU();
+
+    const containerNamePrefix = getUniqueName("container");
+
+    for (let i = 0; i < 4; i++) {
+      const containerName = `${containerNamePrefix}x${i}`;
+      const containerClient = blobServiceClient.createContainerClient(containerName);
+      await containerClient.create({ metadata: { key: "val" } });
+      containerClients.push(containerClient);
+    }
+
+    for await (const container of blobServiceClient.listContainers({
+      include: "metadata",
+      prefix: containerNamePrefix,
+      maxresults: 2
+    })) {
+      assert.ok(container.name.startsWith(containerNamePrefix));
+      assert.ok(container.properties.etag.length > 0);
+      assert.ok(container.properties.lastModified);
+      assert.ok(!container.properties.leaseDuration);
+      assert.ok(!container.properties.publicAccess);
+      assert.deepEqual(container.properties.leaseState, "available");
+      assert.deepEqual(container.properties.leaseStatus, "unlocked");
+      assert.deepEqual(container.metadata!.key, "val");
+    }
+
+    for (const client of containerClients) {
+      await client.delete();
+    }
   });
 
   it("GetProperties", async () => {

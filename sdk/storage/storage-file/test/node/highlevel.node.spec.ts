@@ -2,9 +2,7 @@ import * as assert from "assert";
 import * as fs from "fs";
 import * as path from "path";
 
-import { FileClient, ShareClient } from "../../src";
 import { Aborter } from "../../src/Aborter";
-import { DirectoryClient } from "../../src/DirectoryClient";
 import {
   downloadAzureFileToBuffer,
   uploadFileToAzureFile,
@@ -17,11 +15,11 @@ import { RetriableReadableStreamOptions } from "../../src/utils/RetriableReadabl
 describe("Highlevel", () => {
   const serviceClient = getBSU();
   let shareName = getUniqueName("share");
-  let shareClient = ShareClient.fromFileServiceClient(serviceClient, shareName);
+  let shareClient = serviceClient.createShareClient(shareName);
   let dirName = getUniqueName("dir");
-  let dirClient = DirectoryClient.fromShareClient(shareClient, dirName);
+  let dirClient = shareClient.createDirectoryClient(dirName);
   let fileName = getUniqueName("file");
-  let fileClient = FileClient.fromDirectoryClient(dirClient, fileName);
+  let fileClient = dirClient.createFileClient(fileName);
   let tempFileSmall: string;
   let tempFileSmallLength: number;
   let tempFileLarge: string;
@@ -30,13 +28,13 @@ describe("Highlevel", () => {
 
   beforeEach(async () => {
     shareName = getUniqueName("share");
-    shareClient = ShareClient.fromFileServiceClient(serviceClient, shareName);
+    shareClient = serviceClient.createShareClient(shareName);
     await shareClient.create();
     dirName = getUniqueName("dir");
-    dirClient = DirectoryClient.fromShareClient(shareClient, dirName);
+    dirClient = shareClient.createDirectoryClient(dirName);
     await dirClient.create();
     fileName = getUniqueName("file");
-    fileClient = FileClient.fromDirectoryClient(dirClient, fileName);
+    fileClient = dirClient.createFileClient(fileName);
   });
 
   afterEach(async () => {

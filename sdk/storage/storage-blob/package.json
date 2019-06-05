@@ -22,7 +22,7 @@
     "tslib": "^1.9.3"
   },
   "devDependencies": {
-    "@microsoft/api-extractor": "^6.3.0",
+    "@microsoft/api-extractor": "^7.1.5",
     "@types/dotenv": "^6.1.0",
     "@types/mocha": "^5.2.5",
     "@types/node": "^8.0.0",
@@ -71,7 +71,8 @@
     "build:browserzip": "gulp zip",
     "build:es6": "tsc -p tsconfig.json",
     "build:nodebrowser": "rollup -c 2>&1",
-    "build:samples": "cd samples && tsc -p .",
+    "build:js-samples": "npm run clean && npm run build:es6 && npm run build:nodebrowser",
+    "build:ts-samples": "npm run clean && cd samples && tsc -p . ",
     "build:test": "npm run build:es6 && rollup -c rollup.test.config.js 2>&1",
     "build": "npm run build:es6 && npm run build:nodebrowser && npm run build:browserzip",
     "check-format": "prettier --list-different --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",

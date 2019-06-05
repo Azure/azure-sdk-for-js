@@ -1,7 +1,5 @@
 import * as assert from "assert";
 
-import { AppendBlobClient } from "../src/AppendBlobClient";
-import { ContainerClient } from "../src/ContainerClient";
 import { bodyToString, getBSU, getUniqueName } from "./utils";
 import * as dotenv from "dotenv";
 dotenv.config({ path: "../.env" });
@@ -9,16 +7,16 @@ dotenv.config({ path: "../.env" });
 describe("AppendBlobClient", () => {
   const blobServiceClient = getBSU();
   let containerName: string = getUniqueName("container");
-  let containerClient = ContainerClient.fromBlobServiceClient(blobServiceClient, containerName);
+  let containerClient = blobServiceClient.createContainerClient(containerName);
   let blobName: string = getUniqueName("blob");
-  let appendBlobClient = AppendBlobClient.fromContainerClient(containerClient, blobName);
+  let appendBlobClient = containerClient.createAppendBlobClient(blobName);
 
   beforeEach(async () => {
     containerName = getUniqueName("container");
-    containerClient = ContainerClient.fromBlobServiceClient(blobServiceClient, containerName);
+    containerClient = blobServiceClient.createContainerClient(containerName);
     await containerClient.create();
     blobName = getUniqueName("blob");
-    appendBlobClient = AppendBlobClient.fromContainerClient(containerClient, blobName);
+    appendBlobClient = containerClient.createAppendBlobClient(blobName);
   });
 
   afterEach(async () => {

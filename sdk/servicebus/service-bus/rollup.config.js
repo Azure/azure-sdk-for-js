@@ -14,4 +14,8 @@ if (!process.env.ONLY_NODE) {
   inputs.push(base.browserConfig({ production: true }));
 }
 
+if (process.env.BROWSER_TEST) {
+  inputs.push(base.browserConfig({ test: true }));
+}
+
 export default inputs;

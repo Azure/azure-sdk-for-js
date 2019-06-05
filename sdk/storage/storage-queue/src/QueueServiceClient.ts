@@ -1,23 +1,84 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 import * as Models from "./generated/lib/models";
 import { Aborter } from "./Aborter";
 import { ListQueuesIncludeType } from "./generated/lib/models/index";
 import { Service } from "./generated/lib/operations";
 import { Pipeline } from "./Pipeline";
 import { StorageClient } from "./StorageClient";
+import { QueueClient } from "./QueueClient";
+import { appendToURLPath } from "./utils/utils.common";
 
+/**
+ * Options to configure Queue Service - Get Properties operation
+ *
+ * @export
+ * @interface ServiceGetPropertiesOptions
+ */
 export interface ServiceGetPropertiesOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof AppendBlobCreateOptions
+   */
   abortSignal?: Aborter;
 }
 
+/**
+ * Options to configure Queue Service - Set Properties operation
+ *
+ * @export
+ * @interface ServiceSetPropertiesOptions
+ */
 export interface ServiceSetPropertiesOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof AppendBlobCreateOptions
+   */
   abortSignal?: Aborter;
 }
 
+/**
+ * Options to configure Queue Service - Get Statistics operation
+ *
+ * @export
+ * @interface ServiceGetStatisticsOptions
+ */
 export interface ServiceGetStatisticsOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof AppendBlobCreateOptions
+   */
   abortSignal?: Aborter;
 }
 
+/**
+ * Options to configure Queue Service - List Queues Segment operation
+ *
+ * @export
+ * @interface ServiceListQueuesSegmentOptions
+ */
 export interface ServiceListQueuesSegmentOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof AppendBlobCreateOptions
+   */
   abortSignal?: Aborter;
   /**
    * @member {string} [prefix] Filters the results to return only queues
@@ -75,15 +136,16 @@ export class QueueServiceClient extends StorageClient {
   }
 
   /**
-   * Creates a new QueueServiceClient object identical to the source but with the
-   * specified request policy pipeline.
-   *
-   * @param {Pipeline} pipeline
-   * @returns {QueueServiceClient}
-   * @memberof QueueServiceClient
+   * Creates a QueueClient object.
+   * @param queueName
    */
-  public withPipeline(pipeline: Pipeline): QueueServiceClient {
-    return new QueueServiceClient(this.url, pipeline);
+  public createQueueClient(
+    queueName: string
+  ): QueueClient {
+    return new QueueClient(
+      appendToURLPath(this.url, queueName),
+      this.pipeline
+    );
   }
 
   /**

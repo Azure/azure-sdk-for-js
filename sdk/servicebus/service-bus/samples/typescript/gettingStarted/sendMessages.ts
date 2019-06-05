@@ -29,11 +29,11 @@ const listOfScientists = [
 ];
 
 async function main(): Promise<void> {
-  const ns = ServiceBusClient.createFromConnectionString(connectionString);
+  const sbClient = ServiceBusClient.createFromConnectionString(connectionString);
 
   // If sending to a Topic, use `createTopicClient` instead of `createQueueClient`
-  const client = ns.createQueueClient(queueName);
-  const sender = client.createSender();
+  const queueClient = sbClient.createQueueClient(queueName);
+  const sender = queueClient.createSender();
 
   try {
     for (let index = 0; index < listOfScientists.length; index++) {
@@ -47,9 +47,9 @@ async function main(): Promise<void> {
       await sender.send(message);
     }
 
-    await client.close();
+    await queueClient.close();
   } finally {
-    await ns.close();
+    await sbClient.close();
   }
 }
 

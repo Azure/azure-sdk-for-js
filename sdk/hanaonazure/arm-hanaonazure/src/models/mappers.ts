@@ -170,6 +170,13 @@ export const OSProfile: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      sshPublicKey: {
+        readOnly: true,
+        serializedName: "sshPublicKey",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -280,6 +287,20 @@ export const HanaInstance: msRest.CompositeMapper = {
       hwRevision: {
         readOnly: true,
         serializedName: "properties.hwRevision",
+        type: {
+          name: "String"
+        }
+      },
+      partnerNodeId: {
+        readOnly: true,
+        serializedName: "properties.partnerNodeId",
+        type: {
+          name: "String"
+        }
+      },
+      provisioningState: {
+        readOnly: true,
+        serializedName: "properties.provisioningState",
         type: {
           name: "String"
         }
@@ -406,8 +427,8 @@ export const MonitoringDetails: msRest.CompositeMapper = {
     name: "Composite",
     className: "MonitoringDetails",
     modelProperties: {
-      hanaVnet: {
-        serializedName: "hanaVnet",
+      hanaSubnet: {
+        serializedName: "hanaSubnet",
         type: {
           name: "String"
         }
@@ -418,23 +439,16 @@ export const MonitoringDetails: msRest.CompositeMapper = {
           name: "String"
         }
       },
-      hanaInstanceNum: {
-        serializedName: "hanaInstanceNum",
+      hanaDbName: {
+        serializedName: "hanaDbName",
         type: {
           name: "String"
         }
       },
-      dbContainer: {
-        serializedName: "dbContainer",
-        defaultValue: 'single',
+      hanaDbSqlPort: {
+        serializedName: "hanaDbSqlPort",
         type: {
-          name: "String"
-        }
-      },
-      hanaDatabase: {
-        serializedName: "hanaDatabase",
-        type: {
-          name: "String"
+          name: "Number"
         }
       },
       hanaDbUsername: {

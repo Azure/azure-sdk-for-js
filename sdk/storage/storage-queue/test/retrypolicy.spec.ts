@@ -1,8 +1,7 @@
 import { URLBuilder } from "@azure/ms-rest-js";
 import * as assert from "assert";
 
-import { RestError, StorageClient } from "../src";
-import { QueueClient } from "../src/QueueClient";
+import { QueueClient, RestError, StorageClient } from "../src";
 import { Pipeline } from "../src/Pipeline";
 import { getQSU, getUniqueName } from "./utils";
 import { InjectorPolicyFactory } from "./utils/InjectorPolicyFactory";
@@ -12,11 +11,11 @@ dotenv.config({ path: "../.env" });
 describe("RetryPolicy", () => {
   const queueServiceClient = getQSU();
   let queueName: string = getUniqueName("queue");
-  let queueClient = QueueClient.fromQueueServiceClient(queueServiceClient, queueName);
+  let queueClient = queueServiceClient.createQueueClient(queueName);
 
   beforeEach(async () => {
     queueName = getUniqueName("queue");
-    queueClient = QueueClient.fromQueueServiceClient(queueServiceClient, queueName);
+    queueClient = queueServiceClient.createQueueClient(queueName);
     await queueClient.create();
   });
 
@@ -35,7 +34,7 @@ describe("RetryPolicy", () => {
     const factories = queueClient.pipeline.factories.slice(); // clone factories array
     factories.push(injector);
     const pipeline = new Pipeline(factories);
-    const injectqueueClient = queueClient.withPipeline(pipeline);
+    const injectqueueClient = new QueueClient(queueClient.url,  pipeline);
 
     const metadata = {
       key0: "val0",
@@ -59,7 +58,7 @@ describe("RetryPolicy", () => {
     }).factories;
     factories.push(injector);
     const pipeline = new Pipeline(factories);
-    const injectqueueClient = queueClient.withPipeline(pipeline);
+    const injectqueueClient = new QueueClient(queueClient.url,  pipeline);
 
     let hasError = false;
     try {
@@ -98,7 +97,7 @@ describe("RetryPolicy", () => {
     }).factories;
     factories.push(injector);
     const pipeline = new Pipeline(factories);
-    const injectqueueClient = queueClient.withPipeline(pipeline);
+    const injectqueueClient = new QueueClient(queueClient.url,  pipeline);
 
     let finalRequestURL = "";
     try {

@@ -9,9 +9,6 @@ import {
   uploadFileToBlockBlob,
   uploadStreamToBlockBlob,
   Aborter,
-  BlobClient,
-  BlockBlobClient,
-  ContainerClient,
   BlobServiceClient,
   StorageClient
 } from "../../src"; // Change to "@azure/storage-blob" in your package
@@ -36,13 +33,13 @@ async function main() {
 
   // Create a container
   const containerName = `newcontainer${new Date().getTime()}`;
-  const containerClient = ContainerClient.fromBlobServiceClient(blobServiceClient, containerName);
+  const containerClient = blobServiceClient.createContainerClient(containerName);
   await containerClient.create();
 
   // Create a blob
   const blobName = "newblob" + new Date().getTime();
-  const blobClient = BlobClient.fromContainerClient(containerClient, blobName);
-  const blockBlobClient = BlockBlobClient.fromBlobClient(blobClient);
+  const blobClient = containerClient.createBlobClient(blobName);
+  const blockBlobClient = blobClient.createBlockBlobClient();
 
   // Parallel uploading with uploadFileToBlockBlob in Node.js runtime
   // uploadFileToBlockBlob is only available in Node.js

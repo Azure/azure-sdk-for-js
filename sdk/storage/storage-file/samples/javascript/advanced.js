@@ -10,9 +10,6 @@ const {
   uploadFileToAzureFile,
   uploadStreamToAzureFile,
   Aborter,
-  FileClient,
-  DirectoryClient,
-  ShareClient,
   FileServiceClient,
   StorageClient
 } = require(".."); // Change to "@azure/storage-file" in your package
@@ -37,24 +34,24 @@ async function main() {
 
   // Create a share
   const shareName = `newshare${new Date().getTime()}`;
-  const shareClient = ShareClient.fromFileServiceClient(servieClient, shareName);
-  await shareClient.create(Aborter.none);
+  const shareClient = servieClient.createShareClient(shareName);
+  await shareClient.create();
   console.log(`Create share ${shareName} successfully`);
 
   // Create a directory
   const directoryName = `newdirectory${new Date().getTime()}`;
-  const directoryClient = DirectoryClient.fromShareClient(shareClient, directoryName);
-  await directoryClient.create(Aborter.none);
+  const directoryClient = shareClient.createDirectoryClient(directoryName);
+  await directoryClient.create();
   console.log(`Create directory ${directoryName} successfully`);
 
   // Upload local file to Azure file parallelly
   const fileName = "newfile" + new Date().getTime();
-  const fileClient = FileClient.fromDirectoryClient(directoryClient, fileName);
+  const fileClient = directoryClient.createFileClient(fileName);
   const fileSize = fs.statSync(localFilePath).size;
 
   // Parallel uploading with uploadFileToAzureFile in Node.js runtime
   // uploadFileToAzureFile is only available in Node.js
-  await uploadFileToAzureFile(Aborter.none, localFilePath, fileClient, {
+  await uploadFileToAzureFile(localFilePath, fileClient, {
     rangeSize: 4 * 1024 * 1024, // 4MB range size
     parallelism: 20, // 20 concurrency
     progress: ev => console.log(ev)
@@ -64,13 +61,13 @@ async function main() {
   // Parallel uploading a Readable stream with uploadStreamToAzureFile in Node.js runtime
   // uploadStreamToAzureFile is only available in Node.js
   await uploadStreamToAzureFile(
-    Aborter.timeout(30 * 60 * 1000), // Abort uploading with timeout in 30mins
     fs.createReadStream(localFilePath),
     fileSize,
     fileClient,
     4 * 1024 * 1024,
     20,
     {
+      abortSignal: Aborter.timeout(30 * 60 * 1000), // Abort uploading with timeout in 30mins
       progress: ev => console.log(ev)
     }
   );
@@ -80,7 +77,7 @@ async function main() {
   // Uncomment following code in browsers because uploadBrowserDataToAzureFile is only available in browsers
   /*
   const browserFile = document.getElementById("fileinput").files[0];
-  await uploadBrowserDataToAzureFile(Aborter.none, browserFile, fileClient, {
+  await uploadBrowserDataToAzureFile(browserFile, fileClient, {
     rangeSize: 4 * 1024 * 1024, // 4MB range size
     parallelism: 20, // 20 concurrency
     progress: ev => console.log(ev)
@@ -91,12 +88,12 @@ async function main() {
   // downloadAzureFileToBuffer is only available in Node.js
   const buffer = Buffer.alloc(fileSize);
   await downloadAzureFileToBuffer(
-    Aborter.timeout(30 * 60 * 1000),
     buffer,
     fileClient,
     0,
     undefined,
     {
+      abortSignal: Aborter.timeout(30 * 60 * 1000),
       rangeSize: 4 * 1024 * 1024, // 4MB range size
       parallelism: 20, // 20 concurrency
       progress: ev => console.log(ev)
@@ -105,7 +102,7 @@ async function main() {
   console.log("downloadAzureFileToBuffer success");
 
   // Delete share
-  await shareClient.delete(Aborter.none);
+  await shareClient.delete();
   console.log("deleted share");
 }
 

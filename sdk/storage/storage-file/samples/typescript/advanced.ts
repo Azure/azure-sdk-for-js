@@ -9,9 +9,6 @@ import {
   uploadFileToAzureFile,
   uploadStreamToAzureFile,
   Aborter,
-  FileClient,
-  DirectoryClient,
-  ShareClient,
   FileServiceClient,
   StorageClient
 } from "../.."; // Change to "@azure/storage-file" in your package
@@ -36,19 +33,19 @@ async function main() {
 
   // Create a share
   const shareName = `newshare${new Date().getTime()}`;
-  const shareClient = ShareClient.fromFileServiceClient(serviceClient, shareName);
+  const shareClient = serviceClient.createShareClient(shareName);
   await shareClient.create();
   console.log(`Create share ${shareName} successfully`);
 
   // Create a directory
   const directoryName = `newdirectory${new Date().getTime()}`;
-  const directoryClient = DirectoryClient.fromShareClient(shareClient, directoryName);
+  const directoryClient = shareClient.createDirectoryClient(directoryName);
   await directoryClient.create();
   console.log(`Create directory ${directoryName} successfully`);
 
   // Upload local file to Azure file parallelly
   const fileName = "newfile" + new Date().getTime();
-  const fileClient = FileClient.fromDirectoryClient(directoryClient, fileName);
+  const fileClient = directoryClient.createFileClient(fileName);
   const fileSize = fs.statSync(localFilePath).size;
 
   // Parallel uploading with uploadFileToAzureFile in Node.js runtime

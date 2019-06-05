@@ -15,6 +15,7 @@ import {
 } from "./util/errors";
 import { generate_uuid } from "rhea-promise";
 import { ClientEntityContext } from "./clientEntityContext";
+import Long from 'long';
 import { getAssociatedReceiverName } from "../src/util/utils";
 
 /**

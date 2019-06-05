@@ -1,26 +1,94 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 import { HttpRequestBody, TransferProgressEvent } from "@azure/ms-rest-js";
 
 import * as Models from "./generated/lib/models";
 import { Aborter } from "./Aborter";
-import { BlobClient } from "./BlobClient";
-import { ContainerClient } from "./ContainerClient";
+import { BlobClient } from "./internal";
 import { AppendBlob } from "./generated/lib/operations";
 import { AppendBlobAccessConditions, BlobAccessConditions, Metadata } from "./models";
 import { Pipeline } from "./Pipeline";
 import { URLConstants } from "./utils/constants";
-import { appendToURLPath, setURLParameter } from "./utils/utils.common";
+import { setURLParameter } from "./utils/utils.common";
 
+/**
+ * Options to configure Append Blob - Create operation.
+ *
+ * @export
+ * @interface AppendBlobCreateOptions
+ */
 export interface AppendBlobCreateOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof AppendBlobCreateOptions
+   */
   abortSignal?: Aborter;
+
+  /**
+   * Conditions to meet when creating append blobs.
+   *
+   * @type {BlobAccessConditions}
+   * @memberof AppendBlobCreateOptions
+   */
   accessConditions?: BlobAccessConditions;
+  /**
+   * HTTP headers to set when creating append blobs.
+   *
+   * @type {Models.BlobHTTPHeaders}
+   * @memberof AppendBlobCreateOptions
+   */
   blobHTTPHeaders?: Models.BlobHTTPHeaders;
+  /**
+   * A collection of key-value string pair to associate with the blob when creating append blobs.
+   *
+   * @type {Metadata}
+   * @memberof AppendBlobCreateOptions
+   */
   metadata?: Metadata;
 }
 
+/**
+ * Optiosn to confgiure the Append Blob - Append Block operation.
+ *
+ * @export
+ * @interface AppendBlobAppendBlockOptions
+ */
 export interface AppendBlobAppendBlockOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof AppendBlobAppendBlockOptions
+   */
   abortSignal?: Aborter;
+  /**
+   * Conditions to meet when appending append blob blocks.
+   *
+   * @type {AppendBlobAccessConditions}
+   * @memberof AppendBlobAppendBlockOptions
+   */
   accessConditions?: AppendBlobAccessConditions;
+  /**
+   * Callback to receive events on the progress of append block operation.
+   *
+   * @memberof AppendBlobAppendBlockOptions
+   */
   progress?: (progress: TransferProgressEvent) => void;
+  /**
+   * A Uint8Array holding the MD5 hash of the blob content.
+   * It is only used to verify the integrity of the block during transport.
+   * It is not stored in with the blob.
+   *
+   * @type {Uint8Array}
+   * @memberof AppendBlobAppendBlockOptions
+   */
   transactionalContentMD5?: Uint8Array;
 }
 
@@ -32,37 +100,6 @@ export interface AppendBlobAppendBlockOptions {
  * @extends {StorageClient}
  */
 export class AppendBlobClient extends BlobClient {
-  /**
-   * Creates a AppendBlobClient object from ContainerClient instance.
-   *
-   * @static
-   * @param {ContainerClient} containerClient A ContainerClient object
-   * @param {string} blobName An append blob name
-   * @returns {AppendBlobClient}
-   * @memberof AppendBlobClient
-   */
-  public static fromContainerClient(
-    containerClient: ContainerClient,
-    blobName: string
-  ): AppendBlobClient {
-    return new AppendBlobClient(
-      appendToURLPath(containerClient.url, encodeURIComponent(blobName)),
-      containerClient.pipeline
-    );
-  }
-
-  /**
-   * Creates a AppendBlobClient object from BlobClient instance.
-   *
-   * @static
-   * @param {BlobClient} blobClient
-   * @returns {AppendBlobClient}
-   * @memberof AppendBlobClient
-   */
-  public static fromBlobClient(blobClient: BlobClient): AppendBlobClient {
-    return new AppendBlobClient(blobClient.url, blobClient.pipeline);
-  }
-
   /**
    * appendBlobsContext provided by protocol layer.
    *
@@ -97,22 +134,10 @@ export class AppendBlobClient extends BlobClient {
 
   /**
    * Creates a new AppendBlobClient object identical to the source but with the
-   * specified request policy pipeline.
-   *
-   * @param {Pipeline} pipeline
-   * @returns {AppendBlobClient}
-   * @memberof AppendBlobClient
-   */
-  public withPipeline(pipeline: Pipeline): AppendBlobClient {
-    return new AppendBlobClient(this.url, pipeline);
-  }
-
-  /**
-   * Creates a new AppendBlobClient object identical to the source but with the
    * specified snapshot timestamp.
    * Provide "" will remove the snapshot and return a Client to the base blob.
    *
-   * @param {string} snapshot
+   * @param {string} snapshot The snapshot timestamp.
    * @returns {AppendBlobClient}
    * @memberof AppendBlobClient
    */
@@ -131,7 +156,7 @@ export class AppendBlobClient extends BlobClient {
    * Creates a 0-length append blob. Call AppendBlock to append data to an append blob.
    * @see https://docs.microsoft.com/rest/api/storageservices/put-blob
    *
-   * @param {AppendBlobCreateOptions} [options]
+   * @param {AppendBlobCreateOptions} [options] Optional options to the Append Block Create operation.
    * @returns {Promise<Models.AppendBlobsCreateResponse>}
    * @memberof AppendBlobClient
    */
@@ -153,9 +178,9 @@ export class AppendBlobClient extends BlobClient {
    * Commits a new block of data to the end of the existing append blob.
    * @see https://docs.microsoft.com/rest/api/storageservices/append-block
    *
-   * @param {HttpRequestBody} body
-   * @param {number} contentLength
-   * @param {AppendBlobAppendBlockOptions} [options]
+   * @param {HttpRequestBody} body Data to be appended.
+   * @param {number} contentLength Number of bytes to be appended.
+   * @param {AppendBlobAppendBlockOptions} [options] Optional options to the Append Block operation.
    * @returns {Promise<Models.AppendBlobsAppendBlockResponse>}
    * @memberof AppendBlobClient
    */

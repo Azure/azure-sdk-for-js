@@ -1,7 +1,6 @@
 import * as assert from "assert";
 
 import { Aborter } from "../src/Aborter";
-import { ContainerClient } from "../src/ContainerClient";
 import { getBSU, getUniqueName } from "./utils";
 import * as dotenv from "dotenv";
 dotenv.config({ path: "../.env" });
@@ -10,11 +9,11 @@ dotenv.config({ path: "../.env" });
 describe("Aborter", () => {
   const blobServiceClient = getBSU();
   let containerName: string = getUniqueName("container");
-  let containerClient = ContainerClient.fromBlobServiceClient(blobServiceClient, containerName);
+  let containerClient = blobServiceClient.createContainerClient(containerName);
 
   beforeEach(async () => {
     containerName = getUniqueName("container");
-    containerClient = ContainerClient.fromBlobServiceClient(blobServiceClient, containerName);
+    containerClient = blobServiceClient.createContainerClient(containerName);
   });
 
   it("should set value and get value successfully", async () => {

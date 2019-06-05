@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 import { deserializationPolicy, RequestPolicyFactory } from "@azure/ms-rest-js";
 
 import { BrowserPolicyFactory } from "./BrowserPolicyFactory";
@@ -13,7 +16,7 @@ import { escapeURLPath } from "./utils/utils.common";
 export { deserializationPolicy };
 
 /**
- * Option interface for Pipeline.newPipeline method.
+ * Option interface for newPipeline() method.
  *
  * @export
  * @interface NewPipelineOptions
@@ -26,9 +29,27 @@ export interface NewPipelineOptions {
    * @memberof NewPipelineOptions
    */
   telemetry?: TelemetryOptions;
+  /**
+   * Configures the built-in retry policy behavior.
+   *
+   * @type {RetryOptions}
+   * @memberof NewPipelineOptions
+   */
   retryOptions?: RetryOptions;
 
+  /**
+   * Configures the HTTP pipeline logger.
+   *
+   * @type {IHttpPipelineLogger}
+   * @memberof NewPipelineOptions
+   */
   logger?: IHttpPipelineLogger;
+  /**
+   * Configures the HTTP client to send requests and receive responses.
+   *
+   * @type {IHttpClient}
+   * @memberof NewPipelineOptions
+   */
   httpClient?: IHttpClient;
 }
 
@@ -100,8 +121,8 @@ export abstract class StorageClient {
 
   /**
    * Creates an instance of StorageClient.
-   * @param {string} url
-   * @param {Pipeline} pipeline
+   * @param {string} url url to resource
+   * @param {Pipeline} pipeline request policy pipeline.
    * @memberof StorageClient
    */
   protected constructor(url: string, pipeline: Pipeline) {

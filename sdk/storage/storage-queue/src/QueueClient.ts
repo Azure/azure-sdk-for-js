@@ -1,38 +1,138 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 import { HttpResponse } from "@azure/ms-rest-js";
 import * as Models from "./generated/lib/models";
 import { Aborter } from "./Aborter";
 import { Queue } from "./generated/lib/operations";
 import { Metadata } from "./models";
 import { Pipeline } from "./Pipeline";
-import { QueueServiceClient } from "./QueueServiceClient";
 import { StorageClient } from "./StorageClient";
 import { appendToURLPath, truncatedISO8061Date } from "./utils/utils.common";
+import { MessagesClient } from "./MessagesClient";
 
+/**
+ * Options to configure Queue - Create operation
+ *
+ * @export
+ * @interface QueueCreateOptions
+ */
 export interface QueueCreateOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof AppendBlobCreateOptions
+   */
   abortSignal?: Aborter;
+  /**
+   * A collection of key-value string pair to associate with the queue object.
+   * The keys need to be lower-case.
+   *
+   * @type {Metadata}
+   * @memberof QueueCreateOptions
+   */
   metadata?: Metadata;
 }
 
+/**
+ * Options to configure Queue - Get Properties operation
+ *
+ * @export
+ * @interface QueueGetPropertiesOptions
+ */
 export interface QueueGetPropertiesOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof AppendBlobCreateOptions
+   */
   abortSignal?: Aborter;
 }
 
+/**
+ * Options to configure Queue - Delete operation
+ *
+ * @export
+ * @interface QueueDeleteOptions
+ */
 export interface QueueDeleteOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof AppendBlobCreateOptions
+   */
   abortSignal?: Aborter;
 }
 
+/**
+ * Options to configure Queue - Get Access Policy operation
+ *
+ * @export
+ * @interface QueueGetAccessPolicyOptions
+ */
 export interface QueueGetAccessPolicyOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof AppendBlobCreateOptions
+   */
   abortSignal?: Aborter;
 }
 
+/**
+ * Options to configure Queue - Set Access Policy operation
+ *
+ * @export
+ * @interface QueueSetAccessPolicyOptions
+ */
 export interface QueueSetAccessPolicyOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof AppendBlobCreateOptions
+   */
   abortSignal?: Aborter;
 }
 
+/**
+ * Options to configure Queue - Set Metadata operation
+ *
+ * @export
+ * @interface QueueSetMetadataOptions
+ */
 export interface QueueSetMetadataOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof AppendBlobCreateOptions
+   */
   abortSignal?: Aborter;
 }
 
+/**
+ * Signed identifier.
+ *
+ * @export
+ * @interface SignedIdentifier
+ */
 export interface SignedIdentifier {
   /**
    * @member {string} id a unique id
@@ -61,24 +161,24 @@ export interface SignedIdentifier {
 export declare type QueueGetAccessPolicyResponse = {
   signedIdentifiers: SignedIdentifier[];
 } & Models.QueueGetAccessPolicyHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpResponse & {
     /**
-     * The underlying HTTP response.
+     * The parsed HTTP response headers.
      */
-    _response: HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: Models.QueueGetAccessPolicyHeaders;
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Models.SignedIdentifier[];
-    };
+    parsedHeaders: Models.QueueGetAccessPolicyHeaders;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Models.SignedIdentifier[];
   };
+};
 
 /**
  * A QueueURL represents a URL to the Azure Storage queue.
@@ -88,21 +188,6 @@ export declare type QueueGetAccessPolicyResponse = {
  * @extends {StorageClient}
  */
 export class QueueClient extends StorageClient {
-  /**
-   * Creates a QueueURL object from QueueServiceClient
-   * @param queueServiceClient
-   * @param queueName
-   */
-  public static fromQueueServiceClient(
-    queueServiceClient: QueueServiceClient,
-    queueName: string
-  ): QueueClient {
-    return new QueueClient(
-      appendToURLPath(queueServiceClient.url, queueName),
-      queueServiceClient.pipeline
-    );
-  }
-
   /**
    * queueContext provided by protocol layer.
    *
@@ -128,18 +213,6 @@ export class QueueClient extends StorageClient {
   }
 
   /**
-   * Creates a new QueueURL object identical to the source but with the
-   * specified request policy pipeline.
-   *
-   * @param {Pipeline} pipeline
-   * @returns {QueueClient}
-   * @memberof QueueURL
-   */
-  public withPipeline(pipeline: Pipeline): QueueClient {
-    return new QueueClient(this.url, pipeline);
-  }
-
-  /**
    * Creates a new queue under the specified account.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-queue4
    *
@@ -155,6 +228,14 @@ export class QueueClient extends StorageClient {
       ...options,
       abortSignal: aborter
     });
+  }
+
+  /**
+   * Creates a MessagesClient object.
+   * @param queueName
+   */
+  public createMessagesClient(): MessagesClient {
+    return new MessagesClient(appendToURLPath(this.url, "messages"), this.pipeline);
   }
 
   /**

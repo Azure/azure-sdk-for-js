@@ -1,27 +1,24 @@
 import * as assert from "assert";
 import { bodyToString, getBSU, getUniqueName } from "./utils";
 
-import { BlobClient } from "../src/BlobClient";
-import { ContainerClient } from "../src/ContainerClient";
-import { PageBlobClient } from "../src/PageBlobClient";
 import * as dotenv from "dotenv";
 dotenv.config({ path: "../.env" });
 
 describe("PageBlobClient", () => {
   const blobServiceClient = getBSU();
   let containerName: string = getUniqueName("container");
-  let containerClient = ContainerClient.fromBlobServiceClient(blobServiceClient, containerName);
+  let containerClient = blobServiceClient.createContainerClient(containerName);
   let blobName: string = getUniqueName("blob");
-  let blobClient = BlobClient.fromContainerClient(containerClient, blobName);
-  let pageBlobClient = PageBlobClient.fromBlobClient(blobClient);
+  let blobClient = containerClient.createBlobClient(blobName);
+  let pageBlobClient = blobClient.createPageBlobClient();
 
   beforeEach(async () => {
     containerName = getUniqueName("container");
-    containerClient = ContainerClient.fromBlobServiceClient(blobServiceClient, containerName);
+    containerClient = blobServiceClient.createContainerClient(containerName);
     await containerClient.create();
     blobName = getUniqueName("blob");
-    blobClient = BlobClient.fromContainerClient(containerClient, blobName);
-    pageBlobClient = PageBlobClient.fromBlobClient(blobClient);
+    blobClient = containerClient.createBlobClient(blobName);
+    pageBlobClient = blobClient.createPageBlobClient();
   });
 
   afterEach(async () => {

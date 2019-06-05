@@ -1,8 +1,7 @@
 import { URLBuilder } from "@azure/ms-rest-js";
 import * as assert from "assert";
 
-import { RestError, StorageClient } from "../src";
-import { ContainerClient } from "../src/ContainerClient";
+import { ContainerClient, RestError, StorageClient } from "../src";
 import { Pipeline } from "../src/Pipeline";
 import { getBSU, getUniqueName } from "./utils";
 import { InjectorPolicyFactory } from "./utils/InjectorPolicyFactory";
@@ -12,11 +11,11 @@ dotenv.config({ path: "../.env" });
 describe("RetryPolicy", () => {
   const blobServiceClient = getBSU();
   let containerName: string = getUniqueName("container");
-  let containerClient = ContainerClient.fromBlobServiceClient(blobServiceClient, containerName);
+  let containerClient = blobServiceClient.createContainerClient(containerName);
 
   beforeEach(async () => {
     containerName = getUniqueName("container");
-    containerClient = ContainerClient.fromBlobServiceClient(blobServiceClient, containerName);
+    containerClient = blobServiceClient.createContainerClient(containerName);
     await containerClient.create();
   });
 
@@ -35,7 +34,7 @@ describe("RetryPolicy", () => {
     const factories = containerClient.pipeline.factories.slice(); // clone factories array
     factories.push(injector);
     const pipeline = new Pipeline(factories);
-    const injectContainerClient = containerClient.withPipeline(pipeline);
+    const injectContainerClient = new ContainerClient(containerClient.url, pipeline);
 
     const metadata = {
       key0: "val0",
@@ -60,7 +59,7 @@ describe("RetryPolicy", () => {
     }).factories;
     factories.push(injector);
     const pipeline = new Pipeline(factories);
-    const injectContainerClient = containerClient.withPipeline(pipeline);
+    const injectContainerClient = new ContainerClient(containerClient.url, pipeline);
 
     let hasError = false;
     try {
@@ -100,7 +99,7 @@ describe("RetryPolicy", () => {
     }).factories;
     factories.push(injector);
     const pipeline = new Pipeline(factories);
-    const injectContainerClient = containerClient.withPipeline(pipeline);
+    const injectContainerClient = new ContainerClient(containerClient.url, pipeline);
 
     let finalRequestURL = "";
     try {

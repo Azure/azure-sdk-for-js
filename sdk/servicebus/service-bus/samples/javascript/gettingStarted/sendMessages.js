@@ -28,17 +28,17 @@ const listOfScientists = [
   { name: "Kopernikus", firstName: "Nikolaus" }
 ];
 
-async function main(){
-  const ns = ServiceBusClient.createFromConnectionString(connectionString);
+async function main() {
+  const sbClient = ServiceBusClient.createFromConnectionString(connectionString);
 
   // If sending to a Topic, use `createTopicClient` instead of `createQueueClient`
-  const client = ns.createQueueClient(queueName);
-  const sender = client.createSender();
+  const queueClient = sbClient.createQueueClient(queueName);
+  const sender = queueClient.createSender();
 
   try {
     for (let index = 0; index < listOfScientists.length; index++) {
       const scientist = listOfScientists[index];
-      const message= {
+      const message = {
         body: `${scientist.firstName} ${scientist.name}`,
         label: "Scientist"
       };
@@ -47,9 +47,9 @@ async function main(){
       await sender.send(message);
     }
 
-    await client.close();
+    await queueClient.close();
   } finally {
-    await ns.close();
+    await sbClient.close();
   }
 }
 

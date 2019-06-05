@@ -1,31 +1,28 @@
 import * as assert from "assert";
 import { Duplex } from "stream";
-import { DirectoryClient } from "../../src/DirectoryClient";
-import { FileClient } from "../../src/FileClient";
-import { ShareClient } from "../../src/ShareClient";
 import { bodyToString, getBSU, getUniqueName } from "../utils";
 import { Buffer } from "buffer";
 
-describe("BlockBlobURL Node.js only", () => {
+describe("FileClient Node.js only", () => {
   const serviceClient = getBSU();
   let shareName = getUniqueName("share");
-  let shareClient = ShareClient.fromFileServiceClient(serviceClient, shareName);
+  let shareClient = serviceClient.createShareClient(shareName);
   let dirName = getUniqueName("dir");
-  let dirClient = DirectoryClient.fromShareClient(shareClient, dirName);
+  let dirClient = shareClient.createDirectoryClient(dirName);
   let fileName = getUniqueName("file");
-  let fileClient = FileClient.fromDirectoryClient(dirClient, fileName);
+  let fileClient = dirClient.createFileClient(fileName);
 
   beforeEach(async () => {
     shareName = getUniqueName("share");
-    shareClient = ShareClient.fromFileServiceClient(serviceClient, shareName);
+    shareClient = serviceClient.createShareClient(shareName);
     await shareClient.create();
 
     dirName = getUniqueName("dir");
-    dirClient = DirectoryClient.fromShareClient(shareClient, dirName);
+    dirClient = shareClient.createDirectoryClient(dirName);
     await dirClient.create();
 
     fileName = getUniqueName("file");
-    fileClient = FileClient.fromDirectoryClient(dirClient, fileName);
+    fileClient = dirClient.createFileClient(fileName);
   });
 
   afterEach(async () => {

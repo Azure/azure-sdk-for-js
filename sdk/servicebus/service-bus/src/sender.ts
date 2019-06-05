@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import * as Long from "long";
+import Long from "long";
 import * as log from "./log";
 import { MessageSender } from "./core/messageSender";
 import { SendableMessageInfo } from "./serviceBusMessage";
@@ -32,6 +32,28 @@ export class Sender {
   private _isClosed: boolean = false;
 
   /**
+   * @internal
+   */
+  constructor(context: ClientEntityContext) {
+    throwErrorIfConnectionClosed(context.namespace);
+    this._context = context;
+  }
+
+  private _throwIfSenderOrConnectionClosed(): void {
+    throwErrorIfConnectionClosed(this._context.namespace);
+    if (this.isClosed) {
+      const errorMessage = getSenderClosedErrorMsg(
+        this._context.entityPath,
+        this._context.clientType,
+        this._context.isClosed
+      );
+      const error = new Error(errorMessage);
+      log.error(`[${this._context.namespace.connectionId}] %O`, error);
+      throw error;
+    }
+  }
+
+  /**
    * @property Returns `true` if either the sender or the client that created it has been closed
    * @readonly
    */
@@ -39,13 +61,6 @@ export class Sender {
     return this._isClosed || this._context.isClosed;
   }
 
-  /**
-   * @internal
-   */
-  constructor(context: ClientEntityContext) {
-    throwErrorIfConnectionClosed(context.namespace);
-    this._context = context;
-  }
   /**
    * Sends the given message after creating an AMQP Sender link if it doesnt already exists.
    *
@@ -238,20 +253,6 @@ export class Sender {
         err
       );
       throw err;
-    }
-  }
-
-  private _throwIfSenderOrConnectionClosed(): void {
-    throwErrorIfConnectionClosed(this._context.namespace);
-    if (this.isClosed) {
-      const errorMessage = getSenderClosedErrorMsg(
-        this._context.entityPath,
-        this._context.clientType,
-        this._context.isClosed
-      );
-      const error = new Error(errorMessage);
-      log.error(`[${this._context.namespace.connectionId}] %O`, error);
-      throw error;
     }
   }
 }

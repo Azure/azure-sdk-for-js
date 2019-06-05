@@ -1,22 +1,60 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 import { HttpResponse } from "@azure/ms-rest-js";
 import * as Models from "./generated/lib/models";
 import { Aborter } from "./Aborter";
 import { Messages } from "./generated/lib/operations";
 import { Pipeline } from "./Pipeline";
-import { QueueClient } from "./QueueClient";
 import { StorageClient } from "./StorageClient";
 import { appendToURLPath } from "./utils/utils.common";
+import { MessageIdClient } from "./MessageIdClient";
 
+/**
+ * Options to configure Messages - Clear operation
+ *
+ * @export
+ * @interface MessagesClearOptions
+ */
 export interface MessagesClearOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof AppendBlobCreateOptions
+   */
   abortSignal?: Aborter;
 }
 
+/**
+ * Options to configure Messages - Enqueue operation
+ *
+ * @export
+ * @interface MessagesEnqueueOptions
+ * @extends {Models.MessagesEnqueueOptionalParams}
+ */
 export interface MessagesEnqueueOptions extends Models.MessagesEnqueueOptionalParams {
 }
 
+/**
+ * Options to configure Messages - Dequeue operation
+ *
+ * @export
+ * @interface MessagesDequeueOptions
+ * @extends {Models.MessagesDequeueOptionalParams}
+ */
 export interface MessagesDequeueOptions extends Models.MessagesDequeueOptionalParams {
 }
 
+/**
+ * Options to configure Messages - Peek operation
+ *
+ * @export
+ * @interface MessagesPeekOptions
+ * @extends {Models.MessagesPeekOptionalParams}
+ */
 export interface MessagesPeekOptions extends Models.MessagesPeekOptionalParams {
 }
 
@@ -47,68 +85,68 @@ export declare type MessagesEnqueueResponse = {
    */
   timeNextVisible: Date;
 } & Models.MessagesEnqueueHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpResponse & {
     /**
-     * The underlying HTTP response.
+     * The parsed HTTP response headers.
      */
-    _response: HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: Models.MessagesEnqueueHeaders;
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Models.EnqueuedMessage[];
-    };
+    parsedHeaders: Models.MessagesEnqueueHeaders;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Models.EnqueuedMessage[];
   };
+};
 
 export declare type MessagesDequeueResponse = {
   dequeuedMessageItems: Models.DequeuedMessageItem[];
 } & Models.MessagesDequeueHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpResponse & {
     /**
-     * The underlying HTTP response.
+     * The parsed HTTP response headers.
      */
-    _response: HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: Models.MessagesDequeueHeaders;
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Models.DequeuedMessageItem[];
-    };
+    parsedHeaders: Models.MessagesDequeueHeaders;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Models.DequeuedMessageItem[];
   };
+};
 
 export declare type MessagesPeekResponse = {
   peekedMessageItems: Models.PeekedMessageItem[];
 } & Models.MessagesPeekHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpResponse & {
     /**
-     * The underlying HTTP response.
+     * The parsed HTTP response headers.
      */
-    _response: HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: Models.MessagesPeekHeaders;
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Models.PeekedMessageItem[];
-    };
+    parsedHeaders: Models.MessagesPeekHeaders;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Models.PeekedMessageItem[];
   };
+};
 
 /**
  * A MessagesClient represents a URL to an Azure Storage Queue's messages allowing you to manipulate its messages.
@@ -118,15 +156,6 @@ export declare type MessagesPeekResponse = {
  * @extends {StorageClient}
  */
 export class MessagesClient extends StorageClient {
-  /**
-   * Creates a MessagesClient object from QueueClient
-   * @param queueClient
-   * @param queueName
-   */
-  public static fromQueueClient(queueClient: QueueClient): MessagesClient {
-    return new MessagesClient(appendToURLPath(queueClient.url, "messages"), queueClient.pipeline);
-  }
-
   /**
    * messagesContext provided by protocol layer.
    *
@@ -152,18 +181,6 @@ export class MessagesClient extends StorageClient {
   }
 
   /**
-   * Creates a new MessagesClient object identical to the source but with the
-   * specified request policy pipeline.
-   *
-   * @param {Pipeline} pipeline
-   * @returns {MessagesClient}
-   * @memberof MessagesClient
-   */
-  public withPipeline(pipeline: Pipeline): MessagesClient {
-    return new MessagesClient(this.url, pipeline);
-  }
-
-  /**
    * Clear deletes all messages from a queue.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/clear-messages
    *
@@ -178,6 +195,19 @@ export class MessagesClient extends StorageClient {
     return this.messagesContext.clear({
       abortSignal: aborter
     });
+  }
+
+  /**
+   * Creates a MessageIdClient object.
+   * @param messageId
+   */
+  public createMessageIdClient(
+    messageId: string
+  ): MessageIdClient {
+    return new MessageIdClient(
+      appendToURLPath(this.url, messageId),
+      this.pipeline
+    );
   }
 
   /**
