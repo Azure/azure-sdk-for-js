@@ -146,7 +146,7 @@ describe(`Misc tests`, function(): void {
     });
     await client.send(obj, partitionId);
     debug("Successfully sent the large message.");
-    const data = await breceiver.receive(10, 60);
+    const data = await breceiver.receive(5, 30);
     await breceiver.close();
     debug("received message: ", data);
     should.exist(data);
@@ -180,7 +180,7 @@ describe(`Misc tests`, function(): void {
       await breceiver.close();
       debug("received message: ", data);
       should.exist(data);
-      should.equal(data.length > 0, true);
+      data.length.should.equal(5);
       for (const message of data) {
         should.not.exist((message.properties || {}).message_id);
       }
