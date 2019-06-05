@@ -183,7 +183,6 @@ export class BatchingReceiver extends EventHubReceiver {
             if (this._aborter) {
               this._aborter.removeEventListener("abort", this._onAbort);
             }
-
             this.isReceivingMessages = false;
             if (waitTimer) {
               clearTimeout(waitTimer);
