@@ -13,7 +13,7 @@ export class AggregateCredential implements TokenCredential {
   async getToken(scopes: string | string[], requestOptions?: RequestOptionsBase): Promise<string | null> {
     let token = null
 
-    for (let i = 0; i < this._sources.length; i++) {
+    for (let i = 0; i < this._sources.length && token === null; i++) {
       token = await this._sources[i].getToken(scopes, requestOptions)
     }
 
