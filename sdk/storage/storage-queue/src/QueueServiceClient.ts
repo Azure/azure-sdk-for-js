@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+import { HttpResponse } from "@azure/ms-rest-js";
 import * as Models from "./generated/lib/models";
 import { Aborter } from "./Aborter";
 import { ListQueuesIncludeType } from "./generated/lib/models/index";
@@ -23,7 +24,7 @@ export interface ServiceGetPropertiesOptions {
    * about request cancellation.
    *
    * @type {Aborter}
-   * @memberof AppendBlobCreateOptions
+   * @memberof ServiceGetPropertiesOptions
    */
   abortSignal?: Aborter;
 }
@@ -41,10 +42,35 @@ export interface ServiceSetPropertiesOptions {
    * about request cancellation.
    *
    * @type {Aborter}
-   * @memberof AppendBlobCreateOptions
+   * @memberof ServiceSetPropertiesOptions
    */
   abortSignal?: Aborter;
 }
+
+export type QueueServiceProperties = Models.StorageServiceProperties;
+
+/**
+ * Contains response data for the getProperties operation.
+ */
+export type ServiceGetPropertiesResponse = QueueServiceProperties & Models.ServiceGetPropertiesHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: Models.ServiceGetPropertiesHeaders;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: QueueServiceProperties;
+    };
+};
 
 /**
  * Options to configure Queue Service - Get Statistics operation
@@ -59,10 +85,41 @@ export interface ServiceGetStatisticsOptions {
    * about request cancellation.
    *
    * @type {Aborter}
-   * @memberof AppendBlobCreateOptions
+   * @memberof ServiceGetStatisticsOptions
    */
   abortSignal?: Aborter;
 }
+
+/**
+ * An interface representing QueueServiceStatistics.
+ * Stats for the queue service.
+ *
+ */
+export type QueueServiceStatistics = Models.StorageServiceStats;
+
+/**
+ * Contains response data for the getStatistics operation.
+ */
+
+ export type ServiceGetStatisticsResponse = QueueServiceStatistics & Models.ServiceGetStatisticsHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: Models.ServiceGetStatisticsHeaders;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: QueueServiceStatistics;
+    };
+};
 
 /**
  * Options to configure Queue Service - List Queues Segment operation
@@ -77,7 +134,7 @@ export interface ServiceListQueuesSegmentOptions {
    * about request cancellation.
    *
    * @type {Aborter}
-   * @memberof AppendBlobCreateOptions
+   * @memberof ServiceListQueuesSegmentOptions
    */
   abortSignal?: Aborter;
   /**
@@ -154,7 +211,7 @@ export class QueueServiceClient extends StorageClient {
    */
   public async getProperties(
     options: ServiceGetPropertiesOptions = {}
-  ): Promise<Models.ServiceGetPropertiesResponse> {
+  ): Promise<ServiceGetPropertiesResponse> {
     const aborter = options.abortSignal || Aborter.none;
     return this.serviceContext.getProperties({
       abortSignal: aborter
@@ -166,13 +223,13 @@ export class QueueServiceClient extends StorageClient {
    * for Storage Analytics, CORS (Cross-Origin Resource Sharing) rules and soft delete settings.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-queue-service-properties
    *
-   * @param {Models.StorageServiceProperties} properties
+   * @param {QueueServiceProperties} properties Properties to set.
    * @param {ServiceGetPropertiesOptions} [options] Optional options to set properties operation.
    * @returns {Promise<Models.ServiceSetPropertiesResponse>}
    * @memberof QueueServiceClient
    */
   public async setProperties(
-    properties: Models.StorageServiceProperties,
+    properties: QueueServiceProperties,
     options: ServiceGetPropertiesOptions = {}
   ): Promise<Models.ServiceSetPropertiesResponse> {
     const aborter = options.abortSignal || Aborter.none;
@@ -187,13 +244,13 @@ export class QueueServiceClient extends StorageClient {
    * replication is enabled for the storage account.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-queue-service-stats
    *
-   * @param {ServiceGetStatisticsOptions} [options] Optional optiosn to get statistics operation.
+   * @param {ServiceGetStatisticsOptions} [options] Optional options to get statistics operation.
    * @returns {Promise<Models.ServiceGetStatisticsResponse>}
    * @memberof QueueServiceClient
    */
   public async getStatistics(
     options: ServiceGetStatisticsOptions = {}
-  ): Promise<Models.ServiceGetStatisticsResponse> {
+  ): Promise<ServiceGetStatisticsResponse> {
     const aborter = options.abortSignal || Aborter.none;
     return this.serviceContext.getStatistics({
       abortSignal: aborter
@@ -203,7 +260,7 @@ export class QueueServiceClient extends StorageClient {
   /**
    * Iterates over queues under the specified account.
    *
-   * @param {ServiceListQueuesSegmentOptions} [options={}] Options to list queues(optional)
+   * @param {ServiceListQueuesSegmentOptions} [options={}] Options to list queues (optional)
    * @returns {AsyncIterableIterator<Models.QueueItem>}
    * @memberof QueueServiceClient
    *
@@ -261,7 +318,7 @@ export class QueueServiceClient extends StorageClient {
    *                          with the current page. The NextMarker value can be used as the value for
    *                          the marker parameter in a subsequent call to request the next page of list
    *                          items. The marker value is opaque to the client.
-   * @param {ServiceListQueuesSegmentOptions} [options] Optional optiosn to list queues operation.
+   * @param {ServiceListQueuesSegmentOptions} [options] Optional options to list queues operation.
    * @returns {Promise<Models.ServiceListQueuesSegmentResponse>}
    * @memberof QueueServiceClient
    */
