@@ -34,7 +34,7 @@ describe("MessageIdClient", () => {
 
     let newMessage = "";
     let messageIdClient = messagesClient.createMessageIdClient(eResult.messageId);
-    let uResult = await messageIdClient.update(eResult.popReceipt, 0, newMessage);
+    let uResult = await messageIdClient.update(eResult.popReceipt, newMessage);
     assert.ok(uResult.version);
     assert.ok(uResult.timeNextVisible);
     assert.ok(uResult.date);
@@ -68,7 +68,7 @@ describe("MessageIdClient", () => {
 
     let newMessage = "New Message";
     let messageIdClient = messagesClient.createMessageIdClient(eResult.messageId);
-    let uResult = await messageIdClient.update(eResult.popReceipt, 10, newMessage);
+    let uResult = await messageIdClient.update(eResult.popReceipt, newMessage, 10);
     assert.ok(uResult.version);
     assert.ok(uResult.timeNextVisible);
     assert.ok(uResult.date);
@@ -99,7 +99,7 @@ describe("MessageIdClient", () => {
 
     let newMessage = new Array(64 * 1024 + 1).join("a");
     let messageIdClient = messagesClient.createMessageIdClient(eResult.messageId);
-    let uResult = await messageIdClient.update(eResult.popReceipt, 0, newMessage);
+    let uResult = await messageIdClient.update(eResult.popReceipt, newMessage);
     assert.ok(uResult.version);
     assert.ok(uResult.timeNextVisible);
     assert.ok(uResult.date);
@@ -129,7 +129,7 @@ describe("MessageIdClient", () => {
 
     let error;
     try {
-      await messageIdClient.update(eResult.popReceipt, 0, newMessage);
+      await messageIdClient.update(eResult.popReceipt, newMessage);
     } catch (err) {
       error = err;
     }
