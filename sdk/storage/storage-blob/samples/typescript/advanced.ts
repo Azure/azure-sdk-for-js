@@ -7,7 +7,7 @@ import {
   Aborter,
   BlobServiceClient,
   StorageClient
-} from "../.."; // Change to "@azure/storage-blob" in your package
+} from "../../src"; // Change to "@azure/storage-blob" in your package
 
 async function main() {
   // Fill in following settings before running this sample

@@ -7,8 +7,8 @@ import {
   Models,
   SharedKeyCredential,
   StorageClient,
-  TokenCredential,
-} from "../.."; // Change to "@azure/storage-blob" in your package
+  TokenCredential
+} from "../../src"; // Change to "@azure/storage-blob" in your package
 
 async function main() {
   // Enter your storage account name and shared key
@@ -59,14 +59,8 @@ async function main() {
   const blobName = "newblob" + new Date().getTime();
   const blobClient = containerClient.createBlobClient(blobName);
   const blockBlobClient = blobClient.createBlockBlobClient();
-  const uploadBlobResponse = await blockBlobClient.upload(
-    content,
-    content.length
-  );
-  console.log(
-    `Upload block blob ${blobName} successfully`,
-    uploadBlobResponse.requestId
-  );
+  const uploadBlobResponse = await blockBlobClient.upload(content, content.length);
+  console.log(`Upload block blob ${blobName} successfully`, uploadBlobResponse.requestId);
 
   // List blobs
   marker = undefined;
