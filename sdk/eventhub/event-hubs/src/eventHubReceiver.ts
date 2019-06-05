@@ -3,7 +3,14 @@
 
 import uuid from "uuid/v4";
 import * as log from "./log";
-import { Receiver, OnAmqpEvent, EventContext, ReceiverOptions as RheaReceiverOptions, types, AmqpError } from "rhea-promise";
+import {
+  Receiver,
+  OnAmqpEvent,
+  EventContext,
+  ReceiverOptions as RheaReceiverOptions,
+  types,
+  AmqpError
+} from "rhea-promise";
 import { translate, Constants, MessagingError, retry, RetryOperationType, RetryConfig } from "@azure/amqp-common";
 import { ReceivedEventData, EventDataInternal, fromAmqpMessage } from "./eventData";
 import { ReceiverOptions } from "./eventHubClient";
@@ -173,7 +180,8 @@ export class EventHubReceiver extends LinkEntity {
    */
   protected _aborter: Aborter | undefined;
   /**
-   * @property {number| undefined} _messageRecoveryCount This is used to add credits from incase of recovery.
+   * @property {number| undefined} _messageRecoveryCount The message recovery count.
+   * This is used to add credits from incase of recovery.
    */
   protected _messageRecoveryCount: number | undefined;
 
@@ -475,7 +483,7 @@ export class EventHubReceiver extends LinkEntity {
           operation: () =>
             this._init(options).then(async () => {
               if (this._receiver && this._type === "BatchingReceiver") {
-                this._receiver.addCredit(this._maxMessageCount!);
+                this._receiver.addCredit(this._messageRecoveryCount!);
               }
             }),
           connectionId: this._context.connectionId,
