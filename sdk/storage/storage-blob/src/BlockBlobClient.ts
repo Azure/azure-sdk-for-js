@@ -362,7 +362,7 @@ export type BlobUploadCommonResponse = Models.BlockBlobUploadHeaders & {
  *
  * @export
  * @class BlockBlobClient
- * @extends {StorageClient}
+ * @extends {BlobClient}
  */
 export class BlockBlobClient extends BlobClient {
 

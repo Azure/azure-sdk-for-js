@@ -397,7 +397,6 @@ export interface ContainerListBlobsSegmentOptions {
  *
  * @export
  * @class ContainerClient
- * @extends {StorageClient}
  */
 export class ContainerClient extends StorageClient {
   /**

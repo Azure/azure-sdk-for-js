@@ -127,7 +127,6 @@ export interface ServiceListContainersSegmentOptions {
  *
  * @export
  * @class BlobServiceClient
- * @extends {StorageClient}
  */
 export class BlobServiceClient extends StorageClient {
   /**

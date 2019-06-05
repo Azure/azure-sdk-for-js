@@ -530,7 +530,6 @@ export interface DownloadFromBlobOptions {
  *
  * @export
  * @class BlobClient
- * @extends {StorageClient}
  */
 export class BlobClient extends StorageClient {
   /**

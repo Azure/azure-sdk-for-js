@@ -97,7 +97,7 @@ export interface AppendBlobAppendBlockOptions {
  *
  * @export
  * @class AppendBlobClient
- * @extends {StorageClient}
+ * @extends {BlobClient}
  */
 export class AppendBlobClient extends BlobClient {
   /**

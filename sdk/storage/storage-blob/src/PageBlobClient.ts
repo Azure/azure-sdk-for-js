@@ -262,7 +262,7 @@ export interface PageBlobStartCopyIncrementalOptions {
  *
  * @export
  * @class PageBlobClient
- * @extends {StorageClient}
+ * @extends {BlobClient}
  */
 export class PageBlobClient extends BlobClient {
 
