@@ -1,31 +1,42 @@
 ## Azure Identity client library for Javascript
 
-This template serves as a starting point for JavaScript libraries targeting both Node and the Browser and implemented in TypeScript.
+This library simplifies authentication against Azure Active Directory for Azure SDK libraries.
+It provides a set of `TokenCredential` implementations which can be passed into SDK libraries
+to authenticate API requests.
 
-## Building the Template
+## Examples
 
-Once you clone this template, you can build the package with the following commands:
+The `@azure/keyvault-keys` library supports the use of `TokenCredential` for authenticating
+requests to Azure Key Vault.  Here's how you would use the `ClientSecretCredential` to authenticate
+SDK calls:
 
-```sh
-npm install
-npm run build
+```javascript
+import { KeysClient } from "@azure/keyvault-keys";
+import { ClientSecretCredential } from "@azure/identity";
+
+const clientId = process.env["CLIENT_ID"] || "";
+const clientSecret = process.env["CLIENT_SECRET"] || "";
+const tenantId = process.env["TENANT_ID"] || "";
+const vaultName = process.env["KEYVAULT_NAME"] || "<keyvault-name>"
+
+const url = `https://${vaultName}.vault.azure.net`;
+const credential = new ClientSecretCredential(tenantId, clientId, clientSecret)
+const client = new KeysClient(url, credential);
+const getResult = await client.getKey("MyKeyName");
 ```
 
-Run tests via:
+If you use the standard environment variable names `AZURE_TENANT_ID`, `AZURE_CLIENT_ID`, and
+`AZURE_CLIENT_SECRET` for storing your AAD client credentials, the previous example can be simplified by using `EnvironmentCredential`:
 
-```sh
-npm test
+```javascript
+import { KeysClient } from "@azure/keyvault-keys";
+import { EnvironmentCredential } from "@azure/identity";
+
+const vaultName = process.env["KEYVAULT_NAME"] || "<keyvault-name>"
+const url = `https://${vaultName}.vault.azure.net`;
+const credential = new EnvironmentCredential();
+const client = new KeysClient(url, credential);
+const getResult = await client.getKey("MyKeyName");
 ```
 
-## Implementation Details
-
-The overall build pipeline looks like the following:
-
-1. TypeScript builds all source files under `./src` to ECMAScript Modules (ESM) under `./dist-esm`
-2. Rollup builds `./dist-esm` to an optimized single file at `./dist/index.js` as the Node entry point.
-3. Rollup builds `./dist-esm` to an optimized browser bundle under `./browser/index.js`.
-
-Tests follow a similar pipeline, however output folders have the `test-` prefix.
-
-
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/template/template/README.png)
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/identity/identity/README.png)
