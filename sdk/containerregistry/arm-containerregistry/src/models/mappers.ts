@@ -1606,28 +1606,6 @@ export const SourceTriggerDescriptor: msRest.CompositeMapper = {
   }
 };
 
-export const TimerTriggerDescriptor: msRest.CompositeMapper = {
-  serializedName: "TimerTriggerDescriptor",
-  type: {
-    name: "Composite",
-    className: "TimerTriggerDescriptor",
-    modelProperties: {
-      timerTriggerName: {
-        serializedName: "timerTriggerName",
-        type: {
-          name: "String"
-        }
-      },
-      scheduleOccurrence: {
-        serializedName: "scheduleOccurrence",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const PlatformProperties: msRest.CompositeMapper = {
   serializedName: "PlatformProperties",
   type: {
@@ -1667,6 +1645,28 @@ export const AgentProperties: msRest.CompositeMapper = {
         serializedName: "cpu",
         type: {
           name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const TimerTriggerDescriptor: msRest.CompositeMapper = {
+  serializedName: "TimerTriggerDescriptor",
+  type: {
+    name: "Composite",
+    className: "TimerTriggerDescriptor",
+    modelProperties: {
+      timerTriggerName: {
+        serializedName: "timerTriggerName",
+        type: {
+          name: "String"
+        }
+      },
+      scheduleOccurrence: {
+        serializedName: "scheduleOccurrence",
+        type: {
+          name: "String"
         }
       }
     }
@@ -1785,13 +1785,6 @@ export const Run: msRest.CompositeMapper = {
           className: "SourceTriggerDescriptor"
         }
       },
-      timerTrigger: {
-        serializedName: "properties.timerTrigger",
-        type: {
-          name: "Composite",
-          className: "TimerTriggerDescriptor"
-        }
-      },
       platform: {
         serializedName: "properties.platform",
         type: {
@@ -1847,6 +1840,13 @@ export const Run: msRest.CompositeMapper = {
         defaultValue: false,
         type: {
           name: "Boolean"
+        }
+      },
+      timerTrigger: {
+        serializedName: "properties.timerTrigger",
+        type: {
+          name: "Composite",
+          className: "TimerTriggerDescriptor"
         }
       }
     }

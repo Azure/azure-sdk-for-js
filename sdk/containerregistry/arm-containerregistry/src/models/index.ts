@@ -964,20 +964,6 @@ export interface SourceTriggerDescriptor {
 }
 
 /**
- * An interface representing TimerTriggerDescriptor.
- */
-export interface TimerTriggerDescriptor {
-  /**
-   * The timer trigger name that caused the run.
-   */
-  timerTriggerName?: string;
-  /**
-   * The occurrence that triggered the run.
-   */
-  scheduleOccurrence?: string;
-}
-
-/**
  * The platform properties against which the run has to happen.
  */
 export interface PlatformProperties {
@@ -1003,6 +989,20 @@ export interface AgentProperties {
    * The CPU configuration in terms of number of cores required for the run.
    */
   cpu?: number;
+}
+
+/**
+ * An interface representing TimerTriggerDescriptor.
+ */
+export interface TimerTriggerDescriptor {
+  /**
+   * The timer trigger name that caused the run.
+   */
+  timerTriggerName?: string;
+  /**
+   * The occurrence that triggered the run.
+   */
+  scheduleOccurrence?: string;
 }
 
 /**
@@ -1079,10 +1079,6 @@ export interface Run extends ProxyResource {
    */
   sourceTrigger?: SourceTriggerDescriptor;
   /**
-   * The timer trigger that caused the run.
-   */
-  timerTrigger?: TimerTriggerDescriptor;
-  /**
    * The platform properties against which the run will happen.
    */
   platform?: PlatformProperties;
@@ -1116,6 +1112,10 @@ export interface Run extends ProxyResource {
    * The value that indicates whether archiving is enabled or not. Default value: false.
    */
   isArchiveEnabled?: boolean;
+  /**
+   * The timer trigger that caused the run.
+   */
+  timerTrigger?: TimerTriggerDescriptor;
 }
 
 /**
