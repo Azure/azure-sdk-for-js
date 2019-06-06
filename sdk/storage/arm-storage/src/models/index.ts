@@ -470,7 +470,8 @@ export interface StorageAccountCreateParameters {
    */
   enableAzureFilesAadIntegration?: boolean;
   /**
-   * Allows https traffic only to storage service if sets to true.
+   * Allows https traffic only to storage service if sets to true. The default value is true since
+   * API version 2019-04-01.
    */
   enableHttpsTrafficOnly?: boolean;
   /**
@@ -1420,13 +1421,21 @@ export interface ListContainerItem extends AzureEntityResource {
 }
 
 /**
- * The list of blob containers.
+ * Response schema. Contains list of blobs returned, and if paging is requested or required, a URL
+ * to next page of containers.
  */
 export interface ListContainerItems {
   /**
-   * The list of blob containers.
+   * List of blobs containers returned.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  value?: ListContainerItem[];
+  readonly value?: ListContainerItem[];
+  /**
+   * Request URL that can be used to query next page of containers. Returned when total number of
+   * requested containers exceed maximum page size.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
 }
 
 /**
@@ -1564,6 +1573,24 @@ export interface StorageAccountsGetPropertiesOptionalParams extends msRest.Reque
    * values include: 'geoReplicationStats'
    */
   expand?: StorageAccountExpand;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface BlobContainersListOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Optional. Continuation token for the list operation.
+   */
+  skipToken?: string;
+  /**
+   * Optional. Specified maximum number of containers that can be included in the list.
+   */
+  maxpagesize?: string;
+  /**
+   * Optional. When specified, only container names starting with the filter will be listed.
+   */
+  filter?: string;
 }
 
 /**
