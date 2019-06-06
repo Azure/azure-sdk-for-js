@@ -52,20 +52,9 @@ async function main() {
   //   });
   // }
 
+  // Generator syntax .next()
   // let i = 1;
-  // let marker: string | undefined = undefined;
-  // let item2: ServiceListQueuesSegmentResponse;
-  // for await (item2 of queueServiceClient.listQueues().byPage({ marker: marker, pagesize: 12 })) {
-  //   for (const queueItem of item2.queueItems!) {
-  //     console.log(`Queue${i}: ${queueItem.name}`);
-  //     i++;
-  //   }
-  //   marker = item2.nextMarker;
-  // }
-
-  // let i = 1;
-  // let marker: string | undefined = undefined;
-  // let iter1 = queueServiceClient.listQueues().byPage({ marker: marker, pagesize: 2 });
+  // let iter1 = queueServiceClient.listQueues().byPage({ pagesize: 2 });
   // let item = await iter1.next();
   // do {
   //   for (const queueItem of item.value.queueItems!) {
