@@ -1,7 +1,9 @@
 import * as msRest from "@azure/ms-rest-js";
 import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
 
-export function getCredentialWithServicePrincipalSecret() : Promise<msRest.ServiceClientCredentials> {
+export function getCredentialWithServicePrincipalSecret(): Promise<
+  msRest.ServiceClientCredentials
+> {
   const clientIdEnvVarName = "AAD_CLIENT_ID";
   const clientSecretEnvVarName = "AAD_CLIENT_SECRET";
   const tenantIdEnvVarName = "AAD_TENANT_ID";
@@ -21,20 +23,20 @@ export function getCredentialWithServicePrincipalSecret() : Promise<msRest.Servi
     clientSecret,
     tenantId,
     {
-      tokenAudience: 'https://vault.azure.net'
+      tokenAudience: "https://vault.azure.net"
     }
   );
 }
 
 export function getKeyvaultName(): string {
   const keyVaultEnvVarName = "KEYVAULT_NAME";
-  let keyVaultName : string | undefined = process.env[keyVaultEnvVarName];
+  let keyVaultName: string | undefined = process.env[keyVaultEnvVarName];
 
   if (!keyVaultName) {
     throw new Error(
       `${keyVaultEnvVarName} environment variable not specified.`
-    )
-  };
+    );
+  }
 
   return keyVaultName;
 }

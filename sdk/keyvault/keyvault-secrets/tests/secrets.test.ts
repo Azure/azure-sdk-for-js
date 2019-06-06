@@ -18,160 +18,189 @@ describe("Secret client", () => {
   let version: string;
 
   before(async () => {
-    const url = `https://${vaultName}.vault.azure.net`;
-    const credential = await msRestNodeAuth.loginWithServicePrincipalSecret(
-      clientId,
-      clientSecret,
-      tenantId,
-      {
-        tokenAudience: "https://vault.azure.net"
-      }
-    );
+    try {
+      const url = `https://${vaultName}.vault.azure.net`;
 
-    client = new SecretsClient(url, credential);
-    version = "";
+      const credential = await msRestNodeAuth.loginWithServicePrincipalSecret(
+        clientId,
+        clientSecret,
+        tenantId,
+        {
+          tokenAudience: "https://vault.azure.net"
+        }
+      );
+
+      client = new SecretsClient(url, credential);
+      version = "";
+    } catch (e) {
+      console.error("00001", e);
+    }
   });
 
   it("can add a secret", async () => {
-    const secretName = getUniqueName("secret");
-    const secretValue = getUniqueName("value");
-    after(async () => {
-      await client.deleteSecret(secretName);
-    });
+    try {
+      const secretName = getUniqueName("secret");
+      const secretValue = getUniqueName("value");
+      after(async () => {
+        await client.deleteSecret(secretName);
+      });
 
-    const result = await client.setSecret(secretName, secretValue);
+      const result = await client.setSecret(secretName, secretValue);
 
-    assert.equal(
-      result.name,
-      secretName,
-      "Unexpected secret name in result from setSecret()."
-    );
-    assert.equal(
-      result.value,
-      secretValue,
-      "Unexpected secret value in result from setSecret()."
-    );
+      assert.equal(
+        result.name,
+        secretName,
+        "Unexpected secret name in result from setSecret()."
+      );
+      assert.equal(
+        result.value,
+        secretValue,
+        "Unexpected secret value in result from setSecret()."
+      );
+    } catch (e) {
+      console.error("00002", e);
+    }
   });
 
   it("can retrieve the latest version of a secret value", async () => {
-    const secretName = getUniqueName("secret");
-    const secretValue = getUniqueName("value");
-    after(async () => {
-      await client.deleteSecret(secretName);
-    });
-    await client.setSecret(secretName, secretValue);
+    try {
+      const secretName = getUniqueName("secret");
+      const secretValue = getUniqueName("value");
+      after(async () => {
+        await client.deleteSecret(secretName);
+      });
+      await client.setSecret(secretName, secretValue);
 
-    const result = await client.getSecret(secretName);
+      const result = await client.getSecret(secretName);
 
-    assert.equal(
-      result.name,
-      secretName,
-      "Unexpected secret name in result from setSecret()."
-    );
-    assert.equal(
-      result.value,
-      secretValue,
-      "Unexpected secret value in result from setSecret()."
-    );
+      assert.equal(
+        result.name,
+        secretName,
+        "Unexpected secret name in result from setSecret()."
+      );
+      assert.equal(
+        result.value,
+        secretValue,
+        "Unexpected secret value in result from setSecret()."
+      );
+    } catch (e) {
+      console.error("00003", e);
+    }
   });
 
   it("can set a secret with attributes", async () => {
-    const secretName = getUniqueName("secret");
-    const secretValue = getUniqueName("value");
-    const expiryDate = new Date("3000-01-01");
-    after(async () => {
-      await client.deleteSecret(secretName);
-    });
-    await client.setSecret(secretName, secretValue, { expires: expiryDate });
+    try {
+      const secretName = getUniqueName("secret");
+      const secretValue = getUniqueName("value");
+      const expiryDate = new Date("3000-01-01");
+      after(async () => {
+        await client.deleteSecret(secretName);
+      });
+      await client.setSecret(secretName, secretValue, { expires: expiryDate });
 
-    const updated = await client.getSecret(secretName);
+      const updated = await client.getSecret(secretName);
 
-    // TODO: Investigate. The service seems to change the milliseconds part of the expiry date.
-    // For now just compare year, month, and date in assertion.
-    assert.ok(
-      updated.expires!.getUTCFullYear() === expiryDate.getUTCFullYear() &&
-        updated.expires!.getUTCMonth() === expiryDate.getUTCMonth() &&
-        updated.expires!.getUTCDate() === expiryDate.getUTCDate(),
-      "Expect attribute 'expires' to be updated."
-    );
+      // TODO: Investigate. The service seems to change the milliseconds part of the expiry date.
+      // For now just compare year, month, and date in assertion.
+      assert.ok(
+        updated.expires!.getUTCFullYear() === expiryDate.getUTCFullYear() &&
+          updated.expires!.getUTCMonth() === expiryDate.getUTCMonth() &&
+          updated.expires!.getUTCDate() === expiryDate.getUTCDate(),
+        "Expect attribute 'expires' to be updated."
+      );
+    } catch (e) {
+      console.error("00004", e);
+    }
   });
 
   it("can update a secret", async () => {
-    const secretName = getUniqueName("secret");
-    const secretValue = getUniqueName("value");
-    const expiryDate = new Date("3000-01-01");
-    after(async () => {
-      await client.deleteSecret(secretName);
-    });
-    await client.setSecret(secretName, secretValue);
+    try {
+      const secretName = getUniqueName("secret");
+      const secretValue = getUniqueName("value");
+      const expiryDate = new Date("3000-01-01");
+      after(async () => {
+        await client.deleteSecret(secretName);
+      });
+      await client.setSecret(secretName, secretValue);
 
-    await client.updateSecretAttributes(secretName, version, {
-      expires: expiryDate
-    });
+      await client.updateSecretAttributes(secretName, version, {
+        expires: expiryDate
+      });
 
-    const updated = await client.getSecret(secretName);
+      const updated = await client.getSecret(secretName);
 
-    // TODO: Investigate. The service seems to change the milliseconds part of the expiry date.
-    // For now just compare year, month, and date in assertion.
-    assert.ok(
-      updated.expires!.getUTCFullYear() === expiryDate.getUTCFullYear() &&
-        updated.expires!.getUTCMonth() === expiryDate.getUTCMonth() &&
-        updated.expires!.getUTCDate() === expiryDate.getUTCDate(),
-      "Expect attribute 'expires' to be updated."
-    );
+      // TODO: Investigate. The service seems to change the milliseconds part of the expiry date.
+      // For now just compare year, month, and date in assertion.
+      assert.ok(
+        updated.expires!.getUTCFullYear() === expiryDate.getUTCFullYear() &&
+          updated.expires!.getUTCMonth() === expiryDate.getUTCMonth() &&
+          updated.expires!.getUTCDate() === expiryDate.getUTCDate(),
+        "Expect attribute 'expires' to be updated."
+      );
+    } catch (e) {
+      console.error("00005", e);
+    }
   });
 
   it("can delete a secret", async () => {
-    const secretName = getUniqueName("secret");
-    const secretValue1 = getUniqueName("value");
-    await client.setSecret(secretName, secretValue1);
-
-    await client.deleteSecret(secretName);
-
     try {
-      await client.getSecret(secretName);
-      throw Error("Expecting an error but not catching one.");
-    } catch (e) {
-      if (e.statusCode === 404) {
-        assert.equal(e.message, `Secret not found: ${secretName}`);
-      } else {
-        throw e;
+      const secretName = getUniqueName("secret");
+      const secretValue1 = getUniqueName("value");
+      await client.setSecret(secretName, secretValue1);
+
+      await client.deleteSecret(secretName);
+
+      try {
+        await client.getSecret(secretName);
+        throw Error("Expecting an error but not catching one.");
+      } catch (e) {
+        if (e.statusCode === 404) {
+          assert.equal(e.message, `Secret not found: ${secretName}`);
+        } else {
+          throw e;
+        }
       }
+    } catch (e) {
+      console.error("00006", e);
     }
   });
 
   it("can retrieve all versions of a secret", async () => {
-    const secretName = getUniqueName("secret");
-    const secretValue1 = getUniqueName("value");
-    const secretValue2 = getUniqueName("value");
-    const secretValue3 = getUniqueName("value");
-    after(async () => {
-      await client.deleteSecret(secretName);
-    });
+    try {
+      const secretName = getUniqueName("secret");
+      const secretValue1 = getUniqueName("value");
+      const secretValue2 = getUniqueName("value");
+      const secretValue3 = getUniqueName("value");
+      after(async () => {
+        await client.deleteSecret(secretName);
+      });
 
-    const secretValues = [secretValue1, secretValue2, secretValue3];
-    interface versionValuePair {
-      version: string;
-      value: string;
+      const secretValues = [secretValue1, secretValue2, secretValue3];
+      interface versionValuePair {
+        version: string;
+        value: string;
+      }
+      let versions: versionValuePair[] = [];
+      for (const v of secretValues) {
+        const response = await client.setSecret(secretName, v);
+        versions.push({ version: response.version!, value: response.value! });
+      }
+
+      let results: versionValuePair[] = [];
+      for await (const item of client.getSecretVersions(secretName)) {
+        const version = item.version!;
+        const secret = await client.getSecret(secretName, { version: version });
+        results.push({ version: item.version!, value: secret.value! });
+      }
+
+      const comp = (a: versionValuePair, b: versionValuePair) =>
+        (a.version + a.value).localeCompare(b.version + b.value);
+      results.sort(comp);
+      versions.sort(comp);
+
+      expect(results).to.deep.equal(versions);
+    } catch (e) {
+      console.error("00007", e);
     }
-    let versions: versionValuePair[] = [];
-    for (const v of secretValues) {
-      const response = await client.setSecret(secretName, v);
-      versions.push({ version: response.version!, value: response.value! });
-    }
-
-    let results: versionValuePair[] = [];
-    for await (const item of client.getSecretVersions(secretName)) {
-      const version = item.version!;
-      const secret = await client.getSecret(secretName, { version: version });
-      results.push({ version: item.version!, value: secret.value! });
-    }
-
-    const comp = (a: versionValuePair, b: versionValuePair) =>
-      (a.version + a.value).localeCompare(b.version + b.value);
-    results.sort(comp);
-    versions.sort(comp);
-
-    expect(results).to.deep.equal(versions);
   });
 });
