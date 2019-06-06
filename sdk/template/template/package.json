@@ -59,7 +59,7 @@
   "sideEffects": false,
   "private": true,
   "dependencies": {
-    "@azure/ms-rest-js": "^1.2.6",
+    "@azure/ms-rest-js": "1.8.7",
     "events": "^3.0.0",
     "tslib": "^1.9.3"
   },
