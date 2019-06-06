@@ -2272,6 +2272,7 @@ export const ListContainerItems: msRest.CompositeMapper = {
     className: "ListContainerItems",
     modelProperties: {
       value: {
+        readOnly: true,
         serializedName: "value",
         type: {
           name: "Sequence",
@@ -2281,6 +2282,13 @@ export const ListContainerItems: msRest.CompositeMapper = {
               className: "ListContainerItem"
             }
           }
+        }
+      },
+      nextLink: {
+        readOnly: true,
+        serializedName: "nextLink",
+        type: {
+          name: "String"
         }
       }
     }
