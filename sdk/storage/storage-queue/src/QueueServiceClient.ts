@@ -231,8 +231,11 @@ export class QueueServiceClient extends StorageClient {
     options: ServiceListQueuesSegmentOptions = {}
   ): AsyncIterableIterator<Models.ServiceListQueuesSegmentResponse> {
     let marker: string | undefined;
+    let listQueuesResponse;
     do {
-      yield await this.listQueuesSegment(marker, options);
+      listQueuesResponse = await this.listQueuesSegment(marker, options);
+      marker = listQueuesResponse.nextMarker;
+      yield await listQueuesResponse;
     } while (marker);
   }
 
