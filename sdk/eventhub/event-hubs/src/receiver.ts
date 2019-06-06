@@ -18,10 +18,6 @@ import { EventPosition } from "./eventPosition";
  */
 export interface EventIteratorOptions {
   /**
-   * Number of events to fetch at a time in the background
-   */
-  prefetchCount?: number;
-  /**
    * Cancellation token to cancel the operation
    */
   cancellationToken?: Aborter;
@@ -121,8 +117,11 @@ export class Receiver {
     if (!options) {
       options = {};
     }
+
+    const maxMessageCount = 1;
+    const maxWaitTimeInSeconds = 60;
     while (true) {
-      const currentBatch = await this.receiveBatch(options.prefetchCount || 1, 60, options.cancellationToken);
+      const currentBatch = await this.receiveBatch(maxMessageCount, maxWaitTimeInSeconds, options.cancellationToken);
       yield currentBatch[0];
     }
   }
