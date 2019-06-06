@@ -130,7 +130,6 @@ export interface DirectorySetMetadataOptions {
  *
  * @export
  * @class DirectoryClient
- * @extends {StorageClient}
  */
 export class DirectoryClient extends StorageClient {
   /**
@@ -153,7 +152,7 @@ export class DirectoryClient extends StorageClient {
    *                     Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
    *                     However, if a directory name includes %, directory name must be encoded in the URL.
    *                     Such as a directory named "mydir%", the URL should be "https://myaccount.file.core.windows.net/myshare/mydir%25".
-   * @param {Pipeline} pipeline Call StorageClient.newPipeline() to create a default
+   * @param {Pipeline} pipeline Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
    * @memberof DirectoryClient
    */

@@ -3,7 +3,12 @@
 */
 
 import fs from "fs";
-import { Aborter, AnonymousCredential, FileServiceClient, StorageClient } from "../../src"; // Change to "@azure/storage-file" in your package
+import {
+  Aborter,
+  AnonymousCredential,
+  FileServiceClient,
+  newPipeline
+} from "../../src"; // Change to "@azure/storage-file" in your package
 
 async function main() {
   // Fill in following settings before running this sample
@@ -11,7 +16,7 @@ async function main() {
   const accountSas = "";
   const localFilePath = "";
 
-  const pipeline = StorageClient.newPipeline(new AnonymousCredential(), {
+  const pipeline = newPipeline(new AnonymousCredential(), {
     // httpClient: MyHTTPClient, // A customized HTTP client implementing IHttpClient interface
     // logger: MyLogger, // A customized logger implementing IHttpPipelineLogger interface
     retryOptions: { maxTries: 4 }, // Retry options

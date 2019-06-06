@@ -498,7 +498,6 @@ export interface DownloadFromAzureFileOptions {
  *
  * @export
  * @class FileClient
- * @extends {StorageClient}
  */
 export class FileClient extends StorageClient {
   /**
@@ -521,7 +520,7 @@ export class FileClient extends StorageClient {
    *                     Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
    *                     However, if a file or directory name includes %, file or directory name must be encoded in the URL.
    *                     Such as a file named "myfile%", the URL should be "https://myaccount.file.core.windows.net/myshare/mydirectory/myfile%25".
-   * @param {Pipeline} pipeline Call StorageClient.newPipeline() to create a default
+   * @param {Pipeline} pipeline Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
    * @memberof FileClient
    */

@@ -362,7 +362,7 @@ export type BlobUploadCommonResponse = Models.BlockBlobUploadHeaders & {
  *
  * @export
  * @class BlockBlobClient
- * @extends {StorageClient}
+ * @extends {BlobClient}
  */
 export class BlockBlobClient extends BlobClient {
 
@@ -389,7 +389,7 @@ export class BlockBlobClient extends BlobClient {
    *                     Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
    *                     However, if a blob name includes ? or %, blob name must be encoded in the URL.
    *                     Such as a blob named "my?blob%", the URL should be "https://myaccount.blob.core.windows.net/mycontainer/my%3Fblob%25".
-   * @param {Pipeline} pipeline Call StorageClient.newPipeline() to create a default
+   * @param {Pipeline} pipeline Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
    * @memberof BlockBlobClient
    */

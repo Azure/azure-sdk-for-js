@@ -1,6 +1,6 @@
 import { AnonymousCredential } from "../../src/credentials/AnonymousCredential";
 import { BlobServiceClient } from "../../src/BlobServiceClient";
-import { StorageClient } from "../../src/StorageClient";
+import { newPipeline } from "../../src/Pipeline";
 
 export * from "./testutils.common";
 
@@ -24,7 +24,7 @@ export function getGenericBSU(accountType: string, accountNameSuffix: string = "
   }
 
   const credentials = new AnonymousCredential();
-  const pipeline = StorageClient.newPipeline(credentials, {
+  const pipeline = newPipeline(credentials, {
     // Enable logger when debugging
     // logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO)
   });

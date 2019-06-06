@@ -153,7 +153,6 @@ export declare type MessagesPeekResponse = {
  *
  * @export
  * @class MessagesClient
- * @extends {StorageClient}
  */
 export class MessagesClient extends StorageClient {
   /**
@@ -171,7 +170,7 @@ export class MessagesClient extends StorageClient {
    *                     "https://myaccount.queue.core.windows.net/myqueue/messages". You can
    *                     append a SAS if using AnonymousCredential, such as
    *                     "https://myaccount.queue.core.windows.net/myqueue/messages?sasString".
-   * @param {Pipeline} pipeline Call StorageClient.newPipeline() to create a default
+   * @param {Pipeline} pipeline Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
    * @memberof MessagesClient
    */

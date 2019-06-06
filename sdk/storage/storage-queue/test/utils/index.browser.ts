@@ -1,7 +1,6 @@
 import { AnonymousCredential } from "../../src/credentials/AnonymousCredential";
+import { newPipeline } from "../../src/Pipeline";
 import { QueueServiceClient } from "../../src/QueueServiceClient";
-import { StorageClient } from "../../src/StorageClient";
-
 export * from "./testutils.common";
 
 export function getGenericQSU(
@@ -27,7 +26,7 @@ export function getGenericQSU(
   }
 
   const credentials = new AnonymousCredential();
-  const pipeline = StorageClient.newPipeline(credentials, {
+  const pipeline = newPipeline(credentials, {
     // Enable logger when debugging
     // logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO)
   });
