@@ -55,6 +55,7 @@ export class BatchingReceiver extends EventHubReceiver {
       let onReceiveClose: OnAmqpEvent;
       let onSessionError: OnAmqpEvent;
       let onSessionClose: OnAmqpEvent;
+      let onReceiveDrain: OnAmqpEvent;
       let waitTimer: any;
       let actionAfterWaitTimeout: Func<void, void>;
       // Final action to be performed after maxMessageCount is reached or the maxWaitTime is over.
@@ -76,6 +77,30 @@ export class BatchingReceiver extends EventHubReceiver {
           this.runtimeInfo.lastEnqueuedOffset = data.lastEnqueuedOffset;
           this.runtimeInfo.retrievalTime = data.retrievalTime;
         }
+
+        if (this._receiver && this._receiver.credit > 0) {
+          log.batching(
+            "[%s] Receiver '%s': Draining leftover credits(%d).",
+            this._context.connectionId,
+            this.name,
+            this._receiver.credit
+          );
+
+          // Setting drain must be accompanied by a flow call (aliased to addCredit in this case).
+          this._receiver.drain = true;
+          this._receiver.addCredit(1);
+        } else {
+          if (this._receiver) {
+            this._receiver.removeListener(ReceiverEvents.receiverDrained, onReceiveDrain);
+          }
+
+          log.batching(
+            "[%s] Receiver '%s': Resolving receiveMessages() with %d events.",
+            this._context.connectionId,
+            this.name,
+            eventDatas.length
+          );
+        }
         resolve(eventDatas);
       };
 
@@ -90,6 +115,21 @@ export class BatchingReceiver extends EventHubReceiver {
           maxWaitTimeInSeconds
         );
         return finalAction(timeOver);
+      };
+
+      onReceiveDrain = () => {
+        if (this._receiver) {
+          this._receiver.removeListener(ReceiverEvents.receiverDrained, onReceiveDrain);
+          this._receiver.drain = false;
+        }
+
+        log.batching(
+          "[%s] Receiver '%s' drained. Resolving receiveMessages() with %d messages.",
+          this._context.connectionId,
+          this.name,
+          eventDatas.length
+        );
+        resolve(eventDatas);
       };
 
       // Action to be performed on the "message" event.
@@ -116,6 +156,7 @@ export class BatchingReceiver extends EventHubReceiver {
         const receiver = this._receiver || context.receiver!;
         receiver.removeListener(ReceiverEvents.receiverError, onReceiveError);
         receiver.removeListener(ReceiverEvents.message, onReceiveMessage);
+        receiver.removeListener(ReceiverEvents.receiverDrained, onReceiveDrain);
         receiver.session.removeListener(SessionEvents.sessionError, onSessionError);
 
         const receiverError = context.receiver && context.receiver.error;
@@ -157,6 +198,7 @@ export class BatchingReceiver extends EventHubReceiver {
         const receiver = this._receiver || context.receiver!;
         receiver.removeListener(ReceiverEvents.receiverError, onReceiveError);
         receiver.removeListener(ReceiverEvents.message, onReceiveMessage);
+        receiver.removeListener(ReceiverEvents.receiverDrained, onReceiveDrain);
         receiver.session.removeListener(SessionEvents.sessionError, onReceiveError);
         const sessionError = context.session && context.session.error;
         let error = new MessagingError("An error occuured while receiving messages.");
@@ -200,13 +242,17 @@ export class BatchingReceiver extends EventHubReceiver {
           onSessionClose: onSessionClose
         });
         this._init(rcvrOptions)
-          .then(() => addCreditAndSetTimer())
+          .then(() => {
+            this._receiver!.on(ReceiverEvents.receiverDrained, onReceiveDrain);
+            addCreditAndSetTimer();
+          })
           .catch(reject);
       } else {
-        addCreditAndSetTimer(true);
         this._receiver!.on(ReceiverEvents.message, onReceiveMessage);
         this._receiver!.on(ReceiverEvents.receiverError, onReceiveError);
+        this._receiver!.on(ReceiverEvents.receiverDrained, onReceiveDrain);
         this._receiver!.session.on(SessionEvents.sessionError, onReceiveError);
+        addCreditAndSetTimer(true);
       }
     });
   }
