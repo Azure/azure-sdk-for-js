@@ -209,7 +209,7 @@ export class Receiver {
 
     let result: ReceivedEventData[] = [];
     try {
-      result = await this._batchingReceiver.receive(maxMessageCount, maxWaitTimeInSeconds, cancellationToken);
+      result = await this._batchingReceiver.receive(maxMessageCount, maxWaitTimeInSeconds, this._receiverOptions.retryOptions, cancellationToken);
     } catch (err) {
       log.error(
         "[%s] Receiver '%s', an error occurred while receiving %d messages for %d max time:\n %O",
