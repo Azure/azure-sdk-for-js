@@ -336,7 +336,7 @@ export class VirtualNetworkGateways {
    * specified peer.
    * @param resourceGroupName The name of the resource group.
    * @param virtualNetworkGatewayName The name of the virtual network gateway.
-   * @param peer The IP address of the peer
+   * @param peer The IP address of the peer.
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualNetworkGatewaysGetAdvertisedRoutesResponse>
    */
@@ -411,6 +411,19 @@ export class VirtualNetworkGateways {
       },
       vpnDeviceConfigurationScriptOperationSpec,
       callback) as Promise<Models.VirtualNetworkGatewaysVpnDeviceConfigurationScriptResponse>;
+  }
+
+  /**
+   * Get VPN client connection health detail per P2S client connection of the virtual network gateway
+   * in the specified resource group.
+   * @param resourceGroupName The name of the resource group.
+   * @param virtualNetworkGatewayName The name of the virtual network gateway.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.VirtualNetworkGatewaysGetVpnclientConnectionHealthResponse>
+   */
+  getVpnclientConnectionHealth(resourceGroupName: string, virtualNetworkGatewayName: string, options?: msRest.RequestOptionsBase): Promise<Models.VirtualNetworkGatewaysGetVpnclientConnectionHealthResponse> {
+    return this.beginGetVpnclientConnectionHealth(resourceGroupName,virtualNetworkGatewayName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.VirtualNetworkGatewaysGetVpnclientConnectionHealthResponse>;
   }
 
   /**
@@ -568,7 +581,7 @@ export class VirtualNetworkGateways {
    * specified peer.
    * @param resourceGroupName The name of the resource group.
    * @param virtualNetworkGatewayName The name of the virtual network gateway.
-   * @param peer The IP address of the peer
+   * @param peer The IP address of the peer.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
@@ -623,6 +636,25 @@ export class VirtualNetworkGateways {
         options
       },
       beginGetVpnclientIpsecParametersOperationSpec,
+      options);
+  }
+
+  /**
+   * Get VPN client connection health detail per P2S client connection of the virtual network gateway
+   * in the specified resource group.
+   * @param resourceGroupName The name of the resource group.
+   * @param virtualNetworkGatewayName The name of the virtual network gateway.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginGetVpnclientConnectionHealth(resourceGroupName: string, virtualNetworkGatewayName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        virtualNetworkGatewayName,
+        options
+      },
+      beginGetVpnclientConnectionHealthOperationSpec,
       options);
   }
 
@@ -1207,6 +1239,32 @@ const beginGetVpnclientIpsecParametersOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.VpnClientIPsecParameters
     },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginGetVpnclientConnectionHealthOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/getVpnClientConnectionHealth",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.virtualNetworkGatewayName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.VpnClientConnectionHealthDetailListResult
+    },
+    202: {},
     default: {
       bodyMapper: Mappers.CloudError
     }
