@@ -2359,9 +2359,14 @@ export interface ApiManagementServiceBaseProperties {
    * `Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Ciphers.TripleDes168` will disable the
    * cipher TLS_RSA_WITH_3DES_EDE_CBC_SHA for all TLS(1.0, 1.1 and 1.2). Setting
    * `Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls11` can be used to disable
-   * just TLS 1.1 and setting
-   * `Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls10` can be used to disable
-   * TLS 1.0 on an API Management service.
+   * just TLS 1.1. Setting `Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls10`
+   * can be used to disable TLS 1.0 on an API Management service. Setting
+   * `Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Tls11` can be used to
+   * disable just TLS 1.1 for communications with backends. Setting
+   * `Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Tls10` can be used to
+   * disable TLS 1.0 for communications with backends. Setting
+   * `Microsoft.WindowsAzure.ApiManagement.Gateway.Protocols.Server.Http2` can be used to enable
+   * HTTP2 protocol on an API Management service.
    */
   customProperties?: { [propertyName: string]: string };
   /**
@@ -2509,9 +2514,14 @@ export interface ApiManagementServiceResource extends ApimResource {
    * `Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Ciphers.TripleDes168` will disable the
    * cipher TLS_RSA_WITH_3DES_EDE_CBC_SHA for all TLS(1.0, 1.1 and 1.2). Setting
    * `Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls11` can be used to disable
-   * just TLS 1.1 and setting
-   * `Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls10` can be used to disable
-   * TLS 1.0 on an API Management service.
+   * just TLS 1.1. Setting `Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls10`
+   * can be used to disable TLS 1.0 on an API Management service. Setting
+   * `Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Tls11` can be used to
+   * disable just TLS 1.1 for communications with backends. Setting
+   * `Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Tls10` can be used to
+   * disable TLS 1.0 for communications with backends. Setting
+   * `Microsoft.WindowsAzure.ApiManagement.Gateway.Protocols.Server.Http2` can be used to enable
+   * HTTP2 protocol on an API Management service.
    */
   customProperties?: { [propertyName: string]: string };
   /**
@@ -2643,9 +2653,14 @@ export interface ApiManagementServiceUpdateParameters extends ApimResource {
    * `Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Ciphers.TripleDes168` will disable the
    * cipher TLS_RSA_WITH_3DES_EDE_CBC_SHA for all TLS(1.0, 1.1 and 1.2). Setting
    * `Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls11` can be used to disable
-   * just TLS 1.1 and setting
-   * `Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls10` can be used to disable
-   * TLS 1.0 on an API Management service.
+   * just TLS 1.1. Setting `Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls10`
+   * can be used to disable TLS 1.0 on an API Management service. Setting
+   * `Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Tls11` can be used to
+   * disable just TLS 1.1 for communications with backends. Setting
+   * `Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Tls10` can be used to
+   * disable TLS 1.0 for communications with backends. Setting
+   * `Microsoft.WindowsAzure.ApiManagement.Gateway.Protocols.Server.Http2` can be used to enable
+   * HTTP2 protocol on an API Management service.
    */
   customProperties?: { [propertyName: string]: string };
   /**
