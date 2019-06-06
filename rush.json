@@ -343,6 +343,10 @@
       "projectFolder": "sdk/keyvault/keyvault-keys"
     },
     {
+      "packageName": "@azure/keyvault-certificates",
+      "projectFolder": "sdk/keyvault/keyvault-certificates"
+    },
+    {
       "packageName": "@azure/service-bus",
       "projectFolder": "sdk/servicebus/service-bus"
     },
