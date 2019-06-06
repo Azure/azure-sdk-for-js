@@ -32,7 +32,7 @@ import {
   ImportKeyOptions,
   UpdateKeyOptions,
   GetKeyOptions,
-  GetAllKeysOptions,
+  GetKeysOptions,
   KeyAttributes,
   RequestOptions
 } from "./keysModels";
@@ -424,7 +424,7 @@ export class KeysClient {
 
   public async *getKeyVersions(
     name: string,
-    options?: GetAllKeysOptions
+    options?: GetKeysOptions
   ): AsyncIterableIterator<KeyAttributes> {
     let currentSetResponse = await this.client.getKeyVersions(
       this.vaultBaseUrl,
@@ -452,7 +452,7 @@ export class KeysClient {
    * @param [options] The optional parameters
    * @returns AsyncIterableIterator<Key>
    */
-  public async *getAllKeys(options?: GetAllKeysOptions): AsyncIterableIterator<KeyAttributes> {
+  public async *getKeys(options?: GetKeysOptions): AsyncIterableIterator<KeyAttributes> {
     let currentSetResponse = await this.client.getKeys(
       this.vaultBaseUrl,
       {
@@ -478,7 +478,7 @@ export class KeysClient {
    * @param [options] The optional parameters
    * @returns AsyncIterableIterator<Key>
    */
-  public async *getAllDeletedKeys(options?: GetAllKeysOptions): AsyncIterableIterator<Key> {
+  public async *getDeletedKeys(options?: GetKeysOptions): AsyncIterableIterator<Key> {
     let currentSetResponse = await this.client.getDeletedKeys(
       this.vaultBaseUrl,
       {

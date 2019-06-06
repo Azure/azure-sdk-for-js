@@ -32,7 +32,7 @@ async function main(): Promise<void> {
   console.log("getResult: ", getResult);
   let encoded = Buffer.from("Hello World");
 
-  for await (let x of client.getAllKeys()) {
+  for await (let x of client.getKeys()) {
     console.log(">> ", x);
   }
 

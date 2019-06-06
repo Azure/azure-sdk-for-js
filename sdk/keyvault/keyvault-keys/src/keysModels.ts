@@ -239,7 +239,7 @@ export interface GetKeyOptions {
  * An interface representing optional parameters for KeyClient paged operations.
  * Optional Parameters.
  */
-export interface GetAllKeysOptions {
+export interface GetKeysOptions {
   /**
    * @member {msRest.RequestOptionsBase} [requestOptions] Options for this request
    */

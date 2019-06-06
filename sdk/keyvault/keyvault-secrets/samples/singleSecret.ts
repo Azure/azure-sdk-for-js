@@ -22,7 +22,7 @@ async function main(): Promise<void> {
   const secretName = "MySecretName";
   const result = await client.setSecret("MySecretName", "MySecretValue");
 
-  for await (let secretAttr of client.getAllSecrets()) {
+  for await (let secretAttr of client.getSecrets()) {
     const secret = await client.getSecret(secretAttr.name);
     console.log("secret: ", secret);
   }

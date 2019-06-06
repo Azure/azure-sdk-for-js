@@ -187,7 +187,7 @@ export interface GetSecretOptions {
  * An interface representing optional parameters for SecretClient paged operations.
  * Optional Parameters.
  */
-export interface GetAllSecretsOptions {
+export interface GetSecretsOptions {
   /**
    * @member {msRest.RequestOptionsBase} [requestOptions] Options for this request
    */

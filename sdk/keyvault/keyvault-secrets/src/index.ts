@@ -26,7 +26,7 @@ import {
   SetSecretOptions,
   UpdateSecretOptions,
   GetSecretOptions,
-  GetAllSecretsOptions,
+  GetSecretsOptions,
   SecretAttributes
 } from "./secretsModels";
 import { parseKeyvaultIdentifier as parseKeyvaultEntityIdentifier } from "./core/utils";
@@ -326,7 +326,7 @@ export class SecretsClient {
 
   public async *getSecretVersions(
     secretName: string,
-    options?: GetAllSecretsOptions
+    options?: GetSecretsOptions
   ): AsyncIterableIterator<SecretAttributes> {
     let currentSetResponse = await this.client.getSecretVersions(
       this.vaultBaseUrl,
@@ -353,7 +353,7 @@ export class SecretsClient {
    * @param [options] The optional parameters
    * @returns AsyncIterableIterator<Secret>
    */
-  public async *getAllSecrets(options?: GetAllSecretsOptions): AsyncIterableIterator<SecretAttributes> {
+  public async *getSecrets(options?: GetSecretsOptions): AsyncIterableIterator<SecretAttributes> {
     let currentSetResponse = await this.client.getSecrets(
       this.vaultBaseUrl,
       {
@@ -379,7 +379,7 @@ export class SecretsClient {
    * @param [options] The optional parameters
    * @returns AsyncIterableIterator<Secret>
    */
-  public async *getAllDeletedSecrets(options?: GetAllSecretsOptions): AsyncIterableIterator<Secret> {
+  public async *getDeletedSecrets(options?: GetSecretsOptions): AsyncIterableIterator<Secret> {
     let currentSetResponse = await this.client.getDeletedSecrets(
       this.vaultBaseUrl,
       {
