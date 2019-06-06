@@ -399,6 +399,16 @@ export interface NetworkRuleSet {
 }
 
 /**
+ * Settings for Azure Files identity based authentication.
+ */
+export interface AzureFilesIdentityBasedAuthentication {
+  /**
+   * Indicates the directory service used. Possible values include: 'None', 'AADDS'
+   */
+  directoryServiceOptions: DirectoryServiceOptions;
+}
+
+/**
  * Identity for the resource.
  */
 export interface Identity {
@@ -466,9 +476,9 @@ export interface StorageAccountCreateParameters {
    */
   accessTier?: AccessTier;
   /**
-   * Enables Azure Files AAD Integration for SMB if sets to true.
+   * Provides the identity based authentication settings for Azure Files.
    */
-  enableAzureFilesAadIntegration?: boolean;
+  azureFilesIdentityBasedAuthentication?: AzureFilesIdentityBasedAuthentication;
   /**
    * Allows https traffic only to storage service if sets to true. The default value is true since
    * API version 2019-04-01.
@@ -673,9 +683,9 @@ export interface StorageAccount extends TrackedResource {
    */
   readonly accessTier?: AccessTier;
   /**
-   * Enables Azure Files AAD Integration for SMB if sets to true.
+   * Provides the identity based authentication settings for Azure Files.
    */
-  enableAzureFilesAadIntegration?: boolean;
+  azureFilesIdentityBasedAuthentication?: AzureFilesIdentityBasedAuthentication;
   /**
    * Allows https traffic only to storage service if sets to true.
    */
@@ -780,9 +790,9 @@ export interface StorageAccountUpdateParameters {
    */
   accessTier?: AccessTier;
   /**
-   * Enables Azure Files AAD Integration for SMB if sets to true.
+   * Provides the identity based authentication settings for Azure Files.
    */
-  enableAzureFilesAadIntegration?: boolean;
+  azureFilesIdentityBasedAuthentication?: AzureFilesIdentityBasedAuthentication;
   /**
    * Allows https traffic only to storage service if sets to true.
    */
@@ -1839,6 +1849,14 @@ export type Bypass = 'None' | 'Logging' | 'Metrics' | 'AzureServices';
  * @enum {string}
  */
 export type DefaultAction = 'Allow' | 'Deny';
+
+/**
+ * Defines values for DirectoryServiceOptions.
+ * Possible values include: 'None', 'AADDS'
+ * @readonly
+ * @enum {string}
+ */
+export type DirectoryServiceOptions = 'None' | 'AADDS';
 
 /**
  * Defines values for AccessTier.
