@@ -335,6 +335,10 @@
       "projectFolder": "sdk/eventhub/event-processor-host"
     },
     {
+      "packageName": "@azure/identity",
+      "projectFolder": "sdk/identity/identity"
+    },
+    {
       "packageName": "@azure/keyvault-secrets",
       "projectFolder": "sdk/keyvault/keyvault-secrets"
     },

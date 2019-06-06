@@ -12,6 +12,7 @@ dependencies:
   '@rush-temp/cosmos': 'file:projects/cosmos.tgz'
   '@rush-temp/event-hubs': 'file:projects/event-hubs.tgz'
   '@rush-temp/event-processor-host': 'file:projects/event-processor-host.tgz'
+  '@rush-temp/identity': 'file:projects/identity.tgz'
   '@rush-temp/keyvault-certificates': 'file:projects/keyvault-certificates.tgz'
   '@rush-temp/keyvault-keys': 'file:projects/keyvault-keys.tgz'
   '@rush-temp/keyvault-secrets': 'file:projects/keyvault-secrets.tgz'
@@ -37,6 +38,7 @@ dependencies:
   '@types/mocha': 5.2.7
   '@types/node': 8.10.49
   '@types/priorityqueuejs': 1.0.1
+  '@types/qs': 6.5.3
   '@types/semaphore': 1.1.0
   '@types/semver': 5.5.0
   '@types/sinon': 5.0.7
@@ -120,6 +122,7 @@ dependencies:
   process: 0.11.10
   promise: 8.0.3
   puppeteer: 1.17.0
+  qs: 6.7.0
   requirejs: 2.3.6
   resolve: 1.11.0
   rhea: 1.0.7
@@ -462,17 +465,17 @@ packages:
     dev: false
     resolution:
       integrity: sha512-EaObqwIvayI5a8dCzhFrjKzVwKLxjoG9T6Ppd5CEo07LRKfQ8Yokw54r5+Wq7FaBQ+yXRvQAYPrHwya1/UFt9g==
-  /@types/express-serve-static-core/4.16.6:
+  /@types/express-serve-static-core/4.16.7:
     dependencies:
       '@types/node': 8.10.49
       '@types/range-parser': 1.2.3
     dev: false
     resolution:
-      integrity: sha512-8wr3CA/EMybyb6/V8qvTRKiNkPmgUA26uA9XWD6hlA0yFDuqi4r2L0C2B0U2HAYltJamoYJszlkaWM31vrKsHg==
+      integrity: sha512-847KvL8Q1y3TtFLRTXcVakErLJQgdpFSaq+k043xefz9raEf0C7HalpSY7OW5PyjCnY8P7bPW5t/Co9qqp+USg==
   /@types/express/4.17.0:
     dependencies:
       '@types/body-parser': 1.17.0
-      '@types/express-serve-static-core': 4.16.6
+      '@types/express-serve-static-core': 4.16.7
       '@types/serve-static': 1.13.2
     dev: false
     resolution:
@@ -561,6 +564,10 @@ packages:
     dev: false
     resolution:
       integrity: sha1-bqrDJHpMXO/JRILl2Hw3MLNfUFM=
+  /@types/qs/6.5.3:
+    dev: false
+    resolution:
+      integrity: sha512-Jugo5V/1bS0fRhy2z8+cUAHEyWOATaz4rbyLVvcFs7+dXp5HfwpEwzF1Q11bB10ApUqHf+yTauxI0UXQDwGrbA==
   /@types/range-parser/1.2.3:
     dev: false
     resolution:
@@ -581,7 +588,7 @@ packages:
       integrity: sha512-41qEJgBH/TWgo5NFSvBCJ1qkoi3Q6ONSF2avrHq1LVEZfYpdHmj0y9SuTK+u9ZhG1sYQKBL1AWXKyLWP4RaUoQ==
   /@types/serve-static/1.13.2:
     dependencies:
-      '@types/express-serve-static-core': 4.16.6
+      '@types/express-serve-static-core': 4.16.7
       '@types/mime': 2.0.1
     dev: false
     resolution:
@@ -2095,7 +2102,7 @@ packages:
   /browserslist/3.2.8:
     dependencies:
       caniuse-lite: 1.0.30000974
-      electron-to-chromium: 1.3.148
+      electron-to-chromium: 1.3.149
     dev: false
     hasBin: true
     resolution:
@@ -3133,10 +3140,10 @@ packages:
     dev: false
     resolution:
       integrity: sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=
-  /electron-to-chromium/1.3.148:
+  /electron-to-chromium/1.3.149:
     dev: false
     resolution:
-      integrity: sha512-nuCOlXNlGMQmdzihIPGm2K3Yf3H1hke/1rK381i02pH8wNliJU9hVNnOi/xjmxt+mjABd/BzufP5nPHWKshLWA==
+      integrity: sha512-XO+s6imdgjUS5hHDwh31fpkzxiIz7hFX8B5qnJdlP/BnzqqDF2A/YoitbGt5TknCm8dS9tIYdiXwDbarsonaFA==
   /elliptic/6.4.1:
     dependencies:
       bn.js: 4.11.8
@@ -10095,6 +10102,42 @@ packages:
       integrity: sha512-QDRNiNUiUb14TZvNnffJR54IzpRoRlBXoLFq+TGsJpuiuuLF3SGoFzI+jnd0drCMwTZr3rRskm1z8BL9mXnwqg==
       tarball: 'file:projects/event-processor-host.tgz'
     version: 0.0.0
+  'file:projects/identity.tgz':
+    dependencies:
+      '@types/mocha': 5.2.7
+      '@types/node': 8.10.49
+      '@types/qs': 6.5.3
+      '@typescript-eslint/eslint-plugin': 1.9.0_eslint@5.16.0+typescript@3.5.1
+      '@typescript-eslint/parser': 1.9.0_eslint@5.16.0+typescript@3.5.1
+      assert: 1.5.0
+      cross-env: 5.2.0
+      eslint: 5.16.0
+      events: 3.0.0
+      inherits: 2.0.3
+      mocha: 5.2.0
+      mocha-junit-reporter: 1.22.0_mocha@5.2.0
+      mocha-multi: 1.1.0_mocha@5.2.0
+      prettier: 1.17.1
+      qs: 6.7.0
+      rimraf: 2.6.3
+      rollup: 1.14.3
+      rollup-plugin-commonjs: 9.3.4_rollup@1.14.3
+      rollup-plugin-json: 3.1.0
+      rollup-plugin-multi-entry: 2.1.0
+      rollup-plugin-node-resolve: 4.2.4
+      rollup-plugin-replace: 2.2.0
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.14.3
+      rollup-plugin-uglify: 6.0.2_rollup@1.14.3
+      rollup-plugin-visualizer: 1.1.1_rollup@1.14.3
+      tslib: 1.9.3
+      typescript: 3.5.1
+      util: 0.11.1
+    dev: false
+    name: '@rush-temp/identity'
+    resolution:
+      integrity: sha512-xD2HaHKVW5M79YZ3bNvCXIdBoEVgBnoSRIjhLKWR0af+IBRMAwZPCczQSjuGxtSSg8nhSoavm/zOIWqGWTfNsw==
+      tarball: 'file:projects/identity.tgz'
+    version: 0.0.0
   'file:projects/keyvault-certificates.tgz':
     dependencies:
       '@azure/ms-rest-azure-js': 1.3.8
@@ -10499,6 +10542,7 @@ specifiers:
   '@rush-temp/cosmos': 'file:./projects/cosmos.tgz'
   '@rush-temp/event-hubs': 'file:./projects/event-hubs.tgz'
   '@rush-temp/event-processor-host': 'file:./projects/event-processor-host.tgz'
+  '@rush-temp/identity': 'file:./projects/identity.tgz'
   '@rush-temp/keyvault-certificates': 'file:./projects/keyvault-certificates.tgz'
   '@rush-temp/keyvault-keys': 'file:./projects/keyvault-keys.tgz'
   '@rush-temp/keyvault-secrets': 'file:./projects/keyvault-secrets.tgz'
@@ -10524,6 +10568,7 @@ specifiers:
   '@types/mocha': ^5.2.5
   '@types/node': ^8.0.0
   '@types/priorityqueuejs': ^1.0.1
+  '@types/qs': ~6.5.3
   '@types/semaphore': ^1.1.0
   '@types/semver': ^5.5.0
   '@types/sinon': ^5.0.5
@@ -10607,6 +10652,7 @@ specifiers:
   process: ^0.11.10
   promise: ^8.0.3
   puppeteer: ^1.11.0
+  qs: 6.7.0
   requirejs: ^2.3.5
   resolve: 1.11.0
   rhea: ^1.0.4
