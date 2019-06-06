@@ -69,7 +69,7 @@
     "clean": "rimraf dist esm test-dist typings *.tgz *.log",
     "format": "prettier --write --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "echo skipped",
-    "integration-test:node": "ts-mocha -p tests/tsconfig.test.json tests/*.ts --timeout 30000",
+    "integration-test:node": "ts-mocha -p tests/tsconfig.test.json tests/*.ts --timeout 300000",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "lint:fix": "echo skipped",
     "lint": "echo skipped",
