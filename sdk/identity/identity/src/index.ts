@@ -10,6 +10,8 @@ export { IdentityClientOptions } from "./client/identityClient";
 export { EnvironmentCredential } from "./credentials/environmentCredential";
 export { ClientSecretCredential } from "./credentials/clientSecretCredential";
 
+export { TokenCredential, RequestOptionsBase, TransferProgressEvent } from "@azure/core-http";
+
 export function getDefaultAzureCredential(): TokenCredential {
   return new EnvironmentCredential();
 }
