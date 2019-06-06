@@ -23,62 +23,62 @@ async function main() {
   console.log(`List queues`);
 
   // List queues
-  // let iter1 = queueServiceClient.listQueues();
-  // let i = 1;
-  // for await (const item of iter1) {
-  //   console.log(`Queue${i}: ${item.name}`);
-  //   i++;
-  // }
-
-  // Same as the previous example
-  // i = 1;
-  // for await (const item of queueServiceClient.listQueues()) {
-  //   console.log(`Queue${i}: ${item.name}`);
-  //   i++;
-  // }
-
-  // let i = 1;
-  // for await (const item2 of queueServiceClient.listQueues().byPage({})) {
-  //   item2.queueItems!.forEach((queueItem) => {
-  //     console.log(`Queue${i}: ${queueItem.name}`);
-  //     i++;
-  //   });
-  // }
-
-  // Same as the previous example
-  // let i = 1;
-  // for await (const item2 of queueServiceClient.listQueues().byPage({ pagesize: 20 })) {
-  //   item2.queueItems!.forEach((queueItem) => {
-  //     console.log(`Queue${i}: ${queueItem.name}`);
-  //     i++;
-  //   });
-  // }
-
-  // Generator syntax .next()
-  // let i = 1;
-  // let iter1 = queueServiceClient.listQueues().byPage({ pagesize: 2 });
-  // let item = await iter1.next();
-  // do {
-  //   for (const queueItem of item.value.queueItems!) {
-  //     console.log(`Queue${i}: ${queueItem.name}`);
-  //     i++;
-  //   }
-  //   item = await iter1.next();
-  // } while (item.value);
-
-  // Passing marker as argument (similar to the previous example)
   let i = 1;
   let marker: string | undefined = undefined;
-  let iter1 = queueServiceClient.listQueues().byPage({ pagesize: 2 });
-  let item = await iter1.next();
+
+  let iter1 = queueServiceClient.listQueues();
+  for await (const item of iter1) {
+    console.log(`Queue${i}: ${item.name}`);
+    i++;
+  }
+
+  // Same as the previous example
+  i = 1;
+  for await (const item of queueServiceClient.listQueues()) {
+    console.log(`Queue${i}: ${item.name}`);
+    i++;
+  }
+
+  i = 1;
+  for await (const item1 of queueServiceClient.listQueues().byPage({})) {
+    item1.queueItems!.forEach((queueItem) => {
+      console.log(`Queue${i}: ${queueItem.name}`);
+      i++;
+    });
+  }
+
+  // Same as the previous example
+  i = 1;
+  for await (const item2 of queueServiceClient.listQueues().byPage({ pagesize: 20 })) {
+    item2.queueItems!.forEach((queueItem) => {
+      console.log(`Queue${i}: ${queueItem.name}`);
+      i++;
+    });
+  }
+
+  // Generator syntax .next()
+  i = 1;
+  let iter2 = queueServiceClient.listQueues().byPage({ pagesize: 2 });
+  let item2 = await iter2.next();
+  do {
+    for (const queueItem of item2.value.queueItems!) {
+      console.log(`Queue${i}: ${queueItem.name}`);
+      i++;
+    }
+    item2 = await iter2.next();
+  } while (item2.value);
+
+  // Passing marker as argument (similar to the previous example)
+  let iter3 = queueServiceClient.listQueues().byPage({ pagesize: 2 });
+  let item = await iter3.next();
   // Prints 2 queuenames
   for (const queueItem of item.value.queueItems!) {
     console.log(`Queue${i}: ${queueItem.name}`);
     i++;
   }
   marker = item.value.nextMarker;
-  let iter2 = queueServiceClient.listQueues().byPage({ marker: marker, pagesize: 10 });
-  item = await iter2.next();
+  iter3 = queueServiceClient.listQueues().byPage({ marker: marker, pagesize: 10 });
+  item = await iter3.next();
   // Prints 10 queuenames
   for (const queueItem of item.value.queueItems!) {
     console.log(`Queue${i}: ${queueItem.name}`);
