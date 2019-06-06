@@ -1,6 +1,10 @@
 import * as assert from "assert";
-import { expect } from "chai"
-import { getKeyvaultName, getCredentialWithServicePrincipalSecret, getUniqueName } from "./utils/utils.common";
+import { expect } from "chai";
+import {
+  getKeyvaultName,
+  getCredentialWithServicePrincipalSecret,
+  getUniqueName
+} from "./utils/utils.common";
 import { SecretsClient } from "../src";
 import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
 
@@ -8,7 +12,7 @@ describe("Secret client", () => {
   const clientId = process.env["AAD_CLIENT_ID"] || "";
   const clientSecret = process.env["AAD_CLIENT_SECRET"] || "";
   const tenantId = process.env["AAD_TENANT_ID"] || "";
-  const vaultName = process.env["KEYVAULT_NAME"] || "<keyvault-name>"
+  const vaultName = process.env["KEYVAULT_NAME"] || "<keyvault-name>";
 
   let client: SecretsClient;
   let version: string;
@@ -20,7 +24,7 @@ describe("Secret client", () => {
       clientSecret,
       tenantId,
       {
-        tokenAudience: 'https://vault.azure.net'
+        tokenAudience: "https://vault.azure.net"
       }
     );
 
@@ -37,8 +41,16 @@ describe("Secret client", () => {
 
     const result = await client.setSecret(secretName, secretValue);
 
-    assert.equal(result.name, secretName, "Unexpected secret name in result from setSecret().");
-    assert.equal(result.value, secretValue, "Unexpected secret value in result from setSecret().");
+    assert.equal(
+      result.name,
+      secretName,
+      "Unexpected secret name in result from setSecret()."
+    );
+    assert.equal(
+      result.value,
+      secretValue,
+      "Unexpected secret value in result from setSecret()."
+    );
   });
 
   it("can retrieve the latest version of a secret value", async () => {
@@ -51,8 +63,16 @@ describe("Secret client", () => {
 
     const result = await client.getSecret(secretName);
 
-    assert.equal(result.name, secretName, "Unexpected secret name in result from setSecret().");
-    assert.equal(result.value, secretValue, "Unexpected secret value in result from setSecret().");
+    assert.equal(
+      result.name,
+      secretName,
+      "Unexpected secret name in result from setSecret()."
+    );
+    assert.equal(
+      result.value,
+      secretValue,
+      "Unexpected secret value in result from setSecret()."
+    );
   });
 
   it("can set a secret with attributes", async () => {
@@ -69,10 +89,11 @@ describe("Secret client", () => {
     // TODO: Investigate. The service seems to change the milliseconds part of the expiry date.
     // For now just compare year, month, and date in assertion.
     assert.ok(
-      updated.expires!.getUTCFullYear() === expiryDate.getUTCFullYear()
-      && updated.expires!.getUTCMonth() === expiryDate.getUTCMonth()
-      && updated.expires!.getUTCDate() === expiryDate.getUTCDate(),
-      "Expect attribute 'expires' to be updated.");
+      updated.expires!.getUTCFullYear() === expiryDate.getUTCFullYear() &&
+        updated.expires!.getUTCMonth() === expiryDate.getUTCMonth() &&
+        updated.expires!.getUTCDate() === expiryDate.getUTCDate(),
+      "Expect attribute 'expires' to be updated."
+    );
   });
 
   it("can update a secret", async () => {
@@ -93,10 +114,11 @@ describe("Secret client", () => {
     // TODO: Investigate. The service seems to change the milliseconds part of the expiry date.
     // For now just compare year, month, and date in assertion.
     assert.ok(
-      updated.expires!.getUTCFullYear() === expiryDate.getUTCFullYear()
-      && updated.expires!.getUTCMonth() === expiryDate.getUTCMonth()
-      && updated.expires!.getUTCDate() === expiryDate.getUTCDate(),
-      "Expect attribute 'expires' to be updated.");
+      updated.expires!.getUTCFullYear() === expiryDate.getUTCFullYear() &&
+        updated.expires!.getUTCMonth() === expiryDate.getUTCMonth() &&
+        updated.expires!.getUTCDate() === expiryDate.getUTCDate(),
+      "Expect attribute 'expires' to be updated."
+    );
   });
 
   it("can delete a secret", async () => {
@@ -108,7 +130,7 @@ describe("Secret client", () => {
 
     try {
       await client.getSecret(secretName);
-      throw Error("Expecting an error but not catching one.")
+      throw Error("Expecting an error but not catching one.");
     } catch (e) {
       if (e.statusCode === 404) {
         assert.equal(e.message, `Secret not found: ${secretName}`);
@@ -128,7 +150,10 @@ describe("Secret client", () => {
     });
 
     const secretValues = [secretValue1, secretValue2, secretValue3];
-    interface versionValuePair { version: string, value: string }
+    interface versionValuePair {
+      version: string;
+      value: string;
+    }
     let versions: versionValuePair[] = [];
     for (const v of secretValues) {
       const response = await client.setSecret(secretName, v);
@@ -149,5 +174,4 @@ describe("Secret client", () => {
 
     expect(results).to.deep.equal(versions);
   });
-
 });
