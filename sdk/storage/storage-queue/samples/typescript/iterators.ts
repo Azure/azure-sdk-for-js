@@ -30,14 +30,19 @@ async function main() {
     i++;
   }
 
-  // List queues - generator syntax
-  let iter2 = await queueServiceClient.listQueues();
   i = 1;
-  let item = await iter2.next();
-  do {
-    console.log(`Queue${i++}: ${item.value.name}`);
-    item = await iter2.next();
-  } while (item.value);
+  for await (const item of queueServiceClient.listQueues()) {
+    console.log(`Queue${i}: ${item.name}`);
+    i++;
+  }
+
+  i = 1;
+  for await (const item2 of queueServiceClient.listQueues().byPage()) {
+    item2.queueItems!.forEach((queueItem) => {
+      console.log(`Queue${i}: ${queueItem.name}`);
+      i++;
+    });
+  }
 }
 
 // An async method returns a Promise object, which is compatible with then().catch() coding style.

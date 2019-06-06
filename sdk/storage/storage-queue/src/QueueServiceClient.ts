@@ -201,56 +201,6 @@ export class QueueServiceClient extends StorageClient {
   }
 
   /**
-   * Iterates over queues under the specified account.
-   *
-   * @param {ServiceListQueuesSegmentOptions} [options={}] Options to list queues(optional)
-   * @returns {AsyncIterableIterator<Models.QueueItem>}
-   * @memberof QueueServiceClient
-   *
-   * @example
-   * let i = 1;
-   * for await (const item of queueServiceClient.listQueues()) {
-   *   console.log(`Queue${i}: ${item.name}`);
-   *   i++;
-   * }
-   *
-   * @example
-   * let iter1 = queueServiceClient.listQueues();
-   * let i = 1;
-   * for await (const item of iter1) {
-   *   console.log(`Queue${i}: ${item.name}`);
-   *   i++;
-   * }
-   *
-   * @example
-   * let iter2 = await queueServiceClient.listQueues();
-   * i = 1;
-   * let item = await iter2.next();
-   * do {
-   *   console.log(`Queue${i++}: ${item.value.name}`);
-   *   item = await iter2.next();
-   * } while (item.value);
-   *
-   */
-  public async *listQueues(
-    options: ServiceListQueuesSegmentOptions = {}
-  ): AsyncIterableIterator<Models.QueueItem> {
-    let marker = undefined;
-    const queueServiceClient = this;
-    const aborter = !options.abortSignal ? Aborter.none : options.abortSignal;
-    let listQueuesResponse;
-    do {
-      listQueuesResponse = await queueServiceClient.listQueuesSegment(marker, {
-        ...options,
-        abortSignal: aborter
-      });
-
-      marker = listQueuesResponse.nextMarker;
-      yield* listQueuesResponse.queueItems;
-    } while (marker);
-  }
-
-  /**
    * Returns a list of the queues under the specified account.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/list-queues1
    *
@@ -275,5 +225,29 @@ export class QueueServiceClient extends StorageClient {
       marker,
       ...options
     });
+  }
+
+  async *listSegments(
+    options: ServiceListQueuesSegmentOptions = {}
+  ): AsyncIterableIterator<Models.ServiceListQueuesSegmentResponse> {
+    let marker: string | undefined;
+    do {
+      yield await this.listQueuesSegment(marker, options);
+    } while (marker);
+  }
+
+  async *listItems(
+    options: ServiceListQueuesSegmentOptions = {}
+  ): AsyncIterableIterator<Models.QueueItem> {
+    for await (const segment of this.listSegments(options)) {
+      yield* segment.queueItems;
+    }
+  }
+
+  public listQueues(options: ServiceListQueuesSegmentOptions = {}) {
+    return {
+      [Symbol.asyncIterator]: () => this.listItems(options),
+      byPage: () => this.listSegments(options)
+    };
   }
 }
