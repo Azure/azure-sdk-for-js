@@ -18,6 +18,10 @@ import { EventPosition } from "./eventPosition";
  */
 export interface EventIteratorOptions {
   /**
+   * Number of events to fetch at a time in the background
+   */
+  // prefetchCount?: number;
+  /**
    * Cancellation token to cancel the operation
    */
   cancellationToken?: Aborter;
