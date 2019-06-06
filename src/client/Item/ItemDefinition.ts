@@ -7,5 +7,6 @@
  * in {@link ItemBody}
  */
 export interface ItemDefinition {
+  id?: string;
   [key: string]: any;
 }
