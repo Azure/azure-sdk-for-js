@@ -18,6 +18,7 @@ const packageVersion = "13.0.0";
 export class NetworkManagementClientContext extends msRestAzure.AzureServiceClient {
   credentials: msRest.ServiceClientCredentials;
   subscriptionId: string;
+  apiVersion?: string;
 
   /**
    * Initializes a new instance of the NetworkManagementClient class.

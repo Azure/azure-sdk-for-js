@@ -92,7 +92,7 @@ export class NetworkInterfaceTapConfigurations {
   }
 
   /**
-   * Get all Tap configurations in a network interface
+   * Get all Tap configurations in a network interface.
    * @param resourceGroupName The name of the resource group.
    * @param networkInterfaceName The name of the network interface.
    * @param [options] The optional parameters
@@ -167,7 +167,7 @@ export class NetworkInterfaceTapConfigurations {
   }
 
   /**
-   * Get all Tap configurations in a network interface
+   * Get all Tap configurations in a network interface.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.NetworkInterfaceTapConfigurationsListNextResponse>
