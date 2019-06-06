@@ -30,6 +30,7 @@ async function main() {
   //   i++;
   // }
 
+  // Same as the previous example
   // i = 1;
   // for await (const item of queueServiceClient.listQueues()) {
   //   console.log(`Queue${i}: ${item.name}`);
@@ -44,6 +45,7 @@ async function main() {
   //   });
   // }
 
+  // Same as the previous example
   // let i = 1;
   // for await (const item2 of queueServiceClient.listQueues().byPage({ pagesize: 20 })) {
   //   item2.queueItems!.forEach((queueItem) => {
@@ -64,7 +66,7 @@ async function main() {
   //   item = await iter1.next();
   // } while (item.value);
 
-  // Passing marker as argument
+  // Passing marker as argument (similar to the previous example)
   let i = 1;
   let marker: string | undefined = undefined;
   let iter1 = queueServiceClient.listQueues().byPage({ pagesize: 2 });
