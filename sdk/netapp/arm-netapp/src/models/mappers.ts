@@ -491,6 +491,7 @@ export const CapacityPool: msRest.CompositeMapper = {
         }
       },
       size: {
+        required: true,
         serializedName: "properties.size",
         defaultValue: 4398046511104,
         constraints: {
@@ -502,6 +503,7 @@ export const CapacityPool: msRest.CompositeMapper = {
         }
       },
       serviceLevel: {
+        required: true,
         serializedName: "properties.serviceLevel",
         defaultValue: 'Premium',
         type: {
@@ -714,7 +716,6 @@ export const Volume: msRest.CompositeMapper = {
         }
       },
       serviceLevel: {
-        required: true,
         serializedName: "properties.serviceLevel",
         defaultValue: 'Premium',
         type: {
@@ -722,6 +723,7 @@ export const Volume: msRest.CompositeMapper = {
         }
       },
       usageThreshold: {
+        required: true,
         serializedName: "properties.usageThreshold",
         defaultValue: 107374182400,
         constraints: {
@@ -737,6 +739,17 @@ export const Volume: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "VolumePropertiesExportPolicy"
+        }
+      },
+      protocolTypes: {
+        serializedName: "properties.protocolTypes",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       },
       provisioningState: {
@@ -770,9 +783,16 @@ export const Volume: msRest.CompositeMapper = {
         }
       },
       subnetId: {
+        required: true,
         serializedName: "properties.subnetId",
         type: {
           name: "String"
+        }
+      },
+      mountTargets: {
+        serializedName: "properties.mountTargets",
+        type: {
+          name: "Object"
         }
       }
     }
