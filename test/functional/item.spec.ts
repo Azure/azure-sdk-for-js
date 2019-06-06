@@ -1,5 +1,5 @@
 import assert from "assert";
-import { Container, PartitionKind } from "../../dist-esm";
+import { Container } from "../../dist-esm";
 import { ItemDefinition } from "../../dist-esm/client";
 import {
   bulkDeleteItems,
@@ -119,7 +119,7 @@ describe("Item CRUD", function() {
     // create container
     const containerDefinition = {
       id: "coll1",
-      partitionKey: { paths: ["/" + partitionKey], kind: PartitionKind.Hash }
+      partitionKey: { paths: ["/" + partitionKey] }
     };
 
     const { resource: containerdef } = await database.containers.create(containerDefinition, {

@@ -9,7 +9,6 @@ export * from "./IndexingPolicy";
 export * from "./IndexKind";
 export * from "./PartitionKey";
 export * from "./PartitionKeyDefinition";
-export * from "./PartitionKind";
 export * from "./PermissionMode";
 export * from "./TriggerOperation";
 export * from "./TriggerType";

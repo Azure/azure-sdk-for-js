@@ -1,7 +1,7 @@
 import assert from "assert";
 import * as util from "util";
 import { Container, ContainerDefinition } from "../../dist-esm/client";
-import { DataType, IndexKind, PartitionKind } from "../../dist-esm/documents";
+import { DataType, IndexKind } from "../../dist-esm/documents";
 import { SqlQuerySpec } from "../../dist-esm/queryExecutionContext";
 import { QueryIterator } from "../../dist-esm/queryIterator";
 import { bulkInsertItems, getTestContainer, removeAllDatabases } from "../common/TestHelpers";
@@ -63,8 +63,7 @@ describe("Cross Partition", function() {
         ]
       },
       partitionKey: {
-        paths: ["/id"],
-        kind: PartitionKind.Hash
+        paths: ["/id"]
       }
     };
     const containerOptions = { offerThroughput: 25100 };

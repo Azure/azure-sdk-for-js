@@ -1,5 +1,5 @@
 import assert from "assert";
-import { Constants, PartitionKind } from "../../dist-esm";
+import { Constants } from "../../dist-esm";
 import { Container, StoredProcedureDefinition } from "../../dist-esm/client";
 import { bulkInsertItems, getTestContainer, getTestDatabase, removeAllDatabases } from "../common/TestHelpers";
 
@@ -150,7 +150,7 @@ describe("NodeJS CRUD Tests", function() {
 
     const containerDefinition = {
       id: "coll1",
-      partitionKey: { paths: ["/" + partitionKey], kind: PartitionKind.Hash }
+      partitionKey: { paths: ["/" + partitionKey] }
     };
 
     const { resource: containerResult } = await database.containers.create(containerDefinition, {

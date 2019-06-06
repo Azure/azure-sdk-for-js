@@ -1,5 +1,5 @@
 import assert from "assert";
-import { CosmosClient, PartitionKind, PermissionMode } from "../../dist-esm";
+import { CosmosClient, PermissionMode } from "../../dist-esm";
 import { PermissionDefinition } from "../../dist-esm/client";
 import { endpoint, masterKey } from "../common/_testConfig";
 import { createOrUpsertPermission, getTestContainer, getTestDatabase, removeAllDatabases } from "../common/TestHelpers";
@@ -188,7 +188,7 @@ describe("NodeJS CRUD Tests", function() {
       const partitionKey = "key";
       const containerDefinition = {
         id: "coll1",
-        partitionKey: { paths: ["/" + partitionKey], kind: PartitionKind.Hash }
+        partitionKey: { paths: ["/" + partitionKey] }
       };
       const container = await getTestContainer("authorization CRUD multiple partitons", undefined, containerDefinition);
       // create user

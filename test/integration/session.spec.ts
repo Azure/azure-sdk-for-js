@@ -2,7 +2,7 @@ import assert from "assert";
 import * as sinon from "sinon";
 import { ClientContext } from "../../dist-esm/ClientContext";
 import { OperationType, ResourceType, trimSlashes } from "../../dist-esm/common";
-import { ConsistencyLevel, PartitionKind } from "../../dist-esm/documents";
+import { ConsistencyLevel } from "../../dist-esm/documents";
 import { Constants, CosmosClient, CosmosHeaders } from "../../dist-esm/index";
 import { SessionContainer } from "../../dist-esm/session/sessionContainer";
 import { VectorSessionToken } from "../../dist-esm/session/VectorSessionToken";
@@ -31,7 +31,7 @@ describe("Session Token", function() {
 
   const containerDefinition = {
     id: containerId,
-    partitionKey: { paths: ["/id"], kind: PartitionKind.Hash }
+    partitionKey: { paths: ["/id"] }
   };
   const containerOptions = { offerThroughput: 25100 };
 

@@ -1,5 +1,5 @@
 import assert from "assert";
-import { Constants, PartitionKind } from "../../dist-esm";
+import { Constants } from "../../dist-esm";
 import { ContainerDefinition, Database } from "../../dist-esm/client";
 import { ContainerRequest } from "../../dist-esm/client/Container/ContainerRequest";
 import { DataType, Index, IndexedPath, IndexingMode, IndexingPolicy, IndexKind } from "../../dist-esm/documents";
@@ -24,7 +24,7 @@ describe("Containers", function() {
       };
 
       if (partitionKey) {
-        containerDefinition.partitionKey = { paths: [partitionKey], kind: PartitionKind.Hash };
+        containerDefinition.partitionKey = { paths: [partitionKey] };
       }
 
       const { resource: containerDef } = await database.containers.create(containerDefinition);
@@ -32,7 +32,6 @@ describe("Containers", function() {
       assert.equal(containerDefinition.id, containerDef.id);
       assert.equal("consistent", containerDef.indexingPolicy.indexingMode);
       if (containerDef.partitionKey) {
-        assert.equal(containerDef.partitionKey.kind, containerDefinition.partitionKey.kind);
         assert.deepEqual(containerDef.partitionKey.paths, containerDefinition.partitionKey.paths);
       }
       // read containers after creation
@@ -62,7 +61,7 @@ describe("Containers", function() {
 
       // Replacing partition key is not allowed.
       try {
-        containerDef.partitionKey = { paths: ["/key"], kind: PartitionKind.Hash };
+        containerDef.partitionKey = { paths: ["/key"] };
         await container.replace(containerDef);
         assert.fail("Replacing paritionkey must throw");
       } catch (err) {
@@ -113,8 +112,7 @@ describe("Containers", function() {
 
       // create a container
       const badPartitionKeyDefinition: any = {
-        paths: "/id", // This is invalid. Must be an array.
-        kind: PartitionKind.Hash
+        paths: "/id" // This is invalid. Must be an array.
       };
 
       const containerDefinition: ContainerDefinition = {

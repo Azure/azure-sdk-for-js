@@ -18,7 +18,6 @@ describe("Change Feed Iterator", function() {
     before(async function() {
       const containerDef: ContainerDefinition = {
         partitionKey: {
-          kind: "Hash",
           paths: ["/key"]
         }
       };
@@ -87,7 +86,6 @@ describe("Change Feed Iterator", function() {
     before(async function() {
       const containerDef: ContainerDefinition = {
         partitionKey: {
-          kind: "Hash",
           paths: ["/key"]
         }
       };

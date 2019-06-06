@@ -14,7 +14,6 @@ export {
   Location,
   PartitionKey,
   PartitionKeyDefinition,
-  PartitionKind,
   PermissionMode,
   TriggerOperation,
   TriggerType,

@@ -1,6 +1,5 @@
 import assert from "assert";
 import { FeedOptions } from "../../dist-esm";
-import { PartitionKind } from "../../dist-esm/documents";
 import { getTestContainer, getTestDatabase, removeAllDatabases } from "../common/TestHelpers";
 
 const doc = { id: "myId", pk: "pk" };
@@ -17,8 +16,7 @@ describe("ResourceLink Trimming of leading and trailing slashes", function() {
     const containerDefinition = {
       id: containerId,
       partitionKey: {
-        paths: ["/pk"],
-        kind: PartitionKind.Hash
+        paths: ["/pk"]
       }
     };
     const containerOptions = { offerThroughput: 10100 };

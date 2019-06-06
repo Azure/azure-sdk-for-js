@@ -1,7 +1,6 @@
 import { ClientContext } from "../../ClientContext";
 import { Constants, getIdFromLink, getPathFromLink, isResourceValid, ResourceType, StatusCodes } from "../../common";
 import { DEFAULT_PARTITION_KEY_PATH } from "../../common/partitionKeys";
-import { PartitionKind } from "../../documents";
 import { mergeHeaders, SqlQuerySpec } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
 import { FeedOptions, RequestOptions } from "../../request";
@@ -110,7 +109,6 @@ export class Containers {
     // If they don't specify a partition key, use the default path
     if (!body.partitionKey || !body.partitionKey.paths) {
       body.partitionKey = {
-        kind: PartitionKind.Hash,
         paths: [DEFAULT_PARTITION_KEY_PATH]
       };
     }

@@ -1,5 +1,5 @@
 import assert from "assert";
-import { PartitionKind, PermissionMode } from "../../dist-esm";
+import { PermissionMode } from "../../dist-esm";
 import { PermissionDefinition } from "../../dist-esm/client";
 import {
   createOrUpsertPermission,
@@ -103,7 +103,7 @@ describe("NodeJS CRUD Tests", function() {
         const partitionKey = "id";
         const containerDefinition = {
           id: "coll1",
-          partitionKey: { paths: ["/" + partitionKey], kind: PartitionKind.Hash }
+          partitionKey: { paths: ["/" + partitionKey] }
         };
         const container = await getTestContainer(
           "permission CRUD over multiple partitions",
