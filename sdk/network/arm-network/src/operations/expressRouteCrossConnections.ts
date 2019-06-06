@@ -147,7 +147,7 @@ export class ExpressRouteCrossConnections {
    * @param resourceGroupName The name of the resource group.
    * @param crossConnectionName The name of the ExpressRouteCrossConnection.
    * @param peeringName The name of the peering.
-   * @param devicePath The path of the device
+   * @param devicePath The path of the device.
    * @param [options] The optional parameters
    * @returns Promise<Models.ExpressRouteCrossConnectionsListArpTableResponse>
    */
@@ -233,7 +233,7 @@ export class ExpressRouteCrossConnections {
    * @param resourceGroupName The name of the resource group.
    * @param crossConnectionName The name of the ExpressRouteCrossConnection.
    * @param peeringName The name of the peering.
-   * @param devicePath The path of the device
+   * @param devicePath The path of the device.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
