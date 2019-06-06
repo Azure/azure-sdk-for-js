@@ -228,9 +228,9 @@ export class QueueServiceClient extends StorageClient {
   }
 
   async *listSegments(
+    marker: string | undefined = undefined,
     options: ServiceListQueuesSegmentOptions = {}
   ): AsyncIterableIterator<Models.ServiceListQueuesSegmentResponse> {
-    let marker: string | undefined;
     let listQueuesResponse;
     do {
       listQueuesResponse = await this.listQueuesSegment(marker, options);
@@ -242,7 +242,8 @@ export class QueueServiceClient extends StorageClient {
   async *listItems(
     options: ServiceListQueuesSegmentOptions = {}
   ): AsyncIterableIterator<Models.QueueItem> {
-    for await (const segment of this.listSegments(options)) {
+    let marker: string | undefined;
+    for await (const segment of this.listSegments(marker, options)) {
       yield* segment.queueItems;
     }
   }
@@ -250,7 +251,26 @@ export class QueueServiceClient extends StorageClient {
   public listQueues(options: ServiceListQueuesSegmentOptions = {}) {
     return {
       [Symbol.asyncIterator]: () => this.listItems(options),
-      byPage: () => this.listSegments(options)
+      /**
+       *@param {string} [marker] A string value that identifies the portion of
+       *                          the list of queues to be returned with the next listing operation. The
+       *                          operation returns the NextMarker value within the response body if the
+       *                          listing operation did not return all queues remaining to be listed
+       *                          with the current page. The NextMarker value can be used as the value for
+       *                          the marker parameter in a subsequent call to request the next page of list
+       *                          items. The marker value is opaque to the client.
+       *@param {number} [pagesize] Number of items to be returned. Default value is `10`.
+       */
+      byPage: ({
+        marker = undefined,
+        pagesize = 10
+      }: {
+        marker?: string | undefined;
+        pagesize?: number;
+      }) => {
+        options.maxresults = pagesize;
+        return this.listSegments(marker, options);
+      }
     };
   }
 }
