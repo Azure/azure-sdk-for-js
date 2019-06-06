@@ -69,6 +69,7 @@ async function main() {
   } while (item2.value);
 
   // Passing marker as argument (similar to the previous example)
+  i = 1;
   let iter3 = queueServiceClient.listQueues().byPage({ pagesize: 2 });
   let item = await iter3.next();
   // Prints 2 queuenames
