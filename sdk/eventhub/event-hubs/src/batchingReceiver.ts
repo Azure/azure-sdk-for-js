@@ -194,7 +194,7 @@ export class BatchingReceiver extends EventHubReceiver {
             log.error(
               "[%s] 'receiver_close' event occurred on the receiver '%s' with address '%s' " +
                 "and the sdk did not initiate this. The receiver is not reconnecting. Hence, calling " +
-                "detached from the _onAmqpClose() handler.",
+                "detached from the onReceiveClose() handler.",
               this._context.connectionId,
               this.name,
               this.address
@@ -204,7 +204,7 @@ export class BatchingReceiver extends EventHubReceiver {
             log.error(
               "[%s] 'receiver_close' event occurred on the receiver '%s' with address '%s' " +
                 "and the sdk did not initate this. Moreover the receiver is already re-connecting. " +
-                "Hence not calling detached from the _onAmqpClose() handler.",
+                "Hence not calling detached from the onReceiveClose() handler.",
               this._context.connectionId,
               this.name,
               this.address
@@ -213,7 +213,7 @@ export class BatchingReceiver extends EventHubReceiver {
         } else {
           log.error(
             "[%s] 'receiver_close' event occurred on the receiver '%s' with address '%s' " +
-              "because the sdk initiated it. Hence not calling detached from the _onAmqpClose" +
+              "because the sdk initiated it. Hence not calling detached from the onReceiveClose" +
               "() handler.",
             this._context.connectionId,
             this.name,
@@ -239,7 +239,7 @@ export class BatchingReceiver extends EventHubReceiver {
             log.error(
               "[%s] 'session_close' event occurred on the session of receiver '%s' with " +
                 "address '%s' and the sdk did not initiate this. Hence calling detached from the " +
-                "_onSessionClose() handler.",
+                "onSessionClose() handler.",
               this._context.connectionId,
               this.name,
               this.address
@@ -249,19 +249,16 @@ export class BatchingReceiver extends EventHubReceiver {
             log.error(
               "[%s] 'session_close' event occurred on the session of receiver '%s' with " +
                 "address '%s' and the sdk did not initiate this. Moreover the receiver is already " +
-                "re-connecting. Hence not calling detached from the _onSessionClose() handler.",
+                "re-connecting. Hence not calling detached from the onSessionClose() handler.",
               this._context.connectionId,
               this.name,
               this.address
             );
           }
         } else {
-          if (this._aborter) {
-            this._aborter.removeEventListener("abort", this._onAbort);
-          }
           log.error(
             "[%s] 'session_close' event occurred on the session of receiver '%s' with address " +
-              "'%s' because the sdk initiated it. Hence not calling detached from the _onSessionClose" +
+              "'%s' because the sdk initiated it. Hence not calling detached from the onSessionClose" +
               "() handler.",
             this._context.connectionId,
             this.name,
