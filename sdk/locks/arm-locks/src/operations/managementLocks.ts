@@ -611,6 +611,46 @@ export class ManagementLocks {
   }
 
   /**
+   * Gets all the management locks for a scope.
+   * @param scope The scope for the lock. When providing a scope for the assignment, use
+   * '/subscriptions/{subscriptionId}' for subscriptions,
+   * '/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}' for resource groups, and
+   * '/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{parentResourcePathIfPresent}/{resourceType}/{resourceName}'
+   * for resources.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ManagementLocksListByScopeResponse>
+   */
+  listByScope(scope: string, options?: Models.ManagementLocksListByScopeOptionalParams): Promise<Models.ManagementLocksListByScopeResponse>;
+  /**
+   * @param scope The scope for the lock. When providing a scope for the assignment, use
+   * '/subscriptions/{subscriptionId}' for subscriptions,
+   * '/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}' for resource groups, and
+   * '/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{parentResourcePathIfPresent}/{resourceType}/{resourceName}'
+   * for resources.
+   * @param callback The callback
+   */
+  listByScope(scope: string, callback: msRest.ServiceCallback<Models.ManagementLockListResult>): void;
+  /**
+   * @param scope The scope for the lock. When providing a scope for the assignment, use
+   * '/subscriptions/{subscriptionId}' for subscriptions,
+   * '/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}' for resource groups, and
+   * '/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{parentResourcePathIfPresent}/{resourceType}/{resourceName}'
+   * for resources.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listByScope(scope: string, options: Models.ManagementLocksListByScopeOptionalParams, callback: msRest.ServiceCallback<Models.ManagementLockListResult>): void;
+  listByScope(scope: string, options?: Models.ManagementLocksListByScopeOptionalParams | msRest.ServiceCallback<Models.ManagementLockListResult>, callback?: msRest.ServiceCallback<Models.ManagementLockListResult>): Promise<Models.ManagementLocksListByScopeResponse> {
+    return this.client.sendOperationRequest(
+      {
+        scope,
+        options
+      },
+      listByScopeOperationSpec,
+      callback) as Promise<Models.ManagementLocksListByScopeResponse>;
+  }
+
+  /**
    * Gets all the management locks for a resource group.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -692,6 +732,34 @@ export class ManagementLocks {
       },
       listAtSubscriptionLevelNextOperationSpec,
       callback) as Promise<Models.ManagementLocksListAtSubscriptionLevelNextResponse>;
+  }
+
+  /**
+   * Gets all the management locks for a scope.
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ManagementLocksListByScopeNextResponse>
+   */
+  listByScopeNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ManagementLocksListByScopeNextResponse>;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param callback The callback
+   */
+  listByScopeNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ManagementLockListResult>): void;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listByScopeNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagementLockListResult>): void;
+  listByScopeNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagementLockListResult>, callback?: msRest.ServiceCallback<Models.ManagementLockListResult>): Promise<Models.ManagementLocksListByScopeNextResponse> {
+    return this.client.sendOperationRequest(
+      {
+        nextPageLink,
+        options
+      },
+      listByScopeNextOperationSpec,
+      callback) as Promise<Models.ManagementLocksListByScopeNextResponse>;
   }
 }
 
@@ -1117,6 +1185,30 @@ const listAtSubscriptionLevelOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
+const listByScopeOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "{scope}/providers/Microsoft.Authorization/locks",
+  urlParameters: [
+    Parameters.scope
+  ],
+  queryParameters: [
+    Parameters.filter,
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.ManagementLockListResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
 const listAtResourceGroupLevelNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
@@ -1160,6 +1252,27 @@ const listAtResourceLevelNextOperationSpec: msRest.OperationSpec = {
 };
 
 const listAtSubscriptionLevelNextOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  baseUrl: "https://management.azure.com",
+  path: "{nextLink}",
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.ManagementLockListResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const listByScopeNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",

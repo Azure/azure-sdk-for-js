@@ -627,7 +627,7 @@ export interface CelebrityResults {
 }
 
 /**
- * Json object representing a recognized word.
+ * An object representing a recognized word.
  */
 export interface Word {
   /**
@@ -645,7 +645,7 @@ export interface Word {
 }
 
 /**
- * Json object representing a recognized text line.
+ * An object representing a recognized text line.
  */
 export interface Line {
   /**
@@ -663,7 +663,7 @@ export interface Line {
 }
 
 /**
- * Json object representing a recognized text region
+ * An object representing a recognized text region
  */
 export interface TextRecognitionResult {
   /**
@@ -683,8 +683,8 @@ export interface TextRecognitionResult {
    */
   height?: number;
   /**
-   * The unit used in the Width, Height and BoundingBox. For images, the unit is "pixel". For PDF,
-   * the unit is "inch". Possible values include: 'pixel', 'inch'
+   * The unit used in the Width, Height and BoundingBox. For images, the unit is 'pixel'. For PDF,
+   * the unit is 'inch'. Possible values include: 'pixel', 'inch'
    */
   unit?: TextRecognitionResultDimensionUnit;
   /**
@@ -698,7 +698,7 @@ export interface TextRecognitionResult {
  */
 export interface TextOperationResult {
   /**
-   * Status of the text operation. Possible values include: 'Not Started', 'Running', 'Failed',
+   * Status of the text operation. Possible values include: 'NotStarted', 'Running', 'Failed',
    * 'Succeeded'
    */
   status?: TextOperationStatusCodes;
@@ -713,12 +713,12 @@ export interface TextOperationResult {
  */
 export interface ReadOperationResult {
   /**
-   * Status of the read operation. Possible values include: 'Not Started', 'Running', 'Failed',
+   * Status of the read operation. Possible values include: 'NotStarted', 'Running', 'Failed',
    * 'Succeeded'
    */
   status?: TextOperationStatusCodes;
   /**
-   * A array of text recognition result of the read operation.
+   * An array of text recognition result of the read operation.
    */
   recognitionResults?: TextRecognitionResult[];
 }
@@ -973,11 +973,11 @@ export type Gender = 'Male' | 'Female';
 
 /**
  * Defines values for TextOperationStatusCodes.
- * Possible values include: 'Not Started', 'Running', 'Failed', 'Succeeded'
+ * Possible values include: 'NotStarted', 'Running', 'Failed', 'Succeeded'
  * @readonly
  * @enum {string}
  */
-export type TextOperationStatusCodes = 'Not Started' | 'Running' | 'Failed' | 'Succeeded';
+export type TextOperationStatusCodes = 'NotStarted' | 'Running' | 'Failed' | 'Succeeded';
 
 /**
  * Defines values for TextRecognitionResultDimensionUnit.

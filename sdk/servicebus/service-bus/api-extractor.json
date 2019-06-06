@@ -10,6 +10,7 @@
   },
   "dtsRollup": {
     "enabled": true,
+    "untrimmedFilePath": "",
     "publicTrimmedFilePath": "./typings/service-bus.d.ts"
   },
   "messages": {
