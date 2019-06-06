@@ -12,6 +12,7 @@ dependencies:
   '@rush-temp/cosmos': 'file:projects/cosmos.tgz'
   '@rush-temp/event-hubs': 'file:projects/event-hubs.tgz'
   '@rush-temp/event-processor-host': 'file:projects/event-processor-host.tgz'
+  '@rush-temp/identity': 'file:projects/identity.tgz'
   '@rush-temp/keyvault-keys': 'file:projects/keyvault-keys.tgz'
   '@rush-temp/keyvault-secrets': 'file:projects/keyvault-secrets.tgz'
   '@rush-temp/service-bus': 'file:projects/service-bus.tgz'
@@ -37,6 +38,7 @@ dependencies:
   '@types/mocha': 5.2.7
   '@types/node': 8.10.49
   '@types/priorityqueuejs': 1.0.1
+  '@types/qs': 6.5.3
   '@types/semaphore': 1.1.0
   '@types/semver': 5.5.0
   '@types/sinon': 5.0.7
@@ -120,6 +122,7 @@ dependencies:
   process: 0.11.10
   promise: 8.0.3
   puppeteer: 1.17.0
+  qs: 6.7.0
   requirejs: 2.3.6
   resolve: 1.11.0
   rhea: 1.0.7
@@ -550,6 +553,10 @@ packages:
     dev: false
     resolution:
       integrity: sha512-CFLSALoE+93+Hcb5pFjp0J1uMrrbLRe+L1+gFwerJ776R3TACSF0kTVRQ7AvRa7aFx70nqYHAc7wQPlt9kY2Mg==
+  /@types/node/12.0.7:
+    dev: false
+    resolution:
+      integrity: sha512-1YKeT4JitGgE4SOzyB9eMwO0nGVNkNEsm9qlIt1Lqm/tG2QEiSMTD4kS3aO6L+w5SClLVxALmIBESK6Mk5wX0A==
   /@types/node/8.10.49:
     dev: false
     resolution:
@@ -562,6 +569,10 @@ packages:
     dev: false
     resolution:
       integrity: sha1-bqrDJHpMXO/JRILl2Hw3MLNfUFM=
+  /@types/qs/6.5.3:
+    dev: false
+    resolution:
+      integrity: sha512-Jugo5V/1bS0fRhy2z8+cUAHEyWOATaz4rbyLVvcFs7+dXp5HfwpEwzF1Q11bB10ApUqHf+yTauxI0UXQDwGrbA==
   /@types/range-parser/1.2.3:
     dev: false
     resolution:
@@ -7338,6 +7349,13 @@ packages:
     hasBin: true
     resolution:
       integrity: sha512-TzGRNvuUSmPgwivDqkZ9tM/qTGW9hqDKWOE9YHiyQdixlKbv7kvEqsmDPrcHJTKwthU774TQwZXVtaQ/mMsvjg==
+  /prettier/1.18.0:
+    dev: false
+    engines:
+      node: '>=4'
+    hasBin: true
+    resolution:
+      integrity: sha512-YsdAD29M0+WY2xXZk3i0PA16olY9qZss+AuODxglXcJ+2ZBwFv+6k5tE8GS8/HKAthaajlS/WqhdgcjumOrPlg==
   /pretty-hrtime/1.0.3:
     dev: false
     engines:
@@ -7987,6 +8005,18 @@ packages:
       rollup: '>=0.56.0'
     resolution:
       integrity: sha512-DTZOvRoiVIHHLFBCL4pFxOaJt8pagxsVldEXBOn6wl3/V21wVaj17HFfyzTsQUuou3sZL3lEJZVWKPFblJfI6w==
+  /rollup-plugin-commonjs/9.3.4_rollup@1.14.3:
+    dependencies:
+      estree-walker: 0.6.1
+      magic-string: 0.25.2
+      resolve: 1.11.0
+      rollup: 1.14.3
+      rollup-pluginutils: 2.8.1
+    dev: false
+    peerDependencies:
+      rollup: '>=0.56.0'
+    resolution:
+      integrity: sha512-DTZOvRoiVIHHLFBCL4pFxOaJt8pagxsVldEXBOn6wl3/V21wVaj17HFfyzTsQUuou3sZL3lEJZVWKPFblJfI6w==
   /rollup-plugin-inject/2.2.0:
     dependencies:
       estree-walker: 0.5.2
@@ -8067,6 +8097,19 @@ packages:
       rollup: '>=0.31.2'
     resolution:
       integrity: sha1-YhJaqUCHqt97g+9N+vYptHMTXoc=
+  /rollup-plugin-sourcemaps/0.4.2_rollup@1.14.3:
+    dependencies:
+      rollup: 1.14.3
+      rollup-pluginutils: 2.8.1
+      source-map-resolve: 0.5.2
+    dev: false
+    engines:
+      node: '>=4.5.0'
+      npm: '>=2.15.9'
+    peerDependencies:
+      rollup: '>=0.31.2'
+    resolution:
+      integrity: sha1-YhJaqUCHqt97g+9N+vYptHMTXoc=
   /rollup-plugin-terser/4.0.4:
     dependencies:
       '@babel/code-frame': 7.0.0
@@ -8113,6 +8156,18 @@ packages:
       rollup: '>=0.66.0 <2'
     resolution:
       integrity: sha512-qwz2Tryspn5QGtPUowq5oumKSxANKdrnfz7C0jm4lKxvRDsNe/hSGsB9FntUul7UeC4TsZEWKErVgE1qWSO0gw==
+  /rollup-plugin-uglify/6.0.2_rollup@1.14.3:
+    dependencies:
+      '@babel/code-frame': 7.0.0
+      jest-worker: 24.6.0
+      rollup: 1.14.3
+      serialize-javascript: 1.7.0
+      uglify-js: 3.6.0
+    dev: false
+    peerDependencies:
+      rollup: '>=0.66.0 <2'
+    resolution:
+      integrity: sha512-qwz2Tryspn5QGtPUowq5oumKSxANKdrnfz7C0jm4lKxvRDsNe/hSGsB9FntUul7UeC4TsZEWKErVgE1qWSO0gw==
   /rollup-plugin-visualizer/1.1.1:
     dependencies:
       mkdirp: 0.5.1
@@ -8140,6 +8195,20 @@ packages:
       rollup: '>=0.60.0'
     resolution:
       integrity: sha512-7xkSKp+dyJmSC7jg2LXqViaHuOnF1VvIFCnsZEKjrgT5ZVyiLLSbeszxFcQSfNJILphqgAEmWAUz0Z4xYScrRw==
+  /rollup-plugin-visualizer/1.1.1_rollup@1.14.3:
+    dependencies:
+      mkdirp: 0.5.1
+      opn: 5.5.0
+      rollup: 1.14.3
+      source-map: 0.7.3
+      typeface-oswald: 0.0.54
+    dev: false
+    engines:
+      node: '>=8.10'
+    peerDependencies:
+      rollup: '>=0.60.0'
+    resolution:
+      integrity: sha512-7xkSKp+dyJmSC7jg2LXqViaHuOnF1VvIFCnsZEKjrgT5ZVyiLLSbeszxFcQSfNJILphqgAEmWAUz0Z4xYScrRw==
   /rollup-pluginutils/2.8.1:
     dependencies:
       estree-walker: 0.6.1
@@ -8155,6 +8224,15 @@ packages:
     hasBin: true
     resolution:
       integrity: sha512-rFFIbi8UqFdZMRwYj+wVGQFTPBu++CDfbdlM10OZIpxrsRIgafos3cbGhXWxXo5jyRBB98u+0lEkdsvdE0IiyQ==
+  /rollup/1.14.3:
+    dependencies:
+      '@types/estree': 0.0.39
+      '@types/node': 12.0.7
+      acorn: 6.1.1
+    dev: false
+    hasBin: true
+    resolution:
+      integrity: sha512-UZhB6FmipHnSJfjulvM3lrOKuCKTYYkd1pYXzvMsxTbw1eC3SRhPzS1kJU96DT3RZUCOYiFAQYrgcBPRm4E+jw==
   /run-async/2.3.0:
     dependencies:
       is-promise: 2.1.0
@@ -10506,6 +10584,42 @@ packages:
       integrity: sha512-QDRNiNUiUb14TZvNnffJR54IzpRoRlBXoLFq+TGsJpuiuuLF3SGoFzI+jnd0drCMwTZr3rRskm1z8BL9mXnwqg==
       tarball: 'file:projects/event-processor-host.tgz'
     version: 0.0.0
+  'file:projects/identity.tgz':
+    dependencies:
+      '@types/mocha': 5.2.7
+      '@types/node': 8.10.49
+      '@types/qs': 6.5.3
+      '@typescript-eslint/eslint-plugin': 1.9.0_eslint@5.16.0+typescript@3.5.1
+      '@typescript-eslint/parser': 1.9.0_eslint@5.16.0+typescript@3.5.1
+      assert: 1.5.0
+      cross-env: 5.2.0
+      eslint: 5.16.0
+      events: 3.0.0
+      inherits: 2.0.3
+      mocha: 5.2.0
+      mocha-junit-reporter: 1.22.0_mocha@5.2.0
+      mocha-multi: 1.1.0_mocha@5.2.0
+      prettier: 1.18.0
+      qs: 6.7.0
+      rimraf: 2.6.3
+      rollup: 1.14.3
+      rollup-plugin-commonjs: 9.3.4_rollup@1.14.3
+      rollup-plugin-json: 3.1.0
+      rollup-plugin-multi-entry: 2.1.0
+      rollup-plugin-node-resolve: 4.2.4
+      rollup-plugin-replace: 2.2.0
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.14.3
+      rollup-plugin-uglify: 6.0.2_rollup@1.14.3
+      rollup-plugin-visualizer: 1.1.1_rollup@1.14.3
+      tslib: 1.9.3
+      typescript: 3.5.1
+      util: 0.11.1
+    dev: false
+    name: '@rush-temp/identity'
+    resolution:
+      integrity: sha512-xD2HaHKVW5M79YZ3bNvCXIdBoEVgBnoSRIjhLKWR0af+IBRMAwZPCczQSjuGxtSSg8nhSoavm/zOIWqGWTfNsw==
+      tarball: 'file:projects/identity.tgz'
+    version: 0.0.0
   'file:projects/keyvault-keys.tgz':
     dependencies:
       '@azure/ms-rest-azure-js': 1.3.7
@@ -10914,6 +11028,7 @@ specifiers:
   '@rush-temp/cosmos': 'file:./projects/cosmos.tgz'
   '@rush-temp/event-hubs': 'file:./projects/event-hubs.tgz'
   '@rush-temp/event-processor-host': 'file:./projects/event-processor-host.tgz'
+  '@rush-temp/identity': 'file:./projects/identity.tgz'
   '@rush-temp/keyvault-keys': 'file:./projects/keyvault-keys.tgz'
   '@rush-temp/keyvault-secrets': 'file:./projects/keyvault-secrets.tgz'
   '@rush-temp/service-bus': 'file:./projects/service-bus.tgz'
@@ -10939,6 +11054,7 @@ specifiers:
   '@types/mocha': ^5.2.5
   '@types/node': ^8.0.0
   '@types/priorityqueuejs': ^1.0.1
+  '@types/qs': ~6.5.3
   '@types/semaphore': ^1.1.0
   '@types/semver': ^5.5.0
   '@types/sinon': ^5.0.5
@@ -11022,6 +11138,7 @@ specifiers:
   process: ^0.11.10
   promise: ^8.0.3
   puppeteer: ^1.11.0
+  qs: 6.7.0
   requirejs: ^2.3.5
   resolve: 1.11.0
   rhea: ^1.0.4
