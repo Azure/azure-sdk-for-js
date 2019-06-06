@@ -4,7 +4,6 @@ import { LocationCache } from "../../dist-esm/LocationCache";
 
 import * as assert from "assert";
 import { OperationType, ResourceType } from "../../dist-esm/common";
-import { RequestContext } from "../../dist-esm/request/RequestContext";
 
 const scenarios: Scenario[] = [];
 const regions = ["westus", "East US", "eastus2", "south Centralus", "sEasIa"];
@@ -21,8 +20,10 @@ function getEndpointFromRegion(regionName?: string) {
   return `${prefix}${regionName ? `-${regionName}` : ""}${suffix}`;
 }
 
-function addScenario(options?: { numberOfRegions?: number; useMultipleWriteLocations?: boolean }) {
-  const connectionPolicy: ConnectionPolicy = Object.assign({}, defaultConnectionPolicy);
+function addScenario(options: { numberOfRegions?: number; useMultipleWriteLocations: boolean }) {
+  const connectionPolicy: ConnectionPolicy = Object.assign({}, defaultConnectionPolicy, {
+    useMultipleWriteLocations: options.useMultipleWriteLocations
+  });
   const databaseAccountConfig: {
     writableLocations?: Location[];
     readableLocations?: Location[];
@@ -30,28 +31,26 @@ function addScenario(options?: { numberOfRegions?: number; useMultipleWriteLocat
   } = {};
   const defaultEndpoint = getEndpointFromRegion();
 
-  if (options) {
-    if (options.numberOfRegions) {
-      connectionPolicy.preferredLocations = regions.slice(0, options.numberOfRegions);
-      databaseAccountConfig.readableLocations = connectionPolicy.preferredLocations.map(locationName => {
-        return { name: locationName, databaseAccountEndpoint: getEndpointFromRegion(locationName) };
-      });
-      if (options.useMultipleWriteLocations) {
-        connectionPolicy.useMultipleWriteLocations = options.useMultipleWriteLocations;
-        databaseAccountConfig.writableLocations = connectionPolicy.preferredLocations
-          .map(locationName => {
-            return { name: locationName, databaseAccountEndpoint: getEndpointFromRegion(locationName) };
-          })
-          .sort((a, b) => (a.name > b.name ? 1 : -1));
-        databaseAccountConfig.enableMultipleWriteLocations = options.useMultipleWriteLocations;
-      } else {
-        databaseAccountConfig.writableLocations = regions
-          .slice(0, 1)
-          .map(locationName => {
-            return { name: locationName, databaseAccountEndpoint: getEndpointFromRegion(locationName) };
-          })
-          .sort((a, b) => (a.name > b.name ? 1 : -1));
-      }
+  if (options.numberOfRegions) {
+    connectionPolicy.preferredLocations = regions.slice(0, options.numberOfRegions);
+    databaseAccountConfig.readableLocations = connectionPolicy.preferredLocations.map(locationName => {
+      return { name: locationName, databaseAccountEndpoint: getEndpointFromRegion(locationName) };
+    });
+    if (options.useMultipleWriteLocations) {
+      connectionPolicy.useMultipleWriteLocations = options.useMultipleWriteLocations;
+      databaseAccountConfig.writableLocations = connectionPolicy.preferredLocations
+        .map(locationName => {
+          return { name: locationName, databaseAccountEndpoint: getEndpointFromRegion(locationName) };
+        })
+        .sort((a, b) => (a.name > b.name ? 1 : -1));
+      databaseAccountConfig.enableMultipleWriteLocations = options.useMultipleWriteLocations;
+    } else {
+      databaseAccountConfig.writableLocations = (connectionPolicy.preferredLocations || regions)
+        .slice(0, 1)
+        .map(locationName => {
+          return { name: locationName, databaseAccountEndpoint: getEndpointFromRegion(locationName) };
+        })
+        .sort((a, b) => (a.name > b.name ? 1 : -1));
     }
   }
 
@@ -62,11 +61,11 @@ function addScenario(options?: { numberOfRegions?: number; useMultipleWriteLocat
   });
 }
 
-addScenario(); // Default
-addScenario({ numberOfRegions: 1 });
-addScenario({ numberOfRegions: 2 });
-addScenario({ numberOfRegions: 3 });
-addScenario({ numberOfRegions: 5 });
+addScenario({ useMultipleWriteLocations: false });
+addScenario({ numberOfRegions: 1, useMultipleWriteLocations: false });
+addScenario({ numberOfRegions: 2, useMultipleWriteLocations: false });
+addScenario({ numberOfRegions: 3, useMultipleWriteLocations: false });
+addScenario({ numberOfRegions: 5, useMultipleWriteLocations: false });
 addScenario({ numberOfRegions: 1, useMultipleWriteLocations: true });
 addScenario({ numberOfRegions: 2, useMultipleWriteLocations: true });
 addScenario({ numberOfRegions: 3, useMultipleWriteLocations: true });

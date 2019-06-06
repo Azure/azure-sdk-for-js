@@ -33,5 +33,5 @@ export const defaultConnectionPolicy = Object.freeze({
   preferredLocations: [],
   retryOptions: defaultRetryOptions,
   disableSSLVerification: false,
-  useMultipleWriteLocations: false
+  useMultipleWriteLocations: true
 });
