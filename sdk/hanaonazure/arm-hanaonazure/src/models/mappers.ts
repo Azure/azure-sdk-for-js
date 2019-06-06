@@ -151,7 +151,6 @@ export const OSProfile: msRest.CompositeMapper = {
     className: "OSProfile",
     modelProperties: {
       computerName: {
-        readOnly: true,
         serializedName: "computerName",
         type: {
           name: "String"
@@ -172,7 +171,6 @@ export const OSProfile: msRest.CompositeMapper = {
         }
       },
       sshPublicKey: {
-        readOnly: true,
         serializedName: "sshPublicKey",
         type: {
           name: "String"
@@ -189,7 +187,6 @@ export const IpAddress: msRest.CompositeMapper = {
     className: "IpAddress",
     modelProperties: {
       ipAddress: {
-        readOnly: true,
         serializedName: "ipAddress",
         type: {
           name: "String"
