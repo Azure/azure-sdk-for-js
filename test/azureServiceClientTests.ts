@@ -2523,7 +2523,7 @@ describe("AzureServiceClient", () => {
       delete expected.userAgent;
 
       assert.deepEqual(actual, expected);
-      assert(actualUserAgent!.match(/ms-rest-azure-js\/[\d\.]+ ms-rest-js\/[\d\.]+ .+/));
+      assert(actualUserAgent!.match(/ms-rest-azure-js\/[\d\.]+ ms-rest-js\/[\d\w\.-]+ .+/));
     }
 
     it("with undefined", () => {
