@@ -13,9 +13,7 @@ describe("Secret client", () => {
   let client: SecretsClient;
   let version: string;
 
-  before(async function() {
-		this.timeout(15000);
-
+  before(async () => {
     const url = `https://${vaultName}.vault.azure.net`;
     const credential = await msRestNodeAuth.loginWithServicePrincipalSecret(
       clientId,
@@ -30,9 +28,7 @@ describe("Secret client", () => {
     version = "";
   });
 
-  it("can add a secret", async function() {
-		this.timeout(15000);
-
+  it("can add a secret", async () => {
     const secretName = getUniqueName("secret");
     const secretValue = getUniqueName("value");
     after(async () => {
@@ -45,9 +41,7 @@ describe("Secret client", () => {
     assert.equal(result.value, secretValue, "Unexpected secret value in result from setSecret().");
   });
 
-  it("can retrieve the latest version of a secret value", async function() {
-		this.timeout(15000);
-
+  it("can retrieve the latest version of a secret value", async () => {
     const secretName = getUniqueName("secret");
     const secretValue = getUniqueName("value");
     after(async () => {
@@ -61,9 +55,7 @@ describe("Secret client", () => {
     assert.equal(result.value, secretValue, "Unexpected secret value in result from setSecret().");
   });
 
-  it("can set a secret with attributes", async function() {
-		this.timeout(15000);
-
+  it("can set a secret with attributes", async () => {
     const secretName = getUniqueName("secret");
     const secretValue = getUniqueName("value");
     const expiryDate = new Date("3000-01-01");
@@ -83,9 +75,7 @@ describe("Secret client", () => {
       "Expect attribute 'expires' to be updated.");
   });
 
-  it("can update a secret", async function() {
-		this.timeout(25000);
-
+  it("can update a secret", async () => {
     const secretName = getUniqueName("secret");
     const secretValue = getUniqueName("value");
     const expiryDate = new Date("3000-01-01");
@@ -109,9 +99,7 @@ describe("Secret client", () => {
       "Expect attribute 'expires' to be updated.");
   });
 
-  it("can delete a secret", async function() {
-		this.timeout(25000);
-
+  it("can delete a secret", async () => {
     const secretName = getUniqueName("secret");
     const secretValue1 = getUniqueName("value");
     await client.setSecret(secretName, secretValue1);
@@ -130,9 +118,7 @@ describe("Secret client", () => {
     }
   });
 
-  it("can retrieve all versions of a secret", async function() {
-		this.timeout(25000);
-
+  it("can retrieve all versions of a secret", async () => {
     const secretName = getUniqueName("secret");
     const secretValue1 = getUniqueName("value");
     const secretValue2 = getUniqueName("value");
