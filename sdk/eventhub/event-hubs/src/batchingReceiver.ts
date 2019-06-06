@@ -180,6 +180,7 @@ export class BatchingReceiver extends EventHubReceiver {
 
       onReceiveClose = async (context: EventContext) => {
         this.isReceivingMessages = false;
+        const receiver = this._receiver || context.receiver!;
         const receiverError = context.receiver && context.receiver.error;
         if (receiverError) {
           log.error(
@@ -188,10 +189,42 @@ export class BatchingReceiver extends EventHubReceiver {
             receiverError
           );
         }
+        if (receiver && !receiver.isItselfClosed()) {
+          if (!this.isConnecting) {
+            log.error(
+              "[%s] 'receiver_close' event occurred on the receiver '%s' with address '%s' " +
+                "and the sdk did not initiate this. The receiver is not reconnecting. Hence, calling " +
+                "detached from the onReceiveClose() handler.",
+              this._context.connectionId,
+              this.name,
+              this.address
+            );
+            await this.detached(receiverError);
+          } else {
+            log.error(
+              "[%s] 'receiver_close' event occurred on the receiver '%s' with address '%s' " +
+                "and the sdk did not initate this. Moreover the receiver is already re-connecting. " +
+                "Hence not calling detached from the onReceiveClose() handler.",
+              this._context.connectionId,
+              this.name,
+              this.address
+            );
+          }
+        } else {
+          log.error(
+            "[%s] 'receiver_close' event occurred on the receiver '%s' with address '%s' " +
+              "because the sdk initiated it. Hence not calling detached from the onReceiveClose" +
+              "() handler.",
+            this._context.connectionId,
+            this.name,
+            this.address
+          );
+        }
       };
 
       onSessionClose = async (context: EventContext) => {
         this.isReceivingMessages = false;
+        const receiver = this._receiver || context.receiver!;
         const sessionError = context.session && context.session.error;
         if (sessionError) {
           log.error(
@@ -201,13 +234,44 @@ export class BatchingReceiver extends EventHubReceiver {
             sessionError
           );
         }
+        if (receiver && !receiver.isSessionItselfClosed()) {
+          if (!this.isConnecting) {
+            log.error(
+              "[%s] 'session_close' event occurred on the session of receiver '%s' with " +
+                "address '%s' and the sdk did not initiate this. Hence calling detached from the " +
+                "onSessionClose() handler.",
+              this._context.connectionId,
+              this.name,
+              this.address
+            );
+            await this.detached(sessionError);
+          } else {
+            log.error(
+              "[%s] 'session_close' event occurred on the session of receiver '%s' with " +
+                "address '%s' and the sdk did not initiate this. Moreover the receiver is already " +
+                "re-connecting. Hence not calling detached from the onSessionClose() handler.",
+              this._context.connectionId,
+              this.name,
+              this.address
+            );
+          }
+        } else {
+          log.error(
+            "[%s] 'session_close' event occurred on the session of receiver '%s' with address " +
+              "'%s' because the sdk initiated it. Hence not calling detached from the onSessionClose" +
+              "() handler.",
+            this._context.connectionId,
+            this.name,
+            this.address
+          );
+        }
       };
 
       onSessionError = (context: EventContext) => {
         const receiver = this._receiver || context.receiver!;
         receiver.removeListener(ReceiverEvents.receiverError, onReceiveError);
         receiver.removeListener(ReceiverEvents.message, onReceiveMessage);
-        receiver.session.removeListener(SessionEvents.sessionError, onReceiveError);
+        receiver.session.removeListener(SessionEvents.sessionError, onSessionError);
         if (this._aborter) {
           this._aborter.removeEventListener("abort", this._onAbort);
         }
@@ -265,7 +329,7 @@ export class BatchingReceiver extends EventHubReceiver {
         addCreditAndSetTimer(true);
         this._receiver!.on(ReceiverEvents.message, onReceiveMessage);
         this._receiver!.on(ReceiverEvents.receiverError, onReceiveError);
-        this._receiver!.session.on(SessionEvents.sessionError, onReceiveError);
+        this._receiver!.session.on(SessionEvents.sessionError, onSessionError);
       }
     });
   }
