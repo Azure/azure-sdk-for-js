@@ -32,9 +32,8 @@ export interface Resource extends BaseResource {
   readonly type?: string;
   /**
    * Resource location
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly location?: string;
+  location?: string;
   /**
    * Resource tags
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -188,9 +187,8 @@ export interface HanaInstance extends Resource {
   readonly hwRevision?: string;
   /**
    * ARM ID of another HanaInstance that will share a network with this HanaInstance
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly partnerNodeId?: string;
+  partnerNodeId?: string;
   /**
    * State of provisioning of the HanaInstance. Possible values include: 'Accepted', 'Creating',
    * 'Updating', 'Failed', 'Succeeded', 'Deleting', 'Migrating'

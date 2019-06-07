@@ -40,7 +40,6 @@ export const Resource: msRest.CompositeMapper = {
         }
       },
       location: {
-        readOnly: true,
         serializedName: "location",
         type: {
           name: "String"
@@ -289,7 +288,6 @@ export const HanaInstance: msRest.CompositeMapper = {
         }
       },
       partnerNodeId: {
-        readOnly: true,
         serializedName: "properties.partnerNodeId",
         type: {
           name: "String"
