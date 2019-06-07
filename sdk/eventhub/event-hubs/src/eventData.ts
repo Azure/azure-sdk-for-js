@@ -136,6 +136,12 @@ export interface EventDataInternal {
     if (msg.application_properties) {
       data.properties = msg.application_properties;
     }
+    if (msg.message_id) {
+      if (!data.properties) {
+        data.properties = {};
+      }
+      data.properties.message_id = msg.message_id;
+    }
     if (msg.delivery_annotations) {
       data.lastEnqueuedOffset = msg.delivery_annotations.last_enqueued_offset;
       data.lastSequenceNumber = msg.delivery_annotations.last_enqueued_sequence_number;
@@ -158,8 +164,12 @@ export interface EventDataInternal {
     // As per the AMQP 1.0 spec If the message-annotations or delivery-annotations section is omitted,
     // it is equivalent to a message-annotations section containing anempty map of annotations.
     msg.message_annotations = {};
-    if (data.properties) {
-      msg.application_properties = data.properties;
+    const dataProperties = data.properties;
+    if (dataProperties) {
+      msg.application_properties = dataProperties;
+      if (typeof dataProperties.message_id === 'string') {
+        msg.message_id = dataProperties.message_id;
+      }
     }
     if (partitionKey != undefined) {
       msg.message_annotations[Constants.partitionKey] = partitionKey;
