@@ -41,16 +41,8 @@ describe("Secret client", () => {
     });
     const result = await client.setSecret(secretName, secretValue);
 
-    assert.equal(
-      result.name,
-      secretName,
-      "Unexpected secret name in result from setSecret()."
-    );
-    assert.equal(
-      result.value,
-      secretValue,
-      "Unexpected secret value in result from setSecret()."
-    );
+    assert.equal(result.name, secretName, "Unexpected secret name in result from setSecret().");
+    assert.equal(result.value, secretValue, "Unexpected secret value in result from setSecret().");
   });
 
   it("can retrieve the latest version of a secret value", async () => {
@@ -63,16 +55,8 @@ describe("Secret client", () => {
 
     const result = await client.getSecret(secretName);
 
-    assert.equal(
-      result.name,
-      secretName,
-      "Unexpected secret name in result from setSecret()."
-    );
-    assert.equal(
-      result.value,
-      secretValue,
-      "Unexpected secret value in result from setSecret()."
-    );
+    assert.equal(result.name, secretName, "Unexpected secret name in result from setSecret().");
+    assert.equal(result.value, secretValue, "Unexpected secret value in result from setSecret().");
   });
 
   it("can set a secret with attributes", async () => {
