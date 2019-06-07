@@ -4,10 +4,10 @@
 export const SDK_VERSION: string = "1.0.0-preview1";
 
 export const RetryConstants = {
-  MIN_RETRY_INTERVAL_MS: 3000,
-}
+  MIN_RETRY_INTERVAL_MS: 3000
+};
 
 export const HeaderConstants = {
   USER_AGENT: "User-Agent",
-  X_MS_CLIENT_REQUEST_ID: "x-ms-client-request-id",
+  X_MS_CLIENT_REQUEST_ID: "x-ms-client-request-id"
 };
