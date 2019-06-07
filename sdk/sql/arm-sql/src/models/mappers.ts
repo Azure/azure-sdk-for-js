@@ -2732,6 +2732,12 @@ export const ManagedInstance: msRest.CompositeMapper = {
           className: "Sku"
         }
       },
+      managedInstanceCreateMode: {
+        serializedName: "properties.managedInstanceCreateMode",
+        type: {
+          name: "String"
+        }
+      },
       fullyQualifiedDomainName: {
         readOnly: true,
         serializedName: "properties.fullyQualifiedDomainName",
@@ -2807,6 +2813,18 @@ export const ManagedInstance: msRest.CompositeMapper = {
           name: "Boolean"
         }
       },
+      sourceManagedInstanceId: {
+        serializedName: "properties.sourceManagedInstanceId",
+        type: {
+          name: "String"
+        }
+      },
+      restorePointInTime: {
+        serializedName: "properties.restorePointInTime",
+        type: {
+          name: "DateTime"
+        }
+      },
       proxyOverride: {
         serializedName: "properties.proxyOverride",
         type: {
@@ -2815,6 +2833,12 @@ export const ManagedInstance: msRest.CompositeMapper = {
       },
       timezoneId: {
         serializedName: "properties.timezoneId",
+        type: {
+          name: "String"
+        }
+      },
+      instancePoolId: {
+        serializedName: "properties.instancePoolId",
         type: {
           name: "String"
         }
@@ -2836,6 +2860,12 @@ export const ManagedInstanceUpdate: msRest.CompositeMapper = {
           className: "Sku"
         }
       },
+      managedInstanceCreateMode: {
+        serializedName: "properties.managedInstanceCreateMode",
+        type: {
+          name: "String"
+        }
+      },
       fullyQualifiedDomainName: {
         readOnly: true,
         serializedName: "properties.fullyQualifiedDomainName",
@@ -2911,6 +2941,18 @@ export const ManagedInstanceUpdate: msRest.CompositeMapper = {
           name: "Boolean"
         }
       },
+      sourceManagedInstanceId: {
+        serializedName: "properties.sourceManagedInstanceId",
+        type: {
+          name: "String"
+        }
+      },
+      restorePointInTime: {
+        serializedName: "properties.restorePointInTime",
+        type: {
+          name: "DateTime"
+        }
+      },
       proxyOverride: {
         serializedName: "properties.proxyOverride",
         type: {
@@ -2919,6 +2961,12 @@ export const ManagedInstanceUpdate: msRest.CompositeMapper = {
       },
       timezoneId: {
         serializedName: "properties.timezoneId",
+        type: {
+          name: "String"
+        }
+      },
+      instancePoolId: {
+        serializedName: "properties.instancePoolId",
         type: {
           name: "String"
         }
@@ -5702,6 +5750,13 @@ export const SensitivityLabel: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      isDisabled: {
+        readOnly: true,
+        serializedName: "properties.isDisabled",
+        type: {
+          name: "Boolean"
+        }
       }
     }
   }
@@ -7059,6 +7114,18 @@ export const Database: msRest.CompositeMapper = {
           name: "Composite",
           className: "Sku"
         }
+      },
+      autoPauseDelay: {
+        serializedName: "properties.autoPauseDelay",
+        type: {
+          name: "Number"
+        }
+      },
+      minCapacity: {
+        serializedName: "properties.minCapacity",
+        type: {
+          name: "Number"
+        }
       }
     }
   }
@@ -7242,6 +7309,18 @@ export const DatabaseUpdate: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "Sku"
+        }
+      },
+      autoPauseDelay: {
+        serializedName: "properties.autoPauseDelay",
+        type: {
+          name: "Number"
+        }
+      },
+      minCapacity: {
+        serializedName: "properties.minCapacity",
+        type: {
+          name: "Number"
         }
       },
       tags: {
