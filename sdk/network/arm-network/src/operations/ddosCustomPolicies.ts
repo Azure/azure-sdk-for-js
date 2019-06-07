@@ -85,7 +85,7 @@ export class DdosCustomPolicies {
   }
 
   /**
-   * Update a DDoS custom policy tags
+   * Update a DDoS custom policy tags.
    * @param resourceGroupName The name of the resource group.
    * @param ddosCustomPolicyName The name of the DDoS custom policy.
    * @param parameters Parameters supplied to the update DDoS custom policy resource tags.
@@ -136,7 +136,7 @@ export class DdosCustomPolicies {
   }
 
   /**
-   * Update a DDoS custom policy tags
+   * Update a DDoS custom policy tags.
    * @param resourceGroupName The name of the resource group.
    * @param ddosCustomPolicyName The name of the DDoS custom policy.
    * @param parameters Parameters supplied to the update DDoS custom policy resource tags.

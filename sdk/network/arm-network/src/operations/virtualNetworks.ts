@@ -75,7 +75,7 @@ export class VirtualNetworks {
    * Creates or updates a virtual network in the specified resource group.
    * @param resourceGroupName The name of the resource group.
    * @param virtualNetworkName The name of the virtual network.
-   * @param parameters Parameters supplied to the create or update virtual network operation
+   * @param parameters Parameters supplied to the create or update virtual network operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualNetworksCreateOrUpdateResponse>
    */
@@ -239,7 +239,7 @@ export class VirtualNetworks {
    * Creates or updates a virtual network in the specified resource group.
    * @param resourceGroupName The name of the resource group.
    * @param virtualNetworkName The name of the virtual network.
-   * @param parameters Parameters supplied to the create or update virtual network operation
+   * @param parameters Parameters supplied to the create or update virtual network operation.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */

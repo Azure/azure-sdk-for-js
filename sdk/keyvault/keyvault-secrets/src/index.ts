@@ -143,20 +143,29 @@ export class SecretsClient {
    * @param [options] The optional parameters
    * @returns Promise<Secret>
    */
-  public async setSecret(
-    secretName: string,
-    value: string,
-    options?: SetSecretOptions
-  ) {
+  public async setSecret(secretName: string, value: string, options?: SetSecretOptions) {
     if (options) {
-      let unflattenedAttributes = { enabled: options.enabled, notBefore: options.notBefore, expires: options.expires };
-      let unflattenedOptions = { ...options, ...(options.requestOptions ? options.requestOptions : {}), secretAttributes: unflattenedAttributes };
+      let unflattenedAttributes = {
+        enabled: options.enabled,
+        notBefore: options.notBefore,
+        expires: options.expires
+      };
+      let unflattenedOptions = {
+        ...options,
+        ...(options.requestOptions ? options.requestOptions : {}),
+        secretAttributes: unflattenedAttributes
+      };
       delete unflattenedOptions.enabled;
       delete unflattenedOptions.notBefore;
       delete unflattenedOptions.expires;
       delete unflattenedOptions.requestOptions;
 
-      const response = await this.client.setSecret(this.vaultBaseUrl, secretName, value, unflattenedOptions);
+      const response = await this.client.setSecret(
+        this.vaultBaseUrl,
+        secretName,
+        value,
+        unflattenedOptions
+      );
       return this.getSecretFromSecretBundle(response);
     } else {
       const response = await this.client.setSecret(this.vaultBaseUrl, secretName, value, options);
@@ -197,8 +206,16 @@ export class SecretsClient {
     options?: UpdateSecretOptions
   ): Promise<Secret> {
     if (options) {
-      let unflattenedAttributes = { enabled: options.enabled, notBefore: options.notBefore, expires: options.expires };
-      let unflattenedOptions = { ...options, ...(options.requestOptions ? options.requestOptions : {}), secretAttributes: unflattenedAttributes };
+      let unflattenedAttributes = {
+        enabled: options.enabled,
+        notBefore: options.notBefore,
+        expires: options.expires
+      };
+      let unflattenedOptions = {
+        ...options,
+        ...(options.requestOptions ? options.requestOptions : {}),
+        secretAttributes: unflattenedAttributes
+      };
       delete unflattenedOptions.enabled;
       delete unflattenedOptions.notBefore;
       delete unflattenedOptions.expires;
@@ -230,10 +247,7 @@ export class SecretsClient {
    * @param [options] The optional parameters
    * @returns Promise<Secret>
    */
-  public async getSecret(
-    secretName: string,
-    options?: GetSecretOptions
-  ): Promise<Secret> {
+  public async getSecret(secretName: string, options?: GetSecretOptions): Promise<Secret> {
     const response = await this.client.getSecret(
       this.vaultBaseUrl,
       secretName,
@@ -328,13 +342,9 @@ export class SecretsClient {
     secretName: string,
     options?: GetAllSecretsOptions
   ): AsyncIterableIterator<SecretAttributes> {
-    let currentSetResponse = await this.client.getSecretVersions(
-      this.vaultBaseUrl,
-      secretName,
-      {
-        ...(options && options.requestOptions ? options.requestOptions : {})
-      }
-    );
+    let currentSetResponse = await this.client.getSecretVersions(this.vaultBaseUrl, secretName, {
+      ...(options && options.requestOptions ? options.requestOptions : {})
+    });
     yield* currentSetResponse.map(this.getSecretFromSecretBundle);
 
     while (currentSetResponse.nextLink) {
@@ -353,20 +363,16 @@ export class SecretsClient {
    * @param [options] The optional parameters
    * @returns AsyncIterableIterator<Secret>
    */
-  public async *getAllSecrets(options?: GetAllSecretsOptions): AsyncIterableIterator<SecretAttributes> {
-    let currentSetResponse = await this.client.getSecrets(
-      this.vaultBaseUrl,
-      {
-        ...(options && options.requestOptions ? options.requestOptions : {})
-      }
-    );
+  public async *getAllSecrets(
+    options?: GetAllSecretsOptions
+  ): AsyncIterableIterator<SecretAttributes> {
+    let currentSetResponse = await this.client.getSecrets(this.vaultBaseUrl, {
+      ...(options && options.requestOptions ? options.requestOptions : {})
+    });
     yield* currentSetResponse.map(this.getSecretFromSecretBundle);
 
     while (currentSetResponse.nextLink) {
-      currentSetResponse = await this.client.getSecretsNext(
-        currentSetResponse.nextLink,
-        options
-      );
+      currentSetResponse = await this.client.getSecretsNext(currentSetResponse.nextLink, options);
       yield* currentSetResponse.map(this.getSecretFromSecretBundle);
     }
   }
@@ -379,13 +385,12 @@ export class SecretsClient {
    * @param [options] The optional parameters
    * @returns AsyncIterableIterator<Secret>
    */
-  public async *getAllDeletedSecrets(options?: GetAllSecretsOptions): AsyncIterableIterator<Secret> {
-    let currentSetResponse = await this.client.getDeletedSecrets(
-      this.vaultBaseUrl,
-      {
-        ...(options && options.requestOptions ? options.requestOptions : {})
-      }
-    );
+  public async *getAllDeletedSecrets(
+    options?: GetAllSecretsOptions
+  ): AsyncIterableIterator<Secret> {
+    let currentSetResponse = await this.client.getDeletedSecrets(this.vaultBaseUrl, {
+      ...(options && options.requestOptions ? options.requestOptions : {})
+    });
     yield* currentSetResponse.map(this.getSecretFromSecretBundle);
 
     while (currentSetResponse.nextLink) {
@@ -406,13 +411,13 @@ export class SecretsClient {
         ...secretBundle,
         ...parsedId,
         ...secretBundle.attributes
-      }
-      delete (resultObject.attributes);
+      };
+      delete resultObject.attributes;
     } else {
       resultObject = {
         ...secretBundle,
         ...parsedId
-      }
+      };
     }
 
     return resultObject;
