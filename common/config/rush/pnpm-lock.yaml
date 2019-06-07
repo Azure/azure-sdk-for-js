@@ -10634,6 +10634,27 @@ packages:
       '@azure/ms-rest-js': 1.8.12
       '@azure/ms-rest-nodeauth': 0.9.3
       '@types/chai': 4.1.7
+      chai: 4.2.0
+      prettier: 1.18.2
+      rimraf: 2.6.3
+      rollup: 1.13.1
+      rollup-plugin-commonjs: 9.3.4_rollup@1.13.1
+      rollup-plugin-node-resolve: 4.2.4
+      tslib: 1.9.3
+      typescript: 3.5.1
+      uglify-js: 3.6.0
+    dev: false
+    name: '@rush-temp/keyvault-keys'
+    resolution:
+      integrity: sha512-DB3AhwjWFDsyheTp+mVjzQgz4DRJYTyE9HsI/7OnQzOZNtqTk0RklAETRIBhdsRSlf1zspQgKAOSrRCu7Pxa4A==
+      tarball: 'file:projects/keyvault-keys.tgz'
+    version: 0.0.0
+  'file:projects/keyvault-secrets.tgz':
+    dependencies:
+      '@azure/ms-rest-azure-js': 1.3.8
+      '@azure/ms-rest-js': 1.8.12
+      '@azure/ms-rest-nodeauth': 0.9.3
+      '@types/chai': 4.1.7
       '@types/mocha': 5.2.7
       chai: 4.2.0
       mocha: 5.2.0
@@ -10647,30 +10668,9 @@ packages:
       typescript: 3.5.1
       uglify-js: 3.6.0
     dev: false
-    name: '@rush-temp/keyvault-keys'
-    resolution:
-      integrity: sha512-BE4oqrNuMHQm4e0Koc1a0KrlGKHpYG6c5lg2zCDWySToPq8bHlaSyCjkiDvV12gnHs7f7NUUf/9N9MsXcnwmyg==
-      tarball: 'file:projects/keyvault-keys.tgz'
-    version: 0.0.0
-  'file:projects/keyvault-secrets.tgz':
-    dependencies:
-      '@azure/ms-rest-azure-js': 1.3.8
-      '@azure/ms-rest-js': 1.8.12
-      '@azure/ms-rest-nodeauth': 0.9.3
-      '@types/chai': 4.1.7
-      chai: 4.2.0
-      prettier: 1.18.2
-      rimraf: 2.6.3
-      rollup: 1.13.1
-      rollup-plugin-commonjs: 9.3.4_rollup@1.13.1
-      rollup-plugin-node-resolve: 4.2.4
-      tslib: 1.9.3
-      typescript: 3.5.1
-      uglify-js: 3.6.0
-    dev: false
     name: '@rush-temp/keyvault-secrets'
     resolution:
-      integrity: sha512-wVKubPWsP0Vag1+PMKGgzgBZSoxOBMp5VYfsflkJbJMUx7VcL63tE3VbiU6SBnU8P+bsSXDDyaijqo3PpHZrCQ==
+      integrity: sha512-D6AiDn9BUWemICdyGldPd+uZ8edTMdcSufgynwtU9NMd0rcBWvGfdFkzJnyHFYrhyVbDQSIZVS4/Nod8yj8Mqg==
       tarball: 'file:projects/keyvault-secrets.tgz'
     version: 0.0.0
   'file:projects/service-bus.tgz':
