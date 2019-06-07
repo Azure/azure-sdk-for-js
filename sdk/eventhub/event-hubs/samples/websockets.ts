@@ -2,8 +2,13 @@
   Copyright (c) Microsoft Corporation. All rights reserved.
   Licensed under the MIT Licence.
 
-  This sample demonstrates how to create a EventHubsClient meant to be used in an environment
-  where outgoing network requests have to go through a proxy server
+  This sample demonstrates how to use WebSockets enable Event Hubs to work over an HTTP proxy and
+  in environments where the standard AMQP port 5671 is blocked. For the latter case, ignore proxy
+  related configurations in this sample.
+
+  This sample uses 2 external libraries
+  - The `ws` library to provide a WebSocket implementation to the Event Hubs library.
+  - The `https-proxy-agent` to enable the `ws` library to work with a proxy server.
 */
 
 import { EventHubClient } from "@azure/event-hubs";
@@ -15,11 +20,11 @@ const httpsProxyAgent = require("https-proxy-agent");
 const connectionString = "";
 const eventHubsName = "";
 
-// Get relevant proxy url, username and password needed to create an instance of httpsProxyAgent
+// Create an instance of the `HttpsProxyAgent` class with the proxy server information like
+// proxy url, username and password
+// Skip this section if you are not behind a proxy server
 const urlParts = url.parse("http://localhost:3128");
 urlParts.auth = "username:password"; // Skip this if proxy server does not need authentication.
-
-// Create an instance of the `HttpsProxyAgent` class with the proxy server information
 const proxyAgent = new httpsProxyAgent(urlParts);
 
 async function main(): Promise<void> {
