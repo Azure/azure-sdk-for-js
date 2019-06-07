@@ -5,7 +5,7 @@
     "email": "azsdkteam@microsoft.com",
     "url": "https://github.com/Azure/azure-sdk-for-js"
   },
-  "version": "1.8.9",
+  "version": "1.8.10",
   "description": "Isomorphic client Runtime for Typescript/node.js/browser javascript client libraries generated using AutoRest",
   "tags": [
     "isomorphic",
@@ -157,7 +157,7 @@
     "opn-cli": "^4.0.0",
     "puppeteer": "^1.11.0",
     "rimraf": "^2.6.2",
-    "rollup": "^1.0.0",
+    "rollup": "~1.13.1",
     "rollup-plugin-alias": "^1.4.0",
     "rollup-plugin-commonjs": "^9.2.0",
     "rollup-plugin-json": "^3.1.0",
