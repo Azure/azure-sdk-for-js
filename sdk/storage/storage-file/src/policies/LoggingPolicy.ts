@@ -11,8 +11,8 @@ import {
 } from "@azure/ms-rest-js";
 
 import { RequestLogOptions } from "../LoggingPolicyFactory";
-import { HTTPURLConnection, URLConstants } from "../utils/constants";
-import { getURLParameter, setURLParameter } from "../utils/utils.common";
+import { HTTPURLConnection } from "../utils/constants";
+import { sanitizeRequest,  } from "../utils/utils.common";
 
 // Default values of RetryOptions
 const DEFAULT_REQUEST_LOG_OPTIONS: RequestLogOptions = {
@@ -62,13 +62,14 @@ export class LoggingPolicy extends BaseRequestPolicy {
       this.operationStartTime = this.requestStartTime;
     }
 
-    let safeURL: string = request.url;
-    if (getURLParameter(safeURL, URLConstants.Parameters.SIGNATURE)) {
-      safeURL = setURLParameter(safeURL, URLConstants.Parameters.SIGNATURE, "*****");
-    }
+    const sanitized = sanitizeRequest(request);
     this.log(
       HttpPipelineLogLevel.INFO,
-      `'${safeURL}'==> OUTGOING REQUEST (Try number=${this.tryCount}).`
+      `==> OUTGOING REQUEST (Try number=${this.tryCount}):`
+    );
+    this.log(
+      HttpPipelineLogLevel.INFO,
+      `${sanitized}.`
     );
 
     try {

@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { isNode, URLBuilder } from "@azure/ms-rest-js";
+import { HttpHeaders, isNode, URLBuilder, WebResource } from "@azure/ms-rest-js";
+import { HeaderConstants, URLConstants } from "./constants";
 
 /**
  * Reserved URL characters must be properly escaped for Storage services like Blob or File.
@@ -286,4 +287,38 @@ export function padStart(
     }
     return padString.slice(0, targetLength) + currentString;
   }
+}
+
+export function sanitizeURL(url: string): string {
+  let safeURL: string = url;
+  if (getURLParameter(safeURL, URLConstants.Parameters.SIGNATURE)) {
+    safeURL = setURLParameter(safeURL, URLConstants.Parameters.SIGNATURE, "*****");
+  }
+
+  return safeURL;
+}
+
+export function sanitizeRequest(request: WebResource): WebResource {
+  const safeURL: string = sanitizeURL(request.url)
+
+  const headers: HttpHeaders = new HttpHeaders();
+  for (const header of request.headers.headersArray()) {
+    if (header.name.toLowerCase() === HeaderConstants.AUTHORIZATION) {
+      headers.set(header.name, "*****");
+    } else if (header.name.toLowerCase() === HeaderConstants.X_MS_COPY_SOURCE) {
+      headers.set(header.name, sanitizeURL(header.value));
+    } else {
+      headers.set(header.name, header.value);
+    }
+  }
+
+  const sanitized = new WebResource(
+    safeURL,
+    request.method,
+    request.body,
+    request.query,
+    headers
+  );
+
+  return sanitized;
 }
