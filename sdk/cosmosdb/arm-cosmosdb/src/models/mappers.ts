@@ -1021,6 +1021,24 @@ export const ExtendedResourceProperties: msRest.CompositeMapper = {
   }
 };
 
+export const Throughput: msRest.CompositeMapper = {
+  serializedName: "Throughput",
+  type: {
+    name: "Composite",
+    className: "Throughput",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      throughput: {
+        required: true,
+        serializedName: "properties.throughput",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
 export const DatabaseAccountCreateUpdateParameters: msRest.CompositeMapper = {
   serializedName: "DatabaseAccountCreateUpdateParameters",
   type: {
@@ -1268,6 +1286,41 @@ export const DatabaseAccountRegenerateKeyParameters: msRest.CompositeMapper = {
         serializedName: "keyKind",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ThroughputResource: msRest.CompositeMapper = {
+  serializedName: "ThroughputResource",
+  type: {
+    name: "Composite",
+    className: "ThroughputResource",
+    modelProperties: {
+      throughput: {
+        required: true,
+        serializedName: "throughput",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const ThroughputUpdateParameters: msRest.CompositeMapper = {
+  serializedName: "ThroughputUpdateParameters",
+  type: {
+    name: "Composite",
+    className: "ThroughputUpdateParameters",
+    modelProperties: {
+      resource: {
+        required: true,
+        serializedName: "properties.resource",
+        type: {
+          name: "Composite",
+          className: "ThroughputResource"
         }
       }
     }
