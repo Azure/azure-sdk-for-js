@@ -1,6 +1,10 @@
 import * as assert from "assert";
 import { expect } from "chai";
-import { getKeyvaultName, getCredentialWithServicePrincipalSecret, getUniqueName } from "./utils/utils.common";
+import {
+  getKeyvaultName,
+  getCredentialWithServicePrincipalSecret,
+  getUniqueName
+} from "./utils/utils.common";
 import { KeysClient } from "../src";
 import { ServiceClientCredentials, RestError } from "@azure/ms-rest-js";
 
@@ -42,18 +46,17 @@ describe("Keys client", () => {
     const getResult = await client.getKey(keyName);
     assert.equal(getResult.name, keyName, "Unexpected key name in result from getKey().");
   });
- 
+
   it("can delete a key", async function() {
     this.timeout(25000);
     const keyName = getUniqueName("key");
-
 
     const result = await client.createKey(keyName, "RSA");
     await client.deleteKey(keyName);
 
     try {
       await client.getKey(keyName);
-      throw Error("Expecting an error but not catching one.")
+      throw Error("Expecting an error but not catching one.");
     } catch (e) {
       if (e instanceof RestError) {
         assert.equal(e.message, `Key not found: ${keyName}`);
@@ -71,13 +74,16 @@ describe("Keys client", () => {
     });
 
     const result = await client.createKey(keyName, "RSA");
-    let totalVersions = 0
+    let totalVersions = 0;
     for await (let version of client.getKeyVersions(keyName)) {
-      assert.equal(version.name, keyName, "Unexpected key name in result from createKeygetKeyVersions().");
+      assert.equal(
+        version.name,
+        keyName,
+        "Unexpected key name in result from createKeygetKeyVersions()."
+      );
       totalVersions += 1;
     }
 
-    assert.equal(totalVersions, 1, `Unexpected total versions for key ${keyName}`)
+    assert.equal(totalVersions, 1, `Unexpected total versions for key ${keyName}`);
   });
-
 });
