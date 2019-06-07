@@ -2,9 +2,18 @@
 // Licensed under the MIT License.
 
 import { ReceiverEvents, EventContext, OnAmqpEvent, SessionEvents } from "rhea-promise";
-import { translate, Func, Constants, MessagingError } from "@azure/amqp-common";
+import {
+  translate,
+  Func,
+  Constants,
+  MessagingError,
+  randomNumberFromInterval,
+  RetryOperationType,
+  RetryConfig,
+  retry
+} from "@azure/amqp-common";
 import { ReceivedEventData, EventDataInternal, fromAmqpMessage } from "./eventData";
-import { ReceiverOptions } from "./eventHubClient";
+import { ReceiverOptions, RetryOptions } from "./eventHubClient";
 import { EventHubReceiver } from "./eventHubReceiver";
 import { ConnectionContext } from "./connectionContext";
 import { Aborter } from "./aborter";
@@ -42,12 +51,14 @@ export class BatchingReceiver extends EventHubReceiver {
    * @param {number} maxMessageCount The maximum message count. Must be a value greater than 0.
    * @param {number} [maxWaitTimeInSeconds] The maximum wait time in seconds for which the Receiver
    * should wait to receiver the said amount of messages. If not provided, it defaults to 60 seconds.
+   * @param {RetryOptions} [retryOptions] Retry options for the receive operation
    * @param {Aborter} cancellationToken Cancel current operation.
    * @returns {Promise<ReceivedEventData[]>} A promise that resolves with an array of ReceivedEventData objects.
    */
-  receive(
+   receive(
     maxMessageCount: number,
     maxWaitTimeInSeconds?: number,
+    retryOptions?: RetryOptions,
     cancellationToken?: Aborter
   ): Promise<ReceivedEventData[]> {
     if (!maxMessageCount || (maxMessageCount && typeof maxMessageCount !== "number")) {
@@ -62,276 +73,297 @@ export class BatchingReceiver extends EventHubReceiver {
 
     const eventDatas: ReceivedEventData[] = [];
     let timeOver = false;
-    return new Promise<ReceivedEventData[]>((resolve, reject) => {
-      let onReceiveMessage: OnAmqpEvent;
-      let onReceiveError: OnAmqpEvent;
-      let onReceiveClose: OnAmqpEvent;
-      let onSessionError: OnAmqpEvent;
-      let onSessionClose: OnAmqpEvent;
-      let waitTimer: any;
-      let actionAfterWaitTimeout: Func<void, void>;
-      // Final action to be performed after maxMessageCount is reached or the maxWaitTime is over.
-      const finalAction = (timeOver: boolean) => {
-        if (this._aborter) {
-          this._aborter.removeEventListener("abort", this._onAbort);
-        }
-        // Resetting the mode. Now anyone can call start() or receive() again.
-        if (this._receiver) {
-          this._receiver.removeListener(ReceiverEvents.receiverError, onReceiveError);
-          this._receiver.removeListener(ReceiverEvents.message, onReceiveMessage);
-        }
 
-        this.isReceivingMessages = false;
-        if (!timeOver) {
-          clearTimeout(waitTimer);
-        }
-        resolve(eventDatas);
-      };
+    const receiveEventPromise = () =>
+      new Promise<ReceivedEventData[]>((resolve, reject) => {
+        let onReceiveMessage: OnAmqpEvent;
+        let onReceiveError: OnAmqpEvent;
+        let onReceiveClose: OnAmqpEvent;
+        let onSessionError: OnAmqpEvent;
+        let onSessionClose: OnAmqpEvent;
+        let waitTimer: any;
+        let actionAfterWaitTimeout: Func<void, void>;
+        // Final action to be performed after maxMessageCount is reached or the maxWaitTime is over.
+        const finalAction = (timeOver: boolean) => {
+          if (this._aborter) {
+            this._aborter.removeEventListener("abort", this._onAbort);
+          }
+          // Resetting the mode. Now anyone can call start() or receive() again.
+          if (this._receiver) {
+            this._receiver.removeListener(ReceiverEvents.receiverError, onReceiveError);
+            this._receiver.removeListener(ReceiverEvents.message, onReceiveMessage);
+          }
 
-      // Action to be performed after the max wait time is over.
-      actionAfterWaitTimeout = () => {
-        timeOver = true;
-        log.batching(
-          "[%s] Batching Receiver '%s', %d messages received when max wait time in seconds %d is over.",
-          this._context.connectionId,
-          this.name,
-          eventDatas.length,
-          maxWaitTimeInSeconds
-        );
-        return finalAction(timeOver);
-      };
-
-      // Action to be performed on the "message" event.
-      onReceiveMessage = (context: EventContext) => {
-        const data: EventDataInternal = fromAmqpMessage(context.message!);
-        if (this.receiverRuntimeMetricEnabled) {
-          this.runtimeInfo.lastEnqueuedSequenceNumber = data.lastSequenceNumber;
-          this.runtimeInfo.lastEnqueuedTimeUtc = data.lastEnqueuedTime;
-          this.runtimeInfo.lastEnqueuedOffset = data.lastEnqueuedOffset;
-          this.runtimeInfo.retrievalTime = data.retrievalTime;
-        }
-
-        const receivedEventData: ReceivedEventData = {
-          body: this._context.dataTransformer.decode(context.message!.body),
-          properties: data.properties,
-          offset: data.offset!,
-          sequenceNumber: data.sequenceNumber!,
-          enqueuedTimeUtc: data.enqueuedTimeUtc!,
-          partitionKey: data.partitionKey!
+          this.isReceivingMessages = false;
+          if (!timeOver) {
+            clearTimeout(waitTimer);
+          }
+          resolve(eventDatas);
         };
-        this._checkpoint = receivedEventData.sequenceNumber;
-        if (eventDatas.length <= maxMessageCount) {
-          eventDatas.push(receivedEventData);
-        }
-        if (eventDatas.length === maxMessageCount) {
+
+        // Action to be performed after the max wait time is over.
+        actionAfterWaitTimeout = () => {
+          timeOver = true;
           log.batching(
-            "[%s] Batching Receiver '%s', %d messages received within %d seconds.",
+            "[%s] Batching Receiver '%s', %d messages received when max wait time in seconds %d is over.",
             this._context.connectionId,
             this.name,
             eventDatas.length,
             maxWaitTimeInSeconds
           );
-          finalAction(timeOver);
-        }
-      };
+          return finalAction(timeOver);
+        };
 
-      this._onAbort = () => {
-        this.isReceivingMessages = false;
-        if (this._receiver) {
-          this._receiver.removeListener(ReceiverEvents.receiverError, onReceiveError);
-          this._receiver.removeListener(ReceiverEvents.message, onReceiveMessage);
-        }
-        if (waitTimer) {
-          clearTimeout(waitTimer);
-        }
-        if (this._aborter) {
-          this._aborter.removeEventListener("abort", this._onAbort);
-        }
-        const desc: string =
-          `[${this._context.connectionId}] The receive operation on the Receiver "${this.name}" with ` +
-          `address "${this.address}" has been cancelled by the user.`;
-        log.error(desc);
-        throw new Error(desc);
-      };
+        // Action to be performed on the "message" event.
+        onReceiveMessage = (context: EventContext) => {
+          const data: EventDataInternal = fromAmqpMessage(context.message!);
+          if (this.receiverRuntimeMetricEnabled) {
+            this.runtimeInfo.lastEnqueuedSequenceNumber = data.lastSequenceNumber;
+            this.runtimeInfo.lastEnqueuedTimeUtc = data.lastEnqueuedTime;
+            this.runtimeInfo.lastEnqueuedOffset = data.lastEnqueuedOffset;
+            this.runtimeInfo.retrievalTime = data.retrievalTime;
+          }
 
-      // Action to be taken when an error is received.
-      onReceiveError = (context: EventContext) => {
-        const receiver = this._receiver || context.receiver!;
-        receiver.removeListener(ReceiverEvents.receiverError, onReceiveError);
-        receiver.removeListener(ReceiverEvents.message, onReceiveMessage);
-        receiver.session.removeListener(SessionEvents.sessionError, onSessionError);
-
-        if (this._aborter) {
-          this._aborter.removeEventListener("abort", this._onAbort);
-        }
-
-        this.isReceivingMessages = false;
-        const receiverError = context.receiver && context.receiver.error;
-        let error = new MessagingError("An error occuured while receiving messages.");
-        if (receiverError) {
-          error = translate(receiverError);
-          log.error("[%s] Receiver '%s' received an error:\n%O", this._context.connectionId, this.name, error);
-        }
-        if (waitTimer) {
-          clearTimeout(waitTimer);
-        }
-        reject(error);
-      };
-
-      onReceiveClose = async (context: EventContext) => {
-        this.isReceivingMessages = false;
-        const receiver = this._receiver || context.receiver!;
-        const receiverError = context.receiver && context.receiver.error;
-        if (receiverError) {
-          log.error(
-            "[%s] 'receiver_close' event occurred. The associated error is: %O",
-            this._context.connectionId,
-            receiverError
-          );
-        }
-        if (receiver && !receiver.isItselfClosed()) {
-          if (!this.isConnecting) {
-            log.error(
-              "[%s] 'receiver_close' event occurred on the receiver '%s' with address '%s' " +
-                "and the sdk did not initiate this. The receiver is not reconnecting. Hence, calling " +
-                "detached from the onReceiveClose() handler.",
+          const receivedEventData: ReceivedEventData = {
+            body: this._context.dataTransformer.decode(context.message!.body),
+            properties: data.properties,
+            offset: data.offset!,
+            sequenceNumber: data.sequenceNumber!,
+            enqueuedTimeUtc: data.enqueuedTimeUtc!,
+            partitionKey: data.partitionKey!
+          };
+          this._checkpoint = receivedEventData.sequenceNumber;
+          if (eventDatas.length <= maxMessageCount) {
+            eventDatas.push(receivedEventData);
+          }
+          if (eventDatas.length === maxMessageCount) {
+            log.batching(
+              "[%s] Batching Receiver '%s', %d messages received within %d seconds.",
               this._context.connectionId,
               this.name,
-              this.address
+              eventDatas.length,
+              maxWaitTimeInSeconds
             );
-            await this.detached(receiverError);
+            finalAction(timeOver);
+          }
+        };
+
+        this._onAbort = () => {
+          this.isReceivingMessages = false;
+          if (this._receiver) {
+            this._receiver.removeListener(ReceiverEvents.receiverError, onReceiveError);
+            this._receiver.removeListener(ReceiverEvents.message, onReceiveMessage);
+          }
+          if (waitTimer) {
+            clearTimeout(waitTimer);
+          }
+          if (this._aborter) {
+            this._aborter.removeEventListener("abort", this._onAbort);
+          }
+          const desc: string =
+            `[${this._context.connectionId}] The receive operation on the Receiver "${this.name}" with ` +
+            `address "${this.address}" has been cancelled by the user.`;
+          log.error(desc);
+          throw new Error(desc);
+        };
+
+        // Action to be taken when an error is received.
+        onReceiveError = (context: EventContext) => {
+          const receiver = this._receiver || context.receiver!;
+          receiver.removeListener(ReceiverEvents.receiverError, onReceiveError);
+          receiver.removeListener(ReceiverEvents.message, onReceiveMessage);
+          receiver.session.removeListener(SessionEvents.sessionError, onSessionError);
+
+          if (this._aborter) {
+            this._aborter.removeEventListener("abort", this._onAbort);
+          }
+
+          this.isReceivingMessages = false;
+          const receiverError = context.receiver && context.receiver.error;
+          let error = new MessagingError("An error occuured while receiving messages.");
+          if (receiverError) {
+            error = translate(receiverError);
+            log.error("[%s] Receiver '%s' received an error:\n%O", this._context.connectionId, this.name, error);
+          }
+          if (waitTimer) {
+            clearTimeout(waitTimer);
+          }
+          reject(error);
+        };
+
+        onReceiveClose = async (context: EventContext) => {
+          this.isReceivingMessages = false;
+          const receiver = this._receiver || context.receiver!;
+          const receiverError = context.receiver && context.receiver.error;
+          if (receiverError) {
+            log.error(
+              "[%s] 'receiver_close' event occurred. The associated error is: %O",
+              this._context.connectionId,
+              receiverError
+            );
+          }
+          if (receiver && !receiver.isItselfClosed()) {
+            if (!this.isConnecting) {
+              log.error(
+                "[%s] 'receiver_close' event occurred on the receiver '%s' with address '%s' " +
+                  "and the sdk did not initiate this. The receiver is not reconnecting. Hence, calling " +
+                  "detached from the onReceiveClose() handler.",
+                this._context.connectionId,
+                this.name,
+                this.address
+              );
+              await this.detached(receiverError);
+            } else {
+              log.error(
+                "[%s] 'receiver_close' event occurred on the receiver '%s' with address '%s' " +
+                  "and the sdk did not initate this. Moreover the receiver is already re-connecting. " +
+                  "Hence not calling detached from the onReceiveClose() handler.",
+                this._context.connectionId,
+                this.name,
+                this.address
+              );
+            }
           } else {
             log.error(
               "[%s] 'receiver_close' event occurred on the receiver '%s' with address '%s' " +
-                "and the sdk did not initate this. Moreover the receiver is already re-connecting. " +
-                "Hence not calling detached from the onReceiveClose() handler.",
+                "because the sdk initiated it. Hence not calling detached from the onReceiveClose" +
+                "() handler.",
               this._context.connectionId,
               this.name,
               this.address
             );
           }
-        } else {
-          log.error(
-            "[%s] 'receiver_close' event occurred on the receiver '%s' with address '%s' " +
-              "because the sdk initiated it. Hence not calling detached from the onReceiveClose" +
-              "() handler.",
-            this._context.connectionId,
-            this.name,
-            this.address
-          );
-        }
-      };
+        };
 
-      onSessionClose = async (context: EventContext) => {
-        this.isReceivingMessages = false;
-        const receiver = this._receiver || context.receiver!;
-        const sessionError = context.session && context.session.error;
-        if (sessionError) {
-          log.error(
-            "[%s] 'session_close' event occurred for receiver '%s'. The associated error is: %O",
-            this._context.connectionId,
-            this.name,
-            sessionError
-          );
-        }
-        if (receiver && !receiver.isSessionItselfClosed()) {
-          if (!this.isConnecting) {
+        onSessionClose = async (context: EventContext) => {
+          this.isReceivingMessages = false;
+          const receiver = this._receiver || context.receiver!;
+          const sessionError = context.session && context.session.error;
+          if (sessionError) {
             log.error(
-              "[%s] 'session_close' event occurred on the session of receiver '%s' with " +
-                "address '%s' and the sdk did not initiate this. Hence calling detached from the " +
-                "onSessionClose() handler.",
+              "[%s] 'session_close' event occurred for receiver '%s'. The associated error is: %O",
               this._context.connectionId,
               this.name,
-              this.address
+              sessionError
             );
-            await this.detached(sessionError);
+          }
+          if (receiver && !receiver.isSessionItselfClosed()) {
+            if (!this.isConnecting) {
+              log.error(
+                "[%s] 'session_close' event occurred on the session of receiver '%s' with " +
+                  "address '%s' and the sdk did not initiate this. Hence calling detached from the " +
+                  "onSessionClose() handler.",
+                this._context.connectionId,
+                this.name,
+                this.address
+              );
+              await this.detached(sessionError);
+            } else {
+              log.error(
+                "[%s] 'session_close' event occurred on the session of receiver '%s' with " +
+                  "address '%s' and the sdk did not initiate this. Moreover the receiver is already " +
+                  "re-connecting. Hence not calling detached from the onSessionClose() handler.",
+                this._context.connectionId,
+                this.name,
+                this.address
+              );
+            }
           } else {
             log.error(
-              "[%s] 'session_close' event occurred on the session of receiver '%s' with " +
-                "address '%s' and the sdk did not initiate this. Moreover the receiver is already " +
-                "re-connecting. Hence not calling detached from the onSessionClose() handler.",
+              "[%s] 'session_close' event occurred on the session of receiver '%s' with address " +
+                "'%s' because the sdk initiated it. Hence not calling detached from the onSessionClose" +
+                "() handler.",
               this._context.connectionId,
               this.name,
               this.address
             );
           }
+        };
+
+        onSessionError = (context: EventContext) => {
+          const receiver = this._receiver || context.receiver!;
+          receiver.removeListener(ReceiverEvents.receiverError, onReceiveError);
+          receiver.removeListener(ReceiverEvents.message, onReceiveMessage);
+          receiver.session.removeListener(SessionEvents.sessionError, onSessionError);
+          if (this._aborter) {
+            this._aborter.removeEventListener("abort", this._onAbort);
+          }
+          this.isReceivingMessages = false;
+          const sessionError = context.session && context.session.error;
+          let error = new MessagingError("An error occuured while receiving messages.");
+          if (sessionError) {
+            error = translate(sessionError);
+            log.error(
+              "[%s] 'session_close' event occurred for Receiver '%s' received an error:\n%O",
+              this._context.connectionId,
+              this.name,
+              error
+            );
+          }
+          if (waitTimer) {
+            clearTimeout(waitTimer);
+          }
+          reject(error);
+        };
+
+        const addCreditAndSetTimer = (reuse?: boolean) => {
+          log.batching(
+            "[%s] Receiver '%s', adding credit for receiving %d messages.",
+            this._context.connectionId,
+            this.name,
+            maxMessageCount
+          );
+          this._receiver!.addCredit(maxMessageCount);
+          let msg: string = "[%s] Setting the wait timer for %d seconds for receiver '%s'.";
+          if (reuse) msg += " Receiver link already present, hence reusing it.";
+          log.batching(msg, this._context.connectionId, maxWaitTimeInSeconds, this.name);
+          waitTimer = setTimeout(actionAfterWaitTimeout, (maxWaitTimeInSeconds as number) * 1000);
+        };
+
+        if (cancellationToken) {
+          this._aborter = cancellationToken;
+          this._aborter.addEventListener("abort", this._onAbort);
+        }
+
+        if (!this.isOpen()) {
+          log.batching("[%s] Receiver '%s', setting the prefetch count to 0.", this._context.connectionId, this.name);
+          this.prefetchCount = 0;
+          const rcvrOptions = this._createReceiverOptions({
+            onMessage: onReceiveMessage,
+            onError: onReceiveError,
+            onClose: onReceiveClose,
+            onSessionError: onSessionError,
+            onSessionClose: onSessionClose
+          });
+          this._init(rcvrOptions)
+            .then(() => addCreditAndSetTimer())
+            .catch(reject);
         } else {
-          log.error(
-            "[%s] 'session_close' event occurred on the session of receiver '%s' with address " +
-              "'%s' because the sdk initiated it. Hence not calling detached from the onSessionClose" +
-              "() handler.",
-            this._context.connectionId,
-            this.name,
-            this.address
-          );
+          addCreditAndSetTimer(true);
+          this._receiver!.on(ReceiverEvents.message, onReceiveMessage);
+          this._receiver!.on(ReceiverEvents.receiverError, onReceiveError);
+          this._receiver!.session.on(SessionEvents.sessionError, onSessionError);
         }
-      };
+      });
 
-      onSessionError = (context: EventContext) => {
-        const receiver = this._receiver || context.receiver!;
-        receiver.removeListener(ReceiverEvents.receiverError, onReceiveError);
-        receiver.removeListener(ReceiverEvents.message, onReceiveMessage);
-        receiver.session.removeListener(SessionEvents.sessionError, onSessionError);
-        if (this._aborter) {
-          this._aborter.removeEventListener("abort", this._onAbort);
-        }
-        this.isReceivingMessages = false;
-        const sessionError = context.session && context.session.error;
-        let error = new MessagingError("An error occuured while receiving messages.");
-        if (sessionError) {
-          error = translate(sessionError);
-          log.error(
-            "[%s] 'session_close' event occurred for Receiver '%s' received an error:\n%O",
-            this._context.connectionId,
-            this.name,
-            error
-          );
-        }
-        if (waitTimer) {
-          clearTimeout(waitTimer);
-        }
-        reject(error);
-      };
-
-      const addCreditAndSetTimer = (reuse?: boolean) => {
-        log.batching(
-          "[%s] Receiver '%s', adding credit for receiving %d messages.",
-          this._context.connectionId,
-          this.name,
-          maxMessageCount
-        );
-        this._receiver!.addCredit(maxMessageCount);
-        let msg: string = "[%s] Setting the wait timer for %d seconds for receiver '%s'.";
-        if (reuse) msg += " Receiver link already present, hence reusing it.";
-        log.batching(msg, this._context.connectionId, maxWaitTimeInSeconds, this.name);
-        waitTimer = setTimeout(actionAfterWaitTimeout, (maxWaitTimeInSeconds as number) * 1000);
-      };
-
-      if (cancellationToken) {
-        this._aborter = cancellationToken;
-        this._aborter.addEventListener("abort", this._onAbort);
-      }
-
-      if (!this.isOpen()) {
-        log.batching("[%s] Receiver '%s', setting the prefetch count to 0.", this._context.connectionId, this.name);
-        this.prefetchCount = 0;
-        const rcvrOptions = this._createReceiverOptions({
-          onMessage: onReceiveMessage,
-          onError: onReceiveError,
-          onClose: onReceiveClose,
-          onSessionError: onSessionError,
-          onSessionClose: onSessionClose
-        });
-        this._init(rcvrOptions)
-          .then(() => addCreditAndSetTimer())
-          .catch(reject);
-      } else {
-        addCreditAndSetTimer(true);
-        this._receiver!.on(ReceiverEvents.message, onReceiveMessage);
-        this._receiver!.on(ReceiverEvents.receiverError, onReceiveError);
-        this._receiver!.session.on(SessionEvents.sessionError, onSessionError);
-      }
-    });
+    const jitterInSeconds = randomNumberFromInterval(1, 4);
+    const times =
+      retryOptions && retryOptions.retryCount && retryOptions.retryCount > 0
+        ? retryOptions.retryCount
+        : Constants.defaultRetryAttempts;
+    const delayInSeconds =
+      retryOptions && retryOptions.retryInterval && retryOptions.retryInterval > 0
+        ? retryOptions.retryInterval / 1000
+        : Constants.defaultDelayBetweenOperationRetriesInSeconds;
+    const config: RetryConfig<ReceivedEventData[]> = {
+      operation: receiveEventPromise,
+      connectionId: this._context.connectionId,
+      operationType: RetryOperationType.receiveMessage,
+      times: times,
+      connectionHost: this._context.config.host,
+      delayInSeconds: delayInSeconds + jitterInSeconds
+    };
+    return retry<ReceivedEventData[]>(config);
   }
 
   /**
