@@ -8,11 +8,7 @@
  * regenerated.
  */
 
-import { CloudErrorMapper, BaseResourceMapper } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
-
-export const CloudError = CloudErrorMapper;
-export const BaseResource = BaseResourceMapper;
+import * as msRest from "@azure/core-http";
 
 export const Attributes: msRest.CompositeMapper = {
   serializedName: "Attributes",

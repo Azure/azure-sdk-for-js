@@ -3,8 +3,11 @@
 
 import {
   ServiceClientCredentials,
+  TokenCredential,
+  isTokenCredential,
   RequestPolicyFactory,
   deserializationPolicy,
+  bearerTokenAuthenticationPolicy,
   signingPolicy,
   exponentialRetryPolicy,
   redirectPolicy,
@@ -14,9 +17,9 @@ import {
   throttlingRetryPolicy,
   getDefaultProxySettings,
   userAgentPolicy
-} from "@azure/ms-rest-js";
+} from "@azure/core-http";
 
-import { getDefaultUserAgentValue } from "@azure/ms-rest-azure-js";
+import { getDefaultUserAgentValue } from "@azure/core-http";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 
 import { TelemetryOptions, ProxyOptions, RetryOptions } from "./core";
@@ -76,13 +79,13 @@ export class KeysClient {
    * A static method used to create a new Pipeline object with the provided Credential.
    *
    * @static
-   * @param {ServiceClientCredentials} credential that implements signRequet().
+   * @param {ServiceClientCredentials | TokenCredential} The credential to use for API requests.
    * @param {NewPipelineOptions} [pipelineOptions] Optional. Options.
    * @returns {Pipeline} A new Pipeline object.
    * @memberof KeysClient
    */
   public static getDefaultPipeline(
-    credential: ServiceClientCredentials,
+    credential: ServiceClientCredentials | TokenCredential,
     pipelineOptions: NewPipelineOptions = {}
   ): Pipeline {
     // Order is important. Closer to the API at the top & closer to the network at the bottom.
@@ -106,7 +109,9 @@ export class KeysClient {
         retryOptions.maxRetryDelayInMs
       ),
       redirectPolicy(),
-      signingPolicy(credential)
+      isTokenCredential(credential)
+        ? bearerTokenAuthenticationPolicy(credential, "https://vault.azure.net/.default")
+        : signingPolicy(credential)
     ];
 
     return {
@@ -129,7 +134,7 @@ export class KeysClient {
   /**
    * The authentication credentials
    */
-  protected readonly credential: ServiceClientCredentials;
+  protected readonly credential: ServiceClientCredentials | TokenCredential;
   private readonly client: KeyVaultClient;
 
   /**
@@ -142,7 +147,7 @@ export class KeysClient {
    */
   constructor(
     url: string,
-    credential: ServiceClientCredentials,
+    credential: ServiceClientCredentials | TokenCredential,
     pipelineOrOptions: Pipeline | NewPipelineOptions = {}
   ) {
     this.vaultBaseUrl = url;

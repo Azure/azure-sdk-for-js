@@ -8,10 +8,7 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
-
-export { BaseResource, CloudError };
+import * as msRest from "@azure/core-http";
 
 /**
  * @interface
@@ -2598,8 +2595,7 @@ export interface KeyVaultClientMergeCertificateOptionalParams extends msRest.Req
  *
  * @extends RequestOptionsBase
  */
-export interface KeyVaultClientGetDeletedCertificatesOptionalParams
-  extends msRest.RequestOptionsBase {
+export interface KeyVaultClientGetDeletedCertificatesOptionalParams extends msRest.RequestOptionsBase {
   /**
    * @member {number} [maxresults] Maximum number of results to return in a
    * page. If not specified the service will return up to 25 results.

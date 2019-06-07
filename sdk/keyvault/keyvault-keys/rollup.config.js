@@ -44,15 +44,14 @@ function nodeConfig(test = false) {
 function browserConfig(test = false) {
   const baseConfig = {
     input: input,
-    external: ["ms-rest-js", "ms-rest-azure-js"],
+    external: ["@azure/core-http"],
     output: {
       file: "browser/index.js",
       format: "umd",
       name: "Azure.Keyvault.Keys",
       sourcemap: true,
       globals: {
-        "@azure/ms-rest-js": "msRest",
-        "@azure/ms-rest-azure-js": "msRestAzure"
+        "@azure/core-http": "Azure.Core.HTTP",
       },
       banner: banner
     },

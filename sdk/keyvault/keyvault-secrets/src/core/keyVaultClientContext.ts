@@ -8,14 +8,13 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as msRest from "@azure/core-http";
 
 const packageName = "@azure/keyvault-secrets";
 const packageVersion = "0.0.1";
 
-export class KeyVaultClientContext extends msRestAzure.AzureServiceClient {
-  credentials: msRest.ServiceClientCredentials;
+export class KeyVaultClientContext extends msRest.ServiceClient {
+  credentials: msRest.ServiceClientCredentials | msRest.TokenCredential;
   apiVersion?: string;
 
   /**
@@ -24,8 +23,8 @@ export class KeyVaultClientContext extends msRestAzure.AzureServiceClient {
    * @param [options] The parameter options
    */
   constructor(
-    credentials: msRest.ServiceClientCredentials,
-    options?: msRestAzure.AzureServiceClientOptions
+    credentials: msRest.ServiceClientCredentials | msRest.TokenCredential,
+    options?: msRest.ServiceClientOptions
   ) {
     if (credentials == undefined) {
       throw new Error("'credentials' cannot be null.");
@@ -35,27 +34,15 @@ export class KeyVaultClientContext extends msRestAzure.AzureServiceClient {
       options = {};
     }
     if (!options.userAgent) {
-      const defaultUserAgent = msRestAzure.getDefaultUserAgentValue();
+      const defaultUserAgent = msRest.getDefaultUserAgentValue();
       options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
     }
 
     super(credentials, options);
 
     this.apiVersion = "7.0";
-    this.acceptLanguage = "en-US";
-    this.longRunningOperationRetryTimeout = 30;
     this.baseUri = "{vaultBaseUrl}";
     this.requestContentType = "application/json; charset=utf-8";
     this.credentials = credentials;
-
-    if (options.acceptLanguage !== null && options.acceptLanguage !== undefined) {
-      this.acceptLanguage = options.acceptLanguage;
-    }
-    if (
-      options.longRunningOperationRetryTimeout !== null &&
-      options.longRunningOperationRetryTimeout !== undefined
-    ) {
-      this.longRunningOperationRetryTimeout = options.longRunningOperationRetryTimeout;
-    }
   }
 }

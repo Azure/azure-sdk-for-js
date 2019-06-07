@@ -8,10 +8,7 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
-
-export { BaseResource, CloudError };
+import * as msRest from "@azure/core-http";
 
 /**
  * @interface

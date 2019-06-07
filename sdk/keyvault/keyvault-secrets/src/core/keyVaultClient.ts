@@ -8,8 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as msRest from "@azure/core-http";
 import * as Models from "./models";
 import * as Mappers from "./models/mappers";
 import * as Parameters from "./models/parameters";
@@ -22,8 +21,8 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The parameter options
    */
   constructor(
-    credentials: msRest.ServiceClientCredentials,
-    options?: msRestAzure.AzureServiceClientOptions
+    credentials: msRest.ServiceClientCredentials | msRest.TokenCredential,
+    options?: msRest.ServiceClientOptions
   ) {
     super(credentials, options);
   }
