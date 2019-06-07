@@ -159,12 +159,11 @@ describe("SessionReceiver with invalid sessionId", function(): void {
     receiver = receiverClient.createReceiver(ReceiveMode.peekLock, { sessionId: undefined });
     receivedMsgs = [];
     receiver.registerMessageHandler(
-      (msg: ServiceBusMessage) => {
+      async (msg: ServiceBusMessage) => {
         should.equal(msg.body, testMessage.body, "MessageBody is different than expected");
         should.equal(msg.messageId, testMessage.messageId, "MessageId is different than expected");
-        return msg.complete().then(() => {
-          receivedMsgs.push(msg);
-        });
+        await msg.complete();
+        receivedMsgs.push(msg);
       },
       unExpectedErrorHandler,
       { autoComplete: false }

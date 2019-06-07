@@ -26,7 +26,7 @@ export const apiVersion0: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '2019-02-01',
+    defaultValue: '2019-04-01',
     type: {
       name: "String"
     }
@@ -89,6 +89,16 @@ export const backendAddressPoolName: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "backendAddressPoolName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const bastionHostName: msRest.OperationURLParameter = {
+  parameterPath: "bastionHostName",
+  mapper: {
+    required: true,
+    serializedName: "bastionHostName",
     type: {
       name: "String"
     }
@@ -253,16 +263,6 @@ export const inboundNatRuleName: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "inboundNatRuleName",
-    type: {
-      name: "String"
-    }
-  }
-};
-export const interfaceEndpointName: msRest.OperationURLParameter = {
-  parameterPath: "interfaceEndpointName",
-  mapper: {
-    required: true,
-    serializedName: "interfaceEndpointName",
     type: {
       name: "String"
     }
@@ -455,6 +455,16 @@ export const packetCaptureName: msRest.OperationURLParameter = {
     }
   }
 };
+export const peConnectionName: msRest.OperationURLParameter = {
+  parameterPath: "peConnectionName",
+  mapper: {
+    required: true,
+    serializedName: "peConnectionName",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const peer0: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
@@ -505,6 +515,16 @@ export const predefinedPolicyName: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "predefinedPolicyName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const privateEndpointName: msRest.OperationURLParameter = {
+  parameterPath: "privateEndpointName",
+  mapper: {
+    required: true,
+    serializedName: "privateEndpointName",
     type: {
       name: "String"
     }
@@ -615,6 +635,16 @@ export const serviceEndpointPolicyName: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "serviceEndpointPolicyName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const serviceName: msRest.OperationURLParameter = {
+  parameterPath: "serviceName",
+  mapper: {
+    required: true,
+    serializedName: "serviceName",
     type: {
       name: "String"
     }

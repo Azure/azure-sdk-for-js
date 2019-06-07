@@ -11,7 +11,7 @@ export class Semaphore {
    * The number of concurrent calls that can be made.
    */
   limit: number;
-  private _queue: Array<(value?: void | PromiseLike<void> | undefined) => void> = [];
+  private _queue: ((value?: void | PromiseLike<void> | undefined) => void)[] = [];
   private _used: number = 0;
   constructor(limit: number) {
     if (typeof limit !== "number") {

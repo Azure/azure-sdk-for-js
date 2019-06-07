@@ -152,8 +152,7 @@ async function deferMessage(
 async function completeDeferredMessage(
   sequenceNumber: Long,
   expectedDeliverCount: number,
-  testMessages: SendableMessageInfo,
-  useSessions?: boolean
+  testMessages: SendableMessageInfo
 ): Promise<void> {
   await testPeekMsgsLength(receiverClient, 1);
 

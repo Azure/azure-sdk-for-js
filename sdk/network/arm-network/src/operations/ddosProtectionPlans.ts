@@ -85,7 +85,7 @@ export class DdosProtectionPlans {
   }
 
   /**
-   * Update a DDoS protection plan tags
+   * Update a DDoS protection plan tags.
    * @param resourceGroupName The name of the resource group.
    * @param ddosProtectionPlanName The name of the DDoS protection plan.
    * @param parameters Parameters supplied to the update DDoS protection plan resource tags.
@@ -188,7 +188,7 @@ export class DdosProtectionPlans {
   }
 
   /**
-   * Update a DDoS protection plan tags
+   * Update a DDoS protection plan tags.
    * @param resourceGroupName The name of the resource group.
    * @param ddosProtectionPlanName The name of the DDoS protection plan.
    * @param parameters Parameters supplied to the update DDoS protection plan resource tags.
