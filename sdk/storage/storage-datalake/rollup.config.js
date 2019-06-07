@@ -3,7 +3,7 @@ import nodeResolve from "rollup-plugin-node-resolve";
  * @type {import('rollup').RollupFileOptions}
  */
 const config = {
-  input: './esm/dataLakeStorageClient.js',
+  input: "./esm/dataLakeStorageClient.js",
   external: ["@azure/ms-rest-js", "@azure/ms-rest-azure-js"],
   output: {
     file: "./dist/storage-datalake.js",
@@ -24,8 +24,12 @@ const config = {
  * regenerated.
  */`
   },
+  preserveSymlinks: false,
   plugins: [
-    nodeResolve({ module: true })
+    nodeResolve({
+      mainFields: ["module", "browser"],
+      preferBuiltins: false
+    })
   ]
 };
 export default config;
