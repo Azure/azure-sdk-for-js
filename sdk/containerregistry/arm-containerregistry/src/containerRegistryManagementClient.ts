@@ -23,6 +23,8 @@ class ContainerRegistryManagementClient extends ContainerRegistryManagementClien
   webhooks: operations.Webhooks;
   runs: operations.Runs;
   tasks: operations.Tasks;
+  scopeMaps: operations.ScopeMaps;
+  tokens: operations.Tokens;
 
   /**
    * Initializes a new instance of the ContainerRegistryManagementClient class.
@@ -38,6 +40,8 @@ class ContainerRegistryManagementClient extends ContainerRegistryManagementClien
     this.webhooks = new operations.Webhooks(this);
     this.runs = new operations.Runs(this);
     this.tasks = new operations.Tasks(this);
+    this.scopeMaps = new operations.ScopeMaps(this);
+    this.tokens = new operations.Tokens(this);
   }
 }
 
