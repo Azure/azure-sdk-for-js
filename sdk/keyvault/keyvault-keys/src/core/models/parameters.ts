@@ -14,7 +14,7 @@ export const acceptLanguage: msRest.OperationParameter = {
   parameterPath: "acceptLanguage",
   mapper: {
     serializedName: "accept-language",
-    defaultValue: 'en-US',
+    defaultValue: "en-US",
     type: {
       name: "String"
     }
@@ -64,10 +64,7 @@ export const certificateVersion: msRest.OperationURLParameter = {
   }
 };
 export const includePending: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "includePending"
-  ],
+  parameterPath: ["options", "includePending"],
   mapper: {
     serializedName: "includePending",
     type: {
@@ -119,10 +116,7 @@ export const keyVersion: msRest.OperationURLParameter = {
   }
 };
 export const maxresults: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "maxresults"
-  ],
+  parameterPath: ["options", "maxresults"],
   mapper: {
     serializedName: "maxresults",
     constraints: {
@@ -219,7 +213,7 @@ export const vaultBaseUrl: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "vaultBaseUrl",
-    defaultValue: '',
+    defaultValue: "",
     type: {
       name: "String"
     }

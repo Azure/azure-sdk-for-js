@@ -35,10 +35,7 @@ function nodeConfig(test = false) {
       sourcemap: true,
       banner: banner
     },
-    plugins: [
-      nodeResolve({ preferBuiltins: true }),
-      cjs()
-    ]
+    plugins: [nodeResolve({ preferBuiltins: true }), cjs()]
   };
 
   return baseConfig;
