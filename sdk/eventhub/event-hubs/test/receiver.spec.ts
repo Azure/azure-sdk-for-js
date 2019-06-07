@@ -8,7 +8,7 @@ import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 import debugModule from "debug";
 const debug = debugModule("azure:event-hubs:receiver-spec");
-import { EventPosition, EventHubClient, EventData, MessagingError, ReceivedEventData } from "../src";
+import { EventPosition, EventHubClient, EventData, MessagingError, ReceivedEventData, Receiver } from "../src";
 import { BatchingReceiver } from "../src/batchingReceiver";
 import { ReceiveHandler } from "../src/streamingReceiver";
 import dotenv from "dotenv";
@@ -18,6 +18,7 @@ describe("EventHub Receiver", function(): void {
   const service = { connectionString: process.env.EVENTHUB_CONNECTION_STRING, path: process.env.EVENTHUB_NAME };
   const client: EventHubClient = EventHubClient.createFromConnectionString(service.connectionString!, service.path);
   let breceiver: BatchingReceiver;
+  let receiver: Receiver | undefined;
   let partitionIds: string[];
   before("validate environment", async function(): Promise<void> {
     should.exist(
@@ -42,11 +43,17 @@ describe("EventHub Receiver", function(): void {
     }
   });
 
+  afterEach("close the receiver link", async function(): Promise<void> {
+    if (receiver) {
+      await receiver.close();
+      debug("After each - Receiver closed.");
+    }
+  });
+
   describe("with partitionId 0 as number", function(): void {
     it("should work for receiveBatch", async function(): Promise<void> {
-      const result = await client
-        .createReceiver(partitionIds[0], { eventPosition: EventPosition.fromSequenceNumber(0) })
-        .receiveBatch(10, 20);
+      receiver = client.createReceiver(partitionIds[0], { eventPosition: EventPosition.fromSequenceNumber(0) });
+      const result = await receiver.receiveBatch(10, 20);
       should.equal(true, Array.isArray(result));
     });
 
@@ -278,7 +285,8 @@ describe("EventHub Receiver", function(): void {
   describe("in batch mode", function(): void {
     it("should receive messages correctly", async function(): Promise<void> {
       const partitionId = partitionIds[0];
-      const data = await client.createReceiver(partitionId).receiveBatch(5, 10);
+      receiver = client.createReceiver(partitionId);
+      const data = await receiver.receiveBatch(5, 10);
       debug("received messages: ", data);
       data.length.should.equal(5, "Failed to receive five expected messages");
     });
