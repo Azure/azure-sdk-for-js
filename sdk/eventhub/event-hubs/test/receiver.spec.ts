@@ -292,6 +292,126 @@ describe("EventHub Receiver", function(): void {
     });
   });
 
+  describe("getIterator", function(): void {
+    it("should receive messages correctly", async function(): Promise<void> {
+      const partitionId = partitionIds[0];
+
+      const time = Date.now();
+      // ensure messages exist to retrieve
+      const messageCount = 5;
+      const sentEventData: EventData[] = [];
+      for (let i = 0; i < messageCount; i++) {
+        sentEventData.push({
+          body: `getIterator test message ${Date.now()} - ${i}`
+        });
+      }
+
+      const sender = client.createSender({partitionId: partitionId});
+      try {
+        await sender.send(sentEventData);
+      } finally {
+        await sender.close();
+      }
+
+      receiver = client.createReceiver(partitionId, {
+        eventPosition: EventPosition.fromEnqueuedTime(time)
+      });
+      const eventIterator = receiver.getEventIterator();
+
+      let messagesReceivedCount = 0;
+      const data: ReceivedEventData[] = [];
+      for await (const event of eventIterator) {
+        data.push(event);
+        if (++messagesReceivedCount >= messageCount) {
+          break;
+        }
+      }
+
+      debug("received messages: ", data);
+      data.length.should.equal(messageCount, `Failed to receive ${messageCount} expected messages`);
+    });
+  });
+
+  describe("mix and match receive methods", function(): void {
+    it("should maintain sequence across calls", function(done: Mocha.Done): void {
+      // wrap test to allow mixing async/await with done
+      (async (done: Mocha.Done) => {
+        const partitionId = partitionIds[0];
+
+        const time = Date.now();
+        // ensure messages exist to retrieve
+        const messageCount = 25;
+        const sentEventData: EventData[] = [];
+        for (let i = 0; i < messageCount; i++) {
+          sentEventData.push({
+            body: `mix and match test messsage ${Date.now()} - ${i}`
+          });
+        }
+
+        const sender = client.createSender({partitionId: partitionId});
+        try {
+          await sender.send(sentEventData);
+        } finally {
+          await sender.close();
+        }
+  
+        const data: ReceivedEventData[] = [];
+        receiver = client.createReceiver(partitionId, {
+          eventPosition: EventPosition.fromEnqueuedTime(time)
+        });
+  
+        // start with iterator
+        for await (const event of receiver.getEventIterator()) {
+          data.push(event);
+          if (data.length >= 5) {
+            break;
+          }
+        }
+
+        // switch to batcher
+        (await receiver.receiveBatch(5)).forEach((event) => {
+          data.push(event);
+        });
+  
+        // switch to handler
+        let handlerReceivedCount = 0;
+        const handler = receiver.receive(async (event) => {
+          data.push(event);
+  
+          if (++handlerReceivedCount >= 5) {
+            await handler.stop();
+
+            // get the rest of the messages using another iterator
+            for await (const event of receiver!.getEventIterator()) {
+              data.push(event);
+              if (data.length >= messageCount) {
+                break;
+              }
+            }
+
+            data.length.should.equal(messageCount, `Failed to receive ${messageCount} expected messages`);
+
+            try {
+              data
+              .map(event => event.sequenceNumber)
+              .reduce((prev, current) => {
+                // each sequenceNumber should only be incremented by 1
+                current.should.equal(prev + 1, `Invalid sequence of events`);
+                return current;
+              });
+              // test complete
+              done();
+            } catch (err) {
+              done(err);
+            }
+          }
+        }, (err) => {
+          throw err;
+        });
+      })(done).catch(done);
+    });
+  });
+
   // describe("with receiverRuntimeMetricEnabled", function (): void {
   //   it("should have ReceiverRuntimeInfo populated", async function (): Promise<void> {
   //     const partitionId = hubInfo.partitionIds[0];
