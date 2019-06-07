@@ -355,6 +355,10 @@
       "projectFolder": "sdk/storage/storage-blob"
     },
     {
+      "packageName": "@azure/storage-datalake",
+      "projectFolder": "sdk/storage/storage-datalake"
+    },
+    {
       "packageName": "@azure/storage-file",
       "projectFolder": "sdk/storage/storage-file"
     },
