@@ -88,3 +88,5 @@ export * from "./recoverableManagedDatabases";
 export * from "./managedInstanceVulnerabilityAssessments";
 export * from "./serverVulnerabilityAssessments";
 export * from "./managedDatabaseSensitivityLabels";
+export * from "./instancePools";
+export * from "./instancePoolUsages";

@@ -97,6 +97,8 @@ class SqlManagementClient extends SqlManagementClientContext {
   managedInstanceVulnerabilityAssessments: operations.ManagedInstanceVulnerabilityAssessments;
   serverVulnerabilityAssessments: operations.ServerVulnerabilityAssessments;
   managedDatabaseSensitivityLabels: operations.ManagedDatabaseSensitivityLabels;
+  instancePools: operations.InstancePools;
+  instancePoolUsages: operations.InstancePoolUsages;
 
   /**
    * Initializes a new instance of the SqlManagementClient class.
@@ -186,6 +188,8 @@ class SqlManagementClient extends SqlManagementClientContext {
     this.managedInstanceVulnerabilityAssessments = new operations.ManagedInstanceVulnerabilityAssessments(this);
     this.serverVulnerabilityAssessments = new operations.ServerVulnerabilityAssessments(this);
     this.managedDatabaseSensitivityLabels = new operations.ManagedDatabaseSensitivityLabels(this);
+    this.instancePools = new operations.InstancePools(this);
+    this.instancePoolUsages = new operations.InstancePoolUsages(this);
   }
 }
 
