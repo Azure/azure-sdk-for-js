@@ -2170,8 +2170,7 @@ export interface BackupCertificateResult {
  *
  * @extends RequestOptionsBase
  */
-export interface KeyVaultClientCreateKeyOptionalParams
-  extends msRest.RequestOptionsBase {
+export interface KeyVaultClientCreateKeyOptionalParams extends msRest.RequestOptionsBase {
   /**
    * @member {number} [keySize] The key size in bits. For example: 2048, 3072,
    * or 4096 for RSA.
@@ -2205,8 +2204,7 @@ export interface KeyVaultClientCreateKeyOptionalParams
  *
  * @extends RequestOptionsBase
  */
-export interface KeyVaultClientImportKeyOptionalParams
-  extends msRest.RequestOptionsBase {
+export interface KeyVaultClientImportKeyOptionalParams extends msRest.RequestOptionsBase {
   /**
    * @member {boolean} [hsm] Whether to import as a hardware key (HSM) or
    * software key.
@@ -2230,8 +2228,7 @@ export interface KeyVaultClientImportKeyOptionalParams
  *
  * @extends RequestOptionsBase
  */
-export interface KeyVaultClientUpdateKeyOptionalParams
-  extends msRest.RequestOptionsBase {
+export interface KeyVaultClientUpdateKeyOptionalParams extends msRest.RequestOptionsBase {
   /**
    * @member {JsonWebKeyOperation[]} [keyOps] Json web key operations. For more
    * information on possible key operations, see JsonWebKeyOperation.
@@ -2255,8 +2252,7 @@ export interface KeyVaultClientUpdateKeyOptionalParams
  *
  * @extends RequestOptionsBase
  */
-export interface KeyVaultClientGetKeyVersionsOptionalParams
-  extends msRest.RequestOptionsBase {
+export interface KeyVaultClientGetKeyVersionsOptionalParams extends msRest.RequestOptionsBase {
   /**
    * @member {number} [maxresults] Maximum number of results to return in a
    * page. If not specified the service will return up to 25 results.
@@ -2271,8 +2267,7 @@ export interface KeyVaultClientGetKeyVersionsOptionalParams
  *
  * @extends RequestOptionsBase
  */
-export interface KeyVaultClientGetKeysOptionalParams
-  extends msRest.RequestOptionsBase {
+export interface KeyVaultClientGetKeysOptionalParams extends msRest.RequestOptionsBase {
   /**
    * @member {number} [maxresults] Maximum number of results to return in a
    * page. If not specified the service will return up to 25 results.
@@ -2287,8 +2282,7 @@ export interface KeyVaultClientGetKeysOptionalParams
  *
  * @extends RequestOptionsBase
  */
-export interface KeyVaultClientGetDeletedKeysOptionalParams
-  extends msRest.RequestOptionsBase {
+export interface KeyVaultClientGetDeletedKeysOptionalParams extends msRest.RequestOptionsBase {
   /**
    * @member {number} [maxresults] Maximum number of results to return in a
    * page. If not specified the service will return up to 25 results.
@@ -2303,8 +2297,7 @@ export interface KeyVaultClientGetDeletedKeysOptionalParams
  *
  * @extends RequestOptionsBase
  */
-export interface KeyVaultClientSetSecretOptionalParams
-  extends msRest.RequestOptionsBase {
+export interface KeyVaultClientSetSecretOptionalParams extends msRest.RequestOptionsBase {
   /**
    * @member {{ [propertyName: string]: string }} [tags] Application specific
    * metadata in the form of key-value pairs.
@@ -2329,8 +2322,7 @@ export interface KeyVaultClientSetSecretOptionalParams
  *
  * @extends RequestOptionsBase
  */
-export interface KeyVaultClientUpdateSecretOptionalParams
-  extends msRest.RequestOptionsBase {
+export interface KeyVaultClientUpdateSecretOptionalParams extends msRest.RequestOptionsBase {
   /**
    * @member {string} [contentType] Type of the secret value such as a
    * password.
@@ -2355,8 +2347,7 @@ export interface KeyVaultClientUpdateSecretOptionalParams
  *
  * @extends RequestOptionsBase
  */
-export interface KeyVaultClientGetSecretsOptionalParams
-  extends msRest.RequestOptionsBase {
+export interface KeyVaultClientGetSecretsOptionalParams extends msRest.RequestOptionsBase {
   /**
    * @member {number} [maxresults] Maximum number of results to return in a
    * page. If not specified, the service will return up to 25 results.
@@ -2371,8 +2362,7 @@ export interface KeyVaultClientGetSecretsOptionalParams
  *
  * @extends RequestOptionsBase
  */
-export interface KeyVaultClientGetSecretVersionsOptionalParams
-  extends msRest.RequestOptionsBase {
+export interface KeyVaultClientGetSecretVersionsOptionalParams extends msRest.RequestOptionsBase {
   /**
    * @member {number} [maxresults] Maximum number of results to return in a
    * page. If not specified, the service will return up to 25 results.
@@ -2387,8 +2377,7 @@ export interface KeyVaultClientGetSecretVersionsOptionalParams
  *
  * @extends RequestOptionsBase
  */
-export interface KeyVaultClientGetDeletedSecretsOptionalParams
-  extends msRest.RequestOptionsBase {
+export interface KeyVaultClientGetDeletedSecretsOptionalParams extends msRest.RequestOptionsBase {
   /**
    * @member {number} [maxresults] Maximum number of results to return in a
    * page. If not specified the service will return up to 25 results.
@@ -2403,8 +2392,7 @@ export interface KeyVaultClientGetDeletedSecretsOptionalParams
  *
  * @extends RequestOptionsBase
  */
-export interface KeyVaultClientGetCertificatesOptionalParams
-  extends msRest.RequestOptionsBase {
+export interface KeyVaultClientGetCertificatesOptionalParams extends msRest.RequestOptionsBase {
   /**
    * @member {number} [maxresults] Maximum number of results to return in a
    * page. If not specified the service will return up to 25 results.
@@ -2494,8 +2482,7 @@ export interface KeyVaultClientUpdateCertificateIssuerOptionalParams
  *
  * @extends RequestOptionsBase
  */
-export interface KeyVaultClientCreateCertificateOptionalParams
-  extends msRest.RequestOptionsBase {
+export interface KeyVaultClientCreateCertificateOptionalParams extends msRest.RequestOptionsBase {
   /**
    * @member {CertificatePolicy} [certificatePolicy] The management policy for
    * the certificate.
@@ -2520,8 +2507,7 @@ export interface KeyVaultClientCreateCertificateOptionalParams
  *
  * @extends RequestOptionsBase
  */
-export interface KeyVaultClientImportCertificateOptionalParams
-  extends msRest.RequestOptionsBase {
+export interface KeyVaultClientImportCertificateOptionalParams extends msRest.RequestOptionsBase {
   /**
    * @member {string} [password] If the private key in base64EncodedCertificate
    * is encrypted, the password used for encryption.
@@ -2567,8 +2553,7 @@ export interface KeyVaultClientGetCertificateVersionsOptionalParams
  *
  * @extends RequestOptionsBase
  */
-export interface KeyVaultClientUpdateCertificateOptionalParams
-  extends msRest.RequestOptionsBase {
+export interface KeyVaultClientUpdateCertificateOptionalParams extends msRest.RequestOptionsBase {
   /**
    * @member {CertificatePolicy} [certificatePolicy] The management policy for
    * the certificate.
@@ -2593,8 +2578,7 @@ export interface KeyVaultClientUpdateCertificateOptionalParams
  *
  * @extends RequestOptionsBase
  */
-export interface KeyVaultClientMergeCertificateOptionalParams
-  extends msRest.RequestOptionsBase {
+export interface KeyVaultClientMergeCertificateOptionalParams extends msRest.RequestOptionsBase {
   /**
    * @member {CertificateAttributes} [certificateAttributes] The attributes of
    * the certificate (optional).
@@ -2635,8 +2619,7 @@ export interface KeyVaultClientGetDeletedCertificatesOptionalParams
  *
  * @extends RequestOptionsBase
  */
-export interface KeyVaultClientGetStorageAccountsOptionalParams
-  extends msRest.RequestOptionsBase {
+export interface KeyVaultClientGetStorageAccountsOptionalParams extends msRest.RequestOptionsBase {
   /**
    * @member {number} [maxresults] Maximum number of results to return in a
    * page. If not specified the service will return up to 25 results.
@@ -2667,8 +2650,7 @@ export interface KeyVaultClientGetDeletedStorageAccountsOptionalParams
  *
  * @extends RequestOptionsBase
  */
-export interface KeyVaultClientSetStorageAccountOptionalParams
-  extends msRest.RequestOptionsBase {
+export interface KeyVaultClientSetStorageAccountOptionalParams extends msRest.RequestOptionsBase {
   /**
    * @member {string} [regenerationPeriod] The key regeneration time duration
    * specified in ISO-8601 format.
@@ -2729,8 +2711,7 @@ export interface KeyVaultClientUpdateStorageAccountOptionalParams
  *
  * @extends RequestOptionsBase
  */
-export interface KeyVaultClientGetSasDefinitionsOptionalParams
-  extends msRest.RequestOptionsBase {
+export interface KeyVaultClientGetSasDefinitionsOptionalParams extends msRest.RequestOptionsBase {
   /**
    * @member {number} [maxresults] Maximum number of results to return in a
    * page. If not specified the service will return up to 25 results.
@@ -2761,8 +2742,7 @@ export interface KeyVaultClientGetDeletedSasDefinitionsOptionalParams
  *
  * @extends RequestOptionsBase
  */
-export interface KeyVaultClientSetSasDefinitionOptionalParams
-  extends msRest.RequestOptionsBase {
+export interface KeyVaultClientSetSasDefinitionOptionalParams extends msRest.RequestOptionsBase {
   /**
    * @member {SasDefinitionAttributes} [sasDefinitionAttributes] The attributes
    * of the SAS definition.
@@ -2782,8 +2762,7 @@ export interface KeyVaultClientSetSasDefinitionOptionalParams
  *
  * @extends RequestOptionsBase
  */
-export interface KeyVaultClientUpdateSasDefinitionOptionalParams
-  extends msRest.RequestOptionsBase {
+export interface KeyVaultClientUpdateSasDefinitionOptionalParams extends msRest.RequestOptionsBase {
   /**
    * @member {string} [templateUri] The SAS definition token template signed
    * with an arbitrary key.  Tokens created according to the SAS definition
@@ -2900,8 +2879,7 @@ export interface CertificateListResult extends Array<CertificateItem> {
  *
  * @extends Array<CertificateIssuerItem>
  */
-export interface CertificateIssuerListResult
-  extends Array<CertificateIssuerItem> {
+export interface CertificateIssuerListResult extends Array<CertificateIssuerItem> {
   /**
    * @member {string} [nextLink] The URL to get the next set of certificate
    * issuers.
@@ -2918,8 +2896,7 @@ export interface CertificateIssuerListResult
  *
  * @extends Array<DeletedCertificateItem>
  */
-export interface DeletedCertificateListResult
-  extends Array<DeletedCertificateItem> {
+export interface DeletedCertificateListResult extends Array<DeletedCertificateItem> {
   /**
    * @member {string} [nextLink] The URL to get the next set of deleted
    * certificates.
@@ -2953,8 +2930,7 @@ export interface StorageListResult extends Array<StorageAccountItem> {
  *
  * @extends Array<DeletedStorageAccountItem>
  */
-export interface DeletedStorageListResult
-  extends Array<DeletedStorageAccountItem> {
+export interface DeletedStorageListResult extends Array<DeletedStorageAccountItem> {
   /**
    * @member {string} [nextLink] The URL to get the next set of deleted storage
    * accounts.
@@ -2987,8 +2963,7 @@ export interface SasDefinitionListResult extends Array<SasDefinitionItem> {
  *
  * @extends Array<DeletedSasDefinitionItem>
  */
-export interface DeletedSasDefinitionListResult
-  extends Array<DeletedSasDefinitionItem> {
+export interface DeletedSasDefinitionListResult extends Array<DeletedSasDefinitionItem> {
   /**
    * @member {string} [nextLink] The URL to get the next set of deleted SAS
    * definitions.
@@ -3073,10 +3048,7 @@ export type JsonWebKeyOperation =
  * @readonly
  * @enum {string}
  */
-export type JsonWebKeyEncryptionAlgorithm =
-  | "RSA-OAEP"
-  | "RSA-OAEP-256"
-  | "RSA1_5";
+export type JsonWebKeyEncryptionAlgorithm = "RSA-OAEP" | "RSA-OAEP-256" | "RSA1_5";
 
 /**
  * Defines values for JsonWebKeySignatureAlgorithm.

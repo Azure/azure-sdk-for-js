@@ -59,11 +59,6 @@ export function isNewPipelineOptions(
   const options = pipelineOrOptions as NewPipelineOptions;
   return (
     isEmptyObject(pipelineOrOptions) ||
-    !!(
-      options.retryOptions ||
-      options.proxyOptions ||
-      options.logger ||
-      options.HTTPClient
-    )
+    !!(options.retryOptions || options.proxyOptions || options.logger || options.HTTPClient)
   );
 }

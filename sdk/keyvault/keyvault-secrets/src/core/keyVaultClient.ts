@@ -204,9 +204,7 @@ class KeyVaultClient extends KeyVaultClientContext {
   deleteKey(
     vaultBaseUrl: string,
     keyName: string,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.DeletedKeyBundle>,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DeletedKeyBundle>,
     callback?: msRest.ServiceCallback<Models.DeletedKeyBundle>
   ): Promise<Models.DeleteKeyResponse> {
     return this.sendOperationRequest(
@@ -331,9 +329,7 @@ class KeyVaultClient extends KeyVaultClientContext {
     vaultBaseUrl: string,
     keyName: string,
     keyVersion: string,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.KeyBundle>,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.KeyBundle>,
     callback?: msRest.ServiceCallback<Models.KeyBundle>
   ): Promise<Models.GetKeyResponse> {
     return this.sendOperationRequest(
@@ -421,10 +417,7 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param callback The callback
    */
-  getKeys(
-    vaultBaseUrl: string,
-    callback: msRest.ServiceCallback<Models.KeyListResult>
-  ): void;
+  getKeys(vaultBaseUrl: string, callback: msRest.ServiceCallback<Models.KeyListResult>): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param options The optional parameters
@@ -500,9 +493,7 @@ class KeyVaultClient extends KeyVaultClientContext {
   backupKey(
     vaultBaseUrl: string,
     keyName: string,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.BackupKeyResult>,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BackupKeyResult>,
     callback?: msRest.ServiceCallback<Models.BackupKeyResult>
   ): Promise<Models.BackupKeyResponse> {
     return this.sendOperationRequest(
@@ -563,9 +554,7 @@ class KeyVaultClient extends KeyVaultClientContext {
   restoreKey(
     vaultBaseUrl: string,
     keyBundleBackup: Uint8Array,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.KeyBundle>,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.KeyBundle>,
     callback?: msRest.ServiceCallback<Models.KeyBundle>
   ): Promise<Models.RestoreKeyResponse> {
     return this.sendOperationRequest(
@@ -649,9 +638,7 @@ class KeyVaultClient extends KeyVaultClientContext {
     keyVersion: string,
     algorithm: Models.JsonWebKeyEncryptionAlgorithm,
     value: Uint8Array,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.KeyOperationResult>,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.KeyOperationResult>,
     callback?: msRest.ServiceCallback<Models.KeyOperationResult>
   ): Promise<Models.EncryptResponse> {
     return this.sendOperationRequest(
@@ -735,9 +722,7 @@ class KeyVaultClient extends KeyVaultClientContext {
     keyVersion: string,
     algorithm: Models.JsonWebKeyEncryptionAlgorithm,
     value: Uint8Array,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.KeyOperationResult>,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.KeyOperationResult>,
     callback?: msRest.ServiceCallback<Models.KeyOperationResult>
   ): Promise<Models.DecryptResponse> {
     return this.sendOperationRequest(
@@ -821,9 +806,7 @@ class KeyVaultClient extends KeyVaultClientContext {
     keyVersion: string,
     algorithm: Models.JsonWebKeySignatureAlgorithm,
     value: Uint8Array,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.KeyOperationResult>,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.KeyOperationResult>,
     callback?: msRest.ServiceCallback<Models.KeyOperationResult>
   ): Promise<Models.SignResponse> {
     return this.sendOperationRequest(
@@ -916,9 +899,7 @@ class KeyVaultClient extends KeyVaultClientContext {
     algorithm: Models.JsonWebKeySignatureAlgorithm,
     digest: Uint8Array,
     signature: Uint8Array,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.KeyVerifyResult>,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.KeyVerifyResult>,
     callback?: msRest.ServiceCallback<Models.KeyVerifyResult>
   ): Promise<Models.VerifyResponse> {
     return this.sendOperationRequest(
@@ -1003,9 +984,7 @@ class KeyVaultClient extends KeyVaultClientContext {
     keyVersion: string,
     algorithm: Models.JsonWebKeyEncryptionAlgorithm,
     value: Uint8Array,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.KeyOperationResult>,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.KeyOperationResult>,
     callback?: msRest.ServiceCallback<Models.KeyOperationResult>
   ): Promise<Models.WrapKeyResponse> {
     return this.sendOperationRequest(
@@ -1088,9 +1067,7 @@ class KeyVaultClient extends KeyVaultClientContext {
     keyVersion: string,
     algorithm: Models.JsonWebKeyEncryptionAlgorithm,
     value: Uint8Array,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.KeyOperationResult>,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.KeyOperationResult>,
     callback?: msRest.ServiceCallback<Models.KeyOperationResult>
   ): Promise<Models.UnwrapKeyResponse> {
     return this.sendOperationRequest(
@@ -1197,9 +1174,7 @@ class KeyVaultClient extends KeyVaultClientContext {
   getDeletedKey(
     vaultBaseUrl: string,
     keyName: string,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.DeletedKeyBundle>,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DeletedKeyBundle>,
     callback?: msRest.ServiceCallback<Models.DeletedKeyBundle>
   ): Promise<Models.GetDeletedKeyResponse> {
     return this.sendOperationRequest(
@@ -1308,9 +1283,7 @@ class KeyVaultClient extends KeyVaultClientContext {
   recoverDeletedKey(
     vaultBaseUrl: string,
     keyName: string,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.KeyBundle>,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.KeyBundle>,
     callback?: msRest.ServiceCallback<Models.KeyBundle>
   ): Promise<Models.RecoverDeletedKeyResponse> {
     return this.sendOperationRequest(
@@ -1427,9 +1400,7 @@ class KeyVaultClient extends KeyVaultClientContext {
   deleteSecret(
     vaultBaseUrl: string,
     secretName: string,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.DeletedSecretBundle>,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DeletedSecretBundle>,
     callback?: msRest.ServiceCallback<Models.DeletedSecretBundle>
   ): Promise<Models.DeleteSecretResponse> {
     return this.sendOperationRequest(
@@ -1553,9 +1524,7 @@ class KeyVaultClient extends KeyVaultClientContext {
     vaultBaseUrl: string,
     secretName: string,
     secretVersion: string,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.SecretBundle>,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecretBundle>,
     callback?: msRest.ServiceCallback<Models.SecretBundle>
   ): Promise<Models.GetSecretResponse> {
     return this.sendOperationRequest(
@@ -1587,10 +1556,7 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param callback The callback
    */
-  getSecrets(
-    vaultBaseUrl: string,
-    callback: msRest.ServiceCallback<Models.SecretListResult>
-  ): void;
+  getSecrets(vaultBaseUrl: string, callback: msRest.ServiceCallback<Models.SecretListResult>): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param options The optional parameters
@@ -1759,9 +1725,7 @@ class KeyVaultClient extends KeyVaultClientContext {
   getDeletedSecret(
     vaultBaseUrl: string,
     secretName: string,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.DeletedSecretBundle>,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DeletedSecretBundle>,
     callback?: msRest.ServiceCallback<Models.DeletedSecretBundle>
   ): Promise<Models.GetDeletedSecretResponse> {
     return this.sendOperationRequest(
@@ -1868,9 +1832,7 @@ class KeyVaultClient extends KeyVaultClientContext {
   recoverDeletedSecret(
     vaultBaseUrl: string,
     secretName: string,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.SecretBundle>,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecretBundle>,
     callback?: msRest.ServiceCallback<Models.SecretBundle>
   ): Promise<Models.RecoverDeletedSecretResponse> {
     return this.sendOperationRequest(
@@ -1923,9 +1885,7 @@ class KeyVaultClient extends KeyVaultClientContext {
   backupSecret(
     vaultBaseUrl: string,
     secretName: string,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.BackupSecretResult>,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BackupSecretResult>,
     callback?: msRest.ServiceCallback<Models.BackupSecretResult>
   ): Promise<Models.BackupSecretResponse> {
     return this.sendOperationRequest(
@@ -1978,9 +1938,7 @@ class KeyVaultClient extends KeyVaultClientContext {
   restoreSecret(
     vaultBaseUrl: string,
     secretBundleBackup: Uint8Array,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.SecretBundle>,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecretBundle>,
     callback?: msRest.ServiceCallback<Models.SecretBundle>
   ): Promise<Models.RestoreSecretResponse> {
     return this.sendOperationRequest(
@@ -2081,9 +2039,7 @@ class KeyVaultClient extends KeyVaultClientContext {
   deleteCertificate(
     vaultBaseUrl: string,
     certificateName: string,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.DeletedCertificateBundle>,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DeletedCertificateBundle>,
     callback?: msRest.ServiceCallback<Models.DeletedCertificateBundle>
   ): Promise<Models.DeleteCertificateResponse> {
     return this.sendOperationRequest(
@@ -2136,9 +2092,7 @@ class KeyVaultClient extends KeyVaultClientContext {
   setCertificateContacts(
     vaultBaseUrl: string,
     contacts: Models.Contacts,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.Contacts>,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Contacts>,
     callback?: msRest.ServiceCallback<Models.Contacts>
   ): Promise<Models.SetCertificateContactsResponse> {
     return this.sendOperationRequest(
@@ -2184,9 +2138,7 @@ class KeyVaultClient extends KeyVaultClientContext {
   ): void;
   getCertificateContacts(
     vaultBaseUrl: string,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.Contacts>,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Contacts>,
     callback?: msRest.ServiceCallback<Models.Contacts>
   ): Promise<Models.GetCertificateContactsResponse> {
     return this.sendOperationRequest(
@@ -2231,9 +2183,7 @@ class KeyVaultClient extends KeyVaultClientContext {
   ): void;
   deleteCertificateContacts(
     vaultBaseUrl: string,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.Contacts>,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Contacts>,
     callback?: msRest.ServiceCallback<Models.Contacts>
   ): Promise<Models.DeleteCertificateContactsResponse> {
     return this.sendOperationRequest(
@@ -2452,9 +2402,7 @@ class KeyVaultClient extends KeyVaultClientContext {
   getCertificateIssuer(
     vaultBaseUrl: string,
     issuerName: string,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.IssuerBundle>,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IssuerBundle>,
     callback?: msRest.ServiceCallback<Models.IssuerBundle>
   ): Promise<Models.GetCertificateIssuerResponse> {
     return this.sendOperationRequest(
@@ -2507,9 +2455,7 @@ class KeyVaultClient extends KeyVaultClientContext {
   deleteCertificateIssuer(
     vaultBaseUrl: string,
     issuerName: string,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.IssuerBundle>,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IssuerBundle>,
     callback?: msRest.ServiceCallback<Models.IssuerBundle>
   ): Promise<Models.DeleteCertificateIssuerResponse> {
     return this.sendOperationRequest(
@@ -2740,9 +2686,7 @@ class KeyVaultClient extends KeyVaultClientContext {
   getCertificatePolicy(
     vaultBaseUrl: string,
     certificateName: string,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.CertificatePolicy>,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CertificatePolicy>,
     callback?: msRest.ServiceCallback<Models.CertificatePolicy>
   ): Promise<Models.GetCertificatePolicyResponse> {
     return this.sendOperationRequest(
@@ -2802,9 +2746,7 @@ class KeyVaultClient extends KeyVaultClientContext {
     vaultBaseUrl: string,
     certificateName: string,
     certificatePolicy: Models.CertificatePolicy,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.CertificatePolicy>,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CertificatePolicy>,
     callback?: msRest.ServiceCallback<Models.CertificatePolicy>
   ): Promise<Models.UpdateCertificatePolicyResponse> {
     return this.sendOperationRequest(
@@ -2929,9 +2871,7 @@ class KeyVaultClient extends KeyVaultClientContext {
     vaultBaseUrl: string,
     certificateName: string,
     certificateVersion: string,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.CertificateBundle>,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CertificateBundle>,
     callback?: msRest.ServiceCallback<Models.CertificateBundle>
   ): Promise<Models.GetCertificateResponse> {
     return this.sendOperationRequest(
@@ -2995,9 +2935,7 @@ class KeyVaultClient extends KeyVaultClientContext {
     vaultBaseUrl: string,
     certificateName: string,
     cancellationRequested: boolean,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.CertificateOperation>,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CertificateOperation>,
     callback?: msRest.ServiceCallback<Models.CertificateOperation>
   ): Promise<Models.UpdateCertificateOperationResponse> {
     return this.sendOperationRequest(
@@ -3051,9 +2989,7 @@ class KeyVaultClient extends KeyVaultClientContext {
   getCertificateOperation(
     vaultBaseUrl: string,
     certificateName: string,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.CertificateOperation>,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CertificateOperation>,
     callback?: msRest.ServiceCallback<Models.CertificateOperation>
   ): Promise<Models.GetCertificateOperationResponse> {
     return this.sendOperationRequest(
@@ -3107,9 +3043,7 @@ class KeyVaultClient extends KeyVaultClientContext {
   deleteCertificateOperation(
     vaultBaseUrl: string,
     certificateName: string,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.CertificateOperation>,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CertificateOperation>,
     callback?: msRest.ServiceCallback<Models.CertificateOperation>
   ): Promise<Models.DeleteCertificateOperationResponse> {
     return this.sendOperationRequest(
@@ -3226,9 +3160,7 @@ class KeyVaultClient extends KeyVaultClientContext {
   backupCertificate(
     vaultBaseUrl: string,
     certificateName: string,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.BackupCertificateResult>,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BackupCertificateResult>,
     callback?: msRest.ServiceCallback<Models.BackupCertificateResult>
   ): Promise<Models.BackupCertificateResponse> {
     return this.sendOperationRequest(
@@ -3281,9 +3213,7 @@ class KeyVaultClient extends KeyVaultClientContext {
   restoreCertificate(
     vaultBaseUrl: string,
     certificateBundleBackup: Uint8Array,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.CertificateBundle>,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CertificateBundle>,
     callback?: msRest.ServiceCallback<Models.CertificateBundle>
   ): Promise<Models.RestoreCertificateResponse> {
     return this.sendOperationRequest(
@@ -3386,9 +3316,7 @@ class KeyVaultClient extends KeyVaultClientContext {
   getDeletedCertificate(
     vaultBaseUrl: string,
     certificateName: string,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.DeletedCertificateBundle>,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DeletedCertificateBundle>,
     callback?: msRest.ServiceCallback<Models.DeletedCertificateBundle>
   ): Promise<Models.GetDeletedCertificateResponse> {
     return this.sendOperationRequest(
@@ -3497,9 +3425,7 @@ class KeyVaultClient extends KeyVaultClientContext {
   recoverDeletedCertificate(
     vaultBaseUrl: string,
     certificateName: string,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.CertificateBundle>,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CertificateBundle>,
     callback?: msRest.ServiceCallback<Models.CertificateBundle>
   ): Promise<Models.RecoverDeletedCertificateResponse> {
     return this.sendOperationRequest(
@@ -3645,9 +3571,7 @@ class KeyVaultClient extends KeyVaultClientContext {
   getDeletedStorageAccount(
     vaultBaseUrl: string,
     storageAccountName: string,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.DeletedStorageBundle>,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DeletedStorageBundle>,
     callback?: msRest.ServiceCallback<Models.DeletedStorageBundle>
   ): Promise<Models.GetDeletedStorageAccountResponse> {
     return this.sendOperationRequest(
@@ -3755,9 +3679,7 @@ class KeyVaultClient extends KeyVaultClientContext {
   recoverDeletedStorageAccount(
     vaultBaseUrl: string,
     storageAccountName: string,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.StorageBundle>,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StorageBundle>,
     callback?: msRest.ServiceCallback<Models.StorageBundle>
   ): Promise<Models.RecoverDeletedStorageAccountResponse> {
     return this.sendOperationRequest(
@@ -3810,9 +3732,7 @@ class KeyVaultClient extends KeyVaultClientContext {
   backupStorageAccount(
     vaultBaseUrl: string,
     storageAccountName: string,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.BackupStorageResult>,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BackupStorageResult>,
     callback?: msRest.ServiceCallback<Models.BackupStorageResult>
   ): Promise<Models.BackupStorageAccountResponse> {
     return this.sendOperationRequest(
@@ -3865,9 +3785,7 @@ class KeyVaultClient extends KeyVaultClientContext {
   restoreStorageAccount(
     vaultBaseUrl: string,
     storageBundleBackup: Uint8Array,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.StorageBundle>,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StorageBundle>,
     callback?: msRest.ServiceCallback<Models.StorageBundle>
   ): Promise<Models.RestoreStorageAccountResponse> {
     return this.sendOperationRequest(
@@ -3918,9 +3836,7 @@ class KeyVaultClient extends KeyVaultClientContext {
   deleteStorageAccount(
     vaultBaseUrl: string,
     storageAccountName: string,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.DeletedStorageBundle>,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DeletedStorageBundle>,
     callback?: msRest.ServiceCallback<Models.DeletedStorageBundle>
   ): Promise<Models.DeleteStorageAccountResponse> {
     return this.sendOperationRequest(
@@ -3972,9 +3888,7 @@ class KeyVaultClient extends KeyVaultClientContext {
   getStorageAccount(
     vaultBaseUrl: string,
     storageAccountName: string,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.StorageBundle>,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StorageBundle>,
     callback?: msRest.ServiceCallback<Models.StorageBundle>
   ): Promise<Models.GetStorageAccountResponse> {
     return this.sendOperationRequest(
@@ -4164,9 +4078,7 @@ class KeyVaultClient extends KeyVaultClientContext {
     vaultBaseUrl: string,
     storageAccountName: string,
     keyName: string,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.StorageBundle>,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StorageBundle>,
     callback?: msRest.ServiceCallback<Models.StorageBundle>
   ): Promise<Models.RegenerateStorageAccountKeyResponse> {
     return this.sendOperationRequest(
@@ -4336,9 +4248,7 @@ class KeyVaultClient extends KeyVaultClientContext {
     vaultBaseUrl: string,
     storageAccountName: string,
     sasDefinitionName: string,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.DeletedSasDefinitionBundle>,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DeletedSasDefinitionBundle>,
     callback?: msRest.ServiceCallback<Models.DeletedSasDefinitionBundle>
   ): Promise<Models.GetDeletedSasDefinitionResponse> {
     return this.sendOperationRequest(
@@ -4400,9 +4310,7 @@ class KeyVaultClient extends KeyVaultClientContext {
     vaultBaseUrl: string,
     storageAccountName: string,
     sasDefinitionName: string,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.SasDefinitionBundle>,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SasDefinitionBundle>,
     callback?: msRest.ServiceCallback<Models.SasDefinitionBundle>
   ): Promise<Models.RecoverDeletedSasDefinitionResponse> {
     return this.sendOperationRequest(
@@ -4462,9 +4370,7 @@ class KeyVaultClient extends KeyVaultClientContext {
     vaultBaseUrl: string,
     storageAccountName: string,
     sasDefinitionName: string,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.DeletedSasDefinitionBundle>,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DeletedSasDefinitionBundle>,
     callback?: msRest.ServiceCallback<Models.DeletedSasDefinitionBundle>
   ): Promise<Models.DeleteSasDefinitionResponse> {
     return this.sendOperationRequest(
@@ -4524,9 +4430,7 @@ class KeyVaultClient extends KeyVaultClientContext {
     vaultBaseUrl: string,
     storageAccountName: string,
     sasDefinitionName: string,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.SasDefinitionBundle>,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SasDefinitionBundle>,
     callback?: msRest.ServiceCallback<Models.SasDefinitionBundle>
   ): Promise<Models.GetSasDefinitionResponse> {
     return this.sendOperationRequest(
@@ -4727,9 +4631,7 @@ class KeyVaultClient extends KeyVaultClientContext {
   ): void;
   getKeyVersionsNext(
     nextPageLink: string,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.KeyListResult>,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.KeyListResult>,
     callback?: msRest.ServiceCallback<Models.KeyListResult>
   ): Promise<Models.GetKeyVersionsNextResponse> {
     return this.sendOperationRequest(
@@ -4760,10 +4662,7 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  getKeysNext(
-    nextPageLink: string,
-    callback: msRest.ServiceCallback<Models.KeyListResult>
-  ): void;
+  getKeysNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.KeyListResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
@@ -4776,9 +4675,7 @@ class KeyVaultClient extends KeyVaultClientContext {
   ): void;
   getKeysNext(
     nextPageLink: string,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.KeyListResult>,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.KeyListResult>,
     callback?: msRest.ServiceCallback<Models.KeyListResult>
   ): Promise<Models.GetKeysNextResponse> {
     return this.sendOperationRequest(
@@ -4826,9 +4723,7 @@ class KeyVaultClient extends KeyVaultClientContext {
   ): void;
   getDeletedKeysNext(
     nextPageLink: string,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.DeletedKeyListResult>,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DeletedKeyListResult>,
     callback?: msRest.ServiceCallback<Models.DeletedKeyListResult>
   ): Promise<Models.GetDeletedKeysNextResponse> {
     return this.sendOperationRequest(
@@ -4874,9 +4769,7 @@ class KeyVaultClient extends KeyVaultClientContext {
   ): void;
   getSecretsNext(
     nextPageLink: string,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.SecretListResult>,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecretListResult>,
     callback?: msRest.ServiceCallback<Models.SecretListResult>
   ): Promise<Models.GetSecretsNextResponse> {
     return this.sendOperationRequest(
@@ -4921,9 +4814,7 @@ class KeyVaultClient extends KeyVaultClientContext {
   ): void;
   getSecretVersionsNext(
     nextPageLink: string,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.SecretListResult>,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecretListResult>,
     callback?: msRest.ServiceCallback<Models.SecretListResult>
   ): Promise<Models.GetSecretVersionsNextResponse> {
     return this.sendOperationRequest(
@@ -4968,9 +4859,7 @@ class KeyVaultClient extends KeyVaultClientContext {
   ): void;
   getDeletedSecretsNext(
     nextPageLink: string,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.DeletedSecretListResult>,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DeletedSecretListResult>,
     callback?: msRest.ServiceCallback<Models.DeletedSecretListResult>
   ): Promise<Models.GetDeletedSecretsNextResponse> {
     return this.sendOperationRequest(
@@ -5015,9 +4904,7 @@ class KeyVaultClient extends KeyVaultClientContext {
   ): void;
   getCertificatesNext(
     nextPageLink: string,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.CertificateListResult>,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CertificateListResult>,
     callback?: msRest.ServiceCallback<Models.CertificateListResult>
   ): Promise<Models.GetCertificatesNextResponse> {
     return this.sendOperationRequest(
@@ -5110,9 +4997,7 @@ class KeyVaultClient extends KeyVaultClientContext {
   ): void;
   getCertificateVersionsNext(
     nextPageLink: string,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.CertificateListResult>,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CertificateListResult>,
     callback?: msRest.ServiceCallback<Models.CertificateListResult>
   ): Promise<Models.GetCertificateVersionsNextResponse> {
     return this.sendOperationRequest(
@@ -5205,9 +5090,7 @@ class KeyVaultClient extends KeyVaultClientContext {
   ): void;
   getStorageAccountsNext(
     nextPageLink: string,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.StorageListResult>,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StorageListResult>,
     callback?: msRest.ServiceCallback<Models.StorageListResult>
   ): Promise<Models.GetStorageAccountsNextResponse> {
     return this.sendOperationRequest(
@@ -5252,9 +5135,7 @@ class KeyVaultClient extends KeyVaultClientContext {
   ): void;
   getDeletedStorageAccountsNext(
     nextPageLink: string,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.DeletedStorageListResult>,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DeletedStorageListResult>,
     callback?: msRest.ServiceCallback<Models.DeletedStorageListResult>
   ): Promise<Models.GetDeletedStorageAccountsNextResponse> {
     return this.sendOperationRequest(
@@ -5298,9 +5179,7 @@ class KeyVaultClient extends KeyVaultClientContext {
   ): void;
   getSasDefinitionsNext(
     nextPageLink: string,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.SasDefinitionListResult>,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SasDefinitionListResult>,
     callback?: msRest.ServiceCallback<Models.SasDefinitionListResult>
   ): Promise<Models.GetSasDefinitionsNextResponse> {
     return this.sendOperationRequest(
@@ -5443,11 +5322,7 @@ const deleteKeyOperationSpec: msRest.OperationSpec = {
 const updateKeyOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
   path: "keys/{key-name}/{key-version}",
-  urlParameters: [
-    Parameters.vaultBaseUrl,
-    Parameters.keyName1,
-    Parameters.keyVersion
-  ],
+  urlParameters: [Parameters.vaultBaseUrl, Parameters.keyName1, Parameters.keyVersion],
   queryParameters: [Parameters.apiVersion],
   headerParameters: [Parameters.acceptLanguage],
   requestBody: {
@@ -5475,11 +5350,7 @@ const updateKeyOperationSpec: msRest.OperationSpec = {
 const getKeyOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "keys/{key-name}/{key-version}",
-  urlParameters: [
-    Parameters.vaultBaseUrl,
-    Parameters.keyName1,
-    Parameters.keyVersion
-  ],
+  urlParameters: [Parameters.vaultBaseUrl, Parameters.keyName1, Parameters.keyVersion],
   queryParameters: [Parameters.apiVersion],
   headerParameters: [Parameters.acceptLanguage],
   responses: {
@@ -5573,11 +5444,7 @@ const restoreKeyOperationSpec: msRest.OperationSpec = {
 const encryptOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "keys/{key-name}/{key-version}/encrypt",
-  urlParameters: [
-    Parameters.vaultBaseUrl,
-    Parameters.keyName1,
-    Parameters.keyVersion
-  ],
+  urlParameters: [Parameters.vaultBaseUrl, Parameters.keyName1, Parameters.keyVersion],
   queryParameters: [Parameters.apiVersion],
   headerParameters: [Parameters.acceptLanguage],
   requestBody: {
@@ -5604,11 +5471,7 @@ const encryptOperationSpec: msRest.OperationSpec = {
 const decryptOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "keys/{key-name}/{key-version}/decrypt",
-  urlParameters: [
-    Parameters.vaultBaseUrl,
-    Parameters.keyName1,
-    Parameters.keyVersion
-  ],
+  urlParameters: [Parameters.vaultBaseUrl, Parameters.keyName1, Parameters.keyVersion],
   queryParameters: [Parameters.apiVersion],
   headerParameters: [Parameters.acceptLanguage],
   requestBody: {
@@ -5635,11 +5498,7 @@ const decryptOperationSpec: msRest.OperationSpec = {
 const signOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "keys/{key-name}/{key-version}/sign",
-  urlParameters: [
-    Parameters.vaultBaseUrl,
-    Parameters.keyName1,
-    Parameters.keyVersion
-  ],
+  urlParameters: [Parameters.vaultBaseUrl, Parameters.keyName1, Parameters.keyVersion],
   queryParameters: [Parameters.apiVersion],
   headerParameters: [Parameters.acceptLanguage],
   requestBody: {
@@ -5666,11 +5525,7 @@ const signOperationSpec: msRest.OperationSpec = {
 const verifyOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "keys/{key-name}/{key-version}/verify",
-  urlParameters: [
-    Parameters.vaultBaseUrl,
-    Parameters.keyName1,
-    Parameters.keyVersion
-  ],
+  urlParameters: [Parameters.vaultBaseUrl, Parameters.keyName1, Parameters.keyVersion],
   queryParameters: [Parameters.apiVersion],
   headerParameters: [Parameters.acceptLanguage],
   requestBody: {
@@ -5698,11 +5553,7 @@ const verifyOperationSpec: msRest.OperationSpec = {
 const wrapKeyOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "keys/{key-name}/{key-version}/wrapkey",
-  urlParameters: [
-    Parameters.vaultBaseUrl,
-    Parameters.keyName1,
-    Parameters.keyVersion
-  ],
+  urlParameters: [Parameters.vaultBaseUrl, Parameters.keyName1, Parameters.keyVersion],
   queryParameters: [Parameters.apiVersion],
   headerParameters: [Parameters.acceptLanguage],
   requestBody: {
@@ -5729,11 +5580,7 @@ const wrapKeyOperationSpec: msRest.OperationSpec = {
 const unwrapKeyOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "keys/{key-name}/{key-version}/unwrapkey",
-  urlParameters: [
-    Parameters.vaultBaseUrl,
-    Parameters.keyName1,
-    Parameters.keyVersion
-  ],
+  urlParameters: [Parameters.vaultBaseUrl, Parameters.keyName1, Parameters.keyVersion],
   queryParameters: [Parameters.apiVersion],
   headerParameters: [Parameters.acceptLanguage],
   requestBody: {
@@ -5872,11 +5719,7 @@ const deleteSecretOperationSpec: msRest.OperationSpec = {
 const updateSecretOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
   path: "secrets/{secret-name}/{secret-version}",
-  urlParameters: [
-    Parameters.vaultBaseUrl,
-    Parameters.secretName1,
-    Parameters.secretVersion
-  ],
+  urlParameters: [Parameters.vaultBaseUrl, Parameters.secretName1, Parameters.secretVersion],
   queryParameters: [Parameters.apiVersion],
   headerParameters: [Parameters.acceptLanguage],
   requestBody: {
@@ -5904,11 +5747,7 @@ const updateSecretOperationSpec: msRest.OperationSpec = {
 const getSecretOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "secrets/{secret-name}/{secret-version}",
-  urlParameters: [
-    Parameters.vaultBaseUrl,
-    Parameters.secretName1,
-    Parameters.secretVersion
-  ],
+  urlParameters: [Parameters.vaultBaseUrl, Parameters.secretName1, Parameters.secretVersion],
   queryParameters: [Parameters.apiVersion],
   headerParameters: [Parameters.acceptLanguage],
   responses: {
@@ -6069,11 +5908,7 @@ const getCertificatesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "certificates",
   urlParameters: [Parameters.vaultBaseUrl],
-  queryParameters: [
-    Parameters.maxresults,
-    Parameters.includePending,
-    Parameters.apiVersion
-  ],
+  queryParameters: [Parameters.maxresults, Parameters.includePending, Parameters.apiVersion],
   headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
@@ -6574,11 +6409,7 @@ const getDeletedCertificatesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "deletedcertificates",
   urlParameters: [Parameters.vaultBaseUrl],
-  queryParameters: [
-    Parameters.maxresults,
-    Parameters.includePending,
-    Parameters.apiVersion
-  ],
+  queryParameters: [Parameters.maxresults, Parameters.includePending, Parameters.apiVersion],
   headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
@@ -6944,8 +6775,7 @@ const getDeletedSasDefinitionOperationSpec: msRest.OperationSpec = {
 
 const recoverDeletedSasDefinitionOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path:
-    "deletedstorage/{storage-account-name}/sas/{sas-definition-name}/recover",
+  path: "deletedstorage/{storage-account-name}/sas/{sas-definition-name}/recover",
   urlParameters: [
     Parameters.vaultBaseUrl,
     Parameters.storageAccountName0,

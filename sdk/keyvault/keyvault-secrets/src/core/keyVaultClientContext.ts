@@ -11,7 +11,7 @@
 import * as msRest from "@azure/ms-rest-js";
 import * as msRestAzure from "@azure/ms-rest-azure-js";
 
-const packageName = "@azure/keyvault-keys";
+const packageName = "@azure/keyvault-secrets";
 const packageVersion = "0.0.1";
 
 export class KeyVaultClientContext extends msRestAzure.AzureServiceClient {
@@ -48,18 +48,14 @@ export class KeyVaultClientContext extends msRestAzure.AzureServiceClient {
     this.requestContentType = "application/json; charset=utf-8";
     this.credentials = credentials;
 
-    if (
-      options.acceptLanguage !== null &&
-      options.acceptLanguage !== undefined
-    ) {
+    if (options.acceptLanguage !== null && options.acceptLanguage !== undefined) {
       this.acceptLanguage = options.acceptLanguage;
     }
     if (
       options.longRunningOperationRetryTimeout !== null &&
       options.longRunningOperationRetryTimeout !== undefined
     ) {
-      this.longRunningOperationRetryTimeout =
-        options.longRunningOperationRetryTimeout;
+      this.longRunningOperationRetryTimeout = options.longRunningOperationRetryTimeout;
     }
   }
 }

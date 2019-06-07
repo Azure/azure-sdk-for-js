@@ -22,11 +22,7 @@ import { TelemetryOptions } from "./core";
 import { KeyBundle, JsonWebKeyType, JsonWebKey, KeyItem } from "./core/models";
 import { KeyVaultClient } from "./core/keyVaultClient";
 import { RetryConstants, SDK_VERSION } from "./core/utils/constants";
-import {
-  NewPipelineOptions,
-  isNewPipelineOptions,
-  Pipeline
-} from "./core/keyVaultBase";
+import { NewPipelineOptions, isNewPipelineOptions, Pipeline } from "./core/keyVaultBase";
 import {
   Key,
   DeletedKey,
@@ -61,16 +57,10 @@ export class KeysClient {
     // changes made by other factories (like UniqueRequestIDPolicyFactory)
     const retryOptions = pipelineOptions.retryOptions || {};
 
-    const userAgentString: string = KeysClient.getUserAgentString(
-      pipelineOptions.telemetry
-    );
+    const userAgentString: string = KeysClient.getUserAgentString(pipelineOptions.telemetry);
 
     const requestPolicyFactories: RequestPolicyFactory[] = [
-      proxyPolicy(
-        getDefaultProxySettings(
-          (pipelineOptions.proxyOptions || {}).proxySettings
-        )
-      ),
+      proxyPolicy(getDefaultProxySettings((pipelineOptions.proxyOptions || {}).proxySettings)),
       userAgentPolicy({ value: userAgentString }),
       generateClientRequestIdPolicy(),
       deserializationPolicy(), // Default deserializationPolicy is provided by protocol layer
@@ -187,12 +177,7 @@ export class KeysClient {
       );
       return this.getKeyFromKeyBundle(response);
     } else {
-      const response = await this.client.createKey(
-        this.vaultBaseUrl,
-        name,
-        keyType,
-        options
-      );
+      const response = await this.client.createKey(this.vaultBaseUrl, name, keyType, options);
       return this.getKeyFromKeyBundle(response);
     }
   }
@@ -207,10 +192,7 @@ export class KeysClient {
    * @param [options] The optional parameters
    * @returns Promise<Key>
    */
-  public async createEcKey(
-    name: string,
-    options?: CreateEcKeyOptions
-  ): Promise<Key> {
+  public async createEcKey(name: string, options?: CreateEcKeyOptions): Promise<Key> {
     if (options) {
       let unflattenedAttributes = {
         enabled: options.enabled,
@@ -236,12 +218,7 @@ export class KeysClient {
       );
       return this.getKeyFromKeyBundle(response);
     } else {
-      const response = await this.client.createKey(
-        this.vaultBaseUrl,
-        name,
-        "EC",
-        options
-      );
+      const response = await this.client.createKey(this.vaultBaseUrl, name, "EC", options);
       return this.getKeyFromKeyBundle(response);
     }
   }
@@ -256,10 +233,7 @@ export class KeysClient {
    * @param [options] The optional parameters
    * @returns Promise<Key>
    */
-  public async createRsaKey(
-    name: string,
-    options?: CreateRsaKeyOptions
-  ): Promise<Key> {
+  public async createRsaKey(name: string, options?: CreateRsaKeyOptions): Promise<Key> {
     if (options) {
       let unflattenedAttributes = {
         enabled: options.enabled,
@@ -285,12 +259,7 @@ export class KeysClient {
       );
       return this.getKeyFromKeyBundle(response);
     } else {
-      const response = await this.client.createKey(
-        this.vaultBaseUrl,
-        name,
-        "RSA",
-        options
-      );
+      const response = await this.client.createKey(this.vaultBaseUrl, name, "RSA", options);
       return this.getKeyFromKeyBundle(response);
     }
   }
@@ -305,11 +274,7 @@ export class KeysClient {
    * @param key The Json web key
    * @param [options] The optional parameters
    */
-  public async importKey(
-    name: string,
-    key: JsonWebKey,
-    options?: ImportKeyOptions
-  ): Promise<Key> {
+  public async importKey(name: string, key: JsonWebKey, options?: ImportKeyOptions): Promise<Key> {
     if (options) {
       let unflattenedAttributes = {
         enabled: options.enabled,
@@ -334,12 +299,7 @@ export class KeysClient {
       );
       return this.getKeyFromKeyBundle(response);
     } else {
-      const response = await this.client.importKey(
-        this.vaultBaseUrl,
-        name,
-        key,
-        options
-      );
+      const response = await this.client.importKey(this.vaultBaseUrl, name, key, options);
       return this.getKeyFromKeyBundle(response);
     }
   }
@@ -353,10 +313,7 @@ export class KeysClient {
    * @param [options] The optional parameters
    * @returns Promise<DeletedKey>
    */
-  public async deleteKey(
-    name: string,
-    options?: RequestOptions
-  ): Promise<DeletedKey> {
+  public async deleteKey(name: string, options?: RequestOptions): Promise<DeletedKey> {
     const response = await this.client.deleteKey(
       this.vaultBaseUrl,
       name,
@@ -404,12 +361,7 @@ export class KeysClient {
       );
       return this.getKeyFromKeyBundle(response);
     } else {
-      const response = await this.client.updateKey(
-        this.vaultBaseUrl,
-        name,
-        keyVersion,
-        options
-      );
+      const response = await this.client.updateKey(this.vaultBaseUrl, name, keyVersion, options);
       return this.getKeyFromKeyBundle(response);
     }
   }
@@ -440,10 +392,7 @@ export class KeysClient {
    * @param [options] The optional parameters
    * @returns Promise<DeletedKey>
    */
-  public async getDeletedKey(
-    name: string,
-    options?: RequestOptions
-  ): Promise<DeletedKey> {
+  public async getDeletedKey(name: string, options?: RequestOptions): Promise<DeletedKey> {
     const response = await this.client.getDeletedKey(
       this.vaultBaseUrl,
       name,
@@ -461,10 +410,7 @@ export class KeysClient {
    * @param [options] The optional parameters
    * @returns Promise<void>
    */
-  public async purgeDeletedKey(
-    name: string,
-    options?: RequestOptions
-  ): Promise<void> {
+  public async purgeDeletedKey(name: string, options?: RequestOptions): Promise<void> {
     await this.client.purgeDeletedKey(
       this.vaultBaseUrl,
       name,
@@ -480,10 +426,7 @@ export class KeysClient {
    * @param [options] The optional parameters
    * @returns Promise<Key>
    */
-  public async recoverDeletedKey(
-    name: string,
-    options?: RequestOptions
-  ): Promise<Key> {
+  public async recoverDeletedKey(name: string, options?: RequestOptions): Promise<Key> {
     const response = await this.client.recoverDeletedKey(
       this.vaultBaseUrl,
       name,
@@ -500,10 +443,7 @@ export class KeysClient {
    * @param [options] The optional parameters
    * @returns Promise<Uint8Array | undefined>
    */
-  public async backupKey(
-    name: string,
-    options?: RequestOptions
-  ): Promise<Uint8Array | undefined> {
+  public async backupKey(name: string, options?: RequestOptions): Promise<Uint8Array | undefined> {
     const response = await this.client.backupKey(
       this.vaultBaseUrl,
       name,
@@ -520,10 +460,7 @@ export class KeysClient {
    * @param [options] The optional parameters
    * @returns Promise<Key>
    */
-  public async restoreKey(
-    backup: Uint8Array,
-    options?: RequestOptions
-  ): Promise<Key> {
+  public async restoreKey(backup: Uint8Array, options?: RequestOptions): Promise<Key> {
     const response = await this.client.restoreKey(
       this.vaultBaseUrl,
       backup,
@@ -536,13 +473,9 @@ export class KeysClient {
     name: string,
     options?: GetAllKeysOptions
   ): AsyncIterableIterator<KeyAttributes> {
-    let currentSetResponse = await this.client.getKeyVersions(
-      this.vaultBaseUrl,
-      name,
-      {
-        ...(options && options.requestOptions ? options.requestOptions : {})
-      }
-    );
+    let currentSetResponse = await this.client.getKeyVersions(this.vaultBaseUrl, name, {
+      ...(options && options.requestOptions ? options.requestOptions : {})
+    });
     yield* currentSetResponse.map(this.getKeyAttributesFromKeyItem);
 
     while (currentSetResponse.nextLink) {
@@ -562,19 +495,14 @@ export class KeysClient {
    * @param [options] The optional parameters
    * @returns AsyncIterableIterator<Key>
    */
-  public async *getAllKeys(
-    options?: GetAllKeysOptions
-  ): AsyncIterableIterator<KeyAttributes> {
+  public async *getAllKeys(options?: GetAllKeysOptions): AsyncIterableIterator<KeyAttributes> {
     let currentSetResponse = await this.client.getKeys(this.vaultBaseUrl, {
       ...(options && options.requestOptions ? options.requestOptions : {})
     });
     yield* currentSetResponse.map(this.getKeyAttributesFromKeyItem);
 
     while (currentSetResponse.nextLink) {
-      currentSetResponse = await this.client.getKeysNext(
-        currentSetResponse.nextLink,
-        options
-      );
+      currentSetResponse = await this.client.getKeysNext(currentSetResponse.nextLink, options);
       yield* currentSetResponse.map(this.getKeyAttributesFromKeyItem);
     }
   }
@@ -587,15 +515,10 @@ export class KeysClient {
    * @param [options] The optional parameters
    * @returns AsyncIterableIterator<Key>
    */
-  public async *getAllDeletedKeys(
-    options?: GetAllKeysOptions
-  ): AsyncIterableIterator<Key> {
-    let currentSetResponse = await this.client.getDeletedKeys(
-      this.vaultBaseUrl,
-      {
-        ...(options && options.requestOptions ? options.requestOptions : {})
-      }
-    );
+  public async *getAllDeletedKeys(options?: GetAllKeysOptions): AsyncIterableIterator<Key> {
+    let currentSetResponse = await this.client.getDeletedKeys(this.vaultBaseUrl, {
+      ...(options && options.requestOptions ? options.requestOptions : {})
+    });
     yield* currentSetResponse.map(this.getKeyAttributesFromKeyItem);
 
     while (currentSetResponse.nextLink) {

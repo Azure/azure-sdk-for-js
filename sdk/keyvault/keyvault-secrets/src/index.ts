@@ -30,11 +30,7 @@ import {
   SecretAttributes
 } from "./secretsModels";
 import { parseKeyvaultIdentifier as parseKeyvaultEntityIdentifier } from "./core/utils";
-import {
-  NewPipelineOptions,
-  isNewPipelineOptions,
-  Pipeline
-} from "./core/keyVaultBase";
+import { NewPipelineOptions, isNewPipelineOptions, Pipeline } from "./core/keyVaultBase";
 import { TelemetryOptions } from "./core";
 import { getDefaultUserAgentValue } from "@azure/ms-rest-azure-js";
 
@@ -57,16 +53,10 @@ export class SecretsClient {
     // changes made by other factories (like UniqueRequestIDPolicyFactory)
     const retryOptions = pipelineOptions.retryOptions || {};
 
-    const userAgentString: string = SecretsClient.getUserAgentString(
-      pipelineOptions.telemetry
-    );
+    const userAgentString: string = SecretsClient.getUserAgentString(pipelineOptions.telemetry);
 
     const requestPolicyFactories: RequestPolicyFactory[] = [
-      proxyPolicy(
-        getDefaultProxySettings(
-          (pipelineOptions.proxyOptions || {}).proxySettings
-        )
-      ),
+      proxyPolicy(getDefaultProxySettings((pipelineOptions.proxyOptions || {}).proxySettings)),
       userAgentPolicy({ value: userAgentString }),
       generateClientRequestIdPolicy(),
       deserializationPolicy(), // Default deserializationPolicy is provided by protocol layer
@@ -153,11 +143,7 @@ export class SecretsClient {
    * @param [options] The optional parameters
    * @returns Promise<Secret>
    */
-  public async setSecret(
-    secretName: string,
-    value: string,
-    options?: SetSecretOptions
-  ) {
+  public async setSecret(secretName: string, value: string, options?: SetSecretOptions) {
     if (options) {
       let unflattenedAttributes = {
         enabled: options.enabled,
@@ -182,12 +168,7 @@ export class SecretsClient {
       );
       return this.getSecretFromSecretBundle(response);
     } else {
-      const response = await this.client.setSecret(
-        this.vaultBaseUrl,
-        secretName,
-        value,
-        options
-      );
+      const response = await this.client.setSecret(this.vaultBaseUrl, secretName, value, options);
       return this.getSecretFromSecretBundle(response);
     }
   }
@@ -205,11 +186,7 @@ export class SecretsClient {
     secretName: string,
     options?: RequestOptionsBase
   ): Promise<DeletedSecret> {
-    const response = await this.client.deleteSecret(
-      this.vaultBaseUrl,
-      secretName,
-      options
-    );
+    const response = await this.client.deleteSecret(this.vaultBaseUrl, secretName, options);
     return this.getSecretFromSecretBundle(response);
   }
 
@@ -270,10 +247,7 @@ export class SecretsClient {
    * @param [options] The optional parameters
    * @returns Promise<Secret>
    */
-  public async getSecret(
-    secretName: string,
-    options?: GetSecretOptions
-  ): Promise<Secret> {
+  public async getSecret(secretName: string, options?: GetSecretOptions): Promise<Secret> {
     const response = await this.client.getSecret(
       this.vaultBaseUrl,
       secretName,
@@ -295,11 +269,7 @@ export class SecretsClient {
     secretName: string,
     options?: RequestOptionsBase
   ): Promise<DeletedSecret> {
-    const response = await this.client.getDeletedSecret(
-      this.vaultBaseUrl,
-      secretName,
-      options
-    );
+    const response = await this.client.getDeletedSecret(this.vaultBaseUrl, secretName, options);
     return this.getSecretFromSecretBundle(response);
   }
 
@@ -312,15 +282,8 @@ export class SecretsClient {
    * @param [options] The optional parameters
    * @returns Promise<void>
    */
-  public async purgeDeletedSecret(
-    secretName: string,
-    options?: RequestOptionsBase
-  ): Promise<void> {
-    await this.client.purgeDeletedSecret(
-      this.vaultBaseUrl,
-      secretName,
-      options
-    );
+  public async purgeDeletedSecret(secretName: string, options?: RequestOptionsBase): Promise<void> {
+    await this.client.purgeDeletedSecret(this.vaultBaseUrl, secretName, options);
   }
 
   /**
@@ -335,11 +298,7 @@ export class SecretsClient {
     secretName: string,
     options?: RequestOptionsBase
   ): Promise<Secret> {
-    const response = await this.client.recoverDeletedSecret(
-      this.vaultBaseUrl,
-      secretName,
-      options
-    );
+    const response = await this.client.recoverDeletedSecret(this.vaultBaseUrl, secretName, options);
     return this.getSecretFromSecretBundle(response);
   }
 
@@ -355,11 +314,7 @@ export class SecretsClient {
     secretName: string,
     options?: RequestOptionsBase
   ): Promise<Uint8Array | undefined> {
-    const response = await this.client.backupSecret(
-      this.vaultBaseUrl,
-      secretName,
-      options
-    );
+    const response = await this.client.backupSecret(this.vaultBaseUrl, secretName, options);
     return response.value;
   }
 
@@ -387,13 +342,9 @@ export class SecretsClient {
     secretName: string,
     options?: GetAllSecretsOptions
   ): AsyncIterableIterator<SecretAttributes> {
-    let currentSetResponse = await this.client.getSecretVersions(
-      this.vaultBaseUrl,
-      secretName,
-      {
-        ...(options && options.requestOptions ? options.requestOptions : {})
-      }
-    );
+    let currentSetResponse = await this.client.getSecretVersions(this.vaultBaseUrl, secretName, {
+      ...(options && options.requestOptions ? options.requestOptions : {})
+    });
     yield* currentSetResponse.map(this.getSecretFromSecretBundle);
 
     while (currentSetResponse.nextLink) {
@@ -421,10 +372,7 @@ export class SecretsClient {
     yield* currentSetResponse.map(this.getSecretFromSecretBundle);
 
     while (currentSetResponse.nextLink) {
-      currentSetResponse = await this.client.getSecretsNext(
-        currentSetResponse.nextLink,
-        options
-      );
+      currentSetResponse = await this.client.getSecretsNext(currentSetResponse.nextLink, options);
       yield* currentSetResponse.map(this.getSecretFromSecretBundle);
     }
   }
@@ -440,12 +388,9 @@ export class SecretsClient {
   public async *getAllDeletedSecrets(
     options?: GetAllSecretsOptions
   ): AsyncIterableIterator<Secret> {
-    let currentSetResponse = await this.client.getDeletedSecrets(
-      this.vaultBaseUrl,
-      {
-        ...(options && options.requestOptions ? options.requestOptions : {})
-      }
-    );
+    let currentSetResponse = await this.client.getDeletedSecrets(this.vaultBaseUrl, {
+      ...(options && options.requestOptions ? options.requestOptions : {})
+    });
     yield* currentSetResponse.map(this.getSecretFromSecretBundle);
 
     while (currentSetResponse.nextLink) {
