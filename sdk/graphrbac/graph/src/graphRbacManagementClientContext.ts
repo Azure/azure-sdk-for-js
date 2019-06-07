@@ -13,7 +13,7 @@ import * as msRest from "@azure/ms-rest-js";
 import * as msRestAzure from "@azure/ms-rest-azure-js";
 
 const packageName = "@azure/graph";
-const packageVersion = "0.1.0";
+const packageVersion = "4.3.0";
 
 export class GraphRbacManagementClientContext extends msRestAzure.AzureServiceClient {
   credentials: msRest.ServiceClientCredentials;
