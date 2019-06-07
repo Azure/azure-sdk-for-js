@@ -26,6 +26,8 @@ import { StreamingReceiver, ReceiveHandler } from "./streamingReceiver";
 import { BatchingReceiver } from "./batchingReceiver";
 import { IotHubClient } from "./iothub/iothubClient";
 
+const isNode = typeof process !== "undefined" && !!process.version && !!process.versions && !!process.versions.node;
+
 /**
  * Describes the options that one can set while receiving messages.
  * @interface ReceiveOptions
@@ -86,11 +88,11 @@ export interface ClientOptionsBase {
    * over a WebSocket. In browsers, the built-in WebSocket will be  used by default. In Node, a
    * TCP socket will be used if a WebSocket constructor is not provided.
    */
-   webSocket?: WebSocketImpl;
+  webSocket?: WebSocketImpl;
   /**
    * @property {webSocketConstructorOptions} - Options to be passed to the WebSocket constructor
    */
-   webSocketConstructorOptions?: any;
+  webSocketConstructorOptions?: any;
 }
 
 /**
@@ -417,6 +419,11 @@ export class EventHubClient {
     credentials: ApplicationTokenCredentials | UserTokenCredentials | DeviceTokenCredentials | MSITokenCredentials,
     options?: ClientOptionsBase
   ): EventHubClient {
+    if (isNode) {
+      // do nothing
+    } else {
+      throw new Error("Creation of client using AAD credentials is not supported in browser");
+    }
     if (!credentials || (credentials && typeof credentials !== "object")) {
       throw new Error(
         "'credentials' is a required parameter and must be an instance of " +
