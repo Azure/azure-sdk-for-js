@@ -2367,7 +2367,10 @@ export interface ApiManagementServiceBaseProperties {
    * `Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Tls10` can be used to
    * disable TLS 1.0 for communications with backends.</br>Setting
    * `Microsoft.WindowsAzure.ApiManagement.Gateway.Protocols.Server.Http2` can be used to enable
-   * HTTP2 protocol on an API Management service.
+   * HTTP2 protocol on an API Management service.</br>Not specifying any of these properties on
+   * PATCH operation will reset omitted properties' values to their defaults. For all the settings
+   * except Http2 the default value is `True` if the service was created on or before April 1st
+   * 2018 and `False` otherwise. Http2 setting's default value is `False`.
    */
   customProperties?: { [propertyName: string]: string };
   /**
@@ -2523,7 +2526,10 @@ export interface ApiManagementServiceResource extends ApimResource {
    * `Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Tls10` can be used to
    * disable TLS 1.0 for communications with backends.</br>Setting
    * `Microsoft.WindowsAzure.ApiManagement.Gateway.Protocols.Server.Http2` can be used to enable
-   * HTTP2 protocol on an API Management service.
+   * HTTP2 protocol on an API Management service.</br>Not specifying any of these properties on
+   * PATCH operation will reset omitted properties' values to their defaults. For all the settings
+   * except Http2 the default value is `True` if the service was created on or before April 1st
+   * 2018 and `False` otherwise. Http2 setting's default value is `False`.
    */
   customProperties?: { [propertyName: string]: string };
   /**
@@ -2663,7 +2669,10 @@ export interface ApiManagementServiceUpdateParameters extends ApimResource {
    * `Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Tls10` can be used to
    * disable TLS 1.0 for communications with backends.</br>Setting
    * `Microsoft.WindowsAzure.ApiManagement.Gateway.Protocols.Server.Http2` can be used to enable
-   * HTTP2 protocol on an API Management service.
+   * HTTP2 protocol on an API Management service.</br>Not specifying any of these properties on
+   * PATCH operation will reset omitted properties' values to their defaults. For all the settings
+   * except Http2 the default value is `True` if the service was created on or before April 1st
+   * 2018 and `False` otherwise. Http2 setting's default value is `False`.
    */
   customProperties?: { [propertyName: string]: string };
   /**
