@@ -1,44 +1,44 @@
 let nock = require('nock');
 
-module.exports.testInfo = {"queue":"queue155596606782400549","queue155596606782400549":"queue155596606782400549155596606824307237"}
+module.exports.testInfo = {"queue":"queue155996388867508103","queue155996388867508103":"queue155996388867508103155996388909003771"}
 
-nock('https://coolstorageaccount1234.queue.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/queue155596606782400549')
-  .query({"timeout":"30"})
+nock('https://fakestorageaccount.queue.core.windows.net:443', {"encodedQueryParams":true})
+  .put('/queue155996388867508103')
+  .query(true)
   .reply(201, "", [ 'Content-Length',
   '0',
   'Server',
   'Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '4bef3f10-2003-0044-554c-f94134000000',
+  '82107a15-7003-007e-7ea8-1d0297000000',
   'x-ms-version',
   '2018-03-28',
   'Date',
-  'Mon, 22 Apr 2019 20:47:48 GMT',
+  'Sat, 08 Jun 2019 03:18:07 GMT',
   'Connection',
   'close' ]);
 
 
-nock('https://coolstorageaccount1234.queue.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/queue155596606782400549155596606824307237')
-  .query({"timeout":"30"})
+nock('https://fakestorageaccount.queue.core.windows.net:443', {"encodedQueryParams":true})
+  .put('/queue155996388867508103155996388909003771')
+  .query(true)
   .reply(201, "", [ 'Content-Length',
   '0',
   'Server',
   'Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'a7d6f6f2-b003-000e-5e4c-f97153000000',
+  '94cd811b-9003-003b-08a8-1ddf06000000',
   'x-ms-version',
   '2018-03-28',
   'Date',
-  'Mon, 22 Apr 2019 20:47:47 GMT',
+  'Sat, 08 Jun 2019 03:18:08 GMT',
   'Connection',
   'close' ]);
 
 
-nock('https://coolstorageaccount1234.queue.core.windows.net:443', {"encodedQueryParams":true})
-  .get('/queue155596606782400549155596606824307237')
-  .query({"comp":"metadata","timeout":"30"})
+nock('https://fakestorageaccount.queue.core.windows.net:443', {"encodedQueryParams":true})
+  .get('/queue155996388867508103155996388909003771')
+  .query(true)
   .reply(200, "", [ 'Cache-Control',
   'no-cache',
   'Content-Length',
@@ -46,7 +46,7 @@ nock('https://coolstorageaccount1234.queue.core.windows.net:443', {"encodedQuery
   'Server',
   'Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '3420d9c5-3003-0036-484c-f9300a000000',
+  'fb4d9733-a003-0077-45a8-1d1819000000',
   'x-ms-version',
   '2018-03-28',
   'x-ms-approximate-messages-count',
@@ -58,23 +58,24 @@ nock('https://coolstorageaccount1234.queue.core.windows.net:443', {"encodedQuery
   'Access-Control-Allow-Origin',
   '*',
   'Date',
-  'Mon, 22 Apr 2019 20:47:48 GMT',
+  'Sat, 08 Jun 2019 03:18:09 GMT',
   'Connection',
   'close' ]);
 
 
-nock('https://coolstorageaccount1234.queue.core.windows.net:443', {"encodedQueryParams":true})
-  .delete('/queue155596606782400549')
-  .query({"timeout":"30"})
+nock('https://fakestorageaccount.queue.core.windows.net:443', {"encodedQueryParams":true})
+  .delete('/queue155996388867508103')
+  .query(true)
   .reply(204, "", [ 'Content-Length',
   '0',
   'Server',
   'Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'e2768d21-9003-0074-5a4c-f91b1e000000',
+  'e972a7ea-0003-0053-62a8-1d8157000000',
   'x-ms-version',
   '2018-03-28',
   'Date',
-  'Mon, 22 Apr 2019 20:47:52 GMT',
+  'Sat, 08 Jun 2019 03:18:09 GMT',
   'Connection',
   'close' ]);
+

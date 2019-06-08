@@ -2,7 +2,7 @@
  "recordings": [
   {
    "method": "PUT",
-   "url": "https://coolstorageaccount1234.queue.core.windows.net/queue155866986949506758x1",
+   "url": "https://fakestorageaccount.queue.core.windows.net/queue155996398256604767x1",
    "query": {
     "timeout": "30"
    },
@@ -10,16 +10,16 @@
    "status": 201,
    "response": "",
    "responseHeaders": {
-    "x-ms-request-id": "0bb226dd-d003-0073-2de3-11ed9b000000",
+    "x-ms-request-id": "ccc5ea6b-2003-0029-69a9-1deb1a000000",
     "x-ms-version": "2018-03-28",
     "server": "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0",
-    "date": "Fri, 24 May 2019 03:51:09 GMT",
+    "date": "Sat, 08 Jun 2019 03:19:41 GMT",
     "content-length": "0"
    }
   },
   {
    "method": "PUT",
-   "url": "https://coolstorageaccount1234.queue.core.windows.net/queue155866986949506758x2",
+   "url": "https://fakestorageaccount.queue.core.windows.net/queue155996398256604767x2",
    "query": {
     "timeout": "30"
    },
@@ -27,63 +27,63 @@
    "status": 201,
    "response": "",
    "responseHeaders": {
-    "x-ms-request-id": "0bb2274b-d003-0073-14e3-11ed9b000000",
+    "x-ms-request-id": "ccc5ea94-2003-0029-0ba9-1deb1a000000",
     "x-ms-version": "2018-03-28",
     "server": "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0",
-    "date": "Fri, 24 May 2019 03:51:09 GMT",
+    "date": "Sat, 08 Jun 2019 03:19:41 GMT",
     "content-length": "0"
    }
   },
   {
    "method": "GET",
-   "url": "https://coolstorageaccount1234.queue.core.windows.net",
+   "url": "https://fakestorageaccount.queue.core.windows.net",
    "query": {
     "comp": "list",
     "include": "metadata",
     "maxresults": "1",
-    "prefix": "queue155866986949506758",
+    "prefix": "queue155996398256604767",
     "timeout": "30"
    },
    "requestBody": null,
    "status": 200,
-   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><EnumerationResults ServiceEndpoint=\"https://coolstorageaccount1234.queue.core.windows.net/\"><Prefix>queue155866986949506758</Prefix><MaxResults>1</MaxResults><Queues><Queue><Name>queue155866986949506758x1</Name><Metadata><key>val</key></Metadata></Queue></Queues><NextMarker>/coolstorageaccount1234/queue155866986949506758x2</NextMarker></EnumerationResults>",
+   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><EnumerationResults ServiceEndpoint=\"https://coolstorageaccount1234.queue.core.windows.net/\"><Prefix>queue155996398256604767</Prefix><MaxResults>1</MaxResults><Queues><Queue><Name>queue155996398256604767x1</Name><Metadata><key>val</key></Metadata></Queue></Queues><NextMarker>/coolstorageaccount1234/queue155996398256604767x2</NextMarker></EnumerationResults>",
    "responseHeaders": {
-    "date": "Fri, 24 May 2019 03:51:09 GMT",
+    "date": "Sat, 08 Jun 2019 03:19:42 GMT",
     "server": "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0",
     "transfer-encoding": "chunked",
     "content-type": "application/xml",
-    "x-ms-request-id": "0bb227a6-d003-0073-68e3-11ed9b000000",
+    "x-ms-request-id": "ccc5eab5-2003-0029-27a9-1deb1a000000",
     "cache-control": "no-cache",
     "x-ms-version": "2018-03-28"
    }
   },
   {
    "method": "GET",
-   "url": "https://coolstorageaccount1234.queue.core.windows.net",
+   "url": "https://fakestorageaccount.queue.core.windows.net",
    "query": {
     "comp": "list",
     "include": "metadata",
-    "marker": "/coolstorageaccount1234/queue155866986949506758x2",
+    "marker": "/coolstorageaccount1234/queue155996398256604767x2",
     "maxresults": "1",
-    "prefix": "queue155866986949506758",
+    "prefix": "queue155996398256604767",
     "timeout": "30"
    },
    "requestBody": null,
    "status": 200,
-   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><EnumerationResults ServiceEndpoint=\"https://coolstorageaccount1234.queue.core.windows.net/\"><Prefix>queue155866986949506758</Prefix><Marker>/coolstorageaccount1234/queue155866986949506758x2</Marker><MaxResults>1</MaxResults><Queues><Queue><Name>queue155866986949506758x2</Name><Metadata><key>val</key></Metadata></Queue></Queues><NextMarker /></EnumerationResults>",
+   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><EnumerationResults ServiceEndpoint=\"https://coolstorageaccount1234.queue.core.windows.net/\"><Prefix>queue155996398256604767</Prefix><Marker>/coolstorageaccount1234/queue155996398256604767x2</Marker><MaxResults>1</MaxResults><Queues><Queue><Name>queue155996398256604767x2</Name><Metadata><key>val</key></Metadata></Queue></Queues><NextMarker /></EnumerationResults>",
    "responseHeaders": {
-    "date": "Fri, 24 May 2019 03:51:09 GMT",
+    "date": "Sat, 08 Jun 2019 03:19:42 GMT",
     "server": "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0",
     "transfer-encoding": "chunked",
     "content-type": "application/xml",
-    "x-ms-request-id": "0bb22818-d003-0073-54e3-11ed9b000000",
+    "x-ms-request-id": "ccc5eae5-2003-0029-52a9-1deb1a000000",
     "cache-control": "no-cache",
     "x-ms-version": "2018-03-28"
    }
   },
   {
    "method": "DELETE",
-   "url": "https://coolstorageaccount1234.queue.core.windows.net/queue155866986949506758x1",
+   "url": "https://fakestorageaccount.queue.core.windows.net/queue155996398256604767x1",
    "query": {
     "timeout": "30"
    },
@@ -91,16 +91,16 @@
    "status": 204,
    "response": "",
    "responseHeaders": {
-    "x-ms-request-id": "0bb22890-d003-0073-46e3-11ed9b000000",
+    "x-ms-request-id": "ccc5eb09-2003-0029-72a9-1deb1a000000",
     "x-ms-version": "2018-03-28",
     "server": "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0",
-    "date": "Fri, 24 May 2019 03:51:10 GMT",
+    "date": "Sat, 08 Jun 2019 03:19:42 GMT",
     "content-length": "0"
    }
   },
   {
    "method": "DELETE",
-   "url": "https://coolstorageaccount1234.queue.core.windows.net/queue155866986949506758x2",
+   "url": "https://fakestorageaccount.queue.core.windows.net/queue155996398256604767x2",
    "query": {
     "timeout": "30"
    },
@@ -108,15 +108,15 @@
    "status": 204,
    "response": "",
    "responseHeaders": {
-    "x-ms-request-id": "0bb2291a-d003-0073-4de3-11ed9b000000",
+    "x-ms-request-id": "ccc5eb32-2003-0029-17a9-1deb1a000000",
     "x-ms-version": "2018-03-28",
     "server": "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0",
-    "date": "Fri, 24 May 2019 03:51:10 GMT",
+    "date": "Sat, 08 Jun 2019 03:19:42 GMT",
     "content-length": "0"
    }
   }
  ],
  "uniqueTestInfo": {
-  "queue": "queue155866986949506758"
+  "queue": "queue155996398256604767"
  }
 }

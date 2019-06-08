@@ -4,11 +4,19 @@ import queryString from "query-string";
 import { getUniqueName, isBrowser } from "../utils";
 import { blobToString } from "./index.browser";
 import * as dotenv from "dotenv";
-dotenv.config({ path: "../../.env" });
+dotenv.config({ path: "../.env" });
 
 let nock: any;
 if (!isBrowser()) {
   nock = require("nock");
+}
+
+const env = isBrowser() ? (window as any).__env__ : process.env;
+const isRecording = (env.TEST_MODE === "record");
+const isPlayingBack = (env.TEST_MODE === "playback");
+
+if (isPlayingBack && env.ACCOUNT_NAME) {
+  env.ACCOUNT_NAME = "fakestorageaccount";
 }
 
 /**
@@ -98,21 +106,31 @@ class NockRecorder extends Recorder {
       if (err.code !== "EEXIST") throw err;
     }
 
-    // Some tests expect errors to happen and, if a writing error is thrown in one of these tests, it may be captured in a catch block by accident,
-    // resulting in unexpected behavior. For this reason we're printing it to the console as well
     const file = fs.createWriteStream("./recordings/" + this.filepath, {
       flags: "w"
     });
+
+    // Some tests expect errors to happen and, if a writing error is thrown in one of these tests, it may be captured in a catch block by accident,
+    // resulting in unexpected behavior. For this reason we're printing it to the console as well
     file.on("error", (err: any) => {
       console.log(err);
       throw err;
     });
+
     file.write(
       importNock + "\n" + "module.exports.testInfo = " + JSON.stringify(this.uniqueTestInfo) + "\n"
     );
+
+    const accountName = env.ACCOUNT_NAME as string;
     for (const fixture of fixtures) {
-      file.write(fixture + "\n");
+      // '://' added so we can be sure that the substitutions happen only in urls
+      // We're not matching query string parameters because they may contain sensitive information, and Nock does not allow us to customize it easily
+      const updatedFixture = fixture
+        .replace(new RegExp("://" + accountName, "g"), "://fakestorageaccount")
+        .replace(/\.query\(.*\)/, ".query(true)");
+      file.write(updatedFixture + "\n");
     }
+
     file.end();
 
     nock.recorder.clear();
@@ -162,9 +180,10 @@ class NiseRecorder extends Recorder {
       }
     }
 
+    const accountName = env.ACCOUNT_NAME;
     this.recordings.push({
       method: request.method,
-      url: parsedUrl.url,
+      url: parsedUrl.url.replace(new RegExp(accountName, "g"), "fakestorageaccount"),
       query: query,
       requestBody: data instanceof Blob ? await blobToString(data) : data,
       status: request.status,
@@ -318,8 +337,6 @@ class NiseRecorder extends Recorder {
 
 export function record(testContext: any) {
   let recorder: Recorder;
-  let isRecording: boolean;
-  let isPlayingBack: boolean;
   let testHierarchy: string;
   let testTitle: string;
 
@@ -333,12 +350,8 @@ export function record(testContext: any) {
 
   if (isBrowser()) {
     recorder = new NiseRecorder(testHierarchy, testTitle);
-    isRecording = (window as any).__env__.TEST_MODE === "record";
-    isPlayingBack = (window as any).__env__.TEST_MODE === "playback";
   } else {
     recorder = new NockRecorder(testHierarchy, testTitle);
-    isRecording = process.env.TEST_MODE === "record";
-    isPlayingBack = process.env.TEST_MODE === "playback";
   }
 
   if (recorder.skip() && (isRecording || isPlayingBack)) {

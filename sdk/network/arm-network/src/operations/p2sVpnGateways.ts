@@ -165,6 +165,19 @@ export class P2sVpnGateways {
   }
 
   /**
+   * Gets the connection health of P2S clients of the virtual wan P2SVpnGateway in the specified
+   * resource group.
+   * @param resourceGroupName The name of the resource group.
+   * @param gatewayName The name of the P2SVpnGateway.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.P2sVpnGatewaysGetP2sVpnConnectionHealthResponse>
+   */
+  getP2sVpnConnectionHealth(resourceGroupName: string, gatewayName: string, options?: msRest.RequestOptionsBase): Promise<Models.P2sVpnGatewaysGetP2sVpnConnectionHealthResponse> {
+    return this.beginGetP2sVpnConnectionHealth(resourceGroupName,gatewayName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.P2sVpnGatewaysGetP2sVpnConnectionHealthResponse>;
+  }
+
+  /**
    * Creates a virtual wan p2s vpn gateway if it doesn't exist else updates the existing gateway.
    * @param resourceGroupName The resource group name of the P2SVpnGateway.
    * @param gatewayName The name of the gateway.
@@ -241,6 +254,25 @@ export class P2sVpnGateways {
         options
       },
       beginGenerateVpnProfileOperationSpec,
+      options);
+  }
+
+  /**
+   * Gets the connection health of P2S clients of the virtual wan P2SVpnGateway in the specified
+   * resource group.
+   * @param resourceGroupName The name of the resource group.
+   * @param gatewayName The name of the P2SVpnGateway.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginGetP2sVpnConnectionHealth(resourceGroupName: string, gatewayName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        gatewayName,
+        options
+      },
+      beginGetP2sVpnConnectionHealthOperationSpec,
       options);
   }
 
@@ -494,6 +526,32 @@ const beginGenerateVpnProfileOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.VpnProfileResponse
+    },
+    202: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginGetP2sVpnConnectionHealthOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways/{gatewayName}/getP2sVpnConnectionHealth",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.gatewayName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.P2SVpnGateway
     },
     202: {},
     default: {
