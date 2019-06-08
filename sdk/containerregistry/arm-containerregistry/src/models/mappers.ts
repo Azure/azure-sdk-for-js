@@ -3121,7 +3121,7 @@ export const FileTaskRunRequest: msRest.CompositeMapper = {
 };
 
 export const OverrideTaskStepProperties: msRest.CompositeMapper = {
-  serializedName: "OverrideTaskStepProperties",
+  serializedName: "TaskRunRequest",
   type: {
     name: "Composite",
     className: "OverrideTaskStepProperties",
