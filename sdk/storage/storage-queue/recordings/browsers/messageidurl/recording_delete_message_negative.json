@@ -2,7 +2,7 @@
  "recordings": [
   {
    "method": "PUT",
-   "url": "https://coolstorageaccount1234.queue.core.windows.net/queue155866984959007496",
+   "url": "https://fakestorageaccount.queue.core.windows.net/queue155995980945200415",
    "query": {
     "timeout": "30"
    },
@@ -10,54 +10,54 @@
    "status": 201,
    "response": "",
    "responseHeaders": {
-    "x-ms-request-id": "0bb1f5de-d003-0073-32e3-11ed9b000000",
+    "x-ms-request-id": "50a39c32-f003-0009-699f-1d87d6000000",
     "x-ms-version": "2018-03-28",
     "server": "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0",
-    "date": "Fri, 24 May 2019 03:50:49 GMT",
+    "date": "Sat, 08 Jun 2019 02:10:08 GMT",
     "content-length": "0"
    }
   },
   {
    "method": "POST",
-   "url": "https://coolstorageaccount1234.queue.core.windows.net/queue155866984959007496/messages",
+   "url": "https://fakestorageaccount.queue.core.windows.net/queue155995980945200415/messages",
    "query": {
     "timeout": "30"
    },
    "requestBody": "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><QueueMessage><MessageText>Hello World</MessageText></QueueMessage>",
    "status": 201,
-   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><QueueMessagesList><QueueMessage><MessageId>f9850421-8c9d-47aa-8bd1-7d29fa71e597</MessageId><InsertionTime>Fri, 24 May 2019 03:50:49 GMT</InsertionTime><ExpirationTime>Fri, 31 May 2019 03:50:49 GMT</ExpirationTime><PopReceipt>AgAAAAMAAAAAAAAA6XqH4OMR1QE=</PopReceipt><TimeNextVisible>Fri, 24 May 2019 03:50:49 GMT</TimeNextVisible></QueueMessage></QueueMessagesList>",
+   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><QueueMessagesList><QueueMessage><MessageId>f1899c55-d368-4df3-95ee-ba59d039b300</MessageId><InsertionTime>Sat, 08 Jun 2019 02:10:09 GMT</InsertionTime><ExpirationTime>Sat, 15 Jun 2019 02:10:09 GMT</ExpirationTime><PopReceipt>AgAAAAMAAAAAAAAAe1goTJ8d1QE=</PopReceipt><TimeNextVisible>Sat, 08 Jun 2019 02:10:09 GMT</TimeNextVisible></QueueMessage></QueueMessagesList>",
    "responseHeaders": {
-    "date": "Fri, 24 May 2019 03:50:49 GMT",
+    "date": "Sat, 08 Jun 2019 02:10:08 GMT",
     "server": "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0",
     "transfer-encoding": "chunked",
     "content-type": "application/xml",
-    "x-ms-request-id": "0bb1f63a-d003-0073-05e3-11ed9b000000",
+    "x-ms-request-id": "50a39c98-f003-0009-459f-1d87d6000000",
     "x-ms-version": "2018-03-28"
    }
   },
   {
    "method": "DELETE",
-   "url": "https://coolstorageaccount1234.queue.core.windows.net/queue155866984959007496/messages/f9850421-8c9d-47aa-8bd1-7d29fa71e597",
+   "url": "https://fakestorageaccount.queue.core.windows.net/queue155995980945200415/messages/f1899c55-d368-4df3-95ee-ba59d039b300",
    "query": {
     "popreceipt": "invalid",
     "timeout": "30"
    },
    "requestBody": null,
    "status": 400,
-   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><Error><Code>InvalidQueryParameterValue</Code><Message>Value for one of the query parameters specified in the request URI is invalid.\nRequestId:0bb1f6a6-d003-0073-6be3-11ed9b000000\nTime:2019-05-24T03:50:50.1720361Z</Message><QueryParameterName>popreceipt</QueryParameterName><QueryParameterValue>invalid</QueryParameterValue><Reason>Invalid pop receipt format</Reason></Error>",
+   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><Error><Code>InvalidQueryParameterValue</Code><Message>Value for one of the query parameters specified in the request URI is invalid.\nRequestId:50a39cdf-f003-0009-099f-1d87d6000000\nTime:2019-06-08T02:10:09.4066441Z</Message><QueryParameterName>popreceipt</QueryParameterName><QueryParameterValue>invalid</QueryParameterValue><Reason>Invalid pop receipt format</Reason></Error>",
    "responseHeaders": {
-    "date": "Fri, 24 May 2019 03:50:49 GMT",
+    "date": "Sat, 08 Jun 2019 02:10:08 GMT",
     "server": "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0",
     "x-ms-error-code": "InvalidQueryParameterValue",
     "content-type": "application/xml",
-    "x-ms-request-id": "0bb1f6a6-d003-0073-6be3-11ed9b000000",
+    "x-ms-request-id": "50a39cdf-f003-0009-099f-1d87d6000000",
     "x-ms-version": "2018-03-28",
     "content-length": "417"
    }
   },
   {
    "method": "DELETE",
-   "url": "https://coolstorageaccount1234.queue.core.windows.net/queue155866984959007496",
+   "url": "https://fakestorageaccount.queue.core.windows.net/queue155995980945200415",
    "query": {
     "timeout": "30"
    },
@@ -65,15 +65,15 @@
    "status": 204,
    "response": "",
    "responseHeaders": {
-    "x-ms-request-id": "0bb1f710-d003-0073-52e3-11ed9b000000",
+    "x-ms-request-id": "50a39d0d-f003-0009-349f-1d87d6000000",
     "x-ms-version": "2018-03-28",
     "server": "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0",
-    "date": "Fri, 24 May 2019 03:50:50 GMT",
+    "date": "Sat, 08 Jun 2019 02:10:08 GMT",
     "content-length": "0"
    }
   }
  ],
  "uniqueTestInfo": {
-  "queue": "queue155866984959007496"
+  "queue": "queue155995980945200415"
  }
 }
