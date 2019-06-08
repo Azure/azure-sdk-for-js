@@ -1,3 +1,3 @@
 let nock = require('nock');
 
-module.exports.testInfo = {"queue":"queue155995968966005922"}
+module.exports.testInfo = {"queue":"queue155996384187206265"}

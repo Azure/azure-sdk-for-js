@@ -124,7 +124,10 @@ class NockRecorder extends Recorder {
     const accountName = env.ACCOUNT_NAME as string;
     for (const fixture of fixtures) {
       // '://' added so we can be sure that the substitutions happen only in urls
-      const updatedFixture = fixture.replace(new RegExp("://" + accountName, "g"), "://fakestorageaccount");
+      // We're not matching query string parameters because they may contain sensitive information, and Nock does not allow us to customize it easily
+      const updatedFixture = fixture
+        .replace(new RegExp("://" + accountName, "g"), "://fakestorageaccount")
+        .replace(/\.query\(.*\)/, ".query(true)");
       file.write(updatedFixture + "\n");
     }
 

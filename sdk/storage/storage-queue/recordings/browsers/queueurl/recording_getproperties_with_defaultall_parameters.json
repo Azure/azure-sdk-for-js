@@ -2,7 +2,7 @@
  "recordings": [
   {
    "method": "PUT",
-   "url": "https://fakestorageaccount.queue.core.windows.net/queue155995981975805071",
+   "url": "https://fakestorageaccount.queue.core.windows.net/queue155996397223201913",
    "query": {
     "timeout": "30"
    },
@@ -10,16 +10,16 @@
    "status": 201,
    "response": "",
    "responseHeaders": {
-    "x-ms-request-id": "adcb9716-a003-0099-749f-1d129a000000",
+    "x-ms-request-id": "ccc5e2e8-2003-0029-65a8-1deb1a000000",
     "x-ms-version": "2018-03-28",
     "server": "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0",
-    "date": "Sat, 08 Jun 2019 02:10:19 GMT",
+    "date": "Sat, 08 Jun 2019 03:19:31 GMT",
     "content-length": "0"
    }
   },
   {
    "method": "GET",
-   "url": "https://fakestorageaccount.queue.core.windows.net/queue155995981975805071",
+   "url": "https://fakestorageaccount.queue.core.windows.net/queue155996397223201913",
    "query": {
     "comp": "metadata",
     "timeout": "30"
@@ -28,10 +28,10 @@
    "status": 200,
    "response": "",
    "responseHeaders": {
-    "date": "Sat, 08 Jun 2019 02:10:19 GMT",
+    "date": "Sat, 08 Jun 2019 03:19:31 GMT",
     "server": "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0",
     "x-ms-approximate-messages-count": "0",
-    "x-ms-request-id": "adcb978f-a003-0099-619f-1d129a000000",
+    "x-ms-request-id": "ccc5e300-2003-0029-79a8-1deb1a000000",
     "cache-control": "no-cache",
     "x-ms-version": "2018-03-28",
     "content-length": "0"
@@ -39,7 +39,7 @@
   },
   {
    "method": "DELETE",
-   "url": "https://fakestorageaccount.queue.core.windows.net/queue155995981975805071",
+   "url": "https://fakestorageaccount.queue.core.windows.net/queue155996397223201913",
    "query": {
     "timeout": "30"
    },
@@ -47,15 +47,15 @@
    "status": 204,
    "response": "",
    "responseHeaders": {
-    "x-ms-request-id": "adcb9800-a003-0099-499f-1d129a000000",
+    "x-ms-request-id": "ccc5e31b-2003-0029-0fa8-1deb1a000000",
     "x-ms-version": "2018-03-28",
     "server": "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0",
-    "date": "Sat, 08 Jun 2019 02:10:19 GMT",
+    "date": "Sat, 08 Jun 2019 03:19:31 GMT",
     "content-length": "0"
    }
   }
  ],
  "uniqueTestInfo": {
-  "queue": "queue155995981975805071"
+  "queue": "queue155996397223201913"
  }
 }
