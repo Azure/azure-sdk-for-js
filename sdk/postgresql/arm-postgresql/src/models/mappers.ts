@@ -95,6 +95,12 @@ export const StorageProfile: msRest.CompositeMapper = {
         type: {
           name: "Number"
         }
+      },
+      storageAutogrow: {
+        serializedName: "storageAutogrow",
+        type: {
+          name: "String"
+        }
       }
     }
   }
