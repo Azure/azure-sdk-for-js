@@ -69,7 +69,18 @@ describe("AppendBlobClient", () => {
   it.only("can be created with a url and a credential", async () => {
     const factories = appendBlobClient.pipeline.factories;
     const credential = factories[factories.length - 1] as SharedKeyCredential;
-    const newClient = new AppendBlobClient(appendBlobClient.url, credential, { telemetry: { value : "test/1.0"}});
+    const newClient = new AppendBlobClient(appendBlobClient.url, credential);
+
+    await newClient.create();
+    await newClient.download();
+  });
+
+  it.only("can be created with a url and a credential and an option bag", async () => {
+    const factories = appendBlobClient.pipeline.factories;
+    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const newClient = new AppendBlobClient(appendBlobClient.url, credential, {
+      telemetry: { value: "test/1.0" }
+    });
 
     await newClient.create();
     await newClient.download();

@@ -14,6 +14,7 @@ import { setURLParameter, extractPartsWithValidation } from "./utils/utils.commo
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 import { StorageClient, NewPipelineOptions } from "./StorageClient";
 import { Credential } from "./credentials/Credential";
+import { AnonymousCredential } from "./credentials/AnonymousCredential";
 
 /**
  * Options to configure Append Blob - Create operation.
@@ -142,6 +143,7 @@ export class AppendBlobClient extends BlobClient {
    *                     However, if a blob name includes ? or %, blob name must be encoded in the URL.
    *                     Such as a blob named "my?blob%", the URL should be "https://myaccount.blob.core.windows.net/mycontainer/my%3Fblob%25".
    * @param {Credential} credential Such as AnonymousCredential, SharedKeyCredential or TokenCredential.
+   *                                If not specified, AnonymousCredential is used.
    * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof AppendBlobClient
    */
@@ -166,7 +168,7 @@ export class AppendBlobClient extends BlobClient {
    */
   constructor(url: string, pipeline: Pipeline);
   constructor(
-    s: string,
+    urlOrConnectionString: string,
     credentialOrPipelineOrContainerName: string | Credential | Pipeline,
     blobNameOrOptions?: string | NewPipelineOptions,
     options?: NewPipelineOptions
@@ -180,6 +182,12 @@ export class AppendBlobClient extends BlobClient {
       options = blobNameOrOptions as NewPipelineOptions;
       pipeline = StorageClient.newPipeline(credentialOrPipelineOrContainerName, options);
     } else if (
+      !credentialOrPipelineOrContainerName &&
+      typeof credentialOrPipelineOrContainerName !== "string"
+    ) {
+      // The second parameter is undefined. Use anonymous credential.
+      pipeline = StorageClient.newPipeline(new AnonymousCredential(), options);
+    } else if (
       credentialOrPipelineOrContainerName &&
       typeof credentialOrPipelineOrContainerName === "string" &&
       blobNameOrOptions &&
@@ -188,17 +196,17 @@ export class AppendBlobClient extends BlobClient {
       const containerName = credentialOrPipelineOrContainerName;
       const blobName = blobNameOrOptions;
 
-      const extractedCreds = extractPartsWithValidation(s);
+      const extractedCreds = extractPartsWithValidation(urlOrConnectionString);
       const sharedKeyCredential = new SharedKeyCredential(
         extractedCreds.accountName,
         extractedCreds.accountKey
       );
-      s = extractedCreds.url + "/" + containerName + "/" + blobName;
+      urlOrConnectionString = extractedCreds.url + "/" + containerName + "/" + blobName;
       pipeline = StorageClient.newPipeline(sharedKeyCredential, options);
     } else {
       throw new Error("Expecting non-empty strings for containerName and blobName parameters");
     }
-    super(s, pipeline);
+    super(urlOrConnectionString, pipeline);
     this.appendBlobContext = new AppendBlob(this.storageClientContext);
   }
 

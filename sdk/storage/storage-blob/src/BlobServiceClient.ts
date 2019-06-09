@@ -7,11 +7,11 @@ import { ListContainersIncludeType } from "./generated/lib/models/index";
 import { Service } from "./generated/lib/operations";
 import { Pipeline } from "./Pipeline";
 import { StorageClient, NewPipelineOptions } from "./StorageClient";
-import { extractPartsWithValidation } from "./utils/utils.common";
 import { ContainerClient } from "./ContainerClient";
-import { appendToURLPath } from "./utils/utils.common";
+import { appendToURLPath, extractPartsWithValidation } from "./utils/utils.common";
 import { Credential } from "./credentials/Credential";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
+import { AnonymousCredential } from "./credentials/AnonymousCredential";
 
 /**
  * Options to configure the Service - Get Properties operation.
@@ -143,13 +143,22 @@ export class BlobServiceClient extends StorageClient {
   private serviceContext: Service;
 
   /**
-   * Creates an instance of BlobServiceClient.
+   * Creates an instance of BlobServiceClient from connection string.
    *
    * @param {string} connectionString Connection string for an Azure storage account.
    * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof BlobServiceClient
    */
-  constructor(connectionString: string, options?: NewPipelineOptions);
+  public static fromConnectionString(connectionString: string, options?: NewPipelineOptions) {
+    const extractedCreds = extractPartsWithValidation(connectionString);
+    const sharedKeyCredential = new SharedKeyCredential(
+      extractedCreds.accountName,
+      extractedCreds.accountKey
+    );
+    const pipeline = StorageClient.newPipeline(sharedKeyCredential, options);
+    return new BlobServiceClient(extractedCreds.url, pipeline);
+  }
+
   /**
    * Creates an instance of BlobServiceClient.
    *
@@ -157,10 +166,11 @@ export class BlobServiceClient extends StorageClient {
    *                     "https://myaccount.blob.core.windows.net". You can append a SAS
    *                     if using AnonymousCredential, such as "https://myaccount.blob.core.windows.net?sasString".
    * @param {Credential} credential Such as AnonymousCredential, SharedKeyCredential or TokenCredential.
+   *                                If not specified, AnonymousCredential is used.
    * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof BlobServiceClient
    */
-  constructor(url: string, credential: Credential, options?: NewPipelineOptions);
+  constructor(url: string, credential?: Credential, options?: NewPipelineOptions);
   /**
    * Creates an instance of BlobServiceClient.
    *
@@ -173,27 +183,20 @@ export class BlobServiceClient extends StorageClient {
    */
   constructor(url: string, pipeline: Pipeline);
   constructor(
-    urlOrConnectionString: string,
-    credentialOrPipelineOrOptions?: Credential | Pipeline | NewPipelineOptions,
+    url: string,
+    credentialOrPipeline?: Credential | Pipeline,
     options?: NewPipelineOptions
   ) {
     let pipeline: Pipeline;
-    if (credentialOrPipelineOrOptions instanceof Pipeline) {
-      pipeline = credentialOrPipelineOrOptions;
-    } else if (credentialOrPipelineOrOptions instanceof Credential) {
-      pipeline = StorageClient.newPipeline(credentialOrPipelineOrOptions, options);
+    if (credentialOrPipeline instanceof Pipeline) {
+      pipeline = credentialOrPipeline;
+    } else if (credentialOrPipeline instanceof Credential) {
+      pipeline = StorageClient.newPipeline(credentialOrPipeline, options);
     } else {
-      options = credentialOrPipelineOrOptions || {};
-
-      const extractedCreds = extractPartsWithValidation(urlOrConnectionString);
-      const sharedKeyCredential = new SharedKeyCredential(
-        extractedCreds.accountName,
-        extractedCreds.accountKey
-      );
-      urlOrConnectionString = extractedCreds.url;
-      pipeline = StorageClient.newPipeline(sharedKeyCredential, options);
+      // The second parameter is undefined. Use anonymous credential
+      pipeline = StorageClient.newPipeline(new AnonymousCredential(), options);
     }
-    super(urlOrConnectionString, pipeline);
+    super(url, pipeline);
     this.serviceContext = new Service(this.storageClientContext);
   }
 

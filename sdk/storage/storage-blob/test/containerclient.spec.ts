@@ -162,9 +162,7 @@ describe("ContainerClient", () => {
   it("listBlobFlatSegment with default parameters", async () => {
     const blobClients = [];
     for (let i = 0; i < 3; i++) {
-      const blobClient = containerClient.createBlobClient(
-        getUniqueName(`blockblob/${i}`)
-      );
+      const blobClient = containerClient.createBlobClient(getUniqueName(`blockblob/${i}`));
       const blockBlobClient = blobClient.createBlockBlobClient();
       await blockBlobClient.upload("", 0);
       blobClients.push(blobClient);
@@ -190,9 +188,7 @@ describe("ContainerClient", () => {
       keyb: "c"
     };
     for (let i = 0; i < 2; i++) {
-      const blobClient = containerClient.createBlobClient(
-        getUniqueName(`${prefix}/${i}`)
-      );
+      const blobClient = containerClient.createBlobClient(getUniqueName(`${prefix}/${i}`));
       const blockBlobClient = blobClient.createBlockBlobClient();
       await blockBlobClient.upload("", 0, {
         metadata
@@ -231,9 +227,7 @@ describe("ContainerClient", () => {
   it("listBlobHierarchySegment with default parameters", async () => {
     const blobClients = [];
     for (let i = 0; i < 3; i++) {
-      const blobClient = containerClient.createBlobClient(
-        getUniqueName(`blockblob${i}/${i}`)
-      );
+      const blobClient = containerClient.createBlobClient(getUniqueName(`blockblob${i}/${i}`));
       const blockBlobClient = blobClient.createBlockBlobClient();
       await blockBlobClient.upload("", 0);
       blobClients.push(blobClient);
@@ -276,45 +270,33 @@ describe("ContainerClient", () => {
       blobClients.push(blobClient);
     }
 
-    const result = await containerClient.listBlobHierarchySegment(
-      delimiter,
-      undefined,
-      {
-        include: ["metadata", "uncommittedblobs", "copy", "deleted"],
-        maxresults: 1,
-        prefix
-      }
-    );
+    const result = await containerClient.listBlobHierarchySegment(delimiter, undefined, {
+      include: ["metadata", "uncommittedblobs", "copy", "deleted"],
+      maxresults: 1,
+      prefix
+    });
     assert.ok(result.serviceEndpoint.length > 0);
     assert.ok(containerClient.url.indexOf(result.containerName));
     assert.deepStrictEqual(result.segment.blobPrefixes!.length, 1);
     assert.deepStrictEqual(result.segment.blobItems!.length, 0);
     assert.ok(blobClients[0].url.indexOf(result.segment.blobPrefixes![0].name));
 
-    const result2 = await containerClient.listBlobHierarchySegment(
-      delimiter,
-      result.nextMarker,
-      {
-        include: ["metadata", "uncommittedblobs", "copy", "deleted"],
-        maxresults: 2,
-        prefix
-      }
-    );
+    const result2 = await containerClient.listBlobHierarchySegment(delimiter, result.nextMarker, {
+      include: ["metadata", "uncommittedblobs", "copy", "deleted"],
+      maxresults: 2,
+      prefix
+    });
     assert.ok(result2.serviceEndpoint.length > 0);
     assert.ok(containerClient.url.indexOf(result2.containerName));
     assert.deepStrictEqual(result2.segment.blobPrefixes!.length, 1);
     assert.deepStrictEqual(result2.segment.blobItems!.length, 0);
     assert.ok(blobClients[0].url.indexOf(result2.segment.blobPrefixes![0].name));
 
-    const result3 = await containerClient.listBlobHierarchySegment(
-      delimiter,
-      undefined,
-      {
-        include: ["metadata", "uncommittedblobs", "copy", "deleted"],
-        maxresults: 2,
-        prefix: `${prefix}0${delimiter}`
-      }
-    );
+    const result3 = await containerClient.listBlobHierarchySegment(delimiter, undefined, {
+      include: ["metadata", "uncommittedblobs", "copy", "deleted"],
+      maxresults: 2,
+      prefix: `${prefix}0${delimiter}`
+    });
     assert.ok(result3.serviceEndpoint.length > 0);
     assert.ok(containerClient.url.indexOf(result3.containerName));
     assert.deepStrictEqual(result3.nextMarker, "");
@@ -332,6 +314,28 @@ describe("ContainerClient", () => {
     const factories = containerClient.pipeline.factories;
     const credential = factories[factories.length - 1] as SharedKeyCredential;
     const newClient = new ContainerClient(containerClient.url, credential);
+
+    const result = await newClient.getProperties();
+
+    assert.ok(result.eTag!.length > 0);
+    assert.ok(result.lastModified);
+    assert.ok(!result.leaseDuration);
+    assert.equal(result.leaseState, "available");
+    assert.equal(result.leaseStatus, "unlocked");
+    assert.ok(result.requestId);
+    assert.ok(result.version);
+    assert.ok(result.date);
+    assert.ok(!result.blobPublicAccess);
+  });
+
+  it("can be created with a url and a credential and an option bag", async () => {
+    const factories = containerClient.pipeline.factories;
+    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const newClient = new ContainerClient(containerClient.url, credential, {
+      retryOptions: {
+        maxTries: 5
+      }
+    });
 
     const result = await newClient.getProperties();
 

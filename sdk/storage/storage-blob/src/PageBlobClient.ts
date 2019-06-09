@@ -15,6 +15,7 @@ import { setURLParameter, extractPartsWithValidation } from "./utils/utils.commo
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 import { StorageClient, NewPipelineOptions } from "./StorageClient";
 import { Credential } from "./credentials/Credential";
+import { AnonymousCredential } from "./credentials/AnonymousCredential";
 
 /**
  * Options to configure Page Blob - Create operation.
@@ -336,6 +337,12 @@ export class PageBlobClient extends BlobClient {
     } else if (credentialOrPipelineOrContainerName instanceof Credential) {
       options = blobNameOrOptions as NewPipelineOptions;
       pipeline = StorageClient.newPipeline(credentialOrPipelineOrContainerName, options);
+    } else if (
+      !credentialOrPipelineOrContainerName &&
+      typeof credentialOrPipelineOrContainerName !== "string"
+    ) {
+      // The second parameter is undefined. Use anonymous credential.
+      pipeline = StorageClient.newPipeline(new AnonymousCredential(), options);
     } else if (
       credentialOrPipelineOrContainerName &&
       typeof credentialOrPipelineOrContainerName === "string" &&

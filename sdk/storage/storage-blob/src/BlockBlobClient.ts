@@ -15,6 +15,7 @@ import { setURLParameter, extractPartsWithValidation } from "./utils/utils.commo
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 import { StorageClient, NewPipelineOptions } from "./StorageClient";
 import { Credential } from "./credentials/Credential";
+import { AnonymousCredential } from "./credentials/AnonymousCredential";
 
 /**
  * Options to configure Block Blob - Upload operation.
@@ -266,7 +267,7 @@ export class BlockBlobClient extends BlobClient {
    * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof BlockBlobClient
    */
-  constructor(url: string, credential: Credential, options?: NewPipelineOptions);
+  constructor(url: string, credential?: Credential, options?: NewPipelineOptions);
   /**
    * Creates an instance of BlockBlobClient.
    * This method accepts an encoded URL or non-encoded URL pointing to a block blob.
@@ -288,7 +289,7 @@ export class BlockBlobClient extends BlobClient {
   constructor(url: string, pipeline: Pipeline);
   constructor(
     urlOrConnectionString: string,
-    credentialOrPipelineOrContainerName: string | Credential | Pipeline,
+    credentialOrPipelineOrContainerName?: string | Credential | Pipeline,
     blobNameOrOptions?: string | NewPipelineOptions,
     options?: NewPipelineOptions
   ) {
@@ -300,6 +301,12 @@ export class BlockBlobClient extends BlobClient {
     } else if (credentialOrPipelineOrContainerName instanceof Credential) {
       options = blobNameOrOptions as NewPipelineOptions;
       pipeline = StorageClient.newPipeline(credentialOrPipelineOrContainerName, options);
+    } else if (
+      !credentialOrPipelineOrContainerName &&
+      typeof credentialOrPipelineOrContainerName !== "string"
+    ) {
+      // The second parameter is undefined. Use anonymous credential.
+      pipeline = StorageClient.newPipeline(new AnonymousCredential(), options);
     } else if (
       credentialOrPipelineOrContainerName &&
       typeof credentialOrPipelineOrContainerName === "string" &&

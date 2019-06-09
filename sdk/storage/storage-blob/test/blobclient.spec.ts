@@ -277,9 +277,7 @@ describe("BlobClient", () => {
   });
 
   it("startCopyFromClient", async () => {
-    const newBlobClient = containerClient.createBlobClient(
-      getUniqueName("copiedblob")
-    );
+    const newBlobClient = containerClient.createBlobClient(getUniqueName("copiedblob"));
     const result = await newBlobClient.startCopyFromURL(blobClient.url);
     assert.ok(result.copyId);
 
@@ -291,9 +289,7 @@ describe("BlobClient", () => {
   });
 
   it("abortCopyFromClient should failed for a completed copy operation", async () => {
-    const newBlobClient = containerClient.createBlobClient(
-      getUniqueName("copiedblob")
-    );
+    const newBlobClient = containerClient.createBlobClient(getUniqueName("copiedblob"));
     const result = await newBlobClient.startCopyFromURL(blobClient.url);
     assert.ok(result.copyId);
     sleep(1 * 1000);
@@ -330,6 +326,24 @@ describe("BlobClient", () => {
     const factories = blobClient.pipeline.factories;
     const credential = factories[factories.length - 1] as SharedKeyCredential;
     const newClient = new BlobClient(blobClient.url, credential);
+
+    const metadata = {
+      a: "a",
+      b: "b"
+    };
+    await newClient.setMetadata(metadata);
+    const result = await newClient.getProperties();
+    assert.deepStrictEqual(result.metadata, metadata);
+  });
+
+  it("can be created with a url and a credential and an option bag", async () => {
+    const factories = blobClient.pipeline.factories;
+    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const newClient = new BlobClient(blobClient.url, credential, {
+      retryOptions: {
+        maxTries: 5
+      }
+    });
 
     const metadata = {
       a: "a",
