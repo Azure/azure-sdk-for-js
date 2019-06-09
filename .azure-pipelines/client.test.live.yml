@@ -5,6 +5,7 @@
 
 variables:
   NodeVersion: '10.x'
+  skipComponentGovernanceDetection: true
 
 jobs:
   - job: 'LiveTest'

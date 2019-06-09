@@ -21,7 +21,7 @@
   "module": "./esm/dataLakeStorageClient.js",
   "types": "./esm/dataLakeStorageClient.d.ts",
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^1.7.0",
+    "@typescript-eslint/eslint-plugin": "~1.9.0",
     "@typescript-eslint/parser": "^1.7.0",
     "eslint": "^5.16.0",
     "eslint-config-prettier": "^4.2.0",
@@ -30,7 +30,7 @@
     "eslint-plugin-no-only-tests": "^2.3.0",
     "eslint-plugin-promise": "^4.1.1",
     "typescript": "^3.2.2",
-    "rollup": "^1.0.0",
+    "rollup": "~1.13.1",
     "rollup-plugin-node-resolve": "^4.2.0",
     "uglify-js": "^3.4.9",
     "ts-node": "^7.0.1"

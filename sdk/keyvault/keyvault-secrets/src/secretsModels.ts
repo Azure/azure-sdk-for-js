@@ -172,7 +172,7 @@ export interface UpdateSecretOptions {
  */
 export interface GetSecretOptions {
   /**
-   * @member {string} [version] The version of the secret to retrieve.  If not 
+   * @member {string} [version] The version of the secret to retrieve.  If not
    * specified the latest version of the secret will be retrieved.
    */
   version?: string;
