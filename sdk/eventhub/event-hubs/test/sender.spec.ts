@@ -51,7 +51,7 @@ describe("EventHub Sender", function(): void {
           body: "Hello World 2"
         }
       ];
-      await client.createSender().send(data, { batchLabel: 1 as any });
+      await client.createSender().send(data, { partitionKey: 1 as any });
     });
     it("should be sent successfully to a specific partition.", async function(): Promise<void> {
       const data: EventData[] = [
@@ -141,7 +141,7 @@ describe("EventHub Sender", function(): void {
         body: "Hello World"
       };
       try {
-        await client.createSender({ partitionId: "0" }).send([data], { batchLabel: 1 as any });
+        await client.createSender({ partitionId: "0" }).send([data], { partitionKey: 1 as any });
       } catch (err) {
         debug(err);
         should.exist(err);

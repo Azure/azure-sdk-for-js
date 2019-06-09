@@ -26,8 +26,8 @@ import { EventPosition } from "./eventPosition";
 
 import { IotHubClient } from "./iothub/iothubClient";
 import { Aborter } from "./aborter";
-import { Sender } from "./sender";
-import { Receiver } from "./receiver";
+import { EventSender } from "./sender";
+import { EventReceiver } from "./receiver";
 
 /**
  * Retry policy options for operations on the EventHubClient
@@ -56,13 +56,15 @@ export interface RetryOptions {
 /**
  * Options to passed when creating a sender using the EventHubClient
  */
-export interface SenderOptions {
+export interface EventSenderOptions {
   /**
+   * @property
    * The id of the partition to which the event should be sent. If no id is provided,
    * the service will determine the partition to which the event will be sent.
    */
   partitionId?: string;
   /**
+   * @property
    * Retry options for the send operation on the sender. If no value is provided here, the
    * retry options set when creating the `EventHubClient` is used.
    */
@@ -72,14 +74,16 @@ export interface SenderOptions {
 /**
  * Options that can be passed when sending a batch of events using the EventHubsClient
  */
-export interface BatchingOptions {
+export interface EventBatchingOptions {
   /**
-   * @property {string | null} [batchLabel] If specified EventHub will hash this string to a partitionId.
-   * It guarantees that messages end up in the same partition on the event hub.
-   * This will be ignored if `paritionId` is used when sending events.
+   * @property 
+   * If specified EventHub will hash this string to map to a partitionId.
+   * It guarantees that messages with the same partitionKey end up in the same partition.
+   * This will be ignored if the sender was created using a `paritionId`.
    */
-  batchLabel?: string | null;
+  partitionKey?: string | null;
   /**
+   * @property
    * Cancel current operation
    */
   cancellationToken?: Aborter;
@@ -89,23 +93,30 @@ export interface BatchingOptions {
  * Options that can be passed to the receive operations on the EventHubsClient
  * @interface ReceiveOptions
  */
-export interface ReceiverOptions {
+export interface EventReceiverOptions {
   /**
-   * @property {object} [eventPosition] The starting event position at which to start receiving messages.
-   * This is used to filter messages for the EventHub Receiver.
+   * @property 
+   * The event position in the partition at which to start receiving messages.
    */
-  eventPosition?: EventPosition;
+  beginReceivingAt?: EventPosition;
   /**
-   * @property {string} [consumerGroup] The consumer group to which the receiver wants to connect to.
-   * If not provided then it will be connected to "$default" consumer group.
+   * @property
+   * The consumer group from which the receiver should receive events from.
+   * If not provided, then default consumer group by the name "$default" is used.
    */
   consumerGroup?: string;
   /**
-   * @property {number} [epoch] The priority value that this receiver is currently using for partition ownership.
+   * @property 
+   * The priority value that this receiver is currently using for partition ownership.
+   * If another receiver is currently active for the same partition with no or lesser
+   * priority, then it will get disconnected.
+   * If another receiver is currently active with a higher priority, then this receiver
+   * will fail to connect.
    */
   exclusiveReceiverPriority?: number;
   /**
-   * Retry options for the send operation on the receiver. If no value is provided here, the
+   * @property 
+   * Retry options for the receive operation on the receiver. If no value is provided here, the
    * retry options set when creating the `EventHubClient` is used.
    */
   retryOptions?: RetryOptions;
@@ -117,19 +128,28 @@ export interface ReceiverOptions {
  */
 export interface EventHubClientOptions {
   /**
-   * @property {DataTransformer} [dataTransformer] The data transformer that will be used to encode
-   * and decode the sent and received messages respectively. If not provided then we will use the
-   * DefaultDataTransformer. The default transformer should handle majority of the cases. This
-   * option needs to be used only for specialized scenarios.
+   * @property 
+   * The data transformer that will be used to encode and decode the sent and received messages respectively.
+   * If not provided then the `DefaultDataTransformer` is used which has the below `encode` & `decode` features 
+   * - `encode`: 
+   *    - If event body is a Buffer, then the event is sent without any data transformation
+   *    - Else, JSON.stringfy() is run on the body, and then converted to Buffer before sending the event
+   *    - If JSON.stringify() fails at this point, the send operation fails too.
+   * - `decode`
+   *    - The body receivied via the AMQP protocol is always of type Buffer
+   *    - UTF-8 encoding is used to convert Buffer to string, and then JSON.parse() is run on it to get the event body
+   *    - If the JSON.parse() fails at this point, then the originally received Buffer object is returned in the event body.
    */
   dataTransformer?: DataTransformer;
   /**
-   * @property {string} [userAgent] The user agent that needs to be appended to the built in
-   * user agent string.
+   * @property 
+   * The user agent that will be appended to the built in user agent string that is passed as a
+   * connection property to the Event Hubs service 
    */
   userAgent?: string;
   /**
-   * @property The WebSocket constructor used to create an AMQP connection over a WebSocket.
+   * @property 
+   * The WebSocket constructor used to create an AMQP connection over a WebSocket.
    * This option should be provided in the below scenarios
    * - The TCP port 5671 which is what is used by the AMQP connection to Event Hubs is blocked in your environment.
    * - Your application needs to be run behind a proxy server
@@ -138,10 +158,13 @@ export interface EventHubClientOptions {
    */
   webSocket?: WebSocketImpl;
   /**
-   * @property {webSocketConstructorOptions} - Options to be passed to the WebSocket constructor
+   * @property
+   * Options to be passed to the WebSocket constructor when the underlying `rhea` library instantiates
+   * the WebSocket.
    */
   webSocketConstructorOptions?: any;
   /**
+   * @property
    * Retry options for all the operations on the client/sender/receiver.
    * This can be overridden by the retry options set on the sender and receiver.
    */
@@ -154,15 +177,19 @@ export interface EventHubClientOptions {
  */
 export class EventHubClient {
   /**
-   * @property {ConnectionContext} _context Describes the amqp connection context for the eventhub client.
-   * @private
+   * Describes the amqp connection context for the eventhub client.
    */
   private _context: ConnectionContext;
 
+  /**
+   * The options passed by the user when creating the EventHubClient instance.
+   */
   private _clientOptions: EventHubClientOptions;
 
   /**
-   * @property The name of the Event Hub instance for which this client is created
+   * @property 
+   * @readonly
+   * The name of the Event Hub instance for which this client is created
    */
   get eventHubName(): string {
     return this._context.config.entityPath;
@@ -170,7 +197,7 @@ export class EventHubClient {
 
   /**
    * @constructor
-   * @param {string} connectionString - Connection string of the form 'Endpoint=sb://my-servicebus-namespace.servicebus.windows.net/;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key;EntityPath=my-event-hub-name'
+   * @param connectionString - Connection string of the form 'Endpoint=sb://my-servicebus-namespace.servicebus.windows.net/;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key;EntityPath=my-event-hub-name'
    * @param options - The options that can be provided during client creation.
    */
   constructor(connectionString: string, options?: EventHubClientOptions);
@@ -299,22 +326,29 @@ export class EventHubClient {
   }
 
   /**
-   * Creates a Sender
+   * Creates a Sender that can be used to send events to the Event Hub for which this client 
+   * was created.
    *
-   * @param options Options to create a Sender where you can control the partition that the
-   * events need to be sent to as well retry options and timeouts.
+   * @param options Options to create a Sender where you can specify the id of the partition
+   * to which events need to be sent to and retry options. 
    *
    * @return {Promise<void>} Promise<void>
    */
-  createSender(options?: SenderOptions): Sender {
-    return new Sender(this._context, options);
+  createSender(options?: EventSenderOptions): EventSender {
+    return new EventSender(this._context, options);
   }
 
   /**
-   * Creates a Receiver
+   * Creates a Receiver that can be used to receive events from the Event Hub for which this 
+   * client was created.
+   * 
+   * @param partitionId The id of the partition from which to receive events
+   * @param options Options to create the Receiver where you can specify the position from
+   * which to start receiving events, the consumer group to receive events from, retry options
+   * and more.
    */
-  createReceiver(partitionId: string, options?: ReceiverOptions): Receiver {
-    return new Receiver(this._context, partitionId, options);
+  createReceiver(partitionId: string, options?: EventReceiverOptions): EventReceiver {
+    return new EventReceiver(this._context, partitionId, options);
   }
 
   /**

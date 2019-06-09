@@ -3,7 +3,7 @@
 
 import { EventData } from "./eventData";
 import { EventHubSender } from "./eventHubSender";
-import { BatchingOptions, SenderOptions } from "./eventHubClient";
+import { EventBatchingOptions, EventSenderOptions } from "./eventHubClient";
 import { ConnectionContext } from "./connectionContext";
 import * as log from "./log";
 import { throwErrorIfConnectionClosed } from "./util/error";
@@ -14,7 +14,7 @@ import { throwErrorIfConnectionClosed } from "./util/error";
  * The Sender class is an abstraction over the underlying AMQP sender link.
  * @class Sender
  */
-export class Sender {
+export class EventSender {
   /**
    * @property Describes the amqp connection context for the Client.
    */
@@ -24,7 +24,7 @@ export class Sender {
    */
   private _isClosed: boolean = false;
 
-  private _senderOptions: SenderOptions;
+  private _senderOptions: EventSenderOptions;
 
   private _eventHubSender: EventHubSender;
 
@@ -39,7 +39,7 @@ export class Sender {
   /**
    * @internal
    */
-  constructor(context: ConnectionContext, options?: SenderOptions) {
+  constructor(context: ConnectionContext, options?: EventSenderOptions) {
     this._context = context;
     this._senderOptions = options || {};
     this._eventHubSender = EventHubSender.create(this._context, this._senderOptions.partitionId);
@@ -54,7 +54,7 @@ export class Sender {
    *
    * @return {Promise<void>} Promise<void>
    */
-  async send(events: EventData[], options?: BatchingOptions): Promise<void> {
+  async send(events: EventData[], options?: EventBatchingOptions): Promise<void> {
     this._throwIfSenderOrConnectionClosed();
     if (!Array.isArray(events)) {
       events = [events];

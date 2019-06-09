@@ -13,7 +13,7 @@ import {
   retry
 } from "@azure/amqp-common";
 import { ReceivedEventData, EventDataInternal, fromAmqpMessage } from "./eventData";
-import { ReceiverOptions, RetryOptions } from "./eventHubClient";
+import { EventReceiverOptions, RetryOptions } from "./eventHubClient";
 import { EventHubReceiver } from "./eventHubReceiver";
 import { ConnectionContext } from "./connectionContext";
 import { Aborter } from "./aborter";
@@ -37,9 +37,9 @@ export class BatchingReceiver extends EventHubReceiver {
    * @constructor
    * @param {ConnectionContext} context                        The connection context.
    * @param {string} partitionId                               Partition ID from which to receive.
-   * @param {ReceiverOptions} [options]                         Options for how you'd like to connect.
+   * @param {EventReceiverOptions} [options]                         Options for how you'd like to connect.
    */
-  constructor(context: ConnectionContext, partitionId: string | number, options?: ReceiverOptions) {
+  constructor(context: ConnectionContext, partitionId: string | number, options?: EventReceiverOptions) {
     super(context, partitionId, options);
   }
 
@@ -372,9 +372,9 @@ export class BatchingReceiver extends EventHubReceiver {
    * @ignore
    * @param {ConnectionContext} context    The connection context.
    * @param {string | number} partitionId  The partitionId to receive events from.
-   * @param {ReceiverOptions} [options]     Receive options.
+   * @param {EventReceiverOptions} [options]     Receive options.
    */
-  static create(context: ConnectionContext, partitionId: string | number, options?: ReceiverOptions): BatchingReceiver {
+  static create(context: ConnectionContext, partitionId: string | number, options?: EventReceiverOptions): BatchingReceiver {
     const bReceiver = new BatchingReceiver(context, partitionId, options);
     context.receivers[bReceiver.name] = bReceiver;
     return bReceiver;

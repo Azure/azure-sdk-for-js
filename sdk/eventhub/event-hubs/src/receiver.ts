@@ -3,7 +3,7 @@
 
 import * as log from "./log";
 import { ConnectionContext } from "./connectionContext";
-import { ReceiverOptions } from "./eventHubClient";
+import { EventReceiverOptions } from "./eventHubClient";
 import { OnMessage, OnError } from "./eventHubReceiver";
 import { ReceivedEventData } from "./eventData";
 import { Constants } from "@azure/amqp-common";
@@ -33,7 +33,7 @@ export interface EventIteratorOptions {
  * The Receiver class is an abstraction over the underlying AMQP receiver link.
  * @class Receiver
  */
-export class Receiver {
+export class EventReceiver {
   /**
    * @property Describes the amqp connection context for the QueueClient.
    */
@@ -44,7 +44,7 @@ export class Receiver {
   private _isClosed: boolean = false;
 
   private _partitionId: string;
-  private _receiverOptions: ReceiverOptions;
+  private _receiverOptions: EventReceiverOptions;
   private _streamingReceiver: StreamingReceiver | undefined;
   private _batchingReceiver: BatchingReceiver | undefined;
 
@@ -86,7 +86,7 @@ export class Receiver {
   /**
    * @internal
    */
-  constructor(context: ConnectionContext, partitionId: string, options?: ReceiverOptions) {
+  constructor(context: ConnectionContext, partitionId: string, options?: EventReceiverOptions) {
     this._context = context;
     this._partitionId = partitionId;
     this._receiverOptions = options || {};
@@ -107,7 +107,7 @@ export class Receiver {
     this._throwIfAlreadyReceiving();
     const checkpoint = this.getCheckpoint();
     if (checkpoint) {
-      this._receiverOptions.eventPosition = EventPosition.fromSequenceNumber(checkpoint);
+      this._receiverOptions.beginReceivingAt = EventPosition.fromSequenceNumber(checkpoint);
     }
     this._streamingReceiver = StreamingReceiver.create(this._context, this.partitionId, this._receiverOptions);
     this._streamingReceiver.prefetchCount = Constants.defaultPrefetchCount;
@@ -198,7 +198,7 @@ export class Receiver {
     this._throwIfAlreadyReceiving();
     const checkpoint = this.getCheckpoint();
     if (checkpoint) {
-      this._receiverOptions.eventPosition = EventPosition.fromSequenceNumber(checkpoint);
+      this._receiverOptions.beginReceivingAt = EventPosition.fromSequenceNumber(checkpoint);
     }
     if (!this._batchingReceiver) {
       this._batchingReceiver = BatchingReceiver.create(this._context, this.partitionId, this._receiverOptions);

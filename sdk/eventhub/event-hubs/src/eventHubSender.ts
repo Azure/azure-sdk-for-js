@@ -28,7 +28,7 @@ import {
 import { EventData, toAmqpMessage } from "./eventData";
 import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";
-import { BatchingOptions, SenderOptions } from "./eventHubClient";
+import { EventBatchingOptions, EventSenderOptions } from "./eventHubClient";
 import { Aborter } from "./aborter";
 
 interface CreateSenderOptions {
@@ -338,7 +338,7 @@ export class EventHubSender extends LinkEntity {
    * @param options Options to control the way the events are batched along with request options
    * @return Promise<void>
    */
-  async send(events: EventData[], options?: BatchingOptions & SenderOptions): Promise<void> {
+  async send(events: EventData[], options?: EventBatchingOptions & EventSenderOptions): Promise<void> {
     try {
       if (!events || (events && !Array.isArray(events))) {
         throw new Error("data is required and it must be an Array.");
@@ -354,11 +354,11 @@ export class EventHubSender extends LinkEntity {
         });
       }
       log.sender("[%s] Sender '%s', trying to send EventData[].", this._context.connectionId, this.name);
-      const batchLabel = (options && options.batchLabel) || undefined;
+      const partitionKey = (options && options.partitionKey) || undefined;
       const messages: AmqpMessage[] = [];
       // Convert EventData to AmqpMessage.
       for (let i = 0; i < events.length; i++) {
-        const message = toAmqpMessage(events[i], batchLabel);
+        const message = toAmqpMessage(events[i], partitionKey);
         message.body = this._context.dataTransformer.encode(events[i].body);
         messages[i] = message;
       }
@@ -435,7 +435,7 @@ export class EventHubSender extends LinkEntity {
   private _trySendBatch(
     message: AmqpMessage | Buffer,
     tag: any,
-    options?: BatchingOptions & SenderOptions,
+    options?: EventBatchingOptions & EventSenderOptions,
     format?: number
   ): Promise<void> {
     if (!options) {

@@ -42,7 +42,7 @@ export class EventPosition {
    * @static
    * @readonly
    */
-  static readonly startOfStream: string = "-1";
+  private static readonly startOfStream: string = "-1";
 
   /**
    * @property {string} endOfStream The offset from which events would be received: `"@latest"`.
@@ -50,7 +50,7 @@ export class EventPosition {
    * @static
    * @readonly
    */
-  static readonly endOfStream: string = "@latest";
+  private static readonly endOfStream: string = "@latest";
   /**
    * @property {string} [offset] The offset of the event at the position. It can be undefined
    * if the position is just created from a sequence number or an enqueued time.

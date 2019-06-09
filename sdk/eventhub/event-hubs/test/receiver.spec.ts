@@ -8,7 +8,7 @@ import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 import debugModule from "debug";
 const debug = debugModule("azure:event-hubs:receiver-spec");
-import { EventPosition, EventHubClient, EventData, MessagingError, ReceivedEventData, Receiver } from "../src";
+import { EventPosition, EventHubClient, EventData, MessagingError, ReceivedEventData, EventReceiver } from "../src";
 import { BatchingReceiver } from "../src/batchingReceiver";
 import { ReceiveHandler } from "../src/streamingReceiver";
 import dotenv from "dotenv";
@@ -18,7 +18,7 @@ describe("EventHub Receiver", function(): void {
   const service = { connectionString: process.env.EVENTHUB_CONNECTION_STRING, path: process.env.EVENTHUB_NAME };
   const client: EventHubClient = EventHubClient.createFromConnectionString(service.connectionString!, service.path);
   let breceiver: BatchingReceiver;
-  let receiver: Receiver | undefined;
+  let receiver: EventReceiver | undefined;
   let partitionIds: string[];
   before("validate environment", async function(): Promise<void> {
     should.exist(
@@ -52,7 +52,7 @@ describe("EventHub Receiver", function(): void {
 
   describe("with partitionId 0 as number", function(): void {
     it("should work for receiveBatch", async function(): Promise<void> {
-      receiver = client.createReceiver(partitionIds[0], { eventPosition: EventPosition.fromSequenceNumber(0) });
+      receiver = client.createReceiver(partitionIds[0], { beginReceivingAt: EventPosition.fromSequenceNumber(0) });
       const result = await receiver.receiveBatch(10, 20);
       should.equal(true, Array.isArray(result));
     });
@@ -78,7 +78,7 @@ describe("EventHub Receiver", function(): void {
         }
       };
       rcvHandler = client
-        .createReceiver(partitionIds[0], { exclusiveReceiverPriority: 1, eventPosition: EventPosition.fromOffset("0") })
+        .createReceiver(partitionIds[0], { exclusiveReceiverPriority: 1, beginReceivingAt: EventPosition.fromOffset("0") })
         .receive(onMsg, onError);
     });
   });
@@ -96,7 +96,7 @@ describe("EventHub Receiver", function(): void {
       await client.createSender({ partitionId: partitionId }).send(events);
       debug("Creating new receiver with offset EndOfStream");
       breceiver = BatchingReceiver.create((client as any)._context, partitionId, {
-        eventPosition: EventPosition.fromNewEventsOnly()
+        beginReceivingAt: EventPosition.fromNewEventsOnly()
       });
       const data1 = await breceiver.receive(10, 10);
       data1.length.should.equal(0, "Unexpected message received when using EventPosition.fromEnd()");
@@ -124,7 +124,7 @@ describe("EventHub Receiver", function(): void {
       const pInfo = await client.getPartitionInformation(partitionId);
       debug(`Creating new receiver with last enqueued offset: "${pInfo.lastEnqueuedOffset}".`);
       breceiver = BatchingReceiver.create((client as any)._context, parseInt(partitionId), {
-        eventPosition: EventPosition.fromOffset(pInfo.lastEnqueuedOffset)
+        beginReceivingAt: EventPosition.fromOffset(pInfo.lastEnqueuedOffset)
       });
       debug("Establishing the receiver link...");
       const d = await breceiver.receive(10, 10);
@@ -173,7 +173,7 @@ describe("EventHub Receiver", function(): void {
       debug(`Sent message 2 with stamp: ${uid} after getting the enqueued offset.`);
       debug(`Creating new receiver with last enqueued offset: "${pInfo.lastEnqueuedOffset}".`);
       breceiver = BatchingReceiver.create((client as any)._context, partitionId, {
-        eventPosition: EventPosition.fromOffset(pInfo.lastEnqueuedOffset, true)
+        beginReceivingAt: EventPosition.fromOffset(pInfo.lastEnqueuedOffset, true)
       });
       debug("We should receive the last 2 messages.");
       const data = await breceiver.receive(10, 30);
@@ -191,7 +191,7 @@ describe("EventHub Receiver", function(): void {
       const pInfo = await client.getPartitionInformation(partitionId);
       debug(`Creating new receiver with last enqueued time: "${pInfo.lastEnqueuedTimeUtc}".`);
       breceiver = BatchingReceiver.create((client as any)._context, partitionId, {
-        eventPosition: EventPosition.fromEnqueuedTime(pInfo.lastEnqueuedTimeUtc)
+        beginReceivingAt: EventPosition.fromEnqueuedTime(pInfo.lastEnqueuedTimeUtc)
       });
       debug("Establishing the receiver link...");
       const d = await breceiver.receive(10, 10);
@@ -232,7 +232,7 @@ describe("EventHub Receiver", function(): void {
       );
       debug(`Creating new receiver with last enqueued sequence number: "${pInfo.lastEnqueuedSequenceNumber}".`);
       breceiver = BatchingReceiver.create((client as any)._context, partitionId, {
-        eventPosition: EventPosition.fromSequenceNumber(pInfo.lastEnqueuedSequenceNumber)
+        beginReceivingAt: EventPosition.fromSequenceNumber(pInfo.lastEnqueuedSequenceNumber)
       });
       const data = await breceiver.receive(10, 20);
       debug("received messages: ", data);
@@ -268,7 +268,7 @@ describe("EventHub Receiver", function(): void {
       debug(`Sent message 2 with stamp: ${uid}.`);
       debug(`Creating new receiver with last sequence number: "${pInfo.lastEnqueuedSequenceNumber}".`);
       breceiver = BatchingReceiver.create((client as any)._context, partitionId, {
-        eventPosition: EventPosition.fromSequenceNumber(pInfo.lastEnqueuedSequenceNumber, true)
+        beginReceivingAt: EventPosition.fromSequenceNumber(pInfo.lastEnqueuedSequenceNumber, true)
       });
       debug("We should receive the last 2 messages.");
       const data = await breceiver.receive(10, 30);
@@ -333,7 +333,7 @@ describe("EventHub Receiver", function(): void {
         debug(">>>> epoch Receiver 1", data);
       };
       epochRcvr1 = client
-        .createReceiver(partitionId, { exclusiveReceiverPriority: 2, eventPosition: EventPosition.fromNewEventsOnly() })
+        .createReceiver(partitionId, { exclusiveReceiverPriority: 2, beginReceivingAt: EventPosition.fromNewEventsOnly() })
         .receive(onMsg, onError);
       debug("Created epoch receiver 1 %s", epochRcvr1);
       setTimeout(() => {
@@ -359,7 +359,7 @@ describe("EventHub Receiver", function(): void {
         epochRcvr2 = client
           .createReceiver(partitionId, {
             exclusiveReceiverPriority: 1,
-            eventPosition: EventPosition.fromNewEventsOnly()
+            beginReceivingAt: EventPosition.fromNewEventsOnly()
           })
           .receive(onMsg2, onError2);
         debug("Created epoch receiver 2 %s", epochRcvr2);
@@ -392,7 +392,7 @@ describe("EventHub Receiver", function(): void {
       epochRcvr1 = client
         .createReceiver(partitionId, {
           exclusiveReceiverPriority: 1,
-          eventPosition: EventPosition.fromNewEventsOnly()
+          beginReceivingAt: EventPosition.fromNewEventsOnly()
         })
         .receive(onMsg, onError);
       debug("Created epoch receiver 1 %s", epochRcvr1);
@@ -407,7 +407,7 @@ describe("EventHub Receiver", function(): void {
         epochRcvr2 = client
           .createReceiver(partitionId, {
             exclusiveReceiverPriority: 2,
-            eventPosition: EventPosition.fromNewEventsOnly()
+            beginReceivingAt: EventPosition.fromNewEventsOnly()
           })
           .receive(onMsg2, onError2);
         debug("Created epoch receiver 2 %s", epochRcvr2);
@@ -428,7 +428,7 @@ describe("EventHub Receiver", function(): void {
       epochRcvr = client
         .createReceiver(partitionId, {
           exclusiveReceiverPriority: 1,
-          eventPosition: EventPosition.fromNewEventsOnly()
+          beginReceivingAt: EventPosition.fromNewEventsOnly()
         })
         .receive(onmsg1, onerr1);
       debug("Created epoch receiver %s", epochRcvr);
@@ -453,7 +453,7 @@ describe("EventHub Receiver", function(): void {
       };
       nonEpochRcvr = client
         .createReceiver(partitionId, {
-          eventPosition: EventPosition.fromNewEventsOnly()
+          beginReceivingAt: EventPosition.fromNewEventsOnly()
         })
         .receive(onmsg2, onerr2);
       debug("Created non epoch receiver %s", nonEpochRcvr);
@@ -484,7 +484,7 @@ describe("EventHub Receiver", function(): void {
       };
       nonEpochRcvr = client
         .createReceiver(partitionId, {
-          eventPosition: EventPosition.fromNewEventsOnly()
+          beginReceivingAt: EventPosition.fromNewEventsOnly()
         })
         .receive(onmsg3, onerr3);
       debug("Created non epoch receiver %s", nonEpochRcvr);
@@ -499,7 +499,7 @@ describe("EventHub Receiver", function(): void {
         epochRcvr = client
           .createReceiver(partitionId, {
             exclusiveReceiverPriority: 1,
-            eventPosition: EventPosition.fromNewEventsOnly()
+            beginReceivingAt: EventPosition.fromNewEventsOnly()
           })
           .receive(onmsg4, onerr4);
         debug("Created epoch receiver %s", epochRcvr);
@@ -577,7 +577,7 @@ describe("EventHub Receiver", function(): void {
           debug("@@@@ Error received by receiver %s", rcvrId);
           debug(err);
         };
-        const rcvHndlr = client.createReceiver(partitionId, { eventPosition: eventPosition }).receive(onMsg, onError);
+        const rcvHndlr = client.createReceiver(partitionId, { beginReceivingAt: eventPosition }).receive(onMsg, onError);
         rcvHndlrs.push(rcvHndlr);
       }
       debug(">>> Attached message handlers to each receiver.");
@@ -605,7 +605,7 @@ describe("EventHub Receiver", function(): void {
             });
         };
         const failedRcvHandler = client
-          .createReceiver(partitionId, { eventPosition: eventPosition })
+          .createReceiver(partitionId, { beginReceivingAt: eventPosition })
           .receive(onmsg2, onerr2);
         rcvHndlrs.push(failedRcvHandler);
       }, 5000);

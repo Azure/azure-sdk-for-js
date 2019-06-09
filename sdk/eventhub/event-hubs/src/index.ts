@@ -9,16 +9,16 @@ export { OnMessage, OnError } from "./eventHubReceiver";
 export { ReceiveHandler } from "./streamingReceiver";
 export {
   EventHubClient,
-  ReceiverOptions,
+  EventReceiverOptions,
   EventHubClientOptions,
-  BatchingOptions,
+  EventBatchingOptions,
   RetryOptions,
-  SenderOptions
+  EventSenderOptions
 } from "./eventHubClient";
 export { EventPosition, EventPositionOptions } from "./eventPosition";
 export { PartitionProperties, EventHubProperties } from "./managementClient";
-export { Sender } from "./sender";
-export { Receiver, EventIteratorOptions } from "./receiver";
+export { EventSender } from "./sender";
+export { EventReceiver, EventIteratorOptions } from "./receiver";
 export {
   MessagingError,
   DataTransformer,

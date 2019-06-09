@@ -3,7 +3,7 @@
 
 import { Constants } from "@azure/amqp-common";
 import { ReceiverEvents } from "rhea-promise";
-import { ReceiverOptions } from "./eventHubClient";
+import { EventReceiverOptions } from "./eventHubClient";
 import { EventHubReceiver, OnMessage, OnError } from "./eventHubReceiver";
 import { ConnectionContext } from "./connectionContext";
 import * as log from "./log";
@@ -95,9 +95,9 @@ export class StreamingReceiver extends EventHubReceiver {
    * @constructor
    * @param {EventHubClient} client          The EventHub client.
    * @param {string} partitionId             Partition ID from which to receive.
-   * @param {ReceiverOptions} [options]       Options for how you'd like to connect.
+   * @param {EventReceiverOptions} [options]       Options for how you'd like to connect.
    */
-  constructor(context: ConnectionContext, partitionId: string | number, options?: ReceiverOptions) {
+  constructor(context: ConnectionContext, partitionId: string | number, options?: EventReceiverOptions) {
     super(context, partitionId, options);
     this.receiveHandler = new ReceiveHandler(this);
   }
@@ -155,12 +155,12 @@ export class StreamingReceiver extends EventHubReceiver {
    * @ignore
    * @param {ConnectionContext} context    The connection context.
    * @param {string | number} partitionId  The partitionId to receive events from.
-   * @param {ReceiverOptions} [options]     Receive options.
+   * @param {EventReceiverOptions} [options]     Receive options.
    */
   static create(
     context: ConnectionContext,
     partitionId: string | number,
-    options?: ReceiverOptions
+    options?: EventReceiverOptions
   ): StreamingReceiver {
     const sReceiver = new StreamingReceiver(context, partitionId, options);
     context.receivers[sReceiver.name] = sReceiver;

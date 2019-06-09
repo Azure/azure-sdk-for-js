@@ -6,7 +6,7 @@ import * as log from "./log";
 import { Receiver, OnAmqpEvent, EventContext, ReceiverOptions as RheaReceiverOptions, types, AmqpError } from "rhea-promise";
 import { translate, Constants, MessagingError, retry, RetryOperationType, RetryConfig } from "@azure/amqp-common";
 import { ReceivedEventData, EventDataInternal, fromAmqpMessage } from "./eventData";
-import { ReceiverOptions } from "./eventHubClient";
+import { EventReceiverOptions } from "./eventHubClient";
 import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";
 import { EventPosition } from "./eventPosition";
@@ -98,7 +98,7 @@ export class EventHubReceiver extends LinkEntity {
    * @property {ReceiveOptions} [options] Optional properties that can be set while creating
    * the EventHubReceiver.
    */
-  options: ReceiverOptions;
+  options: EventReceiverOptions;
   /**
    * @property {number} [prefetchCount] The number of messages that the receiver can fetch/receive
    * initially. Defaults to 1000.
@@ -187,9 +187,9 @@ export class EventHubReceiver extends LinkEntity {
    * @constructor
    * @param {EventHubClient} client                            The EventHub client.
    * @param {string} partitionId                               Partition ID from which to receive.
-   * @param {ReceiverOptions} [options]                         Receiver options.
+   * @param {EventReceiverOptions} [options]                         Receiver options.
    */
-  constructor(context: ConnectionContext, partitionId: string | number, options?: ReceiverOptions) {
+  constructor(context: ConnectionContext, partitionId: string | number, options?: EventReceiverOptions) {
     super(context, {
       partitionId: partitionId,
       name: context.config.getReceiverAddress(partitionId, options && options.consumerGroup)
@@ -633,7 +633,7 @@ export class EventHubReceiver extends LinkEntity {
     if (this.receiverRuntimeMetricEnabled) {
       rcvrOptions.desired_capabilities = Constants.enableReceiverRuntimeMetricName;
     }
-    const eventPosition = options.eventPosition || this.options.eventPosition;
+    const eventPosition = options.eventPosition || this.options.beginReceivingAt;
     if (eventPosition) {
       // Set filter on the receiver if event position is specified.
       const filterClause = getEventPositionFilter(eventPosition);
