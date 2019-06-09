@@ -19,7 +19,7 @@
   },
   "main": "./dist/index.js",
   "module": "dist-esm/src/index.js",
-  "types": "./types/src/index.d.ts",
+  "types": "./types/keyvault-secrets.d.ts",
   "engine": {
     "node": ">=6.0.0"
   },
@@ -64,9 +64,10 @@
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:minify": "uglifyjs -c -m --comments --source-map \"content='./dist/index.js.map'\" -o ./dist/index.min.js ./dist/index.js 2>&1",
     "build:test": "npm run build",
-    "build": "tsc && rollup -c rollup.config.js 2>&1",
+    "build": "tsc && rollup -c rollup.config.js 2>&1 && npm run extract-api",
     "check-format": "prettier --list-different --config ../../.prettierrc.json \"src/**/*.ts\" \"tests/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist esm test-dist typings *.tgz *.log",
+    "extract-api": "tsc -p . && api-extractor run --local",
     "format": "prettier --write --config ../../.prettierrc.json \"src/**/*.ts\" \"tests/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "echo skipped",
     "integration-test:node": "ts-mocha -p tests/tsconfig.test.json tests/*.ts --timeout 10000 --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=-",
