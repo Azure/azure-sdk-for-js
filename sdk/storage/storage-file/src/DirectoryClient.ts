@@ -7,10 +7,10 @@ import { Directory } from "./generated/lib/operations";
 import { Metadata } from "./models";
 import { Pipeline } from "./Pipeline";
 import { StorageClient, NewPipelineOptions } from "./StorageClient";
-import { appendToURLPath, extractPartsWithValidation } from "./utils/utils.common";
+import { appendToURLPath } from "./utils/utils.common";
 import { FileClient } from "./FileClient";
 import { Credential } from "./credentials/Credential";
-import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
+import { AnonymousCredential } from "./credentials/AnonymousCredential";
 
 /**
  * Options to configure Directory - Create operation.
@@ -147,21 +147,6 @@ export class DirectoryClient extends StorageClient {
   /**
    * Creates an instance of DirectoryClient.
    *
-   * @param {string} connectionString Connection string for an Azure storage account.
-   * @param {string} shareName Share name.
-   * @param {string} directoryName Directory name.
-   * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
-   * @memberof DirectoryClient
-   */
-  constructor(
-    connectionString: string,
-    shareName: string,
-    directoryName: string,
-    options?: NewPipelineOptions
-  );
-  /**
-   * Creates an instance of DirectoryClient.
-   *
    * @param {string} url A URL string pointing to Azure Storage file directory, such as
    *                     "https://myaccount.file.core.windows.net/myshare/mydirectory". You can
    *                     append a SAS if using AnonymousCredential, such as
@@ -171,6 +156,7 @@ export class DirectoryClient extends StorageClient {
    *                     However, if a directory name includes %, directory name must be encoded in the URL.
    *                     Such as a directory named "mydir%", the URL should be "https://myaccount.file.core.windows.net/myshare/mydir%25".
    * @param {Credential} credential Such as AnonymousCredential, SharedKeyCredential or TokenCredential.
+   *                                If not specified, AnonymousCredential is used.
    * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof DirectoryClient
    */
@@ -192,37 +178,21 @@ export class DirectoryClient extends StorageClient {
    */
   constructor(url: string, pipeline: Pipeline);
   constructor(
-    urlOrConnectionString: string,
-    credentialOrPipelineOrShareName?: Credential | Pipeline | string,
-    directoryNameOrOptions?: string | NewPipelineOptions,
+    url: string,
+    credentialOrPipeline?: Credential | Pipeline,
     options: NewPipelineOptions = {}
   ) {
     let pipeline: Pipeline;
-    if (credentialOrPipelineOrShareName instanceof Pipeline) {
-      pipeline = credentialOrPipelineOrShareName;
-    } else if (credentialOrPipelineOrShareName instanceof Credential) {
-      options = directoryNameOrOptions as NewPipelineOptions;
-      pipeline = StorageClient.newPipeline(credentialOrPipelineOrShareName, options);
-    } else if (
-      credentialOrPipelineOrShareName &&
-      typeof credentialOrPipelineOrShareName === "string" &&
-      directoryNameOrOptions &&
-      typeof directoryNameOrOptions === "string"
-    ) {
-      const shareName = credentialOrPipelineOrShareName;
-      const directoryName = directoryNameOrOptions;
-
-      const extractedCreds = extractPartsWithValidation(urlOrConnectionString);
-      const sharedKeyCredential = new SharedKeyCredential(
-        extractedCreds.accountName,
-        extractedCreds.accountKey
-      );
-      urlOrConnectionString = extractedCreds.url + "/" + shareName + "/" + directoryName;
-      pipeline = StorageClient.newPipeline(sharedKeyCredential, options);
+    if (credentialOrPipeline instanceof Pipeline) {
+      pipeline = credentialOrPipeline;
+    } else if (credentialOrPipeline instanceof Credential) {
+      pipeline = StorageClient.newPipeline(credentialOrPipeline, options);
     } else {
-      throw new Error("Expecting non-empty strings for shareName and directoryName parameters");
+      // The second parameter is undefined. Use anonymous credential.
+      pipeline = StorageClient.newPipeline(new AnonymousCredential(), options);
     }
-    super(urlOrConnectionString, pipeline);
+
+    super(url, pipeline);
     this.context = new Directory(this.storageClientContext);
   }
 

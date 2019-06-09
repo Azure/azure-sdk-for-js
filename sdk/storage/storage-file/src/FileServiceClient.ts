@@ -10,6 +10,7 @@ import { ShareClient } from "./ShareClient";
 import { appendToURLPath, extractPartsWithValidation } from "./utils/utils.common";
 import { Credential } from "./credentials/Credential";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
+import { AnonymousCredential } from "./credentials/AnonymousCredential";
 
 /**
  * Options to configure List Shares Segment operation.
@@ -111,13 +112,22 @@ export class FileServiceClient extends StorageClient {
   private serviceContext: Service;
 
   /**
-   * Creates an instance of FileServiceClient.
+   * Creates an instance of FileServiceClient from connection string.
    *
    * @param {string} connectionString Connection string for an Azure storage account.
-   * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
+   * @param {NewPipelineOptions} [options] Options to configure the HTTP pipeline.
    * @memberof FileServiceClient
    */
-  constructor(connectionString: string, options?: NewPipelineOptions);
+  public static fromConnectionString(connectionString: string, options?: NewPipelineOptions) {
+    const extractedCreds = extractPartsWithValidation(connectionString);
+    const sharedKeyCredential = new SharedKeyCredential(
+      extractedCreds.accountName,
+      extractedCreds.accountKey
+    );
+    const pipeline = StorageClient.newPipeline(sharedKeyCredential, options);
+    return new FileServiceClient(extractedCreds.url, pipeline);
+  }
+
   /**
    * Creates an instance of FileServiceClient.
    *
@@ -125,10 +135,11 @@ export class FileServiceClient extends StorageClient {
    *                     "https://myaccount.file.core.windows.net". You can Append a SAS
    *                     if using AnonymousCredential, such as "https://myaccount.file.core.windows.net?sasString".
    * @param {Credential} credential Such as AnonymousCredential, SharedKeyCredential or TokenCredential.
+   *                                If not specified, AnonymousCredential is used.
    * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof FileServiceClient
    */
-  constructor(url: string, credential: Credential, options?: NewPipelineOptions);
+  constructor(url: string, credential?: Credential, options?: NewPipelineOptions);
   /**
    * Creates an instance of FileServiceClient.
    *
@@ -141,27 +152,21 @@ export class FileServiceClient extends StorageClient {
    */
   constructor(url: string, pipeline: Pipeline);
   constructor(
-    urlOrConnectionString: string,
-    credentialOrPipelineOrOptions?: Credential | Pipeline | NewPipelineOptions,
+    url: string,
+    credentialOrPipeline?: Credential | Pipeline,
     options?: NewPipelineOptions
   ) {
     let pipeline: Pipeline;
-    if (credentialOrPipelineOrOptions instanceof Pipeline) {
-      pipeline = credentialOrPipelineOrOptions;
-    } else if (credentialOrPipelineOrOptions instanceof Credential) {
-      pipeline = StorageClient.newPipeline(credentialOrPipelineOrOptions, options);
+    if (credentialOrPipeline instanceof Pipeline) {
+      pipeline = credentialOrPipeline;
+    } else if (credentialOrPipeline instanceof Credential) {
+      pipeline = StorageClient.newPipeline(credentialOrPipeline, options);
     } else {
-      options = credentialOrPipelineOrOptions || {};
-
-      const extractedCreds = extractPartsWithValidation(urlOrConnectionString);
-      const sharedKeyCredential = new SharedKeyCredential(
-        extractedCreds.accountName,
-        extractedCreds.accountKey
-      );
-      pipeline = StorageClient.newPipeline(sharedKeyCredential, options);
-      urlOrConnectionString = extractedCreds.url;
+      // The second parameter is undefined. Use anonymous credential.
+      pipeline = StorageClient.newPipeline(new AnonymousCredential(), options);
     }
-    super(urlOrConnectionString, pipeline);
+
+    super(url, pipeline);
     this.serviceContext = new Service(this.storageClientContext);
   }
 

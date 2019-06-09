@@ -19,6 +19,7 @@ import {
 import { DirectoryClient } from "./DirectoryClient";
 import { Credential } from "./credentials/Credential";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
+import { AnonymousCredential } from "./credentials/AnonymousCredential";
 
 /**
  * Options to configure Share - Create operation.
@@ -301,10 +302,11 @@ export class ShareClient extends StorageClient {
    *                     append a SAS if using AnonymousCredential, such as
    *                     "https://myaccount.file.core.windows.net/share?sasString".
    * @param {Credential} credential Such as AnonymousCredential, SharedKeyCredential or TokenCredential.
+   *                                If not specified, AnonymousCredential is used.
    * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof ShareClient
    */
-  constructor(url: string, credential: Credential, options?: NewPipelineOptions);
+  constructor(url: string, credential?: Credential, options?: NewPipelineOptions);
   /**
    * Creates an instance of ShareClient.
    *
@@ -327,6 +329,9 @@ export class ShareClient extends StorageClient {
       pipeline = credentialOrPipelineOrShareName;
     } else if (credentialOrPipelineOrShareName instanceof Credential) {
       pipeline = StorageClient.newPipeline(credentialOrPipelineOrShareName, options);
+    } else if (!credentialOrPipelineOrShareName) {
+      // The second parameter is undefined. Use anonymous credential.
+      pipeline = StorageClient.newPipeline(new AnonymousCredential(), options);
     } else if (
       credentialOrPipelineOrShareName &&
       typeof credentialOrPipelineOrShareName === "string"
@@ -337,7 +342,6 @@ export class ShareClient extends StorageClient {
         extractedCreds.accountName,
         extractedCreds.accountKey
       );
-      pipeline = StorageClient.newPipeline(sharedKeyCredential, options);
       urlOrConnectionString = extractedCreds.url + "/" + shareName;
       pipeline = StorageClient.newPipeline(sharedKeyCredential, options);
     } else {

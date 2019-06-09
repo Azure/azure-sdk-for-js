@@ -323,6 +323,31 @@ describe("FileClient", () => {
     assert.ok(result.date);
   });
 
+  it("can be created with a url and a credential and an option bag", async () => {
+    await fileClient.create(content.length);
+    const metadata = {
+      a: "a",
+      b: "b"
+    };
+    await fileClient.setMetadata(metadata);
+
+    const factories = fileClient.pipeline.factories;
+    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const newClient = new FileClient(fileClient.url, credential, {
+      retryOptions: {
+        maxTries: 5
+      }
+    });
+
+    const result = await newClient.getProperties();
+
+    assert.ok(result.eTag!.length > 0);
+    assert.ok(result.lastModified);
+    assert.ok(result.requestId);
+    assert.ok(result.version);
+    assert.ok(result.date);
+  });
+
   it("can be created with a url and a pipeline", async () => {
     await fileClient.create(content.length);
     const metadata = {

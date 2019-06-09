@@ -103,6 +103,24 @@ describe("ShareClient", () => {
     assert.ok(result.date);
   });
 
+  it("can be created with a url and a credential and an option bag", async () => {
+    const factories = shareClient.pipeline.factories;
+    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const newClient = new ShareClient(shareClient.url, credential, {
+      retryOptions: {
+        maxTries: 5
+      }
+    });
+
+    const result = await newClient.getProperties();
+
+    assert.ok(result.eTag!.length > 0);
+    assert.ok(result.lastModified);
+    assert.ok(result.requestId);
+    assert.ok(result.version);
+    assert.ok(result.date);
+  });
+
   it("can be created with a url and a pipeline", async () => {
     const factories = shareClient.pipeline.factories;
     const credential = factories[factories.length - 1] as SharedKeyCredential;
