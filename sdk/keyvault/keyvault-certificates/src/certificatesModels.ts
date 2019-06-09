@@ -35,7 +35,7 @@ export interface CertificateAttributes extends ParsedKeyVaultEntityIdentifier {
   /**
    * @member {string} [id] The certificate id.
    */
-  id?: string;
+  readonly id?: string;
   /**
    * @member {boolean} [enabled] Determines whether the object is enabled.
    */
@@ -43,19 +43,19 @@ export interface CertificateAttributes extends ParsedKeyVaultEntityIdentifier {
   /**
    * @member {Date} [notBefore] Not before date in UTC.
    */
-  notBefore?: Date;
+  readonly notBefore?: Date;
   /**
    * @member {Date} [created] When the certificate was created.
    */
-  created?: Date;
+  readonly created?: Date;
   /**
    * @member {Date} [updated] When the object was updated.
    */
-  updated?: Date;
+  readonly updated?: Date;
   /**
    * @member {Date} [expires] Expiry date in UTC.
    */
-  expires?: Date;
+  readonly expires?: Date;
   /**
    * @member {{ [propertyName: string]: string }} [tags] Application specific
    * metadata in the form of key-value pairs.
@@ -64,7 +64,7 @@ export interface CertificateAttributes extends ParsedKeyVaultEntityIdentifier {
   /**
    * @member {Uint8Array} [x509Thumbprint] Thumbprint of the certificate.
    */
-  x509Thumbprint?: Uint8Array;
+  readonly x509Thumbprint?: Uint8Array;
 }
 
 export interface DeletedCertificate extends Certificate {
