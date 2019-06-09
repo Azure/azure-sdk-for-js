@@ -37,7 +37,7 @@
     "@types/chai-as-promised": "^7.1.0",
     "@types/debug": "^0.0.31",
     "@types/dotenv": "^6.1.0",
-    "@typescript-eslint/eslint-plugin": "^1.7.0",
+    "@typescript-eslint/eslint-plugin": "~1.9.0",
     "@typescript-eslint/parser": "^1.7.0",
     "@types/jssha": "^2.0.0",
     "@types/mocha": "^5.2.5",
