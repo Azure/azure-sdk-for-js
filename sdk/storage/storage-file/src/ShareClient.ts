@@ -265,7 +265,6 @@ export interface ShareCreateSnapshotOptions {
  *
  * @export
  * @class ShareClient
- * @extends {StorageClient}
  */
 export class ShareClient extends StorageClient {
   /**
@@ -284,7 +283,7 @@ export class ShareClient extends StorageClient {
    *                     "https://myaccount.file.core.windows.net/share". You can
    *                     append a SAS if using AnonymousCredential, such as
    *                     "https://myaccount.file.core.windows.net/share?sasString".
-   * @param {Pipeline} pipeline Call StorageClient.newPipeline() to create a default
+   * @param {Pipeline} pipeline Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
    * @memberof ShareClient
    */

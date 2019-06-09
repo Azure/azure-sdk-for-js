@@ -185,7 +185,6 @@ export declare type QueueGetAccessPolicyResponse = {
  *
  * @export
  * @class QueueURL
- * @extends {StorageClient}
  */
 export class QueueClient extends StorageClient {
   /**
@@ -203,7 +202,7 @@ export class QueueClient extends StorageClient {
    *                     "https://myaccount.queue.core.windows.net/myqueue". You can
    *                     append a SAS if using AnonymousCredential, such as
    *                     "https://myaccount.queue.core.windows.net/myqueue?sasString".
-   * @param {Pipeline} pipeline Call StorageClient.newPipeline() to create a default
+   * @param {Pipeline} pipeline Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
    * @memberof QueueURL
    */

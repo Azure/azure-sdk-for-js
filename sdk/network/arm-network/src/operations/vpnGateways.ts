@@ -98,6 +98,18 @@ export class VpnGateways {
   }
 
   /**
+   * Resets the primary of the vpn gateway in the specified resource group.
+   * @param resourceGroupName The resource group name of the VpnGateway.
+   * @param gatewayName The name of the gateway.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.VpnGatewaysResetResponse>
+   */
+  reset(resourceGroupName: string, gatewayName: string, options?: msRest.RequestOptionsBase): Promise<Models.VpnGatewaysResetResponse> {
+    return this.beginReset(resourceGroupName,gatewayName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.VpnGatewaysResetResponse>;
+  }
+
+  /**
    * Lists all the VpnGateways in a resource group.
    * @param resourceGroupName The resource group name of the VpnGateway.
    * @param [options] The optional parameters
@@ -204,6 +216,24 @@ export class VpnGateways {
         options
       },
       beginDeleteMethodOperationSpec,
+      options);
+  }
+
+  /**
+   * Resets the primary of the vpn gateway in the specified resource group.
+   * @param resourceGroupName The resource group name of the VpnGateway.
+   * @param gatewayName The name of the gateway.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginReset(resourceGroupName: string, gatewayName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        gatewayName,
+        options
+      },
+      beginResetOperationSpec,
       options);
   }
 
@@ -428,6 +458,32 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     204: {},
     default: {
       bodyMapper: Mappers.ErrorModel
+    }
+  },
+  serializer
+};
+
+const beginResetOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/reset",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.gatewayName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.VpnGateway
+    },
+    202: {},
+    default: {
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer

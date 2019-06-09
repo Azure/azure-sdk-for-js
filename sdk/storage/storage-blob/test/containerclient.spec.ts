@@ -3,7 +3,7 @@ import * as assert from "assert";
 import { ContainerClient } from "../src/ContainerClient";
 import { getBSU, getUniqueName, sleep } from "./utils";
 import * as dotenv from "dotenv";
-import { SharedKeyCredential, StorageClient } from "../src";
+import { SharedKeyCredential, newPipeline } from "../src";
 dotenv.config({ path: "../.env" });
 
 describe("ContainerClient", () => {
@@ -224,6 +224,72 @@ describe("ContainerClient", () => {
     }
   });
 
+  it("Verify AsyncIterator(generator .next() syntax) for listBlobsFlat", async () => {
+    const blobClients = [];
+    const prefix = "blockblob";
+    const metadata = {
+      keya: "a",
+      keyb: "c"
+    };
+    for (let i = 0; i < 2; i++) {
+      const blobClient = containerClient.createBlobClient(getUniqueName(`${prefix}/${i}`));
+      const blockBlobClient = blobClient.createBlockBlobClient();
+      await blockBlobClient.upload("", 0, {
+        metadata
+      });
+      blobClients.push(blobClient);
+    }
+
+    const iterator = await containerClient.listBlobsFlat({
+      include: ["snapshots", "metadata", "uncommittedblobs", "copy", "deleted"],
+      prefix
+    });
+
+    let blobItem = await iterator.next();
+    assert.ok(blobClients[0].url.indexOf(blobItem.value.name));
+    assert.deepStrictEqual(blobItem.value.metadata, metadata);
+
+    blobItem = await iterator.next();
+    assert.ok(blobClients[1].url.indexOf(blobItem.value.name));
+    assert.deepStrictEqual(blobItem.value.metadata, metadata);
+
+    for (const blob of blobClients) {
+      await blob.delete();
+    }
+  });
+
+  it("Verify AsyncIterator(for-loop syntax) for listBlobsFlat", async () => {
+    const blobClients = [];
+    const prefix = "blockblob";
+    const metadata = {
+      keya: "a",
+      keyb: "c"
+    };
+    for (let i = 0; i < 4; i++) {
+      const blobClient = containerClient.createBlobClient(getUniqueName(`${prefix}/${i}`));
+      const blockBlobClient = blobClient.createBlockBlobClient();
+      await blockBlobClient.upload("", 0, {
+        metadata
+      });
+      blobClients.push(blobClient);
+    }
+
+    let i = 0;
+    for await (const blob of containerClient.listBlobsFlat({
+      include: ["snapshots", "metadata", "uncommittedblobs", "copy", "deleted"],
+      prefix,
+      maxresults: 2
+    })) {
+      assert.ok(blobClients[i].url.indexOf(blob.name));
+      assert.deepStrictEqual(blob.metadata, metadata);
+      i++;
+    }
+
+    for (const blob of blobClients) {
+      await blob.delete();
+    }
+  });
+
   it("listBlobHierarchySegment with default parameters", async () => {
     const blobClients = [];
     for (let i = 0; i < 3; i++) {
@@ -353,7 +419,7 @@ describe("ContainerClient", () => {
   it("can be created with a url and a pipeline", async () => {
     const factories = containerClient.pipeline.factories;
     const credential = factories[factories.length - 1] as SharedKeyCredential;
-    const pipeline = StorageClient.newPipeline(credential);
+    const pipeline = newPipeline(credential);
     const newClient = new ContainerClient(containerClient.url, pipeline);
 
     const result = await newClient.getProperties();

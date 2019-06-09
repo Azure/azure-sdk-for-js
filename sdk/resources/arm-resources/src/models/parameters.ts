@@ -69,6 +69,20 @@ export const filter: msRest.OperationQueryParameter = {
     }
   }
 };
+export const groupId: msRest.OperationURLParameter = {
+  parameterPath: "groupId",
+  mapper: {
+    required: true,
+    serializedName: "groupId",
+    constraints: {
+      MaxLength: 90,
+      MinLength: 1
+    },
+    type: {
+      name: "String"
+    }
+  }
+};
 export const nextPageLink: msRest.OperationURLParameter = {
   parameterPath: "nextPageLink",
   mapper: {

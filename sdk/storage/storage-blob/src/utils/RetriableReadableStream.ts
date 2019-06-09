@@ -15,7 +15,7 @@ export interface RetriableReadableStreamOptions {
    * about request cancellation.
    *
    * @type {Aborter}
-   * @memberof IUploadToBlockBlobOptions
+   * @memberof RetriableReadableStreamOptions
    */
   abortSignal?: Aborter;
 

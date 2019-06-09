@@ -1,6 +1,6 @@
 import { SharedKeyCredential } from "../../src/credentials/SharedKeyCredential";
+import { newPipeline } from "../../src/Pipeline";
 import { QueueServiceClient } from "../../src/QueueServiceClient";
-import { StorageClient } from "../../src/StorageClient";
 // Uncomment if need to enable logger when debugging
 // import {HttpPipelineLogLevel} from "../../src"
 // import {ConsoleHttpPipelineLogger} from "./testutils.common"
@@ -27,7 +27,7 @@ export function getGenericQSU(
   }
 
   const credentials = new SharedKeyCredential(accountName, accountKey);
-  const pipeline = StorageClient.newPipeline(credentials, {
+  const pipeline = newPipeline(credentials, {
     // Enable logger when debugging
     // logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO)
   });

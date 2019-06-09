@@ -10,7 +10,6 @@ export * from "./Aborter";
 export * from "./BlobServiceClient";
 export * from "./ContainerClient";
 // ordering of these clients is important as there are circular dependencies
-export * from "./StorageClient";
 export * from "./BlobClient";
 export * from "./AppendBlobClient";
 export * from "./BlockBlobClient";
@@ -20,8 +19,6 @@ export * from "./BrowserPolicyFactory";
 export * from "./credentials/AnonymousCredential";
 export * from "./credentials/Credential";
 export * from "./credentials/TokenCredential";
-export * from "./highlevel.browser";
-export * from "./highlevel.common";
 export { IPRange } from "./IPRange";
 export { Range } from "./Range";
 export * from "./Pipeline";

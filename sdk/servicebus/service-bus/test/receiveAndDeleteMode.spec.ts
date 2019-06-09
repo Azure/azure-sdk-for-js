@@ -129,7 +129,7 @@ describe("Batch Receiver in ReceiveAndDelete mode", function(): void {
     await testNoSettlement();
   });
 
-  /*it("Unpartitioned Queue: No settlement of the message removes message", async function(): Promise<
+  /* it("Unpartitioned Queue: No settlement of the message removes message", async function(): Promise<
     void
   > {
     await beforeEachTest(ClientType.UnpartitionedQueue, ClientType.UnpartitionedQueue);
@@ -404,7 +404,7 @@ describe("Unsupported features in ReceiveAndDelete mode", function(): void {
     return msgs[0];
   }
 
-  const testError = (err: Error, operation: DispositionType) => {
+  const testError = (err: Error, operation: DispositionType): void => {
     should.equal(
       err.message,
       getErrorMessageNotSupportedInReceiveAndDeleteMode(`${operation} the message`),
@@ -752,9 +752,9 @@ describe("Receive Deferred messages in ReceiveAndDelete mode", function(): void 
   }
 
   async function receiveDeferredMessage(): Promise<void> {
-    let deferredMsgs: ServiceBusMessage | undefined;
-
-    deferredMsgs = await receiver.receiveDeferredMessage(sequenceNumber);
+    const deferredMsgs: ServiceBusMessage | undefined = await receiver.receiveDeferredMessage(
+      sequenceNumber
+    );
     if (!deferredMsgs) {
       throw `No message received for sequence number ${sequenceNumber}`;
     }

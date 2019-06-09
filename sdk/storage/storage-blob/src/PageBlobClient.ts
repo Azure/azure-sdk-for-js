@@ -9,11 +9,10 @@ import { BlobClient } from "./internal";
 import { PageBlob } from "./generated/lib/operations";
 import { rangeToString } from "./Range";
 import { BlobAccessConditions, Metadata, PageBlobAccessConditions } from "./models";
-import { Pipeline } from "./Pipeline";
+import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
 import { URLConstants } from "./utils/constants";
 import { setURLParameter, extractPartsWithValidation } from "./utils/utils.common";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
-import { StorageClient, NewPipelineOptions } from "./StorageClient";
 import { Credential } from "./credentials/Credential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 
@@ -266,7 +265,7 @@ export interface PageBlobStartCopyIncrementalOptions {
  *
  * @export
  * @class PageBlobClient
- * @extends {StorageClient}
+ * @extends {BlobClient}
  */
 export class PageBlobClient extends BlobClient {
   /**
@@ -318,7 +317,7 @@ export class PageBlobClient extends BlobClient {
    *                     Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
    *                     However, if a blob name includes ? or %, blob name must be encoded in the URL.
    *                     Such as a blob named "my?blob%", the URL should be "https://myaccount.blob.core.windows.net/mycontainer/my%3Fblob%25".
-   * @param {Pipeline} pipeline Call StorageClient.newPipeline() to create a default
+   * @param {Pipeline} pipeline Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
    * @memberof PageBlobClient
    */
@@ -336,13 +335,13 @@ export class PageBlobClient extends BlobClient {
       pipeline = credentialOrPipelineOrContainerName;
     } else if (credentialOrPipelineOrContainerName instanceof Credential) {
       options = blobNameOrOptions as NewPipelineOptions;
-      pipeline = StorageClient.newPipeline(credentialOrPipelineOrContainerName, options);
+      pipeline = newPipeline(credentialOrPipelineOrContainerName, options);
     } else if (
       !credentialOrPipelineOrContainerName &&
       typeof credentialOrPipelineOrContainerName !== "string"
     ) {
       // The second parameter is undefined. Use anonymous credential.
-      pipeline = StorageClient.newPipeline(new AnonymousCredential(), options);
+      pipeline = newPipeline(new AnonymousCredential(), options);
     } else if (
       credentialOrPipelineOrContainerName &&
       typeof credentialOrPipelineOrContainerName === "string" &&
@@ -358,7 +357,7 @@ export class PageBlobClient extends BlobClient {
         extractedCreds.accountKey
       );
       urlOrConnectionString = extractedCreds.url + "/" + containerName + "/" + blobName;
-      pipeline = StorageClient.newPipeline(sharedKeyCredential, options);
+      pipeline = newPipeline(sharedKeyCredential, options);
     } else {
       throw new Error("Expecting non-empty strings for containerName and blobName parameters");
     }

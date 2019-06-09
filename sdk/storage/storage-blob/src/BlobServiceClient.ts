@@ -5,13 +5,13 @@ import * as Models from "./generated/lib/models";
 import { Aborter } from "./Aborter";
 import { ListContainersIncludeType } from "./generated/lib/models/index";
 import { Service } from "./generated/lib/operations";
-import { Pipeline } from "./Pipeline";
-import { StorageClient, NewPipelineOptions } from "./StorageClient";
+import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
 import { ContainerClient } from "./ContainerClient";
 import { appendToURLPath, extractPartsWithValidation } from "./utils/utils.common";
 import { Credential } from "./credentials/Credential";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
+import { StorageClient } from "./internal";
 
 /**
  * Options to configure the Service - Get Properties operation.
@@ -130,7 +130,6 @@ export interface ServiceListContainersSegmentOptions {
  *
  * @export
  * @class BlobServiceClient
- * @extends {StorageClient}
  */
 export class BlobServiceClient extends StorageClient {
   /**
@@ -155,7 +154,7 @@ export class BlobServiceClient extends StorageClient {
       extractedCreds.accountName,
       extractedCreds.accountKey
     );
-    const pipeline = StorageClient.newPipeline(sharedKeyCredential, options);
+    const pipeline = newPipeline(sharedKeyCredential, options);
     return new BlobServiceClient(extractedCreds.url, pipeline);
   }
 
@@ -177,7 +176,7 @@ export class BlobServiceClient extends StorageClient {
    * @param {string} url A Client string pointing to Azure Storage blob service, such as
    *                     "https://myaccount.blob.core.windows.net". You can append a SAS
    *                     if using AnonymousCredential, such as "https://myaccount.blob.core.windows.net?sasString".
-   * @param {Pipeline} pipeline Call StorageClient.newPipeline() to create a default
+   * @param {Pipeline} pipeline Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
    * @memberof BlobServiceClient
    */
@@ -191,10 +190,10 @@ export class BlobServiceClient extends StorageClient {
     if (credentialOrPipeline instanceof Pipeline) {
       pipeline = credentialOrPipeline;
     } else if (credentialOrPipeline instanceof Credential) {
-      pipeline = StorageClient.newPipeline(credentialOrPipeline, options);
+      pipeline = newPipeline(credentialOrPipeline, options);
     } else {
       // The second parameter is undefined. Use anonymous credential
-      pipeline = StorageClient.newPipeline(new AnonymousCredential(), options);
+      pipeline = newPipeline(new AnonymousCredential(), options);
     }
     super(url, pipeline);
     this.serviceContext = new Service(this.storageClientContext);
@@ -289,6 +288,53 @@ export class BlobServiceClient extends StorageClient {
     return this.serviceContext.getAccountInfo({
       abortSignal: aborter || Aborter.none
     });
+  }
+
+  /**
+   * Iterates over containers under the specified account.
+   *
+   * @param {ServiceListContainersSegmentOptions} [options={}] Options to list containers(optional)
+   * @returns {AsyncIterableIterator<Models.ContainerItem>}
+   * @memberof BlobServiceClient
+   *
+   * @example
+   * for await (const container of blobServiceClient.listContainers()) {
+   *   console.log(`Container: ${container.name}`);
+   * }
+   *
+   * @example
+   * let iter1 = blobServiceClient.listContainers();
+   * let i = 1;
+   * for await (const container of iter1) {
+   *   console.log(`${i}: ${container.name}`);
+   *   i++;
+   * }
+   *
+   * @example
+   * let iter2 = await blobServiceClient.listContainers();
+   * i = 1;
+   * let containerItem = await iter2.next();
+   * do {
+   *   console.log(`Container ${i++}: ${containerItem.value.name}`);
+   *   containerItem = await iter2.next();
+   * } while (containerItem.value);
+   *
+   */
+  public async *listContainers(
+    options: ServiceListContainersSegmentOptions = {}
+  ): AsyncIterableIterator<Models.ContainerItem> {
+    let marker = undefined;
+    const blobServiceClient = this;
+    const aborter = !options.abortSignal ? Aborter.none : options.abortSignal;
+    let listContainersResponse;
+    do {
+      listContainersResponse = await blobServiceClient.listContainersSegment(marker, {
+        ...options,
+        abortSignal: aborter
+      });
+      marker = listContainersResponse.nextMarker;
+      yield* listContainersResponse.containerItems;
+    } while (marker);
   }
 
   /**

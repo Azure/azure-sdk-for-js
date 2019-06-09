@@ -6,18 +6,14 @@ import * as Models from "./generated/lib/models";
 import { Aborter } from "./Aborter";
 import { Container } from "./generated/lib/operations";
 import { ContainerAccessConditions, Metadata } from "./models";
-import { Pipeline } from "./Pipeline";
-import { StorageClient, NewPipelineOptions } from "./StorageClient";
+import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
 import { ETagNone } from "./utils/constants";
 import {
   appendToURLPath,
   truncatedISO8061Date,
   extractPartsWithValidation
 } from "./utils/utils.common";
-import { BlobClient } from "./internal";
-import { AppendBlobClient } from "./internal";
-import { BlockBlobClient } from "./internal";
-import { PageBlobClient } from "./internal";
+import { AppendBlobClient, BlobClient, BlockBlobClient, PageBlobClient, StorageClient } from "./internal";
 import { Credential } from "./credentials/Credential";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
@@ -405,7 +401,6 @@ export interface ContainerListBlobsSegmentOptions {
  *
  * @export
  * @class ContainerClient
- * @extends {StorageClient}
  */
 export class ContainerClient extends StorageClient {
   /**
@@ -460,7 +455,7 @@ export class ContainerClient extends StorageClient {
    *                     Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
    *                     However, if a blob name includes ? or %, blob name must be encoded in the URL.
    *                     Such as a blob named "my?blob%", the URL should be "https://myaccount.blob.core.windows.net/mycontainer/my%3Fblob%25".
-   * @param {Pipeline} pipeline Call StorageClient.newPipeline() to create a default
+   * @param {Pipeline} pipeline Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
    * @memberof ContainerClient
    */
@@ -474,13 +469,13 @@ export class ContainerClient extends StorageClient {
     if (credentialOrPipelineOrContainerName instanceof Pipeline) {
       pipeline = credentialOrPipelineOrContainerName;
     } else if (credentialOrPipelineOrContainerName instanceof Credential) {
-      pipeline = StorageClient.newPipeline(credentialOrPipelineOrContainerName, options);
+      pipeline = newPipeline(credentialOrPipelineOrContainerName, options);
     } else if (
       !credentialOrPipelineOrContainerName &&
       typeof credentialOrPipelineOrContainerName !== "string"
     ) {
       // The second parameter is undefined. Use anonymous credential.
-      pipeline = StorageClient.newPipeline(new AnonymousCredential(), options);
+      pipeline = newPipeline(new AnonymousCredential(), options);
     } else if (
       credentialOrPipelineOrContainerName &&
       typeof credentialOrPipelineOrContainerName === "string"
@@ -493,7 +488,7 @@ export class ContainerClient extends StorageClient {
         extractedCreds.accountKey
       );
       urlOrConnectionString = extractedCreds.url + "/" + containerName + "/";
-      pipeline = StorageClient.newPipeline(sharedKeyCredential, options);
+      pipeline = newPipeline(sharedKeyCredential, options);
     } else {
       throw new Error("Expecting non-empty strings for containerName parameter");
     }
@@ -901,6 +896,53 @@ export class ContainerClient extends StorageClient {
       abortSignal: aborter,
       modifiedAccessConditions: options.modifiedAccessConditions
     });
+  }
+
+  /**
+   * Iterates over blobs under the specified container.
+   *
+   * @param {ContainerListBlobsSegmentOptions} [options={}] Options to list blobs(optional)
+   * @returns {AsyncIterableIterator<Models.BlobItem>}
+   * @memberof ContainerClient
+   *
+   * @example
+   * for await (const blob of containerClient.listBlobs()) {
+   *   console.log(`Container: ${blob.name}`);
+   * }
+   *
+   * @example
+   * let iter1 = containerClient.listBlobs();
+   * let i = 1;
+   * for await (const blob of iter1) {
+   *   console.log(`${i}: ${blob.name}`);
+   *   i++;
+   * }
+   *
+   * @example
+   * let iter2 = await containerClient.listBlobs();
+   * i = 1;
+   * let blobItem = await iter2.next();
+   * do {
+   *  console.log(`Blob ${i++}: ${blobItem.value.name}`);
+   *  blobItem = await iter2.next();
+   * } while (blobItem.value);
+   *
+   */
+  public async *listBlobsFlat(
+    options: ContainerListBlobsSegmentOptions = {}
+  ): AsyncIterableIterator<Models.BlobItem> {
+    let marker = undefined;
+    const containerClient = this;
+    const aborter = !options.abortSignal ? Aborter.none : options.abortSignal;
+    let listBlobsResponse;
+    do {
+      listBlobsResponse = await containerClient.listBlobFlatSegment(marker, {
+        ...options,
+        abortSignal: aborter
+      });
+      marker = listBlobsResponse.nextMarker;
+      yield* listBlobsResponse.segment.blobItems;
+    } while (marker);
   }
 
   /**

@@ -90,9 +90,14 @@ export function browserConfig(test = false, production = false) {
           "if (isNode)": "if (false)"
         }
       }),
-      // os is not used by the browser bundle, so just shim it
+      // fs and os are not used by the browser bundle, so just shim it
+      // dotenv doesn't work in the browser, so replace it with a no-op function
       shim({
         dotenv: `export function config() { }`,
+        fs: `
+          export function statSync() { }
+          export function createReadStream() { }
+        `,
         os: `
           export const type = 1;
           export const release = 1;

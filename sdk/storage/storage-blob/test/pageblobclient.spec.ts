@@ -1,6 +1,6 @@
 import * as assert from "assert";
 import * as dotenv from "dotenv";
-import { SharedKeyCredential, StorageClient } from "../src";
+import { SharedKeyCredential, newPipeline } from "../src";
 import { PageBlobClient } from "../src/PageBlobClient";
 import { bodyToString, getBSU, getUniqueName } from "./utils";
 dotenv.config({ path: "../.env" });
@@ -173,7 +173,7 @@ describe("PageBlobClient", () => {
   it("can be created with a url and a pipeline", async () => {
     const factories = pageBlobClient.pipeline.factories;
     const credential = factories[factories.length - 1] as SharedKeyCredential;
-    const pipeline = StorageClient.newPipeline(credential);
+    const pipeline = newPipeline(credential);
     const newClient = new PageBlobClient(pageBlobClient.url, pipeline);
 
     await newClient.create(512);

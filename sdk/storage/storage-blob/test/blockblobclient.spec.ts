@@ -2,7 +2,7 @@ import * as assert from "assert";
 
 import { BlockBlobClient } from "../src/BlockBlobClient";
 import { base64encode, bodyToString, getBSU, getUniqueName } from "./utils";
-import { SharedKeyCredential, StorageClient } from "../src";
+import { SharedKeyCredential, newPipeline } from "../src";
 import * as dotenv from "dotenv";
 dotenv.config({ path: "../.env" });
 
@@ -220,7 +220,7 @@ describe("BlockBlobClient", () => {
   it("can be created with a url and a pipeline", async () => {
     const factories = blockBlobClient.pipeline.factories;
     const credential = factories[factories.length - 1] as SharedKeyCredential;
-    const pipeline = StorageClient.newPipeline(credential);
+    const pipeline = newPipeline(credential);
     const newClient = new BlockBlobClient(blockBlobClient.url, pipeline);
 
     const body: string = getUniqueName("randomstring");

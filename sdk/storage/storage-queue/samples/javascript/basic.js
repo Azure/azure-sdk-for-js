@@ -4,7 +4,7 @@
 
 const {
     QueueServiceClient,
-    StorageClient,
+    newPipeline,
     SharedKeyCredential,
     AnonymousCredential,
     TokenCredential
@@ -26,7 +26,7 @@ async function main() {
     const anonymousCredential = new AnonymousCredential();
 
     // Use sharedKeyCredential, tokenCredential or anonymousCredential to create a pipeline
-    const pipeline = StorageClient.newPipeline(sharedKeyCredential, {
+    const pipeline = newPipeline(sharedKeyCredential, {
         // httpClient: MyHTTPClient, // A customized HTTP client implementing IHttpClient interface
         // logger: MyLogger, // A customized logger implementing IHttpPipelineLogger interface
         retryOptions: {

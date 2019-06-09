@@ -1,0 +1,6 @@
+trigger: none
+
+jobs:
+  - template: ../archetype-sdk-tests-storage.yml
+    parameters:
+      PackageName: "@azure/storage-queue"
