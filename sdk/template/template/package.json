@@ -9,22 +9,23 @@
     "./dist/index.js": "./browser/index.js",
     "./dist-esm/src/print.js": "./dist-esm/src/print.browser.js"
   },
-  "types": "dist-esm/index.d.ts",
+  "types": "types/azure-template.d.ts",
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1",
     "build:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c 2>&1",
     "build:samples": "cd samples && tsc -p .",
     "build:test": "tsc -p . && rollup -c rollup.test.config.js 2>&1",
-    "build": "tsc -p . && rollup -c 2>&1",
+    "build": "tsc -p . && rollup -c 2>&1 && api-extractor run --local",
     "check-format": "prettier --list-different --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
-    "clean": "rimraf dist dist-esm test-dist typings *.tgz *.log",
+    "clean": "rimraf dist dist-esm test-dist types *.tgz *.log",
+    "extract-api": "tsc -p . && api-extractor run --local",
     "format": "prettier --write --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "echo skipped",
     "integration-test:node": "echo skipped",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "lint:fix": "eslint \"src/**/*.ts\" \"test/**/*.ts\" -c ../../.eslintrc.json --fix --fix-type [problem,suggestion]",
-    "lint": "eslint \"src/**/*.ts\" \"test/**/*.ts\" -c ../../.eslintrc.json",
+    "lint": "eslint -c ../../.eslintrc.json src test --ext .ts -f node_modules/eslint-detailed-reporter/lib/detailed.js -o template-lintReport.html || exit 0",
     "pack": "npm pack 2>&1",
     "prebuild": "npm run clean",
     "test:browser": "npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
@@ -39,7 +40,7 @@
     "dist/",
     "dist-esm/src/",
     "src/",
-    "typings/src"
+    "types/azure-template.d.ts"
   ],
   "repository": "github:Azure/azure-sdk-for-js",
   "keywords": [
@@ -55,7 +56,15 @@
     "node": ">=6.0.0"
   },
   "homepage": "https://github.com/azure/azure-sdk-for-js/tree/master/sdk/template/template",
+  "sideEffects": false,
+  "private": true,
+  "dependencies": {
+    "@azure/ms-rest-js": "^1.2.6",
+    "events": "^3.0.0",
+    "tslib": "^1.9.3"
+  },
   "devDependencies": {
+    "@microsoft/api-extractor": "^7.1.5",
     "@types/mocha": "^5.2.5",
     "@types/node": "^8.0.0",
     "@typescript-eslint/eslint-plugin": "^1.7.0",
@@ -63,13 +72,18 @@
     "assert": "^1.4.1",
     "cross-env": "^5.2.0",
     "eslint": "^5.16.0",
+    "eslint-config-prettier": "^4.2.0",
+    "eslint-detailed-reporter": "^0.8.0",
+    "eslint-plugin-no-null": "^1.0.2",
+    "eslint-plugin-no-only-tests": "^2.3.0",
+    "eslint-plugin-promise": "^4.1.1",
     "inherits": "^2.0.3",
     "mocha": "^5.2.0",
     "mocha-junit-reporter": "^1.18.0",
     "mocha-multi": "^1.0.1",
     "prettier": "^1.16.4",
     "rimraf": "^2.6.2",
-    "rollup": "^1.0.0",
+    "rollup": "~1.13.1",
     "rollup-plugin-commonjs": "^9.2.0",
     "rollup-plugin-json": "^3.1.0",
     "rollup-plugin-multi-entry": "^2.1.0",
@@ -80,12 +94,5 @@
     "rollup-plugin-visualizer": "^1.0.0",
     "typescript": "^3.2.2",
     "util": "^0.11.1"
-  },
-  "sideEffects": false,
-  "dependencies": {
-    "@azure/ms-rest-js": "^1.2.6",
-    "events": "^3.0.0",
-    "tslib": "^1.9.3"
-  },
-  "private": true
+  }
 }

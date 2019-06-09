@@ -4,8 +4,8 @@
 import * as Models from "./generated/lib/models";
 import { Aborter } from "./Aborter";
 import { Service } from "./generated/lib/operations";
-import { Pipeline } from "./Pipeline";
-import { StorageClient, NewPipelineOptions } from "./StorageClient";
+import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
+import { StorageClient } from "./StorageClient";
 import { ShareClient } from "./ShareClient";
 import { appendToURLPath, extractPartsWithValidation } from "./utils/utils.common";
 import { Credential } from "./credentials/Credential";
@@ -99,7 +99,6 @@ export interface ServiceSetPropertiesOptions {
  *
  * @export
  * @class FileServiceClient
- * @extends {StorageClient}
  */
 export class FileServiceClient extends StorageClient {
   /**
@@ -124,7 +123,7 @@ export class FileServiceClient extends StorageClient {
       extractedCreds.accountName,
       extractedCreds.accountKey
     );
-    const pipeline = StorageClient.newPipeline(sharedKeyCredential, options);
+    const pipeline = newPipeline(sharedKeyCredential, options);
     return new FileServiceClient(extractedCreds.url, pipeline);
   }
 
@@ -146,7 +145,7 @@ export class FileServiceClient extends StorageClient {
    * @param {string} url A URL string pointing to Azure Storage file service, such as
    *                     "https://myaccount.file.core.windows.net". You can Append a SAS
    *                     if using AnonymousCredential, such as "https://myaccount.file.core.windows.net?sasString".
-   * @param {Pipeline} pipeline Call StorageClient.newPipeline() to create a default
+   * @param {Pipeline} pipeline Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
    * @memberof FileServiceClient
    */
@@ -160,10 +159,10 @@ export class FileServiceClient extends StorageClient {
     if (credentialOrPipeline instanceof Pipeline) {
       pipeline = credentialOrPipeline;
     } else if (credentialOrPipeline instanceof Credential) {
-      pipeline = StorageClient.newPipeline(credentialOrPipeline, options);
+      pipeline = newPipeline(credentialOrPipeline, options);
     } else {
       // The second parameter is undefined. Use anonymous credential.
-      pipeline = StorageClient.newPipeline(new AnonymousCredential(), options);
+      pipeline = newPipeline(new AnonymousCredential(), options);
     }
 
     super(url, pipeline);

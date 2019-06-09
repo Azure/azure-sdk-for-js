@@ -1,7 +1,7 @@
 import * as assert from "assert";
 import { getBSU, getUniqueName } from "./utils";
 import * as dotenv from "dotenv";
-import { ShareClient, SharedKeyCredential, StorageClient } from '../src';
+import { newPipeline, ShareClient, SharedKeyCredential } from "../src";
 dotenv.config({ path: "../.env" });
 
 describe("ShareClient", () => {
@@ -124,7 +124,7 @@ describe("ShareClient", () => {
   it("can be created with a url and a pipeline", async () => {
     const factories = shareClient.pipeline.factories;
     const credential = factories[factories.length - 1] as SharedKeyCredential;
-    const pipeline = StorageClient.newPipeline(credential);
+    const pipeline = newPipeline(credential);
     const newClient = new ShareClient(shareClient.url, pipeline);
 
     const result = await newClient.getProperties();

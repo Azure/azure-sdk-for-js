@@ -10,7 +10,6 @@ export * from "./Aborter";
 export * from "./BlobServiceClient";
 export * from "./ContainerClient";
 // ordering of these clients is important as there are circular dependencies
-export * from "./StorageClient";
 export * from "./BlobClient";
 export * from "./AppendBlobClient";
 export * from "./BlockBlobClient";

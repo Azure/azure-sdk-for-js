@@ -5,8 +5,8 @@ import { Aborter } from "./Aborter";
 import * as Models from "./generated/lib/models";
 import { Directory } from "./generated/lib/operations";
 import { Metadata } from "./models";
-import { Pipeline } from "./Pipeline";
-import { StorageClient, NewPipelineOptions } from "./StorageClient";
+import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
+import { StorageClient } from "./StorageClient";
 import { appendToURLPath } from "./utils/utils.common";
 import { FileClient } from "./FileClient";
 import { Credential } from "./credentials/Credential";
@@ -132,7 +132,6 @@ export interface DirectorySetMetadataOptions {
  *
  * @export
  * @class DirectoryClient
- * @extends {StorageClient}
  */
 export class DirectoryClient extends StorageClient {
   /**
@@ -172,7 +171,7 @@ export class DirectoryClient extends StorageClient {
    *                     Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
    *                     However, if a directory name includes %, directory name must be encoded in the URL.
    *                     Such as a directory named "mydir%", the URL should be "https://myaccount.file.core.windows.net/myshare/mydir%25".
-   * @param {Pipeline} pipeline Call StorageClient.newPipeline() to create a default
+   * @param {Pipeline} pipeline Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
    * @memberof DirectoryClient
    */
@@ -186,10 +185,10 @@ export class DirectoryClient extends StorageClient {
     if (credentialOrPipeline instanceof Pipeline) {
       pipeline = credentialOrPipeline;
     } else if (credentialOrPipeline instanceof Credential) {
-      pipeline = StorageClient.newPipeline(credentialOrPipeline, options);
+      pipeline = newPipeline(credentialOrPipeline, options);
     } else {
       // The second parameter is undefined. Use anonymous credential.
-      pipeline = StorageClient.newPipeline(new AnonymousCredential(), options);
+      pipeline = newPipeline(new AnonymousCredential(), options);
     }
 
     super(url, pipeline);

@@ -48,7 +48,6 @@ export interface MessageIdUpdateOptions {
  *
  * @export
  * @class MessageIdClient
- * @extends {StorageClient}
  */
 export class MessageIdClient extends StorageClient {
   /**
@@ -66,7 +65,7 @@ export class MessageIdClient extends StorageClient {
    *                     "https://myaccount.queue.core.windows.net/myqueue/messages/messageid". You can
    *                     append a SAS if using AnonymousCredential, such as
    *                     "https://myaccount.queue.core.windows.net/myqueue/messages/messageid?sasString".
-   * @param {Pipeline} pipeline Call StorageClient.newPipeline() to create a default
+   * @param {Pipeline} pipeline Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
    * @memberof MessageIdClient
    */

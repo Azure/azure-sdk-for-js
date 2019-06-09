@@ -1,7 +1,7 @@
 import * as assert from "assert";
 import { getBSU, getUniqueName } from "./utils";
 import * as dotenv from "dotenv";
-import { DirectoryClient, SharedKeyCredential, StorageClient } from '../src';
+import { DirectoryClient, newPipeline, SharedKeyCredential } from "../src";
 dotenv.config({ path: "../.env" });
 
 describe("DirectoryClient", () => {
@@ -198,7 +198,7 @@ describe("DirectoryClient", () => {
   it("can be created with a url and a pipeline", async () => {
     const factories = dirClient.pipeline.factories;
     const credential = factories[factories.length - 1] as SharedKeyCredential;
-    const pipeline = StorageClient.newPipeline(credential);
+    const pipeline = newPipeline(credential);
     const newClient = new DirectoryClient(dirClient.url, pipeline);
 
     const result = await newClient.getProperties();

@@ -4,7 +4,7 @@
 
 const {
   BlobServiceClient,
-  StorageClient,
+  newPipeline,
   SharedKeyCredential,
   AnonymousCredential,
   TokenCredential
@@ -26,7 +26,7 @@ async function main() {
   // const anonymousCredential = new AnonymousCredential();
 
   // Use sharedKeyCredential, tokenCredential or anonymousCredential to create a pipeline
-  const pipeline = StorageClient.newPipeline(sharedKeyCredential);
+  const pipeline = newPipeline(sharedKeyCredential);
 
   // List containers
   const blobServiceClient = new BlobServiceClient(

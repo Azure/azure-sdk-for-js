@@ -50,11 +50,8 @@ export class SharedKeyCredentialPolicy extends CredentialPolicy {
   protected signRequest(request: WebResource): WebResource {
     request.headers.set(HeaderConstants.X_MS_DATE, new Date().toUTCString());
 
-    let contentLength = this.getHeaderValueToSign(request, HeaderConstants.CONTENT_LENGTH);
     if (request.body && typeof request.body === "string" && request.body.length > 0) {
-      // Workaround for https://github.com/axios/axios/issues/2107
-      // We should properly set the 'content-length' header once the issue is solved
-      contentLength = `${Buffer.byteLength(request.body)}`;
+      request.headers.set(HeaderConstants.CONTENT_LENGTH, Buffer.byteLength(request.body));
     }
 
     const stringToSign: string =
@@ -62,7 +59,7 @@ export class SharedKeyCredentialPolicy extends CredentialPolicy {
         request.method.toUpperCase(),
         this.getHeaderValueToSign(request, HeaderConstants.CONTENT_LANGUAGE),
         this.getHeaderValueToSign(request, HeaderConstants.CONTENT_ENCODING),
-        contentLength,
+        this.getHeaderValueToSign(request, HeaderConstants.CONTENT_LENGTH),
         this.getHeaderValueToSign(request, HeaderConstants.CONTENT_MD5),
         this.getHeaderValueToSign(request, HeaderConstants.CONTENT_TYPE),
         this.getHeaderValueToSign(request, HeaderConstants.DATE),
@@ -81,6 +78,13 @@ export class SharedKeyCredentialPolicy extends CredentialPolicy {
       HeaderConstants.AUTHORIZATION,
       `SharedKey ${this.factory.accountName}:${signature}`
     );
+
+    // Workaround for https://github.com/axios/axios/issues/2107
+    // We should always keep the 'content-length' header once the issue is solved
+    // For a better explanation about this workaround, look here: https://github.com/Azure/azure-sdk-for-js/pull/3273
+    if (typeof request.body !== "function" && !(request.body && request.onUploadProgress)) {
+      request.headers.remove(HeaderConstants.CONTENT_LENGTH);
+    }
 
     // console.log(`[URL]:${request.url}`);
     // console.log(`[HEADERS]:${request.headers.toString()}`);

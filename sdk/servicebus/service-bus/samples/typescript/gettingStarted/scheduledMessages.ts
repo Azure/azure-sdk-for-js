@@ -10,13 +10,13 @@
 */
 
 import {
+  delay,
   ServiceBusClient,
   ReceiveMode,
   SendableMessageInfo,
   OnMessage,
   OnError
 } from "@azure/service-bus";
-import { delay } from "rhea-promise";
 
 // Define connection string and related Service Bus entity names here
 const connectionString = "";
@@ -75,7 +75,6 @@ async function receiveMessages(sbClient: ServiceBusClient): Promise<void> {
   const onMessageHandler: OnMessage = async (brokeredMessage) => {
     numOfMessagesReceived++;
     console.log(`Received message: ${brokeredMessage.body} - ${brokeredMessage.label}`);
-
     await brokeredMessage.complete();
   };
   const onErrorHandler: OnError = (err) => {

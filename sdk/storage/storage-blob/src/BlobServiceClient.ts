@@ -6,9 +6,9 @@ import { Aborter } from "./Aborter";
 import { ListContainersIncludeType } from "./generated/lib/models/index";
 import { Service } from "./generated/lib/operations";
 import { Pipeline } from "./Pipeline";
-import { StorageClient } from "./internal";
 import { ContainerClient } from "./ContainerClient";
 import { appendToURLPath } from "./utils/utils.common";
+import { StorageClient } from './internal';
 
 /**
  * Options to configure the Service - Get Properties operation.
@@ -127,7 +127,6 @@ export interface ServiceListContainersSegmentOptions {
  *
  * @export
  * @class BlobServiceClient
- * @extends {StorageClient}
  */
 export class BlobServiceClient extends StorageClient {
   /**
@@ -145,7 +144,7 @@ export class BlobServiceClient extends StorageClient {
    * @param {string} url A Client string pointing to Azure Storage blob service, such as
    *                     "https://myaccount.blob.core.windows.net". You can append a SAS
    *                     if using AnonymousCredential, such as "https://myaccount.blob.core.windows.net?sasString".
-   * @param {Pipeline} pipeline Call StorageClient.newPipeline() to create a default
+   * @param {Pipeline} pipeline Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
    * @memberof BlobServiceClient
    */

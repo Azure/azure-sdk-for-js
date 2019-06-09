@@ -9,8 +9,8 @@ import * as Models from "./generated/lib/models";
 import { File } from "./generated/lib/operations";
 import { Range, rangeToString } from "./Range";
 import { FileHTTPHeaders, Metadata } from "./models";
-import { Pipeline } from "./Pipeline";
-import { StorageClient, NewPipelineOptions } from "./StorageClient";
+import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
+import { StorageClient } from "./StorageClient";
 import {
   DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS,
   FILE_MAX_SIZE_BYTES,
@@ -500,7 +500,6 @@ export interface DownloadFromAzureFileOptions {
  *
  * @export
  * @class FileClient
- * @extends {StorageClient}
  */
 export class FileClient extends StorageClient {
   /**
@@ -540,7 +539,7 @@ export class FileClient extends StorageClient {
    *                     Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
    *                     However, if a file or directory name includes %, file or directory name must be encoded in the URL.
    *                     Such as a file named "myfile%", the URL should be "https://myaccount.file.core.windows.net/myshare/mydirectory/myfile%25".
-   * @param {Pipeline} pipeline Call StorageClient.newPipeline() to create a default
+   * @param {Pipeline} pipeline Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
    * @memberof FileClient
    */
@@ -554,10 +553,10 @@ export class FileClient extends StorageClient {
     if (credentialOrPipeline instanceof Pipeline) {
       pipeline = credentialOrPipeline;
     } else if (credentialOrPipeline instanceof Credential) {
-      pipeline = StorageClient.newPipeline(credentialOrPipeline, options);
+      pipeline = newPipeline(credentialOrPipeline, options);
     } else {
       // The second parameter is undefined. Use anonymous credential.
-      pipeline = StorageClient.newPipeline(new AnonymousCredential(), options);
+      pipeline = newPipeline(new AnonymousCredential(), options);
     }
 
     super(url, pipeline);
@@ -1032,10 +1031,7 @@ export class FileClient extends StorageClient {
    * @param {UploadToAzureFileOptions} [options]
    * @returns {(Promise<void>)}
    */
-  public async uploadFile(
-    filePath: string,
-    options?: UploadToAzureFileOptions
-  ): Promise<void> {
+  public async uploadFile(filePath: string, options?: UploadToAzureFileOptions): Promise<void> {
     const size = fs.statSync(filePath).size;
     return this.uploadResetableStream(
       (offset, count) =>
@@ -1105,14 +1101,9 @@ export class FileClient extends StorageClient {
           const start = options.rangeSize! * i;
           const end = i === numBlocks - 1 ? size : start + options.rangeSize!;
           const contentLength = end - start;
-          await this.uploadRange(
-            () => streamFactory(start, contentLength),
-            start,
-            contentLength,
-            {
-              abortSignal: aborter
-            }
-          );
+          await this.uploadRange(() => streamFactory(start, contentLength), start, contentLength, {
+            abortSignal: aborter
+          });
           // Update progress after block is successfully uploaded to server, in case of block trying
           transferProgress += contentLength;
           if (options.progress) {
@@ -1263,7 +1254,7 @@ export class FileClient extends StorageClient {
         if (transferProgress + buffer.length > size) {
           throw new RangeError(
             `Stream size is larger than file size ${size} bytes, uploading failed. ` +
-            `Please make sure stream length is less or equal than file size.`
+              `Please make sure stream length is less or equal than file size.`
           );
         }
 

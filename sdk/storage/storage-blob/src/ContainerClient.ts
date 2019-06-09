@@ -7,10 +7,9 @@ import { Aborter } from "./Aborter";
 import { Container } from "./generated/lib/operations";
 import { ContainerAccessConditions, Metadata } from "./models";
 import { Pipeline } from "./Pipeline";
-import { StorageClient } from "./internal";
 import { ETagNone } from "./utils/constants";
 import { appendToURLPath, truncatedISO8061Date } from "./utils/utils.common";
-import { BlobClient } from "./internal";
+import { BlobClient, StorageClient } from "./internal";
 import { AppendBlobClient } from "./internal";
 import { BlockBlobClient } from "./internal";
 import { PageBlobClient } from "./internal";
@@ -398,7 +397,6 @@ export interface ContainerListBlobsSegmentOptions {
  *
  * @export
  * @class ContainerClient
- * @extends {StorageClient}
  */
 export class ContainerClient extends StorageClient {
   /**
@@ -416,7 +414,7 @@ export class ContainerClient extends StorageClient {
    *                     "https://myaccount.blob.core.windows.net/mycontainer". You can
    *                     append a SAS if using AnonymousCredential, such as
    *                     "https://myaccount.blob.core.windows.net/mycontainer?sasString".
-   * @param {Pipeline} pipeline Call StorageClient.newPipeline() to create a default
+   * @param {Pipeline} pipeline Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
    * @memberof ContainerClient
    */

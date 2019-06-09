@@ -1,8 +1,8 @@
 import * as assert from "assert";
 import { getBSU, getUniqueName, wait } from "./utils";
 import * as dotenv from "dotenv";
-import { FileServiceClient } from '../src/FileServiceClient';
-import { SharedKeyCredential, StorageClient } from '../src';
+import { FileServiceClient } from "../src/FileServiceClient";
+import { newPipeline, SharedKeyCredential } from "../src";
 dotenv.config({ path: "../.env" });
 
 describe("FileServiceClient", () => {
@@ -153,7 +153,7 @@ describe("FileServiceClient", () => {
     const factories = serviceClient.pipeline.factories;
     const credential = factories[factories.length - 1] as SharedKeyCredential;
     const newClient = new FileServiceClient(serviceClient.url, credential, {
-      retryOptions: { maxTries: 5}
+      retryOptions: { maxTries: 5 }
     });
 
     const result = await newClient.getProperties();
@@ -168,7 +168,7 @@ describe("FileServiceClient", () => {
     const serviceClient = getBSU();
     const factories = serviceClient.pipeline.factories;
     const credential = factories[factories.length - 1] as SharedKeyCredential;
-    const pipeline = StorageClient.newPipeline(credential);
+    const pipeline = newPipeline(credential);
     const newClient = new FileServiceClient(serviceClient.url, pipeline);
 
     const result = await newClient.getProperties();

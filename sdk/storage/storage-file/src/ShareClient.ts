@@ -7,8 +7,8 @@ import { Aborter } from "./Aborter";
 import * as Models from "./generated/lib/models";
 import { Share } from "./generated/lib/operations";
 import { Metadata } from "./models";
-import { Pipeline } from "./Pipeline";
-import { StorageClient, NewPipelineOptions } from "./StorageClient";
+import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
+import { StorageClient } from "./StorageClient";
 import { URLConstants } from "./utils/constants";
 import {
   appendToURLPath,
@@ -273,7 +273,6 @@ export interface ShareCreateSnapshotOptions {
  *
  * @export
  * @class ShareClient
- * @extends {StorageClient}
  */
 export class ShareClient extends StorageClient {
   /**
@@ -314,7 +313,7 @@ export class ShareClient extends StorageClient {
    *                     "https://myaccount.file.core.windows.net/share". You can
    *                     append a SAS if using AnonymousCredential, such as
    *                     "https://myaccount.file.core.windows.net/share?sasString".
-   * @param {Pipeline} pipeline Call StorageClient.newPipeline() to create a default
+   * @param {Pipeline} pipeline Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
    * @memberof ShareClient
    */
@@ -328,10 +327,10 @@ export class ShareClient extends StorageClient {
     if (credentialOrPipelineOrShareName instanceof Pipeline) {
       pipeline = credentialOrPipelineOrShareName;
     } else if (credentialOrPipelineOrShareName instanceof Credential) {
-      pipeline = StorageClient.newPipeline(credentialOrPipelineOrShareName, options);
+      pipeline = newPipeline(credentialOrPipelineOrShareName, options);
     } else if (!credentialOrPipelineOrShareName) {
       // The second parameter is undefined. Use anonymous credential.
-      pipeline = StorageClient.newPipeline(new AnonymousCredential(), options);
+      pipeline = newPipeline(new AnonymousCredential(), options);
     } else if (
       credentialOrPipelineOrShareName &&
       typeof credentialOrPipelineOrShareName === "string"
@@ -343,7 +342,7 @@ export class ShareClient extends StorageClient {
         extractedCreds.accountKey
       );
       urlOrConnectionString = extractedCreds.url + "/" + shareName;
-      pipeline = StorageClient.newPipeline(sharedKeyCredential, options);
+      pipeline = newPipeline(sharedKeyCredential, options);
     } else {
       throw new Error("Expecting non-empty strings for shareName parameter");
     }

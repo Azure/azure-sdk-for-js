@@ -2,7 +2,7 @@ import * as assert from "assert";
 import { isNode } from "@azure/ms-rest-js";
 import { bodyToString, getBSU, getUniqueName, sleep } from "./utils";
 import * as dotenv from "dotenv";
-import { Aborter, FileClient, SharedKeyCredential, StorageClient } from "../src";
+import { Aborter, FileClient, newPipeline, SharedKeyCredential } from "../src";
 dotenv.config({ path: "../.env" });
 
 describe("FileClient", () => {
@@ -358,7 +358,7 @@ describe("FileClient", () => {
 
     const factories = fileClient.pipeline.factories;
     const credential = factories[factories.length - 1] as SharedKeyCredential;
-    const pipeline = StorageClient.newPipeline(credential);
+    const pipeline = newPipeline(credential);
     const newClient = new FileClient(fileClient.url, pipeline);
 
     const result = await newClient.getProperties();

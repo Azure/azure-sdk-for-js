@@ -31,6 +31,5 @@ export * from "./TelemetryPolicyFactory";
 export * from "./UniqueRequestIDPolicyFactory";
 export * from "./BrowserPolicyFactory";
 export * from "./FileServiceClient";
-export * from "./StorageClient";
 export * from "./SASQueryParameters";
 export { Models, RestError };

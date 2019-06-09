@@ -7,8 +7,8 @@ import {
   Aborter,
   AnonymousCredential,
   FileServiceClient,
-  StorageClient
-} from "../.."; // Change to "@azure/storage-file" in your package
+  newPipeline
+} from "../../src"; // Change to "@azure/storage-file" in your package
 
 async function main() {
   // Fill in following settings before running this sample
@@ -16,7 +16,7 @@ async function main() {
   const accountSas = "";
   const localFilePath = "";
 
-  const pipeline = StorageClient.newPipeline(new AnonymousCredential(), {
+  const pipeline = newPipeline(new AnonymousCredential(), {
     // httpClient: MyHTTPClient, // A customized HTTP client implementing IHttpClient interface
     // logger: MyLogger, // A customized logger implementing IHttpPipelineLogger interface
     retryOptions: { maxTries: 4 }, // Retry options
@@ -56,16 +56,10 @@ async function main() {
 
   // Parallel uploading a Readable stream with FileClient.uploadStream() in Node.js runtime
   // FileClient.uploadStream() is only available in Node.js
-  await fileClient.uploadStream(
-    fs.createReadStream(localFilePath),
-    fileSize,
-    4 * 1024 * 1024,
-    20,
-    {
-      abortSignal: Aborter.timeout(30 * 60 * 1000), // Abort uploading with timeout in 30mins
-      progress: (ev: any) => console.log(ev)
-    }
-  );
+  await fileClient.uploadStream(fs.createReadStream(localFilePath), fileSize, 4 * 1024 * 1024, 20, {
+    abortSignal: Aborter.timeout(30 * 60 * 1000), // Abort uploading with timeout in 30mins
+    progress: (ev: any) => console.log(ev)
+  });
   console.log("uploadStream success");
 
   // Parallel uploading a browser File/Blob/ArrayBuffer in browsers with FileClient.uploadBrowserData()

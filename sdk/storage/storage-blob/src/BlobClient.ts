@@ -10,10 +10,9 @@ import { Blob } from "./generated/lib/operations";
 import { rangeToString } from "./Range";
 import { BlobAccessConditions, Metadata } from "./models";
 import { Pipeline } from "./Pipeline";
-import { StorageClient } from "./internal";
 import { DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS, URLConstants, DEFAULT_BLOB_DOWNLOAD_BLOCK_BYTES } from "./utils/constants";
 import { setURLParameter } from "./utils/utils.common";
-import { AppendBlobClient } from "./internal";
+import { AppendBlobClient, StorageClient } from "./internal";
 import { BlockBlobClient } from "./internal";
 import { PageBlobClient } from "./internal";
 import { Batch } from "./utils/Batch";
@@ -531,7 +530,6 @@ export interface DownloadFromBlobOptions {
  *
  * @export
  * @class BlobClient
- * @extends {StorageClient}
  */
 export class BlobClient extends StorageClient {
   /**
@@ -557,7 +555,7 @@ export class BlobClient extends StorageClient {
    *                     Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
    *                     However, if a blob name includes ? or %, blob name must be encoded in the URL.
    *                     Such as a blob named "my?blob%", the URL should be "https://myaccount.blob.core.windows.net/mycontainer/my%3Fblob%25".
-   * @param {Pipeline} pipeline Call StorageClient.newPipeline() to create a default
+   * @param {Pipeline} pipeline Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
    * @memberof BlobClient
    */
