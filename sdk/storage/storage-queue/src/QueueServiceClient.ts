@@ -5,8 +5,8 @@ import * as Models from "./generated/lib/models";
 import { Aborter } from "./Aborter";
 import { ListQueuesIncludeType } from "./generated/lib/models/index";
 import { Service } from "./generated/lib/operations";
-import { Pipeline } from "./Pipeline";
-import { StorageClient, NewPipelineOptions } from "./StorageClient";
+import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
+import { StorageClient } from "./StorageClient";
 import { QueueClient } from "./QueueClient";
 import { appendToURLPath } from "./utils/utils.common";
 import { Credential } from "./credentials/Credential";
@@ -112,7 +112,6 @@ export interface ServiceListQueuesSegmentOptions {
  *
  * @export
  * @class QueueServiceClient
- * @extends {StorageClient}
  */
 export class QueueServiceClient extends StorageClient {
   /**
@@ -124,8 +123,9 @@ export class QueueServiceClient extends StorageClient {
    */
   public static fromConnectionString(connectionString: string, options?: NewPipelineOptions) {
     // TODO: extract parts from connection string
-    const sharedKeyCredential = new SharedKeyCredential("name", "key");
-    const pipeline = StorageClient.newPipeline(sharedKeyCredential, options);
+    const name = connectionString;
+    const sharedKeyCredential = new SharedKeyCredential(name, "key");
+    const pipeline = newPipeline(sharedKeyCredential, options);
     return new QueueServiceClient("url", pipeline);
   }
 
@@ -156,7 +156,7 @@ export class QueueServiceClient extends StorageClient {
    * @param {string} url A URL string pointing to Azure Storage queue service, such as
    *                     "https://myaccount.queue.core.windows.net". You can append a SAS
    *                     if using AnonymousCredential, such as "https://myaccount.queue.core.windows.net?sasString".
-   * @param {Pipeline} pipeline Call StorageClient.newPipeline() to create a default
+   * @param {Pipeline} pipeline Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
    * @memberof QueueServiceClient
    */
@@ -170,10 +170,10 @@ export class QueueServiceClient extends StorageClient {
     if (credentialOrPipeline instanceof Pipeline) {
       pipeline = credentialOrPipeline;
     } else if (credentialOrPipeline instanceof Credential) {
-      pipeline = StorageClient.newPipeline(credentialOrPipeline, options);
+      pipeline = newPipeline(credentialOrPipeline, options);
     } else {
       // The second paramter is undefined. Use anonymous credential.
-      pipeline = StorageClient.newPipeline(new AnonymousCredential(), options);
+      pipeline = newPipeline(new AnonymousCredential(), options);
     }
     super(url, pipeline);
     this.serviceContext = new Service(this.storageClientContext);
@@ -242,6 +242,56 @@ export class QueueServiceClient extends StorageClient {
     return this.serviceContext.getStatistics({
       abortSignal: aborter
     });
+  }
+
+  /**
+   * Iterates over queues under the specified account.
+   *
+   * @param {ServiceListQueuesSegmentOptions} [options={}] Options to list queues(optional)
+   * @returns {AsyncIterableIterator<Models.QueueItem>}
+   * @memberof QueueServiceClient
+   *
+   * @example
+   * let i = 1;
+   * for await (const item of queueServiceClient.listQueues()) {
+   *   console.log(`Queue${i}: ${item.name}`);
+   *   i++;
+   * }
+   *
+   * @example
+   * let iter1 = queueServiceClient.listQueues();
+   * let i = 1;
+   * for await (const item of iter1) {
+   *   console.log(`Queue${i}: ${item.name}`);
+   *   i++;
+   * }
+   *
+   * @example
+   * let iter2 = await queueServiceClient.listQueues();
+   * i = 1;
+   * let item = await iter2.next();
+   * do {
+   *   console.log(`Queue${i++}: ${item.value.name}`);
+   *   item = await iter2.next();
+   * } while (item.value);
+   *
+   */
+  public async *listQueues(
+    options: ServiceListQueuesSegmentOptions = {}
+  ): AsyncIterableIterator<Models.QueueItem> {
+    let marker = undefined;
+    const queueServiceClient = this;
+    const aborter = !options.abortSignal ? Aborter.none : options.abortSignal;
+    let listQueuesResponse;
+    do {
+      listQueuesResponse = await queueServiceClient.listQueuesSegment(marker, {
+        ...options,
+        abortSignal: aborter
+      });
+
+      marker = listQueuesResponse.nextMarker;
+      yield* listQueuesResponse.queueItems;
+    } while (marker);
   }
 
   /**

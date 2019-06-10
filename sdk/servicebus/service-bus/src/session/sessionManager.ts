@@ -65,59 +65,6 @@ export class SessionManager {
     this._context = context;
     this.maxConcurrentSessions = 2000;
   }
-  /**
-   * Manages MessageSessions based on the provided parameters.
-   * @param onMessage The message handler to receive service bus messages from a session
-   * enabled entity.
-   * @param onError The error handler to receive an error that occurs while receiving messages
-   * from a session enabled entity.
-   */
-  async manageMessageSessions(
-    entityType: SessionEntityType,
-    onMessage: OnMessage,
-    onError: OnError,
-    options?: SessionManagerOptions
-  ): Promise<void> {
-    if (this._isManagingSessions) {
-      throw new Error(
-        `${entityType}Client for "${this._context.namespace.config.entityPath}" ` +
-          `is already receiving messages from sessions. Please close this ${entityType}Client or ` +
-          `create a new one and receiveMessages from Sessions.`
-      );
-    }
-    this._isManagingSessions = true;
-    this._isCancelRequested = false;
-    if (!options) options = {};
-    if (options.maxConcurrentSessions) this.maxConcurrentSessions = options.maxConcurrentSessions;
-    // We are explicitly configuring the messageSession to timeout in 60 seconds (if not provided
-    // by the user) when no new messages are received.
-    if (!options.newMessageWaitTimeoutInSeconds) {
-      options.newMessageWaitTimeoutInSeconds = Constants.defaultOperationTimeoutInSeconds;
-    }
-    this._maxConcurrentSessionsSemaphore = new Semaphore(this.maxConcurrenSessions);
-    this._maxPendingAcceptSessionsSemaphore = new Semaphore(
-      this.maxConcurrentAcceptSessionRequests
-    );
-
-    for (let i = 0; i < this._maxConcurrentAcceptSessionRequests; i++) {
-      this._acceptSessionAndReceiveMessages(onMessage, onError, options).catch((err) => {
-        log.error(err);
-      });
-    }
-  }
-
-  /**
-   * Close the session manager.
-   */
-  close(): void {
-    log.sessionManager(
-      "[%s] Closing the SessionMaanger for entity '%s'.",
-      this._context.namespace.connectionId,
-      this._context.entityPath
-    );
-    this._isCancelRequested = true;
-    this._isManagingSessions = false;
-  }
 
   /**
    * Accept a new session and start receiving messages.
@@ -153,7 +100,7 @@ export class SessionManager {
           this._maxPendingAcceptSessionsSemaphore.awaitedTaskCount()
         );
 
-        const closeMessageSession = async (messageSession: MessageSession) => {
+        const closeMessageSession = async (messageSession: MessageSession): Promise<void> => {
           try {
             await this._maxConcurrentSessionsSemaphore.release();
             log.sessionManager(
@@ -260,5 +207,59 @@ export class SessionManager {
         );
       }
     }
+  }
+
+  /**
+   * Manages MessageSessions based on the provided parameters.
+   * @param onMessage The message handler to receive service bus messages from a session
+   * enabled entity.
+   * @param onError The error handler to receive an error that occurs while receiving messages
+   * from a session enabled entity.
+   */
+  async manageMessageSessions(
+    entityType: SessionEntityType,
+    onMessage: OnMessage,
+    onError: OnError,
+    options?: SessionManagerOptions
+  ): Promise<void> {
+    if (this._isManagingSessions) {
+      throw new Error(
+        `${entityType}Client for "${this._context.namespace.config.entityPath}" ` +
+          `is already receiving messages from sessions. Please close this ${entityType}Client or ` +
+          `create a new one and receiveMessages from Sessions.`
+      );
+    }
+    this._isManagingSessions = true;
+    this._isCancelRequested = false;
+    if (!options) options = {};
+    if (options.maxConcurrentSessions) this.maxConcurrentSessions = options.maxConcurrentSessions;
+    // We are explicitly configuring the messageSession to timeout in 60 seconds (if not provided
+    // by the user) when no new messages are received.
+    if (!options.newMessageWaitTimeoutInSeconds) {
+      options.newMessageWaitTimeoutInSeconds = Constants.defaultOperationTimeoutInSeconds;
+    }
+    this._maxConcurrentSessionsSemaphore = new Semaphore(this.maxConcurrenSessions);
+    this._maxPendingAcceptSessionsSemaphore = new Semaphore(
+      this.maxConcurrentAcceptSessionRequests
+    );
+
+    for (let i = 0; i < this._maxConcurrentAcceptSessionRequests; i++) {
+      this._acceptSessionAndReceiveMessages(onMessage, onError, options).catch((err) => {
+        log.error(err);
+      });
+    }
+  }
+
+  /**
+   * Close the session manager.
+   */
+  close(): void {
+    log.sessionManager(
+      "[%s] Closing the SessionMaanger for entity '%s'.",
+      this._context.namespace.connectionId,
+      this._context.entityPath
+    );
+    this._isCancelRequested = true;
+    this._isManagingSessions = false;
   }
 }

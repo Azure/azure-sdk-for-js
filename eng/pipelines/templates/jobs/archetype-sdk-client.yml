@@ -14,7 +14,7 @@ jobs:
 
       - script: |
           npm install -g npm@6.9.0
-        displayName: 'Install npm version 6.9.0'
+        displayName: "Install npm version 6.9.0"
 
       - script: |
           node common/scripts/install-run-rush.js install
@@ -152,7 +152,7 @@ jobs:
       - ${{ if eq(parameters.PackageName,'')}}:
           - script: |
               node common/scripts/install-run-rush.js build --verbose
-            displayName: 'Build libraries"'
+            displayName: "Build libraries"
           - script: |
               node common/scripts/install-run-rush.js build:test --verbose
             displayName: "Build test assets"
@@ -164,7 +164,7 @@ jobs:
       - ${{ if ne(parameters.PackageName,'')}}:
           - script: |
               node common/scripts/install-run-rush.js build --verbose --to ${{parameters.PackageName}}
-            displayName: 'Build libraries"'
+            displayName: "Build libraries"
           - script: |
               node common/scripts/install-run-rush.js build:test --verbose --to ${{parameters.PackageName}}
             displayName: "Build test assets"

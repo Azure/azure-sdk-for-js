@@ -12,7 +12,7 @@ import { TokenCredentialPolicy } from "../policies/TokenCredentialPolicy";
  *
  * @example
  *  const tokenCredential = new TokenCredential("token");
- *  const pipeline = StorageClient.newPipeline(tokenCredential);
+ *  const pipeline = newPipeline(tokenCredential);
  *
  *  const queueServiceClient = new QueueServiceClient("https://mystorageaccount.queue.core.windows.net", pipeline);
  *

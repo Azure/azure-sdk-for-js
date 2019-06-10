@@ -3,7 +3,7 @@ import * as assert from "assert";
 import { QueueServiceClient } from "../src/QueueServiceClient";
 import { getAlternateQSU, getQSU, getUniqueName, wait } from "./utils";
 import * as dotenv from "dotenv";
-import { SharedKeyCredential, StorageClient } from "../src";
+import { SharedKeyCredential, newPipeline } from "../src";
 dotenv.config({ path: "../.env" });
 
 describe("QueueServiceClient", () => {
@@ -59,6 +59,59 @@ describe("QueueServiceClient", () => {
 
     await queueClient1.delete();
     await queueClient2.delete();
+  });
+
+  it("Verify AsyncIterator(generator .next() syntax) for listQueues", async () => {
+    const queueServiceClient = getQSU();
+
+    const queueNamePrefix = getUniqueName("queue");
+    const queueName1 = `${queueNamePrefix}x1`;
+    const queueName2 = `${queueNamePrefix}x2`;
+
+    const queueClient1 = queueServiceClient.createQueueClient(queueName1);
+    const queueClient2 = queueServiceClient.createQueueClient(queueName2);
+    await queueClient1.create({ metadata: { key: "val" } });
+    await queueClient2.create({ metadata: { key: "val" } });
+
+    let iter1 = await queueServiceClient.listQueues({
+      include: "metadata",
+      prefix: queueNamePrefix
+    });
+    let queueItem = await iter1.next();
+    assert.ok(queueItem.value.name.startsWith(queueNamePrefix));
+    assert.deepEqual(queueItem.value.metadata!.key, "val");
+
+    queueItem = await iter1.next();
+    assert.ok(queueItem.value.name.startsWith(queueNamePrefix));
+    assert.deepEqual(queueItem.value.metadata!.key, "val");
+
+    await queueClient1.delete();
+    await queueClient2.delete();
+  });
+
+  it("Verify AsyncIterator(for-loop syntax) for listQueues", async () => {
+    const queueClients = [];
+    const queueServiceClient = getQSU();
+    const queueNamePrefix = getUniqueName("queue");
+
+    for (let i = 0; i < 4; i++) {
+      const queueClient = queueServiceClient.createQueueClient(`${queueNamePrefix}x${i}`);
+      await queueClient.create({ metadata: { key: "val" } });
+      queueClients.push(queueClient);
+    }
+
+    for await (const queueItem of queueServiceClient.listQueues({
+      include: "metadata",
+      maxresults: 2,
+      prefix: queueNamePrefix
+    })) {
+      assert.ok(queueItem.name.startsWith(queueNamePrefix));
+      assert.deepEqual(queueItem.metadata!.key, "val");
+    }
+
+    for (const queueClient of queueClients) {
+      await queueClient.delete();
+    }
   });
 
   it("getProperties with default/all parameters", async () => {
@@ -193,7 +246,7 @@ describe("QueueServiceClient", () => {
     const queueServiceClient = getQSU();
     const factories = queueServiceClient.pipeline.factories;
     const credential = factories[factories.length - 1] as SharedKeyCredential;
-    const pipeline = StorageClient.newPipeline(credential);
+    const pipeline = newPipeline(credential);
     const newClient = new QueueServiceClient(queueServiceClient.url, pipeline);
 
     const result = await newClient.getProperties();

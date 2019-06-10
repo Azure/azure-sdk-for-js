@@ -2,7 +2,7 @@ import * as assert from "assert";
 
 import { getQSU, getUniqueName, sleep } from "./utils";
 import * as dotenv from "dotenv";
-import { SharedKeyCredential, MessageIdClient, StorageClient } from "../src";
+import { SharedKeyCredential, MessageIdClient, newPipeline } from "../src";
 dotenv.config({ path: "../.env" });
 
 describe("MessageIdClient", () => {
@@ -35,7 +35,7 @@ describe("MessageIdClient", () => {
 
     let newMessage = "";
     let messageIdClient = messagesClient.createMessageIdClient(eResult.messageId);
-    let uResult = await messageIdClient.update(eResult.popReceipt, 0, newMessage);
+    let uResult = await messageIdClient.update(eResult.popReceipt, newMessage);
     assert.ok(uResult.version);
     assert.ok(uResult.timeNextVisible);
     assert.ok(uResult.date);
@@ -69,7 +69,7 @@ describe("MessageIdClient", () => {
 
     let newMessage = "New Message";
     let messageIdClient = messagesClient.createMessageIdClient(eResult.messageId);
-    let uResult = await messageIdClient.update(eResult.popReceipt, 10, newMessage);
+    let uResult = await messageIdClient.update(eResult.popReceipt, newMessage, 10);
     assert.ok(uResult.version);
     assert.ok(uResult.timeNextVisible);
     assert.ok(uResult.date);
@@ -100,7 +100,7 @@ describe("MessageIdClient", () => {
 
     let newMessage = new Array(64 * 1024 + 1).join("a");
     let messageIdClient = messagesClient.createMessageIdClient(eResult.messageId);
-    let uResult = await messageIdClient.update(eResult.popReceipt, 0, newMessage);
+    let uResult = await messageIdClient.update(eResult.popReceipt, newMessage);
     assert.ok(uResult.version);
     assert.ok(uResult.timeNextVisible);
     assert.ok(uResult.date);
@@ -130,7 +130,7 @@ describe("MessageIdClient", () => {
 
     let error;
     try {
-      await messageIdClient.update(eResult.popReceipt, 0, newMessage);
+      await messageIdClient.update(eResult.popReceipt, newMessage);
     } catch (err) {
       error = err;
     }
@@ -168,7 +168,7 @@ describe("MessageIdClient", () => {
     const factories = messagesClient.pipeline.factories;
     const credential = factories[factories.length - 1] as SharedKeyCredential;
     const newClient = new MessageIdClient(messageIdClient.url, credential);
-    const uResult = await newClient.update(eResult.popReceipt, 0, newMessage);
+    const uResult = await newClient.update(eResult.popReceipt, newMessage);
 
     assert.ok(uResult.version);
   });
@@ -188,7 +188,7 @@ describe("MessageIdClient", () => {
         maxTries: 5
       }
     });
-    const uResult = await newClient.update(eResult.popReceipt, 0, newMessage);
+    const uResult = await newClient.update(eResult.popReceipt, newMessage);
 
     assert.ok(uResult.version);
   });
@@ -203,9 +203,9 @@ describe("MessageIdClient", () => {
     const messageIdClient = messagesClient.createMessageIdClient(eResult.messageId);
     const factories = messagesClient.pipeline.factories;
     const credential = factories[factories.length - 1] as SharedKeyCredential;
-    const pipeline = StorageClient.newPipeline(credential);
+    const pipeline = newPipeline(credential);
     const newClient = new MessageIdClient(messageIdClient.url, pipeline);
-    const uResult = await newClient.update(eResult.popReceipt, 0, newMessage);
+    const uResult = await newClient.update(eResult.popReceipt, newMessage);
 
     assert.ok(uResult.version);
   });

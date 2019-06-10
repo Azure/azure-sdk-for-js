@@ -5,8 +5,8 @@ import { HttpResponse } from "@azure/ms-rest-js";
 import * as Models from "./generated/lib/models";
 import { Aborter } from "./Aborter";
 import { Messages } from "./generated/lib/operations";
-import { Pipeline } from "./Pipeline";
-import { StorageClient, NewPipelineOptions } from "./StorageClient";
+import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
+import { StorageClient } from "./StorageClient";
 import { appendToURLPath } from "./utils/utils.common";
 import { MessageIdClient } from "./MessageIdClient";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
@@ -153,7 +153,6 @@ export declare type MessagesPeekResponse = {
  *
  * @export
  * @class MessagesClient
- * @extends {StorageClient}
  */
 export class MessagesClient extends StorageClient {
   /**
@@ -194,7 +193,7 @@ export class MessagesClient extends StorageClient {
    *                     "https://myaccount.queue.core.windows.net/myqueue/messages". You can
    *                     append a SAS if using AnonymousCredential, such as
    *                     "https://myaccount.queue.core.windows.net/myqueue/messages?sasString".
-   * @param {Pipeline} pipeline Call StorageClient.newPipeline() to create a default
+   * @param {Pipeline} pipeline Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
    * @memberof MessagesClient
    */
@@ -208,13 +207,13 @@ export class MessagesClient extends StorageClient {
     if (credentialOrPipelineOrQueueName instanceof Pipeline) {
       pipeline = credentialOrPipelineOrQueueName;
     } else if (credentialOrPipelineOrQueueName instanceof Credential) {
-      pipeline = StorageClient.newPipeline(credentialOrPipelineOrQueueName, options);
+      pipeline = newPipeline(credentialOrPipelineOrQueueName, options);
     } else if (
       !credentialOrPipelineOrQueueName &&
       typeof credentialOrPipelineOrQueueName !== "string"
     ) {
       // The second paramter is undefined. Use anonymous credential.
-      pipeline = StorageClient.newPipeline(new AnonymousCredential(), options);
+      pipeline = newPipeline(new AnonymousCredential(), options);
     } else if (
       credentialOrPipelineOrQueueName &&
       typeof credentialOrPipelineOrQueueName === "string"
@@ -223,7 +222,7 @@ export class MessagesClient extends StorageClient {
       // TODO: extract parts from connection string
       const sharedKeyCredential = new SharedKeyCredential("name", "key");
       urlOrConnectionString = "endpoint from connection string" + queueName + "/messages";
-      pipeline = StorageClient.newPipeline(sharedKeyCredential, options);
+      pipeline = newPipeline(sharedKeyCredential, options);
     } else {
       throw new Error("Expecting non-empty strings for queueName parameter");
     }

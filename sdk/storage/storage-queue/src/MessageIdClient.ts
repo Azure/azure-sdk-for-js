@@ -4,11 +4,11 @@
 import * as Models from "./generated/lib/models";
 import { Aborter } from "./Aborter";
 import { MessageId } from "./generated/lib/operations";
-import { Pipeline } from "./Pipeline";
-import { StorageClient, NewPipelineOptions } from "./StorageClient";
+import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
 import { Credential } from "./credentials/Credential";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
+import { StorageClient } from "./StorageClient";
 
 /**
  * Options to configure MessageId - Delete operation
@@ -51,7 +51,6 @@ export interface MessageIdUpdateOptions {
  *
  * @export
  * @class MessageIdClient
- * @extends {StorageClient}
  */
 export class MessageIdClient extends StorageClient {
   /**
@@ -98,7 +97,7 @@ export class MessageIdClient extends StorageClient {
    *                     "https://myaccount.queue.core.windows.net/myqueue/messages/messageid". You can
    *                     append a SAS if using AnonymousCredential, such as
    *                     "https://myaccount.queue.core.windows.net/myqueue/messages/messageid?sasString".
-   * @param {Pipeline} pipeline Call StorageClient.newPipeline() to create a default
+   * @param {Pipeline} pipeline Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
    * @memberof MessageIdClient
    */
@@ -114,14 +113,14 @@ export class MessageIdClient extends StorageClient {
       pipeline = credentialOrPipelineOrQueueName;
     } else if (credentialOrPipelineOrQueueName instanceof Credential) {
       options = messageIdOrOptions as NewPipelineOptions;
-      pipeline = StorageClient.newPipeline(credentialOrPipelineOrQueueName, options);
+      pipeline = newPipeline(credentialOrPipelineOrQueueName, options);
     } else if (
       !credentialOrPipelineOrQueueName &&
       typeof credentialOrPipelineOrQueueName !== "string"
     ) {
       options = messageIdOrOptions as NewPipelineOptions;
       // The second paramter is undefined. Use anonymous credential.
-      pipeline = StorageClient.newPipeline(new AnonymousCredential(), options);
+      pipeline = newPipeline(new AnonymousCredential(), options);
     } else if (
       credentialOrPipelineOrQueueName &&
       typeof credentialOrPipelineOrQueueName === "string" &&
@@ -133,7 +132,7 @@ export class MessageIdClient extends StorageClient {
       // TODO: extract parts from connection string
       const sharedKeyCredential = new SharedKeyCredential("name", "key");
       urlOrConnectionString = "endpoint from connection string" + queueName + "/" + messageId;
-      pipeline = StorageClient.newPipeline(sharedKeyCredential, options);
+      pipeline = newPipeline(sharedKeyCredential, options);
     } else {
       throw new Error("Expecting non-empty strings for queueName and messageId parameters");
     }
@@ -167,20 +166,20 @@ export class MessageIdClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/update-message
    *
    * @param {string} popReceipt A valid pop receipt value returned from an earlier call to the dequeue messages or update message operation.
+   * @param {string} message Message to update.
    * @param {number} visibilityTimeout Specifies the new visibility timeout value, in seconds,
    *                                   relative to server time. The new value must be larger than or equal to 0,
    *                                   and cannot be larger than 7 days. The visibility timeout of a message cannot
    *                                   be set to a value later than the expiry time.
    *                                   A message can be updated until it has been deleted or has expired.
-   * @param {string} message Message to update.
    * @param {MessageIdUpdateOptions} [options] Optional options to MessageId Update operation.
    * @returns {Promise<Models.MessageIdUpdateResponse>}
    * @memberof MessageIdClient
    */
   public async update(
     popReceipt: string,
-    visibilityTimeout: number,
     message: string,
+    visibilityTimeout?: number,
     options: MessageIdUpdateOptions = {}
   ): Promise<Models.MessageIdUpdateResponse> {
     const aborter = options.abortSignal || Aborter.none;
@@ -189,7 +188,7 @@ export class MessageIdClient extends StorageClient {
         messageText: message
       },
       popReceipt,
-      visibilityTimeout,
+      visibilityTimeout || 0,
       {
         abortSignal: aborter
       }

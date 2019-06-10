@@ -37,7 +37,7 @@ describe("MessageIdClient Node", () => {
     buffer.write(specialChars, 0);
     let newMessage = buffer.toString();
     let messageIdClient = messagesClient.createMessageIdClient(eResult.messageId);
-    let uResult = await messageIdClient.update(eResult.popReceipt, 0, newMessage);
+    let uResult = await messageIdClient.update(eResult.popReceipt, newMessage);
     assert.ok(uResult.version);
     assert.ok(uResult.timeNextVisible);
     assert.ok(uResult.date);
@@ -71,7 +71,7 @@ describe("MessageIdClient Node", () => {
 
     let error;
     try {
-      await messageIdClient.update(eResult.popReceipt, 0, newMessage);
+      await messageIdClient.update(eResult.popReceipt, newMessage);
     } catch (err) {
       error = err;
     }

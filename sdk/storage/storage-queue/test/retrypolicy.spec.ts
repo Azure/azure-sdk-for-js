@@ -1,7 +1,7 @@
 import { URLBuilder } from "@azure/ms-rest-js";
 import * as assert from "assert";
 
-import { QueueClient, RestError, StorageClient } from "../src";
+import { QueueClient, RestError, newPipeline } from "../src";
 import { Pipeline } from "../src/Pipeline";
 import { getQSU, getUniqueName } from "./utils";
 import { InjectorPolicyFactory } from "./utils/InjectorPolicyFactory";
@@ -53,7 +53,7 @@ describe("RetryPolicy", () => {
     });
 
     const credential = queueClient.pipeline.factories[queueClient.pipeline.factories.length - 1];
-    const factories = StorageClient.newPipeline(credential, {
+    const factories = newPipeline(credential, {
       retryOptions: { maxTries: 3 }
     }).factories;
     factories.push(injector);
@@ -92,7 +92,7 @@ describe("RetryPolicy", () => {
     const secondaryHost = hostParts.join(".");
 
     const credential = queueClient.pipeline.factories[queueClient.pipeline.factories.length - 1];
-    const factories = StorageClient.newPipeline(credential, {
+    const factories = newPipeline(credential, {
       retryOptions: { maxTries: 2, secondaryHost }
     }).factories;
     factories.push(injector);

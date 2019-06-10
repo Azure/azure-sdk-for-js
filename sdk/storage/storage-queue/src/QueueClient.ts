@@ -6,8 +6,8 @@ import * as Models from "./generated/lib/models";
 import { Aborter } from "./Aborter";
 import { Queue } from "./generated/lib/operations";
 import { Metadata } from "./models";
-import { Pipeline } from "./Pipeline";
-import { StorageClient, NewPipelineOptions } from "./StorageClient";
+import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
+import { StorageClient } from "./StorageClient";
 import { appendToURLPath, truncatedISO8061Date } from "./utils/utils.common";
 import { MessagesClient } from "./MessagesClient";
 import { Credential } from "./credentials/Credential";
@@ -188,7 +188,6 @@ export declare type QueueGetAccessPolicyResponse = {
  *
  * @export
  * @class QueueClient
- * @extends {StorageClient}
  */
 export class QueueClient extends StorageClient {
   /**
@@ -229,7 +228,7 @@ export class QueueClient extends StorageClient {
    *                     "https://myaccount.queue.core.windows.net/myqueue". You can
    *                     append a SAS if using AnonymousCredential, such as
    *                     "https://myaccount.queue.core.windows.net/myqueue?sasString".
-   * @param {Pipeline} pipeline Call StorageClient.newPipeline() to create a default
+   * @param {Pipeline} pipeline Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
    * @memberof QueueClient
    */
@@ -243,13 +242,13 @@ export class QueueClient extends StorageClient {
     if (credentialOrPipelineOrQueueName instanceof Pipeline) {
       pipeline = credentialOrPipelineOrQueueName;
     } else if (credentialOrPipelineOrQueueName instanceof Credential) {
-      pipeline = StorageClient.newPipeline(credentialOrPipelineOrQueueName, options);
+      pipeline = newPipeline(credentialOrPipelineOrQueueName, options);
     } else if (
       !credentialOrPipelineOrQueueName &&
       typeof credentialOrPipelineOrQueueName !== "string"
     ) {
       // The second paramter is undefined. Use anonymous credential.
-      pipeline = StorageClient.newPipeline(new AnonymousCredential(), options);
+      pipeline = newPipeline(new AnonymousCredential(), options);
     } else if (
       credentialOrPipelineOrQueueName &&
       typeof credentialOrPipelineOrQueueName === "string"
@@ -258,7 +257,7 @@ export class QueueClient extends StorageClient {
       // TODO: extract parts from connection string
       const sharedKeyCredential = new SharedKeyCredential("name", "key");
       urlOrConnectionString = "endpoint from connection string" + queueName;
-      pipeline = StorageClient.newPipeline(sharedKeyCredential, options);
+      pipeline = newPipeline(sharedKeyCredential, options);
     } else {
       throw new Error("Expecting non-empty strings for queueName parameter");
     }

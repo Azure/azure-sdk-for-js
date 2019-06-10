@@ -96,7 +96,6 @@ export interface ServiceSetPropertiesOptions {
  *
  * @export
  * @class FileServiceClient
- * @extends {StorageClient}
  */
 export class FileServiceClient extends StorageClient {
   /**
@@ -114,7 +113,7 @@ export class FileServiceClient extends StorageClient {
    * @param {string} url A URL string pointing to Azure Storage file service, such as
    *                     "https://myaccount.file.core.windows.net". You can Append a SAS
    *                     if using AnonymousCredential, such as "https://myaccount.file.core.windows.net?sasString".
-   * @param {Pipeline} pipeline Call StorageClient.newPipeline() to create a default
+   * @param {Pipeline} pipeline Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
    * @memberof FileServiceClient
    */

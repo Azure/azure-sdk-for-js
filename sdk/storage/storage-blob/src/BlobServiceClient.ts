@@ -6,9 +6,9 @@ import { Aborter } from "./Aborter";
 import { ListContainersIncludeType } from "./generated/lib/models/index";
 import { Service } from "./generated/lib/operations";
 import { Pipeline } from "./Pipeline";
-import { StorageClient } from "./internal";
 import { ContainerClient } from "./ContainerClient";
 import { appendToURLPath } from "./utils/utils.common";
+import { StorageClient } from './internal';
 
 /**
  * Options to configure the Service - Get Properties operation.
@@ -127,7 +127,6 @@ export interface ServiceListContainersSegmentOptions {
  *
  * @export
  * @class BlobServiceClient
- * @extends {StorageClient}
  */
 export class BlobServiceClient extends StorageClient {
   /**
@@ -145,7 +144,7 @@ export class BlobServiceClient extends StorageClient {
    * @param {string} url A Client string pointing to Azure Storage blob service, such as
    *                     "https://myaccount.blob.core.windows.net". You can append a SAS
    *                     if using AnonymousCredential, such as "https://myaccount.blob.core.windows.net?sasString".
-   * @param {Pipeline} pipeline Call StorageClient.newPipeline() to create a default
+   * @param {Pipeline} pipeline Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
    * @memberof BlobServiceClient
    */
@@ -245,6 +244,53 @@ export class BlobServiceClient extends StorageClient {
     return this.serviceContext.getAccountInfo({
       abortSignal: aborter || Aborter.none
     });
+  }
+
+  /**
+   * Iterates over containers under the specified account.
+   *
+   * @param {ServiceListContainersSegmentOptions} [options={}] Options to list containers(optional)
+   * @returns {AsyncIterableIterator<Models.ContainerItem>}
+   * @memberof BlobServiceClient
+   *
+   * @example
+   * for await (const container of blobServiceClient.listContainers()) {
+   *   console.log(`Container: ${container.name}`);
+   * }
+   *
+   * @example
+   * let iter1 = blobServiceClient.listContainers();
+   * let i = 1;
+   * for await (const container of iter1) {
+   *   console.log(`${i}: ${container.name}`);
+   *   i++;
+   * }
+   *
+   * @example
+   * let iter2 = await blobServiceClient.listContainers();
+   * i = 1;
+   * let containerItem = await iter2.next();
+   * do {
+   *   console.log(`Container ${i++}: ${containerItem.value.name}`);
+   *   containerItem = await iter2.next();
+   * } while (containerItem.value);
+   *
+   */
+  public async *listContainers(
+    options: ServiceListContainersSegmentOptions = {}
+  ): AsyncIterableIterator<Models.ContainerItem> {
+    let marker = undefined;
+    const blobServiceClient = this;
+    const aborter = !options.abortSignal ? Aborter.none : options.abortSignal;
+    let listContainersResponse;
+    do {
+      listContainersResponse = await blobServiceClient.listContainersSegment(marker, {
+        ...options,
+        abortSignal: aborter
+      });
+      marker = listContainersResponse.nextMarker;
+      yield* listContainersResponse.containerItems;
+    } while (marker);
   }
 
   /**

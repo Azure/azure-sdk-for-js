@@ -149,11 +149,11 @@ export class ServiceBusClient {
         log.ns("Closed the amqp connection '%s' on the client.", this._context.connectionId);
       }
     } catch (err) {
-      err = err instanceof Error ? err : new Error(JSON.stringify(err));
+      const errObj = err instanceof Error ? err : new Error(JSON.stringify(err));
       log.error(
-        `An error occurred while closing the connection "${this._context.connectionId}":\n${err}`
+        `An error occurred while closing the connection "${this._context.connectionId}":\n${errObj}`
       );
-      throw err;
+      throw errObj;
     }
   }
 

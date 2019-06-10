@@ -10,12 +10,13 @@ import { Blob } from "./generated/lib/operations";
 import { rangeToString } from "./Range";
 import { BlobAccessConditions, Metadata } from "./models";
 import { Pipeline } from "./Pipeline";
-import { StorageClient } from "./internal";
-import { DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS, URLConstants } from "./utils/constants";
+import { DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS, URLConstants, DEFAULT_BLOB_DOWNLOAD_BLOCK_BYTES } from "./utils/constants";
 import { setURLParameter } from "./utils/utils.common";
-import { AppendBlobClient } from "./internal";
+import { AppendBlobClient, StorageClient } from "./internal";
 import { BlockBlobClient } from "./internal";
 import { PageBlobClient } from "./internal";
+import { Batch } from "./utils/Batch";
+import { streamToBuffer } from "./utils/utils.node";
 
 /**
  * Options to configure Blob - Download operation.
@@ -455,12 +456,80 @@ export interface BlobSetTierOptions {
 }
 
 /**
+ * Option interface for BlobClient.downloadToBuffer().
+ *
+ * @export
+ * @interface DownloadFromBlobOptions
+ */
+export interface DownloadFromBlobOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof IUploadToBlockBlobOptions
+   */
+  abortSignal?: Aborter;
+
+  /**
+   * blockSize is the data every request trying to download.
+   * Must be >= 0, if set to 0 or undefined, blockSize will automatically calculated according
+   * to the blob size.
+   *
+   * @type {number}
+   * @memberof DownloadFromBlobOptions
+   */
+  blockSize?: number;
+
+  /**
+   * Optional. ONLY AVAILABLE IN NODE.JS.
+   *
+   * How many retries will perform when original block download stream unexpected ends.
+   * Above kind of ends will not trigger retry policy defined in a pipeline,
+   * because they doesn't emit network errors.
+   *
+   * With this option, every additional retry means an additional FileClient.download() request will be made
+   * from the broken point, until the requested block has been successfully downloaded or
+   * maxRetryRequestsPerBlock is reached.
+   *
+   * Default value is 5, please set a larger value when in poor network.
+   *
+   * @type {number}
+   * @memberof DownloadFromAzureFileOptions
+   */
+  maxRetryRequestsPerBlock?: number;
+
+  /**
+   * Progress updater.
+   *
+   * @memberof DownloadFromBlobOptions
+   */
+  progress?: (progress: TransferProgressEvent) => void;
+
+  /**
+   * Access conditions headers.
+   *
+   * @type {BlobAccessConditions}
+   * @memberof DownloadFromBlobOptions
+   */
+  blobAccessConditions?: BlobAccessConditions;
+
+  /**
+   * Concurrency of parallel download.
+   *
+   * @type {number}
+   * @memberof DownloadFromBlobOptions
+   */
+  parallelism?: number;
+}
+
+/**
  * A BlobClient represents a URL to an Azure Storage blob; the blob may be a block blob,
  * append blob, or page blob.
  *
  * @export
  * @class BlobClient
- * @extends {StorageClient}
  */
 export class BlobClient extends StorageClient {
   /**
@@ -486,7 +555,7 @@ export class BlobClient extends StorageClient {
    *                     Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
    *                     However, if a blob name includes ? or %, blob name must be encoded in the URL.
    *                     Such as a blob named "my?blob%", the URL should be "https://myaccount.blob.core.windows.net/mycontainer/my%3Fblob%25".
-   * @param {Pipeline} pipeline Call StorageClient.newPipeline() to create a default
+   * @param {Pipeline} pipeline Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
    * @memberof BlobClient
    */
@@ -976,5 +1045,90 @@ export class BlobClient extends StorageClient {
       abortSignal: aborter,
       leaseAccessConditions: options.leaseAccessConditions
     });
+  }
+
+  // High level function
+
+  /**
+   * ONLY AVAILABLE IN NODE.JS RUNTIME.
+   *
+   * Downloads an Azure Blob in parallel to a buffer.
+   * Offset and count are optional, pass 0 for both to download the entire blob.
+   *
+   * @export
+   * @param {Buffer} buffer Buffer to be fill, must have length larger than count
+   * @param {BlobClient} blobClient A BlobClient object
+   * @param {number} offset From which position of the block blob to download
+   * @param {number} [count] How much data to be downloaded. Will download to the end when passing undefined
+   * @param {DownloadFromBlobOptions} [options] DownloadFromBlobOptions
+   * @returns {Promise<void>}
+   */
+  public async downloadToBuffer(
+    buffer: Buffer,
+    offset: number,
+    count?: number,
+    options: DownloadFromBlobOptions = {}
+  ): Promise<void> {
+    if (!options.blockSize) {
+      options.blockSize = 0;
+    }
+    if (options.blockSize < 0) {
+      throw new RangeError("blockSize option must be >= 0");
+    }
+    if (options.blockSize === 0) {
+      options.blockSize = DEFAULT_BLOB_DOWNLOAD_BLOCK_BYTES;
+    }
+
+    if (offset < 0) {
+      throw new RangeError("offset option must be >= 0");
+    }
+
+    if (count && count <= 0) {
+      throw new RangeError("count option must be > 0");
+    }
+
+    if (!options.blobAccessConditions) {
+      options.blobAccessConditions = {};
+    }
+
+    // Customer doesn't specify length, get it
+    if (!count) {
+      const response = await this.getProperties(options);
+      count = response.contentLength! - offset;
+      if (count < 0) {
+        throw new RangeError(
+          `offset ${offset} shouldn't be larger than blob size ${response.contentLength!}`
+        );
+      }
+    }
+
+    if (buffer.length < count) {
+      throw new RangeError(
+        `The buffer's size should be equal to or larger than the request count of bytes: ${count}`
+      );
+    }
+
+    let transferProgress: number = 0;
+    const batch = new Batch(options.parallelism);
+    for (let off = offset; off < offset + count; off = off + options.blockSize) {
+      batch.addOperation(async () => {
+        const chunkEnd = off + options.blockSize! < count! ? off + options.blockSize! : count!;
+        const response = await this.download(off, chunkEnd - off + 1, {
+          abortSignal: options.abortSignal,
+          blobAccessConditions: options.blobAccessConditions,
+          maxRetryRequests: options.maxRetryRequestsPerBlock
+        });
+        const stream = response.readableStreamBody!;
+        await streamToBuffer(stream, buffer, off - offset, chunkEnd - offset);
+        // Update progress after block is downloaded, in case of block trying
+        // Could provide finer grained progress updating inside HTTP requests,
+        // only if convenience layer download try is enabled
+        transferProgress += chunkEnd - off;
+        if (options.progress) {
+          options.progress({ loadedBytes: transferProgress });
+        }
+      });
+    }
+    await batch.do();
   }
 }

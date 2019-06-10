@@ -245,36 +245,36 @@ export interface SendableMessageInfo {
  * Gets the error message for when a property on given message is not of expected type
  */
 export function getMessagePropertyTypeMismatchError(msg: SendableMessageInfo): Error | undefined {
-  if (msg.contentType != undefined && typeof msg.contentType !== "string") {
+  if (msg.contentType != null && typeof msg.contentType !== "string") {
     return new TypeError("The property 'contentType' on the message must be of type 'string'");
   }
 
-  if (msg.label != undefined && typeof msg.label !== "string") {
+  if (msg.label != null && typeof msg.label !== "string") {
     return new TypeError("The property 'label' on the message must be of type 'string'");
   }
 
-  if (msg.to != undefined && typeof msg.to !== "string") {
+  if (msg.to != null && typeof msg.to !== "string") {
     return new TypeError("The property 'to' on the message must be of type 'string'");
   }
 
-  if (msg.replyTo != undefined && typeof msg.replyTo !== "string") {
+  if (msg.replyTo != null && typeof msg.replyTo !== "string") {
     return new TypeError("The property 'replyTo' on the message must be of type 'string'");
   }
 
-  if (msg.replyToSessionId != undefined && typeof msg.replyToSessionId !== "string") {
+  if (msg.replyToSessionId != null && typeof msg.replyToSessionId !== "string") {
     return new TypeError("The property 'replyToSessionId' on the message must be of type 'string'");
   }
 
-  if (msg.timeToLive != undefined && typeof msg.timeToLive !== "number") {
+  if (msg.timeToLive != null && typeof msg.timeToLive !== "number") {
     return new TypeError("The property 'timeToLive' on the message must be of type 'number'");
   }
 
-  if (msg.sessionId != undefined && typeof msg.sessionId !== "string") {
+  if (msg.sessionId != null && typeof msg.sessionId !== "string") {
     return new TypeError("The property 'sessionId' on the message must be of type 'string'");
   }
 
   if (
-    msg.messageId != undefined &&
+    msg.messageId != null &&
     typeof msg.messageId !== "string" &&
     typeof msg.messageId !== "number" &&
     !Buffer.isBuffer(msg.messageId)
@@ -285,7 +285,7 @@ export function getMessagePropertyTypeMismatchError(msg: SendableMessageInfo): E
   }
 
   if (
-    msg.correlationId != undefined &&
+    msg.correlationId != null &&
     typeof msg.correlationId !== "string" &&
     typeof msg.correlationId !== "number" &&
     !Buffer.isBuffer(msg.correlationId)
@@ -306,13 +306,13 @@ export function toAmqpMessage(msg: SendableMessageInfo): AmqpMessage {
     body: msg.body,
     message_annotations: {}
   };
-  if (msg.userProperties != undefined) {
+  if (msg.userProperties != null) {
     amqpMsg.application_properties = msg.userProperties;
   }
-  if (msg.contentType != undefined) {
+  if (msg.contentType != null) {
     amqpMsg.content_type = msg.contentType;
   }
-  if (msg.sessionId != undefined) {
+  if (msg.sessionId != null) {
     if (msg.sessionId.length > Constants.maxSessionIdLength) {
       throw new Error(
         "Length of 'sessionId' property on the message cannot be greater than 128 characters."
@@ -320,16 +320,16 @@ export function toAmqpMessage(msg: SendableMessageInfo): AmqpMessage {
     }
     amqpMsg.group_id = msg.sessionId;
   }
-  if (msg.replyTo != undefined) {
+  if (msg.replyTo != null) {
     amqpMsg.reply_to = msg.replyTo;
   }
-  if (msg.to != undefined) {
+  if (msg.to != null) {
     amqpMsg.to = msg.to;
   }
-  if (msg.label != undefined) {
+  if (msg.label != null) {
     amqpMsg.subject = msg.label;
   }
-  if (msg.messageId != undefined) {
+  if (msg.messageId != null) {
     if (typeof msg.messageId === "string" && msg.messageId.length > Constants.maxMessageIdLength) {
       throw new Error(
         "Length of 'messageId' property on the message cannot be greater than 128 characters."
@@ -337,13 +337,13 @@ export function toAmqpMessage(msg: SendableMessageInfo): AmqpMessage {
     }
     amqpMsg.message_id = msg.messageId;
   }
-  if (msg.correlationId != undefined) {
+  if (msg.correlationId != null) {
     amqpMsg.correlation_id = msg.correlationId;
   }
-  if (msg.replyToSessionId != undefined) {
+  if (msg.replyToSessionId != null) {
     amqpMsg.reply_to_group_id = msg.replyToSessionId;
   }
-  if (msg.timeToLive != undefined && msg.timeToLive !== Constants.maxDurationValue) {
+  if (msg.timeToLive != null && msg.timeToLive !== Constants.maxDurationValue) {
     amqpMsg.ttl = msg.timeToLive;
     amqpMsg.creation_time = Date.now();
     if (Constants.maxAbsoluteExpiryTime - amqpMsg.creation_time > amqpMsg.ttl) {
@@ -352,7 +352,7 @@ export function toAmqpMessage(msg: SendableMessageInfo): AmqpMessage {
       amqpMsg.absolute_expiry_time = Constants.maxAbsoluteExpiryTime;
     }
   }
-  if (msg.partitionKey != undefined) {
+  if (msg.partitionKey != null) {
     if (msg.partitionKey.length > Constants.maxPartitionKeyLength) {
       throw new Error(
         "Length of 'partitionKey' property on the message cannot be greater than 128 characters."
@@ -360,7 +360,7 @@ export function toAmqpMessage(msg: SendableMessageInfo): AmqpMessage {
     }
     amqpMsg.message_annotations![Constants.partitionKey] = msg.partitionKey;
   }
-  if (msg.viaPartitionKey != undefined) {
+  if (msg.viaPartitionKey != null) {
     if (msg.viaPartitionKey.length > Constants.maxPartitionKeyLength) {
       throw new Error(
         "Length of 'viaPartitionKey' property on the message cannot be greater than 128 characters."
@@ -368,7 +368,7 @@ export function toAmqpMessage(msg: SendableMessageInfo): AmqpMessage {
     }
     amqpMsg.message_annotations![Constants.viaPartitionKey] = msg.viaPartitionKey;
   }
-  if (msg.scheduledEnqueueTimeUtc != undefined) {
+  if (msg.scheduledEnqueueTimeUtc != null) {
     amqpMsg.message_annotations![Constants.scheduledEnqueueTime] = msg.scheduledEnqueueTimeUtc;
   }
   log.message("SBMessage to AmqpMessage: %O", amqpMsg);
@@ -469,75 +469,72 @@ export function fromAmqpMessage(
     body: msg.body
   };
 
-  if (msg.application_properties != undefined) {
+  if (msg.application_properties != null) {
     sbmsg.userProperties = msg.application_properties;
   }
-  if (msg.content_type != undefined) {
+  if (msg.content_type != null) {
     sbmsg.contentType = msg.content_type;
   }
-  if (msg.group_id != undefined) {
+  if (msg.group_id != null) {
     sbmsg.sessionId = msg.group_id;
   }
-  if (msg.reply_to != undefined) {
+  if (msg.reply_to != null) {
     sbmsg.replyTo = msg.reply_to;
   }
-  if (msg.to != undefined) {
+  if (msg.to != null) {
     sbmsg.to = msg.to;
   }
-  if (msg.ttl != undefined) {
+  if (msg.ttl != null) {
     sbmsg.timeToLive = msg.ttl;
   }
-  if (msg.subject != undefined) {
+  if (msg.subject != null) {
     sbmsg.label = msg.subject;
   }
-  if (msg.message_id != undefined) {
+  if (msg.message_id != null) {
     sbmsg.messageId = msg.message_id;
   }
-  if (msg.correlation_id != undefined) {
+  if (msg.correlation_id != null) {
     sbmsg.correlationId = msg.correlation_id;
   }
-  if (msg.reply_to_group_id != undefined) {
+  if (msg.reply_to_group_id != null) {
     sbmsg.replyToSessionId = msg.reply_to_group_id;
   }
 
-  if (msg.message_annotations != undefined) {
-    if (msg.message_annotations[Constants.partitionKey] != undefined) {
+  if (msg.message_annotations != null) {
+    if (msg.message_annotations[Constants.partitionKey] != null) {
       sbmsg.partitionKey = msg.message_annotations[Constants.partitionKey];
     }
-    if (msg.message_annotations[Constants.viaPartitionKey] != undefined) {
+    if (msg.message_annotations[Constants.viaPartitionKey] != null) {
       sbmsg.viaPartitionKey = msg.message_annotations[Constants.viaPartitionKey];
     }
-    if (msg.message_annotations[Constants.scheduledEnqueueTime] != undefined) {
+    if (msg.message_annotations[Constants.scheduledEnqueueTime] != null) {
       sbmsg.scheduledEnqueueTimeUtc = msg.message_annotations[Constants.scheduledEnqueueTime];
     }
   }
 
   const props: any = {};
-  if (msg.message_annotations != undefined) {
-    if (msg.message_annotations[Constants.deadLetterSource] != undefined) {
+  if (msg.message_annotations != null) {
+    if (msg.message_annotations[Constants.deadLetterSource] != null) {
       props.deadLetterSource = msg.message_annotations[Constants.deadLetterSource];
     }
-    if (msg.message_annotations[Constants.enqueueSequenceNumber] != undefined) {
+    if (msg.message_annotations[Constants.enqueueSequenceNumber] != null) {
       props.enqueuedSequenceNumber = msg.message_annotations[Constants.enqueueSequenceNumber];
     }
-    if (msg.message_annotations[Constants.sequenceNumber] != undefined) {
+    if (msg.message_annotations[Constants.sequenceNumber] != null) {
       if (Buffer.isBuffer(msg.message_annotations[Constants.sequenceNumber])) {
         props.sequenceNumber = Long.fromBytesBE(msg.message_annotations[Constants.sequenceNumber]);
       } else {
         props.sequenceNumber = Long.fromNumber(msg.message_annotations[Constants.sequenceNumber]);
       }
     }
-    if (msg.message_annotations[Constants.enqueuedTime] != undefined) {
+    if (msg.message_annotations[Constants.enqueuedTime] != null) {
       props.enqueuedTimeUtc = new Date(msg.message_annotations[Constants.enqueuedTime] as number);
     }
-    if (msg.message_annotations[Constants.lockedUntil] != undefined) {
+    if (msg.message_annotations[Constants.lockedUntil] != null) {
       props.lockedUntilUtc = new Date(msg.message_annotations[Constants.lockedUntil] as number);
     }
   }
-  if (
-    msg.ttl != undefined &&
-    msg.ttl >= Constants.maxDurationValue - props.enqueuedTimeUtc.getTime()
-  ) {
+  if (msg.ttl != null && msg.ttl >= Constants.maxDurationValue - props.enqueuedTimeUtc.getTime()) {
     props.expiresAtUtc = new Date(Constants.maxDurationValue);
   } else {
     props.expiresAtUtc = new Date(props.enqueuedTimeUtc.getTime() + msg.ttl!);

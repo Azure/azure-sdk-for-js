@@ -2,7 +2,7 @@ import * as assert from "assert";
 
 import { getQSU, getUniqueName } from "./utils";
 import * as dotenv from "dotenv";
-import { SharedKeyCredential, QueueClient, StorageClient } from "../src";
+import { SharedKeyCredential, QueueClient, newPipeline } from "../src";
 dotenv.config({ path: "../.env" });
 
 describe("QueueClient", () => {
@@ -147,7 +147,7 @@ describe("QueueClient", () => {
   it("can be created with a url and a pipeline", async () => {
     const factories = queueClient.pipeline.factories;
     const credential = factories[factories.length - 1] as SharedKeyCredential;
-    const pipeline = StorageClient.newPipeline(credential);
+    const pipeline = newPipeline(credential);
     const newClient = new QueueClient(queueClient.url, pipeline);
 
     const result = await newClient.getProperties();
