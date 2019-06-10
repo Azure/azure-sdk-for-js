@@ -27,10 +27,7 @@ describe("Keys client", () => {
   it("can add a key", async function() {
     this.timeout(25000);
     const keyName = getUniqueName("key");
-    after(async () => {
-      await client.deleteKey(keyName);
-    });
-
+    after(async () => client.deleteKey(keyName));
     const result = await client.createKey(keyName, "RSA");
     assert.equal(result.name, keyName, "Unexpected key name in result from createKey().");
   });
@@ -38,9 +35,7 @@ describe("Keys client", () => {
   it("can get a key", async function() {
     this.timeout(25000);
     const keyName = getUniqueName("key");
-    after(async () => {
-      await client.deleteKey(keyName);
-    });
+    after(async () => client.deleteKey(keyName));
 
     const result = await client.createKey(keyName, "RSA");
     const getResult = await client.getKey(keyName);
@@ -69,9 +64,7 @@ describe("Keys client", () => {
   it("can get the versions of a key", async function() {
     this.timeout(25000);
     const keyName = getUniqueName("key");
-    after(async () => {
-      await client.deleteKey(keyName);
-    });
+    after(async () => client.deleteKey(keyName));
 
     const result = await client.createKey(keyName, "RSA");
     let totalVersions = 0;
