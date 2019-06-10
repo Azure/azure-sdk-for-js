@@ -1265,6 +1265,12 @@ export const ManagedClusterAgentPoolProfileProperties: msRest.CompositeMapper = 
           }
         }
       },
+      enableNodePublicIP: {
+        serializedName: "enableNodePublicIP",
+        type: {
+          name: "Boolean"
+        }
+      },
       scaleSetPriority: {
         serializedName: "scaleSetPriority",
         defaultValue: 'Regular',
@@ -1412,6 +1418,12 @@ export const AgentPool: msRest.CompositeMapper = {
               name: "String"
             }
           }
+        }
+      },
+      enableNodePublicIP: {
+        serializedName: "properties.enableNodePublicIP",
+        type: {
+          name: "Boolean"
         }
       },
       scaleSetPriority: {

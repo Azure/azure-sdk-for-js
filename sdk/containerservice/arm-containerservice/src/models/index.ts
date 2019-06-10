@@ -900,6 +900,10 @@ export interface ManagedClusterAgentPoolProfileProperties {
    */
   availabilityZones?: string[];
   /**
+   * Enable public IP for nodes
+   */
+  enableNodePublicIP?: boolean;
+  /**
    * ScaleSetPriority to be used to specify virtual machine scale set priority. Default to regular.
    * Possible values include: 'Low', 'Regular'. Default value: 'Regular'.
    */
@@ -1025,6 +1029,10 @@ export interface AgentPool extends SubResource {
    * (PREVIEW) Availability zones for nodes. Must use VirtualMachineScaleSets AgentPoolType.
    */
   availabilityZones?: string[];
+  /**
+   * Enable public IP for nodes
+   */
+  enableNodePublicIP?: boolean;
   /**
    * ScaleSetPriority to be used to specify virtual machine scale set priority. Default to regular.
    * Possible values include: 'Low', 'Regular'. Default value: 'Regular'.
