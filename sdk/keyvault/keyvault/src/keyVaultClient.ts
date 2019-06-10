@@ -15,13 +15,14 @@ import * as Mappers from "./models/mappers";
 import * as Parameters from "./models/parameters";
 import { KeyVaultClientContext } from "./keyVaultClientContext";
 
+
 class KeyVaultClient extends KeyVaultClientContext {
   /**
    * Initializes a new instance of the KeyVaultClient class.
    * @param credentials Credentials needed for the client to connect to Azure.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, options?: msRestAzure.AzureServiceClientOptions) {
+  constructor(credentials: msRest.ServiceClientCredentials, options?: msRest.AzureServiceClientOptions) {
     super(credentials, options);
   }
 
@@ -383,7 +384,7 @@ class KeyVaultClient extends KeyVaultClientContext {
    * protection with an asymmetric key can be performed using public portion of the key. This
    * operation is supported for asymmetric keys as a convenience for callers that have a
    * key-reference but do not have access to the public key material. This operation requires the
-   * keys/encypt permission.
+   * keys/encrypt permission.
    * @summary Encrypts an arbitrary sequence of bytes using an encryption key that is stored in a key
    * vault.
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
