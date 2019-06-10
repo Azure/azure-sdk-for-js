@@ -8,7 +8,7 @@ import { Service } from "./generated/lib/operations";
 import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
 import { StorageClient } from "./StorageClient";
 import { QueueClient } from "./QueueClient";
-import { appendToURLPath } from "./utils/utils.common";
+import { appendToURLPath, extractPartsWithValidation } from "./utils/utils.common";
 import { Credential } from "./credentials/Credential";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
@@ -122,11 +122,14 @@ export class QueueServiceClient extends StorageClient {
    * @memberof QueueServiceClient
    */
   public static fromConnectionString(connectionString: string, options?: NewPipelineOptions) {
-    // TODO: extract parts from connection string
-    const name = connectionString;
-    const sharedKeyCredential = new SharedKeyCredential(name, "key");
+    const extractedCreds = extractPartsWithValidation(connectionString);
+    const sharedKeyCredential = new SharedKeyCredential(
+      extractedCreds.accountName,
+      extractedCreds.accountKey
+    );
+
     const pipeline = newPipeline(sharedKeyCredential, options);
-    return new QueueServiceClient("url", pipeline);
+    return new QueueServiceClient(extractedCreds.url, pipeline);
   }
 
   /**
@@ -149,7 +152,7 @@ export class QueueServiceClient extends StorageClient {
    * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof QueueServiceClient
    */
-  constructor(url: string, credential: Credential, options?: NewPipelineOptions);
+  constructor(url: string, credential?: Credential, options?: NewPipelineOptions);
   /**
    * Creates an instance of QueueServiceClient.
    *

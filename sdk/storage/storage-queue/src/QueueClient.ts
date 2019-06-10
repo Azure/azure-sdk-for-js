@@ -8,7 +8,11 @@ import { Queue } from "./generated/lib/operations";
 import { Metadata } from "./models";
 import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
 import { StorageClient } from "./StorageClient";
-import { appendToURLPath, truncatedISO8061Date } from "./utils/utils.common";
+import {
+  appendToURLPath,
+  truncatedISO8061Date,
+  extractPartsWithValidation
+} from "./utils/utils.common";
 import { MessagesClient } from "./MessagesClient";
 import { Credential } from "./credentials/Credential";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
@@ -220,7 +224,7 @@ export class QueueClient extends StorageClient {
    * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof QueueClient
    */
-  constructor(url: string, credential: Credential, options?: NewPipelineOptions);
+  constructor(url: string, credential?: Credential, options?: NewPipelineOptions);
   /**
    * Creates an instance of QueueClient.
    *
@@ -254,9 +258,13 @@ export class QueueClient extends StorageClient {
       typeof credentialOrPipelineOrQueueName === "string"
     ) {
       const queueName = credentialOrPipelineOrQueueName;
-      // TODO: extract parts from connection string
-      const sharedKeyCredential = new SharedKeyCredential("name", "key");
-      urlOrConnectionString = "endpoint from connection string" + queueName;
+
+      const extractedCreds = extractPartsWithValidation(urlOrConnectionString);
+      const sharedKeyCredential = new SharedKeyCredential(
+        extractedCreds.accountName,
+        extractedCreds.accountKey
+      );
+      urlOrConnectionString = extractedCreds.url + "/" + queueName;
       pipeline = newPipeline(sharedKeyCredential, options);
     } else {
       throw new Error("Expecting non-empty strings for queueName parameter");
