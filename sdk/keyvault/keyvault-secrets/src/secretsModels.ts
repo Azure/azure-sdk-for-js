@@ -2,6 +2,10 @@ import * as msRest from "@azure/ms-rest-js";
 import { DeletionRecoveryLevel } from "./core/models";
 import { ParsedKeyVaultEntityIdentifier } from "./core/keyVaultBase";
 
+/**
+ * @interface
+ * An interface representing the complete secret.
+ */
 export interface Secret extends SecretAttributes {
   /**
    * @member {string} [value] The secret value.
@@ -9,6 +13,10 @@ export interface Secret extends SecretAttributes {
   value?: string;
 }
 
+/**
+ * @interface
+ * An interface representing the a secret's attributes.
+ */
 export interface SecretAttributes extends ParsedKeyVaultEntityIdentifier {
   /**
    * @member {string} [id] The secret id.
@@ -76,6 +84,10 @@ export interface SecretAttributes extends ParsedKeyVaultEntityIdentifier {
   readonly recoveryLevel?: DeletionRecoveryLevel;
 }
 
+/**
+ * @interface
+ * An interface representing a deleted secret.
+ */
 export interface DeletedSecret extends Secret {
   /**
    * @member {string} [recoveryId] The url of the recovery object, used to
@@ -187,7 +199,7 @@ export interface GetSecretOptions {
  * An interface representing optional parameters for SecretClient paged operations.
  * Optional Parameters.
  */
-export interface GetAllSecretsOptions {
+export interface GetSecretsOptions {
   /**
    * @member {msRest.RequestOptionsBase} [requestOptions] Options for this request
    */

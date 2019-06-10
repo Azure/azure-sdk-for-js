@@ -18,11 +18,11 @@ import {
 
 import { getDefaultUserAgentValue } from "@azure/ms-rest-azure-js";
 
-import { TelemetryOptions } from "./core";
-import { KeyBundle, JsonWebKeyType, JsonWebKey, KeyItem } from "./core/models";
+import { TelemetryOptions, ProxyOptions, RetryOptions } from "./core";
+import { KeyBundle, JsonWebKeyType, JsonWebKey, JsonWebKeyOperation, JsonWebKeyCurveName, KeyItem, DeletionRecoveryLevel } from "./core/models";
 import { KeyVaultClient } from "./core/keyVaultClient";
 import { RetryConstants, SDK_VERSION } from "./core/utils/constants";
-import { NewPipelineOptions, isNewPipelineOptions, Pipeline } from "./core/keyVaultBase";
+import { NewPipelineOptions, isNewPipelineOptions, Pipeline, ParsedKeyVaultEntityIdentifier } from "./core/keyVaultBase";
 import {
   Key,
   DeletedKey,
@@ -32,12 +32,42 @@ import {
   ImportKeyOptions,
   UpdateKeyOptions,
   GetKeyOptions,
-  GetAllKeysOptions,
+  GetKeysOptions,
   KeyAttributes,
   RequestOptions
 } from "./keysModels";
 import { parseKeyvaultIdentifier as parseKeyvaultEntityIdentifier } from "./core/utils";
 
+export {
+  CreateEcKeyOptions,
+  CreateRsaKeyOptions,
+  CreateKeyOptions,
+  DeletedKey,
+  DeletionRecoveryLevel,
+  GetKeyOptions,
+  GetKeysOptions,
+  ImportKeyOptions,
+  JsonWebKey,
+  JsonWebKeyCurveName,
+  JsonWebKeyOperation,
+  JsonWebKeyType,
+  Key,
+  KeyAttributes,
+  NewPipelineOptions,
+  ParsedKeyVaultEntityIdentifier,
+  RequestOptions,
+  UpdateKeyOptions,
+}
+
+export {
+  ProxyOptions,
+  TelemetryOptions,
+  RetryOptions,
+}
+
+/**
+ * The client to interact with the KeyVault keys functionality
+ */
 export class KeysClient {
   /**
    * A static method used to create a new Pipeline object with the provided Credential.
@@ -83,10 +113,19 @@ export class KeysClient {
     };
   }
 
+  /**
+   * The base URL to the vault
+   */
   public readonly vaultBaseUrl: string;
 
+  /**
+   * The options to create the connection to the service
+   */
   public readonly pipeline: Pipeline;
 
+  /**
+   * The authentication credentials
+   */
   protected readonly credential: ServiceClientCredentials;
   private readonly client: KeyVaultClient;
 
@@ -469,9 +508,15 @@ export class KeysClient {
     return this.getKeyFromKeyBundle(response);
   }
 
+  /**
+   * Iterates all versions of the given key in the vault. The full key identifier, attributes, and tags are provided
+   * in the response. This operation requires the keys/list permission.
+   * @param name 
+   * @param options 
+   */
   public async *getKeyVersions(
     name: string,
-    options?: GetAllKeysOptions
+    options?: GetKeysOptions
   ): AsyncIterableIterator<KeyAttributes> {
     let currentSetResponse = await this.client.getKeyVersions(this.vaultBaseUrl, name, {
       ...(options && options.requestOptions ? options.requestOptions : {})
@@ -495,7 +540,7 @@ export class KeysClient {
    * @param [options] The optional parameters
    * @returns AsyncIterableIterator<Key>
    */
-  public async *getAllKeys(options?: GetAllKeysOptions): AsyncIterableIterator<KeyAttributes> {
+  public async *getKeys(options?: GetKeysOptions): AsyncIterableIterator<KeyAttributes> {
     let currentSetResponse = await this.client.getKeys(this.vaultBaseUrl, {
       ...(options && options.requestOptions ? options.requestOptions : {})
     });
@@ -515,7 +560,7 @@ export class KeysClient {
    * @param [options] The optional parameters
    * @returns AsyncIterableIterator<Key>
    */
-  public async *getAllDeletedKeys(options?: GetAllKeysOptions): AsyncIterableIterator<Key> {
+  public async *getDeletedKeys(options?: GetKeysOptions): AsyncIterableIterator<Key> {
     let currentSetResponse = await this.client.getDeletedKeys(this.vaultBaseUrl, {
       ...(options && options.requestOptions ? options.requestOptions : {})
     });
