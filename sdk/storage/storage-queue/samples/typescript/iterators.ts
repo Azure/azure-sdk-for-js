@@ -39,6 +39,20 @@ async function main() {
     i++;
   }
 
+  // Generator syntax .next()
+  i = 1;
+  let iter2 = queueServiceClient.listQueues()[Symbol.asyncIterator]();
+  let item2 = (await iter2.next()).value;
+  do {
+    console.log(`Queue${i}: ${item2.name}`);
+    i++;
+    item2 = (await iter2.next()).value;
+  } while (item2);
+
+  ////////////////////////////////
+  ///  Examples for .byPage()  ///
+  ////////////////////////////////
+
   i = 1;
   for await (const item1 of queueServiceClient.listQueues().byPage({})) {
     item1.queueItems!.forEach((queueItem) => {
@@ -58,30 +72,30 @@ async function main() {
 
   // Generator syntax .next()
   i = 1;
-  let iter2 = queueServiceClient.listQueues().byPage({ pagesize: 2 });
-  let item2 = await iter2.next();
+  let iter3 = queueServiceClient.listQueues().byPage({ pagesize: 2 });
+  let item3 = (await iter3.next()).value;
   do {
-    for (const queueItem of item2.value.queueItems!) {
+    for (const queueItem of item3.queueItems!) {
       console.log(`Queue${i}: ${queueItem.name}`);
       i++;
     }
-    item2 = await iter2.next();
-  } while (item2.value);
+    item3 = (await iter3.next()).value;
+  } while (item3);
 
   // Passing marker as argument (similar to the previous example)
   i = 1;
-  let iter3 = queueServiceClient.listQueues().byPage({ pagesize: 2 });
-  let item = await iter3.next();
+  let iter4 = queueServiceClient.listQueues().byPage({ pagesize: 2 });
+  let item = (await iter4.next()).value;
   // Prints 2 queuenames
-  for (const queueItem of item.value.queueItems!) {
+  for (const queueItem of item.queueItems!) {
     console.log(`Queue${i}: ${queueItem.name}`);
     i++;
   }
-  marker = item.value.nextMarker;
-  iter3 = queueServiceClient.listQueues().byPage({ marker: marker, pagesize: 10 });
-  item = await iter3.next();
+  marker = item.nextMarker;
+  iter4 = queueServiceClient.listQueues().byPage({ marker: marker, pagesize: 10 });
+  item = (await iter4.next()).value;
   // Prints 10 queuenames
-  for (const queueItem of item.value.queueItems!) {
+  for (const queueItem of item.queueItems!) {
     console.log(`Queue${i}: ${queueItem.name}`);
     i++;
   }
