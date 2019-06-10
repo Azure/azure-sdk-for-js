@@ -12,7 +12,7 @@ import {
 
 import { RequestLogOptions } from "../LoggingPolicyFactory";
 import { HTTPURLConnection } from "../utils/constants";
-import { sanitizeRequest } from "../utils/utils.common";
+import { sanitizeHeaders, sanitizeURL } from "../utils/utils.common";
 
 // Default values of RetryOptions
 const DEFAULT_REQUEST_LOG_OPTIONS: RequestLogOptions = {
@@ -62,11 +62,8 @@ export class LoggingPolicy extends BaseRequestPolicy {
       this.operationStartTime = this.requestStartTime;
     }
 
-    const sanitized = sanitizeRequest(request);
     this.log(HttpPipelineLogLevel.INFO, `==> OUTGOING REQUEST (Try number=${this.tryCount}):`);
-    this.log(HttpPipelineLogLevel.INFO, `  method: ${sanitized.method}`);
-    this.log(HttpPipelineLogLevel.INFO, `  url: ${sanitized.url}`);
-    this.log(HttpPipelineLogLevel.INFO, `  headers: ${JSON.stringify(sanitized.headers, null, 2)}`);
+    this.log(HttpPipelineLogLevel.INFO, `  ${request.method}: ${sanitizeURL(request.url)}`);
 
     try {
       const response = await this._nextPolicy.sendRequest(request);
@@ -110,7 +107,11 @@ export class LoggingPolicy extends BaseRequestPolicy {
       this.log(currentLevel, logMessage + messageInfo);
       this.log(
         HttpPipelineLogLevel.INFO,
-        `  response headers: ${JSON.stringify(response.headers, null, 2)}`
+        `  request headers: ${JSON.stringify(sanitizeHeaders(response.request.headers), null, 2)}`
+      );
+      this.log(
+        HttpPipelineLogLevel.INFO,
+        `  response headers: ${JSON.stringify(sanitizeHeaders(response.headers), null, 2)}`
       );
 
       return response;

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { HttpHeaders, isNode, URLBuilder, WebResource } from "@azure/ms-rest-js";
+import { HttpHeaders, isNode, URLBuilder } from "@azure/ms-rest-js";
 import { HeaderConstants, URLConstants } from "./constants";
 
 /**
@@ -273,11 +273,9 @@ export function sanitizeURL(url: string): string {
   return safeURL;
 }
 
-export function sanitizeRequest(request: WebResource): WebResource {
-  const safeURL: string = sanitizeURL(request.url);
-
+export function sanitizeHeaders(originalHeader: HttpHeaders): HttpHeaders {
   const headers: HttpHeaders = new HttpHeaders();
-  for (const header of request.headers.headersArray()) {
+  for (const header of originalHeader.headersArray()) {
     if (header.name.toLowerCase() === HeaderConstants.AUTHORIZATION) {
       headers.set(header.name, "*****");
     } else if (header.name.toLowerCase() === HeaderConstants.X_MS_COPY_SOURCE) {
@@ -287,13 +285,5 @@ export function sanitizeRequest(request: WebResource): WebResource {
     }
   }
 
-  const sanitized = new WebResource(
-    safeURL,
-    request.method,
-    undefined, // Ommiting body, as it may container sensitive data, or data of huge size
-    request.query,
-    headers
-  );
-
-  return sanitized;
+  return headers;
 }
