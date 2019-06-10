@@ -12,8 +12,8 @@ const {
 } = require("../.."); // Change to "@azure/storage-file" in your package
 
 class ConsoleHttpPipelineLogger {
-  constructor() {
-    this.minimumLogLevel = HttpPipelineLogLevel.INFO;
+  constructor(minimumLogLevel) {
+    this.minimumLogLevel = minimumLogLevel;
   }
   log(logLevel, message) {
     const logMessage = `${new Date().toISOString()} ${HttpPipelineLogLevel[logLevel]}: ${message}`;
