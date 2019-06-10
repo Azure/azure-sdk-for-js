@@ -44,9 +44,9 @@ export interface RetryOptions {
  */
 
 export interface ProxyOptions {
-  proxySettings? : string
+  proxySettings?: string;
 }
 
 export interface TelemetryOptions {
-  value: string
+  value: string;
 }
