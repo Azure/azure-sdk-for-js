@@ -12,6 +12,111 @@ import * as msRest from "@azure/ms-rest-js";
 export { BaseResource, CloudError };
 
 /**
+ * Contains information about orchestrator.
+ */
+export interface OrchestratorProfile {
+  /**
+   * Orchestrator type.
+   */
+  orchestratorType?: string;
+  /**
+   * Orchestrator version (major, minor, patch).
+   */
+  orchestratorVersion: string;
+  /**
+   * Whether Kubernetes version is currently in preview.
+   */
+  isPreview?: boolean;
+}
+
+/**
+ * The profile of an orchestrator and its available versions.
+ */
+export interface OrchestratorVersionProfile {
+  /**
+   * Orchestrator type.
+   */
+  orchestratorType: string;
+  /**
+   * Orchestrator version (major, minor, patch).
+   */
+  orchestratorVersion: string;
+  /**
+   * Installed by default if version is not specified.
+   */
+  default?: boolean;
+  /**
+   * Whether Kubernetes version is currently in preview.
+   */
+  isPreview?: boolean;
+  /**
+   * The list of available upgrade versions.
+   */
+  upgrades?: OrchestratorProfile[];
+}
+
+/**
+ * The list of versions for supported orchestrators.
+ */
+export interface OrchestratorVersionProfileListResult {
+  /**
+   * Id of the orchestrator version profile list result.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * Name of the orchestrator version profile list result.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * Type of the orchestrator version profile list result.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * List of orchestrator version profiles.
+   */
+  orchestrators: OrchestratorVersionProfile[];
+}
+
+/**
+ * Describes the properties of a Compute Operation value.
+ */
+export interface OperationValue {
+  /**
+   * The origin of the compute operation.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly origin?: string;
+  /**
+   * The name of the compute operation.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * The display name of the compute operation.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly operation?: string;
+  /**
+   * The display name of the resource the operation applies to.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly resource?: string;
+  /**
+   * The description of the operation.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly description?: string;
+  /**
+   * The resource provider for the operation.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provider?: string;
+}
+
+/**
  * The Resource model definition.
  */
 export interface Resource extends BaseResource {
@@ -41,255 +146,25 @@ export interface Resource extends BaseResource {
 }
 
 /**
- * Used for establishing the purchase context of any 3rd Party artifact through MarketPlace.
+ * Reference to another subresource.
  */
-export interface PurchasePlan {
+export interface SubResource extends BaseResource {
   /**
-   * The plan ID.
-   */
-  name?: string;
-  /**
-   * Specifies the product of the image from the marketplace. This is the same value as Offer under
-   * the imageReference element.
-   */
-  product?: string;
-  /**
-   * The promotion code.
-   */
-  promotionCode?: string;
-  /**
-   * The plan ID.
-   */
-  publisher?: string;
-}
-
-/**
- * Represents an OpenShift router
- */
-export interface OpenShiftRouterProfile {
-  /**
-   * Name of the router profile.
-   */
-  name?: string;
-  /**
-   * DNS subdomain for OpenShift router.
+   * Resource ID.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly publicSubdomain?: string;
+  readonly id?: string;
   /**
-   * Auto-allocated FQDN for the OpenShift router.
+   * The name of the resource that is unique within a resource group. This name can be used to
+   * access the resource.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly fqdn?: string;
-}
-
-/**
- * Represents the OpenShift networking configuration
- */
-export interface NetworkProfile {
+  readonly name?: string;
   /**
-   * CIDR for the OpenShift Vnet. Default value: '10.0.0.0/8'.
-   */
-  vnetCidr?: string;
-  /**
-   * CIDR of the Vnet to peer.
-   */
-  peerVnetId?: string;
-  /**
-   * ID of the Vnet created for OSA cluster.
-   */
-  vnetId?: string;
-}
-
-/**
- * OpenShiftManagedClusterMaterPoolProfile contains configuration for OpenShift master VMs.
- */
-export interface OpenShiftManagedClusterMasterPoolProfile {
-  /**
-   * Unique name of the master pool profile in the context of the subscription and resource group.
-   */
-  name?: string;
-  /**
-   * Number of masters (VMs) to host docker containers. The default value is 3.
-   */
-  count: number;
-  /**
-   * Size of agent VMs. Possible values include: 'Standard_D2s_v3', 'Standard_D4s_v3',
-   * 'Standard_D8s_v3', 'Standard_D16s_v3', 'Standard_D32s_v3', 'Standard_D64s_v3',
-   * 'Standard_DS4_v2', 'Standard_DS5_v2', 'Standard_F8s_v2', 'Standard_F16s_v2',
-   * 'Standard_F32s_v2', 'Standard_F64s_v2', 'Standard_F72s_v2', 'Standard_F8s', 'Standard_F16s',
-   * 'Standard_E4s_v3', 'Standard_E8s_v3', 'Standard_E16s_v3', 'Standard_E20s_v3',
-   * 'Standard_E32s_v3', 'Standard_E64s_v3', 'Standard_GS2', 'Standard_GS3', 'Standard_GS4',
-   * 'Standard_GS5', 'Standard_DS12_v2', 'Standard_DS13_v2', 'Standard_DS14_v2',
-   * 'Standard_DS15_v2', 'Standard_L4s', 'Standard_L8s', 'Standard_L16s', 'Standard_L32s'
-   */
-  vmSize: OpenShiftContainerServiceVMSize;
-  /**
-   * Subnet CIDR for the peering.
-   */
-  subnetCidr?: string;
-  /**
-   * OsType to be used to specify os type. Choose from Linux and Windows. Default to Linux.
-   * Possible values include: 'Linux', 'Windows'. Default value: 'Linux'.
-   */
-  osType?: OSType;
-}
-
-/**
- * Defines the configuration of the OpenShift cluster VMs.
- */
-export interface OpenShiftManagedClusterAgentPoolProfile {
-  /**
-   * Unique name of the pool profile in the context of the subscription and resource group.
-   */
-  name: string;
-  /**
-   * Number of agents (VMs) to host docker containers.
-   */
-  count: number;
-  /**
-   * Size of agent VMs. Possible values include: 'Standard_D2s_v3', 'Standard_D4s_v3',
-   * 'Standard_D8s_v3', 'Standard_D16s_v3', 'Standard_D32s_v3', 'Standard_D64s_v3',
-   * 'Standard_DS4_v2', 'Standard_DS5_v2', 'Standard_F8s_v2', 'Standard_F16s_v2',
-   * 'Standard_F32s_v2', 'Standard_F64s_v2', 'Standard_F72s_v2', 'Standard_F8s', 'Standard_F16s',
-   * 'Standard_E4s_v3', 'Standard_E8s_v3', 'Standard_E16s_v3', 'Standard_E20s_v3',
-   * 'Standard_E32s_v3', 'Standard_E64s_v3', 'Standard_GS2', 'Standard_GS3', 'Standard_GS4',
-   * 'Standard_GS5', 'Standard_DS12_v2', 'Standard_DS13_v2', 'Standard_DS14_v2',
-   * 'Standard_DS15_v2', 'Standard_L4s', 'Standard_L8s', 'Standard_L16s', 'Standard_L32s'
-   */
-  vmSize: OpenShiftContainerServiceVMSize;
-  /**
-   * Subnet CIDR for the peering. Default value: '10.0.0.0/24'.
-   */
-  subnetCidr?: string;
-  /**
-   * OsType to be used to specify os type. Choose from Linux and Windows. Default to Linux.
-   * Possible values include: 'Linux', 'Windows'. Default value: 'Linux'.
-   */
-  osType?: OSType;
-  /**
-   * Define the role of the AgentPoolProfile. Possible values include: 'compute', 'infra'
-   */
-  role?: OpenShiftAgentPoolProfileRole;
-}
-
-/**
- * Contains the possible cases for OpenShiftManagedClusterBaseIdentityProvider.
- */
-export type OpenShiftManagedClusterBaseIdentityProviderUnion = OpenShiftManagedClusterBaseIdentityProvider | OpenShiftManagedClusterAADIdentityProvider;
-
-/**
- * Structure for any Identity provider.
- */
-export interface OpenShiftManagedClusterBaseIdentityProvider {
-  /**
-   * Polymorphic Discriminator
-   */
-  kind: "OpenShiftManagedClusterBaseIdentityProvider";
-}
-
-/**
- * Defines the configuration of the identity providers to be used in the OpenShift cluster.
- */
-export interface OpenShiftManagedClusterIdentityProvider {
-  /**
-   * Name of the provider.
-   */
-  name?: string;
-  /**
-   * Configuration of the provider.
-   */
-  provider?: OpenShiftManagedClusterBaseIdentityProviderUnion;
-}
-
-/**
- * Defines all possible authentication profiles for the OpenShift cluster.
- */
-export interface OpenShiftManagedClusterAuthProfile {
-  /**
-   * Type of authentication profile to use.
-   */
-  identityProviders?: OpenShiftManagedClusterIdentityProvider[];
-}
-
-/**
- * OpenShift Managed cluster.
- */
-export interface OpenShiftManagedCluster extends Resource {
-  /**
-   * Define the resource plan as required by ARM for billing purposes
-   */
-  plan?: PurchasePlan;
-  /**
-   * The current deployment or provisioning state, which only appears in the response.
+   * Resource type
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly provisioningState?: string;
-  /**
-   * Version of OpenShift specified when creating the cluster.
-   */
-  openShiftVersion: string;
-  /**
-   * Version of OpenShift specified when creating the cluster.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly clusterVersion?: string;
-  /**
-   * Service generated FQDN for OpenShift API server.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly publicHostname?: string;
-  /**
-   * Service generated FQDN for OpenShift API server loadbalancer internal hostname.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly fqdn?: string;
-  /**
-   * Configuration for OpenShift networking.
-   */
-  networkProfile?: NetworkProfile;
-  /**
-   * Configuration for OpenShift router(s).
-   */
-  routerProfiles?: OpenShiftRouterProfile[];
-  /**
-   * Configuration for OpenShift master VMs.
-   */
-  masterPoolProfile?: OpenShiftManagedClusterMasterPoolProfile;
-  /**
-   * Configuration of OpenShift cluster VMs.
-   */
-  agentPoolProfiles?: OpenShiftManagedClusterAgentPoolProfile[];
-  /**
-   * Configures OpenShift authentication.
-   */
-  authProfile?: OpenShiftManagedClusterAuthProfile;
-}
-
-/**
- * Defines the Identity provider for MS AAD.
- */
-export interface OpenShiftManagedClusterAADIdentityProvider {
-  /**
-   * Polymorphic Discriminator
-   */
-  kind: "AADIdentityProvider";
-  /**
-   * The clientId password associated with the provider.
-   */
-  clientId?: string;
-  /**
-   * The secret password associated with the provider.
-   */
-  secret?: string;
-  /**
-   * The tenantId associated with the provider.
-   */
-  tenantId?: string;
-  /**
-   * The groupId to be granted cluster admin role.
-   */
-  customerAdminGroupId?: string;
+  readonly type?: string;
 }
 
 /**
@@ -303,38 +178,10 @@ export interface TagsObject {
 }
 
 /**
- * Properties to configure a custom container service cluster.
- */
-export interface ContainerServiceCustomProfile {
-  /**
-   * The name of the custom orchestrator to use.
-   */
-  orchestrator: string;
-}
-
-/**
- * Reference to a secret stored in Azure Key Vault.
- */
-export interface KeyVaultSecretRef {
-  /**
-   * Key vault identifier.
-   */
-  vaultID: string;
-  /**
-   * The secret name.
-   */
-  secretName: string;
-  /**
-   * The secret version.
-   */
-  version?: string;
-}
-
-/**
  * Information about a service principal identity for the cluster to use for manipulating Azure
- * APIs. Either secret or keyVaultSecretRef must be specified.
+ * APIs.
  */
-export interface ContainerServiceServicePrincipalProfile {
+export interface ManagedClusterServicePrincipalProfile {
   /**
    * The ID for the service principal.
    */
@@ -343,27 +190,6 @@ export interface ContainerServiceServicePrincipalProfile {
    * The secret password associated with the service principal in plain text.
    */
   secret?: string;
-  /**
-   * Reference to a secret stored in Azure Key Vault.
-   */
-  keyVaultSecretRef?: KeyVaultSecretRef;
-}
-
-/**
- * Profile for the container service orchestrator.
- */
-export interface ContainerServiceOrchestratorProfile {
-  /**
-   * The orchestrator to use to manage container service cluster resources. Valid values are
-   * Kubernetes, Swarm, DCOS, DockerCE and Custom. Possible values include: 'Kubernetes', 'Swarm',
-   * 'DCOS', 'DockerCE', 'Custom'
-   */
-  orchestratorType: ContainerServiceOrchestratorTypes;
-  /**
-   * The version of the orchestrator to use. You can specify the major.minor.patch part of the
-   * actual version.For example, you can specify version as "1.6.11".
-   */
-  orchestratorVersion?: string;
 }
 
 /**
@@ -446,289 +272,6 @@ export interface ContainerServiceMasterProfile {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly fqdn?: string;
-}
-
-/**
- * Profile for the container service agent pool.
- */
-export interface ContainerServiceAgentPoolProfile {
-  /**
-   * Unique name of the agent pool profile in the context of the subscription and resource group.
-   */
-  name: string;
-  /**
-   * Number of agents (VMs) to host docker containers. Allowed values must be in the range of 1 to
-   * 100 (inclusive). The default value is 1. Default value: 1.
-   */
-  count?: number;
-  /**
-   * Size of agent VMs. Possible values include: 'Standard_A1', 'Standard_A10', 'Standard_A11',
-   * 'Standard_A1_v2', 'Standard_A2', 'Standard_A2_v2', 'Standard_A2m_v2', 'Standard_A3',
-   * 'Standard_A4', 'Standard_A4_v2', 'Standard_A4m_v2', 'Standard_A5', 'Standard_A6',
-   * 'Standard_A7', 'Standard_A8', 'Standard_A8_v2', 'Standard_A8m_v2', 'Standard_A9',
-   * 'Standard_B2ms', 'Standard_B2s', 'Standard_B4ms', 'Standard_B8ms', 'Standard_D1',
-   * 'Standard_D11', 'Standard_D11_v2', 'Standard_D11_v2_Promo', 'Standard_D12', 'Standard_D12_v2',
-   * 'Standard_D12_v2_Promo', 'Standard_D13', 'Standard_D13_v2', 'Standard_D13_v2_Promo',
-   * 'Standard_D14', 'Standard_D14_v2', 'Standard_D14_v2_Promo', 'Standard_D15_v2',
-   * 'Standard_D16_v3', 'Standard_D16s_v3', 'Standard_D1_v2', 'Standard_D2', 'Standard_D2_v2',
-   * 'Standard_D2_v2_Promo', 'Standard_D2_v3', 'Standard_D2s_v3', 'Standard_D3', 'Standard_D32_v3',
-   * 'Standard_D32s_v3', 'Standard_D3_v2', 'Standard_D3_v2_Promo', 'Standard_D4', 'Standard_D4_v2',
-   * 'Standard_D4_v2_Promo', 'Standard_D4_v3', 'Standard_D4s_v3', 'Standard_D5_v2',
-   * 'Standard_D5_v2_Promo', 'Standard_D64_v3', 'Standard_D64s_v3', 'Standard_D8_v3',
-   * 'Standard_D8s_v3', 'Standard_DS1', 'Standard_DS11', 'Standard_DS11_v2',
-   * 'Standard_DS11_v2_Promo', 'Standard_DS12', 'Standard_DS12_v2', 'Standard_DS12_v2_Promo',
-   * 'Standard_DS13', 'Standard_DS13-2_v2', 'Standard_DS13-4_v2', 'Standard_DS13_v2',
-   * 'Standard_DS13_v2_Promo', 'Standard_DS14', 'Standard_DS14-4_v2', 'Standard_DS14-8_v2',
-   * 'Standard_DS14_v2', 'Standard_DS14_v2_Promo', 'Standard_DS15_v2', 'Standard_DS1_v2',
-   * 'Standard_DS2', 'Standard_DS2_v2', 'Standard_DS2_v2_Promo', 'Standard_DS3', 'Standard_DS3_v2',
-   * 'Standard_DS3_v2_Promo', 'Standard_DS4', 'Standard_DS4_v2', 'Standard_DS4_v2_Promo',
-   * 'Standard_DS5_v2', 'Standard_DS5_v2_Promo', 'Standard_E16_v3', 'Standard_E16s_v3',
-   * 'Standard_E2_v3', 'Standard_E2s_v3', 'Standard_E32-16s_v3', 'Standard_E32-8s_v3',
-   * 'Standard_E32_v3', 'Standard_E32s_v3', 'Standard_E4_v3', 'Standard_E4s_v3',
-   * 'Standard_E64-16s_v3', 'Standard_E64-32s_v3', 'Standard_E64_v3', 'Standard_E64s_v3',
-   * 'Standard_E8_v3', 'Standard_E8s_v3', 'Standard_F1', 'Standard_F16', 'Standard_F16s',
-   * 'Standard_F16s_v2', 'Standard_F1s', 'Standard_F2', 'Standard_F2s', 'Standard_F2s_v2',
-   * 'Standard_F32s_v2', 'Standard_F4', 'Standard_F4s', 'Standard_F4s_v2', 'Standard_F64s_v2',
-   * 'Standard_F72s_v2', 'Standard_F8', 'Standard_F8s', 'Standard_F8s_v2', 'Standard_G1',
-   * 'Standard_G2', 'Standard_G3', 'Standard_G4', 'Standard_G5', 'Standard_GS1', 'Standard_GS2',
-   * 'Standard_GS3', 'Standard_GS4', 'Standard_GS4-4', 'Standard_GS4-8', 'Standard_GS5',
-   * 'Standard_GS5-16', 'Standard_GS5-8', 'Standard_H16', 'Standard_H16m', 'Standard_H16mr',
-   * 'Standard_H16r', 'Standard_H8', 'Standard_H8m', 'Standard_L16s', 'Standard_L32s',
-   * 'Standard_L4s', 'Standard_L8s', 'Standard_M128-32ms', 'Standard_M128-64ms', 'Standard_M128ms',
-   * 'Standard_M128s', 'Standard_M64-16ms', 'Standard_M64-32ms', 'Standard_M64ms', 'Standard_M64s',
-   * 'Standard_NC12', 'Standard_NC12s_v2', 'Standard_NC12s_v3', 'Standard_NC24', 'Standard_NC24r',
-   * 'Standard_NC24rs_v2', 'Standard_NC24rs_v3', 'Standard_NC24s_v2', 'Standard_NC24s_v3',
-   * 'Standard_NC6', 'Standard_NC6s_v2', 'Standard_NC6s_v3', 'Standard_ND12s', 'Standard_ND24rs',
-   * 'Standard_ND24s', 'Standard_ND6s', 'Standard_NV12', 'Standard_NV24', 'Standard_NV6'
-   */
-  vmSize: ContainerServiceVMSizeTypes;
-  /**
-   * OS Disk Size in GB to be used to specify the disk size for every machine in this master/agent
-   * pool. If you specify 0, it will apply the default osDisk size according to the vmSize
-   * specified.
-   */
-  osDiskSizeGB?: number;
-  /**
-   * DNS prefix to be used to create the FQDN for the agent pool.
-   */
-  dnsPrefix?: string;
-  /**
-   * FQDN for the agent pool.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly fqdn?: string;
-  /**
-   * Ports number array used to expose on this agent pool. The default opened ports are different
-   * based on your choice of orchestrator.
-   */
-  ports?: number[];
-  /**
-   * Storage profile specifies what kind of storage used. Choose from StorageAccount and
-   * ManagedDisks. Leave it empty, we will choose for you based on the orchestrator choice.
-   * Possible values include: 'StorageAccount', 'ManagedDisks'
-   */
-  storageProfile?: ContainerServiceStorageProfileTypes;
-  /**
-   * VNet SubnetID specifies the VNet's subnet identifier.
-   */
-  vnetSubnetID?: string;
-  /**
-   * OsType to be used to specify os type. Choose from Linux and Windows. Default to Linux.
-   * Possible values include: 'Linux', 'Windows'. Default value: 'Linux'.
-   */
-  osType?: OSType;
-}
-
-/**
- * Profile for Windows VMs in the container service cluster.
- */
-export interface ContainerServiceWindowsProfile {
-  /**
-   * The administrator username to use for Windows VMs.
-   */
-  adminUsername: string;
-  /**
-   * The administrator password to use for Windows VMs.
-   */
-  adminPassword: string;
-}
-
-/**
- * Contains information about SSH certificate public key data.
- */
-export interface ContainerServiceSshPublicKey {
-  /**
-   * Certificate public key used to authenticate with VMs through SSH. The certificate must be in
-   * PEM format with or without headers.
-   */
-  keyData: string;
-}
-
-/**
- * SSH configuration for Linux-based VMs running on Azure.
- */
-export interface ContainerServiceSshConfiguration {
-  /**
-   * The list of SSH public keys used to authenticate with Linux-based VMs. Only expect one key
-   * specified.
-   */
-  publicKeys: ContainerServiceSshPublicKey[];
-}
-
-/**
- * Profile for Linux VMs in the container service cluster.
- */
-export interface ContainerServiceLinuxProfile {
-  /**
-   * The administrator username to use for Linux VMs.
-   */
-  adminUsername: string;
-  /**
-   * SSH configuration for Linux-based VMs running on Azure.
-   */
-  ssh: ContainerServiceSshConfiguration;
-}
-
-/**
- * Profile for diagnostics on the container service VMs.
- */
-export interface ContainerServiceVMDiagnostics {
-  /**
-   * Whether the VM diagnostic agent is provisioned on the VM.
-   */
-  enabled: boolean;
-  /**
-   * The URI of the storage account where diagnostics are stored.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly storageUri?: string;
-}
-
-/**
- * Profile for diagnostics on the container service cluster.
- */
-export interface ContainerServiceDiagnosticsProfile {
-  /**
-   * Profile for diagnostics on the container service VMs.
-   */
-  vmDiagnostics: ContainerServiceVMDiagnostics;
-}
-
-/**
- * Container service.
- */
-export interface ContainerService extends Resource {
-  /**
-   * The current deployment or provisioning state, which only appears in the response.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly provisioningState?: string;
-  /**
-   * Profile for the container service orchestrator.
-   */
-  orchestratorProfile: ContainerServiceOrchestratorProfile;
-  /**
-   * Properties to configure a custom container service cluster.
-   */
-  customProfile?: ContainerServiceCustomProfile;
-  /**
-   * Information about a service principal identity for the cluster to use for manipulating Azure
-   * APIs. Exact one of secret or keyVaultSecretRef need to be specified.
-   */
-  servicePrincipalProfile?: ContainerServiceServicePrincipalProfile;
-  /**
-   * Profile for the container service master.
-   */
-  masterProfile: ContainerServiceMasterProfile;
-  /**
-   * Properties of the agent pool.
-   */
-  agentPoolProfiles?: ContainerServiceAgentPoolProfile[];
-  /**
-   * Profile for Windows VMs in the container service cluster.
-   */
-  windowsProfile?: ContainerServiceWindowsProfile;
-  /**
-   * Profile for Linux VMs in the container service cluster.
-   */
-  linuxProfile: ContainerServiceLinuxProfile;
-  /**
-   * Profile for diagnostics in the container service cluster.
-   */
-  diagnosticsProfile?: ContainerServiceDiagnosticsProfile;
-}
-
-/**
- * Describes the properties of a Compute Operation value.
- */
-export interface OperationValue {
-  /**
-   * The origin of the compute operation.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly origin?: string;
-  /**
-   * The name of the compute operation.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * The display name of the compute operation.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly operation?: string;
-  /**
-   * The display name of the resource the operation applies to.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly resource?: string;
-  /**
-   * The description of the operation.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly description?: string;
-  /**
-   * The resource provider for the operation.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly provider?: string;
-}
-
-/**
- * Reference to another subresource.
- */
-export interface SubResource extends BaseResource {
-  /**
-   * Resource ID.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly id?: string;
-  /**
-   * The name of the resource that is unique within a resource group. This name can be used to
-   * access the resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * Resource type
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly type?: string;
-}
-
-/**
- * Information about a service principal identity for the cluster to use for manipulating Azure
- * APIs.
- */
-export interface ManagedClusterServicePrincipalProfile {
-  /**
-   * The ID for the service principal.
-   */
-  clientId: string;
-  /**
-   * The secret password associated with the service principal in plain text.
-   */
-  secret?: string;
 }
 
 /**
@@ -830,6 +373,21 @@ export interface ManagedClusterAgentPoolProfileProperties {
    * (PREVIEW) Availability zones for nodes. Must use VirtualMachineScaleSets AgentPoolType.
    */
   availabilityZones?: string[];
+  /**
+   * ScaleSetPriority to be used to specify virtual machine scale set priority. Default to regular.
+   * Possible values include: 'Low', 'Regular'. Default value: 'Regular'.
+   */
+  scaleSetPriority?: ScaleSetPriority;
+  /**
+   * ScaleSetEvictionPolicy to be used to specify evicition policy for low priority virtual machine
+   * scale set. Default to Delete. Possible values include: 'Delete', 'Deallocate'. Default value:
+   * 'Delete'.
+   */
+  scaleSetEvictionPolicy?: ScaleSetEvictionPolicy;
+  /**
+   * Taints to add when registering nodes.
+   */
+  nodeTaints?: string[];
 }
 
 /**
@@ -941,6 +499,71 @@ export interface AgentPool extends SubResource {
    * (PREVIEW) Availability zones for nodes. Must use VirtualMachineScaleSets AgentPoolType.
    */
   availabilityZones?: string[];
+  /**
+   * ScaleSetPriority to be used to specify virtual machine scale set priority. Default to regular.
+   * Possible values include: 'Low', 'Regular'. Default value: 'Regular'.
+   */
+  scaleSetPriority?: ScaleSetPriority;
+  /**
+   * ScaleSetEvictionPolicy to be used to specify evicition policy for low priority virtual machine
+   * scale set. Default to Delete. Possible values include: 'Delete', 'Deallocate'. Default value:
+   * 'Delete'.
+   */
+  scaleSetEvictionPolicy?: ScaleSetEvictionPolicy;
+  /**
+   * Taints to add when registering nodes.
+   */
+  nodeTaints?: string[];
+}
+
+/**
+ * Profile for Windows VMs in the container service cluster.
+ */
+export interface ManagedClusterWindowsProfile {
+  /**
+   * The administrator username to use for Windows VMs.
+   */
+  adminUsername: string;
+  /**
+   * The administrator password to use for Windows VMs.
+   */
+  adminPassword?: string;
+}
+
+/**
+ * Contains information about SSH certificate public key data.
+ */
+export interface ContainerServiceSshPublicKey {
+  /**
+   * Certificate public key used to authenticate with VMs through SSH. The certificate must be in
+   * PEM format with or without headers.
+   */
+  keyData: string;
+}
+
+/**
+ * SSH configuration for Linux-based VMs running on Azure.
+ */
+export interface ContainerServiceSshConfiguration {
+  /**
+   * The list of SSH public keys used to authenticate with Linux-based VMs. Only expect one key
+   * specified.
+   */
+  publicKeys: ContainerServiceSshPublicKey[];
+}
+
+/**
+ * Profile for Linux VMs in the container service cluster.
+ */
+export interface ContainerServiceLinuxProfile {
+  /**
+   * The administrator username to use for Linux VMs.
+   */
+  adminUsername: string;
+  /**
+   * SSH configuration for Linux-based VMs running on Azure.
+   */
+  ssh: ContainerServiceSshConfiguration;
 }
 
 /**
@@ -977,6 +600,35 @@ export interface ContainerServiceNetworkProfile {
    * Subnet IP ranges or the Kubernetes service address range. Default value: '172.17.0.1/16'.
    */
   dockerBridgeCidr?: string;
+  /**
+   * The load balancer sku for the managed cluster. Possible values include: 'standard', 'basic'
+   */
+  loadBalancerSku?: LoadBalancerSku;
+}
+
+/**
+ * Profile for diagnostics on the container service VMs.
+ */
+export interface ContainerServiceVMDiagnostics {
+  /**
+   * Whether the VM diagnostic agent is provisioned on the VM.
+   */
+  enabled: boolean;
+  /**
+   * The URI of the storage account where diagnostics are stored.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly storageUri?: string;
+}
+
+/**
+ * Profile for diagnostics on the container service cluster.
+ */
+export interface ContainerServiceDiagnosticsProfile {
+  /**
+   * Profile for diagnostics on the container service VMs.
+   */
+  vmDiagnostics: ContainerServiceVMDiagnostics;
 }
 
 /**
@@ -1017,6 +669,29 @@ export interface ManagedClusterAADProfile {
 }
 
 /**
+ * Identity for the managed cluster.
+ */
+export interface ManagedClusterIdentity {
+  /**
+   * The principal id of the system assigned identity which is used by master components.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly principalId?: string;
+  /**
+   * The tenant id of the system assigned identity which is used by master components.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly tenantId?: string;
+  /**
+   * The type of identity used for the managed cluster. Type 'SystemAssigned' will use an
+   * implicitly created identity in master components and an auto-created user assigned identity in
+   * MC_ resource group in agent nodes. Type 'None' will not use MSI for the managed cluster,
+   * service principal will be used instead. Possible values include: 'SystemAssigned', 'None'
+   */
+  type?: ResourceIdentityType;
+}
+
+/**
  * Managed cluster.
  */
 export interface ManagedCluster extends Resource {
@@ -1025,6 +700,11 @@ export interface ManagedCluster extends Resource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly provisioningState?: string;
+  /**
+   * The max number of agent pools for the managed cluster.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly maxAgentPools?: number;
   /**
    * Version of Kubernetes specified when creating the managed cluster.
    */
@@ -1047,6 +727,10 @@ export interface ManagedCluster extends Resource {
    */
   linuxProfile?: ContainerServiceLinuxProfile;
   /**
+   * Profile for Windows VMs in the container service cluster.
+   */
+  windowsProfile?: ManagedClusterWindowsProfile;
+  /**
    * Information about a service principal identity for the cluster to use for manipulating Azure
    * APIs.
    */
@@ -1057,9 +741,8 @@ export interface ManagedCluster extends Resource {
   addonProfiles?: { [propertyName: string]: ManagedClusterAddonProfile };
   /**
    * Name of the resource group containing agent pool nodes.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly nodeResourceGroup?: string;
+  nodeResourceGroup?: string;
   /**
    * Whether to enable Kubernetes Role-Based Access Control.
    */
@@ -1080,20 +763,10 @@ export interface ManagedCluster extends Resource {
    * (PREVIEW) Authorized IP Ranges to kubernetes API server.
    */
   apiServerAuthorizedIPRanges?: string[];
-}
-
-/**
- * Contains information about orchestrator.
- */
-export interface OrchestratorProfile {
   /**
-   * Orchestrator type.
+   * The identity of the managed cluster, if configured.
    */
-  orchestratorType: string;
-  /**
-   * Orchestrator version (major, minor, patch).
-   */
-  orchestratorVersion: string;
+  identity?: ManagedClusterIdentity;
 }
 
 /**
@@ -1104,6 +777,20 @@ export interface ManagedClusterAccessProfile extends Resource {
    * Base64-encoded Kubernetes configuration file.
    */
   kubeConfig?: Uint8Array;
+}
+
+/**
+ * An interface representing ManagedClusterPoolUpgradeProfileUpgradesItem.
+ */
+export interface ManagedClusterPoolUpgradeProfileUpgradesItem {
+  /**
+   * Kubernetes version (major, minor, patch).
+   */
+  kubernetesVersion?: string;
+  /**
+   * Whether Kubernetes version is currently in preview.
+   */
+  isPreview?: boolean;
 }
 
 /**
@@ -1126,7 +813,7 @@ export interface ManagedClusterPoolUpgradeProfile {
   /**
    * List of orchestrator types and versions available for upgrade.
    */
-  upgrades?: string[];
+  upgrades?: ManagedClusterPoolUpgradeProfileUpgradesItem[];
 }
 
 /**
@@ -1159,6 +846,97 @@ export interface ManagedClusterUpgradeProfile {
 }
 
 /**
+ * An interface representing AgentPoolUpgradeProfilePropertiesUpgradesItem.
+ */
+export interface AgentPoolUpgradeProfilePropertiesUpgradesItem {
+  /**
+   * Kubernetes version (major, minor, patch).
+   */
+  kubernetesVersion?: string;
+  /**
+   * Whether Kubernetes version is currently in preview.
+   */
+  isPreview?: boolean;
+}
+
+/**
+ * The list of available upgrades for an agent pool.
+ */
+export interface AgentPoolUpgradeProfile {
+  /**
+   * Id of the agent pool upgrade profile.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * Name of the agent pool upgrade profile.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * Type of the agent pool upgrade profile.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * Kubernetes version (major, minor, patch).
+   */
+  kubernetesVersion: string;
+  /**
+   * OsType to be used to specify os type. Choose from Linux and Windows. Default to Linux.
+   * Possible values include: 'Linux', 'Windows'. Default value: 'Linux'.
+   */
+  osType: OSType;
+  /**
+   * List of orchestrator types and versions available for upgrade.
+   */
+  upgrades?: AgentPoolUpgradeProfilePropertiesUpgradesItem[];
+}
+
+/**
+ * An interface representing AgentPoolAvailableVersionsPropertiesAgentPoolVersionsItem.
+ */
+export interface AgentPoolAvailableVersionsPropertiesAgentPoolVersionsItem {
+  /**
+   * Whether this version is the default agent pool version.
+   */
+  default?: boolean;
+  /**
+   * Kubernetes version (major, minor, patch).
+   */
+  kubernetesVersion?: string;
+  /**
+   * Whether Kubernetes version is currently in preview.
+   */
+  isPreview?: boolean;
+}
+
+/**
+ * The list of available versions for an agent pool.
+ */
+export interface AgentPoolAvailableVersions {
+  /**
+   * Id of the agent pool avaialbe versions.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * Name of the agent pool avaialbe versions.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * Type of the agent pool  avaialbe versions.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * List of versions available for agent pool.
+   */
+  agentPoolVersions?: AgentPoolAvailableVersionsPropertiesAgentPoolVersionsItem[];
+}
+
+/**
  * The credential result response.
  */
 export interface CredentialResult {
@@ -1186,53 +964,6 @@ export interface CredentialResults {
 }
 
 /**
- * The profile of an orchestrator and its available versions.
- */
-export interface OrchestratorVersionProfile {
-  /**
-   * Orchestrator type.
-   */
-  orchestratorType: string;
-  /**
-   * Orchestrator version (major, minor, patch).
-   */
-  orchestratorVersion: string;
-  /**
-   * Installed by default if version is not specified.
-   */
-  default: boolean;
-  /**
-   * The list of available upgrade versions.
-   */
-  upgrades: OrchestratorProfile[];
-}
-
-/**
- * The list of versions for supported orchestrators.
- */
-export interface OrchestratorVersionProfileListResult {
-  /**
-   * Id of the orchestrator version profile list result.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly id?: string;
-  /**
-   * Name of the orchestrator version profile list result.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * Type of the orchestrator version profile list result.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly type?: string;
-  /**
-   * List of orchestrator version profiles.
-   */
-  orchestrators: OrchestratorVersionProfile[];
-}
-
-/**
  * Optional Parameters.
  */
 export interface ContainerServicesListOrchestratorsOptionalParams extends msRest.RequestOptionsBase {
@@ -1247,32 +978,6 @@ export interface ContainerServicesListOrchestratorsOptionalParams extends msRest
  */
 export interface ContainerServiceClientOptions extends AzureServiceClientOptions {
   baseUri?: string;
-}
-
-/**
- * @interface
- * The response from the List OpenShift Managed Clusters operation.
- * @extends Array<OpenShiftManagedCluster>
- */
-export interface OpenShiftManagedClusterListResult extends Array<OpenShiftManagedCluster> {
-  /**
-   * The URL to get the next set of OpenShift managed cluster results.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly nextLink?: string;
-}
-
-/**
- * @interface
- * The response from the List Container Services operation.
- * @extends Array<ContainerService>
- */
-export interface ContainerServiceListResult extends Array<ContainerService> {
-  /**
-   * The URL to get the next set of container service results.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly nextLink?: string;
 }
 
 /**
@@ -1308,37 +1013,6 @@ export interface AgentPoolListResult extends Array<AgentPool> {
    */
   readonly nextLink?: string;
 }
-
-/**
- * Defines values for OSType.
- * Possible values include: 'Linux', 'Windows'
- * @readonly
- * @enum {string}
- */
-export type OSType = 'Linux' | 'Windows';
-
-/**
- * Defines values for OpenShiftContainerServiceVMSize.
- * Possible values include: 'Standard_D2s_v3', 'Standard_D4s_v3', 'Standard_D8s_v3',
- * 'Standard_D16s_v3', 'Standard_D32s_v3', 'Standard_D64s_v3', 'Standard_DS4_v2',
- * 'Standard_DS5_v2', 'Standard_F8s_v2', 'Standard_F16s_v2', 'Standard_F32s_v2',
- * 'Standard_F64s_v2', 'Standard_F72s_v2', 'Standard_F8s', 'Standard_F16s', 'Standard_E4s_v3',
- * 'Standard_E8s_v3', 'Standard_E16s_v3', 'Standard_E20s_v3', 'Standard_E32s_v3',
- * 'Standard_E64s_v3', 'Standard_GS2', 'Standard_GS3', 'Standard_GS4', 'Standard_GS5',
- * 'Standard_DS12_v2', 'Standard_DS13_v2', 'Standard_DS14_v2', 'Standard_DS15_v2', 'Standard_L4s',
- * 'Standard_L8s', 'Standard_L16s', 'Standard_L32s'
- * @readonly
- * @enum {string}
- */
-export type OpenShiftContainerServiceVMSize = 'Standard_D2s_v3' | 'Standard_D4s_v3' | 'Standard_D8s_v3' | 'Standard_D16s_v3' | 'Standard_D32s_v3' | 'Standard_D64s_v3' | 'Standard_DS4_v2' | 'Standard_DS5_v2' | 'Standard_F8s_v2' | 'Standard_F16s_v2' | 'Standard_F32s_v2' | 'Standard_F64s_v2' | 'Standard_F72s_v2' | 'Standard_F8s' | 'Standard_F16s' | 'Standard_E4s_v3' | 'Standard_E8s_v3' | 'Standard_E16s_v3' | 'Standard_E20s_v3' | 'Standard_E32s_v3' | 'Standard_E64s_v3' | 'Standard_GS2' | 'Standard_GS3' | 'Standard_GS4' | 'Standard_GS5' | 'Standard_DS12_v2' | 'Standard_DS13_v2' | 'Standard_DS14_v2' | 'Standard_DS15_v2' | 'Standard_L4s' | 'Standard_L8s' | 'Standard_L16s' | 'Standard_L32s';
-
-/**
- * Defines values for OpenShiftAgentPoolProfileRole.
- * Possible values include: 'compute', 'infra'
- * @readonly
- * @enum {string}
- */
-export type OpenShiftAgentPoolProfileRole = 'compute' | 'infra';
 
 /**
  * Defines values for ContainerServiceStorageProfileTypes.
@@ -1394,12 +1068,12 @@ export type ContainerServiceStorageProfileTypes = 'StorageAccount' | 'ManagedDis
 export type ContainerServiceVMSizeTypes = 'Standard_A1' | 'Standard_A10' | 'Standard_A11' | 'Standard_A1_v2' | 'Standard_A2' | 'Standard_A2_v2' | 'Standard_A2m_v2' | 'Standard_A3' | 'Standard_A4' | 'Standard_A4_v2' | 'Standard_A4m_v2' | 'Standard_A5' | 'Standard_A6' | 'Standard_A7' | 'Standard_A8' | 'Standard_A8_v2' | 'Standard_A8m_v2' | 'Standard_A9' | 'Standard_B2ms' | 'Standard_B2s' | 'Standard_B4ms' | 'Standard_B8ms' | 'Standard_D1' | 'Standard_D11' | 'Standard_D11_v2' | 'Standard_D11_v2_Promo' | 'Standard_D12' | 'Standard_D12_v2' | 'Standard_D12_v2_Promo' | 'Standard_D13' | 'Standard_D13_v2' | 'Standard_D13_v2_Promo' | 'Standard_D14' | 'Standard_D14_v2' | 'Standard_D14_v2_Promo' | 'Standard_D15_v2' | 'Standard_D16_v3' | 'Standard_D16s_v3' | 'Standard_D1_v2' | 'Standard_D2' | 'Standard_D2_v2' | 'Standard_D2_v2_Promo' | 'Standard_D2_v3' | 'Standard_D2s_v3' | 'Standard_D3' | 'Standard_D32_v3' | 'Standard_D32s_v3' | 'Standard_D3_v2' | 'Standard_D3_v2_Promo' | 'Standard_D4' | 'Standard_D4_v2' | 'Standard_D4_v2_Promo' | 'Standard_D4_v3' | 'Standard_D4s_v3' | 'Standard_D5_v2' | 'Standard_D5_v2_Promo' | 'Standard_D64_v3' | 'Standard_D64s_v3' | 'Standard_D8_v3' | 'Standard_D8s_v3' | 'Standard_DS1' | 'Standard_DS11' | 'Standard_DS11_v2' | 'Standard_DS11_v2_Promo' | 'Standard_DS12' | 'Standard_DS12_v2' | 'Standard_DS12_v2_Promo' | 'Standard_DS13' | 'Standard_DS13-2_v2' | 'Standard_DS13-4_v2' | 'Standard_DS13_v2' | 'Standard_DS13_v2_Promo' | 'Standard_DS14' | 'Standard_DS14-4_v2' | 'Standard_DS14-8_v2' | 'Standard_DS14_v2' | 'Standard_DS14_v2_Promo' | 'Standard_DS15_v2' | 'Standard_DS1_v2' | 'Standard_DS2' | 'Standard_DS2_v2' | 'Standard_DS2_v2_Promo' | 'Standard_DS3' | 'Standard_DS3_v2' | 'Standard_DS3_v2_Promo' | 'Standard_DS4' | 'Standard_DS4_v2' | 'Standard_DS4_v2_Promo' | 'Standard_DS5_v2' | 'Standard_DS5_v2_Promo' | 'Standard_E16_v3' | 'Standard_E16s_v3' | 'Standard_E2_v3' | 'Standard_E2s_v3' | 'Standard_E32-16s_v3' | 'Standard_E32-8s_v3' | 'Standard_E32_v3' | 'Standard_E32s_v3' | 'Standard_E4_v3' | 'Standard_E4s_v3' | 'Standard_E64-16s_v3' | 'Standard_E64-32s_v3' | 'Standard_E64_v3' | 'Standard_E64s_v3' | 'Standard_E8_v3' | 'Standard_E8s_v3' | 'Standard_F1' | 'Standard_F16' | 'Standard_F16s' | 'Standard_F16s_v2' | 'Standard_F1s' | 'Standard_F2' | 'Standard_F2s' | 'Standard_F2s_v2' | 'Standard_F32s_v2' | 'Standard_F4' | 'Standard_F4s' | 'Standard_F4s_v2' | 'Standard_F64s_v2' | 'Standard_F72s_v2' | 'Standard_F8' | 'Standard_F8s' | 'Standard_F8s_v2' | 'Standard_G1' | 'Standard_G2' | 'Standard_G3' | 'Standard_G4' | 'Standard_G5' | 'Standard_GS1' | 'Standard_GS2' | 'Standard_GS3' | 'Standard_GS4' | 'Standard_GS4-4' | 'Standard_GS4-8' | 'Standard_GS5' | 'Standard_GS5-16' | 'Standard_GS5-8' | 'Standard_H16' | 'Standard_H16m' | 'Standard_H16mr' | 'Standard_H16r' | 'Standard_H8' | 'Standard_H8m' | 'Standard_L16s' | 'Standard_L32s' | 'Standard_L4s' | 'Standard_L8s' | 'Standard_M128-32ms' | 'Standard_M128-64ms' | 'Standard_M128ms' | 'Standard_M128s' | 'Standard_M64-16ms' | 'Standard_M64-32ms' | 'Standard_M64ms' | 'Standard_M64s' | 'Standard_NC12' | 'Standard_NC12s_v2' | 'Standard_NC12s_v3' | 'Standard_NC24' | 'Standard_NC24r' | 'Standard_NC24rs_v2' | 'Standard_NC24rs_v3' | 'Standard_NC24s_v2' | 'Standard_NC24s_v3' | 'Standard_NC6' | 'Standard_NC6s_v2' | 'Standard_NC6s_v3' | 'Standard_ND12s' | 'Standard_ND24rs' | 'Standard_ND24s' | 'Standard_ND6s' | 'Standard_NV12' | 'Standard_NV24' | 'Standard_NV6';
 
 /**
- * Defines values for ContainerServiceOrchestratorTypes.
- * Possible values include: 'Kubernetes', 'Swarm', 'DCOS', 'DockerCE', 'Custom'
+ * Defines values for OSType.
+ * Possible values include: 'Linux', 'Windows'
  * @readonly
  * @enum {string}
  */
-export type ContainerServiceOrchestratorTypes = 'Kubernetes' | 'Swarm' | 'DCOS' | 'DockerCE' | 'Custom';
+export type OSType = 'Linux' | 'Windows';
 
 /**
  * Defines values for AgentPoolType.
@@ -1408,6 +1082,22 @@ export type ContainerServiceOrchestratorTypes = 'Kubernetes' | 'Swarm' | 'DCOS' 
  * @enum {string}
  */
 export type AgentPoolType = 'VirtualMachineScaleSets' | 'AvailabilitySet';
+
+/**
+ * Defines values for ScaleSetPriority.
+ * Possible values include: 'Low', 'Regular'
+ * @readonly
+ * @enum {string}
+ */
+export type ScaleSetPriority = 'Low' | 'Regular';
+
+/**
+ * Defines values for ScaleSetEvictionPolicy.
+ * Possible values include: 'Delete', 'Deallocate'
+ * @readonly
+ * @enum {string}
+ */
+export type ScaleSetEvictionPolicy = 'Delete' | 'Deallocate';
 
 /**
  * Defines values for NetworkPlugin.
@@ -1426,264 +1116,20 @@ export type NetworkPlugin = 'azure' | 'kubenet';
 export type NetworkPolicy = 'calico' | 'azure';
 
 /**
- * Contains response data for the list operation.
+ * Defines values for LoadBalancerSku.
+ * Possible values include: 'standard', 'basic'
+ * @readonly
+ * @enum {string}
  */
-export type OpenShiftManagedClustersListResponse = OpenShiftManagedClusterListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OpenShiftManagedClusterListResult;
-    };
-};
+export type LoadBalancerSku = 'standard' | 'basic';
 
 /**
- * Contains response data for the listByResourceGroup operation.
+ * Defines values for ResourceIdentityType.
+ * Possible values include: 'SystemAssigned', 'None'
+ * @readonly
+ * @enum {string}
  */
-export type OpenShiftManagedClustersListByResourceGroupResponse = OpenShiftManagedClusterListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OpenShiftManagedClusterListResult;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type OpenShiftManagedClustersGetResponse = OpenShiftManagedCluster & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OpenShiftManagedCluster;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type OpenShiftManagedClustersCreateOrUpdateResponse = OpenShiftManagedCluster & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OpenShiftManagedCluster;
-    };
-};
-
-/**
- * Contains response data for the updateTags operation.
- */
-export type OpenShiftManagedClustersUpdateTagsResponse = OpenShiftManagedCluster & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OpenShiftManagedCluster;
-    };
-};
-
-/**
- * Contains response data for the beginCreateOrUpdate operation.
- */
-export type OpenShiftManagedClustersBeginCreateOrUpdateResponse = OpenShiftManagedCluster & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OpenShiftManagedCluster;
-    };
-};
-
-/**
- * Contains response data for the beginUpdateTags operation.
- */
-export type OpenShiftManagedClustersBeginUpdateTagsResponse = OpenShiftManagedCluster & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OpenShiftManagedCluster;
-    };
-};
-
-/**
- * Contains response data for the listNext operation.
- */
-export type OpenShiftManagedClustersListNextResponse = OpenShiftManagedClusterListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OpenShiftManagedClusterListResult;
-    };
-};
-
-/**
- * Contains response data for the listByResourceGroupNext operation.
- */
-export type OpenShiftManagedClustersListByResourceGroupNextResponse = OpenShiftManagedClusterListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OpenShiftManagedClusterListResult;
-    };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type ContainerServicesListResponse = ContainerServiceListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ContainerServiceListResult;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type ContainerServicesCreateOrUpdateResponse = ContainerService & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ContainerService;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type ContainerServicesGetResponse = ContainerService & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ContainerService;
-    };
-};
-
-/**
- * Contains response data for the listByResourceGroup operation.
- */
-export type ContainerServicesListByResourceGroupResponse = ContainerServiceListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ContainerServiceListResult;
-    };
-};
+export type ResourceIdentityType = 'SystemAssigned' | 'None';
 
 /**
  * Contains response data for the listOrchestrators operation.
@@ -1702,66 +1148,6 @@ export type ContainerServicesListOrchestratorsResponse = OrchestratorVersionProf
        * The response body as parsed JSON or XML
        */
       parsedBody: OrchestratorVersionProfileListResult;
-    };
-};
-
-/**
- * Contains response data for the beginCreateOrUpdate operation.
- */
-export type ContainerServicesBeginCreateOrUpdateResponse = ContainerService & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ContainerService;
-    };
-};
-
-/**
- * Contains response data for the listNext operation.
- */
-export type ContainerServicesListNextResponse = ContainerServiceListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ContainerServiceListResult;
-    };
-};
-
-/**
- * Contains response data for the listByResourceGroupNext operation.
- */
-export type ContainerServicesListByResourceGroupNextResponse = ContainerServiceListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ContainerServiceListResult;
     };
 };
 
@@ -2102,6 +1488,46 @@ export type AgentPoolsCreateOrUpdateResponse = AgentPool & {
        * The response body as parsed JSON or XML
        */
       parsedBody: AgentPool;
+    };
+};
+
+/**
+ * Contains response data for the getUpgradeProfile operation.
+ */
+export type AgentPoolsGetUpgradeProfileResponse = AgentPoolUpgradeProfile & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AgentPoolUpgradeProfile;
+    };
+};
+
+/**
+ * Contains response data for the getAvailableAgentPoolVersions operation.
+ */
+export type AgentPoolsGetAvailableAgentPoolVersionsResponse = AgentPoolAvailableVersions & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AgentPoolAvailableVersions;
     };
 };
 

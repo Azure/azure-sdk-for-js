@@ -32,29 +32,29 @@ export class AgentPools {
    * each agent pool.
    * @summary Gets a list of agent pools in the specified managed cluster.
    * @param resourceGroupName The name of the resource group.
-   * @param managedClusterName The name of the managed cluster resource.
+   * @param resourceName The name of the managed cluster resource.
    * @param [options] The optional parameters
    * @returns Promise<Models.AgentPoolsListResponse>
    */
-  list(resourceGroupName: string, managedClusterName: string, options?: msRest.RequestOptionsBase): Promise<Models.AgentPoolsListResponse>;
+  list(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.AgentPoolsListResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
-   * @param managedClusterName The name of the managed cluster resource.
+   * @param resourceName The name of the managed cluster resource.
    * @param callback The callback
    */
-  list(resourceGroupName: string, managedClusterName: string, callback: msRest.ServiceCallback<Models.AgentPoolListResult>): void;
+  list(resourceGroupName: string, resourceName: string, callback: msRest.ServiceCallback<Models.AgentPoolListResult>): void;
   /**
    * @param resourceGroupName The name of the resource group.
-   * @param managedClusterName The name of the managed cluster resource.
+   * @param resourceName The name of the managed cluster resource.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, managedClusterName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AgentPoolListResult>): void;
-  list(resourceGroupName: string, managedClusterName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AgentPoolListResult>, callback?: msRest.ServiceCallback<Models.AgentPoolListResult>): Promise<Models.AgentPoolsListResponse> {
+  list(resourceGroupName: string, resourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AgentPoolListResult>): void;
+  list(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AgentPoolListResult>, callback?: msRest.ServiceCallback<Models.AgentPoolListResult>): Promise<Models.AgentPoolsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
-        managedClusterName,
+        resourceName,
         options
       },
       listOperationSpec,
@@ -65,32 +65,32 @@ export class AgentPools {
    * Gets the details of the agent pool by managed cluster and resource group.
    * @summary Gets the agent pool.
    * @param resourceGroupName The name of the resource group.
-   * @param managedClusterName The name of the managed cluster resource.
+   * @param resourceName The name of the managed cluster resource.
    * @param agentPoolName The name of the agent pool.
    * @param [options] The optional parameters
    * @returns Promise<Models.AgentPoolsGetResponse>
    */
-  get(resourceGroupName: string, managedClusterName: string, agentPoolName: string, options?: msRest.RequestOptionsBase): Promise<Models.AgentPoolsGetResponse>;
+  get(resourceGroupName: string, resourceName: string, agentPoolName: string, options?: msRest.RequestOptionsBase): Promise<Models.AgentPoolsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
-   * @param managedClusterName The name of the managed cluster resource.
+   * @param resourceName The name of the managed cluster resource.
    * @param agentPoolName The name of the agent pool.
    * @param callback The callback
    */
-  get(resourceGroupName: string, managedClusterName: string, agentPoolName: string, callback: msRest.ServiceCallback<Models.AgentPool>): void;
+  get(resourceGroupName: string, resourceName: string, agentPoolName: string, callback: msRest.ServiceCallback<Models.AgentPool>): void;
   /**
    * @param resourceGroupName The name of the resource group.
-   * @param managedClusterName The name of the managed cluster resource.
+   * @param resourceName The name of the managed cluster resource.
    * @param agentPoolName The name of the agent pool.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, managedClusterName: string, agentPoolName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AgentPool>): void;
-  get(resourceGroupName: string, managedClusterName: string, agentPoolName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AgentPool>, callback?: msRest.ServiceCallback<Models.AgentPool>): Promise<Models.AgentPoolsGetResponse> {
+  get(resourceGroupName: string, resourceName: string, agentPoolName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AgentPool>): void;
+  get(resourceGroupName: string, resourceName: string, agentPoolName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AgentPool>, callback?: msRest.ServiceCallback<Models.AgentPool>): Promise<Models.AgentPoolsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
-        managedClusterName,
+        resourceName,
         agentPoolName,
         options
       },
@@ -102,14 +102,14 @@ export class AgentPools {
    * Creates or updates an agent pool in the specified managed cluster.
    * @summary Creates or updates an agent pool.
    * @param resourceGroupName The name of the resource group.
-   * @param managedClusterName The name of the managed cluster resource.
+   * @param resourceName The name of the managed cluster resource.
    * @param agentPoolName The name of the agent pool.
    * @param parameters Parameters supplied to the Create or Update an agent pool operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.AgentPoolsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, managedClusterName: string, agentPoolName: string, parameters: Models.AgentPool, options?: msRest.RequestOptionsBase): Promise<Models.AgentPoolsCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,managedClusterName,agentPoolName,parameters,options)
+  createOrUpdate(resourceGroupName: string, resourceName: string, agentPoolName: string, parameters: Models.AgentPool, options?: msRest.RequestOptionsBase): Promise<Models.AgentPoolsCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(resourceGroupName,resourceName,agentPoolName,parameters,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.AgentPoolsCreateOrUpdateResponse>;
   }
 
@@ -117,31 +117,106 @@ export class AgentPools {
    * Deletes the agent pool in the specified managed cluster.
    * @summary Deletes an agent pool.
    * @param resourceGroupName The name of the resource group.
-   * @param managedClusterName The name of the managed cluster resource.
+   * @param resourceName The name of the managed cluster resource.
    * @param agentPoolName The name of the agent pool.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, managedClusterName: string, agentPoolName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,managedClusterName,agentPoolName,options)
+  deleteMethod(resourceGroupName: string, resourceName: string, agentPoolName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(resourceGroupName,resourceName,agentPoolName,options)
       .then(lroPoller => lroPoller.pollUntilFinished());
+  }
+
+  /**
+   * Gets the details of the upgrade profile for an agent pool with a specified resource group and
+   * managed cluster name.
+   * @summary Gets upgrade profile for an agent pool.
+   * @param resourceGroupName The name of the resource group.
+   * @param resourceName The name of the managed cluster resource.
+   * @param agentPoolName The name of the agent pool.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.AgentPoolsGetUpgradeProfileResponse>
+   */
+  getUpgradeProfile(resourceGroupName: string, resourceName: string, agentPoolName: string, options?: msRest.RequestOptionsBase): Promise<Models.AgentPoolsGetUpgradeProfileResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param resourceName The name of the managed cluster resource.
+   * @param agentPoolName The name of the agent pool.
+   * @param callback The callback
+   */
+  getUpgradeProfile(resourceGroupName: string, resourceName: string, agentPoolName: string, callback: msRest.ServiceCallback<Models.AgentPoolUpgradeProfile>): void;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param resourceName The name of the managed cluster resource.
+   * @param agentPoolName The name of the agent pool.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getUpgradeProfile(resourceGroupName: string, resourceName: string, agentPoolName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AgentPoolUpgradeProfile>): void;
+  getUpgradeProfile(resourceGroupName: string, resourceName: string, agentPoolName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AgentPoolUpgradeProfile>, callback?: msRest.ServiceCallback<Models.AgentPoolUpgradeProfile>): Promise<Models.AgentPoolsGetUpgradeProfileResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        resourceName,
+        agentPoolName,
+        options
+      },
+      getUpgradeProfileOperationSpec,
+      callback) as Promise<Models.AgentPoolsGetUpgradeProfileResponse>;
+  }
+
+  /**
+   * Gets a list of supported versions for the specified agent pool.
+   * @summary Gets a list of supported versions for the specified agent pool.
+   * @param resourceGroupName The name of the resource group.
+   * @param resourceName The name of the managed cluster resource.
+   * @param agentPoolName The name of the agent pool.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.AgentPoolsGetAvailableAgentPoolVersionsResponse>
+   */
+  getAvailableAgentPoolVersions(resourceGroupName: string, resourceName: string, agentPoolName: string, options?: msRest.RequestOptionsBase): Promise<Models.AgentPoolsGetAvailableAgentPoolVersionsResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param resourceName The name of the managed cluster resource.
+   * @param agentPoolName The name of the agent pool.
+   * @param callback The callback
+   */
+  getAvailableAgentPoolVersions(resourceGroupName: string, resourceName: string, agentPoolName: string, callback: msRest.ServiceCallback<Models.AgentPoolAvailableVersions>): void;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param resourceName The name of the managed cluster resource.
+   * @param agentPoolName The name of the agent pool.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getAvailableAgentPoolVersions(resourceGroupName: string, resourceName: string, agentPoolName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AgentPoolAvailableVersions>): void;
+  getAvailableAgentPoolVersions(resourceGroupName: string, resourceName: string, agentPoolName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AgentPoolAvailableVersions>, callback?: msRest.ServiceCallback<Models.AgentPoolAvailableVersions>): Promise<Models.AgentPoolsGetAvailableAgentPoolVersionsResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        resourceName,
+        agentPoolName,
+        options
+      },
+      getAvailableAgentPoolVersionsOperationSpec,
+      callback) as Promise<Models.AgentPoolsGetAvailableAgentPoolVersionsResponse>;
   }
 
   /**
    * Creates or updates an agent pool in the specified managed cluster.
    * @summary Creates or updates an agent pool.
    * @param resourceGroupName The name of the resource group.
-   * @param managedClusterName The name of the managed cluster resource.
+   * @param resourceName The name of the managed cluster resource.
    * @param agentPoolName The name of the agent pool.
    * @param parameters Parameters supplied to the Create or Update an agent pool operation.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, managedClusterName: string, agentPoolName: string, parameters: Models.AgentPool, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(resourceGroupName: string, resourceName: string, agentPoolName: string, parameters: Models.AgentPool, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
-        managedClusterName,
+        resourceName,
         agentPoolName,
         parameters,
         options
@@ -154,16 +229,16 @@ export class AgentPools {
    * Deletes the agent pool in the specified managed cluster.
    * @summary Deletes an agent pool.
    * @param resourceGroupName The name of the resource group.
-   * @param managedClusterName The name of the managed cluster resource.
+   * @param resourceName The name of the managed cluster resource.
    * @param agentPoolName The name of the agent pool.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, managedClusterName: string, agentPoolName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(resourceGroupName: string, resourceName: string, agentPoolName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
-        managedClusterName,
+        resourceName,
         agentPoolName,
         options
       },
@@ -206,14 +281,14 @@ export class AgentPools {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{managedClusterName}/agentPools",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools",
   urlParameters: [
     Parameters.subscriptionId,
-    Parameters.resourceGroupName0,
-    Parameters.managedClusterName
+    Parameters.resourceGroupName,
+    Parameters.resourceName
   ],
   queryParameters: [
-    Parameters.apiVersion3
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -231,15 +306,15 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{managedClusterName}/agentPools/{agentPoolName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}",
   urlParameters: [
     Parameters.subscriptionId,
-    Parameters.resourceGroupName0,
-    Parameters.managedClusterName,
+    Parameters.resourceGroupName,
+    Parameters.resourceName,
     Parameters.agentPoolName
   ],
   queryParameters: [
-    Parameters.apiVersion3
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -255,17 +330,69 @@ const getOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
-  httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{managedClusterName}/agentPools/{agentPoolName}",
+const getUpgradeProfileOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}/upgradeProfiles/default",
   urlParameters: [
     Parameters.subscriptionId,
-    Parameters.resourceGroupName0,
-    Parameters.managedClusterName,
+    Parameters.resourceGroupName,
+    Parameters.resourceName,
     Parameters.agentPoolName
   ],
   queryParameters: [
-    Parameters.apiVersion3
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.AgentPoolUpgradeProfile
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const getAvailableAgentPoolVersionsOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}/availableagentpoolversions",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.resourceName,
+    Parameters.agentPoolName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.AgentPoolAvailableVersions
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PUT",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.resourceName,
+    Parameters.agentPoolName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -293,15 +420,15 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{managedClusterName}/agentPools/{agentPoolName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}",
   urlParameters: [
     Parameters.subscriptionId,
-    Parameters.resourceGroupName0,
-    Parameters.managedClusterName,
+    Parameters.resourceGroupName,
+    Parameters.resourceName,
     Parameters.agentPoolName
   ],
   queryParameters: [
-    Parameters.apiVersion3
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
