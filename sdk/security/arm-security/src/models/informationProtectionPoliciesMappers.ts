@@ -24,8 +24,6 @@ export {
   InformationProtectionPolicy,
   InformationProtectionPolicyList,
   InformationType,
-  IoTSecurityAggregatedAlert,
-  IoTSecurityAggregatedRecommendation,
   Pricing,
   RegulatoryComplianceAssessment,
   RegulatoryComplianceControl,

@@ -1297,12 +1297,35 @@ export interface IoTSecuritySolutionAnalyticsModel {
 /**
  * Security Solution Aggregated Alert information
  */
-export interface IoTSecurityAggregatedAlert extends Resource {
+export interface IoTSecurityAggregatedAlert {
+  /**
+   * Resource Id
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * Resource name
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * Resource type
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * Resource tags
+   */
+  tags?: { [propertyName: string]: string };
+  /**
+   * The resource location.
+   */
+  location?: string;
   /**
    * Name of the alert type
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly alertType?: string;
+  readonly alertType: string;
   /**
    * Display name of the alert type
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -1364,7 +1387,30 @@ export interface IoTSecurityAggregatedAlert extends Resource {
 /**
  * Security Solution Recommendation Information
  */
-export interface IoTSecurityAggregatedRecommendation extends Resource {
+export interface IoTSecurityAggregatedRecommendation {
+  /**
+   * Resource Id
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * Resource name
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * Resource type
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * Resource tags
+   */
+  tags?: { [propertyName: string]: string };
+  /**
+   * The resource location.
+   */
+  location?: string;
   /**
    * Name of the alert type
    */

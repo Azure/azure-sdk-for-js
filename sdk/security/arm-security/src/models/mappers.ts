@@ -2175,87 +2175,125 @@ export const IoTSecurityAggregatedAlert: msRest.CompositeMapper = {
     name: "Composite",
     className: "IoTSecurityAggregatedAlert",
     modelProperties: {
-      ...Resource.type.modelProperties,
-      alertType: {
+      id: {
         readOnly: true,
-        serializedName: "alertType",
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        readOnly: true,
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        readOnly: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      alertType: {
+        required: true,
+        readOnly: true,
+        serializedName: "properties.alertType",
         type: {
           name: "String"
         }
       },
       alertDisplayName: {
         readOnly: true,
-        serializedName: "alertDisplayName",
+        serializedName: "properties.alertDisplayName",
         type: {
           name: "String"
         }
       },
       aggregatedDateUtc: {
         readOnly: true,
-        serializedName: "aggregatedDateUtc",
+        serializedName: "properties.aggregatedDateUtc",
         type: {
           name: "Date"
         }
       },
       vendorName: {
         readOnly: true,
-        serializedName: "vendorName",
+        serializedName: "properties.vendorName",
         type: {
           name: "String"
         }
       },
       reportedSeverity: {
         readOnly: true,
-        serializedName: "reportedSeverity",
+        serializedName: "properties.reportedSeverity",
         type: {
           name: "String"
         }
       },
       remediationSteps: {
         readOnly: true,
-        serializedName: "remediationSteps",
+        serializedName: "properties.remediationSteps",
         type: {
           name: "String"
         }
       },
       description: {
         readOnly: true,
-        serializedName: "description",
+        serializedName: "properties.description",
         type: {
           name: "String"
         }
       },
       count: {
         readOnly: true,
-        serializedName: "count",
+        serializedName: "properties.count",
         type: {
           name: "Number"
         }
       },
       effectedResourceType: {
         readOnly: true,
-        serializedName: "effectedResourceType",
+        serializedName: "properties.effectedResourceType",
         type: {
           name: "String"
         }
       },
       systemSource: {
         readOnly: true,
-        serializedName: "systemSource",
+        serializedName: "properties.systemSource",
         type: {
           name: "String"
         }
       },
       actionTaken: {
         readOnly: true,
-        serializedName: "actionTaken",
+        serializedName: "properties.actionTaken",
         type: {
           name: "String"
         }
       },
       logAnalyticsQuery: {
         readOnly: true,
-        serializedName: "logAnalyticsQuery",
+        serializedName: "properties.logAnalyticsQuery",
         type: {
           name: "String"
         }
@@ -2270,64 +2308,101 @@ export const IoTSecurityAggregatedRecommendation: msRest.CompositeMapper = {
     name: "Composite",
     className: "IoTSecurityAggregatedRecommendation",
     modelProperties: {
-      ...Resource.type.modelProperties,
+      id: {
+        readOnly: true,
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        readOnly: true,
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        readOnly: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
       recommendationName: {
-        serializedName: "recommendationName",
+        serializedName: "properties.recommendationName",
         type: {
           name: "String"
         }
       },
       recommendationDisplayName: {
         readOnly: true,
-        serializedName: "recommendationDisplayName",
+        serializedName: "properties.recommendationDisplayName",
         type: {
           name: "String"
         }
       },
       description: {
         readOnly: true,
-        serializedName: "description",
+        serializedName: "properties.description",
         type: {
           name: "String"
         }
       },
       recommendationTypeId: {
-        serializedName: "recommendationTypeId",
+        serializedName: "properties.recommendationTypeId",
         type: {
           name: "String"
         }
       },
       detectedBy: {
         readOnly: true,
-        serializedName: "detectedBy",
+        serializedName: "properties.detectedBy",
         type: {
           name: "String"
         }
       },
       reportedSeverity: {
         readOnly: true,
-        serializedName: "reportedSeverity",
+        serializedName: "properties.reportedSeverity",
         type: {
           name: "String"
         }
       },
       healthyDevices: {
         readOnly: true,
-        serializedName: "healthyDevices",
+        serializedName: "properties.healthyDevices",
         type: {
           name: "Number"
         }
       },
       unhealthyDevices: {
         readOnly: true,
-        serializedName: "unhealthyDevices",
+        serializedName: "properties.unhealthyDevices",
         type: {
           name: "Number"
         }
       },
       logAnalyticsQuery: {
         readOnly: true,
-        serializedName: "logAnalyticsQuery",
+        serializedName: "properties.logAnalyticsQuery",
         type: {
           name: "String"
         }

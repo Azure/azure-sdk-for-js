@@ -23,8 +23,6 @@ export {
   InformationProtectionKeyword,
   InformationProtectionPolicy,
   InformationType,
-  IoTSecurityAggregatedAlert,
-  IoTSecurityAggregatedRecommendation,
   Pricing,
   RegulatoryComplianceAssessment,
   RegulatoryComplianceControl,
