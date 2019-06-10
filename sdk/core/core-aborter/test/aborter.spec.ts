@@ -1,89 +1,101 @@
 import * as assert from "assert";
-import delay from "delay";
-import { Aborter } from "../src/aborter";
+import { AbortController, AbortSignal, AbortError } from "../src/aborter";
 
 describe("Aborter", () => {
-  async function doAsyncOperation(
-    aborter: Aborter,
-    runningTimeinMs: number = 100
-  ): Promise<number> {
-    await delay(runningTimeinMs);
-    if (aborter.aborted) {
-      throw new Error("Operation aborted");
-    }
-    return 0;
+  function doAsyncOperation(aborter: AbortSignal, runningTimeinMs: number = 100): Promise<number> {
+    const s = Date.now();
+    return new Promise((res, rej) => {
+      // check status every 10 ms.
+      const handle = setInterval(() => {
+        // if we're completed, resolve.
+        if (Date.now() - s > runningTimeinMs) {
+          clearInterval(handle);
+          return res();
+        }
+
+        if (aborter.aborted) {
+          clearInterval(handle);
+          return rej(new AbortError());
+        }
+
+        // else, continue trying.
+      }, 10);
+    });
   }
 
-  it("should set value and get value successfully", async () => {
-    const aborter = Aborter.none.withValue("mykey", "myvalue");
-    assert.deepStrictEqual(aborter.getValue("mykey"), "myvalue");
-  });
-
-  it("should get value from parent successfully", async () => {
-    const aborter = Aborter.none.withValue("parentkey", "parentvalue");
-    const child = aborter.withValue("childkey", "childvalue");
-    assert.deepStrictEqual(child.getValue("parentkey"), "parentvalue");
-  });
-
   it("should not abort without calling abort()", async () => {
-    await doAsyncOperation(Aborter.none);
+    await doAsyncOperation(AbortSignal.none);
   });
 
   it("should abort when calling abort() before request finishes", async () => {
-    const aborter = Aborter.none;
+    const controller = new AbortController();
+    const aborter = controller.signal;
     const response = doAsyncOperation(aborter);
-    aborter.abort();
+    controller.abort();
     try {
-      await response;
+      let rs = await response;
+      console.log("got result", rs);
       assert.fail();
-    } catch (err) {}
+    } catch (err) {
+      assert.equal(err.name, "AbortError");
+    }
+  });
+
+  it("should abort when calling abort() after creation but before request finishes", async () => {
+    const controller = new AbortController();
+    const aborter = controller.signal;
+    const response = doAsyncOperation(aborter, 100);
+    setTimeout(() => controller.abort(), 50);
+    try {
+      let r = await response;
+      console.log("got, r", r);
+      assert.fail();
+    } catch (err) {
+      assert.equal(err.name, "AbortError");
+    }
   });
 
   it("should not abort when calling abort() after request finishes", async () => {
-    const aborter = Aborter.none;
+    const controller = new AbortController();
+    const aborter = controller.signal;
     await doAsyncOperation(aborter);
-    aborter.abort();
-  });
-
-  it("should abort after aborter timeout", async () => {
-    try {
-      await doAsyncOperation(Aborter.timeout(1));
-      assert.fail();
-    } catch (err) {}
-  });
-
-  it("should abort after parent aborter calls abort()", async () => {
-    try {
-      const aborter = Aborter.none;
-      const response = doAsyncOperation(aborter.withTimeout(10 * 60 * 1000));
-      aborter.abort();
-      await response;
-      assert.fail();
-    } catch (err) {}
-  });
-
-  it("should abort after parent aborter timeout", async () => {
-    try {
-      const aborter = Aborter.timeout(1);
-      const response = doAsyncOperation(aborter.withTimeout(10 * 60 * 1000));
-      await response;
-      assert.fail();
-    } catch (err) {}
+    controller.abort();
   });
 
   it("should invoke onabort callback when aborting", async () => {
+    const controller = new AbortController();
+    const aborter = controller.signal;
     let s = undefined;
     try {
-      const aborter = Aborter.none;
       aborter.onabort = () => {
         s = "aborted";
       };
       const response = doAsyncOperation(aborter);
-      aborter.abort();
+      controller.abort();
       await response;
       assert.fail();
     } catch (err) {
       assert.equal(s, "aborted");
+    }
+  });
+
+  it("should invoke abort listener callbacks when aborting", async () => {
+    const controller = new AbortController();
+    const aborter = controller.signal;
+    let s: string[] = [];
+    try {
+      aborter.addEventListener("abort", () => {
+        s.push("aborted");
+      });
+      aborter.addEventListener("abort", () => {
+        s.push("aborted");
+      });
+      const response = doAsyncOperation(aborter);
+      controller.abort();
+      await response;
+      assert.fail();
+    } catch (err) {
+      assert.deepEqual(s, ["aborted", "aborted"]);
     }
   });
 });
