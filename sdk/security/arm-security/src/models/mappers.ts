@@ -2214,7 +2214,6 @@ export const IoTSecurityAggregatedAlert: msRest.CompositeMapper = {
         }
       },
       alertType: {
-        required: true,
         readOnly: true,
         serializedName: "properties.alertType",
         type: {

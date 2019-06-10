@@ -1325,7 +1325,7 @@ export interface IoTSecurityAggregatedAlert {
    * Name of the alert type
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly alertType: string;
+  readonly alertType?: string;
   /**
    * Display name of the alert type
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
