@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
+import { Aborter } from "@azure/core-aborter";
 import * as Constants from "./util/constants";
 import { retry, RetryConfig, RetryOperationType } from "./retry";
 import {
@@ -25,6 +26,10 @@ import * as log from "./log";
  * @interface SendRequestOptions
  */
 export interface SendRequestOptions {
+  /**
+   * @property {Aborter} [cancellationToken] Cancels the operation.
+   */
+  cancellationToken?: Aborter;
   /**
    * @property {number} [timeoutInSeconds] Max time to wait for the operation to complete.
    * Default: `10 seconds`.
@@ -53,11 +58,7 @@ export class RequestResponseLink implements ReqResLink {
    * @param {Sender} sender The amqp sender link.
    * @param {Receiver} receiver The amqp receiver link.
    */
-  constructor(
-    public session: Session,
-    public sender: Sender,
-    public receiver: Receiver
-  ) {
+  constructor(public session: Session, public sender: Sender, public receiver: Receiver) {
     this.session = session;
     this.sender = sender;
     this.receiver = receiver;
@@ -76,9 +77,7 @@ export class RequestResponseLink implements ReqResLink {
    * @returns {boolean} boolean - `true` - `open`, `false` - `closed`.
    */
   isOpen(): boolean {
-    return (
-      this.session.isOpen() && this.sender.isOpen() && this.receiver.isOpen()
-    );
+    return this.session.isOpen() && this.sender.isOpen() && this.receiver.isOpen();
   }
 
   /**
@@ -91,10 +90,7 @@ export class RequestResponseLink implements ReqResLink {
    * @param {SendRequestOptions} [options] Options that can be provided while sending a request.
    * @returns {Promise<Message>} Promise<Message> The AMQP (response) message.
    */
-  sendRequest(
-    request: AmqpMessage,
-    options?: SendRequestOptions
-  ): Promise<AmqpMessage> {
+  sendRequest(request: AmqpMessage, options?: SendRequestOptions): Promise<AmqpMessage> {
     if (!options) options = {};
 
     if (!options.timeoutInSeconds) {
@@ -126,21 +122,17 @@ export class RequestResponseLink implements ReqResLink {
         const getCodeDescriptionAndError = (props: any): NormalizedInfo => {
           if (!props) props = {};
           return {
-            statusCode: (props[Constants.statusCode] ||
-              props.statusCode) as number,
+            statusCode: (props[Constants.statusCode] || props.statusCode) as number,
             statusDescription: (props[Constants.statusDescription] ||
               props.statusDescription) as string,
-            errorCondition: (props[Constants.errorCondition] ||
-              props.errorCondition) as string
+            errorCondition: (props[Constants.errorCondition] || props.errorCondition) as string
           };
         };
 
         const messageCallback = (context: EventContext) => {
           // remove the event listener as this will be registered next time when someone makes a request.
           this.receiver.removeListener(ReceiverEvents.message, messageCallback);
-          const info = getCodeDescriptionAndError(
-            context.message!.application_properties
-          );
+          const info = getCodeDescriptionAndError(context.message!.application_properties);
           const responseCorrelationId = context.message!.correlation_id;
           log.reqres(
             "[%s] %s response: ",
@@ -192,9 +184,7 @@ export class RequestResponseLink implements ReqResLink {
           this.receiver.removeListener(ReceiverEvents.message, messageCallback);
           const address = this.receiver.address || "address";
           const desc: string =
-            `The request with message_id "${
-              request.message_id
-            }" to "${address}" ` +
+            `The request with message_id "${request.message_id}" to "${address}" ` +
             `endpoint timed out. Please try again later.`;
           const e: AmqpError = {
             condition: ConditionStatusMapper[408],
@@ -204,10 +194,7 @@ export class RequestResponseLink implements ReqResLink {
         };
 
         this.receiver.on(ReceiverEvents.message, messageCallback);
-        waitTimer = setTimeout(
-          actionAfterTimeout,
-          options!.timeoutInSeconds! * 1000
-        );
+        waitTimer = setTimeout(actionAfterTimeout, options!.timeoutInSeconds! * 1000);
         log.reqres(
           "[%s] %s request sent: %O",
           this.connection.id,
