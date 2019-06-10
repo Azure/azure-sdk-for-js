@@ -370,9 +370,8 @@ export interface UpdateAutoRenewOperationSummary {
 export interface EnabledAzureSKUs {
   /**
    * The sku id.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly skuId?: string;
+  skuId?: string;
   /**
    * The sku description.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**

@@ -571,7 +571,6 @@ export const EnabledAzureSKUs: msRest.CompositeMapper = {
     className: "EnabledAzureSKUs",
     modelProperties: {
       skuId: {
-        readOnly: true,
         serializedName: "skuId",
         type: {
           name: "String"
