@@ -5,12 +5,15 @@
 ## Getting started
 
 ### Installation
- - Installing this library
+
+- Installing this library
+
 ```
-npm install @azure/core-aborter
+npm install @azure/aborter
 ```
 
 ## Key Concepts
+
 This library contains the `Aborter` class which is used by the Azure SDK for JavaScript to abort pending
 work based on timeouts or other signales.
 `Aborter` is compatible with the `AbortSignal` used by the `fetch` API built into modern browsers.
@@ -20,7 +23,7 @@ work based on timeouts or other signales.
 ### Example 1 - basic usage
 
 ```js
-import { Aborter } from "@azure/core-aborter";
+import { Aborter } from "@azure/aborter";
 
 const signal = new Aborter();
 doAsyncWork({ abortSignal: signal });
@@ -32,7 +35,7 @@ signal.abort();
 ### Example 2 - Aborting with timeout
 
 ```js
-import { Aborter } from "@azure/core-aborter";
+import { Aborter } from "@azure/aborter";
 
 const signal = Aborter.timeout(1000);
 doAsyncWork({ abortSignal: signal });
@@ -41,7 +44,7 @@ doAsyncWork({ abortSignal: signal });
 ### Example 3 - Aborting sub-tasks
 
 ```js
-import { Aborter } from "@azure/core-aborter";
+import { Aborter } from "@azure/aborter";
 
 const allTasksSignal = new Aborter();
 
@@ -53,9 +56,11 @@ subTask1.abort(); // aborts only subTask1
 ```
 
 ## Next Steps
+
 Please take a look at the Examples section above to use this package.
 
 ## Contributing
+
 This project welcomes contributions and suggestions. Most contributions require you to agree to a Contributor
 License Agreement (CLA) declaring that you have the right to, and actually do, grant us the rights to use your
 contribution. For details, visit https://cla.microsoft.com.

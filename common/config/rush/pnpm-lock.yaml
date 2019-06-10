@@ -7,7 +7,7 @@ dependencies:
   '@azure/ms-rest-nodeauth': 0.9.3
   '@microsoft/api-extractor': 7.1.8
   '@rush-temp/amqp-common': 'file:projects/amqp-common.tgz'
-  '@rush-temp/core-aborter': 'file:projects/core-aborter.tgz'
+  '@rush-temp/aborter': 'file:projects/aborter.tgz'
   '@rush-temp/core-http': 'file:projects/core-http.tgz'
   '@rush-temp/cosmos': 'file:projects/cosmos.tgz'
   '@rush-temp/event-hubs': 'file:projects/event-hubs.tgz'
@@ -10389,7 +10389,7 @@ packages:
       integrity: sha512-xcVwY6A/5WKnqVGYSo/I/0JFiRhHlHQCnlVUA7xtH+gXc8fz7R8mLFe96ww01PGE7p/7N60sZdcOoo/+/wfbWg==
       tarball: 'file:projects/amqp-common.tgz'
     version: 0.0.0
-  'file:projects/core-aborter.tgz':
+  'file:projects/aborter.tgz':
     dependencies:
       '@azure/ms-rest-js': 1.8.12
       '@microsoft/api-extractor': 7.1.8
@@ -10425,10 +10425,10 @@ packages:
       tslib: 1.9.3
       typescript: 3.5.1
     dev: false
-    name: '@rush-temp/core-aborter'
+    name: '@rush-temp/aborter'
     resolution:
       integrity: sha512-S13ErwscgLsy7MFeDX/JIUPkxCKsi97JUCtALUgZ3d1zB8yeObsFvNQTOvofrlUqKB9OG8aDA1qXQNvHahMa8g==
-      tarball: 'file:projects/core-aborter.tgz'
+      tarball: 'file:projects/aborter.tgz'
     version: 0.0.0
   'file:projects/core-http.tgz':
     dependencies:
@@ -11126,7 +11126,7 @@ specifiers:
   '@azure/ms-rest-nodeauth': ^0.9.2
   '@microsoft/api-extractor': ^7.1.5
   '@rush-temp/amqp-common': 'file:./projects/amqp-common.tgz'
-  '@rush-temp/core-aborter': 'file:./projects/core-aborter.tgz'
+  '@rush-temp/aborter': 'file:./projects/aborter.tgz'
   '@rush-temp/core-http': 'file:./projects/core-http.tgz'
   '@rush-temp/cosmos': 'file:./projects/cosmos.tgz'
   '@rush-temp/event-hubs': 'file:./projects/event-hubs.tgz'

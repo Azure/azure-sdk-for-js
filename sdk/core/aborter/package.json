@@ -1,5 +1,5 @@
 {
-  "name": "@azure/core-aborter",
+  "name": "@azure/aborter",
   "version": "1.0.0",
   "description": "Microsoft Azure SDK for JavaScript - Aborter",
   "main": "./dist/index.js",
