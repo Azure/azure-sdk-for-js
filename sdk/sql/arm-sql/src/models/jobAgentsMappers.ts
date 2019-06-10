@@ -41,7 +41,6 @@ export {
   InstanceFailoverGroup,
   InstanceFailoverGroupReadOnlyEndpoint,
   InstanceFailoverGroupReadWriteEndpoint,
-  InstancePool,
   Job,
   JobAgent,
   JobAgentListResult,

@@ -92,18 +92,6 @@ export const apiVersion4: msRest.OperationQueryParameter = {
     }
   }
 };
-export const apiVersion5: msRest.OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    required: true,
-    isConstant: true,
-    serializedName: "api-version",
-    defaultValue: '2.0',
-    type: {
-      name: "String"
-    }
-  }
-};
 export const backupName: msRest.OperationURLParameter = {
   parameterPath: "backupName",
   mapper: {
@@ -325,18 +313,6 @@ export const endTimeMin: msRest.OperationQueryParameter = {
     serializedName: "endTimeMin",
     type: {
       name: "DateTime"
-    }
-  }
-};
-export const expandChildren: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "expandChildren"
-  ],
-  mapper: {
-    serializedName: "expandChildren",
-    type: {
-      name: "Boolean"
     }
   }
 };
