@@ -172,7 +172,7 @@ export function sanitizeURL(url: string): string {
 }
 
 export function sanitizeRequest(request: WebResource): WebResource {
-  const safeURL: string = sanitizeURL(request.url)
+  const safeURL: string = sanitizeURL(request.url);
 
   const headers: HttpHeaders = new HttpHeaders();
   for (const header of request.headers.headersArray()) {
@@ -188,7 +188,7 @@ export function sanitizeRequest(request: WebResource): WebResource {
   const sanitized = new WebResource(
     safeURL,
     request.method,
-    request.body,
+    undefined, // Ommiting body, as it may container sensitive data, or data of huge size
     request.query,
     headers
   );

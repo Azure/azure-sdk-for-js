@@ -63,14 +63,10 @@ export class LoggingPolicy extends BaseRequestPolicy {
     }
 
     const sanitized = sanitizeRequest(request);
-    this.log(
-      HttpPipelineLogLevel.INFO,
-      `==> OUTGOING REQUEST (Try number=${this.tryCount}):`
-    );
-    this.log(
-      HttpPipelineLogLevel.INFO,
-      `${sanitized}`
-    );
+    this.log(HttpPipelineLogLevel.INFO, `==> OUTGOING REQUEST (Try number=${this.tryCount}):`);
+    this.log(HttpPipelineLogLevel.INFO, `  method: ${sanitized.method}`);
+    this.log(HttpPipelineLogLevel.INFO, `  url: ${sanitized.url}`);
+    this.log(HttpPipelineLogLevel.INFO, `  headers: ${JSON.stringify(sanitized.headers, null, 2)}`);
 
     try {
       const response = await this._nextPolicy.sendRequest(request);
@@ -91,9 +87,7 @@ export class LoggingPolicy extends BaseRequestPolicy {
         // Log a warning if the try duration exceeded the specified threshold.
         if (this.shouldLog(HttpPipelineLogLevel.WARNING)) {
           currentLevel = HttpPipelineLogLevel.WARNING;
-          logMessage = `SLOW OPERATION. Duration > ${
-            this.loggingOptions.logWarningIfTryOverThreshold
-          } ms. `;
+          logMessage = `SLOW OPERATION. Duration > ${this.loggingOptions.logWarningIfTryOverThreshold} ms. `;
         }
       }
 
@@ -106,18 +100,18 @@ export class LoggingPolicy extends BaseRequestPolicy {
             response.status !== HTTPURLConnection.HTTP_RANGE_NOT_SATISFIABLE)) ||
         (response.status >= 500 && response.status <= 509)
       ) {
-        const errorString = `REQUEST ERROR: HTTP request failed with status code: ${
-          response.status
-        }. `;
+        const errorString = `REQUEST ERROR: HTTP request failed with status code: ${response.status}. `;
         logMessage = errorString;
 
         currentLevel = HttpPipelineLogLevel.ERROR;
       }
 
-      const messageInfo = `Request try:${this.tryCount}, status:${
-        response.status
-      } request duration:${requestCompletionTime} ms, operation duration:${operationDuration} ms\n`;
+      const messageInfo = `Request try:${this.tryCount}, status:${response.status} request duration:${requestCompletionTime} ms, operation duration:${operationDuration} ms\n`;
       this.log(currentLevel, logMessage + messageInfo);
+      this.log(
+        HttpPipelineLogLevel.INFO,
+        `  response headers: ${JSON.stringify(response.headers, null, 2)}`
+      );
 
       return response;
     } catch (err) {
