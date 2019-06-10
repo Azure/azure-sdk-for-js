@@ -60,7 +60,7 @@ describe("Keys client", () => {
     assert.equal(result.name, keyName, "Unexpected key name in result from createKey().");
   });
 
-  i("can create a key not before certain date", async () => {
+  it("can create a key with notBefore", async () => {
     const keyName = getUniqueName("key");
     after((name) => async () => {
       await client.deleteKey(name);
@@ -83,6 +83,25 @@ describe("Keys client", () => {
       result.notBefore.getTime(),
       notBefore.getTime(),
       "Unexpected notBefore value from createKey()."
+    );
+    assert.equal(result.name, keyName, "Unexpected key name in result from createKey().");
+  });
+
+  it.only("can create a key with expires", async () => {
+    const keyName = getUniqueName("key");
+    after(deleteKeyAfter(keyName));
+
+    let currentDate = new Date();
+    let expires = new Date(currentDate.getTime() + 5000); // 5 seconds later
+    expires.setMilliseconds(0);
+
+    let options = { expires };
+    const result = await client.createRsaKey(keyName, options);
+
+    assert.equal(
+      result.notBefore.getTime(),
+      expires.getTime(),
+      "Unexpected expires value from createKey()."
     );
     assert.equal(result.name, keyName, "Unexpected key name in result from createKey().");
   });
