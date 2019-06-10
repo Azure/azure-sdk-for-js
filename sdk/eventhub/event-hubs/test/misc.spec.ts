@@ -45,7 +45,7 @@ describe("Misc tests", function(): void {
     debug(`Partition ${partitionId} has last message with offset ${offset}.`);
     debug("Sending one message with %d bytes.", bodysize);
     breceiver = BatchingReceiver.create((client as any)._context, partitionId, {
-      eventPosition: EventPosition.fromOffset(offset)
+      beginReceivingAt: EventPosition.fromOffset(offset)
     });
     let data = await breceiver.receive(5, 10);
     data.length.should.equal(0, "Unexpected to receive message before client sends it");
@@ -81,7 +81,7 @@ describe("Misc tests", function(): void {
     debug(`Partition ${partitionId} has last message with offset ${offset}.`);
     debug("Sending one message %O", obj);
     breceiver = BatchingReceiver.create((client as any)._context, partitionId, {
-      eventPosition: EventPosition.fromOffset(offset)
+      beginReceivingAt: EventPosition.fromOffset(offset)
     });
     const sender = client.createSender({ partitionId });
     await sender.send([obj]);
@@ -113,7 +113,7 @@ describe("Misc tests", function(): void {
     debug(`Partition ${partitionId} has last message with offset ${offset}.`);
     debug("Sending one message %O", obj);
     breceiver = BatchingReceiver.create((client as any)._context, partitionId, {
-      eventPosition: EventPosition.fromOffset(offset)
+      beginReceivingAt: EventPosition.fromOffset(offset)
     });
     const sender = client.createSender({ partitionId });
     await sender.send([obj]);
@@ -136,7 +136,7 @@ describe("Misc tests", function(): void {
     debug(`Partition ${partitionId} has last message with offset ${offset}.`);
     debug("Sending one message %O", obj);
     breceiver = BatchingReceiver.create((client as any)._context, partitionId, {
-      eventPosition: EventPosition.fromOffset(offset)
+      beginReceivingAt: EventPosition.fromOffset(offset)
     });
     const sender = client.createSender({ partitionId });
     await sender.send([obj]);
@@ -157,7 +157,7 @@ describe("Misc tests", function(): void {
       const offset = (await client.getPartitionInformation(partitionId)).lastEnqueuedOffset;
       debug(`Partition ${partitionId} has last message with offset ${offset}.`);
       breceiver = BatchingReceiver.create((client as any)._context, partitionId, {
-        eventPosition: EventPosition.fromOffset(offset)
+        beginReceivingAt: EventPosition.fromOffset(offset)
       });
       let data = await breceiver.receive(5, 10);
       data.length.should.equal(0, "Unexpected to receive message before client sends it");
@@ -169,7 +169,7 @@ describe("Misc tests", function(): void {
       }
 
       const sender = client.createSender({ partitionId });
-      await sender.send(d, {batchLabel: 'pk1234656'});
+      await sender.send(d, { partitionKey: "pk1234656" });
       debug("Successfully sent 5 messages batched together.");
       data = await breceiver.receive(5, 30);
       await breceiver.close();
@@ -191,7 +191,7 @@ describe("Misc tests", function(): void {
       const offset = (await client.getPartitionInformation(partitionId)).lastEnqueuedOffset;
       debug(`Partition ${partitionId} has last message with offset ${offset}.`);
       breceiver = BatchingReceiver.create((client as any)._context, partitionId, {
-        eventPosition: EventPosition.fromOffset(offset)
+        beginReceivingAt: EventPosition.fromOffset(offset)
       });
       let data = await breceiver.receive(5, 10);
       data.length.should.equal(0, "Unexpected to receive message before client sends it");
@@ -220,7 +220,7 @@ describe("Misc tests", function(): void {
       }
 
       const sender = client.createSender({ partitionId });
-      await sender.send(d, {batchLabel: 'pk1234656'});
+      await sender.send(d, { partitionKey: "pk1234656" });
       debug("Successfully sent 5 messages batched together.");
       data = await breceiver.receive(5, 30);
       await breceiver.close();
@@ -254,14 +254,14 @@ describe("Misc tests", function(): void {
     for (let i = 0; i < msgToSendCount; i++) {
       const partitionKey = getRandomInt(10);
       const sender = client.createSender();
-      await sender.send([{ body: "Hello EventHub " + i}], { batchLabel: partitionKey.toString() });
+      await sender.send([{ body: "Hello EventHub " + i }], { partitionKey: partitionKey.toString() });
     }
     debug("Starting to receive all messages from each partition.");
     const partitionMap: any = {};
     let totalReceived = 0;
     for (const id of partitionIds) {
       const receiver = client.createReceiver(id, {
-        eventPosition: EventPosition.fromOffset(partitionOffsets[id])
+        beginReceivingAt: EventPosition.fromOffset(partitionOffsets[id])
       });
       const data = await receiver.receiveBatch(50, 10);
       debug(`Received ${data.length} messages from partition ${id}.`);
@@ -271,9 +271,7 @@ describe("Misc tests", function(): void {
         debug("pk: ", pk);
         if (partitionMap[pk] && partitionMap[pk] !== id) {
           debug(
-            `#### Error: Received a message from partition ${id} with partition key ${pk}, whereas the same key was observed on partition ${
-              partitionMap[pk]
-            } before.`
+            `#### Error: Received a message from partition ${id} with partition key ${pk}, whereas the same key was observed on partition ${partitionMap[pk]} before.`
           );
           assert(partitionMap[pk] === id);
         }

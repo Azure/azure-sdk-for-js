@@ -78,7 +78,10 @@ describe("EventHub Receiver", function(): void {
         }
       };
       rcvHandler = client
-        .createReceiver(partitionIds[0], { exclusiveReceiverPriority: 1, beginReceivingAt: EventPosition.fromOffset("0") })
+        .createReceiver(partitionIds[0], {
+          exclusiveReceiverPriority: 1,
+          beginReceivingAt: EventPosition.fromOffset("0")
+        })
         .receive(onMsg, onError);
     });
   });
@@ -306,7 +309,7 @@ describe("EventHub Receiver", function(): void {
         });
       }
 
-      const sender = client.createSender({partitionId: partitionId});
+      const sender = client.createSender({ partitionId: partitionId });
       try {
         await sender.send(sentEventData);
       } finally {
@@ -314,7 +317,7 @@ describe("EventHub Receiver", function(): void {
       }
 
       receiver = client.createReceiver(partitionId, {
-        eventPosition: EventPosition.fromEnqueuedTime(time)
+        beginReceivingAt: EventPosition.fromEnqueuedTime(time)
       });
       const eventIterator = receiver.getEventIterator();
 
@@ -348,18 +351,18 @@ describe("EventHub Receiver", function(): void {
           });
         }
 
-        const sender = client.createSender({partitionId: partitionId});
+        const sender = client.createSender({ partitionId: partitionId });
         try {
           await sender.send(sentEventData);
         } finally {
           await sender.close();
         }
-  
+
         const data: ReceivedEventData[] = [];
         receiver = client.createReceiver(partitionId, {
-          eventPosition: EventPosition.fromEnqueuedTime(time)
+          beginReceivingAt: EventPosition.fromEnqueuedTime(time)
         });
-  
+
         // start with iterator
         for await (const event of receiver.getEventIterator()) {
           data.push(event);
@@ -369,45 +372,48 @@ describe("EventHub Receiver", function(): void {
         }
 
         // switch to batcher
-        (await receiver.receiveBatch(5)).forEach((event) => {
+        (await receiver.receiveBatch(5)).forEach(event => {
           data.push(event);
         });
-  
+
         // switch to handler
         let handlerReceivedCount = 0;
-        const handler = receiver.receive(async (event) => {
-          data.push(event);
-  
-          if (++handlerReceivedCount >= 5) {
-            await handler.stop();
+        const handler = receiver.receive(
+          async event => {
+            data.push(event);
 
-            // get the rest of the messages using another iterator
-            for await (const event of receiver!.getEventIterator()) {
-              data.push(event);
-              if (data.length >= messageCount) {
-                break;
+            if (++handlerReceivedCount >= 5) {
+              await handler.stop();
+
+              // get the rest of the messages using another iterator
+              for await (const event of receiver!.getEventIterator()) {
+                data.push(event);
+                if (data.length >= messageCount) {
+                  break;
+                }
+              }
+
+              data.length.should.equal(messageCount, `Failed to receive ${messageCount} expected messages`);
+
+              try {
+                data
+                  .map(event => event.sequenceNumber)
+                  .reduce((prev, current) => {
+                    // each sequenceNumber should only be incremented by 1
+                    current.should.equal(prev + 1, `Invalid sequence of events`);
+                    return current;
+                  });
+                // test complete
+                done();
+              } catch (err) {
+                done(err);
               }
             }
-
-            data.length.should.equal(messageCount, `Failed to receive ${messageCount} expected messages`);
-
-            try {
-              data
-              .map(event => event.sequenceNumber)
-              .reduce((prev, current) => {
-                // each sequenceNumber should only be incremented by 1
-                current.should.equal(prev + 1, `Invalid sequence of events`);
-                return current;
-              });
-              // test complete
-              done();
-            } catch (err) {
-              done(err);
-            }
+          },
+          err => {
+            throw err;
           }
-        }, (err) => {
-          throw err;
-        });
+        );
       })(done).catch(done);
     });
   });
@@ -453,7 +459,10 @@ describe("EventHub Receiver", function(): void {
         debug(">>>> epoch Receiver 1", data);
       };
       epochRcvr1 = client
-        .createReceiver(partitionId, { exclusiveReceiverPriority: 2, beginReceivingAt: EventPosition.fromNewEventsOnly() })
+        .createReceiver(partitionId, {
+          exclusiveReceiverPriority: 2,
+          beginReceivingAt: EventPosition.fromNewEventsOnly()
+        })
         .receive(onMsg, onError);
       debug("Created epoch receiver 1 %s", epochRcvr1);
       setTimeout(() => {
@@ -697,7 +706,9 @@ describe("EventHub Receiver", function(): void {
           debug("@@@@ Error received by receiver %s", rcvrId);
           debug(err);
         };
-        const rcvHndlr = client.createReceiver(partitionId, { beginReceivingAt: eventPosition }).receive(onMsg, onError);
+        const rcvHndlr = client
+          .createReceiver(partitionId, { beginReceivingAt: eventPosition })
+          .receive(onMsg, onError);
         rcvHndlrs.push(rcvHndlr);
       }
       debug(">>> Attached message handlers to each receiver.");
