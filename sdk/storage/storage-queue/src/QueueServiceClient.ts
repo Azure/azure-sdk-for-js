@@ -249,8 +249,20 @@ export class QueueServiceClient extends StorageClient {
   }
 
   public listQueues(options: ServiceListQueuesSegmentOptions = {}) {
+    const client = this;
+    const iter = client.listItems(options);
     return {
-      [Symbol.asyncIterator]: () => this.listItems(options),
+      async next() {
+        const item = (await iter.next()).value;
+        if (item) {
+          return { done: false, value: item };
+        } else {
+          return { done: true };
+        }
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
       /**
        *@param {string} [marker] A string value that identifies the portion of
        *                          the list of queues to be returned with the next listing operation. The

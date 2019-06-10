@@ -28,23 +28,23 @@ async function main() {
 
   let iter1 = queueServiceClient.listQueues();
   for await (const item of iter1) {
-    console.log(`Queue${i}: ${item.name}`);
+    console.log(`Queue${i}: ${item!.name}`);
     i++;
   }
 
   // Same as the previous example
   i = 1;
   for await (const item of queueServiceClient.listQueues()) {
-    console.log(`Queue${i}: ${item.name}`);
+    console.log(`Queue${i}: ${item!.name}`);
     i++;
   }
 
   // Generator syntax .next()
   i = 1;
-  let iter2 = queueServiceClient.listQueues()[Symbol.asyncIterator]();
+  let iter2 = queueServiceClient.listQueues();
   let item2 = (await iter2.next()).value;
   do {
-    console.log(`Queue${i}: ${item2.name}`);
+    console.log(`Queue${i}: ${item2!.name}`);
     i++;
     item2 = (await iter2.next()).value;
   } while (item2);
