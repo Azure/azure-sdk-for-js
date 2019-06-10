@@ -115,7 +115,6 @@ export class EventPosition {
   /**
    * Creates a position at the given enqueued time.
    * @param {Date | number} enqueuedTime The enqueue time. This value represents the actual time of enqueuing the message.
-   * @param {boolean} isInclusive If true, the specified event is included; otherwise the next event is returned.
    * @return {EventPosition} EventPosition
    */
   static fromEnqueuedTime(enqueuedTime: Date | number): EventPosition {
