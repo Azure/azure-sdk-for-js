@@ -7,7 +7,6 @@ import {
 } from "./utils/utils.common";
 import { KeysClient } from "../src";
 import { ServiceClientCredentials, RestError } from "@azure/ms-rest-js";
-import Promise from "bluebird";
 
 describe("Keys client", () => {
   let credential: ServiceClientCredentials;
@@ -61,21 +60,31 @@ describe("Keys client", () => {
     assert.equal(result.name, keyName, "Unexpected key name in result from createKey().");
   });
 
-  it("can create a key not before certain date", async () => {
+  i("can create a key not before certain date", async () => {
     const keyName = getUniqueName("key");
-    after(deleteKeyAfter(keyName));
+    after((name) => async () => {
+      await client.deleteKey(name);
+      try {
+        await client.purgeDeletedKey(name);
+      } catch (e) {
+        // This test consistently says that it's being deleted once we try to purge it
+        // console.error(e);
+      }
+    });
+
     let currentDate = new Date();
-    let notBefore = new Date(currentDate().getTime() + 5000); // 5 seconds later
+    let notBefore = new Date(currentDate.getTime() + 5000); // 5 seconds later
     notBefore.setMilliseconds(0);
+
     let options = { notBefore };
     const result = await client.createRsaKey(keyName, options);
+
     assert.equal(
       result.notBefore.getTime(),
       notBefore.getTime(),
       "Unexpected notBefore value from createKey()."
     );
     assert.equal(result.name, keyName, "Unexpected key name in result from createKey().");
-    await Promise.delay(5000);
   });
 
   it("can get a key", async () => {

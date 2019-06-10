@@ -65,8 +65,9 @@ describe("Keys client", () => {
     for await (const key of client.getKeys()) {
       // The vault might contain more keys than the ones we inserted.
       if (!keyNames.includes(key.name)) continue;
+      found += 1;
     }
 
-    assert.equal(found, 2, "Unexpected number of secrets found by getAllSecrets.");
+    assert.equal(found, 2, "Unexpected number of keys found by getAllSecrets.");
   });
 });
