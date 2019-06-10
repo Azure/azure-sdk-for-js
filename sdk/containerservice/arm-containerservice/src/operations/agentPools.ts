@@ -358,7 +358,7 @@ const getUpgradeProfileOperationSpec: msRest.OperationSpec = {
 
 const getAvailableAgentPoolVersionsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}/availableagentpoolversions",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}/availableAgentpoolVersions",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName0,

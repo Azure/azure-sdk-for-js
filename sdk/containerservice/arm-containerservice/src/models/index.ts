@@ -905,7 +905,7 @@ export interface ManagedClusterAgentPoolProfileProperties {
    */
   scaleSetPriority?: ScaleSetPriority;
   /**
-   * ScaleSetEvictionPolicy to be used to specify evicition policy for low priority virtual machine
+   * ScaleSetEvictionPolicy to be used to specify eviction policy for low priority virtual machine
    * scale set. Default to Delete. Possible values include: 'Delete', 'Deallocate'. Default value:
    * 'Delete'.
    */
@@ -1031,7 +1031,7 @@ export interface AgentPool extends SubResource {
    */
   scaleSetPriority?: ScaleSetPriority;
   /**
-   * ScaleSetEvictionPolicy to be used to specify evicition policy for low priority virtual machine
+   * ScaleSetEvictionPolicy to be used to specify eviction policy for low priority virtual machine
    * scale set. Default to Delete. Possible values include: 'Delete', 'Deallocate'. Default value:
    * 'Delete'.
    */
@@ -1381,17 +1381,17 @@ export interface AgentPoolAvailableVersionsPropertiesAgentPoolVersionsItem {
  */
 export interface AgentPoolAvailableVersions {
   /**
-   * Id of the agent pool avaialbe versions.
+   * Id of the agent pool available versions.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly id?: string;
   /**
-   * Name of the agent pool avaialbe versions.
+   * Name of the agent pool available versions.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly name?: string;
   /**
-   * Type of the agent pool  avaialbe versions.
+   * Type of the agent pool  available versions.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly type?: string;
