@@ -63,7 +63,7 @@ export class EventHubClient {
     createSender(options?: EventSenderOptions): EventSender;
     readonly eventHubName: string;
     getPartitionIds(cancellationToken?: Aborter): Promise<Array<string>>;
-    getPartitionInformation(partitionId: string, cancellationToken?: Aborter): Promise<PartitionProperties>;
+    getPartitionInformation(partitionId: string | number, cancellationToken?: Aborter): Promise<PartitionProperties>;
     getProperties(cancellationToken?: Aborter): Promise<EventHubProperties>;
 }
 

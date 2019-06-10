@@ -386,7 +386,7 @@ export class EventHubClient {
    * @param {(string|number)} partitionId Partition ID for which partition information is required.
    * @returns {Promise<PartitionProperties>} A promise that resoloves with EventHubPartitionRuntimeInformation.
    */
-  async getPartitionInformation(partitionId: string, cancellationToken?: Aborter): Promise<PartitionProperties> {
+  async getPartitionInformation(partitionId: string|number, cancellationToken?: Aborter): Promise<PartitionProperties> {
     if (typeof partitionId !== "string" && typeof partitionId !== "number") {
       throw new Error("'partitionId' is a required parameter and must be of type: 'string' | 'number'.");
     }

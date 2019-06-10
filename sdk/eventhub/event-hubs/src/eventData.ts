@@ -111,66 +111,66 @@ export interface EventDataInternal {
   retrievalTime?: Date;
 }
 
-  /**
-   * Converts the AMQP message to an EventData.
-   * @param {AmqpMessage} msg The AMQP message that needs to be converted to EventData.
-   */
-  export function fromAmqpMessage(msg: Message): EventDataInternal {
-    const data: EventDataInternal = {
-      body: msg.body
-    };
-    if (msg.message_annotations) {
-      if (msg.message_annotations[Constants.partitionKey] != undefined) {
-        data.partitionKey = msg.message_annotations[Constants.partitionKey];
-      }
-      if (msg.message_annotations[Constants.sequenceNumber] != undefined) {
-        data.sequenceNumber = msg.message_annotations[Constants.sequenceNumber];
-      }
-      if (msg.message_annotations[Constants.enqueuedTime] != undefined) {
-        data.enqueuedTimeUtc = new Date(msg.message_annotations[Constants.enqueuedTime] as number);
-      }
-      if (msg.message_annotations[Constants.offset] != undefined) {
-        data.offset = msg.message_annotations[Constants.offset];
-      }
+/**
+ * Converts the AMQP message to an EventData.
+ * @param {AmqpMessage} msg The AMQP message that needs to be converted to EventData.
+ */
+export function fromAmqpMessage(msg: Message): EventDataInternal {
+  const data: EventDataInternal = {
+    body: msg.body
+  };
+  if (msg.message_annotations) {
+    if (msg.message_annotations[Constants.partitionKey] != undefined) {
+      data.partitionKey = msg.message_annotations[Constants.partitionKey];
     }
-    if (msg.application_properties) {
-      data.properties = msg.application_properties;
+    if (msg.message_annotations[Constants.sequenceNumber] != undefined) {
+      data.sequenceNumber = msg.message_annotations[Constants.sequenceNumber];
     }
-    if (msg.delivery_annotations) {
-      data.lastEnqueuedOffset = msg.delivery_annotations.last_enqueued_offset;
-      data.lastSequenceNumber = msg.delivery_annotations.last_enqueued_sequence_number;
-      data.lastEnqueuedTime = new Date(msg.delivery_annotations.last_enqueued_time_utc as number);
-      data.retrievalTime = new Date(msg.delivery_annotations.runtime_info_retrieval_time_utc as number);
+    if (msg.message_annotations[Constants.enqueuedTime] != undefined) {
+      data.enqueuedTimeUtc = new Date(msg.message_annotations[Constants.enqueuedTime] as number);
     }
-
-    return data;
+    if (msg.message_annotations[Constants.offset] != undefined) {
+      data.offset = msg.message_annotations[Constants.offset];
+    }
+  }
+  if (msg.application_properties) {
+    data.properties = msg.application_properties;
+  }
+  if (msg.delivery_annotations) {
+    data.lastEnqueuedOffset = msg.delivery_annotations.last_enqueued_offset;
+    data.lastSequenceNumber = msg.delivery_annotations.last_enqueued_sequence_number;
+    data.lastEnqueuedTime = new Date(msg.delivery_annotations.last_enqueued_time_utc as number);
+    data.retrievalTime = new Date(msg.delivery_annotations.runtime_info_retrieval_time_utc as number);
   }
 
-  /**
-   * Converts an EventData object to an AMQP message.
-   * @param data The EventData object that needs to be converted to an AMQP message.
-   * @param partitionKey An optional key to determine the partition that this event should land in.
-   */
-  export function toAmqpMessage(data: EventData, partitionKey?: string): Message {
-    const msg: Message = {
-      body: data.body
-    };
-    // As per the AMQP 1.0 spec If the message-annotations or delivery-annotations section is omitted,
-    // it is equivalent to a message-annotations section containing anempty map of annotations.
-    msg.message_annotations = {};
-    if (data.properties) {
-      msg.application_properties = data.properties;
-    }
-    if (partitionKey != undefined) {
-      msg.message_annotations[Constants.partitionKey] = partitionKey;
-      // Event Hub service cannot route messages to a specific partition based on the partition key
-      // if AMQP message header is an empty object. Hence we make sure that header is always present
-      // with atleast one property. Setting durable to true, helps us achieve that.
-      msg.durable = true;
-    }
+  return data;
+}
 
-    return msg;
+/**
+ * Converts an EventData object to an AMQP message.
+ * @param data The EventData object that needs to be converted to an AMQP message.
+ * @param partitionKey An optional key to determine the partition that this event should land in.
+ */
+export function toAmqpMessage(data: EventData, partitionKey?: string): Message {
+  const msg: Message = {
+    body: data.body
+  };
+  // As per the AMQP 1.0 spec If the message-annotations or delivery-annotations section is omitted,
+  // it is equivalent to a message-annotations section containing anempty map of annotations.
+  msg.message_annotations = {};
+  if (data.properties) {
+    msg.application_properties = data.properties;
   }
+  if (partitionKey != undefined) {
+    msg.message_annotations[Constants.partitionKey] = partitionKey;
+    // Event Hub service cannot route messages to a specific partition based on the partition key
+    // if AMQP message header is an empty object. Hence we make sure that header is always present
+    // with atleast one property. Setting durable to true, helps us achieve that.
+    msg.durable = true;
+  }
+
+  return msg;
+}
 
 /**
  * Describes the structure of an event to be sent to Event Hub
