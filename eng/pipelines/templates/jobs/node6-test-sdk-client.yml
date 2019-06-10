@@ -1,5 +1,7 @@
 jobs:
   - job: "TestNode6"
+    variables:
+      - template: ../variables/globals.yml
 
     strategy:
       matrix:

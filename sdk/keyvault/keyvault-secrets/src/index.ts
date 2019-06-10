@@ -17,7 +17,7 @@ import {
   userAgentPolicy
 } from "@azure/ms-rest-js";
 
-import { SecretBundle } from "./core/models";
+import { SecretBundle, DeletionRecoveryLevel } from "./core/models";
 import { KeyVaultClient } from "./core/keyVaultClient";
 import { RetryConstants, SDK_VERSION } from "./core/utils/constants";
 import {
@@ -26,14 +26,36 @@ import {
   SetSecretOptions,
   UpdateSecretOptions,
   GetSecretOptions,
-  GetAllSecretsOptions,
+  GetSecretsOptions,
   SecretAttributes
 } from "./secretsModels";
 import { parseKeyvaultIdentifier as parseKeyvaultEntityIdentifier } from "./core/utils";
 import { NewPipelineOptions, isNewPipelineOptions, Pipeline } from "./core/keyVaultBase";
-import { TelemetryOptions } from "./core";
+import { ProxyOptions, RetryOptions, TelemetryOptions, ParsedKeyVaultEntityIdentifier } from "./core";
 import { getDefaultUserAgentValue } from "@azure/ms-rest-azure-js";
 
+export {
+  DeletedSecret,
+  DeletionRecoveryLevel,
+  GetSecretOptions,
+  GetSecretsOptions,
+  NewPipelineOptions,
+  ParsedKeyVaultEntityIdentifier,
+  Secret,
+  SecretAttributes,
+  SetSecretOptions,
+  UpdateSecretOptions,
+}
+
+export {
+  ProxyOptions,
+  RetryOptions,
+  TelemetryOptions,
+}
+
+/**
+ * The client to interact with the KeyVault secrets functionality
+ */
 export class SecretsClient {
   /**
    * A static method used to create a new Pipeline object with the provided Credential.
@@ -79,11 +101,21 @@ export class SecretsClient {
     };
   }
 
+  /**
+   * The base URL to the vault
+   */
   public readonly vaultBaseUrl: string;
 
+  /**
+   * The options to create the connection to the service
+   */
   public readonly pipeline: Pipeline;
 
+  /**
+   * The authentication credentials
+   */
   protected readonly credential: ServiceClientCredentials;
+
   private readonly client: KeyVaultClient;
 
   /**
@@ -338,9 +370,15 @@ export class SecretsClient {
     return this.getSecretFromSecretBundle(response);
   }
 
+  /**
+   * Iterates all versions of the given secret in the vault. The full secret identifier and attributes are provided
+   * in the response. No values are returned for the secrets. This operations requires the secrets/list permission.
+   * @param secretName Name of the secret to fetch versions for
+   * @param [options] The optional parameters 
+   */
   public async *getSecretVersions(
     secretName: string,
-    options?: GetAllSecretsOptions
+    options?: GetSecretsOptions
   ): AsyncIterableIterator<SecretAttributes> {
     let currentSetResponse = await this.client.getSecretVersions(this.vaultBaseUrl, secretName, {
       ...(options && options.requestOptions ? options.requestOptions : {})
@@ -363,8 +401,8 @@ export class SecretsClient {
    * @param [options] The optional parameters
    * @returns AsyncIterableIterator<Secret>
    */
-  public async *getAllSecrets(
-    options?: GetAllSecretsOptions
+  public async *getSecrets(
+    options?: GetSecretsOptions
   ): AsyncIterableIterator<SecretAttributes> {
     let currentSetResponse = await this.client.getSecrets(this.vaultBaseUrl, {
       ...(options && options.requestOptions ? options.requestOptions : {})
@@ -385,8 +423,8 @@ export class SecretsClient {
    * @param [options] The optional parameters
    * @returns AsyncIterableIterator<Secret>
    */
-  public async *getAllDeletedSecrets(
-    options?: GetAllSecretsOptions
+  public async *getDeletedSecrets(
+    options?: GetSecretsOptions
   ): AsyncIterableIterator<Secret> {
     let currentSetResponse = await this.client.getDeletedSecrets(this.vaultBaseUrl, {
       ...(options && options.requestOptions ? options.requestOptions : {})

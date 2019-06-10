@@ -3,6 +3,10 @@ import { ParsedKeyVaultEntityIdentifier } from "./core/keyVaultBase";
 import { JsonWebKey, JsonWebKeyOperation, JsonWebKeyCurveName } from "./core/models";
 import { DeletionRecoveryLevel } from "./core/models";
 
+/**
+ * @interface
+ * An interface representing the complete key with value
+ */
 export interface Key extends KeyAttributes {
   /**
    * @member {string} [value] The key value.
@@ -10,6 +14,10 @@ export interface Key extends KeyAttributes {
   keyMaterial?: JsonWebKey;
 }
 
+/**
+ * @interface
+ * An interface representing the attributes of a key
+ */
 export interface KeyAttributes extends ParsedKeyVaultEntityIdentifier {
   /**
    * @member {string} [id] The key id.
@@ -58,6 +66,10 @@ export interface KeyAttributes extends ParsedKeyVaultEntityIdentifier {
   readonly recoveryLevel?: DeletionRecoveryLevel;
 }
 
+/**
+ * @interface
+ * An interface representing a deleted key
+ */
 export interface DeletedKey extends Key {
   /**
    * @member {string} [recoveryId] The url of the recovery object, used to
@@ -239,7 +251,7 @@ export interface GetKeyOptions {
  * An interface representing optional parameters for KeyClient paged operations.
  * Optional Parameters.
  */
-export interface GetAllKeysOptions {
+export interface GetKeysOptions {
   /**
    * @member {msRest.RequestOptionsBase} [requestOptions] Options for this request
    */
