@@ -30,11 +30,47 @@ export const agentPoolName: msRest.OperationURLParameter = {
     }
   }
 };
-export const apiVersion: msRest.OperationQueryParameter = {
+export const apiVersion0: msRest.OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     required: true,
+    isConstant: true,
     serializedName: "api-version",
+    defaultValue: '2019-04-30',
+    type: {
+      name: "String"
+    }
+  }
+};
+export const apiVersion1: msRest.OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    required: true,
+    isConstant: true,
+    serializedName: "api-version",
+    defaultValue: '2017-07-01',
+    type: {
+      name: "String"
+    }
+  }
+};
+export const apiVersion2: msRest.OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    required: true,
+    isConstant: true,
+    serializedName: "api-version",
+    defaultValue: '2019-06-01',
+    type: {
+      name: "String"
+    }
+  }
+};
+export const containerServiceName: msRest.OperationURLParameter = {
+  parameterPath: "containerServiceName",
+  mapper: {
+    required: true,
+    serializedName: "containerServiceName",
     type: {
       name: "String"
     }
@@ -61,7 +97,7 @@ export const nextPageLink: msRest.OperationURLParameter = {
   },
   skipEncoding: true
 };
-export const resourceGroupName: msRest.OperationURLParameter = {
+export const resourceGroupName0: msRest.OperationURLParameter = {
   parameterPath: "resourceGroupName",
   mapper: {
     required: true,
@@ -74,7 +110,27 @@ export const resourceGroupName: msRest.OperationURLParameter = {
     }
   }
 };
-export const resourceName: msRest.OperationURLParameter = {
+export const resourceGroupName1: msRest.OperationURLParameter = {
+  parameterPath: "resourceGroupName",
+  mapper: {
+    required: true,
+    serializedName: "resourceGroupName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const resourceName0: msRest.OperationURLParameter = {
+  parameterPath: "resourceName",
+  mapper: {
+    required: true,
+    serializedName: "resourceName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const resourceName1: msRest.OperationURLParameter = {
   parameterPath: "resourceName",
   mapper: {
     required: true,

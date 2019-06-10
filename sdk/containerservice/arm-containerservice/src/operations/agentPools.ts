@@ -284,11 +284,11 @@ const listOperationSpec: msRest.OperationSpec = {
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools",
   urlParameters: [
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.resourceName
+    Parameters.resourceGroupName0,
+    Parameters.resourceName1
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion2
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -309,12 +309,12 @@ const getOperationSpec: msRest.OperationSpec = {
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}",
   urlParameters: [
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.resourceName,
+    Parameters.resourceGroupName0,
+    Parameters.resourceName1,
     Parameters.agentPoolName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion2
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -335,12 +335,12 @@ const getUpgradeProfileOperationSpec: msRest.OperationSpec = {
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}/upgradeProfiles/default",
   urlParameters: [
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.resourceName,
+    Parameters.resourceGroupName0,
+    Parameters.resourceName1,
     Parameters.agentPoolName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion2
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -361,12 +361,12 @@ const getAvailableAgentPoolVersionsOperationSpec: msRest.OperationSpec = {
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}/availableagentpoolversions",
   urlParameters: [
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.resourceName,
+    Parameters.resourceGroupName0,
+    Parameters.resourceName1,
     Parameters.agentPoolName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion2
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -387,12 +387,12 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}",
   urlParameters: [
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.resourceName,
+    Parameters.resourceGroupName0,
+    Parameters.resourceName1,
     Parameters.agentPoolName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion2
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -423,12 +423,12 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}",
   urlParameters: [
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.resourceName,
+    Parameters.resourceGroupName0,
+    Parameters.resourceName1,
     Parameters.agentPoolName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion2
   ],
   headerParameters: [
     Parameters.acceptLanguage

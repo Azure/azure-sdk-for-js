@@ -338,7 +338,7 @@ const getOperationSpec: msRest.OperationSpec = {
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName0,
-    Parameters.resourceName
+    Parameters.resourceName0
   ],
   queryParameters: [
     Parameters.apiVersion0
@@ -363,7 +363,7 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName0,
-    Parameters.resourceName
+    Parameters.resourceName0
   ],
   queryParameters: [
     Parameters.apiVersion0
@@ -398,7 +398,7 @@ const beginUpdateTagsOperationSpec: msRest.OperationSpec = {
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName0,
-    Parameters.resourceName
+    Parameters.resourceName0
   ],
   queryParameters: [
     Parameters.apiVersion0
@@ -430,7 +430,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName0,
-    Parameters.resourceName
+    Parameters.resourceName0
   ],
   queryParameters: [
     Parameters.apiVersion0
