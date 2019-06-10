@@ -7,6 +7,7 @@ import {
 } from "./utils/utils.common";
 import { KeysClient } from "../src";
 import { ServiceClientCredentials, RestError } from "@azure/ms-rest-js";
+import Promise from "bluebird";
 
 describe("Keys client", () => {
   let credential: ServiceClientCredentials;
@@ -28,11 +29,53 @@ describe("Keys client", () => {
     version = "";
   });
 
-  it("can add a key while giving a manual type", async () => {
+  it("can create a key while giving a manual type", async () => {
     const keyName = getUniqueName("key");
     after(deleteKeyAfter(keyName));
     const result = await client.createKey(keyName, "RSA");
     assert.equal(result.name, keyName, "Unexpected key name in result from createKey().");
+  });
+
+  it("can create a RSA key", async () => {
+    const keyName = getUniqueName("key");
+    after(deleteKeyAfter(keyName));
+    const result = await client.createRsaKey(keyName);
+    assert.equal(result.name, keyName, "Unexpected key name in result from createKey().");
+  });
+
+  it("can create an EC key", async () => {
+    const keyName = getUniqueName("key");
+    after(deleteKeyAfter(keyName));
+    const result = await client.createEcKey(keyName);
+    assert.equal(result.name, keyName, "Unexpected key name in result from createKey().");
+  });
+
+  it("can create a disabled key", async () => {
+    const keyName = getUniqueName("key");
+    after(deleteKeyAfter(keyName));
+    let options = {
+      enabled: false
+    };
+    const result = await client.createRsaKey(keyName, options);
+    assert.equal(result.enabled, false, "Unexpected enabled value from createKey().");
+    assert.equal(result.name, keyName, "Unexpected key name in result from createKey().");
+  });
+
+  it("can create a key not before certain date", async () => {
+    const keyName = getUniqueName("key");
+    after(deleteKeyAfter(keyName));
+    let currentDate = new Date();
+    let notBefore = new Date(currentDate().getTime() + 5000); // 5 seconds later
+    notBefore.setMilliseconds(0);
+    let options = { notBefore };
+    const result = await client.createRsaKey(keyName, options);
+    assert.equal(
+      result.notBefore.getTime(),
+      notBefore.getTime(),
+      "Unexpected notBefore value from createKey()."
+    );
+    assert.equal(result.name, keyName, "Unexpected key name in result from createKey().");
+    await Promise.delay(5000);
   });
 
   it("can get a key", async () => {
