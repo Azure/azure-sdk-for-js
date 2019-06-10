@@ -144,6 +144,15 @@ export class AxiosHttpClient implements HttpClient {
         }
       }
 
+      // This hack is still required with 0.19.0 version of axios since axios tries to merge the
+      // Content-Type header from it's config["<method name>"] where the method name is lower-case,
+      // into the request header. It could be possible that the Content-Type header is not present
+      // in the original request and this would create problems while creating the signature for
+      // storage data plane sdks.
+      axios.interceptors.request.use((config: AxiosRequestConfig) => ({
+        ...config,
+        method: (config.method as Method) && (config.method as Method).toUpperCase() as Method
+      }));
       res = await axios.request(config);
     } catch (err) {
       if (err instanceof axios.Cancel) {

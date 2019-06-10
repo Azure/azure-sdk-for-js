@@ -1,9 +1,9 @@
 {
-  "name": "@azure/ms-rest-azure-js",
+  "name": "@azure/core-lro",
   "author": {
     "name": "Microsoft Corporation",
     "email": "azsdkteam@microsoft.com",
-    "url": "https://github.com/Azure/ms-rest-azure-js"
+    "url": "https://github.com/Azure/azure-sdk-for-js"
   },
   "version": "1.3.8",
   "description": "Isomorphic Azure client runtime for Typescript/node.js/browser javascript client libraries generated using AutoRest",
@@ -25,9 +25,9 @@
     "autorest",
     "clientruntime"
   ],
-  "main": "./dist/msRestAzure.js",
-  "module": "./es/lib/msRestAzure.js",
-  "types": "./es/lib/msRestAzure.d.ts",
+  "main": "./dist/coreLro.js",
+  "module": "./es/lib/coreLro.js",
+  "types": "./es/lib/coreLro.d.ts",
   "files": [
     "dist/**/*.js",
     "dist/**/*.js.map",
@@ -41,40 +41,40 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "@azure/ms-rest-js": "^1.8.10",
+    "@azure/core-http": "^1.2.6",
     "tslib": "^1.9.3"
   },
   "devDependencies": {
-    "@ts-common/azure-js-dev-tools": "^0.6.0",
-    "@types/chai": "^4.1.4",
-    "@types/mocha": "^5.2.1",
-    "@types/node": "^10.9.4",
-    "chai": "^4.1.2",
+    "@types/chai": "^4.1.6",
+    "@types/mocha": "^5.2.5",
+    "@types/node": "^8.0.0",
+    "chai": "^4.2.0",
     "mocha": "^5.2.0",
     "mocha-junit-reporter": "^1.18.0",
     "mocha-multi-reporters": "^1.1.7",
     "npm-run-all": "^4.1.5",
-    "nyc": "^14.1.1",
+    "nyc": "^14.0.0",
     "opn-cli": "^4.0.0",
-    "rollup": "^0.67.3",
-    "rollup-plugin-node-resolve": "^3.4.0",
+    "rimraf": "^2.6.2",
+    "rollup": "~1.13.1",
+    "rollup-plugin-node-resolve": "^4.2.0",
     "rollup-plugin-sourcemaps": "^0.4.2",
-    "rollup-plugin-visualizer": "^0.9.2",
+    "rollup-plugin-visualizer": "^1.0.0",
     "shx": "^0.3.2",
     "ts-loader": "^5.3.1",
     "ts-node": "^7.0.1",
-    "tslint": "^5.7.0",
-    "typescript": "^3.1.1",
+    "tslint": "^5.15.0",
+    "typescript": "^3.2.2",
     "uglify-js": "^3.4.9",
     "yarn": "^1.6.0"
   },
-  "homepage": "https://github.com/Azure/ms-rest-azure-js",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/core-lro",
   "repository": {
     "type": "git",
-    "url": "git@github.com:Azure/ms-rest-azure-js.git"
+    "url": "git@github.com:Azure/azure-sdk-for-js.git"
   },
   "bugs": {
-    "url": "http://github.com/Azure/ms-rest-azure-js/issues"
+    "url": "http://github.com/Azure/azure-sdk-for-js/issues"
   },
   "nyc": {
     "extension": [
@@ -93,22 +93,20 @@
     "all": true
   },
   "scripts": {
-    "build": "run-p build:lib",
-    "build:lib": "run-s build:tsc build:rollup build:minify",
+    "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
+    "build": "run-s build:tsc build:rollup build:minify",
+    "build:test": "npm run build",
     "build:tsc": "tsc -p tsconfig.es.json",
     "build:rollup": "rollup -c rollup.config.js",
-    "build:minify": "uglifyjs -c -m --comments --source-map \"content='./dist/msRestAzure.js.map'\" -o ./dist/msRestAzure.min.js ./dist/msRestAzure.js",
-    "test": "run-p test:tslint test:unit",
-    "test:unit": "nyc mocha",
-    "test:tslint": "tslint -p . -c tslint.json --exclude test/**/*.ts",
+    "build:minify": "uglifyjs -c -m --comments --source-map \"content='./dist/coreLro.js.map'\" -o ./dist/coreLro.min.js ./dist/coreLro.js",
+    "clean": "rimraf ./es ./dist",
+    "test": "npm run build && npm run unit-test",
+    "lint": "tslint -p . -c tslint.json --exclude test/**/*.ts",
+    "lint:fix": "tslint -p . --fix -c tslint.json --exclude test/**/*.ts",
+    "unit-test": "nyc mocha",
     "test:coverage": "npm run test && opn coverage/index.html",
-    "prepack": "npm install && npm run build",
-    "publish-preview": "npm test && shx rm -rf dist/test && node ./.scripts/publish",
-    "local": "ts-node ./.scripts/local.ts",
-    "latest": "ts-node ./.scripts/latest.ts",
-    "check:packagejsonversion": "ts-node ./.scripts/checkPackageJsonVersion.ts",
-    "check:foronlycalls": "ts-node ./.scripts/checkForOnlyCalls.ts",
-    "check:everything": "ts-node ./.scripts/checkEverything.ts"
+    "pack": "npm pack 2>&1",
+    "prebuild": "npm run clean"
   },
   "sideEffects": false
 }

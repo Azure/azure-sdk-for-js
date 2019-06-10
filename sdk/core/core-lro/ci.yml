@@ -9,9 +9,9 @@ pr:
       - master
   paths:
     include:
-      - sdk/core/core-http/
+      - sdk/core/core-lro/
 
 jobs:
   - template: ../../../eng/pipelines/templates/jobs/archetype-sdk-client.yml
     parameters:
-      PackageName: "@azure/core-http"
+      PackageName: "@azure/core-lro"

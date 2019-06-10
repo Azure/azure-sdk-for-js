@@ -1,4 +1,4 @@
-import { Serializer } from "@azure/ms-rest-js";
+import { Serializer } from "@azure/core-http";
 import { CloudErrorMapper, CloudError } from "../lib/cloudError";
 import { expect } from "chai";
 
