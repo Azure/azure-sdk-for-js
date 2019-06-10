@@ -12,6 +12,7 @@ import { appendToURLPath, truncatedISO8061Date } from "./utils/utils.common";
 import { MessagesClient } from "./MessagesClient";
 import { Credential } from "./credentials/Credential";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
+import { AnonymousCredential } from "./credentials/AnonymousCredential";
 
 /**
  * Options to configure Queue - Create operation
@@ -163,24 +164,24 @@ export interface SignedIdentifier {
 export declare type QueueGetAccessPolicyResponse = {
   signedIdentifiers: SignedIdentifier[];
 } & Models.QueueGetAccessPolicyHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpResponse & {
     /**
-     * The parsed HTTP response headers.
+     * The underlying HTTP response.
      */
-    parsedHeaders: Models.QueueGetAccessPolicyHeaders;
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: Models.SignedIdentifier[];
+    _response: HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: Models.QueueGetAccessPolicyHeaders;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Models.SignedIdentifier[];
+    };
   };
-};
 
 /**
  * A QueueClient represents a URL to the Azure Storage queue.
@@ -207,7 +208,7 @@ export class QueueClient extends StorageClient {
    * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof QueueClient
    */
-  constructor(connectionString: string, queueName: string, options?: NewPipelineOptions)
+  constructor(connectionString: string, queueName: string, options?: NewPipelineOptions);
   /**
    * Creates an instance of QueueClient.
    *
@@ -216,10 +217,11 @@ export class QueueClient extends StorageClient {
    *                     append a SAS if using AnonymousCredential, such as
    *                     "https://myaccount.queue.core.windows.net/myqueue?sasString".
    * @param {Credential} credential Such as AnonymousCredential, SharedKeyCredential or TokenCredential.
+   *                                If not specified, anonymous credential is used.
    * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof QueueClient
    */
-  constructor(url: string, credential: Credential, options?: NewPipelineOptions)
+  constructor(url: string, credential: Credential, options?: NewPipelineOptions);
   /**
    * Creates an instance of QueueClient.
    *
@@ -231,17 +233,27 @@ export class QueueClient extends StorageClient {
    *                            pipeline, or provide a customized pipeline.
    * @memberof QueueClient
    */
-  constructor(url: string, pipeline: Pipeline)
+  constructor(url: string, pipeline: Pipeline);
   constructor(
     urlOrConnectionString: string,
     credentialOrPipelineOrQueueName?: Credential | Pipeline | string,
-    options?: NewPipelineOptions) {
+    options?: NewPipelineOptions
+  ) {
     let pipeline: Pipeline;
     if (credentialOrPipelineOrQueueName instanceof Pipeline) {
       pipeline = credentialOrPipelineOrQueueName;
     } else if (credentialOrPipelineOrQueueName instanceof Credential) {
       pipeline = StorageClient.newPipeline(credentialOrPipelineOrQueueName, options);
-    } else if (credentialOrPipelineOrQueueName && typeof credentialOrPipelineOrQueueName === "string") {
+    } else if (
+      !credentialOrPipelineOrQueueName &&
+      typeof credentialOrPipelineOrQueueName !== "string"
+    ) {
+      // The second paramter is undefined. Use anonymous credential.
+      pipeline = StorageClient.newPipeline(new AnonymousCredential(), options);
+    } else if (
+      credentialOrPipelineOrQueueName &&
+      typeof credentialOrPipelineOrQueueName === "string"
+    ) {
       const queueName = credentialOrPipelineOrQueueName;
       // TODO: extract parts from connection string
       const sharedKeyCredential = new SharedKeyCredential("name", "key");
@@ -262,9 +274,7 @@ export class QueueClient extends StorageClient {
    * @returns {Promise<Models.QueueCreateResponse>}
    * @memberof QueueClient
    */
-  public async create(
-    options: QueueCreateOptions = {}
-  ): Promise<Models.QueueCreateResponse> {
+  public async create(options: QueueCreateOptions = {}): Promise<Models.QueueCreateResponse> {
     const aborter = options.abortSignal || Aborter.none;
     return this.queueContext.create({
       ...options,
@@ -306,9 +316,7 @@ export class QueueClient extends StorageClient {
    * @returns {Promise<Models.QueueDeleteResponse>}
    * @memberof QueueClient
    */
-  public async delete(
-    options: QueueDeleteOptions = {}
-  ): Promise<Models.QueueDeleteResponse> {
+  public async delete(options: QueueDeleteOptions = {}): Promise<Models.QueueDeleteResponse> {
     const aborter = options.abortSignal || Aborter.none;
     return this.queueContext.deleteMethod({
       abortSignal: aborter

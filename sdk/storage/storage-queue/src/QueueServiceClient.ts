@@ -11,6 +11,7 @@ import { QueueClient } from "./QueueClient";
 import { appendToURLPath } from "./utils/utils.common";
 import { Credential } from "./credentials/Credential";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
+import { AnonymousCredential } from "./credentials/AnonymousCredential";
 
 /**
  * Options to configure Queue Service - Get Properties operation
@@ -115,6 +116,20 @@ export interface ServiceListQueuesSegmentOptions {
  */
 export class QueueServiceClient extends StorageClient {
   /**
+   * Creates an instance of QueueServiceClient.
+   *
+   * @param {string} connectionString Connection string for an Azure storage account.
+   * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
+   * @memberof QueueServiceClient
+   */
+  public static fromConnectionString(connectionString: string, options?: NewPipelineOptions) {
+    // TODO: extract parts from connection string
+    const sharedKeyCredential = new SharedKeyCredential("name", "key");
+    const pipeline = StorageClient.newPipeline(sharedKeyCredential, options);
+    return new QueueServiceClient("url", pipeline);
+  }
+
+  /**
    * serviceContext provided by protocol layer.
    *
    * @private
@@ -126,22 +141,15 @@ export class QueueServiceClient extends StorageClient {
   /**
    * Creates an instance of QueueServiceClient.
    *
-   * @param {string} connectionString Connection string for an Azure storage account.
-   * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
-   * @memberof QueueServiceClient
-   */
-  constructor(connectionString: string, options?: NewPipelineOptions)
-  /**
-   * Creates an instance of QueueServiceClient.
-   *
    * @param {string} url A URL string pointing to Azure Storage queue service, such as
    *                     "https://myaccount.queue.core.windows.net". You can append a SAS
    *                     if using AnonymousCredential, such as "https://myaccount.queue.core.windows.net?sasString".
    * @param {Credential} credential Such as AnonymousCredential, SharedKeyCredential or TokenCredential.
+   *                                If not specified, anonymous credential is used.
    * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof QueueServiceClient
    */
-  constructor(url: string, credential: Credential, options?: NewPipelineOptions)
+  constructor(url: string, credential: Credential, options?: NewPipelineOptions);
   /**
    * Creates an instance of QueueServiceClient.
    *
@@ -152,24 +160,22 @@ export class QueueServiceClient extends StorageClient {
    *                            pipeline, or provide a customized pipeline.
    * @memberof QueueServiceClient
    */
-  constructor(url: string, pipeline: Pipeline)
+  constructor(url: string, pipeline: Pipeline);
   constructor(
-    urlOrConnectionString: string,
-    credentialOrPipelineOrOptions?: Credential | Pipeline | NewPipelineOptions,
-    options?: NewPipelineOptions) {
+    url: string,
+    credentialOrPipeline?: Credential | Pipeline,
+    options?: NewPipelineOptions
+  ) {
     let pipeline: Pipeline;
-    if (credentialOrPipelineOrOptions instanceof Pipeline) {
-      pipeline = credentialOrPipelineOrOptions;
-    } else if (credentialOrPipelineOrOptions instanceof Credential) {
-      pipeline = StorageClient.newPipeline(credentialOrPipelineOrOptions, options);
+    if (credentialOrPipeline instanceof Pipeline) {
+      pipeline = credentialOrPipeline;
+    } else if (credentialOrPipeline instanceof Credential) {
+      pipeline = StorageClient.newPipeline(credentialOrPipeline, options);
     } else {
-      options = credentialOrPipelineOrOptions;
-      // TODO: extract parts from connection string
-      const sharedKeyCredential = new SharedKeyCredential("name", "key");
-      pipeline = StorageClient.newPipeline(sharedKeyCredential, options);
-      urlOrConnectionString = "endpoint from connection string";
+      // The second paramter is undefined. Use anonymous credential.
+      pipeline = StorageClient.newPipeline(new AnonymousCredential(), options);
     }
-    super(urlOrConnectionString, pipeline);
+    super(url, pipeline);
     this.serviceContext = new Service(this.storageClientContext);
   }
 
@@ -177,13 +183,8 @@ export class QueueServiceClient extends StorageClient {
    * Creates a QueueClient object.
    * @param queueName
    */
-  public createQueueClient(
-    queueName: string
-  ): QueueClient {
-    return new QueueClient(
-      appendToURLPath(this.url, queueName),
-      this.pipeline
-    );
+  public createQueueClient(queueName: string): QueueClient {
+    return new QueueClient(appendToURLPath(this.url, queueName), this.pipeline);
   }
 
   /**

@@ -2,7 +2,7 @@ import * as assert from "assert";
 
 import { getQSU, getUniqueName } from "./utils";
 import * as dotenv from "dotenv";
-import { SharedKeyCredential, MessagesClient } from '../src';
+import { SharedKeyCredential, MessagesClient } from "../src";
 dotenv.config({ path: "../.env" });
 
 describe("MessagesClient", () => {
@@ -343,6 +343,27 @@ describe("MessagesClient", () => {
     const factories = messagesClient.pipeline.factories;
     const credential = factories[factories.length - 1] as SharedKeyCredential;
     const newClient = new MessagesClient(messagesClient.url, credential);
+
+    const eResult = await newClient.enqueue(messageContent);
+    assert.ok(eResult.date);
+    assert.ok(eResult.expirationTime);
+    assert.ok(eResult.insertionTime);
+    assert.ok(eResult.messageId);
+    assert.ok(eResult.popReceipt);
+    assert.ok(eResult.requestId);
+    assert.ok(eResult.timeNextVisible);
+    assert.ok(eResult.version);
+  });
+
+  it("can be created with a url and a credential and an option bag", async () => {
+    const messagesClient = queueClient.createMessagesClient();
+    const factories = messagesClient.pipeline.factories;
+    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const newClient = new MessagesClient(messagesClient.url, credential, {
+      retryOptions: {
+        maxTries: 5
+      }
+    });
 
     const eResult = await newClient.enqueue(messageContent);
     assert.ok(eResult.date);
