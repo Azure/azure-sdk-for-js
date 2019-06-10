@@ -100,20 +100,20 @@ export class MessageIdClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/update-message
    *
    * @param {string} popReceipt A valid pop receipt value returned from an earlier call to the dequeue messages or update message operation.
+   * @param {string} message Message to update.
    * @param {number} visibilityTimeout Specifies the new visibility timeout value, in seconds,
    *                                   relative to server time. The new value must be larger than or equal to 0,
    *                                   and cannot be larger than 7 days. The visibility timeout of a message cannot
    *                                   be set to a value later than the expiry time.
    *                                   A message can be updated until it has been deleted or has expired.
-   * @param {string} message Message to update.
    * @param {MessageIdUpdateOptions} [options] Optional options to MessageId Update operation.
    * @returns {Promise<Models.MessageIdUpdateResponse>}
    * @memberof MessageIdClient
    */
   public async update(
     popReceipt: string,
-    visibilityTimeout: number,
     message: string,
+    visibilityTimeout?: number,
     options: MessageIdUpdateOptions = {}
   ): Promise<Models.MessageIdUpdateResponse> {
     const aborter = options.abortSignal || Aborter.none;
@@ -122,7 +122,7 @@ export class MessageIdClient extends StorageClient {
         messageText: message
       },
       popReceipt,
-      visibilityTimeout,
+      visibilityTimeout || 0,
       {
         abortSignal: aborter
       }
