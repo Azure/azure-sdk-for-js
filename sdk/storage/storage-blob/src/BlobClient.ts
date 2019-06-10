@@ -17,7 +17,7 @@ import { BlockBlobClient } from "./internal";
 import { PageBlobClient } from "./internal";
 import { Batch } from "./utils/Batch";
 import { streamToBuffer } from "./utils/utils.node";
-import { LeaseClient } from './Lease';
+import { LeaseClient } from "./LeaseClient";
 
 /**
  * Options to configure Blob - Download operation.
@@ -836,12 +836,12 @@ export class BlobClient extends StorageClient {
   /**
    * Get a LeaseClient that manages leases on the blob.
    *
-   * @param {string} proposeLeaseId Initial proposed lease Id.
+   * @param {string} [proposeLeaseId] Initial proposed lease Id.
    * @returns
    * @memberof BlobClient
    */
-  public getLeaseClient(proposeLeaseId: string) {
-    return new LeaseClient(proposeLeaseId, this.blobContext);
+  public getLeaseClient(proposeLeaseId?: string) {
+    return new LeaseClient(this, proposeLeaseId);
   }
 
   /**

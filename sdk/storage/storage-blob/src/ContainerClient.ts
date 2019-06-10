@@ -13,7 +13,7 @@ import { BlobClient, StorageClient } from "./internal";
 import { AppendBlobClient } from "./internal";
 import { BlockBlobClient } from "./internal";
 import { PageBlobClient } from "./internal";
-import { LeaseClient } from './Lease';
+import { LeaseClient } from "./LeaseClient";
 
 /**
  * Options to configure Container - Create operation.
@@ -728,12 +728,12 @@ export class ContainerClient extends StorageClient {
   /**
    * Get a LeaseClient that manages leases on the container.
    *
-   * @param {string} proposeLeaseId Initial proposed lease Id.
+   * @param {string} [proposeLeaseId] Initial proposed lease Id.
    * @returns
    * @memberof ContainerClient
    */
-  public getLeaseClient(proposeLeaseId: string) {
-    return new LeaseClient(proposeLeaseId, this.containerContext);
+  public getLeaseClient(proposeLeaseId?: string) {
+    return new LeaseClient(this, proposeLeaseId);
   }
 
   /**
