@@ -16,8 +16,9 @@ describe("Keys client", () => {
   let client: KeysClient;
   let version: string;
 
-  let deleteKeyAfter = (name) => async () => {
+  const deleteKeyAfter = (name) => async () => {
     await client.deleteKey(name);
+    await delay(2000);
     await client.purgeDeletedKey(name);
   };
 
@@ -70,4 +71,7 @@ describe("Keys client", () => {
 
     assert.equal(found, 2, "Unexpected number of keys found by getAllSecrets.");
   });
+
+  it("list deleted keys");
+  it("fail when trying to list versions of a non-existing key");
 });
