@@ -98,6 +98,7 @@ export class RequestResponseLink implements ReqResLink {
     }
 
     let count: number = 0;
+    const aborter: Aborter | undefined = options && options.cancellationToken;
 
     const sendRequestPromise = () =>
       new Promise<AmqpMessage>((resolve: any, reject: any) => {
@@ -118,6 +119,38 @@ export class RequestResponseLink implements ReqResLink {
           request.message_id = generate_uuid();
         }
 
+        const rejectOnAbort = () => {
+          const address = this.receiver.address || "address";
+          const desc: string =
+            `[${this.connection.id}] The request with message_id ` +
+            `"${request.message_id}" to "${address}" has been cancelled by the user.`;
+          const error = translate(new Error(desc));
+          error.retryable = false;
+          log.error(error);
+          reject(error);
+        };
+
+        const onAbort = () => {
+          // remove the event listener as this will be registered next time someone makes a request.
+          this.receiver.removeListener(ReceiverEvents.message, messageCallback);
+          // safe to clear the timeout if it hasn't already occurred.
+          if (!timeOver) {
+            clearTimeout(waitTimer);
+          }
+          aborter!.removeEventListener("abort", onAbort);
+
+          rejectOnAbort();
+        };
+
+        if (aborter) {
+          // the aborter may have been triggered between request attempts
+          // so check if it was triggered and reject if needed.
+          if (aborter.aborted) {
+            return rejectOnAbort();
+          }
+          aborter.addEventListener("abort", onAbort);
+        }
+
         // Handle different variations of property names in responses emitted by EventHubs and ServiceBus.
         const getCodeDescriptionAndError = (props: any): NormalizedInfo => {
           if (!props) props = {};
@@ -130,8 +163,11 @@ export class RequestResponseLink implements ReqResLink {
         };
 
         const messageCallback = (context: EventContext) => {
-          // remove the event listener as this will be registered next time when someone makes a request.
+          // remove the event listeners as they will be registered next time when someone makes a request.
           this.receiver.removeListener(ReceiverEvents.message, messageCallback);
+          if (aborter) {
+            aborter.removeEventListener("abort", onAbort);
+          }
           const info = getCodeDescriptionAndError(context.message!.application_properties);
           const responseCorrelationId = context.message!.correlation_id;
           log.reqres(
@@ -182,6 +218,9 @@ export class RequestResponseLink implements ReqResLink {
         const actionAfterTimeout = () => {
           timeOver = true;
           this.receiver.removeListener(ReceiverEvents.message, messageCallback);
+          if (aborter) {
+            aborter.removeEventListener("abort", onAbort);
+          }
           const address = this.receiver.address || "address";
           const desc: string =
             `The request with message_id "${request.message_id}" to "${address}" ` +
