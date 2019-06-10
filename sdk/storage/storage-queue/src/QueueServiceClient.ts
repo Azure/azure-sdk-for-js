@@ -244,13 +244,33 @@ export class QueueServiceClient extends StorageClient {
   ): AsyncIterableIterator<Models.QueueItem> {
     let marker: string | undefined;
     for await (const segment of this.listSegments(marker, options)) {
+      marker = segment.nextMarker;
       yield* segment.queueItems;
     }
   }
 
   public listQueues(options: ServiceListQueuesSegmentOptions = {}) {
+    const client = this;
+    let marker: string | undefined;
     return {
-      [Symbol.asyncIterator]: () => this.listItems(options),
+      [Symbol.asyncIterator]: function() {
+        return {
+          next: async function() {
+            let segment;
+            try {
+              segment = (await client.listSegments(marker, options).next()).value;
+              marker = segment.nextMarker;
+              if (segment.queueItems) {
+                return { done: false, value: segment.queueItems };
+              } else {
+                return { done: true };
+              }
+            } catch (error) {
+              return { done: true };
+            }
+          }
+        };
+      },
       /**
        *@param {string} [marker] A string value that identifies the portion of
        *                          the list of queues to be returned with the next listing operation. The
