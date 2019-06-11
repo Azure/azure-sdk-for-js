@@ -249,8 +249,7 @@ export class QueueServiceClient extends StorageClient {
   }
 
   public listQueues(options: ServiceListQueuesSegmentOptions = {}) {
-    const client = this;
-    const iter = client.listItems(options);
+    const iter = this.listItems(options);
     return {
       async next() {
         const item = (await iter.next()).value;
