@@ -21,21 +21,13 @@ async function main(): Promise<void> {
 
   const secretName = "MySecretName";
   const result = await client.setSecret("MySecretName", "MySecretValue");
-
-  for await (let secretAttr of client.getSecrets()) {
-    const secret = await client.getSecret(secretAttr.name);
-    console.log("secret: ", secret);
-  }
-
   console.log("result: ", result);
 
-  await client.updateSecretAttributes("MySecretName", result.version, { enabled: true });
+  const secret = await client.getSecret(secretName);
+  console.log("secret: ", secret);
 
-  await client.setSecret("MySecretName", "My new SecretValue");
-  for await (let version of client.getSecretVersions(secretName)) {
-    const secret = await client.getSecret(secretName, { version: version.version });
-    console.log("secret: ", secret);
-  }
+  const updatedSecret = await client.updateSecretAttributes("MySecretName", result.version, { enabled: false });
+  console.log("updated secret: ", updatedSecret);
 
   await client.deleteSecret(secretName);
 }

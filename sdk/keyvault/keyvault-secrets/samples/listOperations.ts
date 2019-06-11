@@ -19,25 +19,27 @@ async function main(): Promise<void> {
 
   const client = new SecretsClient(url, credential);
 
-  const secretName = "MySecretName";
-  const result = await client.setSecret("MySecretName", "MySecretValue");
+  // Create our secrets
+  await client.setSecret("BankAccountPassword", "ABC123");
+  await client.setSecret("StorageAccountPassword", "XYZ789");
 
+  // List the secrets we have
   for await (let secretAttr of client.getSecrets()) {
     const secret = await client.getSecret(secretAttr.name);
     console.log("secret: ", secret);
   }
 
-  console.log("result: ", result);
+  await client.setSecret("BankAccountPassword", "ABC567");
 
-  await client.updateSecretAttributes("MySecretName", result.version, { enabled: true });
-
-  await client.setSecret("MySecretName", "My new SecretValue");
-  for await (let version of client.getSecretVersions(secretName)) {
-    const secret = await client.getSecret(secretName, { version: version.version });
-    console.log("secret: ", secret);
+  // List the versions of BankAccountPassword
+  for await (let secretAttr of client.getSecretVersions("BankAccountPassword")) {
+    const secret = await client.getSecret(secretAttr.name);
+    console.log("secret version: ", secret);
   }
 
-  await client.deleteSecret(secretName);
+  await client.deleteSecret("BankAccountPassword");
+  await client.deleteSecret("StorageAccountPassword");
+
 }
 
 main().catch((err) => {
