@@ -102,7 +102,7 @@ export class Policies {
 
   /**
    * Update an existing CdnWebApplicationFirewallPolicy with the specified policy name under the
-   * specified subcription and resource group
+   * specified subscription and resource group
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param policyName The name of the CdnWebApplicationFirewallPolicy.
    * @param [options] The optional parameters
@@ -167,7 +167,7 @@ export class Policies {
 
   /**
    * Update an existing CdnWebApplicationFirewallPolicy with the specified policy name under the
-   * specified subcription and resource group
+   * specified subscription and resource group
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param policyName The name of the CdnWebApplicationFirewallPolicy.
    * @param [options] The optional parameters
