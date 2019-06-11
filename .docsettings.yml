@@ -60,7 +60,7 @@ known_content_issues:
   - ["sdk/cognitiveservices/cognitiveservices-visualsearch/README.md", "#1583"]
   - ["sdk/cognitiveservices/cognitiveservices-websearch/README.md", "#1583"]
   - ["sdk/eventgrid/eventgrid/README.md", "#1583"]
-  - ["sdk/core/core-aborter/README.md", "#1583"]
+  - ["sdk/core/abort-controller/README.md", "#1583"]
   - ["sdk/core/core-http/README.md", "#1583"]
   - ['sdk/identity/identity/README.md', '#1583']
   - ["sdk/cosmosdb/cosmos/README.md", "#1583"]
