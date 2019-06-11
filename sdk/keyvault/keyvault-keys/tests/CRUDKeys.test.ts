@@ -115,16 +115,7 @@ describe("Keys client - create, read, update and delete operations", () => {
 
   it("can create a key with notBefore", async () => {
     const keyName = getUniqueName("key");
-    after((name) => async () => {
-      await client.deleteKey(name);
-      try {
-        await client.purgeDeletedKey(name);
-        throw Error("Expecting an error but not catching one.");
-      } catch (e) {
-        // This test consistently says that it's being deleted once we try to purge it
-        // console.error(e);
-      }
-    });
+    after(deleteKeyAfter(keyName));
 
     let currentDate = new Date();
     let notBefore = new Date(currentDate.getTime() + 5000); // 5 seconds later
