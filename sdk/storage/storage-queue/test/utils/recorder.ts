@@ -75,10 +75,20 @@ abstract class Recorder {
    * Additional layer of security to avoid unintended/accidental occurrences of secrets in the recordings
    * */
   protected filterSecrets(recording: string): string {
-    return recording
-      .replace(new RegExp(env.ACCOUNT_NAME, "g"), "fakestorageaccount")
-      .replace(new RegExp(env.ACCOUNT_KEY, "g"), "aaaaa")
-      .replace(new RegExp(env.ACCOUNT_SAS.match("(.*)&sig=(.*)")[2], "g"), "aaaaa");
+    let updatedRecording = recording.replace(
+      new RegExp(env.ACCOUNT_NAME, "g"),
+      "fakestorageaccount"
+    );
+    if (env.ACCOUNT_KEY) {
+      updatedRecording = updatedRecording.replace(new RegExp(env.ACCOUNT_KEY, "g"), "aaaaa");
+    }
+    if (env.ACCOUNT_SAS) {
+      updatedRecording = updatedRecording.replace(
+        new RegExp(env.ACCOUNT_SAS.match("(.*)&sig=(.*)")[2], "g"),
+        "aaaaa"
+      );
+    }
+    return updatedRecording;
   }
 
   public skip(): boolean {
