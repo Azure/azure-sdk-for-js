@@ -52,9 +52,50 @@ describe("Secret client - create, read, update and delete operations", () => {
     assert.equal(result.value, secretValue, "Unexpected secret value in result from setSecret().");
   });
 
-  it("can set Secret with Empty Name");
-  it("can set Secret with Empty Value");
-  it("can set Secret Null case");
+  it("cannot create a key with an empty name", async () => {
+    const secretName = "";
+    const secretValue = getUniqueName("value");
+    let error;
+    try {
+      await client.setSecret(secretName, secretValue);
+      throw Error("Expecting an error but not catching one.");
+    } catch (e) {
+      error = e;
+    }
+    assert.equal(
+      error.message,
+      `"secretName" with value "" should satisfy the constraint "Pattern": /^[0-9a-zA-Z-]+$/.`,
+      "Unexpected error while running setSecret with an empty string as the name."
+    );
+  });
+
+  it("can set Secret with Empty Value", async () => {
+    const secretName = getUniqueName("secret");
+    const secretValue = "";
+    after(async () => {
+      await client.deleteSecret(secretName);
+    });
+    const result = await client.setSecret(secretName, secretValue);
+
+    assert.equal(result.name, secretName, "Unexpected secret name in result from setSecret().");
+    assert.equal(result.value, secretValue, "Unexpected secret value in result from setSecret().");
+  });
+
+  it("cannot create a key with a null name", async () => {
+    const secretName = null;
+    let error;
+    try {
+      await client.setSecret(secretName, "");
+      throw Error("Expecting an error but not catching one.");
+    } catch (e) {
+      error = e;
+    }
+    assert.equal(
+      error.message,
+      "secretName cannot be null or undefined.",
+      "Unexpected error while running setSecret with an empty string as the name."
+    );
+  });
 
   it("can set a secret with attributes", async () => {
     const secretName = getUniqueName("secret");
@@ -81,6 +122,8 @@ describe("Secret client - create, read, update and delete operations", () => {
     const secretName = getUniqueName("secret");
     const secretValue = getUniqueName("value");
     const expiryDate = new Date("3000-01-01");
+    expiryDate.setMilliseconds(0);
+
     after(async () => {
       await client.deleteSecret(secretName);
     });
@@ -92,18 +135,63 @@ describe("Secret client - create, read, update and delete operations", () => {
 
     const updated = await client.getSecret(secretName);
 
-    // TODO: Investigate. The service seems to change the milliseconds part of the expiry date.
-    // For now just compare year, month, and date in assertion.
-    assert.ok(
-      updated.expires!.getUTCFullYear() === expiryDate.getUTCFullYear() &&
-        updated.expires!.getUTCMonth() === expiryDate.getUTCMonth() &&
-        updated.expires!.getUTCDate() === expiryDate.getUTCDate(),
+    assert.equal(
+      updated.expires.getDate(),
+      expiryDate.getDate(),
       "Expect attribute 'expires' to be updated."
     );
   });
 
-  it("can update Disabled Secret");
+  it("can update a disabled Secret", async () => {
+    const secretName = getUniqueName("secret");
+    const secretValue = getUniqueName("value");
+    const expiryDate = new Date("3000-01-01");
+    expiryDate.setMilliseconds(0);
+
+    after(async () => {
+      await client.deleteSecret(secretName);
+    });
+    await client.setSecret(secretName, secretValue, {
+      enabled: false
+    });
+    const updated = await client.updateSecretAttributes(secretName, version, {
+      expires: expiryDate
+    });
+    assert.equal(
+      updated.expires.getDate(),
+      expiryDate.getDate(),
+      "Expect attribute 'expires' to be updated."
+    );
+  });
+
   it("can get Secret");
+
+  it("can't get a disabled Secret", async () => {
+    const secretName = getUniqueName("secret");
+    const secretValue = getUniqueName("value");
+    const expiryDate = new Date("3000-01-01");
+    expiryDate.setMilliseconds(0);
+
+    after(async () => {
+      await client.deleteSecret(secretName);
+    });
+
+    await client.setSecret(secretName, secretValue, {
+      enabled: false
+    });
+    let error;
+    try {
+      await client.getSecret(secretName);
+      throw Error("Expecting an error but not catching one.");
+    } catch (e) {
+      error = e;
+    }
+    assert.equal(
+      error.message,
+      "Operation get is not allowed on a disabled secret.",
+      "Unexpected error after tryign to get a disabled secret"
+    );
+  });
 
   it("can retrieve the latest version of a secret value", async () => {
     const secretName = getUniqueName("secret");
