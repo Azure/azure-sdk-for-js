@@ -16,7 +16,7 @@ jobs:
           npm install -g npm@6.9.0
         displayName: "Install npm version 6.9.0"
 
-      - tempate: ../steps/select-packages.yml
+      - template: ../steps/select-packages.yml
         parameters:
           ServiceDirectory: ${{parameters.ServiceDirectory}}
 
@@ -63,7 +63,7 @@ jobs:
           versionSpec: "$(NodeVersion)"
         displayName: "Install Node.js $(NodeVersion)"
 
-      - tempate: ../steps/select-packages.yml
+      - template: ../steps/select-packages.yml
         parameters:
           ServiceDirectory: ${{parameters.ServiceDirectory}}
 
@@ -135,7 +135,7 @@ jobs:
           versionSpec: "$(NodeVersion)"
         displayName: "Install Node.js $(NodeVersion)"
 
-      - tempate: ../steps/select-packages.yml
+      - template: ../steps/select-packages.yml
         parameters:
           ServiceDirectory: ${{parameters.ServiceDirectory}}
 
