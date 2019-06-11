@@ -239,14 +239,9 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     let pResult = await messagesClient.peek();
     assert.deepStrictEqual(pResult.peekedMessageItems.length, 1);
 
-    const messageIdClient = messagesClient.createMessageIdClient(
-      enqueueResult.messageId
-    );
+    const messageIdClient = messagesClient.createMessageIdClient(enqueueResult.messageId);
     const sasURLForMessageId = `${messageIdClient.url}?${queueSAS}`;
-    const messageIdClientWithSAS = new MessageIdClient(
-      sasURLForMessageId,
-      newPipeline(new AnonymousCredential())
-    );
+    const messageIdClientWithSAS = new MessageIdClient(sasURLForMessageId);
 
     await messageIdClientWithSAS.delete(enqueueResult.popReceipt);
 
@@ -294,10 +289,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const messagesClient = queueClient.createMessagesClient();
 
     const sasURL = `${messagesClient.url}?${queueSAS}`;
-    const messagesClientwithSAS = new MessagesClient(
-      sasURL,
-      newPipeline(new AnonymousCredential())
-    );
+    const messagesClientwithSAS = new MessagesClient(sasURL);
 
     const messageContent = "hello";
 
@@ -317,10 +309,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     );
 
     const sasURLForMessage = `${messageIdClient.url}?${queueSAS}`;
-    const messageIdClientwithSAS = new MessageIdClient(
-      sasURLForMessage,
-      newPipeline(new AnonymousCredential())
-    );
+    const messageIdClientwithSAS = new MessageIdClient(sasURLForMessage);
     const deleteResult = await messageIdClientwithSAS.delete(
       dResult.dequeuedMessageItems[0].popReceipt
     );
