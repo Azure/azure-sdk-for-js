@@ -8,6 +8,7 @@ export { AggregateCredential } from "./credentials/aggregateCredential";
 export { IdentityClientOptions } from "./client/identityClient";
 export { EnvironmentCredential } from "./credentials/environmentCredential";
 export { ClientSecretCredential } from "./credentials/clientSecretCredential";
+export { ManagedIdentityCredential } from "./credentials/managedIdentityCredential";
 export { SystemCredential } from "./credentials/systemCredential";
 
 export { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";

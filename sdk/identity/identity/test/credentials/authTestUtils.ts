@@ -12,7 +12,7 @@ export class MockAuthHttpClient implements HttpClient {
   public identityClientOptions: IdentityClientOptions;
 
   constructor() {
-    this.requestResolve = (r) => {};
+    this.requestResolve = () => { };
     this.requestPromise = new Promise((resolve) => {
       this.requestResolve = resolve;
     });
@@ -46,7 +46,7 @@ export function assertClientCredentials(
   expectedTenantId: string,
   expectedClientId: string,
   expectedClientSecret: string
-) {
+): void {
   if (!authRequest) {
     assert.fail("No authentication request was intercepted");
   } else {
