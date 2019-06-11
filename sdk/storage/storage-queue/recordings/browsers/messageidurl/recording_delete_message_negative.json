@@ -2,7 +2,7 @@
  "recordings": [
   {
    "method": "PUT",
-   "url": "https://fakestorageaccount.queue.core.windows.net/queue155996396248901467",
+   "url": "https://fakestorageaccount.queue.core.windows.net/queue156027622570803740",
    "query": {
     "timeout": "30"
    },
@@ -10,54 +10,54 @@
    "status": 201,
    "response": "",
    "responseHeaders": {
-    "x-ms-request-id": "ccc5dc75-2003-0029-52a8-1deb1a000000",
+    "x-ms-request-id": "f7d52c73-5003-005b-1080-207ded000000",
     "x-ms-version": "2018-03-28",
     "server": "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0",
-    "date": "Sat, 08 Jun 2019 03:19:21 GMT",
+    "date": "Tue, 11 Jun 2019 18:03:44 GMT",
     "content-length": "0"
    }
   },
   {
    "method": "POST",
-   "url": "https://fakestorageaccount.queue.core.windows.net/queue155996396248901467/messages",
+   "url": "https://fakestorageaccount.queue.core.windows.net/queue156027622570803740/messages",
    "query": {
     "timeout": "30"
    },
    "requestBody": "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><QueueMessage><MessageText>Hello World</MessageText></QueueMessage>",
    "status": 201,
-   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><QueueMessagesList><QueueMessage><MessageId>c29b90a1-3274-4ce0-9516-c3981626c3a5</MessageId><InsertionTime>Sat, 08 Jun 2019 03:19:22 GMT</InsertionTime><ExpirationTime>Sat, 15 Jun 2019 03:19:22 GMT</ExpirationTime><PopReceipt>AgAAAAMAAAAAAAAASCGR96gd1QE=</PopReceipt><TimeNextVisible>Sat, 08 Jun 2019 03:19:22 GMT</TimeNextVisible></QueueMessage></QueueMessagesList>",
+   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><QueueMessagesList><QueueMessage><MessageId>d2a33ac8-d9fb-4790-8eec-9214ff734634</MessageId><InsertionTime>Tue, 11 Jun 2019 18:03:45 GMT</InsertionTime><ExpirationTime>Tue, 18 Jun 2019 18:03:45 GMT</ExpirationTime><PopReceipt>AgAAAAMAAAAAAAAA5vU9A4Ag1QE=</PopReceipt><TimeNextVisible>Tue, 11 Jun 2019 18:03:45 GMT</TimeNextVisible></QueueMessage></QueueMessagesList>",
    "responseHeaders": {
-    "date": "Sat, 08 Jun 2019 03:19:21 GMT",
+    "date": "Tue, 11 Jun 2019 18:03:44 GMT",
     "server": "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0",
     "transfer-encoding": "chunked",
     "content-type": "application/xml",
-    "x-ms-request-id": "ccc5dc96-2003-0029-70a8-1deb1a000000",
+    "x-ms-request-id": "f7d52ca9-5003-005b-3880-207ded000000",
     "x-ms-version": "2018-03-28"
    }
   },
   {
    "method": "DELETE",
-   "url": "https://fakestorageaccount.queue.core.windows.net/queue155996396248901467/messages/c29b90a1-3274-4ce0-9516-c3981626c3a5",
+   "url": "https://fakestorageaccount.queue.core.windows.net/queue156027622570803740/messages/d2a33ac8-d9fb-4790-8eec-9214ff734634",
    "query": {
     "popreceipt": "invalid",
     "timeout": "30"
    },
    "requestBody": null,
    "status": 400,
-   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><Error><Code>InvalidQueryParameterValue</Code><Message>Value for one of the query parameters specified in the request URI is invalid.\nRequestId:ccc5dcc7-2003-0029-1ba8-1deb1a000000\nTime:2019-06-08T03:19:22.4655686Z</Message><QueryParameterName>popreceipt</QueryParameterName><QueryParameterValue>invalid</QueryParameterValue><Reason>Invalid pop receipt format</Reason></Error>",
+   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><Error><Code>InvalidQueryParameterValue</Code><Message>Value for one of the query parameters specified in the request URI is invalid.\nRequestId:f7d52cda-5003-005b-5c80-207ded000000\nTime:2019-06-11T18:03:46.1102253Z</Message><QueryParameterName>popreceipt</QueryParameterName><QueryParameterValue>invalid</QueryParameterValue><Reason>Invalid pop receipt format</Reason></Error>",
    "responseHeaders": {
-    "date": "Sat, 08 Jun 2019 03:19:21 GMT",
+    "date": "Tue, 11 Jun 2019 18:03:45 GMT",
     "server": "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0",
     "x-ms-error-code": "InvalidQueryParameterValue",
     "content-type": "application/xml",
-    "x-ms-request-id": "ccc5dcc7-2003-0029-1ba8-1deb1a000000",
+    "x-ms-request-id": "f7d52cda-5003-005b-5c80-207ded000000",
     "x-ms-version": "2018-03-28",
     "content-length": "417"
    }
   },
   {
    "method": "DELETE",
-   "url": "https://fakestorageaccount.queue.core.windows.net/queue155996396248901467",
+   "url": "https://fakestorageaccount.queue.core.windows.net/queue156027622570803740",
    "query": {
     "timeout": "30"
    },
@@ -65,15 +65,15 @@
    "status": 204,
    "response": "",
    "responseHeaders": {
-    "x-ms-request-id": "ccc5dcf6-2003-0029-44a8-1deb1a000000",
+    "x-ms-request-id": "f7d52d1a-5003-005b-0680-207ded000000",
     "x-ms-version": "2018-03-28",
     "server": "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0",
-    "date": "Sat, 08 Jun 2019 03:19:22 GMT",
+    "date": "Tue, 11 Jun 2019 18:03:45 GMT",
     "content-length": "0"
    }
   }
  ],
  "uniqueTestInfo": {
-  "queue": "queue155996396248901467"
+  "queue": "queue156027622570803740"
  }
 }
