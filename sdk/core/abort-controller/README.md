@@ -1,6 +1,7 @@
-# Azure Core Aborter library for JS
+# Azure Abort Controller library for JS
 
-`Aborter` is used by the Azure SDK for JavaScript to abort pending work based on timeouts or other signals. `Aborter` is compatible with the `AbortSignal` used by the `fetch` API built into modern browsers.
+`AborterController` is used by the Azure SDK for JavaScript to abort pending work based on timeouts or other signals.
+`AbortSignal` is compatible with the `AbortSignal` used by the `fetch` API built into modern browsers.
 
 ## Getting started
 
@@ -14,22 +15,22 @@ npm install @azure/abort-controller
 
 ## Key Concepts
 
-This library contains the `Aborter` class which is used by the Azure SDK for JavaScript to abort pending
-work based on timeouts or other signales.
-`Aborter` is compatible with the `AbortSignal` used by the `fetch` API built into modern browsers.
+This library contains the `AbortController` and `AbortSignal` classes which are used by the Azure SDK for JavaScript
+to abort pending work based on timeouts or other signals.
+The `AbortSignal` class contains some static methods to simplify common use-cases, such as calling abort after a timeout.
 
 ## Examples
 
 ### Example 1 - basic usage
 
 ```js
-import { Aborter } from "@azure/abort-controller";
+import { AbortController } from "@azure/abort-controller";
 
-const signal = new Aborter();
-doAsyncWork({ abortSignal: signal });
+const controller = new AbortController();
+doAsyncWork({ abortSignal: controller.signal });
 
 // at some point later
-signal.abort();
+controller.abort();
 ```
 
 ### Example 2 - Aborting with timeout

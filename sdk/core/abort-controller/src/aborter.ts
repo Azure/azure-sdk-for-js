@@ -11,6 +11,3 @@
 
 export { AbortController, AbortError } from "./AbortController";
 export { AbortSignal, AbortSignalLike } from "./AbortSignal";
-
-// Compatability with previous version of this library
-export { AbortSignal as Aborter } from "./AbortSignal";
