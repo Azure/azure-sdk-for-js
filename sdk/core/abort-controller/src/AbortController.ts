@@ -58,6 +58,10 @@ export class AbortError extends Error {
 export class AbortController {
   private _signal: AbortSignal;
 
+  /**
+   * @param {AbortSignal} [parentSignal] The AbortSignal that will signal aborted on the AbortSignal associated with this controller.
+   * @constructor
+   */
   constructor(parentSignal?: AbortSignal) {
     this._signal = new AbortSignal();
     if (parentSignal) {
