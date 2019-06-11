@@ -12,11 +12,24 @@ if (!isBrowser()) {
 }
 
 const env = isBrowser() ? (window as any).__env__ : process.env;
-const isRecording = (env.TEST_MODE === "record");
-const isPlayingBack = (env.TEST_MODE === "playback");
+const isRecording = env.TEST_MODE === "record";
+const isPlayingBack = env.TEST_MODE === "playback";
 
-if (isPlayingBack && env.ACCOUNT_NAME) {
+if (isPlayingBack) {
+  // Providing dummy values to avoid the error
   env.ACCOUNT_NAME = "fakestorageaccount";
+  env.ACCOUNT_KEY = "aaaaa";
+  env.ACCOUNT_SAS = "aaaaa";
+}
+
+/**
+ * Additional layer of security to avoid unintended/accidental occurances of secrets in the recordings
+ * */
+export function filterSecrets(recording: string): string {
+  return recording
+    .replace(env.ACCOUNT_NAME, "fakestorageaccount")
+    .replace(env.ACCOUNT_KEY, "aaaaa")
+    .replace(env.ACCOUNT_SAS.match("(.*)&sig=(.*)")[2], "aaaaa");
 }
 
 /**
@@ -128,7 +141,7 @@ class NockRecorder extends Recorder {
       const updatedFixture = fixture
         .replace(new RegExp("://" + accountName, "g"), "://fakestorageaccount")
         .replace(/\.query\(.*\)/, ".query(true)");
-      file.write(updatedFixture + "\n");
+      file.write(filterSecrets(updatedFixture) + "\n");
     }
 
     file.end();
@@ -326,11 +339,13 @@ class NiseRecorder extends Recorder {
   public stop(): void {
     // We're sending the recordings to the 'karma-json-to-file-reporter' via console.log
     console.log(
-      JSON.stringify({
-        writeFile: true,
-        path: "./recordings/" + this.filepath,
-        content: { recordings: this.recordings, uniqueTestInfo: this.uniqueTestInfo }
-      })
+      filterSecrets(
+        JSON.stringify({
+          writeFile: true,
+          path: "./recordings/" + this.filepath,
+          content: { recordings: this.recordings, uniqueTestInfo: this.uniqueTestInfo }
+        })
+      )
     );
   }
 }
