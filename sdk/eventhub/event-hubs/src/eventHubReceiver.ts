@@ -11,7 +11,7 @@ import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";
 import { EventPosition } from "./eventPosition";
 import { getEventPositionFilter } from "./util/utils";
-import { Aborter } from "./aborter";
+import { AbortSignal } from "@azure/abort-controller";
 
 interface CreateReceiverOptions {
   onMessage: OnAmqpEvent;
@@ -171,7 +171,7 @@ export class EventHubReceiver extends LinkEntity {
    * @property {Aborter | undefined} _aborter Describes Aborter instance that will be set by the user
    * to cancel the request.
    */
-  protected _aborter: Aborter | undefined;
+  protected _abortSignal: AbortSignal | undefined;
 
   /**
    * @property {number} Returns sequenceNumber of the last event received.
@@ -325,8 +325,8 @@ export class EventHubReceiver extends LinkEntity {
           );
         }
       } else {
-        if (this._aborter) {
-          this._aborter.removeEventListener("abort", this._onAbort);
+        if (this._abortSignal) {
+          this._abortSignal.removeEventListener("abort", this._onAbort);
         }
         log.error(
           "[%s] 'receiver_close' event occurred on the receiver '%s' with address '%s' " +
@@ -374,8 +374,8 @@ export class EventHubReceiver extends LinkEntity {
           );
         }
       } else {
-        if (this._aborter) {
-          this._aborter.removeEventListener("abort", this._onAbort);
+        if (this._abortSignal) {
+          this._abortSignal.removeEventListener("abort", this._onAbort);
         }
         log.error(
           "[%s] 'session_close' event occurred on the session of receiver '%s' with address " +
@@ -477,8 +477,8 @@ export class EventHubReceiver extends LinkEntity {
         };
         await retry<void>(config);
       } else {
-        if (this._aborter) {
-          this._aborter.removeEventListener("abort", this._onAbort);
+        if (this._abortSignal) {
+          this._abortSignal.removeEventListener("abort", this._onAbort);
         }
       }
     } catch (err) {
@@ -499,8 +499,8 @@ export class EventHubReceiver extends LinkEntity {
    */
   async close(): Promise<void> {
     if (this._receiver) {
-      if (this._aborter) {
-        this._aborter.removeEventListener("abort", this._onAbort);
+      if (this._abortSignal) {
+        this._abortSignal.removeEventListener("abort", this._onAbort);
       }
       const receiverLink = this._receiver;
       this._deleteFromCache();

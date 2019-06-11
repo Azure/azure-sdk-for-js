@@ -9,7 +9,7 @@ import { ReceivedEventData } from "./eventData";
 import { Constants } from "@azure/amqp-common";
 import { StreamingReceiver, ReceiveHandler } from "./streamingReceiver";
 import { BatchingReceiver } from "./batchingReceiver";
-import { Aborter } from "./aborter";
+import { AbortSignal } from "@azure/abort-controller";
 import { throwErrorIfConnectionClosed } from "./util/error";
 import { EventPosition } from "./eventPosition";
 
@@ -24,7 +24,7 @@ export interface EventIteratorOptions {
   /**
    * Cancellation token to cancel the operation
    */
-  cancellationToken?: Aborter;
+  abortSignal?: AbortSignal;
 }
 
 /**
@@ -98,11 +98,11 @@ export class EventReceiver {
    * @param {OnMessage} onMessage The message handler to receive event data objects.
    * @param {OnError} onError The error handler to receive an error that occurs
    * while receiving messages.
-   * @param {Aborter} cancellationToken Cancel current operation.
+   * @param {AbortSignal} abortSignal Signal to cancel current operation.
    *
    * @returns {ReceiveHandler} ReceiveHandler - An object that provides a mechanism to stop receiving more messages.
    */
-  receive(onMessage: OnMessage, onError: OnError, cancellationToken?: Aborter): ReceiveHandler {
+  receive(onMessage: OnMessage, onError: OnError, abortSignal?: AbortSignal): ReceiveHandler {
     this._throwIfReceiverOrConnectionClosed();
     this._throwIfAlreadyReceiving();
     if (typeof onMessage !== "function") {
@@ -117,7 +117,7 @@ export class EventReceiver {
     }
     this._streamingReceiver = StreamingReceiver.create(this._context, this.partitionId, this._receiverOptions);
     this._streamingReceiver.prefetchCount = Constants.defaultPrefetchCount;
-    return this._streamingReceiver.receive(onMessage, onError, cancellationToken);
+    return this._streamingReceiver.receive(onMessage, onError, abortSignal);
   }
 
   /**
@@ -131,7 +131,7 @@ export class EventReceiver {
     const maxMessageCount = 1;
     const maxWaitTimeInSeconds = 60;
     while (true) {
-      const currentBatch = await this.receiveBatch(maxMessageCount, maxWaitTimeInSeconds, options.cancellationToken);
+      const currentBatch = await this.receiveBatch(maxMessageCount, maxWaitTimeInSeconds, options.abortSignal);
       yield currentBatch[0];
     }
   }
@@ -191,14 +191,14 @@ export class EventReceiver {
    * @param {number} maxMessageCount The maximum message count. Must be a value greater than 0.
    * @param {number} [maxWaitTimeInSeconds] The maximum wait time in seconds for which the Receiver should wait
    * to receiver the said amount of messages. If not provided, it defaults to 60 seconds.
-   * @param {Aborter} cancellationToken Cancel current operation.
+   * @param {AbortSignal} abortSignal Signal to cancel current operation.
    *
    * @returns {Promise<ReceivedEventData[]>} Promise<ReceivedEventData[]>.
    */
   async receiveBatch(
     maxMessageCount: number,
     maxWaitTimeInSeconds?: number,
-    cancellationToken?: Aborter
+    abortSignal?: AbortSignal
   ): Promise<ReceivedEventData[]> {
     this._throwIfReceiverOrConnectionClosed();
     this._throwIfAlreadyReceiving();
@@ -215,7 +215,7 @@ export class EventReceiver {
 
     let result: ReceivedEventData[] = [];
     try {
-      result = await this._batchingReceiver.receive(maxMessageCount, maxWaitTimeInSeconds, this._receiverOptions.retryOptions, cancellationToken);
+      result = await this._batchingReceiver.receive(maxMessageCount, maxWaitTimeInSeconds, this._receiverOptions.retryOptions, abortSignal);
     } catch (err) {
       log.error(
         "[%s] Receiver '%s', an error occurred while receiving %d messages for %d max time:\n %O",

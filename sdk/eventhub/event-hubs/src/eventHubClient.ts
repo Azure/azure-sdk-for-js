@@ -25,7 +25,7 @@ import { PartitionProperties, EventHubProperties } from "./managementClient";
 import { EventPosition } from "./eventPosition";
 
 import { IotHubClient } from "./iothub/iothubClient";
-import { Aborter } from "./aborter";
+import { AbortSignal } from "@azure/abort-controller";
 import { EventSender } from "./sender";
 import { EventReceiver } from "./receiver";
 import { throwTypeErrorIfParameterMissing } from "./util/error";
@@ -87,7 +87,7 @@ export interface EventBatchingOptions {
    * @property
    * Cancel current operation
    */
-  cancellationToken?: Aborter;
+  abortSignal?: AbortSignal;
 }
 
 /**
@@ -354,11 +354,11 @@ export class EventHubClient {
    * Provides the eventhub runtime information.
    * @returns {Promise<EventHubProperties>} A promise that resolves with HubInformation.
    */
-  async getProperties(cancellationToken?: Aborter): Promise<EventHubProperties> {
+  async getProperties(abortSignal?: AbortSignal): Promise<EventHubProperties> {
     try {
       return await this._context.managementSession!.getHubRuntimeInformation({
         retryOptions: this._clientOptions.retryOptions,
-        cancellationToken
+        abortSignal
       });
     } catch (err) {
       log.error("An error occurred while getting the hub runtime information: %O", err);
@@ -370,9 +370,9 @@ export class EventHubClient {
    * Provides an array of partitionIds.
    * @returns {Promise<Array<string>>} A promise that resolves with an Array of strings.
    */
-  async getPartitionIds(cancellationToken?: Aborter): Promise<Array<string>> {
+  async getPartitionIds(abortSignal?: AbortSignal): Promise<Array<string>> {
     try {
-      const runtimeInfo = await this.getProperties(cancellationToken);
+      const runtimeInfo = await this.getProperties(abortSignal);
       return runtimeInfo.partitionIds;
     } catch (err) {
       log.error("An error occurred while getting the partition ids: %O", err);
@@ -385,13 +385,13 @@ export class EventHubClient {
    * @param {string} partitionId Partition ID for which partition information is required.
    * @returns {Promise<PartitionProperties>} A promise that resoloves with EventHubPartitionRuntimeInformation.
    */
-  async getPartitionInformation(partitionId: string, cancellationToken?: Aborter): Promise<PartitionProperties> {
+  async getPartitionInformation(partitionId: string, abortSignal?: AbortSignal): Promise<PartitionProperties> {
     throwTypeErrorIfParameterMissing(this._context.connectionId, "partitionId", partitionId);
     partitionId = String(partitionId);
     try {
       return await this._context.managementSession!.getPartitionInformation(partitionId, {
         retryOptions: this._clientOptions.retryOptions,
-        cancellationToken
+        abortSignal
       });
     } catch (err) {
       log.error("An error occurred while getting the partition information: %O", err);

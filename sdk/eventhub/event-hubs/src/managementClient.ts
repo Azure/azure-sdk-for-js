@@ -8,7 +8,7 @@ import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";
 import * as log from "./log";
 import { RetryOptions } from "./eventHubClient";
-import { Aborter } from "./aborter";
+import { AbortSignal } from "@azure/abort-controller";
 /**
  * Describes the runtime information of an EventHub.
  * @interface HubRuntimeInformation
@@ -112,7 +112,7 @@ export class ManagementClient extends LinkEntity {
    */
   async getHubRuntimeInformation(options?: {
     retryOptions?: RetryOptions;
-    cancellationToken?: Aborter;
+    abortSignal?: AbortSignal;
   }): Promise<EventHubProperties> {
     const request: Message = {
       body: Buffer.from(JSON.stringify([])),
@@ -154,7 +154,7 @@ export class ManagementClient extends LinkEntity {
    */
   async getPartitionInformation(
     partitionId: string | number,
-    options?: { retryOptions?: RetryOptions; cancellationToken?: Aborter }
+    options?: { retryOptions?: RetryOptions; abortSignal?: AbortSignal }
   ): Promise<PartitionProperties> {
     const request: Message = {
       body: Buffer.from(JSON.stringify([])),
@@ -264,7 +264,7 @@ export class ManagementClient extends LinkEntity {
    */
   private async _makeManagementRequest(
     request: Message,
-    options?: { retryOptions?: RetryOptions; timeout?: number; cancellationToken?: Aborter }
+    options?: { retryOptions?: RetryOptions; timeout?: number; abortSignal?: AbortSignal }
   ): Promise<any> {
     try {
       log.mgmt("[%s] Acquiring lock to get the management req res link.", this._context.connectionId);
