@@ -21,7 +21,11 @@ import {
 } from "@azure/core-http";
 
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
-import { SecretBundle, DeletionRecoveryLevel, KeyVaultClientGetSecretsOptionalParams } from "./core/models";
+import {
+  SecretBundle,
+  DeletionRecoveryLevel,
+  KeyVaultClientGetSecretsOptionalParams
+} from "./core/models";
 import { KeyVaultClient } from "./core/keyVaultClient";
 import { RetryConstants, SDK_VERSION } from "./core/utils/constants";
 import {
@@ -31,11 +35,16 @@ import {
   UpdateSecretOptions,
   GetSecretOptions,
   ListSecretsOptions,
-  SecretAttributes,
+  SecretAttributes
 } from "./secretsModels";
 import { parseKeyvaultIdentifier as parseKeyvaultEntityIdentifier } from "./core/utils";
 import { NewPipelineOptions, isNewPipelineOptions, Pipeline } from "./core/keyVaultBase";
-import { ProxyOptions, RetryOptions, TelemetryOptions, ParsedKeyVaultEntityIdentifier } from "./core";
+import {
+  ProxyOptions,
+  RetryOptions,
+  TelemetryOptions,
+  ParsedKeyVaultEntityIdentifier
+} from "./core";
 import { getDefaultUserAgentValue } from "@azure/core-http";
 
 export {
@@ -50,14 +59,10 @@ export {
   Secret,
   SecretAttributes,
   SetSecretOptions,
-  UpdateSecretOptions,
-}
+  UpdateSecretOptions
+};
 
-export {
-  ProxyOptions,
-  RetryOptions,
-  TelemetryOptions,
-}
+export { ProxyOptions, RetryOptions, TelemetryOptions };
 
 /**
  * The client to interact with the KeyVault secrets functionality
@@ -141,15 +146,12 @@ export class SecretsClient {
     this.vaultBaseUrl = url;
     this.credential = credential;
     if (isNewPipelineOptions(pipelineOrOptions)) {
-      this.pipeline = SecretsClient.getDefaultPipeline(
-        credential,
-        pipelineOrOptions
-      );
+      this.pipeline = SecretsClient.getDefaultPipeline(credential, pipelineOrOptions);
     } else {
       this.pipeline = pipelineOrOptions;
     }
 
-    this.client = new KeyVaultClient(credential, this.pipeline);
+    this.client = new KeyVaultClient(credential, "7.0", this.pipeline);
   }
 
   private static getUserAgentString(telemetry?: TelemetryOptions) {
@@ -377,24 +379,38 @@ export class SecretsClient {
     return this.getSecretFromSecretBundle(response);
   }
 
-  private async *listSecretVersionsPage(secretName: string, continuationState: PageSettings, options?: ListSecretsOptions): AsyncIterableIterator<SecretAttributes[]> {
+  private async *listSecretVersionsPage(
+    secretName: string,
+    continuationState: PageSettings,
+    options?: ListSecretsOptions
+  ): AsyncIterableIterator<SecretAttributes[]> {
     if (continuationState.continuationToken == null) {
       let optionsComplete: KeyVaultClientGetSecretsOptionalParams = {
         maxresults: continuationState.maxPageSize,
         ...(options && options.requestOptions ? options.requestOptions : {})
       };
-      let currentSetResponse = await this.client.getSecretVersions(this.vaultBaseUrl, secretName, optionsComplete);
+      let currentSetResponse = await this.client.getSecretVersions(
+        this.vaultBaseUrl,
+        secretName,
+        optionsComplete
+      );
       continuationState.continuationToken = currentSetResponse.nextLink;
       yield currentSetResponse.map(this.getSecretFromSecretBundle);
     }
     while (continuationState.continuationToken) {
-      let currentSetResponse = await this.client.getSecretVersionsNext(continuationState.continuationToken, options);
+      let currentSetResponse = await this.client.getSecretVersionsNext(
+        continuationState.continuationToken,
+        options
+      );
       continuationState.continuationToken = currentSetResponse.nextLink;
       yield currentSetResponse.map(this.getSecretFromSecretBundle);
     }
   }
 
-  private async *listSecretVersionsAll(secretName: string, options?: ListSecretsOptions): AsyncIterableIterator<SecretAttributes> {
+  private async *listSecretVersionsAll(
+    secretName: string,
+    options?: ListSecretsOptions
+  ): AsyncIterableIterator<SecretAttributes> {
     let f = {};
 
     for await (const page of this.listSecretVersionsPage(secretName, f, options)) {
@@ -408,7 +424,7 @@ export class SecretsClient {
    * Iterates all versions of the given secret in the vault. The full secret identifier and attributes are provided
    * in the response. No values are returned for the secrets. This operations requires the secrets/list permission.
    * @param secretName Name of the secret to fetch versions for
-   * @param [options] The optional parameters 
+   * @param [options] The optional parameters
    * @returns PagedAsyncIterableIterator<SecretAttributes>
    */
   public listSecretVersions(
@@ -421,12 +437,18 @@ export class SecretsClient {
         const item = (await iter.next()).value;
         return item ? { done: false, value: item } : { done: true, value: undefined };
       },
-      [Symbol.asyncIterator]() { return this; },
-      byPage: (settings: PageSettings = {}) => this.listSecretVersionsPage(secretName, settings, options),
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings: PageSettings = {}) =>
+        this.listSecretVersionsPage(secretName, settings, options)
     };
   }
 
-  private async *listSecretsPage(continuationState: PageSettings, options?: ListSecretsOptions): AsyncIterableIterator<SecretAttributes[]> {
+  private async *listSecretsPage(
+    continuationState: PageSettings,
+    options?: ListSecretsOptions
+  ): AsyncIterableIterator<SecretAttributes[]> {
     if (continuationState.continuationToken == null) {
       let optionsComplete: KeyVaultClientGetSecretsOptionalParams = {
         maxresults: continuationState.maxPageSize,
@@ -437,13 +459,18 @@ export class SecretsClient {
       yield currentSetResponse.map(this.getSecretFromSecretBundle);
     }
     while (continuationState.continuationToken) {
-      let currentSetResponse = await this.client.getSecretsNext(continuationState.continuationToken, options);
+      let currentSetResponse = await this.client.getSecretsNext(
+        continuationState.continuationToken,
+        options
+      );
       continuationState.continuationToken = currentSetResponse.nextLink;
       yield currentSetResponse.map(this.getSecretFromSecretBundle);
     }
   }
 
-  private async *listSecretsAll(options?: ListSecretsOptions): AsyncIterableIterator<SecretAttributes> {
+  private async *listSecretsAll(
+    options?: ListSecretsOptions
+  ): AsyncIterableIterator<SecretAttributes> {
     let f = {};
 
     for await (const page of this.listSecretsPage(f, options)) {
@@ -460,38 +487,49 @@ export class SecretsClient {
    * @param [options] The optional parameters
    * @returns PagedAsyncIterableIterator<SecretAttributes>
    */
-  public listSecrets(
-    options?: ListSecretsOptions
-  ): PagedAsyncIterableIterator<SecretAttributes> {
+  public listSecrets(options?: ListSecretsOptions): PagedAsyncIterableIterator<SecretAttributes> {
     const iter = this.listSecretsAll(options);
     return {
       async next() {
         const item = (await iter.next()).value;
         return item ? { done: false, value: item } : { done: true, value: undefined };
       },
-      [Symbol.asyncIterator]() { return this; },
-      byPage: (settings: PageSettings = {}) => this.listSecretsPage(settings, options),
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings: PageSettings = {}) => this.listSecretsPage(settings, options)
     };
   }
 
-  private async *listDeletedSecretsPage(continuationState: PageSettings, options?: ListSecretsOptions): AsyncIterableIterator<SecretAttributes[]> {
+  private async *listDeletedSecretsPage(
+    continuationState: PageSettings,
+    options?: ListSecretsOptions
+  ): AsyncIterableIterator<SecretAttributes[]> {
     if (continuationState.continuationToken == null) {
       let optionsComplete: KeyVaultClientGetSecretsOptionalParams = {
         maxresults: continuationState.maxPageSize,
         ...(options && options.requestOptions ? options.requestOptions : {})
       };
-      let currentSetResponse = await this.client.getDeletedSecrets(this.vaultBaseUrl, optionsComplete);
+      let currentSetResponse = await this.client.getDeletedSecrets(
+        this.vaultBaseUrl,
+        optionsComplete
+      );
       continuationState.continuationToken = currentSetResponse.nextLink;
       yield currentSetResponse.map(this.getSecretFromSecretBundle);
     }
     while (continuationState.continuationToken) {
-      let currentSetResponse = await this.client.getDeletedSecretsNext(continuationState.continuationToken, options);
+      let currentSetResponse = await this.client.getDeletedSecretsNext(
+        continuationState.continuationToken,
+        options
+      );
       continuationState.continuationToken = currentSetResponse.nextLink;
       yield currentSetResponse.map(this.getSecretFromSecretBundle);
     }
   }
 
-  private async *listDeletedSecretsAll(options?: ListSecretsOptions): AsyncIterableIterator<SecretAttributes> {
+  private async *listDeletedSecretsAll(
+    options?: ListSecretsOptions
+  ): AsyncIterableIterator<SecretAttributes> {
     let f = {};
 
     for await (const page of this.listDeletedSecretsPage(f, options)) {
@@ -517,8 +555,10 @@ export class SecretsClient {
         const item = (await iter.next()).value;
         return item ? { done: false, value: item } : { done: true, value: undefined };
       },
-      [Symbol.asyncIterator]() { return this; },
-      byPage: (settings: PageSettings = {}) => this.listDeletedSecretsPage(settings, options),
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings: PageSettings = {}) => this.listDeletedSecretsPage(settings, options)
     };
   }
 

@@ -23,10 +23,24 @@ import { getDefaultUserAgentValue } from "@azure/core-http";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 
 import { TelemetryOptions, ProxyOptions, RetryOptions } from "./core";
-import { KeyBundle, JsonWebKeyType, JsonWebKey, JsonWebKeyOperation, JsonWebKeyCurveName, KeyItem, DeletionRecoveryLevel, KeyVaultClientGetKeysOptionalParams } from "./core/models";
+import {
+  KeyBundle,
+  JsonWebKeyType,
+  JsonWebKey,
+  JsonWebKeyOperation,
+  JsonWebKeyCurveName,
+  KeyItem,
+  DeletionRecoveryLevel,
+  KeyVaultClientGetKeysOptionalParams
+} from "./core/models";
 import { KeyVaultClient } from "./core/keyVaultClient";
 import { RetryConstants, SDK_VERSION } from "./core/utils/constants";
-import { NewPipelineOptions, isNewPipelineOptions, Pipeline, ParsedKeyVaultEntityIdentifier } from "./core/keyVaultBase";
+import {
+  NewPipelineOptions,
+  isNewPipelineOptions,
+  Pipeline,
+  ParsedKeyVaultEntityIdentifier
+} from "./core/keyVaultBase";
 import {
   Key,
   DeletedKey,
@@ -38,7 +52,7 @@ import {
   GetKeyOptions,
   ListKeysOptions,
   KeyAttributes,
-  RequestOptions,
+  RequestOptions
 } from "./keysModels";
 import { parseKeyvaultIdentifier as parseKeyvaultEntityIdentifier } from "./core/utils";
 
@@ -62,14 +76,10 @@ export {
   PagedAsyncIterableIterator,
   ParsedKeyVaultEntityIdentifier,
   RequestOptions,
-  UpdateKeyOptions,
-}
+  UpdateKeyOptions
+};
 
-export {
-  ProxyOptions,
-  TelemetryOptions,
-  RetryOptions,
-}
+export { ProxyOptions, TelemetryOptions, RetryOptions };
 
 /**
  * The client to interact with the KeyVault keys functionality
@@ -161,7 +171,7 @@ export class KeysClient {
       this.pipeline = pipelineOrOptions;
     }
 
-    this.client = new KeyVaultClient(credential, this.pipeline);
+    this.client = new KeyVaultClient(credential, "7.0", this.pipeline);
   }
 
   private static getUserAgentString(telemetry?: TelemetryOptions) {
@@ -516,24 +526,38 @@ export class KeysClient {
     return this.getKeyFromKeyBundle(response);
   }
 
-  private async *listKeyVersionsPage(name: string, continuationState: PageSettings, options?: ListKeysOptions): AsyncIterableIterator<KeyAttributes[]> {
+  private async *listKeyVersionsPage(
+    name: string,
+    continuationState: PageSettings,
+    options?: ListKeysOptions
+  ): AsyncIterableIterator<KeyAttributes[]> {
     if (continuationState.continuationToken == null) {
       let optionsComplete: KeyVaultClientGetKeysOptionalParams = {
         maxresults: continuationState.maxPageSize,
         ...(options && options.requestOptions ? options.requestOptions : {})
       };
-      let currentSetResponse = await this.client.getKeyVersions(this.vaultBaseUrl, name, optionsComplete);
+      let currentSetResponse = await this.client.getKeyVersions(
+        this.vaultBaseUrl,
+        name,
+        optionsComplete
+      );
       continuationState.continuationToken = currentSetResponse.nextLink;
       yield currentSetResponse.map(this.getKeyAttributesFromKeyItem);
     }
     while (continuationState.continuationToken) {
-      let currentSetResponse = await this.client.getKeyVersionsNext(continuationState.continuationToken, options);
+      let currentSetResponse = await this.client.getKeyVersionsNext(
+        continuationState.continuationToken,
+        options
+      );
       continuationState.continuationToken = currentSetResponse.nextLink;
       yield currentSetResponse.map(this.getKeyAttributesFromKeyItem);
     }
   }
 
-  private async *listKeyVersionsAll(name: string, options?: ListKeysOptions): AsyncIterableIterator<KeyAttributes> {
+  private async *listKeyVersionsAll(
+    name: string,
+    options?: ListKeysOptions
+  ): AsyncIterableIterator<KeyAttributes> {
     let f = {};
 
     for await (const page of this.listKeyVersionsPage(name, f, options)) {
@@ -547,7 +571,7 @@ export class KeysClient {
    * Iterates all versions of the given key in the vault. The full key identifier, attributes, and tags are provided
    * in the response. This operation requires the keys/list permission.
    * @param name Name of the key to fetch versions for
-   * @param [options] The optional parameters 
+   * @param [options] The optional parameters
    * @returns PagedAsyncIterableIterator<KeyAttributes>
    */
   public listKeyVersions(
@@ -560,12 +584,17 @@ export class KeysClient {
         const item = (await iter.next()).value;
         return item ? { done: false, value: item } : { done: true, value: undefined };
       },
-      [Symbol.asyncIterator]() { return this; },
-      byPage: (settings: PageSettings = {}) => this.listKeyVersionsPage(name, settings, options),
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings: PageSettings = {}) => this.listKeyVersionsPage(name, settings, options)
     };
   }
 
-  private async *listKeysPage(continuationState: PageSettings, options?: ListKeysOptions): AsyncIterableIterator<KeyAttributes[]> {
+  private async *listKeysPage(
+    continuationState: PageSettings,
+    options?: ListKeysOptions
+  ): AsyncIterableIterator<KeyAttributes[]> {
     if (continuationState.continuationToken == null) {
       let optionsComplete: KeyVaultClientGetKeysOptionalParams = {
         maxresults: continuationState.maxPageSize,
@@ -576,7 +605,10 @@ export class KeysClient {
       yield currentSetResponse.map(this.getKeyAttributesFromKeyItem);
     }
     while (continuationState.continuationToken) {
-      let currentSetResponse = await this.client.getKeysNext(continuationState.continuationToken, options);
+      let currentSetResponse = await this.client.getKeysNext(
+        continuationState.continuationToken,
+        options
+      );
       continuationState.continuationToken = currentSetResponse.nextLink;
       yield currentSetResponse.map(this.getKeyAttributesFromKeyItem);
     }
@@ -599,21 +631,24 @@ export class KeysClient {
    * @param [options] The optional parameters
    * @returns PagedAsyncIterableIterator<KeyAttributes>
    */
-  public listKeys(
-    options?: ListKeysOptions
-  ): PagedAsyncIterableIterator<KeyAttributes> {
+  public listKeys(options?: ListKeysOptions): PagedAsyncIterableIterator<KeyAttributes> {
     const iter = this.listKeysAll(options);
     return {
       async next() {
         const item = (await iter.next()).value;
         return item ? { done: false, value: item } : { done: true, value: undefined };
       },
-      [Symbol.asyncIterator]() { return this; },
-      byPage: (settings: PageSettings = {}) => this.listKeysPage(settings, options),
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings: PageSettings = {}) => this.listKeysPage(settings, options)
     };
   }
 
-  private async *listDeletedKeysPage(continuationState: PageSettings, options?: ListKeysOptions): AsyncIterableIterator<KeyAttributes[]> {
+  private async *listDeletedKeysPage(
+    continuationState: PageSettings,
+    options?: ListKeysOptions
+  ): AsyncIterableIterator<KeyAttributes[]> {
     if (continuationState.continuationToken == null) {
       let optionsComplete: KeyVaultClientGetKeysOptionalParams = {
         maxresults: continuationState.maxPageSize,
@@ -624,13 +659,18 @@ export class KeysClient {
       yield currentSetResponse.map(this.getKeyAttributesFromKeyItem);
     }
     while (continuationState.continuationToken) {
-      let currentSetResponse = await this.client.getDeletedKeysNext(continuationState.continuationToken, options);
+      let currentSetResponse = await this.client.getDeletedKeysNext(
+        continuationState.continuationToken,
+        options
+      );
       continuationState.continuationToken = currentSetResponse.nextLink;
       yield currentSetResponse.map(this.getKeyAttributesFromKeyItem);
     }
   }
 
-  private async *listDeletedKeysAll(options?: ListKeysOptions): AsyncIterableIterator<KeyAttributes> {
+  private async *listDeletedKeysAll(
+    options?: ListKeysOptions
+  ): AsyncIterableIterator<KeyAttributes> {
     let f = {};
 
     for await (const page of this.listDeletedKeysPage(f, options)) {
@@ -647,17 +687,17 @@ export class KeysClient {
    * @param [options] The optional parameters
    * @returns PagedAsyncIterableIterator<KeyAttributes>
    */
-  public listDeletedKeys(
-    options?: ListKeysOptions
-  ): PagedAsyncIterableIterator<KeyAttributes> {
+  public listDeletedKeys(options?: ListKeysOptions): PagedAsyncIterableIterator<KeyAttributes> {
     const iter = this.listDeletedKeysAll(options);
     return {
       async next() {
         const item = (await iter.next()).value;
         return item ? { done: false, value: item } : { done: true, value: undefined };
       },
-      [Symbol.asyncIterator]() { return this; },
-      byPage: (settings: PageSettings = {}) => this.listDeletedKeysPage(settings, options),
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings: PageSettings = {}) => this.listDeletedKeysPage(settings, options)
     };
   }
 

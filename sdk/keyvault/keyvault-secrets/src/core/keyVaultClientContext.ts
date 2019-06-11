@@ -8,24 +8,29 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/core-http";
+import * as coreHttp from "@azure/core-http";
 
 const packageName = "@azure/keyvault-secrets";
 const packageVersion = "0.0.1";
 
-export class KeyVaultClientContext extends msRest.ServiceClient {
-  credentials: msRest.ServiceClientCredentials | msRest.TokenCredential;
-  apiVersion?: string;
+export class KeyVaultClientContext extends coreHttp.ServiceClient {
+  apiVersion: string;
+  credentials: coreHttp.ServiceClientCredentials | coreHttp.TokenCredential;
 
   /**
-   * Initializes a new instance of the KeyVaultClient class.
-   * @param credentials Credentials needed for the client to connect to Azure.
+   * Initializes a new instance of the KeyVaultClientContext class.
+   * @param apiVersion Client API version.
+   * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param [options] The parameter options
    */
   constructor(
-    credentials: msRest.ServiceClientCredentials | msRest.TokenCredential,
-    options?: msRest.ServiceClientOptions
+    credentials: coreHttp.ServiceClientCredentials | coreHttp.TokenCredential,
+    apiVersion: string,
+    options?: coreHttp.ServiceClientOptions
   ) {
+    if (apiVersion == undefined) {
+      throw new Error("'apiVersion' cannot be null.");
+    }
     if (credentials == undefined) {
       throw new Error("'credentials' cannot be null.");
     }
@@ -33,16 +38,17 @@ export class KeyVaultClientContext extends msRest.ServiceClient {
     if (!options) {
       options = {};
     }
+
     if (!options.userAgent) {
-      const defaultUserAgent = msRest.getDefaultUserAgentValue();
+      const defaultUserAgent = coreHttp.getDefaultUserAgentValue();
       options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
     }
 
     super(credentials, options);
 
-    this.apiVersion = "7.0";
     this.baseUri = "{vaultBaseUrl}";
     this.requestContentType = "application/json; charset=utf-8";
+    this.apiVersion = apiVersion;
     this.credentials = credentials;
   }
 }

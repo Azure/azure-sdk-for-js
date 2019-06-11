@@ -1,6 +1,6 @@
 import { SecretsClient } from "../src";
-import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
 import fs = require("fs");
+import { EnvironmentCredential } from "@azure/identity";
 
 function writeFile(filename: string, text: Uint8Array) {
   return new Promise((resolve, reject) => {
@@ -25,23 +25,10 @@ export function delay<T>(t: number, value?: T): Promise<T> {
 }
 
 async function main(): Promise<void> {
-  const clientId = process.env["CLIENT_ID"] || "";
-  const clientSecret = process.env["CLIENT_SECRET"] || "";
-  const tenantId = process.env["TENANT_ID"] || "";
   const vaultName = process.env["KEYVAULT_NAME"] || "<keyvault-name>"
-
   const url = `https://${vaultName}.vault.azure.net`;
-  const credential = await msRestNodeAuth.loginWithServicePrincipalSecret(
-    clientId,
-    clientSecret,
-    tenantId,
-    {
-      tokenAudience: 'https://vault.azure.net'
-    }
-  );
-
+  const credential = new EnvironmentCredential();
   const secretName = "StorageAccountPassword";
-
   const client = new SecretsClient(url, credential);
 
   // Create our secret

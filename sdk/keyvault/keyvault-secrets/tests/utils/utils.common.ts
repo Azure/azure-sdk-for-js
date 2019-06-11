@@ -1,5 +1,3 @@
-import * as msRest from "@azure/ms-rest-js";
-
 export function getKeyvaultName(): string {
   const keyVaultEnvVarName = "KEYVAULT_NAME";
   let keyVaultName: string | undefined = process.env[keyVaultEnvVarName];

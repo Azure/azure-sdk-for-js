@@ -1,9 +1,6 @@
 import * as assert from "assert";
 import { expect } from "chai";
-import {
-  getKeyvaultName,
-  getUniqueName
-} from "./utils/utils.common";
+import { getKeyvaultName, getUniqueName } from "./utils/utils.common";
 import { KeysClient } from "../src";
 import { TokenCredential, delay } from "@azure/core-http";
 import { EnvironmentCredential } from "@azure/identity";

@@ -1,5 +1,5 @@
+import { ServiceClientOptions as Pipeline } from "@azure/core-http";
 import {
-  ServiceClientOptions as Pipeline,
   HttpClient as IHttpClient,
   HttpPipelineLogger as IHttpPipelineLogger
 } from "@azure/core-http";

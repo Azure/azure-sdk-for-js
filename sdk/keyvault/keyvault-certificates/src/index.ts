@@ -11,10 +11,10 @@ import {
   throttlingRetryPolicy,
   getDefaultProxySettings,
   userAgentPolicy
-} from "@azure/ms-rest-js";
+} from "@azure/core-http";
 
 import { RequestOptions, CertificateAttributes, Certificate, DeletedCertificate, CertificateIssuer } from "./certificatesModels";
-import { getDefaultUserAgentValue } from "@azure/ms-rest-azure-js";
+import { getDefaultUserAgentValue } from "@azure/core-http";
 import { NewPipelineOptions, isNewPipelineOptions, Pipeline } from "./core/keyVaultBase";
 import { TelemetryOptions } from "./core/clientOptions";
 import {
@@ -112,7 +112,7 @@ export class CertificatesClient {
       this.pipeline = pipelineOrOptions;
     }
 
-    this.client = new KeyVaultClient(credential, this.pipeline);
+    this.client = new KeyVaultClient(credential, "7.0", this.pipeline);
   }
 
   private static getUserAgentString(telemetry?: TelemetryOptions) {

@@ -1,22 +1,10 @@
 import { SecretsClient } from "../src";
-import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
+import { EnvironmentCredential } from "@azure/identity";
 
 async function main(): Promise<void> {
-  const clientId = process.env["CLIENT_ID"] || "";
-  const clientSecret = process.env["CLIENT_SECRET"] || "";
-  const tenantId = process.env["TENANT_ID"] || "";
   const vaultName = process.env["KEYVAULT_NAME"] || "<keyvault-name>"
-
   const url = `https://${vaultName}.vault.azure.net`;
-  const credential = await msRestNodeAuth.loginWithServicePrincipalSecret(
-    clientId,
-    clientSecret,
-    tenantId,
-    {
-      tokenAudience: 'https://vault.azure.net'
-    }
-  );
-
+  const credential = new EnvironmentCredential();
   const client = new SecretsClient(url, credential);
 
   const secretName = "MySecretName";
