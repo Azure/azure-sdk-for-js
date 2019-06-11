@@ -1,0 +1,98 @@
+{
+  "name": "@azure/identity",
+  "version": "0.1.0",
+  "description": "Provides credential implementations for Azure SDK libraries that can authenticate with Azure Active Directory",
+  "main": "dist/index.js",
+  "module": "dist-esm/src/index.js",
+  "browser": {
+    "stream": "./node_modules/stream-browserify/index.js",
+    "./dist/index.js": "./browser/index.js"
+  },
+  "types": "dist-esm/index.d.ts",
+  "scripts": {
+    "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
+    "build:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1",
+    "build:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c 2>&1",
+    "build:samples": "cd samples && tsc -p .",
+    "build:test": "tsc -p . && rollup -c rollup.test.config.js 2>&1",
+    "build": "tsc -p . && rollup -c 2>&1",
+    "check-format": "prettier --list-different --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "clean": "rimraf dist dist-esm test-dist typings *.tgz *.log",
+    "format": "prettier --write --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "integration-test:browser": "echo skipped",
+    "integration-test:node": "echo skipped",
+    "integration-test": "npm run integration-test:node && npm run integration-test:browser",
+    "lint:fix": "eslint \"src/**/*.ts\" \"test/**/*.ts\" -c ../../.eslintrc.json --fix --fix-type [problem,suggestion]",
+    "lint": "eslint \"src/**/*.ts\" \"test/**/*.ts\" -c ../../.eslintrc.json",
+    "pack": "npm pack 2>&1",
+    "prebuild": "npm run clean",
+    "test:browser": "npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
+    "test:node": "npm run build:test && npm run unit-test:node && npm run integration-test:node",
+    "test": "npm run build:test && npm run unit-test && npm run integration-test",
+    "unit-test:browser": "echo skipped",
+    "unit-test:node": "mocha test-dist/**/*.js --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=-",
+    "unit-test": "npm run unit-test:node && npm run unit-test:browser"
+  },
+  "files": [
+    "browser/*.js*",
+    "dist/",
+    "dist-esm/src/",
+    "src/",
+    "typings/src"
+  ],
+  "repository": "github:Azure/azure-sdk-for-js",
+  "keywords": [
+    "azure",
+    "active directory",
+    "authentication",
+    "credential",
+    "certificate",
+    "managed service identity",
+    "client secret",
+    "access token"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/azure/azure-sdk-for-js/issues"
+  },
+  "engine": {
+    "node": ">=6.0.0"
+  },
+  "homepage": "https://github.com/azure/azure-sdk-for-js/tree/master/sdk/core/identity",
+  "devDependencies": {
+    "@types/mocha": "^5.2.5",
+    "@types/node": "^8.0.0",
+    "@types/qs": "~6.5.3",
+    "@typescript-eslint/eslint-plugin": "~1.9.0",
+    "@typescript-eslint/parser": "^1.7.0",
+    "assert": "^1.4.1",
+    "cross-env": "^5.2.0",
+    "eslint": "^5.16.0",
+    "inherits": "^2.0.3",
+    "mocha": "^5.2.0",
+    "mocha-junit-reporter": "^1.18.0",
+    "mocha-multi": "^1.0.1",
+    "prettier": "^1.16.4",
+    "rimraf": "^2.6.2",
+    "rollup": "~1.13.1",
+    "rollup-plugin-commonjs": "^9.2.0",
+    "rollup-plugin-json": "^3.1.0",
+    "rollup-plugin-multi-entry": "^2.1.0",
+    "rollup-plugin-node-resolve": "^4.2.0",
+    "rollup-plugin-replace": "^2.1.0",
+    "rollup-plugin-sourcemaps": "^0.4.2",
+    "rollup-plugin-uglify": "^6.0.0",
+    "rollup-plugin-visualizer": "^1.0.0",
+    "typescript": "^3.2.2",
+    "util": "^0.11.1"
+  },
+  "sideEffects": false,
+  "dependencies": {
+    "@azure/core-http": "^1.2.6",
+    "events": "^3.0.0",
+    "qs": "6.7.0",
+    "tslib": "^1.9.3"
+  },
+  "private": true
+}

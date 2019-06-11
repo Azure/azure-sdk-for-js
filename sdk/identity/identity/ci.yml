@@ -9,9 +9,9 @@ pr:
       - master
   paths:
     include:
-      - sdk/keyvault/keyvault/
+      - sdk/identity/identity/
 
 jobs:
   - template: ../../../eng/pipelines/templates/jobs/archetype-sdk-client.yml
     parameters:
-      PackageName: "@azure/keyvault"
+      PackageName: "@azure/identity"

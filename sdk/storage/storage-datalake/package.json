@@ -4,8 +4,8 @@
   "description": "DataLakeStorageClient Library with typescript type definitions for node.js and browser.",
   "version": "0.1.1",
   "dependencies": {
-    "@azure/ms-rest-azure-js": "^1.1.0",
-    "@azure/ms-rest-js": "^1.1.0",
+    "@azure/ms-rest-azure-js": "^1.3.2",
+    "@azure/ms-rest-js": "^1.2.6",
     "tslib": "^1.9.3",
     "uglify": "^0.1.5"
   },
@@ -21,10 +21,19 @@
   "module": "./esm/dataLakeStorageClient.js",
   "types": "./esm/dataLakeStorageClient.d.ts",
   "devDependencies": {
-    "typescript": "^3.1.1",
-    "rollup": "^0.66.2",
-    "rollup-plugin-node-resolve": "^3.4.0",
-    "uglify-js": "^3.4.9"
+    "@typescript-eslint/eslint-plugin": "~1.9.0",
+    "@typescript-eslint/parser": "^1.7.0",
+    "eslint": "^5.16.0",
+    "eslint-config-prettier": "^4.2.0",
+    "eslint-detailed-reporter": "^0.8.0",
+    "eslint-plugin-no-null": "^1.0.2",
+    "eslint-plugin-no-only-tests": "^2.3.0",
+    "eslint-plugin-promise": "^4.1.1",
+    "typescript": "^3.2.2",
+    "rollup": "~1.13.1",
+    "rollup-plugin-node-resolve": "^4.2.0",
+    "uglify-js": "^3.4.9",
+    "ts-node": "^7.0.1"
   },
   "homepage": "https://github.com/azure/azure-sdk-for-js/tree/master/sdk/storage/storage-datalake",
   "repository": {
@@ -41,9 +50,29 @@
     "tsconfig.json"
   ],
   "scripts": {
-    "build": "tsc && rollup -c rollup.config.js && npm run minify",
-    "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/storage-datalake.js.map'\" -o ./dist/storage-datalake.min.js ./dist/storage-datalake.js",
-    "prepack": "npm install && npm run build"
+    "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
+    "build:es6": "tsc -p tsconfig.json",
+    "build:minify": "uglifyjs -c -m --comments --source-map \"content='./dist/storage-datalake.js.map'\" -o ./dist/storage-datalake.min.js ./dist/storage-datalake.js",
+    "build:nodebrowser": "rollup -c rollup.config.js 2>&1",
+    "build:test": "echo skipped",
+    "build": "npm run build:es6 && npm run build:nodebrowser && npm run build:minify",
+    "check-format": "prettier --list-different --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "clean": "rimraf dist dist-esm dist-test typings temp browser/*.js* browser/*.zip statistics.html coverage coverage-browser .nyc_output *.tgz *.log test*.xml TEST*.xml",
+    "extract-api": "echo skipped",
+    "format": "prettier --write --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "integration-test:browser": "echo skipped",
+    "integration-test:node": "echo skipped",
+    "integration-test": "echo skipped",
+    "lint:fix": "eslint -c ../../.eslintrc.json src --ext .ts --fix",
+    "lint": "eslint -c ../../.eslintrc.json src --ext .ts -f node_modules/eslint-detailed-reporter/lib/detailed.js -o storage-datalake-lintReport.html || exit 0",
+    "pack": "npm pack 2>&1",
+    "prebuild": "npm run clean",
+    "test:browser": "echo skipped",
+    "test:node": "echo skipped",
+    "test": "echo skipped",
+    "unit-test:browser": "echo skipped",
+    "unit-test:node": "echo skipped",
+    "unit-test": "echo skipped"
   },
   "sideEffects": false,
   "authPublish": true
