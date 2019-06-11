@@ -265,6 +265,31 @@ describe("BlobServiceClient", () => {
     assert.ok(accountInfo.skuName);
   });
 
+  it("createContainer and deleteContainer", async () => {
+    const blobServiceClient = getBSU();
+    const containerName = getUniqueName("container");
+    const access = "container";
+    const metadata = { key: "value" };
+
+    const { containerClient } = await blobServiceClient.createBlobContainer(containerName, {
+      access,
+      metadata
+    });
+    const result = await containerClient.getProperties();
+    assert.deepEqual(result.blobPublicAccess, access);
+    assert.deepEqual(result.metadata, metadata);
+
+    await blobServiceClient.deleteBlobContainer(containerName);
+    try {
+      await containerClient.getProperties();
+      assert.fail(
+        "Expecting an error in getting properties from a deleted block blob but didn't get one."
+      );
+    } catch (error) {
+      assert.ok((error.statusCode as number) === 404);
+    }
+  });
+
   it("can be created with a url and a credential", async () => {
     const serviceClient = getBSU();
     const factories = serviceClient.pipeline.factories;

@@ -2,7 +2,7 @@ import * as assert from "assert";
 import * as dotenv from "dotenv";
 import { newPipeline, SharedKeyCredential } from "../src";
 import { ContainerClient } from "../src/ContainerClient";
-import { getBSU, getConnectionStringFromEnvironment, getUniqueName } from "./utils";
+import { bodyToString, getBSU, getConnectionStringFromEnvironment, getUniqueName } from "./utils";
 dotenv.config({ path: "../.env" });
 
 describe("ContainerClient", () => {
@@ -279,6 +279,39 @@ describe("ContainerClient", () => {
 
     for (const blob of blobClients) {
       await blob.delete();
+    }
+  });
+
+  it("uploadBlockBlob and deleteBlob", async () => {
+    const body: string = getUniqueName("randomstring");
+    const options = {
+      blobCacheControl: "blobCacheControl",
+      blobContentDisposition: "blobContentDisposition",
+      blobContentEncoding: "blobContentEncoding",
+      blobContentLanguage: "blobContentLanguage",
+      blobContentType: "blobContentType",
+      metadata: {
+        keya: "vala",
+        keyb: "valb"
+      }
+    };
+    const blobName: string = getUniqueName("blob");
+    const { blockBlobClient } = await containerClient.uploadBlockBlob(blobName, body, body.length, {
+      blobHTTPHeaders: options,
+      metadata: options.metadata
+    });
+    const result = await blockBlobClient.download(0);
+    assert.deepStrictEqual(await bodyToString(result, body.length), body);
+    assert.deepStrictEqual(result.cacheControl, options.blobCacheControl);
+
+    await containerClient.deleteBlob(blobName);
+    try {
+      await blockBlobClient.getProperties();
+      assert.fail(
+        "Expecting an error in getting properties from a deleted block blob but didn't get one."
+      );
+    } catch (error) {
+      assert.ok((error.statusCode as number) === 404);
     }
   });
 
