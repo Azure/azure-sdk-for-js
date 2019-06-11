@@ -35,7 +35,7 @@ parameters:
       TestResultsFiles: "**/test-results.browser.xml"
 
 jobs:
-  - job: "Test_$(TestType)"
+  - job: "Test"
     variables:
       - template: ../variables/globals.yml
 
