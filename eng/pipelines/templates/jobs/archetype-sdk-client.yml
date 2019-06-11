@@ -21,10 +21,14 @@ jobs:
         displayName: "Install dependencies"
 
       - script: |
-          node common/scripts/install-run-rush.js build --verbose ${{parameters.PackageTargets}}
+          node common/scripts/select-packages.js ${{parameters.ServiceDirectory}}
+        displayName: "Selecting packages to build"
+
+      - script: |
+          node common/scripts/install-run-rush.js build --verbose ${{parameters.GeneratedPackageTargets}}
         displayName: "Build libraries"
       - script: |
-          node common/scripts/install-run-rush.js pack --verbose ${{parameters.PackageTargets}}
+          node common/scripts/install-run-rush.js pack --verbose ${{parameters.GeneratedPackageTargets}}
         displayName: "Pack libraries"
 
       - task: CopyFiles@2
@@ -67,7 +71,7 @@ jobs:
 
       - script: |
           node common/scripts/install-run-rush.js install
-          node common/scripts/install-run-rush.js audit ${{parameters.PackageTargets}}
+          node common/scripts/install-run-rush.js audit ${{parameters.GeneratedPackageTargets}}
         condition: and(succeeded(), eq(variables['RunNpmAudit'], 'true'))
         displayName: "Audit packages"
 
@@ -132,13 +136,13 @@ jobs:
         displayName: "Install dependencies"
 
       - script: |
-          node common/scripts/install-run-rush.js build --verbose ${{parameters.PackageTargets}}
+          node common/scripts/install-run-rush.js build --verbose ${{parameters.GeneratedPackageTargets}}
         displayName: "Build libraries"
       - script: |
-          node common/scripts/install-run-rush.js build:test --verbose ${{parameters.PackageTargets}}
+          node common/scripts/install-run-rush.js build:test --verbose ${{parameters.GeneratedPackageTargets}}
         displayName: "Build test assets"
       - script: |
-          node common/scripts/install-run-rush.js unit-test --verbose ${{parameters.PackageTargets}}
+          node common/scripts/install-run-rush.js unit-test --verbose ${{parameters.GeneratedPackageTargets}}
         displayName: "Test libraries"
 
       - task: PublishTestResults@2
