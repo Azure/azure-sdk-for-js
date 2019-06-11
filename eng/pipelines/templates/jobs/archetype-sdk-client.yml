@@ -52,6 +52,8 @@ jobs:
 
     variables:
       - template: ../variables/globals.yml
+      - name: GeneratedPackageTargets
+        value: $[dependencies.Build.outputs['SelectPackages.GeneratedPackageTargets']]
 
     pool:
       vmImage: "ubuntu-16.04"
@@ -131,6 +133,9 @@ jobs:
 
     pool:
       vmImage: "$(OSVmImage)"
+
+    variables:
+      GeneratedPackageTargets: $[dependencies.Build.outputs['SelectPackages.GeneratedPackageTargets']]
 
     steps:
       - task: NodeTool@0
