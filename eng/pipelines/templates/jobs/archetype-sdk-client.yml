@@ -46,6 +46,10 @@ jobs:
           targetPath: $(Build.ArtifactStagingDirectory)
 
   - job: "Analyze"
+
+    depends:
+      - Build
+
     variables:
       - template: ../variables/globals.yml
 
@@ -62,10 +66,6 @@ jobs:
         inputs:
           versionSpec: "$(NodeVersion)"
         displayName: "Install Node.js $(NodeVersion)"
-
-      - template: ../steps/select-packages.yml
-        parameters:
-          ServiceDirectory: ${{parameters.ServiceDirectory}}
 
       - script: |
           pip install setuptools wheel
@@ -86,6 +86,9 @@ jobs:
         displayName: "Component Detection"
 
   - job: "Test"
+
+    depends:
+      - Build
 
     strategy:
       matrix:
@@ -134,10 +137,6 @@ jobs:
         inputs:
           versionSpec: "$(NodeVersion)"
         displayName: "Install Node.js $(NodeVersion)"
-
-      - template: ../steps/select-packages.yml
-        parameters:
-          ServiceDirectory: ${{parameters.ServiceDirectory}}
 
       - script: |
           node common/scripts/install-run-rush.js install
