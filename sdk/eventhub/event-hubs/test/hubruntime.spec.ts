@@ -63,24 +63,13 @@ describe("RuntimeInformation", function(): void {
 
   it("gets the partition runtime information with partitionId as a number", async function(): Promise<void> {
     client = EventHubClient.createFromConnectionString(service.connectionString!, service.path);
-    const partitionRuntimeInfo = await client.getPartitionInformation(0);
+    const partitionRuntimeInfo = await client.getPartitionInformation(0 as any);
     debug(partitionRuntimeInfo);
     partitionRuntimeInfo.id.should.equal("0");
     partitionRuntimeInfo.eventHubPath.should.equal(service.path);
     partitionRuntimeInfo.lastEnqueuedTimeUtc.should.be.instanceof(Date);
     should.exist(partitionRuntimeInfo.lastEnqueuedSequenceNumber);
     should.exist(partitionRuntimeInfo.lastEnqueuedOffset);
-  });
-
-  it("should fail the partition runtime information when partitionId is not a number or string", async function(): Promise<
-    void
-  > {
-    client = EventHubClient.createFromConnectionString(service.connectionString!, service.path);
-    try {
-      await client.getPartitionInformation(true as any);
-    } catch (err) {
-      err.message.should.equal("'partitionId' is a required parameter and must be of type: 'string' | 'number'.");
-    }
   });
 
   it("should fail the partition runtime information when partitionId is empty string", async function(): Promise<void> {

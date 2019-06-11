@@ -156,10 +156,6 @@ export class ManagementClient extends LinkEntity {
     partitionId: string | number,
     options?: { retryOptions?: RetryOptions; cancellationToken?: Aborter }
   ): Promise<PartitionProperties> {
-    if (typeof partitionId !== "string" && typeof partitionId !== "number") {
-      throw new Error("'partitionId' is a required parameter and must be of " + "type: 'string' | 'number'.");
-    }
-
     const request: Message = {
       body: Buffer.from(JSON.stringify([])),
       message_id: uuid(),

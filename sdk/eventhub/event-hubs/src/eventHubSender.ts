@@ -30,6 +30,7 @@ import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";
 import { EventBatchingOptions, EventSenderOptions } from "./eventHubClient";
 import { Aborter } from "./aborter";
+import { throwAbortError } from './util/error';
 
 interface CreateSenderOptions {
   newName?: boolean;
@@ -340,10 +341,6 @@ export class EventHubSender extends LinkEntity {
    */
   async send(events: EventData[], options?: EventBatchingOptions & EventSenderOptions): Promise<void> {
     try {
-      if (!events || (events && !Array.isArray(events))) {
-        throw new Error("data is required and it must be an Array.");
-      }
-
       if (!this.isOpen()) {
         log.sender(
           "Acquiring lock %s for initializing the session, sender and " + "possibly the connection.",
@@ -463,7 +460,7 @@ export class EventHubSender extends LinkEntity {
           let onModified: Func<EventContext, void>;
           let onAccepted: Func<EventContext, void>;
           let aborter: Aborter;
-          let onAborted: () => {};
+          let onAborted: () => void;
 
           const removeListeners = (): void => {
             clearTimeout(waitTimer);
@@ -486,7 +483,7 @@ export class EventHubSender extends LinkEntity {
               `[${this._context.connectionId}] The send operation on the Sender "${this.name}" with ` +
               `address "${this.address}" has been cancelled by the user.`;
             log.error(desc);
-            throw new Error(desc);
+            throwAbortError('The send operation has been cancelled by the user.');
           };
           onAccepted = (context: EventContext) => {
             // Since we will be adding listener for accepted and rejected event every time
@@ -666,14 +663,10 @@ export class EventHubSender extends LinkEntity {
    * not present in the context or returns the one present in the context.
    * @ignore
    * @static
-   * @param {(string|number)} [partitionId] Partition ID to which it will send event data.
+   * @param {(string)} [partitionId] Partition ID to which it will send event data.
    * @returns {Promise<EventHubSender>}
    */
-  static create(context: ConnectionContext, partitionId?: string | number): EventHubSender {
-    if (partitionId && typeof partitionId !== "string" && typeof partitionId !== "number") {
-      throw new Error("'partitionId' must be of type: 'string' | 'number'.");
-    }
-
+  static create(context: ConnectionContext, partitionId?: string): EventHubSender {
     const ehSender: EventHubSender = new EventHubSender(context, partitionId);
     if (!context.senders[ehSender.name]) {
       context.senders[ehSender.name] = ehSender;

@@ -28,6 +28,7 @@ import { IotHubClient } from "./iothub/iothubClient";
 import { Aborter } from "./aborter";
 import { EventSender } from "./sender";
 import { EventReceiver } from "./receiver";
+import { throwTypeErrorIfParameterMissing } from "./util/error";
 
 /**
  * Retry policy options for operations on the EventHubClient
@@ -76,7 +77,7 @@ export interface EventSenderOptions {
  */
 export interface EventBatchingOptions {
   /**
-   * @property 
+   * @property
    * If specified EventHub will hash this string to map to a partitionId.
    * It guarantees that messages with the same partitionKey end up in the same partition.
    * This will be ignored if the sender was created using a `paritionId`.
@@ -95,7 +96,7 @@ export interface EventBatchingOptions {
  */
 export interface EventReceiverOptions {
   /**
-   * @property 
+   * @property
    * The event position in the partition at which to start receiving messages.
    */
   beginReceivingAt?: EventPosition;
@@ -106,7 +107,7 @@ export interface EventReceiverOptions {
    */
   consumerGroup?: string;
   /**
-   * @property 
+   * @property
    * The priority value that this receiver is currently using for partition ownership.
    * If another receiver is currently active for the same partition with no or lesser
    * priority, then it will get disconnected.
@@ -115,7 +116,7 @@ export interface EventReceiverOptions {
    */
   exclusiveReceiverPriority?: number;
   /**
-   * @property 
+   * @property
    * Retry options for the receive operation on the receiver. If no value is provided here, the
    * retry options set when creating the `EventHubClient` is used.
    */
@@ -128,10 +129,10 @@ export interface EventReceiverOptions {
  */
 export interface EventHubClientOptions {
   /**
-   * @property 
+   * @property
    * The data transformer that will be used to encode and decode the sent and received messages respectively.
-   * If not provided then the `DefaultDataTransformer` is used which has the below `encode` & `decode` features 
-   * - `encode`: 
+   * If not provided then the `DefaultDataTransformer` is used which has the below `encode` & `decode` features
+   * - `encode`:
    *    - If event body is a Buffer, then the event is sent without any data transformation
    *    - Else, JSON.stringfy() is run on the body, and then converted to Buffer before sending the event
    *    - If JSON.stringify() fails at this point, the send operation fails too.
@@ -142,13 +143,13 @@ export interface EventHubClientOptions {
    */
   dataTransformer?: DataTransformer;
   /**
-   * @property 
+   * @property
    * The user agent that will be appended to the built in user agent string that is passed as a
-   * connection property to the Event Hubs service 
+   * connection property to the Event Hubs service
    */
   userAgent?: string;
   /**
-   * @property 
+   * @property
    * The WebSocket constructor used to create an AMQP connection over a WebSocket.
    * This option should be provided in the below scenarios
    * - The TCP port 5671 which is what is used by the AMQP connection to Event Hubs is blocked in your environment.
@@ -187,7 +188,7 @@ export class EventHubClient {
   private _clientOptions: EventHubClientOptions;
 
   /**
-   * @property 
+   * @property
    * @readonly
    * The name of the Event Hub instance for which this client is created
    */
@@ -248,24 +249,18 @@ export class EventHubClient {
       options = eventHubPathOrOptions;
       const parsedCS = parseConnectionString<EventHubConnectionStringModel>(connectionString);
       if (!parsedCS.EntityPath) {
-        throw new TypeError(
-          `"connectionString": "${connectionString}", ` + `must contain EntityPath="<path-to-the-entity>".`
+        throw new Error(
+          'EntityPath is missing in the connection string. The value for the "connectionString" parameter must be of the form ' +
+            '"Endpoint=sb://fully-qualified-host-name/;SharedAccessKeyName=shared-access-policy-name;SharedAccessKey=shared-access-key;EntityPath=event-hub-name"'
         );
       }
       tokenProvider = new SasTokenProvider(parsedCS.Endpoint, parsedCS.SharedAccessKeyName, parsedCS.SharedAccessKey);
     } else {
-      let host = hostOrConnectionString;
       const eventHubPath = eventHubPathOrOptions;
       let sharedAccessKeyName = "defaultKeyName";
       let sharedAccessKey = "defaultKeyValue";
-      if (!host) {
-        throw new Error(
-          "Please provide a fully qualified domain name of your Event Hub instance for the 'host' parameter."
-        );
-      }
-      if (!eventHubPath) {
-        throw new Error("Please provide a value for the 'entityPath' parameter.");
-      }
+
+      // TODO: Update this when we move to Azure Identity
       if (!tokenProviderOrCredentials) {
         throw new Error("Please provide either a token provider or a valid credentials object.");
       }
@@ -283,6 +278,8 @@ export class EventHubClient {
           sharedAccessKey = tokenProvider.key;
         }
       }
+
+      let host = String(hostOrConnectionString);
       if (!host.endsWith("/")) host += "/";
       connectionString = `Endpoint=sb://${host};SharedAccessKeyName=${sharedAccessKeyName};SharedAccessKey=${sharedAccessKey};EntityPath=${eventHubPath}`;
     }
@@ -319,18 +316,18 @@ export class EventHubClient {
         log.client("Closed the amqp connection '%s' on the client.", this._context.connectionId);
       }
     } catch (err) {
-      const msg = `An error occurred while closing the connection "${this._context.connectionId}": ${JSON.stringify(err)}`;
-      log.error(msg);
-      throw new Error(msg);
+      err = err instanceof Error ? err : JSON.stringify(err);
+      log.error(`An error occurred while closing the connection "${this._context.connectionId}":\n${err}`);
+      throw err;
     }
   }
 
   /**
-   * Creates a Sender that can be used to send events to the Event Hub for which this client 
+   * Creates a Sender that can be used to send events to the Event Hub for which this client
    * was created.
    *
    * @param options Options to create a Sender where you can specify the id of the partition
-   * to which events need to be sent to and retry options. 
+   * to which events need to be sent to and retry options.
    *
    * @return {Promise<void>} Promise<void>
    */
@@ -339,15 +336,17 @@ export class EventHubClient {
   }
 
   /**
-   * Creates a Receiver that can be used to receive events from the Event Hub for which this 
+   * Creates a Receiver that can be used to receive events from the Event Hub for which this
    * client was created.
-   * 
+   *
    * @param partitionId The id of the partition from which to receive events
    * @param options Options to create the Receiver where you can specify the position from
    * which to start receiving events, the consumer group to receive events from, retry options
    * and more.
    */
   createReceiver(partitionId: string, options?: EventReceiverOptions): EventReceiver {
+    throwTypeErrorIfParameterMissing(this._context.connectionId, "partitionId", partitionId);
+    partitionId = String(partitionId);
     return new EventReceiver(this._context, partitionId, options);
   }
 
@@ -383,13 +382,12 @@ export class EventHubClient {
 
   /**
    * Provides information about the specified partition.
-   * @param {(string|number)} partitionId Partition ID for which partition information is required.
+   * @param {string} partitionId Partition ID for which partition information is required.
    * @returns {Promise<PartitionProperties>} A promise that resoloves with EventHubPartitionRuntimeInformation.
    */
-  async getPartitionInformation(partitionId: string|number, cancellationToken?: Aborter): Promise<PartitionProperties> {
-    if (typeof partitionId !== "string" && typeof partitionId !== "number") {
-      throw new Error("'partitionId' is a required parameter and must be of type: 'string' | 'number'.");
-    }
+  async getPartitionInformation(partitionId: string, cancellationToken?: Aborter): Promise<PartitionProperties> {
+    throwTypeErrorIfParameterMissing(this._context.connectionId, "partitionId", partitionId);
+    partitionId = String(partitionId);
     try {
       return await this._context.managementSession!.getPartitionInformation(partitionId, {
         retryOptions: this._clientOptions.retryOptions,
@@ -415,12 +413,9 @@ export class EventHubClient {
     entityPath?: string,
     options?: EventHubClientOptions
   ): EventHubClient {
-    if (!connectionString || (connectionString && typeof connectionString !== "string")) {
-      throw new Error("'connectionString' is a required parameter and must be of type: 'string'.");
-    }
     const config = ConnectionConfig.create(connectionString, entityPath);
     if (!config.entityPath) {
-      throw new TypeError(
+      throw new Error(
         `Either provide "path" or the "connectionString": "${connectionString}", ` +
           `must contain EntityPath="<path-to-the-entity>".`
       );

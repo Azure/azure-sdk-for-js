@@ -18,6 +18,7 @@ import { EventHubReceiver } from "./eventHubReceiver";
 import { ConnectionContext } from "./connectionContext";
 import { Aborter } from "./aborter";
 import * as log from "./log";
+import { throwAbortError } from './util/error';
 
 /**
  * Describes the batching receiver where the user can receive a specified number of messages for a predefined time.
@@ -61,10 +62,6 @@ export class BatchingReceiver extends EventHubReceiver {
     retryOptions?: RetryOptions,
     cancellationToken?: Aborter
   ): Promise<ReceivedEventData[]> {
-    if (!maxMessageCount || (maxMessageCount && typeof maxMessageCount !== "number")) {
-      throw new Error("'maxMessageCount' is a required parameter of type number with a value greater than 0.");
-    }
-
     if (maxWaitTimeInSeconds == undefined) {
       maxWaitTimeInSeconds = Constants.defaultOperationTimeoutInSeconds;
     }
@@ -164,7 +161,7 @@ export class BatchingReceiver extends EventHubReceiver {
             `[${this._context.connectionId}] The receive operation on the Receiver "${this.name}" with ` +
             `address "${this.address}" has been cancelled by the user.`;
           log.error(desc);
-          throw new Error(desc);
+          throwAbortError('The receive operation has been cancelled by the user.');
         };
 
         // Action to be taken when an error is received.
