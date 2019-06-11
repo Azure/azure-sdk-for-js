@@ -1,6 +1,6 @@
 omitted_paths:
   - documentation/ServicePrincipal/*
-  - eng/tools/select-packages
+  - eng/tools/select-packages/**
   - "sdk/*/arm-*"
   - "sdk/cognitiveservices/*"
 language: js
