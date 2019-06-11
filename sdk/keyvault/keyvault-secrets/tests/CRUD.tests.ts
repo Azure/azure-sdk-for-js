@@ -7,8 +7,9 @@ import {
 } from "./utils/utils.common";
 import { SecretsClient } from "../src";
 import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
+import { delay } from "@azure/ms-rest-js";
 
-describe("Secret client", () => {
+describe("Secret client - create, read, update and delete operations", () => {
   const clientId = process.env["AAD_CLIENT_ID"] || "";
   const clientSecret = process.env["AAD_CLIENT_SECRET"] || "";
   const tenantId = process.env["AAD_TENANT_ID"] || "";
@@ -16,6 +17,12 @@ describe("Secret client", () => {
 
   let client: SecretsClient;
   let version: string;
+
+  const deleteKeyAfter = (name) => async () => {
+    await client.deleteSecret(name);
+    await delay(10000);
+    await client.purgeDeletedSecret(name);
+  };
 
   before(async () => {
     const url = `https://${vaultName}.vault.azure.net`;
@@ -45,19 +52,9 @@ describe("Secret client", () => {
     assert.equal(result.value, secretValue, "Unexpected secret value in result from setSecret().");
   });
 
-  it("can retrieve the latest version of a secret value", async () => {
-    const secretName = getUniqueName("secret");
-    const secretValue = getUniqueName("value");
-    after(async () => {
-      await client.deleteSecret(secretName);
-    });
-    await client.setSecret(secretName, secretValue);
-
-    const result = await client.getSecret(secretName);
-
-    assert.equal(result.name, secretName, "Unexpected secret name in result from setSecret().");
-    assert.equal(result.value, secretValue, "Unexpected secret value in result from setSecret().");
-  });
+  it("can set Secret with Empty Name");
+  it("can set Secret with Empty Value");
+  it("can set Secret Null case");
 
   it("can set a secret with attributes", async () => {
     const secretName = getUniqueName("secret");
@@ -105,6 +102,25 @@ describe("Secret client", () => {
     );
   });
 
+  it("can update Disabled Secret");
+  it("can get Secret");
+
+  it("can retrieve the latest version of a secret value", async () => {
+    const secretName = getUniqueName("secret");
+    const secretValue = getUniqueName("value");
+    after(async () => {
+      await client.deleteSecret(secretName);
+    });
+    await client.setSecret(secretName, secretValue);
+
+    const result = await client.getSecret(secretName);
+
+    assert.equal(result.name, secretName, "Unexpected secret name in result from setSecret().");
+    assert.equal(result.value, secretValue, "Unexpected secret value in result from setSecret().");
+  });
+
+  it("can get Secret (Non Existing)");
+
   it("can delete a secret", async () => {
     const secretName = getUniqueName("secret");
     const secretValue1 = getUniqueName("value");
@@ -124,37 +140,7 @@ describe("Secret client", () => {
     }
   });
 
-  it("can retrieve all versions of a secret", async () => {
-    const secretName = getUniqueName("secret");
-    const secretValue1 = getUniqueName("value");
-    const secretValue2 = getUniqueName("value");
-    const secretValue3 = getUniqueName("value");
-    after(async () => {
-      await client.deleteSecret(secretName);
-    });
-    const secretValues = [secretValue1, secretValue2, secretValue3];
-    interface versionValuePair {
-      version: string;
-      value: string;
-    }
-    let versions: versionValuePair[] = [];
-    for (const v of secretValues) {
-      const response = await client.setSecret(secretName, v);
-      versions.push({ version: response.version!, value: response.value! });
-    }
-
-    let results: versionValuePair[] = [];
-    for await (const item of client.getSecretVersions(secretName)) {
-      const version = item.version!;
-      const secret = await client.getSecret(secretName, { version: version });
-      results.push({ version: item.version!, value: secret.value! });
-    }
-
-    const comp = (a: versionValuePair, b: versionValuePair) =>
-      (a.version + a.value).localeCompare(b.version + b.value);
-    results.sort(comp);
-    versions.sort(comp);
-
-    expect(results).to.deep.equal(versions);
-  });
+  it("can delete Secret (Non Existing)");
+  it("can get Deleted Secret");
+  it("can get Deleted Secret (Non Existing)");
 });
