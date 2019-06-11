@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { generateUuid } from "@azure/ms-rest-js";
+import { HttpResponse, generateUuid } from "@azure/ms-rest-js";
 import * as Models from "../src/generated/lib/models";
 import { Aborter } from "./Aborter";
 import { ContainerClient } from "./ContainerClient";
@@ -53,6 +53,18 @@ export interface Lease {
    */
   errorCode?: string;
 }
+
+export type LeaseOperationResponse = Lease & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpResponse & {
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: Lease;
+  };
+};
 
 /**
  * Configures lease operations.
@@ -145,9 +157,13 @@ export class LeaseClient {
    *
    * @param {number} duration Must be between 15 to 60 seconds, or infinite (-1)
    * @param {LeaseOperationOptions} [options={}] option to configure lease management operations.
+   * @returns {Promise<LeaseOperationResponse>} Response data for lease operation.
    * @memberof LeaseClient
    */
-  public async acquireLease(duration: number, options: LeaseOperationOptions = {}) {
+  public async acquireLease(
+    duration: number,
+    options: LeaseOperationOptions = {}
+  ): Promise<LeaseOperationResponse> {
     const aborter = options.abortSignal || Aborter.none;
     return await this._containerOrBlobOperation.acquireLease({
       abortSignal: aborter,
@@ -165,12 +181,13 @@ export class LeaseClient {
    *
    * @param {string} proposedLeaseId the proposed new lease Id.
    * @param {LeaseOperationOptions} [options={}] option to configure lease management operations.
+   * @returns {Promise<LeaseOperationResponse>} Response data for lease operation.
    * @memberof LeaseClient
    */
   public async chanageLease(
     proposedLeaseId: string,
     options: LeaseOperationOptions = {}
-  ): Promise<Lease> {
+  ): Promise<LeaseOperationResponse> {
     const aborter = options.abortSignal || Aborter.none;
     const response = await this._containerOrBlobOperation.changeLease(
       this._leaseId,
@@ -192,9 +209,10 @@ export class LeaseClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/lease-blob
    *
    * @param {LeaseOperationOptions} [options={}] option to configure lease management operations.
+   * @returns {Promise<LeaseOperationResponse>} Response data for lease operation.
    * @memberof LeaseClient
    */
-  public async releaseLease(options: LeaseOperationOptions = {}): Promise<Lease> {
+  public async releaseLease(options: LeaseOperationOptions = {}): Promise<LeaseOperationResponse> {
     const aborter = options.abortSignal || Aborter.none;
     return await this._containerOrBlobOperation.releaseLease(this._leaseId, {
       abortSignal: aborter,
@@ -209,6 +227,7 @@ export class LeaseClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/lease-blob
    *
    * @param {LeaseOperationOptions} [options={}] Optional option to configure lease management operations.
+   * @returns {Promise<LeaseOperationResponse>} Response data for lease operation.
    * @memberof LeaseClient
    */
   public async renewLease(options: LeaseOperationOptions = {}): Promise<Lease> {
@@ -230,12 +249,13 @@ export class LeaseClient {
    * @param {(ContainerClient | BlobClient)} client
    * @param {number} breakPeriod Break period
    * @param {LeaseOperationOptions} [options={}] Optional options to configure lease management operations.
+   * @returns {Promise<LeaseOperationResponse>} Response data for lease operation.
    * @memberof LeaseClient
    */
   public async breakLease(
     breakPeriod: number,
     options: LeaseOperationOptions = {}
-  ): Promise<Lease> {
+  ): Promise<LeaseOperationResponse> {
     const aborter = options.abortSignal || Aborter.none;
     const operationOptions = {
       abortSignal: aborter,
