@@ -23,6 +23,11 @@ log(`Specified service directory is "${serviceDirectory}".`);
 // This code assumes that in the service directory, packages that we want to publish
 // exist only in directories that are immediate children of the service directory.
 glob(`${serviceDirectory}/*/package.json`, (err, files) => {
+  if (err) {
+    log(`An error occured: ${err}`);
+    process.exit(1);
+  }
+
   let packageTargets = "";
 
   if (files) {
@@ -52,7 +57,14 @@ glob(`${serviceDirectory}/*/package.json`, (err, files) => {
     console.log(
       `##vso[task.setvariable variable=GeneratedPackageTargets;isOutput=true;]${packageTargets}`
     );
+
+    log(
+      `Emitted variable "GeneratedPackageTargets" with content: ${packageTargets}`
+    );
   } else {
     log("Did not find any packages under service directory.");
+    process.exit(2);
   }
+
+  log("Done!");
 });

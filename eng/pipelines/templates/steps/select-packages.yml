@@ -4,4 +4,4 @@ steps:
       npm run select-packages $(System.DefaultWorkingDirectory)/${{parameters.ServiceDirectory}}
     workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/select-packages
     name: SelectPackages
-    displayName: "Selecting packages to build (Linux & macOS)"
+    displayName: "Selecting packages to build"
