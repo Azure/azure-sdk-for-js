@@ -54,17 +54,17 @@ parameters:
       OSName: "Linux"
       OSVmImage: "ubuntu-16.04"
       NodeVersion: "10.x"
-      TestType: "node"
+      TestType: "browser"
     Browser_Windows_Node10X:
       OSName: "Windows"
       OSVmImage: "vs2017-win2016"
       NodeVersion: "10.x"
-      TestType: "node"
+      TestType: "browser"
     Browser_Mac_Node10X:
       OSName: "Mac"
       OSVmImage: "macOS-10.13"
       NodeVersion: "10.x"
-      TestType: "node"
+      TestType: "browser"
 
 
 jobs:
