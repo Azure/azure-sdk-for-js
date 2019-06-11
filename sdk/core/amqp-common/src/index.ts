@@ -63,4 +63,3 @@ export {
   AsyncLock,
   isNode
 } from "./util/utils";
-export { Aborter } from "@azure/core-aborter";

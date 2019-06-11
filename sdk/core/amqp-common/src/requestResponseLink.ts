@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import { Aborter } from "@azure/core-aborter";
+import { AbortSignal } from "@azure/abort-controller";
 import * as Constants from "./util/constants";
 import { retry, RetryConfig, RetryOperationType } from "./retry";
 import {
@@ -27,9 +27,9 @@ import * as log from "./log";
  */
 export interface SendRequestOptions {
   /**
-   * @property {Aborter} [cancellationToken] Cancels the operation.
+   * @property {AbortSignal} [abortSignal] Cancels the operation.
    */
-  cancellationToken?: Aborter;
+  abortSignal?: AbortSignal;
   /**
    * @property {number} [timeoutInSeconds] Max time to wait for the operation to complete.
    * Default: `10 seconds`.
@@ -45,6 +45,10 @@ export interface SendRequestOptions {
    * next attempt. Default: 15.
    */
   delayInSeconds?: number;
+  /**
+   * @property {string} [requestName] Name of the request being performed.
+   */
+  requestName?: string;
 }
 
 /**
@@ -98,7 +102,7 @@ export class RequestResponseLink implements ReqResLink {
     }
 
     let count: number = 0;
-    const aborter: Aborter | undefined = options && options.cancellationToken;
+    const aborter: AbortSignal | undefined = options && options.abortSignal;
 
     const sendRequestPromise = () =>
       new Promise<AmqpMessage>((resolve: any, reject: any) => {
@@ -121,10 +125,12 @@ export class RequestResponseLink implements ReqResLink {
 
         const rejectOnAbort = () => {
           const address = this.receiver.address || "address";
+          const requestName = options!.requestName || "requestName";
           const desc: string =
-            `[${this.connection.id}] The request with message_id ` +
-            `"${request.message_id}" to "${address}" has been cancelled by the user.`;
+            `[${this.connection.id}] The request "${requestName}" ` +
+            `to "${address}" has been cancelled by the user.`;
           const error = translate(new Error(desc));
+          error.name = "AbortError";
           error.retryable = false;
           log.error(error);
           reject(error);

@@ -2,10 +2,11 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 import * as assert from "assert";
-import { RequestResponseLink, AmqpMessage, ErrorNameConditionMapper, Aborter } from "../src";
+import { RequestResponseLink, AmqpMessage, ErrorNameConditionMapper } from "../src";
 import { Connection } from "rhea-promise";
 import { stub } from "sinon";
 import EventEmitter from "events";
+import { AbortController } from "@azure/abort-controller";
 
 describe("RequestResponseLink", function() {
   it("should send a request and receive a response correctly", async function() {
@@ -160,11 +161,14 @@ describe("RequestResponseLink", function() {
       });
     }, 2000);
     try {
-      await link.sendRequest(request, { cancellationToken: Aborter.timeout(100) });
+      const controller = new AbortController();
+      const signal = controller.signal;
+      setTimeout(controller.abort.bind(controller), 100);
+      await link.sendRequest(request, { abortSignal: signal });
       throw new Error(`Test failure`);
     } catch (err) {
       const expectedErrorRegex = new RegExp(
-        /The request with message_id "[\w\d\-]+" to "address" has been cancelled by the user.$/,
+        /The request "requestName" to "address" has been cancelled by the user.$/,
         "gi"
       );
       assert.equal(expectedErrorRegex.test(err.message), true);
@@ -232,15 +236,18 @@ describe("RequestResponseLink", function() {
       });
     }, 4000);
     try {
+      const controller = new AbortController();
+      const signal = controller.signal;
+      setTimeout(controller.abort.bind(controller), 100);
       await link.sendRequest(request, {
         delayInSeconds: 1,
         timeoutInSeconds: 5,
-        cancellationToken: Aborter.timeout(3000) // cancel between request attempts
+        abortSignal: signal // cancel between request attempts
       });
       throw new Error(`Test failure`);
     } catch (err) {
       const expectedErrorRegex = new RegExp(
-        /The request with message_id "[\w\d\-]+" to "address" has been cancelled by the user.$/,
+        /The request "requestName" to "address" has been cancelled by the user.$/,
         "gi"
       );
       assert.equal(
