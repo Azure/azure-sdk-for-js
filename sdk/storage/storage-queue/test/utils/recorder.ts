@@ -23,16 +23,6 @@ if (isPlayingBack) {
 }
 
 /**
- * Additional layer of security to avoid unintended/accidental occurances of secrets in the recordings
- * */
-export function filterSecrets(recording: string): string {
-  return recording
-    .replace(env.ACCOUNT_NAME, "fakestorageaccount")
-    .replace(env.ACCOUNT_KEY, "aaaaa")
-    .replace(env.ACCOUNT_SAS.match("(.*)&sig=(.*)")[2], "aaaaa");
-}
-
-/**
  * Possible reasons for skipping a test:
  * * Abort: browser testing unexpectedly finishes when a request is aborted during playback (unknown reason; probably related to the way nise handles it)
  * * Character: there are characters in the message that are not supported in browser logging or in ECMAScript
@@ -79,6 +69,16 @@ abstract class Recorder {
       .replace(/>/g, "gt")
       .replace(/=/g, "eq")
       .replace(/\W/g, "");
+  }
+
+  /**
+   * Additional layer of security to avoid unintended/accidental occurrences of secrets in the recordings
+   * */
+  protected filterSecrets(recording: string): string {
+    return recording
+      .replace(new RegExp(env.ACCOUNT_NAME, "g"), "fakestorageaccount")
+      .replace(new RegExp(env.ACCOUNT_KEY, "g"), "aaaaa")
+      .replace(new RegExp(env.ACCOUNT_SAS.match("(.*)&sig=(.*)")[2], "g"), "aaaaa");
   }
 
   public skip(): boolean {
@@ -134,14 +134,10 @@ class NockRecorder extends Recorder {
       importNock + "\n" + "module.exports.testInfo = " + JSON.stringify(this.uniqueTestInfo) + "\n"
     );
 
-    const accountName = env.ACCOUNT_NAME as string;
     for (const fixture of fixtures) {
-      // '://' added so we can be sure that the substitutions happen only in urls
       // We're not matching query string parameters because they may contain sensitive information, and Nock does not allow us to customize it easily
-      const updatedFixture = fixture
-        .replace(new RegExp("://" + accountName, "g"), "://fakestorageaccount")
-        .replace(/\.query\(.*\)/, ".query(true)");
-      file.write(filterSecrets(updatedFixture) + "\n");
+      const updatedFixture = fixture.replace(/\.query\(.*\)/, ".query(true)");
+      file.write(this.filterSecrets(updatedFixture) + "\n");
     }
 
     file.end();
@@ -193,10 +189,9 @@ class NiseRecorder extends Recorder {
       }
     }
 
-    const accountName = env.ACCOUNT_NAME;
     this.recordings.push({
       method: request.method,
-      url: parsedUrl.url.replace(new RegExp(accountName, "g"), "fakestorageaccount"),
+      url: parsedUrl.url,
       query: query,
       requestBody: data instanceof Blob ? await blobToString(data) : data,
       status: request.status,
@@ -339,7 +334,7 @@ class NiseRecorder extends Recorder {
   public stop(): void {
     // We're sending the recordings to the 'karma-json-to-file-reporter' via console.log
     console.log(
-      filterSecrets(
+      this.filterSecrets(
         JSON.stringify({
           writeFile: true,
           path: "./recordings/" + this.filepath,
