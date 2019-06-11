@@ -8,7 +8,7 @@ import { Metadata } from "./models";
 import { Pipeline } from "./Pipeline";
 import { StorageClient } from "./StorageClient";
 import { appendToURLPath } from "./utils/utils.common";
-import { FileClient } from "./FileClient";
+import { FileClient, FileCreateOptions, FileDeleteOptions } from "./FileClient";
 
 /**
  * Options to configure Directory - Create operation.
@@ -191,6 +191,83 @@ export class DirectoryClient extends StorageClient {
       appendToURLPath(this.url, encodeURIComponent(subDirectoryName)),
       this.pipeline
     );
+  }
+
+  /**
+   * Creates a new subdirectory under this directory.
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-directory
+   *
+   *
+   * @param {string} directoryName
+   * @param {DirectoryCreateOptions} [options] Options to Directory Create operation.
+   * @returns Directory creation response data and the corresponding directory client.
+   * @memberof DirectoryClient
+   */
+  public async createSubdirectory(directoryName: string, options?: DirectoryCreateOptions) {
+    const directoryClient = this.createDirectoryClient(directoryName);
+    const response = await directoryClient.create(options);
+    return {
+      directoryClient,
+      response
+    };
+  }
+
+  /**
+   * Removes the specified empty sub directory under this directory.
+   * Note that the directory must be empty before it can be deleted.
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-directory
+   *
+   * @param {string} directoryName
+   * @param {DirectoryDeleteOptions} [options] Options to Directory Delete operation.
+   * @returns Directory deletion response data.
+   * @memberof DirectoryClient
+   */
+  public async deleteSubdirectory(directoryName: string, options?: DirectoryDeleteOptions) {
+    const directoryClient = this.createDirectoryClient(directoryName);
+    return await directoryClient.delete(options);
+  }
+
+  /**
+   * Creates a new file or replaces a file under this directory. Note it only initializes the file with no content.
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-file
+   *
+   * @param {string} fileName
+   * @param {number} size Specifies the maximum size in bytes for the file, up to 1 TB.
+   * @param {FileCreateOptions} [options] Options to File Create operation.
+   * @returns File creation response data and the corresponding file client.
+   * @memberof DirectoryClient
+   */
+  public async createFile(fileName: string, size: number, options?: FileCreateOptions) {
+    const fileClient = this.createFileClient(fileName);
+    const response = await fileClient.create(size, options);
+    return {
+      fileClient,
+      response
+    };
+  }
+
+  /**
+   * Removes the specified file under this directory from the storage account.
+   * When a file is successfully deleted, it is immediately removed from the storage
+   * account's index and is no longer accessible to clients. The file's data is later
+   * removed from the service during garbage collection.
+   *
+   * Delete File will fail with status code 409 (Conflict) and error code SharingViolation
+   * if the file is open on an SMB client.
+   *
+   * Delete File is not supported on a share snapshot, which is a read-only copy of
+   * a share. An attempt to perform this operation on a share snapshot will fail with 400 (InvalidQueryParameterValue)
+   *
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-file2
+   *
+   * @param {string} fileName Name of the file to delete
+   * @param {FileDeleteOptions} [options] Options to File Delete operation.
+   * @returns File deletion response data.
+   * @memberof DirectoryClient
+   */
+  public async deleteFile(fileName: string, options?: FileDeleteOptions) {
+    const fileClient = this.createFileClient(fileName);
+    return await fileClient.delete(options);
   }
 
   /**
