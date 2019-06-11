@@ -1,26 +1,26 @@
 let nock = require('nock');
 
-module.exports.testInfo = {"now":"2019-06-11T22:40:12.436Z","tmr":"2019-06-11T22:40:12.436Z","queue":"queue156029281243601004"}
+module.exports.testInfo = {"now":"2019-06-11T23:55:06.711Z","tmr":"2019-06-11T23:55:06.711Z","queue":"queue156029730671108235"}
 
 nock('https://fakestorageaccount.queue.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/queue156029281243601004')
+  .put('/queue156029730671108235')
   .query(true)
   .reply(201, "", [ 'Content-Length',
   '0',
   'Server',
   'Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '1f7b63a9-e003-0042-19a6-205185000000',
+  'dd0c6fe8-8003-00b7-17b1-207594000000',
   'x-ms-version',
   '2018-03-28',
   'Date',
-  'Tue, 11 Jun 2019 22:40:12 GMT',
+  'Tue, 11 Jun 2019 23:55:06 GMT',
   'Connection',
   'close' ]);
 
 
 nock('https://fakestorageaccount.queue.core.windows.net:443', {"encodedQueryParams":true})
-  .get('/queue156029281243601004')
+  .get('/queue156029730671108235')
   .query(true)
   .reply(200, "", [ 'Cache-Control',
   'no-cache',
@@ -29,7 +29,7 @@ nock('https://fakestorageaccount.queue.core.windows.net:443', {"encodedQueryPara
   'Server',
   'Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'd2d18325-d003-004a-20a6-204af6000000',
+  'd2b60a8d-0003-00ad-36b1-205afb000000',
   'x-ms-version',
   '2018-03-28',
   'x-ms-approximate-messages-count',
@@ -39,24 +39,24 @@ nock('https://fakestorageaccount.queue.core.windows.net:443', {"encodedQueryPara
   'Access-Control-Allow-Origin',
   '*',
   'Date',
-  'Tue, 11 Jun 2019 22:40:12 GMT',
+  'Tue, 11 Jun 2019 23:55:07 GMT',
   'Connection',
   'close' ]);
 
 
 nock('https://fakestorageaccount.queue.core.windows.net:443', {"encodedQueryParams":true})
-  .delete('/queue156029281243601004')
+  .delete('/queue156029730671108235')
   .query(true)
   .reply(204, "", [ 'Content-Length',
   '0',
   'Server',
   'Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '1ed598e3-4003-0088-61a6-20c248000000',
+  'ec2da596-2003-0098-0bb1-20f4ae000000',
   'x-ms-version',
   '2018-03-28',
   'Date',
-  'Tue, 11 Jun 2019 22:40:13 GMT',
+  'Tue, 11 Jun 2019 23:55:07 GMT',
   'Connection',
   'close' ]);
 

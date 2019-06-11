@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.testInfo = {"now":"2019-06-11T22:40:10.895Z","tmr":"2019-06-11T22:40:10.898Z"}
+module.exports.testInfo = {"now":"2019-06-11T23:55:04.123Z","tmr":"2019-06-11T23:55:04.124Z"}
 
 nock('https://fakestorageaccount.queue.core.windows.net:443', {"encodedQueryParams":true})
   .get('/')
@@ -14,7 +14,7 @@ nock('https://fakestorageaccount.queue.core.windows.net:443', {"encodedQueryPara
   'Server',
   'Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'abea1a46-c003-007c-2aa6-20e7a4000000',
+  'f8fc719b-a003-0028-3db1-200d2e000000',
   'x-ms-version',
   '2018-03-28',
   'Access-Control-Expose-Headers',
@@ -22,7 +22,7 @@ nock('https://fakestorageaccount.queue.core.windows.net:443', {"encodedQueryPara
   'Access-Control-Allow-Origin',
   '*',
   'Date',
-  'Tue, 11 Jun 2019 22:40:11 GMT',
+  'Tue, 11 Jun 2019 23:55:04 GMT',
   'Connection',
   'close' ]);
 
