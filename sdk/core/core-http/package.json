@@ -75,7 +75,6 @@
     "lint:fix": "tslint -p . --fix",
     "pack": "npm pack 2>&1",
     "prebuild": "npm run clean",
-    "prepack": "npm i && npm run build",
     "test:browser": "npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
     "test:node": "npm run build:test && npm run unit-test:node && npm run integration-test:node",
     "test": "npm run build:test && npm run unit-test && npm run integration-test",

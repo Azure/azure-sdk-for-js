@@ -7,7 +7,7 @@
 ### Installation
  - Installing this library
 ```
-npm install @azure/core-aborter
+npm install @azure/abort-controller
 ```
 
 ## Key Concepts
@@ -20,7 +20,7 @@ work based on timeouts or other signales.
 ### Example 1 - basic usage
 
 ```js
-import { Aborter } from "@azure/core-aborter";
+import { Aborter } from "@azure/abort-controller";
 
 const signal = new Aborter();
 doAsyncWork({ abortSignal: signal });
@@ -32,7 +32,7 @@ signal.abort();
 ### Example 2 - Aborting with timeout
 
 ```js
-import { Aborter } from "@azure/core-aborter";
+import { Aborter } from "@azure/abort-controller";
 
 const signal = Aborter.timeout(1000);
 doAsyncWork({ abortSignal: signal });
@@ -41,7 +41,7 @@ doAsyncWork({ abortSignal: signal });
 ### Example 3 - Aborting sub-tasks
 
 ```js
-import { Aborter } from "@azure/core-aborter";
+import { Aborter } from "@azure/abort-controller";
 
 const allTasksSignal = new Aborter();
 
