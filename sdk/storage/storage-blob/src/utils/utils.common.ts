@@ -73,10 +73,20 @@ export function extractPartsWithValidation(connectionString: string): { [key: st
   const matchCredentials = connectionString.match(
     "DefaultEndpointsProtocol=(.*);AccountName=(.*);AccountKey=(.*);EndpointSuffix=(.*)"
   );
-  const defaultEndpointsProtocol = matchCredentials![1] || "";
-  const accountName = matchCredentials![2] || "";
-  const accountKey = Buffer.from(matchCredentials![3], "base64");
-  const endpointSuffix = matchCredentials![4] || "";
+
+  let defaultEndpointsProtocol;
+  let accountName;
+  let accountKey;
+  let endpointSuffix;
+
+  try {
+    defaultEndpointsProtocol = matchCredentials![1] || "";
+    accountName = matchCredentials![2] || "";
+    accountKey = Buffer.from(matchCredentials![3], "base64");
+    endpointSuffix = matchCredentials![4] || "";
+  } catch (err) {
+    throw new Error("Invalid Connection String");
+  }
 
   if (!accountName) {
     throw new Error("Invalid AccountName in the provided Connection String");
