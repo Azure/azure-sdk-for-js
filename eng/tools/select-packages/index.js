@@ -17,12 +17,12 @@ const log = message => {
 
 log(`Working directory is "${process.cwd()}".`);
 
-let serviceDirectory = process.argv[2];
-log(`Specified service directory is "${serviceDirectory}".`);
+let filter = process.argv[2];
+log(`Specified service directory is "${filter}".`);
 
 // This code assumes that in the service directory, packages that we want to publish
 // exist only in directories that are immediate children of the service directory.
-glob(`${serviceDirectory}/*/package.json`, (err, files) => {
+glob(filter, (err, files) => {
   if (err) {
     log(`An error occured: ${err}`);
     process.exit(1);
