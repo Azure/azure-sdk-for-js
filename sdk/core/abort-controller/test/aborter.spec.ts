@@ -99,4 +99,18 @@ describe("Aborter", () => {
       assert.deepEqual(s, ["aborted", "aborted"]);
     }
   });
+
+  it("should abort after timeout when using created using timeout()", async () => {
+    const aborter = AbortSignal.timeout(50);
+    let s = undefined;
+    try {
+      aborter.onabort = () => {
+        s = "aborted";
+      };
+      await doAsyncOperation(aborter, 100);
+      assert.fail();
+    } catch (err) {
+      assert.deepEqual(s, "aborted");
+    }
+  });
 });
