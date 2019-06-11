@@ -1,5 +1,6 @@
 {
   "name": "@azure/storage-blob",
+  "isDataPlane": true,
   "version": "10.3.0",
   "description": "Microsoft Azure Storage SDK for JavaScript - Blob",
   "main": "./dist/index.js",

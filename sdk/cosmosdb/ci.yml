@@ -20,7 +20,7 @@ pr:
 jobs:
   - template: ../../eng/pipelines/templates/jobs/archetype-sdk-client.yml
     parameters:
-      PackageName: "@azure/cosmos"
+      ServiceDirectory: sdk/cosmosdb/
 
   - template: ../../eng/pipelines/templates/jobs/node6-test-sdk-client.yml
     parameters:

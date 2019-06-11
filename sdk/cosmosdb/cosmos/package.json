@@ -1,5 +1,6 @@
 {
   "name": "@azure/cosmos",
+  "isDataPlane": true,
   "description": "Azure Cosmos DB Service Node.js SDK for SQL API",
   "keywords": [
     "cosmosdb",
