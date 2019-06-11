@@ -8,7 +8,7 @@ console.log("ITEM MANAGEMENT");
 console.log("===================");
 console.log();
 
-const cosmos = require("../../lib/");
+const cosmos = require("../../dist/");
 const CosmosClient = cosmos.CosmosClient;
 const config = require("../Shared/config");
 const fs = require("fs");
@@ -57,21 +57,21 @@ async function run() {
 
   //2.
   console.log("\n2. list items in container '" + container.id + "'");
-  const { result: itemDefList } = await container.items.readAll().toArray();
+  const { resources: itemDefList } = await container.items.readAll().fetchAll();
 
   for (const itemDef of itemDefList) {
     console.log(itemDef.id);
   }
 
   //3.1
-  const item = container.item(itemDefList[0].id);
+  const item = container.item(itemDefList[0].id, undefined);
   console.log("\n3.1 read item '" + item.id + "'");
-  const { body: readDoc } = await item.read();
+  const { resource: readDoc } = await item.read();
   console.log("item with id '" + item.id + "' found");
 
   //3.2
   console.log("\n3.2 read item with AccessCondition and no change to _etag");
-  const { body: item2, headers } = await item.read({
+  const { resource: item2, headers } = await item.read({
     accessCondition: { type: "IfNoneMatch", condition: readDoc._etag }
   });
   if (!item2 && headers["content-length"] == 0) {
@@ -84,7 +84,7 @@ async function run() {
   //repeating the above read with the old etag would then get a item in the response
   readDoc.foo = "bar";
   await item.replace(readDoc);
-  const { body: item3, headers: headers3 } = await item.read({
+  const { resource: item3, headers: headers3 } = await item.read({
     accessCondition: { type: "IfNoneMatch", condition: readDoc._etag }
   });
   if (!item3 && headers3["content-length"] === 0) {
@@ -105,7 +105,7 @@ async function run() {
   };
 
   console.log("\n4. query items in container '" + container.id + "'");
-  const { result: results } = await container.items.query(querySpec).toArray();
+  const { resources: results } = await container.items.query(querySpec).fetchAll();
 
   if (results.length == 0) {
     throw "No items found matching";
@@ -130,7 +130,7 @@ async function run() {
 
   //5.1
   console.log("\n5.1 replace item with id '" + item.id + "'");
-  const { body: updatedPerson } = await item.replace(person);
+  const { resource: updatedPerson } = await item.replace(person);
 
   console.log("The '" + person.id + "' family has lastName '" + updatedPerson.lastName + "'");
   console.log("The '" + person.id + "' family has " + updatedPerson.children.length + " children '");
@@ -165,12 +165,12 @@ async function run() {
 
   // a non-identity change will cause an update on upsert
   upsertSource.foo = "baz";
-  const { body: upsertedPerson1 } = await container.items.upsert(upsertSource);
+  const { resource: upsertedPerson1 } = await container.items.upsert(upsertSource);
   console.log(`Upserted ${upsertedPerson1.id} to _rid ${upsertedPerson1._rid}.`);
 
   // an identity change will cause an insert on upsert
   upsertSource.id = "HazzardFamily";
-  const { body: upsertedPerson2 } = await container.items.upsert(upsertSource);
+  const { resource: upsertedPerson2 } = await container.items.upsert(upsertSource);
   console.log(`Upserted ${upsertedPerson2.id} to _rid ${upsertedPerson2._rid}.`);
 
   if (upsertedPerson1._rid === upsertedPerson2._rid)

@@ -8,7 +8,7 @@ console.log("container MANAGEMENT");
 console.log("=====================");
 console.log();
 
-const cosmos = require("../../lib/");
+const cosmos = require("../../dist/");
 const CosmosClient = cosmos.CosmosClient;
 const config = require("../Shared/config");
 const databaseId = config.names.database;
@@ -39,14 +39,14 @@ async function run() {
   //2.
   console.log("\n2. read all containers in database");
   const iterator = database.containers.readAll();
-  const { result: containersList } = await iterator.toArray();
+  const { resources: containersList } = await iterator.fetchAll();
   console.log(" --- Priting via iterator.toArray");
   console.log(containersList);
 
   //3.
   console.log("\n3. read container definition");
   const container = database.container(containerId);
-  const { body: containerDef } = await container.read();
+  const { resource: containerDef } = await container.read();
 
   console.log("container with url '" + container.url + "' was found its id is '" + containerDef.id);
 

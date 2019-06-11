@@ -7,7 +7,7 @@ console.log("USER MANAGEMENT");
 console.log("================");
 console.log();
 
-const cosmos = require("../../lib/");
+const cosmos = require("../../../dist");
 const CosmosClient = cosmos.CosmosClient;
 const config = require("../Shared/config");
 const databaseId = config.names.database;
@@ -56,7 +56,7 @@ async function init() {
 
   let permissionDef;
 
-  const { body: itemDef, item: item1 } = await container1.items.create(itemSpec);
+  const { resource: itemDef, item: item1 } = await container1.items.create(itemSpec);
   console.log(item1Name + "Created in " + container1Name + " !");
 
   itemSpec = { id: item2Name };
@@ -78,29 +78,29 @@ async function init() {
   console.log(user2Name + " created!");
 
   // Read Permission on container 1 for user1
-  permissionDef = { id: "p1", permissionMode: cosmos.DocumentBase.PermissionMode.Read, resource: container1.url };
+  permissionDef = { id: "p1", permissionMode: cosmos.PermissionMode.Read, resource: container1.url };
 
-  const { ref: permission1 } = await user1.permissions.create(permissionDef);
+  const { resource: permission1 } = await user1.permissions.create(permissionDef);
   console.log("Read only permission assigned to Thomas Andersen on container 1!");
 
-  permissionDef = { id: "p2", permissionMode: cosmos.DocumentBase.PermissionMode.All, resource: item1.url };
+  permissionDef = { id: "p2", permissionMode: cosmos.PermissionMode.All, resource: item1.url };
 
   // All Permissions on Doc1 for user1
-  const { ref: permission2 } = await user1.permissions.create(permissionDef);
+  const { resource: permission2 } = await user1.permissions.create(permissionDef);
   console.log("All permission assigned to Thomas Andersen on item 1!");
 
-  permissionDef = { id: "p3", permissionMode: cosmos.DocumentBase.PermissionMode.Read, resource: container2.url };
+  permissionDef = { id: "p3", permissionMode: cosmos.PermissionMode.Read, resource: container2.url };
 
   // Read Permissions on Col2 for user1
-  const { ref: permission3 } = await user1.permissions.create(permissionDef);
+  const { resource: permission3 } = await user1.permissions.create(permissionDef);
   console.log("Read permission assigned to Thomas Andersen on container 2!");
 
-  permissionDef = { id: "p4", permissionMode: cosmos.DocumentBase.PermissionMode.All, resource: container2.url };
+  permissionDef = { id: "p4", permissionMode: cosmos.PermissionMode.All, resource: container2.url };
 
-  const { ref: permission4 } = await user2.permissions.create(permissionDef);
+  const { resource: permission4 } = await user2.permissions.create(permissionDef);
   console.log("All permission assigned to Robin Wakefield on container 2!");
 
-  const { result: permissions } = await user1.permissions.readAll().toArray();
+  const { resources: permissions } = await user1.permissions.readAll().fetchAll();
   console.log("Fetched permission for Thomas Andersen. Count is : " + permissions.length);
 
   return { user1, user2, container1, container2, permission1, permission2, permission3, permission4 };
@@ -133,7 +133,7 @@ async function finish() {
  * @param {cosmos.Permission} permission
  */
 async function getResourceToken(container, permission) {
-  const { body: permDef } = await permission.read();
+  const { resource: permDef } = await permission.read();
   const resourceToken = {};
   resourceToken[container.url] = permDef._token;
   return resourceToken;
@@ -158,11 +158,11 @@ async function attemptAdminOperations(container, user, permission) {
     .database(databaseId)
     .container(container.id)
     .items.readAll()
-    .toArray();
+    .fetchAll();
   console.log(user.id + " able to perform read operation on container 1");
 
   try {
-    await client.databases.readAll().toArray();
+    await client.databases.readAll().fetchAll();
   } catch (err) {
     console.log(
       "Expected error occurred as " +
@@ -225,18 +225,18 @@ async function attemptReadFromTwoCollections(container1, container2, user1, perm
     }
   });
 
-  const { result: items1 } = await client
+  const { resources: items1 } = await client
     .database(databaseId)
     .container(container1.id)
     .items.readAll()
-    .toArray();
+    .fetchAll();
   console.log(user1.id + " able to read items from container 1. Document count is " + items1.length);
 
-  const { result: items2 } = await client
+  const { resources: items2 } = await client
     .database(databaseId)
     .container(container2.id)
     .items.readAll()
-    .toArray();
+    .fetchAll();
 
   console.log(user1.id + " able to read items from container 2. Document count is " + items2.length);
 

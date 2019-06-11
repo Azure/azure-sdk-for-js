@@ -8,7 +8,7 @@ console.log("INDEX MANAGEMENT");
 console.log("================");
 console.log();
 
-const cosmos = require("../../lib/");
+const cosmos = require("../../dist/");
 const CosmosClient = cosmos.CosmosClient;
 const config = require("../Shared/config");
 const fs = require("fs");
@@ -93,7 +93,7 @@ async function explictlyExcludeFromIndex(database) {
   //we're using the default indexing policy because by default indexingMode == consistent & automatic == true
   //which means that by default all items added to a container are indexed as the item is written
   const containerId = "ExplictExcludeDemo";
-  const { body: containerDef, container } = await database.containers.create({ id: containerId });
+  const { resource: containerDef, container } = await database.containers.create({ id: containerId });
   const itemSpec = { id: "item1", foo: "bar" };
 
   console.log("Create item, but exclude from index");
@@ -101,7 +101,7 @@ async function explictlyExcludeFromIndex(database) {
   //items.create() takes RequestOptions as 3rd parameter.
   //One of these options is indexingDirectives which can be include, or exclude
   //we're using exclude this time to manually exclude this item from being indexed
-  const { body: itemDef, item } = await container.items.create(itemSpec, { indexingDirective: "exclude" });
+  const { resource: itemDef, item } = await container.items.create(itemSpec, { indexingDirective: "exclude" });
   console.log("Item with id '" + itemDef.id + "' created");
 
   const querySpec = {
@@ -115,7 +115,7 @@ async function explictlyExcludeFromIndex(database) {
   };
 
   console.log("Querying all items for the given item should not find any results");
-  const { result: results } = await container.items.query(querySpec).toArray();
+  const { resources: results } = await container.items.query(querySpec).fetchAll();
   if (results.length !== 0) {
     throw new Error("there were not meant to be results");
   }
@@ -123,7 +123,7 @@ async function explictlyExcludeFromIndex(database) {
 
   console.log("item.read() should still find the item");
 
-  const { body: readItemDef } = await item.read();
+  const { resource: readItemDef } = await item.read();
   console.log("item.read() found item and its _self is '" + readItemDef._self + "'");
 
   await container.delete();
@@ -150,7 +150,7 @@ async function useManualIndexing(database) {
   // we're using include this time to manually index this particular item
   console.log("Create item, and explicitly include in index");
   const itemSpec = { id: "item1", foo: "bar" };
-  const { body: itemDef } = await container.items.create(itemSpec, { indexingDirective: "include" });
+  const { resource: itemDef } = await container.items.create(itemSpec, { indexingDirective: "include" });
   console.log("Item with id '" + itemDef.id + "' created");
 
   const querySpec = {
@@ -164,7 +164,7 @@ async function useManualIndexing(database) {
   };
 
   console.log("Querying all items for a given item should find a result as it was indexed");
-  const { result: results } = await container.items.query(querySpec).toArray();
+  const { resources: results } = await container.items.query(querySpec).fetchAll();
   if (results.length === 0) {
     throw new Error("There were meant to be results");
   } else {
@@ -196,13 +196,13 @@ async function useLazyIndexing(database) {
 
   // allowed values for IndexingMode are consistent (default), lazy and none
   const containerId = "LazyIndexDemo";
-  /** @type cosmos.DocumentBase.IndexingPolicy */
-  const indexingPolicySpec = { indexingMode: cosmos.DocumentBase.IndexingMode.lazy };
+  /** @type cosmos.IndexingPolicy */
+  const indexingPolicySpec = { indexingMode: cosmos.IndexingMode.lazy };
 
   // You can also set the indexing policy Mode via string
   indexingPolicySpec.indexingMode = "lazy";
 
-  const { body: containerDef, container } = await database.containers.create({
+  const { resource: containerDef, container } = await database.containers.create({
     id: containerId,
     indexingPolicy: indexingPolicySpec
   });
@@ -227,7 +227,7 @@ async function forceScanOnHashIndexPath(database) {
   console.log("create container with default index policy");
   const containerId = "ForceScanDemo";
 
-  const { body: containerDef, container } = await database.containers.create({ id: containerId });
+  const { resource: containerDef, container } = await database.containers.create({ id: containerId });
   console.log("Container '" + containerDef.id + "' created with default index policy (i.e. no range on strings)");
 
   //create an item
@@ -248,7 +248,7 @@ async function forceScanOnHashIndexPath(database) {
 
   console.log("Querying for item where stringField > 'a', should fail");
   try {
-    await container.items.query(querySpec).toArray();
+    await container.items.query(querySpec).fetchAll();
   } catch (err) {
     console.log("Query failed with " + err.code);
   }
@@ -258,17 +258,16 @@ async function forceScanOnHashIndexPath(database) {
   //so a scan on 1 item isn't costly. a few thousand items will be very different
   console.log("Repeating query for item where stringField > 'a', this time with enableScanInQuery: true");
 
-  //notice how we're switching to queryIterator.executeNext instead of calling .toArray() as before
-  //reason being, toArray will issue multiple requests to the server until it has fetched all results
+  //notice how we're switching to queryIterator.executeNext instead of calling .fetchAll() as before
+  //reason being, fetchAll will issue multiple requests to the server until it has fetched all results
   //here we can control this using executeNext.
   //now we can get the headers for each request which includes the charge, continuation tokens etc.
 
   const queryIterator = container.items.query(querySpec, { enableScanInQuery: true });
-  const { result: items, headers } = await queryIterator.executeNext();
-  const charge = headers["x-ms-request-charge"];
+  const { resources: items, requestCharge } = await queryIterator.fetchNext();
   const itemDef = items[0];
 
-  console.log("Item '" + itemDef.id + "' found, request charge: " + charge);
+  console.log("Item '" + itemDef.id + "' found, request charge: " + requestCharge);
 
   await container.delete();
   console.log("Container '" + containerId + "' deleted");
@@ -286,7 +285,7 @@ async function useRangeIndexOnStrings(database) {
   console.log("create container with range index on string paths");
   const containerId = "RangeIndexDemo";
   /**
-   * @type cosmos.DocumentBase.IndexingPolicy
+   * @type cosmos.IndexingPolicy
    */
   const indexPolicySpec = {
     includedPaths: [
@@ -294,19 +293,19 @@ async function useRangeIndexOnStrings(database) {
         path: "/*",
         indexes: [
           {
-            kind: cosmos.DocumentBase.IndexKind.Range,
-            dataType: cosmos.DocumentBase.DataType.String
+            kind: cosmos.IndexKind.Range,
+            dataType: cosmos.DataType.String
           },
           {
-            kind: cosmos.DocumentBase.IndexKind.Range,
-            dataType: cosmos.DocumentBase.DataType.Number
+            kind: cosmos.IndexKind.Range,
+            dataType: cosmos.DataType.Number
           }
         ]
       }
     ]
   };
 
-  const { body: containerDef, container } = await database.containers.create({
+  const { resource: containerDef, container } = await database.containers.create({
     id: containerId,
     indexingPolicy: indexPolicySpec
   });
@@ -330,16 +329,15 @@ async function useRangeIndexOnStrings(database) {
 
   console.log("Querying for item where stringField > 'a', should return results");
 
-  //notice how we're switching to queryIterator.executeNext instead of calling .toArray() as before
-  //reason being, toArray will issue multiple requests to the server until it has fetched all results
+  //notice how we're switching to queryIterator.executeNext instead of calling .fetchAll() as before
+  //reason being, fetchAll will issue multiple requests to the server until it has fetched all results
   //here we can control this using executeNext.
   //now we can get the headers for each request which includes the charge, continuation tokens etc.
   const queryIterator = container.items.query(querySpec, { enableScanInQuery: true });
-  const { result: items, headers } = await queryIterator.executeNext();
-  const charge = headers["x-ms-request-charge"];
+  const { resources: items, requestCharge } = await queryIterator.fetchNext();
   const itemDef = items[0];
 
-  console.log("Item '" + itemDef.id + "' found, request charge: " + charge);
+  console.log("Item '" + itemDef.id + "' found, request charge: " + requestCharge);
 
   await container.delete();
   console.log("Container '" + containerId + "' deleted");
@@ -360,8 +358,8 @@ async function excludePathsFromIndex(database) {
         path: "/",
         indexes: [
           {
-            kind: cosmos.DocumentBase.IndexKind.Hash,
-            dataType: cosmos.DocumentBase.DataType.Number,
+            kind: cosmos.IndexKind.Range,
+            dataType: cosmos.DataType.Number,
             precision: 2
           }
         ]
@@ -374,7 +372,7 @@ async function excludePathsFromIndex(database) {
     ]
   };
 
-  const { body: containerDef, container } = await database.containers.create({
+  const { resource: containerDef, container } = await database.containers.create({
     id: containerId,
     indexingPolicy: indexPolicySpec
   });
@@ -411,7 +409,7 @@ async function excludePathsFromIndex(database) {
     //expecting an exception on this query due to the fact that it includes paths that
     //have been excluded. If you want to force a scan, then enableScanInQuery like we did in forceScanOnHashIndexPath()
     console.log("Querying for item where metaData = 'meta', should throw an exception");
-    await container.items.query(querySpec).toArray();
+    await container.items.query(querySpec).fetchAll();
     throw new Error("Should've produced an error");
   } catch (err) {
     if (err.code !== undefined) {
@@ -421,7 +419,7 @@ async function excludePathsFromIndex(database) {
     }
   } //show that you can still read the item by its id
   console.log("Can still item.read() using '" + item.id + "'");
-  const { body: itemDef } = await item.read();
+  const { resource: itemDef } = await item.read();
   console.log("Item '" + item.id + "' read and it's _self is '" + itemDef._self + "'");
 
   await container.delete();
@@ -437,7 +435,7 @@ async function performIndexTransforms(database) {
   console.log("Creating container with default index policy (i.e. no range on strings)");
   const containterId = "IndexTransformsDemo";
 
-  const { body: containerDef, container } = await database.containers.create({ id: containterId });
+  const { resource: containerDef, container } = await database.containers.create({ id: containterId });
   console.log("Container '" + containerDef.id + "' created");
 
   //create item
@@ -447,7 +445,7 @@ async function performIndexTransforms(database) {
   };
 
   console.log("Creating item");
-  const { body: itemDef, item } = await container.items.create(itemSpec);
+  const { resource: itemDef, item } = await container.items.create(itemSpec);
   console.log("Item with id '" + itemDef.id + "' created");
 
   //define a new indexPolicy which includes Range on all string paths (and Hash on all numbers)
@@ -497,7 +495,7 @@ async function performIndexTransforms(database) {
   };
 
   // Querying all items doing a range operation on a string (this would've failed without the transform)
-  const { result: results } = await container.items.query(querySpec).toArray();
+  const { resources: results } = await container.items.query(querySpec).fetchAll();
   if (results.length == 0) {
     throw new Error("Should've found an item");
   } else {
@@ -531,7 +529,7 @@ async function waitForIndexTransformToComplete(container) {
     console.log("Reading container");
     const { headers } = await container.read();
 
-    progress = headers["x-ms-documentdb-collection-index-transformation-progress"];
+    progress = Number(headers["x-ms-documentdb-collection-index-transformation-progress"]);
     console.log("Progress is currently " + progress);
 
     console.log("Waiting for 100ms");

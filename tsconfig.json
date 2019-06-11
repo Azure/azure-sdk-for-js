@@ -1,5 +1,5 @@
 {
   "compilerOptions": {},
   "files": [],
-  "references": [{ "path": "./src" }, { "path": "./test" }]
+  "references": [{ "path": "./src" }, { "path": "./test" }, { "path": "./samples" }]
 }

@@ -9,7 +9,7 @@ console.log("===================");
 console.log();
 
 const assert = require("assert");
-const cosmos = require("../../lib/");
+const cosmos = require("../../dist/");
 const CosmosClient = cosmos.CosmosClient;
 const config = require("../Shared/config");
 const databaseId = config.names.database;
@@ -38,16 +38,16 @@ async function run() {
 
   // 2.
   console.log("\n2. Read all databases");
-  const { result: dbDefList } = await client.databases.readAll().toArray();
+  const { resources: dbDefList } = await client.databases.readAll().fetchAll();
   console.log(dbDefList);
 
   // 3.
   console.log("\n3. readDatabase - with id '" + databaseId + "'");
-  const { body: dbDef } = await client.database(databaseId).read();
+  const { resource: dbDef } = await client.database(databaseId).read();
   // This uses Object deconstruction to just grab the body of the response,
   // but you can also grab the whole response object to use
   const databaseResponse = await client.database(databaseId).read();
-  const alsoDbDef = databaseResponse.body;
+  const alsoDbDef = databaseResponse.resource;
   assert.equal(dbDef.id, alsoDbDef.id); // The bodies will also almost be equal, _ts will defer based on the read time
   // This applies for all response types, not just DatabaseResponse.
 

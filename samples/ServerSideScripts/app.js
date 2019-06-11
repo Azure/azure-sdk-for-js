@@ -10,7 +10,7 @@ console.log();
 /*jshint node:true */
 ("use strict");
 
-const cosmos = require("../../lib/");
+const cosmos = require("../../../dist/");
 const CosmosClient = cosmos.CosmosClient;
 const config = require("../Shared/config");
 const fs = require("fs");
@@ -41,12 +41,12 @@ async function run() {
   console.log("Upserting the sproc: '" + sprocDefinition.id + "'");
 
   // Query for the stored procedure.
-  const { sproc, body: sprocDef } = await container.storedProcedures.upsert(sprocDefinition);
+  const { sproc, resource: sprocDef } = await container.scripts.storedProcedures.upsert(sprocDefinition);
 
   console.log("Executing the sproc: '" + sproc.id + "'");
   console.log("Sproc parameters: " + JSON.stringify(sprocParams));
 
-  const { body: results, headers } = await sproc.execute(sprocParams);
+  const { resource: results, headers } = await sproc.execute(sprocParams);
   console.log("//////////////////////////////////");
   if (headers) {
     console.log("// responseHeaders");
@@ -59,7 +59,7 @@ async function run() {
   console.log("//////////////////////////////////");
 
   await database.delete();
-  console.log("Database and Collection DELETED"); 
+  console.log("Database and Collection DELETED");
   console.log("Demo finished");
 }
 

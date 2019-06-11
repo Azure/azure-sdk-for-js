@@ -1,7 +1,7 @@
 ﻿// @ts-check
 "use strict";
 
-const cosmos = require("../../lib/");
+const cosmos = require("../../dist/");
 const CosmosClient = cosmos.CosmosClient;
 const config = require("../Shared/config");
 const databaseId = config.names.database;
@@ -69,7 +69,7 @@ async function run() {
 
     console.log(`  👉 Inserted id=3`);
 
-    const specificContinuationIterator = container.items.readChangeFeed(pk, { continuation: lsn });
+    const specificContinuationIterator = container.items.readChangeFeed(pk, { continuation: lsn.toString() });
     const specificPointInTimeIterator = container.items.readChangeFeed(pk, { startTime: now });
     const fromBeginningIterator = container.items.readChangeFeed(pk, { startFromBeginning: true });
     const fromNowIterator = container.items.readChangeFeed(pk, {});
@@ -135,7 +135,7 @@ async function init() {
   const { database } = await client.databases.createIfNotExists({ id: databaseId });
   const { container } = await database.containers.createIfNotExists({
     id: containerId,
-    partitionKey: { kind: "Hash", paths: ["/pk"] }
+    partitionKey: { paths: ["/pk"] }
   });
   return container;
 }

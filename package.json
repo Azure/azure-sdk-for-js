@@ -75,7 +75,8 @@
     "tslint": "5.16.0",
     "tslint-config-prettier": "^1.14.0",
     "typedoc": "0.14.2",
-    "typescript": "3.5.1"
+    "typescript": "3.5.1",
+    "uuid": "3.3.2"
   },
   "dependencies": {
     "@azure/cosmos-sign": "1.0.2",
