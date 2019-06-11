@@ -164,11 +164,11 @@ describe("RequestResponseLink", function() {
       const controller = new AbortController();
       const signal = controller.signal;
       setTimeout(controller.abort.bind(controller), 100);
-      await link.sendRequest(request, { abortSignal: signal });
+      await link.sendRequest(request, { abortSignal: signal, requestName: "foo" });
       throw new Error(`Test failure`);
     } catch (err) {
       const expectedErrorRegex = new RegExp(
-        /The requestName operation has been cancelled by the user.$/,
+        /The foo operation has been cancelled by the user.$/,
         "gi"
       );
       assert.equal(expectedErrorRegex.test(err.message), true);
@@ -246,10 +246,7 @@ describe("RequestResponseLink", function() {
       });
       throw new Error(`Test failure`);
     } catch (err) {
-      const expectedErrorRegex = new RegExp(
-        /The requestName operation has been cancelled by the user.$/,
-        "gi"
-      );
+      const expectedErrorRegex = new RegExp(/The operation has been cancelled by the user.$/, "gi");
       assert.equal(
         expectedErrorRegex.test(err.message),
         true,
