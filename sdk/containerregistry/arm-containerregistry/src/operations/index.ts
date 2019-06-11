@@ -14,3 +14,5 @@ export * from "./replications";
 export * from "./webhooks";
 export * from "./runs";
 export * from "./tasks";
+export * from "./scopeMaps";
+export * from "./tokens";
