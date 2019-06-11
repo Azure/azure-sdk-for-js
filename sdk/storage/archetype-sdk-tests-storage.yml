@@ -68,7 +68,7 @@ parameters:
 
 
 jobs:
-  - template: ../../eng/pipelines/templates/jobs/archetype-sdk.yml
+  - template: ../../eng/pipelines/templates/jobs/archetype-sdk-tests.yml
     parameters:
       EnvVars: ${{ parameters.EnvVars }}
       PackageName: ${{ parameters.PackageName }}
