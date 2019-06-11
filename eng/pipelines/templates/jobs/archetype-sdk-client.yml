@@ -25,10 +25,10 @@ jobs:
         displayName: "Install dependencies"
 
       - script: |
-          node common/scripts/install-run-rush.js build --verbose $[variables('GeneratedPackageTargets')]
+          node common/scripts/install-run-rush.js build --verbose $(GeneratedPackageTargets)
         displayName: "Build libraries"
       - script: |
-          node common/scripts/install-run-rush.js pack --verbose $[variables('GeneratedPackageTargets')]
+          node common/scripts/install-run-rush.js pack --verbose $(GeneratedPackageTargets)
         displayName: "Pack libraries"
 
       - task: CopyFiles@2
@@ -75,7 +75,7 @@ jobs:
 
       - script: |
           node common/scripts/install-run-rush.js install
-          node common/scripts/install-run-rush.js audit $[variables('GeneratedPackageTargets')]
+          node common/scripts/install-run-rush.js audit $(GeneratedPackageTargets)
         condition: and(succeeded(), eq(variables['RunNpmAudit'], 'true'))
         displayName: "Audit packages"
 
@@ -143,13 +143,13 @@ jobs:
         displayName: "Install dependencies"
 
       - script: |
-          node common/scripts/install-run-rush.js build --verbose $[variables('GeneratedPackageTargets')]
+          node common/scripts/install-run-rush.js build --verbose $(GeneratedPackageTargets)
         displayName: "Build libraries"
       - script: |
-          node common/scripts/install-run-rush.js build:test --verbose $[variables('GeneratedPackageTargets')]
+          node common/scripts/install-run-rush.js build:test --verbose $(GeneratedPackageTargets)
         displayName: "Build test assets"
       - script: |
-          node common/scripts/install-run-rush.js unit-test --verbose $[variables('GeneratedPackageTargets')]
+          node common/scripts/install-run-rush.js unit-test --verbose $(GeneratedPackageTargets)
         displayName: "Test libraries"
 
       - task: PublishTestResults@2
