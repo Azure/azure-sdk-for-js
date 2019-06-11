@@ -1,26 +1,26 @@
 let nock = require('nock');
 
-module.exports.testInfo = {"queue":"queue155996388531102102"}
+module.exports.testInfo = {"queue":"queue156027473513109372"}
 
 nock('https://fakestorageaccount.queue.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/queue155996388531102102')
+  .put('/queue156027473513109372')
   .query(true)
   .reply(201, "", [ 'Content-Length',
   '0',
   'Server',
   'Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '26a34e8d-6003-0007-4da8-1d6bdd000000',
+  'b62eaa19-c003-0077-597c-20ffd0000000',
   'x-ms-version',
   '2018-03-28',
   'Date',
-  'Sat, 08 Jun 2019 03:18:04 GMT',
+  'Tue, 11 Jun 2019 17:38:55 GMT',
   'Connection',
   'close' ]);
 
 
 nock('https://fakestorageaccount.queue.core.windows.net:443', {"encodedQueryParams":true})
-  .get('/queue155996388531102102')
+  .get('/queue156027473513109372')
   .query(true)
   .reply(200, "", [ 'Cache-Control',
   'no-cache',
@@ -29,7 +29,7 @@ nock('https://fakestorageaccount.queue.core.windows.net:443', {"encodedQueryPara
   'Server',
   'Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'bab24d46-8003-008e-06a8-1dd2f9000000',
+  '824ab299-0003-002e-037c-20fa56000000',
   'x-ms-version',
   '2018-03-28',
   'x-ms-approximate-messages-count',
@@ -39,24 +39,24 @@ nock('https://fakestorageaccount.queue.core.windows.net:443', {"encodedQueryPara
   'Access-Control-Allow-Origin',
   '*',
   'Date',
-  'Sat, 08 Jun 2019 03:18:04 GMT',
+  'Tue, 11 Jun 2019 17:38:55 GMT',
   'Connection',
   'close' ]);
 
 
 nock('https://fakestorageaccount.queue.core.windows.net:443', {"encodedQueryParams":true})
-  .delete('/queue155996388531102102')
+  .delete('/queue156027473513109372')
   .query(true)
   .reply(204, "", [ 'Content-Length',
   '0',
   'Server',
   'Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '6f30b781-4003-0032-3fa8-1dc588000000',
+  'be6ba5ed-2003-007d-2e7c-20e659000000',
   'x-ms-version',
   '2018-03-28',
   'Date',
-  'Sat, 08 Jun 2019 03:18:05 GMT',
+  'Tue, 11 Jun 2019 17:38:55 GMT',
   'Connection',
   'close' ]);
 

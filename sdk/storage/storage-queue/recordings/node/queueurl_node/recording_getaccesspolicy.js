@@ -1,26 +1,26 @@
 let nock = require('nock');
 
-module.exports.testInfo = {"queue":"queue155996392173306060"}
+module.exports.testInfo = {"queue":"queue156027476873000698"}
 
 nock('https://fakestorageaccount.queue.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/queue155996392173306060')
+  .put('/queue156027476873000698')
   .query(true)
   .reply(201, "", [ 'Content-Length',
   '0',
   'Server',
   'Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '4f48a85a-9003-0012-1ba8-1da944000000',
+  '0f449788-8003-003f-6a7c-20cd4d000000',
   'x-ms-version',
   '2018-03-28',
   'Date',
-  'Sat, 08 Jun 2019 03:18:40 GMT',
+  'Tue, 11 Jun 2019 17:39:28 GMT',
   'Connection',
   'close' ]);
 
 
 nock('https://fakestorageaccount.queue.core.windows.net:443', {"encodedQueryParams":true})
-  .get('/queue155996392173306060')
+  .get('/queue156027476873000698')
   .query(true)
   .reply(200, "﻿<?xml version=\"1.0\" encoding=\"utf-8\"?><SignedIdentifiers />", [ 'Cache-Control',
   'no-cache',
@@ -31,7 +31,7 @@ nock('https://fakestorageaccount.queue.core.windows.net:443', {"encodedQueryPara
   'Server',
   'Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'b86f04e4-6003-0043-1aa8-1db7b1000000',
+  '71cce97b-5003-009c-687c-20012c000000',
   'x-ms-version',
   '2018-03-28',
   'Access-Control-Expose-Headers',
@@ -39,24 +39,24 @@ nock('https://fakestorageaccount.queue.core.windows.net:443', {"encodedQueryPara
   'Access-Control-Allow-Origin',
   '*',
   'Date',
-  'Sat, 08 Jun 2019 03:18:41 GMT',
+  'Tue, 11 Jun 2019 17:39:28 GMT',
   'Connection',
   'close' ]);
 
 
 nock('https://fakestorageaccount.queue.core.windows.net:443', {"encodedQueryParams":true})
-  .delete('/queue155996392173306060')
+  .delete('/queue156027476873000698')
   .query(true)
   .reply(204, "", [ 'Content-Length',
   '0',
   'Server',
   'Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '3abd0ff3-9003-005d-12a8-1d6d5c000000',
+  'cbc4447b-b003-0015-147c-20b808000000',
   'x-ms-version',
   '2018-03-28',
   'Date',
-  'Sat, 08 Jun 2019 03:18:42 GMT',
+  'Tue, 11 Jun 2019 17:39:29 GMT',
   'Connection',
   'close' ]);
 
