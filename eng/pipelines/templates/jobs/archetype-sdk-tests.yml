@@ -51,7 +51,7 @@ jobs:
     steps:
       - task: NodeTool@0
         inputs:
-          versionSpec: $(NodeVersion)"
+          versionSpec: "$(NodeVersion)"
         displayName: "Install Node.js $(NodeVersion)"
 
       - script: |
