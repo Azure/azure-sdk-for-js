@@ -168,7 +168,7 @@ describe("RequestResponseLink", function() {
       throw new Error(`Test failure`);
     } catch (err) {
       const expectedErrorRegex = new RegExp(
-        /The request operation has been cancelled by the user.$/,
+        /The requestName operation has been cancelled by the user.$/,
         "gi"
       );
       assert.equal(expectedErrorRegex.test(err.message), true);
@@ -247,7 +247,7 @@ describe("RequestResponseLink", function() {
       throw new Error(`Test failure`);
     } catch (err) {
       const expectedErrorRegex = new RegExp(
-        /The request operation has been cancelled by the user.$/,
+        /The requestName operation has been cancelled by the user.$/,
         "gi"
       );
       assert.equal(
