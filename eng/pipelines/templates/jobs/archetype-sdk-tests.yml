@@ -7,26 +7,32 @@ parameters:
       OSName: "Linux"
       OSVmImage: "ubuntu-16.04"
       TestType: "node"
+      TestResultsFile: "**/test-results.xml"
     Windows_Node10X:
       OSName: "Windows"
       OSVmImage: "vs2017-win2016"
       TestType: "node"
+      TestResultsFile: "**/test-results.xml"
     Mac_Node10X:
       OSName: "Mac"
       OSVmImage: "macOS-10.13"
       TestType: "node"
+      TestResultsFile: "**/test-results.xml"
     Browser_Linux_Node10X:
       OSName: "Linux"
       OSVmImage: "ubuntu-16.04"
       TestType: "browser"
+      TestResultsFile: "**/test-results.browser.xml"
     Browser_Windows_Node10X:
       OSName: "Windows"
       OSVmImage: "vs2017-win2016"
       TestType: "browser"
+      TestResultsFile: "**/test-results.browser.xml"
     Browser_Mac_Node10X:
       OSName: "Mac"
       OSVmImage: "macOS-10.13"
       TestType: "browser"
+      TestResultsFile: "**/test-results.browser.xml"
 
 jobs:
   - job: "Test_${{ parameters.TestType }}"
@@ -51,9 +57,7 @@ jobs:
 
       - task: PublishTestResults@2
         inputs:
-          testResultsFiles: "**/test-results.xml"
+          testResultsFiles: $(TestResultsFile)
           testRunTitle: "$(OSName) - $(TestType) - Tests [Node $(NodeVersion)]"
         condition: succeededOrFailed()
         displayName: "Publish node test results"
-        ${{ if eq($(TestType), 'browser') }}:
-          testResultsFiles: "**/test-results.browser.xml"
