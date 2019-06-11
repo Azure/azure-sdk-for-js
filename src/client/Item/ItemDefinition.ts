@@ -7,6 +7,9 @@
  * in {@link ItemBody}
  */
 export interface ItemDefinition {
+  /** The id of the item. User settable property. Uniquely identifies the item along with the partition key */
   id?: string;
+  /** Time to live in seconds for collections with TTL enabled */
+  ttl?: number;
   [key: string]: any;
 }
