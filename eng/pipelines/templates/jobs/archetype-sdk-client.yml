@@ -16,13 +16,13 @@ jobs:
           npm install -g npm@6.9.0
         displayName: "Install npm version 6.9.0"
 
+      - tempate: ../steps/select-packages.yml
+        parameters:
+          ServiceDirectory: ${{parameters.ServiceDirectory}}
+
       - script: |
           node common/scripts/install-run-rush.js install
         displayName: "Install dependencies"
-
-      - script: |
-          node common/scripts/select-packages.js ${{parameters.ServiceDirectory}}
-        displayName: "Selecting packages to build"
 
       - script: |
           node common/scripts/install-run-rush.js build --verbose $(GeneratedPackageTargets)
@@ -62,6 +62,10 @@ jobs:
         inputs:
           versionSpec: "$(NodeVersion)"
         displayName: "Install Node.js $(NodeVersion)"
+
+      - tempate: ../steps/select-packages.yml
+        parameters:
+          ServiceDirectory: ${{parameters.ServiceDirectory}}
 
       - script: |
           pip install setuptools wheel
@@ -130,6 +134,10 @@ jobs:
         inputs:
           versionSpec: "$(NodeVersion)"
         displayName: "Install Node.js $(NodeVersion)"
+
+      - tempate: ../steps/select-packages.yml
+        parameters:
+          ServiceDirectory: ${{parameters.ServiceDirectory}}
 
       - script: |
           node common/scripts/install-run-rush.js install
