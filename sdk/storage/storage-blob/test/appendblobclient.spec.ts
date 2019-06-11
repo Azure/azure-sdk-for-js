@@ -66,7 +66,7 @@ describe("AppendBlobClient", () => {
     assert.equal(downloadResponse.contentLength!, content.length);
   });
 
-  it.only("can be created with a url and a credential", async () => {
+  it("can be created with a url and a credential", async () => {
     const factories = appendBlobClient.pipeline.factories;
     const credential = factories[factories.length - 1] as SharedKeyCredential;
     const newClient = new AppendBlobClient(appendBlobClient.url, credential);
@@ -75,7 +75,7 @@ describe("AppendBlobClient", () => {
     await newClient.download();
   });
 
-  it.only("can be created with a url and a credential and an option bag", async () => {
+  it("can be created with a url and a credential and an option bag", async () => {
     const factories = appendBlobClient.pipeline.factories;
     const credential = factories[factories.length - 1] as SharedKeyCredential;
     const newClient = new AppendBlobClient(appendBlobClient.url, credential, {
