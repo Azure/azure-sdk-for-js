@@ -2,21 +2,21 @@
 // Licensed under the MIT License.
 
 import chai from "chai";
-import os from "os";
+import * as os from "os";
 const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 import chaiString from "chai-string";
 chai.use(chaiString);
 import debugModule from "debug";
-import dotenv from "dotenv";
-dotenv.config();
 const debug = debugModule("azure:event-hubs:client-spec");
 import { EventHubClient } from "../src";
 import { packageJsonInfo } from "../src/util/constants";
+import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
+const env = getEnvVars();
 
 
-describe("EventHubClient", function(): void {
+describe("EventHubClient #RunnableInBrowser", function(): void {
   describe(".fromConnectionString", function(): void {
  
     it("throws when it cannot find the Event Hub path", function(): void {
@@ -56,15 +56,21 @@ function arrayOfIncreasingNumbersFromZero(length: any): Array<string> {
 
 before("validate environment", function(): void {
   should.exist(
-    process.env.EVENTHUB_CONNECTION_STRING,
+    env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
     "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests."
   );
-  should.exist(process.env.EVENTHUB_NAME, "define EVENTHUB_NAME in your environment before running integration tests.");
+  should.exist(
+    env[EnvVarKeys.EVENTHUB_NAME],
+    "define EVENTHUB_NAME in your environment before running integration tests."
+  );
 });
 
-const service = { connectionString: process.env.EVENTHUB_CONNECTION_STRING, path: process.env.EVENTHUB_NAME };
+const service = {
+  connectionString: env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
+  path: env[EnvVarKeys.EVENTHUB_NAME]
+};
 
-describe("EventHubClient on ", function(): void {
+describe("EventHubClient on #RunnableInBrowser", function(): void {
   let client: EventHubClient;
 
   afterEach("close the connection", async function(): Promise<void> {

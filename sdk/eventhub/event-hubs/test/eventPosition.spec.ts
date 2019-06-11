@@ -7,7 +7,7 @@ chai.should();
 import { EventPosition } from "../src";
 import { getEventPositionFilter } from "../src/util/utils";
 
-describe("EventPosition", function(): void {
+describe("EventPosition #RunnableInBrowser", function(): void {
   describe("happy", function(): void {
     it("should create from an offset with inclusive false", function(done: Mocha.Done): void {
       const result = "amqp.annotation.x-opt-offset > '1234'";

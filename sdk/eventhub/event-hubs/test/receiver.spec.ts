@@ -11,22 +11,25 @@ const debug = debugModule("azure:event-hubs:receiver-spec");
 import { EventPosition, EventHubClient, EventData, MessagingError, ReceivedEventData, EventReceiver } from "../src";
 import { BatchingReceiver } from "../src/batchingReceiver";
 import { ReceiveHandler } from "../src/streamingReceiver";
-import dotenv from "dotenv";
-dotenv.config();
+import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
+const env = getEnvVars();
 
 describe("EventHub Receiver", function(): void {
-  const service = { connectionString: process.env.EVENTHUB_CONNECTION_STRING, path: process.env.EVENTHUB_NAME };
+  const service = {
+    connectionString: env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
+    path: env[EnvVarKeys.EVENTHUB_NAME]
+  };
   const client: EventHubClient = EventHubClient.createFromConnectionString(service.connectionString!, service.path);
   let breceiver: BatchingReceiver;
   let receiver: EventReceiver | undefined;
   let partitionIds: string[];
   before("validate environment", async function(): Promise<void> {
     should.exist(
-      process.env.EVENTHUB_CONNECTION_STRING,
+      env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
       "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests."
     );
     should.exist(
-      process.env.EVENTHUB_NAME,
+      env[EnvVarKeys.EVENTHUB_NAME],
       "define EVENTHUB_NAME in your environment before running integration tests."
     );
     partitionIds = await client.getPartitionIds();
@@ -50,7 +53,7 @@ describe("EventHub Receiver", function(): void {
     }
   });
 
-  describe("with partitionId 0 as number", function(): void {
+  describe("with partitionId 0 as number #RunnableInBrowser", function(): void {
     it("should work for receiveBatch", async function(): Promise<void> {
       receiver = client.createReceiver(partitionIds[0], { beginReceivingAt: EventPosition.fromSequenceNumber(0) });
       const result = await receiver.receiveBatch(10, 20);
@@ -151,7 +154,7 @@ describe("EventHub Receiver", function(): void {
       data2.length.should.equal(0);
     });
 
-    it("'after a particular offset with isInclusive true' should receive messages correctly", async function(): Promise<
+    it("'after a particular offset with isInclusive true' should receive messages correctly #RunnableInBrowser", async function(): Promise<
       void
     > {
       const partitionId = partitionIds[0];
@@ -218,7 +221,7 @@ describe("EventHub Receiver", function(): void {
       data2.length.should.equal(0, "Unexpected message received");
     });
 
-    it("'after the particular sequence number' should receive messages correctly", async function(): Promise<void> {
+    it("'after the particular sequence number' should receive messages correctly #RunnableInBrowser", async function(): Promise<void> {
       const partitionId = partitionIds[0];
       const pInfo = await client.getPartitionInformation(partitionId);
       // send a new message. We should only receive this new message.
@@ -246,7 +249,7 @@ describe("EventHub Receiver", function(): void {
       data2.length.should.equal(0, "Unexpected message received");
     });
 
-    it("'after the particular sequence number' with isInclusive true should receive messages correctly", async function(): Promise<
+    it("'after the particular sequence number' with isInclusive true should receive messages correctly #RunnableInBrowser", async function(): Promise<
       void
     > {
       const partitionId = partitionIds[0];
@@ -285,7 +288,7 @@ describe("EventHub Receiver", function(): void {
     });
   });
 
-  describe("in batch mode", function(): void {
+  describe("in batch mode #RunnableInBrowser", function(): void {
     it("should receive messages correctly", async function(): Promise<void> {
       const partitionId = partitionIds[0];
       receiver = client.createReceiver(partitionId);
@@ -446,7 +449,7 @@ describe("EventHub Receiver", function(): void {
   //   });
   // });
 
-  describe("with epoch", function(): void {
+  describe("with epoch #RunnableInBrowser", function(): void {
     it("should behave correctly when a receiver with lower epoch value is connected after a receiver with higher epoch value to a partition in a consumer group", function(done: Mocha.Done): void {
       const partitionId = partitionIds[0];
       let epochRcvr1: ReceiveHandler;
@@ -636,7 +639,7 @@ describe("EventHub Receiver", function(): void {
     });
   });
 
-  describe("Negative scenarios", function(): void {
+  describe("Negative scenarios #RunnableInBrowser", function(): void {
     describe("on invalid partition ids like", function(): void {
       const invalidIds = ["XYZ", "-1", "1000", "-"];
       invalidIds.forEach(function(id: string): void {
