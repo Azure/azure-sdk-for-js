@@ -10,5 +10,5 @@
 // syntax which creates a variable for use within a later stage of the pipeine.
 
 console.log(
-  '##vso[task.setvariable variable=GeneratedPackageTargets;]--to "@azure/core-http" --to "@azure/amqp-common" --to "@azure/core-aborter"'
+  '##vso[task.setvariable variable=GeneratedPackageTargets;]--to "@azure/core-http" --to "@azure/amqp-common" --to "@azure/abort-controller"'
 );
