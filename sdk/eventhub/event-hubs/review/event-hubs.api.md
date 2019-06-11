@@ -5,7 +5,7 @@
 ```ts
 
 import { AadTokenProvider } from '@azure/amqp-common';
-import { AbortSignalLike } from '@azure/ms-rest-js';
+import { AbortSignal } from '@azure/abort-controller';
 import { AmqpError } from 'rhea-promise';
 import { ApplicationTokenCredentials } from '@azure/ms-rest-nodeauth';
 import { ConnectionContextBase } from '@azure/amqp-common';
@@ -38,8 +38,7 @@ export { delay }
 
 // @public
 export interface EventBatchingOptions {
-    // Warning: (ae-forgotten-export) The symbol "Aborter" needs to be exported by the entry point index.d.ts
-    cancellationToken?: Aborter;
+    abortSignal?: AbortSignal;
     partitionKey?: string | null;
 }
 
@@ -62,9 +61,9 @@ export class EventHubClient {
     createReceiver(partitionId: string, options?: EventReceiverOptions): EventReceiver;
     createSender(options?: EventSenderOptions): EventSender;
     readonly eventHubName: string;
-    getPartitionIds(cancellationToken?: Aborter): Promise<Array<string>>;
-    getPartitionInformation(partitionId: string, cancellationToken?: Aborter): Promise<PartitionProperties>;
-    getProperties(cancellationToken?: Aborter): Promise<EventHubProperties>;
+    getPartitionIds(abortSignal?: AbortSignal): Promise<Array<string>>;
+    getPartitionInformation(partitionId: string, abortSignal?: AbortSignal): Promise<PartitionProperties>;
+    getProperties(abortSignal?: AbortSignal): Promise<EventHubProperties>;
 }
 
 // @public
@@ -85,7 +84,7 @@ export interface EventHubProperties {
 
 // @public
 export interface EventIteratorOptions {
-    cancellationToken?: Aborter;
+    abortSignal?: AbortSignal;
 }
 
 // @public
@@ -123,8 +122,8 @@ export class EventReceiver {
     readonly isClosed: boolean;
     isReceivingMessages(): boolean;
     readonly partitionId: string;
-    receive(onMessage: OnMessage, onError: OnError, cancellationToken?: Aborter): ReceiveHandler;
-    receiveBatch(maxMessageCount: number, maxWaitTimeInSeconds?: number, cancellationToken?: Aborter): Promise<ReceivedEventData[]>;
+    receive(onMessage: OnMessage, onError: OnError, abortSignal?: AbortSignal): ReceiveHandler;
+    receiveBatch(maxMessageCount: number, maxWaitTimeInSeconds?: number, abortSignal?: AbortSignal): Promise<ReceivedEventData[]>;
     }
 
 // @public

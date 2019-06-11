@@ -16,7 +16,7 @@ import { ReceivedEventData, EventDataInternal, fromAmqpMessage } from "./eventDa
 import { EventReceiverOptions, RetryOptions } from "./eventHubClient";
 import { EventHubReceiver } from "./eventHubReceiver";
 import { ConnectionContext } from "./connectionContext";
-import { Aborter } from "./aborter";
+import { AbortSignal } from "@azure/abort-controller";
 import * as log from "./log";
 import { throwAbortError } from './util/error';
 
@@ -53,14 +53,14 @@ export class BatchingReceiver extends EventHubReceiver {
    * @param {number} [maxWaitTimeInSeconds] The maximum wait time in seconds for which the Receiver
    * should wait to receiver the said amount of messages. If not provided, it defaults to 60 seconds.
    * @param {RetryOptions} [retryOptions] Retry options for the receive operation
-   * @param {Aborter} cancellationToken Cancel current operation.
+   * @param {AbortSignal} abortSignal Signal to cancel current operation.
    * @returns {Promise<ReceivedEventData[]>} A promise that resolves with an array of ReceivedEventData objects.
    */
    receive(
     maxMessageCount: number,
     maxWaitTimeInSeconds?: number,
     retryOptions?: RetryOptions,
-    cancellationToken?: Aborter
+    abortSignal?: AbortSignal,
   ): Promise<ReceivedEventData[]> {
     if (maxWaitTimeInSeconds == undefined) {
       maxWaitTimeInSeconds = Constants.defaultOperationTimeoutInSeconds;
@@ -82,8 +82,8 @@ export class BatchingReceiver extends EventHubReceiver {
         let actionAfterWaitTimeout: Func<void, void>;
         // Final action to be performed after maxMessageCount is reached or the maxWaitTime is over.
         const finalAction = (timeOver: boolean) => {
-          if (this._aborter) {
-            this._aborter.removeEventListener("abort", this._onAbort);
+          if (this._abortSignal) {
+            this._abortSignal.removeEventListener("abort", this._onAbort);
           }
           // Resetting the mode. Now anyone can call start() or receive() again.
           if (this._receiver) {
@@ -154,8 +154,8 @@ export class BatchingReceiver extends EventHubReceiver {
           if (waitTimer) {
             clearTimeout(waitTimer);
           }
-          if (this._aborter) {
-            this._aborter.removeEventListener("abort", this._onAbort);
+          if (this._abortSignal) {
+            this._abortSignal.removeEventListener("abort", this._onAbort);
           }
           const desc: string =
             `[${this._context.connectionId}] The receive operation on the Receiver "${this.name}" with ` +
@@ -171,8 +171,8 @@ export class BatchingReceiver extends EventHubReceiver {
           receiver.removeListener(ReceiverEvents.message, onReceiveMessage);
           receiver.session.removeListener(SessionEvents.sessionError, onSessionError);
 
-          if (this._aborter) {
-            this._aborter.removeEventListener("abort", this._onAbort);
+          if (this._abortSignal) {
+            this._abortSignal.removeEventListener("abort", this._onAbort);
           }
 
           this.isReceivingMessages = false;
@@ -282,8 +282,8 @@ export class BatchingReceiver extends EventHubReceiver {
           receiver.removeListener(ReceiverEvents.receiverError, onReceiveError);
           receiver.removeListener(ReceiverEvents.message, onReceiveMessage);
           receiver.session.removeListener(SessionEvents.sessionError, onSessionError);
-          if (this._aborter) {
-            this._aborter.removeEventListener("abort", this._onAbort);
+          if (this._abortSignal) {
+            this._abortSignal.removeEventListener("abort", this._onAbort);
           }
           this.isReceivingMessages = false;
           const sessionError = context.session && context.session.error;
@@ -317,9 +317,9 @@ export class BatchingReceiver extends EventHubReceiver {
           waitTimer = setTimeout(actionAfterWaitTimeout, (maxWaitTimeInSeconds as number) * 1000);
         };
 
-        if (cancellationToken) {
-          this._aborter = cancellationToken;
-          this._aborter.addEventListener("abort", this._onAbort);
+        if (abortSignal) {
+          this._abortSignal = abortSignal;
+          this._abortSignal.addEventListener("abort", this._onAbort);
         }
 
         if (!this.isOpen()) {

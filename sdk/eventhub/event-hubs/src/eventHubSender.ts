@@ -29,7 +29,7 @@ import { EventData, toAmqpMessage } from "./eventData";
 import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";
 import { EventBatchingOptions, EventSenderOptions } from "./eventHubClient";
-import { Aborter } from "./aborter";
+import { AbortSignal } from "@azure/abort-controller";
 import { throwAbortError } from './util/error';
 
 interface CreateSenderOptions {
@@ -459,15 +459,15 @@ export class EventHubSender extends LinkEntity {
           let onReleased: Func<EventContext, void>;
           let onModified: Func<EventContext, void>;
           let onAccepted: Func<EventContext, void>;
-          let aborter: Aborter;
+          let abortSignal: AbortSignal;
           let onAborted: () => void;
 
           const removeListeners = (): void => {
             clearTimeout(waitTimer);
             // When `removeListeners` is called on timeout, the sender might be closed and cleared
             // So, check if it exists, before removing listeners from it.
-            if (aborter) {
-              aborter.removeEventListener("abort", onAborted);
+            if (abortSignal) {
+              abortSignal.removeEventListener("abort", onAborted);
             }
             if (this._sender) {
               this._sender.removeListener(SenderEvents.rejected, onRejected);
@@ -545,9 +545,9 @@ export class EventHubSender extends LinkEntity {
             return reject(translate(e));
           };
 
-          if (options && options.cancellationToken) {
-            aborter = options.cancellationToken;
-            aborter.addEventListener("abort", onAborted);
+          if (options && options.abortSignal) {
+            abortSignal = options.abortSignal;
+            abortSignal.addEventListener("abort", onAborted);
           }
           this._sender!.on(SenderEvents.accepted, onAccepted);
           this._sender!.on(SenderEvents.rejected, onRejected);
