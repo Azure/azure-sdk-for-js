@@ -58,8 +58,20 @@ export class AbortError extends Error {
 export class AbortController {
   private _signal: AbortSignal;
 
-  constructor() {
+  constructor(parentSignal?: AbortSignal) {
     this._signal = new AbortSignal();
+    if (parentSignal) {
+      // if the parent signal has already had abort() called,
+      // then call abort on this signal as well.
+      if (parentSignal.aborted) {
+        this.abort();
+      } else {
+        // when the parent signal aborts, this signal should as well.
+        parentSignal.addEventListener("abort", () => {
+          this.abort();
+        });
+      }
+    }
   }
 
   /**

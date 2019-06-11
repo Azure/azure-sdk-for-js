@@ -113,4 +113,122 @@ describe("Aborter", () => {
       assert.deepEqual(s, "aborted");
     }
   });
+
+  it("should propagate aborted state to child signals", async () => {
+    const parentController = new AbortController();
+    const parentSignal = parentController.signal;
+    let s = undefined;
+
+    parentSignal.addEventListener("abort", () => {
+      s = "parent";
+    });
+    parentController.abort();
+
+    const childController = new AbortController(parentSignal);
+    assert.equal(true, childController.signal.aborted);
+    assert.equal(s, "parent");
+  });
+
+  it("should call abort() on child signals that were created before parent abort() call", async function() {
+    const parentController = new AbortController();
+    const parentSignal = parentController.signal;
+
+    const child1 = new AbortController(parentSignal);
+    const child2 = new AbortController(parentSignal);
+
+    const values: string[] = [];
+
+    parentSignal.addEventListener("abort", () => {
+      values.push("parent");
+    });
+    child1.signal.addEventListener("abort", () => {
+      values.push("child1");
+    });
+    child2.signal.addEventListener("abort", () => {
+      values.push("child2");
+    });
+
+    // trigger abort() on parentSignal, event listeners should trigger on children
+    parentController.abort();
+    assert.equal(3, values.length);
+    assert.equal(true, parentSignal.aborted);
+    assert.equal(true, child1.signal.aborted);
+    assert.equal(true, child2.signal.aborted);
+
+    assert.equal(true, values.includes("parent"));
+    assert.equal(true, values.includes("child1"));
+    assert.equal(true, values.includes("child2"));
+  });
+
+  it("should call abort() on deeply nested child signals that were created before parent abort() call", async function() {
+    const parentController = new AbortController();
+    const parentSignal = parentController.signal;
+
+    const child1 = new AbortController(parentSignal);
+    const child2 = new AbortController(child1.signal);
+
+    const values: string[] = [];
+
+    parentSignal.addEventListener("abort", () => {
+      values.push("parent");
+    });
+    child1.signal.addEventListener("abort", () => {
+      values.push("child1");
+    });
+    child2.signal.addEventListener("abort", () => {
+      values.push("child2");
+    });
+
+    // trigger abort() on parentSignal, event listeners should trigger on children
+    parentController.abort();
+    assert.equal(3, values.length);
+    assert.equal(true, parentSignal.aborted);
+    assert.equal(true, child1.signal.aborted);
+    assert.equal(true, child2.signal.aborted);
+
+    assert.equal(true, values.includes("parent"));
+    assert.equal(true, values.includes("child1"));
+    assert.equal(true, values.includes("child2"));
+  });
+
+  it("should not call abort() on parent signals when child calls abort()", async function() {
+    const parentController = new AbortController();
+    const parentSignal = parentController.signal;
+
+    const child1 = new AbortController(parentSignal);
+    const child2 = new AbortController(child1.signal);
+
+    const values: string[] = [];
+
+    parentSignal.addEventListener("abort", () => {
+      values.push("parent");
+    });
+    child1.signal.addEventListener("abort", () => {
+      values.push("child1");
+    });
+    child2.signal.addEventListener("abort", () => {
+      values.push("child2");
+    });
+
+    // trigger abort() on child, event listeners should not trigger on parent
+    child1.abort();
+    assert.equal(2, values.length);
+    assert.equal(false, parentSignal.aborted);
+    assert.equal(true, child1.signal.aborted);
+    assert.equal(true, child2.signal.aborted);
+
+    assert.equal(true, values.includes("child1"));
+    assert.equal(true, values.includes("child2"));
+
+    // trigger abort() on parent, children should not invoke listeners again
+    parentController.abort();
+    assert.equal(3, values.length);
+    assert.equal(true, parentSignal.aborted);
+    assert.equal(true, child1.signal.aborted);
+    assert.equal(true, child2.signal.aborted);
+
+    assert.equal(true, values.includes("parent"));
+    assert.equal(true, values.includes("child1"));
+    assert.equal(true, values.includes("child2"));
+  });
 });

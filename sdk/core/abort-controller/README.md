@@ -44,14 +44,14 @@ doAsyncWork({ abortSignal: signal });
 ### Example 3 - Aborting sub-tasks
 
 ```js
-import { Aborter } from "@azure/abort-controller";
+import { AbortController } from "@azure/abort-controller";
 
-const allTasksSignal = new Aborter();
+const allTasksController = new AbortController();
 
-const subTask1 = allTasksSignal.withValue("key1", "value1");
-const subtask2 = allTasksSignal.withValue("key2", "value2");
+const subTask1 = new AbortController(allTasksController.signal);
+const subtask2 = new AbortController(allTasksController.signal);
 
-allTasksSignal.abort(); // aborts allTasksSignal, subTask1, subTask2
+allTasksController.abort(); // aborts allTasksSignal, subTask1, subTask2
 subTask1.abort(); // aborts only subTask1
 ```
 
