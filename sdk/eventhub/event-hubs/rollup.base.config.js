@@ -117,11 +117,17 @@ export function browserConfig(test = false) {
 
       nodeResolve({
         mainFields: ["module", "browser"],
-        preferBuiltins: false
+        preferBuiltins: false,
+        // Following packages are de-duped in order to get module resolution to work with npm + rollup
+        // This will be in place until we have a solution for issue 
+        // https://github.com/Azure/azure-sdk-for-js/issues/3326
+        dedupe: ["buffer", "events", "util", "process", "assert"]
       }),
 
       cjs({
-        namedExports: { events: ["EventEmitter"] }
+        namedExports: {
+          events: ["EventEmitter"]
+        }
       }),
 
       // rhea and rhea-promise use the Buffer global which requires
