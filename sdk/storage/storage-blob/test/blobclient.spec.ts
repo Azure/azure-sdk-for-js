@@ -369,7 +369,7 @@ describe("BlobClient", () => {
     assert.deepStrictEqual(result.metadata, metadata);
   });
 
-  it.only("can be created with a connection string", async () => {
+  it("can be created with a connection string", async () => {
     const newClient = new BlobClient(process.env.CONNECTION_STRING || "", containerName, blobName);
     const metadata = {
       a: "a",

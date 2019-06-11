@@ -435,7 +435,7 @@ describe("ContainerClient", () => {
     assert.ok(!result.blobPublicAccess);
   });
 
-  it.only("can be created with a connection string", async () => {
+  it("can be created with a connection string", async () => {
     const newClient = new ContainerClient(process.env.CONNECTION_STRING || "", containerName);
 
     const result = await newClient.getProperties();

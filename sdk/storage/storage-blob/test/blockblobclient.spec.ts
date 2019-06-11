@@ -229,7 +229,7 @@ describe("BlockBlobClient", () => {
     assert.deepStrictEqual(await bodyToString(result, body.length), body);
   });
 
-  it.only("can be created with a connection string", async () => {
+  it("can be created with a connection string", async () => {
     const newClient = new BlockBlobClient(
       process.env.CONNECTION_STRING || "",
       containerName,

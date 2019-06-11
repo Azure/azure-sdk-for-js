@@ -181,7 +181,7 @@ describe("PageBlobClient", () => {
     assert.deepStrictEqual(await bodyToString(result, 512), "\u0000".repeat(512));
   });
 
-  it.only("can be created with a connection string", async () => {
+  it("can be created with a connection string", async () => {
     const newClient = new PageBlobClient(
       process.env.CONNECTION_STRING || "",
       containerName,
