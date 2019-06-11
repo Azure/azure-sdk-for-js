@@ -110,12 +110,6 @@ export class StreamingReceiver extends EventHubReceiver {
    * @param {Aborter} cancellationToken Cancel current operation.
    */
   receive(onMessage: OnMessage, onError: OnError, cancellationToken?: Aborter): ReceiveHandler {
-    if (!onMessage || typeof onMessage !== "function") {
-      throw new Error("'onMessage' is a required parameter and must be of type 'function'.");
-    }
-    if (!onError || typeof onError !== "function") {
-      throw new Error("'onError' is a required parameter and must be of type 'function'.");
-    }
     this._onMessage = onMessage;
     this._onError = onError;
     if (cancellationToken) {

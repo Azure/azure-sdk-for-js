@@ -92,10 +92,10 @@ export class EventPosition {
    * @return {EventPosition} EventPosition
    */
   static fromOffset(offset: string, isInclusive?: boolean): EventPosition {
-    if (!offset || typeof offset !== "string") {
-      throw new Error("'offset' is a required parameter and must be a non-empty string.");
+    if (offset == undefined) {
+      throw new Error('Missing parameter "offset"');
     }
-    return new EventPosition({ offset: offset, isInclusive: isInclusive });
+    return new EventPosition({ offset: String(offset), isInclusive: isInclusive });
   }
 
   /**
@@ -106,8 +106,11 @@ export class EventPosition {
    * @return {EventPosition} EventPosition
    */
   static fromSequenceNumber(sequenceNumber: number, isInclusive?: boolean): EventPosition {
-    if (sequenceNumber == undefined || typeof sequenceNumber !== "number") {
-      throw new Error("'sequenceNumber' is a required parameter and must be of type 'number'.");
+    if (sequenceNumber == undefined) {
+      throw new Error('Missing parameter "sequenceNumber"');
+    }
+    if (typeof sequenceNumber !== "number") {
+      throw new Error('The parameter "sequenceNumber" should be of type "number"');
     }
     return new EventPosition({ sequenceNumber: sequenceNumber, isInclusive: isInclusive });
   }
@@ -118,8 +121,8 @@ export class EventPosition {
    * @return {EventPosition} EventPosition
    */
   static fromEnqueuedTime(enqueuedTime: Date | number): EventPosition {
-    if (enqueuedTime == undefined || (typeof enqueuedTime !== "number" && !(enqueuedTime instanceof Date))) {
-      throw new Error("'enqueuedTime' is a required parameter and must be an instance of 'Date' or of type 'number'.");
+    if (enqueuedTime == undefined) {
+      throw new Error('Missing parameter "enqueuedTime"');
     }
     return new EventPosition({ enqueuedTime: enqueuedTime });
   }

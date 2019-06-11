@@ -6,7 +6,7 @@ import { EventHubSender } from "./eventHubSender";
 import { EventBatchingOptions, EventSenderOptions } from "./eventHubClient";
 import { ConnectionContext } from "./connectionContext";
 import * as log from "./log";
-import { throwErrorIfConnectionClosed } from "./util/error";
+import { throwErrorIfConnectionClosed, throwTypeErrorIfParameterMissing } from "./util/error";
 
 /**
  * The Sender class can be used to send messages.
@@ -42,7 +42,8 @@ export class EventSender {
   constructor(context: ConnectionContext, options?: EventSenderOptions) {
     this._context = context;
     this._senderOptions = options || {};
-    this._eventHubSender = EventHubSender.create(this._context, this._senderOptions.partitionId);
+    const partitionId = this._senderOptions.partitionId != undefined ? String(this._senderOptions.partitionId) : undefined;
+    this._eventHubSender = EventHubSender.create(this._context, partitionId);
   }
 
   /**
@@ -56,6 +57,7 @@ export class EventSender {
    */
   async send(events: EventData[], options?: EventBatchingOptions): Promise<void> {
     this._throwIfSenderOrConnectionClosed();
+    throwTypeErrorIfParameterMissing(this._context.connectionId, 'events', events);
     if (!Array.isArray(events)) {
       events = [events];
     }

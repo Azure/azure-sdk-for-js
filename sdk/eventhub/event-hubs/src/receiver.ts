@@ -105,6 +105,12 @@ export class EventReceiver {
   receive(onMessage: OnMessage, onError: OnError, cancellationToken?: Aborter): ReceiveHandler {
     this._throwIfReceiverOrConnectionClosed();
     this._throwIfAlreadyReceiving();
+    if (typeof onMessage !== "function") {
+      throw new TypeError("The parameter 'onMessage' must be of type 'function'.");
+    }
+    if (typeof onError !== "function") {
+      throw new TypeError("The parameter 'onError' must be of type 'function'.");
+    }
     const checkpoint = this.getCheckpoint();
     if (checkpoint) {
       this._receiverOptions.beginReceivingAt = EventPosition.fromSequenceNumber(checkpoint);
