@@ -11,7 +11,7 @@ import {
 import { UserResponse } from "../../dist-esm/client/User/UserResponse";
 import { endpoint, masterKey } from "./_testConfig";
 
-const defaultClient = new CosmosClient({ endpoint, auth: { masterKey } });
+const defaultClient = new CosmosClient({ endpoint, key: masterKey });
 
 export function addEntropy(name: string): string {
   return name + getEntropy();

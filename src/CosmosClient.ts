@@ -52,11 +52,6 @@ export class CosmosClient {
 
   private clientContext: ClientContext;
   constructor(private options: CosmosClientOptions) {
-    options.auth = options.auth || {};
-    if (options.key) {
-      options.auth.key = options.key;
-    }
-
     options.connectionPolicy = Object.assign({}, defaultConnectionPolicy, options.connectionPolicy);
 
     options.defaultHeaders = options.defaultHeaders || {};

@@ -25,7 +25,7 @@ const item2Name = "item2";
 const item3Name = "item3";
 
 // Establish a new instance of the DocumentDBClient to be used throughout this demo
-const client = new CosmosClient({ endpoint, auth: { masterKey } });
+const client = new CosmosClient({ endpoint, key: masterKey });
 
 async function run() {
   const resources = await init();

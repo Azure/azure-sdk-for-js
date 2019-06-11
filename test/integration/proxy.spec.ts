@@ -37,7 +37,7 @@ if (!isBrowser()) {
           try {
             const client = new CosmosClient({
               endpoint,
-              auth: { masterKey },
+              key: masterKey,
               agent
             });
             // create database
@@ -61,7 +61,7 @@ if (!isBrowser()) {
           try {
             const client = new CosmosClient({
               endpoint,
-              auth: { masterKey },
+              key: masterKey,
               agent
             });
             // create database

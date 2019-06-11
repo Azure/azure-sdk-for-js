@@ -18,13 +18,13 @@ describe("NodeJS CRUD Tests", function() {
         "Should be able to fetch list of databases"
       );
 
-      const clientOptionsAuthKey = new CosmosClient({ endpoint, auth: { key: masterKey } });
+      const clientOptionsAuthKey = new CosmosClient({ endpoint, key: masterKey });
       assert(
         undefined !== (await clientOptionsAuthKey.databases.readAll().fetchAll()),
         "Should be able to fetch list of databases"
       );
 
-      const clientOptionsAuthMasterKey = new CosmosClient({ endpoint, auth: { masterKey } });
+      const clientOptionsAuthMasterKey = new CosmosClient({ endpoint, key: masterKey });
       assert(
         undefined !== (await clientOptionsAuthMasterKey.databases.readAll().fetchAll()),
         "Should be able to fetch list of databases"
@@ -110,7 +110,7 @@ describe("NodeJS CRUD Tests", function() {
 
     const authorizationCRUDTest = async function(isUpsertTest: boolean) {
       try {
-        const badclient = new CosmosClient({ endpoint, auth: undefined });
+        const badclient = new CosmosClient({ endpoint });
         const { resources: databases } = await badclient.databases.readAll().fetchAll();
         assert.fail("Must fail");
       } catch (err) {
@@ -126,7 +126,7 @@ describe("NodeJS CRUD Tests", function() {
       resourceTokens[entities.coll1.id] = (entities.permissionOnColl1 as any)._token;
       resourceTokens[entities.doc1.id] = (entities.permissionOnColl1 as any)._token;
 
-      const col1Client = new CosmosClient({ endpoint, auth: { resourceTokens } });
+      const col1Client = new CosmosClient({ endpoint, resourceTokens });
 
       // 1. Success-- Use Col1 Permission to Read
       const { resource: successColl1 } = await col1Client
@@ -209,7 +209,7 @@ describe("NodeJS CRUD Tests", function() {
       const resourceTokens: any = {};
       resourceTokens[container.id] = (permission as any)._token;
 
-      const restrictedClient = new CosmosClient({ endpoint, auth: { resourceTokens } });
+      const restrictedClient = new CosmosClient({ endpoint, resourceTokens });
       await restrictedClient
         .database(container.database.id)
         .container(container.id)

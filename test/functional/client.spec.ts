@@ -12,7 +12,7 @@ describe("NodeJS CRUD Tests", function() {
     it("nativeApi Client Should throw exception", async function() {
       // making timeout 1 ms to make sure it will throw
       // (create database request takes 10ms-15ms to finish on emulator)
-      const client = new CosmosClient({ endpoint, auth: { masterKey }, connectionPolicy: { requestTimeout: 1 } });
+      const client = new CosmosClient({ endpoint, key: masterKey, connectionPolicy: { requestTimeout: 1 } });
       // create database
       try {
         await getTestDatabase("request timeout", client);
@@ -27,7 +27,6 @@ describe("NodeJS CRUD Tests", function() {
     it("Accepts node Agent", function() {
       const client = new CosmosClient({
         endpoint: "https://faaaaaake.com",
-        auth: { masterKey: "" },
         agent: new Agent()
       });
       assert.ok(client !== undefined, "client shouldn't be undefined if it succeeded");
@@ -35,7 +34,7 @@ describe("NodeJS CRUD Tests", function() {
   });
   describe("Validate user passed AbortController.signal", function() {
     it("should throw exception if aborted during the request", async function() {
-      const client = new CosmosClient({ endpoint, auth: { masterKey } });
+      const client = new CosmosClient({ endpoint, key: masterKey });
       try {
         const controller = new AbortController();
         const signal = controller.signal;
@@ -47,7 +46,7 @@ describe("NodeJS CRUD Tests", function() {
       }
     });
     it("should throw exception if passed an already aborted signal", async function() {
-      const client = new CosmosClient({ endpoint, auth: { masterKey } });
+      const client = new CosmosClient({ endpoint, key: masterKey });
       try {
         const controller = new AbortController();
         const signal = controller.signal;

@@ -3,7 +3,7 @@ import { Constants, CosmosClient } from "../../dist-esm";
 import { endpoint, masterKey } from "../common/_testConfig";
 import { getTestContainer, removeAllDatabases } from "../common/TestHelpers";
 
-const client = new CosmosClient({ endpoint, auth: { masterKey } });
+const client = new CosmosClient({ endpoint, key: masterKey });
 
 const validateOfferResponseBody = function(offer: any) {
   assert(offer.id, "Id cannot be null");

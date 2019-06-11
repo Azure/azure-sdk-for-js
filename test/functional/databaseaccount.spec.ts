@@ -3,7 +3,7 @@ import { CosmosClient } from "../../dist-esm";
 import { endpoint, masterKey } from "../common/_testConfig";
 import { removeAllDatabases } from "../common/TestHelpers";
 
-const client = new CosmosClient({ endpoint, auth: { masterKey } });
+const client = new CosmosClient({ endpoint, key: masterKey });
 
 describe("NodeJS CRUD Tests", function() {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);

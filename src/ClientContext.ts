@@ -558,7 +558,7 @@ export class ClientContext {
 
   private buildHeaders(requestContext: RequestContext) {
     return getHeaders({
-      authOptions: this.cosmosClientOptions.auth,
+      clientOptions: this.cosmosClientOptions,
       defaultHeaders: { ...this.cosmosClientOptions.defaultHeaders, ...requestContext.options.initialHeaders },
       verb: requestContext.method,
       path: requestContext.path,

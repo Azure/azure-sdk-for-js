@@ -1,5 +1,6 @@
-import { AuthOptions, setAuthorizationHeader } from "../auth";
+import { setAuthorizationHeader } from "../auth";
 import { Constants, HTTPMethod, jsonStringifyAndEscapeNonASCII, ResourceType } from "../common";
+import { CosmosClientOptions } from "../CosmosClientOptions";
 import { PartitionKey } from "../documents";
 import { CosmosHeaders } from "../queryExecutionContext";
 import { FeedOptions, RequestOptions } from "./index";
@@ -26,7 +27,7 @@ export function bodyFromData(data: Buffer | string | object) {
 }
 
 interface GetHeadersOptions {
-  authOptions: AuthOptions;
+  clientOptions: CosmosClientOptions;
   defaultHeaders: CosmosHeaders;
   verb: HTTPMethod;
   path: string;
@@ -39,7 +40,7 @@ interface GetHeadersOptions {
 }
 
 export async function getHeaders({
-  authOptions,
+  clientOptions,
   defaultHeaders,
   verb,
   path,
@@ -141,7 +142,7 @@ export async function getHeaders({
     headers[Constants.HttpHeaders.PartitionKey] = jsonStringifyAndEscapeNonASCII(partitionKey);
   }
 
-  if (authOptions.masterKey || authOptions.key || authOptions.tokenProvider) {
+  if (clientOptions.key || clientOptions.tokenProvider) {
     headers[Constants.HttpHeaders.XDate] = new Date().toUTCString();
   }
 
@@ -167,13 +168,12 @@ export async function getHeaders({
     headers[Constants.HttpHeaders.DisableRUPerMinuteUsage] = true;
   }
   if (
-    authOptions.masterKey ||
-    authOptions.key ||
-    authOptions.resourceTokens ||
-    authOptions.tokenProvider ||
-    authOptions.permissionFeed
+    clientOptions.key ||
+    clientOptions.resourceTokens ||
+    clientOptions.tokenProvider ||
+    clientOptions.permissionFeed
   ) {
-    await setAuthorizationHeader(authOptions, verb, path, resourceId, resourceType, headers);
+    await setAuthorizationHeader(clientOptions, verb, path, resourceId, resourceType, headers);
   }
   return headers;
 }

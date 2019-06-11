@@ -12,7 +12,7 @@ import { endpoint, masterKey } from "../common/_testConfig";
   let dbAccount: DatabaseAccount;
 
   before(async function() {
-    const client = new CosmosClient({ endpoint, auth: { masterKey } });
+    const client = new CosmosClient({ endpoint, key: masterKey });
     ({ resource: dbAccount } = await client.getDatabaseAccount());
     // We reverse the order of the preferred locations list to make sure
     // we don't just follow the order we got back from the server
@@ -26,7 +26,7 @@ import { endpoint, masterKey } from "../common/_testConfig";
   it("Preferred locations should be honored for readEndpoint", async function() {
     const client = new CosmosClient({
       endpoint,
-      auth: { masterKey },
+      key: masterKey,
       connectionPolicy: { preferredLocations: PreferredLocations }
     });
     const currentReadEndpoint = await client.getReadEndpoint();
@@ -43,7 +43,7 @@ import { endpoint, masterKey } from "../common/_testConfig";
     );
     const client = new CosmosClient({
       endpoint,
-      auth: { masterKey },
+      key: masterKey,
       connectionPolicy: {
         preferredLocations: PreferredLocations,
         useMultipleWriteLocations: true

@@ -1,6 +1,6 @@
 import { generateHeaders } from "@azure/cosmos-sign";
-import { PermissionDefinition } from "./client";
 import { Constants, getResourceIdFromPath, HTTPMethod, ResourceType } from "./common";
+import { CosmosClientOptions } from "./CosmosClientOptions";
 import { CosmosHeaders } from "./queryExecutionContext";
 
 /** @hidden */
@@ -14,54 +14,36 @@ export interface RequestInfo {
 
 export type TokenProvider = (requestInfo: RequestInfo) => Promise<string>;
 
-export interface AuthOptions {
-  /** Account master key or read only key */
-  key?: string;
-  /** The authorization master key to use to create the client. */
-  masterKey?: string;
-  /** An object that contains resources tokens.
-   * Keys for the object are resource Ids and values are the resource tokens.
-   */
-  resourceTokens?: { [resourcePath: string]: string };
-  /** A user supplied function for resolving header authorization tokens.
-   * Allows users to generating their own auth tokens, potentially using a separate service
-   */
-  tokenProvider?: TokenProvider;
-  /** An array of {@link Permission} objects. */
-  permissionFeed?: PermissionDefinition[];
-}
-
 export async function setAuthorizationHeader(
-  authOptions: AuthOptions,
+  clientOptions: CosmosClientOptions,
   verb: HTTPMethod,
   path: string,
   resourceId: string,
   resourceType: ResourceType,
   headers: CosmosHeaders
 ): Promise<void> {
-  if (authOptions.permissionFeed) {
-    authOptions.resourceTokens = {};
-    for (const permission of authOptions.permissionFeed) {
+  if (clientOptions.permissionFeed) {
+    clientOptions.resourceTokens = {};
+    for (const permission of clientOptions.permissionFeed) {
       const id = getResourceIdFromPath(permission.resource);
       if (!id) {
         throw new Error(`authorization error: ${id} \
                           is an invalid resourceId in permissionFeed`);
       }
 
-      authOptions.resourceTokens[id] = (permission as any)._token; // TODO: any
+      clientOptions.resourceTokens[id] = (permission as any)._token; // TODO: any
     }
   }
 
-  if (authOptions.masterKey || authOptions.key) {
-    const key = authOptions.masterKey || authOptions.key;
-    setAuthorizationTokenHeaderUsingMasterKey(verb, resourceId, resourceType, headers, key);
-  } else if (authOptions.resourceTokens) {
+  if (clientOptions.key) {
+    setAuthorizationTokenHeaderUsingMasterKey(verb, resourceId, resourceType, headers, clientOptions.key);
+  } else if (clientOptions.resourceTokens) {
     headers[Constants.HttpHeaders.Authorization] = encodeURIComponent(
-      getAuthorizationTokenUsingResourceTokens(authOptions.resourceTokens, path, resourceId)
+      getAuthorizationTokenUsingResourceTokens(clientOptions.resourceTokens, path, resourceId)
     );
-  } else if (authOptions.tokenProvider) {
+  } else if (clientOptions.tokenProvider) {
     headers[Constants.HttpHeaders.Authorization] = encodeURIComponent(
-      await authOptions.tokenProvider({ verb, path, resourceId, resourceType, headers })
+      await clientOptions.tokenProvider({ verb, path, resourceId, resourceType, headers })
     );
   }
 }

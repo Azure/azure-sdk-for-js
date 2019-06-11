@@ -79,7 +79,7 @@ describe("Location Cache", function() {
     } preferred region and multi-region write is ${scenario.connectionPolicy.useMultipleWriteLocations}.`, function() {
       const connectionPolicy: ConnectionPolicy = scenario.connectionPolicy;
       const endpoint = scenario.defaultEndpoint;
-      const cosmosClientOptions: CosmosClientOptions = { auth: {}, endpoint, connectionPolicy };
+      const cosmosClientOptions: CosmosClientOptions = { endpoint, connectionPolicy };
       const locationCache = new LocationCache(cosmosClientOptions);
 
       before(function() {
@@ -289,7 +289,7 @@ describe("Location Cache", function() {
     } preferred regions and multi-region write is ${scenario.connectionPolicy.useMultipleWriteLocations}.`, function() {
       const connectionPolicy: ConnectionPolicy = scenario.connectionPolicy;
       const endpoint = scenario.defaultEndpoint;
-      const cosmosClientOptions: CosmosClientOptions = { auth: {}, endpoint, connectionPolicy };
+      const cosmosClientOptions: CosmosClientOptions = { endpoint, connectionPolicy };
       const locationCache = new LocationCache(cosmosClientOptions);
 
       if (!scenario.connectionPolicy.useMultipleWriteLocations) {

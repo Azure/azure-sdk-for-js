@@ -11,7 +11,7 @@ const masterKey = "C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGG
 describe.skip("Validate SSL verification check for emulator", function() {
   it("nativeApi Client Should throw exception", async function() {
     try {
-      const client = new CosmosClient({ endpoint, auth: { masterKey } });
+      const client = new CosmosClient({ endpoint, key: masterKey });
       // create database
       await getTestDatabase("ssl verification", client);
     } catch (err) {
@@ -24,7 +24,7 @@ describe.skip("Validate SSL verification check for emulator", function() {
   it("nativeApi Client Should successfully execute request", async function() {
     const client = new CosmosClient({
       endpoint,
-      auth: { masterKey },
+      key: masterKey,
       connectionPolicy: {
         disableSSLVerification: true
       }

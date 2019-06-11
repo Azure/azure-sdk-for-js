@@ -39,7 +39,7 @@ describe("retry policy tests", function() {
   // TODO: need to fix this, the stubbing doesn't work with the new way we work
   xit("throttle retry policy test default retryAfter", async function() {
     // connectionPolicy.RetryOptions = new RetryOptions(5);
-    // const client = new CosmosClient({endpoint, auth: { masterKey }, connectionPolicy});
+    // const client = new CosmosClient({endpoint, key: masterKey, connectionPolicy});
     // const { result: db } = await client.createDatabase({ id: "sample database" });
     // const { result: collection } = await client.createCollection(db._self, collectionDefinition);
     // const originalGetDatabaseAccount = client.getDatabaseAccount;

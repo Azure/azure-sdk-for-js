@@ -24,7 +24,7 @@ const getItemDefinitions = function() {
 };
 
 // Establish a new instance of the CosmosClient to be used throughout this demo
-const client = new CosmosClient({ endpoint, auth: { masterKey } });
+const client = new CosmosClient({ endpoint, key: masterKey });
 
 //-------------------------------------------------------------------------------------------------------
 // This demo performs a few steps

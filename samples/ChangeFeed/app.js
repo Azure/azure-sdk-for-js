@@ -11,7 +11,7 @@ const endpoint = config.connection.endpoint;
 const masterKey = config.connection.authKey;
 
 // Establish a new instance of the CosmosClient to be used throughout this demo
-const client = new CosmosClient({ endpoint, auth: { masterKey } });
+const client = new CosmosClient({ endpoint, key: masterKey });
 
 // We'll use the same pk value for all these samples
 const pk = "0";

@@ -1,4 +1,5 @@
-import { AuthOptions } from "./auth";
+import { TokenProvider } from "./auth";
+import { PermissionDefinition } from "./client";
 import { ConnectionPolicy, ConsistencyLevel } from "./documents";
 import { PluginConfig } from "./plugins/Plugin";
 import { CosmosHeaders } from "./queryExecutionContext/CosmosHeaders";
@@ -15,10 +16,18 @@ export interface Agent {
 export interface CosmosClientOptions {
   /** The service endpoint to use to create the client. */
   endpoint: string;
-  /** The account master or readonly key (alias of auth.key) */
+  /** The account master or readonly key */
   key?: string;
-  /** An object that is used for authenticating requests and must contains one of the options */
-  auth?: AuthOptions;
+  /** An object that contains resources tokens.
+   * Keys for the object are resource Ids and values are the resource tokens.
+   */
+  resourceTokens?: { [resourcePath: string]: string };
+  /** A user supplied function for resolving header authorization tokens.
+   * Allows users to generating their own auth tokens, potentially using a separate service
+   */
+  tokenProvider?: TokenProvider;
+  /** An array of {@link Permission} objects. */
+  permissionFeed?: PermissionDefinition[];
   /** An instance of {@link ConnectionPolicy} class.
    * This parameter is optional and the default connectionPolicy will be used if omitted.
    */

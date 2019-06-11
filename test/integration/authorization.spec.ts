@@ -65,7 +65,7 @@ describe("Authorization", function() {
 
     const clientReadPermission = new CosmosClient({
       endpoint,
-      auth: { resourceTokens: rTokens }
+      resourceTokens: rTokens
     });
 
     const { resource: coll } = await clientReadPermission
@@ -78,7 +78,7 @@ describe("Authorization", function() {
   it("Accessing container by permissionFeed", async function() {
     const clientReadPermission = new CosmosClient({
       endpoint,
-      auth: { permissionFeed: [collReadPermission] }
+      permissionFeed: [collReadPermission]
     });
 
     // self link must be used to access a resource using permissionFeed
@@ -90,7 +90,7 @@ describe("Authorization", function() {
   });
 
   it("Accessing container without permission fails", async function() {
-    const clientNoPermission = new CosmosClient({ endpoint, auth: null });
+    const clientNoPermission = new CosmosClient({ endpoint });
 
     try {
       await clientNoPermission
@@ -109,7 +109,7 @@ describe("Authorization", function() {
     });
     const clientReadPermission = new CosmosClient({
       endpoint,
-      auth: { permissionFeed: [collReadPermission] }
+      permissionFeed: [collReadPermission]
     });
     assert.equal("document1", createdDoc.id, "invalid documnet create");
 
@@ -126,7 +126,7 @@ describe("Authorization", function() {
     rTokens[container.id] = collAllPermission._token;
     const clientAllPermission = new CosmosClient({
       endpoint,
-      auth: { resourceTokens: rTokens }
+      resourceTokens: rTokens
     });
 
     // delete container
@@ -139,7 +139,7 @@ describe("Authorization", function() {
   it("Modifying container by permissionFeed", async function() {
     const clientAllPermission = new CosmosClient({
       endpoint,
-      auth: { permissionFeed: [collAllPermission] }
+      permissionFeed: [collAllPermission]
     });
 
     // self link must be used to access a resource using permissionFeed
