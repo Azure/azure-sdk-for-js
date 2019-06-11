@@ -1,3 +1,4 @@
+/// <reference path="./shims-public.d.ts" />
 import { AbortSignalLike } from "@azure/ms-rest-js";
 
 type AbortEventListener = (this: AbortSignalLike, ev?: any) => any;
