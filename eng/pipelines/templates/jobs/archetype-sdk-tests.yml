@@ -55,3 +55,5 @@ jobs:
           testRunTitle: "$(OSName) - $(TestType) - Tests [Node $(NodeVersion)]"
         condition: succeededOrFailed()
         displayName: "Publish node test results"
+        ${{ if eq($(TestType), 'browser') }}:
+          testResultsFiles: "**/test-results.browser.xml"
