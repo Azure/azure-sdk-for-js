@@ -15,24 +15,10 @@ const debug = debugModule("azure:event-hubs:client-spec");
 import { EventHubClient } from "../src";
 import { packageJsonInfo } from "../src/util/constants";
 
-function testFalsyValues(testFn: Function): void {
-  // tslint:disable-next-line: no-null-keyword
-  [null, undefined, "", 0].forEach(function(value: string | number | null | undefined): void {
-    testFn(value);
-  });
-}
 
 describe("EventHubClient", function(): void {
   describe(".fromConnectionString", function(): void {
-    it("throws when there is no connection string", function(): void {
-      testFalsyValues(function(value: any): void {
-        const test = function(): EventHubClient {
-          return EventHubClient.createFromConnectionString(value);
-        };
-        test.should.throw(Error, "'connectionString' is a required parameter and must be of type: 'string'.");
-      });
-    });
-
+ 
     it("throws when it cannot find the Event Hub path", function(): void {
       const endpoint = "Endpoint=sb://abc";
       const test = function(): EventHubClient {
