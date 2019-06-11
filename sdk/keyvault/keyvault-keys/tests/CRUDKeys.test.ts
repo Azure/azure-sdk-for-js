@@ -8,7 +8,7 @@ import {
 import { KeysClient, CreateEcKeyOptions, UpdateKeyOptions, GetKeyOptions } from "../src";
 import { ServiceClientCredentials, RestError, delay } from "@azure/ms-rest-js";
 
-describe("Keys client", () => {
+describe("Keys client - create, read, update and delete operations", () => {
   let credential: ServiceClientCredentials;
   let keyVaultName: string;
   let keyVaultUrl: string;
@@ -17,7 +17,7 @@ describe("Keys client", () => {
 
   const deleteKeyAfter = (name) => async () => {
     await client.deleteKey(name);
-    await delay(2000);
+    await delay(10000);
     await client.purgeDeletedKey(name);
   };
 
@@ -41,6 +41,7 @@ describe("Keys client", () => {
     let error;
     try {
       await client.createKey(keyName, "RSA");
+      throw Error("Expecting an error but not catching one.");
     } catch (e) {
       error = e;
     }
@@ -56,6 +57,7 @@ describe("Keys client", () => {
     let error;
     try {
       await client.createKey(keyName, "RSA");
+      throw Error("Expecting an error but not catching one.");
     } catch (e) {
       error = e;
     }
@@ -117,6 +119,7 @@ describe("Keys client", () => {
       await client.deleteKey(name);
       try {
         await client.purgeDeletedKey(name);
+        throw Error("Expecting an error but not catching one.");
       } catch (e) {
         // This test consistently says that it's being deleted once we try to purge it
         // console.error(e);
@@ -140,15 +143,7 @@ describe("Keys client", () => {
 
   it("can create a key with expires", async () => {
     const keyName = getUniqueName("key");
-    after((name) => async () => {
-      await client.deleteKey(name);
-      try {
-        await client.purgeDeletedKey(name);
-      } catch (e) {
-        // This test consistently says that it's being deleted once we try to purge it
-        // console.error(e);
-      }
-    });
+    after(deleteKeyAfter(keyName));
 
     let currentDate = new Date();
     let expires = new Date(currentDate.getTime() + 5000); // 5 seconds later
@@ -244,11 +239,11 @@ describe("Keys client", () => {
     assert.equal(getResult.version, version, "Unexpected key name in result from getKey().");
   });
 
-  // TODO: Make this work
-  it.skip("can get a deleted key", async () => {
+  it("can get a deleted key", async () => {
     const keyName = getUniqueName("key");
     await client.createKey(keyName, "RSA");
     await client.deleteKey(keyName);
+    await delay(15000);
     const getResult = await client.getDeletedKey(keyName);
     assert.equal(getResult.name, keyName, "Unexpected key name in result from getKey().");
     await client.purgeDeletedKey(keyName);
@@ -259,6 +254,7 @@ describe("Keys client", () => {
     let error;
     try {
       await client.deleteKey(keyName);
+      throw Error("Expecting an error but not catching one.");
     } catch (e) {
       error = e;
     }

@@ -8,7 +8,7 @@ import {
 import { KeysClient } from "../src";
 import { ServiceClientCredentials, delay } from "@azure/ms-rest-js";
 
-describe("Keys client", () => {
+describe("Keys client - list keys in various ways", () => {
   let credential: ServiceClientCredentials;
   let keyVaultName: string;
   let keyVaultUrl: string;
@@ -17,7 +17,7 @@ describe("Keys client", () => {
 
   const deleteKeyAfter = (name) => async () => {
     await client.deleteKey(name);
-    await delay(2000);
+    await delay(10000);
     await client.purgeDeletedKey(name);
   };
 
