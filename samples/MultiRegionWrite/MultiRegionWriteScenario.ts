@@ -17,7 +17,7 @@ export class MultiRegionWriteScenario {
     for (const region of config.regions) {
       const client = new CosmosClient({
         endpoint: config.endpoint,
-        auth: { masterKey: config.key },
+        key: config.key,
         connectionPolicy: {
           preferredLocations: [region]
         },

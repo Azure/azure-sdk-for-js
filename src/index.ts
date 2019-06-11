@@ -23,7 +23,6 @@ export {
 
 export { UniqueKeyPolicy, UniqueKey } from "./client/Container/UniqueKeyPolicy";
 export { Constants, OperationType } from "./common";
-export { StatusCodes } from "./common/statusCodes";
 export { RetryOptions } from "./retry";
 export { Response, RequestOptions, FeedOptions, ErrorResponse, ResourceResponse } from "./request";
 export { FeedResponse } from "./request/FeedResponse";
