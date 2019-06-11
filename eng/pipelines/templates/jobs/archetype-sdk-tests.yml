@@ -7,35 +7,35 @@ parameters:
       OSName: "Linux"
       OSVmImage: "ubuntu-16.04"
       TestType: "node"
-      TestResultsFile: "**/test-results.xml"
+      TestResultsFiles: "**/test-results.xml"
     Windows_Node10X:
       OSName: "Windows"
       OSVmImage: "vs2017-win2016"
       TestType: "node"
-      TestResultsFile: "**/test-results.xml"
+      TestResultsFiles: "**/test-results.xml"
     Mac_Node10X:
       OSName: "Mac"
       OSVmImage: "macOS-10.13"
       TestType: "node"
-      TestResultsFile: "**/test-results.xml"
+      TestResultsFiles: "**/test-results.xml"
     Browser_Linux_Node10X:
       OSName: "Linux"
       OSVmImage: "ubuntu-16.04"
       TestType: "browser"
-      TestResultsFile: "**/test-results.browser.xml"
+      TestResultsFiles: "**/test-results.browser.xml"
     Browser_Windows_Node10X:
       OSName: "Windows"
       OSVmImage: "vs2017-win2016"
       TestType: "browser"
-      TestResultsFile: "**/test-results.browser.xml"
+      TestResultsFiles: "**/test-results.browser.xml"
     Browser_Mac_Node10X:
       OSName: "Mac"
       OSVmImage: "macOS-10.13"
       TestType: "browser"
-      TestResultsFile: "**/test-results.browser.xml"
+      TestResultsFiles: "**/test-results.browser.xml"
 
 jobs:
-  - job: "Test_${{ parameters.TestType }}"
+  - job: "Test_$(TestType)"
     variables:
       - template: ../variables/globals.yml
 
@@ -49,15 +49,31 @@ jobs:
     timeoutInMinutes: 240
 
     steps:
-      - template: ../steps/tests-common.yml
-        parameters:
-          PackageName: ${{ parameters.PackageName }}
-          TestType: $(TestType)
-          EnvVars: ${{ parameters.EnvVars }}
+      - task: NodeTool@0
+        inputs:
+          versionSpec: $(NodeVersion)"
+        displayName: "Install Node.js $(NodeVersion)"
+
+      - script: |
+          node common/scripts/install-run-rush.js install
+        displayName: "Install dependencies"
+
+      - script: |
+          node common/scripts/install-run-rush.js build -t "${{parameters.PackageName}}" --verbose
+        displayName: 'rush build -t "${{parameters.PackageName}}"'
+
+      - script: |
+          node common/scripts/install-run-rush.js build:test -t "${{parameters.PackageName}}" --verbose
+        displayName: 'rush build:test -t "${{parameters.PackageName}}"'
+
+      - script: |
+          node common/scripts/install-run-rush.js integration-test:$(TestType) -t "${{parameters.PackageName}}" --verbose
+        displayName: 'rush integration-test:$(TestType) -t "${{parameters.PackageName}}"'
+        env: ${{ parameters.EnvVars }}
 
       - task: PublishTestResults@2
         inputs:
-          testResultsFiles: $(TestResultsFile)
+          testResultsFiles: $(TestResultsFiles)
           testRunTitle: "$(OSName) - $(TestType) - Tests [Node $(NodeVersion)]"
         condition: succeededOrFailed()
         displayName: "Publish node test results"
