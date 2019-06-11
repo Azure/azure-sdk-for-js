@@ -253,11 +253,7 @@ export class QueueServiceClient extends StorageClient {
     return {
       async next() {
         const item = (await iter.next()).value;
-        if (item) {
-          return { done: false, value: item };
-        } else {
-          return { done: true };
-        }
+        return item ? { done: false, value: item } : { done: true };
       },
       [Symbol.asyncIterator]() {
         return this;
