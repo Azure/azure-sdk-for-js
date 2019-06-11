@@ -63,7 +63,7 @@ describe("RuntimeInformation", function(): void {
 
   it("gets the partition runtime information with partitionId as a number", async function(): Promise<void> {
     client = EventHubClient.createFromConnectionString(service.connectionString!, service.path);
-    const partitionRuntimeInfo = await client.getPartitionInformation(0);
+    const partitionRuntimeInfo = await client.getPartitionInformation(0 as any);
     debug(partitionRuntimeInfo);
     partitionRuntimeInfo.id.should.equal("0");
     partitionRuntimeInfo.eventHubPath.should.equal(service.path);

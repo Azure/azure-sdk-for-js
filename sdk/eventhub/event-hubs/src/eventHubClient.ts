@@ -256,7 +256,7 @@ export class EventHubClient {
       }
       tokenProvider = new SasTokenProvider(parsedCS.Endpoint, parsedCS.SharedAccessKeyName, parsedCS.SharedAccessKey);
     } else {
-      const eventHubPath = String(eventHubPathOrOptions);
+      const eventHubPath = eventHubPathOrOptions;
       let sharedAccessKeyName = "defaultKeyName";
       let sharedAccessKey = "defaultKeyValue";
 
