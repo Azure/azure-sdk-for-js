@@ -208,7 +208,6 @@ describe("Cross Partition", function() {
       // simple order by query in string format
       const query = "SELECT * FROM root r";
       const options = {
-        enableCrossPartitionQuery: true,
         maxItemCount: 2,
         maxDegreeOfParallelism: 0
       };
@@ -224,7 +223,6 @@ describe("Cross Partition", function() {
       // simple order by query in string format
       const query = "SELECT * FROM root r";
       const options = {
-        enableCrossPartitionQuery: true,
         maxItemCount: 2,
         maxDegreeOfParallelism: -1,
         populateQueryMetrics: true
@@ -241,7 +239,6 @@ describe("Cross Partition", function() {
       // simple order by query in string format
       const query = "SELECT * FROM root r";
       const options = {
-        enableCrossPartitionQuery: true,
         maxItemCount: 2,
         maxDegreeOfParallelism: 1
       };
@@ -257,7 +254,6 @@ describe("Cross Partition", function() {
       // simple order by query in string format
       const query = "SELECT * FROM root r";
       const options = {
-        enableCrossPartitionQuery: true,
         maxItemCount: 2,
         maxDegreeOfParallelism: 3
       };
@@ -273,7 +269,6 @@ describe("Cross Partition", function() {
       // simple order by query in string format
       const query = "SELECT * FROM root r order by r.spam";
       const options = {
-        enableCrossPartitionQuery: true,
         maxItemCount: 2,
         maxDegreeOfParallelism: 0
       };
@@ -290,7 +285,6 @@ describe("Cross Partition", function() {
       // simple order by query in string format
       const query = "SELECT * FROM root r order by r.spam";
       const options = {
-        enableCrossPartitionQuery: true,
         maxItemCount: 2,
         maxDegreeOfParallelism: 1
       };
@@ -307,7 +301,6 @@ describe("Cross Partition", function() {
       // simple order by query in string format
       const query = "SELECT * FROM root r order by r.spam";
       const options = {
-        enableCrossPartitionQuery: true,
         maxItemCount: 2,
         maxDegreeOfParallelism: 3
       };
@@ -324,7 +317,6 @@ describe("Cross Partition", function() {
       // simple order by query in string format
       const query = "SELECT * FROM root r order by r.spam";
       const options = {
-        enableCrossPartitionQuery: true,
         maxItemCount: 2,
         maxDegreeOfParallelism: -1
       };
@@ -341,7 +333,6 @@ describe("Cross Partition", function() {
       // simple order by query in string format
       const query = "SELECT DISTINCT VALUE r.spam3 FROM root r";
       const options = {
-        enableCrossPartitionQuery: true,
         maxItemCount: 2
       };
 
@@ -353,7 +344,6 @@ describe("Cross Partition", function() {
       // simple order by query in string format
       const query = "SELECT DISTINCT VALUE r.spam3 FROM root r order by r.spam3 DESC";
       const options = {
-        enableCrossPartitionQuery: true,
         maxItemCount: 2
       };
 
@@ -367,7 +357,6 @@ describe("Cross Partition", function() {
       // simple order by query in string format
       const query = "SELECT DISTINCT VALUE r.spam3 FROM root r order by r.spam3";
       const options = {
-        enableCrossPartitionQuery: true,
         maxItemCount: 2,
         maxDegreeOfParallelism: 3
       };
@@ -382,7 +371,6 @@ describe("Cross Partition", function() {
       // simple order by query in string format
       const query = "SELECT DISTINCT VALUE r.spam3 FROM root r order by r.spam3";
       const options = {
-        enableCrossPartitionQuery: true,
         maxItemCount: 1
       };
 
@@ -396,7 +384,6 @@ describe("Cross Partition", function() {
       // simple order by query in string format
       const query = "SELECT DISTINCT VALUE r.spam3 FROM root r order by r.spam3";
       const options = {
-        enableCrossPartitionQuery: true,
         maxItemCount: 20
       };
 
@@ -410,7 +397,6 @@ describe("Cross Partition", function() {
       // simple order by query in string format
       const query = "SELECT * FROM root r order by r.spam";
       const options = {
-        enableCrossPartitionQuery: true,
         maxItemCount: 2
       };
 
@@ -428,7 +414,6 @@ describe("Cross Partition", function() {
         query: "SELECT * FROM root r order by r.spam"
       };
       const options = {
-        enableCrossPartitionQuery: true,
         maxItemCount: 2
       };
 
@@ -450,7 +435,6 @@ describe("Cross Partition", function() {
         query: "SELECT * FROM root r order by r.spam ASC"
       };
       const options = {
-        enableCrossPartitionQuery: true,
         maxItemCount: 2
       };
 
@@ -472,7 +456,6 @@ describe("Cross Partition", function() {
         query: "SELECT * FROM root r order by r.spam DESC"
       };
       const options = {
-        enableCrossPartitionQuery: true,
         maxItemCount: 2
       };
 
@@ -498,7 +481,6 @@ describe("Cross Partition", function() {
         query: util.format("SELECT top %d * FROM root r order by r.spam", topCount)
       };
       const options = {
-        enableCrossPartitionQuery: true,
         maxItemCount: 2
       };
 
@@ -525,7 +507,6 @@ describe("Cross Partition", function() {
         query: util.format("SELECT top %d * FROM root r order by r.spam", topCount)
       };
       const options = {
-        enableCrossPartitionQuery: true,
         maxItemCount: 2
       };
 
@@ -548,7 +529,6 @@ describe("Cross Partition", function() {
 
       const query = util.format("SELECT top %d * FROM root r", topCount);
       const options = {
-        enableCrossPartitionQuery: true,
         maxItemCount: 2,
         maxDegreeOfParallelism: 3
       };
@@ -576,7 +556,6 @@ describe("Cross Partition", function() {
 
       const query = util.format("SELECT top %d * FROM root r", topCount);
       const options = {
-        enableCrossPartitionQuery: true,
         maxItemCount: 2
       };
 
@@ -603,7 +582,6 @@ describe("Cross Partition", function() {
 
       const query = util.format("SELECT top %d * FROM root r", topCount);
       const options = {
-        enableCrossPartitionQuery: true,
         maxItemCount: 2
       };
 
@@ -634,7 +612,6 @@ describe("Cross Partition", function() {
         parameters: [{ name: "@n", value: topCount }]
       };
       const options = {
-        enableCrossPartitionQuery: true,
         maxItemCount: 2
       };
 
@@ -665,7 +642,6 @@ describe("Cross Partition", function() {
         parameters: [{ name: "@n", value: topCount }]
       };
       const options = {
-        enableCrossPartitionQuery: true,
         maxItemCount: 2
       };
 
@@ -690,7 +666,6 @@ describe("Cross Partition", function() {
         parameters: [{ name: "@cnt", value: 5 }]
       };
       const options = {
-        enableCrossPartitionQuery: true,
         maxItemCount: 2
       };
 
@@ -717,7 +692,6 @@ describe("Cross Partition", function() {
         query: "SELECT * FROM root r order by r.spam2"
       };
       const options = {
-        enableCrossPartitionQuery: true,
         maxItemCount: 2
       };
 
@@ -734,7 +708,6 @@ describe("Cross Partition", function() {
       // simple order by query in string format
       const query = "SELECT * FROM root r order by r.cnt";
       const options = {
-        enableCrossPartitionQuery: true,
         maxItemCount: 2
       };
 
@@ -750,7 +723,6 @@ describe("Cross Partition", function() {
       // simple order by query in string format
       const query = "SELECT * FROM root r order by r.number";
       const options = {
-        enableCrossPartitionQuery: true,
         maxItemCount: 2
       };
 
@@ -766,7 +738,6 @@ describe("Cross Partition", function() {
       // simple order by query in string format
       const query = "SELECT * FROM root r order by r.boolVar";
       const options = {
-        enableCrossPartitionQuery: true,
         maxItemCount: 2
       };
 
@@ -798,7 +769,6 @@ describe("Cross Partition", function() {
         query: `SELECT * FROM root r OFFSET ${offset} LIMIT ${limit}`
       };
       const options = {
-        enableCrossPartitionQuery: true,
         maxItemCount: 2
       };
 
@@ -819,7 +789,6 @@ describe("Cross Partition", function() {
         query: `SELECT * FROM root r WHERE r.number > 5 OFFSET ${offset} LIMIT ${limit}`
       };
       const options = {
-        enableCrossPartitionQuery: true,
         maxItemCount: 2
       };
 
@@ -842,7 +811,6 @@ describe("Cross Partition", function() {
         query: `SELECT * FROM root r order by r.spam ASC OFFSET ${offset} LIMIT ${limit}`
       };
       const options = {
-        enableCrossPartitionQuery: true,
         maxItemCount: 2
       };
 
@@ -870,7 +838,6 @@ describe("Cross Partition", function() {
         query: `SELECT * FROM root r order by r.spam ASC OFFSET ${offset} LIMIT ${limit}`
       };
       const options = {
-        enableCrossPartitionQuery: true,
         maxItemCount: 2
       };
 
@@ -894,7 +861,6 @@ describe("Cross Partition", function() {
       const query = "SELECT * FROM root r order by r.spam";
 
       const options = {
-        enableCrossPartitionQuery: true,
         maxItemCount: 2
       };
 

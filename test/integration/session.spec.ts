@@ -221,9 +221,8 @@ describe("Session Token", function() {
     );
     firstPartitionToken = containerTokens.get(firstPartition);
 
-    const query = "SELECT * from " + containerId;
-    const queryOptions = { partitionKey: "1" };
-    const queryIterator = container.items.query(query, queryOptions);
+    const query = `SELECT * from c WHERE c.id = "1"`;
+    const queryIterator = container.items.query(query);
 
     const queryToken = sessionContainer.get({
       isNameBased: true,

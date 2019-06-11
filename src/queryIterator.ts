@@ -1,14 +1,18 @@
 /// <reference lib="esnext.asynciterable" />
 import { ClientContext } from "./ClientContext";
+import { getPathFromLink, ResourceType, StatusCodes, SubStatusCodes } from "./common";
 import {
   CosmosHeaders,
+  DefaultQueryExecutionContext,
   ExecutionContext,
   FetchFunctionCallback,
   getInitialHeader,
   mergeHeaders,
-  ProxyQueryExecutionContext,
+  PipelinedQueryExecutionContext,
   SqlQuerySpec
 } from "./queryExecutionContext";
+import { Response } from "./request";
+import { ErrorResponse, PartitionedQueryExecutionInfo } from "./request/ErrorResponse";
 import { FeedOptions } from "./request/FeedOptions";
 import { FeedResponse } from "./request/FeedResponse";
 
@@ -21,6 +25,7 @@ export class QueryIterator<T> {
   private fetchAllTempResources: T[]; // TODO
   private fetchAllLastResHeaders: CosmosHeaders;
   private queryExecutionContext: ExecutionContext;
+  private queryPlanPromise: Promise<Response<PartitionedQueryExecutionInfo>>;
   /**
    * @hidden
    */
@@ -29,14 +34,15 @@ export class QueryIterator<T> {
     private query: SqlQuerySpec | string,
     private options: FeedOptions,
     private fetchFunctions: FetchFunctionCallback | FetchFunctionCallback[],
-    private resourceLink?: string
+    private resourceLink?: string,
+    private resourceType?: ResourceType
   ) {
     this.query = query;
     this.fetchFunctions = fetchFunctions;
     this.options = options;
     this.resourceLink = resourceLink;
-    this.queryExecutionContext = this.createQueryExecutionContext();
     this.fetchAllLastResHeaders = getInitialHeader();
+    this.reset();
   }
 
   /**
@@ -63,14 +69,25 @@ export class QueryIterator<T> {
    */
   public async *getAsyncIterator(): AsyncIterable<FeedResponse<T>> {
     this.reset();
+    this.queryPlanPromise = this.fetchQueryPlan();
     while (this.queryExecutionContext.hasMoreResults()) {
-      const result = await this.queryExecutionContext.fetchMore();
+      let response: Response<any>;
+      try {
+        response = await this.queryExecutionContext.fetchMore();
+      } catch (error) {
+        if (this.needsQueryPlan(error)) {
+          await this.createPipelinedExecutionContext();
+          response = await this.queryExecutionContext.fetchMore();
+        } else {
+          throw error;
+        }
+      }
       const feedResponse = new FeedResponse<T>(
-        result.result,
-        result.headers,
+        response.result,
+        response.headers,
         this.queryExecutionContext.hasMoreResults()
       );
-      if (result.result !== undefined) {
+      if (response.result !== undefined) {
         yield feedResponse;
       }
     }
@@ -103,7 +120,18 @@ export class QueryIterator<T> {
    * before returning the first batch of responses.
    */
   public async fetchNext(): Promise<FeedResponse<T>> {
-    const response = await this.queryExecutionContext.fetchMore();
+    this.queryPlanPromise = this.fetchQueryPlan();
+    let response: Response<any>;
+    try {
+      response = await this.queryExecutionContext.fetchMore();
+    } catch (error) {
+      if (this.needsQueryPlan(error)) {
+        await this.createPipelinedExecutionContext();
+        response = await this.queryExecutionContext.fetchMore();
+      } else {
+        throw error;
+      }
+    }
     return new FeedResponse<T>(response.result, response.headers, this.queryExecutionContext.hasMoreResults());
   }
 
@@ -111,12 +139,26 @@ export class QueryIterator<T> {
    * Reset the QueryIterator to the beginning and clear all the resources inside it
    */
   public reset() {
-    this.queryExecutionContext = this.createQueryExecutionContext();
+    this.queryPlanPromise = undefined;
+    this.queryExecutionContext = new DefaultQueryExecutionContext(this.options, this.fetchFunctions);
   }
 
   private async toArrayImplementation(): Promise<FeedResponse<T>> {
+    this.queryPlanPromise = this.fetchQueryPlan();
+
     while (this.queryExecutionContext.hasMoreResults()) {
-      const { result, headers } = await this.queryExecutionContext.nextItem();
+      let response: Response<any>;
+      try {
+        response = await this.queryExecutionContext.nextItem();
+      } catch (error) {
+        if (this.needsQueryPlan(error)) {
+          await this.createPipelinedExecutionContext();
+          response = await this.queryExecutionContext.nextItem();
+        } else {
+          throw error;
+        }
+      }
+      const { result, headers } = response;
       // concatenate the results and fetch more
       mergeHeaders(this.fetchAllLastResHeaders, headers);
 
@@ -131,13 +173,40 @@ export class QueryIterator<T> {
     );
   }
 
-  private createQueryExecutionContext() {
-    return new ProxyQueryExecutionContext(
+  private async createPipelinedExecutionContext() {
+    const queryPlanResponse = await this.queryPlanPromise;
+    const queryPlan = queryPlanResponse.result;
+    const queryInfo = queryPlan.queryInfo;
+    if (queryInfo.aggregates.length > 0 && queryInfo.hasSelectValue === false) {
+      throw new Error("Aggregate queries must use the VALUE keyword");
+    }
+    this.queryExecutionContext = new PipelinedQueryExecutionContext(
       this.clientContext,
+      this.resourceLink,
       this.query,
       this.options,
-      this.fetchFunctions,
-      this.resourceLink
+      queryPlan
+    );
+  }
+
+  private async fetchQueryPlan() {
+    if (!this.queryPlanPromise && this.resourceType === ResourceType.item) {
+      return this.clientContext.getQueryPlan(
+        getPathFromLink(this.resourceLink) + "/docs",
+        ResourceType.item,
+        this.resourceLink,
+        this.query,
+        this.options
+      );
+    }
+    return this.queryPlanPromise;
+  }
+
+  private needsQueryPlan(error: any): error is ErrorResponse {
+    return (
+      error.code === StatusCodes.BadRequest &&
+      error.substatus &&
+      error.substatus === SubStatusCodes.CrossPartitionQueryNotServable
     );
   }
 }

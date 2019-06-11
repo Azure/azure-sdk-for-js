@@ -7,7 +7,7 @@ export class TestData {
   public sum: number;
   public docs: any[];
   constructor(public partitionKey: string, public uniquePartitionKey: string) {
-    this.numberOfDocuments = 800;
+    this.numberOfDocuments = 50;
     this.field = "field";
     const docs = [];
 
@@ -18,7 +18,7 @@ export class TestData {
       docs.push(d);
     }
 
-    this.numberOfDocsWithSamePartitionKey = 400;
+    this.numberOfDocsWithSamePartitionKey = 20;
     for (let i = 0; i < this.numberOfDocsWithSamePartitionKey; ++i) {
       const d: any = {};
       d[partitionKey] = uniquePartitionKey;

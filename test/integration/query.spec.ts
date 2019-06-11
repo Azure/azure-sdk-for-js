@@ -30,8 +30,7 @@ describe("ResourceLink Trimming of leading and trailing slashes", function() {
 
     await container.items.create(doc);
     const query = "SELECT * from " + containerId;
-    const queryOptions = { partitionKey: "pk" };
-    const queryIterator = container.items.query(query, queryOptions);
+    const queryIterator = container.items.query(query);
 
     const { resources } = await queryIterator.fetchAll();
     assert.equal(resources[0]["id"], "myId");
@@ -57,7 +56,7 @@ describe("Test Query Metrics", function() {
 
       await createdContainer.items.create(document);
       const query = "SELECT * from " + collectionId;
-      const queryOptions: FeedOptions = { populateQueryMetrics: true, enableCrossPartitionQuery: true };
+      const queryOptions: FeedOptions = { populateQueryMetrics: true };
       const queryIterator = createdContainer.items.query(query, queryOptions);
 
       while (queryIterator.hasMoreResults()) {

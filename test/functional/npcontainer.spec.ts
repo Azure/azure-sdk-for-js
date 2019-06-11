@@ -73,13 +73,11 @@ describe("Non Partitioned Container", function() {
     assert.equal(item4.newProp, newProp);
 
     // read documents after creation
-    const { resources: documents } = await container.items.readAll({ enableCrossPartitionQuery: true }).fetchAll();
+    const { resources: documents } = await container.items.readAll().fetchAll();
     assert.equal(documents.length, 2, "create should increase the number of documents");
 
     // query documents
-    const { resources: results } = await container.items
-      .query("SELECT * FROM root r", { enableCrossPartitionQuery: true })
-      .fetchAll();
+    const { resources: results } = await container.items.query("SELECT * FROM root r").fetchAll();
     assert(results.length === 2, "Container should contain two items");
 
     // delete a document

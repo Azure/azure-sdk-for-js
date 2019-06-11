@@ -7,8 +7,10 @@ import {
   ResourceType
 } from "../../common";
 import { PartitionKeyDefinition } from "../../documents";
+import { SqlQuerySpec } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
-import { FeedOptions, RequestOptions, ResourceResponse } from "../../request";
+import { FeedOptions, RequestOptions, ResourceResponse, Response } from "../../request";
+import { PartitionedQueryExecutionInfo } from "../../request/ErrorResponse";
 import { Conflict, Conflicts } from "../Conflict";
 import { Database } from "../Database";
 import { Item, Items } from "../Item";
@@ -186,6 +188,11 @@ export class Container {
       headers,
       statusCode
     );
+  }
+
+  public async getQueryPlan(query: string | SqlQuerySpec): Promise<Response<PartitionedQueryExecutionInfo>> {
+    const path = getPathFromLink(this.url);
+    return this.clientContext.getQueryPlan(path + "/docs", ResourceType.item, getIdFromLink(this.url), query);
   }
 
   public readPartitionKeyRanges(feedOptions?: FeedOptions): QueryIterator<PartitionKeyRange> {

@@ -65,6 +65,9 @@ export const Constants = {
     // Query
     Query: "x-ms-documentdb-query",
     IsQuery: "x-ms-documentdb-isquery",
+    IsQueryPlan: "x-ms-cosmos-is-query-plan-request",
+    SupportedQueryFeatures: "x-ms-cosmos-supported-query-features",
+    QueryVersion: "x-ms-cosmos-query-version",
 
     // Our custom Azure Cosmos DB headers
     Continuation: "x-ms-continuation",

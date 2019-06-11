@@ -10,6 +10,7 @@ export class AggregateEndpointComponent implements ExecutionContext {
   private aggregateValues: any[];
   private aggregateValuesIndex: number;
   private localAggregators: any[];
+  private started: boolean;
 
   /**
    * Represents an endpoint in handling aggregate queries.
@@ -50,31 +51,27 @@ export class AggregateEndpointComponent implements ExecutionContext {
     this.aggregateValues = [];
     this.aggregateValuesIndex = -1;
 
-    try {
-      const { result: resources, headers } = await this._getQueryResults();
+    const { result: resources, headers } = await this._getQueryResults();
 
-      resources.forEach((resource: any) => {
-        // TODO: any
-        this.localAggregators.forEach(aggregator => {
-          let itemValue;
-          // Get the value of the first property if it exists
-          if (resource && Object.keys(resource).length > 0) {
-            const key = Object.keys(resource)[0];
-            itemValue = resource[key];
-          }
-          aggregator.aggregate(itemValue);
-        });
-      });
-
-      // Get the aggregated results
+    resources.forEach((resource: any) => {
+      // TODO: any
       this.localAggregators.forEach(aggregator => {
-        this.aggregateValues.push(aggregator.getResult());
+        let itemValue;
+        // Get the value of the first property if it exists
+        if (resource && Object.keys(resource).length > 0) {
+          const key = Object.keys(resource)[0];
+          itemValue = resource[key];
+        }
+        aggregator.aggregate(itemValue);
       });
+    });
 
-      return { result: this.aggregateValues, headers };
-    } catch (err) {
-      throw err;
-    }
+    // Get the aggregated results
+    this.localAggregators.forEach(aggregator => {
+      this.aggregateValues.push(aggregator.getResult());
+    });
+
+    return { result: this.aggregateValues, headers };
   }
 
   /**
@@ -82,18 +79,15 @@ export class AggregateEndpointComponent implements ExecutionContext {
    * @ignore
    */
   public async _getQueryResults(): Promise<Response<any>> {
-    try {
-      const { result: item, headers } = await this.executionContext.nextItem();
-      if (item === undefined) {
-        // no more results
-        return { result: this.toArrayTempResources, headers };
-      }
-
-      this.toArrayTempResources = this.toArrayTempResources.concat(item);
-      return this._getQueryResults();
-    } catch (err) {
-      throw err;
+    this.started = true;
+    const { result: item, headers } = await this.executionContext.nextItem();
+    if (item === undefined) {
+      // no more results
+      return { result: this.toArrayTempResources, headers };
     }
+
+    this.toArrayTempResources = this.toArrayTempResources.concat(item);
+    return this._getQueryResults();
   }
 
   /**
@@ -104,20 +98,16 @@ export class AggregateEndpointComponent implements ExecutionContext {
    * the function takes two parameters error, element.
    */
   public async nextItem(): Promise<Response<any>> {
-    try {
-      let resHeaders: CosmosHeaders;
-      if (this.aggregateValues === undefined) {
-        ({ headers: resHeaders } = await this._getAggregateResult());
-      }
-      const resource =
-        this.aggregateValuesIndex < this.aggregateValues.length
-          ? this.aggregateValues[++this.aggregateValuesIndex]
-          : undefined;
-
-      return { result: resource, headers: resHeaders };
-    } catch (err) {
-      throw err;
+    let resHeaders: CosmosHeaders;
+    if (this.aggregateValues === undefined) {
+      ({ headers: resHeaders } = await this._getAggregateResult());
     }
+    const resource =
+      this.aggregateValuesIndex < this.aggregateValues.length
+        ? this.aggregateValues[++this.aggregateValuesIndex]
+        : undefined;
+
+    return { result: resource, headers: resHeaders };
   }
 
   /**
@@ -149,6 +139,9 @@ export class AggregateEndpointComponent implements ExecutionContext {
    * @returns {Boolean} true if there is other elements to process in the AggregateEndpointComponent.
    */
   public hasMoreResults() {
-    return this.aggregateValues != null && this.aggregateValuesIndex < this.aggregateValues.length - 1;
+    if (!this.started) {
+      return true;
+    }
+    return !this.started && this.aggregateValues != null && this.aggregateValuesIndex < this.aggregateValues.length - 1;
   }
 }

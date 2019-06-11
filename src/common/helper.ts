@@ -217,30 +217,18 @@ export function isResourceValid(resource: any, err: any) {
 }
 
 /** @ignore */
-export function getIdFromLink(resourceLink: string, isNameBased: boolean = true) {
-  if (isNameBased) {
-    resourceLink = trimSlashes(resourceLink);
-    return resourceLink;
-  } else {
-    return parseLink(resourceLink).objectBody.id.toLowerCase();
-  }
+export function getIdFromLink(resourceLink: string) {
+  resourceLink = trimSlashes(resourceLink);
+  return resourceLink;
 }
 
 /** @ignore */
-export function getPathFromLink(resourceLink: string, resourceType?: string, isNameBased: boolean = true) {
-  if (isNameBased) {
-    resourceLink = trimSlashes(resourceLink);
-    if (resourceType) {
-      return "/" + encodeURI(resourceLink) + "/" + resourceType;
-    } else {
-      return "/" + encodeURI(resourceLink);
-    }
+export function getPathFromLink(resourceLink: string, resourceType?: string) {
+  resourceLink = trimSlashes(resourceLink);
+  if (resourceType) {
+    return "/" + encodeURI(resourceLink) + "/" + resourceType;
   } else {
-    if (resourceType) {
-      return "/" + resourceLink + resourceType + "/";
-    } else {
-      return "/" + resourceLink;
-    }
+    return "/" + encodeURI(resourceLink);
   }
 }
 export function isStringNullOrEmpty(inputString: string) {

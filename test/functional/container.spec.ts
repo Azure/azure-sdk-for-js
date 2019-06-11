@@ -2,8 +2,8 @@ import assert from "assert";
 import { Constants } from "../../dist-esm";
 import { ContainerDefinition, Database } from "../../dist-esm/client";
 import { ContainerRequest } from "../../dist-esm/client/Container/ContainerRequest";
-import { DataType, Index, IndexedPath, IndexingMode, IndexingPolicy, IndexKind } from "../../dist-esm/documents";
-import { getTestDatabase, removeAllDatabases } from "../common/TestHelpers";
+import { DataType, IndexedPath, IndexingMode, IndexingPolicy, IndexKind } from "../../dist-esm/documents";
+import { getTestDatabase, removeAllDatabases, getTestContainer } from "../common/TestHelpers";
 
 describe("Containers", function() {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);

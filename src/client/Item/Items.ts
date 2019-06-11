@@ -60,8 +60,8 @@ export class Items {
    * const {result: items} = await items.query<{firstName: string}>(querySpec).toArray();
    * ```
    */
-  public query<T>(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<T>;
-  public query<T>(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<T> {
+  public query<T>(query: string | SqlQuerySpec, options: FeedOptions): QueryIterator<T>;
+  public query<T>(query: string | SqlQuerySpec, options: FeedOptions = {}): QueryIterator<T> {
     const path = getPathFromLink(this.container.url, ResourceType.item);
     const id = getIdFromLink(this.container.url);
 
@@ -76,7 +76,7 @@ export class Items {
       });
     };
 
-    return new QueryIterator(this.clientContext, query, options, fetchFunction, this.container.url);
+    return new QueryIterator(this.clientContext, query, options, fetchFunction, this.container.url, ResourceType.item);
   }
 
   /**
@@ -168,7 +168,7 @@ export class Items {
    */
   public readAll<T extends ItemDefinition>(options?: FeedOptions): QueryIterator<T>;
   public readAll<T extends ItemDefinition>(options?: FeedOptions): QueryIterator<T> {
-    return this.query<T>(undefined, options);
+    return this.query<T>("SELECT * from c", options);
   }
 
   /**

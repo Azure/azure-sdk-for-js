@@ -59,7 +59,7 @@ describe("Item CRUD", function() {
     assert.equal(document.name, itemDefinition.name);
     assert(document.id !== undefined);
     // read documents after creation
-    const { resources: documents2 } = await container.items.readAll({ enableCrossPartitionQuery: true }).fetchAll();
+    const { resources: documents2 } = await container.items.readAll().fetchAll();
     assert.equal(documents2.length, beforeCreateDocumentsCount + 1, "create should increase the number of documents");
     // query documents
     const querySpec = {
@@ -71,13 +71,9 @@ describe("Item CRUD", function() {
         }
       ]
     };
-    const { resources: results } = await container.items
-      .query(querySpec, { enableCrossPartitionQuery: true })
-      .fetchAll();
+    const { resources: results } = await container.items.query(querySpec).fetchAll();
     assert(results.length > 0, "number of results for the query should be > 0");
-    const { resources: results2 } = await container.items
-      .query(querySpec, { enableCrossPartitionQuery: true })
-      .fetchAll();
+    const { resources: results2 } = await container.items.query(querySpec).fetchAll();
     assert(results2.length > 0, "number of results for the query should be > 0");
 
     // replace document
@@ -169,15 +165,8 @@ describe("Item CRUD", function() {
     const querySpec = {
       query: "SELECT * FROM Root"
     };
-    try {
-      const { resources: badUpdate } = await container.items.query(querySpec, { enableScanInQuery: true }).fetchAll();
-      assert.fail("Must fail");
-    } catch (err) {
-      const badRequestErrorCode = 400;
-      assert.equal(err.code, badRequestErrorCode, "response should return error code " + badRequestErrorCode);
-    }
     const { resources: results } = await container.items
-      .query<ItemDefinition>(querySpec, { enableScanInQuery: true, enableCrossPartitionQuery: true })
+      .query<ItemDefinition>(querySpec, { enableScanInQuery: true })
       .fetchAll();
     assert(results !== undefined, "error querying documents");
     results.sort(function(doc1, doc2) {

@@ -28,6 +28,7 @@ interface QueryInfo {
   aggregates?: any[];
   rewrittenQuery?: any;
   distinctType: string;
+  hasSelectValue: boolean;
 }
 
 export interface ErrorResponse extends Error {

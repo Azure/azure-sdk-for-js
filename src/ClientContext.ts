@@ -12,6 +12,7 @@ import { CosmosHeaders } from "./queryExecutionContext/CosmosHeaders";
 import { QueryIterator } from "./queryIterator";
 import { FeedOptions, RequestOptions, Response } from "./request";
 import { ErrorResponse } from "./request";
+import { PartitionedQueryExecutionInfo } from "./request/ErrorResponse";
 import { getHeaders } from "./request/request";
 import { RequestContext } from "./request/RequestContext";
 import { request as executeRequest } from "./request/RequestHandler";
@@ -86,7 +87,8 @@ export class ClientContext {
     resultFn,
     query,
     options,
-    partitionKeyRangeId
+    partitionKeyRangeId,
+    partitionKey
   }: {
     path: string;
     resourceType: ResourceType;
@@ -99,6 +101,7 @@ export class ClientContext {
     query: SqlQuerySpec | string;
     options: FeedOptions;
     partitionKeyRangeId?: string;
+    partitionKey?: PartitionKey;
   }): Promise<Response<T & Resource>> {
     // Query operations will use ReadEndpoint even though it uses
     // GET(for queryFeed) and POST(for regular query operations)
@@ -117,7 +120,7 @@ export class ClientContext {
       options,
       body: query,
       plugins: this.cosmosClientOptions.plugins,
-      partitionKey: options.partitionKey
+      partitionKey
     };
 
     if (query !== undefined) {
@@ -136,6 +139,45 @@ export class ClientContext {
     const response = await executeRequest(request);
     this.captureSessionToken(undefined, path, OperationType.Query, response.headers);
     return this.processQueryFeedResponse(response, !!query, resultFn);
+  }
+
+  public async getQueryPlan(
+    path: string,
+    resourceType: ResourceType,
+    resourceId: string,
+    query: SqlQuerySpec | string,
+    options: FeedOptions = {}
+  ): Promise<Response<PartitionedQueryExecutionInfo>> {
+    const request: RequestContext = {
+      globalEndpointManager: this.globalEndpointManager,
+      requestAgent: this.cosmosClientOptions.agent,
+      connectionPolicy: this.connectionPolicy,
+      method: HTTPMethod.post,
+      path,
+      operationType: OperationType.Read,
+      client: this,
+      resourceId,
+      resourceType,
+      options,
+      body: query,
+      plugins: this.cosmosClientOptions.plugins
+    };
+
+    request.endpoint = await this.globalEndpointManager.resolveServiceEndpoint(request);
+    request.headers = await this.buildHeaders(request);
+    request.headers[Constants.HttpHeaders.IsQueryPlan] = "True";
+    request.headers[Constants.HttpHeaders.QueryVersion] = "1.4";
+    request.headers[Constants.HttpHeaders.SupportedQueryFeatures] =
+      "Aggregate, Distinct, MultipleOrderBy, OffsetAndLimit, OrderBy, Top, CompositeAggregate";
+    request.headers[Constants.HttpHeaders.ContentType] = Constants.MediaTypes.QueryJson;
+    if (typeof query === "string") {
+      request.body = { query }; // Converts query text to query object.
+    }
+
+    this.applySessionToken(request);
+    const response = await executeRequest(request);
+    this.captureSessionToken(undefined, path, OperationType.Query, response.headers);
+    return response as any;
   }
 
   public queryPartitionKeyRanges(collectionLink: string, query?: string | SqlQuerySpec, options?: FeedOptions) {
