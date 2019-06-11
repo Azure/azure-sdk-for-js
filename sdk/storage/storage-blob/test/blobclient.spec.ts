@@ -368,4 +368,15 @@ describe("BlobClient", () => {
     const result = await newClient.getProperties();
     assert.deepStrictEqual(result.metadata, metadata);
   });
+
+  it.only("can be created with a connection string", async () => {
+    const newClient = new BlobClient(process.env.CONNECTION_STRING || "", containerName, blobName);
+    const metadata = {
+      a: "a",
+      b: "b"
+    };
+    await newClient.setMetadata(metadata);
+    const result = await newClient.getProperties();
+    assert.deepStrictEqual(result.metadata, metadata);
+  });
 });

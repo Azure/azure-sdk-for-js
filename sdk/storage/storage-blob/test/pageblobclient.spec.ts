@@ -180,4 +180,16 @@ describe("PageBlobClient", () => {
     const result = await newClient.download(0);
     assert.deepStrictEqual(await bodyToString(result, 512), "\u0000".repeat(512));
   });
+
+  it.only("can be created with a connection string", async () => {
+    const newClient = new PageBlobClient(
+      process.env.CONNECTION_STRING || "",
+      containerName,
+      blobName
+    );
+
+    await newClient.create(512);
+    const result = await newClient.download(0);
+    assert.deepStrictEqual(await bodyToString(result, 512), "\u0000".repeat(512));
+  });
 });

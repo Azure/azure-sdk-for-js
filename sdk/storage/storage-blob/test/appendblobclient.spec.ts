@@ -95,4 +95,110 @@ describe("AppendBlobClient", () => {
     await newClient.create();
     await newClient.download();
   });
+
+  it.only("can be created with a connection string", async () => {
+    const newClient = new AppendBlobClient(
+      process.env.CONNECTION_STRING || "",
+      containerName,
+      blobName
+    );
+
+    await newClient.create();
+    await newClient.download();
+  });
+
+  it.only("throws error when passed an invalid connection string", async () => {
+    try {
+      const newClient = new AppendBlobClient(
+        "DefaultEndpointsProtocol=a;AccountName=b;AccountKey=c;EndpointSuffix=d" || "",
+        containerName,
+        blobName
+      );
+
+      await newClient.create();
+    } catch (error) {}
+  });
+
+  it.only("throws error when passed an invalid connection string", async () => {
+    try {
+      const newClient = new AppendBlobClient(
+        // Typo in the attributes
+        "DefaultEndpointsProtocol=a;Name=b;AccountKey=c;EndpointSuffix=d" || "",
+        containerName,
+        blobName
+      );
+
+      await newClient.create();
+    } catch (error) {
+      assert.equal(
+        "Invalid Connection String",
+        error.message,
+        "Connection string is different than expected"
+      );
+    }
+  });
+
+  it.only("throws error with empty EndpointSuffix in the connection string", async () => {
+    try {
+      new AppendBlobClient(
+        "DefaultEndpointsProtocol=a;AccountName=b;AccountKey=c;EndpointSuffix=" || "",
+        containerName,
+        blobName
+      );
+    } catch (error) {
+      assert.equal(
+        "Invalid EndpointSuffix in the provided Connection String",
+        error.message,
+        "Connection string is different than expected"
+      );
+    }
+  });
+
+  it.only("throws error with empty AccountKey in the connection string", async () => {
+    try {
+      new AppendBlobClient(
+        "DefaultEndpointsProtocol=a;AccountName=b;AccountKey=;EndpointSuffix=d" || "",
+        containerName,
+        blobName
+      );
+    } catch (error) {
+      assert.equal(
+        "Invalid AccountKey in the provided Connection String",
+        error.message,
+        "Connection string is different than expected"
+      );
+    }
+  });
+
+  it.only("throws error with empty AccountName in the connection string", async () => {
+    try {
+      new AppendBlobClient(
+        "DefaultEndpointsProtocol=a;AccountName=;AccountKey=c;EndpointSuffix=d" || "",
+        containerName,
+        blobName
+      );
+    } catch (error) {
+      assert.equal(
+        "Invalid AccountName in the provided Connection String",
+        error.message,
+        "Connection string is different than expected"
+      );
+    }
+  });
+
+  it.only("throws error with empty DefaultEndpointsProtocol in the connection string", async () => {
+    try {
+      new AppendBlobClient(
+        "DefaultEndpointsProtocol=;AccountName=b;AccountKey=c;EndpointSuffix=d" || "",
+        containerName,
+        blobName
+      );
+    } catch (error) {
+      assert.equal(
+        "Invalid DefaultEndpointsProtocol in the provided Connection String",
+        error.message,
+        "Connection string is different than expected"
+      );
+    }
+  });
 });

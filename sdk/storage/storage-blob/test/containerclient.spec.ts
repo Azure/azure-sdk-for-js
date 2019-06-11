@@ -434,4 +434,20 @@ describe("ContainerClient", () => {
     assert.ok(result.date);
     assert.ok(!result.blobPublicAccess);
   });
+
+  it.only("can be created with a connection string", async () => {
+    const newClient = new ContainerClient(process.env.CONNECTION_STRING || "", containerName);
+
+    const result = await newClient.getProperties();
+
+    assert.ok(result.eTag!.length > 0);
+    assert.ok(result.lastModified);
+    assert.ok(!result.leaseDuration);
+    assert.equal(result.leaseState, "available");
+    assert.equal(result.leaseStatus, "unlocked");
+    assert.ok(result.requestId);
+    assert.ok(result.version);
+    assert.ok(result.date);
+    assert.ok(!result.blobPublicAccess);
+  });
 });

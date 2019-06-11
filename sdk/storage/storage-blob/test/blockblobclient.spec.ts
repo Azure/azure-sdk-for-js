@@ -228,4 +228,17 @@ describe("BlockBlobClient", () => {
     const result = await newClient.download(0);
     assert.deepStrictEqual(await bodyToString(result, body.length), body);
   });
+
+  it.only("can be created with a connection string", async () => {
+    const newClient = new BlockBlobClient(
+      process.env.CONNECTION_STRING || "",
+      containerName,
+      blobName
+    );
+
+    const body: string = getUniqueName("randomstring");
+    await newClient.upload(body, body.length);
+    const result = await newClient.download(0);
+    assert.deepStrictEqual(await bodyToString(result, body.length), body);
+  });
 });
