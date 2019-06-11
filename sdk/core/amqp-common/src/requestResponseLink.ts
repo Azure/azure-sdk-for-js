@@ -129,10 +129,13 @@ export class RequestResponseLink implements ReqResLink {
           const desc: string =
             `[${this.connection.id}] The request "${requestName}" ` +
             `to "${address}" has been cancelled by the user.`;
-          const error = translate(new Error(desc));
+          log.error(desc);
+          const error = translate(
+            new Error(`The request operation has been cancelled by the user.`)
+          );
           error.name = "AbortError";
           error.retryable = false;
-          log.error(error);
+
           reject(error);
         };
 
