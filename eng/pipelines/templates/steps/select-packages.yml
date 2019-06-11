@@ -1,6 +1,6 @@
 steps:
-  - bash: |
+  - script: |
+      cd $(System.DefaultWorkingDirectory)/eng/tools/select-packages
       npm install
       npm run select-packages $(System.DefaultWorkingDirectory)/${{parameters.ServiceDirectory}}
-    workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/select-packages
     displayName: "Selecting packages to build"
