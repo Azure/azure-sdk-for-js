@@ -82,7 +82,7 @@ async function main() {
     item3 = (await iter3.next()).value;
   } while (item3);
 
-  // Passing marker as argument (similar to the previous example)
+  // Passing marker as an argument (similar to the previous example)
   i = 1;
   let iter4 = queueServiceClient.listQueues().byPage({ pagesize: 2 });
   let item = (await iter4.next()).value;
