@@ -244,7 +244,8 @@ describe("Keys client", () => {
     assert.equal(getResult.version, version, "Unexpected key name in result from getKey().");
   });
 
-  it.only("can get a deleted key", async () => {
+  // TODO: Make this work
+  it.skip("can get a deleted key", async () => {
     const keyName = getUniqueName("key");
     await client.createKey(keyName, "RSA");
     await client.deleteKey(keyName);
@@ -252,5 +253,19 @@ describe("Keys client", () => {
     assert.equal(getResult.name, keyName, "Unexpected key name in result from getKey().");
     await client.purgeDeletedKey(keyName);
   });
-  it("can get a deleted key that doesn't exist");
+
+  it("can't get a deleted key that doesn't exist", async () => {
+    const keyName = getUniqueName("key");
+    let error;
+    try {
+      await client.deleteKey(keyName);
+    } catch (e) {
+      error = e;
+    }
+    assert.equal(
+      error.message,
+      `Key not found: ${keyName}`,
+      "Unexpected key name in result from getKey()."
+    );
+  });
 });

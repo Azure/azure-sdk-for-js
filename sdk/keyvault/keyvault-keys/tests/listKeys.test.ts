@@ -6,8 +6,7 @@ import {
   getUniqueName
 } from "./utils/utils.common";
 import { KeysClient } from "../src";
-import { ServiceClientCredentials, RestError } from "@azure/ms-rest-js";
-import Promise from "bluebird";
+import { ServiceClientCredentials, delay } from "@azure/ms-rest-js";
 
 describe("Keys client", () => {
   let credential: ServiceClientCredentials;
@@ -34,7 +33,7 @@ describe("Keys client", () => {
     const keyName = getUniqueName("key");
     after(deleteKeyAfter(keyName));
 
-    const result = await client.createKey(keyName, "RSA");
+    await client.createKey(keyName, "RSA");
     let totalVersions = 0;
     for await (let version of client.getKeyVersions(keyName)) {
       assert.equal(
@@ -48,13 +47,24 @@ describe("Keys client", () => {
     assert.equal(totalVersions, 1, `Unexpected total versions for key ${keyName}`);
   });
 
+  it("list 0 versions of a non-existing key", async () => {
+    const keyName = getUniqueName("key");
+    let totalVersions = 0;
+    for await (let version of client.getKeyVersions(keyName)) {
+      totalVersions += 1;
+    }
+
+    assert.equal(totalVersions, 0, `Unexpected total versions for key ${keyName}`);
+  });
+
   it("can get several inserted keys", async () => {
     const keyNames = [getUniqueName("keys"), getUniqueName("keys")];
-    const secretValue = getUniqueName("value");
 
     after(async () => {
       for (let name of keyNames) {
         await client.deleteKey(name);
+        await delay(2000);
+        await client.purgeDeletedKey(name);
       }
     });
 
@@ -72,6 +82,27 @@ describe("Keys client", () => {
     assert.equal(found, 2, "Unexpected number of keys found by getAllSecrets.");
   });
 
-  it("list deleted keys");
-  it("fail when trying to list versions of a non-existing key");
+  it("list deleted keys", async () => {
+    const keyNames = [getUniqueName("keys"), getUniqueName("keys")];
+
+    for (let name of keyNames) {
+      await client.createKey(name, "RSA");
+    }
+    for (let name of keyNames) {
+      await client.deleteKey(name);
+    }
+
+    let found = 0;
+    for await (const key of client.getDeletedKeys()) {
+      // The vault might contain more keys than the ones we inserted.
+      if (!keyNames.includes(key.name)) continue;
+      found += 1;
+    }
+
+    assert.equal(found, 2, "Unexpected number of keys found by getAllSecrets.");
+
+    for (let name of keyNames) {
+      await client.purgeDeletedKey(name);
+    }
+  });
 });
