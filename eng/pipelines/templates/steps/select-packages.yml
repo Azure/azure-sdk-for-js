@@ -1,6 +1,6 @@
 steps:
   - script: |
-      npm install
+      npm ci # This causes us to download packages exclusively based on the lock file, faster and more secure.
       npm run select-packages $(System.DefaultWorkingDirectory)/${{parameters.ServiceDirectory}}
     workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/select-packages
     name: SelectPackages
