@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import { TokenCredential, isNode, RequestOptionsBase } from "@azure/core-http";
+import { AccessToken, TokenCredential, isNode, GetTokenOptions } from "@azure/core-http";
 import { IdentityClientOptions } from "../client/identityClient";
 import { ClientSecretCredential } from "./clientSecretCredential";
 
@@ -22,9 +22,9 @@ export class EnvironmentCredential implements TokenCredential {
     }
   }
 
-  getToken(scopes: string | string[], requestOptions?: RequestOptionsBase): Promise<string | null> {
+  getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null> {
     if (this._credential) {
-      return this._credential.getToken(scopes, requestOptions);
+      return this._credential.getToken(scopes, options);
     }
 
     return Promise.resolve(null);
