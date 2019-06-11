@@ -9,12 +9,19 @@ import { BlobDownloadResponse } from "./BlobDownloadResponse";
 import { Blob } from "./generated/lib/operations";
 import { rangeToString } from "./Range";
 import { BlobAccessConditions, Metadata } from "./models";
-import { Pipeline } from "./Pipeline";
-import { DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS, URLConstants, DEFAULT_BLOB_DOWNLOAD_BLOCK_BYTES } from "./utils/constants";
-import { setURLParameter } from "./utils/utils.common";
+import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
+import {
+  DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS,
+  URLConstants,
+  DEFAULT_BLOB_DOWNLOAD_BLOCK_BYTES
+} from "./utils/constants";
+import { setURLParameter, extractPartsWithValidation } from "./utils/utils.common";
 import { AppendBlobClient, StorageClient } from "./internal";
 import { BlockBlobClient } from "./internal";
 import { PageBlobClient } from "./internal";
+import { Credential } from "./credentials/Credential";
+import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
+import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { Batch } from "./utils/Batch";
 import { streamToBuffer } from "./utils/utils.node";
 
@@ -543,6 +550,36 @@ export class BlobClient extends StorageClient {
 
   /**
    * Creates an instance of BlobClient.
+   *
+   * @param {string} connectionString Connection string for an Azure storage account.
+   * @param {string} containerName Container name.
+   * @param {string} blobName Blob name.
+   * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
+   * @memberof BlobClient
+   */
+  constructor(
+    connectionString: string,
+    containerName: string,
+    blobName: string,
+    options?: NewPipelineOptions
+  );
+  /**
+   * Creates an instance of BlobClient.
+   * This method accepts an encoded URL or non-encoded URL pointing to a blob.
+   * Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
+   * If a blob name includes ? or %, blob name must be encoded in the URL.
+   *
+   * @param {string} url A Client string pointing to Azure Storage blob service, such as
+   *                     "https://myaccount.blob.core.windows.net". You can append a SAS
+   *                     if using AnonymousCredential, such as "https://myaccount.blob.core.windows.net?sasString".
+   * @param {Credential} credential Such as AnonymousCredential, SharedKeyCredential or TokenCredential.
+   *                                If not specified, AnonymousCredential is used.
+   * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
+   * @memberof BlobClient
+   */
+  constructor(url: string, credential?: Credential, options?: NewPipelineOptions);
+  /**
+   * Creates an instance of BlobClient.
    * This method accepts an encoded URL or non-encoded URL pointing to a blob.
    * Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
    * If a blob name includes ? or %, blob name must be encoded in the URL.
@@ -559,8 +596,45 @@ export class BlobClient extends StorageClient {
    *                            pipeline, or provide a customized pipeline.
    * @memberof BlobClient
    */
-  constructor(url: string, pipeline: Pipeline) {
-    super(url, pipeline);
+  constructor(url: string, pipeline: Pipeline);
+  constructor(
+    urlOrConnectionString: string,
+    credentialOrPipelineOrContainerName?: string | Credential | Pipeline,
+    blobNameOrOptions?: string | NewPipelineOptions,
+    options?: NewPipelineOptions
+  ) {
+    let pipeline: Pipeline;
+    if (credentialOrPipelineOrContainerName instanceof Pipeline) {
+      pipeline = credentialOrPipelineOrContainerName;
+    } else if (credentialOrPipelineOrContainerName instanceof Credential) {
+      options = blobNameOrOptions as NewPipelineOptions;
+      pipeline = newPipeline(credentialOrPipelineOrContainerName, options);
+    } else if (
+      !credentialOrPipelineOrContainerName &&
+      typeof credentialOrPipelineOrContainerName !== "string"
+    ) {
+      // The second parameter is undefined. Use anonymous credential.
+      pipeline = newPipeline(new AnonymousCredential(), options);
+    } else if (
+      credentialOrPipelineOrContainerName &&
+      typeof credentialOrPipelineOrContainerName === "string" &&
+      blobNameOrOptions &&
+      typeof blobNameOrOptions === "string"
+    ) {
+      const containerName = credentialOrPipelineOrContainerName;
+      const blobName = blobNameOrOptions;
+
+      const extractedCreds = extractPartsWithValidation(urlOrConnectionString);
+      const sharedKeyCredential = new SharedKeyCredential(
+        extractedCreds.accountName,
+        extractedCreds.accountKey
+      );
+      urlOrConnectionString = extractedCreds.url + "/" + containerName + "/" + blobName;
+      pipeline = newPipeline(sharedKeyCredential, options);
+    } else {
+      throw new Error("Expecting non-empty strings for containerName and blobName parameters");
+    }
+    super(urlOrConnectionString, pipeline);
     this.blobContext = new Blob(this.storageClientContext);
   }
 
@@ -745,9 +819,7 @@ export class BlobClient extends StorageClient {
    * @returns {Promise<Models.BlobDeleteResponse>}
    * @memberof BlobClient
    */
-  public async delete(
-    options: BlobDeleteOptions = {}
-  ): Promise<Models.BlobDeleteResponse> {
+  public async delete(options: BlobDeleteOptions = {}): Promise<Models.BlobDeleteResponse> {
     const aborter = options.abortSignal || Aborter.none;
     options.blobAccessConditions = options.blobAccessConditions || {};
     return this.blobContext.deleteMethod({
@@ -768,9 +840,7 @@ export class BlobClient extends StorageClient {
    * @returns {Promise<Models.BlobUndeleteResponse>}
    * @memberof BlobClient
    */
-  public async undelete(
-    options: BlobUndeleteOptions = {}
-  ): Promise<Models.BlobUndeleteResponse> {
+  public async undelete(options: BlobUndeleteOptions = {}): Promise<Models.BlobUndeleteResponse> {
     const aborter = options.abortSignal || Aborter.none;
     return this.blobContext.undelete({
       abortSignal: aborter || Aborter.none

@@ -9,9 +9,12 @@ import { BlobClient } from "./internal";
 import { PageBlob } from "./generated/lib/operations";
 import { rangeToString } from "./Range";
 import { BlobAccessConditions, Metadata, PageBlobAccessConditions } from "./models";
-import { Pipeline } from "./Pipeline";
+import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
 import { URLConstants } from "./utils/constants";
-import { setURLParameter } from "./utils/utils.common";
+import { setURLParameter, extractPartsWithValidation } from "./utils/utils.common";
+import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
+import { Credential } from "./credentials/Credential";
+import { AnonymousCredential } from "./credentials/AnonymousCredential";
 
 /**
  * Options to configure Page Blob - Create operation.
@@ -265,7 +268,6 @@ export interface PageBlobStartCopyIncrementalOptions {
  * @extends {BlobClient}
  */
 export class PageBlobClient extends BlobClient {
-
   /**
    * pageBlobsContext provided by protocol layer.
    *
@@ -277,14 +279,40 @@ export class PageBlobClient extends BlobClient {
 
   /**
    * Creates an instance of PageBlobClient.
-   * This method accepts an encoded URL or non-encoded URL pointing to a page blob.
+   *
+   * @param {string} connectionString Connection string for an Azure storage account.
+   * @param {string} containerName Container name.
+   * @param {string} blobName Blob name.
+   * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
+   * @memberof PageBlobClient
+   */
+  constructor(
+    connectionString: string,
+    containerName: string,
+    blobName: string,
+    options?: NewPipelineOptions
+  );
+  /**
+   * Creates an instance of PageBlobClient.
+   * This method accepts an encoded URL or non-encoded URL pointing to a blob.
    * Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
    * If a blob name includes ? or %, blob name must be encoded in the URL.
    *
-   * @param {string} url A URL string pointing to Azure Storage page blob, such as
-   *                     "https://myaccount.blob.core.windows.net/mycontainer/pageblob". You can
-   *                     append a SAS if using AnonymousCredential, such as
-   *                     "https://myaccount.blob.core.windows.net/mycontainer/pageblob?sasString".
+   * @param {string} url A Client string pointing to Azure Storage blob service, such as
+   *                     "https://myaccount.blob.core.windows.net". You can append a SAS
+   *                     if using AnonymousCredential, such as "https://myaccount.blob.core.windows.net?sasString".
+   * @param {Credential} credential Such as AnonymousCredential, SharedKeyCredential or TokenCredential.
+   * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
+   * @memberof PageBlobClient
+   */
+  constructor(url: string, credential: Credential, options?: NewPipelineOptions);
+  /**
+   * Creates an instance of PageBlobClient.
+   *
+   * @param {string} url A URL string pointing to Azure Storage blob, such as
+   *                     "https://myaccount.blob.core.windows.net/mycontainer/blob".
+   *                     You can append a SAS if using AnonymousCredential, such as
+   *                     "https://myaccount.blob.core.windows.net/mycontainer/blob?sasString".
    *                     This method accepts an encoded URL or non-encoded URL pointing to a blob.
    *                     Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
    *                     However, if a blob name includes ? or %, blob name must be encoded in the URL.
@@ -293,12 +321,52 @@ export class PageBlobClient extends BlobClient {
    *                            pipeline, or provide a customized pipeline.
    * @memberof PageBlobClient
    */
-  constructor(url: string, pipeline: Pipeline) {
-    super(url, pipeline);
+  constructor(url: string, pipeline: Pipeline);
+  constructor(
+    urlOrConnectionString: string,
+    credentialOrPipelineOrContainerName: string | Credential | Pipeline,
+    blobNameOrOptions?: string | NewPipelineOptions,
+    options?: NewPipelineOptions
+  ) {
+    // In TypeScript we cannot simply pass all parameters to super() like below so have to duplicate the code instead.
+    //   super(s, credentialOrPipelineOrContainerNameOrOptions, blobNameOrOptions, options);
+    let pipeline: Pipeline;
+    if (credentialOrPipelineOrContainerName instanceof Pipeline) {
+      pipeline = credentialOrPipelineOrContainerName;
+    } else if (credentialOrPipelineOrContainerName instanceof Credential) {
+      options = blobNameOrOptions as NewPipelineOptions;
+      pipeline = newPipeline(credentialOrPipelineOrContainerName, options);
+    } else if (
+      !credentialOrPipelineOrContainerName &&
+      typeof credentialOrPipelineOrContainerName !== "string"
+    ) {
+      // The second parameter is undefined. Use anonymous credential.
+      pipeline = newPipeline(new AnonymousCredential(), options);
+    } else if (
+      credentialOrPipelineOrContainerName &&
+      typeof credentialOrPipelineOrContainerName === "string" &&
+      blobNameOrOptions &&
+      typeof blobNameOrOptions === "string"
+    ) {
+      const containerName = credentialOrPipelineOrContainerName;
+      const blobName = blobNameOrOptions;
+
+      const extractedCreds = extractPartsWithValidation(urlOrConnectionString);
+      const sharedKeyCredential = new SharedKeyCredential(
+        extractedCreds.accountName,
+        extractedCreds.accountKey
+      );
+      urlOrConnectionString = extractedCreds.url + "/" + containerName + "/" + blobName;
+      pipeline = newPipeline(sharedKeyCredential, options);
+    } else {
+      throw new Error("Expecting non-empty strings for containerName and blobName parameters");
+    }
+    super(urlOrConnectionString, pipeline);
     this.pageBlobContext = new PageBlob(this.storageClientContext);
   }
 
   /**
+   * Creates a new PageBlobURL object identical to the source but with the
    * Creates a new PageBlobClient object identical to the source but with the
    * specified snapshot timestamp.
    * Provide "" will remove the snapshot and return a Client to the base blob.

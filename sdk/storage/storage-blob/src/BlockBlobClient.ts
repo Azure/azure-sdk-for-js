@@ -3,7 +3,12 @@
 
 import * as fs from "fs";
 
-import { generateUuid, HttpRequestBody, HttpResponse, TransferProgressEvent } from "@azure/ms-rest-js";
+import {
+  generateUuid,
+  HttpRequestBody,
+  HttpResponse,
+  TransferProgressEvent
+} from "@azure/ms-rest-js";
 import * as Models from "./generated/lib/models";
 import { Aborter } from "./Aborter";
 import { BlobClient } from "./internal";
@@ -11,9 +16,18 @@ import { BlockBlob } from "./generated/lib/operations";
 import { BlobHTTPHeaders } from "./generated/lib/models";
 import { Range, rangeToString } from "./Range";
 import { BlobAccessConditions, Metadata } from "./models";
-import { Pipeline } from "./Pipeline";
-import { URLConstants, BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES, BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES, BLOCK_BLOB_MAX_BLOCKS, DEFAULT_BLOB_DOWNLOAD_BLOCK_BYTES } from "./utils/constants";
-import { setURLParameter, generateBlockID } from "./utils/utils.common";
+import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
+import { setURLParameter, extractPartsWithValidation, generateBlockID } from "./utils/utils.common";
+import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
+import { Credential } from "./credentials/Credential";
+import { AnonymousCredential } from "./credentials/AnonymousCredential";
+import {
+  URLConstants,
+  BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES,
+  BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES,
+  BLOCK_BLOB_MAX_BLOCKS,
+  DEFAULT_BLOB_DOWNLOAD_BLOCK_BYTES
+} from "./utils/constants";
 import { BufferScheduler } from "./utils/BufferScheduler";
 import { Readable } from "stream";
 import { Batch } from "./utils/Batch";
@@ -365,7 +379,6 @@ export type BlobUploadCommonResponse = Models.BlockBlobUploadHeaders & {
  * @extends {BlobClient}
  */
 export class BlockBlobClient extends BlobClient {
-
   /**
    * blockBlobContext provided by protocol layer.
    *
@@ -375,6 +388,40 @@ export class BlockBlobClient extends BlobClient {
    */
   private blockBlobContext: BlockBlob;
 
+  /**
+   * Creates an instance of BlockBlobClient.
+   *
+   * @param {string} connectionString Connection string for an Azure storage account.
+   * @param {string} containerName Container name.
+   * @param {string} blobName Blob name.
+   * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
+   * @memberof BlockBlobClient
+   */
+  constructor(
+    connectionString: string,
+    containerName: string,
+    blobName: string,
+    options?: NewPipelineOptions
+  );
+  /**
+   * Creates an instance of BlockBlobClient.
+   * This method accepts an encoded URL or non-encoded URL pointing to a block blob.
+   * Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
+   * If a blob name includes ? or %, blob name must be encoded in the URL.
+   *
+   * @param {string} url A URL string pointing to Azure Storage block blob, such as
+   *                     "https://myaccount.blob.core.windows.net/mycontainer/blockblob". You can
+   *                     append a SAS if using AnonymousCredential, such as
+   *                     "https://myaccount.blob.core.windows.net/mycontainer/blockblob?sasString".
+   *                     This method accepts an encoded URL or non-encoded URL pointing to a blob.
+   *                     Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
+   *                     However, if a blob name includes ? or %, blob name must be encoded in the URL.
+   *                     Such as a blob named "my?blob%", the URL should be "https://myaccount.blob.core.windows.net/mycontainer/my%3Fblob%25".
+   * @param {Credential} credential Such as AnonymousCredential, SharedKeyCredential or TokenCredential.
+   * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
+   * @memberof BlockBlobClient
+   */
+  constructor(url: string, credential?: Credential, options?: NewPipelineOptions);
   /**
    * Creates an instance of BlockBlobClient.
    * This method accepts an encoded URL or non-encoded URL pointing to a block blob.
@@ -393,8 +440,47 @@ export class BlockBlobClient extends BlobClient {
    *                            pipeline, or provide a customized pipeline.
    * @memberof BlockBlobClient
    */
-  constructor(url: string, pipeline: Pipeline) {
-    super(url, pipeline);
+  constructor(url: string, pipeline: Pipeline);
+  constructor(
+    urlOrConnectionString: string,
+    credentialOrPipelineOrContainerName?: string | Credential | Pipeline,
+    blobNameOrOptions?: string | NewPipelineOptions,
+    options?: NewPipelineOptions
+  ) {
+    // In TypeScript we cannot simply pass all parameters to super() like below so have to duplicate the code instead.
+    //   super(s, credentialOrPipelineOrContainerNameOrOptions, blobNameOrOptions, options);
+    let pipeline: Pipeline;
+    if (credentialOrPipelineOrContainerName instanceof Pipeline) {
+      pipeline = credentialOrPipelineOrContainerName;
+    } else if (credentialOrPipelineOrContainerName instanceof Credential) {
+      options = blobNameOrOptions as NewPipelineOptions;
+      pipeline = newPipeline(credentialOrPipelineOrContainerName, options);
+    } else if (
+      !credentialOrPipelineOrContainerName &&
+      typeof credentialOrPipelineOrContainerName !== "string"
+    ) {
+      // The second parameter is undefined. Use anonymous credential.
+      pipeline = newPipeline(new AnonymousCredential(), options);
+    } else if (
+      credentialOrPipelineOrContainerName &&
+      typeof credentialOrPipelineOrContainerName === "string" &&
+      blobNameOrOptions &&
+      typeof blobNameOrOptions === "string"
+    ) {
+      const containerName = credentialOrPipelineOrContainerName;
+      const blobName = blobNameOrOptions;
+
+      const extractedCreds = extractPartsWithValidation(urlOrConnectionString);
+      const sharedKeyCredential = new SharedKeyCredential(
+        extractedCreds.accountName,
+        extractedCreds.accountKey
+      );
+      urlOrConnectionString = extractedCreds.url + "/" + containerName + "/" + blobName;
+      pipeline = newPipeline(sharedKeyCredential, options);
+    } else {
+      throw new Error("Expecting non-empty strings for containerName and blobName parameters");
+    }
+    super(urlOrConnectionString, pipeline);
     this.blockBlobContext = new BlockBlob(this.storageClientContext);
   }
 
@@ -698,16 +784,10 @@ export class BlockBlobClient extends BlobClient {
           const end = i === numBlocks - 1 ? size : start + options.blockSize!;
           const contentLength = end - start;
           blockList.push(blockID);
-          await this.stageBlock(
-            blockID,
-            blobFactory(start, contentLength),
-            contentLength,
-            {
-              abortSignal: options.abortSignal,
-              leaseAccessConditions: options.blobAccessConditions!
-                .leaseAccessConditions
-            }
-          );
+          await this.stageBlock(blockID, blobFactory(start, contentLength), contentLength, {
+            abortSignal: options.abortSignal,
+            leaseAccessConditions: options.blobAccessConditions!.leaseAccessConditions
+          });
           // Update progress after block is successfully uploaded to server, in case of block trying
           // TODO: Hook with convenience layer progress event in finer level
           transferProgress += contentLength;
@@ -906,16 +986,10 @@ export class BlockBlobClient extends BlobClient {
           const end = i === numBlocks - 1 ? size : start + options.blockSize!;
           const contentLength = end - start;
           blockList.push(blockID);
-          await this.stageBlock(
-            blockID,
-            () => streamFactory(start, contentLength),
-            contentLength,
-            {
-              abortSignal: options.abortSignal,
-              leaseAccessConditions: options.blobAccessConditions!
-                .leaseAccessConditions
-            }
-          );
+          await this.stageBlock(blockID, () => streamFactory(start, contentLength), contentLength, {
+            abortSignal: options.abortSignal,
+            leaseAccessConditions: options.blobAccessConditions!.leaseAccessConditions
+          });
           // Update progress after block is successfully uploaded to server, in case of block trying
           transferProgress += contentLength;
           if (options.progress) {

@@ -3,6 +3,7 @@ import * as assert from "assert";
 import { BlobServiceClient } from "../src/BlobServiceClient";
 import { getAlternateBSU, getBSU, getUniqueName, wait } from "./utils";
 import * as dotenv from "dotenv";
+import { SharedKeyCredential, newPipeline } from "../src";
 dotenv.config({ path: "../.env" });
 
 describe("BlobServiceClient", () => {
@@ -256,5 +257,52 @@ describe("BlobServiceClient", () => {
     const accountInfo = await blobServiceClient.getAccountInfo();
     assert.ok(accountInfo.accountKind);
     assert.ok(accountInfo.skuName);
+  });
+
+  it("can be created with a url and a credential", async () => {
+    const serviceClient = getBSU();
+    const factories = serviceClient.pipeline.factories;
+    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const newClient = new BlobServiceClient(serviceClient.url, credential);
+
+    const result = await newClient.getProperties();
+
+    assert.ok(typeof result.requestId);
+    assert.ok(result.requestId!.length > 0);
+    assert.ok(typeof result.version);
+    assert.ok(result.version!.length > 0);
+  });
+
+  it("can be created with a url and a credential and an option bag", async () => {
+    const serviceClient = getBSU();
+    const factories = serviceClient.pipeline.factories;
+    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const newClient = new BlobServiceClient(serviceClient.url, credential, {
+      retryOptions: {
+        maxTries: 5
+      }
+    });
+
+    const result = await newClient.getProperties();
+
+    assert.ok(typeof result.requestId);
+    assert.ok(result.requestId!.length > 0);
+    assert.ok(typeof result.version);
+    assert.ok(result.version!.length > 0);
+  });
+
+  it("can be created with a url and a pipeline", async () => {
+    const serviceClient = getBSU();
+    const factories = serviceClient.pipeline.factories;
+    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const pipeline = newPipeline(credential);
+    const newClient = new BlobServiceClient(serviceClient.url, pipeline);
+
+    const result = await newClient.getProperties();
+
+    assert.ok(typeof result.requestId);
+    assert.ok(result.requestId!.length > 0);
+    assert.ok(typeof result.version);
+    assert.ok(result.version!.length > 0);
   });
 });
