@@ -67,7 +67,6 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js#readme",
   "sideEffects": false,
   "dependencies": {
-    "@azure/ms-rest-js": "^1.2.6",
     "tslib": "^1.9.3"
   },
   "devDependencies": {

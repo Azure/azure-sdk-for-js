@@ -1,9 +1,25 @@
-import { AbortSignalLike } from "@azure/ms-rest-js";
-
 type AbortEventListener = (this: AbortSignalLike, ev?: any) => any;
 
 const listenersMap = new WeakMap<AbortSignal, AbortEventListener[]>();
 const abortedMap = new WeakMap<AbortSignal, boolean>();
+
+/**
+ * Allows the request to be aborted upon firing of the "abort" event.
+ * Compatible with the browser built-in AbortSignal and common polyfills.
+ */
+export interface AbortSignalLike {
+  readonly aborted: boolean;
+  addEventListener(
+    type: "abort",
+    listener: (this: AbortSignalLike, ev: any) => any,
+    options?: any
+  ): void;
+  removeEventListener(
+    type: "abort",
+    listener: (this: AbortSignalLike, ev: any) => any,
+    options?: any
+  ): void;
+}
 
 /**
  * An aborter instance implements AbortSignal interface, can abort HTTP requests.
