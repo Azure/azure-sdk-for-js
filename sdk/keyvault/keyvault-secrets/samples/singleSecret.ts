@@ -22,7 +22,7 @@ async function main(): Promise<void> {
   const secretName = "MySecretName";
   const result = await client.setSecret("MySecretName", "MySecretValue");
 
-  for await (let secretAttr of client.getSecrets()) {
+  for await (let secretAttr of client.listSecrets()) {
     const secret = await client.getSecret(secretAttr.name);
     console.log("secret: ", secret);
   }
@@ -32,7 +32,7 @@ async function main(): Promise<void> {
   await client.updateSecretAttributes("MySecretName", result.version, { enabled: true });
 
   await client.setSecret("MySecretName", "My new SecretValue");
-  for await (let version of client.getSecretVersions(secretName)) {
+  for await (let version of client.listSecretVersions(secretName)) {
     const secret = await client.getSecret(secretName, { version: version.version });
     console.log("secret: ", secret);
   }

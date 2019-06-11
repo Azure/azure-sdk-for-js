@@ -2,7 +2,7 @@ import { SecretsClient } from "../src";
 import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
 import fs = require("fs");
 
-function write_file(filename: string, text: Uint8Array) {
+function writeFile(filename: string, text: Uint8Array) {
   return new Promise((resolve, reject) => {
     fs.writeFile(filename, text, err => {
       if (err) reject(err);
@@ -11,7 +11,7 @@ function write_file(filename: string, text: Uint8Array) {
   });
 }
 
-function read_file(filename: string): Promise<Uint8Array> {
+function readFile(filename: string): Promise<Uint8Array> {
   return new Promise((resolve, reject) => {
     fs.readFile(filename, (err, data) => {
       if (err) reject(err);
@@ -57,21 +57,21 @@ async function main(): Promise<void> {
   let backupResult = await client.backupSecret(secretName);
 
   // Write the backup to a file
-  await write_file("secret_backup.dat", backupResult);
+  await writeFile("secret_backup.dat", backupResult);
 
   // Delete the secret
+  console.log("about to delete");
   await client.deleteSecret(secretName);
-
-  console.log("delete began");
   await delay(30000);
-  console.log("about to purge");
+
   // Purge the deleted secret
+  console.log("about to purge");
   await client.purgeDeletedSecret(secretName);
   await delay(30000);
 
-  console.log("about to restore secret");
   // Read our backup from a file
-  let backupContents = await read_file("secret_backup.dat");
+  console.log("about to restore secret");
+  let backupContents = await readFile("secret_backup.dat");
 
   // Restore the secret
   let result = await client.restoreSecret(backupContents);

@@ -24,7 +24,7 @@ async function main(): Promise<void> {
   await client.setSecret("StorageAccountPassword", "XYZ789");
 
   // List the secrets we have
-  for await (let secretAttr of client.getSecrets()) {
+  for await (let secretAttr of client.listSecrets()) {
     const secret = await client.getSecret(secretAttr.name);
     console.log("secret: ", secret);
   }
@@ -32,7 +32,7 @@ async function main(): Promise<void> {
   await client.setSecret("BankAccountPassword", "ABC567");
 
   // List the versions of BankAccountPassword
-  for await (let secretAttr of client.getSecretVersions("BankAccountPassword")) {
+  for await (let secretAttr of client.listSecretVersions("BankAccountPassword")) {
     const secret = await client.getSecret(secretAttr.name);
     console.log("secret version: ", secret);
   }

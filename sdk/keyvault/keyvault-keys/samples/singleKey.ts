@@ -24,7 +24,7 @@ async function main(): Promise<void> {
 
   console.log("result: ", result);
 
-  for await (let x of client.getKeyVersions("MyKeyName")) {
+  for await (let x of client.listKeyVersions("MyKeyName")) {
     console.log(">> ", x);
   }
 
@@ -32,7 +32,7 @@ async function main(): Promise<void> {
   console.log("getResult: ", getResult);
   let encoded = Buffer.from("Hello World");
 
-  for await (let x of client.getKeys()) {
+  for await (let x of client.listKeys()) {
     console.log(">> ", x);
   }
 

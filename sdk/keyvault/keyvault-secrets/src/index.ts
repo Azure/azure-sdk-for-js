@@ -376,7 +376,7 @@ export class SecretsClient {
    * @param secretName Name of the secret to fetch versions for
    * @param [options] The optional parameters 
    */
-  public async *getSecretVersions(
+  public async *listSecretVersions(
     secretName: string,
     options?: GetSecretsOptions
   ): AsyncIterableIterator<SecretAttributes> {
@@ -401,7 +401,7 @@ export class SecretsClient {
    * @param [options] The optional parameters
    * @returns AsyncIterableIterator<Secret>
    */
-  public async *getSecrets(
+  public async *listSecrets(
     options?: GetSecretsOptions
   ): AsyncIterableIterator<SecretAttributes> {
     let currentSetResponse = await this.client.getSecrets(this.vaultBaseUrl, {
@@ -423,7 +423,7 @@ export class SecretsClient {
    * @param [options] The optional parameters
    * @returns AsyncIterableIterator<Secret>
    */
-  public async *getDeletedSecrets(
+  public async *listDeletedSecrets(
     options?: GetSecretsOptions
   ): AsyncIterableIterator<Secret> {
     let currentSetResponse = await this.client.getDeletedSecrets(this.vaultBaseUrl, {

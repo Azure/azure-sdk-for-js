@@ -514,7 +514,7 @@ export class KeysClient {
    * @param name 
    * @param options 
    */
-  public async *getKeyVersions(
+  public async *listKeyVersions(
     name: string,
     options?: GetKeysOptions
   ): AsyncIterableIterator<KeyAttributes> {
@@ -540,7 +540,7 @@ export class KeysClient {
    * @param [options] The optional parameters
    * @returns AsyncIterableIterator<Key>
    */
-  public async *getKeys(options?: GetKeysOptions): AsyncIterableIterator<KeyAttributes> {
+  public async *listKeys(options?: GetKeysOptions): AsyncIterableIterator<KeyAttributes> {
     let currentSetResponse = await this.client.getKeys(this.vaultBaseUrl, {
       ...(options && options.requestOptions ? options.requestOptions : {})
     });
@@ -560,7 +560,7 @@ export class KeysClient {
    * @param [options] The optional parameters
    * @returns AsyncIterableIterator<Key>
    */
-  public async *getDeletedKeys(options?: GetKeysOptions): AsyncIterableIterator<Key> {
+  public async *listDeletedKeys(options?: GetKeysOptions): AsyncIterableIterator<Key> {
     let currentSetResponse = await this.client.getDeletedKeys(this.vaultBaseUrl, {
       ...(options && options.requestOptions ? options.requestOptions : {})
     });
