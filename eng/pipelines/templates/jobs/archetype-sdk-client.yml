@@ -47,7 +47,7 @@ jobs:
 
   - job: "Analyze"
 
-    depends:
+    dependsOn:
       - Build
 
     variables:
@@ -87,7 +87,7 @@ jobs:
 
   - job: "Test"
 
-    depends:
+    dependsOn:
       - Build
 
     strategy:
