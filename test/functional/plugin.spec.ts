@@ -8,7 +8,7 @@ describe("Plugin", function() {
   it("should handle all requests", async function() {
     const successResponse = {
       headers: {},
-      statusCode: 200,
+      code: 200,
       result: {
         message: "yay"
       }
@@ -38,14 +38,14 @@ describe("Plugin", function() {
     const response = await client.database("foo").read();
     assert.equal(requestCount, FAILCOUNT + 1); // Get Database Account + FAILED GET Database + Get Database
     assert.notEqual(response, undefined);
-    assert.equal(response.statusCode, successResponse.statusCode);
+    assert.equal(response.statusCode, successResponse.code);
     assert.deepEqual(response.resource, successResponse.result);
   });
 
   it("should handle all operations", async function() {
     const successResponse = {
       headers: {},
-      statusCode: 200,
+      code: 200,
       result: {
         message: "yay"
       }
@@ -76,14 +76,14 @@ describe("Plugin", function() {
     const response = await client.database("foo").read();
     assert.equal(requestCount, 2); // Get Database Account + Get Database
     assert.notEqual(response, undefined);
-    assert.equal(response.statusCode, successResponse.statusCode);
+    assert.equal(response.statusCode, successResponse.code);
     assert.deepEqual(response.resource, successResponse.result);
   });
 
   it("should allow next to be called", async function() {
     const successResponse = {
       headers: {},
-      statusCode: 200,
+      code: 200,
       result: {
         message: "yay"
       }
@@ -122,7 +122,7 @@ describe("Plugin", function() {
     assert.equal(responseCount, 2); // Get Database Account + Get Database
     assert.equal(innerRequestCount, 2); // Get Database Account + Get Database
     assert.notEqual(response, undefined);
-    assert.equal(response.statusCode, successResponse.statusCode);
+    assert.equal(response.statusCode, successResponse.code);
     assert.deepEqual(response.resource, successResponse.result);
   });
 });

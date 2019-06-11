@@ -82,7 +82,7 @@ export class CosmosClient {
    */
   public async getDatabaseAccount(options?: RequestOptions): Promise<ResourceResponse<DatabaseAccount>> {
     const response = await this.clientContext.getDatabaseAccount(options);
-    return new ResourceResponse<DatabaseAccount>(response.result, response.headers, response.statusCode);
+    return new ResourceResponse<DatabaseAccount>(response.result, response.headers, response.code);
   }
 
   /**

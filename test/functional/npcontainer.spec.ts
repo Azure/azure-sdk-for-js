@@ -2,7 +2,7 @@ import assert from "assert";
 import { CosmosClient, Constants, Container } from "../../dist-esm";
 import { removeAllDatabases, getTestContainer } from "../common/TestHelpers";
 import { endpoint, masterKey } from "../common/_testConfig";
-import { ResourceType, HTTPMethod } from "../../dist-esm/common";
+import { ResourceType, HTTPMethod, StatusCodes } from "../../dist-esm/common";
 
 const legacyClient = new CosmosClient({
   endpoint,
@@ -84,12 +84,8 @@ describe("Non Partitioned Container", function() {
     await container.item(item1.id, undefined).delete();
 
     // read documents after deletion
-    try {
-      await container.item(item1.id, undefined).read();
-      assert.fail("must throw if document doesn't exist");
-    } catch (err) {
-      const notFoundErrorCode = 404;
-      assert.equal(err.code, notFoundErrorCode, "response should return error code 404");
-    }
+    const response = await container.item(item1.id, undefined).read();
+    assert.equal(response.statusCode, StatusCodes.NotFound);
+    assert.equal(response.resource, undefined);
   });
 });

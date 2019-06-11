@@ -39,7 +39,7 @@ export class Permission {
       resourceId: id,
       options
     });
-    return new PermissionResponse(response.result, response.headers, response.statusCode, this);
+    return new PermissionResponse(response.result, response.headers, response.code, this);
   }
 
   /**
@@ -63,7 +63,7 @@ export class Permission {
       resourceId: id,
       options
     });
-    return new PermissionResponse(response.result, response.headers, response.statusCode, this);
+    return new PermissionResponse(response.result, response.headers, response.code, this);
   }
 
   /**
@@ -80,6 +80,6 @@ export class Permission {
       resourceId: id,
       options
     });
-    return new PermissionResponse(response.result, response.headers, response.statusCode, this);
+    return new PermissionResponse(response.result, response.headers, response.code, this);
   }
 }

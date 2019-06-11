@@ -111,7 +111,7 @@ export class Databases {
       options
     });
     const ref = new Database(this.client, body.id, this.clientContext);
-    return new DatabaseResponse(response.result, response.headers, response.statusCode, ref);
+    return new DatabaseResponse(response.result, response.headers, response.code, ref);
   }
 
   /**

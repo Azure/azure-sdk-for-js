@@ -291,16 +291,12 @@ describe("Session Token", function() {
       requestContext.headers[Constants.HttpHeaders.SessionToken] = increaseLSN(oldTokens);
     });
     const applySessionTokenStub = sinon.stub(clientContext as any, "applySessionToken").callsFake(callbackSpy as any);
-    try {
-      const resp = await container.item("1", "1").read();
-      assert.fail("readDocument must throw");
-    } catch (err) {
-      assert.equal(err.substatus, 1002, "Substatus should indicate the LSN didn't catchup.");
-      assert.equal(callbackSpy.callCount, 1);
-      assert.equal(trimSlashes(callbackSpy.lastCall.args[0].path), containerLink + "/docs/1");
-    } finally {
-      applySessionTokenStub.restore();
-    }
+    const resp = await container.item("1", "1").read();
+    assert.equal(resp.resource, undefined);
+    assert.equal(resp.substatus, 1002, "Substatus should indicate the LSN didn't catchup.");
+    assert.equal(callbackSpy.callCount, 1);
+    assert.equal(trimSlashes(callbackSpy.lastCall.args[0].path), containerLink + "/docs/1");
+    applySessionTokenStub.restore();
     await container.item("1", "1").read();
   });
 
@@ -352,15 +348,11 @@ describe("Session Token", function() {
       .delete();
     const setSessionTokenSpy = sinon.spy(sessionContainer, "set");
 
-    try {
-      await createdContainer.item(createdDocument.id, "1").read();
-      assert.fail("Must throw");
-    } catch (err) {
-      assert.equal(err.code, 404, "expecting 404 (Not found)");
-      assert.equal(err.substatus, undefined, "expecting substatus code to be undefined");
-      assert.equal(setSessionTokenSpy.callCount, 1, "unexpected number of calls to sesSessionToken");
-    } finally {
-      setSessionTokenSpy.restore();
-    }
+    const resp = await createdContainer.item(createdDocument.id, "1").read();
+    assert.equal(resp.resource, undefined);
+    assert.equal(resp.statusCode, 404, "expecting 404 (Not found)");
+    assert.equal(resp.substatus, undefined, "expecting substatus code to be undefined");
+    assert.equal(setSessionTokenSpy.callCount, 1, "unexpected number of calls to sesSessionToken");
+    setSessionTokenSpy.restore();
   });
 });

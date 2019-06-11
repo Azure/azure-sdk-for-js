@@ -62,7 +62,7 @@ export class User {
       resourceId: id,
       options
     });
-    return new UserResponse(response.result, response.headers, response.statusCode, this);
+    return new UserResponse(response.result, response.headers, response.code, this);
   }
 
   /**
@@ -86,7 +86,7 @@ export class User {
       resourceId: id,
       options
     });
-    return new UserResponse(response.result, response.headers, response.statusCode, this);
+    return new UserResponse(response.result, response.headers, response.code, this);
   }
 
   /**
@@ -103,6 +103,6 @@ export class User {
       resourceId: id,
       options
     });
-    return new UserResponse(response.result, response.headers, response.statusCode, this);
+    return new UserResponse(response.result, response.headers, response.code, this);
   }
 }

@@ -34,10 +34,6 @@ describe("Change Feed Iterator", function() {
       await container.items.create({ id: "item2", key: "1" });
     });
 
-    after(async function() {
-      await container.delete();
-    });
-
     it("should throw if used with no partition key or partition key range id", async function() {
       const iterator = container.items.readChangeFeed({ startFromBeginning: true });
 

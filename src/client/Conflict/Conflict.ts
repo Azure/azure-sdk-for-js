@@ -42,7 +42,7 @@ export class Conflict {
       resourceId: id,
       options
     });
-    return new ConflictResponse(response.result, response.headers, response.statusCode, this);
+    return new ConflictResponse(response.result, response.headers, response.code, this);
   }
 
   /**
@@ -59,6 +59,6 @@ export class Conflict {
       resourceId: id,
       options
     });
-    return new ConflictResponse(response.result, response.headers, response.statusCode, this);
+    return new ConflictResponse(response.result, response.headers, response.code, this);
   }
 }

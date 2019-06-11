@@ -1,12 +1,13 @@
 import { Constants } from "../common";
 import { CosmosHeaders } from "../queryExecutionContext/CosmosHeaders";
-import { StatusCode } from "./StatusCodes";
+import { StatusCode, SubStatusCode } from "./StatusCodes";
 
 export class ResourceResponse<TResource> {
   constructor(
     public readonly resource: TResource,
     public readonly headers: CosmosHeaders,
-    public readonly statusCode: StatusCode
+    public readonly statusCode: StatusCode,
+    public readonly substatus?: SubStatusCode
   ) {}
   public get requestCharge(): number {
     return this.headers[Constants.HttpHeaders.RequestCharge] as number;

@@ -42,7 +42,7 @@ export class StoredProcedure {
       resourceId: id,
       options
     });
-    return new StoredProcedureResponse(response.result, response.headers, response.statusCode, this);
+    return new StoredProcedureResponse(response.result, response.headers, response.code, this);
   }
 
   /**
@@ -70,7 +70,7 @@ export class StoredProcedure {
       resourceId: id,
       options
     });
-    return new StoredProcedureResponse(response.result, response.headers, response.statusCode, this);
+    return new StoredProcedureResponse(response.result, response.headers, response.code, this);
   }
 
   /**
@@ -87,7 +87,7 @@ export class StoredProcedure {
       resourceId: id,
       options
     });
-    return new StoredProcedureResponse(response.result, response.headers, response.statusCode, this);
+    return new StoredProcedureResponse(response.result, response.headers, response.code, this);
   }
 
   /**
@@ -106,6 +106,6 @@ export class StoredProcedure {
     options?: RequestOptions
   ): Promise<ResourceResponse<T>> {
     const response = await this.clientContext.execute<T>({ sprocLink: this.url, params, options, partitionKey });
-    return new ResourceResponse<T>(response.result, response.headers, response.statusCode);
+    return new ResourceResponse<T>(response.result, response.headers, response.code);
   }
 }

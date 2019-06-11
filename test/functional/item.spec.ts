@@ -90,13 +90,9 @@ describe("Item CRUD", function() {
     const { resource: res } = await container.item(replacedDocument.id, undefined).delete();
 
     // read documents after deletion
-    try {
-      const { resource: document3 } = await container.item(replacedDocument.id, undefined).read();
-      assert.fail("must throw if document doesn't exist");
-    } catch (err) {
-      const notFoundErrorCode = 404;
-      assert.equal(err.code, notFoundErrorCode, "response should return error code 404");
-    }
+    const response = await container.item(replacedDocument.id, undefined).read();
+    assert.equal(response.statusCode, 404, "response should return error code 404");
+    assert.equal(response.resource, undefined);
   };
 
   it("Should do document CRUD operations successfully", async function() {

@@ -39,7 +39,7 @@ export class Offer {
       resourceId: this.id,
       options
     });
-    return new OfferResponse(response.result, response.headers, response.statusCode, this);
+    return new OfferResponse(response.result, response.headers, response.code, this);
   }
 
   /**
@@ -59,6 +59,6 @@ export class Offer {
       resourceId: this.id,
       options
     });
-    return new OfferResponse(response.result, response.headers, response.statusCode, this);
+    return new OfferResponse(response.result, response.headers, response.code, this);
   }
 }

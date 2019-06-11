@@ -1,9 +1,17 @@
 import { ClientContext } from "../../ClientContext";
-import { createDocumentUri, getIdFromLink, getPathFromLink, isResourceValid, ResourceType } from "../../common";
+import {
+  createDocumentUri,
+  getIdFromLink,
+  getPathFromLink,
+  isResourceValid,
+  ResourceType,
+  StatusCodes
+} from "../../common";
 import { PartitionKey } from "../../documents";
 import { extractPartitionKey, undefinedPartitionKey } from "../../extractPartitionKey";
-import { RequestOptions } from "../../request";
+import { RequestOptions, Response } from "../../request";
 import { Container } from "../Container";
+import { Resource } from "../Resource";
 import { ItemDefinition } from "./ItemDefinition";
 import { ItemResponse } from "./ItemResponse";
 
@@ -68,15 +76,23 @@ export class Item {
     }
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
-    const response = await this.clientContext.read<T>({
-      path,
-      resourceType: ResourceType.item,
-      resourceId: id,
-      options,
-      partitionKey: this.partitionKey
-    });
+    let response: Response<T & Resource>;
+    try {
+      response = await this.clientContext.read<T>({
+        path,
+        resourceType: ResourceType.item,
+        resourceId: id,
+        options,
+        partitionKey: this.partitionKey
+      });
+    } catch (error) {
+      if (error.code !== StatusCodes.NotFound) {
+        throw error;
+      }
+      response = error;
+    }
 
-    return new ItemResponse(response.result, response.headers, response.statusCode, this);
+    return new ItemResponse(response.result, response.headers, response.code, response.substatus, this);
   }
 
   /**
@@ -122,7 +138,7 @@ export class Item {
       options,
       partitionKey: this.partitionKey
     });
-    return new ItemResponse(response.result, response.headers, response.statusCode, this);
+    return new ItemResponse(response.result, response.headers, response.code, response.substatus, this);
   }
 
   /**
@@ -149,6 +165,6 @@ export class Item {
       options,
       partitionKey: this.partitionKey
     });
-    return new ItemResponse(response.result, response.headers, response.statusCode, this);
+    return new ItemResponse(response.result, response.headers, response.code, response.substatus, this);
   }
 }

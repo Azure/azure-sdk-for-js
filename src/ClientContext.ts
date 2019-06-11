@@ -294,10 +294,10 @@ export class ClientContext {
     resultFn: (result: { [key: string]: any }) => any[]
   ): Response<any> {
     if (isQuery) {
-      return { result: resultFn(res.result), headers: res.headers, statusCode: res.statusCode };
+      return { result: resultFn(res.result), headers: res.headers, code: res.code };
     } else {
       const newResult = resultFn(res.result).map((body: any) => body);
-      return { result: newResult, headers: res.headers, statusCode: res.statusCode };
+      return { result: newResult, headers: res.headers, code: res.code };
     }
   }
 

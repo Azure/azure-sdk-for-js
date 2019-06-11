@@ -91,7 +91,7 @@ export class Triggers {
       options
     });
     const ref = new Trigger(this.container, response.result.id, this.clientContext);
-    return new TriggerResponse(response.result, response.headers, response.statusCode, ref);
+    return new TriggerResponse(response.result, response.headers, response.code, ref);
   }
 
   /**
@@ -125,6 +125,6 @@ export class Triggers {
       options
     });
     const ref = new Trigger(this.container, response.result.id, this.clientContext);
-    return new TriggerResponse(response.result, response.headers, response.statusCode, ref);
+    return new TriggerResponse(response.result, response.headers, response.code, ref);
   }
 }

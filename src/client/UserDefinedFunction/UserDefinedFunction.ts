@@ -48,7 +48,7 @@ export class UserDefinedFunction {
       resourceId: id,
       options
     });
-    return new UserDefinedFunctionResponse(response.result, response.headers, response.statusCode, this);
+    return new UserDefinedFunctionResponse(response.result, response.headers, response.code, this);
   }
 
   /**
@@ -79,7 +79,7 @@ export class UserDefinedFunction {
       resourceId: id,
       options
     });
-    return new UserDefinedFunctionResponse(response.result, response.headers, response.statusCode, this);
+    return new UserDefinedFunctionResponse(response.result, response.headers, response.code, this);
   }
 
   /**
@@ -91,6 +91,6 @@ export class UserDefinedFunction {
     const id = getIdFromLink(this.url);
 
     const response = await this.clientContext.delete({ path, resourceType: ResourceType.udf, resourceId: id, options });
-    return new UserDefinedFunctionResponse(response.result, response.headers, response.statusCode, this);
+    return new UserDefinedFunctionResponse(response.result, response.headers, response.code, this);
   }
 }

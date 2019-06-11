@@ -1,3 +1,4 @@
+export { StatusCodes } from "./common";
 export { extractPartitionKey } from "./extractPartitionKey";
 export { setAuthorizationTokenHeaderUsingMasterKey } from "./auth";
 export {

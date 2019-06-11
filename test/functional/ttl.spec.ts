@@ -1,6 +1,7 @@
 import assert from "assert";
 import { Container, ContainerDefinition, Database } from "../../dist-esm/client";
 import { getTestDatabase, removeAllDatabases } from "../common/TestHelpers";
+import { StatusCodes } from "../../dist-esm";
 
 async function sleep(time: number) {
   return new Promise(resolve => {
@@ -73,13 +74,9 @@ describe("Container TTL", function() {
   });
 
   async function checkItemGone(container: Container, createdItem: any) {
-    try {
-      await container.item(createdItem.id, undefined).read();
-      assert.fail("Must throw if the Item isn't there");
-    } catch (err) {
-      const badRequestErrorCode = 404;
-      assert.equal(err.code, badRequestErrorCode, "response should return error code " + badRequestErrorCode);
-    }
+    const response = await container.item(createdItem.id, undefined).read();
+    assert.equal(response.statusCode, StatusCodes.NotFound);
+    assert.equal(response.resource, undefined);
   }
 
   async function checkItemExists(container: Container, createdItem: any) {

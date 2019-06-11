@@ -121,7 +121,7 @@ export class Containers {
       options
     });
     const ref = new Container(this.database, response.result.id, this.clientContext);
-    return new ContainerResponse(response.result, response.headers, response.statusCode, ref);
+    return new ContainerResponse(response.result, response.headers, response.code, ref);
   }
 
   /**

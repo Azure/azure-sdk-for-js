@@ -130,7 +130,7 @@ export class ChangeFeedIterator<T> {
     return new ChangeFeedResponse(
       response.result,
       response.result ? response.result.length : 0,
-      response.statusCode,
+      response.code,
       response.headers
     );
   }
