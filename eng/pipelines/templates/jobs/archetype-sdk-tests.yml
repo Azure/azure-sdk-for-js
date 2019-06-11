@@ -1,5 +1,4 @@
 parameters:
-  TestType: "browser"
   PackageName: ""
   EnvVars: []
   MaxParallel: 0
@@ -7,15 +6,30 @@ parameters:
     Linux_Node10X:
       OSName: "Linux"
       OSVmImage: "ubuntu-16.04"
+      TestType: "node"
     Windows_Node10X:
       OSName: "Windows"
       OSVmImage: "vs2017-win2016"
+      TestType: "node"
     Mac_Node10X:
       OSName: "Mac"
       OSVmImage: "macOS-10.13"
+      TestType: "node"
+    Browser_Linux_Node10X:
+      OSName: "Linux"
+      OSVmImage: "ubuntu-16.04"
+      TestType: "browser"
+    Browser_Windows_Node10X:
+      OSName: "Windows"
+      OSVmImage: "vs2017-win2016"
+      TestType: "browser"
+    Browser_Mac_Node10X:
+      OSName: "Mac"
+      OSVmImage: "macOS-10.13"
+      TestType: "browser"
 
 jobs:
-  - job: "Test_Browser"
+  - job: "Test_${{ parameters.TestType }}"
     variables:
       - template: ../variables/globals.yml
 
@@ -32,13 +46,12 @@ jobs:
       - template: ../steps/tests-common.yml
         parameters:
           PackageName: ${{ parameters.PackageName }}
-          TestType: ${{ parameters.TestType }}
+          TestType: $(TestType)
           EnvVars: ${{ parameters.EnvVars }}
 
       - task: PublishTestResults@2
         inputs:
-          testRunner: JUnit
-          testResultsFiles: "**/test-results.browser.xml"
-          testRunTitle: "$(OSName) Node $(NodeVersion) - Browser"
+          testResultsFiles: "**/test-results.xml"
+          testRunTitle: "$(OSName) - $(TestType) - Tests [Node $(NodeVersion)]"
         condition: succeededOrFailed()
-        displayName: "Publish browser test results"
+        displayName: "Publish node test results"
