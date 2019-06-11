@@ -1,6 +1,6 @@
 steps:
   - script: |
       npm install
-      npm run select-packages ${{parameters.ServiceDirectory}}
+      npm run select-packages $(System.DefaultWorkingDirectory)/${{parameters.ServiceDirectory}}
     workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/select-packages
     displayName: "Selecting packages to build"
