@@ -1,8 +1,6 @@
 steps:
-  - script: |
-      echo Hello, World!
+  - bash: |
       npm install
       npm run select-packages $(System.DefaultWorkingDirectory)/${{parameters.ServiceDirectory}}
-      echo Goodbye, World!
     workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/select-packages
     displayName: "Selecting packages to build"
