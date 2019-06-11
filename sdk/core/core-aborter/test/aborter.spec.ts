@@ -7,15 +7,16 @@ describe("Aborter", () => {
     return new Promise((res, rej) => {
       // check status every 10 ms.
       const handle = setInterval(() => {
+        // check if we're aborted.
+        if (aborter.aborted) {
+          clearInterval(handle);
+          return rej(new AbortError());
+        }
+
         // if we're completed, resolve.
         if (Date.now() - s > runningTimeinMs) {
           clearInterval(handle);
           return res();
-        }
-
-        if (aborter.aborted) {
-          clearInterval(handle);
-          return rej(new AbortError());
         }
 
         // else, continue trying.
