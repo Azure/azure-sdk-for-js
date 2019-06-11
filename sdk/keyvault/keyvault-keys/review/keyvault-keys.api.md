@@ -126,11 +126,11 @@ export class KeysClient {
     deleteKey(name: string, options?: RequestOptions): Promise<DeletedKey>;
     static getDefaultPipeline(credential: ServiceClientCredentials, pipelineOptions?: NewPipelineOptions): AzureServiceClientOptions;
     getDeletedKey(name: string, options?: RequestOptions): Promise<DeletedKey>;
-    getDeletedKeys(options?: GetKeysOptions): AsyncIterableIterator<Key>;
     getKey(name: string, options?: GetKeyOptions): Promise<Key>;
-    getKeys(options?: GetKeysOptions): AsyncIterableIterator<KeyAttributes>;
-    getKeyVersions(name: string, options?: GetKeysOptions): AsyncIterableIterator<KeyAttributes>;
     importKey(name: string, key: JsonWebKey, options?: ImportKeyOptions): Promise<Key>;
+    listDeletedKeys(options?: GetKeysOptions): AsyncIterableIterator<Key>;
+    listKeys(options?: GetKeysOptions): AsyncIterableIterator<KeyAttributes>;
+    listKeyVersions(name: string, options?: GetKeysOptions): AsyncIterableIterator<KeyAttributes>;
     readonly pipeline: AzureServiceClientOptions;
     purgeDeletedKey(name: string, options?: RequestOptions): Promise<void>;
     recoverDeletedKey(name: string, options?: RequestOptions): Promise<Key>;

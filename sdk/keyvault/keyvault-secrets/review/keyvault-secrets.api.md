@@ -95,10 +95,10 @@ export class SecretsClient {
     deleteSecret(secretName: string, options?: RequestOptionsBase): Promise<DeletedSecret>;
     static getDefaultPipeline(credential: ServiceClientCredentials, pipelineOptions?: NewPipelineOptions): AzureServiceClientOptions;
     getDeletedSecret(secretName: string, options?: RequestOptionsBase): Promise<DeletedSecret>;
-    getDeletedSecrets(options?: GetSecretsOptions): AsyncIterableIterator<Secret>;
     getSecret(secretName: string, options?: GetSecretOptions): Promise<Secret>;
-    getSecrets(options?: GetSecretsOptions): AsyncIterableIterator<SecretAttributes>;
-    getSecretVersions(secretName: string, options?: GetSecretsOptions): AsyncIterableIterator<SecretAttributes>;
+    listDeletedSecrets(options?: GetSecretsOptions): AsyncIterableIterator<Secret>;
+    listSecrets(options?: GetSecretsOptions): AsyncIterableIterator<SecretAttributes>;
+    listSecretVersions(secretName: string, options?: GetSecretsOptions): AsyncIterableIterator<SecretAttributes>;
     readonly pipeline: AzureServiceClientOptions;
     purgeDeletedSecret(secretName: string, options?: RequestOptionsBase): Promise<void>;
     recoverDeletedSecret(secretName: string, options?: RequestOptionsBase): Promise<Secret>;
