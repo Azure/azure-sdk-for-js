@@ -176,6 +176,16 @@ export interface UsageName {
  */
 export interface Usage {
   /**
+   * Specifies the resource ID.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * Specifies the resource type.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
    * An enum describing the unit of usage measurement. Possible values include: 'Count'
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */

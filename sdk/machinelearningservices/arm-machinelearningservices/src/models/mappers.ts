@@ -262,6 +262,20 @@ export const Usage: msRest.CompositeMapper = {
     name: "Composite",
     className: "Usage",
     modelProperties: {
+      id: {
+        readOnly: true,
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        readOnly: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
       unit: {
         readOnly: true,
         serializedName: "unit",
