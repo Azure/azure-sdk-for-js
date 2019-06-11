@@ -1651,28 +1651,6 @@ export const AgentProperties: msRest.CompositeMapper = {
   }
 };
 
-export const TimerTriggerDescriptor: msRest.CompositeMapper = {
-  serializedName: "TimerTriggerDescriptor",
-  type: {
-    name: "Composite",
-    className: "TimerTriggerDescriptor",
-    modelProperties: {
-      timerTriggerName: {
-        serializedName: "timerTriggerName",
-        type: {
-          name: "String"
-        }
-      },
-      scheduleOccurrence: {
-        serializedName: "scheduleOccurrence",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const ProxyResource: msRest.CompositeMapper = {
   serializedName: "ProxyResource",
   type: {
@@ -1823,6 +1801,12 @@ export const Run: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      updateTriggerToken: {
+        serializedName: "properties.updateTriggerToken",
+        type: {
+          name: "String"
+        }
+      },
       provisioningState: {
         serializedName: "properties.provisioningState",
         type: {
@@ -1834,13 +1818,6 @@ export const Run: msRest.CompositeMapper = {
         defaultValue: false,
         type: {
           name: "Boolean"
-        }
-      },
-      timerTrigger: {
-        serializedName: "properties.timerTrigger",
-        type: {
-          name: "Composite",
-          className: "TimerTriggerDescriptor"
         }
       }
     }
@@ -2277,6 +2254,18 @@ export const BaseImageTrigger: msRest.CompositeMapper = {
       baseImageTriggerType: {
         required: true,
         serializedName: "baseImageTriggerType",
+        type: {
+          name: "String"
+        }
+      },
+      updateTriggerEndpoint: {
+        serializedName: "updateTriggerEndpoint",
+        type: {
+          name: "String"
+        }
+      },
+      updateTriggerPayloadType: {
+        serializedName: "updateTriggerPayloadType",
         type: {
           name: "String"
         }
@@ -2744,6 +2733,18 @@ export const BaseImageTriggerUpdateParameters: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      updateTriggerEndpoint: {
+        serializedName: "updateTriggerEndpoint",
+        type: {
+          name: "String"
+        }
+      },
+      updateTriggerPayloadType: {
+        serializedName: "updateTriggerPayloadType",
+        type: {
+          name: "String"
+        }
+      },
       status: {
         serializedName: "status",
         defaultValue: 'Enabled',
@@ -3119,18 +3120,38 @@ export const FileTaskRunRequest: msRest.CompositeMapper = {
   }
 };
 
-export const TaskRunRequest: msRest.CompositeMapper = {
+export const OverrideTaskStepProperties: msRest.CompositeMapper = {
   serializedName: "TaskRunRequest",
   type: {
     name: "Composite",
-    polymorphicDiscriminator: RunRequest.type.polymorphicDiscriminator,
-    uberParent: "RunRequest",
-    className: "TaskRunRequest",
+    className: "OverrideTaskStepProperties",
     modelProperties: {
-      ...RunRequest.type.modelProperties,
-      taskName: {
-        required: true,
-        serializedName: "taskName",
+      contextPath: {
+        serializedName: "contextPath",
+        type: {
+          name: "String"
+        }
+      },
+      file: {
+        serializedName: "file",
+        type: {
+          name: "String"
+        }
+      },
+      argumentsProperty: {
+        serializedName: "arguments",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Argument"
+            }
+          }
+        }
+      },
+      target: {
+        serializedName: "target",
         type: {
           name: "String"
         }
@@ -3145,6 +3166,39 @@ export const TaskRunRequest: msRest.CompositeMapper = {
               className: "SetValue"
             }
           }
+        }
+      },
+      updateTriggerToken: {
+        serializedName: "updateTriggerToken",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const TaskRunRequest: msRest.CompositeMapper = {
+  serializedName: "TaskRunRequest",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: RunRequest.type.polymorphicDiscriminator,
+    uberParent: "RunRequest",
+    className: "TaskRunRequest",
+    modelProperties: {
+      ...RunRequest.type.modelProperties,
+      taskId: {
+        required: true,
+        serializedName: "taskId",
+        type: {
+          name: "String"
+        }
+      },
+      overrideTaskStepProperties: {
+        serializedName: "overrideTaskStepProperties",
+        type: {
+          name: "Composite",
+          className: "OverrideTaskStepProperties"
         }
       }
     }

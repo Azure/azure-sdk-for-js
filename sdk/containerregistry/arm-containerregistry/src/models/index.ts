@@ -972,7 +972,7 @@ export interface PlatformProperties {
    */
   os: OS;
   /**
-   * The OS architecture. Possible values include: 'amd64', 'x86', 'arm'
+   * The OS architecture. Possible values include: 'amd64', 'x86', 'arm', 'arm64'
    */
   architecture?: Architecture;
   /**
@@ -989,20 +989,6 @@ export interface AgentProperties {
    * The CPU configuration in terms of number of cores required for the run.
    */
   cpu?: number;
-}
-
-/**
- * An interface representing TimerTriggerDescriptor.
- */
-export interface TimerTriggerDescriptor {
-  /**
-   * The timer trigger name that caused the run.
-   */
-  timerTriggerName?: string;
-  /**
-   * The occurrence that triggered the run.
-   */
-  scheduleOccurrence?: string;
 }
 
 /**
@@ -1100,6 +1086,10 @@ export interface Run extends ProxyResource {
    */
   readonly runErrorMessage?: string;
   /**
+   * The update trigger token passed for the Run.
+   */
+  updateTriggerToken?: string;
+  /**
    * The provisioning state of a run. Possible values include: 'Creating', 'Updating', 'Deleting',
    * 'Succeeded', 'Failed', 'Canceled'
    */
@@ -1108,10 +1098,6 @@ export interface Run extends ProxyResource {
    * The value that indicates whether archiving is enabled or not. Default value: false.
    */
   isArchiveEnabled?: boolean;
-  /**
-   * The timer trigger that caused the run.
-   */
-  timerTrigger?: TimerTriggerDescriptor;
 }
 
 /**
@@ -1386,6 +1372,15 @@ export interface BaseImageTrigger {
    */
   baseImageTriggerType: BaseImageTriggerType;
   /**
+   * The endpoint URL for receiving update triggers.
+   */
+  updateTriggerEndpoint?: string;
+  /**
+   * Type of Payload body for Base image update triggers. Possible values include: 'Default',
+   * 'Token'
+   */
+  updateTriggerPayloadType?: UpdateTriggerPayloadType;
+  /**
    * The current status of trigger. Possible values include: 'Disabled', 'Enabled'. Default value:
    * 'Enabled'.
    */
@@ -1543,7 +1538,7 @@ export interface PlatformUpdateParameters {
    */
   os?: OS;
   /**
-   * The OS architecture. Possible values include: 'amd64', 'x86', 'arm'
+   * The OS architecture. Possible values include: 'amd64', 'x86', 'arm', 'arm64'
    */
   architecture?: Architecture;
   /**
@@ -1677,6 +1672,15 @@ export interface BaseImageTriggerUpdateParameters {
    * 'All', 'Runtime'
    */
   baseImageTriggerType?: BaseImageTriggerType;
+  /**
+   * The endpoint URL for receiving update triggers.
+   */
+  updateTriggerEndpoint?: string;
+  /**
+   * Type of Payload body for Base image update triggers. Possible values include: 'Default',
+   * 'Token'
+   */
+  updateTriggerPayloadType?: UpdateTriggerPayloadType;
   /**
    * The current status of trigger. Possible values include: 'Disabled', 'Enabled'. Default value:
    * 'Enabled'.
@@ -1900,6 +1904,37 @@ export interface FileTaskRunRequest {
 }
 
 /**
+ * An interface representing OverrideTaskStepProperties.
+ */
+export interface OverrideTaskStepProperties {
+  /**
+   * The source context against which run has to be queued.
+   */
+  contextPath?: string;
+  /**
+   * The file against which run has to be queued.
+   */
+  file?: string;
+  /**
+   * Gets or sets the collection of override arguments to be used when
+   * executing a build step.
+   */
+  argumentsProperty?: Argument[];
+  /**
+   * The name of the target build stage for the docker build.
+   */
+  target?: string;
+  /**
+   * The collection of overridable values that can be passed when running a Task.
+   */
+  values?: SetValue[];
+  /**
+   * Base64 encoded update trigger token that will be attached with the base image trigger webhook.
+   */
+  updateTriggerToken?: string;
+}
+
+/**
  * The parameters for a task run request.
  */
 export interface TaskRunRequest {
@@ -1913,13 +1948,13 @@ export interface TaskRunRequest {
    */
   isArchiveEnabled?: boolean;
   /**
-   * The name of task against which run has to be queued.
+   * The resource ID of task against which run has to be queued.
    */
-  taskName: string;
+  taskId: string;
   /**
-   * The collection of overridable values that can be passed when running a task.
+   * Set of overridable parameters that can be passed when running a Task.
    */
-  values?: SetValue[];
+  overrideTaskStepProperties?: OverrideTaskStepProperties;
 }
 
 /**
@@ -2643,11 +2678,11 @@ export type OS = 'Windows' | 'Linux';
 
 /**
  * Defines values for Architecture.
- * Possible values include: 'amd64', 'x86', 'arm'
+ * Possible values include: 'amd64', 'x86', 'arm', 'arm64'
  * @readonly
  * @enum {string}
  */
-export type Architecture = 'amd64' | 'x86' | 'arm';
+export type Architecture = 'amd64' | 'x86' | 'arm' | 'arm64';
 
 /**
  * Defines values for Variant.
@@ -2721,6 +2756,14 @@ export type SourceTriggerEvent = 'commit' | 'pullrequest';
  * @enum {string}
  */
 export type BaseImageTriggerType = 'All' | 'Runtime';
+
+/**
+ * Defines values for UpdateTriggerPayloadType.
+ * Possible values include: 'Default', 'Token'
+ * @readonly
+ * @enum {string}
+ */
+export type UpdateTriggerPayloadType = 'Default' | 'Token';
 
 /**
  * Defines values for SourceRegistryLoginMode.
