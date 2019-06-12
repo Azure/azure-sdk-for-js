@@ -659,6 +659,75 @@ export interface ContainerService extends Resource {
 }
 
 /**
+ * Contains information about orchestrator.
+ */
+export interface OrchestratorProfile {
+  /**
+   * Orchestrator type.
+   */
+  orchestratorType?: string;
+  /**
+   * Orchestrator version (major, minor, patch).
+   */
+  orchestratorVersion: string;
+  /**
+   * Whether Kubernetes version is currently in preview.
+   */
+  isPreview?: boolean;
+}
+
+/**
+ * The profile of an orchestrator and its available versions.
+ */
+export interface OrchestratorVersionProfile {
+  /**
+   * Orchestrator type.
+   */
+  orchestratorType: string;
+  /**
+   * Orchestrator version (major, minor, patch).
+   */
+  orchestratorVersion: string;
+  /**
+   * Installed by default if version is not specified.
+   */
+  default?: boolean;
+  /**
+   * Whether Kubernetes version is currently in preview.
+   */
+  isPreview?: boolean;
+  /**
+   * The list of available upgrade versions.
+   */
+  upgrades?: OrchestratorProfile[];
+}
+
+/**
+ * The list of versions for supported orchestrators.
+ */
+export interface OrchestratorVersionProfileListResult {
+  /**
+   * Id of the orchestrator version profile list result.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * Name of the orchestrator version profile list result.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * Type of the orchestrator version profile list result.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * List of orchestrator version profiles.
+   */
+  orchestrators: OrchestratorVersionProfile[];
+}
+
+/**
  * Describes the properties of a Compute Operation value.
  */
 export interface OperationValue {
@@ -830,6 +899,25 @@ export interface ManagedClusterAgentPoolProfileProperties {
    * (PREVIEW) Availability zones for nodes. Must use VirtualMachineScaleSets AgentPoolType.
    */
   availabilityZones?: string[];
+  /**
+   * Enable public IP for nodes
+   */
+  enableNodePublicIP?: boolean;
+  /**
+   * ScaleSetPriority to be used to specify virtual machine scale set priority. Default to regular.
+   * Possible values include: 'Low', 'Regular'. Default value: 'Regular'.
+   */
+  scaleSetPriority?: ScaleSetPriority;
+  /**
+   * ScaleSetEvictionPolicy to be used to specify eviction policy for low priority virtual machine
+   * scale set. Default to Delete. Possible values include: 'Delete', 'Deallocate'. Default value:
+   * 'Delete'.
+   */
+  scaleSetEvictionPolicy?: ScaleSetEvictionPolicy;
+  /**
+   * Taints added to new nodes during node pool create and scale.
+   */
+  nodeTaints?: string[];
 }
 
 /**
@@ -941,6 +1029,39 @@ export interface AgentPool extends SubResource {
    * (PREVIEW) Availability zones for nodes. Must use VirtualMachineScaleSets AgentPoolType.
    */
   availabilityZones?: string[];
+  /**
+   * Enable public IP for nodes
+   */
+  enableNodePublicIP?: boolean;
+  /**
+   * ScaleSetPriority to be used to specify virtual machine scale set priority. Default to regular.
+   * Possible values include: 'Low', 'Regular'. Default value: 'Regular'.
+   */
+  scaleSetPriority?: ScaleSetPriority;
+  /**
+   * ScaleSetEvictionPolicy to be used to specify eviction policy for low priority virtual machine
+   * scale set. Default to Delete. Possible values include: 'Delete', 'Deallocate'. Default value:
+   * 'Delete'.
+   */
+  scaleSetEvictionPolicy?: ScaleSetEvictionPolicy;
+  /**
+   * Taints added to new nodes during node pool create and scale.
+   */
+  nodeTaints?: string[];
+}
+
+/**
+ * Profile for Windows VMs in the container service cluster.
+ */
+export interface ManagedClusterWindowsProfile {
+  /**
+   * The administrator username to use for Windows VMs.
+   */
+  adminUsername: string;
+  /**
+   * The administrator password to use for Windows VMs.
+   */
+  adminPassword?: string;
 }
 
 /**
@@ -977,6 +1098,10 @@ export interface ContainerServiceNetworkProfile {
    * Subnet IP ranges or the Kubernetes service address range. Default value: '172.17.0.1/16'.
    */
   dockerBridgeCidr?: string;
+  /**
+   * The load balancer sku for the managed cluster. Possible values include: 'standard', 'basic'
+   */
+  loadBalancerSku?: LoadBalancerSku;
 }
 
 /**
@@ -1017,6 +1142,29 @@ export interface ManagedClusterAADProfile {
 }
 
 /**
+ * Identity for the managed cluster.
+ */
+export interface ManagedClusterIdentity {
+  /**
+   * The principal id of the system assigned identity which is used by master components.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly principalId?: string;
+  /**
+   * The tenant id of the system assigned identity which is used by master components.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly tenantId?: string;
+  /**
+   * The type of identity used for the managed cluster. Type 'SystemAssigned' will use an
+   * implicitly created identity in master components and an auto-created user assigned identity in
+   * MC_ resource group in agent nodes. Type 'None' will not use MSI for the managed cluster,
+   * service principal will be used instead. Possible values include: 'SystemAssigned', 'None'
+   */
+  type?: ResourceIdentityType;
+}
+
+/**
  * Managed cluster.
  */
 export interface ManagedCluster extends Resource {
@@ -1025,6 +1173,11 @@ export interface ManagedCluster extends Resource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly provisioningState?: string;
+  /**
+   * The max number of agent pools for the managed cluster.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly maxAgentPools?: number;
   /**
    * Version of Kubernetes specified when creating the managed cluster.
    */
@@ -1047,6 +1200,10 @@ export interface ManagedCluster extends Resource {
    */
   linuxProfile?: ContainerServiceLinuxProfile;
   /**
+   * Profile for Windows VMs in the container service cluster.
+   */
+  windowsProfile?: ManagedClusterWindowsProfile;
+  /**
    * Information about a service principal identity for the cluster to use for manipulating Azure
    * APIs.
    */
@@ -1057,9 +1214,8 @@ export interface ManagedCluster extends Resource {
   addonProfiles?: { [propertyName: string]: ManagedClusterAddonProfile };
   /**
    * Name of the resource group containing agent pool nodes.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly nodeResourceGroup?: string;
+  nodeResourceGroup?: string;
   /**
    * Whether to enable Kubernetes Role-Based Access Control.
    */
@@ -1080,20 +1236,10 @@ export interface ManagedCluster extends Resource {
    * (PREVIEW) Authorized IP Ranges to kubernetes API server.
    */
   apiServerAuthorizedIPRanges?: string[];
-}
-
-/**
- * Contains information about orchestrator.
- */
-export interface OrchestratorProfile {
   /**
-   * Orchestrator type.
+   * The identity of the managed cluster, if configured.
    */
-  orchestratorType: string;
-  /**
-   * Orchestrator version (major, minor, patch).
-   */
-  orchestratorVersion: string;
+  identity?: ManagedClusterIdentity;
 }
 
 /**
@@ -1104,6 +1250,20 @@ export interface ManagedClusterAccessProfile extends Resource {
    * Base64-encoded Kubernetes configuration file.
    */
   kubeConfig?: Uint8Array;
+}
+
+/**
+ * An interface representing ManagedClusterPoolUpgradeProfileUpgradesItem.
+ */
+export interface ManagedClusterPoolUpgradeProfileUpgradesItem {
+  /**
+   * Kubernetes version (major, minor, patch).
+   */
+  kubernetesVersion?: string;
+  /**
+   * Whether Kubernetes version is currently in preview.
+   */
+  isPreview?: boolean;
 }
 
 /**
@@ -1126,7 +1286,7 @@ export interface ManagedClusterPoolUpgradeProfile {
   /**
    * List of orchestrator types and versions available for upgrade.
    */
-  upgrades?: string[];
+  upgrades?: ManagedClusterPoolUpgradeProfileUpgradesItem[];
 }
 
 /**
@@ -1159,6 +1319,97 @@ export interface ManagedClusterUpgradeProfile {
 }
 
 /**
+ * An interface representing AgentPoolUpgradeProfilePropertiesUpgradesItem.
+ */
+export interface AgentPoolUpgradeProfilePropertiesUpgradesItem {
+  /**
+   * Kubernetes version (major, minor, patch).
+   */
+  kubernetesVersion?: string;
+  /**
+   * Whether Kubernetes version is currently in preview.
+   */
+  isPreview?: boolean;
+}
+
+/**
+ * The list of available upgrades for an agent pool.
+ */
+export interface AgentPoolUpgradeProfile {
+  /**
+   * Id of the agent pool upgrade profile.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * Name of the agent pool upgrade profile.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * Type of the agent pool upgrade profile.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * Kubernetes version (major, minor, patch).
+   */
+  kubernetesVersion: string;
+  /**
+   * OsType to be used to specify os type. Choose from Linux and Windows. Default to Linux.
+   * Possible values include: 'Linux', 'Windows'. Default value: 'Linux'.
+   */
+  osType: OSType;
+  /**
+   * List of orchestrator types and versions available for upgrade.
+   */
+  upgrades?: AgentPoolUpgradeProfilePropertiesUpgradesItem[];
+}
+
+/**
+ * An interface representing AgentPoolAvailableVersionsPropertiesAgentPoolVersionsItem.
+ */
+export interface AgentPoolAvailableVersionsPropertiesAgentPoolVersionsItem {
+  /**
+   * Whether this version is the default agent pool version.
+   */
+  default?: boolean;
+  /**
+   * Kubernetes version (major, minor, patch).
+   */
+  kubernetesVersion?: string;
+  /**
+   * Whether Kubernetes version is currently in preview.
+   */
+  isPreview?: boolean;
+}
+
+/**
+ * The list of available versions for an agent pool.
+ */
+export interface AgentPoolAvailableVersions {
+  /**
+   * Id of the agent pool available versions.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * Name of the agent pool available versions.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * Type of the agent pool  available versions.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * List of versions available for agent pool.
+   */
+  agentPoolVersions?: AgentPoolAvailableVersionsPropertiesAgentPoolVersionsItem[];
+}
+
+/**
  * The credential result response.
  */
 export interface CredentialResult {
@@ -1183,53 +1434,6 @@ export interface CredentialResults {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly kubeconfigs?: CredentialResult[];
-}
-
-/**
- * The profile of an orchestrator and its available versions.
- */
-export interface OrchestratorVersionProfile {
-  /**
-   * Orchestrator type.
-   */
-  orchestratorType: string;
-  /**
-   * Orchestrator version (major, minor, patch).
-   */
-  orchestratorVersion: string;
-  /**
-   * Installed by default if version is not specified.
-   */
-  default: boolean;
-  /**
-   * The list of available upgrade versions.
-   */
-  upgrades: OrchestratorProfile[];
-}
-
-/**
- * The list of versions for supported orchestrators.
- */
-export interface OrchestratorVersionProfileListResult {
-  /**
-   * Id of the orchestrator version profile list result.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly id?: string;
-  /**
-   * Name of the orchestrator version profile list result.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * Type of the orchestrator version profile list result.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly type?: string;
-  /**
-   * List of orchestrator version profiles.
-   */
-  orchestrators: OrchestratorVersionProfile[];
 }
 
 /**
@@ -1410,6 +1614,22 @@ export type ContainerServiceOrchestratorTypes = 'Kubernetes' | 'Swarm' | 'DCOS' 
 export type AgentPoolType = 'VirtualMachineScaleSets' | 'AvailabilitySet';
 
 /**
+ * Defines values for ScaleSetPriority.
+ * Possible values include: 'Low', 'Regular'
+ * @readonly
+ * @enum {string}
+ */
+export type ScaleSetPriority = 'Low' | 'Regular';
+
+/**
+ * Defines values for ScaleSetEvictionPolicy.
+ * Possible values include: 'Delete', 'Deallocate'
+ * @readonly
+ * @enum {string}
+ */
+export type ScaleSetEvictionPolicy = 'Delete' | 'Deallocate';
+
+/**
  * Defines values for NetworkPlugin.
  * Possible values include: 'azure', 'kubenet'
  * @readonly
@@ -1424,6 +1644,22 @@ export type NetworkPlugin = 'azure' | 'kubenet';
  * @enum {string}
  */
 export type NetworkPolicy = 'calico' | 'azure';
+
+/**
+ * Defines values for LoadBalancerSku.
+ * Possible values include: 'standard', 'basic'
+ * @readonly
+ * @enum {string}
+ */
+export type LoadBalancerSku = 'standard' | 'basic';
+
+/**
+ * Defines values for ResourceIdentityType.
+ * Possible values include: 'SystemAssigned', 'None'
+ * @readonly
+ * @enum {string}
+ */
+export type ResourceIdentityType = 'SystemAssigned' | 'None';
 
 /**
  * Contains response data for the list operation.
@@ -2102,6 +2338,46 @@ export type AgentPoolsCreateOrUpdateResponse = AgentPool & {
        * The response body as parsed JSON or XML
        */
       parsedBody: AgentPool;
+    };
+};
+
+/**
+ * Contains response data for the getUpgradeProfile operation.
+ */
+export type AgentPoolsGetUpgradeProfileResponse = AgentPoolUpgradeProfile & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AgentPoolUpgradeProfile;
+    };
+};
+
+/**
+ * Contains response data for the getAvailableAgentPoolVersions operation.
+ */
+export type AgentPoolsGetAvailableAgentPoolVersionsResponse = AgentPoolAvailableVersions & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AgentPoolAvailableVersions;
     };
 };
 

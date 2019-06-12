@@ -940,6 +940,127 @@ export const ContainerService: msRest.CompositeMapper = {
   }
 };
 
+export const OrchestratorProfile: msRest.CompositeMapper = {
+  serializedName: "OrchestratorProfile",
+  type: {
+    name: "Composite",
+    className: "OrchestratorProfile",
+    modelProperties: {
+      orchestratorType: {
+        serializedName: "orchestratorType",
+        type: {
+          name: "String"
+        }
+      },
+      orchestratorVersion: {
+        required: true,
+        serializedName: "orchestratorVersion",
+        type: {
+          name: "String"
+        }
+      },
+      isPreview: {
+        serializedName: "isPreview",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const OrchestratorVersionProfile: msRest.CompositeMapper = {
+  serializedName: "OrchestratorVersionProfile",
+  type: {
+    name: "Composite",
+    className: "OrchestratorVersionProfile",
+    modelProperties: {
+      orchestratorType: {
+        required: true,
+        serializedName: "orchestratorType",
+        type: {
+          name: "String"
+        }
+      },
+      orchestratorVersion: {
+        required: true,
+        serializedName: "orchestratorVersion",
+        type: {
+          name: "String"
+        }
+      },
+      default: {
+        serializedName: "default",
+        type: {
+          name: "Boolean"
+        }
+      },
+      isPreview: {
+        serializedName: "isPreview",
+        type: {
+          name: "Boolean"
+        }
+      },
+      upgrades: {
+        serializedName: "upgrades",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "OrchestratorProfile"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const OrchestratorVersionProfileListResult: msRest.CompositeMapper = {
+  serializedName: "OrchestratorVersionProfileListResult",
+  type: {
+    name: "Composite",
+    className: "OrchestratorVersionProfileListResult",
+    modelProperties: {
+      id: {
+        readOnly: true,
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        readOnly: true,
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        readOnly: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      orchestrators: {
+        required: true,
+        serializedName: "properties.orchestrators",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "OrchestratorVersionProfile"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const OperationValue: msRest.CompositeMapper = {
   serializedName: "OperationValue",
   type: {
@@ -1143,6 +1264,37 @@ export const ManagedClusterAgentPoolProfileProperties: msRest.CompositeMapper = 
             }
           }
         }
+      },
+      enableNodePublicIP: {
+        serializedName: "enableNodePublicIP",
+        type: {
+          name: "Boolean"
+        }
+      },
+      scaleSetPriority: {
+        serializedName: "scaleSetPriority",
+        defaultValue: 'Regular',
+        type: {
+          name: "String"
+        }
+      },
+      scaleSetEvictionPolicy: {
+        serializedName: "scaleSetEvictionPolicy",
+        defaultValue: 'Delete',
+        type: {
+          name: "String"
+        }
+      },
+      nodeTaints: {
+        serializedName: "nodeTaints",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
       }
     }
   }
@@ -1267,6 +1419,66 @@ export const AgentPool: msRest.CompositeMapper = {
             }
           }
         }
+      },
+      enableNodePublicIP: {
+        serializedName: "properties.enableNodePublicIP",
+        type: {
+          name: "Boolean"
+        }
+      },
+      scaleSetPriority: {
+        serializedName: "properties.scaleSetPriority",
+        defaultValue: 'Regular',
+        type: {
+          name: "String"
+        }
+      },
+      scaleSetEvictionPolicy: {
+        serializedName: "properties.scaleSetEvictionPolicy",
+        defaultValue: 'Delete',
+        type: {
+          name: "String"
+        }
+      },
+      nodeTaints: {
+        serializedName: "properties.nodeTaints",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ManagedClusterWindowsProfile: msRest.CompositeMapper = {
+  serializedName: "ManagedClusterWindowsProfile",
+  type: {
+    name: "Composite",
+    className: "ManagedClusterWindowsProfile",
+    modelProperties: {
+      adminUsername: {
+        required: true,
+        serializedName: "adminUsername",
+        constraints: {
+          Pattern: /^[a-zA-Z0-9]+([._]?[a-zA-Z0-9]+)*$/
+        },
+        type: {
+          name: "String"
+        }
+      },
+      adminPassword: {
+        serializedName: "adminPassword",
+        constraints: {
+          Pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%\^&\*\(\)])[a-zA-Z\d!@#$%\^&\*\(\)]{12,123}$/
+        },
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -1327,6 +1539,12 @@ export const ContainerServiceNetworkProfile: msRest.CompositeMapper = {
         constraints: {
           Pattern: /^([0-9]{1,3}\.){3}[0-9]{1,3}(\/([0-9]|[1-2][0-9]|3[0-2]))?$/
         },
+        type: {
+          name: "String"
+        }
+      },
+      loadBalancerSku: {
+        serializedName: "loadBalancerSku",
         type: {
           name: "String"
         }
@@ -1399,6 +1617,40 @@ export const ManagedClusterAADProfile: msRest.CompositeMapper = {
   }
 };
 
+export const ManagedClusterIdentity: msRest.CompositeMapper = {
+  serializedName: "ManagedClusterIdentity",
+  type: {
+    name: "Composite",
+    className: "ManagedClusterIdentity",
+    modelProperties: {
+      principalId: {
+        readOnly: true,
+        serializedName: "principalId",
+        type: {
+          name: "String"
+        }
+      },
+      tenantId: {
+        readOnly: true,
+        serializedName: "tenantId",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "SystemAssigned",
+            "None"
+          ]
+        }
+      }
+    }
+  }
+};
+
 export const ManagedCluster: msRest.CompositeMapper = {
   serializedName: "ManagedCluster",
   type: {
@@ -1411,6 +1663,13 @@ export const ManagedCluster: msRest.CompositeMapper = {
         serializedName: "properties.provisioningState",
         type: {
           name: "String"
+        }
+      },
+      maxAgentPools: {
+        readOnly: true,
+        serializedName: "properties.maxAgentPools",
+        type: {
+          name: "Number"
         }
       },
       kubernetesVersion: {
@@ -1451,6 +1710,13 @@ export const ManagedCluster: msRest.CompositeMapper = {
           className: "ContainerServiceLinuxProfile"
         }
       },
+      windowsProfile: {
+        serializedName: "properties.windowsProfile",
+        type: {
+          name: "Composite",
+          className: "ManagedClusterWindowsProfile"
+        }
+      },
       servicePrincipalProfile: {
         serializedName: "properties.servicePrincipalProfile",
         type: {
@@ -1471,7 +1737,6 @@ export const ManagedCluster: msRest.CompositeMapper = {
         }
       },
       nodeResourceGroup: {
-        readOnly: true,
         serializedName: "properties.nodeResourceGroup",
         type: {
           name: "String"
@@ -1513,29 +1778,12 @@ export const ManagedCluster: msRest.CompositeMapper = {
             }
           }
         }
-      }
-    }
-  }
-};
-
-export const OrchestratorProfile: msRest.CompositeMapper = {
-  serializedName: "OrchestratorProfile",
-  type: {
-    name: "Composite",
-    className: "OrchestratorProfile",
-    modelProperties: {
-      orchestratorType: {
-        required: true,
-        serializedName: "orchestratorType",
-        type: {
-          name: "String"
-        }
       },
-      orchestratorVersion: {
-        required: true,
-        serializedName: "orchestratorVersion",
+      identity: {
+        serializedName: "identity",
         type: {
-          name: "String"
+          name: "Composite",
+          className: "ManagedClusterIdentity"
         }
       }
     }
@@ -1553,6 +1801,28 @@ export const ManagedClusterAccessProfile: msRest.CompositeMapper = {
         serializedName: "properties.kubeConfig",
         type: {
           name: "ByteArray"
+        }
+      }
+    }
+  }
+};
+
+export const ManagedClusterPoolUpgradeProfileUpgradesItem: msRest.CompositeMapper = {
+  serializedName: "ManagedClusterPoolUpgradeProfile_upgradesItem",
+  type: {
+    name: "Composite",
+    className: "ManagedClusterPoolUpgradeProfileUpgradesItem",
+    modelProperties: {
+      kubernetesVersion: {
+        serializedName: "kubernetesVersion",
+        type: {
+          name: "String"
+        }
+      },
+      isPreview: {
+        serializedName: "isPreview",
+        type: {
+          name: "Boolean"
         }
       }
     }
@@ -1592,7 +1862,8 @@ export const ManagedClusterPoolUpgradeProfile: msRest.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
+              name: "Composite",
+              className: "ManagedClusterPoolUpgradeProfileUpgradesItem"
             }
           }
         }
@@ -1653,6 +1924,157 @@ export const ManagedClusterUpgradeProfile: msRest.CompositeMapper = {
   }
 };
 
+export const AgentPoolUpgradeProfilePropertiesUpgradesItem: msRest.CompositeMapper = {
+  serializedName: "AgentPoolUpgradeProfileProperties_upgradesItem",
+  type: {
+    name: "Composite",
+    className: "AgentPoolUpgradeProfilePropertiesUpgradesItem",
+    modelProperties: {
+      kubernetesVersion: {
+        serializedName: "kubernetesVersion",
+        type: {
+          name: "String"
+        }
+      },
+      isPreview: {
+        serializedName: "isPreview",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const AgentPoolUpgradeProfile: msRest.CompositeMapper = {
+  serializedName: "AgentPoolUpgradeProfile",
+  type: {
+    name: "Composite",
+    className: "AgentPoolUpgradeProfile",
+    modelProperties: {
+      id: {
+        readOnly: true,
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        readOnly: true,
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        readOnly: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      kubernetesVersion: {
+        required: true,
+        serializedName: "properties.kubernetesVersion",
+        type: {
+          name: "String"
+        }
+      },
+      osType: {
+        required: true,
+        serializedName: "properties.osType",
+        defaultValue: 'Linux',
+        type: {
+          name: "String"
+        }
+      },
+      upgrades: {
+        serializedName: "properties.upgrades",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AgentPoolUpgradeProfilePropertiesUpgradesItem"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const AgentPoolAvailableVersionsPropertiesAgentPoolVersionsItem: msRest.CompositeMapper = {
+  serializedName: "AgentPoolAvailableVersionsProperties_agentPoolVersionsItem",
+  type: {
+    name: "Composite",
+    className: "AgentPoolAvailableVersionsPropertiesAgentPoolVersionsItem",
+    modelProperties: {
+      default: {
+        serializedName: "default",
+        type: {
+          name: "Boolean"
+        }
+      },
+      kubernetesVersion: {
+        serializedName: "kubernetesVersion",
+        type: {
+          name: "String"
+        }
+      },
+      isPreview: {
+        serializedName: "isPreview",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const AgentPoolAvailableVersions: msRest.CompositeMapper = {
+  serializedName: "AgentPoolAvailableVersions",
+  type: {
+    name: "Composite",
+    className: "AgentPoolAvailableVersions",
+    modelProperties: {
+      id: {
+        readOnly: true,
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        readOnly: true,
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        readOnly: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      agentPoolVersions: {
+        serializedName: "properties.agentPoolVersions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AgentPoolAvailableVersionsPropertiesAgentPoolVersionsItem"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const CredentialResult: msRest.CompositeMapper = {
   serializedName: "CredentialResult",
   type: {
@@ -1692,94 +2114,6 @@ export const CredentialResults: msRest.CompositeMapper = {
             type: {
               name: "Composite",
               className: "CredentialResult"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const OrchestratorVersionProfile: msRest.CompositeMapper = {
-  serializedName: "OrchestratorVersionProfile",
-  type: {
-    name: "Composite",
-    className: "OrchestratorVersionProfile",
-    modelProperties: {
-      orchestratorType: {
-        required: true,
-        serializedName: "orchestratorType",
-        type: {
-          name: "String"
-        }
-      },
-      orchestratorVersion: {
-        required: true,
-        serializedName: "orchestratorVersion",
-        type: {
-          name: "String"
-        }
-      },
-      default: {
-        required: true,
-        serializedName: "default",
-        type: {
-          name: "Boolean"
-        }
-      },
-      upgrades: {
-        required: true,
-        serializedName: "upgrades",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "OrchestratorProfile"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const OrchestratorVersionProfileListResult: msRest.CompositeMapper = {
-  serializedName: "OrchestratorVersionProfileListResult",
-  type: {
-    name: "Composite",
-    className: "OrchestratorVersionProfileListResult",
-    modelProperties: {
-      id: {
-        readOnly: true,
-        serializedName: "id",
-        type: {
-          name: "String"
-        }
-      },
-      name: {
-        readOnly: true,
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      },
-      type: {
-        readOnly: true,
-        serializedName: "type",
-        type: {
-          name: "String"
-        }
-      },
-      orchestrators: {
-        required: true,
-        serializedName: "properties.orchestrators",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "OrchestratorVersionProfile"
             }
           }
         }
