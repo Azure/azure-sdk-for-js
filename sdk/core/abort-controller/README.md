@@ -29,9 +29,9 @@ Any subsequent calls to `abort()` on the same controller will have no effect.
 The `AbortSignal.none` static property returns an `AbortSignal` that can not be aborted.
 
 `AbortSignals` can also be linked so that when `abort()` is called on parent signal,
-it also fires on all child signals.
-This relationship is one-way, meaning that a parent signal can affect a child signal, but not the other way around.
-To create a parent-child relationship, pass in the parent signals to the `AbortController` constructor.
+it also fires on all linked signals.
+This linkage is one-way, meaning that a parent signal can affect a linked signal, but not the other way around.
+To link `AbortSignals` together, pass in the parent signals to the `AbortController` constructor.
 
 ## Examples
 

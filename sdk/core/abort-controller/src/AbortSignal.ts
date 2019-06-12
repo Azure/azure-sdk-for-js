@@ -133,7 +133,7 @@ export class AbortSignal implements AbortSignalLike {
 
 /**
  * Helper to trigger an abort event immediately, the onabort and all abort event listeners will be triggered.
- * Will try to trigger abort event for all children AbortSignal nodes.
+ * Will try to trigger abort event for all linked AbortSignal nodes.
  *
  * - If there is a timeout, the timer will be cancelled.
  * - If aborted is true, nothing will happen.
