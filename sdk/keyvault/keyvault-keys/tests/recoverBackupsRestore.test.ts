@@ -17,7 +17,7 @@ describe("Keys client - restore keys and recover backups", () => {
 
   const deleteKeyAfter = (name) => async () => {
     await client.deleteKey(name);
-    await delay(10000);
+    await delay(30000);
     await client.purgeDeletedKey(name);
   };
 
@@ -34,11 +34,11 @@ describe("Keys client - restore keys and recover backups", () => {
     after(deleteKeyAfter(keyName));
     await client.createKey(keyName, "RSA");
     await client.deleteKey(keyName);
-    await delay(15000);
+    await delay(30000);
     const getDeletedResult = await client.getDeletedKey(keyName);
     assert.equal(getDeletedResult.name, keyName, "Unexpected key name in result from getKey().");
     await client.recoverDeletedKey(keyName);
-    await delay(15000);
+    await delay(30000);
     const getResult = await client.getKey(keyName);
     assert.equal(getResult.name, keyName, "Unexpected key name in result from getKey().");
   });
@@ -82,11 +82,11 @@ describe("Keys client - restore keys and recover backups", () => {
     await client.createKey(keyName, "RSA");
     const backup = await client.backupKey(keyName);
     await client.deleteKey(keyName);
-    await delay(10000);
+    await delay(30000);
     await client.purgeDeletedKey(keyName);
-    await delay(10000);
+    await delay(30000);
     await client.restoreKey(backup);
-    await delay(10000);
+    await delay(30000);
     const getResult = await client.getKey(keyName);
     assert.equal(getResult.name, keyName, "Unexpected key name in result from getKey().");
   });

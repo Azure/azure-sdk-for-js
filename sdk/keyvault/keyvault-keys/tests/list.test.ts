@@ -17,7 +17,7 @@ describe("Keys client - list keys in various ways", () => {
 
   const deleteKeyAfter = (name) => async () => {
     await client.deleteKey(name);
-    await delay(10000);
+    await delay(30000);
     await client.purgeDeletedKey(name);
   };
 
@@ -63,7 +63,7 @@ describe("Keys client - list keys in various ways", () => {
     after(async () => {
       for (let name of keyNames) {
         await client.deleteKey(name);
-        await delay(2000);
+        await delay(30000);
         await client.purgeDeletedKey(name);
       }
     });

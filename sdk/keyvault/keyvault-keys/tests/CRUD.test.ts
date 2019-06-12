@@ -17,7 +17,7 @@ describe("Keys client - create, read, update and delete operations", () => {
 
   const deleteKeyAfter = (name) => async () => {
     await client.deleteKey(name);
-    await delay(10000);
+    await delay(30000);
     await client.purgeDeletedKey(name);
   };
 
@@ -234,7 +234,7 @@ describe("Keys client - create, read, update and delete operations", () => {
     const keyName = getUniqueName("key");
     await client.createKey(keyName, "RSA");
     await client.deleteKey(keyName);
-    await delay(15000);
+    await delay(30000);
     const getResult = await client.getDeletedKey(keyName);
     assert.equal(getResult.name, keyName, "Unexpected key name in result from getKey().");
     await client.purgeDeletedKey(keyName);
