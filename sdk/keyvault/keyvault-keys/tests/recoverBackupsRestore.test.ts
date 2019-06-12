@@ -61,7 +61,7 @@ describe("Keys client - restore keys and recover backups", () => {
     await client.createKey(keyName, "RSA");
     const result = await client.backupKey(keyName);
     assert.equal(Buffer.isBuffer(result), true, "Unexpected return value from backupKey()");
-    assert.equal(result.length, 8693, "Unexpected length of buffer from backupKey()");
+    assert.ok([8693, 8394].includes(result.length), "Unexpected length of buffer from backupKey()");
   });
 
   it("fails to generate a backup of a non-existing key", async () => {
