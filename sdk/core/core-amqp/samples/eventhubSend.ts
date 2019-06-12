@@ -12,9 +12,8 @@ import * as dotenv from "dotenv";
 dotenv.config(); // Optional for loading environment configuration from a .env (config) file
 import { Sender, SenderOptions, EventContext, Message, Delivery } from "rhea-promise";
 
-const str =
-  "Endpoint=sb://shivangieventhubs.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=mHuzn4laFeLg25QlzhL7Fe0IfJzkEiqsTZZyAS2z12M=";
-const path = "test";
+const str = process.env.CONNECTION_STRING || "";
+const path = process.env.ENTITY_PATH;
 const ehConnectionConfig = EventHubConnectionConfig.create(str, path);
 const parameters: CreateConnectionContextBaseParameters = {
   config: ehConnectionConfig,
