@@ -107,16 +107,14 @@ describe("ShareClient", () => {
     }
   });
 
-  it("createFile and deleteFile", async () => {
-    const dirName = getUniqueName("directory");
-    const { directoryClient } = await shareClient.createDirectory(dirName);
+  it("createFile and deleteFile under root directory", async () => {
     const fileName = getUniqueName("file");
     const metadata = { key: "value" };
-    const { fileClient } = await shareClient.createFile(dirName, fileName, 256, { metadata });
+    const { fileClient } = await shareClient.createFile(fileName, 256, { metadata });
     const result = await fileClient.getProperties();
     assert.deepEqual(result.metadata, metadata);
 
-    await shareClient.deleteFile(dirName, fileName);
+    await shareClient.deleteFile(fileName);
     try {
       await fileClient.getProperties();
       assert.fail(
@@ -125,6 +123,11 @@ describe("ShareClient", () => {
     } catch (error) {
       assert.ok((error.statusCode as number) === 404);
     }
-    await directoryClient.delete();
+  });
+
+  it("can get a directory client for root directory", async () => {
+    const root = await shareClient.rootDirectoryClient;
+    const result = await root.getProperties();
+    assert.ok(result, "Expecting valid properties for the root directory.");
   });
 });

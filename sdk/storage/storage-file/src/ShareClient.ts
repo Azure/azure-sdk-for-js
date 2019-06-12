@@ -344,6 +344,18 @@ export class ShareClient extends StorageClient {
   }
 
   /**
+   * Gets the directory client for the root directory of this share.
+   * Note that the root directory always exists and cannot be deleted.
+   *
+   * @readonly
+   * @type {DirectoryClient}
+   * @memberof ShareClient
+   */
+  public get rootDirectoryClient(): DirectoryClient {
+    return this.createDirectoryClient("");
+  }
+
+  /**
    * Creates a new subdirectory under this share.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-directory
    *
@@ -378,7 +390,7 @@ export class ShareClient extends StorageClient {
   }
 
   /**
-   * Creates a new file or replaces a file under an existing directory in this share.
+   * Creates a new file or replaces a file under the root directory of this share.
    * Note it only initializes the file with no content.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-file
    *
@@ -388,13 +400,8 @@ export class ShareClient extends StorageClient {
    * @returns File creation response data and the corresponding file client.
    * @memberof ShareClient
    */
-  public async createFile(
-    directoryName: string,
-    fileName: string,
-    size: number,
-    options?: FileCreateOptions
-  ) {
-    const directoryClient = this.createDirectoryClient(directoryName);
+  public async createFile(fileName: string, size: number, options?: FileCreateOptions) {
+    const directoryClient = this.rootDirectoryClient;
     const fileClient = directoryClient.createFileClient(fileName);
     const response = await fileClient.create(size, options);
     return {
@@ -404,7 +411,7 @@ export class ShareClient extends StorageClient {
   }
 
   /**
-   * Removes a file under an existing directory in this share from the storage account.
+   * Removes a file under the root directory of this share from the storage account.
    * When a file is successfully deleted, it is immediately removed from the storage
    * account's index and is no longer accessible to clients. The file's data is later
    * removed from the service during garbage collection.
@@ -423,8 +430,8 @@ export class ShareClient extends StorageClient {
    * @returns
    * @memberof ShareClient
    */
-  public async deleteFile(directoryName: string, fileName: string, options?: FileDeleteOptions) {
-    const directoryClient = this.createDirectoryClient(directoryName);
+  public async deleteFile(fileName: string, options?: FileDeleteOptions) {
+    const directoryClient = this.rootDirectoryClient;
     const fileClient = directoryClient.createFileClient(fileName);
     return await fileClient.delete(options);
   }
