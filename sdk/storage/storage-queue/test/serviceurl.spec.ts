@@ -3,11 +3,22 @@ import * as assert from "assert";
 import { Aborter } from "../src/Aborter";
 import { QueueURL } from "../src/QueueURL";
 import { ServiceURL } from "../src/ServiceURL";
-import { getAlternateQSU, getQSU, getUniqueName, wait } from "./utils";
+import { getAlternateQSU, getQSU, wait } from "./utils";
+import { record } from "./utils/recorder";
 import * as dotenv from "dotenv";
 dotenv.config({ path: "../.env" });
 
 describe("ServiceURL", () => {
+  let recorder: any;
+
+  beforeEach(function() {
+    recorder = record(this);
+  });
+
+  afterEach(() => {
+    recorder.stop();
+  });
+
   it("listQueuesSegment with default parameters", async () => {
     const serviceURL = getQSU();
     const result = await serviceURL.listQueuesSegment(Aborter.none);
@@ -28,7 +39,7 @@ describe("ServiceURL", () => {
   it("listQueuesSegment with all parameters", async () => {
     const serviceURL = getQSU();
 
-    const queueNamePrefix = getUniqueName("queue");
+    const queueNamePrefix = recorder.getUniqueName("queue");
     const queueName1 = `${queueNamePrefix}x1`;
     const queueName2 = `${queueNamePrefix}x2`;
     const queueURL1 = QueueURL.fromServiceURL(serviceURL, queueName1);
