@@ -144,6 +144,21 @@ export class ReplicationProtectedItems {
   }
 
   /**
+   * Operation to add disks(s) to the replication protected item.
+   * @summary Add disk(s) for protection.
+   * @param fabricName Unique fabric name.
+   * @param protectionContainerName Protection container name.
+   * @param replicatedProtectedItemName Replication protected item name.
+   * @param addDisksInput Add disks input.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ReplicationProtectedItemsAddDisksResponse>
+   */
+  addDisks(fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, addDisksInput: Models.AddDisksInput, options?: msRest.RequestOptionsBase): Promise<Models.ReplicationProtectedItemsAddDisksResponse> {
+    return this.beginAddDisks(fabricName,protectionContainerName,replicatedProtectedItemName,addDisksInput,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ReplicationProtectedItemsAddDisksResponse>;
+  }
+
+  /**
    * The operation to change the recovery point of a failed over replication protected item.
    * @summary Change or apply recovery point.
    * @param fabricName The ARM fabric name.
@@ -204,6 +219,21 @@ export class ReplicationProtectedItems {
   }
 
   /**
+   * Operation to remove disk(s) from the replication protected item.
+   * @summary Removes disk(s).
+   * @param fabricName Unique fabric name.
+   * @param protectionContainerName Protection container name.
+   * @param replicatedProtectedItemName Replication protected item name.
+   * @param removeDisksInput Remove disks input.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ReplicationProtectedItemsRemoveDisksResponse>
+   */
+  removeDisks(fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, removeDisksInput: Models.RemoveDisksInput, options?: msRest.RequestOptionsBase): Promise<Models.ReplicationProtectedItemsRemoveDisksResponse> {
+    return this.beginRemoveDisks(fabricName,protectionContainerName,replicatedProtectedItemName,removeDisksInput,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ReplicationProtectedItemsRemoveDisksResponse>;
+  }
+
+  /**
    * The operation to start resynchronize/repair replication for a replication protected item
    * requiring resynchronization.
    * @summary Resynchronize or repair replication.
@@ -231,6 +261,21 @@ export class ReplicationProtectedItems {
   reprotect(fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, rrInput: Models.ReverseReplicationInput, options?: msRest.RequestOptionsBase): Promise<Models.ReplicationProtectedItemsReprotectResponse> {
     return this.beginReprotect(fabricName,protectionContainerName,replicatedProtectedItemName,rrInput,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ReplicationProtectedItemsReprotectResponse>;
+  }
+
+  /**
+   * Operation to resolve health issues of the replication protected item.
+   * @summary Resolve health errors.
+   * @param fabricName Unique fabric name.
+   * @param protectionContainerName Protection container name.
+   * @param replicatedProtectedItemName Replication protected item name.
+   * @param resolveHealthInput Health issue input object.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ReplicationProtectedItemsResolveHealthErrorsResponse>
+   */
+  resolveHealthErrors(fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, resolveHealthInput: Models.ResolveHealthInput, options?: msRest.RequestOptionsBase): Promise<Models.ReplicationProtectedItemsResolveHealthErrorsResponse> {
+    return this.beginResolveHealthErrors(fabricName,protectionContainerName,replicatedProtectedItemName,resolveHealthInput,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ReplicationProtectedItemsResolveHealthErrorsResponse>;
   }
 
   /**
@@ -391,6 +436,29 @@ export class ReplicationProtectedItems {
   }
 
   /**
+   * Operation to add disks(s) to the replication protected item.
+   * @summary Add disk(s) for protection.
+   * @param fabricName Unique fabric name.
+   * @param protectionContainerName Protection container name.
+   * @param replicatedProtectedItemName Replication protected item name.
+   * @param addDisksInput Add disks input.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginAddDisks(fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, addDisksInput: Models.AddDisksInput, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        fabricName,
+        protectionContainerName,
+        replicatedProtectedItemName,
+        addDisksInput,
+        options
+      },
+      beginAddDisksOperationSpec,
+      options);
+  }
+
+  /**
    * The operation to change the recovery point of a failed over replication protected item.
    * @summary Change or apply recovery point.
    * @param fabricName The ARM fabric name.
@@ -482,6 +550,29 @@ export class ReplicationProtectedItems {
   }
 
   /**
+   * Operation to remove disk(s) from the replication protected item.
+   * @summary Removes disk(s).
+   * @param fabricName Unique fabric name.
+   * @param protectionContainerName Protection container name.
+   * @param replicatedProtectedItemName Replication protected item name.
+   * @param removeDisksInput Remove disks input.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginRemoveDisks(fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, removeDisksInput: Models.RemoveDisksInput, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        fabricName,
+        protectionContainerName,
+        replicatedProtectedItemName,
+        removeDisksInput,
+        options
+      },
+      beginRemoveDisksOperationSpec,
+      options);
+  }
+
+  /**
    * The operation to start resynchronize/repair replication for a replication protected item
    * requiring resynchronization.
    * @summary Resynchronize or repair replication.
@@ -523,6 +614,29 @@ export class ReplicationProtectedItems {
         options
       },
       beginReprotectOperationSpec,
+      options);
+  }
+
+  /**
+   * Operation to resolve health issues of the replication protected item.
+   * @summary Resolve health errors.
+   * @param fabricName Unique fabric name.
+   * @param protectionContainerName Protection container name.
+   * @param replicatedProtectedItemName Replication protected item name.
+   * @param resolveHealthInput Health issue input object.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginResolveHealthErrors(fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, resolveHealthInput: Models.ResolveHealthInput, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        fabricName,
+        protectionContainerName,
+        replicatedProtectedItemName,
+        resolveHealthInput,
+        options
+      },
+      beginResolveHealthErrorsOperationSpec,
       options);
   }
 
@@ -864,6 +978,42 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
+const beginAddDisksOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/addDisks",
+  urlParameters: [
+    Parameters.resourceName,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.fabricName,
+    Parameters.protectionContainerName,
+    Parameters.replicatedProtectedItemName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "addDisksInput",
+    mapper: {
+      ...Mappers.AddDisksInput,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.ReplicationProtectedItem
+    },
+    202: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
 const beginApplyRecoveryPointOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/applyRecoveryPoint",
@@ -999,6 +1149,42 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
+const beginRemoveDisksOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/removeDisks",
+  urlParameters: [
+    Parameters.resourceName,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.fabricName,
+    Parameters.protectionContainerName,
+    Parameters.replicatedProtectedItemName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "removeDisksInput",
+    mapper: {
+      ...Mappers.RemoveDisksInput,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.ReplicationProtectedItem
+    },
+    202: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
 const beginRepairReplicationOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/repairReplication",
@@ -1049,6 +1235,42 @@ const beginReprotectOperationSpec: msRest.OperationSpec = {
     parameterPath: "rrInput",
     mapper: {
       ...Mappers.ReverseReplicationInput,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.ReplicationProtectedItem
+    },
+    202: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginResolveHealthErrorsOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/ResolveHealthErrors",
+  urlParameters: [
+    Parameters.resourceName,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.fabricName,
+    Parameters.protectionContainerName,
+    Parameters.replicatedProtectedItemName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "resolveHealthInput",
+    mapper: {
+      ...Mappers.ResolveHealthInput,
       required: true
     }
   },
