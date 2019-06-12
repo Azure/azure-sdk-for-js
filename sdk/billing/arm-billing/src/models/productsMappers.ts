@@ -25,7 +25,6 @@ export {
   EnabledAzureSKUs,
   Enrollment,
   EnrollmentAccount,
-  EnrollmentAccountListResult,
   EnrollmentPolicies,
   ErrorDetails,
   ErrorResponse,
@@ -36,8 +35,15 @@ export {
   PaymentMethod,
   PaymentProperties,
   Policy,
+  ProductsListResult,
+  ProductsTransferHeaders,
   ProductSummary,
   Resource,
   ServiceProvider,
-  TransactionsSummary
+  TransactionsSummary,
+  TransferProductRequestProperties,
+  UpdateAutoRenewOperationSummary,
+  UpdateAutoRenewRequest,
+  ValidateProductTransferEligibilityError,
+  ValidateProductTransferEligibilityResult
 } from "../models/mappers";
