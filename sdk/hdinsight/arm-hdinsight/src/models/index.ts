@@ -77,6 +77,81 @@ export interface SecurityProfile {
 }
 
 /**
+ * Time and capacity request parameters
+ */
+export interface AutoscaleTimeAndCapacity {
+  /**
+   * 24-hour time in the form xx:xx
+   */
+  time?: string;
+  /**
+   * The minimum instance count of the cluster
+   */
+  minInstanceCount?: number;
+  /**
+   * The maximum instance count of the cluster
+   */
+  maxInstanceCount?: number;
+}
+
+/**
+ * Parameters for a schedule-based autoscale rule, consisting of an array of days + a time and
+ * capacity
+ */
+export interface AutoscaleSchedule {
+  /**
+   * Days of the week for a schedule-based autoscale rule
+   */
+  days?: DaysOfWeek[];
+  /**
+   * Time and capacity for a schedule-based autoscale rule
+   */
+  timeAndCapacity?: AutoscaleTimeAndCapacity;
+}
+
+/**
+ * The load-based autoscale request parameters
+ */
+export interface AutoscaleCapacity {
+  /**
+   * The minimum instance count of the cluster
+   */
+  minInstanceCount?: number;
+  /**
+   * The maximum instance count of the cluster
+   */
+  maxInstanceCount?: number;
+}
+
+/**
+ * Schedule-based autoscale request parameters
+ */
+export interface AutoscaleRecurrence {
+  /**
+   * The time zone for the autoscale schedule times
+   */
+  timeZone?: string;
+  /**
+   * Array of schedule-based autoscale rules
+   */
+  schedule?: AutoscaleSchedule[];
+}
+
+/**
+ * The autoscale request parameters
+ */
+export interface Autoscale {
+  /**
+   * Parameters for load-based autoscale
+   */
+  capacity?: AutoscaleCapacity;
+  /**
+   * Parameters for schedule-based autoscale
+   */
+  recurrence?: AutoscaleRecurrence;
+}
+
+/**
  * The hardware profile.
  */
 export interface HardwareProfile {
@@ -202,6 +277,10 @@ export interface Role {
    * The instance count of the cluster.
    */
   targetInstanceCount?: number;
+  /**
+   * The autoscale configurations.
+   */
+  autoscaleConfiguration?: Autoscale;
   /**
    * The hardware profile.
    */
@@ -832,6 +911,14 @@ export interface ApplicationGetHttpsEndpoint {
    * The public port to connect to.
    */
   publicPort?: number;
+  /**
+   * The subDomainSuffix of the application and can not greater than 3 characters.
+   */
+  subDomainSuffix?: string;
+  /**
+   * The value indicates whether to disable GatewayAuth.
+   */
+  disableGatewayAuth?: boolean;
 }
 
 /**
@@ -1160,6 +1247,15 @@ export interface OperationListResult extends Array<Operation> {
  * @enum {string}
  */
 export type DirectoryType = 'ActiveDirectory';
+
+/**
+ * Defines values for DaysOfWeek.
+ * Possible values include: 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday',
+ * 'Sunday'
+ * @readonly
+ * @enum {string}
+ */
+export type DaysOfWeek = 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday' | 'Sunday';
 
 /**
  * Defines values for OSType.
