@@ -2,10 +2,20 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import qs from "qs";
-import { AccessToken, ServiceClient, ServiceClientOptions, GetTokenOptions } from "@azure/core-http";
+import {
+  AccessToken,
+  ServiceClient,
+  ServiceClientOptions,
+  GetTokenOptions,
+  WebResource,
+  RequestPrepareOptions
+} from "@azure/core-http";
 
 export class IdentityClient extends ServiceClient {
   private static readonly DefaultAuthorityHost = "https://login.microsoftonline.com/";
+  private static readonly ImdsEndpoint = "http://169.254.169.254/metadata/identity/oauth2/token";
+  private static readonly MsiApiVersion = "2018-02-01";
+  private static readonly DefaultScopeSuffix = "/.default";
 
   constructor(options?: IdentityClientOptions) {
     super(undefined, options);
@@ -15,6 +25,48 @@ export class IdentityClient extends ServiceClient {
     }
   }
 
+  private createWebResource(requestOptions: RequestPrepareOptions): WebResource {
+    const webResource = new WebResource();
+    webResource.prepare(requestOptions);
+    return webResource;
+  }
+
+  private async sendTokenRequest(
+    requestOptions: RequestPrepareOptions
+  ): Promise<AccessToken | null> {
+    const response = await this.sendRequest(requestOptions);
+    if (response.status === 200 || response.status === 201) {
+      const expiresOn = new Date();
+      expiresOn.setSeconds(expiresOn.getSeconds() + response.parsedBody.expires_in);
+
+      return {
+        token: response.parsedBody.access_token,
+        expiresOn: expiresOn
+      };
+    }
+
+    return null;
+  }
+
+  private mapScopesToResource(scopes: string | string[]): string {
+    let scope = "";
+    if (Array.isArray(scopes)) {
+      if (scopes.length !== 1) {
+        throw "To convert to a resource string the specified array must be exactly length 1";
+      }
+
+      scope = scopes[0];
+    } else if (typeof scopes === "string") {
+      scope = scopes;
+    }
+
+    if (!scope.endsWith(IdentityClient.DefaultScopeSuffix)) {
+      return scope;
+    }
+
+    return scope.substr(0, scope.lastIndexOf(IdentityClient.DefaultScopeSuffix));
+  }
+
   async authenticate(
     tenantId: string,
     clientId: string,
@@ -22,7 +74,7 @@ export class IdentityClient extends ServiceClient {
     scopes: string | string[],
     getTokenOptions?: GetTokenOptions
   ): Promise<AccessToken | null> {
-    const response = await this.sendRequest({
+    const webResource = this.createWebResource({
       url: `${this.baseUri}/${tenantId}/oauth2/v2.0/token`,
       method: "POST",
       disableJsonStringifyOnBody: true,
@@ -38,20 +90,40 @@ export class IdentityClient extends ServiceClient {
         Accept: "application/json",
         "Content-Type": "application/x-www-form-urlencoded"
       },
-      abortSignal: getTokenOptions && getTokenOptions.abortSignal,
+      abortSignal: getTokenOptions && getTokenOptions.abortSignal
     });
 
-    if (response.status === 200 || response.status === 201) {
-      const expiresOn = new Date();
-      expiresOn.setSeconds(expiresOn.getSeconds() + response.parsedBody.expires_in);
+    return this.sendTokenRequest(webResource);
+  }
 
-      return {
-        token: response.parsedBody.access_token,
-        expiresOn: expiresOn
-      };
+  authenticateManagedIdentity(
+    scopes: string | string[],
+    clientId?: string,
+    getTokenOptions?: GetTokenOptions
+  ): Promise<AccessToken | null> {
+    const queryParameters: any = {
+      resource: this.mapScopesToResource(scopes),
+      "api-version": IdentityClient.MsiApiVersion
+    };
+
+    if (clientId) {
+      queryParameters.client_id = clientId;
     }
 
-    return null;
+    const webResource = this.createWebResource({
+      url: IdentityClient.ImdsEndpoint,
+      method: "GET",
+      disableJsonStringifyOnBody: true,
+      deserializationMapper: undefined,
+      queryParameters,
+      headers: {
+        Accept: "application/json",
+        Metadata: true
+      },
+      abortSignal: getTokenOptions && getTokenOptions.abortSignal
+    });
+
+    return this.sendTokenRequest(webResource);
   }
 
   static getDefaultOptions(): IdentityClientOptions {
