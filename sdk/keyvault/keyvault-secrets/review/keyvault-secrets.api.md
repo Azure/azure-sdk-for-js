@@ -46,6 +46,19 @@ export interface NewPipelineOptions {
 }
 
 // @public
+export interface PagedAsyncIterableIterator<T> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<T>;
+    byPage: (settings?: PageSettings) => AsyncIterableIterator<T[]>;
+    next(): Promise<{
+        done: boolean;
+        value: T;
+    } | {
+        done: boolean;
+        value: undefined;
+    }>;
+}
+
+// @public
 export interface PageSettings {
     continuationToken?: string;
     pageSize?: number;
@@ -104,7 +117,6 @@ export class SecretsClient {
     getSecret(secretName: string, options?: GetSecretOptions): Promise<Secret>;
     listDeletedSecrets(options?: GetSecretsOptions): PagedAsyncIterableIterator<SecretAttributes>;
     listSecrets(options?: GetSecretsOptions): PagedAsyncIterableIterator<SecretAttributes>;
-    // Warning: (ae-forgotten-export) The symbol "PagedAsyncIterableIterator" needs to be exported by the entry point index.d.ts
     listSecretVersions(secretName: string, options?: GetSecretsOptions): PagedAsyncIterableIterator<SecretAttributes>;
     readonly pipeline: AzureServiceClientOptions;
     purgeDeletedSecret(secretName: string, options?: RequestOptionsBase): Promise<void>;

@@ -42,6 +42,7 @@ export {
   GetSecretOptions,
   ListSecretsOptions as GetSecretsOptions,
   NewPipelineOptions,
+  PagedAsyncIterableIterator,
   PageSettings,
   ParsedKeyVaultEntityIdentifier,
   Secret,

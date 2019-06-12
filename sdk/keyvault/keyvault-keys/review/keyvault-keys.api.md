@@ -152,13 +152,10 @@ export interface NewPipelineOptions {
     telemetry?: TelemetryOptions;
 }
 
-// @public (undocumented)
+// @public
 export interface PagedAsyncIterableIterator<T> {
-    // (undocumented)
     [Symbol.asyncIterator](): PagedAsyncIterableIterator<T>;
-    // (undocumented)
     byPage: (settings?: PageSettings) => AsyncIterableIterator<T[]>;
-    // (undocumented)
     next(): Promise<{
         done: boolean;
         value: T;

@@ -284,7 +284,14 @@ export interface PageSettings {
   pageSize?: number,
 }
 
+/**
+ * @interface
+ * An interface that allows async iterable iteration both to completion and by page.
+ */
 export interface PagedAsyncIterableIterator<T> {
+  /**
+   * @member {Promise} [next] The next method, part of the iteration protocol
+   */
   next(): Promise<{
     done: boolean;
     value: T;
@@ -292,6 +299,12 @@ export interface PagedAsyncIterableIterator<T> {
     done: boolean;
     value: undefined;
   }>;
+  /**
+   * @member {Symbol} [asyncIterator] The connection to the async iterator, part of the iteration protocol
+   */
   [Symbol.asyncIterator](): PagedAsyncIterableIterator<T>;
+  /**
+   * @member {Function} [byPage] Return an AsyncIterableIterator that works a page at a time
+   */
   byPage: (settings?: PageSettings) => AsyncIterableIterator<T[]>;
 }
