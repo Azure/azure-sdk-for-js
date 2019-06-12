@@ -4,20 +4,35 @@
 
 ```ts
 
-import { AbortSignalLike } from '@azure/ms-rest-js';
+// @public
+export class AbortController {
+    constructor(parentSignals?: AbortSignalLike[]);
+    constructor(...parentSignals: AbortSignalLike[]);
+    abort(): void;
+    readonly signal: AbortSignal;
+    static timeout(ms: number): AbortSignal;
+}
 
 // @public
-export class Aborter implements AbortSignalLike {
-    abort(): void;
+export class AbortError extends Error {
+    constructor(message?: string);
+}
+
+// @public
+export class AbortSignal implements AbortSignalLike {
+    constructor();
     readonly aborted: boolean;
     addEventListener(_type: "abort", listener: (this: AbortSignalLike, ev: any) => any): void;
-    getValue(key: string): string | number | boolean | null | undefined;
-    static readonly none: Aborter;
+    static readonly none: AbortSignal;
     onabort?: (ev?: Event) => any;
     removeEventListener(_type: "abort", listener: (this: AbortSignalLike, ev: any) => any): void;
-    static timeout(timeout: number): Aborter;
-    withTimeout(timeout: number): Aborter;
-    withValue(key: string, value?: string | number | boolean | null): Aborter;
+}
+
+// @public
+export interface AbortSignalLike {
+    readonly aborted: boolean;
+    addEventListener(type: "abort", listener: (this: AbortSignalLike, ev: any) => any, options?: any): void;
+    removeEventListener(type: "abort", listener: (this: AbortSignalLike, ev: any) => any, options?: any): void;
 }
 
 
