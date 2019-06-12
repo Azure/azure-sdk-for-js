@@ -82,17 +82,17 @@ describe("Keys client - restore keys and recover backups", () => {
     await client.createKey(keyName, "RSA");
     const backup = await client.backupKey(keyName);
     await client.deleteKey(keyName);
-    await delay(15000);
+    await delay(10000);
     await client.purgeDeletedKey(keyName);
-    await delay(15000);
+    await delay(10000);
     await client.restoreKey(backup);
-    await delay(15000);
+    await delay(10000);
     const getResult = await client.getKey(keyName);
     assert.equal(getResult.name, keyName, "Unexpected key name in result from getKey().");
   });
 
   it("fails to restore a key with a malformed backup", async () => {
-    const backup = new Buffer(8693);
+    const backup = Buffer.alloc(8693);
     let error;
     try {
       await client.restoreKey(backup);
