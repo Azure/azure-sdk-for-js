@@ -155,7 +155,7 @@ describe("Secret client - create, read, update and delete operations", () => {
     );
   });
 
-  it("can get Secret", async () => {
+  it("can get a secret", async () => {
     const secretName = getUniqueName("secret");
     const secretValue = getUniqueName("value");
     after(deleteSecretAfter(secretName));
@@ -257,7 +257,7 @@ describe("Secret client - create, read, update and delete operations", () => {
     const secretName = getUniqueName("secret");
     await client.setSecret(secretName, "RSA");
     await client.deleteSecret(secretName);
-    await delay(15000);
+    await delay(30000);
     const getResult = await client.getDeletedSecret(secretName);
     assert.equal(getResult.name, secretName, "Unexpected secret name in result from getSecret().");
     await client.purgeDeletedSecret(secretName);
