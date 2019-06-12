@@ -20,7 +20,7 @@ describe("Secret client - recover, backup and restore operations", () => {
 
   const deleteSecretAfter = (name) => async () => {
     await client.deleteSecret(name);
-    await delay(10000);
+    await delay(20000);
     await client.purgeDeletedSecret(name);
   };
 
@@ -45,7 +45,7 @@ describe("Secret client - recover, backup and restore operations", () => {
     after(deleteSecretAfter(secretName));
     await client.setSecret(secretName, "RSA");
     await client.deleteSecret(secretName);
-    await delay(10000);
+    await delay(20000);
     const getDeletedResult = await client.getDeletedSecret(secretName);
     assert.equal(
       getDeletedResult.name,
@@ -53,7 +53,7 @@ describe("Secret client - recover, backup and restore operations", () => {
       "Unexpected secret name in result from getSecret()."
     );
     await client.recoverDeletedSecret(secretName);
-    await delay(10000);
+    await delay(20000);
     const getResult = await client.getSecret(secretName);
     assert.equal(getResult.name, secretName, "Unexpected secret name in result from getSecret().");
   });
@@ -97,11 +97,11 @@ describe("Secret client - recover, backup and restore operations", () => {
     await client.setSecret(secretName, "RSA");
     const backup = await client.backupSecret(secretName);
     await client.deleteSecret(secretName);
-    await delay(10000);
+    await delay(20000);
     await client.purgeDeletedSecret(secretName);
-    await delay(10000);
+    await delay(20000);
     await client.restoreSecret(backup);
-    await delay(10000);
+    await delay(20000);
     const getResult = await client.getSecret(secretName);
     assert.equal(getResult.name, secretName, "Unexpected secret name in result from getSecret().");
   });

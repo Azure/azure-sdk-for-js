@@ -20,7 +20,7 @@ describe("Secret client - create, read, update and delete operations", () => {
 
   const deleteSecretAfter = (name) => async () => {
     await client.deleteSecret(name);
-    await delay(10000);
+    await delay(20000);
     await client.purgeDeletedSecret(name);
   };
 

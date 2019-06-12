@@ -20,7 +20,7 @@ describe("Secret client - list operations", () => {
 
   const deleteSecretAfter = (name) => async () => {
     await client.deleteSecret(name);
-    await delay(10000);
+    await delay(20000);
     await client.purgeDeletedSecret(name);
   };
 
@@ -46,7 +46,7 @@ describe("Secret client - list operations", () => {
     after(async () => {
       for (let name of secretNames) {
         await client.deleteSecret(name);
-        await delay(10000);
+        await delay(20000);
         await client.purgeDeletedSecret(name);
       }
     });
@@ -62,7 +62,7 @@ describe("Secret client - list operations", () => {
       found += 1;
     }
 
-    assert.equal(found, 2, "Unexpected number of secrets found by getAllSecrets.");
+    assert.equal(found, 2, "Unexpected number of secrets found by getSecrets.");
   });
 
   it("can list deleted secrets", async () => {
@@ -75,6 +75,8 @@ describe("Secret client - list operations", () => {
       await client.deleteSecret(name);
     }
 
+    await delay(20000);
+
     let found = 0;
     for await (const secret of client.getDeletedSecrets()) {
       // The vault might contain more secrets than the ones we inserted.
@@ -82,7 +84,7 @@ describe("Secret client - list operations", () => {
       found += 1;
     }
 
-    assert.equal(found, 2, "Unexpected number of secrets found by getAllSecrets.");
+    assert.equal(found, 2, "Unexpected number of secrets found by getDeletedSecrets.");
 
     for (let name of secretNames) {
       await client.purgeDeletedSecret(name);
