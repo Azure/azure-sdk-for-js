@@ -10,7 +10,7 @@ export interface PageSettings {
   /**
    * @member {number} [pageSize] The size of the page during paged iteration
    */
-  pageSize?: number,
+  maxPageSize?: number,
 }
 
 /**

@@ -27,7 +27,7 @@ async function main(): Promise<void> {
 
   // List the secrets we have, by page
   console.log("Listing secrets by page");
-  for await (let page of client.listSecrets().byPage({ pageSize: 2 })) {
+  for await (let page of client.listSecrets().byPage({ maxPageSize: 2 })) {
     for (const secretAttr of page) {
       const secret = await client.getSecret(secretAttr.name);
       console.log("secret: ", secret);

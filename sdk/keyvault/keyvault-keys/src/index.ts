@@ -514,7 +514,7 @@ export class KeysClient {
   private async *listKeyVersionsPage(name: string, continuationState: PageSettings, options?: ListKeysOptions): AsyncIterableIterator<KeyAttributes[]> {
     if (continuationState.continuationToken == null) {
       let optionsComplete: KeyVaultClientGetKeysOptionalParams = {
-        maxresults: continuationState.pageSize,
+        maxresults: continuationState.maxPageSize,
         ...(options && options.requestOptions ? options.requestOptions : {})
       };
       let currentSetResponse = await this.client.getKeyVersions(this.vaultBaseUrl, name, optionsComplete);
@@ -563,7 +563,7 @@ export class KeysClient {
   private async *listKeysPage(continuationState: PageSettings, options?: ListKeysOptions): AsyncIterableIterator<KeyAttributes[]> {
     if (continuationState.continuationToken == null) {
       let optionsComplete: KeyVaultClientGetKeysOptionalParams = {
-        maxresults: continuationState.pageSize,
+        maxresults: continuationState.maxPageSize,
         ...(options && options.requestOptions ? options.requestOptions : {})
       };
       let currentSetResponse = await this.client.getKeys(this.vaultBaseUrl, optionsComplete);
@@ -611,7 +611,7 @@ export class KeysClient {
   private async *listDeletedKeysPage(continuationState: PageSettings, options?: ListKeysOptions): AsyncIterableIterator<KeyAttributes[]> {
     if (continuationState.continuationToken == null) {
       let optionsComplete: KeyVaultClientGetKeysOptionalParams = {
-        maxresults: continuationState.pageSize,
+        maxresults: continuationState.maxPageSize,
         ...(options && options.requestOptions ? options.requestOptions : {})
       };
       let currentSetResponse = await this.client.getDeletedKeys(this.vaultBaseUrl, optionsComplete);

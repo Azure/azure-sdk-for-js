@@ -376,7 +376,7 @@ export class SecretsClient {
   private async *listSecretVersionsPage(secretName: string, continuationState: PageSettings, options?: ListSecretsOptions): AsyncIterableIterator<SecretAttributes[]> {
     if (continuationState.continuationToken == null) {
       let optionsComplete: KeyVaultClientGetSecretsOptionalParams = {
-        maxresults: continuationState.pageSize,
+        maxresults: continuationState.maxPageSize,
         ...(options && options.requestOptions ? options.requestOptions : {})
       };
       let currentSetResponse = await this.client.getSecretVersions(this.vaultBaseUrl, secretName, optionsComplete);
@@ -425,7 +425,7 @@ export class SecretsClient {
   private async *listSecretsPage(continuationState: PageSettings, options?: ListSecretsOptions): AsyncIterableIterator<SecretAttributes[]> {
     if (continuationState.continuationToken == null) {
       let optionsComplete: KeyVaultClientGetSecretsOptionalParams = {
-        maxresults: continuationState.pageSize,
+        maxresults: continuationState.maxPageSize,
         ...(options && options.requestOptions ? options.requestOptions : {})
       };
       let currentSetResponse = await this.client.getSecrets(this.vaultBaseUrl, optionsComplete);
@@ -473,7 +473,7 @@ export class SecretsClient {
   private async *listDeletedSecretsPage(continuationState: PageSettings, options?: ListSecretsOptions): AsyncIterableIterator<SecretAttributes[]> {
     if (continuationState.continuationToken == null) {
       let optionsComplete: KeyVaultClientGetSecretsOptionalParams = {
-        maxresults: continuationState.pageSize,
+        maxresults: continuationState.maxPageSize,
         ...(options && options.requestOptions ? options.requestOptions : {})
       };
       let currentSetResponse = await this.client.getDeletedSecrets(this.vaultBaseUrl, optionsComplete);
