@@ -12,7 +12,7 @@ import {
 } from "../src";
 import * as chai from "chai";
 import debugModule from "debug";
-const debug = debugModule("azure:amqp-common:retry-spec");
+const debug = debugModule("azure:core-http:retry-spec");
 const should = chai.should();
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -182,9 +182,7 @@ describe("retry function", function() {
         operation: async () => {
           debug("counter: %d", ++counter);
           await delay(200);
-          const e = new MessagingError(
-            "I would always like to fail, keep retrying."
-          );
+          const e = new MessagingError("I would always like to fail, keep retrying.");
           e.retryable = true;
           throw e;
         },
@@ -224,10 +222,7 @@ describe("retry function", function() {
         result.description.should.equal("OK");
         counter.should.equal(1);
       } catch (err) {
-        debug(
-          "An error occurred in a test that should have succeeded: %O",
-          err
-        );
+        debug("An error occurred in a test that should have succeeded: %O", err);
         throw err;
       }
     });
@@ -286,10 +281,7 @@ describe("retry function", function() {
         result.description.should.equal("OK");
         counter.should.equal(2);
       } catch (err) {
-        debug(
-          "An error occurred in a test that should have succeeded: %O",
-          err
-        );
+        debug("An error occurred in a test that should have succeeded: %O", err);
         throw err;
       }
     });
@@ -326,10 +318,7 @@ describe("retry function", function() {
         result.description.should.equal("OK");
         counter.should.equal(3);
       } catch (err) {
-        debug(
-          "An error occurred in a test that should have succeeded: %O",
-          err
-        );
+        debug("An error occurred in a test that should have succeeded: %O", err);
         throw err;
       }
     });

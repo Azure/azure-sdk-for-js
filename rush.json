@@ -311,8 +311,8 @@
     // },
     //
     {
-      "packageName": "@azure/amqp-common",
-      "projectFolder": "sdk/core/amqp-common"
+      "packageName": "@azure/core-amqp",
+      "projectFolder": "sdk/core/core-amqp"
     },
     {
       "packageName": "@azure/abort-controller",

@@ -7,24 +7,20 @@ import {
   CbsResponse,
   EventHubConnectionConfig
 } from "../src";
+import { TokenType } from "./../src/auth/token";
 import * as dotenv from "dotenv";
 dotenv.config(); // Optional for loading environment configuration from a .env (config) file
-import {
-  Sender,
-  SenderOptions,
-  EventContext,
-  Message,
-  Delivery
-} from "rhea-promise";
+import { Sender, SenderOptions, EventContext, Message, Delivery } from "rhea-promise";
 
-const str = process.env.CONNECTION_STRING || "";
-const path = process.env.ENTITY_PATH;
+const str =
+  "Endpoint=sb://shivangieventhubs.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=mHuzn4laFeLg25QlzhL7Fe0IfJzkEiqsTZZyAS2z12M=";
+const path = "test";
 const ehConnectionConfig = EventHubConnectionConfig.create(str, path);
 const parameters: CreateConnectionContextBaseParameters = {
   config: ehConnectionConfig,
   connectionProperties: {
     product: "MSJSClient",
-    userAgent: "/js-amqp-common",
+    userAgent: "/js-core-amqp",
     version: "0.1.0"
   }
 };
@@ -32,13 +28,14 @@ const connectionContext = ConnectionContextBase.create(parameters);
 
 async function authenticate(
   audience: string,
-  closeConnection = false
+  closeConnection: boolean = false
 ): Promise<CbsResponse> {
   await connectionContext.cbsSession.init();
-  const tokenObject = await connectionContext.tokenProvider.getToken(audience);
+  const tokenObject = await connectionContext.tokenCredential.getToken(audience);
   const result = await connectionContext.cbsSession.negotiateClaim(
     audience,
-    tokenObject
+    tokenObject,
+    TokenType.CbsTokenTypeSas
   );
   console.log("Result is: %O", result);
   if (closeConnection) {
@@ -80,23 +77,17 @@ async function main(): Promise<void> {
     }
   };
 
-  const sender: Sender = await connectionContext.connection.createSender(
-    senderOptions
-  );
+  const sender: Sender = await connectionContext.connection.createSender(senderOptions);
   const message: Message = {
     body: "Hello World!!",
     message_id: "12343434343434"
   };
 
   const delivery: Delivery = await sender.send(message);
-  console.log(
-    ">>>>>[%s] Delivery id: ",
-    connectionContext.connection.id,
-    delivery.id
-  );
+  console.log(">>>>>[%s] Delivery id: ", connectionContext.connection.id, delivery.id);
 
   await sender.close();
   await connectionContext.connection.close();
 }
 
-main().catch(err => console.log(err));
+main().catch((err) => console.log(err));

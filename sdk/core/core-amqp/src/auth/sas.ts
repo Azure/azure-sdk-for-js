@@ -1,20 +1,17 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import {
-  parseConnectionString,
-  ServiceBusConnectionStringModel
-} from "../util/utils";
-import { TokenInfo, TokenProvider, TokenType } from "./token";
+import { parseConnectionString, ServiceBusConnectionStringModel } from "../util/utils";
+import { TokenCredential, AccessToken } from "./token";
 import { Buffer } from "buffer";
 import isBuffer from "is-buffer";
 import jssha from "jssha";
 
 /**
- * @class SasTokenProvider
- * Defines the SasTokenProvider.
+ * @class SharedKeyCredential
+ * Defines the SharedKeyCredential .
  */
-export class SasTokenProvider implements TokenProvider {
+export class SharedKeyCredential implements TokenCredential {
   /**
    * @property {string} namespace - The namespace of the EventHub/ServiceBus instance.
    */
@@ -41,7 +38,7 @@ export class SasTokenProvider implements TokenProvider {
   tokenValidTimeInSeconds: number;
 
   /**
-   * Initializes a new instance of SasTokenProvider
+   * Initializes a new instance of SharedKeyCredential
    * @constructor
    * @param {string} namespace - The namespace of the EventHub/ServiceBus instance.
    * @param {string} keyName - The name of the EventHub/ServiceBus key.
@@ -60,9 +57,7 @@ export class SasTokenProvider implements TokenProvider {
     this.tokenValidTimeInSeconds = tokenValidTimeInSeconds || 3600;
     this.tokenRenewalMarginInSeconds = tokenRenewalMarginInSeconds || 900;
     if (this.tokenValidTimeInSeconds <= this.tokenRenewalMarginInSeconds) {
-      throw new Error(
-        "tokenRenewalMarginInSeconds must be less than tokenValidTimeInSeconds"
-      );
+      throw new Error("tokenRenewalMarginInSeconds must be less than tokenValidTimeInSeconds");
     }
   }
 
@@ -71,7 +66,10 @@ export class SasTokenProvider implements TokenProvider {
    * @param {string} [audience] - The audience for which the token is desired. If not
    * provided then the Endpoint from the connection string will be applied.
    */
-  async getToken(audience?: string): Promise<TokenInfo> {
+  async getToken(audience: string | string[], requestOptions?: any): Promise<AccessToken | null> {
+    if (typeof audience !== "string") {
+      throw new Error("audience must be of type string");
+    }
     return this._createToken(
       Math.floor(Date.now() / 1000) + this.tokenValidTimeInSeconds,
       audience
@@ -90,7 +88,7 @@ export class SasTokenProvider implements TokenProvider {
     expiry: number,
     audience?: string,
     hashInput?: string | Buffer
-  ): TokenInfo {
+  ): AccessToken {
     if (!audience) audience = this.namespace;
     audience = encodeURIComponent(audience);
     const keyName = encodeURIComponent(this.keyName);
@@ -109,8 +107,7 @@ export class SasTokenProvider implements TokenProvider {
     const sig = encodeURIComponent(shaObj.getHMAC("B64"));
     return {
       token: `SharedAccessSignature sr=${audience}&sig=${sig}&se=${expiry}&skn=${keyName}`,
-      tokenType: TokenType.CbsTokenTypeSas,
-      expiry: expiry
+      expiresOn: expiry
     };
   }
 
@@ -118,11 +115,9 @@ export class SasTokenProvider implements TokenProvider {
    * Creates a token provider from the EventHub/ServiceBus connection string;
    * @param {string} connectionString - The EventHub/ServiceBus connection string
    */
-  static fromConnectionString(connectionString: string): SasTokenProvider {
-    const parsed = parseConnectionString<ServiceBusConnectionStringModel>(
-      connectionString
-    );
-    return new SasTokenProvider(
+  static fromConnectionString(connectionString: string): SharedKeyCredential {
+    const parsed = parseConnectionString<ServiceBusConnectionStringModel>(connectionString);
+    return new SharedKeyCredential(
       parsed.Endpoint,
       parsed.SharedAccessKeyName,
       parsed.SharedAccessKey

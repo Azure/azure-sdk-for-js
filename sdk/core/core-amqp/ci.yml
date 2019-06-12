@@ -9,9 +9,9 @@ pr:
       - master
   paths:
     include:
-      - sdk/core/amqp-common/
+      - sdk/core/core-amqp/
 
 jobs:
   - template: ../../../eng/pipelines/templates/jobs/archetype-sdk-client.yml
     parameters:
-      PackageName: "@azure/amqp-common"
+      PackageName: "@azure/core-amqp"

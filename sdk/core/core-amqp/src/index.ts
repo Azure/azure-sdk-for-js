@@ -6,10 +6,9 @@
 export { RequestResponseLink, SendRequestOptions } from "./requestResponseLink";
 export { retry, RetryConfig, RetryOperationType } from "./retry";
 export { DataTransformer, DefaultDataTransformer } from "./dataTransformer";
-export { TokenType, TokenProvider, TokenInfo } from "./auth/token";
-export { SasTokenProvider } from "./auth/sas";
+export { TokenType, TokenCredential, AccessToken } from "./auth/token";
+export { SharedKeyCredential } from "./auth/sas";
 export { IotSasTokenProvider } from "./auth/iotSas";
-export * from "./index.node";
 
 export {
   ConnectionConfig,

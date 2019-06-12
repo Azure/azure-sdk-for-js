@@ -17,17 +17,19 @@
         "-t",
         "999999",
         "--colors",
-        "${workspaceFolder}/tests/requestResponse.spec.ts"
+        "${file}"
       ],
       "internalConsoleOptions": "openOnSessionStart",
+      "preLaunchTask": "npm: build:test",
       "envFile": "${workspaceFolder}/.env" // You can take a look at the sample.env file for supported environment variables.
     },
     {
       "type": "node",
       "request": "launch",
       "name": "Example",
-      "program": "${workspaceFolder}/examples/cbsAuth.ts",
-      "outFiles": ["${workspaceFolder}/dist/**/*.js"],
+      "program": "${file}",
+      "preLaunchTask": "npm: build:samples",
+      "outFiles": ["${workspaceFolder}/dist-esm/samples/*.js"],
       "envFile": "${workspaceFolder}/.env" // You can take a look at the sample.env file for supported environment variables.
     }
   ]

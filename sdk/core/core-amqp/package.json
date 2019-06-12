@@ -1,6 +1,6 @@
 {
-  "name": "@azure/amqp-common",
-  "version": "1.0.0-preview.5",
+  "name": "@azure/core-amqp",
+  "version": "1.0.0-preview.1",
   "description": "Common library for amqp based azure sdks like @azure/event-hubs.",
   "author": "Microsoft Corporation",
   "license": "MIT",
@@ -33,6 +33,7 @@
     "rhea-promise": "^0.1.15"
   },
   "devDependencies": {
+    "@azure/core-http": "^1.2.6",
     "@types/chai": "^4.1.6",
     "@types/chai-as-promised": "^7.1.0",
     "@types/debug": "^0.0.31",
@@ -93,6 +94,7 @@
   ],
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
+    "build:samples": "cd samples && tsc -p .",
     "build:test": "tsc -p . && rollup -c rollup.test.config.js 2>&1",
     "build": "tsc -p . && rollup -c 2>&1",
     "check-format": "prettier --list-different --config .prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
@@ -102,7 +104,7 @@
     "integration-test:node": "echo skipped",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "lint:fix": "eslint -c ../../.eslintrc.json src test samples --ext .ts --fix",
-    "lint": "eslint -c ../../.eslintrc.json src test samples --ext .ts -f node_modules/eslint-detailed-reporter/lib/detailed.js -o amqp-common-lintReport.html || exit 0",
+    "lint": "eslint -c ../../.eslintrc.json src test samples --ext .ts -f node_modules/eslint-detailed-reporter/lib/detailed.js -o core-amqp-lintReport.html || exit 0",
     "pack": "npm pack 2>&1",
     "prebuild": "npm run clean",
     "test:browser": "npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
@@ -112,7 +114,7 @@
     "unit-test:node": "cross-env TS_NODE_FILES=true TS_NODE_COMPILER_OPTIONS=\"{\\\"module\\\":\\\"commonjs\\\"}\" nyc --reporter=lcov --reporter=text-lcov mocha -r ts-node/register -t 50000 --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=- ./test/**/*.spec.ts",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/%40azure/amqp-common_1.0.0-preview.5/sdk/core/amqp-common",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/%40azure/core-amqp_1.0.0-preview.1/sdk/core/core-amqp",
   "repository": {
     "type": "git",
     "url": "https://github.com/azure/azure-sdk-for-js.git"

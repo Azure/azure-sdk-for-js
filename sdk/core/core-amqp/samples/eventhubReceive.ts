@@ -7,6 +7,7 @@ import {
   CbsResponse,
   EventHubConnectionConfig
 } from "../src";
+import { TokenType } from "./../src/auth/token";
 import * as dotenv from "dotenv";
 dotenv.config(); // Optional for loading environment configuration from a .env (config) file
 import {
@@ -25,7 +26,7 @@ const parameters: CreateConnectionContextBaseParameters = {
   config: ehConnectionConfig,
   connectionProperties: {
     product: "MSJSClient",
-    userAgent: "/js-amqp-common",
+    userAgent: "/js-core-amqp",
     version: "0.1.0"
   }
 };
@@ -33,13 +34,14 @@ const connectionContext = ConnectionContextBase.create(parameters);
 
 async function authenticate(
   audience: string,
-  closeConnection = false
+  closeConnection: boolean = false
 ): Promise<CbsResponse> {
   await connectionContext.cbsSession.init();
-  const tokenObject = await connectionContext.tokenProvider.getToken(audience);
+  const tokenObject = await connectionContext.tokenCredential.getToken(audience);
   const result = await connectionContext.cbsSession.negotiateClaim(
     audience,
-    tokenObject
+    tokenObject,
+    TokenType.CbsTokenTypeSas
   );
   console.log("Result is: %O", result);
   if (closeConnection) {
@@ -53,18 +55,14 @@ async function main(): Promise<void> {
   await authenticate(ehConnectionConfig.getReceiverAudience("0"));
   const receiverName = "receiver-1";
   // Get messages from the past hour
-  const filterClause = `amqp.annotation.x-opt-enqueued-time > '${Date.now() -
-    3600 * 1000}'`;
+  const filterClause = `amqp.annotation.x-opt-enqueued-time > '${Date.now() - 3600 * 1000}'`;
   const receiverAddress = ehConnectionConfig.getReceiverAddress("0");
   const receiverOptions: ReceiverOptions = {
     name: receiverName,
     source: {
       address: receiverAddress,
       filter: {
-        "apache.org:selector-filter:string": types.wrap_described(
-          filterClause,
-          0x468c00000004
-        )
+        "apache.org:selector-filter:string": types.wrap_described(filterClause, 0x468c00000004)
       }
     },
     onSessionError: (context: EventContext) => {
@@ -80,9 +78,7 @@ async function main(): Promise<void> {
     }
   };
 
-  const receiver: Receiver = await connectionContext.connection.createReceiver(
-    receiverOptions
-  );
+  const receiver: Receiver = await connectionContext.connection.createReceiver(receiverOptions);
   receiver.on(ReceiverEvents.message, (context: EventContext) => {
     console.log("Received message: %O", context.message);
   });
@@ -103,4 +99,4 @@ async function main(): Promise<void> {
   await connectionContext.connection.close();
 }
 
-main().catch(err => console.log(err));
+main().catch((err) => console.log(err));

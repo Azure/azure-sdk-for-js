@@ -1,13 +1,14 @@
 dependencies:
+  '@azure/amqp-common': 1.0.0-preview.5
   '@azure/arm-servicebus': 0.1.0
   '@azure/event-hubs': 1.0.8
   '@azure/logger-js': 1.1.0
   '@azure/ms-rest-azure-js': 1.3.8
   '@azure/ms-rest-js': 1.8.12
   '@azure/ms-rest-nodeauth': 0.9.3
-  '@microsoft/api-extractor': 7.2.0
+  '@microsoft/api-extractor': 7.2.1
   '@rush-temp/abort-controller': 'file:projects/abort-controller.tgz'
-  '@rush-temp/amqp-common': 'file:projects/amqp-common.tgz'
+  '@rush-temp/core-amqp': 'file:projects/core-amqp.tgz'
   '@rush-temp/core-http': 'file:projects/core-http.tgz'
   '@rush-temp/cosmos': 'file:projects/cosmos.tgz'
   '@rush-temp/event-hubs': 'file:projects/event-hubs.tgz'
@@ -48,7 +49,7 @@ dependencies:
   '@types/sinon': 5.0.7
   '@types/tough-cookie': 2.3.5
   '@types/tunnel': 0.0.0
-  '@types/underscore': 1.8.18
+  '@types/underscore': 1.8.19
   '@types/uuid': 3.4.4
   '@types/webpack': 4.4.32
   '@types/webpack-dev-middleware': 2.0.2
@@ -72,7 +73,7 @@ dependencies:
   cross-env: 5.2.0
   death: 1.1.0
   debug: 3.2.6
-  delay: 4.2.0
+  delay: 4.3.0
   dotenv: 7.0.0
   es6-promise: 4.2.8
   eslint: 5.16.0
@@ -199,6 +200,49 @@ packages:
       rhea-promise: ^0.1.13
     resolution:
       integrity: sha512-B/HFWNbqAjFjhj8x/zlHcpuYtsr92l3ZVArJdumi2kpN2Di/h4g6GIa2JeQEDD+rkLa3oAR6zHKfJbGnybOmvg==
+  /@azure/amqp-common/1.0.0-preview.5:
+    dependencies:
+      '@azure/ms-rest-nodeauth': 0.9.3
+      '@types/async-lock': 1.1.1
+      '@types/is-buffer': 2.0.0
+      async-lock: 1.2.0
+      buffer: 5.2.1
+      debug: 3.2.6
+      events: 3.0.0
+      is-buffer: 2.0.3
+      jssha: 2.3.1
+      process: 0.11.10
+      stream-browserify: 2.0.2
+      tslib: 1.10.0
+      url: 0.11.0
+      util: 0.11.1
+    dev: false
+    peerDependencies:
+      rhea-promise: ^0.1.15
+    resolution:
+      integrity: sha512-ICtYUGzkrOEia7DN3t5znbPucZB7RAUHVuNwuJ0GvnLPXflZggMOxCt5s+fKupZ5xzRVzsC27lFZX52f3Wpg4Q==
+  /@azure/amqp-common/1.0.0-preview.5_rhea-promise@0.1.15:
+    dependencies:
+      '@azure/ms-rest-nodeauth': 0.9.3
+      '@types/async-lock': 1.1.1
+      '@types/is-buffer': 2.0.0
+      async-lock: 1.2.0
+      buffer: 5.2.1
+      debug: 3.2.6
+      events: 3.0.0
+      is-buffer: 2.0.3
+      jssha: 2.3.1
+      process: 0.11.10
+      rhea-promise: 0.1.15
+      stream-browserify: 2.0.2
+      tslib: 1.10.0
+      url: 0.11.0
+      util: 0.11.1
+    dev: false
+    peerDependencies:
+      rhea-promise: ^0.1.15
+    resolution:
+      integrity: sha512-ICtYUGzkrOEia7DN3t5znbPucZB7RAUHVuNwuJ0GvnLPXflZggMOxCt5s+fKupZ5xzRVzsC27lFZX52f3Wpg4Q==
   /@azure/arm-servicebus/0.1.0:
     dependencies:
       '@azure/ms-rest-azure-js': 1.3.8
@@ -348,11 +392,11 @@ packages:
     dev: false
     resolution:
       integrity: sha512-LYMnA1cB2W3YuCOAFruNvnQBZ64OzEnsHxzcxclBhTcUGag6NrtGnip90AVTvVzFlXDLoT7trvPEenlWflWZFQ==
-  /@microsoft/api-extractor/7.2.0:
+  /@microsoft/api-extractor/7.2.1:
     dependencies:
       '@microsoft/api-extractor-model': 7.2.0
       '@microsoft/node-core-library': 3.13.0
-      '@microsoft/ts-command-line': 4.2.5
+      '@microsoft/ts-command-line': 4.2.6
       '@microsoft/tsdoc': 0.12.9
       colors: 1.2.5
       lodash: 4.17.11
@@ -362,7 +406,7 @@ packages:
     dev: false
     hasBin: true
     resolution:
-      integrity: sha512-buZdMq/4HOWizrOMb/SNiq1sPwP9GBDbWrz2AoI+4bnZfyH77LKtmuWhQsow9X0Hlysc+wdyDoVLphM1C4DbYQ==
+      integrity: sha512-ClUKSplAoeVMQntRR+bydS+MziJ8EK44RzELVvNpjtV7L2+1SalafsOw5qo4kL1qcsSh1ZFB2NoO9EzfDSP7/g==
   /@microsoft/node-core-library/3.13.0:
     dependencies:
       '@types/fs-extra': 5.0.4
@@ -376,7 +420,7 @@ packages:
     dev: false
     resolution:
       integrity: sha512-mnsL/1ikVWHl8sPNssavaAgtUaIM3hkQ8zeySuApU5dNmsMPzovJPfx9m5JGiMvs1v5QNAIVeiS9jnWwe/7anw==
-  /@microsoft/ts-command-line/4.2.5:
+  /@microsoft/ts-command-line/4.2.6:
     dependencies:
       '@types/argparse': 1.0.33
       '@types/node': 8.5.8
@@ -384,7 +428,7 @@ packages:
       colors: 1.2.5
     dev: false
     resolution:
-      integrity: sha512-QyTfbfpx6o+1cnjx5GubqKSRMDxBBMXABSa8wmqRa/A1K99FEBZfLIO6GmaY0s7rNYEchfR1VcVS/hV2VW+6hw==
+      integrity: sha512-GFLPg9Z5yiNca3di/V6Zt3tAvj1de9EK0eL88tE+1eckQSH405UQcm7D+H8LbEhRpqpG+ZqN9LXCAEw4L5uchg==
   /@microsoft/tsdoc/0.12.9:
     dev: false
     resolution:
@@ -585,10 +629,10 @@ packages:
     dev: false
     resolution:
       integrity: sha512-OthuN+2FuzfZO3yONJ/QVjKmLEuRagS9TV9lEId+WHL9KhftYG+/2z+pxlr0UgVVXSpVD8woie/3fzQn8ft/Ow==
-  /@types/node/12.0.7:
+  /@types/node/12.0.8:
     dev: false
     resolution:
-      integrity: sha512-1YKeT4JitGgE4SOzyB9eMwO0nGVNkNEsm9qlIt1Lqm/tG2QEiSMTD4kS3aO6L+w5SClLVxALmIBESK6Mk5wX0A==
+      integrity: sha512-b8bbUOTwzIY3V5vDTY1fIJ+ePKDUBqt2hC2woVGotdQQhG/2Sh62HOKHrT7ab+VerXAcPyAiTEipPu/FsreUtg==
   /@types/node/8.10.49:
     dev: false
     resolution:
@@ -654,10 +698,10 @@ packages:
     dev: false
     resolution:
       integrity: sha512-SudIN9TRJ+v8g5pTG8RRCqfqTMNqgWCKKd3vtynhGzkIIjxaicNAMuY5TRadJ6tzDu3Dotf3ngaMILtmOdmWEQ==
-  /@types/underscore/1.8.18:
+  /@types/underscore/1.8.19:
     dev: false
     resolution:
-      integrity: sha512-mXQ8u416FWMPjp2zWrcVmOZtzKQM6IeyVcuE+RGF/04JLBrMjfnmNKn74VN8fIkFzU97TpzkP0ny0p0h65eC7w==
+      integrity: sha512-9r6zM91/lTnSYTEJbxf7FwgeVXzRZDegaGPXF+Bp0MSMYTTI2UvQPkoti/YE9ZWThU+0DMya6l9XePvOPBLKow==
   /@types/uuid/3.4.4:
     dependencies:
       '@types/node': 8.10.49
@@ -2217,7 +2261,7 @@ packages:
   /browserslist/3.2.8:
     dependencies:
       caniuse-lite: 1.0.30000974
-      electron-to-chromium: 1.3.155
+      electron-to-chromium: 1.3.158
     dev: false
     hasBin: true
     resolution:
@@ -3168,12 +3212,12 @@ packages:
       node: '>=0.10.0'
     resolution:
       integrity: sha512-jwK2UV4cnPpbcG7+VRARKTZPUWowwXA8bzH5NP6ud0oeAxyYPuGZUAC7hMugpCdz4BeSZl2Dl9k66CHJ/46ZYQ==
-  /delay/4.2.0:
+  /delay/4.3.0:
     dev: false
     engines:
       node: '>=6'
     resolution:
-      integrity: sha512-EBX+pZE4qSowGAMr6M0cLiPRQu2Kus/qTNLO7c+EoXpTPJH9ApFdHX+cQU1WsSHXgwhLyidfZ5Hxuq6ctWhSdw==
+      integrity: sha512-Lwaf3zVFDMBop1yDuFZ19F9WyGcZcGacsbdlZtWjQmM50tOcMntm1njF/Nb/Vjij3KaSvCF+sEYGKrrjObu2NA==
   /delayed-stream/1.0.0:
     dev: false
     engines:
@@ -3313,10 +3357,10 @@ packages:
     dev: false
     resolution:
       integrity: sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=
-  /electron-to-chromium/1.3.155:
+  /electron-to-chromium/1.3.158:
     dev: false
     resolution:
-      integrity: sha512-/ci/XgZG8jkLYOgOe3mpJY1onxPPTDY17y7scldhnSjjZqV6VvREG/LvwhRuV7BJbnENFfuDWZkSqlTh4x9ZjQ==
+      integrity: sha512-wJsJaWsViNQ129XPGmyO5gGs1jPMHr9vffjHAhUje1xZbEzQcqbENdvfyRD9q8UF0TgFQFCCUbaIpJarFbvsIg==
   /elliptic/6.4.1:
     dependencies:
       bn.js: 4.11.8
@@ -6809,7 +6853,7 @@ packages:
       node: '>= 6.0'
     resolution:
       integrity: sha512-b47OWj1qf/LqSQYnmokNWM8D88KvUl2y7jT0567NB3ZBAZFz2bWp2PC81Xn7u8F2/vJxzkzNZybnemeFa7AZ2w==
-  /node-libs-browser/2.2.0:
+  /node-libs-browser/2.2.1:
     dependencies:
       assert: 1.5.0
       browserify-zlib: 0.2.0
@@ -6821,7 +6865,7 @@ packages:
       events: 3.0.0
       https-browserify: 1.0.0
       os-browserify: 0.3.0
-      path-browserify: 0.0.0
+      path-browserify: 0.0.1
       process: 0.11.10
       punycode: 1.4.1
       querystring-es3: 0.2.1
@@ -6833,10 +6877,10 @@ packages:
       tty-browserify: 0.0.0
       url: 0.11.0
       util: 0.11.1
-      vm-browserify: 0.0.4
+      vm-browserify: 1.1.0
     dev: false
     resolution:
-      integrity: sha512-5MQunG/oyOaBdttrL40dA7bUfPORLRWMUJLQtMg7nluxUvk5XwnLdL9twQHFAjRx/y7mIMkLKT9++qPbbk6BZA==
+      integrity: sha512-h/zcD8H9kaDZ9ALUWwlBUDo6TKF8a7qBSCSEGfjTVIYeqsioSKaAX+BN7NgiMGp6iSIXZ3PxgCu8KS3b71YK5Q==
   /nopt/1.0.10:
     dependencies:
       abbrev: 1.1.1
@@ -7326,10 +7370,10 @@ packages:
       node: '>=0.10.0'
     resolution:
       integrity: sha1-s2PlXoAGym/iF4TS2yK9FdeRfxQ=
-  /path-browserify/0.0.0:
+  /path-browserify/0.0.1:
     dev: false
     resolution:
-      integrity: sha1-oLhwcpquIUAFt9UDLsLLuw+0RRo=
+      integrity: sha512-BapA40NHICOS+USX9SN4tyhq+A2RrN/Ws5F0Z5aMHDp98Fl86lX8Oti8B7uN93L4Ifv4fHOEA+pQw87gmMO/lQ==
   /path-browserify/1.0.0:
     dev: false
     resolution:
@@ -8345,7 +8389,7 @@ packages:
   /rollup/1.13.1:
     dependencies:
       '@types/estree': 0.0.39
-      '@types/node': 12.0.7
+      '@types/node': 12.0.8
       acorn: 6.1.1
     dev: false
     hasBin: true
@@ -9960,12 +10004,10 @@ packages:
     dev: false
     resolution:
       integrity: sha512-DRibZL6DsNhIgYQ+wNdWDL2SL3bKPlVrRiBqV5yuMm++op8W4kGFtaQfCs4KEJn0wBZcHVHJ3eoywX8983k1ow==
-  /vm-browserify/0.0.4:
-    dependencies:
-      indexof: 0.0.1
+  /vm-browserify/1.1.0:
     dev: false
     resolution:
-      integrity: sha1-XX6kW7755Kb/ZflUOOCofDV9WnM=
+      integrity: sha512-iq+S7vZJE60yejDYM0ek6zg308+UZsdtPExWP9VZoCFCz1zkJoXFnAX7aZfd/ZwrkidzdUZL0C/ryW+JwAiIGw==
   /void-elements/2.0.1:
     dev: false
     engines:
@@ -10090,7 +10132,7 @@ packages:
       micromatch: 3.1.10
       mkdirp: 0.5.1
       neo-async: 2.6.1
-      node-libs-browser: 2.2.0
+      node-libs-browser: 2.2.1
       schema-utils: 1.0.0
       tapable: 1.1.3
       terser-webpack-plugin: 1.3.0
@@ -10435,12 +10477,12 @@ packages:
   'file:projects/abort-controller.tgz':
     dependencies:
       '@azure/ms-rest-js': 1.8.12
-      '@microsoft/api-extractor': 7.2.0
+      '@microsoft/api-extractor': 7.2.1
       '@types/mocha': 5.2.7
       '@types/node': 8.10.49
       assert: 1.5.0
       cross-env: 5.2.0
-      delay: 4.2.0
+      delay: 4.3.0
       karma: 4.1.0
       karma-chrome-launcher: 2.2.0
       karma-coverage: 1.1.2
@@ -10473,7 +10515,7 @@ packages:
       integrity: sha512-braPC6VqbapK+e77bBshYA4+iTY4r5N0IJeLe/VypdKC6tboiYS/jhD0nXdKZ+X+6JvX1B8bNtuq1KfruSEwTA==
       tarball: 'file:projects/abort-controller.tgz'
     version: 0.0.0
-  'file:projects/amqp-common.tgz':
+  'file:projects/core-amqp.tgz':
     dependencies:
       '@azure/ms-rest-nodeauth': 0.9.3
       '@types/async-lock': 1.1.1
@@ -10539,10 +10581,10 @@ packages:
       util: 0.11.1
       ws: 6.2.1
     dev: false
-    name: '@rush-temp/amqp-common'
+    name: '@rush-temp/core-amqp'
     resolution:
-      integrity: sha512-xcVwY6A/5WKnqVGYSo/I/0JFiRhHlHQCnlVUA7xtH+gXc8fz7R8mLFe96ww01PGE7p/7N60sZdcOoo/+/wfbWg==
-      tarball: 'file:projects/amqp-common.tgz'
+      integrity: sha512-jaXJJw2oSCEszmRY0d3m70ZrrRomNDy1pg9duuent0IIU14Q3F7fdA/GM2SdxiboYXRejRK/OIYkNDveBzW7cA==
+      tarball: 'file:projects/core-amqp.tgz'
     version: 0.0.0
   'file:projects/core-http.tgz':
     dependencies:
@@ -10628,7 +10670,7 @@ packages:
       '@types/semaphore': 1.1.0
       '@types/sinon': 5.0.7
       '@types/tunnel': 0.0.0
-      '@types/underscore': 1.8.18
+      '@types/underscore': 1.8.19
       binary-search-bounds: 2.0.3
       create-hmac: 1.1.7
       execa: 1.0.0
@@ -10658,8 +10700,9 @@ packages:
     version: 0.0.0
   'file:projects/event-hubs.tgz':
     dependencies:
+      '@azure/amqp-common': 1.0.0-preview.5_rhea-promise@0.1.15
       '@azure/ms-rest-nodeauth': 0.9.3
-      '@microsoft/api-extractor': 7.2.0
+      '@microsoft/api-extractor': 7.2.1
       '@types/async-lock': 1.1.1
       '@types/chai': 4.1.7
       '@types/chai-as-promised': 7.1.0
@@ -10728,13 +10771,13 @@ packages:
     dev: false
     name: '@rush-temp/event-hubs'
     resolution:
-      integrity: sha512-LbUoTjUGRhqKTVIx2ZmFa5UKB+aNg4XjU7S32vJwoL3EZtNJ5IqS5lzIxDS1COXS6sdsvbRCNmWUqFnPqaGyrA==
+      integrity: sha512-FDeYw2H11TTllpV51s+RVeERDYN6BsdZQPnjPSud9X4nTOhCrRndsPg6aZZ6KgG/Q6qEyI7kbWjesBzO3e7VlQ==
       tarball: 'file:projects/event-hubs.tgz'
     version: 0.0.0
   'file:projects/event-processor-host.tgz':
     dependencies:
       '@azure/event-hubs': 1.0.8
-      '@microsoft/api-extractor': 7.2.0
+      '@microsoft/api-extractor': 7.2.1
       '@types/async-lock': 1.1.1
       '@types/chai': 4.1.7
       '@types/chai-as-promised': 7.1.0
@@ -10849,7 +10892,7 @@ packages:
       '@azure/ms-rest-azure-js': 1.3.8
       '@azure/ms-rest-js': 1.8.12
       '@azure/ms-rest-nodeauth': 0.9.3
-      '@microsoft/api-extractor': 7.2.0
+      '@microsoft/api-extractor': 7.2.1
       '@types/chai': 4.1.7
       '@types/mocha': 5.2.7
       chai: 4.2.0
@@ -10895,9 +10938,10 @@ packages:
     version: 0.0.0
   'file:projects/service-bus.tgz':
     dependencies:
+      '@azure/amqp-common': 1.0.0-preview.5_rhea-promise@0.1.15
       '@azure/arm-servicebus': 0.1.0
       '@azure/ms-rest-nodeauth': 0.9.3
-      '@microsoft/api-extractor': 7.2.0
+      '@microsoft/api-extractor': 7.2.1
       '@types/async-lock': 1.1.1
       '@types/chai': 4.1.7
       '@types/chai-as-promised': 7.1.0
@@ -10916,7 +10960,7 @@ packages:
       chai-as-promised: 7.1.1_chai@4.2.0
       cross-env: 5.2.0
       debug: 3.2.6
-      delay: 4.2.0
+      delay: 4.3.0
       dotenv: 7.0.0
       eslint: 5.16.0
       eslint-config-prettier: 4.3.0_eslint@5.16.0
@@ -10968,13 +11012,13 @@ packages:
     dev: false
     name: '@rush-temp/service-bus'
     resolution:
-      integrity: sha512-cbQuY8SKq4jAYXFDhrg/vHDtgVbDGla1Qgdw+WBITIHlg/yabshRx58dciaeyMgoOWyAm8UlzHKhGQpFWZIEPA==
+      integrity: sha512-9T8vw6mBB+PAEJfl6+b65dyWaBNm2Kwlc+KCNXqxI3LCeGpUk9QFWm+4Ff+TN+py9SPGazUJVuJVqzIaTY8JDQ==
       tarball: 'file:projects/service-bus.tgz'
     version: 0.0.0
   'file:projects/storage-blob.tgz':
     dependencies:
       '@azure/ms-rest-js': 1.8.12
-      '@microsoft/api-extractor': 7.2.0
+      '@microsoft/api-extractor': 7.2.1
       '@types/dotenv': 6.1.1
       '@types/mocha': 5.2.7
       '@types/node': 8.10.49
@@ -11060,7 +11104,7 @@ packages:
   'file:projects/storage-file.tgz':
     dependencies:
       '@azure/ms-rest-js': 1.8.12
-      '@microsoft/api-extractor': 7.2.0
+      '@microsoft/api-extractor': 7.2.1
       '@types/dotenv': 6.1.1
       '@types/mocha': 5.2.7
       '@types/node': 8.10.49
@@ -11121,7 +11165,7 @@ packages:
   'file:projects/storage-queue.tgz':
     dependencies:
       '@azure/ms-rest-js': 1.8.12
-      '@microsoft/api-extractor': 7.2.0
+      '@microsoft/api-extractor': 7.2.1
       '@types/dotenv': 6.1.1
       '@types/fs-extra': 7.0.0
       '@types/mocha': 5.2.7
@@ -11190,7 +11234,7 @@ packages:
   'file:projects/template.tgz':
     dependencies:
       '@azure/ms-rest-js': 1.8.12
-      '@microsoft/api-extractor': 7.2.0
+      '@microsoft/api-extractor': 7.2.1
       '@types/mocha': 5.2.7
       '@types/node': 8.10.49
       '@typescript-eslint/eslint-plugin': 1.9.0_eslint@5.16.0+typescript@3.5.1
@@ -11255,6 +11299,7 @@ packages:
     version: 0.0.0
 registry: ''
 specifiers:
+  '@azure/amqp-common': ^1.0.0-preview.5
   '@azure/arm-servicebus': ^0.1.0
   '@azure/event-hubs': ^1.0.6
   '@azure/logger-js': ^1.0.2
@@ -11263,7 +11308,7 @@ specifiers:
   '@azure/ms-rest-nodeauth': ^0.9.2
   '@microsoft/api-extractor': ^7.1.5
   '@rush-temp/abort-controller': 'file:./projects/abort-controller.tgz'
-  '@rush-temp/amqp-common': 'file:./projects/amqp-common.tgz'
+  '@rush-temp/core-amqp': 'file:./projects/core-amqp.tgz'
   '@rush-temp/core-http': 'file:./projects/core-http.tgz'
   '@rush-temp/cosmos': 'file:./projects/cosmos.tgz'
   '@rush-temp/event-hubs': 'file:./projects/event-hubs.tgz'
