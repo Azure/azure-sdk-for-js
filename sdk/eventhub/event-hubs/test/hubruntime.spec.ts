@@ -11,6 +11,7 @@ import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 const env = getEnvVars();
 
 import { EventHubClient } from "../src";
+import { AbortController } from "@azure/abort-controller";
 describe("RuntimeInformation #RunnableInBrowser", function(): void {
   let client: EventHubClient;
   const service = {
@@ -52,6 +53,20 @@ describe("RuntimeInformation #RunnableInBrowser", function(): void {
     hubRuntimeInfo.createdAt.should.be.instanceof(Date);
   });
 
+  it("can cancel a request for hub runtime information", async function(): Promise<void> {
+    client = EventHubClient.createFromConnectionString(service.connectionString!, service.path, {
+      userAgent: "/js-event-processor-host=0.2.0"
+    });
+    try {
+      const controller = new AbortController();
+      setTimeout(() => controller.abort(), 1);
+      await client.getProperties(controller.signal);
+      throw new Error(`Test failure`);
+    } catch (err) {
+      err.message.should.match(/The [\w]+ operation has been cancelled by the user.$/gi);
+    }
+  });
+
   it("gets the partition runtime information with partitionId as a string", async function(): Promise<void> {
     client = EventHubClient.createFromConnectionString(service.connectionString!, service.path);
     const partitionRuntimeInfo = await client.getPartitionInformation("0");
@@ -72,6 +87,18 @@ describe("RuntimeInformation #RunnableInBrowser", function(): void {
     partitionRuntimeInfo.lastEnqueuedTimeUtc.should.be.instanceof(Date);
     should.exist(partitionRuntimeInfo.lastEnqueuedSequenceNumber);
     should.exist(partitionRuntimeInfo.lastEnqueuedOffset);
+  });
+
+  it("can cancel a request for getPartitionInformation", async function(): Promise<void> {
+    client = EventHubClient.createFromConnectionString(service.connectionString!, service.path);
+    try {
+      const controller = new AbortController();
+      setTimeout(() => controller.abort(), 1);
+      await client.getPartitionInformation("0", controller.signal);
+      throw new Error(`Test failure`);
+    } catch (err) {
+      err.message.should.match(/The [\w]+ operation has been cancelled by the user.$/gi);
+    }
   });
 
   it("should fail the partition runtime information when partitionId is empty string", async function(): Promise<void> {

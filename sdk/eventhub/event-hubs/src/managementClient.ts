@@ -114,6 +114,9 @@ export class ManagementClient extends LinkEntity {
     retryOptions?: RetryOptions;
     abortSignal?: AbortSignal;
   }): Promise<EventHubProperties> {
+    if (!options) {
+      options = {};
+    }
     const request: Message = {
       body: Buffer.from(JSON.stringify([])),
       message_id: uuid(),
@@ -125,7 +128,10 @@ export class ManagementClient extends LinkEntity {
       }
     };
 
-    const info: any = await this._makeManagementRequest(request, options);
+    const info: any = await this._makeManagementRequest(request, {
+      ...options,
+      requestName: "getHubRuntimeInformation"
+    });
     const runtimeInfo: EventHubProperties = {
       path: info.name,
       createdAt: new Date(info.created_at),
@@ -156,6 +162,9 @@ export class ManagementClient extends LinkEntity {
     partitionId: string | number,
     options?: { retryOptions?: RetryOptions; abortSignal?: AbortSignal }
   ): Promise<PartitionProperties> {
+    if (!options) {
+      options = {};
+    }
     const request: Message = {
       body: Buffer.from(JSON.stringify([])),
       message_id: uuid(),
@@ -168,7 +177,10 @@ export class ManagementClient extends LinkEntity {
       }
     };
 
-    const info: any = await this._makeManagementRequest(request, options);
+    const info: any = await this._makeManagementRequest(request, {
+      ...options,
+      requestName: "getPartitionInformation"
+    });
     const partitionInfo: PartitionProperties = {
       beginningSequenceNumber: info.begin_sequence_number,
       eventHubPath: info.name,
@@ -264,7 +276,7 @@ export class ManagementClient extends LinkEntity {
    */
   private async _makeManagementRequest(
     request: Message,
-    options?: { retryOptions?: RetryOptions; timeout?: number; abortSignal?: AbortSignal }
+    options?: { retryOptions?: RetryOptions; timeout?: number; abortSignal?: AbortSignal; requestName?: string }
   ): Promise<any> {
     try {
       log.mgmt("[%s] Acquiring lock to get the management req res link.", this._context.connectionId);
@@ -278,6 +290,8 @@ export class ManagementClient extends LinkEntity {
 
       const sendRequestOptions: SendRequestOptions = {
         times: options.retryOptions && options.retryOptions.retryCount,
+        abortSignal: options.abortSignal,
+        requestName: options.requestName,
         delayInSeconds:
           options.retryOptions && options.retryOptions.retryInterval
             ? options.retryOptions.retryInterval / 1000
