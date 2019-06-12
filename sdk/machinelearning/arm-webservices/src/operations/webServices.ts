@@ -85,7 +85,7 @@ export class WebServices {
    * @param [options] The optional parameters
    * @returns Promise<Models.WebServicesPatchResponse>
    */
-  patch(resourceGroupName: string, webServiceName: string, patchPayload: Models.WebService, options?: msRest.RequestOptionsBase): Promise<Models.WebServicesPatchResponse> {
+  patch(resourceGroupName: string, webServiceName: string, patchPayload: Models.PatchedWebService, options?: msRest.RequestOptionsBase): Promise<Models.WebServicesPatchResponse> {
     return this.beginPatch(resourceGroupName,webServiceName,patchPayload,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.WebServicesPatchResponse>;
   }
@@ -234,7 +234,7 @@ export class WebServices {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginPatch(resourceGroupName: string, webServiceName: string, patchPayload: Models.WebService, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginPatch(resourceGroupName: string, webServiceName: string, patchPayload: Models.PatchedWebService, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -499,7 +499,7 @@ const beginPatchOperationSpec: msRest.OperationSpec = {
   requestBody: {
     parameterPath: "patchPayload",
     mapper: {
-      ...Mappers.WebService,
+      ...Mappers.PatchedWebService,
       required: true
     }
   },
