@@ -62,7 +62,7 @@ describe("Secret client - list operations", () => {
       found += 1;
     }
 
-    assert.equal(found, 2, "Unexpected number of keys found by getAllSecrets.");
+    assert.equal(found, 2, "Unexpected number of secrets found by getAllSecrets.");
   });
 
   it("can list deleted secrets", async () => {
@@ -82,7 +82,7 @@ describe("Secret client - list operations", () => {
       found += 1;
     }
 
-    assert.equal(found, 2, "Unexpected number of keys found by getAllSecrets.");
+    assert.equal(found, 2, "Unexpected number of secrets found by getAllSecrets.");
 
     for (let name of secretNames) {
       await client.purgeDeletedSecret(name);
