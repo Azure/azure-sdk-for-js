@@ -199,9 +199,36 @@ export interface GetSecretOptions {
  * An interface representing optional parameters for SecretClient paged operations.
  * Optional Parameters.
  */
-export interface GetSecretsOptions {
+export interface ListSecretsOptions {
   /**
    * @member {msRest.RequestOptionsBase} [requestOptions] Options for this request
    */
   requestOptions?: msRest.RequestOptionsBase;
+}
+
+/**
+ * @interface
+ * An interface that tracks the settings for paged iteration
+ */
+export interface PageSettings {
+  /**
+   * @member {string} [continuationToken] The token that keeps track of where to continue the iterator
+   */
+  continuationToken?: string,
+  /**
+   * @member {number} [pageSize] The size of the page during paged iteration
+   */
+  pageSize?: number,
+}
+
+export interface PagedAsyncIterableIterator<T> {
+  next(): Promise<{
+    done: boolean;
+    value: T;
+  } | {
+    done: boolean;
+    value: undefined;
+  }>;
+  [Symbol.asyncIterator](): PagedAsyncIterableIterator<T>;
+  byPage: (settings?: PageSettings) => AsyncIterableIterator<T[]>;
 }

@@ -45,6 +45,12 @@ export interface NewPipelineOptions {
     telemetry?: TelemetryOptions;
 }
 
+// @public
+export interface PageSettings {
+    continuationToken?: string;
+    pageSize?: number;
+}
+
 // @public (undocumented)
 export interface ParsedKeyVaultEntityIdentifier {
     name: string;
@@ -96,9 +102,10 @@ export class SecretsClient {
     static getDefaultPipeline(credential: ServiceClientCredentials, pipelineOptions?: NewPipelineOptions): AzureServiceClientOptions;
     getDeletedSecret(secretName: string, options?: RequestOptionsBase): Promise<DeletedSecret>;
     getSecret(secretName: string, options?: GetSecretOptions): Promise<Secret>;
-    listDeletedSecrets(options?: GetSecretsOptions): AsyncIterableIterator<Secret>;
-    listSecrets(options?: GetSecretsOptions): AsyncIterableIterator<SecretAttributes>;
-    listSecretVersions(secretName: string, options?: GetSecretsOptions): AsyncIterableIterator<SecretAttributes>;
+    listDeletedSecrets(options?: GetSecretsOptions): PagedAsyncIterableIterator<SecretAttributes>;
+    listSecrets(options?: GetSecretsOptions): PagedAsyncIterableIterator<SecretAttributes>;
+    // Warning: (ae-forgotten-export) The symbol "PagedAsyncIterableIterator" needs to be exported by the entry point index.d.ts
+    listSecretVersions(secretName: string, options?: GetSecretsOptions): PagedAsyncIterableIterator<SecretAttributes>;
     readonly pipeline: AzureServiceClientOptions;
     purgeDeletedSecret(secretName: string, options?: RequestOptionsBase): Promise<void>;
     recoverDeletedSecret(secretName: string, options?: RequestOptionsBase): Promise<Secret>;

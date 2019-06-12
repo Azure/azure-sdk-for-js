@@ -128,9 +128,9 @@ export class KeysClient {
     getDeletedKey(name: string, options?: RequestOptions): Promise<DeletedKey>;
     getKey(name: string, options?: GetKeyOptions): Promise<Key>;
     importKey(name: string, key: JsonWebKey, options?: ImportKeyOptions): Promise<Key>;
-    listDeletedKeys(options?: GetKeysOptions): AsyncIterableIterator<Key>;
-    listKeys(options?: GetKeysOptions): AsyncIterableIterator<KeyAttributes>;
-    listKeyVersions(name: string, options?: GetKeysOptions): AsyncIterableIterator<KeyAttributes>;
+    listDeletedKeys(options?: GetKeysOptions): PagedAsyncIterableIterator<KeyAttributes>;
+    listKeys(options?: GetKeysOptions): PagedAsyncIterableIterator<KeyAttributes>;
+    listKeyVersions(name: string, options?: GetKeysOptions): PagedAsyncIterableIterator<KeyAttributes>;
     readonly pipeline: AzureServiceClientOptions;
     purgeDeletedKey(name: string, options?: RequestOptions): Promise<void>;
     recoverDeletedKey(name: string, options?: RequestOptions): Promise<Key>;
@@ -150,6 +150,28 @@ export interface NewPipelineOptions {
     // (undocumented)
     retryOptions?: RetryOptions;
     telemetry?: TelemetryOptions;
+}
+
+// @public (undocumented)
+export interface PagedAsyncIterableIterator<T> {
+    // (undocumented)
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<T>;
+    // (undocumented)
+    byPage: (settings?: PageSettings) => AsyncIterableIterator<T[]>;
+    // (undocumented)
+    next(): Promise<{
+        done: boolean;
+        value: T;
+    } | {
+        done: boolean;
+        value: undefined;
+    }>;
+}
+
+// @public
+export interface PageSettings {
+    continuationToken?: string;
+    pageSize?: number;
 }
 
 // @public (undocumented)

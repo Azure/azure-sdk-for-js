@@ -18,28 +18,40 @@ async function main(): Promise<void> {
   );
 
   const client = new SecretsClient(url, credential);
+  const bankAccountSecretName = "BankAccountPassword15";
+  const storageAccountSecretName = "StorageAccountPassword15";
 
   // Create our secrets
-  await client.setSecret("BankAccountPassword", "ABC123");
-  await client.setSecret("StorageAccountPassword", "XYZ789");
+  await client.setSecret(bankAccountSecretName, "ABC123");
+  await client.setSecret(storageAccountSecretName, "XYZ789");
 
-  // List the secrets we have
+  // List the secrets we have, by page
+  console.log("Listing secrets by page");
+  for await (let page of client.listSecrets().byPage({ pageSize: 2 })) {
+    for (const secretAttr of page) {
+      const secret = await client.getSecret(secretAttr.name);
+      console.log("secret: ", secret);
+    }
+    console.log("--page--");
+  }
+
+  // List the secrets we have, all at once
+  console.log("Listing secrets all at once");
   for await (let secretAttr of client.listSecrets()) {
     const secret = await client.getSecret(secretAttr.name);
     console.log("secret: ", secret);
   }
 
-  await client.setSecret("BankAccountPassword", "ABC567");
+  await client.setSecret(bankAccountSecretName, "ABC567");
 
   // List the versions of BankAccountPassword
-  for await (let secretAttr of client.listSecretVersions("BankAccountPassword")) {
+  for await (let secretAttr of client.listSecretVersions(bankAccountSecretName)) {
     const secret = await client.getSecret(secretAttr.name);
     console.log("secret version: ", secret);
   }
 
-  await client.deleteSecret("BankAccountPassword");
-  await client.deleteSecret("StorageAccountPassword");
-
+  await client.deleteSecret(bankAccountSecretName);
+  await client.deleteSecret(storageAccountSecretName);
 }
 
 main().catch((err) => {
