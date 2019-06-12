@@ -71,23 +71,6 @@ export class AbortSignal implements AbortSignalLike {
   }
 
   /**
-   * Creates a new AbortSignal instance that will abort after the provided ms.
-   *
-   * @static
-   * @params {number} ms Elapsed time in milliseconds to trigger an abort.
-   * @returns {AbortSignal}
-   */
-  public static timeout(ms: number): AbortSignal {
-    const signal = new AbortSignal();
-    const timer = setTimeout(abortSignal, ms, signal);
-    // Prevent the active Timer from keeping the Node.js event loop active.
-    if (typeof timer.unref === "function") {
-      timer.unref();
-    }
-    return signal;
-  }
-
-  /**
    * onabort event listener.
    *
    * @memberof AbortSignal

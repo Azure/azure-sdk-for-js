@@ -1,4 +1,4 @@
-import { AbortSignal, abortSignal } from "./AbortSignal";
+import { AbortSignal, abortSignal, AbortSignalLike } from "./AbortSignal";
 
 /**
  * This error is thrown when an asynchronous operation has been aborted.
@@ -62,9 +62,19 @@ export class AbortController {
    * @param {AbortSignal} [parentSignal] The AbortSignal that will signal aborted on the AbortSignal associated with this controller.
    * @constructor
    */
-  constructor(parentSignal?: AbortSignal) {
+  constructor(parentSignals?: AbortSignalLike[]);
+  constructor(...parentSignals: AbortSignalLike[]);
+  constructor(parentSignals?: any) {
     this._signal = new AbortSignal();
-    if (parentSignal) {
+
+    if (!parentSignals) {
+      return;
+    }
+    // coerce parentSignals into an array
+    if (!Array.isArray(parentSignals)) {
+      parentSignals = arguments;
+    }
+    for (const parentSignal of parentSignals) {
       // if the parent signal has already had abort() called,
       // then call abort on this signal as well.
       if (parentSignal.aborted) {
@@ -98,5 +108,22 @@ export class AbortController {
    */
   abort() {
     abortSignal(this._signal);
+  }
+
+  /**
+   * Creates a new AbortSignal instance that will abort after the provided ms.
+   *
+   * @static
+   * @params {number} ms Elapsed time in milliseconds to trigger an abort.
+   * @returns {AbortSignal}
+   */
+  public static timeout(ms: number): AbortSignal {
+    const signal = new AbortSignal();
+    const timer = setTimeout(abortSignal, ms, signal);
+    // Prevent the active Timer from keeping the Node.js event loop active.
+    if (typeof timer.unref === "function") {
+      timer.unref();
+    }
+    return signal;
   }
 }
