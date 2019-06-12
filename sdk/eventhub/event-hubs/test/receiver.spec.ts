@@ -86,10 +86,11 @@ describe("EventHub Receiver", function(): void {
         debug("sent message - " + i);
       }
       debug("Creating new receiver with offset EndOfStream");
-      breceiver = BatchingReceiver.create((client as any)._context, partitionId, {
+
+      const data1 = await client.receiveBatch(partitionId, 10, 10, {
         eventPosition: EventPosition.fromEnd()
       });
-      const data1 = await breceiver.receive(10, 10);
+      // await breceiver.close();
       data1.length.should.equal(0, "Unexpected message received when using EventPosition.fromEnd()");
       // send a new message. We should only receive this new message.
       const uid = uuid();
@@ -99,26 +100,33 @@ describe("EventHub Receiver", function(): void {
           stamp: uid
         }
       };
+
+      const offset = (await client.getPartitionInformation(partitionId)).lastEnqueuedOffset;
       await client.send(ed, partitionId);
       debug(">>>>>>> Sent the new message after creating the receiver. We should only receive this message.");
-      const data2 = await breceiver.receive(10, 20);
+      const data2 = await client.receiveBatch(partitionId, 10, 20, {
+        eventPosition: EventPosition.fromOffset(offset)
+      });
       debug("received messages: ", data2);
       data2.length.should.equal(1, "Failed to receive the expected one single message");
       data2[0].applicationProperties!.stamp.should.equal(uid, "Message received with unexpected uid");
-      debug("Next receive on this partition should not receive any messages.");
-      const data3 = await breceiver.receive(10, 10);
+      debug("Next receive on this partition from end of stream should not receive any messages.");
+      const data3 = await client.receiveBatch(partitionId, 10, 10, {
+        eventPosition: EventPosition.fromEnd()
+      });
+      // await breceiver.close();
       data3.length.should.equal(0, "Unexpected message received");
     });
 
     it("'after a particular offset' should receive messages correctly ", async function(): Promise<void> {
       const partitionId = hubInfo.partitionIds[0];
-      const pInfo = await client.getPartitionInformation(partitionId);
+      let pInfo = await client.getPartitionInformation(partitionId);
       debug(`Creating new receiver with last enqueued offset: "${pInfo.lastEnqueuedOffset}".`);
-      breceiver = BatchingReceiver.create((client as any)._context, parseInt(partitionId), {
+
+      debug("Establishing the receiver link...");
+      const d = await client.receiveBatch(partitionId, 10, 10, {
         eventPosition: EventPosition.fromOffset(pInfo.lastEnqueuedOffset)
       });
-      debug("Establishing the receiver link...");
-      const d = await breceiver.receive(10, 10);
       d.length.should.equal(0);
       // send a new message. We should only receive this new message.
       const uid = uuid();
@@ -130,12 +138,17 @@ describe("EventHub Receiver", function(): void {
       };
       await client.send(ed, "0");
       debug("Sent the new message after creating the receiver. We should only receive this message.");
-      const data = await breceiver.receive(10, 20);
+      const data = await client.receiveBatch(partitionId, 10, 20, {
+        eventPosition: EventPosition.fromOffset(pInfo.lastEnqueuedOffset)
+      });
       debug("received messages: ", data);
       data.length.should.equal(1);
       data[0].applicationProperties!.stamp.should.equal(uid);
-      debug("Next receive on this partition should not receive any messages.");
-      const data2 = await breceiver.receive(10, 10);
+      debug("Next receive on this partition from next offset should not receive any messages.");
+      pInfo = await client.getPartitionInformation(partitionId);
+      const data2 = await client.receiveBatch(partitionId, 10, 10, {
+        eventPosition: EventPosition.fromOffset(pInfo.lastEnqueuedOffset)
+      });
       data2.length.should.equal(0);
     });
 
@@ -179,13 +192,12 @@ describe("EventHub Receiver", function(): void {
 
     it("'from a particular enqueued time' should receive messages correctly ", async function(): Promise<void> {
       const partitionId = hubInfo.partitionIds[0];
-      const pInfo = await client.getPartitionInformation(partitionId);
+      let pInfo = await client.getPartitionInformation(partitionId);
       debug(`Creating new receiver with last enqueued time: "${pInfo.lastEnqueuedTimeUtc}".`);
-      breceiver = BatchingReceiver.create((client as any)._context, partitionId, {
-        eventPosition: EventPosition.fromEnqueuedTime(pInfo.lastEnqueuedTimeUtc)
-      });
       debug("Establishing the receiver link...");
-      const d = await breceiver.receive(10, 10);
+      const d = await client.receiveBatch(partitionId, 10, 10, {
+        eventPosition: EventPosition.fromOffset(pInfo.lastEnqueuedOffset)
+      });
       d.length.should.equal(0, "Unexpected message received before sending any message");
       // send a new message. We should only receive this new message.
       const uid = uuid();
@@ -197,12 +209,17 @@ describe("EventHub Receiver", function(): void {
       };
       await client.send(ed, partitionId);
       debug("Sent the new message after creating the receiver. We should only receive this message.");
-      const data = await breceiver.receive(10, 20);
+      const data = await client.receiveBatch(partitionId, 10, 20, {
+        eventPosition: EventPosition.fromOffset(pInfo.lastEnqueuedOffset)
+      });
       debug("received messages: ", data);
       data.length.should.equal(1, "Failed to received the expected single message");
       data[0].applicationProperties!.stamp.should.equal(uid);
-      debug("Next receive on this partition should not receive any messages.");
-      const data2 = await breceiver.receive(10, 10);
+      debug("Next receive on this partition from next offset should not receive any messages.");
+      pInfo = await client.getPartitionInformation(partitionId);
+      const data2 = await client.receiveBatch(partitionId, 10, 10, {
+        eventPosition: EventPosition.fromOffset(pInfo.lastEnqueuedOffset)
+      });
       data2.length.should.equal(0, "Unexpected message received");
     });
 
