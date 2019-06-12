@@ -3,6 +3,9 @@ jobs:
     variables:
       - template: ../variables/globals.yml
 
+    pool:
+      vmImage: "ubuntu-16.04"
+
     steps:
       - task: NodeTool@0
         inputs:
