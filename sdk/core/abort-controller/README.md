@@ -1,7 +1,9 @@
 # Azure Abort Controller library for JS
 
-`AborterController` is used by the Azure SDK for JavaScript to abort pending work based on timeouts or other signals.
-`AbortSignal` is compatible with the `AbortSignal` used by the `fetch` API built into modern browsers.
+The `@azure/abort-controller` package provides `AbortController` and `AbortSignal` classes that are compatible
+with the `AbortController` built into modern browsers and the `AbortSignal` used by `fetch`.
+These classes are provided for use with APIs in the Azure SDK for JavaScript that accept an `AbortSignalLike`
+parameter to cancel an operation.
 
 ## Getting started
 
@@ -15,9 +17,21 @@ npm install @azure/abort-controller
 
 ## Key Concepts
 
-This library contains the `AbortController` and `AbortSignal` classes which are used by the Azure SDK for JavaScript
-to abort pending work based on timeouts or other signals.
-The `AbortSignal` class contains some static methods to simplify common use-cases, such as calling abort after a timeout.
+Use the `AbortController` to create an `AbortSignal` which can then be passed to Azure SDK operations to cancel
+pending work. The `AbortSignal` can be accessed via the `signal` property on an instantiated `AbortController`.
+An `AbortSignal` can also be returned directly from a static method, e.g. `AbortController.timeout(100)`.
+that is cancelled after 100 milliseconds.
+
+Calling `abort()` on the instantiated `AbortController` updates the associated `AbortSignal`.
+Any subsequent calls to `abort()` on the same controller will have no effect.
+
+The `AbortSignal.none` static property returns an `AbortSignal` that can not be aborted.
+Provde this to an Azure SDK method that requires an `abortSignal` if you don't wish to add custom abort logic.
+
+`AbortSignals` can also be linked so that when `abort()` is called on parent signal,
+it also fires on all child signals.
+This relationship is one-way, meaning that a parent signal can affect a child signal, but not the other way around.
+To create a parent-child relationship, pass in any parent signals to the `AbortController` constructor.
 
 ## Examples
 
@@ -36,9 +50,9 @@ controller.abort();
 ### Example 2 - Aborting with timeout
 
 ```js
-import { AbortSignal } from "@azure/abort-controller";
+import { AbortController } from "@azure/abort-controller";
 
-const signal = AbortSignal.timeout(1000);
+const signal = AbortController.timeout(1000);
 doAsyncWork({ abortSignal: signal });
 ```
 
