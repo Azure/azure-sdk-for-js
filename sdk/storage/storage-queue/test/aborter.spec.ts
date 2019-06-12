@@ -1,20 +1,27 @@
 import * as assert from "assert";
-
 import { Aborter } from "../src/Aborter";
 import { QueueURL } from "../src/QueueURL";
-import { getQSU, getUniqueName } from "./utils";
+import { getQSU } from "./utils";
+import { record } from "./utils/recorder";
 import * as dotenv from "dotenv";
 dotenv.config({ path: "../.env" });
 
 // tslint:disable:no-empty
 describe("Aborter", () => {
   const serviceURL = getQSU();
-  let queueName: string = getUniqueName("queue");
-  let queueURL = QueueURL.fromServiceURL(serviceURL, queueName);
+  let queueName: string;
+  let queueURL: QueueURL;
 
-  beforeEach(async () => {
-    queueName = getUniqueName("queue");
+  let recorder: any;
+
+  beforeEach(async function() {
+    recorder = record(this);
+    queueName = recorder.getUniqueName("queue");
     queueURL = QueueURL.fromServiceURL(serviceURL, queueName);
+  });
+
+  afterEach(async () => {
+    recorder.stop();
   });
 
   it("should set value and get value successfully", async () => {
