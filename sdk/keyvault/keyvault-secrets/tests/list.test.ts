@@ -18,7 +18,7 @@ describe("Secret client - list operations", () => {
   let client: SecretsClient;
   let version: string;
 
-  const deleteKeyAfter = (name) => async () => {
+  const deleteSecretAfter = (name) => async () => {
     await client.deleteSecret(name);
     await delay(10000);
     await client.purgeDeletedSecret(name);
@@ -40,8 +40,54 @@ describe("Secret client - list operations", () => {
     version = "";
   });
 
-  it("can list Secrets");
-  it("can list Deleted Secrets");
+  it("can list secrets", async () => {
+    const secretNames = [getUniqueName("secrets"), getUniqueName("secrets")];
+
+    after(async () => {
+      for (let name of secretNames) {
+        await client.deleteSecret(name);
+        await delay(10000);
+        await client.purgeDeletedSecret(name);
+      }
+    });
+
+    for (let name of secretNames) {
+      await client.setSecret(name, "RSA");
+    }
+
+    let found = 0;
+    for await (const secret of client.getAllSecrets()) {
+      // The vault might contain more secrets than the ones we inserted.
+      if (!secretNames.includes(secret.name)) continue;
+      found += 1;
+    }
+
+    assert.equal(found, 2, "Unexpected number of keys found by getAllSecrets.");
+  });
+
+  it("can list deleted secrets", async () => {
+    const secretNames = [getUniqueName("secrets"), getUniqueName("secrets")];
+
+    for (let name of secretNames) {
+      await client.setSecret(name, "RSA");
+    }
+    for (let name of secretNames) {
+      await client.deleteSecret(name);
+    }
+
+    let found = 0;
+    for await (const secret of client.getAllDeletedSecrets()) {
+      // The vault might contain more secrets than the ones we inserted.
+      if (!secretNames.includes(secret.name)) continue;
+      found += 1;
+    }
+
+    assert.equal(found, 2, "Unexpected number of keys found by getAllSecrets.");
+
+    for (let name of secretNames) {
+      await client.purgeDeletedSecret(name);
+    }
+  });
 
   it("can retrieve all versions of a secret", async () => {
     const secretName = getUniqueName("secret");
@@ -77,5 +123,14 @@ describe("Secret client - list operations", () => {
     expect(results).to.deep.equal(versions);
   });
 
-  it("can list Secret Versions (Non Existing)");
+  it("can list secret versions (non existing)", async () => {
+    const secretName = getUniqueName("secret");
+    let totalVersions = 0;
+
+    for await (let version of client.getSecretVersions(secretName)) {
+      totalVersions += 1;
+    }
+
+    assert.equal(totalVersions, 0, `Unexpected total versions for secret ${secretName}`);
+  });
 });
