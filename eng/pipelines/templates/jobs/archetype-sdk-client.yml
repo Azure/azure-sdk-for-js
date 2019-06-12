@@ -1,10 +1,7 @@
 jobs:
-  - job: "Build"
+  - job: Prepare
     variables:
       - template: ../variables/globals.yml
-
-    pool:
-      vmImage: "ubuntu-16.04"
 
     steps:
       - task: NodeTool@0
@@ -19,6 +16,28 @@ jobs:
       - template: ../steps/select-packages.yml
         parameters:
           ServiceDirectory: ${{parameters.ServiceDirectory}}
+
+  - job: "Build"
+    variables:
+      - template: ../variables/globals.yml
+      - name: GeneratedPackageTargets
+        value: $[dependencies.Build.outputs['SelectPackages.GeneratedPackageTargets']]
+
+    dependsOn:
+      - Prepare
+
+    pool:
+      vmImage: "ubuntu-16.04"
+
+    steps:
+      - task: NodeTool@0
+        inputs:
+          versionSpec: "$(NodeVersion)"
+        displayName: "Install Node.js $(NodeVersion)"
+
+      - script: |
+          npm install -g npm@6.9.0
+        displayName: "Install npm version 6.9.0"
 
       - script: |
           node common/scripts/install-run-rush.js install
@@ -48,7 +67,7 @@ jobs:
   - job: "Analyze"
 
     dependsOn:
-      - Build
+      - Prepare
 
     variables:
       - template: ../variables/globals.yml
@@ -90,7 +109,7 @@ jobs:
   - job: "Test"
 
     dependsOn:
-      - Build
+      - Prepare
 
     strategy:
       matrix:
