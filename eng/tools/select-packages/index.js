@@ -18,7 +18,7 @@ const log = message => {
 log(`Working directory is "${process.cwd()}".`);
 
 let filter = process.argv[2];
-log(`Specified service directory is "${filter}".`);
+log(`Specified glob filter is "${filter}".`);
 
 // This code assumes that in the service directory, packages that we want to publish
 // exist only in directories that are immediate children of the service directory.
@@ -42,10 +42,18 @@ glob(filter, (err, files) => {
       );
 
       if (packageContents["sdk-type"] == "client") {
-        log(`Package "${packageContents.name}" is a data-plane library.`);
+        log(
+          `Package "${packageContents.name}" has sdk-type of "${
+            packageContents["sdk-type"]
+          }".`
+        );
         packageTargets += `--to "${packageContents.name}" `;
       } else {
-        log(`Package "${packageContents.name}" is NOT a data-plane library.`);
+        log(
+          `Package "${
+            packageContents.name
+          }" DOES NOT have an sdk-type of "client".`
+        );
       }
     }
 
