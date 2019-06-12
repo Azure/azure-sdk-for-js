@@ -4,9 +4,13 @@
 import { IdentityClientOptions } from "../client/identityClient";
 import { AggregateCredential } from "./aggregateCredential";
 import { EnvironmentCredential } from "./environmentCredential";
+import { ManagedIdentityCredential } from "./managedIdentityCredential";
 
 export class SystemCredential extends AggregateCredential {
   constructor(identityClientOptions?: IdentityClientOptions) {
-    super(new EnvironmentCredential(identityClientOptions));
+    super(
+      new EnvironmentCredential(identityClientOptions),
+      new ManagedIdentityCredential(undefined, identityClientOptions)
+    );
   }
 }
