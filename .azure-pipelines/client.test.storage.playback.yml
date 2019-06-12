@@ -104,7 +104,10 @@ jobs:
 
       - task: PublishTestResults@2
         inputs:
-          testResultsFiles: '**/test-results.xml'
+          ${{if eq(TestTarget,'node')}}:
+            testResultsFiles: '**/test-results.xml'
+          ${{if eq(TestTarget,'browser')}}:
+            testResultsFiles: '**/test-results.browser.xml'
           testRunTitle: '$(OSName) Live Tests - $(TestTarget) [Node $(NodeVersion)]'
         condition: succeededOrFailed()
         displayName: 'Publish test results'
