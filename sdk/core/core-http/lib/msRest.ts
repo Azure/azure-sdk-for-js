@@ -47,4 +47,5 @@ export { BasicAuthenticationCredentials } from "./credentials/basicAuthenticatio
 export { ApiKeyCredentials, ApiKeyCredentialOptions } from "./credentials/apiKeyCredentials";
 export { ServiceClientCredentials } from "./credentials/serviceClientCredentials";
 export { TopicCredentials } from "./credentials/topicCredentials";
+export { DomainCredentials } from "./credentials/domainCredentials";
 export { Authenticator } from "./credentials/credentials";
