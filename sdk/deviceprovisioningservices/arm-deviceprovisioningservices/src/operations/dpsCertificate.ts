@@ -107,7 +107,7 @@ export class DpsCertificate {
   }
 
   /**
-   * Deletes the specified certificate assosciated with the Provisioning Service
+   * Deletes the specified certificate associated with the Provisioning Service
    * @summary Delete the Provisioning Service Certificate.
    * @param resourceGroupName Resource group identifier.
    * @param ifMatch ETag of the certificate
@@ -117,7 +117,7 @@ export class DpsCertificate {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, ifMatch: string, provisioningServiceName: string, certificateName: string, options?: Models.DpsCertificateDeleteMethodOptionalParams): Promise<msRest.RestResponse>;
+  deleteMethod(resourceGroupName: string, ifMatch: string, provisioningServiceName: string, certificateName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName Resource group identifier.
    * @param ifMatch ETag of the certificate
@@ -136,8 +136,8 @@ export class DpsCertificate {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, ifMatch: string, provisioningServiceName: string, certificateName: string, options: Models.DpsCertificateDeleteMethodOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, ifMatch: string, provisioningServiceName: string, certificateName: string, options?: Models.DpsCertificateDeleteMethodOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, ifMatch: string, provisioningServiceName: string, certificateName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(resourceGroupName: string, ifMatch: string, provisioningServiceName: string, certificateName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -351,14 +351,6 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.certificateName0
   ],
   queryParameters: [
-    Parameters.certificatename,
-    Parameters.certificaterawBytes,
-    Parameters.certificateisVerified,
-    Parameters.certificatepurpose,
-    Parameters.certificatecreated,
-    Parameters.certificatelastUpdated,
-    Parameters.certificatehasPrivateKey,
-    Parameters.certificatenonce,
     Parameters.apiVersion
   ],
   headerParameters: [
