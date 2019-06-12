@@ -41,7 +41,7 @@ This SDK houses core AMQP common related functionality in use bu Azure SDKs that
 
 ## Examples
 
-Please take a look at the [samples](https://github.com/Azure/azure-sdk-for-js/tree/%40azure/core-amqp_1.0.0-preview.5/sdk/core/core-amqp/samples) directory for detailed samples.
+Please take a look at the [samples](https://github.com/Azure/azure-sdk-for-js/tree/%40azure/core-amqp_1.0.0-preview.1/sdk/core/core-amqp/samples) directory for detailed samples.
 You can run the samples by cloning the repo or copy pasting the below sample in your sample.js file.
 
 ```bash
