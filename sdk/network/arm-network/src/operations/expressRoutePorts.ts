@@ -85,7 +85,7 @@ export class ExpressRoutePorts {
   }
 
   /**
-   * Update ExpressRoutePort tags
+   * Update ExpressRoutePort tags.
    * @param resourceGroupName The name of the resource group.
    * @param expressRoutePortName The name of the ExpressRoutePort resource.
    * @param parameters Parameters supplied to update ExpressRoutePort resource tags.
@@ -126,7 +126,7 @@ export class ExpressRoutePorts {
   }
 
   /**
-   * List all the ExpressRoutePort resources in the specified subscription
+   * List all the ExpressRoutePort resources in the specified subscription.
    * @param [options] The optional parameters
    * @returns Promise<Models.ExpressRoutePortsListResponse>
    */
@@ -188,7 +188,7 @@ export class ExpressRoutePorts {
   }
 
   /**
-   * Update ExpressRoutePort tags
+   * Update ExpressRoutePort tags.
    * @param resourceGroupName The name of the resource group.
    * @param expressRoutePortName The name of the ExpressRoutePort resource.
    * @param parameters Parameters supplied to update ExpressRoutePort resource tags.
@@ -236,7 +236,7 @@ export class ExpressRoutePorts {
   }
 
   /**
-   * List all the ExpressRoutePort resources in the specified subscription
+   * List all the ExpressRoutePort resources in the specified subscription.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.ExpressRoutePortsListNextResponse>

@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.8.10 - 2019-06-05
+- `axios` changed the way it treats properties of the request config in `0.19.0`. Previously we were setting `trasnformResponse` to `undefined`. This would indicate `axios` to not transform (`JSON.parse()`) the response body. In `0.19.0`, they are setting the default response transformer if transformResponse is set to `undefined`. This breaks our pasrsing logic where we are doing `JSON.parse()` on `operationResponse.bodyAsText`. Moreover, we are exposing the `bodyAsText` property in the generated clients. 
+Not populating this property or setting the value of this property to a parsed JSON would be a breaking change for our users.
+Hence we are setting the `transformResponse` property in the request config to an indentity function that returns the response body as-is.
+
+## 1.8.9 - 2019-06-04
+- Added build job to CI pipeline
+
 ## 1.8.8 - 2019-06-03
 - Fixed vulnerabilities by bumping `axios` to `^0.19.0`.
 - New version of axios fixed some issues hence removed one of the workarounds of uppercasing method names while following redirects [axios PR](https://github.com/axios/axios/pull/1758). 

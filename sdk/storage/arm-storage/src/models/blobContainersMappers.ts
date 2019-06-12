@@ -8,6 +8,7 @@
 
 export {
   AzureEntityResource,
+  AzureFilesIdentityBasedAuthentication,
   BaseResource,
   BlobContainer,
   BlobContainersCreateOrUpdateImmutabilityPolicyHeaders,

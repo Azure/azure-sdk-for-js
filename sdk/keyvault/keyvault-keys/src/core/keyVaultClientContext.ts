@@ -23,9 +23,12 @@ export class KeyVaultClientContext extends msRestAzure.AzureServiceClient {
    * @param credentials Credentials needed for the client to connect to Azure.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, options?: msRestAzure.AzureServiceClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    options?: msRestAzure.AzureServiceClientOptions
+  ) {
     if (credentials == undefined) {
-      throw new Error('\'credentials\' cannot be null.');
+      throw new Error("'credentials' cannot be null.");
     }
 
     if (!options) {
@@ -38,17 +41,20 @@ export class KeyVaultClientContext extends msRestAzure.AzureServiceClient {
 
     super(credentials, options);
 
-    this.apiVersion = '7.0';
-    this.acceptLanguage = 'en-US';
+    this.apiVersion = "7.0";
+    this.acceptLanguage = "en-US";
     this.longRunningOperationRetryTimeout = 30;
-    this.baseUri = '{vaultBaseUrl}';
+    this.baseUri = "{vaultBaseUrl}";
     this.requestContentType = "application/json; charset=utf-8";
     this.credentials = credentials;
 
     if (options.acceptLanguage !== null && options.acceptLanguage !== undefined) {
       this.acceptLanguage = options.acceptLanguage;
     }
-    if (options.longRunningOperationRetryTimeout !== null && options.longRunningOperationRetryTimeout !== undefined) {
+    if (
+      options.longRunningOperationRetryTimeout !== null &&
+      options.longRunningOperationRetryTimeout !== undefined
+    ) {
       this.longRunningOperationRetryTimeout = options.longRunningOperationRetryTimeout;
     }
   }

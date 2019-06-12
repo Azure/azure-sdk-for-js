@@ -3,21 +3,26 @@ import * as assert from "assert";
 import { Aborter } from "../../src/Aborter";
 import { QueueURL } from "../../src/QueueURL";
 import { MessagesURL } from "../../src/MessagesURL";
-import { getQSU, getUniqueName } from "../utils";
+import { getQSU } from "../utils";
+import { record } from "../utils/recorder";
 
 describe("MessagesURL Node", () => {
   const serviceURL = getQSU();
-  let queueName = getUniqueName("queue");
-  let queueURL = QueueURL.fromServiceURL(serviceURL, queueName);
+  let queueName: string;
+  let queueURL: QueueURL;
 
-  beforeEach(async () => {
-    queueName = getUniqueName("queue");
+  let recorder: any;
+
+  beforeEach(async function() {
+    recorder = record(this);
+    queueName = recorder.getUniqueName("queue");
     queueURL = QueueURL.fromServiceURL(serviceURL, queueName);
     await queueURL.create(Aborter.none);
   });
 
   afterEach(async () => {
     await queueURL.delete(Aborter.none);
+    recorder.stop();
   });
 
   it("enqueue, peek, dequeue with 64KB characters including special char which is computed after encoding", async () => {
