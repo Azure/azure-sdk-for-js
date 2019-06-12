@@ -1,10 +1,10 @@
-# Azure Core Paging client library for JavaScript
+# Azure Core Paging client library for JS
 
 [![Build Status](https://dev.azure.com/azure-public/adx/_apis/build/status/public.Azure.ms-rest-js)](https://dev.azure.com/azure-public/adx/_build/latest?definitionId=6)
 
 Core types for paging async iterable iterators
 
-## Getting Started
+## Getting started
 
 ### Requirements
 - node.js version > 6.x
