@@ -13,12 +13,11 @@ const debug = debugModule("azure:event-hubs:client-spec");
 import { EventHubClient } from "../src";
 import { packageJsonInfo } from "../src/util/constants";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
+import { AbortController } from "@azure/abort-controller";
 const env = getEnvVars();
-
 
 describe("EventHubClient #RunnableInBrowser", function(): void {
   describe(".fromConnectionString", function(): void {
- 
     it("throws when it cannot find the Event Hub path", function(): void {
       const endpoint = "Endpoint=sb://abc";
       const test = function(): EventHubClient {
@@ -122,6 +121,18 @@ describe("EventHubClient on #RunnableInBrowser", function(): void {
       client = EventHubClient.createFromConnectionString(service.connectionString!, service.path);
       const ids = await client.getPartitionIds();
       ids.should.have.members(arrayOfIncreasingNumbersFromZero(ids.length));
+    });
+
+    it("respects cancellationTokens", async function(): Promise<void> {
+      client = EventHubClient.createFromConnectionString(service.connectionString!, service.path);
+      try {
+        const controller = new AbortController();
+        setTimeout(() => controller.abort(), 1);
+        await client.getPartitionIds(controller.signal);
+        throw new Error(`Test failure`);
+      } catch (err) {
+        err.message.should.match(/The [\w]+ operation has been cancelled by the user.$/gi);
+      }
     });
   });
 
