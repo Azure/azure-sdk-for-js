@@ -168,6 +168,17 @@ export const maxpagesize: msRest.OperationQueryParameter = {
     }
   }
 };
+export const nextPageLink: msRest.OperationURLParameter = {
+  parameterPath: "nextPageLink",
+  mapper: {
+    required: true,
+    serializedName: "nextLink",
+    type: {
+      name: "String"
+    }
+  },
+  skipEncoding: true
+};
 export const resourceGroupName: msRest.OperationURLParameter = {
   parameterPath: "resourceGroupName",
   mapper: {
