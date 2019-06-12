@@ -9,9 +9,9 @@ pr:
       - master
   paths:
     include:
-      - sdk/storage/storage-blob/
+      - sdk/storage/
 
 jobs:
   - template: ../../../eng/pipelines/templates/jobs/archetype-sdk-client.yml
     parameters:
-      PackageName: "@azure/storage-blob"
+      ServiceDirectory: sdk/storage/
