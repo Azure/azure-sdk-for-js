@@ -25,15 +25,20 @@ class CdnManagementClient extends CdnManagementClientContext {
   resourceUsage: operations.ResourceUsageOperations;
   operations: operations.Operations;
   edgeNodes: operations.EdgeNodes;
+  policies: operations.Policies;
+  managedRuleSets: operations.ManagedRuleSets;
 
   /**
    * Initializes a new instance of the CdnManagementClient class.
    * @param credentials Credentials needed for the client to connect to Azure.
    * @param subscriptionId Azure Subscription ID.
+   * @param subscriptionId1 Azure Subscription ID.
+   * @param apiVersion1 Version of the API to be used with the client request. Current version is
+   * 2017-04-02.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.CdnManagementClientOptions) {
-    super(credentials, subscriptionId, options);
+  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, subscriptionId1: string, apiVersion1: string, options?: Models.CdnManagementClientOptions) {
+    super(credentials, subscriptionId, subscriptionId1, apiVersion1, options);
     this.profiles = new operations.Profiles(this);
     this.endpoints = new operations.Endpoints(this);
     this.origins = new operations.Origins(this);
@@ -41,6 +46,8 @@ class CdnManagementClient extends CdnManagementClientContext {
     this.resourceUsage = new operations.ResourceUsageOperations(this);
     this.operations = new operations.Operations(this);
     this.edgeNodes = new operations.EdgeNodes(this);
+    this.policies = new operations.Policies(this);
+    this.managedRuleSets = new operations.ManagedRuleSets(this);
   }
 
   /**
