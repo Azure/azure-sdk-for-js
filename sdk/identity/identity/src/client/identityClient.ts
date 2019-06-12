@@ -2,8 +2,7 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import qs from "qs";
-import { AccessToken } from "../credentials/accessToken";
-import { RequestOptionsBase, ServiceClient, ServiceClientOptions } from "@azure/core-http";
+import { AccessToken, ServiceClient, ServiceClientOptions, GetTokenOptions } from "@azure/core-http";
 
 export class IdentityClient extends ServiceClient {
   private static readonly DefaultAuthorityHost = "https://login.microsoftonline.com/";
@@ -21,7 +20,7 @@ export class IdentityClient extends ServiceClient {
     clientId: string,
     clientSecret: string,
     scopes: string | string[],
-    requestOptions?: RequestOptionsBase
+    getTokenOptions?: GetTokenOptions
   ): Promise<AccessToken | null> {
     const response = await this.sendRequest({
       url: `${this.baseUri}/${tenantId}/oauth2/v2.0/token`,
@@ -37,13 +36,9 @@ export class IdentityClient extends ServiceClient {
       }),
       headers: {
         Accept: "application/json",
-        "Content-Type": "application/x-www-form-urlencoded",
-        ...(requestOptions ? requestOptions.customHeaders : {})
+        "Content-Type": "application/x-www-form-urlencoded"
       },
-      abortSignal: requestOptions && requestOptions.abortSignal,
-      timeout: requestOptions && requestOptions.timeout,
-      onUploadProgress: requestOptions && requestOptions.onUploadProgress,
-      onDownloadProgress: requestOptions && requestOptions.onDownloadProgress
+      abortSignal: getTokenOptions && getTokenOptions.abortSignal,
     });
 
     if (response.status === 200 || response.status === 201) {
