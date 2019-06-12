@@ -1,6 +1,6 @@
 {
   "name": "@azure/keyvault",
-  "isDataPlane": true,
+  "sdk-type": "client",
   "author": "Microsoft Corporation",
   "version": "0.1.0",
   "license": "MIT",

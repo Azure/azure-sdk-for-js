@@ -1,6 +1,6 @@
 {
   "name": "@azure/service-bus",
-  "isDataPlane": true,
+  "sdk-type": "client",
   "author": "Microsoft Corporation",
   "version": "1.0.2",
   "license": "MIT",

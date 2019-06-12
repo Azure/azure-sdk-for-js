@@ -1,6 +1,6 @@
 {
   "name": "@azure/event-processor-host",
-  "isDataPlane": true,
+  "sdk-type": "client",
   "version": "1.0.6",
   "description": "Azure Event Processor Host (Event Hubs) SDK for JS.",
   "author": "Microsoft Corporation",

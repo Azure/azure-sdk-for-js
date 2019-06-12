@@ -41,7 +41,7 @@ glob(filter, (err, files) => {
         `Package name for package ${fileIndex} is "${packageContents.name}".`
       );
 
-      if (packageContents.isDataPlane) {
+      if (packageContents["sdk-type"] == "client") {
         log(`Package "${packageContents.name}" is a data-plane library.`);
         packageTargets += `--to "${packageContents.name}" `;
       } else {

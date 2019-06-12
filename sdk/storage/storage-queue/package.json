@@ -1,6 +1,6 @@
 {
   "name": "@azure/storage-queue",
-  "isDataPlane": true,
+  "sdk-type": "client",
   "version": "10.1.0",
   "description": "Microsoft Azure Storage SDK for JavaScript - Queue",
   "main": "./dist/index.js",

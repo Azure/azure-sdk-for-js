@@ -1,6 +1,6 @@
 {
   "name": "@azure/event-hubs",
-  "isDataPlane": true,
+  "sdk-type": "client",
   "version": "2.1.0",
   "description": "Azure Event Hubs SDK for JS.",
   "author": "Microsoft Corporation",

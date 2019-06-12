@@ -1,6 +1,6 @@
 {
   "name": "@azure/core-http",
-  "isDataPlane": true,
+  "sdk-type": "client",
   "author": {
     "name": "Microsoft Corporation",
     "email": "azsdkteam@microsoft.com",

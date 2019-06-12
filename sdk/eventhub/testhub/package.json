@@ -1,6 +1,6 @@
 {
   "name": "testhub",
-  "isDataPlane": true,
+  "sdk-type": "client",
   "version": "0.1.0",
   "license": "MIT",
   "engine": {
