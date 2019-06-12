@@ -22,16 +22,16 @@ pending work. The `AbortSignal` can be accessed via the `signal` property on an 
 An `AbortSignal` can also be returned directly from a static method, e.g. `AbortController.timeout(100)`.
 that is cancelled after 100 milliseconds.
 
-Calling `abort()` on the instantiated `AbortController` updates the associated `AbortSignal`.
+Calling `abort()` on the instantiated `AbortController` invokes the regiestered `abort`
+event listeners on the associated `AbortSignal`.
 Any subsequent calls to `abort()` on the same controller will have no effect.
 
 The `AbortSignal.none` static property returns an `AbortSignal` that can not be aborted.
-Provde this to an Azure SDK method that requires an `abortSignal` if you don't wish to add custom abort logic.
 
 `AbortSignals` can also be linked so that when `abort()` is called on parent signal,
 it also fires on all child signals.
 This relationship is one-way, meaning that a parent signal can affect a child signal, but not the other way around.
-To create a parent-child relationship, pass in any parent signals to the `AbortController` constructor.
+To create a parent-child relationship, pass in the parent signals to the `AbortController` constructor.
 
 ## Examples
 
@@ -68,6 +68,21 @@ const subtask2 = new AbortController(allTasksController.signal);
 
 allTasksController.abort(); // aborts allTasksSignal, subTask1, subTask2
 subTask1.abort(); // aborts only subTask1
+```
+
+### Example 4 - Aborting with parent signal or timeout
+
+```js
+import { AbortController } from "@azure/abort-controller";
+
+const allTasksController = new AbortController();
+
+// create a subtask controller that can be aborted manually,
+// or when either the parent task aborts or the timeout is reached.
+const subTask = new AbortController(allTasksController.signal, AbortController.timeout(100));
+
+allTasksController.abort(); // aborts allTasksSignal, subTask
+subTask.abort(); // aborts only subTask
 ```
 
 ## Next Steps

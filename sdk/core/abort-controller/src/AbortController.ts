@@ -59,10 +59,14 @@ export class AbortController {
   private _signal: AbortSignal;
 
   /**
-   * @param {AbortSignal} [parentSignal] The AbortSignal that will signal aborted on the AbortSignal associated with this controller.
+   * @param {AbortSignalLike[]} [parentSignals] The AbortSignals that will signal aborted on the AbortSignal associated with this controller.
    * @constructor
    */
   constructor(parentSignals?: AbortSignalLike[]);
+  /**
+   * @param {...AbortSignalLike} parentSignals The AbortSignals that will signal aborted on the AbortSignal associated with this controller.
+   * @constructor
+   */
   constructor(...parentSignals: AbortSignalLike[]);
   constructor(parentSignals?: any) {
     this._signal = new AbortSignal();
