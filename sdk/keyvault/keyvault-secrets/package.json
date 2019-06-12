@@ -1,5 +1,6 @@
 {
   "name": "@azure/keyvault-secrets",
+  "sdk-type": "client",
   "author": "Microsoft Corporation",
   "version": "0.0.1",
   "license": "MIT",
