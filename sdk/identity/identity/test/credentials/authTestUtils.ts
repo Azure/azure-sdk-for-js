@@ -12,7 +12,7 @@ export class MockAuthHttpClient implements HttpClient {
   public identityClientOptions: IdentityClientOptions;
 
   constructor() {
-    this.requestResolve = () => { };
+    this.requestResolve = () => {};
     this.requestPromise = new Promise((resolve) => {
       this.requestResolve = resolve;
     });

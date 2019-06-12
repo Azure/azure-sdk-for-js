@@ -8,10 +8,7 @@ export class ManagedIdentityCredential implements TokenCredential {
   private identityClient: IdentityClient;
   private _clientId: string | undefined;
 
-  constructor(
-    clientId?: string,
-    options?: IdentityClientOptions
-  ) {
+  constructor(clientId?: string, options?: IdentityClientOptions) {
     this.identityClient = new IdentityClient(options);
     this._clientId = clientId;
   }
@@ -20,11 +17,6 @@ export class ManagedIdentityCredential implements TokenCredential {
     scopes: string | string[],
     options?: GetTokenOptions
   ): Promise<AccessToken | null> {
-
-    return this.identityClient.authenticateManagedIdentity(
-      scopes,
-      this._clientId,
-      options
-    );
+    return this.identityClient.authenticateManagedIdentity(scopes, this._clientId, options);
   }
 }

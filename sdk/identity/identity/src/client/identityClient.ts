@@ -2,7 +2,14 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import qs from "qs";
-import { AccessToken, ServiceClient, ServiceClientOptions, GetTokenOptions, WebResource, RequestPrepareOptions } from "@azure/core-http";
+import {
+  AccessToken,
+  ServiceClient,
+  ServiceClientOptions,
+  GetTokenOptions,
+  WebResource,
+  RequestPrepareOptions
+} from "@azure/core-http";
 
 export class IdentityClient extends ServiceClient {
   private static readonly DefaultAuthorityHost = "https://login.microsoftonline.com/";
@@ -18,15 +25,15 @@ export class IdentityClient extends ServiceClient {
     }
   }
 
-  private createWebResource(
-    requestOptions: RequestPrepareOptions
-  ): WebResource {
+  private createWebResource(requestOptions: RequestPrepareOptions): WebResource {
     const webResource = new WebResource();
     webResource.prepare(requestOptions);
     return webResource;
   }
 
-  private async sendTokenRequest(requestOptions: RequestPrepareOptions): Promise<AccessToken | null> {
+  private async sendTokenRequest(
+    requestOptions: RequestPrepareOptions
+  ): Promise<AccessToken | null> {
     const response = await this.sendRequest(requestOptions);
     if (response.status === 200 || response.status === 201) {
       const expiresOn = new Date();
@@ -42,14 +49,14 @@ export class IdentityClient extends ServiceClient {
   }
 
   private mapScopesToResource(scopes: string | string[]): string {
-    let scope = ""
+    let scope = "";
     if (Array.isArray(scopes)) {
       if (scopes.length !== 1) {
-        throw "To convert to a resource string the specified array must be exactly length 1"
+        throw "To convert to a resource string the specified array must be exactly length 1";
       }
 
       scope = scopes[0];
-    } else if (typeof scopes === 'string') {
+    } else if (typeof scopes === "string") {
       scope = scopes;
     }
 
@@ -97,7 +104,7 @@ export class IdentityClient extends ServiceClient {
     const queryParameters: any = {
       resource: this.mapScopesToResource(scopes),
       "api-version": IdentityClient.MsiApiVersion
-    }
+    };
 
     if (clientId) {
       queryParameters.client_id = clientId;
@@ -113,12 +120,11 @@ export class IdentityClient extends ServiceClient {
         Accept: "application/json",
         Metadata: true
       },
-      abortSignal: getTokenOptions && getTokenOptions.abortSignal,
+      abortSignal: getTokenOptions && getTokenOptions.abortSignal
     });
 
     return this.sendTokenRequest(webResource);
   }
-
 
   static getDefaultOptions(): IdentityClientOptions {
     return {
