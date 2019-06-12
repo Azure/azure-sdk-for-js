@@ -1,6 +1,5 @@
 {
   "name": "@azure/storage-datalake",
-  "sdk-type": "client",
   "author": "Microsoft Corporation",
   "description": "DataLakeStorageClient Library with typescript type definitions for node.js and browser.",
   "version": "0.1.1",
