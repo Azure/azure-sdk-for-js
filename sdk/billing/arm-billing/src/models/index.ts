@@ -1444,6 +1444,16 @@ export interface TransactionsSummary extends Resource {
    */
   readonly quantity?: number;
   /**
+   * Customer id to which this product belongs.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly customerId?: string;
+  /**
+   * Display name of customer to which this product belongs.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly customerDisplayName?: string;
+  /**
    * Invoice section id to which this product belongs.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */

@@ -2306,6 +2306,20 @@ export const TransactionsSummary: msRest.CompositeMapper = {
           name: "Number"
         }
       },
+      customerId: {
+        readOnly: true,
+        serializedName: "properties.customerId",
+        type: {
+          name: "String"
+        }
+      },
+      customerDisplayName: {
+        readOnly: true,
+        serializedName: "properties.customerDisplayName",
+        type: {
+          name: "String"
+        }
+      },
       invoiceSectionId: {
         readOnly: true,
         serializedName: "properties.invoiceSectionId",
