@@ -33,6 +33,7 @@ export {
   ImportSourceCredentials,
   IPRule,
   NetworkRuleSet,
+  OverrideTaskStepProperties,
   PlatformProperties,
   Policies,
   ProxyResource,
