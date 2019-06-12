@@ -45,7 +45,7 @@ describe("Secret client - recover, backup and restore operations", () => {
     after(deleteSecretAfter(secretName));
     await client.setSecret(secretName, "RSA");
     await client.deleteSecret(secretName);
-    await delay(15000);
+    await delay(10000);
     const getDeletedResult = await client.getDeletedSecret(secretName);
     assert.equal(
       getDeletedResult.name,
@@ -53,7 +53,7 @@ describe("Secret client - recover, backup and restore operations", () => {
       "Unexpected secret name in result from getSecret()."
     );
     await client.recoverDeletedSecret(secretName);
-    await delay(15000);
+    await delay(10000);
     const getResult = await client.getSecret(secretName);
     assert.equal(getResult.name, secretName, "Unexpected secret name in result from getSecret().");
   });
@@ -76,7 +76,7 @@ describe("Secret client - recover, backup and restore operations", () => {
     await client.setSecret(secretName, "RSA");
     const result = await client.backupSecret(secretName);
     assert.equal(Buffer.isBuffer(result), true, "Unexpected return value from backupSecret()");
-    assert.equal(result.length, 4728, "Unexpected length of buffer from backupSecret()");
+    assert.ok(result.length > 4700, "Unexpected length of buffer from backupSecret()");
   });
 
   it("can backup a secret (non existing)", async () => {
@@ -97,17 +97,17 @@ describe("Secret client - recover, backup and restore operations", () => {
     await client.setSecret(secretName, "RSA");
     const backup = await client.backupSecret(secretName);
     await client.deleteSecret(secretName);
-    await delay(15000);
+    await delay(10000);
     await client.purgeDeletedSecret(secretName);
-    await delay(15000);
+    await delay(10000);
     await client.restoreSecret(backup);
-    await delay(15000);
+    await delay(10000);
     const getResult = await client.getSecret(secretName);
     assert.equal(getResult.name, secretName, "Unexpected secret name in result from getSecret().");
   });
 
   it("can restore a secret (Malformed Backup Bytes)", async () => {
-    const backup = new Buffer(4728);
+    const backup = Buffer.alloc(4728);
     let error;
     try {
       await client.restoreSecret(backup);

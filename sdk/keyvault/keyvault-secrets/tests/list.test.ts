@@ -56,7 +56,7 @@ describe("Secret client - list operations", () => {
     }
 
     let found = 0;
-    for await (const secret of client.getAllSecrets()) {
+    for await (const secret of client.getSecrets()) {
       // The vault might contain more secrets than the ones we inserted.
       if (!secretNames.includes(secret.name)) continue;
       found += 1;
@@ -76,7 +76,7 @@ describe("Secret client - list operations", () => {
     }
 
     let found = 0;
-    for await (const secret of client.getAllDeletedSecrets()) {
+    for await (const secret of client.getDeletedSecrets()) {
       // The vault might contain more secrets than the ones we inserted.
       if (!secretNames.includes(secret.name)) continue;
       found += 1;
