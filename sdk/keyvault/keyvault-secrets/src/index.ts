@@ -17,6 +17,7 @@ import {
   userAgentPolicy
 } from "@azure/ms-rest-js";
 
+import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SecretBundle, DeletionRecoveryLevel, KeyVaultClientGetSecretsOptionalParams } from "./core/models";
 import { KeyVaultClient } from "./core/keyVaultClient";
 import { RetryConstants, SDK_VERSION } from "./core/utils/constants";
@@ -28,8 +29,6 @@ import {
   GetSecretOptions,
   ListSecretsOptions,
   SecretAttributes,
-  PageSettings,
-  PagedAsyncIterableIterator,
 } from "./secretsModels";
 import { parseKeyvaultIdentifier as parseKeyvaultEntityIdentifier } from "./core/utils";
 import { NewPipelineOptions, isNewPipelineOptions, Pipeline } from "./core/keyVaultBase";

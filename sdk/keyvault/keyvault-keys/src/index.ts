@@ -17,6 +17,7 @@ import {
 } from "@azure/ms-rest-js";
 
 import { getDefaultUserAgentValue } from "@azure/ms-rest-azure-js";
+import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 
 import { TelemetryOptions, ProxyOptions, RetryOptions } from "./core";
 import { KeyBundle, JsonWebKeyType, JsonWebKey, JsonWebKeyOperation, JsonWebKeyCurveName, KeyItem, DeletionRecoveryLevel, KeyVaultClientGetKeysOptionalParams } from "./core/models";
@@ -35,8 +36,6 @@ import {
   ListKeysOptions,
   KeyAttributes,
   RequestOptions,
-  PagedAsyncIterableIterator,
-  PageSettings,
 } from "./keysModels";
 import { parseKeyvaultIdentifier as parseKeyvaultEntityIdentifier } from "./core/utils";
 

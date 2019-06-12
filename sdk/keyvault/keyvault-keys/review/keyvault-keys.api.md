@@ -8,6 +8,8 @@ import { AzureServiceClientOptions } from '@azure/ms-rest-azure-js';
 import { HttpClient } from '@azure/ms-rest-js';
 import { HttpPipelineLogger } from '@azure/ms-rest-js';
 import * as msRest from '@azure/ms-rest-js';
+import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { PageSettings } from '@azure/core-paging';
 import { ServiceClientCredentials } from '@azure/ms-rest-js';
 
 // @public
@@ -152,24 +154,9 @@ export interface NewPipelineOptions {
     telemetry?: TelemetryOptions;
 }
 
-// @public
-export interface PagedAsyncIterableIterator<T> {
-    [Symbol.asyncIterator](): PagedAsyncIterableIterator<T>;
-    byPage: (settings?: PageSettings) => AsyncIterableIterator<T[]>;
-    next(): Promise<{
-        done: boolean;
-        value: T;
-    } | {
-        done: boolean;
-        value: undefined;
-    }>;
-}
+export { PagedAsyncIterableIterator }
 
-// @public
-export interface PageSettings {
-    continuationToken?: string;
-    pageSize?: number;
-}
+export { PageSettings }
 
 // @public (undocumented)
 export interface ParsedKeyVaultEntityIdentifier {
