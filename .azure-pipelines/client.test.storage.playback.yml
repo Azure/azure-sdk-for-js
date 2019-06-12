@@ -12,7 +12,7 @@ jobs:
     strategy:
       # Live tests currently lack support for running multiple test suites in parallel,
       # since the tests would attempt to use the same resources which causes conflicts.
-      maxParallel: 1
+      maxParallel: 12
       matrix:
         Linux_Node8:
           OSName: 'Linux'
