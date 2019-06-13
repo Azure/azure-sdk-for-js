@@ -13,10 +13,17 @@ import {
   truncatedISO8061Date,
   extractPartsWithValidation
 } from "./utils/utils.common";
-import { AppendBlobClient, BlobClient, BlockBlobClient, PageBlobClient, StorageClient } from "./internal";
+import {
+  AppendBlobClient,
+  BlobClient,
+  BlockBlobClient,
+  PageBlobClient,
+  StorageClient
+} from "./internal";
 import { Credential } from "./credentials/Credential";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
+import { LeaseClient } from "./LeaseClient";
 
 /**
  * Options to configure Container - Create operation.
