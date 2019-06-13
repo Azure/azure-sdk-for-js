@@ -76,7 +76,7 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
   });
 
   describe("with EventPosition specified as", function(): void {
-    it("'from end of stream' should receive messages correctly ", async function(): Promise<void> {
+    it("'from end of stream' should receive messages correctly", async function(): Promise<void> {
       const partitionId = hubInfo.partitionIds[0];
       for (let i = 0; i < 10; i++) {
         const ed: EventData = {
@@ -85,28 +85,14 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
         await client.send(ed, partitionId);
         debug("sent message - " + i);
       }
-      debug("Creating new receiver with offset EndOfStream");
-      // send a new message. We should only receive this new message.
-      const uid = uuid();
-      const ed: EventData = {
-        body: "New message",
-        applicationProperties: {
-          stamp: uid
-        }
-      };
-
-      const offset = (await client.getPartitionInformation(partitionId)).lastEnqueuedOffset;
-      await client.send(ed, partitionId);
-      debug(">>>>>>> Sent the new message after creating the receiver. We should only receive this message.");
-      const data2 = await client.receiveBatch(partitionId, 10, 20, {
-        eventPosition: EventPosition.fromOffset(offset)
+      const data = await client.receiveBatch(partitionId, 10, 20, {
+        eventPosition: EventPosition.fromEnd()
       });
-      debug("received messages: ", data2);
-      data2.length.should.equal(1, "Failed to receive the expected one single message");
-      data2[0].applicationProperties!.stamp.should.equal(uid, "Message received with unexpected uid");
+      debug("received messages: ", data);
+      data.length.should.equal(0, "Should not receive any messages when reading from end of stream");
     });
 
-    it("'after a particular offset' should receive messages correctly ", async function(): Promise<void> {
+    it("'after a particular offset' should receive messages correctly", async function(): Promise<void> {
       const partitionId = hubInfo.partitionIds[0];
       const pInfo = await client.getPartitionInformation(partitionId);
       debug(`Creating new receiver with last enqueued offset: "${pInfo.lastEnqueuedOffset}".`);
