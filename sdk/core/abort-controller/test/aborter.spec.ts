@@ -35,7 +35,6 @@ describe("AbortController", () => {
     controller.abort();
     try {
       let rs = await response;
-      console.log("got result", rs);
       assert.fail();
     } catch (err) {
       assert.equal(err.name, "AbortError");
@@ -45,11 +44,12 @@ describe("AbortController", () => {
   it("should abort when calling abort() after creation but before request finishes", async () => {
     const controller = new AbortController();
     const aborter = controller.signal;
-    const response = doAsyncOperation(aborter, 100);
+    const response = doAsyncOperation(aborter, 200);
     setTimeout(() => controller.abort(), 50);
     try {
       let r = await response;
       console.log("got, r", r);
+      console.log(`aborted?: ${aborter.aborted}`);
       assert.fail();
     } catch (err) {
       assert.equal(err.name, "AbortError");
