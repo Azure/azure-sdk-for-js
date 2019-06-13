@@ -1,7 +1,8 @@
 import * as assert from "assert";
-
-import { getBSU, getUniqueName, sleep } from "./utils";
 import * as dotenv from "dotenv";
+import { newPipeline, SharedKeyCredential } from "../src";
+import { ContainerClient } from "../src/ContainerClient";
+import { getBSU, getConnectionStringFromEnvironment, getUniqueName } from "./utils";
 dotenv.config({ path: "../.env" });
 
 describe("ContainerClient", () => {
@@ -62,99 +63,6 @@ describe("ContainerClient", () => {
   it("delete", (done) => {
     // delete() with default parameters has been tested in afterEach
     done();
-  });
-
-  it("acquireLease", async () => {
-    const guid = "ca761232ed4211cebacd00aa0057b223";
-    const duration = 30;
-    await containerClient.acquireLease(guid, duration);
-
-    const result = await containerClient.getProperties();
-    assert.equal(result.leaseDuration, "fixed");
-    assert.equal(result.leaseState, "leased");
-    assert.equal(result.leaseStatus, "locked");
-
-    await containerClient.releaseLease(guid);
-  });
-
-  it("releaseLease", async () => {
-    const guid = "ca761232ed4211cebacd00aa0057b223";
-    const duration = -1;
-    await containerClient.acquireLease(guid, duration);
-
-    const result = await containerClient.getProperties();
-    assert.equal(result.leaseDuration, "infinite");
-    assert.equal(result.leaseState, "leased");
-    assert.equal(result.leaseStatus, "locked");
-
-    await containerClient.releaseLease(guid);
-  });
-
-  it("renewLease", async () => {
-    const guid = "ca761232ed4211cebacd00aa0057b223";
-    const duration = 15;
-    await containerClient.acquireLease(guid, duration);
-
-    const result = await containerClient.getProperties();
-    assert.equal(result.leaseDuration, "fixed");
-    assert.equal(result.leaseState, "leased");
-    assert.equal(result.leaseStatus, "locked");
-
-    await sleep(16 * 1000);
-    const result2 = await containerClient.getProperties();
-    assert.ok(!result2.leaseDuration);
-    assert.equal(result2.leaseState, "expired");
-    assert.equal(result2.leaseStatus, "unlocked");
-
-    await containerClient.renewLease(guid);
-    const result3 = await containerClient.getProperties();
-    assert.equal(result3.leaseDuration, "fixed");
-    assert.equal(result3.leaseState, "leased");
-    assert.equal(result3.leaseStatus, "locked");
-
-    await containerClient.releaseLease(guid);
-  });
-
-  it("changeLease", async () => {
-    const guid = "ca761232ed4211cebacd00aa0057b223";
-    const duration = 15;
-    await containerClient.acquireLease(guid, duration);
-
-    const result = await containerClient.getProperties();
-    assert.equal(result.leaseDuration, "fixed");
-    assert.equal(result.leaseState, "leased");
-    assert.equal(result.leaseStatus, "locked");
-
-    const newGuid = "3c7e72ebb4304526bc53d8ecef03798f";
-    await containerClient.changeLease(guid, newGuid);
-
-    await containerClient.getProperties();
-    await containerClient.releaseLease(newGuid);
-  });
-
-  it("breakLease", async () => {
-    const guid = "ca761232ed4211cebacd00aa0057b223";
-    const duration = 15;
-    await containerClient.acquireLease(guid, duration);
-
-    const result = await containerClient.getProperties();
-    assert.equal(result.leaseDuration, "fixed");
-    assert.equal(result.leaseState, "leased");
-    assert.equal(result.leaseStatus, "locked");
-
-    await containerClient.breakLease(3);
-
-    const result2 = await containerClient.getProperties();
-    assert.ok(!result2.leaseDuration);
-    assert.equal(result2.leaseState, "breaking");
-    assert.equal(result2.leaseStatus, "locked");
-
-    await sleep(3 * 1000);
-
-    const result3 = await containerClient.getProperties();
-    assert.ok(!result3.leaseDuration);
-    assert.equal(result3.leaseState, "broken");
-    assert.equal(result3.leaseStatus, "unlocked");
   });
 
   it("listBlobFlatSegment with default parameters", async () => {
@@ -371,6 +279,95 @@ describe("ContainerClient", () => {
 
     for (const blob of blobClients) {
       await blob.delete();
+    }
+  });
+
+  it("can be created with a url and a credential", async () => {
+    const factories = containerClient.pipeline.factories;
+    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const newClient = new ContainerClient(containerClient.url, credential);
+
+    const result = await newClient.getProperties();
+
+    assert.ok(result.eTag!.length > 0);
+    assert.ok(result.lastModified);
+    assert.ok(!result.leaseDuration);
+    assert.equal(result.leaseState, "available");
+    assert.equal(result.leaseStatus, "unlocked");
+    assert.ok(result.requestId);
+    assert.ok(result.version);
+    assert.ok(result.date);
+    assert.ok(!result.blobPublicAccess);
+  });
+
+  it("can be created with a url and a credential and an option bag", async () => {
+    const factories = containerClient.pipeline.factories;
+    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const newClient = new ContainerClient(containerClient.url, credential, {
+      retryOptions: {
+        maxTries: 5
+      }
+    });
+
+    const result = await newClient.getProperties();
+
+    assert.ok(result.eTag!.length > 0);
+    assert.ok(result.lastModified);
+    assert.ok(!result.leaseDuration);
+    assert.equal(result.leaseState, "available");
+    assert.equal(result.leaseStatus, "unlocked");
+    assert.ok(result.requestId);
+    assert.ok(result.version);
+    assert.ok(result.date);
+    assert.ok(!result.blobPublicAccess);
+  });
+
+  it("can be created with a url and a pipeline", async () => {
+    const factories = containerClient.pipeline.factories;
+    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const pipeline = newPipeline(credential);
+    const newClient = new ContainerClient(containerClient.url, pipeline);
+
+    const result = await newClient.getProperties();
+
+    assert.ok(result.eTag!.length > 0);
+    assert.ok(result.lastModified);
+    assert.ok(!result.leaseDuration);
+    assert.equal(result.leaseState, "available");
+    assert.equal(result.leaseStatus, "unlocked");
+    assert.ok(result.requestId);
+    assert.ok(result.version);
+    assert.ok(result.date);
+    assert.ok(!result.blobPublicAccess);
+  });
+
+  it("can be created with a connection string", async () => {
+    const newClient = new ContainerClient(getConnectionStringFromEnvironment(), containerName);
+
+    const result = await newClient.getProperties();
+
+    assert.ok(result.eTag!.length > 0);
+    assert.ok(result.lastModified);
+    assert.ok(!result.leaseDuration);
+    assert.equal(result.leaseState, "available");
+    assert.equal(result.leaseStatus, "unlocked");
+    assert.ok(result.requestId);
+    assert.ok(result.version);
+    assert.ok(result.date);
+    assert.ok(!result.blobPublicAccess);
+  });
+
+  it("throws error if constructor containerName parameter is empty", async () => {
+    try {
+      // tslint:disable-next-line: no-unused-expression
+      new ContainerClient(getConnectionStringFromEnvironment(), "");
+      assert.fail("Expecting an thrown error but didn't get one.");
+    } catch (error) {
+      assert.equal(
+        "Expecting non-empty strings for containerName parameter",
+        error.message,
+        "Error message is different than expected."
+      );
     }
   });
 });

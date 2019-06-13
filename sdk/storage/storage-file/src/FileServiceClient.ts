@@ -172,8 +172,8 @@ export class FileServiceClient extends StorageClient {
   /**
    * Creates a ShareClient object.
    *
-   * @param shareName
-   * @returns {ShareClient}
+   * @param shareName Name of a share.
+   * @returns {ShareClient} The ShareClient object for the given share name.
    * @memberof FileServiceClient
    */
   public createShareClient(shareName: string): ShareClient {
@@ -185,8 +185,8 @@ export class FileServiceClient extends StorageClient {
    * for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-file-service-properties}
    *
-   * @param {ServiceGetPropertiesOptions} [options={}] Optional options to Get Properties operation.
-   * @returns {Promise<Models.ServiceGetPropertiesResponse>}
+   * @param {ServiceGetPropertiesOptions} [options={}] Options to Get Properties operation.
+   * @returns {Promise<Models.ServiceGetPropertiesResponse>} Response data for the Get Properties operation.
    * @memberof FileServiceClient
    */
   public async getProperties(
@@ -204,8 +204,8 @@ export class FileServiceClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-file-service-properties}
    *
    * @param {Models.StorageServiceProperties} properties
-   * @param {ServiceSetPropertiesOptions} [options={}] Optional options to Set Properties operation.
-   * @returns {Promise<Models.ServiceSetPropertiesResponse>}
+   * @param {ServiceSetPropertiesOptions} [options={}] Options to Set Properties operation.
+   * @returns {Promise<Models.ServiceSetPropertiesResponse>} Response data for the Set Properties operation.
    * @memberof FileServiceClient
    */
   public async setProperties(
@@ -228,8 +228,8 @@ export class FileServiceClient extends StorageClient {
    *                          not complete. The marker value may then be used in a subsequent call to
    *                          request the next set of list items. The marker value is opaque to the
    *                          client.
-   * @param {ServiceListSharesSegmentOptions} [options={}] Optional options to List Shares Segment operation.
-   * @returns {Promise<Models.ServiceListSharesSegmentResponse>}
+   * @param {ServiceListSharesSegmentOptions} [options={}] Options to List Shares Segment operation.
+   * @returns {Promise<Models.ServiceListSharesSegmentResponse>} Response data for the List Shares Segment operation.
    * @memberof FileServiceClient
    */
   public async listSharesSegment(

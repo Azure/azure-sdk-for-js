@@ -604,6 +604,16 @@ export interface ExtendedResourceProperties {
 }
 
 /**
+ * An Azure Cosmos DB resource throughput.
+ */
+export interface Throughput extends Resource {
+  /**
+   * Value of the Cosmos DB resource throughput
+   */
+  throughput: number;
+}
+
+/**
  * Parameters to create and update Cosmos DB database accounts.
  */
 export interface DatabaseAccountCreateUpdateParameters extends Resource {
@@ -739,6 +749,26 @@ export interface DatabaseAccountRegenerateKeyParameters {
    * 'primaryReadonly', 'secondaryReadonly'
    */
   keyKind: KeyKind;
+}
+
+/**
+ * Cosmos DB resource throughput object
+ */
+export interface ThroughputResource {
+  /**
+   * Value of the Cosmos DB resource throughput
+   */
+  throughput: number;
+}
+
+/**
+ * Parameters to update Cosmos DB resource throughput.
+ */
+export interface ThroughputUpdateParameters {
+  /**
+   * The standard JSON format of a resource throughput
+   */
+  resource: ThroughputResource;
 }
 
 /**
@@ -2041,6 +2071,46 @@ export type DatabaseAccountsCreateUpdateSqlDatabaseResponse = SqlDatabase & {
 };
 
 /**
+ * Contains response data for the getSqlDatabaseThroughput operation.
+ */
+export type DatabaseAccountsGetSqlDatabaseThroughputResponse = Throughput & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Throughput;
+    };
+};
+
+/**
+ * Contains response data for the updateSqlDatabaseThroughput operation.
+ */
+export type DatabaseAccountsUpdateSqlDatabaseThroughputResponse = Throughput & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Throughput;
+    };
+};
+
+/**
  * Contains response data for the listSqlContainers operation.
  */
 export type DatabaseAccountsListSqlContainersResponse = SqlContainerListResult & {
@@ -2097,6 +2167,46 @@ export type DatabaseAccountsCreateUpdateSqlContainerResponse = SqlContainer & {
        * The response body as parsed JSON or XML
        */
       parsedBody: SqlContainer;
+    };
+};
+
+/**
+ * Contains response data for the getSqlContainerThroughput operation.
+ */
+export type DatabaseAccountsGetSqlContainerThroughputResponse = Throughput & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Throughput;
+    };
+};
+
+/**
+ * Contains response data for the updateSqlContainerThroughput operation.
+ */
+export type DatabaseAccountsUpdateSqlContainerThroughputResponse = Throughput & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Throughput;
     };
 };
 
@@ -2161,6 +2271,46 @@ export type DatabaseAccountsCreateUpdateMongoDBDatabaseResponse = MongoDBDatabas
 };
 
 /**
+ * Contains response data for the getMongoDBDatabaseThroughput operation.
+ */
+export type DatabaseAccountsGetMongoDBDatabaseThroughputResponse = Throughput & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Throughput;
+    };
+};
+
+/**
+ * Contains response data for the updateMongoDBDatabaseThroughput operation.
+ */
+export type DatabaseAccountsUpdateMongoDBDatabaseThroughputResponse = Throughput & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Throughput;
+    };
+};
+
+/**
  * Contains response data for the listMongoDBCollections operation.
  */
 export type DatabaseAccountsListMongoDBCollectionsResponse = MongoDBCollectionListResult & {
@@ -2217,6 +2367,46 @@ export type DatabaseAccountsCreateUpdateMongoDBCollectionResponse = MongoDBColle
        * The response body as parsed JSON or XML
        */
       parsedBody: MongoDBCollection;
+    };
+};
+
+/**
+ * Contains response data for the getMongoDBCollectionThroughput operation.
+ */
+export type DatabaseAccountsGetMongoDBCollectionThroughputResponse = Throughput & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Throughput;
+    };
+};
+
+/**
+ * Contains response data for the updateMongoDBCollectionThroughput operation.
+ */
+export type DatabaseAccountsUpdateMongoDBCollectionThroughputResponse = Throughput & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Throughput;
     };
 };
 
@@ -2281,6 +2471,46 @@ export type DatabaseAccountsCreateUpdateTableResponse = Table & {
 };
 
 /**
+ * Contains response data for the getTableThroughput operation.
+ */
+export type DatabaseAccountsGetTableThroughputResponse = Throughput & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Throughput;
+    };
+};
+
+/**
+ * Contains response data for the updateTableThroughput operation.
+ */
+export type DatabaseAccountsUpdateTableThroughputResponse = Throughput & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Throughput;
+    };
+};
+
+/**
  * Contains response data for the listCassandraKeyspaces operation.
  */
 export type DatabaseAccountsListCassandraKeyspacesResponse = CassandraKeyspaceListResult & {
@@ -2337,6 +2567,46 @@ export type DatabaseAccountsCreateUpdateCassandraKeyspaceResponse = CassandraKey
        * The response body as parsed JSON or XML
        */
       parsedBody: CassandraKeyspace;
+    };
+};
+
+/**
+ * Contains response data for the getCassandraKeyspaceThroughput operation.
+ */
+export type DatabaseAccountsGetCassandraKeyspaceThroughputResponse = Throughput & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Throughput;
+    };
+};
+
+/**
+ * Contains response data for the updateCassandraKeyspaceThroughput operation.
+ */
+export type DatabaseAccountsUpdateCassandraKeyspaceThroughputResponse = Throughput & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Throughput;
     };
 };
 
@@ -2401,6 +2671,46 @@ export type DatabaseAccountsCreateUpdateCassandraTableResponse = CassandraTable 
 };
 
 /**
+ * Contains response data for the getCassandraTableThroughput operation.
+ */
+export type DatabaseAccountsGetCassandraTableThroughputResponse = Throughput & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Throughput;
+    };
+};
+
+/**
+ * Contains response data for the updateCassandraTableThroughput operation.
+ */
+export type DatabaseAccountsUpdateCassandraTableThroughputResponse = Throughput & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Throughput;
+    };
+};
+
+/**
  * Contains response data for the listGremlinDatabases operation.
  */
 export type DatabaseAccountsListGremlinDatabasesResponse = GremlinDatabaseListResult & {
@@ -2457,6 +2767,46 @@ export type DatabaseAccountsCreateUpdateGremlinDatabaseResponse = GremlinDatabas
        * The response body as parsed JSON or XML
        */
       parsedBody: GremlinDatabase;
+    };
+};
+
+/**
+ * Contains response data for the getGremlinDatabaseThroughput operation.
+ */
+export type DatabaseAccountsGetGremlinDatabaseThroughputResponse = Throughput & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Throughput;
+    };
+};
+
+/**
+ * Contains response data for the updateGremlinDatabaseThroughput operation.
+ */
+export type DatabaseAccountsUpdateGremlinDatabaseThroughputResponse = Throughput & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Throughput;
     };
 };
 
@@ -2521,6 +2871,46 @@ export type DatabaseAccountsCreateUpdateGremlinGraphResponse = GremlinGraph & {
 };
 
 /**
+ * Contains response data for the getGremlinGraphThroughput operation.
+ */
+export type DatabaseAccountsGetGremlinGraphThroughputResponse = Throughput & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Throughput;
+    };
+};
+
+/**
+ * Contains response data for the updateGremlinGraphThroughput operation.
+ */
+export type DatabaseAccountsUpdateGremlinGraphThroughputResponse = Throughput & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Throughput;
+    };
+};
+
+/**
  * Contains response data for the beginPatch operation.
  */
 export type DatabaseAccountsBeginPatchResponse = DatabaseAccount & {
@@ -2581,6 +2971,26 @@ export type DatabaseAccountsBeginCreateUpdateSqlDatabaseResponse = SqlDatabase &
 };
 
 /**
+ * Contains response data for the beginUpdateSqlDatabaseThroughput operation.
+ */
+export type DatabaseAccountsBeginUpdateSqlDatabaseThroughputResponse = Throughput & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Throughput;
+    };
+};
+
+/**
  * Contains response data for the beginCreateUpdateSqlContainer operation.
  */
 export type DatabaseAccountsBeginCreateUpdateSqlContainerResponse = SqlContainer & {
@@ -2597,6 +3007,26 @@ export type DatabaseAccountsBeginCreateUpdateSqlContainerResponse = SqlContainer
        * The response body as parsed JSON or XML
        */
       parsedBody: SqlContainer;
+    };
+};
+
+/**
+ * Contains response data for the beginUpdateSqlContainerThroughput operation.
+ */
+export type DatabaseAccountsBeginUpdateSqlContainerThroughputResponse = Throughput & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Throughput;
     };
 };
 
@@ -2621,6 +3051,26 @@ export type DatabaseAccountsBeginCreateUpdateMongoDBDatabaseResponse = MongoDBDa
 };
 
 /**
+ * Contains response data for the beginUpdateMongoDBDatabaseThroughput operation.
+ */
+export type DatabaseAccountsBeginUpdateMongoDBDatabaseThroughputResponse = Throughput & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Throughput;
+    };
+};
+
+/**
  * Contains response data for the beginCreateUpdateMongoDBCollection operation.
  */
 export type DatabaseAccountsBeginCreateUpdateMongoDBCollectionResponse = MongoDBCollection & {
@@ -2637,6 +3087,26 @@ export type DatabaseAccountsBeginCreateUpdateMongoDBCollectionResponse = MongoDB
        * The response body as parsed JSON or XML
        */
       parsedBody: MongoDBCollection;
+    };
+};
+
+/**
+ * Contains response data for the beginUpdateMongoDBCollectionThroughput operation.
+ */
+export type DatabaseAccountsBeginUpdateMongoDBCollectionThroughputResponse = Throughput & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Throughput;
     };
 };
 
@@ -2661,6 +3131,26 @@ export type DatabaseAccountsBeginCreateUpdateTableResponse = Table & {
 };
 
 /**
+ * Contains response data for the beginUpdateTableThroughput operation.
+ */
+export type DatabaseAccountsBeginUpdateTableThroughputResponse = Throughput & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Throughput;
+    };
+};
+
+/**
  * Contains response data for the beginCreateUpdateCassandraKeyspace operation.
  */
 export type DatabaseAccountsBeginCreateUpdateCassandraKeyspaceResponse = CassandraKeyspace & {
@@ -2677,6 +3167,26 @@ export type DatabaseAccountsBeginCreateUpdateCassandraKeyspaceResponse = Cassand
        * The response body as parsed JSON or XML
        */
       parsedBody: CassandraKeyspace;
+    };
+};
+
+/**
+ * Contains response data for the beginUpdateCassandraKeyspaceThroughput operation.
+ */
+export type DatabaseAccountsBeginUpdateCassandraKeyspaceThroughputResponse = Throughput & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Throughput;
     };
 };
 
@@ -2701,6 +3211,26 @@ export type DatabaseAccountsBeginCreateUpdateCassandraTableResponse = CassandraT
 };
 
 /**
+ * Contains response data for the beginUpdateCassandraTableThroughput operation.
+ */
+export type DatabaseAccountsBeginUpdateCassandraTableThroughputResponse = Throughput & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Throughput;
+    };
+};
+
+/**
  * Contains response data for the beginCreateUpdateGremlinDatabase operation.
  */
 export type DatabaseAccountsBeginCreateUpdateGremlinDatabaseResponse = GremlinDatabase & {
@@ -2721,6 +3251,26 @@ export type DatabaseAccountsBeginCreateUpdateGremlinDatabaseResponse = GremlinDa
 };
 
 /**
+ * Contains response data for the beginUpdateGremlinDatabaseThroughput operation.
+ */
+export type DatabaseAccountsBeginUpdateGremlinDatabaseThroughputResponse = Throughput & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Throughput;
+    };
+};
+
+/**
  * Contains response data for the beginCreateUpdateGremlinGraph operation.
  */
 export type DatabaseAccountsBeginCreateUpdateGremlinGraphResponse = GremlinGraph & {
@@ -2737,6 +3287,26 @@ export type DatabaseAccountsBeginCreateUpdateGremlinGraphResponse = GremlinGraph
        * The response body as parsed JSON or XML
        */
       parsedBody: GremlinGraph;
+    };
+};
+
+/**
+ * Contains response data for the beginUpdateGremlinGraphThroughput operation.
+ */
+export type DatabaseAccountsBeginUpdateGremlinGraphThroughputResponse = Throughput & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Throughput;
     };
 };
 

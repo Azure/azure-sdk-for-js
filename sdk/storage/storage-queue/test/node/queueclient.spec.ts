@@ -1,20 +1,25 @@
 import * as assert from "assert";
-
-import { getQSU, getUniqueName } from "../utils";
+import { getQSU } from "../utils";
+import { record } from "../utils/recorder";
+import { QueueClient } from "../../src/QueueClient";
 
 describe("QueueClient Node", () => {
   const queueServiceClient = getQSU();
-  let queueName: string = getUniqueName("queue");
-  let queueClient = queueServiceClient.createQueueClient(queueName);
+  let queueName: string;
+  let queueClient: QueueClient;
 
-  beforeEach(async () => {
-    queueName = getUniqueName("queue");
+  let recorder: any;
+
+  beforeEach(async function() {
+    recorder = record(this);
+    queueName = recorder.getUniqueName("queue");
     queueClient = queueServiceClient.createQueueClient(queueName);
     await queueClient.create();
   });
 
   afterEach(async () => {
     await queueClient.delete();
+    recorder.stop();
   });
 
   it("getAccessPolicy", async () => {

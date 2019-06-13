@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { isNode, URLBuilder } from "@azure/ms-rest-js";
+import { HttpHeaders, isNode, URLBuilder } from "@azure/ms-rest-js";
+import { HeaderConstants, URLConstants } from "./constants";
 
 /**
  * Reserved URL characters must be properly escaped for Storage services like Blob or File.
@@ -69,6 +70,46 @@ export function escapeURLPath(url: string): string {
   return urlParsed.toString();
 }
 
+export function extractConnectionStringParts(connectionString: string): { [key: string]: any } {
+  const matchCredentials = connectionString.match(
+    "DefaultEndpointsProtocol=(.*);AccountName=(.*);AccountKey=(.*);EndpointSuffix=(.*)"
+  );
+
+  let defaultEndpointsProtocol;
+  let accountName;
+  let accountKey;
+  let endpointSuffix;
+
+  try {
+    defaultEndpointsProtocol = matchCredentials![1] || "";
+    accountName = matchCredentials![2] || "";
+    accountKey = Buffer.from(matchCredentials![3], "base64");
+    endpointSuffix = matchCredentials![4] || "";
+  } catch (err) {
+    throw new Error("Invalid Connection String");
+  }
+
+  const protocol = defaultEndpointsProtocol.toLowerCase();
+  if (protocol !== "https" && protocol !== "http") {
+    throw new Error(
+      "Invalid DefaultEndpointsProtocol in the provided Connection String. Expecting 'https' or 'http'"
+    );
+  } else if (!accountName) {
+    throw new Error("Invalid AccountName in the provided Connection String");
+  } else if (accountKey.length === 0) {
+    throw new Error("Invalid AccountKey in the provided Connection String");
+  } else if (!endpointSuffix) {
+    throw new Error("Invalid EndpointSuffix in the provided Connection String");
+  }
+
+  const url = `${defaultEndpointsProtocol}://${accountName}.blob.${endpointSuffix}`;
+
+  return {
+    url: url,
+    accountName: accountName,
+    accountKey: accountKey
+  };
+}
 /**
  * Internal escape method implmented Strategy Two mentioned in escapeURL() description.
  *
@@ -286,4 +327,28 @@ export function padStart(
     }
     return padString.slice(0, targetLength) + currentString;
   }
+}
+
+export function sanitizeURL(url: string): string {
+  let safeURL: string = url;
+  if (getURLParameter(safeURL, URLConstants.Parameters.SIGNATURE)) {
+    safeURL = setURLParameter(safeURL, URLConstants.Parameters.SIGNATURE, "*****");
+  }
+
+  return safeURL;
+}
+
+export function sanitizeHeaders(originalHeader: HttpHeaders): HttpHeaders {
+  const headers: HttpHeaders = new HttpHeaders();
+  for (const header of originalHeader.headersArray()) {
+    if (header.name.toLowerCase() === HeaderConstants.AUTHORIZATION) {
+      headers.set(header.name, "*****");
+    } else if (header.name.toLowerCase() === HeaderConstants.X_MS_COPY_SOURCE) {
+      headers.set(header.name, sanitizeURL(header.value));
+    } else {
+      headers.set(header.name, header.value);
+    }
+  }
+
+  return headers;
 }
