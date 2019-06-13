@@ -7,6 +7,7 @@ import {
   HttpPipelineLogLevel,
   RequestPolicy,
   RequestPolicyOptions,
+  RestError,
   WebResource
 } from "@azure/ms-rest-js";
 
@@ -116,6 +117,12 @@ export class LoggingPolicy extends BaseRequestPolicy {
 
       return response;
     } catch (err) {
+      if (err instanceof RestError && err.request) {
+        this.log(
+          HttpPipelineLogLevel.INFO,
+          `  request headers: ${JSON.stringify(sanitizeHeaders(err.request.headers), null, 2)}`
+        );
+      }
       this.log(
         HttpPipelineLogLevel.ERROR,
         `Unexpected failure attempting to make request. Error message: ${err.message}`
