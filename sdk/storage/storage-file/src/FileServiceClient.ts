@@ -143,9 +143,9 @@ export class FileServiceClient extends StorageClient {
    */
   public async createShare(shareName: string, options?: ShareCreateOptions) {
     const shareClient = this.createShareClient(shareName);
-    const response = await shareClient.create(options);
+    const shareCreateResponse = await shareClient.create(options);
     return {
-      response,
+      shareCreateResponse,
       shareClient
     };
   }

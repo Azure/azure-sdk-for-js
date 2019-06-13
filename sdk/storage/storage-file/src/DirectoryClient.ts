@@ -205,10 +205,10 @@ export class DirectoryClient extends StorageClient {
    */
   public async createSubdirectory(directoryName: string, options?: DirectoryCreateOptions) {
     const directoryClient = this.createDirectoryClient(directoryName);
-    const response = await directoryClient.create(options);
+    const directoryCreateResponse = await directoryClient.create(options);
     return {
       directoryClient,
-      response
+      directoryCreateResponse
     };
   }
 
@@ -239,10 +239,10 @@ export class DirectoryClient extends StorageClient {
    */
   public async createFile(fileName: string, size: number, options?: FileCreateOptions) {
     const fileClient = this.createFileClient(fileName);
-    const response = await fileClient.create(size, options);
+    const fileCreateResponse = await fileClient.create(size, options);
     return {
       fileClient,
-      response
+      fileCreateResponse
     };
   }
 

@@ -222,18 +222,21 @@ export class BlobServiceClient extends StorageClient {
    *
    * @param {string} containerName Name of the container to create.
    * @param {ContainerCreateOptions} [options] Options to configure Container Create operation.
-   * @returns {Promise<{ containerClient: ContainerClient; response: Models.ContainerCreateResponse }>} Container creation response and the corresponding container client.
+   * @returns {Promise<{ containerClient: ContainerClient; containerCreateResponse: Models.ContainerCreateResponse }>} Container creation response and the corresponding container client.
    * @memberof BlobServiceClient
    */
-  public async createBlobContainer(
+  public async createContainer(
     containerName: string,
     options?: ContainerCreateOptions
-  ): Promise<{ containerClient: ContainerClient; response: Models.ContainerCreateResponse }> {
+  ): Promise<{
+    containerClient: ContainerClient;
+    containerCreateResponse: Models.ContainerCreateResponse;
+  }> {
     const containerClient = this.createContainerClient(containerName);
-    const response = await containerClient.create(options);
+    const containerCreateResponse = await containerClient.create(options);
     return {
       containerClient,
-      response
+      containerCreateResponse
     };
   }
 
@@ -245,7 +248,7 @@ export class BlobServiceClient extends StorageClient {
    * @returns {Promise<Models.ContainerDeleteResponse>} Container deletion response.
    * @memberof BlobServiceClient
    */
-  public async deleteBlobContainer(
+  public async deleteContainer(
     containerName: string,
     options?: ContainerDeleteMethodOptions
   ): Promise<Models.ContainerDeleteResponse> {

@@ -271,7 +271,7 @@ describe("BlobServiceClient", () => {
     const access = "container";
     const metadata = { key: "value" };
 
-    const { containerClient } = await blobServiceClient.createBlobContainer(containerName, {
+    const { containerClient } = await blobServiceClient.createContainer(containerName, {
       access,
       metadata
     });
@@ -279,7 +279,7 @@ describe("BlobServiceClient", () => {
     assert.deepEqual(result.blobPublicAccess, access);
     assert.deepEqual(result.metadata, metadata);
 
-    await blobServiceClient.deleteBlobContainer(containerName);
+    await blobServiceClient.deleteContainer(containerName);
     try {
       await containerClient.getProperties();
       assert.fail(
