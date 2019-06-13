@@ -254,6 +254,9 @@ describe("defaultHttpClient", function () {
   });
 
   it("should send HTTP requests", async function () {
+    // Increase timeout to give the request time to complete
+    this.timeout(10000);
+
     httpMock.passThrough();
     const request = new WebResource("https://example.com", "GET");
     request.headers.set("Access-Control-Allow-Headers", "Content-Type");
