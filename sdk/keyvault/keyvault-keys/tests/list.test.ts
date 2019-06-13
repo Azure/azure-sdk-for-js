@@ -79,7 +79,7 @@ describe("Keys client - list keys in various ways", () => {
       found += 1;
     }
 
-    assert.equal(found, 2, "Unexpected number of keys found by getAllSecrets.");
+    assert.equal(found, 2, "Unexpected number of keys found by getKeys.");
   });
 
   it("list deleted keys", async () => {
@@ -92,6 +92,8 @@ describe("Keys client - list keys in various ways", () => {
       await client.deleteKey(name);
     }
 
+    await delay(30000);
+
     let found = 0;
     for await (const key of client.getDeletedKeys()) {
       // The vault might contain more keys than the ones we inserted.
@@ -99,7 +101,7 @@ describe("Keys client - list keys in various ways", () => {
       found += 1;
     }
 
-    assert.equal(found, 2, "Unexpected number of keys found by getAllSecrets.");
+    assert.equal(found, 2, "Unexpected number of keys found by getDeletedKeys.");
 
     for (let name of keyNames) {
       await client.purgeDeletedKey(name);
