@@ -1,0 +1,22 @@
+{
+ "recordings": [
+  {
+   "method": "DELETE",
+   "url": "https://coolstorageaccount1234.file.core.windows.net/1share-with-dash155873406337609636",
+   "query": {
+    "restype": "share"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "",
+   "responseHeaders": {
+    "x-ms-request-id": "d6db3915-001a-007a-3779-12f715000000",
+    "x-ms-version": "2018-03-28",
+    "server": "Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0",
+    "date": "Fri, 24 May 2019 21:41:13 GMT",
+    "content-length": "0"
+   }
+  }
+ ],
+ "uniqueTestInfo": {}
+}
