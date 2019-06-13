@@ -9,9 +9,6 @@
 export {
   discriminators,
   CloudError,
-  RunFilterParameters,
-  RunQueryFilter,
-  RunQueryOrderBy,
-  TriggerRun,
-  TriggerRunsQueryResponse
+  ExposureControlRequest,
+  ExposureControlResponse
 } from "../models/mappers";
