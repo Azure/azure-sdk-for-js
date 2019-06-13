@@ -4,7 +4,7 @@
 import uuid from "uuid/v4";
 import * as log from "./log";
 import { Receiver, OnAmqpEvent, EventContext, ReceiverOptions as RheaReceiverOptions, types, AmqpError } from "rhea-promise";
-import { translate, Constants, MessagingError, retry, RetryOperationType, RetryConfig } from "@azure/amqp-common";
+import { translate, Constants, MessagingError, retry, RetryOperationType, RetryConfig } from "@azure/core-amqp";
 import { ReceivedEventData, EventDataInternal, fromAmqpMessage } from "./eventData";
 import { EventReceiverOptions } from "./eventHubClient";
 import { ConnectionContext } from "./connectionContext";

@@ -11,7 +11,7 @@ import {
   RetryOperationType,
   RetryConfig,
   retry
-} from "@azure/amqp-common";
+} from "@azure/core-amqp";
 import { ReceivedEventData, EventDataInternal, fromAmqpMessage } from "./eventData";
 import { EventReceiverOptions, RetryOptions } from "./eventHubClient";
 import { EventHubReceiver } from "./eventHubReceiver";

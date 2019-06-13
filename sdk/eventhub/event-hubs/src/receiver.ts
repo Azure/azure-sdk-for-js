@@ -6,7 +6,7 @@ import { ConnectionContext } from "./connectionContext";
 import { EventReceiverOptions } from "./eventHubClient";
 import { OnMessage, OnError } from "./eventHubReceiver";
 import { ReceivedEventData } from "./eventData";
-import { Constants } from "@azure/amqp-common";
+import { Constants } from "@azure/core-amqp";
 import { StreamingReceiver, ReceiveHandler } from "./streamingReceiver";
 import { BatchingReceiver } from "./batchingReceiver";
 import { AbortSignal } from "@azure/abort-controller";

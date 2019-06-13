@@ -1,5 +1,5 @@
 import { EventPosition } from "../eventPosition";
-import { translate, Constants, ErrorNameConditionMapper } from "@azure/amqp-common";
+import { translate, Constants, ErrorNameConditionMapper } from "@azure/core-amqp";
 
 /**
  * @internal

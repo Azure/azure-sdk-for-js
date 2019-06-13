@@ -18,7 +18,7 @@ import {
   ConnectionConfig,
   parseConnectionString,
   EventHubConnectionStringModel
-} from "@azure/amqp-common";
+} from "@azure/core-amqp";
 
 import { ConnectionContext } from "./connectionContext";
 import { PartitionProperties, EventHubProperties } from "./managementClient";

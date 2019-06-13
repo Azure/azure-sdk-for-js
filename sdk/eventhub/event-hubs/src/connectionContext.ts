@@ -13,7 +13,7 @@ import {
   CreateConnectionContextBaseParameters,
   EventHubConnectionConfig,
   TokenProvider
-} from "@azure/amqp-common";
+} from "@azure/core-amqp";
 import { ManagementClient, ManagementClientOptions } from "./managementClient";
 import { EventHubClientOptions } from "./eventHubClient";
 import { Dictionary, OnAmqpEvent, EventContext, ConnectionEvents } from "rhea-promise";

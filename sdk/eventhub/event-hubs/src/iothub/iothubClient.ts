@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { translate, MessagingError, IotSasTokenProvider } from "@azure/amqp-common";
-import { IotHubConnectionConfig } from "@azure/amqp-common";
+import { translate, MessagingError, IotSasTokenProvider } from "@azure/core-amqp";
+import { IotHubConnectionConfig } from "@azure/core-amqp";
 import { ConnectionContext, ConnectionContextOptions } from "../connectionContext";
 import * as log from "../log";
 

@@ -24,7 +24,7 @@ import {
   RetryOperationType,
   Constants,
   randomNumberFromInterval
-} from "@azure/amqp-common";
+} from "@azure/core-amqp";
 import { EventData, toAmqpMessage } from "./eventData";
 import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";

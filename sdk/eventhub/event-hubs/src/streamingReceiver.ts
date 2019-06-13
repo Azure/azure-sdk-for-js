@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { Constants } from "@azure/amqp-common";
+import { Constants } from "@azure/core-amqp";
 import { ReceiverEvents } from "rhea-promise";
 import { EventReceiverOptions } from "./eventHubClient";
 import { EventHubReceiver, OnMessage, OnError } from "./eventHubReceiver";

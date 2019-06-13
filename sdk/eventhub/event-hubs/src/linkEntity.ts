@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import uuid from "uuid/v4";
-import { defaultLock } from "@azure/amqp-common";
+import { defaultLock } from "@azure/core-amqp";
 import { ConnectionContext } from "./connectionContext";
 import { Sender, Receiver } from "rhea-promise";
 import * as log from "./log";

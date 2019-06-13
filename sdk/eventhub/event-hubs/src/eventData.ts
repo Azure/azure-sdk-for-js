@@ -7,7 +7,7 @@ import {
   MessageAnnotations,
   DeliveryAnnotations
 } from "rhea-promise";
-import { Constants } from "@azure/amqp-common";
+import { Constants } from "@azure/core-amqp";
 
 /**
  * Describes the delivery annotations.

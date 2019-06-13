@@ -4,27 +4,27 @@
 
 ```ts
 
-import { AadTokenProvider } from '@azure/amqp-common';
+import { AadTokenProvider } from '@azure/core-amqp';
 import { AbortSignal } from '@azure/abort-controller';
 import { AmqpError } from 'rhea-promise';
 import { ApplicationTokenCredentials } from '@azure/ms-rest-nodeauth';
-import { ConnectionContextBase } from '@azure/amqp-common';
-import { DataTransformer } from '@azure/amqp-common';
-import { DefaultDataTransformer } from '@azure/amqp-common';
-import { delay } from '@azure/amqp-common';
+import { ConnectionContextBase } from '@azure/core-amqp';
+import { DataTransformer } from '@azure/core-amqp';
+import { DefaultDataTransformer } from '@azure/core-amqp';
+import { delay } from '@azure/core-amqp';
 import { DeviceTokenCredentials } from '@azure/ms-rest-nodeauth';
 import { Dictionary } from 'rhea-promise';
-import { EventHubConnectionConfig } from '@azure/amqp-common';
-import { MessagingError } from '@azure/amqp-common';
+import { EventHubConnectionConfig } from '@azure/core-amqp';
+import { MessagingError } from '@azure/core-amqp';
 import { MSITokenCredentials } from '@azure/ms-rest-nodeauth';
 import { OnAmqpEvent } from 'rhea-promise';
 import { Receiver } from 'rhea-promise';
 import { ReceiverOptions } from 'rhea-promise';
-import { SasTokenProvider } from '@azure/amqp-common';
+import { SasTokenProvider } from '@azure/core-amqp';
 import { Sender } from 'rhea-promise';
-import { TokenInfo } from '@azure/amqp-common';
-import { TokenProvider } from '@azure/amqp-common';
-import { TokenType } from '@azure/amqp-common';
+import { TokenInfo } from '@azure/core-amqp';
+import { TokenProvider } from '@azure/core-amqp';
+import { TokenType } from '@azure/core-amqp';
 import { UserTokenCredentials } from '@azure/ms-rest-nodeauth';
 import { WebSocketImpl } from 'rhea-promise';
 
