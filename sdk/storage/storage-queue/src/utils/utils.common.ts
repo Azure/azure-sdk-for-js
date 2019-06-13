@@ -114,7 +114,7 @@ export function getURLQueries(url: string): { [key: string]: string } {
   return queries;
 }
 
-export function extractPartsWithValidation(connectionString: string): { [key: string]: any } {
+export function extractConnectionStringParts(connectionString: string): { [key: string]: any } {
   const matchCredentials = connectionString.match(
     "DefaultEndpointsProtocol=(.*);AccountName=(.*);AccountKey=(.*);EndpointSuffix=(.*)"
   );
@@ -134,9 +134,9 @@ export function extractPartsWithValidation(connectionString: string): { [key: st
   const url = `${defaultEndpointsProtocol}://${accountName}.queue.${endpointSuffix}`;
 
   return {
-    url: url,
-    accountName: accountName,
-    accountKey: accountKey
+    url,
+    accountName,
+    accountKey
   };
 }
 

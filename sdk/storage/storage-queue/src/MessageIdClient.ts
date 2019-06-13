@@ -9,7 +9,7 @@ import { Credential } from "./credentials/Credential";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { StorageClient } from "./StorageClient";
-import { extractPartsWithValidation } from "./utils/utils.common";
+import { extractConnectionStringParts } from "./utils/utils.common";
 
 /**
  * Options to configure MessageId - Delete operation
@@ -131,7 +131,7 @@ export class MessageIdClient extends StorageClient {
       const queueName = credentialOrPipelineOrQueueName;
       const messageId = messageIdOrOptions;
 
-      const extractedCreds = extractPartsWithValidation(urlOrConnectionString);
+      const extractedCreds = extractConnectionStringParts(urlOrConnectionString);
       const sharedKeyCredential = new SharedKeyCredential(
         extractedCreds.accountName,
         extractedCreds.accountKey

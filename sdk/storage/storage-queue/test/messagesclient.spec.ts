@@ -1,5 +1,5 @@
 import * as assert from "assert";
-import { getQSU } from "./utils";
+import { getQSU, getConnectionStringFromEnvironment } from "./utils";
 import { QueueClient } from "../src/QueueClient";
 import { record } from "./utils/recorder";
 import * as dotenv from "dotenv";
@@ -396,5 +396,41 @@ describe("MessagesClient", () => {
     assert.ok(eResult.requestId);
     assert.ok(eResult.timeNextVisible);
     assert.ok(eResult.version);
+  });
+
+  it("can be created with a connection string and a queue name", async () => {
+    const newClient = new MessagesClient(getConnectionStringFromEnvironment(), queueName);
+
+    const eResult = await newClient.enqueue(messageContent);
+    assert.ok(eResult.date);
+    assert.ok(eResult.expirationTime);
+    assert.ok(eResult.insertionTime);
+    assert.ok(eResult.messageId);
+    assert.ok(eResult.popReceipt);
+  });
+
+  it("can be created with a connection string and a queue name and an option bag", async () => {
+    const newClient = new MessagesClient(getConnectionStringFromEnvironment(), queueName);
+
+    const eResult = await newClient.enqueue(messageContent);
+    assert.ok(eResult.date);
+    assert.ok(eResult.expirationTime);
+    assert.ok(eResult.insertionTime);
+    assert.ok(eResult.messageId);
+    assert.ok(eResult.popReceipt);
+  });
+
+  it("throws error if constructor queueName parameter is empty", async () => {
+    try {
+      // tslint:disable-next-line: no-unused-expression
+      new MessagesClient(getConnectionStringFromEnvironment(), "");
+      assert.fail("Expecting an thrown error but didn't get one.");
+    } catch (error) {
+      assert.equal(
+        "Expecting non-empty strings for queueName parameter",
+        error.message,
+        "Error message is different than expected."
+      );
+    }
   });
 });

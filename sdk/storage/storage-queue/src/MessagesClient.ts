@@ -7,7 +7,7 @@ import { Aborter } from "./Aborter";
 import { Messages } from "./generated/lib/operations";
 import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
 import { StorageClient } from "./StorageClient";
-import { appendToURLPath, extractPartsWithValidation } from "./utils/utils.common";
+import { appendToURLPath, extractConnectionStringParts } from "./utils/utils.common";
 import { MessageIdClient } from "./MessageIdClient";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 import { Credential } from "./credentials/Credential";
@@ -219,7 +219,7 @@ export class MessagesClient extends StorageClient {
       typeof credentialOrPipelineOrQueueName === "string"
     ) {
       const queueName = credentialOrPipelineOrQueueName;
-      const extractedCreds = extractPartsWithValidation(urlOrConnectionString);
+      const extractedCreds = extractConnectionStringParts(urlOrConnectionString);
       const sharedKeyCredential = new SharedKeyCredential(
         extractedCreds.accountName,
         extractedCreds.accountKey

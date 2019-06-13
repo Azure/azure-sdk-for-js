@@ -1,9 +1,9 @@
 import * as assert from "assert";
-import { getAlternateQSU, getQSU, wait } from "./utils";
-import { record } from "./utils/recorder";
 import * as dotenv from "dotenv";
-import { SharedKeyCredential, newPipeline } from "../src";
+import { newPipeline, SharedKeyCredential } from "../src";
 import { QueueServiceClient } from "../src/QueueServiceClient";
+import { getAlternateQSU, getConnectionStringFromEnvironment, getQSU, wait } from "./utils";
+import { record } from "./utils/recorder";
 dotenv.config({ path: "../.env" });
 
 describe("QueueServiceClient", () => {
@@ -265,5 +265,14 @@ describe("QueueServiceClient", () => {
     assert.ok(result.requestId!.length > 0);
     assert.ok(typeof result.version);
     assert.ok(result.version!.length > 0);
+  });
+
+  it("can be created from a connection string", async () => {
+    const newClient = QueueServiceClient.fromConnectionString(getConnectionStringFromEnvironment());
+
+    const result = await newClient.getProperties();
+
+    assert.ok(typeof result.requestId);
+    assert.ok(result.requestId!.length > 0);
   });
 });

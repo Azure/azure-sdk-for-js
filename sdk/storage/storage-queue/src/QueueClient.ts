@@ -11,7 +11,7 @@ import { StorageClient } from "./StorageClient";
 import {
   appendToURLPath,
   truncatedISO8061Date,
-  extractPartsWithValidation
+  extractConnectionStringParts
 } from "./utils/utils.common";
 import { MessagesClient } from "./MessagesClient";
 import { Credential } from "./credentials/Credential";
@@ -259,7 +259,7 @@ export class QueueClient extends StorageClient {
     ) {
       const queueName = credentialOrPipelineOrQueueName;
 
-      const extractedCreds = extractPartsWithValidation(urlOrConnectionString);
+      const extractedCreds = extractConnectionStringParts(urlOrConnectionString);
       const sharedKeyCredential = new SharedKeyCredential(
         extractedCreds.accountName,
         extractedCreds.accountKey
