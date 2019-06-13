@@ -416,7 +416,7 @@ export interface ParameterSpecification {
 /**
  * Contains the possible cases for LinkedService.
  */
-export type LinkedServiceUnion = LinkedService | AzureFunctionLinkedService | AzureDataExplorerLinkedService | GoogleAdWordsLinkedService | OracleServiceCloudLinkedService | DynamicsAXLinkedService | ResponsysLinkedService | AzureDatabricksLinkedService | AzureDataLakeAnalyticsLinkedService | HDInsightOnDemandLinkedService | SalesforceMarketingCloudLinkedService | NetezzaLinkedService | VerticaLinkedService | ZohoLinkedService | XeroLinkedService | SquareLinkedService | SparkLinkedService | ShopifyLinkedService | ServiceNowLinkedService | QuickBooksLinkedService | PrestoLinkedService | PhoenixLinkedService | PaypalLinkedService | MarketoLinkedService | MariaDBLinkedService | MagentoLinkedService | JiraLinkedService | ImpalaLinkedService | HubspotLinkedService | HiveLinkedService | HBaseLinkedService | GreenplumLinkedService | GoogleBigQueryLinkedService | EloquaLinkedService | DrillLinkedService | CouchbaseLinkedService | ConcurLinkedService | AzurePostgreSqlLinkedService | AmazonMWSLinkedService | SapHanaLinkedService | SapBWLinkedService | SftpServerLinkedService | FtpServerLinkedService | HttpLinkedService | AzureSearchLinkedService | CustomDataSourceLinkedService | AmazonRedshiftLinkedService | AmazonS3LinkedService | RestServiceLinkedService | SapOpenHubLinkedService | SapEccLinkedService | SapCloudForCustomerLinkedService | SalesforceLinkedService | Office365LinkedService | AzureBlobFSLinkedService | AzureDataLakeStoreLinkedService | CosmosDbMongoDbApiLinkedService | MongoDbV2LinkedService | MongoDbLinkedService | CassandraLinkedService | WebLinkedService | ODataLinkedService | HdfsLinkedService | OdbcLinkedService | AzureMLLinkedService | TeradataLinkedService | Db2LinkedService | SybaseLinkedService | PostgreSqlLinkedService | MySqlLinkedService | AzureMySqlLinkedService | OracleLinkedService | FileServerLinkedService | HDInsightLinkedService | DynamicsLinkedService | CosmosDbLinkedService | AzureKeyVaultLinkedService | AzureBatchLinkedService | AzureSqlDatabaseLinkedService | SqlServerLinkedService | AzureSqlDWLinkedService | AzureTableStorageLinkedService | AzureBlobStorageLinkedService | AzureStorageLinkedService;
+export type LinkedServiceUnion = LinkedService | AzureFunctionLinkedService | AzureDataExplorerLinkedService | SapTableLinkedService | GoogleAdWordsLinkedService | OracleServiceCloudLinkedService | DynamicsAXLinkedService | ResponsysLinkedService | AzureDatabricksLinkedService | AzureDataLakeAnalyticsLinkedService | HDInsightOnDemandLinkedService | SalesforceMarketingCloudLinkedService | NetezzaLinkedService | VerticaLinkedService | ZohoLinkedService | XeroLinkedService | SquareLinkedService | SparkLinkedService | ShopifyLinkedService | ServiceNowLinkedService | QuickBooksLinkedService | PrestoLinkedService | PhoenixLinkedService | PaypalLinkedService | MarketoLinkedService | MariaDBLinkedService | MagentoLinkedService | JiraLinkedService | ImpalaLinkedService | HubspotLinkedService | HiveLinkedService | HBaseLinkedService | GreenplumLinkedService | GoogleBigQueryLinkedService | EloquaLinkedService | DrillLinkedService | CouchbaseLinkedService | ConcurLinkedService | AzurePostgreSqlLinkedService | AmazonMWSLinkedService | SapHanaLinkedService | SapBWLinkedService | SftpServerLinkedService | FtpServerLinkedService | HttpLinkedService | AzureSearchLinkedService | CustomDataSourceLinkedService | AmazonRedshiftLinkedService | AmazonS3LinkedService | RestServiceLinkedService | SapOpenHubLinkedService | SapEccLinkedService | SapCloudForCustomerLinkedService | SalesforceLinkedService | Office365LinkedService | AzureBlobFSLinkedService | AzureDataLakeStoreLinkedService | CosmosDbMongoDbApiLinkedService | MongoDbV2LinkedService | MongoDbLinkedService | CassandraLinkedService | WebLinkedService | ODataLinkedService | HdfsLinkedService | OdbcLinkedService | AzureMLLinkedService | TeradataLinkedService | Db2LinkedService | SybaseLinkedService | PostgreSqlLinkedService | MySqlLinkedService | AzureMySqlLinkedService | OracleLinkedService | FileServerLinkedService | HDInsightLinkedService | DynamicsLinkedService | CosmosDbLinkedService | AzureKeyVaultLinkedService | AzureBatchLinkedService | AzureSqlDatabaseLinkedService | SqlServerLinkedService | AzureSqlDWLinkedService | AzureTableStorageLinkedService | AzureBlobStorageLinkedService | AzureStorageLinkedService;
 
 /**
  * The Azure Data Factory nested object which contains the information and credential which can be
@@ -472,7 +472,7 @@ export interface DatasetFolder {
 /**
  * Contains the possible cases for Dataset.
  */
-export type DatasetUnion = Dataset | GoogleAdWordsObjectDataset | AzureDataExplorerTableDataset | OracleServiceCloudObjectDataset | DynamicsAXResourceDataset | ResponsysObjectDataset | SalesforceMarketingCloudObjectDataset | VerticaTableDataset | NetezzaTableDataset | ZohoObjectDataset | XeroObjectDataset | SquareObjectDataset | SparkObjectDataset | ShopifyObjectDataset | ServiceNowObjectDataset | QuickBooksObjectDataset | PrestoObjectDataset | PhoenixObjectDataset | PaypalObjectDataset | MarketoObjectDataset | MariaDBTableDataset | MagentoObjectDataset | JiraObjectDataset | ImpalaObjectDataset | HubspotObjectDataset | HiveObjectDataset | HBaseObjectDataset | GreenplumTableDataset | GoogleBigQueryObjectDataset | EloquaObjectDataset | DrillTableDataset | CouchbaseTableDataset | ConcurObjectDataset | AzurePostgreSqlTableDataset | AmazonMWSObjectDataset | HttpDataset | AzureSearchIndexDataset | WebTableDataset | RestResourceDataset | SqlServerTableDataset | SapOpenHubTableDataset | SapHanaTableDataset | SapEccResourceDataset | SapCloudForCustomerResourceDataset | SalesforceObjectDataset | RelationalTableDataset | AzureMySqlTableDataset | OracleTableDataset | ODataResourceDataset | CosmosDbMongoDbApiCollectionDataset | MongoDbV2CollectionDataset | MongoDbCollectionDataset | FileShareDataset | Office365Dataset | AzureBlobFSDataset | AzureDataLakeStoreDataset | DynamicsEntityDataset | DocumentDbCollectionDataset | CustomDataset | CassandraTableDataset | AzureSqlDWTableDataset | AzureSqlTableDataset | AzureTableDataset | AzureBlobDataset | AmazonS3Dataset;
+export type DatasetUnion = Dataset | GoogleAdWordsObjectDataset | AzureDataExplorerTableDataset | OracleServiceCloudObjectDataset | DynamicsAXResourceDataset | ResponsysObjectDataset | SalesforceMarketingCloudObjectDataset | VerticaTableDataset | NetezzaTableDataset | ZohoObjectDataset | XeroObjectDataset | SquareObjectDataset | SparkObjectDataset | ShopifyObjectDataset | ServiceNowObjectDataset | QuickBooksObjectDataset | PrestoObjectDataset | PhoenixObjectDataset | PaypalObjectDataset | MarketoObjectDataset | MariaDBTableDataset | MagentoObjectDataset | JiraObjectDataset | ImpalaObjectDataset | HubspotObjectDataset | HiveObjectDataset | HBaseObjectDataset | GreenplumTableDataset | GoogleBigQueryObjectDataset | EloquaObjectDataset | DrillTableDataset | CouchbaseTableDataset | ConcurObjectDataset | AzurePostgreSqlTableDataset | AmazonMWSObjectDataset | HttpDataset | AzureSearchIndexDataset | WebTableDataset | SapTableResourceDataset | RestResourceDataset | SqlServerTableDataset | SapOpenHubTableDataset | SapHanaTableDataset | SapEccResourceDataset | SapCloudForCustomerResourceDataset | SalesforceObjectDataset | RelationalTableDataset | AzureMySqlTableDataset | OracleTableDataset | ODataResourceDataset | CosmosDbMongoDbApiCollectionDataset | MongoDbV2CollectionDataset | MongoDbCollectionDataset | FileShareDataset | Office365Dataset | AzureBlobFSDataset | AzureDataLakeStoreDataset | DynamicsEntityDataset | DocumentDbCollectionDataset | CustomDataset | CassandraTableDataset | AzureSqlDWTableDataset | AzureSqlTableDataset | AzureTableDataset | AzureBlobDataset | DelimitedTextDataset | ParquetDataset | AmazonS3Dataset;
 
 /**
  * The Azure Data Factory nested object which identifies data within different data stores, such as
@@ -2041,6 +2041,109 @@ export interface AzureDataExplorerLinkedService {
    * Expression with resultType string).
    */
   tenant: any;
+}
+
+/**
+ * SAP Table Linked Service.
+ */
+export interface SapTableLinkedService {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "SapTable";
+  /**
+   * The integration runtime reference.
+   */
+  connectVia?: IntegrationRuntimeReference;
+  /**
+   * Linked service description.
+   */
+  description?: string;
+  /**
+   * Parameters for linked service.
+   */
+  parameters?: { [propertyName: string]: ParameterSpecification };
+  /**
+   * List of tags that can be used for describing the linked service.
+   */
+  annotations?: any[];
+  /**
+   * Host name of the SAP instance where the table is located. Type: string (or Expression with
+   * resultType string).
+   */
+  server?: any;
+  /**
+   * System number of the SAP system where the table is located. (Usually a two-digit decimal
+   * number represented as a string.) Type: string (or Expression with resultType string).
+   */
+  systemNumber?: any;
+  /**
+   * Client ID of the client on the SAP system where the table is located. (Usually a three-digit
+   * decimal number represented as a string) Type: string (or Expression with resultType string).
+   */
+  clientId?: any;
+  /**
+   * Language of the SAP system where the table is located. The default value is EN. Type: string
+   * (or Expression with resultType string).
+   */
+  language?: any;
+  /**
+   * SystemID of the SAP system where the table is located. Type: string (or Expression with
+   * resultType string).
+   */
+  systemId?: any;
+  /**
+   * Username to access the SAP server where the table is located. Type: string (or Expression with
+   * resultType string).
+   */
+  userName?: any;
+  /**
+   * Password to access the SAP server where the table is located.
+   */
+  password?: SecretBaseUnion;
+  /**
+   * The hostname of the SAP Message Server. Type: string (or Expression with resultType string).
+   */
+  messageServer?: any;
+  /**
+   * The service name or port number of the Message Server. Type: string (or Expression with
+   * resultType string).
+   */
+  messageServerService?: any;
+  /**
+   * SNC activation indicator to access the SAP server where the table is located. Must be either 0
+   * (off) or 1 (on). Type: string (or Expression with resultType string).
+   */
+  sncMode?: any;
+  /**
+   * Initiator's SNC name to access the SAP server where the table is located. Type: string (or
+   * Expression with resultType string).
+   */
+  sncMyName?: any;
+  /**
+   * Communication partner's SNC name to access the SAP server where the table is located. Type:
+   * string (or Expression with resultType string).
+   */
+  sncPartnerName?: any;
+  /**
+   * External security product's library to access the SAP server where the table is located. Type:
+   * string (or Expression with resultType string).
+   */
+  sncLibraryPath?: any;
+  /**
+   * SNC Quality of Protection. Allowed value include: 1, 2, 3, 8, 9. Type: string (or Expression
+   * with resultType string).
+   */
+  sncQop?: any;
+  /**
+   * The Logon Group for the SAP System. Type: string (or Expression with resultType string).
+   */
+  logonGroup?: any;
+  /**
+   * The encrypted credential used for authentication. Credentials are encrypted using the
+   * integration runtime credential manager. Type: string (or Expression with resultType string).
+   */
+  encryptedCredential?: any;
 }
 
 /**
@@ -7024,7 +7127,7 @@ export interface DynamicsAXResourceDataset {
   /**
    * The path of the Dynamics AX OData entity. Type: string (or Expression with resultType string).
    */
-  path: string;
+  path: any;
 }
 
 /**
@@ -8375,9 +8478,9 @@ export interface DatasetZipDeflateCompression {
    */
   type: "ZipDeflate";
   /**
-   * The ZipDeflate compression level. Possible values include: 'Optimal', 'Fastest'
+   * The ZipDeflate compression level.
    */
-  level?: DatasetCompressionLevel;
+  level?: any;
 }
 
 /**
@@ -8389,9 +8492,9 @@ export interface DatasetDeflateCompression {
    */
   type: "Deflate";
   /**
-   * The Deflate compression level. Possible values include: 'Optimal', 'Fastest'
+   * The Deflate compression level.
    */
-  level?: DatasetCompressionLevel;
+  level?: any;
 }
 
 /**
@@ -8403,9 +8506,9 @@ export interface DatasetGZipCompression {
    */
   type: "GZip";
   /**
-   * The GZip compression level. Possible values include: 'Optimal', 'Fastest'
+   * The GZip compression level.
    */
-  level?: DatasetCompressionLevel;
+  level?: any;
 }
 
 /**
@@ -8517,10 +8620,9 @@ export interface JsonFormat {
   deserializer?: any;
   /**
    * File pattern of JSON. To be more specific, the way of separating a collection of JSON objects.
-   * The default value is 'setOfObjects'. It is case-sensitive. Possible values include:
-   * 'setOfObjects', 'arrayOfObjects'
+   * The default value is 'setOfObjects'. It is case-sensitive.
    */
-  filePattern?: JsonFormatFilePattern;
+  filePattern?: any;
   /**
    * The character used to separate nesting levels. Default value is '.' (dot). Type: string (or
    * Expression with resultType string).
@@ -8774,6 +8876,50 @@ export interface WebTableDataset {
 }
 
 /**
+ * SAP Table Resource properties.
+ */
+export interface SapTableResourceDataset {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "SapTableResource";
+  /**
+   * Dataset description.
+   */
+  description?: string;
+  /**
+   * Columns that define the structure of the dataset. Type: array (or Expression with resultType
+   * array), itemType: DatasetDataElement.
+   */
+  structure?: any;
+  /**
+   * Columns that define the physical type schema of the dataset. Type: array (or Expression with
+   * resultType array), itemType: DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
+   * Linked service reference.
+   */
+  linkedServiceName: LinkedServiceReference;
+  /**
+   * Parameters for dataset.
+   */
+  parameters?: { [propertyName: string]: ParameterSpecification };
+  /**
+   * List of tags that can be used for describing the Dataset.
+   */
+  annotations?: any[];
+  /**
+   * The folder that this Dataset is in. If not specified, Dataset will appear at the root level.
+   */
+  folder?: DatasetFolder;
+  /**
+   * The name of the SAP Table. Type: string (or Expression with resultType string).
+   */
+  tableName: any;
+}
+
+/**
  * A Rest service dataset.
  */
 export interface RestResourceDataset {
@@ -8879,7 +9025,7 @@ export interface SqlServerTableDataset {
   /**
    * The table name of the SQL Server dataset. Type: string (or Expression with resultType string).
    */
-  tableName: any;
+  tableName?: any;
 }
 
 /**
@@ -9027,7 +9173,7 @@ export interface SapEccResourceDataset {
   /**
    * The path of the SAP ECC OData entity. Type: string (or Expression with resultType string).
    */
-  path: string;
+  path: any;
 }
 
 /**
@@ -9887,7 +10033,7 @@ export interface AzureSqlDWTableDataset {
    * The table name of the Azure SQL Data Warehouse. Type: string (or Expression with resultType
    * string).
    */
-  tableName: any;
+  tableName?: any;
 }
 
 /**
@@ -9931,7 +10077,7 @@ export interface AzureSqlTableDataset {
   /**
    * The table name of the Azure SQL database. Type: string (or Expression with resultType string).
    */
-  tableName: any;
+  tableName?: any;
 }
 
 /**
@@ -10047,6 +10193,229 @@ export interface AzureBlobDataset {
    * The data compression method used for the blob storage.
    */
   compression?: DatasetCompressionUnion;
+}
+
+/**
+ * Dataset location.
+ */
+export interface DatasetLocation {
+  /**
+   * Type of dataset storage location.
+   */
+  type: string;
+  /**
+   * Specify the folder path of dataset. Type: string (or Expression with resultType string)
+   */
+  folderPath?: any;
+  /**
+   * Specify the file name of dataset. Type: string (or Expression with resultType string).
+   */
+  fileName?: any;
+  /**
+   * Describes unknown properties. The value of an unknown property can be of "any" type.
+   */
+  [property: string]: any;
+}
+
+/**
+ * The location of HDFS.
+ */
+export interface HdfsLocation extends DatasetLocation {
+}
+
+/**
+ * The location of http server.
+ */
+export interface HttpServerLocation extends DatasetLocation {
+  /**
+   * Specify the relativeUrl of http server. Type: string (or Expression with resultType string)
+   */
+  relativeUrl?: any;
+}
+
+/**
+ * The location of SFTP dataset.
+ */
+export interface SftpLocation extends DatasetLocation {
+}
+
+/**
+ * The location of ftp server dataset.
+ */
+export interface FtpServerLocation extends DatasetLocation {
+}
+
+/**
+ * The location of file server dataset.
+ */
+export interface FileServerLocation extends DatasetLocation {
+}
+
+/**
+ * The location of amazon S3 dataset.
+ */
+export interface AmazonS3Location extends DatasetLocation {
+  /**
+   * Specify the bucketName of amazon S3. Type: string (or Expression with resultType string)
+   */
+  bucketName?: any;
+  /**
+   * Specify the version of amazon S3. Type: string (or Expression with resultType string).
+   */
+  version?: any;
+}
+
+/**
+ * The location of azure data lake store dataset.
+ */
+export interface AzureDataLakeStoreLocation extends DatasetLocation {
+}
+
+/**
+ * The location of azure blobFS dataset.
+ */
+export interface AzureBlobFSLocation extends DatasetLocation {
+  /**
+   * Specify the fileSystem of azure blobFS. Type: string (or Expression with resultType string).
+   */
+  fileSystem?: any;
+}
+
+/**
+ * The location of azure blob dataset.
+ */
+export interface AzureBlobStorageLocation extends DatasetLocation {
+  /**
+   * Specify the container of azure blob. Type: string (or Expression with resultType string).
+   */
+  container?: any;
+}
+
+/**
+ * Delimited text dataset.
+ */
+export interface DelimitedTextDataset {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "DelimitedText";
+  /**
+   * Dataset description.
+   */
+  description?: string;
+  /**
+   * Columns that define the structure of the dataset. Type: array (or Expression with resultType
+   * array), itemType: DatasetDataElement.
+   */
+  structure?: any;
+  /**
+   * Columns that define the physical type schema of the dataset. Type: array (or Expression with
+   * resultType array), itemType: DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
+   * Linked service reference.
+   */
+  linkedServiceName: LinkedServiceReference;
+  /**
+   * Parameters for dataset.
+   */
+  parameters?: { [propertyName: string]: ParameterSpecification };
+  /**
+   * List of tags that can be used for describing the Dataset.
+   */
+  annotations?: any[];
+  /**
+   * The folder that this Dataset is in. If not specified, Dataset will appear at the root level.
+   */
+  folder?: DatasetFolder;
+  /**
+   * The location of the delimited text storage.
+   */
+  location: DatasetLocation;
+  /**
+   * The column delimiter. Type: string (or Expression with resultType string).
+   */
+  columnDelimiter?: any;
+  /**
+   * The row delimiter. Type: string (or Expression with resultType string).
+   */
+  rowDelimiter?: any;
+  /**
+   * The code page name of the preferred encoding. If miss, the default value is UTF-8, unless BOM
+   * denotes another Unicode encoding. Refer to the name column of the table in the following link
+   * to set supported values: https://msdn.microsoft.com/library/system.text.encoding.aspx. Type:
+   * string (or Expression with resultType string).
+   */
+  encodingName?: any;
+  compressionCodec?: any;
+  /**
+   * The data compression method used for DelimitedText.
+   */
+  compressionLevel?: any;
+  /**
+   * The quote character. Type: string (or Expression with resultType string).
+   */
+  quoteChar?: any;
+  /**
+   * The escape character. Type: string (or Expression with resultType string).
+   */
+  escapeChar?: any;
+  /**
+   * When used as input, treat the first row of data as headers. When used as output,write the
+   * headers into the output as the first row of data. The default value is false. Type: boolean
+   * (or Expression with resultType boolean).
+   */
+  firstRowAsHeader?: any;
+  /**
+   * The null value string. Type: string (or Expression with resultType string).
+   */
+  nullValue?: any;
+}
+
+/**
+ * Parquet dataset.
+ */
+export interface ParquetDataset {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "Parquet";
+  /**
+   * Dataset description.
+   */
+  description?: string;
+  /**
+   * Columns that define the structure of the dataset. Type: array (or Expression with resultType
+   * array), itemType: DatasetDataElement.
+   */
+  structure?: any;
+  /**
+   * Columns that define the physical type schema of the dataset. Type: array (or Expression with
+   * resultType array), itemType: DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
+   * Linked service reference.
+   */
+  linkedServiceName: LinkedServiceReference;
+  /**
+   * Parameters for dataset.
+   */
+  parameters?: { [propertyName: string]: ParameterSpecification };
+  /**
+   * List of tags that can be used for describing the Dataset.
+   */
+  annotations?: any[];
+  /**
+   * The folder that this Dataset is in. If not specified, Dataset will appear at the root level.
+   */
+  folder?: DatasetFolder;
+  /**
+   * The location of the parquet storage.
+   */
+  location: DatasetLocation;
+  compressionCodec?: any;
 }
 
 /**
@@ -10733,7 +11102,7 @@ export interface RedshiftUnloadSettings {
 /**
  * Contains the possible cases for CopySource.
  */
-export type CopySourceUnion = CopySource | AmazonRedshiftSource | GoogleAdWordsSource | OracleServiceCloudSource | DynamicsAXSource | ResponsysSource | SalesforceMarketingCloudSource | VerticaSource | NetezzaSource | ZohoSource | XeroSource | SquareSource | SparkSource | ShopifySource | ServiceNowSource | QuickBooksSource | PrestoSource | PhoenixSource | PaypalSource | MarketoSource | MariaDBSource | MagentoSource | JiraSource | ImpalaSource | HubspotSource | HiveSource | HBaseSource | GreenplumSource | GoogleBigQuerySource | EloquaSource | DrillSource | CouchbaseSource | ConcurSource | AzurePostgreSqlSource | AmazonMWSSource | HttpSource | AzureBlobFSSource | AzureDataLakeStoreSource | Office365Source | CosmosDbMongoDbApiSource | MongoDbV2Source | MongoDbSource | CassandraSource | WebSource | OracleSource | AzureDataExplorerSource | AzureMySqlSource | HdfsSource | FileSystemSource | SqlDWSource | SqlSource | RestSource | SapOpenHubSource | SapHanaSource | SapEccSource | SapCloudForCustomerSource | SalesforceSource | RelationalSource | DynamicsSource | DocumentDbCollectionSource | BlobSource | AzureTableSource;
+export type CopySourceUnion = CopySource | AmazonRedshiftSource | GoogleAdWordsSource | OracleServiceCloudSource | DynamicsAXSource | ResponsysSource | SalesforceMarketingCloudSource | VerticaSource | NetezzaSource | ZohoSource | XeroSource | SquareSource | SparkSource | ShopifySource | ServiceNowSource | QuickBooksSource | PrestoSource | PhoenixSource | PaypalSource | MarketoSource | MariaDBSource | MagentoSource | JiraSource | ImpalaSource | HubspotSource | HiveSource | HBaseSource | GreenplumSource | GoogleBigQuerySource | EloquaSource | DrillSource | CouchbaseSource | ConcurSource | AzurePostgreSqlSource | AmazonMWSSource | HttpSource | AzureBlobFSSource | AzureDataLakeStoreSource | Office365Source | CosmosDbMongoDbApiSource | MongoDbV2Source | MongoDbSource | CassandraSource | WebSource | OracleSource | AzureDataExplorerSource | AzureMySqlSource | HdfsSource | FileSystemSource | SqlDWSource | AzureSqlSource | SqlServerSource | SqlSource | RestSource | SapTableSource | SapOpenHubSource | SapHanaSource | SapEccSource | SapCloudForCustomerSource | SalesforceSource | RelationalSource | DynamicsSource | DocumentDbCollectionSource | BlobSource | AzureTableSource | DelimitedTextSource | ParquetSource;
 
 /**
  * A copy activity source.
@@ -12017,10 +12386,8 @@ export interface CassandraSource {
    * before returning data to the client application. Cassandra checks the specified number of
    * Cassandra servers for data to satisfy the read request. Must be one of
    * cassandraSourceReadConsistencyLevels. The default value is 'ONE'. It is case-insensitive.
-   * Possible values include: 'ALL', 'EACH_QUORUM', 'QUORUM', 'LOCAL_QUORUM', 'ONE', 'TWO',
-   * 'THREE', 'LOCAL_ONE', 'SERIAL', 'LOCAL_SERIAL'
    */
-  consistencyLevel?: CassandraSourceReadConsistencyLevels;
+  consistencyLevel?: any;
 }
 
 /**
@@ -12045,6 +12412,31 @@ export interface WebSource {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+}
+
+/**
+ * The settings that will be leveraged for oracle source partitioning.
+ */
+export interface OraclePartitionSettings {
+  /**
+   * Names of the physical partitions of oracle table.
+   */
+  partitionNames?: any;
+  /**
+   * The name of the column in integer type that will be used for proceeding range partitioning.
+   * Type: string (or Expression with resultType string).
+   */
+  partitionColumnName?: any;
+  /**
+   * The maximum value of column specified in partitionColumnName that will be used for proceeding
+   * range partitioning. Type: string (or Expression with resultType string).
+   */
+  partitionUpperBound?: any;
+  /**
+   * The minimum value of column specified in partitionColumnName that will be used for proceeding
+   * range partitioning. Type: string (or Expression with resultType string).
+   */
+  partitionLowerBound?: any;
 }
 
 /**
@@ -12078,6 +12470,14 @@ export interface OracleSource {
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
   queryTimeout?: any;
+  /**
+   * The partition mechanism that will be used for oracle read in parallel.
+   */
+  partitionOption?: any;
+  /**
+   * The settings that will be leveraged for oracle source partitioning.
+   */
+  partitionSettings?: OraclePartitionSettings;
 }
 
 /**
@@ -12278,10 +12678,94 @@ export interface StoredProcedureParameter {
    */
   value?: any;
   /**
-   * Stored procedure parameter type. Possible values include: 'String', 'Int', 'Decimal', 'Guid',
-   * 'Boolean', 'Date'
+   * Stored procedure parameter type. Possible values include: 'String', 'Int', 'Int64', 'Decimal',
+   * 'Guid', 'Boolean', 'Date'
    */
   type?: StoredProcedureParameterType;
+}
+
+/**
+ * A copy activity Azure SQL source.
+ */
+export interface AzureSqlSource {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "AzureSqlSource";
+  /**
+   * Source retry count. Type: integer (or Expression with resultType integer).
+   */
+  sourceRetryCount?: any;
+  /**
+   * Source retry wait. Type: string (or Expression with resultType string), pattern:
+   * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
+   */
+  sourceRetryWait?: any;
+  /**
+   * The maximum concurrent connection count for the source data store. Type: integer (or
+   * Expression with resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
+   * SQL reader query. Type: string (or Expression with resultType string).
+   */
+  sqlReaderQuery?: any;
+  /**
+   * Name of the stored procedure for a SQL Database source. This cannot be used at the same time
+   * as SqlReaderQuery. Type: string (or Expression with resultType string).
+   */
+  sqlReaderStoredProcedureName?: any;
+  /**
+   * Value and type setting for stored procedure parameters. Example: "{Parameter1: {value: "1",
+   * type: "int"}}".
+   */
+  storedProcedureParameters?: { [propertyName: string]: StoredProcedureParameter };
+  /**
+   * Which additional types to produce.
+   */
+  produceAdditionalTypes?: any;
+}
+
+/**
+ * A copy activity SQL server source.
+ */
+export interface SqlServerSource {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "SqlServerSource";
+  /**
+   * Source retry count. Type: integer (or Expression with resultType integer).
+   */
+  sourceRetryCount?: any;
+  /**
+   * Source retry wait. Type: string (or Expression with resultType string), pattern:
+   * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
+   */
+  sourceRetryWait?: any;
+  /**
+   * The maximum concurrent connection count for the source data store. Type: integer (or
+   * Expression with resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
+   * SQL reader query. Type: string (or Expression with resultType string).
+   */
+  sqlReaderQuery?: any;
+  /**
+   * Name of the stored procedure for a SQL Database source. This cannot be used at the same time
+   * as SqlReaderQuery. Type: string (or Expression with resultType string).
+   */
+  sqlReaderStoredProcedureName?: any;
+  /**
+   * Value and type setting for stored procedure parameters. Example: "{Parameter1: {value: "1",
+   * type: "int"}}".
+   */
+  storedProcedureParameters?: { [propertyName: string]: StoredProcedureParameter };
+  /**
+   * Which additional types to produce.
+   */
+  produceAdditionalTypes?: any;
 }
 
 /**
@@ -12354,6 +12838,93 @@ export interface RestSource {
    * The time to await before sending next page request.
    */
   requestInterval?: any;
+}
+
+/**
+ * The settings that will be leveraged for SAP table source partitioning.
+ */
+export interface SapTablePartitionSettings {
+  /**
+   * The name of the column that will be used for proceeding range partitioning. Type: string (or
+   * Expression with resultType string).
+   */
+  partitionColumnName?: any;
+  /**
+   * The maximum value of column specified in partitionColumnName that will be used for proceeding
+   * range partitioning. Type: string (or Expression with resultType string).
+   */
+  partitionUpperBound?: any;
+  /**
+   * The minimum value of column specified in partitionColumnName that will be used for proceeding
+   * range partitioning. Type: string (or Expression with resultType string).
+   */
+  partitionLowerBound?: any;
+  /**
+   * The maximum value of partitions the table will be split into. Type: integer (or Expression
+   * with resultType string).
+   */
+  maxPartitionsNumber?: any;
+}
+
+/**
+ * A copy activity source for SAP Table source.
+ */
+export interface SapTableSource {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "SapTableSource";
+  /**
+   * Source retry count. Type: integer (or Expression with resultType integer).
+   */
+  sourceRetryCount?: any;
+  /**
+   * Source retry wait. Type: string (or Expression with resultType string), pattern:
+   * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
+   */
+  sourceRetryWait?: any;
+  /**
+   * The maximum concurrent connection count for the source data store. Type: integer (or
+   * Expression with resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
+   * The number of rows to be retrieved. Type: integer(or Expression with resultType integer).
+   */
+  rowCount?: any;
+  /**
+   * The number of rows that will be skipped. Type: integer (or Expression with resultType
+   * integer).
+   */
+  rowSkips?: any;
+  /**
+   * The fields of the SAP table that will be retrieved. For example, column0, column1. Type:
+   * string (or Expression with resultType string).
+   */
+  rfcTableFields?: any;
+  /**
+   * The options for the filtering of the SAP Table. For example, COLUMN0 EQ SOME VALUE. Type:
+   * string (or Expression with resultType string).
+   */
+  rfcTableOptions?: any;
+  /**
+   * Specifies the maximum number of rows that will be retrieved at a time when retrieving data
+   * from SAP Table. Type: integer (or Expression with resultType integer).
+   */
+  batchSize?: any;
+  /**
+   * Specifies the custom RFC function module that will be used to read data from SAP Table. Type:
+   * string (or Expression with resultType string).
+   */
+  customRfcReadTableFunctionModule?: any;
+  /**
+   * The partition mechanism that will be used for SAP table read in parallel.
+   */
+  partitionOption?: any;
+  /**
+   * The settings that will be leveraged for SAP table source partitioning.
+   */
+  partitionSettings?: SapTablePartitionSettings;
 }
 
 /**
@@ -12439,7 +13010,7 @@ export interface SapEccSource {
    * SAP ECC OData query. For example, "$top=1". Type: string (or Expression with resultType
    * string).
    */
-  query?: string;
+  query?: any;
 }
 
 /**
@@ -12498,10 +13069,9 @@ export interface SalesforceSource {
    */
   query?: any;
   /**
-   * The read behavior for the operation. Default is Query. Possible values include: 'Query',
-   * 'QueryAll'
+   * The read behavior for the operation. Default is Query.
    */
-  readBehavior?: SalesforceSourceReadBehavior;
+  readBehavior?: any;
 }
 
 /**
@@ -12662,6 +13232,379 @@ export interface AzureTableSource {
    * boolean).
    */
   azureTableSourceIgnoreTableNotFound?: any;
+}
+
+/**
+ * Format read settings.
+ */
+export interface FormatReadSetting {
+  /**
+   * The read setting type.
+   */
+  type: string;
+  /**
+   * Describes unknown properties. The value of an unknown property can be of "any" type.
+   */
+  [property: string]: any;
+}
+
+/**
+ * Delimited text read settings.
+ */
+export interface DelimitedTextReadSetting extends FormatReadSetting {
+  /**
+   * Indicates the number of non-empty rows to skip when reading data from input files. Type:
+   * integer (or Expression with resultType integer).
+   */
+  skipLineCount?: any;
+}
+
+/**
+ * Connector read setting.
+ */
+export interface ConnectorReadSetting {
+  /**
+   * The read setting type.
+   */
+  type: string;
+  /**
+   * The maximum concurrent connection count for the source data store. Type: integer (or
+   * Expression with resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
+   * Describes unknown properties. The value of an unknown property can be of "any" type.
+   */
+  [property: string]: any;
+}
+
+/**
+ * HDFS read settings.
+ */
+export interface HdfsReadSetting extends ConnectorReadSetting {
+  /**
+   * If true, files under the folder path will be read recursively. Default is true. Type: boolean
+   * (or Expression with resultType boolean).
+   */
+  recursive?: any;
+  /**
+   * HDFS wildcardFolderPath. Type: string (or Expression with resultType string).
+   */
+  wildcardFolderPath?: any;
+  /**
+   * HDFS wildcardFileName. Type: string (or Expression with resultType string).
+   */
+  wildcardFileName?: any;
+  /**
+   * Indicates whether to enable partition discovery.
+   */
+  enablePartitionDiscovery?: boolean;
+  /**
+   * The start of file's modified datetime. Type: string (or Expression with resultType string).
+   */
+  modifiedDatetimeStart?: any;
+  /**
+   * The end of file's modified datetime. Type: string (or Expression with resultType string).
+   */
+  modifiedDatetimeEnd?: any;
+  /**
+   * Specifies Distcp-related settings.
+   */
+  distcpSettings?: DistcpSettings;
+}
+
+/**
+ * Sftp read settings.
+ */
+export interface HttpReadSetting extends ConnectorReadSetting {
+  /**
+   * The HTTP method used to call the RESTful API. The default is GET. Type: string (or Expression
+   * with resultType string).
+   */
+  requestMethod?: any;
+  /**
+   * The HTTP request body to the RESTful API if requestMethod is POST. Type: string (or Expression
+   * with resultType string).
+   */
+  requestBody?: any;
+  /**
+   * The additional HTTP headers in the request to the RESTful API. Type: string (or Expression
+   * with resultType string).
+   */
+  additionalHeaders?: any;
+  /**
+   * Specifies the timeout for a HTTP client to get HTTP response from HTTP server.
+   */
+  requestTimeout?: any;
+}
+
+/**
+ * Sftp read settings.
+ */
+export interface SftpReadSetting extends ConnectorReadSetting {
+  /**
+   * If true, files under the folder path will be read recursively. Default is true. Type: boolean
+   * (or Expression with resultType boolean).
+   */
+  recursive?: any;
+  /**
+   * Sftp wildcardFolderPath. Type: string (or Expression with resultType string).
+   */
+  wildcardFolderPath?: any;
+  /**
+   * Sftp wildcardFileName. Type: string (or Expression with resultType string).
+   */
+  wildcardFileName?: any;
+  /**
+   * The start of file's modified datetime. Type: string (or Expression with resultType string).
+   */
+  modifiedDatetimeStart?: any;
+  /**
+   * The end of file's modified datetime. Type: string (or Expression with resultType string).
+   */
+  modifiedDatetimeEnd?: any;
+}
+
+/**
+ * Ftp read settings.
+ */
+export interface FtpReadSetting extends ConnectorReadSetting {
+  /**
+   * If true, files under the folder path will be read recursively. Default is true. Type: boolean
+   * (or Expression with resultType boolean).
+   */
+  recursive?: any;
+  /**
+   * Ftp wildcardFolderPath. Type: string (or Expression with resultType string).
+   */
+  wildcardFolderPath?: any;
+  /**
+   * Ftp wildcardFileName. Type: string (or Expression with resultType string).
+   */
+  wildcardFileName?: any;
+  /**
+   * Specify whether to use binary transfer mode for FTP stores.
+   */
+  useBinaryTransfer?: boolean;
+}
+
+/**
+ * File server read settings.
+ */
+export interface FileServerReadSetting extends ConnectorReadSetting {
+  /**
+   * If true, files under the folder path will be read recursively. Default is true. Type: boolean
+   * (or Expression with resultType boolean).
+   */
+  recursive?: any;
+  /**
+   * FileServer wildcardFolderPath. Type: string (or Expression with resultType string).
+   */
+  wildcardFolderPath?: any;
+  /**
+   * FileServer wildcardFileName. Type: string (or Expression with resultType string).
+   */
+  wildcardFileName?: any;
+  /**
+   * Indicates whether to enable partition discovery.
+   */
+  enablePartitionDiscovery?: boolean;
+  /**
+   * The start of file's modified datetime. Type: string (or Expression with resultType string).
+   */
+  modifiedDatetimeStart?: any;
+  /**
+   * The end of file's modified datetime. Type: string (or Expression with resultType string).
+   */
+  modifiedDatetimeEnd?: any;
+}
+
+/**
+ * Azure data lake store read settings.
+ */
+export interface AmazonS3ReadSetting extends ConnectorReadSetting {
+  /**
+   * If true, files under the folder path will be read recursively. Default is true. Type: boolean
+   * (or Expression with resultType boolean).
+   */
+  recursive?: any;
+  /**
+   * AmazonS3 wildcardFolderPath. Type: string (or Expression with resultType string).
+   */
+  wildcardFolderPath?: any;
+  /**
+   * AmazonS3 wildcardFileName. Type: string (or Expression with resultType string).
+   */
+  wildcardFileName?: any;
+  /**
+   * The prefix filter for the S3 object name. Type: string (or Expression with resultType string).
+   */
+  prefix?: any;
+  /**
+   * Indicates whether to enable partition discovery.
+   */
+  enablePartitionDiscovery?: boolean;
+  /**
+   * The start of file's modified datetime. Type: string (or Expression with resultType string).
+   */
+  modifiedDatetimeStart?: any;
+  /**
+   * The end of file's modified datetime. Type: string (or Expression with resultType string).
+   */
+  modifiedDatetimeEnd?: any;
+}
+
+/**
+ * Azure data lake store read settings.
+ */
+export interface AzureDataLakeStoreReadSetting extends ConnectorReadSetting {
+  /**
+   * If true, files under the folder path will be read recursively. Default is true. Type: boolean
+   * (or Expression with resultType boolean).
+   */
+  recursive?: any;
+  /**
+   * ADLS wildcardFolderPath. Type: string (or Expression with resultType string).
+   */
+  wildcardFolderPath?: any;
+  /**
+   * ADLS wildcardFileName. Type: string (or Expression with resultType string).
+   */
+  wildcardFileName?: any;
+  /**
+   * Indicates whether to enable partition discovery.
+   */
+  enablePartitionDiscovery?: boolean;
+  /**
+   * The start of file's modified datetime. Type: string (or Expression with resultType string).
+   */
+  modifiedDatetimeStart?: any;
+  /**
+   * The end of file's modified datetime. Type: string (or Expression with resultType string).
+   */
+  modifiedDatetimeEnd?: any;
+}
+
+/**
+ * Azure blobFS read settings.
+ */
+export interface AzureBlobFSReadSetting extends ConnectorReadSetting {
+  /**
+   * If true, files under the folder path will be read recursively. Default is true. Type: boolean
+   * (or Expression with resultType boolean).
+   */
+  recursive?: any;
+  /**
+   * Azure blobFS wildcardFolderPath. Type: string (or Expression with resultType string).
+   */
+  wildcardFolderPath?: any;
+  /**
+   * Azure blobFS wildcardFileName. Type: string (or Expression with resultType string).
+   */
+  wildcardFileName?: any;
+  /**
+   * Indicates whether to enable partition discovery.
+   */
+  enablePartitionDiscovery?: boolean;
+  /**
+   * The start of file's modified datetime. Type: string (or Expression with resultType string).
+   */
+  modifiedDatetimeStart?: any;
+  /**
+   * The end of file's modified datetime. Type: string (or Expression with resultType string).
+   */
+  modifiedDatetimeEnd?: any;
+}
+
+/**
+ * Azure blob read settings.
+ */
+export interface AzureBlobStorageReadSetting extends ConnectorReadSetting {
+  /**
+   * If true, files under the folder path will be read recursively. Default is true. Type: boolean
+   * (or Expression with resultType boolean).
+   */
+  recursive?: any;
+  /**
+   * Azure blob wildcardFolderPath. Type: string (or Expression with resultType string).
+   */
+  wildcardFolderPath?: any;
+  /**
+   * Azure blob wildcardFileName. Type: string (or Expression with resultType string).
+   */
+  wildcardFileName?: any;
+  /**
+   * Indicates whether to enable partition discovery.
+   */
+  enablePartitionDiscovery?: boolean;
+  /**
+   * The start of file's modified datetime. Type: string (or Expression with resultType string).
+   */
+  modifiedDatetimeStart?: any;
+  /**
+   * The end of file's modified datetime. Type: string (or Expression with resultType string).
+   */
+  modifiedDatetimeEnd?: any;
+}
+
+/**
+ * A copy activity DelimitedText source.
+ */
+export interface DelimitedTextSource {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "DelimitedTextSource";
+  /**
+   * Source retry count. Type: integer (or Expression with resultType integer).
+   */
+  sourceRetryCount?: any;
+  /**
+   * Source retry wait. Type: string (or Expression with resultType string), pattern:
+   * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
+   */
+  sourceRetryWait?: any;
+  /**
+   * The maximum concurrent connection count for the source data store. Type: integer (or
+   * Expression with resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
+   * DelimitedText store settings.
+   */
+  storeSettings?: ConnectorReadSetting;
+  /**
+   * DelimitedText format settings.
+   */
+  formatSettings?: DelimitedTextReadSetting;
+}
+
+/**
+ * A copy activity Parquet source.
+ */
+export interface ParquetSource {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "ParquetSource";
+  /**
+   * Source retry count. Type: integer (or Expression with resultType integer).
+   */
+  sourceRetryCount?: any;
+  /**
+   * Source retry wait. Type: string (or Expression with resultType string), pattern:
+   * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
+   */
+  sourceRetryWait?: any;
+  /**
+   * The maximum concurrent connection count for the source data store. Type: integer (or
+   * Expression with resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
+   * Parquet store settings.
+   */
+  storeSettings?: ConnectorReadSetting;
 }
 
 /**
@@ -13427,54 +14370,9 @@ export interface StagingSettings {
 }
 
 /**
- * Contains the possible cases for CopyTranslator.
- */
-export type CopyTranslatorUnion = CopyTranslator | TabularTranslator;
-
-/**
- * A copy activity translator.
- */
-export interface CopyTranslator {
-  /**
-   * Polymorphic Discriminator
-   */
-  type: "CopyTranslator";
-  /**
-   * Describes unknown properties. The value of an unknown property can be of "any" type.
-   */
-  [property: string]: any;
-}
-
-/**
- * A copy activity tabular translator.
- */
-export interface TabularTranslator {
-  /**
-   * Polymorphic Discriminator
-   */
-  type: "TabularTranslator";
-  /**
-   * Column mappings. Example: "UserId: MyUserId, Group: MyGroup, Name: MyName" Type: string (or
-   * Expression with resultType string).
-   */
-  columnMappings?: any;
-  /**
-   * The schema mapping to map between tabular data and hierarchical data. Example: {"Column1":
-   * "$.Column1", "Column2": "$.Column2.Property1", "Column3": "$.Column2.Property2"}. Type: object
-   * (or Expression with resultType object).
-   */
-  schemaMapping?: any;
-  /**
-   * The JSON Path of the Nested Array that is going to do cross-apply. Type: object (or Expression
-   * with resultType object).
-   */
-  collectionReference?: any;
-}
-
-/**
  * Contains the possible cases for CopySink.
  */
-export type CopySinkUnion = CopySink | CosmosDbMongoDbApiSink | SalesforceSink | AzureDataExplorerSink | DynamicsSink | OdbcSink | AzureSearchIndexSink | AzureBlobFSSink | AzureDataLakeStoreSink | OracleSink | SqlDWSink | SqlSink | DocumentDbCollectionSink | FileSystemSink | BlobSink | AzureTableSink | AzureQueueSink | SapCloudForCustomerSink;
+export type CopySinkUnion = CopySink | CosmosDbMongoDbApiSink | SalesforceSink | AzureDataExplorerSink | DynamicsSink | OdbcSink | AzureSearchIndexSink | AzureBlobFSSink | AzureDataLakeStoreSink | OracleSink | SqlDWSink | AzureSqlSink | SqlServerSink | SqlSink | DocumentDbCollectionSink | FileSystemSink | BlobSink | ParquetSink | AzureTableSink | AzureQueueSink | SapCloudForCustomerSink | DelimitedTextSink;
 
 /**
  * A copy activity sink.
@@ -13584,10 +14482,9 @@ export interface SalesforceSink {
    */
   maxConcurrentConnections?: any;
   /**
-   * The write behavior for the operation. Default is Insert. Possible values include: 'Insert',
-   * 'Upsert'
+   * The write behavior for the operation. Default is Insert.
    */
-  writeBehavior?: SalesforceSinkWriteBehavior;
+  writeBehavior?: any;
   /**
    * The name of the external ID field for upsert operation. Default value is 'Id' column. Type:
    * string (or Expression with resultType string).
@@ -13757,10 +14654,9 @@ export interface AzureSearchIndexSink {
    */
   maxConcurrentConnections?: any;
   /**
-   * Specify the write behavior when upserting documents into Azure Search Index. Possible values
-   * include: 'Merge', 'Upload'
+   * Specify the write behavior when upserting documents into Azure Search Index.
    */
-  writeBehavior?: AzureSearchIndexWriteBehaviorType;
+  writeBehavior?: any;
 }
 
 /**
@@ -13795,10 +14691,9 @@ export interface AzureBlobFSSink {
    */
   maxConcurrentConnections?: any;
   /**
-   * The type of copy behavior for copy sink. Possible values include: 'PreserveHierarchy',
-   * 'FlattenHierarchy', 'MergeFiles'
+   * The type of copy behavior for copy sink.
    */
-  copyBehavior?: CopyBehaviorType;
+  copyBehavior?: any;
 }
 
 /**
@@ -13833,10 +14728,13 @@ export interface AzureDataLakeStoreSink {
    */
   maxConcurrentConnections?: any;
   /**
-   * The type of copy behavior for copy sink. Possible values include: 'PreserveHierarchy',
-   * 'FlattenHierarchy', 'MergeFiles'
+   * The type of copy behavior for copy sink.
    */
-  copyBehavior?: CopyBehaviorType;
+  copyBehavior?: any;
+  /**
+   * Single File Parallel.
+   */
+  enableAdlsSingleFileParallel?: any;
 }
 
 /**
@@ -13953,6 +14851,114 @@ export interface SqlDWSink {
 }
 
 /**
+ * A copy activity Azure SQL sink.
+ */
+export interface AzureSqlSink {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "AzureSqlSink";
+  /**
+   * Write batch size. Type: integer (or Expression with resultType integer), minimum: 0.
+   */
+  writeBatchSize?: any;
+  /**
+   * Write batch timeout. Type: string (or Expression with resultType string), pattern:
+   * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
+   */
+  writeBatchTimeout?: any;
+  /**
+   * Sink retry count. Type: integer (or Expression with resultType integer).
+   */
+  sinkRetryCount?: any;
+  /**
+   * Sink retry wait. Type: string (or Expression with resultType string), pattern:
+   * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
+   */
+  sinkRetryWait?: any;
+  /**
+   * The maximum concurrent connection count for the sink data store. Type: integer (or Expression
+   * with resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
+   * SQL writer stored procedure name. Type: string (or Expression with resultType string).
+   */
+  sqlWriterStoredProcedureName?: any;
+  /**
+   * SQL writer table type. Type: string (or Expression with resultType string).
+   */
+  sqlWriterTableType?: any;
+  /**
+   * SQL pre-copy script. Type: string (or Expression with resultType string).
+   */
+  preCopyScript?: any;
+  /**
+   * SQL stored procedure parameters.
+   */
+  storedProcedureParameters?: { [propertyName: string]: StoredProcedureParameter };
+  /**
+   * The stored procedure parameter name of the table type. Type: string (or Expression with
+   * resultType string).
+   */
+  storedProcedureTableTypeParameterName?: any;
+}
+
+/**
+ * A copy activity SQL server sink.
+ */
+export interface SqlServerSink {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "SqlServerSink";
+  /**
+   * Write batch size. Type: integer (or Expression with resultType integer), minimum: 0.
+   */
+  writeBatchSize?: any;
+  /**
+   * Write batch timeout. Type: string (or Expression with resultType string), pattern:
+   * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
+   */
+  writeBatchTimeout?: any;
+  /**
+   * Sink retry count. Type: integer (or Expression with resultType integer).
+   */
+  sinkRetryCount?: any;
+  /**
+   * Sink retry wait. Type: string (or Expression with resultType string), pattern:
+   * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
+   */
+  sinkRetryWait?: any;
+  /**
+   * The maximum concurrent connection count for the sink data store. Type: integer (or Expression
+   * with resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
+   * SQL writer stored procedure name. Type: string (or Expression with resultType string).
+   */
+  sqlWriterStoredProcedureName?: any;
+  /**
+   * SQL writer table type. Type: string (or Expression with resultType string).
+   */
+  sqlWriterTableType?: any;
+  /**
+   * SQL pre-copy script. Type: string (or Expression with resultType string).
+   */
+  preCopyScript?: any;
+  /**
+   * SQL stored procedure parameters.
+   */
+  storedProcedureParameters?: { [propertyName: string]: StoredProcedureParameter };
+  /**
+   * The stored procedure parameter name of the table type. Type: string (or Expression with
+   * resultType string).
+   */
+  storedProcedureTableTypeParameterName?: any;
+}
+
+/**
  * A copy activity SQL sink.
  */
 export interface SqlSink {
@@ -13999,6 +15005,11 @@ export interface SqlSink {
    * SQL stored procedure parameters.
    */
   storedProcedureParameters?: { [propertyName: string]: StoredProcedureParameter };
+  /**
+   * The stored procedure parameter name of the table type. Type: string (or Expression with
+   * resultType string).
+   */
+  storedProcedureTableTypeParameterName?: any;
 }
 
 /**
@@ -14037,6 +15048,10 @@ export interface DocumentDbCollectionSink {
    * string).
    */
   nestingSeparator?: any;
+  /**
+   * Describes how to write data to Azure Cosmos DB. Allowed values: insert and upsert.
+   */
+  writeBehavior?: any;
 }
 
 /**
@@ -14071,10 +15086,9 @@ export interface FileSystemSink {
    */
   maxConcurrentConnections?: any;
   /**
-   * The type of copy behavior for copy sink. Possible values include: 'PreserveHierarchy',
-   * 'FlattenHierarchy', 'MergeFiles'
+   * The type of copy behavior for copy sink.
    */
-  copyBehavior?: CopyBehaviorType;
+  copyBehavior?: any;
 }
 
 /**
@@ -14121,10 +15135,93 @@ export interface BlobSink {
    */
   blobWriterAddHeader?: any;
   /**
-   * The type of copy behavior for copy sink. Possible values include: 'PreserveHierarchy',
-   * 'FlattenHierarchy', 'MergeFiles'
+   * The type of copy behavior for copy sink.
    */
-  copyBehavior?: CopyBehaviorType;
+  copyBehavior?: any;
+}
+
+/**
+ * Connector write settings.
+ */
+export interface ConnectorWriteSetting {
+  /**
+   * The write setting type.
+   */
+  type: string;
+  /**
+   * The maximum concurrent connection count for the source data store. Type: integer (or
+   * Expression with resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
+   * The type of copy behavior for copy sink.
+   */
+  copyBehavior?: any;
+  /**
+   * Describes unknown properties. The value of an unknown property can be of "any" type.
+   */
+  [property: string]: any;
+}
+
+/**
+ * File server write settings.
+ */
+export interface FileServerWriteSetting extends ConnectorWriteSetting {
+}
+
+/**
+ * Azure data lake store write settings.
+ */
+export interface AzureDataLakeStoreWriteSetting extends ConnectorWriteSetting {
+}
+
+/**
+ * Azure blobFS write settings.
+ */
+export interface AzureBlobFSWriteSetting extends ConnectorWriteSetting {
+}
+
+/**
+ * Azure blob write settings.
+ */
+export interface AzureBlobStorageWriteSetting extends ConnectorWriteSetting {
+}
+
+/**
+ * A copy activity Parquet sink.
+ */
+export interface ParquetSink {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "ParquetSink";
+  /**
+   * Write batch size. Type: integer (or Expression with resultType integer), minimum: 0.
+   */
+  writeBatchSize?: any;
+  /**
+   * Write batch timeout. Type: string (or Expression with resultType string), pattern:
+   * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
+   */
+  writeBatchTimeout?: any;
+  /**
+   * Sink retry count. Type: integer (or Expression with resultType integer).
+   */
+  sinkRetryCount?: any;
+  /**
+   * Sink retry wait. Type: string (or Expression with resultType string), pattern:
+   * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
+   */
+  sinkRetryWait?: any;
+  /**
+   * The maximum concurrent connection count for the sink data store. Type: integer (or Expression
+   * with resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
+   * Parquet store settings.
+   */
+  storeSettings?: ConnectorWriteSetting;
 }
 
 /**
@@ -14241,10 +15338,80 @@ export interface SapCloudForCustomerSink {
    */
   maxConcurrentConnections?: any;
   /**
-   * The write behavior for the operation. Default is 'Insert'. Possible values include: 'Insert',
-   * 'Update'
+   * The write behavior for the operation. Default is 'Insert'.
    */
-  writeBehavior?: SapCloudForCustomerSinkWriteBehavior;
+  writeBehavior?: any;
+}
+
+/**
+ * Format write settings.
+ */
+export interface FormatWriteSetting {
+  /**
+   * The write setting type.
+   */
+  type: string;
+  /**
+   * Describes unknown properties. The value of an unknown property can be of "any" type.
+   */
+  [property: string]: any;
+}
+
+/**
+ * Delimited text write settings.
+ */
+export interface DelimitedTextWriteSetting extends FormatWriteSetting {
+  /**
+   * Indicates whether string values should always be enclosed with quotes. Type: boolean (or
+   * Expression with resultType boolean).
+   */
+  quoteAllText?: any;
+  /**
+   * The file extension used to create the files. Type: string (or Expression with resultType
+   * string).
+   */
+  fileExtension: any;
+}
+
+/**
+ * A copy activity DelimitedText sink.
+ */
+export interface DelimitedTextSink {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "DelimitedTextSink";
+  /**
+   * Write batch size. Type: integer (or Expression with resultType integer), minimum: 0.
+   */
+  writeBatchSize?: any;
+  /**
+   * Write batch timeout. Type: string (or Expression with resultType string), pattern:
+   * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
+   */
+  writeBatchTimeout?: any;
+  /**
+   * Sink retry count. Type: integer (or Expression with resultType integer).
+   */
+  sinkRetryCount?: any;
+  /**
+   * Sink retry wait. Type: string (or Expression with resultType string), pattern:
+   * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
+   */
+  sinkRetryWait?: any;
+  /**
+   * The maximum concurrent connection count for the sink data store. Type: integer (or Expression
+   * with resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
+   * DelimitedText store settings.
+   */
+  storeSettings?: ConnectorWriteSetting;
+  /**
+   * DelimitedText format settings.
+   */
+  formatSettings?: DelimitedTextWriteSetting;
 }
 
 /**
@@ -14290,7 +15457,7 @@ export interface CopyActivity {
   /**
    * Copy activity translator. If not specified, tabular translator is used.
    */
-  translator?: CopyTranslatorUnion;
+  translator?: any;
   /**
    * Specifies whether to copy data via an interim staging. Default value is false. Type: boolean
    * (or Expression with resultType boolean).
@@ -14323,6 +15490,10 @@ export interface CopyActivity {
    * Preserve Rules.
    */
   preserveRules?: any[];
+  /**
+   * Preserve rules.
+   */
+  preserve?: any[];
   /**
    * List of inputs for the activity.
    */
@@ -15201,6 +16372,39 @@ export interface SelfHostedIntegrationRuntime {
 }
 
 /**
+ * The entity reference.
+ */
+export interface EntityReference {
+  /**
+   * The type of this referenced entity. Possible values include: 'IntegrationRuntimeReference',
+   * 'LinkedServiceReference'
+   */
+  type?: IntegrationRuntimeEntityReferenceType;
+  /**
+   * The name of this referenced entity.
+   */
+  referenceName?: string;
+}
+
+/**
+ * Data proxy properties for a managed dedicated integration runtime.
+ */
+export interface IntegrationRuntimeDataProxyProperties {
+  /**
+   * The self-hosted integration runtime reference.
+   */
+  connectVia?: EntityReference;
+  /**
+   * The staging linked service reference.
+   */
+  stagingLinkedService?: EntityReference;
+  /**
+   * The path to contain the staged data in the Blob storage.
+   */
+  path?: string;
+}
+
+/**
  * Custom setup script properties for a managed dedicated integration runtime.
  */
 export interface IntegrationRuntimeCustomSetupScriptProperties {
@@ -15259,6 +16463,10 @@ export interface IntegrationRuntimeSsisProperties {
    * Custom setup script properties for a managed dedicated integration runtime.
    */
   customSetupScriptProperties?: IntegrationRuntimeCustomSetupScriptProperties;
+  /**
+   * Data proxy properties for a managed dedicated integration runtime.
+   */
+  dataProxyProperties?: IntegrationRuntimeDataProxyProperties;
   /**
    * The edition for the SSIS Integration Runtime. Possible values include: 'Standard',
    * 'Enterprise'
@@ -16383,22 +17591,6 @@ export type Db2AuthenticationType = 'Basic';
 export type SybaseAuthenticationType = 'Basic' | 'Windows';
 
 /**
- * Defines values for DatasetCompressionLevel.
- * Possible values include: 'Optimal', 'Fastest'
- * @readonly
- * @enum {string}
- */
-export type DatasetCompressionLevel = 'Optimal' | 'Fastest';
-
-/**
- * Defines values for JsonFormatFilePattern.
- * Possible values include: 'setOfObjects', 'arrayOfObjects'
- * @readonly
- * @enum {string}
- */
-export type JsonFormatFilePattern = 'setOfObjects' | 'arrayOfObjects';
-
-/**
  * Defines values for AzureFunctionActivityMethod.
  * Possible values include: 'GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'HEAD', 'TRACE'
  * @readonly
@@ -16415,29 +17607,12 @@ export type AzureFunctionActivityMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'O
 export type WebActivityMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
 
 /**
- * Defines values for CassandraSourceReadConsistencyLevels.
- * Possible values include: 'ALL', 'EACH_QUORUM', 'QUORUM', 'LOCAL_QUORUM', 'ONE', 'TWO', 'THREE',
- * 'LOCAL_ONE', 'SERIAL', 'LOCAL_SERIAL'
- * @readonly
- * @enum {string}
- */
-export type CassandraSourceReadConsistencyLevels = 'ALL' | 'EACH_QUORUM' | 'QUORUM' | 'LOCAL_QUORUM' | 'ONE' | 'TWO' | 'THREE' | 'LOCAL_ONE' | 'SERIAL' | 'LOCAL_SERIAL';
-
-/**
  * Defines values for StoredProcedureParameterType.
- * Possible values include: 'String', 'Int', 'Decimal', 'Guid', 'Boolean', 'Date'
+ * Possible values include: 'String', 'Int', 'Int64', 'Decimal', 'Guid', 'Boolean', 'Date'
  * @readonly
  * @enum {string}
  */
-export type StoredProcedureParameterType = 'String' | 'Int' | 'Decimal' | 'Guid' | 'Boolean' | 'Date';
-
-/**
- * Defines values for SalesforceSourceReadBehavior.
- * Possible values include: 'Query', 'QueryAll'
- * @readonly
- * @enum {string}
- */
-export type SalesforceSourceReadBehavior = 'Query' | 'QueryAll';
+export type StoredProcedureParameterType = 'String' | 'Int' | 'Int64' | 'Decimal' | 'Guid' | 'Boolean' | 'Date';
 
 /**
  * Defines values for HDInsightActivityDebugInfoOption.
@@ -16448,44 +17623,12 @@ export type SalesforceSourceReadBehavior = 'Query' | 'QueryAll';
 export type HDInsightActivityDebugInfoOption = 'None' | 'Always' | 'Failure';
 
 /**
- * Defines values for SalesforceSinkWriteBehavior.
- * Possible values include: 'Insert', 'Upsert'
- * @readonly
- * @enum {string}
- */
-export type SalesforceSinkWriteBehavior = 'Insert' | 'Upsert';
-
-/**
- * Defines values for AzureSearchIndexWriteBehaviorType.
- * Possible values include: 'Merge', 'Upload'
- * @readonly
- * @enum {string}
- */
-export type AzureSearchIndexWriteBehaviorType = 'Merge' | 'Upload';
-
-/**
- * Defines values for CopyBehaviorType.
- * Possible values include: 'PreserveHierarchy', 'FlattenHierarchy', 'MergeFiles'
- * @readonly
- * @enum {string}
- */
-export type CopyBehaviorType = 'PreserveHierarchy' | 'FlattenHierarchy' | 'MergeFiles';
-
-/**
  * Defines values for PolybaseSettingsRejectType.
  * Possible values include: 'value', 'percentage'
  * @readonly
  * @enum {string}
  */
 export type PolybaseSettingsRejectType = 'value' | 'percentage';
-
-/**
- * Defines values for SapCloudForCustomerSinkWriteBehavior.
- * Possible values include: 'Insert', 'Update'
- * @readonly
- * @enum {string}
- */
-export type SapCloudForCustomerSinkWriteBehavior = 'Insert' | 'Update';
 
 /**
  * Defines values for WebHookActivityMethod.
@@ -16535,6 +17678,14 @@ export type IntegrationRuntimeInternalChannelEncryptionMode = 'NotSet' | 'SslEnc
  * @enum {string}
  */
 export type ManagedIntegrationRuntimeNodeStatus = 'Starting' | 'Available' | 'Recycling' | 'Unavailable';
+
+/**
+ * Defines values for IntegrationRuntimeEntityReferenceType.
+ * Possible values include: 'IntegrationRuntimeReference', 'LinkedServiceReference'
+ * @readonly
+ * @enum {string}
+ */
+export type IntegrationRuntimeEntityReferenceType = 'IntegrationRuntimeReference' | 'LinkedServiceReference';
 
 /**
  * Defines values for IntegrationRuntimeSsisCatalogPricingTier.

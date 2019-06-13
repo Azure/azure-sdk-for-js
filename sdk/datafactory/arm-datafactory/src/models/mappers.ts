@@ -3212,6 +3212,117 @@ export const AzureDataExplorerLinkedService: msRest.CompositeMapper = {
   }
 };
 
+export const SapTableLinkedService: msRest.CompositeMapper = {
+  serializedName: "SapTable",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: LinkedService.type.polymorphicDiscriminator,
+    uberParent: "LinkedService",
+    className: "SapTableLinkedService",
+    modelProperties: {
+      ...LinkedService.type.modelProperties,
+      server: {
+        serializedName: "typeProperties.server",
+        type: {
+          name: "Object"
+        }
+      },
+      systemNumber: {
+        serializedName: "typeProperties.systemNumber",
+        type: {
+          name: "Object"
+        }
+      },
+      clientId: {
+        serializedName: "typeProperties.clientId",
+        type: {
+          name: "Object"
+        }
+      },
+      language: {
+        serializedName: "typeProperties.language",
+        type: {
+          name: "Object"
+        }
+      },
+      systemId: {
+        serializedName: "typeProperties.systemId",
+        type: {
+          name: "Object"
+        }
+      },
+      userName: {
+        serializedName: "typeProperties.userName",
+        type: {
+          name: "Object"
+        }
+      },
+      password: {
+        serializedName: "typeProperties.password",
+        type: {
+          name: "Composite",
+          className: "SecretBase"
+        }
+      },
+      messageServer: {
+        serializedName: "typeProperties.messageServer",
+        type: {
+          name: "Object"
+        }
+      },
+      messageServerService: {
+        serializedName: "typeProperties.messageServerService",
+        type: {
+          name: "Object"
+        }
+      },
+      sncMode: {
+        serializedName: "typeProperties.sncMode",
+        type: {
+          name: "Object"
+        }
+      },
+      sncMyName: {
+        serializedName: "typeProperties.sncMyName",
+        type: {
+          name: "Object"
+        }
+      },
+      sncPartnerName: {
+        serializedName: "typeProperties.sncPartnerName",
+        type: {
+          name: "Object"
+        }
+      },
+      sncLibraryPath: {
+        serializedName: "typeProperties.sncLibraryPath",
+        type: {
+          name: "Object"
+        }
+      },
+      sncQop: {
+        serializedName: "typeProperties.sncQop",
+        type: {
+          name: "Object"
+        }
+      },
+      logonGroup: {
+        serializedName: "typeProperties.logonGroup",
+        type: {
+          name: "Object"
+        }
+      },
+      encryptedCredential: {
+        serializedName: "typeProperties.encryptedCredential",
+        type: {
+          name: "Object"
+        }
+      }
+    },
+    additionalProperties: LinkedService.type.additionalProperties
+  }
+};
+
 export const GoogleAdWordsLinkedService: msRest.CompositeMapper = {
   serializedName: "GoogleAdWords",
   type: {
@@ -8171,7 +8282,7 @@ export const DynamicsAXResourceDataset: msRest.CompositeMapper = {
         required: true,
         serializedName: "typeProperties.path",
         type: {
-          name: "String"
+          name: "Object"
         }
       }
     },
@@ -8818,7 +8929,7 @@ export const DatasetZipDeflateCompression: msRest.CompositeMapper = {
       level: {
         serializedName: "level",
         type: {
-          name: "String"
+          name: "Object"
         }
       }
     },
@@ -8838,7 +8949,7 @@ export const DatasetDeflateCompression: msRest.CompositeMapper = {
       level: {
         serializedName: "level",
         type: {
-          name: "String"
+          name: "Object"
         }
       }
     },
@@ -8858,7 +8969,7 @@ export const DatasetGZipCompression: msRest.CompositeMapper = {
       level: {
         serializedName: "level",
         type: {
-          name: "String"
+          name: "Object"
         }
       }
     },
@@ -8973,7 +9084,7 @@ export const JsonFormat: msRest.CompositeMapper = {
       filePattern: {
         serializedName: "filePattern",
         type: {
-          name: "String"
+          name: "Object"
         }
       },
       nestingSeparator: {
@@ -9183,6 +9294,27 @@ export const WebTableDataset: msRest.CompositeMapper = {
   }
 };
 
+export const SapTableResourceDataset: msRest.CompositeMapper = {
+  serializedName: "SapTableResource",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: Dataset.type.polymorphicDiscriminator,
+    uberParent: "Dataset",
+    className: "SapTableResourceDataset",
+    modelProperties: {
+      ...Dataset.type.modelProperties,
+      tableName: {
+        required: true,
+        serializedName: "typeProperties.tableName",
+        type: {
+          name: "Object"
+        }
+      }
+    },
+    additionalProperties: Dataset.type.additionalProperties
+  }
+};
+
 export const RestResourceDataset: msRest.CompositeMapper = {
   serializedName: "RestResource",
   type: {
@@ -9237,7 +9369,6 @@ export const SqlServerTableDataset: msRest.CompositeMapper = {
     modelProperties: {
       ...Dataset.type.modelProperties,
       tableName: {
-        required: true,
         serializedName: "typeProperties.tableName",
         type: {
           name: "Object"
@@ -9320,7 +9451,7 @@ export const SapEccResourceDataset: msRest.CompositeMapper = {
         required: true,
         serializedName: "typeProperties.path",
         type: {
-          name: "String"
+          name: "Object"
         }
       }
     },
@@ -9804,7 +9935,6 @@ export const AzureSqlDWTableDataset: msRest.CompositeMapper = {
     modelProperties: {
       ...Dataset.type.modelProperties,
       tableName: {
-        required: true,
         serializedName: "typeProperties.tableName",
         type: {
           name: "Object"
@@ -9825,7 +9955,6 @@ export const AzureSqlTableDataset: msRest.CompositeMapper = {
     modelProperties: {
       ...Dataset.type.modelProperties,
       tableName: {
-        required: true,
         serializedName: "typeProperties.tableName",
         type: {
           name: "Object"
@@ -9918,6 +10047,292 @@ export const AzureBlobDataset: msRest.CompositeMapper = {
               name: "Object"
             }
           }
+        }
+      }
+    },
+    additionalProperties: Dataset.type.additionalProperties
+  }
+};
+
+export const DatasetLocation: msRest.CompositeMapper = {
+  serializedName: "DatasetLocation",
+  type: {
+    name: "Composite",
+    className: "DatasetLocation",
+    modelProperties: {
+      type: {
+        required: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      folderPath: {
+        serializedName: "folderPath",
+        type: {
+          name: "Object"
+        }
+      },
+      fileName: {
+        serializedName: "fileName",
+        type: {
+          name: "Object"
+        }
+      }
+    },
+    additionalProperties: {
+      type: {
+        name: "Object"
+      }
+    }
+  }
+};
+
+export const HdfsLocation: msRest.CompositeMapper = {
+  serializedName: "HdfsLocation",
+  type: {
+    name: "Composite",
+    className: "HdfsLocation",
+    modelProperties: {
+      ...DatasetLocation.type.modelProperties
+    },
+    additionalProperties: DatasetLocation.type.additionalProperties
+  }
+};
+
+export const HttpServerLocation: msRest.CompositeMapper = {
+  serializedName: "HttpServerLocation",
+  type: {
+    name: "Composite",
+    className: "HttpServerLocation",
+    modelProperties: {
+      ...DatasetLocation.type.modelProperties,
+      relativeUrl: {
+        serializedName: "relativeUrl",
+        type: {
+          name: "Object"
+        }
+      }
+    },
+    additionalProperties: DatasetLocation.type.additionalProperties
+  }
+};
+
+export const SftpLocation: msRest.CompositeMapper = {
+  serializedName: "SftpLocation",
+  type: {
+    name: "Composite",
+    className: "SftpLocation",
+    modelProperties: {
+      ...DatasetLocation.type.modelProperties
+    },
+    additionalProperties: DatasetLocation.type.additionalProperties
+  }
+};
+
+export const FtpServerLocation: msRest.CompositeMapper = {
+  serializedName: "FtpServerLocation",
+  type: {
+    name: "Composite",
+    className: "FtpServerLocation",
+    modelProperties: {
+      ...DatasetLocation.type.modelProperties
+    },
+    additionalProperties: DatasetLocation.type.additionalProperties
+  }
+};
+
+export const FileServerLocation: msRest.CompositeMapper = {
+  serializedName: "FileServerLocation",
+  type: {
+    name: "Composite",
+    className: "FileServerLocation",
+    modelProperties: {
+      ...DatasetLocation.type.modelProperties
+    },
+    additionalProperties: DatasetLocation.type.additionalProperties
+  }
+};
+
+export const AmazonS3Location: msRest.CompositeMapper = {
+  serializedName: "AmazonS3Location",
+  type: {
+    name: "Composite",
+    className: "AmazonS3Location",
+    modelProperties: {
+      ...DatasetLocation.type.modelProperties,
+      bucketName: {
+        serializedName: "bucketName",
+        type: {
+          name: "Object"
+        }
+      },
+      version: {
+        serializedName: "version",
+        type: {
+          name: "Object"
+        }
+      }
+    },
+    additionalProperties: DatasetLocation.type.additionalProperties
+  }
+};
+
+export const AzureDataLakeStoreLocation: msRest.CompositeMapper = {
+  serializedName: "AzureDataLakeStoreLocation",
+  type: {
+    name: "Composite",
+    className: "AzureDataLakeStoreLocation",
+    modelProperties: {
+      ...DatasetLocation.type.modelProperties
+    },
+    additionalProperties: DatasetLocation.type.additionalProperties
+  }
+};
+
+export const AzureBlobFSLocation: msRest.CompositeMapper = {
+  serializedName: "AzureBlobFSLocation",
+  type: {
+    name: "Composite",
+    className: "AzureBlobFSLocation",
+    modelProperties: {
+      ...DatasetLocation.type.modelProperties,
+      fileSystem: {
+        serializedName: "fileSystem",
+        type: {
+          name: "Object"
+        }
+      }
+    },
+    additionalProperties: DatasetLocation.type.additionalProperties
+  }
+};
+
+export const AzureBlobStorageLocation: msRest.CompositeMapper = {
+  serializedName: "AzureBlobStorageLocation",
+  type: {
+    name: "Composite",
+    className: "AzureBlobStorageLocation",
+    modelProperties: {
+      ...DatasetLocation.type.modelProperties,
+      container: {
+        serializedName: "container",
+        type: {
+          name: "Object"
+        }
+      }
+    },
+    additionalProperties: DatasetLocation.type.additionalProperties
+  }
+};
+
+export const DelimitedTextDataset: msRest.CompositeMapper = {
+  serializedName: "DelimitedText",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: Dataset.type.polymorphicDiscriminator,
+    uberParent: "Dataset",
+    className: "DelimitedTextDataset",
+    modelProperties: {
+      ...Dataset.type.modelProperties,
+      location: {
+        required: true,
+        serializedName: "typeProperties.location",
+        type: {
+          name: "Composite",
+          className: "DatasetLocation",
+          additionalProperties: {
+            type: {
+              name: "Object"
+            }
+          }
+        }
+      },
+      columnDelimiter: {
+        serializedName: "typeProperties.columnDelimiter",
+        type: {
+          name: "Object"
+        }
+      },
+      rowDelimiter: {
+        serializedName: "typeProperties.rowDelimiter",
+        type: {
+          name: "Object"
+        }
+      },
+      encodingName: {
+        serializedName: "typeProperties.encodingName",
+        type: {
+          name: "Object"
+        }
+      },
+      compressionCodec: {
+        serializedName: "typeProperties.compressionCodec",
+        type: {
+          name: "Object"
+        }
+      },
+      compressionLevel: {
+        serializedName: "typeProperties.compressionLevel",
+        type: {
+          name: "Object"
+        }
+      },
+      quoteChar: {
+        serializedName: "typeProperties.quoteChar",
+        type: {
+          name: "Object"
+        }
+      },
+      escapeChar: {
+        serializedName: "typeProperties.escapeChar",
+        type: {
+          name: "Object"
+        }
+      },
+      firstRowAsHeader: {
+        serializedName: "typeProperties.firstRowAsHeader",
+        type: {
+          name: "Object"
+        }
+      },
+      nullValue: {
+        serializedName: "typeProperties.nullValue",
+        type: {
+          name: "Object"
+        }
+      }
+    },
+    additionalProperties: Dataset.type.additionalProperties
+  }
+};
+
+export const ParquetDataset: msRest.CompositeMapper = {
+  serializedName: "Parquet",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: Dataset.type.polymorphicDiscriminator,
+    uberParent: "Dataset",
+    className: "ParquetDataset",
+    modelProperties: {
+      ...Dataset.type.modelProperties,
+      location: {
+        required: true,
+        serializedName: "typeProperties.location",
+        type: {
+          name: "Composite",
+          className: "DatasetLocation",
+          additionalProperties: {
+            type: {
+              name: "Object"
+            }
+          }
+        }
+      },
+      compressionCodec: {
+        serializedName: "typeProperties.compressionCodec",
+        type: {
+          name: "Object"
         }
       }
     },
@@ -11588,7 +12003,7 @@ export const CassandraSource: msRest.CompositeMapper = {
       consistencyLevel: {
         serializedName: "consistencyLevel",
         type: {
-          name: "String"
+          name: "Object"
         }
       }
     },
@@ -11607,6 +12022,40 @@ export const WebSource: msRest.CompositeMapper = {
       ...CopySource.type.modelProperties
     },
     additionalProperties: CopySource.type.additionalProperties
+  }
+};
+
+export const OraclePartitionSettings: msRest.CompositeMapper = {
+  serializedName: "OraclePartitionSettings",
+  type: {
+    name: "Composite",
+    className: "OraclePartitionSettings",
+    modelProperties: {
+      partitionNames: {
+        serializedName: "partitionNames",
+        type: {
+          name: "Object"
+        }
+      },
+      partitionColumnName: {
+        serializedName: "partitionColumnName",
+        type: {
+          name: "Object"
+        }
+      },
+      partitionUpperBound: {
+        serializedName: "partitionUpperBound",
+        type: {
+          name: "Object"
+        }
+      },
+      partitionLowerBound: {
+        serializedName: "partitionLowerBound",
+        type: {
+          name: "Object"
+        }
+      }
+    }
   }
 };
 
@@ -11629,6 +12078,19 @@ export const OracleSource: msRest.CompositeMapper = {
         serializedName: "queryTimeout",
         type: {
           name: "Object"
+        }
+      },
+      partitionOption: {
+        serializedName: "partitionOption",
+        type: {
+          name: "Object"
+        }
+      },
+      partitionSettings: {
+        serializedName: "partitionSettings",
+        type: {
+          name: "Composite",
+          className: "OraclePartitionSettings"
         }
       }
     },
@@ -11820,6 +12282,94 @@ export const StoredProcedureParameter: msRest.CompositeMapper = {
   }
 };
 
+export const AzureSqlSource: msRest.CompositeMapper = {
+  serializedName: "AzureSqlSource",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: CopySource.type.polymorphicDiscriminator,
+    uberParent: "CopySource",
+    className: "AzureSqlSource",
+    modelProperties: {
+      ...CopySource.type.modelProperties,
+      sqlReaderQuery: {
+        serializedName: "sqlReaderQuery",
+        type: {
+          name: "Object"
+        }
+      },
+      sqlReaderStoredProcedureName: {
+        serializedName: "sqlReaderStoredProcedureName",
+        type: {
+          name: "Object"
+        }
+      },
+      storedProcedureParameters: {
+        serializedName: "storedProcedureParameters",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Composite",
+              className: "StoredProcedureParameter"
+            }
+          }
+        }
+      },
+      produceAdditionalTypes: {
+        serializedName: "produceAdditionalTypes",
+        type: {
+          name: "Object"
+        }
+      }
+    },
+    additionalProperties: CopySource.type.additionalProperties
+  }
+};
+
+export const SqlServerSource: msRest.CompositeMapper = {
+  serializedName: "SqlServerSource",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: CopySource.type.polymorphicDiscriminator,
+    uberParent: "CopySource",
+    className: "SqlServerSource",
+    modelProperties: {
+      ...CopySource.type.modelProperties,
+      sqlReaderQuery: {
+        serializedName: "sqlReaderQuery",
+        type: {
+          name: "Object"
+        }
+      },
+      sqlReaderStoredProcedureName: {
+        serializedName: "sqlReaderStoredProcedureName",
+        type: {
+          name: "Object"
+        }
+      },
+      storedProcedureParameters: {
+        serializedName: "storedProcedureParameters",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Composite",
+              className: "StoredProcedureParameter"
+            }
+          }
+        }
+      },
+      produceAdditionalTypes: {
+        serializedName: "produceAdditionalTypes",
+        type: {
+          name: "Object"
+        }
+      }
+    },
+    additionalProperties: CopySource.type.additionalProperties
+  }
+};
+
 export const SqlSource: msRest.CompositeMapper = {
   serializedName: "SqlSource",
   type: {
@@ -11884,6 +12434,103 @@ export const RestSource: msRest.CompositeMapper = {
   }
 };
 
+export const SapTablePartitionSettings: msRest.CompositeMapper = {
+  serializedName: "SapTablePartitionSettings",
+  type: {
+    name: "Composite",
+    className: "SapTablePartitionSettings",
+    modelProperties: {
+      partitionColumnName: {
+        serializedName: "partitionColumnName",
+        type: {
+          name: "Object"
+        }
+      },
+      partitionUpperBound: {
+        serializedName: "partitionUpperBound",
+        type: {
+          name: "Object"
+        }
+      },
+      partitionLowerBound: {
+        serializedName: "partitionLowerBound",
+        type: {
+          name: "Object"
+        }
+      },
+      maxPartitionsNumber: {
+        serializedName: "maxPartitionsNumber",
+        type: {
+          name: "Object"
+        }
+      }
+    }
+  }
+};
+
+export const SapTableSource: msRest.CompositeMapper = {
+  serializedName: "SapTableSource",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: CopySource.type.polymorphicDiscriminator,
+    uberParent: "CopySource",
+    className: "SapTableSource",
+    modelProperties: {
+      ...CopySource.type.modelProperties,
+      rowCount: {
+        serializedName: "rowCount",
+        type: {
+          name: "Object"
+        }
+      },
+      rowSkips: {
+        serializedName: "rowSkips",
+        type: {
+          name: "Object"
+        }
+      },
+      rfcTableFields: {
+        serializedName: "rfcTableFields",
+        type: {
+          name: "Object"
+        }
+      },
+      rfcTableOptions: {
+        serializedName: "rfcTableOptions",
+        type: {
+          name: "Object"
+        }
+      },
+      batchSize: {
+        serializedName: "batchSize",
+        type: {
+          name: "Object"
+        }
+      },
+      customRfcReadTableFunctionModule: {
+        serializedName: "customRfcReadTableFunctionModule",
+        type: {
+          name: "Object"
+        }
+      },
+      partitionOption: {
+        serializedName: "partitionOption",
+        type: {
+          name: "Object"
+        }
+      },
+      partitionSettings: {
+        serializedName: "partitionSettings",
+        type: {
+          name: "Composite",
+          className: "SapTablePartitionSettings"
+        }
+      }
+    },
+    additionalProperties: CopySource.type.additionalProperties
+  }
+};
+
 export const SapOpenHubSource: msRest.CompositeMapper = {
   serializedName: "SapOpenHubSource",
   type: {
@@ -11936,7 +12583,7 @@ export const SapEccSource: msRest.CompositeMapper = {
       query: {
         serializedName: "query",
         type: {
-          name: "String"
+          name: "Object"
         }
       }
     },
@@ -11982,7 +12629,7 @@ export const SalesforceSource: msRest.CompositeMapper = {
       readBehavior: {
         serializedName: "readBehavior",
         type: {
-          name: "String"
+          name: "Object"
         }
       }
     },
@@ -12107,6 +12754,549 @@ export const AzureTableSource: msRest.CompositeMapper = {
         serializedName: "azureTableSourceIgnoreTableNotFound",
         type: {
           name: "Object"
+        }
+      }
+    },
+    additionalProperties: CopySource.type.additionalProperties
+  }
+};
+
+export const FormatReadSetting: msRest.CompositeMapper = {
+  serializedName: "FormatReadSetting",
+  type: {
+    name: "Composite",
+    className: "FormatReadSetting",
+    modelProperties: {
+      type: {
+        required: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      }
+    },
+    additionalProperties: {
+      type: {
+        name: "Object"
+      }
+    }
+  }
+};
+
+export const DelimitedTextReadSetting: msRest.CompositeMapper = {
+  serializedName: "DelimitedTextReadSetting",
+  type: {
+    name: "Composite",
+    className: "DelimitedTextReadSetting",
+    modelProperties: {
+      ...FormatReadSetting.type.modelProperties,
+      skipLineCount: {
+        serializedName: "skipLineCount",
+        type: {
+          name: "Object"
+        }
+      }
+    },
+    additionalProperties: FormatReadSetting.type.additionalProperties
+  }
+};
+
+export const ConnectorReadSetting: msRest.CompositeMapper = {
+  serializedName: "ConnectorReadSetting",
+  type: {
+    name: "Composite",
+    className: "ConnectorReadSetting",
+    modelProperties: {
+      type: {
+        required: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      maxConcurrentConnections: {
+        serializedName: "maxConcurrentConnections",
+        type: {
+          name: "Object"
+        }
+      }
+    },
+    additionalProperties: {
+      type: {
+        name: "Object"
+      }
+    }
+  }
+};
+
+export const HdfsReadSetting: msRest.CompositeMapper = {
+  serializedName: "HdfsReadSetting",
+  type: {
+    name: "Composite",
+    className: "HdfsReadSetting",
+    modelProperties: {
+      ...ConnectorReadSetting.type.modelProperties,
+      recursive: {
+        serializedName: "recursive",
+        type: {
+          name: "Object"
+        }
+      },
+      wildcardFolderPath: {
+        serializedName: "wildcardFolderPath",
+        type: {
+          name: "Object"
+        }
+      },
+      wildcardFileName: {
+        serializedName: "wildcardFileName",
+        type: {
+          name: "Object"
+        }
+      },
+      enablePartitionDiscovery: {
+        serializedName: "enablePartitionDiscovery",
+        type: {
+          name: "Boolean"
+        }
+      },
+      modifiedDatetimeStart: {
+        serializedName: "modifiedDatetimeStart",
+        type: {
+          name: "Object"
+        }
+      },
+      modifiedDatetimeEnd: {
+        serializedName: "modifiedDatetimeEnd",
+        type: {
+          name: "Object"
+        }
+      },
+      distcpSettings: {
+        serializedName: "distcpSettings",
+        type: {
+          name: "Composite",
+          className: "DistcpSettings"
+        }
+      }
+    },
+    additionalProperties: ConnectorReadSetting.type.additionalProperties
+  }
+};
+
+export const HttpReadSetting: msRest.CompositeMapper = {
+  serializedName: "HttpReadSetting",
+  type: {
+    name: "Composite",
+    className: "HttpReadSetting",
+    modelProperties: {
+      ...ConnectorReadSetting.type.modelProperties,
+      requestMethod: {
+        serializedName: "requestMethod",
+        type: {
+          name: "Object"
+        }
+      },
+      requestBody: {
+        serializedName: "requestBody",
+        type: {
+          name: "Object"
+        }
+      },
+      additionalHeaders: {
+        serializedName: "additionalHeaders",
+        type: {
+          name: "Object"
+        }
+      },
+      requestTimeout: {
+        serializedName: "requestTimeout",
+        type: {
+          name: "Object"
+        }
+      }
+    },
+    additionalProperties: ConnectorReadSetting.type.additionalProperties
+  }
+};
+
+export const SftpReadSetting: msRest.CompositeMapper = {
+  serializedName: "SftpReadSetting",
+  type: {
+    name: "Composite",
+    className: "SftpReadSetting",
+    modelProperties: {
+      ...ConnectorReadSetting.type.modelProperties,
+      recursive: {
+        serializedName: "recursive",
+        type: {
+          name: "Object"
+        }
+      },
+      wildcardFolderPath: {
+        serializedName: "wildcardFolderPath",
+        type: {
+          name: "Object"
+        }
+      },
+      wildcardFileName: {
+        serializedName: "wildcardFileName",
+        type: {
+          name: "Object"
+        }
+      },
+      modifiedDatetimeStart: {
+        serializedName: "modifiedDatetimeStart",
+        type: {
+          name: "Object"
+        }
+      },
+      modifiedDatetimeEnd: {
+        serializedName: "modifiedDatetimeEnd",
+        type: {
+          name: "Object"
+        }
+      }
+    },
+    additionalProperties: ConnectorReadSetting.type.additionalProperties
+  }
+};
+
+export const FtpReadSetting: msRest.CompositeMapper = {
+  serializedName: "FtpReadSetting",
+  type: {
+    name: "Composite",
+    className: "FtpReadSetting",
+    modelProperties: {
+      ...ConnectorReadSetting.type.modelProperties,
+      recursive: {
+        serializedName: "recursive",
+        type: {
+          name: "Object"
+        }
+      },
+      wildcardFolderPath: {
+        serializedName: "wildcardFolderPath",
+        type: {
+          name: "Object"
+        }
+      },
+      wildcardFileName: {
+        serializedName: "wildcardFileName",
+        type: {
+          name: "Object"
+        }
+      },
+      useBinaryTransfer: {
+        serializedName: "useBinaryTransfer",
+        type: {
+          name: "Boolean"
+        }
+      }
+    },
+    additionalProperties: ConnectorReadSetting.type.additionalProperties
+  }
+};
+
+export const FileServerReadSetting: msRest.CompositeMapper = {
+  serializedName: "FileServerReadSetting",
+  type: {
+    name: "Composite",
+    className: "FileServerReadSetting",
+    modelProperties: {
+      ...ConnectorReadSetting.type.modelProperties,
+      recursive: {
+        serializedName: "recursive",
+        type: {
+          name: "Object"
+        }
+      },
+      wildcardFolderPath: {
+        serializedName: "wildcardFolderPath",
+        type: {
+          name: "Object"
+        }
+      },
+      wildcardFileName: {
+        serializedName: "wildcardFileName",
+        type: {
+          name: "Object"
+        }
+      },
+      enablePartitionDiscovery: {
+        serializedName: "enablePartitionDiscovery",
+        type: {
+          name: "Boolean"
+        }
+      },
+      modifiedDatetimeStart: {
+        serializedName: "modifiedDatetimeStart",
+        type: {
+          name: "Object"
+        }
+      },
+      modifiedDatetimeEnd: {
+        serializedName: "modifiedDatetimeEnd",
+        type: {
+          name: "Object"
+        }
+      }
+    },
+    additionalProperties: ConnectorReadSetting.type.additionalProperties
+  }
+};
+
+export const AmazonS3ReadSetting: msRest.CompositeMapper = {
+  serializedName: "AmazonS3ReadSetting",
+  type: {
+    name: "Composite",
+    className: "AmazonS3ReadSetting",
+    modelProperties: {
+      ...ConnectorReadSetting.type.modelProperties,
+      recursive: {
+        serializedName: "recursive",
+        type: {
+          name: "Object"
+        }
+      },
+      wildcardFolderPath: {
+        serializedName: "wildcardFolderPath",
+        type: {
+          name: "Object"
+        }
+      },
+      wildcardFileName: {
+        serializedName: "wildcardFileName",
+        type: {
+          name: "Object"
+        }
+      },
+      prefix: {
+        serializedName: "prefix",
+        type: {
+          name: "Object"
+        }
+      },
+      enablePartitionDiscovery: {
+        serializedName: "enablePartitionDiscovery",
+        type: {
+          name: "Boolean"
+        }
+      },
+      modifiedDatetimeStart: {
+        serializedName: "modifiedDatetimeStart",
+        type: {
+          name: "Object"
+        }
+      },
+      modifiedDatetimeEnd: {
+        serializedName: "modifiedDatetimeEnd",
+        type: {
+          name: "Object"
+        }
+      }
+    },
+    additionalProperties: ConnectorReadSetting.type.additionalProperties
+  }
+};
+
+export const AzureDataLakeStoreReadSetting: msRest.CompositeMapper = {
+  serializedName: "AzureDataLakeStoreReadSetting",
+  type: {
+    name: "Composite",
+    className: "AzureDataLakeStoreReadSetting",
+    modelProperties: {
+      ...ConnectorReadSetting.type.modelProperties,
+      recursive: {
+        serializedName: "recursive",
+        type: {
+          name: "Object"
+        }
+      },
+      wildcardFolderPath: {
+        serializedName: "wildcardFolderPath",
+        type: {
+          name: "Object"
+        }
+      },
+      wildcardFileName: {
+        serializedName: "wildcardFileName",
+        type: {
+          name: "Object"
+        }
+      },
+      enablePartitionDiscovery: {
+        serializedName: "enablePartitionDiscovery",
+        type: {
+          name: "Boolean"
+        }
+      },
+      modifiedDatetimeStart: {
+        serializedName: "modifiedDatetimeStart",
+        type: {
+          name: "Object"
+        }
+      },
+      modifiedDatetimeEnd: {
+        serializedName: "modifiedDatetimeEnd",
+        type: {
+          name: "Object"
+        }
+      }
+    },
+    additionalProperties: ConnectorReadSetting.type.additionalProperties
+  }
+};
+
+export const AzureBlobFSReadSetting: msRest.CompositeMapper = {
+  serializedName: "AzureBlobFSReadSetting",
+  type: {
+    name: "Composite",
+    className: "AzureBlobFSReadSetting",
+    modelProperties: {
+      ...ConnectorReadSetting.type.modelProperties,
+      recursive: {
+        serializedName: "recursive",
+        type: {
+          name: "Object"
+        }
+      },
+      wildcardFolderPath: {
+        serializedName: "wildcardFolderPath",
+        type: {
+          name: "Object"
+        }
+      },
+      wildcardFileName: {
+        serializedName: "wildcardFileName",
+        type: {
+          name: "Object"
+        }
+      },
+      enablePartitionDiscovery: {
+        serializedName: "enablePartitionDiscovery",
+        type: {
+          name: "Boolean"
+        }
+      },
+      modifiedDatetimeStart: {
+        serializedName: "modifiedDatetimeStart",
+        type: {
+          name: "Object"
+        }
+      },
+      modifiedDatetimeEnd: {
+        serializedName: "modifiedDatetimeEnd",
+        type: {
+          name: "Object"
+        }
+      }
+    },
+    additionalProperties: ConnectorReadSetting.type.additionalProperties
+  }
+};
+
+export const AzureBlobStorageReadSetting: msRest.CompositeMapper = {
+  serializedName: "AzureBlobStorageReadSetting",
+  type: {
+    name: "Composite",
+    className: "AzureBlobStorageReadSetting",
+    modelProperties: {
+      ...ConnectorReadSetting.type.modelProperties,
+      recursive: {
+        serializedName: "recursive",
+        type: {
+          name: "Object"
+        }
+      },
+      wildcardFolderPath: {
+        serializedName: "wildcardFolderPath",
+        type: {
+          name: "Object"
+        }
+      },
+      wildcardFileName: {
+        serializedName: "wildcardFileName",
+        type: {
+          name: "Object"
+        }
+      },
+      enablePartitionDiscovery: {
+        serializedName: "enablePartitionDiscovery",
+        type: {
+          name: "Boolean"
+        }
+      },
+      modifiedDatetimeStart: {
+        serializedName: "modifiedDatetimeStart",
+        type: {
+          name: "Object"
+        }
+      },
+      modifiedDatetimeEnd: {
+        serializedName: "modifiedDatetimeEnd",
+        type: {
+          name: "Object"
+        }
+      }
+    },
+    additionalProperties: ConnectorReadSetting.type.additionalProperties
+  }
+};
+
+export const DelimitedTextSource: msRest.CompositeMapper = {
+  serializedName: "DelimitedTextSource",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: CopySource.type.polymorphicDiscriminator,
+    uberParent: "CopySource",
+    className: "DelimitedTextSource",
+    modelProperties: {
+      ...CopySource.type.modelProperties,
+      storeSettings: {
+        serializedName: "storeSettings",
+        type: {
+          name: "Composite",
+          className: "ConnectorReadSetting",
+          additionalProperties: {
+            type: {
+              name: "Object"
+            }
+          }
+        }
+      },
+      formatSettings: {
+        serializedName: "formatSettings",
+        type: {
+          name: "Composite",
+          className: "DelimitedTextReadSetting",
+          additionalProperties: FormatReadSetting.type.additionalProperties
+        }
+      }
+    },
+    additionalProperties: CopySource.type.additionalProperties
+  }
+};
+
+export const ParquetSource: msRest.CompositeMapper = {
+  serializedName: "ParquetSource",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: CopySource.type.polymorphicDiscriminator,
+    uberParent: "CopySource",
+    className: "ParquetSource",
+    modelProperties: {
+      ...CopySource.type.modelProperties,
+      storeSettings: {
+        serializedName: "storeSettings",
+        type: {
+          name: "Composite",
+          className: "ConnectorReadSetting",
+          additionalProperties: {
+            type: {
+              name: "Object"
+            }
+          }
         }
       }
     },
@@ -13076,65 +14266,6 @@ export const StagingSettings: msRest.CompositeMapper = {
   }
 };
 
-export const CopyTranslator: msRest.CompositeMapper = {
-  serializedName: "CopyTranslator",
-  type: {
-    name: "Composite",
-    polymorphicDiscriminator: {
-      serializedName: "type",
-      clientName: "type"
-    },
-    uberParent: "CopyTranslator",
-    className: "CopyTranslator",
-    modelProperties: {
-      type: {
-        required: true,
-        serializedName: "type",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    additionalProperties: {
-      type: {
-        name: "Object"
-      }
-    }
-  }
-};
-
-export const TabularTranslator: msRest.CompositeMapper = {
-  serializedName: "TabularTranslator",
-  type: {
-    name: "Composite",
-    polymorphicDiscriminator: CopyTranslator.type.polymorphicDiscriminator,
-    uberParent: "CopyTranslator",
-    className: "TabularTranslator",
-    modelProperties: {
-      ...CopyTranslator.type.modelProperties,
-      columnMappings: {
-        serializedName: "columnMappings",
-        type: {
-          name: "Object"
-        }
-      },
-      schemaMapping: {
-        serializedName: "schemaMapping",
-        type: {
-          name: "Object"
-        }
-      },
-      collectionReference: {
-        serializedName: "collectionReference",
-        type: {
-          name: "Object"
-        }
-      }
-    },
-    additionalProperties: CopyTranslator.type.additionalProperties
-  }
-};
-
 export const CopySink: msRest.CompositeMapper = {
   serializedName: "CopySink",
   type: {
@@ -13224,7 +14355,7 @@ export const SalesforceSink: msRest.CompositeMapper = {
       writeBehavior: {
         serializedName: "writeBehavior",
         type: {
-          name: "String"
+          name: "Object"
         }
       },
       externalIdFieldName: {
@@ -13289,9 +14420,9 @@ export const DynamicsSink: msRest.CompositeMapper = {
         required: true,
         isConstant: true,
         serializedName: "writeBehavior",
-        defaultValue: 'Upsert',
+        defaultValue: Upsert,
         type: {
-          name: "String"
+          name: "Object"
         }
       },
       ignoreNullValues: {
@@ -13337,7 +14468,7 @@ export const AzureSearchIndexSink: msRest.CompositeMapper = {
       writeBehavior: {
         serializedName: "writeBehavior",
         type: {
-          name: "String"
+          name: "Object"
         }
       }
     },
@@ -13357,7 +14488,7 @@ export const AzureBlobFSSink: msRest.CompositeMapper = {
       copyBehavior: {
         serializedName: "copyBehavior",
         type: {
-          name: "String"
+          name: "Object"
         }
       }
     },
@@ -13377,7 +14508,13 @@ export const AzureDataLakeStoreSink: msRest.CompositeMapper = {
       copyBehavior: {
         serializedName: "copyBehavior",
         type: {
-          name: "String"
+          name: "Object"
+        }
+      },
+      enableAdlsSingleFileParallel: {
+        serializedName: "enableAdlsSingleFileParallel",
+        type: {
+          name: "Object"
         }
       }
     },
@@ -13482,6 +14619,106 @@ export const SqlDWSink: msRest.CompositeMapper = {
   }
 };
 
+export const AzureSqlSink: msRest.CompositeMapper = {
+  serializedName: "AzureSqlSink",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: CopySink.type.polymorphicDiscriminator,
+    uberParent: "CopySink",
+    className: "AzureSqlSink",
+    modelProperties: {
+      ...CopySink.type.modelProperties,
+      sqlWriterStoredProcedureName: {
+        serializedName: "sqlWriterStoredProcedureName",
+        type: {
+          name: "Object"
+        }
+      },
+      sqlWriterTableType: {
+        serializedName: "sqlWriterTableType",
+        type: {
+          name: "Object"
+        }
+      },
+      preCopyScript: {
+        serializedName: "preCopyScript",
+        type: {
+          name: "Object"
+        }
+      },
+      storedProcedureParameters: {
+        serializedName: "storedProcedureParameters",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Composite",
+              className: "StoredProcedureParameter"
+            }
+          }
+        }
+      },
+      storedProcedureTableTypeParameterName: {
+        serializedName: "storedProcedureTableTypeParameterName",
+        type: {
+          name: "Object"
+        }
+      }
+    },
+    additionalProperties: CopySink.type.additionalProperties
+  }
+};
+
+export const SqlServerSink: msRest.CompositeMapper = {
+  serializedName: "SqlServerSink",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: CopySink.type.polymorphicDiscriminator,
+    uberParent: "CopySink",
+    className: "SqlServerSink",
+    modelProperties: {
+      ...CopySink.type.modelProperties,
+      sqlWriterStoredProcedureName: {
+        serializedName: "sqlWriterStoredProcedureName",
+        type: {
+          name: "Object"
+        }
+      },
+      sqlWriterTableType: {
+        serializedName: "sqlWriterTableType",
+        type: {
+          name: "Object"
+        }
+      },
+      preCopyScript: {
+        serializedName: "preCopyScript",
+        type: {
+          name: "Object"
+        }
+      },
+      storedProcedureParameters: {
+        serializedName: "storedProcedureParameters",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Composite",
+              className: "StoredProcedureParameter"
+            }
+          }
+        }
+      },
+      storedProcedureTableTypeParameterName: {
+        serializedName: "storedProcedureTableTypeParameterName",
+        type: {
+          name: "Object"
+        }
+      }
+    },
+    additionalProperties: CopySink.type.additionalProperties
+  }
+};
+
 export const SqlSink: msRest.CompositeMapper = {
   serializedName: "SqlSink",
   type: {
@@ -13520,6 +14757,12 @@ export const SqlSink: msRest.CompositeMapper = {
             }
           }
         }
+      },
+      storedProcedureTableTypeParameterName: {
+        serializedName: "storedProcedureTableTypeParameterName",
+        type: {
+          name: "Object"
+        }
       }
     },
     additionalProperties: CopySink.type.additionalProperties
@@ -13537,6 +14780,12 @@ export const DocumentDbCollectionSink: msRest.CompositeMapper = {
       ...CopySink.type.modelProperties,
       nestingSeparator: {
         serializedName: "nestingSeparator",
+        type: {
+          name: "Object"
+        }
+      },
+      writeBehavior: {
+        serializedName: "writeBehavior",
         type: {
           name: "Object"
         }
@@ -13558,7 +14807,7 @@ export const FileSystemSink: msRest.CompositeMapper = {
       copyBehavior: {
         serializedName: "copyBehavior",
         type: {
-          name: "String"
+          name: "Object"
         }
       }
     },
@@ -13596,7 +14845,115 @@ export const BlobSink: msRest.CompositeMapper = {
       copyBehavior: {
         serializedName: "copyBehavior",
         type: {
+          name: "Object"
+        }
+      }
+    },
+    additionalProperties: CopySink.type.additionalProperties
+  }
+};
+
+export const ConnectorWriteSetting: msRest.CompositeMapper = {
+  serializedName: "ConnectorWriteSetting",
+  type: {
+    name: "Composite",
+    className: "ConnectorWriteSetting",
+    modelProperties: {
+      type: {
+        required: true,
+        serializedName: "type",
+        type: {
           name: "String"
+        }
+      },
+      maxConcurrentConnections: {
+        serializedName: "maxConcurrentConnections",
+        type: {
+          name: "Object"
+        }
+      },
+      copyBehavior: {
+        serializedName: "copyBehavior",
+        type: {
+          name: "Object"
+        }
+      }
+    },
+    additionalProperties: {
+      type: {
+        name: "Object"
+      }
+    }
+  }
+};
+
+export const FileServerWriteSetting: msRest.CompositeMapper = {
+  serializedName: "FileServerWriteSetting",
+  type: {
+    name: "Composite",
+    className: "FileServerWriteSetting",
+    modelProperties: {
+      ...ConnectorWriteSetting.type.modelProperties
+    },
+    additionalProperties: ConnectorWriteSetting.type.additionalProperties
+  }
+};
+
+export const AzureDataLakeStoreWriteSetting: msRest.CompositeMapper = {
+  serializedName: "AzureDataLakeStoreWriteSetting",
+  type: {
+    name: "Composite",
+    className: "AzureDataLakeStoreWriteSetting",
+    modelProperties: {
+      ...ConnectorWriteSetting.type.modelProperties
+    },
+    additionalProperties: ConnectorWriteSetting.type.additionalProperties
+  }
+};
+
+export const AzureBlobFSWriteSetting: msRest.CompositeMapper = {
+  serializedName: "AzureBlobFSWriteSetting",
+  type: {
+    name: "Composite",
+    className: "AzureBlobFSWriteSetting",
+    modelProperties: {
+      ...ConnectorWriteSetting.type.modelProperties
+    },
+    additionalProperties: ConnectorWriteSetting.type.additionalProperties
+  }
+};
+
+export const AzureBlobStorageWriteSetting: msRest.CompositeMapper = {
+  serializedName: "AzureBlobStorageWriteSetting",
+  type: {
+    name: "Composite",
+    className: "AzureBlobStorageWriteSetting",
+    modelProperties: {
+      ...ConnectorWriteSetting.type.modelProperties
+    },
+    additionalProperties: ConnectorWriteSetting.type.additionalProperties
+  }
+};
+
+export const ParquetSink: msRest.CompositeMapper = {
+  serializedName: "ParquetSink",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: CopySink.type.polymorphicDiscriminator,
+    uberParent: "CopySink",
+    className: "ParquetSink",
+    modelProperties: {
+      ...CopySink.type.modelProperties,
+      storeSettings: {
+        serializedName: "storeSettings",
+        type: {
+          name: "Composite",
+          className: "ConnectorWriteSetting",
+          additionalProperties: {
+            type: {
+              name: "Object"
+            }
+          }
         }
       }
     },
@@ -13668,7 +15025,88 @@ export const SapCloudForCustomerSink: msRest.CompositeMapper = {
       writeBehavior: {
         serializedName: "writeBehavior",
         type: {
+          name: "Object"
+        }
+      }
+    },
+    additionalProperties: CopySink.type.additionalProperties
+  }
+};
+
+export const FormatWriteSetting: msRest.CompositeMapper = {
+  serializedName: "FormatWriteSetting",
+  type: {
+    name: "Composite",
+    className: "FormatWriteSetting",
+    modelProperties: {
+      type: {
+        required: true,
+        serializedName: "type",
+        type: {
           name: "String"
+        }
+      }
+    },
+    additionalProperties: {
+      type: {
+        name: "Object"
+      }
+    }
+  }
+};
+
+export const DelimitedTextWriteSetting: msRest.CompositeMapper = {
+  serializedName: "DelimitedTextWriteSetting",
+  type: {
+    name: "Composite",
+    className: "DelimitedTextWriteSetting",
+    modelProperties: {
+      ...FormatWriteSetting.type.modelProperties,
+      quoteAllText: {
+        serializedName: "quoteAllText",
+        type: {
+          name: "Object"
+        }
+      },
+      fileExtension: {
+        required: true,
+        serializedName: "fileExtension",
+        type: {
+          name: "Object"
+        }
+      }
+    },
+    additionalProperties: FormatWriteSetting.type.additionalProperties
+  }
+};
+
+export const DelimitedTextSink: msRest.CompositeMapper = {
+  serializedName: "DelimitedTextSink",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: CopySink.type.polymorphicDiscriminator,
+    uberParent: "CopySink",
+    className: "DelimitedTextSink",
+    modelProperties: {
+      ...CopySink.type.modelProperties,
+      storeSettings: {
+        serializedName: "storeSettings",
+        type: {
+          name: "Composite",
+          className: "ConnectorWriteSetting",
+          additionalProperties: {
+            type: {
+              name: "Object"
+            }
+          }
+        }
+      },
+      formatSettings: {
+        serializedName: "formatSettings",
+        type: {
+          name: "Composite",
+          className: "DelimitedTextWriteSetting",
+          additionalProperties: FormatWriteSetting.type.additionalProperties
         }
       }
     },
@@ -13714,13 +15152,7 @@ export const CopyActivity: msRest.CompositeMapper = {
       translator: {
         serializedName: "typeProperties.translator",
         type: {
-          name: "Composite",
-          className: "CopyTranslator",
-          additionalProperties: {
-            type: {
-              name: "Object"
-            }
-          }
+          name: "Object"
         }
       },
       enableStaging: {
@@ -13773,6 +15205,17 @@ export const CopyActivity: msRest.CompositeMapper = {
       },
       preserveRules: {
         serializedName: "typeProperties.preserveRules",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Object"
+            }
+          }
+        }
+      },
+      preserve: {
+        serializedName: "typeProperties.preserve",
         type: {
           name: "Sequence",
           element: {
@@ -14884,6 +16327,58 @@ export const SelfHostedIntegrationRuntime: msRest.CompositeMapper = {
   }
 };
 
+export const EntityReference: msRest.CompositeMapper = {
+  serializedName: "EntityReference",
+  type: {
+    name: "Composite",
+    className: "EntityReference",
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      referenceName: {
+        serializedName: "referenceName",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const IntegrationRuntimeDataProxyProperties: msRest.CompositeMapper = {
+  serializedName: "IntegrationRuntimeDataProxyProperties",
+  type: {
+    name: "Composite",
+    className: "IntegrationRuntimeDataProxyProperties",
+    modelProperties: {
+      connectVia: {
+        serializedName: "connectVia",
+        type: {
+          name: "Composite",
+          className: "EntityReference"
+        }
+      },
+      stagingLinkedService: {
+        serializedName: "stagingLinkedService",
+        type: {
+          name: "Composite",
+          className: "EntityReference"
+        }
+      },
+      path: {
+        serializedName: "path",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const IntegrationRuntimeCustomSetupScriptProperties: msRest.CompositeMapper = {
   serializedName: "IntegrationRuntimeCustomSetupScriptProperties",
   type: {
@@ -14980,6 +16475,13 @@ export const IntegrationRuntimeSsisProperties: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "IntegrationRuntimeCustomSetupScriptProperties"
+        }
+      },
+      dataProxyProperties: {
+        serializedName: "dataProxyProperties",
+        type: {
+          name: "Composite",
+          className: "IntegrationRuntimeDataProxyProperties"
         }
       },
       edition: {
@@ -15981,6 +17483,7 @@ export const discriminators = {
   'Trigger.MultiplePipelineTrigger' : MultiplePipelineTrigger,
   'LinkedService.AzureFunction' : AzureFunctionLinkedService,
   'LinkedService.AzureDataExplorer' : AzureDataExplorerLinkedService,
+  'LinkedService.SapTable' : SapTableLinkedService,
   'LinkedService.GoogleAdWords' : GoogleAdWordsLinkedService,
   'LinkedService.OracleServiceCloud' : OracleServiceCloudLinkedService,
   'LinkedService.DynamicsAX' : DynamicsAXLinkedService,
@@ -16114,6 +17617,7 @@ export const discriminators = {
   'Dataset.HttpFile' : HttpDataset,
   'Dataset.AzureSearchIndex' : AzureSearchIndexDataset,
   'Dataset.WebTable' : WebTableDataset,
+  'Dataset.SapTableResource' : SapTableResourceDataset,
   'Dataset.RestResource' : RestResourceDataset,
   'Dataset.SqlServerTable' : SqlServerTableDataset,
   'Dataset.SapOpenHubTable' : SapOpenHubTableDataset,
@@ -16140,6 +17644,8 @@ export const discriminators = {
   'Dataset.AzureSqlTable' : AzureSqlTableDataset,
   'Dataset.AzureTable' : AzureTableDataset,
   'Dataset.AzureBlob' : AzureBlobDataset,
+  'Dataset.DelimitedText' : DelimitedTextDataset,
+  'Dataset.Parquet' : ParquetDataset,
   'Dataset.AmazonS3Object' : AmazonS3Dataset,
   'Activity.AzureFunctionActivity' : AzureFunctionActivity,
   'Activity.DatabricksSparkPython' : DatabricksSparkPythonActivity,
@@ -16199,8 +17705,11 @@ export const discriminators = {
   'CopySource.HdfsSource' : HdfsSource,
   'CopySource.FileSystemSource' : FileSystemSource,
   'CopySource.SqlDWSource' : SqlDWSource,
+  'CopySource.AzureSqlSource' : AzureSqlSource,
+  'CopySource.SqlServerSource' : SqlServerSource,
   'CopySource.SqlSource' : SqlSource,
   'CopySource.RestSource' : RestSource,
+  'CopySource.SapTableSource' : SapTableSource,
   'CopySource.SapOpenHubSource' : SapOpenHubSource,
   'CopySource.SapHanaSource' : SapHanaSource,
   'CopySource.SapEccSource' : SapEccSource,
@@ -16211,6 +17720,8 @@ export const discriminators = {
   'CopySource.DocumentDbCollectionSource' : DocumentDbCollectionSource,
   'CopySource.BlobSource' : BlobSource,
   'CopySource.AzureTableSource' : AzureTableSource,
+  'CopySource.DelimitedTextSource' : DelimitedTextSource,
+  'CopySource.ParquetSource' : ParquetSource,
   'CopySource' : CopySource,
   'Activity.Lookup' : LookupActivity,
   'Activity.Delete' : DeleteActivity,
@@ -16222,8 +17733,6 @@ export const discriminators = {
   'Activity.HDInsightMapReduce' : HDInsightMapReduceActivity,
   'Activity.HDInsightPig' : HDInsightPigActivity,
   'Activity.HDInsightHive' : HDInsightHiveActivity,
-  'CopyTranslator.TabularTranslator' : TabularTranslator,
-  'CopyTranslator' : CopyTranslator,
   'CopySink.CosmosDbMongoDbApiSink' : CosmosDbMongoDbApiSink,
   'CopySink.SalesforceSink' : SalesforceSink,
   'CopySink.AzureDataExplorerSink' : AzureDataExplorerSink,
@@ -16234,13 +17743,17 @@ export const discriminators = {
   'CopySink.AzureDataLakeStoreSink' : AzureDataLakeStoreSink,
   'CopySink.OracleSink' : OracleSink,
   'CopySink.SqlDWSink' : SqlDWSink,
+  'CopySink.AzureSqlSink' : AzureSqlSink,
+  'CopySink.SqlServerSink' : SqlServerSink,
   'CopySink.SqlSink' : SqlSink,
   'CopySink.DocumentDbCollectionSink' : DocumentDbCollectionSink,
   'CopySink.FileSystemSink' : FileSystemSink,
   'CopySink.BlobSink' : BlobSink,
+  'CopySink.ParquetSink' : ParquetSink,
   'CopySink.AzureTableSink' : AzureTableSink,
   'CopySink.AzureQueueSink' : AzureQueueSink,
   'CopySink.SapCloudForCustomerSink' : SapCloudForCustomerSink,
+  'CopySink.DelimitedTextSink' : DelimitedTextSink,
   'CopySink' : CopySink,
   'Activity.Copy' : CopyActivity,
   'Activity.Execution' : ExecutionActivity,
