@@ -125,6 +125,98 @@ export const CognitiveServicesAccountUpdateParameters: msRest.CompositeMapper = 
   }
 };
 
+export const IpRule: msRest.CompositeMapper = {
+  serializedName: "IpRule",
+  type: {
+    name: "Composite",
+    className: "IpRule",
+    modelProperties: {
+      value: {
+        required: true,
+        serializedName: "value",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const VirtualNetworkRule: msRest.CompositeMapper = {
+  serializedName: "VirtualNetworkRule",
+  type: {
+    name: "Composite",
+    className: "VirtualNetworkRule",
+    modelProperties: {
+      id: {
+        required: true,
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      state: {
+        serializedName: "state",
+        type: {
+          name: "String"
+        }
+      },
+      ignoreMissingVnetServiceEndpoint: {
+        serializedName: "ignoreMissingVnetServiceEndpoint",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const NetworkRuleSet: msRest.CompositeMapper = {
+  serializedName: "NetworkRuleSet",
+  type: {
+    name: "Composite",
+    className: "NetworkRuleSet",
+    modelProperties: {
+      bypass: {
+        serializedName: "bypass",
+        type: {
+          name: "String"
+        }
+      },
+      defaultAction: {
+        serializedName: "defaultAction",
+        type: {
+          name: "String"
+        }
+      },
+      ipRules: {
+        serializedName: "ipRules",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "IpRule"
+            }
+          }
+        }
+      },
+      virtualNetworkRules: {
+        serializedName: "virtualNetworkRules",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "VirtualNetworkRule"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const CognitiveServicesAccount: msRest.CompositeMapper = {
   serializedName: "CognitiveServicesAccount",
   type: {
@@ -186,6 +278,13 @@ export const CognitiveServicesAccount: msRest.CompositeMapper = {
         serializedName: "properties.customSubDomainName",
         type: {
           name: "String"
+        }
+      },
+      networkAcls: {
+        serializedName: "properties.networkAcls",
+        type: {
+          name: "Composite",
+          className: "NetworkRuleSet"
         }
       },
       sku: {
