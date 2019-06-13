@@ -85,8 +85,15 @@ module.exports = function(config) {
     jsonToFileReporter: {
       filter: function(obj) {
         if (obj.writeFile) {
-          const fs = require("fs");
-          fs.writeFile(obj.path, JSON.stringify(obj.content, null, " "), err => {
+          const fs = require("fs-extra");
+          // Create the directories recursively incase they don't exist
+          try {
+            // Stripping away the filename from the file path and retaining the directory structure
+            fs.ensureDirSync(obj.path.substring(0, obj.path.lastIndexOf("/") + 1));
+          } catch (err) {
+            if (err.code !== "EEXIST") throw err;
+          }
+          fs.writeFile(obj.path, JSON.stringify(obj.content, null, " "), (err) => {
             if (err) {
               throw err;
             }
@@ -126,6 +133,10 @@ module.exports = function(config) {
     browserNoActivityTimeout: 600000,
     browserDisconnectTimeout: 10000,
     browserDisconnectTolerance: 3,
+    browserConsoleLogOptions: {
+      // IMPORTANT: COMMENT the following line if you want to print debug logs in your browsers in record mode!!
+      terminal: process.env.TEST_MODE !== "record"
+    },
 
     client: {
       mocha: {
