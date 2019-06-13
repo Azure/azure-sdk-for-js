@@ -6,8 +6,8 @@ import {
   BlobServiceClient,
   Models,
   SharedKeyCredential,
-  StorageClient,
-  TokenCredential
+  newPipeline,
+  TokenCredential,
 } from "../../src"; // Change to "@azure/storage-blob" in your package
 
 async function main() {
@@ -26,7 +26,7 @@ async function main() {
   // const anonymousCredential = new AnonymousCredential();
 
   // Use sharedKeyCredential, tokenCredential or anonymousCredential to create a pipeline
-  const pipeline = StorageClient.newPipeline(sharedKeyCredential);
+  const pipeline = newPipeline(sharedKeyCredential);
 
   // List containers
   const blobServiceClient = new BlobServiceClient(

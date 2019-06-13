@@ -1,23 +1,28 @@
 import * as assert from "assert";
-
-import { getQSU, getUniqueName, sleep } from "./utils";
+import { getQSU, sleep } from "./utils";
+import { QueueClient } from "../src/QueueClient";
+import { record } from "./utils/recorder";
 import * as dotenv from "dotenv";
 dotenv.config({ path: "../.env" });
 
 describe("MessageIdClient", () => {
   const queueServiceClient = getQSU();
-  let queueName = getUniqueName("queue");
-  let queueClient = queueServiceClient.createQueueClient(queueName);
+  let queueName: string;
+  let queueClient: QueueClient;
   const messageContent = "Hello World";
 
-  beforeEach(async () => {
-    queueName = getUniqueName("queue");
+  let recorder: any;
+
+  beforeEach(async function() {
+    recorder = record(this);
+    queueName = recorder.getUniqueName("queue");
     queueClient = queueServiceClient.createQueueClient(queueName);
     await queueClient.create();
   });
 
   afterEach(async () => {
     await queueClient.delete();
+    recorder.stop();
   });
 
   it("update and delete empty message with default parameters", async () => {
@@ -34,7 +39,7 @@ describe("MessageIdClient", () => {
 
     let newMessage = "";
     let messageIdClient = messagesClient.createMessageIdClient(eResult.messageId);
-    let uResult = await messageIdClient.update(eResult.popReceipt, 0, newMessage);
+    let uResult = await messageIdClient.update(eResult.popReceipt, newMessage);
     assert.ok(uResult.version);
     assert.ok(uResult.timeNextVisible);
     assert.ok(uResult.date);
@@ -68,7 +73,7 @@ describe("MessageIdClient", () => {
 
     let newMessage = "New Message";
     let messageIdClient = messagesClient.createMessageIdClient(eResult.messageId);
-    let uResult = await messageIdClient.update(eResult.popReceipt, 10, newMessage);
+    let uResult = await messageIdClient.update(eResult.popReceipt, newMessage, 10);
     assert.ok(uResult.version);
     assert.ok(uResult.timeNextVisible);
     assert.ok(uResult.date);
@@ -99,7 +104,7 @@ describe("MessageIdClient", () => {
 
     let newMessage = new Array(64 * 1024 + 1).join("a");
     let messageIdClient = messagesClient.createMessageIdClient(eResult.messageId);
-    let uResult = await messageIdClient.update(eResult.popReceipt, 0, newMessage);
+    let uResult = await messageIdClient.update(eResult.popReceipt, newMessage);
     assert.ok(uResult.version);
     assert.ok(uResult.timeNextVisible);
     assert.ok(uResult.date);
@@ -129,7 +134,7 @@ describe("MessageIdClient", () => {
 
     let error;
     try {
-      await messageIdClient.update(eResult.popReceipt, 0, newMessage);
+      await messageIdClient.update(eResult.popReceipt, newMessage);
     } catch (err) {
       error = err;
     }

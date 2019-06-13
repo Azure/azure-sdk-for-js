@@ -9,16 +9,17 @@
     "./dist/index.js": "./browser/index.js",
     "./dist-esm/src/print.js": "./dist-esm/src/print.browser.js"
   },
-  "types": "dist-esm/index.d.ts",
+  "types": "types/azure-template.d.ts",
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1",
     "build:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c 2>&1",
     "build:samples": "cd samples && tsc -p .",
     "build:test": "tsc -p . && rollup -c rollup.test.config.js 2>&1",
-    "build": "tsc -p . && rollup -c 2>&1",
+    "build": "tsc -p . && rollup -c 2>&1 && api-extractor run --local",
     "check-format": "prettier --list-different --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-esm test-dist types *.tgz *.log",
+    "extract-api": "tsc -p . && api-extractor run --local",
     "format": "prettier --write --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "echo skipped",
     "integration-test:node": "echo skipped",
@@ -39,7 +40,7 @@
     "dist/",
     "dist-esm/src/",
     "src/",
-    "types/src"
+    "types/azure-template.d.ts"
   ],
   "repository": "github:Azure/azure-sdk-for-js",
   "keywords": [
@@ -63,9 +64,10 @@
     "tslib": "^1.9.3"
   },
   "devDependencies": {
+    "@microsoft/api-extractor": "^7.1.5",
     "@types/mocha": "^5.2.5",
     "@types/node": "^8.0.0",
-    "@typescript-eslint/eslint-plugin": "^1.7.0",
+    "@typescript-eslint/eslint-plugin": "~1.9.0",
     "@typescript-eslint/parser": "^1.7.0",
     "assert": "^1.4.1",
     "cross-env": "^5.2.0",
@@ -81,7 +83,7 @@
     "mocha-multi": "^1.0.1",
     "prettier": "^1.16.4",
     "rimraf": "^2.6.2",
-    "rollup": "^1.0.0",
+    "rollup": "~1.13.1",
     "rollup-plugin-commonjs": "^9.2.0",
     "rollup-plugin-json": "^3.1.0",
     "rollup-plugin-multi-entry": "^2.1.0",

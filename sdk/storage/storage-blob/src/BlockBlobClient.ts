@@ -3,7 +3,12 @@
 
 import * as fs from "fs";
 
-import { generateUuid, HttpRequestBody, HttpResponse, TransferProgressEvent } from "@azure/ms-rest-js";
+import {
+  generateUuid,
+  HttpRequestBody,
+  HttpResponse,
+  TransferProgressEvent
+} from "@azure/ms-rest-js";
 import * as Models from "./generated/lib/models";
 import { Aborter } from "./Aborter";
 import { BlobClient } from "./internal";
@@ -12,7 +17,13 @@ import { BlobHTTPHeaders } from "./generated/lib/models";
 import { Range, rangeToString } from "./Range";
 import { BlobAccessConditions, Metadata } from "./models";
 import { Pipeline } from "./Pipeline";
-import { URLConstants, BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES, BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES, BLOCK_BLOB_MAX_BLOCKS, DEFAULT_BLOB_DOWNLOAD_BLOCK_BYTES } from "./utils/constants";
+import {
+  URLConstants,
+  BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES,
+  BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES,
+  BLOCK_BLOB_MAX_BLOCKS,
+  DEFAULT_BLOB_DOWNLOAD_BLOCK_BYTES
+} from "./utils/constants";
 import { setURLParameter, generateBlockID } from "./utils/utils.common";
 import { BufferScheduler } from "./utils/BufferScheduler";
 import { Readable } from "stream";
@@ -362,10 +373,9 @@ export type BlobUploadCommonResponse = Models.BlockBlobUploadHeaders & {
  *
  * @export
  * @class BlockBlobClient
- * @extends {StorageClient}
+ * @extends {BlobClient}
  */
 export class BlockBlobClient extends BlobClient {
-
   /**
    * blockBlobContext provided by protocol layer.
    *
@@ -389,7 +399,7 @@ export class BlockBlobClient extends BlobClient {
    *                     Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
    *                     However, if a blob name includes ? or %, blob name must be encoded in the URL.
    *                     Such as a blob named "my?blob%", the URL should be "https://myaccount.blob.core.windows.net/mycontainer/my%3Fblob%25".
-   * @param {Pipeline} pipeline Call StorageClient.newPipeline() to create a default
+   * @param {Pipeline} pipeline Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
    * @memberof BlockBlobClient
    */
@@ -404,7 +414,7 @@ export class BlockBlobClient extends BlobClient {
    * Provide "" will remove the snapshot and return a URL to the base blob.
    *
    * @param {string} snapshot The snapshot timestamp.
-   * @returns {BlockBlobClient}
+   * @returns {BlockBlobClient} A new BlockBlobClient object identical to the source but with the specified snapshot timestamp.
    * @memberof BlockBlobClient
    */
   public withSnapshot(snapshot: string): BlockBlobClient {
@@ -435,8 +445,8 @@ export class BlockBlobClient extends BlobClient {
    *                               which returns a new Readable stream whose offset is from data source beginning.
    * @param {number} contentLength Length of body in bytes. Use Buffer.byteLength() to calculate body length for a
    *                               string including non non-Base64/Hex-encoded characters.
-   * @param {BlockBlobUploadOptions} [options] Optional options to the Block Blob Upload operation.
-   * @returns {Promise<Models.BlockBlobUploadResponse>}
+   * @param {BlockBlobUploadOptions} [options] Options to the Block Blob Upload operation.
+   * @returns {Promise<Models.BlockBlobUploadResponse>} Response data for the Block Blob Upload operation.
    * @memberof BlockBlobClient
    */
   public async upload(
@@ -464,8 +474,8 @@ export class BlockBlobClient extends BlobClient {
    * @param {string} blockId A 64-byte value that is base64-encoded
    * @param {HttpRequestBody} body Data to upload to the staging area.
    * @param {number} contentLength Number of bytes to upload.
-   * @param {BlockBlobStageBlockOptions} [options] Optional options to the Block Blob Stage Block operation.
-   * @returns {Promise<Models.BlockBlobStageBlockResponse>}
+   * @param {BlockBlobStageBlockOptions} [options] Options to the Block Blob Stage Block operation.
+   * @returns {Promise<Models.BlockBlobStageBlockResponse>} Response data for the Block Blob Stage Block operation.
    * @memberof BlockBlobClient
    */
   public async stageBlock(
@@ -501,8 +511,8 @@ export class BlockBlobClient extends BlobClient {
    *                           - https://myaccount.blob.core.windows.net/mycontainer/myblob?snapshot=<DateTime>
    * @param {number} [offset] From which position of the blob to download, >= 0
    * @param {number} [count] How much data to be downloaded, > 0. Will download to the end when undefined
-   * @param {BlockBlobStageBlockFromURLOptions} [options={}] Optional options to the Block Blob Stage Block From URL operation.
-   * @returns {Promise<Models.BlockBlobStageBlockFromURLResponse>}
+   * @param {BlockBlobStageBlockFromURLOptions} [options={}] Options to the Block Blob Stage Block From URL operation.
+   * @returns {Promise<Models.BlockBlobStageBlockFromURLResponse>} Response data for the Block Blob Stage Block From URL operation.
    * @memberof BlockBlobClient
    */
   public async stageBlockFromURL(
@@ -530,8 +540,8 @@ export class BlockBlobClient extends BlobClient {
    * @see https://docs.microsoft.com/rest/api/storageservices/put-block-list
    *
    * @param {string[]} blocks  Array of 64-byte value that is base64-encoded
-   * @param {BlockBlobCommitBlockListOptions} [options] Optional options to the Block Blob Commit Block List operation.
-   * @returns {Promise<Models.BlockBlobCommitBlockListResponse>}
+   * @param {BlockBlobCommitBlockListOptions} [options] Options to the Block Blob Commit Block List operation.
+   * @returns {Promise<Models.BlockBlobCommitBlockListResponse>} Response data for the Block Blob Commit Block List operation.
    * @memberof BlockBlobClient
    */
   public async commitBlockList(
@@ -559,8 +569,8 @@ export class BlockBlobClient extends BlobClient {
    *
    * @param {Models.BlockListType} listType Specifies whether to return the list of committed blocks,
    *                                        the list of uncommitted blocks, or both lists together.
-   * @param {BlockBlobGetBlockListOptions} [options] Optional options to the Block Blob Get Block List operation.
-   * @returns {Promise<Models.BlockBlobGetBlockListResponse>}
+   * @param {BlockBlobGetBlockListOptions} [options] Options to the Block Blob Get Block List operation.
+   * @returns {Promise<Models.BlockBlobGetBlockListResponse>} Response data for the Block Blob Get Block List operation.
    * @memberof BlockBlobClient
    */
   public async getBlockList(
@@ -597,8 +607,8 @@ export class BlockBlobClient extends BlobClient {
    *
    * @export
    * @param {Blob | ArrayBuffer | ArrayBufferView} browserData Blob, File, ArrayBuffer or ArrayBufferView
-   * @param {UploadToBlockBlobOptions} [options]
-   * @returns {Promise<BlobUploadCommonResponse>}
+   * @param {UploadToBlockBlobOptions} [options] Options to upload browser data.
+   * @returns {Promise<BlobUploadCommonResponse>} Response data for the Blob Upload operation.
    */
   public async uploadBrowserData(
     browserData: Blob | ArrayBuffer | ArrayBufferView,
@@ -625,9 +635,9 @@ export class BlockBlobClient extends BlobClient {
    * to commit the block list.
    *
    * @param {(offset: number, size: number) => Blob} blobFactory
-   * @param {number} size
-   * @param {UploadToBlockBlobOptions} [options]
-   * @returns {Promise<BlobUploadCommonResponse>}
+   * @param {number} size size of the data to upload.
+   * @param {UploadToBlockBlobOptions} [options] Options to Upload to Block Blob operation.
+   * @returns {Promise<BlobUploadCommonResponse>} Response data for the Blob Upload operation.
    */
   private async UploadSeekableBlob(
     blobFactory: (offset: number, size: number) => Blob,
@@ -698,16 +708,10 @@ export class BlockBlobClient extends BlobClient {
           const end = i === numBlocks - 1 ? size : start + options.blockSize!;
           const contentLength = end - start;
           blockList.push(blockID);
-          await this.stageBlock(
-            blockID,
-            blobFactory(start, contentLength),
-            contentLength,
-            {
-              abortSignal: options.abortSignal,
-              leaseAccessConditions: options.blobAccessConditions!
-                .leaseAccessConditions
-            }
-          );
+          await this.stageBlock(blockID, blobFactory(start, contentLength), contentLength, {
+            abortSignal: options.abortSignal,
+            leaseAccessConditions: options.blobAccessConditions!.leaseAccessConditions
+          });
           // Update progress after block is successfully uploaded to server, in case of block trying
           // TODO: Hook with convenience layer progress event in finer level
           transferProgress += contentLength;
@@ -734,8 +738,8 @@ export class BlockBlobClient extends BlobClient {
    * to commit the block list.
    *
    * @param {string} filePath Full path of local file
-   * @param {UploadToBlockBlobOptions} [options] UploadToBlockBlobOptions
-   * @returns {(Promise<BlobUploadCommonResponse>)} ICommonResponse
+   * @param {UploadToBlockBlobOptions} [options] Options to Upload to Block Blob operation.
+   * @returns {(Promise<BlobUploadCommonResponse>)}  Response data for the Blob Upload operation.
    */
   public async uploadFile(
     filePath: string,
@@ -768,8 +772,8 @@ export class BlockBlobClient extends BlobClient {
    * @param {number} bufferSize Size of every buffer allocated, also the block size in the uploaded block blob
    * @param {number} maxBuffers Max buffers will allocate during uploading, positive correlation
    *                            with max uploading concurrency
-   * @param {UploadStreamToBlockBlobOptions} [options]
-   * @returns {Promise<BlobUploadCommonResponse>}
+   * @param {UploadStreamToBlockBlobOptions} [options] Options to Upload Stream to Block Blob operation.
+   * @returns {Promise<BlobUploadCommonResponse>} Response data for the Blob Upload operation.
    */
   public async uploadStream(
     stream: Readable,
@@ -834,8 +838,8 @@ export class BlockBlobClient extends BlobClient {
    * @param {(offset: number) => NodeJS.ReadableStream} streamFactory Returns a Node.js Readable stream starting
    *                                                                  from the offset defined
    * @param {number} size Size of the block blob
-   * @param {UploadToBlockBlobOptions} [options] UploadToBlockBlobOptions
-   * @returns {(Promise<BlobUploadCommonResponse>)} ICommonResponse
+   * @param {UploadToBlockBlobOptions} [options] Options to Upload to Block Blob operation.
+   * @returns {(Promise<BlobUploadCommonResponse>)}  Response data for the Blob Upload operation.
    */
   private async uploadResetableStream(
     streamFactory: (offset: number, count?: number) => NodeJS.ReadableStream,
@@ -906,16 +910,10 @@ export class BlockBlobClient extends BlobClient {
           const end = i === numBlocks - 1 ? size : start + options.blockSize!;
           const contentLength = end - start;
           blockList.push(blockID);
-          await this.stageBlock(
-            blockID,
-            () => streamFactory(start, contentLength),
-            contentLength,
-            {
-              abortSignal: options.abortSignal,
-              leaseAccessConditions: options.blobAccessConditions!
-                .leaseAccessConditions
-            }
-          );
+          await this.stageBlock(blockID, () => streamFactory(start, contentLength), contentLength, {
+            abortSignal: options.abortSignal,
+            leaseAccessConditions: options.blobAccessConditions!.leaseAccessConditions
+          });
           // Update progress after block is successfully uploaded to server, in case of block trying
           transferProgress += contentLength;
           if (options.progress) {

@@ -2,7 +2,7 @@
  Setup: Enter your storage account name and shared key in main()
 */
 
-import { QueueServiceClient, StorageClient, SharedKeyCredential } from "../../src"; // Change to "@azure/storage-queue" in your package
+import { QueueServiceClient, newPipeline, SharedKeyCredential } from "../../src"; // Change to "@azure/storage-queue" in your package
 
 async function main() {
   // Enter your storage account name and shared key
@@ -12,7 +12,7 @@ async function main() {
   const sharedKeyCredential = new SharedKeyCredential(account, accountKey);
 
   // Use sharedKeyCredential, tokenCredential or anonymousCredential to create a pipeline
-  const pipeline = StorageClient.newPipeline(sharedKeyCredential);
+  const pipeline = newPipeline(sharedKeyCredential);
 
   const queueServiceClient = new QueueServiceClient(
     // When using AnonymousCredential, following url should include a valid SAS or support public access

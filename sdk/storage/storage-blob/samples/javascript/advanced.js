@@ -5,10 +5,34 @@
 const fs = require("fs");
 const {
   AnonymousCredential,
+  HttpPipelineLogLevel,
   Aborter,
   BlobServiceClient,
-  StorageClient
+  newPipeline
 } = require("../.."); // Change to "@azure/storage-blob" in your package
+
+class ConsoleHttpPipelineLogger {
+  constructor(minimumLogLevel) {
+    this.minimumLogLevel = minimumLogLevel;
+  }
+  log(logLevel, message) {
+    const logMessage = `${new Date().toISOString()} ${HttpPipelineLogLevel[logLevel]}: ${message}`;
+    switch (logLevel) {
+      case HttpPipelineLogLevel.ERROR:
+        // tslint:disable-next-line:no-console
+        console.error(logMessage);
+        break;
+      case HttpPipelineLogLevel.WARNING:
+        // tslint:disable-next-line:no-console
+        console.warn(logMessage);
+        break;
+      case HttpPipelineLogLevel.INFO:
+        // tslint:disable-next-line:no-console
+        console.log(logMessage);
+        break;
+    }
+  }
+}
 
 async function main() {
   // Fill in following settings before running this sample
@@ -16,9 +40,10 @@ async function main() {
   const accountSas = "";
   const localFilePath = "";
 
-  const pipeline = StorageClient.newPipeline(new AnonymousCredential(), {
+  const pipeline = newPipeline(new AnonymousCredential(), {
     // httpClient: MyHTTPClient, // A customized HTTP client implementing IHttpClient interface
     // logger: MyLogger, // A customized logger implementing IHttpPipelineLogger interface
+    logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO),
     retryOptions: { maxTries: 4 }, // Retry options
     telemetry: { value: "HighLevelSample V1.0.0" } // Customized telemetry string
   });

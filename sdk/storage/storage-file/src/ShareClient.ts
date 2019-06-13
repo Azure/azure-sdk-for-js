@@ -265,7 +265,6 @@ export interface ShareCreateSnapshotOptions {
  *
  * @export
  * @class ShareClient
- * @extends {StorageClient}
  */
 export class ShareClient extends StorageClient {
   /**
@@ -284,7 +283,7 @@ export class ShareClient extends StorageClient {
    *                     "https://myaccount.file.core.windows.net/share". You can
    *                     append a SAS if using AnonymousCredential, such as
    *                     "https://myaccount.file.core.windows.net/share?sasString".
-   * @param {Pipeline} pipeline Call StorageClient.newPipeline() to create a default
+   * @param {Pipeline} pipeline Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
    * @memberof ShareClient
    */
@@ -317,8 +316,8 @@ export class ShareClient extends StorageClient {
    * the same name already exists, the operation fails.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-share
    *
-   * @param {ShareCreateOptions} [options] Optional options to Share Create operation.
-   * @returns {Promise<Models.ShareCreateResponse>}
+   * @param {ShareCreateOptions} [options] Options to Share Create operation.
+   * @returns {Promise<Models.ShareCreateResponse>} Response data for the Share Create operation.
    * @memberof ShareClient
    */
   public async create(options: ShareCreateOptions = {}): Promise<Models.ShareCreateResponse> {
@@ -333,7 +332,7 @@ export class ShareClient extends StorageClient {
    * Creates a DirectoryClient object.
    *
    * @param directoryName A directory name
-   * @returns {DirectoryClient}
+   * @returns {DirectoryClient} The DirectoryClient object for the given directory name.
    * @memberof ShareClient
    */
   public createDirectoryClient(directoryName: string): DirectoryClient {
@@ -348,7 +347,7 @@ export class ShareClient extends StorageClient {
    * share.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-share-properties
    *
-   * @returns {Promise<Models.ShareGetPropertiesResponse>}
+   * @returns {Promise<Models.ShareGetPropertiesResponse>} Response data for the Share Get Properties operation.
    * @memberof ShareClient
    */
   public async getProperties(
@@ -365,8 +364,8 @@ export class ShareClient extends StorageClient {
    * contained within it are later deleted during garbage collection.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-share
    *
-   * @param {Models.ShareDeleteMethodOptions} [options] Optional options to Share Delete operation.
-   * @returns {Promise<Models.ShareDeleteResponse>}
+   * @param {Models.ShareDeleteMethodOptions} [options] Options to Share Delete operation.
+   * @returns {Promise<Models.ShareDeleteResponse>} Response data for the Share Delete operation.
    * @memberof ShareClient
    */
   public async delete(options: ShareDeleteMethodOptions = {}): Promise<Models.ShareDeleteResponse> {
@@ -385,8 +384,8 @@ export class ShareClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-share-metadata
    *
    * @param {Metadata} [metadata] If no metadata provided, all existing directory metadata will be removed.
-   * @param {ShareSetMetadataOptions} [option] Optional options to Share Set Metadata operation.
-   * @returns {Promise<Models.ShareSetMetadataResponse>}
+   * @param {ShareSetMetadataOptions} [option] Options to Share Set Metadata operation.
+   * @returns {Promise<Models.ShareSetMetadataResponse>} Response data for the Share Set Metadata operation.
    * @memberof ShareClient
    */
   public async setMetadata(
@@ -409,8 +408,8 @@ export class ShareClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-share-acl
    *
-   * @param {ShareGetAccessPolicyOptions} [option] Optional options to Share Get Access Policy operation.
-   * @returns {Promise<ShareGetAccessPolicyResponse>}
+   * @param {ShareGetAccessPolicyOptions} [option] Options to Share Get Access Policy operation.
+   * @returns {Promise<ShareGetAccessPolicyResponse>} Response data for the Share Get Access Policy operation.
    * @memberof ShareClient
    */
   public async getAccessPolicy(
@@ -455,8 +454,8 @@ export class ShareClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-share-acl
    *
    * @param {SignedIdentifier[]} [shareAcl] Array of signed identifiers, each having a unique Id and details of access policy.
-   * @param {ShareSetAccessPolicyOptions} [option] Optional options to Share Set Access Policy operation.
-   * @returns {Promise<Models.ShareSetAccessPolicyResponse>}
+   * @param {ShareSetAccessPolicyOptions} [option] Options to Share Set Access Policy operation.
+   * @returns {Promise<Models.ShareSetAccessPolicyResponse>} Response data for the Share Set Access Policy operation.
    * @memberof ShareClient
    */
   public async setAccessPolicy(
@@ -485,8 +484,8 @@ export class ShareClient extends StorageClient {
   /**
    * Creates a read-only snapshot of a share.
    *
-   * @param {ShareCreateSnapshotOptions} [options={}] Optional options to Share Create Snapshot operation.
-   * @returns {Promise<Models.ShareCreateSnapshotResponse>}
+   * @param {ShareCreateSnapshotOptions} [options={}] Options to Share Create Snapshot operation.
+   * @returns {Promise<Models.ShareCreateSnapshotResponse>} Response data for the Share Create Snapshot operation.
    * @memberof ShareClient
    */
   public async createSnapshot(
@@ -503,8 +502,8 @@ export class ShareClient extends StorageClient {
    * Sets quota for the specified share.
    *
    * @param {number} quotaInGB Specifies the maximum size of the share in gigabytes
-   * @param {ShareSetQuotaOptions} [option] Optional options to Share Set Quota operation.
-   * @returns {Promise<Models.ShareSetQuotaResponse>}
+   * @param {ShareSetQuotaOptions} [option] Options to Share Set Quota operation.
+   * @returns {Promise<Models.ShareSetQuotaResponse>} Response data for the Share Get Quota operation.
    * @memberof ShareClient
    */
   public async setQuota(
@@ -526,8 +525,8 @@ export class ShareClient extends StorageClient {
   /**
    * Retrieves statistics related to the share.
    *
-   * @returns {Promise<Models.ShareGetStatisticsResponse>}
-   * @param {ShareGetStatisticsOptions} [option] Optional options to Share Get Statistics operation.
+   * @param {ShareGetStatisticsOptions} [option] Options to Share Get Statistics operation.
+   * @returns {Promise<Models.ShareGetStatisticsResponse>} Response data for the Share Get Statistics operation.
    * @memberof ShareClient
    */
   public async getStatistics(

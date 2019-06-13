@@ -1,11 +1,21 @@
 import * as assert from "assert";
-
-import { QueueServiceClient } from "../src/QueueServiceClient";
-import { getAlternateQSU, getQSU, getUniqueName, wait } from "./utils";
+import { getAlternateQSU, getQSU, wait } from "./utils";
+import { record } from "./utils/recorder";
 import * as dotenv from "dotenv";
+import { QueueServiceClient } from "../src/QueueServiceClient";
 dotenv.config({ path: "../.env" });
 
 describe("QueueServiceClient", () => {
+  let recorder: any;
+
+  beforeEach(function() {
+    recorder = record(this);
+  });
+
+  afterEach(() => {
+    recorder.stop();
+  });
+
   it("listQueuesSegment with default parameters", async () => {
     const queueServiceClient = getQSU();
     const result = await queueServiceClient.listQueuesSegment();
@@ -26,7 +36,7 @@ describe("QueueServiceClient", () => {
   it("listQueuesSegment with all parameters", async () => {
     const queueServiceClient = getQSU();
 
-    const queueNamePrefix = getUniqueName("queue");
+    const queueNamePrefix = recorder.getUniqueName("queue");
     const queueName1 = `${queueNamePrefix}x1`;
     const queueName2 = `${queueNamePrefix}x2`;
     const queueClient1 = queueServiceClient.createQueueClient(queueName1);
@@ -63,7 +73,7 @@ describe("QueueServiceClient", () => {
   it("Verify AsyncIterator(generator .next() syntax) for listQueues", async () => {
     const queueServiceClient = getQSU();
 
-    const queueNamePrefix = getUniqueName("queue");
+    const queueNamePrefix = recorder.getUniqueName("queue");
     const queueName1 = `${queueNamePrefix}x1`;
     const queueName2 = `${queueNamePrefix}x2`;
 
@@ -91,7 +101,7 @@ describe("QueueServiceClient", () => {
   it("Verify AsyncIterator(for-loop syntax) for listQueues", async () => {
     const queueClients = [];
     const queueServiceClient = getQSU();
-    const queueNamePrefix = getUniqueName("queue");
+    const queueNamePrefix = recorder.getUniqueName("queue");
 
     for (let i = 0; i < 4; i++) {
       const queueClient = queueServiceClient.createQueueClient(`${queueNamePrefix}x${i}`);

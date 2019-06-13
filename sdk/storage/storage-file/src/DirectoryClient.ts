@@ -130,7 +130,6 @@ export interface DirectorySetMetadataOptions {
  *
  * @export
  * @class DirectoryClient
- * @extends {StorageClient}
  */
 export class DirectoryClient extends StorageClient {
   /**
@@ -153,7 +152,7 @@ export class DirectoryClient extends StorageClient {
    *                     Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
    *                     However, if a directory name includes %, directory name must be encoded in the URL.
    *                     Such as a directory named "mydir%", the URL should be "https://myaccount.file.core.windows.net/myshare/mydir%25".
-   * @param {Pipeline} pipeline Call StorageClient.newPipeline() to create a default
+   * @param {Pipeline} pipeline Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
    * @memberof DirectoryClient
    */
@@ -166,8 +165,8 @@ export class DirectoryClient extends StorageClient {
    * Creates a new directory under the specified share or parent directory.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-directory
    *
-   * @param {DirectoryCreateOptions} [options] Optional options to Directory Create operation.
-   * @returns {Promise<Models.DirectoryCreateResponse>}
+   * @param {DirectoryCreateOptions} [options] Options to Directory Create operation.
+   * @returns {Promise<Models.DirectoryCreateResponse>} Response data for the Directory  operation.
    * @memberof DirectoryClient
    */
   public async create(
@@ -184,7 +183,7 @@ export class DirectoryClient extends StorageClient {
    * Creates a DirectoryClient object for a sub directory.
    *
    * @param subDirectoryName A subdirectory name
-   * @returns {DirectoryClient}
+   * @returns {DirectoryClient} The DirectoryClient object for the given sub directory name.
    * @memberof DirectoryClient
    */
   public createDirectoryClient(subDirectoryName: string): DirectoryClient {
@@ -211,8 +210,8 @@ export class DirectoryClient extends StorageClient {
    * subdirectories.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-directory-properties
    *
-   * @param {DirectoryGetPropertiesOptions} [options] Optional options to Directory Get Properties operation.
-   * @returns {Promise<Models.DirectoryGetPropertiesResponse>}
+   * @param {DirectoryGetPropertiesOptions} [options] Options to Directory Get Properties operation.
+   * @returns {Promise<Models.DirectoryGetPropertiesResponse>} Response data for the Directory Get Properties operation.
    * @memberof DirectoryClient
    */
   public async getProperties(
@@ -229,8 +228,8 @@ export class DirectoryClient extends StorageClient {
    * deleted.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-directory
    *
-   * @param {DirectoryDeleteOptions} [options] Optional options to Directory Delete operation.
-   * @returns {Promise<Models.DirectoryDeleteResponse>}
+   * @param {DirectoryDeleteOptions} [options] Options to Directory Delete operation.
+   * @returns {Promise<Models.DirectoryDeleteResponse>} Response data for the Directory Delete operation.
    * @memberof DirectoryClient
    */
   public async delete(
@@ -247,8 +246,8 @@ export class DirectoryClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-directory-metadata
    *
    * @param {Metadata} [metadata] If no metadata provided, all existing directory metadata will be removed
-   * @param {DirectorySetMetadataOptions} [options] Optional options to Directory Set Metadata operation.
-   * @returns {Promise<Models.DirectorySetMetadataResponse>}
+   * @param {DirectorySetMetadataOptions} [options] Options to Directory Set Metadata operation.
+   * @returns {Promise<Models.DirectorySetMetadataResponse>} Response data for the Directory Set Metadata operation.
    * @memberof DirectoryClient
    */
   public async setMetadata(
@@ -268,8 +267,8 @@ export class DirectoryClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/list-directories-and-files
    *
    * @param {string} [marker] A string value that identifies the portion of the list to be returned with the next list operation.
-   * @param {DirectoryListFilesAndDirectoriesSegmentOptions} [options] Optional options to Directory List Files and Directories Segment operation.
-   * @returns {Promise<Models.DirectoryListFilesAndDirectoriesSegmentResponse>}
+   * @param {DirectoryListFilesAndDirectoriesSegmentOptions} [options] Options to Directory List Files and Directories Segment operation.
+   * @returns {Promise<Models.DirectoryListFilesAndDirectoriesSegmentResponse>} Response data for the Directory List Files and Directories operation.
    * @memberof DirectoryClient
    */
   public async listFilesAndDirectoriesSegment(

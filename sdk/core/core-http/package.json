@@ -1,11 +1,12 @@
 {
   "name": "@azure/core-http",
+  "sdk-type": "client",
   "author": {
     "name": "Microsoft Corporation",
     "email": "azsdkteam@microsoft.com",
     "url": "https://github.com/Azure/azure-sdk-for-js"
   },
-  "version": "1.8.9",
+  "version": "1.8.10",
   "description": "Isomorphic client Runtime for Typescript/node.js/browser javascript client libraries generated using AutoRest",
   "tags": [
     "isomorphic",
@@ -75,7 +76,6 @@
     "lint:fix": "tslint -p . --fix",
     "pack": "npm pack 2>&1",
     "prebuild": "npm run clean",
-    "prepack": "npm i && npm run build",
     "test:browser": "npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
     "test:node": "npm run build:test && npm run unit-test:node && npm run integration-test:node",
     "test": "npm run build:test && npm run unit-test && npm run integration-test",
@@ -157,7 +157,7 @@
     "opn-cli": "^4.0.0",
     "puppeteer": "^1.11.0",
     "rimraf": "^2.6.2",
-    "rollup": "^1.0.0",
+    "rollup": "~1.13.1",
     "rollup-plugin-alias": "^1.4.0",
     "rollup-plugin-commonjs": "^9.2.0",
     "rollup-plugin-json": "^3.1.0",
