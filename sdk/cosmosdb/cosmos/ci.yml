@@ -9,13 +9,15 @@ pr:
       - master
   paths:
     include:
-      - sdk/cosmosdb/cosmos/
+      - sdk/cosmosdb/
 
 jobs:
   - template: ../../../eng/pipelines/templates/jobs/archetype-sdk-client.yml
     parameters:
-      PackageName: "@azure/cosmos"
+      ServiceDirectory: cosmosdb
 
+  # HACK: Because Rush doesn't support Node 6.x this is done to use NPM to build
+  #       and test on that version of Node.
   - template: ../../../eng/pipelines/templates/jobs/node6-test-sdk-client.yml
     parameters:
       PackagePath: "sdk/cosmosdb/cosmos/"

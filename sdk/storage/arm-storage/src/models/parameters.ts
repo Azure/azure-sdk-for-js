@@ -88,6 +88,18 @@ export const expand: msRest.OperationQueryParameter = {
     }
   }
 };
+export const filter: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "filter"
+  ],
+  mapper: {
+    serializedName: "$filter",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const ifMatch0: msRest.OperationParameter = {
   parameterPath: [
     "options",
@@ -144,6 +156,29 @@ export const managementPolicyName: msRest.OperationURLParameter = {
     }
   }
 };
+export const maxpagesize: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "maxpagesize"
+  ],
+  mapper: {
+    serializedName: "$maxpagesize",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const nextPageLink: msRest.OperationURLParameter = {
+  parameterPath: "nextPageLink",
+  mapper: {
+    required: true,
+    serializedName: "nextLink",
+    type: {
+      name: "String"
+    }
+  },
+  skipEncoding: true
+};
 export const resourceGroupName: msRest.OperationURLParameter = {
   parameterPath: "resourceGroupName",
   mapper: {
@@ -154,6 +189,18 @@ export const resourceGroupName: msRest.OperationURLParameter = {
       MinLength: 1,
       Pattern: /^[-\w\._\(\)]+$/
     },
+    type: {
+      name: "String"
+    }
+  }
+};
+export const skipToken: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "skipToken"
+  ],
+  mapper: {
+    serializedName: "$skipToken",
     type: {
       name: "String"
     }

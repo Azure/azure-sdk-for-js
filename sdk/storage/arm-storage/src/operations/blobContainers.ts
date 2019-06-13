@@ -37,7 +37,7 @@ export class BlobContainers {
    * @param [options] The optional parameters
    * @returns Promise<Models.BlobContainersListResponse>
    */
-  list(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.BlobContainersListResponse>;
+  list(resourceGroupName: string, accountName: string, options?: Models.BlobContainersListOptionalParams): Promise<Models.BlobContainersListResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -56,8 +56,8 @@ export class BlobContainers {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ListContainerItems>): void;
-  list(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListContainerItems>, callback?: msRest.ServiceCallback<Models.ListContainerItems>): Promise<Models.BlobContainersListResponse> {
+  list(resourceGroupName: string, accountName: string, options: Models.BlobContainersListOptionalParams, callback: msRest.ServiceCallback<Models.ListContainerItems>): void;
+  list(resourceGroupName: string, accountName: string, options?: Models.BlobContainersListOptionalParams | msRest.ServiceCallback<Models.ListContainerItems>, callback?: msRest.ServiceCallback<Models.ListContainerItems>): Promise<Models.BlobContainersListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -788,6 +788,35 @@ export class BlobContainers {
       leaseOperationSpec,
       callback) as Promise<Models.BlobContainersLeaseResponse>;
   }
+
+  /**
+   * Lists all containers and does not support a prefix like data plane. Also SRP today does not
+   * return continuation token.
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.BlobContainersListNextResponse>
+   */
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.BlobContainersListNextResponse>;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param callback The callback
+   */
+  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ListContainerItems>): void;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ListContainerItems>): void;
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListContainerItems>, callback?: msRest.ServiceCallback<Models.ListContainerItems>): Promise<Models.BlobContainersListNextResponse> {
+    return this.client.sendOperationRequest(
+      {
+        nextPageLink,
+        options
+      },
+      listNextOperationSpec,
+      callback) as Promise<Models.BlobContainersListNextResponse>;
+  }
 }
 
 // Operation Specifications
@@ -801,7 +830,10 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion,
+    Parameters.skipToken,
+    Parameters.maxpagesize,
+    Parameters.filter
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1205,6 +1237,27 @@ const leaseOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.LeaseContainerResponse
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const listNextOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  baseUrl: "https://management.azure.com",
+  path: "{nextLink}",
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.ListContainerItems
     },
     default: {
       bodyMapper: Mappers.CloudError

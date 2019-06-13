@@ -315,12 +315,16 @@
       "projectFolder": "sdk/core/amqp-common"
     },
     {
-      "packageName": "@azure/core-aborter",
-      "projectFolder": "sdk/core/core-aborter"
+      "packageName": "@azure/abort-controller",
+      "projectFolder": "sdk/core/abort-controller"
     },
     {
       "packageName": "@azure/core-http",
       "projectFolder": "sdk/core/core-http"
+    },
+    {
+      "packageName": "@azure/core-paging",
+      "projectFolder": "sdk/core/core-paging"
     },
     {
       "packageName": "@azure/cosmos",
@@ -345,6 +349,10 @@
     {
       "packageName": "@azure/keyvault-keys",
       "projectFolder": "sdk/keyvault/keyvault-keys"
+    },
+    {
+      "packageName": "@azure/keyvault-certificates",
+      "projectFolder": "sdk/keyvault/keyvault-certificates"
     },
     {
       "packageName": "@azure/service-bus",

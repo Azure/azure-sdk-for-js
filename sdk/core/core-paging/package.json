@@ -1,0 +1,58 @@
+{
+  "name": "@azure/core-paging",
+  "author": {
+    "name": "Microsoft Corporation",
+    "email": "azsdkteam@microsoft.com",
+    "url": "https://github.com/Azure/azure-sdk-for-js"
+  },
+  "version": "1.0.0",
+  "description": "Core types for paging async iterable iterators",
+  "tags": [
+    "microsoft",
+    "clientruntime"
+  ],
+  "keywords": [
+    "microsoft",
+    "clientruntime"
+  ],
+  "types": "./types/corePaging.d.ts",
+  "files": [
+    "types/*.d.ts",
+    "LICENSE",
+    "README.md",
+    "ThirdPartyNotices.txt"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/core-paging",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:Azure/azure-sdk-for-js.git"
+  },
+  "bugs": {
+    "url": "http://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "scripts": {
+    "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
+    "build": "tsc -p .",
+    "build:test": "tsc -p .",
+    "clean": "",
+    "format": "prettier --write --config .prettierrc.json \"src/**/*.ts\"",
+    "integration-test": "",
+    "lint": "tslint -p .",
+    "lint:fix": "tslint -p . --fix",
+    "pack": "npm pack 2>&1",
+    "prebuild": "npm run clean",
+    "test": "npm run build:test",
+    "unit-test": "npm run build:test",
+    "publish-preview": "mocha --no-colors && shx rm -rf dist/test && node ./.scripts/publish",
+    "local": "ts-node ./.scripts/local.ts",
+    "latest": "ts-node ./.scripts/latest.ts"
+  },
+  "sideEffects": false,
+  "private": true,
+  "dependencies": {
+  },
+  "devDependencies": {
+    "typescript": "^3.2.2"
+  }
+}

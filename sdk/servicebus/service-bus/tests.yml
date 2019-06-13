@@ -1,9 +1,17 @@
 trigger: none
 
 jobs:
-  - template: ../../../eng/pipelines/templates/jobs/archetype-sdk-tests-node.yml
+  - template: ../../../eng/pipelines/templates/jobs/archetype-sdk-tests.yml
     parameters:
       PackageName: "@azure/service-bus"
+      # Use a more simple matrix because these tests run for a long time
+      Matrix:
+        Linux_Node10X:
+          OSVmImage: "ubuntu-16.04"
+          TestType: "node"
+        Browser_Windows_Node10X:
+          OSVmImage: "vs2017-win2016"
+          TestType: "browser"
       EnvVars:
         AAD_CLIENT_ID: $(aad-azure-sdk-test-client-id)
         AAD_TENANT_ID: $(aad-azure-sdk-test-tenant-id)

@@ -1,5 +1,6 @@
 {
   "name": "@azure/event-processor-host",
+  "sdk-type": "client",
   "version": "1.0.6",
   "description": "Azure Event Processor Host (Event Hubs) SDK for JS.",
   "author": "Microsoft Corporation",
@@ -74,7 +75,7 @@
     "@types/chai-string": "^1.4.1",
     "@types/debug": "^0.0.31",
     "@types/dotenv": "^6.1.0",
-    "@typescript-eslint/eslint-plugin": "^1.7.0",
+    "@typescript-eslint/eslint-plugin": "~1.9.0",
     "@typescript-eslint/parser": "^1.7.0",
     "@types/mocha": "^5.2.5",
     "@types/node": "^8.0.0",
