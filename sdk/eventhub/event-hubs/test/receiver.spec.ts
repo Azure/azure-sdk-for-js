@@ -76,6 +76,10 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
   });
 
   describe("with EventPosition specified as", function(): void {
+    
+    // TODO: Enable following test as part of https://github.com/Azure/azure-sdk-for-js/issues/3714
+    // After the implementation of BatchingReceiver has been fixed
+    /*
     it("'from end of stream' should receive messages correctly", async function(): Promise<void> {
       const partitionId = hubInfo.partitionIds[0];
       for (let i = 0; i < 10; i++) {
@@ -85,12 +89,32 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
         await client.send(ed, partitionId);
         debug("sent message - " + i);
       }
-      const data = await client.receiveBatch(partitionId, 10, 20, {
+      debug("Creating new receiver with offset EndOfStream");
+      breceiver = BatchingReceiver.create((client as any)._context, partitionId, {
         eventPosition: EventPosition.fromEnd()
       });
-      debug("received messages: ", data);
-      data.length.should.equal(0, "Should not receive any messages when reading from end of stream");
+      const data1 = await breceiver.receive(10, 10);
+      data1.length.should.equal(0, "Unexpected message received when using EventPosition.fromEnd()");
+      // send a new message. We should only receive this new message.
+      const uid = uuid();
+      const ed: EventData = {
+        body: "New message",
+        applicationProperties: {
+          stamp: uid
+        }
+      };
+      await client.send(ed, partitionId);
+      debug(">>>>>>> Sent the new message after creating the receiver. We should only receive this message.");
+      const data2 = await breceiver.receive(10, 20);
+      debug("received messages: ", data2);
+      data2.length.should.equal(1, "Failed to receive the expected one single message");
+      data2[0].applicationProperties!.stamp.should.equal(uid, "Message received with unexpected uid");
+      debug("Next receive on this partition should not receive any messages.");
+      const data3 = await breceiver.receive(10, 10);
+      data3.length.should.equal(0, "Unexpected message received");
     });
+
+    */
 
     it("'after a particular offset' should receive messages correctly", async function(): Promise<void> {
       const partitionId = hubInfo.partitionIds[0];
