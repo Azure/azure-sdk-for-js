@@ -904,11 +904,11 @@ export class BlobClient extends StorageClient {
   }
 
   /**
-   * Get a LeaseClient that manages leases on the container.
+   * Get a LeaseClient that manages leases on the blob.
    *
    * @param {string} [proposeLeaseId] Initial proposed lease Id.
    * @returns
-   * @memberof ContainerClient
+   * @memberof BlobClient
    */
   public getLeaseClient(proposeLeaseId?: string) {
     return new LeaseClient(this, proposeLeaseId);

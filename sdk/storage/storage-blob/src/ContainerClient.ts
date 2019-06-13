@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { HttpResponse } from "@azure/ms-rest-js";
+import { HttpRequestBody, HttpResponse } from "@azure/ms-rest-js";
 import * as Models from "./generated/lib/models";
 import { Aborter } from "./Aborter";
 import { Container } from "./generated/lib/operations";
@@ -18,7 +18,9 @@ import {
   BlobClient,
   BlockBlobClient,
   PageBlobClient,
-  StorageClient
+  StorageClient,
+  BlockBlobUploadOptions,
+  BlobDeleteOptions
 } from "./internal";
 import { Credential } from "./credentials/Credential";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
@@ -461,6 +463,7 @@ export class ContainerClient extends StorageClient {
    *                     This method accepts an encoded URL or non-encoded URL pointing to a blob.
    *                     Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
    *                     However, if a blob name includes ? or %, blob name must be encoded in the URL.
+
    *                     Such as a blob named "my?blob%", the URL should be "https://myaccount.blob.core.windows.net/mycontainer/my%3Fblob%25".
    * @param {Pipeline} pipeline Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
@@ -804,6 +807,60 @@ export class ContainerClient extends StorageClient {
    */
   public getLeaseClient(proposeLeaseId?: string) {
     return new LeaseClient(this, proposeLeaseId);
+  }
+
+  /**
+   * Creates a new block blob, or updates the content of an existing block blob.
+   *
+   * Updating an existing block blob overwrites any existing metadata on the blob.
+   * Partial updates are not supported; the content of the existing blob is
+   * overwritten with the new content. To perform a partial update of a block blob's,
+   * use stageBlock and commitBlockList.
+   *
+   * This is a non-parallel uploading method, please use BlockBlobClient.uploadFile(),
+   * BlockBlobClient.uploadStream() or BlockBlobClient.uploadBrowserData() for better performance
+   * with concurrency uploading.
+   *
+   * @see https://docs.microsoft.com/rest/api/storageservices/put-blob
+   *
+   * @param {string} blobName Name of the block blob to create or update.
+   * @param {HttpRequestBody} body Blob, string, ArrayBuffer, ArrayBufferView or a function
+   *                               which returns a new Readable stream whose offset is from data source beginning.
+   * @param {number} contentLength Length of body in bytes. Use Buffer.byteLength() to calculate body length for a
+   *                               string including non non-Base64/Hex-encoded characters.
+   * @param {BlockBlobUploadOptions} [options] Options to configure the Block Blob Upload operation.
+   * @returns Block Blob upload response data and the corresponding BlockBlobClient instance.
+   * @memberof ContainerClient
+   */
+  public async uploadBlockBlob(
+    blobName: string,
+    body: HttpRequestBody,
+    contentLength: number,
+    options?: BlockBlobUploadOptions
+  ) {
+    const blockBlobClient = this.createBlockBlobClient(blobName);
+    const response = await blockBlobClient.upload(body, contentLength, options);
+    return {
+      blockBlobClient,
+      response
+    };
+  }
+
+  /**
+   * Marks the specified blob or snapshot for deletion. The blob is later deleted
+   * during garbage collection. Note that in order to delete a blob, you must delete
+   * all of its snapshots. You can delete both at the same time with the Delete
+   * Blob operation.
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-blob
+   *
+   * @param {string} blobName
+   * @param {BlobDeleteOptions} [options] Options to Blob Delete operation.
+   * @returns {Promise<Models.BlobDeleteResponse>} Block blob deletion response data.
+   * @memberof ContainerClient
+   */
+  public async deleteBlob(blobName: string, options?: BlobDeleteOptions) {
+    const blobClient = this.createBlobClient(blobName);
+    return await blobClient.delete(options);
   }
 
   /**
