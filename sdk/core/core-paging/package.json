@@ -54,8 +54,7 @@
   },
   "sideEffects": false,
   "private": true,
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
     "@types/node": "^8.0.0",
     "@typescript-eslint/eslint-plugin": "~1.9.0",
