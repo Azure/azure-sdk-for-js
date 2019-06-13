@@ -28,6 +28,10 @@ async function main() {
   // Use sharedKeyCredential, tokenCredential or anonymousCredential to create a pipeline
   const pipeline = newPipeline(sharedKeyCredential);
 
+  // Create Blob Service Client from Connection String
+  // const CONNECTION_STRING = "";
+  // const blobServiceClient = new BlobServiceClient(CONNECTION_STRING);
+
   // List containers
   const blobServiceClient = new BlobServiceClient(
     // When using AnonymousCredential, following url should include a valid SAS or support public access

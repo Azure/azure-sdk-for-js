@@ -5,9 +5,12 @@ import * as Models from "./generated/lib/models";
 import { Aborter } from "./Aborter";
 import { ListContainersIncludeType } from "./generated/lib/models/index";
 import { Service } from "./generated/lib/operations";
-import { Pipeline } from "./Pipeline";
+import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
 import { ContainerClient } from "./ContainerClient";
-import { appendToURLPath } from "./utils/utils.common";
+import { appendToURLPath, extractConnectionStringParts } from "./utils/utils.common";
+import { Credential } from "./credentials/Credential";
+import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
+import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { StorageClient } from "./internal";
 
 /**
@@ -139,6 +142,35 @@ export class BlobServiceClient extends StorageClient {
   private serviceContext: Service;
 
   /**
+   * Creates an instance of BlobServiceClient from connection string.
+   *
+   * @param {string} connectionString Connection string for an Azure storage account.
+   * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
+   * @memberof BlobServiceClient
+   */
+  public static fromConnectionString(connectionString: string, options?: NewPipelineOptions) {
+    const extractedCreds = extractConnectionStringParts(connectionString);
+    const sharedKeyCredential = new SharedKeyCredential(
+      extractedCreds.accountName,
+      extractedCreds.accountKey
+    );
+    const pipeline = newPipeline(sharedKeyCredential, options);
+    return new BlobServiceClient(extractedCreds.url, pipeline);
+  }
+
+  /**
+   * Creates an instance of BlobServiceClient.
+   *
+   * @param {string} url A Client string pointing to Azure Storage blob service, such as
+   *                     "https://myaccount.blob.core.windows.net". You can append a SAS
+   *                     if using AnonymousCredential, such as "https://myaccount.blob.core.windows.net?sasString".
+   * @param {Credential} credential Such as AnonymousCredential, SharedKeyCredential or TokenCredential.
+   *                                If not specified, AnonymousCredential is used.
+   * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
+   * @memberof BlobServiceClient
+   */
+  constructor(url: string, credential?: Credential, options?: NewPipelineOptions);
+  /**
    * Creates an instance of BlobServiceClient.
    *
    * @param {string} url A Client string pointing to Azure Storage blob service, such as
@@ -148,7 +180,21 @@ export class BlobServiceClient extends StorageClient {
    *                            pipeline, or provide a customized pipeline.
    * @memberof BlobServiceClient
    */
-  constructor(url: string, pipeline: Pipeline) {
+  constructor(url: string, pipeline: Pipeline);
+  constructor(
+    url: string,
+    credentialOrPipeline?: Credential | Pipeline,
+    options?: NewPipelineOptions
+  ) {
+    let pipeline: Pipeline;
+    if (credentialOrPipeline instanceof Pipeline) {
+      pipeline = credentialOrPipeline;
+    } else if (credentialOrPipeline instanceof Credential) {
+      pipeline = newPipeline(credentialOrPipeline, options);
+    } else {
+      // The second parameter is undefined. Use anonymous credential
+      pipeline = newPipeline(new AnonymousCredential(), options);
+    }
     super(url, pipeline);
     this.serviceContext = new Service(this.storageClientContext);
   }
