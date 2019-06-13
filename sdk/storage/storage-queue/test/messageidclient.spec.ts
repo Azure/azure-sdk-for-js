@@ -1,24 +1,29 @@
 import * as assert from "assert";
-
-import { getQSU, getUniqueName, sleep } from "./utils";
+import { getQSU, sleep } from "./utils";
+import { QueueClient } from "../src/QueueClient";
+import { record } from "./utils/recorder";
 import * as dotenv from "dotenv";
 import { SharedKeyCredential, MessageIdClient, newPipeline } from "../src";
 dotenv.config({ path: "../.env" });
 
 describe("MessageIdClient", () => {
   const queueServiceClient = getQSU();
-  let queueName = getUniqueName("queue");
-  let queueClient = queueServiceClient.createQueueClient(queueName);
+  let queueName: string;
+  let queueClient: QueueClient;
   const messageContent = "Hello World";
 
-  beforeEach(async () => {
-    queueName = getUniqueName("queue");
+  let recorder: any;
+
+  beforeEach(async function() {
+    recorder = record(this);
+    queueName = recorder.getUniqueName("queue");
     queueClient = queueServiceClient.createQueueClient(queueName);
     await queueClient.create();
   });
 
   afterEach(async () => {
     await queueClient.delete();
+    recorder.stop();
   });
 
   it("update and delete empty message with default parameters", async () => {

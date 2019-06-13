@@ -661,6 +661,23 @@ export const NetworkRuleSet: msRest.CompositeMapper = {
   }
 };
 
+export const AzureFilesIdentityBasedAuthentication: msRest.CompositeMapper = {
+  serializedName: "AzureFilesIdentityBasedAuthentication",
+  type: {
+    name: "Composite",
+    className: "AzureFilesIdentityBasedAuthentication",
+    modelProperties: {
+      directoryServiceOptions: {
+        required: true,
+        serializedName: "directoryServiceOptions",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const Identity: msRest.CompositeMapper = {
   serializedName: "Identity",
   type: {
@@ -771,10 +788,11 @@ export const StorageAccountCreateParameters: msRest.CompositeMapper = {
           ]
         }
       },
-      enableAzureFilesAadIntegration: {
-        serializedName: "properties.azureFilesAadIntegration",
+      azureFilesIdentityBasedAuthentication: {
+        serializedName: "properties.azureFilesIdentityBasedAuthentication",
         type: {
-          name: "Boolean"
+          name: "Composite",
+          className: "AzureFilesIdentityBasedAuthentication"
         }
       },
       enableHttpsTrafficOnly: {
@@ -1070,10 +1088,11 @@ export const StorageAccount: msRest.CompositeMapper = {
           ]
         }
       },
-      enableAzureFilesAadIntegration: {
-        serializedName: "properties.azureFilesAadIntegration",
+      azureFilesIdentityBasedAuthentication: {
+        serializedName: "properties.azureFilesIdentityBasedAuthentication",
         type: {
-          name: "Boolean"
+          name: "Composite",
+          className: "AzureFilesIdentityBasedAuthentication"
         }
       },
       enableHttpsTrafficOnly: {
@@ -1245,10 +1264,11 @@ export const StorageAccountUpdateParameters: msRest.CompositeMapper = {
           ]
         }
       },
-      enableAzureFilesAadIntegration: {
-        serializedName: "properties.azureFilesAadIntegration",
+      azureFilesIdentityBasedAuthentication: {
+        serializedName: "properties.azureFilesIdentityBasedAuthentication",
         type: {
-          name: "Boolean"
+          name: "Composite",
+          className: "AzureFilesIdentityBasedAuthentication"
         }
       },
       enableHttpsTrafficOnly: {
@@ -2265,28 +2285,6 @@ export const ListContainerItem: msRest.CompositeMapper = {
   }
 };
 
-export const ListContainerItems: msRest.CompositeMapper = {
-  serializedName: "ListContainerItems",
-  type: {
-    name: "Composite",
-    className: "ListContainerItems",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ListContainerItem"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
 export const CorsRule: msRest.CompositeMapper = {
   serializedName: "CorsRule",
   type: {
@@ -2664,6 +2662,36 @@ export const UsageListResult: msRest.CompositeMapper = {
               className: "Usage"
             }
           }
+        }
+      }
+    }
+  }
+};
+
+export const ListContainerItems: msRest.CompositeMapper = {
+  serializedName: "ListContainerItems",
+  type: {
+    name: "Composite",
+    className: "ListContainerItems",
+    modelProperties: {
+      value: {
+        readOnly: true,
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ListContainerItem"
+            }
+          }
+        }
+      },
+      nextLink: {
+        readOnly: true,
+        serializedName: "nextLink",
+        type: {
+          name: "String"
         }
       }
     }

@@ -1,23 +1,28 @@
 import * as assert from "assert";
-
-import { getQSU, getUniqueName } from "./utils";
+import { getQSU } from "./utils";
+import { QueueClient } from "../src/QueueClient";
+import { record } from "./utils/recorder";
 import * as dotenv from "dotenv";
 import { SharedKeyCredential, QueueClient, newPipeline } from "../src";
 dotenv.config({ path: "../.env" });
 
 describe("QueueClient", () => {
   const queueServiceClient = getQSU();
-  let queueName = getUniqueName("queue");
-  let queueClient = queueServiceClient.createQueueClient(queueName);
+  let queueName: string;
+  let queueClient: QueueClient;
 
-  beforeEach(async () => {
-    queueName = getUniqueName("queue");
+  let recorder: any;
+
+  beforeEach(async function() {
+    recorder = record(this);
+    queueName = recorder.getUniqueName("queue");
     queueClient = queueServiceClient.createQueueClient(queueName);
     await queueClient.create();
   });
 
   afterEach(async () => {
     await queueClient.delete();
+    recorder.stop();
   });
 
   it("setMetadata", async () => {
@@ -40,8 +45,8 @@ describe("QueueClient", () => {
     assert.ok(result.date);
   });
 
-  it("getPropertis negative", async () => {
-    const queueName2 = getUniqueName("queue");
+  it("getProperties negative", async () => {
+    const queueName2 = recorder.getUniqueName("queue", "queue2");
     const queueClient2 = queueServiceClient.createQueueClient(queueName2);
     let error;
     try {
@@ -63,7 +68,7 @@ describe("QueueClient", () => {
   });
 
   it("create with all parameters", async () => {
-    const qURL = queueServiceClient.createQueueClient(getUniqueName(queueName));
+    const qURL = queueServiceClient.createQueueClient(recorder.getUniqueName(queueName));
     const metadata = { key: "value" };
     await qURL.create({ metadata });
     const result = await qURL.getProperties();

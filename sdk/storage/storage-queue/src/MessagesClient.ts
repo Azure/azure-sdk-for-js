@@ -237,8 +237,8 @@ export class MessagesClient extends StorageClient {
    * Clear deletes all messages from a queue.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/clear-messages
    *
-   * @param {MessagesClearOptions} [options] Optional options to Messages clear operation.
-   * @returns {Promise<Models.MessageClearResponse>}
+   * @param {MessagesClearOptions} [options] Options to Messages clear operation.
+   * @returns {Promise<Models.MessageClearResponse>} Response data for the Messages clear operation.
    * @memberof MessagesClient
    */
   public async clear(options: MessagesClearOptions = {}): Promise<Models.MessagesClearResponse> {
@@ -250,7 +250,8 @@ export class MessagesClient extends StorageClient {
 
   /**
    * Creates a MessageIdClient object.
-   * @param messageId
+   * @param {string} messageId Id of a message.
+   * @returns {MessageIdClient} a MessageIdClient instance for the given messageId.
    */
   public createMessageIdClient(messageId: string): MessageIdClient {
     return new MessageIdClient(appendToURLPath(this.url, messageId), this.pipeline);
@@ -263,9 +264,9 @@ export class MessagesClient extends StorageClient {
    * To include markup in the message, the contents of the message must either be XML-escaped or Base64-encode.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/put-message
    *
-   * @param {string} messageText
-   * @param {MessagesEnqueueOptionas} [options] Optional optiosn to Messages enqueue operation.
-   * @returns {Promise<Models.MessagesEnqueueResponse>}
+   * @param {string} messageText Text of the message to enqueue
+   * @param {MessagesEnqueueOptionas} [options] Options to Messages enqueue operation.
+   * @returns {Promise<Models.MessagesEnqueueResponse>} Response data for the Messages enqueue operation.
    * @memberof MessagesClient
    */
   public async enqueue(
@@ -303,8 +304,8 @@ export class MessagesClient extends StorageClient {
    *
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
-   * @param {MessagesDequeueOptionals} [options] Optional optiosn to Messages dequeue operation.
-   * @returns {Promise<Models.MessagesDequeueResponse>}
+   * @param {MessagesDequeueOptionals} [options] Options to Messages dequeue operation.
+   * @returns {Promise<Models.MessagesDequeueResponse>} Response data for the Messages dequeue operation.
    * @memberof MessagesClient
    */
   public async dequeue(options: MessagesDequeueOptions = {}): Promise<MessagesDequeueResponse> {
@@ -336,8 +337,8 @@ export class MessagesClient extends StorageClient {
    *
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
-   * @param {MessagesPeekOptions} [options] Optional optiosn to Messages peek operation.
-   * @returns {Promise<Models.MessagesPeekResponse>}
+   * @param {MessagesPeekOptions} [options] Options to Messages peek operation.
+   * @returns {Promise<Models.MessagesPeekResponse>} Response data for the Messages peek operation.
    * @memberof MessagesClient
    */
   public async peek(options: MessagesPeekOptions = {}): Promise<MessagesPeekResponse> {

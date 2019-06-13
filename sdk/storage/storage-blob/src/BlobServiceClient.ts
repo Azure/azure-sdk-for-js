@@ -5,10 +5,13 @@ import * as Models from "./generated/lib/models";
 import { Aborter } from "./Aborter";
 import { ListContainersIncludeType } from "./generated/lib/models/index";
 import { Service } from "./generated/lib/operations";
-import { Pipeline } from "./Pipeline";
+import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
 import { ContainerClient } from "./ContainerClient";
-import { appendToURLPath } from "./utils/utils.common";
-import { StorageClient } from './internal';
+import { appendToURLPath, extractConnectionStringParts } from "./utils/utils.common";
+import { Credential } from "./credentials/Credential";
+import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
+import { AnonymousCredential } from "./credentials/AnonymousCredential";
+import { StorageClient } from "./internal";
 
 /**
  * Options to configure the Service - Get Properties operation.
@@ -139,6 +142,35 @@ export class BlobServiceClient extends StorageClient {
   private serviceContext: Service;
 
   /**
+   * Creates an instance of BlobServiceClient from connection string.
+   *
+   * @param {string} connectionString Connection string for an Azure storage account.
+   * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
+   * @memberof BlobServiceClient
+   */
+  public static fromConnectionString(connectionString: string, options?: NewPipelineOptions) {
+    const extractedCreds = extractConnectionStringParts(connectionString);
+    const sharedKeyCredential = new SharedKeyCredential(
+      extractedCreds.accountName,
+      extractedCreds.accountKey
+    );
+    const pipeline = newPipeline(sharedKeyCredential, options);
+    return new BlobServiceClient(extractedCreds.url, pipeline);
+  }
+
+  /**
+   * Creates an instance of BlobServiceClient.
+   *
+   * @param {string} url A Client string pointing to Azure Storage blob service, such as
+   *                     "https://myaccount.blob.core.windows.net". You can append a SAS
+   *                     if using AnonymousCredential, such as "https://myaccount.blob.core.windows.net?sasString".
+   * @param {Credential} credential Such as AnonymousCredential, SharedKeyCredential or TokenCredential.
+   *                                If not specified, AnonymousCredential is used.
+   * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
+   * @memberof BlobServiceClient
+   */
+  constructor(url: string, credential?: Credential, options?: NewPipelineOptions);
+  /**
    * Creates an instance of BlobServiceClient.
    *
    * @param {string} url A Client string pointing to Azure Storage blob service, such as
@@ -148,7 +180,21 @@ export class BlobServiceClient extends StorageClient {
    *                            pipeline, or provide a customized pipeline.
    * @memberof BlobServiceClient
    */
-  constructor(url: string, pipeline: Pipeline) {
+  constructor(url: string, pipeline: Pipeline);
+  constructor(
+    url: string,
+    credentialOrPipeline?: Credential | Pipeline,
+    options?: NewPipelineOptions
+  ) {
+    let pipeline: Pipeline;
+    if (credentialOrPipeline instanceof Pipeline) {
+      pipeline = credentialOrPipeline;
+    } else if (credentialOrPipeline instanceof Credential) {
+      pipeline = newPipeline(credentialOrPipeline, options);
+    } else {
+      // The second parameter is undefined. Use anonymous credential
+      pipeline = newPipeline(new AnonymousCredential(), options);
+    }
     super(url, pipeline);
     this.serviceContext = new Service(this.storageClientContext);
   }
@@ -157,12 +203,10 @@ export class BlobServiceClient extends StorageClient {
    * Creates a ContainerClient object
    *
    * @param containerName A container name
-   * @returns {ContainerClient}
+   * @returns {ContainerClient} A new ContainerClient object for the given container name.
    * @memberof BlobServiceClient
    */
-  public createContainerClient(
-    containerName: string
-  ): ContainerClient {
+  public createContainerClient(containerName: string): ContainerClient {
     return new ContainerClient(
       appendToURLPath(this.url, encodeURIComponent(containerName)),
       this.pipeline
@@ -174,8 +218,8 @@ export class BlobServiceClient extends StorageClient {
    * for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-blob-service-properties}
    *
-   * @param {ServiceGetPropertiesOptions} [options] Optional options to the Service Get Properties operation.
-   * @returns {Promise<Models.ServiceGetPropertiesResponse>}
+   * @param {ServiceGetPropertiesOptions} [options] Options to the Service Get Properties operation.
+   * @returns {Promise<Models.ServiceGetPropertiesResponse>} Response data for the Service Get Properties operation.
    * @memberof BlobServiceClient
    */
   public async getProperties(
@@ -193,8 +237,8 @@ export class BlobServiceClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-blob-service-properties}
    *
    * @param {Models.StorageServiceProperties} properties
-   * @param {ServiceSetPropertiesOptions} [options] Optional options to the Service Set Properties operation.
-   * @returns {Promise<Models.ServiceSetPropertiesResponse>}
+   * @param {ServiceSetPropertiesOptions} [options] Options to the Service Set Properties operation.
+   * @returns {Promise<Models.ServiceSetPropertiesResponse>} Response data for the Service Set Properties operation.
    * @memberof BlobServiceClient
    */
   public async setProperties(
@@ -213,8 +257,8 @@ export class BlobServiceClient extends StorageClient {
    * replication is enabled for the storage account.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-blob-service-stats}
    *
-   * @param {ServiceGetStatisticsOptions} [options] Optional options to the Service Get Statistics operation.
-   * @returns {Promise<Models.ServiceGetStatisticsResponse>}
+   * @param {ServiceGetStatisticsOptions} [options] Options to the Service Get Statistics operation.
+   * @returns {Promise<Models.ServiceGetStatisticsResponse>} Response data for the Service Get Statistics operation.
    * @memberof BlobServiceClient
    */
   public async getStatistics(
@@ -233,8 +277,8 @@ export class BlobServiceClient extends StorageClient {
    * with version 2018-03-28.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-account-information
    *
-   * @param {ServiceGetAccountInfoOptions} [options] Optional options to the Service Get Account Info operation.
-   * @returns {Promise<Models.ServiceGetAccountInfoResponse>}
+   * @param {ServiceGetAccountInfoOptions} [options] Options to the Service Get Account Info operation.
+   * @returns {Promise<Models.ServiceGetAccountInfoResponse>} Response data for the Service Get Account Info operation.
    * @memberof BlobServiceClient
    */
   public async getAccountInfo(
@@ -249,8 +293,8 @@ export class BlobServiceClient extends StorageClient {
   /**
    * Iterates over containers under the specified account.
    *
-   * @param {ServiceListContainersSegmentOptions} [options={}] Options to list containers(optional)
-   * @returns {AsyncIterableIterator<Models.ContainerItem>}
+   * @param {ServiceListContainersSegmentOptions} [options={}] Options to list containers.
+   * @returns {AsyncIterableIterator<Models.ContainerItem>} An async iterator to list containers.
    * @memberof BlobServiceClient
    *
    * @example
@@ -306,8 +350,8 @@ export class BlobServiceClient extends StorageClient {
    *                          with the current page. The NextMarker value can be used as the value for
    *                          the marker parameter in a subsequent call to request the next page of list
    *                          items. The marker value is opaque to the client.
-   * @param {ServiceListContainersSegmentOptions} [options] Optional options to the Service List Container Segment operation.
-   * @returns {Promise<Models.ServiceListContainersSegmentResponse>}
+   * @param {ServiceListContainersSegmentOptions} [options] Options to the Service List Container Segment operation.
+   * @returns {Promise<Models.ServiceListContainersSegmentResponse>} Response data for the Service List Container Segment operation.
    * @memberof BlobServiceClient
    */
   public async listContainersSegment(

@@ -7,12 +7,13 @@ import {
   HttpPipelineLogLevel,
   RequestPolicy,
   RequestPolicyOptions,
+  RestError,
   WebResource
 } from "@azure/ms-rest-js";
 
 import { RequestLogOptions } from "../LoggingPolicyFactory";
-import { HTTPURLConnection, URLConstants } from "../utils/constants";
-import { getURLParameter, setURLParameter } from "../utils/utils.common";
+import { HTTPURLConnection } from "../utils/constants";
+import { sanitizeHeaders, sanitizeURL } from "../utils/utils.common";
 
 // Default values of RetryOptions
 const DEFAULT_REQUEST_LOG_OPTIONS: RequestLogOptions = {
@@ -62,14 +63,8 @@ export class LoggingPolicy extends BaseRequestPolicy {
       this.operationStartTime = this.requestStartTime;
     }
 
-    let safeURL: string = request.url;
-    if (getURLParameter(safeURL, URLConstants.Parameters.SIGNATURE)) {
-      safeURL = setURLParameter(safeURL, URLConstants.Parameters.SIGNATURE, "*****");
-    }
-    this.log(
-      HttpPipelineLogLevel.INFO,
-      `'${safeURL}'==> OUTGOING REQUEST (Try number=${this.tryCount}).`
-    );
+    this.log(HttpPipelineLogLevel.INFO, `==> OUTGOING REQUEST (Try number=${this.tryCount}):`);
+    this.log(HttpPipelineLogLevel.INFO, `  ${request.method}: ${sanitizeURL(request.url)}`);
 
     try {
       const response = await this._nextPolicy.sendRequest(request);
@@ -90,9 +85,7 @@ export class LoggingPolicy extends BaseRequestPolicy {
         // Log a warning if the try duration exceeded the specified threshold.
         if (this.shouldLog(HttpPipelineLogLevel.WARNING)) {
           currentLevel = HttpPipelineLogLevel.WARNING;
-          logMessage = `SLOW OPERATION. Duration > ${
-            this.loggingOptions.logWarningIfTryOverThreshold
-          } ms. `;
+          logMessage = `SLOW OPERATION. Duration > ${this.loggingOptions.logWarningIfTryOverThreshold} ms. `;
         }
       }
 
@@ -105,21 +98,31 @@ export class LoggingPolicy extends BaseRequestPolicy {
             response.status !== HTTPURLConnection.HTTP_RANGE_NOT_SATISFIABLE)) ||
         (response.status >= 500 && response.status <= 509)
       ) {
-        const errorString = `REQUEST ERROR: HTTP request failed with status code: ${
-          response.status
-        }. `;
+        const errorString = `REQUEST ERROR: HTTP request failed with status code: ${response.status}. `;
         logMessage = errorString;
 
         currentLevel = HttpPipelineLogLevel.ERROR;
       }
 
-      const messageInfo = `Request try:${this.tryCount}, status:${
-        response.status
-      } request duration:${requestCompletionTime} ms, operation duration:${operationDuration} ms\n`;
+      const messageInfo = `Request try:${this.tryCount}, status:${response.status} request duration:${requestCompletionTime} ms, operation duration:${operationDuration} ms\n`;
       this.log(currentLevel, logMessage + messageInfo);
+      this.log(
+        HttpPipelineLogLevel.INFO,
+        `  request headers: ${JSON.stringify(sanitizeHeaders(response.request.headers), null, 2)}`
+      );
+      this.log(
+        HttpPipelineLogLevel.INFO,
+        `  response headers: ${JSON.stringify(sanitizeHeaders(response.headers), null, 2)}`
+      );
 
       return response;
     } catch (err) {
+      if (err instanceof RestError && err.request) {
+        this.log(
+          HttpPipelineLogLevel.INFO,
+          `  request headers: ${JSON.stringify(sanitizeHeaders(err.request.headers), null, 2)}`
+        );
+      }
       this.log(
         HttpPipelineLogLevel.ERROR,
         `Unexpected failure attempting to make request. Error message: ${err.message}`

@@ -195,8 +195,8 @@ export class QueueServiceClient extends StorageClient {
    * for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-queue-service-properties
    *
-   * @param {ServiceGetPropertiesOptions} [options] Optional options to get properties operation.
-   * @returns {Promise<Models.ServiceGetPropertiesResponse>}
+   * @param {ServiceGetPropertiesOptions} [options] Options to get properties operation.
+   * @returns {Promise<Models.ServiceGetPropertiesResponse>} Response data including the queue service properties.
    * @memberof QueueServiceClient
    */
   public async getProperties(
@@ -214,8 +214,8 @@ export class QueueServiceClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-queue-service-properties
    *
    * @param {Models.StorageServiceProperties} properties
-   * @param {ServiceGetPropertiesOptions} [options] Optional options to set properties operation.
-   * @returns {Promise<Models.ServiceSetPropertiesResponse>}
+   * @param {ServiceGetPropertiesOptions} [options] Options to set properties operation.
+   * @returns {Promise<Models.ServiceSetPropertiesResponse>} Response data for the Set Properties operation.
    * @memberof QueueServiceClient
    */
   public async setProperties(
@@ -234,8 +234,8 @@ export class QueueServiceClient extends StorageClient {
    * replication is enabled for the storage account.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-queue-service-stats
    *
-   * @param {ServiceGetStatisticsOptions} [options] Optional optiosn to get statistics operation.
-   * @returns {Promise<Models.ServiceGetStatisticsResponse>}
+   * @param {ServiceGetStatisticsOptions} [options] Options to get statistics operation.
+   * @returns {Promise<Models.ServiceGetStatisticsResponse>} Response data for get statistics the operation.
    * @memberof QueueServiceClient
    */
   public async getStatistics(
@@ -250,8 +250,8 @@ export class QueueServiceClient extends StorageClient {
   /**
    * Iterates over queues under the specified account.
    *
-   * @param {ServiceListQueuesSegmentOptions} [options={}] Options to list queues(optional)
-   * @returns {AsyncIterableIterator<Models.QueueItem>}
+   * @param {ServiceListQueuesSegmentOptions} [options={}] Options to list queues.
+   * @returns {AsyncIterableIterator<Models.QueueItem>} An async iterator to list queues.
    * @memberof QueueServiceClient
    *
    * @example
@@ -308,8 +308,8 @@ export class QueueServiceClient extends StorageClient {
    *                          with the current page. The NextMarker value can be used as the value for
    *                          the marker parameter in a subsequent call to request the next page of list
    *                          items. The marker value is opaque to the client.
-   * @param {ServiceListQueuesSegmentOptions} [options] Optional optiosn to list queues operation.
-   * @returns {Promise<Models.ServiceListQueuesSegmentResponse>}
+   * @param {ServiceListQueuesSegmentOptions} [options] Options to list queues operation.
+   * @returns {Promise<Models.ServiceListQueuesSegmentResponse>} Response data for the list queues segment operation.
    * @memberof QueueServiceClient
    */
   public async listQueuesSegment(
