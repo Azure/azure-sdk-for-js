@@ -1,7 +1,7 @@
 import * as assert from "assert";
 
 import { ContainerClient } from "../src/ContainerClient";
-import { getBSU, getUniqueName, sleep } from "./utils";
+import { getBSU, getUniqueName } from "./utils";
 import * as dotenv from "dotenv";
 import { SharedKeyCredential, newPipeline } from "../src";
 dotenv.config({ path: "../.env" });
@@ -64,99 +64,6 @@ describe("ContainerClient", () => {
   it("delete", (done) => {
     // delete() with default parameters has been tested in afterEach
     done();
-  });
-
-  it("acquireLease", async () => {
-    const guid = "ca761232ed4211cebacd00aa0057b223";
-    const duration = 30;
-    await containerClient.acquireLease(guid, duration);
-
-    const result = await containerClient.getProperties();
-    assert.equal(result.leaseDuration, "fixed");
-    assert.equal(result.leaseState, "leased");
-    assert.equal(result.leaseStatus, "locked");
-
-    await containerClient.releaseLease(guid);
-  });
-
-  it("releaseLease", async () => {
-    const guid = "ca761232ed4211cebacd00aa0057b223";
-    const duration = -1;
-    await containerClient.acquireLease(guid, duration);
-
-    const result = await containerClient.getProperties();
-    assert.equal(result.leaseDuration, "infinite");
-    assert.equal(result.leaseState, "leased");
-    assert.equal(result.leaseStatus, "locked");
-
-    await containerClient.releaseLease(guid);
-  });
-
-  it("renewLease", async () => {
-    const guid = "ca761232ed4211cebacd00aa0057b223";
-    const duration = 15;
-    await containerClient.acquireLease(guid, duration);
-
-    const result = await containerClient.getProperties();
-    assert.equal(result.leaseDuration, "fixed");
-    assert.equal(result.leaseState, "leased");
-    assert.equal(result.leaseStatus, "locked");
-
-    await sleep(16 * 1000);
-    const result2 = await containerClient.getProperties();
-    assert.ok(!result2.leaseDuration);
-    assert.equal(result2.leaseState, "expired");
-    assert.equal(result2.leaseStatus, "unlocked");
-
-    await containerClient.renewLease(guid);
-    const result3 = await containerClient.getProperties();
-    assert.equal(result3.leaseDuration, "fixed");
-    assert.equal(result3.leaseState, "leased");
-    assert.equal(result3.leaseStatus, "locked");
-
-    await containerClient.releaseLease(guid);
-  });
-
-  it("changeLease", async () => {
-    const guid = "ca761232ed4211cebacd00aa0057b223";
-    const duration = 15;
-    await containerClient.acquireLease(guid, duration);
-
-    const result = await containerClient.getProperties();
-    assert.equal(result.leaseDuration, "fixed");
-    assert.equal(result.leaseState, "leased");
-    assert.equal(result.leaseStatus, "locked");
-
-    const newGuid = "3c7e72ebb4304526bc53d8ecef03798f";
-    await containerClient.changeLease(guid, newGuid);
-
-    await containerClient.getProperties();
-    await containerClient.releaseLease(newGuid);
-  });
-
-  it("breakLease", async () => {
-    const guid = "ca761232ed4211cebacd00aa0057b223";
-    const duration = 15;
-    await containerClient.acquireLease(guid, duration);
-
-    const result = await containerClient.getProperties();
-    assert.equal(result.leaseDuration, "fixed");
-    assert.equal(result.leaseState, "leased");
-    assert.equal(result.leaseStatus, "locked");
-
-    await containerClient.breakLease(3);
-
-    const result2 = await containerClient.getProperties();
-    assert.ok(!result2.leaseDuration);
-    assert.equal(result2.leaseState, "breaking");
-    assert.equal(result2.leaseStatus, "locked");
-
-    await sleep(3 * 1000);
-
-    const result3 = await containerClient.getProperties();
-    assert.ok(!result3.leaseDuration);
-    assert.equal(result3.leaseState, "broken");
-    assert.equal(result3.leaseStatus, "unlocked");
   });
 
   it("listBlobFlatSegment with default parameters", async () => {

@@ -534,8 +534,8 @@ export class FileClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-file
    *
    * @param {number} size Specifies the maximum size in bytes for the file, up to 1 TB.
-   * @param {FileCreateOptions} [options] Optional options to File Create operation.
-   * @returns {Promise<Models.FileCreateResponse>}
+   * @param {FileCreateOptions} [options] Options to File Create operation.
+   * @returns {Promise<Models.FileCreateResponse>} Response data for the File Create  operation.
    * @memberof FileClient
    */
   public async create(
@@ -565,8 +565,8 @@ export class FileClient extends StorageClient {
    *
    * @param {number} [offset] From which position of the file to download, >= 0
    * @param {number} [count] How much data to be downloaded, > 0. Will download to the end when undefined
-   * @param {FileDownloadOptions} [options] Optional options to File Download operation.
-   * @returns {Promise<Models.FileDownloadResponse>}
+   * @param {FileDownloadOptions} [options] Options to File Download operation.
+   * @returns {Promise<Models.FileDownloadResponse>} Response data for the File Download operation.
    * @memberof FileClient
    */
   public async download(
@@ -643,8 +643,8 @@ export class FileClient extends StorageClient {
    * for the file. It does not return the content of the file.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-file-properties
    *
-   * @param {FileGetPropertiesOptions} [options] Optional options to File Get Properties operation.
-   * @returns {Promise<Models.FileGetPropertiesResponse>}
+   * @param {FileGetPropertiesOptions} [options] Options to File Get Properties operation.
+   * @returns {Promise<Models.FileGetPropertiesResponse>} Response data for the File Get Properties operation.
    * @memberof FileClient
    */
   public async getProperties(
@@ -670,8 +670,8 @@ export class FileClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-file2
    *
-   * @param {FileDeleteOptions} [options] Optional options to File Delete operation.
-   * @returns {Promise<Models.FileDeleteResponse>}
+   * @param {FileDeleteOptions} [options] Options to File Delete operation.
+   * @returns {Promise<Models.FileDeleteResponse>} Response data for the File Delete operation.
    * @memberof FileClient
    */
   public async delete(options: FileDeleteOptions = {}): Promise<Models.FileDeleteResponse> {
@@ -690,8 +690,8 @@ export class FileClient extends StorageClient {
    *
    * @param {fileHTTPHeaders} [FileHTTPHeaders] File HTTP headers like Content-Type.
    *                                             Provide undefined will remove existing HTTP headers.
-   * @param {FileSetHTTPHeadersOptions} [options] Optional options to File Set HTTP Headers operation.
-   * @returns {Promise<Models.FileSetHTTPHeadersResponse>}
+   * @param {FileSetHTTPHeadersOptions} [options] Options to File Set HTTP Headers operation.
+   * @returns {Promise<Models.FileSetHTTPHeadersResponse>} Response data for the File Set HTTP Headers operation.
    * @memberof FileClient
    */
   public async setHTTPHeaders(
@@ -713,8 +713,8 @@ export class FileClient extends StorageClient {
    * @param {number} length Resizes a file to the specified size in bytes.
    *                        If the specified byte value is less than the current size of the file,
    *                        then all ranges above the specified byte value are cleared.
-   * @param {FileResizeOptions} [options] Optional options to File Resize operation.
-   * @returns {Promise<Models.FileSetHTTPHeadersResponse>}
+   * @param {FileResizeOptions} [options] Options to File Resize operation.
+   * @returns {Promise<Models.FileSetHTTPHeadersResponse>} Response data for the File Set HTTP Headers operation.
    * @memberof FileClient
    */
   public async resize(
@@ -739,8 +739,8 @@ export class FileClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-file-metadata
    *
    * @param {Metadata} [metadata] If no metadata provided, all existing directory metadata will be removed
-   * @param {FileSetMetadataOptions} [options] Optional options to File Set Metadata operation.
-   * @returns {Promise<Models.FileSetMetadataResponse>}
+   * @param {FileSetMetadataOptions} [options] Options to File Set Metadata operation.
+   * @returns {Promise<Models.FileSetMetadataResponse>} Response data for the File Set Metadata operation.
    * @memberof FileClient
    */
   public async setMetadata(
@@ -763,8 +763,8 @@ export class FileClient extends StorageClient {
    * @param {number} offset Offset position of the destination Azure File to upload.
    * @param {number} contentLength Length of body in bytes. Use Buffer.byteLength() to calculate body length for a
    *                               string including non non-Base64/Hex-encoded characters.
-   * @param {FileUploadRangeOptions} [options] Optional options to File Upload Range operation.
-   * @returns {Promise<Models.FileUploadRangeResponse>}
+   * @param {FileUploadRangeOptions} [options] Options to File Upload Range operation.
+   * @returns {Promise<Models.FileUploadRangeResponse>} Response data for the File Upload Range operation.
    * @memberof FileClient
    */
   public async uploadRange(
@@ -801,7 +801,7 @@ export class FileClient extends StorageClient {
    *
    * @param {number} offset
    * @param {number} contentLength
-   * @param {FileClearRangeOptions} [options] Optional options to File Clear Range operation.
+   * @param {FileClearRangeOptions} [options] Options to File Clear Range operation.
    * @returns {Promise<Models.FileUploadRangeResponse>}
    * @memberof FileClient
    */
@@ -823,7 +823,7 @@ export class FileClient extends StorageClient {
   /**
    * Returns the list of valid ranges for a file.
    *
-   * @param {FileGetRangeListOptions} [options] Optional options to File Get range List operation.
+   * @param {FileGetRangeListOptions} [options] Options to File Get range List operation.
    * @returns {Promise<FileGetRangeListResponse>}
    * @memberof FileClient
    */
@@ -860,7 +860,7 @@ export class FileClient extends StorageClient {
    * authenticate the source file or blob using a shared access signature. If the source is a public
    * blob, no authentication is required to perform the copy operation. A file in a share snapshot
    * can also be specified as a copy source.
-   * @param {FileStartCopyOptions} [options] Optional options to File Start Copy operation.
+   * @param {FileStartCopyOptions} [options] Options to File Start Copy operation.
    * @returns {Promise<Models.FileStartCopyResponse>}
    * @memberof FileClient
    */
@@ -881,7 +881,7 @@ export class FileClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/abort-copy-file
    *
    * @param {string} copyId Id of the Copy File operation to abort.
-   * @param {FileAbortCopyFromURLOptions} [options] Optional options to File Abort Copy From URL operation.
+   * @param {FileAbortCopyFromURLOptions} [options] Options to File Abort Copy From URL operation.
    * @returns {Promise<Models.FileAbortCopyResponse>}
    * @memberof FileClient
    */
@@ -997,10 +997,7 @@ export class FileClient extends StorageClient {
    * @param {UploadToAzureFileOptions} [options]
    * @returns {(Promise<void>)}
    */
-  public async uploadFile(
-    filePath: string,
-    options?: UploadToAzureFileOptions
-  ): Promise<void> {
+  public async uploadFile(filePath: string, options?: UploadToAzureFileOptions): Promise<void> {
     const size = fs.statSync(filePath).size;
     return this.uploadResetableStream(
       (offset, count) =>
@@ -1070,14 +1067,9 @@ export class FileClient extends StorageClient {
           const start = options.rangeSize! * i;
           const end = i === numBlocks - 1 ? size : start + options.rangeSize!;
           const contentLength = end - start;
-          await this.uploadRange(
-            () => streamFactory(start, contentLength),
-            start,
-            contentLength,
-            {
-              abortSignal: aborter
-            }
-          );
+          await this.uploadRange(() => streamFactory(start, contentLength), start, contentLength, {
+            abortSignal: aborter
+          });
           // Update progress after block is successfully uploaded to server, in case of block trying
           transferProgress += contentLength;
           if (options.progress) {
@@ -1228,7 +1220,7 @@ export class FileClient extends StorageClient {
         if (transferProgress + buffer.length > size) {
           throw new RangeError(
             `Stream size is larger than file size ${size} bytes, uploading failed. ` +
-            `Please make sure stream length is less or equal than file size.`
+              `Please make sure stream length is less or equal than file size.`
           );
         }
 

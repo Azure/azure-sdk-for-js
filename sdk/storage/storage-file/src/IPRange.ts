@@ -32,8 +32,8 @@ export interface IPRange {
  * "8.8.8.8" or "1.1.1.1-255.255.255.255"
  *
  * @export
- * @param {IPRange} ipRange
- * @returns {string}
+ * @param {IPRange} ipRange A range of IP addresses.
+ * @returns {string} string representation of the IP range.
  */
 export function ipRangeToString(ipRange: IPRange): string {
   return ipRange.end ? `${ipRange.start}-${ipRange.end}` : ipRange.start;

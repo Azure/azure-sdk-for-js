@@ -501,7 +501,7 @@ export class ContainerClient extends StorageClient {
    * the same name already exists, the operation fails.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-container
    *
-   * @param {ContainerCreateOptions} [options] Optional options to Container Create operation.
+   * @param {ContainerCreateOptions} [options] Options to Container Create operation.
    * @returns {Promise<Models.ContainerCreateResponse>}
    * @memberof ContainerClient
    */
@@ -576,7 +576,7 @@ export class ContainerClient extends StorageClient {
    * container. The data returned does not include the container's list of blobs.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-container-properties
    *
-   * @param {ContainersGetPropertiesOptions} [options] Optional options to Container Get Properties operation.
+   * @param {ContainersGetPropertiesOptions} [options] Options to Container Get Properties operation.
    * @returns {Promise<Models.ContainerGetPropertiesResponse>}
    * @memberof ContainerClient
    */
@@ -600,7 +600,7 @@ export class ContainerClient extends StorageClient {
    * contained within it are later deleted during garbage collection.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-container
    *
-   * @param {ContainerDeleteMethodOptions} [options] Optional options to Container Delete operation.
+   * @param {ContainerDeleteMethodOptions} [options] Options to Container Delete operation.
    * @returns {Promise<Models.ContainerDeleteResponse>}
    * @memberof ContainerClient
    */
@@ -650,7 +650,7 @@ export class ContainerClient extends StorageClient {
    *
    * @param {Metadata} [metadata] Replace existing metadata with this value.
    *                               If no value provided the existing metadata will be removed.
-   * @param {ContainerSetMetadataOptions} [options] Optional options to Container Set Metadata operation.
+   * @param {ContainerSetMetadataOptions} [options] Options to Container Set Metadata operation.
    * @returns {Promise<Models.ContainerSetMetadataResponse>}
    * @memberof ContainerClient
    */
@@ -702,7 +702,7 @@ export class ContainerClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-container-acl
    *
-   * @param {ContainerGetAccessPolicyOptions} [options] Optional options to Container Get Access Policy operation.
+   * @param {ContainerGetAccessPolicyOptions} [options] Options to Container Get Access Policy operation.
    * @returns {Promise<ContainerGetAccessPolicyResponse>}
    * @memberof ContainerClient
    */
@@ -756,7 +756,7 @@ export class ContainerClient extends StorageClient {
    *
    * @param {Models.PublicAccessType} [access] The level of public access to data in the container.
    * @param {SignedIdentifier[]} [containerAcl] Array of elements each having a unique Id and details of the access policy.
-   * @param {ContainerSetAccessPolicyOptions} [options] Optional options to Container Set Access Policy operation.
+   * @param {ContainerSetAccessPolicyOptions} [options] Options to Container Set Access Policy operation.
    * @returns {Promise<Models.ContainerSetAccessPolicyResponse>}
    * @memberof ContainerClient
    */
@@ -789,113 +789,14 @@ export class ContainerClient extends StorageClient {
   }
 
   /**
-   * Establishes and manages a lock on a container for delete operations.
-   * The lock duration can be 15 to 60 seconds, or can be infinite.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/lease-container
+   * Get a LeaseClient that manages leases on the container.
    *
-   * @param {string} proposedLeaseId Can be specified in any valid GUID string format
-   * @param {number} duration Must be between 15 to 60 seconds, or infinite (-1)
-   * @param {ContainerAcquireLeaseOptions} [options] Optional options to Container Acquire Lease operation.
-   * @returns {Promise<Models.ContainerAcquireLeaseResponse>}
+   * @param {string} [proposeLeaseId] Initial proposed lease Id.
+   * @returns
    * @memberof ContainerClient
    */
-  public async acquireLease(
-    proposedLeaseId: string,
-    duration: number,
-    options: ContainerAcquireLeaseOptions = {}
-  ): Promise<Models.ContainerAcquireLeaseResponse> {
-    const aborter = options.abortSignal || Aborter.none;
-    return this.containerContext.acquireLease({
-      abortSignal: aborter,
-      duration,
-      modifiedAccessConditions: options.modifiedAccessConditions,
-      proposedLeaseId
-    });
-  }
-
-  /**
-   * To free the lease if it is no longer needed so that another client may
-   * immediately acquire a lease against the container.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/lease-container
-   *
-   * @param {string} leaseId Id of the existing lease.
-   * @param {ContainerReleaseLeaseOptions} [options] Optional options to Container Release Lease operation.
-   * @returns {Promise<Models.ContainerReleaseLeaseResponse>}
-   * @memberof ContainerClient
-   */
-  public async releaseLease(
-    leaseId: string,
-    options: ContainerReleaseLeaseOptions = {}
-  ): Promise<Models.ContainerReleaseLeaseResponse> {
-    const aborter = options.abortSignal || Aborter.none;
-    return this.containerContext.releaseLease(leaseId, {
-      abortSignal: aborter,
-      modifiedAccessConditions: options.modifiedAccessConditions
-    });
-  }
-
-  /**
-   * To renew an existing lease.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/lease-container
-   *
-   * @param {string} leaseId Id of the existing lease.
-   * @param {ContainerRenewLeaseOptions} [options] Optional options to Container Renew Lease operation.
-   * @returns {Promise<Models.ContainerRenewLeaseResponse>}
-   * @memberof ContainerClient
-   */
-  public async renewLease(
-    leaseId: string,
-    options: ContainerRenewLeaseOptions = {}
-  ): Promise<Models.ContainerRenewLeaseResponse> {
-    const aborter = options.abortSignal || Aborter.none;
-    return this.containerContext.renewLease(leaseId, {
-      abortSignal: aborter,
-      modifiedAccessConditions: options.modifiedAccessConditions
-    });
-  }
-
-  /**
-   * To end the lease but ensure that another client cannot acquire a new lease
-   * until the current lease period has expired.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/lease-container
-   *
-   * @param {number} period break period
-   * @param {ContainerBreakLeaseOptions} [options] Optional options to Container Break Lease operation.
-   * @returns {Promise<Models.ContainerBreakLeaseResponse>}
-   * @memberof ContainerClient
-   */
-  public async breakLease(
-    period: number,
-    options: ContainerBreakLeaseOptions = {}
-  ): Promise<Models.ContainerBreakLeaseResponse> {
-    const aborter = options.abortSignal || Aborter.none;
-    return this.containerContext.breakLease({
-      abortSignal: aborter,
-      breakPeriod: period,
-      modifiedAccessConditions: options.modifiedAccessConditions
-    });
-  }
-
-  /**
-   * To change the ID of an existing lease.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/lease-container
-   *
-   * @param {string} leaseId Id of the existing lease.
-   * @param {string} proposedLeaseId Proposed new lease Id.
-   * @param {ContainerChangeLeaseOptions} [options] Optional options to Container Change Lease operation.
-   * @returns {Promise<Models.ContainerChangeLeaseResponse>}
-   * @memberof ContainerClient
-   */
-  public async changeLease(
-    leaseId: string,
-    proposedLeaseId: string,
-    options: ContainerChangeLeaseOptions = {}
-  ): Promise<Models.ContainerChangeLeaseResponse> {
-    const aborter = options.abortSignal || Aborter.none;
-    return this.containerContext.changeLease(leaseId, proposedLeaseId, {
-      abortSignal: aborter,
-      modifiedAccessConditions: options.modifiedAccessConditions
-    });
+  public getLeaseClient(proposeLeaseId?: string) {
+    return new LeaseClient(this, proposeLeaseId);
   }
 
   /**
@@ -953,7 +854,7 @@ export class ContainerClient extends StorageClient {
    * @see https://docs.microsoft.com/rest/api/storageservices/list-blobs
    *
    * @param {string} [marker] A string value that identifies the portion of the list to be returned with the next list operation.
-   * @param {ContainerListBlobsSegmentOptions} [options] Optional options to Container List Blob Flat Segment operation.
+   * @param {ContainerListBlobsSegmentOptions} [options] Options to Container List Blob Flat Segment operation.
    * @returns {Promise<Models.ContainerListBlobFlatSegmentResponse>}
    * @memberof ContainerClient
    */
@@ -978,7 +879,7 @@ export class ContainerClient extends StorageClient {
    *
    * @param {string} delimiter The charactor or string used to define the virtual hierarchy
    * @param {string} [marker] A string value that identifies the portion of the list to be returned with the next list operation.
-   * @param {ContainerListBlobsSegmentOptions} [options] Optional options to Container List Blob Hierarchy Segment operation.
+   * @param {ContainerListBlobsSegmentOptions} [options] Options to Container List Blob Hierarchy Segment operation.
    * @returns {Promise<Models.ContainerListBlobHierarchySegmentResponse>}
    * @memberof ContainerClient
    */
