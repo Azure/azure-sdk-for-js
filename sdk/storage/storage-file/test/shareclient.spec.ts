@@ -1,7 +1,7 @@
 import * as assert from "assert";
-import { getBSU, getUniqueName } from "./utils";
 import * as dotenv from "dotenv";
 import { newPipeline, ShareClient, SharedKeyCredential } from "../src";
+import { getBSU, getConnectionStringFromEnvironment, getUniqueName } from "./utils";
 dotenv.config({ path: "../.env" });
 
 describe("ShareClient", () => {
@@ -134,5 +134,45 @@ describe("ShareClient", () => {
     assert.ok(result.requestId);
     assert.ok(result.version);
     assert.ok(result.date);
+  });
+
+  it("can be created with a connection string and a share name", async () => {
+    const newClient = new ShareClient(getConnectionStringFromEnvironment(), shareName);
+    const result = await newClient.getProperties();
+
+    assert.ok(result.eTag!.length > 0);
+    assert.ok(result.lastModified);
+    assert.ok(result.requestId);
+    assert.ok(result.version);
+    assert.ok(result.date);
+  });
+
+  // it.only("can be created with a connection string and a share name and an option bag", async () => {
+  //   const newClient = new ShareClient(getConnectionStringFromEnvironment(), shareName, {
+  //     retryOptions: {
+  //       maxtries: 5
+  //     }
+  //   });
+  //   const result = await newClient.getProperties();
+
+  //   assert.ok(result.eTag!.length > 0);
+  //   assert.ok(result.lastModified);
+  //   assert.ok(result.requestId);
+  //   assert.ok(result.version);
+  //   assert.ok(result.date);
+  // });
+
+  it("throws error if constructor shareName parameter is empty", async () => {
+    try {
+      // tslint:disable-next-line: no-unused-expression
+      new ShareClient(getConnectionStringFromEnvironment(), "");
+      assert.fail("Expecting an thrown error but didn't get one.");
+    } catch (error) {
+      assert.equal(
+        "Expecting non-empty strings for shareName parameter",
+        error.message,
+        "Error message is different than expected."
+      );
+    }
   });
 });

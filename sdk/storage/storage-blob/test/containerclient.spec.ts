@@ -357,6 +357,26 @@ describe("ContainerClient", () => {
     assert.ok(!result.blobPublicAccess);
   });
 
+  it("can be created with a connection string and a container name and an option bag", async () => {
+    const newClient = new ContainerClient(getConnectionStringFromEnvironment(), containerName, {
+      retryOptions: {
+        maxTries: 5
+      }
+    });
+
+    const result = await newClient.getProperties();
+
+    assert.ok(result.eTag!.length > 0);
+    assert.ok(result.lastModified);
+    assert.ok(!result.leaseDuration);
+    assert.equal(result.leaseState, "available");
+    assert.equal(result.leaseStatus, "unlocked");
+    assert.ok(result.requestId);
+    assert.ok(result.version);
+    assert.ok(result.date);
+    assert.ok(!result.blobPublicAccess);
+  });
+
   it("throws error if constructor containerName parameter is empty", async () => {
     try {
       // tslint:disable-next-line: no-unused-expression

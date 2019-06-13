@@ -14,7 +14,7 @@ import {
   appendToURLPath,
   setURLParameter,
   truncatedISO8061Date,
-  extractPartsWithValidation
+  extractConnectionStringParts
 } from "./utils/utils.common";
 import { DirectoryClient } from "./DirectoryClient";
 import { Credential } from "./credentials/Credential";
@@ -34,7 +34,7 @@ export interface ShareCreateOptions {
    * about request cancellation.
    *
    * @type {Aborter}
-   * @memberof AppendBlobCreateOptions
+   * @memberof ShareCreateOptions
    */
   abortSignal?: Aborter;
   /**
@@ -68,7 +68,7 @@ export interface ShareDeleteMethodOptions {
    * about request cancellation.
    *
    * @type {Aborter}
-   * @memberof AppendBlobCreateOptions
+   * @memberof ShareDeleteMethodOptions
    */
   abortSignal?: Aborter;
   /**
@@ -95,7 +95,7 @@ export interface ShareSetMetadataOptions {
    * about request cancellation.
    *
    * @type {Aborter}
-   * @memberof AppendBlobCreateOptions
+   * @memberof ShareSetMetadataOptions
    */
   abortSignal?: Aborter;
 }
@@ -113,7 +113,7 @@ export interface ShareSetAccessPolicyOptions {
    * about request cancellation.
    *
    * @type {Aborter}
-   * @memberof AppendBlobCreateOptions
+   * @memberof ShareSetAccessPolicyOptions
    */
   abortSignal?: Aborter;
 }
@@ -131,7 +131,7 @@ export interface ShareGetAccessPolicyOptions {
    * about request cancellation.
    *
    * @type {Aborter}
-   * @memberof AppendBlobCreateOptions
+   * @memberof ShareGetAccessPolicyOptions
    */
   abortSignal?: Aborter;
 }
@@ -149,7 +149,7 @@ export interface ShareGetPropertiesOptions {
    * about request cancellation.
    *
    * @type {Aborter}
-   * @memberof AppendBlobCreateOptions
+   * @memberof ShareGetPropertiesOptions
    */
   abortSignal?: Aborter;
 }
@@ -167,7 +167,7 @@ export interface ShareSetQuotaOptions {
    * about request cancellation.
    *
    * @type {Aborter}
-   * @memberof AppendBlobCreateOptions
+   * @memberof ShareSetQuotaOptions
    */
   abortSignal?: Aborter;
 }
@@ -185,7 +185,7 @@ export interface ShareGetStatisticsOptions {
    * about request cancellation.
    *
    * @type {Aborter}
-   * @memberof AppendBlobCreateOptions
+   * @memberof ShareGetStatisticsOptions
    */
   abortSignal?: Aborter;
 }
@@ -256,7 +256,7 @@ export interface ShareCreateSnapshotOptions {
    * about request cancellation.
    *
    * @type {Aborter}
-   * @memberof AppendBlobCreateOptions
+   * @memberof ShareCreateSnapshotOptions
    */
   abortSignal?: Aborter;
   /**
@@ -328,7 +328,10 @@ export class ShareClient extends StorageClient {
       pipeline = credentialOrPipelineOrShareName;
     } else if (credentialOrPipelineOrShareName instanceof Credential) {
       pipeline = newPipeline(credentialOrPipelineOrShareName, options);
-    } else if (!credentialOrPipelineOrShareName) {
+    } else if (
+      !credentialOrPipelineOrShareName &&
+      typeof credentialOrPipelineOrShareName !== "string"
+    ) {
       // The second parameter is undefined. Use anonymous credential.
       pipeline = newPipeline(new AnonymousCredential(), options);
     } else if (
@@ -336,7 +339,7 @@ export class ShareClient extends StorageClient {
       typeof credentialOrPipelineOrShareName === "string"
     ) {
       const shareName = credentialOrPipelineOrShareName;
-      const extractedCreds = extractPartsWithValidation(urlOrConnectionString);
+      const extractedCreds = extractConnectionStringParts(urlOrConnectionString);
       const sharedKeyCredential = new SharedKeyCredential(
         extractedCreds.accountName,
         extractedCreds.accountKey

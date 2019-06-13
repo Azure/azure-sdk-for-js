@@ -1,5 +1,5 @@
 import * as assert from "assert";
-import { getBSU, getUniqueName, wait } from "./utils";
+import { getBSU, getUniqueName, wait, getConnectionStringFromEnvironment } from "./utils";
 import * as dotenv from "dotenv";
 import { FileServiceClient } from "../src/FileServiceClient";
 import { newPipeline, SharedKeyCredential } from "../src";
@@ -177,5 +177,27 @@ describe("FileServiceClient", () => {
     assert.ok(result.requestId!.length > 0);
     assert.ok(typeof result.version);
     assert.ok(result.version!.length > 0);
+  });
+
+  it("can be created from a connection string", async () => {
+    const newClient = FileServiceClient.fromConnectionString(getConnectionStringFromEnvironment());
+
+    const result = await newClient.getProperties();
+
+    assert.ok(typeof result.requestId);
+    assert.ok(result.requestId!.length > 0);
+  });
+
+  it("can be created from a connection string and an option bag", async () => {
+    const newClient = FileServiceClient.fromConnectionString(getConnectionStringFromEnvironment(), {
+      retryOptions: {
+        maxTries: 5
+      }
+    });
+
+    const result = await newClient.getProperties();
+
+    assert.ok(typeof result.requestId);
+    assert.ok(result.requestId!.length > 0);
   });
 });
