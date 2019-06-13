@@ -27,10 +27,6 @@
     ]
   },
   "compileOnSave": true,
-  "exclude": [
-    "node_modules"
-  ],
-  "include": [
-    "./types/**/*.ts",
-  ]
+  "exclude": ["node_modules"],
+  "include": ["./types/**/*.ts"]
 }
