@@ -34,7 +34,7 @@ describe("AbortController", () => {
     const response = doAsyncOperation(aborter);
     controller.abort();
     try {
-      let rs = await response;
+      await response;
       assert.fail();
     } catch (err) {
       assert.equal(err.name, "AbortError");
