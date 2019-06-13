@@ -1,3 +1,3 @@
 let nock = require('nock');
 
-module.exports.testInfo = {"share":"share155873371610401960"}
+module.exports.testInfo = {"share":"share156044249614604958"}

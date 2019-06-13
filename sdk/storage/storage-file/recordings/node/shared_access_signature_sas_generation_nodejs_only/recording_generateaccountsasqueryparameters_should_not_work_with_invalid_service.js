@@ -1,18 +1,18 @@
 let nock = require('nock');
 
-module.exports.testInfo = {"undefined":"2019-05-24T21:39:26.675Z"}
+module.exports.testInfo = {"undefined":"2019-06-13T16:23:03.149Z"}
 
-nock('https://coolstorageaccount1234.file.core.windows.net:443', {"encodedQueryParams":true})
+nock('https://fakestorageaccount.file.core.windows.net:443', {"encodedQueryParams":true})
   .get('/')
-  .query({"sv":"2018-03-28","ss":"btq","srt":"sco","se":"2019-05-25T21%3A39%3A26Z","sp":"rwdlacup","sig":"YXoDpshYssRYtBWwGfouvoVyRRB2dQEuttAu23rcvWY%3D","restype":"service","comp":"properties"})
-  .reply(403, "﻿<?xml version=\"1.0\" encoding=\"utf-8\"?><Error><Code>AuthorizationServiceMismatch</Code><Message>This request is not authorized to perform this operation using this service.\nRequestId:a5f228e7-501a-0004-7379-1268da000000\nTime:2019-05-24T21:39:26.6403745Z</Message></Error>", [ 'Content-Length',
+  .query(true)
+  .reply(403, "﻿<?xml version=\"1.0\" encoding=\"utf-8\"?><Error><Code>AuthorizationServiceMismatch</Code><Message>This request is not authorized to perform this operation using this service.\nRequestId:2ad128ec-401a-000b-18c9-2162e5000000\nTime:2019-06-13T09:22:48.0893952Z</Message></Error>", [ 'Content-Length',
   '273',
   'Content-Type',
   'application/xml',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'a5f228e7-501a-0004-7379-1268da000000',
+  '2ad128ec-401a-000b-18c9-2162e5000000',
   'x-ms-error-code',
   'AuthorizationServiceMismatch',
   'Access-Control-Expose-Headers',
@@ -20,7 +20,7 @@ nock('https://coolstorageaccount1234.file.core.windows.net:443', {"encodedQueryP
   'Access-Control-Allow-Origin',
   '*',
   'Date',
-  'Fri, 24 May 2019 21:39:26 GMT',
+  'Thu, 13 Jun 2019 09:22:47 GMT',
   'Connection',
   'close' ]);
 

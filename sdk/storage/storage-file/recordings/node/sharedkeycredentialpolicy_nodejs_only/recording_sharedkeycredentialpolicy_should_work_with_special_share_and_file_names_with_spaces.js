@@ -1,48 +1,48 @@
 let nock = require('nock');
 
-module.exports.testInfo = {"dir empty":"dir empty155873397519209820","file empty":"file empty155873397552604806"}
+module.exports.testInfo = {"dir empty":"dir empty156044277299500239","file empty":"file empty156044277342002759"}
 
-nock('https://coolstorageaccount1234.file.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/1share-with-dash155873397482109857/dir%20empty155873397519209820')
-  .query({"restype":"directory"})
+nock('https://fakestorageaccount.file.core.windows.net:443', {"encodedQueryParams":true})
+  .put('/1share-with-dash156044277273507696/dir%20empty156044277299500239')
+  .query(true)
   .reply(201, "", [ 'Content-Length',
   '0',
   'Last-Modified',
-  'Fri, 24 May 2019 21:39:35 GMT',
+  'Thu, 13 Jun 2019 09:19:18 GMT',
   'ETag',
-  '"0x8D6E0905097CD7C"',
+  '"0x8D6EFE036398AA0"',
   'Server',
   'Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '8dcc9149-901a-003b-4c79-12df06000000',
+  '73917ef5-a01a-0082-21c9-21dbc1000000',
   'x-ms-version',
   '2018-03-28',
   'x-ms-request-server-encrypted',
   'true',
   'Date',
-  'Fri, 24 May 2019 21:39:34 GMT',
+  'Thu, 13 Jun 2019 09:19:18 GMT',
   'Connection',
   'close' ]);
 
 
-nock('https://coolstorageaccount1234.file.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/1share-with-dash155873397482109857/dir%20empty155873397519209820/file%20empty155873397552604806')
+nock('https://fakestorageaccount.file.core.windows.net:443', {"encodedQueryParams":true})
+  .put('/1share-with-dash156044277273507696/dir%20empty156044277299500239/file%20empty156044277342002759')
   .reply(201, "", [ 'Content-Length',
   '0',
   'Last-Modified',
-  'Fri, 24 May 2019 21:39:35 GMT',
+  'Thu, 13 Jun 2019 09:19:18 GMT',
   'ETag',
-  '"0x8D6E09050D864C7"',
+  '"0x8D6EFE03662286C"',
   'Server',
   'Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'a3d8b952-401a-0076-2c79-1219e4000000',
+  '2dc7c055-b01a-001e-72c9-21a07c000000',
   'x-ms-version',
   '2018-03-28',
   'x-ms-request-server-encrypted',
   'true',
   'Date',
-  'Fri, 24 May 2019 21:39:35 GMT',
+  'Thu, 13 Jun 2019 09:19:17 GMT',
   'Connection',
   'close' ]);
 

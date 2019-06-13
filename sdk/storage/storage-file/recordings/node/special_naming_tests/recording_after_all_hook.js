@@ -2,19 +2,19 @@ let nock = require('nock');
 
 module.exports.testInfo = {}
 
-nock('https://coolstorageaccount1234.file.core.windows.net:443', {"encodedQueryParams":true})
-  .delete('/1share-with-dash155873390737006370')
-  .query({"restype":"share"})
+nock('https://fakestorageaccount.file.core.windows.net:443', {"encodedQueryParams":true})
+  .delete('/1share-with-dash156044269664801914')
+  .query(true)
   .reply(202, "", [ 'Content-Length',
   '0',
   'Server',
   'Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '1231a976-601a-0043-6479-12b7b1000000',
+  '5742f099-d01a-00c9-71c8-21ea5b000000',
   'x-ms-version',
   '2018-03-28',
   'Date',
-  'Fri, 24 May 2019 21:39:02 GMT',
+  'Thu, 13 Jun 2019 09:18:19 GMT',
   'Connection',
   'close' ]);
 

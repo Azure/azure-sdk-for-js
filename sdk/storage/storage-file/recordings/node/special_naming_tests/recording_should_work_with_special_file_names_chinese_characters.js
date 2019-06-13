@@ -1,43 +1,43 @@
 let nock = require('nock');
 
-module.exports.testInfo = {"Upper file empty another 汉字":"Upper file empty another 汉字155873391312509348"}
+module.exports.testInfo = {"Upper file empty another 汉字":"Upper file empty another 汉字156044270050106281"}
 
-nock('https://coolstorageaccount1234.file.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/1share-with-dash155873390737006370/dir155873390737008456/Upper%20file%20empty%20another%20%E6%B1%89%E5%AD%97155873391312509348')
+nock('https://fakestorageaccount.file.core.windows.net:443', {"encodedQueryParams":true})
+  .put('/1share-with-dash156044269664801914/dir156044269664809734/Upper%20file%20empty%20another%20%E6%B1%89%E5%AD%97156044270050106281')
   .reply(201, "", [ 'Content-Length',
   '0',
   'Last-Modified',
-  'Fri, 24 May 2019 21:38:33 GMT',
+  'Thu, 13 Jun 2019 09:18:05 GMT',
   'ETag',
-  '"0x8D6E0902B9F511E"',
+  '"0x8D6EFE00AF44DD5"',
   'Server',
   'Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'a86c650a-b01a-000e-4f79-127153000000',
+  '107b41cb-901a-0046-1dc8-21a407000000',
   'x-ms-version',
   '2018-03-28',
   'x-ms-request-server-encrypted',
   'true',
   'Date',
-  'Fri, 24 May 2019 21:38:32 GMT',
+  'Thu, 13 Jun 2019 09:18:04 GMT',
   'Connection',
   'close' ]);
 
 
-nock('https://coolstorageaccount1234.file.core.windows.net:443', {"encodedQueryParams":true})
-  .head('/1share-with-dash155873390737006370/dir155873390737008456/Upper%20file%20empty%20another%20%E6%B1%89%E5%AD%97155873391312509348')
+nock('https://fakestorageaccount.file.core.windows.net:443', {"encodedQueryParams":true})
+  .head('/1share-with-dash156044269664801914/dir156044269664809734/Upper%20file%20empty%20another%20%E6%B1%89%E5%AD%97156044270050106281')
   .reply(200, "", [ 'Content-Length',
   '10',
   'Content-Type',
   'application/octet-stream',
   'Last-Modified',
-  'Fri, 24 May 2019 21:38:33 GMT',
+  'Thu, 13 Jun 2019 09:18:05 GMT',
   'ETag',
-  '"0x8D6E0902B9F511E"',
+  '"0x8D6EFE00AF44DD5"',
   'Server',
   'Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'ba8ce8b9-301a-0072-7679-12ec66000000',
+  'b0234d19-501a-00be-66c8-216f1a000000',
   'x-ms-version',
   '2018-03-28',
   'x-ms-type',
@@ -49,22 +49,22 @@ nock('https://coolstorageaccount1234.file.core.windows.net:443', {"encodedQueryP
   'Access-Control-Allow-Origin',
   '*',
   'Date',
-  'Fri, 24 May 2019 21:38:33 GMT',
+  'Thu, 13 Jun 2019 09:18:05 GMT',
   'Connection',
   'close' ]);
 
 
-nock('https://coolstorageaccount1234.file.core.windows.net:443', {"encodedQueryParams":true})
-  .get('/1share-with-dash155873390737006370/dir155873390737008456')
-  .query({"prefix":"Upper%20file%20empty%20another%20%E6%B1%89%E5%AD%97155873391312509348","restype":"directory","comp":"list"})
-  .reply(200, "﻿<?xml version=\"1.0\" encoding=\"utf-8\"?><EnumerationResults ServiceEndpoint=\"https://coolstorageaccount1234.file.core.windows.net/\" ShareName=\"1share-with-dash155873390737006370\" DirectoryPath=\"dir155873390737008456\"><Prefix>Upper file empty another 汉字155873391312509348</Prefix><Entries><File><Name>Upper file empty another 汉字155873391312509348</Name><Properties><Content-Length>10</Content-Length></Properties></File></Entries><NextMarker /></EnumerationResults>", [ 'Transfer-Encoding',
+nock('https://fakestorageaccount.file.core.windows.net:443', {"encodedQueryParams":true})
+  .get('/1share-with-dash156044269664801914/dir156044269664809734')
+  .query(true)
+  .reply(200, "﻿<?xml version=\"1.0\" encoding=\"utf-8\"?><EnumerationResults ServiceEndpoint=\"https://fakestorageaccount.file.core.windows.net/\" ShareName=\"1share-with-dash156044269664801914\" DirectoryPath=\"dir156044269664809734\"><Prefix>Upper file empty another 汉字156044270050106281</Prefix><Entries><File><Name>Upper file empty another 汉字156044270050106281</Name><Properties><Content-Length>10</Content-Length></Properties></File></Entries><NextMarker /></EnumerationResults>", [ 'Transfer-Encoding',
   'chunked',
   'Content-Type',
   'application/xml',
   'Server',
   'Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'b1a71c46-801a-000d-3a79-127254000000',
+  '1d346347-901a-0081-0cc8-21d8c6000000',
   'x-ms-version',
   '2018-03-28',
   'Access-Control-Expose-Headers',
@@ -72,7 +72,7 @@ nock('https://coolstorageaccount1234.file.core.windows.net:443', {"encodedQueryP
   'Access-Control-Allow-Origin',
   '*',
   'Date',
-  'Fri, 24 May 2019 21:38:33 GMT',
+  'Thu, 13 Jun 2019 09:18:05 GMT',
   'Connection',
   'close' ]);
 

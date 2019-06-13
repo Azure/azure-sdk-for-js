@@ -1,64 +1,47 @@
 let nock = require('nock');
 
-module.exports.testInfo = {"undefined":"2019-05-24T21:39:27.499Z","share":"share155873396749900225"}
+module.exports.testInfo = {"undefined":"2019-06-13T16:23:03.886Z","share":"share156044298388703236"}
 
-nock('https://coolstorageaccount1234.file.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/share155873396749900225')
-  .query({"restype":"share"})
+nock('https://fakestorageaccount.file.core.windows.net:443', {"encodedQueryParams":true})
+  .put('/share156044298388703236')
+  .query(true)
   .reply(201, "", [ 'Content-Length',
   '0',
   'Last-Modified',
-  'Fri, 24 May 2019 21:39:27 GMT',
+  'Thu, 13 Jun 2019 09:22:48 GMT',
   'ETag',
-  '"0x8D6E0904C14527F"',
+  '"0x8D6EFE0B3DB9142"',
   'Server',
   'Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '50ec7fbb-701a-0013-7879-12a8b9000000',
+  'abc7270d-701a-006e-02c9-21d3b8000000',
   'x-ms-version',
   '2018-03-28',
   'Date',
-  'Fri, 24 May 2019 21:39:27 GMT',
+  'Thu, 13 Jun 2019 09:22:48 GMT',
   'Connection',
   'close' ]);
 
 
-nock('https://coolstorageaccount1234.file.core.windows.net:443', {"encodedQueryParams":true})
-  .get('/share155873396749900225/')
-  .query({"sv":"2018-03-28","spr":"https%2Chttp","st":"2019-05-24T21%3A34%3A27Z","se":"2019-05-25T21%3A39%3A27Z","sip":"0.0.0.0-255.255.255.255","sr":"s","sp":"rcwdl","sig":"l8mPhmmcJfdS%2BuqvS1ZzYih3MPFNrDh%2B7oY8v6cWqV0%3D","restype":"directory","comp":"list"})
-  .reply(200, "﻿<?xml version=\"1.0\" encoding=\"utf-8\"?><EnumerationResults ServiceEndpoint=\"https://coolstorageaccount1234.file.core.windows.net/\" ShareName=\"share155873396749900225\" DirectoryPath=\"\"><Entries /><NextMarker /></EnumerationResults>", [ 'Transfer-Encoding',
-  'chunked',
+nock('https://fakestorageaccount.file.core.windows.net:443', {"encodedQueryParams":true})
+  .get('/share156044298388703236/')
+  .query(true)
+  .reply(403, "﻿<?xml version=\"1.0\" encoding=\"utf-8\"?><Error><Code>AuthenticationFailed</Code><Message>Server failed to authenticate the request. Make sure the value of Authorization header is formed correctly including the signature.\nRequestId:e8b36789-701a-00a9-02c9-21af79000000\nTime:2019-06-13T09:22:49.1480312Z</Message><AuthenticationErrorDetail>Signature not valid in the specified time frame: Start [Thu, 13 Jun 2019 16:18:03 GMT] - Expiry [Fri, 14 Jun 2019 16:23:03 GMT] - Current [Thu, 13 Jun 2019 09:22:49 GMT]</AuthenticationErrorDetail></Error>", [ 'Content-Length',
+  '544',
   'Content-Type',
   'application/xml',
   'Server',
-  'Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0',
+  'Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '84faa699-901a-0012-0b79-12a944000000',
-  'x-ms-version',
-  '2018-03-28',
+  'e8b36789-701a-00a9-02c9-21af79000000',
+  'x-ms-error-code',
+  'AuthenticationFailed',
   'Access-Control-Expose-Headers',
-  'x-ms-request-id,Server,x-ms-version,Content-Type,Content-Length,Date,Transfer-Encoding',
+  'x-ms-request-id,x-ms-error-code,Content-Length,Date,Transfer-Encoding',
   'Access-Control-Allow-Origin',
   '*',
   'Date',
-  'Fri, 24 May 2019 21:39:27 GMT',
-  'Connection',
-  'close' ]);
-
-
-nock('https://coolstorageaccount1234.file.core.windows.net:443', {"encodedQueryParams":true})
-  .delete('/share155873396749900225')
-  .query({"restype":"share"})
-  .reply(202, "", [ 'Content-Length',
-  '0',
-  'Server',
-  'Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0',
-  'x-ms-request-id',
-  '4327bd1c-301a-009c-4679-12e6e5000000',
-  'x-ms-version',
-  '2018-03-28',
-  'Date',
-  'Fri, 24 May 2019 21:39:27 GMT',
+  'Thu, 13 Jun 2019 09:22:48 GMT',
   'Connection',
   'close' ]);
 

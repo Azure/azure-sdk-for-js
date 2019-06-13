@@ -1,47 +1,47 @@
 let nock = require('nock');
 
-module.exports.testInfo = {"1share-with-dash":"1share-with-dash155873390737006370","dir":"dir155873390737008456"}
+module.exports.testInfo = {"1share-with-dash":"1share-with-dash156044269664801914","dir":"dir156044269664809734"}
 
-nock('https://coolstorageaccount1234.file.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/1share-with-dash155873390737006370')
-  .query({"restype":"share"})
+nock('https://fakestorageaccount.file.core.windows.net:443', {"encodedQueryParams":true})
+  .put('/1share-with-dash156044269664801914')
+  .query(true)
   .reply(201, "", [ 'Content-Length',
   '0',
   'Last-Modified',
-  'Fri, 24 May 2019 21:38:27 GMT',
+  'Thu, 13 Jun 2019 09:18:01 GMT',
   'ETag',
-  '"0x8D6E0902832974D"',
+  '"0x8D6EFE008B484A5"',
   'Server',
   'Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '3afd0e9c-501a-004b-5379-12acc2000000',
+  '0fed014c-401a-00ee-5dc8-217012000000',
   'x-ms-version',
   '2018-03-28',
   'Date',
-  'Fri, 24 May 2019 21:38:26 GMT',
+  'Thu, 13 Jun 2019 09:18:01 GMT',
   'Connection',
   'close' ]);
 
 
-nock('https://coolstorageaccount1234.file.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/1share-with-dash155873390737006370/dir155873390737008456')
-  .query({"restype":"directory"})
+nock('https://fakestorageaccount.file.core.windows.net:443', {"encodedQueryParams":true})
+  .put('/1share-with-dash156044269664801914/dir156044269664809734')
+  .query(true)
   .reply(201, "", [ 'Content-Length',
   '0',
   'Last-Modified',
-  'Fri, 24 May 2019 21:38:27 GMT',
+  'Thu, 13 Jun 2019 09:18:02 GMT',
   'ETag',
-  '"0x8D6E09028758FEC"',
+  '"0x8D6EFE00923A808"',
   'Server',
   'Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '0f7d8a98-d01a-0073-3579-12ed9b000000',
+  '7f6096d2-101a-0075-6dc8-21fd2a000000',
   'x-ms-version',
   '2018-03-28',
   'x-ms-request-server-encrypted',
   'true',
   'Date',
-  'Fri, 24 May 2019 21:38:27 GMT',
+  'Thu, 13 Jun 2019 09:18:02 GMT',
   'Connection',
   'close' ]);
 
