@@ -28,6 +28,7 @@ export {
   IotHubCapacity,
   IotHubDescription,
   IotHubDescriptionListResult,
+  IotHubLocationDescription,
   IotHubNameAvailabilityInfo,
   IotHubProperties,
   IotHubPropertiesDeviceStreams,

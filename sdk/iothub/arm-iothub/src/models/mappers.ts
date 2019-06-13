@@ -1014,6 +1014,28 @@ export const IotHubPropertiesDeviceStreams: msRest.CompositeMapper = {
   }
 };
 
+export const IotHubLocationDescription: msRest.CompositeMapper = {
+  serializedName: "IotHubLocationDescription",
+  type: {
+    name: "Composite",
+    className: "IotHubLocationDescription",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      role: {
+        serializedName: "role",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const IotHubProperties: msRest.CompositeMapper = {
   serializedName: "IotHubProperties",
   type: {
@@ -1138,6 +1160,18 @@ export const IotHubProperties: msRest.CompositeMapper = {
         serializedName: "features",
         type: {
           name: "String"
+        }
+      },
+      locations: {
+        serializedName: "locations",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "IotHubLocationDescription"
+            }
+          }
         }
       }
     }

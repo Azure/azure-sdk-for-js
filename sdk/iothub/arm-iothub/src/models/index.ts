@@ -608,6 +608,20 @@ export interface IotHubPropertiesDeviceStreams {
 }
 
 /**
+ * Public representation of one of the locations where a resource is provisioned.
+ */
+export interface IotHubLocationDescription {
+  /**
+   * Azure Geo Regions
+   */
+  location?: string;
+  /**
+   * Specific Role assigned to this location. Possible values include: 'primary', 'secondary'
+   */
+  role?: IotHubReplicaRoleType;
+}
+
+/**
  * The properties of an IoT hub.
  */
 export interface IotHubProperties {
@@ -670,6 +684,10 @@ export interface IotHubProperties {
    * 'DeviceManagement'
    */
   features?: Capabilities;
+  /**
+   * Primary and secondary location for iot hub
+   */
+  locations?: IotHubLocationDescription[];
 }
 
 /**
@@ -1516,6 +1534,14 @@ export type RoutingSource = 'Invalid' | 'DeviceMessages' | 'TwinChangeEvents' | 
  * @enum {string}
  */
 export type Capabilities = 'None' | 'DeviceManagement';
+
+/**
+ * Defines values for IotHubReplicaRoleType.
+ * Possible values include: 'primary', 'secondary'
+ * @readonly
+ * @enum {string}
+ */
+export type IotHubReplicaRoleType = 'primary' | 'secondary';
 
 /**
  * Defines values for IotHubSku.

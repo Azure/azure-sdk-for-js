@@ -23,6 +23,7 @@ export {
   FallbackRouteProperties,
   FeedbackProperties,
   IotHubDescription,
+  IotHubLocationDescription,
   IotHubProperties,
   IotHubPropertiesDeviceStreams,
   IotHubSkuInfo,
