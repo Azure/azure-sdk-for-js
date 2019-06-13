@@ -44,7 +44,7 @@ describe("AbortController", () => {
   it("should abort when calling abort() after creation but before request finishes", async () => {
     const controller = new AbortController();
     const aborter = controller.signal;
-    const response = doAsyncOperation(aborter, 100);
+    const response = doAsyncOperation(aborter, 500);
     setTimeout(() => {
       console.log('aborting...');
       controller.abort();
