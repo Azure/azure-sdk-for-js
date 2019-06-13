@@ -17,6 +17,7 @@ import { BlockBlobClient } from "./internal";
 import { PageBlobClient } from "./internal";
 import { Batch } from "./utils/Batch";
 import { streamToBuffer } from "./utils/utils.node";
+import { LeaseClient } from "./LeaseClient";
 
 /**
  * Options to configure Blob - Download operation.
@@ -833,115 +834,14 @@ export class BlobClient extends StorageClient {
   }
 
   /**
-   * Establishes and manages a lock on a blob for write and delete operations.
-   * The lock duration can be 15 to 60 seconds, or can be infinite.
-   * In versions prior to 2012-02-12, the lock duration is 60 seconds.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/lease-blob
+   * Get a LeaseClient that manages leases on the blob.
    *
-   * @param {string} proposedLeaseId Can be specified in any valid GUID string format
-   * @param {number} duration The lock duration can be 15 to 60 seconds, or can be infinite
-   * @param {BlobAcquireLeaseOptions} [options] Optional options to Blob Acquire Lease operation.
-   * @returns {Promise<Models.BlobAcquireLeaseResponse>}
+   * @param {string} [proposeLeaseId] Initial proposed lease Id.
+   * @returns
    * @memberof BlobClient
    */
-  public async acquireLease(
-    proposedLeaseId: string,
-    duration: number,
-    options: BlobAcquireLeaseOptions = {}
-  ): Promise<Models.BlobAcquireLeaseResponse> {
-    const aborter = options.abortSignal || Aborter.none;
-    return this.blobContext.acquireLease({
-      abortSignal: aborter,
-      duration,
-      modifiedAccessConditions: options.modifiedAccessConditions,
-      proposedLeaseId
-    });
-  }
-
-  /**
-   * To free the lease if it is no longer needed so that another client may immediately
-   * acquire a lease against the blob.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/lease-blob
-   *
-   * @param {string} leaseId Id of the lease to release
-   * @param {BlobReleaseLeaseOptions} [options] Optional options to Blob Release Lease operation.
-   * @returns {Promise<Models.BlobReleaseLeaseResponse>}
-   * @memberof BlobClient
-   */
-  public async releaseLease(
-    leaseId: string,
-    options: BlobReleaseLeaseOptions = {}
-  ): Promise<Models.BlobReleaseLeaseResponse> {
-    const aborter = options.abortSignal || Aborter.none;
-    return this.blobContext.releaseLease(leaseId, {
-      abortSignal: aborter,
-      modifiedAccessConditions: options.modifiedAccessConditions
-    });
-  }
-
-  /**
-   * To renew an existing lease.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/lease-blob
-   *
-   * @param {string} leaseId Id of the lease to renew.
-   * @param {BlobRenewLeaseOptions} [options] Optional options to Blob Renew Lease operation.
-   * @returns {Promise<Models.BlobRenewLeaseResponse>}
-   * @memberof BlobClient
-   */
-  public async renewLease(
-    leaseId: string,
-    options: BlobRenewLeaseOptions = {}
-  ): Promise<Models.BlobRenewLeaseResponse> {
-    const aborter = options.abortSignal || Aborter.none;
-    return this.blobContext.renewLease(leaseId, {
-      abortSignal: aborter,
-      modifiedAccessConditions: options.modifiedAccessConditions
-    });
-  }
-
-  /**
-   * To change the ID of an existing lease.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/lease-blob
-   *
-   * @param {string} leaseId Id of the existing lease.
-   * @param {string} proposedLeaseId The proposed new Id.
-   * @param {BlobChangeLeaseOptions} [options] Optional options to the Blob Change Lease operation.
-   * @returns {Promise<Models.BlobChangeLeaseResponse>}
-   * @memberof BlobClient
-   */
-  public async changeLease(
-    leaseId: string,
-    proposedLeaseId: string,
-    options: BlobChangeLeaseOptions = {}
-  ): Promise<Models.BlobChangeLeaseResponse> {
-    const aborter = options.abortSignal || Aborter.none;
-    return this.blobContext.changeLease(leaseId, proposedLeaseId, {
-      abortSignal: aborter,
-      modifiedAccessConditions: options.modifiedAccessConditions
-    });
-  }
-
-  /**
-   * To end the lease but ensure that another client cannot acquire a new lease
-   * until the current lease period has expired.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/lease-blob
-   *
-   * @param {number} [breakPeriod] The proposed duration of seconds that the lease should continue
-   *                               before it is broken, between 0 and 60 seconds.
-   * @param {BlobBreakLeaseOptions} [options] Optional options to the Blob Break Lease operation.
-   * @returns {Promise<Models.BlobBreakLeaseResponse>}
-   * @memberof BlobClient
-   */
-  public async breakLease(
-    breakPeriod?: number,
-    options: BlobBreakLeaseOptions = {}
-  ): Promise<Models.BlobBreakLeaseResponse> {
-    const aborter = options.abortSignal || Aborter.none;
-    return this.blobContext.breakLease({
-      abortSignal: aborter,
-      breakPeriod,
-      modifiedAccessConditions: options.modifiedAccessConditions
-    });
+  public getLeaseClient(proposeLeaseId?: string) {
+    return new LeaseClient(this, proposeLeaseId);
   }
 
   /**

@@ -13,6 +13,7 @@ import { BlobClient, StorageClient } from "./internal";
 import { AppendBlobClient } from "./internal";
 import { BlockBlobClient } from "./internal";
 import { PageBlobClient } from "./internal";
+import { LeaseClient } from "./LeaseClient";
 
 /**
  * Options to configure Container - Create operation.
@@ -725,113 +726,14 @@ export class ContainerClient extends StorageClient {
   }
 
   /**
-   * Establishes and manages a lock on a container for delete operations.
-   * The lock duration can be 15 to 60 seconds, or can be infinite.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/lease-container
+   * Get a LeaseClient that manages leases on the container.
    *
-   * @param {string} proposedLeaseId Can be specified in any valid GUID string format
-   * @param {number} duration Must be between 15 to 60 seconds, or infinite (-1)
-   * @param {ContainerAcquireLeaseOptions} [options] Optional options to Container Acquire Lease operation.
-   * @returns {Promise<Models.ContainerAcquireLeaseResponse>}
+   * @param {string} [proposeLeaseId] Initial proposed lease Id.
+   * @returns
    * @memberof ContainerClient
    */
-  public async acquireLease(
-    proposedLeaseId: string,
-    duration: number,
-    options: ContainerAcquireLeaseOptions = {}
-  ): Promise<Models.ContainerAcquireLeaseResponse> {
-    const aborter = options.abortSignal || Aborter.none;
-    return this.containerContext.acquireLease({
-      abortSignal: aborter,
-      duration,
-      modifiedAccessConditions: options.modifiedAccessConditions,
-      proposedLeaseId
-    });
-  }
-
-  /**
-   * To free the lease if it is no longer needed so that another client may
-   * immediately acquire a lease against the container.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/lease-container
-   *
-   * @param {string} leaseId Id of the existing lease.
-   * @param {ContainerReleaseLeaseOptions} [options] Optional options to Container Release Lease operation.
-   * @returns {Promise<Models.ContainerReleaseLeaseResponse>}
-   * @memberof ContainerClient
-   */
-  public async releaseLease(
-    leaseId: string,
-    options: ContainerReleaseLeaseOptions = {}
-  ): Promise<Models.ContainerReleaseLeaseResponse> {
-    const aborter = options.abortSignal || Aborter.none;
-    return this.containerContext.releaseLease(leaseId, {
-      abortSignal: aborter,
-      modifiedAccessConditions: options.modifiedAccessConditions
-    });
-  }
-
-  /**
-   * To renew an existing lease.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/lease-container
-   *
-   * @param {string} leaseId Id of the existing lease.
-   * @param {ContainerRenewLeaseOptions} [options] Optional options to Container Renew Lease operation.
-   * @returns {Promise<Models.ContainerRenewLeaseResponse>}
-   * @memberof ContainerClient
-   */
-  public async renewLease(
-    leaseId: string,
-    options: ContainerRenewLeaseOptions = {}
-  ): Promise<Models.ContainerRenewLeaseResponse> {
-    const aborter = options.abortSignal || Aborter.none;
-    return this.containerContext.renewLease(leaseId, {
-      abortSignal: aborter,
-      modifiedAccessConditions: options.modifiedAccessConditions
-    });
-  }
-
-  /**
-   * To end the lease but ensure that another client cannot acquire a new lease
-   * until the current lease period has expired.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/lease-container
-   *
-   * @param {number} period break period
-   * @param {ContainerBreakLeaseOptions} [options] Optional options to Container Break Lease operation.
-   * @returns {Promise<Models.ContainerBreakLeaseResponse>}
-   * @memberof ContainerClient
-   */
-  public async breakLease(
-    period: number,
-    options: ContainerBreakLeaseOptions = {}
-  ): Promise<Models.ContainerBreakLeaseResponse> {
-    const aborter = options.abortSignal || Aborter.none;
-    return this.containerContext.breakLease({
-      abortSignal: aborter,
-      breakPeriod: period,
-      modifiedAccessConditions: options.modifiedAccessConditions
-    });
-  }
-
-  /**
-   * To change the ID of an existing lease.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/lease-container
-   *
-   * @param {string} leaseId Id of the existing lease.
-   * @param {string} proposedLeaseId Proposed new lease Id.
-   * @param {ContainerChangeLeaseOptions} [options] Optional options to Container Change Lease operation.
-   * @returns {Promise<Models.ContainerChangeLeaseResponse>}
-   * @memberof ContainerClient
-   */
-  public async changeLease(
-    leaseId: string,
-    proposedLeaseId: string,
-    options: ContainerChangeLeaseOptions = {}
-  ): Promise<Models.ContainerChangeLeaseResponse> {
-    const aborter = options.abortSignal || Aborter.none;
-    return this.containerContext.changeLease(leaseId, proposedLeaseId, {
-      abortSignal: aborter,
-      modifiedAccessConditions: options.modifiedAccessConditions
-    });
+  public getLeaseClient(proposeLeaseId?: string) {
+    return new LeaseClient(this, proposeLeaseId);
   }
 
   /**
