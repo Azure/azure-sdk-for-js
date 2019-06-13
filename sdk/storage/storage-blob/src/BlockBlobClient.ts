@@ -17,7 +17,11 @@ import { BlobHTTPHeaders } from "./generated/lib/models";
 import { Range, rangeToString } from "./Range";
 import { BlobAccessConditions, Metadata } from "./models";
 import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
-import { setURLParameter, extractPartsWithValidation, generateBlockID } from "./utils/utils.common";
+import {
+  setURLParameter,
+  extractConnectionStringParts,
+  generateBlockID
+} from "./utils/utils.common";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 import { Credential } from "./credentials/Credential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
@@ -470,7 +474,7 @@ export class BlockBlobClient extends BlobClient {
       const containerName = credentialOrPipelineOrContainerName;
       const blobName = blobNameOrOptions;
 
-      const extractedCreds = extractPartsWithValidation(urlOrConnectionString);
+      const extractedCreds = extractConnectionStringParts(urlOrConnectionString);
       const sharedKeyCredential = new SharedKeyCredential(
         extractedCreds.accountName,
         extractedCreds.accountKey

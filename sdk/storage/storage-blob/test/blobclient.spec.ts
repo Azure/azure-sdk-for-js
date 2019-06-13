@@ -1,10 +1,16 @@
 import * as assert from "assert";
 
-import { BlobClient } from "../src/BlobClient";
 import { isNode } from "@azure/ms-rest-js";
-import { bodyToString, getBSU, getUniqueName, sleep } from "./utils";
-import { SharedKeyCredential, newPipeline } from "../src";
 import * as dotenv from "dotenv";
+import { newPipeline, SharedKeyCredential } from "../src";
+import { BlobClient } from "../src/BlobClient";
+import {
+  bodyToString,
+  getBSU,
+  getConnectionStringFromEnvironment,
+  getUniqueName,
+  sleep
+} from "./utils";
 dotenv.config({ path: "../.env" });
 
 describe("BlobClient", () => {
@@ -276,7 +282,7 @@ describe("BlobClient", () => {
   });
 
   it("can be created with a connection string", async () => {
-    const newClient = new BlobClient(process.env.CONNECTION_STRING || "", containerName, blobName);
+    const newClient = new BlobClient(getConnectionStringFromEnvironment(), containerName, blobName);
     const metadata = {
       a: "a",
       b: "b"
@@ -284,5 +290,33 @@ describe("BlobClient", () => {
     await newClient.setMetadata(metadata);
     const result = await newClient.getProperties();
     assert.deepStrictEqual(result.metadata, metadata);
+  });
+
+  it("throws error if constructor containerName parameter is empty", async () => {
+    try {
+      // tslint:disable-next-line: no-unused-expression
+      new BlobClient(getConnectionStringFromEnvironment(), "", "blobName");
+      assert.fail("Expecting an thrown error but didn't get one.");
+    } catch (error) {
+      assert.equal(
+        "Expecting non-empty strings for containerName and blobName parameters",
+        error.message,
+        "Error message is different than expected."
+      );
+    }
+  });
+
+  it("throws error if constructor blobName parameter is empty", async () => {
+    try {
+      // tslint:disable-next-line: no-unused-expression
+      new BlobClient(getConnectionStringFromEnvironment(), "containerName", "");
+      assert.fail("Expecting an thrown error but didn't get one.");
+    } catch (error) {
+      assert.equal(
+        "Expecting non-empty strings for containerName and blobName parameters",
+        error.message,
+        "Error message is different than expected."
+      );
+    }
   });
 });

@@ -1,9 +1,9 @@
 import * as assert from "assert";
 
-import { AppendBlobClient } from "../src/AppendBlobClient";
-import { bodyToString, getBSU, getUniqueName } from "./utils";
-import { SharedKeyCredential, newPipeline } from "../src";
 import * as dotenv from "dotenv";
+import { newPipeline, SharedKeyCredential } from "../src";
+import { AppendBlobClient } from "../src/AppendBlobClient";
+import { bodyToString, getBSU, getConnectionStringFromEnvironment, getUniqueName } from "./utils";
 dotenv.config({ path: "../.env" });
 
 describe("AppendBlobClient", () => {
@@ -98,7 +98,7 @@ describe("AppendBlobClient", () => {
 
   it("can be created with a connection string", async () => {
     const newClient = new AppendBlobClient(
-      process.env.CONNECTION_STRING || "",
+      getConnectionStringFromEnvironment(),
       containerName,
       blobName
     );
@@ -107,97 +107,30 @@ describe("AppendBlobClient", () => {
     await newClient.download();
   });
 
-  it("throws error when passed an invalid connection string", async () => {
+  it("throws error if constructor containerName parameter is empty", async () => {
     try {
-      const newClient = new AppendBlobClient(
-        "DefaultEndpointsProtocol=a;AccountName=b;AccountKey=c;EndpointSuffix=d" || "",
-        containerName,
-        blobName
-      );
-
-      await newClient.create();
-    } catch (error) {}
-  });
-
-  it("throws error when passed an invalid connection string", async () => {
-    try {
-      const newClient = new AppendBlobClient(
-        // Typo in the attributes
-        "DefaultEndpointsProtocol=a;Name=b;AccountKey=c;EndpointSuffix=d" || "",
-        containerName,
-        blobName
-      );
-
-      await newClient.create();
+      // tslint:disable-next-line: no-unused-expression
+      new AppendBlobClient(getConnectionStringFromEnvironment(), "", "blobName");
+      assert.fail("Expecting an thrown error but didn't get one.");
     } catch (error) {
       assert.equal(
-        "Invalid Connection String",
+        "Expecting non-empty strings for containerName and blobName parameters",
         error.message,
-        "Connection string is different than expected"
+        "Error message is different than expected."
       );
     }
   });
 
-  it("throws error with empty EndpointSuffix in the connection string", async () => {
+  it("throws error if constructor blobName parameter is empty", async () => {
     try {
-      new AppendBlobClient(
-        "DefaultEndpointsProtocol=a;AccountName=b;AccountKey=c;EndpointSuffix=" || "",
-        containerName,
-        blobName
-      );
+      // tslint:disable-next-line: no-unused-expression
+      new AppendBlobClient(getConnectionStringFromEnvironment(), "containerName", "");
+      assert.fail("Expecting an thrown error but didn't get one.");
     } catch (error) {
       assert.equal(
-        "Invalid EndpointSuffix in the provided Connection String",
+        "Expecting non-empty strings for containerName and blobName parameters",
         error.message,
-        "Connection string is different than expected"
-      );
-    }
-  });
-
-  it("throws error with empty AccountKey in the connection string", async () => {
-    try {
-      new AppendBlobClient(
-        "DefaultEndpointsProtocol=a;AccountName=b;AccountKey=;EndpointSuffix=d" || "",
-        containerName,
-        blobName
-      );
-    } catch (error) {
-      assert.equal(
-        "Invalid AccountKey in the provided Connection String",
-        error.message,
-        "Connection string is different than expected"
-      );
-    }
-  });
-
-  it("throws error with empty AccountName in the connection string", async () => {
-    try {
-      new AppendBlobClient(
-        "DefaultEndpointsProtocol=a;AccountName=;AccountKey=c;EndpointSuffix=d" || "",
-        containerName,
-        blobName
-      );
-    } catch (error) {
-      assert.equal(
-        "Invalid AccountName in the provided Connection String",
-        error.message,
-        "Connection string is different than expected"
-      );
-    }
-  });
-
-  it("throws error with empty DefaultEndpointsProtocol in the connection string", async () => {
-    try {
-      new AppendBlobClient(
-        "DefaultEndpointsProtocol=;AccountName=b;AccountKey=c;EndpointSuffix=d" || "",
-        containerName,
-        blobName
-      );
-    } catch (error) {
-      assert.equal(
-        "Invalid DefaultEndpointsProtocol in the provided Connection String",
-        error.message,
-        "Connection string is different than expected"
+        "Error message is different than expected."
       );
     }
   });

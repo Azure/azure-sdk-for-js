@@ -70,7 +70,7 @@ export function escapeURLPath(url: string): string {
   return urlParsed.toString();
 }
 
-export function extractPartsWithValidation(connectionString: string): { [key: string]: any } {
+export function extractConnectionStringParts(connectionString: string): { [key: string]: any } {
   const matchCredentials = connectionString.match(
     "DefaultEndpointsProtocol=(.*);AccountName=(.*);AccountKey=(.*);EndpointSuffix=(.*)"
   );
@@ -89,15 +89,19 @@ export function extractPartsWithValidation(connectionString: string): { [key: st
     throw new Error("Invalid Connection String");
   }
 
-  if (!accountName) {
+  const protocol = defaultEndpointsProtocol.toLowerCase();
+  if (protocol !== "https" && protocol !== "http") {
+    throw new Error(
+      "Invalid DefaultEndpointsProtocol in the provided Connection String. Expecting 'https' or 'http'"
+    );
+  } else if (!accountName) {
     throw new Error("Invalid AccountName in the provided Connection String");
-  } else if (!accountKey) {
+  } else if (accountKey.length === 0) {
     throw new Error("Invalid AccountKey in the provided Connection String");
   } else if (!endpointSuffix) {
     throw new Error("Invalid EndpointSuffix in the provided Connection String");
-  } else if (!defaultEndpointsProtocol) {
-    throw new Error("Invalid DefaultEndpointsProtocol in the provided Connection String");
   }
+
   const url = `${defaultEndpointsProtocol}://${accountName}.blob.${endpointSuffix}`;
 
   return {

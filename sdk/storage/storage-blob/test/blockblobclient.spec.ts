@@ -1,9 +1,15 @@
 import * as assert from "assert";
 
-import { BlockBlobClient } from "../src/BlockBlobClient";
-import { base64encode, bodyToString, getBSU, getUniqueName } from "./utils";
-import { SharedKeyCredential, newPipeline } from "../src";
 import * as dotenv from "dotenv";
+import { newPipeline, SharedKeyCredential } from "../src";
+import { BlockBlobClient } from "../src/BlockBlobClient";
+import {
+  base64encode,
+  bodyToString,
+  getBSU,
+  getConnectionStringFromEnvironment,
+  getUniqueName
+} from "./utils";
 dotenv.config({ path: "../.env" });
 
 describe("BlockBlobClient", () => {
@@ -231,7 +237,7 @@ describe("BlockBlobClient", () => {
 
   it("can be created with a connection string", async () => {
     const newClient = new BlockBlobClient(
-      process.env.CONNECTION_STRING || "",
+      getConnectionStringFromEnvironment(),
       containerName,
       blobName
     );
@@ -240,5 +246,33 @@ describe("BlockBlobClient", () => {
     await newClient.upload(body, body.length);
     const result = await newClient.download(0);
     assert.deepStrictEqual(await bodyToString(result, body.length), body);
+  });
+
+  it("throws error if constructor containerName parameter is empty", async () => {
+    try {
+      // tslint:disable-next-line: no-unused-expression
+      new BlockBlobClient(getConnectionStringFromEnvironment(), "", "blobName");
+      assert.fail("Expecting an thrown error but didn't get one.");
+    } catch (error) {
+      assert.equal(
+        "Expecting non-empty strings for containerName and blobName parameters",
+        error.message,
+        "Error message is different than expected."
+      );
+    }
+  });
+
+  it("throws error if constructor blobName parameter is empty", async () => {
+    try {
+      // tslint:disable-next-line: no-unused-expression
+      new BlockBlobClient(getConnectionStringFromEnvironment(), "containerName", "");
+      assert.fail("Expecting an thrown error but didn't get one.");
+    } catch (error) {
+      assert.equal(
+        "Expecting non-empty strings for containerName and blobName parameters",
+        error.message,
+        "Error message is different than expected."
+      );
+    }
   });
 });

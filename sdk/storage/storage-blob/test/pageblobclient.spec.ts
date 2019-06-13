@@ -1,8 +1,8 @@
 import * as assert from "assert";
 import * as dotenv from "dotenv";
-import { SharedKeyCredential, newPipeline } from "../src";
+import { newPipeline, SharedKeyCredential } from "../src";
 import { PageBlobClient } from "../src/PageBlobClient";
-import { bodyToString, getBSU, getUniqueName } from "./utils";
+import { bodyToString, getBSU, getConnectionStringFromEnvironment, getUniqueName } from "./utils";
 dotenv.config({ path: "../.env" });
 
 describe("PageBlobClient", () => {
@@ -183,7 +183,7 @@ describe("PageBlobClient", () => {
 
   it("can be created with a connection string", async () => {
     const newClient = new PageBlobClient(
-      process.env.CONNECTION_STRING || "",
+      getConnectionStringFromEnvironment(),
       containerName,
       blobName
     );
@@ -191,5 +191,33 @@ describe("PageBlobClient", () => {
     await newClient.create(512);
     const result = await newClient.download(0);
     assert.deepStrictEqual(await bodyToString(result, 512), "\u0000".repeat(512));
+  });
+
+  it("throws error if constructor containerName parameter is empty", async () => {
+    try {
+      // tslint:disable-next-line: no-unused-expression
+      new PageBlobClient(getConnectionStringFromEnvironment(), "", "blobName");
+      assert.fail("Expecting an thrown error but didn't get one.");
+    } catch (error) {
+      assert.equal(
+        "Expecting non-empty strings for containerName and blobName parameters",
+        error.message,
+        "Error message is different than expected."
+      );
+    }
+  });
+
+  it("throws error if constructor blobName parameter is empty", async () => {
+    try {
+      // tslint:disable-next-line: no-unused-expression
+      new PageBlobClient(getConnectionStringFromEnvironment(), "containerName", "");
+      assert.fail("Expecting an thrown error but didn't get one.");
+    } catch (error) {
+      assert.equal(
+        "Expecting non-empty strings for containerName and blobName parameters",
+        error.message,
+        "Error message is different than expected."
+      );
+    }
   });
 });

@@ -11,7 +11,7 @@ import { ETagNone } from "./utils/constants";
 import {
   appendToURLPath,
   truncatedISO8061Date,
-  extractPartsWithValidation
+  extractConnectionStringParts
 } from "./utils/utils.common";
 import {
   AppendBlobClient,
@@ -489,7 +489,7 @@ export class ContainerClient extends StorageClient {
     ) {
       const containerName = credentialOrPipelineOrContainerName;
 
-      const extractedCreds = extractPartsWithValidation(urlOrConnectionString);
+      const extractedCreds = extractConnectionStringParts(urlOrConnectionString);
       const sharedKeyCredential = new SharedKeyCredential(
         extractedCreds.accountName,
         extractedCreds.accountKey

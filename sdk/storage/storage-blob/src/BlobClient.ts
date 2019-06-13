@@ -15,7 +15,7 @@ import {
   URLConstants,
   DEFAULT_BLOB_DOWNLOAD_BLOCK_BYTES
 } from "./utils/constants";
-import { setURLParameter, extractPartsWithValidation } from "./utils/utils.common";
+import { setURLParameter, extractConnectionStringParts } from "./utils/utils.common";
 import { AppendBlobClient, StorageClient } from "./internal";
 import { BlockBlobClient } from "./internal";
 import { PageBlobClient } from "./internal";
@@ -625,7 +625,7 @@ export class BlobClient extends StorageClient {
       const containerName = credentialOrPipelineOrContainerName;
       const blobName = blobNameOrOptions;
 
-      const extractedCreds = extractPartsWithValidation(urlOrConnectionString);
+      const extractedCreds = extractConnectionStringParts(urlOrConnectionString);
       const sharedKeyCredential = new SharedKeyCredential(
         extractedCreds.accountName,
         extractedCreds.accountKey

@@ -7,7 +7,7 @@ import { ListContainersIncludeType } from "./generated/lib/models/index";
 import { Service } from "./generated/lib/operations";
 import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
 import { ContainerClient } from "./ContainerClient";
-import { appendToURLPath, extractPartsWithValidation } from "./utils/utils.common";
+import { appendToURLPath, extractConnectionStringParts } from "./utils/utils.common";
 import { Credential } from "./credentials/Credential";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
@@ -149,7 +149,7 @@ export class BlobServiceClient extends StorageClient {
    * @memberof BlobServiceClient
    */
   public static fromConnectionString(connectionString: string, options?: NewPipelineOptions) {
-    const extractedCreds = extractPartsWithValidation(connectionString);
+    const extractedCreds = extractConnectionStringParts(connectionString);
     const sharedKeyCredential = new SharedKeyCredential(
       extractedCreds.accountName,
       extractedCreds.accountKey

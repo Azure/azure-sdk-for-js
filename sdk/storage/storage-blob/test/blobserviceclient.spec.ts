@@ -1,9 +1,15 @@
 import * as assert from "assert";
 
-import { BlobServiceClient } from "../src/BlobServiceClient";
-import { getAlternateBSU, getBSU, getUniqueName, wait } from "./utils";
 import * as dotenv from "dotenv";
-import { SharedKeyCredential, newPipeline } from "../src";
+import { newPipeline, SharedKeyCredential } from "../src";
+import { BlobServiceClient } from "../src/BlobServiceClient";
+import {
+  getAlternateBSU,
+  getBSU,
+  getConnectionStringFromEnvironment,
+  getUniqueName,
+  wait
+} from "./utils";
 dotenv.config({ path: "../.env" });
 
 describe("BlobServiceClient", () => {
@@ -304,5 +310,14 @@ describe("BlobServiceClient", () => {
     assert.ok(result.requestId!.length > 0);
     assert.ok(typeof result.version);
     assert.ok(result.version!.length > 0);
+  });
+
+  it("can be created from a connection string", async () => {
+    const newClient = BlobServiceClient.fromConnectionString(getConnectionStringFromEnvironment());
+
+    const result = await newClient.getProperties();
+
+    assert.ok(typeof result.requestId);
+    assert.ok(result.requestId!.length > 0);
   });
 });

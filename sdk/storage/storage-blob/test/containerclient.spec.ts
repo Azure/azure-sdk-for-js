@@ -1,9 +1,8 @@
 import * as assert from "assert";
-
-import { ContainerClient } from "../src/ContainerClient";
-import { getBSU, getUniqueName } from "./utils";
 import * as dotenv from "dotenv";
-import { SharedKeyCredential, newPipeline } from "../src";
+import { newPipeline, SharedKeyCredential } from "../src";
+import { ContainerClient } from "../src/ContainerClient";
+import { getBSU, getConnectionStringFromEnvironment, getUniqueName } from "./utils";
 dotenv.config({ path: "../.env" });
 
 describe("ContainerClient", () => {
@@ -343,7 +342,7 @@ describe("ContainerClient", () => {
   });
 
   it("can be created with a connection string", async () => {
-    const newClient = new ContainerClient(process.env.CONNECTION_STRING || "", containerName);
+    const newClient = new ContainerClient(getConnectionStringFromEnvironment(), containerName);
 
     const result = await newClient.getProperties();
 
@@ -356,5 +355,19 @@ describe("ContainerClient", () => {
     assert.ok(result.version);
     assert.ok(result.date);
     assert.ok(!result.blobPublicAccess);
+  });
+
+  it("throws error if constructor containerName parameter is empty", async () => {
+    try {
+      // tslint:disable-next-line: no-unused-expression
+      new ContainerClient(getConnectionStringFromEnvironment(), "");
+      assert.fail("Expecting an thrown error but didn't get one.");
+    } catch (error) {
+      assert.equal(
+        "Expecting non-empty strings for containerName parameter",
+        error.message,
+        "Error message is different than expected."
+      );
+    }
   });
 });
