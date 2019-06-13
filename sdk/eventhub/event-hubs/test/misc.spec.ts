@@ -14,7 +14,7 @@ import { BatchingReceiver } from "../src/batchingReceiver";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 const env = getEnvVars();
 
-describe("Misc tests", function(): void {
+describe("Misc tests #RunnableInBrowser", function(): void {
   const service = {
     connectionString: env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
     path: env[EnvVarKeys.EVENTHUB_NAME]
@@ -38,9 +38,7 @@ describe("Misc tests", function(): void {
     await client.close();
   });
 
-  it("should be able to send and receive a large message correctly #RunnableInBrowser", async function(): Promise<
-    void
-  > {
+  it("should be able to send and receive a large message correctly", async function(): Promise<void> {
     const bodysize = 220 * 1024;
     const partitionId = hubInfo.partitionIds[0];
     const msgString = "A".repeat(220 * 1024);
@@ -66,9 +64,7 @@ describe("Misc tests", function(): void {
     should.not.exist((data[0].properties || {}).message_id);
   });
 
-  it("should be able to send and receive a JSON object as a message correctly #RunnableInBrowser", async function(): Promise<
-    void
-  > {
+  it("should be able to send and receive a JSON object as a message correctly", async function(): Promise<void> {
     const partitionId = hubInfo.partitionIds[0];
     const msgBody = {
       id: "123-456-789",
@@ -101,9 +97,7 @@ describe("Misc tests", function(): void {
     should.not.exist((data[0].properties || {}).message_id);
   });
 
-  it("should be able to send and receive an array as a message correctly #RunnableInBrowser", async function(): Promise<
-    void
-  > {
+  it("should be able to send and receive an array as a message correctly", async function(): Promise<void> {
     const partitionId = hubInfo.partitionIds[0];
     const msgBody = [
       {
@@ -134,7 +128,7 @@ describe("Misc tests", function(): void {
     assert.strictEqual(data[0].properties!.message_id, obj.properties!.message_id);
   });
 
-  it("should be able to send a boolean as a message correctly #RunnableInBrowser", async function(): Promise<void> {
+  it("should be able to send a boolean as a message correctly", async function(): Promise<void> {
     const partitionId = hubInfo.partitionIds[0];
     const msgBody = true;
     const obj: EventData = { body: msgBody };
@@ -240,9 +234,7 @@ describe("Misc tests", function(): void {
     }
   });
 
-  it("should consistently send messages with partitionkey to a partitionId #RunnableInBrowser", async function(): Promise<
-    void
-  > {
+  it("should consistently send messages with partitionkey to a partitionId", async function(): Promise<void> {
     const msgToSendCount = 50;
     const partitionOffsets: any = {};
     debug("Discovering end of stream on each partition.");
