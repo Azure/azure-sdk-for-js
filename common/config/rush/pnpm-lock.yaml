@@ -146,7 +146,7 @@ dependencies:
   rollup-plugin-json: 3.1.0
   rollup-plugin-multi-entry: 2.1.0
   rollup-plugin-node-globals: 1.4.0
-  rollup-plugin-node-resolve: 5.0.2
+  rollup-plugin-node-resolve: 5.0.1
   rollup-plugin-replace: 2.2.0
   rollup-plugin-resolve: 0.0.1-predev.1
   rollup-plugin-shim: 1.0.0
@@ -8215,7 +8215,7 @@ packages:
     dev: false
     resolution:
       integrity: sha512-xRkB+W/m1KLIzPUmG0ofvR+CPNcvuCuNdjVBVS7ALKSxr3EDhnzNceGkGi1m8MToSli13AzKFYH4ie9w3I5L3g==
-  /rollup-plugin-node-resolve/5.0.2:
+  /rollup-plugin-node-resolve/5.0.1:
     dependencies:
       '@types/resolve': 0.0.8
       builtin-modules: 3.1.0
@@ -8226,8 +8226,8 @@ packages:
     peerDependencies:
       rollup: '>=1.11.0'
     resolution:
-      integrity: sha512-/KMxyYDSMoeE+06CwbbPD8gwYcU9uwyOgMjfw2MJPDmwzEw24HIur9TR80SMsUjP2QCLSZ9othB65xNHN3e0gw==
-  /rollup-plugin-node-resolve/5.0.2_rollup@1.13.1:
+      integrity: sha512-9s3dTu44SKQZM/Pwll42GpqXgT+WdvO0Ga01lF8cwZqJGqRUATtD+GrP3uIzZdpnbPonEJbVasfFt80VGPQqKw==
+  /rollup-plugin-node-resolve/5.0.1_rollup@1.13.1:
     dependencies:
       '@types/resolve': 0.0.8
       builtin-modules: 3.1.0
@@ -8239,7 +8239,7 @@ packages:
     peerDependencies:
       rollup: '>=1.11.0'
     resolution:
-      integrity: sha512-/KMxyYDSMoeE+06CwbbPD8gwYcU9uwyOgMjfw2MJPDmwzEw24HIur9TR80SMsUjP2QCLSZ9othB65xNHN3e0gw==
+      integrity: sha512-9s3dTu44SKQZM/Pwll42GpqXgT+WdvO0Ga01lF8cwZqJGqRUATtD+GrP3uIzZdpnbPonEJbVasfFt80VGPQqKw==
   /rollup-plugin-replace/2.2.0:
     dependencies:
       magic-string: 0.25.2
@@ -10476,7 +10476,7 @@ packages:
       rollup: 1.13.1
       rollup-plugin-commonjs: 9.3.4_rollup@1.13.1
       rollup-plugin-multi-entry: 2.1.0
-      rollup-plugin-node-resolve: 5.0.2_rollup@1.13.1
+      rollup-plugin-node-resolve: 5.0.1_rollup@1.13.1
       rollup-plugin-replace: 2.2.0
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.13.1
       rollup-plugin-uglify: 6.0.2_rollup@1.13.1
@@ -10485,7 +10485,7 @@ packages:
     dev: false
     name: '@rush-temp/abort-controller'
     resolution:
-      integrity: sha512-FnmPjWvmTzk2ZpI/c9MeH/E+93dKy22bcFjiE2yCCpUZ4zfLXBdAjCa7ve4YNuh3RK3sV5OMwjIX3Z3C8sqjrg==
+      integrity: sha512-WFwmK70K/vWQW9zFisZIJibVlcwFtDF5vZR3yAgyYdUFVQEFiIOOBW7FDPQqfv9AqHRTZut8ysSoe/qy1TQ+sQ==
       tarball: 'file:projects/abort-controller.tgz'
     version: 0.0.0
   'file:projects/amqp-common.tgz':
@@ -10539,7 +10539,7 @@ packages:
       rollup-plugin-json: 3.1.0
       rollup-plugin-multi-entry: 2.1.0
       rollup-plugin-node-globals: 1.4.0
-      rollup-plugin-node-resolve: 5.0.2_rollup@1.13.1
+      rollup-plugin-node-resolve: 5.0.1_rollup@1.13.1
       rollup-plugin-replace: 2.2.0
       rollup-plugin-shim: 1.0.0
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.13.1
@@ -10556,7 +10556,7 @@ packages:
     dev: false
     name: '@rush-temp/amqp-common'
     resolution:
-      integrity: sha512-7PwypZd3oMDLSsIfRY9+lwK/LDgCiaje9nZREXCGUT1Ku0ypbYuvVtk+PrHSkyUiEnAjvOzOAt/k8PsllSCg7w==
+      integrity: sha512-acCF1FBLOnX1m23r7I75PCZbN41PJ3+7jUVwI0zKmu/JKYkgbDK8Jm/t0bzFYg+QEW2BOYMfSywTQzf7WYWCzQ==
       tarball: 'file:projects/amqp-common.tgz'
     version: 0.0.0
   'file:projects/core-http.tgz':
@@ -10606,7 +10606,7 @@ packages:
       rollup-plugin-commonjs: 9.3.4_rollup@1.13.1
       rollup-plugin-json: 3.1.0
       rollup-plugin-multi-entry: 2.1.0
-      rollup-plugin-node-resolve: 5.0.2_rollup@1.13.1
+      rollup-plugin-node-resolve: 5.0.1_rollup@1.13.1
       rollup-plugin-resolve: 0.0.1-predev.1
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.13.1
       rollup-plugin-visualizer: 1.1.1_rollup@1.13.1
@@ -10632,7 +10632,7 @@ packages:
     dev: false
     name: '@rush-temp/core-http'
     resolution:
-      integrity: sha512-mog2z7DDhDE2UxO73WpqVgB9+86vT1ewYaBb248Yjx0fYD/ZIg/wcjjcnJZSDOce4ZJsYPMZmbogbCtM8wEm/w==
+      integrity: sha512-RStOEjYEC/dCgV/9K/Vk94E58hcVaAinrH1RBlK947zmcbnGwmNgy6AY4u3EmDxArqT+BwGcODLPnSoc5NTzZQ==
       tarball: 'file:projects/core-http.tgz'
     version: 0.0.0
   'file:projects/core-paging.tgz':
@@ -10738,7 +10738,7 @@ packages:
       rollup-plugin-inject: 2.2.0
       rollup-plugin-json: 3.1.0
       rollup-plugin-multi-entry: 2.1.0
-      rollup-plugin-node-resolve: 5.0.2_rollup@1.13.1
+      rollup-plugin-node-resolve: 5.0.1_rollup@1.13.1
       rollup-plugin-replace: 2.2.0
       rollup-plugin-shim: 1.0.0
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.13.1
@@ -10752,7 +10752,7 @@ packages:
     dev: false
     name: '@rush-temp/event-hubs'
     resolution:
-      integrity: sha512-j8uWJiucm6wO2gNukoX0YeENo5aoJNv2Y57NaANckbbe7Uhz6c3N4f4y5RGMYkLCTO9DoaPP8BakryJcoIcfQQ==
+      integrity: sha512-KjixncN8boQc0Eqzwh6OOYGb7hDl6C3IGX37IJvSk7w+3M+S4APaEtx8TXItIPLzAhJ4pjTRQxYRtT4mTH1sgA==
       tarball: 'file:projects/event-hubs.tgz'
     version: 0.0.0
   'file:projects/event-processor-host.tgz':
@@ -10796,7 +10796,7 @@ packages:
       rollup-plugin-commonjs: 9.3.4_rollup@1.13.1
       rollup-plugin-json: 3.1.0
       rollup-plugin-multi-entry: 2.1.0
-      rollup-plugin-node-resolve: 5.0.2_rollup@1.13.1
+      rollup-plugin-node-resolve: 5.0.1_rollup@1.13.1
       rollup-plugin-replace: 2.2.0
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.13.1
       rollup-plugin-uglify: 6.0.2_rollup@1.13.1
@@ -10808,7 +10808,7 @@ packages:
     dev: false
     name: '@rush-temp/event-processor-host'
     resolution:
-      integrity: sha512-ZXbkWwoZCNfkMtz7CGvp6LWd63XlQNkyfqxSsg1JU7AOPwOvtgFUnP5aMgxkvWC1gVDVbuUuMqID3br6lKSSCw==
+      integrity: sha512-Lo4QGpVQRU3PbD3k36HpZ39inUh+ZuNXQni2UuuvaF9ZGOYOC6DIPmBAocd7RzimsnvP/xfIRxmQ4PbCh4iUMw==
       tarball: 'file:projects/event-processor-host.tgz'
     version: 0.0.0
   'file:projects/identity.tgz':
@@ -10833,7 +10833,7 @@ packages:
       rollup-plugin-commonjs: 9.3.4_rollup@1.13.1
       rollup-plugin-json: 3.1.0
       rollup-plugin-multi-entry: 2.1.0
-      rollup-plugin-node-resolve: 5.0.2_rollup@1.13.1
+      rollup-plugin-node-resolve: 5.0.1_rollup@1.13.1
       rollup-plugin-replace: 2.2.0
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.13.1
       rollup-plugin-uglify: 6.0.2_rollup@1.13.1
@@ -10844,7 +10844,7 @@ packages:
     dev: false
     name: '@rush-temp/identity'
     resolution:
-      integrity: sha512-OevRG3frZBhP2xGFSHU0iXED7Dgj6fslNZR+/+yNJ2xrew4vqgN2rGWeDxJLDSYOj0jYa8TMptKASGaBZ9qTkg==
+      integrity: sha512-mw5nUDx/yeEp2NWHZPgtfWVfoaGxzN+K2+AMcWgEV6/3BekkTxuAxLezNTzi6NSvtaEptCi4+iwSX3PaXxiB+g==
       tarball: 'file:projects/identity.tgz'
     version: 0.0.0
   'file:projects/keyvault-certificates.tgz':
@@ -10858,14 +10858,14 @@ packages:
       rimraf: 2.6.3
       rollup: 1.13.1
       rollup-plugin-commonjs: 9.3.4_rollup@1.13.1
-      rollup-plugin-node-resolve: 5.0.2_rollup@1.13.1
+      rollup-plugin-node-resolve: 5.0.1_rollup@1.13.1
       tslib: 1.10.0
       typescript: 3.5.2
       uglify-js: 3.6.0
     dev: false
     name: '@rush-temp/keyvault-certificates'
     resolution:
-      integrity: sha512-9B3xoHpMD49PhtLZ+VuXiVMQXaXtnWjoyMS1Jj7RUl7z+2G+ibS59byls5hPqIxTyaXxzPSPFSiV02PI/j+F0w==
+      integrity: sha512-REyJ9L6Uxg6BlP4slPNG+90wnV0JQKyaMa2yV/4JnDGzEkeBAagmlFkaHcZUGRI/Cw2LcPZdZGX2s32CJ/Jd1w==
       tarball: 'file:projects/keyvault-certificates.tgz'
     version: 0.0.0
   'file:projects/keyvault-keys.tgz':
@@ -10882,7 +10882,7 @@ packages:
       rimraf: 2.6.3
       rollup: 1.13.1
       rollup-plugin-commonjs: 9.3.4_rollup@1.13.1
-      rollup-plugin-node-resolve: 5.0.2_rollup@1.13.1
+      rollup-plugin-node-resolve: 5.0.1_rollup@1.13.1
       ts-mocha: 6.0.0_mocha@5.2.0
       tslib: 1.10.0
       typescript: 3.5.2
@@ -10890,7 +10890,7 @@ packages:
     dev: false
     name: '@rush-temp/keyvault-keys'
     resolution:
-      integrity: sha512-wE0YxIT0hd/sH6+t1bbTqmXpP/9jZZXWaP+bt8B/rlJ4kTZn+0tW1VzybhHOxau+BIK2oK57cW746S5KiGnyew==
+      integrity: sha512-bEhgXtOlTW6qSqavxxtjYE6nOv2OtLraO4Px+0a1EXD1Os3fPYJg2/W+0jS0O5ZMntwPuRQqbC4PIsE4zGOOqg==
       tarball: 'file:projects/keyvault-keys.tgz'
     version: 0.0.0
   'file:projects/keyvault-secrets.tgz':
@@ -10906,7 +10906,7 @@ packages:
       rimraf: 2.6.3
       rollup: 1.13.1
       rollup-plugin-commonjs: 9.3.4_rollup@1.13.1
-      rollup-plugin-node-resolve: 5.0.2_rollup@1.13.1
+      rollup-plugin-node-resolve: 5.0.1_rollup@1.13.1
       ts-mocha: 6.0.0_mocha@5.2.0
       tslib: 1.10.0
       typescript: 3.5.2
@@ -10914,7 +10914,7 @@ packages:
     dev: false
     name: '@rush-temp/keyvault-secrets'
     resolution:
-      integrity: sha512-PHNTQEAa+iHUYRh12baBW4nKZ9Hnawy2Obm0E0nzL0GAqp748M+hJDK3q9HTl0j3Nssf9sk7REjcvXAmCdtmNA==
+      integrity: sha512-ZlXDLYBW3sjRlAZ94PRM3ugfW6YdntZBU9tfkR91UvZqhZKTK2urxsGbhWAwdwcsMZ9P2K4dAu5zjaxyIWRJdA==
       tarball: 'file:projects/keyvault-secrets.tgz'
     version: 0.0.0
   'file:projects/service-bus.tgz':
@@ -10979,7 +10979,7 @@ packages:
       rollup-plugin-inject: 2.2.0
       rollup-plugin-json: 3.1.0
       rollup-plugin-multi-entry: 2.1.0
-      rollup-plugin-node-resolve: 5.0.2_rollup@1.13.1
+      rollup-plugin-node-resolve: 5.0.1_rollup@1.13.1
       rollup-plugin-replace: 2.2.0
       rollup-plugin-shim: 1.0.0
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.13.1
@@ -10992,7 +10992,7 @@ packages:
     dev: false
     name: '@rush-temp/service-bus'
     resolution:
-      integrity: sha512-fAk1QoMRnktyKWBTl8NGmxaNx/mNzURktvE/qJHlqB6JPPP27Rc25UxxrMZY+bUr/x+q/pK6SZBq1yeE0Un8vQ==
+      integrity: sha512-BZpbhTQ7fhbFpwJhnauUyZMI2EvrdwJPvr41XtqXkvjT5C7Y8UcnxEG3GVUtb7YeOzfKfDAcfhWEfjLplZts0A==
       tarball: 'file:projects/service-bus.tgz'
     version: 0.0.0
   'file:projects/storage-blob.tgz':
@@ -11039,7 +11039,7 @@ packages:
       rollup: 1.13.1
       rollup-plugin-commonjs: 9.3.4_rollup@1.13.1
       rollup-plugin-multi-entry: 2.1.0
-      rollup-plugin-node-resolve: 5.0.2_rollup@1.13.1
+      rollup-plugin-node-resolve: 5.0.1_rollup@1.13.1
       rollup-plugin-replace: 2.2.0
       rollup-plugin-shim: 1.0.0
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.13.1
@@ -11053,7 +11053,7 @@ packages:
     dev: false
     name: '@rush-temp/storage-blob'
     resolution:
-      integrity: sha512-bh1kpGaqtTnhJ61E6NP5r9MqtL39G8Rstgyl7rwz3sUPgNnb1eh93EP3vZaiWvbfRlGzU2vIuHo+vKypuWo8Vw==
+      integrity: sha512-7t2a9D0KJ70o/FhERHtZMfMD3nUad891pvAwdBkCI/VLRMliI4RMxohMsZt6wMnzxYGS4TUUUR/ncTMBEJplQA==
       tarball: 'file:projects/storage-blob.tgz'
     version: 0.0.0
   'file:projects/storage-datalake.tgz':
@@ -11069,7 +11069,7 @@ packages:
       eslint-plugin-no-only-tests: 2.3.1
       eslint-plugin-promise: 4.1.1
       rollup: 1.13.1
-      rollup-plugin-node-resolve: 5.0.2_rollup@1.13.1
+      rollup-plugin-node-resolve: 5.0.1_rollup@1.13.1
       ts-node: 7.0.1
       tslib: 1.10.0
       typescript: 3.5.2
@@ -11078,7 +11078,7 @@ packages:
     dev: false
     name: '@rush-temp/storage-datalake'
     resolution:
-      integrity: sha512-EoNvrqRzgOCyBmZP0UrFLDXiW8CBwbmWbSmAnYJSftWDWC+yFTojtoWMA2JeM9mhC0VyAZrNS38lkDJMl1XbfA==
+      integrity: sha512-tvMkbTg4/QvoSxNnNc59fkdTmmAutnTZIKdDTbaSmAis3rpwZIW3v4w2m1uZyYS9s3fF/rkPO5Hg7uwBFTw88g==
       tarball: 'file:projects/storage-datalake.tgz'
     version: 0.0.0
   'file:projects/storage-file.tgz':
@@ -11125,7 +11125,7 @@ packages:
       rollup: 1.13.1
       rollup-plugin-commonjs: 9.3.4_rollup@1.13.1
       rollup-plugin-multi-entry: 2.1.0
-      rollup-plugin-node-resolve: 5.0.2_rollup@1.13.1
+      rollup-plugin-node-resolve: 5.0.1_rollup@1.13.1
       rollup-plugin-replace: 2.2.0
       rollup-plugin-shim: 1.0.0
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.13.1
@@ -11139,7 +11139,7 @@ packages:
     dev: false
     name: '@rush-temp/storage-file'
     resolution:
-      integrity: sha512-z6tWqoUaHXkf0ICd2zH6UZf65kMFm83p9nZ3kMReFJ7I72qoYkwYF0NHQsl7Db5MoNOvrSiT7q50An90f8lRZA==
+      integrity: sha512-8i4kcwitE64wZkFjhBEsSxQISaa9tP02GnyVJpYv9ToOZu3gSrQAalWbyCdIMeU8ACobCsIyOoA2ZLCg08vn7w==
       tarball: 'file:projects/storage-file.tgz'
     version: 0.0.0
   'file:projects/storage-queue.tgz':
@@ -11194,7 +11194,7 @@ packages:
       rollup: 1.13.1
       rollup-plugin-commonjs: 9.3.4_rollup@1.13.1
       rollup-plugin-multi-entry: 2.1.0
-      rollup-plugin-node-resolve: 5.0.2_rollup@1.13.1
+      rollup-plugin-node-resolve: 5.0.1_rollup@1.13.1
       rollup-plugin-replace: 2.2.0
       rollup-plugin-shim: 1.0.0
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.13.1
@@ -11208,7 +11208,7 @@ packages:
     dev: false
     name: '@rush-temp/storage-queue'
     resolution:
-      integrity: sha512-xyYOJebhsnBgfXT4FTaT3VHRmrUVm2jBf4Kxcdur4b70Rkfy4uZkqelN2TyvQOzIkTAV+dxr7CVc+VZC4cGubA==
+      integrity: sha512-aWBFjzCG5M3cYklwsWRC0hR7EpYGc7iiyLLyw3E2Vjj67neV5hlAynZ2liIkQsiRR9bVi+oE1t8PfPbx1+8eAQ==
       tarball: 'file:projects/storage-queue.tgz'
     version: 0.0.0
   'file:projects/template.tgz':
@@ -11238,7 +11238,7 @@ packages:
       rollup-plugin-commonjs: 9.3.4_rollup@1.13.1
       rollup-plugin-json: 3.1.0
       rollup-plugin-multi-entry: 2.1.0
-      rollup-plugin-node-resolve: 5.0.2_rollup@1.13.1
+      rollup-plugin-node-resolve: 5.0.1_rollup@1.13.1
       rollup-plugin-replace: 2.2.0
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.13.1
       rollup-plugin-uglify: 6.0.2_rollup@1.13.1
@@ -11249,7 +11249,7 @@ packages:
     dev: false
     name: '@rush-temp/template'
     resolution:
-      integrity: sha512-EOIy2BcB5bBNnQSH2xzZeo1clY5eNoeFilkeX+uKgirpuD6AGctY7HJCHzIFSAjH8wWlp+NoIOxG7AvmaihZBA==
+      integrity: sha512-HWOAl79BWP5dVuspGrbwUoWDND+TNvY3mct943z9dOwrk1ekCmeSTXNjZ3zcRD6gNtknB/c/Z55+4Xhl/pX/nw==
       tarball: 'file:projects/template.tgz'
     version: 0.0.0
   'file:projects/testhub.tgz':
@@ -11426,7 +11426,7 @@ specifiers:
   rollup-plugin-json: ^3.1.0
   rollup-plugin-multi-entry: ^2.1.0
   rollup-plugin-node-globals: ^1.4.0
-  rollup-plugin-node-resolve: ^5.0.1
+  rollup-plugin-node-resolve: 5.0.1
   rollup-plugin-replace: ^2.1.0
   rollup-plugin-resolve: 0.0.1-predev.1
   rollup-plugin-shim: ^1.0.0

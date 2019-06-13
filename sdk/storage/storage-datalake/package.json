@@ -71,7 +71,7 @@
     "eslint-plugin-no-only-tests": "^2.3.0",
     "eslint-plugin-promise": "^4.1.1",
     "rollup": "~1.13.1",
-    "rollup-plugin-node-resolve": "^5.0.1",
+    "rollup-plugin-node-resolve": "5.0.1",
     "ts-node": "^7.0.1",
     "typescript": "^3.2.2",
     "uglify-js": "^3.4.9"
