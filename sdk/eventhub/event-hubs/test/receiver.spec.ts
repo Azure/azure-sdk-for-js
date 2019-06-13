@@ -76,9 +76,8 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
   });
 
   describe("with EventPosition specified as", function(): void {
-    
     // TODO: Enable following test as part of https://github.com/Azure/azure-sdk-for-js/issues/3714
-    // After the implementation of BatchingReceiver has been fixed
+    // After we ensure the multiple receiveBatch calls on the user facing receiver work as expected
     /*
     it("'from end of stream' should receive messages correctly", async function(): Promise<void> {
       const partitionId = hubInfo.partitionIds[0];
@@ -195,7 +194,7 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
       await client.send(ed, partitionId);
       debug("Sent the new message after creating the receiver. We should only receive this message.");
       const data = await client.receiveBatch(partitionId, 10, 20, {
-        eventPosition: EventPosition.fromOffset(pInfo.lastEnqueuedOffset)
+        eventPosition: EventPosition.fromEnqueuedTime(pInfo.lastEnqueuedTimeUtc)
       });
       debug("received messages: ", data);
       data.length.should.equal(1, "Failed to received the expected single message");
