@@ -138,7 +138,7 @@ export class AppendBlobClient extends BlobClient {
    * Provide "" will remove the snapshot and return a Client to the base blob.
    *
    * @param {string} snapshot The snapshot timestamp.
-   * @returns {AppendBlobClient}
+   * @returns {AppendBlobClient} A new AppendBlobClient object identical to the source but with the specified snapshot timestamp.
    * @memberof AppendBlobClient
    */
   public withSnapshot(snapshot: string): AppendBlobClient {
@@ -156,7 +156,7 @@ export class AppendBlobClient extends BlobClient {
    * Creates a 0-length append blob. Call AppendBlock to append data to an append blob.
    * @see https://docs.microsoft.com/rest/api/storageservices/put-blob
    *
-   * @param {AppendBlobCreateOptions} [options] Optional options to the Append Block Create operation.
+   * @param {AppendBlobCreateOptions} [options] Options to the Append Block Create operation.
    * @returns {Promise<Models.AppendBlobsCreateResponse>}
    * @memberof AppendBlobClient
    */
@@ -180,7 +180,7 @@ export class AppendBlobClient extends BlobClient {
    *
    * @param {HttpRequestBody} body Data to be appended.
    * @param {number} contentLength Number of bytes to be appended.
-   * @param {AppendBlobAppendBlockOptions} [options] Optional options to the Append Block operation.
+   * @param {AppendBlobAppendBlockOptions} [options] Options to the Append Block operation.
    * @returns {Promise<Models.AppendBlobsAppendBlockResponse>}
    * @memberof AppendBlobClient
    */

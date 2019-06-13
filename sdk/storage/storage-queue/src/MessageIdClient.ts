@@ -61,6 +61,7 @@ export class MessageIdClient extends StorageClient {
 
   /**
    * Creates an instance of MessageIdClient.
+   *
    * @param {string} url A URL string pointing to Azure Storage queue's message, such as
    *                     "https://myaccount.queue.core.windows.net/myqueue/messages/messageid". You can
    *                     append a SAS if using AnonymousCredential, such as
@@ -79,8 +80,8 @@ export class MessageIdClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-message2
    *
    * @param {string} popReceipt A valid pop receipt value returned from an earlier call to the dequeue messages or update message operation.
-   * @param {MessageIdDeleteOptions} [options] Optional options to MessageId Delete operation.
-   * @returns {Promise<Models.MessageIdDeleteResponse>}
+   * @param {MessageIdDeleteOptions} [options] Options to MessageId Delete operation.
+   * @returns {Promise<Models.MessageIdDeleteResponse>} Response data for the MessageId delete operation.
    * @memberof MessageIdClient
    */
   public async delete(
@@ -106,8 +107,8 @@ export class MessageIdClient extends StorageClient {
    *                                   and cannot be larger than 7 days. The visibility timeout of a message cannot
    *                                   be set to a value later than the expiry time.
    *                                   A message can be updated until it has been deleted or has expired.
-   * @param {MessageIdUpdateOptions} [options] Optional options to MessageId Update operation.
-   * @returns {Promise<Models.MessageIdUpdateResponse>}
+   * @param {MessageIdUpdateOptions} [options] Options to MessageId Update operation.
+   * @returns {Promise<Models.MessageIdUpdateResponse>} Response data for the MessageId update operation.
    * @memberof MessageIdClient
    */
   public async update(
