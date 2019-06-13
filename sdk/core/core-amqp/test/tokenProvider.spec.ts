@@ -4,7 +4,7 @@
 import * as chai from "chai";
 chai.should();
 import debugModule from "debug";
-const debug = debugModule("azure:amqp-common:token-spec");
+const debug = debugModule("azure:core-amqp:token-spec");
 import { SasTokenProvider, IotSasTokenProvider } from "../src";
 
 describe("SasTokenProvider", function() {
@@ -15,8 +15,7 @@ describe("SasTokenProvider", function() {
     const tokenProvider = new SasTokenProvider(namespace, keyName, key);
     tokenProvider.tokenValidTimeInSeconds.should.equal(3600);
     tokenProvider.tokenRenewalMarginInSeconds.should.equal(900);
-    const now =
-      Math.floor(Date.now() / 1000) + tokenProvider.tokenValidTimeInSeconds;
+    const now = Math.floor(Date.now() / 1000) + tokenProvider.tokenValidTimeInSeconds;
     debug(">>> now: %d", now);
     const tokenInfo = await tokenProvider.getToken();
     debug(">>> Token Info is: %O", tokenInfo);
@@ -33,8 +32,7 @@ describe("SasTokenProvider", function() {
     const tokenProvider = SasTokenProvider.fromConnectionString(cs);
     tokenProvider.tokenValidTimeInSeconds.should.equal(3600);
     tokenProvider.tokenRenewalMarginInSeconds.should.equal(900);
-    const now =
-      Math.floor(Date.now() / 1000) + tokenProvider.tokenValidTimeInSeconds;
+    const now = Math.floor(Date.now() / 1000) + tokenProvider.tokenValidTimeInSeconds;
     debug(">>> now: %d", now);
     const tokenInfo = await tokenProvider.getToken();
     debug(">>> Token Info is: %O", tokenInfo);
@@ -52,12 +50,9 @@ describe("SasTokenProvider", function() {
     const tokenProvider = new SasTokenProvider(namespace, keyName, key, 2, 1);
     tokenProvider.tokenValidTimeInSeconds.should.equal(2);
     tokenProvider.tokenRenewalMarginInSeconds.should.equal(1);
-    const now =
-      Math.floor(Date.now() / 1000) + tokenProvider.tokenValidTimeInSeconds;
+    const now = Math.floor(Date.now() / 1000) + tokenProvider.tokenValidTimeInSeconds;
     debug(">>> now: %d", now);
-    const tokenInfo = await tokenProvider.getToken(
-      "https://myaudience.host.mango.net/"
-    );
+    const tokenInfo = await tokenProvider.getToken("https://myaudience.host.mango.net/");
     debug(">>> Token Info is: %O", tokenInfo);
     tokenInfo.tokenType.should.equal("servicebus.windows.net:sastoken");
     tokenInfo.token.should.match(
@@ -90,8 +85,7 @@ describe("IotSasTokenProvider", function() {
     const tokenProvider = new IotSasTokenProvider(namespace, keyName, key);
     tokenProvider.tokenValidTimeInSeconds.should.equal(3600);
     tokenProvider.tokenRenewalMarginInSeconds.should.equal(900);
-    const now =
-      Math.floor(Date.now() / 1000) + tokenProvider.tokenValidTimeInSeconds;
+    const now = Math.floor(Date.now() / 1000) + tokenProvider.tokenValidTimeInSeconds;
     debug(">>> now: %d", now);
     const tokenInfo = await tokenProvider.getToken();
     debug(">>> Token Info is: %O", tokenInfo);

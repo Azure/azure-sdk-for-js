@@ -17,7 +17,7 @@ const parameters: CreateConnectionContextBaseParameters = {
   config: connectionConfig,
   connectionProperties: {
     product: "MSJSClient",
-    userAgent: "/js-amqp-common",
+    userAgent: "/js-core-amqp",
     version: "0.1.0"
   }
 };
@@ -56,10 +56,7 @@ export async function authenticate(
 ): Promise<CbsResponse> {
   await connectionContext.cbsSession.init();
   const tokenObject = await connectionContext.tokenProvider.getToken(audience);
-  const result = await connectionContext.cbsSession.negotiateClaim(
-    audience,
-    tokenObject
-  );
+  const result = await connectionContext.cbsSession.negotiateClaim(audience, tokenObject);
   console.log("Result is: %O", result);
   if (closeConnection) {
     await connectionContext.connection.close();
