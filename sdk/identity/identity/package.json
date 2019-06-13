@@ -66,13 +66,17 @@
   "dependencies": {
     "@azure/core-http": "^1.2.6",
     "events": "^3.0.0",
+    "jws": "~3.2.2",
     "qs": "6.7.0",
-    "tslib": "^1.9.3"
+    "tslib": "^1.9.3",
+    "uuid": "^3.3.2"
   },
   "devDependencies": {
+    "@types/jws": "~3.2.0",
     "@types/mocha": "^5.2.5",
     "@types/node": "^8.0.0",
     "@types/qs": "~6.5.3",
+    "@types/uuid": "^3.4.3",
     "@typescript-eslint/eslint-plugin": "~1.9.0",
     "@typescript-eslint/parser": "^1.7.0",
     "assert": "^1.4.1",
