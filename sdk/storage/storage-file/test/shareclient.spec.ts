@@ -147,20 +147,20 @@ describe("ShareClient", () => {
     assert.ok(result.date);
   });
 
-  // it.only("can be created with a connection string and a share name and an option bag", async () => {
-  //   const newClient = new ShareClient(getConnectionStringFromEnvironment(), shareName, {
-  //     retryOptions: {
-  //       maxtries: 5
-  //     }
-  //   });
-  //   const result = await newClient.getProperties();
+  it("can be created with a connection string and a share name and an option bag", async () => {
+    const newClient = new ShareClient(getConnectionStringFromEnvironment(), shareName, {
+      retryOptions: {
+        maxTries: 5
+      }
+    });
+    const result = await newClient.getProperties();
 
-  //   assert.ok(result.eTag!.length > 0);
-  //   assert.ok(result.lastModified);
-  //   assert.ok(result.requestId);
-  //   assert.ok(result.version);
-  //   assert.ok(result.date);
-  // });
+    assert.ok(result.eTag!.length > 0);
+    assert.ok(result.lastModified);
+    assert.ok(result.requestId);
+    assert.ok(result.version);
+    assert.ok(result.date);
+  });
 
   it("throws error if constructor shareName parameter is empty", async () => {
     try {
