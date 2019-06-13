@@ -399,6 +399,16 @@ export interface NetworkRuleSet {
 }
 
 /**
+ * Settings for Azure Files identity based authentication.
+ */
+export interface AzureFilesIdentityBasedAuthentication {
+  /**
+   * Indicates the directory service used. Possible values include: 'None', 'AADDS'
+   */
+  directoryServiceOptions: DirectoryServiceOptions;
+}
+
+/**
  * Identity for the resource.
  */
 export interface Identity {
@@ -466,11 +476,12 @@ export interface StorageAccountCreateParameters {
    */
   accessTier?: AccessTier;
   /**
-   * Enables Azure Files AAD Integration for SMB if sets to true.
+   * Provides the identity based authentication settings for Azure Files.
    */
-  enableAzureFilesAadIntegration?: boolean;
+  azureFilesIdentityBasedAuthentication?: AzureFilesIdentityBasedAuthentication;
   /**
-   * Allows https traffic only to storage service if sets to true.
+   * Allows https traffic only to storage service if sets to true. The default value is true since
+   * API version 2019-04-01.
    */
   enableHttpsTrafficOnly?: boolean;
   /**
@@ -672,9 +683,9 @@ export interface StorageAccount extends TrackedResource {
    */
   readonly accessTier?: AccessTier;
   /**
-   * Enables Azure Files AAD Integration for SMB if sets to true.
+   * Provides the identity based authentication settings for Azure Files.
    */
-  enableAzureFilesAadIntegration?: boolean;
+  azureFilesIdentityBasedAuthentication?: AzureFilesIdentityBasedAuthentication;
   /**
    * Allows https traffic only to storage service if sets to true.
    */
@@ -779,9 +790,9 @@ export interface StorageAccountUpdateParameters {
    */
   accessTier?: AccessTier;
   /**
-   * Enables Azure Files AAD Integration for SMB if sets to true.
+   * Provides the identity based authentication settings for Azure Files.
    */
-  enableAzureFilesAadIntegration?: boolean;
+  azureFilesIdentityBasedAuthentication?: AzureFilesIdentityBasedAuthentication;
   /**
    * Allows https traffic only to storage service if sets to true.
    */
@@ -1420,16 +1431,6 @@ export interface ListContainerItem extends AzureEntityResource {
 }
 
 /**
- * The list of blob containers.
- */
-export interface ListContainerItems {
-  /**
-   * The list of blob containers.
-   */
-  value?: ListContainerItem[];
-}
-
-/**
  * Specifies a CORS rule for the Blob service.
  */
 export interface CorsRule {
@@ -1564,6 +1565,24 @@ export interface StorageAccountsGetPropertiesOptionalParams extends msRest.Reque
    * values include: 'geoReplicationStats'
    */
   expand?: StorageAccountExpand;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface BlobContainersListOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Optional. Continuation token for the list operation.
+   */
+  skipToken?: string;
+  /**
+   * Optional. Specified maximum number of containers that can be included in the list.
+   */
+  maxpagesize?: string;
+  /**
+   * Optional. When specified, only container names starting with the filter will be listed.
+   */
+  filter?: string;
 }
 
 /**
@@ -1731,6 +1750,21 @@ export interface UsageListResult extends Array<Usage> {
 }
 
 /**
+ * @interface
+ * Response schema. Contains list of blobs returned, and if paging is requested or required, a URL
+ * to next page of containers.
+ * @extends Array<ListContainerItem>
+ */
+export interface ListContainerItems extends Array<ListContainerItem> {
+  /**
+   * Request URL that can be used to query next page of containers. Returned when total number of
+   * requested containers exceed maximum page size.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
  * Defines values for ReasonCode.
  * Possible values include: 'QuotaId', 'NotAvailableForSubscription'
  * @readonly
@@ -1812,6 +1846,14 @@ export type Bypass = 'None' | 'Logging' | 'Metrics' | 'AzureServices';
  * @enum {string}
  */
 export type DefaultAction = 'Allow' | 'Deny';
+
+/**
+ * Defines values for DirectoryServiceOptions.
+ * Possible values include: 'None', 'AADDS'
+ * @readonly
+ * @enum {string}
+ */
+export type DirectoryServiceOptions = 'None' | 'AADDS';
 
 /**
  * Defines values for AccessTier.
@@ -2588,5 +2630,25 @@ export type BlobContainersLeaseResponse = LeaseContainerResponse & {
        * The response body as parsed JSON or XML
        */
       parsedBody: LeaseContainerResponse;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type BlobContainersListNextResponse = ListContainerItems & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ListContainerItems;
     };
 };

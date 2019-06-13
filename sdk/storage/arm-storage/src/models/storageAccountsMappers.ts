@@ -9,6 +9,7 @@
 export {
   AccountSasParameters,
   AzureEntityResource,
+  AzureFilesIdentityBasedAuthentication,
   BaseResource,
   BlobContainer,
   BlobServiceProperties,

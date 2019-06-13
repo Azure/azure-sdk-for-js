@@ -4,24 +4,29 @@ import { Aborter } from "../src/Aborter";
 import { QueueURL } from "../src/QueueURL";
 import { MessagesURL } from "../src/MessagesURL";
 import { MessageIdURL } from "../src/MessageIdURL";
-import { getQSU, getUniqueName, sleep } from "./utils";
+import { getQSU, sleep } from "./utils";
+import { record } from "./utils/recorder";
 import * as dotenv from "dotenv";
 dotenv.config({ path: "../.env" });
 
 describe("MessageIdURL", () => {
   const serviceURL = getQSU();
-  let queueName = getUniqueName("queue");
-  let queueURL = QueueURL.fromServiceURL(serviceURL, queueName);
+  let queueName: string;
+  let queueURL: QueueURL;
   const messageContent = "Hello World";
 
-  beforeEach(async () => {
-    queueName = getUniqueName("queue");
+  let recorder: any;
+
+  beforeEach(async function() {
+    recorder = record(this);
+    queueName = recorder.getUniqueName("queue");
     queueURL = QueueURL.fromServiceURL(serviceURL, queueName);
     await queueURL.create(Aborter.none);
   });
 
   afterEach(async () => {
     await queueURL.delete(Aborter.none);
+    recorder.stop();
   });
 
   it("update and delete empty message with default parameters", async () => {
