@@ -1,4 +1,4 @@
-import { KeysClient } from "../src";
+import { SecretsClient } from "../src";
 import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
 
 async function main(): Promise<void> {
@@ -17,26 +17,19 @@ async function main(): Promise<void> {
     }
   );
 
-  const client = new KeysClient(url, credential);
+  const client = new SecretsClient(url, credential);
 
-  const secretName = "MyKeyName";
-  const result = await client.createKey("MyKeyName", "RSA");
-
+  const secretName = "MySecretName";
+  const result = await client.setSecret("MySecretName", "MySecretValue");
   console.log("result: ", result);
 
-  for await (let x of client.getKeyVersions("MyKeyName")) {
-    console.log(">> ", x);
-  }
+  const secret = await client.getSecret(secretName);
+  console.log("secret: ", secret);
 
-  const getResult = await client.getKey("MyKeyName");
-  console.log("getResult: ", getResult);
-  let encoded = Buffer.from("Hello World");
+  const updatedSecret = await client.updateSecretAttributes("MySecretName", result.version, { enabled: false });
+  console.log("updated secret: ", updatedSecret);
 
-  for await (let x of client.getKeys()) {
-    console.log(">> ", x);
-  }
-
-  await client.deleteKey(secretName);
+  await client.deleteSecret(secretName);
 }
 
 main().catch((err) => {

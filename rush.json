@@ -323,6 +323,10 @@
       "projectFolder": "sdk/core/core-http"
     },
     {
+      "packageName": "@azure/core-paging",
+      "projectFolder": "sdk/core/core-paging"
+    },
+    {
       "packageName": "@azure/cosmos",
       "projectFolder": "sdk/cosmosdb/cosmos"
     },
