@@ -4,6 +4,7 @@ parameters:
     ACCOUNT_NAME: $(js-storage-test-account-name)
     ACCOUNT_KEY: $(js-storage-test-account-key)
     ACCOUNT_SAS: $(js-storage-test-account-sas)
+    CONNECTION_STRING: $(js-storage-test-connection-string)
   Matrix:
     Linux_Node8X:
       OSVmImage: "ubuntu-16.04"
