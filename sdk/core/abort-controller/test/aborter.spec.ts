@@ -45,7 +45,10 @@ describe("AbortController", () => {
     const controller = new AbortController();
     const aborter = controller.signal;
     const response = doAsyncOperation(aborter, 100);
-    setTimeout(() => controller.abort(), 50);
+    setTimeout(() => {
+      console.log('aborting...');
+      controller.abort();
+    }, 50);
     try {
       let r = await response;
       console.log("got, r", r);
