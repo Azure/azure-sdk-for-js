@@ -162,11 +162,6 @@ describe("Misc tests", function(): void {
       const offset = (await client.getPartitionInformation(partitionId)).lastEnqueuedOffset;
       debug(`Partition ${partitionId} has last message with offset ${offset}.`);
 
-      let data = await client.receiveBatch(partitionId, 5, 10, {
-        eventPosition: EventPosition.fromOffset(offset)
-      });
-
-      should.equal(data.length, 0, "Unexpected to receive message before client sends it");
       const messageCount = 5;
       const d: EventData[] = [];
       for (let i = 0; i < messageCount; i++) {
@@ -178,7 +173,7 @@ describe("Misc tests", function(): void {
       await client.sendBatch(d, partitionId);
       debug("Successfully sent 5 messages batched together.");
 
-      data = await client.receiveBatch(partitionId, 5, 30, {
+      const data = await client.receiveBatch(partitionId, 5, 30, {
         eventPosition: EventPosition.fromOffset(offset)
       });
 
@@ -199,11 +194,6 @@ describe("Misc tests", function(): void {
       const partitionId = hubInfo.partitionIds[0];
       const offset = (await client.getPartitionInformation(partitionId)).lastEnqueuedOffset;
       debug(`Partition ${partitionId} has last message with offset ${offset}.`);
-
-      let data = await client.receiveBatch(partitionId, 5, 10, {
-        eventPosition: EventPosition.fromOffset(offset)
-      });
-      should.equal(data.length, 0, "Unexpected to receive message before client sends it");
 
       const messageCount = 5;
       const d: EventData[] = [];
@@ -233,7 +223,7 @@ describe("Misc tests", function(): void {
       await client.sendBatch(d, partitionId);
       debug("Successfully sent 5 messages batched together.");
 
-      data = await client.receiveBatch(partitionId, 5, 30, {
+      const data = await client.receiveBatch(partitionId, 5, 30, {
         eventPosition: EventPosition.fromOffset(offset)
       });
 
