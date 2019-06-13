@@ -134,6 +134,26 @@ describe("FileServiceClient", () => {
     assert.deepEqual(result.hourMetrics, serviceProperties.hourMetrics);
   });
 
+    it("createShare and deleteShare", async () => {
+        const serviceClient = getBSU();
+        const shareName = getUniqueName("share");
+        const metadata = { key: "value" };
+
+        const { shareClient } = await serviceClient.createShare(shareName, { metadata });
+        const result = await shareClient.getProperties();
+        assert.deepEqual(result.metadata, metadata);
+
+        await serviceClient.deleteShare(shareName);
+        try {
+            await shareClient.getProperties();
+            assert.fail(
+                "Expecting an error in getting properties from a deleted block blob but didn't get one."
+            );
+        } catch (error) {
+            assert.ok((error.statusCode as number) === 404);
+        }
+    });
+
   it("can be created with a url and a credential", async () => {
     const serviceClient = getBSU();
     const factories = serviceClient.pipeline.factories;

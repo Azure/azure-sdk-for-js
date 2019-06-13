@@ -6,7 +6,7 @@ import { Aborter } from "./Aborter";
 import { Service } from "./generated/lib/operations";
 import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
 import { StorageClient } from "./StorageClient";
-import { ShareClient } from "./ShareClient";
+import { ShareClient, ShareCreateOptions, ShareDeleteMethodOptions } from "./ShareClient";
 import { appendToURLPath, extractConnectionStringParts } from "./utils/utils.common";
 import { Credential } from "./credentials/Credential";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
@@ -178,6 +178,36 @@ export class FileServiceClient extends StorageClient {
    */
   public createShareClient(shareName: string): ShareClient {
     return new ShareClient(appendToURLPath(this.url, shareName), this.pipeline);
+  }
+
+  /**
+   * Creates a Share.
+   *
+   * @param {string} shareName
+   * @param {ShareCreateOptions} [options]
+   * @returns Share creation response and the corresponding share client.
+   * @memberof FileServiceClient
+   */
+  public async createShare(shareName: string, options?: ShareCreateOptions) {
+    const shareClient = this.createShareClient(shareName);
+    const shareCreateResponse = await shareClient.create(options);
+    return {
+      shareCreateResponse,
+      shareClient
+    };
+  }
+
+  /**
+   * Deletes a Share.
+   *
+   * @param {string} shareName
+   * @param {ShareDeleteMethodOptions} [options]
+   * @returns Share deletion response and the corresponding share client.
+   * @memberof FileServiceClient
+   */
+  public async deleteShare(shareName: string, options?: ShareDeleteMethodOptions) {
+    const shareClient = this.createShareClient(shareName);
+    return await shareClient.delete(options);
   }
 
   /**

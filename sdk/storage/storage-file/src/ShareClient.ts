@@ -16,7 +16,8 @@ import {
   truncatedISO8061Date,
   extractConnectionStringParts
 } from "./utils/utils.common";
-import { DirectoryClient } from "./DirectoryClient";
+import { DirectoryClient, DirectoryCreateOptions, DirectoryDeleteOptions } from "./DirectoryClient";
+import { FileCreateOptions, FileDeleteOptions } from "./FileClient";
 import { Credential } from "./credentials/Credential";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
@@ -401,6 +402,99 @@ export class ShareClient extends StorageClient {
       appendToURLPath(this.url, encodeURIComponent(directoryName)),
       this.pipeline
     );
+  }
+
+  /**
+   * Gets the directory client for the root directory of this share.
+   * Note that the root directory always exists and cannot be deleted.
+   *
+   * @readonly
+   * @type {DirectoryClient}
+   * @memberof ShareClient
+   */
+  public get rootDirectoryClient(): DirectoryClient {
+    return this.createDirectoryClient("");
+  }
+
+  /**
+   * Creates a new subdirectory under this share.
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-directory
+   *
+   *
+   * @param {string} directoryName
+   * @param {DirectoryCreateOptions} [options] Options to Directory Create operation.
+   * @returns Directory creation response data and the corresponding directory client.
+   * @memberof ShareClient
+   */
+  public async createDirectory(directoryName: string, options?: DirectoryCreateOptions) {
+    const directoryClient = this.createDirectoryClient(directoryName);
+    const directoryCreateResponse = await directoryClient.create(options);
+    return {
+      directoryClient,
+      directoryCreateResponse
+    };
+  }
+
+  /**
+   * Removes the specified empty sub directory under this share.
+   * Note that the directory must be empty before it can be deleted.
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-directory
+   *
+   * @param {string} directoryName
+   * @param {DirectoryDeleteOptions} [options] Options to Directory Delete operation.
+   * @returns Directory deletion response data.
+   * @memberof ShareClient
+   */
+  public async deleteDirectory(directoryName: string, options?: DirectoryDeleteOptions) {
+    const directoryClient = this.createDirectoryClient(directoryName);
+    return await directoryClient.delete(options);
+  }
+
+  /**
+   * Creates a new file or replaces a file under the root directory of this share.
+   * Note it only initializes the file with no content.
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-file
+   *
+   * @param {string} fileName
+   * @param {number} size Specifies the maximum size in bytes for the file, up to 1 TB.
+   * @param {FileCreateOptions} [options] Options to File Create operation.
+   * @returns File creation response data and the corresponding file client.
+   * @memberof ShareClient
+   */
+  public async createFile(fileName: string, size: number, options?: FileCreateOptions) {
+    const directoryClient = this.rootDirectoryClient;
+    const fileClient = directoryClient.createFileClient(fileName);
+    const fileCreateResponse = await fileClient.create(size, options);
+    return {
+      fileClient,
+      fileCreateResponse
+    };
+  }
+
+  /**
+   * Removes a file under the root directory of this share from the storage account.
+   * When a file is successfully deleted, it is immediately removed from the storage
+   * account's index and is no longer accessible to clients. The file's data is later
+   * removed from the service during garbage collection.
+   *
+   * Delete File will fail with status code 409 (Conflict) and error code SharingViolation
+   * if the file is open on an SMB client.
+   *
+   * Delete File is not supported on a share snapshot, which is a read-only copy of
+   * a share. An attempt to perform this operation on a share snapshot will fail with 400 (InvalidQueryParameterValue)
+   *
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-file2
+   *
+   * @param {string} directoryName
+   * @param {string} fileName
+   * @param {FileDeleteOptions} [options] Options to File Delete operation.
+   * @returns
+   * @memberof ShareClient
+   */
+  public async deleteFile(fileName: string, options?: FileDeleteOptions) {
+    const directoryClient = this.rootDirectoryClient;
+    const fileClient = directoryClient.createFileClient(fileName);
+    return await fileClient.delete(options);
   }
 
   /**
