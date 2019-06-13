@@ -35,14 +35,14 @@
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build": "tsc -p .",
     "build:test": "tsc -p .",
-    "check-format": "echo skipped",
+    "check-format": "prettier --list-different --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "echo skipped",
-    "format": "prettier --write --config .prettierrc.json \"src/**/*.ts\"",
+    "format": "prettier --write --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "echo skipped",
     "integration-test:node": "echo skipped",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
-    "lint": "tslint -p .",
-    "lint:fix": "tslint -p . --fix",
+    "lint": "eslint -c ../../.eslintrc.json src test --ext .ts -f node_modules/eslint-detailed-reporter/lib/detailed.js -o template-lintReport.html || exit 0",
+    "lint:fix": "eslint \"src/**/*.ts\" \"test/**/*.ts\" -c ../../.eslintrc.json --fix --fix-type [problem,suggestion]",
     "pack": "npm pack 2>&1",
     "prebuild": "npm run clean",
     "test:browser": "npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
@@ -50,15 +50,23 @@
     "test": "npm run build:test && npm run unit-test && npm run integration-test",
     "unit-test:browser": "echo skipped",
     "unit-test:node": "echo skipped",
-    "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "local": "ts-node ./.scripts/local.ts",
-    "latest": "ts-node ./.scripts/latest.ts"
+    "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "sideEffects": false,
   "private": true,
   "dependencies": {
   },
   "devDependencies": {
+    "@types/node": "^8.0.0",
+    "@typescript-eslint/eslint-plugin": "~1.9.0",
+    "@typescript-eslint/parser": "^1.7.0",
+    "eslint": "^5.16.0",
+    "eslint-config-prettier": "^4.2.0",
+    "eslint-detailed-reporter": "^0.8.0",
+    "eslint-plugin-no-null": "^1.0.2",
+    "eslint-plugin-no-only-tests": "^2.3.0",
+    "eslint-plugin-promise": "^4.1.1",
+    "prettier": "^1.16.4",
     "typescript": "^3.2.2"
   }
 }
