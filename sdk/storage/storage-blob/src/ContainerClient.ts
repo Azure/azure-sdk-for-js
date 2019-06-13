@@ -429,7 +429,7 @@ export class ContainerClient extends StorageClient {
    * the same name already exists, the operation fails.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-container
    *
-   * @param {ContainerCreateOptions} [options] Optional options to Container Create operation.
+   * @param {ContainerCreateOptions} [options] Options to Container Create operation.
    * @returns {Promise<Models.ContainerCreateResponse>}
    * @memberof ContainerClient
    */
@@ -454,10 +454,7 @@ export class ContainerClient extends StorageClient {
    * @memberof BlobClient
    */
   public createBlobClient(blobName: string) {
-    return new BlobClient(
-      appendToURLPath(this.url, encodeURIComponent(blobName)),
-      this.pipeline
-    );
+    return new BlobClient(appendToURLPath(this.url, encodeURIComponent(blobName)), this.pipeline);
   }
 
   /**
@@ -467,9 +464,7 @@ export class ContainerClient extends StorageClient {
    * @returns {AppendBlobClient}
    * @memberof ContainerClient
    */
-  public createAppendBlobClient(
-    blobName: string
-  ): AppendBlobClient {
+  public createAppendBlobClient(blobName: string): AppendBlobClient {
     return new AppendBlobClient(
       appendToURLPath(this.url, encodeURIComponent(blobName)),
       this.pipeline
@@ -483,9 +478,7 @@ export class ContainerClient extends StorageClient {
    * @returns {BlockBlobClient}
    * @memberof ContainerClient
    */
-  public createBlockBlobClient(
-    blobName: string
-  ): BlockBlobClient {
+  public createBlockBlobClient(blobName: string): BlockBlobClient {
     return new BlockBlobClient(
       appendToURLPath(this.url, encodeURIComponent(blobName)),
       this.pipeline
@@ -499,9 +492,7 @@ export class ContainerClient extends StorageClient {
    * @returns {PageBlobClient}
    * @memberof ContainerClient
    */
-  public createPageBlobClient(
-    blobName: string
-  ): PageBlobClient {
+  public createPageBlobClient(blobName: string): PageBlobClient {
     return new PageBlobClient(
       appendToURLPath(this.url, encodeURIComponent(blobName)),
       this.pipeline
@@ -513,7 +504,7 @@ export class ContainerClient extends StorageClient {
    * container. The data returned does not include the container's list of blobs.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-container-properties
    *
-   * @param {ContainersGetPropertiesOptions} [options] Optional options to Container Get Properties operation.
+   * @param {ContainersGetPropertiesOptions} [options] Options to Container Get Properties operation.
    * @returns {Promise<Models.ContainerGetPropertiesResponse>}
    * @memberof ContainerClient
    */
@@ -537,7 +528,7 @@ export class ContainerClient extends StorageClient {
    * contained within it are later deleted during garbage collection.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-container
    *
-   * @param {ContainerDeleteMethodOptions} [options] Optional options to Container Delete operation.
+   * @param {ContainerDeleteMethodOptions} [options] Options to Container Delete operation.
    * @returns {Promise<Models.ContainerDeleteResponse>}
    * @memberof ContainerClient
    */
@@ -587,7 +578,7 @@ export class ContainerClient extends StorageClient {
    *
    * @param {Metadata} [metadata] Replace existing metadata with this value.
    *                               If no value provided the existing metadata will be removed.
-   * @param {ContainerSetMetadataOptions} [options] Optional options to Container Set Metadata operation.
+   * @param {ContainerSetMetadataOptions} [options] Options to Container Set Metadata operation.
    * @returns {Promise<Models.ContainerSetMetadataResponse>}
    * @memberof ContainerClient
    */
@@ -639,7 +630,7 @@ export class ContainerClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-container-acl
    *
-   * @param {ContainerGetAccessPolicyOptions} [options] Optional options to Container Get Access Policy operation.
+   * @param {ContainerGetAccessPolicyOptions} [options] Options to Container Get Access Policy operation.
    * @returns {Promise<ContainerGetAccessPolicyResponse>}
    * @memberof ContainerClient
    */
@@ -693,7 +684,7 @@ export class ContainerClient extends StorageClient {
    *
    * @param {Models.PublicAccessType} [access] The level of public access to data in the container.
    * @param {SignedIdentifier[]} [containerAcl] Array of elements each having a unique Id and details of the access policy.
-   * @param {ContainerSetAccessPolicyOptions} [options] Optional options to Container Set Access Policy operation.
+   * @param {ContainerSetAccessPolicyOptions} [options] Options to Container Set Access Policy operation.
    * @returns {Promise<Models.ContainerSetAccessPolicyResponse>}
    * @memberof ContainerClient
    */
@@ -791,7 +782,7 @@ export class ContainerClient extends StorageClient {
    * @see https://docs.microsoft.com/rest/api/storageservices/list-blobs
    *
    * @param {string} [marker] A string value that identifies the portion of the list to be returned with the next list operation.
-   * @param {ContainerListBlobsSegmentOptions} [options] Optional options to Container List Blob Flat Segment operation.
+   * @param {ContainerListBlobsSegmentOptions} [options] Options to Container List Blob Flat Segment operation.
    * @returns {Promise<Models.ContainerListBlobFlatSegmentResponse>}
    * @memberof ContainerClient
    */
@@ -816,7 +807,7 @@ export class ContainerClient extends StorageClient {
    *
    * @param {string} delimiter The charactor or string used to define the virtual hierarchy
    * @param {string} [marker] A string value that identifies the portion of the list to be returned with the next list operation.
-   * @param {ContainerListBlobsSegmentOptions} [options] Optional options to Container List Blob Hierarchy Segment operation.
+   * @param {ContainerListBlobsSegmentOptions} [options] Options to Container List Blob Hierarchy Segment operation.
    * @returns {Promise<Models.ContainerListBlobHierarchySegmentResponse>}
    * @memberof ContainerClient
    */

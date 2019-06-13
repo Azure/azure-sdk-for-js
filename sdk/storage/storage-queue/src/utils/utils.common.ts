@@ -43,9 +43,9 @@ export function setURLParameter(url: string, name: string, value?: string): stri
  * Get URL parameter by name.
  *
  * @export
- * @param {string} url
- * @param {string} name
- * @returns {(string | string[] | undefined)}
+ * @param {string} url URL string
+ * @param {string} name Parameter name
+ * @returns {(string | string[] | undefined)} Parameter value(s) for the given parameter name.
  */
 export function getURLParameter(url: string, name: string): string | string[] | undefined {
   const urlParsed = URLBuilder.parse(url);
@@ -67,11 +67,11 @@ export function setURLHost(url: string, host: string): string {
 }
 
 /**
- * Get URL path from an URL string.
+ * Gets URL path from an URL string.
  *
  * @export
  * @param {string} url Source URL string
- * @returns {(string | undefined)}
+ * @returns {(string | undefined)} The path part of the given URL string.
  */
 export function getURLPath(url: string): string | undefined {
   const urlParsed = URLBuilder.parse(url);
@@ -79,11 +79,11 @@ export function getURLPath(url: string): string | undefined {
 }
 
 /**
- * Get URL query key value pairs from an URL string.
+ * Gets URL query key value pairs from an URL string.
  *
  * @export
  * @param {string} url
- * @returns {{[key: string]: string}}
+ * @returns {{[key: string]: string}} query key value string pairs from the given URL string.
  */
 export function getURLQueries(url: string): { [key: string]: string } {
   let queryString = URLBuilder.parse(url).getQuery();

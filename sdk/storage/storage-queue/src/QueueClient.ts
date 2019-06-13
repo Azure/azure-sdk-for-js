@@ -161,24 +161,24 @@ export interface SignedIdentifier {
 export declare type QueueGetAccessPolicyResponse = {
   signedIdentifiers: SignedIdentifier[];
 } & Models.QueueGetAccessPolicyHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpResponse & {
     /**
-     * The parsed HTTP response headers.
+     * The underlying HTTP response.
      */
-    parsedHeaders: Models.QueueGetAccessPolicyHeaders;
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: Models.SignedIdentifier[];
+    _response: HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: Models.QueueGetAccessPolicyHeaders;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Models.SignedIdentifier[];
+    };
   };
-};
 
 /**
  * A QueueURL represents a URL to the Azure Storage queue.
@@ -215,13 +215,11 @@ export class QueueClient extends StorageClient {
    * Creates a new queue under the specified account.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-queue4
    *
-   * @param {QueueCreateOptions} [options] Optional options to Queue create operation.
-   * @returns {Promise<Models.QueueCreateResponse>}
+   * @param {QueueCreateOptions} [options] Options to Queue create operation.
+   * @returns {Promise<Models.QueueCreateResponse>} Response data for the Queue create operation.
    * @memberof QueueURL
    */
-  public async create(
-    options: QueueCreateOptions = {}
-  ): Promise<Models.QueueCreateResponse> {
+  public async create(options: QueueCreateOptions = {}): Promise<Models.QueueCreateResponse> {
     const aborter = options.abortSignal || Aborter.none;
     return this.queueContext.create({
       ...options,
@@ -242,8 +240,8 @@ export class QueueClient extends StorageClient {
    * queue. Metadata is associated with the queue as name-values pairs.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-queue-metadata
    *
-   * @param {QueueGetPropertiesOptions} [options] Optional options to Queue get properties operation.
-   * @returns {Promise<Models.QueueGetPropertiesResponse>}
+   * @param {QueueGetPropertiesOptions} [options] Options to Queue get properties operation.
+   * @returns {Promise<Models.QueueGetPropertiesResponse>} Response data for the Queue get properties operation.
    * @memberof QueueURL
    */
   public async getProperties(
@@ -259,13 +257,11 @@ export class QueueClient extends StorageClient {
    * Deletes the specified queue permanently.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-queue3
    *
-   * @param {QueueDeleteOptions} [options] Optional options to Queue delete operation.
-   * @returns {Promise<Models.QueueDeleteResponse>}
+   * @param {QueueDeleteOptions} [options] Options to Queue delete operation.
+   * @returns {Promise<Models.QueueDeleteResponse>} Response data for the Queue delete operation.
    * @memberof QueueURL
    */
-  public async delete(
-    options: QueueDeleteOptions = {}
-  ): Promise<Models.QueueDeleteResponse> {
+  public async delete(options: QueueDeleteOptions = {}): Promise<Models.QueueDeleteResponse> {
     const aborter = options.abortSignal || Aborter.none;
     return this.queueContext.deleteMethod({
       abortSignal: aborter
@@ -280,8 +276,8 @@ export class QueueClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-queue-metadata
    *
    * @param {Metadata} [metadata] If no metadata provided, all existing metadata will be removed.
-   * @param {QueueSetMetadataOptions} [options] Optional options to Queue set metadata operation.
-   * @returns {Promise<Models.QueueSetMetadataResponse>}
+   * @param {QueueSetMetadataOptions} [options] Options to Queue set metadata operation.
+   * @returns {Promise<Models.QueueSetMetadataResponse>} Response data for the Queue set metadata operation.
    * @memberof QueueURL
    */
   public async setMetadata(
@@ -303,8 +299,8 @@ export class QueueClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-queue-acl
    *
-   * @param {QueueGetAccessPolicyOptions} [options] Optional options to Queue get access policy operation.
-   * @returns {Promise<QueueGetAccessPolicyResponse>}
+   * @param {QueueGetAccessPolicyOptions} [options] Options to Queue get access policy operation.
+   * @returns {Promise<QueueGetAccessPolicyResponse>} Response data for the Queue get access policy operation.
    * @memberof QueueURL
    */
   public async getAccessPolicy(
@@ -344,8 +340,8 @@ export class QueueClient extends StorageClient {
    *
    * @param {PublicAccessType} [access]
    * @param {SignedIdentifier[]} [queueAcl]
-   * @param {QueueSetAccessPolicyOptions} [options] Optional options to Queue set access policy operation.
-   * @returns {Promise<Models.QueueSetAccessPolicyResponse>}
+   * @param {QueueSetAccessPolicyOptions} [options] Options to Queue set access policy operation.
+   * @returns {Promise<Models.QueueSetAccessPolicyResponse>} Response data for the Queue set access policy operation.
    * @memberof QueueURL
    */
   public async setAccessPolicy(

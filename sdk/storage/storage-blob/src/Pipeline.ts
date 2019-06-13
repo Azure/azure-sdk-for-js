@@ -106,7 +106,7 @@ export class Pipeline {
    * Transfer Pipeline object to ServiceClientOptions object which required by
    * ServiceClient constructor.
    *
-   * @returns {ServiceClientOptions}
+   * @returns {ServiceClientOptions} The ServiceClientOptions object from this Pipeline.
    * @memberof Pipeline
    */
   public toServiceClientOptions(): ServiceClientOptions {
@@ -165,24 +165,24 @@ export interface NewPipelineOptions {
  * @returns {Pipeline} A new Pipeline object.
  */
 export function newPipeline(
- credential: Credential,
- pipelineOptions: NewPipelineOptions = {}
+  credential: Credential,
+  pipelineOptions: NewPipelineOptions = {}
 ): Pipeline {
- // Order is important. Closer to the API at the top & closer to the network at the bottom.
- // The credential's policy factory must appear close to the wire so it can sign any
- // changes made by other factories (like UniqueRequestIDPolicyFactory)
- const factories: RequestPolicyFactory[] = [
-   new TelemetryPolicyFactory(pipelineOptions.telemetry),
-   new UniqueRequestIDPolicyFactory(),
-   new BrowserPolicyFactory(),
-   deserializationPolicy(), // Default deserializationPolicy is provided by protocol layer
-   new RetryPolicyFactory(pipelineOptions.retryOptions),
-   new LoggingPolicyFactory(),
-   credential
- ];
+  // Order is important. Closer to the API at the top & closer to the network at the bottom.
+  // The credential's policy factory must appear close to the wire so it can sign any
+  // changes made by other factories (like UniqueRequestIDPolicyFactory)
+  const factories: RequestPolicyFactory[] = [
+    new TelemetryPolicyFactory(pipelineOptions.telemetry),
+    new UniqueRequestIDPolicyFactory(),
+    new BrowserPolicyFactory(),
+    deserializationPolicy(), // Default deserializationPolicy is provided by protocol layer
+    new RetryPolicyFactory(pipelineOptions.retryOptions),
+    new LoggingPolicyFactory(),
+    credential
+  ];
 
- return new Pipeline(factories, {
-   HTTPClient: pipelineOptions.httpClient,
-   logger: pipelineOptions.logger
- });
+  return new Pipeline(factories, {
+    HTTPClient: pipelineOptions.httpClient,
+    logger: pipelineOptions.logger
+  });
 }
