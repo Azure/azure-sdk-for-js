@@ -1,5 +1,6 @@
 {
   "name": "@azure/storage-file",
+  "sdk-type": "client",
   "version": "10.1.0",
   "description": "Microsoft Azure Storage SDK for JavaScript - File",
   "main": "./dist/index.js",

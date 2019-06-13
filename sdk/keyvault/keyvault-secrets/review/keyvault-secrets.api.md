@@ -8,6 +8,8 @@ import { AzureServiceClientOptions } from '@azure/ms-rest-azure-js';
 import { HttpClient } from '@azure/ms-rest-js';
 import { HttpPipelineLogger } from '@azure/ms-rest-js';
 import * as msRest from '@azure/ms-rest-js';
+import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { PageSettings } from '@azure/core-paging';
 import { RequestOptionsBase } from '@azure/ms-rest-js';
 import { ServiceClientCredentials } from '@azure/ms-rest-js';
 
@@ -44,6 +46,10 @@ export interface NewPipelineOptions {
     retryOptions?: RetryOptions;
     telemetry?: TelemetryOptions;
 }
+
+export { PagedAsyncIterableIterator }
+
+export { PageSettings }
 
 // @public (undocumented)
 export interface ParsedKeyVaultEntityIdentifier {
@@ -95,10 +101,10 @@ export class SecretsClient {
     deleteSecret(secretName: string, options?: RequestOptionsBase): Promise<DeletedSecret>;
     static getDefaultPipeline(credential: ServiceClientCredentials, pipelineOptions?: NewPipelineOptions): AzureServiceClientOptions;
     getDeletedSecret(secretName: string, options?: RequestOptionsBase): Promise<DeletedSecret>;
-    getDeletedSecrets(options?: GetSecretsOptions): AsyncIterableIterator<Secret>;
     getSecret(secretName: string, options?: GetSecretOptions): Promise<Secret>;
-    getSecrets(options?: GetSecretsOptions): AsyncIterableIterator<SecretAttributes>;
-    getSecretVersions(secretName: string, options?: GetSecretsOptions): AsyncIterableIterator<SecretAttributes>;
+    listDeletedSecrets(options?: GetSecretsOptions): PagedAsyncIterableIterator<SecretAttributes>;
+    listSecrets(options?: GetSecretsOptions): PagedAsyncIterableIterator<SecretAttributes>;
+    listSecretVersions(secretName: string, options?: GetSecretsOptions): PagedAsyncIterableIterator<SecretAttributes>;
     readonly pipeline: AzureServiceClientOptions;
     purgeDeletedSecret(secretName: string, options?: RequestOptionsBase): Promise<void>;
     recoverDeletedSecret(secretName: string, options?: RequestOptionsBase): Promise<Secret>;

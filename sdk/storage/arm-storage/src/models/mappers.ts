@@ -2285,36 +2285,6 @@ export const ListContainerItem: msRest.CompositeMapper = {
   }
 };
 
-export const ListContainerItems: msRest.CompositeMapper = {
-  serializedName: "ListContainerItems",
-  type: {
-    name: "Composite",
-    className: "ListContainerItems",
-    modelProperties: {
-      value: {
-        readOnly: true,
-        serializedName: "value",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ListContainerItem"
-            }
-          }
-        }
-      },
-      nextLink: {
-        readOnly: true,
-        serializedName: "nextLink",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const CorsRule: msRest.CompositeMapper = {
   serializedName: "CorsRule",
   type: {
@@ -2692,6 +2662,36 @@ export const UsageListResult: msRest.CompositeMapper = {
               className: "Usage"
             }
           }
+        }
+      }
+    }
+  }
+};
+
+export const ListContainerItems: msRest.CompositeMapper = {
+  serializedName: "ListContainerItems",
+  type: {
+    name: "Composite",
+    className: "ListContainerItems",
+    modelProperties: {
+      value: {
+        readOnly: true,
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ListContainerItem"
+            }
+          }
+        }
+      },
+      nextLink: {
+        readOnly: true,
+        serializedName: "nextLink",
+        type: {
+          name: "String"
         }
       }
     }

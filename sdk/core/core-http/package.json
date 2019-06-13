@@ -1,5 +1,6 @@
 {
   "name": "@azure/core-http",
+  "sdk-type": "client",
   "author": {
     "name": "Microsoft Corporation",
     "email": "azsdkteam@microsoft.com",
