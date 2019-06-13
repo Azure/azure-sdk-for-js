@@ -16,9 +16,8 @@ import { ReceivedEventData, EventDataInternal, fromAmqpMessage } from "./eventDa
 import { EventReceiverOptions, RetryOptions } from "./eventHubClient";
 import { EventHubReceiver } from "./eventHubReceiver";
 import { ConnectionContext } from "./connectionContext";
-import { AbortSignal } from "@azure/abort-controller";
+import { AbortSignal, AbortError } from "@azure/abort-controller";
 import * as log from "./log";
-import { throwAbortError } from './util/error';
 
 /**
  * Describes the batching receiver where the user can receive a specified number of messages for a predefined time.
@@ -56,11 +55,11 @@ export class BatchingReceiver extends EventHubReceiver {
    * @param {AbortSignal} abortSignal Signal to cancel current operation.
    * @returns {Promise<ReceivedEventData[]>} A promise that resolves with an array of ReceivedEventData objects.
    */
-   receive(
+  receive(
     maxMessageCount: number,
     maxWaitTimeInSeconds?: number,
     retryOptions?: RetryOptions,
-    abortSignal?: AbortSignal,
+    abortSignal?: AbortSignal
   ): Promise<ReceivedEventData[]> {
     if (maxWaitTimeInSeconds == undefined) {
       maxWaitTimeInSeconds = Constants.defaultOperationTimeoutInSeconds;
@@ -161,7 +160,7 @@ export class BatchingReceiver extends EventHubReceiver {
             `[${this._context.connectionId}] The receive operation on the Receiver "${this.name}" with ` +
             `address "${this.address}" has been cancelled by the user.`;
           log.error(desc);
-          throwAbortError('The receive operation has been cancelled by the user.');
+          throw new AbortError("The receive operation has been cancelled by the user.");
         };
 
         // Action to be taken when an error is received.
@@ -371,7 +370,11 @@ export class BatchingReceiver extends EventHubReceiver {
    * @param {string | number} partitionId  The partitionId to receive events from.
    * @param {EventReceiverOptions} [options]     Receive options.
    */
-  static create(context: ConnectionContext, partitionId: string | number, options?: EventReceiverOptions): BatchingReceiver {
+  static create(
+    context: ConnectionContext,
+    partitionId: string | number,
+    options?: EventReceiverOptions
+  ): BatchingReceiver {
     const bReceiver = new BatchingReceiver(context, partitionId, options);
     context.receivers[bReceiver.name] = bReceiver;
     return bReceiver;
