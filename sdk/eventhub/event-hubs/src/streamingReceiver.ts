@@ -7,7 +7,7 @@ import { EventReceiverOptions } from "./eventHubClient";
 import { EventHubReceiver, OnMessage, OnError } from "./eventHubReceiver";
 import { ConnectionContext } from "./connectionContext";
 import * as log from "./log";
-import { AbortSignal } from "@azure/abort-controller";
+import { AbortSignalLike } from "@azure/abort-controller";
 
 /**
  * Describes the receive handler object that is returned from the receive() method with handlers is
@@ -107,9 +107,9 @@ export class StreamingReceiver extends EventHubReceiver {
    * @ignore
    * @param {OnMessage} onMessage The message handler to receive event data objects.
    * @param {OnError} onError The error handler to receive an error that occurs while receivin messages.
-   * @param {AbortSignal} abortSignal Signal to cancel current operation.
+   * @param {AbortSignalLike} abortSignal Signal to cancel current operation.
    */
-  receive(onMessage: OnMessage, onError: OnError, abortSignal?: AbortSignal): ReceiveHandler {
+  receive(onMessage: OnMessage, onError: OnError, abortSignal?: AbortSignalLike): ReceiveHandler {
     this._onMessage = onMessage;
     this._onError = onError;
     if (abortSignal) {

@@ -3,7 +3,14 @@
 
 import uuid from "uuid/v4";
 import * as log from "./log";
-import { Receiver, OnAmqpEvent, EventContext, ReceiverOptions as RheaReceiverOptions, types, AmqpError } from "rhea-promise";
+import {
+  Receiver,
+  OnAmqpEvent,
+  EventContext,
+  ReceiverOptions as RheaReceiverOptions,
+  types,
+  AmqpError
+} from "rhea-promise";
 import { translate, Constants, MessagingError, retry, RetryOperationType, RetryConfig } from "@azure/core-amqp";
 import { ReceivedEventData, EventDataInternal, fromAmqpMessage } from "./eventData";
 import { EventReceiverOptions } from "./eventHubClient";
@@ -11,7 +18,7 @@ import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";
 import { EventPosition } from "./eventPosition";
 import { getEventPositionFilter } from "./util/utils";
-import { AbortSignal } from "@azure/abort-controller";
+import { AbortSignalLike } from "@azure/abort-controller";
 
 interface CreateReceiverOptions {
   onMessage: OnAmqpEvent;
@@ -171,7 +178,7 @@ export class EventHubReceiver extends LinkEntity {
    * @property {Aborter | undefined} _aborter Describes Aborter instance that will be set by the user
    * to cancel the request.
    */
-  protected _abortSignal: AbortSignal | undefined;
+  protected _abortSignal: AbortSignalLike | undefined;
 
   /**
    * @property {number} Returns sequenceNumber of the last event received.

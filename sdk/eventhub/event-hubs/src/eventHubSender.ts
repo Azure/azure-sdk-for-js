@@ -29,7 +29,7 @@ import { EventData, toAmqpMessage } from "./eventData";
 import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";
 import { SendOptions, EventSenderOptions } from "./eventHubClient";
-import { AbortSignal, AbortError } from "@azure/abort-controller";
+import { AbortSignalLike, AbortError } from "@azure/abort-controller";
 
 interface CreateSenderOptions {
   newName?: boolean;
@@ -458,7 +458,7 @@ export class EventHubSender extends LinkEntity {
           let onReleased: Func<EventContext, void>;
           let onModified: Func<EventContext, void>;
           let onAccepted: Func<EventContext, void>;
-          let abortSignal: AbortSignal;
+          let abortSignal: AbortSignalLike;
           let onAborted: () => void;
 
           const removeListeners = (): void => {
