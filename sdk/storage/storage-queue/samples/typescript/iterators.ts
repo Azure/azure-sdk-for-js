@@ -24,7 +24,6 @@ async function main() {
 
   // List queues
   let i = 1;
-  let marker: string | undefined = undefined;
 
   let iter1 = queueServiceClient.listQueues();
   for await (const item of iter1) {
@@ -91,7 +90,7 @@ async function main() {
     console.log(`Queue${i}: ${queueItem.name}`);
     i++;
   }
-  marker = item.nextMarker;
+  let marker = item.nextMarker;
   iter4 = queueServiceClient.listQueues().byPage({ continuationToken: marker, maxPageSize: 10 });
   item = (await iter4.next()).value;
   // Prints 10 queuenames
