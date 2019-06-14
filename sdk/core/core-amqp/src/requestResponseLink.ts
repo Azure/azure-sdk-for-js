@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import { AbortSignal } from "@azure/abort-controller";
+import { AbortSignal, AbortError } from "@azure/abort-controller";
 import * as Constants from "./util/constants";
 import { retry, RetryConfig, RetryOperationType } from "./retry";
 import {
@@ -130,13 +130,9 @@ export class RequestResponseLink implements ReqResLink {
             `[${this.connection.id}] The request "${requestName}" ` +
             `to "${address}" has been cancelled by the user.`;
           log.error(desc);
-          const error = translate(
-            new Error(
-              `The ${requestName ? requestName + " " : ""}operation has been cancelled by the user.`
-            )
+          const error = new AbortError(
+            `The ${requestName ? requestName + " " : ""}operation has been cancelled by the user.`
           );
-          error.name = "AbortError";
-          error.retryable = false;
 
           reject(error);
         };
