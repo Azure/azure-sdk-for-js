@@ -9,6 +9,7 @@ import { Pipeline } from "./Pipeline";
 import { StorageClient } from "./StorageClient";
 import { QueueClient } from "./QueueClient";
 import { appendToURLPath } from "./utils/utils.common";
+import { PageSettings } from "@azure/core-paging";
 
 /**
  * Options to configure Queue Service - Get Properties operation
@@ -252,29 +253,14 @@ export class QueueServiceClient extends StorageClient {
     return {
       async next() {
         const item = (await iter.next()).value;
-        return item ? { done: false, value: item } : { done: true };
+        return item ? { done: false, value: item } : { done: true, value: undefined };
       },
       [Symbol.asyncIterator]() {
         return this;
       },
-      /**
-       *@param {string} [marker] A string value that identifies the portion of
-       *                          the list of queues to be returned with the next listing operation. The
-       *                          operation returns the NextMarker value within the response body if the
-       *                          listing operation did not return all queues remaining to be listed
-       *                          with the current page. The NextMarker value can be used as the value for
-       *                          the marker parameter in a subsequent call to request the next page of list
-       *                          items. The marker value is opaque to the client.
-       *@param {number} [pagesize] Number of items to be returned. Default value is `10`.
-       */
-      byPage: ({
-        marker = undefined,
-        pagesize = 10
-      }: {
-        marker?: string | undefined;
-        pagesize?: number;
-      }) => {
-        options.maxresults = pagesize;
+      byPage: (settings: PageSettings = {}) => {
+        options.maxresults = settings.maxPageSize;
+        const marker = settings.continuationToken;
         return this.listSegments(marker, options);
       }
     };
