@@ -9,7 +9,7 @@ import * as Models from "./generated/lib/models";
 import { File } from "./generated/lib/operations";
 import { Range, rangeToString } from "./Range";
 import { FileHTTPHeaders, Metadata } from "./models";
-import { Pipeline } from "./Pipeline";
+import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
 import { StorageClient } from "./StorageClient";
 import {
   DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS,
@@ -17,10 +17,12 @@ import {
   FILE_RANGE_MAX_SIZE_BYTES,
   DEFAULT_HIGH_LEVEL_PARALLELISM
 } from "./utils/constants";
+import { Credential } from "./credentials/Credential";
 import { Batch } from "./utils/Batch";
 import { BufferScheduler } from "./utils/BufferScheduler";
 import { Readable } from "stream";
 import { streamToBuffer } from "./utils/utils.node";
+import { AnonymousCredential } from "./credentials/AnonymousCredential";
 
 /**
  * Options to configure File - Create operation.
@@ -520,11 +522,43 @@ export class FileClient extends StorageClient {
    *                     Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
    *                     However, if a file or directory name includes %, file or directory name must be encoded in the URL.
    *                     Such as a file named "myfile%", the URL should be "https://myaccount.file.core.windows.net/myshare/mydirectory/myfile%25".
+   * @param {Credential} [credential] Such as AnonymousCredential, SharedKeyCredential or TokenCredential.
+   *                                If not specified, AnonymousCredential is used.
+   * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
+   * @memberof FileClient
+   */
+  constructor(url: string, credential?: Credential, options?: NewPipelineOptions);
+  /**
+   * Creates an instance of FileClient.
+   *
+   * @param {string} url A URL string pointing to Azure Storage file, such as
+   *                     "https://myaccount.file.core.windows.net/myshare/mydirectory/file". You can
+   *                     append a SAS if using AnonymousCredential, such as
+   *                     "https://myaccount.file.core.windows.net/myshare/mydirectory/file?sasString".
+   *                     This method accepts an encoded URL or non-encoded URL pointing to a file.
+   *                     Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
+   *                     However, if a file or directory name includes %, file or directory name must be encoded in the URL.
+   *                     Such as a file named "myfile%", the URL should be "https://myaccount.file.core.windows.net/myshare/mydirectory/myfile%25".
    * @param {Pipeline} pipeline Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
    * @memberof FileClient
    */
-  constructor(url: string, pipeline: Pipeline) {
+  constructor(url: string, pipeline: Pipeline);
+  constructor(
+    url: string,
+    credentialOrPipeline?: Credential | Pipeline,
+    options?: NewPipelineOptions
+  ) {
+    let pipeline: Pipeline;
+    if (credentialOrPipeline instanceof Pipeline) {
+      pipeline = credentialOrPipeline;
+    } else if (credentialOrPipeline instanceof Credential) {
+      pipeline = newPipeline(credentialOrPipeline, options);
+    } else {
+      // The second parameter is undefined. Use anonymous credential.
+      pipeline = newPipeline(new AnonymousCredential(), options);
+    }
+
     super(url, pipeline);
     this.context = new File(this.storageClientContext);
   }

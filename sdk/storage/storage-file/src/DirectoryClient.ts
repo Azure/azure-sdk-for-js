@@ -5,10 +5,12 @@ import { Aborter } from "./Aborter";
 import * as Models from "./generated/lib/models";
 import { Directory } from "./generated/lib/operations";
 import { Metadata } from "./models";
-import { Pipeline } from "./Pipeline";
+import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
 import { StorageClient } from "./StorageClient";
 import { appendToURLPath } from "./utils/utils.common";
-import { FileClient } from "./FileClient";
+import { FileClient, FileCreateOptions, FileDeleteOptions } from "./FileClient";
+import { Credential } from "./credentials/Credential";
+import { AnonymousCredential } from "./credentials/AnonymousCredential";
 
 /**
  * Options to configure Directory - Create operation.
@@ -152,11 +154,43 @@ export class DirectoryClient extends StorageClient {
    *                     Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
    *                     However, if a directory name includes %, directory name must be encoded in the URL.
    *                     Such as a directory named "mydir%", the URL should be "https://myaccount.file.core.windows.net/myshare/mydir%25".
+   * @param {Credential} [credential] Such as AnonymousCredential, SharedKeyCredential or TokenCredential.
+   *                                If not specified, AnonymousCredential is used.
+   * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
+   * @memberof DirectoryClient
+   */
+  constructor(url: string, credential?: Credential, options?: NewPipelineOptions);
+  /**
+   * Creates an instance of DirectoryClient.
+   *
+   * @param {string} url A URL string pointing to Azure Storage file directory, such as
+   *                     "https://myaccount.file.core.windows.net/myshare/mydirectory". You can
+   *                     append a SAS if using AnonymousCredential, such as
+   *                     "https://myaccount.file.core.windows.net/myshare/mydirectory?sasString".
+   *                     This method accepts an encoded URL or non-encoded URL pointing to a directory.
+   *                     Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
+   *                     However, if a directory name includes %, directory name must be encoded in the URL.
+   *                     Such as a directory named "mydir%", the URL should be "https://myaccount.file.core.windows.net/myshare/mydir%25".
    * @param {Pipeline} pipeline Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
    * @memberof DirectoryClient
    */
-  constructor(url: string, pipeline: Pipeline) {
+  constructor(url: string, pipeline: Pipeline);
+  constructor(
+    url: string,
+    credentialOrPipeline?: Credential | Pipeline,
+    options: NewPipelineOptions = {}
+  ) {
+    let pipeline: Pipeline;
+    if (credentialOrPipeline instanceof Pipeline) {
+      pipeline = credentialOrPipeline;
+    } else if (credentialOrPipeline instanceof Credential) {
+      pipeline = newPipeline(credentialOrPipeline, options);
+    } else {
+      // The second parameter is undefined. Use anonymous credential.
+      pipeline = newPipeline(new AnonymousCredential(), options);
+    }
+
     super(url, pipeline);
     this.context = new Directory(this.storageClientContext);
   }
@@ -191,6 +225,83 @@ export class DirectoryClient extends StorageClient {
       appendToURLPath(this.url, encodeURIComponent(subDirectoryName)),
       this.pipeline
     );
+  }
+
+  /**
+   * Creates a new subdirectory under this directory.
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-directory
+   *
+   *
+   * @param {string} directoryName
+   * @param {DirectoryCreateOptions} [options] Options to Directory Create operation.
+   * @returns Directory creation response data and the corresponding directory client.
+   * @memberof DirectoryClient
+   */
+  public async createSubdirectory(directoryName: string, options?: DirectoryCreateOptions) {
+    const directoryClient = this.createDirectoryClient(directoryName);
+    const directoryCreateResponse = await directoryClient.create(options);
+    return {
+      directoryClient,
+      directoryCreateResponse
+    };
+  }
+
+  /**
+   * Removes the specified empty sub directory under this directory.
+   * Note that the directory must be empty before it can be deleted.
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-directory
+   *
+   * @param {string} directoryName
+   * @param {DirectoryDeleteOptions} [options] Options to Directory Delete operation.
+   * @returns Directory deletion response data.
+   * @memberof DirectoryClient
+   */
+  public async deleteSubdirectory(directoryName: string, options?: DirectoryDeleteOptions) {
+    const directoryClient = this.createDirectoryClient(directoryName);
+    return await directoryClient.delete(options);
+  }
+
+  /**
+   * Creates a new file or replaces a file under this directory. Note it only initializes the file with no content.
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-file
+   *
+   * @param {string} fileName
+   * @param {number} size Specifies the maximum size in bytes for the file, up to 1 TB.
+   * @param {FileCreateOptions} [options] Options to File Create operation.
+   * @returns File creation response data and the corresponding file client.
+   * @memberof DirectoryClient
+   */
+  public async createFile(fileName: string, size: number, options?: FileCreateOptions) {
+    const fileClient = this.createFileClient(fileName);
+    const fileCreateResponse = await fileClient.create(size, options);
+    return {
+      fileClient,
+      fileCreateResponse
+    };
+  }
+
+  /**
+   * Removes the specified file under this directory from the storage account.
+   * When a file is successfully deleted, it is immediately removed from the storage
+   * account's index and is no longer accessible to clients. The file's data is later
+   * removed from the service during garbage collection.
+   *
+   * Delete File will fail with status code 409 (Conflict) and error code SharingViolation
+   * if the file is open on an SMB client.
+   *
+   * Delete File is not supported on a share snapshot, which is a read-only copy of
+   * a share. An attempt to perform this operation on a share snapshot will fail with 400 (InvalidQueryParameterValue)
+   *
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-file2
+   *
+   * @param {string} fileName Name of the file to delete
+   * @param {FileDeleteOptions} [options] Options to File Delete operation.
+   * @returns File deletion response data.
+   * @memberof DirectoryClient
+   */
+  public async deleteFile(fileName: string, options?: FileDeleteOptions) {
+    const fileClient = this.createFileClient(fileName);
+    return await fileClient.delete(options);
   }
 
   /**

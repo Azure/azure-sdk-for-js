@@ -5,9 +5,16 @@ import * as Models from "./generated/lib/models";
 import { Aborter } from "./Aborter";
 import { ListContainersIncludeType } from "./generated/lib/models/index";
 import { Service } from "./generated/lib/operations";
-import { Pipeline } from "./Pipeline";
-import { ContainerClient } from "./ContainerClient";
-import { appendToURLPath } from "./utils/utils.common";
+import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
+import {
+    ContainerClient,
+    ContainerCreateOptions,
+    ContainerDeleteMethodOptions
+} from "./ContainerClient";
+import { appendToURLPath, extractConnectionStringParts } from "./utils/utils.common";
+import { Credential } from "./credentials/Credential";
+import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
+import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { StorageClient } from "./internal";
 
 /**
@@ -139,6 +146,35 @@ export class BlobServiceClient extends StorageClient {
   private serviceContext: Service;
 
   /**
+   * Creates an instance of BlobServiceClient from connection string.
+   *
+   * @param {string} connectionString Connection string for an Azure storage account.
+   * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
+   * @memberof BlobServiceClient
+   */
+  public static fromConnectionString(connectionString: string, options?: NewPipelineOptions) {
+    const extractedCreds = extractConnectionStringParts(connectionString);
+    const sharedKeyCredential = new SharedKeyCredential(
+      extractedCreds.accountName,
+      extractedCreds.accountKey
+    );
+    const pipeline = newPipeline(sharedKeyCredential, options);
+    return new BlobServiceClient(extractedCreds.url, pipeline);
+  }
+
+  /**
+   * Creates an instance of BlobServiceClient.
+   *
+   * @param {string} url A Client string pointing to Azure Storage blob service, such as
+   *                     "https://myaccount.blob.core.windows.net". You can append a SAS
+   *                     if using AnonymousCredential, such as "https://myaccount.blob.core.windows.net?sasString".
+   * @param {Credential} credential Such as AnonymousCredential, SharedKeyCredential or TokenCredential.
+   *                                If not specified, AnonymousCredential is used.
+   * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
+   * @memberof BlobServiceClient
+   */
+  constructor(url: string, credential?: Credential, options?: NewPipelineOptions);
+  /**
    * Creates an instance of BlobServiceClient.
    *
    * @param {string} url A Client string pointing to Azure Storage blob service, such as
@@ -148,7 +184,21 @@ export class BlobServiceClient extends StorageClient {
    *                            pipeline, or provide a customized pipeline.
    * @memberof BlobServiceClient
    */
-  constructor(url: string, pipeline: Pipeline) {
+  constructor(url: string, pipeline: Pipeline);
+  constructor(
+    url: string,
+    credentialOrPipeline?: Credential | Pipeline,
+    options?: NewPipelineOptions
+  ) {
+    let pipeline: Pipeline;
+    if (credentialOrPipeline instanceof Pipeline) {
+      pipeline = credentialOrPipeline;
+    } else if (credentialOrPipeline instanceof Credential) {
+      pipeline = newPipeline(credentialOrPipeline, options);
+    } else {
+      // The second parameter is undefined. Use anonymous credential
+      pipeline = newPipeline(new AnonymousCredential(), options);
+    }
     super(url, pipeline);
     this.serviceContext = new Service(this.storageClientContext);
   }
@@ -165,6 +215,45 @@ export class BlobServiceClient extends StorageClient {
       appendToURLPath(this.url, encodeURIComponent(containerName)),
       this.pipeline
     );
+  }
+
+  /**
+   * Create a Blob container.
+   *
+   * @param {string} containerName Name of the container to create.
+   * @param {ContainerCreateOptions} [options] Options to configure Container Create operation.
+   * @returns {Promise<{ containerClient: ContainerClient; containerCreateResponse: Models.ContainerCreateResponse }>} Container creation response and the corresponding container client.
+   * @memberof BlobServiceClient
+   */
+  public async createContainer(
+    containerName: string,
+    options?: ContainerCreateOptions
+  ): Promise<{
+    containerClient: ContainerClient;
+    containerCreateResponse: Models.ContainerCreateResponse;
+  }> {
+    const containerClient = this.createContainerClient(containerName);
+    const containerCreateResponse = await containerClient.create(options);
+    return {
+      containerClient,
+      containerCreateResponse
+    };
+  }
+
+  /**
+   * Deletes a Blob container.
+   *
+   * @param {string} containerName Name of the container to delete.
+   * @param {ContainerDeleteMethodOptions} [options] Options to configure Container Delete operation.
+   * @returns {Promise<Models.ContainerDeleteResponse>} Container deletion response.
+   * @memberof BlobServiceClient
+   */
+  public async deleteContainer(
+    containerName: string,
+    options?: ContainerDeleteMethodOptions
+  ): Promise<Models.ContainerDeleteResponse> {
+    const containerClient = this.createContainerClient(containerName);
+    return await containerClient.delete(options);
   }
 
   /**

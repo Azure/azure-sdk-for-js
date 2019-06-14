@@ -71,6 +71,53 @@ export function escapeURLPath(url: string): string {
 }
 
 /**
+ * Extracts the parts of an Azure Storage account connection string.
+ *
+ * @export
+ * @param {string} connectionString Connection string.
+ * @returns {{ [key: string]: any }} String key value pairs of the storage account's base url for Blob, account name, and account key.
+ */
+export function extractConnectionStringParts(connectionString: string): { [key: string]: any } {
+  const matchCredentials = connectionString.match(
+    "DefaultEndpointsProtocol=(.*);AccountName=(.*);AccountKey=(.*);EndpointSuffix=(.*)"
+  );
+
+  let defaultEndpointsProtocol;
+  let accountName;
+  let accountKey;
+  let endpointSuffix;
+
+  try {
+    defaultEndpointsProtocol = matchCredentials![1] || "";
+    accountName = matchCredentials![2] || "";
+    accountKey = Buffer.from(matchCredentials![3], "base64");
+    endpointSuffix = matchCredentials![4] || "";
+  } catch (err) {
+    throw new Error("Invalid Connection String");
+  }
+
+  const protocol = defaultEndpointsProtocol.toLowerCase();
+  if (protocol !== "https" && protocol !== "http") {
+    throw new Error(
+      "Invalid DefaultEndpointsProtocol in the provided Connection String. Expecting 'https' or 'http'"
+    );
+  } else if (!accountName) {
+    throw new Error("Invalid AccountName in the provided Connection String");
+  } else if (accountKey.length === 0) {
+    throw new Error("Invalid AccountKey in the provided Connection String");
+  } else if (!endpointSuffix) {
+    throw new Error("Invalid EndpointSuffix in the provided Connection String");
+  }
+
+  const url = `${defaultEndpointsProtocol}://${accountName}.blob.${endpointSuffix}`;
+
+  return {
+    url: url,
+    accountName: accountName,
+    accountKey: accountKey
+  };
+}
+/**
  * Internal escape method implmented Strategy Two mentioned in escapeURL() description.
  *
  * @param {string} text

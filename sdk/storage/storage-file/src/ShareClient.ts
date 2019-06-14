@@ -7,11 +7,20 @@ import { Aborter } from "./Aborter";
 import * as Models from "./generated/lib/models";
 import { Share } from "./generated/lib/operations";
 import { Metadata } from "./models";
-import { Pipeline } from "./Pipeline";
+import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
 import { StorageClient } from "./StorageClient";
 import { URLConstants } from "./utils/constants";
-import { appendToURLPath, setURLParameter, truncatedISO8061Date } from "./utils/utils.common";
-import { DirectoryClient } from "./DirectoryClient";
+import {
+  appendToURLPath,
+  setURLParameter,
+  truncatedISO8061Date,
+  extractConnectionStringParts
+} from "./utils/utils.common";
+import { DirectoryClient, DirectoryCreateOptions, DirectoryDeleteOptions } from "./DirectoryClient";
+import { FileCreateOptions, FileDeleteOptions } from "./FileClient";
+import { Credential } from "./credentials/Credential";
+import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
+import { AnonymousCredential } from "./credentials/AnonymousCredential";
 
 /**
  * Options to configure Share - Create operation.
@@ -26,7 +35,7 @@ export interface ShareCreateOptions {
    * about request cancellation.
    *
    * @type {Aborter}
-   * @memberof AppendBlobCreateOptions
+   * @memberof ShareCreateOptions
    */
   abortSignal?: Aborter;
   /**
@@ -60,7 +69,7 @@ export interface ShareDeleteMethodOptions {
    * about request cancellation.
    *
    * @type {Aborter}
-   * @memberof AppendBlobCreateOptions
+   * @memberof ShareDeleteMethodOptions
    */
   abortSignal?: Aborter;
   /**
@@ -87,7 +96,7 @@ export interface ShareSetMetadataOptions {
    * about request cancellation.
    *
    * @type {Aborter}
-   * @memberof AppendBlobCreateOptions
+   * @memberof ShareSetMetadataOptions
    */
   abortSignal?: Aborter;
 }
@@ -105,7 +114,7 @@ export interface ShareSetAccessPolicyOptions {
    * about request cancellation.
    *
    * @type {Aborter}
-   * @memberof AppendBlobCreateOptions
+   * @memberof ShareSetAccessPolicyOptions
    */
   abortSignal?: Aborter;
 }
@@ -123,7 +132,7 @@ export interface ShareGetAccessPolicyOptions {
    * about request cancellation.
    *
    * @type {Aborter}
-   * @memberof AppendBlobCreateOptions
+   * @memberof ShareGetAccessPolicyOptions
    */
   abortSignal?: Aborter;
 }
@@ -141,7 +150,7 @@ export interface ShareGetPropertiesOptions {
    * about request cancellation.
    *
    * @type {Aborter}
-   * @memberof AppendBlobCreateOptions
+   * @memberof ShareGetPropertiesOptions
    */
   abortSignal?: Aborter;
 }
@@ -159,7 +168,7 @@ export interface ShareSetQuotaOptions {
    * about request cancellation.
    *
    * @type {Aborter}
-   * @memberof AppendBlobCreateOptions
+   * @memberof ShareSetQuotaOptions
    */
   abortSignal?: Aborter;
 }
@@ -177,7 +186,7 @@ export interface ShareGetStatisticsOptions {
    * about request cancellation.
    *
    * @type {Aborter}
-   * @memberof AppendBlobCreateOptions
+   * @memberof ShareGetStatisticsOptions
    */
   abortSignal?: Aborter;
 }
@@ -248,7 +257,7 @@ export interface ShareCreateSnapshotOptions {
    * about request cancellation.
    *
    * @type {Aborter}
-   * @memberof AppendBlobCreateOptions
+   * @memberof ShareCreateSnapshotOptions
    */
   abortSignal?: Aborter;
   /**
@@ -279,6 +288,28 @@ export class ShareClient extends StorageClient {
   /**
    * Creates an instance of ShareClient.
    *
+   * @param {string} connectionString Connection string for an Azure storage account.
+   * @param {string} shareName Share name.
+   * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
+   * @memberof ShareClient
+   */
+  constructor(connectionString: string, shareName: string, options?: NewPipelineOptions);
+  /**
+   * Creates an instance of ShareClient.
+   *
+   * @param {string} url A URL string pointing to Azure Storage file share, such as
+   *                     "https://myaccount.file.core.windows.net/share". You can
+   *                     append a SAS if using AnonymousCredential, such as
+   *                     "https://myaccount.file.core.windows.net/share?sasString".
+   * @param {Credential} [credential] Such as AnonymousCredential, SharedKeyCredential or TokenCredential.
+   *                                If not specified, AnonymousCredential is used.
+   * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
+   * @memberof ShareClient
+   */
+  constructor(url: string, credential?: Credential, options?: NewPipelineOptions);
+  /**
+   * Creates an instance of ShareClient.
+   *
    * @param {string} url A URL string pointing to Azure Storage file share, such as
    *                     "https://myaccount.file.core.windows.net/share". You can
    *                     append a SAS if using AnonymousCredential, such as
@@ -287,8 +318,39 @@ export class ShareClient extends StorageClient {
    *                            pipeline, or provide a customized pipeline.
    * @memberof ShareClient
    */
-  constructor(url: string, pipeline: Pipeline) {
-    super(url, pipeline);
+  constructor(url: string, pipeline: Pipeline);
+  constructor(
+    urlOrConnectionString: string,
+    credentialOrPipelineOrShareName?: Credential | Pipeline | string,
+    options?: NewPipelineOptions
+  ) {
+    let pipeline: Pipeline;
+    if (credentialOrPipelineOrShareName instanceof Pipeline) {
+      pipeline = credentialOrPipelineOrShareName;
+    } else if (credentialOrPipelineOrShareName instanceof Credential) {
+      pipeline = newPipeline(credentialOrPipelineOrShareName, options);
+    } else if (
+      !credentialOrPipelineOrShareName &&
+      typeof credentialOrPipelineOrShareName !== "string"
+    ) {
+      // The second parameter is undefined. Use anonymous credential.
+      pipeline = newPipeline(new AnonymousCredential(), options);
+    } else if (
+      credentialOrPipelineOrShareName &&
+      typeof credentialOrPipelineOrShareName === "string"
+    ) {
+      const shareName = credentialOrPipelineOrShareName;
+      const extractedCreds = extractConnectionStringParts(urlOrConnectionString);
+      const sharedKeyCredential = new SharedKeyCredential(
+        extractedCreds.accountName,
+        extractedCreds.accountKey
+      );
+      urlOrConnectionString = extractedCreds.url + "/" + shareName;
+      pipeline = newPipeline(sharedKeyCredential, options);
+    } else {
+      throw new Error("Expecting non-empty strings for shareName parameter");
+    }
+    super(urlOrConnectionString, pipeline);
     this.context = new Share(this.storageClientContext);
   }
 
@@ -340,6 +402,99 @@ export class ShareClient extends StorageClient {
       appendToURLPath(this.url, encodeURIComponent(directoryName)),
       this.pipeline
     );
+  }
+
+  /**
+   * Gets the directory client for the root directory of this share.
+   * Note that the root directory always exists and cannot be deleted.
+   *
+   * @readonly
+   * @type {DirectoryClient}
+   * @memberof ShareClient
+   */
+  public get rootDirectoryClient(): DirectoryClient {
+    return this.createDirectoryClient("");
+  }
+
+  /**
+   * Creates a new subdirectory under this share.
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-directory
+   *
+   *
+   * @param {string} directoryName
+   * @param {DirectoryCreateOptions} [options] Options to Directory Create operation.
+   * @returns Directory creation response data and the corresponding directory client.
+   * @memberof ShareClient
+   */
+  public async createDirectory(directoryName: string, options?: DirectoryCreateOptions) {
+    const directoryClient = this.createDirectoryClient(directoryName);
+    const directoryCreateResponse = await directoryClient.create(options);
+    return {
+      directoryClient,
+      directoryCreateResponse
+    };
+  }
+
+  /**
+   * Removes the specified empty sub directory under this share.
+   * Note that the directory must be empty before it can be deleted.
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-directory
+   *
+   * @param {string} directoryName
+   * @param {DirectoryDeleteOptions} [options] Options to Directory Delete operation.
+   * @returns Directory deletion response data.
+   * @memberof ShareClient
+   */
+  public async deleteDirectory(directoryName: string, options?: DirectoryDeleteOptions) {
+    const directoryClient = this.createDirectoryClient(directoryName);
+    return await directoryClient.delete(options);
+  }
+
+  /**
+   * Creates a new file or replaces a file under the root directory of this share.
+   * Note it only initializes the file with no content.
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-file
+   *
+   * @param {string} fileName
+   * @param {number} size Specifies the maximum size in bytes for the file, up to 1 TB.
+   * @param {FileCreateOptions} [options] Options to File Create operation.
+   * @returns File creation response data and the corresponding file client.
+   * @memberof ShareClient
+   */
+  public async createFile(fileName: string, size: number, options?: FileCreateOptions) {
+    const directoryClient = this.rootDirectoryClient;
+    const fileClient = directoryClient.createFileClient(fileName);
+    const fileCreateResponse = await fileClient.create(size, options);
+    return {
+      fileClient,
+      fileCreateResponse
+    };
+  }
+
+  /**
+   * Removes a file under the root directory of this share from the storage account.
+   * When a file is successfully deleted, it is immediately removed from the storage
+   * account's index and is no longer accessible to clients. The file's data is later
+   * removed from the service during garbage collection.
+   *
+   * Delete File will fail with status code 409 (Conflict) and error code SharingViolation
+   * if the file is open on an SMB client.
+   *
+   * Delete File is not supported on a share snapshot, which is a read-only copy of
+   * a share. An attempt to perform this operation on a share snapshot will fail with 400 (InvalidQueryParameterValue)
+   *
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-file2
+   *
+   * @param {string} directoryName
+   * @param {string} fileName
+   * @param {FileDeleteOptions} [options] Options to File Delete operation.
+   * @returns
+   * @memberof ShareClient
+   */
+  public async deleteFile(fileName: string, options?: FileDeleteOptions) {
+    const directoryClient = this.rootDirectoryClient;
+    const fileClient = directoryClient.createFileClient(fileName);
+    return await fileClient.delete(options);
   }
 
   /**

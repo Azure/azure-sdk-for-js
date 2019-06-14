@@ -1,7 +1,8 @@
 import * as assert from "assert";
-
 import * as dotenv from "dotenv";
-import { getBSU, getUniqueName } from "./utils";
+import { newPipeline, SharedKeyCredential } from "../src";
+import { ContainerClient } from "../src/ContainerClient";
+import { bodyToString, getBSU, getConnectionStringFromEnvironment, getUniqueName } from "./utils";
 dotenv.config({ path: "../.env" });
 
 describe("ContainerClient", () => {
@@ -278,6 +279,148 @@ describe("ContainerClient", () => {
 
     for (const blob of blobClients) {
       await blob.delete();
+    }
+  });
+
+  it("uploadBlockBlob and deleteBlob", async () => {
+    const body: string = getUniqueName("randomstring");
+    const options = {
+      blobCacheControl: "blobCacheControl",
+      blobContentDisposition: "blobContentDisposition",
+      blobContentEncoding: "blobContentEncoding",
+      blobContentLanguage: "blobContentLanguage",
+      blobContentType: "blobContentType",
+      metadata: {
+        keya: "vala",
+        keyb: "valb"
+      }
+    };
+    const blobName: string = getUniqueName("blob");
+    const { blockBlobClient } = await containerClient.uploadBlockBlob(blobName, body, body.length, {
+      blobHTTPHeaders: options,
+      metadata: options.metadata
+    });
+    const result = await blockBlobClient.download(0);
+    assert.deepStrictEqual(await bodyToString(result, body.length), body);
+    assert.deepStrictEqual(result.cacheControl, options.blobCacheControl);
+
+    await containerClient.deleteBlob(blobName);
+    try {
+      await blockBlobClient.getProperties();
+      assert.fail(
+        "Expecting an error in getting properties from a deleted block blob but didn't get one."
+      );
+    } catch (error) {
+      assert.ok((error.statusCode as number) === 404);
+    }
+  });
+
+  it("can be created with a url and a credential", async () => {
+    const factories = containerClient.pipeline.factories;
+    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const newClient = new ContainerClient(containerClient.url, credential);
+
+    const result = await newClient.getProperties();
+
+    assert.ok(result.eTag!.length > 0);
+    assert.ok(result.lastModified);
+    assert.ok(!result.leaseDuration);
+    assert.equal(result.leaseState, "available");
+    assert.equal(result.leaseStatus, "unlocked");
+    assert.ok(result.requestId);
+    assert.ok(result.version);
+    assert.ok(result.date);
+    assert.ok(!result.blobPublicAccess);
+  });
+
+  it("can be created with a url and a credential and an option bag", async () => {
+    const factories = containerClient.pipeline.factories;
+    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const newClient = new ContainerClient(containerClient.url, credential, {
+      retryOptions: {
+        maxTries: 5
+      }
+    });
+
+    const result = await newClient.getProperties();
+
+    assert.ok(result.eTag!.length > 0);
+    assert.ok(result.lastModified);
+    assert.ok(!result.leaseDuration);
+    assert.equal(result.leaseState, "available");
+    assert.equal(result.leaseStatus, "unlocked");
+    assert.ok(result.requestId);
+    assert.ok(result.version);
+    assert.ok(result.date);
+    assert.ok(!result.blobPublicAccess);
+  });
+
+  it("can be created with a url and a pipeline", async () => {
+    const factories = containerClient.pipeline.factories;
+    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const pipeline = newPipeline(credential);
+    const newClient = new ContainerClient(containerClient.url, pipeline);
+
+    const result = await newClient.getProperties();
+
+    assert.ok(result.eTag!.length > 0);
+    assert.ok(result.lastModified);
+    assert.ok(!result.leaseDuration);
+    assert.equal(result.leaseState, "available");
+    assert.equal(result.leaseStatus, "unlocked");
+    assert.ok(result.requestId);
+    assert.ok(result.version);
+    assert.ok(result.date);
+    assert.ok(!result.blobPublicAccess);
+  });
+
+  it("can be created with a connection string", async () => {
+    const newClient = new ContainerClient(getConnectionStringFromEnvironment(), containerName);
+
+    const result = await newClient.getProperties();
+
+    assert.ok(result.eTag!.length > 0);
+    assert.ok(result.lastModified);
+    assert.ok(!result.leaseDuration);
+    assert.equal(result.leaseState, "available");
+    assert.equal(result.leaseStatus, "unlocked");
+    assert.ok(result.requestId);
+    assert.ok(result.version);
+    assert.ok(result.date);
+    assert.ok(!result.blobPublicAccess);
+  });
+
+  it("can be created with a connection string and a container name and an option bag", async () => {
+    const newClient = new ContainerClient(getConnectionStringFromEnvironment(), containerName, {
+      retryOptions: {
+        maxTries: 5
+      }
+    });
+
+    const result = await newClient.getProperties();
+
+    assert.ok(result.eTag!.length > 0);
+    assert.ok(result.lastModified);
+    assert.ok(!result.leaseDuration);
+    assert.equal(result.leaseState, "available");
+    assert.equal(result.leaseStatus, "unlocked");
+    assert.ok(result.requestId);
+    assert.ok(result.version);
+    assert.ok(result.date);
+    assert.ok(!result.blobPublicAccess);
+  });
+
+  it("throws error if constructor containerName parameter is empty", async () => {
+    try {
+      // tslint:disable-next-line: no-unused-expression
+      new ContainerClient(getConnectionStringFromEnvironment(), "");
+      assert.fail("Expecting an thrown error but didn't get one.");
+    } catch (error) {
+      assert.equal(
+        "Expecting non-empty strings for containerName parameter",
+        error.message,
+        "Error message is different than expected."
+      );
     }
   });
 });

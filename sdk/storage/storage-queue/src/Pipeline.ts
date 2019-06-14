@@ -160,7 +160,7 @@ export interface NewPipelineOptions {
  *
  * @static
  * @param {Credential} credential Such as AnonymousCredential, SharedKeyCredential or TokenCredential.
- * @param {NewPipelineOptions} [pipelineOptions] Optional. Options.
+ * @param {NewPipelineOptions} [pipelineOptions] Options.
  * @returns {Pipeline} A new Pipeline object.
  * @memberof Pipeline
  */

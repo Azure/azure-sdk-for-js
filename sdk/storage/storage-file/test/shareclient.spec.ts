@@ -1,6 +1,7 @@
 import * as assert from "assert";
-import { getBSU, getUniqueName } from "./utils";
 import * as dotenv from "dotenv";
+import { newPipeline, ShareClient, SharedKeyCredential } from "../src";
+import { getBSU, getConnectionStringFromEnvironment, getUniqueName } from "./utils";
 dotenv.config({ path: "../.env" });
 
 describe("ShareClient", () => {
@@ -86,5 +87,135 @@ describe("ShareClient", () => {
     assert.notDeepStrictEqual(originProperties.metadata, metadata);
 
     await snapshotShareClient.delete({});
+  });
+
+  it("createDirectory and deleteDirectory", async () => {
+    const dirName = getUniqueName("directory");
+    const metadata = { key: "value" };
+
+    const { directoryClient } = await shareClient.createDirectory(dirName, { metadata });
+    const result = await directoryClient.getProperties();
+    assert.deepEqual(result.metadata, metadata);
+
+    await shareClient.deleteDirectory(dirName);
+    try {
+      await directoryClient.getProperties();
+      assert.fail(
+        "Expecting an error in getting properties from a deleted block blob but didn't get one."
+      );
+    } catch (error) {
+      assert.ok((error.statusCode as number) === 404);
+    }
+  });
+
+  it("createFile and deleteFile under root directory", async () => {
+    const fileName = getUniqueName("file");
+    const metadata = { key: "value" };
+    const { fileClient } = await shareClient.createFile(fileName, 256, { metadata });
+    const result = await fileClient.getProperties();
+    assert.deepEqual(result.metadata, metadata);
+
+    await shareClient.deleteFile(fileName);
+    try {
+      await fileClient.getProperties();
+      assert.fail(
+        "Expecting an error in getting properties from a deleted block blob but didn't get one."
+      );
+    } catch (error) {
+      assert.ok((error.statusCode as number) === 404);
+    }
+  });
+
+  it("can get a directory client for root directory", async () => {
+    const root = await shareClient.rootDirectoryClient;
+    const result = await root.getProperties();
+    assert.ok(result, "Expecting valid properties for the root directory.");
+  });
+
+  it("can be created with a url and a credential", async () => {
+    const factories = shareClient.pipeline.factories;
+    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const newClient = new ShareClient(shareClient.url, credential);
+
+    const result = await newClient.getProperties();
+
+    assert.ok(result.eTag!.length > 0);
+    assert.ok(result.lastModified);
+    assert.ok(result.requestId);
+    assert.ok(result.version);
+    assert.ok(result.date);
+  });
+
+  it("can be created with a url and a credential and an option bag", async () => {
+    const factories = shareClient.pipeline.factories;
+    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const newClient = new ShareClient(shareClient.url, credential, {
+      retryOptions: {
+        maxTries: 5
+      }
+    });
+
+    const result = await newClient.getProperties();
+
+    assert.ok(result.eTag!.length > 0);
+    assert.ok(result.lastModified);
+    assert.ok(result.requestId);
+    assert.ok(result.version);
+    assert.ok(result.date);
+  });
+
+  it("can be created with a url and a pipeline", async () => {
+    const factories = shareClient.pipeline.factories;
+    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const pipeline = newPipeline(credential);
+    const newClient = new ShareClient(shareClient.url, pipeline);
+
+    const result = await newClient.getProperties();
+
+    assert.ok(result.eTag!.length > 0);
+    assert.ok(result.lastModified);
+    assert.ok(result.requestId);
+    assert.ok(result.version);
+    assert.ok(result.date);
+  });
+
+  it("can be created with a connection string and a share name", async () => {
+    const newClient = new ShareClient(getConnectionStringFromEnvironment(), shareName);
+    const result = await newClient.getProperties();
+
+    assert.ok(result.eTag!.length > 0);
+    assert.ok(result.lastModified);
+    assert.ok(result.requestId);
+    assert.ok(result.version);
+    assert.ok(result.date);
+  });
+
+  it("can be created with a connection string and a share name and an option bag", async () => {
+    const newClient = new ShareClient(getConnectionStringFromEnvironment(), shareName, {
+      retryOptions: {
+        maxTries: 5
+      }
+    });
+    const result = await newClient.getProperties();
+
+    assert.ok(result.eTag!.length > 0);
+    assert.ok(result.lastModified);
+    assert.ok(result.requestId);
+    assert.ok(result.version);
+    assert.ok(result.date);
+  });
+
+  it("throws error if constructor shareName parameter is empty", async () => {
+    try {
+      // tslint:disable-next-line: no-unused-expression
+      new ShareClient(getConnectionStringFromEnvironment(), "");
+      assert.fail("Expecting an thrown error but didn't get one.");
+    } catch (error) {
+      assert.equal(
+        "Expecting non-empty strings for shareName parameter",
+        error.message,
+        "Error message is different than expected."
+      );
+    }
   });
 });

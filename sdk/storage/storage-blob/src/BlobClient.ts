@@ -9,16 +9,19 @@ import { BlobDownloadResponse } from "./BlobDownloadResponse";
 import { Blob } from "./generated/lib/operations";
 import { rangeToString } from "./Range";
 import { BlobAccessConditions, Metadata } from "./models";
-import { Pipeline } from "./Pipeline";
+import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
 import {
   DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS,
   URLConstants,
   DEFAULT_BLOB_DOWNLOAD_BLOCK_BYTES
 } from "./utils/constants";
-import { setURLParameter } from "./utils/utils.common";
+import { setURLParameter, extractConnectionStringParts } from "./utils/utils.common";
 import { AppendBlobClient, StorageClient } from "./internal";
 import { BlockBlobClient } from "./internal";
 import { PageBlobClient } from "./internal";
+import { Credential } from "./credentials/Credential";
+import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
+import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { Batch } from "./utils/Batch";
 import { streamToBuffer } from "./utils/utils.node";
 import { LeaseClient } from "./LeaseClient";
@@ -548,13 +551,43 @@ export class BlobClient extends StorageClient {
 
   /**
    * Creates an instance of BlobClient.
+   *
+   * @param {string} connectionString Connection string for an Azure storage account.
+   * @param {string} containerName Container name.
+   * @param {string} blobName Blob name.
+   * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
+   * @memberof BlobClient
+   */
+  constructor(
+    connectionString: string,
+    containerName: string,
+    blobName: string,
+    options?: NewPipelineOptions
+  );
+  /**
+   * Creates an instance of BlobClient.
+   * This method accepts an encoded URL or non-encoded URL pointing to a blob.
+   * Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
+   * If a blob name includes ? or %, blob name must be encoded in the URL.
+   *
+   * @param {string} url A Client string pointing to Azure Storage blob service, such as
+   *                     "https://myaccount.blob.core.windows.net". You can append a SAS
+   *                     if using AnonymousCredential, such as "https://myaccount.blob.core.windows.net?sasString".
+   * @param {Credential} credential Such as AnonymousCredential, SharedKeyCredential or TokenCredential.
+   *                                If not specified, AnonymousCredential is used.
+   * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
+   * @memberof BlobClient
+   */
+  constructor(url: string, credential?: Credential, options?: NewPipelineOptions);
+  /**
+   * Creates an instance of BlobClient.
    * This method accepts an encoded URL or non-encoded URL pointing to a blob.
    * Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
    * If a blob name includes ? or %, blob name must be encoded in the URL.
    *
    * @param {string} url A URL string pointing to Azure Storage blob, such as
    *                     "https://myaccount.blob.core.windows.net/mycontainer/blob".
-   *                     You can append a SAS if using AnonymousCredential, such as
+   *                     You can append a SAS if using AnonymousCredential, such as
    *                     "https://myaccount.blob.core.windows.net/mycontainer/blob?sasString".
    *                     This method accepts an encoded URL or non-encoded URL pointing to a blob.
    *                     Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
@@ -564,8 +597,45 @@ export class BlobClient extends StorageClient {
    *                            pipeline, or provide a customized pipeline.
    * @memberof BlobClient
    */
-  constructor(url: string, pipeline: Pipeline) {
-    super(url, pipeline);
+  constructor(url: string, pipeline: Pipeline);
+  constructor(
+    urlOrConnectionString: string,
+    credentialOrPipelineOrContainerName?: string | Credential | Pipeline,
+    blobNameOrOptions?: string | NewPipelineOptions,
+    options?: NewPipelineOptions
+  ) {
+    let pipeline: Pipeline;
+    if (credentialOrPipelineOrContainerName instanceof Pipeline) {
+      pipeline = credentialOrPipelineOrContainerName;
+    } else if (credentialOrPipelineOrContainerName instanceof Credential) {
+      options = blobNameOrOptions as NewPipelineOptions;
+      pipeline = newPipeline(credentialOrPipelineOrContainerName, options);
+    } else if (
+      !credentialOrPipelineOrContainerName &&
+      typeof credentialOrPipelineOrContainerName !== "string"
+    ) {
+      // The second parameter is undefined. Use anonymous credential.
+      pipeline = newPipeline(new AnonymousCredential(), options);
+    } else if (
+      credentialOrPipelineOrContainerName &&
+      typeof credentialOrPipelineOrContainerName === "string" &&
+      blobNameOrOptions &&
+      typeof blobNameOrOptions === "string"
+    ) {
+      const containerName = credentialOrPipelineOrContainerName;
+      const blobName = blobNameOrOptions;
+
+      const extractedCreds = extractConnectionStringParts(urlOrConnectionString);
+      const sharedKeyCredential = new SharedKeyCredential(
+        extractedCreds.accountName,
+        extractedCreds.accountKey
+      );
+      urlOrConnectionString = extractedCreds.url + "/" + containerName + "/" + blobName;
+      pipeline = newPipeline(sharedKeyCredential, options);
+    } else {
+      throw new Error("Expecting non-empty strings for containerName and blobName parameters");
+    }
+    super(urlOrConnectionString, pipeline);
     this.blobContext = new Blob(this.storageClientContext);
   }
 
@@ -574,7 +644,7 @@ export class BlobClient extends StorageClient {
    * Provide "" will remove the snapshot and return a Client to the base blob.
    *
    * @param {string} snapshot The snapshot timestamp.
-   * @returns {BlobClient} A new BlobClient object identical to the source but with the specified snapshot timestamp.
+   * @returns {BlobClient} A new BlobClient object identical to the source but with the specified snapshot timestamp
    * @memberof BlobClient
    */
   public withSnapshot(snapshot: string): BlobClient {
@@ -591,7 +661,7 @@ export class BlobClient extends StorageClient {
   /**
    * Creates a AppendBlobClient object.
    *
-   * @returns {AppendBlobClient} A new AppendBlobClient object from this BlobClient.
+   * @returns {AppendBlobClient}
    * @memberof BlobClient
    */
   public createAppendBlobClient(): AppendBlobClient {
@@ -601,7 +671,7 @@ export class BlobClient extends StorageClient {
   /**
    * Creates a BlockBlobClient object.
    *
-   * @returns {BlockBlobClient} A new BlockBlobClient object from this BlobClient.
+   * @returns {BlockBlobClient}
    * @memberof BlobClient
    */
   public createBlockBlobClient(): BlockBlobClient {
@@ -611,7 +681,7 @@ export class BlobClient extends StorageClient {
   /**
    * Creates a PageBlobClient object.
    *
-   * @returns {PageBlobClient} A new PageBlobClient object from this BlobClient.
+   * @returns {PageBlobClient}
    * @memberof BlobClient
    */
   public createPageBlobClient(): PageBlobClient {
@@ -629,8 +699,8 @@ export class BlobClient extends StorageClient {
    *
    * @param {number} [offset] From which position of the blob to download, >= 0
    * @param {number} [count] How much data to be downloaded, > 0. Will download to the end when undefined
-   * @param {BlobDownloadOptions} [options] Options to Blob Download operation.
-   * @returns {Promise<Models.BlobDownloadResponse>} Response data for the Blob Download operation.
+   * @param {BlobDownloadOptions} [options] Optional options to Blob Download operation.
+   * @returns {Promise<Models.BlobDownloadResponse>}
    * @memberof BlobClient
    */
   public async download(
@@ -723,8 +793,8 @@ export class BlobClient extends StorageClient {
    * for the blob. It does not return the content of the blob.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-blob-properties
    *
-   * @param {BlobGetPropertiesOptions} [options] Options to Get Properties operation.
-   * @returns {Promise<Models.BlobGetPropertiesResponse>} Response data for the Blob Get Properties operation.
+   * @param {BlobGetPropertiesOptions} [options] Optional options to Get Properties operation.
+   * @returns {Promise<Models.BlobGetPropertiesResponse>}
    * @memberof BlobClient
    */
   public async getProperties(
@@ -746,8 +816,8 @@ export class BlobClient extends StorageClient {
    * Blob operation.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-blob
    *
-   * @param {BlobDeleteOptions} [options] Options to Blob Delete operation.
-   * @returns {Promise<Models.BlobDeleteResponse>} Response data for the Blob Delete operation.
+   * @param {BlobDeleteOptions} [options] Optional options to Blob Delete operation.
+   * @returns {Promise<Models.BlobDeleteResponse>}
    * @memberof BlobClient
    */
   public async delete(options: BlobDeleteOptions = {}): Promise<Models.BlobDeleteResponse> {
@@ -767,8 +837,8 @@ export class BlobClient extends StorageClient {
    * or later.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/undelete-blob
    *
-   * @param {BlobUndeleteOptions} [options] Options to Blob Undelete operation.
-   * @returns {Promise<Models.BlobUndeleteResponse>} Response data for the Blob Undelete operation.
+   * @param {BlobUndeleteOptions} [options] Optional options to Blob Undelete operation.
+   * @returns {Promise<Models.BlobUndeleteResponse>}
    * @memberof BlobClient
    */
   public async undelete(options: BlobUndeleteOptions = {}): Promise<Models.BlobUndeleteResponse> {
@@ -788,8 +858,8 @@ export class BlobClient extends StorageClient {
    * @param {Models.BlobHTTPHeaders} [blobHTTPHeaders] If no value provided, or no value provided for
    *                                                   the specificed blob HTTP headers, these blob HTTP
    *                                                   headers without a value will be cleared.
-   * @param {BlobSetHTTPHeadersOptions} [options] Options to Blob Set HTTP Headers operation.
-   * @returns {Promise<Models.BlobSetHTTPHeadersResponse>} Response data for the Blob Set HTTP Headers operation.
+   * @param {BlobSetHTTPHeadersOptions} [options] Optional options to Blob Set HTTP Headers operation.
+   * @returns {Promise<Models.BlobSetHTTPHeadersResponse>}
    * @memberof BlobClient
    */
   public async setHTTPHeaders(
@@ -815,8 +885,8 @@ export class BlobClient extends StorageClient {
    *
    * @param {Metadata} [metadata] Replace existing metadata with this value.
    *                               If no value provided the existing metadata will be removed.
-   * @param {BlobSetMetadataOptions} [options] Options to Blob Set Metadata operation.
-   * @returns {Promise<Models.BlobSetMetadataResponse>} Response data for the Blob Set Metadata operation.
+   * @param {BlobSetMetadataOptions} [options] Optional options to Set Metadata operation.
+   * @returns {Promise<Models.BlobSetMetadataResponse>}
    * @memberof BlobClient
    */
   public async setMetadata(
@@ -848,8 +918,8 @@ export class BlobClient extends StorageClient {
    * Creates a read-only snapshot of a blob.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/snapshot-blob
    *
-   * @param {BlobCreateSnapshotOptions} [options] Options to the Blob Create Snapshot operation.
-   * @returns {Promise<Models.BlobCreateSnapshotResponse>} Response data for the Blob Create Snapshot operation.
+   * @param {BlobCreateSnapshotOptions} [options] Optional options to the Blob Create Snapshot operation.
+   * @returns {Promise<Models.BlobCreateSnapshotResponse>}
    * @memberof BlobClient
    */
   public async createSnapshot(
@@ -876,8 +946,8 @@ export class BlobClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/copy-blob
    *
    * @param {string} copySource url to the ource Azure Blob/File.
-   * @param {BlobStartCopyFromURLOptions} [options] Options to the Blob Start Copy From URL operation.
-   * @returns {Promise<Models.BlobStartCopyFromURLResponse>} Response data for the Blob Start Copy From URL operation.
+   * @param {BlobStartCopyFromURLOptions} [options] Optional options to the Blob Start Copy From URL operation.
+   * @returns {Promise<Models.BlobStartCopyFromURLResponse>}
    * @memberof BlobClient
    */
   public async startCopyFromURL(
@@ -908,8 +978,8 @@ export class BlobClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/abort-copy-blob
    *
    * @param {string} copyId Id of the Copy From URL operation.
-   * @param {BlobAbortCopyFromURLOptions} [options] Options to the Blob Abort Copy From URL operation.
-   * @returns {Promise<Models.BlobAbortCopyFromURLResponse>} Response data for the Blob Abort Copy From URL operation.
+   * @param {BlobAbortCopyFromURLOptions} [options] Optional options to the Blob Abort Copy From URL operation.
+   * @returns {Promise<Models.BlobAbortCopyFromURLResponse>}
    * @memberof BlobClient
    */
   public async abortCopyFromURL(
@@ -932,8 +1002,8 @@ export class BlobClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-blob-tier
    *
    * @param {Models.AccessTier} tier The tier to be set on the blob. Valid values are Hot, Cool, or Archive.
-   * @param {BlobSetTierOptions} [options] Options to the Blob Set Tier operation.
-   * @returns {Promise<Models.BlobsSetTierResponse>} Response data for the Blob Set Tier operation.
+   * @param {BlobSetTierOptions} [options] Optional options to the Blob Set Tier operation.
+   * @returns {Promise<Models.BlobsSetTierResponse>}
    * @memberof BlobClient
    */
   public async setTier(
