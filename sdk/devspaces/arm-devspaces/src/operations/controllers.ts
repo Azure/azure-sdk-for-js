@@ -186,28 +186,35 @@ export class Controllers {
    * @summary Lists connection details for an Azure Dev Spaces Controller.
    * @param resourceGroupName Resource group to which the resource belongs.
    * @param name Name of the resource.
+   * @param listConnectionDetailsParameters Parameters for listing connection details of Azure Dev
+   * Spaces Controller.
    * @param [options] The optional parameters
    * @returns Promise<Models.ControllersListConnectionDetailsResponse>
    */
-  listConnectionDetails(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase): Promise<Models.ControllersListConnectionDetailsResponse>;
+  listConnectionDetails(resourceGroupName: string, name: string, listConnectionDetailsParameters: Models.ListConnectionDetailsParameters, options?: msRest.RequestOptionsBase): Promise<Models.ControllersListConnectionDetailsResponse>;
   /**
    * @param resourceGroupName Resource group to which the resource belongs.
    * @param name Name of the resource.
+   * @param listConnectionDetailsParameters Parameters for listing connection details of Azure Dev
+   * Spaces Controller.
    * @param callback The callback
    */
-  listConnectionDetails(resourceGroupName: string, name: string, callback: msRest.ServiceCallback<Models.ControllerConnectionDetailsList>): void;
+  listConnectionDetails(resourceGroupName: string, name: string, listConnectionDetailsParameters: Models.ListConnectionDetailsParameters, callback: msRest.ServiceCallback<Models.ControllerConnectionDetailsList>): void;
   /**
    * @param resourceGroupName Resource group to which the resource belongs.
    * @param name Name of the resource.
+   * @param listConnectionDetailsParameters Parameters for listing connection details of Azure Dev
+   * Spaces Controller.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listConnectionDetails(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ControllerConnectionDetailsList>): void;
-  listConnectionDetails(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ControllerConnectionDetailsList>, callback?: msRest.ServiceCallback<Models.ControllerConnectionDetailsList>): Promise<Models.ControllersListConnectionDetailsResponse> {
+  listConnectionDetails(resourceGroupName: string, name: string, listConnectionDetailsParameters: Models.ListConnectionDetailsParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ControllerConnectionDetailsList>): void;
+  listConnectionDetails(resourceGroupName: string, name: string, listConnectionDetailsParameters: Models.ListConnectionDetailsParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ControllerConnectionDetailsList>, callback?: msRest.ServiceCallback<Models.ControllerConnectionDetailsList>): Promise<Models.ControllersListConnectionDetailsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
+        listConnectionDetailsParameters,
         options
       },
       listConnectionDetailsOperationSpec,
@@ -335,7 +342,7 @@ const getOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.Controller
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.DevSpacesErrorResponse
     }
   },
   serializer
@@ -366,8 +373,11 @@ const updateOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.Controller
     },
+    201: {
+      bodyMapper: Mappers.Controller
+    },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.DevSpacesErrorResponse
     }
   },
   serializer
@@ -391,7 +401,7 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ControllerList
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.DevSpacesErrorResponse
     }
   },
   serializer
@@ -414,7 +424,7 @@ const listOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ControllerList
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.DevSpacesErrorResponse
     }
   },
   serializer
@@ -434,12 +444,19 @@ const listConnectionDetailsOperationSpec: msRest.OperationSpec = {
   headerParameters: [
     Parameters.acceptLanguage
   ],
+  requestBody: {
+    parameterPath: "listConnectionDetailsParameters",
+    mapper: {
+      ...Mappers.ListConnectionDetailsParameters,
+      required: true
+    }
+  },
   responses: {
     200: {
       bodyMapper: Mappers.ControllerConnectionDetailsList
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.DevSpacesErrorResponse
     }
   },
   serializer
@@ -474,7 +491,7 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.Controller
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.DevSpacesErrorResponse
     }
   },
   serializer
@@ -499,7 +516,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.DevSpacesErrorResponse
     }
   },
   serializer
@@ -520,7 +537,7 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ControllerList
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.DevSpacesErrorResponse
     }
   },
   serializer
@@ -541,7 +558,7 @@ const listNextOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ControllerList
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.DevSpacesErrorResponse
     }
   },
   serializer
