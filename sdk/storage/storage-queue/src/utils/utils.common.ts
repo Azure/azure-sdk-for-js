@@ -127,19 +127,34 @@ export function extractConnectionStringParts(connectionString: string): { [key: 
   const matchCredentials = connectionString.match(
     "DefaultEndpointsProtocol=(.*);AccountName=(.*);AccountKey=(.*);EndpointSuffix=(.*)"
   );
-  const defaultEndpointsProtocol = matchCredentials![1] || "";
-  const accountName = matchCredentials![2] || "";
-  const accountKey = Buffer.from(matchCredentials![3], "base64");
-  const endpointSuffix = matchCredentials![4] || "";
-  if (!accountName) {
+
+  let defaultEndpointsProtocol;
+  let accountName;
+  let accountKey;
+  let endpointSuffix;
+
+  try {
+    defaultEndpointsProtocol = matchCredentials![1] || "";
+    accountName = matchCredentials![2] || "";
+    accountKey = Buffer.from(matchCredentials![3], "base64");
+    endpointSuffix = matchCredentials![4] || "";
+  } catch (err) {
+    throw new Error("Invalid Connection String");
+  }
+
+  const protocol = defaultEndpointsProtocol.toLowerCase();
+  if (protocol !== "https" && protocol !== "http") {
+    throw new Error(
+      "Invalid DefaultEndpointsProtocol in the provided Connection String. Expecting 'https' or 'http'"
+    );
+  } else if (!accountName) {
     throw new Error("Invalid AccountName in the provided Connection String");
-  } else if (!accountKey) {
+  } else if (accountKey.length === 0) {
     throw new Error("Invalid AccountKey in the provided Connection String");
   } else if (!endpointSuffix) {
     throw new Error("Invalid EndpointSuffix in the provided Connection String");
-  } else if (!defaultEndpointsProtocol) {
-    throw new Error("Invalid DefaultEndpointsProtocol in the provided Connection String");
   }
+
   const url = `${defaultEndpointsProtocol}://${accountName}.queue.${endpointSuffix}`;
 
   return {
