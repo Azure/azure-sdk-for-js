@@ -29,8 +29,7 @@ import { EventData, toAmqpMessage } from "./eventData";
 import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";
 import { EventBatchingOptions, EventSenderOptions } from "./eventHubClient";
-import { AbortSignal } from "@azure/abort-controller";
-import { throwAbortError } from './util/error';
+import { AbortSignal, AbortError } from "@azure/abort-controller";
 
 interface CreateSenderOptions {
   newName?: boolean;
@@ -483,7 +482,7 @@ export class EventHubSender extends LinkEntity {
               `[${this._context.connectionId}] The send operation on the Sender "${this.name}" with ` +
               `address "${this.address}" has been cancelled by the user.`;
             log.error(desc);
-            throwAbortError('The send operation has been cancelled by the user.');
+            throw new AbortError("The send operation has been cancelled by the user.");
           };
           onAccepted = (context: EventContext) => {
             // Since we will be adding listener for accepted and rejected event every time
@@ -583,7 +582,7 @@ export class EventHubSender extends LinkEntity {
         : Constants.defaultRetryAttempts;
     const delayInSeconds =
       options.retryOptions && options.retryOptions.retryInterval && options.retryOptions.retryInterval > 0
-        ? (options.retryOptions.retryInterval / 1000)
+        ? options.retryOptions.retryInterval / 1000
         : Constants.defaultDelayBetweenOperationRetriesInSeconds;
     const config: RetryConfig<void> = {
       operation: sendEventPromise,
