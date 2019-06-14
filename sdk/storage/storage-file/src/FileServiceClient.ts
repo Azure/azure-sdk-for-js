@@ -138,10 +138,13 @@ export class FileServiceClient extends StorageClient {
    *
    * @param {string} shareName
    * @param {ShareCreateOptions} [options]
-   * @returns Share creation response and the corresponding share client.
+   * @returns {Promise<{ shareCreateResponse: Models.ShareCreateResponse, shareClient: ShareClient }>} Share creation response and the corresponding share client.
    * @memberof FileServiceClient
    */
-  public async createShare(shareName: string, options?: ShareCreateOptions) {
+  public async createShare(
+    shareName: string,
+    options?: ShareCreateOptions
+  ): Promise<{ shareCreateResponse: Models.ShareCreateResponse; shareClient: ShareClient }> {
     const shareClient = this.createShareClient(shareName);
     const shareCreateResponse = await shareClient.create(options);
     return {
@@ -155,10 +158,13 @@ export class FileServiceClient extends StorageClient {
    *
    * @param {string} shareName
    * @param {ShareDeleteMethodOptions} [options]
-   * @returns Share deletion response and the corresponding share client.
+   * @returns {Promise<Models.ShareDeleteResponse>} Share deletion response and the corresponding share client.
    * @memberof FileServiceClient
    */
-  public async deleteShare(shareName: string, options?: ShareDeleteMethodOptions) {
+  public async deleteShare(
+    shareName: string,
+    options?: ShareDeleteMethodOptions
+  ): Promise<Models.ShareDeleteResponse> {
     const shareClient = this.createShareClient(shareName);
     return await shareClient.delete(options);
   }

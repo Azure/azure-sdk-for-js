@@ -183,7 +183,7 @@ export class DirectoryClient extends StorageClient {
    * Creates a DirectoryClient object for a sub directory.
    *
    * @param subDirectoryName A subdirectory name
-   * @returns {DirectoryClient} The DirectoryClient object for the given sub directory name.
+   * @returns {DirectoryClient} The DirectoryClient object for the given subdirectory name.
    * @memberof DirectoryClient
    */
   public createDirectoryClient(subDirectoryName: string): DirectoryClient {
@@ -197,13 +197,18 @@ export class DirectoryClient extends StorageClient {
    * Creates a new subdirectory under this directory.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-directory
    *
-   *
    * @param {string} directoryName
    * @param {DirectoryCreateOptions} [options] Options to Directory Create operation.
-   * @returns Directory creation response data and the corresponding directory client.
+   * @returns {Promise<{ directoryClient: DirectoryClient; directoryCreateResponse: Models.DirectoryCreateResponse; }>} Directory create response data and the corresponding DirectoryClient instance.
    * @memberof DirectoryClient
    */
-  public async createSubdirectory(directoryName: string, options?: DirectoryCreateOptions) {
+  public async createSubdirectory(
+    directoryName: string,
+    options?: DirectoryCreateOptions
+  ): Promise<{
+    directoryClient: DirectoryClient;
+    directoryCreateResponse: Models.DirectoryCreateResponse;
+  }> {
     const directoryClient = this.createDirectoryClient(directoryName);
     const directoryCreateResponse = await directoryClient.create(options);
     return {
@@ -219,10 +224,13 @@ export class DirectoryClient extends StorageClient {
    *
    * @param {string} directoryName
    * @param {DirectoryDeleteOptions} [options] Options to Directory Delete operation.
-   * @returns Directory deletion response data.
+   * @returns {Models.DirectoryDeleteResponse} Directory deletion response data.
    * @memberof DirectoryClient
    */
-  public async deleteSubdirectory(directoryName: string, options?: DirectoryDeleteOptions) {
+  public async deleteSubdirectory(
+    directoryName: string,
+    options?: DirectoryDeleteOptions
+  ): Promise<Models.DirectoryDeleteResponse> {
     const directoryClient = this.createDirectoryClient(directoryName);
     return await directoryClient.delete(options);
   }
@@ -234,10 +242,14 @@ export class DirectoryClient extends StorageClient {
    * @param {string} fileName
    * @param {number} size Specifies the maximum size in bytes for the file, up to 1 TB.
    * @param {FileCreateOptions} [options] Options to File Create operation.
-   * @returns File creation response data and the corresponding file client.
+   * @returns {Promise<{ fileClient: FileClient, fileCreateResponse: Models.FileCreateResponse }>} File creation response data and the corresponding file client.
    * @memberof DirectoryClient
    */
-  public async createFile(fileName: string, size: number, options?: FileCreateOptions) {
+  public async createFile(
+    fileName: string,
+    size: number,
+    options?: FileCreateOptions
+  ): Promise<{ fileClient: FileClient; fileCreateResponse: Models.FileCreateResponse }> {
     const fileClient = this.createFileClient(fileName);
     const fileCreateResponse = await fileClient.create(size, options);
     return {
@@ -262,10 +274,13 @@ export class DirectoryClient extends StorageClient {
    *
    * @param {string} fileName Name of the file to delete
    * @param {FileDeleteOptions} [options] Options to File Delete operation.
-   * @returns File deletion response data.
+   * @returns {Promise<Models.FileDeleteResponse>} File deletion response data.
    * @memberof DirectoryClient
    */
-  public async deleteFile(fileName: string, options?: FileDeleteOptions) {
+  public async deleteFile(
+    fileName: string,
+    options?: FileDeleteOptions
+  ): Promise<Models.FileDeleteResponse> {
     const fileClient = this.createFileClient(fileName);
     return await fileClient.delete(options);
   }
@@ -273,11 +288,11 @@ export class DirectoryClient extends StorageClient {
   /**
    * Creates a FileClient object.
    *
-   * @param {string} fileName A file name
-   * @returns
+   * @param {string} fileName A file name.
+   * @returns {FileClient} A new FileClient object for the given file name.
    * @memberof FileClient
    */
-  public createFileClient(fileName: string) {
+  public createFileClient(fileName: string): FileClient {
     return new FileClient(appendToURLPath(this.url, encodeURIComponent(fileName)), this.pipeline);
   }
 
