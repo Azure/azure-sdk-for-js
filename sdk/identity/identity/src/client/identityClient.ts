@@ -18,11 +18,10 @@ export class IdentityClient extends ServiceClient {
   private static readonly DefaultScopeSuffix = "/.default";
 
   constructor(options?: IdentityClientOptions) {
+    options = options || IdentityClient.getDefaultOptions();
     super(undefined, options);
 
-    if (options !== undefined) {
-      this.baseUri = options.authorityHost;
-    }
+    this.baseUri = options.authorityHost;
   }
 
   private createWebResource(requestOptions: RequestPrepareOptions): WebResource {
