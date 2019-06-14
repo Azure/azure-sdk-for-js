@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import { AbortSignal, AbortError } from "@azure/abort-controller";
+import { AbortSignalLike, AbortError } from "@azure/abort-controller";
 import * as Constants from "./util/constants";
 import { retry, RetryConfig, RetryOperationType } from "./retry";
 import {
@@ -27,9 +27,9 @@ import * as log from "./log";
  */
 export interface SendRequestOptions {
   /**
-   * @property {AbortSignal} [abortSignal] Cancels the operation.
+   * @property {AbortSignalLike} [abortSignal] Cancels the operation.
    */
-  abortSignal?: AbortSignal;
+  abortSignal?: AbortSignalLike;
   /**
    * @property {number} [timeoutInSeconds] Max time to wait for the operation to complete.
    * Default: `10 seconds`.
@@ -102,7 +102,7 @@ export class RequestResponseLink implements ReqResLink {
     }
 
     let count: number = 0;
-    const aborter: AbortSignal | undefined = options && options.abortSignal;
+    const aborter: AbortSignalLike | undefined = options && options.abortSignal;
 
     const sendRequestPromise = () =>
       new Promise<AmqpMessage>((resolve: any, reject: any) => {
