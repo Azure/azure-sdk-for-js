@@ -169,7 +169,7 @@ export class MessagesClient extends StorageClient {
    *
    * @param {string} connectionString Connection string for an Azure storage account.
    * @param {string} queueName Queue name.
-   * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
+   * @param {NewPipelineOptions} [options] Options to configure the HTTP pipeline.
    * @memberof MessagesClient
    */
   constructor(connectionString: string, queueName: string, options?: NewPipelineOptions);
@@ -182,7 +182,7 @@ export class MessagesClient extends StorageClient {
    *                     "https://myaccount.queue.core.windows.net/myqueue/messages?sasString".
    * @param {Credential} credential Such as AnonymousCredential, SharedKeyCredential or TokenCredential.
    *                                If not specified, anonymous credential is used.
-   * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
+   * @param {NewPipelineOptions} [options] Options to configure the HTTP pipeline.
    * @memberof MessagesClient
    */
   constructor(url: string, credential?: Credential, options?: NewPipelineOptions);

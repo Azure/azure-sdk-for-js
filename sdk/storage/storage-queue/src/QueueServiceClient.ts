@@ -118,10 +118,11 @@ export class QueueServiceClient extends StorageClient {
    * Creates an instance of QueueServiceClient.
    *
    * @param {string} connectionString Connection string for an Azure storage account.
-   * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
+   * @param {NewPipelineOptions} [options] Options to configure the HTTP pipeline.
+   * @returns {QueueServiceClient} A new QueueServiceClient object from the given connection string.
    * @memberof QueueServiceClient
    */
-  public static fromConnectionString(connectionString: string, options?: NewPipelineOptions) {
+  public static fromConnectionString(connectionString: string, options?: NewPipelineOptions): QueueServiceClient {
     const extractedCreds = extractConnectionStringParts(connectionString);
     const sharedKeyCredential = new SharedKeyCredential(
       extractedCreds.accountName,
@@ -149,7 +150,7 @@ export class QueueServiceClient extends StorageClient {
    *                     if using AnonymousCredential, such as "https://myaccount.queue.core.windows.net?sasString".
    * @param {Credential} credential Such as AnonymousCredential, SharedKeyCredential or TokenCredential.
    *                                If not specified, anonymous credential is used.
-   * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
+   * @param {NewPipelineOptions} [options] Options to configure the HTTP pipeline.
    * @memberof QueueServiceClient
    */
   constructor(url: string, credential?: Credential, options?: NewPipelineOptions);
