@@ -10,16 +10,16 @@
 
 import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
-import * as Mappers from "../models/compliancesMappers";
+import * as Mappers from "../models/complianceResultsMappers";
 import * as Parameters from "../models/parameters";
 import { SecurityCenterContext } from "../securityCenterContext";
 
-/** Class representing a Compliances. */
-export class Compliances {
+/** Class representing a ComplianceResults. */
+export class ComplianceResults {
   private readonly client: SecurityCenterContext;
 
   /**
-   * Create a Compliances.
+   * Create a ComplianceResults.
    * @param {SecurityCenterContext} client Reference to the service client.
    */
   constructor(client: SecurityCenterContext) {
@@ -27,21 +27,21 @@ export class Compliances {
   }
 
   /**
-   * The Compliance scores of the specific management group.
+   * Security compliance results in the subscription
    * @param scope Scope of the query, can be subscription
    * (/subscriptions/0b06d9ea-afe6-4779-bd59-30e5c2d9d13f) or management group
    * (/providers/Microsoft.Management/managementGroups/mgName).
    * @param [options] The optional parameters
-   * @returns Promise<Models.CompliancesListResponse>
+   * @returns Promise<Models.ComplianceResultsListResponse>
    */
-  list(scope: string, options?: msRest.RequestOptionsBase): Promise<Models.CompliancesListResponse>;
+  list(scope: string, options?: msRest.RequestOptionsBase): Promise<Models.ComplianceResultsListResponse>;
   /**
    * @param scope Scope of the query, can be subscription
    * (/subscriptions/0b06d9ea-afe6-4779-bd59-30e5c2d9d13f) or management group
    * (/providers/Microsoft.Management/managementGroups/mgName).
    * @param callback The callback
    */
-  list(scope: string, callback: msRest.ServiceCallback<Models.ComplianceList>): void;
+  list(scope: string, callback: msRest.ServiceCallback<Models.ComplianceResultList>): void;
   /**
    * @param scope Scope of the query, can be subscription
    * (/subscriptions/0b06d9ea-afe6-4779-bd59-30e5c2d9d13f) or management group
@@ -49,81 +49,75 @@ export class Compliances {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(scope: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ComplianceList>): void;
-  list(scope: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ComplianceList>, callback?: msRest.ServiceCallback<Models.ComplianceList>): Promise<Models.CompliancesListResponse> {
+  list(scope: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ComplianceResultList>): void;
+  list(scope: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ComplianceResultList>, callback?: msRest.ServiceCallback<Models.ComplianceResultList>): Promise<Models.ComplianceResultsListResponse> {
     return this.client.sendOperationRequest(
       {
         scope,
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.CompliancesListResponse>;
+      callback) as Promise<Models.ComplianceResultsListResponse>;
   }
 
   /**
-   * Details of a specific Compliance.
-   * @param scope Scope of the query, can be subscription
-   * (/subscriptions/0b06d9ea-afe6-4779-bd59-30e5c2d9d13f) or management group
-   * (/providers/Microsoft.Management/managementGroups/mgName).
-   * @param complianceName name of the Compliance
+   * Security Compliance Result
+   * @param resourceId The identifier of the resource.
+   * @param complianceResultName name of the desired assessment compliance result
    * @param [options] The optional parameters
-   * @returns Promise<Models.CompliancesGetResponse>
+   * @returns Promise<Models.ComplianceResultsGetResponse>
    */
-  get(scope: string, complianceName: string, options?: msRest.RequestOptionsBase): Promise<Models.CompliancesGetResponse>;
+  get(resourceId: string, complianceResultName: string, options?: msRest.RequestOptionsBase): Promise<Models.ComplianceResultsGetResponse>;
   /**
-   * @param scope Scope of the query, can be subscription
-   * (/subscriptions/0b06d9ea-afe6-4779-bd59-30e5c2d9d13f) or management group
-   * (/providers/Microsoft.Management/managementGroups/mgName).
-   * @param complianceName name of the Compliance
+   * @param resourceId The identifier of the resource.
+   * @param complianceResultName name of the desired assessment compliance result
    * @param callback The callback
    */
-  get(scope: string, complianceName: string, callback: msRest.ServiceCallback<Models.Compliance>): void;
+  get(resourceId: string, complianceResultName: string, callback: msRest.ServiceCallback<Models.ComplianceResult>): void;
   /**
-   * @param scope Scope of the query, can be subscription
-   * (/subscriptions/0b06d9ea-afe6-4779-bd59-30e5c2d9d13f) or management group
-   * (/providers/Microsoft.Management/managementGroups/mgName).
-   * @param complianceName name of the Compliance
+   * @param resourceId The identifier of the resource.
+   * @param complianceResultName name of the desired assessment compliance result
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(scope: string, complianceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Compliance>): void;
-  get(scope: string, complianceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Compliance>, callback?: msRest.ServiceCallback<Models.Compliance>): Promise<Models.CompliancesGetResponse> {
+  get(resourceId: string, complianceResultName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ComplianceResult>): void;
+  get(resourceId: string, complianceResultName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ComplianceResult>, callback?: msRest.ServiceCallback<Models.ComplianceResult>): Promise<Models.ComplianceResultsGetResponse> {
     return this.client.sendOperationRequest(
       {
-        scope,
-        complianceName,
+        resourceId,
+        complianceResultName,
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.CompliancesGetResponse>;
+      callback) as Promise<Models.ComplianceResultsGetResponse>;
   }
 
   /**
-   * The Compliance scores of the specific management group.
+   * Security compliance results in the subscription
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
-   * @returns Promise<Models.CompliancesListNextResponse>
+   * @returns Promise<Models.ComplianceResultsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.CompliancesListNextResponse>;
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ComplianceResultsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ComplianceList>): void;
+  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ComplianceResultList>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ComplianceList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ComplianceList>, callback?: msRest.ServiceCallback<Models.ComplianceList>): Promise<Models.CompliancesListNextResponse> {
+  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ComplianceResultList>): void;
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ComplianceResultList>, callback?: msRest.ServiceCallback<Models.ComplianceResultList>): Promise<Models.ComplianceResultsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.CompliancesListNextResponse>;
+      callback) as Promise<Models.ComplianceResultsListNextResponse>;
   }
 }
 
@@ -131,19 +125,19 @@ export class Compliances {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "{scope}/providers/Microsoft.Security/compliances",
+  path: "{scope}/providers/Microsoft.Security/complianceResults",
   urlParameters: [
     Parameters.scope
   ],
   queryParameters: [
-    Parameters.apiVersion4
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.ComplianceList
+      bodyMapper: Mappers.ComplianceResultList
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -154,20 +148,20 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "{scope}/providers/Microsoft.Security/compliances/{complianceName}",
+  path: "{resourceId}/providers/Microsoft.Security/complianceResults/{complianceResultName}",
   urlParameters: [
-    Parameters.scope,
-    Parameters.complianceName
+    Parameters.resourceId,
+    Parameters.complianceResultName
   ],
   queryParameters: [
-    Parameters.apiVersion4
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.Compliance
+      bodyMapper: Mappers.ComplianceResult
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -188,7 +182,7 @@ const listNextOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.ComplianceList
+      bodyMapper: Mappers.ComplianceResultList
     },
     default: {
       bodyMapper: Mappers.CloudError
