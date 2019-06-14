@@ -394,6 +394,28 @@ export const include: msRest.OperationQueryParameter = {
     }
   }
 };
+export const includeDisabledRecommendations: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "includeDisabledRecommendations"
+  ],
+  mapper: {
+    serializedName: "includeDisabledRecommendations",
+    type: {
+      name: "Boolean"
+    }
+  }
+};
+export const instancePoolName: msRest.OperationURLParameter = {
+  parameterPath: "instancePoolName",
+  mapper: {
+    required: true,
+    serializedName: "instancePoolName",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const isActive: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
@@ -669,6 +691,18 @@ export const sensitivityLabelSource0: msRest.OperationURLParameter = {
   parameterPath: "sensitivityLabelSource",
   mapper: {
     required: true,
+    isConstant: true,
+    serializedName: "sensitivityLabelSource",
+    defaultValue: 'recommended',
+    type: {
+      name: "String"
+    }
+  }
+};
+export const sensitivityLabelSource1: msRest.OperationURLParameter = {
+  parameterPath: "sensitivityLabelSource",
+  mapper: {
+    required: true,
     serializedName: "sensitivityLabelSource",
     type: {
       name: "Enum",
@@ -679,7 +713,7 @@ export const sensitivityLabelSource0: msRest.OperationURLParameter = {
     }
   }
 };
-export const sensitivityLabelSource1: msRest.OperationURLParameter = {
+export const sensitivityLabelSource2: msRest.OperationURLParameter = {
   parameterPath: "sensitivityLabelSource",
   mapper: {
     required: true,
