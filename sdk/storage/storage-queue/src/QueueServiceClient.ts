@@ -329,16 +329,34 @@ export class QueueServiceClient extends StorageClient {
     }
   }
 
+  /**
+   * Returns an async iterable iterator to list all the queues
+   * under the specified account.
+   *
+   * .byPage() returns an async iterable iterator to list the queues in pages.
+   *
+   * @param {ServiceListQueuesSegmentOptions} [options] Options to list queues operation.
+   * @memberof QueueServiceClient
+   */
   public listQueues(options: ServiceListQueuesOptions = {}) {
     const iter = this.listItems(options);
     return {
+      /**
+       * @member {Promise} [next] The next method, part of the iteration protocol
+       */
       async next() {
         const item = (await iter.next()).value;
         return item ? { done: false, value: item } : { done: true, value: undefined };
       },
+      /**
+       * @member {Symbol} [asyncIterator] The connection to the async iterator, part of the iteration protocol
+       */
       [Symbol.asyncIterator]() {
         return this;
       },
+      /**
+       * @member {Function} [byPage] Return an AsyncIterableIterator that works a page at a time
+       */
       byPage: (settings: PageSettings = {}) => {
         return this.listSegments(settings.continuationToken, {
           maxresults: settings.maxPageSize,
