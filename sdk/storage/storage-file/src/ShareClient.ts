@@ -7,12 +7,20 @@ import { Aborter } from "./Aborter";
 import * as Models from "./generated/lib/models";
 import { Share } from "./generated/lib/operations";
 import { Metadata } from "./models";
-import { Pipeline } from "./Pipeline";
+import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
 import { StorageClient } from "./StorageClient";
 import { URLConstants } from "./utils/constants";
-import { appendToURLPath, setURLParameter, truncatedISO8061Date } from "./utils/utils.common";
+import {
+  appendToURLPath,
+  setURLParameter,
+  truncatedISO8061Date,
+  extractConnectionStringParts
+} from "./utils/utils.common";
 import { DirectoryClient, DirectoryCreateOptions, DirectoryDeleteOptions } from "./DirectoryClient";
 import { FileCreateOptions, FileDeleteOptions } from "./FileClient";
+import { Credential } from "./credentials/Credential";
+import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
+import { AnonymousCredential } from "./credentials/AnonymousCredential";
 
 /**
  * Options to configure Share - Create operation.
@@ -27,7 +35,7 @@ export interface ShareCreateOptions {
    * about request cancellation.
    *
    * @type {Aborter}
-   * @memberof AppendBlobCreateOptions
+   * @memberof ShareCreateOptions
    */
   abortSignal?: Aborter;
   /**
@@ -61,7 +69,7 @@ export interface ShareDeleteMethodOptions {
    * about request cancellation.
    *
    * @type {Aborter}
-   * @memberof AppendBlobCreateOptions
+   * @memberof ShareDeleteMethodOptions
    */
   abortSignal?: Aborter;
   /**
@@ -88,7 +96,7 @@ export interface ShareSetMetadataOptions {
    * about request cancellation.
    *
    * @type {Aborter}
-   * @memberof AppendBlobCreateOptions
+   * @memberof ShareSetMetadataOptions
    */
   abortSignal?: Aborter;
 }
@@ -106,7 +114,7 @@ export interface ShareSetAccessPolicyOptions {
    * about request cancellation.
    *
    * @type {Aborter}
-   * @memberof AppendBlobCreateOptions
+   * @memberof ShareSetAccessPolicyOptions
    */
   abortSignal?: Aborter;
 }
@@ -124,7 +132,7 @@ export interface ShareGetAccessPolicyOptions {
    * about request cancellation.
    *
    * @type {Aborter}
-   * @memberof AppendBlobCreateOptions
+   * @memberof ShareGetAccessPolicyOptions
    */
   abortSignal?: Aborter;
 }
@@ -142,7 +150,7 @@ export interface ShareGetPropertiesOptions {
    * about request cancellation.
    *
    * @type {Aborter}
-   * @memberof AppendBlobCreateOptions
+   * @memberof ShareGetPropertiesOptions
    */
   abortSignal?: Aborter;
 }
@@ -160,7 +168,7 @@ export interface ShareSetQuotaOptions {
    * about request cancellation.
    *
    * @type {Aborter}
-   * @memberof AppendBlobCreateOptions
+   * @memberof ShareSetQuotaOptions
    */
   abortSignal?: Aborter;
 }
@@ -178,7 +186,7 @@ export interface ShareGetStatisticsOptions {
    * about request cancellation.
    *
    * @type {Aborter}
-   * @memberof AppendBlobCreateOptions
+   * @memberof ShareGetStatisticsOptions
    */
   abortSignal?: Aborter;
 }
@@ -249,7 +257,7 @@ export interface ShareCreateSnapshotOptions {
    * about request cancellation.
    *
    * @type {Aborter}
-   * @memberof AppendBlobCreateOptions
+   * @memberof ShareCreateSnapshotOptions
    */
   abortSignal?: Aborter;
   /**
@@ -280,6 +288,28 @@ export class ShareClient extends StorageClient {
   /**
    * Creates an instance of ShareClient.
    *
+   * @param {string} connectionString Connection string for an Azure storage account.
+   * @param {string} shareName Share name.
+   * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
+   * @memberof ShareClient
+   */
+  constructor(connectionString: string, shareName: string, options?: NewPipelineOptions);
+  /**
+   * Creates an instance of ShareClient.
+   *
+   * @param {string} url A URL string pointing to Azure Storage file share, such as
+   *                     "https://myaccount.file.core.windows.net/share". You can
+   *                     append a SAS if using AnonymousCredential, such as
+   *                     "https://myaccount.file.core.windows.net/share?sasString".
+   * @param {Credential} [credential] Such as AnonymousCredential, SharedKeyCredential or TokenCredential.
+   *                                If not specified, AnonymousCredential is used.
+   * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
+   * @memberof ShareClient
+   */
+  constructor(url: string, credential?: Credential, options?: NewPipelineOptions);
+  /**
+   * Creates an instance of ShareClient.
+   *
    * @param {string} url A URL string pointing to Azure Storage file share, such as
    *                     "https://myaccount.file.core.windows.net/share". You can
    *                     append a SAS if using AnonymousCredential, such as
@@ -288,8 +318,39 @@ export class ShareClient extends StorageClient {
    *                            pipeline, or provide a customized pipeline.
    * @memberof ShareClient
    */
-  constructor(url: string, pipeline: Pipeline) {
-    super(url, pipeline);
+  constructor(url: string, pipeline: Pipeline);
+  constructor(
+    urlOrConnectionString: string,
+    credentialOrPipelineOrShareName?: Credential | Pipeline | string,
+    options?: NewPipelineOptions
+  ) {
+    let pipeline: Pipeline;
+    if (credentialOrPipelineOrShareName instanceof Pipeline) {
+      pipeline = credentialOrPipelineOrShareName;
+    } else if (credentialOrPipelineOrShareName instanceof Credential) {
+      pipeline = newPipeline(credentialOrPipelineOrShareName, options);
+    } else if (
+      !credentialOrPipelineOrShareName &&
+      typeof credentialOrPipelineOrShareName !== "string"
+    ) {
+      // The second parameter is undefined. Use anonymous credential.
+      pipeline = newPipeline(new AnonymousCredential(), options);
+    } else if (
+      credentialOrPipelineOrShareName &&
+      typeof credentialOrPipelineOrShareName === "string"
+    ) {
+      const shareName = credentialOrPipelineOrShareName;
+      const extractedCreds = extractConnectionStringParts(urlOrConnectionString);
+      const sharedKeyCredential = new SharedKeyCredential(
+        extractedCreds.accountName,
+        extractedCreds.accountKey
+      );
+      urlOrConnectionString = extractedCreds.url + "/" + shareName;
+      pipeline = newPipeline(sharedKeyCredential, options);
+    } else {
+      throw new Error("Expecting non-empty strings for shareName parameter");
+    }
+    super(urlOrConnectionString, pipeline);
     this.context = new Share(this.storageClientContext);
   }
 
