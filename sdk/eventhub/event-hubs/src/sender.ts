@@ -58,7 +58,7 @@ export class EventSender {
    */
   async send(eventData: EventData | EventData[], options?: SendOptions): Promise<void> {
     this._throwIfSenderOrConnectionClosed();
-    throwTypeErrorIfParameterMissing(this._context.connectionId, "events", eventData);
+    throwTypeErrorIfParameterMissing(this._context.connectionId, "eventData", eventData);
     if (!Array.isArray(eventData)) {
       eventData = [eventData];
     }
