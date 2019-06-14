@@ -1,12 +1,11 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import { AccessToken } from "./accessToken";
-import { RequestOptionsBase } from "@azure/core-http";
-import { AzureCredential } from "./azureCredential";
-import { IdentityClientOptions } from "../client/identityClient";
+import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
+import { IdentityClientOptions, IdentityClient } from "../client/identityClient";
 
-export class ClientSecretCredential extends AzureCredential {
+export class ClientSecretCredential implements TokenCredential {
+  private identityClient: IdentityClient;
   private _tenantId: string;
   private _clientId: string;
   private _clientSecret: string;
@@ -17,23 +16,22 @@ export class ClientSecretCredential extends AzureCredential {
     clientSecret: string,
     options?: IdentityClientOptions
   ) {
-    super(options);
-
+    this.identityClient = new IdentityClient(options);
     this._tenantId = tenantId;
     this._clientId = clientId;
     this._clientSecret = clientSecret;
   }
 
-  protected getAccessToken(
+  public getToken(
     scopes: string | string[],
-    requestOptions?: RequestOptionsBase
+    options?: GetTokenOptions
   ): Promise<AccessToken | null> {
     return this.identityClient.authenticate(
       this._tenantId,
       this._clientId,
       this._clientSecret,
       scopes,
-      requestOptions
+      options
     );
   }
 }

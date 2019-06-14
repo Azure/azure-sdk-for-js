@@ -43,7 +43,7 @@ export {
 export { URLBuilder, URLQuery } from "./url";
 
 // Credentials
-export { TokenCredential } from "./credentials/tokenCredential";
+export { TokenCredential, GetTokenOptions, AccessToken } from "./credentials/tokenCredential";
 export { TokenCredentials } from "./credentials/tokenCredentials";
 export { BasicAuthenticationCredentials } from "./credentials/basicAuthenticationCredentials";
 export { ApiKeyCredentials, ApiKeyCredentialOptions } from "./credentials/apiKeyCredentials";

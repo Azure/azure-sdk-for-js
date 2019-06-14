@@ -32,9 +32,8 @@ export interface Resource extends BaseResource {
   readonly type?: string;
   /**
    * Resource location
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly location?: string;
+  location?: string;
   /**
    * Resource tags
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -102,9 +101,8 @@ export interface StorageProfile {
 export interface OSProfile {
   /**
    * Specifies the host OS name of the HANA instance.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly computerName?: string;
+  computerName?: string;
   /**
    * This property allows you to specify the type of the OS.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -117,9 +115,8 @@ export interface OSProfile {
   readonly version?: string;
   /**
    * Specifies the SSH public key used to access the operating system.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly sshPublicKey?: string;
+  sshPublicKey?: string;
 }
 
 /**
@@ -128,9 +125,8 @@ export interface OSProfile {
 export interface IpAddress {
   /**
    * Specifies the IP address of the network interface.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly ipAddress?: string;
+  ipAddress?: string;
 }
 
 /**
@@ -191,9 +187,8 @@ export interface HanaInstance extends Resource {
   readonly hwRevision?: string;
   /**
    * ARM ID of another HanaInstance that will share a network with this HanaInstance
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly partnerNodeId?: string;
+  partnerNodeId?: string;
   /**
    * State of provisioning of the HanaInstance. Possible values include: 'Accepted', 'Creating',
    * 'Updating', 'Failed', 'Succeeded', 'Deleting', 'Migrating'
