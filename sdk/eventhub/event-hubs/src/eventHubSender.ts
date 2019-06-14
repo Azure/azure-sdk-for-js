@@ -437,10 +437,10 @@ export class EventHubSender extends LinkEntity {
     if (!options) {
       options = {};
     }
+
+    const abortSignal: AbortSignalLike | undefined = options.abortSignal;
     const sendEventPromise = () =>
       new Promise<void>((resolve, reject) => {
-        const abortSignal: AbortSignalLike | undefined = options!.abortSignal;
-
         const rejectOnAbort = () => {
           const desc: string =
             `[${this._context.connectionId}] The send operation on the Sender "${this.name}" with ` +
