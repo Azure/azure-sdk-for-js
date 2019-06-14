@@ -102,10 +102,10 @@ export class Pipeline {
   }
 
   /**
-   * Transfer Pipeline object to ServiceClientOptions object which required by
+   * Transfers Pipeline object to ServiceClientOptions object which required by
    * ServiceClient constructor.
    *
-   * @returns {ServiceClientOptions}
+   * @returns {ServiceClientOptions} The ServiceClientOptions object from this Pipeline.
    * @memberof Pipeline
    */
   public toServiceClientOptions(): ServiceClientOptions {
