@@ -115,9 +115,13 @@ export class FileServiceClient extends StorageClient {
    *
    * @param {string} connectionString Connection string for an Azure storage account.
    * @param {NewPipelineOptions} [options] Options to configure the HTTP pipeline.
+   * @returns {FileServiceClient} A new FileServiceClient from the given connection string.
    * @memberof FileServiceClient
    */
-  public static fromConnectionString(connectionString: string, options?: NewPipelineOptions) {
+  public static fromConnectionString(
+    connectionString: string,
+    options?: NewPipelineOptions
+  ): FileServiceClient {
     const extractedCreds = extractConnectionStringParts(connectionString);
     const sharedKeyCredential = new SharedKeyCredential(
       extractedCreds.accountName,
