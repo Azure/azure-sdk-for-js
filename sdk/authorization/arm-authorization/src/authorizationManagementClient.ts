@@ -18,6 +18,7 @@ import { AuthorizationManagementClientContext } from "./authorizationManagementC
 class AuthorizationManagementClient extends AuthorizationManagementClientContext {
   // Operation groups
   classicAdministrators: operations.ClassicAdministrators;
+  globalAdministrator: operations.GlobalAdministrator;
   providerOperationsMetadata: operations.ProviderOperationsMetadataOperations;
   roleAssignments: operations.RoleAssignments;
   permissions: operations.Permissions;
@@ -33,6 +34,7 @@ class AuthorizationManagementClient extends AuthorizationManagementClientContext
   constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.AuthorizationManagementClientOptions) {
     super(credentials, subscriptionId, options);
     this.classicAdministrators = new operations.ClassicAdministrators(this);
+    this.globalAdministrator = new operations.GlobalAdministrator(this);
     this.providerOperationsMetadata = new operations.ProviderOperationsMetadataOperations(this);
     this.roleAssignments = new operations.RoleAssignments(this);
     this.permissions = new operations.Permissions(this);
