@@ -157,7 +157,7 @@ export class LeaseClient {
    *
    * @param {number} duration Must be between 15 to 60 seconds, or infinite (-1)
    * @param {LeaseOperationOptions} [options={}] option to configure lease management operations.
-   * @returns {Promise<LeaseOperationResponse>} Response data for lease operation.
+   * @returns {Promise<LeaseOperationResponse>} Response data for acquire lease operation.
    * @memberof LeaseClient
    */
   public async acquireLease(
@@ -181,7 +181,7 @@ export class LeaseClient {
    *
    * @param {string} proposedLeaseId the proposed new lease Id.
    * @param {LeaseOperationOptions} [options={}] option to configure lease management operations.
-   * @returns {Promise<LeaseOperationResponse>} Response data for lease operation.
+   * @returns {Promise<LeaseOperationResponse>} Response data for change lease operation.
    * @memberof LeaseClient
    */
   public async chanageLease(
@@ -209,7 +209,7 @@ export class LeaseClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/lease-blob
    *
    * @param {LeaseOperationOptions} [options={}] option to configure lease management operations.
-   * @returns {Promise<LeaseOperationResponse>} Response data for lease operation.
+   * @returns {Promise<LeaseOperationResponse>} Response data for release lease operation.
    * @memberof LeaseClient
    */
   public async releaseLease(options: LeaseOperationOptions = {}): Promise<LeaseOperationResponse> {
@@ -227,7 +227,7 @@ export class LeaseClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/lease-blob
    *
    * @param {LeaseOperationOptions} [options={}] Optional option to configure lease management operations.
-   * @returns {Promise<LeaseOperationResponse>} Response data for lease operation.
+   * @returns {Promise<LeaseOperationResponse>} Response data for renew lease operation.
    * @memberof LeaseClient
    */
   public async renewLease(options: LeaseOperationOptions = {}): Promise<Lease> {
@@ -249,7 +249,7 @@ export class LeaseClient {
    * @param {(ContainerClient | BlobClient)} client
    * @param {number} breakPeriod Break period
    * @param {LeaseOperationOptions} [options={}] Optional options to configure lease management operations.
-   * @returns {Promise<LeaseOperationResponse>} Response data for lease operation.
+   * @returns {Promise<LeaseOperationResponse>} Response data for break lease operation.
    * @memberof LeaseClient
    */
   public async breakLease(
