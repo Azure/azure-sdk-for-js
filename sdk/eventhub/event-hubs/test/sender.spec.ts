@@ -9,6 +9,7 @@ import debugModule from "debug";
 const debug = debugModule("azure:event-hubs:sender-spec");
 import { EventHubClient, EventData } from "../src";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
+import { AbortController } from "@azure/abort-controller";
 const env = getEnvVars();
 
 describe("EventHub Sender #RunnableInBrowser", function(): void {
@@ -78,6 +79,44 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
         }
       ];
       await client.createSender({ partitionId: "0" }).send(data);
+    });
+
+    it("should support being cancelled", async function(): Promise<void> {
+      try {
+        const data: EventData[] = [
+          {
+            body: "Sender Cancellation Test - timeout 0"
+          }
+        ];
+        const sender = client.createSender();
+        // call send() once to create a connection
+        await sender.send(data);
+        // abortSignal event listeners will be triggered after synchronous paths are executed
+        const abortSignal = AbortController.timeout(0);
+        await sender.send(data, { abortSignal });
+        throw new Error(`Test failure`);
+      } catch (err) {
+        err.name.should.equal("AbortError");
+        err.message.should.equal("The send operation has been cancelled by the user.");
+      }
+    });
+
+    it("should support being cancelled from an already aborted AbortSignal", async function(): Promise<void> {
+      const abortController = new AbortController();
+      abortController.abort();
+
+      try {
+        const data: EventData[] = [
+          {
+            body: "Sender Cancellation Test - immediate"
+          }
+        ];
+        await client.createSender().send(data, { abortSignal: abortController.signal });
+        throw new Error(`Test failure`);
+      } catch (err) {
+        err.name.should.equal("AbortError");
+        err.message.should.equal("The send operation has been cancelled by the user.");
+      }
     });
   });
 

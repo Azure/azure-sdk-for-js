@@ -439,6 +439,21 @@ export class EventHubSender extends LinkEntity {
     }
     const sendEventPromise = () =>
       new Promise<void>((resolve, reject) => {
+        const abortSignal: AbortSignalLike | undefined = options!.abortSignal;
+
+        const rejectOnAbort = () => {
+          const desc: string =
+            `[${this._context.connectionId}] The send operation on the Sender "${this.name}" with ` +
+            `address "${this.address}" has been cancelled by the user.`;
+          log.error(desc);
+          reject(new AbortError("The send operation has been cancelled by the user."));
+        };
+
+        if (abortSignal && abortSignal.aborted) {
+          // operation has been cancelled, so exit quickly
+          rejectOnAbort();
+        }
+
         let waitTimer: any;
         log.sender(
           "[%s] Sender '%s', credit: %d available: %d",
@@ -458,7 +473,6 @@ export class EventHubSender extends LinkEntity {
           let onReleased: Func<EventContext, void>;
           let onModified: Func<EventContext, void>;
           let onAccepted: Func<EventContext, void>;
-          let abortSignal: AbortSignalLike;
           let onAborted: () => void;
 
           const removeListeners = (): void => {
@@ -478,11 +492,7 @@ export class EventHubSender extends LinkEntity {
 
           onAborted = () => {
             removeListeners();
-            const desc: string =
-              `[${this._context.connectionId}] The send operation on the Sender "${this.name}" with ` +
-              `address "${this.address}" has been cancelled by the user.`;
-            log.error(desc);
-            throw new AbortError("The send operation has been cancelled by the user.");
+            rejectOnAbort();
           };
           onAccepted = (context: EventContext) => {
             // Since we will be adding listener for accepted and rejected event every time
@@ -544,8 +554,7 @@ export class EventHubSender extends LinkEntity {
             return reject(translate(e));
           };
 
-          if (options && options.abortSignal) {
-            abortSignal = options.abortSignal;
+          if (abortSignal) {
             abortSignal.addEventListener("abort", onAborted);
           }
           this._sender!.on(SenderEvents.accepted, onAccepted);
