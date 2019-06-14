@@ -108,6 +108,35 @@ export interface ServiceListQueuesSegmentOptions {
 }
 
 /**
+ * Options to configure Queue Service - List Queues operation
+ *
+ * @export
+ * @interface ServiceListQueuesOptions
+ */
+export interface ServiceListQueuesOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof AppendBlobCreateOptions
+   */
+  abortSignal?: Aborter;
+  /**
+   * @member {string} [prefix] Filters the results to return only queues
+   * whose name begins with the specified prefix.
+   */
+  prefix?: string;
+  /**
+   * @member {ListQueuesIncludeType} [include] Include this parameter to
+   * specify that the queue's metadata be returned as part of the response
+   * body. Possible values include: 'metadata'
+   */
+  include?: ListQueuesIncludeType;
+}
+
+/**
  * A QueueServiceClient represents a URL to the Azure Storage Queue service allowing you
  * to manipulate queues.
  *
@@ -300,7 +329,7 @@ export class QueueServiceClient extends StorageClient {
     }
   }
 
-  public listQueues(options: ServiceListQueuesSegmentOptions = {}) {
+  public listQueues(options: ServiceListQueuesOptions = {}) {
     const iter = this.listItems(options);
     return {
       async next() {
@@ -311,9 +340,10 @@ export class QueueServiceClient extends StorageClient {
         return this;
       },
       byPage: (settings: PageSettings = {}) => {
-        options.maxresults = settings.maxPageSize;
-        const marker = settings.continuationToken;
-        return this.listSegments(marker, options);
+        return this.listSegments(settings.continuationToken, {
+          maxresults: settings.maxPageSize,
+          ...options
+        });
       }
     };
   }
