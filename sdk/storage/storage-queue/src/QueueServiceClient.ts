@@ -339,6 +339,7 @@ export class QueueServiceClient extends StorageClient {
    * @memberof QueueServiceClient
    */
   public listQueues(options: ServiceListQueuesOptions = {}) {
+    // AsyncIterableIterator to iterate over queues
     const iter = this.listItems(options);
     return {
       /**
