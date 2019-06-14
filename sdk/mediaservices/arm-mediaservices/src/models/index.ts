@@ -2331,7 +2331,7 @@ export interface AbsoluteClipTime {
    */
   odatatype: "#Microsoft.Media.AbsoluteClipTime";
   /**
-   * The time position on the timeline of the input media. It is usually speicified as an ISO8601
+   * The time position on the timeline of the input media. It is usually specified as an ISO8601
    * period. e.g PT30S for 30 seconds.
    */
   time: string;
