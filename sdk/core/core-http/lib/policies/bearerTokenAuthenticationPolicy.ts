@@ -72,7 +72,7 @@ export class BearerTokenAuthenticationPolicy extends BaseRequestPolicy {
   private async getToken(options: GetTokenOptions): Promise<string | undefined> {
     if (
       this.cachedToken &&
-      new Date(Date.now() + TokenRefreshBufferMs) < this.cachedToken.expiresOn
+      Date.now() + TokenRefreshBufferMs < this.cachedToken.expiresOnTimestamp
     ) {
       return this.cachedToken.token;
     }

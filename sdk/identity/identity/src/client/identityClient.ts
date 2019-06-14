@@ -36,12 +36,9 @@ export class IdentityClient extends ServiceClient {
   ): Promise<AccessToken | null> {
     const response = await this.sendRequest(requestOptions);
     if (response.status === 200 || response.status === 201) {
-      const expiresOn = new Date();
-      expiresOn.setSeconds(expiresOn.getSeconds() + response.parsedBody.expires_in);
-
       return {
         token: response.parsedBody.access_token,
-        expiresOn: expiresOn
+        expiresOnTimestamp: Date.now() + response.parsedBody.expires_in * 1000
       };
     }
 
