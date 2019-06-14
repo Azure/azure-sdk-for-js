@@ -915,7 +915,8 @@ export interface ManagedClusterAgentPoolProfileProperties {
    */
   scaleSetEvictionPolicy?: ScaleSetEvictionPolicy;
   /**
-   * Taints added to new nodes during node pool create and scale.
+   * Taints added to new nodes during node pool create and scale. For example,
+   * key=value:NoSchedule.
    */
   nodeTaints?: string[];
 }
@@ -1045,7 +1046,8 @@ export interface AgentPool extends SubResource {
    */
   scaleSetEvictionPolicy?: ScaleSetEvictionPolicy;
   /**
-   * Taints added to new nodes during node pool create and scale.
+   * Taints added to new nodes during node pool create and scale. For example,
+   * key=value:NoSchedule.
    */
   nodeTaints?: string[];
 }
