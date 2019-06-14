@@ -256,7 +256,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.accountName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -282,7 +282,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.filterName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -309,7 +309,7 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.filterName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -345,7 +345,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.filterName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -370,7 +370,7 @@ const updateOperationSpec: msRest.OperationSpec = {
     Parameters.filterName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage

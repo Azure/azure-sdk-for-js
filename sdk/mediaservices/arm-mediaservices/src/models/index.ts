@@ -36,7 +36,7 @@ export interface PresentationTimeRange {
    */
   timescale?: number;
   /**
-   * The indicator of forcing exsiting of end time stamp.
+   * The indicator of forcing existing of end time stamp.
    */
   forceEndTimestamp?: boolean;
 }
@@ -51,7 +51,7 @@ export interface FilterTrackPropertyCondition {
    */
   property: FilterTrackPropertyType;
   /**
-   * The track proprty value.
+   * The track property value.
    */
   value: string;
   /**
@@ -2102,9 +2102,14 @@ export interface VideoAnalyzerPreset {
    */
   audioLanguage?: string;
   /**
-   * The type of insights to be extracted. If not set then based on the content the type will
-   * selected.  If the content is audio only then only audio insights are extracted and if it is
-   * video only. Possible values include: 'AudioInsightsOnly', 'VideoInsightsOnly', 'AllInsights'
+   * Defines the type of insights that you want the service to generate. The allowed values are
+   * 'AudioInsightsOnly', 'VideoInsightsOnly', and 'AllInsights'. The default is AllInsights. If
+   * you set this to AllInsights and the input is audio only, then only audio insights are
+   * generated. Similarly if the input is video only, then only video insights are generated. It is
+   * recommended that you not use AudioInsightsOnly if you expect some of your inputs to be video
+   * only; or use VideoInsightsOnly if you expect some of your inputs to be audio only. Your Jobs
+   * in such conditions would error out. Possible values include: 'AudioInsightsOnly',
+   * 'VideoInsightsOnly', 'AllInsights'
    */
   insightsToExtract?: InsightsType;
 }
@@ -2263,6 +2268,22 @@ export interface JobInput {
 }
 
 /**
+ * Contains the possible cases for ClipTime.
+ */
+export type ClipTimeUnion = ClipTime | AbsoluteClipTime;
+
+/**
+ * Base class for specifying a clip time. Use sub classes of this class to specify the time
+ * position in the media.
+ */
+export interface ClipTime {
+  /**
+   * Polymorphic Discriminator
+   */
+  odatatype: "ClipTime";
+}
+
+/**
  * Contains the possible cases for JobInputClip.
  */
 export type JobInputClipUnion = JobInputClip | JobInputAsset | JobInputHttp;
@@ -2280,6 +2301,16 @@ export interface JobInputClip {
    */
   files?: string[];
   /**
+   * Defines a point on the timeline of the input media at which processing will start. Defaults to
+   * the beginning of the input media.
+   */
+  start?: ClipTimeUnion;
+  /**
+   * Defines a point on the timeline of the input media at which processing will end. Defaults to
+   * the end of the input media.
+   */
+  end?: ClipTimeUnion;
+  /**
    * A label that is assigned to a JobInputClip, that is used to satisfy a reference used in the
    * Transform. For example, a Transform can be authored so as to take an image file with the label
    * 'xyz' and apply it as an overlay onto the input video before it is encoded. When submitting a
@@ -2287,6 +2318,23 @@ export interface JobInputClip {
    * 'xyz'.
    */
   label?: string;
+}
+
+/**
+ * Specifies the clip time as an absolute time position in the media file.  The absolute time can
+ * point to a different position depending on whether the media file starts from a timestamp of
+ * zero or not.
+ */
+export interface AbsoluteClipTime {
+  /**
+   * Polymorphic Discriminator
+   */
+  odatatype: "#Microsoft.Media.AbsoluteClipTime";
+  /**
+   * The time position on the timeline of the input media. It is usually speicified as an ISO8601
+   * period. e.g PT30S for 30 seconds.
+   */
+  time: string;
 }
 
 /**
@@ -2316,6 +2364,16 @@ export interface JobInputAsset {
    */
   files?: string[];
   /**
+   * Defines a point on the timeline of the input media at which processing will start. Defaults to
+   * the beginning of the input media.
+   */
+  start?: ClipTimeUnion;
+  /**
+   * Defines a point on the timeline of the input media at which processing will end. Defaults to
+   * the end of the input media.
+   */
+  end?: ClipTimeUnion;
+  /**
    * A label that is assigned to a JobInputClip, that is used to satisfy a reference used in the
    * Transform. For example, a Transform can be authored so as to take an image file with the label
    * 'xyz' and apply it as an overlay onto the input video before it is encoded. When submitting a
@@ -2341,6 +2399,16 @@ export interface JobInputHttp {
    * List of files. Required for JobInputHttp. Maximum of 4000 characters each.
    */
   files?: string[];
+  /**
+   * Defines a point on the timeline of the input media at which processing will start. Defaults to
+   * the beginning of the input media.
+   */
+  start?: ClipTimeUnion;
+  /**
+   * Defines a point on the timeline of the input media at which processing will end. Defaults to
+   * the end of the input media.
+   */
+  end?: ClipTimeUnion;
   /**
    * A label that is assigned to a JobInputClip, that is used to satisfy a reference used in the
    * Transform. For example, a Transform can be authored so as to take an image file with the label
@@ -3160,13 +3228,65 @@ export interface LiveEventPreview {
 export interface LiveEventEncoding {
   /**
    * The encoding type for Live Event.  This value is specified at creation time and cannot be
-   * updated. Possible values include: 'None', 'Basic', 'Standard'
+   * updated. Possible values include: 'None', 'Basic', 'Standard', 'Premium1080p'
    */
   encodingType?: LiveEventEncodingType;
   /**
    * The encoding preset name.  This value is specified at creation time and cannot be updated.
    */
   presetName?: string;
+}
+
+/**
+ * A track selection condition.
+ */
+export interface LiveEventInputTrackSelection {
+  /**
+   * Property name to select.
+   */
+  property?: string;
+  /**
+   * Comparing operation.
+   */
+  operation?: string;
+  /**
+   * Property value to select.
+   */
+  value?: string;
+}
+
+/**
+ * Describes a transcription track in the output of a Live Event, generated using speech-to-text
+ * transcription.
+ */
+export interface LiveEventOutputTranscriptionTrack {
+  /**
+   * The output track name.
+   */
+  trackName: string;
+}
+
+/**
+ * Describes the transcription tracks in the output of a Live Event, generated using speech-to-text
+ * transcription.
+ */
+export interface LiveEventTranscription {
+  /**
+   * Specifies the language (locale) used for speech-to-text transcription � it should match the
+   * spoken language in the audio track. The value should be in BCP-47 format of 'language
+   * tag-region' (e.g: 'en-US'). The list of supported languages are 'en-US' and 'en-GB'.
+   */
+  language?: string;
+  /**
+   * Provides a mechanism to select the audio track in the input live feed, to which speech-to-text
+   * transcription is applied.
+   */
+  inputTrackSelection?: LiveEventInputTrackSelection[];
+  /**
+   * Describes a transcription track in the output of a Live Event, generated using speech-to-text
+   * transcription.
+   */
+  outputTranscriptionTrack?: LiveEventOutputTranscriptionTrack;
 }
 
 /**
@@ -3213,6 +3333,10 @@ export interface LiveEvent extends TrackedResource {
    * The Live Event encoding.
    */
   encoding?: LiveEventEncoding;
+  /**
+   * The Live Event transcription.
+   */
+  transcriptions?: LiveEventTranscription[];
   /**
    * The provisioning state of the Live Event.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -3395,7 +3519,7 @@ export interface AssetsListOptionalParams extends msRest.RequestOptionsBase {
    */
   top?: number;
   /**
-   * Specifies the the key by which the result collection should be ordered.
+   * Specifies the key by which the result collection should be ordered.
    */
   orderby?: string;
 }
@@ -3415,7 +3539,7 @@ export interface ContentKeyPoliciesListOptionalParams extends msRest.RequestOpti
    */
   top?: number;
   /**
-   * Specifies the the key by which the result collection should be ordered.
+   * Specifies the key by which the result collection should be ordered.
    */
   orderby?: string;
 }
@@ -3429,7 +3553,7 @@ export interface TransformsListOptionalParams extends msRest.RequestOptionsBase 
    */
   filter?: string;
   /**
-   * Specifies the the key by which the result collection should be ordered.
+   * Specifies the key by which the result collection should be ordered.
    */
   orderby?: string;
 }
@@ -3443,7 +3567,7 @@ export interface JobsListOptionalParams extends msRest.RequestOptionsBase {
    */
   filter?: string;
   /**
-   * Specifies the the key by which the result collection should be ordered.
+   * Specifies the by which the result collection should be ordered.
    */
   orderby?: string;
 }
@@ -4029,11 +4153,11 @@ export type LiveEventInputProtocol = 'FragmentedMP4' | 'RTMP';
 
 /**
  * Defines values for LiveEventEncodingType.
- * Possible values include: 'None', 'Basic', 'Standard'
+ * Possible values include: 'None', 'Basic', 'Standard', 'Premium1080p'
  * @readonly
  * @enum {string}
  */
-export type LiveEventEncodingType = 'None' | 'Basic' | 'Standard';
+export type LiveEventEncodingType = 'None' | 'Basic' | 'Standard' | 'Premium1080p';
 
 /**
  * Defines values for LiveEventResourceState.
