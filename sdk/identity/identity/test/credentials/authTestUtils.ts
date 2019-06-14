@@ -5,21 +5,39 @@ import assert from "assert";
 import { IdentityClientOptions } from "../../src";
 import { HttpHeaders, HttpOperationResponse, WebResource, HttpClient } from "@azure/core-http";
 
+export interface MockAuthResponse {
+  status: number;
+  headers?: HttpHeaders;
+  parsedBody?: any;
+  bodyAsText?: string;
+}
+
 export class MockAuthHttpClient implements HttpClient {
   private requestPromise: Promise<WebResource>;
   private requestResolve: (request: WebResource) => void;
+  private authResponse: MockAuthResponse;
 
   public identityClientOptions: IdentityClientOptions;
 
-  constructor() {
+  constructor(authResponse?: MockAuthResponse) {
     this.requestResolve = () => {};
     this.requestPromise = new Promise((resolve) => {
       this.requestResolve = resolve;
     });
 
+    this.authResponse = authResponse || {
+      status: 200,
+      headers: new HttpHeaders(),
+      parsedBody: {
+        access_token: "token",
+        expires_in: 120
+      }
+    };
+
     this.identityClientOptions = {
       authorityHost: "https://authority",
-      httpClient: this
+      httpClient: this,
+      noRetryPolicy: true
     };
   }
 
@@ -27,12 +45,8 @@ export class MockAuthHttpClient implements HttpClient {
     this.requestResolve(httpRequest);
     return Promise.resolve({
       request: httpRequest,
-      status: 200,
-      headers: new HttpHeaders(),
-      parsedBody: {
-        access_token: "token",
-        expires_in: 120
-      }
+      headers: this.authResponse.headers || new HttpHeaders(),
+      ...this.authResponse
     });
   }
 

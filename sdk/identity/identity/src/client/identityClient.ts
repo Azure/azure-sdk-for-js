@@ -12,6 +12,7 @@ import {
   WebResource,
   RequestPrepareOptions
 } from "@azure/core-http";
+import { AuthenticationError } from "./errors";
 
 const SelfSignedJwtLifetimeMins = 10;
 const DefaultAuthorityHost = "https://login.microsoftonline.com";
@@ -42,9 +43,9 @@ export class IdentityClient extends ServiceClient {
         token: response.parsedBody.access_token,
         expiresOnTimestamp: Date.now() + response.parsedBody.expires_in * 1000
       };
+    } else {
+      throw new AuthenticationError(response.status, response.bodyAsText);
     }
-
-    return null;
   }
 
   private mapScopesToResource(scopes: string | string[]): string {
