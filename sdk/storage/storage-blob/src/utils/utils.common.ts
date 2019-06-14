@@ -70,6 +70,13 @@ export function escapeURLPath(url: string): string {
   return urlParsed.toString();
 }
 
+/**
+ * Extracts the parts of an Azure Storage account connection string.
+ *
+ * @export
+ * @param {string} connectionString Connection string.
+ * @returns {{ [key: string]: any }} String key value pairs of the storage account's base url for Blob, account name, and account key.
+ */
 export function extractConnectionStringParts(connectionString: string): { [key: string]: any } {
   const matchCredentials = connectionString.match(
     "DefaultEndpointsProtocol=(.*);AccountName=(.*);AccountKey=(.*);EndpointSuffix=(.*)"
