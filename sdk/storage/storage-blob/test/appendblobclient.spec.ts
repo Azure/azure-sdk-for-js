@@ -1,9 +1,7 @@
 import * as assert from "assert";
 
 import * as dotenv from "dotenv";
-import { newPipeline, SharedKeyCredential } from "../src";
-import { AppendBlobClient } from "../src/AppendBlobClient";
-import { bodyToString, getBSU, getConnectionStringFromEnvironment, getUniqueName } from "./utils";
+import { bodyToString, getBSU, getUniqueName } from "./utils";
 dotenv.config({ path: "../.env" });
 
 describe("AppendBlobClient", () => {
@@ -64,74 +62,5 @@ describe("AppendBlobClient", () => {
     const downloadResponse = await appendBlobClient.download(0);
     assert.equal(await bodyToString(downloadResponse, content.length), content);
     assert.equal(downloadResponse.contentLength!, content.length);
-  });
-
-  it("can be created with a url and a credential", async () => {
-    const factories = appendBlobClient.pipeline.factories;
-    const credential = factories[factories.length - 1] as SharedKeyCredential;
-    const newClient = new AppendBlobClient(appendBlobClient.url, credential);
-
-    await newClient.create();
-    await newClient.download();
-  });
-
-  it("can be created with a url and a credential and an option bag", async () => {
-    const factories = appendBlobClient.pipeline.factories;
-    const credential = factories[factories.length - 1] as SharedKeyCredential;
-    const newClient = new AppendBlobClient(appendBlobClient.url, credential, {
-      telemetry: { value: "test/1.0" }
-    });
-
-    await newClient.create();
-    await newClient.download();
-  });
-
-  it("can be created with a url and a pipeline", async () => {
-    const factories = appendBlobClient.pipeline.factories;
-    const credential = factories[factories.length - 1] as SharedKeyCredential;
-    const pipeline = newPipeline(credential);
-    const newClient = new AppendBlobClient(appendBlobClient.url, pipeline);
-
-    await newClient.create();
-    await newClient.download();
-  });
-
-  it("can be created with a connection string", async () => {
-    const newClient = new AppendBlobClient(
-      getConnectionStringFromEnvironment(),
-      containerName,
-      blobName
-    );
-
-    await newClient.create();
-    await newClient.download();
-  });
-
-  it("throws error if constructor containerName parameter is empty", async () => {
-    try {
-      // tslint:disable-next-line: no-unused-expression
-      new AppendBlobClient(getConnectionStringFromEnvironment(), "", "blobName");
-      assert.fail("Expecting an thrown error but didn't get one.");
-    } catch (error) {
-      assert.equal(
-        "Expecting non-empty strings for containerName and blobName parameters",
-        error.message,
-        "Error message is different than expected."
-      );
-    }
-  });
-
-  it("throws error if constructor blobName parameter is empty", async () => {
-    try {
-      // tslint:disable-next-line: no-unused-expression
-      new AppendBlobClient(getConnectionStringFromEnvironment(), "containerName", "");
-      assert.fail("Expecting an thrown error but didn't get one.");
-    } catch (error) {
-      assert.equal(
-        "Expecting non-empty strings for containerName and blobName parameters",
-        error.message,
-        "Error message is different than expected."
-      );
-    }
   });
 });

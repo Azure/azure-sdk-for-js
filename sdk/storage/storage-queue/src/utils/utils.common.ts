@@ -115,6 +115,8 @@ export function getURLQueries(url: string): { [key: string]: string } {
 }
 
 /**
+ * ONLY AVAILABLE IN NODE.JS RUNTIME.
+ *
  * Extracts the parts of an Azure Storage account connection string.
  *
  * @export

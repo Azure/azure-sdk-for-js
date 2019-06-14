@@ -550,7 +550,9 @@ export class BlobClient extends StorageClient {
   private blobContext: Blob;
 
   /**
-   * Creates an instance of BlobClient.
+   * ONLY AVAILABLE IN NODE.JS RUNTIME.
+   *
+   * Creates an instance of BlobClient from connection string.
    *
    * @param {string} connectionString Connection string for an Azure storage account.
    * @param {string} containerName Container name.
