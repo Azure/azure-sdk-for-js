@@ -11,6 +11,7 @@
 import * as msRest from "@azure/ms-rest-js";
 import * as Models from "./models";
 import * as Mappers from "./models/mappers";
+import * as Parameters from "./models/parameters";
 import * as operations from "./operations";
 import { CognitiveServicesManagementClientContext } from "./cognitiveServicesManagementClientContext";
 
@@ -35,9 +36,74 @@ class CognitiveServicesManagementClient extends CognitiveServicesManagementClien
     this.operations = new operations.Operations(this);
     this.checkSkuAvailability = new operations.CheckSkuAvailability(this);
   }
+
+  /**
+   * Check whether a domain is available.
+   * @param subdomainName The subdomain name to use.
+   * @param type The Type of the resource.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.CheckDomainAvailabilityResponse>
+   */
+  checkDomainAvailability(subdomainName: string, type: string, options?: msRest.RequestOptionsBase): Promise<Models.CheckDomainAvailabilityResponse>;
+  /**
+   * @param subdomainName The subdomain name to use.
+   * @param type The Type of the resource.
+   * @param callback The callback
+   */
+  checkDomainAvailability(subdomainName: string, type: string, callback: msRest.ServiceCallback<Models.CheckDomainAvailabilityResult>): void;
+  /**
+   * @param subdomainName The subdomain name to use.
+   * @param type The Type of the resource.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  checkDomainAvailability(subdomainName: string, type: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CheckDomainAvailabilityResult>): void;
+  checkDomainAvailability(subdomainName: string, type: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CheckDomainAvailabilityResult>, callback?: msRest.ServiceCallback<Models.CheckDomainAvailabilityResult>): Promise<Models.CheckDomainAvailabilityResponse> {
+    return this.sendOperationRequest(
+      {
+        subdomainName,
+        type,
+        options
+      },
+      checkDomainAvailabilityOperationSpec,
+      callback) as Promise<Models.CheckDomainAvailabilityResponse>;
+  }
 }
 
 // Operation Specifications
+const serializer = new msRest.Serializer(Mappers);
+const checkDomainAvailabilityOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "providers/Microsoft.CognitiveServices/checkDomainAvailability",
+  urlParameters: [
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: {
+      subdomainName: "subdomainName",
+      type: "type"
+    },
+    mapper: {
+      ...Mappers.CheckDomainAvailabilityParameter,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.CheckDomainAvailabilityResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
 
 export {
   CognitiveServicesManagementClient,
