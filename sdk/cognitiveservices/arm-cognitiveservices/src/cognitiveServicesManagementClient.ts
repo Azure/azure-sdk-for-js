@@ -75,9 +75,6 @@ const serializer = new msRest.Serializer(Mappers);
 const checkDomainAvailabilityOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "providers/Microsoft.CognitiveServices/checkDomainAvailability",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
   queryParameters: [
     Parameters.apiVersion
   ],
