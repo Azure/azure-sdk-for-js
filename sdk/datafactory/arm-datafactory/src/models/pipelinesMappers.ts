@@ -325,6 +325,8 @@ export {
   SapEccResourceDataset,
   SapEccSource,
   SapHanaLinkedService,
+  SapHanaSource,
+  SapHanaTableDataset,
   SapOpenHubLinkedService,
   SapOpenHubSource,
   SapOpenHubTableDataset,

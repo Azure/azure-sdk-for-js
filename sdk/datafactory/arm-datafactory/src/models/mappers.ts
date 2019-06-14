@@ -5873,6 +5873,12 @@ export const SapHanaLinkedService: msRest.CompositeMapper = {
     className: "SapHanaLinkedService",
     modelProperties: {
       ...LinkedService.type.modelProperties,
+      connectionString: {
+        serializedName: "typeProperties.connectionString",
+        type: {
+          name: "Object"
+        }
+      },
       server: {
         required: true,
         serializedName: "typeProperties.server",
@@ -9406,6 +9412,32 @@ export const SapOpenHubTableDataset: msRest.CompositeMapper = {
   }
 };
 
+export const SapHanaTableDataset: msRest.CompositeMapper = {
+  serializedName: "SapHanaTable",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: Dataset.type.polymorphicDiscriminator,
+    uberParent: "Dataset",
+    className: "SapHanaTableDataset",
+    modelProperties: {
+      ...Dataset.type.modelProperties,
+      sapHanaTableDatasetSchema: {
+        serializedName: "typeProperties.schema",
+        type: {
+          name: "Object"
+        }
+      },
+      table: {
+        serializedName: "typeProperties.table",
+        type: {
+          name: "Object"
+        }
+      }
+    },
+    additionalProperties: Dataset.type.additionalProperties
+  }
+};
+
 export const SapEccResourceDataset: msRest.CompositeMapper = {
   serializedName: "SapEccResource",
   type: {
@@ -12508,6 +12540,32 @@ export const SapOpenHubSource: msRest.CompositeMapper = {
     className: "SapOpenHubSource",
     modelProperties: {
       ...CopySource.type.modelProperties
+    },
+    additionalProperties: CopySource.type.additionalProperties
+  }
+};
+
+export const SapHanaSource: msRest.CompositeMapper = {
+  serializedName: "SapHanaSource",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: CopySource.type.polymorphicDiscriminator,
+    uberParent: "CopySource",
+    className: "SapHanaSource",
+    modelProperties: {
+      ...CopySource.type.modelProperties,
+      query: {
+        serializedName: "query",
+        type: {
+          name: "Object"
+        }
+      },
+      packetSize: {
+        serializedName: "packetSize",
+        type: {
+          name: "Object"
+        }
+      }
     },
     additionalProperties: CopySource.type.additionalProperties
   }
@@ -17563,6 +17621,7 @@ export const discriminators = {
   'Dataset.RestResource' : RestResourceDataset,
   'Dataset.SqlServerTable' : SqlServerTableDataset,
   'Dataset.SapOpenHubTable' : SapOpenHubTableDataset,
+  'Dataset.SapHanaTable' : SapHanaTableDataset,
   'Dataset.SapEccResource' : SapEccResourceDataset,
   'Dataset.SapCloudForCustomerResource' : SapCloudForCustomerResourceDataset,
   'Dataset.SalesforceObject' : SalesforceObjectDataset,
@@ -17652,6 +17711,7 @@ export const discriminators = {
   'CopySource.RestSource' : RestSource,
   'CopySource.SapTableSource' : SapTableSource,
   'CopySource.SapOpenHubSource' : SapOpenHubSource,
+  'CopySource.SapHanaSource' : SapHanaSource,
   'CopySource.SapEccSource' : SapEccSource,
   'CopySource.SapCloudForCustomerSource' : SapCloudForCustomerSource,
   'CopySource.SalesforceSource' : SalesforceSource,
