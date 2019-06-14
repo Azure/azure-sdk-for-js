@@ -108,10 +108,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     ).toString();
 
     const sasURL = `${serviceClient.url}?${sas}`;
-    const serviceClientWithSAS = new FileServiceClient(
-      sasURL,
-      newPipeline(new AnonymousCredential())
-    );
+    const serviceClientWithSAS = new FileServiceClient(sasURL);
 
     let error;
     try {
@@ -145,10 +142,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     ).toString();
 
     const sasURL = `${serviceClient.url}?${sas}`;
-    const serviceClientWithSAS = new FileServiceClient(
-      sasURL,
-      newPipeline(new AnonymousCredential())
-    );
+    const serviceClientWithSAS = new FileServiceClient(sasURL);
 
     let error;
     try {
@@ -189,10 +183,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     );
 
     const sasURL = `${shareClient.url}?${shareSAS}`;
-    const shareClientwithSAS = new ShareClient(
-      sasURL,
-      newPipeline(new AnonymousCredential())
-    );
+    const shareClientwithSAS = new ShareClient(sasURL);
 
     const dirURLwithSAS = shareClientwithSAS.createDirectoryClient("");
     await dirURLwithSAS.listFilesAndDirectoriesSegment();
@@ -247,10 +238,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     );
 
     const sasURL = `${fileClient.url}?${fileSAS}`;
-    const fileClientwithSAS = new FileClient(
-      sasURL,
-      newPipeline(new AnonymousCredential())
-    );
+    const fileClientwithSAS = new FileClient(sasURL);
 
     const properties = await fileClientwithSAS.getProperties();
     assert.equal(properties.cacheControl, "cache-control-override");
@@ -310,10 +298,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     );
 
     const sasURL = `${shareClient.url}?${shareSAS}`;
-    const shareClientwithSAS = new ShareClient(
-      sasURL,
-      newPipeline(new AnonymousCredential())
-    );
+    const shareClientwithSAS = new ShareClient(sasURL, newPipeline(new AnonymousCredential()));
 
     const dirURLwithSAS = shareClientwithSAS.createDirectoryClient("");
     await dirURLwithSAS.listFilesAndDirectoriesSegment();

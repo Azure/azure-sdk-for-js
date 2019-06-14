@@ -118,7 +118,7 @@ export class Pipeline {
 }
 
 /**
- * Option interface for Pipeline.newPipeline method.
+ * Option interface for newPipeline() function.
  *
  * @export
  * @interface NewPipelineOptions

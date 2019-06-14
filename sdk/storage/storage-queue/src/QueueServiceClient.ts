@@ -5,10 +5,13 @@ import * as Models from "./generated/lib/models";
 import { Aborter } from "./Aborter";
 import { ListQueuesIncludeType } from "./generated/lib/models/index";
 import { Service } from "./generated/lib/operations";
-import { Pipeline } from "./Pipeline";
+import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
 import { StorageClient } from "./StorageClient";
 import { QueueClient } from "./QueueClient";
-import { appendToURLPath } from "./utils/utils.common";
+import { appendToURLPath, extractConnectionStringParts } from "./utils/utils.common";
+import { Credential } from "./credentials/Credential";
+import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
+import { AnonymousCredential } from "./credentials/AnonymousCredential";
 
 /**
  * Options to configure Queue Service - Get Properties operation
@@ -112,6 +115,25 @@ export interface ServiceListQueuesSegmentOptions {
  */
 export class QueueServiceClient extends StorageClient {
   /**
+   * Creates an instance of QueueServiceClient.
+   *
+   * @param {string} connectionString Connection string for an Azure storage account.
+   * @param {NewPipelineOptions} [options] Options to configure the HTTP pipeline.
+   * @returns {QueueServiceClient} A new QueueServiceClient object from the given connection string.
+   * @memberof QueueServiceClient
+   */
+  public static fromConnectionString(connectionString: string, options?: NewPipelineOptions): QueueServiceClient {
+    const extractedCreds = extractConnectionStringParts(connectionString);
+    const sharedKeyCredential = new SharedKeyCredential(
+      extractedCreds.accountName,
+      extractedCreds.accountKey
+    );
+
+    const pipeline = newPipeline(sharedKeyCredential, options);
+    return new QueueServiceClient(extractedCreds.url, pipeline);
+  }
+
+  /**
    * serviceContext provided by protocol layer.
    *
    * @private
@@ -122,6 +144,19 @@ export class QueueServiceClient extends StorageClient {
 
   /**
    * Creates an instance of QueueServiceClient.
+   *
+   * @param {string} url A URL string pointing to Azure Storage queue service, such as
+   *                     "https://myaccount.queue.core.windows.net". You can append a SAS
+   *                     if using AnonymousCredential, such as "https://myaccount.queue.core.windows.net?sasString".
+   * @param {Credential} credential Such as AnonymousCredential, SharedKeyCredential or TokenCredential.
+   *                                If not specified, anonymous credential is used.
+   * @param {NewPipelineOptions} [options] Options to configure the HTTP pipeline.
+   * @memberof QueueServiceClient
+   */
+  constructor(url: string, credential?: Credential, options?: NewPipelineOptions);
+  /**
+   * Creates an instance of QueueServiceClient.
+   *
    * @param {string} url A URL string pointing to Azure Storage queue service, such as
    *                     "https://myaccount.queue.core.windows.net". You can append a SAS
    *                     if using AnonymousCredential, such as "https://myaccount.queue.core.windows.net?sasString".
@@ -129,7 +164,21 @@ export class QueueServiceClient extends StorageClient {
    *                            pipeline, or provide a customized pipeline.
    * @memberof QueueServiceClient
    */
-  constructor(url: string, pipeline: Pipeline) {
+  constructor(url: string, pipeline: Pipeline);
+  constructor(
+    url: string,
+    credentialOrPipeline?: Credential | Pipeline,
+    options?: NewPipelineOptions
+  ) {
+    let pipeline: Pipeline;
+    if (credentialOrPipeline instanceof Pipeline) {
+      pipeline = credentialOrPipeline;
+    } else if (credentialOrPipeline instanceof Credential) {
+      pipeline = newPipeline(credentialOrPipeline, options);
+    } else {
+      // The second paramter is undefined. Use anonymous credential.
+      pipeline = newPipeline(new AnonymousCredential(), options);
+    }
     super(url, pipeline);
     this.serviceContext = new Service(this.storageClientContext);
   }

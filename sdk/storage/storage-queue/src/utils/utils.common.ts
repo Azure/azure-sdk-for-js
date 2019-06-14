@@ -115,6 +115,39 @@ export function getURLQueries(url: string): { [key: string]: string } {
 }
 
 /**
+ * Extracts the parts of an Azure Storage account connection string.
+ *
+ * @export
+ * @param {string} connectionString Connection string.
+ * @returns {{ [key: string]: any }} String key value pairs of the storage account's base url for Queue, account name, and account key.
+ */
+export function extractConnectionStringParts(connectionString: string): { [key: string]: any } {
+  const matchCredentials = connectionString.match(
+    "DefaultEndpointsProtocol=(.*);AccountName=(.*);AccountKey=(.*);EndpointSuffix=(.*)"
+  );
+  const defaultEndpointsProtocol = matchCredentials![1] || "";
+  const accountName = matchCredentials![2] || "";
+  const accountKey = Buffer.from(matchCredentials![3], "base64");
+  const endpointSuffix = matchCredentials![4] || "";
+  if (!accountName) {
+    throw new Error("Invalid AccountName in the provided Connection String");
+  } else if (!accountKey) {
+    throw new Error("Invalid AccountKey in the provided Connection String");
+  } else if (!endpointSuffix) {
+    throw new Error("Invalid EndpointSuffix in the provided Connection String");
+  } else if (!defaultEndpointsProtocol) {
+    throw new Error("Invalid DefaultEndpointsProtocol in the provided Connection String");
+  }
+  const url = `${defaultEndpointsProtocol}://${accountName}.queue.${endpointSuffix}`;
+
+  return {
+    url,
+    accountName,
+    accountKey
+  };
+}
+
+/**
  * Rounds a date off to seconds.
  *
  * @export
