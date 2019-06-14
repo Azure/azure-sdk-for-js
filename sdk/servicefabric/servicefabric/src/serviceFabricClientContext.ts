@@ -21,11 +21,11 @@ export class ServiceFabricClientContext extends msRest.ServiceClient {
    * @param [options] The parameter options
    */
   constructor(options?: Models.ServiceFabricClientOptions) {
-
     if (!options) {
       options = {};
     }
-    if(!options.userAgent) {
+
+    if (!options.userAgent) {
       const defaultUserAgent = msRest.getDefaultUserAgentValue();
       options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
     }
@@ -34,6 +34,5 @@ export class ServiceFabricClientContext extends msRest.ServiceClient {
 
     this.baseUri = options.baseUri || this.baseUri || "http://localhost:19080";
     this.requestContentType = "application/json; charset=utf-8";
-
   }
 }

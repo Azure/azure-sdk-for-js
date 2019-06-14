@@ -80,7 +80,7 @@ const getContainerLogsOperationSpec: msRest.OperationSpec = {
     Parameters.codePackageName2
   ],
   queryParameters: [
-    Parameters.apiVersion6,
+    Parameters.apiVersion7,
     Parameters.tail
   ],
   responses: {
