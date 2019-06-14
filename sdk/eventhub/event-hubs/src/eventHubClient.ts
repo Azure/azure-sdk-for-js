@@ -25,7 +25,7 @@ import { PartitionProperties, EventHubProperties } from "./managementClient";
 import { EventPosition } from "./eventPosition";
 
 import { IotHubClient } from "./iothub/iothubClient";
-import { AbortSignal } from "@azure/abort-controller";
+import { AbortSignalLike } from "@azure/abort-controller";
 import { EventSender } from "./sender";
 import { EventReceiver } from "./receiver";
 import { throwTypeErrorIfParameterMissing } from "./util/error";
@@ -87,7 +87,7 @@ export interface SendOptions {
    * @property
    * Cancel current operation
    */
-  abortSignal?: AbortSignal;
+  abortSignal?: AbortSignalLike;
 }
 
 /**
@@ -354,7 +354,7 @@ export class EventHubClient {
    * Provides the eventhub runtime information.
    * @returns {Promise<EventHubProperties>} A promise that resolves with HubInformation.
    */
-  async getProperties(abortSignal?: AbortSignal): Promise<EventHubProperties> {
+  async getProperties(abortSignal?: AbortSignalLike): Promise<EventHubProperties> {
     try {
       return await this._context.managementSession!.getHubRuntimeInformation({
         retryOptions: this._clientOptions.retryOptions,
@@ -370,7 +370,7 @@ export class EventHubClient {
    * Provides an array of partitionIds.
    * @returns {Promise<Array<string>>} A promise that resolves with an Array of strings.
    */
-  async getPartitionIds(abortSignal?: AbortSignal): Promise<Array<string>> {
+  async getPartitionIds(abortSignal?: AbortSignalLike): Promise<Array<string>> {
     try {
       const runtimeInfo = await this.getProperties(abortSignal);
       return runtimeInfo.partitionIds;
@@ -385,7 +385,7 @@ export class EventHubClient {
    * @param {string} partitionId Partition ID for which partition information is required.
    * @returns {Promise<PartitionProperties>} A promise that resoloves with EventHubPartitionRuntimeInformation.
    */
-  async getPartitionInformation(partitionId: string, abortSignal?: AbortSignal): Promise<PartitionProperties> {
+  async getPartitionInformation(partitionId: string, abortSignal?: AbortSignalLike): Promise<PartitionProperties> {
     throwTypeErrorIfParameterMissing(this._context.connectionId, "partitionId", partitionId);
     partitionId = String(partitionId);
     try {

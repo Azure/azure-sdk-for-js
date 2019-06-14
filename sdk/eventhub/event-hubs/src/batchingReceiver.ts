@@ -16,7 +16,7 @@ import { ReceivedEventData, EventDataInternal, fromAmqpMessage } from "./eventDa
 import { EventReceiverOptions, RetryOptions } from "./eventHubClient";
 import { EventHubReceiver } from "./eventHubReceiver";
 import { ConnectionContext } from "./connectionContext";
-import { AbortSignal, AbortError } from "@azure/abort-controller";
+import { AbortSignalLike, AbortError } from "@azure/abort-controller";
 import * as log from "./log";
 
 /**
@@ -52,14 +52,14 @@ export class BatchingReceiver extends EventHubReceiver {
    * @param {number} [maxWaitTimeInSeconds] The maximum wait time in seconds for which the Receiver
    * should wait to receiver the said amount of messages. If not provided, it defaults to 60 seconds.
    * @param {RetryOptions} [retryOptions] Retry options for the receive operation
-   * @param {AbortSignal} abortSignal Signal to cancel current operation.
+   * @param {AbortSignalLike} abortSignal Signal to cancel current operation.
    * @returns {Promise<ReceivedEventData[]>} A promise that resolves with an array of ReceivedEventData objects.
    */
   receive(
     maxMessageCount: number,
     maxWaitTimeInSeconds?: number,
     retryOptions?: RetryOptions,
-    abortSignal?: AbortSignal
+    abortSignal?: AbortSignalLike
   ): Promise<ReceivedEventData[]> {
     if (maxWaitTimeInSeconds == undefined) {
       maxWaitTimeInSeconds = Constants.defaultOperationTimeoutInSeconds;
