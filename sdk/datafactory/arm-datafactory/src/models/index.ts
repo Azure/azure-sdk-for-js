@@ -472,7 +472,7 @@ export interface DatasetFolder {
 /**
  * Contains the possible cases for Dataset.
  */
-export type DatasetUnion = Dataset | GoogleAdWordsObjectDataset | AzureDataExplorerTableDataset | OracleServiceCloudObjectDataset | DynamicsAXResourceDataset | ResponsysObjectDataset | SalesforceMarketingCloudObjectDataset | VerticaTableDataset | NetezzaTableDataset | ZohoObjectDataset | XeroObjectDataset | SquareObjectDataset | SparkObjectDataset | ShopifyObjectDataset | ServiceNowObjectDataset | QuickBooksObjectDataset | PrestoObjectDataset | PhoenixObjectDataset | PaypalObjectDataset | MarketoObjectDataset | MariaDBTableDataset | MagentoObjectDataset | JiraObjectDataset | ImpalaObjectDataset | HubspotObjectDataset | HiveObjectDataset | HBaseObjectDataset | GreenplumTableDataset | GoogleBigQueryObjectDataset | EloquaObjectDataset | DrillTableDataset | CouchbaseTableDataset | ConcurObjectDataset | AzurePostgreSqlTableDataset | AmazonMWSObjectDataset | HttpDataset | AzureSearchIndexDataset | WebTableDataset | SapTableResourceDataset | RestResourceDataset | SqlServerTableDataset | SapOpenHubTableDataset | SapEccResourceDataset | SapCloudForCustomerResourceDataset | SalesforceObjectDataset | RelationalTableDataset | AzureMySqlTableDataset | OracleTableDataset | ODataResourceDataset | CosmosDbMongoDbApiCollectionDataset | MongoDbV2CollectionDataset | MongoDbCollectionDataset | FileShareDataset | Office365Dataset | AzureBlobFSDataset | AzureDataLakeStoreDataset | DynamicsEntityDataset | DocumentDbCollectionDataset | CustomDataset | CassandraTableDataset | AzureSqlDWTableDataset | AzureSqlTableDataset | AzureTableDataset | AzureBlobDataset | DelimitedTextDataset | ParquetDataset | AmazonS3Dataset;
+export type DatasetUnion = Dataset | GoogleAdWordsObjectDataset | AzureDataExplorerTableDataset | OracleServiceCloudObjectDataset | DynamicsAXResourceDataset | ResponsysObjectDataset | SalesforceMarketingCloudObjectDataset | VerticaTableDataset | NetezzaTableDataset | ZohoObjectDataset | XeroObjectDataset | SquareObjectDataset | SparkObjectDataset | ShopifyObjectDataset | ServiceNowObjectDataset | QuickBooksObjectDataset | PrestoObjectDataset | PhoenixObjectDataset | PaypalObjectDataset | MarketoObjectDataset | MariaDBTableDataset | MagentoObjectDataset | JiraObjectDataset | ImpalaObjectDataset | HubspotObjectDataset | HiveObjectDataset | HBaseObjectDataset | GreenplumTableDataset | GoogleBigQueryObjectDataset | EloquaObjectDataset | DrillTableDataset | CouchbaseTableDataset | ConcurObjectDataset | AzurePostgreSqlTableDataset | AmazonMWSObjectDataset | HttpDataset | AzureSearchIndexDataset | WebTableDataset | SapTableResourceDataset | RestResourceDataset | SqlServerTableDataset | SapOpenHubTableDataset | SapHanaTableDataset | SapEccResourceDataset | SapCloudForCustomerResourceDataset | SalesforceObjectDataset | RelationalTableDataset | AzureMySqlTableDataset | TeradataTableDataset | OracleTableDataset | ODataResourceDataset | CosmosDbMongoDbApiCollectionDataset | MongoDbV2CollectionDataset | MongoDbCollectionDataset | FileShareDataset | Office365Dataset | AzureBlobFSDataset | AzureDataLakeStoreDataset | DynamicsEntityDataset | DocumentDbCollectionDataset | CustomDataset | CassandraTableDataset | AzureSqlDWTableDataset | AzureSqlTableDataset | AzureTableDataset | AzureBlobDataset | DelimitedTextDataset | ParquetDataset | AmazonS3Dataset;
 
 /**
  * The Azure Data Factory nested object which identifies data within different data stores, such as
@@ -4568,6 +4568,10 @@ export interface SapHanaLinkedService {
    */
   annotations?: any[];
   /**
+   * SAP HANA ODBC connection string. Type: string, SecureString or AzureKeyVaultSecretReference.
+   */
+  connectionString?: any;
+  /**
    * Host name of the SAP HANA server. Type: string (or Expression with resultType string).
    */
   server: any;
@@ -6052,9 +6056,13 @@ export interface TeradataLinkedService {
    */
   annotations?: any[];
   /**
+   * Teradata ODBC connection string. Type: string, SecureString or AzureKeyVaultSecretReference.
+   */
+  connectionString?: any;
+  /**
    * Server name for connection. Type: string (or Expression with resultType string).
    */
-  server: any;
+  server?: any;
   /**
    * AuthenticationType to be used for connection. Possible values include: 'Basic', 'Windows'
    */
@@ -9081,6 +9089,54 @@ export interface SapOpenHubTableDataset {
 }
 
 /**
+ * SAP HANA Table properties.
+ */
+export interface SapHanaTableDataset {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "SapHanaTable";
+  /**
+   * Dataset description.
+   */
+  description?: string;
+  /**
+   * Columns that define the structure of the dataset. Type: array (or Expression with resultType
+   * array), itemType: DatasetDataElement.
+   */
+  structure?: any;
+  /**
+   * Columns that define the physical type schema of the dataset. Type: array (or Expression with
+   * resultType array), itemType: DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
+   * Linked service reference.
+   */
+  linkedServiceName: LinkedServiceReference;
+  /**
+   * Parameters for dataset.
+   */
+  parameters?: { [propertyName: string]: ParameterSpecification };
+  /**
+   * List of tags that can be used for describing the Dataset.
+   */
+  annotations?: any[];
+  /**
+   * The folder that this Dataset is in. If not specified, Dataset will appear at the root level.
+   */
+  folder?: DatasetFolder;
+  /**
+   * The schema name of SAP HANA. Type: string (or Expression with resultType string).
+   */
+  sapHanaTableDatasetSchema?: any;
+  /**
+   * The table name of SAP HANA. Type: string (or Expression with resultType string).
+   */
+  table?: any;
+}
+
+/**
  * The path of the SAP ECC OData entity.
  */
 export interface SapEccResourceDataset {
@@ -9299,6 +9355,54 @@ export interface AzureMySqlTableDataset {
    * The Azure MySQL database table name. Type: string (or Expression with resultType string).
    */
   tableName?: any;
+}
+
+/**
+ * The Teradata database dataset.
+ */
+export interface TeradataTableDataset {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "TeradataTable";
+  /**
+   * Dataset description.
+   */
+  description?: string;
+  /**
+   * Columns that define the structure of the dataset. Type: array (or Expression with resultType
+   * array), itemType: DatasetDataElement.
+   */
+  structure?: any;
+  /**
+   * Columns that define the physical type schema of the dataset. Type: array (or Expression with
+   * resultType array), itemType: DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
+   * Linked service reference.
+   */
+  linkedServiceName: LinkedServiceReference;
+  /**
+   * Parameters for dataset.
+   */
+  parameters?: { [propertyName: string]: ParameterSpecification };
+  /**
+   * List of tags that can be used for describing the Dataset.
+   */
+  annotations?: any[];
+  /**
+   * The folder that this Dataset is in. If not specified, Dataset will appear at the root level.
+   */
+  folder?: DatasetFolder;
+  /**
+   * The database name of Teradata. Type: string (or Expression with resultType string).
+   */
+  database?: any;
+  /**
+   * The table name of Teradata. Type: string (or Expression with resultType string).
+   */
+  table?: any;
 }
 
 /**
@@ -11050,7 +11154,7 @@ export interface RedshiftUnloadSettings {
 /**
  * Contains the possible cases for CopySource.
  */
-export type CopySourceUnion = CopySource | AmazonRedshiftSource | GoogleAdWordsSource | OracleServiceCloudSource | DynamicsAXSource | ResponsysSource | SalesforceMarketingCloudSource | VerticaSource | NetezzaSource | ZohoSource | XeroSource | SquareSource | SparkSource | ShopifySource | ServiceNowSource | QuickBooksSource | PrestoSource | PhoenixSource | PaypalSource | MarketoSource | MariaDBSource | MagentoSource | JiraSource | ImpalaSource | HubspotSource | HiveSource | HBaseSource | GreenplumSource | GoogleBigQuerySource | EloquaSource | DrillSource | CouchbaseSource | ConcurSource | AzurePostgreSqlSource | AmazonMWSSource | HttpSource | AzureBlobFSSource | AzureDataLakeStoreSource | Office365Source | CosmosDbMongoDbApiSource | MongoDbV2Source | MongoDbSource | CassandraSource | WebSource | OracleSource | AzureDataExplorerSource | AzureMySqlSource | HdfsSource | FileSystemSource | SqlDWSource | AzureSqlSource | SqlServerSource | SqlSource | RestSource | SapTableSource | SapOpenHubSource | SapEccSource | SapCloudForCustomerSource | SalesforceSource | RelationalSource | DynamicsSource | DocumentDbCollectionSource | BlobSource | AzureTableSource | DelimitedTextSource | ParquetSource;
+export type CopySourceUnion = CopySource | AmazonRedshiftSource | GoogleAdWordsSource | OracleServiceCloudSource | DynamicsAXSource | ResponsysSource | SalesforceMarketingCloudSource | VerticaSource | NetezzaSource | ZohoSource | XeroSource | SquareSource | SparkSource | ShopifySource | ServiceNowSource | QuickBooksSource | PrestoSource | PhoenixSource | PaypalSource | MarketoSource | MariaDBSource | MagentoSource | JiraSource | ImpalaSource | HubspotSource | HiveSource | HBaseSource | GreenplumSource | GoogleBigQuerySource | EloquaSource | DrillSource | CouchbaseSource | ConcurSource | AzurePostgreSqlSource | AmazonMWSSource | HttpSource | AzureBlobFSSource | AzureDataLakeStoreSource | Office365Source | CosmosDbMongoDbApiSource | MongoDbV2Source | MongoDbSource | CassandraSource | WebSource | TeradataSource | OracleSource | AzureDataExplorerSource | AzureMySqlSource | HdfsSource | FileSystemSource | SqlDWSource | AzureSqlSource | SqlServerSource | SqlSource | RestSource | SapTableSource | SapOpenHubSource | SapHanaSource | SapEccSource | SapCloudForCustomerSource | SalesforceSource | RelationalSource | DynamicsSource | DocumentDbCollectionSource | BlobSource | AzureTableSource | DelimitedTextSource | ParquetSource;
 
 /**
  * A copy activity source.
@@ -12363,6 +12467,63 @@ export interface WebSource {
 }
 
 /**
+ * The settings that will be leveraged for teradata source partitioning.
+ */
+export interface TeradataPartitionSettings {
+  /**
+   * The name of the column in integer type that will be used for proceeding range or hash
+   * partitioning. Type: string (or Expression with resultType string).
+   */
+  partitionColumnName?: any;
+  /**
+   * The maximum value of column specificed in partitionColumnName that will be used for proceeding
+   * range partitioning. Type: string (or Expression with resultType string).
+   */
+  partitionUpperBound?: any;
+  /**
+   * The minimum value of column specificed in partitionColumnName that will be used for proceeding
+   * range partitioning. Type: string (or Expression with resultType string).
+   */
+  partitionLowerBound?: any;
+}
+
+/**
+ * A copy activity Teradata source.
+ */
+export interface TeradataSource {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "TeradataSource";
+  /**
+   * Source retry count. Type: integer (or Expression with resultType integer).
+   */
+  sourceRetryCount?: any;
+  /**
+   * Source retry wait. Type: string (or Expression with resultType string), pattern:
+   * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
+   */
+  sourceRetryWait?: any;
+  /**
+   * The maximum concurrent connection count for the source data store. Type: integer (or
+   * Expression with resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
+   * Teradata query. Type: string (or Expression with resultType string).
+   */
+  query?: any;
+  /**
+   * The partition mechanism that will be used for teradata read in parallel.
+   */
+  partitionOption?: any;
+  /**
+   * The settings that will be leveraged for teradata source partitioning.
+   */
+  partitionSettings?: TeradataPartitionSettings;
+}
+
+/**
  * The settings that will be leveraged for oracle source partitioning.
  */
 export interface OraclePartitionSettings {
@@ -12897,6 +13058,39 @@ export interface SapOpenHubSource {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+}
+
+/**
+ * A copy activity source for SAP HANA source.
+ */
+export interface SapHanaSource {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "SapHanaSource";
+  /**
+   * Source retry count. Type: integer (or Expression with resultType integer).
+   */
+  sourceRetryCount?: any;
+  /**
+   * Source retry wait. Type: string (or Expression with resultType string), pattern:
+   * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
+   */
+  sourceRetryWait?: any;
+  /**
+   * The maximum concurrent connection count for the source data store. Type: integer (or
+   * Expression with resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
+   * SAP HANA Sql query. Type: string (or Expression with resultType string).
+   */
+  query?: any;
+  /**
+   * The packet size of data read from SAP HANA. Type: integer(or Expression with resultType
+   * integer).
+   */
+  packetSize?: any;
 }
 
 /**

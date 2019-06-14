@@ -5873,6 +5873,12 @@ export const SapHanaLinkedService: msRest.CompositeMapper = {
     className: "SapHanaLinkedService",
     modelProperties: {
       ...LinkedService.type.modelProperties,
+      connectionString: {
+        serializedName: "typeProperties.connectionString",
+        type: {
+          name: "Object"
+        }
+      },
       server: {
         required: true,
         serializedName: "typeProperties.server",
@@ -7317,8 +7323,13 @@ export const TeradataLinkedService: msRest.CompositeMapper = {
     className: "TeradataLinkedService",
     modelProperties: {
       ...LinkedService.type.modelProperties,
+      connectionString: {
+        serializedName: "typeProperties.connectionString",
+        type: {
+          name: "Object"
+        }
+      },
       server: {
-        required: true,
         serializedName: "typeProperties.server",
         type: {
           name: "Object"
@@ -9406,6 +9417,32 @@ export const SapOpenHubTableDataset: msRest.CompositeMapper = {
   }
 };
 
+export const SapHanaTableDataset: msRest.CompositeMapper = {
+  serializedName: "SapHanaTable",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: Dataset.type.polymorphicDiscriminator,
+    uberParent: "Dataset",
+    className: "SapHanaTableDataset",
+    modelProperties: {
+      ...Dataset.type.modelProperties,
+      sapHanaTableDatasetSchema: {
+        serializedName: "typeProperties.schema",
+        type: {
+          name: "Object"
+        }
+      },
+      table: {
+        serializedName: "typeProperties.table",
+        type: {
+          name: "Object"
+        }
+      }
+    },
+    additionalProperties: Dataset.type.additionalProperties
+  }
+};
+
 export const SapEccResourceDataset: msRest.CompositeMapper = {
   serializedName: "SapEccResource",
   type: {
@@ -9499,6 +9536,32 @@ export const AzureMySqlTableDataset: msRest.CompositeMapper = {
       ...Dataset.type.modelProperties,
       tableName: {
         serializedName: "typeProperties.tableName",
+        type: {
+          name: "Object"
+        }
+      }
+    },
+    additionalProperties: Dataset.type.additionalProperties
+  }
+};
+
+export const TeradataTableDataset: msRest.CompositeMapper = {
+  serializedName: "TeradataTable",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: Dataset.type.polymorphicDiscriminator,
+    uberParent: "Dataset",
+    className: "TeradataTableDataset",
+    modelProperties: {
+      ...Dataset.type.modelProperties,
+      database: {
+        serializedName: "typeProperties.database",
+        type: {
+          name: "Object"
+        }
+      },
+      table: {
+        serializedName: "typeProperties.table",
         type: {
           name: "Object"
         }
@@ -11993,6 +12056,67 @@ export const WebSource: msRest.CompositeMapper = {
   }
 };
 
+export const TeradataPartitionSettings: msRest.CompositeMapper = {
+  serializedName: "TeradataPartitionSettings",
+  type: {
+    name: "Composite",
+    className: "TeradataPartitionSettings",
+    modelProperties: {
+      partitionColumnName: {
+        serializedName: "partitionColumnName",
+        type: {
+          name: "Object"
+        }
+      },
+      partitionUpperBound: {
+        serializedName: "partitionUpperBound",
+        type: {
+          name: "Object"
+        }
+      },
+      partitionLowerBound: {
+        serializedName: "partitionLowerBound",
+        type: {
+          name: "Object"
+        }
+      }
+    }
+  }
+};
+
+export const TeradataSource: msRest.CompositeMapper = {
+  serializedName: "TeradataSource",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: CopySource.type.polymorphicDiscriminator,
+    uberParent: "CopySource",
+    className: "TeradataSource",
+    modelProperties: {
+      ...CopySource.type.modelProperties,
+      query: {
+        serializedName: "query",
+        type: {
+          name: "Object"
+        }
+      },
+      partitionOption: {
+        serializedName: "partitionOption",
+        type: {
+          name: "Object"
+        }
+      },
+      partitionSettings: {
+        serializedName: "partitionSettings",
+        type: {
+          name: "Composite",
+          className: "TeradataPartitionSettings"
+        }
+      }
+    },
+    additionalProperties: CopySource.type.additionalProperties
+  }
+};
+
 export const OraclePartitionSettings: msRest.CompositeMapper = {
   serializedName: "OraclePartitionSettings",
   type: {
@@ -12508,6 +12632,32 @@ export const SapOpenHubSource: msRest.CompositeMapper = {
     className: "SapOpenHubSource",
     modelProperties: {
       ...CopySource.type.modelProperties
+    },
+    additionalProperties: CopySource.type.additionalProperties
+  }
+};
+
+export const SapHanaSource: msRest.CompositeMapper = {
+  serializedName: "SapHanaSource",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: CopySource.type.polymorphicDiscriminator,
+    uberParent: "CopySource",
+    className: "SapHanaSource",
+    modelProperties: {
+      ...CopySource.type.modelProperties,
+      query: {
+        serializedName: "query",
+        type: {
+          name: "Object"
+        }
+      },
+      packetSize: {
+        serializedName: "packetSize",
+        type: {
+          name: "Object"
+        }
+      }
     },
     additionalProperties: CopySource.type.additionalProperties
   }
@@ -17563,11 +17713,13 @@ export const discriminators = {
   'Dataset.RestResource' : RestResourceDataset,
   'Dataset.SqlServerTable' : SqlServerTableDataset,
   'Dataset.SapOpenHubTable' : SapOpenHubTableDataset,
+  'Dataset.SapHanaTable' : SapHanaTableDataset,
   'Dataset.SapEccResource' : SapEccResourceDataset,
   'Dataset.SapCloudForCustomerResource' : SapCloudForCustomerResourceDataset,
   'Dataset.SalesforceObject' : SalesforceObjectDataset,
   'Dataset.RelationalTable' : RelationalTableDataset,
   'Dataset.AzureMySqlTable' : AzureMySqlTableDataset,
+  'Dataset.TeradataTable' : TeradataTableDataset,
   'Dataset.OracleTable' : OracleTableDataset,
   'Dataset.ODataResource' : ODataResourceDataset,
   'Dataset.CosmosDbMongoDbApiCollection' : CosmosDbMongoDbApiCollectionDataset,
@@ -17640,6 +17792,7 @@ export const discriminators = {
   'CopySource.MongoDbSource' : MongoDbSource,
   'CopySource.CassandraSource' : CassandraSource,
   'CopySource.WebSource' : WebSource,
+  'CopySource.TeradataSource' : TeradataSource,
   'CopySource.OracleSource' : OracleSource,
   'CopySource.AzureDataExplorerSource' : AzureDataExplorerSource,
   'CopySource.AzureMySqlSource' : AzureMySqlSource,
@@ -17652,6 +17805,7 @@ export const discriminators = {
   'CopySource.RestSource' : RestSource,
   'CopySource.SapTableSource' : SapTableSource,
   'CopySource.SapOpenHubSource' : SapOpenHubSource,
+  'CopySource.SapHanaSource' : SapHanaSource,
   'CopySource.SapEccSource' : SapEccSource,
   'CopySource.SapCloudForCustomerSource' : SapCloudForCustomerSource,
   'CopySource.SalesforceSource' : SalesforceSource,
