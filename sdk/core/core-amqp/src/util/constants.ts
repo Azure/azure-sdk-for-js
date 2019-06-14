@@ -32,7 +32,7 @@ export const eventHub = "eventhub";
 export const cbsEndpoint = "$cbs";
 export const cbsReplyTo = "cbs";
 export const operationPutToken = "put-token";
-export const aadEventHubsAudience = "https://eventhubs.azure.net/";
+export const aadEventHubsScope = "https://eventhubs.azure.net//.default";
 export const aadServiceBusAudience = "https://servicebus.azure.net/";
 export const maxUserAgentLength = 512;
 export const vendorString = "com.microsoft";
@@ -67,9 +67,7 @@ export const maxDeadLetterReasonLength = 4096;
 export const maxDurationValue = 922337203685477;
 export const minDurationValue = -922337203685477;
 // https://github.com/Azure/azure-amqp/blob/master/Microsoft.Azure.Amqp/Amqp/AmqpConstants.cs#L47
-export const maxAbsoluteExpiryTime = new Date(
-  "9999-12-31T07:59:59.000Z"
-).getTime();
+export const maxAbsoluteExpiryTime = new Date("9999-12-31T07:59:59.000Z").getTime();
 export const aadTokenValidityMarginSeconds = 5;
 export const connectionReconnectDelay = 300;
 export const defaultRetryAttempts = 3;

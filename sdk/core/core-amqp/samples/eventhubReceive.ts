@@ -17,9 +17,11 @@ import {
   ReceiverEvents,
   delay
 } from "rhea-promise";
+import { TokenType } from "./../src/auth/token";
 
 const str = process.env.CONNECTION_STRING || "";
-const path = process.env.ENTITY_PATH;
+const path = process.env.ENTITY_PATH || "";
+
 const ehConnectionConfig = EventHubConnectionConfig.create(str, path);
 const parameters: CreateConnectionContextBaseParameters = {
   config: ehConnectionConfig,
@@ -31,10 +33,17 @@ const parameters: CreateConnectionContextBaseParameters = {
 };
 const connectionContext = ConnectionContextBase.create(parameters);
 
-async function authenticate(audience: string, closeConnection = false): Promise<CbsResponse> {
+async function authenticate(
+  audience: string,
+  closeConnection: boolean = false
+): Promise<CbsResponse> {
   await connectionContext.cbsSession.init();
-  const tokenObject = await connectionContext.tokenProvider.getToken(audience);
-  const result = await connectionContext.cbsSession.negotiateClaim(audience, tokenObject);
+  const tokenObject = await connectionContext.tokenCredential.getToken(audience);
+  const result = await connectionContext.cbsSession.negotiateClaim(
+    audience,
+    tokenObject,
+    TokenType.CbsTokenTypeSas
+  );
   console.log("Result is: %O", result);
   if (closeConnection) {
     await connectionContext.connection.close();

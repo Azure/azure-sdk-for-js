@@ -71,6 +71,8 @@
     "rhea-promise": "^0.1.15"
   },
   "devDependencies": {
+    "@azure/identity": "^0.1.0",
+    "@azure/core-http": "^1.2.6",
     "@types/chai": "^4.1.6",
     "@types/chai-as-promised": "^7.1.0",
     "@types/debug": "^0.0.31",

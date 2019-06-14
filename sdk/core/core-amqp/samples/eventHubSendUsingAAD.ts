@@ -8,9 +8,10 @@ import {
   EventHubConnectionConfig
 } from "../src";
 import { TokenType } from "./../src/auth/token";
+import { aadEventHubsScope } from "./../src/util/constants";
 import * as dotenv from "dotenv";
 dotenv.config(); // Optional for loading environment configuration from a .env (config) file
-import { Sender, SenderOptions, EventContext, Message, Delivery } from "rhea-promise";
+import { EnvironmentCredential } from "@azure/identity";
 
 const str = process.env.CONNECTION_STRING || "";
 const path = process.env.ENTITY_PATH || "";
@@ -31,11 +32,12 @@ async function authenticate(
   closeConnection: boolean = false
 ): Promise<CbsResponse> {
   await connectionContext.cbsSession.init();
-  const tokenObject = await connectionContext.tokenCredential.getToken(audience);
+  const credential = new EnvironmentCredential();
+  const tokenObject = await credential.getToken(aadEventHubsScope);
   const result = await connectionContext.cbsSession.negotiateClaim(
     audience,
     tokenObject,
-    TokenType.CbsTokenTypeSas
+    TokenType.CbsTokenTypeJwt
   );
   console.log("Result is: %O", result);
   if (closeConnection) {
@@ -47,46 +49,10 @@ async function authenticate(
 
 async function main(): Promise<void> {
   await authenticate(ehConnectionConfig.getSenderAudience());
-  const senderName = "sender-1";
-  const senderOptions: SenderOptions = {
-    name: senderName,
-    target: {
-      address: ehConnectionConfig.getSenderAddress()
-    },
-    onError: (context: EventContext) => {
-      const senderError = context.sender && context.sender.error;
-      if (senderError) {
-        console.log(
-          ">>>>> [%s] An error occurred for sender '%s': %O.",
-          connectionContext.connection.id,
-          senderName,
-          senderError
-        );
-      }
-    },
-    onSessionError: (context: EventContext) => {
-      const sessionError = context.session && context.session.error;
-      if (sessionError) {
-        console.log(
-          ">>>>> [%s] An error occurred for session of sender '%s': %O.",
-          connectionContext.connection.id,
-          senderName,
-          sessionError
-        );
-      }
-    }
-  };
-
-  const sender: Sender = await connectionContext.connection.createSender(senderOptions);
-  const message: Message = {
-    body: "Hello World!!",
-    message_id: "12343434343434"
-  };
-
-  const delivery: Delivery = await sender.send(message);
-  console.log(">>>>>[%s] Delivery id: ", connectionContext.connection.id, delivery.id);
-
-  await sender.close();
+  /*
+ Refer to other event hub samples, and place your code here
+ to send/receive events
+*/
   await connectionContext.connection.close();
 }
 

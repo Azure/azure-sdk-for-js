@@ -4,9 +4,9 @@
 import { Connection, ConnectionOptions, generate_uuid } from "rhea-promise";
 import { CbsClient } from "./cbs";
 import { DataTransformer, DefaultDataTransformer } from "./dataTransformer";
-import { TokenProvider } from "./auth/token";
+import { TokenCredential } from "@azure/core-http";
 import { ConnectionConfig } from "./connectionConfig";
-import { SasTokenProvider } from "./auth/sas";
+import { SharedKeyCredential } from "./auth/sas";
 
 import * as Constants from "./util/constants";
 import * as os from "os";
@@ -34,10 +34,10 @@ export interface ConnectionContextBase {
    */
   readonly negotiateClaimLock: string;
   /**
-   * @property {TokenProvider} tokenProvider The TokenProvider to be used for getting tokens
+   * @property {SharedKeyCredential | TokenCredential} tokenCredential The TokenCredential to be used for getting tokens
    * for authentication for the EventHub client.
    */
-  readonly tokenProvider: TokenProvider;
+  readonly tokenCredential: SharedKeyCredential | TokenCredential;
   /**
    * @property {Connection} connection The underlying AMQP connection.
    */
@@ -102,10 +102,10 @@ export interface CreateConnectionContextBaseParameters {
    */
   connectionProperties: ConnectionProperties;
   /**
-   * @property {TokenProvider} [tokenProvider] The token provider to be used for Authentication.
-   * Default value: SasTokenProvider.
+   * @property {SharedKeyCredential | TokenCredential} [tokenCredential] The token provider to be used for Authentication.
+   * Default value: SharedKeyCredentials.
    */
-  tokenProvider?: TokenProvider;
+  tokenCredential?: SharedKeyCredential | TokenCredential;
   /**
    * @property {DataTransformer} [dataTransformer] The datatransformer to be used for encoding and
    * decoding messages. Default value: DefaultDataTransformer
@@ -130,21 +130,15 @@ export module ConnectionContextBase {
    * @param {CreateConnectionContextBaseParameters} parameters Parameters to be provided to create
    * the base connection context.
    */
-  export function create(
-    parameters: CreateConnectionContextBaseParameters
-  ): ConnectionContextBase {
+  export function create(parameters: CreateConnectionContextBaseParameters): ConnectionContextBase {
     ConnectionConfig.validate(parameters.config, {
       isEntityPathRequired: parameters.isEntityPathRequired || false
     });
     const userAgent = parameters.connectionProperties.userAgent;
     if (userAgent.length > Constants.maxUserAgentLength) {
       throw new Error(
-        `The user-agent string cannot be more than ${
-          Constants.maxUserAgentLength
-        } characters in length.` +
-          `The given user-agent string is: ${userAgent} with length: ${
-            userAgent.length
-          }`
+        `The user-agent string cannot be more than ${Constants.maxUserAgentLength} characters in length.` +
+          `The given user-agent string is: ${userAgent} with length: ${userAgent.length}`
       );
     }
 
@@ -183,9 +177,7 @@ export module ConnectionContextBase {
     }
 
     const connection = new Connection(connectionOptions);
-    const connectionLock = `${
-      Constants.establishConnection
-    }-${generate_uuid()}`;
+    const connectionLock = `${Constants.establishConnection}-${generate_uuid()}`;
     const connectionContextBase: ConnectionContextBase = {
       wasConnectionCloseCalled: false,
       connectionLock: connectionLock,
@@ -194,15 +186,14 @@ export module ConnectionContextBase {
       connectionId: connection.id,
       cbsSession: new CbsClient(connection, connectionLock),
       config: parameters.config,
-      tokenProvider:
-        parameters.tokenProvider ||
-        new SasTokenProvider(
+      tokenCredential:
+        parameters.tokenCredential ||
+        new SharedKeyCredential(
           parameters.config.endpoint,
           parameters.config.sharedAccessKeyName,
           parameters.config.sharedAccessKey
         ),
-      dataTransformer:
-        parameters.dataTransformer || new DefaultDataTransformer()
+      dataTransformer: parameters.dataTransformer || new DefaultDataTransformer()
     };
 
     return connectionContextBase;

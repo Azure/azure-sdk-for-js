@@ -7,6 +7,7 @@ import {
   ConnectionConfig,
   CbsResponse
 } from "../src";
+import { TokenType } from "./../src/auth/token";
 import * as dotenv from "dotenv";
 dotenv.config(); // Optional for loading environment configuration from a .env (config) file
 
@@ -52,11 +53,15 @@ export const connectionContext = ConnectionContextBase.create(parameters);
  */
 export async function authenticate(
   audience: string,
-  closeConnection = false
+  closeConnection: boolean = false
 ): Promise<CbsResponse> {
   await connectionContext.cbsSession.init();
-  const tokenObject = await connectionContext.tokenProvider.getToken(audience);
-  const result = await connectionContext.cbsSession.negotiateClaim(audience, tokenObject);
+  const tokenObject = await connectionContext.tokenCredential.getToken(audience);
+  const result = await connectionContext.cbsSession.negotiateClaim(
+    audience,
+    tokenObject,
+    TokenType.CbsTokenTypeSas
+  );
   console.log("Result is: %O", result);
   if (closeConnection) {
     await connectionContext.connection.close();
@@ -65,6 +70,6 @@ export async function authenticate(
   return result;
 }
 
-//Audience is for an EventHub or ServiceBus sender.
+// Audience is for an EventHub or ServiceBus sender.
 // You can uncomment the following line and just run this sample, if required.
 // authenticate(`${config.endpoint}${path}`).catch((err) => console.log(err));
