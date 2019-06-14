@@ -44,10 +44,10 @@ describe("BearerTokenAuthenticationPolicy", function () {
 
   it("refreshes access tokens when they expire", async () => {
     const now = Date.now();
-    const refreshCred1 = new MockRefreshAzureCredential(new Date(now));
-    const refreshCred2 = new MockRefreshAzureCredential(new Date(now + TokenRefreshBufferMs));
+    const refreshCred1 = new MockRefreshAzureCredential(now);
+    const refreshCred2 = new MockRefreshAzureCredential(now + TokenRefreshBufferMs);
     const notRefreshCred1 = new MockRefreshAzureCredential(
-      new Date(now + TokenRefreshBufferMs + 5000)
+      now + TokenRefreshBufferMs + 5000
     );
 
     const credentialsToTest: [MockRefreshAzureCredential, number][] = [
@@ -81,11 +81,11 @@ describe("BearerTokenAuthenticationPolicy", function () {
 });
 
 class MockRefreshAzureCredential implements TokenCredential {
-  private _expiresOn: Date;
+  private _expiresOnTimestamp: number;
   public authCount = 0;
 
-  constructor(expiresOn: Date) {
-    this._expiresOn = expiresOn;
+  constructor(expiresOnTimestamp: number) {
+    this._expiresOnTimestamp = expiresOnTimestamp;
   }
 
   public getToken(
@@ -93,6 +93,6 @@ class MockRefreshAzureCredential implements TokenCredential {
     _options?: GetTokenOptions
   ): Promise<AccessToken | null> {
     this.authCount++;
-    return Promise.resolve({ token: "mocktoken", expiresOn: this._expiresOn });
+    return Promise.resolve({ token: "mocktoken", expiresOnTimestamp: this._expiresOnTimestamp });
   }
 }
