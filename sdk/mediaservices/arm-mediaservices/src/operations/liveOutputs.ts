@@ -226,7 +226,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.liveEventName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -253,7 +253,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.liveOutputName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -281,7 +281,7 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
     Parameters.liveOutputName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -318,7 +318,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.liveOutputName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
