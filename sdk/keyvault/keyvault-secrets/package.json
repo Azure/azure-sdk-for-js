@@ -74,7 +74,7 @@
     "extract-api": "tsc -p . && api-extractor run --local",
     "format": "prettier --write --config ../../.prettierrc.json \"src/**/*.ts\" \"tests/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "echo skipped",
-    "integration-test:node": "ts-mocha -p tests/tsconfig.test.json tests/*.ts --timeout 10000 --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=-",
+    "integration-test:node": "ts-mocha -p tests/tsconfig.test.json tests/*.ts --timeout 1200000 --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=-",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "lint:fix": "echo skipped",
     "lint": "echo skipped",
