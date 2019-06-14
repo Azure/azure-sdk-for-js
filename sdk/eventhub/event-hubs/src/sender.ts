@@ -3,7 +3,7 @@
 
 import { EventData } from "./eventData";
 import { EventHubSender } from "./eventHubSender";
-import { EventBatchingOptions, EventSenderOptions } from "./eventHubClient";
+import { EventSenderOptions, SendOptions } from "./eventHubClient";
 import { ConnectionContext } from "./connectionContext";
 import * as log from "./log";
 import { throwErrorIfConnectionClosed, throwTypeErrorIfParameterMissing } from "./util/error";
@@ -42,26 +42,27 @@ export class EventSender {
   constructor(context: ConnectionContext, options?: EventSenderOptions) {
     this._context = context;
     this._senderOptions = options || {};
-    const partitionId = this._senderOptions.partitionId != undefined ? String(this._senderOptions.partitionId) : undefined;
+    const partitionId =
+      this._senderOptions.partitionId != undefined ? String(this._senderOptions.partitionId) : undefined;
     this._eventHubSender = EventHubSender.create(this._context, partitionId);
   }
 
   /**
    * Send a batch of EventData to the EventHub using the options provided.
    *
-   * @param events  An array of EventData objects to be sent in a Batch message.
+   * @param eventData  An individual EventData or array of EventData objects to be sent in a Batch message.
    * @param options Options where you can specifiy the partition to send the message to along with controlling the send
    * request via retry options, log level and cancellation token.
    *
    * @return {Promise<void>} Promise<void>
    */
-  async send(events: EventData[], options?: EventBatchingOptions): Promise<void> {
+  async send(eventData: EventData | EventData[], options?: SendOptions): Promise<void> {
     this._throwIfSenderOrConnectionClosed();
-    throwTypeErrorIfParameterMissing(this._context.connectionId, 'events', events);
-    if (!Array.isArray(events)) {
-      events = [events];
+    throwTypeErrorIfParameterMissing(this._context.connectionId, "events", eventData);
+    if (!Array.isArray(eventData)) {
+      eventData = [eventData];
     }
-    return this._eventHubSender.send(events, { ...this._senderOptions, ...options });
+    return this._eventHubSender.send(eventData, { ...this._senderOptions, ...options });
   }
 
   /**

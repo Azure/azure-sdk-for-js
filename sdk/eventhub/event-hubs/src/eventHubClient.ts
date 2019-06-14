@@ -75,7 +75,7 @@ export interface EventSenderOptions {
 /**
  * Options that can be passed when sending a batch of events using the EventHubsClient
  */
-export interface EventBatchingOptions {
+export interface SendOptions {
   /**
    * @property
    * If specified EventHub will hash this string to map to a partitionId.

@@ -33,6 +33,18 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
     await client.close();
   });
 
+  describe("Single message", function(): void {
+    it("should be sent successfully.", async function(): Promise<void> {
+      const data: EventData = { body: "Hello World 1" };
+      await client.createSender().send(data);
+    });
+
+    it("with partition key should be sent successfully.", async function(): Promise<void> {
+      const data: EventData = { body: "Hello World 1" };
+      await client.createSender().send(data, { partitionKey: "1" });
+    });
+  });
+
   describe("Batch message", function(): void {
     it("should be sent successfully.", async function(): Promise<void> {
       const data: EventData[] = [
