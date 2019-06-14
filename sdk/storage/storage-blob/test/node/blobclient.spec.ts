@@ -12,7 +12,7 @@ import {
 } from "../utils";
 dotenv.config({ path: "../.env" });
 
-describe("BlobClient", () => {
+describe("BlobClient Node.js only", () => {
   const blobServiceClient = getBSU();
   let containerName: string = getUniqueName("container");
   let containerClient = blobServiceClient.createContainerClient(containerName);

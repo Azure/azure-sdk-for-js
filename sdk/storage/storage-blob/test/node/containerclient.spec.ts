@@ -4,7 +4,7 @@ import { getBSU, getUniqueName, getConnectionStringFromEnvironment } from "../ut
 import { PublicAccessType } from "../../src/generated/lib/models/index";
 import { ContainerClient, newPipeline, SharedKeyCredential } from "../../src";
 
-describe("ContainerClient", () => {
+describe("ContainerClient Node.js only", () => {
   const blobServiceClient = getBSU();
   let containerName: string = getUniqueName("container");
   let containerClient = blobServiceClient.createContainerClient(containerName);

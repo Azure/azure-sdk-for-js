@@ -5,7 +5,7 @@ import { QueueClient } from "../../src/QueueClient";
 import { MessagesClient } from "../../src/MessagesClient";
 import { SharedKeyCredential } from "../../src/credentials/SharedKeyCredential";
 
-describe("MessageIdClient Node", () => {
+describe("MessageIdClient Node.js only", () => {
   const queueServiceClient = getQSU();
   let queueName: string;
   let queueClient: QueueClient;

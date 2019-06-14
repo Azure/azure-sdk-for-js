@@ -4,7 +4,7 @@ import * as dotenv from "dotenv";
 import { FileServiceClient, newPipeline, SharedKeyCredential } from "../../src";
 dotenv.config({ path: "../.env" });
 
-describe("FileServiceClient", () => {
+describe("FileServiceClient Node.js only", () => {
   it("can be created with a url and a credential", async () => {
     const serviceClient = getBSU();
     const factories = serviceClient.pipeline.factories;

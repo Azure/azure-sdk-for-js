@@ -5,7 +5,7 @@ import { BlobServiceClient, newPipeline, SharedKeyCredential } from "../../src";
 import { getBSU, getConnectionStringFromEnvironment } from "../utils";
 dotenv.config({ path: "../.env" });
 
-describe("BlobServiceClient", () => {
+describe("BlobServiceClient Node.js only", () => {
   it("can be created with a url and a credential", async () => {
     const serviceClient = getBSU();
     const factories = serviceClient.pipeline.factories;

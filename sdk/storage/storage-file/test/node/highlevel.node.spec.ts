@@ -7,7 +7,7 @@ import { createRandomLocalFile, getBSU, getUniqueName, readStreamToLocalFile } f
 import { RetriableReadableStreamOptions } from "../../src/utils/RetriableReadableStream";
 
 // tslint:disable:no-empty
-describe("Highlevel", () => {
+describe("Highlevel Node.js only", () => {
   const serviceClient = getBSU();
   let shareName = getUniqueName("share");
   let shareClient = serviceClient.createShareClient(shareName);

@@ -4,7 +4,7 @@ import * as dotenv from "dotenv";
 import { DirectoryClient, newPipeline, SharedKeyCredential } from "../../src";
 dotenv.config({ path: "../.env" });
 
-describe("DirectoryClient", () => {
+describe("DirectoryClient Node.js only", () => {
   const serviceClient = getBSU();
   let shareName = getUniqueName("share");
   let shareClient = serviceClient.createShareClient(shareName);

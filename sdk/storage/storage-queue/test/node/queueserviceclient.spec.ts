@@ -5,7 +5,7 @@ import { QueueServiceClient } from "../../src/QueueServiceClient";
 import { SharedKeyCredential } from "../../src/credentials/SharedKeyCredential";
 import { newPipeline } from "../../src";
 
-describe("QueueServiceClient Node", () => {
+describe("QueueServiceClient Node.js only", () => {
   let recorder: any;
 
   beforeEach(function() {

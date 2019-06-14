@@ -2,7 +2,7 @@ import * as assert from "assert";
 import { newPipeline, ShareClient, SharedKeyCredential, SignedIdentifier } from "../../src";
 import { getBSU, getUniqueName, getConnectionStringFromEnvironment } from "./../utils";
 
-describe("ShareClient", () => {
+describe("ShareClient Node.js only", () => {
   const serviceClient = getBSU();
   let shareName: string = getUniqueName("share");
   let shareClient = serviceClient.createShareClient(shareName);

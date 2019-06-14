@@ -9,7 +9,7 @@ import {
 } from "../utils";
 import { newPipeline, PageBlobClient, SharedKeyCredential } from "../../src";
 
-describe("PageBlobClient", () => {
+describe("PageBlobClient Node.js only", () => {
   const blobServiceClient = getBSU();
   let containerName: string = getUniqueName("container");
   let containerClient = blobServiceClient.createContainerClient(containerName);

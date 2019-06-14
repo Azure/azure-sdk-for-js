@@ -3,7 +3,7 @@ import { getQSU, getConnectionStringFromEnvironment } from "../utils";
 import { record } from "../utils/recorder";
 import { newPipeline, QueueClient, SharedKeyCredential } from "../../src";
 
-describe("QueueClient Node", () => {
+describe("QueueClient Node.js only", () => {
   const queueServiceClient = getQSU();
   let queueName: string;
   let queueClient: QueueClient;
