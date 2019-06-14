@@ -9,11 +9,11 @@ export { OnMessage, OnError } from "./eventHubReceiver";
 export { ReceiveHandler } from "./streamingReceiver";
 export {
   EventHubClient,
-  EventReceiverOptions,
   EventHubClientOptions,
-  EventBatchingOptions,
+  EventReceiverOptions,
+  EventSenderOptions,
   RetryOptions,
-  EventSenderOptions
+  SendOptions
 } from "./eventHubClient";
 export { EventPosition, EventPositionOptions } from "./eventPosition";
 export { PartitionProperties, EventHubProperties } from "./managementClient";
