@@ -138,10 +138,7 @@ export function getEnvVars(forBrowser?: boolean): { [key in EnvVarKeys]: any } {
     [EnvVarKeys.AAD_CLIENT_SECRET]: getEnvVarValue(EnvVarKeys.AAD_CLIENT_SECRET),
     [EnvVarKeys.AAD_TENANT_ID]: getEnvVarValue(EnvVarKeys.AAD_TENANT_ID),
     [EnvVarKeys.RESOURCE_GROUP]: getEnvVarValue(EnvVarKeys.RESOURCE_GROUP),
-    [EnvVarKeys.AZURE_SUBSCRIPTION_ID]: getEnvVarValue(
-      EnvVarKeys.AZURE_SUBSCRIPTION_ID,
-      forBrowser
-    ),
+    [EnvVarKeys.AZURE_SUBSCRIPTION_ID]: getEnvVarValue(EnvVarKeys.AZURE_SUBSCRIPTION_ID),
     [EnvVarKeys.CLEAN_NAMESPACE]: getEnvVarValue(EnvVarKeys.CLEAN_NAMESPACE) || false
   };
 }
