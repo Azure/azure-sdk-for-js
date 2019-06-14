@@ -36,14 +36,3 @@ export function throwTypeErrorIfParameterMissing(
     throw error;
   }
 }
-
-/**
- * @internal
- * Throws AbortError with the given error message
- * @param message Error message to be set on the AbortError
- */
-export function throwAbortError(message?: string): void {
-  const abortError = new Error(message);
-  abortError.name = 'AbortError';
-  throw abortError;
-}
