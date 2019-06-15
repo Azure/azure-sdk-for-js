@@ -1119,7 +1119,7 @@ export class BlobClient extends StorageClient {
    * @returns {Promise<void>}
    * @memberof BlobClient
    */
-  public async DownloadToFile(
+  public async downloadToFile(
     filePath: string,
     offset: number = 0,
     count?: number,

@@ -3,11 +3,12 @@ import * as fs from "fs";
 import * as path from "path";
 
 import { Aborter } from "../../src/Aborter";
-import { createRandomLocalFile, getBSU, getUniqueName, readStreamToLocalFile } from "../utils";
+import { createRandomLocalFile, getBSU, getUniqueName } from "../utils";
 import { RetriableReadableStreamOptions } from "../../src/utils/RetriableReadableStream";
+import { readStreamToLocalFile } from "../../src/utils/utils.common";
 
 // tslint:disable:no-empty
-describe("Highlevel", () => {
+describe("Highlevel Node.js only", () => {
   const serviceClient = getBSU();
   let shareName = getUniqueName("share");
   let shareClient = serviceClient.createShareClient(shareName);
@@ -402,5 +403,19 @@ describe("Highlevel", () => {
 
     assert.ok(expectedError);
     fs.unlinkSync(downloadedFile);
+  });
+
+  it("downloadToFile should success", async () => {
+    const downloadedFilePath = getUniqueName("downloadedtofile.");
+    const rs = fs.createReadStream(tempFileSmall);
+    await fileClient.uploadStream(rs, tempFileSmallLength, 4 * 1024 * 1024, 20);
+
+    await fileClient.downloadToFile(downloadedFilePath, 0, undefined);
+
+    const localFileContent = fs.readFileSync(tempFileSmall);
+    const downloadedFileContent = fs.readFileSync(downloadedFilePath);
+    assert.ok(localFileContent.equals(downloadedFileContent));
+
+    fs.unlinkSync(downloadedFilePath);
   });
 });

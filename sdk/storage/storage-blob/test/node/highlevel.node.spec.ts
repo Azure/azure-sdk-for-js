@@ -470,7 +470,7 @@ describe.only("Highlevel", () => {
     const rs = fs.createReadStream(tempFileSmall);
     await blockBlobClient.uploadStream(rs, 4 * 1024 * 1024, 20);
 
-    await blockBlobClient.DownloadToFile(downloadedFilePath, 0, undefined);
+    await blockBlobClient.downloadToFile(downloadedFilePath, 0, undefined);
 
     const localFileContent = fs.readFileSync(tempFileSmall);
     const downloadedFileContent = fs.readFileSync(downloadedFilePath);
