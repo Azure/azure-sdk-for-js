@@ -1,8 +1,6 @@
 import * as msRest from "@azure/ms-rest-js";
 import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
-import * as dotenv from "dotenv";
-import { Stream } from "stream";
-dotenv.config({ path: "../.env" });
+import { env } from "./recorder";
 
 export function getCredentialWithServicePrincipalSecret(): Promise<
   msRest.ServiceClientCredentials
@@ -11,9 +9,9 @@ export function getCredentialWithServicePrincipalSecret(): Promise<
   const clientSecretEnvVarName = "AAD_CLIENT_SECRET";
   const tenantIdEnvVarName = "AAD_TENANT_ID";
 
-  let clientId: string | undefined = process.env[clientIdEnvVarName];
-  let clientSecret: string | undefined = process.env[clientSecretEnvVarName];
-  let tenantId: string | undefined = process.env[tenantIdEnvVarName];
+  let clientId: string | undefined = env[clientIdEnvVarName];
+  let clientSecret: string | undefined = env[clientSecretEnvVarName];
+  let tenantId: string | undefined = env[tenantIdEnvVarName];
 
   if (!clientId || !clientSecret || !tenantId) {
     throw new Error(
@@ -28,7 +26,7 @@ export function getCredentialWithServicePrincipalSecret(): Promise<
 
 export function getKeyvaultName(): string {
   const keyVaultEnvVarName = "KEYVAULT_NAME";
-  let keyVaultName: string | undefined = process.env[keyVaultEnvVarName];
+  let keyVaultName: string | undefined = env[keyVaultEnvVarName];
 
   if (!keyVaultName) {
     throw new Error(`${keyVaultEnvVarName} environment variable not specified.`);
@@ -54,12 +52,4 @@ function padStart(currentString: string, targetLength: number, padString: string
     }
     return padString.slice(0, targetLength) + currentString;
   }
-}
-
-export function isBrowser(): boolean {
-  return typeof window !== "undefined";
-}
-
-export function escapeRegExp(str: string): string {
-  return encodeURIComponent(str).replace(/[\-\[\]{}()*+?.,\\\^$|#\s]/g, "\\$&");
 }

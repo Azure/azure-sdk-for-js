@@ -1,11 +1,18 @@
 import fs from "fs-extra";
 import nise from "nise";
 import queryString from "query-string";
-import { getUniqueName, isBrowser, escapeRegExp } from "./utils.common";
 import { blobToString } from "./index.browser";
 import { delay as restDelay } from "@azure/ms-rest-js";
 import * as dotenv from "dotenv";
 dotenv.config({ path: "../../.env" });
+
+export function isBrowser(): boolean {
+  return typeof window !== "undefined";
+}
+
+export function escapeRegExp(str: string): string {
+  return encodeURIComponent(str).replace(/[\-\[\]{}()*+?.,\\\^$|#\s]/g, "\\$&");
+}
 
 let nock: any;
 if (!isBrowser()) {
@@ -386,21 +393,6 @@ export function record(testContext: any) {
       if (isRecording) {
         recorder.stop();
       }
-    },
-    getUniqueName: function(prefix: string, recorderId?: string): string {
-      let name: string;
-      if (!recorderId) {
-        recorderId = prefix;
-      }
-      if (isRecording) {
-        name = getUniqueName(prefix);
-        recorder.uniqueTestInfo[recorderId] = name;
-      } else if (isPlayingBack) {
-        name = recorder.uniqueTestInfo[recorderId];
-      } else {
-        name = getUniqueName(prefix);
-      }
-      return name;
     },
     newDate: function(recorderId: string): Date {
       let date: Date;
