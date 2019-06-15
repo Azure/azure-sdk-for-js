@@ -41,7 +41,7 @@ export interface AccessToken {
   token: string;
 
   /**
-   * The access token's expiration date and time.
+   * The access token's expiration timestamp.
    */
-  expiresOn: Date;
+  expiresOnTimestamp: number;
 }
