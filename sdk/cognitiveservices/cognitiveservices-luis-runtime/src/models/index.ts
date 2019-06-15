@@ -10,97 +10,6 @@
 import * as msRest from "@azure/ms-rest-js";
 
 /**
- * The custom options for the prediction request.
- */
-export interface PredictionRequestOptions {
-  /**
-   * The reference DateTime used for predicting datetime entities.
-   */
-  datetimeReference?: Date;
-  /**
-   * Whether to make the external entities resolution override the predictions if an overlap
-   * occurs.
-   */
-  overridePredictions?: boolean;
-}
-
-/**
- * Defines a user predicted entity that extends an already existing one.
- */
-export interface ExternalEntity {
-  /**
-   * The name of the entity to extend.
-   */
-  entityName: string;
-  /**
-   * The start character index of the predicted entity.
-   */
-  startIndex: number;
-  /**
-   * The length of the predicted entity.
-   */
-  entityLength: number;
-  /**
-   * A user supplied custom resolution to return as the entity's prediction.
-   */
-  resolution?: any;
-}
-
-/**
- * Defines a sub-list to append to an existing list entity.
- */
-export interface RequestList {
-  /**
-   * The name of the sub-list.
-   */
-  name?: string;
-  /**
-   * The canonical form of the sub-list.
-   */
-  canonicalForm: string;
-  /**
-   * The synonyms of the canonical form.
-   */
-  synonyms?: string[];
-}
-
-/**
- * Defines an extension for a list entity.
- */
-export interface DynamicList {
-  /**
-   * The name of the list entity to extend.
-   */
-  listEntityName: string;
-  /**
-   * The lists to append on the extended list entity.
-   */
-  requestLists: RequestList[];
-}
-
-/**
- * Represents the prediction request parameters.
- */
-export interface PredictionRequest {
-  /**
-   * The query to predict
-   */
-  query: string;
-  /**
-   * The custom options defined for this request.
-   */
-  options?: PredictionRequestOptions;
-  /**
-   * The externally predicted entities for this request
-   */
-  externalEntities?: ExternalEntity[];
-  /**
-   * The dynamically created list entities for this request
-   */
-  dynamicLists?: DynamicList[];
-}
-
-/**
  * Represents an intent prediction.
  */
 export interface Intent {
@@ -115,17 +24,17 @@ export interface Intent {
 }
 
 /**
- * The result of the sentiment analysis.
+ * The result of the sentiment analaysis.
  */
 export interface Sentiment {
-  /**
-   * The sentiment score of the query.
-   */
-  score: number;
   /**
    * The label of the sentiment analysis result.
    */
   label?: string;
+  /**
+   * The sentiment score of the query.
+   */
+  score: number;
 }
 
 /**
@@ -192,6 +101,97 @@ export interface ErrorBody {
  */
 export interface ErrorModel {
   error: ErrorBody;
+}
+
+/**
+ * The custom options for the prediction request.
+ */
+export interface PredictionRequestOptions {
+  /**
+   * The reference DateTime used for predicting datetime entities.
+   */
+  datetimeReference?: Date;
+  /**
+   * Whether to make the external entities resolution override the predictions if an overlap
+   * occurs.
+   */
+  overridePredictions?: boolean;
+}
+
+/**
+ * Defines a user perdicted entity that extends an already existing one.
+ */
+export interface ExternalEntity {
+  /**
+   * The name of the entity to extend.
+   */
+  entityName: string;
+  /**
+   * The start character index of the predicted entity.
+   */
+  startIndex: number;
+  /**
+   * The length of the predicted entity.
+   */
+  entityLength: number;
+  /**
+   * A user supplied custom resolution to return as the entity's prediction.
+   */
+  resolution?: any;
+}
+
+/**
+ * Defines a sub-list to append to an existing list entity.
+ */
+export interface RequestList {
+  /**
+   * The name of the sub-list.
+   */
+  name?: string;
+  /**
+   * The canonical form of the sub-list.
+   */
+  canonicalForm: string;
+  /**
+   * The synonyms of the canonical form.
+   */
+  synonyms?: string[];
+}
+
+/**
+ * Defines an extension for a list entity.
+ */
+export interface DynamicList {
+  /**
+   * The name of the list entity to extend.
+   */
+  listEntityName: string;
+  /**
+   * The lists to append on the extended list entity.
+   */
+  requestLists: RequestList[];
+}
+
+/**
+ * Represents the prediction request parameters.
+ */
+export interface PredictionRequest {
+  /**
+   * The query to predict.
+   */
+  query: string;
+  /**
+   * The custom options defined for this request.
+   */
+  options?: PredictionRequestOptions;
+  /**
+   * The externally predicted entities for this request.
+   */
+  externalEntities?: ExternalEntity[];
+  /**
+   * The dynamically created list entities for this request.
+   */
+  dynamicLists?: DynamicList[];
 }
 
 /**
