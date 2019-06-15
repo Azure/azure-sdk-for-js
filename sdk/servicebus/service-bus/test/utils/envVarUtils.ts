@@ -46,6 +46,10 @@ function throwMissingEnvironmentVariablesError(envVars: EnvVarKeys[]): void {
 }
 
 function getEnvVarValue(name: string, forBrowser?: boolean): string | undefined {
+  if (forBrowser) {
+    name = name + "_BROWSER";
+  }
+
   let result;
   if (isNode) {
     result = process.env[name];
@@ -54,9 +58,6 @@ function getEnvVarValue(name: string, forBrowser?: boolean): string | undefined 
     result = window.__env__[name];
   }
 
-  if (forBrowser) {
-    result = result + "_BROWSER";
-  }
   return result;
 }
 
