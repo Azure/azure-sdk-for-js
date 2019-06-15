@@ -5,9 +5,9 @@ import {
   ConnectionContextBase,
   CreateConnectionContextBaseParameters,
   CbsResponse,
-  EventHubConnectionConfig
+  EventHubConnectionConfig,
+  TokenType
 } from "../src";
-import { TokenType } from "./../src/auth/token";
 import * as dotenv from "dotenv";
 dotenv.config(); // Optional for loading environment configuration from a .env (config) file
 import { Sender, SenderOptions, EventContext, Message, Delivery } from "rhea-promise";
@@ -34,7 +34,7 @@ async function authenticate(
   const tokenObject = await connectionContext.tokenCredential.getToken(audience);
   const result = await connectionContext.cbsSession.negotiateClaim(
     audience,
-    tokenObject,
+    tokenObject!,
     TokenType.CbsTokenTypeSas
   );
   console.log("Result is: %O", result);

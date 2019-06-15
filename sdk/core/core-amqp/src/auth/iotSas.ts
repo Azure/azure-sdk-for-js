@@ -6,11 +6,11 @@ import { AccessToken } from "@azure/core-http";
 import { Buffer } from "buffer";
 
 /**
- * @class IotSasTokenProvider
+ * @class IotSharedKeyCredential
  * @ignore
- * Defines the SasTokenProvider for IotHub.
+ * Defines the IotSharedKeyCredential for IotHub.
  */
-export class IotSasTokenProvider extends SharedKeyCredential {
+export class IotSharedKeyCredential extends SharedKeyCredential {
   /**
    * Gets the sas token for the specified audience for IotHub.
    * @ignore
@@ -19,7 +19,7 @@ export class IotSasTokenProvider extends SharedKeyCredential {
    */
   async getToken(audience?: string): Promise<AccessToken> {
     return this._createToken(
-      Math.floor(Date.now() / 1000) + this.tokenValidTimeInSeconds,
+      Math.floor(Date.now() / 1000) + 3600,
       audience,
       Buffer.from(this.key, "base64")
     );

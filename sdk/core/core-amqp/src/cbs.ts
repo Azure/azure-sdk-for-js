@@ -188,7 +188,7 @@ export class CbsClient {
    */
   async negotiateClaim(
     audience: string,
-    tokenObject: AccessToken | null,
+    tokenObject: AccessToken,
     tokenType: TokenType
   ): Promise<CbsResponse> {
     try {

@@ -26,16 +26,6 @@ export class SharedKeyCredential {
    * @property {string} key - The secret value associated with the above EventHub/ServiceBus key.
    */
   key: string;
-  /**
-   * @property {number} tokenRenewalMarginInSeconds - The number of seconds within which it
-   * is good to renew the token. Default = 900 seconds (15 minutes).
-   */
-  tokenRenewalMarginInSeconds: number;
-  /**
-   * @property {number} tokenValidTimeInSeconds - The number of seconds for which the token
-   * is valid. Default = 3600 seconds (1 hour).
-   */
-  tokenValidTimeInSeconds: number;
 
   /**
    * Initializes a new instance of SharedKeyCredential
@@ -44,21 +34,10 @@ export class SharedKeyCredential {
    * @param {string} keyName - The name of the EventHub/ServiceBus key.
    * @param {string} key - The secret value associated with the above EventHub/ServiceBus key
    */
-  constructor(
-    namespace: string,
-    keyName: string,
-    key: string,
-    tokenValidTimeInSeconds?: number,
-    tokenRenewalMarginInSeconds?: number
-  ) {
+  constructor(namespace: string, keyName: string, key: string) {
     this.namespace = namespace;
     this.keyName = keyName;
     this.key = key;
-    this.tokenValidTimeInSeconds = tokenValidTimeInSeconds || 3600;
-    this.tokenRenewalMarginInSeconds = tokenRenewalMarginInSeconds || 900;
-    if (this.tokenValidTimeInSeconds <= this.tokenRenewalMarginInSeconds) {
-      throw new Error("tokenRenewalMarginInSeconds must be less than tokenValidTimeInSeconds");
-    }
   }
 
   /**
@@ -67,10 +46,7 @@ export class SharedKeyCredential {
    * provided then the Endpoint from the connection string will be applied.
    */
   async getToken(audience?: string): Promise<AccessToken> {
-    return this._createToken(
-      Math.floor(Date.now() / 1000) + this.tokenValidTimeInSeconds,
-      audience
-    );
+    return this._createToken(Math.floor(Date.now() / 1000) + 3600, audience);
   }
 
   /**

@@ -5,7 +5,7 @@ import * as chai from "chai";
 chai.should();
 import debugModule from "debug";
 const debug = debugModule("azure:core-amqp:token-spec");
-import { SharedKeyCredential, IotSasTokenProvider } from "../src";
+import { SharedKeyCredential, IotSharedKeyCredential } from "../src";
 
 describe("SharedKeyCredential", function(): void {
   it("should work as expected with required parameters and default values for optional parameters", async function(): Promise<
@@ -15,9 +15,7 @@ describe("SharedKeyCredential", function(): void {
     const keyName = "myKeyName";
     const key = "importantValue";
     const tokenProvider = new SharedKeyCredential(namespace, keyName, key);
-    tokenProvider.tokenValidTimeInSeconds.should.equal(3600);
-    tokenProvider.tokenRenewalMarginInSeconds.should.equal(900);
-    const now = Math.floor(Date.now() / 1000) + tokenProvider.tokenValidTimeInSeconds;
+    const now = Math.floor(Date.now() / 1000) + 3600;
     debug(">>> now: %d", now);
     const tokenInfo = await tokenProvider.getToken();
     debug(">>> Token Info is: %O", tokenInfo);
@@ -33,9 +31,7 @@ describe("SharedKeyCredential", function(): void {
     const cs =
       "Endpoint=sb://hostname.servicebus.windows.net/;SharedAccessKeyName=sakName;SharedAccessKey=sak;EntityPath=ep";
     const tokenProvider = SharedKeyCredential.fromConnectionString(cs);
-    tokenProvider.tokenValidTimeInSeconds.should.equal(3600);
-    tokenProvider.tokenRenewalMarginInSeconds.should.equal(900);
-    const now = Math.floor(Date.now() / 1000) + tokenProvider.tokenValidTimeInSeconds;
+    const now = Math.floor(Date.now() / 1000) + 3600;
     debug(">>> now: %d", now);
     const tokenInfo = await tokenProvider.getToken();
     debug(">>> Token Info is: %O", tokenInfo);
@@ -51,10 +47,8 @@ describe("SharedKeyCredential", function(): void {
     const namespace = "mynamespace";
     const keyName = "myKeyName";
     const key = "importantValue";
-    const tokenProvider = new SharedKeyCredential(namespace, keyName, key, 2, 1);
-    tokenProvider.tokenValidTimeInSeconds.should.equal(2);
-    tokenProvider.tokenRenewalMarginInSeconds.should.equal(1);
-    const now = Math.floor(Date.now() / 1000) + tokenProvider.tokenValidTimeInSeconds;
+    const tokenProvider = new SharedKeyCredential(namespace, keyName, key);
+    const now = Math.floor(Date.now() / 1000) + 3600;
     debug(">>> now: %d", now);
     const tokenInfo = await tokenProvider.getToken("https://myaudience.host.mango.net/");
     debug(">>> Token Info is: %O", tokenInfo);
@@ -63,34 +57,17 @@ describe("SharedKeyCredential", function(): void {
     );
     tokenInfo.expiresOnTimestamp.should.equal(now);
   });
-
-  it("should throw an error when renewal margin is less than or equal to valid time", function(done: any): void {
-    const namespace = "mynamespace";
-    const keyName = "myKeyName";
-    const key = "importantValue";
-    try {
-      new SharedKeyCredential(namespace, keyName, key, 1, 1);
-      done(new Error("This should have failed!!"));
-    } catch (err) {
-      err.message.should.match(
-        /tokenRenewalMarginInSeconds must be less than tokenValidTimeInSeconds/g
-      );
-    }
-    done();
-  });
 });
 
-describe("IotSasTokenProvider", function(): void {
+describe("IotSharedKeyCredential", function(): void {
   it("should work as expected with required parameters and default values for optional parameters", async function(): Promise<
     void
   > {
     const namespace = "mynamespace";
     const keyName = "myKeyName";
     const key = "importantValue";
-    const tokenProvider = new IotSasTokenProvider(namespace, keyName, key);
-    tokenProvider.tokenValidTimeInSeconds.should.equal(3600);
-    tokenProvider.tokenRenewalMarginInSeconds.should.equal(900);
-    const now = Math.floor(Date.now() / 1000) + tokenProvider.tokenValidTimeInSeconds;
+    const tokenProvider = new IotSharedKeyCredential(namespace, keyName, key);
+    const now = Math.floor(Date.now() / 1000) + 3600;
     debug(">>> now: %d", now);
     const tokenInfo = await tokenProvider.getToken();
     debug(">>> Token Info is: %O", tokenInfo);

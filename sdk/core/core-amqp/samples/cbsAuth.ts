@@ -5,9 +5,9 @@ import {
   ConnectionContextBase,
   CreateConnectionContextBaseParameters,
   ConnectionConfig,
-  CbsResponse
+  CbsResponse,
+  TokenType
 } from "../src";
-import { TokenType } from "./../src/auth/token";
 import * as dotenv from "dotenv";
 dotenv.config(); // Optional for loading environment configuration from a .env (config) file
 
@@ -53,13 +53,13 @@ export const connectionContext = ConnectionContextBase.create(parameters);
  */
 export async function authenticate(
   audience: string,
-  closeConnection: boolean = false
+  closeConnection: boolean
 ): Promise<CbsResponse> {
   await connectionContext.cbsSession.init();
   const tokenObject = await connectionContext.tokenCredential.getToken(audience);
   const result = await connectionContext.cbsSession.negotiateClaim(
     audience,
-    tokenObject,
+    tokenObject!,
     TokenType.CbsTokenTypeSas
   );
   console.log("Result is: %O", result);

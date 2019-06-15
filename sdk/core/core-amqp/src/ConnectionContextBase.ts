@@ -34,7 +34,7 @@ export interface ConnectionContextBase {
    */
   readonly negotiateClaimLock: string;
   /**
-   * @property {SharedKeyCredential | TokenCredential} tokenCredential The TokenCredential to be used for getting tokens
+   * @property {SharedKeyCredential | TokenCredential} tokenCredential The credential to be used for getting tokens
    * for authentication for the EventHub client.
    */
   readonly tokenCredential: SharedKeyCredential | TokenCredential;
@@ -102,7 +102,7 @@ export interface CreateConnectionContextBaseParameters {
    */
   connectionProperties: ConnectionProperties;
   /**
-   * @property {SharedKeyCredential | TokenCredential} [tokenCredential] The token provider to be used for Authentication.
+   * @property {SharedKeyCredential | TokenCredential} [tokenCredential] The credential to be used for Authentication.
    * Default value: SharedKeyCredentials.
    */
   tokenCredential?: SharedKeyCredential | TokenCredential;

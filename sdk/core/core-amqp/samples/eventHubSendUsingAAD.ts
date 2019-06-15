@@ -5,10 +5,10 @@ import {
   ConnectionContextBase,
   CreateConnectionContextBaseParameters,
   CbsResponse,
-  EventHubConnectionConfig
+  EventHubConnectionConfig,
+  TokenType,
+  Constants
 } from "../src";
-import { TokenType } from "./../src/auth/token";
-import { aadEventHubsScope } from "./../src/util/constants";
 import * as dotenv from "dotenv";
 dotenv.config(); // Optional for loading environment configuration from a .env (config) file
 import { EnvironmentCredential } from "@azure/identity";
@@ -33,10 +33,10 @@ async function authenticate(
 ): Promise<CbsResponse> {
   await connectionContext.cbsSession.init();
   const credential = new EnvironmentCredential();
-  const tokenObject = await credential.getToken(aadEventHubsScope);
+  const tokenObject = await credential.getToken(Constants.aadEventHubsScope);
   const result = await connectionContext.cbsSession.negotiateClaim(
     audience,
-    tokenObject,
+    tokenObject!,
     TokenType.CbsTokenTypeJwt
   );
   console.log("Result is: %O", result);

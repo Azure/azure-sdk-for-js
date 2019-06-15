@@ -9,7 +9,7 @@ export { DataTransformer, DefaultDataTransformer } from "./dataTransformer";
 export { TokenType } from "./auth/token";
 export { AccessToken, TokenCredential } from "@azure/core-http";
 export { SharedKeyCredential } from "./auth/sas";
-export { IotSasTokenProvider } from "./auth/iotSas";
+export { IotSharedKeyCredential } from "./auth/iotSas";
 
 export {
   ConnectionConfig,
