@@ -60,14 +60,6 @@ export function isBrowser(): boolean {
   return typeof window !== "undefined";
 }
 
-export function getUniqueName(prefix: string): string {
-  return `${prefix}${new Date().getTime()}${padStart(
-    Math.floor(Math.random() * 10000).toString(),
-    5,
-    "00000"
-  )}`;
-}
-
 export function escapeRegExp(str: string): string {
   return encodeURIComponent(str).replace(/[\-\[\]{}()*+?.,\\\^$|#\s]/g, "\\$&");
 }

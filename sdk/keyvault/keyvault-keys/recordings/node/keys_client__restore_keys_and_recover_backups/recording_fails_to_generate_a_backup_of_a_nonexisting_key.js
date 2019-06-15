@@ -3,14 +3,14 @@ let nock = require('nock');
 module.exports.testInfo = {}
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .post('/keys/key156056287773600801/backup')
+  .post('/keys/recoverKeyName/backup')
   .query(true)
-  .reply(404, {"error":{"code":"KeyNotFound","message":"Key not found: key156056287773600801"}}, [ 'Cache-Control',
+  .reply(404, {"error":{"code":"KeyNotFound","message":"Key not found: recoverKeyName"}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '81',
+  '74',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -20,7 +20,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '5f66d613-b2da-4ce5-9bad-c4b2d1c91878',
+  '474919e5-c2c5-4c4c-b433-55542374f24e',
   'x-ms-keyvault-service-version',
   '1.1.0.866',
   'x-ms-keyvault-network-info',
@@ -34,7 +34,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Sat, 15 Jun 2019 01:41:22 GMT',
+  'Sat, 15 Jun 2019 17:05:42 GMT',
   'Connection',
   'close' ]);
 

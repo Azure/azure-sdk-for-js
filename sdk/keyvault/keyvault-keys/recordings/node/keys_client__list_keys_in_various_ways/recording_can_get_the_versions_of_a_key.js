@@ -3,9 +3,9 @@ let nock = require('nock');
 module.exports.testInfo = {}
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .post('/keys/CRUDKeyName/create', {"kty":"RSA"})
+  .post('/keys/listKeyName/create', {"kty":"RSA"})
   .query(true)
-  .reply(200, {"key":{"kid":"https://keyvault_name.vault.azure.net/keys/CRUDKeyName/8b487a4b027c494380c21429daa2a892","kty":"RSA","key_ops":["encrypt","decrypt","sign","verify","wrapKey","unwrapKey"],"n":"m6LS701Jn19FEvPW88SQj73X1lWPkkvPgPYb6bUhCYG42urzqJWBb8gLrCkgMzNEzZFTCl0rp7F8jNYWIujojCNfeGm0oQnBO6bLNZ464GS9yrr2FPJW1DTG8Y3tCwIL1ufgXaE-5MYWoCGuxjF2O5LU53lXLwOexlow6WHPqHZwQcRr2Po87Ht_in-3nyqDfyamnYFP3G1wU8QFQT93d5jqwf0dYZiq8-RjY4kVigD6B8XiUGw4rOdLYEaazIaTKenDGkiOIr-2i5uxL5YKcHK1iFpbu7jbhOfVYbsLcYbg3IwQOHeV7Yl85-wwoWD7ZTOVUxxUmjm7lMP6deXUgQ","e":"AQAB"},"attributes":{"enabled":true,"created":1560615137,"updated":1560615137,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
+  .reply(200, {"key":{"kid":"https://keyvault_name.vault.azure.net/keys/listKeyName/8b487a4b027c494380c21429daa2a892","kty":"RSA","key_ops":["encrypt","decrypt","sign","verify","wrapKey","unwrapKey"],"n":"m6LS701Jn19FEvPW88SQj73X1lWPkkvPgPYb6bUhCYG42urzqJWBb8gLrCkgMzNEzZFTCl0rp7F8jNYWIujojCNfeGm0oQnBO6bLNZ464GS9yrr2FPJW1DTG8Y3tCwIL1ufgXaE-5MYWoCGuxjF2O5LU53lXLwOexlow6WHPqHZwQcRr2Po87Ht_in-3nyqDfyamnYFP3G1wU8QFQT93d5jqwf0dYZiq8-RjY4kVigD6B8XiUGw4rOdLYEaazIaTKenDGkiOIr-2i5uxL5YKcHK1iFpbu7jbhOfVYbsLcYbg3IwQOHeV7Yl85-wwoWD7ZTOVUxxUmjm7lMP6deXUgQ","e":"AQAB"},"attributes":{"enabled":true,"created":1560615137,"updated":1560615137,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -40,9 +40,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/keys/CRUDKeyName/versions')
+  .get('/keys/listKeyName/versions')
   .query(true)
-  .reply(200, {"value":[{"kid":"https://keyvault_name.vault.azure.net/keys/CRUDKeyName/8b487a4b027c494380c21429daa2a892","attributes":{"enabled":true,"created":1560615137,"updated":1560615137,"recoveryLevel":"Recoverable+Purgeable"}}],"nextLink":null}, [ 'Cache-Control',
+  .reply(200, {"value":[{"kid":"https://keyvault_name.vault.azure.net/keys/listKeyName/8b487a4b027c494380c21429daa2a892","attributes":{"enabled":true,"created":1560615137,"updated":1560615137,"recoveryLevel":"Recoverable+Purgeable"}}],"nextLink":null}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -77,9 +77,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .delete('/keys/CRUDKeyName')
+  .delete('/keys/listKeyName')
   .query(true)
-  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedkeys/CRUDKeyName","deletedDate":1560615148,"scheduledPurgeDate":1568391148,"key":{"kid":"https://keyvault_name.vault.azure.net/keys/CRUDKeyName/8b487a4b027c494380c21429daa2a892","kty":"RSA","key_ops":["encrypt","decrypt","sign","verify","wrapKey","unwrapKey"],"n":"m6LS701Jn19FEvPW88SQj73X1lWPkkvPgPYb6bUhCYG42urzqJWBb8gLrCkgMzNEzZFTCl0rp7F8jNYWIujojCNfeGm0oQnBO6bLNZ464GS9yrr2FPJW1DTG8Y3tCwIL1ufgXaE-5MYWoCGuxjF2O5LU53lXLwOexlow6WHPqHZwQcRr2Po87Ht_in-3nyqDfyamnYFP3G1wU8QFQT93d5jqwf0dYZiq8-RjY4kVigD6B8XiUGw4rOdLYEaazIaTKenDGkiOIr-2i5uxL5YKcHK1iFpbu7jbhOfVYbsLcYbg3IwQOHeV7Yl85-wwoWD7ZTOVUxxUmjm7lMP6deXUgQ","e":"AQAB"},"attributes":{"enabled":true,"created":1560615137,"updated":1560615137,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
+  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedkeys/listKeyName","deletedDate":1560615148,"scheduledPurgeDate":1568391148,"key":{"kid":"https://keyvault_name.vault.azure.net/keys/listKeyName/8b487a4b027c494380c21429daa2a892","kty":"RSA","key_ops":["encrypt","decrypt","sign","verify","wrapKey","unwrapKey"],"n":"m6LS701Jn19FEvPW88SQj73X1lWPkkvPgPYb6bUhCYG42urzqJWBb8gLrCkgMzNEzZFTCl0rp7F8jNYWIujojCNfeGm0oQnBO6bLNZ464GS9yrr2FPJW1DTG8Y3tCwIL1ufgXaE-5MYWoCGuxjF2O5LU53lXLwOexlow6WHPqHZwQcRr2Po87Ht_in-3nyqDfyamnYFP3G1wU8QFQT93d5jqwf0dYZiq8-RjY4kVigD6B8XiUGw4rOdLYEaazIaTKenDGkiOIr-2i5uxL5YKcHK1iFpbu7jbhOfVYbsLcYbg3IwQOHeV7Yl85-wwoWD7ZTOVUxxUmjm7lMP6deXUgQ","e":"AQAB"},"attributes":{"enabled":true,"created":1560615137,"updated":1560615137,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -114,7 +114,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .delete('/deletedkeys/CRUDKeyName')
+  .delete('/deletedkeys/listKeyName')
   .query(true)
   .reply(204, "", [ 'Cache-Control',
   'no-cache',

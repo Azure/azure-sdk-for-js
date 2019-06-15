@@ -1,6 +1,6 @@
 import * as assert from "assert";
 import { expect } from "chai";
-import { getKeyvaultName, getUniqueName } from "./utils/utils.common";
+import { getKeyvaultName } from "./utils/utils.common";
 import { KeysClient, CreateEcKeyOptions, UpdateKeyOptions, GetKeyOptions } from "../src";
 import { TokenCredential, RestError } from "@azure/core-http";
 import { EnvironmentCredential } from "@azure/identity";
@@ -27,13 +27,11 @@ describe("Keys client - create, read, update and delete operations", () => {
     await client.purgeDeletedKey(keyName);
     await delay(30000);
   }
-
   async function flushKey() {
     await client.deleteKey(keyName);
     await delay(30000);
     await purgeKey();
   }
-
   async function maybeFlushKey() {
     try {
       await client.deleteKey(keyName);

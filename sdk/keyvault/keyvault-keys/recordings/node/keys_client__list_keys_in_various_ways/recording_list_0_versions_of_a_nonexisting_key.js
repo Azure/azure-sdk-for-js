@@ -3,7 +3,7 @@ let nock = require('nock');
 module.exports.testInfo = {}
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/keys/CRUDKeyName/versions')
+  .get('/keys/listKeyName/versions')
   .query(true)
   .reply(200, {"value":[],"nextLink":null}, [ 'Cache-Control',
   'no-cache',

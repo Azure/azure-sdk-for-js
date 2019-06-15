@@ -3,9 +3,9 @@ let nock = require('nock');
 module.exports.testInfo = {}
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .post('/keys/key156056277063908667/create', {"kty":"RSA"})
+  .post('/keys/recoverKeyName/create', {"kty":"RSA"})
   .query(true)
-  .reply(200, {"key":{"kid":"https://keyvault_name.vault.azure.net/keys/key156056277063908667/22f1a5929b3b427c9d59f22fa6dd1e90","kty":"RSA","key_ops":["encrypt","decrypt","sign","verify","wrapKey","unwrapKey"],"n":"y3u98c5Be2bDGhsM2MBrJNziR7A7kyEOT8H-bqxQTlLxEmo4uEj_Bg7XclxuNsY3NNnEOsZx4GcZWzFsCP7pDhBBUfdF20uOpRkBcWRTa3xo_m-kyS7BcwY4Q-gqe8qTZDVw0uYRcMVFw22IRDbHrXP5n4ftkl7Kf21fe6Lhp86BTNRH7obriDzeKqBDiP_UEWQmzMHA5Kqe4iEGPg5EAtzheFabu9h6PAz0yqenPVgq5-YhpgWRdeOJBiOihewP0QQOypSvWcHYYbBf2-ZUwcRVYve2dEGDvVuQyHMQixzJZbPwHiexNhKUSrNHt7kNJ9wI7ZySnL8Ov4W--VLI8w","e":"AQAB"},"attributes":{"enabled":true,"created":1560562777,"updated":1560562777,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
+  .reply(200, {"key":{"kid":"https://keyvault_name.vault.azure.net/keys/recoverKeyName/f2db77c279a445f081e13116576c19d5","kty":"RSA","key_ops":["encrypt","decrypt","sign","verify","wrapKey","unwrapKey"],"n":"w6m5BxU5aQLIdsc1QKK5NBSmqClJC-ufVhMkHHNqdpwbJHreEU04hych-1joZ7Lf5PQP097VaKzlNLX63gpJxICvOtjcdeKfNutHqJtaJWnYa3RMOsMlPyydmVjddDKtnwMzKXoGABZDQWHDcGx52DUmvhlMsyKa1iCyqsBIOSvCQf_pzEtlaFbwC1wVHE30h0chRswX0UGLnkEjPCcbixPxGVVda1s3rgEnt_EqzpKR4NgbE_FH3l55Ep90mddPYHMwpGDSnLshisRL42vAHP-qEqOzMoHRZG2F6Bl2PnsMhdDHNKwPl6M8HaHP3wKkdjggSBaHetk6uuRVgYL47Q","e":"AQAB"},"attributes":{"enabled":true,"created":1560618094,"updated":1560618094,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -18,7 +18,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '5ac89c8b-320e-4901-95ba-5ae34a1600e7',
+  'b062eaa0-ba58-482d-9286-e67bdb43ea3c',
   'x-ms-keyvault-service-version',
   '1.1.0.866',
   'x-ms-keyvault-network-info',
@@ -32,17 +32,17 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Sat, 15 Jun 2019 01:39:36 GMT',
+  'Sat, 15 Jun 2019 17:01:34 GMT',
   'Connection',
   'close',
   'Content-Length',
-  '667' ]);
+  '660' ]);
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .delete('/keys/key156056277063908667')
+  .delete('/keys/recoverKeyName')
   .query(true)
-  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedkeys/key156056277063908667","deletedDate":1560562782,"scheduledPurgeDate":1568338782,"key":{"kid":"https://keyvault_name.vault.azure.net/keys/key156056277063908667/22f1a5929b3b427c9d59f22fa6dd1e90","kty":"RSA","key_ops":["encrypt","decrypt","sign","verify","wrapKey","unwrapKey"],"n":"y3u98c5Be2bDGhsM2MBrJNziR7A7kyEOT8H-bqxQTlLxEmo4uEj_Bg7XclxuNsY3NNnEOsZx4GcZWzFsCP7pDhBBUfdF20uOpRkBcWRTa3xo_m-kyS7BcwY4Q-gqe8qTZDVw0uYRcMVFw22IRDbHrXP5n4ftkl7Kf21fe6Lhp86BTNRH7obriDzeKqBDiP_UEWQmzMHA5Kqe4iEGPg5EAtzheFabu9h6PAz0yqenPVgq5-YhpgWRdeOJBiOihewP0QQOypSvWcHYYbBf2-ZUwcRVYve2dEGDvVuQyHMQixzJZbPwHiexNhKUSrNHt7kNJ9wI7ZySnL8Ov4W--VLI8w","e":"AQAB"},"attributes":{"enabled":true,"created":1560562777,"updated":1560562777,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
+  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedkeys/recoverKeyName","deletedDate":1560618100,"scheduledPurgeDate":1568394100,"key":{"kid":"https://keyvault_name.vault.azure.net/keys/recoverKeyName/f2db77c279a445f081e13116576c19d5","kty":"RSA","key_ops":["encrypt","decrypt","sign","verify","wrapKey","unwrapKey"],"n":"w6m5BxU5aQLIdsc1QKK5NBSmqClJC-ufVhMkHHNqdpwbJHreEU04hych-1joZ7Lf5PQP097VaKzlNLX63gpJxICvOtjcdeKfNutHqJtaJWnYa3RMOsMlPyydmVjddDKtnwMzKXoGABZDQWHDcGx52DUmvhlMsyKa1iCyqsBIOSvCQf_pzEtlaFbwC1wVHE30h0chRswX0UGLnkEjPCcbixPxGVVda1s3rgEnt_EqzpKR4NgbE_FH3l55Ep90mddPYHMwpGDSnLshisRL42vAHP-qEqOzMoHRZG2F6Bl2PnsMhdDHNKwPl6M8HaHP3wKkdjggSBaHetk6uuRVgYL47Q","e":"AQAB"},"attributes":{"enabled":true,"created":1560618094,"updated":1560618094,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -55,7 +55,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  'cdbe90e9-5164-449d-b52d-4c5baa30e1e7',
+  '256baebc-e839-4270-a59f-56203556a4f5',
   'x-ms-keyvault-service-version',
   '1.1.0.866',
   'x-ms-keyvault-network-info',
@@ -69,17 +69,17 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Sat, 15 Jun 2019 01:39:42 GMT',
+  'Sat, 15 Jun 2019 17:01:39 GMT',
   'Connection',
   'close',
   'Content-Length',
-  '809' ]);
+  '795' ]);
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedkeys/key156056277063908667')
+  .get('/deletedkeys/recoverKeyName')
   .query(true)
-  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedkeys/key156056277063908667","deletedDate":1560562782,"scheduledPurgeDate":1568338782,"key":{"kid":"https://keyvault_name.vault.azure.net/keys/key156056277063908667/22f1a5929b3b427c9d59f22fa6dd1e90","kty":"RSA","key_ops":["encrypt","decrypt","sign","verify","wrapKey","unwrapKey"],"n":"y3u98c5Be2bDGhsM2MBrJNziR7A7kyEOT8H-bqxQTlLxEmo4uEj_Bg7XclxuNsY3NNnEOsZx4GcZWzFsCP7pDhBBUfdF20uOpRkBcWRTa3xo_m-kyS7BcwY4Q-gqe8qTZDVw0uYRcMVFw22IRDbHrXP5n4ftkl7Kf21fe6Lhp86BTNRH7obriDzeKqBDiP_UEWQmzMHA5Kqe4iEGPg5EAtzheFabu9h6PAz0yqenPVgq5-YhpgWRdeOJBiOihewP0QQOypSvWcHYYbBf2-ZUwcRVYve2dEGDvVuQyHMQixzJZbPwHiexNhKUSrNHt7kNJ9wI7ZySnL8Ov4W--VLI8w","e":"AQAB"},"attributes":{"enabled":true,"created":1560562777,"updated":1560562777,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
+  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedkeys/recoverKeyName","deletedDate":1560618100,"scheduledPurgeDate":1568394100,"key":{"kid":"https://keyvault_name.vault.azure.net/keys/recoverKeyName/f2db77c279a445f081e13116576c19d5","kty":"RSA","key_ops":["encrypt","decrypt","sign","verify","wrapKey","unwrapKey"],"n":"w6m5BxU5aQLIdsc1QKK5NBSmqClJC-ufVhMkHHNqdpwbJHreEU04hych-1joZ7Lf5PQP097VaKzlNLX63gpJxICvOtjcdeKfNutHqJtaJWnYa3RMOsMlPyydmVjddDKtnwMzKXoGABZDQWHDcGx52DUmvhlMsyKa1iCyqsBIOSvCQf_pzEtlaFbwC1wVHE30h0chRswX0UGLnkEjPCcbixPxGVVda1s3rgEnt_EqzpKR4NgbE_FH3l55Ep90mddPYHMwpGDSnLshisRL42vAHP-qEqOzMoHRZG2F6Bl2PnsMhdDHNKwPl6M8HaHP3wKkdjggSBaHetk6uuRVgYL47Q","e":"AQAB"},"attributes":{"enabled":true,"created":1560618094,"updated":1560618094,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -92,7 +92,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '7ac3f12e-8c00-47e5-9f28-328fd0e0c3a0',
+  'c9589692-ccc0-47ad-852e-27f93f5ec180',
   'x-ms-keyvault-service-version',
   '1.1.0.866',
   'x-ms-keyvault-network-info',
@@ -106,17 +106,17 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Sat, 15 Jun 2019 01:40:17 GMT',
+  'Sat, 15 Jun 2019 17:02:14 GMT',
   'Connection',
   'close',
   'Content-Length',
-  '809' ]);
+  '795' ]);
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .post('/deletedkeys/key156056277063908667/recover')
+  .post('/deletedkeys/recoverKeyName/recover')
   .query(true)
-  .reply(200, {"key":{"kid":"https://keyvault_name.vault.azure.net/keys/key156056277063908667/22f1a5929b3b427c9d59f22fa6dd1e90","kty":"RSA","key_ops":["encrypt","decrypt","sign","verify","wrapKey","unwrapKey"],"n":"y3u98c5Be2bDGhsM2MBrJNziR7A7kyEOT8H-bqxQTlLxEmo4uEj_Bg7XclxuNsY3NNnEOsZx4GcZWzFsCP7pDhBBUfdF20uOpRkBcWRTa3xo_m-kyS7BcwY4Q-gqe8qTZDVw0uYRcMVFw22IRDbHrXP5n4ftkl7Kf21fe6Lhp86BTNRH7obriDzeKqBDiP_UEWQmzMHA5Kqe4iEGPg5EAtzheFabu9h6PAz0yqenPVgq5-YhpgWRdeOJBiOihewP0QQOypSvWcHYYbBf2-ZUwcRVYve2dEGDvVuQyHMQixzJZbPwHiexNhKUSrNHt7kNJ9wI7ZySnL8Ov4W--VLI8w","e":"AQAB"},"attributes":{"enabled":true,"created":1560562777,"updated":1560562777,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
+  .reply(200, {"key":{"kid":"https://keyvault_name.vault.azure.net/keys/recoverKeyName/f2db77c279a445f081e13116576c19d5","kty":"RSA","key_ops":["encrypt","decrypt","sign","verify","wrapKey","unwrapKey"],"n":"w6m5BxU5aQLIdsc1QKK5NBSmqClJC-ufVhMkHHNqdpwbJHreEU04hych-1joZ7Lf5PQP097VaKzlNLX63gpJxICvOtjcdeKfNutHqJtaJWnYa3RMOsMlPyydmVjddDKtnwMzKXoGABZDQWHDcGx52DUmvhlMsyKa1iCyqsBIOSvCQf_pzEtlaFbwC1wVHE30h0chRswX0UGLnkEjPCcbixPxGVVda1s3rgEnt_EqzpKR4NgbE_FH3l55Ep90mddPYHMwpGDSnLshisRL42vAHP-qEqOzMoHRZG2F6Bl2PnsMhdDHNKwPl6M8HaHP3wKkdjggSBaHetk6uuRVgYL47Q","e":"AQAB"},"attributes":{"enabled":true,"created":1560618094,"updated":1560618094,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -129,7 +129,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '381a59dc-0fdb-493f-acd1-2418fb7ba018',
+  'cb886d81-c6d9-4897-88de-fd8878b3ce56',
   'x-ms-keyvault-service-version',
   '1.1.0.866',
   'x-ms-keyvault-network-info',
@@ -143,17 +143,17 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Sat, 15 Jun 2019 01:40:24 GMT',
+  'Sat, 15 Jun 2019 17:02:21 GMT',
   'Connection',
   'close',
   'Content-Length',
-  '667' ]);
+  '660' ]);
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/keys/key156056277063908667/')
+  .get('/keys/recoverKeyName/')
   .query(true)
-  .reply(200, {"key":{"kid":"https://keyvault_name.vault.azure.net/keys/key156056277063908667/22f1a5929b3b427c9d59f22fa6dd1e90","kty":"RSA","key_ops":["encrypt","decrypt","sign","verify","wrapKey","unwrapKey"],"n":"y3u98c5Be2bDGhsM2MBrJNziR7A7kyEOT8H-bqxQTlLxEmo4uEj_Bg7XclxuNsY3NNnEOsZx4GcZWzFsCP7pDhBBUfdF20uOpRkBcWRTa3xo_m-kyS7BcwY4Q-gqe8qTZDVw0uYRcMVFw22IRDbHrXP5n4ftkl7Kf21fe6Lhp86BTNRH7obriDzeKqBDiP_UEWQmzMHA5Kqe4iEGPg5EAtzheFabu9h6PAz0yqenPVgq5-YhpgWRdeOJBiOihewP0QQOypSvWcHYYbBf2-ZUwcRVYve2dEGDvVuQyHMQixzJZbPwHiexNhKUSrNHt7kNJ9wI7ZySnL8Ov4W--VLI8w","e":"AQAB"},"attributes":{"enabled":true,"created":1560562777,"updated":1560562777,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
+  .reply(200, {"key":{"kid":"https://keyvault_name.vault.azure.net/keys/recoverKeyName/f2db77c279a445f081e13116576c19d5","kty":"RSA","key_ops":["encrypt","decrypt","sign","verify","wrapKey","unwrapKey"],"n":"w6m5BxU5aQLIdsc1QKK5NBSmqClJC-ufVhMkHHNqdpwbJHreEU04hych-1joZ7Lf5PQP097VaKzlNLX63gpJxICvOtjcdeKfNutHqJtaJWnYa3RMOsMlPyydmVjddDKtnwMzKXoGABZDQWHDcGx52DUmvhlMsyKa1iCyqsBIOSvCQf_pzEtlaFbwC1wVHE30h0chRswX0UGLnkEjPCcbixPxGVVda1s3rgEnt_EqzpKR4NgbE_FH3l55Ep90mddPYHMwpGDSnLshisRL42vAHP-qEqOzMoHRZG2F6Bl2PnsMhdDHNKwPl6M8HaHP3wKkdjggSBaHetk6uuRVgYL47Q","e":"AQAB"},"attributes":{"enabled":true,"created":1560618094,"updated":1560618094,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -166,7 +166,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  'a8ff72cd-5a04-4996-8aa2-a50cddd1fb82',
+  '94833185-bb46-440a-a35f-06c11b040be5',
   'x-ms-keyvault-service-version',
   '1.1.0.866',
   'x-ms-keyvault-network-info',
@@ -180,9 +180,79 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Sat, 15 Jun 2019 01:40:59 GMT',
+  'Sat, 15 Jun 2019 17:02:56 GMT',
   'Connection',
   'close',
   'Content-Length',
-  '667' ]);
+  '660' ]);
+
+
+nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
+  .delete('/keys/recoverKeyName')
+  .query(true)
+  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedkeys/recoverKeyName","deletedDate":1560618182,"scheduledPurgeDate":1568394182,"key":{"kid":"https://keyvault_name.vault.azure.net/keys/recoverKeyName/f2db77c279a445f081e13116576c19d5","kty":"RSA","key_ops":["encrypt","decrypt","sign","verify","wrapKey","unwrapKey"],"n":"w6m5BxU5aQLIdsc1QKK5NBSmqClJC-ufVhMkHHNqdpwbJHreEU04hych-1joZ7Lf5PQP097VaKzlNLX63gpJxICvOtjcdeKfNutHqJtaJWnYa3RMOsMlPyydmVjddDKtnwMzKXoGABZDQWHDcGx52DUmvhlMsyKa1iCyqsBIOSvCQf_pzEtlaFbwC1wVHE30h0chRswX0UGLnkEjPCcbixPxGVVda1s3rgEnt_EqzpKR4NgbE_FH3l55Ep90mddPYHMwpGDSnLshisRL42vAHP-qEqOzMoHRZG2F6Bl2PnsMhdDHNKwPl6M8HaHP3wKkdjggSBaHetk6uuRVgYL47Q","e":"AQAB"},"attributes":{"enabled":true,"created":1560618094,"updated":1560618094,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Expires',
+  '-1',
+  'Server',
+  'Microsoft-IIS/10.0',
+  'x-ms-keyvault-region',
+  'westus',
+  'x-ms-request-id',
+  'e33b03b1-3221-47c4-8a7a-87d50c3db472',
+  'x-ms-keyvault-service-version',
+  '1.1.0.866',
+  'x-ms-keyvault-network-info',
+  'addr=108.226.109.105;act_addr_fam=InterNetwork;',
+  'X-AspNet-Version',
+  '4.0.30319',
+  'X-Powered-By',
+  'ASP.NET',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Sat, 15 Jun 2019 17:03:02 GMT',
+  'Connection',
+  'close',
+  'Content-Length',
+  '795' ]);
+
+
+nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
+  .delete('/deletedkeys/recoverKeyName')
+  .query(true)
+  .reply(204, "", [ 'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Expires',
+  '-1',
+  'Server',
+  'Microsoft-IIS/10.0',
+  'x-ms-keyvault-region',
+  'westus',
+  'x-ms-request-id',
+  'd38b0581-0f7c-4ef7-9975-56b0e916f893',
+  'x-ms-keyvault-service-version',
+  '1.1.0.866',
+  'x-ms-keyvault-network-info',
+  'addr=108.226.109.105;act_addr_fam=InterNetwork;',
+  'X-AspNet-Version',
+  '4.0.30319',
+  'X-Powered-By',
+  'ASP.NET',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Sat, 15 Jun 2019 17:03:38 GMT',
+  'Connection',
+  'close' ]);
 
