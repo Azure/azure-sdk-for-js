@@ -2,6 +2,8 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import qs from "qs";
+import jws from "jws";
+import uuid from "uuid";
 import {
   AccessToken,
   ServiceClient,
@@ -11,12 +13,13 @@ import {
   RequestPrepareOptions
 } from "@azure/core-http";
 
-export class IdentityClient extends ServiceClient {
-  private static readonly DefaultAuthorityHost = "https://login.microsoftonline.com/";
-  private static readonly ImdsEndpoint = "http://169.254.169.254/metadata/identity/oauth2/token";
-  private static readonly MsiApiVersion = "2018-02-01";
-  private static readonly DefaultScopeSuffix = "/.default";
+const SelfSignedJwtLifetimeMins = 10;
+const DefaultAuthorityHost = "https://login.microsoftonline.com";
+const ImdsEndpoint = "http://169.254.169.254/metadata/identity/oauth2/token";
+const MsiApiVersion = "2018-02-01";
+const DefaultScopeSuffix = "/.default";
 
+export class IdentityClient extends ServiceClient {
   constructor(options?: IdentityClientOptions) {
     options = options || IdentityClient.getDefaultOptions();
     super(undefined, options);
@@ -56,14 +59,23 @@ export class IdentityClient extends ServiceClient {
       scope = scopes;
     }
 
-    if (!scope.endsWith(IdentityClient.DefaultScopeSuffix)) {
+    if (!scope.endsWith(DefaultScopeSuffix)) {
       return scope;
     }
 
-    return scope.substr(0, scope.lastIndexOf(IdentityClient.DefaultScopeSuffix));
+    return scope.substr(0, scope.lastIndexOf(DefaultScopeSuffix));
   }
 
-  async authenticate(
+  private dateInSeconds(date: Date) {
+    return Math.floor(date.getTime() / 1000);
+  }
+
+  private addMinutes(date: Date, minutes: number): Date {
+    date.setMinutes(date.getMinutes() + minutes);
+    return date;
+  }
+
+  authenticateClientSecret(
     tenantId: string,
     clientId: string,
     clientSecret: string,
@@ -99,7 +111,7 @@ export class IdentityClient extends ServiceClient {
   ): Promise<AccessToken | null> {
     const queryParameters: any = {
       resource: this.mapScopesToResource(scopes),
-      "api-version": IdentityClient.MsiApiVersion
+      "api-version": MsiApiVersion
     };
 
     if (clientId) {
@@ -107,7 +119,7 @@ export class IdentityClient extends ServiceClient {
     }
 
     const webResource = this.createWebResource({
-      url: IdentityClient.ImdsEndpoint,
+      url: ImdsEndpoint,
       method: "GET",
       disableJsonStringifyOnBody: true,
       deserializationMapper: undefined,
@@ -122,9 +134,63 @@ export class IdentityClient extends ServiceClient {
     return this.sendTokenRequest(webResource);
   }
 
+  authenticateClientCertificate(
+    tenantId: string,
+    clientId: string,
+    certificateString: string,
+    certificateX5t: string,
+    scopes: string | string[],
+    getTokenOptions?: GetTokenOptions
+  ): Promise<AccessToken | null> {
+    const tokenId = uuid.v4();
+    const audienceUrl = `${this.baseUri}/${tenantId}/oauth2/v2.0/token`;
+    const header: jws.Header = {
+      typ: "JWT",
+      alg: "RS256",
+      x5t: certificateX5t
+    };
+
+    const payload = {
+      iss: clientId,
+      sub: clientId,
+      aud: audienceUrl,
+      jti: tokenId,
+      nbf: this.dateInSeconds(new Date()),
+      exp: this.dateInSeconds(this.addMinutes(new Date(), SelfSignedJwtLifetimeMins))
+    };
+
+    const clientAssertion = jws.sign({
+      header,
+      payload,
+      secret: certificateString
+    });
+
+    const webResource = this.createWebResource({
+      url: audienceUrl,
+      method: "POST",
+      disableJsonStringifyOnBody: true,
+      deserializationMapper: undefined,
+      body: qs.stringify({
+        response_type: "token",
+        grant_type: "client_credentials",
+        client_id: clientId,
+        client_assertion_type: "urn:ietf:params:oauth:client-assertion-type:jwt-bearer",
+        client_assertion: clientAssertion,
+        scope: typeof scopes === "string" ? scopes : scopes.join(" ")
+      }),
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      abortSignal: getTokenOptions && getTokenOptions.abortSignal
+    });
+
+    return this.sendTokenRequest(webResource);
+  }
+
   static getDefaultOptions(): IdentityClientOptions {
     return {
-      authorityHost: IdentityClient.DefaultAuthorityHost
+      authorityHost: DefaultAuthorityHost
     };
   }
 }
