@@ -1,0 +1,110 @@
+let nock = require('nock');
+
+module.exports.testInfo = {}
+
+nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
+  .post('/keys/CRUDKeyName/create', {"kty":"RSA","attributes":{"nbf":1546300805}})
+  .query(true)
+  .reply(200, {"key":{"kid":"https://keyvault_name.vault.azure.net/keys/CRUDKeyName/df71b9b240e541429a8d6e06fca5b2c4","kty":"RSA","key_ops":["encrypt","decrypt","sign","verify","wrapKey","unwrapKey"],"n":"6qGaQDF0eC-UdLNP4C-FtDSzA4M8M6O6Kq3FGU9WHSTuZw7YX7JRc9jVMB3I3Zmp_BlGu87tWp-G-yRdt7BjIYZVHA6l54rKHYwW9H4rY2INNhlZFzGzq267muNmXnUMZk2mudaBVOJkKv8sZn8NV4IKukWhhEBAiF6TKA8zeKJQZGUflFfD0JMPs600niK5pm-RCoEQTVfv8TooFX_YFwZhQv3VjR1ErweyWOF9ULXyW0M_Tfn3P5smwfRuyhIQdmc5lC7O9kfc3-XHqQn7jD7aLc6nI0rBoj07T0sekD8egvSmufcNTcIt_XEdjefHNtXYbOtfkzIPgt_LDrk2ow","e":"AQAB"},"attributes":{"enabled":true,"nbf":1546300805,"created":1560561672,"updated":1560561672,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Expires',
+  '-1',
+  'Server',
+  'Microsoft-IIS/10.0',
+  'x-ms-keyvault-region',
+  'westus',
+  'x-ms-request-id',
+  '3f7347f5-12b6-4469-99f8-ab4d8a28f528',
+  'x-ms-keyvault-service-version',
+  '1.1.0.866',
+  'x-ms-keyvault-network-info',
+  'addr=108.226.109.105;act_addr_fam=InterNetwork;',
+  'X-AspNet-Version',
+  '4.0.30319',
+  'X-Powered-By',
+  'ASP.NET',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Sat, 15 Jun 2019 01:21:12 GMT',
+  'Connection',
+  'close',
+  'Content-Length',
+  '674' ]);
+
+
+nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
+  .delete('/keys/CRUDKeyName')
+  .query(true)
+  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedkeys/CRUDKeyName","deletedDate":1560561678,"scheduledPurgeDate":1568337678,"key":{"kid":"https://keyvault_name.vault.azure.net/keys/CRUDKeyName/df71b9b240e541429a8d6e06fca5b2c4","kty":"RSA","key_ops":["encrypt","decrypt","sign","verify","wrapKey","unwrapKey"],"n":"6qGaQDF0eC-UdLNP4C-FtDSzA4M8M6O6Kq3FGU9WHSTuZw7YX7JRc9jVMB3I3Zmp_BlGu87tWp-G-yRdt7BjIYZVHA6l54rKHYwW9H4rY2INNhlZFzGzq267muNmXnUMZk2mudaBVOJkKv8sZn8NV4IKukWhhEBAiF6TKA8zeKJQZGUflFfD0JMPs600niK5pm-RCoEQTVfv8TooFX_YFwZhQv3VjR1ErweyWOF9ULXyW0M_Tfn3P5smwfRuyhIQdmc5lC7O9kfc3-XHqQn7jD7aLc6nI0rBoj07T0sekD8egvSmufcNTcIt_XEdjefHNtXYbOtfkzIPgt_LDrk2ow","e":"AQAB"},"attributes":{"enabled":true,"nbf":1546300805,"created":1560561672,"updated":1560561672,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Expires',
+  '-1',
+  'Server',
+  'Microsoft-IIS/10.0',
+  'x-ms-keyvault-region',
+  'westus',
+  'x-ms-request-id',
+  '6c4caacc-4ee7-43e4-9492-2950b31b4ca4',
+  'x-ms-keyvault-service-version',
+  '1.1.0.866',
+  'x-ms-keyvault-network-info',
+  'addr=108.226.109.105;act_addr_fam=InterNetwork;',
+  'X-AspNet-Version',
+  '4.0.30319',
+  'X-Powered-By',
+  'ASP.NET',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Sat, 15 Jun 2019 01:21:18 GMT',
+  'Connection',
+  'close',
+  'Content-Length',
+  '806' ]);
+
+
+nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
+  .delete('/deletedkeys/CRUDKeyName')
+  .query(true)
+  .reply(204, "", [ 'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Expires',
+  '-1',
+  'Server',
+  'Microsoft-IIS/10.0',
+  'x-ms-keyvault-region',
+  'westus',
+  'x-ms-request-id',
+  '326bf8c8-6e99-4475-85d0-c8e1a2441fdf',
+  'x-ms-keyvault-service-version',
+  '1.1.0.866',
+  'x-ms-keyvault-network-info',
+  'addr=108.226.109.105;act_addr_fam=InterNetwork;',
+  'X-AspNet-Version',
+  '4.0.30319',
+  'X-Powered-By',
+  'ASP.NET',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Sat, 15 Jun 2019 01:21:52 GMT',
+  'Connection',
+  'close' ]);
+

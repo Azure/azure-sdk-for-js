@@ -4,6 +4,7 @@ import { getKeyvaultName, getUniqueName } from "./utils/utils.common";
 import { KeysClient } from "../src";
 import { TokenCredential, delay } from "@azure/core-http";
 import { EnvironmentCredential } from "@azure/identity";
+import { record } from "./utils/recorder";
 
 describe("Keys client - list keys in various ways", () => {
   let credential: TokenCredential;
@@ -17,6 +18,14 @@ describe("Keys client - list keys in various ways", () => {
     await delay(30000);
     await client.purgeDeletedKey(name);
   };
+
+  let recorder: any;
+  beforeEach(async function() {
+    recorder = record(this);
+  });
+  afterEach(async () => {
+    recorder.stop();
+  });
 
   before(async () => {
     credential = new EnvironmentCredential();

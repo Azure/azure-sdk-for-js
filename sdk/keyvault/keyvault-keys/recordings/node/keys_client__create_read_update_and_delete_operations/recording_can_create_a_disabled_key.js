@@ -1,0 +1,110 @@
+let nock = require('nock');
+
+module.exports.testInfo = {}
+
+nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
+  .post('/keys/CRUDKeyName/create', {"kty":"RSA","attributes":{"enabled":false}})
+  .query(true)
+  .reply(200, {"key":{"kid":"https://keyvault_name.vault.azure.net/keys/CRUDKeyName/692791eb6209476dae2f694b335cf6e4","kty":"RSA","key_ops":["encrypt","decrypt","sign","verify","wrapKey","unwrapKey"],"n":"xlH5KzKfGh8CA29U3-yAl_39-d6Iq00xlLP7LUQC8BBCMNTE5zBBisv1ksDWIC69IW8fO2SHUnyR0CUJV1Y8FmjCF6mllsPkc2cNZt52Y9f_NN3z-6fm1XWs4R0UdVSFdUVC2R6OO98Ck5V3N4EPbe7U7gjgD-vWKnudG1L_M0J1PdcotfW4ciR2Bn64muGE0sWxLs9UmmsYubHcIehqPia-BN-Iuk7gBYylWxmUGsZoD1P6Y0pnpgYNBsW8U-usI6QX4VbZNicR-4ou-sN1gKHvVuL5L1Kljv3hax0zfKHMgTbNYh6MKpi45iZYYnHEyMW7j9MhT_vkuH2gJx3QJw","e":"AQAB"},"attributes":{"enabled":false,"created":1560561595,"updated":1560561595,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Expires',
+  '-1',
+  'Server',
+  'Microsoft-IIS/10.0',
+  'x-ms-keyvault-region',
+  'westus',
+  'x-ms-request-id',
+  '0de3caca-3b22-4fd6-9291-a786a772c032',
+  'x-ms-keyvault-service-version',
+  '1.1.0.866',
+  'x-ms-keyvault-network-info',
+  'addr=108.226.109.105;act_addr_fam=InterNetwork;',
+  'X-AspNet-Version',
+  '4.0.30319',
+  'X-Powered-By',
+  'ASP.NET',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Sat, 15 Jun 2019 01:19:55 GMT',
+  'Connection',
+  'close',
+  'Content-Length',
+  '658' ]);
+
+
+nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
+  .delete('/keys/CRUDKeyName')
+  .query(true)
+  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedkeys/CRUDKeyName","deletedDate":1560561600,"scheduledPurgeDate":1568337600,"key":{"kid":"https://keyvault_name.vault.azure.net/keys/CRUDKeyName/692791eb6209476dae2f694b335cf6e4","kty":"RSA","key_ops":["encrypt","decrypt","sign","verify","wrapKey","unwrapKey"],"n":"xlH5KzKfGh8CA29U3-yAl_39-d6Iq00xlLP7LUQC8BBCMNTE5zBBisv1ksDWIC69IW8fO2SHUnyR0CUJV1Y8FmjCF6mllsPkc2cNZt52Y9f_NN3z-6fm1XWs4R0UdVSFdUVC2R6OO98Ck5V3N4EPbe7U7gjgD-vWKnudG1L_M0J1PdcotfW4ciR2Bn64muGE0sWxLs9UmmsYubHcIehqPia-BN-Iuk7gBYylWxmUGsZoD1P6Y0pnpgYNBsW8U-usI6QX4VbZNicR-4ou-sN1gKHvVuL5L1Kljv3hax0zfKHMgTbNYh6MKpi45iZYYnHEyMW7j9MhT_vkuH2gJx3QJw","e":"AQAB"},"attributes":{"enabled":false,"created":1560561595,"updated":1560561595,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Expires',
+  '-1',
+  'Server',
+  'Microsoft-IIS/10.0',
+  'x-ms-keyvault-region',
+  'westus',
+  'x-ms-request-id',
+  '9bd4e2fd-d72c-49d5-bca9-03faf227c5fd',
+  'x-ms-keyvault-service-version',
+  '1.1.0.866',
+  'x-ms-keyvault-network-info',
+  'addr=108.226.109.105;act_addr_fam=InterNetwork;',
+  'X-AspNet-Version',
+  '4.0.30319',
+  'X-Powered-By',
+  'ASP.NET',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Sat, 15 Jun 2019 01:20:00 GMT',
+  'Connection',
+  'close',
+  'Content-Length',
+  '790' ]);
+
+
+nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
+  .delete('/deletedkeys/CRUDKeyName')
+  .query(true)
+  .reply(204, "", [ 'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Expires',
+  '-1',
+  'Server',
+  'Microsoft-IIS/10.0',
+  'x-ms-keyvault-region',
+  'westus',
+  'x-ms-request-id',
+  '4b892f08-24da-4fc3-9c16-bf9c50b8764b',
+  'x-ms-keyvault-service-version',
+  '1.1.0.866',
+  'x-ms-keyvault-network-info',
+  'addr=108.226.109.105;act_addr_fam=InterNetwork;',
+  'X-AspNet-Version',
+  '4.0.30319',
+  'X-Powered-By',
+  'ASP.NET',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Sat, 15 Jun 2019 01:20:36 GMT',
+  'Connection',
+  'close' ]);
+
