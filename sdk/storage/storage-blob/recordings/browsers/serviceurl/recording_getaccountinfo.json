@@ -1,0 +1,25 @@
+{
+ "recordings": [
+  {
+   "method": "GET",
+   "url": "https://coolstorageaccount1234.blob.core.windows.net/",
+   "query": {
+    "comp": "properties",
+    "restype": "account"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "",
+   "responseHeaders": {
+    "date": "Fri, 24 May 2019 23:05:01 GMT",
+    "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
+    "x-ms-account-kind": "StorageV2",
+    "x-ms-request-id": "05302724-d01e-009d-6485-12e718000000",
+    "x-ms-sku-name": "Standard_LRS",
+    "x-ms-version": "2018-03-28",
+    "content-length": "0"
+   }
+  }
+ ],
+ "uniqueTestInfo": {}
+}

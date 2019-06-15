@@ -1,0 +1,26 @@
+{
+ "recordings": [
+  {
+   "method": "PUT",
+   "url": "https://coolstorageaccount1234.blob.core.windows.net/container155873899318100855",
+   "query": {
+    "restype": "container"
+   },
+   "requestBody": null,
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "date": "Fri, 24 May 2019 23:03:12 GMT",
+    "last-modified": "Fri, 24 May 2019 23:03:12 GMT",
+    "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
+    "etag": "\"0x8D6E09BFF728576\"",
+    "x-ms-request-id": "052f360f-d01e-009d-2984-12e718000000",
+    "x-ms-version": "2018-03-28",
+    "content-length": "0"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "container": "container155873899318100855"
+ }
+}
