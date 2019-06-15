@@ -3,9 +3,9 @@ let nock = require('nock');
 module.exports.testInfo = {}
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .post('/keys/key156056234729604662/create', {"kty":"RSA"})
+  .post('/keys/CRUDKeyName/create', {"kty":"RSA"})
   .query(true)
-  .reply(200, {"key":{"kid":"https://keyvault_name.vault.azure.net/keys/key156056234729604662/0262f6dcaad745a7bbbe852381200b46","kty":"RSA","key_ops":["encrypt","decrypt","sign","verify","wrapKey","unwrapKey"],"n":"wdHom1CFD65Barct-gIK_O53cRN18b67T52vr3GNBarUY3Nf27x7H-hztubCrw3MwqaonR1dS0BR4wtlXs2Re48vdE6G8IkO3Nc80XMiTbWIZyE2arZXdDq2wed0t3ZlcXR5uH9H4u1GIEHgRh-GEKUbwUQYvHCjXLhU8qRpznXZY2OjQflSF2uhRO7cfBgciCxE_u9J_dGMDkLcdA9RVHpSptunpwPRm-pgHO5B_FI6ksuSCwqwWmO-AWBV3_It7TA3d0mUs_0nRSDdfmrt14udaeLQIzEB-Vte_2hIWT9CSxxZVwpZLHu7xMAVuUceSubF3IkZgtkK9k_cdpJ0wQ","e":"AQAB"},"attributes":{"enabled":true,"created":1560562353,"updated":1560562353,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
+  .reply(200, {"key":{"kid":"https://keyvault_name.vault.azure.net/keys/CRUDKeyName/dde0f0406ced450c8fe14c015bdd3535","kty":"RSA","key_ops":["encrypt","decrypt","sign","verify","wrapKey","unwrapKey"],"n":"uGqN9ecIMf2NVluqXqP75ARimLT3fANyD_avsB9BUEfcPIakHv5cqGaoDPziohB54GkPZOXmWdLulWBBWf8OXqhKoPTXC5lDa-ZJrXWD9jO-zX3nuQCYqNmD_pB4U0Usa3Y8RWXKzq7GBFHFjVChJWMw5dBnTfGfqUTWJ_R2B-i4NS7scO6yTNQBrhT_23msdaBdR2WZtELumPTxxkGCEFv7yH7i2HmXvXxRfLP9oHTO28YdhC23QiYJ78YrvYsCm_jxkGG689XsQlu8c83K_xPAeDj5XJONpV6wd_kn6NwGBIb1YFLj9t48GUKmNnl-abZzcYVJSXFISN0vOAb49Q","e":"AQAB"},"attributes":{"enabled":true,"created":1560615220,"updated":1560615220,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -18,7 +18,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '6ab3ad51-0bf2-42bd-96f3-e30dc5a85c53',
+  'b22448cb-db6f-47c0-83c1-cbdd9be1dc64',
   'x-ms-keyvault-service-version',
   '1.1.0.866',
   'x-ms-keyvault-network-info',
@@ -32,17 +32,17 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Sat, 15 Jun 2019 01:32:32 GMT',
+  'Sat, 15 Jun 2019 16:13:39 GMT',
   'Connection',
   'close',
   'Content-Length',
-  '667' ]);
+  '657' ]);
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/keys/key156056234729604662/versions')
+  .get('/keys/CRUDKeyName/versions')
   .query(true)
-  .reply(200, {"value":[{"kid":"https://keyvault_name.vault.azure.net/keys/key156056234729604662/0262f6dcaad745a7bbbe852381200b46","attributes":{"enabled":true,"created":1560562353,"updated":1560562353,"recoveryLevel":"Recoverable+Purgeable"}}],"nextLink":null}, [ 'Cache-Control',
+  .reply(200, {"value":[{"kid":"https://keyvault_name.vault.azure.net/keys/CRUDKeyName/dde0f0406ced450c8fe14c015bdd3535","attributes":{"enabled":true,"created":1560615220,"updated":1560615220,"recoveryLevel":"Recoverable+Purgeable"}}],"nextLink":null}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -55,7 +55,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '92559418-3beb-4b81-95a2-225443092d89',
+  '1bfc81a3-12b9-4656-95de-5fbee7b0bb8c',
   'x-ms-keyvault-service-version',
   '1.1.0.866',
   'x-ms-keyvault-network-info',
@@ -69,9 +69,79 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Sat, 15 Jun 2019 01:32:37 GMT',
+  'Sat, 15 Jun 2019 16:13:45 GMT',
   'Connection',
   'close',
   'Content-Length',
-  '245' ]);
+  '235' ]);
+
+
+nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
+  .delete('/keys/CRUDKeyName')
+  .query(true)
+  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedkeys/CRUDKeyName","deletedDate":1560615231,"scheduledPurgeDate":1568391231,"key":{"kid":"https://keyvault_name.vault.azure.net/keys/CRUDKeyName/dde0f0406ced450c8fe14c015bdd3535","kty":"RSA","key_ops":["encrypt","decrypt","sign","verify","wrapKey","unwrapKey"],"n":"uGqN9ecIMf2NVluqXqP75ARimLT3fANyD_avsB9BUEfcPIakHv5cqGaoDPziohB54GkPZOXmWdLulWBBWf8OXqhKoPTXC5lDa-ZJrXWD9jO-zX3nuQCYqNmD_pB4U0Usa3Y8RWXKzq7GBFHFjVChJWMw5dBnTfGfqUTWJ_R2B-i4NS7scO6yTNQBrhT_23msdaBdR2WZtELumPTxxkGCEFv7yH7i2HmXvXxRfLP9oHTO28YdhC23QiYJ78YrvYsCm_jxkGG689XsQlu8c83K_xPAeDj5XJONpV6wd_kn6NwGBIb1YFLj9t48GUKmNnl-abZzcYVJSXFISN0vOAb49Q","e":"AQAB"},"attributes":{"enabled":true,"created":1560615220,"updated":1560615220,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Expires',
+  '-1',
+  'Server',
+  'Microsoft-IIS/10.0',
+  'x-ms-keyvault-region',
+  'westus',
+  'x-ms-request-id',
+  '927b2d63-dd93-4e51-be5d-51cffca76893',
+  'x-ms-keyvault-service-version',
+  '1.1.0.866',
+  'x-ms-keyvault-network-info',
+  'addr=108.226.109.105;act_addr_fam=InterNetwork;',
+  'X-AspNet-Version',
+  '4.0.30319',
+  'X-Powered-By',
+  'ASP.NET',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Sat, 15 Jun 2019 16:13:50 GMT',
+  'Connection',
+  'close',
+  'Content-Length',
+  '789' ]);
+
+
+nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
+  .delete('/deletedkeys/CRUDKeyName')
+  .query(true)
+  .reply(204, "", [ 'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Expires',
+  '-1',
+  'Server',
+  'Microsoft-IIS/10.0',
+  'x-ms-keyvault-region',
+  'westus',
+  'x-ms-request-id',
+  'd105dfdd-fdc3-4907-a3c1-35b5b62e2c07',
+  'x-ms-keyvault-service-version',
+  '1.1.0.866',
+  'x-ms-keyvault-network-info',
+  'addr=108.226.109.105;act_addr_fam=InterNetwork;',
+  'X-AspNet-Version',
+  '4.0.30319',
+  'X-Powered-By',
+  'ASP.NET',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Sat, 15 Jun 2019 16:14:27 GMT',
+  'Connection',
+  'close' ]);
 

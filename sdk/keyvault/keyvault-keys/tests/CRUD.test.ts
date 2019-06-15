@@ -12,10 +12,17 @@ describe("Keys client - create, read, update and delete operations", () => {
   let keyVaultUrl: string;
   let client: KeysClient;
 
-  // NOTE: To allow multiple integraton runs at the same time,
-  // we might need to factor in more environment variables.
+  // NOTES:
+  // - To allow multiple integraton runs at the same time,
+  //   we might need to factor in more environment variables.
+  // - Another way to improve this is to add a specfic key per test.
+  // - The environment variable is probably better named like PREFIX_KEY_NAME.
   const keyName = `CRUD${env.KEY_NAME || "KeyName"}`;
 
+  // NOTES:
+  // - These functions are probably better moved to a common utility file.
+  //   However, to do that we'll have to create a class or closure to maintain
+  //   the instance of the KeyClient available.
   async function purgeKey() {
     await client.purgeDeletedKey(keyName);
     await delay(30000);
@@ -74,6 +81,8 @@ describe("Keys client - create, read, update and delete operations", () => {
   afterEach(async () => {
     recorder.stop();
   });
+
+  // The tests follow
 
   it("can create a key while giving a manual type", async () => {
     const result = await client.createKey(keyName, "RSA");

@@ -3,7 +3,7 @@ let nock = require('nock');
 module.exports.testInfo = {}
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/keys/key156056235886400126/versions')
+  .get('/keys/CRUDKeyName/versions')
   .query(true)
   .reply(200, {"value":[],"nextLink":null}, [ 'Cache-Control',
   'no-cache',
@@ -18,7 +18,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  'c44043e7-0d53-441a-b58d-1c992e518937',
+  'e3515385-4714-45e4-951d-a2ef62a1eb0b',
   'x-ms-keyvault-service-version',
   '1.1.0.866',
   'x-ms-keyvault-network-info',
@@ -32,7 +32,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Sat, 15 Jun 2019 01:32:44 GMT',
+  'Sat, 15 Jun 2019 16:15:02 GMT',
   'Connection',
   'close',
   'Content-Length',
