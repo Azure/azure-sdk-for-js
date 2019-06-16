@@ -59,9 +59,6 @@ export async function authenticate(
   await connectionContext.cbsSession.init();
   const sharedTokenCredential = <SharedKeyCredential>connectionContext.tokenCredential;
   const tokenObject = sharedTokenCredential.getToken(audience);
-  if (!tokenObject) {
-    throw new Error("Sas token cannot be null");
-  }
   const result = await connectionContext.cbsSession.negotiateClaim(
     audience,
     tokenObject,
