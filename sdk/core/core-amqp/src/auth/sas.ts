@@ -45,7 +45,7 @@ export class SharedKeyCredential {
    * @param {string} [audience] - The audience for which the token is desired. If not
    * provided then the Endpoint from the connection string will be applied.
    */
-  async getToken(audience?: string): Promise<AccessToken> {
+  getToken(audience: string): AccessToken {
     return this._createToken(Math.floor(Date.now() / 1000) + 3600, audience);
   }
 
@@ -59,10 +59,9 @@ export class SharedKeyCredential {
    */
   protected _createToken(
     expiry: number,
-    audience?: string,
+    audience: string,
     hashInput?: string | Buffer
   ): AccessToken {
-    if (!audience) audience = this.namespace;
     audience = encodeURIComponent(audience);
     const keyName = encodeURIComponent(this.keyName);
     const stringToSign = audience + "\n" + expiry;

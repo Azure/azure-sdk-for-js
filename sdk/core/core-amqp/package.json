@@ -10,7 +10,6 @@
   "types": "./typings/src/index.d.ts",
   "browser": {
     "./dist/index.js": "./browser/index.js",
-    "./dist-esm/src/index.node.js": "./dist-esm/src/index.browser.js",
     "buffer": "buffer",
     "stream": "stream-browserify"
   },

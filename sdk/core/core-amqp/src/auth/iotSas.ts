@@ -17,7 +17,7 @@ export class IotSharedKeyCredential extends SharedKeyCredential {
    * @param {string} [audience] - The audience for which the token is desired. If not
    * provided then the Endpoint from the connection string will be applied.
    */
-  async getToken(audience?: string): Promise<AccessToken> {
+  getToken(audience: string): AccessToken {
     return this._createToken(
       Math.floor(Date.now() / 1000) + 3600,
       audience,

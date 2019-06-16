@@ -6,7 +6,7 @@
  */
 export enum TokenType {
   /**
-   * The "jwt" token type. Used with AADTokenProvider.
+   * The "jwt" token type. Used with AADTokenCredential.
    */
   CbsTokenTypeJwt = "jwt",
   /**

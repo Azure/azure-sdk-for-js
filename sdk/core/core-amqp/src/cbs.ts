@@ -193,7 +193,7 @@ export class CbsClient {
   ): Promise<CbsResponse> {
     try {
       const request: AmqpMessage = {
-        body: tokenObject!.token,
+        body: tokenObject.token,
         message_id: generate_uuid(),
         reply_to: this.replyTo,
         to: this.endpoint,

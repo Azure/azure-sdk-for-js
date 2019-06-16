@@ -34,9 +34,12 @@ async function authenticate(
   await connectionContext.cbsSession.init();
   const credential = new EnvironmentCredential();
   const tokenObject = await credential.getToken(Constants.aadEventHubsScope);
+  if (!tokenObject) {
+    throw new Error("Aad token cannot be null");
+  }
   const result = await connectionContext.cbsSession.negotiateClaim(
     audience,
-    tokenObject!,
+    tokenObject,
     TokenType.CbsTokenTypeJwt
   );
   console.log("Result is: %O", result);

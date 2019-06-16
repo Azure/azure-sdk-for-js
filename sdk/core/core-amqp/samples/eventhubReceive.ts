@@ -6,7 +6,8 @@ import {
   CreateConnectionContextBaseParameters,
   CbsResponse,
   EventHubConnectionConfig,
-  TokenType
+  TokenType,
+  SharedKeyCredential
 } from "../src";
 import * as dotenv from "dotenv";
 dotenv.config(); // Optional for loading environment configuration from a .env (config) file
@@ -38,10 +39,14 @@ async function authenticate(
   closeConnection: boolean = false
 ): Promise<CbsResponse> {
   await connectionContext.cbsSession.init();
-  const tokenObject = await connectionContext.tokenCredential.getToken(audience);
+  const sharedTokenCredential = <SharedKeyCredential>connectionContext.tokenCredential;
+  const tokenObject = sharedTokenCredential.getToken(audience);
+  if (!tokenObject) {
+    throw new Error("Sas token cannot be null");
+  }
   const result = await connectionContext.cbsSession.negotiateClaim(
     audience,
-    tokenObject!,
+    tokenObject,
     TokenType.CbsTokenTypeSas
   );
   console.log("Result is: %O", result);
