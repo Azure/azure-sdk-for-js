@@ -8,7 +8,7 @@ import { Service } from "./generated/lib/operations";
 import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
 import { StorageClient } from "./StorageClient";
 import { QueueClient } from "./QueueClient";
-import { PageSettings } from "@azure/core-paging";
+import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import { appendToURLPath, extractConnectionStringParts } from "./utils/utils.common";
 import { Credential } from "./credentials/Credential";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
@@ -335,10 +335,13 @@ export class QueueServiceClient extends StorageClient {
    *
    * .byPage() returns an async iterable iterator to list the queues in pages.
    *
-   * @param {ServiceListQueuesSegmentOptions} [options] Options to list queues operation.
+   * @param {ServiceListQueuesOptions} [options] Options to list queues operation.
    * @memberof QueueServiceClient
+   * @returns {PagedAsyncIterableIterator<Models.QueueItem, Models.ListQueuesSegmentResponse>}
    */
-  public listQueues(options: ServiceListQueuesOptions = {}) {
+  public listQueues(
+    options: ServiceListQueuesOptions = {}
+  ): PagedAsyncIterableIterator<Models.QueueItem, Models.ListQueuesSegmentResponse> {
     // AsyncIterableIterator to iterate over queues
     const iter = this.listItems(options);
     return {
