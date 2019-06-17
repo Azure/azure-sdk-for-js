@@ -87,7 +87,9 @@ const skip = [
   // UUID (uploadStreamToBlockBlob)
   "node/highlevel/recording_uploadstreamtoblockblob_should_success_for_tiny_buffers.js",
   // Size (263MB), Tempfile, UUID (uploadStreamToBlockBlob)
-  "node/highlevel/recording_uploadstreamtoblockblob_should_update_progress_event.js"
+  "node/highlevel/recording_uploadstreamtoblockblob_should_update_progress_event.js",
+  // Skipping for now, further investigation needed on the errors in playback
+  "browsers/bloburl/recording_startcopyfromurl.json"
 ];
 
 abstract class Recorder {
