@@ -12,7 +12,8 @@ import {
   ConnectionContextBase,
   CreateConnectionContextBaseParameters,
   EventHubConnectionConfig,
-  TokenProvider
+  TokenCredential,
+  SharedKeyCredential
 } from "@azure/core-amqp";
 import { ManagementClient, ManagementClientOptions } from "./managementClient";
 import { EventHubClientOptions } from "./eventHubClient";
@@ -77,7 +78,7 @@ export namespace ConnectionContext {
 
   export function create(
     config: EventHubConnectionConfig,
-    tokenProvider: TokenProvider,
+    tokenCredential: SharedKeyCredential | TokenCredential,
     options?: ConnectionContextOptions
   ): ConnectionContext {
     if (!options) options = {};
@@ -88,7 +89,7 @@ export namespace ConnectionContext {
 
     const parameters: CreateConnectionContextBaseParameters = {
       config: config,
-      tokenProvider: tokenProvider,
+      tokenCredential: tokenCredential,
       dataTransformer: options.dataTransformer,
       isEntityPathRequired: true,
       connectionProperties: {
