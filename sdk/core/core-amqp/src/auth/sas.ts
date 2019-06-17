@@ -28,7 +28,7 @@ export class SharedKeyCredential {
    * @param {string} keyName - The name of the EventHub/ServiceBus key.
    * @param {string} key - The secret value associated with the above EventHub/ServiceBus key
    */
-  constructor(namespace: string, keyName: string, key: string) {
+  constructor(keyName: string, key: string) {
     this.keyName = keyName;
     this.key = key;
   }
