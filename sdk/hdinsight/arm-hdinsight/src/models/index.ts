@@ -979,6 +979,119 @@ export interface UsagesListResult {
 }
 
 /**
+ * This class represent a single filter object that defines a multidimensional set. The dimensions
+ * of this set are Regions, ClusterFlavors, NodeTypes and ClusterVersionsThe dimensions of this set
+ * are Regions, ClusterFlavors, NodeTypes and ClusterVersions. The constraint should be defined
+ * based on the following: FilterMode (Exclude vs Include), VMSizes (the vm sizes in affect of
+ * exlucsion/inclusion) and the ordering of the Filters. Later filters override previous settings
+ * if conflicted.
+ */
+export interface VmSizeCompatibilityFilterV2 {
+  /**
+   * The filtering mode. Effectively this can enabling or disabling the VM sizes in a particular
+   * set.
+   */
+  filterMode?: string;
+  /**
+   * The list of regions under the effect of the filter.
+   */
+  regions?: string[];
+  /**
+   * The list of cluster flavors under the effect of the filter.
+   */
+  clusterFlavors?: string[];
+  /**
+   * The list of node types affected by the filter.
+   */
+  nodeTypes?: string[];
+  /**
+   * The list of cluster versions affected in Major.Minor format.
+   */
+  clusterVersions?: string[];
+  /**
+   * The OSType affected, Windows or Linux.
+   */
+  osType?: string[];
+  /**
+   * The list of virtual machine sizes to include or exclude.
+   */
+  vmSizes?: string[];
+}
+
+/**
+ * The billing meters.
+ */
+export interface BillingMeters {
+  /**
+   * The virtual machine sizes.
+   */
+  meterParameter?: string;
+  /**
+   * The HDInsight meter guid.
+   */
+  meter?: string;
+  /**
+   * The unit of meter, VMHours or CoreHours.
+   */
+  unit?: string;
+}
+
+/**
+ * The disk billing meters.
+ */
+export interface DiskBillingMeters {
+  /**
+   * The managed disk meter guid.
+   */
+  diskRpMeter?: string;
+  /**
+   * The managed disk billing sku, P30 or S30.
+   */
+  sku?: string;
+  /**
+   * The managed disk billing tier, Standard or Premium.
+   */
+  tier?: string;
+}
+
+/**
+ * The billing resources.
+ */
+export interface BillingResources {
+  /**
+   * The region or location.
+   */
+  region?: string;
+  /**
+   * The billing meter information.
+   */
+  billingMeters?: BillingMeters[];
+  /**
+   * The managed disk billing information.
+   */
+  diskBillingMeters?: DiskBillingMeters[];
+}
+
+/**
+ * The response for the operation to get regional billingSpecs for a subscription.
+ */
+export interface BillingResponseListResult {
+  /**
+   * The virtual machine sizes to include or exclude.
+   */
+  vmSizes?: string[];
+  /**
+   * The virtual machine filtering mode. Effectively this can enabling or disabling the virtual
+   * machine sizes in a particular set.
+   */
+  vmSizeFilters?: VmSizeCompatibilityFilterV2[];
+  /**
+   * The billing and managed disk billing resources for a region.
+   */
+  billingResources?: BillingResources[];
+}
+
+/**
  * The configuration object for the specified cluster.
  */
 export interface ClusterConfigurations {
@@ -1515,6 +1628,26 @@ export type LocationsListUsagesResponse = UsagesListResult & {
        * The response body as parsed JSON or XML
        */
       parsedBody: UsagesListResult;
+    };
+};
+
+/**
+ * Contains response data for the listBillingSpecs operation.
+ */
+export type LocationsListBillingSpecsResponse = BillingResponseListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: BillingResponseListResult;
     };
 };
 

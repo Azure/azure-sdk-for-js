@@ -28,18 +28,18 @@ export class Locations {
 
   /**
    * Lists the usages for the specified location.
-   * @param location The location to get capabilities for.
+   * @param location The Azure location (region) for which to make the request.
    * @param [options] The optional parameters
    * @returns Promise<Models.LocationsListUsagesResponse>
    */
   listUsages(location: string, options?: msRest.RequestOptionsBase): Promise<Models.LocationsListUsagesResponse>;
   /**
-   * @param location The location to get capabilities for.
+   * @param location The Azure location (region) for which to make the request.
    * @param callback The callback
    */
   listUsages(location: string, callback: msRest.ServiceCallback<Models.UsagesListResult>): void;
   /**
-   * @param location The location to get capabilities for.
+   * @param location The Azure location (region) for which to make the request.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -52,6 +52,34 @@ export class Locations {
       },
       listUsagesOperationSpec,
       callback) as Promise<Models.LocationsListUsagesResponse>;
+  }
+
+  /**
+   * Lists the billingSpecs for the specified subscription and location.
+   * @param location The Azure location (region) for which to make the request.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.LocationsListBillingSpecsResponse>
+   */
+  listBillingSpecs(location: string, options?: msRest.RequestOptionsBase): Promise<Models.LocationsListBillingSpecsResponse>;
+  /**
+   * @param location The Azure location (region) for which to make the request.
+   * @param callback The callback
+   */
+  listBillingSpecs(location: string, callback: msRest.ServiceCallback<Models.BillingResponseListResult>): void;
+  /**
+   * @param location The Azure location (region) for which to make the request.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listBillingSpecs(location: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BillingResponseListResult>): void;
+  listBillingSpecs(location: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BillingResponseListResult>, callback?: msRest.ServiceCallback<Models.BillingResponseListResult>): Promise<Models.LocationsListBillingSpecsResponse> {
+    return this.client.sendOperationRequest(
+      {
+        location,
+        options
+      },
+      listBillingSpecsOperationSpec,
+      callback) as Promise<Models.LocationsListBillingSpecsResponse>;
   }
 }
 
@@ -73,6 +101,30 @@ const listUsagesOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.UsagesListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const listBillingSpecsOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/providers/Microsoft.HDInsight/locations/{location}/billingSpecs",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.location
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.BillingResponseListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse

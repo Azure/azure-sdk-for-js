@@ -1705,6 +1705,229 @@ export const UsagesListResult: msRest.CompositeMapper = {
   }
 };
 
+export const VmSizeCompatibilityFilterV2: msRest.CompositeMapper = {
+  serializedName: "VmSizeCompatibilityFilterV2",
+  type: {
+    name: "Composite",
+    className: "VmSizeCompatibilityFilterV2",
+    modelProperties: {
+      filterMode: {
+        serializedName: "filterMode",
+        type: {
+          name: "String"
+        }
+      },
+      regions: {
+        serializedName: "regions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      clusterFlavors: {
+        serializedName: "clusterFlavors",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      nodeTypes: {
+        serializedName: "nodeTypes",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      clusterVersions: {
+        serializedName: "clusterVersions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      osType: {
+        serializedName: "osType",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      vmSizes: {
+        serializedName: "vmSizes",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const BillingMeters: msRest.CompositeMapper = {
+  serializedName: "BillingMeters",
+  type: {
+    name: "Composite",
+    className: "BillingMeters",
+    modelProperties: {
+      meterParameter: {
+        serializedName: "meterParameter",
+        type: {
+          name: "String"
+        }
+      },
+      meter: {
+        serializedName: "meter",
+        type: {
+          name: "String"
+        }
+      },
+      unit: {
+        serializedName: "unit",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DiskBillingMeters: msRest.CompositeMapper = {
+  serializedName: "DiskBillingMeters",
+  type: {
+    name: "Composite",
+    className: "DiskBillingMeters",
+    modelProperties: {
+      diskRpMeter: {
+        serializedName: "diskRpMeter",
+        type: {
+          name: "String"
+        }
+      },
+      sku: {
+        serializedName: "sku",
+        type: {
+          name: "String"
+        }
+      },
+      tier: {
+        serializedName: "tier",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const BillingResources: msRest.CompositeMapper = {
+  serializedName: "BillingResources",
+  type: {
+    name: "Composite",
+    className: "BillingResources",
+    modelProperties: {
+      region: {
+        serializedName: "region",
+        type: {
+          name: "String"
+        }
+      },
+      billingMeters: {
+        serializedName: "billingMeters",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "BillingMeters"
+            }
+          }
+        }
+      },
+      diskBillingMeters: {
+        serializedName: "diskBillingMeters",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DiskBillingMeters"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const BillingResponseListResult: msRest.CompositeMapper = {
+  serializedName: "BillingResponseListResult",
+  type: {
+    name: "Composite",
+    className: "BillingResponseListResult",
+    modelProperties: {
+      vmSizes: {
+        serializedName: "vmSizes",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      vmSizeFilters: {
+        serializedName: "vmSizeFilters",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "VmSizeCompatibilityFilterV2"
+            }
+          }
+        }
+      },
+      billingResources: {
+        serializedName: "billingResources",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "BillingResources"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const ClusterConfigurations: msRest.CompositeMapper = {
   serializedName: "ClusterConfigurations",
   type: {
