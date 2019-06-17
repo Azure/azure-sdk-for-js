@@ -3,22 +3,11 @@
 
 import * as dotenv from "dotenv";
 dotenv.config(); // Optional for loading environment configuration from a .env (config) file
-import {
-  Sender,
-  SenderOptions,
-  EventContext,
-  Message,
-  Delivery
-} from "rhea-promise";
-import {
-  authenticate,
-  connectionContext,
-  connectionConfig,
-  path
-} from "./cbsAuth";
+import { Sender, SenderOptions, EventContext, Message, Delivery } from "rhea-promise";
+import { authenticate, connectionContext, connectionConfig, path } from "./cbsAuth";
 
 async function main(): Promise<void> {
-  await authenticate(`${connectionConfig.endpoint}${path}`);
+  await authenticate(`${connectionConfig.endpoint}${path}`, false);
   const senderName = "sender-1";
   const senderOptions: SenderOptions = {
     name: senderName,
@@ -51,23 +40,17 @@ async function main(): Promise<void> {
     }
   };
 
-  const sender: Sender = await connectionContext.connection.createSender(
-    senderOptions
-  );
+  const sender: Sender = await connectionContext.connection.createSender(senderOptions);
   const message: Message = {
     body: "Hello World!!",
     message_id: "12343434343434"
   };
 
   const delivery: Delivery = await sender.send(message);
-  console.log(
-    ">>>>>[%s] Delivery id: ",
-    connectionContext.connection.id,
-    delivery.id
-  );
+  console.log(">>>>>[%s] Delivery id: ", connectionContext.connection.id, delivery.id);
 
   await sender.close();
   await connectionContext.connection.close();
 }
 
-main().catch(err => console.log(err));
+main().catch((err) => console.log(err));
