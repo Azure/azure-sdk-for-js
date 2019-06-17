@@ -986,7 +986,7 @@ export interface PlatformProperties {
    */
   os: OS;
   /**
-   * The OS architecture. Possible values include: 'amd64', 'x86', 'arm', 'arm64'
+   * The OS architecture. Possible values include: 'amd64', 'x86', '386', 'arm', 'arm64'
    */
   architecture?: Architecture;
   /**
@@ -1556,7 +1556,7 @@ export interface PlatformUpdateParameters {
    */
   os?: OS;
   /**
-   * The OS architecture. Possible values include: 'amd64', 'x86', 'arm', 'arm64'
+   * The OS architecture. Possible values include: 'amd64', 'x86', '386', 'arm', 'arm64'
    */
   architecture?: Architecture;
   /**
@@ -2696,11 +2696,11 @@ export type OS = 'Windows' | 'Linux';
 
 /**
  * Defines values for Architecture.
- * Possible values include: 'amd64', 'x86', 'arm', 'arm64'
+ * Possible values include: 'amd64', 'x86', '386', 'arm', 'arm64'
  * @readonly
  * @enum {string}
  */
-export type Architecture = 'amd64' | 'x86' | 'arm' | 'arm64';
+export type Architecture = 'amd64' | 'x86' | '386' | 'arm' | 'arm64';
 
 /**
  * Defines values for Variant.
