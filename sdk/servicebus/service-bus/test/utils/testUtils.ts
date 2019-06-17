@@ -17,7 +17,6 @@ import { recreateQueue, recreateSubscription, recreateTopic } from "./aadUtils";
 
 import * as dotenv from "dotenv";
 dotenv.config();
-const env = getEnvVars();
 
 const defaultLockDuration = "PT30S"; // 30 seconds in ISO 8601 FORMAT - equivalent to "P0Y0M0DT0H0M30S"
 
@@ -163,7 +162,12 @@ export async function getTopicClientWithTwoSubscriptionClients(
   topicClient: TopicClient;
   subscriptionClients: SubscriptionClient[];
 }> {
-  const env = getEnvVars();
+  let env;
+  if (isNode) {
+    env = getEnvVars();
+  } else {
+    env = getEnvVars(true);
+  }
   const subscriptionClients: SubscriptionClient[] = [];
   if (isNode) {
     if (env[EnvVarKeys.CLEAN_NAMESPACE]) {
@@ -216,7 +220,12 @@ export async function getSenderReceiverClients(
   senderClient: QueueClient | TopicClient;
   receiverClient: QueueClient | SubscriptionClient;
 }> {
-  const env = getEnvVars();
+  let env;
+  if (isNode) {
+    env = getEnvVars();
+  } else {
+    env = getEnvVars(true);
+  }
 
   switch (receiverClientType) {
     case TestClientType.PartitionedQueue: {
