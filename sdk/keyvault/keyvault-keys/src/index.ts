@@ -150,7 +150,7 @@ export class KeysClient {
   /**
    * Creates an instance of KeysClient.
    * @param {string} url the base url to the key vault.
-   * @param {ServiceClientCredentials} credential credential.
+   * @param {ServiceClientCredentials | TokenCredential} The credential to use for API requests.
    * @param {(Pipeline | NewPipelineOptions)} [pipelineOrOptions={}] Optional. A Pipeline, or options to create a default Pipeline instance.
    *                                                                 Omitting this parameter to create the default Pipeline instance.
    * @memberof KeysClient
@@ -164,7 +164,7 @@ export class KeysClient {
     this.credential = credential;
     if (isNewPipelineOptions(pipelineOrOptions)) {
       this.pipeline = KeysClient.getDefaultPipeline(
-        credential as ServiceClientCredentials,
+        credential,
         pipelineOrOptions
       );
     } else {

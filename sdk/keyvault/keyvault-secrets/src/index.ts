@@ -133,7 +133,7 @@ export class SecretsClient {
   /**
    * Creates an instance of SecretsClient.
    * @param {string} url the base url to the key vault.
-   * @param {ServiceClientCredentials} credential credential.
+   * @param {ServiceClientCredentials | TokenCredential} The credential to use for API requests.
    * @param {(Pipeline | NewPipelineOptions)} [pipelineOrOptions={}] Optional. A Pipeline, or options to create a default Pipeline instance.
    *                                                                 Omitting this parameter to create the default Pipeline instance.
    * @memberof SecretsClient
