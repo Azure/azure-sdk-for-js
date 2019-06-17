@@ -4,20 +4,7 @@ pr:
     - master
   paths:
     exclude:
-    - sdk/core/
-    - sdk/cosmosdb/cosmos/
-    - sdk/eventhub/
-    - sdk/identity/
-    - sdk/keyvault/keyvault-certificates/
-    - sdk/keyvault/keyvault-keys/
-    - sdk/keyvault/keyvault-secrets/
-    - sdk/keyvault/keyvault/
-    - sdk/servicebus/service-bus/
-    - sdk/storage/storage-blob/
-    - sdk/storage/storage-datalake/
-    - sdk/storage/storage-file/
-    - sdk/storage/storage-queue/
-    - sdk/template/template/
+    - sdk/core/;sdk/cosmosdb/cosmos/;sdk/eventhub/;sdk/identity/;sdk/keyvault/keyvault-certificates/;sdk/keyvault/keyvault-keys/;sdk/keyvault/keyvault-secrets/;sdk/keyvault/keyvault/;sdk/servicebus/service-bus/;sdk/storage/storage-blob/;sdk/storage/storage-datalake/;sdk/storage/storage-file/;sdk/storage/storage-queue/;sdk/template/template/
 
 variables:
   NodeVersion: '12.x'
