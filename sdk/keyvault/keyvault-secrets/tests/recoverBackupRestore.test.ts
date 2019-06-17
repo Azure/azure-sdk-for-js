@@ -1,18 +1,11 @@
 import * as assert from "assert";
 import { expect } from "chai";
-import {
-  getKeyvaultName,
-  getCredentialWithServicePrincipalSecret,
-  getUniqueName
-} from "./utils/utils.common";
+import { getKeyvaultName, getUniqueName } from "./utils/utils.common";
 import { SecretsClient } from "../src";
-import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
-import { delay } from "@azure/ms-rest-js";
+import { TokenCredential, delay } from "@azure/core-http";
+import { EnvironmentCredential } from "@azure/identity";
 
 describe("Secret client - recover, backup and restore operations", () => {
-  const clientId = process.env["AAD_CLIENT_ID"] || "";
-  const clientSecret = process.env["AAD_CLIENT_SECRET"] || "";
-  const tenantId = process.env["AAD_TENANT_ID"] || "";
   const vaultName = process.env["KEYVAULT_NAME"] || "<keyvault-name>";
 
   let client: SecretsClient;
@@ -26,16 +19,7 @@ describe("Secret client - recover, backup and restore operations", () => {
 
   before(async () => {
     const url = `https://${vaultName}.vault.azure.net`;
-
-    const credential = await msRestNodeAuth.loginWithServicePrincipalSecret(
-      clientId,
-      clientSecret,
-      tenantId,
-      {
-        tokenAudience: "https://vault.azure.net"
-      }
-    );
-
+    const credential = new EnvironmentCredential();
     client = new SecretsClient(url, credential);
     version = "";
   });

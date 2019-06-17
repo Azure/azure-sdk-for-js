@@ -8,25 +8,29 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as coreHttp from "@azure/core-http";
 
 const packageName = "@azure/keyvault-keys";
 const packageVersion = "0.0.1";
 
-export class KeyVaultClientContext extends msRestAzure.AzureServiceClient {
-  credentials: msRest.ServiceClientCredentials;
-  apiVersion?: string;
+export class KeyVaultClientContext extends coreHttp.ServiceClient {
+  apiVersion: string;
+  credentials: coreHttp.ServiceClientCredentials | coreHttp.TokenCredential;
 
   /**
-   * Initializes a new instance of the KeyVaultClient class.
-   * @param credentials Credentials needed for the client to connect to Azure.
+   * Initializes a new instance of the KeyVaultClientContext class.
+   * @param apiVersion Client API version.
+   * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param [options] The parameter options
    */
   constructor(
-    credentials: msRest.ServiceClientCredentials,
-    options?: msRestAzure.AzureServiceClientOptions
+    credentials: coreHttp.ServiceClientCredentials | coreHttp.TokenCredential,
+    apiVersion: string,
+    options?: coreHttp.ServiceClientOptions
   ) {
+    if (apiVersion == undefined) {
+      throw new Error("'apiVersion' cannot be null.");
+    }
     if (credentials == undefined) {
       throw new Error("'credentials' cannot be null.");
     }
@@ -34,28 +38,17 @@ export class KeyVaultClientContext extends msRestAzure.AzureServiceClient {
     if (!options) {
       options = {};
     }
+
     if (!options.userAgent) {
-      const defaultUserAgent = msRestAzure.getDefaultUserAgentValue();
+      const defaultUserAgent = coreHttp.getDefaultUserAgentValue();
       options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
     }
 
     super(credentials, options);
 
-    this.apiVersion = "7.0";
-    this.acceptLanguage = "en-US";
-    this.longRunningOperationRetryTimeout = 30;
     this.baseUri = "{vaultBaseUrl}";
     this.requestContentType = "application/json; charset=utf-8";
+    this.apiVersion = apiVersion;
     this.credentials = credentials;
-
-    if (options.acceptLanguage !== null && options.acceptLanguage !== undefined) {
-      this.acceptLanguage = options.acceptLanguage;
-    }
-    if (
-      options.longRunningOperationRetryTimeout !== null &&
-      options.longRunningOperationRetryTimeout !== undefined
-    ) {
-      this.longRunningOperationRetryTimeout = options.longRunningOperationRetryTimeout;
-    }
   }
 }
