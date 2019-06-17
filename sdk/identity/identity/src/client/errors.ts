@@ -60,8 +60,8 @@ export class AuthenticationError extends Error {
     this.statusCode = statusCode;
     this.errorResponse = errorResponse;
 
-    // Restore the object prototype since Error's constructor futzes with it
-    Object.setPrototypeOf(this, new.target.prototype);
+    // Ensure that this type reports the correct name
+    this.name = "AuthenticationError";
   }
 }
 
@@ -71,7 +71,7 @@ export class AggregateAuthenticationError extends Error {
     super("Authentication failed to complete due to errors");
     this.errors = errors;
 
-    // Restore the object prototype since Error's constructor futzes with it
-    Object.setPrototypeOf(this, new.target.prototype);
+    // Ensure that this type reports the correct name
+    this.name = "AggregateAuthenticationError";
   }
 }

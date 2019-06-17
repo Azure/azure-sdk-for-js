@@ -39,7 +39,10 @@ describe("IdentityClient", function () {
 
     await assertRejects(
       client.authenticateClientSecret("tenant", "client", "secret", "https://test/.default"),
-      error => error instanceof AuthenticationError
+      error => {
+        assert.strictEqual(error.name, 'AuthenticationError')
+        return true;
+      }
     );
   });
 
