@@ -113,13 +113,25 @@ export class StreamingReceiver extends EventHubReceiver {
     this._onMessage = onMessage;
     this._onError = onError;
     if (abortSignal) {
+      // exit early if operation already cancelled
+      if (abortSignal.aborted) {
+        this._onAbort();
+        return this.receiveHandler;
+      }
+
       this._abortSignal = abortSignal;
       this._abortSignal.addEventListener("abort", this._onAbort);
     }
     if (!this.isOpen()) {
-      this._init().catch(err => {
-        this._onError!(err);
-      });
+      this._init()
+        .then(() => {
+          if (abortSignal && abortSignal.aborted) {
+            return this._onAbort();
+          }
+        })
+        .catch(err => {
+          this._onError!(err);
+        });
     } else {
       // It is possible that the receiver link has been established due to a previous receive() call. If that
       // is the case then add message and error event handlers to the receiver. When the receiver will be closed

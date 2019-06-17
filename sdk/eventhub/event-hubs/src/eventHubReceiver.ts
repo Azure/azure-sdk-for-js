@@ -18,7 +18,7 @@ import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";
 import { EventPosition } from "./eventPosition";
 import { getEventPositionFilter } from "./util/utils";
-import { AbortSignalLike } from "@azure/abort-controller";
+import { AbortSignalLike, AbortError } from "@azure/abort-controller";
 
 interface CreateReceiverOptions {
   onMessage: OnAmqpEvent;
@@ -243,7 +243,7 @@ export class EventHubReceiver extends LinkEntity {
         `address "${this.address}" has been cancelled by the user.`;
       log.error(desc);
       await this.close();
-      this._onError!(new Error(desc));
+      this._onError!(new AbortError("The receive operation has been cancelled by the user."));
     };
 
     this._onAmqpError = (context: EventContext) => {
