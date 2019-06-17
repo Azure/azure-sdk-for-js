@@ -11,21 +11,21 @@ const defaultLockDuration = "PT30S"; // 30 seconds in ISO 8601 FORMAT - equivale
 
 EnvVarKeys = {
   SERVICEBUS_CONNECTION_STRING: "SERVICEBUS_CONNECTION_STRING",
-  QUEUE_NAME: "QUEUE_NAME",
-  QUEUE_NAME_NO_PARTITION: "QUEUE_NAME_NO_PARTITION",
-  QUEUE_NAME_SESSION: "QUEUE_NAME_SESSION",
-  QUEUE_NAME_NO_PARTITION_SESSION: "QUEUE_NAME_NO_PARTITION_SESSION",
-  TOPIC_NAME: "TOPIC_NAME",
-  TOPIC_NAME_NO_PARTITION: "TOPIC_NAME_NO_PARTITION",
-  TOPIC_NAME_SESSION: "TOPIC_NAME_SESSION",
-  TOPIC_NAME_NO_PARTITION_SESSION: "TOPIC_NAME_NO_PARTITION_SESSION",
-  SUBSCRIPTION_NAME: "SUBSCRIPTION_NAME",
-  SUBSCRIPTION_NAME_NO_PARTITION: "SUBSCRIPTION_NAME_NO_PARTITION",
-  SUBSCRIPTION_NAME_SESSION: "SUBSCRIPTION_NAME_SESSION",
-  SUBSCRIPTION_NAME_NO_PARTITION_SESSION: "SUBSCRIPTION_NAME_NO_PARTITION_SESSION",
-  TOPIC_FILTER_NAME: "TOPIC_FILTER_NAME",
-  TOPIC_FILTER_SUBSCRIPTION_NAME: "TOPIC_FILTER_SUBSCRIPTION_NAME",
-  TOPIC_FILTER_DEFAULT_SUBSCRIPTION_NAME: "TOPIC_FILTER_DEFAULT_SUBSCRIPTION_NAME",
+  QUEUE_NAME: "QUEUE_NAME_BROWSER",
+  QUEUE_NAME_NO_PARTITION: "QUEUE_NAME_NO_PARTITION_BROWSER",
+  QUEUE_NAME_SESSION: "QUEUE_NAME_SESSION_BROWSER",
+  QUEUE_NAME_NO_PARTITION_SESSION: "QUEUE_NAME_NO_PARTITION_SESSION_BROWSER",
+  TOPIC_NAME: "TOPIC_NAME_BROWSER",
+  TOPIC_NAME_NO_PARTITION: "TOPIC_NAME_NO_PARTITION_BROWSER",
+  TOPIC_NAME_SESSION: "TOPIC_NAME_SESSION_BROWSER",
+  TOPIC_NAME_NO_PARTITION_SESSION: "TOPIC_NAME_NO_PARTITION_SESSION_BROWSER",
+  SUBSCRIPTION_NAME: "SUBSCRIPTION_NAME_BROWSER",
+  SUBSCRIPTION_NAME_NO_PARTITION: "SUBSCRIPTION_NAME_NO_PARTITION_BROWSER",
+  SUBSCRIPTION_NAME_SESSION: "SUBSCRIPTION_NAME_SESSION_BROWSER",
+  SUBSCRIPTION_NAME_NO_PARTITION_SESSION: "SUBSCRIPTION_NAME_NO_PARTITION_SESSION_BROWSER",
+  TOPIC_FILTER_NAME: "TOPIC_FILTER_NAME_BROWSER",
+  TOPIC_FILTER_SUBSCRIPTION_NAME: "TOPIC_FILTER_SUBSCRIPTION_NAME_BROWSER",
+  TOPIC_FILTER_DEFAULT_SUBSCRIPTION_NAME: "TOPIC_FILTER_DEFAULT_SUBSCRIPTION_NAME_BROWSER",
   AAD_CLIENT_ID: "AAD_CLIENT_ID",
   AAD_CLIENT_SECRET: "AAD_CLIENT_SECRET",
   AAD_TENANT_ID: "AAD_TENANT_ID",
@@ -44,7 +44,7 @@ const aadRelatedEnvVars = [
   EnvVarKeys.RESOURCE_GROUP
 ];
 
-const env = getEnvVars(true);
+const env = getEnvVars();
 
 buildResources()
   .then(() => {
@@ -255,98 +255,62 @@ function getNamespace(serviceBusConnectionString) {
 function throwMissingEnvironmentVariablesError(envVars) {
   envVars.forEach(function(key) {
     const name = key.valueOf();
-    if (!getEnvVarValue(name)) {
+    if (!process.env[name]) {
       throw new Error(`Define ${name} in your environment before running integration tests.`);
     }
   });
 }
 
-function getEnvVarValue(name, forBrowser) {
-  if (forBrowser) {
-    name = name + "_BROWSER";
-  }
-  return process.env[name];
-}
-
-function getEnvVars(forBrowser) {
+function getEnvVars() {
   // Throw error only if mandatory env variable is missing
   // Or, if CLEAN_NAMESPACE is enabled and AAD related details are not provided
   throwMissingEnvironmentVariablesError(mandatoryEnvVars);
 
-  if (getEnvVarValue(EnvVarKeys.CLEAN_NAMESPACE) === "true") {
+  if (process.env[EnvVarKeys.CLEAN_NAMESPACE] === "true") {
     throwMissingEnvironmentVariablesError(aadRelatedEnvVars);
   }
 
   return {
-    [EnvVarKeys.SERVICEBUS_CONNECTION_STRING]: getEnvVarValue(
-      EnvVarKeys.SERVICEBUS_CONNECTION_STRING,
-      forBrowser
-    ),
-    [EnvVarKeys.QUEUE_NAME]:
-      getEnvVarValue(EnvVarKeys.QUEUE_NAME, forBrowser) || forBrowser
-        ? "partitioned-queue-browser"
-        : "partitioned-queue",
+    [EnvVarKeys.SERVICEBUS_CONNECTION_STRING]: process.env[EnvVarKeys.SERVICEBUS_CONNECTION_STRING],
+    [EnvVarKeys.QUEUE_NAME]: process.env[EnvVarKeys.QUEUE_NAME] || "partitioned-queue-browser",
     [EnvVarKeys.QUEUE_NAME_NO_PARTITION]:
-      getEnvVarValue(EnvVarKeys.QUEUE_NAME_NO_PARTITION, forBrowser) || forBrowser
-        ? "unpartitioned-queue-browser"
-        : "unpartitioned-queue",
+      process.env[EnvVarKeys.QUEUE_NAME_NO_PARTITION] || "unpartitioned-queue-browser",
     [EnvVarKeys.QUEUE_NAME_SESSION]:
-      getEnvVarValue(EnvVarKeys.QUEUE_NAME_SESSION, forBrowser) || forBrowser
-        ? "partitioned-queue-sessions-browser"
-        : "partitioned-queue-sessions",
+      process.env[EnvVarKeys.QUEUE_NAME_SESSION] || "partitioned-queue-sessions-browser",
     [EnvVarKeys.QUEUE_NAME_NO_PARTITION_SESSION]:
-      getEnvVarValue(EnvVarKeys.QUEUE_NAME_NO_PARTITION_SESSION, forBrowser) || forBrowser
-        ? "unpartitioned-queue-sessions-browser"
-        : "unpartitioned-queue-sessions",
-    [EnvVarKeys.TOPIC_NAME]:
-      getEnvVarValue(EnvVarKeys.TOPIC_NAME, forBrowser) || forBrowser
-        ? "partitioned-topic-browser"
-        : "partitioned-topic",
+      process.env[EnvVarKeys.QUEUE_NAME_NO_PARTITION_SESSION] ||
+      "unpartitioned-queue-sessions-browser",
+    [EnvVarKeys.TOPIC_NAME]: process.env[EnvVarKeys.TOPIC_NAME] || "partitioned-topic-browser",
     [EnvVarKeys.TOPIC_NAME_NO_PARTITION]:
-      getEnvVarValue(EnvVarKeys.TOPIC_NAME_NO_PARTITION, forBrowser) || forBrowser
-        ? "unpartitioned-topic-browser"
-        : "unpartitioned-topic",
+      process.env[EnvVarKeys.TOPIC_NAME_NO_PARTITION] || "unpartitioned-topic-browser",
     [EnvVarKeys.TOPIC_NAME_SESSION]:
-      getEnvVarValue(EnvVarKeys.TOPIC_NAME_SESSION, forBrowser) || forBrowser
-        ? "partitioned-topic-sessions-browser"
-        : "partitioned-topic-sessions",
+      process.env[EnvVarKeys.TOPIC_NAME_SESSION] || "partitioned-topic-sessions-browser",
     [EnvVarKeys.TOPIC_NAME_NO_PARTITION_SESSION]:
-      getEnvVarValue(EnvVarKeys.TOPIC_NAME_NO_PARTITION_SESSION, forBrowser) || forBrowser
-        ? "unpartitioned-topic-sessions-browser"
-        : "unpartitioned-topic-sessions",
+      process.env[EnvVarKeys.TOPIC_NAME_NO_PARTITION_SESSION] ||
+      "unpartitioned-topic-sessions-browser",
     [EnvVarKeys.SUBSCRIPTION_NAME]:
-      getEnvVarValue(EnvVarKeys.SUBSCRIPTION_NAME, forBrowser) || forBrowser
-        ? "partitioned-topic-subscription-browser"
-        : "partitioned-topic-subscription",
+      process.env[EnvVarKeys.SUBSCRIPTION_NAME] || "partitioned-topic-subscription-browser",
     [EnvVarKeys.SUBSCRIPTION_NAME_NO_PARTITION]:
-      getEnvVarValue(EnvVarKeys.SUBSCRIPTION_NAME_NO_PARTITION, forBrowser) || forBrowser
-        ? "unpartitioned-topic-subscription-browser"
-        : "unpartitioned-topic-subscription",
+      process.env[EnvVarKeys.SUBSCRIPTION_NAME_NO_PARTITION] ||
+      "unpartitioned-topic-subscription-browser",
     [EnvVarKeys.SUBSCRIPTION_NAME_SESSION]:
-      getEnvVarValue(EnvVarKeys.SUBSCRIPTION_NAME_SESSION, forBrowser) || forBrowser
-        ? "partitioned-topic-sessions-subscription-browser"
-        : "partitioned-topic-sessions-subscription",
+      process.env[EnvVarKeys.SUBSCRIPTION_NAME_SESSION] ||
+      "partitioned-topic-sessions-subscription-browser",
     [EnvVarKeys.SUBSCRIPTION_NAME_NO_PARTITION_SESSION]:
-      getEnvVarValue(EnvVarKeys.SUBSCRIPTION_NAME_NO_PARTITION_SESSION, forBrowser) || forBrowser
-        ? "unpartitioned-topic-sessions-subscription-browser"
-        : "unpartitioned-topic-sessions-subscription",
+      process.env[EnvVarKeys.SUBSCRIPTION_NAME_NO_PARTITION_SESSION] ||
+      "unpartitioned-topic-sessions-subscription-browser",
     [EnvVarKeys.TOPIC_FILTER_NAME]:
-      getEnvVarValue(EnvVarKeys.TOPIC_FILTER_NAME, forBrowser) || forBrowser
-        ? "topic-filter-browser"
-        : "topic-filter",
+      process.env[EnvVarKeys.TOPIC_FILTER_NAME] || "topic-filter-browser",
     [EnvVarKeys.TOPIC_FILTER_SUBSCRIPTION_NAME]:
-      getEnvVarValue(EnvVarKeys.TOPIC_FILTER_SUBSCRIPTION_NAME, forBrowser) || forBrowser
-        ? "topic-filter-subscription-browser"
-        : "topic-filter-subscription",
+      process.env[EnvVarKeys.TOPIC_FILTER_SUBSCRIPTION_NAME] || "topic-filter-subscription-browser",
     [EnvVarKeys.TOPIC_FILTER_DEFAULT_SUBSCRIPTION_NAME]:
-      getEnvVarValue(EnvVarKeys.TOPIC_FILTER_DEFAULT_SUBSCRIPTION_NAME, forBrowser) || forBrowser
-        ? "topic-filter-default-subscription-browser"
-        : "topic-filter-default-subscription",
-    [EnvVarKeys.AAD_CLIENT_ID]: getEnvVarValue(EnvVarKeys.AAD_CLIENT_ID),
-    [EnvVarKeys.AAD_CLIENT_SECRET]: getEnvVarValue(EnvVarKeys.AAD_CLIENT_SECRET),
-    [EnvVarKeys.AAD_TENANT_ID]: getEnvVarValue(EnvVarKeys.AAD_TENANT_ID),
-    [EnvVarKeys.RESOURCE_GROUP]: getEnvVarValue(EnvVarKeys.RESOURCE_GROUP),
-    [EnvVarKeys.AZURE_SUBSCRIPTION_ID]: getEnvVarValue(EnvVarKeys.AZURE_SUBSCRIPTION_ID),
-    [EnvVarKeys.CLEAN_NAMESPACE]: getEnvVarValue(EnvVarKeys.CLEAN_NAMESPACE) || false
+      process.env[EnvVarKeys.TOPIC_FILTER_DEFAULT_SUBSCRIPTION_NAME] ||
+      "topic-filter-default-subscription-browser",
+    [EnvVarKeys.AAD_CLIENT_ID]: process.env[EnvVarKeys.AAD_CLIENT_ID],
+    [EnvVarKeys.AAD_CLIENT_SECRET]: process.env[EnvVarKeys.AAD_CLIENT_SECRET],
+    [EnvVarKeys.AAD_TENANT_ID]: process.env[EnvVarKeys.AAD_TENANT_ID],
+    [EnvVarKeys.RESOURCE_GROUP]: process.env[EnvVarKeys.RESOURCE_GROUP],
+    [EnvVarKeys.AZURE_SUBSCRIPTION_ID]: process.env[EnvVarKeys.AZURE_SUBSCRIPTION_ID],
+    [EnvVarKeys.CLEAN_NAMESPACE]: process.env[EnvVarKeys.CLEAN_NAMESPACE] || false
   };
 }
