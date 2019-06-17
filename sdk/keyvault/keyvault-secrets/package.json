@@ -13,8 +13,7 @@
     "typescript",
     "browser",
     "isomorphic",
-    "keyvault",
-    "kv"
+    "keyvault"
   ],
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
