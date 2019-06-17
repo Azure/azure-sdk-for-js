@@ -81,7 +81,7 @@ export interface ServiceListQueuesSegmentOptions {
    * about request cancellation.
    *
    * @type {Aborter}
-   * @memberof AppendBlobCreateOptions
+   * @memberof ServiceListQueuesSegmentOptions
    */
   abortSignal?: Aborter;
   /**
@@ -120,7 +120,7 @@ export interface ServiceListQueuesOptions {
    * about request cancellation.
    *
    * @type {Aborter}
-   * @memberof AppendBlobCreateOptions
+   * @memberof ServiceListQueuesOptions
    */
   abortSignal?: Aborter;
   /**
