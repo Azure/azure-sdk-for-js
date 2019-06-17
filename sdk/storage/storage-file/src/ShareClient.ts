@@ -17,7 +17,7 @@ import {
   extractConnectionStringParts
 } from "./utils/utils.common";
 import { DirectoryClient, DirectoryCreateOptions, DirectoryDeleteOptions } from "./DirectoryClient";
-import { FileCreateOptions, FileDeleteOptions } from "./FileClient";
+import { FileCreateOptions, FileDeleteOptions, FileClient } from "./FileClient";
 import { Credential } from "./credentials/Credential";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
@@ -409,7 +409,7 @@ export class ShareClient extends StorageClient {
    * Note that the root directory always exists and cannot be deleted.
    *
    * @readonly
-   * @type {DirectoryClient}
+   * @type {DirectoryClient} A new DirectoryClient object for the root directory.
    * @memberof ShareClient
    */
   public get rootDirectoryClient(): DirectoryClient {
@@ -420,13 +420,18 @@ export class ShareClient extends StorageClient {
    * Creates a new subdirectory under this share.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-directory
    *
-   *
    * @param {string} directoryName
    * @param {DirectoryCreateOptions} [options] Options to Directory Create operation.
-   * @returns Directory creation response data and the corresponding directory client.
+   * @returns {Promise<{ directoryClient: DirectoryClient, directoryCreateResponse: Models.DirectoryCreateResponse }>} Directory creation response data and the corresponding directory client.
    * @memberof ShareClient
    */
-  public async createDirectory(directoryName: string, options?: DirectoryCreateOptions) {
+  public async createDirectory(
+    directoryName: string,
+    options?: DirectoryCreateOptions
+  ): Promise<{
+    directoryClient: DirectoryClient;
+    directoryCreateResponse: Models.DirectoryCreateResponse;
+  }> {
     const directoryClient = this.createDirectoryClient(directoryName);
     const directoryCreateResponse = await directoryClient.create(options);
     return {
@@ -442,10 +447,13 @@ export class ShareClient extends StorageClient {
    *
    * @param {string} directoryName
    * @param {DirectoryDeleteOptions} [options] Options to Directory Delete operation.
-   * @returns Directory deletion response data.
+   * @returns {Promise<Models.DirectoryDeleteResponse>} Directory deletion response data.
    * @memberof ShareClient
    */
-  public async deleteDirectory(directoryName: string, options?: DirectoryDeleteOptions) {
+  public async deleteDirectory(
+    directoryName: string,
+    options?: DirectoryDeleteOptions
+  ): Promise<Models.DirectoryDeleteResponse> {
     const directoryClient = this.createDirectoryClient(directoryName);
     return await directoryClient.delete(options);
   }
@@ -458,10 +466,14 @@ export class ShareClient extends StorageClient {
    * @param {string} fileName
    * @param {number} size Specifies the maximum size in bytes for the file, up to 1 TB.
    * @param {FileCreateOptions} [options] Options to File Create operation.
-   * @returns File creation response data and the corresponding file client.
+   * @returns {Promise<{ fileClient: FileClient, fileCreateResponse: Models.FileCreateResponse }>} File creation response data and the corresponding file client.
    * @memberof ShareClient
    */
-  public async createFile(fileName: string, size: number, options?: FileCreateOptions) {
+  public async createFile(
+    fileName: string,
+    size: number,
+    options?: FileCreateOptions
+  ): Promise<{ fileClient: FileClient; fileCreateResponse: Models.FileCreateResponse }> {
     const directoryClient = this.rootDirectoryClient;
     const fileClient = directoryClient.createFileClient(fileName);
     const fileCreateResponse = await fileClient.create(size, options);
@@ -488,10 +500,13 @@ export class ShareClient extends StorageClient {
    * @param {string} directoryName
    * @param {string} fileName
    * @param {FileDeleteOptions} [options] Options to File Delete operation.
-   * @returns
+   * @returns Promise<Models.FileDeleteResponse> File Delete response data.
    * @memberof ShareClient
    */
-  public async deleteFile(fileName: string, options?: FileDeleteOptions) {
+  public async deleteFile(
+    fileName: string,
+    options?: FileDeleteOptions
+  ): Promise<Models.FileDeleteResponse> {
     const directoryClient = this.rootDirectoryClient;
     const fileClient = directoryClient.createFileClient(fileName);
     return await fileClient.delete(options);

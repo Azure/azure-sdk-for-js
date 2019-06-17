@@ -61,6 +61,14 @@
     "node": ">=6.0.0"
   },
   "homepage": "https://github.com/azure/azure-sdk-for-js/tree/master/sdk/core/identity",
+  "sideEffects": false,
+  "private": true,
+  "dependencies": {
+    "@azure/core-http": "^1.2.6",
+    "events": "^3.0.0",
+    "qs": "6.7.0",
+    "tslib": "^1.9.3"
+  },
   "devDependencies": {
     "@types/mocha": "^5.2.5",
     "@types/node": "^8.0.0",
@@ -77,7 +85,7 @@
     "prettier": "^1.16.4",
     "rimraf": "^2.6.2",
     "rollup": "~1.13.1",
-    "rollup-plugin-commonjs": "^9.2.0",
+    "rollup-plugin-commonjs": "^10.0.0",
     "rollup-plugin-json": "^3.1.0",
     "rollup-plugin-multi-entry": "^2.1.0",
     "rollup-plugin-node-resolve": "^4.2.0",
@@ -87,13 +95,5 @@
     "rollup-plugin-visualizer": "^1.0.0",
     "typescript": "^3.2.2",
     "util": "^0.11.1"
-  },
-  "sideEffects": false,
-  "dependencies": {
-    "@azure/core-http": "^1.2.6",
-    "events": "^3.0.0",
-    "qs": "6.7.0",
-    "tslib": "^1.9.3"
-  },
-  "private": true
+  }
 }

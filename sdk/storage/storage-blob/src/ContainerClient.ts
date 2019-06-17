@@ -532,10 +532,10 @@ export class ContainerClient extends StorageClient {
    * Creates a BlobClient object.
    *
    * @param {string} blobName A blob name
-   * @returns
+   * @returns {BlobClient} A new BlobClient object for the given blob name.
    * @memberof BlobClient
    */
-  public createBlobClient(blobName: string) {
+  public createBlobClient(blobName: string): BlobClient {
     return new BlobClient(appendToURLPath(this.url, encodeURIComponent(blobName)), this.pipeline);
   }
 
@@ -802,10 +802,10 @@ export class ContainerClient extends StorageClient {
    * Get a LeaseClient that manages leases on the container.
    *
    * @param {string} [proposeLeaseId] Initial proposed lease Id.
-   * @returns
+   * @returns {LeaseClient} A new LeaseClient object for managing leases on the container.
    * @memberof ContainerClient
    */
-  public getLeaseClient(proposeLeaseId?: string) {
+  public getLeaseClient(proposeLeaseId?: string): LeaseClient {
     return new LeaseClient(this, proposeLeaseId);
   }
 
@@ -829,7 +829,7 @@ export class ContainerClient extends StorageClient {
    * @param {number} contentLength Length of body in bytes. Use Buffer.byteLength() to calculate body length for a
    *                               string including non non-Base64/Hex-encoded characters.
    * @param {BlockBlobUploadOptions} [options] Options to configure the Block Blob Upload operation.
-   * @returns Block Blob upload response data and the corresponding BlockBlobClient instance.
+   * @returns {Promise<{ blockBlobClient: BlockBlobClient; response: Models.BlockBlobUploadResponse }>} Block Blob upload response data and the corresponding BlockBlobClient instance.
    * @memberof ContainerClient
    */
   public async uploadBlockBlob(
@@ -837,7 +837,7 @@ export class ContainerClient extends StorageClient {
     body: HttpRequestBody,
     contentLength: number,
     options?: BlockBlobUploadOptions
-  ) {
+  ): Promise<{ blockBlobClient: BlockBlobClient; response: Models.BlockBlobUploadResponse }> {
     const blockBlobClient = this.createBlockBlobClient(blobName);
     const response = await blockBlobClient.upload(body, contentLength, options);
     return {
@@ -858,7 +858,10 @@ export class ContainerClient extends StorageClient {
    * @returns {Promise<Models.BlobDeleteResponse>} Block blob deletion response data.
    * @memberof ContainerClient
    */
-  public async deleteBlob(blobName: string, options?: BlobDeleteOptions) {
+  public async deleteBlob(
+    blobName: string,
+    options?: BlobDeleteOptions
+  ): Promise<Models.BlobDeleteResponse> {
     const blobClient = this.createBlobClient(blobName);
     return await blobClient.delete(options);
   }
