@@ -45,27 +45,27 @@ You also need to enable `compilerOptions.allowSyntheticDefaultImports` in your t
 
 ### Authenticate the client
 
-To use the key vault from TypeScript/JavaScript, you need to first authenticate with the key vault service. Here's an example authentication:
+To use the key vault from TypeScript/JavaScript, you need to first authenticate with the key vault service. To authenticate, first we import the identity and SecretsClient, which will connect to the key vault.
 
 ```typescript
+import { EnvironmentCredential } from "@azure/identity";
 import { SecretsClient } from "@azure/keyvault-secrets";
-import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
+```
 
-const clientId = process.env["CLIENT_ID"] || "";
-const clientSecret = process.env["CLIENT_SECRET"] || "";
-const tenantId = process.env["TENANT_ID"] || "";
-const vaultName = process.env["KEYVAULT_NAME"] || "<keyvault-name>"
+Once these are imported, we can next connect to the key vault service. To do this, we'll need to copy some settings from the key vault we are connecting to into our environment variables. Once they are in our environment, we can access them with the following code:
 
+```typescript
+// EnvironmentCredential expects the following three environment variables:
+// * AZURE_TENANT_ID: The tenant ID in Azure Active Directory
+// * AZURE_CLIENT_ID: The application (client) ID registered in the AAD tenant
+// * AZURE_CLIENT_SECRET: The client secret for the registered application
+const credential = new EnvironmentCredential();
+
+// Build the URL to reach your key vault
+const vaultName = "<YOUR KEYVAULT NAME>";
 const url = `https://${vaultName}.vault.azure.net`;
-const credential = await msRestNodeAuth.loginWithServicePrincipalSecret(
-  clientId,
-  clientSecret,
-  tenantId,
-  {
-    tokenAudience: 'https://vault.azure.net'
-  }
-);
 
+// Lastly, create our secrets client and connect to the service
 const client = new SecretsClient(url, credential);
 ```
 
@@ -73,8 +73,7 @@ const client = new SecretsClient(url, credential);
 
 ### Creating secrets and secret versions
 
-Azure Key Vault allows you to create secrets that are stored in the key vault. When a secret is first created, it is given a n
-ame and a value. This name acts as a way to reach the secret later.
+Azure Key Vault allows you to create secrets that are stored in the key vault. When a secret is first created, it is given a name and a value. This name acts as a way to reach the secret later.
 
 Secrets in the key vault can have multiple versions of the same secret. These are called versions of that secret.
 
@@ -96,10 +95,9 @@ In key vaults with 'soft delete' enabled, secrets are not immediately removed bu
  
 ## Example
 
-The following sections provide code snippets that cover some of the
-common tasks using Azure KeyVault Secrets
+The following sections provide code snippets that cover some of the common tasks using Azure KeyVault Secrets. 
 
-Once you have created an instance of an `SecretsClient` class, you can create, read, update, and delete secrets:
+Once you have authenticated and created an instance of an `SecretsClient` class (see "Authenticate the client" above), you can create, read, update, and delete secrets:
 
 ```javascript
 // Create out first secret
@@ -111,13 +109,13 @@ const getResult = await client.getSecret(secretName);
 console.log("getResult: ", getResult);
 
 // List all the versions of the secret in the secret vault
-for await (let x of client.listSecretVersions(secretName)) {
-  console.log("version: ", x);
+for await (let version of client.listSecretVersions(secretName)) {
+  console.log("version: ", version);
 }
 
 // We can also list all the secrets in our secret vault
-for await (let x of client.listSecrets()) {
-  console.log("secret: ", x);
+for await (let listedSecret of client.listSecrets()) {
+  console.log("secret: ", listedSecret);
 }
 
 // Update the attributes of one of our secrets

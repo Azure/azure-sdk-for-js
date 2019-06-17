@@ -47,27 +47,27 @@ You also need to enable `compilerOptions.allowSyntheticDefaultImports` in your t
 
 ### Authenticate the client
 
-To use the key vault from TypeScript/JavaScript, you need to first authenticate with the key vault service. Here's an example authentication:
+To use the key vault from TypeScript/JavaScript, you need to first authenticate with the key vault service. To authenticate, first we import the identity and SecretsClient, which will connect to the key vault.
 
 ```typescript
+import { EnvironmentCredential } from "@azure/identity";
 import { KeysClient } from "@azure/keyvault-keys";
-import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
+```
 
-const clientId = process.env["CLIENT_ID"] || "";
-const clientSecret = process.env["CLIENT_SECRET"] || "";
-const tenantId = process.env["TENANT_ID"] || "";
-const vaultName = process.env["KEYVAULT_NAME"] || "<keyvault-name>"
+Once these are imported, we can next connect to the key vault service. To do this, we'll need to copy some settings from the key vault we are connecting to into our environment variables. Once they are in our environment, we can access them with the following code:
 
+```typescript
+// EnvironmentCredential expects the following three environment variables:
+// * AZURE_TENANT_ID: The tenant ID in Azure Active Directory
+// * AZURE_CLIENT_ID: The application (client) ID registered in the AAD tenant
+// * AZURE_CLIENT_SECRET: The client secret for the registered application
+const credential = new EnvironmentCredential();
+
+// Build the URL to reach your key vault
+const vaultName = "<YOUR KEYVAULT NAME>";
 const url = `https://${vaultName}.vault.azure.net`;
-const credential = await msRestNodeAuth.loginWithServicePrincipalSecret(
-  clientId,
-  clientSecret,
-  tenantId,
-  {
-    tokenAudience: 'https://vault.azure.net'
-  }
-);
 
+// Lastly, create our keys client and connect to the service
 const client = new KeysClient(url, credential);
 ```
 
@@ -105,29 +105,29 @@ In key vaults with 'soft delete' enabled, keys are not immediately removed but i
 
 ## Example
 
-Once you have created an instance of an `KeysClient` class, you can create, read, update, and delete keys:
+The following sections provide code snippets that cover some of the common tasks using Azure KeyVault Secrets. 
+
+Once you have authenticated and created an instance of an `SecretsClient` class (see "Authenticate the client" above), you can create, read, update, and delete keys:
 
 ```javascript
 const keyName = "MyKeyName";
-const result = await client.createKey(keyName, "RSA");
 
+// Create a key using the RSA algorithm
+const result = await client.createKey(keyName, "RSA");
 console.log("result: ", result);
 
-for await (let x of client.getKeyVersions(keyName)) {
-  console.log(">> ", x);
-}
-
+// Get the key we just created
 const getResult = await client.getKey(keyName);
 console.log("getResult: ", getResult);
 
 // List all the versions of the key in the key vault
-for await (let x of client.listKeyVersions(keyName)) {
-  console.log("version: ", x);
+for await (let version of client.listKeyVersions(keyName)) {
+  console.log("version: ", version);
 }
 
 // We can also list all the keys in our key vault
-for await (let x of client.listKeys()) {
-  console.log("key: ", x);
+for await (let listedKey of client.listKeys()) {
+  console.log("key: ", listedKey);
 }
 
 // Delete the key we just created
