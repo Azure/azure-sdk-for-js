@@ -158,7 +158,7 @@ export class BatchingReceiver extends EventHubReceiver {
           }
         };
 
-        const onAbort = () => {
+        const onAbort = async () => {
           this.isReceivingMessages = false;
           if (this._receiver) {
             this._receiver.removeListener(ReceiverEvents.receiverError, onReceiveError);
@@ -174,6 +174,7 @@ export class BatchingReceiver extends EventHubReceiver {
             `[${this._context.connectionId}] The receive operation on the Receiver "${this.name}" with ` +
             `address "${this.address}" has been cancelled by the user.`;
           log.error(desc);
+          await this.close();
           reject(new AbortError("The receive operation has been cancelled by the user."));
         };
 
@@ -344,6 +345,7 @@ export class BatchingReceiver extends EventHubReceiver {
           try {
             await this._init(rcvrOptions);
             if (abortSignal && abortSignal.aborted) {
+              await this.close();
               // exit early if operation was cancelled while initializing connection
               return rejectOnAbort();
             }
