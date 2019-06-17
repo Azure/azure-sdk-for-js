@@ -46,7 +46,7 @@ jobs:
         inputs:
           command: custom
           verbose: false
-          customCommand: 'run build -- --head-reference=origin/$(System.PullRequest.SourceBranch) --base-reference=origin/$(System.PullRequest.TargetBranch) --logging-level=trace'
+          customCommand: 'run build --logging-level=trace'
 
       - task: PublishBuildArtifacts@1
         inputs:
