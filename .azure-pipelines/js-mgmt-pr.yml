@@ -1,4 +1,7 @@
 pr:
+  branches:
+    include:
+    - master
   paths:
     exclude:
     - sdk/core/
