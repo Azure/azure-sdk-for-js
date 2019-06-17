@@ -17,23 +17,26 @@ export interface PageSettings {
  * @interface
  * An interface that allows async iterable iteration both to completion and by page.
  */
-export interface PagedAsyncIterableIterator<T> {
+export interface PagedAsyncIterableIterator<T, PageT = never> {
   /**
    * @member {Promise} [next] The next method, part of the iteration protocol
    */
-  next(): Promise<{
-    done: boolean;
-    value: T;
-  } | {
-    done: boolean;
-    value: undefined;
-  }>;
+  next(): Promise<
+    | {
+        done: boolean;
+        value: T;
+      }
+    | {
+        done: boolean;
+        value: undefined;
+      }
+  >;
   /**
    * @member {Symbol} [asyncIterator] The connection to the async iterator, part of the iteration protocol
    */
-  [Symbol.asyncIterator](): PagedAsyncIterableIterator<T>;
+  [Symbol.asyncIterator](): PagedAsyncIterableIterator<T, PageT>;
   /**
    * @member {Function} [byPage] Return an AsyncIterableIterator that works a page at a time
    */
-  byPage: (settings?: PageSettings) => AsyncIterableIterator<T[]>;
+  byPage: (settings?: PageSettings) => AsyncIterableIterator<PageT extends never ? T[] : PageT>;
 }
