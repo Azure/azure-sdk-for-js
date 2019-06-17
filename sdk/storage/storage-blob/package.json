@@ -19,7 +19,7 @@
   },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
-    "build:autorest": "autorest ./swagger/README.md --typescript --use=@microsoft.azure/autorest.typescript@2.1.3",
+    "build:autorest": "autorest ./swagger/README.md --typescript --use=@microsoft.azure/autorest.typescript@4.1.1",
     "build:browserzip": "gulp zip",
     "build:es6": "tsc -p tsconfig.json",
     "build:nodebrowser": "rollup -c 2>&1",
@@ -74,7 +74,7 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js#readme",
   "sideEffects": false,
   "dependencies": {
-    "@azure/ms-rest-js": "^1.2.6",
+    "@azure/ms-rest-js": "^1.8.1",
     "events": "^3.0.0",
     "tslib": "^1.9.3"
   },

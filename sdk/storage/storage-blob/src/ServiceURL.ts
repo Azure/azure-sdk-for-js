@@ -1,7 +1,7 @@
-import * as Models from "../src/generated/lib/models";
+import * as Models from "../src/generated/src/models";
 import { Aborter } from "./Aborter";
-import { ListContainersIncludeType } from "./generated/lib/models/index";
-import { Service } from "./generated/lib/operations";
+import { ListContainersIncludeType } from "./generated/src/models/index";
+import { Service } from "./generated/src/operations";
 import { Pipeline } from "./Pipeline";
 import { StorageURL } from "./StorageURL";
 

@@ -1,10 +1,10 @@
 import { isNode, TransferProgressEvent } from "@azure/ms-rest-js";
 
-import * as Models from "../src/generated/lib/models";
+import * as Models from "../src/generated/src/models";
 import { Aborter } from "./Aborter";
 import { BlobDownloadResponse } from "./BlobDownloadResponse";
 import { ContainerURL } from "./ContainerURL";
-import { Blob } from "./generated/lib/operations";
+import { Blob } from "./generated/src/operations";
 import { rangeToString } from "./IRange";
 import { IBlobAccessConditions, IMetadata } from "./models";
 import { Pipeline } from "./Pipeline";

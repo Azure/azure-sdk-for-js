@@ -393,6 +393,44 @@ export class Blob {
   }
 
   /**
+   * The Copy From URL operation copies a blob or an internet resource to a new blob. It will not
+   * return a response until the copy is complete.
+   * @param copySource Specifies the name of the source page blob snapshot. This value is a URL of up
+   * to 2 KB in length that specifies a page blob snapshot. The value should be URL-encoded as it
+   * would appear in a request URI. The source blob must either be public or must be authenticated
+   * via a shared access signature.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.BlobCopyFromURLResponse>
+   */
+  copyFromURL(copySource: string, options?: Models.BlobCopyFromURLOptionalParams): Promise<Models.BlobCopyFromURLResponse>;
+  /**
+   * @param copySource Specifies the name of the source page blob snapshot. This value is a URL of up
+   * to 2 KB in length that specifies a page blob snapshot. The value should be URL-encoded as it
+   * would appear in a request URI. The source blob must either be public or must be authenticated
+   * via a shared access signature.
+   * @param callback The callback
+   */
+  copyFromURL(copySource: string, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param copySource Specifies the name of the source page blob snapshot. This value is a URL of up
+   * to 2 KB in length that specifies a page blob snapshot. The value should be URL-encoded as it
+   * would appear in a request URI. The source blob must either be public or must be authenticated
+   * via a shared access signature.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  copyFromURL(copySource: string, options: Models.BlobCopyFromURLOptionalParams, callback: msRest.ServiceCallback<void>): void;
+  copyFromURL(copySource: string, options?: Models.BlobCopyFromURLOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.BlobCopyFromURLResponse> {
+    return this.client.sendOperationRequest(
+      {
+        copySource,
+        options
+      },
+      copyFromURLOperationSpec,
+      callback) as Promise<Models.BlobCopyFromURLResponse>;
+  }
+
+  /**
    * The Abort Copy From URL operation aborts a pending Copy From URL operation, and leaves a
    * destination blob with zero length and full metadata.
    * @param copyId The copy identifier provided in the x-ms-copy-id header of the original Copy Blob
@@ -497,7 +535,7 @@ const downloadOperationSpec: msRest.OperationSpec = {
     Parameters.timeout
   ],
   headerParameters: [
-    Parameters.range,
+    Parameters.range0,
     Parameters.rangeGetContentMD5,
     Parameters.version,
     Parameters.requestId,
@@ -605,7 +643,7 @@ const undeleteOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.timeout,
-    Parameters.comp6
+    Parameters.comp7
   ],
   headerParameters: [
     Parameters.version,
@@ -668,7 +706,7 @@ const setMetadataOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.timeout,
-    Parameters.comp3
+    Parameters.comp4
   ],
   headerParameters: [
     Parameters.metadata,
@@ -700,7 +738,7 @@ const acquireLeaseOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.timeout,
-    Parameters.comp5
+    Parameters.comp6
   ],
   headerParameters: [
     Parameters.duration,
@@ -733,7 +771,7 @@ const releaseLeaseOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.timeout,
-    Parameters.comp5
+    Parameters.comp6
   ],
   headerParameters: [
     Parameters.leaseId1,
@@ -765,7 +803,7 @@ const renewLeaseOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.timeout,
-    Parameters.comp5
+    Parameters.comp6
   ],
   headerParameters: [
     Parameters.leaseId1,
@@ -797,7 +835,7 @@ const changeLeaseOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.timeout,
-    Parameters.comp5
+    Parameters.comp6
   ],
   headerParameters: [
     Parameters.leaseId1,
@@ -830,7 +868,7 @@ const breakLeaseOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.timeout,
-    Parameters.comp5
+    Parameters.comp6
   ],
   headerParameters: [
     Parameters.breakPeriod,
@@ -862,7 +900,7 @@ const createSnapshotOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.timeout,
-    Parameters.comp7
+    Parameters.comp8
   ],
   headerParameters: [
     Parameters.metadata,
@@ -922,6 +960,43 @@ const startCopyFromURLOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
+const copyFromURLOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PUT",
+  path: "{containerName}/{blob}",
+  urlParameters: [
+    Parameters.url
+  ],
+  queryParameters: [
+    Parameters.timeout
+  ],
+  headerParameters: [
+    Parameters.metadata,
+    Parameters.copySource,
+    Parameters.version,
+    Parameters.requestId,
+    Parameters.xMsRequiresSync,
+    Parameters.sourceIfModifiedSince,
+    Parameters.sourceIfUnmodifiedSince,
+    Parameters.sourceIfMatch,
+    Parameters.sourceIfNoneMatch,
+    Parameters.ifModifiedSince,
+    Parameters.ifUnmodifiedSince,
+    Parameters.ifMatch,
+    Parameters.ifNoneMatch,
+    Parameters.leaseId0
+  ],
+  responses: {
+    202: {
+      headersMapper: Mappers.BlobCopyFromURLHeaders
+    },
+    default: {
+      bodyMapper: Mappers.StorageError
+    }
+  },
+  isXML: true,
+  serializer
+};
+
 const abortCopyFromURLOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "{containerName}/{blob}",
@@ -931,7 +1006,7 @@ const abortCopyFromURLOperationSpec: msRest.OperationSpec = {
   queryParameters: [
     Parameters.copyId,
     Parameters.timeout,
-    Parameters.comp8
+    Parameters.comp9
   ],
   headerParameters: [
     Parameters.version,
@@ -959,7 +1034,7 @@ const setTierOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.timeout,
-    Parameters.comp9
+    Parameters.comp10
   ],
   headerParameters: [
     Parameters.tier,
@@ -984,7 +1059,7 @@ const setTierOperationSpec: msRest.OperationSpec = {
 
 const getAccountInfoOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "{containerName}/{blobName}",
+  path: "{containerName}/{blob}",
   urlParameters: [
     Parameters.url
   ],

@@ -132,6 +132,35 @@ export class Service {
   }
 
   /**
+   * Retrieves a user delgation key for the Blob service. This is only a valid operation when using
+   * bearer token authentication.
+   * @param keyInfo
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ServiceGetUserDelegationKeyResponse>
+   */
+  getUserDelegationKey(keyInfo: Models.KeyInfo, options?: Models.ServiceGetUserDelegationKeyOptionalParams): Promise<Models.ServiceGetUserDelegationKeyResponse>;
+  /**
+   * @param keyInfo
+   * @param callback The callback
+   */
+  getUserDelegationKey(keyInfo: Models.KeyInfo, callback: msRest.ServiceCallback<Models.UserDelegationKey>): void;
+  /**
+   * @param keyInfo
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getUserDelegationKey(keyInfo: Models.KeyInfo, options: Models.ServiceGetUserDelegationKeyOptionalParams, callback: msRest.ServiceCallback<Models.UserDelegationKey>): void;
+  getUserDelegationKey(keyInfo: Models.KeyInfo, options?: Models.ServiceGetUserDelegationKeyOptionalParams | msRest.ServiceCallback<Models.UserDelegationKey>, callback?: msRest.ServiceCallback<Models.UserDelegationKey>): Promise<Models.ServiceGetUserDelegationKeyResponse> {
+    return this.client.sendOperationRequest(
+      {
+        keyInfo,
+        options
+      },
+      getUserDelegationKeyOperationSpec,
+      callback) as Promise<Models.ServiceGetUserDelegationKeyResponse>;
+  }
+
+  /**
    * Returns the sku name and account kind
    * @param [options] The optional parameters
    * @returns Promise<Models.ServiceGetAccountInfoResponse>
@@ -267,6 +296,41 @@ const listContainersSegmentOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.ListContainersSegmentResponse,
       headersMapper: Mappers.ServiceListContainersSegmentHeaders
+    },
+    default: {
+      bodyMapper: Mappers.StorageError
+    }
+  },
+  isXML: true,
+  serializer
+};
+
+const getUserDelegationKeyOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  urlParameters: [
+    Parameters.url
+  ],
+  queryParameters: [
+    Parameters.timeout,
+    Parameters.restype0,
+    Parameters.comp3
+  ],
+  headerParameters: [
+    Parameters.version,
+    Parameters.requestId
+  ],
+  requestBody: {
+    parameterPath: "keyInfo",
+    mapper: {
+      ...Mappers.KeyInfo,
+      required: true
+    }
+  },
+  contentType: "application/xml; charset=utf-8",
+  responses: {
+    200: {
+      bodyMapper: Mappers.UserDelegationKey,
+      headersMapper: Mappers.ServiceGetUserDelegationKeyHeaders
     },
     default: {
       bodyMapper: Mappers.StorageError

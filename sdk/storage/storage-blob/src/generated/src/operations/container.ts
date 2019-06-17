@@ -503,7 +503,7 @@ const setMetadataOperationSpec: msRest.OperationSpec = {
   queryParameters: [
     Parameters.timeout,
     Parameters.restype2,
-    Parameters.comp3
+    Parameters.comp4
   ],
   headerParameters: [
     Parameters.metadata,
@@ -533,7 +533,7 @@ const getAccessPolicyOperationSpec: msRest.OperationSpec = {
   queryParameters: [
     Parameters.timeout,
     Parameters.restype2,
-    Parameters.comp4
+    Parameters.comp5
   ],
   headerParameters: [
     Parameters.version,
@@ -574,7 +574,7 @@ const setAccessPolicyOperationSpec: msRest.OperationSpec = {
   queryParameters: [
     Parameters.timeout,
     Parameters.restype2,
-    Parameters.comp4
+    Parameters.comp5
   ],
   headerParameters: [
     Parameters.access,
@@ -625,7 +625,7 @@ const acquireLeaseOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.timeout,
-    Parameters.comp5,
+    Parameters.comp6,
     Parameters.restype2
   ],
   headerParameters: [
@@ -657,7 +657,7 @@ const releaseLeaseOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.timeout,
-    Parameters.comp5,
+    Parameters.comp6,
     Parameters.restype2
   ],
   headerParameters: [
@@ -688,7 +688,7 @@ const renewLeaseOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.timeout,
-    Parameters.comp5,
+    Parameters.comp6,
     Parameters.restype2
   ],
   headerParameters: [
@@ -719,7 +719,7 @@ const breakLeaseOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.timeout,
-    Parameters.comp5,
+    Parameters.comp6,
     Parameters.restype2
   ],
   headerParameters: [
@@ -750,7 +750,7 @@ const changeLeaseOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.timeout,
-    Parameters.comp5,
+    Parameters.comp6,
     Parameters.restype2
   ],
   headerParameters: [

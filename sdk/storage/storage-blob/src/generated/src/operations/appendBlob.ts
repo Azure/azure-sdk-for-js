@@ -87,6 +87,41 @@ export class AppendBlob {
       appendBlockOperationSpec,
       callback) as Promise<Models.AppendBlobAppendBlockResponse>;
   }
+
+  /**
+   * The Append Block operation commits a new block of data to the end of an existing append blob
+   * where the contents are read from a source url. The Append Block operation is permitted only if
+   * the blob was created with x-ms-blob-type set to AppendBlob. Append Block is supported only on
+   * version 2015-02-21 version or later.
+   * @param sourceUrl Specify a URL to the copy source.
+   * @param contentLength The length of the request.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.AppendBlobAppendBlockFromUrlResponse>
+   */
+  appendBlockFromUrl(sourceUrl: string, contentLength: number, options?: Models.AppendBlobAppendBlockFromUrlOptionalParams): Promise<Models.AppendBlobAppendBlockFromUrlResponse>;
+  /**
+   * @param sourceUrl Specify a URL to the copy source.
+   * @param contentLength The length of the request.
+   * @param callback The callback
+   */
+  appendBlockFromUrl(sourceUrl: string, contentLength: number, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param sourceUrl Specify a URL to the copy source.
+   * @param contentLength The length of the request.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  appendBlockFromUrl(sourceUrl: string, contentLength: number, options: Models.AppendBlobAppendBlockFromUrlOptionalParams, callback: msRest.ServiceCallback<void>): void;
+  appendBlockFromUrl(sourceUrl: string, contentLength: number, options?: Models.AppendBlobAppendBlockFromUrlOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.AppendBlobAppendBlockFromUrlResponse> {
+    return this.client.sendOperationRequest(
+      {
+        sourceUrl,
+        contentLength,
+        options
+      },
+      appendBlockFromUrlOperationSpec,
+      callback) as Promise<Models.AppendBlobAppendBlockFromUrlResponse>;
+  }
 }
 
 // Operation Specifications
@@ -138,7 +173,7 @@ const appendBlockOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.timeout,
-    Parameters.comp13
+    Parameters.comp14
   ],
   headerParameters: [
     Parameters.contentLength,
@@ -163,10 +198,51 @@ const appendBlockOperationSpec: msRest.OperationSpec = {
       }
     }
   },
-  contentType: "application/xml; charset=utf-8",
+  contentType: "application/octet-stream",
   responses: {
     201: {
       headersMapper: Mappers.AppendBlobAppendBlockHeaders
+    },
+    default: {
+      bodyMapper: Mappers.StorageError
+    }
+  },
+  isXML: true,
+  serializer
+};
+
+const appendBlockFromUrlOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PUT",
+  path: "{containerName}/{blob}",
+  urlParameters: [
+    Parameters.url
+  ],
+  queryParameters: [
+    Parameters.timeout,
+    Parameters.comp14
+  ],
+  headerParameters: [
+    Parameters.sourceUrl,
+    Parameters.sourceRange1,
+    Parameters.sourceContentMD5,
+    Parameters.contentLength,
+    Parameters.version,
+    Parameters.requestId,
+    Parameters.leaseId0,
+    Parameters.maxSize,
+    Parameters.appendPosition,
+    Parameters.ifModifiedSince,
+    Parameters.ifUnmodifiedSince,
+    Parameters.ifMatch,
+    Parameters.ifNoneMatch,
+    Parameters.sourceIfModifiedSince,
+    Parameters.sourceIfUnmodifiedSince,
+    Parameters.sourceIfMatch,
+    Parameters.sourceIfNoneMatch
+  ],
+  responses: {
+    201: {
+      headersMapper: Mappers.AppendBlobAppendBlockFromUrlHeaders
     },
     default: {
       bodyMapper: Mappers.StorageError

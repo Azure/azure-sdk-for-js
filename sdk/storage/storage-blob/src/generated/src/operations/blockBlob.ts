@@ -278,7 +278,7 @@ const stageBlockOperationSpec: msRest.OperationSpec = {
   queryParameters: [
     Parameters.blockId,
     Parameters.timeout,
-    Parameters.comp14
+    Parameters.comp15
   ],
   headerParameters: [
     Parameters.contentLength,
@@ -319,16 +319,20 @@ const stageBlockFromURLOperationSpec: msRest.OperationSpec = {
   queryParameters: [
     Parameters.blockId,
     Parameters.timeout,
-    Parameters.comp14
+    Parameters.comp15
   ],
   headerParameters: [
     Parameters.contentLength,
     Parameters.sourceUrl,
-    Parameters.sourceRange,
+    Parameters.sourceRange1,
     Parameters.sourceContentMD5,
     Parameters.version,
     Parameters.requestId,
-    Parameters.leaseId0
+    Parameters.leaseId0,
+    Parameters.sourceIfModifiedSince,
+    Parameters.sourceIfUnmodifiedSince,
+    Parameters.sourceIfMatch,
+    Parameters.sourceIfNoneMatch
   ],
   responses: {
     201: {
@@ -350,7 +354,7 @@ const commitBlockListOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.timeout,
-    Parameters.comp15
+    Parameters.comp16
   ],
   headerParameters: [
     Parameters.metadata,
@@ -398,7 +402,7 @@ const getBlockListOperationSpec: msRest.OperationSpec = {
     Parameters.snapshot,
     Parameters.listType,
     Parameters.timeout,
-    Parameters.comp15
+    Parameters.comp16
   ],
   headerParameters: [
     Parameters.version,

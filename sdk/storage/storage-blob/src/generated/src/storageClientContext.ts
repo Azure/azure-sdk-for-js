@@ -24,24 +24,24 @@ export class StorageClientContext extends msRest.ServiceClient {
    * @param [options] The parameter options
    */
   constructor(url: string, options?: msRest.ServiceClientOptions) {
-    if (url === null || url === undefined) {
-      throw new Error('\'url\' cannot be null.');
+    if (url == undefined) {
+      throw new Error("'url' cannot be null.");
     }
 
     if (!options) {
       options = {};
     }
-    if(!options.userAgent) {
+
+    if (!options.userAgent) {
       const defaultUserAgent = msRest.getDefaultUserAgentValue();
       options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
     }
 
     super(undefined, options);
 
-    this.version = '2018-03-28';
+    this.version = '2018-11-09';
     this.baseUri = "{url}";
     this.requestContentType = "application/json; charset=utf-8";
     this.url = url;
-
   }
 }

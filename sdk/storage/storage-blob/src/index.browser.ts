@@ -1,6 +1,6 @@
 import { RestError } from "@azure/ms-rest-js";
 
-import * as Models from "../src/generated/lib/models";
+import * as Models from "../src/generated/src/models";
 
 export * from "./Aborter";
 export * from "./AppendBlobURL";

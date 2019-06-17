@@ -5,7 +5,7 @@ import { Readable } from "stream";
 import { Aborter } from "./Aborter";
 import { BlobURL } from "./BlobURL";
 import { BlockBlobURL } from "./BlockBlobURL";
-import { BlobHTTPHeaders } from "./generated/lib/models";
+import { BlobHTTPHeaders } from "./generated/src/models";
 import { BlobUploadCommonResponse, IDownloadFromBlobOptions, IUploadToBlockBlobOptions } from "./highlevel.common";
 import { IBlobAccessConditions } from "./models";
 import { Batch } from "./utils/Batch";

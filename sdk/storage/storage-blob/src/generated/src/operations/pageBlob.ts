@@ -122,6 +122,53 @@ export class PageBlob {
   }
 
   /**
+   * The Upload Pages operation writes a range of pages to a page blob where the contents are read
+   * from a URL
+   * @param sourceUrl Specify a URL to the copy source.
+   * @param sourceRange Bytes of source data in the specified range. The length of this range should
+   * match the ContentLength header and x-ms-range/Range destination range header.
+   * @param contentLength The length of the request.
+   * @param range The range of bytes to which the source range would be written. The range should be
+   * 512 aligned and range-end is required.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.PageBlobUploadPagesFromURLResponse>
+   */
+  uploadPagesFromURL(sourceUrl: string, sourceRange: string, contentLength: number, range: string, options?: Models.PageBlobUploadPagesFromURLOptionalParams): Promise<Models.PageBlobUploadPagesFromURLResponse>;
+  /**
+   * @param sourceUrl Specify a URL to the copy source.
+   * @param sourceRange Bytes of source data in the specified range. The length of this range should
+   * match the ContentLength header and x-ms-range/Range destination range header.
+   * @param contentLength The length of the request.
+   * @param range The range of bytes to which the source range would be written. The range should be
+   * 512 aligned and range-end is required.
+   * @param callback The callback
+   */
+  uploadPagesFromURL(sourceUrl: string, sourceRange: string, contentLength: number, range: string, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param sourceUrl Specify a URL to the copy source.
+   * @param sourceRange Bytes of source data in the specified range. The length of this range should
+   * match the ContentLength header and x-ms-range/Range destination range header.
+   * @param contentLength The length of the request.
+   * @param range The range of bytes to which the source range would be written. The range should be
+   * 512 aligned and range-end is required.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  uploadPagesFromURL(sourceUrl: string, sourceRange: string, contentLength: number, range: string, options: Models.PageBlobUploadPagesFromURLOptionalParams, callback: msRest.ServiceCallback<void>): void;
+  uploadPagesFromURL(sourceUrl: string, sourceRange: string, contentLength: number, range: string, options?: Models.PageBlobUploadPagesFromURLOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.PageBlobUploadPagesFromURLResponse> {
+    return this.client.sendOperationRequest(
+      {
+        sourceUrl,
+        sourceRange,
+        contentLength,
+        range,
+        options
+      },
+      uploadPagesFromURLOperationSpec,
+      callback) as Promise<Models.PageBlobUploadPagesFromURLResponse>;
+  }
+
+  /**
    * The Get Page Ranges operation returns the list of valid page ranges for a page blob or snapshot
    * of a page blob
    * @param [options] The optional parameters
@@ -147,8 +194,8 @@ export class PageBlob {
   }
 
   /**
-   * [Update] The Get Page Ranges Diff operation returns the list of valid page ranges for a page
-   * blob that were changed between target blob and previous snapshot.
+   * The Get Page Ranges Diff operation returns the list of valid page ranges for a page blob that
+   * were changed between target blob and previous snapshot.
    * @param [options] The optional parameters
    * @returns Promise<Models.PageBlobGetPageRangesDiffResponse>
    */
@@ -329,12 +376,12 @@ const uploadPagesOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.timeout,
-    Parameters.comp10
+    Parameters.comp11
   ],
   headerParameters: [
     Parameters.contentLength,
     Parameters.transactionalContentMD5,
-    Parameters.range,
+    Parameters.range0,
     Parameters.version,
     Parameters.requestId,
     Parameters.pageWrite0,
@@ -378,11 +425,11 @@ const clearPagesOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.timeout,
-    Parameters.comp10
+    Parameters.comp11
   ],
   headerParameters: [
     Parameters.contentLength,
-    Parameters.range,
+    Parameters.range0,
     Parameters.version,
     Parameters.requestId,
     Parameters.pageWrite1,
@@ -407,6 +454,50 @@ const clearPagesOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
+const uploadPagesFromURLOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PUT",
+  path: "{containerName}/{blob}",
+  urlParameters: [
+    Parameters.url
+  ],
+  queryParameters: [
+    Parameters.timeout,
+    Parameters.comp11
+  ],
+  headerParameters: [
+    Parameters.sourceUrl,
+    Parameters.sourceRange0,
+    Parameters.sourceContentMD5,
+    Parameters.contentLength,
+    Parameters.range1,
+    Parameters.version,
+    Parameters.requestId,
+    Parameters.pageWrite0,
+    Parameters.leaseId0,
+    Parameters.ifSequenceNumberLessThanOrEqualTo,
+    Parameters.ifSequenceNumberLessThan,
+    Parameters.ifSequenceNumberEqualTo,
+    Parameters.ifModifiedSince,
+    Parameters.ifUnmodifiedSince,
+    Parameters.ifMatch,
+    Parameters.ifNoneMatch,
+    Parameters.sourceIfModifiedSince,
+    Parameters.sourceIfUnmodifiedSince,
+    Parameters.sourceIfMatch,
+    Parameters.sourceIfNoneMatch
+  ],
+  responses: {
+    201: {
+      headersMapper: Mappers.PageBlobUploadPagesFromURLHeaders
+    },
+    default: {
+      bodyMapper: Mappers.StorageError
+    }
+  },
+  isXML: true,
+  serializer
+};
+
 const getPageRangesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "{containerName}/{blob}",
@@ -416,10 +507,10 @@ const getPageRangesOperationSpec: msRest.OperationSpec = {
   queryParameters: [
     Parameters.snapshot,
     Parameters.timeout,
-    Parameters.comp11
+    Parameters.comp12
   ],
   headerParameters: [
-    Parameters.range,
+    Parameters.range0,
     Parameters.version,
     Parameters.requestId,
     Parameters.leaseId0,
@@ -451,10 +542,10 @@ const getPageRangesDiffOperationSpec: msRest.OperationSpec = {
     Parameters.snapshot,
     Parameters.timeout,
     Parameters.prevsnapshot,
-    Parameters.comp11
+    Parameters.comp12
   ],
   headerParameters: [
-    Parameters.range,
+    Parameters.range0,
     Parameters.version,
     Parameters.requestId,
     Parameters.leaseId0,
@@ -549,7 +640,7 @@ const copyIncrementalOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.timeout,
-    Parameters.comp12
+    Parameters.comp13
   ],
   headerParameters: [
     Parameters.copySource,

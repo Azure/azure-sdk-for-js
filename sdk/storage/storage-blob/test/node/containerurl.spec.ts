@@ -2,8 +2,8 @@ import * as assert from "assert";
 
 import { Aborter } from "../../src/Aborter";
 import { ContainerURL } from "../../src/ContainerURL";
+import { PublicAccessType } from "../../src/generated/src/models";
 import { getBSU } from "../utils";
-import { PublicAccessType } from "../../src/generated/lib/models/index";
 import { record } from "../utils/recorder";
 
 describe("ContainerURL", () => {

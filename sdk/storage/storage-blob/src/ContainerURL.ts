@@ -1,7 +1,7 @@
 import { HttpResponse } from "@azure/ms-rest-js";
-import * as Models from "../src/generated/lib/models";
+import * as Models from "../src/generated/src/models";
 import { Aborter } from "./Aborter";
-import { Container } from "./generated/lib/operations";
+import { Container } from "./generated/src/operations";
 import { IContainerAccessConditions, IMetadata } from "./models";
 import { Pipeline } from "./Pipeline";
 import { ServiceURL } from "./ServiceURL";
