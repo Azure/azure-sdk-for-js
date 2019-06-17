@@ -11,6 +11,7 @@ describe("Keys client - list keys in various ways", () => {
   let keyVaultName: string;
   let keyVaultUrl: string;
   let client: KeysClient;
+  let recorder: any;
 
   // NOTES:
   // - To allow multiple integraton runs at the same time,
@@ -70,7 +71,6 @@ describe("Keys client - list keys in various ways", () => {
     recorder.stop();
   });
 
-  let recorder: any;
   beforeEach(async function() {
     recorder = record(this);
   });
