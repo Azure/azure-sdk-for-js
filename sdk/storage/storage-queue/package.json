@@ -48,6 +48,7 @@
     "browser/*.min.js*",
     "dist/",
     "dist-esm/src/",
+    "LICENSE",
     "src/",
     "typings/src",
     "tsconfig.json"
