@@ -11,6 +11,7 @@ describe("Keys client - restore keys and recover backups", () => {
   let keyVaultName: string;
   let keyVaultUrl: string;
   let client: KeysClient;
+  let recorder: any;
 
   // NOTES:
   // - To allow multiple integraton runs at the same time,
@@ -70,7 +71,6 @@ describe("Keys client - restore keys and recover backups", () => {
     recorder.stop();
   });
 
-  let recorder: any;
   beforeEach(async function() {
     recorder = record(this);
   });
