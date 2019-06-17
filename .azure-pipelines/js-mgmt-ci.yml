@@ -8,10 +8,10 @@ trigger:
     - sdk/cosmosdb/cosmos/
     - sdk/eventhub/
     - sdk/identity/
-    - sdk/keyvault/keyvault/
-    - sdk/keyvault/keyvault-secrets/
-    - sdk/keyvault/keyvault-keys/
     - sdk/keyvault/keyvault-certificates/
+    - sdk/keyvault/keyvault-keys/
+    - sdk/keyvault/keyvault-secrets/
+    - sdk/keyvault/keyvault/
     - sdk/servicebus/service-bus/
     - sdk/storage/storage-blob/
     - sdk/storage/storage-datalake/
