@@ -1,26 +1,18 @@
 import { SecretsClient } from "../src";
-import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
+import { EnvironmentCredential } from "@azure/identity";
 
 export function delay<T>(t: number, value?: T): Promise<T> {
   return new Promise((resolve) => setTimeout(() => resolve(value), t));
 }
 
 async function main(): Promise<void> {
-  const clientId = process.env["CLIENT_ID"] || "";
-  const clientSecret = process.env["CLIENT_SECRET"] || "";
-  const tenantId = process.env["TENANT_ID"] || "";
+  // EnvironmentCredential expects the following three environment variables:
+  // - AZURE_TENANT_ID: The tenant ID in Azure Active Directory
+  // - AZURE_CLIENT_ID: The application (client) ID registered in the AAD tenant
+  // - AZURE_CLIENT_SECRET: The client secret for the registered application
   const vaultName = process.env["KEYVAULT_NAME"] || "<keyvault-name>"
-
   const url = `https://${vaultName}.vault.azure.net`;
-  const credential = await msRestNodeAuth.loginWithServicePrincipalSecret(
-    clientId,
-    clientSecret,
-    tenantId,
-    {
-      tokenAudience: 'https://vault.azure.net'
-    }
-  );
-
+  const credential = new EnvironmentCredential();
   const client = new SecretsClient(url, credential);
 
   const bankAccountSecretName = "BankAccountPassword11";

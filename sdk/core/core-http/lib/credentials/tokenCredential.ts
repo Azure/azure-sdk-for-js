@@ -45,3 +45,12 @@ export interface AccessToken {
    */
   expiresOnTimestamp: number;
 }
+
+/**
+ * Tests an object to determine whether it implements TokenCredential.
+ *
+ * @param credential The assumed TokenCredential to be tested.
+ */
+export function isTokenCredential(credential: any): credential is TokenCredential {
+  return "getToken" in credential;
+}
