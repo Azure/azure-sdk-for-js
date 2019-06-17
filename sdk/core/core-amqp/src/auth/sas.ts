@@ -80,10 +80,6 @@ export class SharedKeyCredential {
    */
   static fromConnectionString(connectionString: string): SharedKeyCredential {
     const parsed = parseConnectionString<ServiceBusConnectionStringModel>(connectionString);
-    return new SharedKeyCredential(
-      parsed.Endpoint,
-      parsed.SharedAccessKeyName,
-      parsed.SharedAccessKey
-    );
+    return new SharedKeyCredential(parsed.SharedAccessKeyName, parsed.SharedAccessKey);
   }
 }

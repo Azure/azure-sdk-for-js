@@ -189,7 +189,6 @@ export module ConnectionContextBase {
       tokenCredential:
         parameters.tokenCredential ||
         new SharedKeyCredential(
-          parameters.config.endpoint,
           parameters.config.sharedAccessKeyName,
           parameters.config.sharedAccessKey
         ),

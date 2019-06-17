@@ -9,10 +9,9 @@ import { SharedKeyCredential, IotSharedKeyCredential } from "../src";
 
 describe("SharedKeyCredential", function(): void {
   it("should work as expected with required parameters", async function(): Promise<void> {
-    const namespace = "mynamespace";
     const keyName = "myKeyName";
     const key = "importantValue";
-    const tokenProvider = new SharedKeyCredential(namespace, keyName, key);
+    const tokenProvider = new SharedKeyCredential(keyName, key);
     const now = Math.floor(Date.now() / 1000) + 3600;
     debug(">>> now: %d", now);
     const tokenInfo = tokenProvider.getToken("myaudience");
@@ -41,10 +40,9 @@ describe("SharedKeyCredential", function(): void {
 
 describe("IotSharedKeyCredential", function(): void {
   it("should work as expected with required parameters", async function(): Promise<void> {
-    const namespace = "mynamespace";
     const keyName = "myKeyName";
     const key = "importantValue";
-    const tokenProvider = new IotSharedKeyCredential(namespace, keyName, key);
+    const tokenProvider = new IotSharedKeyCredential(keyName, key);
     const now = Math.floor(Date.now() / 1000) + 3600;
     debug(">>> now: %d", now);
     const tokenInfo = tokenProvider.getToken("myaudience");
