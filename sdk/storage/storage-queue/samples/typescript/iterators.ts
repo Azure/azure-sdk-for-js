@@ -41,12 +41,12 @@ async function main() {
   // Generator syntax .next()
   i = 1;
   let iter2 = queueServiceClient.listQueues();
-  let item2 = (await iter2.next()).value;
-  do {
-    console.log(`Queue${i}: ${item2!.name}`);
+  let item2 = await iter2.next();
+  while (!item2.done) {
+    console.log(`Queue${i}: ${item2.value.name}`);
     i++;
-    item2 = (await iter2.next()).value;
-  } while (item2);
+    item2 = await iter2.next();
+  }
 
   ////////////////////////////////
   ///  Examples for .byPage()  ///
