@@ -157,6 +157,11 @@ export interface AvailabilitySet extends Resource {
    */
   virtualMachines?: SubResource[];
   /**
+   * Specifies information about the proximity placement group that the availability set should be
+   * assigned to. <br><br>Minimum api-version: 2018-04-01.
+   */
+  proximityPlacementGroup?: SubResource;
+  /**
    * The resource status information.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
@@ -197,6 +202,11 @@ export interface AvailabilitySetUpdate extends UpdateResource {
    */
   virtualMachines?: SubResource[];
   /**
+   * Specifies information about the proximity placement group that the availability set should be
+   * assigned to. <br><br>Minimum api-version: 2018-04-01.
+   */
+  proximityPlacementGroup?: SubResource;
+  /**
    * The resource status information.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
@@ -205,6 +215,38 @@ export interface AvailabilitySetUpdate extends UpdateResource {
    * Sku of the availability set
    */
   sku?: Sku;
+}
+
+/**
+ * Specifies information about the proximity placement group.
+ */
+export interface ProximityPlacementGroup extends Resource {
+  /**
+   * Specifies the type of the proximity placement group. <br><br> Possible values are: <br><br>
+   * **Standard** <br><br> **Ultra**. Possible values include: 'Standard', 'Ultra'
+   */
+  proximityPlacementGroupType?: ProximityPlacementGroupType;
+  /**
+   * A list of references to all virtual machines in the proximity placement group.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly virtualMachines?: SubResource[];
+  /**
+   * A list of references to all virtual machine scale sets in the proximity placement group.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly virtualMachineScaleSets?: SubResource[];
+  /**
+   * A list of references to all availability sets in the proximity placement group.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly availabilitySets?: SubResource[];
+}
+
+/**
+ * Specifies information about the proximity placement group.
+ */
+export interface ProximityPlacementGroupUpdate extends UpdateResource {
 }
 
 /**
@@ -863,6 +905,11 @@ export interface DataDisk {
    * The managed disk parameters.
    */
   managedDisk?: ManagedDiskParameters;
+  /**
+   * Specifies whether the data disk is in process of detachment from the
+   * VirtualMachine/VirtualMachineScaleset
+   */
+  toBeDetached?: boolean;
 }
 
 /**
@@ -974,7 +1021,9 @@ export interface WindowsConfiguration {
    */
   provisionVMAgent?: boolean;
   /**
-   * Indicates whether virtual machine is enabled for automatic updates.
+   * Indicates whether virtual machine is enabled for automatic Windows updates. Default value is
+   * true. <br><br> For virtual machine scale sets, this property can be updated and updates will
+   * take effect on OS reprovisioning.
    */
   enableAutomaticUpdates?: boolean;
   /**
@@ -1472,6 +1521,11 @@ export interface VirtualMachine extends Resource {
    */
   availabilitySet?: SubResource;
   /**
+   * Specifies information about the proximity placement group that the virtual machine should be
+   * assigned to. <br><br>Minimum api-version: 2018-04-01.
+   */
+  proximityPlacementGroup?: SubResource;
+  /**
    * The provisioning state, which only appears in the response.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
@@ -1562,6 +1616,11 @@ export interface VirtualMachineUpdate extends UpdateResource {
    */
   availabilitySet?: SubResource;
   /**
+   * Specifies information about the proximity placement group that the virtual machine should be
+   * assigned to. <br><br>Minimum api-version: 2018-04-01.
+   */
+  proximityPlacementGroup?: SubResource;
+  /**
    * The provisioning state, which only appears in the response.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
@@ -1602,8 +1661,11 @@ export interface VirtualMachineUpdate extends UpdateResource {
  */
 export interface AutomaticOSUpgradePolicy {
   /**
-   * Whether OS upgrades should automatically be applied to scale set instances in a rolling
-   * fashion when a newer version of the image becomes available. Default value is false.
+   * Indicates whether OS upgrades should automatically be applied to scale set instances in a
+   * rolling fashion when a newer version of the OS image becomes available. Default value is
+   * false. If this is set to true for Windows based scale sets, recommendation is to set
+   * [enableAutomaticUpdates](https://docs.microsoft.com/dotnet/api/microsoft.azure.management.compute.models.windowsconfiguration.enableautomaticupdates?view=azure-dotnet)
+   * to false.
    */
   enableAutomaticOSUpgrade?: boolean;
   /**
@@ -1794,6 +1856,11 @@ export interface Image extends Resource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly provisioningState?: string;
+  /**
+   * Gets the HyperVGenerationType of the VirtualMachine created from the image. Possible values
+   * include: 'V1', 'V2'
+   */
+  hyperVGeneration?: HyperVGenerationTypes;
 }
 
 /**
@@ -1813,6 +1880,11 @@ export interface ImageUpdate extends UpdateResource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly provisioningState?: string;
+  /**
+   * Gets the HyperVGenerationType of the VirtualMachine created from the image. Possible values
+   * include: 'V1', 'V2'
+   */
+  hyperVGeneration?: HyperVGenerationTypes;
 }
 
 /**
@@ -2505,12 +2577,6 @@ export interface VirtualMachineScaleSetVMProfile {
    */
   storageProfile?: VirtualMachineScaleSetStorageProfile;
   /**
-   * Specifies additional capabilities enabled or disabled on the virtual machine in the scale set.
-   * For instance: whether the virtual machine has the capability to support attaching managed data
-   * disks with UltraSSD_LRS storage account type.
-   */
-  additionalCapabilities?: AdditionalCapabilities;
-  /**
    * Specifies properties of the network interfaces of the virtual machines in the scale set.
    */
   networkProfile?: VirtualMachineScaleSetNetworkProfile;
@@ -2635,6 +2701,17 @@ export interface VirtualMachineScaleSet extends Resource {
    */
   platformFaultDomainCount?: number;
   /**
+   * Specifies information about the proximity placement group that the virtual machine scale set
+   * should be assigned to. <br><br>Minimum api-version: 2018-04-01.
+   */
+  proximityPlacementGroup?: SubResource;
+  /**
+   * Specifies additional capabilities enabled or disabled on the Virtual Machines in the Virtual
+   * Machine Scale Set. For instance: whether the Virtual Machines have the capability to support
+   * attaching managed data disks with UltraSSD_LRS storage account type.
+   */
+  additionalCapabilities?: AdditionalCapabilities;
+  /**
    * The identity of the virtual machine scale set, if configured.
    */
   identity?: VirtualMachineScaleSetIdentity;
@@ -2691,6 +2768,12 @@ export interface VirtualMachineScaleSetUpdate extends UpdateResource {
    * machines.
    */
   singlePlacementGroup?: boolean;
+  /**
+   * Specifies additional capabilities enabled or disabled on the Virtual Machines in the Virtual
+   * Machine Scale Set. For instance: whether the Virtual Machines have the capability to support
+   * attaching managed data disks with UltraSSD_LRS storage account type.
+   */
+  additionalCapabilities?: AdditionalCapabilities;
   /**
    * The identity of the virtual machine scale set, if configured.
    */
@@ -3541,6 +3624,22 @@ export interface ResourceSkuCapabilities {
 }
 
 /**
+ * Describes The zonal capabilities of a SKU.
+ */
+export interface ResourceSkuZoneDetails {
+  /**
+   * The set of zones that the SKU is available in with the specified capabilities.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string[];
+  /**
+   * A list of capabilities that are available for the SKU in the specified list of zones.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly capabilities?: ResourceSkuCapabilities[];
+}
+
+/**
  * An interface representing ResourceSkuRestrictionInfo.
  */
 export interface ResourceSkuRestrictionInfo {
@@ -3597,6 +3696,11 @@ export interface ResourceSkuLocationInfo {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly zones?: string[];
+  /**
+   * Details of capabilities available to a SKU in specific zones.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly zoneDetails?: ResourceSkuZoneDetails[];
 }
 
 /**
@@ -4980,6 +5084,18 @@ export interface VirtualMachineSizeListResult extends Array<VirtualMachineSize> 
 
 /**
  * @interface
+ * The List Proximity Placement Group operation response.
+ * @extends Array<ProximityPlacementGroup>
+ */
+export interface ProximityPlacementGroupListResult extends Array<ProximityPlacementGroup> {
+  /**
+   * The URI to fetch the next page of proximity placement groups.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
  * The List Usages operation response.
  * @extends Array<Usage>
  */
@@ -5199,6 +5315,14 @@ export interface ContainerServiceListResult extends Array<ContainerService> {
 }
 
 /**
+ * Defines values for HyperVGenerationTypes.
+ * Possible values include: 'V1', 'V2'
+ * @readonly
+ * @enum {string}
+ */
+export type HyperVGenerationTypes = 'V1' | 'V2';
+
+/**
  * Defines values for StatusLevelTypes.
  * Possible values include: 'Info', 'Warning', 'Error'
  * @readonly
@@ -5213,6 +5337,14 @@ export type StatusLevelTypes = 'Info' | 'Warning' | 'Error';
  * @enum {string}
  */
 export type AvailabilitySetSkuTypes = 'Classic' | 'Aligned';
+
+/**
+ * Defines values for ProximityPlacementGroupType.
+ * Possible values include: 'Standard', 'Ultra'
+ * @readonly
+ * @enum {string}
+ */
+export type ProximityPlacementGroupType = 'Standard' | 'Ultra';
 
 /**
  * Defines values for OperatingSystemTypes.
@@ -5778,6 +5910,146 @@ export type AvailabilitySetsListNextResponse = AvailabilitySetListResult & {
        * The response body as parsed JSON or XML
        */
       parsedBody: AvailabilitySetListResult;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type ProximityPlacementGroupsCreateOrUpdateResponse = ProximityPlacementGroup & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ProximityPlacementGroup;
+    };
+};
+
+/**
+ * Contains response data for the update operation.
+ */
+export type ProximityPlacementGroupsUpdateResponse = ProximityPlacementGroup & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ProximityPlacementGroup;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type ProximityPlacementGroupsGetResponse = ProximityPlacementGroup & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ProximityPlacementGroup;
+    };
+};
+
+/**
+ * Contains response data for the listBySubscription operation.
+ */
+export type ProximityPlacementGroupsListBySubscriptionResponse = ProximityPlacementGroupListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ProximityPlacementGroupListResult;
+    };
+};
+
+/**
+ * Contains response data for the listByResourceGroup operation.
+ */
+export type ProximityPlacementGroupsListByResourceGroupResponse = ProximityPlacementGroupListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ProximityPlacementGroupListResult;
+    };
+};
+
+/**
+ * Contains response data for the listBySubscriptionNext operation.
+ */
+export type ProximityPlacementGroupsListBySubscriptionNextResponse = ProximityPlacementGroupListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ProximityPlacementGroupListResult;
+    };
+};
+
+/**
+ * Contains response data for the listByResourceGroupNext operation.
+ */
+export type ProximityPlacementGroupsListByResourceGroupNextResponse = ProximityPlacementGroupListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ProximityPlacementGroupListResult;
     };
 };
 
