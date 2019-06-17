@@ -1,12 +1,11 @@
 import * as assert from "assert";
-import { expect } from "chai";
 import { getKeyvaultName } from "./utils/utils.common";
-import { KeysClient } from "../src";
-import { TokenCredential } from "@azure/core-http";
+import { KeysClient, CreateEcKeyOptions, UpdateKeyOptions, GetKeyOptions } from "../src";
+import { TokenCredential, RestError } from "@azure/core-http";
 import { EnvironmentCredential } from "@azure/identity";
 import { record, setReplaceableVariables, delay, setReplacements, env } from "./utils/recorder";
 
-describe("Keys client - list keys in various ways", () => {
+describe("Keys client - create, read, update and delete operations", () => {
   let credential: TokenCredential;
   let keyVaultName: string;
   let keyVaultUrl: string;
@@ -18,7 +17,7 @@ describe("Keys client - list keys in various ways", () => {
   //   we might need to factor in more environment variables.
   // - Another way to improve this is to add a specfic key per test.
   // - The environment variable is probably better named like PREFIX_KEY_NAME.
-  const keyName = `list${env.KEY_NAME || "KeyName"}`;
+  const keyName = `CRUD${env.KEY_NAME || "KeyName"}`;
 
   // NOTES:
   // - These functions are probably better moved to a common utility file.
@@ -50,9 +49,9 @@ describe("Keys client - list keys in various ways", () => {
 
   before(async function() {
     setReplaceableVariables({
-      AAD_CLIENT_ID: "aad_client_id",
-      AAD_CLIENT_SECRET: "aad_client_secret",
-      AAD_TENANT_ID: "aad_tenant_id",
+      AZURE_CLIENT_ID: "azure_client_id",
+      AZURE_CLIENT_SECRET: "azure_client_secret",
+      AZURE_TENANT_ID: "azure_tenant_id",
       KEYVAULT_NAME: "keyvault_name"
     });
 
@@ -61,7 +60,7 @@ describe("Keys client - list keys in various ways", () => {
     ]);
 
     recorder = record(this);
-    credential = new EnvironmentCredential();
+    credential = await new EnvironmentCredential();
     keyVaultName = getKeyvaultName();
     keyVaultUrl = `https://${keyVaultName}.vault.azure.net`;
     client = new KeysClient(keyVaultUrl, credential);

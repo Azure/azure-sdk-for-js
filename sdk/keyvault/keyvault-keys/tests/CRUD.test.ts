@@ -1,5 +1,4 @@
 import * as assert from "assert";
-import { expect } from "chai";
 import { getKeyvaultName } from "./utils/utils.common";
 import { KeysClient, CreateEcKeyOptions, UpdateKeyOptions, GetKeyOptions } from "../src";
 import { TokenCredential, RestError } from "@azure/core-http";
@@ -50,9 +49,9 @@ describe("Keys client - create, read, update and delete operations", () => {
 
   before(async function() {
     setReplaceableVariables({
-      AAD_CLIENT_ID: "aad_client_id",
-      AAD_CLIENT_SECRET: "aad_client_secret",
-      AAD_TENANT_ID: "aad_tenant_id",
+      AZURE_CLIENT_ID: "azure_client_id",
+      AZURE_CLIENT_SECRET: "azure_client_secret",
+      AZURE_TENANT_ID: "azure_tenant_id",
       KEYVAULT_NAME: "keyvault_name"
     });
 
@@ -60,9 +59,8 @@ describe("Keys client - create, read, update and delete operations", () => {
       (recording) => recording.replace(/"access_token":"[^"]*"/g, `"access_token":"access_token"`)
     ]);
 
-  before(async () => {
     recorder = record(this);
-    credential = new EnvironmentCredential();
+    credential = await new EnvironmentCredential();
     keyVaultName = getKeyvaultName();
     keyVaultUrl = `https://${keyVaultName}.vault.azure.net`;
     client = new KeysClient(keyVaultUrl, credential);
@@ -82,13 +80,13 @@ describe("Keys client - create, read, update and delete operations", () => {
 
   // The tests follow
 
-  it("can create a key while giving a manual type", async () => {
+  it.only("can create a key while giving a manual type", async () => {
     const result = await client.createKey(keyName, "RSA");
     assert.equal(result.name, keyName, "Unexpected key name in result from createKey().");
     await flushKey();
   });
 
-  it("cannot create a key with an empty name", async () => {
+  it.only("cannot create a key with an empty name", async () => {
     const keyName = "";
     let error;
     try {
@@ -104,7 +102,7 @@ describe("Keys client - create, read, update and delete operations", () => {
     );
   });
 
-  it("cannot create a key with a null name", async () => {
+  it.only("cannot create a key with a null name", async () => {
     const keyName = null;
     let error;
     try {
@@ -120,13 +118,13 @@ describe("Keys client - create, read, update and delete operations", () => {
     );
   });
 
-  it("can create a RSA key", async () => {
+  it.only("can create a RSA key", async () => {
     const result = await client.createRsaKey(keyName);
     assert.equal(result.name, keyName, "Unexpected key name in result from createKey().");
     await flushKey();
   });
 
-  it("can create a RSA key with size", async () => {
+  it.only("can create a RSA key with size", async () => {
     let options = {
       keySize: 2048
     };
@@ -135,13 +133,13 @@ describe("Keys client - create, read, update and delete operations", () => {
     await flushKey();
   });
 
-  it("can create an EC key", async () => {
+  it.only("can create an EC key", async () => {
     const result = await client.createEcKey(keyName);
     assert.equal(result.name, keyName, "Unexpected key name in result from createKey().");
     await flushKey();
   });
 
-  it("can create an EC key with curve", async () => {
+  it.only("can create an EC key with curve", async () => {
     let options: CreateEcKeyOptions = {
       curve: "P-256"
     };
@@ -150,7 +148,7 @@ describe("Keys client - create, read, update and delete operations", () => {
     await flushKey();
   });
 
-  it("can create a disabled key", async () => {
+  it.only("can create a disabled key", async () => {
     let options = {
       enabled: false
     };
@@ -160,7 +158,7 @@ describe("Keys client - create, read, update and delete operations", () => {
     await flushKey();
   });
 
-  it("can create a key with notBefore", async () => {
+  it.only("can create a key with notBefore", async () => {
     let date = new Date("2019-01-01");
     let notBefore = new Date(date.getTime() + 5000); // 5 seconds later
     notBefore.setMilliseconds(0);
@@ -177,7 +175,7 @@ describe("Keys client - create, read, update and delete operations", () => {
     await flushKey();
   });
 
-  it("can create a key with expires", async () => {
+  it.only("can create a key with expires", async () => {
     let date = new Date("2019-01-01");
     let expires = new Date(date.getTime() + 5000); // 5 seconds later
     expires.setMilliseconds(0);
@@ -194,7 +192,7 @@ describe("Keys client - create, read, update and delete operations", () => {
     await flushKey();
   });
 
-  it("can update key", async () => {
+  it.only("can update key", async () => {
     const { version } = await client.createRsaKey(keyName);
     let options: UpdateKeyOptions = { enabled: false };
     const result = await client.updateKey(keyName, version, options);
@@ -202,7 +200,7 @@ describe("Keys client - create, read, update and delete operations", () => {
     await flushKey();
   });
 
-  it("can update a disabled key", async () => {
+  it.only("can update a disabled key", async () => {
     const createOptions = {
       enabled: false
     };
@@ -219,7 +217,7 @@ describe("Keys client - create, read, update and delete operations", () => {
     await flushKey();
   });
 
-  it("can delete a key", async () => {
+  it.only("can delete a key", async () => {
     const result = await client.createKey(keyName, "RSA");
     await client.deleteKey(keyName);
 
@@ -237,7 +235,7 @@ describe("Keys client - create, read, update and delete operations", () => {
     await purgeKey();
   });
 
-  it("delete nonexisting key", async () => {
+  it.only("delete nonexisting key", async () => {
     try {
       await client.getKey(keyName);
       throw Error("Expecting an error but not catching one.");
@@ -250,14 +248,14 @@ describe("Keys client - create, read, update and delete operations", () => {
     }
   });
 
-  it("can get a key", async () => {
+  it.only("can get a key", async () => {
     const result = await client.createKey(keyName, "RSA");
     const getResult = await client.getKey(keyName);
     assert.equal(getResult.name, keyName, "Unexpected key name in result from getKey().");
     await flushKey();
   });
 
-  it("can get a specific version of a key", async () => {
+  it.only("can get a specific version of a key", async () => {
     const { version } = await client.createKey(keyName, "RSA");
     const options: GetKeyOptions = { version };
     const getResult = await client.getKey(keyName, options);
@@ -265,7 +263,7 @@ describe("Keys client - create, read, update and delete operations", () => {
     await flushKey();
   });
 
-  it("can get a deleted key", async () => {
+  it.only("can get a deleted key", async () => {
     await client.createKey(keyName, "RSA");
     await client.deleteKey(keyName);
     await delay(30000);
@@ -274,7 +272,7 @@ describe("Keys client - create, read, update and delete operations", () => {
     await purgeKey();
   });
 
-  it("can't get a deleted key that doesn't exist", async () => {
+  it.only("can't get a deleted key that doesn't exist", async () => {
     let error;
     try {
       await client.deleteKey(keyName);
