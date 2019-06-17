@@ -6,11 +6,11 @@ export interface PageSettings {
   /**
    * @member {string} [continuationToken] The token that keeps track of where to continue the iterator
    */
-  continuationToken?: string,
+  continuationToken?: string;
   /**
    * @member {number} [pageSize] The size of the page during paged iteration
    */
-  maxPageSize?: number,
+  maxPageSize?: number;
 }
 
 /**
@@ -23,11 +23,11 @@ export interface PagedAsyncIterableIterator<T, PageT = never> {
    */
   next(): Promise<
     | {
-        done: boolean;
+        done: false;
         value: T;
       }
     | {
-        done: boolean;
+        done: true;
         value: undefined;
       }
   >;
