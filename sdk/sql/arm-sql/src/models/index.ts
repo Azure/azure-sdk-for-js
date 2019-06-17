@@ -534,9 +534,22 @@ export interface ImportRequest extends ExportRequest {
    */
   databaseName: string;
   /**
-   * The edition for the database being created. Possible values include: 'Web', 'Business',
-   * 'Basic', 'Standard', 'Premium', 'PremiumRS', 'Free', 'Stretch', 'DataWarehouse', 'System',
-   * 'System2'
+   * The edition for the database being created.
+   *
+   * The list of SKUs may vary by region and support offer. To determine the SKUs (including the
+   * SKU name, tier/edition, family, and capacity) that are available to your subscription in an
+   * Azure region, use the `Capabilities_ListByLocation` REST API or one of the following commands:
+   *
+   * ```azurecli
+   * az sql db list-editions -l <location> -o table
+   * ````
+   *
+   * ```powershell
+   * Get-AzSqlServerServiceObjective -Location <location>
+   * ````
+   * . Possible values include: 'Web', 'Business', 'Basic', 'Standard', 'Premium', 'PremiumRS',
+   * 'Free', 'Stretch', 'DataWarehouse', 'System', 'System2', 'GeneralPurpose', 'BusinessCritical',
+   * 'Hyperscale'
    */
   edition: DatabaseEdition;
   /**
@@ -719,7 +732,8 @@ export interface RecommendedElasticPoolMetric {
 export interface RecommendedElasticPool extends ProxyResource {
   /**
    * The edition of the recommended elastic pool. The ElasticPoolEdition enumeration contains all
-   * the valid editions. Possible values include: 'Basic', 'Standard', 'Premium'
+   * the valid editions. Possible values include: 'Basic', 'Standard', 'Premium', 'GeneralPurpose',
+   * 'BusinessCritical'
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly databaseEdition?: ElasticPoolEdition;
@@ -1708,9 +1722,19 @@ export interface ManagedInstance extends TrackedResource {
    */
   identity?: ResourceIdentity;
   /**
-   * Managed instance sku
+   * Managed instance SKU. Allowed values for sku.name: GP_Gen4, GP_Gen5, BC_Gen4, BC_Gen5
    */
   sku?: Sku;
+  /**
+   * Specifies the mode of database creation.
+   *
+   * Default: Regular instance creation.
+   *
+   * Restore: Creates an instance by restoring a set of backups to specific point in time.
+   * RestorePointInTime and SourceManagedInstanceId must be specified. Possible values include:
+   * 'Default', 'PointInTimeRestore'
+   */
+  managedInstanceCreateMode?: ManagedServerCreateMode;
   /**
    * The fully qualified domain name of the managed instance.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -1735,15 +1759,17 @@ export interface ManagedInstance extends TrackedResource {
    */
   readonly state?: string;
   /**
-   * The license type. Possible values are 'LicenseIncluded' and 'BasePrice'.
+   * The license type. Possible values are 'LicenseIncluded' (regular price inclusive of a new SQL
+   * license) and 'BasePrice' (discounted AHB price for bringing your own SQL licenses). Possible
+   * values include: 'LicenseIncluded', 'BasePrice'
    */
-  licenseType?: string;
+  licenseType?: ManagedInstanceLicenseType;
   /**
-   * The number of VCores.
+   * The number of vCores. Allowed values: 8, 16, 24, 32, 40, 64, 80.
    */
   vCores?: number;
   /**
-   * The maximum storage size in GB.
+   * Storage size in GB. Minimum value: 32. Maximum value: 8192. Increments of 32 GB allowed only.
    */
   storageSizeInGB?: number;
   /**
@@ -1765,6 +1791,16 @@ export interface ManagedInstance extends TrackedResource {
    */
   publicDataEndpointEnabled?: boolean;
   /**
+   * The resource identifier of the source managed instance associated with create operation of
+   * this instance.
+   */
+  sourceManagedInstanceId?: string;
+  /**
+   * Specifies the point in time (ISO8601 format) of the source database that will be restored to
+   * create the new database.
+   */
+  restorePointInTime?: Date;
+  /**
    * Connection type used for connecting to the instance. Possible values include: 'Proxy',
    * 'Redirect', 'Default'
    */
@@ -1780,6 +1816,10 @@ export interface ManagedInstance extends TrackedResource {
    * An example of valid timezone id is "Pacific Standard Time" or "W. Europe Standard Time".
    */
   timezoneId?: string;
+  /**
+   * The Id of the instance pool this managed server belongs to.
+   */
+  instancePoolId?: string;
 }
 
 /**
@@ -1791,6 +1831,16 @@ export interface ManagedInstanceUpdate {
    */
   sku?: Sku;
   /**
+   * Specifies the mode of database creation.
+   *
+   * Default: Regular instance creation.
+   *
+   * Restore: Creates an instance by restoring a set of backups to specific point in time.
+   * RestorePointInTime and SourceManagedInstanceId must be specified. Possible values include:
+   * 'Default', 'PointInTimeRestore'
+   */
+  managedInstanceCreateMode?: ManagedServerCreateMode;
+  /**
    * The fully qualified domain name of the managed instance.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
@@ -1814,15 +1864,17 @@ export interface ManagedInstanceUpdate {
    */
   readonly state?: string;
   /**
-   * The license type. Possible values are 'LicenseIncluded' and 'BasePrice'.
+   * The license type. Possible values are 'LicenseIncluded' (regular price inclusive of a new SQL
+   * license) and 'BasePrice' (discounted AHB price for bringing your own SQL licenses). Possible
+   * values include: 'LicenseIncluded', 'BasePrice'
    */
-  licenseType?: string;
+  licenseType?: ManagedInstanceLicenseType;
   /**
-   * The number of VCores.
+   * The number of vCores. Allowed values: 8, 16, 24, 32, 40, 64, 80.
    */
   vCores?: number;
   /**
-   * The maximum storage size in GB.
+   * Storage size in GB. Minimum value: 32. Maximum value: 8192. Increments of 32 GB allowed only.
    */
   storageSizeInGB?: number;
   /**
@@ -1844,6 +1896,16 @@ export interface ManagedInstanceUpdate {
    */
   publicDataEndpointEnabled?: boolean;
   /**
+   * The resource identifier of the source managed instance associated with create operation of
+   * this instance.
+   */
+  sourceManagedInstanceId?: string;
+  /**
+   * Specifies the point in time (ISO8601 format) of the source database that will be restored to
+   * create the new database.
+   */
+  restorePointInTime?: Date;
+  /**
    * Connection type used for connecting to the instance. Possible values include: 'Proxy',
    * 'Redirect', 'Default'
    */
@@ -1859,6 +1921,10 @@ export interface ManagedInstanceUpdate {
    * An example of valid timezone id is "Pacific Standard Time" or "W. Europe Standard Time".
    */
   timezoneId?: string;
+  /**
+   * The Id of the instance pool this managed server belongs to.
+   */
+  instancePoolId?: string;
   /**
    * Resource tags.
    */
@@ -3926,6 +3992,13 @@ export interface SensitivityLabel extends ProxyResource {
    * The information type ID.
    */
   informationTypeId?: string;
+  /**
+   * Is sensitivity recommendation disabled. Applicable for recommended sensitivity label only.
+   * Specifies whether the sensitivity recommendation on this column is disabled (dismissed) or
+   * not.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly isDisabled?: boolean;
 }
 
 /**
@@ -4605,7 +4678,19 @@ export interface LocationCapabilities {
  */
 export interface Database extends TrackedResource {
   /**
-   * The name and tier of the SKU.
+   * The database SKU.
+   *
+   * The list of SKUs may vary by region and support offer. To determine the SKUs (including the
+   * SKU name, tier/edition, family, and capacity) that are available to your subscription in an
+   * Azure region, use the `Capabilities_ListByLocation` REST API or one of the following commands:
+   *
+   * ```azurecli
+   * az sql db list-editions -l <location> -o table
+   * ````
+   *
+   * ```powershell
+   * Get-AzSqlServerServiceObjective -Location <location>
+   * ````
    */
   sku?: Sku;
   /**
@@ -4678,7 +4763,7 @@ export interface Database extends TrackedResource {
    * The status of the database. Possible values include: 'Online', 'Restoring', 'RecoveryPending',
    * 'Recovering', 'Suspect', 'Offline', 'Standby', 'Shutdown', 'EmergencyMode', 'AutoClosed',
    * 'Copying', 'Creating', 'Inaccessible', 'OfflineSecondary', 'Pausing', 'Paused', 'Resuming',
-   * 'Scaling'
+   * 'Scaling', 'OfflineChangingDwPerformanceTiers', 'OnlineChangingDwPerformanceTiers'
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly status?: DatabaseStatus;
@@ -4778,6 +4863,15 @@ export interface Database extends TrackedResource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly currentSku?: Sku;
+  /**
+   * Time in minutes after which database is automatically paused. A value of -1 means that
+   * automatic pause is disabled
+   */
+  autoPauseDelay?: number;
+  /**
+   * Minimal capacity that database will always have allocated, if not paused
+   */
+  minCapacity?: number;
 }
 
 /**
@@ -4848,7 +4942,7 @@ export interface DatabaseUpdate {
    * The status of the database. Possible values include: 'Online', 'Restoring', 'RecoveryPending',
    * 'Recovering', 'Suspect', 'Offline', 'Standby', 'Shutdown', 'EmergencyMode', 'AutoClosed',
    * 'Copying', 'Creating', 'Inaccessible', 'OfflineSecondary', 'Pausing', 'Paused', 'Resuming',
-   * 'Scaling'
+   * 'Scaling', 'OfflineChangingDwPerformanceTiers', 'OnlineChangingDwPerformanceTiers'
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly status?: DatabaseStatus;
@@ -4949,6 +5043,15 @@ export interface DatabaseUpdate {
    */
   readonly currentSku?: Sku;
   /**
+   * Time in minutes after which database is automatically paused. A value of -1 means that
+   * automatic pause is disabled
+   */
+  autoPauseDelay?: number;
+  /**
+   * Minimal capacity that database will always have allocated, if not paused
+   */
+  minCapacity?: number;
+  /**
    * Resource tags.
    */
   tags?: { [propertyName: string]: string };
@@ -4982,6 +5085,17 @@ export interface ElasticPoolPerDatabaseSettings {
  * An elastic pool.
  */
 export interface ElasticPool extends TrackedResource {
+  /**
+   * The elastic pool SKU.
+   *
+   * The list of SKUs may vary by region and support offer. To determine the SKUs (including the
+   * SKU name, tier/edition, family, and capacity) that are available to your subscription in an
+   * Azure region, use the `Capabilities_ListByLocation` REST API or the following command:
+   *
+   * ```azurecli
+   * az sql elastic-pool list-editions -l <location> -o table
+   * ````
+   */
   sku?: Sku;
   /**
    * Kind of elastic pool. This is metadata used for the Azure portal experience.
@@ -5361,6 +5475,95 @@ export interface ServerVulnerabilityAssessment extends ProxyResource {
 }
 
 /**
+ * An Azure SQL instance pool.
+ */
+export interface InstancePool extends TrackedResource {
+  /**
+   * The name and tier of the SKU.
+   */
+  sku?: Sku;
+  /**
+   * Resource ID of the subnet to place this instance pool in.
+   */
+  subnetId: string;
+  /**
+   * Count of vCores belonging to this instance pool.
+   */
+  vCores: number;
+  /**
+   * The license type. Possible values are 'LicenseIncluded' (price for SQL license is included)
+   * and 'BasePrice' (without SQL license price). Possible values include: 'LicenseIncluded',
+   * 'BasePrice'
+   */
+  licenseType: InstancePoolLicenseType;
+}
+
+/**
+ * An update to an Instance pool.
+ */
+export interface InstancePoolUpdate {
+  /**
+   * Resource tags.
+   */
+  tags?: { [propertyName: string]: string };
+}
+
+/**
+ * ARM Usage Name
+ */
+export interface Name {
+  /**
+   * Usage name value
+   */
+  value?: string;
+  /**
+   * Usage name localized value.
+   */
+  localizedValue?: string;
+}
+
+/**
+ * ARM usage.
+ */
+export interface Usage {
+  /**
+   * Resource ID.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * Resource name.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: Name;
+  /**
+   * Resource type.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * Usage unit.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly unit?: string;
+  /**
+   * Usage current value.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly currentValue?: number;
+  /**
+   * Usage limit.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly limit?: number;
+  /**
+   * Usage requested limit.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly requestedLimit?: number;
+}
+
+/**
  * Optional Parameters.
  */
 export interface ElasticPoolsListByServerOptionalParams extends msRest.RequestOptionsBase {
@@ -5609,6 +5812,10 @@ export interface SensitivityLabelsListCurrentByDatabaseOptionalParams extends ms
  * Optional Parameters.
  */
 export interface SensitivityLabelsListRecommendedByDatabaseOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Specifies whether to include disabled recommendations or not.
+   */
+  includeDisabledRecommendations?: boolean;
   skipToken?: string;
   /**
    * An OData filter expression that filters elements in the collection.
@@ -5652,11 +5859,25 @@ export interface ManagedDatabaseSensitivityLabelsListCurrentByDatabaseOptionalPa
  * Optional Parameters.
  */
 export interface ManagedDatabaseSensitivityLabelsListRecommendedByDatabaseOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Specifies whether to include disabled recommendations or not.
+   */
+  includeDisabledRecommendations?: boolean;
   skipToken?: string;
   /**
    * An OData filter expression that filters elements in the collection.
    */
   filter?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface UsagesListByInstancePoolOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Optional request parameter to include managed instance usages within the instance pool.
+   */
+  expandChildren?: boolean;
 }
 
 /**
@@ -6417,6 +6638,32 @@ export interface ServerVulnerabilityAssessmentListResult extends Array<ServerVul
 }
 
 /**
+ * @interface
+ * A list of Azure SQL instance pools.
+ * @extends Array<InstancePool>
+ */
+export interface InstancePoolListResult extends Array<InstancePool> {
+  /**
+   * Link to retrieve next page of results.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * A list of usages.
+ * @extends Array<Usage>
+ */
+export interface UsageListResult extends Array<Usage> {
+  /**
+   * Link to retrieve next page of results.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
  * Defines values for CheckNameAvailabilityReason.
  * Possible values include: 'Invalid', 'AlreadyExists'
  * @readonly
@@ -6491,11 +6738,12 @@ export type GeoBackupPolicyState = 'Disabled' | 'Enabled';
 /**
  * Defines values for DatabaseEdition.
  * Possible values include: 'Web', 'Business', 'Basic', 'Standard', 'Premium', 'PremiumRS', 'Free',
- * 'Stretch', 'DataWarehouse', 'System', 'System2'
+ * 'Stretch', 'DataWarehouse', 'System', 'System2', 'GeneralPurpose', 'BusinessCritical',
+ * 'Hyperscale'
  * @readonly
  * @enum {string}
  */
-export type DatabaseEdition = 'Web' | 'Business' | 'Basic' | 'Standard' | 'Premium' | 'PremiumRS' | 'Free' | 'Stretch' | 'DataWarehouse' | 'System' | 'System2';
+export type DatabaseEdition = 'Web' | 'Business' | 'Basic' | 'Standard' | 'Premium' | 'PremiumRS' | 'Free' | 'Stretch' | 'DataWarehouse' | 'System' | 'System2' | 'GeneralPurpose' | 'BusinessCritical' | 'Hyperscale';
 
 /**
  * Defines values for ServiceObjectiveName.
@@ -6555,11 +6803,11 @@ export type UnitDefinitionType = 'Count' | 'Bytes' | 'Seconds' | 'Percent' | 'Co
 
 /**
  * Defines values for ElasticPoolEdition.
- * Possible values include: 'Basic', 'Standard', 'Premium'
+ * Possible values include: 'Basic', 'Standard', 'Premium', 'GeneralPurpose', 'BusinessCritical'
  * @readonly
  * @enum {string}
  */
-export type ElasticPoolEdition = 'Basic' | 'Standard' | 'Premium';
+export type ElasticPoolEdition = 'Basic' | 'Standard' | 'Premium' | 'GeneralPurpose' | 'BusinessCritical';
 
 /**
  * Defines values for ReplicationRole.
@@ -6690,6 +6938,22 @@ export type FailoverGroupReplicationRole = 'Primary' | 'Secondary';
  * @enum {string}
  */
 export type IdentityType = 'SystemAssigned';
+
+/**
+ * Defines values for ManagedServerCreateMode.
+ * Possible values include: 'Default', 'PointInTimeRestore'
+ * @readonly
+ * @enum {string}
+ */
+export type ManagedServerCreateMode = 'Default' | 'PointInTimeRestore';
+
+/**
+ * Defines values for ManagedInstanceLicenseType.
+ * Possible values include: 'LicenseIncluded', 'BasePrice'
+ * @readonly
+ * @enum {string}
+ */
+export type ManagedInstanceLicenseType = 'LicenseIncluded' | 'BasePrice';
 
 /**
  * Defines values for ManagedInstanceProxyOverride.
@@ -6969,11 +7233,12 @@ export type SampleName = 'AdventureWorksLT' | 'WideWorldImportersStd' | 'WideWor
  * Defines values for DatabaseStatus.
  * Possible values include: 'Online', 'Restoring', 'RecoveryPending', 'Recovering', 'Suspect',
  * 'Offline', 'Standby', 'Shutdown', 'EmergencyMode', 'AutoClosed', 'Copying', 'Creating',
- * 'Inaccessible', 'OfflineSecondary', 'Pausing', 'Paused', 'Resuming', 'Scaling'
+ * 'Inaccessible', 'OfflineSecondary', 'Pausing', 'Paused', 'Resuming', 'Scaling',
+ * 'OfflineChangingDwPerformanceTiers', 'OnlineChangingDwPerformanceTiers'
  * @readonly
  * @enum {string}
  */
-export type DatabaseStatus = 'Online' | 'Restoring' | 'RecoveryPending' | 'Recovering' | 'Suspect' | 'Offline' | 'Standby' | 'Shutdown' | 'EmergencyMode' | 'AutoClosed' | 'Copying' | 'Creating' | 'Inaccessible' | 'OfflineSecondary' | 'Pausing' | 'Paused' | 'Resuming' | 'Scaling';
+export type DatabaseStatus = 'Online' | 'Restoring' | 'RecoveryPending' | 'Recovering' | 'Suspect' | 'Offline' | 'Standby' | 'Shutdown' | 'EmergencyMode' | 'AutoClosed' | 'Copying' | 'Creating' | 'Inaccessible' | 'OfflineSecondary' | 'Pausing' | 'Paused' | 'Resuming' | 'Scaling' | 'OfflineChangingDwPerformanceTiers' | 'OnlineChangingDwPerformanceTiers';
 
 /**
  * Defines values for DatabaseLicenseType.
@@ -7030,6 +7295,14 @@ export type VulnerabilityAssessmentScanState = 'Passed' | 'Failed' | 'FailedToRu
  * @enum {string}
  */
 export type InstanceFailoverGroupReplicationRole = 'Primary' | 'Secondary';
+
+/**
+ * Defines values for InstancePoolLicenseType.
+ * Possible values include: 'LicenseIncluded', 'BasePrice'
+ * @readonly
+ * @enum {string}
+ */
+export type InstancePoolLicenseType = 'LicenseIncluded' | 'BasePrice';
 
 /**
  * Defines values for LongTermRetentionDatabaseState.
@@ -9113,26 +9386,6 @@ export type FailoverGroupsListByServerNextResponse = FailoverGroupListResult & {
 };
 
 /**
- * Contains response data for the list operation.
- */
-export type ManagedInstancesListResponse = ManagedInstanceListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ManagedInstanceListResult;
-    };
-};
-
-/**
  * Contains response data for the listByResourceGroup operation.
  */
 export type ManagedInstancesListByResourceGroupResponse = ManagedInstanceListResult & {
@@ -9213,6 +9466,46 @@ export type ManagedInstancesUpdateResponse = ManagedInstance & {
 };
 
 /**
+ * Contains response data for the listByInstancePool operation.
+ */
+export type ManagedInstancesListByInstancePoolResponse = ManagedInstanceListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedInstanceListResult;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type ManagedInstancesListResponse = ManagedInstanceListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedInstanceListResult;
+    };
+};
+
+/**
  * Contains response data for the beginCreateOrUpdate operation.
  */
 export type ManagedInstancesBeginCreateOrUpdateResponse = ManagedInstance & {
@@ -9253,9 +9546,9 @@ export type ManagedInstancesBeginUpdateResponse = ManagedInstance & {
 };
 
 /**
- * Contains response data for the listNext operation.
+ * Contains response data for the listByResourceGroupNext operation.
  */
-export type ManagedInstancesListNextResponse = ManagedInstanceListResult & {
+export type ManagedInstancesListByResourceGroupNextResponse = ManagedInstanceListResult & {
   /**
    * The underlying HTTP response.
    */
@@ -9273,9 +9566,29 @@ export type ManagedInstancesListNextResponse = ManagedInstanceListResult & {
 };
 
 /**
- * Contains response data for the listByResourceGroupNext operation.
+ * Contains response data for the listByInstancePoolNext operation.
  */
-export type ManagedInstancesListByResourceGroupNextResponse = ManagedInstanceListResult & {
+export type ManagedInstancesListByInstancePoolNextResponse = ManagedInstanceListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedInstanceListResult;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type ManagedInstancesListNextResponse = ManagedInstanceListResult & {
   /**
    * The underlying HTTP response.
    */
@@ -14129,5 +14442,225 @@ export type ManagedDatabaseSensitivityLabelsListRecommendedByDatabaseNextRespons
        * The response body as parsed JSON or XML
        */
       parsedBody: SensitivityLabelListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type InstancePoolsGetResponse = InstancePool & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: InstancePool;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type InstancePoolsCreateOrUpdateResponse = InstancePool & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: InstancePool;
+    };
+};
+
+/**
+ * Contains response data for the update operation.
+ */
+export type InstancePoolsUpdateResponse = InstancePool & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: InstancePool;
+    };
+};
+
+/**
+ * Contains response data for the listByResourceGroup operation.
+ */
+export type InstancePoolsListByResourceGroupResponse = InstancePoolListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: InstancePoolListResult;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type InstancePoolsListResponse = InstancePoolListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: InstancePoolListResult;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdate operation.
+ */
+export type InstancePoolsBeginCreateOrUpdateResponse = InstancePool & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: InstancePool;
+    };
+};
+
+/**
+ * Contains response data for the beginUpdate operation.
+ */
+export type InstancePoolsBeginUpdateResponse = InstancePool & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: InstancePool;
+    };
+};
+
+/**
+ * Contains response data for the listByResourceGroupNext operation.
+ */
+export type InstancePoolsListByResourceGroupNextResponse = InstancePoolListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: InstancePoolListResult;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type InstancePoolsListNextResponse = InstancePoolListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: InstancePoolListResult;
+    };
+};
+
+/**
+ * Contains response data for the listByInstancePool operation.
+ */
+export type UsagesListByInstancePoolResponse = UsageListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: UsageListResult;
+    };
+};
+
+/**
+ * Contains response data for the listByInstancePoolNext operation.
+ */
+export type UsagesListByInstancePoolNextResponse = UsageListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: UsageListResult;
     };
 };
