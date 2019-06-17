@@ -86,6 +86,7 @@
     "rollup-plugin-node-resolve": "^4.2.0",
     "ts-mocha": "^6.0.0",
     "typescript": "^3.2.2",
-    "uglify-js": "^3.4.9"
+    "uglify-js": "^3.4.9",
+    "url": "^0.11.0"
   }
 }
