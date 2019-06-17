@@ -20,6 +20,7 @@ class AzureMachineLearningWorkspaces extends AzureMachineLearningWorkspacesConte
   operations: operations.Operations;
   workspaces: operations.Workspaces;
   machineLearningCompute: operations.MachineLearningCompute;
+  quotas: operations.Quotas;
 
   /**
    * Initializes a new instance of the AzureMachineLearningWorkspaces class.
@@ -32,6 +33,7 @@ class AzureMachineLearningWorkspaces extends AzureMachineLearningWorkspacesConte
     this.operations = new operations.Operations(this);
     this.workspaces = new operations.Workspaces(this);
     this.machineLearningCompute = new operations.MachineLearningCompute(this);
+    this.quotas = new operations.Quotas(this);
   }
 }
 

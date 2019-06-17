@@ -11,3 +11,4 @@
 export * from "./operations";
 export * from "./workspaces";
 export * from "./machineLearningCompute";
+export * from "./quotas";
