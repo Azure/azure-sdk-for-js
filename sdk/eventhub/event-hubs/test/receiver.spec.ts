@@ -12,6 +12,7 @@ import { EventPosition, EventHubClient, EventData, MessagingError, ReceivedEvent
 import { BatchingReceiver } from "../src/batchingReceiver";
 import { ReceiveHandler } from "../src/streamingReceiver";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
+import { AbortController } from "@azure/abort-controller";
 const env = getEnvVars();
 
 describe("EventHub Receiver #RunnableInBrowser", function(): void {
@@ -128,7 +129,7 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
       data3.length.should.equal(0, "Unexpected message received");
     });
     */
-   
+
     it("'after a particular offset' should receive messages correctly", async function(): Promise<void> {
       const partitionId = partitionIds[0];
       const pInfo = await client.getPartitionInformation(partitionId);
@@ -285,13 +286,191 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
     });
   });
 
-  describe("in batch mode", function(): void {
+  describe("in streaming mode", function(): void {
+    it("should receive messages correctly", async function(): Promise<void> {
+      const partitionId = partitionIds[0];
+      const time = Date.now();
+      // send a message that can be received
+      const sender = client.createSender({ partitionId });
+      try {
+        await sender.send({ body: "receive behaves correctly" });
+      } finally {
+        await sender.close();
+      }
+      receiver = client.createReceiver(partitionId, {
+        beginReceivingAt: EventPosition.fromEnqueuedTime(time)
+      });
+
+      const received: ReceivedEventData[] = await new Promise((resolve, reject) => {
+        let shouldStop = false;
+        const events: ReceivedEventData[] = [];
+
+        const handler = receiver!.receive(event => {
+          if (!shouldStop) {
+            events.push(event);
+            shouldStop = true;
+            handler
+              .stop()
+              .then(() => resolve(events))
+              .catch(reject);
+          }
+        }, reject);
+      });
+
+      received.length.should.equal(1);
+    });
+
+    it("should support being cancelled", async function(): Promise<void> {
+      const partitionId = partitionIds[0];
+      const time = Date.now();
+      // send a message that can be received
+      const sender = client.createSender({ partitionId });
+      try {
+        await sender.send({ body: "receive cancellation - timeout 0" });
+      } finally {
+        await sender.close();
+      }
+
+      receiver = client.createReceiver(partitionId, {
+        beginReceivingAt: EventPosition.fromEnqueuedTime(time)
+      });
+
+      try {
+        await new Promise((resolve, reject) => {
+          let shouldStop = false;
+          const events: ReceivedEventData[] = [];
+          // abortSignal event listeners will be triggered after synchronous paths are executed
+          const abortSignal = AbortController.timeout(0);
+
+          const handler = receiver!.receive(
+            event => {
+              if (!shouldStop) {
+                events.push(event);
+                shouldStop = true;
+                handler
+                  .stop()
+                  .then(() => resolve(events))
+                  .catch(reject);
+              }
+            },
+            reject,
+            abortSignal
+          );
+        });
+        throw new Error(`Test failure`);
+      } catch (err) {
+        err.name.should.equal("AbortError");
+        err.message.should.equal("The receive operation has been cancelled by the user.");
+      }
+    });
+
+    it("should support being cancelled from an already aborted AbortSignal", async function(): Promise<void> {
+      const partitionId = partitionIds[0];
+      const time = Date.now();
+      // send a message that can be received
+      const sender = client.createSender({ partitionId });
+      try {
+        await sender.send({ body: "receive cancellation - immediate" });
+      } finally {
+        await sender.close();
+      }
+
+      receiver = client.createReceiver(partitionId, {
+        beginReceivingAt: EventPosition.fromEnqueuedTime(time)
+      });
+
+      try {
+        await new Promise((resolve, reject) => {
+          let shouldStop = false;
+          const events: ReceivedEventData[] = [];
+
+          // create an AbortSignal that's in the aborted state
+          const abortController = new AbortController();
+          abortController.abort();
+
+          const handler = receiver!.receive(
+            event => {
+              if (!shouldStop) {
+                events.push(event);
+                shouldStop = true;
+                handler
+                  .stop()
+                  .then(() => resolve(events))
+                  .catch(reject);
+              }
+            },
+            reject,
+            abortController.signal
+          );
+        });
+        throw new Error(`Test failure`);
+      } catch (err) {
+        err.name.should.equal("AbortError");
+        err.message.should.equal("The receive operation has been cancelled by the user.");
+      }
+    });
+  });
+
+  describe("in batch mode #RunnableInBrowser", function(): void {
     it("should receive messages correctly", async function(): Promise<void> {
       const partitionId = partitionIds[0];
       receiver = client.createReceiver(partitionId);
       const data = await receiver.receiveBatch(5, 10);
       debug("received messages: ", data);
       data.length.should.equal(5, "Failed to receive five expected messages");
+    });
+
+    it("should support being cancelled", async function(): Promise<void> {
+      const partitionId = partitionIds[0];
+      const time = Date.now();
+      // send a message that can be received
+      const sender = client.createSender({ partitionId });
+      try {
+        await sender.send({ body: "batchReceiver cancellation - timeout 0" });
+      } finally {
+        await sender.close();
+      }
+
+      receiver = client.createReceiver(partitionId, {
+        beginReceivingAt: EventPosition.fromEnqueuedTime(time)
+      });
+
+      try {
+        // abortSignal event listeners will be triggered after synchronous paths are executed
+        const abortSignal = AbortController.timeout(0);
+        await receiver.receiveBatch(1, 60, abortSignal);
+        throw new Error(`Test failure`);
+      } catch (err) {
+        err.name.should.equal("AbortError");
+        err.message.should.equal("The receive operation has been cancelled by the user.");
+      }
+    });
+
+    it("should support being cancelled from an already aborted AbortSignal", async function(): Promise<void> {
+      const partitionId = partitionIds[0];
+      const time = Date.now();
+      // send a message that can be received
+      const sender = client.createSender({ partitionId });
+      try {
+        await sender.send({ body: "batchReceiver cancellation - immediate" });
+      } finally {
+        await sender.close();
+      }
+
+      receiver = client.createReceiver(partitionId, {
+        beginReceivingAt: EventPosition.fromEnqueuedTime(time)
+      });
+
+      try {
+        // abortSignal event listeners will be triggered after synchronous paths are executed
+        const abortController = new AbortController();
+        abortController.abort();
+        await receiver.receiveBatch(1, 60, abortController.signal);
+        throw new Error(`Test failure`);
+      } catch (err) {
+        err.name.should.equal("AbortError");
+        err.message.should.equal("The receive operation has been cancelled by the user.");
+      }
     });
   });
 
@@ -332,6 +511,65 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
 
       debug("received messages: ", data);
       data.length.should.equal(messageCount, `Failed to receive ${messageCount} expected messages`);
+    });
+
+    it("should support being cancelled", async function(): Promise<void> {
+      const partitionId = partitionIds[0];
+      const time = Date.now();
+      // send a message that can be received
+      const sender = client.createSender({ partitionId });
+      try {
+        await sender.send({ body: "getEventIterator cancellation - timeout 0" });
+      } finally {
+        await sender.close();
+      }
+
+      receiver = client.createReceiver(partitionId, {
+        beginReceivingAt: EventPosition.fromEnqueuedTime(time)
+      });
+
+      try {
+        // abortSignal event listeners will be triggered after synchronous paths are executed
+        const abortSignal = AbortController.timeout(0);
+        const eventIterator = receiver.getEventIterator({ abortSignal });
+
+        for await (const _ of eventIterator) {
+        }
+        throw new Error(`Test failure`);
+      } catch (err) {
+        err.name.should.equal("AbortError");
+        err.message.should.equal("The receive operation has been cancelled by the user.");
+      }
+    });
+
+    it("should support being cancelled from an already aborted AbortSignal", async function(): Promise<void> {
+      const partitionId = partitionIds[0];
+      const time = Date.now();
+      // send a message that can be received
+      const sender = client.createSender({ partitionId });
+      try {
+        await sender.send({ body: "getEventIterator cancellation - immediate" });
+      } finally {
+        await sender.close();
+      }
+
+      receiver = client.createReceiver(partitionId, {
+        beginReceivingAt: EventPosition.fromEnqueuedTime(time)
+      });
+
+      try {
+        // abortSignal event listeners will be triggered after synchronous paths are executed
+        const abortController = new AbortController();
+        abortController.abort();
+        const eventIterator = receiver.getEventIterator({ abortSignal: abortController.signal });
+
+        for await (const _ of eventIterator) {
+        }
+        throw new Error(`Test failure`);
+      } catch (err) {
+        err.name.should.equal("AbortError");
+        err.message.should.equal("The receive operation has been cancelled by the user.");
+      }
     });
   });
 
