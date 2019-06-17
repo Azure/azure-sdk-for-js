@@ -2,6 +2,11 @@ import * as msRest from "@azure/ms-rest-js";
 import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
 import { env } from "./recorder";
 
+// Async iterator's polyfill for Node 8
+if (!Symbol || !Symbol.asyncIterator) {
+  (Symbol as any).asyncIterator = Symbol.for("Symbol.asyncIterator");
+}
+
 export function getCredentialWithServicePrincipalSecret(): Promise<
   msRest.ServiceClientCredentials
 > {
