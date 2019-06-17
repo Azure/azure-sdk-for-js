@@ -9,7 +9,7 @@ import { createRandomLocalFile, getBSU, getUniqueName } from "../utils";
 import { readStreamToLocalFile } from "../../src/utils/utils.common";
 
 // tslint:disable:no-empty
-describe.only("Highlevel", () => {
+describe("Highlevel", () => {
   const blobServiceClient = getBSU();
   let containerName = getUniqueName("container");
   let containerClient = blobServiceClient.createContainerClient(containerName);
