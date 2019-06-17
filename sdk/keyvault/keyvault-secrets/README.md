@@ -93,7 +93,7 @@ Key vaults allow deleting secrets so that they are no longer available.
 
 In key vaults with 'soft delete' enabled, secrets are not immediately removed but instead marked simply as 'deleted'. These deleted secrets can be listed, purged, and recovered.
  
-## Example
+## Examples
 
 The following sections provide code snippets that cover some of the common tasks using Azure KeyVault Secrets. 
 
