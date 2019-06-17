@@ -337,11 +337,11 @@ export class QueueServiceClient extends StorageClient {
    *
    * @param {ServiceListQueuesOptions} [options] Options to list queues operation.
    * @memberof QueueServiceClient
-   * @returns {PagedAsyncIterableIterator<Models.QueueItem, Models.ListQueuesSegmentResponse>}
+   * @returns {PagedAsyncIterableIterator<Models.QueueItem, Models.ServiceListQueuesSegmentResponse>}
    */
   public listQueues(
     options: ServiceListQueuesOptions = {}
-  ): PagedAsyncIterableIterator<Models.QueueItem, Models.ListQueuesSegmentResponse> {
+  ): PagedAsyncIterableIterator<Models.QueueItem, Models.ServiceListQueuesSegmentResponse> {
     // AsyncIterableIterator to iterate over queues
     const iter = this.listItems(options);
     return {
