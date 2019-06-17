@@ -5,7 +5,7 @@
 ```ts
 
 import { AadTokenProvider } from '@azure/core-amqp';
-import { AbortSignal } from '@azure/abort-controller';
+import { AbortSignalLike } from '@azure/abort-controller';
 import { AmqpError } from 'rhea-promise';
 import { ApplicationTokenCredentials } from '@azure/ms-rest-nodeauth';
 import { ConnectionContextBase } from '@azure/core-amqp';
@@ -37,12 +37,6 @@ export { DefaultDataTransformer }
 export { delay }
 
 // @public
-export interface EventBatchingOptions {
-    abortSignal?: AbortSignal;
-    partitionKey?: string | null;
-}
-
-// @public
 export interface EventData {
     body: any;
     properties?: {
@@ -61,9 +55,9 @@ export class EventHubClient {
     createReceiver(partitionId: string, options?: EventReceiverOptions): EventReceiver;
     createSender(options?: EventSenderOptions): EventSender;
     readonly eventHubName: string;
-    getPartitionIds(abortSignal?: AbortSignal): Promise<Array<string>>;
-    getPartitionInformation(partitionId: string, abortSignal?: AbortSignal): Promise<PartitionProperties>;
-    getProperties(abortSignal?: AbortSignal): Promise<EventHubProperties>;
+    getPartitionIds(abortSignal?: AbortSignalLike): Promise<Array<string>>;
+    getPartitionInformation(partitionId: string, abortSignal?: AbortSignalLike): Promise<PartitionProperties>;
+    getProperties(abortSignal?: AbortSignalLike): Promise<EventHubProperties>;
 }
 
 // @public
@@ -84,7 +78,7 @@ export interface EventHubProperties {
 
 // @public
 export interface EventIteratorOptions {
-    abortSignal?: AbortSignal;
+    abortSignal?: AbortSignalLike;
 }
 
 // @public
@@ -122,8 +116,8 @@ export class EventReceiver {
     readonly isClosed: boolean;
     isReceivingMessages(): boolean;
     readonly partitionId: string;
-    receive(onMessage: OnMessage, onError: OnError, abortSignal?: AbortSignal): ReceiveHandler;
-    receiveBatch(maxMessageCount: number, maxWaitTimeInSeconds?: number, abortSignal?: AbortSignal): Promise<ReceivedEventData[]>;
+    receive(onMessage: OnMessage, onError: OnError, abortSignal?: AbortSignalLike): ReceiveHandler;
+    receiveBatch(maxMessageCount: number, maxWaitTimeInSeconds?: number, abortSignal?: AbortSignalLike): Promise<ReceivedEventData[]>;
     }
 
 // @public
@@ -140,7 +134,7 @@ export class EventSender {
     constructor(context: ConnectionContext, options?: EventSenderOptions);
     close(): Promise<void>;
     readonly isClosed: boolean;
-    send(events: EventData[], options?: EventBatchingOptions): Promise<void>;
+    send(eventData: EventData | EventData[], options?: SendOptions): Promise<void>;
     }
 
 // @public
@@ -196,6 +190,12 @@ export interface RetryOptions {
 }
 
 export { SasTokenProvider }
+
+// @public
+export interface SendOptions {
+    abortSignal?: AbortSignalLike;
+    partitionKey?: string | null;
+}
 
 export { TokenInfo }
 
