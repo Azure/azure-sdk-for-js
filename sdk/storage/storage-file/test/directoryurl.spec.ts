@@ -4,23 +4,28 @@ import { Aborter } from "../src/Aborter";
 import { DirectoryURL } from "../src/DirectoryURL";
 import { FileURL } from "../src/FileURL";
 import { ShareURL } from "../src/ShareURL";
-import { getBSU, getUniqueName } from "./utils";
+import { getBSU } from "./utils";
+import { record } from "./utils/recorder";
 import * as dotenv from "dotenv";
 dotenv.config({ path: "../.env" });
 
 describe("DirectoryURL", () => {
   const serviceURL = getBSU();
-  let shareName = getUniqueName("share");
-  let shareURL = ShareURL.fromServiceURL(serviceURL, shareName);
-  let dirName = getUniqueName("dir");
-  let dirURL = DirectoryURL.fromShareURL(shareURL, dirName);
+  let shareName: string;
+  let shareURL: ShareURL;
+  let dirName: string;
+  let dirURL: DirectoryURL;
 
-  beforeEach(async () => {
-    shareName = getUniqueName("share");
+  let recorder: any;
+
+  beforeEach(async function() {
+    recorder = record(this);
+
+    shareName = recorder.getUniqueName("share");
     shareURL = ShareURL.fromServiceURL(serviceURL, shareName);
     await shareURL.create(Aborter.none);
 
-    dirName = getUniqueName("dir");
+    dirName = recorder.getUniqueName("dir");
     dirURL = DirectoryURL.fromShareURL(shareURL, dirName);
     await dirURL.create(Aborter.none);
   });
@@ -28,6 +33,7 @@ describe("DirectoryURL", () => {
   afterEach(async () => {
     await dirURL.delete(Aborter.none);
     await shareURL.delete(Aborter.none);
+    recorder.stop();
   });
 
   it("setMetadata", async () => {
@@ -61,7 +67,7 @@ describe("DirectoryURL", () => {
   });
 
   it("create with all parameters configured", async () => {
-    const cURL = ShareURL.fromServiceURL(serviceURL, getUniqueName(shareName));
+    const cURL = ShareURL.fromServiceURL(serviceURL, recorder.getUniqueName(shareName));
     const metadata = { key: "value" };
     await cURL.create(Aborter.none, { metadata });
     const result = await cURL.getProperties(Aborter.none);
@@ -77,11 +83,11 @@ describe("DirectoryURL", () => {
     const subDirURLs = [];
     const rootDirURL = DirectoryURL.fromShareURL(shareURL, "");
 
-    const prefix = getUniqueName(`pre${new Date().getTime().toString()}`);
+    const prefix = recorder.getUniqueName(`pre${recorder.newDate("date").getTime().toString()}`);
     for (let i = 0; i < 3; i++) {
       const subDirURL = DirectoryURL.fromDirectoryURL(
         rootDirURL,
-        getUniqueName(`${prefix}dir${i}`)
+        recorder.getUniqueName(`${prefix}dir${i}`)
       );
       await subDirURL.create(Aborter.none);
       subDirURLs.push(subDirURL);
@@ -89,7 +95,7 @@ describe("DirectoryURL", () => {
 
     const subFileURLs = [];
     for (let i = 0; i < 3; i++) {
-      const subFileURL = FileURL.fromDirectoryURL(rootDirURL, getUniqueName(`${prefix}file${i}`));
+      const subFileURL = FileURL.fromDirectoryURL(rootDirURL, recorder.getUniqueName(`${prefix}file${i}`));
       await subFileURL.create(Aborter.none, 1024);
       subFileURLs.push(subFileURL);
     }
@@ -121,15 +127,15 @@ describe("DirectoryURL", () => {
     }
   });
 
-  it("listFilesAndDirectoriesSegment with all parameters confirgured", async () => {
+  it("listFilesAndDirectoriesSegment with all parameters configured", async () => {
     const subDirURLs = [];
     const rootDirURL = DirectoryURL.fromShareURL(shareURL, "");
 
-    const prefix = getUniqueName(`pre${new Date().getTime().toString()}`);
+    const prefix = recorder.getUniqueName(`pre${recorder.newDate("date").getTime().toString()}`);
     for (let i = 0; i < 3; i++) {
       const subDirURL = DirectoryURL.fromDirectoryURL(
         rootDirURL,
-        getUniqueName(`${prefix}dir${i}`)
+        recorder.getUniqueName(`${prefix}dir${i}`)
       );
       await subDirURL.create(Aborter.none);
       subDirURLs.push(subDirURL);
@@ -137,7 +143,7 @@ describe("DirectoryURL", () => {
 
     const subFileURLs = [];
     for (let i = 0; i < 3; i++) {
-      const subFileURL = FileURL.fromDirectoryURL(rootDirURL, getUniqueName(`${prefix}file${i}`));
+      const subFileURL = FileURL.fromDirectoryURL(rootDirURL, recorder.getUniqueName(`${prefix}file${i}`));
       await subFileURL.create(Aborter.none, 1024);
       subFileURLs.push(subFileURL);
     }
