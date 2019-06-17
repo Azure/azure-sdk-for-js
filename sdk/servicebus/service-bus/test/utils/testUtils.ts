@@ -510,5 +510,11 @@ export function getNamespace(serviceBusConnectionString: string): string {
 }
 
 export function getServiceBusClient(): ServiceBusClient {
+  let env;
+  if (isNode) {
+    env = getEnvVars();
+  } else {
+    env = getEnvVars(true);
+  }
   return ServiceBusClient.createFromConnectionString(env[EnvVarKeys.SERVICEBUS_CONNECTION_STRING]);
 }
