@@ -133,7 +133,7 @@ export class EventPosition {
    * @return {EventPosition} EventPosition
    */
 
-  static fromFirstAvailableEvent(): EventPosition {
+  static earliest(): EventPosition {
     return EventPosition.fromOffset(EventPosition.startOfStream);
   }
 
@@ -143,7 +143,7 @@ export class EventPosition {
    * @return {EventPosition} EventPosition
    */
 
-  static fromNewEventsOnly(): EventPosition {
+  static latest(): EventPosition {
     return EventPosition.fromOffset(EventPosition.endOfStream);
   }
 }

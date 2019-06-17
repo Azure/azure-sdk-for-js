@@ -8,6 +8,7 @@ import { EventHubReceiver, OnMessage, OnError } from "./eventHubReceiver";
 import { ConnectionContext } from "./connectionContext";
 import * as log from "./log";
 import { AbortSignalLike } from "@azure/abort-controller";
+import { EventPosition } from "./eventPosition";
 
 /**
  * Describes the receive handler object that is returned from the receive() method with handlers is
@@ -95,10 +96,16 @@ export class StreamingReceiver extends EventHubReceiver {
    * @constructor
    * @param {EventHubClient} client          The EventHub client.
    * @param {string} partitionId             Partition ID from which to receive.
+   * @param {EventPosition} eventPosition    The event position in the partition at
    * @param {EventReceiverOptions} [options]       Options for how you'd like to connect.
    */
-  constructor(context: ConnectionContext, partitionId: string | number, options?: EventReceiverOptions) {
-    super(context, partitionId, options);
+  constructor(
+    context: ConnectionContext,
+    partitionId: string | number,
+    eventPosition: EventPosition,
+    options?: EventReceiverOptions
+  ) {
+    super(context, partitionId, eventPosition, options);
     this.receiveHandler = new ReceiveHandler(this);
   }
 
@@ -161,14 +168,16 @@ export class StreamingReceiver extends EventHubReceiver {
    * @ignore
    * @param {ConnectionContext} context    The connection context.
    * @param {string | number} partitionId  The partitionId to receive events from.
+   * @param {EventPosition} eventPosition The event position in the partition at which to start receiving messages.
    * @param {EventReceiverOptions} [options]     Receive options.
    */
   static create(
     context: ConnectionContext,
     partitionId: string | number,
+    eventPosition: EventPosition,
     options?: EventReceiverOptions
   ): StreamingReceiver {
-    const sReceiver = new StreamingReceiver(context, partitionId, options);
+    const sReceiver = new StreamingReceiver(context, partitionId, eventPosition, options);
     context.receivers[sReceiver.name] = sReceiver;
     return sReceiver;
   }

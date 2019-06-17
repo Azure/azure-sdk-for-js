@@ -102,6 +102,10 @@ export class EventHubReceiver extends LinkEntity {
    */
   epoch?: number;
   /**
+   * @property {EventPosition} eventPosition The event position in the partition at which to start receiving messages.
+   */
+  eventPosition: EventPosition;
+  /**
    * @property {ReceiveOptions} [options] Optional properties that can be set while creating
    * the EventHubReceiver.
    */
@@ -196,7 +200,7 @@ export class EventHubReceiver extends LinkEntity {
    * @param {string} partitionId                               Partition ID from which to receive.
    * @param {EventReceiverOptions} [options]                         Receiver options.
    */
-  constructor(context: ConnectionContext, partitionId: string | number, options?: EventReceiverOptions) {
+  constructor(context: ConnectionContext, partitionId: string | number, eventPosition: EventPosition, options?: EventReceiverOptions) {
     super(context, {
       partitionId: partitionId,
       name: context.config.getReceiverAddress(partitionId, options && options.consumerGroup)
@@ -206,6 +210,7 @@ export class EventHubReceiver extends LinkEntity {
     this.address = context.config.getReceiverAddress(partitionId, this.consumerGroup);
     this.audience = context.config.getReceiverAudience(partitionId, this.consumerGroup);
     this.epoch = options.exclusiveReceiverPriority;
+    this.eventPosition = eventPosition;
     this.options = options;
     this.receiverRuntimeMetricEnabled = false;
     this.runtimeInfo = {};
@@ -640,7 +645,7 @@ export class EventHubReceiver extends LinkEntity {
     if (this.receiverRuntimeMetricEnabled) {
       rcvrOptions.desired_capabilities = Constants.enableReceiverRuntimeMetricName;
     }
-    const eventPosition = options.eventPosition || this.options.beginReceivingAt;
+    const eventPosition = options.eventPosition || this.eventPosition;
     if (eventPosition) {
       // Set filter on the receiver if event position is specified.
       const filterClause = getEventPositionFilter(eventPosition);

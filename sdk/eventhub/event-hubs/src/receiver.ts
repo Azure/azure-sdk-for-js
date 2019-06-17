@@ -39,6 +39,10 @@ export class EventReceiver {
    */
   private _context: ConnectionContext;
   /**
+   * @property The event position in the partition at which to start receiving messages.
+   */
+  private _eventPosition: EventPosition;
+  /**
    * @property {boolean} [_isClosed] Denotes if close() was called on this receiver
    */
   private _isClosed: boolean = false;
@@ -86,9 +90,15 @@ export class EventReceiver {
   /**
    * @internal
    */
-  constructor(context: ConnectionContext, partitionId: string, options?: EventReceiverOptions) {
+  constructor(
+    context: ConnectionContext,
+    partitionId: string,
+    eventPosition: EventPosition,
+    options?: EventReceiverOptions
+  ) {
     this._context = context;
     this._partitionId = partitionId;
+    this._eventPosition = eventPosition;
     this._receiverOptions = options || {};
   }
   /**
@@ -113,9 +123,14 @@ export class EventReceiver {
     }
     const checkpoint = this.getCheckpoint();
     if (checkpoint) {
-      this._receiverOptions.beginReceivingAt = EventPosition.fromSequenceNumber(checkpoint);
+      this._eventPosition = EventPosition.fromSequenceNumber(checkpoint);
     }
-    this._streamingReceiver = StreamingReceiver.create(this._context, this.partitionId, this._receiverOptions);
+    this._streamingReceiver = StreamingReceiver.create(
+      this._context,
+      this.partitionId,
+      this._eventPosition,
+      this._receiverOptions
+    );
     this._streamingReceiver.prefetchCount = Constants.defaultPrefetchCount;
     return this._streamingReceiver.receive(onMessage, onError, abortSignal);
   }
@@ -204,13 +219,23 @@ export class EventReceiver {
     this._throwIfAlreadyReceiving();
     const checkpoint = this.getCheckpoint();
     if (checkpoint) {
-      this._receiverOptions.beginReceivingAt = EventPosition.fromSequenceNumber(checkpoint);
+      this._eventPosition = EventPosition.fromSequenceNumber(checkpoint);
     }
     if (!this._batchingReceiver) {
-      this._batchingReceiver = BatchingReceiver.create(this._context, this.partitionId, this._receiverOptions);
+      this._batchingReceiver = BatchingReceiver.create(
+        this._context,
+        this.partitionId,
+        this._eventPosition,
+        this._receiverOptions
+      );
     } else if (this._batchingReceiver.checkpoint < checkpoint!) {
       await this._batchingReceiver.close();
-      this._batchingReceiver = BatchingReceiver.create(this._context, this.partitionId, this._receiverOptions);
+      this._batchingReceiver = BatchingReceiver.create(
+        this._context,
+        this.partitionId,
+        this._eventPosition,
+        this._receiverOptions
+      );
     }
 
     let result: ReceivedEventData[] = [];
