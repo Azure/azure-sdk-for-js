@@ -5509,6 +5509,61 @@ export interface InstancePoolUpdate {
 }
 
 /**
+ * ARM Usage Name
+ */
+export interface Name {
+  /**
+   * Usage name value
+   */
+  value?: string;
+  /**
+   * Usage name localized value.
+   */
+  localizedValue?: string;
+}
+
+/**
+ * ARM usage.
+ */
+export interface Usage {
+  /**
+   * Resource ID.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * Resource name.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: Name;
+  /**
+   * Resource type.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * Usage unit.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly unit?: string;
+  /**
+   * Usage current value.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly currentValue?: number;
+  /**
+   * Usage limit.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly limit?: number;
+  /**
+   * Usage requested limit.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly requestedLimit?: number;
+}
+
+/**
  * Optional Parameters.
  */
 export interface ElasticPoolsListByServerOptionalParams extends msRest.RequestOptionsBase {
@@ -5813,6 +5868,16 @@ export interface ManagedDatabaseSensitivityLabelsListRecommendedByDatabaseOption
    * An OData filter expression that filters elements in the collection.
    */
   filter?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface UsagesListByInstancePoolOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Optional request parameter to include managed instance usages within the instance pool.
+   */
+  expandChildren?: boolean;
 }
 
 /**
@@ -6578,6 +6643,19 @@ export interface ServerVulnerabilityAssessmentListResult extends Array<ServerVul
  * @extends Array<InstancePool>
  */
 export interface InstancePoolListResult extends Array<InstancePool> {
+  /**
+   * Link to retrieve next page of results.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * A list of usages.
+ * @extends Array<Usage>
+ */
+export interface UsageListResult extends Array<Usage> {
   /**
    * Link to retrieve next page of results.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -14544,5 +14622,45 @@ export type InstancePoolsListNextResponse = InstancePoolListResult & {
        * The response body as parsed JSON or XML
        */
       parsedBody: InstancePoolListResult;
+    };
+};
+
+/**
+ * Contains response data for the listByInstancePool operation.
+ */
+export type UsagesListByInstancePoolResponse = UsageListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: UsageListResult;
+    };
+};
+
+/**
+ * Contains response data for the listByInstancePoolNext operation.
+ */
+export type UsagesListByInstancePoolNextResponse = UsageListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: UsageListResult;
     };
 };

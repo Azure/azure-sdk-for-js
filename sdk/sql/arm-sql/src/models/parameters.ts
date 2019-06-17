@@ -316,6 +316,18 @@ export const endTimeMin: msRest.OperationQueryParameter = {
     }
   }
 };
+export const expandChildren: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "expandChildren"
+  ],
+  mapper: {
+    serializedName: "expandChildren",
+    type: {
+      name: "Boolean"
+    }
+  }
+};
 export const extensionName: msRest.OperationURLParameter = {
   parameterPath: "extensionName",
   mapper: {
