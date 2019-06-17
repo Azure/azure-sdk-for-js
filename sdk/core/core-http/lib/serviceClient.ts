@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import { ServiceClientCredentials } from "./credentials/serviceClientCredentials";
+import { TokenCredential, isTokenCredential } from "./credentials/tokenCredential";
 import { DefaultHttpClient } from "./defaultHttpClient";
 import { HttpClient } from "./httpClient";
 import { HttpOperationResponse, RestResponse } from "./httpOperationResponse";
@@ -17,6 +18,7 @@ import { redirectPolicy } from "./policies/redirectPolicy";
 import { RequestPolicy, RequestPolicyFactory, RequestPolicyOptions } from "./policies/requestPolicy";
 import { rpRegistrationPolicy } from "./policies/rpRegistrationPolicy";
 import { signingPolicy } from "./policies/signingPolicy";
+import { bearerTokenAuthenticationPolicy } from "./policies/bearerTokenAuthenticationPolicy";
 import { systemErrorRetryPolicy } from "./policies/systemErrorRetryPolicy";
 import { QueryCollectionFormat } from "./queryCollectionFormat";
 import { CompositeMapper, DictionaryMapper, Mapper, MapperType, Serializer } from "./serializer";
@@ -134,12 +136,12 @@ export class ServiceClient {
    * @param {ServiceClientCredentials} [credentials] The credentials object used for authentication.
    * @param {ServiceClientOptions} [options] The service client options that govern the behavior of the client.
    */
-  constructor(credentials?: ServiceClientCredentials, options?: ServiceClientOptions) {
+  constructor(credentials?: ServiceClientCredentials | TokenCredential, options?: ServiceClientOptions) {
     if (!options) {
       options = {};
     }
 
-    if (credentials && !credentials.signRequest) {
+    if (credentials && !isTokenCredential(credentials) && !credentials.signRequest) {
       throw new Error("credentials argument needs to implement signRequest method");
     }
 
@@ -393,7 +395,7 @@ function getValueOrFunctionResult(value: undefined | string | ((defaultValue: st
   return result;
 }
 
-function createDefaultRequestPolicyFactories(credentials: ServiceClientCredentials | RequestPolicyFactory | undefined, options: ServiceClientOptions): RequestPolicyFactory[] {
+function createDefaultRequestPolicyFactories(credentials: ServiceClientCredentials | TokenCredential | RequestPolicyFactory | undefined, options: ServiceClientOptions): RequestPolicyFactory[] {
   const factories: RequestPolicyFactory[] = [];
 
   if (options.generateClientRequestIdHeader) {
@@ -403,6 +405,8 @@ function createDefaultRequestPolicyFactories(credentials: ServiceClientCredentia
   if (credentials) {
     if (isRequestPolicyFactory(credentials)) {
       factories.push(credentials);
+    } else if (isTokenCredential(credentials)) {
+      factories.push(bearerTokenAuthenticationPolicy(credentials, "/.default"));
     } else {
       factories.push(signingPolicy(credentials));
     }
