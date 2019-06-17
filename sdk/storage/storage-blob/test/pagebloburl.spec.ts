@@ -1,32 +1,37 @@
 import * as assert from "assert";
-import { bodyToString, getBSU, getUniqueName } from "./utils";
+import { bodyToString, getBSU } from "./utils";
 
 import { Aborter } from "../src/Aborter";
 import { BlobURL } from "../src/BlobURL";
 import { ContainerURL } from "../src/ContainerURL";
 import { PageBlobURL } from "../src/PageBlobURL";
+import { record } from "./utils/recorder";
 import * as dotenv from "dotenv";
 dotenv.config({ path: "../.env" });
 
 describe("PageBlobURL", () => {
   const serviceURL = getBSU();
-  let containerName: string = getUniqueName("container");
-  let containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
-  let blobName: string = getUniqueName("blob");
-  let blobURL = BlobURL.fromContainerURL(containerURL, blobName);
-  let pageBlobURL = PageBlobURL.fromBlobURL(blobURL);
+  let containerName: string;
+  let containerURL: ContainerURL;
+  let blobName: string;
+  let blobURL: BlobURL;
+  let pageBlobURL: PageBlobURL;
 
-  beforeEach(async () => {
-    containerName = getUniqueName("container");
+  let recorder: any;
+
+  beforeEach(async function() {
+    recorder = record(this);
+    containerName = recorder.getUniqueName("container");
     containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
     await containerURL.create(Aborter.none);
-    blobName = getUniqueName("blob");
+    blobName = recorder.getUniqueName("blob");
     blobURL = BlobURL.fromContainerURL(containerURL, blobName);
     pageBlobURL = PageBlobURL.fromBlobURL(blobURL);
   });
 
   afterEach(async () => {
     await containerURL.delete(Aborter.none);
+    recorder.stop();
   });
 
   it("create with default parameters", async () => {
