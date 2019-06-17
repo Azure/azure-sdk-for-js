@@ -6,6 +6,29 @@ import { IdentityClient } from "../../src/client/identityClient";
 import { MockAuthHttpClient } from "../credentials/authTestUtils";
 import { AuthenticationError } from "../../src/";
 
+// Node's `assert.rejects` doesn't appear until 8.13.0 so we'll
+// use our own simple implementation here
+async function assertRejects(
+  promise: Promise<any>,
+  expected: (error: any) => boolean,
+  message?: string
+) {
+  try {
+    await promise;
+  } catch (error) {
+    assert.ok(expected(error), message || "The error didn't pass the assertion predicate.")
+  }
+}
+
+function isExpectedError(expectedErrorName: string): (error: any) => boolean {
+  return (error: any) => {
+    if (!(error instanceof AuthenticationError)) {
+      assert.ifError(error)
+    }
+    return error.errorResponse.error === expectedErrorName
+  }
+}
+
 describe("IdentityClient", function () {
   it("throws an exception when an authentication request fails", async () => {
     const mockHttp = new MockAuthHttpClient({
@@ -14,17 +37,18 @@ describe("IdentityClient", function () {
     });
     const client = new IdentityClient(mockHttp.identityClientOptions);
 
-    await (assert as any).rejects(
-      () => client.authenticateClientSecret("tenant", "client", "secret", "https://test/.default"),
-      AuthenticationError
+    await assertRejects(
+      client.authenticateClientSecret("tenant", "client", "secret", "https://test/.default"),
+      error => error instanceof AuthenticationError
     );
   });
 
-  it("returns a usable error when the authentication response body doesn't contain parseable JSON", async () => {
-    const client = new IdentityClient({ authorityHost: "bogus" });
-    await (assert as any).rejects(
-      () => client.authenticateClientSecret("tenant", "client", "secret", "https://test/.default"),
-      (err: AuthenticationError) => err.errorResponse.error === "authority_not_found"
+  it("returns a usable error when the authentication response doesn't contain a body", async () => {
+    const mockHttp = new MockAuthHttpClient({ status: 500, bodyAsText: '' });
+    const client = new IdentityClient(mockHttp.identityClientOptions);
+    await assertRejects(
+      client.authenticateClientSecret("tenant", "client", "secret", "https://test/.default"),
+      isExpectedError("unknown_error")
     );
   });
 });
