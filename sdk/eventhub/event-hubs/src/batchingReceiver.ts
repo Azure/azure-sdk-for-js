@@ -170,12 +170,8 @@ export class BatchingReceiver extends EventHubReceiver {
           if (this._abortSignal) {
             this._abortSignal.removeEventListener("abort", this._onAbort);
           }
-          const desc: string =
-            `[${this._context.connectionId}] The receive operation on the Receiver "${this.name}" with ` +
-            `address "${this.address}" has been cancelled by the user.`;
-          log.error(desc);
           await this.close();
-          reject(new AbortError("The receive operation has been cancelled by the user."));
+          rejectOnAbort();
         };
 
         // Action to be taken when an error is received.
