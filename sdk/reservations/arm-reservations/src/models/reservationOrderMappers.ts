@@ -17,6 +17,8 @@ export {
   ExtendedStatusInfo,
   PurchaseRequest,
   PurchaseRequestPropertiesReservedResourceProperties,
+  RenewPropertiesResponse,
+  RenewPropertiesResponseLockedPriceTotal,
   ReservationMergeProperties,
   ReservationOrderList,
   ReservationOrderResponse,

@@ -30,6 +30,18 @@ export const apiVersion: msRest.OperationQueryParameter = {
     }
   }
 };
+export const append: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "append"
+  ],
+  mapper: {
+    serializedName: "append",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const location: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",

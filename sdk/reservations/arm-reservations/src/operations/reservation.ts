@@ -91,7 +91,7 @@ export class Reservation {
    * @param [options] The optional parameters
    * @returns Promise<Models.ReservationGetResponse>
    */
-  get(reservationId: string, reservationOrderId: string, options?: msRest.RequestOptionsBase): Promise<Models.ReservationGetResponse>;
+  get(reservationId: string, reservationOrderId: string, options?: Models.ReservationGetOptionalParams): Promise<Models.ReservationGetResponse>;
   /**
    * @param reservationId Id of the Reservation Item
    * @param reservationOrderId Order Id of the reservation
@@ -104,8 +104,8 @@ export class Reservation {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(reservationId: string, reservationOrderId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ReservationResponse>): void;
-  get(reservationId: string, reservationOrderId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ReservationResponse>, callback?: msRest.ServiceCallback<Models.ReservationResponse>): Promise<Models.ReservationGetResponse> {
+  get(reservationId: string, reservationOrderId: string, options: Models.ReservationGetOptionalParams, callback: msRest.ServiceCallback<Models.ReservationResponse>): void;
+  get(reservationId: string, reservationOrderId: string, options?: Models.ReservationGetOptionalParams | msRest.ServiceCallback<Models.ReservationResponse>, callback?: msRest.ServiceCallback<Models.ReservationResponse>): Promise<Models.ReservationGetResponse> {
     return this.client.sendOperationRequest(
       {
         reservationId,
@@ -315,7 +315,8 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.reservationOrderId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion,
+    Parameters.append
   ],
   headerParameters: [
     Parameters.acceptLanguage

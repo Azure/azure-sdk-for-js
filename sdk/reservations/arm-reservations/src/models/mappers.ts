@@ -233,6 +233,151 @@ export const ReservationMergeProperties: msRest.CompositeMapper = {
   }
 };
 
+export const PurchaseRequestPropertiesReservedResourceProperties: msRest.CompositeMapper = {
+  serializedName: "PurchaseRequestProperties_reservedResourceProperties",
+  type: {
+    name: "Composite",
+    className: "PurchaseRequestPropertiesReservedResourceProperties",
+    modelProperties: {
+      instanceFlexibility: {
+        serializedName: "instanceFlexibility",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PurchaseRequest: msRest.CompositeMapper = {
+  serializedName: "PurchaseRequest",
+  type: {
+    name: "Composite",
+    className: "PurchaseRequest",
+    modelProperties: {
+      sku: {
+        serializedName: "sku",
+        type: {
+          name: "Composite",
+          className: "SkuName"
+        }
+      },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      reservedResourceType: {
+        serializedName: "properties.reservedResourceType",
+        type: {
+          name: "String"
+        }
+      },
+      billingScopeId: {
+        serializedName: "properties.billingScopeId",
+        type: {
+          name: "String"
+        }
+      },
+      term: {
+        serializedName: "properties.term",
+        type: {
+          name: "String"
+        }
+      },
+      quantity: {
+        serializedName: "properties.quantity",
+        type: {
+          name: "Number"
+        }
+      },
+      displayName: {
+        serializedName: "properties.displayName",
+        type: {
+          name: "String"
+        }
+      },
+      appliedScopeType: {
+        serializedName: "properties.appliedScopeType",
+        type: {
+          name: "String"
+        }
+      },
+      appliedScopes: {
+        serializedName: "properties.appliedScopes",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      renew: {
+        serializedName: "properties.renew",
+        type: {
+          name: "Boolean"
+        }
+      },
+      reservedResourceProperties: {
+        serializedName: "properties.reservedResourceProperties",
+        type: {
+          name: "Composite",
+          className: "PurchaseRequestPropertiesReservedResourceProperties"
+        }
+      }
+    }
+  }
+};
+
+export const RenewPropertiesResponseLockedPriceTotal: msRest.CompositeMapper = {
+  serializedName: "RenewPropertiesResponse_lockedPriceTotal",
+  type: {
+    name: "Composite",
+    className: "RenewPropertiesResponseLockedPriceTotal",
+    modelProperties: {
+      currencyCode: {
+        serializedName: "currencyCode",
+        type: {
+          name: "String"
+        }
+      },
+      amount: {
+        serializedName: "amount",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const RenewPropertiesResponse: msRest.CompositeMapper = {
+  serializedName: "RenewPropertiesResponse",
+  type: {
+    name: "Composite",
+    className: "RenewPropertiesResponse",
+    modelProperties: {
+      purchaseProperties: {
+        serializedName: "purchaseProperties",
+        type: {
+          name: "Composite",
+          className: "PurchaseRequest"
+        }
+      },
+      lockedPriceTotal: {
+        serializedName: "lockedPriceTotal",
+        type: {
+          name: "Composite",
+          className: "RenewPropertiesResponseLockedPriceTotal"
+        }
+      }
+    }
+  }
+};
+
 export const ReservationProperties: msRest.CompositeMapper = {
   serializedName: "ReservationProperties",
   type: {
@@ -330,6 +475,37 @@ export const ReservationProperties: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ReservationMergeProperties"
+        }
+      },
+      billingScopeId: {
+        serializedName: "billingScopeId",
+        type: {
+          name: "String"
+        }
+      },
+      renew: {
+        serializedName: "renew",
+        type: {
+          name: "Boolean"
+        }
+      },
+      renewSource: {
+        serializedName: "renewSource",
+        type: {
+          name: "String"
+        }
+      },
+      renewDestination: {
+        serializedName: "renewDestination",
+        type: {
+          name: "String"
+        }
+      },
+      renewProperties: {
+        serializedName: "renewProperties",
+        type: {
+          name: "Composite",
+          className: "RenewPropertiesResponse"
         }
       }
     }
@@ -594,22 +770,6 @@ export const CalculatePriceResponse: msRest.CompositeMapper = {
   }
 };
 
-export const PurchaseRequestPropertiesReservedResourceProperties: msRest.CompositeMapper = {
-  serializedName: "PurchaseRequestProperties_reservedResourceProperties",
-  type: {
-    name: "Composite",
-    className: "PurchaseRequestPropertiesReservedResourceProperties",
-    modelProperties: {
-      instanceFlexibility: {
-        serializedName: "instanceFlexibility",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const MergeRequest: msRest.CompositeMapper = {
   serializedName: "MergeRequest",
   type: {
@@ -625,83 +785,6 @@ export const MergeRequest: msRest.CompositeMapper = {
               name: "String"
             }
           }
-        }
-      }
-    }
-  }
-};
-
-export const PurchaseRequest: msRest.CompositeMapper = {
-  serializedName: "PurchaseRequest",
-  type: {
-    name: "Composite",
-    className: "PurchaseRequest",
-    modelProperties: {
-      sku: {
-        serializedName: "sku",
-        type: {
-          name: "Composite",
-          className: "SkuName"
-        }
-      },
-      location: {
-        serializedName: "location",
-        type: {
-          name: "String"
-        }
-      },
-      reservedResourceType: {
-        serializedName: "properties.reservedResourceType",
-        type: {
-          name: "String"
-        }
-      },
-      billingScopeId: {
-        serializedName: "properties.billingScopeId",
-        type: {
-          name: "String"
-        }
-      },
-      term: {
-        serializedName: "properties.term",
-        type: {
-          name: "String"
-        }
-      },
-      quantity: {
-        serializedName: "properties.quantity",
-        type: {
-          name: "Number"
-        }
-      },
-      displayName: {
-        serializedName: "properties.displayName",
-        type: {
-          name: "String"
-        }
-      },
-      appliedScopeType: {
-        serializedName: "properties.appliedScopeType",
-        type: {
-          name: "String"
-        }
-      },
-      appliedScopes: {
-        serializedName: "properties.appliedScopes",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      reservedResourceProperties: {
-        serializedName: "properties.reservedResourceProperties",
-        type: {
-          name: "Composite",
-          className: "PurchaseRequestPropertiesReservedResourceProperties"
         }
       }
     }
@@ -741,6 +824,19 @@ export const Patch: msRest.CompositeMapper = {
         serializedName: "properties.name",
         type: {
           name: "String"
+        }
+      },
+      renew: {
+        serializedName: "properties.renew",
+        type: {
+          name: "Boolean"
+        }
+      },
+      renewRequestProperties: {
+        serializedName: "properties.renewRequestProperties",
+        type: {
+          name: "Composite",
+          className: "PurchaseRequest"
         }
       }
     }
