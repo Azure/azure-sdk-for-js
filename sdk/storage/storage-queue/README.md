@@ -1,13 +1,16 @@
-# Azure Storage SDK V10 for JavaScript - Queue
+# Azure Storage client library for JavaScript - Queue
 
+Azure Queue storage provides cloud messaging between application components. In designing applications for scale, application components are often decoupled, so that they can scale independently. Queue storage delivers asynchronous messaging for communication between application components, whether they are running in the cloud, on the desktop, on an on-premises server, or on a mobile device. Queue storage also supports managing asynchronous tasks and building process work flows.
+
+This project provides a client library in JavaScript that makes it easy to consume Microsoft Azure Queue Storage service.
+
+- [Source Code](https://github.com/azure/azure-sdk-for-js/tree/master/sdk/storage/storage-queue)
+- [Product documentation](https://docs.microsoft.com/en-us/azure/storage/queues/storage-dotnet-how-to-use-queues)
 - [![npm version](https://badge.fury.io/js/%40azure%2Fstorage-queue.svg)](https://badge.fury.io/js/%40azure%2Fstorage-queue)
 - [API Reference documentation](https://docs.microsoft.com/en-us/javascript/api/%40azure/storage-queue/index?view=azure-node-preview)
+- [Azure Storage Queue REST APIs](https://docs.microsoft.com/en-us/rest/api/storageservices/queue-service-rest-api)
 
-## Introduction
-
-This project provides a SDK in JavaScript that makes it easy to consume Microsoft Azure Storage services.
-
-Please note that this version of the SDK is a compete overhaul of the current [Azure Storage SDK for Node.js and JavaScript in Browsers](https://github.com/azure/azure-storage-node), and is based on the new Storage SDK architecture.
+## Key concepts
 
 ### Features
 
@@ -102,71 +105,60 @@ For example, you can create following CORS settings for debugging. But please cu
 - Exposed headers: \*
 - Maximum age (seconds): 86400
 
-## SDK Architecture
+## Examples
 
-The Azure Storage SDK for JavaScript provides low-level and high-level APIs.
+### Create the Queue service Client
 
-* QueueServiceClient, QueueClient, MessagesClient and MessageIdClient objects provide the low-level API functionality and map one-to-one to the [Azure Storage Queue REST APIs](https://docs.microsoft.com/en-us/rest/api/storageservices/queue-service-rest-api).
-
-## Code Samples
+Use the constructor to create a instance of `QueueServiceClient`, passing in the credential, and options to configure the HTTP pipeline (optional).
 
 ```javascript
-const {
-  Aborter,
-  QueueClient,
-  MessagesClient,
-  MessageIdClient,
-  QueueServiceClient,
-  newPipeline,
-  SharedKeyCredential,
-  AnonymousCredential,
-  TokenCredential
-} = require(".."); // Change to "@azure/storage-queue" in your package
-
-async function main() {
   // Enter your storage account name and shared key
   const account = "<account>";
   const accountKey = "<accountkey>";
 
   // Use SharedKeyCredential with storage account and account key
+  // SharedKeyCredential is only avaiable in Node.js runtime, not in browsers
   const sharedKeyCredential = new SharedKeyCredential(account, accountKey);
 
-  // Use TokenCredential with OAuth token
-  const tokenCredential = new TokenCredential("token");
-  tokenCredential.token = "renewedToken"; // Renew the token by updating token field of token credential
-
-  // Use AnonymousCredential when url already includes a SAS signature
-  const anonymousCredential = new AnonymousCredential();
-
-  // Use sharedKeyCredential, tokenCredential or anonymousCredential to create a pipeline
-  const pipeline = newPipeline(sharedKeyCredential, {
-    // httpClient: MyHTTPClient, // A customized HTTP client implementing IHttpClient interface
-    // logger: MyLogger, // A customized logger implementing IHttpPipelineLogger interface
-    retryOptions: { maxTries: 4 }, // Retry options
-    telemetry: { value: "BasicSample V10.0.0" } // Customized telemetry string
-  });
-
-  // List queues
   const queueServiceClient = new QueueServiceClient(
-    // When using AnonymousCredential, following url should include a valid SAS or support public access
     `https://${account}.queue.core.windows.net`,
-    pipeline
-  );
+    sharedKeyCredential, {
+      retryOptions: { maxTries: 4 }, // Retry options
+      telemetry: { value: "BasicSample/V10.0.0" } // Customized telemetry string
+  });
+```
 
-  console.log(`List queues`);
-  let marker;
+### List queues in this account
+
+Use `QueueServiceClient.listContainers()` function to iterate the containers,
+with the new `for-await-of` syntax:
+
+```javascript
+  let iter1 = queueServiceClient.listQueues();
+  let i = 1;
+  for await (const item of iter1) {
+    console.log(`Queue${i}: ${item.name}`);
+    i++;
+  }
+```
+
+Alternatively without `for-await-of`:
+
+```javascript
+  let iter2 = await queueServiceClient.listQueues();
+  i = 1;
+  let item = await iter2.next();
   do {
-    const listQueuesResponse = await queueServiceClient.listQueuesSegment(
-      marker
-    );
+    console.log(`Queue${i++}: ${item.value.name}`);
+    item = await iter2.next();
+  } while (item.value);
+```
 
-    marker = listQueuesResponse.nextMarker;
-    for (const queue of listQueuesResponse.queueItems) {
-      console.log(`Queue: ${queue.name}`);
-    }
-  } while (marker);
+### Create a new queue
 
-  // Create a new queue
+Use `QueueServiceClient.createQueueClient()` function to create a new queue.
+
+```javascript
   const queueName = `newqueue${new Date().getTime()}`;
   const queueClient = queueServiceClient.createQueueClient(queueName);
   const createQueueResponse = await queueClient.create();
@@ -175,7 +167,16 @@ async function main() {
       createQueueResponse.requestId
     }`
   );
+```
 
+### Send a message to the queue
+
+Send messages using a `MessageClient` instance which can be obtained by calling
+`QueueClient.createMessagesClient()`. The returned response contains data about
+the enqueued message, include a `messageId`, and a `popReceipt` that can be used
+to update the message later.
+
+```javascript
   // Enqueue a message into the queue using the enqueue method.
   const messagesClient = queueClient.createMessagesClient();
   const enqueueQueueResponse = await messagesClient.enqueue(
@@ -186,19 +187,31 @@ async function main() {
       enqueueQueueResponse.messageId
     }, service assigned request Id: ${enqueueQueueResponse.requestId}`
   );
+```
 
-  // Peek a message using peek method.
+### Peek a message
+
+`MessagesClient.peek()` allows looking at one or more messages in front of the queue. This call
+doesn't prevent other code from accessing peeked messages.
+
+```javascript
   const peekQueueResponse = await messagesClient.peek();
   console.log(
     `The peeked message is: ${
       peekQueueResponse.peekedMessageItems[0].messageText
     }`
   );
+```
 
-  // You de-queue a message in two steps. Call GetMessage at which point the message becomes invisible to any other code reading messages
-  // from this queue for a default period of 30 seconds. To finish removing the message from the queue, you call DeleteMessage.
-  // This two-step process ensures that if your code fails to process a message due to hardware or software failure, another instance
-  // of your code can get the same message and try again.
+### Processing a message
+
+Messages are processed in two steps.  First call `MessagesClient.dequeue()`. This makes the messages
+invisible to other code reading messagse from this queue for a default period of 30 seconds. When processing
+of a message is done, call `MessagesClient.delete()` with the message's `popReceipt`.
+This two-step process ensures that if your code fails to process a message due to hardware or software failure, another instance
+of your code can get the same message and try again.
+
+```javascript
   const dequeueResponse = await messagesClient.dequeue();
   if (dequeueResponse.dequeuedMessageItems.length == 1) {
     const dequeueMessageItem = dequeueResponse.dequeuedMessageItems[0];
@@ -219,34 +232,64 @@ async function main() {
       }`
     );
   }
+```
 
-  // Delete the queue.
+### Delete a queue
+
+```javascript
   const deleteQueueResponse = await queueClient.delete();
   console.log(
     `Delete queue successfully, service assigned request Id: ${
       deleteQueueResponse.requestId
     }`
   );
-}
-
-// An async method returns a Promise object, which is compatible with then().catch() coding style.
-main()
-  .then(() => {
-    console.log("Successfully executed sample.");
-  })
-  .catch(err => {
-    console.log(err.message);
-  });
 ```
 
-## More Code Samples
+A complete example of basic scenarios is at [samples/basic.js](https://github.com/azure/azure-sdk-for-js/tree/master/sdk/storage/storage-queue/samples/basic.js).
+
+## Troubleshooting
+
+It could help diagnozing issues by turning on the console logging. Here's an example logger implementation. First add a custom logger:
+
+```javascript
+class ConsoleHttpPipelineLogger {
+  constructor(minimumLogLevel) {
+    this.minimumLogLevel = minimumLogLevel;
+  }
+  log(logLevel, message) {
+    const logMessage = `${new Date().toISOString()} ${HttpPipelineLogLevel[logLevel]}: ${message}`;
+    switch (logLevel) {
+      case HttpPipelineLogLevel.ERROR:
+        console.error(logMessage);
+        break;
+      case HttpPipelineLogLevel.WARNING:
+        console.warn(logMessage);
+        break;
+      case HttpPipelineLogLevel.INFO:
+        console.log(logMessage);
+        break;
+    }
+  }
+}
+```
+
+When creating the `QueueServiceClient` instance, pass the logger in the options
+
+```javascript
+  const queueServiceClient = new QueueServiceClient(
+    `https://${account}.queue.core.windows.net`,
+    sharedKeyCredential, {
+      logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO),
+    }
+  );
+```
+
+## Next steps
+
+More code samples
 
 - [Queue Storage Examples](https://github.com/azure/azure-sdk-for-js/tree/master/sdk/storage/storage-queue/samples)
 - [Queue Storage Examples - Test Cases](https://github.com/azure/azure-sdk-for-js/tree/master/sdk/storage/storage-queue/test/)
-
-## License
-
-This project is licensed under MIT.
 
 ## Contributing
 

@@ -1,12 +1,14 @@
 # Azure Storage client library for JavaScript - Blob
 
 Azure Blob storage is Microsoft's object storage solution for the cloud. Blob storage is optimized for storing massive amounts of unstructured data. Unstructured data is data that does not adhere to a particular data model or definition, such as text or binary data.
-This project provides a client library in JavaScript that makes it easy to consume Microsoft Azure Storage services.
 
+This project provides a client library in JavaScript that makes it easy to consume Microsoft Azure Blob Storage service.
+
+- [Product documentation](https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blobs-overview)
 - [Source Code](https://github.com/azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob)
 - [![npm version](https://badge.fury.io/js/%40azure%2Fstorage-blob.svg)](https://badge.fury.io/js/%40azure%2Fstorage-blob)
 - [API Reference documentation](https://docs.microsoft.com/en-us/javascript/api/%40azure/storage-blob/index?view=azure-node-preview)
-- [Product documentation](https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blobs-overview)
+- [Azure Storage Blob REST APIs](https://docs.microsoft.com/en-us/rest/api/storageservices/blob-service-rest-api)
 - [Advanced Examples in Wiki](https://github.com/Azure/azure-storage-js/wiki)
 
 ## Key concepts
@@ -127,6 +129,7 @@ Use the constructor to create a instance of `BlobServiceClient`.
   const accountKey = "accountkey";
 
   // Use SharedKeyCredential with storage account and account key
+  // SharedKeyCredential is only avaiable in Node.js runtime, not in browsers
   const sharedKeyCredential = new SharedKeyCredential(account, accountKey);
   const blobServiceClient = new BlobServiceClient(
     `https://${account}.blob.core.windows.net`,
@@ -152,21 +155,29 @@ Use `BlobServiceClient.createContainerClient()` to create a new container.
 
 ### List the containers
 
-Use `BlobServiceClient.listContainersSegment()` function to iterate the containers.
+Use `BlobServiceClient.listContainers()` function to iterate the containers,
+with the new `for-await-of` syntax:
 
 ```javascript
-  let marker;
-  do {
-    const listContainersResponse = await blobServiceClient.listContainersSegment(
-      marker
-    );
-
-    marker = listContainersResponse.nextMarker;
-    for (const container of listContainersResponse.containerItems) {
-      console.log(`Container: ${container.name}`);
-    }
-  } while (marker);
+  let iter1 = await blobServiceClient.listContainers();
+  let i = 1;
+  for await (const container of iter1) {
+    console.log(`Container ${i++}: ${container.name}`);
+  }
 ```
+
+Alternatively without using `for-await-of`:
+
+```javascript
+  let iter2 = await blobServiceClient.listContainers();
+  i = 1;
+  let containerItem = await iter2.next();
+  do {
+    console.log(`Container ${i++}: ${containerItem.value.name}`);
+    containerItem = await iter2.next();
+  } while (containerItem.value);
+```
+
 
 ### Create a blob by uploading data to
 
@@ -187,33 +198,28 @@ Use `BlobServiceClient.listContainersSegment()` function to iterate the containe
 
 ### List blobs inside a container
 
-```javascript
-  marker = undefined;
-  do {
-    const listBlobsResponse = await containerClient.listBlobFlatSegment(
-      marker
-    );
+Similar to listing containers.
 
-    marker = listBlobsResponse.nextMarker;
-    for (const blob of listBlobsResponse.segment.blobItems) {
-      console.log(`Blob: ${blob.name}`);
-    }
-  } while (marker);
+```javascript
+  iter1 = await containerClient.listBlobsFlat();
+  i = 1;
+  for await (const blob of iter1) {
+    console.log(`Blob ${i++}: ${blob.name}`);
+  }
 ```
 
-### Download a blob
+### Download a blob and convert it to a string (Node.js)
 
 ```javascript
   // Get blob content from position 0 to the end
   // In Node.js, get downloaded data by accessing downloadBlockBlobResponse.readableStreamBody
-  // In browsers, get downloaded data by accessing downloadBlockBlobResponse.blobBody
   const downloadBlockBlobResponse = await blobClient.download(0);
   console.log(
     "Downloaded blob content",
     await streamToString(downloadBlockBlobResponse.readableStreamBody)
   );
 
-// A helper method used to read a Node.js readable stream into string
+// [Node.js only] A helper method used to read a Node.js readable stream into string
 async function streamToString(readableStream) {
   return new Promise((resolve, reject) => {
     const chunks = [];
@@ -228,11 +234,35 @@ async function streamToString(readableStream) {
 }
 ```
 
+### Download a blob and convert it to a string (Browsers)
+
+```javascript
+  // Get blob content from position 0 to the end
+  // In browsers, get downloaded data by accessing downloadBlockBlobResponse.blobBody
+  const downloadBlockBlobResponse = await blobClient.download(0);
+  console.log(
+    "Downloaded blob content",
+    await blobToString(downloadBlockBlobResponse.blobBody)
+  );
+
+// [Browsers only] A helper method used to convert a browser Blob into string.
+export async function blobToString(blob: Blob): Promise<string> {
+  const fileReader = new FileReader();
+  return new Promise<string>((resolve, reject) => {
+    fileReader.onloadend = (ev: any) => {
+      resolve(ev.target!.result);
+    };
+    fileReader.onerror = reject;
+    fileReader.readAsText(blob);
+  });
+}
+```
+
 A complete example of basic scenarios is at [samples/basic.js](https://github.com/azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob/samples/basic.js).
 
 ## Troubleshooting
 
-It could help diagnozing issue by turning on the console logging. Here's an example logger implementation.
+It could help diagnozing issues by turning on the console logging. Here's an example logger implementation. First add a custom logger:
 
 ```javascript
 class ConsoleHttpPipelineLogger {
@@ -243,15 +273,12 @@ class ConsoleHttpPipelineLogger {
     const logMessage = `${new Date().toISOString()} ${HttpPipelineLogLevel[logLevel]}: ${message}`;
     switch (logLevel) {
       case HttpPipelineLogLevel.ERROR:
-        // tslint:disable-next-line:no-console
         console.error(logMessage);
         break;
       case HttpPipelineLogLevel.WARNING:
-        // tslint:disable-next-line:no-console
         console.warn(logMessage);
         break;
       case HttpPipelineLogLevel.INFO:
-        // tslint:disable-next-line:no-console
         console.log(logMessage);
         break;
     }

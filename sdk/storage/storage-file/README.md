@@ -1,13 +1,14 @@
-# Azure Storage SDK V10 for JavaScript - File
+# Azure Storage client library for JavaScript - File
 
+Azure Files offers fully managed file shares in the cloud that are accessible via the industry standard Server Message Block (SMB) protocol. Azure file shares can be mounted concurrently by cloud or on-premises deployments of Windows, Linux, and macOS. Additionally, Azure file shares can be cached on Windows Servers with Azure File Sync for fast access near where the data is being used.
+
+- [Source Code](https://github.com/azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file)
+- [Product documentation](https://docs.microsoft.com/en-us/azure/storage/files/storage-files-introduction)
 - [![npm version](https://badge.fury.io/js/%40azure%2Fstorage-file.svg)](https://badge.fury.io/js/%40azure%2Fstorage-file)
 - [API Reference documentation](https://docs.microsoft.com/en-us/javascript/api/%40azure/storage-file/index?view=azure-node-preview)
+- [Azure Storage File REST APIs](https://docs.microsoft.com/en-us/rest/api/storageservices/file-service-rest-api)
 
-## Introduction
-
-This project provides a SDK in JavaScript that makes it easy to consume Microsoft Azure Storage services.
-
-Please note that this version of the SDK is a compete overhaul of the current [Azure Storage SDK for Node.js and JavaScript in Browsers](https://github.com/azure/azure-storage-node), and is based on the new Storage SDK architecture.
+## Key concepts
 
 ### Features
 
@@ -112,25 +113,14 @@ For example, you can create following CORS settings for debugging. But please cu
 - Exposed headers: \*
 - Maximum age (seconds): 86400
 
-## SDK Architecture
 
-The Azure Storage SDK for JavaScript provides low-level and high-level APIs.
+## Examples
 
-- ServiceURL, ShareURL, DirectoryURL and FileURL objects provide the low-level API functionality and map one-to-one to the [Azure Storage File REST APIs](https://docs.microsoft.com/en-us/rest/api/storageservices/file-service-rest-api).
+### Create the File service client
 
-- The high-level APIs provide convenience abstractions such as uploading a large stream to a file (using multiple PutBlock requests).
-
-## Code Samples
+Use the constructor to create a instance of `FileServiceClient`, passing in the credential.
 
 ```javascript
-const {
-  newPipeline,
-  FileServiceClient,
-  SharedKeyCredential,
-  AnonymousCredential
-} = require("@azure/storage-file");
-
-async function main() {
   // Enter your storage account name and shared key
   const account = "";
   const accountKey = "";
@@ -138,46 +128,56 @@ async function main() {
   // Use SharedKeyCredential with storage account and account key
   // SharedKeyCredential is only avaiable in Node.js runtime, not in browsers
   const sharedKeyCredential = new SharedKeyCredential(account, accountKey);
-
-  // Use AnonymousCredential when url already includes a SAS signature
-  const anonymousCredential = new AnonymousCredential();
-
-  // Use sharedKeyCredential or anonymousCredential to create a pipeline
-  const pipeline = newPipeline(sharedKeyCredential);
-
-  // List shares
   const serviceClient = new FileServiceClient(
     // When using AnonymousCredential, following url should include a valid SAS
     `https://${account}.file.core.windows.net`,
-    pipeline
+    sharedKeyCredential
   );
+```
 
-  console.log(`List shares`);
-  let marker;
+### List shares in the account
+
+Use `ShareServiceClient.listShares()` to iterator shares in this account,
+with the new `for-await-of` syntax:
+
+```javascript
+  let shareIter1 = serviceClient.listShares();
+  let i = 1;
+  for await (const share of shareIter1) {
+    console.log(`Share${i}: ${share.name}`);
+    i++;
+  }
+```
+
+Alternatively without `for-await-of`:
+
+```javascript
+  let shareIter2 = await serviceClient.listShares();
+  i = 1;
+  let shareItem = await shareIter2.next();
   do {
-    const listSharesResponse = await serviceClient.listSharesSegment(
-      marker
-    );
+    console.log(`Share${i++}: ${shareItem.value.name}`);
+    shareItem = await shareIter2.next();
+  } while (shareItem.value);
+```
 
-    marker = listSharesResponse.nextMarker;
-    for (const share of listSharesResponse.shareItems) {
-      console.log(`\tShare: ${share.name}`);
-    }
-  } while (marker);
+### Create a new share and a directory
 
-  // Create a share
+```javascript
   const shareName = `newshare${new Date().getTime()}`;
   const shareClient = serviceClient.createShareClient(shareName);
   await shareClient.create();
   console.log(`Create share ${shareName} successfully`);
 
-  // Create a directory
   const directoryName = `newdirectory${new Date().getTime()}`;
   const directoryClient = shareClient.createDirectoryClient(directoryName);
   await directoryClient.create();
   console.log(`Create directory ${directoryName} successfully`);
+```
 
-  // Create a file
+### Create an Azure File then upload to it
+
+```javascript
   const content = "Hello World!";
   const fileName = "newfile" + new Date().getTime();
   const fileClient = directoryClient.createFileClient(fileName);
@@ -187,28 +187,48 @@ async function main() {
   // Upload file range
   await fileClient.uploadRange(content, 0, content.length);
   console.log(`Upload file range "${content}" to ${fileName} successfully`);
+```
 
-  // List directories and files
-  console.log(`List directories and files under directory ${directoryName}`);
-  marker = undefined;
+### List files and directories under a directory
+
+Use `DirectoryClient.listFilesAndDirectories()` to iterator over files and directories,
+with the new `for-await-of` syntax. The `kind` property can be used to identify whether
+a iterm is a directory or a file.
+
+```javascript
+  let dirIter1 = directoryClient.listFilesAndDirectories();
+  i = 1;
+  for await (const item of dirIter1) {
+    if (item.kind === "directory") {
+      console.log(`${i} - directory\t: ${item.name}`);
+    } else {
+      console.log(`${i} - file\t: ${item.name}`);
+    }
+    i++;
+  }
+```
+
+Alternatively without using `for-await-of`:
+
+```javascript
+  let dirIter2 = await directoryClient.listFilesAndDirectories();
+  i = 1;
+  let item = await dirIter2.next();
   do {
-    const listFilesAndDirectoriesResponse = await directoryClient.listFilesAndDirectoriesSegment(
-      marker
-    );
-
-    marker = listFilesAndDirectoriesResponse.nextMarker;
-    for (const file of listFilesAndDirectoriesResponse.segment.fileItems) {
-      console.log(`\tFile: ${file.name}`);
+    if (item.value.kind === "directory") {
+      console.log(`${i} - directory\t: ${item.value.name}`);
+    } else {
+      console.log(`${i} - file\t: ${item.value.name}`);
     }
-    for (const directory of listFilesAndDirectoriesResponse.segment
-      .directoryItems) {
-      console.log(`\tDirectory: ${directory.name}`);
-    }
-  } while (marker);
+    item = await dirIter2.next();
+  } while (item.value);
+```
 
+### Download a file and convert it to a string (Node.js)
+
+```javascript
   // Get file content from position 0 to the end
   // In Node.js, get downloaded data by accessing downloadFileResponse.readableStreamBody
-  // In browsers, get downloaded data by accessing downloadFileResponse.blobBody
   const downloadFileResponse = await fileClient.download(0);
   console.log(
     `Downloaded file content${await streamToString(
@@ -216,12 +236,7 @@ async function main() {
     )}`
   );
 
-  // Delete share
-  await shareClient.delete();
-  console.log(`deleted share ${shareName}`);
-}
-
-// A helper method used to read a Node.js readable stream into string
+// [Node.js only] A helper method used to read a Node.js readable stream into string
 async function streamToString(readableStream) {
   return new Promise((resolve, reject) => {
     const chunks = [];
@@ -234,25 +249,78 @@ async function streamToString(readableStream) {
     readableStream.on("error", reject);
   });
 }
-
-// An async method returns a Promise object, which is compatible with then().catch() coding style.
-main()
-  .then(() => {
-    console.log("Successfully executed sample.");
-  })
-  .catch(err => {
-    console.log(err.message);
-  });
 ```
 
-## More Code Samples
+### Download a file and convert it to a string (Browsers)
+
+```javascript
+  // Get file content from position 0 to the end
+  // In browsers, get downloaded data by accessing downloadFileResponse.blobBody
+  const downloadFileResponse = await fileClient.download(0);
+  console.log(
+    `Downloaded file content${await streamToString(
+      downloadFileResponse.blobBody
+    )}`
+  );
+
+// [Browser only] A helper method used to convert a browser Blob into string.
+export async function blobToString(blob: Blob): Promise<string> {
+  const fileReader = new FileReader();
+  return new Promise<string>((resolve, reject) => {
+    fileReader.onloadend = (ev: any) => {
+      resolve(ev.target!.result);
+    };
+    fileReader.onerror = reject;
+    fileReader.readAsText(blob);
+  });
+}
+```
+
+A complete example of basic scenarios is at [samples/basic.js](https://github.com/azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file/samples/basic.js).
+
+## Troubleshooting
+
+It could help diagnozing issues by turning on the console logging. Here's an example logger implementation. First add a custom logger:
+
+```javascript
+class ConsoleHttpPipelineLogger {
+  constructor(minimumLogLevel) {
+    this.minimumLogLevel = minimumLogLevel;
+  }
+  log(logLevel, message) {
+    const logMessage = `${new Date().toISOString()} ${HttpPipelineLogLevel[logLevel]}: ${message}`;
+    switch (logLevel) {
+      case HttpPipelineLogLevel.ERROR:
+        console.error(logMessage);
+        break;
+      case HttpPipelineLogLevel.WARNING:
+        console.warn(logMessage);
+        break;
+      case HttpPipelineLogLevel.INFO:
+        console.log(logMessage);
+        break;
+    }
+  }
+}
+```
+
+When creating the `FileServiceClient` instance, pass the logger in the options
+
+```javascript
+  const fileServiceClient = new FileServiceClient(
+    `https://${account}.file.core.windows.net`,
+    sharedKeyCredential, {
+      logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO),
+    }
+  );
+```
+
+## Next steps
+
+More code samples
 
 - [File Storage Examples](https://github.com/azure/azure-storage-js/tree/master/file/samples)
 - [File Storage Examples - Test Cases](https://github.com/azure/azure-storage-js/tree/master/file/test/)
-
-## License
-
-This project is licensed under MIT.
 
 ## Contributing
 
