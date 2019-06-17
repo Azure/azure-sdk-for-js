@@ -54,19 +54,19 @@ async function main() {
 
   i = 1;
   for await (const item1 of queueServiceClient.listQueues().byPage({})) {
-    item1.queueItems!.forEach((queueItem) => {
+    for (const queueItem of item1.queueItems!) {
       console.log(`Queue${i}: ${queueItem.name}`);
       i++;
-    });
+    }
   }
 
   // Same as the previous example
   i = 1;
   for await (const item2 of queueServiceClient.listQueues().byPage({ maxPageSize: 20 })) {
-    item2.queueItems!.forEach((queueItem) => {
+    for (const queueItem of item2.queueItems!) {
       console.log(`Queue${i}: ${queueItem.name}`);
       i++;
-    });
+    }
   }
 
   // Generator syntax .next()
