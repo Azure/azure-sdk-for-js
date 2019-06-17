@@ -71,7 +71,7 @@ export class BatchingReceiver extends EventHubReceiver {
     let timeOver = false;
 
     const receiveEventPromise = () =>
-      new Promise<ReceivedEventData[]>((resolve, reject) => {
+      new Promise<ReceivedEventData[]>(async (resolve, reject) => {
         let onReceiveMessage: OnAmqpEvent;
         let onReceiveError: OnAmqpEvent;
         let onReceiveClose: OnAmqpEvent;
@@ -79,6 +79,20 @@ export class BatchingReceiver extends EventHubReceiver {
         let onSessionClose: OnAmqpEvent;
         let waitTimer: any;
         let actionAfterWaitTimeout: Func<void, void>;
+
+        const rejectOnAbort = () => {
+          const desc: string =
+            `[${this._context.connectionId}] The request operation on the Receiver "${this.name}" with ` +
+            `address "${this.address}" has been cancelled by the user.`;
+          log.error(desc);
+          reject(new AbortError("The receive operation has been cancelled by the user."));
+        };
+
+        // operation has been cancelled, so exit quickly
+        if (abortSignal && abortSignal.aborted) {
+          return rejectOnAbort();
+        }
+
         // Final action to be performed after maxMessageCount is reached or the maxWaitTime is over.
         const finalAction = (timeOver: boolean) => {
           if (this._abortSignal) {
@@ -144,7 +158,7 @@ export class BatchingReceiver extends EventHubReceiver {
           }
         };
 
-        this._onAbort = () => {
+        const onAbort = () => {
           this.isReceivingMessages = false;
           if (this._receiver) {
             this._receiver.removeListener(ReceiverEvents.receiverError, onReceiveError);
@@ -160,7 +174,7 @@ export class BatchingReceiver extends EventHubReceiver {
             `[${this._context.connectionId}] The receive operation on the Receiver "${this.name}" with ` +
             `address "${this.address}" has been cancelled by the user.`;
           log.error(desc);
-          throw new AbortError("The receive operation has been cancelled by the user.");
+          reject(new AbortError("The receive operation has been cancelled by the user."));
         };
 
         // Action to be taken when an error is received.
@@ -316,11 +330,6 @@ export class BatchingReceiver extends EventHubReceiver {
           waitTimer = setTimeout(actionAfterWaitTimeout, (maxWaitTimeInSeconds as number) * 1000);
         };
 
-        if (abortSignal) {
-          this._abortSignal = abortSignal;
-          this._abortSignal.addEventListener("abort", this._onAbort);
-        }
-
         if (!this.isOpen()) {
           log.batching("[%s] Receiver '%s', setting the prefetch count to 0.", this._context.connectionId, this.name);
           this.prefetchCount = 0;
@@ -331,14 +340,29 @@ export class BatchingReceiver extends EventHubReceiver {
             onSessionError: onSessionError,
             onSessionClose: onSessionClose
           });
-          this._init(rcvrOptions)
-            .then(() => addCreditAndSetTimer())
-            .catch(reject);
+
+          try {
+            await this._init(rcvrOptions);
+            if (abortSignal && abortSignal.aborted) {
+              // exit early if operation was cancelled while initializing connection
+              return rejectOnAbort();
+            }
+            addCreditAndSetTimer();
+          } catch (err) {
+            return reject(err);
+          }
         } else {
           addCreditAndSetTimer(true);
           this._receiver!.on(ReceiverEvents.message, onReceiveMessage);
           this._receiver!.on(ReceiverEvents.receiverError, onReceiveError);
           this._receiver!.session.on(SessionEvents.sessionError, onSessionError);
+        }
+
+        // only attach abort event listener after the receiver has been initialized
+        // otherwise `close()` can be called during an intermediate state.
+        if (abortSignal) {
+          this._abortSignal = abortSignal;
+          this._abortSignal.addEventListener("abort", onAbort);
         }
       });
 
