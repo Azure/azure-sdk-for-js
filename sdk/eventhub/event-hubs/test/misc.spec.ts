@@ -14,7 +14,7 @@ import { BatchingReceiver } from "../src/batchingReceiver";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 const env = getEnvVars();
 
-describe("Misc tests", function(): void {
+describe("Misc tests #RunnableInBrowser", function(): void {
   const service = {
     connectionString: env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
     path: env[EnvVarKeys.EVENTHUB_NAME]
@@ -38,9 +38,7 @@ describe("Misc tests", function(): void {
     await client.close();
   });
 
-  it("should be able to send and receive a large message correctly #RunnableInBrowser", async function(): Promise<
-    void
-  > {
+  it("should be able to send and receive a large message correctly", async function(): Promise<void> {
     const bodysize = 220 * 1024;
     const partitionId = hubInfo.partitionIds[0];
     const msgString = "A".repeat(220 * 1024);
@@ -66,9 +64,7 @@ describe("Misc tests", function(): void {
     should.not.exist((data[0].properties || {}).message_id);
   });
 
-  it("should be able to send and receive a JSON object as a message correctly #RunnableInBrowser", async function(): Promise<
-    void
-  > {
+  it("should be able to send and receive a JSON object as a message correctly", async function(): Promise<void> {
     const partitionId = hubInfo.partitionIds[0];
     const msgBody = {
       id: "123-456-789",
@@ -101,9 +97,7 @@ describe("Misc tests", function(): void {
     should.not.exist((data[0].properties || {}).message_id);
   });
 
-  it("should be able to send and receive an array as a message correctly #RunnableInBrowser", async function(): Promise<
-    void
-  > {
+  it("should be able to send and receive an array as a message correctly", async function(): Promise<void> {
     const partitionId = hubInfo.partitionIds[0];
     const msgBody = [
       {
@@ -134,7 +128,7 @@ describe("Misc tests", function(): void {
     assert.strictEqual(data[0].properties!.message_id, obj.properties!.message_id);
   });
 
-  it("should be able to send a boolean as a message correctly #RunnableInBrowser", async function(): Promise<void> {
+  it("should be able to send a boolean as a message correctly", async function(): Promise<void> {
     const partitionId = hubInfo.partitionIds[0];
     const msgBody = true;
     const obj: EventData = { body: msgBody };
@@ -161,11 +155,7 @@ describe("Misc tests", function(): void {
       const partitionId = hubInfo.partitionIds[0];
       const offset = (await client.getPartitionInformation(partitionId)).lastEnqueuedOffset;
       debug(`Partition ${partitionId} has last message with offset ${offset}.`);
-      breceiver = BatchingReceiver.create((client as any)._context, partitionId, {
-        eventPosition: EventPosition.fromOffset(offset)
-      });
-      let data = await breceiver.receive(5, 10);
-      should.equal(data.length, 0, "Unexpected to receive message before client sends it");
+
       const messageCount = 5;
       const d: EventData[] = [];
       for (let i = 0; i < messageCount; i++) {
@@ -176,8 +166,11 @@ describe("Misc tests", function(): void {
 
       await client.sendBatch(d, partitionId);
       debug("Successfully sent 5 messages batched together.");
-      data = await breceiver.receive(5, 30);
-      await breceiver.close();
+
+      const data = await client.receiveBatch(partitionId, 5, 30, {
+        eventPosition: EventPosition.fromOffset(offset)
+      });
+
       debug("received message: ", data);
       should.exist(data);
       data.length.should.equal(5);
@@ -195,11 +188,7 @@ describe("Misc tests", function(): void {
       const partitionId = hubInfo.partitionIds[0];
       const offset = (await client.getPartitionInformation(partitionId)).lastEnqueuedOffset;
       debug(`Partition ${partitionId} has last message with offset ${offset}.`);
-      breceiver = BatchingReceiver.create((client as any)._context, partitionId, {
-        eventPosition: EventPosition.fromOffset(offset)
-      });
-      let data = await breceiver.receive(5, 10);
-      should.equal(data.length, 0, "Unexpected to receive message before client sends it");
+
       const messageCount = 5;
       const d: EventData[] = [];
       for (let i = 0; i < messageCount; i++) {
@@ -227,8 +216,11 @@ describe("Misc tests", function(): void {
 
       await client.sendBatch(d, partitionId);
       debug("Successfully sent 5 messages batched together.");
-      data = await breceiver.receive(5, 30);
-      await breceiver.close();
+
+      const data = await client.receiveBatch(partitionId, 5, 30, {
+        eventPosition: EventPosition.fromOffset(offset)
+      });
+
       debug("received message: ", data);
       should.exist(data);
       should.equal(data[0].body.count, 0);
@@ -242,9 +234,7 @@ describe("Misc tests", function(): void {
     }
   });
 
-  it("should consistently send messages with partitionkey to a partitionId #RunnableInBrowser", async function(): Promise<
-    void
-  > {
+  it("should consistently send messages with partitionkey to a partitionId", async function(): Promise<void> {
     const msgToSendCount = 50;
     const partitionOffsets: any = {};
     debug("Discovering end of stream on each partition.");
@@ -276,9 +266,7 @@ describe("Misc tests", function(): void {
         debug("pk: ", pk);
         if (partitionMap[pk] && partitionMap[pk] !== id) {
           debug(
-            `#### Error: Received a message from partition ${id} with partition key ${pk}, whereas the same key was observed on partition ${
-              partitionMap[pk]
-            } before.`
+            `#### Error: Received a message from partition ${id} with partition key ${pk}, whereas the same key was observed on partition ${partitionMap[pk]} before.`
           );
           assert(partitionMap[pk] === id);
         }
