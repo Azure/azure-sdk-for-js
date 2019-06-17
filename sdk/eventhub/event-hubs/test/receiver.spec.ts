@@ -472,6 +472,34 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
         err.message.should.equal("The receive operation has been cancelled by the user.");
       }
     });
+
+    it("should support cancellation when a connection already exists", async function(): Promise<void> {
+      const partitionId = partitionIds[0];
+      const time = Date.now();
+      // send a message that can be received
+      const sender = client.createSender({ partitionId });
+      try {
+        await sender.send({ body: "batchReceiver cancellation - timeout 0" });
+      } finally {
+        await sender.close();
+      }
+
+      receiver = client.createReceiver(partitionId, {
+        beginReceivingAt: EventPosition.fromEnqueuedTime(time)
+      });
+
+      try {
+        // call receiveBatch once to establish a connection
+        await receiver.receiveBatch(1, 60);
+        // abortSignal event listeners will be triggered after synchronous paths are executed
+        const abortSignal = AbortController.timeout(0);
+        await receiver.receiveBatch(1, 60, abortSignal);
+        throw new Error(`Test failure`);
+      } catch (err) {
+        err.name.should.equal("AbortError");
+        err.message.should.equal("The receive operation has been cancelled by the user.");
+      }
+    });
   });
 
   describe("getIterator", function(): void {
