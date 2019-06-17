@@ -12476,12 +12476,12 @@ export interface TeradataPartitionSettings {
    */
   partitionColumnName?: any;
   /**
-   * The maximum value of column specificed in partitionColumnName that will be used for proceeding
+   * The maximum value of column specified in partitionColumnName that will be used for proceeding
    * range partitioning. Type: string (or Expression with resultType string).
    */
   partitionUpperBound?: any;
   /**
-   * The minimum value of column specificed in partitionColumnName that will be used for proceeding
+   * The minimum value of column specified in partitionColumnName that will be used for proceeding
    * range partitioning. Type: string (or Expression with resultType string).
    */
   partitionLowerBound?: any;
