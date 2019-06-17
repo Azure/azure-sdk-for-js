@@ -45,7 +45,7 @@ You also need to enable `compilerOptions.allowSyntheticDefaultImports` in your t
 
 ### Authenticate the client
 
-Here's an example authentication:
+To use the key vault from TypeScript/JavaScript, you need to first authenticate with the key vault service. Here's an example authentication:
 
 ```typescript
 import { SecretsClient } from "@azure/keyvault-secrets";
@@ -71,39 +71,60 @@ const client = new SecretsClient(url, credential);
 
 ## Key concepts
 
-> Soon.
+### Creating secrets and secret versions
 
+Azure Key Vault allows you to create secrets that are stored in the key vault. When a secret is first created, it is given a n
+ame and a value. This name acts as a way to reach the secret later.
+
+Secrets in the key vault can have multiple versions of the same secret. These are called versions of that secret.
+
+### Getting secrets from the key vault
+
+The simplest way to read secrets back from the vault is to get a secret by name. This will retrieve the most recent version of the secret. You can optionally get a different version of the secret if you also know the version you want.
+
+Key vaults also support listing the secrets they have, as well as listing the all the versions of the given secret.
+
+### Updating secret attributes
+
+Once a secret is created, it is possible to update attributes of the secret. For example, if a secret needs to be temporarily unavailable, the `enabled` attribute can be set to false for a time.
+
+### Working with deleted secrets
+
+Key vaults allow deleting secrets so that they are no longer available.
+
+In key vaults with 'soft delete' enabled, secrets are not immediately removed but instead marked simply as 'deleted'. These deleted secrets can be listed, purged, and recovered.
  
-## Examples
+## Example
 
 The following sections provide code snippets that cover some of the
 common tasks using Azure KeyVault Secrets
 
-- [Single secret](#single-secret)
-
-### Single secret
-
-Once you have created an instance of an `SecretsClient` class, you can:
+Once you have created an instance of an `SecretsClient` class, you can create, read, update, and delete secrets:
 
 ```javascript
+// Create out first secret
 const secretName = "MySecretName";
-const result = await client.setSecret("MySecretName", "MySecretValue");
+const result = await client.setSecret(secretName, "MySecretValue");
 
-for await (let secretAttr of client.getAllSecrets()) {
-  const secret = await client.getSecret(secretAttr.name);
-  console.log("secret: ", secret);
+// Get the secret we just created
+const getResult = await client.getSecret(secretName);
+console.log("getResult: ", getResult);
+
+// List all the versions of the secret in the secret vault
+for await (let x of client.listSecretVersions(secretName)) {
+  console.log("version: ", x);
 }
 
-console.log("result: ", result);
-
-await client.updateSecretAttributes("MySecretName", result.version, { enabled: true });
-
-await client.setSecret("MySecretName", "My new SecretValue");
-for await (let version of client.getSecretVersions(secretName)) {
-  const secret = await client.getSecret(secretName, { version: version.version });
-  console.log("secret: ", secret);
+// We can also list all the secrets in our secret vault
+for await (let x of client.listSecrets()) {
+  console.log("secret: ", x);
 }
 
+// Update the attributes of one of our secrets
+const result = getSecret(secretName);
+await client.updateSecretAttributes(secretName, result.version, { enabled: true });
+
+// Delete the secret we just created
 await client.deleteSecret(secretName);
 ```
 

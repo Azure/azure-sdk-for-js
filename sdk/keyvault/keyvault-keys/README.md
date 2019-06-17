@@ -5,7 +5,7 @@ keys, storage account keys, data encryption keys, .pfx files, and
 passwords by using keys that are protected by hardware security
 modules (HSMs).
 
-Azure KeyVault Key management allows you to creatge and control
+Azure KeyVault Key management allows you to create and control
 encryption keys that encrypt your data.
 
 Use the client library for Azure KeyVault Keys in your Node.js application to
@@ -47,7 +47,7 @@ You also need to enable `compilerOptions.allowSyntheticDefaultImports` in your t
 
 ### Authenticate the client
 
-Here's an example authentication:
+To use the key vault from TypeScript/JavaScript, you need to first authenticate with the key vault service. Here's an example authentication:
 
 ```typescript
 import { KeysClient } from "@azure/keyvault-keys";
@@ -73,39 +73,65 @@ const client = new KeysClient(url, credential);
 
 ## Key concepts
 
-> Soon.
+Azure Key Vault allows you to create and store keys in the key vault. Azure supports RSA keys and elliptic curve keys, each with corresponding support in hardware security modules (HSM).
 
- 
-## Examples
+Multiple keys, and multiple versions of the same key, can be kept in the key vault. Keys can be listed, as well as versions of the same key. Keys can have attributes (Eg, if it is enabled) updated after they are created. Keys can also be deleted, and -- in key vaults with soft delete -- these deleted keys can be recovered.
 
-The following sections provide code snippets that cover some of the
-common tasks using Azure KeyVault Keys
+### Creating keys and key versions
 
-- [Single key](#single-key)
+Azure Key Vault allows you to create keys that are stored in the key vault. When a key is first created, it is given a name. This name acts as a way to reach the key later.
 
-### Single key
+Keys in the key vault can have multiple versions of the same key. These are called versions of that key.
 
-Once you have created an instance of an `KeysClient` class, you can:
+Keys can be created using either RSA or elliptic curve algorithms, each with corresponding support for hardware security modules (HSMs).
+
+In addition to creating keys, existing key data can be imported into a key vault.
+
+### Getting keys from the key vault
+
+The simplest way to read keys back from the vault is to get a key by name. This will retrieve the most recent version of the key. You can optionally get a different version of the key if you also know the version you want.
+
+Key vaults also support listing the keys they have, as well as listing the all the versions of the given key.
+
+### Updating key attributes
+
+Once a key is created, it is possible to update attributes of the key. For example, if a key needs to be temporarily unavailable, the `enabled` attribute can be set to false for a time.
+
+### Working with deleted keys
+
+Key vaults allow deleting keys so that they are no longer available.
+
+In key vaults with 'soft delete' enabled, keys are not immediately removed but instead marked simply as 'deleted'. These deleted keys can be listed, purged, and recovered.
+
+## Example
+
+Once you have created an instance of an `KeysClient` class, you can create, read, update, and delete keys:
 
 ```javascript
-const secretName = "MyKeyName";
-const result = await client.createKey("MyKeyName", "RSA");
+const keyName = "MyKeyName";
+const result = await client.createKey(keyName, "RSA");
 
 console.log("result: ", result);
 
-for await (let x of client.getKeyVersions("MyKeyName")) {
+for await (let x of client.getKeyVersions(keyName)) {
   console.log(">> ", x);
 }
 
-const getResult = await client.getKey("MyKeyName");
+const getResult = await client.getKey(keyName);
 console.log("getResult: ", getResult);
-let encoded = Buffer.from("Hello World");
 
-for await (let x of client.getAllKeys()) {
-  console.log(">> ", x);
+// List all the versions of the key in the key vault
+for await (let x of client.listKeyVersions(keyName)) {
+  console.log("version: ", x);
 }
 
-await client.deleteKey(secretName);
+// We can also list all the keys in our key vault
+for await (let x of client.listKeys()) {
+  console.log("key: ", x);
+}
+
+// Delete the key we just created
+await client.deleteKey(keyName);
 ```
 
 ## Troubleshooting
