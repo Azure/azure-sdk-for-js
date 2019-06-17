@@ -1,74 +1,74 @@
 let nock = require('nock');
 
-module.exports.testInfo = {"container":"container155873894650608335","blob":"blob155873894680607333","randomstring":"randomstring155873894680704736"}
+module.exports.testInfo = {"container":"container156058670011202621","blob":"blob156058670058701546","randomstring":"randomstring156058670058809733"}
 
-nock('https://coolstorageaccount1234.blob.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/container155873894650608335')
-  .query({"restype":"container"})
+nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
+  .put('/container156058670011202621')
+  .query(true)
   .reply(201, "", [ 'Content-Length',
   '0',
   'Last-Modified',
-  'Fri, 24 May 2019 23:02:26 GMT',
+  'Sat, 15 Jun 2019 08:18:19 GMT',
   'ETag',
-  '"0x8D6E09BE3B66C4C"',
+  '"0x8D6F16A0683380E"',
   'Server',
   'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'f4d30c0f-801e-0006-0a84-126a20000000',
+  '07a742e5-401e-00aa-7e52-23ac7e000000',
   'x-ms-version',
   '2018-03-28',
   'Date',
-  'Fri, 24 May 2019 23:02:26 GMT',
+  'Sat, 15 Jun 2019 08:18:19 GMT',
   'Connection',
   'close' ]);
 
 
-nock('https://coolstorageaccount1234.blob.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/container155873894650608335/blob155873894680607333', "randomstring155873894680704736")
+nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
+  .put('/container156058670011202621/blob156058670058701546', "randomstring156058670058809733")
   .reply(201, "", [ 'Content-Length',
   '0',
   'Content-MD5',
-  'IGUOeeEkYF+SOouhIiAEQQ==',
+  '9nemjMjSDFSAYYcoenl7tw==',
   'Last-Modified',
-  'Fri, 24 May 2019 23:02:26 GMT',
+  'Sat, 15 Jun 2019 08:18:20 GMT',
   'ETag',
-  '"0x8D6E09BE3F233E9"',
+  '"0x8D6F16A06F11FBD"',
   'Server',
   'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '521559c2-001e-0053-0c84-128157000000',
+  'd10c0ec8-c01e-0092-5c52-23ed27000000',
   'x-ms-version',
   '2018-03-28',
   'x-ms-request-server-encrypted',
   'true',
   'Date',
-  'Fri, 24 May 2019 23:02:26 GMT',
+  'Sat, 15 Jun 2019 08:18:19 GMT',
   'Connection',
   'close' ]);
 
 
-nock('https://coolstorageaccount1234.blob.core.windows.net:443', {"encodedQueryParams":true})
-  .get('/container155873894650608335/blob155873894680607333')
-  .reply(200, "randomstring155873894680704736", [ 'Content-Length',
+nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
+  .get('/container156058670011202621/blob156058670058701546')
+  .reply(200, "randomstring156058670058809733", [ 'Content-Length',
   '30',
   'Content-Type',
   'application/octet-stream',
   'Content-MD5',
-  'IGUOeeEkYF+SOouhIiAEQQ==',
+  '9nemjMjSDFSAYYcoenl7tw==',
   'Last-Modified',
-  'Fri, 24 May 2019 23:02:26 GMT',
+  'Sat, 15 Jun 2019 08:18:20 GMT',
   'Accept-Ranges',
   'bytes',
   'ETag',
-  '"0x8D6E09BE3F233E9"',
+  '"0x8D6F16A06F11FBD"',
   'Server',
   'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'f3d2c48f-201e-004f-1f84-125940000000',
+  'cd681bc0-701e-00a2-6052-23b70d000000',
   'x-ms-version',
   '2018-03-28',
   'x-ms-creation-time',
-  'Fri, 24 May 2019 23:02:26 GMT',
+  'Sat, 15 Jun 2019 08:18:20 GMT',
   'x-ms-lease-status',
   'unlocked',
   'x-ms-lease-state',
@@ -82,24 +82,24 @@ nock('https://coolstorageaccount1234.blob.core.windows.net:443', {"encodedQueryP
   'Access-Control-Allow-Origin',
   '*',
   'Date',
-  'Fri, 24 May 2019 23:02:26 GMT',
+  'Sat, 15 Jun 2019 08:18:20 GMT',
   'Connection',
   'close' ]);
 
 
-nock('https://coolstorageaccount1234.blob.core.windows.net:443', {"encodedQueryParams":true})
-  .delete('/container155873894650608335')
-  .query({"restype":"container"})
+nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
+  .delete('/container156058670011202621')
+  .query(true)
   .reply(202, "", [ 'Content-Length',
   '0',
   'Server',
   'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'ff72fbcb-d01e-0073-1884-12ed9b000000',
+  'b0a887f4-801e-00da-0f52-23dfba000000',
   'x-ms-version',
   '2018-03-28',
   'Date',
-  'Fri, 24 May 2019 23:02:26 GMT',
+  'Sat, 15 Jun 2019 08:18:20 GMT',
   'Connection',
   'close' ]);
 

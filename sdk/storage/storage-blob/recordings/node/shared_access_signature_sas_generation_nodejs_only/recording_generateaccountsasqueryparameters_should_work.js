@@ -1,20 +1,20 @@
 let nock = require('nock');
 
-module.exports.testInfo = {"now":"2019-05-24T23:02:55.377Z","tmr":"2019-05-24T23:02:55.381Z"}
+module.exports.testInfo = {"now":"2019-06-15T08:19:41.997Z","tmr":"2019-06-15T08:19:42.110Z"}
 
-nock('https://coolstorageaccount1234.blob.core.windows.net:443', {"encodedQueryParams":true})
+nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
   .get('/')
-  .query({"sv":"2016-05-31","ss":"btqf","srt":"sco","spr":"https%2Chttp","st":"2019-05-24T22%3A57%3A55Z","se":"2019-05-25T23%3A02%3A55Z","sip":"0.0.0.0-255.255.255.255","sp":"rwdlacup","sig":"AnST5HJE3cjppcEuT55v2g%2BCrK04JZOyDrrd0RkOeAo%3D","restype":"account","comp":"properties"})
+  .query(true)
   .reply(200, "", [ 'Content-Length',
   '0',
   'Server',
   'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'f6c3df23-201e-0022-2c84-12f36e000000',
+  'd11d20a7-201e-001b-4d53-235403000000',
   'x-ms-version',
   '2018-03-28',
   'x-ms-sku-name',
-  'Standard_LRS',
+  'Standard_RAGRS',
   'x-ms-account-kind',
   'StorageV2',
   'Access-Control-Expose-Headers',
@@ -22,7 +22,7 @@ nock('https://coolstorageaccount1234.blob.core.windows.net:443', {"encodedQueryP
   'Access-Control-Allow-Origin',
   '*',
   'Date',
-  'Fri, 24 May 2019 23:02:54 GMT',
+  'Sat, 15 Jun 2019 08:19:41 GMT',
   'Connection',
   'close' ]);
 

@@ -1,54 +1,54 @@
 let nock = require('nock');
 
-module.exports.testInfo = {"container":"container155873875603805024","blob":"blob155873875642704801"}
+module.exports.testInfo = {"container":"container156058637408101750","blob":"blob156058637469806315"}
 
-nock('https://coolstorageaccount1234.blob.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/container155873875603805024')
-  .query({"restype":"container"})
+nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
+  .put('/container156058637408101750')
+  .query(true)
   .reply(201, "", [ 'Content-Length',
   '0',
   'Last-Modified',
-  'Fri, 24 May 2019 22:59:16 GMT',
+  'Sat, 15 Jun 2019 08:12:53 GMT',
   'ETag',
-  '"0x8D6E09B723D3167"',
+  '"0x8D6F16944474135"',
   'Server',
   'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '20a95b03-901e-0030-3b84-12c772000000',
+  'fc3e89b2-501e-00be-8052-236f1a000000',
   'x-ms-version',
   '2018-03-28',
   'Date',
-  'Fri, 24 May 2019 22:59:15 GMT',
+  'Sat, 15 Jun 2019 08:12:53 GMT',
   'Connection',
   'close' ]);
 
 
-nock('https://coolstorageaccount1234.blob.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/container155873875603805024/blob155873875642704801', "Hello World")
+nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
+  .put('/container156058637408101750/blob156058637469806315', "Hello World")
   .reply(201, "", [ 'Content-Length',
   '0',
   'Content-MD5',
   'sQqNsWTgdUEFt6mb5y4/5Q==',
   'Last-Modified',
-  'Fri, 24 May 2019 22:59:16 GMT',
+  'Sat, 15 Jun 2019 08:12:54 GMT',
   'ETag',
-  '"0x8D6E09B727AEF89"',
+  '"0x8D6F169448814CF"',
   'Server',
   'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'bc6b9f29-601e-0043-0284-12b7b1000000',
+  'd92713a3-001e-00e2-6a52-239ee3000000',
   'x-ms-version',
   '2018-03-28',
   'x-ms-request-server-encrypted',
   'true',
   'Date',
-  'Fri, 24 May 2019 22:59:15 GMT',
+  'Sat, 15 Jun 2019 08:12:53 GMT',
   'Connection',
   'close' ]);
 
 
-nock('https://coolstorageaccount1234.blob.core.windows.net:443', {"encodedQueryParams":true})
-  .get('/container155873875603805024/blob155873875642704801')
+nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
+  .get('/container156058637408101750/blob156058637469806315')
   .reply(200, "Hello World", [ 'Content-Length',
   '11',
   'Content-Type',
@@ -56,19 +56,19 @@ nock('https://coolstorageaccount1234.blob.core.windows.net:443', {"encodedQueryP
   'Content-MD5',
   'sQqNsWTgdUEFt6mb5y4/5Q==',
   'Last-Modified',
-  'Fri, 24 May 2019 22:59:16 GMT',
+  'Sat, 15 Jun 2019 08:12:54 GMT',
   'Accept-Ranges',
   'bytes',
   'ETag',
-  '"0x8D6E09B727AEF89"',
+  '"0x8D6F169448814CF"',
   'Server',
   'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'c276021d-501e-002d-0e84-121e98000000',
+  'd39c8373-e01e-00ca-1f52-23e95c000000',
   'x-ms-version',
   '2018-03-28',
   'x-ms-creation-time',
-  'Fri, 24 May 2019 22:59:16 GMT',
+  'Sat, 15 Jun 2019 08:12:54 GMT',
   'x-ms-lease-status',
   'unlocked',
   'x-ms-lease-state',
@@ -82,24 +82,24 @@ nock('https://coolstorageaccount1234.blob.core.windows.net:443', {"encodedQueryP
   'Access-Control-Allow-Origin',
   '*',
   'Date',
-  'Fri, 24 May 2019 22:59:16 GMT',
+  'Sat, 15 Jun 2019 08:12:53 GMT',
   'Connection',
   'close' ]);
 
 
-nock('https://coolstorageaccount1234.blob.core.windows.net:443', {"encodedQueryParams":true})
-  .delete('/container155873875603805024')
-  .query({"restype":"container"})
+nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
+  .delete('/container156058637408101750')
+  .query(true)
   .reply(202, "", [ 'Content-Length',
   '0',
   'Server',
   'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'e9047790-001e-0017-7d84-125d3b000000',
+  '8a93060a-801e-009e-1b52-2303d6000000',
   'x-ms-version',
   '2018-03-28',
   'Date',
-  'Fri, 24 May 2019 22:59:16 GMT',
+  'Sat, 15 Jun 2019 08:12:54 GMT',
   'Connection',
   'close' ]);
 
