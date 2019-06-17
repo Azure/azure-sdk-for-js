@@ -2,7 +2,7 @@
  "recordings": [
   {
    "method": "GET",
-   "url": "https://coolstorageaccount1234.blob.core.windows.net/",
+   "url": "https://fakestorageaccount.blob.core.windows.net/",
    "query": {
     "comp": "properties",
     "restype": "account"
@@ -11,11 +11,11 @@
    "status": 200,
    "response": "",
    "responseHeaders": {
-    "date": "Fri, 24 May 2019 23:05:01 GMT",
+    "date": "Sat, 15 Jun 2019 08:25:23 GMT",
     "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
     "x-ms-account-kind": "StorageV2",
-    "x-ms-request-id": "05302724-d01e-009d-6485-12e718000000",
-    "x-ms-sku-name": "Standard_LRS",
+    "x-ms-request-id": "9568860c-201e-0039-0653-233a35000000",
+    "x-ms-sku-name": "Standard_RAGRS",
     "x-ms-version": "2018-03-28",
     "content-length": "0"
    }

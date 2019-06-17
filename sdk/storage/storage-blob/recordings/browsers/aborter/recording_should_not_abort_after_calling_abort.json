@@ -2,7 +2,7 @@
  "recordings": [
   {
    "method": "PUT",
-   "url": "https://coolstorageaccount1234.blob.core.windows.net/container155873899245509492",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container156058697809306189",
    "query": {
     "restype": "container"
    },
@@ -10,17 +10,17 @@
    "status": 201,
    "response": "",
    "responseHeaders": {
-    "date": "Fri, 24 May 2019 23:03:11 GMT",
-    "last-modified": "Fri, 24 May 2019 23:03:12 GMT",
+    "date": "Sat, 15 Jun 2019 08:22:57 GMT",
+    "last-modified": "Sat, 15 Jun 2019 08:22:58 GMT",
     "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
-    "etag": "\"0x8D6E09BFF52C2A4\"",
-    "x-ms-request-id": "052f3597-d01e-009d-4684-12e718000000",
+    "etag": "\"0x8D6F16AAC77E5A4\"",
+    "x-ms-request-id": "9567147c-201e-0039-5053-233a35000000",
     "x-ms-version": "2018-03-28",
     "content-length": "0"
    }
   }
  ],
  "uniqueTestInfo": {
-  "container": "container155873899245509492"
+  "container": "container156058697809306189"
  }
 }

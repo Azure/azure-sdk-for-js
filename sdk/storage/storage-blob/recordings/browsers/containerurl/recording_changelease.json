@@ -2,7 +2,7 @@
  "recordings": [
   {
    "method": "PUT",
-   "url": "https://coolstorageaccount1234.blob.core.windows.net/container155873907103402804",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container156058706310602307",
    "query": {
     "restype": "container"
    },
@@ -10,18 +10,18 @@
    "status": 201,
    "response": "",
    "responseHeaders": {
-    "date": "Fri, 24 May 2019 23:04:29 GMT",
-    "last-modified": "Fri, 24 May 2019 23:04:30 GMT",
+    "date": "Sat, 15 Jun 2019 08:24:22 GMT",
+    "last-modified": "Sat, 15 Jun 2019 08:24:22 GMT",
     "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
-    "etag": "\"0x8D6E09C2DD976D7\"",
-    "x-ms-request-id": "052fe119-d01e-009d-2a85-12e718000000",
+    "etag": "\"0x8D6F16ADEBF9D60\"",
+    "x-ms-request-id": "9567f24d-201e-0039-3253-233a35000000",
     "x-ms-version": "2018-03-28",
     "content-length": "0"
    }
   },
   {
    "method": "PUT",
-   "url": "https://coolstorageaccount1234.blob.core.windows.net/container155873907103402804",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container156058706310602307",
    "query": {
     "comp": "lease",
     "restype": "container"
@@ -30,11 +30,11 @@
    "status": 201,
    "response": "",
    "responseHeaders": {
-    "date": "Fri, 24 May 2019 23:04:30 GMT",
-    "last-modified": "Fri, 24 May 2019 23:04:30 GMT",
+    "date": "Sat, 15 Jun 2019 08:24:22 GMT",
+    "last-modified": "Sat, 15 Jun 2019 08:24:22 GMT",
     "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
-    "etag": "\"0x8D6E09C2DD976D7\"",
-    "x-ms-request-id": "052fe16a-d01e-009d-6d85-12e718000000",
+    "etag": "\"0x8D6F16ADEBF9D60\"",
+    "x-ms-request-id": "9567f2d6-201e-0039-2653-233a35000000",
     "x-ms-version": "2018-03-28",
     "content-length": "0",
     "x-ms-lease-id": "ca761232-ed42-11ce-bacd-00aa0057b223"
@@ -42,7 +42,7 @@
   },
   {
    "method": "GET",
-   "url": "https://coolstorageaccount1234.blob.core.windows.net/container155873907103402804",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container156058706310602307",
    "query": {
     "restype": "container"
    },
@@ -51,12 +51,12 @@
    "response": "",
    "responseHeaders": {
     "x-ms-lease-status": "locked",
-    "date": "Fri, 24 May 2019 23:04:30 GMT",
+    "date": "Sat, 15 Jun 2019 08:24:22 GMT",
     "x-ms-has-legal-hold": "false",
-    "last-modified": "Fri, 24 May 2019 23:04:30 GMT",
+    "last-modified": "Sat, 15 Jun 2019 08:24:22 GMT",
     "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
-    "etag": "\"0x8D6E09C2DD976D7\"",
-    "x-ms-request-id": "052fe1e3-d01e-009d-5385-12e718000000",
+    "etag": "\"0x8D6F16ADEBF9D60\"",
+    "x-ms-request-id": "9567f33e-201e-0039-0253-233a35000000",
     "x-ms-version": "2018-03-28",
     "x-ms-lease-duration": "fixed",
     "x-ms-has-immutability-policy": "false",
@@ -66,7 +66,7 @@
   },
   {
    "method": "PUT",
-   "url": "https://coolstorageaccount1234.blob.core.windows.net/container155873907103402804",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container156058706310602307",
    "query": {
     "comp": "lease",
     "restype": "container"
@@ -75,11 +75,11 @@
    "status": 200,
    "response": "",
    "responseHeaders": {
-    "date": "Fri, 24 May 2019 23:04:30 GMT",
-    "last-modified": "Fri, 24 May 2019 23:04:30 GMT",
+    "date": "Sat, 15 Jun 2019 08:24:22 GMT",
+    "last-modified": "Sat, 15 Jun 2019 08:24:22 GMT",
     "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
-    "etag": "\"0x8D6E09C2DD976D7\"",
-    "x-ms-request-id": "052fe25b-d01e-009d-3885-12e718000000",
+    "etag": "\"0x8D6F16ADEBF9D60\"",
+    "x-ms-request-id": "9567f3d2-201e-0039-0b53-233a35000000",
     "x-ms-version": "2018-03-28",
     "content-length": "0",
     "x-ms-lease-id": "3c7e72eb-b430-4526-bc53-d8ecef03798f"
@@ -87,7 +87,7 @@
   },
   {
    "method": "GET",
-   "url": "https://coolstorageaccount1234.blob.core.windows.net/container155873907103402804",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container156058706310602307",
    "query": {
     "restype": "container"
    },
@@ -96,12 +96,12 @@
    "response": "",
    "responseHeaders": {
     "x-ms-lease-status": "locked",
-    "date": "Fri, 24 May 2019 23:04:30 GMT",
+    "date": "Sat, 15 Jun 2019 08:24:22 GMT",
     "x-ms-has-legal-hold": "false",
-    "last-modified": "Fri, 24 May 2019 23:04:30 GMT",
+    "last-modified": "Sat, 15 Jun 2019 08:24:22 GMT",
     "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
-    "etag": "\"0x8D6E09C2DD976D7\"",
-    "x-ms-request-id": "052fe2bb-d01e-009d-0985-12e718000000",
+    "etag": "\"0x8D6F16ADEBF9D60\"",
+    "x-ms-request-id": "9567f460-201e-0039-1153-233a35000000",
     "x-ms-version": "2018-03-28",
     "x-ms-lease-duration": "fixed",
     "x-ms-has-immutability-policy": "false",
@@ -111,7 +111,7 @@
   },
   {
    "method": "PUT",
-   "url": "https://coolstorageaccount1234.blob.core.windows.net/container155873907103402804",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container156058706310602307",
    "query": {
     "comp": "lease",
     "restype": "container"
@@ -120,18 +120,18 @@
    "status": 200,
    "response": "",
    "responseHeaders": {
-    "date": "Fri, 24 May 2019 23:04:30 GMT",
-    "last-modified": "Fri, 24 May 2019 23:04:30 GMT",
+    "date": "Sat, 15 Jun 2019 08:24:23 GMT",
+    "last-modified": "Sat, 15 Jun 2019 08:24:22 GMT",
     "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
-    "etag": "\"0x8D6E09C2DD976D7\"",
-    "x-ms-request-id": "052fe2db-d01e-009d-2285-12e718000000",
+    "etag": "\"0x8D6F16ADEBF9D60\"",
+    "x-ms-request-id": "9567f4da-201e-0039-0653-233a35000000",
     "x-ms-version": "2018-03-28",
     "content-length": "0"
    }
   },
   {
    "method": "DELETE",
-   "url": "https://coolstorageaccount1234.blob.core.windows.net/container155873907103402804",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container156058706310602307",
    "query": {
     "restype": "container"
    },
@@ -139,15 +139,15 @@
    "status": 202,
    "response": "",
    "responseHeaders": {
-    "x-ms-request-id": "052fe30e-d01e-009d-4885-12e718000000",
+    "x-ms-request-id": "9567f5b8-201e-0039-5153-233a35000000",
     "x-ms-version": "2018-03-28",
     "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
-    "date": "Fri, 24 May 2019 23:04:30 GMT",
+    "date": "Sat, 15 Jun 2019 08:24:23 GMT",
     "content-length": "0"
    }
   }
  ],
  "uniqueTestInfo": {
-  "container": "container155873907103402804"
+  "container": "container156058706310602307"
  }
 }
