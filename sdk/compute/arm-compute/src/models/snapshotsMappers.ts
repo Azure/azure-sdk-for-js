@@ -83,6 +83,8 @@ export {
   OSDiskImage,
   OSProfile,
   Plan,
+  ProximityPlacementGroup,
+  ProximityPlacementGroupUpdate,
   PurchasePlan,
   RecommendedMachineConfiguration,
   RegionalReplicationStatus,
