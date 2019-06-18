@@ -162,7 +162,7 @@ export async function getTopicClientWithTwoSubscriptionClients(
   topicClient: TopicClient;
   subscriptionClients: SubscriptionClient[];
 }> {
-  const env = getEnvVars(!isNode);
+  const env = getEnvVars();
   const subscriptionClients: SubscriptionClient[] = [];
   if (isNode) {
     if (env[EnvVarKeys.CLEAN_NAMESPACE]) {
@@ -215,7 +215,7 @@ export async function getSenderReceiverClients(
   senderClient: QueueClient | TopicClient;
   receiverClient: QueueClient | SubscriptionClient;
 }> {
-  const env = getEnvVars(!isNode);
+  const env = getEnvVars();
 
   switch (receiverClientType) {
     case TestClientType.PartitionedQueue: {
@@ -500,6 +500,6 @@ export function getNamespace(serviceBusConnectionString: string): string {
 }
 
 export function getServiceBusClient(): ServiceBusClient {
-  const env = getEnvVars(!isNode);
+  const env = getEnvVars();
   return ServiceBusClient.createFromConnectionString(env[EnvVarKeys.SERVICEBUS_CONNECTION_STRING]);
 }

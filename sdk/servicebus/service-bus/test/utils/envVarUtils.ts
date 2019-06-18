@@ -117,7 +117,9 @@ function getEnvVarValue(name: string, forBrowser?: boolean): string | undefined 
   return defaultValue;
 }
 
-export function getEnvVars(forBrowser?: boolean): { [key in EnvVarKeys]: any } {
+export function getEnvVars(): { [key in EnvVarKeys]: any } {
+  const forBrowser = !isNode;
+
   // Throw error only if mandatory env variable is missing
   // Or, if CLEAN_NAMESPACE is enabled and AAD related details are not provided
   throwMissingEnvironmentVariablesError(mandatoryEnvVars);

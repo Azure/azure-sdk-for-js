@@ -1,14 +1,14 @@
 import msRestNodeAuth from "@azure/ms-rest-nodeauth";
 import { ServiceBusManagementClient } from "@azure/arm-servicebus";
 import { SBQueue, SBTopic, SBSubscription } from "@azure/arm-servicebus/esm/models";
-import { EnvVarKeys, getEnvVars, isNode } from "./envVarUtils";
+import { EnvVarKeys, getEnvVars } from "./envVarUtils";
 
 const _loginWithServicePrincipalSecret = msRestNodeAuth.loginWithServicePrincipalSecret;
 
 export const loginWithServicePrincipalSecret = _loginWithServicePrincipalSecret;
 
 export async function recreateQueue(queueName: string, parameters: SBQueue): Promise<void> {
-  const env = getEnvVars(!isNode);
+  const env = getEnvVars();
   await msRestNodeAuth
     .loginWithServicePrincipalSecret(
       env[EnvVarKeys.AAD_CLIENT_ID],
@@ -41,7 +41,7 @@ export async function recreateQueue(queueName: string, parameters: SBQueue): Pro
 }
 
 export async function recreateTopic(topicName: string, parameters: SBTopic): Promise<void> {
-  const env = getEnvVars(!isNode);
+  const env = getEnvVars();
   await msRestNodeAuth
     .loginWithServicePrincipalSecret(
       env[EnvVarKeys.AAD_CLIENT_ID],
@@ -78,7 +78,7 @@ export async function recreateSubscription(
   subscriptionName: string,
   parameters: SBSubscription
 ): Promise<void> {
-  const env = getEnvVars(!isNode);
+  const env = getEnvVars();
   await msRestNodeAuth
     .loginWithServicePrincipalSecret(
       env[EnvVarKeys.AAD_CLIENT_ID],

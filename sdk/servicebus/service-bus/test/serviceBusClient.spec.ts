@@ -32,7 +32,7 @@ import {
 } from "./utils/testUtils";
 import { ClientType } from "../src/client";
 import { throwIfMessageCannotBeSettled, DispositionType } from "../src/serviceBusMessage";
-import { getEnvVars, isNode } from "./utils/envVarUtils";
+import { getEnvVars } from "./utils/envVarUtils";
 import { loginWithServicePrincipalSecret } from "./utils/aadUtils";
 
 const should = chai.should();
@@ -316,7 +316,7 @@ describe("Test createFromAadTokenCredentials", function(): void {
   let sbClient: ServiceBusClient;
   let errorWasThrown: boolean = false;
 
-  const env = getEnvVars(!isNode);
+  const env = getEnvVars();
   const serviceBusEndpoint = (env.SERVICEBUS_CONNECTION_STRING.match(
     "Endpoint=sb://((.*).servicebus.windows.net)"
   ) || "")[1];
@@ -356,7 +356,7 @@ describe("Test createFromAadTokenCredentials", function(): void {
   it("Coerces input to string for host in createFromAadTokenCredentials", async function(): Promise<
     void
   > {
-    const env = getEnvVars(!isNode);
+    const env = getEnvVars();
 
     let tokenCreds = await loginWithServicePrincipalSecret(
       env.AAD_CLIENT_ID,
@@ -371,7 +371,7 @@ describe("Test createFromAadTokenCredentials", function(): void {
   });
 
   it("sends a message to the ServiceBus entity", async function(): Promise<void> {
-    const env = getEnvVars(!isNode);
+    const env = getEnvVars();
 
     let tokenCreds = await loginWithServicePrincipalSecret(
       env.AAD_CLIENT_ID,

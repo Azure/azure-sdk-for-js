@@ -1,5 +1,3 @@
-console.log("Creating browser resources...");
-
 const msRestNodeAuth = require("@azure/ms-rest-nodeauth");
 
 const ServiceBusManagementClient = require("@azure/arm-servicebus").ServiceBusManagementClient;
@@ -46,14 +44,19 @@ const aadRelatedEnvVars = [
 
 const env = getEnvVars();
 
-buildResources()
-  .then(() => {
-    console.log("DONE Creating browser resources.");
-  })
-  .catch((err) => {
-    console.log("Error occured!!");
-    throw err;
-  });
+if (env[EnvVarKeys.CLEAN_NAMESPACE] === "true") {
+  console.log("Creating browser resources...");
+  buildResources()
+    .then(() => {
+      console.log("DONE Creating browser resources.");
+    })
+    .catch((err) => {
+      console.log("Error occured!!");
+      throw err;
+    });
+} else {
+  console.log("Skipped creating browser resources.");
+}
 
 async function buildResources() {
   await recreateQueue(env[EnvVarKeys.QUEUE_NAME], {
