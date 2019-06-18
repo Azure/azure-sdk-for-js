@@ -348,7 +348,7 @@ export class QueueServiceClient extends StorageClient {
       /**
        * @member {Promise} [next] The next method, part of the iteration protocol
        */
-      async next() {
+      next() {
         return iter.next();
       },
       /**
