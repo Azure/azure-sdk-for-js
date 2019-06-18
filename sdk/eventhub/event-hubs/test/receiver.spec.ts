@@ -133,11 +133,6 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
       const partitionId = partitionIds[0];
       const pInfo = await client.getPartitionInformation(partitionId);
       debug(`Creating new receiver with last enqueued offset: "${pInfo.lastEnqueuedOffset}".`);
-      breceiver = BatchingReceiver.create(
-        (client as any)._context,
-        parseInt(partitionId),
-        EventPosition.fromOffset(pInfo.lastEnqueuedOffset)
-      );
       debug("Establishing the receiver link...");
       // send a new message. We should only receive this new message.
       const uid = uuid();
@@ -200,11 +195,6 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
       const partitionId = partitionIds[0];
       const pInfo = await client.getPartitionInformation(partitionId);
       debug(`Creating new receiver with last enqueued time: "${pInfo.lastEnqueuedTimeUtc}".`);
-      breceiver = BatchingReceiver.create(
-        (client as any)._context,
-        partitionId,
-        EventPosition.fromEnqueuedTime(pInfo.lastEnqueuedTimeUtc)
-      );
       debug("Establishing the receiver link...");
 
       // send a new message. We should only receive this new message.
@@ -225,7 +215,7 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
       data[0].properties!.stamp.should.equal(uid);
     });
 
-    it("'after the particular sequence number' should receive messages correctly #RunnableInBrowser", async function(): Promise<
+    it("'after the particular sequence number' should receive messages correctly", async function(): Promise<
       void
     > {
       const partitionId = partitionIds[0];

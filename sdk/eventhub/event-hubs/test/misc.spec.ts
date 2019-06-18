@@ -151,9 +151,6 @@ describe("Misc tests #RunnableInBrowser", function(): void {
       const partitionId = hubInfo.partitionIds[0];
       const offset = (await client.getPartitionInformation(partitionId)).lastEnqueuedOffset;
       debug(`Partition ${partitionId} has last message with offset ${offset}.`);
-      breceiver = BatchingReceiver.create((client as any)._context, partitionId, EventPosition.fromOffset(offset));
-      let data = await breceiver.receive(5, 10);
-      should.equal(data.length, 0, "Unexpected to receive message before client sends it");
       const messageCount = 5;
       const d: EventData[] = [];
       for (let i = 0; i < messageCount; i++) {
@@ -185,7 +182,6 @@ describe("Misc tests #RunnableInBrowser", function(): void {
       const partitionId = hubInfo.partitionIds[0];
       const offset = (await client.getPartitionInformation(partitionId)).lastEnqueuedOffset;
       debug(`Partition ${partitionId} has last message with offset ${offset}.`);
-      breceiver = BatchingReceiver.create((client as any)._context, partitionId, EventPosition.fromOffset(offset));
       let data = await breceiver.receive(5, 10);
       should.equal(data.length, 0, "Unexpected to receive message before client sends it");
       const messageCount = 5;
