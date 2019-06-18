@@ -547,7 +547,8 @@ export interface Usage {
  */
 export interface VirtualMachineReimageParameters {
   /**
-   * Specifies whether to reimage temp disk. Default value: false.
+   * Specifies whether to reimage temp disk. Default value: false. Note: This temp disk reimage
+   * parameter is only supported for VM/VMSS with Ephemeral OS disk.
    */
   tempDisk?: boolean;
 }
@@ -5226,13 +5227,13 @@ export interface RunCommandListResult extends Array<RunCommandDocumentBase> {
 
 /**
  * @interface
- * The Compute List Skus operation response.
+ * The List Resource Skus operation response.
  * @extends Array<ResourceSku>
  */
 export interface ResourceSkusResult extends Array<ResourceSku> {
   /**
-   * The uri to fetch the next page of Compute Skus. Call ListNext() with this to fetch the next
-   * page of VMSS Skus.
+   * The URI to fetch the next page of Resource Skus. Call ListNext() with this URI to fetch the
+   * next page of Resource Skus
    */
   nextLink?: string;
 }
