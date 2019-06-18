@@ -3,7 +3,7 @@ import { SecretsClient } from "../src";
 import { record, setReplaceableVariables, delay, setReplacements, env } from "./utils/recorder";
 import { EnvironmentCredential } from "@azure/identity";
 
-describe("Secret client - create, read, update and delete operations", () => {
+describe("Secret client - restore secrets and recover backups", () => {
   const secretValue = "SECRET_VALUE";
   const version = "";
   let client: SecretsClient;
@@ -26,6 +26,7 @@ describe("Secret client - create, read, update and delete operations", () => {
   }
   async function flushSecret() {
     await client.deleteSecret(secretName);
+    await delay(30000);
     await purgeSecret();
   }
   async function maybeFlushSecret() {
@@ -63,15 +64,9 @@ describe("Secret client - create, read, update and delete operations", () => {
     client = new SecretsClient(url, credential);
 
     await maybeFlushSecret();
-
-    recorder.stop();
   });
 
-  beforeEach(async function() {
-    recorder = record(this);
-  });
-
-  afterEach(async () => {
+  after(async function() {
     recorder.stop();
   });
 

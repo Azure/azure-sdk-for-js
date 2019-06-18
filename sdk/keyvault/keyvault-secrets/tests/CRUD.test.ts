@@ -26,6 +26,7 @@ describe("Secret client - create, read, update and delete operations", () => {
   }
   async function flushSecret() {
     await client.deleteSecret(secretName);
+    await delay(30000);
     await purgeSecret();
   }
   async function maybeFlushSecret() {
@@ -63,15 +64,9 @@ describe("Secret client - create, read, update and delete operations", () => {
     client = new SecretsClient(url, credential);
 
     await maybeFlushSecret();
-
-    recorder.stop();
   });
 
-  beforeEach(async function() {
-    recorder = record(this);
-  });
-
-  afterEach(async () => {
+  after(async () => {
     recorder.stop();
   });
 

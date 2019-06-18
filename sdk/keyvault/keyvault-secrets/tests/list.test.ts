@@ -1,10 +1,10 @@
 import * as assert from "assert";
-import * as assert from "assert";
+import { expect } from "chai";
 import { SecretsClient } from "../src";
 import { record, setReplaceableVariables, delay, setReplacements, env } from "./utils/recorder";
 import { EnvironmentCredential } from "@azure/identity";
 
-describe("Secret client - create, read, update and delete operations", () => {
+describe("Secret client - list secrets in various ways", () => {
   const secretValue = "SECRET_VALUE";
   const version = "";
   let client: SecretsClient;
@@ -27,6 +27,7 @@ describe("Secret client - create, read, update and delete operations", () => {
   }
   async function flushSecret() {
     await client.deleteSecret(secretName);
+    await delay(30000);
     await purgeSecret();
   }
   async function maybeFlushSecret() {
@@ -64,15 +65,9 @@ describe("Secret client - create, read, update and delete operations", () => {
     client = new SecretsClient(url, credential);
 
     await maybeFlushSecret();
-
-    recorder.stop();
   });
 
-  beforeEach(async function() {
-    recorder = record(this);
-  });
-
-  afterEach(async () => {
+  after(async () => {
     recorder.stop();
   });
 
@@ -123,6 +118,7 @@ describe("Secret client - create, read, update and delete operations", () => {
     for (let name of secretNames) {
       await client.purgeDeletedSecret(name);
     }
+    await delay(20000);
   });
 
   it("can retrieve all versions of a secret", async () => {
@@ -180,6 +176,7 @@ describe("Secret client - create, read, update and delete operations", () => {
       await delay(20000);
       await client.purgeDeletedSecret(name);
     }
+    await delay(20000);
   });
 
   it("can list deleted secrets", async () => {
@@ -203,6 +200,7 @@ describe("Secret client - create, read, update and delete operations", () => {
     for (let name of secretNames) {
       await client.purgeDeletedSecret(name);
     }
+    await delay(20000);
   });
 
   it("can retrieve all versions of a secret", async () => {
