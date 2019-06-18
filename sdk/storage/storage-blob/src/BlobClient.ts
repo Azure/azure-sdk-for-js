@@ -1118,7 +1118,10 @@ export class BlobClient extends StorageClient {
    * @param {number} [offset] From which position of the block blob to download.
    * @param {number} [count] How much data to be downloaded. Will download to the end when passing undefined.
    * @param {BlobDownloadOptions} [options] Options to Blob download options.
-   * @returns {Promise<void>}
+   * @returns {Promise<Models.BlobDownloadResponse>} The response data for blob download operation,
+   *                                                 but with readableStreamBody set to undefined since its
+   *                                                 content is already read and written into a local file
+   *                                                 at the specified path.
    * @memberof BlobClient
    */
   public async downloadToFile(
@@ -1126,10 +1129,14 @@ export class BlobClient extends StorageClient {
     offset: number = 0,
     count?: number,
     options?: BlobDownloadOptions
-  ): Promise<void> {
+  ): Promise<Models.BlobDownloadResponse> {
     const response = await this.download(offset, count, options);
     if (response.readableStreamBody) {
       await readStreamToLocalFile(response.readableStreamBody, filePath);
     }
+
+    // The stream is no longer accessible so setting it to undefined.
+    (response as any).blobDownloadStream = undefined;
+    return response;
   }
 }

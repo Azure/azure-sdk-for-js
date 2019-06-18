@@ -470,7 +470,17 @@ describe("Highlevel Node.js only", () => {
     const rs = fs.createReadStream(tempFileSmall);
     await blockBlobClient.uploadStream(rs, 4 * 1024 * 1024, 20);
 
-    await blockBlobClient.downloadToFile(downloadedFilePath, 0, undefined);
+    const response = await blobClient.downloadToFile(downloadedFilePath, 0, undefined);
+
+    assert.ok(
+      response.contentLength === tempFileSmallLength,
+      "response.contentLength doesn't match tempFileSmallLength"
+    );
+    assert.equal(
+      response.readableStreamBody,
+      undefined,
+      "Expecting response.readableStreamBody to be undefined."
+    );
 
     const localFileContent = fs.readFileSync(tempFileSmall);
     const downloadedFileContent = fs.readFileSync(downloadedFilePath);
