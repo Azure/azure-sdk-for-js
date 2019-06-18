@@ -98,7 +98,9 @@ async function main() {
       i++;
     }
   }
+  // Gets next marker
   let marker = item.nextMarker;
+  // Passing next marker as continuationToken
   iter4 = queueServiceClient.listQueues().byPage({ continuationToken: marker, maxPageSize: 10 });
   item = (await iter4.next()).value;
   // Prints 10 queue names
