@@ -87,7 +87,7 @@ describe("Create ServiceBusClient and Queue/Topic/Subscription Clients #RunInBro
   });
 });
 
-describe("Errors with non existing Namespace #RunInBrowser", function(): void {
+describe("Errors with non existing Namespace", function(): void {
   let sbClient: ServiceBusClient;
   let errorWasThrown: boolean;
   beforeEach(() => {
