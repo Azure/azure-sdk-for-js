@@ -349,8 +349,8 @@ export class QueueServiceClient extends StorageClient {
        * @member {Promise} [next] The next method, part of the iteration protocol
        */
       async next() {
-        const item = (await iter.next()).value;
-        return item ? { done: false, value: item } : { done: true, value: undefined };
+        const item = await iter.next();
+        return { done: item.done, value: item.value };
       },
       /**
        * @member {Symbol} [asyncIterator] The connection to the async iterator, part of the iteration protocol

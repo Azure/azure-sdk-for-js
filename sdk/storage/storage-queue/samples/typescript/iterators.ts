@@ -27,14 +27,14 @@ async function main() {
 
   let iter1 = queueServiceClient.listQueues();
   for await (const item of iter1) {
-    console.log(`Queue${i}: ${item!.name}`);
+    console.log(`Queue${i}: ${item.name}`);
     i++;
   }
 
   // Same as the previous example
   i = 1;
   for await (const item of queueServiceClient.listQueues()) {
-    console.log(`Queue${i}: ${item!.name}`);
+    console.log(`Queue${i}: ${item.name}`);
     i++;
   }
 
