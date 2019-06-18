@@ -5,7 +5,7 @@ import { TokenCredential, RestError } from "@azure/core-http";
 import { EnvironmentCredential } from "@azure/identity";
 import { record, setReplaceableVariables, delay, setReplacements, env } from "./utils/recorder";
 
-describe("Keys client - create, read, update and delete operations", () => {
+describe("Keys client - list keys in various ways", () => {
   let credential: TokenCredential;
   let keyVaultName: string;
   let keyVaultUrl: string;
