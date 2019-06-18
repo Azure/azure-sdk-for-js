@@ -1,4 +1,4 @@
-import * as msRest from "@azure/ms-rest-js";
+import * as msRest from "@azure/core-http";
 import { DeletionRecoveryLevel } from "./core/models";
 import { ParsedKeyVaultEntityIdentifier } from "./core/keyVaultBase";
 

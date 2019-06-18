@@ -16,6 +16,63 @@
   "engines": {
     "node": ">=6.0.0"
   },
+  "scripts": {
+    "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
+    "build:autorest": "autorest ./swagger/README.md --typescript --use=@microsoft.azure/autorest.typescript@2.1.3",
+    "build:browserzip": "gulp zip",
+    "build:es6": "tsc -p tsconfig.json",
+    "build:nodebrowser": "rollup -c 2>&1",
+    "build:test": "npm run build:es6 && rollup -c rollup.test.config.js 2>&1",
+    "build": "npm run build:es6 && npm run build:nodebrowser && npm run build:browserzip",
+    "check-format": "prettier --list-different --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "clean": "rimraf dist dist-esm dist-test typings temp browser/*.js* browser/*.zip statistics.html coverage coverage-browser .nyc_output *.tgz *.log test*.xml TEST*.xml",
+    "extract-api": "tsc -p . && api-extractor run --local",
+    "format": "prettier --write --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "integration-test:browser": "karma start --single-run",
+    "integration-test:node": "nyc mocha --require source-map-support/register --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=- --full-trace -t 120000 dist-test/index.node.js",
+    "integration-test": "npm run integration-test:node && npm run integration-test:browser",
+    "lint:fix": "eslint -c ../../.eslintrc.json src test samples --ext .ts --fix",
+    "lint": "eslint -c ../../.eslintrc.json src test samples --ext .ts -f node_modules/eslint-detailed-reporter/lib/detailed.js -o storage-queue-lintReport.html || exit 0",
+    "pack": "npm pack 2>&1",
+    "prebuild": "npm run clean",
+    "test:browser": "npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
+    "test:node": "npm run build:test && npm run unit-test:node && npm run integration-test:node",
+    "test": "npm run build:test && npm run unit-test && npm run integration-test",
+    "unit-test:browser": "echo skipped",
+    "unit-test:node": "echo skipped",
+    "unit-test": "npm run unit-test:node && npm run unit-test:browser"
+  },
+  "files": [
+    "BreakingChanges.md",
+    "browser/ThirdPartyNotices.txt",
+    "browser/*.min.js*",
+    "dist/",
+    "dist-esm/src/",
+    "LICENSE",
+    "src/",
+    "typings/src",
+    "tsconfig.json"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-storage-js.git"
+  },
+  "keywords": [
+    "Azure",
+    "Storage",
+    "Queue",
+    "Node.js",
+    "TypeScript",
+    "JavaScript",
+    "Browser"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-storage-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-storage-js#readme",
+  "sideEffects": false,
   "dependencies": {
     "@azure/ms-rest-js": "^1.2.6",
     "tslib": "^1.9.3"
@@ -23,23 +80,23 @@
   "devDependencies": {
     "@microsoft/api-extractor": "^7.1.5",
     "@types/dotenv": "^6.1.0",
-    "@typescript-eslint/eslint-plugin": "~1.9.0",
-    "@typescript-eslint/parser": "^1.7.0",
     "@types/fs-extra": "~7.0.0",
     "@types/mocha": "^5.2.5",
     "@types/nise": "^1.4.0",
     "@types/nock": "^10.0.1",
     "@types/node": "^8.0.0",
+    "@typescript-eslint/eslint-plugin": "~1.9.0",
+    "@typescript-eslint/parser": "^1.7.0",
     "assert": "^1.4.1",
     "cross-env": "^5.2.0",
     "dotenv": "^7.0.0",
+    "es6-promise": "^4.2.5",
     "eslint": "^5.16.0",
     "eslint-config-prettier": "^4.2.0",
     "eslint-detailed-reporter": "^0.8.0",
     "eslint-plugin-no-null": "^1.0.2",
     "eslint-plugin-no-only-tests": "^2.3.0",
     "eslint-plugin-promise": "^4.1.1",
-    "es6-promise": "^4.2.5",
     "fs-extra": "~8.0.1",
     "gulp": "^4.0.0",
     "gulp-zip": "^4.2.0",
@@ -68,7 +125,7 @@
     "query-string": "^6.5.0",
     "rimraf": "^2.6.2",
     "rollup": "~1.13.1",
-    "rollup-plugin-commonjs": "^9.2.0",
+    "rollup-plugin-commonjs": "^10.0.0",
     "rollup-plugin-multi-entry": "^2.1.0",
     "rollup-plugin-node-resolve": "^4.2.0",
     "rollup-plugin-replace": "^2.1.0",
@@ -80,63 +137,5 @@
     "ts-node": "^7.0.1",
     "typescript": "^3.2.2",
     "util": "^0.11.1"
-  },
-  "scripts": {
-    "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
-    "build:autorest": "autorest ./swagger/README.md --typescript --use=@microsoft.azure/autorest.typescript@2.1.3",
-    "build:browserzip": "gulp zip",
-    "build:es6": "tsc -p tsconfig.json",
-    "build:nodebrowser": "rollup -c 2>&1",
-    "build:js-samples": "npm run clean && npm run build:es6 && cross-env ONLY_NODE=true rollup -c 2>&1",
-    "build:ts-samples": "npm run clean && cd samples && tsc -p . ",
-    "build:test": "npm run build:es6 && rollup -c rollup.test.config.js 2>&1",
-    "build": "npm run build:es6 && npm run build:nodebrowser && npm run build:browserzip",
-    "check-format": "prettier --list-different --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
-    "clean": "rimraf dist dist-esm dist-test typings temp browser/*.js* browser/*.zip statistics.html coverage coverage-browser .nyc_output *.tgz *.log test*.xml TEST*.xml",
-    "extract-api": "tsc -p . && api-extractor run --local",
-    "format": "prettier --write --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
-    "integration-test:browser": "karma start --single-run",
-    "integration-test:node": "nyc mocha --require source-map-support/register --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=- --full-trace -t 120000 dist-test/index.node.js",
-    "integration-test": "npm run integration-test:node && npm run integration-test:browser",
-    "lint:fix": "eslint -c ../../.eslintrc.json src test samples --ext .ts --fix",
-    "lint": "eslint -c ../../.eslintrc.json src test samples --ext .ts -f node_modules/eslint-detailed-reporter/lib/detailed.js -o storage-queue-lintReport.html || exit 0",
-    "pack": "npm pack 2>&1",
-    "prebuild": "npm run clean",
-    "test:browser": "npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
-    "test:node": "npm run build:test && npm run unit-test:node && npm run integration-test:node",
-    "test": "npm run build:test && npm run unit-test && npm run integration-test",
-    "unit-test:browser": "echo skipped",
-    "unit-test:node": "echo skipped",
-    "unit-test": "npm run unit-test:node && npm run unit-test:browser"
-  },
-  "files": [
-    "BreakingChanges.md",
-    "browser/ThirdPartyNotices.txt",
-    "browser/*.min.js*",
-    "dist/",
-    "dist-esm/src/",
-    "src/",
-    "typings/src",
-    "tsconfig.json"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Azure/azure-storage-js.git"
-  },
-  "keywords": [
-    "Azure",
-    "Storage",
-    "Queue",
-    "Node.js",
-    "TypeScript",
-    "JavaScript",
-    "Browser"
-  ],
-  "author": "Microsoft Corporation",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/Azure/azure-storage-js/issues"
-  },
-  "homepage": "https://github.com/Azure/azure-storage-js#readme",
-  "sideEffects": false
+  }
 }

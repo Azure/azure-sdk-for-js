@@ -7,9 +7,9 @@ import { ListContainersIncludeType } from "./generated/lib/models/index";
 import { Service } from "./generated/lib/operations";
 import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
 import {
-    ContainerClient,
-    ContainerCreateOptions,
-    ContainerDeleteMethodOptions
+  ContainerClient,
+  ContainerCreateOptions,
+  ContainerDeleteMethodOptions
 } from "./ContainerClient";
 import { appendToURLPath, extractConnectionStringParts } from "./utils/utils.common";
 import { Credential } from "./credentials/Credential";
@@ -146,6 +146,8 @@ export class BlobServiceClient extends StorageClient {
   private serviceContext: Service;
 
   /**
+   * ONLY AVAILABLE IN NODE.JS RUNTIME.
+   *
    * Creates an instance of BlobServiceClient from connection string.
    *
    * @param {string} connectionString Connection string for an Azure storage account.

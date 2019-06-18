@@ -48,7 +48,7 @@ export function getAlternateBSU(): BlobServiceClient {
 }
 
 export function getConnectionStringFromEnvironment(): string {
-  const connectionStringEnvVar = `CONNECTION_STRING`;
+  const connectionStringEnvVar = `STORAGE_CONNECTION_STRING`;
   const connectionString = process.env[connectionStringEnvVar];
 
   if (!connectionString) {

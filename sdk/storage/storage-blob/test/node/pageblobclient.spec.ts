@@ -1,8 +1,15 @@
 import * as assert from "assert";
 
-import { getBSU, getUniqueName, sleep } from "../utils";
+import {
+  getBSU,
+  getUniqueName,
+  sleep,
+  getConnectionStringFromEnvironment,
+  bodyToString
+} from "../utils";
+import { newPipeline, PageBlobClient, SharedKeyCredential } from "../../src";
 
-describe("PageBlobClient", () => {
+describe("PageBlobClient Node.js only", () => {
   const blobServiceClient = getBSU();
   let containerName: string = getUniqueName("container");
   let containerClient = blobServiceClient.createContainerClient(containerName);
@@ -34,9 +41,7 @@ describe("PageBlobClient", () => {
     let snapshotResult = await pageBlobClient.createSnapshot();
     assert.ok(snapshotResult.snapshot);
 
-    const destPageBlobClient = containerClient.createPageBlobClient(
-      getUniqueName("page")
-    );
+    const destPageBlobClient = containerClient.createPageBlobClient(getUniqueName("page"));
 
     await containerClient.setAccessPolicy("container");
 
@@ -91,5 +96,80 @@ describe("PageBlobClient", () => {
 
     const pageBlobProperties = await destPageBlobClient.getProperties();
     assert.equal(pageBlobProperties.metadata!.sourcemeta, "val");
+  });
+
+  it("can be created with a url and a credential", async () => {
+    const factories = pageBlobClient.pipeline.factories;
+    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const newClient = new PageBlobClient(pageBlobClient.url, credential);
+
+    await newClient.create(512);
+    const result = await newClient.download(0);
+    assert.deepStrictEqual(await bodyToString(result, 512), "\u0000".repeat(512));
+  });
+
+  it("can be created with a url and a credential and an option bag", async () => {
+    const factories = pageBlobClient.pipeline.factories;
+    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const newClient = new PageBlobClient(pageBlobClient.url, credential, {
+      retryOptions: {
+        maxTries: 5
+      }
+    });
+
+    await newClient.create(512);
+    const result = await newClient.download(0);
+    assert.deepStrictEqual(await bodyToString(result, 512), "\u0000".repeat(512));
+  });
+
+  it("can be created with a url and a pipeline", async () => {
+    const factories = pageBlobClient.pipeline.factories;
+    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const pipeline = newPipeline(credential);
+    const newClient = new PageBlobClient(pageBlobClient.url, pipeline);
+
+    await newClient.create(512);
+    const result = await newClient.download(0);
+    assert.deepStrictEqual(await bodyToString(result, 512), "\u0000".repeat(512));
+  });
+
+  it("can be created with a connection string", async () => {
+    const newClient = new PageBlobClient(
+      getConnectionStringFromEnvironment(),
+      containerName,
+      blobName
+    );
+
+    await newClient.create(512);
+    const result = await newClient.download(0);
+    assert.deepStrictEqual(await bodyToString(result, 512), "\u0000".repeat(512));
+  });
+
+  it("throws error if constructor containerName parameter is empty", async () => {
+    try {
+      // tslint:disable-next-line: no-unused-expression
+      new PageBlobClient(getConnectionStringFromEnvironment(), "", "blobName");
+      assert.fail("Expecting an thrown error but didn't get one.");
+    } catch (error) {
+      assert.equal(
+        "Expecting non-empty strings for containerName and blobName parameters",
+        error.message,
+        "Error message is different than expected."
+      );
+    }
+  });
+
+  it("throws error if constructor blobName parameter is empty", async () => {
+    try {
+      // tslint:disable-next-line: no-unused-expression
+      new PageBlobClient(getConnectionStringFromEnvironment(), "containerName", "");
+      assert.fail("Expecting an thrown error but didn't get one.");
+    } catch (error) {
+      assert.equal(
+        "Expecting non-empty strings for containerName and blobName parameters",
+        error.message,
+        "Error message is different than expected."
+      );
+    }
   });
 });

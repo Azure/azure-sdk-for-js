@@ -16,7 +16,7 @@ export const TokenRefreshBufferMs = 2 * 60 * 1000; // 2 Minutes
  * @param credential The TokenCredential implementation that can supply the bearer token.
  * @param scopes The scopes for which the bearer token applies.
  */
-export function bearerTokenAuthenticationPolicy(credential: TokenCredential, scopes: string[]): RequestPolicyFactory {
+export function bearerTokenAuthenticationPolicy(credential: TokenCredential, scopes: string | string[]): RequestPolicyFactory {
   return {
     create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
       return new BearerTokenAuthenticationPolicy(nextPolicy, options, credential, scopes);
@@ -72,7 +72,7 @@ export class BearerTokenAuthenticationPolicy extends BaseRequestPolicy {
   private async getToken(options: GetTokenOptions): Promise<string | undefined> {
     if (
       this.cachedToken &&
-      new Date(Date.now() + TokenRefreshBufferMs) < this.cachedToken.expiresOn
+      Date.now() + TokenRefreshBufferMs < this.cachedToken.expiresOnTimestamp
     ) {
       return this.cachedToken.token;
     }

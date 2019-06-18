@@ -278,6 +278,8 @@ export class PageBlobClient extends BlobClient {
   private pageBlobContext: PageBlob;
 
   /**
+   * ONLY AVAILABLE IN NODE.JS RUNTIME.
+   *
    * Creates an instance of PageBlobClient.
    *
    * @param {string} connectionString Connection string for an Azure storage account.

@@ -1,8 +1,8 @@
 import * as assert from "assert";
-import { getQSU, getConnectionStringFromEnvironment } from "./utils";
+import { getQSU } from "./utils";
 import { record } from "./utils/recorder";
 import * as dotenv from "dotenv";
-import { SharedKeyCredential, QueueClient, newPipeline } from "../src";
+import { QueueClient } from "../src";
 dotenv.config({ path: "../.env" });
 
 describe("QueueClient", () => {
@@ -116,83 +116,5 @@ describe("QueueClient", () => {
       error = err;
     }
     assert.ok(error); // For browser, permission denied; For node, invalid permission
-  });
-
-  it("can be created with a url and a credential", async () => {
-    const factories = queueClient.pipeline.factories;
-    const credential = factories[factories.length - 1] as SharedKeyCredential;
-    const newClient = new QueueClient(queueClient.url, credential);
-
-    const result = await newClient.getProperties();
-
-    assert.ok(result.approximateMessagesCount! >= 0);
-    assert.ok(result.requestId);
-    assert.ok(result.version);
-    assert.ok(result.date);
-  });
-
-  it("can be created with a url and a credential and an option bag", async () => {
-    const factories = queueClient.pipeline.factories;
-    const credential = factories[factories.length - 1] as SharedKeyCredential;
-    const newClient = new QueueClient(queueClient.url, credential, {
-      retryOptions: {
-        maxTries: 5
-      }
-    });
-
-    const result = await newClient.getProperties();
-
-    assert.ok(result.approximateMessagesCount! >= 0);
-    assert.ok(result.requestId);
-    assert.ok(result.version);
-    assert.ok(result.date);
-  });
-
-  it("can be created with a url and a pipeline", async () => {
-    const factories = queueClient.pipeline.factories;
-    const credential = factories[factories.length - 1] as SharedKeyCredential;
-    const pipeline = newPipeline(credential);
-    const newClient = new QueueClient(queueClient.url, pipeline);
-
-    const result = await newClient.getProperties();
-
-    assert.ok(result.approximateMessagesCount! >= 0);
-    assert.ok(result.requestId);
-    assert.ok(result.version);
-    assert.ok(result.date);
-  });
-
-  it("can be created with a connection string and a queue name", async () => {
-    const newClient = new QueueClient(getConnectionStringFromEnvironment(), queueName);
-
-    const result = await newClient.getProperties();
-
-    assert.ok(result.requestId);
-    assert.ok(result.version);
-    assert.ok(result.date);
-  });
-
-  it("can be created with a connection string and a queue name and an option bag", async () => {
-    const newClient = new QueueClient(getConnectionStringFromEnvironment(), queueName);
-
-    const result = await newClient.getProperties();
-
-    assert.ok(result.requestId);
-    assert.ok(result.version);
-    assert.ok(result.date);
-  });
-
-  it("throws error if constructor queueName parameter is empty", async () => {
-    try {
-      // tslint:disable-next-line: no-unused-expression
-      new QueueClient(getConnectionStringFromEnvironment(), "");
-      assert.fail("Expecting an thrown error but didn't get one.");
-    } catch (error) {
-      assert.equal(
-        "Expecting non-empty strings for queueName parameter",
-        error.message,
-        "Error message is different than expected."
-      );
-    }
   });
 });

@@ -43,17 +43,6 @@ export function getAlternateBSU(): BlobServiceClient {
   return getGenericBSU("SECONDARY_", "-secondary");
 }
 
-export function getConnectionStringFromEnvironment(): string {
-  const connectionStringEnvVar = `CONNECTION_STRING`;
-  const connectionString = process.env[connectionStringEnvVar];
-
-  if (!connectionString) {
-    throw new Error(`${connectionStringEnvVar} environment variables not specified.`);
-  }
-
-  return connectionString;
-}
-
 /**
  * Read body from downloading operation methods to string.
  * Work on both Node.js and browser environment.
