@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import uuid from "uuid/v4";
-import { defaultLock } from "@azure/core-amqp";
+import { defaultLock, SharedKeyCredential, AccessToken, Constants, TokenType } from "@azure/core-amqp";
 import { ConnectionContext } from "./connectionContext";
 import { Sender, Receiver } from "rhea-promise";
 import * as log from "./log";
@@ -86,6 +86,11 @@ export class LinkEntity {
    */
   protected _tokenRenewalTimer?: NodeJS.Timer;
   /**
+   * @property {number} _tokenTimeout Indicates token timeout
+   * @protected
+   */
+  protected _tokenTimeout?: number;
+  /**
    * Creates a new LinkEntity instance.
    * @ignore
    * @constructor
@@ -97,7 +102,7 @@ export class LinkEntity {
     this._context = context;
     this.address = options.address || "";
     this.audience = options.audience || "";
-    this.name =  `${options.name}-${uuid()}`;
+    this.name = `${options.name}-${uuid()}`;
     this.partitionId = options.partitionId;
   }
 
@@ -124,7 +129,23 @@ export class LinkEntity {
     await defaultLock.acquire(this._context.cbsSession.cbsLock, () => {
       return this._context.cbsSession.init();
     });
-    const tokenObject = await this._context.tokenProvider.getToken(this.audience);
+    let tokenObject: AccessToken;
+    let tokenType: TokenType;
+    if (this._context.tokenCredential instanceof SharedKeyCredential) {
+      tokenObject = this._context.tokenCredential.getToken(this.audience);
+      tokenType = TokenType.CbsTokenTypeSas;
+      // renew sas token in every 45 minutess
+      this._tokenTimeout = (3600 - 900) * 1000;
+    } else {
+      const aadToken = await this._context.tokenCredential.getToken(Constants.aadEventHubsScope);
+      if (!aadToken) {
+        throw new Error("Aad token cannot be null");
+      }
+      tokenObject = aadToken;
+      tokenType = TokenType.CbsTokenTypeJwt;
+      this._tokenTimeout = tokenObject.expiresOnTimestamp - Date.now() - 2 * 60 * 1000;
+    }
+
     log.link(
       "[%s] %s: calling negotiateClaim for audience '%s'.",
       this._context.connectionId,
@@ -141,7 +162,7 @@ export class LinkEntity {
       this.address
     );
     await defaultLock.acquire(this._context.negotiateClaimLock, () => {
-      return this._context.cbsSession.negotiateClaim(this.audience, tokenObject);
+      return this._context.cbsSession.negotiateClaim(this.audience, tokenObject, tokenType);
     });
     log.link(
       "[%s] Negotiated claim for %s '%s' with with address: %s",
@@ -162,9 +183,9 @@ export class LinkEntity {
    * @returns {void}
    */
   protected async _ensureTokenRenewal(): Promise<void> {
-    const tokenValidTimeInSeconds = this._context.tokenProvider.tokenValidTimeInSeconds;
-    const tokenRenewalMarginInSeconds = this._context.tokenProvider.tokenRenewalMarginInSeconds;
-    const nextRenewalTimeout = (tokenValidTimeInSeconds - tokenRenewalMarginInSeconds) * 1000;
+    if (!this._tokenTimeout) {
+      throw new Error("_tokenTimeout cannot be null");
+    }
     this._tokenRenewalTimer = setTimeout(async () => {
       try {
         await this._negotiateClaim(true);
@@ -178,15 +199,15 @@ export class LinkEntity {
           err
         );
       }
-    }, nextRenewalTimeout);
+    }, this._tokenTimeout);
     log.link(
       "[%s] %s '%s' with address %s, has next token renewal in %d seconds @(%s).",
       this._context.connectionId,
       this._type,
       this.name,
       this.address,
-      nextRenewalTimeout / 1000,
-      new Date(Date.now() + nextRenewalTimeout).toString()
+      this._tokenTimeout / 1000,
+      new Date(Date.now() + this._tokenTimeout).toString()
     );
   }
 

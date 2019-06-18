@@ -4,43 +4,29 @@
 
 ```ts
 
-import { AadTokenProvider } from '@azure/core-amqp';
-import { AbortSignal } from '@azure/abort-controller';
+import { AbortSignalLike } from '@azure/abort-controller';
 import { AmqpError } from 'rhea-promise';
-import { ApplicationTokenCredentials } from '@azure/ms-rest-nodeauth';
 import { ConnectionContextBase } from '@azure/core-amqp';
 import { DataTransformer } from '@azure/core-amqp';
 import { DefaultDataTransformer } from '@azure/core-amqp';
 import { delay } from '@azure/core-amqp';
-import { DeviceTokenCredentials } from '@azure/ms-rest-nodeauth';
 import { Dictionary } from 'rhea-promise';
 import { EventHubConnectionConfig } from '@azure/core-amqp';
 import { MessagingError } from '@azure/core-amqp';
-import { MSITokenCredentials } from '@azure/ms-rest-nodeauth';
 import { OnAmqpEvent } from 'rhea-promise';
 import { Receiver } from 'rhea-promise';
 import { ReceiverOptions } from 'rhea-promise';
-import { SasTokenProvider } from '@azure/core-amqp';
 import { Sender } from 'rhea-promise';
-import { TokenInfo } from '@azure/core-amqp';
-import { TokenProvider } from '@azure/core-amqp';
+import { SharedKeyCredential } from '@azure/core-amqp';
+import { TokenCredential } from '@azure/core-amqp';
 import { TokenType } from '@azure/core-amqp';
-import { UserTokenCredentials } from '@azure/ms-rest-nodeauth';
 import { WebSocketImpl } from 'rhea-promise';
-
-export { AadTokenProvider }
 
 export { DataTransformer }
 
 export { DefaultDataTransformer }
 
 export { delay }
-
-// @public
-export interface EventBatchingOptions {
-    abortSignal?: AbortSignal;
-    partitionKey?: string | null;
-}
 
 // @public
 export interface EventData {
@@ -53,17 +39,16 @@ export interface EventData {
 // @public
 export class EventHubClient {
     constructor(connectionString: string, options?: EventHubClientOptions);
-    constructor(host: string, eventHubPath: string, tokenProvider: TokenProvider, options?: EventHubClientOptions);
-    constructor(host: string, eventHubPath: string, credentials: ApplicationTokenCredentials | UserTokenCredentials | DeviceTokenCredentials | MSITokenCredentials, options?: EventHubClientOptions);
+    constructor(host: string, eventHubPath: string, tokenCredential: SharedKeyCredential | TokenCredential, options?: EventHubClientOptions);
     close(): Promise<void>;
     static createFromConnectionString(connectionString: string, entityPath?: string, options?: EventHubClientOptions): EventHubClient;
     static createFromIotHubConnectionString(iothubConnectionString: string, options?: EventHubClientOptions): Promise<EventHubClient>;
     createReceiver(partitionId: string, options?: EventReceiverOptions): EventReceiver;
     createSender(options?: EventSenderOptions): EventSender;
     readonly eventHubName: string;
-    getPartitionIds(abortSignal?: AbortSignal): Promise<Array<string>>;
-    getPartitionInformation(partitionId: string, abortSignal?: AbortSignal): Promise<PartitionProperties>;
-    getProperties(abortSignal?: AbortSignal): Promise<EventHubProperties>;
+    getPartitionIds(abortSignal?: AbortSignalLike): Promise<Array<string>>;
+    getPartitionInformation(partitionId: string, abortSignal?: AbortSignalLike): Promise<PartitionProperties>;
+    getProperties(abortSignal?: AbortSignalLike): Promise<EventHubProperties>;
 }
 
 // @public
@@ -84,7 +69,7 @@ export interface EventHubProperties {
 
 // @public
 export interface EventIteratorOptions {
-    abortSignal?: AbortSignal;
+    abortSignal?: AbortSignalLike;
 }
 
 // @public
@@ -122,8 +107,8 @@ export class EventReceiver {
     readonly isClosed: boolean;
     isReceivingMessages(): boolean;
     readonly partitionId: string;
-    receive(onMessage: OnMessage, onError: OnError, abortSignal?: AbortSignal): ReceiveHandler;
-    receiveBatch(maxMessageCount: number, maxWaitTimeInSeconds?: number, abortSignal?: AbortSignal): Promise<ReceivedEventData[]>;
+    receive(onMessage: OnMessage, onError: OnError, abortSignal?: AbortSignalLike): ReceiveHandler;
+    receiveBatch(maxMessageCount: number, maxWaitTimeInSeconds?: number, abortSignal?: AbortSignalLike): Promise<ReceivedEventData[]>;
     }
 
 // @public
@@ -140,7 +125,7 @@ export class EventSender {
     constructor(context: ConnectionContext, options?: EventSenderOptions);
     close(): Promise<void>;
     readonly isClosed: boolean;
-    send(events: EventData[], options?: EventBatchingOptions): Promise<void>;
+    send(eventData: EventData | EventData[], options?: SendOptions): Promise<void>;
     }
 
 // @public
@@ -195,11 +180,15 @@ export interface RetryOptions {
     retryInterval?: number;
 }
 
-export { SasTokenProvider }
+// @public
+export interface SendOptions {
+    abortSignal?: AbortSignalLike;
+    partitionKey?: string | null;
+}
 
-export { TokenInfo }
+export { SharedKeyCredential }
 
-export { TokenProvider }
+export { TokenCredential }
 
 export { TokenType }
 

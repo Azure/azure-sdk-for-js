@@ -18,22 +18,17 @@
        tab. Here, assign "owner" role to the registered application.
 */
 import { EventHubClient } from "@azure/event-hubs";
-import { loginWithServicePrincipalSecret } from "@azure/ms-rest-nodeauth";
+import { EnvironmentCredential } from "@azure/identity";
 
 // Define Event Hubs Endpoint and related entity name here here
 const evenHubsEndpoint = ""; // <your-eventhubs-namespace>.servicebus.windows.net
 const eventHubsName = "";
 
-// Define CLIENT_ID, TENANT_ID and SECRET of your AAD application here
-const clientId = "";
-const clientSecret = "";
-const tenantId = "";
+// Define AZURE_TENANT_ID, AZURE_CLIENT_ID and AZURE_CLIENT_SECRET of your AAD application in .env file
 
 async function main(): Promise<void> {
-  const credentials = await loginWithServicePrincipalSecret(clientId, clientSecret, tenantId, {
-    tokenAudience: "https://eventhubs.azure.net/"
-  });
-  const client = EventHubClient.createFromAadTokenCredentials(evenHubsEndpoint, eventHubsName, credentials);
+  const credential = new EnvironmentCredential();
+  const client = new EventHubClient(evenHubsEndpoint, eventHubsName, credential);
   /*
    Refer to other samples, and place your code here
    to send/receive events

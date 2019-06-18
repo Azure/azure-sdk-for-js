@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { translate, MessagingError, IotSasTokenProvider } from "@azure/core-amqp";
+import { translate, MessagingError, IotSharedKeyCredential } from "@azure/core-amqp";
 import { IotHubConnectionConfig } from "@azure/core-amqp";
 import { ConnectionContext, ConnectionContextOptions } from "../connectionContext";
 import * as log from "../log";
@@ -48,8 +48,7 @@ export class IotHubClient {
     const config = IotHubConnectionConfig.convertToEventHubConnectionConfig(iothubconfig);
     let result: string = "";
     if (!options) options = {};
-    const tokenProvider = new IotSasTokenProvider(
-      config.endpoint,
+    const tokenProvider = new IotSharedKeyCredential(
       config.sharedAccessKeyName,
       config.sharedAccessKey
     );

@@ -24,9 +24,7 @@ export {
   DataTransformer,
   DefaultDataTransformer,
   TokenType,
-  TokenProvider,
-  TokenInfo,
-  AadTokenProvider,
-  SasTokenProvider,
+  TokenCredential,
+  SharedKeyCredential,
   delay
 } from "@azure/core-amqp";

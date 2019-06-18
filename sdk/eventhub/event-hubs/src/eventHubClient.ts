@@ -4,17 +4,10 @@
 import * as log from "./log";
 import { WebSocketImpl } from "rhea-promise";
 import {
-  ApplicationTokenCredentials,
-  DeviceTokenCredentials,
-  UserTokenCredentials,
-  MSITokenCredentials
-} from "@azure/ms-rest-nodeauth";
-import {
   DataTransformer,
-  TokenProvider,
+  TokenCredential,
   EventHubConnectionConfig,
-  AadTokenProvider,
-  SasTokenProvider,
+  SharedKeyCredential,
   ConnectionConfig,
   parseConnectionString,
   EventHubConnectionStringModel
@@ -207,41 +200,23 @@ export class EventHubClient {
    * @param host - Fully qualified domain name for Event Hubs. Most likely,
    * <yournamespace>.servicebus.windows.net
    * @param eventHubPath - EventHub path of the form 'my-event-hub-name'
-   * @param tokenProvider - Your token provider that implements the TokenProvider interface.
-   * @param options - The options that can be provided during client creation.
-   */
-  constructor(host: string, eventHubPath: string, tokenProvider: TokenProvider, options?: EventHubClientOptions);
-  /**
-   * @constructor
-   * @param host - Fully qualified domain name for Event Hubs. Most likely,
-   * <yournamespace>.servicebus.windows.net
-   * @param eventHubPath - EventHub path of the form 'my-event-hub-name'
-   * @param credentials - The Token credentials as implemented in the `ms-rest-nodeauth` library. It can be one of the following:
-   *  - ApplicationTokenCredentials
-   *  - UserTokenCredentials
-   *  - DeviceTokenCredentials
-   *  - MSITokenCredentials.
+   * @param tokenCredential - Your token credential that implements the TokenCredential interface.
    * @param options - The options that can be provided during client creation.
    */
   constructor(
     host: string,
     eventHubPath: string,
-    credentials: ApplicationTokenCredentials | UserTokenCredentials | DeviceTokenCredentials | MSITokenCredentials,
+    tokenCredential: SharedKeyCredential | TokenCredential,
     options?: EventHubClientOptions
   );
   constructor(
     hostOrConnectionString: string,
     eventHubPathOrOptions?: string | EventHubClientOptions,
-    tokenProviderOrCredentials?:
-      | TokenProvider
-      | ApplicationTokenCredentials
-      | UserTokenCredentials
-      | DeviceTokenCredentials
-      | MSITokenCredentials,
+    tokenCredential?: SharedKeyCredential | TokenCredential,
     options?: EventHubClientOptions
   ) {
     let connectionString;
-    let tokenProvider: TokenProvider;
+    let credential: TokenCredential | SharedKeyCredential;
     hostOrConnectionString = String(hostOrConnectionString);
 
     if (typeof eventHubPathOrOptions !== "string") {
@@ -254,29 +229,20 @@ export class EventHubClient {
             '"Endpoint=sb://fully-qualified-host-name/;SharedAccessKeyName=shared-access-policy-name;SharedAccessKey=shared-access-key;EntityPath=event-hub-name"'
         );
       }
-      tokenProvider = new SasTokenProvider(parsedCS.Endpoint, parsedCS.SharedAccessKeyName, parsedCS.SharedAccessKey);
+      credential = new SharedKeyCredential(parsedCS.SharedAccessKeyName, parsedCS.SharedAccessKey);
     } else {
       const eventHubPath = eventHubPathOrOptions;
       let sharedAccessKeyName = "defaultKeyName";
       let sharedAccessKey = "defaultKeyValue";
 
-      // TODO: Update this when we move to Azure Identity
-      if (!tokenProviderOrCredentials) {
-        throw new Error("Please provide either a token provider or a valid credentials object.");
+      if (!tokenCredential) {
+        throw new Error("Please provide either a token credential interface or a valid SharedKeyCredential object.");
       }
-      if (
-        tokenProviderOrCredentials instanceof ApplicationTokenCredentials ||
-        tokenProviderOrCredentials instanceof UserTokenCredentials ||
-        tokenProviderOrCredentials instanceof DeviceTokenCredentials ||
-        tokenProviderOrCredentials instanceof MSITokenCredentials
-      ) {
-        tokenProvider = new AadTokenProvider(tokenProviderOrCredentials);
-      } else {
-        tokenProvider = tokenProviderOrCredentials;
-        if (tokenProvider instanceof SasTokenProvider) {
-          sharedAccessKeyName = tokenProvider.keyName;
-          sharedAccessKey = tokenProvider.key;
-        }
+
+      credential = tokenCredential;
+      if (credential instanceof SharedKeyCredential) {
+        sharedAccessKeyName = credential.keyName;
+        sharedAccessKey = credential.key;
       }
 
       let host = String(hostOrConnectionString);
@@ -288,7 +254,7 @@ export class EventHubClient {
     ConnectionConfig.validate(config);
 
     this._clientOptions = options || {};
-    this._context = ConnectionContext.create(config, tokenProvider, this._clientOptions);
+    this._context = ConnectionContext.create(config, credential, this._clientOptions);
   }
 
   /**
@@ -420,8 +386,8 @@ export class EventHubClient {
           `must contain EntityPath="<path-to-the-entity>".`
       );
     }
-    const tokenProvider = new SasTokenProvider(config.endpoint, config.sharedAccessKeyName, config.sharedAccessKey);
-    return new EventHubClient(config.host, config.entityPath, tokenProvider, options);
+    const sharedTokenCredential = new SharedKeyCredential(config.sharedAccessKeyName, config.sharedAccessKey);
+    return new EventHubClient(config.host, config.entityPath, sharedTokenCredential, options);
   }
 
   /**
