@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { ReceiverEvents, EventContext, OnAmqpEvent, SessionEvents } from "rhea-promise";
+import { ReceiverEvents, EventContext, OnAmqpEvent, SessionEvents, Receiver as RheaReceiver } from "rhea-promise";
 import {
   translate,
   Func,
@@ -66,9 +66,7 @@ export class BatchingReceiver extends EventHubReceiver {
     }
 
     this.isReceivingMessages = true;
-
     const eventDatas: ReceivedEventData[] = [];
-    let timeOver = false;
 
     const receiveEventPromise = () =>
       new Promise<ReceivedEventData[]>(async (resolve, reject) => {
@@ -93,32 +91,32 @@ export class BatchingReceiver extends EventHubReceiver {
           return rejectOnAbort();
         }
 
-        const cleanUpBeforeReturn = () => {
+        const cleanUpBeforeReturn = (rheaReceiver?: RheaReceiver) => {
+          if (!rheaReceiver) {
+            rheaReceiver = this._receiver;
+          }
           if (this._abortSignal) {
             this._abortSignal.removeEventListener("abort", this._onAbort);
           }
           // Resetting the mode. Now anyone can call start() or receive() again.
-          if (this._receiver) {
-            this._receiver.removeListener(ReceiverEvents.receiverError, onReceiveError);
-            this._receiver.removeListener(ReceiverEvents.message, onReceiveMessage);
-            this._receiver.session.removeListener(SessionEvents.sessionError, onSessionError);
+          if (rheaReceiver) {
+            rheaReceiver.removeListener(ReceiverEvents.receiverError, onReceiveError);
+            rheaReceiver.removeListener(ReceiverEvents.message, onReceiveMessage);
+            rheaReceiver.session.removeListener(SessionEvents.sessionError, onSessionError);
           }
 
           this.isReceivingMessages = false;
-          if (!timeOver) {
-            clearTimeout(waitTimer);
-          }
+          clearTimeout(waitTimer);
         };
 
         // Final action to be performed after maxMessageCount is reached or the maxWaitTime is over.
-        const finalAction = (timeOver: boolean) => {
+        const finalAction = () => {
           cleanUpBeforeReturn();
           resolve(eventDatas);
         };
 
         // Action to be performed after the max wait time is over.
         actionAfterWaitTimeout = () => {
-          timeOver = true;
           log.batching(
             "[%s] Batching Receiver '%s', %d messages received when max wait time in seconds %d is over.",
             this._context.connectionId,
@@ -126,7 +124,7 @@ export class BatchingReceiver extends EventHubReceiver {
             eventDatas.length,
             maxWaitTimeInSeconds
           );
-          return finalAction(timeOver);
+          return finalAction();
         };
 
         // Action to be performed on the "message" event.
@@ -159,7 +157,7 @@ export class BatchingReceiver extends EventHubReceiver {
               eventDatas.length,
               maxWaitTimeInSeconds
             );
-            finalAction(timeOver);
+            finalAction();
           }
         };
 
@@ -171,24 +169,13 @@ export class BatchingReceiver extends EventHubReceiver {
 
         // Action to be taken when an error is received.
         onReceiveError = (context: EventContext) => {
-          const receiver = this._receiver || context.receiver!;
-          receiver.removeListener(ReceiverEvents.receiverError, onReceiveError);
-          receiver.removeListener(ReceiverEvents.message, onReceiveMessage);
-          receiver.session.removeListener(SessionEvents.sessionError, onSessionError);
+          cleanUpBeforeReturn(this._receiver || context.receiver!);
 
-          if (this._abortSignal) {
-            this._abortSignal.removeEventListener("abort", this._onAbort);
-          }
-
-          this.isReceivingMessages = false;
           const receiverError = context.receiver && context.receiver.error;
           let error = new MessagingError("An error occuured while receiving messages.");
           if (receiverError) {
             error = translate(receiverError);
             log.error("[%s] Receiver '%s' received an error:\n%O", this._context.connectionId, this.name, error);
-          }
-          if (waitTimer) {
-            clearTimeout(waitTimer);
           }
           reject(error);
         };
@@ -283,14 +270,8 @@ export class BatchingReceiver extends EventHubReceiver {
         };
 
         onSessionError = (context: EventContext) => {
-          const receiver = this._receiver || context.receiver!;
-          receiver.removeListener(ReceiverEvents.receiverError, onReceiveError);
-          receiver.removeListener(ReceiverEvents.message, onReceiveMessage);
-          receiver.session.removeListener(SessionEvents.sessionError, onSessionError);
-          if (this._abortSignal) {
-            this._abortSignal.removeEventListener("abort", this._onAbort);
-          }
-          this.isReceivingMessages = false;
+          cleanUpBeforeReturn(this._receiver || context.receiver!);
+
           const sessionError = context.session && context.session.error;
           let error = new MessagingError("An error occuured while receiving messages.");
           if (sessionError) {
@@ -301,9 +282,6 @@ export class BatchingReceiver extends EventHubReceiver {
               this.name,
               error
             );
-          }
-          if (waitTimer) {
-            clearTimeout(waitTimer);
           }
           reject(error);
         };
