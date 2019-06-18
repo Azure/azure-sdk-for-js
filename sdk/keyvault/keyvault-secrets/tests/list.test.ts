@@ -15,7 +15,7 @@ describe("Secret client - list secrets in various ways", () => {
   //   we might need to factor in more environment variables.
   // - Another way to improve this is to add a specfic key per test.
   // - The environment variable is probably better named like PREFIX_KEY_NAME.
-  const secretName = `CRUD${env.SECRET_NAME || "SecretName"}`;
+  const secretName = `list${env.SECRET_NAME || "SecretName"}`;
 
   // NOTES:
   // - These functions are probably better moved to a common utility file.
@@ -93,6 +93,7 @@ describe("Secret client - list secrets in various ways", () => {
       await delay(20000);
       await client.purgeDeletedSecret(name);
     }
+    await delay(20000);
   });
 
   it("can list deleted secrets", async () => {

@@ -14,7 +14,7 @@ describe("Secret client - restore secrets and recover backups", () => {
   //   we might need to factor in more environment variables.
   // - Another way to improve this is to add a specfic key per test.
   // - The environment variable is probably better named like PREFIX_KEY_NAME.
-  const secretName = `CRUD${env.SECRET_NAME || "SecretName"}`;
+  const secretName = `recover${env.SECRET_NAME || "SecretName"}`;
 
   // NOTES:
   // - These functions are probably better moved to a common utility file.
@@ -104,7 +104,7 @@ describe("Secret client - restore secrets and recover backups", () => {
     await client.setSecret(secretName, "RSA");
     const result = await client.backupSecret(secretName);
     assert.equal(Buffer.isBuffer(result), true, "Unexpected return value from backupSecret()");
-    assert.ok(result.length > 4700, "Unexpected length of buffer from backupSecret()");
+		assert.ok(result.length > 4500, `Unexpected length (${result.length}) of buffer from backupSecret()`);
     await flushSecret();
   });
 

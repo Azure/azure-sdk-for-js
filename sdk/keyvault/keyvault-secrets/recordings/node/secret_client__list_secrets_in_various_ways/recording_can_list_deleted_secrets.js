@@ -35,9 +35,9 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .put('/secrets/CRUDSecretName0', {"value":"RSA"})
+  .put('/secrets/listSecretName0', {"value":"RSA"})
   .query(true)
-  .reply(200, {"value":"RSA","id":"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName0/08a36531da8d4a3e972d16825be73d33","attributes":{"enabled":true,"created":1560832261,"updated":1560832261,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
+  .reply(200, {"value":"RSA","id":"https://keyvault_name.vault.azure.net/secrets/listSecretName0/08a36531da8d4a3e972d16825be73d33","attributes":{"enabled":true,"created":1560832261,"updated":1560832261,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -104,9 +104,9 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .put('/secrets/CRUDSecretName1', {"value":"RSA"})
+  .put('/secrets/listSecretName1', {"value":"RSA"})
   .query(true)
-  .reply(200, {"value":"RSA","id":"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName1/dbccb78b591e44b5ba8ef4661bafce33","attributes":{"enabled":true,"created":1560832274,"updated":1560832274,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
+  .reply(200, {"value":"RSA","id":"https://keyvault_name.vault.azure.net/secrets/listSecretName1/dbccb78b591e44b5ba8ef4661bafce33","attributes":{"enabled":true,"created":1560832274,"updated":1560832274,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -173,9 +173,9 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .delete('/secrets/CRUDSecretName0')
+  .delete('/secrets/listSecretName0')
   .query(true)
-  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/CRUDSecretName0","deletedDate":1560832285,"scheduledPurgeDate":1568608285,"id":"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName0/08a36531da8d4a3e972d16825be73d33","attributes":{"enabled":true,"created":1560832261,"updated":1560832261,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
+  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/listSecretName0","deletedDate":1560832285,"scheduledPurgeDate":1568608285,"id":"https://keyvault_name.vault.azure.net/secrets/listSecretName0/08a36531da8d4a3e972d16825be73d33","attributes":{"enabled":true,"created":1560832261,"updated":1560832261,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -242,9 +242,9 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .delete('/secrets/CRUDSecretName1')
+  .delete('/secrets/listSecretName1')
   .query(true)
-  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/CRUDSecretName1","deletedDate":1560832300,"scheduledPurgeDate":1568608300,"id":"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName1/dbccb78b591e44b5ba8ef4661bafce33","attributes":{"enabled":true,"created":1560832274,"updated":1560832274,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
+  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/listSecretName1","deletedDate":1560832300,"scheduledPurgeDate":1568608300,"id":"https://keyvault_name.vault.azure.net/secrets/listSecretName1/dbccb78b591e44b5ba8ef4661bafce33","attributes":{"enabled":true,"created":1560832274,"updated":1560832274,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -313,7 +313,7 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .get('/deletedsecrets')
   .query(true)
-  .reply(200, {"value":[{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/CRUDSecretName0","deletedDate":1560832285,"scheduledPurgeDate":1568608285,"id":"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName0","attributes":{"enabled":true,"created":1560832261,"updated":1560832261,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/CRUDSecretName1","deletedDate":1560832300,"scheduledPurgeDate":1568608300,"id":"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName1","attributes":{"enabled":true,"created":1560832274,"updated":1560832274,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/keys156035257289501832","deletedDate":1560352589,"scheduledPurgeDate":1568128589,"id":"https://keyvault_name.vault.azure.net/secrets/keys156035257289501832","attributes":{"enabled":true,"created":1560352578,"updated":1560352578,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/keys156035257289602456","deletedDate":1560352595,"scheduledPurgeDate":1568128595,"id":"https://keyvault_name.vault.azure.net/secrets/keys156035257289602456","attributes":{"enabled":true,"created":1560352584,"updated":1560352584,"recoveryLevel":"Recoverable+Purgeable"}}],"nextLink":"https://keyvault_name.vault.azure.net:443/deletedsecrets?api-version=7.0&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNDQhTURBd01EWTBJWE5sWTNKbGRDOVRSVU5TUlZReE5UVTVOams0TkRBNU9UY3hNREF6TnpZdlF6aENPRGd3UlRKQlFVSkdORGxDUWtKQ016WXpSVVUyTXpWR1FqWTRNa0loTURBd01ESTRJVGs1T1RrdE1USXRNekZVTWpNNk5UazZOVGt1T1RrNU9UazVPVm9oIiwiVGFyZ2V0TG9jYXRpb24iOjB9"}, [ 'Cache-Control',
+  .reply(200, {"value":[{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/listSecretName0","deletedDate":1560832285,"scheduledPurgeDate":1568608285,"id":"https://keyvault_name.vault.azure.net/secrets/listSecretName0","attributes":{"enabled":true,"created":1560832261,"updated":1560832261,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/listSecretName1","deletedDate":1560832300,"scheduledPurgeDate":1568608300,"id":"https://keyvault_name.vault.azure.net/secrets/listSecretName1","attributes":{"enabled":true,"created":1560832274,"updated":1560832274,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/keys156035257289501832","deletedDate":1560352589,"scheduledPurgeDate":1568128589,"id":"https://keyvault_name.vault.azure.net/secrets/keys156035257289501832","attributes":{"enabled":true,"created":1560352578,"updated":1560352578,"recoveryLevel":"Recoverable+Purgeable"}},{"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/keys156035257289602456","deletedDate":1560352595,"scheduledPurgeDate":1568128595,"id":"https://keyvault_name.vault.azure.net/secrets/keys156035257289602456","attributes":{"enabled":true,"created":1560352584,"updated":1560352584,"recoveryLevel":"Recoverable+Purgeable"}}],"nextLink":"https://keyvault_name.vault.azure.net:443/deletedsecrets?api-version=7.0&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNDQhTURBd01EWTBJWE5sWTNKbGRDOVRSVU5TUlZReE5UVTVOams0TkRBNU9UY3hNREF6TnpZdlF6aENPRGd3UlRKQlFVSkdORGxDUWtKQ016WXpSVVUyTXpWR1FqWTRNa0loTURBd01ESTRJVGs1T1RrdE1USXRNekZVTWpNNk5UazZOVGt1T1RrNU9UazVPVm9oIiwiVGFyZ2V0TG9jYXRpb24iOjB9"}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -932,7 +932,7 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .delete('/deletedsecrets/CRUDSecretName0')
+  .delete('/deletedsecrets/listSecretName0')
   .query(true)
   .reply(204, "", [ 'Cache-Control',
   'no-cache',
@@ -997,7 +997,7 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .delete('/deletedsecrets/CRUDSecretName1')
+  .delete('/deletedsecrets/listSecretName1')
   .query(true)
   .reply(204, "", [ 'Cache-Control',
   'no-cache',

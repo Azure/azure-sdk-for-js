@@ -236,6 +236,7 @@ describe("Secret client - create, read, update and delete operations", () => {
         throw e;
       }
     }
+    await delay(30000);
     await purgeSecret();
   });
 

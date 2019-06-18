@@ -35,7 +35,7 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/secrets/CRUDSecretName/versions')
+  .get('/secrets/listSecretName/versions')
   .query(true)
   .reply(200, {"value":[],"nextLink":null}, [ 'Cache-Control',
   'no-cache',
