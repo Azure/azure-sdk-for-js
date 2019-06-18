@@ -1,4 +1,6 @@
 import fs from "fs-extra";
+import queryString from "query-string";
+import { blobToString } from "./index.browser";
 import { delay as restDelay } from "@azure/ms-rest-js";
 import * as dotenv from "dotenv";
 dotenv.config({ path: "../../.env" });
@@ -30,10 +32,6 @@ export function setReplaceableVariables(a: object): void {
       env[k] = a[k];
     });
   }
-}
-let skip = [];
-export function setSkip(a: string[]): void {
-  skip = a;
 }
 let replacements = [];
 export function setReplacements(maps: any): void {
@@ -89,10 +87,6 @@ abstract class Recorder {
       updatedRecording = map(updatedRecording);
     }
     return updatedRecording;
-  }
-
-  public skip(): boolean {
-    return skip.includes(this.filepath);
   }
 
   public abstract record(): void;
@@ -187,10 +181,6 @@ export function record(testContext: any) {
     // recorder = new NiseRecorder(testHierarchy, testTitle);
   } else {
     recorder = new NockRecorder(testHierarchy, testTitle);
-  }
-
-  if (recorder.skip() && (isRecording || isPlayingBack)) {
-    testContext.skip();
   }
 
   // If neither recording nor playback is enabled, requests hit the live-service and no recordings are generated
