@@ -200,7 +200,7 @@ export class EventHubClient {
    * @param host - Fully qualified domain name for Event Hubs. Most likely,
    * <yournamespace>.servicebus.windows.net
    * @param eventHubPath - EventHub path of the form 'my-event-hub-name'
-   * @param credential - SharedKeyCredential object or Your credential that implements the TokenCredential interface.
+   * @param credential - SharedKeyCredential object or your credential that implements the TokenCredential interface.
    * @param options - The options that can be provided during client creation.
    */
   constructor(
