@@ -425,17 +425,16 @@ export class SecretsClient {
    * in the response. No values are returned for the secrets. This operations requires the secrets/list permission.
    * @param secretName Name of the secret to fetch versions for
    * @param [options] The optional parameters
-   * @returns PagedAsyncIterableIterator<SecretAttributes>
+   * @returns PagedAsyncIterableIterator<SecretAttributes, SecretAttributes[]>
    */
   public listSecretVersions(
     secretName: string,
     options?: ListSecretsOptions
-  ): PagedAsyncIterableIterator<SecretAttributes> {
+  ): PagedAsyncIterableIterator<SecretAttributes, SecretAttributes[]> {
     const iter = this.listSecretVersionsAll(secretName, options);
     return {
       async next() {
-        const item = (await iter.next()).value;
-        return item ? { done: false, value: item } : { done: true, value: undefined };
+        return iter.next();
       },
       [Symbol.asyncIterator]() {
         return this;
@@ -485,14 +484,15 @@ export class SecretsClient {
    * in the response. No values are returned for the secrets. This operations requires the secrets/list permission.
    * @summary List all secrets in the vault
    * @param [options] The optional parameters
-   * @returns PagedAsyncIterableIterator<SecretAttributes>
+   * @returns PagedAsyncIterableIterator<SecretAttributes, SecretAttributes[]>
    */
-  public listSecrets(options?: ListSecretsOptions): PagedAsyncIterableIterator<SecretAttributes> {
+  public listSecrets(
+    options?: ListSecretsOptions
+  ): PagedAsyncIterableIterator<SecretAttributes, SecretAttributes[]> {
     const iter = this.listSecretsAll(options);
     return {
       async next() {
-        const item = (await iter.next()).value;
-        return item ? { done: false, value: item } : { done: true, value: undefined };
+        return iter.next();
       },
       [Symbol.asyncIterator]() {
         return this;
@@ -544,16 +544,15 @@ export class SecretsClient {
    * in the response. No values are returned for the secrets. This operations requires the secrets/list permission.
    * @summary List all secrets in the vault
    * @param [options] The optional parameters
-   * @returns PagedAsyncIterableIterator<SecretAttributes>
+   * @returns PagedAsyncIterableIterator<SecretAttributes, SecretAttributes[]>
    */
   public listDeletedSecrets(
     options?: ListSecretsOptions
-  ): PagedAsyncIterableIterator<SecretAttributes> {
+  ): PagedAsyncIterableIterator<SecretAttributes, SecretAttributes[]> {
     const iter = this.listDeletedSecretsAll(options);
     return {
       async next() {
-        const item = (await iter.next()).value;
-        return item ? { done: false, value: item } : { done: true, value: undefined };
+        return iter.next();
       },
       [Symbol.asyncIterator]() {
         return this;

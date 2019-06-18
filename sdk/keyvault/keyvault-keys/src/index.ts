@@ -569,17 +569,16 @@ export class KeysClient {
    * in the response. This operation requires the keys/list permission.
    * @param name Name of the key to fetch versions for
    * @param [options] The optional parameters
-   * @returns PagedAsyncIterableIterator<KeyAttributes>
+   * @returns PagedAsyncIterableIterator<KeyAttributes, KeyAttributes[]>
    */
   public listKeyVersions(
     name: string,
     options?: ListKeysOptions
-  ): PagedAsyncIterableIterator<KeyAttributes> {
+  ): PagedAsyncIterableIterator<KeyAttributes, KeyAttributes[]> {
     const iter = this.listKeyVersionsAll(name, options);
     return {
       async next() {
-        const item = (await iter.next()).value;
-        return item ? { done: false, value: item } : { done: true, value: undefined };
+        return iter.next();
       },
       [Symbol.asyncIterator]() {
         return this;
@@ -626,14 +625,15 @@ export class KeysClient {
    * in the response. No values are returned for the keys. This operations requires the keys/list permission.
    * @summary List all keys in the vault
    * @param [options] The optional parameters
-   * @returns PagedAsyncIterableIterator<KeyAttributes>
+   * @returns PagedAsyncIterableIterator<KeyAttributes, KeyAttributes[]>
    */
-  public listKeys(options?: ListKeysOptions): PagedAsyncIterableIterator<KeyAttributes> {
+  public listKeys(
+    options?: ListKeysOptions
+  ): PagedAsyncIterableIterator<KeyAttributes, KeyAttributes[]> {
     const iter = this.listKeysAll(options);
     return {
       async next() {
-        const item = (await iter.next()).value;
-        return item ? { done: false, value: item } : { done: true, value: undefined };
+        return iter.next();
       },
       [Symbol.asyncIterator]() {
         return this;
@@ -682,14 +682,15 @@ export class KeysClient {
    * in the response. No values are returned for the keys. This operations requires the keys/list permission.
    * @summary List all keys in the vault
    * @param [options] The optional parameters
-   * @returns PagedAsyncIterableIterator<KeyAttributes>
+   * @returns PagedAsyncIterableIterator<KeyAttributes, KeyAttributes[]>
    */
-  public listDeletedKeys(options?: ListKeysOptions): PagedAsyncIterableIterator<KeyAttributes> {
+  public listDeletedKeys(
+    options?: ListKeysOptions
+  ): PagedAsyncIterableIterator<KeyAttributes, KeyAttributes[]> {
     const iter = this.listDeletedKeysAll(options);
     return {
       async next() {
-        const item = (await iter.next()).value;
-        return item ? { done: false, value: item } : { done: true, value: undefined };
+        return iter.next();
       },
       [Symbol.asyncIterator]() {
         return this;
