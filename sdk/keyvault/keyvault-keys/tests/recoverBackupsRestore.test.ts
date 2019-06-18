@@ -48,13 +48,16 @@ describe("Keys client - create, read, update and delete operations", () => {
   }
 
   before(async function() {
+    // NOTE:
+    // setReplaceableVariables and setReplacements are reused just to put their ussage in the open,
+    // to avoid having them obscured into a generic utility file. Once the recording tool is centralized
+    // we can move these somewhere else!
     setReplaceableVariables({
       AZURE_CLIENT_ID: "azure_client_id",
       AZURE_CLIENT_SECRET: "azure_client_secret",
       AZURE_TENANT_ID: "azure_tenant_id",
       KEYVAULT_NAME: "keyvault_name"
     });
-
     setReplacements([
       (recording) => recording.replace(/"access_token":"[^"]*"/g, `"access_token":"access_token"`)
     ]);
