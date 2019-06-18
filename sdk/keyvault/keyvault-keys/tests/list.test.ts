@@ -17,7 +17,7 @@ describe("Keys client - list keys in various ways", () => {
   //   we might need to factor in more environment variables.
   // - Another way to improve this is to add a specfic key per test.
   // - The environment variable is probably better named like PREFIX_KEY_NAME.
-  const keyName = `CRUD${env.KEY_NAME || "KeyName"}`;
+  const keyName = `list${env.KEY_NAME || "KeyName"}`;
 
   // NOTES:
   // - These functions are probably better moved to a common utility file.

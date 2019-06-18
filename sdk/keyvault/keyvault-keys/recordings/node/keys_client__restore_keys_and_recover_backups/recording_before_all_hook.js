@@ -3,9 +3,8 @@ let nock = require('nock');
 module.exports.testInfo = {}
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/aad_tenant_id/oauth2/token', "grant_type=client_credentials&client_id=aad_client_id&resource=https%3A%2F%2Fvault.azure.net&client_secret=aad_client_secret")
-  .query(true)
-  .reply(200, {"token_type":"Bearer","expires_in":"3600","ext_expires_in":"3600","expires_on":"1560621617","not_before":"1560617717","resource":"https://vault.azure.net","access_token":"access_token"}, [ 'Cache-Control',
+  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
+  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
   'no-cache, no-store',
   'Pragma',
   'no-cache',
@@ -17,35 +16,33 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'max-age=31536000; includeSubDomains',
   'X-Content-Type-Options',
   'nosniff',
-  'client-request-id',
-  '29538a71-d994-4e05-acc8-c835d778940c',
   'x-ms-request-id',
-  '49a32b7c-6186-4139-b00d-21a0f9596500',
-  'x-ms-clitelem',
-  '1,0,0,,',
+  '6c82100f-f1e6-4a9e-97f9-40ef36411300',
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'Set-Cookie',
-  'fpc=AmESEvwpYj9JrTp-whSKL20_aSJHAQAAACAbl9QOAAAA; expires=Mon, 15-Jul-2019 17:00:17 GMT; path=/; secure; HttpOnly',
+  'fpc=AlCE3tHUNHtPkdZGHu4FEEA_aSJHAQAAAPJ9mtQOAAAA; expires=Thu, 18-Jul-2019 06:38:43 GMT; path=/; secure; HttpOnly',
   'Set-Cookie',
   'x-ms-gateway-slice=prod; path=/; secure; HttpOnly',
   'Set-Cookie',
   'stsservicecookie=ests; path=/; secure; HttpOnly',
   'Date',
-  'Sat, 15 Jun 2019 17:00:16 GMT',
+  'Tue, 18 Jun 2019 06:38:43 GMT',
   'Connection',
   'close',
   'Content-Length',
-  '1324' ]);
+  '1231' ]);
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .delete('/keys/recoverKeyName')
   .query(true)
-  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedkeys/recoverKeyName","deletedDate":1560618022,"scheduledPurgeDate":1568394022,"key":{"kid":"https://keyvault_name.vault.azure.net/keys/recoverKeyName/b82273f579ea467fad57f4cdcb74cab6","kty":"RSA","key_ops":["encrypt","decrypt","sign","verify","wrapKey","unwrapKey"],"n":"9n29dw3MPiuHD6H8pq9NiQtnnEfLQVPDh61s5__7cV1wtM_3TuYjFLtKkRWTRh2hm78z3zJLPnTkArXbtPeAxYw_ujkG4LwKNSTUi3Pm0tv7D93RCwfpt1RqAxpHHwrwDHeQaFcZilNLhwRWHtqLUIuWxbjyJxVHJfqrdA817PsdwEqy6HAPW4exmVl9IhKdKhS3hzbWXdxFGwS9BHihycPGK7xT0vs8LIUTShckQYWhXL9btoliCjSLKZGNvThqhH7SUwGKeSWWvSo9XzRN-f55x47aDZcK6z_QmaaW6pA-i_juQMHGalmuNZ7UwqDtb66OVBqibluhDq3-7ai3PQ","e":"AQAB"},"attributes":{"enabled":true,"created":1560617850,"updated":1560617850,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
+  .reply(404, {"error":{"code":"KeyNotFound","message":"Key not found: recoverKeyName"}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
+  'Content-Length',
+  '74',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -55,11 +52,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '4ac3ba01-e608-46bf-a574-06065b8b49fd',
+  '4b06643b-c0d5-4e9a-a689-8ba9995701b8',
   'x-ms-keyvault-service-version',
   '1.1.0.866',
   'x-ms-keyvault-network-info',
-  'addr=108.226.109.105;act_addr_fam=InterNetwork;',
+  'addr=35.238.119.163;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -69,20 +66,54 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Sat, 15 Jun 2019 17:00:22 GMT',
+  'Tue, 18 Jun 2019 06:38:43 GMT',
+  'Connection',
+  'close' ]);
+
+
+nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
+  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
+  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
+  'no-cache, no-store',
+  'Pragma',
+  'no-cache',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Expires',
+  '-1',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'x-ms-request-id',
+  '52649bed-6ca0-4c41-b490-f90240891200',
+  'P3P',
+  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
+  'Set-Cookie',
+  'fpc=AlCE3tHUNHtPkdZGHu4FEEA_aSJHAgAAAPJ9mtQOAAAA; expires=Thu, 18-Jul-2019 06:38:44 GMT; path=/; secure; HttpOnly',
+  'Set-Cookie',
+  'x-ms-gateway-slice=prod; path=/; secure; HttpOnly',
+  'Set-Cookie',
+  'stsservicecookie=ests; path=/; secure; HttpOnly',
+  'Date',
+  'Tue, 18 Jun 2019 06:38:43 GMT',
   'Connection',
   'close',
   'Content-Length',
-  '795' ]);
+  '1231' ]);
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .delete('/deletedkeys/recoverKeyName')
   .query(true)
-  .reply(204, "", [ 'Cache-Control',
+  .reply(404, {"error":{"code":"KeyNotFound","message":"Key not found: recoverKeyName"}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
+  'Content-Length',
+  '74',
+  'Content-Type',
+  'application/json; charset=utf-8',
   'Expires',
   '-1',
   'Server',
@@ -90,11 +121,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  'a9690a3f-a030-4f63-932e-20cf3dcedadd',
+  '35660c88-96f1-4260-8c95-122ec082ca78',
   'x-ms-keyvault-service-version',
   '1.1.0.866',
   'x-ms-keyvault-network-info',
-  'addr=108.226.109.105;act_addr_fam=InterNetwork;',
+  'addr=35.238.119.163;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -104,7 +135,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Sat, 15 Jun 2019 17:00:58 GMT',
+  'Tue, 18 Jun 2019 06:38:43 GMT',
   'Connection',
   'close' ]);
 
