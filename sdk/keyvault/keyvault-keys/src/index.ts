@@ -163,10 +163,7 @@ export class KeysClient {
     this.vaultBaseUrl = url;
     this.credential = credential;
     if (isNewPipelineOptions(pipelineOrOptions)) {
-      this.pipeline = KeysClient.getDefaultPipeline(
-        credential,
-        pipelineOrOptions
-      );
+      this.pipeline = KeysClient.getDefaultPipeline(credential, pipelineOrOptions);
     } else {
       this.pipeline = pipelineOrOptions;
     }
