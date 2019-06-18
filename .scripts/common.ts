@@ -57,6 +57,15 @@ export function npmInstall(packageFolderPath: string): void {
   execute("npm install", packageFolderPath);
 }
 
+export async function npmRunTest(packageFolderPath: string): Promise<void> {
+  const packageJsonContent = JSON.parse((await fs.readFile(path.join(packageFolderPath, "package.json"))).toString());
+  if (packageJsonContent.scripts.test) {
+    execute("npm test", packageFolderPath);
+  } else {
+    console.log("No tests to run");
+  }
+}
+
 export async function getChildDirectories(parent: string): Promise<string[]> {
   const allChildren = await fs.readdir(parent);
   const childDirectories = [];

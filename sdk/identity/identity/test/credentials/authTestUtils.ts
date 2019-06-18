@@ -53,17 +53,17 @@ export function assertClientCredentials(
     assert.strictEqual(
       authRequest.url.startsWith(`https://authority/${expectedTenantId}`),
       true,
-      "Request URL doesn't contain expected tenantId"
+      "Request body doesn't contain expected tenantId"
     );
     assert.strictEqual(
       authRequest.body.indexOf(`client_id=${expectedClientId}`) > -1,
       true,
-      "Request URL doesn't contain expected clientId"
+      "Request body doesn't contain expected clientId"
     );
     assert.strictEqual(
       authRequest.body.indexOf(`client_secret=${expectedClientSecret}`) > -1,
       true,
-      "Request URL doesn't contain expected clientSecret"
+      "Request body doesn't contain expected clientSecret"
     );
   }
 }

@@ -1,7 +1,7 @@
 {
   "name": "@azure/abort-controller",
   "sdk-type": "client",
-  "version": "1.0.0",
+  "version": "1.0.0-preview.1",
   "description": "Microsoft Azure SDK for JavaScript - Aborter",
   "main": "./dist/index.js",
   "module": "./dist-esm/src/aborter.js",
@@ -94,7 +94,7 @@
     "prettier": "^1.16.4",
     "rimraf": "^2.6.2",
     "rollup": "~1.13.1",
-    "rollup-plugin-commonjs": "^9.2.0",
+    "rollup-plugin-commonjs": "^10.0.0",
     "rollup-plugin-multi-entry": "^2.1.0",
     "rollup-plugin-node-resolve": "^4.2.0",
     "rollup-plugin-replace": "^2.1.0",

@@ -1,15 +1,12 @@
 import * as assert from "assert";
 import { expect } from "chai";
-import {
-  getKeyvaultName,
-  getCredentialWithServicePrincipalSecret,
-  getUniqueName
-} from "./utils/utils.common";
+import { getKeyvaultName, getUniqueName } from "./utils/utils.common";
 import { KeysClient, CreateEcKeyOptions, UpdateKeyOptions, GetKeyOptions } from "../src";
-import { ServiceClientCredentials, RestError, delay } from "@azure/ms-rest-js";
+import { TokenCredential, RestError, delay } from "@azure/core-http";
+import { EnvironmentCredential } from "@azure/identity";
 
 describe("Keys client - create, read, update and delete operations", () => {
-  let credential: ServiceClientCredentials;
+  let credential: TokenCredential;
   let keyVaultName: string;
   let keyVaultUrl: string;
   let client: KeysClient;
@@ -22,7 +19,7 @@ describe("Keys client - create, read, update and delete operations", () => {
   };
 
   before(async () => {
-    credential = await getCredentialWithServicePrincipalSecret();
+    credential = new EnvironmentCredential();
     keyVaultName = getKeyvaultName();
     keyVaultUrl = `https://${keyVaultName}.vault.azure.net`;
     client = new KeysClient(keyVaultUrl, credential);

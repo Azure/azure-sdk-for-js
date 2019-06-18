@@ -26,7 +26,7 @@ export class ClientSecretCredential implements TokenCredential {
     scopes: string | string[],
     options?: GetTokenOptions
   ): Promise<AccessToken | null> {
-    return this.identityClient.authenticate(
+    return this.identityClient.authenticateClientSecret(
       this._tenantId,
       this._clientId,
       this._clientSecret,

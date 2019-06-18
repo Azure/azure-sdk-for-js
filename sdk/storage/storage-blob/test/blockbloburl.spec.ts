@@ -4,40 +4,45 @@ import { Aborter } from "../src/Aborter";
 import { BlobURL } from "../src/BlobURL";
 import { BlockBlobURL } from "../src/BlockBlobURL";
 import { ContainerURL } from "../src/ContainerURL";
-import { base64encode, bodyToString, getBSU, getUniqueName } from "./utils";
+import { base64encode, bodyToString, getBSU } from "./utils";
+import { record } from "./utils/recorder";
 import * as dotenv from "dotenv";
 dotenv.config({ path: "../.env" });
 
 describe("BlockBlobURL", () => {
   const serviceURL = getBSU();
-  let containerName: string = getUniqueName("container");
-  let containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
-  let blobName: string = getUniqueName("blob");
-  let blobURL = BlobURL.fromContainerURL(containerURL, blobName);
-  let blockBlobURL = BlockBlobURL.fromBlobURL(blobURL);
+  let containerName: string;
+  let containerURL: ContainerURL;
+  let blobName: string;
+  let blobURL: BlobURL;
+  let blockBlobURL: BlockBlobURL;
 
-  beforeEach(async () => {
-    containerName = getUniqueName("container");
+  let recorder: any;
+
+  beforeEach(async function() {
+    recorder = record(this);
+    containerName = recorder.getUniqueName("container");
     containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
     await containerURL.create(Aborter.none);
-    blobName = getUniqueName("blob");
+    blobName = recorder.getUniqueName("blob");
     blobURL = BlobURL.fromContainerURL(containerURL, blobName);
     blockBlobURL = BlockBlobURL.fromBlobURL(blobURL);
   });
 
   afterEach(async () => {
     await containerURL.delete(Aborter.none);
+    recorder.stop();
   });
 
   it("upload with string body and default parameters", async () => {
-    const body: string = getUniqueName("randomstring");
+    const body: string = recorder.getUniqueName("randomstring");
     await blockBlobURL.upload(Aborter.none, body, body.length);
     const result = await blobURL.download(Aborter.none, 0);
     assert.deepStrictEqual(await bodyToString(result, body.length), body);
   });
 
   it("upload with string body and all parameters set", async () => {
-    const body: string = getUniqueName("randomstring");
+    const body: string = recorder.getUniqueName("randomstring");
     const options = {
       blobCacheControl: "blobCacheControl",
       blobContentDisposition: "blobContentDisposition",
@@ -88,7 +93,7 @@ describe("BlockBlobURL", () => {
 
     const newBlockBlobURL = BlockBlobURL.fromContainerURL(
       containerURL,
-      getUniqueName("newblockblob")
+      recorder.getUniqueName("newblockblob")
     );
     await newBlockBlobURL.stageBlockFromURL(Aborter.none, base64encode("1"), blockBlobURL.url, 0);
 
@@ -111,7 +116,7 @@ describe("BlockBlobURL", () => {
 
     const newBlockBlobURL = BlockBlobURL.fromContainerURL(
       containerURL,
-      getUniqueName("newblockblob")
+      recorder.getUniqueName("newblockblob")
     );
     await newBlockBlobURL.stageBlockFromURL(
       Aborter.none,

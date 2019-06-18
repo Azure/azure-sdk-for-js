@@ -41,7 +41,16 @@ export interface AccessToken {
   token: string;
 
   /**
-   * The access token's expiration date and time.
+   * The access token's expiration timestamp.
    */
-  expiresOn: Date;
+  expiresOnTimestamp: number;
+}
+
+/**
+ * Tests an object to determine whether it implements TokenCredential.
+ *
+ * @param credential The assumed TokenCredential to be tested.
+ */
+export function isTokenCredential(credential: any): credential is TokenCredential {
+  return "getToken" in credential;
 }

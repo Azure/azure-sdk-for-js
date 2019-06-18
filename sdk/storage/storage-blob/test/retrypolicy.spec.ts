@@ -5,24 +5,29 @@ import { RestError, StorageURL } from "../src";
 import { Aborter } from "../src/Aborter";
 import { ContainerURL } from "../src/ContainerURL";
 import { Pipeline } from "../src/Pipeline";
-import { getBSU, getUniqueName } from "./utils";
+import { getBSU } from "./utils";
 import { InjectorPolicyFactory } from "./utils/InjectorPolicyFactory";
+import { record } from "./utils/recorder";
 import * as dotenv from "dotenv";
 dotenv.config({ path: "../.env" });
 
 describe("RetryPolicy", () => {
   const serviceURL = getBSU();
-  let containerName: string = getUniqueName("container");
-  let containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
+  let containerName: string;
+  let containerURL: ContainerURL;
 
-  beforeEach(async () => {
-    containerName = getUniqueName("container");
+  let recorder: any;
+
+  beforeEach(async function() {
+    recorder = record(this);
+    containerName = recorder.getUniqueName("container");
     containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
     await containerURL.create(Aborter.none);
   });
 
   afterEach(async () => {
     await containerURL.delete(Aborter.none);
+    recorder.stop();
   });
 
   it("Retry Policy should work when first request fails with 500", async () => {

@@ -4,27 +4,32 @@ import { Aborter } from "../../src/Aborter";
 import { BlobURL } from "../../src/BlobURL";
 import { ContainerURL } from "../../src/ContainerURL";
 import { PageBlobURL } from "../../src/PageBlobURL";
-import { getBSU, getUniqueName, sleep } from "../utils";
+import { getBSU, sleep } from "../utils";
+import { record } from "../utils/recorder";
 
 describe("PageBlobURL", () => {
   const serviceURL = getBSU();
-  let containerName: string = getUniqueName("container");
-  let containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
-  let blobName: string = getUniqueName("blob");
-  let blobURL = BlobURL.fromContainerURL(containerURL, blobName);
-  let pageBlobURL = PageBlobURL.fromBlobURL(blobURL);
+  let containerName: string;
+  let containerURL: ContainerURL;
+  let blobName: string;
+  let blobURL: BlobURL;
+  let pageBlobURL: PageBlobURL;
 
-  beforeEach(async () => {
-    containerName = getUniqueName("container");
+  let recorder: any;
+
+  beforeEach(async function() {
+    recorder = record(this);
+    containerName = recorder.getUniqueName("container");
     containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
     await containerURL.create(Aborter.none);
-    blobName = getUniqueName("blob");
+    blobName = recorder.getUniqueName("blob");
     blobURL = BlobURL.fromContainerURL(containerURL, blobName);
     pageBlobURL = PageBlobURL.fromBlobURL(blobURL);
   });
 
   afterEach(async () => {
     await containerURL.delete(Aborter.none);
+    recorder.stop();
   });
 
   it("startCopyIncremental", async () => {
@@ -38,7 +43,7 @@ describe("PageBlobURL", () => {
     let snapshotResult = await pageBlobURL.createSnapshot(Aborter.none);
     assert.ok(snapshotResult.snapshot);
 
-    const destPageBlobURL = PageBlobURL.fromContainerURL(containerURL, getUniqueName("page"));
+    const destPageBlobURL = PageBlobURL.fromContainerURL(containerURL, recorder.getUniqueName("page"));
 
     await containerURL.setAccessPolicy(Aborter.none, "container");
 
