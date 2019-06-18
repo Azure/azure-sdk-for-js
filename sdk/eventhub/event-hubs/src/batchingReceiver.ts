@@ -93,8 +93,7 @@ export class BatchingReceiver extends EventHubReceiver {
           return rejectOnAbort();
         }
 
-        // Final action to be performed after maxMessageCount is reached or the maxWaitTime is over.
-        const finalAction = (timeOver: boolean) => {
+        const removeListeners = () => {
           if (this._abortSignal) {
             this._abortSignal.removeEventListener("abort", this._onAbort);
           }
@@ -102,12 +101,18 @@ export class BatchingReceiver extends EventHubReceiver {
           if (this._receiver) {
             this._receiver.removeListener(ReceiverEvents.receiverError, onReceiveError);
             this._receiver.removeListener(ReceiverEvents.message, onReceiveMessage);
+            this._receiver.session.removeListener(SessionEvents.sessionError, onSessionError);
           }
 
           this.isReceivingMessages = false;
           if (!timeOver) {
             clearTimeout(waitTimer);
           }
+        };
+
+        // Final action to be performed after maxMessageCount is reached or the maxWaitTime is over.
+        const finalAction = (timeOver: boolean) => {
+          removeListeners();
           resolve(eventDatas);
         };
 
@@ -159,17 +164,7 @@ export class BatchingReceiver extends EventHubReceiver {
         };
 
         const onAbort = async () => {
-          this.isReceivingMessages = false;
-          if (this._receiver) {
-            this._receiver.removeListener(ReceiverEvents.receiverError, onReceiveError);
-            this._receiver.removeListener(ReceiverEvents.message, onReceiveMessage);
-          }
-          if (waitTimer) {
-            clearTimeout(waitTimer);
-          }
-          if (this._abortSignal) {
-            this._abortSignal.removeEventListener("abort", this._onAbort);
-          }
+          removeListeners();
           await this.close();
           rejectOnAbort();
         };
@@ -341,12 +336,15 @@ export class BatchingReceiver extends EventHubReceiver {
           try {
             await this._init(rcvrOptions);
             if (abortSignal && abortSignal.aborted) {
-              await this.close();
               // exit early if operation was cancelled while initializing connection
+              removeListeners();
+              await this.close();
               return rejectOnAbort();
             }
             addCreditAndSetTimer();
           } catch (err) {
+            // remove listeners if a connection could not be established
+            removeListeners();
             return reject(err);
           }
         } else {
