@@ -3,6 +3,7 @@ import { expect } from "chai";
 import { SecretsClient } from "../src";
 import { record, setReplaceableVariables, delay, setReplacements, env } from "./utils/recorder";
 import { EnvironmentCredential } from "@azure/identity";
+import "./utils/utils.common"; // This loads the asyncIterator polyfill
 
 describe("Secret client - list secrets in various ways", () => {
   const secretValue = "SECRET_VALUE";
