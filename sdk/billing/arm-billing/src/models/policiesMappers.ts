@@ -25,7 +25,6 @@ export {
   EnabledAzureSKUs,
   Enrollment,
   EnrollmentAccount,
-  EnrollmentAccountListResult,
   EnrollmentPolicies,
   ErrorDetails,
   ErrorResponse,

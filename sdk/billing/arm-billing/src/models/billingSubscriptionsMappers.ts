@@ -18,6 +18,8 @@ export {
   BillingProperty,
   BillingRoleAssignment,
   BillingRoleDefinition,
+  BillingSubscriptionsListResult,
+  BillingSubscriptionsTransferHeaders,
   BillingSubscriptionSummary,
   Customer,
   Department,
@@ -25,7 +27,6 @@ export {
   EnabledAzureSKUs,
   Enrollment,
   EnrollmentAccount,
-  EnrollmentAccountListResult,
   EnrollmentPolicies,
   ErrorDetails,
   ErrorResponse,
@@ -39,5 +40,9 @@ export {
   ProductSummary,
   Resource,
   ServiceProvider,
-  TransactionsSummary
+  TransactionsSummary,
+  TransferBillingSubscriptionRequestProperties,
+  TransferBillingSubscriptionResult,
+  ValidateSubscriptionTransferEligibilityError,
+  ValidateSubscriptionTransferEligibilityResult
 } from "../models/mappers";

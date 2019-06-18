@@ -25,7 +25,6 @@ export {
   EnabledAzureSKUs,
   Enrollment,
   EnrollmentAccount,
-  EnrollmentAccountListResult,
   EnrollmentPolicies,
   ErrorDetails,
   ErrorResponse,
@@ -39,5 +38,6 @@ export {
   ProductSummary,
   Resource,
   ServiceProvider,
+  TransactionsListResult,
   TransactionsSummary
 } from "../models/mappers";

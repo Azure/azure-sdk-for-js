@@ -9,6 +9,7 @@
 export {
   Address,
   Agreement,
+  AgreementListResult,
   Amount,
   AvailableBalance,
   BaseResource,
@@ -25,7 +26,6 @@ export {
   EnabledAzureSKUs,
   Enrollment,
   EnrollmentAccount,
-  EnrollmentAccountListResult,
   EnrollmentPolicies,
   ErrorDetails,
   ErrorResponse,
