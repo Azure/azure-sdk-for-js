@@ -316,12 +316,7 @@ describe("Test createFromAadTokenCredentials", function(): void {
   let sbClient: ServiceBusClient;
   let errorWasThrown: boolean = false;
 
-  let env;
-  if (isNode) {
-    env = getEnvVars();
-  } else {
-    env = getEnvVars(true);
-  }
+  const env = getEnvVars(!isNode);
   const serviceBusEndpoint = (env.SERVICEBUS_CONNECTION_STRING.match(
     "Endpoint=sb://((.*).servicebus.windows.net)"
   ) || "")[1];
@@ -361,12 +356,7 @@ describe("Test createFromAadTokenCredentials", function(): void {
   it("Coerces input to string for host in createFromAadTokenCredentials", async function(): Promise<
     void
   > {
-    let env;
-    if (isNode) {
-      env = getEnvVars();
-    } else {
-      env = getEnvVars(true);
-    }
+    const env = getEnvVars(!isNode);
 
     let tokenCreds = await loginWithServicePrincipalSecret(
       env.AAD_CLIENT_ID,
@@ -381,12 +371,7 @@ describe("Test createFromAadTokenCredentials", function(): void {
   });
 
   it("sends a message to the ServiceBus entity", async function(): Promise<void> {
-    let env;
-    if (isNode) {
-      env = getEnvVars();
-    } else {
-      env = getEnvVars(true);
-    }
+    const env = getEnvVars(!isNode);
 
     let tokenCreds = await loginWithServicePrincipalSecret(
       env.AAD_CLIENT_ID,
