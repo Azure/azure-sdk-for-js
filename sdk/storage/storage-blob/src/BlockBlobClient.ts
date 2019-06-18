@@ -393,6 +393,8 @@ export class BlockBlobClient extends BlobClient {
   private blockBlobContext: BlockBlob;
 
   /**
+   * ONLY AVAILABLE IN NODE.JS RUNTIME.
+   *
    * Creates an instance of BlockBlobClient.
    *
    * @param {string} connectionString Connection string for an Azure storage account.

@@ -2,10 +2,17 @@ import * as assert from "assert";
 
 import { isNode } from "@azure/ms-rest-js";
 import * as dotenv from "dotenv";
-import { bodyToString, getBSU, getUniqueName, sleep } from "./utils";
+import { BlobClient, newPipeline, SharedKeyCredential } from "../../src";
+import {
+  bodyToString,
+  getBSU,
+  getConnectionStringFromEnvironment,
+  getUniqueName,
+  sleep
+} from "../utils";
 dotenv.config({ path: "../.env" });
 
-describe("BlobClient", () => {
+describe("BlobClient Node.js only", () => {
   const blobServiceClient = getBSU();
   let containerName: string = getUniqueName("container");
   let containerClient = blobServiceClient.createContainerClient(containerName);
@@ -223,6 +230,92 @@ describe("BlobClient", () => {
     properties = await blockBlobClient.getProperties();
     if (properties.archiveStatus) {
       assert.equal(properties.archiveStatus.toLowerCase(), "rehydrate-pending-to-hot");
+    }
+  });
+
+  it("can be created with a url and a credential", async () => {
+    const factories = blobClient.pipeline.factories;
+    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const newClient = new BlobClient(blobClient.url, credential);
+
+    const metadata = {
+      a: "a",
+      b: "b"
+    };
+    await newClient.setMetadata(metadata);
+    const result = await newClient.getProperties();
+    assert.deepStrictEqual(result.metadata, metadata);
+  });
+
+  it("can be created with a url and a credential and an option bag", async () => {
+    const factories = blobClient.pipeline.factories;
+    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const newClient = new BlobClient(blobClient.url, credential, {
+      retryOptions: {
+        maxTries: 5
+      }
+    });
+
+    const metadata = {
+      a: "a",
+      b: "b"
+    };
+    await newClient.setMetadata(metadata);
+    const result = await newClient.getProperties();
+    assert.deepStrictEqual(result.metadata, metadata);
+  });
+
+  it("can be created with a url and a pipeline", async () => {
+    const factories = blobClient.pipeline.factories;
+    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const pipeline = newPipeline(credential);
+    const newClient = new BlobClient(blobClient.url, pipeline);
+
+    const metadata = {
+      a: "a",
+      b: "b"
+    };
+    await newClient.setMetadata(metadata);
+    const result = await newClient.getProperties();
+    assert.deepStrictEqual(result.metadata, metadata);
+  });
+
+  it("can be created with a connection string", async () => {
+    const newClient = new BlobClient(getConnectionStringFromEnvironment(), containerName, blobName);
+    const metadata = {
+      a: "a",
+      b: "b"
+    };
+    await newClient.setMetadata(metadata);
+    const result = await newClient.getProperties();
+    assert.deepStrictEqual(result.metadata, metadata);
+  });
+
+  it("throws error if constructor containerName parameter is empty", async () => {
+    try {
+      // tslint:disable-next-line: no-unused-expression
+      new BlobClient(getConnectionStringFromEnvironment(), "", "blobName");
+      assert.fail("Expecting an thrown error but didn't get one.");
+    } catch (error) {
+      assert.equal(
+        "Expecting non-empty strings for containerName and blobName parameters",
+        error.message,
+        "Error message is different than expected."
+      );
+    }
+  });
+
+  it("throws error if constructor blobName parameter is empty", async () => {
+    try {
+      // tslint:disable-next-line: no-unused-expression
+      new BlobClient(getConnectionStringFromEnvironment(), "containerName", "");
+      assert.fail("Expecting an thrown error but didn't get one.");
+    } catch (error) {
+      assert.equal(
+        "Expecting non-empty strings for containerName and blobName parameters",
+        error.message,
+        "Error message is different than expected."
+      );
     }
   });
 });

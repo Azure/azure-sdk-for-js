@@ -64,6 +64,8 @@ export class MessageIdClient extends StorageClient {
   private messageIdContext: MessageId;
 
   /**
+   * ONLY AVAILABLE IN NODE.JS RUNTIME.
+   *
    * Creates an instance of MessageIdClient.
    *
    * @param {string} connectionString Connection string for an Azure storage account.
