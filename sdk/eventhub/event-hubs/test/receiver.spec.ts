@@ -12,6 +12,7 @@ import { EventPosition, EventHubClient, EventData, MessagingError, ReceivedEvent
 import { BatchingReceiver } from "../src/batchingReceiver";
 import { ReceiveHandler } from "../src/streamingReceiver";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
+import { AbortController } from "@azure/abort-controller";
 const env = getEnvVars();
 
 describe("EventHub Receiver #RunnableInBrowser", function(): void {
@@ -80,12 +81,12 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
             });
         }
       };
-      rcvHandler = client
+      receiver = client
         .createReceiver(partitionIds[0], {
           exclusiveReceiverPriority: 1,
           beginReceivingAt: EventPosition.fromOffset("0")
-        })
-        .receive(onMsg, onError);
+        });
+        rcvHandler = receiver.receive(onMsg, onError);
     });
   });
 
@@ -128,7 +129,7 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
       data3.length.should.equal(0, "Unexpected message received");
     });
     */
-   
+
     it("'after a particular offset' should receive messages correctly", async function(): Promise<void> {
       const partitionId = partitionIds[0];
       const pInfo = await client.getPartitionInformation(partitionId);
@@ -145,7 +146,7 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
       };
       await client.createSender({ partitionId: partitionId }).send([ed]);
       debug("Sent the new message after creating the receiver. We should only receive this message.");
-      const receiver = client.createReceiver(partitionId, {
+      receiver = client.createReceiver(partitionId, {
         beginReceivingAt: EventPosition.fromOffset(pInfo.lastEnqueuedOffset)
       });
       const data = await receiver.receiveBatch(10, 20);
@@ -209,7 +210,7 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
       await client.createSender({ partitionId: partitionId }).send([ed]);
       debug("Sent the new message after creating the receiver. We should only receive this message.");
 
-      const receiver = client.createReceiver(partitionId, {
+      receiver = client.createReceiver(partitionId, {
         beginReceivingAt: EventPosition.fromEnqueuedTime(pInfo.lastEnqueuedTimeUtc)
       });
       const data = await receiver.receiveBatch(10, 20);
@@ -285,13 +286,247 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
     });
   });
 
-  describe("in batch mode", function(): void {
+  describe("in streaming mode", function(): void {
+    it("should receive messages correctly", async function(): Promise<void> {
+      const partitionId = partitionIds[0];
+      const time = Date.now();
+      // send a message that can be received
+      const sender = client.createSender({ partitionId });
+      try {
+        await sender.send({ body: "receive behaves correctly" });
+      } finally {
+        await sender.close();
+      }
+      receiver = client.createReceiver(partitionId, {
+        beginReceivingAt: EventPosition.fromEnqueuedTime(time)
+      });
+
+      const received: ReceivedEventData[] = await new Promise((resolve, reject) => {
+        let shouldStop = false;
+        const events: ReceivedEventData[] = [];
+
+        const handler = receiver!.receive(event => {
+          if (!shouldStop) {
+            events.push(event);
+            shouldStop = true;
+            handler
+              .stop()
+              .then(() => resolve(events))
+              .catch(reject);
+          }
+        }, reject);
+      });
+
+      received.length.should.equal(1);
+    });
+
+    it("should support being cancelled", async function(): Promise<void> {
+      const partitionId = partitionIds[0];
+      const time = Date.now();
+      // send a message that can be received
+      const sender = client.createSender({ partitionId });
+      try {
+        await sender.send({ body: "receive cancellation - timeout 0" });
+      } finally {
+        await sender.close();
+      }
+
+      receiver = client.createReceiver(partitionId, {
+        beginReceivingAt: EventPosition.fromEnqueuedTime(time)
+      });
+
+      try {
+        await new Promise((resolve, reject) => {
+          let shouldStop = false;
+          const events: ReceivedEventData[] = [];
+          // abortSignal event listeners will be triggered after synchronous paths are executed
+          const abortSignal = AbortController.timeout(0);
+
+          const handler = receiver!.receive(
+            event => {
+              if (!shouldStop) {
+                events.push(event);
+                shouldStop = true;
+                handler
+                  .stop()
+                  .then(() => resolve(events))
+                  .catch(reject);
+              }
+            },
+            reject,
+            abortSignal
+          );
+        });
+        throw new Error(`Test failure`);
+      } catch (err) {
+        err.name.should.equal("AbortError");
+        err.message.should.equal("The receive operation has been cancelled by the user.");
+      }
+    });
+
+    it("should support being cancelled from an already aborted AbortSignal", async function(): Promise<void> {
+      const partitionId = partitionIds[0];
+      const time = Date.now();
+      // send a message that can be received
+      const sender = client.createSender({ partitionId });
+      try {
+        await sender.send({ body: "receive cancellation - immediate" });
+      } finally {
+        await sender.close();
+      }
+
+      receiver = client.createReceiver(partitionId, {
+        beginReceivingAt: EventPosition.fromEnqueuedTime(time)
+      });
+
+      try {
+        await new Promise((resolve, reject) => {
+          let shouldStop = false;
+          const events: ReceivedEventData[] = [];
+
+          // create an AbortSignal that's in the aborted state
+          const abortController = new AbortController();
+          abortController.abort();
+
+          const handler = receiver!.receive(
+            event => {
+              if (!shouldStop) {
+                events.push(event);
+                shouldStop = true;
+                handler
+                  .stop()
+                  .then(() => resolve(events))
+                  .catch(reject);
+              }
+            },
+            reject,
+            abortController.signal
+          );
+        });
+        throw new Error(`Test failure`);
+      } catch (err) {
+        err.name.should.equal("AbortError");
+        err.message.should.equal("The receive operation has been cancelled by the user.");
+      }
+    });
+  });
+
+  describe("in batch mode #RunnableInBrowser", function(): void {
     it("should receive messages correctly", async function(): Promise<void> {
       const partitionId = partitionIds[0];
       receiver = client.createReceiver(partitionId);
       const data = await receiver.receiveBatch(5, 10);
       debug("received messages: ", data);
       data.length.should.equal(5, "Failed to receive five expected messages");
+    });
+
+    it("should support being cancelled", async function(): Promise<void> {
+      const partitionId = partitionIds[0];
+      const time = Date.now();
+      // send a message that can be received
+      const sender = client.createSender({ partitionId });
+      try {
+        await sender.send({ body: "batchReceiver cancellation - timeout 0" });
+      } finally {
+        await sender.close();
+      }
+
+      receiver = client.createReceiver(partitionId, {
+        beginReceivingAt: EventPosition.fromEnqueuedTime(time)
+      });
+
+      try {
+        // abortSignal event listeners will be triggered after synchronous paths are executed
+        const abortSignal = AbortController.timeout(0);
+        await receiver.receiveBatch(1, 60, abortSignal);
+        throw new Error(`Test failure`);
+      } catch (err) {
+        err.name.should.equal("AbortError");
+        err.message.should.equal("The receive operation has been cancelled by the user.");
+      }
+    });
+
+    it("should support being cancelled from an already aborted AbortSignal", async function(): Promise<void> {
+      const partitionId = partitionIds[0];
+      const time = Date.now();
+      // send a message that can be received
+      const sender = client.createSender({ partitionId });
+      try {
+        await sender.send({ body: "batchReceiver cancellation - immediate" });
+      } finally {
+        await sender.close();
+      }
+
+      receiver = client.createReceiver(partitionId, {
+        beginReceivingAt: EventPosition.fromEnqueuedTime(time)
+      });
+
+      try {
+        // abortSignal event listeners will be triggered after synchronous paths are executed
+        const abortController = new AbortController();
+        abortController.abort();
+        await receiver.receiveBatch(1, 60, abortController.signal);
+        throw new Error(`Test failure`);
+      } catch (err) {
+        err.name.should.equal("AbortError");
+        err.message.should.equal("The receive operation has been cancelled by the user.");
+      }
+    });
+
+    it("should support cancellation when a connection already exists", async function(): Promise<void> {
+      const partitionId = partitionIds[0];
+      const time = Date.now();
+      // send a message that can be received
+      const sender = client.createSender({ partitionId });
+      try {
+        await sender.send({ body: "batchReceiver cancellation - timeout 0" });
+      } finally {
+        await sender.close();
+      }
+
+      receiver = client.createReceiver(partitionId, {
+        beginReceivingAt: EventPosition.fromEnqueuedTime(time)
+      });
+
+      try {
+        // call receiveBatch once to establish a connection
+        await receiver.receiveBatch(1, 60);
+        // abortSignal event listeners will be triggered after synchronous paths are executed
+        const abortSignal = AbortController.timeout(0);
+        await receiver.receiveBatch(1, 60, abortSignal);
+        throw new Error(`Test failure`);
+      } catch (err) {
+        err.name.should.equal("AbortError");
+        err.message.should.equal("The receive operation has been cancelled by the user.");
+      }
+    });
+
+    it("should support calling receiveBatch after a cancellation", async function(): Promise<void> {
+      const partitionId = partitionIds[0];
+      const time = Date.now();
+      // send a message that can be received
+      const sender = client.createSender({ partitionId });
+      try {
+        await sender.send({ body: "batchReceiver post-cancellation - timeout 0" });
+      } finally {
+        await sender.close();
+      }
+
+      receiver = client.createReceiver(partitionId, {
+        beginReceivingAt: EventPosition.fromEnqueuedTime(time)
+      });
+
+      try {
+        // abortSignal event listeners will be triggered after synchronous paths are executed
+        const abortSignal = AbortController.timeout(0);
+        await receiver.receiveBatch(1, 60, abortSignal);
+        throw new Error(`Test failure`);
+      } catch (err) {
+        err.name.should.equal("AbortError");
+        err.message.should.equal("The receive operation has been cancelled by the user.");
+        const events = await receiver.receiveBatch(1, 60);
+        events.length.should.equal(1);
+      }
     });
   });
 
@@ -332,6 +567,65 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
 
       debug("received messages: ", data);
       data.length.should.equal(messageCount, `Failed to receive ${messageCount} expected messages`);
+    });
+
+    it("should support being cancelled", async function(): Promise<void> {
+      const partitionId = partitionIds[0];
+      const time = Date.now();
+      // send a message that can be received
+      const sender = client.createSender({ partitionId });
+      try {
+        await sender.send({ body: "getEventIterator cancellation - timeout 0" });
+      } finally {
+        await sender.close();
+      }
+
+      receiver = client.createReceiver(partitionId, {
+        beginReceivingAt: EventPosition.fromEnqueuedTime(time)
+      });
+
+      try {
+        // abortSignal event listeners will be triggered after synchronous paths are executed
+        const abortSignal = AbortController.timeout(0);
+        const eventIterator = receiver.getEventIterator({ abortSignal });
+
+        for await (const _ of eventIterator) {
+        }
+        throw new Error(`Test failure`);
+      } catch (err) {
+        err.name.should.equal("AbortError");
+        err.message.should.equal("The receive operation has been cancelled by the user.");
+      }
+    });
+
+    it("should support being cancelled from an already aborted AbortSignal", async function(): Promise<void> {
+      const partitionId = partitionIds[0];
+      const time = Date.now();
+      // send a message that can be received
+      const sender = client.createSender({ partitionId });
+      try {
+        await sender.send({ body: "getEventIterator cancellation - immediate" });
+      } finally {
+        await sender.close();
+      }
+
+      receiver = client.createReceiver(partitionId, {
+        beginReceivingAt: EventPosition.fromEnqueuedTime(time)
+      });
+
+      try {
+        // abortSignal event listeners will be triggered after synchronous paths are executed
+        const abortController = new AbortController();
+        abortController.abort();
+        const eventIterator = receiver.getEventIterator({ abortSignal: abortController.signal });
+
+        for await (const _ of eventIterator) {
+        }
+        throw new Error(`Test failure`);
+      } catch (err) {
+        err.name.should.equal("AbortError");
+        err.message.should.equal("The receive operation has been cancelled by the user.");
+      }
     });
   });
 
@@ -458,12 +752,12 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
       const onMsg = (data: ReceivedEventData) => {
         debug(">>>> epoch Receiver 1", data);
       };
-      epochRcvr1 = client
-        .createReceiver(partitionId, {
-          exclusiveReceiverPriority: 2,
-          beginReceivingAt: EventPosition.fromNewEventsOnly()
-        })
-        .receive(onMsg, onError);
+      const receiver1 = client
+      .createReceiver(partitionId, {
+        exclusiveReceiverPriority: 2,
+        beginReceivingAt: EventPosition.fromNewEventsOnly()
+      });
+      epochRcvr1 = receiver1.receive(onMsg, onError);
       debug("Created epoch receiver 1 %s", epochRcvr1);
       setTimeout(() => {
         const onError2 = (error: MessagingError | Error) => {
@@ -472,7 +766,9 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
           should.equal(error.name, "ReceiverDisconnectedError");
           epochRcvr2
             .stop()
+            .then(() => receiver2.close())
             .then(() => epochRcvr1.stop())
+            .then(() => receiver1.close())
             .then(() => {
               debug("Successfully closed the epoch receivers 1 and 2.");
               done();
@@ -485,12 +781,12 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
         const onMsg2 = (data: ReceivedEventData) => {
           debug(">>>> epoch Receiver 2", data);
         };
-        epochRcvr2 = client
+        const receiver2 = client
           .createReceiver(partitionId, {
             exclusiveReceiverPriority: 1,
             beginReceivingAt: EventPosition.fromNewEventsOnly()
           })
-          .receive(onMsg2, onError2);
+          epochRcvr2 = receiver2.receive(onMsg2, onError2);
         debug("Created epoch receiver 2 %s", epochRcvr2);
       }, 3000);
     });
@@ -499,13 +795,16 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
       const partitionId = partitionIds[0];
       let epochRcvr1: ReceiveHandler;
       let epochRcvr2: ReceiveHandler;
+      let receiver2: EventReceiver;
       const onError = (error: MessagingError | Error) => {
         debug(">>>> epoch Receiver 1", error);
         should.exist(error);
         should.equal(error.name, "ReceiverDisconnectedError");
         epochRcvr1
           .stop()
+          .then(() => receiver1.close())
           .then(() => epochRcvr2.stop())
+          .then(() => receiver2.close())
           .then(() => {
             debug("Successfully closed the epoch receivers 1 and 2.");
             done();
@@ -518,12 +817,12 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
       const onMsg = (data: ReceivedEventData) => {
         debug(">>>> epoch Receiver 1", data);
       };
-      epochRcvr1 = client
+      const receiver1 = client
         .createReceiver(partitionId, {
           exclusiveReceiverPriority: 1,
           beginReceivingAt: EventPosition.fromNewEventsOnly()
-        })
-        .receive(onMsg, onError);
+        });
+        epochRcvr1 = receiver1.receive(onMsg, onError);
       debug("Created epoch receiver 1 %s", epochRcvr1);
       setTimeout(() => {
         const onError2 = (error: MessagingError | Error) => {
@@ -533,12 +832,12 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
         const onMsg2 = (data: ReceivedEventData) => {
           debug(">>>> epoch Receiver 2", data);
         };
-        epochRcvr2 = client
+        const receiver2 = client
           .createReceiver(partitionId, {
             exclusiveReceiverPriority: 2,
             beginReceivingAt: EventPosition.fromNewEventsOnly()
           })
-          .receive(onMsg2, onError2);
+          epochRcvr2 = receiver2.receive(onMsg2, onError2);
         debug("Created epoch receiver 2 %s", epochRcvr2);
       }, 3000);
     });
@@ -554,12 +853,12 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
       const onmsg1 = (data: ReceivedEventData) => {
         debug(">>>> epoch Receiver ", data);
       };
-      epochRcvr = client
+      const receiver1 = client
         .createReceiver(partitionId, {
           exclusiveReceiverPriority: 1,
           beginReceivingAt: EventPosition.fromNewEventsOnly()
         })
-        .receive(onmsg1, onerr1);
+        epochRcvr = receiver1.receive(onmsg1, onerr1);
       debug("Created epoch receiver %s", epochRcvr);
       const onerr2 = (error: MessagingError | Error) => {
         debug(">>>> non epoch Receiver", error);
@@ -567,7 +866,9 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
         should.equal(error.name, "ReceiverDisconnectedError");
         nonEpochRcvr
           .stop()
+          .then(() => receiver2.close())
           .then(() => epochRcvr.stop())
+          .then(() => receiver1.close())
           .then(() => {
             debug("Successfully closed the nonEpoch and epoch receivers");
             done();
@@ -580,11 +881,11 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
       const onmsg2 = (data: ReceivedEventData) => {
         debug(">>>> non epoch Receiver", data);
       };
-      nonEpochRcvr = client
+      const receiver2 = client
         .createReceiver(partitionId, {
           beginReceivingAt: EventPosition.fromNewEventsOnly()
         })
-        .receive(onmsg2, onerr2);
+        nonEpochRcvr = receiver2.receive(onmsg2, onerr2);
       debug("Created non epoch receiver %s", nonEpochRcvr);
     });
 
@@ -592,13 +893,17 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
       const partitionId = partitionIds[0];
       let epochRcvr: ReceiveHandler;
       let nonEpochRcvr: ReceiveHandler;
+      let receiver1: EventReceiver;
+      let receiver2: EventReceiver;
       const onerr3 = (error: MessagingError | Error) => {
         debug(">>>> non epoch Receiver", error);
         should.exist(error);
         should.equal(error.name, "ReceiverDisconnectedError");
         nonEpochRcvr
           .stop()
+          .then(() => receiver1.close())
           .then(() => epochRcvr.stop())
+          .then(() => receiver2.close())
           .then(() => {
             debug("Successfully closed the nonEpoch and epoch receivers");
             done();
@@ -611,11 +916,11 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
       const onmsg3 = (data: ReceivedEventData) => {
         debug(">>>> non epoch Receiver", data);
       };
-      nonEpochRcvr = client
+      receiver1 = client
         .createReceiver(partitionId, {
           beginReceivingAt: EventPosition.fromNewEventsOnly()
         })
-        .receive(onmsg3, onerr3);
+        nonEpochRcvr = receiver1.receive(onmsg3, onerr3);
       debug("Created non epoch receiver %s", nonEpochRcvr);
       setTimeout(() => {
         const onerr4 = (error: MessagingError | Error) => {
@@ -625,12 +930,12 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
         const onmsg4 = (data: ReceivedEventData) => {
           debug(">>>> epoch Receiver ", data);
         };
-        epochRcvr = client
+        receiver2 = client
           .createReceiver(partitionId, {
             exclusiveReceiverPriority: 1,
             beginReceivingAt: EventPosition.fromNewEventsOnly()
           })
-          .receive(onmsg4, onerr4);
+          epochRcvr = receiver2.receive(onmsg4, onerr4);
         debug("Created epoch receiver %s", epochRcvr);
       }, 3000);
     });

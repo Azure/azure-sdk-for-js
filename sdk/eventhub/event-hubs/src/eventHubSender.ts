@@ -451,7 +451,7 @@ export class EventHubSender extends LinkEntity {
 
         if (abortSignal && abortSignal.aborted) {
           // operation has been cancelled, so exit quickly
-          rejectOnAbort();
+          return rejectOnAbort();
         }
 
         let waitTimer: any;
