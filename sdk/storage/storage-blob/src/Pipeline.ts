@@ -14,7 +14,9 @@ import {
   RequestPolicyFactory,
   RequestPolicyOptions,
   ServiceClientOptions,
-  WebResource
+  WebResource,
+  proxyPolicy,
+  getDefaultProxySettings
 } from "@azure/ms-rest-js";
 
 import { BrowserPolicyFactory } from "./BrowserPolicyFactory";
@@ -41,6 +43,26 @@ export {
   RequestPolicyOptions
 };
 
+/**
+ * Interface of proxy policy options.
+ *
+ * @example
+ * // Use SharedKeyCredential with storage account and account key
+ * const sharedKeyCredential = new SharedKeyCredential(account, accountKey);
+ * const blobServiceClient = new BlobServiceClient(
+ *  `https://${account}.blob.core.windows.net`,
+ *  sharedKeyCredential,
+ *  {
+ *    proxy: { url: "http://localhost:3128" }
+ *  });
+ *
+ * @export
+ * @interface ProxyOptions
+ */
+
+export interface ProxyOptions {
+  url?: string;
+}
 /**
  * Option interface for Pipeline constructor.
  *
@@ -125,6 +147,7 @@ export class Pipeline {
  * @interface NewPipelineOptions
  */
 export interface NewPipelineOptions {
+  proxy?: ProxyOptions;
   /**
    * Telemetry configures the built-in telemetry policy behavior.
    *
@@ -178,6 +201,7 @@ export function newPipeline(
     deserializationPolicy(), // Default deserializationPolicy is provided by protocol layer
     new RetryPolicyFactory(pipelineOptions.retryOptions),
     new LoggingPolicyFactory(),
+    proxyPolicy(getDefaultProxySettings((pipelineOptions.proxy || {}).url)),
     credential
   ];
 
