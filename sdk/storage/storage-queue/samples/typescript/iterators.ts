@@ -48,9 +48,9 @@ async function main() {
     item2 = await iter2.next();
   }
 
-  ////////////////////////////////
-  ///  Examples for .byPage()  ///
-  ////////////////////////////////
+  ////////////////////////////////////////////////////////
+  ///////////////  Examples for .byPage()  ///////////////
+  ////////////////////////////////////////////////////////
 
   i = 1;
   for await (const item1 of queueServiceClient.listQueues().byPage({})) {
@@ -62,7 +62,7 @@ async function main() {
     }
   }
 
-  // Same as the previous example
+  // Same as the previous example - passing maxPageSize in the page settings
   i = 1;
   for await (const item2 of queueServiceClient.listQueues().byPage({ maxPageSize: 20 })) {
     if (item2.queueItems) {
@@ -91,7 +91,7 @@ async function main() {
   i = 1;
   let iter4 = queueServiceClient.listQueues().byPage({ maxPageSize: 2 });
   let item = (await iter4.next()).value;
-  // Prints 2 queuenames
+  // Prints 2 queue names
   if (item.queueItems) {
     for (const queueItem of item.queueItems) {
       console.log(`Queue${i}: ${queueItem.name}`);
@@ -101,7 +101,7 @@ async function main() {
   let marker = item.nextMarker;
   iter4 = queueServiceClient.listQueues().byPage({ continuationToken: marker, maxPageSize: 10 });
   item = (await iter4.next()).value;
-  // Prints 10 queuenames
+  // Prints 10 queue names
   if (item.queueItems) {
     for (const queueItem of item.queueItems) {
       console.log(`Queue${i}: ${queueItem.name}`);
