@@ -24,7 +24,7 @@ import { EnvironmentCredential } from "@azure/identity";
 const evenHubsEndpoint = ""; // <your-eventhubs-namespace>.servicebus.windows.net
 const eventHubsName = "";
 
-// Define AZURE_TENANT_ID, AZURE_CLIENT_ID and AZURE_CLIENT_SECRET of your AAD application in .env file
+// Define AZURE_TENANT_ID, AZURE_CLIENT_ID and AZURE_CLIENT_SECRET of your AAD application in your environment
 
 async function main(): Promise<void> {
   const credential = new EnvironmentCredential();
