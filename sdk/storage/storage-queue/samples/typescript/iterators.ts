@@ -54,18 +54,22 @@ async function main() {
 
   i = 1;
   for await (const item1 of queueServiceClient.listQueues().byPage({})) {
-    for (const queueItem of item1.queueItems!) {
-      console.log(`Queue${i}: ${queueItem.name}`);
-      i++;
+    if (item1.queueItems) {
+      for (const queueItem of item1.queueItems) {
+        console.log(`Queue${i}: ${queueItem.name}`);
+        i++;
+      }
     }
   }
 
   // Same as the previous example
   i = 1;
   for await (const item2 of queueServiceClient.listQueues().byPage({ maxPageSize: 20 })) {
-    for (const queueItem of item2.queueItems!) {
-      console.log(`Queue${i}: ${queueItem.name}`);
-      i++;
+    if (item2.queueItems) {
+      for (const queueItem of item2.queueItems) {
+        console.log(`Queue${i}: ${queueItem.name}`);
+        i++;
+      }
     }
   }
 
@@ -74,9 +78,11 @@ async function main() {
   let iter3 = queueServiceClient.listQueues().byPage({ maxPageSize: 2 });
   let item3 = (await iter3.next()).value;
   do {
-    for (const queueItem of item3.queueItems!) {
-      console.log(`Queue${i}: ${queueItem.name}`);
-      i++;
+    if (item3.queueItems) {
+      for (const queueItem of item3.queueItems) {
+        console.log(`Queue${i}: ${queueItem.name}`);
+        i++;
+      }
     }
     item3 = (await iter3.next()).value;
   } while (item3);
@@ -86,17 +92,21 @@ async function main() {
   let iter4 = queueServiceClient.listQueues().byPage({ maxPageSize: 2 });
   let item = (await iter4.next()).value;
   // Prints 2 queuenames
-  for (const queueItem of item.queueItems!) {
-    console.log(`Queue${i}: ${queueItem.name}`);
-    i++;
+  if (item.queueItems) {
+    for (const queueItem of item.queueItems) {
+      console.log(`Queue${i}: ${queueItem.name}`);
+      i++;
+    }
   }
   let marker = item.nextMarker;
   iter4 = queueServiceClient.listQueues().byPage({ continuationToken: marker, maxPageSize: 10 });
   item = (await iter4.next()).value;
   // Prints 10 queuenames
-  for (const queueItem of item.queueItems!) {
-    console.log(`Queue${i}: ${queueItem.name}`);
-    i++;
+  if (item.queueItems) {
+    for (const queueItem of item.queueItems) {
+      console.log(`Queue${i}: ${queueItem.name}`);
+      i++;
+    }
   }
 }
 
