@@ -6,7 +6,7 @@ import { getAlternateQSU, getConnectionStringFromEnvironment, getQSU, wait } fro
 import { record } from "./utils/recorder";
 dotenv.config({ path: "../.env" });
 
-describe.only("QueueServiceClient", () => {
+describe("QueueServiceClient", () => {
   let recorder: any;
 
   beforeEach(function() {
