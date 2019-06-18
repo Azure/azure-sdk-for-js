@@ -139,7 +139,7 @@ export class LinkEntity {
     } else {
       const aadToken = await this._context.tokenCredential.getToken(Constants.aadEventHubsScope);
       if (!aadToken) {
-        throw new Error("Aad token cannot be null");
+        throw new Error(`Failed to get token from the provided "TokenCredential" object`);
       }
       tokenObject = aadToken;
       tokenType = TokenType.CbsTokenTypeJwt;
@@ -184,7 +184,7 @@ export class LinkEntity {
    */
   protected async _ensureTokenRenewal(): Promise<void> {
     if (!this._tokenTimeout) {
-      throw new Error("_tokenTimeout cannot be null");
+      return;
     }
     this._tokenRenewalTimer = setTimeout(async () => {
       try {
