@@ -46,6 +46,13 @@ export {
 /**
  * Interface of proxy policy options.
  *
+ * @example
+ * // Use sharedKeyCredential, tokenCredential or anonymousCredential to create a pipeline
+ * const sharedKeyCredential = new SharedKeyCredential(account, accountKey);
+ * const pipeline = newPipeline(sharedKeyCredential, {
+ *    proxy: { url: "http://localhost:3128" }
+ * });
+ *
  * @export
  * @interface ProxyOptions
  */
