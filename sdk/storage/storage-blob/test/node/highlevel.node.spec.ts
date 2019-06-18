@@ -5,7 +5,8 @@ import { PassThrough } from "stream";
 
 import { Aborter } from "../../src/Aborter";
 import { RetriableReadableStreamOptions } from "../../src/utils/RetriableReadableStream";
-import { createRandomLocalFile, getBSU, getUniqueName, readStreamToLocalFile } from "../utils";
+import { createRandomLocalFile, getBSU, getUniqueName } from "../utils";
+import { readStreamToLocalFile } from "../../src/utils/utils.common";
 
 // tslint:disable:no-empty
 describe("Highlevel Node.js only", () => {
@@ -462,5 +463,29 @@ describe("Highlevel Node.js only", () => {
 
     assert.ok(expectedError);
     fs.unlinkSync(downloadedFile);
+  });
+
+  it("downloadToFile should success", async () => {
+    const downloadedFilePath = getUniqueName("downloadedtofile.");
+    const rs = fs.createReadStream(tempFileSmall);
+    await blockBlobClient.uploadStream(rs, 4 * 1024 * 1024, 20);
+
+    const response = await blobClient.downloadToFile(downloadedFilePath, 0, undefined);
+
+    assert.ok(
+      response.contentLength === tempFileSmallLength,
+      "response.contentLength doesn't match tempFileSmallLength"
+    );
+    assert.equal(
+      response.readableStreamBody,
+      undefined,
+      "Expecting response.readableStreamBody to be undefined."
+    );
+
+    const localFileContent = fs.readFileSync(tempFileSmall);
+    const downloadedFileContent = fs.readFileSync(downloadedFilePath);
+    assert.ok(localFileContent.equals(downloadedFileContent));
+
+    fs.unlinkSync(downloadedFilePath);
   });
 });

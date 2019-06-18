@@ -15,7 +15,11 @@ import {
   URLConstants,
   DEFAULT_BLOB_DOWNLOAD_BLOCK_BYTES
 } from "./utils/constants";
-import { setURLParameter, extractConnectionStringParts } from "./utils/utils.common";
+import {
+  setURLParameter,
+  extractConnectionStringParts,
+  readStreamToLocalFile
+} from "./utils/utils.common";
 import { AppendBlobClient, StorageClient } from "./internal";
 import { BlockBlobClient } from "./internal";
 import { PageBlobClient } from "./internal";
@@ -476,7 +480,7 @@ export interface DownloadFromBlobOptions {
    * about request cancellation.
    *
    * @type {Aborter}
-   * @memberof IUploadToBlockBlobOptions
+   * @memberof DownloadFromBlobOptions
    */
   abortSignal?: Aborter;
 
@@ -1029,7 +1033,6 @@ export class BlobClient extends StorageClient {
    *
    * @export
    * @param {Buffer} buffer Buffer to be fill, must have length larger than count
-   * @param {BlobClient} blobClient A BlobClient object
    * @param {number} offset From which position of the block blob to download
    * @param {number} [count] How much data to be downloaded. Will download to the end when passing undefined
    * @param {DownloadFromBlobOptions} [options] DownloadFromBlobOptions
@@ -1102,5 +1105,38 @@ export class BlobClient extends StorageClient {
       });
     }
     await batch.do();
+  }
+
+  /**
+   * ONLY AVAILABLE IN NODE.JS RUNTIME.
+   *
+   * Downloads an Azure Blob to a local file.
+   * Fails if the the given file path already exits.
+   * Offset and count are optional, pass 0 and undefined respectively to download the entire blob.
+   *
+   * @param {string} filePath
+   * @param {number} [offset] From which position of the block blob to download.
+   * @param {number} [count] How much data to be downloaded. Will download to the end when passing undefined.
+   * @param {BlobDownloadOptions} [options] Options to Blob download options.
+   * @returns {Promise<Models.BlobDownloadResponse>} The response data for blob download operation,
+   *                                                 but with readableStreamBody set to undefined since its
+   *                                                 content is already read and written into a local file
+   *                                                 at the specified path.
+   * @memberof BlobClient
+   */
+  public async downloadToFile(
+    filePath: string,
+    offset: number = 0,
+    count?: number,
+    options?: BlobDownloadOptions
+  ): Promise<Models.BlobDownloadResponse> {
+    const response = await this.download(offset, count, options);
+    if (response.readableStreamBody) {
+      await readStreamToLocalFile(response.readableStreamBody, filePath);
+    }
+
+    // The stream is no longer accessible so setting it to undefined.
+    (response as any).blobDownloadStream = undefined;
+    return response;
   }
 }
