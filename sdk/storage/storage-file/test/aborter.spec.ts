@@ -2,20 +2,28 @@ import * as assert from "assert";
 
 import { Aborter } from "../src/Aborter";
 import { ShareURL } from "../src/ShareURL";
-import { getBSU, getUniqueName } from "./utils";
+import { getBSU } from "./utils";
+import { record } from "./utils/recorder";
 import * as dotenv from "dotenv";
 dotenv.config({ path: "../.env" });
 
 // tslint:disable:no-empty
 describe("Aborter", () => {
   const serviceURL = getBSU();
-  let shareName: string = getUniqueName("share");
-  let shareURL = ShareURL.fromServiceURL(serviceURL, shareName);
+  let shareName: string;
+  let shareURL: ShareURL;
 
-  beforeEach(async () => {
-    shareName = getUniqueName("share");
+  let recorder: any;
+
+  beforeEach(async function() {
+    recorder = record(this);
+    shareName = recorder.getUniqueName("share");
     shareURL = ShareURL.fromServiceURL(serviceURL, shareName);
   });
+
+  afterEach(() => {
+    recorder.stop();
+  })
 
   it("should set value and get value successfully", async () => {
     const aborter = Aborter.none.withValue("mykey", "myvalue");
