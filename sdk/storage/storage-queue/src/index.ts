@@ -30,6 +30,5 @@ export * from "./QueueSASPermissions";
 export * from "./QueueSASSignatureValues";
 export * from "./UniqueRequestIDPolicyFactory";
 export * from "./QueueServiceClient";
-export * from "./StorageClient";
 export * from "./SASQueryParameters";
 export { Models, RestError };

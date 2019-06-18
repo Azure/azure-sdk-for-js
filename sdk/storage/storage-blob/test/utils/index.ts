@@ -4,14 +4,17 @@ import * as path from "path";
 
 import { SharedKeyCredential } from "../../src/credentials/SharedKeyCredential";
 import { BlobServiceClient } from "../../src/BlobServiceClient";
-import { StorageClient } from "../../src/StorageClient";
 import { getUniqueName } from "./testutils.common";
 import * as dotenv from "dotenv";
+import { newPipeline } from "../../src/Pipeline";
 dotenv.config({ path: "../.env" });
 
 export * from "./testutils.common";
 
-export function getGenericBSU(accountType: string, accountNameSuffix: string = ""): BlobServiceClient {
+export function getGenericBSU(
+  accountType: string,
+  accountNameSuffix: string = ""
+): BlobServiceClient {
   const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
   const accountKeyEnvVar = `${accountType}ACCOUNT_KEY`;
 
@@ -22,11 +25,13 @@ export function getGenericBSU(accountType: string, accountNameSuffix: string = "
   accountKey = process.env[accountKeyEnvVar];
 
   if (!accountName || !accountKey || accountName === "" || accountKey === "") {
-    throw new Error(`${accountNameEnvVar} and/or ${accountKeyEnvVar} environment variables not specified.`);
+    throw new Error(
+      `${accountNameEnvVar} and/or ${accountKeyEnvVar} environment variables not specified.`
+    );
   }
 
   const credentials = new SharedKeyCredential(accountName, accountKey);
-  const pipeline = StorageClient.newPipeline(credentials, {
+  const pipeline = newPipeline(credentials, {
     // Enable logger when debugging
     // logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO)
   });
@@ -40,6 +45,17 @@ export function getBSU(): BlobServiceClient {
 
 export function getAlternateBSU(): BlobServiceClient {
   return getGenericBSU("SECONDARY_", "-secondary");
+}
+
+export function getConnectionStringFromEnvironment(): string {
+  const connectionStringEnvVar = `STORAGE_CONNECTION_STRING`;
+  const connectionString = process.env[connectionStringEnvVar];
+
+  if (!connectionString) {
+    throw new Error(`${connectionStringEnvVar} environment variables not specified.`);
+  }
+
+  return connectionString;
 }
 
 /**
@@ -69,7 +85,11 @@ export async function bodyToString(
   });
 }
 
-export async function createRandomLocalFile(folder: string, blockNumber: number, blockSize: number): Promise<string> {
+export async function createRandomLocalFile(
+  folder: string,
+  blockNumber: number,
+  blockSize: number
+): Promise<string> {
   return new Promise<string>((resolve, reject) => {
     const destFile = path.join(folder, getUniqueName("tempfile."));
     const ws = fs.createWriteStream(destFile);

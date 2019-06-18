@@ -51,14 +51,14 @@ There are differences between Node.js and browsers runtime. When getting start w
   - `generateAccountSASQueryParameters()`
   - `generateFileSASQueryParameters()`
 - Parallel uploading and downloading
-  - `uploadFileToAzureFile()`
-  - `uploadStreamToAzureFile()`
-  - `downloadAzureFileToBuffer()`
+  - `FileClient.uploadFile()`
+  - `FileClient.uploadStream()`
+  - `FileClient.downloadToBuffer()`
 
 ##### Following features, interfaces, classes or functions are only available in browsers
 
 - Parallel uploading and downloading
-  - `uploadBrowserDataToAzureFile()`
+  - `FileClient.uploadBrowserData()`
 
 ## Getting Started
 
@@ -124,12 +124,8 @@ The Azure Storage SDK for JavaScript provides low-level and high-level APIs.
 
 ```javascript
 const {
-  Aborter,
-  StorageClient,
+  newPipeline,
   FileServiceClient,
-  ShareClient,
-  DirectoryClient,
-  FileClient,
   SharedKeyCredential,
   AnonymousCredential
 } = require("@azure/storage-file");
@@ -147,7 +143,7 @@ async function main() {
   const anonymousCredential = new AnonymousCredential();
 
   // Use sharedKeyCredential or anonymousCredential to create a pipeline
-  const pipeline = StorageClient.newPipeline(sharedKeyCredential);
+  const pipeline = newPipeline(sharedKeyCredential);
 
   // List shares
   const serviceClient = new FileServiceClient(

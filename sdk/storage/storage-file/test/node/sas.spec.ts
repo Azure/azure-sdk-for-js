@@ -5,17 +5,17 @@ import {
   AccountSASResourceTypes,
   AccountSASServices,
   AnonymousCredential,
-  generateAccountSASQueryParameters,
   FileServiceClient,
-  SharedKeyCredential,
-  StorageClient,
-  SASProtocol
+  generateAccountSASQueryParameters,
+  SASProtocol,
+  SharedKeyCredential
 } from "../../src";
-import { FileSASPermissions } from "../../src/FileSASPermissions";
 import { FileClient } from "../../src/FileClient";
+import { FileSASPermissions } from "../../src/FileSASPermissions";
 import { generateFileSASQueryParameters } from "../../src/FileSASSignatureValues";
-import { ShareSASPermissions } from "../../src/ShareSASPermissions";
+import { newPipeline } from "../../src/Pipeline";
 import { ShareClient } from "../../src/ShareClient";
+import { ShareSASPermissions } from "../../src/ShareSASPermissions";
 import { getBSU, getUniqueName } from "../utils";
 
 describe("Shared Access Signature (SAS) generation Node.js only", () => {
@@ -49,7 +49,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const sasURL = `${serviceClient.url}?${sas}`;
     const serviceClientWithSAS = new FileServiceClient(
       sasURL,
-      StorageClient.newPipeline(new AnonymousCredential())
+      newPipeline(new AnonymousCredential())
     );
 
     await serviceClientWithSAS.listSharesSegment();
@@ -76,7 +76,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const sasURL = `${serviceClient.url}?${sas}`;
     const serviceClientWithSAS = new FileServiceClient(
       sasURL,
-      StorageClient.newPipeline(new AnonymousCredential())
+      newPipeline(new AnonymousCredential())
     );
 
     let error;
@@ -108,10 +108,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     ).toString();
 
     const sasURL = `${serviceClient.url}?${sas}`;
-    const serviceClientWithSAS = new FileServiceClient(
-      sasURL,
-      StorageClient.newPipeline(new AnonymousCredential())
-    );
+    const serviceClientWithSAS = new FileServiceClient(sasURL);
 
     let error;
     try {
@@ -145,10 +142,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     ).toString();
 
     const sasURL = `${serviceClient.url}?${sas}`;
-    const serviceClientWithSAS = new FileServiceClient(
-      sasURL,
-      StorageClient.newPipeline(new AnonymousCredential())
-    );
+    const serviceClientWithSAS = new FileServiceClient(sasURL);
 
     let error;
     try {
@@ -189,10 +183,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     );
 
     const sasURL = `${shareClient.url}?${shareSAS}`;
-    const shareClientwithSAS = new ShareClient(
-      sasURL,
-      StorageClient.newPipeline(new AnonymousCredential())
-    );
+    const shareClientwithSAS = new ShareClient(sasURL);
 
     const dirURLwithSAS = shareClientwithSAS.createDirectoryClient("");
     await dirURLwithSAS.listFilesAndDirectoriesSegment();
@@ -247,10 +238,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     );
 
     const sasURL = `${fileClient.url}?${fileSAS}`;
-    const fileClientwithSAS = new FileClient(
-      sasURL,
-      StorageClient.newPipeline(new AnonymousCredential())
-    );
+    const fileClientwithSAS = new FileClient(sasURL);
 
     const properties = await fileClientwithSAS.getProperties();
     assert.equal(properties.cacheControl, "cache-control-override");
@@ -310,10 +298,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     );
 
     const sasURL = `${shareClient.url}?${shareSAS}`;
-    const shareClientwithSAS = new ShareClient(
-      sasURL,
-      StorageClient.newPipeline(new AnonymousCredential())
-    );
+    const shareClientwithSAS = new ShareClient(sasURL, newPipeline(new AnonymousCredential()));
 
     const dirURLwithSAS = shareClientwithSAS.createDirectoryClient("");
     await dirURLwithSAS.listFilesAndDirectoriesSegment();

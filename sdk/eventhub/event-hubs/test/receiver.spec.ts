@@ -11,21 +11,24 @@ const debug = debugModule("azure:event-hubs:receiver-spec");
 import { EventPosition, EventHubClient, EventData, EventHubRuntimeInformation, MessagingError } from "../src";
 import { BatchingReceiver } from "../src/batchingReceiver";
 import { ReceiveHandler } from "../src/streamingReceiver";
-import dotenv from "dotenv";
-dotenv.config();
+import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
+const env = getEnvVars();
 
-describe("EventHub Receiver", function(): void {
-  const service = { connectionString: process.env.EVENTHUB_CONNECTION_STRING, path: process.env.EVENTHUB_NAME };
+describe("EventHub Receiver #RunnableInBrowser", function(): void {
+  const service = {
+    connectionString: env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
+    path: env[EnvVarKeys.EVENTHUB_NAME]
+  };
   const client: EventHubClient = EventHubClient.createFromConnectionString(service.connectionString!, service.path);
   let breceiver: BatchingReceiver;
   let hubInfo: EventHubRuntimeInformation;
   before("validate environment", async function(): Promise<void> {
     should.exist(
-      process.env.EVENTHUB_CONNECTION_STRING,
+      env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
       "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests."
     );
     should.exist(
-      process.env.EVENTHUB_NAME,
+      env[EnvVarKeys.EVENTHUB_NAME],
       "define EVENTHUB_NAME in your environment before running integration tests."
     );
     hubInfo = await client.getHubRuntimeInformation();
@@ -73,6 +76,9 @@ describe("EventHub Receiver", function(): void {
   });
 
   describe("with EventPosition specified as", function(): void {
+    // TODO: Enable following test as part of https://github.com/Azure/azure-sdk-for-js/issues/3714
+    // After we ensure the multiple receiveBatch calls on the user facing receiver work as expected
+    /*
     it("'from end of stream' should receive messages correctly", async function(): Promise<void> {
       const partitionId = hubInfo.partitionIds[0];
       for (let i = 0; i < 10; i++) {
@@ -107,16 +113,14 @@ describe("EventHub Receiver", function(): void {
       data3.length.should.equal(0, "Unexpected message received");
     });
 
+    */
+
     it("'after a particular offset' should receive messages correctly", async function(): Promise<void> {
       const partitionId = hubInfo.partitionIds[0];
       const pInfo = await client.getPartitionInformation(partitionId);
       debug(`Creating new receiver with last enqueued offset: "${pInfo.lastEnqueuedOffset}".`);
-      breceiver = BatchingReceiver.create((client as any)._context, parseInt(partitionId), {
-        eventPosition: EventPosition.fromOffset(pInfo.lastEnqueuedOffset)
-      });
+
       debug("Establishing the receiver link...");
-      const d = await breceiver.receive(10, 10);
-      d.length.should.equal(0);
       // send a new message. We should only receive this new message.
       const uid = uuid();
       const ed: EventData = {
@@ -127,13 +131,12 @@ describe("EventHub Receiver", function(): void {
       };
       await client.send(ed, "0");
       debug("Sent the new message after creating the receiver. We should only receive this message.");
-      const data = await breceiver.receive(10, 20);
+      const data = await client.receiveBatch(partitionId, 10, 20, {
+        eventPosition: EventPosition.fromOffset(pInfo.lastEnqueuedOffset)
+      });
       debug("received messages: ", data);
       data.length.should.equal(1);
       data[0].applicationProperties!.stamp.should.equal(uid);
-      debug("Next receive on this partition should not receive any messages.");
-      const data2 = await breceiver.receive(10, 10);
-      data2.length.should.equal(0);
     });
 
     it("'after a particular offset with isInclusive true' should receive messages correctly", async function(): Promise<
@@ -174,16 +177,12 @@ describe("EventHub Receiver", function(): void {
       data2.length.should.equal(0, "Unexpected message received");
     });
 
-    it("'from a particular enqueued time' should receive messages correctly", async function(): Promise<void> {
+    it("'from a particular enqueued time' should receive messages correctly ", async function(): Promise<void> {
       const partitionId = hubInfo.partitionIds[0];
       const pInfo = await client.getPartitionInformation(partitionId);
       debug(`Creating new receiver with last enqueued time: "${pInfo.lastEnqueuedTimeUtc}".`);
-      breceiver = BatchingReceiver.create((client as any)._context, partitionId, {
-        eventPosition: EventPosition.fromEnqueuedTime(pInfo.lastEnqueuedTimeUtc)
-      });
       debug("Establishing the receiver link...");
-      const d = await breceiver.receive(10, 10);
-      d.length.should.equal(0, "Unexpected message received before sending any message");
+
       // send a new message. We should only receive this new message.
       const uid = uuid();
       const ed: EventData = {
@@ -194,13 +193,12 @@ describe("EventHub Receiver", function(): void {
       };
       await client.send(ed, partitionId);
       debug("Sent the new message after creating the receiver. We should only receive this message.");
-      const data = await breceiver.receive(10, 20);
+      const data = await client.receiveBatch(partitionId, 10, 20, {
+        eventPosition: EventPosition.fromEnqueuedTime(pInfo.lastEnqueuedTimeUtc)
+      });
       debug("received messages: ", data);
       data.length.should.equal(1, "Failed to received the expected single message");
       data[0].applicationProperties!.stamp.should.equal(uid);
-      debug("Next receive on this partition should not receive any messages.");
-      const data2 = await breceiver.receive(10, 10);
-      data2.length.should.equal(0, "Unexpected message received");
     });
 
     it("'after the particular sequence number' should receive messages correctly", async function(): Promise<void> {

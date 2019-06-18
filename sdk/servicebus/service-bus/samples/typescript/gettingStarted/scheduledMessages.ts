@@ -10,13 +10,13 @@
 */
 
 import {
+  delay,
   ServiceBusClient,
   ReceiveMode,
   SendableMessageInfo,
   OnMessage,
   OnError
 } from "@azure/service-bus";
-import { delay } from "rhea-promise";
 
 // Define connection string and related Service Bus entity names here
 const connectionString = "";
@@ -36,21 +36,21 @@ const listOfScientists = [
 ];
 
 async function main(): Promise<void> {
-  const ns = ServiceBusClient.createFromConnectionString(connectionString);
+  const sbClient = ServiceBusClient.createFromConnectionString(connectionString);
   try {
-    await sendScheduledMessages(ns);
+    await sendScheduledMessages(sbClient);
 
-    await receiveMessages(ns);
+    await receiveMessages(sbClient);
   } finally {
-    await ns.close();
+    await sbClient.close();
   }
 }
 
 // Scheduling messages to be sent after 10 seconds from now
-async function sendScheduledMessages(ns: ServiceBusClient): Promise<void> {
+async function sendScheduledMessages(sbClient: ServiceBusClient): Promise<void> {
   // If sending to a Topic, use `createTopicClient` instead of `createQueueClient`
-  const client = ns.createQueueClient(queueName);
-  const sender = client.createSender();
+  const queueClient = sbClient.createQueueClient(queueName);
+  const sender = queueClient.createSender();
 
   const messages: SendableMessageInfo[] = listOfScientists.map((scientist) => ({
     body: `${scientist.firstName} ${scientist.lastName}`,
@@ -67,15 +67,14 @@ async function sendScheduledMessages(ns: ServiceBusClient): Promise<void> {
   await sender.scheduleMessages(scheduledEnqueueTimeUtc, messages);
 }
 
-async function receiveMessages(ns: ServiceBusClient): Promise<void> {
+async function receiveMessages(sbClient: ServiceBusClient): Promise<void> {
   // If receiving from a Subscription, use `createSubscriptionClient` instead of `createQueueClient`
-  const client = ns.createQueueClient(queueName);
+  const queueClient = sbClient.createQueueClient(queueName);
 
   let numOfMessagesReceived = 0;
   const onMessageHandler: OnMessage = async (brokeredMessage) => {
     numOfMessagesReceived++;
     console.log(`Received message: ${brokeredMessage.body} - ${brokeredMessage.label}`);
-
     await brokeredMessage.complete();
   };
   const onErrorHandler: OnError = (err) => {
@@ -84,14 +83,14 @@ async function receiveMessages(ns: ServiceBusClient): Promise<void> {
 
   console.log(`\nStarting receiver immediately at ${new Date(Date.now())}`);
 
-  let receiver = client.createReceiver(ReceiveMode.peekLock);
+  let receiver = queueClient.createReceiver(ReceiveMode.peekLock);
   receiver.registerMessageHandler(onMessageHandler, onErrorHandler);
   await delay(5000);
   await receiver.close();
   console.log(`Received ${numOfMessagesReceived} messages.`);
 
   await delay(5000);
-  receiver = client.createReceiver(ReceiveMode.peekLock);
+  receiver = queueClient.createReceiver(ReceiveMode.peekLock);
 
   console.log(`\nStarting receiver at ${new Date(Date.now())}`);
 
@@ -100,7 +99,7 @@ async function receiveMessages(ns: ServiceBusClient): Promise<void> {
   await receiver.close();
   console.log(`Received ${numOfMessagesReceived} messages.`);
 
-  await client.close();
+  await queueClient.close();
 }
 
 main().catch((err) => {

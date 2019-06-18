@@ -3,16 +3,36 @@
 */
 
 const {
-    Aborter,
-    QueueClient,
-    MessagesClient,
-    MessageIdClient,
     QueueServiceClient,
-    StorageClient,
+    newPipeline,
     SharedKeyCredential,
     AnonymousCredential,
+    HttpPipelineLogLevel,
     TokenCredential
 } = require("../.."); // Change to "@azure/storage-queue" in your package
+
+class ConsoleHttpPipelineLogger {
+  constructor(minimumLogLevel) {
+    this.minimumLogLevel = minimumLogLevel;
+  }
+  log(logLevel, message) {
+    const logMessage = `${new Date().toISOString()} ${HttpPipelineLogLevel[logLevel]}: ${message}`;
+    switch (logLevel) {
+      case HttpPipelineLogLevel.ERROR:
+        // tslint:disable-next-line:no-console
+        console.error(logMessage);
+        break;
+      case HttpPipelineLogLevel.WARNING:
+        // tslint:disable-next-line:no-console
+        console.warn(logMessage);
+        break;
+      case HttpPipelineLogLevel.INFO:
+        // tslint:disable-next-line:no-console
+        console.log(logMessage);
+        break;
+    }
+  }
+}
 
 async function main() {
     // Enter your storage account name and shared key
@@ -30,9 +50,10 @@ async function main() {
     const anonymousCredential = new AnonymousCredential();
 
     // Use sharedKeyCredential, tokenCredential or anonymousCredential to create a pipeline
-    const pipeline = StorageClient.newPipeline(sharedKeyCredential, {
+    const pipeline = newPipeline(sharedKeyCredential, {
         // httpClient: MyHTTPClient, // A customized HTTP client implementing IHttpClient interface
         // logger: MyLogger, // A customized logger implementing IHttpPipelineLogger interface
+        logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO),
         retryOptions: {
             maxTries: 4
         }, // Retry options
@@ -63,14 +84,14 @@ async function main() {
 
     // Create a new queue
     const queueName = `newqueue${new Date().getTime()}`;
-    const queueClient = QueueClient.fromQueueServiceClient(queueServiceClient, queueName);
+    const queueClient = queueServiceClient.createQueueClient(queueName);
     const createQueueResponse = await queueClient.create();
     console.log(
         `Create queue ${queueName} successfully, service assigned request Id: ${createQueueResponse.requestId}`
     );
 
     // Enqueue a message into the queue using the enqueue method.
-    const messagesClient = MessagesClient.fromQueueClient(queueClient);
+    const messagesClient = queueClient.createMessagesClient();
     const enqueueQueueResponse = await messagesClient.enqueue("Hello World!");
     console.log(
         `Enqueue message successfully, service assigned message Id: ${enqueueQueueResponse.messageId}, service assigned request Id: ${enqueueQueueResponse.requestId}`
@@ -88,7 +109,7 @@ async function main() {
     if (dequeueResponse.dequeuedMessageItems.length == 1) {
         const dequeueMessageItem = dequeueResponse.dequeuedMessageItems[0];
         console.log(`Processing & deleting message with content: ${dequeueMessageItem.messageText}`);
-        const messageIdClient = MessageIdClient.fromMessagesClient(messagesClient, dequeueMessageItem.messageId);
+        const messageIdClient = messagesClient.createMessageIdClient(dequeueMessageItem.messageId);
         const deleteMessageResponse = await messageIdClient.delete(dequeueMessageItem.popReceipt);
         console.log(`Delete message succesfully, service assigned request Id: ${deleteMessageResponse.requestId}`);
     }

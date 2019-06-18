@@ -1,30 +1,33 @@
 import * as assert from "assert";
-
+import { getQSU, sleep } from "./utils";
 import { QueueClient } from "../src/QueueClient";
-import { MessagesClient } from "../src/MessagesClient";
-import { MessageIdClient } from "../src/MessageIdClient";
-import { getQSU, getUniqueName, sleep } from "./utils";
+import { record } from "./utils/recorder";
 import * as dotenv from "dotenv";
+import { SharedKeyCredential, MessageIdClient, newPipeline } from "../src";
 dotenv.config({ path: "../.env" });
 
 describe("MessageIdClient", () => {
   const queueServiceClient = getQSU();
-  let queueName = getUniqueName("queue");
-  let queueClient = QueueClient.fromQueueServiceClient(queueServiceClient, queueName);
+  let queueName: string;
+  let queueClient: QueueClient;
   const messageContent = "Hello World";
 
-  beforeEach(async () => {
-    queueName = getUniqueName("queue");
-    queueClient = QueueClient.fromQueueServiceClient(queueServiceClient, queueName);
+  let recorder: any;
+
+  beforeEach(async function() {
+    recorder = record(this);
+    queueName = recorder.getUniqueName("queue");
+    queueClient = queueServiceClient.createQueueClient(queueName);
     await queueClient.create();
   });
 
   afterEach(async () => {
     await queueClient.delete();
+    recorder.stop();
   });
 
   it("update and delete empty message with default parameters", async () => {
-    let messagesClient = MessagesClient.fromQueueClient(queueClient);
+    let messagesClient = queueClient.createMessagesClient();
     let eResult = await messagesClient.enqueue(messageContent);
     assert.ok(eResult.date);
     assert.ok(eResult.expirationTime);
@@ -36,8 +39,8 @@ describe("MessageIdClient", () => {
     assert.ok(eResult.version);
 
     let newMessage = "";
-    let messageIdClient = MessageIdClient.fromMessagesClient(messagesClient, eResult.messageId);
-    let uResult = await messageIdClient.update(eResult.popReceipt, 0, newMessage);
+    let messageIdClient = messagesClient.createMessageIdClient(eResult.messageId);
+    let uResult = await messageIdClient.update(eResult.popReceipt, newMessage);
     assert.ok(uResult.version);
     assert.ok(uResult.timeNextVisible);
     assert.ok(uResult.date);
@@ -58,7 +61,7 @@ describe("MessageIdClient", () => {
   });
 
   it("update and delete message with all parameters", async () => {
-    let messagesClient = MessagesClient.fromQueueClient(queueClient);
+    let messagesClient = queueClient.createMessagesClient();
     let eResult = await messagesClient.enqueue(messageContent);
     assert.ok(eResult.date);
     assert.ok(eResult.expirationTime);
@@ -70,8 +73,8 @@ describe("MessageIdClient", () => {
     assert.ok(eResult.version);
 
     let newMessage = "New Message";
-    let messageIdClient = MessageIdClient.fromMessagesClient(messagesClient, eResult.messageId);
-    let uResult = await messageIdClient.update(eResult.popReceipt, 10, newMessage);
+    let messageIdClient = messagesClient.createMessageIdClient(eResult.messageId);
+    let uResult = await messageIdClient.update(eResult.popReceipt, newMessage, 10);
     assert.ok(uResult.version);
     assert.ok(uResult.timeNextVisible);
     assert.ok(uResult.date);
@@ -89,7 +92,7 @@ describe("MessageIdClient", () => {
   });
 
   it("update message with 64KB characters size which is computed after encoding", async () => {
-    let messagesClient = MessagesClient.fromQueueClient(queueClient);
+    let messagesClient = queueClient.createMessagesClient();
     let eResult = await messagesClient.enqueue(messageContent);
     assert.ok(eResult.date);
     assert.ok(eResult.expirationTime);
@@ -101,8 +104,8 @@ describe("MessageIdClient", () => {
     assert.ok(eResult.version);
 
     let newMessage = new Array(64 * 1024 + 1).join("a");
-    let messageIdClient = MessageIdClient.fromMessagesClient(messagesClient, eResult.messageId);
-    let uResult = await messageIdClient.update(eResult.popReceipt, 0, newMessage);
+    let messageIdClient = messagesClient.createMessageIdClient(eResult.messageId);
+    let uResult = await messageIdClient.update(eResult.popReceipt, newMessage);
     assert.ok(uResult.version);
     assert.ok(uResult.timeNextVisible);
     assert.ok(uResult.date);
@@ -115,7 +118,7 @@ describe("MessageIdClient", () => {
   });
 
   it("update message negative with 65537B (64KB+1B) characters size which is computed after encoding", async () => {
-    let messagesClient = MessagesClient.fromQueueClient(queueClient);
+    let messagesClient = queueClient.createMessagesClient();
     let eResult = await messagesClient.enqueue(messageContent);
     assert.ok(eResult.date);
     assert.ok(eResult.expirationTime);
@@ -128,11 +131,11 @@ describe("MessageIdClient", () => {
 
     let newMessage = new Array(64 * 1024 + 2).join("a");
 
-    let messageIdClient = MessageIdClient.fromMessagesClient(messagesClient, eResult.messageId);
+    let messageIdClient = messagesClient.createMessageIdClient(eResult.messageId);
 
     let error;
     try {
-      await messageIdClient.update(eResult.popReceipt, 0, newMessage);
+      await messageIdClient.update(eResult.popReceipt, newMessage);
     } catch (err) {
       error = err;
     }
@@ -145,10 +148,10 @@ describe("MessageIdClient", () => {
   });
 
   it("delete message negative", async () => {
-    let messagesClient = MessagesClient.fromQueueClient(queueClient);
+    let messagesClient = queueClient.createMessagesClient();
     let eResult = await messagesClient.enqueue(messageContent);
 
-    let messageIdClient = MessageIdClient.fromMessagesClient(messagesClient, eResult.messageId);
+    let messageIdClient = messagesClient.createMessageIdClient(eResult.messageId);
 
     let error;
     try {
@@ -157,5 +160,58 @@ describe("MessageIdClient", () => {
       error = err;
     }
     assert.ok(error);
+  });
+
+  it("can be created with a url and a credential", async () => {
+    const messagesClient = queueClient.createMessagesClient();
+
+    const eResult = await messagesClient.enqueue(messageContent);
+    assert.ok(eResult.date);
+
+    const newMessage = "";
+    const messageIdClient = messagesClient.createMessageIdClient(eResult.messageId);
+    const factories = messagesClient.pipeline.factories;
+    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const newClient = new MessageIdClient(messageIdClient.url, credential);
+    const uResult = await newClient.update(eResult.popReceipt, newMessage);
+
+    assert.ok(uResult.version);
+  });
+
+  it("can be created with a url and a credential and an option bag", async () => {
+    const messagesClient = queueClient.createMessagesClient();
+
+    const eResult = await messagesClient.enqueue(messageContent);
+    assert.ok(eResult.date);
+
+    const newMessage = "";
+    const messageIdClient = messagesClient.createMessageIdClient(eResult.messageId);
+    const factories = messagesClient.pipeline.factories;
+    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const newClient = new MessageIdClient(messageIdClient.url, credential, {
+      retryOptions: {
+        maxTries: 5
+      }
+    });
+    const uResult = await newClient.update(eResult.popReceipt, newMessage);
+
+    assert.ok(uResult.version);
+  });
+
+  it("can be created with a url and a pipeline", async () => {
+    const messagesClient = queueClient.createMessagesClient();
+
+    const eResult = await messagesClient.enqueue(messageContent);
+    assert.ok(eResult.date);
+
+    const newMessage = "";
+    const messageIdClient = messagesClient.createMessageIdClient(eResult.messageId);
+    const factories = messagesClient.pipeline.factories;
+    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const pipeline = newPipeline(credential);
+    const newClient = new MessageIdClient(messageIdClient.url, pipeline);
+    const uResult = await newClient.update(eResult.popReceipt, newMessage);
+
+    assert.ok(uResult.version);
   });
 });

@@ -5,22 +5,83 @@ import * as Models from "./generated/lib/models";
 import { Aborter } from "./Aborter";
 import { ListQueuesIncludeType } from "./generated/lib/models/index";
 import { Service } from "./generated/lib/operations";
-import { Pipeline } from "./Pipeline";
+import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
 import { StorageClient } from "./StorageClient";
+import { QueueClient } from "./QueueClient";
+import { appendToURLPath, extractConnectionStringParts } from "./utils/utils.common";
+import { Credential } from "./credentials/Credential";
+import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
+import { AnonymousCredential } from "./credentials/AnonymousCredential";
 
+/**
+ * Options to configure Queue Service - Get Properties operation
+ *
+ * @export
+ * @interface ServiceGetPropertiesOptions
+ */
 export interface ServiceGetPropertiesOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof AppendBlobCreateOptions
+   */
   abortSignal?: Aborter;
 }
 
+/**
+ * Options to configure Queue Service - Set Properties operation
+ *
+ * @export
+ * @interface ServiceSetPropertiesOptions
+ */
 export interface ServiceSetPropertiesOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof AppendBlobCreateOptions
+   */
   abortSignal?: Aborter;
 }
 
+/**
+ * Options to configure Queue Service - Get Statistics operation
+ *
+ * @export
+ * @interface ServiceGetStatisticsOptions
+ */
 export interface ServiceGetStatisticsOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof AppendBlobCreateOptions
+   */
   abortSignal?: Aborter;
 }
 
+/**
+ * Options to configure Queue Service - List Queues Segment operation
+ *
+ * @export
+ * @interface ServiceListQueuesSegmentOptions
+ */
 export interface ServiceListQueuesSegmentOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof AppendBlobCreateOptions
+   */
   abortSignal?: Aborter;
   /**
    * @member {string} [prefix] Filters the results to return only queues
@@ -51,9 +112,27 @@ export interface ServiceListQueuesSegmentOptions {
  *
  * @export
  * @class QueueServiceClient
- * @extends {StorageClient}
  */
 export class QueueServiceClient extends StorageClient {
+  /**
+   * Creates an instance of QueueServiceClient.
+   *
+   * @param {string} connectionString Connection string for an Azure storage account.
+   * @param {NewPipelineOptions} [options] Options to configure the HTTP pipeline.
+   * @returns {QueueServiceClient} A new QueueServiceClient object from the given connection string.
+   * @memberof QueueServiceClient
+   */
+  public static fromConnectionString(connectionString: string, options?: NewPipelineOptions): QueueServiceClient {
+    const extractedCreds = extractConnectionStringParts(connectionString);
+    const sharedKeyCredential = new SharedKeyCredential(
+      extractedCreds.accountName,
+      extractedCreds.accountKey
+    );
+
+    const pipeline = newPipeline(sharedKeyCredential, options);
+    return new QueueServiceClient(extractedCreds.url, pipeline);
+  }
+
   /**
    * serviceContext provided by protocol layer.
    *
@@ -65,28 +144,51 @@ export class QueueServiceClient extends StorageClient {
 
   /**
    * Creates an instance of QueueServiceClient.
+   *
    * @param {string} url A URL string pointing to Azure Storage queue service, such as
    *                     "https://myaccount.queue.core.windows.net". You can append a SAS
    *                     if using AnonymousCredential, such as "https://myaccount.queue.core.windows.net?sasString".
-   * @param {Pipeline} pipeline Call StorageClient.newPipeline() to create a default
+   * @param {Credential} credential Such as AnonymousCredential, SharedKeyCredential or TokenCredential.
+   *                                If not specified, anonymous credential is used.
+   * @param {NewPipelineOptions} [options] Options to configure the HTTP pipeline.
+   * @memberof QueueServiceClient
+   */
+  constructor(url: string, credential?: Credential, options?: NewPipelineOptions);
+  /**
+   * Creates an instance of QueueServiceClient.
+   *
+   * @param {string} url A URL string pointing to Azure Storage queue service, such as
+   *                     "https://myaccount.queue.core.windows.net". You can append a SAS
+   *                     if using AnonymousCredential, such as "https://myaccount.queue.core.windows.net?sasString".
+   * @param {Pipeline} pipeline Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
    * @memberof QueueServiceClient
    */
-  constructor(url: string, pipeline: Pipeline) {
+  constructor(url: string, pipeline: Pipeline);
+  constructor(
+    url: string,
+    credentialOrPipeline?: Credential | Pipeline,
+    options?: NewPipelineOptions
+  ) {
+    let pipeline: Pipeline;
+    if (credentialOrPipeline instanceof Pipeline) {
+      pipeline = credentialOrPipeline;
+    } else if (credentialOrPipeline instanceof Credential) {
+      pipeline = newPipeline(credentialOrPipeline, options);
+    } else {
+      // The second paramter is undefined. Use anonymous credential.
+      pipeline = newPipeline(new AnonymousCredential(), options);
+    }
     super(url, pipeline);
     this.serviceContext = new Service(this.storageClientContext);
   }
 
   /**
-   * Creates a new QueueServiceClient object identical to the source but with the
-   * specified request policy pipeline.
-   *
-   * @param {Pipeline} pipeline
-   * @returns {QueueServiceClient}
-   * @memberof QueueServiceClient
+   * Creates a QueueClient object.
+   * @param queueName
    */
-  public withPipeline(pipeline: Pipeline): QueueServiceClient {
-    return new QueueServiceClient(this.url, pipeline);
+  public createQueueClient(queueName: string): QueueClient {
+    return new QueueClient(appendToURLPath(this.url, queueName), this.pipeline);
   }
 
   /**
@@ -94,8 +196,8 @@ export class QueueServiceClient extends StorageClient {
    * for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-queue-service-properties
    *
-   * @param {ServiceGetPropertiesOptions} [options] Optional options to get properties operation.
-   * @returns {Promise<Models.ServiceGetPropertiesResponse>}
+   * @param {ServiceGetPropertiesOptions} [options] Options to get properties operation.
+   * @returns {Promise<Models.ServiceGetPropertiesResponse>} Response data including the queue service properties.
    * @memberof QueueServiceClient
    */
   public async getProperties(
@@ -113,8 +215,8 @@ export class QueueServiceClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-queue-service-properties
    *
    * @param {Models.StorageServiceProperties} properties
-   * @param {ServiceGetPropertiesOptions} [options] Optional options to set properties operation.
-   * @returns {Promise<Models.ServiceSetPropertiesResponse>}
+   * @param {ServiceGetPropertiesOptions} [options] Options to set properties operation.
+   * @returns {Promise<Models.ServiceSetPropertiesResponse>} Response data for the Set Properties operation.
    * @memberof QueueServiceClient
    */
   public async setProperties(
@@ -133,8 +235,8 @@ export class QueueServiceClient extends StorageClient {
    * replication is enabled for the storage account.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-queue-service-stats
    *
-   * @param {ServiceGetStatisticsOptions} [options] Optional optiosn to get statistics operation.
-   * @returns {Promise<Models.ServiceGetStatisticsResponse>}
+   * @param {ServiceGetStatisticsOptions} [options] Options to get statistics operation.
+   * @returns {Promise<Models.ServiceGetStatisticsResponse>} Response data for get statistics the operation.
    * @memberof QueueServiceClient
    */
   public async getStatistics(
@@ -144,6 +246,56 @@ export class QueueServiceClient extends StorageClient {
     return this.serviceContext.getStatistics({
       abortSignal: aborter
     });
+  }
+
+  /**
+   * Iterates over queues under the specified account.
+   *
+   * @param {ServiceListQueuesSegmentOptions} [options={}] Options to list queues.
+   * @returns {AsyncIterableIterator<Models.QueueItem>} An async iterator to list queues.
+   * @memberof QueueServiceClient
+   *
+   * @example
+   * let i = 1;
+   * for await (const item of queueServiceClient.listQueues()) {
+   *   console.log(`Queue${i}: ${item.name}`);
+   *   i++;
+   * }
+   *
+   * @example
+   * let iter1 = queueServiceClient.listQueues();
+   * let i = 1;
+   * for await (const item of iter1) {
+   *   console.log(`Queue${i}: ${item.name}`);
+   *   i++;
+   * }
+   *
+   * @example
+   * let iter2 = await queueServiceClient.listQueues();
+   * i = 1;
+   * let item = await iter2.next();
+   * do {
+   *   console.log(`Queue${i++}: ${item.value.name}`);
+   *   item = await iter2.next();
+   * } while (item.value);
+   *
+   */
+  public async *listQueues(
+    options: ServiceListQueuesSegmentOptions = {}
+  ): AsyncIterableIterator<Models.QueueItem> {
+    let marker = undefined;
+    const queueServiceClient = this;
+    const aborter = !options.abortSignal ? Aborter.none : options.abortSignal;
+    let listQueuesResponse;
+    do {
+      listQueuesResponse = await queueServiceClient.listQueuesSegment(marker, {
+        ...options,
+        abortSignal: aborter
+      });
+
+      marker = listQueuesResponse.nextMarker;
+      yield* listQueuesResponse.queueItems;
+    } while (marker);
   }
 
   /**
@@ -157,8 +309,8 @@ export class QueueServiceClient extends StorageClient {
    *                          with the current page. The NextMarker value can be used as the value for
    *                          the marker parameter in a subsequent call to request the next page of list
    *                          items. The marker value is opaque to the client.
-   * @param {ServiceListQueuesSegmentOptions} [options] Optional optiosn to list queues operation.
-   * @returns {Promise<Models.ServiceListQueuesSegmentResponse>}
+   * @param {ServiceListQueuesSegmentOptions} [options] Options to list queues operation.
+   * @returns {Promise<Models.ServiceListQueuesSegmentResponse>} Response data for the list queues segment operation.
    * @memberof QueueServiceClient
    */
   public async listQueuesSegment(

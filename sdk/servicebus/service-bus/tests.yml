@@ -1,0 +1,24 @@
+trigger: none
+
+jobs:
+  - template: ../../../eng/pipelines/templates/jobs/archetype-sdk-tests.yml
+    parameters:
+      PackageName: "@azure/service-bus"
+      # Use a more simple matrix because these tests run for a long time
+      Matrix:
+        Linux_Node10X:
+          OSVmImage: "ubuntu-16.04"
+          TestType: "node"
+        Browser_Windows_Node10X:
+          OSVmImage: "vs2017-win2016"
+          TestType: "browser"
+      EnvVars:
+        AAD_CLIENT_ID: $(aad-azure-sdk-test-client-id)
+        AAD_TENANT_ID: $(aad-azure-sdk-test-tenant-id)
+        AAD_CLIENT_SECRET: $(aad-azure-sdk-test-client-secret)
+        AZURE_SUBSCRIPTION_ID: $(test-subscription-id)
+        CLEAN_NAMESPACE: "true"
+        RESOURCE_GROUP: $(service-bus-test-resource-group)
+        SERVICEBUS_CONNECTION_STRING: $(service-bus-test-connection-string)
+      # Service Bus tests do not support concurrent execution
+      MaxParallel: 1

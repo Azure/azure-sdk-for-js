@@ -4,8 +4,6 @@
 import chai from "chai";
 const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
-import dotenv from "dotenv";
-dotenv.config();
 chai.use(chaiAsPromised);
 import {
   ServiceBusClient,
@@ -16,7 +14,13 @@ import {
   CorrelationFilter,
   ReceiveMode
 } from "../src";
-import { getSenderReceiverClients, TestClientType, purge, checkWithTimeout } from "./testUtils";
+import {
+  getSenderReceiverClients,
+  TestClientType,
+  purge,
+  checkWithTimeout,
+  getServiceBusClient
+} from "./utils/testUtils";
 
 // We need to remove rules before adding one because otherwise the existing default rule will let in all messages.
 async function removeAllRules(client: SubscriptionClient): Promise<void> {
@@ -39,7 +43,7 @@ async function testPeekMsgsLength(
   );
 }
 
-let ns: ServiceBusClient;
+let sbClient: ServiceBusClient;
 let subscriptionClient: SubscriptionClient;
 let topicClient: TopicClient;
 
@@ -47,16 +51,10 @@ async function beforeEachTest(receiverType: TestClientType): Promise<void> {
   // The tests in this file expect the env variables to contain the connection string and
   // the names of empty queue/topic/subscription that are to be tested
 
-  if (!process.env.SERVICEBUS_CONNECTION_STRING) {
-    throw new Error(
-      "Define SERVICEBUS_CONNECTION_STRING in your environment before running integration tests."
-    );
-  }
-
-  ns = ServiceBusClient.createFromConnectionString(process.env.SERVICEBUS_CONNECTION_STRING);
+  sbClient = getServiceBusClient();
 
   const clients = await getSenderReceiverClients(
-    ns,
+    sbClient,
     TestClientType.TopicFilterTestTopic,
     receiverType
   );
@@ -82,7 +80,7 @@ async function afterEachTest(clearRules: boolean = true): Promise<void> {
     should.equal(rules.length, 1, "Unexpected number of rules");
     should.equal(rules[0].name, "DefaultFilter", "RuleName is different than expected");
   }
-  await ns.close();
+  await sbClient.close();
 }
 
 const data = [
@@ -128,10 +126,9 @@ async function receiveOrders(
   const receivedMsgs: ServiceBusMessage[] = [];
   const receiver = await client.createReceiver(ReceiveMode.peekLock);
   receiver.registerMessageHandler(
-    (msg: ServiceBusMessage) => {
-      return msg.complete().then(() => {
-        receivedMsgs.push(msg);
-      });
+    async (msg: ServiceBusMessage) => {
+      await msg.complete();
+      receivedMsgs.push(msg);
     },
     (err: Error) => {
       if (err) {
@@ -174,7 +171,7 @@ async function addRules(
   }
 }
 
-describe("addRule()", function(): void {
+describe("addRule() #RunInBrowser", function(): void {
   beforeEach(async () => {
     await beforeEachTest(TestClientType.TopicFilterTestSubscription);
   });
@@ -296,7 +293,7 @@ describe("removeRule()", function(): void {
   });
 });
 
-describe("getRules()", function(): void {
+describe("getRules() #RunInBrowser", function(): void {
   beforeEach(async () => {
     await beforeEachTest(TestClientType.TopicFilterTestSubscription);
   });

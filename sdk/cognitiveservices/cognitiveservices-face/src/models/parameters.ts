@@ -28,6 +28,19 @@ export const applyScope: msRest.OperationQueryParameter = {
   },
   collectionFormat: msRest.QueryCollectionFormat.Csv
 };
+export const detectionModel: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "detectionModel"
+  ],
+  mapper: {
+    serializedName: "detectionModel",
+    defaultValue: 'detection_01',
+    type: {
+      name: "String"
+    }
+  }
+};
 export const endpoint: msRest.OperationURLParameter = {
   parameterPath: "endpoint",
   mapper: {
@@ -132,7 +145,6 @@ export const recognitionModel: msRest.OperationQueryParameter = {
     "recognitionModel"
   ],
   mapper: {
-    nullable: false,
     serializedName: "recognitionModel",
     defaultValue: 'recognition_01',
     type: {

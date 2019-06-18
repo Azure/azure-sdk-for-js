@@ -117,7 +117,7 @@ const {
   MessagesClient,
   MessageIdClient,
   QueueServiceClient,
-  StorageClient,
+  newPipeline,
   SharedKeyCredential,
   AnonymousCredential,
   TokenCredential
@@ -139,7 +139,7 @@ async function main() {
   const anonymousCredential = new AnonymousCredential();
 
   // Use sharedKeyCredential, tokenCredential or anonymousCredential to create a pipeline
-  const pipeline = StorageClient.newPipeline(sharedKeyCredential, {
+  const pipeline = newPipeline(sharedKeyCredential, {
     // httpClient: MyHTTPClient, // A customized HTTP client implementing IHttpClient interface
     // logger: MyLogger, // A customized logger implementing IHttpPipelineLogger interface
     retryOptions: { maxTries: 4 }, // Retry options
@@ -147,7 +147,7 @@ async function main() {
   });
 
   // List queues
-  const blobServiceClient = new QueueServiceClient(
+  const queueServiceClient = new QueueServiceClient(
     // When using AnonymousCredential, following url should include a valid SAS or support public access
     `https://${account}.queue.core.windows.net`,
     pipeline
@@ -156,7 +156,7 @@ async function main() {
   console.log(`List queues`);
   let marker;
   do {
-    const listQueuesResponse = await blobServiceClient.listQueuesSegment(
+    const listQueuesResponse = await queueServiceClient.listQueuesSegment(
       marker
     );
 
@@ -168,7 +168,7 @@ async function main() {
 
   // Create a new queue
   const queueName = `newqueue${new Date().getTime()}`;
-  const queueClient = QueueClient.fromQueueServiceClient(blobServiceClient, queueName);
+  const queueClient = queueServiceClient.createQueueClient(queueName);
   const createQueueResponse = await queueClient.create();
   console.log(
     `Create queue ${queueName} successfully, service assigned request Id: ${
@@ -177,7 +177,7 @@ async function main() {
   );
 
   // Enqueue a message into the queue using the enqueue method.
-  const messagesClient = MessagesClient.fromQueueClient(queueClient);
+  const messagesClient = queueClient.createMessagesClient();
   const enqueueQueueResponse = await messagesClient.enqueue(
     "Hello World!"
   );
@@ -207,8 +207,7 @@ async function main() {
         dequeueMessageItem.messageText
       }`
     );
-    const messageIdClient = MessageIdClient.fromMessagesClient(
-      messagesClient,
+    const messageIdClient = messagesClient.createMessageIdClient(
       dequeueMessageItem.messageId
     );
     const deleteMessageResponse = await messageIdClient.delete(

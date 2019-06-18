@@ -1,21 +1,31 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/api-extractor/api-extractor.schema.json",
-  "compiler": {
-    "configType": "tsconfig",
-    "rootFolder": "."
+  "$schema": "https://developer.microsoft.com/json-schemas/api-extractor/v7/api-extractor.schema.json",
+  "mainEntryPointFilePath": "typings/src/index.d.ts",
+  "docModel": {
+    "enabled": false
   },
-  "apiReviewFile": {
+  "apiReport": {
     "enabled": true,
-    "apiReviewFolder": "./etc"
-  },
-  "validationRules": {
-    "missingReleaseTags": "allow"
-  },
-  "project": {
-    "entryPointSourceFile": "typings/src/index.d.ts"
+    "reportFolder": "./review"
   },
   "dtsRollup": {
     "enabled": true,
-    "mainDtsRollupPath": "../typings/src/index-rollup.d.ts"
+    "untrimmedFilePath": "",
+    "publicTrimmedFilePath": "./typings/storage-blob.d.ts"
+  },
+  "messages": {
+    "tsdocMessageReporting": {
+      "default": {
+        "logLevel": "none"
+      }
+    },
+    "extractorMessageReporting": {
+      "ae-missing-release-tag": {
+        "logLevel": "none"
+      },
+      "ae-unresolved-link": {
+        "logLevel": "none"
+      }
+    }
   }
 }

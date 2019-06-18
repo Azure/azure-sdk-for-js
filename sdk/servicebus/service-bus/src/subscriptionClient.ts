@@ -15,6 +15,7 @@ import {
 } from "./util/errors";
 import { generate_uuid } from "rhea-promise";
 import { ClientEntityContext } from "./clientEntityContext";
+import Long from 'long';
 import { getAssociatedReceiverName } from "../src/util/utils";
 
 /**
@@ -238,7 +239,7 @@ export class SubscriptionClient implements Client {
     );
   }
 
-  //#region topic-filters
+  // #region topic-filters
 
   /**
    * Gets all rules associated with the subscription
@@ -293,9 +294,9 @@ export class SubscriptionClient implements Client {
     return this._context.managementClient!.addRule(ruleName, filter, sqlRuleActionExpression);
   }
 
-  //#endregion
+  // #endregion
 
-  //#region sessions
+  // #region sessions
 
   // /**
   //  * Lists the ids of the sessions on the ServiceBus Subscription.
@@ -316,5 +317,5 @@ export class SubscriptionClient implements Client {
   //   );
   // }
 
-  //#endregion
+  // #endregion
 }

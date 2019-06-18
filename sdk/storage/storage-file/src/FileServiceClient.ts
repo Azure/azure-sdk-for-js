@@ -4,12 +4,29 @@
 import * as Models from "./generated/lib/models";
 import { Aborter } from "./Aborter";
 import { Service } from "./generated/lib/operations";
-import { Pipeline } from "./Pipeline";
+import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
 import { StorageClient } from "./StorageClient";
-import { ShareClient } from "./ShareClient";
-import { appendToURLPath } from "./utils/utils.common";
+import { ShareClient, ShareCreateOptions, ShareDeleteMethodOptions } from "./ShareClient";
+import { appendToURLPath, extractConnectionStringParts } from "./utils/utils.common";
+import { Credential } from "./credentials/Credential";
+import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
+import { AnonymousCredential } from "./credentials/AnonymousCredential";
 
+/**
+ * Options to configure List Shares Segment operation.
+ *
+ * @export
+ * @interface ServiceListSharesSegmentOptions
+ */
 export interface ServiceListSharesSegmentOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof ServiceListSharesSegmentOptions
+   */
   abortSignal?: Aborter;
   /**
    * Filters the results to return only entries whose
@@ -40,11 +57,39 @@ export interface ServiceListSharesSegmentOptions {
   include?: Models.ListSharesIncludeType[];
 }
 
-export interface IServiceGetPropertiesOptions {
+/**
+ * Options to configure File Service - Get Properties operation.
+ *
+ * @export
+ * @interface ServiceGetPropertiesOptions
+ */
+export interface ServiceGetPropertiesOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof AppendBlobCreateOptions
+   */
   abortSignal?: Aborter;
 }
 
-export interface IServiceSetPropertiesOptions {
+/**
+ * Options to configure File Service - Set Properties operation.
+ *
+ * @export
+ * @interface ServiceSetPropertiesOptions
+ */
+export interface ServiceSetPropertiesOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof AppendBlobCreateOptions
+   */
   abortSignal?: Aborter;
 }
 
@@ -54,7 +99,6 @@ export interface IServiceSetPropertiesOptions {
  *
  * @export
  * @class FileServiceClient
- * @extends {StorageClient}
  */
 export class FileServiceClient extends StorageClient {
   /**
@@ -67,39 +111,113 @@ export class FileServiceClient extends StorageClient {
   private serviceContext: Service;
 
   /**
+   * Creates an instance of FileServiceClient from connection string.
+   *
+   * @param {string} connectionString Connection string for an Azure storage account.
+   * @param {NewPipelineOptions} [options] Options to configure the HTTP pipeline.
+   * @returns {FileServiceClient} A new FileServiceClient from the given connection string.
+   * @memberof FileServiceClient
+   */
+  public static fromConnectionString(
+    connectionString: string,
+    options?: NewPipelineOptions
+  ): FileServiceClient {
+    const extractedCreds = extractConnectionStringParts(connectionString);
+    const sharedKeyCredential = new SharedKeyCredential(
+      extractedCreds.accountName,
+      extractedCreds.accountKey
+    );
+    const pipeline = newPipeline(sharedKeyCredential, options);
+    return new FileServiceClient(extractedCreds.url, pipeline);
+  }
+
+  /**
    * Creates an instance of FileServiceClient.
    *
    * @param {string} url A URL string pointing to Azure Storage file service, such as
    *                     "https://myaccount.file.core.windows.net". You can Append a SAS
    *                     if using AnonymousCredential, such as "https://myaccount.file.core.windows.net?sasString".
-   * @param {Pipeline} pipeline Call StorageClient.newPipeline() to create a default
+   * @param {Credential} [credential] Such as AnonymousCredential, SharedKeyCredential or TokenCredential.
+   *                                If not specified, AnonymousCredential is used.
+   * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
+   * @memberof FileServiceClient
+   */
+  constructor(url: string, credential?: Credential, options?: NewPipelineOptions);
+  /**
+   * Creates an instance of FileServiceClient.
+   *
+   * @param {string} url A URL string pointing to Azure Storage file service, such as
+   *                     "https://myaccount.file.core.windows.net". You can Append a SAS
+   *                     if using AnonymousCredential, such as "https://myaccount.file.core.windows.net?sasString".
+   * @param {Pipeline} pipeline Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
    * @memberof FileServiceClient
    */
-  constructor(url: string, pipeline: Pipeline) {
+  constructor(url: string, pipeline: Pipeline);
+  constructor(
+    url: string,
+    credentialOrPipeline?: Credential | Pipeline,
+    options?: NewPipelineOptions
+  ) {
+    let pipeline: Pipeline;
+    if (credentialOrPipeline instanceof Pipeline) {
+      pipeline = credentialOrPipeline;
+    } else if (credentialOrPipeline instanceof Credential) {
+      pipeline = newPipeline(credentialOrPipeline, options);
+    } else {
+      // The second parameter is undefined. Use anonymous credential.
+      pipeline = newPipeline(new AnonymousCredential(), options);
+    }
+
     super(url, pipeline);
     this.serviceContext = new Service(this.storageClientContext);
   }
 
   /**
-   * Creates a new FileServiceClient object identical to the source but with the
-   * specified request policy pipeline.
-   *
-   * @param {Pipeline} pipeline
-   * @returns {FileServiceClient}
-   * @memberof FileServiceClient
-   */
-  public withPipeline(pipeline: Pipeline): FileServiceClient {
-    return new FileServiceClient(this.url, pipeline);
-  }
-
-  /**
    * Creates a ShareClient object.
    *
-   * @param shareName
+   * @param shareName Name of a share.
+   * @returns {ShareClient} The ShareClient object for the given share name.
+   * @memberof FileServiceClient
    */
   public createShareClient(shareName: string): ShareClient {
     return new ShareClient(appendToURLPath(this.url, shareName), this.pipeline);
+  }
+
+  /**
+   * Creates a Share.
+   *
+   * @param {string} shareName
+   * @param {ShareCreateOptions} [options]
+   * @returns {Promise<{ shareCreateResponse: Models.ShareCreateResponse, shareClient: ShareClient }>} Share creation response and the corresponding share client.
+   * @memberof FileServiceClient
+   */
+  public async createShare(
+    shareName: string,
+    options?: ShareCreateOptions
+  ): Promise<{ shareCreateResponse: Models.ShareCreateResponse; shareClient: ShareClient }> {
+    const shareClient = this.createShareClient(shareName);
+    const shareCreateResponse = await shareClient.create(options);
+    return {
+      shareCreateResponse,
+      shareClient
+    };
+  }
+
+  /**
+   * Deletes a Share.
+   *
+   * @param {string} shareName
+   * @param {ShareDeleteMethodOptions} [options]
+   * @returns {Promise<Models.ShareDeleteResponse>} Share deletion response and the corresponding share client.
+   * @memberof FileServiceClient
+   */
+  public async deleteShare(
+    shareName: string,
+    options?: ShareDeleteMethodOptions
+  ): Promise<Models.ShareDeleteResponse> {
+    const shareClient = this.createShareClient(shareName);
+    return await shareClient.delete(options);
   }
 
   /**
@@ -107,11 +225,12 @@ export class FileServiceClient extends StorageClient {
    * for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-file-service-properties}
    *
-   * @returns {Promise<Models.ServiceGetPropertiesResponse>}
+   * @param {ServiceGetPropertiesOptions} [options={}] Options to Get Properties operation.
+   * @returns {Promise<Models.ServiceGetPropertiesResponse>} Response data for the Get Properties operation.
    * @memberof FileServiceClient
    */
   public async getProperties(
-    options: IServiceGetPropertiesOptions = {}
+    options: ServiceGetPropertiesOptions = {}
   ): Promise<Models.ServiceGetPropertiesResponse> {
     const aborter = options.abortSignal || Aborter.none;
     return this.serviceContext.getProperties({
@@ -125,12 +244,13 @@ export class FileServiceClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-file-service-properties}
    *
    * @param {Models.StorageServiceProperties} properties
-   * @returns {Promise<Models.ServiceSetPropertiesResponse>}
+   * @param {ServiceSetPropertiesOptions} [options={}] Options to Set Properties operation.
+   * @returns {Promise<Models.ServiceSetPropertiesResponse>} Response data for the Set Properties operation.
    * @memberof FileServiceClient
    */
   public async setProperties(
     properties: Models.StorageServiceProperties,
-    options: IServiceSetPropertiesOptions = {}
+    options: ServiceSetPropertiesOptions = {}
   ): Promise<Models.ServiceSetPropertiesResponse> {
     const aborter = options.abortSignal || Aborter.none;
     return this.serviceContext.setProperties(properties, {
@@ -148,8 +268,8 @@ export class FileServiceClient extends StorageClient {
    *                          not complete. The marker value may then be used in a subsequent call to
    *                          request the next set of list items. The marker value is opaque to the
    *                          client.
-   * @param {ServiceListSharesSegmentOptions} [options={}]
-   * @returns {Promise<Models.ServiceListSharesSegmentResponse>}
+   * @param {ServiceListSharesSegmentOptions} [options={}] Options to List Shares Segment operation.
+   * @returns {Promise<Models.ServiceListSharesSegmentResponse>} Response data for the List Shares Segment operation.
    * @memberof FileServiceClient
    */
   public async listSharesSegment(

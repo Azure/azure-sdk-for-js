@@ -1,6 +1,6 @@
 import * as assert from "assert";
-import { RestError, StorageClient } from "../src";
-import { Pipeline } from "../src/Pipeline";
+import { RestError, ShareClient } from "../src";
+import { newPipeline, Pipeline } from "../src/Pipeline";
 import { getBSU, getUniqueName } from "./utils";
 import { InjectorPolicyFactory } from "./utils/InjectorPolicyFactory";
 import * as dotenv from "dotenv";
@@ -32,7 +32,7 @@ describe("RetryPolicy", () => {
     const factories = shareClient.pipeline.factories.slice(); // clone factories array
     factories.push(injector);
     const pipeline = new Pipeline(factories);
-    const injectShareClient = shareClient.withPipeline(pipeline);
+    const injectShareClient = new ShareClient(shareClient.url, pipeline);
 
     const metadata = {
       key0: "val0",
@@ -51,12 +51,12 @@ describe("RetryPolicy", () => {
     });
 
     const credential = shareClient.pipeline.factories[shareClient.pipeline.factories.length - 1];
-    const factories = StorageClient.newPipeline(credential, {
+    const factories = newPipeline(credential, {
       retryOptions: { maxTries: 3 }
     }).factories;
     factories.push(injector);
     const pipeline = new Pipeline(factories);
-    const injectShareClient = shareClient.withPipeline(pipeline);
+    const injectShareClient = new ShareClient(shareClient.url, pipeline);
 
     let hasError = false;
     try {

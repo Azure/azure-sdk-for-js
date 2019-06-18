@@ -40,7 +40,6 @@ export const Resource: msRest.CompositeMapper = {
         }
       },
       location: {
-        readOnly: true,
         serializedName: "location",
         type: {
           name: "String"
@@ -151,7 +150,6 @@ export const OSProfile: msRest.CompositeMapper = {
     className: "OSProfile",
     modelProperties: {
       computerName: {
-        readOnly: true,
         serializedName: "computerName",
         type: {
           name: "String"
@@ -170,6 +168,12 @@ export const OSProfile: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      sshPublicKey: {
+        serializedName: "sshPublicKey",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -182,7 +186,6 @@ export const IpAddress: msRest.CompositeMapper = {
     className: "IpAddress",
     modelProperties: {
       ipAddress: {
-        readOnly: true,
         serializedName: "ipAddress",
         type: {
           name: "String"
@@ -280,6 +283,19 @@ export const HanaInstance: msRest.CompositeMapper = {
       hwRevision: {
         readOnly: true,
         serializedName: "properties.hwRevision",
+        type: {
+          name: "String"
+        }
+      },
+      partnerNodeId: {
+        serializedName: "properties.partnerNodeId",
+        type: {
+          name: "String"
+        }
+      },
+      provisioningState: {
+        readOnly: true,
+        serializedName: "properties.provisioningState",
         type: {
           name: "String"
         }
@@ -406,8 +422,8 @@ export const MonitoringDetails: msRest.CompositeMapper = {
     name: "Composite",
     className: "MonitoringDetails",
     modelProperties: {
-      hanaVnet: {
-        serializedName: "hanaVnet",
+      hanaSubnet: {
+        serializedName: "hanaSubnet",
         type: {
           name: "String"
         }
@@ -418,23 +434,16 @@ export const MonitoringDetails: msRest.CompositeMapper = {
           name: "String"
         }
       },
-      hanaInstanceNum: {
-        serializedName: "hanaInstanceNum",
+      hanaDbName: {
+        serializedName: "hanaDbName",
         type: {
           name: "String"
         }
       },
-      dbContainer: {
-        serializedName: "dbContainer",
-        defaultValue: 'single',
+      hanaDbSqlPort: {
+        serializedName: "hanaDbSqlPort",
         type: {
-          name: "String"
-        }
-      },
-      hanaDatabase: {
-        serializedName: "hanaDatabase",
-        type: {
-          name: "String"
+          name: "Number"
         }
       },
       hanaDbUsername: {

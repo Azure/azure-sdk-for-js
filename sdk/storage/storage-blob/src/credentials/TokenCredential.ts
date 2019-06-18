@@ -12,7 +12,7 @@ import { TokenCredentialPolicy } from "../policies/TokenCredentialPolicy";
  *
  * @example
  *  const tokenCredential = new TokenCredential("token");
- *  const pipeline = StorageClient.newPipeline(tokenCredential);
+ *  const pipeline = newPipeline(tokenCredential);
  *
  *  // List containers
  *  const blobServiceClient = new BlobServiceClient("https://mystorageaccount.blob.core.windows.net", pipeline);

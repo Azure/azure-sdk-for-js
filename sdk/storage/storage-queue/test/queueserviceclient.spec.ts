@@ -1,12 +1,22 @@
 import * as assert from "assert";
-
-import { QueueClient } from "../src/QueueClient";
-import { QueueServiceClient } from "../src/QueueServiceClient";
-import { getAlternateQSU, getQSU, getUniqueName, wait } from "./utils";
 import * as dotenv from "dotenv";
+import { newPipeline, SharedKeyCredential } from "../src";
+import { QueueServiceClient } from "../src/QueueServiceClient";
+import { getAlternateQSU, getConnectionStringFromEnvironment, getQSU, wait } from "./utils";
+import { record } from "./utils/recorder";
 dotenv.config({ path: "../.env" });
 
 describe("QueueServiceClient", () => {
+  let recorder: any;
+
+  beforeEach(function() {
+    recorder = record(this);
+  });
+
+  afterEach(() => {
+    recorder.stop();
+  });
+
   it("listQueuesSegment with default parameters", async () => {
     const queueServiceClient = getQSU();
     const result = await queueServiceClient.listQueuesSegment();
@@ -27,11 +37,11 @@ describe("QueueServiceClient", () => {
   it("listQueuesSegment with all parameters", async () => {
     const queueServiceClient = getQSU();
 
-    const queueNamePrefix = getUniqueName("queue");
+    const queueNamePrefix = recorder.getUniqueName("queue");
     const queueName1 = `${queueNamePrefix}x1`;
     const queueName2 = `${queueNamePrefix}x2`;
-    const queueClient1 = QueueClient.fromQueueServiceClient(queueServiceClient, queueName1);
-    const queueClient2 = QueueClient.fromQueueServiceClient(queueServiceClient, queueName2);
+    const queueClient1 = queueServiceClient.createQueueClient(queueName1);
+    const queueClient2 = queueServiceClient.createQueueClient(queueName2);
     await queueClient1.create({ metadata: { key: "val" } });
     await queueClient2.create({ metadata: { key: "val" } });
 
@@ -59,6 +69,59 @@ describe("QueueServiceClient", () => {
 
     await queueClient1.delete();
     await queueClient2.delete();
+  });
+
+  it("Verify AsyncIterator(generator .next() syntax) for listQueues", async () => {
+    const queueServiceClient = getQSU();
+
+    const queueNamePrefix = recorder.getUniqueName("queue");
+    const queueName1 = `${queueNamePrefix}x1`;
+    const queueName2 = `${queueNamePrefix}x2`;
+
+    const queueClient1 = queueServiceClient.createQueueClient(queueName1);
+    const queueClient2 = queueServiceClient.createQueueClient(queueName2);
+    await queueClient1.create({ metadata: { key: "val" } });
+    await queueClient2.create({ metadata: { key: "val" } });
+
+    let iter1 = await queueServiceClient.listQueues({
+      include: "metadata",
+      prefix: queueNamePrefix
+    });
+    let queueItem = await iter1.next();
+    assert.ok(queueItem.value.name.startsWith(queueNamePrefix));
+    assert.deepEqual(queueItem.value.metadata!.key, "val");
+
+    queueItem = await iter1.next();
+    assert.ok(queueItem.value.name.startsWith(queueNamePrefix));
+    assert.deepEqual(queueItem.value.metadata!.key, "val");
+
+    await queueClient1.delete();
+    await queueClient2.delete();
+  });
+
+  it("Verify AsyncIterator(for-loop syntax) for listQueues", async () => {
+    const queueClients = [];
+    const queueServiceClient = getQSU();
+    const queueNamePrefix = recorder.getUniqueName("queue");
+
+    for (let i = 0; i < 4; i++) {
+      const queueClient = queueServiceClient.createQueueClient(`${queueNamePrefix}x${i}`);
+      await queueClient.create({ metadata: { key: "val" } });
+      queueClients.push(queueClient);
+    }
+
+    for await (const queueItem of queueServiceClient.listQueues({
+      include: "metadata",
+      maxresults: 2,
+      prefix: queueNamePrefix
+    })) {
+      assert.ok(queueItem.name.startsWith(queueNamePrefix));
+      assert.deepEqual(queueItem.metadata!.key, "val");
+    }
+
+    for (const queueClient of queueClients) {
+      await queueClient.delete();
+    }
   });
 
   it("getProperties with default/all parameters", async () => {
@@ -155,5 +218,61 @@ describe("QueueServiceClient", () => {
         done();
       })
       .catch(done);
+  });
+
+  it("can be created with a url and a credential", async () => {
+    const queueServiceClient = getQSU();
+    const factories = queueServiceClient.pipeline.factories;
+    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const newClient = new QueueServiceClient(queueServiceClient.url, credential);
+
+    const result = await newClient.getProperties();
+
+    assert.ok(typeof result.requestId);
+    assert.ok(result.requestId!.length > 0);
+    assert.ok(typeof result.version);
+    assert.ok(result.version!.length > 0);
+  });
+
+  it("can be created with a url and a credential and an option bag", async () => {
+    const queueServiceClient = getQSU();
+    const factories = queueServiceClient.pipeline.factories;
+    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const newClient = new QueueServiceClient(queueServiceClient.url, credential, {
+      retryOptions: {
+        maxTries: 5
+      }
+    });
+
+    const result = await newClient.getProperties();
+
+    assert.ok(typeof result.requestId);
+    assert.ok(result.requestId!.length > 0);
+    assert.ok(typeof result.version);
+    assert.ok(result.version!.length > 0);
+  });
+
+  it("can be created with a url and a pipeline", async () => {
+    const queueServiceClient = getQSU();
+    const factories = queueServiceClient.pipeline.factories;
+    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const pipeline = newPipeline(credential);
+    const newClient = new QueueServiceClient(queueServiceClient.url, pipeline);
+
+    const result = await newClient.getProperties();
+
+    assert.ok(typeof result.requestId);
+    assert.ok(result.requestId!.length > 0);
+    assert.ok(typeof result.version);
+    assert.ok(result.version!.length > 0);
+  });
+
+  it("can be created from a connection string", async () => {
+    const newClient = QueueServiceClient.fromConnectionString(getConnectionStringFromEnvironment());
+
+    const result = await newClient.getProperties();
+
+    assert.ok(typeof result.requestId);
+    assert.ok(result.requestId!.length > 0);
   });
 });

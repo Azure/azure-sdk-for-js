@@ -213,273 +213,6 @@ export class MessageSender extends LinkEntity {
     };
   }
 
-  /**
-   * Will reconnect the sender link if necessary.
-   * @param {AmqpError | Error} [senderError] The sender error if any.
-   * @returns {Promise<void>} Promise<void>.
-   */
-  async onDetached(senderError?: AmqpError | Error): Promise<void> {
-    try {
-      const wasCloseInitiated = this._sender && this._sender.isItselfClosed();
-      // Clears the token renewal timer. Closes the link and its session if they are open.
-      // Removes the link and its session if they are present in rhea's cache.
-      await this._closeLink(this._sender);
-      // We should attempt to reopen only when the sender(sdk) did not initiate the close
-      let shouldReopen = false;
-      if (senderError && !wasCloseInitiated) {
-        const translatedError = translate(senderError);
-        if (translatedError.retryable) {
-          shouldReopen = true;
-          log.error(
-            "[%s] close() method of Sender '%s' with address '%s' was not called. There " +
-              "was an accompanying error an it is retryable. This is a candidate for re-establishing " +
-              "the sender link.",
-            this._context.namespace.connectionId,
-            this.name,
-            this.address
-          );
-        } else {
-          log.error(
-            "[%s] close() method of Sender '%s' with address '%s' was not called. There " +
-              "was an accompanying error and it is NOT retryable. Hence NOT re-establishing " +
-              "the sender link.",
-            this._context.namespace.connectionId,
-            this.name,
-            this.address
-          );
-        }
-      } else if (!wasCloseInitiated) {
-        shouldReopen = true;
-        log.error(
-          "[%s] close() method of Sender '%s' with address '%s' was not called. There " +
-            "was no accompanying error as well. This is a candidate for re-establishing " +
-            "the sender link.",
-          this._context.namespace.connectionId,
-          this.name,
-          this.address
-        );
-      } else {
-        const state: any = {
-          wasCloseInitiated: wasCloseInitiated,
-          senderError: senderError,
-          _sender: this._sender
-        };
-        log.error(
-          "[%s] Something went wrong. State of sender '%s' with address '%s' is: %O",
-          this._context.namespace.connectionId,
-          this.name,
-          this.address,
-          state
-        );
-      }
-      if (shouldReopen) {
-        await defaultLock.acquire(this.senderLock, () => {
-          const options: SenderOptions = this._createSenderOptions({
-            newName: true
-          });
-          // shall retry forever at an interval of 15 seconds if the error is a retryable error
-          // else bail out when the error is not retryable or the oepration succeeds.
-          const config: RetryConfig<void> = {
-            operation: () => this._init(options),
-            connectionId: this._context.namespace.connectionId!,
-            operationType: RetryOperationType.senderLink,
-            times: Constants.defaultConnectionRetryAttempts,
-            connectionHost: this._context.namespace.config.host,
-            delayInSeconds: 15
-          };
-          return retry<void>(config);
-        });
-      }
-    } catch (err) {
-      log.error(
-        "[%s] An error occurred while processing detached() of Sender '%s' with address " +
-          "'%s': %O",
-        this._context.namespace.connectionId,
-        this.name,
-        this.address,
-        err
-      );
-    }
-  }
-
-  /**
-   * Deletes the sender fromt the context. Clears the token renewal timer. Closes the sender link.
-   * @return {Promise<void>} Promise<void>
-   */
-  async close(): Promise<void> {
-    if (this._sender) {
-      log.sender(
-        "[%s] Closing the Sender for the entity '%s'.",
-        this._context.namespace.connectionId,
-        this._context.entityPath
-      );
-      const senderLink = this._sender;
-      this._deleteFromCache();
-      await this._closeLink(senderLink);
-    }
-  }
-
-  /**
-   * Determines whether the AMQP sender link is open. If open then returns true else returns false.
-   * @return {boolean} boolean
-   */
-  isOpen(): boolean {
-    const result: boolean = this._sender! && this._sender!.isOpen();
-    log.error(
-      "[%s] Sender '%s' with address '%s' is open? -> %s",
-      this._context.namespace.connectionId,
-      this.name,
-      this.address,
-      result
-    );
-    return result;
-  }
-
-  /**
-   * Sends the given message, with the given options on this link
-   *
-   * @param {SendableMessageInfo} data Message to send.  Will be sent as UTF8-encoded JSON string.
-   * @returns {Promise<void>}
-   */
-  async send(data: SendableMessageInfo): Promise<void> {
-    throwErrorIfConnectionClosed(this._context.namespace);
-    try {
-      if (!this.isOpen()) {
-        log.sender(
-          "Acquiring lock %s for initializing the session, sender and " +
-            "possibly the connection.",
-          this.senderLock
-        );
-        await defaultLock.acquire(this.senderLock, () => {
-          return this._init();
-        });
-      }
-      const amqpMessage = toAmqpMessage(data);
-      amqpMessage.body = this._context.namespace.dataTransformer.encode(data.body);
-
-      let encodedMessage;
-      try {
-        encodedMessage = RheaMessageUtil.encode(amqpMessage);
-      } catch (error) {
-        if (error instanceof TypeError || error.name === "TypeError") {
-          // `RheaMessageUtil.encode` can fail if message properties are of invalid type
-          // rhea throws errors with name `TypeError` but not an instance of `TypeError`, so catch them too
-          // Errors in such cases do not have user friendy message or call stack
-          // So use `getMessagePropertyTypeMismatchError` to get a better error message
-          error = getMessagePropertyTypeMismatchError(data) || error;
-        }
-        throw error;
-      }
-      log.sender(
-        "[%s] Sender '%s', trying to send message: %O",
-        this._context.namespace.connectionId,
-        this.name,
-        data
-      );
-      return await this._trySend(encodedMessage);
-    } catch (err) {
-      log.error(
-        "[%s] Sender '%s': An error occurred while sending the message: %O\nError: %O",
-        this._context.namespace.connectionId,
-        this.name,
-        data,
-        err
-      );
-      throw err;
-    }
-  }
-
-  /**
-   * Send a batch of Message to the ServiceBus in a single AMQP message. The "message_annotations",
-   * "application_properties" and "properties" of the first message will be set as that
-   * of the envelope (batch message).
-   * @param {Array<Message>} inputMessages  An array of Message objects to be sent in a
-   * Batch message.
-   * @return {Promise<void>}
-   */
-  async sendBatch(inputMessages: SendableMessageInfo[]): Promise<void> {
-    throwErrorIfConnectionClosed(this._context.namespace);
-    try {
-      if (!Array.isArray(inputMessages)) {
-        inputMessages = [inputMessages];
-      }
-
-      if (!this.isOpen()) {
-        log.sender(
-          "Acquiring lock %s for initializing the session, sender and " +
-            "possibly the connection.",
-          this.senderLock
-        );
-        await defaultLock.acquire(this.senderLock, () => {
-          return this._init();
-        });
-      }
-      log.sender(
-        "[%s] Sender '%s', trying to send Message[]: %O",
-        this._context.namespace.connectionId,
-        this.name,
-        inputMessages
-      );
-      const amqpMessages: AmqpMessage[] = [];
-      const encodedMessages = [];
-      // Convert Message to AmqpMessage.
-      for (let i = 0; i < inputMessages.length; i++) {
-        const amqpMessage = toAmqpMessage(inputMessages[i]);
-        amqpMessage.body = this._context.namespace.dataTransformer.encode(inputMessages[i].body);
-        amqpMessages[i] = amqpMessage;
-        try {
-          encodedMessages[i] = RheaMessageUtil.encode(amqpMessage);
-        } catch (error) {
-          if (error instanceof TypeError || error.name === "TypeError") {
-            // `RheaMessageUtil.encode` can fail if message properties are of invalid type
-            // rhea throws errors with name `TypeError` but not an instance of `TypeError`, so catch them too
-            // Errors in such cases do not have user friendy message or call stack
-            // So use `getMessagePropertyTypeMismatchError` to get a better error message
-            error = getMessagePropertyTypeMismatchError(inputMessages[i]) || error;
-          }
-          throw error;
-        }
-      }
-
-      // Convert every encoded message to amqp data section
-      const batchMessage: AmqpMessage = {
-        body: RheaMessageUtil.data_sections(encodedMessages)
-      };
-      // Set message_annotations, application_properties and properties of the first message as
-      // that of the envelope (batch message).
-      if (amqpMessages[0].message_annotations) {
-        batchMessage.message_annotations = amqpMessages[0].message_annotations;
-      }
-      if (amqpMessages[0].application_properties) {
-        batchMessage.application_properties = amqpMessages[0].application_properties;
-      }
-      for (const prop of messageProperties) {
-        if ((amqpMessages[0] as any)[prop]) {
-          (batchMessage as any)[prop] = (amqpMessages[0] as any)[prop];
-        }
-      }
-
-      // Finally encode the envelope (batch message).
-      const encodedBatchMessage = RheaMessageUtil.encode(batchMessage);
-      log.sender(
-        "[%s]Sender '%s', sending encoded batch message.",
-        this._context.namespace.connectionId,
-        this.name,
-        encodedBatchMessage
-      );
-      return await this._trySend(encodedBatchMessage, true);
-    } catch (err) {
-      log.error(
-        "[%s] Sender '%s': An error occurred while sending the messages: %O\nError: %O",
-        this._context.namespace.connectionId,
-        this.name,
-        inputMessages,
-        err
-      );
-      throw err;
-    }
-  }
-
   private _deleteFromCache(): void {
     this._sender = undefined;
     delete this._context.sender;
@@ -728,6 +461,269 @@ export class MessageSender extends LinkEntity {
         "[%s] An error occurred while creating the sender %s",
         this._context.namespace.connectionId,
         this.name,
+        err
+      );
+      throw err;
+    }
+  }
+
+  /**
+   * Will reconnect the sender link if necessary.
+   * @param {AmqpError | Error} [senderError] The sender error if any.
+   * @returns {Promise<void>} Promise<void>.
+   */
+  async onDetached(senderError?: AmqpError | Error): Promise<void> {
+    try {
+      const wasCloseInitiated = this._sender && this._sender.isItselfClosed();
+      // Clears the token renewal timer. Closes the link and its session if they are open.
+      // Removes the link and its session if they are present in rhea's cache.
+      await this._closeLink(this._sender);
+      // We should attempt to reopen only when the sender(sdk) did not initiate the close
+      let shouldReopen = false;
+      if (senderError && !wasCloseInitiated) {
+        const translatedError = translate(senderError);
+        if (translatedError.retryable) {
+          shouldReopen = true;
+          log.error(
+            "[%s] close() method of Sender '%s' with address '%s' was not called. There " +
+              "was an accompanying error an it is retryable. This is a candidate for re-establishing " +
+              "the sender link.",
+            this._context.namespace.connectionId,
+            this.name,
+            this.address
+          );
+        } else {
+          log.error(
+            "[%s] close() method of Sender '%s' with address '%s' was not called. There " +
+              "was an accompanying error and it is NOT retryable. Hence NOT re-establishing " +
+              "the sender link.",
+            this._context.namespace.connectionId,
+            this.name,
+            this.address
+          );
+        }
+      } else if (!wasCloseInitiated) {
+        shouldReopen = true;
+        log.error(
+          "[%s] close() method of Sender '%s' with address '%s' was not called. There " +
+            "was no accompanying error as well. This is a candidate for re-establishing " +
+            "the sender link.",
+          this._context.namespace.connectionId,
+          this.name,
+          this.address
+        );
+      } else {
+        const state: any = {
+          wasCloseInitiated: wasCloseInitiated,
+          senderError: senderError,
+          _sender: this._sender
+        };
+        log.error(
+          "[%s] Something went wrong. State of sender '%s' with address '%s' is: %O",
+          this._context.namespace.connectionId,
+          this.name,
+          this.address,
+          state
+        );
+      }
+      if (shouldReopen) {
+        await defaultLock.acquire(this.senderLock, () => {
+          const options: SenderOptions = this._createSenderOptions({
+            newName: true
+          });
+          // shall retry forever at an interval of 15 seconds if the error is a retryable error
+          // else bail out when the error is not retryable or the oepration succeeds.
+          const config: RetryConfig<void> = {
+            operation: () => this._init(options),
+            connectionId: this._context.namespace.connectionId!,
+            operationType: RetryOperationType.senderLink,
+            times: Constants.defaultConnectionRetryAttempts,
+            connectionHost: this._context.namespace.config.host,
+            delayInSeconds: 15
+          };
+          return retry<void>(config);
+        });
+      }
+    } catch (err) {
+      log.error(
+        "[%s] An error occurred while processing detached() of Sender '%s' with address " +
+          "'%s': %O",
+        this._context.namespace.connectionId,
+        this.name,
+        this.address,
+        err
+      );
+    }
+  }
+
+  /**
+   * Deletes the sender fromt the context. Clears the token renewal timer. Closes the sender link.
+   * @return {Promise<void>} Promise<void>
+   */
+  async close(): Promise<void> {
+    if (this._sender) {
+      log.sender(
+        "[%s] Closing the Sender for the entity '%s'.",
+        this._context.namespace.connectionId,
+        this._context.entityPath
+      );
+      const senderLink = this._sender;
+      this._deleteFromCache();
+      await this._closeLink(senderLink);
+    }
+  }
+
+  /**
+   * Determines whether the AMQP sender link is open. If open then returns true else returns false.
+   * @return {boolean} boolean
+   */
+  isOpen(): boolean {
+    const result: boolean = this._sender! && this._sender!.isOpen();
+    log.error(
+      "[%s] Sender '%s' with address '%s' is open? -> %s",
+      this._context.namespace.connectionId,
+      this.name,
+      this.address,
+      result
+    );
+    return result;
+  }
+
+  /**
+   * Sends the given message, with the given options on this link
+   *
+   * @param {SendableMessageInfo} data Message to send.  Will be sent as UTF8-encoded JSON string.
+   * @returns {Promise<void>}
+   */
+  async send(data: SendableMessageInfo): Promise<void> {
+    throwErrorIfConnectionClosed(this._context.namespace);
+    try {
+      if (!this.isOpen()) {
+        log.sender(
+          "Acquiring lock %s for initializing the session, sender and " +
+            "possibly the connection.",
+          this.senderLock
+        );
+        await defaultLock.acquire(this.senderLock, () => {
+          return this._init();
+        });
+      }
+      const amqpMessage = toAmqpMessage(data);
+      amqpMessage.body = this._context.namespace.dataTransformer.encode(data.body);
+
+      let encodedMessage;
+      try {
+        encodedMessage = RheaMessageUtil.encode(amqpMessage);
+      } catch (error) {
+        if (error instanceof TypeError || error.name === "TypeError") {
+          // `RheaMessageUtil.encode` can fail if message properties are of invalid type
+          // rhea throws errors with name `TypeError` but not an instance of `TypeError`, so catch them too
+          // Errors in such cases do not have user friendy message or call stack
+          // So use `getMessagePropertyTypeMismatchError` to get a better error message
+          throw getMessagePropertyTypeMismatchError(data) || error;
+        }
+        throw error;
+      }
+      log.sender(
+        "[%s] Sender '%s', trying to send message: %O",
+        this._context.namespace.connectionId,
+        this.name,
+        data
+      );
+      return await this._trySend(encodedMessage);
+    } catch (err) {
+      log.error(
+        "[%s] Sender '%s': An error occurred while sending the message: %O\nError: %O",
+        this._context.namespace.connectionId,
+        this.name,
+        data,
+        err
+      );
+      throw err;
+    }
+  }
+
+  /**
+   * Send a batch of Message to the ServiceBus in a single AMQP message. The "message_annotations",
+   * "application_properties" and "properties" of the first message will be set as that
+   * of the envelope (batch message).
+   * @param {Array<Message>} inputMessages  An array of Message objects to be sent in a
+   * Batch message.
+   * @return {Promise<void>}
+   */
+  async sendBatch(inputMessages: SendableMessageInfo[]): Promise<void> {
+    throwErrorIfConnectionClosed(this._context.namespace);
+    try {
+      if (!Array.isArray(inputMessages)) {
+        inputMessages = [inputMessages];
+      }
+
+      if (!this.isOpen()) {
+        log.sender(
+          "Acquiring lock %s for initializing the session, sender and " +
+            "possibly the connection.",
+          this.senderLock
+        );
+        await defaultLock.acquire(this.senderLock, () => {
+          return this._init();
+        });
+      }
+      log.sender(
+        "[%s] Sender '%s', trying to send Message[]: %O",
+        this._context.namespace.connectionId,
+        this.name,
+        inputMessages
+      );
+      const amqpMessages: AmqpMessage[] = [];
+      const encodedMessages = [];
+      // Convert Message to AmqpMessage.
+      for (let i = 0; i < inputMessages.length; i++) {
+        const amqpMessage = toAmqpMessage(inputMessages[i]);
+        amqpMessage.body = this._context.namespace.dataTransformer.encode(inputMessages[i].body);
+        amqpMessages[i] = amqpMessage;
+        try {
+          encodedMessages[i] = RheaMessageUtil.encode(amqpMessage);
+        } catch (error) {
+          if (error instanceof TypeError || error.name === "TypeError") {
+            throw getMessagePropertyTypeMismatchError(inputMessages[i]) || error;
+          }
+          throw error;
+        }
+      }
+
+      // Convert every encoded message to amqp data section
+      const batchMessage: AmqpMessage = {
+        body: RheaMessageUtil.data_sections(encodedMessages)
+      };
+      // Set message_annotations, application_properties and properties of the first message as
+      // that of the envelope (batch message).
+      if (amqpMessages[0].message_annotations) {
+        batchMessage.message_annotations = amqpMessages[0].message_annotations;
+      }
+      if (amqpMessages[0].application_properties) {
+        batchMessage.application_properties = amqpMessages[0].application_properties;
+      }
+      for (const prop of messageProperties) {
+        if ((amqpMessages[0] as any)[prop]) {
+          (batchMessage as any)[prop] = (amqpMessages[0] as any)[prop];
+        }
+      }
+
+      // Finally encode the envelope (batch message).
+      const encodedBatchMessage = RheaMessageUtil.encode(batchMessage);
+      log.sender(
+        "[%s]Sender '%s', sending encoded batch message.",
+        this._context.namespace.connectionId,
+        this.name,
+        encodedBatchMessage
+      );
+      return await this._trySend(encodedBatchMessage, true);
+    } catch (err) {
+      log.error(
+        "[%s] Sender '%s': An error occurred while sending the messages: %O\nError: %O",
+        this._context.namespace.connectionId,
+        this.name,
+        inputMessages,
         err
       );
       throw err;

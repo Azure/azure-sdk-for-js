@@ -13,7 +13,7 @@ import {
   PageBlobClient,
   BlobServiceClient,
   SharedKeyCredential,
-  StorageClient
+  newPipeline,
 } from "../../src";
 import { SASProtocol } from "../../src/SASQueryParameters";
 import { getBSU, getUniqueName } from "../utils";
@@ -49,7 +49,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const sasClient = `${blobServiceClient.url}?${sas}`;
     const serviceClientWithSAS = new BlobServiceClient(
       sasClient,
-      StorageClient.newPipeline(new AnonymousCredential())
+      newPipeline(new AnonymousCredential())
     );
 
     await serviceClientWithSAS.getAccountInfo();
@@ -76,7 +76,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const sasClient = `${blobServiceClient.url}?${sas}`;
     const serviceClientWithSAS = new BlobServiceClient(
       sasClient,
-      StorageClient.newPipeline(new AnonymousCredential())
+      newPipeline(new AnonymousCredential())
     );
 
     let error;
@@ -110,7 +110,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const sasClient = `${blobServiceClient.url}?${sas}`;
     const serviceClientWithSAS = new BlobServiceClient(
       sasClient,
-      StorageClient.newPipeline(new AnonymousCredential())
+      newPipeline(new AnonymousCredential())
     );
 
     let error;
@@ -147,7 +147,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const sasClient = `${blobServiceClient.url}?${sas}`;
     const serviceClientWithSAS = new BlobServiceClient(
       sasClient,
-      StorageClient.newPipeline(new AnonymousCredential())
+      newPipeline(new AnonymousCredential())
     );
 
     let error;
@@ -191,7 +191,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const sasClient = `${containerClient.url}?${containerSAS}`;
     const containerClientwithSAS = new ContainerClient(
       sasClient,
-      StorageClient.newPipeline(new AnonymousCredential())
+      newPipeline(new AnonymousCredential())
     );
 
     await containerClientwithSAS.listBlobFlatSegment();
@@ -243,7 +243,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const sasClient = `${blobClient.url}?${blobSAS}`;
     const blobClientwithSAS = new PageBlobClient(
       sasClient,
-      StorageClient.newPipeline(new AnonymousCredential())
+      newPipeline(new AnonymousCredential())
     );
 
     const properties = await blobClientwithSAS.getProperties();
@@ -304,7 +304,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const sasClient = `${blobClient.url}?${blobSAS}`;
     const blobClientwithSAS = new PageBlobClient(
       sasClient,
-      StorageClient.newPipeline(new AnonymousCredential())
+      newPipeline(new AnonymousCredential())
     );
 
     const properties = await blobClientwithSAS.getProperties();
@@ -359,7 +359,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const sasClient = `${blobClient.url}?${blobSAS}`;
     const blobClientwithSAS = new PageBlobClient(
       sasClient,
-      StorageClient.newPipeline(new AnonymousCredential())
+      newPipeline(new AnonymousCredential())
     );
 
     await blobClientwithSAS.getProperties();

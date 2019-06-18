@@ -5,28 +5,105 @@ import * as Models from "./generated/lib/models";
 import { Aborter } from "./Aborter";
 import { ListContainersIncludeType } from "./generated/lib/models/index";
 import { Service } from "./generated/lib/operations";
-import { Pipeline } from "./Pipeline";
+import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
+import {
+    ContainerClient,
+    ContainerCreateOptions,
+    ContainerDeleteMethodOptions
+} from "./ContainerClient";
+import { appendToURLPath, extractConnectionStringParts } from "./utils/utils.common";
+import { Credential } from "./credentials/Credential";
+import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
+import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { StorageClient } from "./internal";
-import { ContainerClient } from "./ContainerClient";
-import { appendToURLPath } from "./utils/utils.common";
 
+/**
+ * Options to configure the Service - Get Properties operation.
+ *
+ * @export
+ * @interface ServiceGetPropertiesOptions
+ */
 export interface ServiceGetPropertiesOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof ServiceGetPropertiesOptions
+   */
   abortSignal?: Aborter;
 }
 
+/**
+ * Options to configure the Service - Set Properties operation.
+ *
+ * @export
+ * @interface ServiceSetPropertiesOptions
+ */
 export interface ServiceSetPropertiesOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof ServiceSetPropertiesOptions
+   */
   abortSignal?: Aborter;
 }
 
+/**
+ * Options to configure the Service - Get Account Info operation.
+ *
+ * @export
+ * @interface ServiceGetAccountInfoOptions
+ */
 export interface ServiceGetAccountInfoOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof ServiceGetAccountInfoOptions
+   */
   abortSignal?: Aborter;
 }
 
+/**
+ * Options to configure the Service - Get Statistics operation.
+ *
+ * @export
+ * @interface ServiceGetStatisticsOptions
+ */
 export interface ServiceGetStatisticsOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof ServiceGetStatisticsOptions
+   */
   abortSignal?: Aborter;
 }
 
+/**
+ * Options to configure the Service - List Container Segment operation.
+ *
+ * @export
+ * @interface ServiceListContainersSegmentOptions
+ */
 export interface ServiceListContainersSegmentOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof ServiceListContainersSegmentOptions
+   */
   abortSignal?: Aborter;
   /**
    * @member {string} [prefix] Filters the results to return only containers
@@ -57,7 +134,6 @@ export interface ServiceListContainersSegmentOptions {
  *
  * @export
  * @class BlobServiceClient
- * @extends {StorageClient}
  */
 export class BlobServiceClient extends StorageClient {
   /**
@@ -70,42 +146,71 @@ export class BlobServiceClient extends StorageClient {
   private serviceContext: Service;
 
   /**
+   * Creates an instance of BlobServiceClient from connection string.
+   *
+   * @param {string} connectionString Connection string for an Azure storage account.
+   * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
+   * @memberof BlobServiceClient
+   */
+  public static fromConnectionString(connectionString: string, options?: NewPipelineOptions) {
+    const extractedCreds = extractConnectionStringParts(connectionString);
+    const sharedKeyCredential = new SharedKeyCredential(
+      extractedCreds.accountName,
+      extractedCreds.accountKey
+    );
+    const pipeline = newPipeline(sharedKeyCredential, options);
+    return new BlobServiceClient(extractedCreds.url, pipeline);
+  }
+
+  /**
    * Creates an instance of BlobServiceClient.
    *
    * @param {string} url A Client string pointing to Azure Storage blob service, such as
    *                     "https://myaccount.blob.core.windows.net". You can append a SAS
    *                     if using AnonymousCredential, such as "https://myaccount.blob.core.windows.net?sasString".
-   * @param {Pipeline} pipeline Call StorageClient.newPipeline() to create a default
+   * @param {Credential} credential Such as AnonymousCredential, SharedKeyCredential or TokenCredential.
+   *                                If not specified, AnonymousCredential is used.
+   * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
+   * @memberof BlobServiceClient
+   */
+  constructor(url: string, credential?: Credential, options?: NewPipelineOptions);
+  /**
+   * Creates an instance of BlobServiceClient.
+   *
+   * @param {string} url A Client string pointing to Azure Storage blob service, such as
+   *                     "https://myaccount.blob.core.windows.net". You can append a SAS
+   *                     if using AnonymousCredential, such as "https://myaccount.blob.core.windows.net?sasString".
+   * @param {Pipeline} pipeline Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
    * @memberof BlobServiceClient
    */
-  constructor(url: string, pipeline: Pipeline) {
+  constructor(url: string, pipeline: Pipeline);
+  constructor(
+    url: string,
+    credentialOrPipeline?: Credential | Pipeline,
+    options?: NewPipelineOptions
+  ) {
+    let pipeline: Pipeline;
+    if (credentialOrPipeline instanceof Pipeline) {
+      pipeline = credentialOrPipeline;
+    } else if (credentialOrPipeline instanceof Credential) {
+      pipeline = newPipeline(credentialOrPipeline, options);
+    } else {
+      // The second parameter is undefined. Use anonymous credential
+      pipeline = newPipeline(new AnonymousCredential(), options);
+    }
     super(url, pipeline);
     this.serviceContext = new Service(this.storageClientContext);
-  }
-
-  /**
-   * Creates a new BlobServiceClient object identical to the source but with the
-   * specified request policy pipeline.
-   *
-   * @param {Pipeline} pipeline
-   * @returns {BlobServiceClient}
-   * @memberof BlobServiceClient
-   */
-  public withPipeline(pipeline: Pipeline): BlobServiceClient {
-    return new BlobServiceClient(this.url, pipeline);
   }
 
   /**
    * Creates a ContainerClient object
    *
    * @param containerName A container name
-   * @returns {ContainerClient}
+   * @returns {ContainerClient} A new ContainerClient object for the given container name.
    * @memberof BlobServiceClient
    */
-  public createContainerClient(
-    containerName: string
-  ): ContainerClient {
+  public createContainerClient(containerName: string): ContainerClient {
     return new ContainerClient(
       appendToURLPath(this.url, encodeURIComponent(containerName)),
       this.pipeline
@@ -113,11 +218,51 @@ export class BlobServiceClient extends StorageClient {
   }
 
   /**
+   * Create a Blob container.
+   *
+   * @param {string} containerName Name of the container to create.
+   * @param {ContainerCreateOptions} [options] Options to configure Container Create operation.
+   * @returns {Promise<{ containerClient: ContainerClient; containerCreateResponse: Models.ContainerCreateResponse }>} Container creation response and the corresponding container client.
+   * @memberof BlobServiceClient
+   */
+  public async createContainer(
+    containerName: string,
+    options?: ContainerCreateOptions
+  ): Promise<{
+    containerClient: ContainerClient;
+    containerCreateResponse: Models.ContainerCreateResponse;
+  }> {
+    const containerClient = this.createContainerClient(containerName);
+    const containerCreateResponse = await containerClient.create(options);
+    return {
+      containerClient,
+      containerCreateResponse
+    };
+  }
+
+  /**
+   * Deletes a Blob container.
+   *
+   * @param {string} containerName Name of the container to delete.
+   * @param {ContainerDeleteMethodOptions} [options] Options to configure Container Delete operation.
+   * @returns {Promise<Models.ContainerDeleteResponse>} Container deletion response.
+   * @memberof BlobServiceClient
+   */
+  public async deleteContainer(
+    containerName: string,
+    options?: ContainerDeleteMethodOptions
+  ): Promise<Models.ContainerDeleteResponse> {
+    const containerClient = this.createContainerClient(containerName);
+    return await containerClient.delete(options);
+  }
+
+  /**
    * Gets the properties of a storage account’s Blob service, including properties
    * for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-blob-service-properties}
    *
-   * @returns {Promise<Models.ServiceGetPropertiesResponse>}
+   * @param {ServiceGetPropertiesOptions} [options] Options to the Service Get Properties operation.
+   * @returns {Promise<Models.ServiceGetPropertiesResponse>} Response data for the Service Get Properties operation.
    * @memberof BlobServiceClient
    */
   public async getProperties(
@@ -135,9 +280,8 @@ export class BlobServiceClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-blob-service-properties}
    *
    * @param {Models.StorageServiceProperties} properties
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
-   * @returns {Promise<Models.ServiceSetPropertiesResponse>}
+   * @param {ServiceSetPropertiesOptions} [options] Options to the Service Set Properties operation.
+   * @returns {Promise<Models.ServiceSetPropertiesResponse>} Response data for the Service Set Properties operation.
    * @memberof BlobServiceClient
    */
   public async setProperties(
@@ -156,9 +300,8 @@ export class BlobServiceClient extends StorageClient {
    * replication is enabled for the storage account.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-blob-service-stats}
    *
-   *  @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
-   * @returns {Promise<Models.ServiceGetStatisticsResponse>}
+   * @param {ServiceGetStatisticsOptions} [options] Options to the Service Get Statistics operation.
+   * @returns {Promise<Models.ServiceGetStatisticsResponse>} Response data for the Service Get Statistics operation.
    * @memberof BlobServiceClient
    */
   public async getStatistics(
@@ -177,9 +320,8 @@ export class BlobServiceClient extends StorageClient {
    * with version 2018-03-28.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-account-information
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
-   * @returns {Promise<Models.ServiceGetAccountInfoResponse>}
+   * @param {ServiceGetAccountInfoOptions} [options] Options to the Service Get Account Info operation.
+   * @returns {Promise<Models.ServiceGetAccountInfoResponse>} Response data for the Service Get Account Info operation.
    * @memberof BlobServiceClient
    */
   public async getAccountInfo(
@@ -189,6 +331,53 @@ export class BlobServiceClient extends StorageClient {
     return this.serviceContext.getAccountInfo({
       abortSignal: aborter || Aborter.none
     });
+  }
+
+  /**
+   * Iterates over containers under the specified account.
+   *
+   * @param {ServiceListContainersSegmentOptions} [options={}] Options to list containers.
+   * @returns {AsyncIterableIterator<Models.ContainerItem>} An async iterator to list containers.
+   * @memberof BlobServiceClient
+   *
+   * @example
+   * for await (const container of blobServiceClient.listContainers()) {
+   *   console.log(`Container: ${container.name}`);
+   * }
+   *
+   * @example
+   * let iter1 = blobServiceClient.listContainers();
+   * let i = 1;
+   * for await (const container of iter1) {
+   *   console.log(`${i}: ${container.name}`);
+   *   i++;
+   * }
+   *
+   * @example
+   * let iter2 = await blobServiceClient.listContainers();
+   * i = 1;
+   * let containerItem = await iter2.next();
+   * do {
+   *   console.log(`Container ${i++}: ${containerItem.value.name}`);
+   *   containerItem = await iter2.next();
+   * } while (containerItem.value);
+   *
+   */
+  public async *listContainers(
+    options: ServiceListContainersSegmentOptions = {}
+  ): AsyncIterableIterator<Models.ContainerItem> {
+    let marker = undefined;
+    const blobServiceClient = this;
+    const aborter = !options.abortSignal ? Aborter.none : options.abortSignal;
+    let listContainersResponse;
+    do {
+      listContainersResponse = await blobServiceClient.listContainersSegment(marker, {
+        ...options,
+        abortSignal: aborter
+      });
+      marker = listContainersResponse.nextMarker;
+      yield* listContainersResponse.containerItems;
+    } while (marker);
   }
 
   /**
@@ -204,8 +393,8 @@ export class BlobServiceClient extends StorageClient {
    *                          with the current page. The NextMarker value can be used as the value for
    *                          the marker parameter in a subsequent call to request the next page of list
    *                          items. The marker value is opaque to the client.
-   * @param {ServiceListContainersSegmentOptions} [options]
-   * @returns {Promise<Models.ServiceListContainersSegmentResponse>}
+   * @param {ServiceListContainersSegmentOptions} [options] Options to the Service List Container Segment operation.
+   * @returns {Promise<Models.ServiceListContainersSegmentResponse>} Response data for the Service List Container Segment operation.
    * @memberof BlobServiceClient
    */
   public async listContainersSegment(

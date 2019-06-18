@@ -29,30 +29,36 @@ export class PersonGroupOperations {
   /**
    * Create a new person group with specified personGroupId, name, user-provided userData and
    * recognitionModel.
-   * <br /> A person group is the container of the uploaded person data, including face images and
-   * face recognition features.
+   * <br /> A person group is the container of the uploaded person data, including face recognition
+   * features.
    * <br /> After creation, use [PersonGroup Person -
    * Create](/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f3039523c) to add
    * persons into the group, and then call [PersonGroup -
    * Train](/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f30395249) to get this
    * group ready for [Face -
    * Identify](/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f30395239).
-   * <br /> The person's face, image, and userData will be stored on server until [PersonGroup Person
-   * - Delete](/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f3039523d) or
+   * <br /> No image will be stored. Only the person's extracted face features and userData will be
+   * stored on server until [PersonGroup Person -
+   * Delete](/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f3039523d) or
    * [PersonGroup -
    * Delete](/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f30395245) is called.
-   * <br />
-   * * Free-tier subscription quota: 1,000 person groups. Each holds up to 1,000 persons.
-   * * S0-tier subscription quota: 1,000,000 person groups. Each holds up to 10,000 persons.
-   * * to handle larger scale face identification problem, please consider using
-   * [LargePersonGroup](/docs/services/563879b61984550e40cbbe8d/operations/599acdee6ac60f11b48b5a9d).
-   * <br />
-   * 'recognitionModel' should be specified to associate with this person group. The default value
-   * for 'recognitionModel' is 'recognition_01', if the latest model needed, please explicitly
+   * <br/>'recognitionModel' should be specified to associate with this person group. The default
+   * value for 'recognitionModel' is 'recognition_01', if the latest model needed, please explicitly
    * specify the model you need in this parameter. New faces that are added to an existing person
    * group will use the recognition model that's already associated with the collection. Existing
    * face features in a person group can't be updated to features extracted by another version of
    * recognition model.
+   * * 'recognition_01': The default recognition model for [PersonGroup -
+   * Create](/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f30395244). All those
+   * person groups created before 2019 March are bonded with this recognition model.
+   * * 'recognition_02': Recognition model released in 2019 March. 'recognition_02' is recommended
+   * since its overall accuracy is improved compared with 'recognition_01'.
+   *
+   * Person group quota:
+   * * Free-tier subscription quota: 1,000 person groups. Each holds up to 1,000 persons.
+   * * S0-tier subscription quota: 1,000,000 person groups. Each holds up to 10,000 persons.
+   * * to handle larger scale face identification problem, please consider using
+   * [LargePersonGroup](/docs/services/563879b61984550e40cbbe8d/operations/599acdee6ac60f11b48b5a9d).
    * @param personGroupId Id referencing a particular person group.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>

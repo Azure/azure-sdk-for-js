@@ -1,5 +1,5 @@
 jobs:
-  - job: "Build"
+  - job: Prepare
     variables:
       - template: ../variables/globals.yml
 
@@ -13,24 +13,45 @@ jobs:
         displayName: "Install Node.js $(NodeVersion)"
 
       - script: |
+          npm install -g npm@6.9.0
+        displayName: "Install npm version 6.9.0"
+
+      - template: ../steps/select-packages.yml
+        parameters:
+          ServiceDirectory: ${{parameters.ServiceDirectory}}
+
+  - job: "Build"
+    variables:
+      - template: ../variables/globals.yml
+      - name: GeneratedPackageTargets
+        value: $[dependencies.Prepare.outputs['SelectPackages.GeneratedPackageTargets']]
+
+    dependsOn:
+      - Prepare
+
+    pool:
+      vmImage: "ubuntu-16.04"
+
+    steps:
+      - task: NodeTool@0
+        inputs:
+          versionSpec: "$(NodeVersion)"
+        displayName: "Install Node.js $(NodeVersion)"
+
+      - script: |
+          npm install -g npm@6.9.0
+        displayName: "Install npm version 6.9.0"
+
+      - script: |
           node common/scripts/install-run-rush.js install
         displayName: "Install dependencies"
 
-      - ${{ if eq(parameters.PackageName,'')}}:
-          - script: |
-              node common/scripts/install-run-rush.js build --verbose
-            displayName: "Build libraries"
-          - script: |
-              node common/scripts/install-run-rush.js pack --verbose
-            displayName: "Pack libraries"
-
-      - ${{ if ne(parameters.PackageName,'')}}:
-          - script: |
-              node common/scripts/install-run-rush.js build --verbose --to ${{parameters.PackageName}}
-            displayName: "Build libraries"
-          - script: |
-              node common/scripts/install-run-rush.js pack --verbose --to ${{parameters.PackageName}}
-            displayName: "Pack libraries"
+      - script: |
+          node common/scripts/install-run-rush.js build --verbose $(GeneratedPackageTargets)
+        displayName: "Build libraries"
+      - script: |
+          node common/scripts/install-run-rush.js pack --verbose $(GeneratedPackageTargets)
+        displayName: "Pack libraries"
 
       - task: CopyFiles@2
         inputs:
@@ -47,8 +68,14 @@ jobs:
           targetPath: $(Build.ArtifactStagingDirectory)
 
   - job: "Analyze"
+
+    dependsOn:
+      - Prepare
+
     variables:
       - template: ../variables/globals.yml
+      - name: GeneratedPackageTargets
+        value: $[dependencies.Prepare.outputs['SelectPackages.GeneratedPackageTargets']]
 
     pool:
       vmImage: "ubuntu-16.04"
@@ -70,19 +97,11 @@ jobs:
           ward scan -d $(Build.SourcesDirectory) -c $(Build.SourcesDirectory)/.docsettings.yml
         displayName: "Verify Readmes"
 
-      - ${{ if eq(parameters.PackageName,'')}}:
-          - script: |
-              node common/scripts/install-run-rush.js install
-              node common/scripts/install-run-rush.js audit
-            condition: and(succeeded(), eq(variables['RunNpmAudit'], 'true'))
-            displayName: "Audit packages"
-
-      - ${{ if ne(parameters.PackageName,'')}}:
-          - script: |
-              node common/scripts/install-run-rush.js install
-              node common/scripts/install-run-rush.js audit --to ${{parameters.PackageName}}
-            condition: and(succeeded(), eq(variables['RunNpmAudit'], 'true'))
-            displayName: "Audit packages"
+      - script: |
+          node common/scripts/install-run-rush.js install
+          node common/scripts/install-run-rush.js audit $(GeneratedPackageTargets)
+        condition: and(succeeded(), eq(variables['RunNpmAudit'], 'true'))
+        displayName: "Audit packages"
 
       - task: ms.vss-governance-buildtask.governance-build-task-component-detection.ComponentGovernanceComponentDetection@0
         # ComponentGovernance is currently unable to run on pull requests of public projects. Running on non-PR
@@ -91,6 +110,9 @@ jobs:
         displayName: "Component Detection"
 
   - job: "Test"
+
+    dependsOn:
+      - Prepare
 
     strategy:
       matrix:
@@ -134,6 +156,9 @@ jobs:
     pool:
       vmImage: "$(OSVmImage)"
 
+    variables:
+      GeneratedPackageTargets: $[dependencies.Prepare.outputs['SelectPackages.GeneratedPackageTargets']]
+
     steps:
       - task: NodeTool@0
         inputs:
@@ -144,29 +169,15 @@ jobs:
           node common/scripts/install-run-rush.js install
         displayName: "Install dependencies"
 
-      # If there is no package name, then don't use the --to option.
-      - ${{ if eq(parameters.PackageName,'')}}:
-          - script: |
-              node common/scripts/install-run-rush.js build --verbose
-            displayName: 'Build libraries"'
-          - script: |
-              node common/scripts/install-run-rush.js build:test --verbose
-            displayName: "Build test assets"
-          - script: |
-              node common/scripts/install-run-rush.js unit-test --verbose
-            displayName: "Test libraries"
-
-      # On the other hand, if there is a PackageName, supply the --to option.
-      - ${{ if ne(parameters.PackageName,'')}}:
-          - script: |
-              node common/scripts/install-run-rush.js build --verbose --to ${{parameters.PackageName}}
-            displayName: 'Build libraries"'
-          - script: |
-              node common/scripts/install-run-rush.js build:test --verbose --to ${{parameters.PackageName}}
-            displayName: "Build test assets"
-          - script: |
-              node common/scripts/install-run-rush.js unit-test --verbose --to ${{parameters.PackageName}}
-            displayName: "Test libraries"
+      - script: |
+          node common/scripts/install-run-rush.js build --verbose $(GeneratedPackageTargets)
+        displayName: "Build libraries"
+      - script: |
+          node common/scripts/install-run-rush.js build:test --verbose $(GeneratedPackageTargets)
+        displayName: "Build test assets"
+      - script: |
+          node common/scripts/install-run-rush.js unit-test --verbose $(GeneratedPackageTargets)
+        displayName: "Test libraries"
 
       - task: PublishTestResults@2
         inputs:

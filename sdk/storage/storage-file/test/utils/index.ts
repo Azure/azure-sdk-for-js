@@ -4,7 +4,7 @@ import * as path from "path";
 
 import { SharedKeyCredential } from "../../src/credentials/SharedKeyCredential";
 import { FileServiceClient } from "../../src/FileServiceClient";
-import { StorageClient } from "../../src/StorageClient";
+import { newPipeline } from "../../src/Pipeline";
 import { getUniqueName } from "./testutils.common";
 
 export * from "./testutils.common";
@@ -29,7 +29,7 @@ export function getGenericBSU(
   }
 
   const credentials = new SharedKeyCredential(accountName, accountKey);
-  const pipeline = StorageClient.newPipeline(credentials, {
+  const pipeline = newPipeline(credentials, {
     // Enable logger when debugging
     // logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO)
   });
@@ -43,6 +43,17 @@ export function getBSU(): FileServiceClient {
 
 export function getAlternateBSU(): FileServiceClient {
   return getGenericBSU("SECONDARY_", "-secondary");
+}
+
+export function getConnectionStringFromEnvironment(): string {
+  const connectionStringEnvVar = `STORAGE_CONNECTION_STRING`;
+  const connectionString = process.env[connectionStringEnvVar];
+
+  if (!connectionString) {
+    throw new Error(`${connectionStringEnvVar} environment variables not specified.`);
+  }
+
+  return connectionString;
 }
 
 /**

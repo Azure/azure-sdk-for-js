@@ -5,17 +5,34 @@
 const fs = require("fs");
 const {
   AnonymousCredential,
-  uploadBrowserDataToBlockBlob,
-  downloadBlobToBuffer,
-  uploadFileToBlockBlob,
-  uploadStreamToBlockBlob,
+  HttpPipelineLogLevel,
   Aborter,
-  BlobClient,
   BlobServiceClient,
-  BlockBlobClient,
-  ContainerClient,
-  StorageClient
+  newPipeline
 } = require("../.."); // Change to "@azure/storage-blob" in your package
+
+class ConsoleHttpPipelineLogger {
+  constructor(minimumLogLevel) {
+    this.minimumLogLevel = minimumLogLevel;
+  }
+  log(logLevel, message) {
+    const logMessage = `${new Date().toISOString()} ${HttpPipelineLogLevel[logLevel]}: ${message}`;
+    switch (logLevel) {
+      case HttpPipelineLogLevel.ERROR:
+        // tslint:disable-next-line:no-console
+        console.error(logMessage);
+        break;
+      case HttpPipelineLogLevel.WARNING:
+        // tslint:disable-next-line:no-console
+        console.warn(logMessage);
+        break;
+      case HttpPipelineLogLevel.INFO:
+        // tslint:disable-next-line:no-console
+        console.log(logMessage);
+        break;
+    }
+  }
+}
 
 async function main() {
   // Fill in following settings before running this sample
@@ -23,9 +40,10 @@ async function main() {
   const accountSas = "";
   const localFilePath = "";
 
-  const pipeline = StorageClient.newPipeline(new AnonymousCredential(), {
+  const pipeline = newPipeline(new AnonymousCredential(), {
     // httpClient: MyHTTPClient, // A customized HTTP client implementing IHttpClient interface
     // logger: MyLogger, // A customized logger implementing IHttpPipelineLogger interface
+    logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO),
     retryOptions: { maxTries: 4 }, // Retry options
     telemetry: { value: "HighLevelSample V1.0.0" } // Customized telemetry string
   });
@@ -37,42 +55,41 @@ async function main() {
 
   // Create a container
   const containerName = `newcontainer${new Date().getTime()}`;
-  const containerClient = ContainerClient.fromBlobServiceClient(blobServiceClient, containerName);
+  const containerClient = blobServiceClient.createContainerClient(containerName);
   await containerClient.create();
 
   // Create a blob
   const blobName = "newblob" + new Date().getTime();
-  const blobClient = BlobClient.fromContainerClient(containerClient, blobName);
-  const blockBlobClient = BlockBlobClient.fromBlobClient(blobClient);
+  const blobClient = containerClient.createBlobClient(blobName);
+  const blockBlobClient = blobClient.createBlockBlobClient();
 
-  // Parallel uploading with uploadFileToBlockBlob in Node.js runtime
-  // uploadFileToBlockBlob is only available in Node.js
-  await uploadFileToBlockBlob(localFilePath, blockBlobClient, {
+  // Parallel uploading with BlockBlobClient.uploadFile() in Node.js runtime
+  // BlockBlobClient.uploadFile() is only available in Node.js
+  await blockBlobClient.uploadFile(localFilePath, {
     blockSize: 4 * 1024 * 1024, // 4MB block size
     parallelism: 20, // 20 concurrency
-    progress: ev => console.log(ev)
+    progress: (ev) => console.log(ev)
   });
-  console.log("uploadFileToBlockBlob success");
+  console.log("uploadFile success");
 
-  // Parallel uploading a Readable stream with uploadStreamToBlockBlob in Node.js runtime
-  // uploadStreamToBlockBlob is only available in Node.js
-  await uploadStreamToBlockBlob(
+  // Parallel uploading a Readable stream with BlockBlobClient.uploadStream() in Node.js runtime
+  // BlockBlobClient.uploadStream() is only available in Node.js
+  await blockBlobClient.uploadStream(
     fs.createReadStream(localFilePath),
-    blockBlobClient,
     4 * 1024 * 1024,
     20,
     {
       abortSignal: Aborter.timeout(30 * 60 * 1000), // Abort uploading with timeout in 30mins
-      progress: ev => console.log(ev)
+      progress: (ev) => console.log(ev)
     }
   );
-  console.log("uploadStreamToBlockBlob success");
+  console.log("uploadStream success");
 
-  // Parallel uploading a browser File/Blob/ArrayBuffer in browsers with uploadBrowserDataToBlockBlob
-  // Uncomment following code in browsers because uploadBrowserDataToBlockBlob is only available in browsers
+  // Parallel uploading a browser File/Blob/ArrayBuffer in browsers with blockBlobClient.uploadBrowserData()
+  // Uncomment following code in browsers because BlockBlobClient.uploadBrowserData() is only available in browsers
   /*
   const browserFile = document.getElementById("fileinput").files[0];
-  await uploadBrowserDataToBlockBlob(browserFile, blockBlobClient, {
+  await blockBlobClient.uploadBrowserData(browserFile, {
     blockSize: 4 * 1024 * 1024, // 4MB block size
     parallelism: 20, // 20 concurrency
     progress: ev => console.log(ev)
@@ -80,22 +97,21 @@ async function main() {
   */
 
   // Parallel downloading a block blob into Node.js buffer
-  // downloadBlobToBuffer is only available in Node.js
+  // BlockBlobClient.downloadToBuffer() is only available in Node.js
   const fileSize = fs.statSync(localFilePath).size;
   const buffer = Buffer.alloc(fileSize);
-  await downloadBlobToBuffer(
+  await blockBlobClient.downloadToBuffer(
     buffer,
-    blockBlobClient,
     0,
     undefined,
     {
-      abortSignal: Aborter.timeout(30 * 60 * 1000),
+      abortSignal: Aborter.timeout(30 * 60 * 1000), // Abort uploading with timeout in 30mins
       blockSize: 4 * 1024 * 1024, // 4MB block size
       parallelism: 20, // 20 concurrency
       progress: ev => console.log(ev)
     }
   );
-  console.log("downloadBlobToBuffer success");
+  console.log("downloadToBuffer success");
 
   // Delete container
   await containerClient.delete();
@@ -107,6 +123,6 @@ main()
   .then(() => {
     console.log("Successfully executed sample.");
   })
-  .catch(err => {
+  .catch((err) => {
     console.log(err.message);
   });

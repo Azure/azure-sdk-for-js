@@ -1,28 +1,30 @@
 import * as assert from "assert";
-
+import { getQSU } from "../utils";
+import { record } from "../utils/recorder";
 import { QueueClient } from "../../src/QueueClient";
-import { MessagesClient } from "../../src/MessagesClient";
-import { MessageIdClient } from "../../src/MessageIdClient";
-import { getQSU, getUniqueName } from "../utils";
 
 describe("MessageIdClient Node", () => {
   const queueServiceClient = getQSU();
-  let queueName = getUniqueName("queue");
-  let queueClient = QueueClient.fromQueueServiceClient(queueServiceClient, queueName);
+  let queueName: string;
+  let queueClient: QueueClient;
   const messageContent = "Hello World";
 
-  beforeEach(async () => {
-    queueName = getUniqueName("queue");
-    queueClient = QueueClient.fromQueueServiceClient(queueServiceClient, queueName);
+  let recorder: any;
+
+  beforeEach(async function() {
+    recorder = record(this);
+    queueName = recorder.getUniqueName("queue");
+    queueClient = queueServiceClient.createQueueClient(queueName);
     await queueClient.create();
   });
 
   afterEach(async () => {
     await queueClient.delete();
+    recorder.stop();
   });
 
   it("update message with 64KB characters including special char which is computed after encoding", async () => {
-    let messagesClient = MessagesClient.fromQueueClient(queueClient);
+    let messagesClient = queueClient.createMessagesClient();
     let eResult = await messagesClient.enqueue(messageContent);
     assert.ok(eResult.date);
     assert.ok(eResult.expirationTime);
@@ -39,8 +41,8 @@ describe("MessageIdClient Node", () => {
     buffer.fill("a");
     buffer.write(specialChars, 0);
     let newMessage = buffer.toString();
-    let messageIdClient = MessageIdClient.fromMessagesClient(messagesClient, eResult.messageId);
-    let uResult = await messageIdClient.update(eResult.popReceipt, 0, newMessage);
+    let messageIdClient = messagesClient.createMessageIdClient(eResult.messageId);
+    let uResult = await messageIdClient.update(eResult.popReceipt, newMessage);
     assert.ok(uResult.version);
     assert.ok(uResult.timeNextVisible);
     assert.ok(uResult.date);
@@ -53,7 +55,7 @@ describe("MessageIdClient Node", () => {
   });
 
   it("update message negative with 65537B (64KB+1B) characters including special char which is computed after encoding", async () => {
-    let messagesClient = MessagesClient.fromQueueClient(queueClient);
+    let messagesClient = queueClient.createMessagesClient();
     let eResult = await messagesClient.enqueue(messageContent);
     assert.ok(eResult.date);
     assert.ok(eResult.expirationTime);
@@ -70,11 +72,11 @@ describe("MessageIdClient Node", () => {
     buffer.fill("a");
     buffer.write(specialChars, 0);
     let newMessage = buffer.toString();
-    let messageIdClient = MessageIdClient.fromMessagesClient(messagesClient, eResult.messageId);
+    let messageIdClient = messagesClient.createMessageIdClient(eResult.messageId);
 
     let error;
     try {
-      await messageIdClient.update(eResult.popReceipt, 0, newMessage);
+      await messageIdClient.update(eResult.popReceipt, newMessage);
     } catch (err) {
       error = err;
     }

@@ -66,18 +66,18 @@ There are differences between Node.js and browsers runtime. When getting start w
   - `generateFileSASQueryParameters()`
   - `generateQueueSASQueryParameters()`
 - Parallel uploading and downloading
-  - `uploadFileToBlockBlob()`
-  - `uploadStreamToBlockBlob()`
-  - `downloadBlobToBuffer()`
-  - `uploadFileToAzureFile()`
-  - `uploadStreamToAzureFile()`
-  - `downloadAzureFileToBuffer()`
+  - `BlockBlobClient.uploadFile()`
+  - `BlockBlobClient.uploadStream()`
+  - `BlobClient.downloadToBuffer()`
+  - `FileClient.uploadFile()`
+  - `FileClient.uploadStream()`
+  - `FileClient.downloadToBuffer()`
 
 ##### Following features, interfaces, classes or functions are only available in browsers
 
 - Parallel uploading and downloading
-  - `uploadBrowserDataToBlockBlob()`
-  - `uploadBrowserDataToAzureFile()`
+  - `BlockBlobClient.uploadBrowserData()`
+  - `FileClient.uploadBrowserData()`
 
 ## Getting Started
 
@@ -151,12 +151,8 @@ The Azure Storage SDK for JavaScript provides low-level and high-level APIs. Tak
 
 ```javascript
 const {
-  Aborter,
-  BlobURL,
-  BlockBlobURL,
-  ContainerURL,
-  ServiceURL,
-  StorageURL,
+  BlobServiceClient,
+  newPipeline,
   SharedKeyCredential,
   AnonymousCredential,
   TokenCredential
@@ -178,10 +174,10 @@ async function main() {
   const anonymousCredential = new AnonymousCredential();
 
   // Use sharedKeyCredential, tokenCredential or anonymousCredential to create a pipeline
-  const pipeline = StorageURL.newPipeline(sharedKeyCredential);
+  const pipeline = newPipeline(sharedKeyCredential);
 
   // List containers
-  const serviceURL = new ServiceURL(
+  const blobServiceClient = new BlobServiceClient(
     // When using AnonymousCredential, following url should include a valid SAS or support public access
     `https://${account}.blob.core.windows.net`,
     pipeline
@@ -189,8 +185,7 @@ async function main() {
 
   let marker;
   do {
-    const listContainersResponse = await serviceURL.listContainersSegment(
-      Aborter.none,
+    const listContainersResponse = await blobServiceClient.listContainersSegment(
       marker
     );
 
@@ -202,9 +197,9 @@ async function main() {
 
   // Create a container
   const containerName = `newcontainer${new Date().getTime()}`;
-  const containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
+  const containerClient = blobServiceClient.createContainerClient(containerName);
 
-  const createContainerResponse = await containerURL.create(Aborter.none);
+  const createContainerResponse = await containerClient.create();
   console.log(
     `Create container ${containerName} successfully`,
     createContainerResponse.requestId
@@ -213,10 +208,9 @@ async function main() {
   // Create a blob
   const content = "hello";
   const blobName = "newblob" + new Date().getTime();
-  const blobURL = BlobURL.fromContainerURL(containerURL, blobName);
-  const blockBlobURL = BlockBlobURL.fromBlobURL(blobURL);
-  const uploadBlobResponse = await blockBlobURL.upload(
-    Aborter.none,
+  const blobClient = containerClient.createBlobClient(blobName);
+  const blockBlobClient = blobClient.createBlockBlobClient();
+  const uploadBlobResponse = await blockBlobClient.upload(
     content,
     content.length
   );
@@ -228,8 +222,7 @@ async function main() {
   // List blobs
   marker = undefined;
   do {
-    const listBlobsResponse = await containerURL.listBlobFlatSegment(
-      Aborter.none,
+    const listBlobsResponse = await containerClient.listBlobFlatSegment(
       marker
     );
 
@@ -242,14 +235,14 @@ async function main() {
   // Get blob content from position 0 to the end
   // In Node.js, get downloaded data by accessing downloadBlockBlobResponse.readableStreamBody
   // In browsers, get downloaded data by accessing downloadBlockBlobResponse.blobBody
-  const downloadBlockBlobResponse = await blobURL.download(Aborter.none, 0);
+  const downloadBlockBlobResponse = await blobClient.download(0);
   console.log(
     "Downloaded blob content",
     await streamToString(downloadBlockBlobResponse.readableStreamBody)
   );
 
   // Delete container
-  await containerURL.delete(Aborter.none);
+  await containerClient.delete();
 
   console.log("deleted container");
 }
@@ -258,7 +251,7 @@ async function main() {
 async function streamToString(readableStream) {
   return new Promise((resolve, reject) => {
     const chunks = [];
-    readableStream.on("data", data => {
+    readableStream.on("data", (data) => {
       chunks.push(data.toString());
     });
     readableStream.on("end", () => {
@@ -273,7 +266,7 @@ main()
   .then(() => {
     console.log("Successfully executed sample.");
   })
-  .catch(err => {
+  .catch((err) => {
     console.log(err.message);
   });
 ```

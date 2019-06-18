@@ -3,15 +3,12 @@
 */
 
 import {
-  QueueClient,
-  MessagesClient,
-  MessageIdClient,
   QueueServiceClient,
   StorageClient,
   SharedKeyCredential,
   TokenCredential,
   Models
-} from "../.."; // Change to "@azure/storage-queue" in your package
+} from "../../src"; // Change to "@azure/storage-queue" in your package
 
 async function main() {
   // Enter your storage account name and shared key
@@ -28,7 +25,7 @@ async function main() {
   //   const anonymousCredential = new AnonymousCredential();
 
   // Use sharedKeyCredential, tokenCredential or anonymousCredential to create a pipeline
-  const pipeline = StorageClient.newPipeline(sharedKeyCredential, {
+  const pipeline = newPipeline(sharedKeyCredential, {
     // httpClient: MyHTTPClient, // A customized HTTP client implementing IHttpClient interface
     // logger: MyLogger, // A customized logger implementing IHttpPipelineLogger interface
     retryOptions: {
@@ -61,7 +58,7 @@ async function main() {
 
   // Create a new queue
   const queueName = `newqueue${new Date().getTime()}`;
-  const queueClient = QueueClient.fromQueueServiceClient(queueServiceClient, queueName);
+  const queueClient = queueServiceClient.createQueueClient(queueName);
   const createQueueResponse = await queueClient.create();
   console.log(
     `Create queue ${queueName} successfully, service assigned request Id: ${
@@ -70,10 +67,8 @@ async function main() {
   );
 
   // Enqueue a message into the queue using the enqueue method.
-  const messagesClient = MessagesClient.fromQueueClient(queueClient);
-  const enqueueQueueResponse = await messagesClient.enqueue(
-    "Hello World!"
-  );
+  const messagesClient = queueClient.createMessagesClient();
+  const enqueueQueueResponse = await messagesClient.enqueue("Hello World!");
   console.log(
     `Enqueue message successfully, service assigned message Id: ${
       enqueueQueueResponse.messageId
@@ -82,11 +77,7 @@ async function main() {
 
   // Peek a message using peek method.
   const peekQueueResponse = await messagesClient.peek();
-  console.log(
-    `The peeked message is: ${
-      peekQueueResponse.peekedMessageItems[0].messageText
-    }`
-  );
+  console.log(`The peeked message is: ${peekQueueResponse.peekedMessageItems[0].messageText}`);
 
   // You de-queue a message in two steps. Call GetMessage at which point the message becomes invisible to any other code reading messages
   // from this queue for a default period of 30 seconds. To finish removing the message from the queue, you call DeleteMessage.
@@ -95,31 +86,18 @@ async function main() {
   const dequeueResponse = await messagesClient.dequeue();
   if (dequeueResponse.dequeuedMessageItems.length == 1) {
     const dequeueMessageItem = dequeueResponse.dequeuedMessageItems[0];
+    console.log(`Processing & deleting message with content: ${dequeueMessageItem.messageText}`);
+    const messageIdClient = messagesClient.createMessageIdClient(dequeueMessageItem.messageId);
+    const deleteMessageResponse = await messageIdClient.delete(dequeueMessageItem.popReceipt);
     console.log(
-      `Processing & deleting message with content: ${
-        dequeueMessageItem.messageText
-      }`
-    );
-    const messageIdClient = MessageIdClient.fromMessagesClient(
-      messagesClient,
-      dequeueMessageItem.messageId
-    );
-    const deleteMessageResponse = await messageIdClient.delete(
-      dequeueMessageItem.popReceipt
-    );
-    console.log(
-      `Delete message succesfully, service assigned request Id: ${
-        deleteMessageResponse.requestId
-      }`
+      `Delete message succesfully, service assigned request Id: ${deleteMessageResponse.requestId}`
     );
   }
 
   // Delete the queue.
   const deleteQueueResponse = await queueClient.delete();
   console.log(
-    `Delete queue successfully, service assigned request Id: ${
-      deleteQueueResponse.requestId
-    }`
+    `Delete queue successfully, service assigned request Id: ${deleteQueueResponse.requestId}`
   );
 }
 
@@ -128,6 +106,6 @@ main()
   .then(() => {
     console.log("Successfully executed sample.");
   })
-  .catch(err => {
+  .catch((err) => {
     console.log(err.message);
   });

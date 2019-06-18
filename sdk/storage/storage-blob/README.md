@@ -53,14 +53,14 @@ There are differences between Node.js and browsers runtime. When getting start w
   - `generateAccountSASQueryParameters()`
   - `generateBlobSASQueryParameters()`
 - Parallel uploading and downloading
-  - `uploadFileToBlockBlob()`
-  - `uploadStreamToBlockBlob()`
-  - `downloadBlobToBuffer()`
+  - `BlockBlobClient.uploadFile()`
+  - `BlockBlobClient.uploadStream()`
+  - `BlobClient.downloadToBuffer()`
 
 ##### Following features, interfaces, classes or functions are only available in browsers
 
 - Parallel uploading and downloading
-  - `uploadBrowserDataToBlockBlob()`
+  - `BlockBlobClient.uploadBrowserData()`
 
 ## Getting Started
 
@@ -126,12 +126,8 @@ The Azure Storage SDK for JavaScript provides low-level and high-level APIs.
 
 ```javascript
 const {
-  Aborter,
-  BlobClient,
   BlobServiceClient,
-  BlockBlobClient,
-  ContainerClient,
-  StorageClient,
+  newPipeline,
   SharedKeyCredential,
   AnonymousCredential,
   TokenCredential
@@ -153,7 +149,7 @@ async function main() {
   const anonymousCredential = new AnonymousCredential();
 
   // Use sharedKeyCredential, tokenCredential or anonymousCredential to create a pipeline
-  const pipeline = StorageClient.newPipeline(sharedKeyCredential);
+  const pipeline = newPipeline(sharedKeyCredential);
 
   // List containers
   const blobServiceClient = new BlobServiceClient(
@@ -176,7 +172,7 @@ async function main() {
 
   // Create a container
   const containerName = `newcontainer${new Date().getTime()}`;
-  const containerClient = ContainerClient.fromBlobServiceClient(blobServiceClient, containerName);
+  const containerClient = blobServiceClient.createContainerClient(containerName);
 
   const createContainerResponse = await containerClient.create();
   console.log(
@@ -187,8 +183,8 @@ async function main() {
   // Create a blob
   const content = "hello";
   const blobName = "newblob" + new Date().getTime();
-  const blobClient = BlobClient.fromContainerClient(containerClient, blobName);
-  const blockBlobClient = BlockBlobClient.fromBlobClient(blobClient);
+  const blobClient = containerClient.createBlobClient(blobName);
+  const blockBlobClient = blobClient.createBlockBlobClient();
   const uploadBlobResponse = await blockBlobClient.upload(
     content,
     content.length

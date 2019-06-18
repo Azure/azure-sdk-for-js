@@ -6,36 +6,140 @@ import * as Models from "./generated/lib/models";
 import { Aborter } from "./Aborter";
 import { Queue } from "./generated/lib/operations";
 import { Metadata } from "./models";
-import { Pipeline } from "./Pipeline";
-import { QueueServiceClient } from "./QueueServiceClient";
+import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
 import { StorageClient } from "./StorageClient";
-import { appendToURLPath, truncatedISO8061Date } from "./utils/utils.common";
+import {
+  appendToURLPath,
+  truncatedISO8061Date,
+  extractConnectionStringParts
+} from "./utils/utils.common";
+import { MessagesClient } from "./MessagesClient";
+import { Credential } from "./credentials/Credential";
+import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
+import { AnonymousCredential } from "./credentials/AnonymousCredential";
 
+/**
+ * Options to configure Queue - Create operation
+ *
+ * @export
+ * @interface QueueCreateOptions
+ */
 export interface QueueCreateOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof AppendBlobCreateOptions
+   */
   abortSignal?: Aborter;
+  /**
+   * A collection of key-value string pair to associate with the queue object.
+   * The keys need to be lower-case.
+   *
+   * @type {Metadata}
+   * @memberof QueueCreateOptions
+   */
   metadata?: Metadata;
 }
 
+/**
+ * Options to configure Queue - Get Properties operation
+ *
+ * @export
+ * @interface QueueGetPropertiesOptions
+ */
 export interface QueueGetPropertiesOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof AppendBlobCreateOptions
+   */
   abortSignal?: Aborter;
 }
 
+/**
+ * Options to configure Queue - Delete operation
+ *
+ * @export
+ * @interface QueueDeleteOptions
+ */
 export interface QueueDeleteOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof AppendBlobCreateOptions
+   */
   abortSignal?: Aborter;
 }
 
+/**
+ * Options to configure Queue - Get Access Policy operation
+ *
+ * @export
+ * @interface QueueGetAccessPolicyOptions
+ */
 export interface QueueGetAccessPolicyOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof AppendBlobCreateOptions
+   */
   abortSignal?: Aborter;
 }
 
+/**
+ * Options to configure Queue - Set Access Policy operation
+ *
+ * @export
+ * @interface QueueSetAccessPolicyOptions
+ */
 export interface QueueSetAccessPolicyOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof AppendBlobCreateOptions
+   */
   abortSignal?: Aborter;
 }
 
+/**
+ * Options to configure Queue - Set Metadata operation
+ *
+ * @export
+ * @interface QueueSetMetadataOptions
+ */
 export interface QueueSetMetadataOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof AppendBlobCreateOptions
+   */
   abortSignal?: Aborter;
 }
 
+/**
+ * Signed identifier.
+ *
+ * @export
+ * @interface SignedIdentifier
+ */
 export interface SignedIdentifier {
   /**
    * @member {string} id a unique id
@@ -64,95 +168,120 @@ export interface SignedIdentifier {
 export declare type QueueGetAccessPolicyResponse = {
   signedIdentifiers: SignedIdentifier[];
 } & Models.QueueGetAccessPolicyHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpResponse & {
     /**
-     * The parsed HTTP response headers.
+     * The underlying HTTP response.
      */
-    parsedHeaders: Models.QueueGetAccessPolicyHeaders;
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: Models.SignedIdentifier[];
+    _response: HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: Models.QueueGetAccessPolicyHeaders;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Models.SignedIdentifier[];
+    };
   };
-};
 
 /**
- * A QueueURL represents a URL to the Azure Storage queue.
+ * A QueueClient represents a URL to the Azure Storage queue.
  *
  * @export
- * @class QueueURL
- * @extends {StorageClient}
+ * @class QueueClient
  */
 export class QueueClient extends StorageClient {
-  /**
-   * Creates a QueueURL object from QueueServiceClient
-   * @param queueServiceClient
-   * @param queueName
-   */
-  public static fromQueueServiceClient(
-    queueServiceClient: QueueServiceClient,
-    queueName: string
-  ): QueueClient {
-    return new QueueClient(
-      appendToURLPath(queueServiceClient.url, queueName),
-      queueServiceClient.pipeline
-    );
-  }
-
   /**
    * queueContext provided by protocol layer.
    *
    * @private
    * @type {Queue}
-   * @memberof QueueURL
+   * @memberof QueueClient
    */
   private queueContext: Queue;
 
   /**
-   * Creates an instance of QueueURL.
+   * Creates an instance of QueueClient.
+   *
+   * @param {string} connectionString Connection string for an Azure storage account.
+   * @param {string} queueName Queue name.
+   * @param {NewPipelineOptions} [options] Options to configure the HTTP pipeline.
+   * @memberof QueueClient
+   */
+  constructor(connectionString: string, queueName: string, options?: NewPipelineOptions);
+  /**
+   * Creates an instance of QueueClient.
+   *
    * @param {string} url A URL string pointing to Azure Storage queue, such as
    *                     "https://myaccount.queue.core.windows.net/myqueue". You can
    *                     append a SAS if using AnonymousCredential, such as
    *                     "https://myaccount.queue.core.windows.net/myqueue?sasString".
-   * @param {Pipeline} pipeline Call StorageClient.newPipeline() to create a default
-   *                            pipeline, or provide a customized pipeline.
-   * @memberof QueueURL
+   * @param {Credential} credential Such as AnonymousCredential, SharedKeyCredential or TokenCredential.
+   *                                If not specified, anonymous credential is used.
+   * @param {NewPipelineOptions} [options] Options to configure the HTTP pipeline.
+   * @memberof QueueClient
    */
-  constructor(url: string, pipeline: Pipeline) {
-    super(url, pipeline);
-    this.queueContext = new Queue(this.storageClientContext);
-  }
-
+  constructor(url: string, credential?: Credential, options?: NewPipelineOptions);
   /**
-   * Creates a new QueueURL object identical to the source but with the
-   * specified request policy pipeline.
+   * Creates an instance of QueueClient.
    *
-   * @param {Pipeline} pipeline
-   * @returns {QueueClient}
-   * @memberof QueueURL
+   * @param {string} url A URL string pointing to Azure Storage queue, such as
+   *                     "https://myaccount.queue.core.windows.net/myqueue". You can
+   *                     append a SAS if using AnonymousCredential, such as
+   *                     "https://myaccount.queue.core.windows.net/myqueue?sasString".
+   * @param {Pipeline} pipeline Call newPipeline() to create a default
+   *                            pipeline, or provide a customized pipeline.
+   * @memberof QueueClient
    */
-  public withPipeline(pipeline: Pipeline): QueueClient {
-    return new QueueClient(this.url, pipeline);
+  constructor(url: string, pipeline: Pipeline);
+  constructor(
+    urlOrConnectionString: string,
+    credentialOrPipelineOrQueueName?: Credential | Pipeline | string,
+    options?: NewPipelineOptions
+  ) {
+    let pipeline: Pipeline;
+    if (credentialOrPipelineOrQueueName instanceof Pipeline) {
+      pipeline = credentialOrPipelineOrQueueName;
+    } else if (credentialOrPipelineOrQueueName instanceof Credential) {
+      pipeline = newPipeline(credentialOrPipelineOrQueueName, options);
+    } else if (
+      !credentialOrPipelineOrQueueName &&
+      typeof credentialOrPipelineOrQueueName !== "string"
+    ) {
+      // The second paramter is undefined. Use anonymous credential.
+      pipeline = newPipeline(new AnonymousCredential(), options);
+    } else if (
+      credentialOrPipelineOrQueueName &&
+      typeof credentialOrPipelineOrQueueName === "string"
+    ) {
+      const queueName = credentialOrPipelineOrQueueName;
+
+      const extractedCreds = extractConnectionStringParts(urlOrConnectionString);
+      const sharedKeyCredential = new SharedKeyCredential(
+        extractedCreds.accountName,
+        extractedCreds.accountKey
+      );
+      urlOrConnectionString = extractedCreds.url + "/" + queueName;
+      pipeline = newPipeline(sharedKeyCredential, options);
+    } else {
+      throw new Error("Expecting non-empty strings for queueName parameter");
+    }
+    super(urlOrConnectionString, pipeline);
+    this.queueContext = new Queue(this.storageClientContext);
   }
 
   /**
    * Creates a new queue under the specified account.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-queue4
    *
-   * @param {QueueCreateOptions} [options] Optional options to Queue create operation.
-   * @returns {Promise<Models.QueueCreateResponse>}
-   * @memberof QueueURL
+   * @param {QueueCreateOptions} [options] Options to Queue create operation.
+   * @returns {Promise<Models.QueueCreateResponse>} Response data for the Queue create operation.
+   * @memberof QueueClient
    */
-  public async create(
-    options: QueueCreateOptions = {}
-  ): Promise<Models.QueueCreateResponse> {
+  public async create(options: QueueCreateOptions = {}): Promise<Models.QueueCreateResponse> {
     const aborter = options.abortSignal || Aborter.none;
     return this.queueContext.create({
       ...options,
@@ -161,13 +290,21 @@ export class QueueClient extends StorageClient {
   }
 
   /**
+   * Creates a MessagesClient object.
+   * @param queueName
+   */
+  public createMessagesClient(): MessagesClient {
+    return new MessagesClient(appendToURLPath(this.url, "messages"), this.pipeline);
+  }
+
+  /**
    * Gets all user-defined metadata and system properties for the specified
    * queue. Metadata is associated with the queue as name-values pairs.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-queue-metadata
    *
-   * @param {QueueGetPropertiesOptions} [options] Optional options to Queue get properties operation.
-   * @returns {Promise<Models.QueueGetPropertiesResponse>}
-   * @memberof QueueURL
+   * @param {QueueGetPropertiesOptions} [options] Options to Queue get properties operation.
+   * @returns {Promise<Models.QueueGetPropertiesResponse>} Response data for the Queue get properties operation.
+   * @memberof QueueClient
    */
   public async getProperties(
     options: QueueGetPropertiesOptions = {}
@@ -182,13 +319,11 @@ export class QueueClient extends StorageClient {
    * Deletes the specified queue permanently.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-queue3
    *
-   * @param {QueueDeleteOptions} [options] Optional options to Queue delete operation.
-   * @returns {Promise<Models.QueueDeleteResponse>}
-   * @memberof QueueURL
+   * @param {QueueDeleteOptions} [options] Options to Queue delete operation.
+   * @returns {Promise<Models.QueueDeleteResponse>} Response data for the Queue delete operation.
+   * @memberof QueueClient
    */
-  public async delete(
-    options: QueueDeleteOptions = {}
-  ): Promise<Models.QueueDeleteResponse> {
+  public async delete(options: QueueDeleteOptions = {}): Promise<Models.QueueDeleteResponse> {
     const aborter = options.abortSignal || Aborter.none;
     return this.queueContext.deleteMethod({
       abortSignal: aborter
@@ -203,9 +338,9 @@ export class QueueClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-queue-metadata
    *
    * @param {Metadata} [metadata] If no metadata provided, all existing metadata will be removed.
-   * @param {QueueSetMetadataOptions} [options] Optional options to Queue set metadata operation.
-   * @returns {Promise<Models.QueueSetMetadataResponse>}
-   * @memberof QueueURL
+   * @param {QueueSetMetadataOptions} [options] Options to Queue set metadata operation.
+   * @returns {Promise<Models.QueueSetMetadataResponse>} Response data for the Queue set metadata operation.
+   * @memberof QueueClient
    */
   public async setMetadata(
     metadata?: Metadata,
@@ -226,9 +361,9 @@ export class QueueClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-queue-acl
    *
-   * @param {QueueGetAccessPolicyOptions} [options] Optional options to Queue get access policy operation.
-   * @returns {Promise<QueueGetAccessPolicyResponse>}
-   * @memberof QueueURL
+   * @param {QueueGetAccessPolicyOptions} [options] Options to Queue get access policy operation.
+   * @returns {Promise<QueueGetAccessPolicyResponse>} Response data for the Queue get access policy operation.
+   * @memberof QueueClient
    */
   public async getAccessPolicy(
     options: QueueGetAccessPolicyOptions = {}
@@ -267,9 +402,9 @@ export class QueueClient extends StorageClient {
    *
    * @param {PublicAccessType} [access]
    * @param {SignedIdentifier[]} [queueAcl]
-   * @param {QueueSetAccessPolicyOptions} [options] Optional options to Queue set access policy operation.
-   * @returns {Promise<Models.QueueSetAccessPolicyResponse>}
-   * @memberof QueueURL
+   * @param {QueueSetAccessPolicyOptions} [options] Options to Queue set access policy operation.
+   * @returns {Promise<Models.QueueSetAccessPolicyResponse>} Response data for the Queue set access policy operation.
+   * @memberof QueueClient
    */
   public async setAccessPolicy(
     queueAcl?: SignedIdentifier[],

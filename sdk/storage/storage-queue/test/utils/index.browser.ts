@@ -1,7 +1,6 @@
 import { AnonymousCredential } from "../../src/credentials/AnonymousCredential";
+import { newPipeline } from "../../src/Pipeline";
 import { QueueServiceClient } from "../../src/QueueServiceClient";
-import { StorageClient } from "../../src/StorageClient";
-
 export * from "./testutils.common";
 
 export function getGenericQSU(
@@ -27,7 +26,7 @@ export function getGenericQSU(
   }
 
   const credentials = new AnonymousCredential();
-  const pipeline = StorageClient.newPipeline(credentials, {
+  const pipeline = newPipeline(credentials, {
     // Enable logger when debugging
     // logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO)
   });
@@ -41,6 +40,17 @@ export function getQSU(): QueueServiceClient {
 
 export function getAlternateQSU(): QueueServiceClient {
   return getGenericQSU("SECONDARY_", "-secondary");
+}
+
+export function getConnectionStringFromEnvironment(): string {
+  const connectionStringEnvVar = `STORAGE_CONNECTION_STRING`;
+  const connectionString = process.env[connectionStringEnvVar];
+
+  if (!connectionString) {
+    throw new Error(`${connectionStringEnvVar} environment variables not specified.`);
+  }
+
+  return connectionString;
 }
 
 /**

@@ -5,23 +5,58 @@ import { HttpResponse } from "@azure/ms-rest-js";
 import * as Models from "./generated/lib/models";
 import { Aborter } from "./Aborter";
 import { Messages } from "./generated/lib/operations";
-import { Pipeline } from "./Pipeline";
-import { QueueClient } from "./QueueClient";
+import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
 import { StorageClient } from "./StorageClient";
-import { appendToURLPath } from "./utils/utils.common";
+import { appendToURLPath, extractConnectionStringParts } from "./utils/utils.common";
+import { MessageIdClient } from "./MessageIdClient";
+import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
+import { Credential } from "./credentials/Credential";
+import { AnonymousCredential } from "./credentials/AnonymousCredential";
 
+/**
+ * Options to configure Messages - Clear operation
+ *
+ * @export
+ * @interface MessagesClearOptions
+ */
 export interface MessagesClearOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof AppendBlobCreateOptions
+   */
   abortSignal?: Aborter;
 }
 
-export interface MessagesEnqueueOptions extends Models.MessagesEnqueueOptionalParams {
-}
+/**
+ * Options to configure Messages - Enqueue operation
+ *
+ * @export
+ * @interface MessagesEnqueueOptions
+ * @extends {Models.MessagesEnqueueOptionalParams}
+ */
+export interface MessagesEnqueueOptions extends Models.MessagesEnqueueOptionalParams {}
 
-export interface MessagesDequeueOptions extends Models.MessagesDequeueOptionalParams {
-}
+/**
+ * Options to configure Messages - Dequeue operation
+ *
+ * @export
+ * @interface MessagesDequeueOptions
+ * @extends {Models.MessagesDequeueOptionalParams}
+ */
+export interface MessagesDequeueOptions extends Models.MessagesDequeueOptionalParams {}
 
-export interface MessagesPeekOptions extends Models.MessagesPeekOptionalParams {
-}
+/**
+ * Options to configure Messages - Peek operation
+ *
+ * @export
+ * @interface MessagesPeekOptions
+ * @extends {Models.MessagesPeekOptionalParams}
+ */
+export interface MessagesPeekOptions extends Models.MessagesPeekOptionalParams {}
 
 export declare type MessagesEnqueueResponse = {
   /**
@@ -50,86 +85,76 @@ export declare type MessagesEnqueueResponse = {
    */
   timeNextVisible: Date;
 } & Models.MessagesEnqueueHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpResponse & {
     /**
-     * The parsed HTTP response headers.
+     * The underlying HTTP response.
      */
-    parsedHeaders: Models.MessagesEnqueueHeaders;
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: Models.EnqueuedMessage[];
+    _response: HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: Models.MessagesEnqueueHeaders;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Models.EnqueuedMessage[];
+    };
   };
-};
 
 export declare type MessagesDequeueResponse = {
   dequeuedMessageItems: Models.DequeuedMessageItem[];
 } & Models.MessagesDequeueHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpResponse & {
     /**
-     * The parsed HTTP response headers.
+     * The underlying HTTP response.
      */
-    parsedHeaders: Models.MessagesDequeueHeaders;
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: Models.DequeuedMessageItem[];
+    _response: HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: Models.MessagesDequeueHeaders;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Models.DequeuedMessageItem[];
+    };
   };
-};
 
 export declare type MessagesPeekResponse = {
   peekedMessageItems: Models.PeekedMessageItem[];
 } & Models.MessagesPeekHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpResponse & {
     /**
-     * The parsed HTTP response headers.
+     * The underlying HTTP response.
      */
-    parsedHeaders: Models.MessagesPeekHeaders;
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: Models.PeekedMessageItem[];
+    _response: HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: Models.MessagesPeekHeaders;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Models.PeekedMessageItem[];
+    };
   };
-};
 
 /**
  * A MessagesClient represents a URL to an Azure Storage Queue's messages allowing you to manipulate its messages.
  *
  * @export
  * @class MessagesClient
- * @extends {StorageClient}
  */
 export class MessagesClient extends StorageClient {
-  /**
-   * Creates a MessagesClient object from QueueClient
-   * @param queueClient
-   * @param queueName
-   */
-  public static fromQueueClient(queueClient: QueueClient): MessagesClient {
-    return new MessagesClient(appendToURLPath(queueClient.url, "messages"), queueClient.pipeline);
-  }
-
   /**
    * messagesContext provided by protocol layer.
    *
@@ -141,46 +166,95 @@ export class MessagesClient extends StorageClient {
 
   /**
    * Creates an instance of MessagesClient.
+   *
+   * @param {string} connectionString Connection string for an Azure storage account.
+   * @param {string} queueName Queue name.
+   * @param {NewPipelineOptions} [options] Options to configure the HTTP pipeline.
+   * @memberof MessagesClient
+   */
+  constructor(connectionString: string, queueName: string, options?: NewPipelineOptions);
+  /**
+   * Creates an instance of MessagesClient.
+   *
    * @param {string} url A URL string pointing to Azure Storage queue's messages, such as
    *                     "https://myaccount.queue.core.windows.net/myqueue/messages". You can
    *                     append a SAS if using AnonymousCredential, such as
    *                     "https://myaccount.queue.core.windows.net/myqueue/messages?sasString".
-   * @param {Pipeline} pipeline Call StorageClient.newPipeline() to create a default
+   * @param {Credential} credential Such as AnonymousCredential, SharedKeyCredential or TokenCredential.
+   *                                If not specified, anonymous credential is used.
+   * @param {NewPipelineOptions} [options] Options to configure the HTTP pipeline.
+   * @memberof MessagesClient
+   */
+  constructor(url: string, credential?: Credential, options?: NewPipelineOptions);
+  /**
+   * Creates an instance of MessagesClient.
+   *
+   * @param {string} url A URL string pointing to Azure Storage queue's messages, such as
+   *                     "https://myaccount.queue.core.windows.net/myqueue/messages". You can
+   *                     append a SAS if using AnonymousCredential, such as
+   *                     "https://myaccount.queue.core.windows.net/myqueue/messages?sasString".
+   * @param {Pipeline} pipeline Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
    * @memberof MessagesClient
    */
-  constructor(url: string, pipeline: Pipeline) {
-    super(url, pipeline);
+  constructor(url: string, pipeline: Pipeline);
+  constructor(
+    urlOrConnectionString: string,
+    credentialOrPipelineOrQueueName?: Credential | Pipeline | string,
+    options?: NewPipelineOptions
+  ) {
+    let pipeline: Pipeline;
+    if (credentialOrPipelineOrQueueName instanceof Pipeline) {
+      pipeline = credentialOrPipelineOrQueueName;
+    } else if (credentialOrPipelineOrQueueName instanceof Credential) {
+      pipeline = newPipeline(credentialOrPipelineOrQueueName, options);
+    } else if (
+      !credentialOrPipelineOrQueueName &&
+      typeof credentialOrPipelineOrQueueName !== "string"
+    ) {
+      // The second paramter is undefined. Use anonymous credential.
+      pipeline = newPipeline(new AnonymousCredential(), options);
+    } else if (
+      credentialOrPipelineOrQueueName &&
+      typeof credentialOrPipelineOrQueueName === "string"
+    ) {
+      const queueName = credentialOrPipelineOrQueueName;
+      const extractedCreds = extractConnectionStringParts(urlOrConnectionString);
+      const sharedKeyCredential = new SharedKeyCredential(
+        extractedCreds.accountName,
+        extractedCreds.accountKey
+      );
+      urlOrConnectionString = extractedCreds.url + "/" + queueName + "/messages";
+      pipeline = newPipeline(sharedKeyCredential, options);
+    } else {
+      throw new Error("Expecting non-empty strings for queueName parameter");
+    }
+    super(urlOrConnectionString, pipeline);
     this.messagesContext = new Messages(this.storageClientContext);
-  }
-
-  /**
-   * Creates a new MessagesClient object identical to the source but with the
-   * specified request policy pipeline.
-   *
-   * @param {Pipeline} pipeline
-   * @returns {MessagesClient}
-   * @memberof MessagesClient
-   */
-  public withPipeline(pipeline: Pipeline): MessagesClient {
-    return new MessagesClient(this.url, pipeline);
   }
 
   /**
    * Clear deletes all messages from a queue.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/clear-messages
    *
-   * @param {MessagesClearOptions} [options] Optional options to Messages clear operation.
-   * @returns {Promise<Models.MessageClearResponse>}
+   * @param {MessagesClearOptions} [options] Options to Messages clear operation.
+   * @returns {Promise<Models.MessageClearResponse>} Response data for the Messages clear operation.
    * @memberof MessagesClient
    */
-  public async clear(
-    options: MessagesClearOptions = {}
-  ): Promise<Models.MessagesClearResponse> {
+  public async clear(options: MessagesClearOptions = {}): Promise<Models.MessagesClearResponse> {
     const aborter = options.abortSignal || Aborter.none;
     return this.messagesContext.clear({
       abortSignal: aborter
     });
+  }
+
+  /**
+   * Creates a MessageIdClient object.
+   * @param {string} messageId Id of a message.
+   * @returns {MessageIdClient} a MessageIdClient instance for the given messageId.
+   */
+  public createMessageIdClient(messageId: string): MessageIdClient {
+    return new MessageIdClient(appendToURLPath(this.url, messageId), this.pipeline);
   }
 
   /**
@@ -190,9 +264,9 @@ export class MessagesClient extends StorageClient {
    * To include markup in the message, the contents of the message must either be XML-escaped or Base64-encode.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/put-message
    *
-   * @param {string} messageText
-   * @param {MessagesEnqueueOptionas} [options] Optional optiosn to Messages enqueue operation.
-   * @returns {Promise<Models.MessagesEnqueueResponse>}
+   * @param {string} messageText Text of the message to enqueue
+   * @param {MessagesEnqueueOptionas} [options] Options to Messages enqueue operation.
+   * @returns {Promise<Models.MessagesEnqueueResponse>} Response data for the Messages enqueue operation.
    * @memberof MessagesClient
    */
   public async enqueue(
@@ -230,13 +304,11 @@ export class MessagesClient extends StorageClient {
    *
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
-   * @param {MessagesDequeueOptionals} [options] Optional optiosn to Messages dequeue operation.
-   * @returns {Promise<Models.MessagesDequeueResponse>}
+   * @param {MessagesDequeueOptionals} [options] Options to Messages dequeue operation.
+   * @returns {Promise<Models.MessagesDequeueResponse>} Response data for the Messages dequeue operation.
    * @memberof MessagesClient
    */
-  public async dequeue(
-    options: MessagesDequeueOptions = {}
-  ): Promise<MessagesDequeueResponse> {
+  public async dequeue(options: MessagesDequeueOptions = {}): Promise<MessagesDequeueResponse> {
     const aborter = options.abortSignal || Aborter.none;
     const response = await this.messagesContext.dequeue({
       abortSignal: aborter,
@@ -265,13 +337,11 @@ export class MessagesClient extends StorageClient {
    *
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
-   * @param {MessagesPeekOptions} [options] Optional optiosn to Messages peek operation.
-   * @returns {Promise<Models.MessagesPeekResponse>}
+   * @param {MessagesPeekOptions} [options] Options to Messages peek operation.
+   * @returns {Promise<Models.MessagesPeekResponse>} Response data for the Messages peek operation.
    * @memberof MessagesClient
    */
-  public async peek(
-    options: MessagesPeekOptions = {}
-  ): Promise<MessagesPeekResponse> {
+  public async peek(options: MessagesPeekOptions = {}): Promise<MessagesPeekResponse> {
     const aborter = options.abortSignal || Aborter.none;
     const response = await this.messagesContext.peek({
       abortSignal: aborter,

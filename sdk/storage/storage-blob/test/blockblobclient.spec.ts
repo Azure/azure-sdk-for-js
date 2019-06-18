@@ -1,7 +1,15 @@
 import * as assert from "assert";
 
-import { base64encode, bodyToString, getBSU, getUniqueName } from "./utils";
 import * as dotenv from "dotenv";
+import { newPipeline, SharedKeyCredential } from "../src";
+import { BlockBlobClient } from "../src/BlockBlobClient";
+import {
+  base64encode,
+  bodyToString,
+  getBSU,
+  getConnectionStringFromEnvironment,
+  getUniqueName
+} from "./utils";
 dotenv.config({ path: "../.env" });
 
 describe("BlockBlobClient", () => {
@@ -82,14 +90,8 @@ describe("BlockBlobClient", () => {
       // tslint:disable-next-line:no-empty
     } catch (err) {}
 
-    const newBlockBlobClient = containerClient.createBlockBlobClient(
-      getUniqueName("newblockblob")
-    );
-    await newBlockBlobClient.stageBlockFromURL(
-      base64encode("1"),
-      blockBlobClient.url,
-      0
-    );
+    const newBlockBlobClient = containerClient.createBlockBlobClient(getUniqueName("newblockblob"));
+    await newBlockBlobClient.stageBlockFromURL(base64encode("1"), blockBlobClient.url);
 
     const listResponse = await newBlockBlobClient.getBlockList("uncommitted");
     assert.equal(listResponse.uncommittedBlocks!.length, 1);
@@ -108,27 +110,10 @@ describe("BlockBlobClient", () => {
       // tslint:disable-next-line:no-empty
     } catch (err) {}
 
-    const newBlockBlobClient = containerClient.createBlockBlobClient(
-      getUniqueName("newblockblob")
-    );
-    await newBlockBlobClient.stageBlockFromURL(
-      base64encode("1"),
-      blockBlobClient.url,
-      0,
-      4
-    );
-    await newBlockBlobClient.stageBlockFromURL(
-      base64encode("2"),
-      blockBlobClient.url,
-      4,
-      4
-    );
-    await newBlockBlobClient.stageBlockFromURL(
-      base64encode("3"),
-      blockBlobClient.url,
-      8,
-      2
-    );
+    const newBlockBlobClient = containerClient.createBlockBlobClient(getUniqueName("newblockblob"));
+    await newBlockBlobClient.stageBlockFromURL(base64encode("1"), blockBlobClient.url, 0, 4);
+    await newBlockBlobClient.stageBlockFromURL(base64encode("2"), blockBlobClient.url, 4, 4);
+    await newBlockBlobClient.stageBlockFromURL(base64encode("3"), blockBlobClient.url, 8, 2);
 
     const listResponse = await newBlockBlobClient.getBlockList("uncommitted");
     assert.equal(listResponse.uncommittedBlocks!.length, 3);
@@ -210,5 +195,84 @@ describe("BlockBlobClient", () => {
     assert.equal(listResponse.uncommittedBlocks!.length, 0);
     assert.equal(listResponse.committedBlocks![0].name, base64encode("2"));
     assert.equal(listResponse.committedBlocks![0].size, body.length);
+  });
+
+  it("can be created with a url and a credential", async () => {
+    const factories = blockBlobClient.pipeline.factories;
+    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const newClient = new BlockBlobClient(blockBlobClient.url, credential);
+
+    const body: string = getUniqueName("randomstring");
+    await newClient.upload(body, body.length);
+    const result = await newClient.download(0);
+    assert.deepStrictEqual(await bodyToString(result, body.length), body);
+  });
+
+  it("can be created with a url and a credential and an option bag", async () => {
+    const factories = blockBlobClient.pipeline.factories;
+    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const newClient = new BlockBlobClient(blockBlobClient.url, credential, {
+      retryOptions: {
+        maxTries: 5
+      }
+    });
+
+    const body: string = getUniqueName("randomstring");
+    await newClient.upload(body, body.length);
+    const result = await newClient.download(0);
+    assert.deepStrictEqual(await bodyToString(result, body.length), body);
+  });
+
+  it("can be created with a url and a pipeline", async () => {
+    const factories = blockBlobClient.pipeline.factories;
+    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const pipeline = newPipeline(credential);
+    const newClient = new BlockBlobClient(blockBlobClient.url, pipeline);
+
+    const body: string = getUniqueName("randomstring");
+    await newClient.upload(body, body.length);
+    const result = await newClient.download(0);
+    assert.deepStrictEqual(await bodyToString(result, body.length), body);
+  });
+
+  it("can be created with a connection string", async () => {
+    const newClient = new BlockBlobClient(
+      getConnectionStringFromEnvironment(),
+      containerName,
+      blobName
+    );
+
+    const body: string = getUniqueName("randomstring");
+    await newClient.upload(body, body.length);
+    const result = await newClient.download(0);
+    assert.deepStrictEqual(await bodyToString(result, body.length), body);
+  });
+
+  it("throws error if constructor containerName parameter is empty", async () => {
+    try {
+      // tslint:disable-next-line: no-unused-expression
+      new BlockBlobClient(getConnectionStringFromEnvironment(), "", "blobName");
+      assert.fail("Expecting an thrown error but didn't get one.");
+    } catch (error) {
+      assert.equal(
+        "Expecting non-empty strings for containerName and blobName parameters",
+        error.message,
+        "Error message is different than expected."
+      );
+    }
+  });
+
+  it("throws error if constructor blobName parameter is empty", async () => {
+    try {
+      // tslint:disable-next-line: no-unused-expression
+      new BlockBlobClient(getConnectionStringFromEnvironment(), "containerName", "");
+      assert.fail("Expecting an thrown error but didn't get one.");
+    } catch (error) {
+      assert.equal(
+        "Expecting non-empty strings for containerName and blobName parameters",
+        error.message,
+        "Error message is different than expected."
+      );
+    }
   });
 });

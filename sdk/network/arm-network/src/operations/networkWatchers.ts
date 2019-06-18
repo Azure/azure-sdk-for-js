@@ -271,7 +271,7 @@ export class NetworkWatchers {
   }
 
   /**
-   * Initiate troubleshooting on a specified resource
+   * Initiate troubleshooting on a specified resource.
    * @param resourceGroupName The name of the resource group.
    * @param networkWatcherName The name of the network watcher resource.
    * @param parameters Parameters that define the resource to troubleshoot.
@@ -284,7 +284,7 @@ export class NetworkWatchers {
   }
 
   /**
-   * Get the last completed troubleshooting result on a specified resource
+   * Get the last completed troubleshooting result on a specified resource.
    * @param resourceGroupName The name of the resource group.
    * @param networkWatcherName The name of the network watcher resource.
    * @param parameters Parameters that define the resource to query the troubleshooting result.
@@ -297,7 +297,7 @@ export class NetworkWatchers {
   }
 
   /**
-   * Configures flow log  and traffic analytics (optional) on a specified resource.
+   * Configures flow log and traffic analytics (optional) on a specified resource.
    * @param resourceGroupName The name of the network watcher resource group.
    * @param networkWatcherName The name of the network watcher resource.
    * @param parameters Parameters that define the configuration of flow log.
@@ -456,7 +456,7 @@ export class NetworkWatchers {
   }
 
   /**
-   * Initiate troubleshooting on a specified resource
+   * Initiate troubleshooting on a specified resource.
    * @param resourceGroupName The name of the resource group.
    * @param networkWatcherName The name of the network watcher resource.
    * @param parameters Parameters that define the resource to troubleshoot.
@@ -476,7 +476,7 @@ export class NetworkWatchers {
   }
 
   /**
-   * Get the last completed troubleshooting result on a specified resource
+   * Get the last completed troubleshooting result on a specified resource.
    * @param resourceGroupName The name of the resource group.
    * @param networkWatcherName The name of the network watcher resource.
    * @param parameters Parameters that define the resource to query the troubleshooting result.
@@ -496,7 +496,7 @@ export class NetworkWatchers {
   }
 
   /**
-   * Configures flow log  and traffic analytics (optional) on a specified resource.
+   * Configures flow log and traffic analytics (optional) on a specified resource.
    * @param resourceGroupName The name of the network watcher resource group.
    * @param networkWatcherName The name of the network watcher resource.
    * @param parameters Parameters that define the configuration of flow log.

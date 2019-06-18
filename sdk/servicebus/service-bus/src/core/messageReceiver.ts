@@ -260,7 +260,7 @@ export class MessageReceiver extends LinkEntity {
     // If explicitly set to false then autoComplete is false else true (default).
     this.autoComplete = options.autoComplete === false ? options.autoComplete : true;
     this.maxAutoRenewDurationInSeconds =
-      options.maxMessageAutoRenewLockDurationInSeconds != undefined
+      options.maxMessageAutoRenewLockDurationInSeconds != null
         ? options.maxMessageAutoRenewLockDurationInSeconds
         : 300;
     this.autoRenewLock =
@@ -708,6 +708,142 @@ export class MessageReceiver extends LinkEntity {
   }
 
   /**
+   * Creates the options that need to be specified while creating an AMQP receiver link.
+   */
+  protected _createReceiverOptions(
+    useNewName?: boolean,
+    options?: CreateReceiverOptions
+  ): ReceiverOptions {
+    if (!options) {
+      options = {
+        onMessage: (context: EventContext) =>
+          this._onAmqpMessage(context).catch(() => {
+            /* */
+          }),
+        onClose: (context: EventContext) =>
+          this._onAmqpClose(context).catch(() => {
+            /* */
+          }),
+        onSessionClose: (context: EventContext) =>
+          this._onSessionClose(context).catch(() => {
+            /* */
+          }),
+        onError: this._onAmqpError,
+        onSessionError: this._onSessionError,
+        onSettled: this._onSettled
+      };
+    }
+    const rcvrOptions: ReceiverOptions = {
+      name: useNewName ? getUniqueName(this._context.entityPath) : this.name,
+      autoaccept: this.receiveMode === ReceiveMode.receiveAndDelete ? true : false,
+      // receiveAndDelete -> first(0), peekLock -> second (1)
+      rcv_settle_mode: this.receiveMode === ReceiveMode.receiveAndDelete ? 0 : 1,
+      // receiveAndDelete -> settled (1), peekLock -> unsettled (0)
+      snd_settle_mode: this.receiveMode === ReceiveMode.receiveAndDelete ? 1 : 0,
+      source: {
+        address: this.address
+      },
+      credit_window: 0,
+      ...options
+    };
+
+    return rcvrOptions;
+  }
+
+  /**
+   * Creates a new AMQP receiver under a new AMQP session.
+   * @protected
+   *
+   * @returns {Promise<void>} Promise<void>.
+   */
+  protected async _init(options?: ReceiverOptions): Promise<void> {
+    const connectionId = this._context.namespace.connectionId;
+    try {
+      if (!this.isOpen() && !this.isConnecting) {
+        log.error(
+          "[%s] The receiver '%s' with address '%s' is not open and is not currently " +
+            "establishing itself. Hence let's try to connect.",
+          connectionId,
+          this.name,
+          this.address
+        );
+        this.isConnecting = true;
+        await this._negotiateClaim();
+        if (!options) {
+          options = this._createReceiverOptions();
+        }
+        log.error(
+          "[%s] Trying to create receiver '%s' with options %O",
+          connectionId,
+          this.name,
+          options
+        );
+
+        this._receiver = await this._context.namespace.connection.createReceiver(options);
+        this.isConnecting = false;
+        log.error(
+          "[%s] Receiver '%s' with address '%s' has established itself.",
+          connectionId,
+          this.name,
+          this.address
+        );
+        log[this.receiverType](
+          "Promise to create the receiver resolved. " + "Created receiver with name: ",
+          this.name
+        );
+        log[this.receiverType](
+          "[%s] Receiver '%s' created with receiver options: %O",
+          connectionId,
+          this.name,
+          options
+        );
+        // It is possible for someone to close the receiver and then start it again.
+        // Thus make sure that the receiver is present in the client cache.
+        if (this.receiverType === ReceiverType.streaming && !this._context.streamingReceiver) {
+          this._context.streamingReceiver = this as any;
+        } else if (this.receiverType === ReceiverType.batching && !this._context.batchingReceiver) {
+          this._context.batchingReceiver = this as any;
+        }
+        await this._ensureTokenRenewal();
+      } else {
+        log.error(
+          "[%s] The receiver '%s' with address '%s' is open -> %s and is connecting " +
+            "-> %s. Hence not reconnecting.",
+          connectionId,
+          this.name,
+          this.address,
+          this.isOpen(),
+          this.isConnecting
+        );
+      }
+    } catch (err) {
+      this.isConnecting = false;
+      err = translate(err);
+      log.error(
+        "[%s] An error occured while creating the receiver '%s': %O",
+        this._context.namespace.connectionId,
+        this.name,
+        err
+      );
+      throw err;
+    }
+  }
+
+  protected _deleteFromCache(): void {
+    this._receiver = undefined;
+    if (this.receiverType === ReceiverType.streaming) {
+      this._context.streamingReceiver = undefined;
+    } else if (this.receiverType === ReceiverType.batching) {
+      this._context.batchingReceiver = undefined;
+    }
+    log.error(
+      "[%s] Deleted the receiver '%s' from the client cache.",
+      this._context.namespace.connectionId,
+      this.name
+    );
+  }
+
+  /**
    * Will reconnect the receiver link if necessary.
    * @param {AmqpError | Error} [receiverError] The receiver error if any.
    * @returns {Promise<void>} Promise<void>.
@@ -815,6 +951,7 @@ export class MessageReceiver extends LinkEntity {
                   this._receiver.addCredit(this.maxConcurrentCalls);
                 }
               }
+              return;
             }),
           connectionId: connectionId,
           operationType: RetryOperationType.receiverLink,
@@ -871,7 +1008,7 @@ export class MessageReceiver extends LinkEntity {
   ): Promise<any> {
     return new Promise((resolve, reject) => {
       if (!options) options = {};
-      if (operation.match(/^(complete|abandon|defer|deadletter)$/) == undefined) {
+      if (operation.match(/^(complete|abandon|defer|deadletter)$/) == null) {
         return reject(new Error(`operation: '${operation}' is not a valid operation.`));
       }
       this._clearMessageLockRenewTimer(message.messageId as string);
@@ -934,141 +1071,5 @@ export class MessageReceiver extends LinkEntity {
       result
     );
     return result;
-  }
-
-  protected _deleteFromCache(): void {
-    this._receiver = undefined;
-    if (this.receiverType === ReceiverType.streaming) {
-      this._context.streamingReceiver = undefined;
-    } else if (this.receiverType === ReceiverType.batching) {
-      this._context.batchingReceiver = undefined;
-    }
-    log.error(
-      "[%s] Deleted the receiver '%s' from the client cache.",
-      this._context.namespace.connectionId,
-      this.name
-    );
-  }
-
-  /**
-   * Creates a new AMQP receiver under a new AMQP session.
-   * @protected
-   *
-   * @returns {Promise<void>} Promise<void>.
-   */
-  protected async _init(options?: ReceiverOptions): Promise<void> {
-    const connectionId = this._context.namespace.connectionId;
-    try {
-      if (!this.isOpen() && !this.isConnecting) {
-        log.error(
-          "[%s] The receiver '%s' with address '%s' is not open and is not currently " +
-            "establishing itself. Hence let's try to connect.",
-          connectionId,
-          this.name,
-          this.address
-        );
-        this.isConnecting = true;
-        await this._negotiateClaim();
-        if (!options) {
-          options = this._createReceiverOptions();
-        }
-        log.error(
-          "[%s] Trying to create receiver '%s' with options %O",
-          connectionId,
-          this.name,
-          options
-        );
-
-        this._receiver = await this._context.namespace.connection.createReceiver(options);
-        this.isConnecting = false;
-        log.error(
-          "[%s] Receiver '%s' with address '%s' has established itself.",
-          connectionId,
-          this.name,
-          this.address
-        );
-        log[this.receiverType](
-          "Promise to create the receiver resolved. " + "Created receiver with name: ",
-          this.name
-        );
-        log[this.receiverType](
-          "[%s] Receiver '%s' created with receiver options: %O",
-          connectionId,
-          this.name,
-          options
-        );
-        // It is possible for someone to close the receiver and then start it again.
-        // Thus make sure that the receiver is present in the client cache.
-        if (this.receiverType === ReceiverType.streaming && !this._context.streamingReceiver) {
-          this._context.streamingReceiver = this as any;
-        } else if (this.receiverType === ReceiverType.batching && !this._context.batchingReceiver) {
-          this._context.batchingReceiver = this as any;
-        }
-        await this._ensureTokenRenewal();
-      } else {
-        log.error(
-          "[%s] The receiver '%s' with address '%s' is open -> %s and is connecting " +
-            "-> %s. Hence not reconnecting.",
-          connectionId,
-          this.name,
-          this.address,
-          this.isOpen(),
-          this.isConnecting
-        );
-      }
-    } catch (err) {
-      this.isConnecting = false;
-      err = translate(err);
-      log.error(
-        "[%s] An error occured while creating the receiver '%s': %O",
-        this._context.namespace.connectionId,
-        this.name,
-        err
-      );
-      throw err;
-    }
-  }
-
-  /**
-   * Creates the options that need to be specified while creating an AMQP receiver link.
-   */
-  protected _createReceiverOptions(
-    useNewName?: boolean,
-    options?: CreateReceiverOptions
-  ): ReceiverOptions {
-    if (!options) {
-      options = {
-        onMessage: (context: EventContext) =>
-          this._onAmqpMessage(context).catch(() => {
-            /* */
-          }),
-        onClose: (context: EventContext) =>
-          this._onAmqpClose(context).catch(() => {
-            /* */
-          }),
-        onSessionClose: (context: EventContext) =>
-          this._onSessionClose(context).catch(() => {
-            /* */
-          }),
-        onError: this._onAmqpError,
-        onSessionError: this._onSessionError,
-        onSettled: this._onSettled
-      };
-    }
-    const rcvrOptions: ReceiverOptions = {
-      name: useNewName ? getUniqueName(this._context.entityPath) : this.name,
-      autoaccept: this.receiveMode === ReceiveMode.receiveAndDelete ? true : false,
-      // receiveAndDelete -> first(0), peekLock -> second (1)
-      rcv_settle_mode: this.receiveMode === ReceiveMode.receiveAndDelete ? 0 : 1,
-      // receiveAndDelete -> settled (1), peekLock -> unsettled (0)
-      snd_settle_mode: this.receiveMode === ReceiveMode.receiveAndDelete ? 1 : 0,
-      source: {
-        address: this.address
-      },
-      credit_window: 0,
-      ...options
-    };
-
-    return rcvrOptions;
   }
 }

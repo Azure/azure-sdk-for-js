@@ -1,0 +1,93 @@
+{
+  "name": "@azure/keyvault-secrets",
+  "sdk-type": "client",
+  "author": "Microsoft Corporation",
+  "version": "0.0.1",
+  "license": "MIT",
+  "description": "Isomorphic client library for Azure KeyVault's secrets.",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js#readme",
+  "repository": "github:Azure/azure-sdk-for-js",
+  "keywords": [
+    "node",
+    "azure",
+    "typescript",
+    "browser",
+    "isomorphic",
+    "keyvault"
+  ],
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "main": "./dist/index.js",
+  "module": "dist-esm/src/index.js",
+  "types": "./types/keyvault-secrets.d.ts",
+  "engine": {
+    "node": ">=6.0.0"
+  },
+  "files": [
+    "LICENSE.txt",
+    "README.md",
+    "lib/",
+    "types/keyvault-secrets.d.ts",
+    "dist/**/*.js",
+    "dist/**/*.js.map",
+    "dist/**/*.d.ts",
+    "dist/**/*.d.ts.map",
+    "esm/**/*.js",
+    "esm/**/*.js.map",
+    "esm/**/*.d.ts",
+    "esm/**/*.d.ts.map",
+    "src/**/*.ts",
+    "rollup.config.js",
+    "tsconfig.json"
+  ],
+  "scripts": {
+    "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
+    "build:minify": "uglifyjs -c -m --comments --source-map \"content='./dist/index.js.map'\" -o ./dist/index.min.js ./dist/index.js 2>&1",
+    "build:samples": "tsc samples/helloWorld.ts && tsc samples/listOperations.ts && tsc samples/backupAndRestore.ts && tsc samples/deleteAndRecover.ts",
+    "build:test": "npm run build",
+    "build": "npm run extract-api && npm run build:samples && rollup -c rollup.config.js 2>&1",
+    "check-format": "prettier --list-different --config ../../.prettierrc.json \"src/**/*.ts\" \"tests/**/*.ts\" \"*.{js,json}\"",
+    "clean": "rimraf dist esm test-dist types *.tgz *.log",
+    "extract-api": "tsc -p . && api-extractor run --local",
+    "format": "prettier --write --config ../../.prettierrc.json \"src/**/*.ts\" \"tests/**/*.ts\" \"*.{js,json}\"",
+    "integration-test:browser": "echo skipped",
+    "integration-test:node": "ts-mocha -p tests/tsconfig.test.json tests/*.ts --timeout 1200000 --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=-",
+    "integration-test": "npm run integration-test:node && npm run integration-test:browser",
+    "lint:fix": "echo skipped",
+    "lint": "echo skipped",
+    "pack": "npm pack 2>&1",
+    "prebuild": "npm run clean",
+    "test:browser": "npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
+    "test:node": "npm run build:test && npm run unit-test:node && npm run integration-test:node",
+    "test": "npm run build:test && npm run unit-test && npm run integration-test",
+    "unit-test:browser": "echo skipped",
+    "unit-test:node": "echo skipped",
+    "unit-test": "npm run unit-test:node && npm run unit-test:browser"
+  },
+  "sideEffects": false,
+  "dependencies": {
+    "@azure/core-http": "^1.2.6",
+    "@azure/core-paging": "^1.0.0",
+    "@azure/ms-rest-azure-js": "^1.3.2",
+    "@azure/ms-rest-js": "^1.2.6",
+    "tslib": "^1.9.3"
+  },
+  "devDependencies": {
+    "@azure/core-paging": "^1.0.0",
+    "@azure/identity": "^0.1.0",
+    "@microsoft/api-extractor": "^7.1.5",
+    "@types/chai": "^4.1.6",
+    "@types/mocha": "^5.2.5",
+    "chai": "^4.2.0",
+    "mocha": "^5.2.0",
+    "prettier": "^1.16.4",
+    "rimraf": "^2.6.2",
+    "rollup": "~1.13.1",
+    "rollup-plugin-commonjs": "^10.0.0",
+    "rollup-plugin-node-resolve": "^4.2.0",
+    "ts-mocha": "^6.0.0",
+    "typescript": "^3.2.2",
+    "uglify-js": "^3.4.9"
+  }
+}

@@ -8,21 +8,90 @@ import { Aborter } from "./Aborter";
 import { BlobClient } from "./internal";
 import { AppendBlob } from "./generated/lib/operations";
 import { AppendBlobAccessConditions, BlobAccessConditions, Metadata } from "./models";
-import { Pipeline } from "./Pipeline";
+import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
 import { URLConstants } from "./utils/constants";
-import { setURLParameter } from "./utils/utils.common";
+import { setURLParameter, extractConnectionStringParts } from "./utils/utils.common";
+import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
+import { Credential } from "./credentials/Credential";
+import { AnonymousCredential } from "./credentials/AnonymousCredential";
 
+/**
+ * Options to configure Append Blob - Create operation.
+ *
+ * @export
+ * @interface AppendBlobCreateOptions
+ */
 export interface AppendBlobCreateOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof AppendBlobCreateOptions
+   */
   abortSignal?: Aborter;
+
+  /**
+   * Conditions to meet when creating append blobs.
+   *
+   * @type {BlobAccessConditions}
+   * @memberof AppendBlobCreateOptions
+   */
   accessConditions?: BlobAccessConditions;
+  /**
+   * HTTP headers to set when creating append blobs.
+   *
+   * @type {Models.BlobHTTPHeaders}
+   * @memberof AppendBlobCreateOptions
+   */
   blobHTTPHeaders?: Models.BlobHTTPHeaders;
+  /**
+   * A collection of key-value string pair to associate with the blob when creating append blobs.
+   *
+   * @type {Metadata}
+   * @memberof AppendBlobCreateOptions
+   */
   metadata?: Metadata;
 }
 
+/**
+ * Optiosn to confgiure the Append Blob - Append Block operation.
+ *
+ * @export
+ * @interface AppendBlobAppendBlockOptions
+ */
 export interface AppendBlobAppendBlockOptions {
+  /**
+   * Aborter instance to cancel request. It can be created with Aborter.none
+   * or Aborter.timeout(). Go to documents of {@link Aborter} for more examples
+   * about request cancellation.
+   *
+   * @type {Aborter}
+   * @memberof AppendBlobAppendBlockOptions
+   */
   abortSignal?: Aborter;
+  /**
+   * Conditions to meet when appending append blob blocks.
+   *
+   * @type {AppendBlobAccessConditions}
+   * @memberof AppendBlobAppendBlockOptions
+   */
   accessConditions?: AppendBlobAccessConditions;
+  /**
+   * Callback to receive events on the progress of append block operation.
+   *
+   * @memberof AppendBlobAppendBlockOptions
+   */
   progress?: (progress: TransferProgressEvent) => void;
+  /**
+   * A Uint8Array holding the MD5 hash of the blob content.
+   * It is only used to verify the integrity of the block during transport.
+   * It is not stored in with the blob.
+   *
+   * @type {Uint8Array}
+   * @memberof AppendBlobAppendBlockOptions
+   */
   transactionalContentMD5?: Uint8Array;
 }
 
@@ -31,7 +100,7 @@ export interface AppendBlobAppendBlockOptions {
  *
  * @export
  * @class AppendBlobClient
- * @extends {StorageClient}
+ * @extends {BlobClient}
  */
 export class AppendBlobClient extends BlobClient {
   /**
@@ -43,6 +112,21 @@ export class AppendBlobClient extends BlobClient {
    */
   private appendBlobContext: AppendBlob;
 
+  /**
+   * Creates an instance of AppendBlobClient.
+   *
+   * @param {string} connectionString Connection string for an Azure storage account.
+   * @param {string} containerName Container name.
+   * @param {string} blobName Blob name.
+   * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
+   * @memberof AppendBlobClient
+   */
+  constructor(
+    connectionString: string,
+    containerName: string,
+    blobName: string,
+    options?: NewPipelineOptions
+  );
   /**
    * Creates an instance of AppendBlobClient.
    * This method accepts an encoded URL or non-encoded URL pointing to an append blob.
@@ -57,25 +141,72 @@ export class AppendBlobClient extends BlobClient {
    *                     Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
    *                     However, if a blob name includes ? or %, blob name must be encoded in the URL.
    *                     Such as a blob named "my?blob%", the URL should be "https://myaccount.blob.core.windows.net/mycontainer/my%3Fblob%25".
-   * @param {Pipeline} pipeline Call StorageClient.newPipeline() to create a default
+   * @param {Credential} credential Such as AnonymousCredential, SharedKeyCredential or TokenCredential.
+   *                                If not specified, AnonymousCredential is used.
+   * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
+   * @memberof AppendBlobClient
+   */
+  constructor(url: string, credential: Credential, options?: NewPipelineOptions);
+  /**
+   * Creates an instance of AppendBlobClient.
+   * This method accepts an encoded URL or non-encoded URL pointing to an append blob.
+   * Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
+   * If a blob name includes ? or %, blob name must be encoded in the URL.
+   *
+   * @param {string} url A URL string pointing to Azure Storage append blob, such as
+   *                     "https://myaccount.blob.core.windows.net/mycontainer/appendblob". You can
+   *                     append a SAS if using AnonymousCredential, such as
+   *                     "https://myaccount.blob.core.windows.net/mycontainer/appendblob?sasString".
+   *                     This method accepts an encoded URL or non-encoded URL pointing to a blob.
+   *                     Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
+   *                     However, if a blob name includes ? or %, blob name must be encoded in the URL.
+   *                     Such as a blob named "my?blob%", the URL should be "https://myaccount.blob.core.windows.net/mycontainer/my%3Fblob%25".
+   * @param {Pipeline} pipeline Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
    * @memberof AppendBlobClient
    */
-  constructor(url: string, pipeline: Pipeline) {
-    super(url, pipeline);
-    this.appendBlobContext = new AppendBlob(this.storageClientContext);
-  }
+  constructor(url: string, pipeline: Pipeline);
+  constructor(
+    urlOrConnectionString: string,
+    credentialOrPipelineOrContainerName: string | Credential | Pipeline,
+    blobNameOrOptions?: string | NewPipelineOptions,
+    options?: NewPipelineOptions
+  ) {
+    // In TypeScript we cannot simply pass all parameters to super() like below so have to duplicate the code instead.
+    //   super(s, credentialOrPipelineOrContainerNameOrOptions, blobNameOrOptions, options);
+    let pipeline: Pipeline;
+    if (credentialOrPipelineOrContainerName instanceof Pipeline) {
+      pipeline = credentialOrPipelineOrContainerName;
+    } else if (credentialOrPipelineOrContainerName instanceof Credential) {
+      options = blobNameOrOptions as NewPipelineOptions;
+      pipeline = newPipeline(credentialOrPipelineOrContainerName, options);
+    } else if (
+      !credentialOrPipelineOrContainerName &&
+      typeof credentialOrPipelineOrContainerName !== "string"
+    ) {
+      // The second parameter is undefined. Use anonymous credential.
+      pipeline = newPipeline(new AnonymousCredential(), options);
+    } else if (
+      credentialOrPipelineOrContainerName &&
+      typeof credentialOrPipelineOrContainerName === "string" &&
+      blobNameOrOptions &&
+      typeof blobNameOrOptions === "string"
+    ) {
+      const containerName = credentialOrPipelineOrContainerName;
+      const blobName = blobNameOrOptions;
 
-  /**
-   * Creates a new AppendBlobClient object identical to the source but with the
-   * specified request policy pipeline.
-   *
-   * @param {Pipeline} pipeline
-   * @returns {AppendBlobClient}
-   * @memberof AppendBlobClient
-   */
-  public withPipeline(pipeline: Pipeline): AppendBlobClient {
-    return new AppendBlobClient(this.url, pipeline);
+      const extractedCreds = extractConnectionStringParts(urlOrConnectionString);
+      const sharedKeyCredential = new SharedKeyCredential(
+        extractedCreds.accountName,
+        extractedCreds.accountKey
+      );
+      urlOrConnectionString = extractedCreds.url + "/" + containerName + "/" + blobName;
+      pipeline = newPipeline(sharedKeyCredential, options);
+    } else {
+      throw new Error("Expecting non-empty strings for containerName and blobName parameters");
+    }
+    super(urlOrConnectionString, pipeline);
+    this.appendBlobContext = new AppendBlob(this.storageClientContext);
   }
 
   /**
@@ -83,8 +214,8 @@ export class AppendBlobClient extends BlobClient {
    * specified snapshot timestamp.
    * Provide "" will remove the snapshot and return a Client to the base blob.
    *
-   * @param {string} snapshot
-   * @returns {AppendBlobClient}
+   * @param {string} snapshot The snapshot timestamp.
+   * @returns {AppendBlobClient} A new AppendBlobClient object identical to the source but with the specified snapshot timestamp.
    * @memberof AppendBlobClient
    */
   public withSnapshot(snapshot: string): AppendBlobClient {
@@ -102,7 +233,7 @@ export class AppendBlobClient extends BlobClient {
    * Creates a 0-length append blob. Call AppendBlock to append data to an append blob.
    * @see https://docs.microsoft.com/rest/api/storageservices/put-blob
    *
-   * @param {AppendBlobCreateOptions} [options]
+   * @param {AppendBlobCreateOptions} [options] Options to the Append Block Create operation.
    * @returns {Promise<Models.AppendBlobsCreateResponse>}
    * @memberof AppendBlobClient
    */
@@ -124,9 +255,9 @@ export class AppendBlobClient extends BlobClient {
    * Commits a new block of data to the end of the existing append blob.
    * @see https://docs.microsoft.com/rest/api/storageservices/append-block
    *
-   * @param {HttpRequestBody} body
-   * @param {number} contentLength
-   * @param {AppendBlobAppendBlockOptions} [options]
+   * @param {HttpRequestBody} body Data to be appended.
+   * @param {number} contentLength Number of bytes to be appended.
+   * @param {AppendBlobAppendBlockOptions} [options] Options to the Append Block operation.
    * @returns {Promise<Models.AppendBlobsAppendBlockResponse>}
    * @memberof AppendBlobClient
    */
