@@ -335,8 +335,7 @@ export const groupId: msRest.OperationURLParameter = {
     serializedName: "groupId",
     constraints: {
       MaxLength: 256,
-      MinLength: 1,
-      Pattern: /^[^*#&+:<>?]+$/
+      MinLength: 1
     },
     type: {
       name: "String"
