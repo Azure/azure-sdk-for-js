@@ -132,9 +132,9 @@ export class KeysClient {
     getDeletedKey(name: string, options?: RequestOptions): Promise<DeletedKey>;
     getKey(name: string, options?: GetKeyOptions): Promise<Key>;
     importKey(name: string, key: JsonWebKey, options?: ImportKeyOptions): Promise<Key>;
-    listDeletedKeys(options?: GetKeysOptions): PagedAsyncIterableIterator<KeyAttributes>;
-    listKeys(options?: GetKeysOptions): PagedAsyncIterableIterator<KeyAttributes>;
-    listKeyVersions(name: string, options?: GetKeysOptions): PagedAsyncIterableIterator<KeyAttributes>;
+    listDeletedKeys(options?: GetKeysOptions): PagedAsyncIterableIterator<KeyAttributes, KeyAttributes[]>;
+    listKeys(options?: GetKeysOptions): PagedAsyncIterableIterator<KeyAttributes, KeyAttributes[]>;
+    listKeyVersions(name: string, options?: GetKeysOptions): PagedAsyncIterableIterator<KeyAttributes, KeyAttributes[]>;
     readonly pipeline: ServiceClientOptions;
     purgeDeletedKey(name: string, options?: RequestOptions): Promise<void>;
     recoverDeletedKey(name: string, options?: RequestOptions): Promise<Key>;
