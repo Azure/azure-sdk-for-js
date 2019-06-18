@@ -1,6 +1,10 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+import {
+  TokenCredential as CoreHttpTokenCredential,
+  isTokenCredential as isCoreHttpTokenCredential
+} from "@azure/core-http";
 import * as Models from "./generated/lib/models";
 import { Aborter } from "./Aborter";
 import { Service } from "./generated/lib/operations";
@@ -174,12 +178,12 @@ export class FileServiceClient extends StorageClient {
    * @param {string} url A URL string pointing to Azure Storage file service, such as
    *                     "https://myaccount.file.core.windows.net". You can Append a SAS
    *                     if using AnonymousCredential, such as "https://myaccount.file.core.windows.net?sasString".
-   * @param {Credential} [credential] Such as AnonymousCredential, SharedKeyCredential or TokenCredential.
+   * @param {Credential | CoreHttpTokenCredential} [credential] Such as AnonymousCredential, SharedKeyCredential or TokenCredential.
    *                                If not specified, AnonymousCredential is used.
    * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof FileServiceClient
    */
-  constructor(url: string, credential?: Credential, options?: NewPipelineOptions);
+  constructor(url: string, credential?: Credential | CoreHttpTokenCredential, options?: NewPipelineOptions);
   /**
    * Creates an instance of FileServiceClient.
    *
@@ -193,13 +197,16 @@ export class FileServiceClient extends StorageClient {
   constructor(url: string, pipeline: Pipeline);
   constructor(
     url: string,
-    credentialOrPipeline?: Credential | Pipeline,
+    credentialOrPipeline?: Credential | CoreHttpTokenCredential | Pipeline,
     options?: NewPipelineOptions
   ) {
     let pipeline: Pipeline;
     if (credentialOrPipeline instanceof Pipeline) {
       pipeline = credentialOrPipeline;
-    } else if (credentialOrPipeline instanceof Credential) {
+    } else if (
+      credentialOrPipeline instanceof Credential ||
+      isCoreHttpTokenCredential(credentialOrPipeline)
+    ) {
       pipeline = newPipeline(credentialOrPipeline, options);
     } else {
       // The second parameter is undefined. Use anonymous credential.

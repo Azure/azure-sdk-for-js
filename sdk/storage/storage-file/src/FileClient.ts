@@ -1,8 +1,12 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+import {
+  TokenCredential as CoreHttpTokenCredential,
+  isTokenCredential as isCoreHttpTokenCredential
+} from "@azure/core-http";
 import * as fs from "fs";
-import { HttpRequestBody, HttpResponse, isNode, TransferProgressEvent } from "@azure/ms-rest-js";
+import { HttpRequestBody, HttpResponse, isNode, TransferProgressEvent } from "@azure/core-http";
 import { Aborter } from "./Aborter";
 import { FileDownloadResponse } from "./FileDownloadResponse";
 import * as Models from "./generated/lib/models";
@@ -523,12 +527,12 @@ export class FileClient extends StorageClient {
    *                     Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
    *                     However, if a file or directory name includes %, file or directory name must be encoded in the URL.
    *                     Such as a file named "myfile%", the URL should be "https://myaccount.file.core.windows.net/myshare/mydirectory/myfile%25".
-   * @param {Credential} [credential] Such as AnonymousCredential, SharedKeyCredential or TokenCredential.
+   * @param {Credential | CoreHttpTokenCredential} [credential] Such as AnonymousCredential, SharedKeyCredential or TokenCredential.
    *                                If not specified, AnonymousCredential is used.
    * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof FileClient
    */
-  constructor(url: string, credential?: Credential, options?: NewPipelineOptions);
+  constructor(url: string, credential?: Credential | CoreHttpTokenCredential, options?: NewPipelineOptions);
   /**
    * Creates an instance of FileClient.
    *
@@ -547,13 +551,16 @@ export class FileClient extends StorageClient {
   constructor(url: string, pipeline: Pipeline);
   constructor(
     url: string,
-    credentialOrPipeline?: Credential | Pipeline,
+    credentialOrPipeline?: Credential | CoreHttpTokenCredential | Pipeline,
     options?: NewPipelineOptions
   ) {
     let pipeline: Pipeline;
     if (credentialOrPipeline instanceof Pipeline) {
       pipeline = credentialOrPipeline;
-    } else if (credentialOrPipeline instanceof Credential) {
+    } else if (
+      credentialOrPipeline instanceof Credential ||
+      isCoreHttpTokenCredential(credentialOrPipeline)
+    ) {
       pipeline = newPipeline(credentialOrPipeline, options);
     } else {
       // The second parameter is undefined. Use anonymous credential.
@@ -1255,7 +1262,7 @@ export class FileClient extends StorageClient {
         if (transferProgress + buffer.length > size) {
           throw new RangeError(
             `Stream size is larger than file size ${size} bytes, uploading failed. ` +
-              `Please make sure stream length is less or equal than file size.`
+            `Please make sure stream length is less or equal than file size.`
           );
         }
 

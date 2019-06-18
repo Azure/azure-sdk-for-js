@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as coreHttp from "@azure/core-http";
 import * as Models from "../models";
 import * as Mappers from "../models/directoryMappers";
 import * as Parameters from "../models/parameters";
@@ -35,13 +35,13 @@ export class Directory {
   /**
    * @param callback The callback
    */
-  create(callback: msRest.ServiceCallback<void>): void;
+  create(callback: coreHttp.ServiceCallback<void>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  create(options: Models.DirectoryCreateOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  create(options?: Models.DirectoryCreateOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.DirectoryCreateResponse> {
+  create(options: Models.DirectoryCreateOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
+  create(options?: Models.DirectoryCreateOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.DirectoryCreateResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -61,13 +61,13 @@ export class Directory {
   /**
    * @param callback The callback
    */
-  getProperties(callback: msRest.ServiceCallback<void>): void;
+  getProperties(callback: coreHttp.ServiceCallback<void>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  getProperties(options: Models.DirectoryGetPropertiesOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  getProperties(options?: Models.DirectoryGetPropertiesOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.DirectoryGetPropertiesResponse> {
+  getProperties(options: Models.DirectoryGetPropertiesOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
+  getProperties(options?: Models.DirectoryGetPropertiesOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.DirectoryGetPropertiesResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -86,13 +86,13 @@ export class Directory {
   /**
    * @param callback The callback
    */
-  deleteMethod(callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(callback: coreHttp.ServiceCallback<void>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(options: Models.DirectoryDeleteMethodOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(options?: Models.DirectoryDeleteMethodOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.DirectoryDeleteResponse> {
+  deleteMethod(options: Models.DirectoryDeleteMethodOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
+  deleteMethod(options?: Models.DirectoryDeleteMethodOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.DirectoryDeleteResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -110,13 +110,13 @@ export class Directory {
   /**
    * @param callback The callback
    */
-  setMetadata(callback: msRest.ServiceCallback<void>): void;
+  setMetadata(callback: coreHttp.ServiceCallback<void>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  setMetadata(options: Models.DirectorySetMetadataOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  setMetadata(options?: Models.DirectorySetMetadataOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.DirectorySetMetadataResponse> {
+  setMetadata(options: Models.DirectorySetMetadataOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
+  setMetadata(options?: Models.DirectorySetMetadataOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.DirectorySetMetadataResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -135,13 +135,13 @@ export class Directory {
   /**
    * @param callback The callback
    */
-  listFilesAndDirectoriesSegment(callback: msRest.ServiceCallback<Models.ListFilesAndDirectoriesSegmentResponse>): void;
+  listFilesAndDirectoriesSegment(callback: coreHttp.ServiceCallback<Models.ListFilesAndDirectoriesSegmentResponse>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  listFilesAndDirectoriesSegment(options: Models.DirectoryListFilesAndDirectoriesSegmentOptionalParams, callback: msRest.ServiceCallback<Models.ListFilesAndDirectoriesSegmentResponse>): void;
-  listFilesAndDirectoriesSegment(options?: Models.DirectoryListFilesAndDirectoriesSegmentOptionalParams | msRest.ServiceCallback<Models.ListFilesAndDirectoriesSegmentResponse>, callback?: msRest.ServiceCallback<Models.ListFilesAndDirectoriesSegmentResponse>): Promise<Models.DirectoryListFilesAndDirectoriesSegmentResponse> {
+  listFilesAndDirectoriesSegment(options: Models.DirectoryListFilesAndDirectoriesSegmentOptionalParams, callback: coreHttp.ServiceCallback<Models.ListFilesAndDirectoriesSegmentResponse>): void;
+  listFilesAndDirectoriesSegment(options?: Models.DirectoryListFilesAndDirectoriesSegmentOptionalParams | coreHttp.ServiceCallback<Models.ListFilesAndDirectoriesSegmentResponse>, callback?: coreHttp.ServiceCallback<Models.ListFilesAndDirectoriesSegmentResponse>): Promise<Models.DirectoryListFilesAndDirectoriesSegmentResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -149,11 +149,40 @@ export class Directory {
       listFilesAndDirectoriesSegmentOperationSpec,
       callback) as Promise<Models.DirectoryListFilesAndDirectoriesSegmentResponse>;
   }
+
+  /**
+   * Returns a list of files or directories under the specified share or directory. It lists the
+   * contents only for a single level of the directory hierarchy.
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.DirectoryListFilesAndDirectoriesSegmentResponse>
+   */
+  listFilesAndDirectoriesSegmentNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase): Promise<Models.DirectoryListFilesAndDirectoriesSegmentResponse>;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param callback The callback
+   */
+  listFilesAndDirectoriesSegmentNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.ListFilesAndDirectoriesSegmentResponse>): void;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listFilesAndDirectoriesSegmentNext(nextPageLink: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.ListFilesAndDirectoriesSegmentResponse>): void;
+  listFilesAndDirectoriesSegmentNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.ListFilesAndDirectoriesSegmentResponse>, callback?: coreHttp.ServiceCallback<Models.ListFilesAndDirectoriesSegmentResponse>): Promise<Models.DirectoryListFilesAndDirectoriesSegmentResponse> {
+    return this.client.sendOperationRequest(
+      {
+        nextPageLink,
+        options
+      },
+      listFilesAndDirectoriesSegmentNextOperationSpec,
+      callback) as Promise<Models.DirectoryListFilesAndDirectoriesSegmentResponse>;
+  }
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers, true);
-const createOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers, true);
+const createOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "{shareName}/{directory}",
   urlParameters: [
@@ -179,7 +208,7 @@ const createOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getPropertiesOperationSpec: msRest.OperationSpec = {
+const getPropertiesOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "{shareName}/{directory}",
   urlParameters: [
@@ -205,7 +234,7 @@ const getPropertiesOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const deleteMethodOperationSpec: msRest.OperationSpec = {
+const deleteMethodOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   path: "{shareName}/{directory}",
   urlParameters: [
@@ -230,7 +259,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const setMetadataOperationSpec: msRest.OperationSpec = {
+const setMetadataOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "{shareName}/{directory}",
   urlParameters: [
@@ -257,7 +286,7 @@ const setMetadataOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listFilesAndDirectoriesSegmentOperationSpec: msRest.OperationSpec = {
+const listFilesAndDirectoriesSegmentOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "{shareName}/{directory}",
   urlParameters: [
@@ -271,6 +300,29 @@ const listFilesAndDirectoriesSegmentOperationSpec: msRest.OperationSpec = {
     Parameters.timeout,
     Parameters.restype2,
     Parameters.comp1
+  ],
+  headerParameters: [
+    Parameters.version
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.ListFilesAndDirectoriesSegmentResponse,
+      headersMapper: Mappers.DirectoryListFilesAndDirectoriesSegmentHeaders
+    },
+    default: {
+      bodyMapper: Mappers.StorageError
+    }
+  },
+  isXML: true,
+  serializer
+};
+
+const listFilesAndDirectoriesSegmentNextOperationSpec: coreHttp.OperationSpec = {
+  httpMethod: "GET",
+  baseUrl: "{url}",
+  path: "{nextLink}",
+  urlParameters: [
+    Parameters.nextPageLink
   ],
   headerParameters: [
     Parameters.version
