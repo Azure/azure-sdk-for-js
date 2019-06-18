@@ -4,8 +4,8 @@
 import {
   isNode,
   TransferProgressEvent,
-  TokenCredential as CoreHttpTokenCredential,
-  isTokenCredential as isCoreHttpTokenCredential
+  TokenCredential,
+  isTokenCredential
 } from "@azure/core-http";
 
 import * as Models from "./generated/lib/models";
@@ -584,12 +584,12 @@ export class BlobClient extends StorageClient {
    * @param {string} url A Client string pointing to Azure Storage blob service, such as
    *                     "https://myaccount.blob.core.windows.net". You can append a SAS
    *                     if using AnonymousCredential, such as "https://myaccount.blob.core.windows.net?sasString".
-   * @param {Credential | CoreHttpTokenCredential } credential Such as AnonymousCredential, SharedKeyCredential or TokenCredential.
+   * @param {Credential | TokenCredential } credential Such as AnonymousCredential, SharedKeyCredential or TokenCredential.
    *                                If not specified, AnonymousCredential is used.
    * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof BlobClient
    */
-  constructor(url: string, credential?: Credential | CoreHttpTokenCredential, options?: NewPipelineOptions);
+  constructor(url: string, credential?: Credential | TokenCredential, options?: NewPipelineOptions);
   /**
    * Creates an instance of BlobClient.
    * This method accepts an encoded URL or non-encoded URL pointing to a blob.
@@ -611,7 +611,7 @@ export class BlobClient extends StorageClient {
   constructor(url: string, pipeline: Pipeline);
   constructor(
     urlOrConnectionString: string,
-    credentialOrPipelineOrContainerName?: string | Credential | CoreHttpTokenCredential | Pipeline,
+    credentialOrPipelineOrContainerName?: string | Credential | TokenCredential | Pipeline,
     blobNameOrOptions?: string | NewPipelineOptions,
     options?: NewPipelineOptions
   ) {
@@ -620,7 +620,7 @@ export class BlobClient extends StorageClient {
       pipeline = credentialOrPipelineOrContainerName;
     } else if (
       credentialOrPipelineOrContainerName instanceof Credential ||
-      isCoreHttpTokenCredential(credentialOrPipelineOrContainerName)
+      isTokenCredential(credentialOrPipelineOrContainerName)
     ) {
       options = blobNameOrOptions as NewPipelineOptions;
       pipeline = newPipeline(credentialOrPipelineOrContainerName, options);

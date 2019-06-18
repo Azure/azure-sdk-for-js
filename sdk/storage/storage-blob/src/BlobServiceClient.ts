@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import {
-  TokenCredential as CoreHttpTokenCredential,
-  isTokenCredential as isCoreHttpTokenCredential
+  TokenCredential,
+  isTokenCredential
 } from "@azure/core-http";
 import * as Models from "./generated/lib/models";
 import { Aborter } from "./Aborter";
@@ -204,7 +204,7 @@ export class BlobServiceClient extends StorageClient {
    * @param {string} url A Client string pointing to Azure Storage blob service, such as
    *                     "https://myaccount.blob.core.windows.net". You can append a SAS
    *                     if using AnonymousCredential, such as "https://myaccount.blob.core.windows.net?sasString".
-   * @param {Credential | CoreHttpTokenCredential} credential Such as AnonymousCredential, SharedKeyCredential or TokenCredential.
+   * @param {Credential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential or TokenCredential.
    *                                If not specified, AnonymousCredential is used.
    * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof BlobServiceClient
@@ -223,7 +223,7 @@ export class BlobServiceClient extends StorageClient {
   constructor(url: string, pipeline: Pipeline);
   constructor(
     url: string,
-    credentialOrPipeline?: Credential | CoreHttpTokenCredential | Pipeline,
+    credentialOrPipeline?: Credential | TokenCredential | Pipeline,
     options?: NewPipelineOptions
   ) {
     let pipeline: Pipeline;
@@ -231,7 +231,7 @@ export class BlobServiceClient extends StorageClient {
       pipeline = credentialOrPipeline;
     } else if (
       credentialOrPipeline instanceof Credential ||
-      isCoreHttpTokenCredential(credentialOrPipeline)
+      isTokenCredential(credentialOrPipeline)
     ) {
       pipeline = newPipeline(credentialOrPipeline, options);
     } else {

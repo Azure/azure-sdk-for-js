@@ -1,17 +1,14 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { RequestPolicy, RequestPolicyOptions } from "@azure/core-http";
-
-import { Credential } from "../credentials/Credential";
-import { TokenCredentialPolicy } from "../policies/TokenCredentialPolicy";
+import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
 
 /**
- * TokenCredential is a Credential used to generate a TokenCredentialPolicy.
- * Renew token by setting a new token string value to token property.
+ * RawTokenCredential is a TokenCredential that always returns the given token.
+ * Renew the token by setting a new token string value to token property.
  *
  * @example
- *  const tokenCredential = new TokenCredential("token");
+ *  const rawTokenCredential = new RawTokenCredential("token");
  *  const pipeline = newPipeline(tokenCredential);
  *
  *  const queueServiceClient = new QueueServiceClient("https://mystorageaccount.queue.core.windows.net", pipeline);
@@ -26,39 +23,37 @@ import { TokenCredentialPolicy } from "../policies/TokenCredentialPolicy";
  *    }
  *  }, 60 * 60 * 1000); // Set an interval time before your token expired
  * @export
- * @class TokenCredential
- * @extends {Credential}
+ * @implements {TokenCredential}
  *
  */
-export class TokenCredential extends Credential {
+export class RawTokenCredential implements TokenCredential {
   /**
    * Mutable token value. You can set a renewed token value to this property,
    * for example, when an OAuth token is expired.
    *
    * @type {string}
-   * @memberof TokenCredential
    */
   public token: string;
 
   /**
    * Creates an instance of TokenCredential.
    * @param {string} token
-   * @memberof TokenCredential
    */
   constructor(token: string) {
-    super();
     this.token = token;
   }
 
   /**
-   * Creates a TokenCredentialPolicy object.
-   *
-   * @param {RequestPolicy} nextPolicy
-   * @param {RequestPolicyOptions} options
-   * @returns {TokenCredentialPolicy}
-   * @memberof TokenCredential
+   * Retrieves the token stored in this RawTokenCredential.
+   * 
+   * @param _scopes Ignored since token is already known.
+   * @param _options Ignored since token is already known.
+   * @returns {AccessToken} The access token details.
    */
-  public create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): TokenCredentialPolicy {
-    return new TokenCredentialPolicy(nextPolicy, options, this);
+  getToken(_scopes: string | string[], _options?: GetTokenOptions): Promise<AccessToken | null> {
+    return Promise.resolve({
+      token: this.token,
+      expiresOnTimestamp: Date.now() + 2 * 60 * 1000 // 2 Minutes
+    });
   }
 }

@@ -187,12 +187,12 @@ export interface NewPipelineOptions {
  * Creates a new Pipeline object with Credential provided.
  *
  * @export
- * @param {Credential | CoreHttpTokenCredential} credential Such as AnonymousCredential, SharedKeyCredential or TokenCredential.
+ * @param {Credential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential or TokenCredential.
  * @param {NewPipelineOptions} [pipelineOptions] Optional. Options.
  * @returns {Pipeline} A new Pipeline object.
  */
 export function newPipeline(
-  credential: Credential | CoreHttpTokenCredential,
+  credential: Credential | TokenCredential,
   pipelineOptions: NewPipelineOptions = {}
 ): Pipeline {
   // Order is important. Closer to the API at the top & closer to the network at the bottom.
@@ -212,7 +212,7 @@ export function newPipeline(
     factories.push(proxyPolicy(getDefaultProxySettings((pipelineOptions.proxy || {}).url)));
   }
   factories.push(
-    isCoreHttpTokenCredential(credential)
+    isTokenCredential(credential)
       ? bearerTokenAuthenticationPolicy(credential, "https://storage.azure.com/.default")
       : credential);
 

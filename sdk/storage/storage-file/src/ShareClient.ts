@@ -3,8 +3,8 @@
 
 import {
   HttpResponse,
-  TokenCredential as CoreHttpTokenCredential,
-  isTokenCredential as isCoreHttpTokenCredential
+  TokenCredential,
+  isTokenCredential
 } from "@azure/core-http";
 
 import { Aborter } from "./Aborter";
@@ -307,12 +307,12 @@ export class ShareClient extends StorageClient {
    *                     "https://myaccount.file.core.windows.net/share". You can
    *                     append a SAS if using AnonymousCredential, such as
    *                     "https://myaccount.file.core.windows.net/share?sasString".
-   * @param {Credential | CoreHttpTokenCredential} [credential] Such as AnonymousCredential, SharedKeyCredential or TokenCredential.
+   * @param {Credential | TokenCredential} [credential] Such as AnonymousCredential, SharedKeyCredential or TokenCredential.
    *                                If not specified, AnonymousCredential is used.
    * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof ShareClient
    */
-  constructor(url: string, credential?: Credential | CoreHttpTokenCredential, options?: NewPipelineOptions);
+  constructor(url: string, credential?: Credential | TokenCredential, options?: NewPipelineOptions);
   /**
    * Creates an instance of ShareClient.
    *
@@ -327,7 +327,7 @@ export class ShareClient extends StorageClient {
   constructor(url: string, pipeline: Pipeline);
   constructor(
     urlOrConnectionString: string,
-    credentialOrPipelineOrShareName?: Credential | CoreHttpTokenCredential | Pipeline | string,
+    credentialOrPipelineOrShareName?: Credential | TokenCredential | Pipeline | string,
     options?: NewPipelineOptions
   ) {
     let pipeline: Pipeline;
@@ -335,7 +335,7 @@ export class ShareClient extends StorageClient {
       pipeline = credentialOrPipelineOrShareName;
     } else if (
       credentialOrPipelineOrShareName instanceof Credential ||
-      isCoreHttpTokenCredential(credentialOrPipelineOrShareName)
+      isTokenCredential(credentialOrPipelineOrShareName)
     ) {
       pipeline = newPipeline(credentialOrPipelineOrShareName, options);
     } else if (

@@ -4,8 +4,8 @@
 import {
   HttpRequestBody,
   HttpResponse,
-  TokenCredential as CoreHttpTokenCredential,
-  isTokenCredential as isCoreHttpTokenCredential
+  TokenCredential,
+  isTokenCredential
 } from "@azure/core-http";
 import * as Models from "./generated/lib/models";
 import { Aborter } from "./Aborter";
@@ -480,12 +480,12 @@ export class ContainerClient extends StorageClient {
    *                     Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
    *                     However, if a blob name includes ? or %, blob name must be encoded in the URL.
    *                     Such as a blob named "my?blob%", the URL should be "https://myaccount.blob.core.windows.net/mycontainer/my%3Fblob%25".
-   * @param {Credential | CoreHttpTokenCredential} credential Such as AnonymousCredential, SharedKeyCredential or TokenCredential.
+   * @param {Credential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential or TokenCredential.
    *                                If not specified, AnonymousCredential is used.
    * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof ContainerClient
    */
-  constructor(url: string, credential?: Credential | CoreHttpTokenCredential, options?: NewPipelineOptions);
+  constructor(url: string, credential?: Credential | TokenCredential, options?: NewPipelineOptions);
   /**
    * Creates an instance of PageBlobClient.
    * This method accepts an encoded URL or non-encoded URL pointing to a page blob.
@@ -508,7 +508,7 @@ export class ContainerClient extends StorageClient {
   constructor(url: string, pipeline: Pipeline);
   constructor(
     urlOrConnectionString: string,
-    credentialOrPipelineOrContainerName?: string | Credential | CoreHttpTokenCredential | Pipeline,
+    credentialOrPipelineOrContainerName?: string | Credential | TokenCredential | Pipeline,
     options?: NewPipelineOptions
   ) {
     let pipeline: Pipeline;
@@ -516,7 +516,7 @@ export class ContainerClient extends StorageClient {
       pipeline = credentialOrPipelineOrContainerName;
     } else if (
       credentialOrPipelineOrContainerName instanceof Credential ||
-      isCoreHttpTokenCredential(credentialOrPipelineOrContainerName)
+      isTokenCredential(credentialOrPipelineOrContainerName)
     ) {
       pipeline = newPipeline(credentialOrPipelineOrContainerName, options);
     } else if (

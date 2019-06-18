@@ -3,8 +3,8 @@
 
 import {
   HttpResponse,
-  TokenCredential as CoreHttpTokenCredential,
-  isTokenCredential as isCoreHttpTokenCredential
+  TokenCredential,
+  isTokenCredential
 } from "@azure/core-http";
 import * as Models from "./generated/lib/models";
 import { Aborter } from "./Aborter";
@@ -172,24 +172,24 @@ export interface SignedIdentifier {
 export declare type QueueGetAccessPolicyResponse = {
   signedIdentifiers: SignedIdentifier[];
 } & Models.QueueGetAccessPolicyHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpResponse & {
     /**
-     * The underlying HTTP response.
+     * The parsed HTTP response headers.
      */
-    _response: HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: Models.QueueGetAccessPolicyHeaders;
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Models.SignedIdentifier[];
-    };
+    parsedHeaders: Models.QueueGetAccessPolicyHeaders;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Models.SignedIdentifier[];
   };
+};
 
 /**
  * A QueueClient represents a URL to the Azure Storage queue.
@@ -225,14 +225,14 @@ export class QueueClient extends StorageClient {
    *                     "https://myaccount.queue.core.windows.net/myqueue". You can
    *                     append a SAS if using AnonymousCredential, such as
    *                     "https://myaccount.queue.core.windows.net/myqueue?sasString".
-   * @param {Credential | CoreHttpTokenCredential } credential Such as AnonymousCredential, SharedKeyCredential or TokenCredential.
+   * @param {Credential | TokenCredential } credential Such as AnonymousCredential, SharedKeyCredential or TokenCredential.
    *                                If not specified, anonymous credential is used.
    * @param {NewPipelineOptions} [options] Options to configure the HTTP pipeline.
    * @memberof QueueClient
    */
   constructor(
     url: string,
-    credential?: Credential | CoreHttpTokenCredential,
+    credential?: Credential | TokenCredential,
     options?: NewPipelineOptions
   );
   /**
@@ -249,7 +249,7 @@ export class QueueClient extends StorageClient {
   constructor(url: string, pipeline: Pipeline);
   constructor(
     urlOrConnectionString: string,
-    credentialOrPipelineOrQueueName?: Credential | CoreHttpTokenCredential | Pipeline | string,
+    credentialOrPipelineOrQueueName?: Credential | TokenCredential | Pipeline | string,
     options?: NewPipelineOptions
   ) {
     let pipeline: Pipeline;
@@ -257,7 +257,7 @@ export class QueueClient extends StorageClient {
       pipeline = credentialOrPipelineOrQueueName;
     } else if (
       credentialOrPipelineOrQueueName instanceof Credential ||
-      isCoreHttpTokenCredential(credentialOrPipelineOrQueueName)
+      isTokenCredential(credentialOrPipelineOrQueueName)
     ) {
       pipeline = newPipeline(credentialOrPipelineOrQueueName, options);
     } else if (

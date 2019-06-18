@@ -3,8 +3,8 @@
 
 import {
   HttpResponse,
-  TokenCredential as CoreHttpTokenCredential,
-  isTokenCredential as isCoreHttpTokenCredential
+  TokenCredential,
+  isTokenCredential
 } from "@azure/core-http";
 import * as Models from "./generated/lib/models";
 import { Aborter } from "./Aborter";
@@ -42,7 +42,7 @@ export interface MessagesClearOptions {
  * @interface MessagesEnqueueOptions
  * @extends {Models.MessagesEnqueueOptionalParams}
  */
-export interface MessagesEnqueueOptions extends Models.MessagesEnqueueOptionalParams {}
+export interface MessagesEnqueueOptions extends Models.MessagesEnqueueOptionalParams { }
 
 /**
  * Options to configure Messages - Dequeue operation
@@ -51,7 +51,7 @@ export interface MessagesEnqueueOptions extends Models.MessagesEnqueueOptionalPa
  * @interface MessagesDequeueOptions
  * @extends {Models.MessagesDequeueOptionalParams}
  */
-export interface MessagesDequeueOptions extends Models.MessagesDequeueOptionalParams {}
+export interface MessagesDequeueOptions extends Models.MessagesDequeueOptionalParams { }
 
 /**
  * Options to configure Messages - Peek operation
@@ -60,7 +60,7 @@ export interface MessagesDequeueOptions extends Models.MessagesDequeueOptionalPa
  * @interface MessagesPeekOptions
  * @extends {Models.MessagesPeekOptionalParams}
  */
-export interface MessagesPeekOptions extends Models.MessagesPeekOptionalParams {}
+export interface MessagesPeekOptions extends Models.MessagesPeekOptionalParams { }
 
 export declare type MessagesEnqueueResponse = {
   /**
@@ -89,68 +89,68 @@ export declare type MessagesEnqueueResponse = {
    */
   timeNextVisible: Date;
 } & Models.MessagesEnqueueHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpResponse & {
     /**
-     * The underlying HTTP response.
+     * The parsed HTTP response headers.
      */
-    _response: HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: Models.MessagesEnqueueHeaders;
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Models.EnqueuedMessage[];
-    };
+    parsedHeaders: Models.MessagesEnqueueHeaders;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Models.EnqueuedMessage[];
   };
+};
 
 export declare type MessagesDequeueResponse = {
   dequeuedMessageItems: Models.DequeuedMessageItem[];
 } & Models.MessagesDequeueHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpResponse & {
     /**
-     * The underlying HTTP response.
+     * The parsed HTTP response headers.
      */
-    _response: HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: Models.MessagesDequeueHeaders;
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Models.DequeuedMessageItem[];
-    };
+    parsedHeaders: Models.MessagesDequeueHeaders;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Models.DequeuedMessageItem[];
   };
+};
 
 export declare type MessagesPeekResponse = {
   peekedMessageItems: Models.PeekedMessageItem[];
 } & Models.MessagesPeekHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpResponse & {
     /**
-     * The underlying HTTP response.
+     * The parsed HTTP response headers.
      */
-    _response: HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: Models.MessagesPeekHeaders;
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Models.PeekedMessageItem[];
-    };
+    parsedHeaders: Models.MessagesPeekHeaders;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Models.PeekedMessageItem[];
   };
+};
 
 /**
  * A MessagesClient represents a URL to an Azure Storage Queue's messages allowing you to manipulate its messages.
@@ -186,14 +186,14 @@ export class MessagesClient extends StorageClient {
    *                     "https://myaccount.queue.core.windows.net/myqueue/messages". You can
    *                     append a SAS if using AnonymousCredential, such as
    *                     "https://myaccount.queue.core.windows.net/myqueue/messages?sasString".
-   * @param {Credential | CoreHttpTokenCredential } credential Such as AnonymousCredential, SharedKeyCredential or TokenCredential.
+   * @param {Credential | TokenCredential } credential Such as AnonymousCredential, SharedKeyCredential or TokenCredential.
    *                                If not specified, anonymous credential is used.
    * @param {NewPipelineOptions} [options] Options to configure the HTTP pipeline.
    * @memberof MessagesClient
    */
   constructor(
     url: string,
-    credential?: Credential | CoreHttpTokenCredential,
+    credential?: Credential | TokenCredential,
     options?: NewPipelineOptions
   );
   /**
@@ -210,7 +210,7 @@ export class MessagesClient extends StorageClient {
   constructor(url: string, pipeline: Pipeline);
   constructor(
     urlOrConnectionString: string,
-    credentialOrPipelineOrQueueName?: Credential | CoreHttpTokenCredential | Pipeline | string,
+    credentialOrPipelineOrQueueName?: Credential | TokenCredential | Pipeline | string,
     options?: NewPipelineOptions
   ) {
     let pipeline: Pipeline;
@@ -218,7 +218,7 @@ export class MessagesClient extends StorageClient {
       pipeline = credentialOrPipelineOrQueueName;
     } else if (
       credentialOrPipelineOrQueueName instanceof Credential ||
-      isCoreHttpTokenCredential(credentialOrPipelineOrQueueName)
+      isTokenCredential(credentialOrPipelineOrQueueName)
     ) {
       pipeline = newPipeline(credentialOrPipelineOrQueueName, options);
     } else if (
