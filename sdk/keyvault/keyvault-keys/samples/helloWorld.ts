@@ -6,14 +6,15 @@ async function main(): Promise<void> {
   // - AZURE_TENANT_ID: The tenant ID in Azure Active Directory
   // - AZURE_CLIENT_ID: The application (client) ID registered in the AAD tenant
   // - AZURE_CLIENT_SECRET: The client secret for the registered application
+  const credential = new EnvironmentCredential();
+
   const vaultName = process.env["KEYVAULT_NAME"] || "<keyvault-name>"
   const url = `https://${vaultName}.vault.azure.net`;
-  const credential = new EnvironmentCredential();
   const client = new KeysClient(url, credential);
 
-  const keyName = "MyKeyName2";
-  const ecKeyName = "MyECKeyName2";
-  const rsaKeyName = "MyRSAKeyName2";
+  const keyName = "MyKeyName";
+  const ecKeyName = "MyECKeyName";
+  const rsaKeyName = "MyRSAKeyName";
 
   // You can create keys using the general method
   const result = await client.createKey(keyName, "EC");
@@ -22,7 +23,7 @@ async function main(): Promise<void> {
   // Or using specialized key creation methods
   const ecResult = await client.createEcKey(ecKeyName, { curve: "P-256" });
   const rsaResult = await client.createRsaKey(rsaKeyName, { keySize: 2048 });
-  console.log("Eliptic curve key: ", ecResult);
+  console.log("Elliptic curve key: ", ecResult);
   console.log("RSA Key: ", rsaResult);
 
   // Get a specific key
