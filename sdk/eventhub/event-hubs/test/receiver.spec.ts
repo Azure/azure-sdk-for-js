@@ -81,12 +81,12 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
             });
         }
       };
-      rcvHandler = client
+      receiver = client
         .createReceiver(partitionIds[0], {
           exclusiveReceiverPriority: 1,
           beginReceivingAt: EventPosition.fromOffset("0")
-        })
-        .receive(onMsg, onError);
+        });
+        rcvHandler = receiver.receive(onMsg, onError);
     });
   });
 
@@ -146,7 +146,7 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
       };
       await client.createSender({ partitionId: partitionId }).send([ed]);
       debug("Sent the new message after creating the receiver. We should only receive this message.");
-      const receiver = client.createReceiver(partitionId, {
+      receiver = client.createReceiver(partitionId, {
         beginReceivingAt: EventPosition.fromOffset(pInfo.lastEnqueuedOffset)
       });
       const data = await receiver.receiveBatch(10, 20);
@@ -210,7 +210,7 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
       await client.createSender({ partitionId: partitionId }).send([ed]);
       debug("Sent the new message after creating the receiver. We should only receive this message.");
 
-      const receiver = client.createReceiver(partitionId, {
+      receiver = client.createReceiver(partitionId, {
         beginReceivingAt: EventPosition.fromEnqueuedTime(pInfo.lastEnqueuedTimeUtc)
       });
       const data = await receiver.receiveBatch(10, 20);
@@ -752,12 +752,12 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
       const onMsg = (data: ReceivedEventData) => {
         debug(">>>> epoch Receiver 1", data);
       };
-      epochRcvr1 = client
-        .createReceiver(partitionId, {
-          exclusiveReceiverPriority: 2,
-          beginReceivingAt: EventPosition.fromNewEventsOnly()
-        })
-        .receive(onMsg, onError);
+      const receiver1 = client
+      .createReceiver(partitionId, {
+        exclusiveReceiverPriority: 2,
+        beginReceivingAt: EventPosition.fromNewEventsOnly()
+      });
+      epochRcvr1 = receiver1.receive(onMsg, onError);
       debug("Created epoch receiver 1 %s", epochRcvr1);
       setTimeout(() => {
         const onError2 = (error: MessagingError | Error) => {
@@ -766,7 +766,9 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
           should.equal(error.name, "ReceiverDisconnectedError");
           epochRcvr2
             .stop()
+            .then(() => receiver2.close())
             .then(() => epochRcvr1.stop())
+            .then(() => receiver1.close())
             .then(() => {
               debug("Successfully closed the epoch receivers 1 and 2.");
               done();
@@ -779,12 +781,12 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
         const onMsg2 = (data: ReceivedEventData) => {
           debug(">>>> epoch Receiver 2", data);
         };
-        epochRcvr2 = client
+        const receiver2 = client
           .createReceiver(partitionId, {
             exclusiveReceiverPriority: 1,
             beginReceivingAt: EventPosition.fromNewEventsOnly()
           })
-          .receive(onMsg2, onError2);
+          epochRcvr2 = receiver2.receive(onMsg2, onError2);
         debug("Created epoch receiver 2 %s", epochRcvr2);
       }, 3000);
     });
@@ -793,13 +795,16 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
       const partitionId = partitionIds[0];
       let epochRcvr1: ReceiveHandler;
       let epochRcvr2: ReceiveHandler;
+      let receiver2: EventReceiver;
       const onError = (error: MessagingError | Error) => {
         debug(">>>> epoch Receiver 1", error);
         should.exist(error);
         should.equal(error.name, "ReceiverDisconnectedError");
         epochRcvr1
           .stop()
+          .then(() => receiver1.close())
           .then(() => epochRcvr2.stop())
+          .then(() => receiver2.close())
           .then(() => {
             debug("Successfully closed the epoch receivers 1 and 2.");
             done();
@@ -812,12 +817,12 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
       const onMsg = (data: ReceivedEventData) => {
         debug(">>>> epoch Receiver 1", data);
       };
-      epochRcvr1 = client
+      const receiver1 = client
         .createReceiver(partitionId, {
           exclusiveReceiverPriority: 1,
           beginReceivingAt: EventPosition.fromNewEventsOnly()
-        })
-        .receive(onMsg, onError);
+        });
+        epochRcvr1 = receiver1.receive(onMsg, onError);
       debug("Created epoch receiver 1 %s", epochRcvr1);
       setTimeout(() => {
         const onError2 = (error: MessagingError | Error) => {
@@ -827,12 +832,12 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
         const onMsg2 = (data: ReceivedEventData) => {
           debug(">>>> epoch Receiver 2", data);
         };
-        epochRcvr2 = client
+        const receiver2 = client
           .createReceiver(partitionId, {
             exclusiveReceiverPriority: 2,
             beginReceivingAt: EventPosition.fromNewEventsOnly()
           })
-          .receive(onMsg2, onError2);
+          epochRcvr2 = receiver2.receive(onMsg2, onError2);
         debug("Created epoch receiver 2 %s", epochRcvr2);
       }, 3000);
     });
@@ -848,12 +853,12 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
       const onmsg1 = (data: ReceivedEventData) => {
         debug(">>>> epoch Receiver ", data);
       };
-      epochRcvr = client
+      const receiver1 = client
         .createReceiver(partitionId, {
           exclusiveReceiverPriority: 1,
           beginReceivingAt: EventPosition.fromNewEventsOnly()
         })
-        .receive(onmsg1, onerr1);
+        epochRcvr = receiver1.receive(onmsg1, onerr1);
       debug("Created epoch receiver %s", epochRcvr);
       const onerr2 = (error: MessagingError | Error) => {
         debug(">>>> non epoch Receiver", error);
@@ -861,7 +866,9 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
         should.equal(error.name, "ReceiverDisconnectedError");
         nonEpochRcvr
           .stop()
+          .then(() => receiver2.close())
           .then(() => epochRcvr.stop())
+          .then(() => receiver1.close())
           .then(() => {
             debug("Successfully closed the nonEpoch and epoch receivers");
             done();
@@ -874,11 +881,11 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
       const onmsg2 = (data: ReceivedEventData) => {
         debug(">>>> non epoch Receiver", data);
       };
-      nonEpochRcvr = client
+      const receiver2 = client
         .createReceiver(partitionId, {
           beginReceivingAt: EventPosition.fromNewEventsOnly()
         })
-        .receive(onmsg2, onerr2);
+        nonEpochRcvr = receiver2.receive(onmsg2, onerr2);
       debug("Created non epoch receiver %s", nonEpochRcvr);
     });
 
@@ -886,13 +893,17 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
       const partitionId = partitionIds[0];
       let epochRcvr: ReceiveHandler;
       let nonEpochRcvr: ReceiveHandler;
+      let receiver1: EventReceiver;
+      let receiver2: EventReceiver;
       const onerr3 = (error: MessagingError | Error) => {
         debug(">>>> non epoch Receiver", error);
         should.exist(error);
         should.equal(error.name, "ReceiverDisconnectedError");
         nonEpochRcvr
           .stop()
+          .then(() => receiver1.close())
           .then(() => epochRcvr.stop())
+          .then(() => receiver2.close())
           .then(() => {
             debug("Successfully closed the nonEpoch and epoch receivers");
             done();
@@ -905,11 +916,11 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
       const onmsg3 = (data: ReceivedEventData) => {
         debug(">>>> non epoch Receiver", data);
       };
-      nonEpochRcvr = client
+      receiver1 = client
         .createReceiver(partitionId, {
           beginReceivingAt: EventPosition.fromNewEventsOnly()
         })
-        .receive(onmsg3, onerr3);
+        nonEpochRcvr = receiver1.receive(onmsg3, onerr3);
       debug("Created non epoch receiver %s", nonEpochRcvr);
       setTimeout(() => {
         const onerr4 = (error: MessagingError | Error) => {
@@ -919,12 +930,12 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
         const onmsg4 = (data: ReceivedEventData) => {
           debug(">>>> epoch Receiver ", data);
         };
-        epochRcvr = client
+        receiver2 = client
           .createReceiver(partitionId, {
             exclusiveReceiverPriority: 1,
             beginReceivingAt: EventPosition.fromNewEventsOnly()
           })
-          .receive(onmsg4, onerr4);
+          epochRcvr = receiver2.receive(onmsg4, onerr4);
         debug("Created epoch receiver %s", epochRcvr);
       }, 3000);
     });
