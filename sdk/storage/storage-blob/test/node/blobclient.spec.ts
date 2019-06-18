@@ -1,6 +1,6 @@
 import * as assert from "assert";
 
-import { isNode } from "@azure/ms-rest-js";
+import { isNode } from "@azure/core-http";
 import * as dotenv from "dotenv";
 import { BlobClient, newPipeline, SharedKeyCredential } from "../../src";
 import {

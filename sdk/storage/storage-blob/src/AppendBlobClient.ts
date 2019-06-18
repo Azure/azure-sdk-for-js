@@ -1,7 +1,12 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { HttpRequestBody, TransferProgressEvent } from "@azure/ms-rest-js";
+import {
+  HttpRequestBody,
+  TransferProgressEvent,
+  TokenCredential,
+  isTokenCredential
+} from "@azure/core-http";
 
 import * as Models from "./generated/lib/models";
 import { Aborter } from "./Aborter";
@@ -143,12 +148,12 @@ export class AppendBlobClient extends BlobClient {
    *                     Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
    *                     However, if a blob name includes ? or %, blob name must be encoded in the URL.
    *                     Such as a blob named "my?blob%", the URL should be "https://myaccount.blob.core.windows.net/mycontainer/my%3Fblob%25".
-   * @param {Credential} credential Such as AnonymousCredential, SharedKeyCredential or TokenCredential.
+   * @param {Credential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential or TokenCredential.
    *                                If not specified, AnonymousCredential is used.
    * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof AppendBlobClient
    */
-  constructor(url: string, credential: Credential, options?: NewPipelineOptions);
+  constructor(url: string, credential: Credential | TokenCredential, options?: NewPipelineOptions);
   /**
    * Creates an instance of AppendBlobClient.
    * This method accepts an encoded URL or non-encoded URL pointing to an append blob.
@@ -170,7 +175,7 @@ export class AppendBlobClient extends BlobClient {
   constructor(url: string, pipeline: Pipeline);
   constructor(
     urlOrConnectionString: string,
-    credentialOrPipelineOrContainerName: string | Credential | Pipeline,
+    credentialOrPipelineOrContainerName: string | Credential | TokenCredential | Pipeline,
     blobNameOrOptions?: string | NewPipelineOptions,
     options?: NewPipelineOptions
   ) {
@@ -179,7 +184,10 @@ export class AppendBlobClient extends BlobClient {
     let pipeline: Pipeline;
     if (credentialOrPipelineOrContainerName instanceof Pipeline) {
       pipeline = credentialOrPipelineOrContainerName;
-    } else if (credentialOrPipelineOrContainerName instanceof Credential) {
+    } else if (
+      credentialOrPipelineOrContainerName instanceof Credential ||
+      isTokenCredential(credentialOrPipelineOrContainerName)
+    ) {
       options = blobNameOrOptions as NewPipelineOptions;
       pipeline = newPipeline(credentialOrPipelineOrContainerName, options);
     } else if (

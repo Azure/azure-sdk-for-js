@@ -6,7 +6,7 @@ import {
   RequestPolicy,
   RequestPolicyFactory,
   RequestPolicyOptions
-} from "@azure/ms-rest-js";
+} from "@azure/core-http";
 import * as os from "os";
 
 import { TelemetryPolicy } from "./policies/TelemetryPolicy";

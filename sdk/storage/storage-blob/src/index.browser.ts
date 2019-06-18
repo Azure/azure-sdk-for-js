@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { RestError } from "@azure/ms-rest-js";
+import { RestError } from "@azure/core-http";
 
 import * as Models from "../src/generated/lib/models";
 
