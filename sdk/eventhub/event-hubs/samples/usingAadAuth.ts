@@ -17,7 +17,7 @@
      - In the Azure portal, go to your Even Hubs resource and click on the Access control (IAM)
        tab. Here, assign "owner" role to the registered application.
 */
-import { EventHubClient } from "../src";
+import { EventHubClient } from "@azure/event-hubs";
 import { EnvironmentCredential } from "@azure/identity";
 
 // Define Event Hubs Endpoint and related entity name here here
