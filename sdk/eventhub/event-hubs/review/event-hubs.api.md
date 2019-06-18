@@ -39,7 +39,7 @@ export interface EventData {
 // @public
 export class EventHubClient {
     constructor(connectionString: string, options?: EventHubClientOptions);
-    constructor(host: string, eventHubPath: string, tokenCredential: SharedKeyCredential | TokenCredential, options?: EventHubClientOptions);
+    constructor(host: string, eventHubPath: string, credential: SharedKeyCredential | TokenCredential, options?: EventHubClientOptions);
     close(): Promise<void>;
     static createFromConnectionString(connectionString: string, entityPath?: string, options?: EventHubClientOptions): EventHubClient;
     static createFromIotHubConnectionString(iothubConnectionString: string, options?: EventHubClientOptions): Promise<EventHubClient>;

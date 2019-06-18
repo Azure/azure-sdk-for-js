@@ -200,23 +200,23 @@ export class EventHubClient {
    * @param host - Fully qualified domain name for Event Hubs. Most likely,
    * <yournamespace>.servicebus.windows.net
    * @param eventHubPath - EventHub path of the form 'my-event-hub-name'
-   * @param tokenCredential - Your token credential that implements the TokenCredential interface.
+   * @param credential - SharedKeyCredential object or your credential that implements the TokenCredential interface.
    * @param options - The options that can be provided during client creation.
    */
   constructor(
     host: string,
     eventHubPath: string,
-    tokenCredential: SharedKeyCredential | TokenCredential,
+    credential: SharedKeyCredential | TokenCredential,
     options?: EventHubClientOptions
   );
   constructor(
     hostOrConnectionString: string,
     eventHubPathOrOptions?: string | EventHubClientOptions,
-    tokenCredential?: SharedKeyCredential | TokenCredential,
+    credential?: SharedKeyCredential | TokenCredential,
     options?: EventHubClientOptions
   ) {
     let connectionString;
-    let credential: TokenCredential | SharedKeyCredential;
+    let cred: TokenCredential | SharedKeyCredential;
     hostOrConnectionString = String(hostOrConnectionString);
 
     if (typeof eventHubPathOrOptions !== "string") {
@@ -229,20 +229,20 @@ export class EventHubClient {
             '"Endpoint=sb://fully-qualified-host-name/;SharedAccessKeyName=shared-access-policy-name;SharedAccessKey=shared-access-key;EntityPath=event-hub-name"'
         );
       }
-      credential = new SharedKeyCredential(parsedCS.SharedAccessKeyName, parsedCS.SharedAccessKey);
+      cred = new SharedKeyCredential(parsedCS.SharedAccessKeyName, parsedCS.SharedAccessKey);
     } else {
       const eventHubPath = eventHubPathOrOptions;
       let sharedAccessKeyName = "defaultKeyName";
       let sharedAccessKey = "defaultKeyValue";
 
-      if (!tokenCredential) {
+      if (!credential) {
         throw new Error("Please provide either a token credential interface or a valid SharedKeyCredential object.");
       }
 
-      credential = tokenCredential;
-      if (credential instanceof SharedKeyCredential) {
-        sharedAccessKeyName = credential.keyName;
-        sharedAccessKey = credential.key;
+      cred = credential;
+      if (cred instanceof SharedKeyCredential) {
+        sharedAccessKeyName = cred.keyName;
+        sharedAccessKey = cred.key;
       }
 
       let host = String(hostOrConnectionString);
@@ -254,7 +254,7 @@ export class EventHubClient {
     ConnectionConfig.validate(config);
 
     this._clientOptions = options || {};
-    this._context = ConnectionContext.create(config, credential, this._clientOptions);
+    this._context = ConnectionContext.create(config, cred, this._clientOptions);
   }
 
   /**
