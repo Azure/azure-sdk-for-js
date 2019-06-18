@@ -93,7 +93,7 @@ export class BatchingReceiver extends EventHubReceiver {
           return rejectOnAbort();
         }
 
-        const removeListeners = () => {
+        const cleanUpBeforeReturn = () => {
           if (this._abortSignal) {
             this._abortSignal.removeEventListener("abort", this._onAbort);
           }
@@ -112,7 +112,7 @@ export class BatchingReceiver extends EventHubReceiver {
 
         // Final action to be performed after maxMessageCount is reached or the maxWaitTime is over.
         const finalAction = (timeOver: boolean) => {
-          removeListeners();
+          cleanUpBeforeReturn();
           resolve(eventDatas);
         };
 
@@ -164,7 +164,7 @@ export class BatchingReceiver extends EventHubReceiver {
         };
 
         const onAbort = async () => {
-          removeListeners();
+          cleanUpBeforeReturn();
           await this.close();
           rejectOnAbort();
         };
@@ -337,14 +337,14 @@ export class BatchingReceiver extends EventHubReceiver {
             await this._init(rcvrOptions);
             if (abortSignal && abortSignal.aborted) {
               // exit early if operation was cancelled while initializing connection
-              removeListeners();
+              cleanUpBeforeReturn();
               await this.close();
               return rejectOnAbort();
             }
             addCreditAndSetTimer();
           } catch (err) {
             // remove listeners if a connection could not be established
-            removeListeners();
+            cleanUpBeforeReturn();
             return reject(err);
           }
         } else {
