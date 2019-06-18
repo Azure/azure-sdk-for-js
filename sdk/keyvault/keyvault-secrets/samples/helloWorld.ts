@@ -6,21 +6,27 @@ async function main(): Promise<void> {
   // - AZURE_TENANT_ID: The tenant ID in Azure Active Directory
   // - AZURE_CLIENT_ID: The application (client) ID registered in the AAD tenant
   // - AZURE_CLIENT_SECRET: The client secret for the registered application
+  const credential = new EnvironmentCredential();
+
   const vaultName = process.env["KEYVAULT_NAME"] || "<keyvault-name>"
   const url = `https://${vaultName}.vault.azure.net`;
-  const credential = new EnvironmentCredential();
+
   const client = new SecretsClient(url, credential);
 
+  // Create a secret
   const secretName = "MySecretName";
-  const result = await client.setSecret("MySecretName", "MySecretValue");
+  const result = await client.setSecret(secretName, "MySecretValue");
   console.log("result: ", result);
 
+  // Read the secret we created
   const secret = await client.getSecret(secretName);
   console.log("secret: ", secret);
 
-  const updatedSecret = await client.updateSecretAttributes("MySecretName", result.version, { enabled: false });
+  // Update the secret with different attributes
+  const updatedSecret = await client.updateSecretAttributes(secretName, result.version, { enabled: false });
   console.log("updated secret: ", updatedSecret);
 
+  // Delete the secret
   await client.deleteSecret(secretName);
 }
 
