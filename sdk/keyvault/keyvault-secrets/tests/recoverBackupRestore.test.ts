@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 import * as assert from "assert";
 import { SecretsClient } from "../src";
 import { record, setReplaceableVariables, delay, setReplacements, env } from "./utils/recorder";
@@ -104,7 +107,10 @@ describe("Secret client - restore secrets and recover backups", () => {
     await client.setSecret(secretName, "RSA");
     const result = await client.backupSecret(secretName);
     assert.equal(Buffer.isBuffer(result), true, "Unexpected return value from backupSecret()");
-		assert.ok(result.length > 4500, `Unexpected length (${result.length}) of buffer from backupSecret()`);
+    assert.ok(
+      result.length > 4500,
+      `Unexpected length (${result.length}) of buffer from backupSecret()`
+    );
     await flushSecret();
   });
 

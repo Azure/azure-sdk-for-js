@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 import * as assert from "assert";
 import { SecretsClient } from "../src";
 import { record, setReplaceableVariables, delay, setReplacements, env } from "./utils/recorder";
