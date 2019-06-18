@@ -236,7 +236,7 @@ export class EventHubClient {
       let sharedAccessKey = "defaultKeyValue";
 
       if (!tokenCredential) {
-        throw new Error("Please provide a token credentials interface or a valid object of SharedKeyCredential.");
+        throw new Error("Please provide either a token credential interface or a valid SharedKeyCredential object.");
       }
 
       credential = tokenCredential;
