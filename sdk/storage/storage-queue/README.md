@@ -148,10 +148,10 @@ Alternatively without `for-await-of`:
   let iter2 = await queueServiceClient.listQueues();
   i = 1;
   let item = await iter2.next();
-  do {
+  while (!item.done) {
     console.log(`Queue${i++}: ${item.value.name}`);
     item = await iter2.next();
-  } while (item.value);
+  }
 ```
 
 ### Create a new queue

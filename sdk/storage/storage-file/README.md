@@ -214,14 +214,14 @@ Alternatively without using `for-await-of`:
   let dirIter2 = await directoryClient.listFilesAndDirectories();
   i = 1;
   let item = await dirIter2.next();
-  do {
+  while (!item.done) {
     if (item.value.kind === "directory") {
       console.log(`${i} - directory\t: ${item.value.name}`);
     } else {
       console.log(`${i} - file\t: ${item.value.name}`);
     }
     item = await dirIter2.next();
-  } while (item.value);
+  }
 ```
 
 ### Download a file and convert it to a string (Node.js)
