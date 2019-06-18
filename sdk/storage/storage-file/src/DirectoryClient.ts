@@ -8,6 +8,7 @@ import { Metadata } from "./models";
 import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
 import { StorageClient } from "./StorageClient";
 import { appendToURLPath } from "./utils/utils.common";
+import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import { FileClient, FileCreateOptions, FileDeleteOptions } from "./FileClient";
 import { Credential } from "./credentials/Credential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
@@ -398,62 +399,64 @@ export class DirectoryClient extends StorageClient {
     });
   }
 
-  /**
-   * Iterates over containers under the specified account.
-   *
-   * @param {DirectoryListFilesAndDirectoriesSegmentOptions} [options={}] Options to list files and directories(optional)
-   * @returns {AsyncIterableIterator<Models.FileItem | Models.DirectoryItem>}
-   * @memberof DirectoryClient
-   *
-   * @example
-   * let i = 1;
-   * for await (const item of directoryClient.listFilesAndDirectories()) {
-   *   console.log(`${i}: ${item.name}`);
-   *   i++;
-   * }
-   *
-   * @example
-   * let iter1 = directoryClient.listFilesAndDirectories();
-   * let i = 1;
-   * for await (const item of iter1) {
-   *   console.log(`${i}: ${item.name}`);
-   *   i++;
-   * }
-   *
-   * @example
-   * let iter2 = await directoryClient.listFilesAndDirectories();
-   * i = 1;
-   * let item = await iter2.next();
-   * do {
-   *   console.log(`${i++}: ${item.value.name}`);
-   *   item = await iter2.next();
-   * } while (item.value);
-   *
-   */
-  public async *listFilesAndDirectories(
+  async *listSegments(
+    marker: string | undefined = undefined,
     options: DirectoryListFilesAndDirectoriesSegmentOptions = {}
-  ): AsyncIterableIterator<AzureFileItem | AzureDirectoryItem> {
-    let marker = undefined;
-    const directoryClient = this;
-    const aborter = !options.abortSignal ? Aborter.none : options.abortSignal;
+  ): AsyncIterableIterator<Models.DirectoryListFilesAndDirectoriesSegmentResponse> {
     let listFilesAndDirectoriesResponse;
     do {
-      listFilesAndDirectoriesResponse = await directoryClient.listFilesAndDirectoriesSegment(
-        marker,
-        {
-          ...options,
-          abortSignal: aborter
-        }
-      );
+      listFilesAndDirectoriesResponse = await this.listFilesAndDirectoriesSegment(marker, options);
       marker = listFilesAndDirectoriesResponse.nextMarker;
+      yield await listFilesAndDirectoriesResponse;
+    } while (marker);
+  }
 
+  async *listItems(
+    options: DirectoryListFilesAndDirectoriesSegmentOptions = {}
+  ): AsyncIterableIterator<AzureFileItem | AzureDirectoryItem> {
+    let marker: string | undefined;
+    for await (const listFilesAndDirectoriesResponse of this.listSegments(marker, options)) {
       for (const file of listFilesAndDirectoriesResponse.segment.fileItems) {
         yield { kind: "file", name: file.name, properties: file.properties };
       }
       for (const directory of listFilesAndDirectoriesResponse.segment.directoryItems) {
         yield { kind: "directory", name: directory.name };
       }
-    } while (marker);
+    }
+  }
+
+  public async *listFilesAndDirectories(
+    options: DirectoryListFilesAndDirectoriesSegmentOptions = {}
+  ): PagedAsyncIterableIterator<
+    AzureFileItem | AzureDirectoryItem,
+    Models.DirectoryListFilesAndDirectoriesSegmentResponse
+  > {
+    // AsyncIterableIterator to iterate over files and directories
+    const iter = this.listItems(options);
+    return {
+      /**
+       * @member {Promise} [next] The next method, part of the iteration protocol
+       */
+      async next() {
+        const item = (await iter.next()).value;
+        return item ? { done: false, value: item } : { done: true, value: undefined };
+      },
+      /**
+       * @member {Symbol} [asyncIterator] The connection to the async iterator, part of the iteration protocol
+       */
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      /**
+       * @member {Function} [byPage] Return an AsyncIterableIterator that works a page at a time
+       */
+      byPage: (settings: PageSettings = {}) => {
+        return this.listSegments(settings.continuationToken, {
+          maxresults: settings.maxPageSize,
+          ...options
+        });
+      }
+    };
   }
 
   /**

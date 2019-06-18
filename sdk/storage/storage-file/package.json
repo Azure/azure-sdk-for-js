@@ -77,11 +77,13 @@
   "sideEffects": false,
   "dependencies": {
     "@azure/ms-rest-js": "^1.2.6",
+    "@azure/core-paging": "^1.0.0",
     "events": "^3.0.0",
     "tslib": "^1.9.3"
   },
   "devDependencies": {
     "@microsoft/api-extractor": "^7.1.5",
+    "@azure/core-paging": "^1.0.0",
     "@types/dotenv": "^6.1.0",
     "@types/mocha": "^5.2.5",
     "@types/node": "^8.0.0",

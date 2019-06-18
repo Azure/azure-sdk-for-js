@@ -11,6 +11,7 @@ import { appendToURLPath, extractConnectionStringParts } from "./utils/utils.com
 import { Credential } from "./credentials/Credential";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 
 /**
  * Options to configure List Shares Segment operation.
@@ -258,54 +259,56 @@ export class FileServiceClient extends StorageClient {
     });
   }
 
-  /**
-   * Iterates over containers under the specified account.
-   *
-   * @param {ServiceListSharesSegmentOptions} [options={}] Options to list shares(optional)
-   * @returns {AsyncIterableIterator<Models.ShareItem>}
-   * @memberof FileServiceClient
-   *
-   * @example
-   * let i = 1;
-   * for await (const item of serviceClient.listShares()) {
-   *   console.log(`${i}: ${item.name}`);
-   *   i++;
-   * }
-   *
-   * @example
-   * let iter1 = serviceClient.listShares();
-   * let i = 1;
-   * for await (const item of iter1) {
-   *   console.log(`${i}: ${item.name}`);
-   *   i++;
-   * }
-   *
-   * @example
-   * let iter2 = await serviceClient.listShares();
-   * i = 1;
-   * let item = await iter2.next();
-   * do {
-   *   console.log(`${i++}: ${item.value.name}`);
-   *   item = await iter2.next();
-   * } while (item.value);
-   *
-   */
-  public async *listShares(
+  async *listSegments(
+    marker: string | undefined = undefined,
+    options: ServiceListSharesSegmentOptions = {}
+  ): AsyncIterableIterator<Models.ServiceListSharesSegmentResponse> {
+    let listQueuesResponse;
+    do {
+      listQueuesResponse = await this.listSharesSegment(marker, options);
+      marker = listQueuesResponse.nextMarker;
+      yield await listQueuesResponse;
+    } while (marker);
+  }
+
+  async *listItems(
     options: ServiceListSharesSegmentOptions = {}
   ): AsyncIterableIterator<Models.ShareItem> {
-    let marker = undefined;
-    const serviceClient = this;
-    const aborter = !options.abortSignal ? Aborter.none : options.abortSignal;
-    let listSharesResponse;
-    do {
-      listSharesResponse = await serviceClient.listSharesSegment(marker, {
-        ...options,
-        abortSignal: aborter
-      });
+    let marker: string | undefined;
+    for await (const segment of this.listSegments(marker, options)) {
+      yield* segment.shareItems;
+    }
+  }
 
-      marker = listSharesResponse.nextMarker;
-      yield* listSharesResponse.shareItems;
-    } while (marker);
+  public async *listShares(
+    options: ServiceListSharesSegmentOptions = {}
+  ): PagedAsyncIterableIterator<Models.ShareItem, Models.ServiceListSharesSegmentResponse> {
+    // AsyncIterableIterator to iterate over queues
+    const iter = this.listItems(options);
+    return {
+      /**
+       * @member {Promise} [next] The next method, part of the iteration protocol
+       */
+      async next() {
+        const item = (await iter.next()).value;
+        return item ? { done: false, value: item } : { done: true, value: undefined };
+      },
+      /**
+       * @member {Symbol} [asyncIterator] The connection to the async iterator, part of the iteration protocol
+       */
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      /**
+       * @member {Function} [byPage] Return an AsyncIterableIterator that works a page at a time
+       */
+      byPage: (settings: PageSettings = {}) => {
+        return this.listSegments(settings.continuationToken, {
+          maxresults: settings.maxPageSize,
+          ...options
+        });
+      }
+    };
   }
 
   /**
