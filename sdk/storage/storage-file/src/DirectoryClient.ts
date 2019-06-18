@@ -127,6 +127,17 @@ export interface DirectorySetMetadataOptions {
   abortSignal?: Aborter;
 }
 
+export interface AzureDirectoryItem {
+  kind: "directory";
+  name: string;
+}
+
+export interface AzureFileItem {
+  kind: "file";
+  name: string;
+  properties: Models.FileProperty;
+}
+
 /**
  * A DirectoryClient represents a URL to the Azure Storage directory allowing you to manipulate its files and directories.
  *
@@ -390,36 +401,38 @@ export class DirectoryClient extends StorageClient {
   /**
    * Iterates over containers under the specified account.
    *
-   * @param {ServiceListContainersSegmentOptions} [options={}] Options to list containers(optional)
-   * @returns {AsyncIterableIterator<Models.ContainerItem>}
-   * @memberof BlobServiceClient
+   * @param {DirectoryListFilesAndDirectoriesSegmentOptions} [options={}] Options to list files and directories(optional)
+   * @returns {AsyncIterableIterator<Models.FileItem | Models.DirectoryItem>}
+   * @memberof DirectoryClient
    *
    * @example
-   * for await (const container of blobServiceClient.listContainers()) {
-   * console.log(`Container: ${container.name}`);
-   * }
-   *
-   * @example
-   * let iter1 = blobServiceClient.listContainers();
    * let i = 1;
-   * for await (const container of iter1) {
-   * console.log(`${i}: ${container.name}`);
-   * i++;
+   * for await (const item of directoryClient.listFilesAndDirectories()) {
+   *   console.log(`${i}: ${item.name}`);
+   *   i++;
    * }
    *
    * @example
-   * let iter2 = await blobServiceClient.listContainers();
+   * let iter1 = directoryClient.listFilesAndDirectories();
+   * let i = 1;
+   * for await (const item of iter1) {
+   *   console.log(`${i}: ${item.name}`);
+   *   i++;
+   * }
+   *
+   * @example
+   * let iter2 = await directoryClient.listFilesAndDirectories();
    * i = 1;
-   * let containerItem = await iter2.next();
+   * let item = await iter2.next();
    * do {
-   * console.log(`Container ${i++}: ${containerItem.value.name}`);
-   * containerItem = await iter2.next();
-   * } while (containerItem.value);
+   *   console.log(`${i++}: ${item.value.name}`);
+   *   item = await iter2.next();
+   * } while (item.value);
    *
    */
   public async *listFilesAndDirectories(
     options: DirectoryListFilesAndDirectoriesSegmentOptions = {}
-  ): AsyncIterableIterator<Models.FileItem | Models.DirectoryItem> {
+  ): AsyncIterableIterator<AzureFileItem | AzureDirectoryItem> {
     let marker = undefined;
     const directoryClient = this;
     const aborter = !options.abortSignal ? Aborter.none : options.abortSignal;
@@ -433,8 +446,13 @@ export class DirectoryClient extends StorageClient {
         }
       );
       marker = listFilesAndDirectoriesResponse.nextMarker;
-      yield* listFilesAndDirectoriesResponse.segment.fileItems;
-      yield* listFilesAndDirectoriesResponse.segment.directoryItems;
+
+      for (const file of listFilesAndDirectoriesResponse.segment.fileItems) {
+        yield { kind: "file", name: file.name, properties: file.properties };
+      }
+      for (const directory of listFilesAndDirectoriesResponse.segment.directoryItems) {
+        yield { kind: "directory", name: directory.name };
+      }
     } while (marker);
   }
 
