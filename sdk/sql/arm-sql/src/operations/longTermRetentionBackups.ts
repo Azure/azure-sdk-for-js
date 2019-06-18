@@ -297,7 +297,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion3
+    Parameters.apiVersion4
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -325,7 +325,7 @@ const listByDatabaseOperationSpec: msRest.OperationSpec = {
   queryParameters: [
     Parameters.onlyLatestPerDatabase,
     Parameters.databaseState,
-    Parameters.apiVersion3
+    Parameters.apiVersion4
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -351,7 +351,7 @@ const listByLocationOperationSpec: msRest.OperationSpec = {
   queryParameters: [
     Parameters.onlyLatestPerDatabase,
     Parameters.databaseState,
-    Parameters.apiVersion3
+    Parameters.apiVersion4
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -378,7 +378,7 @@ const listByServerOperationSpec: msRest.OperationSpec = {
   queryParameters: [
     Parameters.onlyLatestPerDatabase,
     Parameters.databaseState,
-    Parameters.apiVersion3
+    Parameters.apiVersion4
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -405,7 +405,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion3
+    Parameters.apiVersion4
   ],
   headerParameters: [
     Parameters.acceptLanguage

@@ -228,6 +228,20 @@ export class ElasticPools {
   }
 
   /**
+   * Failovers an elastic pool.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can
+   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param serverName The name of the server.
+   * @param elasticPoolName The name of the elastic pool to failover.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  failover(resourceGroupName: string, serverName: string, elasticPoolName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginFailover(resourceGroupName,serverName,elasticPoolName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
+  }
+
+  /**
    * Creates or updates an elastic pool.
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -291,6 +305,27 @@ export class ElasticPools {
         options
       },
       beginUpdateOperationSpec,
+      options);
+  }
+
+  /**
+   * Failovers an elastic pool.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can
+   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param serverName The name of the server.
+   * @param elasticPoolName The name of the elastic pool to failover.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginFailover(resourceGroupName: string, serverName: string, elasticPoolName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        serverName,
+        elasticPoolName,
+        options
+      },
+      beginFailoverOperationSpec,
       options);
   }
 
@@ -519,6 +554,31 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.ElasticPool
     },
+    202: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginFailoverOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/elasticPools/{elasticPoolName}/failover",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.serverName,
+    Parameters.elasticPoolName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion3
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {},
     202: {},
     default: {
       bodyMapper: Mappers.CloudError
