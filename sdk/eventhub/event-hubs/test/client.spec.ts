@@ -14,6 +14,7 @@ import { EventHubClient } from "../src";
 import { packageJsonInfo } from "../src/util/constants";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 import { AbortController } from "@azure/abort-controller";
+// import { EnvironmentCredential } from "@azure/identity";
 const env = getEnvVars();
 
 describe("EventHubClient #RunnableInBrowser", function(): void {
@@ -242,3 +243,52 @@ describe("EventHubClient on #RunnableInBrowser", function(): void {
     });
   });
 }).timeout(60000);
+
+// describe("Test AadTokenCredentials", function(): void {
+//   let errorWasThrown: boolean = false;
+//   before("validate environment", function(): void {
+//     should.exist(
+//       env[EnvVarKeys.AZURE_CLIENT_ID],
+//       "define AZURE_CLIENT_ID in your environment before running integration tests."
+//     );
+//     should.exist(
+//       env[EnvVarKeys.AZURE_TENANT_ID],
+//       "define AZURE_TENANT_ID in your environment before running integration tests."
+//     );
+//     should.exist(
+//       env[EnvVarKeys.AZURE_CLIENT_SECRET],
+//       "define AZURE_CLIENT_SECRET in your environment before running integration tests."
+//     );
+//     should.exist(env[EnvVarKeys.ENDPOINT], "define ENDPOINT in your environment before running integration tests.");
+//   });
+
+//   async function testAadTokenCredentials(client: EventHubClient): Promise<void> {
+//     const sender = client.createSender();
+//     const partitionIds = await client.getPartitionIds();
+//     const receiver = await client.createReceiver(partitionIds[0]);
+//     await sender.send({ body: "Hello world" });
+//     const msgs = await receiver.receiveBatch(1);
+
+//     should.equal(msgs.length, 1, "Unexpected number of messages");
+//   }
+
+//   it("throws error for invalid tokenCredentials", async function(): Promise<void> {
+//     const client = new EventHubClient(env.ENDPOINT, env.EVENTHUB_NAME);
+//     await testAadTokenCredentials(client).catch((err: any) => {
+//       errorWasThrown = true;
+//       should.equal(
+//         err.message,
+//         "Please provide a token credentials interface or a valid object of SharedKeyCredential."
+//       );
+//     });
+//     should.equal(errorWasThrown, true, "Error thrown flag must be true");
+//   });
+
+//   it("sends a message to the Event Hub entity", async function(): Promise<void> {
+//     const credential = new EnvironmentCredential();
+//     const client = new EventHubClient(env.ENDPOINT, env.EVENTHUB_NAME, credential);
+//     await testAadTokenCredentials(client);
+//     await client.close();
+//   });
+// });
+
