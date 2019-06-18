@@ -433,7 +433,7 @@ export class SecretsClient {
   ): PagedAsyncIterableIterator<SecretAttributes, SecretAttributes[]> {
     const iter = this.listSecretVersionsAll(secretName, options);
     return {
-      async next() {
+      next() {
         return iter.next();
       },
       [Symbol.asyncIterator]() {
@@ -491,7 +491,7 @@ export class SecretsClient {
   ): PagedAsyncIterableIterator<SecretAttributes, SecretAttributes[]> {
     const iter = this.listSecretsAll(options);
     return {
-      async next() {
+      next() {
         return iter.next();
       },
       [Symbol.asyncIterator]() {
@@ -551,7 +551,7 @@ export class SecretsClient {
   ): PagedAsyncIterableIterator<SecretAttributes, SecretAttributes[]> {
     const iter = this.listDeletedSecretsAll(options);
     return {
-      async next() {
+      next() {
         return iter.next();
       },
       [Symbol.asyncIterator]() {

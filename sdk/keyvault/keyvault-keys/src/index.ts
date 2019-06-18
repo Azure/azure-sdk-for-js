@@ -577,7 +577,7 @@ export class KeysClient {
   ): PagedAsyncIterableIterator<KeyAttributes, KeyAttributes[]> {
     const iter = this.listKeyVersionsAll(name, options);
     return {
-      async next() {
+      next() {
         return iter.next();
       },
       [Symbol.asyncIterator]() {
@@ -632,7 +632,7 @@ export class KeysClient {
   ): PagedAsyncIterableIterator<KeyAttributes, KeyAttributes[]> {
     const iter = this.listKeysAll(options);
     return {
-      async next() {
+      next() {
         return iter.next();
       },
       [Symbol.asyncIterator]() {
@@ -689,7 +689,7 @@ export class KeysClient {
   ): PagedAsyncIterableIterator<KeyAttributes, KeyAttributes[]> {
     const iter = this.listDeletedKeysAll(options);
     return {
-      async next() {
+      next() {
         return iter.next();
       },
       [Symbol.asyncIterator]() {
