@@ -90,9 +90,6 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
   });
 
   describe("with EventPosition specified as", function(): void {
-    // TODO: Enable following test as part of https://github.com/Azure/azure-sdk-for-js/issues/3714
-    // After we ensure the multiple receiveBatch calls on the user facing receiver work as expected
-    /*
     it("'from end of stream' should receive messages correctly", async function(): Promise<void> {
       const partitionId = partitionIds[0];
       const events: EventData[] = [];
@@ -127,8 +124,7 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
       const data3 = await breceiver.receive(10, 10);
       data3.length.should.equal(0, "Unexpected message received");
     });
-    */
-   
+
     it("'after a particular offset' should receive messages correctly", async function(): Promise<void> {
       const partitionId = partitionIds[0];
       const pInfo = await client.getPartitionInformation(partitionId);

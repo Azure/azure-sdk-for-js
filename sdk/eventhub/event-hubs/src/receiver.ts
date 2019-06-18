@@ -206,7 +206,7 @@ export class EventReceiver {
     if (checkpoint) {
       this._receiverOptions.beginReceivingAt = EventPosition.fromSequenceNumber(checkpoint);
     }
-    if (!this._batchingReceiver) {
+    if (!this._batchingReceiver || !this._batchingReceiver.isOpen()) {
       this._batchingReceiver = BatchingReceiver.create(this._context, this.partitionId, this._receiverOptions);
     } else if (this._batchingReceiver.checkpoint < checkpoint!) {
       await this._batchingReceiver.close();
@@ -221,6 +221,9 @@ export class EventReceiver {
         this._receiverOptions.retryOptions,
         abortSignal
       );
+      if (result.length < maxMessageCount) {
+        await this._batchingReceiver.close();
+      }
     } catch (err) {
       log.error(
         "[%s] Receiver '%s', an error occurred while receiving %d messages for %d max time:\n %O",
