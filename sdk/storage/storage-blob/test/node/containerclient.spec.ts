@@ -48,7 +48,7 @@ describe("ContainerClient Node.js only", () => {
   });
 
   it("can be created with a url and a credential", async () => {
-    const factories = containerClient.pipeline.factories;
+    const factories = (containerClient as any).pipeline.factories;
     const credential = factories[factories.length - 1] as SharedKeyCredential;
     const newClient = new ContainerClient(containerClient.url, credential);
 
@@ -66,7 +66,7 @@ describe("ContainerClient Node.js only", () => {
   });
 
   it("can be created with a url and a credential and an option bag", async () => {
-    const factories = containerClient.pipeline.factories;
+    const factories = (containerClient as any).pipeline.factories;
     const credential = factories[factories.length - 1] as SharedKeyCredential;
     const newClient = new ContainerClient(containerClient.url, credential, {
       retryOptions: {
@@ -88,7 +88,7 @@ describe("ContainerClient Node.js only", () => {
   });
 
   it("can be created with a url and a pipeline", async () => {
-    const factories = containerClient.pipeline.factories;
+    const factories = (containerClient as any).pipeline.factories;
     const credential = factories[factories.length - 1] as SharedKeyCredential;
     const pipeline = newPipeline(credential);
     const newClient = new ContainerClient(containerClient.url, pipeline);

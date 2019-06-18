@@ -99,7 +99,7 @@ describe("PageBlobClient Node.js only", () => {
   });
 
   it("can be created with a url and a credential", async () => {
-    const factories = pageBlobClient.pipeline.factories;
+    const factories = (pageBlobClient as any).pipeline.factories;
     const credential = factories[factories.length - 1] as SharedKeyCredential;
     const newClient = new PageBlobClient(pageBlobClient.url, credential);
 
@@ -109,7 +109,7 @@ describe("PageBlobClient Node.js only", () => {
   });
 
   it("can be created with a url and a credential and an option bag", async () => {
-    const factories = pageBlobClient.pipeline.factories;
+    const factories = (pageBlobClient as any).pipeline.factories;
     const credential = factories[factories.length - 1] as SharedKeyCredential;
     const newClient = new PageBlobClient(pageBlobClient.url, credential, {
       retryOptions: {
@@ -123,7 +123,7 @@ describe("PageBlobClient Node.js only", () => {
   });
 
   it("can be created with a url and a pipeline", async () => {
-    const factories = pageBlobClient.pipeline.factories;
+    const factories = (pageBlobClient as any).pipeline.factories;
     const credential = factories[factories.length - 1] as SharedKeyCredential;
     const pipeline = newPipeline(credential);
     const newClient = new PageBlobClient(pageBlobClient.url, pipeline);

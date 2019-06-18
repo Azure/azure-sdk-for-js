@@ -92,7 +92,7 @@ describe("MessageIdClient Node.js only", () => {
 
   it("can be created with a url and a credential", async () => {
     const messagesClient = queueClient.createMessagesClient();
-    const factories = messagesClient.pipeline.factories;
+    const factories = (messagesClient as any).pipeline.factories;
     const credential = factories[factories.length - 1] as SharedKeyCredential;
     const newClient = new MessagesClient(messagesClient.url, credential);
 
@@ -109,7 +109,7 @@ describe("MessageIdClient Node.js only", () => {
 
   it("can be created with a url and a credential and an option bag", async () => {
     const messagesClient = queueClient.createMessagesClient();
-    const factories = messagesClient.pipeline.factories;
+    const factories = (messagesClient as any).pipeline.factories;
     const credential = factories[factories.length - 1] as SharedKeyCredential;
     const newClient = new MessagesClient(messagesClient.url, credential, {
       retryOptions: {
@@ -130,7 +130,7 @@ describe("MessageIdClient Node.js only", () => {
 
   it("can be created with a url and a pipeline", async () => {
     const messagesClient = queueClient.createMessagesClient();
-    const factories = messagesClient.pipeline.factories;
+    const factories = (messagesClient as any).pipeline.factories;
     const credential = factories[factories.length - 1] as SharedKeyCredential;
     const newClient = new MessagesClient(messagesClient.url, credential);
 

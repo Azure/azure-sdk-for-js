@@ -27,7 +27,7 @@ describe("DirectoryClient Node.js only", () => {
   });
 
   it("can be created with a url and a credential", async () => {
-    const factories = dirClient.pipeline.factories;
+    const factories = (dirClient as any).pipeline.factories;
     const credential = factories[factories.length - 1] as SharedKeyCredential;
     const newClient = new DirectoryClient(dirClient.url, credential);
 
@@ -41,7 +41,7 @@ describe("DirectoryClient Node.js only", () => {
   });
 
   it("can be created with a url and a credential and an option bag", async () => {
-    const factories = dirClient.pipeline.factories;
+    const factories = (dirClient as any).pipeline.factories;
     const credential = factories[factories.length - 1] as SharedKeyCredential;
     const newClient = new DirectoryClient(dirClient.url, credential, {
       retryOptions: {
@@ -59,7 +59,7 @@ describe("DirectoryClient Node.js only", () => {
   });
 
   it("can be created with a url and a pipeline", async () => {
-    const factories = dirClient.pipeline.factories;
+    const factories = (dirClient as any).pipeline.factories;
     const credential = factories[factories.length - 1] as SharedKeyCredential;
     const pipeline = newPipeline(credential);
     const newClient = new DirectoryClient(dirClient.url, pipeline);

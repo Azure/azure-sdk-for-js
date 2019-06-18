@@ -33,7 +33,7 @@ describe("Special Naming Tests", () => {
     const blobName: string = getUniqueName("blob empty");
     const blockBlobClient = new BlockBlobClient(
       appendToURLPath(containerClient.url, blobName),
-      containerClient.pipeline
+      (containerClient as any).pipeline
     );
 
     await blockBlobClient.upload("A", 1);
@@ -59,7 +59,7 @@ describe("Special Naming Tests", () => {
     const blobName: string = getUniqueName("////blob/empty /another");
     const blockBlobClient = new BlockBlobClient(
       appendToURLPath(containerClient.url, blobName),
-      containerClient.pipeline
+      (containerClient as any).pipeline
     );
 
     await blockBlobClient.upload("A", 1);
@@ -86,7 +86,7 @@ describe("Special Naming Tests", () => {
     const blobName: string = getUniqueName("////Upper/blob/empty /another");
     const blockBlobClient = new BlockBlobClient(
       appendToURLPath(containerClient.url, blobName),
-      containerClient.pipeline
+      (containerClient as any).pipeline
     );
 
     await blockBlobClient.upload("A", 1);
@@ -113,7 +113,7 @@ describe("Special Naming Tests", () => {
     const blobName: string = getUniqueName("////Upper/blob/empty /another 汉字");
     const blockBlobClient = new BlockBlobClient(
       appendToURLPath(containerClient.url, blobName),
-      containerClient.pipeline
+      (containerClient as any).pipeline
     );
 
     await blockBlobClient.upload("A", 1);
@@ -148,7 +148,7 @@ describe("Special Naming Tests", () => {
       // Escape "%" when creating XxxClient object with URL strings
       // Escape "?" otherwise string after "?" will be treated as URL parameters
       appendToURLPath(containerClient.url, blobName.replace(/%/g, "%25").replace(/\?/g, "%3F")),
-      containerClient.pipeline
+      (containerClient as any).pipeline
     );
 
     await blockBlobClient.upload("A", 1);
@@ -189,7 +189,7 @@ describe("Special Naming Tests", () => {
     const blobName: string = getUniqueName("ру́сский язы́к");
     const blockBlobClient = new BlockBlobClient(
       appendToURLPath(containerClient.url, blobName),
-      containerClient.pipeline
+      (containerClient as any).pipeline
     );
 
     await blockBlobClient.upload("A", 1);
@@ -229,7 +229,7 @@ describe("Special Naming Tests", () => {
     const blobName: string = getUniqueName("عربي/عربى");
     const blockBlobClient = new BlockBlobClient(
       appendToURLPath(containerClient.url, blobName),
-      containerClient.pipeline
+      (containerClient as any).pipeline
     );
 
     await blockBlobClient.upload("A", 1);
@@ -269,7 +269,7 @@ describe("Special Naming Tests", () => {
     const blobName: string = getUniqueName("にっぽんご/にほんご");
     const blockBlobClient = new BlockBlobClient(
       appendToURLPath(containerClient.url, blobName),
-      containerClient.pipeline
+      (containerClient as any).pipeline
     );
 
     await blockBlobClient.upload("A", 1);
