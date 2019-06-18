@@ -21,7 +21,7 @@ const banner = [
 ].join("\n");
 
 const depNames = Object.keys(pkg.dependencies);
-const input = "esm/index.js";
+const input = "dist-esm/index.js";
 
 function nodeConfig(test = false) {
   const externalNodeBuiltins = ["url"];

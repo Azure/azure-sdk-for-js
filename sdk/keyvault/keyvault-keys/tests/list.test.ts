@@ -1,35 +1,89 @@
 import * as assert from "assert";
-import { expect } from "chai";
-import { getKeyvaultName, getUniqueName } from "./utils/utils.common";
-import { KeysClient } from "../src";
-import { TokenCredential, delay } from "@azure/core-http";
+import { getKeyvaultName } from "./utils/utils.common";
+import { KeysClient, CreateEcKeyOptions, UpdateKeyOptions, GetKeyOptions } from "../src";
+import { TokenCredential, RestError } from "@azure/core-http";
 import { EnvironmentCredential } from "@azure/identity";
+import { record, setReplaceableVariables, delay, setReplacements, env } from "./utils/recorder";
 
 describe("Keys client - list keys in various ways", () => {
   let credential: TokenCredential;
   let keyVaultName: string;
   let keyVaultUrl: string;
   let client: KeysClient;
-  let version: string;
+  let recorder: any;
 
-  const deleteKeyAfter = (name) => async () => {
-    await client.deleteKey(name);
+  // NOTES:
+  // - To allow multiple integraton runs at the same time,
+  //   we might need to factor in more environment variables.
+  // - Another way to improve this is to add a specfic key per test.
+  // - The environment variable is probably better named like PREFIX_KEY_NAME.
+  const keyName = `list${env.KEY_NAME || "KeyName"}`;
+
+  // NOTES:
+  // - These functions are probably better moved to a common utility file.
+  //   However, to do that we'll have to create a class or closure to maintain
+  //   the instance of the KeyClient available.
+  async function purgeKey() {
+    await client.purgeDeletedKey(keyName);
     await delay(30000);
-    await client.purgeDeletedKey(name);
-  };
+  }
+  async function flushKey() {
+    await client.deleteKey(keyName);
+    await delay(30000);
+    await purgeKey();
+  }
+  async function maybeFlushKey() {
+    try {
+      await client.deleteKey(keyName);
+      await delay(30000);
+    } catch (e) {
+      // It will fail if the key doesn't exist. This expected.
+    }
+    try {
+      await client.purgeDeletedKey(keyName);
+      await delay(30000);
+    } catch (e) {
+      // It will fail if the key doesn't exist. This expected.
+    }
+  }
 
-  before(async () => {
-    credential = new EnvironmentCredential();
+  before(async function() {
+    // NOTE:
+    // setReplaceableVariables and setReplacements are reused just to put their ussage in the open,
+    // to avoid having them obscured into a generic utility file. Once the recording tool is centralized
+    // we can move these somewhere else!
+    setReplaceableVariables({
+      AZURE_CLIENT_ID: "azure_client_id",
+      AZURE_CLIENT_SECRET: "azure_client_secret",
+      AZURE_TENANT_ID: "azure_tenant_id",
+      KEYVAULT_NAME: "keyvault_name"
+    });
+    setReplacements([
+      (recording) => recording.replace(/"access_token":"[^"]*"/g, `"access_token":"access_token"`)
+    ]);
+
+    recorder = record(this);
+    credential = await new EnvironmentCredential();
     keyVaultName = getKeyvaultName();
     keyVaultUrl = `https://${keyVaultName}.vault.azure.net`;
     client = new KeysClient(keyVaultUrl, credential);
-    version = "";
+
+    await maybeFlushKey();
+
+    recorder.stop();
   });
 
-  it("can get the versions of a key", async () => {
-    const keyName = getUniqueName("key");
-    after(deleteKeyAfter(keyName));
+  beforeEach(async function() {
+    recorder = record(this);
+  });
 
+  afterEach(async () => {
+    recorder.stop();
+  });
+
+  // The tests follow
+
+  it("can get the versions of a key", async () => {
     await client.createKey(keyName, "RSA");
     let totalVersions = 0;
     for await (let version of client.listKeyVersions(keyName)) {
@@ -38,12 +92,10 @@ describe("Keys client - list keys in various ways", () => {
     }
 
     assert.equal(totalVersions, 1, `Unexpected total versions for key ${keyName}`);
+    await flushKey();
   });
 
   it("can get the versions of a key (paged)", async () => {
-    const keyName = getUniqueName("key");
-    after(deleteKeyAfter(keyName));
-
     await client.createKey(keyName, "RSA");
     let totalVersions = 0;
     for await (let page of client.listKeyVersions(keyName).byPage()) {
@@ -56,43 +108,30 @@ describe("Keys client - list keys in various ways", () => {
         totalVersions += 1;
       }
     }
-
     assert.equal(totalVersions, 1, `Unexpected total versions for key ${keyName}`);
+    await flushKey();
   });
 
   it("list 0 versions of a non-existing key", async () => {
-    const keyName = getUniqueName("key");
     let totalVersions = 0;
     for await (let version of client.listKeyVersions(keyName)) {
       totalVersions += 1;
     }
-
     assert.equal(totalVersions, 0, `Unexpected total versions for key ${keyName}`);
   });
 
   it("list 0 versions of a non-existing key (paged)", async () => {
-    const keyName = getUniqueName("key");
     let totalVersions = 0;
     for await (let page of client.listKeyVersions(keyName).byPage()) {
       for (let version of page) {
         totalVersions += 1;
       }
     }
-
     assert.equal(totalVersions, 0, `Unexpected total versions for key ${keyName}`);
   });
 
   it("can get several inserted keys", async () => {
-    const keyNames = [getUniqueName("keys"), getUniqueName("keys")];
-
-    after(async () => {
-      for (let name of keyNames) {
-        await client.deleteKey(name);
-        await delay(30000);
-        await client.purgeDeletedKey(name);
-      }
-    });
-
+    const keyNames = [`${keyName}-inserted-0`, `${keyName}-inserted-1`];
     for (let name of keyNames) {
       await client.createKey(name, "RSA");
     }
@@ -105,19 +144,16 @@ describe("Keys client - list keys in various ways", () => {
     }
 
     assert.equal(found, 2, "Unexpected number of keys found by getKeys.");
+
+    for (let name of keyNames) {
+      await client.deleteKey(name);
+      await delay(30000);
+      await client.purgeDeletedKey(name);
+    }
   });
 
   it("can get several inserted keys (paged)", async () => {
-    const keyNames = [getUniqueName("keys"), getUniqueName("keys")];
-
-    after(async () => {
-      for (let name of keyNames) {
-        await client.deleteKey(name);
-        await delay(30000);
-        await client.purgeDeletedKey(name);
-      }
-    });
-
+    const keyNames = [`${keyName}-inserted-paged-0`, `${keyName}-inserted-paged-1`];
     for (let name of keyNames) {
       await client.createKey(name, "RSA");
     }
@@ -132,11 +168,16 @@ describe("Keys client - list keys in various ways", () => {
     }
 
     assert.equal(found, 2, "Unexpected number of keys found by getKeys.");
+
+    for (let name of keyNames) {
+      await client.deleteKey(name);
+      await delay(30000);
+      await client.purgeDeletedKey(name);
+    }
   });
 
   it("list deleted keys", async () => {
-    const keyNames = [getUniqueName("keys"), getUniqueName("keys")];
-
+    const keyNames = [`${keyName}-deleted-0`, `${keyName}-deleted-1`];
     for (let name of keyNames) {
       await client.createKey(name, "RSA");
     }
@@ -160,9 +201,8 @@ describe("Keys client - list keys in various ways", () => {
     }
   });
 
-  it("list deleted keys", async () => {
-    const keyNames = [getUniqueName("keys"), getUniqueName("keys")];
-
+  it("list deleted keys (paged)", async () => {
+    const keyNames = [`${keyName}-deleted-paged-0`, `${keyName}-deleted-paged-1`];
     for (let name of keyNames) {
       await client.createKey(name, "RSA");
     }
