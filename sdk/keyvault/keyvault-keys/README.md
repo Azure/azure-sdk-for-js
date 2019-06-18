@@ -45,6 +45,43 @@ npm install @types/node
 
 You also need to enable `compilerOptions.allowSyntheticDefaultImports` in your tsconfig.json. Note that if you have enabled `compilerOptions.esModuleInterop`, `allowSyntheticDefaultImports` is enabled by default. See [TypeScript's compiler options handbook](https://www.typescriptlang.org/docs/handbook/compiler-options.html) for more information.
 
+### Configuring your Key Vault
+
+Use the [Azure Cloud Shell](https://shell.azure.com/bash) snippet below to create/get client secret credentials.
+
+ * Create a service principal and configure its access to Azure resources:
+    ```Bash
+    az ad sp create-for-rbac -n <your-application-name> --skip-assignment
+    ```
+    Output:
+    ```json
+    {
+        "appId": "generated-app-ID",
+        "displayName": "dummy-app-name",
+        "name": "http://dummy-app-name",
+        "password": "random-password",
+        "tenant": "tenant-ID"
+    }
+    ```
+* Use the above returned credentials information to set **AZURE_CLIENT_ID**(appId), **AZURE_CLIENT_SECRET**(password) and **AZURE_TENANT_ID**(tenant) environment variables. The following example shows a way to do this in Bash:
+  ```Bash
+    export AZURE_CLIENT_ID="generated-app-ID"
+    export AZURE_CLIENT_SECRET="random-password"
+    export AZURE_TENANT_ID="tenant-ID"
+  ```
+
+* Grant the above mentioned application authorization to perform secret operations on the keyvault:
+    ```Bash
+    az keyvault set-policy --name <your-key-vault-name> --spn $AZURE_CLIENT_ID --secret-permissions backup delete get list set
+    ```
+    > --secret-permissions:
+    > Accepted values: backup, delete, get, list, purge, recover, restore, set
+
+* Use the above mentioned Key Vault name to retrieve details of your Vault which also contains your Key Vault URL:
+    ```Bash
+    az keyvault show --name <your-key-vault-name>
+    ```
+
 ### Authenticate the client
 
 To use the key vault from TypeScript/JavaScript, you need to first authenticate with the key vault service. To authenticate, first we import the identity and SecretsClient, which will connect to the key vault.
