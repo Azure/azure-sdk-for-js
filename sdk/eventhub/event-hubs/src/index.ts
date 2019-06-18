@@ -10,15 +10,15 @@ export { ReceiveHandler } from "./streamingReceiver";
 export {
   EventHubClient,
   EventHubClientOptions,
-  EventReceiverOptions,
-  EventSenderOptions,
+  EventHubConsumerOptions,
+  EventHubProducerOptions,
   RetryOptions,
   SendOptions
 } from "./eventHubClient";
 export { EventPosition, EventPositionOptions } from "./eventPosition";
 export { PartitionProperties, EventHubProperties } from "./managementClient";
-export { EventSender } from "./sender";
-export { EventReceiver, EventIteratorOptions } from "./receiver";
+export { EventHubProducer } from "./sender";
+export { EventHubConsumer, EventIteratorOptions } from "./receiver";
 export {
   MessagingError,
   DataTransformer,

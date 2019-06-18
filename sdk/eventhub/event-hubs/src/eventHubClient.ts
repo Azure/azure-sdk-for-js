@@ -19,8 +19,8 @@ import { EventPosition } from "./eventPosition";
 
 import { IotHubClient } from "./iothub/iothubClient";
 import { AbortSignalLike } from "@azure/abort-controller";
-import { EventSender } from "./sender";
-import { EventReceiver } from "./receiver";
+import { EventHubProducer } from "./sender";
+import { EventHubConsumer } from "./receiver";
 import { throwTypeErrorIfParameterMissing } from "./util/error";
 
 /**
@@ -50,7 +50,7 @@ export interface RetryOptions {
 /**
  * Options to passed when creating a sender using the EventHubClient
  */
-export interface EventSenderOptions {
+export interface EventHubProducerOptions {
   /**
    * @property
    * The id of the partition to which the event should be sent. If no id is provided,
@@ -85,9 +85,9 @@ export interface SendOptions {
 
 /**
  * Options that can be passed to the receive operations on the EventHubsClient
- * @interface ReceiveOptions
+ * @interface EventHubConsumerOptions
  */
-export interface EventReceiverOptions {
+export interface EventHubConsumerOptions {
   /**
    * @property
    * The event position in the partition at which to start receiving messages.
@@ -297,8 +297,8 @@ export class EventHubClient {
    *
    * @return {Promise<void>} Promise<void>
    */
-  createSender(options?: EventSenderOptions): EventSender {
-    return new EventSender(this._context, options);
+  createSender(options?: EventHubProducerOptions): EventHubProducer {
+    return new EventHubProducer(this._context, options);
   }
 
   /**
@@ -310,10 +310,10 @@ export class EventHubClient {
    * which to start receiving events, the consumer group to receive events from, retry options
    * and more.
    */
-  createReceiver(partitionId: string, options?: EventReceiverOptions): EventReceiver {
+  createReceiver(partitionId: string, options?: EventHubConsumerOptions): EventHubConsumer {
     throwTypeErrorIfParameterMissing(this._context.connectionId, "partitionId", partitionId);
     partitionId = String(partitionId);
-    return new EventReceiver(this._context, partitionId, options);
+    return new EventHubConsumer(this._context, partitionId, options);
   }
 
   /**

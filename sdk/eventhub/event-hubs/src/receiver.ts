@@ -3,7 +3,7 @@
 
 import * as log from "./log";
 import { ConnectionContext } from "./connectionContext";
-import { EventReceiverOptions } from "./eventHubClient";
+import { EventHubConsumerOptions } from "./eventHubClient";
 import { OnMessage, OnError } from "./eventHubReceiver";
 import { ReceivedEventData } from "./eventData";
 import { Constants } from "@azure/core-amqp";
@@ -33,7 +33,7 @@ export interface EventIteratorOptions {
  * The Receiver class is an abstraction over the underlying AMQP receiver link.
  * @class Receiver
  */
-export class EventReceiver {
+export class EventHubConsumer  {
   /**
    * @property Describes the amqp connection context for the QueueClient.
    */
@@ -44,7 +44,7 @@ export class EventReceiver {
   private _isClosed: boolean = false;
 
   private _partitionId: string;
-  private _receiverOptions: EventReceiverOptions;
+  private _receiverOptions: EventHubConsumerOptions;
   private _streamingReceiver: StreamingReceiver | undefined;
   private _batchingReceiver: BatchingReceiver | undefined;
 
@@ -86,7 +86,7 @@ export class EventReceiver {
   /**
    * @internal
    */
-  constructor(context: ConnectionContext, partitionId: string, options?: EventReceiverOptions) {
+  constructor(context: ConnectionContext, partitionId: string, options?: EventHubConsumerOptions) {
     this._context = context;
     this._partitionId = partitionId;
     this._receiverOptions = options || {};

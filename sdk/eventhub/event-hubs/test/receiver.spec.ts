@@ -8,7 +8,7 @@ import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 import debugModule from "debug";
 const debug = debugModule("azure:event-hubs:receiver-spec");
-import { EventPosition, EventHubClient, EventData, MessagingError, ReceivedEventData, EventReceiver } from "../src";
+import { EventPosition, EventHubClient, EventData, MessagingError, ReceivedEventData, EventHubConsumer } from "../src";
 import { BatchingReceiver } from "../src/batchingReceiver";
 import { ReceiveHandler } from "../src/streamingReceiver";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
@@ -21,7 +21,7 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
   };
   const client: EventHubClient = EventHubClient.createFromConnectionString(service.connectionString!, service.path);
   let breceiver: BatchingReceiver;
-  let receiver: EventReceiver | undefined;
+  let receiver: EventHubConsumer | undefined;
   let partitionIds: string[];
   before("validate environment", async function(): Promise<void> {
     should.exist(

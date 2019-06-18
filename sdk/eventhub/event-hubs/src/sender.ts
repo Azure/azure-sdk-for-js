@@ -3,7 +3,7 @@
 
 import { EventData } from "./eventData";
 import { EventHubSender } from "./eventHubSender";
-import { EventSenderOptions, SendOptions } from "./eventHubClient";
+import { EventHubProducerOptions, SendOptions } from "./eventHubClient";
 import { ConnectionContext } from "./connectionContext";
 import * as log from "./log";
 import { throwErrorIfConnectionClosed, throwTypeErrorIfParameterMissing } from "./util/error";
@@ -14,7 +14,7 @@ import { throwErrorIfConnectionClosed, throwTypeErrorIfParameterMissing } from "
  * The Sender class is an abstraction over the underlying AMQP sender link.
  * @class Sender
  */
-export class EventSender {
+export class EventHubProducer {
   /**
    * @property Describes the amqp connection context for the Client.
    */
@@ -24,7 +24,7 @@ export class EventSender {
    */
   private _isClosed: boolean = false;
 
-  private _senderOptions: EventSenderOptions;
+  private _senderOptions: EventHubProducerOptions;
 
   private _eventHubSender: EventHubSender;
 
@@ -39,7 +39,7 @@ export class EventSender {
   /**
    * @internal
    */
-  constructor(context: ConnectionContext, options?: EventSenderOptions) {
+  constructor(context: ConnectionContext, options?: EventHubProducerOptions) {
     this._context = context;
     this._senderOptions = options || {};
     const partitionId =

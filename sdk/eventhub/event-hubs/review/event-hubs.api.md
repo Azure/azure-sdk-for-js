@@ -43,8 +43,8 @@ export class EventHubClient {
     close(): Promise<void>;
     static createFromConnectionString(connectionString: string, entityPath?: string, options?: EventHubClientOptions): EventHubClient;
     static createFromIotHubConnectionString(iothubConnectionString: string, options?: EventHubClientOptions): Promise<EventHubClient>;
-    createReceiver(partitionId: string, options?: EventReceiverOptions): EventReceiver;
-    createSender(options?: EventSenderOptions): EventSender;
+    createReceiver(partitionId: string, options?: EventHubConsumerOptions): EventHubConsumer;
+    createSender(options?: EventHubProducerOptions): EventHubProducer;
     readonly eventHubName: string;
     getPartitionIds(abortSignal?: AbortSignalLike): Promise<Array<string>>;
     getPartitionInformation(partitionId: string, abortSignal?: AbortSignalLike): Promise<PartitionProperties>;
@@ -58,6 +58,46 @@ export interface EventHubClientOptions {
     userAgent?: string;
     webSocket?: WebSocketImpl;
     webSocketConstructorOptions?: any;
+}
+
+// @public
+export class EventHubConsumer {
+    // Warning: (ae-forgotten-export) The symbol "ConnectionContext" needs to be exported by the entry point index.d.ts
+    // 
+    // @internal
+    constructor(context: ConnectionContext, partitionId: string, options?: EventHubConsumerOptions);
+    close(): Promise<void>;
+    readonly consumerGroup: string | undefined;
+    readonly exclusiveReceiverPriority: number | undefined;
+    getEventIterator(options?: EventIteratorOptions): AsyncIterableIterator<ReceivedEventData>;
+    readonly isClosed: boolean;
+    isReceivingMessages(): boolean;
+    readonly partitionId: string;
+    receive(onMessage: OnMessage, onError: OnError, abortSignal?: AbortSignalLike): ReceiveHandler;
+    receiveBatch(maxMessageCount: number, maxWaitTimeInSeconds?: number, abortSignal?: AbortSignalLike): Promise<ReceivedEventData[]>;
+    }
+
+// @public
+export interface EventHubConsumerOptions {
+    beginReceivingAt?: EventPosition;
+    consumerGroup?: string;
+    exclusiveReceiverPriority?: number;
+    retryOptions?: RetryOptions;
+}
+
+// @public
+export class EventHubProducer {
+    // @internal
+    constructor(context: ConnectionContext, options?: EventHubProducerOptions);
+    close(): Promise<void>;
+    readonly isClosed: boolean;
+    send(eventData: EventData | EventData[], options?: SendOptions): Promise<void>;
+    }
+
+// @public
+export interface EventHubProducerOptions {
+    partitionId?: string;
+    retryOptions?: RetryOptions;
 }
 
 // @public
@@ -92,46 +132,6 @@ export interface EventPositionOptions {
     isInclusive?: boolean;
     offset?: string;
     sequenceNumber?: number;
-}
-
-// @public
-export class EventReceiver {
-    // Warning: (ae-forgotten-export) The symbol "ConnectionContext" needs to be exported by the entry point index.d.ts
-    // 
-    // @internal
-    constructor(context: ConnectionContext, partitionId: string, options?: EventReceiverOptions);
-    close(): Promise<void>;
-    readonly consumerGroup: string | undefined;
-    readonly exclusiveReceiverPriority: number | undefined;
-    getEventIterator(options?: EventIteratorOptions): AsyncIterableIterator<ReceivedEventData>;
-    readonly isClosed: boolean;
-    isReceivingMessages(): boolean;
-    readonly partitionId: string;
-    receive(onMessage: OnMessage, onError: OnError, abortSignal?: AbortSignalLike): ReceiveHandler;
-    receiveBatch(maxMessageCount: number, maxWaitTimeInSeconds?: number, abortSignal?: AbortSignalLike): Promise<ReceivedEventData[]>;
-    }
-
-// @public
-export interface EventReceiverOptions {
-    beginReceivingAt?: EventPosition;
-    consumerGroup?: string;
-    exclusiveReceiverPriority?: number;
-    retryOptions?: RetryOptions;
-}
-
-// @public
-export class EventSender {
-    // @internal
-    constructor(context: ConnectionContext, options?: EventSenderOptions);
-    close(): Promise<void>;
-    readonly isClosed: boolean;
-    send(eventData: EventData | EventData[], options?: SendOptions): Promise<void>;
-    }
-
-// @public
-export interface EventSenderOptions {
-    partitionId?: string;
-    retryOptions?: RetryOptions;
 }
 
 export { MessagingError }
