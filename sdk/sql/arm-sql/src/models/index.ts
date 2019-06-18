@@ -9486,6 +9486,26 @@ export type ManagedInstancesListResponse = ManagedInstanceListResult & {
 };
 
 /**
+ * Contains response data for the listByInstancePool operation.
+ */
+export type ManagedInstancesListByInstancePoolResponse = ManagedInstanceListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedInstanceListResult;
+    };
+};
+
+/**
  * Contains response data for the beginCreateOrUpdate operation.
  */
 export type ManagedInstancesBeginCreateOrUpdateResponse = ManagedInstance & {
@@ -9549,6 +9569,26 @@ export type ManagedInstancesListByResourceGroupNextResponse = ManagedInstanceLis
  * Contains response data for the listNext operation.
  */
 export type ManagedInstancesListNextResponse = ManagedInstanceListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedInstanceListResult;
+    };
+};
+
+/**
+ * Contains response data for the listByInstancePoolNext operation.
+ */
+export type ManagedInstancesListByInstancePoolNextResponse = ManagedInstanceListResult & {
   /**
    * The underlying HTTP response.
    */

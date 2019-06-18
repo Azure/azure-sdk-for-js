@@ -102,7 +102,7 @@ const listByInstancePoolOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.expandChildren,
-    Parameters.apiVersion4
+    Parameters.apiVersion3
   ],
   headerParameters: [
     Parameters.acceptLanguage
